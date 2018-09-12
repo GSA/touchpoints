@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @touchpoint.name %>
+</p>
+
+<p>
+  <strong>Organization:</strong>
+  <%= @touchpoint.organization_id %>
+</p>
+
+<p>
+  <strong>Purpose:</strong>
+  <%= @touchpoint.purpose %>
+</p>
+
+<p>
+  <strong>Meaningful response size:</strong>
+  <%= @touchpoint.meaningful_response_size %>
+</p>
+
+<p>
+  <strong>Behavior change:</strong>
+  <%= @touchpoint.behavior_change %>
+</p>
+
+<p>
+  <strong>Notification emails:</strong>
+  <%= @touchpoint.notification_emails %>
+</p>
+
+<p>
+  <strong>Embed code:</strong>
+  <%= @touchpoint.embed_code %>
+</p>
+
+<%= link_to 'Edit', edit_touchpoint_path(@touchpoint) %> |
+<%= link_to 'Back', touchpoints_path %>

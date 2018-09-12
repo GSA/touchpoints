@@ -10,6 +10,11 @@
   </head>
 
   <body>
-    <%= yield %>
+    <%= render 'components/header' %>
+    <div class="usa-grid">
+      <div class="usa-width-full">
+        <%= yield %>
+      </div>
+    </div>
   </body>
 </html>

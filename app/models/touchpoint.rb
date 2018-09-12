@@ -1,0 +1,2 @@
+class Touchpoint < ApplicationRecord
+end

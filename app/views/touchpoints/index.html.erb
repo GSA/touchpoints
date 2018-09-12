@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Touchpoints</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Organization</th>
+      <th>Purpose</th>
+      <th>Meaningful response size</th>
+      <th>Behavior change</th>
+      <th>Notification emails</th>
+      <th>Embed code</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @touchpoints.each do |touchpoint| %>
+      <tr>
+        <td><%= touchpoint.name %></td>
+        <td><%= touchpoint.organization_id %></td>
+        <td><%= touchpoint.purpose %></td>
+        <td><%= touchpoint.meaningful_response_size %></td>
+        <td><%= touchpoint.behavior_change %></td>
+        <td><%= touchpoint.notification_emails %></td>
+        <td><%= touchpoint.embed_code %></td>
+        <td><%= link_to 'Show', touchpoint %></td>
+        <td><%= link_to 'Edit', edit_touchpoint_path(touchpoint) %></td>
+        <td><%= link_to 'Destroy', touchpoint, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Touchpoint', new_touchpoint_path %>

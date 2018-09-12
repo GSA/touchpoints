@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_29_225312) do
+ActiveRecord::Schema.define(version: 2018_09_12_231123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "touchpoints", force: :cascade do |t|
+    t.string "name"
+    t.integer "organization_id"
+    t.text "purpose"
+    t.integer "meaningful_response_size"
+    t.text "behavior_change"
+    t.string "notification_emails"
+    t.text "embed_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false

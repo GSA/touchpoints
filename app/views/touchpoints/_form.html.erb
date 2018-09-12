@@ -1,0 +1,52 @@
+<%= form_with(model: touchpoint, local: true) do |form| %>
+  <% if touchpoint.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(touchpoint.errors.count, "error") %> prohibited this touchpoint from being saved:</h2>
+
+      <ul>
+      <% touchpoint.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :organization_id %>
+    <%= form.number_field :organization_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :purpose %>
+    <%= form.text_area :purpose %>
+  </div>
+
+  <div class="field">
+    <%= form.label :meaningful_response_size %>
+    <%= form.number_field :meaningful_response_size %>
+  </div>
+
+  <div class="field">
+    <%= form.label :behavior_change %>
+    <%= form.text_area :behavior_change %>
+  </div>
+
+  <div class="field">
+    <%= form.label :notification_emails %>
+    <%= form.text_field :notification_emails %>
+  </div>
+
+  <div class="field">
+    <%= form.label :embed_code %>
+    <%= form.text_area :embed_code %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
