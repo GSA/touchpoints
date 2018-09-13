@@ -3,4 +3,5 @@
 <%= render 'form', touchpoint: @touchpoint %>
 
 <%= link_to 'Show', @touchpoint %> |
-<%= link_to 'Back', touchpoints_path %>
+<%= link_to 'Back', touchpoints_path %> |
+<%= link_to 'Destroy', @touchpoint, method: :delete, data: { confirm: 'Are you sure?' } %>
