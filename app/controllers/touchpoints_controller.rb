@@ -1,4 +1,5 @@
 class TouchpointsController < ApplicationController
+  before_action :ensure_user
   before_action :set_touchpoint, only: [:show, :edit, :update, :destroy]
 
   # GET /touchpoints
