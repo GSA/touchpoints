@@ -1,7 +1,7 @@
-require 'spec_helper'
+require 'rails_helper'
 
-class SiteControllerSpec < ActionDispatch::IntegrationTest
-  describe "should get index" do
+describe SiteController, type: :controller do
+  it "should get index" do
     get :index
     expect(response).to be_successful
   end

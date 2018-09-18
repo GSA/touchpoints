@@ -13,6 +13,7 @@
     <%= render 'components/header' %>
     <div class="usa-grid">
       <div class="usa-width-full">
+        <%= flash[:notice] %>
         <%= yield %>
       </div>
     </div>
