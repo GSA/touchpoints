@@ -4,4 +4,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :trackable, :confirmable
+
+  belongs_to :organization, optional: true
+  has_many :touchpoints, through: :organization
+
+  def admin?
+    email == "admin@example.com"
+  end
 end

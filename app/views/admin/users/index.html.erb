@@ -1,0 +1,21 @@
+<h1>Users</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Organization Name</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= link_to user.email, admin_user_path(user) %></td>
+        <td><%= user.organization ? user.organization.name : nil %></td>
+        <td><%= link_to 'Edit', edit_admin_user_path(user) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

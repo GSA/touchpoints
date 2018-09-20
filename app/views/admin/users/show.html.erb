@@ -1,0 +1,9 @@
+<h3>
+  User
+</h3>
+Email = <%= @user.email %>
+<br>
+Organization = <%= @user.organization ? link_to(@user.organization.name, organization_path(@user.organization)) : "Undefined" %>
+<br>
+<hr>
+<%= link_to 'Edit', edit_admin_user_path(@user), class: "usa-button" %>
