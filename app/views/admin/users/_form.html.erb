@@ -12,7 +12,7 @@
 
   <div class="field">
     <%= form.label :organization_id %>
-    <%= form.number_field :organization_id %>
+    <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }), include_blank: true %>
   </div>
 
   <div class="actions">
