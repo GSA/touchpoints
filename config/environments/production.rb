@@ -61,7 +61,7 @@ Rails.application.configure do
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
-  # config.active_job.queue_name_prefix = "engage_#{Rails.env}"
+  # config.active_job.queue_name_prefix = "touchpoints_#{Rails.env}"
 
   config.action_mailer.perform_caching = false
 
@@ -93,5 +93,5 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # For Devise
-  config.action_mailer.default_url_options = { host: 'engage.app.cloud.gov', port: 3000 }
+  config.action_mailer.default_url_options = { host: 'touchpoints-staging.app.cloud.gov', port: 3000 }
 end

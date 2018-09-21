@@ -8,7 +8,7 @@ Bundler.require(*Rails.groups)
 
 Dotenv::Railtie.load if Rails.env.development? || Rails.env.test?
 
-module Engage
+module Touchpoints
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
