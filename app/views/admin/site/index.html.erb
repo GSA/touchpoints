@@ -1,0 +1,23 @@
+<h1>
+  Google Tag Manager Account
+</h1>
+<table>
+  <h3>
+    <%= @account[:name] %> -
+    <%= link_to(@account[:account_id], @account[:tag_manager_url]) %>
+  </h3>
+  <h6>
+    Containers
+  </h6>
+  <% @account[:containers].each do |container| %>
+    <%= link_to container.name, container.tag_manager_url, target: "_blank" %>
+    <%= container.public_id %>
+    <h6>
+      Workspaces
+    </h6>
+    <% workspaces = @google_api.list_account_container_workspaces(path: container.path) %>
+    <% workspaces.each do |workspace| %>
+      <%= link_to workspace.name, workspace.tag_manager_url %><br>
+    <% end %>
+  <% end %>
+</table>
