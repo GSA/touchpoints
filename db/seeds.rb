@@ -29,7 +29,6 @@ org_1 = Organization.create({
 org_2 = Organization.create({
   name: "Farmers.gov",
   url: "https://farmers.gov"
-
 })
 org_3 = Organization.create({
   name: "Cloud.gov",
@@ -57,7 +56,7 @@ Touchpoint.create({
 
 Touchpoint.create({
   organization_id: org_2.id,
-  name: "Mandatory 7 question test",
+  name: "A11 - 7 question test",
   purpose: "Compliance",
   meaningful_response_size: 300,
   behavior_change: "End of year reporting",
