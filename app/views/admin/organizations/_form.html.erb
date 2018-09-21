@@ -1,0 +1,42 @@
+<%= form_with(model: organization, url: (organization.persisted? ? admin_organization_path(organization) : admin_organizations_path), local: true) do |form| %>
+  <% if organization.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(organization.errors.count, "error") %> prohibited this organization from being saved:</h2>
+
+      <ul>
+      <% organization.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :url %>
+    <%= form.text_field :url %>
+  </div>
+
+  <div class="field">
+    <%= form.label :abbreviation %>
+    <%= form.text_field :abbreviation %>
+  </div>
+
+  <div class="field">
+    <%= form.label :notes %>
+    <%= form.text_area :notes %>
+  </div>
+
+  <div class="field">
+    <%= form.label :external_id %>
+    <%= form.text_field :external_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,27 @@
+<p>
+  <strong>Name:</strong>
+  <%= @organization.name %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @organization.url %>
+</p>
+
+<p>
+  <strong>Abbreviation:</strong>
+  <%= @organization.abbreviation %>
+</p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @organization.notes %>
+</p>
+
+<p>
+  <strong>External:</strong>
+  <%= @organization.external_id %>
+</p>
+
+<%= link_to 'Edit', edit_admin_organization_path(@organization) %> |
+<%= link_to 'Back', admin_organizations_path %>

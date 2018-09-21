@@ -1,0 +1,32 @@
+<h1>Organizations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Url</th>
+      <th>Abbreviation</th>
+      <th>Notes</th>
+      <th>GTM Account ID</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @organizations.each do |organization| %>
+      <tr>
+        <td><%= organization.name %></td>
+        <td><%= organization.url %></td>
+        <td><%= organization.abbreviation %></td>
+        <td><%= organization.notes %></td>
+        <td><%= organization.external_id? ? link_to(organization.external_id, "https://tagmanager.google.com/#/admin/?accountId=#{organization.external_id}", target: "_blank") : nil %></td>
+        <td><%= link_to 'Show', admin_organization_path(organization) %></td>
+        <td><%= link_to 'Edit', edit_admin_organization_path(organization) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Organization', new_admin_organization_path, class: "usa-button" %>
