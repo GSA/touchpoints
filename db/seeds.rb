@@ -14,13 +14,6 @@ admin_user = User.new({
 admin_user.skip_confirmation!
 admin_user.save!
 
-webmaster = User.new({
-  email: "webmaster@example.com",
-  password: "password"
-})
-webmaster.skip_confirmation!
-webmaster.save!
-
 
 org_1 = Organization.create({
   name: "Digital.gov",
@@ -34,6 +27,14 @@ org_3 = Organization.create({
   name: "Cloud.gov",
   url: "https://cloud.gov"
 })
+
+webmaster = User.new({
+  email: "webmaster@example.com",
+  password: "password",
+  organization: org_1
+})
+webmaster.skip_confirmation!
+webmaster.save!
 
 
 Touchpoint.create({
