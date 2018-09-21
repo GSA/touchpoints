@@ -15,9 +15,18 @@ ActiveRecord::Schema.define(version: 2018_09_15_001421) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "organizations", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "url"
+    t.string "abbreviation"
+    t.text "notes"
+    t.integer "external_id"
+  end
+
   create_table "touchpoints", force: :cascade do |t|
-    t.string "name"
-    t.integer "organization_id"
+    t.string "name", null: false
+    t.string "gtm_container_id"
+    t.integer "organization_id", null: false
     t.text "purpose"
     t.integer "meaningful_response_size"
     t.text "behavior_change"
@@ -46,6 +55,7 @@ ActiveRecord::Schema.define(version: 2018_09_15_001421) do
     t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "admin", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
