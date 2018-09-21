@@ -7,8 +7,4 @@ class User < ApplicationRecord
 
   belongs_to :organization, optional: true
   has_many :touchpoints, through: :organization
-
-  def admin?
-    email == "admin@example.com"
-  end
 end
