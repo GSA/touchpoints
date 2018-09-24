@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Engage</title>
+    <title>
+      Touchpoints
+    </title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -13,7 +15,17 @@
     <%= render 'components/header' %>
     <div class="usa-grid">
       <div class="usa-width-full">
-        <%= flash[:notice] %>
+      <% unless flash.empty? %>
+        <div class="usa-alert usa-alert-success" >
+          <div class="usa-alert-body">
+            <!-- <h3 class="usa-alert-heading">Success Status</h3> -->
+            <p class="usa-alert-text">
+              <%= flash[:notice] %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+
         <%= yield %>
       </div>
     </div>

@@ -5,7 +5,7 @@
 
 <p>
   <strong>Organization:</strong>
-  <%= @touchpoint.organization_id %>
+  <%= link_to(@touchpoint.organization.name, admin_organization_path(@touchpoint.organization)) %>
 </p>
 
 <p>
@@ -35,8 +35,7 @@
 
 <p>
   <strong>Embed code:</strong>
-  <%= @touchpoint.embed_code %>
+  <textarea name="name" rows="8" cols="80" readonly="true" style="font-family: monospace;"><%= @touchpoint.embed_code %></textarea>
 </p>
 
-<%= link_to 'Edit', edit_touchpoint_path(@touchpoint) %> |
-<%= link_to 'Back', touchpoints_path %>
+<%= link_to 'Edit', edit_touchpoint_path(@touchpoint), class: "usa-button" %>

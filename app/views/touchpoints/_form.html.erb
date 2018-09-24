@@ -3,11 +3,19 @@
     <div id="error_explanation">
       <h2><%= pluralize(touchpoint.errors.count, "error") %> prohibited this touchpoint from being saved:</h2>
 
-      <ul>
+
       <% touchpoint.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+        <div class="usa-alert usa-alert-error" >
+          <div class="usa-alert-body">
+            <h3 class="usa-alert-heading">Error</h3>
+            <p class="usa-alert-text">
+              <%= message %>
+            </p>
+          </div>
+        </div>
+
       <% end %>
-      </ul>
+
     </div>
   <% end %>
 
@@ -18,7 +26,7 @@
 
   <div class="field">
     <%= form.label :organization_id %>
-    <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }), include_blank: true %>
+    <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: touchpoint.organization.id), include_blank: true %>
   </div>
 
   <div class="field">

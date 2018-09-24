@@ -5,7 +5,7 @@
 
 <p>
   <strong>Url:</strong>
-  <%= @organization.url %>
+  <%= link_to(@organization.url, @organization.url, target: "_blank") %>
 </p>
 
 <p>
@@ -23,5 +23,4 @@
   <%= @organization.external_id %>
 </p>
 
-<%= link_to 'Edit', edit_admin_organization_path(@organization) %> |
-<%= link_to 'Back', admin_organizations_path %>
+<%= link_to 'Edit', edit_admin_organization_path(@organization), class: "usa-button" %>
