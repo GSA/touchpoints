@@ -3,6 +3,8 @@ class Touchpoint < ApplicationRecord
   belongs_to :organization
   before_save :create_container_in_gtm
 
+  validates :name, presence: true
+
   def gtm_container_url
     "https://tagmanager.google.com/#/admin/?accountId=#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}&containerId=#{gtm_container_id}"
   end
