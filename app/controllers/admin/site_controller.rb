@@ -1,4 +1,6 @@
 class Admin::SiteController < ApplicationController
+  before_action :ensure_admin
+  
   def index
     @google_api = GoogleApi.new
     @account = @google_api.get_account(account_id: 4172456290).to_h
