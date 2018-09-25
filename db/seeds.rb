@@ -63,3 +63,21 @@ Touchpoint.create({
   behavior_change: "End of year reporting",
   notification_emails: "ryan.wold@gsa.gov"
 })
+
+Submission.create!({
+  first_name: "Josie",
+  last_name: "Public",
+  email: "public_user_1@example.com"
+})
+
+Submission.create!({
+  first_name: "Jack",
+  last_name: "Public",
+  email: "public_user_2@example.com"
+})
+
+Submission.create!({
+  first_name: "Mary",
+  last_name: "Public",
+  email: "public_user_3@example.com"
+})
