@@ -12,12 +12,13 @@
   <% @account[:containers].each do |container| %>
     <%= link_to container.name, container.tag_manager_url, target: "_blank" %>
     <%= container.public_id %>
-    <h6>
-      Workspaces
-    </h6>
     <% workspaces = @google_api.list_account_container_workspaces(path: container.path) %>
-    <% workspaces.each do |workspace| %>
-      <%= link_to workspace.name, workspace.tag_manager_url %><br>
-    <% end %>
+    <ul>
+      <% workspaces.each do |workspace| %>
+      <li>
+        <%= link_to workspace.name, workspace.tag_manager_url %><br>
+      </li>
+      <% end %>
+    </ul>
   <% end %>
 </table>
