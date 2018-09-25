@@ -1,0 +1,103 @@
+// All form components are namespaced under 'fba' = 'Feedback Analytics'
+
+(function ( d, N ) { 'use strict';
+N.fba = {
+	css: '<%= escape_javascript File.open("app/assets/stylesheets/widget/widget.css").read %>',
+
+	init: function( options )
+	{
+		this.options = options;
+		this.loadCss();
+		this.loadHtml();
+		this.loadButton();
+		this.bindEventListeners();
+		this.dialogOpen = false;
+	},
+	bindEventListeners: function()
+	{
+		var self = this;
+		d.addEventListener('keyup', function (event) {
+			var x = event.keyCode;
+			if( x == 27 && self.dialogOpen == true){
+				self.closeDialog();
+			}});
+			d.addEventListener('click', function (event) {
+				self.handleClick(event);
+			});
+		},
+		loadCss: function()
+		{
+			d.head.innerHTML += '<style>' + this.css + '</style>';
+		},
+		loadHtml: function()		{
+			this.buttonEl = document.createElement('a');
+			this.buttonEl.setAttribute('id', 'fba-button');
+			this.buttonEl.setAttribute('href', '#');
+			this.buttonEl.innerHTML = this.options.open;
+
+			this.overlayEl = document.createElement('div');
+			this.overlayEl.setAttribute('id', 'fba-overlay');
+
+			this.dialogEl = document.createElement('div');
+			this.dialogEl.setAttribute('id', 'fba-modal');
+			this.dialogEl.setAttribute('role', 'dialog');
+
+			// Here lies our form interface
+			this.dialogEl.innerHTML = '<%= escape_javascript render(partial: "components/widget/modal") %>';
+		},
+		handleClick: function(e) {
+			if (N.fba.dialogOpen && !e.target.closest('#fba-button') && !e.target.closest('#fba-modal-dialog')) {
+				N.fba.closeDialog();
+			}
+		},
+		handleButtonClick: function(e) { N.fba.loadDialog();e.preventDefault(); },
+		handleDialogClose: function(e) { N.fba.closeDialog();e.preventDefault(); },
+		handleSubmitClick: function(e) { N.fba.sendFeedback();e.preventDefault(); },
+		loadButton: function()
+		{
+			d.body.appendChild(this.buttonEl);
+			d.getElementById('fba-button').addEventListener( 'click', this.handleButtonClick, false );
+		},
+		loadDialog: function()
+		{
+			d.getElementById('fba-button').removeEventListener('click', this.handleButtonClick, false );
+			d.body.removeChild( d.getElementById('fba-button') );
+			d.body.appendChild(this.dialogEl);
+			d.getElementById('fba-modal-close').addEventListener( 'click', this.handleDialogClose, false );
+			d.getElementById('fba-submit').addEventListener( 'click', this.handleSubmitClick, false );
+			this.dialogOpen = true;
+		},
+		closeDialog: function()
+		{
+			d.getElementById('fba-modal-close').removeEventListener('keypress', this.handleDialogClose, false );
+			d.getElementById('fba-modal-close').removeEventListener('click', this.handleDialogClose, false );
+			d.getElementById('fba-submit').removeEventListener('click', this.handleSubmitClick, false );
+			d.body.removeChild( d.getElementById('fba-modal') );
+			this.loadButton();
+			this.dialogOpen = false;
+		},
+
+		sendFeedback: function()
+		{
+			alert( this.options.thankyou );
+			this.closeDialog();
+		}
+	};
+
+}( document, window ));
+
+// Set options for tab text, modal title, description, and alert message after submit.
+// These will be mapped to named variables in Google Tag Manager.
+var tabText = "Help improve this site";
+var formTitle = "Do you have a few minutes to help us test this site?";
+var formDesc = "Hi! We’re looking for people to participate ";
+var buttonLabel = "Send";
+var thankYouText = "Thank you";
+
+fba.init({
+	'open': tabText,   //'Help improve this site',
+	'title': formTitle,    //'Do you have a few minutes to help us test this site?',
+	'description': formDesc,   //'Hi! We’re looking for people to participate in a 30 minute phone interview about how they use [agency.gov]. If selected, we’ll contact you to set up a time.',
+	'send': buttonLabel,    //'Send',
+	'thankyou': thankYouText   //'Thank you - we will be in touch shortly!'
+});
