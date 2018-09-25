@@ -72,10 +72,11 @@ eos
 
     containers  = list_account_containers(account_id: account_id)
     containers.each do |c|
-      # Specific exemption for the `default` Container created when creating an Account.
-      next if c.fingerprint ==  ENV.fetch("GOOGLE_TAG_MANAGER_ACCOUNT_DEFAULT_CONTAINER_FINGERPRINT")
-
-      @service.delete_account_container(c.path)
+      begin
+        @service.delete_account_container(c.path)
+      rescue
+        puts "WARNING: Could not delete GTM Container #{c.name} - #{c.fingerprint}"
+      end
     end
   end
 
