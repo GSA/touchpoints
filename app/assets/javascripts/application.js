@@ -11,6 +11,5 @@
 // about supported directives.
 //
 //= require rails-ujs
-//= require fba
 //= require activestorage
 //= require_tree .
