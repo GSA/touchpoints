@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :submissions
   resources :touchpoints
   devise_for :users
   namespace :admin do
