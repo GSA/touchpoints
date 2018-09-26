@@ -1,31 +1,28 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Submissions</h1>
 
 <table>
   <thead>
     <tr>
+      <th>Organization</th>
+      <th style="min-width: 240px;">Touchpoint</th>
       <th>First name</th>
       <th>Last name</th>
       <th>Phone number</th>
       <th>Email</th>
-      <th>Body</th>
-      <th>User</th>
-      <th colspan="2"></th>
+      <th style="border: none; background: none;"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @submissions.each do |submission| %>
       <tr>
+        <td><%= submission.organization.name %></td>
+        <td><%= submission.touchpoint.name %></td>
         <td><%= submission.first_name %></td>
         <td><%= submission.last_name %></td>
         <td><%= submission.phone_number %></td>
         <td><%= submission.email %></td>
-        <td><%= submission.body %></td>
-        <td><%= submission.user_id %></td>
-        <td><%= link_to 'Show', submission %></td>
-        <td><%= link_to 'Edit', edit_submission_path(submission) %></td>
+        <td style="border: none;"><%= link_to 'View', submission, class: "usa-button" %></td>
       </tr>
     <% end %>
   </tbody>

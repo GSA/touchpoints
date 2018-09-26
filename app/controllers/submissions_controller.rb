@@ -3,7 +3,7 @@ class SubmissionsController < ApplicationController
   before_action :set_submission, only: [:show, :edit, :update, :destroy]
 
   def index
-    @submissions = Submission.all
+    @submissions = Submission.all.includes(:organization)
   end
 
   def show
@@ -13,16 +13,25 @@ class SubmissionsController < ApplicationController
   end
 
   def create
-    @submission = Submission.new(submission_params)
+    raise "Invalid Touchpoint" unless touchpoint = Touchpoint.find(params["touchpoint_id"])
 
-    respond_to do |format|
-      if @submission.save
-        format.html { redirect_to @submission, notice: 'Submission was successfully created.' }
-        format.json { render :show, status: :created, location: @submission }
-      else
-        format.html { render :new }
-        format.json { render json: @submission.errors, status: :unprocessable_entity }
-      end
+    @submission = Submission.new(submission_params)
+    @submission.touchpoint_id = touchpoint.id
+    @submission.organization_id = touchpoint.organization_id
+
+    if @submission.save
+      render json: {
+        submission: {
+          id: @submission.id,
+          first_name: @submission.first_name,
+          last_name: @submission.last_name,
+          email: @submission.email,
+          phone_number: @submission.phone_number
+        }
+      },
+      status: :created, location: @submission
+    else
+      render json: @submission.errors, status: :unprocessable_entity
     end
   end
 
@@ -52,6 +61,6 @@ class SubmissionsController < ApplicationController
     end
 
     def submission_params
-      params.require(:submission).permit(:first_name, :last_name, :phone_number, :email, :body, :user_id)
+      params.require(:submission).permit(:first_name, :last_name, :phone_number, :email, :body, :user_id, :organization_id, :touchpoint_id)
     end
 end

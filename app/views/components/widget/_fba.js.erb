@@ -50,9 +50,18 @@ N.fba = {
 				N.fba.closeDialog();
 			}
 		},
-		handleButtonClick: function(e) { N.fba.loadDialog();e.preventDefault(); },
-		handleDialogClose: function(e) { N.fba.closeDialog();e.preventDefault(); },
-		handleSubmitClick: function(e) { N.fba.sendFeedback();e.preventDefault(); },
+		handleButtonClick: function(e) {
+			e.preventDefault();
+			N.fba.loadDialog();
+		},
+		handleDialogClose: function(e) {
+			e.preventDefault();
+			N.fba.closeDialog();
+		},
+		handleSubmitClick: function(e) {
+			e.preventDefault();
+			N.fba.sendFeedback();
+		},
 		loadButton: function()
 		{
 			d.body.appendChild(this.buttonEl);
@@ -76,14 +85,59 @@ N.fba = {
 			this.loadButton();
 			this.dialogOpen = false;
 		},
-
 		sendFeedback: function()
 		{
-			alert( this.options.thankyou );
-			this.closeDialog();
+			var form = document.getElementById("recruiter-form");
+			this.ajaxPost(form, this.formSuccess);
+		},
+		formSuccess: function(e)
+		{
+			var alertElement = document.querySelector("#fba-alert");
+			alertElement.innerHTML = ""; // Clear the alert box
+
+			// alert( this.options.thankyou ); // Customizable thank you
+			if (this.readyState === 4) {
+
+		      if (this.status === 201) { // SUCCESS!
+						alertElement.innerHTML += "Success! Form submitted succesfully. Thank you for your Feedback.";
+		         console.log('successful');
+		      } else if (this.status === 422) { // FORM ERRORS =\
+						 var errors = this.response;
+
+						 for (var err in errors) {
+							 if (errors.hasOwnProperty(err)) {
+								 alertElement.innerHTML += err;
+								 alertElement.innerHTML += " ";
+								 alertElement.innerHTML += errors[err];
+								 alertElement.innerHTML += "<br />";
+							 }
+						 }
+		      } else { // SERVER ERROR
+						alertElement.innerHTML += "Server error. We're sorry, but this submission was not successful. The Product Team has been notified.";
+	          console.log('failed');
+		      }
+		  }
+			// this.closeDialog();
+		},
+		ajaxPost: function (form, callback) {
+	    var url = form.action;
+	    var xhr = new XMLHttpRequest();
+
+			var params = {
+				first_name: form.querySelector("#fba-text-name").value,
+				last_name: "",
+				phone_number: form.querySelector("#fba-text-phone").value,
+				email: form.querySelector("#fba-text-email").value,
+				authenticity_token: form.querySelector("#authenticity_token").value,
+			}
+
+			xhr.open("POST", url);
+			xhr.setRequestHeader("Content-Type", "application/json");
+			xhr.responseType = 'json';
+	    xhr.onload = callback.bind(xhr);
+	    xhr.send(JSON.stringify(params));
 		}
 	};
-
 }( document, window ));
 
 // Set options for tab text, modal title, description, and alert message after submit.

@@ -37,7 +37,7 @@ webmaster.skip_confirmation!
 webmaster.save!
 
 
-Touchpoint.create({
+touchpoint_1 = Touchpoint.create({
   organization_id: org_1.id,
   name: "Mandatory 7 question test",
   purpose: "Working toward our CAP Goals and fulfilling the requirements of the 7 question test",
@@ -67,17 +67,26 @@ Touchpoint.create({
 Submission.create!({
   first_name: "Josie",
   last_name: "Public",
-  email: "public_user_1@example.com"
+  email: "public_user_1@example.com",
+  phone_number: "5555551234",
+  organization: org_1,
+  touchpoint: touchpoint_1
 })
 
 Submission.create!({
   first_name: "Jack",
   last_name: "Public",
-  email: "public_user_2@example.com"
+  email: "public_user_2@example.com",
+  phone_number: "5555559876",
+  organization: org_1,
+  touchpoint: touchpoint_1
 })
 
 Submission.create!({
   first_name: "Mary",
   last_name: "Public",
-  email: "public_user_3@example.com"
+  email: "public_user_3@example.com",
+  phone_number: "5555550000",
+  organization: org_1,
+  touchpoint: touchpoint_1
 })

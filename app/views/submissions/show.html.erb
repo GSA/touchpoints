@@ -1,35 +1,36 @@
-<p id="notice"><%= notice %></p>
-
+<p>
+  <strong>Touchpoint</strong>
+  <%= link_to(@submission.touchpoint.name, touchpoint_path(@submission.touchpoint)) %>
+</p>
+<p>
+  <strong>Organization</strong>
+  <%= link_to(@submission.touchpoint.organization.name, admin_organization_path(@submission.touchpoint.organization)) %>
+</p>
+<hr>
 <p>
   <strong>First name:</strong>
   <%= @submission.first_name %>
 </p>
-
 <p>
   <strong>Last name:</strong>
   <%= @submission.last_name %>
 </p>
-
 <p>
   <strong>Phone number:</strong>
   <%= @submission.phone_number %>
 </p>
-
 <p>
   <strong>Email:</strong>
   <%= @submission.email %>
 </p>
-
 <p>
   <strong>Body:</strong>
   <%= @submission.body %>
 </p>
-
 <p>
   <strong>User:</strong>
   <%= @submission.user_id %>
 </p>
-
 <%= link_to 'Edit', edit_submission_path(@submission), class: "usa-button" %>
 <hr>
 <%= link_to 'Destroy', @submission, method: :delete, data: { confirm: 'Are you sure?' } %>
