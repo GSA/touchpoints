@@ -63,13 +63,20 @@ class TouchpointsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_touchpoint
       @touchpoint = Touchpoint.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def touchpoint_params
-      params.require(:touchpoint).permit(:name, :organization_id, :purpose, :meaningful_response_size, :behavior_change, :notification_emails, :embed_code)
+      params.require(:touchpoint).permit(
+        :name,
+        :organization_id,
+        :purpose,
+        :meaningful_response_size,
+        :behavior_change,
+        :notification_emails,
+        :embed_code,
+        :enable_google_sheets
+      )
     end
 end
