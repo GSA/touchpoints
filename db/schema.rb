@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 2018_09_25_213001) do
 
   create_table "touchpoints", force: :cascade do |t|
     t.string "name", null: false
+    t.boolean "enable_google_sheets", default: false
     t.string "gtm_container_id"
     t.string "google_sheet_id"
     t.integer "organization_id", null: false

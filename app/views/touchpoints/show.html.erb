@@ -15,7 +15,7 @@
 
 <p>
   <strong>Google Sheet ID:</strong>
-  <%= link_to(@touchpoint.google_sheet_id, "https://docs.google.com/spreadsheets/d/#{@touchpoint.google_sheet_id}/edit#gid=0", target: "_blank") %>
+  <%= @touchpoint.enable_google_sheets? ? link_to(@touchpoint.google_sheet_id, "https://docs.google.com/spreadsheets/d/#{@touchpoint.google_sheet_id}/edit#gid=0", target: "_blank") : 'N/A' %>
 </p>
 
 <p>

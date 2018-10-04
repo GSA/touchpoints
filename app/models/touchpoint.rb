@@ -3,7 +3,7 @@ class Touchpoint < ApplicationRecord
   belongs_to :organization
   has_many :submissions
 
-  # before_save :create_container_in_gtm
+  before_save :create_container_in_gtm
   before_save :create_google_sheet
 
   validates :name, presence: true
@@ -29,7 +29,7 @@ class Touchpoint < ApplicationRecord
 
   # Creates a Google Sheet for this Touchpoint
   def create_google_sheet
-    return unless ENV.fetch("GOOGLE_SHEETS_ENABLED") == "true"
+    return unless self.enable_google_sheets
 
     @service = GoogleSheetsApi.new
     new_spreadsheet = @service.create_permissioned_spreadsheet({ title: self.name })

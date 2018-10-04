@@ -29,6 +29,21 @@
     <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: (touchpoint.organization ? touchpoint.organization.id : nil)), include_blank: true %>
   </div>
 
+  <% unless touchpoint.persisted? %>
+  <br>
+  <br>
+  <div class="field">
+    <fieldset class="usa-fieldset-inputs usa-sans">
+      <ul class="usa-unstyled-list">
+        <li>
+          <%= form.check_box :enable_google_sheets %>
+          <%= form.label :enable_google_sheets? %>
+        </li>
+      </ul>
+    </fieldset>
+  </div>
+  <% end %>
+
   <% if touchpoint.persisted? %>
   <div class="field">
     <%= form.label :gtm_container_id %>
