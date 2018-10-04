@@ -26,13 +26,15 @@
 
   <div class="field">
     <%= form.label :organization_id %>
-    <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: touchpoint.organization.id), include_blank: true %>
+    <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: (touchpoint.organization ? touchpoint.organization.id : nil)), include_blank: true %>
   </div>
 
+  <% if touchpoint.persisted? %>
   <div class="field">
     <%= form.label :gtm_container_id %>
     <%= form.text_field :gtm_container_id %>
   </div>
+  <% end %>
 
   <div class="field">
     <%= form.label :purpose %>

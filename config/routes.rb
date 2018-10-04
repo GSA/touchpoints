@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  resources :submissions, except: [:new]
+  resources :submissions, except: [:new, :index, :create]
   resources :touchpoints do
-    resources :submissions, only: [:create]
+    resources :submissions, only: [:new, :show, :index, :create]
   end
   devise_for :users
   namespace :admin do

@@ -14,6 +14,11 @@
 </p>
 
 <p>
+  <strong>Google Sheet ID:</strong>
+  <%= link_to(@touchpoint.google_sheet_id, "https://docs.google.com/spreadsheets/d/#{@touchpoint.google_sheet_id}/edit#gid=0", target: "_blank") %>
+</p>
+
+<p>
   <strong>Purpose:</strong>
   <%= @touchpoint.purpose %>
 </p>
@@ -38,4 +43,13 @@
   <textarea name="name" rows="8" cols="80" readonly="true" style="font-family: monospace;"><%= @touchpoint.embed_code %></textarea>
 </p>
 
+<p>
+  <%= link_to 'New Submission', new_touchpoint_submission_path(@touchpoint), class: "usa-button" %>
+</p>
+
 <%= link_to 'Edit', edit_touchpoint_path(@touchpoint), class: "usa-button" %>
+
+<hr>
+
+<% @submissions = @touchpoint.submissions %>
+<%= render file: "submissions/index" %>

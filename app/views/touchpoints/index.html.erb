@@ -9,6 +9,7 @@
       <th>Purpose</th>
       <th>Start Date</th>
       <th>End Date</th>
+      <th>Submissions</th>
       <th></th>
     </tr>
   </thead>
@@ -20,6 +21,7 @@
         <td><%= touchpoint.purpose %></td>
         <td><%= touchpoint.start_date %></td>
         <td><%= touchpoint.end_date %></td>
+        <td><%= link_to "View", touchpoint_submissions_path(touchpoint) %></td>
         <td><%= link_to 'Edit', edit_touchpoint_path(touchpoint) %></td>
       </tr>
     <% end %>

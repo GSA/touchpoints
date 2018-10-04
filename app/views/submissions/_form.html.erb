@@ -1,4 +1,4 @@
-<%= form_with(model: submission, local: true) do |form| %>
+<%= form_with(model: submission, url: touchpoint_submissions_path(touchpoint), local: true) do |form| %>
   <% if submission.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(submission.errors.count, "error") %> prohibited this submission from being saved:</h2>
@@ -10,6 +10,11 @@
       </ul>
     </div>
   <% end %>
+
+  <div class="field">
+    <%= form.label :touchpoint_id %>
+    <%= form.hidden_field :touchpoint_id, value: @touchpoint.id %>
+  </div>
 
   <div class="field">
     <%= form.label :first_name %>
