@@ -28,12 +28,25 @@ RSpec.describe SubmissionsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # Submission. As you add validations to Submission, be sure to
   # adjust the attributes here as well.
+
+  let!(:touchpoint) { FactoryBot.create(:touchpoint) }
+
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+      touchpoint_id: touchpoint.id,
+      organization_id: touchpoint.organization.id,
+      first_name: "James",
+      last_name: "Madison",
+      email: "james.madison@lvh.me"
+    }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+      first_name: nil,
+      last_name: nil,
+      email: nil
+    }
   }
 
   # This should return the minimal set of values that should be in the session
@@ -44,7 +57,8 @@ RSpec.describe SubmissionsController, type: :controller do
   describe "GET #index" do
     it "returns a success response" do
       Submission.create! valid_attributes
-      get :index, params: {}, session: valid_session
+      # get :index, params: {}, session: valid_session
+      get touchpoint_submissions_path(touchpoint), params: {}, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -52,7 +66,7 @@ RSpec.describe SubmissionsController, type: :controller do
   describe "GET #show" do
     it "returns a success response" do
       submission = Submission.create! valid_attributes
-      get :show, params: {id: submission.to_param}, session: valid_session
+      get :show, params: { id: submission.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end

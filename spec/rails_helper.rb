@@ -38,7 +38,7 @@ Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
 Capybara.javascript_driver = :selenium
-Capybara.default_max_wait_time = 30
+Capybara.default_max_wait_time = 3
 Capybara.raise_server_errors = false
 
 RSpec.configure do |config|
