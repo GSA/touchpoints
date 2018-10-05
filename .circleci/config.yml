@@ -8,6 +8,10 @@ jobs:
     docker:
       # specify the version you desire here
        - image: circleci/ruby:2.4.4-node-browsers
+         environment:
+            RAILS_ENV: test
+            PGHOST: 127.0.0.1
+            PGUSER: root
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
