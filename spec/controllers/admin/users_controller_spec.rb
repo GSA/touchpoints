@@ -23,23 +23,36 @@ require 'rails_helper'
 # removed from Rails core in Rails 5, but can be added back in via the
 # `rails-controller-testing` gem.
 
-RSpec.describe UsersController, type: :controller do
+RSpec.describe Admin::UsersController, type: :controller do
 
   # This should return the minimal set of attributes required to create a valid
   # User. As you add validations to User, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    # skip("Add a hash of attributes valid for your model")
+    {
+      email: "james.madison@lvh.me",
+      password: "password",
+      password_confirmation: "password"
+    }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+      email: nil
+    }
   }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # UsersController. Be sure to keep this updated too.
   let(:valid_session) { {} }
+
+  let(:admin) { FactoryBot.create(:user, :admin) }
+
+  before do
+    sign_in(admin)
+  end
 
   describe "GET #index" do
     it "returns a success response" do
@@ -58,6 +71,12 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "GET #new" do
+    let(:admin) { FactoryBot.create(:user, :admin) }
+
+    before do
+      sign_in(admin)
+    end
+
     it "returns a success response" do
       get :new, params: {}, session: valid_session
       expect(response).to be_successful
@@ -76,13 +95,13 @@ RSpec.describe UsersController, type: :controller do
     context "with valid params" do
       it "creates a new User" do
         expect {
-          post :create, params: {user: valid_attributes}, session: valid_session
+          post :create, params: { user: valid_attributes }, session: valid_session
         }.to change(User, :count).by(1)
       end
 
       it "redirects to the created user" do
-        post :create, params: {user: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(User.last)
+        post :create, params: { user: valid_attributes }, session: valid_session
+        expect(response).to redirect_to(admin_user_path(User.last))
       end
     end
 
@@ -110,7 +129,7 @@ RSpec.describe UsersController, type: :controller do
       it "redirects to the user" do
         user = User.create! valid_attributes
         put :update, params: {id: user.to_param, user: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(user)
+        expect(response).to redirect_to(admin_user_path)
       end
     end
 
@@ -134,7 +153,7 @@ RSpec.describe UsersController, type: :controller do
     it "redirects to the users list" do
       user = User.create! valid_attributes
       delete :destroy, params: {id: user.to_param}, session: valid_session
-      expect(response).to redirect_to(users_url)
+      expect(response).to redirect_to(admin_users_url)
     end
   end
 
