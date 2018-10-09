@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 feature "Example Website Integration", js: true do
+  let!(:touchpoint) { FactoryBot.create(:touchpoint) }
 
   describe "third-party .gov website" do
     before "foo" do
@@ -33,7 +34,7 @@ feature "Example Website Integration", js: true do
         end
 
         it "display .js success alert" do
-          expect(accept_alert).to eq("Thank you - we will be in touch shortly!")
+          expect(page.find("#fba-alert")).to have_content("Success! Form submitted successfully. Thank you for your Feedback.")
         end
       end
     end

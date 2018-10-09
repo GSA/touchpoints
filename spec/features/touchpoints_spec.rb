@@ -4,12 +4,13 @@ feature "Touchpoints", js: true do
   describe "/touchpoints" do
     describe "#index" do
       let(:user) { FactoryBot.create(:user) }
+      let!(:organization) { FactoryBot.create(:organization) }
 
       before "user completes Sign Up form" do
         login_as user
         visit new_touchpoint_path
         fill_in("touchpoint[name]", with: "Test Touchpoint")
-        fill_in("touchpoint[organization_id]", with: 1)
+        select(organization.name, from: "touchpoint[organization_id]")
         fill_in("touchpoint[purpose]", with: "Compliance")
         fill_in("touchpoint[meaningful_response_size]", with: 50)
         fill_in("touchpoint[behavior_change]", with: "to be determined")

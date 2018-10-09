@@ -8,7 +8,7 @@
     about how they use <%= Organization.first.name %>.
     If selected, we’ll contact you to set up a time.
   </p>
-  <form id="recruiter-form" action="/touchpoints/<%= Touchpoint.first.id %>/submissions" method="POST">
+  <form id="recruiter-form" action="/touchpoints/<%= Touchpoint.first.id %>/submissions.json" method="POST">
     <div id="fba-alert">
       alert message
     </div>

@@ -97,10 +97,10 @@ N.fba = {
 
 			// alert( this.options.thankyou ); // Customizable thank you
 			if (this.readyState === 4) {
-
 		      if (this.status === 201) { // SUCCESS!
-						alertElement.innerHTML += "Success! Form submitted succesfully. Thank you for your Feedback.";
-		         console.log('successful');
+						alertElement.innerHTML += "Success! Form submitted successfully. Thank you for your Feedback.";
+		      } else if (this.status === 200) { // FIXME: this `if` should not be necessary. Response should be a 201 (HTTP CREATED status)
+						alertElement.innerHTML += "Success! Form submitted successfully. Thank you for your Feedback.";
 		      } else if (this.status === 422) { // FORM ERRORS =\
 						 var errors = this.response;
 
@@ -132,7 +132,8 @@ N.fba = {
 			}
 
 			xhr.open("POST", url);
-			xhr.setRequestHeader("Content-Type", "application/json");
+			xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8;");
+
 			xhr.responseType = 'json';
 	    xhr.onload = callback.bind(xhr);
 	    xhr.send(JSON.stringify(params));

@@ -54,11 +54,16 @@ RSpec.describe SubmissionsController, type: :controller do
   # SubmissionsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  let(:admin) { FactoryBot.create(:user, :admin)}
+
+  before do
+    sign_in(admin)
+  end
+
   describe "GET #index" do
     it "returns a success response" do
       Submission.create! valid_attributes
-      # get :index, params: {}, session: valid_session
-      get touchpoint_submissions_path(touchpoint), params: {}, session: valid_session
+      get :index, params: { touchpoint_id: touchpoint.id }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -66,14 +71,14 @@ RSpec.describe SubmissionsController, type: :controller do
   describe "GET #show" do
     it "returns a success response" do
       submission = Submission.create! valid_attributes
-      get :show, params: { id: submission.to_param }, session: valid_session
+      get :show, params: { id: submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
       expect(response).to be_successful
     end
   end
 
   describe "GET #new" do
     it "returns a success response" do
-      get :new, params: {}, session: valid_session
+      get :new, params: { touchpoint_id: touchpoint.id }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -81,7 +86,7 @@ RSpec.describe SubmissionsController, type: :controller do
   describe "GET #edit" do
     it "returns a success response" do
       submission = Submission.create! valid_attributes
-      get :edit, params: {id: submission.to_param}, session: valid_session
+      get :edit, params: {id: submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -90,20 +95,21 @@ RSpec.describe SubmissionsController, type: :controller do
     context "with valid params" do
       it "creates a new Submission" do
         expect {
-          post :create, params: {submission: valid_attributes}, session: valid_session
+          post :create, params: {submission: valid_attributes, touchpoint_id: touchpoint.id }, session: valid_session
         }.to change(Submission, :count).by(1)
       end
 
       it "redirects to the created submission" do
-        post :create, params: {submission: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(Submission.last)
+        post :create, params: { submission: valid_attributes, touchpoint_id: touchpoint.id }, session: valid_session
+        expect(response).to redirect_to(touchpoint_submission_path(touchpoint.id, Submission.last))
       end
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: {submission: invalid_attributes}, session: valid_session
-        expect(response).to be_successful
+        post :create, params: { submission: invalid_attributes, touchpoint_id: touchpoint.id }, session: valid_session, format: :json
+        expect(response.status).to eq(422)
+        expect(JSON.parse(response.body)).to eq({ "first_name" => ["can't be blank"] })
       end
     end
   end
@@ -123,7 +129,7 @@ RSpec.describe SubmissionsController, type: :controller do
 
       it "redirects to the submission" do
         submission = Submission.create! valid_attributes
-        put :update, params: {id: submission.to_param, submission: valid_attributes}, session: valid_session
+        put :update, params: {id: submission.to_param, submission: valid_attributes, touchpoint_id: touchpoint.id }, session: valid_session
         expect(response).to redirect_to(submission)
       end
     end
@@ -131,7 +137,14 @@ RSpec.describe SubmissionsController, type: :controller do
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
         submission = Submission.create! valid_attributes
-        put :update, params: {id: submission.to_param, submission: invalid_attributes}, session: valid_session
+        expect {
+          put :update, params: {id: submission.to_param, submission: invalid_attributes }, session: valid_session
+        }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+
+      it "returns a success response (i.e. to display the 'edit' template)" do
+        submission = Submission.create! valid_attributes
+        put :update, params: {id: submission.to_param, submission: invalid_attributes, touchpoint_id: touchpoint.id }, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -141,14 +154,14 @@ RSpec.describe SubmissionsController, type: :controller do
     it "destroys the requested submission" do
       submission = Submission.create! valid_attributes
       expect {
-        delete :destroy, params: {id: submission.to_param}, session: valid_session
+        delete :destroy, params: {id: submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
       }.to change(Submission, :count).by(-1)
     end
 
     it "redirects to the submissions list" do
       submission = Submission.create! valid_attributes
-      delete :destroy, params: {id: submission.to_param}, session: valid_session
-      expect(response).to redirect_to(submissions_url)
+      delete :destroy, params: {id: submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
+      expect(response).to redirect_to(touchpoint_submissions_url(touchpoint))
     end
   end
 

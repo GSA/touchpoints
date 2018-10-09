@@ -1,6 +1,6 @@
 class SubmissionsController < ApplicationController
   before_action :ensure_admin, only: [:index, :new, :show, :update, :destroy]
-  before_action :set_touchpoint, only: [:index, :new, :show, :edit, :update, :destroy]
+  before_action :set_touchpoint, only: [:index, :new, :create, :show, :edit, :update, :destroy]
   before_action :set_submission, only: [:show, :edit, :update, :destroy]
 
 
@@ -20,13 +20,11 @@ class SubmissionsController < ApplicationController
   end
 
   def create
-    raise "Invalid Touchpoint" unless touchpoint = Touchpoint.find(params["touchpoint_id"])
-
     @submission = Submission.new(submission_params)
-    @submission.touchpoint_id = touchpoint.id
-    @submission.organization_id = touchpoint.organization_id
+    @submission.touchpoint_id = @touchpoint.id
+    @submission.organization_id = @touchpoint.organization_id
 
-    ENV.fetch("GOOGLE_SHEETS_ENABLED") == "true" ?
+    @touchpoint.enable_google_sheets ?
       create_in_google_sheets(@submission) :
       create_in_local_database(@submission)
   end
@@ -34,7 +32,8 @@ class SubmissionsController < ApplicationController
   def create_in_local_database(submission)
     respond_to do |format|
       if submission.save
-        format.html { redirect_to touchpoint_submission_path(submission.touchpoint, submission), notice: 'Submission was successfully created.' }
+        format.html {
+          redirect_to touchpoint_submission_path(submission.touchpoint, submission), notice: 'Submission was successfully created.' }
         format.json {
           render json: {
             submission: {
@@ -49,11 +48,15 @@ class SubmissionsController < ApplicationController
                 organization_name: submission.touchpoint.organization.name
               }
             },
-            status: :created, location: submission
+            status: :created
           }
         }
       else
-        render json: submission.errors, status: :unprocessable_entity
+        format.html {
+        }
+        format.json {
+          render json: submission.errors, status: :unprocessable_entity
+        }
       end
     end
   end
@@ -70,7 +73,7 @@ class SubmissionsController < ApplicationController
     ]
     response = google_service.add_row(spreadsheet_id: spreadsheet_id, values: values)
 
-    render json: { status: :something_happened }
+    render json: { status: :success, message: "Google Sheet created" }
   end
 
   def update
@@ -88,7 +91,7 @@ class SubmissionsController < ApplicationController
   def destroy
     @submission.destroy
     respond_to do |format|
-      format.html { redirect_to submissions_url, notice: 'Submission was successfully destroyed.' }
+      format.html { redirect_to touchpoint_submissions_url(@touchpoint.id), notice: 'Submission was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
