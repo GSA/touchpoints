@@ -11,7 +11,7 @@ RSpec.describe Admin::SiteController, type: :controller do
     end
   end
 
-  context "not logged in" do
+  context "logged in" do
     let(:admin) { FactoryBot.create(:user, :admin)}
 
     before do
@@ -19,11 +19,10 @@ RSpec.describe Admin::SiteController, type: :controller do
     end
 
     describe "GET #index" do
-      it "returns http success" do
+      xit "returns http success" do
         get :index
         expect(response).to have_http_status(:success)
       end
     end
   end
-
 end
