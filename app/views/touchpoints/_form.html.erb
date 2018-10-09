@@ -51,6 +51,28 @@
   </div>
   <% end %>
 
+  <br>
+  <br>
+  <h3>
+    Which Form?
+  </h3>
+
+  <fieldset class="usa-fieldset-inputs usa-sans">
+    <legend class="usa-sr-only">Types of Forms</legend>
+    <ul class="usa-unstyled-list">
+    <% Form.all.each do |f| %>
+      <li>
+        <%= form.radio_button :form_id, f.id %>
+        <%= form.label f.name, for: "touchpoint_form_id_#{f.id}" %>
+      </li>
+    <% end %>
+      <li>
+        <%= form.radio_button :form_id, :other %>
+        <%= form.label :other, for: "touchpoint_form_id_other" %>
+      </li>
+    </ul>
+  </fieldset>
+
   <div class="field">
     <%= form.label :purpose %>
     <%= form.text_area :purpose %>
