@@ -46,23 +46,48 @@ touchpoint_1 = Touchpoint.create({
   notification_emails: "ryan.wold@gsa.gov"
 })
 
-Touchpoint.create({
+touchpoint_2 = Touchpoint.create({
   organization_id: org_1.id,
   name: "Open-ended Feedback",
   purpose: "Soliciting feedback",
   meaningful_response_size: 30,
   behavior_change: "Looking for opportunities to improve",
-  notification_emails: "ryan.wold@gsa.gov"
+  notification_emails: "ryan.wold@gsa.gov",
+  enable_google_sheets: false
 })
 
-Touchpoint.create({
+touchpoint_3 = Touchpoint.create({
   organization_id: org_2.id,
   name: "A11 - 7 question test",
   purpose: "Compliance",
   meaningful_response_size: 300,
   behavior_change: "End of year reporting",
-  notification_emails: "ryan.wold@gsa.gov"
+  notification_emails: "ryan.wold@gsa.gov",
+  enable_google_sheets: true
 })
+
+
+Form.create({
+  name: "À11 - 7 Question Form",
+  organization_id: "",
+  touchpoint_id: touchpoint_1,
+  notes: ""
+})
+
+Form.create({
+  name: "Open-ended",
+  organization_id: "",
+  touchpoint_id: touchpoint_2,
+  notes: ""
+})
+
+Form.create({
+  name: "Recruiter",
+  organization_id: "",
+  touchpoint_id: touchpoint_3,
+  notes: ""
+})
+
 
 Submission.create!({
   first_name: "Josie",
