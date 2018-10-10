@@ -11,5 +11,6 @@ Rails.application.routes.draw do
     root to: "site#index"
   end
   get "example", to: "site#example", as: :example
+  get "status", to: "site#status", as: :status
   root to: "site#index"
 end
