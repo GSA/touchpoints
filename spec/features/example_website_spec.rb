@@ -1,11 +1,13 @@
 require 'rails_helper'
 
 feature "Example Website Integration", js: true do
+  let(:admin) { FactoryBot.create(:user, :admin) }
   let!(:touchpoint) { FactoryBot.create(:touchpoint) }
 
   describe "third-party .gov website" do
     before "foo" do
-      visit example_path
+      login_as(admin)
+      visit example_touchpoint_path(touchpoint)
     end
 
     it "loads Badge with Text" do

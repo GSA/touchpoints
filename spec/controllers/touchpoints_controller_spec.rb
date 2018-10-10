@@ -78,6 +78,14 @@ describe TouchpointsController, type: :controller do
     end
   end
 
+  describe "GET #example" do
+    it "returns a success response" do
+      touchpoint = Touchpoint.create! valid_attributes
+      get :example, params: { id: touchpoint.to_param }, session: valid_session
+      expect(response).to be_successful
+    end
+  end
+
   describe "POST #create" do
     context "with valid params" do
       it "creates a new Touchpoint" do

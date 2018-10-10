@@ -1,29 +1,21 @@
 class TouchpointsController < ApplicationController
   before_action :ensure_user
-  before_action :set_touchpoint, only: [:show, :edit, :update, :destroy]
+  before_action :set_touchpoint, only: [:show, :edit, :update, :destroy, :example]
 
-  # GET /touchpoints
-  # GET /touchpoints.json
   def index
     @touchpoints = Touchpoint.all
   end
 
-  # GET /touchpoints/1
-  # GET /touchpoints/1.json
   def show
   end
 
-  # GET /touchpoints/new
   def new
     @touchpoint = Touchpoint.new
   end
 
-  # GET /touchpoints/1/edit
   def edit
   end
 
-  # POST /touchpoints
-  # POST /touchpoints.json
   def create
     @touchpoint = Touchpoint.new(touchpoint_params)
 
@@ -38,8 +30,6 @@ class TouchpointsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /touchpoints/1
-  # PATCH/PUT /touchpoints/1.json
   def update
     respond_to do |format|
       if @touchpoint.update(touchpoint_params)
@@ -52,14 +42,16 @@ class TouchpointsController < ApplicationController
     end
   end
 
-  # DELETE /touchpoints/1
-  # DELETE /touchpoints/1.json
   def destroy
     @touchpoint.destroy
     respond_to do |format|
       format.html { redirect_to touchpoints_url, notice: 'Touchpoint was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def example
+    render layout: false
   end
 
   private

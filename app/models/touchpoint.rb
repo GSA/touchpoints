@@ -4,8 +4,8 @@ class Touchpoint < ApplicationRecord
   belongs_to :form
   has_many :submissions
 
-  before_save :create_container_in_gtm
-  before_save :create_google_sheet
+  before_create :create_container_in_gtm
+  before_create :create_google_sheet
 
   validates :name, presence: true
 

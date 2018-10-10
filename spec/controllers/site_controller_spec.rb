@@ -6,11 +6,6 @@ describe SiteController, type: :controller do
     expect(response).to be_successful
   end
 
-  it "should get example" do
-    get :example
-    expect(response).to be_successful
-  end
-
   describe "get status" do
     before do
       get :status

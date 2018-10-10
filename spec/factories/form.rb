@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :form do
-    name { "Test form" }
+    name { "Open-ended Test form" }
+    kind { "open-ended" }
     notes { "Notes" }
   end
 end
