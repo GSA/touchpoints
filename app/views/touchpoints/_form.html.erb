@@ -90,13 +90,23 @@
 
   <div class="field">
     <%= form.label :notification_emails %>
-    <%= form.text_field :notification_emails %>
+    <%= form.text_field(:notification_emails, value: (touchpoint.notification_emails? ? touchpoint.notification_emails : current_user.email)) %>
   </div>
 
+  <% if touchpoint.persisted? %>
   <div class="field">
     <%= form.label :embed_code %>
     <%= form.text_area :embed_code %>
   </div>
+  <% else %>
+  <div class="usa-alert usa-alert-info" >
+    <div class="usa-alert-body">
+      <p class="usa-alert-text">
+        An Embed Code will be generated after creating a Touchpoint.
+      </p>
+    </div>
+  </div>
+  <% end %>
 
   <div class="actions">
     <%= form.submit %>
