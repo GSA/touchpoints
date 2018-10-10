@@ -34,7 +34,7 @@ eos
       Google::Apis::TagmanagerV2::AUTH_TAGMANAGER_MANAGE_USERS,
       Google::Apis::TagmanagerV2::AUTH_TAGMANAGER_EDIT_CONTAINERS,
       Google::Apis::TagmanagerV2::AUTH_TAGMANAGER_DELETE_CONTAINERS
-    ]
+    ].freeze
 
     authorizer = Google::Auth::ServiceAccountCredentials.make_creds({
       json_key_io: File.open('tmp/google_service_account.json'),
