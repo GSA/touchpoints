@@ -69,6 +69,6 @@ class FormsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def form_params
-      params.require(:form).permit(:name, :organization_id, :touchpoint_id, :notes, :status)
+      params.require(:form).permit(:name, :notes, :status)
     end
 end

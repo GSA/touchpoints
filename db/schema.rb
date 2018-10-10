@@ -17,8 +17,6 @@ ActiveRecord::Schema.define(version: 2018_10_04_214026) do
 
   create_table "forms", force: :cascade do |t|
     t.string "name"
-    t.integer "organization_id"
-    t.integer "touchpoint_id"
     t.text "notes"
     t.string "status"
     t.datetime "created_at", null: false
@@ -51,6 +49,7 @@ ActiveRecord::Schema.define(version: 2018_10_04_214026) do
     t.boolean "enable_google_sheets", default: false
     t.string "gtm_container_id"
     t.string "google_sheet_id"
+    t.integer "form_id"
     t.integer "organization_id", null: false
     t.text "purpose"
     t.integer "meaningful_response_size"

@@ -1,6 +1,7 @@
 class Touchpoint < ApplicationRecord
 
   belongs_to :organization
+  has_one :form
   has_many :submissions
 
   before_save :create_container_in_gtm
@@ -23,7 +24,7 @@ class Touchpoint < ApplicationRecord
   # Creates a GTM Container for this Touchpoint
   def create_container_in_gtm
     return if Rails.env.test?
-    
+
     @service = GoogleApi.new
     new_container = @service.create_account_container(name: "fba-#{Rails.env.downcase}-#{name.parameterize}")
     self.gtm_container_id = new_container.container_id

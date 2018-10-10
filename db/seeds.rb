@@ -36,14 +36,34 @@ webmaster = User.new({
 webmaster.skip_confirmation!
 webmaster.save!
 
+# Forms
+form_1 = Form.create({
+  name: "Open-ended",
+  organization_id: "",
+  notes: ""
+})
 
+form_2 = Form.create({
+  name: "Recruiter",
+  organization_id: "",
+  notes: ""
+})
+
+form_3 = Form.create({
+  name: "À11 - 7 Question Form",
+  organization_id: "",
+  notes: ""
+})
+
+# Touchpoints
 touchpoint_1 = Touchpoint.create({
   organization_id: org_1.id,
   name: "Mandatory 7 question test",
   purpose: "Working toward our CAP Goals and fulfilling the requirements of the 7 question test",
   meaningful_response_size: 100,
   behavior_change: "We will use the feedback to inform our Citizen Experience CAP Plan next year",
-  notification_emails: "ryan.wold@gsa.gov"
+  notification_emails: "ryan.wold@gsa.gov",
+  form_id: form_1.id
 })
 
 touchpoint_2 = Touchpoint.create({
@@ -53,7 +73,8 @@ touchpoint_2 = Touchpoint.create({
   meaningful_response_size: 30,
   behavior_change: "Looking for opportunities to improve",
   notification_emails: "ryan.wold@gsa.gov",
-  enable_google_sheets: false
+  enable_google_sheets: false,
+  form_id: form_1.id
 })
 
 touchpoint_3 = Touchpoint.create({
@@ -63,29 +84,8 @@ touchpoint_3 = Touchpoint.create({
   meaningful_response_size: 300,
   behavior_change: "End of year reporting",
   notification_emails: "ryan.wold@gsa.gov",
-  enable_google_sheets: true
-})
-
-
-Form.create({
-  name: "À11 - 7 Question Form",
-  organization_id: "",
-  touchpoint_id: touchpoint_1,
-  notes: ""
-})
-
-Form.create({
-  name: "Open-ended",
-  organization_id: "",
-  touchpoint_id: touchpoint_2,
-  notes: ""
-})
-
-Form.create({
-  name: "Recruiter",
-  organization_id: "",
-  touchpoint_id: touchpoint_3,
-  notes: ""
+  enable_google_sheets: true,
+  form_id: form_1.id
 })
 
 
