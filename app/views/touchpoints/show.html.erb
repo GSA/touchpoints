@@ -7,7 +7,10 @@
   <strong>Organization:</strong>
   <%= link_to(@touchpoint.organization.name, admin_organization_path(@touchpoint.organization)) %>
 </p>
-
+<p>
+  <strong>Form:</strong>
+  <%= link_to(@touchpoint.form.name, touchpoint_form_path(@touchpoint, @touchpoint.form)) %>
+</p>
 <p>
   <strong>GTM Container ID:</strong>
   <%= link_to(@touchpoint.gtm_container_id, @touchpoint.gtm_container_url, target: "_blank") %>
@@ -22,6 +25,7 @@
   <strong>Purpose:</strong>
   <%= @touchpoint.purpose %>
 </p>
+
 
 <p>
   <strong>Meaningful response size:</strong>

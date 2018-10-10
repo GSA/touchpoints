@@ -6,13 +6,8 @@
 </p>
 
 <p>
-  <strong>Organization:</strong>
-  <%= @form.organization_id %>
-</p>
-
-<p>
-  <strong>Touchpoint:</strong>
-  <%= @form.touchpoint_id %>
+  <strong>Kind:</strong>
+  <%= @form.kind %>
 </p>
 
 <p>
@@ -23,6 +18,11 @@
 <p>
   <strong>Status:</strong>
   <%= @form.status %>
+</p>
+
+<p>
+  <strong>Form:</strong>
+  <%= render "components/forms/#{@form.kind}", touchpoint: @touchpoint  %>
 </p>
 
 <%= link_to 'Edit', edit_form_path(@form) %> |

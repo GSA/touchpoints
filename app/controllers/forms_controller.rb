@@ -64,6 +64,7 @@ class FormsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_form
+      @touchpoint = Touchpoint.find(params[:touchpoint_id])
       @form = Form.find(params[:id])
     end
 

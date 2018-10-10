@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2018_10_04_214026) do
 
   create_table "forms", force: :cascade do |t|
     t.string "name"
+    t.string "kind"
     t.text "notes"
     t.string "status"
     t.datetime "created_at", null: false
