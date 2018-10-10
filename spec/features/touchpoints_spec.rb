@@ -5,12 +5,17 @@ feature "Touchpoints", js: true do
     describe "#index" do
       let(:user) { FactoryBot.create(:user) }
       let!(:organization) { FactoryBot.create(:organization) }
+      let!(:form) { FactoryBot.create(:form) }
 
       before "user completes Sign Up form" do
         login_as user
         visit new_touchpoint_path
         fill_in("touchpoint[name]", with: "Test Touchpoint")
         select(organization.name, from: "touchpoint[organization_id]")
+
+        # FIXME
+        # this is non-conventional, because USWDS hides inputs and uses CSS :before
+        first("label[for=touchpoint_form_id_1]").click
         fill_in("touchpoint[purpose]", with: "Compliance")
         fill_in("touchpoint[meaningful_response_size]", with: 50)
         fill_in("touchpoint[behavior_change]", with: "to be determined")

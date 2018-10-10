@@ -39,19 +39,16 @@ webmaster.save!
 # Forms
 form_1 = Form.create({
   name: "Open-ended",
-  organization_id: "",
   notes: ""
 })
 
 form_2 = Form.create({
   name: "Recruiter",
-  organization_id: "",
   notes: ""
 })
 
 form_3 = Form.create({
   name: "À11 - 7 Question Form",
-  organization_id: "",
   notes: ""
 })
 

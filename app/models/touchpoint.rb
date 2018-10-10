@@ -1,7 +1,7 @@
 class Touchpoint < ApplicationRecord
 
   belongs_to :organization
-  has_one :form
+  belongs_to :form
   has_many :submissions
 
   before_save :create_container_in_gtm

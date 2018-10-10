@@ -71,6 +71,7 @@ class TouchpointsController < ApplicationController
       params.require(:touchpoint).permit(
         :name,
         :organization_id,
+        :form_id,
         :purpose,
         :meaningful_response_size,
         :behavior_change,
