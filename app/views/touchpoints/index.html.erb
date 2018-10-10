@@ -20,6 +20,7 @@
         <td><%= touchpoint.purpose %></td>
         <td><%= touchpoint.start_date %></td>
         <td><%= touchpoint.end_date %></td>
+        <td><%= link_to(touchpoint.form.name, touchpoint_form_path(touchpoint, touchpoint.form)) %></td>
         <td><%= touchpoint.enable_google_sheets? ? "Google Sheets" : "Database" %></td>
         <td><%= link_to "View", touchpoint_submissions_path(touchpoint) %></td>
         <td><%= link_to 'Edit', edit_touchpoint_path(touchpoint) %></td>

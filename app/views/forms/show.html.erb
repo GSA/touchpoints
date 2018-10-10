@@ -20,10 +20,10 @@
   <%= @form.status %>
 </p>
 
-<p>
+<div style="background-color: #E5FFE5; padding: 1em;">
   <strong>Form:</strong>
   <%= render "components/forms/#{@form.kind}", touchpoint: @touchpoint  %>
-</p>
+</div>
 
 <%= link_to 'Edit', edit_form_path(@form) %> |
 <%= link_to 'Back', forms_path %>
