@@ -35,6 +35,7 @@ RSpec.describe SubmissionsController, type: :controller do
     {
       touchpoint_id: touchpoint.id,
       organization_id: touchpoint.organization.id,
+      body: "body text",
       first_name: "James",
       last_name: "Madison",
       email: "james.madison@lvh.me"
@@ -43,6 +44,7 @@ RSpec.describe SubmissionsController, type: :controller do
 
   let(:invalid_attributes) {
     {
+      body: nil,
       first_name: nil,
       last_name: nil,
       email: nil
@@ -109,7 +111,7 @@ RSpec.describe SubmissionsController, type: :controller do
       it "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: { submission: invalid_attributes, touchpoint_id: touchpoint.id }, session: valid_session, format: :json
         expect(response.status).to eq(422)
-        expect(JSON.parse(response.body)).to eq({ "first_name" => ["can't be blank"] })
+        expect(JSON.parse(response.body)).to eq({ "body" => ["can't be blank"] })
       end
     end
   end
@@ -144,7 +146,7 @@ RSpec.describe SubmissionsController, type: :controller do
 
       it "returns a success response (i.e. to display the 'edit' template)" do
         submission = Submission.create! valid_attributes
-        put :update, params: {id: submission.to_param, submission: invalid_attributes, touchpoint_id: touchpoint.id }, session: valid_session
+        put :update, params: { id: submission.to_param, submission: invalid_attributes, touchpoint_id: touchpoint.id }, session: valid_session
         expect(response).to be_successful
       end
     end

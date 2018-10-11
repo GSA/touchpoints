@@ -123,12 +123,23 @@ N.fba = {
 	    var url = form.action;
 	    var xhr = new XMLHttpRequest();
 
-			var params = {
-				first_name: form.querySelector("#fba-text-name").value,
-				last_name: "",
-				phone_number: form.querySelector("#fba-text-phone").value,
-				email: form.querySelector("#fba-text-email").value,
-				authenticity_token: form.querySelector("#authenticity_token").value,
+			// TODO: Refactor params to be based on the Touchpoint's Form.kind
+			//       likely generated server-side
+			if(form.querySelector("#fba-text-body")) {
+				var params = {
+					body: form.querySelector("#fba-text-body").value,
+					authenticity_token: form.querySelector("#authenticity_token").value,
+				}
+			}
+
+			if(form.querySelector("#fba-text-name")) {
+				var params = {
+					first_name: form.querySelector("#fba-text-name").value,
+					last_name: "",
+					phone_number: form.querySelector("#fba-text-phone").value,
+					email: form.querySelector("#fba-text-email").value,
+					authenticity_token: form.querySelector("#authenticity_token").value,
+				}
 			}
 
 			xhr.open("POST", url);
