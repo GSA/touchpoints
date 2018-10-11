@@ -22,7 +22,6 @@ class SubmissionsController < ApplicationController
   def create
     @submission = Submission.new(submission_params)
     @submission.touchpoint_id = @touchpoint.id
-    @submission.organization_id = @touchpoint.organization_id
 
     @touchpoint.enable_google_sheets ?
       create_in_google_sheets(@submission) :
@@ -107,6 +106,14 @@ class SubmissionsController < ApplicationController
     end
 
     def submission_params
-      params.require(:submission).permit(:first_name, :last_name, :phone_number, :email, :body, :user_id, :organization_id, :touchpoint_id)
+      params.require(:submission).permit(
+        :first_name,
+        :last_name,
+        :phone_number,
+        :email,
+        :body,
+        :user_id,
+        :touchpoint_id
+      )
     end
 end

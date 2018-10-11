@@ -34,7 +34,6 @@ RSpec.describe SubmissionsController, type: :controller do
   let(:valid_attributes) {
     {
       touchpoint_id: touchpoint.id,
-      organization_id: touchpoint.organization.id,
       body: "body text",
       first_name: "James",
       last_name: "Madison",

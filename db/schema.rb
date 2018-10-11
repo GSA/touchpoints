@@ -39,7 +39,6 @@ ActiveRecord::Schema.define(version: 2018_10_04_214026) do
     t.string "email"
     t.text "body"
     t.integer "user_id"
-    t.integer "organization_id", null: false
     t.integer "touchpoint_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
