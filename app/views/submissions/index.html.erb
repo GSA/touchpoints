@@ -11,6 +11,7 @@
       <th>Last name</th>
       <th>Phone number</th>
       <th>Email</th>
+      <th>Body</th>
       <th style="border: none; background: none;"></th>
     </tr>
   </thead>
@@ -22,6 +23,7 @@
         <td><%= submission.last_name %></td>
         <td><%= submission.phone_number %></td>
         <td><%= submission.email %></td>
+        <td><%= submission.body %></td>
         <td style="border: none;"><%= link_to 'View', submission, class: "usa-button" %></td>
       </tr>
     <% end %>
