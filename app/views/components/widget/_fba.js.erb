@@ -134,13 +134,13 @@ N.fba = {
 
 			if(form.getAttribute("data-kind") === "a11") {
 				var params = {
-					overall_satisfaction: form.querySelector("input[name=overall_satisfaction]").value,
-					service_confidence: form.querySelector("input[name=service_confidence]").value,
-					service_effectiveness: form.querySelector("input[name=service_effectiveness]").value,
-					process_ease: form.querySelector("input[name=process_ease]").value,
-					process_efficiency: form.querySelector("input[name=process_efficiency]").value,
-					process_transparency: form.querySelector("input[name=process_transparency]").value,
-					people_employees: form.querySelector("input[name=people_employees]").value
+					overall_satisfaction: form.querySelector("input[name=overall_satisfaction]:checked").value,
+					service_confidence: form.querySelector("input[name=service_confidence]:checked").value,
+					service_effectiveness: form.querySelector("input[name=service_effectiveness]:checked").value,
+					process_ease: form.querySelector("input[name=process_ease]:checked").value,
+					process_efficiency: form.querySelector("input[name=process_efficiency]:checked").value,
+					process_transparency: form.querySelector("input[name=process_transparency]:checked").value,
+					people_employees: form.querySelector("input[name=people_employees]:checked").value
 				}
 			}
 
