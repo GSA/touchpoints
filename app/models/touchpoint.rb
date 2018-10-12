@@ -50,11 +50,30 @@ class Touchpoint < ApplicationRecord
   end
 
   def push_title_row
+    if self.form.kind == "recruiter"
     push_row(values: [
       "First Name",
       "Last Name",
       "email"
       ])
+    elsif self.form.kind == "open-ended"
+      push_row(values: [
+        "Body"
+      ])
+    elsif self.form.kind == "a11"
+      push_row(values: [
+        "Overall satisfaction",
+        "Service confidence",
+        "Service effectiveness",
+        "Process ease",
+        "Process efficiency",
+        "Process transparency",
+        "People employees",
+        "Touchpoint ID"
+      ])
+    else
+      raise InvalidArgument("#{@touchpoint.name} has a Form with an unsupported Kind")
+    end
   end
 
   def push_row(values: [])

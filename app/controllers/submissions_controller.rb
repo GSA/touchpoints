@@ -88,11 +88,34 @@ class SubmissionsController < ApplicationController
       spreadsheet_id = submission.touchpoint.google_sheet_id
       range = 'A1'
       request_body = Google::Apis::SheetsV4::ValueRange.new
-      values = [
-        params[:submission][:first_name],
-        params[:submission][:last_name],
-        params[:submission][:email]
-      ]
+
+      form = submission.touchpoint.form
+      raise InvalidArgument("Could not find Submission's Touchpoint's Form") unless form
+
+      if form.kind == "recruiter"
+        values = [
+          params[:submission][:first_name],
+          params[:submission][:last_name],
+          params[:submission][:email]
+        ]
+      end
+      if form.kind == "open-ended"
+        values = [
+          params[:submission][:body]
+        ]
+      end
+      if form.kind == "a11"
+        values = [
+          params[:submission][:overall_satisfaction],
+          params[:submission][:service_confidence],
+          params[:submission][:service_effectiveness],
+          params[:submission][:process_ease],
+          params[:submission][:process_efficiency],
+          params[:submission][:process_transparency],
+          params[:submission][:people_employees],
+          params[:submission][:touchpoint_id]
+        ]
+      end
       response = google_service.add_row(spreadsheet_id: spreadsheet_id, values: values)
 
       render json: { status: :success, message: "Google Sheet created" }
