@@ -1,22 +1,25 @@
 class Submission < ApplicationRecord
   belongs_to :touchpoint
 
-  validates :first_name, presence: true, if: :validate_first_name?
-  validates :body, presence: true, if: :validate_body?
-  validates :overall_satisfaction, presence: true, if: :validate_overall_satisfaction?
+  validates :first_name, presence: true, if: :form_kind_is_recruiter?
+  validates :email, presence: true, if: :form_kind_is_recruiter?
+
+  validates :body, presence: true, if: :form_kind_is_open_ended?
+  
+  validates :overall_satisfaction, presence: true, if: :form_kind_is_a11?
 
   # NOTE: this is brittle.
   #       this pattern will require every field to declare its validations
   #       Rethink.
-  def validate_first_name?
+  def form_kind_is_recruiter?
     self.touchpoint.form.kind == "recruiter"
   end
 
-  def validate_body?
+  def form_kind_is_open_ended?
     self.touchpoint.form.kind == "open-ended"
   end
 
-  def validate_overall_satisfaction?
+  def form_kind_is_a11?
     self.touchpoint.form.kind == "a11"
   end
 end
