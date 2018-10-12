@@ -33,13 +33,20 @@ ActiveRecord::Schema.define(version: 2018_10_04_214026) do
   end
 
   create_table "submissions", force: :cascade do |t|
+    t.integer "touchpoint_id", null: false
     t.string "first_name"
     t.string "last_name"
     t.string "phone_number"
     t.string "email"
     t.text "body"
     t.integer "user_id"
-    t.integer "touchpoint_id", null: false
+    t.integer "overall_satisfaction"
+    t.integer "service_confidence"
+    t.integer "service_effectiveness"
+    t.integer "process_ease"
+    t.integer "process_efficiency"
+    t.integer "process_transparency"
+    t.integer "people_employees"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

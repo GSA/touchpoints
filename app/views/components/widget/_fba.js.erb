@@ -87,7 +87,7 @@ N.fba = {
 		},
 		sendFeedback: function()
 		{
-			var form = document.getElementById("recruiter-form");
+			var form = document.getElementById("touchpoints-form");
 			this.ajaxPost(form, this.formSuccess);
 		},
 		formSuccess: function(e)
@@ -125,14 +125,26 @@ N.fba = {
 
 			// TODO: Refactor params to be based on the Touchpoint's Form.kind
 			//       likely generated server-side
-			if(form.querySelector("#fba-text-body")) {
+			if(form.getAttribute("data-kind") === "open-ended") {
 				var params = {
 					body: form.querySelector("#fba-text-body").value,
 					authenticity_token: form.querySelector("#authenticity_token").value,
 				}
 			}
 
-			if(form.querySelector("#fba-text-name")) {
+			if(form.getAttribute("data-kind") === "a11") {
+				var params = {
+					overall_satisfaction: form.querySelector("input[name=overall_satisfaction]").value,
+					service_confidence: form.querySelector("input[name=service_confidence]").value,
+					service_effectiveness: form.querySelector("input[name=service_effectiveness]").value,
+					process_ease: form.querySelector("input[name=process_ease]").value,
+					process_efficiency: form.querySelector("input[name=process_efficiency]").value,
+					process_transparency: form.querySelector("input[name=process_transparency]").value,
+					people_employees: form.querySelector("input[name=people_employees]").value
+				}
+			}
+
+			if(form.getAttribute("data-kind") === "recruiter") {
 				var params = {
 					first_name: form.querySelector("#fba-text-name").value,
 					last_name: "",
@@ -147,7 +159,10 @@ N.fba = {
 
 			xhr.responseType = 'json';
 	    xhr.onload = callback.bind(xhr);
-	    xhr.send(JSON.stringify(params));
+	    xhr.send(JSON.stringify({
+				"submission": params,
+				authenticity_token: form.querySelector("#authenticity_token").value,
+			}));
 		}
 	};
 }( document, window ));

@@ -78,11 +78,21 @@ touchpoint_2 = Touchpoint.create({
   enable_google_sheets: false
 })
 
-
 touchpoint_3 = Touchpoint.create({
   organization_id: org_2.id,
   form_id: form_3.id,
-  name: "A11 - 7 question test",
+  name: "A11 - 7 question test - DB",
+  purpose: "CX",
+  meaningful_response_size: 100,
+  behavior_change: "Better customer service",
+  notification_emails: "ryan.wold@gsa.gov",
+  enable_google_sheets: false
+})
+
+touchpoint_4 = Touchpoint.create({
+  organization_id: org_2.id,
+  form_id: form_3.id,
+  name: "A11 - 7 question test - Sheets",
   purpose: "Compliance",
   meaningful_response_size: 300,
   behavior_change: "End of year reporting",

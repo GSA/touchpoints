@@ -1,17 +1,162 @@
-<form id="recruiter-form" action="/touchpoints/<%= touchpoint.id %>/submissions.json" method="POST">
+<form id="touchpoints-form" action="/touchpoints/<%= touchpoint.id %>/submissions.json" method="POST" data-kind="a11">
   <div id="fba-alert">
     alert message
   </div>
   <fieldset>
-    <label for="fba-text-name">First name</label>
-    <input id="fba-text-name" name="fba-text-name" class="full-name" type="text" maxlength="500">
-    <label for="fba-text-email">Email address</label>
-    <input id="fba-text-email" name="fba-text-email" class="email-address" type="email" maxlength="500">
-    <label for="fba-text-phone">Phone number</label>
-    <input id="fba-text-phone" name="fba-text-phone" class="phone-number" type="tel" maxlength="500">
+    <table>
+      <tr>
+        <td></td>
+        <td>Strongly Disagree</td>
+        <td>Disagree</td>
+        <td>Neutral</td>
+        <td>Agree</td>
+        <td>Strongly Agree</td>
+      </tr>
+      <tr>
+        <td>
+          I am satisfied with the service I received from [Program/Service name]
+        </td>
+        <td>
+          <input type="radio" name="overall_satisfaction" value="1" />
+        </td>
+        <td>
+          <input type="radio" name="overall_satisfaction" value="2" />
+        </td>
+        <td>
+          <input type="radio" name="overall_satisfaction" value="3" />
+        </td>
+        <td>
+          <input type="radio" name="overall_satisfaction" value="4" />
+        </td>
+        <td>
+          <input type="radio" name="overall_satisfaction" value="5" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          This interaction increased my confidence in [Program/Service name].
+        </td>
+        <td>
+          <input type="radio" name="service_confidence" value="1" />
+        </td>
+        <td>
+          <input type="radio" name="service_confidence" value="2" />
+        </td>
+        <td>
+          <input type="radio" name="service_confidence" value="3" />
+        </td>
+        <td>
+          <input type="radio" name="service_confidence" value="4" />
+        </td>
+        <td>
+          <input type="radio" name="service_confidence" value="5" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          My need was addressed.
+        </td>
+        <td>
+          <input type="radio" name="service_effectiveness" value="1" />
+        </td>
+        <td>
+          <input type="radio" name="service_effectiveness" value="2" />
+        </td>
+        <td>
+          <input type="radio" name="service_effectiveness" value="3" />
+        </td>
+        <td>
+          <input type="radio" name="service_effectiveness" value="4" />
+        </td>
+        <td>
+          <input type="radio" name="service_effectiveness" value="5" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          It was easy to complete what I needed to do.
+        </td>
+        <td>
+          <input type="radio" name="process_ease" value="1" />
+        </td>
+        <td>
+          <input type="radio" name="process_ease" value="2" />
+        </td>
+        <td>
+          <input type="radio" name="process_ease" value="3" />
+        </td>
+        <td>
+          <input type="radio" name="process_ease" value="4" />
+        </td>
+        <td>
+          <input type="radio" name="process_ease" value="5" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          It took a reasonable amount of time to do what I needed
+          to do
+        </td>
+        <td>
+          <input type="radio" name="process_efficiency" value="1" />
+        </td>
+        <td>
+          <input type="radio" name="process_efficiency" value="2" />
+        </td>
+        <td>
+          <input type="radio" name="process_efficiency" value="3" />
+        </td>
+        <td>
+          <input type="radio" name="process_efficiency" value="4" />
+        </td>
+        <td>
+          <input type="radio" name="process_efficiency" value="5" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+           I was treated fairly.
+        </td>
+        <td>
+          <input type="radio" name="process_transparency" value="1" />
+        </td>
+        <td>
+          <input type="radio" name="process_transparency" value="2" />
+        </td>
+        <td>
+          <input type="radio" name="process_transparency" value="3" />
+        </td>
+        <td>
+          <input type="radio" name="process_transparency" value="4" />
+        </td>
+        <td>
+          <input type="radio" name="process_transparency" value="5" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+           Employees I interacted with were helpful.
+        </td>
+        <td>
+          <input type="radio" name="people_employees" value="1" />
+        </td>
+        <td>
+          <input type="radio" name="people_employees" value="2" />
+        </td>
+        <td>
+          <input type="radio" name="people_employees" value="3" />
+        </td>
+        <td>
+          <input type="radio" name="people_employees" value="4" />
+        </td>
+        <td>
+          <input type="radio" name="people_employees" value="5" />
+        </td>
+      </tr>
+    </table>
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <div class="button-wrapper">
-      <button type="submit" id="fba-submit" class="usa-button-primary-alt" href="#">Send</button>
+      <button type="submit" id="fba-submit" class="usa-button-primary-alt" href="#">Submit</button>
     </div>
   </fieldset>
 </form>
