@@ -9,11 +9,11 @@ class SubmissionsController < ApplicationController
     @submissions = @touchpoint.submissions.includes(:organization)
   end
 
-  def show
-  end
-
   def new
     @submission = Submission.new
+  end
+
+  def show
   end
 
   def edit
@@ -26,53 +26,6 @@ class SubmissionsController < ApplicationController
     @touchpoint.enable_google_sheets ?
       create_in_google_sheets(@submission) :
       create_in_local_database(@submission)
-  end
-
-  def create_in_local_database(submission)
-    respond_to do |format|
-      if submission.save
-        format.html {
-          redirect_to touchpoint_submission_path(submission.touchpoint, submission), notice: 'Submission was successfully created.' }
-        format.json {
-          render json: {
-            submission: {
-              id: submission.id,
-              first_name: submission.first_name,
-              last_name: submission.last_name,
-              email: submission.email,
-              phone_number: submission.phone_number,
-              touchpoint: {
-                id: submission.touchpoint.id,
-                name: submission.touchpoint.name,
-                organization_name: submission.touchpoint.organization.name
-              }
-            },
-            status: :created
-          }
-        }
-      else
-        format.html {
-        }
-        format.json {
-          render json: submission.errors, status: :unprocessable_entity
-        }
-      end
-    end
-  end
-
-  def create_in_google_sheets(submission)
-    google_service = GoogleSheetsApi.new
-    spreadsheet_id = submission.touchpoint.google_sheet_id
-    range = 'A1'
-    request_body = Google::Apis::SheetsV4::ValueRange.new
-    values = [
-      params[:submission][:first_name],
-      params[:submission][:last_name],
-      params[:submission][:email]
-    ]
-    response = google_service.add_row(spreadsheet_id: spreadsheet_id, values: values)
-
-    render json: { status: :success, message: "Google Sheet created" }
   end
 
   def update
@@ -95,7 +48,56 @@ class SubmissionsController < ApplicationController
     end
   end
 
+
   private
+
+    def create_in_local_database(submission)
+      respond_to do |format|
+        if submission.save
+          format.html {
+            redirect_to touchpoint_submission_path(submission.touchpoint, submission), notice: 'Submission was successfully created.' }
+          format.json {
+            render json: {
+              submission: {
+                id: submission.id,
+                first_name: submission.first_name,
+                last_name: submission.last_name,
+                email: submission.email,
+                phone_number: submission.phone_number,
+                touchpoint: {
+                  id: submission.touchpoint.id,
+                  name: submission.touchpoint.name,
+                  organization_name: submission.touchpoint.organization.name
+                }
+              },
+              status: :created
+            }
+          }
+        else
+          format.html {
+          }
+          format.json {
+            render json: submission.errors, status: :unprocessable_entity
+          }
+        end
+      end
+    end
+
+    def create_in_google_sheets(submission)
+      google_service = GoogleSheetsApi.new
+      spreadsheet_id = submission.touchpoint.google_sheet_id
+      range = 'A1'
+      request_body = Google::Apis::SheetsV4::ValueRange.new
+      values = [
+        params[:submission][:first_name],
+        params[:submission][:last_name],
+        params[:submission][:email]
+      ]
+      response = google_service.add_row(spreadsheet_id: spreadsheet_id, values: values)
+
+      render json: { status: :success, message: "Google Sheet created" }
+    end
+
     def set_touchpoint
       @touchpoint = Touchpoint.find(params[:touchpoint_id])
       raise InvalidArgument("Touchpoint does not exist") unless @touchpoint
@@ -106,14 +108,33 @@ class SubmissionsController < ApplicationController
     end
 
     def submission_params
-      params.require(:submission).permit(
-        :first_name,
-        :last_name,
-        :phone_number,
-        :email,
-        :body,
-        :user_id,
-        :touchpoint_id
-      )
+      if @touchpoint.form.kind == "recruiter"
+        params.require(:submission).permit(
+          :first_name,
+          :last_name,
+          :phone_number,
+          :email,
+          :user_id,
+          :touchpoint_id
+        )
+      elsif @touchpoint.form.kind == "open-ended"
+        params.require(:submission).permit(
+          :body,
+          :touchpoint_id
+        )
+      elsif @touchpoint.form.kind == "a11"
+        params.require(:submission).permit(
+          :overall_satisfaction,
+          :service_confidence,
+          :service_effectiveness,
+          :process_ease,
+          :process_efficiency,
+          :process_transparency,
+          :people_employees,
+          :touchpoint_id
+        )
+      else
+        raise InvalidArgument("#{@touchpoint.name} has a Form with an unsupported Kind")
+      end
     end
 end
