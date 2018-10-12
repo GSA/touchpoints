@@ -7,10 +7,12 @@
   background-color: rgba(0, 0, 0, .25);
   transition: background-color .25s;
   z-index: 1000;
+  overflow: none;
 }
 
 #fba-modal {
   z-index: 1001;
+  height: 100%;
   position: fixed;
   top: 0;
   left: 0;
@@ -64,24 +66,34 @@
   width: auto;
 }
 
-#recruiter-form fieldset {
+#touchpoints-form fieldset {
   margin: 1rem 0;
 }
 
-#recruiter-form p {
+#touchpoints-form p {
   margin: 1rem 0;
 }
 
-#recruiter-form label {
+#touchpoints-form label {
   display: block;
   margin: 0;
 }
 
-#recruiter-form input {
+#touchpoints-form input {
   margin-bottom: 1.5rem;
   width: 75%;
 }
 
-#recruiter-form #fba-submit {
+#touchpoints-form #fba-submit {
   width: auto;
+}
+
+#fba-modal input[type=radio] {
+  -webkit-appearance: radio;
+  margin: 0 auto;
+  height: auto;
+  width: auto;
+  opacity: 1.0;
+  position: relative;
+  margin-left: auto;
 }
