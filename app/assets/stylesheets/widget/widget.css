@@ -23,6 +23,9 @@
 
 #fba-modal-dialog {
   max-width: 500px;
+  /* OR */
+  max-width: 690px;
+
   background: #fff;
   padding: 20px;
   position: relative;
