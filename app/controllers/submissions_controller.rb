@@ -112,8 +112,7 @@ class SubmissionsController < ApplicationController
           params[:submission][:process_ease],
           params[:submission][:process_efficiency],
           params[:submission][:process_transparency],
-          params[:submission][:people_employees],
-          params[:submission][:touchpoint_id]
+          params[:submission][:people_employees]
         ]
       end
       response = google_service.add_row(spreadsheet_id: spreadsheet_id, values: values)
@@ -137,13 +136,11 @@ class SubmissionsController < ApplicationController
           :last_name,
           :phone_number,
           :email,
-          :user_id,
-          :touchpoint_id
+          :user_id
         )
       elsif @touchpoint.form.kind == "open-ended"
         params.require(:submission).permit(
-          :body,
-          :touchpoint_id
+          :body
         )
       elsif @touchpoint.form.kind == "a11"
         params.require(:submission).permit(
@@ -153,8 +150,7 @@ class SubmissionsController < ApplicationController
           :process_ease,
           :process_efficiency,
           :process_transparency,
-          :people_employees,
-          :touchpoint_id
+          :people_employees
         )
       else
         raise InvalidArgument("#{@touchpoint.name} has a Form with an unsupported Kind")
