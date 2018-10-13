@@ -68,8 +68,7 @@ class Touchpoint < ApplicationRecord
         "Process ease",
         "Process efficiency",
         "Process transparency",
-        "People employees",
-        "Touchpoint ID"
+        "People employees"
       ])
     else
       raise InvalidArgument("#{@touchpoint.name} has a Form with an unsupported Kind")
