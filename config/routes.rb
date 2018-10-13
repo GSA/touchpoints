@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :submissions, except: [:new, :index, :create]
   resources :touchpoints do
     member do
+      get "js", to: "touchpoints#js", as: :js
       get "example", to: "touchpoints#example", as: :example
     end
     resources :forms

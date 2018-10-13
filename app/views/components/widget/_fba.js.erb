@@ -2,7 +2,7 @@
 
 (function ( d, N ) { 'use strict';
 N.fba = {
-	css: '<%= escape_javascript File.open("app/assets/stylesheets/widget/widget.css").read %>',
+	css: '<%= escape_javascript(render partial: "components/widget/widget.css", touchpoint: @touchpoint) %>',
 
 	init: function( options )
 	{

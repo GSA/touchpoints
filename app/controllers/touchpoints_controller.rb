@@ -1,6 +1,7 @@
 class TouchpointsController < ApplicationController
   before_action :ensure_user
-  before_action :set_touchpoint, only: [:show, :edit, :update, :destroy, :example]
+  skip_before_action :verify_authenticity_token, only: [:js]
+  before_action :set_touchpoint, only: [:show, :edit, :update, :destroy, :example, :js]
 
   def index
     @touchpoints = Touchpoint.all
@@ -52,6 +53,10 @@ class TouchpointsController < ApplicationController
 
   def example
     render layout: false
+  end
+
+  def js
+    render partial: "components/widget/fba.js", touchpoint: @touchpoint
   end
 
   private

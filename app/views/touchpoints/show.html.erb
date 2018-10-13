@@ -60,4 +60,14 @@
 <hr>
 
 <% @submissions = @touchpoint.submissions %>
-<%= render file: "submissions/index" %>
+<% if @touchpoint.enable_google_sheets? %>
+  <h1>
+    Submissions
+    for
+    <%= @touchpoint.name %>
+  </h1>
+  See the Google Sheet
+  <%= @touchpoint.enable_google_sheets? ? link_to(@touchpoint.google_sheet_id, "https://docs.google.com/spreadsheets/d/#{@touchpoint.google_sheet_id}/edit#gid=0", target: "_blank") : 'N/A' %>
+<% else %>
+  <%= render file: "submissions/index" %>
+<% end %>
