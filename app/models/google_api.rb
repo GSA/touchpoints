@@ -90,4 +90,18 @@ eos
     # Post it to GTM's API
     @service.create_account_container("accounts/#{@account_id}", new_container)
   end
+
+  def create_custom_tag_in_container(path:, name: nil, body: nil )
+    new_tag = Google::Apis::TagmanagerV2::Tag.new
+    new_tag.name = name || "Custom Tag"
+    new_tag.type = "html"
+    new_tag.parameter = [{
+      "key": "html",
+      "type": "template",
+      "value": (body || "Hello World")
+    }]
+
+    # Create Tag via GTM's API
+    @service.create_account_container_workspace_tag(path, new_tag)
+  end
 end
