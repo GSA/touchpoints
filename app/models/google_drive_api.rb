@@ -31,7 +31,7 @@ class GoogleDriveApi
         # Handle error...
         puts err.body
       else
-        puts "Permission ID: #{res.id}"
+        puts "Adding Permission ID #{res.id} to Google Drive File ID #{file_id}"
       end
     end
 
@@ -44,6 +44,16 @@ class GoogleDriveApi
                               user_permission,
                               fields: 'id',
                               &callback)
+
+    user_permission = {
+      type: 'user',
+      role: 'writer',
+      email_address: 'ryan.wold@gsa.gov'
+    }
+    @service.create_permission(file_id,
+      user_permission,
+      fields: 'id',
+      &callback)
 
     user_permission = {
       type: 'user',
