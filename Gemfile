@@ -5,6 +5,7 @@ ruby '2.4.4'
 
 gem 'devise'
 gem 'google-api-client'
+gem 'newrelic_rpm'
 gem 'rails', '~> 5.2.1'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
