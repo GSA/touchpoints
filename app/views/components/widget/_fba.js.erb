@@ -2,14 +2,18 @@
 
 (function ( d, N ) { 'use strict';
 N.fba = {
-	css: '<%= escape_javascript(render partial: "components/widget/widget.css", touchpoint: @touchpoint) %>',
+	css: '<%= escape_javascript(render partial: "components/widget/widget.css", locals: { touchpoint: touchpoint }) %>',
 
 	init: function( options )
 	{
 		this.options = options;
 		this.loadCss();
 		this.loadHtml();
+		<% if current_page?(new_touchpoint_submission_path) %>
+		this.loadPage();
+		<% else %>
 		this.loadButton();
+		<% end %>
 		this.bindEventListeners();
 		this.dialogOpen = false;
 	},
@@ -29,7 +33,8 @@ N.fba = {
 		{
 			d.head.innerHTML += '<style>' + this.css + '</style>';
 		},
-		loadHtml: function()		{
+		loadHtml: function()
+		{
 			this.buttonEl = document.createElement('a');
 			this.buttonEl.setAttribute('id', 'fba-button');
 			this.buttonEl.setAttribute('href', '#');
@@ -43,7 +48,7 @@ N.fba = {
 			this.dialogEl.setAttribute('role', 'dialog');
 
 			// Here lies our form interface
-			this.dialogEl.innerHTML = '<%= escape_javascript render(partial: "components/widget/modal") %>';
+			this.dialogEl.innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { touchpoint: touchpoint }) %>";
 		},
 		handleClick: function(e) {
 			if (N.fba.dialogOpen && !e.target.closest('#fba-button') && !e.target.closest('#fba-modal-dialog')) {
@@ -67,6 +72,11 @@ N.fba = {
 			d.body.appendChild(this.buttonEl);
 			d.getElementById('fba-button').addEventListener( 'click', this.handleButtonClick, false );
 		},
+		// Used when not in a modal
+		loadPage: function() {
+			d.getElementById('fba-submit').addEventListener( 'click', this.handleSubmitClick, false );
+		},
+		// Used when in a modal
 		loadDialog: function()
 		{
 			d.getElementById('fba-button').removeEventListener('click', this.handleButtonClick, false );
@@ -127,8 +137,7 @@ N.fba = {
 			//       likely generated server-side
 			if(form.getAttribute("data-kind") === "open-ended") {
 				var params = {
-					body: form.querySelector("#fba-text-body").value,
-					authenticity_token: form.querySelector("#authenticity_token").value,
+					body: form.querySelector("#fba-text-body").value
 				}
 			}
 
@@ -149,19 +158,15 @@ N.fba = {
 					first_name: form.querySelector("#fba-text-name").value,
 					last_name: "",
 					phone_number: form.querySelector("#fba-text-phone").value,
-					email: form.querySelector("#fba-text-email").value,
-					authenticity_token: form.querySelector("#authenticity_token").value,
+					email: form.querySelector("#fba-text-email").value
 				}
 			}
-
-			xhr.open("POST", url);
+			xhr.open("POST", url + "?callback=doThangs");
 			xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8;");
-
-			xhr.responseType = 'json';
+			xhr.responseType = 'jsonp';
 	    xhr.onload = callback.bind(xhr);
 	    xhr.send(JSON.stringify({
-				"submission": params,
-				authenticity_token: form.querySelector("#authenticity_token").value,
+				"submission": params
 			}));
 		}
 	};
