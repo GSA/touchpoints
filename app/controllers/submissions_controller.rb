@@ -1,8 +1,8 @@
 class SubmissionsController < ApplicationController
+  protect_from_forgery only: [:create]
   before_action :ensure_admin, only: [:index, :new, :show, :update, :destroy]
   before_action :set_touchpoint, only: [:index, :new, :create, :show, :edit, :update, :destroy]
   before_action :set_submission, only: [:show, :edit, :update, :destroy]
-
 
   def index
     # @submissions = Submission.all.includes(:organization)
@@ -20,6 +20,11 @@ class SubmissionsController < ApplicationController
   end
 
   def create
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
+    headers['Access-Control-Request-Method'] = '*'
+    headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+
     @submission = Submission.new(submission_params)
     @submission.touchpoint_id = @touchpoint.id
 
