@@ -12,6 +12,8 @@ class Touchpoint < ApplicationRecord
   validates :name, presence: true
 
   def config_gtm_container!
+    return if Rails.env.test?
+    
     service = GoogleApi.new
 
     # Lookup Workspaces
