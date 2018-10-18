@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>Recruiter Demo</title>
+    <!-- Demo content styles -->
+    <style>
+    .demo-content {
+      background-color: #efefef;
+      min-height: 100px;
+    }
+    .demo-grid {
+      margin-bottom: 4rem;
+    }
+    .demo-grid div {
+      min-height: 300px;
+    }
+    </style>
+    <!-- End demo content styles -->
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <!-- Load USWDS assets -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/uswds/1.1.0/js/uswds.min.js'></script>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/uswds/1.1.0/css/uswds.min.css' rel='stylesheet'/>
+
+    <!-- Load recruiter locally for dev -->
+    <!-- <script src='https://rawgit.com/GSA/recruiter/master/recruiter.js'></script> -->
+    <!-- <script src='recruiter.js'></script> -->
+    <%= raw @touchpoint.embed_code_head %>
+  </head>
+  <body>
+    <%= raw @touchpoint.embed_code_body %>
+    <!-- Demo content -->
+    <div class="usa-grid demo-grid">
+      <div class="usa-width-one-whole demo-content"></div>
+    </div>
+    <div class="usa-grid demo-grid">
+      <div class="usa-width-two-thirds demo-content"></div>
+      <div class="usa-width-one-third demo-content"></div>
+    </div>
+    <div class="usa-grid demo-grid">
+      <div class="usa-width-one-fourth demo-content"></div>
+      <div class="usa-width-one-fourth demo-content"></div>
+      <div class="usa-width-one-fourth demo-content"></div>
+      <div class="usa-width-one-fourth demo-content"></div>
+    </div>
+    <div class="usa-grid demo-grid">
+      <div class="usa-width-two-thirds demo-content"></div>
+      <div class="usa-width-one-third demo-content"></div>
+    </div>
+    <!--- End demo content -->
+  </body>
+</html>
