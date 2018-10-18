@@ -7,18 +7,37 @@ class Touchpoint < ApplicationRecord
   before_create :create_container_in_gtm
   before_create :create_google_sheet
 
+  after_create :config_gtm_container!
+
   validates :name, presence: true
+
+  def config_gtm_container!
+    service = GoogleApi.new
+
+    # Lookup Workspaces
+    path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.gtm_container_id}"
+    workspaces = service.list_account_container_workspaces(path: path)
+    workspace_id = workspaces.first.workspace_id
+
+    # Create Tag
+    path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.gtm_container_id}/workspaces/#{workspace_id}"
+    service.create_custom_tag_in_container(path: path, name: "Name", body: (ApplicationController.new.render_to_string(partial: "components/widget/fba.js", locals: { touchpoint: self })))
+
+    # Create new Version
+    path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.gtm_container_id}/workspaces/#{workspace_id}"
+    service.create_account_container_workspace_version(path: path)
+  end
 
   def gtm_container_url
     "https://tagmanager.google.com/#/admin/?accountId=#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}&containerId=#{gtm_container_id}"
   end
 
-  def embed_code
-    GoogleApi.gtm_header_text(key: "asdf")
+  def embed_code_head
+    GoogleApi.gtm_header_text(key: self.gtm_container_public_id)
   end
 
   def embed_code_body
-    GoogleApi.gtm_body_text(key: "asdf")
+    GoogleApi.gtm_body_text(key: self.gtm_container_public_id)
   end
 
   # Creates a GTM Container for this Touchpoint
@@ -28,6 +47,7 @@ class Touchpoint < ApplicationRecord
     @service = GoogleApi.new
     new_container = @service.create_account_container(name: "fba-#{Rails.env.downcase}-#{name.parameterize}")
     self.gtm_container_id = new_container.container_id
+    self.gtm_container_public_id = new_container.public_id
   end
 
   # Creates a Google Sheet for this Touchpoint
