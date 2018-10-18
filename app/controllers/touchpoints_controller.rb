@@ -1,7 +1,7 @@
 class TouchpointsController < ApplicationController
   before_action :ensure_user
   skip_before_action :verify_authenticity_token, only: [:js]
-  before_action :set_touchpoint, only: [:show, :edit, :update, :destroy, :example, :js]
+  before_action :set_touchpoint, only: [:show, :edit, :update, :destroy, :example, :gtm_example, :js, :trigger]
 
   def index
     @touchpoints = Touchpoint.all
@@ -55,8 +55,12 @@ class TouchpointsController < ApplicationController
     render layout: false
   end
 
+  def gtm_example
+    render layout: false
+  end
+
   def js
-    render partial: "components/widget/fba.js", touchpoint: @touchpoint
+    render(partial: "components/widget/fba.js", locals: { touchpoint: @touchpoint })
   end
 
   private
@@ -73,7 +77,6 @@ class TouchpointsController < ApplicationController
         :meaningful_response_size,
         :behavior_change,
         :notification_emails,
-        :embed_code,
         :enable_google_sheets
       )
     end
