@@ -1,4 +1,5 @@
 class FormsController < ApplicationController
+  before_action :ensure_admin
   before_action :set_form, only: [:show, :edit, :update, :destroy]
 
   # GET /forms
@@ -64,12 +65,11 @@ class FormsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_form
-      @touchpoint = Touchpoint.find(params[:touchpoint_id])
       @form = Form.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def form_params
-      params.require(:form).permit(:name, :notes, :status)
+      params.require(:form).permit(:name, :notes, :status, :title, :instructions)
     end
 end
