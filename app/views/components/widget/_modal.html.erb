@@ -8,7 +8,7 @@
     about how they use <%= Organization.first.name %>.
     If selected, we’ll contact you to set up a time.
   </p>
-  <%= render "components/forms/#{@touchpoint.form.kind}",  touchpoint: @touchpoint %>
+  <%= render partial: "components/forms/#{touchpoint.form.kind}", locals: { form: touchpoint.form, touchpoint: touchpoint } %>
   <p>
     Note: We won’t share your information with any other organizations or groups, period.
   </p>
