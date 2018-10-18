@@ -22,7 +22,7 @@
 }
 
 #fba-modal-dialog {
-  <% if @touchpoint.form.kind == "a11" %>
+  <% if touchpoint.form.kind == "a11" %>
   max-width: 690px;
   <% else %>
   max-width: 500px;
@@ -93,12 +93,12 @@
   width: auto;
 }
 
-#fba-modal input[type=radio] {
+#touchpoints-form input[type=radio] {
   -webkit-appearance: radio;
-  margin: 0 auto;
+  left: auto;
   height: auto;
-  width: auto;
+  margin: 0 auto;
   opacity: 1.0;
   position: relative;
-  margin-left: auto;
+  width: auto;
 }
