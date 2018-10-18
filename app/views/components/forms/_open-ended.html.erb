@@ -1,13 +1,17 @@
-<form id="touchpoints-form" action="/touchpoints/<%= touchpoint.id %>/submissions.json" data-kind="open-ended" method="POST">
+<form id="touchpoints-form" action="/touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" data-kind="open-ended" method="POST">
   <div id="fba-alert">
     alert message
   </div>
-  <h3>Grow with us</h3>
-  <p>Share feedback about the new farmers.gov website and recommend additional features.</p>
+  <h3>
+    <%= form.title %>
+  </h3>
+  <p>
+    <%= form.instructions %>
+  </p>
   <fieldset>
     <label for="fba-text-body">Body</label>
     <textarea id="fba-text-body" name="fba-text-body" class="body"></textarea>
-    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <%#= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <div class="button-wrapper">
       <button type="submit" id="fba-submit" class="usa-button-primary-alt" href="#">Submit</button>
     </div>

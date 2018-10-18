@@ -17,6 +17,8 @@ ActiveRecord::Schema.define(version: 2018_10_04_214026) do
 
   create_table "forms", force: :cascade do |t|
     t.string "name"
+    t.string "title"
+    t.string "instructions"
     t.string "kind"
     t.text "notes"
     t.string "status"
@@ -55,6 +57,7 @@ ActiveRecord::Schema.define(version: 2018_10_04_214026) do
     t.string "name", null: false
     t.boolean "enable_google_sheets", default: false
     t.string "gtm_container_id"
+    t.string "gtm_container_public_id"
     t.string "google_sheet_id"
     t.integer "form_id"
     t.integer "organization_id", null: false
@@ -62,7 +65,6 @@ ActiveRecord::Schema.define(version: 2018_10_04_214026) do
     t.integer "meaningful_response_size"
     t.text "behavior_change"
     t.string "notification_emails"
-    t.text "embed_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "start_date"

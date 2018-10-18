@@ -40,18 +40,24 @@ webmaster.save!
 form_1 = Form.create({
   name: "Open-ended",
   kind:  "open-ended",
+  title: "Custom Open-ended Title",
+  instructions: "Share feedback about the new example.gov website and recommend additional features.",
   notes: ""
 })
 
 form_2 = Form.create({
   name: "Recruiter",
   kind:  "recruiter",
+  title: "",
+  instructions: "",
   notes: ""
 })
 
 form_3 = Form.create({
   name: "À11 - 7 Question Form",
   kind:  "a11",
+  title: "",
+  instructions: "",
   notes: ""
 })
 

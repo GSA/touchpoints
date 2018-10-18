@@ -1,7 +1,13 @@
-<form id="touchpoints-form" action="/touchpoints/<%= touchpoint.id %>/submissions.json" method="POST" data-kind="a11">
+<form id="touchpoints-form" action="/touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" method="POST" data-kind="a11">
   <div id="fba-alert">
     alert message
   </div>
+  <h3>
+    <%= form.title %>
+  </h3>
+  <p>
+    <%= form.instructions %>
+  </p>
   <fieldset>
     <table>
       <tr>
@@ -14,7 +20,7 @@
       </tr>
       <tr>
         <td>
-          I am satisfied with the service I received from [Program/Service name]
+          I am satisfied with the service I received from Program or Service name
         </td>
         <td>
           <input type="radio" name="overall_satisfaction" value="1" />
@@ -34,7 +40,7 @@
       </tr>
       <tr>
         <td>
-          This interaction increased my confidence in [Program/Service name].
+          This interaction increased my confidence in Program or Service name.
         </td>
         <td>
           <input type="radio" name="service_confidence" value="1" />
@@ -154,7 +160,7 @@
         </td>
       </tr>
     </table>
-    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <%#= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <div class="button-wrapper">
       <button type="submit" id="fba-submit" class="usa-button-primary-alt" href="#">Submit</button>
     </div>
