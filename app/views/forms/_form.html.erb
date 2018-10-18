@@ -1,7 +1,7 @@
-<%= form_with(model: form, local: true) do |form| %>
+<%= form_with(model: form, local: true) do |f| %>
   <% if form.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(form.errors.count, "error") %> prohibited this form from being saved:</h2>
+      <h2><%= pluralize(f.errors.count, "error") %> prohibited this form from being saved:</h2>
 
       <ul>
       <% form.errors.full_messages.each do |message| %>
@@ -12,26 +12,26 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
   </div>
-
   <div class="field">
-    <%= form.label :organization_id %>
-    <%= form.number_field :organization_id %>
+    <%= f.label :title %>
+    <%= f.text_field :title %>
   </div>
-
   <div class="field">
-    <%= form.label :notes %>
-    <%= form.text_area :notes %>
+    <%= f.label :instructions %>
+    <%= f.text_field :instructions %>
   </div>
-
   <div class="field">
-    <%= form.label :status %>
-    <%= form.text_field :status %>
+    <%= f.label :notes %>
+    <%= f.text_area :notes %>
   </div>
-
+  <div class="field">
+    <%= f.label :status %>
+    <%= f.text_field :status %>
+  </div>
   <div class="actions">
-    <%= form.submit %>
+    <%= f.submit %>
   </div>
 <% end %>

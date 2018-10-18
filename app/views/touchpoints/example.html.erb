@@ -48,7 +48,7 @@
     </div>
     <!--- End demo content -->
     <script>
-      <%= render partial: "components/widget/fba.js" %>
+      <%= render partial: "components/widget/fba.js", locals: { touchpoint: @touchpoint } %>
     </script>
   </body>
 </html>
