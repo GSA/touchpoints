@@ -33,6 +33,7 @@ eos
       Google::Apis::TagmanagerV2::AUTH_TAGMANAGER_READONLY,
       Google::Apis::TagmanagerV2::AUTH_TAGMANAGER_MANAGE_USERS,
       Google::Apis::TagmanagerV2::AUTH_TAGMANAGER_EDIT_CONTAINERS,
+      Google::Apis::TagmanagerV2::AUTH_TAGMANAGER_EDIT_CONTAINERVERSIONS,
       Google::Apis::TagmanagerV2::AUTH_TAGMANAGER_DELETE_CONTAINERS
     ].freeze
 
@@ -88,20 +89,56 @@ eos
     new_container.usage_context = ["web"]
 
     # Post it to GTM's API
-    @service.create_account_container("accounts/#{@account_id}", new_container)
+    @service.create_account_container("accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}", new_container)
   end
 
-  def create_custom_tag_in_container(path:, name: nil, body: nil )
+  def path_helper(account_id:, container_id:)
+    "accounts/#{account_id}/containers/#{container_id}"
+  end
+
+  def get_account_container(path:)
+    @service.get_account_container(path)
+  end
+
+  # NOTE: This is an operation on a Container.
+  # TODO: Refactor this into a Subclass or something
+  def create_custom_tag_in_container(path:, name:, body:)
     new_tag = Google::Apis::TagmanagerV2::Tag.new
-    new_tag.name = name || "Custom Tag"
+    new_tag.name = name
     new_tag.type = "html"
     new_tag.parameter = [{
       "key": "html",
       "type": "template",
-      "value": (body || "Hello World")
+      "value": "<script>#{body}</script>"
     }]
 
     # Create Tag via GTM's API
     @service.create_account_container_workspace_tag(path, new_tag)
+  end
+
+  def create_account_container_workspace_version(path:)
+    @service.create_account_container_workspace_version(path)
+  end
+
+  def publish_account_container(path:)
+    @service.publish_account_container_version(path)
+  end
+
+  def get_account_container_version(path:)
+    @service.get_account_container_version(path)
+  end
+
+  def live_account_container_version(path:)
+    @service.live_account_container_version(path)
+  end
+
+  def set_account_container_version_latest(path:)
+    @service.set_account_container_version_latest(path)
+  end
+
+  def list_account_container_workspace_triggers(path:)
+    @service.list_account_container_workspace_triggers
+    # from here, select the trigger.
+    # then, associate the ID of the Trigger as the FiringElement on the Custom Script Tag
   end
 end
