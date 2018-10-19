@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 2018_10_04_214026) do
     t.string "name"
     t.string "title"
     t.string "instructions"
+    t.string "disclaimer_text"
     t.string "kind"
     t.text "notes"
     t.string "status"

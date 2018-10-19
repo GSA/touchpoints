@@ -42,6 +42,7 @@ form_1 = Form.create({
   kind:  "open-ended",
   title: "Custom Open-ended Title",
   instructions: "Share feedback about the new example.gov website and recommend additional features.",
+  disclaimer_text: "Disclaimer Text Goes Here",
   notes: ""
 })
 
@@ -50,6 +51,7 @@ form_2 = Form.create({
   kind:  "recruiter",
   title: "",
   instructions: "",
+  disclaimer_text: "Disclaimer Text Goes Here",
   notes: ""
 })
 
@@ -58,6 +60,7 @@ form_3 = Form.create({
   kind:  "a11",
   title: "",
   instructions: "",
+  disclaimer_text: "Disclaimer Text Goes Here",
   notes: ""
 })
 

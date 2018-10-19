@@ -16,6 +16,11 @@
     <label for="fba-text-phone">Phone number</label>
     <input id="fba-text-phone" name="fba-text-phone" class="phone-number" type="tel" maxlength="500">
     <%#= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <% if form.disclaimer_text? %>
+    <p>
+      <%= form.disclaimer_text %>
+    </p>
+  <% end %>
     <div class="button-wrapper">
       <button type="submit" id="fba-submit" class="usa-button-primary-alt" href="#">Send</button>
     </div>
