@@ -11,9 +11,13 @@ class Touchpoint < ApplicationRecord
 
   validates :name, presence: true
 
+  def touchpoints_js_string
+    ApplicationController.new.render_to_string(partial: "components/widget/fba.js", locals: { touchpoint: self })
+  end
+
   def config_gtm_container!
     return if Rails.env.test?
-    
+
     service = GoogleApi.new
 
     # Lookup Workspaces
@@ -23,7 +27,7 @@ class Touchpoint < ApplicationRecord
 
     # Create Tag
     path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.gtm_container_id}/workspaces/#{workspace_id}"
-    service.create_custom_tag_in_container(path: path, name: "Name", body: (ApplicationController.new.render_to_string(partial: "components/widget/fba.js", locals: { touchpoint: self })))
+    service.create_container_custom_configs(path: path, touchpoint: self, body: touchpoints_js_string)
 
     # Create new Version
     path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.gtm_container_id}/workspaces/#{workspace_id}"
@@ -72,6 +76,8 @@ class Touchpoint < ApplicationRecord
   end
 
   def push_title_row
+    raise InvalidArgument unless self.form
+
     if self.form.kind == "recruiter"
     push_row(values: [
       "First Name",

@@ -102,9 +102,293 @@ eos
 
   # NOTE: This is an operation on a Container.
   # TODO: Refactor this into a Subclass or something
-  def create_custom_tag_in_container(path:, name:, body:)
+  def create_container_custom_configs(path:, touchpoint:, body:)
+    create_touchpoints_js_tag(path: path, body: body)
+    create_recruiter_to_google_sheet_tag(path: path)
+
+    create_trigger_js_error(path: path)
+    create_trigger_frustrated_user(path: path)
+    create_trigger_homepage_only(path: path)
+    create_trigger_recruiter_submit(path: path)
+
+    create_variable_auto_event_var_element(path: path)
+    create_variable_auto_event_var_element_id(path: path)
+    create_variable_auto_event_var_element_text(path: path)
+    create_variable_element_text(path: path)
+    create_variable_ga_property_id(path: path)
+    create_variable_recruiter_email(path: path)
+    create_variable_recruiter_name(path: path)
+    create_variable_recruiter_timestamp(path: path)
+    create_variable_user_agent(path: path)
+    create_variable_web_app_url(path: path)
+    create_variable_client_id(path: path)
+  end
+
+  # Define Variables
+  def create_variable_auto_event_var_element(path:)
+    new_variable = Google::Apis::TagmanagerV2::Variable.new
+
+    new_variable.name = "Auto-Event Var - Element"
+    new_variable.type = "aev"
+    new_variable.parameter = [
+      {
+        "type": "BOOLEAN",
+        "key": "setDefaultValue",
+        "value": "false"
+      },
+      {
+        "type": "TEMPLATE",
+        "key": "varType",
+        "value": "ELEMENT"
+      }
+    ]
+    @service.create_account_container_workspace_variable(path, new_variable)
+  end
+
+  def create_variable_auto_event_var_element_id(path:)
+    new_variable = Google::Apis::TagmanagerV2::Variable.new
+
+    new_variable.name = "Auto-Event Var - Element Id"
+    new_variable.type = "aev"
+    new_variable.parameter = [
+      {
+        "type": "BOOLEAN",
+        "key": "setDefaultValue",
+        "value": "false"
+      },
+      {
+        "type": "TEMPLATE",
+        "key": "varType",
+        "value": "ID"
+      }
+    ]
+    @service.create_account_container_workspace_variable(path, new_variable)
+  end
+
+  def create_variable_auto_event_var_element_text(path:)
+    new_variable = Google::Apis::TagmanagerV2::Variable.new
+
+    new_variable.name = "Auto-Event Var - Element Text"
+    new_variable.type = "aev"
+    new_variable.parameter = [
+      {
+        "type": "BOOLEAN",
+        "key": "setDefaultValue",
+        "value": "false"
+      },
+      {
+        "type": "TEMPLATE",
+        "key": "varType",
+        "value": "TEXT"
+      }
+    ]
+    @service.create_account_container_workspace_variable(path, new_variable)
+  end
+
+  def create_variable_element_text(path:)
+    new_variable = Google::Apis::TagmanagerV2::Variable.new
+
+    new_variable.name = "Element Text"
+    new_variable.type = "d"
+    new_variable.parameter = [
+      {
+        "type": "TEMPLATE",
+        "key": "elementId",
+        "value": "{{Auto-Event Var - Element Id}}"
+      },
+      {
+        "type": "TEMPLATE",
+        "key": "selectorType",
+        "value": "ID"
+      }
+    ]
+    @service.create_account_container_workspace_variable(path, new_variable)
+  end
+
+  def create_variable_ga_property_id(path:)
+    new_variable = Google::Apis::TagmanagerV2::Variable.new
+
+    new_variable.name = "GA Property ID"
+    new_variable.type = "c"
+    new_variable.parameter = [
+        {
+          "type": "TEMPLATE",
+          "key": "value",
+          "value": "UA-93344103-1"
+        }
+      ]
+      @service.create_account_container_workspace_variable(path, new_variable)
+  end
+
+  def create_variable_recruiter_email(path:)
+    new_variable = Google::Apis::TagmanagerV2::Variable.new
+
+    new_variable.name = "Recruiter-Email"
+    new_variable.type = "jsm"
+    new_variable.parameter = [
+      {
+        "type": "TEMPLATE",
+        "key": "javascript",
+        "value": "function() {\n  var inputField = document.getElementsByClassName(\"email-address\")[0];\n  return inputField.value || \"\";\n}"
+      }
+    ]
+    @service.create_account_container_workspace_variable(path, new_variable)
+  end
+
+  def create_variable_recruiter_name(path:)
+    new_variable = Google::Apis::TagmanagerV2::Variable.new
+
+    new_variable.name = "Recruiter-Name"
+    new_variable.type = "jsm"
+    new_variable.parameter = [
+      {
+        "type": "TEMPLATE",
+        "key": "javascript",
+        "value": "function() {\n  var inputField = document.getElementsByClassName(\"full-name\")[0];\n  return inputField.value || \"\";\n}\n"
+      }
+    ]
+    @service.create_account_container_workspace_variable(path, new_variable)
+  end
+
+  def create_variable_recruiter_timestamp(path:)
+    new_variable = Google::Apis::TagmanagerV2::Variable.new
+
+    new_variable.name = "Recruiter-Timestamp"
+    new_variable.type = "jsm"
+    new_variable.parameter = [
+      {
+        "type": "TEMPLATE",
+        "key": "javascript",
+        "value": "function(){\n  var today = new Date();\n  var str = today.toUTCString();\n  return str;\n}"
+      }
+    ]
+    @service.create_account_container_workspace_variable(path, new_variable)
+  end
+
+  def create_variable_user_agent(path:)
+    new_variable = Google::Apis::TagmanagerV2::Variable.new
+
+    new_variable.name = "UserAgent"
+    new_variable.type = "j"
+    new_variable.parameter = [
+      {
+        "type": "TEMPLATE",
+        "key": "name",
+        "value": "navigator.userAgent"
+      }
+    ]
+    @service.create_account_container_workspace_variable(path, new_variable)
+  end
+
+  def create_variable_web_app_url(path:)
+    new_variable = Google::Apis::TagmanagerV2::Variable.new
+
+    new_variable.name = "WebAppURL"
+    new_variable.type = "c"
+    new_variable.parameter = [
+      {
+        "type": "TEMPLATE",
+        "key": "value",
+        "value": "https://script.google.com/a/macros/gsa.gov/s/AKfycbwRDwJ2V3Ui-JNsA0SUb_mekFdM4yTTuPassT740YIxtJOoUOXj/exec"
+      }
+    ]
+    @service.create_account_container_workspace_variable(path, new_variable)
+  end
+
+  def create_variable_client_id(path:)
+    new_variable = Google::Apis::TagmanagerV2::Variable.new
+
+    new_variable.name = "clientId"
+    new_variable.type = "jsm"
+    new_variable.parameter = [
+      {
+        "type": "TEMPLATE",
+        "key": "javascript",
+        "value": "function() {\n  try {\n    var trackers = ga.getAll();\n    var i, len;\n    for (i = 0, len = trackers.length; i < len; i += 1) {\n      if (trackers[i].get('trackingId') === {{GA Property ID}}) {\n        return trackers[i].get('clientId');\n      }\n    }\n  } catch(e) {}  \n  return 'false';\n}"
+      }
+    ]
+    @service.create_account_container_workspace_variable(path, new_variable)
+  end
+
+  # Define Triggers
+  def create_trigger_js_error(path:)
+    new_trigger = Google::Apis::TagmanagerV2::Trigger.new
+
+    new_trigger.name = "JS Error"
+    new_trigger.type = "JS_ERROR"
+    @service.create_account_container_workspace_trigger(path, new_trigger)
+  end
+
+  def create_trigger_frustrated_user(path:)
+    new_trigger = Google::Apis::TagmanagerV2::Trigger.new
+
+    new_trigger.name = "Frustrated User"
+    new_trigger.type = "CUSTOM_EVENT"
+    new_trigger.custom_event_filter = [{
+      "type": "EQUALS",
+      "parameter": [{
+          "type": "TEMPLATE",
+          "key": "arg0",
+          "value": "{{_event}}"
+        },
+        {
+          "type": "TEMPLATE",
+          "key": "arg1",
+          "value": "frustratedEvent"
+        }
+      ]
+    }]
+    @service.create_account_container_workspace_trigger(path, new_trigger)
+  end
+
+  def create_trigger_homepage_only(path:)
+    new_trigger = Google::Apis::TagmanagerV2::Trigger.new
+
+    new_trigger.name = "Homepage only"
+    new_trigger.type = "PAGEVIEW"
+    new_trigger.filter = [{
+      "type": "MATCH_REGEX",
+      "parameter": [{
+          "type": "TEMPLATE",
+          "key": "arg0",
+          "value": "{{Page URL}}"
+        },
+        {
+          "type": "TEMPLATE",
+          "key": "arg1",
+          "value": "(https://touchpoints-staging.app.cloud.gov/|127.0.0.1:3000)"
+        }
+      ]
+    }]
+    @service.create_account_container_workspace_trigger(path, new_trigger)
+  end
+
+  def create_trigger_recruiter_submit(path:)
+    new_trigger = Google::Apis::TagmanagerV2::Trigger.new
+
+    new_trigger.name = "Recruiter-Submit"
+    new_trigger.type = "CLICK"
+    new_trigger.filter = [{
+      "type": "EQUALS",
+      "parameter": [{
+          "type": "TEMPLATE",
+          "key": "arg0",
+          "value": "{{Click ID}}"
+        },
+        {
+          "type": "TEMPLATE",
+          "key": "arg1",
+          "value": "gaf-submit"
+        }
+      ]
+    }]
+    @service.create_account_container_workspace_trigger(path, new_trigger)
+  end
+  # End Define Triggers
+
+  def create_touchpoints_js_tag(path:, body:)
     new_tag = Google::Apis::TagmanagerV2::Tag.new
-    new_tag.name = name
+    new_tag.name = "touchpoints.js"
     new_tag.type = "html"
     new_tag.parameter = [{
       "key": "html",
@@ -116,8 +400,38 @@ eos
     @service.create_account_container_workspace_tag(path, new_tag)
   end
 
+  def create_recruiter_to_google_sheet_tag(path:)
+    new_tag = Google::Apis::TagmanagerV2::Tag.new
+    new_tag.name = "Recruiter to Google Sheet"
+    new_tag.type = "img"
+    new_tag.parameter = [
+      {
+        "type": "BOOLEAN",
+        "key": "useCacheBuster",
+        "value": "true"
+      },
+      {
+        "type": "TEMPLATE",
+        "key": "url",
+        "value": "{{WebAppURL}}?Name={{Recruiter-Name}}&Email={{Recruiter-Email}}&UserAgent={{UserAgent}}&Date={{Recruiter-Timestamp}}&Referrer={{Referrer}}&URL={{Page URL}}"
+      },
+      {
+        "type": "TEMPLATE",
+        "key": "cacheBusterQueryParam",
+        "value": "gtmcb"
+      }
+    ]
+
+    # Create Tag via GTM's API
+    @service.create_account_container_workspace_tag(path, new_tag)
+  end
+
   def create_account_container_workspace_version(path:)
     @service.create_account_container_workspace_version(path)
+  end
+
+  def create_account_container_workspace_trigger(path:, trigger:)
+    @service.create_account_container_workspace_trigger(path, trigger)
   end
 
   def publish_account_container(path:)
@@ -130,6 +444,10 @@ eos
 
   def live_account_container_version(path:)
     @service.live_account_container_version(path)
+  end
+
+  def create_account_container_workspace_variable(path:)
+    @service.create_account_container_workspace_variable(path)
   end
 
   def set_account_container_version_latest(path:)
