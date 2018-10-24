@@ -32,6 +32,7 @@ eos
       Google::Apis::TagmanagerV2::AUTH_TAGMANAGER_MANAGE_ACCOUNTS,
       Google::Apis::TagmanagerV2::AUTH_TAGMANAGER_READONLY,
       Google::Apis::TagmanagerV2::AUTH_TAGMANAGER_MANAGE_USERS,
+      Google::Apis::TagmanagerV2::AUTH_TAGMANAGER_PUBLISH,
       Google::Apis::TagmanagerV2::AUTH_TAGMANAGER_EDIT_CONTAINERS,
       Google::Apis::TagmanagerV2::AUTH_TAGMANAGER_EDIT_CONTAINERVERSIONS,
       Google::Apis::TagmanagerV2::AUTH_TAGMANAGER_DELETE_CONTAINERS
@@ -437,7 +438,7 @@ eos
     @service.create_account_container_workspace_trigger(path, trigger)
   end
 
-  def publish_account_container(path:)
+  def publish_account_container_version(path:)
     @service.publish_account_container_version(path)
   end
 

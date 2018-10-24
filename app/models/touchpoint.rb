@@ -31,7 +31,11 @@ class Touchpoint < ApplicationRecord
 
     # Create new Version
     path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.gtm_container_id}/workspaces/#{workspace_id}"
-    service.create_account_container_workspace_version(path: path)
+    new_container_version  = service.create_account_container_workspace_version(path: path)
+
+    version_id = new_container_version.container_version.container_version_id
+    path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.gtm_container_id}/versions/#{version_id}"
+    service.publish_account_container_version(path: path)
   end
 
   def gtm_container_url
