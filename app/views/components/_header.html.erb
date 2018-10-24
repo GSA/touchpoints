@@ -81,6 +81,11 @@
           </li>
           <% else %>
           <li>
+            <a>
+              <%= current_user.email %>
+            </a>
+          </li>
+          <li>
             <a href="/users/sign_out">
               Logout
             </a>
