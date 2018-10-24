@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Touchpoint:</strong>
+  <%= @trigger.touchpoint_id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @trigger.name %>
+</p>
+
+<p>
+  <strong>Kind:</strong>
+  <%= @trigger.kind %>
+</p>
+
+<p>
+  <strong>Fingerprint:</strong>
+  <%= @trigger.fingerprint %>
+</p>
+
+<%= link_to 'Edit', edit_trigger_path(@trigger) %> |
+<%= link_to 'Back', triggers_path %>

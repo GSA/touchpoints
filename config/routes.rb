@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :triggers
   resources :forms
   resources :submissions, except: [:new, :index, :create]
   resources :touchpoints do

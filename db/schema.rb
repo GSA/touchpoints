@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_04_214026) do
+ActiveRecord::Schema.define(version: 2018_10_24_215950) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,15 @@ ActiveRecord::Schema.define(version: 2018_10_04_214026) do
     t.datetime "updated_at", null: false
     t.datetime "start_date"
     t.datetime "end_date"
+  end
+
+  create_table "triggers", force: :cascade do |t|
+    t.integer "touchpoint_id"
+    t.string "name"
+    t.string "kind"
+    t.string "fingerprint"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
