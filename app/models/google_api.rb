@@ -103,13 +103,14 @@ eos
   # NOTE: This is an operation on a Container.
   # TODO: Refactor this into a Subclass or something
   def create_container_custom_configs(path:, touchpoint:, body:)
-    create_touchpoints_js_tag(path: path, body: body)
-    create_recruiter_to_google_sheet_tag(path: path)
 
     create_trigger_js_error(path: path)
     create_trigger_frustrated_user(path: path)
-    create_trigger_homepage_only(path: path)
+    homepage_only_trigger = create_trigger_homepage_only(path: path)
     create_trigger_recruiter_submit(path: path)
+
+    create_touchpoints_js_tag(path: path, body: body, trigger: homepage_only_trigger)
+    create_recruiter_to_google_sheet_tag(path: path)
 
     create_variable_auto_event_var_element(path: path)
     create_variable_auto_event_var_element_id(path: path)
@@ -386,10 +387,12 @@ eos
   end
   # End Define Triggers
 
-  def create_touchpoints_js_tag(path:, body:)
+  def create_touchpoints_js_tag(path:, body:, trigger:)
+
     new_tag = Google::Apis::TagmanagerV2::Tag.new
     new_tag.name = "touchpoints.js"
     new_tag.type = "html"
+    new_tag.firing_trigger_id = [trigger.trigger_id]
     new_tag.parameter = [{
       "key": "html",
       "type": "template",
