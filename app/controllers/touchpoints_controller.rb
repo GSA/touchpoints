@@ -4,7 +4,11 @@ class TouchpointsController < ApplicationController
   before_action :set_touchpoint, only: [:show, :edit, :update, :destroy, :example, :gtm_example, :js, :trigger]
 
   def index
-    @touchpoints = Touchpoint.all
+    if current_user && current_user.admin?
+      @touchpoints = Touchpoint.all
+    else
+      @touchpoints = current_user.organization.touchpoints
+    end
   end
 
   def show
@@ -65,7 +69,11 @@ class TouchpointsController < ApplicationController
 
   private
     def set_touchpoint
-      @touchpoint = Touchpoint.find(params[:id])
+      if current_user && current_user.admin?
+        @touchpoint = Touchpoint.find(params[:id])
+      else
+        @touchpoint = current_user.organization.touchpoints.find(params[:id])
+      end
     end
 
     def touchpoint_params
