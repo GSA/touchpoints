@@ -26,17 +26,7 @@
     <%= render 'components/header' %>
     <div class="usa-grid">
       <div class="usa-width-full">
-      <% unless flash.empty? %>
-        <div class="usa-alert usa-alert-success" >
-          <div class="usa-alert-body">
-            <!-- <h3 class="usa-alert-heading">Success Status</h3> -->
-            <p class="usa-alert-text">
-              <%= flash[:notice] %>
-            </p>
-          </div>
-        </div>
-      <% end %>
-
+        <%= render 'components/flash', flash: flash %>
         <%= yield %>
       </div>
     </div>
