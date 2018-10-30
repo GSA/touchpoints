@@ -58,6 +58,12 @@ RSpec.describe TriggersController, type: :controller do
   end
 
   describe "GET #new" do
+    let(:admin) { FactoryBot.create(:user, :admin)}
+
+    before do
+      sign_in(admin)
+    end
+
     it "returns a success response" do
       get :new, params: {}, session: valid_session
       expect(response).to be_successful
