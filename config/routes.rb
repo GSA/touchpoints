@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :containers
   resources :triggers
   resources :forms
   resources :submissions, except: [:new, :index, :create]

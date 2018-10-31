@@ -10,14 +10,7 @@
   <strong>Form:</strong>
   <%= link_to(@touchpoint.form.name, touchpoint_form_path(@touchpoint, @touchpoint.form)) %>
 </p>
-<p>
-  <strong>GTM Container ID:</strong>
-  <%= link_to(@touchpoint.gtm_container_id, @touchpoint.gtm_container_url, target: "_blank") %>
-</p>
-<p>
-  <strong>GTM Container Public ID:</strong>
-  <%= link_to(@touchpoint.gtm_container_public_id, @touchpoint.gtm_container_url, target: "_blank") %>
-</p>
+
 <p>
   <strong>Google Sheet ID:</strong>
   <%= @touchpoint.enable_google_sheets? ? link_to(@touchpoint.google_sheet_id, "https://docs.google.com/spreadsheets/d/#{@touchpoint.google_sheet_id}/edit#gid=0", target: "_blank") : 'N/A' %>
@@ -40,25 +33,6 @@
   <%= @touchpoint.notification_emails %>
 </p>
 <hr>
-<div>
-  <h3>
-    Embed Codes
-  </h3>
-  <p>
-    Place the following code just above the closing `/head` tag in your website.
-  </p>
-  <textarea name="name" rows="8" cols="80" readonly="true" style="font-family: monospace; font-size: 0.625em;"><%= @touchpoint.embed_code_head %></textarea>
-
-  <p>
-    And, place the following code just below the `body` tag in your website.
-  </p>
-  <textarea name="name" rows="8" cols="80" readonly="true" style="font-family: monospace; font-size: 0.625em;"><%= @touchpoint.embed_code_body %></textarea>
-</div>
-<hr>
-<p>
-  <%= link_to 'Local .js Example', example_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank" %>
-  <%= link_to 'GTM + .js Example', gtm_example_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank" %>
-</p>
 <p>
   <%= link_to 'New Submission', new_touchpoint_submission_path(@touchpoint), class: "usa-button" %>
 </p>

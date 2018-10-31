@@ -6,26 +6,22 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Gtm container</th>
-      <th>Gtm container public</th>
-      <th colspan="3"></th>
+      <th>Gtm Container ID</th>
+      <th>Gtm Container Public ID</th>
+      <th></th>
     </tr>
   </thead>
 
   <tbody>
     <% @containers.each do |container| %>
       <tr>
-        <td><%= container.name %></td>
+        <td><%= link_to container.name, container %></td>
         <td><%= container.gtm_container_id %></td>
         <td><%= container.gtm_container_public_id %></td>
-        <td><%= link_to 'Show', container %></td>
         <td><%= link_to 'Edit', edit_container_path(container) %></td>
-        <td><%= link_to 'Destroy', container, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Container', new_container_path %>
+<%= link_to 'New Container', new_container_path, class: "usa-button" %>

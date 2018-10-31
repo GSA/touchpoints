@@ -6,14 +6,32 @@
 </p>
 
 <p>
-  <strong>Gtm container:</strong>
-  <%= @container.gtm_container_id %>
+  <strong>GTM Container ID:</strong>
+  <%= link_to(@container.gtm_container_id, @container.gtm_container_url, target: "_blank") %>
 </p>
-
 <p>
-  <strong>Gtm container public:</strong>
+  <strong>GTM Container Public ID:</strong>
   <%= @container.gtm_container_public_id %>
 </p>
 
-<%= link_to 'Edit', edit_container_path(@container) %> |
-<%= link_to 'Back', containers_path %>
+<div>
+  <h3>
+    Embed Codes
+  </h3>
+  <p>
+    Place the following code just above the closing `/head` tag in your website.
+  </p>
+  <textarea name="name" rows="8" cols="80" readonly="true" style="font-family: monospace; font-size: 0.625em;"><%= @container.embed_code_head %></textarea>
+
+  <p>
+    And, place the following code just below the `body` tag in your website.
+  </p>
+  <textarea name="name" rows="8" cols="80" readonly="true" style="font-family: monospace; font-size: 0.625em;"><%= @container.embed_code_body %></textarea>
+</div>
+<hr>
+<p>
+  <%= link_to 'Local .js Example', example_touchpoint_path(@container), class: "usa-button", target: "_blank" %>
+  <%= link_to 'GTM + .js Example', gtm_example_touchpoint_path(@container), class: "usa-button", target: "_blank" %>
+</p>
+
+<%= link_to 'Edit', edit_container_path(@container), class: "usa-button" %>
