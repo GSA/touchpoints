@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :touchpoint do
-    organization
+    container
     name { "Example Touchpoint" }
     form
   end

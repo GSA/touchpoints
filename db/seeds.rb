@@ -64,21 +64,41 @@ form_3 = Form.create({
   notes: ""
 })
 
+container_1 = Container.create!({
+  organization: org_1,
+  name: "#{org_1.name}'s Test Container 1"
+})
+
+container_2 = Container.create!({
+  organization: org_1,
+  name: "#{org_1.name}'s Test Container 2"
+})
+
+container_3 = Container.create!({
+  organization: org_2,
+  name: "#{org_2.name}'s Test Container 1"
+})
+
+container_4 = Container.create!({
+  organization: org_2,
+  name: "#{org_2.name}'s Test Container 2"
+})
+
 # Touchpoints
-touchpoint_1 = Touchpoint.create({
-  organization_id: org_1.id,
-  form_id: form_1.id,
+touchpoint_1 = Touchpoint.create!({
+  form: form_1,
+  container: container_1,
   name: "Open-ended Feedback",
   purpose: "Soliciting feedback",
   meaningful_response_size: 30,
   behavior_change: "Looking for opportunities to improve",
   notification_emails: "ryan.wold@gsa.gov",
   enable_google_sheets: false
-  })
+})
 
-touchpoint_2 = Touchpoint.create({
-  organization_id: org_1.id,
-  form_id: form_2.id,
+touchpoint_2 = Touchpoint.create!({
+  form: form_2,
+  container: container_2,
   name: "Recruiter",
   purpose: "Improving Customer Experience with proactive research and service",
   meaningful_response_size: 100,
@@ -87,9 +107,9 @@ touchpoint_2 = Touchpoint.create({
   enable_google_sheets: false
 })
 
-touchpoint_3 = Touchpoint.create({
-  organization_id: org_2.id,
-  form_id: form_3.id,
+touchpoint_3 = Touchpoint.create!({
+  form: form_3,
+  container: container_3,
   name: "A11 - 7 question test - DB",
   purpose: "CX",
   meaningful_response_size: 100,
@@ -98,9 +118,9 @@ touchpoint_3 = Touchpoint.create({
   enable_google_sheets: false
 })
 
-touchpoint_4 = Touchpoint.create({
-  organization_id: org_2.id,
-  form_id: form_3.id,
+touchpoint_4 = Touchpoint.create!({
+  form: form_3,
+  container: container_4,
   name: "A11 - 7 question test - Sheets",
   purpose: "Compliance",
   meaningful_response_size: 300,

@@ -6,13 +6,14 @@ feature "Touchpoints", js: true do
       describe "#index" do
         let(:user) { FactoryBot.create(:user, :admin) }
         let!(:organization) { FactoryBot.create(:organization) }
+        let!(:container) { FactoryBot.create(:container, organization: organization) }
         let!(:form) { FactoryBot.create(:form) }
 
         before "user completes Sign Up form" do
           login_as user
           visit new_touchpoint_path
           fill_in("touchpoint[name]", with: "Test Touchpoint")
-          select(organization.name, from: "touchpoint[organization_id]")
+          select(container.name, from: "touchpoint[container_id]")
 
           # FIXME
           # this is non-conventional, because USWDS hides inputs and uses CSS :before
@@ -38,6 +39,7 @@ feature "Touchpoints", js: true do
     describe "/touchpoints" do
       describe "#index" do
         let!(:organization) { FactoryBot.create(:organization) }
+        let!(:container) { FactoryBot.create(:container, organization: organization) }
         let(:user) { FactoryBot.create(:user, organization: organization) }
         let!(:form) { FactoryBot.create(:form) }
 
@@ -45,6 +47,7 @@ feature "Touchpoints", js: true do
           login_as user
           visit new_touchpoint_path
           fill_in("touchpoint[name]", with: "Test Touchpoint")
+          select(organization.containers.first.name, from: "touchpoint[container_id]")
 
           # FIXME
           # this is non-conventional, because USWDS hides inputs and uses CSS :before

@@ -23,15 +23,6 @@
     <%= form.text_field :name %>
   </div>
 
-  <% if current_user.admin? %>
-    <div class="field">
-      <%= form.label :organization_id %>
-      <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: (touchpoint.organization ? touchpoint.organization.id : nil)), include_blank: true %>
-    </div>
-  <% else %>
-    <%= form.hidden_field :organization_id, value: current_user.organization_id %>
-  <% end %>
-
   <%# if touchpoint.persisted? %>
   <div class="field">
     <%= form.label :container_id %>

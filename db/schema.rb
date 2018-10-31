@@ -69,7 +69,6 @@ ActiveRecord::Schema.define(version: 2018_10_31_160208) do
     t.integer "container_id"
     t.string "google_sheet_id"
     t.integer "form_id"
-    t.integer "organization_id", null: false
     t.text "purpose"
     t.integer "meaningful_response_size"
     t.text "behavior_change"
