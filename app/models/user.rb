@@ -8,6 +8,14 @@ class User < ApplicationRecord
   belongs_to :organization, optional: true
   has_many :touchpoints, through: :organization
 
+  def organization_name
+    if organization.present?
+      organization.name
+    elsif admin?
+      "Admin"
+    end
+  end
+
   # TODO - remove this overriding behavior that disabled email sending
   #        once Touchpoints has an email account and config setup
   def send_confirmation_notification?
