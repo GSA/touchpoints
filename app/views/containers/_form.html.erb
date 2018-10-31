@@ -1,0 +1,32 @@
+<%= form_with(model: container, local: true) do |form| %>
+  <% if container.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(container.errors.count, "error") %> prohibited this container from being saved:</h2>
+
+      <ul>
+      <% container.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :gtm_container_id %>
+    <%= form.text_field :gtm_container_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :gtm_container_public_id %>
+    <%= form.text_field :gtm_container_public_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,2 @@
+class Container < ApplicationRecord
+end

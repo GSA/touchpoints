@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @container.name %>
+</p>
+
+<p>
+  <strong>Gtm container:</strong>
+  <%= @container.gtm_container_id %>
+</p>
+
+<p>
+  <strong>Gtm container public:</strong>
+  <%= @container.gtm_container_public_id %>
+</p>
+
+<%= link_to 'Edit', edit_container_path(@container) %> |
+<%= link_to 'Back', containers_path %>
