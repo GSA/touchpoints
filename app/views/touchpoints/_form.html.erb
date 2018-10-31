@@ -32,6 +32,13 @@
     <%= form.hidden_field :organization_id, value: current_user.organization_id %>
   <% end %>
 
+  <%# if touchpoint.persisted? %>
+  <div class="field">
+    <%= form.label :container_id %>
+    <%= form.select :container_id, options_for_select(Container.all.map { |c| [c.name, c.id] }, selected: (touchpoint.container ? touchpoint.container.id : nil)), include_blank: true %>
+  </div>
+  <%# end %>
+
   <% unless touchpoint.persisted? %>
   <br>
   <br>
@@ -44,13 +51,6 @@
         </li>
       </ul>
     </fieldset>
-  </div>
-  <% end %>
-
-  <% if touchpoint.persisted? %>
-  <div class="field">
-    <%= form.label :gtm_container_id %>
-    <%= form.text_field :gtm_container_id, readonly: true %>
   </div>
   <% end %>
 

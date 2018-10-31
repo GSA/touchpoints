@@ -69,6 +69,11 @@ class ContainersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def container_params
-      params.require(:container).permit(:name, :gtm_container_id, :gtm_container_public_id)
+      params.require(:container).permit(
+        :name,
+        :gtm_container_id,
+        :gtm_container_public_id,
+        :organization_id
+      )
     end
 end

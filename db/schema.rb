@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2018_10_31_160208) do
 
   create_table "containers", force: :cascade do |t|
     t.string "name"
+    t.integer "organization_id", null: false
     t.string "gtm_container_id"
     t.string "gtm_container_public_id"
     t.datetime "created_at", null: false
@@ -65,8 +66,7 @@ ActiveRecord::Schema.define(version: 2018_10_31_160208) do
   create_table "touchpoints", force: :cascade do |t|
     t.string "name", null: false
     t.boolean "enable_google_sheets", default: false
-    t.string "gtm_container_id"
-    t.string "gtm_container_public_id"
+    t.integer "container_id"
     t.string "google_sheet_id"
     t.integer "form_id"
     t.integer "organization_id", null: false
