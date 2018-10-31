@@ -6,9 +6,8 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Gtm Container ID</th>
-      <th>Gtm Container Public ID</th>
-      <th></th>
+      <th>Container ID</th>
+      <th>Container Public ID</th>
     </tr>
   </thead>
 
@@ -16,9 +15,8 @@
     <% @containers.each do |container| %>
       <tr>
         <td><%= link_to container.name, container %></td>
-        <td><%= container.gtm_container_id %></td>
+        <td><%= link_to(container.gtm_container_id, container.gtm_container_url, target: "_blank") %></td>
         <td><%= container.gtm_container_public_id %></td>
-        <td><%= link_to 'Edit', edit_container_path(container) %></td>
       </tr>
     <% end %>
   </tbody>
