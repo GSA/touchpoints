@@ -43,6 +43,11 @@
 <%= link_to 'Edit', edit_touchpoint_path(@touchpoint), class: "usa-button" %>
 
 <hr>
+<p>
+  <%= link_to 'Local .js Example', example_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank" %>
+  <%= link_to 'GTM + .js Example', gtm_example_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank" %>
+</p>
+<hr>
 
 <% @submissions = @touchpoint.submissions %>
 <% if @touchpoint.enable_google_sheets? %>
