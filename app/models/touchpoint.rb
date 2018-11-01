@@ -26,8 +26,20 @@ class Touchpoint < ApplicationRecord
     workspaces = service.list_account_container_workspaces(path: path)
     workspace_id = workspaces.first.workspace_id
 
+    # Create the Touchpoints Tag
     path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.container.gtm_container_id}/workspaces/#{workspace_id}"
     service.create_touchpoints_tag(path: path, body: touchpoints_js_string)
+
+    # Publish New Container Version
+    publish_new_container_version!(service: service, path: path)
+  end
+
+  # Publish New Container Version
+  def publish_new_container_version!(service:, path:)
+    new_container_version  = service.create_account_container_workspace_version(path: path)
+    version_id = new_container_version.container_version.container_version_id
+    path2 = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.container.gtm_container_id}/versions/#{version_id}"
+    service.publish_account_container_version(path: path2)
   end
 
   # TODO

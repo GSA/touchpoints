@@ -113,12 +113,15 @@ eos
     create_variable_user_agent(path: path)
     create_variable_web_app_url(path: path)
     create_variable_client_id(path: path)
+    create_trigger_homepage_only(path: path)
+    create_trigger_recruiter_submit(path: path)
   end
 
   def create_touchpoints_tag(path:, body:)
-    homepage_only_trigger_id = create_trigger_homepage_only(path: path)
-    create_trigger_recruiter_submit(path: path)
-
+    triggers = list_account_container_workspace_triggers(path: path).trigger
+    homepage_only_trigger = triggers.select { |trigger| trigger.name == "Homepage only" }.first
+    raise ArgumentException unless homepage_only_trigger
+    homepage_only_trigger_id = homepage_only_trigger.trigger_id
     create_touchpoints_js_tag(path: path, body: body, trigger_id: homepage_only_trigger_id)
   end
 
@@ -354,7 +357,7 @@ eos
         {
           "type": "TEMPLATE",
           "key": "arg1",
-          "value": "(https://touchpoints-staging.app.cloud.gov/|127.0.0.1:3000)"
+          "value": "(https://touchpoints-staging.app.cloud.gov/|localhost:3000)"
         }
       ]
     }]
@@ -385,9 +388,8 @@ eos
   # End Define Triggers
 
   def create_touchpoints_js_tag(path:, body:, trigger_id:)
-
     new_tag = Google::Apis::TagmanagerV2::Tag.new
-    new_tag.name = "touchpoints.js"
+    new_tag.name = "touchpoints.js #{rand(10000)}"
     new_tag.type = "html"
     new_tag.firing_trigger_id = [trigger_id]
     new_tag.parameter = [{
@@ -455,7 +457,7 @@ eos
   end
 
   def list_account_container_workspace_triggers(path:)
-    @service.list_account_container_workspace_triggers
+    @service.list_account_container_workspace_triggers(path)
     # from here, select the trigger.
     # then, associate the ID of the Trigger as the FiringElement on the Custom Script Tag
   end
