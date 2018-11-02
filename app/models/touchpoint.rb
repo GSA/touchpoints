@@ -30,8 +30,9 @@ class Touchpoint < ApplicationRecord
     path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.container.gtm_container_id}/workspaces/#{workspace_id}"
     service.create_touchpoints_tag(path: path, body: touchpoints_js_string)
 
+    # TODO: Figure out why this fails
     # Publish New Container Version
-    publish_new_container_version!(service: service, path: path)
+    # publish_new_container_version!(service: service, path: path)
   end
 
   # Publish New Container Version
