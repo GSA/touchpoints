@@ -39,7 +39,7 @@ eos
     ].freeze
 
     authorizer = Google::Auth::ServiceAccountCredentials.make_creds({
-      json_key_io: File.open('tmp/google_service_account.json'),
+      json_key_io: File.open("tmp/google_service_account_#{Rails.env.downcase}.json"),
       scope: scope
     })
     authorizer.fetch_access_token!
