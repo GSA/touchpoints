@@ -47,6 +47,16 @@ class GoogleDriveApi
 
     user_permission = {
       type: 'user',
+      role: 'writer',
+      email_address: 'lauren.ancona@gsa.gov'
+    }
+    @service.create_permission(file_id,
+      user_permission,
+      fields: 'id',
+      &callback)
+
+    user_permission = {
+      type: 'user',
       role: 'owner',
       email_address: 'ryan.wold@gsa.gov'
     }
