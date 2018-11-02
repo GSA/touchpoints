@@ -9,11 +9,7 @@ N.fba = {
 		this.options = options;
 		this.loadCss();
 		this.loadHtml();
-		<% if touchpoint.present? && current_page?(new_touchpoint_submission_path(touchpoint)) %>
-		this.loadPage();
-		<% else %>
 		this.loadButton();
-		<% end %>
 		this.bindEventListeners();
 		this.dialogOpen = false;
 	},
