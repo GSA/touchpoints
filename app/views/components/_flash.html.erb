@@ -1,0 +1,20 @@
+<% unless flash.empty? %>
+  <% if flash[:notice] %>
+  <div class="usa-alert usa-alert-success" >
+    <div class="usa-alert-body">
+      <p class="usa-alert-text">
+        <%= flash[:notice] %>
+      </p>
+    </div>
+  </div>
+  <% end %>
+  <% if flash[:alert] %>
+  <div class="usa-alert usa-alert-error" >
+    <div class="usa-alert-body">
+      <p class="usa-alert-text">
+        <%= flash[:alert] %>
+      </p>
+    </div>
+  </div>
+  <% end %>
+<% end %>

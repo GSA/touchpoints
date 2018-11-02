@@ -18,9 +18,9 @@
       <button class="usa-nav-close">
         <%= image_tag "close.svg", alt: "close" %>
       </button>
-      <ul class="usa-nav-primary usa-accordion">
-        <% if current_user %>
+      <% if current_user %>
       <% if current_user.admin? %>
+      <ul class="usa-nav-primary usa-accordion" style="border-bottom: 1px solid #CCC; padding-bottom: 1em;">
         <li>
           <a class="usa-nav-link" href="/admin">
             <span>Admin</span>
@@ -41,7 +41,18 @@
             <span>Forms</span>
           </a>
         </li>
+      </ul>
       <% end %>
+      <% end %>
+      <ul class="usa-nav-primary usa-accordion">
+        <% if current_user %>
+      <% if current_user.admin? %>
+      <% end %>
+        <li>
+          <a class="usa-nav-link" href="/containers">
+            <span>Containers</span>
+          </a>
+        </li>
         <li>
           <a class="usa-nav-link" href="/touchpoints">
             <span>Touchpoints</span>
@@ -83,6 +94,8 @@
           <li>
             <a>
               <%= current_user.email %>
+              at
+              <%= current_user.organization_name %>
             </a>
           </li>
           <li>

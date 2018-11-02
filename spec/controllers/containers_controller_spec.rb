@@ -23,10 +23,10 @@ require 'rails_helper'
 # removed from Rails core in Rails 5, but can be added back in via the
 # `rails-controller-testing` gem.
 
-RSpec.describe TriggersController, type: :controller do
+RSpec.describe ContainersController, type: :controller do
 
   # This should return the minimal set of attributes required to create a valid
-  # Trigger. As you add validations to Trigger, be sure to
+  # Container. As you add validations to Container, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
     skip("Add a hash of attributes valid for your model")
@@ -38,12 +38,12 @@ RSpec.describe TriggersController, type: :controller do
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
-  # TriggersController. Be sure to keep this updated too.
+  # ContainersController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
   describe "GET #index" do
     it "returns a success response" do
-      Trigger.create! valid_attributes
+      Container.create! valid_attributes
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
     end
@@ -51,19 +51,13 @@ RSpec.describe TriggersController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response" do
-      trigger = Trigger.create! valid_attributes
-      get :show, params: {id: trigger.to_param}, session: valid_session
+      container = Container.create! valid_attributes
+      get :show, params: {id: container.to_param}, session: valid_session
       expect(response).to be_successful
     end
   end
 
   describe "GET #new" do
-    let(:admin) { FactoryBot.create(:user, :admin)}
-
-    before do
-      sign_in(admin)
-    end
-
     it "returns a success response" do
       get :new, params: {}, session: valid_session
       expect(response).to be_successful
@@ -72,29 +66,29 @@ RSpec.describe TriggersController, type: :controller do
 
   describe "GET #edit" do
     it "returns a success response" do
-      trigger = Trigger.create! valid_attributes
-      get :edit, params: {id: trigger.to_param}, session: valid_session
+      container = Container.create! valid_attributes
+      get :edit, params: {id: container.to_param}, session: valid_session
       expect(response).to be_successful
     end
   end
 
   describe "POST #create" do
     context "with valid params" do
-      it "creates a new Trigger" do
+      it "creates a new Container" do
         expect {
-          post :create, params: {trigger: valid_attributes}, session: valid_session
-        }.to change(Trigger, :count).by(1)
+          post :create, params: {container: valid_attributes}, session: valid_session
+        }.to change(Container, :count).by(1)
       end
 
-      it "redirects to the created trigger" do
-        post :create, params: {trigger: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(Trigger.last)
+      it "redirects to the created container" do
+        post :create, params: {container: valid_attributes}, session: valid_session
+        expect(response).to redirect_to(Container.last)
       end
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: {trigger: invalid_attributes}, session: valid_session
+        post :create, params: {container: invalid_attributes}, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -106,41 +100,41 @@ RSpec.describe TriggersController, type: :controller do
         skip("Add a hash of attributes valid for your model")
       }
 
-      it "updates the requested trigger" do
-        trigger = Trigger.create! valid_attributes
-        put :update, params: {id: trigger.to_param, trigger: new_attributes}, session: valid_session
-        trigger.reload
+      it "updates the requested container" do
+        container = Container.create! valid_attributes
+        put :update, params: {id: container.to_param, container: new_attributes}, session: valid_session
+        container.reload
         skip("Add assertions for updated state")
       end
 
-      it "redirects to the trigger" do
-        trigger = Trigger.create! valid_attributes
-        put :update, params: {id: trigger.to_param, trigger: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(trigger)
+      it "redirects to the container" do
+        container = Container.create! valid_attributes
+        put :update, params: {id: container.to_param, container: valid_attributes}, session: valid_session
+        expect(response).to redirect_to(container)
       end
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
-        trigger = Trigger.create! valid_attributes
-        put :update, params: {id: trigger.to_param, trigger: invalid_attributes}, session: valid_session
+        container = Container.create! valid_attributes
+        put :update, params: {id: container.to_param, container: invalid_attributes}, session: valid_session
         expect(response).to be_successful
       end
     end
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested trigger" do
-      trigger = Trigger.create! valid_attributes
+    it "destroys the requested container" do
+      container = Container.create! valid_attributes
       expect {
-        delete :destroy, params: {id: trigger.to_param}, session: valid_session
-      }.to change(Trigger, :count).by(-1)
+        delete :destroy, params: {id: container.to_param}, session: valid_session
+      }.to change(Container, :count).by(-1)
     end
 
-    it "redirects to the triggers list" do
-      trigger = Trigger.create! valid_attributes
-      delete :destroy, params: {id: trigger.to_param}, session: valid_session
-      expect(response).to redirect_to(triggers_url)
+    it "redirects to the containers list" do
+      container = Container.create! valid_attributes
+      delete :destroy, params: {id: container.to_param}, session: valid_session
+      expect(response).to redirect_to(containers_url)
     end
   end
 

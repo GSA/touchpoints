@@ -1,112 +1,108 @@
 <%= form_with(model: touchpoint, local: true) do |form| %>
-  <% if touchpoint.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(touchpoint.errors.count, "error") %> prohibited this touchpoint from being saved:</h2>
-
-      <% touchpoint.errors.full_messages.each do |message| %>
-        <div class="usa-alert usa-alert-error" >
-          <div class="usa-alert-body">
-            <h3 class="usa-alert-heading">Error</h3>
-            <p class="usa-alert-text">
-              <%= message %>
-            </p>
-          </div>
+<% if touchpoint.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(touchpoint.errors.count, "error") %> prohibited this touchpoint from being saved:</h2>
+    <% touchpoint.errors.full_messages.each do |message| %>
+      <div class="usa-alert usa-alert-error" >
+        <div class="usa-alert-body">
+          <h3 class="usa-alert-heading">Error</h3>
+          <p class="usa-alert-text">
+            <%= message %>
+          </p>
         </div>
-
-      <% end %>
-
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-
-  <% if current_user.admin? %>
-    <div class="field">
-      <%= form.label :organization_id %>
-      <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: (touchpoint.organization ? touchpoint.organization.id : nil)), include_blank: true %>
-    </div>
-  <% else %>
-    <%= form.hidden_field :organization_id, value: current_user.organization_id %>
-  <% end %>
-
-  <% unless touchpoint.persisted? %>
-  <br>
-  <br>
-  <div class="field">
-    <fieldset class="usa-fieldset-inputs usa-sans">
-      <ul class="usa-unstyled-list">
-        <li>
-          <%= form.check_box :enable_google_sheets %>
-          <%= form.label :enable_google_sheets? %>
-        </li>
-      </ul>
-    </fieldset>
-  </div>
-  <% end %>
-
-  <% if touchpoint.persisted? %>
-  <div class="field">
-    <%= form.label :gtm_container_id %>
-    <%= form.text_field :gtm_container_id, readonly: true %>
-  </div>
-  <% end %>
-
-  <br>
-  <br>
-  <h3>
-    Which Form?
-  </h3>
-
-  <fieldset class="usa-fieldset-inputs usa-sans">
-    <legend class="usa-sr-only">Types of Forms</legend>
-    <ul class="usa-unstyled-list">
-    <% Form.all.each do |f| %>
-      <li>
-        <%= form.radio_button :form_id, f.id %>
-        <%= form.label f.name, for: "touchpoint_form_id_#{f.id}" %>
-      </li>
+      </div>
     <% end %>
+  </div>
+<% end %>
+<div class="field">
+  <%= form.label :name %>
+  <%= form.text_field :name, placeholder: "Name this Touchpoint for your Reference" %>
+</div>
+<h3>
+  Which Form would you like to add to your website?
+</h3>
+<fieldset class="usa-fieldset-inputs usa-sans">
+  <legend class="usa-sr-only">Types of Forms</legend>
+  <ul class="usa-unstyled-list">
+  <% Form.all.each do |f| %>
+    <li>
+      <%= form.radio_button :form_id, f.id %>
+      <%= form.label f.name, for: "touchpoint_form_id_#{f.id}" %>
+    </li>
+  <% end %>
+    <li>
+      <%= form.radio_button :form_id, :other %>
+      <%= form.label :other, for: "touchpoint_form_id_other" %>
+    </li>
+  </ul>
+</fieldset>
+<div class="field">
+  <%= form.label :container_id do %>
+    Which Container do you want to deploy this Touchpoint in?<br>
+    <span style="font-size: 0.75em;">
+      This Touchpoint.js code be inserted into a Tag in GTM and will be attached to a Homepage Trigger.
+    </span>
+  <% end %>
+  <%= form.select :container_id, options_for_select(Container.all.map { |c| [c.name, c.id] }, selected: (touchpoint.container ? touchpoint.container.id : nil)), include_blank: true %>
+</div>
+<% unless touchpoint.persisted? %>
+<br>
+<br>
+<div class="field">
+  <fieldset class="usa-fieldset-inputs usa-sans">
+    <ul class="usa-unstyled-list">
       <li>
-        <%= form.radio_button :form_id, :other %>
-        <%= form.label :other, for: "touchpoint_form_id_other" %>
+        <%= form.check_box :enable_google_sheets %>
+        <%= form.label :enable_google_sheets? do %>
+          Enable Google Sheets?
+          <span style="font-size: 0.75em;">
+            - if selected, a GSA.gov Google Sheet will be created,
+            and Submissions will be written to that Sheet,
+            instead of the Touchpoints database.
+          </span>
+        <% end %>
       </li>
     </ul>
   </fieldset>
-
-  <div class="field">
-    <%= form.label :purpose %>
-    <%= form.text_area :purpose %>
-  </div>
-
-  <div class="field">
-    <%= form.label :meaningful_response_size %>
-    <%= form.number_field :meaningful_response_size %>
-  </div>
-
-  <div class="field">
-    <%= form.label :behavior_change %>
-    <%= form.text_area :behavior_change %>
-  </div>
-
-  <div class="field">
-    <%= form.label :notification_emails %>
-    <%= form.text_field(:notification_emails, value: (touchpoint.notification_emails? ? touchpoint.notification_emails : current_user.email)) %>
-  </div>
-
-  <% unless touchpoint.persisted? %>
-  <div class="usa-alert usa-alert-info" >
-    <div class="usa-alert-body">
-      <p class="usa-alert-text">
-        An Embed Code will be generated after creating a Touchpoint.
-      </p>
+</div>
+<% end %>
+<br>
+<hr>
+<br>
+<br>
+<div class="usa-grid">
+  <div class="usa-width-one-half">
+    <h3>
+      How does this support CX Goals?
+    </h3>
+    <div class="field">
+      <%= form.label :meaningful_response_size %>
+      <%= form.number_field :meaningful_response_size, placeholder: "1000" %>
+    </div>
+    <div class="field">
+      <%= form.label :purpose %>
+      <%= form.text_area :purpose %>
+    </div>
+    <div class="field">
+      <%= form.label :behavior_change %>
+      <%= form.text_area :behavior_change %>
     </div>
   </div>
-  <% end %>
-
-  <div class="actions">
-    <%= form.submit %>
+  <div class="usa-width-one-half">
+    <h3>
+      Submission Settings
+    </h3>
+    <div class="field">
+      <%= form.label "emails to notify when a Submission is received" %>
+      <%= form.text_field(:notification_emails, value: (touchpoint.notification_emails? ? touchpoint.notification_emails : current_user.email)) %>
+    </div>
   </div>
+</div>
+<br>
+<hr>
+<div class="actions">
+  <%= form.submit %>
+</div>
+<br>
+<br>
 <% end %>

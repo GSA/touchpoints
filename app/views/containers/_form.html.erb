@@ -1,0 +1,43 @@
+<%= form_with(model: container, local: true) do |form| %>
+  <% if container.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(container.errors.count, "error") %> prohibited this container from being saved:</h2>
+
+      <ul>
+      <% container.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <% if current_user.admin? %>
+    <div class="field">
+      <%= form.label :organization_id %>
+      <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: (container.organization ? container.organization.id : nil)), include_blank: true %>
+    </div>
+  <% else %>
+    <%= form.hidden_field :organization_id, value: current_user.organization_id %>
+  <% end %>
+
+  <% if container.persisted? %>
+  <div class="field">
+    <%= form.label :gtm_container_id %>
+    <%= form.text_field :gtm_container_id, readonly: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :gtm_container_public_id %>
+    <%= form.text_field :gtm_container_public_id, readonly: true %>
+  </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

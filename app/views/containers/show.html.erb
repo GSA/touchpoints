@@ -1,0 +1,56 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @container.name %>
+</p>
+
+<p>
+  <strong>GTM Container ID:</strong>
+  <%= link_to(@container.gtm_container_id, @container.gtm_container_url, target: "_blank") %>
+</p>
+<p>
+  <strong>GTM Container Public ID:</strong>
+  <%= @container.gtm_container_public_id %>
+</p>
+
+<div>
+  <h3>
+    Embed Codes
+  </h3>
+  <p>
+    Place the following code just above the closing `/head` tag in your website.
+  </p>
+  <textarea name="name" rows="8" cols="80" readonly="true" style="font-family: monospace; font-size: 0.625em;"><%= @container.embed_code_head %></textarea>
+
+  <p>
+    And, place the following code just below the `body` tag in your website.
+  </p>
+  <textarea name="name" rows="8" cols="80" readonly="true" style="font-family: monospace; font-size: 0.625em;"><%= @container.embed_code_body %></textarea>
+</div>
+<hr>
+
+<%= link_to 'Edit', edit_container_path(@container), class: "usa-button" %>
+
+<h3>
+  Assigned Touchpoints
+</h3>
+<% if @container.touchpoints.present? %>
+  <div>
+  <% @container.touchpoints.each do |touchpoint| %>
+    <%= link_to touchpoint.name, touchpoint_path(touchpoint) %>
+  <% end %>
+  </div>
+<% else %>
+<div class="usa-alert usa-alert-info">
+  <div class="usa-alert-body">
+    <p class="usa-alert-text">
+      No Touchpoints are assigned to this Container.
+    </p>
+  </div>
+</div>
+<div class="usa-alert">
+  Now that you have a Container
+  <%= link_to("add a Touchpoint", new_touchpoint_path) %>
+</div>
+<% end %>

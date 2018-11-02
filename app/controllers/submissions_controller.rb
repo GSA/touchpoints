@@ -72,7 +72,7 @@ class SubmissionsController < ApplicationController
                 touchpoint: {
                   id: submission.touchpoint.id,
                   name: submission.touchpoint.name,
-                  organization_name: submission.touchpoint.organization.name
+                  organization_name: submission.touchpoint.container.organization.name
                 }
               },
               status: :created

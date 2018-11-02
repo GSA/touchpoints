@@ -1,16 +1,17 @@
 class Touchpoint < ApplicationRecord
 
-  belongs_to :organization
+  belongs_to :container
   belongs_to :form
   has_many :submissions
 
-  before_create :create_container_in_gtm
   before_create :create_google_sheet
 
   after_create :config_gtm_container!
 
   validates :name, presence: true
 
+  # returns javascript text that can be used standalone
+  # or injected into a Tag
   def touchpoints_js_string
     ApplicationController.new.render_to_string(partial: "components/widget/fba.js", locals: { touchpoint: self })
   end
@@ -21,45 +22,27 @@ class Touchpoint < ApplicationRecord
     service = GoogleApi.new
 
     # Lookup Workspaces
-    path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.gtm_container_id}"
+    path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.container.gtm_container_id}"
     workspaces = service.list_account_container_workspaces(path: path)
     workspace_id = workspaces.first.workspace_id
 
-    # Create Tag
-    path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.gtm_container_id}/workspaces/#{workspace_id}"
-    service.create_container_custom_configs(path: path, touchpoint: self, body: touchpoints_js_string)
+    # Create the Touchpoints Tag
+    path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.container.gtm_container_id}/workspaces/#{workspace_id}"
+    service.create_touchpoints_tag(path: path, body: touchpoints_js_string)
 
-    # Create new Version
-    path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.gtm_container_id}/workspaces/#{workspace_id}"
+    # Publish New Container Version
+    publish_new_container_version!(service: service, path: path)
+  end
+
+  # Publish New Container Version
+  def publish_new_container_version!(service:, path:)
     new_container_version  = service.create_account_container_workspace_version(path: path)
-
     version_id = new_container_version.container_version.container_version_id
-    path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.gtm_container_id}/versions/#{version_id}"
-    service.publish_account_container_version(path: path)
+    path2 = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.container.gtm_container_id}/versions/#{version_id}"
+    service.publish_account_container_version(path: path2)
   end
 
-  def gtm_container_url
-    "https://tagmanager.google.com/#/admin/?accountId=#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}&containerId=#{gtm_container_id}"
-  end
-
-  def embed_code_head
-    GoogleApi.gtm_header_text(key: self.gtm_container_public_id)
-  end
-
-  def embed_code_body
-    GoogleApi.gtm_body_text(key: self.gtm_container_public_id)
-  end
-
-  # Creates a GTM Container for this Touchpoint
-  def create_container_in_gtm
-    return if Rails.env.test?
-
-    @service = GoogleApi.new
-    new_container = @service.create_account_container(name: "fba-#{Rails.env.downcase}-#{name.parameterize}")
-    self.gtm_container_id = new_container.container_id
-    self.gtm_container_public_id = new_container.public_id
-  end
-
+  # TODO
   # Creates a Google Sheet for this Touchpoint
   def create_google_sheet
     return unless self.enable_google_sheets
@@ -71,6 +54,7 @@ class Touchpoint < ApplicationRecord
     push_title_row
   end
 
+  # TODO - push the guts of the next 3 methods out. keep the method though
   # Returns the existing Google Spreadsheet as an object for this Touchpoint
   def google_spreadsheet
     raise ArgumentError unless self.google_sheet_id
