@@ -77,6 +77,16 @@ class Touchpoint < ApplicationRecord
       push_row(values: [
         "Body"
       ])
+    elsif self.form.kind == "open-ended-with-contact-info"
+      push_row(values: [
+        "Body",
+        "Name",
+        "Email",
+        "Referer",
+        "User Agent",
+        "Page",
+        "Created At"
+      ])
     elsif self.form.kind == "a11"
       push_row(values: [
         "Overall satisfaction",

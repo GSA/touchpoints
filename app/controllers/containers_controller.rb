@@ -1,4 +1,5 @@
 class ContainersController < ApplicationController
+  before_action :ensure_admin
   before_action :set_container, only: [:show, :edit, :update, :destroy]
 
   def index

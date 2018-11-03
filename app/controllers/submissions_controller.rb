@@ -1,11 +1,10 @@
 class SubmissionsController < ApplicationController
-  protect_from_forgery only: [:create]
+  protect_from_forgery only: []
   before_action :ensure_admin, only: [:index, :new, :show, :update, :destroy]
   before_action :set_touchpoint, only: [:index, :new, :create, :show, :edit, :update, :destroy]
   before_action :set_submission, only: [:show, :edit, :update, :destroy]
 
   def index
-    # @submissions = Submission.all.includes(:organization)
     @submissions = @touchpoint.submissions.includes(:organization)
   end
 
@@ -106,7 +105,18 @@ class SubmissionsController < ApplicationController
       end
       if form.kind == "open-ended"
         values = [
-          params[:submission][:body]
+          params[:submission][:body],
+        ]
+      end
+      if form.kind == "open-ended-with-contact-info"
+        values = [
+          params[:submission][:body],
+          params[:submission][:name],
+          params[:submission][:email],
+          params[:submission][:referer],
+          params[:submission][:user_agent],
+          params[:submission][:page],
+          params[:submission][:created_at],
         ]
       end
       if form.kind == "a11"
@@ -122,7 +132,7 @@ class SubmissionsController < ApplicationController
       end
       response = google_service.add_row(spreadsheet_id: spreadsheet_id, values: values)
 
-      render json: { status: :success, message: "Google Sheet created" }
+      render json: { status: :success, message: "Submission created in Google Sheet" }
     end
 
     def set_touchpoint
@@ -145,7 +155,13 @@ class SubmissionsController < ApplicationController
         )
       elsif @touchpoint.form.kind == "open-ended"
         params.require(:submission).permit(
-          :body
+          :body,
+        )
+      elsif @touchpoint.form.kind == "open-ended-with-contact-info"
+        params.require(:submission).permit(
+          :body,
+          :first_name,
+          :email
         )
       elsif @touchpoint.form.kind == "a11"
         params.require(:submission).permit(
