@@ -111,7 +111,7 @@ class SubmissionsController < ApplicationController
       if form.kind == "open-ended-with-contact-info"
         values = [
           params[:submission][:body],
-          params[:submission][:name],
+          params[:submission][:first_name],
           params[:submission][:email],
           params[:submission][:referer],
           request.user_agent,
