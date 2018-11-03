@@ -114,9 +114,9 @@ class SubmissionsController < ApplicationController
           params[:submission][:name],
           params[:submission][:email],
           params[:submission][:referer],
-          params[:submission][:user_agent],
+          request.user_agent,
           params[:submission][:page],
-          params[:submission][:created_at],
+          Time.now,
         ]
       end
       if form.kind == "a11"
