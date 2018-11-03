@@ -64,6 +64,15 @@ form_3 = Form.create({
   notes: ""
 })
 
+form_4 = Form.create({
+  name: "Open Ended Form with Contact Information",
+  kind:  "open-ended-with-contact-info",
+  title: "",
+  instructions: "",
+  disclaimer_text: "Disclaimer Text Goes Here",
+  notes: ""
+})
+
 container_1 = Container.create!({
   organization: org_1,
   name: "#{org_1.name}'s Test Container 1"

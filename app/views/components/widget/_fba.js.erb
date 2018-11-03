@@ -137,6 +137,17 @@ N.fba = {
 				}
 			}
 
+			if(form.getAttribute("data-kind") === "open-ended-with-contact-info") {
+				var params = {
+					body: form.querySelector("#fba-text-body").value,
+					first_name: form.querySelector("#fba-text-name").value,
+					email: form.querySelector("#fba-text-email").value,
+					referer: form.querySelector("#fba-referer").value,
+					page: form.querySelector("#fba-page").value,
+					user_agent: form.querySelector("#fba-user-agent").value,
+				}
+			}
+
 			if(form.getAttribute("data-kind") === "a11") {
 				var params = {
 					overall_satisfaction: form.querySelector("input[name=overall_satisfaction]:checked").value,
