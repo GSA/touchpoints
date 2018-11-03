@@ -86,7 +86,10 @@ class TouchpointsController < ApplicationController
         :meaningful_response_size,
         :behavior_change,
         :notification_emails,
-        :enable_google_sheets
+        :enable_google_sheets,
+        :user_agent,
+        :referer,
+        :page
       )
     end
 end
