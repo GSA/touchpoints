@@ -105,8 +105,6 @@ N.fba = {
 			if (this.readyState === 4) {
 		      if (this.status === 201) { // SUCCESS!
 						alertElement.innerHTML += "Success! Form submitted successfully. Thank you for your Feedback.";
-		      } else if (this.status === 200) { // FIXME: this `if` should not be necessary. Response should be a 201 (HTTP CREATED status)
-						alertElement.innerHTML += "Success! Form submitted successfully. Thank you for your Feedback.";
 		      } else if (this.status === 422) { // FORM ERRORS =\
 						 var errors = this.response;
 

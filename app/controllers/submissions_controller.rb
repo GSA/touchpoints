@@ -132,7 +132,7 @@ class SubmissionsController < ApplicationController
       end
       response = google_service.add_row(spreadsheet_id: spreadsheet_id, values: values)
 
-      render json: { status: :success, message: "Submission created in Google Sheet" }
+      render json: { status: :created, message: "Submission created in Google Sheet" }
     end
 
     def set_touchpoint
