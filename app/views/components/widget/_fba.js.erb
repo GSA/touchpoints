@@ -69,6 +69,7 @@ N.fba = {
 		},
 		handleSubmitClick: function(e) {
 			e.preventDefault();
+			d.getElementById('fba-submit').disabled = true;
 			N.fba.sendFeedback();
 		},
 		loadButton: function()
@@ -121,6 +122,9 @@ N.fba = {
 			alertElement.innerHTML = "";
 			alertElement.style.display = "none";
 
+			// Re-enable Submit Button
+			d.getElementById('fba-submit').disabled = false;
+
 			// Show Form Elements
 			if (document.getElementById('touchpoints-form')) {
 				if (document.getElementById('touchpoints-form').getElementsByTagName("fieldset")) {
@@ -140,9 +144,11 @@ N.fba = {
 			if (this.readyState === 4) {
 	      if (this.status === 201) { // SUCCESS!
 					fba.successState = true;
+					d.getElementById('fba-submit').disabled = true;
 					fba.showFormSuccess();
 	      } else if (this.status === 422) { // FORM ERRORS =\
 						fba.successState = false;
+						d.getElementById('fba-submit').disabled = false;
 					  var errors = this.response;
 
 					  for (var err in errors) {
