@@ -33,6 +33,7 @@ N.fba = {
 		{
 			this.buttonEl = document.createElement('a');
 			this.buttonEl.setAttribute('id', 'fba-button');
+			this.buttonEl.setAttribute('class', 'fixed-tab-button');
 			this.buttonEl.setAttribute('href', '#');
 			this.buttonEl.innerHTML = this.options.open;
 
@@ -105,6 +106,17 @@ N.fba = {
 			if (this.readyState === 4) {
 		      if (this.status === 201) { // SUCCESS!
 						alertElement.innerHTML += "Success! Form submitted successfully. Thank you for your Feedback.";
+						alertElement.style.display = "block";
+
+						if (document.getElementById('touchpoints-form')) {
+							if (document.getElementById('touchpoints-form').getElementsByTagName("fieldset")) {
+								var fieldset = document.getElementById('touchpoints-form').getElementsByTagName("fieldset")[0]
+								if(fieldset) {
+									fieldset.style.display = "none";
+								}
+							}
+						}
+
 		      } else if (this.status === 422) { // FORM ERRORS =\
 						 var errors = this.response;
 
@@ -166,9 +178,8 @@ N.fba = {
 					email: form.querySelector("#fba-text-email").value
 				}
 			}
-			xhr.open("POST", url + "?callback=doThangs");
+			xhr.open("POST", url);
 			xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8;");
-			xhr.responseType = 'jsonp';
 	    xhr.onload = callback.bind(xhr);
 	    xhr.send(JSON.stringify({
 				"submission": params
