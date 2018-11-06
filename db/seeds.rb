@@ -7,7 +7,7 @@ service.clean_account_containers(account_id: ENV.fetch("GOOGLE_TAG_MANAGER_ACCOU
 
 # Create Seeds
 admin_user = User.new({
-  email: "admin@example.com",
+  email: "admin@example.gov",
   password: "password",
   admin: true
 })
@@ -29,7 +29,7 @@ org_3 = Organization.create({
 })
 
 webmaster = User.new({
-  email: "webmaster@example.com",
+  email: "webmaster@example.gov",
   password: "password",
   organization: org_1
 })
