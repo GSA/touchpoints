@@ -1,7 +1,5 @@
 <form id="touchpoints-form" action="/touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" data-kind="open-ended-with-contact-info" method="POST">
-  <div id="fba-alert" class="usa-alert">
-    alert message
-  </div>
+  <%= render 'components/forms/flash' %>
   <h3>
     <%= form.title %>
   </h3>
