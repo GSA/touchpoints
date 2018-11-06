@@ -31,7 +31,7 @@ RSpec.describe Admin::UsersController, type: :controller do
   let(:valid_attributes) {
     # skip("Add a hash of attributes valid for your model")
     {
-      email: "james.madison@lvh.me",
+      email: "james.madison@example.gov",
       password: "password",
       password_confirmation: "password"
     }

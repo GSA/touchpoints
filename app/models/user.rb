@@ -8,6 +8,16 @@ class User < ApplicationRecord
   belongs_to :organization, optional: true
   has_many :touchpoints, through: :organization
 
+  APPROVED_DOMAINS = [".gov", ".mil"]
+
+  validates :email, presence: true, if: :tld_check
+
+  def tld_check
+    unless APPROVED_DOMAINS.any? { |word| email.end_with?(word)}
+      errors.add(:email, "is not from a valid TLD - .gov and .mil domains only")
+    end
+end
+
   def organization_name
     if organization.present?
       organization.name

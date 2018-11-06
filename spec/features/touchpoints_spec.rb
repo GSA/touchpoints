@@ -21,7 +21,7 @@ feature "Touchpoints", js: true do
           fill_in("touchpoint[purpose]", with: "Compliance")
           fill_in("touchpoint[meaningful_response_size]", with: 50)
           fill_in("touchpoint[behavior_change]", with: "to be determined")
-          fill_in("touchpoint[notification_emails]", with: "admin@example.com")
+          fill_in("touchpoint[notification_emails]", with: "admin@example.gov")
           click_button "Create Touchpoint"
         end
 
@@ -29,7 +29,7 @@ feature "Touchpoints", js: true do
           expect(page.current_path).to eq(touchpoint_path(Touchpoint.first.id))
           expect(page).to have_content("Touchpoint was successfully created.")
 
-          expect(page).to have_content("Notification emails: admin@example.com")
+          expect(page).to have_content("Notification emails: admin@example.gov")
         end
       end
     end
@@ -55,7 +55,7 @@ feature "Touchpoints", js: true do
           fill_in("touchpoint[purpose]", with: "Compliance")
           fill_in("touchpoint[meaningful_response_size]", with: 50)
           fill_in("touchpoint[behavior_change]", with: "to be determined")
-          fill_in("touchpoint[notification_emails]", with: "admin@example.com")
+          fill_in("touchpoint[notification_emails]", with: "admin@example.gov")
           click_button "Create Touchpoint"
         end
 
@@ -63,7 +63,7 @@ feature "Touchpoints", js: true do
           expect(page.current_path).to eq(touchpoint_path(Touchpoint.first.id))
           expect(page).to have_content("Touchpoint was successfully created.")
 
-          expect(page).to have_content("Notification emails: admin@example.com")
+          expect(page).to have_content("Notification emails: admin@example.gov")
         end
       end
     end
