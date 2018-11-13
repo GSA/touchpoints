@@ -30,7 +30,7 @@ end
   #        once Touchpoints has an email account and config setup
   def send_confirmation_notification?
     # Explicitly confirm the User's account
-    self.confirm
+    self.confirmed_at = Time.now
 
     return false
   end
