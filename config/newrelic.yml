@@ -14,23 +14,18 @@ common: &default_settings
   # Required license key associated with your New Relic account.
   license_key: <%= ENV.fetch("NEW_RELIC_KEY") %>
 
-  # Your application name. Renaming here affects where data displays in New
-  # Relic.  For more details, see https://docs.newrelic.com/docs/apm/new-relic-apm/maintenance/renaming-applications
-  app_name: touchpoints-staging
-
   # To disable the agent regardless of other settings, uncomment the following:
   # agent_enabled: false
 
   # Logging level for log/newrelic_agent.log
   log_level: info
 
-
 # Environment-specific settings are in this section.
 # RAILS_ENV or RACK_ENV (as appropriate) is used to determine the environment.
 # If your application has other named environments, configure them here.
 development:
   <<: *default_settings
-  app_name: Touchpoints (Development)
+  app_name: touchpoints-development
 
 test:
   <<: *default_settings
@@ -39,7 +34,8 @@ test:
 
 staging:
   <<: *default_settings
-  app_name: Touchpoints (Staging)
+  app_name: touchpoints-staging
 
 production:
   <<: *default_settings
+  app_name: touchpoints-production
