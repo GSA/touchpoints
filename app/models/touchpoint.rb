@@ -1,17 +1,15 @@
 class Touchpoint < ApplicationRecord
-
   belongs_to :container
   belongs_to :form
   has_many :submissions
 
-  before_create :create_google_sheet
-
-  after_create :config_gtm_container!
-
   validates :name, presence: true
 
+  before_create :create_google_sheet!
+  after_create :config_gtm_container!
+
   # returns javascript text that can be used standalone
-  # or injected into a Tag
+  # or injected into a GTM Container Tag
   def touchpoints_js_string
     ApplicationController.new.render_to_string(partial: "components/widget/fba.js", locals: { touchpoint: self })
   end
@@ -45,7 +43,7 @@ class Touchpoint < ApplicationRecord
 
   # TODO
   # Creates a Google Sheet for this Touchpoint
-  def create_google_sheet
+  def create_google_sheet!
     return unless self.enable_google_sheets
 
     @service = GoogleSheetsApi.new
@@ -62,6 +60,13 @@ class Touchpoint < ApplicationRecord
 
     @service = GoogleSheetsApi.new
     spreadsheet = @service.service.get_spreadsheet(self.google_sheet_id)
+  end
+
+  def google_spreadsheet_values
+    raise ArgumentError unless self.google_sheet_id
+
+    @service = GoogleSheetsApi.new
+    spreadsheet = @service.service.get_spreadsheet_values(self.google_sheet_id, "A1:ZZ")
   end
 
   def push_title_row
