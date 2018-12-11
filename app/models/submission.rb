@@ -8,6 +8,15 @@ class Submission < ApplicationRecord
 
   validates :overall_satisfaction, presence: true, if: :form_kind_is_a11?
 
+  after_create :send_notifications
+
+  def send_notifications
+    return unless Rails.env.development?
+    
+    emails_to_notify = self.touchpoint.container.organization.users.collect(&:email)
+    UserMailer.submission_notification(emails: emails_to_notify).deliver_now
+  end
+
   # NOTE: this is brittle.
   #       this pattern will require every field to declare its validations
   #       Rethink.
