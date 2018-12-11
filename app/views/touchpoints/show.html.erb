@@ -56,8 +56,22 @@
     for
     <%= @touchpoint.name %>
   </h1>
+  <% sheet_values = @touchpoint.google_spreadsheet_values %>
+  <table>
+    <% sheet_values.values.each do |row| %>
+    <tr>
+      <% row.each do |cell| %>
+        <td>
+          <%= cell %>
+        </td>
+      <% end %>
+    </tr>
+    <% end %>
+  </table>
   See the Google Sheet
-  <%= @touchpoint.enable_google_sheets? ? link_to(@touchpoint.google_sheet_id, "https://docs.google.com/spreadsheets/d/#{@touchpoint.google_sheet_id}/edit#gid=0", target: "_blank") : 'N/A' %>
+  <%= link_to(@touchpoint.google_sheet_id, "https://docs.google.com/spreadsheets/d/#{@touchpoint.google_sheet_id}/edit#gid=0", target: "_blank") %>
+  <br>
+  <br>
 <% else %>
   <%= render file: "submissions/index" %>
 <% end %>
