@@ -5,7 +5,7 @@ class UserMailer < ApplicationMailer
   #
   #   en.user_mailer.submission_notification.subject
   #
-  def submission_notification(emails:)
+  def submission_notification(emails: [])
     @greeting = "Hi"
 
     mail to: emails,

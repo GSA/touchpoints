@@ -2,11 +2,12 @@ require "rails_helper"
 
 RSpec.describe UserMailer, type: :mailer do
   describe "submission_notification" do
-    let(:mail) { UserMailer.submission_notification }
+    let(:user) { FactoryBot.create(:user) }
+    let(:mail) { UserMailer.submission_notification(emails: [user.email]) }
 
     it "renders the headers" do
       expect(mail.subject).to eq("Submission notification")
-      expect(mail.to).to eq(["to@example.org"])
+      expect(mail.to).to eq([user.email])
       expect(mail.from).to eq(["from@example.com"])
     end
 
