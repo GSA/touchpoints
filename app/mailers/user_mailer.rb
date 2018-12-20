@@ -5,11 +5,12 @@ class UserMailer < ApplicationMailer
   #
   #   en.user_mailer.submission_notification.subject
   #
-  def submission_notification(emails: [])
-    @greeting = "Hi"
-
-    mail to: emails,
-        bcc: "to@example.org"
+  def submission_notification(submission:, emails: [])
+    @submission = submission
+    @touchpoint = @submission.touchpoint
+    mail subject: "New Submission to #{@touchpoint.name}",
+      to: emails,
+      bcc: "ryan.wold@gsa.gov,lauren.ancona@gsa.gov"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml

@@ -12,9 +12,9 @@ class Submission < ApplicationRecord
 
   def send_notifications
     return unless Rails.env.development?
-    
+
     emails_to_notify = self.touchpoint.container.organization.users.collect(&:email)
-    UserMailer.submission_notification(emails: emails_to_notify).deliver_now
+    UserMailer.submission_notification(submission: self, emails: emails_to_notify).deliver_now
   end
 
   # NOTE: this is brittle.

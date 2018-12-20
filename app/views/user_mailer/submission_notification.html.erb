@@ -1,5 +1,8 @@
-<h1>User#submission_notification</h1>
+<h1>
+  Touchpoints.gov Submission Notification
+</h1>
 
 <p>
-  <%= @greeting %>, find me in app/views/user_mailer/submission_notification.html.erb
+  New feedback has been submitted to your form, <%= @touchpoint.name %>.
+  Visit <%= touchpoint_url(@touchpoint) %> to view.
 </p>
