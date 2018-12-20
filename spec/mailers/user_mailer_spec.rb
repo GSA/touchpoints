@@ -3,16 +3,18 @@ require "rails_helper"
 RSpec.describe UserMailer, type: :mailer do
   describe "submission_notification" do
     let(:user) { FactoryBot.create(:user) }
-    let(:mail) { UserMailer.submission_notification(emails: [user.email]) }
+    let(:submission) { FactoryBot.create(:submission) }
+    let(:mail) { UserMailer.submission_notification(submission: submission, emails: [user.email]) }
 
     it "renders the headers" do
-      expect(mail.subject).to eq("Submission notification")
+      expect(mail.subject).to eq("New Submission to #{submission.touchpoint.name}")
       expect(mail.to).to eq([user.email])
       expect(mail.from).to eq(["from@example.com"])
     end
 
     it "renders the body" do
-      expect(mail.body.encoded).to match("Hi")
+      expect(mail.body.encoded).to match("Touchpoints.gov Submission Notification")
+      expect(mail.body.encoded).to match("New feedback has been submitted to your form, #{submission.touchpoint.name}.")
     end
   end
 
