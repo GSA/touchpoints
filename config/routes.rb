@@ -20,12 +20,11 @@ Rails.application.routes.draw do
     resources :triggers
     resources :touchpoints do
       member do
-        # get "js", to: "touchpoints#js", as: :js
         get "example", to: "touchpoints#example", as: :example
         get "example/gtm", to: "touchpoints#gtm_example", as: :gtm_example
       end
       resources :forms
-      resources :submissions, only: [:new, :show, :index, :create]
+      resources :submissions, only: [:new, :show, :create]
     end
     root to: "site#index"
   end
