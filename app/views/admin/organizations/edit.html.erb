@@ -2,6 +2,6 @@
 
 <%= render 'form', organization: @organization %>
 
-<%= link_to 'Show', @organization %> |
-<%= link_to 'Destroy', @organization, method: :delete, data: { confirm: 'Are you sure?' } %> |
-<%= link_to 'Back', organizations_path %>
+<%= link_to 'Show', admin_organization_path(@organization) %> |
+<%= link_to 'Destroy', admin_organization_path(@organization), method: :delete, data: { confirm: 'Are you sure?' } %> |
+<%= link_to 'Back', admin_organizations_path %>

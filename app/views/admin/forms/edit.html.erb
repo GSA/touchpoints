@@ -3,6 +3,6 @@
 <%= render 'form', form: @form %>
 <%= render partial: "components/forms/#{@form.kind}", locals: { form: @form, touchpoint: @touchpoint } %>
 
-<%= link_to 'Show', @form %> |
-<%= link_to 'Destroy', @form, method: :delete, data: { confirm: 'Are you sure?' } %> |
-<%= link_to 'Back', forms_path %>
+<%= link_to 'Show', admin_form_path(@form) %> |
+<%= link_to 'Destroy', admin_form_path(@form), method: :delete, data: { confirm: 'Are you sure?' } %> |
+<%= link_to 'Back', admin_forms_path %>

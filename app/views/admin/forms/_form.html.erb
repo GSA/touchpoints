@@ -1,4 +1,4 @@
-<%= form_with(model: form, local: true) do |f| %>
+<%= form_with(model: form, url: form.persisted? ? admin_form_path(form) : admin_forms_path, local: true) do |f| %>
   <% if form.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(f.errors.count, "error") %> prohibited this form from being saved:</h2>

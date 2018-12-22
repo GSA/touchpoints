@@ -50,7 +50,9 @@
         <td><%= submission.process_transparency %></td>
         <td><%= submission.people_employees %></td>
         <% end %>
-        <td style="border: none;"><%= link_to 'View', submission, class: "usa-button" %></td>
+        <td style="border: none;">
+          <%= link_to 'View', admin_submission_path(submission), class: "usa-button" %>
+        </td>
       </tr>
     <% end %>
   </tbody>
