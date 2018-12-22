@@ -8,6 +8,8 @@ class Touchpoint < ApplicationRecord
   before_create :create_google_sheet!
   after_create :config_gtm_container!
 
+  scope :active, -> { where("id > 0") } # TODO: make this sample scope more intelligent/meaningful
+
   # returns javascript text that can be used standalone
   # or injected into a GTM Container Tag
   def touchpoints_js_string

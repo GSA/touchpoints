@@ -1,23 +1,35 @@
 Rails.application.routes.draw do
-  resources :containers
-  resources :triggers
-  resources :forms
-  resources :submissions, except: [:new, :index, :create]
-  resources :touchpoints do
+  devise_for :users
+
+  resources :touchpoints, only: [:index, :show] do
     member do
+      get "submit", to: "submissions#new", touchpoint: true, as: :submit
       get "js", to: "touchpoints#js", as: :js
-      get "example", to: "touchpoints#example", as: :example
-      get "example/gtm", to: "touchpoints#gtm_example", as: :gtm_example
     end
     resources :forms
-    resources :submissions, only: [:new, :show, :index, :create]
+    resources :submissions, only: [:new, :create, :show] do
+    end
   end
-  devise_for :users
+
   namespace :admin do
+    resources :containers
+    resources :forms
     resources :users
     resources :organizations
+    resources :submissions, except: [:new, :index, :create]
+    resources :triggers
+    resources :touchpoints do
+      member do
+        # get "js", to: "touchpoints#js", as: :js
+        get "example", to: "touchpoints#example", as: :example
+        get "example/gtm", to: "touchpoints#gtm_example", as: :gtm_example
+      end
+      resources :forms
+      resources :submissions, only: [:new, :show, :index, :create]
+    end
     root to: "site#index"
   end
+
   get "status", to: "site#status", as: :status
   root to: "site#index"
 end

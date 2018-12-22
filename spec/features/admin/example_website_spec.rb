@@ -16,7 +16,7 @@ feature "Example Website Integration", js: true do
 
     context "Open-ended Touchpoint" do
       before do
-        visit example_touchpoint_path(open_ended_touchpoint)
+        visit example_admin_touchpoint_path(open_ended_touchpoint)
       end
 
       it "loads Badge with Text" do
@@ -51,8 +51,9 @@ feature "Example Website Integration", js: true do
 
     context "Recruiter Touchpoint" do
       before do
-        visit example_touchpoint_path(recruiter_touchpoint)
+        visit example_admin_touchpoint_path(recruiter_touchpoint)
       end
+
 
       it "loads Badge with Text" do
         expect(page).to have_content("Help improve this site")

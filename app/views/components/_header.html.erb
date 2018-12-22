@@ -37,7 +37,7 @@
           </a>
         </li>
         <li>
-          <a class="usa-nav-link" href="/forms">
+          <a class="usa-nav-link" href="/admin/forms">
             <span>Forms</span>
           </a>
         </li>
@@ -49,14 +49,12 @@
       <% if current_user.admin? %>
       <% end %>
         <li>
-          <a class="usa-nav-link" href="/containers">
+          <a class="usa-nav-link" href="/admin/containers">
             <span>Containers</span>
           </a>
         </li>
         <li>
-          <a class="usa-nav-link" href="/touchpoints">
-            <span>Touchpoints</span>
-          </a>
+          <%= link_to "Touchpoints", admin_touchpoints_path, class: "usa-nav-link" %>
         </li>
         <% else %>
         <li>

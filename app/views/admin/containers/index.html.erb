@@ -14,7 +14,7 @@
   <tbody>
     <% @containers.each do |container| %>
       <tr>
-        <td><%= link_to container.name, container %></td>
+        <td><%= link_to container.name, admin_container_path(container) %></td>
         <td><%= link_to(container.gtm_container_id, container.gtm_container_url, target: "_blank") %></td>
         <td><%= container.gtm_container_public_id %></td>
       </tr>
@@ -22,4 +22,4 @@
   </tbody>
 </table>
 
-<%= link_to 'New Container', new_container_path, class: "usa-button" %>
+<%= link_to 'New Container', new_admin_container_path, class: "usa-button" %>

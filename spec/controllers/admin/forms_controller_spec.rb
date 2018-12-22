@@ -23,10 +23,10 @@ require 'rails_helper'
 # removed from Rails core in Rails 5, but can be added back in via the
 # `rails-controller-testing` gem.
 
-RSpec.describe ContainersController, type: :controller do
+RSpec.describe Admin::FormsController, type: :controller do
 
   # This should return the minimal set of attributes required to create a valid
-  # Container. As you add validations to Container, be sure to
+  # Form. As you add validations to Form, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
     skip("Add a hash of attributes valid for your model")
@@ -38,12 +38,12 @@ RSpec.describe ContainersController, type: :controller do
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
-  # ContainersController. Be sure to keep this updated too.
+  # FormsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
   describe "GET #index" do
     it "returns a success response" do
-      Container.create! valid_attributes
+      Form.create! valid_attributes
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
     end
@@ -51,8 +51,8 @@ RSpec.describe ContainersController, type: :controller do
 
   describe "GET #show" do
     it "returns a success response" do
-      container = Container.create! valid_attributes
-      get :show, params: {id: container.to_param}, session: valid_session
+      form = Form.create! valid_attributes
+      get :show, params: {id: form.to_param}, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -63,7 +63,7 @@ RSpec.describe ContainersController, type: :controller do
     before do
       sign_in(user)
     end
-    
+
     it "returns a success response" do
       get :new, params: {}, session: valid_session
       expect(response).to be_successful
@@ -72,29 +72,29 @@ RSpec.describe ContainersController, type: :controller do
 
   describe "GET #edit" do
     it "returns a success response" do
-      container = Container.create! valid_attributes
-      get :edit, params: {id: container.to_param}, session: valid_session
+      form = Form.create! valid_attributes
+      get :edit, params: {id: form.to_param}, session: valid_session
       expect(response).to be_successful
     end
   end
 
   describe "POST #create" do
     context "with valid params" do
-      it "creates a new Container" do
+      it "creates a new Form" do
         expect {
-          post :create, params: {container: valid_attributes}, session: valid_session
-        }.to change(Container, :count).by(1)
+          post :create, params: {form: valid_attributes}, session: valid_session
+        }.to change(Form, :count).by(1)
       end
 
-      it "redirects to the created container" do
-        post :create, params: {container: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(Container.last)
+      it "redirects to the created form" do
+        post :create, params: {form: valid_attributes}, session: valid_session
+        expect(response).to redirect_to(Form.last)
       end
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: {container: invalid_attributes}, session: valid_session
+        post :create, params: {form: invalid_attributes}, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -106,41 +106,41 @@ RSpec.describe ContainersController, type: :controller do
         skip("Add a hash of attributes valid for your model")
       }
 
-      it "updates the requested container" do
-        container = Container.create! valid_attributes
-        put :update, params: {id: container.to_param, container: new_attributes}, session: valid_session
-        container.reload
+      it "updates the requested form" do
+        form = Form.create! valid_attributes
+        put :update, params: {id: form.to_param, form: new_attributes}, session: valid_session
+        form.reload
         skip("Add assertions for updated state")
       end
 
-      it "redirects to the container" do
-        container = Container.create! valid_attributes
-        put :update, params: {id: container.to_param, container: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(container)
+      it "redirects to the form" do
+        form = Form.create! valid_attributes
+        put :update, params: {id: form.to_param, form: valid_attributes}, session: valid_session
+        expect(response).to redirect_to(form)
       end
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
-        container = Container.create! valid_attributes
-        put :update, params: {id: container.to_param, container: invalid_attributes}, session: valid_session
+        form = Form.create! valid_attributes
+        put :update, params: {id: form.to_param, form: invalid_attributes}, session: valid_session
         expect(response).to be_successful
       end
     end
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested container" do
-      container = Container.create! valid_attributes
+    it "destroys the requested form" do
+      form = Form.create! valid_attributes
       expect {
-        delete :destroy, params: {id: container.to_param}, session: valid_session
-      }.to change(Container, :count).by(-1)
+        delete :destroy, params: {id: form.to_param}, session: valid_session
+      }.to change(Form, :count).by(-1)
     end
 
-    it "redirects to the containers list" do
-      container = Container.create! valid_attributes
-      delete :destroy, params: {id: container.to_param}, session: valid_session
-      expect(response).to redirect_to(containers_url)
+    it "redirects to the forms list" do
+      form = Form.create! valid_attributes
+      delete :destroy, params: {id: form.to_param}, session: valid_session
+      expect(response).to redirect_to(forms_url)
     end
   end
 

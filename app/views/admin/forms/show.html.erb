@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+<p>
+  <strong>Name:</strong>
+  <%= @form.name %>
+</p>
+<p>
+  <strong>Title:</strong>
+  <%= @form.title %>
+</p>
+<p>
+  <strong>instructions:</strong>
+  <%= @form.instructions %>
+</p>
+<p>
+  <strong>Kind:</strong>
+  <%= @form.kind %>
+</p>
+<p>
+  <strong>Notes:</strong>
+  <%= @form.notes %>
+</p>
+<p>
+  <strong>Status:</strong>
+  <%= @form.status %>
+</p>
+<hr>
+<div style="background-color: #333; padding: 0.25em; margin-bottom: 1.0em;">
+  <div style="color: white; margin-bottom: 0em;">
+    Example Form
+  </div>
+  <br>
+  <div style="background-color: #E5FFE5; padding: 1em;">
+    <%= render partial: "components/forms/#{@form.kind}", locals: { form: @form, touchpoint: @touchpoint } %>
+  </div>
+</div>
+<hr>
+<%= link_to 'Edit', edit_form_path(@form), class: "usa-button" %>

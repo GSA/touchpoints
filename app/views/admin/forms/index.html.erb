@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Forms</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Notes</th>
+      <th>Status</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @forms.each do |form| %>
+      <tr>
+        <td><%= form.name %></td>
+        <td><%= form.notes %></td>
+        <td><%= form.status %></td>
+        <td><%= link_to 'Show', admin_form_path(form) %></td>
+        <td><%= link_to 'Edit', edit_admin_form_path(form) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Form', new_admin_form_path, class: "usa-button" %>

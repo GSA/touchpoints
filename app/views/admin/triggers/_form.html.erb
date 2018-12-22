@@ -1,4 +1,4 @@
-<%= form_with(model: trigger, local: true) do |form| %>
+<%= form_with(model: trigger, url: trigger.persisted? ? admin_trigger_path(trigger) : admin_triggers_path, local: true) do |form| %>
   <% if trigger.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(trigger.errors.count, "error") %> prohibited this trigger from being saved:</h2>

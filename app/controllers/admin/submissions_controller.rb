@@ -1,4 +1,4 @@
-class SubmissionsController < ApplicationController
+class Admin::SubmissionsController < AdminController
   protect_from_forgery only: []
   before_action :set_touchpoint, only: [:index, :new, :create, :show, :edit, :update, :destroy]
   before_action :set_submission, only: [:show, :edit, :update, :destroy]
@@ -6,8 +6,6 @@ class SubmissionsController < ApplicationController
   def index
     @submissions = @touchpoint.submissions.includes(:organization)
   end
-
-  layout 'public', :only => :new
 
   def new
     @submission = Submission.new
@@ -36,7 +34,7 @@ class SubmissionsController < ApplicationController
   def update
     respond_to do |format|
       if @submission.update(submission_params)
-        format.html { redirect_to @submission, notice: 'Submission was successfully updated.' }
+        format.html { redirect_to admin_submission_path(@submission), notice: 'Submission was successfully updated.' }
         format.json { render :show, status: :ok, location: @submission }
       else
         format.html { render :edit }
@@ -44,6 +42,15 @@ class SubmissionsController < ApplicationController
       end
     end
   end
+
+  def destroy
+    @submission.destroy
+    respond_to do |format|
+      format.html { redirect_to touchpoint_submissions_url(@touchpoint.id), notice: 'Submission was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+
 
   private
 
@@ -128,11 +135,7 @@ class SubmissionsController < ApplicationController
     end
 
     def set_touchpoint
-      if params[:touchpoint] # coming from /touchpoints/:id/submit
-        @touchpoint = Touchpoint.find(params[:id])
-      else
-        @touchpoint = Touchpoint.find(params[:touchpoint_id])
-      end
+      @touchpoint = Touchpoint.find(params[:touchpoint_id])
       raise InvalidArgument("Touchpoint does not exist") unless @touchpoint
     end
 

@@ -23,7 +23,7 @@ require 'rails_helper'
 # removed from Rails core in Rails 5, but can be added back in via the
 # `rails-controller-testing` gem.
 
-RSpec.describe SubmissionsController, type: :controller do
+RSpec.describe Admin::SubmissionsController, type: :controller do
 
   # This should return the minimal set of attributes required to create a valid
   # Submission. As you add validations to Submission, be sure to
@@ -61,6 +61,14 @@ RSpec.describe SubmissionsController, type: :controller do
     sign_in(admin)
   end
 
+  describe "GET #index" do
+    it "returns a success response" do
+      Submission.create! valid_attributes
+      get :index, params: { touchpoint_id: touchpoint.id }, session: valid_session
+      expect(response).to be_successful
+    end
+  end
+
   describe "GET #show" do
     it "returns a success response" do
       submission = Submission.create! valid_attributes
@@ -72,6 +80,14 @@ RSpec.describe SubmissionsController, type: :controller do
   describe "GET #new" do
     it "returns a success response" do
       get :new, params: { touchpoint_id: touchpoint.id }, session: valid_session
+      expect(response).to be_successful
+    end
+  end
+
+  describe "GET #edit" do
+    it "returns a success response" do
+      submission = Submission.create! valid_attributes
+      get :edit, params: {id: submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -96,6 +112,57 @@ RSpec.describe SubmissionsController, type: :controller do
         expect(response.status).to eq(422)
         expect(JSON.parse(response.body)).to eq({ "body" => ["can't be blank"] })
       end
+    end
+  end
+
+  describe "PUT #update" do
+    context "with valid params" do
+      let(:new_attributes) {
+        skip("Add a hash of attributes valid for your model")
+      }
+
+      it "updates the requested submission" do
+        submission = Submission.create! valid_attributes
+        put :update, params: {id: submission.to_param, submission: new_attributes}, session: valid_session
+        submission.reload
+        skip("Add assertions for updated state")
+      end
+
+      it "redirects to the submission" do
+        submission = Submission.create! valid_attributes
+        put :update, params: {id: submission.to_param, submission: valid_attributes, touchpoint_id: touchpoint.id }, session: valid_session
+        expect(response).to redirect_to(admin_submission_path(submission))
+      end
+    end
+
+    context "with invalid params" do
+      it "returns a success response (i.e. to display the 'edit' template)" do
+        submission = Submission.create! valid_attributes
+        expect {
+          put :update, params: {id: submission.to_param, submission: invalid_attributes }, session: valid_session
+        }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+
+      it "returns a success response (i.e. to display the 'edit' template)" do
+        submission = Submission.create! valid_attributes
+        put :update, params: { id: submission.to_param, submission: invalid_attributes, touchpoint_id: touchpoint.id }, session: valid_session
+        expect(response).to be_successful
+      end
+    end
+  end
+
+  describe "DELETE #destroy" do
+    it "destroys the requested submission" do
+      submission = Submission.create! valid_attributes
+      expect {
+        delete :destroy, params: {id: submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
+      }.to change(Submission, :count).by(-1)
+    end
+
+    it "redirects to the submissions list" do
+      submission = Submission.create! valid_attributes
+      delete :destroy, params: {id: submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
+      expect(response).to redirect_to(touchpoint_submissions_url(touchpoint))
     end
   end
 

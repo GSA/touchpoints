@@ -5,10 +5,6 @@
     <tr>
       <th>Name</th>
       <th>Purpose</th>
-      <th>Form</th>
-      <th>Storage</th>
-      <th>Submissions</th>
-      <th></th>
     </tr>
   </thead>
 
@@ -17,13 +13,7 @@
       <tr>
         <td><%= link_to touchpoint.name, touchpoint %></td>
         <td><%= touchpoint.purpose %></td>
-        <td><%= link_to(touchpoint.form.name, touchpoint_form_path(touchpoint, touchpoint.form)) %></td>
-        <td><%= touchpoint.enable_google_sheets? ? "Google Sheets" : "Database" %></td>
-        <td><%= link_to "View", touchpoint_submissions_path(touchpoint) %></td>
-        <td><%= link_to 'Edit', edit_touchpoint_path(touchpoint) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<%= link_to 'Create New Touchpoint', new_touchpoint_path, class: "usa-button" %>

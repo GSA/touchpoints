@@ -1,5 +1,4 @@
-class Admin::OrganizationsController < ApplicationController
-  before_action :ensure_admin
+class Admin::OrganizationsController < AdminController
   before_action :set_organization, only: [:show, :edit, :update, :destroy]
 
   def index

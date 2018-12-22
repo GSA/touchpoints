@@ -1,4 +1,4 @@
-<%= form_with(model: touchpoint, local: true) do |form| %>
+<%= form_with(model: touchpoint, url: touchpoint.persisted? ? admin_touchpoints_path(touchpoint) : admin_touchpoints_path, local: true) do |form| %>
 <% if touchpoint.errors.any? %>
   <div id="error_explanation">
     <h2><%= pluralize(touchpoint.errors.count, "error") %> prohibited this touchpoint from being saved:</h2>

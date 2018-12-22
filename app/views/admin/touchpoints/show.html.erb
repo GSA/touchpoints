@@ -40,3 +40,38 @@
 <p>
   <%= link_to 'New Submission', new_touchpoint_submission_path(@touchpoint), class: "usa-button" %>
 </p>
+<%= link_to 'Edit', edit_admin_touchpoint_path(@touchpoint), class: "usa-button" %>
+
+<hr>
+<p>
+  <%= link_to 'Local .js Example', example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank" %>
+  <%= link_to 'GTM + .js Example', gtm_example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank" %>
+</p>
+<hr>
+
+<% @submissions = @touchpoint.submissions %>
+<% if @touchpoint.enable_google_sheets? %>
+  <h1>
+    Submissions
+    for
+    <%= @touchpoint.name %>
+  </h1>
+  <% sheet_values = @touchpoint.google_spreadsheet_values %>
+  <table>
+    <% sheet_values.values.each do |row| %>
+    <tr>
+      <% row.each do |cell| %>
+        <td>
+          <%= cell %>
+        </td>
+      <% end %>
+    </tr>
+    <% end %>
+  </table>
+  See the Google Sheet
+  <%= link_to(@touchpoint.google_sheet_id, "https://docs.google.com/spreadsheets/d/#{@touchpoint.google_sheet_id}/edit#gid=0", target: "_blank") %>
+  <br>
+  <br>
+<% else %>
+  <%= render file: "submissions/index" %>
+<% end %>
