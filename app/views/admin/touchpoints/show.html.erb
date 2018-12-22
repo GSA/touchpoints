@@ -12,7 +12,7 @@
 </p>
 <p>
   <strong>Form:</strong>
-  <%= link_to(@touchpoint.form.name, touchpoint_form_path(@touchpoint, @touchpoint.form)) %>
+  <%= link_to(@touchpoint.form.name, admin_touchpoint_form_path(@touchpoint, @touchpoint.form)) %>
 </p>
 
 <p>
@@ -38,7 +38,7 @@
 </p>
 <hr>
 <p>
-  <%= link_to 'New Submission', new_touchpoint_submission_path(@touchpoint), class: "usa-button" %>
+  <%= link_to 'New Submission', submit_touchpoint_path(@touchpoint), class: "usa-button" %>
 </p>
 <%= link_to 'Edit', edit_admin_touchpoint_path(@touchpoint), class: "usa-button" %>
 
