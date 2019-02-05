@@ -94,4 +94,7 @@ Rails.application.configure do
 
   # For Devise
   config.action_mailer.default_url_options = { host: 'touchpoints-staging.app.cloud.gov', port: 3000 }
+
+  # For delivering email via Amazon SES with aws-sdk-rails
+  config.action_mailer.delivery_method = :aws_sdk
 end

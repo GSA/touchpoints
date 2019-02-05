@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.4.4'
 
+gem 'aws-sdk-rails'
 gem 'devise'
 gem 'google-api-client'
 gem 'newrelic_rpm'
