@@ -11,6 +11,7 @@ class Submission < ApplicationRecord
   after_create :send_notifications
 
   def send_notifications
+    return unless self.touchpoint.send_notifications
     emails_to_notify = self.touchpoint.container.organization.users.collect(&:email)
     UserMailer.submission_notification(submission: self, emails: emails_to_notify).deliver_now
   end

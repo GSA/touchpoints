@@ -10,6 +10,11 @@ class Touchpoint < ApplicationRecord
 
   scope :active, -> { where("id > 0") } # TODO: make this sample scope more intelligent/meaningful
 
+  def send_notifications
+    # Basic workaround while testing
+    self.id == 1
+  end
+
   # returns javascript text that can be used standalone
   # or injected into a GTM Container Tag
   def touchpoints_js_string
