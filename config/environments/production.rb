@@ -93,5 +93,8 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # For Devise
-  config.action_mailer.default_url_options = { host: 'touchpoints-staging.app.cloud.gov', port: 3000 }
+  config.action_mailer.default_url_options = { host: 'touchpoints.app.cloud.gov', port: 443 }
+
+  # For delivering email via Amazon SES with aws-sdk-rails
+  config.action_mailer.delivery_method = :aws_sdk
 end
