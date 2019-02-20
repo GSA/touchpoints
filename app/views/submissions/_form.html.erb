@@ -1,1 +1,5 @@
 <%= render "components/forms/#{@touchpoint.form.kind}", form: @touchpoint.form, touchpoint: @touchpoint %>
+
+<script>
+  <%= render(partial: "components/widget/fba.js", locals: { touchpoint: @touchpoint }) %>
+</script>
