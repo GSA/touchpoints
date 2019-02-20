@@ -31,6 +31,27 @@ feature "Touchpoints", js: true do
           expect(page).to have_content("Notification emails: admin@example.gov")
         end
       end
+
+      describe "#edit" do
+        let(:user) { FactoryBot.create(:user, :admin) }
+        let!(:organization) { FactoryBot.create(:organization) }
+        let!(:container) { FactoryBot.create(:container, organization: organization) }
+        let!(:touchpoint) { FactoryBot.create(:touchpoint, container: container)}
+        let!(:form) { FactoryBot.create(:form) }
+
+        before "user creates a Touchpoint" do
+          login_as user
+          visit edit_admin_touchpoint_path(touchpoint.id)
+          fill_in("touchpoint[name]", with: "New Name")
+          click_button "Update Touchpoint"
+        end
+
+        it "redirect to /touchpoints/:id with a success flash message" do
+          expect(page.current_path).to eq(admin_touchpoint_path(touchpoint.id))
+          expect(page).to have_content("Touchpoint was successfully updated.")
+          expect(page).to have_content("New Name")
+        end
+      end
     end
   end
 
@@ -42,7 +63,7 @@ feature "Touchpoints", js: true do
         let(:user) { FactoryBot.create(:user, :admin, organization: organization) }
         let!(:form) { FactoryBot.create(:form) }
 
-        before "user completes Sign Up form" do
+        before "user completes (TEST) Sign Up form" do
           login_as user
           visit new_admin_touchpoint_path
           fill_in("touchpoint[name]", with: "Test Touchpoint")
