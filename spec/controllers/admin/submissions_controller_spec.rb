@@ -61,14 +61,6 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
     sign_in(admin)
   end
 
-  describe "GET #index" do
-    it "returns a success response" do
-      Submission.create! valid_attributes
-      get :index, params: { touchpoint_id: touchpoint.id }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
   describe "GET #show" do
     it "returns a success response" do
       submission = Submission.create! valid_attributes
