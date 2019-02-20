@@ -10,9 +10,8 @@ class Touchpoint < ApplicationRecord
 
   scope :active, -> { where("id > 0") } # TODO: make this sample scope more intelligent/meaningful
 
-  def send_notifications
-    # Basic workaround while testing
-    self.id == 1
+  def send_notifications?
+    self.notification_emails.present?
   end
 
   # returns javascript text that can be used standalone
