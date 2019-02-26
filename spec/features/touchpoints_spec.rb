@@ -17,7 +17,7 @@ feature "Touchpoints", js: true do
           visit touchpoint_path(touchpoint)
 
           expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit")
-          expect(page).to have_content("OMB Approval Number #{touchpoint.omb_approval_number}")
+          expect(page).to have_content("OMB Number: #{touchpoint.omb_approval_number}")
           fill_in("fba-text-body", with: "User feedback")
           click_button "Submit"
         end
