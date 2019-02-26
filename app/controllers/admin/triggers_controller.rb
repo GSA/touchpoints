@@ -1,4 +1,5 @@
 class Admin::TriggersController < AdminController
+  before_action :ensure_admin
   before_action :set_trigger, only: [:show, :edit, :update, :destroy]
 
   # GET /triggers

@@ -1,5 +1,4 @@
 class Admin::TouchpointsController < AdminController
-  before_action :ensure_user
   skip_before_action :verify_authenticity_token, only: [:js]
   before_action :set_touchpoint, only: [:show, :edit, :update, :destroy, :example, :gtm_example, :js, :trigger]
 

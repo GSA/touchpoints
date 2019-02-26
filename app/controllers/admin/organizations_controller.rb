@@ -1,5 +1,6 @@
 class Admin::OrganizationsController < AdminController
   before_action :set_organization, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_admin
 
   def index
     @organizations = Organization.all
