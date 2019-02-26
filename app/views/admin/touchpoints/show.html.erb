@@ -15,6 +15,10 @@
   <%= @touchpoint.omb_approval_number %>
 </p>
 <p>
+  <strong>Expiration Date</strong>
+  <%= @touchpoint.expiration_date %>
+</p>
+<p>
   <strong>Form:</strong>
   <%= link_to(@touchpoint.form.name, admin_touchpoint_form_path(@touchpoint, @touchpoint.form)) %>
 </p>

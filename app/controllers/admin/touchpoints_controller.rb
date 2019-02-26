@@ -81,6 +81,7 @@ class Admin::TouchpointsController < AdminController
         :organization_id,
         :container_id,
         :enable_google_sheets,
+        :expiration_date,
         :form_id,
         :purpose,
         :meaningful_response_size,
