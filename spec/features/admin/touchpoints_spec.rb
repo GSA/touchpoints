@@ -19,6 +19,7 @@ feature "Touchpoints", js: true do
           # this is non-conventional, because USWDS hides inputs and uses CSS :before
           first("label[for=touchpoint_form_id_1]").click
           fill_in("touchpoint[purpose]", with: "Compliance")
+          fill_in("touchpoint[omb_approval_number]", with: "12345")
           fill_in("touchpoint[meaningful_response_size]", with: 50)
           fill_in("touchpoint[behavior_change]", with: "to be determined")
           fill_in("touchpoint[notification_emails]", with: "admin@example.gov")
@@ -29,6 +30,7 @@ feature "Touchpoints", js: true do
           expect(page.current_path).to eq(admin_touchpoint_path(Touchpoint.first.id))
           expect(page).to have_content("Touchpoint was successfully created.")
           expect(page).to have_content("Notification emails: admin@example.gov")
+          expect(page).to have_content("12345")
         end
       end
 
