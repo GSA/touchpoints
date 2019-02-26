@@ -2,6 +2,9 @@ class SiteController < ApplicationController
   def index
   end
 
+  def onboarding
+  end
+
   def status
     render json: {
       status: :success,

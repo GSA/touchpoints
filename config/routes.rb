@@ -30,5 +30,6 @@ Rails.application.routes.draw do
   end
 
   get "status", to: "site#status", as: :status
+  get "onboarding", to: "site#onboarding", as: :onboarding
   root to: "site#index"
 end
