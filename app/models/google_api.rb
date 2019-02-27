@@ -25,6 +25,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 eos
   end
 
+  def self.config_io
+    if ENV["GOOGLE_CONFIG"].present?
+      String.IO.new(ENV.fetch("GOOGLE_CONFIG"))
+    else
+      File.open("tmp/google_service_account_#{Rails.env.downcase}.json")
+    end
+  end
+
   def initialize
     Google::Apis.logger.level = Logger::DEBUG if Rails.env.development?
 
@@ -39,7 +47,7 @@ eos
     ].freeze
 
     authorizer = Google::Auth::ServiceAccountCredentials.make_creds({
-      json_key_io: File.open("tmp/google_service_account_#{Rails.env.downcase}.json"),
+      json_key_io: GoogleApi.config_io,
       scope: scope
     })
     authorizer.fetch_access_token!
