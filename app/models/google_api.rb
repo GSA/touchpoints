@@ -27,7 +27,7 @@ eos
 
   def self.config_io
     if ENV["GOOGLE_CONFIG"].present?
-      String.IO.new(ENV.fetch("GOOGLE_CONFIG"))
+      StringIO.new(ENV.fetch("GOOGLE_CONFIG"))
     else
       File.open("tmp/google_service_account_#{Rails.env.downcase}.json")
     end
