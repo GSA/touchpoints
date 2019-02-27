@@ -56,11 +56,11 @@
 <% unless touchpoint.persisted? %>
 <br>
 <br>
-<div class="field">
+<div class="field" hidden="true">
   <fieldset class="usa-fieldset-inputs usa-sans">
     <ul class="usa-unstyled-list">
       <li>
-        <%= form.check_box :enable_google_sheets %>
+        <%= form.check_box :enable_google_sheets, checked: true %>
         <%= form.label :enable_google_sheets? do %>
           Enable Google Sheets?
           <span style="font-size: 0.75em;">
