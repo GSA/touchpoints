@@ -12,7 +12,7 @@ and are currently configured to run on Cloud Foundry, but can run elsewhere with
 
 Deploying Touchpoints requires pushing a local version of Touchpoints code (the repo) to an instance in Cloud Foundry using the `cf push` command.
 
-`cf push` referencs a local `manifest.yml` that declares one or more applications.
+`cf push` references a local `manifest.yml` that declares one or more applications.
 Thus, having a "properly configured" manifest.yml file is a prerequisite/dependency/requirement.
 
 To deploy a specific instance `cf push touchpoints-staging` or `cf push touchpoints`, respectively.
@@ -26,5 +26,5 @@ To deploy a specific instance `cf push touchpoints-staging` or `cf push touchpoi
   * feature-branch is merged to master via the Pull Request
 * green master builds get deployed to [Staging](https://touchpoints-staging.app.cloud.gov) automatically via CircleCI
   * Product Owner accepts/rejects Stories
-* green master builds can be deployed to [Production](https://touchpoints-staging.app.cloud.gov) manually, coordinating with Ryan Wold
+* green master builds can be deployed to [Production](https://touchpoints-staging.app.cloud.gov) manually, coordinating with [Ryan Wold](mailto:ryan.wold@gsa.gov)
   * releases are tagged using `git tag 0.0.1`
