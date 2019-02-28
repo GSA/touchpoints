@@ -18,6 +18,7 @@ feature "Touchpoints", js: true do
 
           expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit")
           expect(page).to have_content("OMB Approval ##{touchpoint.omb_approval_number}")
+          expect(page).to have_content("Exp. Date #{touchpoint.expiration_date.strftime("%m/%d/%Y")}")
           fill_in("fba-text-body", with: "User feedback")
           click_button "Submit"
         end
