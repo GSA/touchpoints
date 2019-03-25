@@ -157,6 +157,26 @@ Submission.create!({
   phone_number: "5555550000"
 })
 
+Service.create!({
+  name: "Test Service 1",
+  organization: org_1
+})
+
+Service.create!({
+  name: "Test Service 2",
+  organization: org_1
+})
+
+Service.create!({
+  name: "Test Service 3",
+  organization: org_1
+})
+
+Service.create!({
+  name: "Test Service 4", 
+  organization: org_1
+})
+
 # TODO: Seed A11
 # Submission.create!({
 #   touchpoint: touchpoint_3
