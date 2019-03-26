@@ -1,0 +1,7 @@
+<h1>Editing Program</h1>
+
+<%= render 'form', program: @program %>
+
+<%= link_to 'Show', admin_program_path(@program) %> |
+<%= link_to 'Back', admin_programs_path %> |
+<%= link_to 'Destroy', admin_program_path(@program), method: :delete, data: { confirm: 'Are you sure?' } %>
