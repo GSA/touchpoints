@@ -11,8 +11,8 @@
 </p>
 
 <p>
-  <strong>User:</strong>
-  <%= @service.user_id %>
+  <strong>Organization:</strong>
+  <%= @service.organization_id %>
 </p>
 
 <p>
@@ -20,5 +20,5 @@
   <%= @service.service_manager %>
 </p>
 
-<%= link_to 'Edit', edit_service_path(@service) %> |
-<%= link_to 'Back', services_path %>
+<%= link_to 'Edit', edit_admin_service_path(@service) %> |
+<%= link_to 'Back', admin_services_path %>

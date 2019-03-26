@@ -36,6 +36,14 @@ webmaster = User.new({
 webmaster.skip_confirmation!
 webmaster.save!
 
+service_manager = User.new({
+  email: "service@example.gov",
+  password: "password",
+  organization: org_1
+})
+service_manager.skip_confirmation!
+service_manager.save!
+
 # Forms
 form_1 = Form.create({
   name: "Open-ended",
@@ -173,7 +181,7 @@ Service.create!({
 })
 
 Service.create!({
-  name: "Test Service 4", 
+  name: "Test Service 4",
   organization: org_1
 })
 

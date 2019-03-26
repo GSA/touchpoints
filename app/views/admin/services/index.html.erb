@@ -1,0 +1,28 @@
+<h1>Services</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Organization</th>
+      <th>Service manager</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @services.each do |service| %>
+      <tr>
+        <td><%= service.name %></td>
+        <td><%= service.description %></td>
+        <td><%= link_to service.organization.name, admin_organization_path(service.organization) %></td>
+        <td><%= service.service_manager %></td>
+        <td><%= link_to 'Show', admin_service_path(service) %></td>
+        <td><%= link_to 'Edit', edit_admin_service_path(service) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New Service', new_admin_service_path, class: "usa-button" %>

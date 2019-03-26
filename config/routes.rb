@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :services
   devise_for :users
 
   resources :touchpoints, only: [:index, :show] do
@@ -17,6 +16,7 @@ Rails.application.routes.draw do
     resources :forms
     resources :users
     resources :organizations
+    resources :services
     resources :submissions, except: [:new, :index, :create]
     resources :triggers
     resources :touchpoints do

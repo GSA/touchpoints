@@ -1,4 +1,4 @@
-<%= form_with(model: service, local: true) do |form| %>
+<%= form_with(model: service, url: service.persisted? ? admin_service_path(service) : admin_services_path , local: true) do |form| %>
   <% if service.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(service.errors.count, "error") %> prohibited this service from being saved:</h2>
@@ -21,10 +21,14 @@
     <%= form.text_area :description %>
   </div>
 
+  <% if current_user.admin? %>
   <div class="field">
-    <%= form.label :user_id %>
-    <%= form.number_field :user_id %>
+    <%= form.label :organization_id %>
+    <%= form.number_field :organization_id %>
   </div>
+  <% else %>
+  <%= form.hidden_field :organization_id, value: current_user.organization.id %>
+  <% end %>
 
   <div class="field">
     <%= form.label :service_manager %>

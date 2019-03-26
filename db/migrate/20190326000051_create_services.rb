@@ -3,7 +3,7 @@ class CreateServices < ActiveRecord::Migration[5.2]
     create_table :services do |t|
       t.string :name
       t.text :description
-      t.integer :user_id
+      t.integer :organization_id
       t.string :service_manager
 
       t.timestamps
