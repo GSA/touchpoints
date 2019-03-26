@@ -15,15 +15,30 @@ admin_user.skip_confirmation!
 admin_user.save!
 
 
-org_1 = Organization.create({
+org_1 = Organization.create!({
   name: "Digital.gov",
   url: "https://digital.gov"
 })
-org_2 = Organization.create({
+program_1 = Program.create!({
+  name: "Program 1 for Digital.gov",
+  organization: org_1
+  url: "https://digital.gov/program-name"
+})
+program_1 = Program.create!({
+  name: "Program 2 for Digital.gov",
+  organization: org_1
+  url: "https://digital.gov/program-name-2"
+})
+org_2 = Organization.create!({
   name: "Farmers.gov",
   url: "https://farmers.gov"
 })
-org_3 = Organization.create({
+program_1 = Program.create!({
+  name: "Program 3 for Farmers.gov",
+  organization: org_2
+  url: "https://farmers.gov/program-name-3"
+})
+org_3 = Organization.create!({
   name: "Cloud.gov",
   url: "https://cloud.gov"
 })
