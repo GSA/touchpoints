@@ -181,8 +181,8 @@ Service.create!({
 })
 
 Service.create!({
-  name: "Test Service 4",
-  organization: org_1
+  name: "Test Service 4 (for Farmers.gov)",
+  organization: org_2
 })
 
 # TODO: Seed A11

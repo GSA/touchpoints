@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 2019_03_26_000051) do
   create_table "services", force: :cascade do |t|
     t.string "name"
     t.text "description"
+    t.text "notes"
     t.integer "organization_id"
     t.string "service_manager"
     t.datetime "created_at", null: false
