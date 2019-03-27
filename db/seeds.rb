@@ -21,12 +21,12 @@ org_1 = Organization.create!({
 })
 program_1 = Program.create!({
   name: "Program 1 for Digital.gov",
-  organization: org_1
+  organization: org_1,
   url: "https://digital.gov/program-name"
 })
 program_1 = Program.create!({
   name: "Program 2 for Digital.gov",
-  organization: org_1
+  organization: org_1,
   url: "https://digital.gov/program-name-2"
 })
 org_2 = Organization.create!({
@@ -35,7 +35,7 @@ org_2 = Organization.create!({
 })
 program_1 = Program.create!({
   name: "Program 3 for Farmers.gov",
-  organization: org_2
+  organization: org_2,
   url: "https://farmers.gov/program-name-3"
 })
 org_3 = Organization.create!({
