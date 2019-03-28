@@ -23,7 +23,7 @@ require 'rails_helper'
 # removed from Rails core in Rails 5, but can be added back in via the
 # `rails-controller-testing` gem.
 
-RSpec.describe ProgramsController, type: :controller do
+RSpec.describe Admin::ProgramsController, type: :controller do
 
   # This should return the minimal set of attributes required to create a valid
   # Program. As you add validations to Program, be sure to
@@ -40,6 +40,12 @@ RSpec.describe ProgramsController, type: :controller do
   # in order to pass any filters (e.g. authentication) defined in
   # ProgramsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
+
+  let(:admin) { FactoryBot.create(:user, :admin)}
+
+  before do
+    sign_in(admin)
+  end
 
   describe "GET #index" do
     it "returns a success response" do
