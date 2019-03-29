@@ -1,9 +1,16 @@
 <div style="text-align: right; margin-bottom: 36px; border-top: 1px solid #E5E5E5;">
   <small>
+  <% if touchpoint.present? %>
     OMB Approval #<span class="omb-approval-number"><%= touchpoint.omb_approval_number %></span>
+
     <% if touchpoint.expiration_date? %>
       &middot;
       Exp. Date <%= touchpoint.expiration_date.strftime("%m/%d/%Y") %>
     <% end %>
+  <% else %>
+    OMB Approval #<span class="omb-approval-number">00000000</span>
+    &middot;
+    Exp. Date MM/DD/YYYY
+  <% end %>
   </small>
 </div>

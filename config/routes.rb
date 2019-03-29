@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     resources :forms
     resources :users
     resources :organizations
+    resources :programs
+    resources :services
     resources :submissions, except: [:new, :index, :create]
     resources :triggers
     resources :touchpoints do

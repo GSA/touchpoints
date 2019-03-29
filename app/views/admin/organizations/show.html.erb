@@ -23,4 +23,13 @@
   <%= @organization.external_id %>
 </p>
 
+<div class="usa-alert">
+  This Organization has
+  <%= link_to(pluralize(@organization.users.length, "User"), admin_users_path) %>
+  managing
+  <%= link_to(pluralize(@organization.services.length, "Service"), admin_services_path) %>
+  and
+  <%= link_to(pluralize(@organization.touchpoints.length, "Touchpoint"), admin_touchpoints_path) %>.
+</div>
+
 <%= link_to 'Edit', edit_admin_organization_path(@organization), class: "usa-button" %>

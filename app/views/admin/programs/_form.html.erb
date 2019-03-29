@@ -1,0 +1,36 @@
+<%= form_with(model: program, url: program.persisted? ? admin_program_path(program) : admin_programs_path, local: true) do |form| %>
+  <% if program.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(program.errors.count, "error") %> prohibited this program from being saved:</h2>
+
+      <ul>
+      <% program.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <% if current_user.admin? %>
+    <div class="field">
+      <%= form.label :organization_id %>
+      <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: (program.organization ? program.organization.id : nil)), include_blank: true %>
+    </div>
+  <% else %>
+    <%= form.hidden_field :organization_id, value: current_user.organization_id %>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :url %>
+    <%= form.text_field :url %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
