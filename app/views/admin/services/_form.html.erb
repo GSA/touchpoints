@@ -21,11 +21,6 @@
     <%= form.text_area :description %>
   </div>
 
-  <div class="field">
-    <%= form.label :notes %>
-    <%= form.text_area :notes %>
-  </div>
-
   <% if current_user.admin? %>
   <div class="field">
     <%= form.label :organization_id %>
