@@ -13,18 +13,18 @@
 
   <div class="field">
     <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name, placeholder: "What is the name of this Service?" %>
   </div>
 
   <div class="field">
     <%= form.label :description %>
-    <%= form.text_area :description %>
+    <%= form.text_area :description, placeholder: "Describe this Service (audience, reach, metrics)" %>
   </div>
 
   <% if current_user.admin? %>
   <div class="field">
-    <%= form.label :organization_id %>
-    <%= form.number_field :organization_id %>
+    <%= form.label :organization %>
+    <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: (service.organization ? service.organization.id : nil)), prompt: "Select an Organization" %>
   </div>
   <% else %>
   <%= form.hidden_field :organization_id, value: current_user.organization.id %>
@@ -32,7 +32,7 @@
 
   <div class="field">
     <%= form.label :service_manager %>
-    <%= form.text_field :service_manager %>
+    <%= form.text_field :service_manager, placeholder: "Who manages this Service?" %>
   </div>
 
   <div class="actions">
