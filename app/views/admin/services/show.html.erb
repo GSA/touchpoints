@@ -12,7 +12,7 @@
 
 <p>
   <strong>Organization:</strong>
-  <%= @service.organization_id %>
+  <%= @service.organization ? link_to(@service.organization.name, admin_organization_path(@service.organization)) : nil %>
 </p>
 
 <p>
@@ -21,4 +21,4 @@
 </p>
 
 <%= link_to 'Edit', edit_admin_service_path(@service) %> |
-<%= link_to 'Back', admin_services_path %>
+<%= link_to 'All Services', admin_services_path %>

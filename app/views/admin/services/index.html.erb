@@ -7,9 +7,8 @@
       <th>Organization</th>
       <% end %>
       <th>Name</th>
-      <th>Description</th>
       <th>Service manager</th>
-      <th colspan="2"></th>
+      <th></th>
     </tr>
   </thead>
 
@@ -19,10 +18,8 @@
         <% if current_user.admin? %>
         <td><%= link_to service.organization.name, admin_organization_path(service.organization) %></td>
         <% end %>
-        <td><%= service.name %></td>
-        <td><%= service.description %></td>
+        <td><%= link_to service.name, admin_service_path(service) %></td>
         <td><%= service.service_manager %></td>
-        <td><%= link_to 'Show', admin_service_path(service) %></td>
         <td><%= link_to 'Edit', edit_admin_service_path(service) %></td>
       </tr>
     <% end %>
