@@ -27,6 +27,19 @@ Also required:
 * get a Google Tag Manager Account ID (set it in `.env.development`)
 * get a Google Dev Console Service Account with Access to the account above
 
+### Environment variables
+
+| name     | description      | required | default |            valid            |             notes             |
+|----------|------------------|:--------:|---------|:---------------------------:|:-----------------------------:|
+| AWS_ACCESS_KEY_ID | | no | | | used for AWS Simple Email Service |
+| AWS_SECRET_ACCESS_KEY | | no | | | |
+| AWS_REGION | | no | us-east-1 | | |
+| GOOGLE_CONFIG | .json string | no | | | used for Google Drive, Sheets, Tag Manager APIs |
+| GOOGLE_TAG_MANAGER_ACCOUNT_ID | | no | | | 1 GTM Account per Touchpoints environment |
+| NEW_RELIC_KEY | API Key for New Relic | no | | | application monitoring |
+| TOUCHPOINTS_EMAIL_SENDER | email address when Touchpoints sends email | yes | | | Account Confirmation, Password Reset, Submission Notification|
+| TOUCHPOINTS_GTM_CONTAINER_ID   | GTM Tracking for the deployed app/Product itself | no | | | |
+
 ### To deploy
 
 * configure Cloud.gov stuff...
