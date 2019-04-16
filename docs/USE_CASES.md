@@ -1,11 +1,27 @@
+# Use Cases
 
-### Getting to 1 Touchpoint
+How [Personas](PERSONAS.md) use the system, Touchpoints.
 
-* Webmaster can (create an | get an) account
+### System Administrator
+
+* System Administrator can manage (CRUD) Organizations
+* System Administrator can manage Users
+* System Administrator can perform all the functions below
+
+### Webmaster
+
+* Webmaster can create an account
 * Webmaster can login with an account
+* Webmaster can create a Service
 * Webmaster can create a Container and get a .js Embed Code snippet
 * Webmaster can add embed code to their website
-* Webmaster can verify the Embed Code is working
+* [ ] Webmaster can verify the Embed Code is working
+
+### Service Manager
+
+* Service Manager can create a Service
+
+### Public user
 
 * Public User can visit a website
 * Public User clicks a tab to see a Touchpoint
