@@ -5,8 +5,15 @@
 service = GoogleApi.new
 service.clean_account_containers(account_id: ENV.fetch("GOOGLE_TAG_MANAGER_ACCOUNT_ID"))
 
+org = Organization.create!({
+  name: "Example.gov",
+  domain: "example.gov",
+  url: "https://example.gov"
+})
+
 # Create Seeds
 admin_user = User.new({
+  organization: org,
   email: "admin@example.gov",
   password: "password",
   admin: true
@@ -44,11 +51,6 @@ org_3 = Organization.create!({
   name: "Cloud.gov",
   domain: "cloud.gov",
   url: "https://cloud.gov"
-})
-org_4 = Organization.create!({
-  name: "Example.gov",
-  domain: "example.gov",
-  url: "https://example.gov"
 })
 
 webmaster = User.new({
