@@ -17,7 +17,11 @@ Rails.application.routes.draw do
     resources :users
     resources :organizations
     resources :programs
-    resources :services
+    resources :services do
+      member do
+        post "add_user", to: "services#add_user", as: :add_user
+      end
+    end
     resources :submissions, except: [:new, :index, :create]
     resources :triggers
     resources :touchpoints do

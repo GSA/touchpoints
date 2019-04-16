@@ -1,5 +1,6 @@
 class Admin::ServicesController < AdminController
-  before_action :set_service, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:add_user]
+  before_action :set_service, only: [:show, :edit, :update, :add_user, :destroy]
 
   def index
     if current_user.admin?
@@ -10,6 +11,22 @@ class Admin::ServicesController < AdminController
   end
 
   def show
+  end
+
+  def add_user
+    @user_service = UserService.new({
+      user_id: @user.id,
+      service_id: @service.id
+    })
+
+    if @user_service.save
+      render json: {
+          email: @user.email,
+          service: @service.id
+        }
+    else
+      render json: @user_service.errors, status: :unprocessable_entity
+    end
   end
 
   def new
@@ -58,9 +75,13 @@ class Admin::ServicesController < AdminController
       @service = Service.find(params[:id])
     end
 
+    def set_user
+      @user = User.find(params[:user_id])
+    end
+
     def service_params
       params.require(:service).permit(
-        :name, 
+        :name,
         :description,
         :notes,
         :organization_id,

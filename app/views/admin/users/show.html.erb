@@ -1,9 +1,29 @@
-<h3>
-  User
-</h3>
-Email = <%= @user.email %>
+<h1>
+  Viewing a User
+</h1>
+Email: <%= @user.email %>
 <br>
-Organization = <%= @user.organization ? link_to(@user.organization.name, admin_organization_path(@user.organization)) : "Undefined" %>
+Organization: <%= @user.organization ? link_to(@user.organization.name, admin_organization_path(@user.organization)) : "Undefined" %>
 <br>
+<h4>
+  Services
+</h4>
+<% if @services.present? %>
+  <ul>
+  <% @services.each do |service| %>
+    <li>
+      <%= link_to service.name, admin_service_path(service) %><br>
+    </li>
+  <% end %>
+  </ul>
+<% else %>
+<div class="usa-alert usa-alert-info" >
+  <div class="usa-alert-body">
+    <p class="usa-alert-text">
+      No Services at this time
+    </p>
+  </div>
+</div>
+<% end %>
 <hr>
 <%= link_to 'Edit', edit_admin_user_path(@user), class: "usa-button" %>

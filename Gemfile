@@ -5,6 +5,7 @@ ruby '2.5.3'
 
 gem 'aws-sdk-rails'
 gem 'devise'
+gem 'jquery-rails'
 gem 'google-api-client'
 gem 'mail'
 gem 'newrelic_rpm'
