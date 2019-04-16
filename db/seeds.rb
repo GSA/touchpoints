@@ -17,6 +17,7 @@ admin_user.save!
 
 org_1 = Organization.create!({
   name: "Digital.gov",
+  domain: "digital.gov",
   url: "https://digital.gov"
 })
 program_1 = Program.create!({
@@ -24,23 +25,30 @@ program_1 = Program.create!({
   organization: org_1,
   url: "https://digital.gov/program-name"
 })
-program_1 = Program.create!({
+program_2 = Program.create!({
   name: "Program 2 for Digital.gov",
   organization: org_1,
   url: "https://digital.gov/program-name-2"
 })
 org_2 = Organization.create!({
   name: "Farmers.gov",
+  domain: "example.gov",
   url: "https://farmers.gov"
 })
-program_1 = Program.create!({
+program_3 = Program.create!({
   name: "Program 3 for Farmers.gov",
   organization: org_2,
   url: "https://farmers.gov/program-name-3"
 })
 org_3 = Organization.create!({
   name: "Cloud.gov",
+  domain: "cloud.gov",
   url: "https://cloud.gov"
+})
+org_4 = Organization.create!({
+  name: "Example.gov",
+  domain: "example.gov",
+  url: "https://example.gov"
 })
 
 webmaster = User.new({
