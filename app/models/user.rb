@@ -13,10 +13,26 @@ class User < ApplicationRecord
   validates :email, presence: true, if: :tld_check
 
   def tld_check
-    unless APPROVED_DOMAINS.any? { |word| email.end_with?(word)}
+    unless APPROVED_DOMAINS.any? { |word| email.end_with?(word) }
       errors.add(:email, "is not from a valid TLD - .gov and .mil domains only")
+      return false
     end
-end
+
+    # Call this from here, because I want to hard return if email fails.
+    # Specifying `ensure_organization` as validator
+    #  ran every time (even when email was not valid), which was undesirable
+    ensure_organization
+  end
+
+  def ensure_organization
+    address = Mail::Address.new(self.email)
+
+    if org = Organization.find_by_domain(address.domain)
+      self.organization_id = org.id
+    else
+      errors.add(:organization, "#{address.domain} is not a valid organization - Please contact Feedback Analytics Team for assistance")
+    end
+  end
 
   def organization_name
     if organization.present?
