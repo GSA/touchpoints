@@ -2,7 +2,7 @@ class Container < ApplicationRecord
   before_create :create_container_in_gtm!
   after_create :config_gtm_container!
 
-  belongs_to :organization
+  belongs_to :service
   has_many :touchpoints
 
   def embed_code_head

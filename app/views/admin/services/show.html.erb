@@ -1,7 +1,20 @@
-<p id="notice"><%= notice %></p>
+<h1>
+  Viewing Service
+</h1>
+
+<div class="usa-alert">
+  <div class="usa-alert-body">
+    <p class="usa-alert-text">
+      A Service Manager manages one or more Services (in the Service Design sense of the word).
+      A Service may have one or more Touchpoints.
+      Touchpoints are delivered to a website via a Tag Container. Each
+      Service is automatically created with a Tag Container.
+    </p>
+  </div>
+</div>
 
 <p>
-  <strong>Organization:</strong>
+  <strong>for Organization</strong>
   <%= @service.organization ? link_to(@service.organization.name, admin_organization_path(@service.organization)) : nil %>
 </p>
 <p>
@@ -12,8 +25,12 @@
   <strong>Description:</strong>
   <%= @service.description %>
 </p>
-<p>
-  <strong>Service managers:</strong>
+
+<div>
+  <h2>
+    Service managers
+  </h2>
+
   <% if @service.users.present? %>
     <br>
     <% @service.users.each do |user| %>
@@ -32,7 +49,8 @@
   <div>
     <% available_members = (User.all - @service.users) %>
     <% if available_members.present? %>
-    <%= select_tag :za, options_for_select(available_members.map { |user| [user.email, user.id] }), prompt: "Add a User?", id: "add-user-dropdown" %>
+    <%= select_tag :za, options_for_select(available_members.map { |user| [user.email, user.id] }), prompt: "Add a User?", id: "add-user-dropdown", style: "display: inline-block; margin-right: 1em;" %>
+    <!-- <span class="usa-buton" name="button" id="add-user-button">Add User</span> -->
     <button type="button" name="button" id="add-user-button">Add User</button>
     <% else %>
       <div class="usa-alert usa-alert-info">
@@ -44,35 +62,43 @@
       </div>
     <% end %>
   </div>
-  <script type="text/javascript">
-    $(function() {
-      // Initially set to disabled
-      $("#add-user-button").attr("disabled", true);
+</div>
 
-      $("#add-user-button").on("click", function(e) {
-        var userId = $("#add-user-dropdown").val();
+<h2>
+  Container Information
+</h2>
+<% @container = @service.container %>
+<%= render file: "/admin/containers/show" %>
 
-        var request = $.ajax({
-          url: "/admin/services/<%= @service.id %>/add_user",
-          dataType: "json",
-          method: "POST",
-          data: { user_id : userId }
-        }).success(function(response) {
-          location.reload();
-        });
-      })
+<br>
+<br>
+<%= link_to 'Edit', edit_admin_service_path(@service), class: "usa-button" %>
 
-      $("#add-user-dropdown").on("change", function(e) {
-        var userId = e.target.value
-        if (userId != "") {
-          $("#add-user-button").attr("disabled", false);
-        } else {
-          $("#add-user-button").attr("disabled", true);
-        }
+<script type="text/javascript">
+  $(function() {
+    // Initially set to disabled
+    $("#add-user-button").attr("disabled", true);
+
+    $("#add-user-button").on("click", function(e) {
+      var userId = $("#add-user-dropdown").val();
+
+      var request = $.ajax({
+        url: "/admin/services/<%= @service.id %>/add_user",
+        dataType: "json",
+        method: "POST",
+        data: { user_id : userId }
+      }).success(function(response) {
+        location.reload();
       });
-    });
-  </script>
-</p>
+    })
 
-<%= link_to 'Edit', edit_admin_service_path(@service) %> |
-<%= link_to 'All Services', admin_services_path %>
+    $("#add-user-dropdown").on("change", function(e) {
+      var userId = e.target.value
+      if (userId != "") {
+        $("#add-user-button").attr("disabled", false);
+      } else {
+        $("#add-user-button").attr("disabled", true);
+      }
+    });
+  });
+</script>

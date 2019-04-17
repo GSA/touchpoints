@@ -4,7 +4,11 @@
 </p>
 <p>
   <strong>Organization:</strong>
-  <%= link_to(@touchpoint.container.organization.name, admin_organization_path(@touchpoint.container.organization)) %>
+  <%= link_to(@touchpoint.container.service.organization.name, admin_organization_path(@touchpoint.container.service.organization)) %>
+</p>
+<p>
+  <strong>Service:</strong>
+  <%= link_to(@touchpoint.container.service.name, admin_service_path(@touchpoint.container.service)) %>
 </p>
 <p>
   <strong>Container:</strong>

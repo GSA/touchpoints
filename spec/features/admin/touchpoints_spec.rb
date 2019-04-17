@@ -6,7 +6,7 @@ feature "Touchpoints", js: true do
       describe "#index" do
         let(:user) { FactoryBot.create(:user, :admin) }
         let!(:organization) { FactoryBot.create(:organization) }
-        let!(:container) { FactoryBot.create(:container, organization: organization) }
+        let!(:container) { FactoryBot.create(:container) }
         let!(:form) { FactoryBot.create(:form) }
         let(:future_date) {
           Time.now + 3.days
@@ -42,7 +42,7 @@ feature "Touchpoints", js: true do
       describe "#edit" do
         let(:user) { FactoryBot.create(:user, :admin) }
         let!(:organization) { FactoryBot.create(:organization) }
-        let!(:container) { FactoryBot.create(:container, organization: organization) }
+        let!(:container) { FactoryBot.create(:container) }
         let!(:touchpoint) { FactoryBot.create(:touchpoint, container: container)}
         let!(:form) { FactoryBot.create(:form) }
 
@@ -66,7 +66,7 @@ feature "Touchpoints", js: true do
     describe "/touchpoints" do
       describe "#index" do
         let!(:organization) { FactoryBot.create(:organization) }
-        let!(:container) { FactoryBot.create(:container, organization: organization) }
+        let!(:container) { FactoryBot.create(:container) }
         let(:user) { FactoryBot.create(:user, :admin, organization: organization) }
         let!(:form) { FactoryBot.create(:form) }
 

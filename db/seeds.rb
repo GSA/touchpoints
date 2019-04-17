@@ -106,23 +106,44 @@ form_4 = Form.create({
   notes: ""
 })
 
+service_1  = Service.create!({
+  organization: org_1,
+  name: "Test Service 1"
+})
+service_2  = Service.create!({
+  organization: org_1,
+  name: "Test Service 2"
+})
+service_3  = Service.create!({
+  organization: org_1,
+  name: "Test Service 3"
+})
+service_4  = Service.create!({
+  organization: org_2,
+  name: "Test Service 4 (for Farmers.gov)"
+})
+
 container_1 = Container.create!({
   organization: org_1,
+  service_id: service_1.id,
   name: "#{org_1.name}'s Test Container 1"
 })
 
 container_2 = Container.create!({
   organization: org_1,
+  service_id: service_2.id,
   name: "#{org_1.name}'s Test Container 2"
 })
 
 container_3 = Container.create!({
   organization: org_2,
+  service_id: service_3.id,
   name: "#{org_2.name}'s Test Container 1"
 })
 
 container_4 = Container.create!({
   organization: org_2,
+  service_id: service_4.id,
   name: "#{org_2.name}'s Test Container 2"
 })
 
@@ -160,18 +181,6 @@ touchpoint_3 = Touchpoint.create!({
   enable_google_sheets: false
 })
 
-touchpoint_4 = Touchpoint.create!({
-  form: form_3,
-  container: container_4,
-  name: "A11 - 7 question test - Sheets",
-  purpose: "Compliance",
-  meaningful_response_size: 300,
-  behavior_change: "End of year reporting",
-  notification_emails: "ryan.wold@gsa.gov",
-  enable_google_sheets: true
-})
-
-
 Submission.create!({
   touchpoint: touchpoint_1,
   body: "Body text"
@@ -188,26 +197,6 @@ Submission.create!({
   last_name: "Public",
   email: "public_user_3@example.com",
   phone_number: "5555550000"
-})
-
-Service.create!({
-  name: "Test Service 1",
-  organization: org_1
-})
-
-Service.create!({
-  name: "Test Service 2",
-  organization: org_1
-})
-
-Service.create!({
-  name: "Test Service 3",
-  organization: org_1
-})
-
-Service.create!({
-  name: "Test Service 4 (for Farmers.gov)",
-  organization: org_2
 })
 
 # TODO: Seed A11

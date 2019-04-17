@@ -1,4 +1,4 @@
-<%= form_with(model: container, local: true) do |form| %>
+<%= form_with(model: container, url: container.persisted? ? admin_container_path(container) : admin_containers_path, local: true) do |form| %>
   <% if container.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(container.errors.count, "error") %> prohibited this container from being saved:</h2>
@@ -18,11 +18,11 @@
 
   <% if current_user.admin? %>
     <div class="field">
-      <%= form.label :organization_id %>
-      <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: (container.organization ? container.organization.id : nil)), include_blank: true %>
+      <%= form.label :service_id %>
+      <%= form.select :service_id, options_for_select(Service.all.map { |service| [service.name, service.id] }, selected: container.service_id), prompt: "Which Service?" %>
     </div>
   <% else %>
-    <%= form.hidden_field :organization_id, value: current_user.organization_id %>
+    <%= form.hidden_field :service_id, value: current_user.service_id %>
   <% end %>
 
   <% if container.persisted? %>

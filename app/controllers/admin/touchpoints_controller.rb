@@ -83,6 +83,7 @@ class Admin::TouchpointsController < AdminController
     def touchpoint_params
       params.require(:touchpoint).permit(
         :name,
+        :service_id,
         :organization_id,
         :container_id,
         :enable_google_sheets,

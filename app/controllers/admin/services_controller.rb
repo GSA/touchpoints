@@ -41,6 +41,11 @@ class Admin::ServicesController < AdminController
 
     respond_to do |format|
       if @service.save
+        container = Container.create!({
+          service: @service,
+          name: "#{@service.name} Container",
+        })
+
         format.html { redirect_to admin_service_path(@service), notice: 'Service was successfully created.' }
         format.json { render :show, status: :created, location: @service }
       else
