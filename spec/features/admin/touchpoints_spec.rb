@@ -16,6 +16,7 @@ feature "Touchpoints", js: true do
           login_as user
           visit new_admin_touchpoint_path
           fill_in("touchpoint[name]", with: "Test Touchpoint")
+          select(container.service.name, from: "touchpoint[service_id]")
           select(container.name, from: "touchpoint[container_id]")
 
           # FIXME
@@ -74,7 +75,8 @@ feature "Touchpoints", js: true do
           login_as user
           visit new_admin_touchpoint_path
           fill_in("touchpoint[name]", with: "Test Touchpoint")
-          select(organization.containers.first.name, from: "touchpoint[container_id]")
+          select(container.service.name, from: "touchpoint[service_id]")
+          select(container.name, from: "touchpoint[container_id]")
 
           # FIXME
           # this is non-conventional, because USWDS hides inputs and uses CSS :before
