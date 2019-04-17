@@ -12,7 +12,7 @@ class Admin::TouchpointsController < AdminController
 
   def export_submissions
     sheet = @touchpoint.export_to_google_sheet!
-    render json: { message: "Submissions for Touchpoint #{@touchpoint.id} - #{@touchpoint.form.name} exported to Google Sheets successfully", sheet_id: sheet.spreadsheet_id, sheet_url: sheet.spreadsheet_url }
+    redirect_to sheet.spreadsheet_url
   end
 
   def show
