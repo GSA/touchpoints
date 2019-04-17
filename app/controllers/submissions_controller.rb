@@ -20,8 +20,9 @@ class SubmissionsController < ApplicationController
   end
 
   def create
+    # TODO: Restrict access
     headers['Access-Control-Allow-Origin'] = '*'
-    headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
+    headers['Access-Control-Allow-Methods'] = 'POST, PUT, OPTIONS'
     headers['Access-Control-Request-Method'] = '*'
     headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
 
@@ -63,7 +64,7 @@ class SubmissionsController < ApplicationController
                 touchpoint: {
                   id: submission.touchpoint.id,
                   name: submission.touchpoint.name,
-                  organization_name: submission.touchpoint.container.organization.name
+                  organization_name: submission.touchpoint.service.organization.name
                 }
               }
             },
