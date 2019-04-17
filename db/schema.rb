@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_16_212233) do
+ActiveRecord::Schema.define(version: 2019_04_17_064258) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 2019_04_16_212233) do
     t.datetime "end_date"
     t.string "omb_approval_number"
     t.date "expiration_date"
+    t.integer "service_id"
   end
 
   create_table "triggers", force: :cascade do |t|
