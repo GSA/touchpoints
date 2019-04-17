@@ -6,6 +6,7 @@
       <th>Name</th>
       <th>Purpose</th>
       <th>Form</th>
+      <th>Submissions</th>
       <th></th>
     </tr>
   </thead>
@@ -16,6 +17,7 @@
         <td><%= link_to touchpoint.name, admin_touchpoint_path(touchpoint) %></td>
         <td><%= touchpoint.purpose %></td>
         <td><%= link_to(touchpoint.form.name, admin_touchpoint_form_path(touchpoint, touchpoint.form)) %></td>
+        <td><%= touchpoint.submissions.size %></td>
         <td><%= link_to 'Edit', edit_admin_touchpoint_path(touchpoint) %></td>
       </tr>
     <% end %>
