@@ -124,25 +124,21 @@ service_4  = Service.create!({
 })
 
 container_1 = Container.create!({
-  organization: org_1,
   service_id: service_1.id,
   name: "#{org_1.name}'s Test Container 1"
 })
 
 container_2 = Container.create!({
-  organization: org_1,
   service_id: service_2.id,
   name: "#{org_1.name}'s Test Container 2"
 })
 
 container_3 = Container.create!({
-  organization: org_2,
   service_id: service_3.id,
   name: "#{org_2.name}'s Test Container 1"
 })
 
 container_4 = Container.create!({
-  organization: org_2,
   service_id: service_4.id,
   name: "#{org_2.name}'s Test Container 2"
 })
