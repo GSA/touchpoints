@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     resources :triggers
     resources :touchpoints do
       member do
+        get "export_submissions", to: "touchpoints#export_submissions", as: :export_submissions
         get "example", to: "touchpoints#example", as: :example
         get "example/gtm", to: "touchpoints#gtm_example", as: :gtm_example
       end

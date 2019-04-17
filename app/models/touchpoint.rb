@@ -5,7 +5,7 @@ class Touchpoint < ApplicationRecord
 
   validates :name, presence: true
 
-  before_create :create_google_sheet!
+  before_create :create_google_sheet!, if: Proc.new { |t| t.enable_google_sheets? }
   after_create :config_gtm_container!
 
   scope :active, -> { where("id > 0") } # TODO: make this sample scope more intelligent/meaningful
@@ -47,16 +47,28 @@ class Touchpoint < ApplicationRecord
     service.publish_account_container_version(path: path2)
   end
 
-  # TODO
+  def export_to_google_sheet!
+    return unless self.submissions.present?
+
+    sheet = create_google_sheet!
+
+    self.submissions.each do |submission|
+      values = submission.to_rows
+      response = @service.add_row(spreadsheet_id: sheet.spreadsheet_id, values: values)
+    end
+
+    sheet
+  end
+
   # Creates a Google Sheet for this Touchpoint
   def create_google_sheet!
-    return unless self.enable_google_sheets
-
     @service = GoogleSheetsApi.new
     new_spreadsheet = @service.create_permissioned_spreadsheet({ title: self.name })
     self.google_sheet_id = new_spreadsheet.spreadsheet_id
 
     push_title_row
+
+    new_spreadsheet
   end
 
   # TODO - push the guts of the next 3 methods out. keep the method though
@@ -74,6 +86,9 @@ class Touchpoint < ApplicationRecord
     @service = GoogleSheetsApi.new
     spreadsheet = @service.service.get_spreadsheet_values(self.google_sheet_id, "A1:ZZ")
   end
+
+
+  private
 
   def push_title_row
     raise InvalidArgument unless self.form

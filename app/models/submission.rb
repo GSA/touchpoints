@@ -32,4 +32,43 @@ class Submission < ApplicationRecord
   def form_kind_is_a11?
     self.touchpoint.form.kind == "a11"
   end
+
+  def to_rows
+    if self.touchpoint.form.kind == "recruiter"
+      values = [
+        self.first_name,
+        self.last_name,
+        self.email
+      ]
+    end
+    if self.touchpoint.form.kind == "open-ended"
+      values = [
+        self.body
+      ]
+    end
+    if self.touchpoint.form.kind == "open-ended-with-contact-info"
+      values = [
+        self.body,
+        self.first_name,
+        self.email,
+        self.referer,
+        self.user_agent,
+        self.url,
+        self.created_at,
+      ]
+    end
+    if self.touchpoint.form.kind == "a11"
+      values = [
+        self.overall_satisfaction,
+        self.service_confidence,
+        self.service_effectiveness,
+        self.process_ease,
+        self.process_efficiency,
+        self.process_transparency,
+        self.people_employees,
+      ]
+    end
+
+    values
+  end
 end

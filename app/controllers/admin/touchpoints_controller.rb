@@ -1,6 +1,6 @@
 class Admin::TouchpointsController < AdminController
   skip_before_action :verify_authenticity_token, only: [:js]
-  before_action :set_touchpoint, only: [:show, :edit, :update, :destroy, :example, :gtm_example, :js, :trigger]
+  before_action :set_touchpoint, only: [:show, :edit, :update, :export_submissions, :destroy, :example, :gtm_example, :js, :trigger]
 
   def index
     if current_user && current_user.admin?
@@ -8,6 +8,11 @@ class Admin::TouchpointsController < AdminController
     else
       @touchpoints = current_user.organization.touchpoints
     end
+  end
+
+  def export_submissions
+    sheet = @touchpoint.export_to_google_sheet!
+    render json: { message: "Submissions for Touchpoint #{@touchpoint.id} - #{@touchpoint.form.name} exported to Google Sheets successfully", sheet_id: sheet.spreadsheet_id, sheet_url: sheet.spreadsheet_url }
   end
 
   def show
