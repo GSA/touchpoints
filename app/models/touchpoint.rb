@@ -26,7 +26,6 @@ class Touchpoint < ApplicationRecord
 
     google_service = GoogleApi.new
 
-    binding.pry
     # Lookup Workspaces
     path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.service.container.gtm_container_id}"
     workspaces = google_service.list_account_container_workspaces(path: path)

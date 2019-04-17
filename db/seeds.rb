@@ -146,7 +146,7 @@ container_4 = Container.create!({
 # Touchpoints
 touchpoint_1 = Touchpoint.create!({
   form: form_1,
-  container: container_1,
+  service: service_1,
   name: "Open-ended Feedback",
   purpose: "Soliciting feedback",
   meaningful_response_size: 30,
@@ -157,7 +157,7 @@ touchpoint_1 = Touchpoint.create!({
 
 touchpoint_2 = Touchpoint.create!({
   form: form_2,
-  container: container_2,
+  service: service_1,
   name: "Recruiter",
   purpose: "Improving Customer Experience with proactive research and service",
   meaningful_response_size: 100,
@@ -168,7 +168,7 @@ touchpoint_2 = Touchpoint.create!({
 
 touchpoint_3 = Touchpoint.create!({
   form: form_3,
-  container: container_3,
+  service: service_2,
   name: "A11 - 7 question test - DB",
   purpose: "CX",
   meaningful_response_size: 100,
