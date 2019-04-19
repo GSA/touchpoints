@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :containers
     resources :forms
-    resources :users
+    resources :users, except: [:new]
     resources :organizations
     resources :programs
     resources :services do

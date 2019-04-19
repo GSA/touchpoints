@@ -4,15 +4,15 @@
 </p>
 <p>
   <strong>Organization:</strong>
-  <%= link_to(@touchpoint.container.service.organization.name, admin_organization_path(@touchpoint.container.service.organization)) %>
+  <%= link_to(@touchpoint.service.organization.name, admin_organization_path(@touchpoint.service.organization)) if @touchpoint.service %>
 </p>
 <p>
   <strong>Service:</strong>
-  <%= link_to(@touchpoint.container.service.name, admin_service_path(@touchpoint.container.service)) %>
+  <%= link_to(@touchpoint.service.name, admin_service_path(@touchpoint.service)) %>
 </p>
 <p>
   <strong>Container:</strong>
-  <%= link_to(@touchpoint.container.name, admin_container_path(@touchpoint.container)) %>
+  <%= link_to(@touchpoint.container.name, admin_container_path(@touchpoint.container)) if @touchpoint.container %>
 </p>
 <p>
   <strong>OMB Approval #</strong>
