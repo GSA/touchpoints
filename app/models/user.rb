@@ -6,9 +6,9 @@ class User < ApplicationRecord
          :trackable, :confirmable
 
   belongs_to :organization, optional: true
-  has_many :touchpoints, through: :organization
   has_many :user_services
   has_many :services, through: :user_services
+  has_many :touchpoints, through: :services
 
   APPROVED_DOMAINS = [".gov", ".mil"]
 

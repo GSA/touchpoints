@@ -6,7 +6,7 @@ class Admin::TouchpointsController < AdminController
     if current_user && current_user.admin?
       @touchpoints = Touchpoint.all
     else
-      @touchpoints = current_user.organization.touchpoints
+      @touchpoints = current_user.touchpoints
     end
   end
 
@@ -76,7 +76,7 @@ class Admin::TouchpointsController < AdminController
       if current_user && current_user.admin?
         @touchpoint = Touchpoint.find(params[:id])
       else
-        @touchpoint = current_user.organization.touchpoints.find(params[:id])
+        @touchpoint = current_user.touchpoints.find(params[:id])
       end
     end
 

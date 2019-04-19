@@ -17,7 +17,6 @@ feature "Touchpoints", js: true do
           visit new_admin_touchpoint_path
           fill_in("touchpoint[name]", with: "Test Touchpoint")
           select(container.service.name, from: "touchpoint[service_id]")
-          select(container.name, from: "touchpoint[container_id]")
 
           # FIXME
           # this is non-conventional, because USWDS hides inputs and uses CSS :before
@@ -76,7 +75,6 @@ feature "Touchpoints", js: true do
           visit new_admin_touchpoint_path
           fill_in("touchpoint[name]", with: "Test Touchpoint")
           select(container.service.name, from: "touchpoint[service_id]")
-          select(container.name, from: "touchpoint[container_id]")
 
           # FIXME
           # this is non-conventional, because USWDS hides inputs and uses CSS :before

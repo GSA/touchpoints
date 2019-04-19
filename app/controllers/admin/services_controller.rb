@@ -6,7 +6,7 @@ class Admin::ServicesController < AdminController
     if current_user.admin?
       @services = Service.all
     else
-      @services = current_user.organization.services
+      @services = current_user.services
     end
   end
 
