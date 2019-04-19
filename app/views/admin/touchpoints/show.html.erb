@@ -12,7 +12,11 @@
 </p>
 <p>
   <strong>Container:</strong>
-  <%= link_to(@touchpoint.container.name, admin_container_path(@touchpoint.container)) if @touchpoint.container %>
+  <% if current_user.admin? %>
+    <%= link_to(@touchpoint.service.container.name, admin_container_path(@touchpoint.service.container)) if @touchpoint.service.container %>
+  <% else %>
+    <%= @touchpoint.service.container.name if @touchpoint.service.container %>
+  <% end %>
 </p>
 <p>
   <strong>OMB Approval #</strong>
