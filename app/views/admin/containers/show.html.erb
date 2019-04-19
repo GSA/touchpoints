@@ -5,7 +5,11 @@
 
 <p>
   <strong>GTM Container ID:</strong>
-  <%= link_to(@container.gtm_container_id, @container.gtm_container_url, target: "_blank") %>
+  <% if current_user && current_user.admin? %>
+    <%= link_to(@container.gtm_container_id, @container.gtm_container_url, target: "_blank") %>
+  <% else %>
+    <%= @container.gtm_container_id %>
+  <% end %>
 </p>
 <p>
   <strong>GTM Container Public ID:</strong>
