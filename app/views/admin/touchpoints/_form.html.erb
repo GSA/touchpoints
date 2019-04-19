@@ -53,15 +53,6 @@
   <% end %>
   <%= form.select :service_id, options_for_select(Service.all.map { |c| [c.name, c.id] }, selected: touchpoint.service_id), prompt: "Which Service?" %>
 </div>
-<div class="field">
-  <%= form.label :container_id do %>
-    Which Tag Container do you want to deploy this Touchpoint in?<br>
-    <span style="font-size: 0.75em;">
-      This Touchpoint.js code be inserted into a Tag in GTM and will be attached to a Homepage Trigger.
-    </span>
-  <% end %>
-  <%= form.select :container_id, options_for_select(Container.all.map { |c| [c.name, c.id] }, selected: ((touchpoint.service && touchpoint.service.container) ? touchpoint.service.container.id : nil)), prompt: "Which Tag Container?" %>
-</div>
 <br>
 <hr>
 <br>
