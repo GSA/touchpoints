@@ -32,10 +32,31 @@
   </h2>
 
   <% if @service.users.present? %>
-    <br>
-    <% @service.users.each do |user| %>
-      <%= user.email %><br>
-    <% end %>
+    <table>
+      <thead>
+      <tr>
+        <th>
+          Email
+        </th>
+        <th>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @service.users.each do |user| %>
+        <tr>
+          <td>
+            <%= user.email %>
+          </td>
+          <td>
+            <a href="#" class="remove-user" data-id="<%= user.id %>">
+              Remove
+            </a>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
   <% else %>
   <div class="usa-alert usa-alert-info" >
     <div class="usa-alert-body">
@@ -47,7 +68,7 @@
   <% end %>
 
   <div>
-    <% available_members = (User.all - @service.users) %>
+    <% available_members = (User.all - @service.users - [current_user]) %>
     <% if available_members.present? %>
     <%= select_tag :za, options_for_select(available_members.map { |user| [user.email, user.id] }), prompt: "Add a User?", id: "add-user-dropdown", style: "display: inline-block; margin-right: 1em;" %>
     <!-- <span class="usa-buton" name="button" id="add-user-button">Add User</span> -->
@@ -90,7 +111,7 @@
       }).success(function(response) {
         location.reload();
       });
-    })
+    });
 
     $("#add-user-dropdown").on("change", function(e) {
       var userId = e.target.value
@@ -99,6 +120,20 @@
       } else {
         $("#add-user-button").attr("disabled", true);
       }
+    });
+
+    // Remove a Service Manager User
+    $(".remove-user").on("click", function(e) {
+      var userId = $(this).attr("data-id");
+
+      var request = $.ajax({
+        url: "/admin/services/<%= @service.id %>/remove_user",
+        dataType: "json",
+        method: "POST",
+        data: { user_id : userId }
+      }).success(function(response) {
+        location.reload();
+      });
     });
   });
 </script>

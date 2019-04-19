@@ -51,7 +51,7 @@
       This Touchpoint.js code be inserted into a Tag in GTM and will be attached to a Homepage Trigger.
     </span>
   <% end %>
-  <%= form.select :service_id, options_for_select(Service.all.map { |c| [c.name, c.id] }, selected: touchpoint.service_id), prompt: "Which Service?" %>
+  <%= form.select :service_id, options_for_select(current_user.services.map { |c| [c.name, c.id] }, selected: touchpoint.service_id), prompt: "Which Service?" %>
 </div>
 <br>
 <hr>

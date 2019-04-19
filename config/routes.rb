@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     resources :services do
       member do
         post "add_user", to: "services#add_user", as: :add_user
+        post "remove_user", to: "services#remove_user", as: :remove_user
       end
     end
     resources :submissions, except: [:new, :index, :create]

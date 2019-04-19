@@ -1,6 +1,6 @@
 class Admin::ServicesController < AdminController
-  before_action :set_user, only: [:add_user]
-  before_action :set_service, only: [:show, :edit, :update, :add_user, :destroy]
+  before_action :set_user, only: [:add_user, :remove_user]
+  before_action :set_service, only: [:show, :edit, :update, :add_user, :remove_user, :destroy]
 
   def index
     if current_user.admin?
@@ -14,12 +14,29 @@ class Admin::ServicesController < AdminController
   end
 
   def add_user
+    flash[:notice] = "User successfully added"
+
     @user_service = UserService.new({
       user_id: @user.id,
       service_id: @service.id
     })
 
     if @user_service.save
+      render json: {
+          email: @user.email,
+          service: @service.id
+        }
+    else
+      render json: @user_service.errors, status: :unprocessable_entity
+    end
+  end
+
+  def remove_user
+    flash[:notice] = "User successfully removed"
+
+    @user_service = @service.user_services.find_by_user_id(params[:user_id])
+
+    if @user_service.destroy
       render json: {
           email: @user.email,
           service: @service.id
