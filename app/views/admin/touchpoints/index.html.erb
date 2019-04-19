@@ -3,10 +3,11 @@
 <table>
   <thead>
     <tr>
+      <th>Service</th>
       <th>Name</th>
       <th>Purpose</th>
       <th>Form</th>
-      <th>Submissions</th>
+      <th># Submissions</th>
       <th></th>
     </tr>
   </thead>
@@ -14,6 +15,7 @@
   <tbody>
     <% @touchpoints.each do |touchpoint| %>
       <tr>
+        <td><%= link_to touchpoint.service.name, admin_service_path(touchpoint.service) %></td>
         <td><%= link_to touchpoint.name, admin_touchpoint_path(touchpoint) %></td>
         <td><%= touchpoint.purpose %></td>
         <td><%= link_to(touchpoint.form.name, admin_touchpoint_form_path(touchpoint, touchpoint.form)) %></td>
