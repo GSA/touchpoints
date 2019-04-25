@@ -58,23 +58,23 @@ eos
   end
 
   def get_accounts
-    @service.list_accounts.account # => []
+    @service.list_accounts(quota_user).account # => []
   end
 
   def get_account(account_id:)
-    @service.get_account("accounts/#{account_id}")
+    @service.get_account("accounts/#{account_id}", quota_user)
   end
 
   def list_account_containers(account_id:)
-    @service.list_account_containers("accounts/#{account_id}").container
+    @service.list_account_containers("accounts/#{account_id}", quota_user).container
   end
 
   def list_account_container_workspaces(path:)
-    @service.list_account_container_workspaces(path).workspace
+    @service.list_account_container_workspaces(path, quota_user).workspace
   end
 
   def list_account_user_permissions(account_id:)
-    @service.list_account_user_permissions("accounts/#{account_id}").user_permission
+    @service.list_account_user_permissions("accounts/#{account_id}", quota_user).user_permission
   end
 
   def clean_account_containers(account_id:)
@@ -83,7 +83,7 @@ eos
     containers  = list_account_containers(account_id: account_id)
     containers.each do |c|
       begin
-        @service.delete_account_container(c.path)
+        @service.delete_account_container(c.path, quota_user)
       rescue
         puts "WARNING: Could not delete GTM Container #{c.name} - #{c.fingerprint}"
       end
@@ -98,7 +98,7 @@ eos
     new_container.usage_context = ["web"]
 
     # Post it to GTM's API
-    @service.create_account_container("accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}", new_container)
+    @service.create_account_container("accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}", new_container, quota_user)
   end
 
   def path_helper(account_id:, container_id:)
@@ -106,7 +106,7 @@ eos
   end
 
   def get_account_container(path:)
-    @service.get_account_container(path)
+    @service.get_account_container(path, quota_user)
   end
 
   # NOTE: This is an operation on a Container.
@@ -151,7 +151,7 @@ eos
         "value": "ELEMENT"
       }
     ]
-    @service.create_account_container_workspace_variable(path, new_variable)
+    @service.create_account_container_workspace_variable(path, new_variable, quota_user)
   end
 
   def create_variable_auto_event_var_element_id(path:)
@@ -171,7 +171,7 @@ eos
         "value": "ID"
       }
     ]
-    @service.create_account_container_workspace_variable(path, new_variable)
+    @service.create_account_container_workspace_variable(path, new_variable, quota_user)
   end
 
   def create_variable_auto_event_var_element_text(path:)
@@ -191,7 +191,7 @@ eos
         "value": "TEXT"
       }
     ]
-    @service.create_account_container_workspace_variable(path, new_variable)
+    @service.create_account_container_workspace_variable(path, new_variable, quota_user)
   end
 
   def create_variable_element_text(path:)
@@ -211,7 +211,7 @@ eos
         "value": "ID"
       }
     ]
-    @service.create_account_container_workspace_variable(path, new_variable)
+    @service.create_account_container_workspace_variable(path, new_variable, quota_user)
   end
 
   def create_variable_ga_property_id(path:)
@@ -226,7 +226,7 @@ eos
           "value": "UA-93344103-1"
         }
       ]
-      @service.create_account_container_workspace_variable(path, new_variable)
+      @service.create_account_container_workspace_variable(path, new_variable, quota_user)
   end
 
   def create_variable_recruiter_email(path:)
@@ -241,7 +241,7 @@ eos
         "value": "function() {\n  var inputField = document.getElementsByClassName(\"email-address\")[0];\n  return inputField.value || \"\";\n}"
       }
     ]
-    @service.create_account_container_workspace_variable(path, new_variable)
+    @service.create_account_container_workspace_variable(path, new_variable, quota_user)
   end
 
   def create_variable_recruiter_name(path:)
@@ -256,7 +256,7 @@ eos
         "value": "function() {\n  var inputField = document.getElementsByClassName(\"full-name\")[0];\n  return inputField.value || \"\";\n}\n"
       }
     ]
-    @service.create_account_container_workspace_variable(path, new_variable)
+    @service.create_account_container_workspace_variable(path, new_variable, quota_user)
   end
 
   def create_variable_recruiter_timestamp(path:)
@@ -271,7 +271,7 @@ eos
         "value": "function(){\n  var today = new Date();\n  var str = today.toUTCString();\n  return str;\n}"
       }
     ]
-    @service.create_account_container_workspace_variable(path, new_variable)
+    @service.create_account_container_workspace_variable(path, new_variable, quota_user)
   end
 
   def create_variable_user_agent(path:)
@@ -286,7 +286,7 @@ eos
         "value": "navigator.userAgent"
       }
     ]
-    @service.create_account_container_workspace_variable(path, new_variable)
+    @service.create_account_container_workspace_variable(path, new_variable, quota_user)
   end
 
   def create_variable_web_app_url(path:)
@@ -301,7 +301,7 @@ eos
         "value": "https://script.google.com/a/macros/gsa.gov/s/AKfycbwRDwJ2V3Ui-JNsA0SUb_mekFdM4yTTuPassT740YIxtJOoUOXj/exec"
       }
     ]
-    @service.create_account_container_workspace_variable(path, new_variable)
+    @service.create_account_container_workspace_variable(path, new_variable, quota_user)
   end
 
   def create_variable_client_id(path:)
@@ -316,7 +316,7 @@ eos
         "value": "function() {\n  try {\n    var trackers = ga.getAll();\n    var i, len;\n    for (i = 0, len = trackers.length; i < len; i += 1) {\n      if (trackers[i].get('trackingId') === {{GA Property ID}}) {\n        return trackers[i].get('clientId');\n      }\n    }\n  } catch(e) {}  \n  return 'false';\n}"
       }
     ]
-    @service.create_account_container_workspace_variable(path, new_variable)
+    @service.create_account_container_workspace_variable(path, new_variable, quota_user)
   end
 
   # Define Triggers
@@ -325,7 +325,7 @@ eos
 
     new_trigger.name = "JS Error"
     new_trigger.type = "JS_ERROR"
-    @service.create_account_container_workspace_trigger(path, new_trigger)
+    @service.create_account_container_workspace_trigger(path, new_trigger, quota_user)
   end
 
   def create_trigger_frustrated_user(path:)
@@ -347,7 +347,7 @@ eos
         }
       ]
     }]
-    @service.create_account_container_workspace_trigger(path, new_trigger)
+    @service.create_account_container_workspace_trigger(path, new_trigger, quota_user)
   end
 
   def create_trigger_homepage_only(path:)
@@ -369,7 +369,7 @@ eos
         }
       ]
     }]
-    @service.create_account_container_workspace_trigger(path, new_trigger)
+    @service.create_account_container_workspace_trigger(path, new_trigger, quota_user)
   end
 
   def create_trigger_recruiter_submit(path:)
@@ -391,7 +391,7 @@ eos
         }
       ]
     }]
-    @service.create_account_container_workspace_trigger(path, new_trigger)
+    @service.create_account_container_workspace_trigger(path, new_trigger, quota_user)
   end
   # End Define Triggers
 
@@ -407,7 +407,7 @@ eos
     }]
 
     # Create Tag via GTM's API
-    @service.create_account_container_workspace_tag(path, new_tag)
+    @service.create_account_container_workspace_tag(path, new_tag, quota_user)
   end
 
   def create_recruiter_to_google_sheet_tag(path:)
@@ -433,40 +433,40 @@ eos
     ]
 
     # Create Tag via GTM's API
-    @service.create_account_container_workspace_tag(path, new_tag)
+    @service.create_account_container_workspace_tag(path, new_tag, quota_user)
   end
 
   def create_account_container_workspace_version(path:)
-    @service.create_account_container_workspace_version(path)
+    @service.create_account_container_workspace_version(path, quota_user)
   end
 
   def create_account_container_workspace_trigger(path:, trigger:)
-    @service.create_account_container_workspace_trigger(path, trigger)
+    @service.create_account_container_workspace_trigger(path, trigger, quota_user)
   end
 
   def publish_account_container_version(path:)
-    @service.publish_account_container_version(path)
+    @service.publish_account_container_version(path, quota_user)
   end
 
   def get_account_container_version(path:)
-    @service.get_account_container_version(path)
+    @service.get_account_container_version(path, quota_user)
   end
 
   def live_account_container_version(path:)
-    @service.live_account_container_version(path)
-  end
-
-  def create_account_container_workspace_variable(path:)
-    @service.create_account_container_workspace_variable(path)
+    @service.live_account_container_version(path, quota_user)
   end
 
   def set_account_container_version_latest(path:)
-    @service.set_account_container_version_latest(path)
+    @service.set_account_container_version_latest(path, quota_user)
   end
 
   def list_account_container_workspace_triggers(path:)
-    @service.list_account_container_workspace_triggers(path)
+    @service.list_account_container_workspace_triggers(path, quota_user)
     # from here, select the trigger.
     # then, associate the ID of the Trigger as the FiringElement on the Custom Script Tag
+  end
+
+  def quota_user
+    { quota_user: ENV.fetch("GOOGLE_API_QUOTA_USER") }
   end
 end

@@ -46,7 +46,12 @@ class GoogleDriveApi
       @service.create_permission(file_id,
         user_permission,
         fields: 'id',
+        quota_user: quota_user,
         &callback)
     end
+  end
+
+  def quota_user
+    ENV.fetch("GOOGLE_API_QUOTA_USER")
   end
 end

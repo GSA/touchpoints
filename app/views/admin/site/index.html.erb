@@ -12,7 +12,7 @@
   <% @account[:containers].each do |container| %>
     <%= link_to container.name, container.tag_manager_url, target: "_blank" %>
     <%= container.public_id %>
-    <% workspaces = @google_api.list_account_container_workspaces(path: container.path) %>
+    <% workspaces = @google_api_service.list_account_container_workspaces(path: container.path) %>
     <ul>
       <% workspaces.each do |workspace| %>
       <li>
