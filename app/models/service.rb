@@ -8,6 +8,7 @@ class Service < ApplicationRecord
   validates :name, presence: true
 
   def create_container!
+    return unless Rails.env.test?
     return unless self.container
 
     Container.create!({

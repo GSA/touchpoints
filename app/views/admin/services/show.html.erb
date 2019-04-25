@@ -89,7 +89,7 @@
   Container Information
 </h2>
 <% @container = @service.container %>
-<%= render file: "/admin/containers/show" %>
+<%= render file: "/admin/containers/show" if @container %>
 
 <br>
 <br>
