@@ -3,6 +3,7 @@
 
 # Cleanup GTM
 service = GoogleApi.new
+puts "Cleaning Account Containers for Google Tag Manager Account #{ENV.fetch("GOOGLE_TAG_MANAGER_ACCOUNT_ID")}"
 service.clean_account_containers(account_id: ENV.fetch("GOOGLE_TAG_MANAGER_ACCOUNT_ID"))
 
 org = Organization.create!({
@@ -10,6 +11,7 @@ org = Organization.create!({
   domain: "example.gov",
   url: "https://example.gov"
 })
+puts "Created Default Organization: #{org.name}"
 
 # Create Seeds
 admin_user = User.new({
@@ -20,6 +22,7 @@ admin_user = User.new({
 })
 admin_user.skip_confirmation!
 admin_user.save!
+puts "Created Admin User: #{admin_user.email}"
 
 
 org_1 = Organization.create!({
@@ -27,6 +30,8 @@ org_1 = Organization.create!({
   domain: "digital.gov",
   url: "https://digital.gov"
 })
+puts "Creating additional Organization: #{org_1.name}"
+
 program_1 = Program.create!({
   name: "Program 1 for Digital.gov",
   organization: org_1,
@@ -37,6 +42,7 @@ program_2 = Program.create!({
   organization: org_1,
   url: "https://digital.gov/program-name-2"
 })
+
 org_2 = Organization.create!({
   name: "Farmers.gov",
   domain: "example.gov",
@@ -47,6 +53,7 @@ program_3 = Program.create!({
   organization: org_2,
   url: "https://farmers.gov/program-name-3"
 })
+
 org_3 = Organization.create!({
   name: "Cloud.gov",
   domain: "cloud.gov",
@@ -60,6 +67,7 @@ webmaster = User.new({
 })
 webmaster.skip_confirmation!
 webmaster.save!
+puts "Created #{webmaster.email}"
 
 service_manager = User.new({
   email: "service@example.gov",
@@ -68,6 +76,7 @@ service_manager = User.new({
 })
 service_manager.skip_confirmation!
 service_manager.save!
+puts "Created #{service_manager.email}"
 
 # Forms
 form_1 = Form.create({
@@ -151,8 +160,7 @@ touchpoint_1 = Touchpoint.create!({
   purpose: "Soliciting feedback",
   meaningful_response_size: 30,
   behavior_change: "Looking for opportunities to improve",
-  notification_emails: "ryan.wold@gsa.gov",
-  enable_google_sheets: false
+  notification_emails: "ryan.wold@gsa.gov"
 })
 
 touchpoint_2 = Touchpoint.create!({
@@ -162,8 +170,7 @@ touchpoint_2 = Touchpoint.create!({
   purpose: "Improving Customer Experience with proactive research and service",
   meaningful_response_size: 100,
   behavior_change: "We will use the this feedback to inform Product and Program decisions",
-  notification_emails: "ryan.wold@gsa.gov",
-  enable_google_sheets: false
+  notification_emails: "ryan.wold@gsa.gov"
 })
 
 touchpoint_3 = Touchpoint.create!({
@@ -173,8 +180,7 @@ touchpoint_3 = Touchpoint.create!({
   purpose: "CX",
   meaningful_response_size: 100,
   behavior_change: "Better customer service",
-  notification_emails: "ryan.wold@gsa.gov",
-  enable_google_sheets: false
+  notification_emails: "ryan.wold@gsa.gov"
 })
 
 Submission.create!({
