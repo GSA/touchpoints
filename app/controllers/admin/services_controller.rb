@@ -64,10 +64,7 @@ class Admin::ServicesController < AdminController
           service: @service,
           user: current_user
         })
-        container = Container.create!({
-          service: @service,
-          name: "#{@service.name} Container",
-        })
+        @service.create_container!
 
         format.html { redirect_to admin_service_path(@service), notice: 'Service was successfully created.' }
         format.json { render :show, status: :created, location: @service }
