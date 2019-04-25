@@ -24,6 +24,7 @@ class Container < ApplicationRecord
     def create_container_in_gtm!
       return if Rails.env.test?
 
+      puts "Creating GTM Container..."
       service = GoogleApi.new
       new_container = service.create_account_container(name: "fba-#{Rails.env.downcase}-#{name.parameterize}")
       self.gtm_container_id = new_container.container_id
@@ -34,7 +35,7 @@ class Container < ApplicationRecord
       return if Rails.env.test?
 
       service = GoogleApi.new
-
+      puts "Configuring GTM Container..."
       # Lookup Workspaces
       path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.gtm_container_id}"
       workspaces = service.list_account_container_workspaces(path: path)
@@ -43,6 +44,6 @@ class Container < ApplicationRecord
 
       # Set Container Configs
       path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.gtm_container_id}/workspaces/#{workspace_id}"
-      service.create_container_custom_configs(path: path)
+      # service.create_container_custom_configs(path: path)
     end
 end
