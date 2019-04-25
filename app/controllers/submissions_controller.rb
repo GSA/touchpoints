@@ -29,9 +29,7 @@ class SubmissionsController < ApplicationController
     @submission = Submission.new(submission_params)
     @submission.touchpoint_id = @touchpoint.id
 
-    @touchpoint.enable_google_sheets ?
-      create_in_google_sheets(@submission) :
-      create_in_local_database(@submission)
+    create_in_local_database(@submission)
   end
 
   def update

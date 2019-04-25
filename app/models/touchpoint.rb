@@ -6,9 +6,6 @@ class Touchpoint < ApplicationRecord
 
   validates :name, presence: true
 
-  before_create :create_google_sheet!, if: Proc.new { |t| t.enable_google_sheets? }
-  after_create :config_gtm_container!
-
   scope :active, -> { where("id > 0") } # TODO: make this sample scope more intelligent/meaningful
 
   def send_notifications?
