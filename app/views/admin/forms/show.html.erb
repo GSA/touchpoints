@@ -8,7 +8,7 @@
   <%= @form.title %>
 </p>
 <p>
-  <strong>instructions:</strong>
+  <strong>Instructions:</strong>
   <%= @form.instructions %>
 </p>
 <p>
@@ -24,14 +24,28 @@
   <%= @form.status %>
 </p>
 <hr>
-<div style="background-color: #333; padding: 0.25em; margin-bottom: 1.0em;">
-  <div style="color: white; margin-bottom: 0em;">
-    Example Form
-  </div>
-  <br>
+<h3>
+  Form Definition
+</h3>
+<% if @form && @touchpoint %>
   <div style="background-color: #E5FFE5; padding: 1em;">
     <%= render partial: "components/forms/#{@form.kind}", locals: { form: @form, touchpoint: @touchpoint } %>
   </div>
-</div>
+  <div style="background-color: #333; padding: 0.25em; margin-bottom: 1.0em;">
+    <div style="color: white; margin-bottom: 0em;">
+      Example Form
+    </div>
+    <br>
+  </div>
+<% else %>
+  <div class="usa-alert usa-alert-info">
+    <div class="usa-alert-body">
+      <p class="usa-alert-text">
+        Form content is currently custom-created by the Touchpoints Product Team.
+        Please contact the Feedback Analytics Team for assistance.
+      </p>
+    </div>
+  </div>
+<% end %>
 <hr>
 <%= link_to 'Edit', edit_admin_form_path(@form), class: "usa-button" %>
