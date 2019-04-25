@@ -13,15 +13,16 @@ class Admin::ServicesController < AdminController
   def show
   end
 
+  # Associate a user with a Service
   def add_user
-    flash[:notice] = "User successfully added"
-
     @user_service = UserService.new({
       user_id: @user.id,
       service_id: @service.id
     })
 
     if @user_service.save
+      flash[:notice] = "User successfully added"
+
       render json: {
           email: @user.email,
           service: @service.id
@@ -31,12 +32,13 @@ class Admin::ServicesController < AdminController
     end
   end
 
+  # Disassociate a user with a Service
   def remove_user
-    flash[:notice] = "User successfully removed"
-
     @user_service = @service.user_services.find_by_user_id(params[:user_id])
 
     if @user_service.destroy
+      flash[:notice] = "User successfully removed"
+
       render json: {
           email: @user.email,
           service: @service.id
@@ -58,6 +60,10 @@ class Admin::ServicesController < AdminController
 
     respond_to do |format|
       if @service.save
+        UserService.create!({
+          service: @service,
+          user: current_user
+        })
         container = Container.create!({
           service: @service,
           name: "#{@service.name} Container",

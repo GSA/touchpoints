@@ -5,8 +5,8 @@ feature "Touchpoints", js: true do
     describe "/touchpoints" do
       describe "#index" do
         let(:user) { FactoryBot.create(:user, :admin) }
-        let!(:organization) { FactoryBot.create(:organization) }
-        let!(:container) { FactoryBot.create(:container) }
+        let!(:service) { FactoryBot.create(:service) }
+        let!(:user_service) { FactoryBot.create(:user_service, user: user, service: service) }
         let!(:form) { FactoryBot.create(:form) }
         let(:future_date) {
           Time.now + 3.days
@@ -16,7 +16,7 @@ feature "Touchpoints", js: true do
           login_as user
           visit new_admin_touchpoint_path
           fill_in("touchpoint[name]", with: "Test Touchpoint")
-          select(container.service.name, from: "touchpoint[service_id]")
+          select(service.name, from: "touchpoint[service_id]")
 
           # FIXME
           # this is non-conventional, because USWDS hides inputs and uses CSS :before
@@ -42,8 +42,7 @@ feature "Touchpoints", js: true do
       describe "#edit" do
         let(:user) { FactoryBot.create(:user, :admin) }
         let!(:organization) { FactoryBot.create(:organization) }
-        let!(:container) { FactoryBot.create(:container) }
-        let!(:touchpoint) { FactoryBot.create(:touchpoint, container: container)}
+        let!(:touchpoint) { FactoryBot.create(:touchpoint)}
         let!(:form) { FactoryBot.create(:form) }
 
         before "user creates a Touchpoint" do
@@ -65,31 +64,40 @@ feature "Touchpoints", js: true do
   context "as Webmaster" do
     describe "/touchpoints" do
       describe "#index" do
-        let!(:organization) { FactoryBot.create(:organization) }
-        let!(:container) { FactoryBot.create(:container) }
-        let(:user) { FactoryBot.create(:user, :admin, organization: organization) }
+        let!(:service) { FactoryBot.create(:service) }
+        let(:user) { FactoryBot.create(:user, :admin, organization: service.organization) }
+        let!(:user_service) { FactoryBot.create(:user_service, user: user, service: service) }
         let!(:form) { FactoryBot.create(:form) }
 
         before "user completes (TEST) Sign Up form" do
           login_as user
           visit new_admin_touchpoint_path
-          fill_in("touchpoint[name]", with: "Test Touchpoint")
-          select(container.service.name, from: "touchpoint[service_id]")
 
+          fill_in("touchpoint[name]", with: "Test Touchpoint")
+          fill_in("touchpoint[omb_approval_number]", with: 1234)
           # FIXME
           # this is non-conventional, because USWDS hides inputs and uses CSS :before
           first("label[for=touchpoint_form_id_1]").click
-          fill_in("touchpoint[purpose]", with: "Compliance")
+          select(service.name, from: "touchpoint[service_id]")
           fill_in("touchpoint[meaningful_response_size]", with: 50)
-          fill_in("touchpoint[behavior_change]", with: "to be determined")
           fill_in("touchpoint[notification_emails]", with: "admin@example.gov")
+          fill_in("touchpoint[purpose]", with: "Compliance")
+          fill_in("touchpoint[behavior_change]", with: "to be determined")
           click_button "Create Touchpoint"
         end
 
         it "redirect to /touchpoints/:id with a success flash message" do
-          expect(page.current_path).to eq(admin_touchpoint_path(Touchpoint.first.id))
           expect(page).to have_content("Touchpoint was successfully created.")
-
+          @touchpoint = Touchpoint.first
+          expect(page.current_path).to eq(admin_touchpoint_path(@touchpoint.id))
+          expect(page).to have_content("Test Touchpoint")
+          expect(page).to have_content(@touchpoint.service.name)
+          expect(page).to have_content("1234")
+          expect(page).to have_content("50")
+          expect(page).to have_content("1234")
+          expect(page).to have_content("Compliance")
+          expect(page).to have_content(@touchpoint.form.name)
+          expect(page).to have_content("to be determined")
           expect(page).to have_content("Notification emails: admin@example.gov")
         end
       end
