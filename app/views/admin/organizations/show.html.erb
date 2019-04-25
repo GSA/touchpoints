@@ -2,9 +2,13 @@
   <strong>Name:</strong>
   <%= @organization.name %>
 </p>
+<p>
+  <strong>Organization Domain:</strong>
+  <%= @organization.domain %>
+</p>
 
 <p>
-  <strong>Url:</strong>
+  <strong>Website Url:</strong>
   <%= link_to(@organization.url, @organization.url, target: "_blank") %>
 </p>
 
@@ -19,7 +23,7 @@
 </p>
 
 <p>
-  <strong>External:</strong>
+  <strong>External Org ID:</strong>
   <%= @organization.external_id %>
 </p>
 
