@@ -49,9 +49,11 @@
             <%= user.email %>
           </td>
           <td>
-            <a href="#" class="remove-user" data-id="<%= user.id %>">
-              Remove
-            </a>
+            <% if user != current_user %>
+              <a href="#" class="remove-user" data-id="<%= user.id %>">
+                Remove
+              </a>
+            <% end %>
           </td>
         </tr>
       <% end %>
@@ -77,7 +79,7 @@
       <div class="usa-alert usa-alert-info">
         <div class="usa-alert-body">
           <p class="usa-alert-text">
-            All Users have been added. No more Service Manager to add.
+            All Users have been added. No more Service Managers to add.
           </p>
         </div>
       </div>
