@@ -1,8 +1,10 @@
 <h1>
   Submissions
+</h1>
+<h5>
   for
   <%= @touchpoint.name %>
-</h1>
+</h5>
 
 <table>
   <thead>
@@ -25,7 +27,6 @@
       <th>Process transparency</th>
       <th>People employees</th>
       <% end %>
-      <th style="border: none; background: none;"></th>
     </tr>
   </thead>
 
@@ -50,7 +51,6 @@
         <td><%= submission.process_transparency %></td>
         <td><%= submission.people_employees %></td>
         <% end %>
-        <td style="border: none;"><%= link_to 'View', submission, class: "usa-button" %></td>
       </tr>
     <% end %>
   </tbody>

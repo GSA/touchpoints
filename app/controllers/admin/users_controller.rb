@@ -7,6 +7,7 @@ class Admin::UsersController < AdminController
   end
 
   def show
+    @services = @user.services
   end
 
   def new

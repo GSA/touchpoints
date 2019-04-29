@@ -56,6 +56,13 @@ class Admin::OrganizationsController < AdminController
     end
 
     def organization_params
-      params.require(:organization).permit(:name, :url, :abbreviation, :notes, :external_id)
+      params.require(:organization).permit(
+        :name,
+        :domain,
+        :url,
+        :abbreviation,
+        :notes, 
+        :external_id
+      )
     end
 end

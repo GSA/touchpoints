@@ -4,11 +4,19 @@
 </p>
 <p>
   <strong>Organization:</strong>
-  <%= link_to(@touchpoint.container.organization.name, admin_organization_path(@touchpoint.container.organization)) %>
+  <%= link_to(@touchpoint.service.organization.name, admin_organization_path(@touchpoint.service.organization)) if @touchpoint.service %>
+</p>
+<p>
+  <strong>Service:</strong>
+  <%= link_to(@touchpoint.service.name, admin_service_path(@touchpoint.service)) %>
 </p>
 <p>
   <strong>Container:</strong>
-  <%= link_to(@touchpoint.container.name, admin_container_path(@touchpoint.container)) %>
+  <% if current_user.admin? %>
+    <%= link_to(@touchpoint.service.container.name, admin_container_path(@touchpoint.service.container)) if @touchpoint.service.container %>
+  <% else %>
+    <%= @touchpoint.service.container.name if @touchpoint.service.container %>
+  <% end %>
 </p>
 <p>
   <strong>OMB Approval #</strong>
@@ -22,12 +30,6 @@
   <strong>Form:</strong>
   <%= link_to(@touchpoint.form.name, admin_touchpoint_form_path(@touchpoint, @touchpoint.form)) %>
 </p>
-
-<p>
-  <strong>Google Sheet ID:</strong>
-  <%= @touchpoint.enable_google_sheets? ? link_to(@touchpoint.google_sheet_id, "https://docs.google.com/spreadsheets/d/#{@touchpoint.google_sheet_id}/edit#gid=0", target: "_blank") : 'N/A' %>
-</p>
-
 <p>
   <strong>Purpose:</strong>
   <%= @touchpoint.purpose %>
@@ -45,41 +47,24 @@
   <%= @touchpoint.notification_emails %>
 </p>
 <hr>
-<p>
-  <%= link_to 'New Submission', submit_touchpoint_path(@touchpoint), class: "usa-button" %>
-</p>
 <%= link_to 'Edit', edit_admin_touchpoint_path(@touchpoint), class: "usa-button" %>
-
 <hr>
+<h3>
+  Customers can create a Submission for this Touchpoint.
+</h3>
 <p>
-  <%= link_to 'Local .js Example', example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank" %>
-  <%= link_to 'GTM + .js Example', gtm_example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank" %>
+  <%= link_to 'a public Touchpoints page', submit_touchpoint_path(@touchpoint), class: "usa-button" %> <%= submit_touchpoint_url(@touchpoint) %>
 </p>
+<p>
+  <%= link_to '.js tab Embed Example', example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank" %>
+</p>
+<% if @touchpoint.service && @touchpoint.service.container %>
+<p>
+  <%= link_to 'GTM + .js Example', gtm_example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank" %> Add the Tag <%= link_to "Container", admin_container_path(@touchpoint.service.container) %>'s embed codes in your site. Then, activate the Container in GTM.
+</p>
+<% end %>
 <hr>
 
 <% @submissions = @touchpoint.submissions %>
-<% if @touchpoint.enable_google_sheets? %>
-  <h1>
-    Submissions
-    for
-    <%= @touchpoint.name %>
-  </h1>
-  <% sheet_values = @touchpoint.google_spreadsheet_values %>
-  <table>
-    <% sheet_values.values.each do |row| %>
-    <tr>
-      <% row.each do |cell| %>
-        <td>
-          <%= cell %>
-        </td>
-      <% end %>
-    </tr>
-    <% end %>
-  </table>
-  See the Google Sheet
-  <%= link_to(@touchpoint.google_sheet_id, "https://docs.google.com/spreadsheets/d/#{@touchpoint.google_sheet_id}/edit#gid=0", target: "_blank") %>
-  <br>
-  <br>
-<% else %>
-  <%= render file: "submissions/index" %>
-<% end %>
+<%= render file: "admin/submissions/index" %>
+<%= link_to "Export Submissions to Google Sheet", export_submissions_admin_touchpoint_url(@touchpoint), class: "usa-button", target: "_blank" %>

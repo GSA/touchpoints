@@ -35,35 +35,23 @@ class GoogleDriveApi
       end
     end
 
-    user_permission = {
-      type: 'user',
-      role: 'writer',
-      email_address: 'ryan.wold@gsa.gov'
-    }
-    @service.create_permission(file_id,
-      user_permission,
-      fields: 'id',
-      &callback)
+    writer_users = ['ryan.wold@gsa.gov', 'lauren.ancona@gsa.gov']
 
-    user_permission = {
-      type: 'user',
-      role: 'writer',
-      email_address: 'lauren.ancona@gsa.gov'
-    }
-    @service.create_permission(file_id,
-      user_permission,
-      fields: 'id',
-      &callback)
+    writer_users.each do |email|
+      user_permission = {
+        type: 'user',
+        role: 'writer',
+        email_address: email
+      }
+      @service.create_permission(file_id,
+        user_permission,
+        fields: 'id',
+        quota_user: quota_user,
+        &callback)
+    end
+  end
 
-    user_permission = {
-      type: 'user',
-      role: 'owner',
-      email_address: 'ryan.wold@gsa.gov'
-    }
-    @service.create_permission(file_id,
-                              user_permission,
-                              transfer_ownership: true,
-                              fields: 'id',
-                              &callback)
+  def quota_user
+    ENV.fetch("GOOGLE_API_QUOTA_USER")
   end
 end

@@ -10,18 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_26_183051) do
+ActiveRecord::Schema.define(version: 2019_04_17_170513) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "containers", force: :cascade do |t|
     t.string "name"
-    t.integer "organization_id", null: false
     t.string "gtm_container_id"
     t.string "gtm_container_public_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "service_id", null: false
   end
 
   create_table "forms", force: :cascade do |t|
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 2019_03_26_183051) do
     t.string "abbreviation"
     t.text "notes"
     t.integer "external_id"
+    t.string "domain"
   end
 
   create_table "programs", force: :cascade do |t|
@@ -99,6 +100,7 @@ ActiveRecord::Schema.define(version: 2019_03_26_183051) do
     t.datetime "end_date"
     t.string "omb_approval_number"
     t.date "expiration_date"
+    t.integer "service_id"
   end
 
   create_table "triggers", force: :cascade do |t|
@@ -106,6 +108,13 @@ ActiveRecord::Schema.define(version: 2019_03_26_183051) do
     t.string "name"
     t.string "kind"
     t.string "fingerprint"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_services", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "service_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -61,9 +61,9 @@ class Admin::ContainersController < AdminController
     def container_params
       params.require(:container).permit(
         :name,
+        :service_id,
         :gtm_container_id,
-        :gtm_container_public_id,
-        :organization_id
+        :gtm_container_public_id
       )
     end
 end

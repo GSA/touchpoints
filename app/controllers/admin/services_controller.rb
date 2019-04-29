@@ -1,15 +1,51 @@
 class Admin::ServicesController < AdminController
-  before_action :set_service, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:add_user, :remove_user]
+  before_action :set_service, only: [:show, :edit, :update, :add_user, :remove_user, :destroy]
 
   def index
     if current_user.admin?
       @services = Service.all
     else
-      @services = current_user.organization.services
+      @services = current_user.services
     end
   end
 
   def show
+  end
+
+  # Associate a user with a Service
+  def add_user
+    @user_service = UserService.new({
+      user_id: @user.id,
+      service_id: @service.id
+    })
+
+    if @user_service.save
+      flash[:notice] = "User successfully added"
+
+      render json: {
+          email: @user.email,
+          service: @service.id
+        }
+    else
+      render json: @user_service.errors, status: :unprocessable_entity
+    end
+  end
+
+  # Disassociate a user with a Service
+  def remove_user
+    @user_service = @service.user_services.find_by_user_id(params[:user_id])
+
+    if @user_service.destroy
+      flash[:notice] = "User successfully removed"
+
+      render json: {
+          email: @user.email,
+          service: @service.id
+        }
+    else
+      render json: @user_service.errors, status: :unprocessable_entity
+    end
   end
 
   def new
@@ -24,6 +60,12 @@ class Admin::ServicesController < AdminController
 
     respond_to do |format|
       if @service.save
+        UserService.create!({
+          service: @service,
+          user: current_user
+        })
+        @service.create_container!
+
         format.html { redirect_to admin_service_path(@service), notice: 'Service was successfully created.' }
         format.json { render :show, status: :created, location: @service }
       else
@@ -58,9 +100,13 @@ class Admin::ServicesController < AdminController
       @service = Service.find(params[:id])
     end
 
+    def set_user
+      @user = User.find(params[:user_id])
+    end
+
     def service_params
       params.require(:service).permit(
-        :name, 
+        :name,
         :description,
         :notes,
         :organization_id,

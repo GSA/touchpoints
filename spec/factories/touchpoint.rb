@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :touchpoint do
-    container
+    service
     name { "Example Touchpoint" }
     expiration_date { Time.now + 2.months }
     omb_approval_number { rand(10000).to_s }

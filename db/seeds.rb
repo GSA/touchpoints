@@ -3,43 +3,60 @@
 
 # Cleanup GTM
 service = GoogleApi.new
+puts "Cleaning Account Containers for Google Tag Manager Account #{ENV.fetch("GOOGLE_TAG_MANAGER_ACCOUNT_ID")}"
 service.clean_account_containers(account_id: ENV.fetch("GOOGLE_TAG_MANAGER_ACCOUNT_ID"))
+
+org = Organization.create!({
+  name: "Example.gov",
+  domain: "example.gov",
+  url: "https://example.gov"
+})
+puts "Created Default Organization: #{org.name}"
 
 # Create Seeds
 admin_user = User.new({
+  organization: org,
   email: "admin@example.gov",
   password: "password",
   admin: true
 })
 admin_user.skip_confirmation!
 admin_user.save!
+puts "Created Admin User: #{admin_user.email}"
 
 
 org_1 = Organization.create!({
   name: "Digital.gov",
+  domain: "digital.gov",
   url: "https://digital.gov"
 })
+puts "Creating additional Organization: #{org_1.name}"
+
 program_1 = Program.create!({
   name: "Program 1 for Digital.gov",
   organization: org_1,
   url: "https://digital.gov/program-name"
 })
-program_1 = Program.create!({
+program_2 = Program.create!({
   name: "Program 2 for Digital.gov",
   organization: org_1,
   url: "https://digital.gov/program-name-2"
 })
+
 org_2 = Organization.create!({
   name: "Farmers.gov",
+  domain: "example.gov",
   url: "https://farmers.gov"
 })
-program_1 = Program.create!({
+program_3 = Program.create!({
   name: "Program 3 for Farmers.gov",
   organization: org_2,
   url: "https://farmers.gov/program-name-3"
 })
+
 org_3 = Organization.create!({
   name: "Cloud.gov",
+  domain: "cloud.gov",
   url: "https://cloud.gov"
 })
 
@@ -50,6 +67,7 @@ webmaster = User.new({
 })
 webmaster.skip_confirmation!
 webmaster.save!
+puts "Created #{webmaster.email}"
 
 service_manager = User.new({
   email: "service@example.gov",
@@ -58,6 +76,7 @@ service_manager = User.new({
 })
 service_manager.skip_confirmation!
 service_manager.save!
+puts "Created #{service_manager.email}"
 
 # Forms
 form_1 = Form.create({
@@ -96,71 +115,73 @@ form_4 = Form.create({
   notes: ""
 })
 
-container_1 = Container.create!({
+service_1  = Service.create!({
   organization: org_1,
+  name: "Test Service 1"
+})
+service_2  = Service.create!({
+  organization: org_1,
+  name: "Test Service 2"
+})
+service_3  = Service.create!({
+  organization: org_1,
+  name: "Test Service 3"
+})
+service_4  = Service.create!({
+  organization: org_2,
+  name: "Test Service 4 (for Farmers.gov)"
+})
+
+container_1 = Container.create!({
+  service_id: service_1.id,
   name: "#{org_1.name}'s Test Container 1"
 })
 
 container_2 = Container.create!({
-  organization: org_1,
+  service_id: service_2.id,
   name: "#{org_1.name}'s Test Container 2"
 })
 
 container_3 = Container.create!({
-  organization: org_2,
+  service_id: service_3.id,
   name: "#{org_2.name}'s Test Container 1"
 })
 
 container_4 = Container.create!({
-  organization: org_2,
+  service_id: service_4.id,
   name: "#{org_2.name}'s Test Container 2"
 })
 
 # Touchpoints
 touchpoint_1 = Touchpoint.create!({
   form: form_1,
-  container: container_1,
+  service: service_1,
   name: "Open-ended Feedback",
   purpose: "Soliciting feedback",
   meaningful_response_size: 30,
   behavior_change: "Looking for opportunities to improve",
-  notification_emails: "ryan.wold@gsa.gov",
-  enable_google_sheets: false
+  notification_emails: "ryan.wold@gsa.gov"
 })
 
 touchpoint_2 = Touchpoint.create!({
   form: form_2,
-  container: container_2,
+  service: service_1,
   name: "Recruiter",
   purpose: "Improving Customer Experience with proactive research and service",
   meaningful_response_size: 100,
   behavior_change: "We will use the this feedback to inform Product and Program decisions",
-  notification_emails: "ryan.wold@gsa.gov",
-  enable_google_sheets: false
+  notification_emails: "ryan.wold@gsa.gov"
 })
 
 touchpoint_3 = Touchpoint.create!({
   form: form_3,
-  container: container_3,
+  service: service_2,
   name: "A11 - 7 question test - DB",
   purpose: "CX",
   meaningful_response_size: 100,
   behavior_change: "Better customer service",
-  notification_emails: "ryan.wold@gsa.gov",
-  enable_google_sheets: false
+  notification_emails: "ryan.wold@gsa.gov"
 })
-
-touchpoint_4 = Touchpoint.create!({
-  form: form_3,
-  container: container_4,
-  name: "A11 - 7 question test - Sheets",
-  purpose: "Compliance",
-  meaningful_response_size: 300,
-  behavior_change: "End of year reporting",
-  notification_emails: "ryan.wold@gsa.gov",
-  enable_google_sheets: true
-})
-
 
 Submission.create!({
   touchpoint: touchpoint_1,
@@ -178,26 +199,6 @@ Submission.create!({
   last_name: "Public",
   email: "public_user_3@example.com",
   phone_number: "5555550000"
-})
-
-Service.create!({
-  name: "Test Service 1",
-  organization: org_1
-})
-
-Service.create!({
-  name: "Test Service 2",
-  organization: org_1
-})
-
-Service.create!({
-  name: "Test Service 3",
-  organization: org_1
-})
-
-Service.create!({
-  name: "Test Service 4 (for Farmers.gov)",
-  organization: org_2
 })
 
 # TODO: Seed A11

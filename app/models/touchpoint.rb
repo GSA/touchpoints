@@ -1,12 +1,10 @@
 class Touchpoint < ApplicationRecord
-  belongs_to :container
+  belongs_to :container, optional: true
+  belongs_to :service
   belongs_to :form
   has_many :submissions
 
   validates :name, presence: true
-
-  before_create :create_google_sheet!
-  after_create :config_gtm_container!
 
   scope :active, -> { where("id > 0") } # TODO: make this sample scope more intelligent/meaningful
 
@@ -23,16 +21,16 @@ class Touchpoint < ApplicationRecord
   def config_gtm_container!
     return if Rails.env.test?
 
-    service = GoogleApi.new
+    google_service = GoogleApi.new
 
     # Lookup Workspaces
-    path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.container.gtm_container_id}"
-    workspaces = service.list_account_container_workspaces(path: path)
+    path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.service.container.gtm_container_id}"
+    workspaces = google_service.list_account_container_workspaces(path: path)
     workspace_id = workspaces.first.workspace_id
 
     # Create the Touchpoints Tag
-    path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.container.gtm_container_id}/workspaces/#{workspace_id}"
-    service.create_touchpoints_tag(path: path, body: touchpoints_js_string)
+    path = "accounts/#{ENV.fetch('GOOGLE_TAG_MANAGER_ACCOUNT_ID')}/containers/#{self.service.container.gtm_container_id}/workspaces/#{workspace_id}"
+    google_service.create_touchpoints_tag(path: path, body: touchpoints_js_string)
 
     # TODO: Figure out why this fails
     # Publish New Container Version
@@ -47,16 +45,28 @@ class Touchpoint < ApplicationRecord
     service.publish_account_container_version(path: path2)
   end
 
-  # TODO
+  def export_to_google_sheet!
+    return unless self.submissions.present?
+
+    sheet = create_google_sheet!
+
+    self.submissions.each do |submission|
+      values = submission.to_rows
+      response = @google_service.add_row(spreadsheet_id: sheet.spreadsheet_id, values: values)
+    end
+
+    sheet
+  end
+
   # Creates a Google Sheet for this Touchpoint
   def create_google_sheet!
-    return unless self.enable_google_sheets
-
-    @service = GoogleSheetsApi.new
-    new_spreadsheet = @service.create_permissioned_spreadsheet({ title: self.name })
+    @google_service = GoogleSheetsApi.new
+    new_spreadsheet = @google_service.create_permissioned_spreadsheet({ title: self.name })
     self.google_sheet_id = new_spreadsheet.spreadsheet_id
 
     push_title_row
+
+    new_spreadsheet
   end
 
   # TODO - push the guts of the next 3 methods out. keep the method though
@@ -64,16 +74,19 @@ class Touchpoint < ApplicationRecord
   def google_spreadsheet
     raise ArgumentError unless self.google_sheet_id
 
-    @service = GoogleSheetsApi.new
-    spreadsheet = @service.service.get_spreadsheet(self.google_sheet_id)
+    @google_service = GoogleSheetsApi.new
+    spreadsheet = @google_service.service.get_spreadsheet(self.google_sheet_id)
   end
 
   def google_spreadsheet_values
     raise ArgumentError unless self.google_sheet_id
 
-    @service = GoogleSheetsApi.new
-    spreadsheet = @service.service.get_spreadsheet_values(self.google_sheet_id, "A1:ZZ")
+    @google_service = GoogleSheetsApi.new
+    spreadsheet = @google_service.service.get_spreadsheet_values(self.google_sheet_id, "A1:ZZ")
   end
+
+
+  private
 
   def push_title_row
     raise InvalidArgument unless self.form
@@ -114,8 +127,8 @@ class Touchpoint < ApplicationRecord
   end
 
   def push_row(values: [])
-    @service = GoogleSheetsApi.new
-    @service.add_row(
+    @google_service = GoogleSheetsApi.new
+    @google_service.add_row(
       spreadsheet_id: self.google_sheet_id,
       values: values
     )

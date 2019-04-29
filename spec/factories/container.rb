@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :container do
-    organization
     name { "Example Container" }
+    service
   end
 end

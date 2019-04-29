@@ -20,17 +20,16 @@ class SubmissionsController < ApplicationController
   end
 
   def create
+    # TODO: Restrict access
     headers['Access-Control-Allow-Origin'] = '*'
-    headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
+    headers['Access-Control-Allow-Methods'] = 'POST, PUT, OPTIONS'
     headers['Access-Control-Request-Method'] = '*'
     headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
 
     @submission = Submission.new(submission_params)
     @submission.touchpoint_id = @touchpoint.id
 
-    @touchpoint.enable_google_sheets ?
-      create_in_google_sheets(@submission) :
-      create_in_local_database(@submission)
+    create_in_local_database(@submission)
   end
 
   def update
@@ -63,7 +62,7 @@ class SubmissionsController < ApplicationController
                 touchpoint: {
                   id: submission.touchpoint.id,
                   name: submission.touchpoint.name,
-                  organization_name: submission.touchpoint.container.organization.name
+                  organization_name: submission.touchpoint.service.organization.name
                 }
               }
             },

@@ -45,35 +45,14 @@
   </ul>
 </fieldset>
 <div class="field">
-  <%= form.label :container_id do %>
-    Which Container do you want to deploy this Touchpoint in?<br>
+  <%= form.label :service_id do %>
+    Which Service do you want to deploy this Touchpoint in?<br>
     <span style="font-size: 0.75em;">
       This Touchpoint.js code be inserted into a Tag in GTM and will be attached to a Homepage Trigger.
     </span>
   <% end %>
-  <%= form.select :container_id, options_for_select(Container.all.map { |c| [c.name, c.id] }, selected: (touchpoint.container ? touchpoint.container.id : nil)), include_blank: true %>
+  <%= form.select :service_id, options_for_select(current_user.services.map { |c| [c.name, c.id] }, selected: touchpoint.service_id), prompt: "Which Service?" %>
 </div>
-<% unless touchpoint.persisted? %>
-<br>
-<br>
-<div class="field">
-  <fieldset class="usa-fieldset-inputs usa-sans">
-    <ul class="usa-unstyled-list">
-      <li>
-        <%= form.check_box :enable_google_sheets %>
-        <%= form.label :enable_google_sheets? do %>
-          Enable Google Sheets?
-          <span style="font-size: 0.75em;">
-            - if selected, a GSA.gov Google Sheet will be created,
-            and Submissions will be written to that Sheet,
-            instead of the Touchpoints database.
-          </span>
-        <% end %>
-      </li>
-    </ul>
-  </fieldset>
-</div>
-<% end %>
 <br>
 <hr>
 <br>

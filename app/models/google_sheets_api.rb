@@ -31,11 +31,15 @@ class GoogleSheetsApi
   def create_spreadsheet(options = {})
     properties = Google::Apis::SheetsV4::SpreadsheetProperties.new(title: "FBA Sheet - #{options[:title]} - #{Rails.env}")
     new_spreadsheet = Google::Apis::SheetsV4::Spreadsheet.new(properties: properties)
-    @service.create_spreadsheet(new_spreadsheet)
+    @service.create_spreadsheet(new_spreadsheet, quota_user)
   end
 
   def add_row(spreadsheet_id: "", values: [])
     value_range = Google::Apis::SheetsV4::ValueRange.new(values: [values])
     @service.append_spreadsheet_value(spreadsheet_id, "A1", value_range, value_input_option: "RAW")
+  end
+
+  def quota_user
+    { quota_user: ENV.fetch("GOOGLE_API_QUOTA_USER") }
   end
 end

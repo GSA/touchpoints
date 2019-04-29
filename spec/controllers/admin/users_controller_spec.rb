@@ -70,19 +70,6 @@ RSpec.describe Admin::UsersController, type: :controller do
     end
   end
 
-  describe "GET #new" do
-    let(:admin) { FactoryBot.create(:user, :admin) }
-
-    before do
-      sign_in(admin)
-    end
-
-    it "returns a success response" do
-      get :new, params: {}, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
   describe "GET #edit" do
     it "returns a success response" do
       user = User.create! valid_attributes

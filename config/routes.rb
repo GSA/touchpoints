@@ -14,14 +14,20 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :containers
     resources :forms
-    resources :users
+    resources :users, except: [:new]
     resources :organizations
     resources :programs
-    resources :services
+    resources :services do
+      member do
+        post "add_user", to: "services#add_user", as: :add_user
+        post "remove_user", to: "services#remove_user", as: :remove_user
+      end
+    end
     resources :submissions, except: [:new, :index, :create]
     resources :triggers
     resources :touchpoints do
       member do
+        get "export_submissions", to: "touchpoints#export_submissions", as: :export_submissions
         get "example", to: "touchpoints#example", as: :example
         get "example/gtm", to: "touchpoints#gtm_example", as: :gtm_example
       end

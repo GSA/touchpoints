@@ -26,9 +26,7 @@ class Admin::SubmissionsController < AdminController
     @submission = Submission.new(submission_params)
     @submission.touchpoint_id = @touchpoint.id
 
-    @touchpoint.enable_google_sheets ?
-      create_in_google_sheets(@submission) :
-      create_in_local_database(@submission)
+    create_in_local_database(@submission)
   end
 
   def update
@@ -70,7 +68,7 @@ class Admin::SubmissionsController < AdminController
                 touchpoint: {
                   id: submission.touchpoint.id,
                   name: submission.touchpoint.name,
-                  organization_name: submission.touchpoint.container.organization.name
+                  organization_name: submission.touchpoint.service.organization.name
                 }
               }
             },

@@ -3,11 +3,11 @@
 <table>
   <thead>
     <tr>
+      <th>Service</th>
       <th>Name</th>
       <th>Purpose</th>
       <th>Form</th>
-      <th>Storage</th>
-      <th>Submissions</th>
+      <th># Submissions</th>
       <th></th>
     </tr>
   </thead>
@@ -15,11 +15,11 @@
   <tbody>
     <% @touchpoints.each do |touchpoint| %>
       <tr>
+        <td><%= link_to touchpoint.service.name, admin_service_path(touchpoint.service) %></td>
         <td><%= link_to touchpoint.name, admin_touchpoint_path(touchpoint) %></td>
         <td><%= touchpoint.purpose %></td>
         <td><%= link_to(touchpoint.form.name, admin_touchpoint_form_path(touchpoint, touchpoint.form)) %></td>
-        <td><%= touchpoint.enable_google_sheets? ? "Google Sheets" : "Database" %></td>
-        <td><%= link_to "View", admin_touchpoint_submissions_path(touchpoint) %></td>
+        <td><%= touchpoint.submissions.size %></td>
         <td><%= link_to 'Edit', edit_admin_touchpoint_path(touchpoint) %></td>
       </tr>
     <% end %>
