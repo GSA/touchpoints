@@ -3,7 +3,7 @@ require 'rails_helper'
 feature "Touchpoints", js: true do
   context "as Admin" do
     describe "/touchpoints" do
-      describe "#index" do
+      context "#index" do
         let(:user) { FactoryBot.create(:user, :admin) }
         let!(:service) { FactoryBot.create(:service) }
         let!(:user_service) { FactoryBot.create(:user_service, user: user, service: service) }
@@ -39,23 +39,62 @@ feature "Touchpoints", js: true do
         end
       end
 
-      describe "#edit" do
+      context "#edit" do
         let(:user) { FactoryBot.create(:user, :admin) }
         let!(:organization) { FactoryBot.create(:organization) }
         let!(:touchpoint) { FactoryBot.create(:touchpoint)}
         let!(:form) { FactoryBot.create(:form) }
+        let(:new_name) { "New Name" }
 
-        before "user creates a Touchpoint" do
-          login_as user
-          visit edit_admin_touchpoint_path(touchpoint.id)
-          fill_in("touchpoint[name]", with: "New Name")
-          click_button "Update Touchpoint"
+        describe "user updates a Touchpoint" do
+          before do
+            login_as user
+            visit edit_admin_touchpoint_path(touchpoint.id)
+            fill_in("touchpoint[name]", with: new_name)
+            click_button "Update Touchpoint"
+          end
+
+          it "redirect to /touchpoints/:id with a success flash message" do
+            expect(page.current_path).to eq(admin_touchpoint_path(touchpoint.id))
+            expect(page).to have_content("Touchpoint was successfully updated.")
+            expect(page).to have_content(new_name)
+          end
         end
+      end
 
-        it "redirect to /touchpoints/:id with a success flash message" do
-          expect(page.current_path).to eq(admin_touchpoint_path(touchpoint.id))
-          expect(page).to have_content("Touchpoint was successfully updated.")
-          expect(page).to have_content("New Name")
+      context "#show" do
+        let(:admin) { FactoryBot.create(:user, :admin) }
+        let!(:organization) { FactoryBot.create(:organization) }
+        let(:touchpoint) { FactoryBot.create(:touchpoint)}
+
+        describe "Submission Export button" do
+          context "when no Submissions exist" do
+            before do
+              login_as admin
+              visit admin_touchpoint_path(touchpoint.id)
+            end
+
+            it "display No Submissions message" do
+              expect(page).to have_content("Export is not available. This Touchpoint has yet to receive any Submissions.")
+            end
+          end
+
+          context "when Submissions exist" do
+            let!(:submission) { FactoryBot.create(:submission, touchpoint: touchpoint)}
+
+            before do
+              login_as admin
+              visit admin_touchpoint_path(touchpoint.id)
+            end
+
+            it "display table list of Submissions and Export button link" do
+              within("table") do
+                expect(page).to have_content(submission.body)
+              end
+              expect(page).to have_link("Export Submissions to Google Sheet")
+            end
+          end
+
         end
       end
     end
