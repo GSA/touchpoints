@@ -6,16 +6,16 @@ service = GoogleApi.new
 puts "Cleaning Account Containers for Google Tag Manager Account #{ENV.fetch("GOOGLE_TAG_MANAGER_ACCOUNT_ID")}"
 service.clean_account_containers(account_id: ENV.fetch("GOOGLE_TAG_MANAGER_ACCOUNT_ID"))
 
-org = Organization.create!({
+example_gov = Organization.create!({
   name: "Example.gov",
   domain: "example.gov",
   url: "https://example.gov"
 })
-puts "Created Default Organization: #{org.name}"
+puts "Created Default Organization: #{example_gov.name}"
 
 # Create Seeds
 admin_user = User.new({
-  organization: org,
+  organization: example_gov,
   email: "admin@example.gov",
   password: "password",
   admin: true
@@ -24,22 +24,21 @@ admin_user.skip_confirmation!
 admin_user.save!
 puts "Created Admin User: #{admin_user.email}"
 
-
-org_1 = Organization.create!({
+digital_gov = Organization.create!({
   name: "Digital.gov",
   domain: "digital.gov",
   url: "https://digital.gov"
 })
-puts "Creating additional Organization: #{org_1.name}"
+puts "Creating additional Organization: #{digital_gov.name}"
 
 program_1 = Program.create!({
   name: "Program 1 for Digital.gov",
-  organization: org_1,
+  organization: digital_gov,
   url: "https://digital.gov/program-name"
 })
 program_2 = Program.create!({
   name: "Program 2 for Digital.gov",
-  organization: org_1,
+  organization: digital_gov,
   url: "https://digital.gov/program-name-2"
 })
 
@@ -63,7 +62,7 @@ org_3 = Organization.create!({
 webmaster = User.new({
   email: "webmaster@example.gov",
   password: "password",
-  organization: org_1
+  organization: example_gov
 })
 webmaster.skip_confirmation!
 webmaster.save!
@@ -72,7 +71,7 @@ puts "Created #{webmaster.email}"
 service_manager = User.new({
   email: "service@example.gov",
   password: "password",
-  organization: org_1
+  organization: digital_gov
 })
 service_manager.skip_confirmation!
 service_manager.save!
@@ -115,40 +114,64 @@ form_4 = Form.create({
   notes: ""
 })
 
+# A Service created by Admin
 service_1  = Service.create!({
-  organization: org_1,
+  organization: example_gov,
   name: "Test Service 1"
 })
+UserService.create(
+  user: admin_user,
+  service: service_1
+)
+
+# A 2nd Service created by Admin
 service_2  = Service.create!({
-  organization: org_1,
+  organization: digital_gov,
   name: "Test Service 2"
 })
+UserService.create(
+  user: admin_user,
+  service: service_2
+)
+
+# A Service created by Webmaster
 service_3  = Service.create!({
-  organization: org_1,
+  organization: digital_gov,
   name: "Test Service 3"
 })
+UserService.create(
+  user: webmaster,
+  service: service_3
+)
+
+# A Service created by Admin in another Organization
 service_4  = Service.create!({
   organization: org_2,
   name: "Test Service 4 (for Farmers.gov)"
 })
+UserService.create(
+  user: admin_user,
+  service: service_4
+)
 
+# Manually create, then relate Containers to Services
 container_1 = Container.create!({
-  service_id: service_1.id,
-  name: "#{org_1.name}'s Test Container 1"
+  service: service_1,
+  name: "#{digital_gov.name}'s Test Container 1"
 })
 
 container_2 = Container.create!({
-  service_id: service_2.id,
-  name: "#{org_1.name}'s Test Container 2"
+  service: service_2,
+  name: "#{digital_gov.name}'s Test Container 2"
 })
 
 container_3 = Container.create!({
-  service_id: service_3.id,
+  service: service_3,
   name: "#{org_2.name}'s Test Container 1"
 })
 
 container_4 = Container.create!({
-  service_id: service_4.id,
+  service: service_4,
   name: "#{org_2.name}'s Test Container 2"
 })
 
@@ -205,3 +228,12 @@ Submission.create!({
 # Submission.create!({
 #   touchpoint: touchpoint_3
 # })
+
+
+digital_gov_user = User.new({
+  email: "user@digital.gov",
+  password: "password"
+})
+digital_gov_user.skip_confirmation!
+digital_gov_user.save!
+puts "Created Test User in Secondary Organization: #{digital_gov_user.email}"
