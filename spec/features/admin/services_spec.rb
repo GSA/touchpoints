@@ -94,6 +94,20 @@ feature "Managing Services", js: true do
           expect(page).to have_content(admin.email)
           expect(page).to have_content("All Users have been added. No more Service Managers to add.")
         end
+
+        describe "limit dropdown to Service Managers from same Organization" do
+          let!(:other_org) { FactoryBot.create(:organization, domain: "other.gov") }
+          let!(:user_from_other_org) { FactoryBot.create(:user, organization: other_org, email: "user@#{other_org.domain}") }
+          let!(:extra_user_from_same_org) { FactoryBot.create(:user, organization: admin.organization, email: "colleague@#{admin.organization.domain}") }
+
+          it "display Users from same Organization" do
+            expect(page).to have_content(extra_user_from_same_org.email)
+          end
+
+          it "do not display Users from other Organizations" do
+            expect(page).to_not have_content(user_from_other_org.email)
+          end
+        end
       end
 
       describe "remove Service Manager from Service" do

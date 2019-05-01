@@ -70,9 +70,8 @@
   <% end %>
 
   <div>
-    <% available_members = (User.all - @service.users - [current_user]) %>
-    <% if available_members.present? %>
-    <%= select_tag :za, options_for_select(available_members.map { |user| [user.email, user.id] }), prompt: "Add a User?", id: "add-user-dropdown", style: "display: inline-block; margin-right: 1em;" %>
+    <% if @available_members.present? %>
+    <%= select_tag :add_user_id, options_for_select(@available_members.map { |user| [user.email, user.id] }), prompt: "Add a User?", id: "add-user-dropdown", style: "display: inline-block; margin-right: 1em;" %>
     <!-- <span class="usa-buton" name="button" id="add-user-button">Add User</span> -->
     <button type="button" name="button" id="add-user-button">Add User</button>
     <% else %>
