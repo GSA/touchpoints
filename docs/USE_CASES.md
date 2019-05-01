@@ -20,6 +20,21 @@ How [Personas](PERSONAS.md) use the system, Touchpoints.
 ### Service Manager
 
 * Service Manager can create a Service
+* Service Manager can add another Service Manager to a Service
+* Service Manager can remove other Service Managers and Submissions Viewers from a Service
+* Service Manager can add a Submission Viewer to a Service
+
+* Service Manager can create a Touchpoint
+* Service Manager can edit a Touchpoint
+* Service Manager can destroy a Touchpoint
+
+* Service Manager can see a Submission
+* Service Manager is notified via email when a Submission is created
+
+### Submission Viewer
+
+* Submission Viewer receives access by being added
+* Submission Viewer can view a Touchpoint and its Submissions
 
 ### Public user
 
@@ -27,8 +42,7 @@ How [Personas](PERSONAS.md) use the system, Touchpoints.
 * Public User clicks a tab to see a Touchpoint
   * or Public User clicks a button to see a Touchpoint
   * or Public User *somehow triggers* an event to see a Touchpoint
-* Public User can submit a Touchpoint
-* Webmaster can see a Submission
+* Public User creates a Submission via a Touchpoint Form
 
 ### Modifying if/how a Touchpoint displays
 
