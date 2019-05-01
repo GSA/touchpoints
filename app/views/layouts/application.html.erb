@@ -26,7 +26,7 @@
     <%= render 'components/header' %>
     <div class="usa-grid">
       <div class="usa-width-full">
-        <%= render 'components/flash', flash: flash %>
+        <%= render('components/flash', flash: flash) unless suppress_main_layout_flash? %>
         <%= yield %>
       </div>
     </div>

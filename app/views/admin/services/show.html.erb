@@ -7,8 +7,6 @@
     <p class="usa-alert-text">
       A Service Manager manages one or more Services (in the Service Design sense of the word).
       A Service may have one or more Touchpoints.
-      Touchpoints are delivered to a website via a Tag Container. Each
-      Service is automatically created with a Tag Container.
     </p>
   </div>
 </div>
@@ -67,6 +65,10 @@
       </p>
     </div>
   </div>
+  <% end %>
+
+  <% if flash && ["User successfully added", "User successfully removed"].include?(flash.notice) %>
+    <%= render 'components/flash', flash: flash %>
   <% end %>
 
   <div>
