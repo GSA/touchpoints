@@ -6,4 +6,5 @@ class Organization < ApplicationRecord
   has_many :touchpoints, through: :containers
 
   validates :name, presence: true
+  validates :domain, presence: true
 end
