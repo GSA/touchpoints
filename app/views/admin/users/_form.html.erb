@@ -15,6 +15,14 @@
     <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: user.organization_id), include_blank: true %>
   </div>
 
+  <div class="field">
+    <%= form.label :organization_manager? %>
+    <span>
+      An Organizational Manager manages all Services for an Organization.
+    </span>
+    <%= form.check_box :organization_manager %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

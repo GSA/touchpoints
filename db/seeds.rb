@@ -80,8 +80,17 @@ webmaster.skip_confirmation!
 webmaster.save!
 puts "Created #{webmaster.email}"
 
+organization_manager = User.new({
+  email: "organization_manager@example.gov",
+  password: "password",
+  organization: example_gov
+})
+organization_manager.skip_confirmation!
+organization_manager.save!
+puts "Created #{organization_manager.email}"
+
 service_manager = User.new({
-  email: "service@example.gov",
+  email: "service_manager@example.gov",
   password: "password",
   organization: example_gov
 })
