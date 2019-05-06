@@ -108,6 +108,43 @@ submission_viewer.skip_confirmation!
 submission_viewer.save!
 puts "Created #{submission_viewer.email}"
 
+# Form Templates
+form_1 = FormTemplate.create({
+  name: "Open-ended",
+  kind:  "open-ended",
+  title: "Custom Open-ended Title",
+  instructions: "Share feedback about the new example.gov website and recommend additional features.",
+  disclaimer_text: "Disclaimer Text Goes Here",
+  notes: ""
+})
+
+form_2 = FormTemplate.create({
+  name: "Recruiter",
+  kind:  "recruiter",
+  title: "",
+  instructions: "",
+  disclaimer_text: "Disclaimer Text Goes Here",
+  notes: ""
+})
+
+form_3 = FormTemplate.create({
+  name: "À11 - 7 Question Form",
+  kind:  "a11",
+  title: "",
+  instructions: "",
+  disclaimer_text: "Disclaimer Text Goes Here",
+  notes: ""
+})
+
+form_4 = FormTemplate.create({
+  name: "Open Ended Form with Contact Information",
+  kind:  "open-ended-with-contact-info",
+  title: "",
+  instructions: "",
+  disclaimer_text: "Disclaimer Text Goes Here",
+  notes: ""
+})
+
 # Forms
 form_1 = Form.create({
   name: "Open-ended",

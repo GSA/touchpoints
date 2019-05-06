@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :containers
+    resources :form_templates
     resources :forms
     resources :users, except: [:new]
     resources :organizations

@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Form Templates</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Title</th>
+      <th>Instructions</th>
+      <th>Disclaimer text</th>
+      <th>Kind</th>
+      <th>Notes</th>
+      <th>Status</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @form_templates.each do |form_template| %>
+      <tr>
+        <td><%= form_template.name %></td>
+        <td><%= form_template.title %></td>
+        <td><%= form_template.instructions %></td>
+        <td><%= form_template.disclaimer_text %></td>
+        <td><%= form_template.kind %></td>
+        <td><%= form_template.notes %></td>
+        <td><%= form_template.status %></td>
+        <td><%= link_to 'Show', admin_form_template_path(form_template) %></td>
+        <td><%= link_to 'Edit', edit_admin_form_template_path(form_template) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Form Template', new_admin_form_template_path, class: "usa-button" %>

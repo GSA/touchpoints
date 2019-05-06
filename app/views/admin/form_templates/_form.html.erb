@@ -1,0 +1,52 @@
+<%= form_with(model: form_template, url: form_template.persisted? ? admin_form_template_path(form_template) : admin_form_templates_path, local: true) do |form| %>
+  <% if form_template.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(form_template.errors.count, "error") %> prohibited this form_template from being saved:</h2>
+
+      <ul>
+      <% form_template.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :instructions %>
+    <%= form.text_field :instructions %>
+  </div>
+
+  <div class="field">
+    <%= form.label :disclaimer_text %>
+    <%= form.text_area :disclaimer_text %>
+  </div>
+
+  <div class="field">
+    <%= form.label :kind %>
+    <%= form.text_field :kind %>
+  </div>
+
+  <div class="field">
+    <%= form.label :notes %>
+    <%= form.text_area :notes %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.text_field :status %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

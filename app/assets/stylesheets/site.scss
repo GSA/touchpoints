@@ -10,8 +10,14 @@
 }
 
 // Override USWDS checkbox because it isn't showing
-form input[type=checkbox] {
+input[type=checkbox] {
   -webkit-appearance: checkbox;
+  position: static;
+  left: auto;
+}
+
+input[type=radio] {
+  -webkit-appearance: radio;
   position: static;
   left: auto;
 }

@@ -36,6 +36,11 @@
             </a>
           </li>
           <li>
+            <a class="usa-nav-link" href="/admin/form_templates">
+              <span>Form Templates</span>
+            </a>
+          </li>
+          <li>
             <a class="usa-nav-link" href="/admin/forms">
               <span>Forms</span>
             </a>
@@ -62,6 +67,9 @@
         </li>
         <li>
           <%= link_to "Touchpoints", admin_touchpoints_path, class: "usa-nav-link" %>
+        </li>
+        <li>
+          <%= link_to "Form Templates", admin_form_templates_path, class: "usa-nav-link" %>
         </li>
         <% end %>
         <% if !current_user %>
