@@ -1,6 +1,7 @@
 class Admin::ServicesController < AdminController
   before_action :ensure_organization_manager, only: [:new, :create]
-  
+  before_action :ensure_admin, only: [:destroy]
+
   before_action :set_user, only: [:add_user, :remove_user]
   before_action :set_service, only: [:show, :edit, :update, :add_user, :remove_user, :destroy]
 
