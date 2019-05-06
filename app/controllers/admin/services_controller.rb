@@ -17,9 +17,13 @@ class Admin::ServicesController < AdminController
 
   # Associate a user with a Service
   def add_user
+    raise ArgumentException unless current_user.admin? || (@service.user_role?(current_user) == UserService::Role::ServiceManager)
+    raise ArgumentException unless UserService::ROLES.include?(params[:role])
+
     @user_service = UserService.new({
       user_id: @user.id,
-      service_id: @service.id
+      service_id: @service.id,
+      role: params[:role],
     })
 
     if @user_service.save
@@ -64,7 +68,8 @@ class Admin::ServicesController < AdminController
       if @service.save
         UserService.create!({
           service: @service,
-          user: current_user
+          user: current_user,
+          role: UserService::Role::ServiceManager
         })
         @service.create_container!
 

@@ -13,7 +13,11 @@
 
 <p>
   <strong>for Organization</strong>
-  <%= @service.organization ? link_to(@service.organization.name, admin_organization_path(@service.organization)) : nil %>
+  <% if is_at_least_service_manager?(user: current_user, service: @service) %>
+    <%= @service.organization ? link_to(@service.organization.name, admin_organization_path(@service.organization)) : nil %>
+  <% else %>
+    <%= @service.organization.name %>
+  <% end %>
 </p>
 <p>
   <strong>Name:</strong>
@@ -34,6 +38,9 @@
       <thead>
       <tr>
         <th>
+          Role
+        </th>
+        <th>
           Email
         </th>
         <th>
@@ -44,14 +51,22 @@
       <% @service.users.each do |user| %>
         <tr>
           <td>
+            <% friendly_roles = {
+              "service_manager" => "Service Manager",
+              "submission_viewer" => "Submission Viewer"
+            }
+            %>
+            <%= friendly_roles[@service.user_role?(user: user)] %>
+          </td>
+          <td>
             <%= user.email %>
           </td>
           <td>
-            <% if user != current_user %>
-              <a href="#" class="remove-user" data-id="<%= user.id %>">
-                Remove
-              </a>
-            <% end %>
+          <% if user != current_user && is_at_least_service_manager?(user: current_user, service: @service) %>
+            <a href="#" class="remove-user" data-id="<%= user.id %>">
+              Remove
+            </a>
+          <% end %>
           </td>
         </tr>
       <% end %>
@@ -71,37 +86,60 @@
     <%= render 'components/flash', flash: flash %>
   <% end %>
 
+  <% if is_at_least_service_manager?(user: current_user, service: @service) %>
   <div>
     <% if @available_members.present? %>
-    <%= select_tag :add_user_id, options_for_select(@available_members.map { |user| [user.email, user.id] }), prompt: "Add a User?", id: "add-user-dropdown", style: "display: inline-block; margin-right: 1em;" %>
-    <!-- <span class="usa-buton" name="button" id="add-user-button">Add User</span> -->
-    <button type="button" name="button" id="add-user-button">Add User</button>
+      <%= select_tag :add_user_id, options_for_select(@available_members.map { |user| [user.email, user.id] }), prompt: "Add a User?", id: "add-user-dropdown", style: "display: inline-block; margin-right: 1em;" %>
+      <!-- <span class="usa-buton" name="button" id="add-user-button">Add User</span> -->
+      <button type="button" name="button" id="add-user-button">Add Service Manager</button>
     <% else %>
       <div class="usa-alert usa-alert-info">
         <div class="usa-alert-body">
           <p class="usa-alert-text">
-            All Users have been added. No more Service Managers to add.
+            All Users have been added. No Service Managers to add.
           </p>
         </div>
       </div>
     <% end %>
   </div>
+
+  <div>
+    <% if @available_members.present? %>
+      <%= select_tag :add_user_id, options_for_select(@available_members.map { |user| [user.email, user.id] }), prompt: "Add a Submission Viewer?", id: "add-submission-viewer-dropdown", style: "display: inline-block; margin-right: 1em;" %>
+      <button type="button" name="button" id="add-submission-viewer-button">Add Submission Viewer</button>
+    <% else %>
+      <div class="usa-alert usa-alert-info">
+        <div class="usa-alert-body">
+          <p class="usa-alert-text">
+            All Users have been added. No Submission Viewers to add.
+          </p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <% end %>
 </div>
 
-<h2>
-  Container Information
-</h2>
-<% @container = @service.container %>
-<%= render file: "/admin/containers/show" if @container %>
+<% if is_at_least_service_manager?(user: current_user, service: @service) %>
+  <h2>
+    Container Information
+  </h2>
+  <% @container = @service.container %>
+  <%= render file: "/admin/containers/show" if @container %>
+  <br>
+  <br>
+  <%= link_to 'Edit', edit_admin_service_path(@service), class: "usa-button" %>
+<% end %>
 
-<br>
-<br>
-<%= link_to 'Edit', edit_admin_service_path(@service), class: "usa-button" %>
+<% @service.touchpoints.each do |touchpoint| %>
+  <%= touchpoint.inspect %>
+<% end %>
 
 <script type="text/javascript">
   $(function() {
     // Initially set to disabled
     $("#add-user-button").attr("disabled", true);
+    $("#add-submission-viewer-button").attr("disabled", true);
 
     $("#add-user-button").on("click", function(e) {
       var userId = $("#add-user-dropdown").val();
@@ -110,9 +148,32 @@
         url: "/admin/services/<%= @service.id %>/add_user",
         dataType: "json",
         method: "POST",
-        data: { user_id : userId }
+        data: {
+          user_id : userId,
+          role: "service_manager"
+        }
       }).success(function(response) {
         location.reload();
+      }).error(function(response) {
+        alert(response);
+      });
+    });
+
+    $("#add-submission-viewer-button").on("click", function(e) {
+      var userId = $("#add-submission-viewer-dropdown").val();
+
+      var request = $.ajax({
+        url: "/admin/services/<%= @service.id %>/add_user",
+        dataType: "json",
+        method: "POST",
+        data: {
+          user_id : userId,
+          role: "submission_viewer"
+        }
+      }).success(function(response) {
+        location.reload();
+      }).error(function(response) {
+        alert(response);
       });
     });
 
@@ -125,7 +186,16 @@
       }
     });
 
-    // Remove a Service Manager User
+    $("#add-submission-viewer-dropdown").on("change", function(e) {
+      var userId = e.target.value
+      if (userId != "") {
+        $("#add-submission-viewer-button").attr("disabled", false);
+      } else {
+        $("#add-submission-viewer-button").attr("disabled", true);
+      }
+    });
+
+    // Remove a Service Manager or Submission Viewer User
     $(".remove-user").on("click", function(e) {
       var userId = $(this).attr("data-id");
 
@@ -136,6 +206,8 @@
         data: { user_id : userId }
       }).success(function(response) {
         location.reload();
+      }).error(function(response) {
+        alert(response);
       });
     });
   });
