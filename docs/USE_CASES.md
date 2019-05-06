@@ -23,9 +23,14 @@ are not available for public Users.
 * System Administrator can perform all the functions of a Webmaster, Service Manager, and Submission Viewer
 * Webmaster can modify Triggering in Google Tag Manager
 
+### Organization Manager `organization_manager`
+
+* Organization Manager can manage an Organization
+* Organization Manager can create a Service
+* Organization Manager can add another User from the same Organization to a Service
+
 ### Webmaster `service_manager`
 
-* Webmaster can create a Service
 * Webmaster can create a Container and get a .js Embed Code snippet
 * Webmaster can add embed code to their website
 * [outside Touchpoints] Webmaster can verify the Embed Code is working
@@ -33,7 +38,7 @@ are not available for public Users.
 
 ### Service Manager `service_manager`
 
-* Service Manager can create a Service
+* Service Manager can edit an existing Service
 * Service Manager can add another User from the same Organization as a Service Manager to a Service
 * Service Manager can add another User from the same Organization as a Submission Viewer to a Service
 * Service Manager can remove other Service Managers and Submissions Viewers from a Service

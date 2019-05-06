@@ -6,7 +6,12 @@ module ApplicationHelper
     end
   end
 
+  def is_at_least_organization_manager?(user:)
+    user.admin? || user.organization_manager?
+  end
+
   def is_at_least_service_manager?(user:, service:)
-    user.admin? || service.user_role?(user: user) == UserService::Role::ServiceManager
+    user.admin? || user.organization_manager? ||
+      service.user_role?(user: user) == UserService::Role::ServiceManager
   end
 end

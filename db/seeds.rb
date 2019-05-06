@@ -83,7 +83,8 @@ puts "Created #{webmaster.email}"
 organization_manager = User.new({
   email: "organization_manager@example.gov",
   password: "password",
-  organization: example_gov
+  organization: example_gov,
+  organization_manager: true
 })
 organization_manager.skip_confirmation!
 organization_manager.save!

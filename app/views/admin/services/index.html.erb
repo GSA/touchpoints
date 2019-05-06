@@ -30,4 +30,6 @@
   </tbody>
 </table>
 
-<%= link_to 'New Service', new_admin_service_path, class: "usa-button" %>
+<% if is_at_least_organization_manager?(user: current_user) %>
+  <%= link_to 'New Service', new_admin_service_path, class: "usa-button" %>
+<% end %>
