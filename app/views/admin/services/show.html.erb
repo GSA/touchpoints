@@ -49,7 +49,7 @@
       </thead>
       <tbody>
       <% @service.users.each do |user| %>
-        <tr>
+        <tr data-user-id="<%= user.id %>">
           <td>
             <% friendly_roles = {
               "service_manager" => "Service Manager",
@@ -121,18 +121,39 @@
 </div>
 
 <% if is_at_least_service_manager?(user: current_user, service: @service) %>
+  <div>
+    <h2>
+      Service Touchpoints
+    </h2>
+    <% if @service.touchpoints.present? %>
+      <div>
+      <% @service.touchpoints.each do |touchpoint| %>
+        <%= link_to touchpoint.name, touchpoint_path(touchpoint) %>
+        <br>
+      <% end %>
+      </div>
+    <% else %>
+    <div class="usa-alert usa-alert-info">
+      <div class="usa-alert-body">
+        <p class="usa-alert-text">
+          No Touchpoints are assigned to this Service.
+        </p>
+      </div>
+    </div>
+    <div class="usa-alert">
+      Now that you have a Service
+      <%= link_to("add a Touchpoint", new_admin_touchpoint_path) %>
+    </div>
+    <% end %>
+  </div>
+
   <h2>
     Container Information
   </h2>
-  <% @container = @service.container %>
   <%= render file: "/admin/containers/show" if @container %>
   <br>
   <br>
   <%= link_to 'Edit', edit_admin_service_path(@service), class: "usa-button" %>
-<% end %>
-
-<% @service.touchpoints.each do |touchpoint| %>
-  <%= touchpoint.inspect %>
 <% end %>
 
 <script type="text/javascript">
