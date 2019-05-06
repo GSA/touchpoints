@@ -1,9 +1,21 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
+def production_suitable_seeds
+  gsa = Organization.create!({
+    name: "General Services Administration",
+    abbreviation: "GSA",
+    domain: "gsa.gov",
+    url: "https://gsa.gov"
+  })
+  puts "Created Organization: #{gsa.name}"
+end
 
-# Cleanup GTM
-service = GoogleApi.new
+production_suitable_seeds
+
+# Seeds below are intended for
+#   Staging and Development Environments; not Production.
+return false if Rails.env.production?
+
 puts "Cleaning Account Containers for Google Tag Manager Account #{ENV.fetch("GOOGLE_TAG_MANAGER_ACCOUNT_ID")}"
+service = GoogleApi.new
 service.clean_account_containers(account_id: ENV.fetch("GOOGLE_TAG_MANAGER_ACCOUNT_ID"))
 
 example_gov = Organization.create!({
@@ -71,11 +83,20 @@ puts "Created #{webmaster.email}"
 service_manager = User.new({
   email: "service@example.gov",
   password: "password",
-  organization: digital_gov
+  organization: example_gov
 })
 service_manager.skip_confirmation!
 service_manager.save!
 puts "Created #{service_manager.email}"
+
+submission_viewer = User.new({
+  email: "viewer@example.gov",
+  password: "password",
+  organization: example_gov
+})
+submission_viewer.skip_confirmation!
+submission_viewer.save!
+puts "Created #{submission_viewer.email}"
 
 # Forms
 form_1 = Form.create({
@@ -121,17 +142,19 @@ service_1  = Service.create!({
 })
 UserService.create(
   user: admin_user,
-  service: service_1
+  service: service_1,
+  role: UserService::Role::ServiceManager
 )
 
 # A 2nd Service created by Admin
 service_2  = Service.create!({
-  organization: digital_gov,
+  organization: example_gov,
   name: "Test Service 2"
 })
 UserService.create(
   user: admin_user,
-  service: service_2
+  service: service_2,
+  role: UserService::Role::ServiceManager
 )
 
 # A Service created by Webmaster
@@ -141,7 +164,14 @@ service_3  = Service.create!({
 })
 UserService.create(
   user: webmaster,
-  service: service_3
+  service: service_3,
+  role: UserService::Role::ServiceManager
+)
+# Submission Viewer can view the Admin's Service
+UserService.create(
+  user: submission_viewer,
+  service: service_2,
+  role: UserService::Role::SubmissionViewer
 )
 
 # A Service created by Admin in another Organization
@@ -151,7 +181,8 @@ service_4  = Service.create!({
 })
 UserService.create(
   user: admin_user,
-  service: service_4
+  service: service_4,
+  role: UserService::Role::ServiceManager
 )
 
 # Manually create, then relate Containers to Services
