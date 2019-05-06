@@ -6,7 +6,7 @@ feature "Touchpoints", js: true do
       context "#index" do
         let(:user) { FactoryBot.create(:user, :admin) }
         let!(:service) { FactoryBot.create(:service) }
-        let!(:user_service) { FactoryBot.create(:user_service, user: user, service: service) }
+        let!(:user_service) { FactoryBot.create(:user_service, user: user, service: service, role: UserService::Role::ServiceManager) }
         let!(:form) { FactoryBot.create(:form) }
         let(:future_date) {
           Time.now + 3.days
@@ -103,9 +103,9 @@ feature "Touchpoints", js: true do
   context "as Webmaster" do
     describe "/touchpoints" do
       describe "#index" do
-        let!(:service) { FactoryBot.create(:service) }
+        let(:service) { FactoryBot.create(:service) }
         let(:user) { FactoryBot.create(:user, :admin, organization: service.organization) }
-        let!(:user_service) { FactoryBot.create(:user_service, user: user, service: service) }
+        let!(:user_service) { FactoryBot.create(:user_service, user: user, service: service, role: UserService::Role::ServiceManager) }
         let!(:form) { FactoryBot.create(:form) }
 
         before "user completes (TEST) Sign Up form" do

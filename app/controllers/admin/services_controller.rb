@@ -17,7 +17,7 @@ class Admin::ServicesController < AdminController
 
   # Associate a user with a Service
   def add_user
-    raise ArgumentException unless current_user.admin? || (@service.user_role?(current_user) == UserService::Role::ServiceManager)
+    raise ArgumentException unless current_user.admin? || (@service.user_role?(user: current_user) == UserService::Role::ServiceManager)
     raise ArgumentException unless UserService::ROLES.include?(params[:role])
 
     @user_service = UserService.new({

@@ -3,11 +3,11 @@ require 'rails_helper'
 feature "Managing Services", js: true do
   let(:admin) { FactoryBot.create(:user, :admin) }
   let(:service) { FactoryBot.create(:service, organization: admin.organization) }
-  let!(:user_service) { FactoryBot.create(:user_service, user: admin, service: service) }
+  let!(:user_service) { FactoryBot.create(:user_service, user: admin, service: service, role: UserService::Role::ServiceManager) }
 
   let(:webmaster) { FactoryBot.create(:user) }
   let(:webmasters_service) { FactoryBot.create(:service, organization: webmaster.organization) }
-  let!(:user_service2) { FactoryBot.create(:user_service, user: webmaster, service: webmasters_service) }
+  let!(:user_service2) { FactoryBot.create(:user_service, user: webmaster, service: webmasters_service, role: UserService::Role::ServiceManager) }
 
   context "as Admin" do
     before "user creates a Touchpoint" do
@@ -82,17 +82,23 @@ feature "Managing Services", js: true do
 
     describe "Managing Users for a Service" do
       describe "add Service Manager to Service" do
-        before "select User, click Add User" do
+        before "select User, click Service Manager" do
           visit admin_service_path(webmasters_service)
           select(admin.email, from: "add-user-dropdown")
-          click_on "Add User"
+          click_on "Add Service Manager"
         end
 
         it "successfully add Admin as a Service Manager" do
           expect(page).to have_content("User successfully added")
           expect(page).to have_content(webmaster.email)
           expect(page).to have_content(admin.email)
-          expect(page).to have_content("All Users have been added. No more Service Managers to add.")
+        end
+
+        describe "When all Users are selected" do
+          it "display no more users to add message" do
+            expect(page).to have_content("All Users have been added. No Service Managers to add.")
+            expect(page).to have_content("All Users have been added. No Submission Viewers to add.")
+          end
         end
 
         describe "limit dropdown to Service Managers from same Organization" do
@@ -108,11 +114,12 @@ feature "Managing Services", js: true do
             expect(page).to_not have_content(user_from_other_org.email)
           end
         end
+
       end
 
       describe "remove Service Manager from Service" do
         before "for a listed User, click Remove" do
-          FactoryBot.create(:user_service, user: admin, service: webmasters_service)
+          FactoryBot.create(:user_service, user: admin, service: webmasters_service, role: UserService::Role::ServiceManager)
           visit admin_service_path(webmasters_service)
           within("table") do
             click_link("Remove")
