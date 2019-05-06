@@ -11,7 +11,7 @@ Generally, Personas are a place to hang information related to user needs.
 * Submission Viewer - User who `views` one or more Services, Touchpoints, Submissions
 * Public users - a non logged-in public user who uses a .gov website to access and or complete a Touchpoint for a Service
 
-#### How do Personas map to Roles & Permissions?
+#### How do Personas map to Roles & [Permissions](PERMISSIONS.md)?
 
 * Admin has `admin` flag set
 * Webmaster & Service Manager & Submission Viewer can login and do not have `admin` flag set
