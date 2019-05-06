@@ -28,15 +28,10 @@
   Form Definition
 </h3>
 <% if @form && @touchpoint %>
-  <div style="background-color: #E5FFE5; padding: 1em;">
-    <%= render partial: "components/forms/#{@form.kind}", locals: { form: @form, touchpoint: @touchpoint } %>
+  <div class="code">
+    Example Form - /<%= "components/forms/#{@form.kind}" %>
   </div>
-  <div style="background-color: #333; padding: 0.25em; margin-bottom: 1.0em;">
-    <div style="color: white; margin-bottom: 0em;">
-      Example Form
-    </div>
-    <br>
-  </div>
+  <%= render partial: "components/forms/#{@form.kind}", locals: { form: @form, touchpoint: @touchpoint } %>
 <% else %>
   <div class="usa-alert usa-alert-info">
     <div class="usa-alert-body">
