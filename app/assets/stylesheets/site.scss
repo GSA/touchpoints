@@ -8,3 +8,10 @@
   padding: 3px;
   border-radius: 3px;
 }
+
+// Override USWDS checkbox because it isn't showing
+form input[type=checkbox] {
+  -webkit-appearance: checkbox;
+  position: static;
+  left: auto;
+}
