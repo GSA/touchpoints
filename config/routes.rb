@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     resources :forms
     resources :users, except: [:new]
     resources :organizations
+    resources :pra_contacts
     resources :programs
     resources :services do
       member do

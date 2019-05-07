@@ -1,0 +1,47 @@
+<%= form_with(model: pra_contact, url: (pra_contact.persisted? ? admin_pra_contact_path(pra_contact) : admin_pra_contacts_path), local: true) do |form| %>
+  <% if pra_contact.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(pra_contact.errors.count, "error") %> prohibited this pra_contact from being saved:</h2>
+
+      <ul>
+      <% pra_contact.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.text_field :email %>
+  </div>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :department %>
+    <%= form.text_field :department %>
+  </div>
+
+  <div class="field">
+    <%= form.label :program %>
+    <%= form.text_field :program %>
+  </div>
+
+  <div class="field">
+    <%= form.label :organization_id %>
+    <%= form.number_field :organization_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :program_id %>
+    <%= form.number_field :program_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

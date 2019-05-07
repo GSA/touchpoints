@@ -1,0 +1,2 @@
+class PraContact < ApplicationRecord
+end
