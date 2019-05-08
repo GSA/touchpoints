@@ -1,6 +1,6 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Pra Contacts</h1>
+<h1>
+  PRA Contacts
+</h1>
 
 <table>
   <thead>
@@ -9,22 +9,17 @@
       <th>Name</th>
       <th>Department</th>
       <th>Program</th>
-      <th>Organization</th>
-      <th>Program</th>
-      <th colspan="3"></th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @pra_contacts.each do |pra_contact| %>
       <tr>
-        <td><%= pra_contact.email %></td>
+        <td><%= link_to pra_contact.email, admin_pra_contact_path(pra_contact) %></td>
         <td><%= pra_contact.name %></td>
         <td><%= pra_contact.department %></td>
         <td><%= pra_contact.program %></td>
-        <td><%= pra_contact.organization_id %></td>
-        <td><%= pra_contact.program_id %></td>
-        <td><%= link_to 'Show', admin_pra_contact_path(pra_contact) %></td>
         <td><%= link_to 'Edit', edit_admin_pra_contact_path(pra_contact) %></td>
         <td><%= link_to 'Destroy', admin_pra_contact_path(pra_contact), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
@@ -34,4 +29,4 @@
 
 <br>
 
-<%= link_to 'New Pra Contact', new_admin_pra_contact_path %>
+<%= link_to 'New Pra Contact', new_admin_pra_contact_path, class: "usa-button" %>
