@@ -9,7 +9,7 @@ FactoryBot.define do
       admin { true }
     end
     trait :organization_manager do
-      email { "organizational_manager@example.gov" }
+      email { "organization_manager@example.gov" }
       organization_manager { true }
     end
   end

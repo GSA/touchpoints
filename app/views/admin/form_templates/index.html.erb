@@ -7,7 +7,9 @@
     <tr>
       <th>Name</th>
       <th>Kind</th>
+    <% if current_user.admin? %>
       <th></th>
+    <% end %>
     </tr>
   </thead>
 
@@ -16,7 +18,11 @@
       <tr>
         <td><%= link_to form_template.name, admin_form_template_path(form_template) %></td>
         <td><%= form_template.kind %></td>
-        <td><%= link_to 'Edit', edit_admin_form_template_path(form_template) %></td>
+      <% if current_user.admin? %>
+        <td>
+          <%= link_to 'Edit', edit_admin_form_template_path(form_template) %>
+        </td>
+      <% end %>
       </tr>
     <% end %>
   </tbody>
