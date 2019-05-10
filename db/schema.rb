@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_07_230357) do
+ActiveRecord::Schema.define(version: 2019_05_10_224159) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,26 @@ ActiveRecord::Schema.define(version: 2019_05_07_230357) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "question_text_01"
+    t.text "question_text_02"
+    t.text "question_text_03"
+    t.text "question_text_04"
+    t.text "question_text_05"
+    t.text "question_text_06"
+    t.text "question_text_07"
+    t.text "question_text_08"
+    t.text "question_text_09"
+    t.text "question_text_10"
+    t.text "question_text_11"
+    t.text "question_text_12"
+    t.text "question_text_13"
+    t.text "question_text_14"
+    t.text "question_text_15"
+    t.text "question_text_16"
+    t.text "question_text_17"
+    t.text "question_text_18"
+    t.text "question_text_19"
+    t.text "question_text_20"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -105,6 +125,26 @@ ActiveRecord::Schema.define(version: 2019_05_07_230357) do
     t.string "referer"
     t.string "page"
     t.string "user_agent"
+    t.text "answer_01"
+    t.text "answer_02"
+    t.text "answer_03"
+    t.text "answer_04"
+    t.text "answer_05"
+    t.text "answer_06"
+    t.text "answer_07"
+    t.text "answer_08"
+    t.text "answer_09"
+    t.text "answer_10"
+    t.text "answer_11"
+    t.text "answer_12"
+    t.text "answer_13"
+    t.text "answer_14"
+    t.text "answer_15"
+    t.text "answer_16"
+    t.text "answer_17"
+    t.text "answer_18"
+    t.text "answer_19"
+    t.text "answer_20"
   end
 
   create_table "touchpoints", force: :cascade do |t|
