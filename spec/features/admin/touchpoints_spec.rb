@@ -7,7 +7,7 @@ feature "Touchpoints", js: true do
         let(:user) { FactoryBot.create(:user, :admin) }
         let!(:service) { FactoryBot.create(:service) }
         let!(:user_service) { FactoryBot.create(:user_service, user: user, service: service, role: UserService::Role::ServiceManager) }
-        let!(:form) { FactoryBot.create(:form) }
+        let!(:form_template) { FactoryBot.create(:form_template) }
         let(:future_date) {
           Time.now + 3.days
         }
@@ -18,9 +18,6 @@ feature "Touchpoints", js: true do
           fill_in("touchpoint[name]", with: "Test Touchpoint")
           select(service.name, from: "touchpoint[service_id]")
 
-          # FIXME
-          # this is non-conventional, because USWDS hides inputs and uses CSS :before
-          first("label[for=touchpoint_form_id_1]").click
           fill_in("touchpoint[purpose]", with: "Compliance")
           fill_in("touchpoint[expiration_date]", with: future_date.strftime("%m/%d/%Y"))
           fill_in("touchpoint[omb_approval_number]", with: "12345")
@@ -43,7 +40,7 @@ feature "Touchpoints", js: true do
         let(:user) { FactoryBot.create(:user, :admin) }
         let!(:organization) { FactoryBot.create(:organization) }
         let!(:touchpoint) { FactoryBot.create(:touchpoint)}
-        let!(:form) { FactoryBot.create(:form) }
+        let!(:form_template) { FactoryBot.create(:form_template) }
         let(:new_name) { "New Name" }
 
         describe "user updates a Touchpoint" do
@@ -106,7 +103,7 @@ feature "Touchpoints", js: true do
         let(:service) { FactoryBot.create(:service) }
         let(:user) { FactoryBot.create(:user, :admin, organization: service.organization) }
         let!(:user_service) { FactoryBot.create(:user_service, user: user, service: service, role: UserService::Role::ServiceManager) }
-        let!(:form) { FactoryBot.create(:form) }
+        let!(:form_template) { FactoryBot.create(:form_template) }
 
         before "user completes (TEST) Sign Up form" do
           login_as user
@@ -116,7 +113,7 @@ feature "Touchpoints", js: true do
           fill_in("touchpoint[omb_approval_number]", with: 1234)
           # FIXME
           # this is non-conventional, because USWDS hides inputs and uses CSS :before
-          first("label[for=touchpoint_form_id_1]").click
+          # first("label[for=touchpoint_form_template_id_1]").click
           select(service.name, from: "touchpoint[service_id]")
           fill_in("touchpoint[meaningful_response_size]", with: 50)
           fill_in("touchpoint[notification_emails]", with: "admin@example.gov")
@@ -135,7 +132,6 @@ feature "Touchpoints", js: true do
           expect(page).to have_content("50")
           expect(page).to have_content("1234")
           expect(page).to have_content("Compliance")
-          expect(page).to have_content(@touchpoint.form.name)
           expect(page).to have_content("to be determined")
           expect(page).to have_content("Notification emails: admin@example.gov")
         end
