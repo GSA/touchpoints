@@ -43,7 +43,7 @@
   <% if @container.touchpoints.present? %>
     <div>
     <% @container.touchpoints.each do |touchpoint| %>
-      <%= link_to touchpoint.name, touchpoint_path(touchpoint) %>
+      <%= link_to touchpoint.name, touchpoint_path(touchpoint) %><br>
     <% end %>
     </div>
   <% else %>

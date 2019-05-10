@@ -1,7 +1,7 @@
 class Touchpoint < ApplicationRecord
   belongs_to :container, optional: true
-  belongs_to :service
-  belongs_to :form
+  belongs_to :service, optional: true
+  belongs_to :form, optional: true
   has_many :submissions
 
   validates :name, presence: true
@@ -10,6 +10,10 @@ class Touchpoint < ApplicationRecord
 
   def send_notifications?
     self.notification_emails.present?
+  end
+
+  def deployable_touchpoint?
+    (self.form && self.service) ? true : false
   end
 
   # returns javascript text that can be used standalone

@@ -10,6 +10,9 @@ class SubmissionsController < ApplicationController
   layout 'public', :only => :new
 
   def new
+    unless @touchpoint.deployable_touchpoint?
+      redirect_to root_path, alert: "Touchpoint does not have a Service specified"
+    end
     @submission = Submission.new
   end
 

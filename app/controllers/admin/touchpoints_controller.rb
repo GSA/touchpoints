@@ -86,7 +86,7 @@ class Admin::TouchpointsController < AdminController
         :service_id,
         :organization_id,
         :expiration_date,
-        :form_id,
+        :form_template_id,
         :purpose,
         :meaningful_response_size,
         :behavior_change,
