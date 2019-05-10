@@ -1,6 +1,8 @@
 <a class="usa-skipnav" href="#main-content">Skip to main content</a>
 <div style="text-align: center; background-color: lightyellow; padding: 1em;">
-  This website is not "Live". This website is in Development. Contact <a href="mailto:ryan.wold@gsa.gov">Ryan Wold</a> for questions &amp; feedback
+  This website is not "Live". This website is in Development. Contact the
+  <a href="mailto:feedback-analytics@gsa.gov">Feedback Analytics Team</a>
+  for questions &amp; feedback
 </div>
 <header class="usa-header usa-header-extended" role="banner">
   <div class="usa-navbar">
@@ -21,22 +23,22 @@
       <ul class="usa-nav-primary usa-accordion">
         <% if current_user && current_user.admin? %>
           <li>
-            <a class="usa-nav-link" href="/admin">
+            <a class="usa-nav-link admin" href="/admin">
               <span>Admin</span>
             </a>
           </li>
           <li>
-            <a class="usa-nav-link" href="/admin/organizations">
+            <a class="usa-nav-link admin" href="/admin/organizations">
               <span>Organizations</span>
             </a>
           </li>
           <li>
-            <a class="usa-nav-link" href="/admin/users">
+            <a class="usa-nav-link admin" href="/admin/users">
               <span>Users</span>
             </a>
           </li>
           <li>
-            <a class="usa-nav-link" href="/admin/form_templates">
+            <a class="usa-nav-link admin" href="/admin/form_templates">
               <span>Form Templates</span>
             </a>
           </li>
