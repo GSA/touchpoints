@@ -35,14 +35,18 @@
   <%= @form_template.status %>
 </p>
 
-<h3>
-  Form Definition
-</h3>
+<hr>
+
+<h2>
+  Form Preview
+</h2>
 <% if @form_template %>
   <div class="code">
     Example Form - /<%= "components/forms/#{@form_template.kind}" %>
   </div>
-  <%= render partial: "components/forms/#{@form_template.kind}", locals: { form: @form_template, touchpoint: nil } %>
+  <div class="touchpoint-card">
+    <%= render partial: "components/forms/#{@form_template.kind}", locals: { form: @form_template, touchpoint: nil } %>
+  </div>
 <% else %>
   <div class="usa-alert usa-alert-info">
     <div class="usa-alert-body">

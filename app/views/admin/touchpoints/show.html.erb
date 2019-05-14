@@ -11,7 +11,7 @@
   <% if @touchpoint.service %>
     <%= link_to(@touchpoint.service.name, admin_service_path(@touchpoint.service)) %>
   <% else %>
-    This Touchpoint is not assigned to a Service.
+    ⚠️ This Touchpoint is not assigned to a Service.
   <% end %>
 </p>
 <p>
@@ -22,6 +22,8 @@
     <% else %>
       <%= @touchpoint.service.container.name if @touchpoint.service.container %>
     <% end %>
+  <% else %>
+    ⚠️ This Touchpoint does not have a Container because it does not belong to a Service.
   <% end %>
 </p>
 <p>
@@ -29,7 +31,11 @@
   <% if @touchpoint.form %>
   <%= link_to(@touchpoint.form.name, admin_touchpoint_form_path(@touchpoint, @touchpoint.form)) %>
   <% else %>
-  No Form assigned.
+    No Form assigned.
+
+    Choose a Form Template.
+
+    <%= render "form_template_form", { touchpoint: @touchpoint } %>
   <% end %>
 </p>
 <p>
@@ -74,16 +80,18 @@
 <h3>
   Customers can create a Submission for this Touchpoint.
 </h3>
-<% if @touchpoint.deployable_touchpoint? %>
+<% if @touchpoint.form || @touchpoint.deployable_touchpoint? %>
 <p>
   <%= link_to 'a public Touchpoints page', submit_touchpoint_path(@touchpoint), class: "usa-button" %>
+
+  <% if @touchpoint.deployable_touchpoint? %>
     <%= submit_touchpoint_url(@touchpoint) %>
+  <% end %>
 </p>
 <p>
   <%= link_to '.js tab Embed Example', example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank" %>
 </p>
 <% else %>
-
   <div class="usa-alert usa-alert-error" >
     <div class="usa-alert-body">
       <h3 class="usa-alert-heading">Touchpoint is not yet deployable</h3>

@@ -31,7 +31,7 @@
   <div class="code">
     Example Form - /<%= "components/forms/#{@form.kind}" %>
   </div>
-  <%= render partial: "components/forms/#{@form.kind}", locals: { form: @form, touchpoint: @touchpoint } %>
+  <%= render partial: "components/forms/#{@form.kind}", locals: { touchpoint: @touchpoint, form: @form } %>
 <% else %>
   <div class="usa-alert usa-alert-info">
     <div class="usa-alert-body">
@@ -43,4 +43,4 @@
   </div>
 <% end %>
 <hr>
-<%= link_to 'Edit', edit_admin_form_path(@form), class: "usa-button" %>
+<%= link_to 'Edit', edit_admin_touchpoint_form_path(@touchpoint, @form), class: "usa-button" %>

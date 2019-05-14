@@ -9,9 +9,9 @@
         </span>
       </th>
       <th>Service</th>
+      <th>Form</th>
       <th>Name</th>
       <th>Purpose</th>
-      <th>Form</th>
       <th># Submissions</th>
       <th></th>
     </tr>
@@ -28,15 +28,15 @@
             <%= link_to touchpoint.service.name, admin_service_path(touchpoint.service) %>
           <% end %>
         </td>
-        <td><%= link_to touchpoint.name, admin_touchpoint_path(touchpoint) %></td>
-        <td><%= touchpoint.purpose %></td>
         <td>
           <% if touchpoint.form %>
-            <%= link_to(touchpoint.form.name, admin_touchpoint_form_path(touchpoint, touchpoint.form)) %>
+          <%= link_to(touchpoint.form.name, admin_touchpoint_form_path(touchpoint, touchpoint.form)) %>
           <% else %>
-            Form not specified
+          Form not specified
           <% end %>
         </td>
+        <td><%= link_to touchpoint.name, admin_touchpoint_path(touchpoint) %></td>
+        <td><%= touchpoint.purpose %></td>
         <td><%= touchpoint.submissions.size %></td>
         <td><%= link_to 'Edit', edit_admin_touchpoint_path(touchpoint) %></td>
       </tr>

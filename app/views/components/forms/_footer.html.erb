@@ -1,7 +1,9 @@
 <div style="text-align: right; margin-bottom: 36px; border-top: 1px solid #E5E5E5;">
   <small>
   <% if touchpoint.present? %>
-    OMB Approval #<span class="omb-approval-number"><%= touchpoint.omb_approval_number %></span>
+    <% if touchpoint.omb_approval_number.present? %>
+      OMB Approval #<span class="omb-approval-number"><%= touchpoint.omb_approval_number %></span>
+    <% end %>
 
     <% if touchpoint.expiration_date? %>
       &middot;

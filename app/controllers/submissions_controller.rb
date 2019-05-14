@@ -23,9 +23,11 @@ class SubmissionsController < ApplicationController
   end
 
   def create
-    # TODO: Restrict access
+    # TODO: Restrict access with a whitelist
+    #   based on the Submission's Touchpoint's Service's
+    #   Organization's domain - eg: gsa.gov
     headers['Access-Control-Allow-Origin'] = '*'
-    headers['Access-Control-Allow-Methods'] = 'POST, PUT, OPTIONS'
+    headers['Access-Control-Allow-Methods'] = 'POST, PUT'
     headers['Access-Control-Request-Method'] = '*'
     headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
 
@@ -65,7 +67,7 @@ class SubmissionsController < ApplicationController
                 touchpoint: {
                   id: submission.touchpoint.id,
                   name: submission.touchpoint.name,
-                  organization_name: submission.touchpoint.service.organization.name
+                  organization_name: submission.organization_name
                 }
               }
             },
@@ -75,7 +77,10 @@ class SubmissionsController < ApplicationController
           format.html {
           }
           format.json {
-            render json: submission.errors, status: :unprocessable_entity
+            render json: {
+              status: :unprocessable_entity,
+              messages: submission.errors
+            }, status: :unprocessable_entity
           }
         end
       end
@@ -143,33 +148,41 @@ class SubmissionsController < ApplicationController
     end
 
     def submission_params
+      # Accept submitted form parameters based on the Touchpoint's Form's properties
+      # TODO: handle as a case statement
+      # TODO: split Form-specific parameter whitelisting into Form's definitions
+      # TODO: Consider Making `recruiter`, the Form.kind, a Class/Module, for better strictnesss/verbosity.
       if @touchpoint.form.kind == "recruiter"
         params.require(:submission).permit(
-          :first_name,
-          :last_name,
-          :phone_number,
-          :email,
-          :user_id
+          :answer_01,
+          :answer_02,
+          :answer_03,
+          :answer_04,
         )
       elsif @touchpoint.form.kind == "open-ended"
         params.require(:submission).permit(
-          :body,
+          :answer_01,
         )
       elsif @touchpoint.form.kind == "open-ended-with-contact-info"
         params.require(:submission).permit(
-          :body,
-          :first_name,
-          :email
+          :answer_01,
+          :answer_02,
+          :answer_03
         )
       elsif @touchpoint.form.kind == "a11"
         params.require(:submission).permit(
-          :overall_satisfaction,
-          :service_confidence,
-          :service_effectiveness,
-          :process_ease,
-          :process_efficiency,
-          :process_transparency,
-          :people_employees
+          :answer_01,
+          :answer_02,
+          :answer_03,
+          :answer_04,
+          :answer_05,
+          :answer_06,
+          :answer_07,
+          :answer_08,
+          :answer_09,
+          :answer_10,
+          :answer_11,
+          :answer_12,
         )
       else
         raise InvalidArgument("#{@touchpoint.name} has a Form with an unsupported Kind")

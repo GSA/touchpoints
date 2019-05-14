@@ -144,21 +144,20 @@ class Admin::SubmissionsController < AdminController
     def submission_params
       if @touchpoint.form.kind == "recruiter"
         params.require(:submission).permit(
-          :first_name,
-          :last_name,
-          :phone_number,
-          :email,
-          :user_id
+          :answer_01,
+          :answer_02,
+          :answer_03,
+          :answer_04
         )
       elsif @touchpoint.form.kind == "open-ended"
         params.require(:submission).permit(
-          :body,
+          :answer_01,
         )
       elsif @touchpoint.form.kind == "open-ended-with-contact-info"
         params.require(:submission).permit(
-          :body,
-          :first_name,
-          :email
+          :answer_01,
+          :answer_02,
+          :answer_03
         )
       elsif @touchpoint.form.kind == "a11"
         params.require(:submission).permit(

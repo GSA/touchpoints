@@ -1,4 +1,4 @@
-// All form components are namespaced under 'fba' = 'Feedback Analytics'
+// Form components are namespaced under 'fba' = 'Feedback Analytics'
 
 (function ( d, N ) { 'use strict';
 N.fba = {
@@ -47,12 +47,23 @@ N.fba = {
 			this.dialogEl.setAttribute('id', 'fba-modal');
 			this.dialogEl.setAttribute('role', 'dialog');
 
-			// Here lies our form interface
+			<%# inject the form interface %>
 			this.dialogEl.innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { touchpoint: touchpoint }) %>";
 			d.body.appendChild(this.dialogEl);
 
 			d.getElementById('fba-modal-close').addEventListener( 'click', this.handleDialogClose, false );
 			d.getElementById('fba-submit').addEventListener( 'click', this.handleSubmitClick, false );
+		},
+		resetErrors: function()
+		{
+			var alertElement = document.querySelector("#fba-alert");
+			var alertElementBody = document.getElementsByClassName("usa-alert-text")[0];
+			var alertErrorElement = document.querySelector("#fba-alert-error");
+			var alertErrorElementBody = alertErrorElement.getElementsByClassName("usa-alert-text")[0];
+			alertElement.style.display = "none";
+			alertElementBody.innerHTML = "";
+			alertErrorElement.style.display = "none";
+			alertErrorElementBody.innerHTML = "";
 		},
 		handleClick: function(e) {
 			if (N.fba.dialogOpen && !e.target.closest('#fba-button') && !e.target.closest('#fba-modal-dialog')) {
@@ -70,6 +81,7 @@ N.fba = {
 		handleSubmitClick: function(e) {
 			e.preventDefault();
 			d.getElementById('fba-submit').disabled = true;
+			N.fba.resetErrors();
 			N.fba.sendFeedback();
 		},
 		loadButton: function()
@@ -93,11 +105,13 @@ N.fba = {
 			var form = document.getElementById("touchpoints-form");
 			this.ajaxPost(form, this.formSuccess);
 		},
-		showFormSuccess: function(e) {
+		showFormSuccess: function(e)
+		{
 			var alertElement = document.querySelector("#fba-alert");
+			var alertElementBody = document.getElementsByClassName("usa-alert-text")[0];
 
 			// Display success Message
-			alertElement.innerHTML += "Thank you. Your feedback has been received.";
+			alertElementBody.innerHTML += "Thank you. Your feedback has been received.";
 			alertElement.style.display = "block";
 
 			// Hide Form Elements
@@ -112,15 +126,14 @@ N.fba = {
 				}
 			}
 		},
-		resetFormDisplay: function() {
+		resetFormDisplay: function()
+		{
 			if (fba.successState === false) {
 				return false;
 			}
 
 			// Hide and Reset Flash Message
-			var alertElement = document.querySelector("#fba-alert");
-			alertElement.innerHTML = "";
-			alertElement.style.display = "none";
+			fba.resetErrors();
 
 			// Re-enable Submit Button
 			d.getElementById('fba-submit').disabled = false;
@@ -135,11 +148,14 @@ N.fba = {
 				}
 			}
 		},
-		formSuccess: function(e)
-		{
+		formSuccess: function(e) {
 			// Clear the alert box
 			var alertElement = document.querySelector("#fba-alert");
-			alertElement.innerHTML = "";
+			var alertElementBody = document.getElementsByClassName("usa-alert-text")[0];
+			var alertErrorElement = document.querySelector("#fba-alert-error");
+			var alertErrorElementBody = alertErrorElement.getElementsByClassName("usa-alert-text")[0];
+			alertElementBody.innerHTML = "";
+			alertErrorElementBody.innerHTML = "";
 
 			if (this.readyState === 4) {
 	      if (this.status === 201) { // SUCCESS!
@@ -149,21 +165,24 @@ N.fba = {
 	      } else if (this.status === 422) { // FORM ERRORS =\
 						fba.successState = false;
 						d.getElementById('fba-submit').disabled = false;
-					  var errors = this.response;
+					  var jsonResponse = JSON.parse(this.response);
+					  var errors = jsonResponse.messages;
 
 					  for (var err in errors) {
 							if (errors.hasOwnProperty(err)) {
-								alertElement.innerHTML += err;
-								alertElement.innerHTML += " ";
-								alertElement.innerHTML += errors[err];
-								alertElement.innerHTML += "<br />";
+								alertErrorElementBody.innerHTML += err;
+								alertErrorElementBody.innerHTML += " ";
+								alertErrorElementBody.innerHTML += errors[err];
+								alertErrorElementBody.innerHTML += "<br />";
 							}
 					  }
-	       } else { // SERVER ERROR
-				 	alertElement.innerHTML += "Server error. We're sorry, but this submission was not successful. The Product Team has been notified.";
-           console.log('failed');
-	       }
-			 }
+						alertErrorElement.style.display = "block";
+				} else { // SERVER ERROR
+					console.log('failed');
+					alertErrorElement.style.display = "block";
+					alertErrorElementBody.innerHTML += "Server error. We're sorry, but this submission was not successful. The Product Team has been notified.";
+				}
+			}
 		},
 		ajaxPost: function (form, callback) {
 	    var url = form.action;
@@ -173,39 +192,43 @@ N.fba = {
 			//       likely generated server-side
 			if(form.getAttribute("data-kind") === "open-ended") {
 				var params = {
-					body: form.querySelector("#fba-text-body").value
+					answer_01: form.querySelector("#fba-text-body").value
 				}
 			}
 
 			if(form.getAttribute("data-kind") === "open-ended-with-contact-info") {
 				var params = {
-					body: form.querySelector("#fba-text-body").value,
-					first_name: form.querySelector("#fba-text-name").value,
-					email: form.querySelector("#fba-text-email").value,
-					referer: form.querySelector("#fba-referer").value,
+					answer_01: form.querySelector("#fba-text-body").value,
+					answer_02: form.querySelector("#fba-text-name").value,
+					answer_03: form.querySelector("#fba-text-email").value,
 					page: form.querySelector("#fba-page").value,
-					user_agent: form.querySelector("#fba-user-agent").value,
+					user_agent: form.querySelector("#fba-user-agent").value
 				}
 			}
 
 			if(form.getAttribute("data-kind") === "a11") {
 				var params = {
-					overall_satisfaction: form.querySelector("input[name=overall_satisfaction]:checked").value,
-					service_confidence: form.querySelector("input[name=service_confidence]:checked").value,
-					service_effectiveness: form.querySelector("input[name=service_effectiveness]:checked").value,
-					process_ease: form.querySelector("input[name=process_ease]:checked").value,
-					process_efficiency: form.querySelector("input[name=process_efficiency]:checked").value,
-					process_transparency: form.querySelector("input[name=process_transparency]:checked").value,
-					people_employees: form.querySelector("input[name=people_employees]:checked").value
+					answer_01: form.querySelector("input[name=answer_01]:checked") && form.querySelector("input[name=answer_01]:checked").value,
+					answer_02: form.querySelector("input[name=answer_02]:checked") && form.querySelector("input[name=answer_02]:checked").value,
+					answer_03: form.querySelector("input[name=answer_03]:checked") && form.querySelector("input[name=answer_03]:checked").value,
+					answer_04: form.querySelector("input[name=answer_04]:checked") && form.querySelector("input[name=answer_04]:checked").value,
+					answer_05: form.querySelector("input[name=answer_05]:checked") && form.querySelector("input[name=answer_05]:checked").value,
+					answer_06: form.querySelector("input[name=answer_06]:checked") && form.querySelector("input[name=answer_06]:checked").value,
+					answer_07: form.querySelector("input[name=answer_07]:checked") && form.querySelector("input[name=answer_07]:checked").value,
+					answer_08: form.querySelector("input[name=answer_08]:checked") && form.querySelector("input[name=answer_08]:checked").value,
+					answer_09: form.querySelector("input[name=answer_09]:checked") && form.querySelector("input[name=answer_09]:checked").value,
+					answer_10: form.querySelector("input[name=answer_10]:checked") && form.querySelector("input[name=answer_10]:checked").value,
+					answer_11: form.querySelector("input[name=answer_11]:checked") && form.querySelector("input[name=answer_11]:checked").value,
+					answer_12: form.querySelector("input[name=answer_12]:checked") && form.querySelector("input[name=answer_12]:checked").value
 				}
 			}
 
 			if(form.getAttribute("data-kind") === "recruiter") {
 				var params = {
-					first_name: form.querySelector("#fba-text-name").value,
-					last_name: "",
-					phone_number: form.querySelector("#fba-text-phone").value,
-					email: form.querySelector("#fba-text-email").value
+					answer_01: form.querySelector("#fba-text-name").value,
+					answer_02: "",
+					answer_03: form.querySelector("#fba-text-phone").value,
+					answer_04: form.querySelector("#fba-text-email").value
 				}
 			}
 			xhr.open("POST", url);

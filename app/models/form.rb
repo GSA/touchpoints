@@ -1,5 +1,5 @@
 class Form < ApplicationRecord
-  has_many :touchpoints
+  has_one :touchpoint
 
   validates :name, presence: true
 end

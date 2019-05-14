@@ -2,6 +2,6 @@
 
 <%= render 'form', touchpoint: @touchpoint %>
 
-<%= link_to 'Show', @touchpoint, class: "usa-button" %>
-<%= link_to 'All Touchpoints', touchpoints_path, class: "usa-button" %>
-<%= link_to 'Destroy', @touchpoint, method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button-red" %>
+<%= link_to 'Show', admin_touchpoint_path(@touchpoint), class: "usa-button" %>
+<%= link_to 'All Touchpoints', admin_touchpoints_path, class: "usa-button" %>
+<%= link_to 'Destroy', admin_touchpoint_path(@touchpoint), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button-red" %>

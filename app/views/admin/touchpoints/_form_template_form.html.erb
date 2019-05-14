@@ -1,0 +1,43 @@
+<div class="usa-grid">
+  <div class="usa-width-full">
+    <%= form_with(model: touchpoint, url: touchpoint.persisted? ? admin_touchpoint_path(touchpoint) : admin_touchpoints_path, local: true) do |form| %>
+    <% if touchpoint.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(touchpoint.errors.count, "error") %> prohibited this touchpoint from being saved:</h2>
+        <% touchpoint.errors.full_messages.each do |message| %>
+          <div class="usa-alert usa-alert-error" >
+            <div class="usa-alert-body">
+              <h3 class="usa-alert-heading">Error</h3>
+              <p class="usa-alert-text">
+                <%= message %>
+              </p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+    <h3>
+      Select a Form Template
+    </h3>
+    <fieldset class="usa-fieldset-inputs usa-sans">
+      <legend class="usa-sr-only">Types of Forms</legend>
+      <ul class="usa-unstyled-list">
+      <% FormTemplate.all.each do |f| %>
+        <li>
+          <%= form.radio_button :form_template_id, f.id %>
+          <%= form.label f.name, for: "touchpoint_form_template_id_#{f.id}" %>
+        </li>
+      <% end %>
+        <li>
+          <%= form.radio_button :form_template_id, :other %>
+          <%= form.label :other, for: "touchpoint_form_template_id_other" %>
+        </li>
+      </ul>
+    </fieldset>
+  </div>
+</div>
+<div class="actions">
+  <%= form.submit "Select a Form Template" %>
+</div>
+<% end %>
+<hr>

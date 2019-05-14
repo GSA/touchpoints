@@ -16,8 +16,7 @@ input[type=checkbox] {
   left: auto;
 }
 
-input[type=radio] {
-  -webkit-appearance: radio;
-  position: static;
-  left: auto;
+.touchpoint-card {
+  border: 1px solid black;
+  padding: 10px;
 }
