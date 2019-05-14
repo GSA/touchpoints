@@ -286,20 +286,20 @@ touchpoint_3 = Touchpoint.create!({
 
 Submission.create!({
   touchpoint: touchpoint_1,
-  body: "Body text"
+  answer_01: "Body text"
 })
 
 Submission.create!({
   touchpoint: touchpoint_1,
-  body: "Another body text"
+  answer_01: "Another body text"
 })
 
 Submission.create!({
   touchpoint: touchpoint_2,
-  first_name: "Mary",
-  last_name: "Public",
-  email: "public_user_3@example.com",
-  phone_number: "5555550000"
+  answer_01: "Mary",
+  answer_02: "Public",
+  answer_03: "public_user_3@example.com",
+  answer_04: "5555550000"
 })
 
 # TODO: Seed A11
