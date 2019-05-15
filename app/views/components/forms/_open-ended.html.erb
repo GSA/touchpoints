@@ -1,14 +1,6 @@
-<form id="touchpoints-form" action="/touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" data-kind="open-ended" method="POST">
-  <h3>
-    <%= form.title %>
-  </h3>
-  <p>
-    <%= form.instructions %>
-  </p>
-  <%= render 'components/forms/flash' %>
+<form id="touchpoints-form" action="<%= root_url %>touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" data-kind="open-ended" method="POST">
   <fieldset>
     <textarea id="fba-text-body" name="fba-text-body" class="body"></textarea>
-    <%#= hidden_field_tag :authenticity_token, form_authenticity_token %>
   <% if form.disclaimer_text? %>
     <p>
       <%= form.disclaimer_text %>
@@ -19,4 +11,3 @@
     </div>
   </fieldset>
 </form>
-<%= render 'components/forms/footer', touchpoint: touchpoint %>

@@ -9,7 +9,6 @@ feature "Example Website Integration", js: true do
   let!(:a11_touchpoint) { FactoryBot.create(:touchpoint, form: a11_form) }
 
   describe "third-party .gov website" do
-
     before do
       login_as(admin)
     end
@@ -30,9 +29,8 @@ feature "Example Website Integration", js: true do
 
         it "opens Modal" do
           expect(page).to have_css("#fba-modal-dialog", visible: true)
-
           within "#fba-modal-dialog" do
-            expect(page).to have_content "Do you have a few minutes to help us test this site?"
+            expect(page).to have_content open_ended_touchpoint.form.title
           end
         end
 

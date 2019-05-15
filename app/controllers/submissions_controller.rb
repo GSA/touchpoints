@@ -1,11 +1,6 @@
 class SubmissionsController < ApplicationController
   protect_from_forgery only: []
-  before_action :set_touchpoint, only: [:index, :new, :create, :show, :edit, :update, :destroy]
-  before_action :set_submission, only: [:show, :edit, :update, :destroy]
-
-  def index
-    @submissions = @touchpoint.submissions.includes(:organization)
-  end
+  before_action :set_touchpoint, only: [:new, :create]
 
   layout 'public', :only => :new
 
@@ -14,12 +9,6 @@ class SubmissionsController < ApplicationController
       redirect_to root_path, alert: "Touchpoint does not have a Service specified"
     end
     @submission = Submission.new
-  end
-
-  def show
-  end
-
-  def edit
   end
 
   def create
@@ -33,21 +22,13 @@ class SubmissionsController < ApplicationController
 
     @submission = Submission.new(submission_params)
     @submission.touchpoint_id = @touchpoint.id
+    @submission.user_agent = request.user_agent
+    @submission.referer = submission_params[:referer]
+    @submission.page = submission_params[:page]
 
     create_in_local_database(@submission)
   end
 
-  def update
-    respond_to do |format|
-      if @submission.update(submission_params)
-        format.html { redirect_to @submission, notice: 'Submission was successfully updated.' }
-        format.json { render :show, status: :ok, location: @submission }
-      else
-        format.html { render :edit }
-        format.json { render json: @submission.errors, status: :unprocessable_entity }
-      end
-    end
-  end
 
   private
 
@@ -55,15 +36,15 @@ class SubmissionsController < ApplicationController
       respond_to do |format|
         if submission.save
           format.html {
-            redirect_to touchpoint_submission_path(submission.touchpoint, submission), notice: 'Submission was successfully created.' }
+            redirect_to submit_touchpoint_path(submission.touchpoint), notice: 'Thank You. Submission was successfully created.' }
           format.json {
             render json: {
               submission: {
                 id: submission.id,
-                first_name: submission.first_name,
-                last_name: submission.last_name,
-                email: submission.email,
-                phone_number: submission.phone_number,
+                first_name: submission.answer_01,
+                last_name: submission.answer_02,
+                email: submission.answer_03,
+                phone_number: submission.answer_04,
                 touchpoint: {
                   id: submission.touchpoint.id,
                   name: submission.touchpoint.name,
@@ -86,54 +67,6 @@ class SubmissionsController < ApplicationController
       end
     end
 
-    def create_in_google_sheets(submission)
-      google_service = GoogleSheetsApi.new
-      spreadsheet_id = submission.touchpoint.google_sheet_id
-      range = 'A1'
-      request_body = Google::Apis::SheetsV4::ValueRange.new
-
-      form = submission.touchpoint.form
-      raise InvalidArgument("Could not find Submission's Touchpoint's Form") unless form
-
-      if form.kind == "recruiter"
-        values = [
-          params[:submission][:first_name],
-          params[:submission][:last_name],
-          params[:submission][:email]
-        ]
-      end
-      if form.kind == "open-ended"
-        values = [
-          params[:submission][:body],
-        ]
-      end
-      if form.kind == "open-ended-with-contact-info"
-        values = [
-          params[:submission][:body],
-          params[:submission][:first_name],
-          params[:submission][:email],
-          params[:submission][:referer],
-          request.user_agent,
-          params[:submission][:page],
-          Time.now,
-        ]
-      end
-      if form.kind == "a11"
-        values = [
-          params[:submission][:overall_satisfaction],
-          params[:submission][:service_confidence],
-          params[:submission][:service_effectiveness],
-          params[:submission][:process_ease],
-          params[:submission][:process_efficiency],
-          params[:submission][:process_transparency],
-          params[:submission][:people_employees]
-        ]
-      end
-      response = google_service.add_row(spreadsheet_id: spreadsheet_id, values: values)
-
-      render json: { message: "Submission created in Google Sheet" }, status: :created
-    end
-
     def set_touchpoint
       if params[:touchpoint] # coming from /touchpoints/:id/submit
         @touchpoint = Touchpoint.find(params[:id])
@@ -141,10 +74,6 @@ class SubmissionsController < ApplicationController
         @touchpoint = Touchpoint.find(params[:touchpoint_id])
       end
       raise InvalidArgument("Touchpoint does not exist") unless @touchpoint
-    end
-
-    def set_submission
-      @submission = Submission.find(params[:id])
     end
 
     def submission_params
@@ -158,16 +87,22 @@ class SubmissionsController < ApplicationController
           :answer_02,
           :answer_03,
           :answer_04,
+          :referer,
+          :page
         )
       elsif @touchpoint.form.kind == "open-ended"
         params.require(:submission).permit(
           :answer_01,
+          :referer,
+          :page
         )
       elsif @touchpoint.form.kind == "open-ended-with-contact-info"
         params.require(:submission).permit(
           :answer_01,
           :answer_02,
-          :answer_03
+          :answer_03,
+          :referer,
+          :page
         )
       elsif @touchpoint.form.kind == "a11"
         params.require(:submission).permit(
@@ -183,6 +118,8 @@ class SubmissionsController < ApplicationController
           :answer_10,
           :answer_11,
           :answer_12,
+          :referer,
+          :page
         )
       else
         raise InvalidArgument("#{@touchpoint.name} has a Form with an unsupported Kind")

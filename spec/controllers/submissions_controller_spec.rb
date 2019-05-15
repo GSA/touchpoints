@@ -61,14 +61,6 @@ RSpec.describe SubmissionsController, type: :controller do
     sign_in(admin)
   end
 
-  describe "GET #show" do
-    it "returns a success response" do
-      submission = Submission.create! valid_attributes
-      get :show, params: { id: submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
   describe "GET #new" do
     it "returns a success response" do
       get :new, params: { touchpoint_id: touchpoint.id }, session: valid_session
@@ -86,7 +78,7 @@ RSpec.describe SubmissionsController, type: :controller do
 
       it "redirects to the created submission" do
         post :create, params: { submission: valid_attributes, touchpoint_id: touchpoint.id }, session: valid_session
-        expect(response).to redirect_to(touchpoint_submission_path(touchpoint.id, Submission.last))
+        expect(response).to redirect_to(submit_touchpoint_path(touchpoint))
       end
     end
 

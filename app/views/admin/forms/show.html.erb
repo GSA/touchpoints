@@ -1,4 +1,10 @@
-<p id="notice"><%= notice %></p>
+<h2>
+  Viewing a Form
+</h2>
+<p>
+  <strong>Touchpoint:</strong>
+  <%= link_to @touchpoint.name, admin_touchpoint_path(@touchpoint) %>
+</p>
 <p>
   <strong>Name:</strong>
   <%= @form.name %>
@@ -12,6 +18,10 @@
   <%= @form.instructions %>
 </p>
 <p>
+  <strong>Disclaimer Text:</strong>
+  <%= @form.disclaimer_text %>
+</p>
+<p>
   <strong>Kind:</strong>
   <%= @form.kind %>
 </p>
@@ -23,24 +33,22 @@
   <strong>Status:</strong>
   <%= @form.status %>
 </p>
+<%= link_to 'Edit', edit_admin_touchpoint_form_path(@touchpoint, @form), class: "usa-button" %>
 <hr>
 <h3>
-  Form Definition
+  Form Preview
 </h3>
-<% if @form && @touchpoint %>
-  <div class="code">
-    Example Form - /<%= "components/forms/#{@form.kind}" %>
-  </div>
-  <%= render partial: "components/forms/#{@form.kind}", locals: { touchpoint: @touchpoint, form: @form } %>
-<% else %>
-  <div class="usa-alert usa-alert-info">
-    <div class="usa-alert-body">
-      <p class="usa-alert-text">
-        Form content is currently custom-created by the Touchpoints Product Team.
-        Please contact the Feedback Analytics Team for assistance.
-      </p>
+<div class="touchpoint-card">
+  <% if @form && @touchpoint %>
+    <%= render partial: "components/forms/custom_layout", locals: { touchpoint: @touchpoint, form: @form } %>
+  <% else %>
+    <div class="usa-alert usa-alert-info">
+      <div class="usa-alert-body">
+        <p class="usa-alert-text">
+          Form content is currently custom-created by the Touchpoints Product Team.
+          Please contact the Feedback Analytics Team for assistance.
+        </p>
+      </div>
     </div>
-  </div>
-<% end %>
-<hr>
-<%= link_to 'Edit', edit_admin_touchpoint_form_path(@touchpoint, @form), class: "usa-button" %>
+  <% end %>
+</div>

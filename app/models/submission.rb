@@ -61,12 +61,20 @@ class Submission < ApplicationRecord
         self.answer_01,
         self.answer_02,
         self.answer_03,
-        self.answer_04
+        self.answer_04,
+        self.user_agent,
+        self.page,
+        self.referer,
+        self.created_at
       ]
     end
     if self.touchpoint.form.kind == "open-ended"
       values = [
-        self.answer_01
+        self.answer_01,
+        self.user_agent,
+        self.page,
+        self.referer,
+        self.created_at
       ]
     end
     if self.touchpoint.form.kind == "open-ended-with-contact-info"
@@ -75,9 +83,10 @@ class Submission < ApplicationRecord
         self.answer_02,
         self.answer_03,
         self.answer_04,
-        self.answer_05,
-        self.answer_06,
-        self.created_at,
+        self.user_agent,
+        self.page,
+        self.referer,
+        self.created_at
       ]
     end
     if self.touchpoint.form.kind == "a11"
@@ -94,6 +103,10 @@ class Submission < ApplicationRecord
         self.answer_10,
         self.answer_11,
         self.answer_12,
+        self.user_agent,
+        self.page,
+        self.referer,
+        self.created_at
       ]
     end
 

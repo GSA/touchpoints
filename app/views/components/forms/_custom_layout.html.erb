@@ -1,0 +1,15 @@
+<div class="usa-grid-full">
+  <div class="usa-width-full">
+    <h3>
+      <%= form.title %>
+    </h3>
+    <% if form.instructions.present? %>
+      <p>
+        <%= form.instructions %>
+      </p>
+    <% end %>
+    <%= render 'components/forms/flash' %>
+    <%= render partial: "components/forms/#{form.kind}", locals: { touchpoint: @touchpoint, form: form } %>
+  </div>
+</div>
+<%= render partial: 'components/forms/footer', locals: { touchpoint: @touchpoint } %>

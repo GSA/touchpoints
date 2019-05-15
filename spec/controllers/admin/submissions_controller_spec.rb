@@ -103,7 +103,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
           submission: valid_attributes,
           touchpoint_id: touchpoint.id
         }, session: valid_session
-        expect(response).to redirect_to(touchpoint_submission_path(touchpoint.id, Submission.last))
+        expect(response).to redirect_to(admin_touchpoint_submission_path(touchpoint.id, Submission.last))
       end
     end
 
@@ -166,7 +166,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
     it "redirects to the submissions list" do
       submission = Submission.create! valid_attributes
       delete :destroy, params: {id: submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
-      expect(response).to redirect_to(touchpoint_submissions_url(touchpoint))
+      expect(response).to redirect_to(admin_touchpoint_submissions_url(touchpoint))
     end
   end
 

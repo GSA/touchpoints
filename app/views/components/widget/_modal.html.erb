@@ -1,18 +1,12 @@
 <div id="fba-modal-dialog">
   <h3 id="fba-modal-title">
-    Do you have a few minutes to help us test this site?
+    <%= touchpoint.form.title %>
   </h3>
   <a id="fba-modal-close" type="button" href="#">×</a>
-  <p id="fba-description">
-    Hi! We’re looking for people to participate in a 30 minute phone interview
-    about how they use <%= Organization.first.name %>.
-    If selected, we’ll contact you to set up a time.
+  <p id="fba-instructions">
+    <%= touchpoint.form.instructions %>
   </p>
+  <%= render 'components/forms/flash' %>
   <%= render partial: "components/forms/#{touchpoint.form.kind}", locals: { form: touchpoint.form, touchpoint: touchpoint } %>
-  <p>
-    Note: We won’t share your information with any other organizations or groups, period.
-  </p>
-  <p id="fba-dialog-privacy" class="usa-external_link">
-    <a href="https://www.gsa.gov/portal/content/162010" target="_blank">Privacy</a>
-  </p>
+  <%= render partial: 'components/forms/footer', locals: { touchpoint: @touchpoint } %>
 </div>

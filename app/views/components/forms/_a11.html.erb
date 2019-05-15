@@ -1,11 +1,4 @@
-<form id="touchpoints-form" action="/touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" method="POST" data-kind="a11">
-  <%= render 'components/forms/flash' %>
-  <h3>
-    <%= form.title %>
-  </h3>
-  <p>
-    <%= form.instructions %>
-  </p>
+<form id="touchpoints-form" action="<%= root_url %>touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" method="POST" data-kind="a11">
   <fieldset>
     <table>
       <tr>
@@ -349,7 +342,6 @@
     </div>
   </fieldset>
 </form>
-<%= render 'components/forms/footer', touchpoint: touchpoint %>
 
 <style media="screen">
   td {

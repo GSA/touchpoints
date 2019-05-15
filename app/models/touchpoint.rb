@@ -99,20 +99,29 @@ class Touchpoint < ApplicationRecord
     push_row(values: [
       "First Name",
       "Last Name",
-      "email"
+      "Email",
+      "User Agent",
+      "Page",
+      "Referrer",
+      "Created At"
       ])
     elsif self.form.kind == "open-ended"
       push_row(values: [
-        "Body"
+        "Body",
+        "User Agent",
+        "Page",
+        "Referrer",
+        "Created At"
       ])
     elsif self.form.kind == "open-ended-with-contact-info"
       push_row(values: [
         "Body",
         "Name",
         "Email",
-        "Referer",
+        "Phone",
         "User Agent",
         "Page",
+        "Referrer",
         "Created At"
       ])
     elsif self.form.kind == "a11"
@@ -123,7 +132,11 @@ class Touchpoint < ApplicationRecord
         "Process ease",
         "Process efficiency",
         "Process transparency",
-        "People employees"
+        "People employees",
+        "User Agent",
+        "Page",
+        "Referrer",
+        "Created At"
       ])
     else
       raise InvalidArgument("#{@touchpoint.name} has a Form with an unsupported Kind")

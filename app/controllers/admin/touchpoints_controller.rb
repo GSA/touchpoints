@@ -63,9 +63,9 @@ class Admin::TouchpointsController < AdminController
       if form_template
         @touchpoint.form = Form.create({
           name: form_template.name,
-          name: form_template.title,
-          name: form_template.instructions,
-          name: form_template.disclaimer_text,
+          title: form_template.title,
+          instructions: form_template.instructions,
+          disclaimer_text: form_template.disclaimer_text,
           kind: form_template.kind
         })
       end
@@ -121,10 +121,7 @@ class Admin::TouchpointsController < AdminController
         :meaningful_response_size,
         :behavior_change,
         :notification_emails,
-        :omb_approval_number,
-        :user_agent,
-        :referer,
-        :page
+        :omb_approval_number
       )
     end
 

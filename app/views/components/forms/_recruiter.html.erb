@@ -1,11 +1,4 @@
-<form id="touchpoints-form" action="/touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" data-kind="recruiter" method="POST">
-  <%= render 'components/forms/flash' %>
-  <h3>
-    <%= form.title %>
-  </h3>
-  <p>
-    <%= form.instructions %>
-  </p>
+<form id="touchpoints-form" action="<%= root_url %>touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" data-kind="recruiter" method="POST">
   <fieldset>
     <label for="fba-text-name">First name</label>
     <input id="fba-text-name" name="fba-text-name" class="full-name" type="text" maxlength="500">
@@ -13,7 +6,6 @@
     <input id="fba-text-email" name="fba-text-email" class="email-address" type="email" maxlength="500">
     <label for="fba-text-phone">Phone number</label>
     <input id="fba-text-phone" name="fba-text-phone" class="phone-number" type="tel" maxlength="500">
-    <%#= hidden_field_tag :authenticity_token, form_authenticity_token %>
   <% if form.disclaimer_text? %>
     <p>
       <%= form.disclaimer_text %>
@@ -24,4 +16,3 @@
     </div>
   </fieldset>
 </form>
-<%= render 'components/forms/footer', touchpoint: touchpoint %>
