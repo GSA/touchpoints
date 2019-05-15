@@ -1,6 +1,11 @@
 <a class="usa-skipnav" href="#main-content">Skip to main content</a>
 <div style="text-align: center; background-color: lightyellow; padding: 1em;">
-  This website is not "Live". This website is in Development. Contact <a href="mailto:ryan.wold@gsa.gov">Ryan Wold</a> for questions &amp; feedback
+  This website is currently in
+  <a href="https://18f.gsa.gov/dashboard/stages/#beta" target="_blank">beta</a>.
+  Please <a href="https://github.com/gsa/touchpoints/issues/new" target="_blank">report an issue</a>
+  or
+  <a href="mailto:feedback-analytics@gsa.gov">contact</a> the
+  Feedback Analytics Team.
 </div>
 <header class="usa-header usa-header-extended" role="banner">
   <div class="usa-navbar">
@@ -21,23 +26,23 @@
       <ul class="usa-nav-primary usa-accordion">
         <% if current_user && current_user.admin? %>
           <li>
-            <a class="usa-nav-link" href="/admin">
+            <a class="usa-nav-link admin" href="/admin">
               <span>Admin</span>
             </a>
           </li>
           <li>
-            <a class="usa-nav-link" href="/admin/organizations">
+            <a class="usa-nav-link admin" href="/admin/organizations">
               <span>Organizations</span>
             </a>
           </li>
           <li>
-            <a class="usa-nav-link" href="/admin/users">
+            <a class="usa-nav-link admin" href="/admin/users">
               <span>Users</span>
             </a>
           </li>
           <li>
-            <a class="usa-nav-link" href="/admin/forms">
-              <span>Forms</span>
+            <a class="usa-nav-link admin" href="/admin/form_templates">
+              <span>Form Templates</span>
             </a>
           </li>
           <li>
@@ -53,6 +58,11 @@
               <%= link_to "Touchpoints", admin_touchpoints_path, class: "usa-nav-link" %>
             </li>
           </li>
+          <li>
+            <a class="usa-nav-link" href="/admin/forms">
+              <span>Forms</span>
+            </a>
+          </li>
         <% end %>
         <% if current_user && !current_user.admin? %>
         <li>
@@ -62,6 +72,9 @@
         </li>
         <li>
           <%= link_to "Touchpoints", admin_touchpoints_path, class: "usa-nav-link" %>
+        </li>
+        <li>
+          <%= link_to "Form Templates", admin_form_templates_path, class: "usa-nav-link" %>
         </li>
         <% end %>
         <% if !current_user %>

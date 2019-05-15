@@ -34,19 +34,19 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
   let(:valid_attributes) {
     {
       touchpoint_id: touchpoint.id,
-      body: "body text",
-      first_name: "James",
-      last_name: "Madison",
-      email: "james.madison@lvh.me"
+      answer_01: "Test body text",
+      answer_02: "Test First Name",
+      answer_03: "Test Last name",
+      answer_04: "test_email@lvh.me"
     }
   }
 
   let(:invalid_attributes) {
     {
-      body: nil,
-      first_name: nil,
-      last_name: nil,
-      email: nil
+      answer_01: nil,
+      answer_02: "James",
+      answer_03: "Madison",
+      answer_04: nil
     }
   }
 
@@ -79,7 +79,10 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
   describe "GET #edit" do
     it "returns a success response" do
       submission = Submission.create! valid_attributes
-      get :edit, params: {id: submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
+      get :edit, params: {
+        id: submission.to_param,
+        touchpoint_id: touchpoint.id
+      }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -88,13 +91,19 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
     context "with valid params" do
       it "creates a new Submission" do
         expect {
-          post :create, params: {submission: valid_attributes, touchpoint_id: touchpoint.id }, session: valid_session
+          post :create, params: {
+            submission: valid_attributes,
+            touchpoint_id: touchpoint.id
+          }, session: valid_session
         }.to change(Submission, :count).by(1)
       end
 
       it "redirects to the created submission" do
-        post :create, params: { submission: valid_attributes, touchpoint_id: touchpoint.id }, session: valid_session
-        expect(response).to redirect_to(touchpoint_submission_path(touchpoint.id, Submission.last))
+        post :create, params: {
+          submission: valid_attributes,
+          touchpoint_id: touchpoint.id
+        }, session: valid_session
+        expect(response).to redirect_to(admin_touchpoint_submission_path(touchpoint.id, Submission.last))
       end
     end
 
@@ -115,7 +124,10 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
 
       it "updates the requested submission" do
         submission = Submission.create! valid_attributes
-        put :update, params: {id: submission.to_param, submission: new_attributes}, session: valid_session
+        put :update, params: {
+          id: submission.to_param,
+          submission: new_attributes
+        }, session: valid_session
         submission.reload
         skip("Add assertions for updated state")
       end
@@ -154,7 +166,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
     it "redirects to the submissions list" do
       submission = Submission.create! valid_attributes
       delete :destroy, params: {id: submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
-      expect(response).to redirect_to(touchpoint_submissions_url(touchpoint))
+      expect(response).to redirect_to(admin_touchpoint_submissions_url(touchpoint))
     end
   end
 

@@ -1,6 +1,6 @@
 class Admin::OrganizationsController < AdminController
-  before_action :set_organization, only: [:show, :edit, :update, :destroy]
   before_action :ensure_admin
+  before_action :set_organization, only: [:show, :edit, :update, :destroy]
 
   def index
     @organizations = Organization.all
@@ -61,7 +61,7 @@ class Admin::OrganizationsController < AdminController
         :domain,
         :url,
         :abbreviation,
-        :notes, 
+        :notes,
         :external_id
       )
     end

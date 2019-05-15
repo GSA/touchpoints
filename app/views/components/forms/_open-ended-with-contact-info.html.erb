@@ -1,20 +1,10 @@
-<form id="touchpoints-form" action="/touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" data-kind="open-ended-with-contact-info" method="POST">
-  <%= render 'components/forms/flash' %>
-  <h3>
-    <%= form.title %>
-  </h3>
-  <p>
-    <%= form.instructions %>
-  </p>
+<form id="touchpoints-form" action="<%= root_url %>touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" data-kind="open-ended-with-contact-info" method="POST">
   <fieldset>
     <textarea id="fba-text-body" name="fba-text-body" class="body"></textarea>
     <label for="fba-text-name">Name</label>
     <input id="fba-text-name" name="fba-text-name" class="full-name" type="text" maxlength="500" />
     <label for="fba-text-email">Email address</label>
     <input id="fba-text-email" name="fba-text-email" class="email-address" type="email" maxlength="150" />
-    <input id="fba-referer" name="fba-referer" type="hidden" />
-    <input id="fba-page" name="fba-page" type="hidden" />
-    <input id="fba-user-agent" name="fba-user-agent" type="hidden" />
   <% if form.disclaimer_text? %>
     <p>
       <%= form.disclaimer_text %>
@@ -25,4 +15,3 @@
     </div>
   </fieldset>
 </form>
-<%= render 'components/forms/footer', touchpoint: touchpoint %>

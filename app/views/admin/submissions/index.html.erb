@@ -6,52 +6,95 @@
   <%= @touchpoint.name %>
 </h5>
 
-<table>
-  <thead>
-    <tr>
-      <% if @touchpoint.form.kind == "recruiter" %>
-      <th>First name</th>
-      <th>Last name</th>
-      <th>Phone number</th>
-      <th>Email</th>
-      <% end %>
-      <% if @touchpoint.form.kind == "open-ended" %>
-      <th>Body</th>
-      <% end %>
-      <% if @touchpoint.form.kind == "a11" %>
-      <th>Overall satisfaction</th>
-      <th>Service confidence</th>
-      <th>Service effectiveness</th>
-      <th>Process ease</th>
-      <th>Process efficiency</th>
-      <th>Process transparency</th>
-      <th>People employees</th>
-      <% end %>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @submissions.each do |submission| %>
+<% if @submissions.present? %>
+  <table>
+    <thead>
       <tr>
         <% if @touchpoint.form.kind == "recruiter" %>
-        <td><%= submission.first_name %></td>
-        <td><%= submission.last_name %></td>
-        <td><%= submission.phone_number %></td>
-        <td><%= submission.email %></td>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Phone number</th>
+        <th>Email</th>
         <% end %>
         <% if @touchpoint.form.kind == "open-ended" %>
-        <td><%= submission.body %></td>
+        <th>Body</th>
+        <% end %>
+        <% if @touchpoint.form.kind == "open-ended-with-contact-info" %>
+        <td>Body</td>
+        <td>Name</td>
+        <td>Email</td>
+        <td>Phone</td>
         <% end %>
         <% if @touchpoint.form.kind == "a11" %>
-        <td><%= submission.overall_satisfaction %></td>
-        <td><%= submission.service_confidence %></td>
-        <td><%= submission.service_effectiveness %></td>
-        <td><%= submission.process_ease %></td>
-        <td><%= submission.process_efficiency %></td>
-        <td><%= submission.process_transparency %></td>
-        <td><%= submission.people_employees %></td>
+        <th>Overall satisfaction</th>
+        <th>Service confidence</th>
+        <th>Service effectiveness</th>
+        <th>Process ease</th>
+        <th>Process efficiency</th>
+        <th>Process transparency</th>
+        <th>People employees</th>
         <% end %>
+        <td>User Agent</td>
+        <td>Pathname</td>
+        <td>Referrer</td>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @submissions.each do |submission| %>
+        <tr title="Submission ID <%= submission.id %>">
+          <% if @touchpoint.form.kind == "recruiter" %>
+          <td><%= submission.answer_01 %></td>
+          <td><%= submission.answer_02 %></td>
+          <td><%= submission.answer_03 %></td>
+          <td><%= submission.answer_04 %></td>
+          <td><%= submission.answer_05 %></td>
+          <td><%= submission.answer_06 %></td>
+          <td><%= submission.answer_07 %></td>
+
+          <td><%= submission.first_name %></td>
+          <td><%= submission.last_name %></td>
+          <td><%= submission.phone_number %></td>
+          <td><%= submission.email %></td>
+          <% end %>
+          <% if @touchpoint.form.kind == "open-ended" %>
+          <td><%= submission.answer_01 %></td>
+          <% end %>
+          <% if @touchpoint.form.kind == "open-ended-with-contact-info" %>
+          <td><%= submission.answer_01 %></td>
+          <td><%= submission.answer_02 %></td>
+          <td><%= submission.answer_03 %></td>
+          <td><%= submission.answer_04 %></td>
+          <% end %>
+          <% if @touchpoint.form.kind == "a11" %>
+          <td><%= submission.answer_01 %></td>
+          <td><%= submission.answer_02 %></td>
+          <td><%= submission.answer_03 %></td>
+          <td><%= submission.answer_04 %></td>
+          <td><%= submission.answer_05 %></td>
+          <td><%= submission.answer_06 %></td>
+          <td><%= submission.answer_07 %></td>
+          <td><%= submission.answer_08 %></td>
+          <td><%= submission.answer_09 %></td>
+          <td><%= submission.answer_10 %></td>
+          <td><%= submission.answer_11 %></td>
+          <td><%= submission.answer_12 %></td>
+          <% end %>
+          <td><%= submission.user_agent %></td>
+          <td><%= submission.page %></td>
+          <td><%= submission.referer %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to "Export Submissions to Google Sheet", export_submissions_admin_touchpoint_url(@touchpoint), class: "usa-button", target: "_blank" %>
+<% else %>
+  <div class="usa-alert usa-alert-info">
+    <div class="usa-alert-body">
+      <p class="usa-alert-text">
+        Export is not available.
+        This Touchpoint has yet to receive any Submissions.
+      </p>
+    </div>
+  </div>
+<% end %>

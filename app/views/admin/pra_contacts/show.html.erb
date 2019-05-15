@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @pra_contact.email %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @pra_contact.name %>
+</p>
+
+<p>
+  <strong>Department:</strong>
+  <%= @pra_contact.department %>
+</p>
+
+<p>
+  <strong>Program:</strong>
+  <%= @pra_contact.program %>
+</p>
+
+<p>
+  <strong>Organization:</strong>
+  <%= @pra_contact.organization_id %>
+</p>
+
+<p>
+  <strong>Program:</strong>
+  <%= @pra_contact.program_id %>
+</p>
+
+<%= link_to 'Edit', edit_admin_pra_contact_path(@pra_contact) %> |
+<%= link_to 'Back', admin_pra_contacts_path %>

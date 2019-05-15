@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_17_170513) do
+ActiveRecord::Schema.define(version: 2019_05_10_224159) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,18 @@ ActiveRecord::Schema.define(version: 2019_04_17_170513) do
     t.integer "service_id", null: false
   end
 
+  create_table "form_templates", force: :cascade do |t|
+    t.string "name"
+    t.string "title"
+    t.string "instructions"
+    t.text "disclaimer_text"
+    t.string "kind"
+    t.text "notes"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "forms", force: :cascade do |t|
     t.string "name"
     t.string "title"
@@ -34,6 +46,26 @@ ActiveRecord::Schema.define(version: 2019_04_17_170513) do
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "question_text_01"
+    t.text "question_text_02"
+    t.text "question_text_03"
+    t.text "question_text_04"
+    t.text "question_text_05"
+    t.text "question_text_06"
+    t.text "question_text_07"
+    t.text "question_text_08"
+    t.text "question_text_09"
+    t.text "question_text_10"
+    t.text "question_text_11"
+    t.text "question_text_12"
+    t.text "question_text_13"
+    t.text "question_text_14"
+    t.text "question_text_15"
+    t.text "question_text_16"
+    t.text "question_text_17"
+    t.text "question_text_18"
+    t.text "question_text_19"
+    t.text "question_text_20"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -43,6 +75,17 @@ ActiveRecord::Schema.define(version: 2019_04_17_170513) do
     t.text "notes"
     t.integer "external_id"
     t.string "domain"
+  end
+
+  create_table "pra_contacts", force: :cascade do |t|
+    t.string "email"
+    t.string "name"
+    t.string "department"
+    t.string "program"
+    t.integer "organization_id"
+    t.integer "program_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "programs", force: :cascade do |t|
@@ -82,6 +125,26 @@ ActiveRecord::Schema.define(version: 2019_04_17_170513) do
     t.string "referer"
     t.string "page"
     t.string "user_agent"
+    t.text "answer_01"
+    t.text "answer_02"
+    t.text "answer_03"
+    t.text "answer_04"
+    t.text "answer_05"
+    t.text "answer_06"
+    t.text "answer_07"
+    t.text "answer_08"
+    t.text "answer_09"
+    t.text "answer_10"
+    t.text "answer_11"
+    t.text "answer_12"
+    t.text "answer_13"
+    t.text "answer_14"
+    t.text "answer_15"
+    t.text "answer_16"
+    t.text "answer_17"
+    t.text "answer_18"
+    t.text "answer_19"
+    t.text "answer_20"
   end
 
   create_table "touchpoints", force: :cascade do |t|
@@ -117,6 +180,7 @@ ActiveRecord::Schema.define(version: 2019_04_17_170513) do
     t.integer "service_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "role"
   end
 
   create_table "users", force: :cascade do |t|
@@ -138,6 +202,7 @@ ActiveRecord::Schema.define(version: 2019_04_17_170513) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "admin", default: false
+    t.boolean "organization_manager", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

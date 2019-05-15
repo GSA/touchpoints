@@ -12,10 +12,6 @@ class TouchpointsController < ApplicationController
     redirect_to submit_touchpoint_path(@touchpoint) # instead of rendering #show
   end
 
-  def js
-    render(partial: "components/widget/fba.js", locals: { touchpoint: @touchpoint })
-  end
-
   private
     def set_touchpoint
       @touchpoint = Touchpoint.find(params[:id])

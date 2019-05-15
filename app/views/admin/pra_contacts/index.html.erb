@@ -1,0 +1,32 @@
+<h1>
+  PRA Contacts
+</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Name</th>
+      <th>Department</th>
+      <th>Program</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @pra_contacts.each do |pra_contact| %>
+      <tr>
+        <td><%= link_to pra_contact.email, admin_pra_contact_path(pra_contact) %></td>
+        <td><%= pra_contact.name %></td>
+        <td><%= pra_contact.department %></td>
+        <td><%= pra_contact.program %></td>
+        <td><%= link_to 'Edit', edit_admin_pra_contact_path(pra_contact) %></td>
+        <td><%= link_to 'Destroy', admin_pra_contact_path(pra_contact), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Pra Contact', new_admin_pra_contact_path, class: "usa-button" %>

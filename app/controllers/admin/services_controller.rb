@@ -1,4 +1,7 @@
 class Admin::ServicesController < AdminController
+  before_action :ensure_organization_manager, only: [:new, :create]
+  before_action :ensure_admin, only: [:destroy]
+
   before_action :set_user, only: [:add_user, :remove_user]
   before_action :set_service, only: [:show, :edit, :update, :add_user, :remove_user, :destroy]
 
@@ -11,13 +14,20 @@ class Admin::ServicesController < AdminController
   end
 
   def show
+    excluded_members = @service.users + [current_user]
+    @available_members = @service.organization.users - excluded_members
+    @container = @service.container
   end
 
   # Associate a user with a Service
   def add_user
+    raise ArgumentException unless current_user.admin? || (@service.user_role?(user: current_user) == UserService::Role::ServiceManager)
+    raise ArgumentException unless UserService::ROLES.include?(params[:role])
+
     @user_service = UserService.new({
       user_id: @user.id,
-      service_id: @service.id
+      service_id: @service.id,
+      role: params[:role],
     })
 
     if @user_service.save
@@ -62,7 +72,8 @@ class Admin::ServicesController < AdminController
       if @service.save
         UserService.create!({
           service: @service,
-          user: current_user
+          user: current_user,
+          role: UserService::Role::ServiceManager
         })
         @service.create_container!
 

@@ -30,7 +30,8 @@ RSpec.describe Admin::OrganizationsController, type: :controller do
   # adjust the attributes here as well.
   let(:valid_attributes) {
     {
-      name: "Example Gov"
+      name: "Example Gov",
+      domain: "example.gov"
     }
   }
 

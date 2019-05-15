@@ -34,19 +34,19 @@ RSpec.describe SubmissionsController, type: :controller do
   let(:valid_attributes) {
     {
       touchpoint_id: touchpoint.id,
-      body: "body text",
-      first_name: "James",
-      last_name: "Madison",
-      email: "james.madison@lvh.me"
+      answer_01: "body text",
+      answer_02: "James",
+      answer_03: "Madison",
+      answer_04: "james.madison@lvh.me"
     }
   }
 
   let(:invalid_attributes) {
     {
-      body: nil,
-      first_name: nil,
-      last_name: nil,
-      email: nil
+      answer_01: nil,
+      answer_02: nil,
+      answer_03: nil,
+      answer_04: nil
     }
   }
 
@@ -59,14 +59,6 @@ RSpec.describe SubmissionsController, type: :controller do
 
   before do
     sign_in(admin)
-  end
-
-  describe "GET #show" do
-    it "returns a success response" do
-      submission = Submission.create! valid_attributes
-      get :show, params: { id: submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
-      expect(response).to be_successful
-    end
   end
 
   describe "GET #new" do
@@ -86,7 +78,7 @@ RSpec.describe SubmissionsController, type: :controller do
 
       it "redirects to the created submission" do
         post :create, params: { submission: valid_attributes, touchpoint_id: touchpoint.id }, session: valid_session
-        expect(response).to redirect_to(touchpoint_submission_path(touchpoint.id, Submission.last))
+        expect(response).to redirect_to(submit_touchpoint_path(touchpoint))
       end
     end
 
@@ -94,7 +86,8 @@ RSpec.describe SubmissionsController, type: :controller do
       it "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: { submission: invalid_attributes, touchpoint_id: touchpoint.id }, session: valid_session, format: :json
         expect(response.status).to eq(422)
-        expect(JSON.parse(response.body)).to eq({ "body" => ["can't be blank"] })
+        expect(JSON.parse(response.body)["messages"]).to eq({ "body"=>["can't be blank"] })
+        expect(JSON.parse(response.body)["status"]).to eq("unprocessable_entity")
       end
     end
   end

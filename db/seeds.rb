@@ -1,21 +1,33 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
+def production_suitable_seeds
+  gsa = Organization.create!({
+    name: "General Services Administration",
+    abbreviation: "GSA",
+    domain: "gsa.gov",
+    url: "https://gsa.gov"
+  })
+  puts "Created Organization: #{gsa.name}"
+end
 
-# Cleanup GTM
-service = GoogleApi.new
+production_suitable_seeds
+
+# Seeds below are intended for
+#   Staging and Development Environments; not Production.
+return false if Rails.env.production?
+
 puts "Cleaning Account Containers for Google Tag Manager Account #{ENV.fetch("GOOGLE_TAG_MANAGER_ACCOUNT_ID")}"
+service = GoogleApi.new
 service.clean_account_containers(account_id: ENV.fetch("GOOGLE_TAG_MANAGER_ACCOUNT_ID"))
 
-org = Organization.create!({
+example_gov = Organization.create!({
   name: "Example.gov",
   domain: "example.gov",
   url: "https://example.gov"
 })
-puts "Created Default Organization: #{org.name}"
+puts "Created Default Organization: #{example_gov.name}"
 
 # Create Seeds
 admin_user = User.new({
-  organization: org,
+  organization: example_gov,
   email: "admin@example.gov",
   password: "password",
   admin: true
@@ -24,22 +36,21 @@ admin_user.skip_confirmation!
 admin_user.save!
 puts "Created Admin User: #{admin_user.email}"
 
-
-org_1 = Organization.create!({
+digital_gov = Organization.create!({
   name: "Digital.gov",
   domain: "digital.gov",
   url: "https://digital.gov"
 })
-puts "Creating additional Organization: #{org_1.name}"
+puts "Creating additional Organization: #{digital_gov.name}"
 
 program_1 = Program.create!({
   name: "Program 1 for Digital.gov",
-  organization: org_1,
+  organization: digital_gov,
   url: "https://digital.gov/program-name"
 })
 program_2 = Program.create!({
   name: "Program 2 for Digital.gov",
-  organization: org_1,
+  organization: digital_gov,
   url: "https://digital.gov/program-name-2"
 })
 
@@ -63,20 +74,76 @@ org_3 = Organization.create!({
 webmaster = User.new({
   email: "webmaster@example.gov",
   password: "password",
-  organization: org_1
+  organization: example_gov
 })
 webmaster.skip_confirmation!
 webmaster.save!
 puts "Created #{webmaster.email}"
 
-service_manager = User.new({
-  email: "service@example.gov",
+organization_manager = User.new({
+  email: "organization_manager@example.gov",
   password: "password",
-  organization: org_1
+  organization: example_gov,
+  organization_manager: true
+})
+organization_manager.skip_confirmation!
+organization_manager.save!
+puts "Created #{organization_manager.email}"
+
+service_manager = User.new({
+  email: "service_manager@example.gov",
+  password: "password",
+  organization: example_gov
 })
 service_manager.skip_confirmation!
 service_manager.save!
 puts "Created #{service_manager.email}"
+
+submission_viewer = User.new({
+  email: "viewer@example.gov",
+  password: "password",
+  organization: example_gov
+})
+submission_viewer.skip_confirmation!
+submission_viewer.save!
+puts "Created #{submission_viewer.email}"
+
+# Form Templates
+form_1 = FormTemplate.create({
+  name: "Open-ended",
+  kind:  "open-ended",
+  title: "Custom Open-ended Title",
+  instructions: "Share feedback about the new example.gov website and recommend additional features.",
+  disclaimer_text: "Disclaimer Text Goes Here",
+  notes: ""
+})
+
+form_2 = FormTemplate.create({
+  name: "Recruiter",
+  kind:  "recruiter",
+  title: "",
+  instructions: "",
+  disclaimer_text: "Disclaimer Text Goes Here",
+  notes: ""
+})
+
+form_3 = FormTemplate.create({
+  name: "À11 - 7 Question Form",
+  kind:  "a11",
+  title: "",
+  instructions: "",
+  disclaimer_text: "Disclaimer Text Goes Here",
+  notes: ""
+})
+
+form_4 = FormTemplate.create({
+  name: "Open Ended Form with Contact Information",
+  kind:  "open-ended-with-contact-info",
+  title: "",
+  instructions: "",
+  disclaimer_text: "Disclaimer Text Goes Here",
+  notes: ""
+})
 
 # Forms
 form_1 = Form.create({
@@ -115,40 +182,74 @@ form_4 = Form.create({
   notes: ""
 })
 
+# A Service created by Admin
 service_1  = Service.create!({
-  organization: org_1,
+  organization: example_gov,
   name: "Test Service 1"
 })
+UserService.create(
+  user: admin_user,
+  service: service_1,
+  role: UserService::Role::ServiceManager
+)
+
+# A 2nd Service created by Admin
 service_2  = Service.create!({
-  organization: org_1,
+  organization: example_gov,
   name: "Test Service 2"
 })
+UserService.create(
+  user: admin_user,
+  service: service_2,
+  role: UserService::Role::ServiceManager
+)
+
+# A Service created by Webmaster
 service_3  = Service.create!({
-  organization: org_1,
+  organization: digital_gov,
   name: "Test Service 3"
 })
+UserService.create(
+  user: webmaster,
+  service: service_3,
+  role: UserService::Role::ServiceManager
+)
+# Submission Viewer can view the Admin's Service
+UserService.create(
+  user: submission_viewer,
+  service: service_2,
+  role: UserService::Role::SubmissionViewer
+)
+
+# A Service created by Admin in another Organization
 service_4  = Service.create!({
   organization: org_2,
   name: "Test Service 4 (for Farmers.gov)"
 })
+UserService.create(
+  user: admin_user,
+  service: service_4,
+  role: UserService::Role::ServiceManager
+)
 
+# Manually create, then relate Containers to Services
 container_1 = Container.create!({
-  service_id: service_1.id,
-  name: "#{org_1.name}'s Test Container 1"
+  service: service_1,
+  name: "#{digital_gov.name}'s Test Container 1"
 })
 
 container_2 = Container.create!({
-  service_id: service_2.id,
-  name: "#{org_1.name}'s Test Container 2"
+  service: service_2,
+  name: "#{digital_gov.name}'s Test Container 2"
 })
 
 container_3 = Container.create!({
-  service_id: service_3.id,
+  service: service_3,
   name: "#{org_2.name}'s Test Container 1"
 })
 
 container_4 = Container.create!({
-  service_id: service_4.id,
+  service: service_4,
   name: "#{org_2.name}'s Test Container 2"
 })
 
@@ -185,23 +286,32 @@ touchpoint_3 = Touchpoint.create!({
 
 Submission.create!({
   touchpoint: touchpoint_1,
-  body: "Body text"
+  answer_01: "Body text"
 })
 
 Submission.create!({
   touchpoint: touchpoint_1,
-  body: "Another body text"
+  answer_01: "Another body text"
 })
 
 Submission.create!({
   touchpoint: touchpoint_2,
-  first_name: "Mary",
-  last_name: "Public",
-  email: "public_user_3@example.com",
-  phone_number: "5555550000"
+  answer_01: "Mary",
+  answer_02: "Public",
+  answer_03: "public_user_3@example.com",
+  answer_04: "5555550000"
 })
 
 # TODO: Seed A11
 # Submission.create!({
 #   touchpoint: touchpoint_3
 # })
+
+
+digital_gov_user = User.new({
+  email: "user@digital.gov",
+  password: "password"
+})
+digital_gov_user.skip_confirmation!
+digital_gov_user.save!
+puts "Created Test User in Secondary Organization: #{digital_gov_user.email}"

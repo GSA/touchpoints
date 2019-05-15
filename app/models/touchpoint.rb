@@ -1,7 +1,7 @@
 class Touchpoint < ApplicationRecord
   belongs_to :container, optional: true
-  belongs_to :service
-  belongs_to :form
+  belongs_to :service, optional: true
+  belongs_to :form, optional: true
   has_many :submissions
 
   validates :name, presence: true
@@ -10,6 +10,10 @@ class Touchpoint < ApplicationRecord
 
   def send_notifications?
     self.notification_emails.present?
+  end
+
+  def deployable_touchpoint?
+    (self.form && self.service) ? true : false
   end
 
   # returns javascript text that can be used standalone
@@ -95,20 +99,29 @@ class Touchpoint < ApplicationRecord
     push_row(values: [
       "First Name",
       "Last Name",
-      "email"
+      "Email",
+      "User Agent",
+      "Page",
+      "Referrer",
+      "Created At"
       ])
     elsif self.form.kind == "open-ended"
       push_row(values: [
-        "Body"
+        "Body",
+        "User Agent",
+        "Page",
+        "Referrer",
+        "Created At"
       ])
     elsif self.form.kind == "open-ended-with-contact-info"
       push_row(values: [
         "Body",
         "Name",
         "Email",
-        "Referer",
+        "Phone",
         "User Agent",
         "Page",
+        "Referrer",
         "Created At"
       ])
     elsif self.form.kind == "a11"
@@ -119,7 +132,11 @@ class Touchpoint < ApplicationRecord
         "Process ease",
         "Process efficiency",
         "Process transparency",
-        "People employees"
+        "People employees",
+        "User Agent",
+        "Page",
+        "Referrer",
+        "Created At"
       ])
     else
       raise InvalidArgument("#{@touchpoint.name} has a Form with an unsupported Kind")

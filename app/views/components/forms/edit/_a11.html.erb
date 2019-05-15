@@ -1,0 +1,369 @@
+<%= form_with(model: form, url: (form.persisted? ? admin_touchpoint_form_path(touchpoint, form) : admin_forms_path), local: true) do |f| %>
+  <% if form.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(form.errors.count, "error") %> prohibited this form from being saved:</h2>
+
+      <ul>
+      <% form.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <h3>
+    <%= form.title %>
+  </h3>
+  <div class="field">
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :instructions %>
+    <%= f.text_field :instructions %>
+  </div>
+  <p>
+    <%= form.instructions %>
+  </p>
+  <fieldset>
+    <table>
+      <tr>
+        <td style="width: 100%;"></td>
+        <td>
+          Strongly<br>
+          Disagree
+        </td>
+        <td>
+          Disagree
+        </td>
+        <td>
+          Neutral
+        </td>
+        <td>
+          Agree
+        </td>
+        <td>
+          Strongly<br>
+          Agree
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= f.text_field :question_text_01, value: form.question_text_01 || "I am satisfied with the service I received from Program or Service name." %>
+        </td>
+        <td>
+          <input type="radio" name="answer_01" value="1" />
+          <%= label_tag "", nil, for: "answer_01" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_01" value="2" />
+          <%= label_tag "", nil, for: "answer_01" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_01" value="3" />
+          <%= label_tag "", nil, for: "answer_01" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_01" value="4" />
+          <%= label_tag "", nil, for: "answer_01" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_01" value="5" />
+          <%= label_tag "", nil, for: "answer_01" %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= f.text_field :question_text_02, value: form.question_text_02 || "This interaction increased my confidence in Program or Service name." %>
+        </td>
+        <td>
+          <input type="radio" name="answer_02" value="1" />
+          <%= label_tag "", nil, for: "answer_02" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_02" value="2" />
+          <%= label_tag "", nil, for: "answer_02" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_02" value="3" />
+          <%= label_tag "", nil, for: "answer_02" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_02" value="4" />
+          <%= label_tag "", nil, for: "answer_02" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_02" value="5" />
+          <%= label_tag "", nil, for: "answer_02" %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= f.text_field :question_text_03, value: form.question_text_03 || "My need was addressed." %>
+        </td>
+        <td>
+          <input type="radio" name="answer_03" value="1" />
+          <%= label_tag "", nil, for: "answer_03" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_03" value="2" />
+          <%= label_tag "", nil, for: "answer_03" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_03" value="3" />
+          <%= label_tag "", nil, for: "answer_03" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_03" value="4" />
+          <%= label_tag "", nil, for: "answer_03" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_03" value="5" />
+          <%= label_tag "", nil, for: "answer_03" %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= f.text_field :question_text_04, value: form.question_text_04 || "It was easy to complete what I needed to do." %>
+        </td>
+        <td>
+          <input type="radio" name="answer_04" value="1" />
+          <%= label_tag "", nil, for: "answer_04" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_04" value="2" />
+          <%= label_tag "", nil, for: "answer_04" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_04" value="3" />
+          <%= label_tag "", nil, for: "answer_04" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_04" value="4" />
+          <%= label_tag "", nil, for: "answer_04" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_04" value="5" />
+          <%= label_tag "", nil, for: "answer_04" %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= f.text_field :question_text_05, value: form.question_text_05 || "It took a reasonable amount of time to do what I needed to do." %>
+        </td>
+        <td>
+          <input type="radio" name="question_05" value="1" />
+          <%= label_tag "", nil, for: "answer_05" %>
+        </td>
+        <td>
+          <input type="radio" name="question_05" value="2" />
+          <%= label_tag "", nil, for: "answer_05" %>
+        </td>
+        <td>
+          <input type="radio" name="question_05" value="3" />
+          <%= label_tag "", nil, for: "answer_05" %>
+        </td>
+        <td>
+          <input type="radio" name="question_05" value="4" />
+          <%= label_tag "", nil, for: "answer_05" %>
+        </td>
+        <td>
+          <input type="radio" name="question_05" value="5" />
+          <%= label_tag "", nil, for: "answer_05" %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+           <%= f.text_field :question_text_06, value: form.question_text_06 || "I was treated fairly." %>
+        </td>
+        <td>
+          <input type="radio" name="answer_06" value="1" />
+          <%= label_tag "", nil, for: "answer_06" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_06" value="2" />
+          <%= label_tag "", nil, for: "answer_06" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_06" value="3" />
+          <%= label_tag "", nil, for: "answer_06" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_06" value="4" />
+          <%= label_tag "", nil, for: "answer_06" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_06" value="5" />
+          <%= label_tag "", nil, for: "answer_06" %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+           <%= f.text_field :question_text_07, value: form.question_text_07 || "Employees I interacted with were helpful." %>
+        </td>
+        <td>
+          <input type="radio" name="answer_07" value="1" />
+          <%= label_tag "", nil, for: "answer_07" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_07" value="2" />
+          <%= label_tag "", nil, for: "answer_07" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_07" value="3" />
+          <%= label_tag "", nil, for: "answer_07" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_07" value="4" />
+          <%= label_tag "", nil, for: "answer_07" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_07" value="5" />
+          <%= label_tag "", nil, for: "answer_07" %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+           <%= f.text_field :question_text_08, placeholder: "Custom question 1" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_08" value="1" />
+          <%= label_tag "", nil, for: "answer_08" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_08" value="2" />
+          <%= label_tag "", nil, for: "answer_08" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_08" value="3" />
+          <%= label_tag "", nil, for: "answer_08" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_08" value="4" />
+          <%= label_tag "", nil, for: "answer_08" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_08" value="5" />
+          <%= label_tag "", nil, for: "answer_08" %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+           <%= f.text_field :question_text_09, placeholder: "Custom question 2" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_09" value="1" />
+          <%= label_tag "", nil, for: "answer_09" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_09" value="2" />
+          <%= label_tag "", nil, for: "answer_09" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_09" value="3" />
+          <%= label_tag "", nil, for: "answer_09" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_09" value="4" />
+          <%= label_tag "", nil, for: "answer_09" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_09" value="5" />
+          <%= label_tag "", nil, for: "answer_09" %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+           <%= f.text_field :question_text_10, placeholder: "Custom question 3" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_10" value="1" />
+          <%= label_tag "", nil, for: "answer_10" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_10" value="2" />
+          <%= label_tag "", nil, for: "answer_10" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_10" value="3" />
+          <%= label_tag "", nil, for: "answer_10" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_10" value="4" />
+          <%= label_tag "", nil, for: "answer_10" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_10" value="5" />
+          <%= label_tag "", nil, for: "answer_10" %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+           <%= f.text_field :question_text_11, placeholder: "Custom question 4" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_11" value="1" />
+          <%= label_tag "", nil, for: "answer_11" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_11" value="2" />
+          <%= label_tag "", nil, for: "answer_11" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_11" value="3" />
+          <%= label_tag "", nil, for: "answer_11" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_11" value="4" />
+          <%= label_tag "", nil, for: "answer_11" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_11" value="5" />
+          <%= label_tag "", nil, for: "answer_11" %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+           <%= f.text_field :question_text_12, placeholder: "Custom question 5" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_12" value="1" />
+          <%= label_tag "", nil, for: "answer_12" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_12" value="2" />
+          <%= label_tag "", nil, for: "answer_12" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_12" value="3" />
+          <%= label_tag "", nil, for: "answer_12" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_12" value="4" />
+          <%= label_tag "", nil, for: "answer_12" %>
+        </td>
+        <td>
+          <input type="radio" name="answer_12" value="5" />
+          <%= label_tag "", nil, for: "answer_12" %>
+        </td>
+      </tr>
+    </table>
+    <%#= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <% if form.disclaimer_text? %>
+    <p>
+      <%= form.disclaimer_text %>
+    </p>
+  <% end %>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+  </fieldset>
+<% end %>
+
+<style media="screen">
+  td {
+    text-align: center;
+  }
+  tr td:first-child {
+    text-align: left;
+  }
+</style>

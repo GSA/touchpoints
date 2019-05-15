@@ -1,63 +1,78 @@
-<%= form_with(model: touchpoint, url: touchpoint.persisted? ? admin_touchpoint_path(touchpoint) : admin_touchpoints_path, local: true) do |form| %>
-<% if touchpoint.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(touchpoint.errors.count, "error") %> prohibited this touchpoint from being saved:</h2>
-    <% touchpoint.errors.full_messages.each do |message| %>
-      <div class="usa-alert usa-alert-error" >
+<div class="usa-grid">
+  <div class="usa-width-full">
+    <%= form_with(model: touchpoint, url: touchpoint.persisted? ? admin_touchpoint_path(touchpoint) : admin_touchpoints_path, local: true) do |form| %>
+    <% if touchpoint.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(touchpoint.errors.count, "error") %> prohibited this touchpoint from being saved:</h2>
+        <% touchpoint.errors.full_messages.each do |message| %>
+          <div class="usa-alert usa-alert-error" >
+            <div class="usa-alert-body">
+              <h3 class="usa-alert-heading">Error</h3>
+              <p class="usa-alert-text">
+                <%= message %>
+              </p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+    <div class="field">
+      <%= form.label :name %>
+      <%= form.text_field :name, placeholder: "Name this Touchpoint for your Reference" %>
+    </div>
+    <% if touchpoint.form %>
+      <%= form.label :form %>
+      <%= link_to "Customize this Touchpoint's Form", admin_touchpoint_form_path(touchpoint, touchpoint.form), class: "usa-button" %>
+    <% else %>
+      <h3>
+        Select a Form Template
+      </h3>
+      <div class="usa-alert usa-alert-info" >
         <div class="usa-alert-body">
-          <h3 class="usa-alert-heading">Error</h3>
           <p class="usa-alert-text">
-            <%= message %>
+            Based on the Form Template selected,
+            an editable Form will be created.
           </p>
         </div>
       </div>
+      <br>
+      <fieldset class="usa-fieldset-inputs usa-sans">
+        <legend class="usa-sr-only">Types of Forms</legend>
+        <ul class="usa-unstyled-list">
+          <% FormTemplate.all.order(:kind).each do |f| %>
+          <li>
+            <%= form.radio_button :form_template_id, f.id %>
+            <%= form.label f.name, for: "touchpoint_form_template_id_#{f.id}" %>
+          </li>
+          <% end %>
+          <li hidden>
+            <%= form.radio_button :form_template_id, :other %>
+            <%= form.label :other, for: "touchpoint_form_template_id_other" %>
+          </li>
+        </ul>
+      </fieldset>
     <% end %>
+    <div class="field">
+      <%= form.label :expiration_date %>
+      <%= form.date_field :expiration_date %>
+    </div>
+    <div class="field">
+      <%= form.label :omb_approval_number %>
+      <%= form.text_field :omb_approval_number, placeholder: "OMB Approval #" %>
+    </div>
+    <div class="field">
+      <%= form.label :service_id do %>
+        Which Service do you want to deploy this Touchpoint in?<br>
+        <span style="font-size: 0.75em;">
+          This Touchpoint.js code be inserted into a Tag in GTM and will be attached to a Homepage Trigger.
+        </span>
+      <% end %>
+      <%= form.select :service_id, options_for_select(current_user.services.map { |c| [c.name, c.id] }, selected: touchpoint.service_id), prompt: "Which Service?" %>
+    </div>
   </div>
-<% end %>
-<div class="field">
-  <%= form.label :name %>
-  <%= form.text_field :name, placeholder: "Name this Touchpoint for your Reference" %>
-</div>
-<div class="field">
-  <%= form.label :expiration_date %>
-  <%= form.date_field :expiration_date %>
-</div>
-<div class="field">
-  <%= form.label :omb_approval_number %>
-  <%= form.text_field :omb_approval_number, placeholder: "OMB Approval #" %>
-</div>
-<h3>
-  Select a Form
-</h3>
-<fieldset class="usa-fieldset-inputs usa-sans">
-  <legend class="usa-sr-only">Types of Forms</legend>
-  <ul class="usa-unstyled-list">
-  <% Form.all.each do |f| %>
-    <li>
-      <%= form.radio_button :form_id, f.id %>
-      <%= form.label f.name, for: "touchpoint_form_id_#{f.id}" %>
-    </li>
-  <% end %>
-    <li>
-      <%= form.radio_button :form_id, :other %>
-      <%= form.label :other, for: "touchpoint_form_id_other" %>
-    </li>
-  </ul>
-</fieldset>
-<div class="field">
-  <%= form.label :service_id do %>
-    Which Service do you want to deploy this Touchpoint in?<br>
-    <span style="font-size: 0.75em;">
-      This Touchpoint.js code be inserted into a Tag in GTM and will be attached to a Homepage Trigger.
-    </span>
-  <% end %>
-  <%= form.select :service_id, options_for_select(current_user.services.map { |c| [c.name, c.id] }, selected: touchpoint.service_id), prompt: "Which Service?" %>
-</div>
-<br>
-<hr>
-<br>
-<br>
-<div class="usa-grid">
+  <br>
+  <hr>
+  <br>
   <div class="usa-width-one-half">
     <h3>
       How does this support CX Goals?

@@ -16,4 +16,9 @@ class Service < ApplicationRecord
       name: "#{self.name} Container",
     })
   end
+
+  def user_role?(user:)
+    user_service = self.user_services.find_by_user_id(user.id)
+    user_service.role
+  end
 end

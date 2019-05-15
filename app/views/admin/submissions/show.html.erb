@@ -4,33 +4,72 @@
 </p>
 <p>
   <strong>Organization</strong>
-  <%= link_to(@submission.touchpoint.service.organization.name, admin_organization_path(@submission.touchpoint.organization)) %>
+  <% if @submission.touchpoint.service %>
+    <%= link_to(@submission.organization_name, admin_organization_path(@submission.touchpoint.service.organization)) %>
+  <% else %>
+    <%= @submission.organization_name %>
+  <% end %>
 </p>
 <hr>
 <p>
-  <strong>First name:</strong>
-  <%= @submission.first_name %>
+  <strong>Answer 01:</strong>
+  <%= @submission.answer_01 %>
 </p>
 <p>
-  <strong>Last name:</strong>
-  <%= @submission.last_name %>
+  <strong>Answer 02:</strong>
+  <%= @submission.answer_02 %>
 </p>
 <p>
-  <strong>Phone number:</strong>
-  <%= @submission.phone_number %>
+  <strong>Answer 03:</strong>
+  <%= @submission.answer_03 %>
 </p>
 <p>
-  <strong>Email:</strong>
-  <%= @submission.email %>
+  <strong>Answer 04:</strong>
+  <%= @submission.answer_04 %>
 </p>
 <p>
-  <strong>Body:</strong>
-  <%= @submission.body %>
+  <strong>Answer 05:</strong>
+  <%= @submission.answer_05 %>
 </p>
 <p>
-  <strong>User:</strong>
-  <%= @submission.user_id %>
+  <strong>Answer 06:</strong>
+  <%= @submission.answer_06 %>
 </p>
-<%= link_to 'Edit', edit_submission_path(@submission), class: "usa-button" %>
+<p>
+  <strong>Answer 07:</strong>
+  <%= @submission.answer_07 %>
+</p>
+<p>
+  <strong>Answer 08:</strong>
+  <%= @submission.answer_08 %>
+</p>
+<p>
+  <strong>Answer 09:</strong>
+  <%= @submission.answer_09 %>
+</p>
+<p>
+  <strong>Answer 10:</strong>
+  <%= @submission.answer_10 %>
+</p>
+<p>
+  <strong>Answer 11:</strong>
+  <%= @submission.answer_11 %>
+</p>
+<p>
+  <strong>Answer 12:</strong>
+  <%= @submission.answer_12 %>
+</p>
+<p>
+  <strong>Pathname:</strong>
+  <%= @submission.page %>
+</p>
+<p>
+  <strong>Referrer:</strong>
+  <%= @submission.referer %>
+</p>
+<p>
+  <strong>User Agent:</strong>
+  <%= @submission.user_agent %>
+</p>
 <hr>
-<%= link_to 'Destroy', @submission, method: :delete, data: { confirm: 'Are you sure?' } %>
+<%= link_to 'Destroy', admin_submission_path(@submission), class: "usa-button usa-button-red", method: :delete, data: { confirm: 'Are you sure?' } %>

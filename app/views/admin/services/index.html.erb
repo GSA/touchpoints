@@ -20,10 +20,16 @@
         <% end %>
         <td><%= link_to service.name, admin_service_path(service) %></td>
         <td><%= service.service_manager %></td>
-        <td><%= link_to 'Edit', edit_admin_service_path(service) %></td>
+        <td>
+          <% if is_at_least_service_manager?(user: current_user, service: service) %>
+            <%= link_to 'Edit', edit_admin_service_path(service) %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<%= link_to 'New Service', new_admin_service_path, class: "usa-button" %>
+<% if is_at_least_organization_manager?(user: current_user) %>
+  <%= link_to 'New Service', new_admin_service_path, class: "usa-button" %>
+<% end %>

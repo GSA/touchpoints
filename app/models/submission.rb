@@ -1,14 +1,36 @@
 class Submission < ApplicationRecord
   belongs_to :touchpoint
 
-  validates :first_name, presence: true, if: :form_kind_is_recruiter?
-  validates :email, presence: true, if: :form_kind_is_recruiter?
+  validate :validate_recruiter_form, if: :form_kind_is_recruiter?
+  validate :validate_open_ended_form, if: :form_kind_is_open_ended?
+  validate :validate_a11_form, if: :form_kind_is_a11?
 
-  validates :body, presence: true, if: :form_kind_is_open_ended?
+  def validate_recruiter_form
+    unless self.answer_01 && self.answer_01.present?
+      errors.add(:first_name, "can't be blank")
+    end
+    unless self.answer_04 && self.answer_04.present?
+      errors.add(:email, "can't be blank")
+    end
+  end
 
-  validates :overall_satisfaction, presence: true, if: :form_kind_is_a11?
+  def validate_open_ended_form
+    unless self.answer_01 && self.answer_01.present?
+      errors.add(:body, "can't be blank")
+    end
+    if self.answer_01 && self.answer_01.length > 2500
+      errors.add(:body, "is limited to 2500 characters")
+    end
+  end
 
-  after_create :send_notifications
+  def validate_a11_form
+    unless self.answer_01 && self.answer_01.present?
+      errors.add(:answer_01, "is required")
+    end
+    unless self.answer_07 && self.answer_07.present?
+      errors.add(:answer_07, "is required")
+    end
+  end
 
   def send_notifications
     return unless self.touchpoint.send_notifications?
@@ -36,39 +58,62 @@ class Submission < ApplicationRecord
   def to_rows
     if self.touchpoint.form.kind == "recruiter"
       values = [
-        self.first_name,
-        self.last_name,
-        self.email
+        self.answer_01,
+        self.answer_02,
+        self.answer_03,
+        self.answer_04,
+        self.user_agent,
+        self.page,
+        self.referer,
+        self.created_at
       ]
     end
     if self.touchpoint.form.kind == "open-ended"
       values = [
-        self.body
+        self.answer_01,
+        self.user_agent,
+        self.page,
+        self.referer,
+        self.created_at
       ]
     end
     if self.touchpoint.form.kind == "open-ended-with-contact-info"
       values = [
-        self.body,
-        self.first_name,
-        self.email,
-        self.referer,
+        self.answer_01,
+        self.answer_02,
+        self.answer_03,
+        self.answer_04,
         self.user_agent,
-        self.url,
-        self.created_at,
+        self.page,
+        self.referer,
+        self.created_at
       ]
     end
     if self.touchpoint.form.kind == "a11"
       values = [
-        self.overall_satisfaction,
-        self.service_confidence,
-        self.service_effectiveness,
-        self.process_ease,
-        self.process_efficiency,
-        self.process_transparency,
-        self.people_employees,
+        self.answer_01,
+        self.answer_02,
+        self.answer_03,
+        self.answer_04,
+        self.answer_05,
+        self.answer_06,
+        self.answer_07,
+        self.answer_08,
+        self.answer_09,
+        self.answer_10,
+        self.answer_11,
+        self.answer_12,
+        self.user_agent,
+        self.page,
+        self.referer,
+        self.created_at
       ]
     end
 
     values
+  end
+
+  def organization_name
+    self.touchpoint.service ? self.touchpoint.service.organization.name : "Placeholder Org Name"
   end
 end

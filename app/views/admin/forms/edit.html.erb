@@ -1,8 +1,25 @@
-<h1>Editing Form</h1>
+<h1>
+  Editing <%= @form.kind %> Form
+</h1>
+<% if @form.kind == "a11" %>
+  <%= render 'components/forms/edit/a11', { touchpoint: @touchpoint, form: @form } %>
+<% else %>
+  <div class="usa-grid">
+    <div class="usa-width-one-half">
+      <%= render 'admin/forms/form', form: @form %>
+    </div>
+    <div class="usa-width-one-half">
+      <h3>
+        Preview
+      </h3>
+      <div class="touchpoint-card">
+        <%= render partial: "components/forms/#{@form.kind}", locals: { form: @form, touchpoint: @touchpoint } %>
+      </div>
+    </div>
+  </div>
 
-<%= render 'form', form: @form %>
-<%= render partial: "components/forms/#{@form.kind}", locals: { form: @form, touchpoint: @touchpoint } %>
+<% end %>
 
-<%= link_to 'Show', admin_form_path(@form) %> |
-<%= link_to 'Destroy', admin_form_path(@form), method: :delete, data: { confirm: 'Are you sure?' } %> |
-<%= link_to 'Back', admin_forms_path %>
+<%= link_to 'Show', admin_touchpoint_form_path(@touchpoint, @form), class: "usa-button" %>
+<%= link_to 'All Forms', admin_forms_path, class: "usa-button" %>
+<%= link_to 'Destroy', admin_touchpoint_form_path(@touchpoint, @form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button-red" %>

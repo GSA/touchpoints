@@ -30,6 +30,23 @@ class Admin::TouchpointsController < AdminController
 
     respond_to do |format|
       if @touchpoint.save
+
+        # Create a Form based on the Form Template
+        if !form_template_params.empty?
+          form_template = FormTemplate.find(form_template_params[:form_template_id])
+
+          if form_template
+            new_form = Form.create({
+              name: form_template.name,
+              title: form_template.title,
+              instructions: form_template.instructions,
+              disclaimer_text: form_template.disclaimer_text,
+              kind: form_template.kind
+            })
+            @touchpoint.update_attribute(:form, new_form)
+          end
+        end
+
         format.html { redirect_to admin_touchpoint_path(@touchpoint), notice: 'Touchpoint was successfully created.' }
         format.json { render :show, status: :created, location: @touchpoint }
       else
@@ -40,6 +57,20 @@ class Admin::TouchpointsController < AdminController
   end
 
   def update
+    if !form_template_params.empty? && !@touchpoint.form
+      form_template = FormTemplate.find(form_template_params[:form_template_id])
+
+      if form_template
+        @touchpoint.form = Form.create({
+          name: form_template.name,
+          title: form_template.title,
+          instructions: form_template.instructions,
+          disclaimer_text: form_template.disclaimer_text,
+          kind: form_template.kind
+        })
+      end
+    end
+
     respond_to do |format|
       if @touchpoint.update(touchpoint_params)
         format.html { redirect_to admin_touchpoint_path(@touchpoint), notice: 'Touchpoint was successfully updated.' }
@@ -54,7 +85,7 @@ class Admin::TouchpointsController < AdminController
   def destroy
     @touchpoint.destroy
     respond_to do |format|
-      format.html { redirect_to touchpoints_url, notice: 'Touchpoint was successfully destroyed.' }
+      format.html { redirect_to admin_touchpoints_url, notice: 'Touchpoint was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -86,15 +117,17 @@ class Admin::TouchpointsController < AdminController
         :service_id,
         :organization_id,
         :expiration_date,
-        :form_id,
         :purpose,
         :meaningful_response_size,
         :behavior_change,
         :notification_emails,
-        :omb_approval_number,
-        :user_agent,
-        :referer,
-        :page
+        :omb_approval_number
+      )
+    end
+
+    def form_template_params
+      params.require(:touchpoint).permit(
+        :form_template_id
       )
     end
 end

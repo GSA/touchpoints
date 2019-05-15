@@ -82,6 +82,7 @@ eos
 
     containers  = list_account_containers(account_id: account_id)
     containers.each do |c|
+      sleep 1.0 # to not exceed Google's Rate Limit
       begin
         @service.delete_account_container(c.path, quota_user)
       rescue
