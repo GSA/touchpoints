@@ -1,6 +1,6 @@
 # Data Model
 
-Below is a visual representation of [`db/seeds.rb`](../../db/schema.rb).
+Below is a visual representation of [`db/schema.rb`](../../db/schema.rb).
 
 ![](assets/erd.png)
 
