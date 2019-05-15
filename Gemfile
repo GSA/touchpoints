@@ -15,6 +15,7 @@ gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
 gem 'rack-cors', require: 'rack/cors'
 gem 'sass-rails', '~> 5.0'
+gem 'sidekiq'
 gem 'uglifier', '>= 1.3.0'
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
