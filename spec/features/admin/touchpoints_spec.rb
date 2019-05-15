@@ -86,7 +86,7 @@ feature "Touchpoints", js: true do
 
             it "display table list of Submissions and Export button link" do
               within("table") do
-                expect(page).to have_content(submission.body)
+                expect(page).to have_content(submission.answer_01)
               end
               expect(page).to have_link("Export Submissions to Google Sheet")
             end

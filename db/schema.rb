@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_10_224159) do
+ActiveRecord::Schema.define(version: 2019_05_15_174551) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,19 +107,7 @@ ActiveRecord::Schema.define(version: 2019_05_10_224159) do
 
   create_table "submissions", force: :cascade do |t|
     t.integer "touchpoint_id", null: false
-    t.string "first_name"
-    t.string "last_name"
-    t.string "phone_number"
-    t.string "email"
-    t.text "body"
     t.integer "user_id"
-    t.integer "overall_satisfaction"
-    t.integer "service_confidence"
-    t.integer "service_effectiveness"
-    t.integer "process_ease"
-    t.integer "process_efficiency"
-    t.integer "process_transparency"
-    t.integer "people_employees"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "referer"
