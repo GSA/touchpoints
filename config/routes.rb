@@ -4,10 +4,9 @@ Rails.application.routes.draw do
   resources :touchpoints, only: [:index, :show] do
     member do
       get "submit", to: "submissions#new", touchpoint: true, as: :submit
-      get "js", to: "touchpoints#js", as: :js
     end
     resources :forms
-    resources :submissions, only: [:new, :create, :show] do
+    resources :submissions, only: [:new, :create] do
     end
   end
 
@@ -32,6 +31,7 @@ Rails.application.routes.draw do
         get "export_submissions", to: "touchpoints#export_submissions", as: :export_submissions
         get "example", to: "touchpoints#example", as: :example
         get "example/gtm", to: "touchpoints#gtm_example", as: :gtm_example
+        get "js", to: "touchpoints#js", as: :js
       end
       resources :forms
       resources :submissions, only: [:new, :show, :create]
