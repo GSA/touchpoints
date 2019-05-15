@@ -54,14 +54,6 @@
           <td><%= submission.answer_02 %></td>
           <td><%= submission.answer_03 %></td>
           <td><%= submission.answer_04 %></td>
-          <td><%= submission.answer_05 %></td>
-          <td><%= submission.answer_06 %></td>
-          <td><%= submission.answer_07 %></td>
-
-          <td><%= submission.first_name %></td>
-          <td><%= submission.last_name %></td>
-          <td><%= submission.phone_number %></td>
-          <td><%= submission.email %></td>
           <% end %>
           <% if @touchpoint.form.kind == "open-ended" %>
           <td><%= submission.answer_01 %></td>
@@ -89,6 +81,7 @@
           <td><%= submission.user_agent %></td>
           <td><%= submission.page %></td>
           <td><%= submission.referer %></td>
+          <td><%= submission.created_at %></td>
         </tr>
       <% end %>
     </tbody>
