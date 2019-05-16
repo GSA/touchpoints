@@ -4,6 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.5.5'
 
 gem 'aws-sdk-rails'
+gem 'carrierwave'
 gem 'devise'
 gem 'jquery-rails'
 gem 'google-api-client'
