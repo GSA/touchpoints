@@ -1,9 +1,13 @@
 class Admin::UsersController < AdminController
-  before_action :ensure_admin
+  before_action :ensure_organization_manager
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
-    @users = User.all
+    if current_user.admin?
+      @users = User.all
+    else
+      @users = current_user.organization.users
+    end
   end
 
   def show
@@ -57,12 +61,23 @@ class Admin::UsersController < AdminController
     end
 
     def user_params
-      params.require(:user).permit(
-        :email,
-        :password,
-        :password_confirmation,
-        :organization_id,
-        :organization_manager
-      )
+      if current_user && current_user.admin?
+        params.require(:user).permit(
+          :organization_id,
+          :organization_manager,
+          :email,
+          :password,
+          :password_confirmation,
+        )
+      elsif current_user && current_user.organization_manager?
+        params.require(:user).permit(
+          :organization_id,
+          :admin,
+          :organization_manager,
+          :email,
+          :password,
+          :password_confirmation,
+        )
+      end
     end
 end
