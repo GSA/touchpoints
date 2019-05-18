@@ -4,7 +4,7 @@ Touchpoints product documentation is loosely based on the `The Product Cycle`, w
 
 * [Personas](PERSONAS.md)
 * [Use Cases](USE_CASES.md)
-* Concept Inventory Data Model
+* Concept Inventory and [Data Model](DATA_MODEL.md)
 * Lightweight design sketches
 * Pixel-level design, on-brand, with interactions
 * [Working Software](https://touchpoints-staging.app.cloud.gov)
