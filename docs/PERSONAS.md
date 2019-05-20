@@ -1,9 +1,13 @@
 # Personas
 
+Who is Touchpoints built for?
+
 A Persona represents a general category of user,
 based on the user's behaviors and needs.
 Often, Personas are "brought-to-life" via real-world examples, pictures, interviews.
-Generally, Personas are a place to hang information related to user needs.
+Generally, Personas are a place to collect and display information related to user needs.
+
+### List of Personas
 
 * System Administrator - can manage all aspects of Touchpoints
 * .gov Webmaster - User who manages an Organization's Touchpoints
@@ -20,6 +24,7 @@ Generally, Personas are a place to hang information related to user needs.
 #### How do Personas map to Roles & [Permissions](PERMISSIONS.md)?
 
 * Admin has `admin` flag set
+* Organization Manager has `organization_manager` flag set, and permissions apply for the Organization the user belongs to
 * Webmaster & Service Manager & Submission Viewer can login and do not have `admin` flag set
 * Service Manager can login and has `ServiceManager` relation in a `UserService` record
 * Submission Viewer can login and has `SubmissionViewer` relation in a `UserService` record

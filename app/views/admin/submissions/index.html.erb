@@ -20,10 +20,10 @@
         <th>Body</th>
         <% end %>
         <% if @touchpoint.form.kind == "open-ended-with-contact-info" %>
-        <td>Body</td>
-        <td>Name</td>
-        <td>Email</td>
-        <td>Phone</td>
+        <th>Body</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
         <% end %>
         <% if @touchpoint.form.kind == "a11" %>
         <th>Overall satisfaction</th>
@@ -33,10 +33,16 @@
         <th>Process efficiency</th>
         <th>Process transparency</th>
         <th>People employees</th>
+        <th>Custom Question 1</th>
+        <th>Custom Question 2</th>
+        <th>Custom Question 3</th>
+        <th>Custom Question 4</th>
+        <th>Custom Question 5</th>
         <% end %>
-        <td>User Agent</td>
-        <td>Pathname</td>
-        <td>Referrer</td>
+        <th>User Agent</th>
+        <th>Referrer</th>
+        <th>Pathname</th>
+        <th>Created At</th>
       </tr>
     </thead>
 
@@ -48,14 +54,6 @@
           <td><%= submission.answer_02 %></td>
           <td><%= submission.answer_03 %></td>
           <td><%= submission.answer_04 %></td>
-          <td><%= submission.answer_05 %></td>
-          <td><%= submission.answer_06 %></td>
-          <td><%= submission.answer_07 %></td>
-
-          <td><%= submission.first_name %></td>
-          <td><%= submission.last_name %></td>
-          <td><%= submission.phone_number %></td>
-          <td><%= submission.email %></td>
           <% end %>
           <% if @touchpoint.form.kind == "open-ended" %>
           <td><%= submission.answer_01 %></td>
@@ -81,8 +79,9 @@
           <td><%= submission.answer_12 %></td>
           <% end %>
           <td><%= submission.user_agent %></td>
-          <td><%= submission.page %></td>
           <td><%= submission.referer %></td>
+          <td><%= submission.page %></td>
+          <td><%= submission.created_at %></td>
         </tr>
       <% end %>
     </tbody>

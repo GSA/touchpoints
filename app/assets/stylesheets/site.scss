@@ -9,13 +9,7 @@
   border-radius: 3px;
 }
 
-// Override USWDS checkbox because it isn't showing
-input[type=checkbox] {
-  -webkit-appearance: checkbox;
-  position: static;
-  left: auto;
-}
-
+.card,
 .touchpoint-card {
   border: 1px solid black;
   padding: 10px;

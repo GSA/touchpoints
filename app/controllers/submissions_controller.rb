@@ -16,7 +16,7 @@ class SubmissionsController < ApplicationController
     #   based on the Submission's Touchpoint's Service's
     #   Organization's domain - eg: gsa.gov
     headers['Access-Control-Allow-Origin'] = '*'
-    headers['Access-Control-Allow-Methods'] = 'POST, PUT'
+    headers['Access-Control-Allow-Methods'] = 'POST'
     headers['Access-Control-Request-Method'] = '*'
     headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
 

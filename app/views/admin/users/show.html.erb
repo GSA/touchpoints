@@ -1,7 +1,7 @@
 <h1>
   Viewing a User
 </h1>
-Email: <%= @user.email %>
+Email: <%= link_to @user.email, "mailto:#{@user.email}" %>
 <br>
 Organization: <%= @user.organization ? link_to(@user.organization.name, admin_organization_path(@user.organization)) : "Undefined" %>
 <br>

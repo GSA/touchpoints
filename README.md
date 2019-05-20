@@ -1,49 +1,31 @@
-_**Please note that this project is in very early development and is not guaranteed stable at this time.**_
+> Please note that this project is a [beta](https://18f.gsa.gov/dashboard/stages/#beta) product, in early development and is not guaranteed stable at this time.
 
-# Touchpoints [WIP]
+# Touchpoints
 
-User-centered feedback platform for continuous improvement of systems, services, processes, and policy.
+## Overview
 
-### High-level technical overview
+Touchpoints enables government agencies
+to solicit and process user feedback to
+support the continuous improvement of public systems, services, processes, and policies.
 
-* Rails app
-* Runs on Cloud.gov
-* Uses a PostgreSQL database
-* Leverages Google Tag Manager API
+Touchpoints is a web application
+that makes it easy to deploy
+compliant feedback forms easily and quickly.
+Additionally, Touchpoints provides features specific the
+[domain](https://en.wikipedia.org/wiki/Domain-driven_design) of
+[Customer Experience](https://www.performance.gov/cx/)
+in the US Federal Government.
 
-### To start development
+The current version of Touchpoints is live at https://touchpoints.app.cloud.gov.
+A current demo version is live at https://touchpoints-demo.app.cloud.gov.
+GSA's Federal Acquisition Service (FAS) is developing Touchpoints in-house by the [Feedback Analytics Team](mailto:feedback-analytics@gsa.gov), within the Technology Transformation Services' [Office of Products and Programs (OPP)](https://www.gsa.gov/about-us/organization/federal-acquisition-service/technology-transformation-services/office-of-products-and-programs).
 
-* run `git clone ...` on the repo
-* copy `.env.sample` to `.env.development` and set your configs
-* install Ruby, Postgres, Selenium (for specs) - on OSX, `brew install postgres selenium-standalone-server`
-* run `bundle` to install Ruby dependencies
-* run `rake db:create` to create the database
-* run `rake db:reset` to wipe and load the database with seeds
-* run `rails s -p 3000` to start the server
-* run `rspec spec` to run specs/tests
+## Process
 
-Also required:
+We are tracking the work for Touchpoints on our internal Kanban board.
 
-* get a Google Tag Manager Account ID (set it in `.env.development`)
-* get a Google Dev Console Service Account with Access to the account above
+Any issues or ideas that we want to keep track of for later are being noted in the [GitHub Issues](https://github.com/gsa/touchpoints/issues).
 
-### Environment variables
+## License
 
-| name     | description      | required | default |            valid            |             notes             |
-|----------|------------------|:--------:|---------|:---------------------------:|:-----------------------------:|
-| AWS_ACCESS_KEY_ID | | no | | | used for AWS Simple Email Service |
-| AWS_SECRET_ACCESS_KEY | | no | | | |
-| AWS_REGION | | no | us-east-1 | | |
-| GOOGLE_CONFIG | .json string | no | | | used for Google Drive, Sheets, Tag Manager APIs |
-| GOOGLE_TAG_MANAGER_ACCOUNT_ID | | no | | | 1 GTM Account per Touchpoints environment |
-| NEW_RELIC_KEY | API Key for New Relic | no | | | application monitoring |
-| TOUCHPOINTS_EMAIL_SENDER | email address when Touchpoints sends email | yes | | | Account Confirmation, Password Reset, Submission Notification|
-| TOUCHPOINTS_GTM_CONTAINER_ID   | GTM Tracking for the deployed app/Product itself | no | | | |
-
-### To deploy
-
-* configure Cloud.gov stuff...
-* copy `manifest.sample.yml` to `manifest.yml` and set your configs
-* run `cf push`
-
-For assistance, contact [Ryan Wold](mailto:ryan.wold@gsa.gov)
+See [LICENSE.md]

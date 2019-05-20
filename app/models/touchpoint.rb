@@ -51,7 +51,6 @@ class Touchpoint < ApplicationRecord
 
   def export_to_google_sheet!
     return unless self.submissions.present?
-
     sheet = create_google_sheet!
 
     self.submissions.each do |submission|
@@ -133,6 +132,11 @@ class Touchpoint < ApplicationRecord
         "Process efficiency",
         "Process transparency",
         "People employees",
+        "Custom Question 1",
+        "Custom Question 2",
+        "Custom Question 3",
+        "Custom Question 4",
+        "Custom Question 5",
         "User Agent",
         "Page",
         "Referrer",
