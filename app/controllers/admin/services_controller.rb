@@ -108,7 +108,11 @@ class Admin::ServicesController < AdminController
 
   private
     def set_service
-      @service = Service.find(params[:id])
+      if current_user.admin?
+        @service = Service.find(params[:id])
+      else
+        @service = current_user.services.present? ? current_user.services.find(params[:id]) : ActiveRecord::RecordNotFound
+      end
     end
 
     def set_user

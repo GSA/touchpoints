@@ -44,4 +44,6 @@
   </tbody>
 </table>
 
-<%= link_to 'Create New Touchpoint', new_admin_touchpoint_path, class: "usa-button" %>
+<% if current_user && current_user.admin? %>
+  <%= link_to 'Create New Touchpoint', new_admin_touchpoint_path, class: "usa-button" %>
+<% end %>

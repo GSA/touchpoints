@@ -20,10 +20,10 @@
         <th>Body</th>
         <% end %>
         <% if @touchpoint.form.kind == "open-ended-with-contact-info" %>
-        <td>Body</td>
-        <td>Name</td>
-        <td>Email</td>
-        <td>Phone</td>
+        <th>Body</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
         <% end %>
         <% if @touchpoint.form.kind == "a11" %>
         <th>Overall satisfaction</th>
@@ -39,10 +39,10 @@
         <th>Custom Question 4</th>
         <th>Custom Question 5</th>
         <% end %>
-        <td>User Agent</td>
-        <td>Pathname</td>
-        <td>Referrer</td>
-        <td>Created At</td>
+        <th>User Agent</th>
+        <th>Referrer</th>
+        <th>Pathname</th>
+        <th>Created At</th>
       </tr>
     </thead>
 
@@ -79,8 +79,8 @@
           <td><%= submission.answer_12 %></td>
           <% end %>
           <td><%= submission.user_agent %></td>
-          <td><%= submission.page %></td>
           <td><%= submission.referer %></td>
+          <td><%= submission.page %></td>
           <td><%= submission.created_at %></td>
         </tr>
       <% end %>

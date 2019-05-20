@@ -146,7 +146,7 @@ feature "Managing Services", js: true do
             expect(page).to have_content(admin.email)
             expect(page).to_not have_content(organization_manager.email)
           end
-          expect(page).to have_content("Add a User?")
+          expect(page).to have_content("Add a Service Manager?")
           expect(page).to have_css("#add-user-button[disabled]")
         end
       end

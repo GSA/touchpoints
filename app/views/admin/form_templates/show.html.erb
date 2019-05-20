@@ -1,5 +1,6 @@
-<p id="notice"><%= notice %></p>
-
+<h1>
+  Viewing a Form Template
+</h1>
 <p>
   <strong>Name:</strong>
   <%= @form_template.name %>
@@ -41,9 +42,6 @@
   Form Preview
 </h2>
 <% if @form_template %>
-  <div class="code">
-    Example Form - /<%= "components/forms/#{@form_template.kind}" %>
-  </div>
   <div class="touchpoint-card">
     <%= render partial: "components/forms/#{@form_template.kind}", locals: { form: @form_template, touchpoint: nil } %>
   </div>
@@ -57,6 +55,8 @@
     </div>
   </div>
 <% end %>
-
-<%= link_to 'Edit', edit_admin_form_template_path(@form_template) %> |
-<%= link_to 'Back', admin_form_templates_path %>
+<hr>
+<% if current_user && current_user.admin %>
+  <%= link_to 'Edit', edit_admin_form_template_path(@form_template), class: "usa-button" %> %> |
+<% end %>
+<%= link_to 'View All Form Templates', admin_form_templates_path, class: "usa-button" %>
