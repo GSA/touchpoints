@@ -1,7 +1,8 @@
-<h1>Editing Service</h1>
-
+<h1>
+  Editing a Service
+</h1>
 <%= render 'form', service: @service %>
-
-<%= link_to 'Show', admin_service_path(@service) %> |
-<%= link_to 'Back', admin_services_path %> |
-<%= link_to 'Destroy', admin_service_path(@service), method: :delete, data: { confirm: 'Are you sure?' } %>
+<hr>
+<%= link_to 'Show', admin_service_path(@service), class: "usa-button" %>
+<%= link_to 'View All Services', admin_services_path, class: "usa-button" %>
+<%= link_to 'Destroy', admin_service_path(@service), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button-red" %>
