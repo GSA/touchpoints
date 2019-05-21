@@ -60,6 +60,7 @@ class Admin::OrganizationsController < AdminController
         :name,
         :disable_google_export,
         :domain,
+        :logo,
         :url,
         :abbreviation,
         :notes,

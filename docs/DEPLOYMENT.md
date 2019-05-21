@@ -104,5 +104,21 @@ An onboarding Touchpoints Developer should have access to the following tools.
 * GitHub
 * Google Drive
 * Google Tag Manager
+* AWS Simple Email Service
 * Circle CI
 * Snyk
+
+### Configuring s3 for Touchpoints
+
+Touchpoints stores Organization logos, and .pdfs of Service Maps for any given Touchpoint.
+
+Here's how to configure cloud.gov S3 for Touchpoints:
+
+1. Create a public S3 service in cloud.gov
+1. Bind that s3 instance to your Touchpoints application application
+1. Then look at the VCAP settings of that cloud.gov application instance, and set those configs in Touchpoints /config/initializers/carrierwave.rb
+  * `aws_access_key_id`
+  * `aws_secret_access_key`
+  * `region`
+  * `host`
+  * `fog_directory` (the name of the S3 bucket)
