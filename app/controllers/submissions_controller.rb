@@ -25,6 +25,7 @@ class SubmissionsController < ApplicationController
     @submission.user_agent = request.user_agent
     @submission.referer = submission_params[:referer]
     @submission.page = submission_params[:page]
+    @submission.ip_address = request.remote_ip
 
     create_in_local_database(@submission)
   end

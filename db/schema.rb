@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_21_041408) do
+ActiveRecord::Schema.define(version: 2019_05_21_043922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 2019_05_21_041408) do
     t.text "answer_18"
     t.text "answer_19"
     t.text "answer_20"
+    t.string "ip_address"
   end
 
   create_table "touchpoints", force: :cascade do |t|
