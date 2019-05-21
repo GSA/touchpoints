@@ -24,7 +24,7 @@ Rails.application.routes.draw do
         post "remove_user", to: "services#remove_user", as: :remove_user
       end
     end
-    resources :submissions, except: [:new, :index, :create]
+    resources :submissions, only: [:index, :show, :destroy]
     resources :triggers
     resources :touchpoints do
       member do
