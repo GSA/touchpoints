@@ -11,6 +11,8 @@ class Admin::TouchpointsController < AdminController
   end
 
   def export_submissions
+    raise ActionController::MethodNotAllowed if current_user.organization.disable_google_export?
+
     sheet = @touchpoint.export_to_google_sheet!
     redirect_to sheet.spreadsheet_url
   end

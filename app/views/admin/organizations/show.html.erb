@@ -9,12 +9,10 @@
   <strong>Organization Domain:</strong>
   <%= @organization.domain %>
 </p>
-
 <p>
   <strong>Website Url:</strong>
   <%= link_to(@organization.url, @organization.url, target: "_blank") %>
 </p>
-
 <p>
   <strong>Abbreviation:</strong>
   <%= @organization.abbreviation %>
@@ -24,12 +22,14 @@
   <strong>Notes:</strong>
   <%= @organization.notes %>
 </p>
-
 <p>
   <strong>External Org ID:</strong>
   <%= @organization.external_id %>
 </p>
-
+<p>
+  <strong>Disable Google Export?:</strong>
+  <%= @organization.disable_google_export %>
+</p>
 <div class="usa-alert">
   This Organization has
   <%= link_to(pluralize(@organization.users.length, "User"), admin_users_path) %>

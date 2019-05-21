@@ -41,6 +41,11 @@
     <%= form.text_field :external_id, placeholder: "External Organization Identifier" %>
   </div>
 
+  <div class="field">
+    <%= form.check_box :disable_google_export %>
+    <%= form.label :disable_google_export %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

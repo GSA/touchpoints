@@ -86,7 +86,9 @@
       <% end %>
     </tbody>
   </table>
-  <%= link_to "Export Submissions to Google Sheet", export_submissions_admin_touchpoint_url(@touchpoint), class: "usa-button", target: "_blank" %>
+  <% unless current_user.organization.disable_google_export %>
+    <%= link_to "Export Submissions to Google Sheet", export_submissions_admin_touchpoint_url(@touchpoint), class: "usa-button", target: "_blank" %>
+  <% end %>
 <% else %>
   <div class="usa-alert usa-alert-info">
     <div class="usa-alert-body">

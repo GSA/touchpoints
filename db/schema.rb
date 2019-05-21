@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_15_174551) do
+ActiveRecord::Schema.define(version: 2019_05_21_041408) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 2019_05_15_174551) do
     t.text "notes"
     t.integer "external_id"
     t.string "domain"
+    t.boolean "disable_google_export", default: false
   end
 
   create_table "pra_contacts", force: :cascade do |t|
