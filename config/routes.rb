@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :touchpoints, only: [:index, :show] do
     member do
+      get "js", to: "touchpoints#js", as: :js
       get "submit", to: "submissions#new", touchpoint: true, as: :submit
     end
     resources :forms
@@ -24,7 +25,7 @@ Rails.application.routes.draw do
         post "remove_user", to: "services#remove_user", as: :remove_user
       end
     end
-    resources :submissions, except: [:new, :index, :create]
+    resources :submissions, only: [:index, :show, :destroy]
     resources :triggers
     resources :touchpoints do
       member do
@@ -32,6 +33,7 @@ Rails.application.routes.draw do
         get "example", to: "touchpoints#example", as: :example
         get "example/gtm", to: "touchpoints#gtm_example", as: :gtm_example
         get "js", to: "touchpoints#js", as: :js
+        get "toggle_editability", to: "touchpoints#toggle_editability", as: :toggle_editability
       end
       resources :forms
       resources :submissions, only: [:new, :show, :create]

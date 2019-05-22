@@ -1,6 +1,6 @@
 class Admin::TouchpointsController < AdminController
   skip_before_action :verify_authenticity_token, only: [:js]
-  before_action :set_touchpoint, only: [:show, :edit, :update, :export_submissions, :destroy, :example, :gtm_example, :js, :trigger]
+  before_action :set_touchpoint, only: [:show, :edit, :toggle_editability, :update, :export_submissions, :destroy, :example, :gtm_example, :js, :trigger]
 
   def index
     if current_user && current_user.admin?
@@ -8,14 +8,18 @@ class Admin::TouchpointsController < AdminController
     else
       @touchpoints = current_user.touchpoints
     end
+    @pra_contacts = PraContact.where("email LIKE ?", "%#{current_user.organization.domain}")
   end
 
   def export_submissions
+    raise ActionController::MethodNotAllowed if current_user.organization.disable_google_export?
+
     sheet = @touchpoint.export_to_google_sheet!
     redirect_to sheet.spreadsheet_url
   end
 
   def show
+        @pra_contacts = PraContact.where("email LIKE ?", "%#{current_user.organization.domain}")
   end
 
   def new
@@ -23,6 +27,11 @@ class Admin::TouchpointsController < AdminController
   end
 
   def edit
+  end
+
+  def toggle_editability
+    @touchpoint.update_attribute(:editable, !@touchpoint.editable)
+    redirect_to admin_touchpoint_path(@touchpoint), notice: 'Touchpoint Editability was successfully updated.'
   end
 
   def create

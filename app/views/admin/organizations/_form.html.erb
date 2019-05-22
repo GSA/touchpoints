@@ -1,8 +1,9 @@
 <%= form_with(model: organization, url: (organization.persisted? ? admin_organization_path(organization) : admin_organizations_path), local: true) do |form| %>
   <% if organization.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(organization.errors.count, "error") %> prohibited this organization from being saved:</h2>
-
+      <h2>
+        <%= pluralize(organization.errors.count, "error") %> prohibited this organization from being saved:
+      </h2>
       <ul>
       <% organization.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -10,37 +11,45 @@
       </ul>
     </div>
   <% end %>
-
   <div class="field">
     <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name, placeholder: "General Services Administration" %>
   </div>
-
+  <div class="field">
+    <%= form.label :logo %>
+    <div class="usa-alert usa-alert-info">
+      <div class="usa-alert-body">
+        <p class="usa-alert-text">
+          The uploaded logo will be transformed into 2 additional sizes:
+          <ul>
+            <li>Thumbnail - 96px width by 96px tall</li>
+            <li>Card - 360px wide by variable height</li>
+          </ul>
+        </p>
+      </div>
+    </div>
+    <%= form.file_field :logo %>
+  </div>
   <div class="field">
     <%= form.label :domain %>
     <%= form.text_field :domain, placeholder: "gsa.gov" %>
   </div>
-
   <div class="field">
     <%= form.label :url %>
-    <%= form.text_field :url, placeholder: "Primary Website URL" %>
+    <%= form.text_field :url, placeholder: "https://gsa.gov" %>
   </div>
-
   <div class="field">
     <%= form.label :abbreviation %>
-    <%= form.text_field :abbreviation, placeholder: "ABBR" %>
+    <%= form.text_field :abbreviation, placeholder: "GSA" %>
   </div>
-
   <div class="field">
     <%= form.label :notes %>
     <%= form.text_area :notes, placeholder: "CX & Service Design notes about this Org" %>
   </div>
-
   <div class="field">
-    <%= form.label :external_id %>
-    <%= form.text_field :external_id, placeholder: "External Organization Identifier" %>
+    <%= form.check_box :disable_google_export %>
+    <%= form.label :disable_google_export, 'Disable Submissions export to Google Sheets' %>
   </div>
-
   <div class="actions">
     <%= form.submit %>
   </div>

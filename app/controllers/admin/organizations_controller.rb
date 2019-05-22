@@ -58,7 +58,9 @@ class Admin::OrganizationsController < AdminController
     def organization_params
       params.require(:organization).permit(
         :name,
+        :disable_google_export,
         :domain,
+        :logo,
         :url,
         :abbreviation,
         :notes,

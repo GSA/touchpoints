@@ -74,6 +74,27 @@ feature "Touchpoints", js: true do
             it "display No Submissions message" do
               expect(page).to have_content("Export is not available. This Touchpoint has yet to receive any Submissions.")
             end
+
+            describe "PRA Contacts" do
+              context "without Contacts for the Organization" do
+                it "display PRA Contact information" do
+                  expect(page).to have_content("PRA Contacts for #{organization.name}")
+                  expect(page).to have_content("There are no PRA Contacts on file for #{organization.name}. Please contact the Feedback Analytics Team if you have a PRA Contact to share.")
+                end
+              end
+
+              context "with PRA Contacts for the Organization" do
+                before do
+                  PraContact.create!({email: "pra_contact@example.gov", name: "Helpful PRA Folks"})
+                  visit admin_touchpoint_path(touchpoint.id)
+                end
+
+                it "display PRA Contact information" do
+                  expect(page).to have_content("PRA Contacts for #{organization.name}")
+                  expect(page).to have_content("Helpful PRA Folks")
+                end
+              end
+            end
           end
 
           context "when Submissions exist" do

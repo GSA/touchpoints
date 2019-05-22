@@ -39,6 +39,7 @@
         <th>Custom Question 4</th>
         <th>Custom Question 5</th>
         <% end %>
+        <th>IP Address</th>
         <th>User Agent</th>
         <th>Referrer</th>
         <th>Pathname</th>
@@ -78,6 +79,7 @@
           <td><%= submission.answer_11 %></td>
           <td><%= submission.answer_12 %></td>
           <% end %>
+          <td><%= submission.ip_address %></td>
           <td><%= submission.user_agent %></td>
           <td><%= submission.referer %></td>
           <td><%= submission.page %></td>
@@ -86,7 +88,9 @@
       <% end %>
     </tbody>
   </table>
-  <%= link_to "Export Submissions to Google Sheet", export_submissions_admin_touchpoint_url(@touchpoint), class: "usa-button", target: "_blank" %>
+  <% unless current_user.organization.disable_google_export %>
+    <%= link_to "Export Submissions to Google Sheet", export_submissions_admin_touchpoint_url(@touchpoint), class: "usa-button", target: "_blank" %>
+  <% end %>
 <% else %>
   <div class="usa-alert usa-alert-info">
     <div class="usa-alert-body">

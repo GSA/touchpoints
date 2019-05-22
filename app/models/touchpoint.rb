@@ -99,6 +99,7 @@ class Touchpoint < ApplicationRecord
       "First Name",
       "Last Name",
       "Email",
+      "IP Address",
       "User Agent",
       "Page",
       "Referrer",
@@ -107,6 +108,7 @@ class Touchpoint < ApplicationRecord
     elsif self.form.kind == "open-ended"
       push_row(values: [
         "Body",
+        "IP Address",
         "User Agent",
         "Page",
         "Referrer",
@@ -118,6 +120,7 @@ class Touchpoint < ApplicationRecord
         "Name",
         "Email",
         "Phone",
+        "IP Address",
         "User Agent",
         "Page",
         "Referrer",
@@ -137,6 +140,7 @@ class Touchpoint < ApplicationRecord
         "Custom Question 3",
         "Custom Question 4",
         "Custom Question 5",
+        "IP Address",
         "User Agent",
         "Page",
         "Referrer",

@@ -22,10 +22,10 @@ GSA's Federal Acquisition Service (FAS) is developing Touchpoints in-house by th
 
 ## Process
 
-We are tracking the work for Touchpoints on our internal Kanban board.
+We are tracking the work for Touchpoints on our internal [kanban](https://en.wikipedia.org/wiki/Kanban) board.
 
-Any issues or ideas that we want to keep track of for later are being noted in the [GitHub Issues](https://github.com/gsa/touchpoints/issues).
+Issues and ideas that we want to keep track of for later are noted in GitHub [Issues](https://github.com/gsa/touchpoints/issues).
 
 ## License
 
-See [LICENSE.md]
+See [LICENSE](LICENSE.md)

@@ -1,84 +1,109 @@
-<h1>
-  Viewing a Touchpoint
-</h1>
-<p>
-  <strong>Name:</strong>
-  <%= @touchpoint.name %>
-</p>
-<p>
-  <strong>Organization:</strong>
-  <%= link_to(@touchpoint.service.organization.name, admin_organization_path(@touchpoint.service.organization)) if @touchpoint.service %>
-</p>
-<p>
-  <strong>Service:</strong>
-  <% if @touchpoint.service %>
-    <%= link_to(@touchpoint.service.name, admin_service_path(@touchpoint.service)) %>
-  <% else %>
-    ⚠️ This Touchpoint is not assigned to a Service.
-  <% end %>
-</p>
-<p>
-  <strong>Container:</strong>
-  <% if @touchpoint.service %>
-    <% if current_user.admin? %>
+<div class="usa-grid">
+  <div class="usa-width-full">
+    <h1>
+      Viewing a Touchpoint
+    </h1>
+  </div>
+  <div class="usa-width-one-half">
+    <p>
+      <strong>Name:</strong>
+      <%= @touchpoint.name %>
+    </p>
+    <p>
+      <strong>Organization:</strong>
+      <%= link_to(@touchpoint.service.organization.name, admin_organization_path(@touchpoint.service.organization)) if @touchpoint.service %>
+    </p>
+    <p>
+      <strong>Service:</strong>
+      <% if @touchpoint.service %>
+      <%= link_to(@touchpoint.service.name, admin_service_path(@touchpoint.service)) %>
+      <% else %>
+      ⚠️ This Touchpoint is not assigned to a Service.
+      <% end %>
+    </p>
+    <p>
+      <strong>Container:</strong>
+      <% if @touchpoint.service %>
+      <% if current_user.admin? %>
       <%= link_to(@touchpoint.service.container.name, admin_container_path(@touchpoint.service.container)) if @touchpoint.service.container %>
-    <% else %>
+      <% else %>
       <%= @touchpoint.service.container.name if @touchpoint.service.container %>
-    <% end %>
-  <% else %>
-    ⚠️ This Touchpoint does not have a Container because it does not belong to a Service.
-  <% end %>
-</p>
-<p>
-  <strong>Form:</strong>
-  <% if @touchpoint.form %>
-  <%= link_to(@touchpoint.form.name, admin_touchpoint_form_path(@touchpoint, @touchpoint.form)) %>
-  <% else %>
-    No Form assigned.
+      <% end %>
+      <% else %>
+      ⚠️ This Touchpoint does not have a Container because it does not belong to a Service.
+      <% end %>
+    </p>
+    <p>
+      <strong>Form:</strong>
+      <% if @touchpoint.form %>
+      <%= link_to(@touchpoint.form.name, admin_touchpoint_form_path(@touchpoint, @touchpoint.form)) %>
+      <% else %>
+      No Form assigned.
 
-    Choose a Form Template.
+      Choose a Form Template.
 
-    <%= render "form_template_form", { touchpoint: @touchpoint } %>
-  <% end %>
-</p>
-<p>
-  <strong>OMB Approval #</strong>
-  <%= @touchpoint.omb_approval_number %>
-</p>
-<p>
-  <strong>Expiration Date:</strong>
-  <%= @touchpoint.expiration_date %>
-</p>
-<p>
-  <strong>Purpose:</strong>
-  <% if @touchpoint.behavior_change? %>
-    <%= @touchpoint.purpose %>
-  <% else %>
-    Not specified.
-  <% end %>
-</p>
-<p>
-  <strong>Meaningful response size:</strong>
-  <% if @touchpoint.meaningful_response_size? %>
-    <%= @touchpoint.meaningful_response_size %>
-  <% else %>
-    Not specified.
-  <% end %>
-</p>
-<p>
-  <strong>Behavior change:</strong>
-  <% if @touchpoint.behavior_change? %>
-    <%= @touchpoint.behavior_change %>
-  <% else %>
-    Not specified.
-  <% end %>
-</p>
-<p>
-  <strong>Notification emails:</strong>
-  <%= @touchpoint.notification_emails %>
-</p>
+      <%= render "form_template_form", { touchpoint: @touchpoint } %>
+      <% end %>
+    </p>
+    <p>
+      <strong>OMB Approval #</strong>
+      <%= @touchpoint.omb_approval_number %>
+    </p>
+    <p>
+      <strong>Expiration Date:</strong>
+      <%= @touchpoint.expiration_date %>
+    </p>
+    <p>
+      <strong>Purpose:</strong>
+      <% if @touchpoint.behavior_change? %>
+      <%= @touchpoint.purpose %>
+      <% else %>
+      Not specified.
+      <% end %>
+    </p>
+    <p>
+      <strong>Meaningful response size:</strong>
+      <% if @touchpoint.meaningful_response_size? %>
+      <%= @touchpoint.meaningful_response_size %>
+      <% else %>
+      Not specified.
+      <% end %>
+    </p>
+    <p>
+      <strong>Behavior change:</strong>
+      <% if @touchpoint.behavior_change? %>
+      <%= @touchpoint.behavior_change %>
+      <% else %>
+      Not specified.
+      <% end %>
+    </p>
+    <p>
+      <strong>Notification emails:</strong>
+      <%= @touchpoint.notification_emails %>
+    </p>
+    <p>
+      <strong>Editable?:</strong>
+      <%= @touchpoint.editable %>
+    </p>
+  </div>
+  <div class="usa-width-one-half">
+    <%= render 'components/pra_contact_callout', { pra_contacts: @pra_contacts, organization: current_user.organization } %>
+  </div>
+</div>
 <hr>
-<%= link_to 'Edit', edit_admin_touchpoint_path(@touchpoint), class: "usa-button" %>
+<% if @touchpoint.editable? %>
+  <%= link_to 'Edit', edit_admin_touchpoint_path(@touchpoint), class: "usa-button" %>
+  <br>
+  <%= link_to 'Lock this Touchpoint for Publishing', toggle_editability_admin_touchpoint_path(@touchpoint), class: "usa-button usa-button-secondary" %>
+  <i>
+    Note: it can be unlocked
+  </i>
+<% else %>
+  <%= link_to 'Edit', "#", class: "usa-button usa-button-disabled" %> This Touchpoint is no longer editable because it has received Submissions.
+  <br>
+  <%= link_to 'Make this Touchpoint editable again', toggle_editability_admin_touchpoint_path(@touchpoint), class: "usa-button" %>
+<% end %>
+<br>
 <hr>
 <h3>
   Customers can create a Submission for this Touchpoint.
