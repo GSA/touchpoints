@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :touchpoints, only: [:index, :show] do
     member do
+      get "js", to: "touchpoints#js", as: :js
       get "submit", to: "submissions#new", touchpoint: true, as: :submit
     end
     resources :forms

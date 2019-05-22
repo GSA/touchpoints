@@ -12,13 +12,24 @@ class SubmissionsController < ApplicationController
   end
 
   def create
-    # TODO: Restrict access with a whitelist
-    #   based on the Submission's Touchpoint's Service's
-    #   Organization's domain - eg: gsa.gov
     headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Allow-Methods'] = 'POST'
     headers['Access-Control-Request-Method'] = '*'
     headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+
+    # Prevent the Submission if this is a published Touchpoint if:
+    # NOT submitted from the public Touchpoints page
+    # AND NOT submitted from the example Touchpoints page
+    # AND NOT submitted from a Referer page including the Organization's URL
+    if @touchpoint.service &&
+      (request.referer && !request.referer.include?("#{@touchpoint.service.organization.url}/")) &&
+      (request.referer != submit_touchpoint_url(@touchpoint)) &&
+      (request.referer != example_admin_touchpoint_url(@touchpoint))
+      render json: {
+        status: :unprocessable_entity,
+        messages: {"submission": ["request made from non-authorized host"] }
+        }, status: :unprocessable_entity and return
+    end
 
     @submission = Submission.new(submission_params)
     @submission.touchpoint_id = @touchpoint.id
