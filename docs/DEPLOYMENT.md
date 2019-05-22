@@ -1,7 +1,8 @@
 # Deployment
 
 This document provides explanation of
-the Touchpoints production deployment process.
+the Touchpoints agile development process
+and the production deployment process.
 
 ---
 
@@ -31,9 +32,10 @@ Thus, having a "properly configured" `manifest.yml` file is a prerequisite depen
 To deploy a specific instance, use `cf push`.
 For example: `cf push touchpoints-staging`.
 
-### Developer conventions related to Deployment
+## Touchpoints Development Process
 
-These steps represent the general flow of code from a developer's machine through multiple gates, to production.
+Software Product teams develop conventions related to
+the development process. The steps below represent the flow of code from a developer's machine through multiple gates, to production.
 
 ##### How git branches are used
 
@@ -43,16 +45,26 @@ These steps represent the general flow of code from a developer's machine throug
 
 ##### How code flows from feature to develop to master
 
+* LOCAL DEVELOPMENT
 * feature branches are pushed to https://touchpoints-dev-name-of-dev.app.cloud.gov (each Dev has their own Dev environment)
 * feature branches are submitted as Pull Requests and reviewed in GitHub
+* all commits are pushed here, to this Touchpoints code repository
+ * upon code commit, CircleCI runs automated tests
+ * upon code commit, Snyk runs automated code scans
 * When a feature branch is code reviewed and clicked-through on , it may be merged to `develop`
-* When a story is completed and ready for Acceptance, push it to Staging
+* When a story is completed and ready for Acceptance, a Developer pushes the `develop` or `feature` branch to the Staging environment
   * [ ] green (passing) master builds get deployed to [Staging](https://touchpoints-staging.app.cloud.gov) automatically via CircleCI
-* Product Owner accepts or rejects stories and/or features on [Staging](https://touchpoints-staging.app.cloud.gov)
+* ON STAGING...
+* Product Owner accepts or rejects stories and/or features on the [Staging](https://touchpoints-staging.app.cloud.gov) environment.
+* 👀 CODE REVIEW
 * When stories in `develop` are Accepted by the Product Owner on Staging, they can be merged to `master` with the Team's discretion
-* develop branch is merged to master via Pull Request
-* releases are tagged using semantic versioning. for example: `git tag 0.0.1`
+* the `develop` branch is merged to `master` via Pull Request
 * [ ] green (passing) master builds get deployed to [Demo](https://touchpoints-demo.app.cloud.gov) automatically via CircleCI
+* ON DEMO...
+* Users can use the product and share feedback ➰ in a Demo environment
+* CREATING A RELEASE:
+* releases are tagged using semantic versioning. for example: `git tag 0.0.1`
+* 🚢 TO PRODUCTION!
 * green (passing) master builds can be deployed to [Production](https://touchpoints.app.cloud.gov) by coordinating with [Ryan Wold](mailto:ryan.wold@gsa.gov)
 
 ### Environment variables
