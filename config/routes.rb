@@ -33,6 +33,7 @@ Rails.application.routes.draw do
         get "example", to: "touchpoints#example", as: :example
         get "example/gtm", to: "touchpoints#gtm_example", as: :gtm_example
         get "js", to: "touchpoints#js", as: :js
+        get "toggle_editability", to: "touchpoints#toggle_editability", as: :toggle_editability
       end
       resources :forms
       resources :submissions, only: [:new, :show, :create]

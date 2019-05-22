@@ -81,14 +81,29 @@
       <strong>Notification emails:</strong>
       <%= @touchpoint.notification_emails %>
     </p>
-
+    <p>
+      <strong>Editable?:</strong>
+      <%= @touchpoint.editable %>
+    </p>
   </div>
   <div class="usa-width-one-half">
     <%= render 'components/pra_contact_callout', { pra_contacts: @pra_contacts, organization: current_user.organization } %>
   </div>
 </div>
 <hr>
-<%= link_to 'Edit', edit_admin_touchpoint_path(@touchpoint), class: "usa-button" %>
+<% if @touchpoint.editable? %>
+  <%= link_to 'Edit', edit_admin_touchpoint_path(@touchpoint), class: "usa-button" %>
+  <br>
+  <%= link_to 'Lock this Touchpoint for Publishing', toggle_editability_admin_touchpoint_path(@touchpoint), class: "usa-button usa-button-secondary" %>
+  <i>
+    Note: it can be unlocked
+  </i>
+<% else %>
+  <%= link_to 'Edit', "#", class: "usa-button usa-button-disabled" %> This Touchpoint is no longer editable because it has received Submissions.
+  <br>
+  <%= link_to 'Make this Touchpoint editable again', toggle_editability_admin_touchpoint_path(@touchpoint), class: "usa-button" %>
+<% end %>
+<br>
 <hr>
 <h3>
   Customers can create a Submission for this Touchpoint.

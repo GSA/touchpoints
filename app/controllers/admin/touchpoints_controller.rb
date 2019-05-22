@@ -1,6 +1,6 @@
 class Admin::TouchpointsController < AdminController
   skip_before_action :verify_authenticity_token, only: [:js]
-  before_action :set_touchpoint, only: [:show, :edit, :update, :export_submissions, :destroy, :example, :gtm_example, :js, :trigger]
+  before_action :set_touchpoint, only: [:show, :edit, :toggle_editability, :update, :export_submissions, :destroy, :example, :gtm_example, :js, :trigger]
 
   def index
     if current_user && current_user.admin?
@@ -27,6 +27,11 @@ class Admin::TouchpointsController < AdminController
   end
 
   def edit
+  end
+
+  def toggle_editability
+    @touchpoint.update_attribute(:editable, !@touchpoint.editable)
+    redirect_to admin_touchpoint_path(@touchpoint), notice: 'Touchpoint Editability was successfully updated.'
   end
 
   def create
