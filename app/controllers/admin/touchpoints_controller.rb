@@ -8,6 +8,7 @@ class Admin::TouchpointsController < AdminController
     else
       @touchpoints = current_user.touchpoints
     end
+    @pra_contacts = PraContact.where("email LIKE ?", "%#{current_user.organization.domain}")
   end
 
   def export_submissions
@@ -18,6 +19,7 @@ class Admin::TouchpointsController < AdminController
   end
 
   def show
+        @pra_contacts = PraContact.where("email LIKE ?", "%#{current_user.organization.domain}")
   end
 
   def new
