@@ -63,6 +63,7 @@ class Admin::UsersController < AdminController
     def user_params
       if current_user && current_user.admin?
         params.require(:user).permit(
+          :admin,
           :organization_id,
           :organization_manager,
           :email,
@@ -72,7 +73,6 @@ class Admin::UsersController < AdminController
       elsif current_user && current_user.organization_manager?
         params.require(:user).permit(
           :organization_id,
-          :admin,
           :organization_manager,
           :email,
           :password,
