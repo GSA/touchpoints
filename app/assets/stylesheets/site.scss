@@ -1,16 +1,46 @@
-// Place all the styles related to the site controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
 .code {
   font-family: monospace;
   background-color: #F4F4F4;
   padding: 3px;
   border-radius: 3px;
 }
-
 .card,
 .touchpoint-card {
   border: 1px solid black;
   padding: 10px;
+}
+footer {
+  border-top: 1px solid black;
+  font-size: 13px;
+  padding: 16px 0;
+  color: #333333;
+}
+.footer-links {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+  padding-left: 0;
+}
+.footer-info {
+  text-align: right;
+}
+.footer-info a,
+.footer-link_style,
+.footer-links a {
+  color: #333;
+  text-decoration: underline;
+}
+.footer-info,
+.footer-links,
+.usa-unstyled-list {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+  padding-left: 0;
+}
+.footer-info li,
+.footer-links a,
+.footer-text {
+  color: #333333;
+  line-height: 1.25rem;
 }
