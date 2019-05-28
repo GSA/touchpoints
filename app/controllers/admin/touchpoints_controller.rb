@@ -1,6 +1,8 @@
 require 'csv'
 
 class Admin::TouchpointsController < AdminController
+  respond_to :html, :js, :docx
+
   skip_before_action :verify_authenticity_token, only: [:js]
   before_action :set_touchpoint, only: [
     :show, :edit, :update, :destroy,
@@ -18,28 +20,11 @@ class Admin::TouchpointsController < AdminController
     @pra_contacts = PraContact.where("email LIKE ?", "%#{current_user.organization.domain}")
   end
 
-  #  Export CSV
-  def export_submissions_csv
-    render text: @touchpoints.to_json
-    redirect_to sheet.spreadsheet_url
-  end
-
-  def timestamp_string
-    Time.now.strftime('%Y-%m-%d_%H-%M-%S')
-  end
-
   def export_submissions
     respond_to do |format|
       #  Export to CSV
       format.csv {
         send_data @touchpoint.to_csv, filename: "touchpoint-submissions-#{timestamp_string}.csv"
-      }
-      #  Export to Google Sheets
-      format.html {
-        raise ActionController::MethodNotAllowed if current_user.organization.disable_google_export?
-
-        sheet = @touchpoint.export_to_google_sheet!
-        redirect_to sheet.spreadsheet_url
       }
     end
   end

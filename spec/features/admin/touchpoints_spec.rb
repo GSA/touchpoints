@@ -105,11 +105,11 @@ feature "Touchpoints", js: true do
               visit admin_touchpoint_path(touchpoint.id)
             end
 
-            it "display table list of Submissions and Export button link" do
+            it "display table list of Submissions and Export CSV button link" do
               within("table") do
                 expect(page).to have_content(submission.answer_01)
               end
-              expect(page).to have_link("Export Submissions to Google Sheet")
+              expect(page).to have_link("Export Submissions to CSV")
             end
           end
 
