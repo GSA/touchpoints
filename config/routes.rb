@@ -36,7 +36,7 @@ Rails.application.routes.draw do
         get "toggle_editability", to: "touchpoints#toggle_editability", as: :toggle_editability
       end
       resources :forms
-      resources :submissions, only: [:new, :show, :create]
+      resources :submissions, only: [:new, :show, :create, :destroy]
     end
     root to: "site#index"
   end

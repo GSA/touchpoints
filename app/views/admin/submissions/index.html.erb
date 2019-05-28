@@ -44,6 +44,7 @@
         <th>Referrer</th>
         <th>Pathname</th>
         <th>Created At</th>
+        <th></th>
       </tr>
     </thead>
 
@@ -84,6 +85,7 @@
           <td><%= submission.referer %></td>
           <td><%= submission.page %></td>
           <td><%= submission.created_at %></td>
+          <td><%= link_to 'Destroy', admin_touchpoint_submission_path(submission.touchpoint, submission), method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>
       <% end %>
     </tbody>
