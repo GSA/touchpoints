@@ -1,53 +1,54 @@
 <div class="usa-grid">
   <div class="usa-width-one-half">
-    <div class="disclaimer">
-      <br>
-      <br>
-      <br>
-      <div class="usa-alert">
-        This is a U.S. government service.
-        Your use indicates your consent to monitoring,
-        recording, and no expectation of privacy.
-        Misuse is subject to criminal and civil penalties.
-        <%= link_to "Read more details", "#", id: "read-more-details" %>.
-        <br>
-        <%= link_to "Agree and continue to Sign Up", "#", id: "agree-to-tos", class: "usa-button" %>
-      </div>
-      <br>
-      <%= link_to "  Learn about getting access to Touchpoints.", "https://feedback.usa.gov", target: "_blank" %>
-    </div>
     <div class="login-form">
-      <h2>Sign up for Touchpoints</h2>
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+          <%= render "devise/shared/error_messages", resource: resource %>
 
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-        <%= render "devise/shared/error_messages", resource: resource %>
+          <div class="disclaimer">
+            <br>
+            <br>
+            <br>
+            <div class="usa-alert">
+              This is a U.S. government service.
+              Your use indicates your consent to monitoring,
+              recording, and no expectation of privacy.
+              Misuse is subject to criminal and civil penalties.
+              <%= link_to "Read more details", "#", id: "read-more-details" %>.
+              <br>
+              <%= link_to "Agree and continue to Sign Up", "#", id: "agree-button", class: "usa-button" %>
+            </div>
+            <br>
+            <%= link_to "  Learn about getting access to Touchpoints.", "https://feedback.usa.gov", target: "_blank" %>
+          </div>
+          <div class="login-form-body">
+            <h2>Sign up for Touchpoints</h2>
 
-        <div class="field">
-          <%= f.label :email %><br />
-          <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-        </div>
+            <div class="field">
+              <%= f.label :email %><br />
+              <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+            </div>
 
-        <div class="field">
-          <%= f.label :password %>
-          <% if @minimum_password_length %>
-          <em>(<%= @minimum_password_length %> characters minimum)</em>
-          <% end %><br />
-          <%= f.password_field :password, autocomplete: "new-password" %>
-        </div>
+            <div class="field">
+              <%= f.label :password %>
+              <% if @minimum_password_length %>
+              <em>(<%= @minimum_password_length %> characters minimum)</em>
+              <% end %><br />
+              <%= f.password_field :password, autocomplete: "new-password" %>
+            </div>
 
-        <div class="field">
-          <%= f.label :password_confirmation %><br />
-          <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-        </div>
+            <div class="field">
+              <%= f.label :password_confirmation %><br />
+              <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+            </div>
 
-        <div class="actions">
-          <%= f.submit "Sign up" %>
-        </div>
-      <% end %>
+            <div class="actions">
+              <%= f.submit "Sign up" %>
+            </div>
 
-      <%= render "devise/shared/links" %>
-    </div>
-
+            <%= render "devise/shared/links" %>
+          </div>
+        <% end %>
+      </div>
 
     <!-- This is near a canonical definition of the Touchpoints form -->
     <!-- It is worth considering how to templatize this -->
@@ -88,11 +89,11 @@
 <script type="text/javascript">
   $(function() {
     // Hide the form by default
-    $(".login-form").hide();
+    $(".login-form-body").hide();
     // Show the login form after agreeing to the TOS
-    $("#agree-to-tos").on("click", function() {
+    $("#agree-button").on("click", function() {
       $(".disclaimer").hide();
-      $(".login-form").show();
+      $(".login-form-body").show();
     });
 
     // Manage the modal
