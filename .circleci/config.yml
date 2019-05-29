@@ -58,7 +58,13 @@ jobs:
                             --out /tmp/test-results/rspec.xml \
                             --format progress \
                             $TEST_FILES
-
+      # Install Cloud Foundry cli (cf) before deploy step. cf is used to push to Cloud.gov
+      - run:
+          name: install-cf-cli
+          command: |
+            curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
+            sudo dpkg -i cf-cli_amd64.deb
+            cf -v
       # collect reports
       - store_test_results:
           path: /tmp/test-results
