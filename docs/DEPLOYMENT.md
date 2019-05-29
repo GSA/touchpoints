@@ -114,15 +114,36 @@ An onboarding Touchpoints Developer should have access to the following tools.
 * GSA Email
 * cloud.gov
 * GitHub
-* Google Drive
+* Google Drive & Sheets
 * Google Tag Manager
 * AWS Simple Email Service
 * Circle CI
 * Snyk
 
-### Configuring s3 for Touchpoints
+## Additional Notes for Developers
 
-Touchpoints stores Organization logo image files, and .pdfs of Service Maps for any given Touchpoint.
+Running Touchpoints requires a Google Service Account with Access to Tag Manager, Drive, and Sheets API.
+Be sure to add the Service Account email address to the Google Tag Manager Account User Management Panel.
+
+### Configuring Google Tag Manager, Drive, and Sheets
+
+Touchpoints uses a Google Service Account to interact with
+Google Tag Manager, Google Drive, and Google Sheets.
+A Google Service Account can be created in the
+[Google Developer Console](https://console.developers.google.com/).
+
+The Service Account should have the 3 API's above enabled,
+and after generating the account,
+you should have the option to download a .json file with the creds.
+Touchpoints Develoers should make the .json creds into 1 line (just remove the line breaks in the .json),
+and use the string as the `GOOGLE_CONFIG` environment variable
+in each environment.
+
+### Configuring s3
+
+Touchpoints uses s3 buckets, which are provided as Cloud.gov service.
+
+Touchpoints stores Organization logo image files, and .pdfs of Service Maps for a given Touchpoint.
 
 Here's how to configure cloud.gov S3 for Touchpoints:
 
@@ -134,3 +155,11 @@ Here's how to configure cloud.gov S3 for Touchpoints:
   * `region`
   * `host`
   * `fog_directory` (the name of the S3 bucket)
+
+### Configuring CircleCI to deploy to cloud.gov
+
+Setup cloud.gov [Service Accounts](https://cloud.gov/docs/services/cloud-gov-service-account/).
+Use the cloud.gov Service Accounts
+in CircleCI to push successful builds to environments
+automatically (continuous deployment),
+or with a click of a button (when 🚢 shipping software is a business decision).
