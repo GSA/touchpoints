@@ -7,8 +7,8 @@ and the production deployment process.
 ---
 
 Touchpoints is currently deployed in at least 3 environments.
- 
-| 1. [Staging](https://touchpoints-staging.app.cloud.gov) | updated multiple times daily. used for continually integrating in-development code |
+
+1. [Staging](https://touchpoints-staging.app.cloud.gov) - updated multiple times daily. used for continually integrating in-development code
 1. [Demo](https://touchpoints-demo.app.cloud.gov) - a stable, longer-lived environment for Touchpoint's gov customers to test in. Demo may be used to preview a pre-release version of Touchpoints.
 1. [Production](https://touchpoints.app.cloud.gov) - the live site
 
@@ -61,7 +61,7 @@ the development process. The steps below represent the flow of code from a devel
 * the `develop` branch is merged to `master` via Pull Request
   * [ ] green (passing) master builds get deployed to [Demo](https://touchpoints-demo.app.cloud.gov) automatically via CircleCI
 * ON DEMO...
-* Users can use the product and share feedback ➰ in a Demo environment
+* Users can use the product and share feedback continuously ➰ in a Demo environment
 * CREATING A RELEASE:
 * releases are tagged using semantic versioning. for example: `git tag 0.0.1`
 * 🚢 TO PRODUCTION!
