@@ -11,12 +11,7 @@
 }
 
 #fba-modal-dialog {
-  <% if touchpoint.form.kind == "a11" %>
-  max-width: 690px;
-  <% else %>
   max-width: 500px;
-  <% end %>
-
   background: #fff;
   padding: 20px;
   position: relative;

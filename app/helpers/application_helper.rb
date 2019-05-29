@@ -14,4 +14,8 @@ module ApplicationHelper
     user.admin? || user.organization_manager? ||
       service.user_role?(user: user) == UserService::Role::ServiceManager
   end
+
+  def current_path
+    request.fullpath
+  end
 end
