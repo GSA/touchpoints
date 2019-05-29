@@ -7,8 +7,8 @@ and the production deployment process.
 ---
 
 Touchpoints is currently deployed in at least 3 environments.
-
-1. [Staging](https://touchpoints-staging.app.cloud.gov) - updated multiple times daily. used for continually integrating in-development code
+ 
+| 1. [Staging](https://touchpoints-staging.app.cloud.gov) | updated multiple times daily. used for continually integrating in-development code |
 1. [Demo](https://touchpoints-demo.app.cloud.gov) - a stable, longer-lived environment for Touchpoint's gov customers to test in. Demo may be used to preview a pre-release version of Touchpoints.
 1. [Production](https://touchpoints.app.cloud.gov) - the live site
 
@@ -59,13 +59,13 @@ the development process. The steps below represent the flow of code from a devel
 * 👀 CODE REVIEW
 * When stories in `develop` are Accepted by the Product Owner on Staging, they can be merged to `master` with the Team's discretion
 * the `develop` branch is merged to `master` via Pull Request
-* [ ] green (passing) master builds get deployed to [Demo](https://touchpoints-demo.app.cloud.gov) automatically via CircleCI
+  * [ ] green (passing) master builds get deployed to [Demo](https://touchpoints-demo.app.cloud.gov) automatically via CircleCI
 * ON DEMO...
 * Users can use the product and share feedback ➰ in a Demo environment
 * CREATING A RELEASE:
 * releases are tagged using semantic versioning. for example: `git tag 0.0.1`
 * 🚢 TO PRODUCTION!
-* green (passing) master builds can be deployed to [Production](https://touchpoints.app.cloud.gov) by coordinating with [Ryan Wold](mailto:ryan.wold@gsa.gov)
+  * [ ] green (passing) master builds can be deployed to [Production](https://touchpoints.app.cloud.gov) by coordinating with [Ryan Wold](mailto:ryan.wold@gsa.gov)
 
 ### Environment variables
 
@@ -76,7 +76,7 @@ Configuration values are to be set in the cloud.gov application instance as envi
 There is an audit trail for changing cloud.gov environment variables via the Cloud Foundry API. https://apidocs.cloudfoundry.org/253/events/list_user_provided_service_instance_update_events.html
 
 
-| name     | description      | required | default |
+| name     | description      | required | default |   |
 |----------|------------------|:--------:|---------|:--|
 | AWS_ACCESS_KEY_ID | IAM Account Key used for Simple email service | no | |
 | AWS_SECRET_ACCESS_KEY | IAM Account Access Key used for Simple email service| no | |
@@ -104,7 +104,7 @@ Assuming you have other ENVs set (see Section above)
 
 ## Additional Notes for Developers
 
-Running Touchpoints requires a Google Service Account with Access to Tag Manager, Drive, and Sheets API.
+Running Touchpoints requires a Google Service Account with access to Tag Manager, Drive, and Sheets API.
 Be sure to add the Service Account email address to the Google Tag Manager Account User Management Panel.
 
 #### General Developer Prerequisites
@@ -122,7 +122,7 @@ An onboarding Touchpoints Developer should have access to the following tools.
 
 ### Configuring s3 for Touchpoints
 
-Touchpoints stores Organization logos, and .pdfs of Service Maps for any given Touchpoint.
+Touchpoints stores Organization logo image files, and .pdfs of Service Maps for any given Touchpoint.
 
 Here's how to configure cloud.gov S3 for Touchpoints:
 
