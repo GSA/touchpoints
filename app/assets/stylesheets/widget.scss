@@ -1,5 +1,5 @@
 #fba-modal {
-  background-color: rgb(0, 0, 0, 0.375);
+  background-color: rgba(0, 0, 0, 0.375);
   z-index: 10001;
   height: 100%;
   position: fixed;
@@ -11,12 +11,7 @@
 }
 
 #fba-modal-dialog {
-  <% if touchpoint.form.kind == "a11" %>
-  max-width: 690px;
-  <% else %>
   max-width: 500px;
-  <% end %>
-
   background: #fff;
   padding: 20px;
   position: relative;

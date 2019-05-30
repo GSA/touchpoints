@@ -9,6 +9,7 @@ feature "Login Flow", js: true do
       describe "Sign Up" do
         before "user completes Sign Up form" do
           visit new_user_registration_path
+          click_on "agree-button"
           fill_in "user[email]", with: "admin@nongov.com"
           fill_in "user[password]", with: "password"
           fill_in "user[password_confirmation]", with: "password"
@@ -29,6 +30,7 @@ feature "Login Flow", js: true do
       describe "Sign Up" do
         before "user completes Sign Up form" do
           visit new_user_registration_path
+          click_on "agree-button"
           fill_in "user[email]", with: "admin@new.gov"
           fill_in "user[password]", with: "password"
           fill_in "user[password_confirmation]", with: "password"
@@ -49,6 +51,7 @@ feature "Login Flow", js: true do
       describe "Sign Up" do
         before "user completes Sign Up form" do
           visit new_user_registration_path
+          click_on "agree-button"
           fill_in "user[email]", with: "admin@example.gov"
           fill_in "user[password]", with: "password"
           fill_in "user[password_confirmation]", with: "password"
@@ -75,6 +78,7 @@ feature "Login Flow", js: true do
 
       before "user completes Sign Up form" do
         visit new_user_session_path
+        click_on "agree-button"
         fill_in "user[email]", with: user.email
         fill_in "user[password]", with: user.password
         click_button "Log in"

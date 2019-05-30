@@ -1,6 +1,13 @@
 <h1>
   Viewing a User
 </h1>
+<% if @user.admin? %>
+  <span class="usa-label" style="background: #e31c3d;">
+    Admin User
+  </span>
+  <br>
+  <br>
+<% end %>
 Email: <%= link_to @user.email, "mailto:#{@user.email}" %>
 <br>
 Organization: <%= @user.organization ? link_to(@user.organization.name, admin_organization_path(@user.organization)) : "Undefined" %>

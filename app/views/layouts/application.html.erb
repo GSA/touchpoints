@@ -24,11 +24,14 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <%= render 'components/header' %>
-    <div class="usa-grid">
-      <div class="usa-width-full">
-        <%= render('components/flash', flash: flash) unless suppress_main_layout_flash? %>
-        <%= yield %>
+    <main id="main-content">
+      <div class="usa-grid">
+        <div class="usa-width-full">
+          <%= render('components/flash', flash: flash) unless suppress_main_layout_flash? %>
+          <%= yield %>
+        </div>
       </div>
-    </div>
+    </main>
+    <%= render "components/footer" %>
   </body>
 </html>

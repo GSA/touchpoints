@@ -121,6 +121,10 @@ feature "Managing Services", js: true do
           let!(:user_from_other_org) { FactoryBot.create(:user, organization: other_org, email: "user@#{other_org.domain}") }
           let!(:extra_user_from_same_org) { FactoryBot.create(:user, organization: admin.organization, email: "colleague@#{admin.organization.domain}") }
 
+          before do
+            visit admin_service_path(organization_managers_service)
+          end
+
           it "display Users from same Organization" do
             expect(page).to have_content(extra_user_from_same_org.email)
           end

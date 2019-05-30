@@ -13,7 +13,7 @@ class Admin::SubmissionsController < AdminController
   def destroy
     @submission.destroy
     respond_to do |format|
-      format.html { redirect_to admin_touchpoint_submissions_url(@touchpoint.id), notice: 'Submission was successfully destroyed.' }
+      format.html { redirect_to admin_touchpoint_url(@touchpoint), notice: "Submission #{@submission.id} was successfully destroyed." }
       format.json { head :no_content }
     end
   end

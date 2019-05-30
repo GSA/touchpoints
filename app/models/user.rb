@@ -26,16 +26,6 @@ class User < ApplicationRecord
     ensure_organization
   end
 
-  def ensure_organization
-    address = Mail::Address.new(self.email)
-
-    if org = Organization.find_by_domain(address.domain)
-      self.organization_id = org.id
-    else
-      errors.add(:organization, "#{address.domain} is not a valid organization - Please contact Feedback Analytics Team for assistance")
-    end
-  end
-
   def organization_name
     if organization.present?
       organization.name
@@ -44,12 +34,25 @@ class User < ApplicationRecord
     end
   end
 
-  # TODO - remove this overriding behavior that disabled email sending
-  #        once Touchpoints has an email account and config setup
-  def send_confirmation_notification?
-    # Explicitly confirm the User's account
-    self.confirmed_at = Time.now
 
-    return false
-  end
+  private
+
+    def ensure_organization
+      address = Mail::Address.new(self.email)
+
+      if org = Organization.find_by_domain(address.domain)
+        self.organization_id = org.id
+      else
+        errors.add(:organization, "#{address.domain} is not a valid organization - Please contact Feedback Analytics Team for assistance")
+      end
+    end
+
+    # TODO - remove this overriding behavior that disabled email sending
+    #        once Touchpoints has an email account and config setup
+    def send_confirmation_notification?
+      # Explicitly confirm the User's account
+      self.confirmed_at = Time.now
+
+      return false
+    end
 end

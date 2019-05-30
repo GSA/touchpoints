@@ -1,6 +1,15 @@
+require 'csv'
+
 class Admin::TouchpointsController < AdminController
+  respond_to :html, :js, :docx
+
   skip_before_action :verify_authenticity_token, only: [:js]
-  before_action :set_touchpoint, only: [:show, :edit, :toggle_editability, :update, :export_submissions, :destroy, :example, :gtm_example, :js, :trigger]
+  before_action :set_touchpoint, only: [
+    :show, :edit, :update, :destroy,
+    :toggle_editability,
+    :export_submissions, :export_submissions_csv,
+    :example, :gtm_example, :js, :trigger
+  ]
 
   def index
     if current_user && current_user.admin?
@@ -12,14 +21,16 @@ class Admin::TouchpointsController < AdminController
   end
 
   def export_submissions
-    raise ActionController::MethodNotAllowed if current_user.organization.disable_google_export?
-
-    sheet = @touchpoint.export_to_google_sheet!
-    redirect_to sheet.spreadsheet_url
+    respond_to do |format|
+      #  Export to CSV
+      format.csv {
+        send_data @touchpoint.to_csv, filename: "touchpoint-submissions-#{timestamp_string}.csv"
+      }
+    end
   end
 
   def show
-        @pra_contacts = PraContact.where("email LIKE ?", "%#{current_user.organization.domain}")
+    @pra_contacts = PraContact.where("email LIKE ?", "%#{current_user.organization.domain}")
   end
 
   def new

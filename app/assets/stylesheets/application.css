@@ -12,5 +12,6 @@
  *
  *= require uswds
  *= require site
+ *= require widget
  *= require_self
  */
