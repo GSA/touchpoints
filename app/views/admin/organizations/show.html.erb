@@ -42,6 +42,18 @@
   <strong>Abbreviation:</strong>
   <%= @organization.abbreviation %>
 </p>
+<p>
+  <strong><%= link_to "Service Locations", admin_organization_service_locations_path(@organization) %></strong>
+
+  <ul>
+  <% @organization.service_locations.each do |location| %>
+  <li>
+    <%= location.abbreviation %> -
+    <%= location.name %>
+  </li>
+  <% end %>
+</ul>
+</p>
 
 <p>
   <strong>Notes:</strong>

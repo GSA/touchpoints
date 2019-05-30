@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Service Locations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Organization</th>
+      <th>Location Name</th>
+      <th>Abbreviation</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @service_locations.each do |service_location| %>
+      <tr>
+        <td><%= service_location.organization.name %></td>
+        <td><%= service_location.name %></td>
+        <td><%= service_location.abbreviation %></td>
+        <td><%= link_to 'Show', admin_organization_service_location_path(service_location.organization, service_location) %></td>
+        <td><%= link_to 'Edit', edit_admin_organization_service_location_path(service_location.organization, service_location) %></td>
+        <td><%= link_to 'Destroy', admin_organization_service_location_path(service_location.organization, service_location), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Service Location', new_admin_organization_service_location_path(@organization), class: "usa-button" %>

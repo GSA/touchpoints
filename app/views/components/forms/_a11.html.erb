@@ -1,4 +1,5 @@
 <form id="touchpoints-form" action="<%= root_url %>touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" method="POST" data-kind="a11">
+  <%= hidden_field_tag :fba_location_code, params[:location_code] %>
   <fieldset>
     <table>
       <tr>

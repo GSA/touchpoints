@@ -1,0 +1,16 @@
+<p>
+  <strong>Organization:</strong>
+  <%= link_to @service_location.organization.name, admin_organization_path(@service_location) %>
+</p>
+<p>
+  <strong>Name:</strong>
+  <%= @service_location.name %>
+</p>
+
+<p>
+  <strong>Abbreviation:</strong>
+  <%= @service_location.abbreviation %>
+</p>
+
+<%= link_to 'Edit', edit_admin_organization_service_location_path(@organization, @service_location), class: "usa-button" %>
+<%= link_to 'All Service Locations', admin_organization_service_locations_path(@organization) %>

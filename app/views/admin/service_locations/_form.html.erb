@@ -1,0 +1,38 @@
+<%= form_with(model: service_location, url: service_location.persisted? ? admin_organization_service_location_path(@organization, service_location) : admin_organization_service_locations_path(@organization), local: true) do |form| %>
+  <% if service_location.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(service_location.errors.count, "error") %> prohibited this service_location from being saved:</h2>
+
+      <ul>
+      <% service_location.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :abbreviation %>
+    <%= form.text_field :abbreviation %>
+  </div>
+
+  <div class="field">
+    <%= form.label :organization_id %>
+    <%#= form.number_field :organization_id %>
+    <% if !admin_permissions? %>
+      <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: (service_location.organization ? service_location.organization_id : nil)), prompt: "Select an Organization" %>
+    <% else %>
+      <%= form.hidden_field :organization_id, value: params[:organization_id] %>
+
+    <% end %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
