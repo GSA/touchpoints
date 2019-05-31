@@ -61,7 +61,7 @@ class Admin::UsersController < AdminController
     end
 
     def user_params
-      if current_user && current_user.admin?
+      if admin_permissions?
         params.require(:user).permit(
           :admin,
           :organization_id,

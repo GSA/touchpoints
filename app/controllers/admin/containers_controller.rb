@@ -3,7 +3,7 @@ class Admin::ContainersController < AdminController
   before_action :set_container, only: [:show, :edit, :update, :destroy]
 
   def index
-    if current_user && current_user.admin?
+    if admin_permissions?
       @containers = Container.all
     else
       @containers = current_user.organization.containers
