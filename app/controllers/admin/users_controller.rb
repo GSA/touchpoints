@@ -4,9 +4,9 @@ class Admin::UsersController < AdminController
 
   def index
     if current_user.admin?
-      @users = User.all
+      @users = User.all.includes(:organization)
     else
-      @users = current_user.organization.users
+      @users = current_user.organization.users.includes(:organization)
     end
   end
 
