@@ -9,6 +9,8 @@ class SubmissionsController < ApplicationController
       redirect_to root_path, alert: "Touchpoint does not have a Service specified"
     end
     @submission = Submission.new
+    # set location code in the form based on `?location_code=`
+    @submission.location_code = params[:location_code]
   end
 
   def create
@@ -99,12 +101,14 @@ class SubmissionsController < ApplicationController
           :answer_02,
           :answer_03,
           :answer_04,
+          :location_code,
           :referer,
           :page
         )
       elsif @touchpoint.form.kind == "open-ended"
         params.require(:submission).permit(
           :answer_01,
+          :location_code,
           :referer,
           :page
         )
@@ -113,6 +117,7 @@ class SubmissionsController < ApplicationController
           :answer_01,
           :answer_02,
           :answer_03,
+          :location_code,
           :referer,
           :page
         )
@@ -130,6 +135,7 @@ class SubmissionsController < ApplicationController
           :answer_10,
           :answer_11,
           :answer_12,
+          :location_code,
           :referer,
           :page
         )
