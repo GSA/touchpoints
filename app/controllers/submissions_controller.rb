@@ -27,7 +27,7 @@ class SubmissionsController < ApplicationController
       # is not from the example Touchpoints page
       !request.referer.start_with?(example_admin_touchpoint_url(@touchpoint)) &&
       # is not from the Organization URL
-      !request.referer.start_with?("#{@touchpoint.service.organization.url}/")
+      !request.referer.start_with?(@touchpoint.service.organization.url)
 
       render json: {
         status: :unprocessable_entity,
