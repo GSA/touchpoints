@@ -19,14 +19,16 @@ class SubmissionsController < ApplicationController
     headers['Access-Control-Request-Method'] = '*'
     headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
 
-    # Prevent the Submission if this is a published Touchpoint if:
-    # NOT submitted from the public Touchpoints page
-    # AND NOT submitted from the example Touchpoints page
-    # AND NOT submitted from a Referer page including the Organization's URL
+    # Prevent the Submission if this is a published Touchpoint and if:
     if @touchpoint.service &&
-      (request.referer && !request.referer.include?("#{@touchpoint.service.organization.url}/")) &&
-      (request.referer != submit_touchpoint_url(@touchpoint)) &&
-      (request.referer != example_admin_touchpoint_url(@touchpoint))
+      request.referer &&
+      # is not from the public Touchpoints page
+      !request.referer.start_with?(submit_touchpoint_url(@touchpoint)) &&
+      # is not from the example Touchpoints page
+      !request.referer.start_with?(example_admin_touchpoint_url(@touchpoint)) &&
+      # is not from the Organization URL
+      !request.referer.start_with?("#{@touchpoint.service.organization.url}/")
+
       render json: {
         status: :unprocessable_entity,
         messages: {"submission": ["request made from non-authorized host"] }
