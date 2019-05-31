@@ -14,9 +14,29 @@ feature "Touchpoints", js: true do
       end
 
       describe "#show" do
-        it "redirect to /confirmation with a flash message" do
+        it "renders success flash message" do
           expect(page).to have_content("Thank you. Your feedback has been received.")
-          expect(page.current_path).to eq("/touchpoints/#{@touchpoint.id}/submit") # stays on same page after form submission
+          expect(page.current_path).to eq("/touchpoints/#{@touchpoint.id}/submit") # stays on
+        end
+      end
+    end
+
+    describe "/touchpoints?location_code=" do
+      before do
+        @touchpoint = FactoryBot.create(:touchpoint)
+        visit submit_touchpoint_path(@touchpoint, location_code: "TEST_LOCATION_CODE")
+        fill_in("fba-text-body", with: "User feedback")
+        click_button "Submit"
+      end
+
+      describe "#show" do
+        it "renders success flash message and persists location_code" do
+          expect(page).to have_content("Thank you. Your feedback has been received.")
+          expect(page).to have_current_path("/touchpoints/#{@touchpoint.id}/submit?location_code=TEST_LOCATION_CODE") # stays on same page after form submission
+
+          # Asserting against the database/model directly here isn't ideal.
+          # An alternative is to send location_code back to the client and assert against it
+          expect(Submission.last.location_code).to eq "TEST_LOCATION_CODE"
         end
       end
     end

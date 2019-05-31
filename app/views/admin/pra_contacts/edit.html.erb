@@ -2,5 +2,6 @@
 
 <%= render 'form', pra_contact: @pra_contact %>
 
-<%= link_to 'Show', @pra_contact %> |
-<%= link_to 'Back', pra_contacts_path %>
+<%= link_to 'Show', admin_pra_contacts_path(@pra_contact) %> |
+<%= link_to 'Back', admin_pra_contacts_path %>
+<%= link_to 'Destroy', admin_pra_contact_path(@pra_contact), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button-red" %>

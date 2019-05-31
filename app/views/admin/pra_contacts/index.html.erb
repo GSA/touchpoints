@@ -9,7 +9,7 @@
       <th>Name</th>
       <th>Department</th>
       <th>Program</th>
-      <th colspan="2"></th>
+      <th></th>
     </tr>
   </thead>
 
@@ -21,7 +21,6 @@
         <td><%= pra_contact.department %></td>
         <td><%= pra_contact.program %></td>
         <td><%= link_to 'Edit', edit_admin_pra_contact_path(pra_contact) %></td>
-        <td><%= link_to 'Destroy', admin_pra_contact_path(pra_contact), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

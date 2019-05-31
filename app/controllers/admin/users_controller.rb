@@ -4,9 +4,9 @@ class Admin::UsersController < AdminController
 
   def index
     if current_user.admin?
-      @users = User.all
+      @users = User.all.includes(:organization)
     else
-      @users = current_user.organization.users
+      @users = current_user.organization.users.includes(:organization)
     end
   end
 
@@ -61,7 +61,7 @@ class Admin::UsersController < AdminController
     end
 
     def user_params
-      if current_user && current_user.admin?
+      if admin_permissions?
         params.require(:user).permit(
           :admin,
           :organization_id,

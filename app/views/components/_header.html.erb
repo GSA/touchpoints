@@ -18,7 +18,7 @@
         <%= image_tag "close.svg", alt: "close" %>
       </button>
       <ul class="usa-nav-primary usa-accordion">
-        <% if current_user && current_user.admin? %>
+        <% if admin_permissions? %>
           <li>
             <a class="usa-nav-link admin" href="/admin">
               <span>Admin</span>
