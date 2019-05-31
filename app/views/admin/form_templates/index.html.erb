@@ -36,6 +36,6 @@
 
 <br>
 
-<% if current_user && current_user.admin? %>
+<% if admin_permissions? %>
   <%= link_to 'New Form Template', new_admin_form_template_path, class: "usa-button" %>
 <% end %>

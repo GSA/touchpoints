@@ -13,7 +13,7 @@
     <%= form.label :organization_id %>
     <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: user.organization_id), include_blank: true %>
   </div>
-  <% if current_user && (current_user.admin? || current_user.organization_manager?) %>
+  <% if organization_manager_permissions? %>
   <hr>
   <div class="field">
     <span>
@@ -23,7 +23,7 @@
     <%= form.label :organization_manager %>
   </div>
   <% end %>
-  <% if current_user && current_user.admin? %>
+  <% if admin_permissions? %>
   <hr>
   <div class="field">
     <span>

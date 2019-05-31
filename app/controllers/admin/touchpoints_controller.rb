@@ -12,7 +12,7 @@ class Admin::TouchpointsController < AdminController
   ]
 
   def index
-    if current_user && current_user.admin?
+    if admin_permissions?
       @touchpoints = Touchpoint.all
     else
       @touchpoints = current_user.touchpoints
@@ -124,7 +124,7 @@ class Admin::TouchpointsController < AdminController
 
   private
     def set_touchpoint
-      if current_user && current_user.admin?
+      if admin_permissions?
         @touchpoint = Touchpoint.find(params[:id])
       else
         @touchpoint = current_user.touchpoints.find(params[:id])
