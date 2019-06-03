@@ -18,8 +18,9 @@ class Submission < ApplicationRecord
     unless self.answer_01 && self.answer_01.present?
       errors.add(:body, "can't be blank")
     end
-    if self.answer_01 && self.answer_01.length > 2500
-      errors.add(:body, "is limited to 2500 characters")
+    character_limit = 6000
+    if self.answer_01 && self.answer_01.length > character_limit
+      errors.add(:body, "is limited to #{character_limit} characters")
     end
   end
 
