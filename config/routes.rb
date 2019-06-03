@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  resources :touchpoints, only: [:index, :show] do
+  resources :touchpoints, only: [:show] do
     member do
       get "js", to: "touchpoints#js", as: :js
       get "submit", to: "submissions#new", touchpoint: true, as: :submit
