@@ -8,7 +8,7 @@ then
 
   echo "Logging into cloud.gov"
   # Log into CF and push
-  cf login -a $CF_API_ENDPOINT -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s prod
+  cf login -a $CF_API_ENDPOINT -u $CF_PRODUCTION_SPACE_DEPLOYER_USERNAME -p $CF_PRODUCTION_SPACE_DEPLOYER_PASSWORD -o $CF_ORG -s prod
   echo "PUSHING to PRODUCTION..."
   cf v3-zdt-push touchpoints
   echo "Push to Production Complete."
