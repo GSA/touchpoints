@@ -64,6 +64,7 @@ class Admin::FormsController < AdminController
     def form_params
       params.require(:form).permit(
         :name,
+        :character_limit,
         :notes,
         :status,
         :title,
