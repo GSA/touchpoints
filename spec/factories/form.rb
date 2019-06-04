@@ -4,6 +4,7 @@ FactoryBot.define do
     title { "Do you have a few minutes to help us test this site?" }
     kind { "open-ended" }
     notes { "Notes" }
+    character_limit { 6000 }
     trait :a11 do
       kind { "a11" }
     end

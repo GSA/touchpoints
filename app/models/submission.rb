@@ -18,7 +18,7 @@ class Submission < ApplicationRecord
     unless self.answer_01 && self.answer_01.present?
       errors.add(:body, "can't be blank")
     end
-    character_limit = 6000
+    character_limit = self.touchpoint.form.character_limit
     if self.answer_01 && self.answer_01.length > character_limit
       errors.add(:body, "is limited to #{character_limit} characters")
     end
