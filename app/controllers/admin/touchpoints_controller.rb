@@ -7,9 +7,21 @@ class Admin::TouchpointsController < AdminController
   before_action :set_touchpoint, only: [
     :show, :edit, :update, :destroy,
     :toggle_editability,
-    :export_submissions, :export_submissions_csv,
+    :export_pra_document, :export_submissions, :export_submissions_csv,
     :example, :gtm_example, :js, :trigger
   ]
+
+  def export_pra_document
+    respond_to do |format|
+      format.html {
+        redirect_to admin_touchpoint_path(@touchpoint)
+      }
+      format.docx {
+        docx = PraForm.part_a(touchpoint: @touchpoint)
+        send_data docx.render.string, filename: "pra-part-a-#{timestamp_string}.docx"
+      }
+    end
+  end
 
   def index
     if admin_permissions?
@@ -61,7 +73,8 @@ class Admin::TouchpointsController < AdminController
               title: form_template.title,
               instructions: form_template.instructions,
               disclaimer_text: form_template.disclaimer_text,
-              kind: form_template.kind
+              kind: form_template.kind,
+              character_limit: 6000
             })
             @touchpoint.update_attribute(:form, new_form)
           end
@@ -86,7 +99,8 @@ class Admin::TouchpointsController < AdminController
           title: form_template.title,
           instructions: form_template.instructions,
           disclaimer_text: form_template.disclaimer_text,
-          kind: form_template.kind
+          kind: form_template.kind,
+          character_limit: 6000
         })
       end
     end

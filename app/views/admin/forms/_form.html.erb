@@ -32,8 +32,17 @@
     <%= f.text_area :notes %>
   </div>
   <div class="field">
-    <%= f.label :status %>
-    <%= f.text_field :status %>
+    <%= f.label :character_limit %>
+    (100,000 characters max)
+    <%= f.text_field :character_limit %>
+  </div>
+  <div class="field">
+    <%= f.label :whitelist_url %>
+    <%= f.text_field :whitelist_url %>
+  </div>
+  <div class="field">
+    <%= f.label :whitelist_test_url %>
+    <%= f.text_field :whitelist_test_url %>
   </div>
   <div class="actions">
     <%= f.submit %>

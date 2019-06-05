@@ -152,7 +152,8 @@ form_1 = Form.create({
   title: "Custom Open-ended Title",
   instructions: "Share feedback about the new example.gov website and recommend additional features.",
   disclaimer_text: "Disclaimer Text Goes Here",
-  notes: ""
+  notes: "",
+  character_limit: 6000
 })
 
 form_2 = Form.create({
@@ -179,7 +180,8 @@ form_4 = Form.create({
   title: "",
   instructions: "",
   disclaimer_text: "Disclaimer Text Goes Here",
-  notes: ""
+  notes: "",
+  character_limit: 6000
 })
 
 # A Service created by Admin
@@ -276,6 +278,16 @@ touchpoint_2 = Touchpoint.create!({
 
 touchpoint_3 = Touchpoint.create!({
   form: form_3,
+  service: service_2,
+  name: "A11 - 7 question test - DB",
+  purpose: "CX",
+  meaningful_response_size: 100,
+  behavior_change: "Better customer service",
+  notification_emails: "ryan.wold@gsa.gov"
+})
+
+touchpoint_4 = Touchpoint.create!({
+  form: form_4,
   service: service_2,
   name: "A11 - 7 question test - DB",
   purpose: "CX",

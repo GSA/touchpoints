@@ -1,2 +1,0 @@
-class Trigger < ApplicationRecord
-end

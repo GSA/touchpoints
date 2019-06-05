@@ -64,10 +64,13 @@ class Admin::FormsController < AdminController
     def form_params
       params.require(:form).permit(
         :name,
+        :character_limit,
         :notes,
         :status,
         :title,
         :instructions,
+        :whitelist_url,
+        :whitelist_test_url,
         :disclaimer_text,
         :question_text_01,
         :question_text_02,

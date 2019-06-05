@@ -25,8 +25,6 @@ Rails.application.routes.draw do
         post "remove_user", to: "services#remove_user", as: :remove_user
       end
     end
-    resources :submissions, only: [:index, :show, :destroy]
-    resources :triggers
     resources :touchpoints do
       member do
         get "export_submissions", to: "touchpoints#export_submissions", as: :export_submissions
@@ -34,6 +32,7 @@ Rails.application.routes.draw do
         get "example/gtm", to: "touchpoints#gtm_example", as: :gtm_example
         get "js", to: "touchpoints#js", as: :js
         get "toggle_editability", to: "touchpoints#toggle_editability", as: :toggle_editability
+        get "export_pra_document", as: :export_pra_document
       end
       resources :forms
       resources :submissions, only: [:new, :show, :create, :destroy]
