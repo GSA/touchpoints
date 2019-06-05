@@ -3,20 +3,30 @@
 <table>
   <thead>
     <tr>
+      <th>Touchpoint</th>
       <th>Name</th>
-      <th>Notes</th>
-      <th>Status</th>
-      <th colspan="3"></th>
+      <th></th>
+      <% if admin_permissions? %>
+      <th></th>
+      <% end %>
     </tr>
   </thead>
 
   <tbody>
     <% @forms.each do |form| %>
       <tr>
-        <td><%= link_to form.name, admin_form_path(form) %></td>
-        <td><%= form.notes %></td>
-        <td><%= form.status %></td>
+        <td>
+          <%= link_to form.touchpoint.name, admin_touchpoint_path(form.touchpoint) if form.touchpoint %>
+        </td>
+        <td>
+          <%= link_to form.name, admin_touchpoint_form_path(form.touchpoint, form) if form.touchpoint %>
+        </td>
         <td><%= link_to 'Edit', edit_admin_form_path(form) %></td>
+        <% if admin_permissions? %>
+        <td>
+          <%= link_to 'Destroy', admin_form_path(form), method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
