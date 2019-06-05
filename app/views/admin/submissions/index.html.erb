@@ -92,7 +92,7 @@
       <% end %>
     </tbody>
   </table>
-    <%= link_to "Export Submissions to CSV", export_submissions_admin_touchpoint_url(@touchpoint, format: "csv"), class: "usa-button", target: "_blank" %>
+    <%= link_to "Export Submissions to CSV", export_submissions_admin_touchpoint_url(@touchpoint, format: "csv"), class: "usa-button", target: "_blank", rel: "noopener" %>
 <% else %>
   <div class="usa-alert usa-alert-info">
     <div class="usa-alert-body">
