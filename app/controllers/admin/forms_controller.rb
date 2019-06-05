@@ -69,6 +69,8 @@ class Admin::FormsController < AdminController
         :status,
         :title,
         :instructions,
+        :whitelist_url,
+        :whitelist_test_url,
         :disclaimer_text,
         :question_text_01,
         :question_text_02,
