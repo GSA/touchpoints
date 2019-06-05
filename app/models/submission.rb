@@ -25,11 +25,14 @@ class Submission < ApplicationRecord
   end
 
   def validate_a11_form
-    unless self.answer_01 && self.answer_01.present?
-      errors.add(:answer_01, "is required")
-    end
-    unless self.answer_07 && self.answer_07.present?
-      errors.add(:answer_07, "is required")
+    unless self.answer_01 && self.answer_01.present? ||
+      self.answer_02 && self.answer_02.present? ||
+      self.answer_03 && self.answer_03.present? ||
+      self.answer_04 && self.answer_04.present? ||
+      self.answer_05 && self.answer_05.present? ||
+      self.answer_06 && self.answer_06.present? ||
+      self.answer_07 && self.answer_07.present?
+      errors.add("at least one answer", "is required")
     end
   end
 

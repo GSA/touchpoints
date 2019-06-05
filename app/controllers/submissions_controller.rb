@@ -22,6 +22,10 @@ class SubmissionsController < ApplicationController
     # Prevent the Submission if this is a published Touchpoint and if:
     if @touchpoint.service &&
       request.referer &&
+      # is not from the Form's whitelist URL
+      (@touchpoint.form.whitelist_url.present? ? !request.referer.start_with?(@touchpoint.form.whitelist_url) : true) &&
+      # is not from the Form's test whitelist URL
+      (@touchpoint.form.whitelist_test_url.present? ? !request.referer.start_with?(@touchpoint.form.whitelist_test_url) : true) &&
       # is not from the public Touchpoints page
       !request.referer.start_with?(submit_touchpoint_url(@touchpoint)) &&
       # is not from the example Touchpoints page
