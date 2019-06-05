@@ -8,7 +8,7 @@ class Admin::TouchpointsController < AdminController
     :show, :edit, :update, :destroy,
     :toggle_editability,
     :export_pra_document, :export_submissions, :export_submissions_csv,
-    :example, :gtm_example, :js, :trigger
+    :example, :js, :trigger
   ]
 
   def export_pra_document
@@ -125,10 +125,6 @@ class Admin::TouchpointsController < AdminController
   end
 
   def example
-    render layout: false
-  end
-
-  def gtm_example
     render layout: false
   end
 

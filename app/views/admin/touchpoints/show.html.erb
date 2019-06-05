@@ -22,18 +22,6 @@
       <% end %>
     </p>
     <p>
-      <strong>Container:</strong>
-      <% if @touchpoint.service %>
-      <% if current_user.admin? %>
-      <%= link_to(@touchpoint.service.container.name, admin_container_path(@touchpoint.service.container)) if @touchpoint.service.container %>
-      <% else %>
-      <%= @touchpoint.service.container.name if @touchpoint.service.container %>
-      <% end %>
-      <% else %>
-      ⚠️ This Touchpoint does not have a Container because it does not belong to a Service.
-      <% end %>
-    </p>
-    <p>
       <strong>Form:</strong>
       <% if @touchpoint.form %>
       <%= link_to(@touchpoint.form.name, admin_touchpoint_form_path(@touchpoint, @touchpoint.form)) %>
@@ -128,12 +116,6 @@
       </p>
     </div>
   </div>
-<% end %>
-<% if @touchpoint.service && @touchpoint.service.container %>
-<p>
-  <%= link_to 'GTM + .js
-  Example', gtm_example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank" %> Add the Tag <%= link_to "Container", admin_container_path(@touchpoint.service.container) %>'s embed codes in your site. Then, activate the Container in GTM.
-</p>
 <% end %>
 <hr>
 <% if admin_permissions? %>
