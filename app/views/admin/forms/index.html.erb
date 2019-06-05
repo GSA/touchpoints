@@ -13,7 +13,9 @@
   <tbody>
     <% @forms.each do |form| %>
       <tr>
-        <td><%= link_to form.name, admin_form_path(form) %></td>
+        <td>
+          <%= link_to form.name, admin_touchpoint_form_path(form.touchpoint, form) %>
+        </td>
         <td><%= form.notes %></td>
         <td><%= form.status %></td>
         <td><%= link_to 'Edit', edit_admin_form_path(form) %></td>
