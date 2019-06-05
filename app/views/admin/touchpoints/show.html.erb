@@ -136,7 +136,15 @@
 </p>
 <% end %>
 <hr>
-
+<% if admin_permissions? %>
+<div class="pra-features">
+  <h3>
+    PRA Features
+  </h3>
+  <%= link_to "Generate PRA Form Part A", export_pra_document_admin_touchpoint_path(@touchpoint, format: "docx", type: "part_a") %>
+</div>
+<hr>
+<% end %>
 <% @submissions = @touchpoint.submissions %>
 <%= render file: "admin/submissions/index" %>
 <br>
