@@ -14,10 +14,6 @@ production_suitable_seeds
 #   Staging and Development Environments; not Production.
 return false if Rails.env.production?
 
-puts "Cleaning Account Containers for Google Tag Manager Account #{ENV.fetch("GOOGLE_TAG_MANAGER_ACCOUNT_ID")}"
-service = GoogleApi.new
-service.clean_account_containers(account_id: ENV.fetch("GOOGLE_TAG_MANAGER_ACCOUNT_ID"))
-
 example_gov = Organization.create!({
   name: "Example.gov",
   domain: "example.gov",
@@ -234,26 +230,6 @@ UserService.create(
   role: UserService::Role::ServiceManager
 )
 
-# Manually create, then relate Containers to Services
-container_1 = Container.create!({
-  service: service_1,
-  name: "#{digital_gov.name}'s Test Container 1"
-})
-
-container_2 = Container.create!({
-  service: service_2,
-  name: "#{digital_gov.name}'s Test Container 2"
-})
-
-container_3 = Container.create!({
-  service: service_3,
-  name: "#{org_2.name}'s Test Container 1"
-})
-
-container_4 = Container.create!({
-  service: service_4,
-  name: "#{org_2.name}'s Test Container 2"
-})
 
 # Touchpoints
 touchpoint_1 = Touchpoint.create!({
