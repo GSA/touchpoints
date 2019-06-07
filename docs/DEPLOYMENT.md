@@ -163,3 +163,45 @@ Use the cloud.gov Service Accounts
 in CircleCI to push successful builds to environments
 automatically (continuous deployment),
 or with a click of a button (when 🚢 shipping software is a business decision).
+
+---
+
+# Touchpoints Maintenance Page
+
+Touchpoints has a Maintenance Page
+for display when the app is under extended maintenance
+or otherwise experiencing downtime.
+
+The maintenance page is a separate
+[application](https://github.com/gsa/touchpoints-maintenance-page); with 1 html file.
+1 maintenance page is maintained for each Cloud.gov space.
+In cloud.gov, the web application simply updates
+a virtual route to point the maintenance page app.
+When complete, the virtual route is pointed back at the web application.
+
+Because Touchpoints maintains 3 "Spaces" (dev, staging, prod),
+the 3 maintenance pages exist as:
+
+* touchpoints-dev-maintenance-page
+* touchpoints-staging-maintenance-page
+* touchpoints-prod-maintenance-page
+
+
+### Commands
+
+These commands assume we're using Touchpoints' Staging environment,
+with `touchpoints-staging-maintenance` as the Maintenance Page app name,
+and `touchpoints-staging` as the web application app name.
+We're also assuming our Cloud Foundry instance is `app.cloud.gov`.
+Be sure to update your app names and CF instance accordingly.
+
+To create a Maintenance Page, run the following command from the [maintenance repo](https://github.com/gsa/touchpoints-maintenance-page).
+`cf push touchpoints-staging-maintenance -m 64M --no-route`
+
+To toggle a page on
+`cf map-route touchpoints-staging-maintenance app.cloud.gov --hostname touchpoints-staging`
+
+To toggle a page off
+`cf unmap-route touchpoints-staging-maintenance app.cloud.gov --hostname touchpoints-staging`
+Then,
+`cf map-route touchpoints-staging app.cloud.gov --hostname touchpoints-staging`
