@@ -279,7 +279,7 @@ Submission.create!({
 
 Submission.create!({
   touchpoint: touchpoint_1,
-  answer_01: "Another body text"
+  answer_01: "Another body text " * 20
 })
 
 Submission.create!({
