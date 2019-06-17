@@ -125,6 +125,8 @@ class Admin::TouchpointsController < AdminController
   end
 
   def example
+    redirect_to admin_touchpoints_path, notice: "Touchpoint does not have a delivery_method of 'modal'" and return unless @touchpoint.delivery_method == "modal"
+
     render layout: false
   end
 
@@ -151,7 +153,9 @@ class Admin::TouchpointsController < AdminController
         :meaningful_response_size,
         :behavior_change,
         :notification_emails,
-        :omb_approval_number
+        :omb_approval_number,
+        :delivery_method,
+        :element_selector
       )
     end
 

@@ -49,8 +49,7 @@
       <div class="usa-width-one-third demo-content"></div>
     </div>
     <!--- End demo content -->
-    <script>
-      <%= render partial: "components/widget/fba.js", locals: { touchpoint: @touchpoint } %>
+    <script src="<%= js_touchpoint_url(@touchpoint) %>" async>
     </script>
   </body>
 </html>

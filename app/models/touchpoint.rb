@@ -5,6 +5,8 @@ class Touchpoint < ApplicationRecord
 
   validates :name, presence: true
 
+  DELIVERY_METHODS = ["touchpoints-hosted-only", "inline", "modal", "custom-button-modal"]
+
   scope :active, -> { where("id > 0") } # TODO: make this sample scope more intelligent/meaningful
 
   def send_notifications?
@@ -111,5 +113,5 @@ class Touchpoint < ApplicationRecord
       raise InvalidArgument("#{@touchpoint.name} has a Form with an unsupported Kind")
     end
   end
-  
+
 end

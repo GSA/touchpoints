@@ -34,6 +34,14 @@
       <% end %>
     </p>
     <p>
+      <strong>Delivery Method:</strong>
+      <%= @touchpoint.delivery_method %>
+    </p>
+    <p>
+      <strong>Element Selector:</strong>
+      <%= @touchpoint.element_selector %>
+    </p>
+    <p>
       <strong>OMB Approval #</strong>
       <%= @touchpoint.omb_approval_number %>
     </p>
@@ -153,32 +161,36 @@
   Publishing a Touchpoint
 </h3>
 <% if @touchpoint.form || @touchpoint.deployable_touchpoint? %>
-<h5>
-  1) Public Touchpoints URL
-</h5>
-<p>
-  <%= link_to 'View the page', submit_touchpoint_path(@touchpoint), class: "usa-button" %>
+  <h5>
+    1) Public Touchpoints URL
+  </h5>
+  <p>
+    <%= link_to 'View the page', submit_touchpoint_path(@touchpoint), class: "usa-button" %>
 
-  <% if @touchpoint.deployable_touchpoint? %>
-    <%= link_to submit_touchpoint_url(@touchpoint), submit_touchpoint_url(@touchpoint) %>
-  <% end %>
-</p>
-<h5>
-  2) Javascript Embed
-</h5>
-<p>
-  <% if @touchpoint.deployable_touchpoint? %>
-  <p>
-    Add the following script to your site to generate a Tab & Modal on your site.
+    <% if @touchpoint.deployable_touchpoint? %>
+      <%= link_to submit_touchpoint_url(@touchpoint), submit_touchpoint_url(@touchpoint) %>
+    <% end %>
   </p>
-  <div class="code">
-    <%= h("<script type=\"text/javascript\" src=\"#{js_touchpoint_url(@touchpoint)}\" async></script>") %>
-  </div>
+  <% if @touchpoint.delivery_method == "modal" %>
+    <h5>
+      2) Javascript Embed
+    </h5>
+    <p>
+      <% if @touchpoint.deployable_touchpoint? %>
+      <p>
+        Add the following script to your site to generate a Tab & Modal on your site.
+      </p>
+      <div class="code">
+        <%= h("<script src=\"#{js_touchpoint_url(@touchpoint)}\" async></script>") %>
+      </div>
+      <% end %>
+      <% if @touchpoint.delivery_method == "modal" %>
+      <p>
+        <%= link_to 'View an example: Tab + Modal', example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank", rel: "noopener" %>
+      </p>
+      <% end %>
+    </p>
   <% end %>
-  <p>
-    <%= link_to 'View an example: Tab + Modal', example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank", rel: "noopener" %>
-  </p>
-</p>
 <% else %>
   <div class="usa-alert usa-alert-error" >
     <div class="usa-alert-body">

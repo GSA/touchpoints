@@ -9,8 +9,10 @@ N.fba = {
 		this.options = options;
 		this.loadCss();
 		this.loadHtml();
-		<% unless local_assigns.has_key?(:suppress_ui) && suppress_ui -%>
-		this.loadButton();
+		<% unless (local_assigns.has_key?(:suppress_ui) && suppress_ui) -%>
+			<% if touchpoint.delivery_method == "modal" -%>
+				this.loadButton();
+			<% end %>
 		<% end %>
 		this.bindEventListeners();
 		this.dialogOpen = false; // initially false
@@ -21,7 +23,7 @@ N.fba = {
 		var self = this;
 		d.addEventListener('keyup', function (event) {
 			var x = event.keyCode;
-			if( x == 27 && self.dialogOpen == true){
+			if( x == 27 && self.dialogOpen == true) {
 				self.closeDialog();
 			}});
 			d.addEventListener('click', function (event) {
@@ -52,6 +54,14 @@ N.fba = {
 
 			d.getElementById('fba-modal-close').addEventListener( 'click', this.handleDialogClose, false );
 			d.getElementById('fba-submit').addEventListener( 'click', this.handleSubmitClick, false );
+
+		<% if touchpoint.delivery_method == "custom-button-modal" %>
+			<% if touchpoint.element_selector? %>
+			if(d.getElementById('<%= touchpoint.element_selector %>') != null) {
+				d.getElementById('<%= touchpoint.element_selector %>').addEventListener( 'click', this.handleButtonClick, false );
+			}
+			<% end %>
+		<% end %>
 		},
 		resetErrors: function()
 		{
