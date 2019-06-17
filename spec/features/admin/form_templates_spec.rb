@@ -27,21 +27,32 @@ feature "Managing Form Templates", js: true do
     end
 
     describe "edit existing Form Template" do
+      before do
+        visit admin_form_template_path(FormTemplate.first)
+      end
 
-    end
-
-    describe "display Edit link" do
-      it "display Edit link" do
-        expect(page).to have_link("Edit")
+      it "edit Form Template" do
+        click_link "Edit"
+        expect(page).to have_content("Editing Form Template")
+        fill_in("form_template_name", with: "Updated Form Name")
+        click_button "Update Form template"
+        expect(page).to have_content("Form template was successfully updated.")
+        expect(page).to have_content("Name: Updated Form Name")
       end
     end
 
-    describe "viewing each Form Template" do
+    describe "view existing Form Templates" do
       before do
         @a11 = FactoryBot.create(:form_template, :a11)
         @recruiter = FactoryBot.create(:form_template, :recruiter)
         @oewci = FactoryBot.create(:form_template, :open_ended_with_contact_info)
         visit admin_form_templates_path
+      end
+
+      describe "display Edit link" do
+        it "display Edit link" do
+          expect(page).to have_link("Edit")
+        end
       end
 
       it "loads each of the forms" do
