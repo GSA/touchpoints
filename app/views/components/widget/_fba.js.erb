@@ -36,13 +36,6 @@ N.fba = {
 		},
 		loadHtml: function()
 		{
-			this.buttonEl = document.createElement('a');
-			this.buttonEl.setAttribute('id', 'fba-button');
-			this.buttonEl.setAttribute('class', 'fixed-tab-button');
-			this.buttonEl.setAttribute('href', '#');
-			this.buttonEl.addEventListener( 'click', this.handleButtonClick, false );
-			this.buttonEl.innerHTML = this.options.open;
-
 			this.dialogEl = document.createElement('div');
 			this.dialogEl.style.display = "none";
 			this.dialogEl.setAttribute('id', 'fba-modal');
@@ -95,6 +88,12 @@ N.fba = {
 		},
 		loadButton: function()
 		{
+			this.buttonEl = document.createElement('a');
+			this.buttonEl.setAttribute('id', 'fba-button');
+			this.buttonEl.setAttribute('class', 'fixed-tab-button');
+			this.buttonEl.setAttribute('href', '#');
+			this.buttonEl.addEventListener( 'click', this.handleButtonClick, false );
+			this.buttonEl.innerHTML = this.options.open;
 			d.body.appendChild(this.buttonEl);
 		},
 		// Used when in a modal
@@ -253,14 +252,10 @@ N.fba = {
 // Set options for tab text, modal title, description, and alert message after submit.
 // These will be mapped to named variables in Google Tag Manager.
 var tabText = "Help improve this site";
-var formTitle = "Do you have a few minutes to help us test this site?";
 var formDesc = "Hi! We’re looking for people to participate ";
 var buttonLabel = "Send";
 var thankYouText = "Thank you";
 
 fba.init({
-	'open': tabText,   //'Help improve this site',
-	'title': formTitle,    //'Do you have a few minutes to help us test this site?',
-	'description': formDesc,   //'Hi! We’re looking for people to participate in a 30 minute phone interview about how they use [agency.gov]. If selected, we’ll contact you to set up a time.',
-	'send': buttonLabel,    //'Send'
+	'open': tabText
 });
