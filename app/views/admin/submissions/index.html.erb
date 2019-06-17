@@ -48,6 +48,9 @@
           <th>Pathname</th>
           <th>Created At</th>
           <th></th>
+          <% if @touchpoint.service.user_role?(user: current_user) %>
+          <th></th>
+          <% end %>
         </tr>
       </thead>
 
@@ -95,7 +98,18 @@
           <td><%= submission.referer %></td>
           <td><%= submission.page %></td>
           <td><%= submission.created_at %></td>
-          <td><%= link_to 'Destroy', admin_touchpoint_submission_path(submission.touchpoint, submission), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td>
+            <% if submission.flagged? %>
+              flagged
+            <% else %>
+            <%= link_to 'Flag', flag_admin_touchpoint_submission_path(submission.touchpoint, submission), method: :post, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+          </td>
+          <% if @touchpoint.service.user_role?(user: current_user) %>
+          <td>
+            <%= link_to 'Destroy', admin_touchpoint_submission_path(submission.touchpoint, submission), method: :delete, data: { confirm: 'Are you sure?' } %>
+          </td>
+          <% end %>
         </tr>
         <% end %>
       </tbody>

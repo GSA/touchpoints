@@ -68,9 +68,15 @@ N.fba = {
 			alertErrorElementBody.innerHTML = "";
 		},
 		handleClick: function(e) {
+		<% if touchpoint.delivery_method == "modal" %>
 			if (N.fba.dialogOpen && !e.target.closest('#fba-button') && !e.target.closest('#fba-modal-dialog')) {
 				N.fba.closeDialog();
 			}
+		<% elsif touchpoint.delivery_method == "custom-button-modal" %>
+			if (N.fba.dialogOpen && !e.target.closest('#' + '<%= touchpoint.element_selector %>') && !e.target.closest('#fba-modal-dialog')) {
+				N.fba.closeDialog();
+			}
+		<% end %>
 		},
 		handleButtonClick: function(e) {
 			e.preventDefault();
@@ -249,12 +255,7 @@ N.fba = {
 	};
 }( document, window ));
 
-// Set options for tab text, modal title, description, and alert message after submit.
-// These will be mapped to named variables in Google Tag Manager.
 var tabText = "Help improve this site";
-var formDesc = "Hi! We’re looking for people to participate ";
-var buttonLabel = "Send";
-var thankYouText = "Thank you";
 
 fba.init({
 	'open': tabText
