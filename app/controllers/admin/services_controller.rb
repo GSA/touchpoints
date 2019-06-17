@@ -16,7 +16,6 @@ class Admin::ServicesController < AdminController
   def show
     excluded_members = @service.users + [current_user]
     @available_members = @service.organization.users - excluded_members
-    @container = @service.container
   end
 
   # Associate a user with a Service
@@ -75,7 +74,6 @@ class Admin::ServicesController < AdminController
           user: current_user,
           role: UserService::Role::ServiceManager
         })
-        @service.create_container!
 
         format.html { redirect_to admin_service_path(@service), notice: 'Service was successfully created.' }
         format.json { render :show, status: :created, location: @service }

@@ -44,3 +44,21 @@ footer {
   color: #333333;
   line-height: 1.25rem;
 }
+
+// For the extra-wide Submissions table
+.table-scroll {
+	position:relative;
+	max-width: 100%;
+	margin: auto;
+}
+.table-wrap {
+	width:100%;
+	overflow:auto;
+}
+.table-scroll table {
+	width:100%;
+}
+.table-scroll th,
+.table-scroll td {
+	white-space:nowrap;
+}

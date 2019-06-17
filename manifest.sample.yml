@@ -5,14 +5,23 @@ applications:
     # command: bundle exec rake db:schema:load && rake db:seed && bundle exec rails s -b 0.0.0.0 -p $PORT -e $RAILS_ENV
 
     env:
+      # For AWS SES (Simple Email Service)
       AWS_ACCESS_KEY_ID:
       AWS_SECRET_ACCESS_KEY:
       AWS_REGION:
+
       # DISABLE_DATABASE_ENVIRONMENT_CHECK: 1 # DANGEROUS!
-      GOOGLE_API_QUOTA_USER:
-      GOOGLE_TAG_MANAGER_ACCOUNT_ID:
       NEW_RELIC_KEY:
       # RAILS_ENV: production | staging # OPTIONAL
+
+      # For S3 on Cloud.gov
+      S3_AWS_ACCESS_KEY_ID:
+      S3_AWS_SECRET_ACCESS_KEY:
+      S3_AWS_REGION:
+      S3_AWS_HOST:
+      S3_AWS_BUCKET_NAME:
+
+      # For the GTM Tag the Touchpoints site itself uses
       TOUCHPOINTS_GTM_CONTAINER_ID:
       TOUCHPOINTS_EMAIL_SENDER: your@gsa.gov-email
     buildpacks:

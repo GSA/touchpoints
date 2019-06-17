@@ -43,7 +43,7 @@
 </h2>
 <% if @form_template %>
   <div class="touchpoint-card">
-    <%= render partial: "components/forms/#{@form_template.kind}", locals: { form: @form_template, touchpoint: nil } %>
+    <%= render partial: "components/forms/#{@form_template.kind}", locals: { form: @form, touchpoint: nil } %>
   </div>
 <% else %>
   <div class="usa-alert usa-alert-info">

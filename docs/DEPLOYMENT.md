@@ -81,9 +81,6 @@ There is an audit trail for changing cloud.gov environment variables via the Clo
 | AWS_ACCESS_KEY_ID | IAM Account Key used for Simple email service | no | |
 | AWS_SECRET_ACCESS_KEY | IAM Account Access Key used for Simple email service| no | |
 | AWS_REGION | specifies AWS region | no | us-east-1 |
-| GOOGLE_API_QUOTA_USER | 40 character string used to identify Google API requests | yes | TTS-GSA-TOUCHPOINTS-environment-user |
-| GOOGLE_CONFIG | used for Google Drive, Sheets, Tag Manager APIs - a .json string | no | |
-| GOOGLE_TAG_MANAGER_ACCOUNT_ID | 1 GTM Account per Touchpoints environment. This is the Account ID for the Google Tag Manager Account being used. Touchpoints creates all its Containers under a single Account. Note: different Account IDs should exist for Staging and Production. | no | |
 | NEW_RELIC_KEY | API Key for New Relic. The New Relic Key is the same for Staging and Production.  | no | |
 | TOUCHPOINTS_EMAIL_SENDER | email address when Touchpoints sends email. Account Confirmation, Password Reset, Submission Notification | yes | |
 | TOUCHPOINTS_GTM_CONTAINER_ID   | GTM to deliver analytics for the deployed app/Product itself | no | | |
@@ -114,30 +111,10 @@ An onboarding Touchpoints Developer should have access to the following tools.
 * GSA Email
 * cloud.gov
 * GitHub
-* Google Drive & Sheets
 * Google Tag Manager
 * AWS Simple Email Service
 * Circle CI
 * Snyk
-
-## Additional Notes for Developers
-
-Running Touchpoints requires a Google Service Account with Access to Tag Manager, Drive, and Sheets API.
-Be sure to add the Service Account email address to the Google Tag Manager Account User Management Panel.
-
-### Configuring Google Tag Manager, Drive, and Sheets
-
-Touchpoints uses a Google Service Account to interact with
-Google Tag Manager, Google Drive, and Google Sheets.
-A Google Service Account can be created in the
-[Google Developer Console](https://console.developers.google.com/).
-
-The Service Account should have the 3 API's above enabled,
-and after generating the account,
-you should have the option to download a .json file with the creds.
-Touchpoints Develoers should make the .json creds into 1 line (just remove the line breaks in the .json),
-and use the string as the `GOOGLE_CONFIG` environment variable
-in each environment.
 
 ### Configuring s3
 
@@ -163,3 +140,45 @@ Use the cloud.gov Service Accounts
 in CircleCI to push successful builds to environments
 automatically (continuous deployment),
 or with a click of a button (when 🚢 shipping software is a business decision).
+
+---
+
+# Touchpoints Maintenance Page
+
+Touchpoints has a Maintenance Page
+for display when the app is under extended maintenance
+or otherwise experiencing downtime.
+
+The maintenance page is a separate
+[application](https://github.com/gsa/touchpoints-maintenance-page); with 1 html file.
+1 maintenance page is maintained for each Cloud.gov space.
+In cloud.gov, the web application simply updates
+a virtual route to point the maintenance page app.
+When complete, the virtual route is pointed back at the web application.
+
+Because Touchpoints maintains 3 "Spaces" (dev, staging, prod),
+the 3 maintenance pages exist as:
+
+* touchpoints-dev-maintenance-page
+* touchpoints-staging-maintenance-page
+* touchpoints-prod-maintenance-page
+
+
+### Commands
+
+These commands assume we're using Touchpoints' Staging environment,
+with `touchpoints-staging-maintenance` as the Maintenance Page app name,
+and `touchpoints-staging` as the web application app name.
+We're also assuming our Cloud Foundry instance is `app.cloud.gov`.
+Be sure to update your app names and CF instance accordingly.
+
+To create a Maintenance Page, run the following command from the [maintenance repo](https://github.com/gsa/touchpoints-maintenance-page).
+`cf push touchpoints-staging-maintenance -m 64M --no-route`
+
+To toggle a page on
+`cf map-route touchpoints-staging-maintenance app.cloud.gov --hostname touchpoints-staging`
+
+To toggle a page off
+`cf unmap-route touchpoints-staging-maintenance app.cloud.gov --hostname touchpoints-staging`
+Then,
+`cf map-route touchpoints-staging app.cloud.gov --hostname touchpoints-staging`
