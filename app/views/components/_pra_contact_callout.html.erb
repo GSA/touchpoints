@@ -6,7 +6,9 @@
       <hr>
       <% if pra_contacts.present? %>
         <% pra_contacts.each do |contact| %>
-          <%= link_to contact.name, contact.email %>
+          <%= contact.name %>
+          &middot;
+          <%= link_to contact.email, contact.email %>
           <br>
         <% end %>
       <% else %>
