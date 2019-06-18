@@ -2,7 +2,9 @@
   <h3 id="fba-modal-title">
     <%= touchpoint.form.title %>
   </h3>
+  <% unless touchpoint.delivery_method == "inline" %>
   <a id="fba-modal-close" type="button" href="#">×</a>
+  <% end %>
   <p id="fba-instructions">
     <%= touchpoint.form.instructions %>
   </p>

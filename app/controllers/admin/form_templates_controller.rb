@@ -7,6 +7,7 @@ class Admin::FormTemplatesController < AdminController
   end
 
   def show
+    @form = Form.new
   end
 
   def new

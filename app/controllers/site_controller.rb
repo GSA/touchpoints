@@ -12,11 +12,7 @@ class SiteController < ApplicationController
     render json: {
       status: :success,
       services: {
-        database: :operational,
-        google: {
-          sheets: :operational,
-          gtm: :operational
-        }
+        database: :operational
       }
     }
   end

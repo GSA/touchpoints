@@ -21,10 +21,10 @@
         <td>
           <%= link_to form.name, admin_touchpoint_form_path(form.touchpoint, form) if form.touchpoint %>
         </td>
-        <td><%= link_to 'Edit', edit_admin_form_path(form) %></td>
+        <td><%= link_to 'Edit', edit_admin_touchpoint_form_path(form.touchpoint, form) %></td>
         <% if admin_permissions? %>
         <td>
-          <%= link_to 'Destroy', admin_form_path(form), method: :delete, data: { confirm: 'Are you sure?' } %>
+          <%= link_to 'Destroy', admin_touchpoint_form_path(form.touchpoint, form), method: :delete, data: { confirm: 'Are you sure?' } %>
         </td>
         <% end %>
       </tr>

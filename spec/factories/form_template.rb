@@ -5,9 +5,15 @@ FactoryBot.define do
     notes { "Notes" }
     trait :a11 do
       kind { "a11" }
+      name { "A11 Form" }
     end
     trait :recruiter do
       kind { "recruiter" }
+      name { "Recruiter" }
+    end
+    trait :open_ended_with_contact_info do
+      kind { "open-ended-with-contact-info" }
+      name { "Open-ended Test form with Contact Info" }
     end
   end
 end

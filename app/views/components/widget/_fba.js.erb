@@ -9,8 +9,10 @@ N.fba = {
 		this.options = options;
 		this.loadCss();
 		this.loadHtml();
-		<% unless local_assigns.has_key?(:suppress_ui) && suppress_ui -%>
-		this.loadButton();
+		<% unless (local_assigns.has_key?(:suppress_ui) && suppress_ui) -%>
+			<% if touchpoint.delivery_method == "modal" -%>
+				this.loadButton();
+			<% end %>
 		<% end %>
 		this.bindEventListeners();
 		this.dialogOpen = false; // initially false
@@ -21,7 +23,7 @@ N.fba = {
 		var self = this;
 		d.addEventListener('keyup', function (event) {
 			var x = event.keyCode;
-			if( x == 27 && self.dialogOpen == true){
+			if( x == 27 && self.dialogOpen == true) {
 				self.closeDialog();
 			}});
 			d.addEventListener('click', function (event) {
@@ -34,24 +36,37 @@ N.fba = {
 		},
 		loadHtml: function()
 		{
-			this.buttonEl = document.createElement('a');
-			this.buttonEl.setAttribute('id', 'fba-button');
-			this.buttonEl.setAttribute('class', 'fixed-tab-button');
-			this.buttonEl.setAttribute('href', '#');
-			this.buttonEl.addEventListener( 'click', this.handleButtonClick, false );
-			this.buttonEl.innerHTML = this.options.open;
-
 			this.dialogEl = document.createElement('div');
 			this.dialogEl.style.display = "none";
 			this.dialogEl.setAttribute('id', 'fba-modal');
 			this.dialogEl.setAttribute('role', 'dialog');
 
-			<%# inject the form interface %>
+		<%# inject the form interface for inline %>
+		<% if touchpoint.delivery_method == "inline" %>
+			<% if touchpoint.element_selector? %>
+			if(d.getElementById('<%= touchpoint.element_selector %>') != null) {
+				d.getElementById('<%= touchpoint.element_selector %>').innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { touchpoint: touchpoint }) %>";
+				d.body.appendChild(this.dialogEl);
+			}
+			<% end %>
+		<% end %>
+
+		<% if touchpoint.delivery_method != "inline" %>
+			<%# inject the form interface for modal and custom-button-modal %>
 			this.dialogEl.innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { touchpoint: touchpoint }) %>";
 			d.body.appendChild(this.dialogEl);
 
 			d.getElementById('fba-modal-close').addEventListener( 'click', this.handleDialogClose, false );
 			d.getElementById('fba-submit').addEventListener( 'click', this.handleSubmitClick, false );
+		<% end %>
+
+		<% if touchpoint.delivery_method == "custom-button-modal" %>
+			<% if touchpoint.element_selector? %>
+			if(d.getElementById('<%= touchpoint.element_selector %>') != null) {
+				d.getElementById('<%= touchpoint.element_selector %>').addEventListener( 'click', this.handleButtonClick, false );
+			}
+			<% end %>
+		<% end %>
 		},
 		resetErrors: function()
 		{
@@ -65,9 +80,15 @@ N.fba = {
 			alertErrorElementBody.innerHTML = "";
 		},
 		handleClick: function(e) {
+		<% if touchpoint.delivery_method == "modal" %>
 			if (N.fba.dialogOpen && !e.target.closest('#fba-button') && !e.target.closest('#fba-modal-dialog')) {
 				N.fba.closeDialog();
 			}
+		<% elsif touchpoint.delivery_method == "custom-button-modal" %>
+			if (N.fba.dialogOpen && !e.target.closest('#' + '<%= touchpoint.element_selector %>') && !e.target.closest('#fba-modal-dialog')) {
+				N.fba.closeDialog();
+			}
+		<% end %>
 		},
 		handleButtonClick: function(e) {
 			e.preventDefault();
@@ -85,6 +106,12 @@ N.fba = {
 		},
 		loadButton: function()
 		{
+			this.buttonEl = document.createElement('a');
+			this.buttonEl.setAttribute('id', 'fba-button');
+			this.buttonEl.setAttribute('class', 'fixed-tab-button');
+			this.buttonEl.setAttribute('href', '#');
+			this.buttonEl.addEventListener( 'click', this.handleButtonClick, false );
+			this.buttonEl.innerHTML = this.options.open;
 			d.body.appendChild(this.buttonEl);
 		},
 		// Used when in a modal
@@ -240,17 +267,8 @@ N.fba = {
 	};
 }( document, window ));
 
-// Set options for tab text, modal title, description, and alert message after submit.
-// These will be mapped to named variables in Google Tag Manager.
 var tabText = "Help improve this site";
-var formTitle = "Do you have a few minutes to help us test this site?";
-var formDesc = "Hi! We’re looking for people to participate ";
-var buttonLabel = "Send";
-var thankYouText = "Thank you";
 
 fba.init({
-	'open': tabText,   //'Help improve this site',
-	'title': formTitle,    //'Do you have a few minutes to help us test this site?',
-	'description': formDesc,   //'Hi! We’re looking for people to participate in a 30 minute phone interview about how they use [agency.gov]. If selected, we’ll contact you to set up a time.',
-	'send': buttonLabel,    //'Send'
+	'open': tabText
 });

@@ -22,18 +22,6 @@
       <% end %>
     </p>
     <p>
-      <strong>Container:</strong>
-      <% if @touchpoint.service %>
-      <% if current_user.admin? %>
-      <%= link_to(@touchpoint.service.container.name, admin_container_path(@touchpoint.service.container)) if @touchpoint.service.container %>
-      <% else %>
-      <%= @touchpoint.service.container.name if @touchpoint.service.container %>
-      <% end %>
-      <% else %>
-      ⚠️ This Touchpoint does not have a Container because it does not belong to a Service.
-      <% end %>
-    </p>
-    <p>
       <strong>Form:</strong>
       <% if @touchpoint.form %>
       <%= link_to(@touchpoint.form.name, admin_touchpoint_form_path(@touchpoint, @touchpoint.form)) %>
@@ -44,6 +32,14 @@
 
       <%= render "form_template_form", { touchpoint: @touchpoint } %>
       <% end %>
+    </p>
+    <p>
+      <strong>Delivery Method:</strong>
+      <%= @touchpoint.delivery_method %>
+    </p>
+    <p>
+      <strong>Element Selector:</strong>
+      <%= @touchpoint.element_selector %>
     </p>
     <p>
       <strong>OMB Approval #</strong>
@@ -105,20 +101,132 @@
 <% end %>
 <br>
 <hr>
+<% if admin_permissions? %>
+<div class="pra-features">
+  <h3>
+    PRA Features
+  </h3>
+  <div class="usa-alert usa-alert-info" >
+    <div class="usa-alert-body">
+      <p class="usa-alert-text">
+        Gathering public feedback requires
+        authorization and approvals, including PRA.
+        Public Records Act (PRA)
+        documentation references details about the Service
+        and Touchpoint Form being presented to a public user.
+      </p>
+      <p>
+        Because Services and their touchpoints are defined
+        here in Touchpoints,
+        some
+        <strong>compliance forms</strong> can be
+        <strong>automated</strong>
+        to various extents.
+      </p>
+    </div>
+  </div>
+  <%= link_to "Generate PRA Form Part A", export_pra_document_admin_touchpoint_path(@touchpoint, format: "docx", type: "part_a"), class: "usa-button" %>
+</div>
+<hr>
+<% end %>
+<ul class="usa-accordion-bordered">
+  <li>
+    <button class="usa-accordion-button"
+      aria-expanded="false"
+      aria-controls="b-a1">
+      Learn more about the options for publishing a Touchpoint
+    </button>
+    <div id="b-a1" class="usa-accordion-content">
+      <p>
+        Service Managers are responsible for determining where a Touchpoint is
+        presented in a user's journey. The Feedback Analytics team can also
+        provide assistance in this regard.
+      </p>
+      <p>
+        A Touchpoint can be shared with a user in a couple ways. Touchpoints hosts
+        Touchpoints via a public URL, where users can access them directly.
+        An Agency can use the public URL in a link on a website, in a customer
+        communication.
+        For example, including the public URL in a CRM follow-up response email.
+      </p>
+      <p>
+        A Touchpoint can also be embedded on a website via a script tag.
+        An embedded Touchpoint displays a tab and pops a modal by default; though,
+        it is customizable to a certain extent.
+      </p>
+    </div>
+  </li>
+</ul>
 <h3>
-  Customers can create a Submission for this Touchpoint.
+  Publishing a Touchpoint
 </h3>
 <% if @touchpoint.form || @touchpoint.deployable_touchpoint? %>
-<p>
-  <%= link_to 'a public Touchpoints page', submit_touchpoint_path(@touchpoint), class: "usa-button" %>
+  <h5>
+    1) Public Touchpoints URL
+  </h5>
+  <p>
+    <%= link_to 'View the page', submit_touchpoint_path(@touchpoint), class: "usa-button" %>
 
-  <% if @touchpoint.deployable_touchpoint? %>
-    <%= submit_touchpoint_url(@touchpoint) %>
+    <% if @touchpoint.deployable_touchpoint? %>
+      <%= link_to submit_touchpoint_url(@touchpoint), submit_touchpoint_url(@touchpoint) %>
+    <% end %>
+  </p>
+  <% if @touchpoint.delivery_method == "modal" || @touchpoint.delivery_method == "inline" || @touchpoint.delivery_method == "custom-button-modal" %>
+    <h5>
+      2) Javascript Embed
+    </h5>
+    <p>
+      <% if @touchpoint.deployable_touchpoint? %>
+        <% if @touchpoint.delivery_method == "custom-button-modal" %>
+        <p>
+          Add the following markup to your site
+          as a place to display the Touchpoint
+          <i>inline</i>.
+        </p>
+        <p>
+          <span class="code">
+            <%= h("<a id=\"#{@touchpoint.element_selector}\"></a>") %>
+          </span>
+        </p>
+        <% end %>
+        <% if @touchpoint.delivery_method == "inline" %>
+        <p>
+          Add the following markup to your site
+          as a place to display the Touchpoint
+          <i>inline</i>.
+        </p>
+        <p>
+          <span class="code">
+            <%= h("<div id=\"#{@touchpoint.element_selector}\"></div>") %>
+          </span>
+        </p>
+        <% end %>
+      <p>
+        Add the following script to your site to generate a Tab & Modal on your site.
+      </p>
+      <p>
+        <span class="code">
+          <%= h("<script src=\"#{js_touchpoint_url(@touchpoint)}\" async></script>") %>
+        </span>
+      </p>
+      <% end %>
+      <% if @touchpoint.delivery_method == "inline" %>
+      <p>
+        <%= link_to 'View an example: Inline', example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank", rel: "noopener" %>
+      </p>
+      <% end %>
+      <% if @touchpoint.delivery_method == "custom-button-modal" %>
+      <p>
+        <%= link_to 'View an example: Custom button modal', example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank", rel: "noopener" %>
+      </p>
+      <% end %>
+      <% if @touchpoint.delivery_method == "modal" %>
+      <p>
+        <%= link_to 'View an example: Tab + Modal', example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank", rel: "noopener" %>
+      </p>
+      <% end %>
+    </p>
   <% end %>
-</p>
-<p>
-  <%= link_to '.js tab Embed Example', example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank" %>
-</p>
 <% else %>
   <div class="usa-alert usa-alert-error" >
     <div class="usa-alert-body">
@@ -129,22 +237,7 @@
     </div>
   </div>
 <% end %>
-<% if @touchpoint.service && @touchpoint.service.container %>
-<p>
-  <%= link_to 'GTM + .js
-  Example', gtm_example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank" %> Add the Tag <%= link_to "Container", admin_container_path(@touchpoint.service.container) %>'s embed codes in your site. Then, activate the Container in GTM.
-</p>
-<% end %>
 <hr>
-<% if admin_permissions? %>
-<div class="pra-features">
-  <h3>
-    PRA Features
-  </h3>
-  <%= link_to "Generate PRA Form Part A", export_pra_document_admin_touchpoint_path(@touchpoint, format: "docx", type: "part_a") %>
-</div>
-<hr>
-<% end %>
 <% @submissions = @touchpoint.submissions %>
 <%= render file: "admin/submissions/index" %>
 <br>

@@ -62,7 +62,9 @@ feature "Touchpoints", js: true do
       context "#show" do
         let(:admin) { FactoryBot.create(:user, :admin) }
         let!(:organization) { FactoryBot.create(:organization) }
-        let(:touchpoint) { FactoryBot.create(:touchpoint)}
+        let!(:service) { FactoryBot.create(:service) }
+        let(:touchpoint) { FactoryBot.create(:touchpoint, service: service)}
+        let!(:user_service) { FactoryBot.create(:user_service, user: admin, service: service, role: UserService::Role::ServiceManager) }
 
         describe "Submission Export button" do
           context "when no Submissions exist" do

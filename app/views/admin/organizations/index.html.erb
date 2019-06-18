@@ -6,8 +6,6 @@
       <th>Name</th>
       <th>Url</th>
       <th>Abbreviation</th>
-      <th>Notes</th>
-      <th>GTM Account ID</th>
     </tr>
   </thead>
 
@@ -17,8 +15,6 @@
         <td><%= link_to organization.name, admin_organization_path(organization) %></td>
         <td><%= organization.url %></td>
         <td><%= organization.abbreviation %></td>
-        <td><%= organization.notes %></td>
-        <td><%= organization.external_id? ? link_to(organization.external_id, "https://tagmanager.google.com/#/admin/?accountId=#{organization.external_id}", target: "_blank") : nil %></td>
       </tr>
     <% end %>
   </tbody>
