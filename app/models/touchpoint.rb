@@ -29,7 +29,8 @@ class Touchpoint < ApplicationRecord
   end
 
   def to_csv
-    return nil unless self.submissions.present?
+    non_flagged_submissions = self.submissions.non_flagged
+    return nil unless non_flagged_submissions.present?
 
     header_attributes = self.hashed_fields_for_export.values
     attributes = self.fields_for_export
@@ -37,7 +38,7 @@ class Touchpoint < ApplicationRecord
     CSV.generate(headers: true) do |csv|
       csv << header_attributes
 
-      submissions.each do |submission|
+      non_flagged_submissions.each do |submission|
         csv << attributes.map { |attr| submission.send(attr) }
       end
     end
@@ -71,8 +72,7 @@ class Touchpoint < ApplicationRecord
         user_agent: "User Agent",
         page: "Page",
         referer: "Referrer",
-        created_at: "Created At",
-        flagged: "Flagged"
+        created_at: "Created At"
       }
     elsif self.form.kind == "open-ended"
       {
@@ -81,8 +81,7 @@ class Touchpoint < ApplicationRecord
         user_agent: "User Agent",
         page: "Page",
         referer: "Referrer",
-        created_at: "Created At",
-        flagged: "Flagged"
+        created_at: "Created At"
       }
     elsif self.form.kind == "open-ended-with-contact-info"
       {
@@ -94,8 +93,7 @@ class Touchpoint < ApplicationRecord
         user_agent: "User Agent",
         page: "Page",
         referer: "Referrer",
-        created_at: "Created At",
-        flagged: "Flagged"
+        created_at: "Created At"
       }
     elsif self.form.kind == "a11"
       {
@@ -115,8 +113,7 @@ class Touchpoint < ApplicationRecord
         user_agent: "User Agent",
         page: "Page",
         referer: "Referrer",
-        created_at: "Created At",
-        flagged: "Flagged"
+        created_at: "Created At"
       }
     else
       raise InvalidArgument("#{@touchpoint.name} has a Form with an unsupported Kind")
