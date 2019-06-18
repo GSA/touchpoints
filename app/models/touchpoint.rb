@@ -5,7 +5,12 @@ class Touchpoint < ApplicationRecord
 
   validates :name, presence: true
 
-  DELIVERY_METHODS = ["touchpoints-hosted-only", "inline", "modal", "custom-button-modal"]
+  DELIVERY_METHODS = [
+    "touchpoints-hosted-only",
+    "inline",
+    "modal",
+    "custom-button-modal"
+  ]
 
   scope :active, -> { where("id > 0") } # TODO: make this sample scope more intelligent/meaningful
 
@@ -66,7 +71,8 @@ class Touchpoint < ApplicationRecord
         user_agent: "User Agent",
         page: "Page",
         referer: "Referrer",
-        created_at: "Created At"
+        created_at: "Created At",
+        flagged: "Flagged"
       }
     elsif self.form.kind == "open-ended"
       {
@@ -75,7 +81,8 @@ class Touchpoint < ApplicationRecord
         user_agent: "User Agent",
         page: "Page",
         referer: "Referrer",
-        created_at: "Created At"
+        created_at: "Created At",
+        flagged: "Flagged"
       }
     elsif self.form.kind == "open-ended-with-contact-info"
       {
@@ -87,7 +94,8 @@ class Touchpoint < ApplicationRecord
         user_agent: "User Agent",
         page: "Page",
         referer: "Referrer",
-        created_at: "Created At"
+        created_at: "Created At",
+        flagged: "Flagged"
       }
     elsif self.form.kind == "a11"
       {
@@ -107,7 +115,8 @@ class Touchpoint < ApplicationRecord
         user_agent: "User Agent",
         page: "Page",
         referer: "Referrer",
-        created_at: "Created At"
+        created_at: "Created At",
+        flagged: "Flagged"
       }
     else
       raise InvalidArgument("#{@touchpoint.name} has a Form with an unsupported Kind")

@@ -7,7 +7,7 @@ class Admin::TouchpointsController < AdminController
   before_action :set_touchpoint, only: [
     :show, :edit, :update, :destroy,
     :toggle_editability,
-    :export_pra_document, :export_submissions, :export_submissions_csv,
+    :export_pra_document, :export_submissions,
     :example, :js, :trigger
   ]
 
