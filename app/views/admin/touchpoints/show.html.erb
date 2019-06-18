@@ -171,20 +171,24 @@
       <%= link_to submit_touchpoint_url(@touchpoint), submit_touchpoint_url(@touchpoint) %>
     <% end %>
   </p>
-  <% if @touchpoint.delivery_method == "modal" || @touchpoint.delivery_method == "inline" %>
+  <% if @touchpoint.delivery_method == "modal" || @touchpoint.delivery_method == "inline" || @touchpoint.delivery_method == "custom-button-modal" %>
     <h5>
       2) Javascript Embed
     </h5>
     <p>
       <% if @touchpoint.deployable_touchpoint? %>
-      <p>
-        Add the following script to your site to generate a Tab & Modal on your site.
-      </p>
-      <p>
-        <span class="code">
-          <%= h("<script src=\"#{js_touchpoint_url(@touchpoint)}\" async></script>") %>
-        </span>
-      </p>
+        <% if @touchpoint.delivery_method == "custom-button-modal" %>
+        <p>
+          Add the following markup to your site
+          as a place to display the Touchpoint
+          <i>inline</i>.
+        </p>
+        <p>
+          <span class="code">
+            <%= h("<a id=\"#{@touchpoint.element_selector}\"></a>") %>
+          </span>
+        </p>
+        <% end %>
         <% if @touchpoint.delivery_method == "inline" %>
         <p>
           Add the following markup to your site
@@ -197,10 +201,23 @@
           </span>
         </p>
         <% end %>
+      <p>
+        Add the following script to your site to generate a Tab & Modal on your site.
+      </p>
+      <p>
+        <span class="code">
+          <%= h("<script src=\"#{js_touchpoint_url(@touchpoint)}\" async></script>") %>
+        </span>
+      </p>
       <% end %>
       <% if @touchpoint.delivery_method == "inline" %>
       <p>
         <%= link_to 'View an example: Inline', example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank", rel: "noopener" %>
+      </p>
+      <% end %>
+      <% if @touchpoint.delivery_method == "custom-button-modal" %>
+      <p>
+        <%= link_to 'View an example: Custom button modal', example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank", rel: "noopener" %>
       </p>
       <% end %>
       <% if @touchpoint.delivery_method == "modal" %>

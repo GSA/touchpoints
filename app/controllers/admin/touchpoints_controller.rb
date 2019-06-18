@@ -125,7 +125,7 @@ class Admin::TouchpointsController < AdminController
   end
 
   def example
-    redirect_to admin_touchpoints_path, notice: "Touchpoint does not have a delivery_method of 'modal' or 'inline'" and return unless @touchpoint.delivery_method == "modal" || @touchpoint.delivery_method == "inline"
+    redirect_to admin_touchpoints_path, notice: "Touchpoint does not have a delivery_method of 'modal' or 'inline' or 'custom-button-modal'" and return unless @touchpoint.delivery_method == "modal" || @touchpoint.delivery_method == "inline" || @touchpoint.delivery_method == "custom-button-modal"
 
     render layout: false
   end
