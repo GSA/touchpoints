@@ -8,6 +8,6 @@ class Service < ApplicationRecord
 
   def user_role?(user:)
     user_service = self.user_services.find_by_user_id(user.id)
-    user_service.role
+    user_service.present? ? user_service.role : nil
   end
 end
