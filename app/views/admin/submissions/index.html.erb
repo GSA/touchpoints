@@ -71,9 +71,11 @@
           </td>
           <% end %>
           <% if @touchpoint.form.kind == "open-ended-with-contact-info" %>
-          <span class="truncate" text="<%= submission.answer_01 %>">
-            <%= submission.answer_01.truncate(50) %>
-          </span>
+          <td>
+            <span class="truncate" text="<%= submission.answer_01 %>">
+              <%= submission.answer_01.truncate(50) %>
+            </span>
+          </td>
           <td><%= submission.answer_02 %></td>
           <td><%= submission.answer_03 %></td>
           <td><%= submission.answer_04 %></td>
@@ -147,7 +149,7 @@
     });
 
     $(".truncate").on("mouseout", function() {
-      $(this).html(truncate($(this).attr("text"), 80));
+      $(this).html(truncate($(this).attr("text"), 50));
     });
   });
 </script>
