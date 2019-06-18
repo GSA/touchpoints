@@ -60,6 +60,6 @@
   </tbody>
 </table>
 
-<% if admin_permissions? %>
+<% if organization_manager_permissions? %>
   <%= link_to 'Create New Touchpoint', new_admin_touchpoint_path, class: "usa-button" %>
 <% end %>

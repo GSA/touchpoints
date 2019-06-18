@@ -306,6 +306,6 @@ puts "Created Test User in Secondary Organization: #{digital_gov_user.email}"
 
 pra_contact = PraContact.create!({
   email: "pra_contact@example.gov",
-  name: "Your Friendly PRA Contact"
+  name: "Rosa Parks"
 })
 puts "Created PRA Contact User for Primary Organization: #{pra_contact.email}"
