@@ -7,7 +7,7 @@ class Admin::TouchpointsController < AdminController
   before_action :set_touchpoint, only: [
     :show, :edit, :update, :destroy,
     :toggle_editability,
-    :export_pra_document, :export_submissions, :export_submissions_csv,
+    :export_pra_document, :export_submissions,
     :example, :js, :trigger
   ]
 
@@ -125,6 +125,8 @@ class Admin::TouchpointsController < AdminController
   end
 
   def example
+    redirect_to admin_touchpoints_path, notice: "Touchpoint does not have a delivery_method of 'modal' or 'inline' or 'custom-button-modal'" and return unless @touchpoint.delivery_method == "modal" || @touchpoint.delivery_method == "inline" || @touchpoint.delivery_method == "custom-button-modal"
+
     render layout: false
   end
 
@@ -151,7 +153,9 @@ class Admin::TouchpointsController < AdminController
         :meaningful_response_size,
         :behavior_change,
         :notification_emails,
-        :omb_approval_number
+        :omb_approval_number,
+        :delivery_method,
+        :element_selector
       )
     end
 

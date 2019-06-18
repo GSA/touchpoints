@@ -35,7 +35,11 @@ Rails.application.routes.draw do
         get "export_pra_document", as: :export_pra_document
       end
       resources :forms
-      resources :submissions, only: [:new, :show, :create, :destroy]
+      resources :submissions, only: [:new, :show, :create, :destroy] do
+        member do
+          post "flag", to: "submissions#flag", as: :flag
+        end
+      end
     end
     root to: "site#index"
   end

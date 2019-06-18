@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_05_051407) do
+ActiveRecord::Schema.define(version: 2019_06_17_233620) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -139,6 +139,7 @@ ActiveRecord::Schema.define(version: 2019_06_05_051407) do
     t.text "answer_20"
     t.string "ip_address"
     t.string "location_code"
+    t.boolean "flagged", default: false
   end
 
   create_table "touchpoints", force: :cascade do |t|
@@ -159,6 +160,8 @@ ActiveRecord::Schema.define(version: 2019_06_05_051407) do
     t.date "expiration_date"
     t.integer "service_id"
     t.boolean "editable", default: true
+    t.string "delivery_method"
+    t.string "element_selector"
   end
 
   create_table "triggers", force: :cascade do |t|

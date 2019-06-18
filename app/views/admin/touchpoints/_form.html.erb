@@ -52,6 +52,24 @@
         </ul>
       </fieldset>
     <% end %>
+    <h3>
+      Select a Delivery Method
+    </h3>
+    <fieldset class="usa-fieldset-inputs usa-sans">
+      <legend class="usa-sr-only">Types of Forms</legend>
+      <ul class="usa-unstyled-list">
+        <% Touchpoint::DELIVERY_METHODS.each do |f| %>
+        <li>
+          <%= form.radio_button :delivery_method, f %>
+          <%= form.label f, for: "touchpoint_delivery_method_#{f}" %>
+        </li>
+        <% end %>
+      </ul>
+    </fieldset>
+    <div class="field">
+      <%= form.label :element_selector %>
+      <%= form.text_field :element_selector, placeholder: "button-id" %>
+    </div>
     <div class="field">
       <%= form.label :expiration_date %>
       <%= form.date_field :expiration_date %>

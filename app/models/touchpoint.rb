@@ -5,6 +5,13 @@ class Touchpoint < ApplicationRecord
 
   validates :name, presence: true
 
+  DELIVERY_METHODS = [
+    "touchpoints-hosted-only",
+    "inline",
+    "modal",
+    "custom-button-modal"
+  ]
+
   scope :active, -> { where("id > 0") } # TODO: make this sample scope more intelligent/meaningful
 
   def send_notifications?
@@ -22,7 +29,8 @@ class Touchpoint < ApplicationRecord
   end
 
   def to_csv
-    return nil unless self.submissions.present?
+    non_flagged_submissions = self.submissions.non_flagged
+    return nil unless non_flagged_submissions.present?
 
     header_attributes = self.hashed_fields_for_export.values
     attributes = self.fields_for_export
@@ -30,7 +38,7 @@ class Touchpoint < ApplicationRecord
     CSV.generate(headers: true) do |csv|
       csv << header_attributes
 
-      submissions.each do |submission|
+      non_flagged_submissions.each do |submission|
         csv << attributes.map { |attr| submission.send(attr) }
       end
     end
@@ -111,5 +119,5 @@ class Touchpoint < ApplicationRecord
       raise InvalidArgument("#{@touchpoint.name} has a Form with an unsupported Kind")
     end
   end
-  
+
 end

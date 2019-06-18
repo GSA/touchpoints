@@ -4,6 +4,7 @@ FactoryBot.define do
     name { "Example Touchpoint" }
     expiration_date { Time.now + 2.months }
     omb_approval_number { rand(10000).to_s }
+    delivery_method { "modal" }
     form
   end
 end
