@@ -41,12 +41,24 @@ N.fba = {
 			this.dialogEl.setAttribute('id', 'fba-modal');
 			this.dialogEl.setAttribute('role', 'dialog');
 
-			<%# inject the form interface %>
+		<%# inject the form interface for inline %>
+		<% if touchpoint.delivery_method == "inline" %>
+			<% if touchpoint.element_selector? %>
+			if(d.getElementById('<%= touchpoint.element_selector %>') != null) {
+				d.getElementById('<%= touchpoint.element_selector %>').innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { touchpoint: touchpoint }) %>";
+				d.body.appendChild(this.dialogEl);
+			}
+			<% end %>
+		<% end %>
+
+		<% if touchpoint.delivery_method != "inline" %>
+			<%# inject the form interface for modal and custom-button-modal %>
 			this.dialogEl.innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { touchpoint: touchpoint }) %>";
 			d.body.appendChild(this.dialogEl);
 
 			d.getElementById('fba-modal-close').addEventListener( 'click', this.handleDialogClose, false );
 			d.getElementById('fba-submit').addEventListener( 'click', this.handleSubmitClick, false );
+		<% end %>
 
 		<% if touchpoint.delivery_method == "custom-button-modal" %>
 			<% if touchpoint.element_selector? %>

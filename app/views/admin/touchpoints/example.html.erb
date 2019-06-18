@@ -31,6 +31,16 @@
   </head>
   <body>
     <!-- Demo content -->
+    <% if @touchpoint.delivery_method == "inline" %>
+    <div class="usa-grid">
+      <div class="usa-width-one-whole">
+        <div id="<%= @touchpoint.element_selector %>">
+          Touchpoint will be rendered here.
+        </div>
+      </div>
+    </div>
+    <br>
+    <% end %>
     <div class="usa-grid demo-grid">
       <div class="usa-width-one-whole demo-content"></div>
     </div>
@@ -49,7 +59,6 @@
       <div class="usa-width-one-third demo-content"></div>
     </div>
     <!--- End demo content -->
-    <script src="<%= js_touchpoint_url(@touchpoint) %>" async>
-    </script>
+    <script src="<%= js_touchpoint_url(@touchpoint) %>" async></script>
   </body>
 </html>
