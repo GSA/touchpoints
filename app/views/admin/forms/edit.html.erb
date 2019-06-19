@@ -4,7 +4,7 @@
 <% if @form.kind == "a11" %>
   <%= render 'components/forms/edit/a11', { touchpoint: @touchpoint, form: @form } %>
 <% else %>
-  <div class="usa-grid">
+  <div class="usa-grid-full">
     <div class="usa-width-one-half">
       <%= render 'admin/forms/form', form: @form %>
     </div>

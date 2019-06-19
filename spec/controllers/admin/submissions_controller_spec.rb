@@ -30,7 +30,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
   # adjust the attributes here as well.
 
   let(:admin) { FactoryBot.create(:user, :admin)}
-  let!(:touchpoint) { FactoryBot.create(:touchpoint) }
+  let!(:touchpoint) { FactoryBot.create(:touchpoint, :with_form) }
   let!(:user_service) { FactoryBot.create(:user_service, user: admin, service: touchpoint.service, role: UserService::Role::ServiceManager) }
 
   let(:valid_attributes) {

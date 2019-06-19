@@ -1,4 +1,4 @@
-<div class="usa-grid">
+<div class="usa-grid-full">
   <div class="usa-width-full">
     <%= form_with(model: touchpoint, url: touchpoint.persisted? ? admin_touchpoint_path(touchpoint) : admin_touchpoints_path, local: true) do |form| %>
     <% if touchpoint.errors.any? %>

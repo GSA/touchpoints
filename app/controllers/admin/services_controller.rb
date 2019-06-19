@@ -121,6 +121,7 @@ class Admin::ServicesController < AdminController
       params.require(:service).permit(
         :name,
         :description,
+        :hisp,
         :notes,
         :organization_id,
         :service_manager

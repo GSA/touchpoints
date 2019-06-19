@@ -10,19 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_17_233620) do
+ActiveRecord::Schema.define(version: 2019_06_19_162610) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "containers", force: :cascade do |t|
-    t.string "name"
-    t.string "gtm_container_id"
-    t.string "gtm_container_public_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "service_id", null: false
-  end
 
   create_table "form_templates", force: :cascade do |t|
     t.string "name"
@@ -107,6 +98,7 @@ ActiveRecord::Schema.define(version: 2019_06_17_233620) do
     t.string "service_manager"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "hisp", default: false
   end
 
   create_table "submissions", force: :cascade do |t|
@@ -162,15 +154,6 @@ ActiveRecord::Schema.define(version: 2019_06_17_233620) do
     t.boolean "editable", default: true
     t.string "delivery_method"
     t.string "element_selector"
-  end
-
-  create_table "triggers", force: :cascade do |t|
-    t.integer "touchpoint_id"
-    t.string "name"
-    t.string "kind"
-    t.string "fingerprint"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "user_services", force: :cascade do |t|

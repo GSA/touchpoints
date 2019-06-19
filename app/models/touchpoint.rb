@@ -5,6 +5,17 @@ class Touchpoint < ApplicationRecord
 
   validates :name, presence: true
 
+  validate :omb_number_with_expiration_date
+
+  def omb_number_with_expiration_date
+    if omb_approval_number.present? && !expiration_date.present?
+      errors.add(:expiration_date, "required with an OMB Number")
+    end
+    if expiration_date.present? && !omb_approval_number.present?
+      errors.add(:omb_approval_number, "required with an Expiration Date")
+    end
+  end
+
   DELIVERY_METHODS = [
     "touchpoints-hosted-only",
     "inline",
