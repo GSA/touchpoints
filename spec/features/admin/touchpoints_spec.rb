@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 feature "Touchpoints", js: true do
+  let(:future_date) {
+    Time.now + 3.days
+  }
+
   context "as Admin" do
     describe "/touchpoints" do
       context "#index" do
@@ -8,9 +12,6 @@ feature "Touchpoints", js: true do
         let!(:service) { FactoryBot.create(:service) }
         let!(:user_service) { FactoryBot.create(:user_service, user: user, service: service, role: UserService::Role::ServiceManager) }
         let!(:form_template) { FactoryBot.create(:form_template) }
-        let(:future_date) {
-          Time.now + 3.days
-        }
 
         before "user creates a Touchpoint" do
           login_as user
@@ -128,12 +129,13 @@ feature "Touchpoints", js: true do
         let!(:user_service) { FactoryBot.create(:user_service, user: user, service: service, role: UserService::Role::ServiceManager) }
         let!(:form_template) { FactoryBot.create(:form_template) }
 
-        before "user completes (TEST) Sign Up form" do
+        before "User can create a Touchpoint" do
           login_as user
           visit new_admin_touchpoint_path
 
           fill_in("touchpoint[name]", with: "Test Touchpoint")
           fill_in("touchpoint[omb_approval_number]", with: 1234)
+          fill_in("touchpoint[expiration_date]", with: future_date.strftime("%m/%d/%Y"))
           # FIXME
           # this is non-conventional, because USWDS hides inputs and uses CSS :before
           # first("label[for=touchpoint_form_template_id_1]").click
@@ -157,6 +159,38 @@ feature "Touchpoints", js: true do
           expect(page).to have_content("Compliance")
           expect(page).to have_content("to be determined")
           expect(page).to have_content("Notification emails: admin@example.gov")
+        end
+
+        describe "Touchpoint data validations" do
+          describe "missing OMB Approval Number" do
+            before "user tries to create a Touchpoint" do
+              login_as user
+              visit new_admin_touchpoint_path
+
+              fill_in("touchpoint[name]", with: "Test Touchpoint")
+              fill_in("touchpoint[expiration_date]", with: future_date.strftime("%m/%d/%Y"))
+              click_button "Create Touchpoint"
+            end
+
+            it "display a flash message about missing OMB Approval Number" do
+              expect(page).to have_content("Omb approval number required with an Expiration Date")
+            end
+          end
+
+          describe "missing Expiration Date" do
+            before "user tries to create a Touchpoint" do
+              login_as user
+              visit new_admin_touchpoint_path
+
+              fill_in("touchpoint[name]", with: "Test Touchpoint")
+              fill_in("touchpoint[omb_approval_number]", with: 1234)
+              click_button "Create Touchpoint"
+            end
+
+            it "display a flash message about missing Expiration Date" do
+              expect(page).to have_content("Expiration date required with an OMB Number")
+            end
+          end
         end
       end
     end
