@@ -7,14 +7,17 @@ feature "Touchpoints", js: true do
 
   context "as Admin" do
     describe "/touchpoints" do
+      let(:admin) { FactoryBot.create(:user, :admin) }
+      before do
+        login_as admin
+      end
+
       context "#index" do
-        let(:user) { FactoryBot.create(:user, :admin) }
         let!(:service) { FactoryBot.create(:service) }
-        let!(:user_service) { FactoryBot.create(:user_service, user: user, service: service, role: UserService::Role::ServiceManager) }
+        let!(:user_service) { FactoryBot.create(:user_service, user: admin, service: service, role: UserService::Role::ServiceManager) }
         let!(:form_template) { FactoryBot.create(:form_template) }
 
         before "user creates a Touchpoint" do
-          login_as user
           visit new_admin_touchpoint_path
           fill_in("touchpoint[name]", with: "Test Touchpoint")
           select(service.name, from: "touchpoint[service_id]")
@@ -38,7 +41,6 @@ feature "Touchpoints", js: true do
       end
 
       context "#edit" do
-        let(:user) { FactoryBot.create(:user, :admin) }
         let!(:organization) { FactoryBot.create(:organization) }
         let!(:touchpoint) { FactoryBot.create(:touchpoint)}
         let!(:form_template) { FactoryBot.create(:form_template) }
@@ -46,7 +48,6 @@ feature "Touchpoints", js: true do
 
         describe "user updates a Touchpoint" do
           before do
-            login_as user
             visit edit_admin_touchpoint_path(touchpoint.id)
             fill_in("touchpoint[name]", with: new_name)
             click_button "Update Touchpoint"
@@ -61,16 +62,14 @@ feature "Touchpoints", js: true do
       end
 
       context "#show" do
-        let(:admin) { FactoryBot.create(:user, :admin) }
         let!(:organization) { FactoryBot.create(:organization) }
         let!(:service) { FactoryBot.create(:service) }
-        let(:touchpoint) { FactoryBot.create(:touchpoint, service: service)}
+        let!(:touchpoint) { FactoryBot.create(:touchpoint, :with_form, service: service) }
         let!(:user_service) { FactoryBot.create(:user_service, user: admin, service: service, role: UserService::Role::ServiceManager) }
 
         describe "Submission Export button" do
           context "when no Submissions exist" do
             before do
-              login_as admin
               visit admin_touchpoint_path(touchpoint.id)
             end
 
@@ -104,7 +103,6 @@ feature "Touchpoints", js: true do
             let!(:submission) { FactoryBot.create(:submission, touchpoint: touchpoint)}
 
             before do
-              login_as admin
               visit admin_touchpoint_path(touchpoint.id)
             end
 
@@ -118,19 +116,40 @@ feature "Touchpoints", js: true do
 
         end
       end
+
+      context "#example" do
+        describe "Touchpoint with `inline` delivery_method" do
+          let(:inline_touchpoint) { FactoryBot.create(:touchpoint, :inline, :with_form) }
+
+          before "/admin/touchpoints/:id/example" do
+            visit example_admin_touchpoint_path(inline_touchpoint.id)
+          end
+
+          it "can complete then submit the inline Form and see a Success message" do
+            fill_in "fba-text-body", with: "We the People of the United States, in Order to form a more perfect Union..."
+            click_on "Submit"
+            expect(page).to have_content("Success")
+            expect(page).to have_content("Thank you. Your feedback has been received.")
+          end
+        end
+      end
     end
   end
 
-  context "as Webmaster" do
+  context "as Organization Manager" do
+    let(:organization_manager) { FactoryBot.create(:user, :organization_manager) }
+
+    before do
+      login_as organization_manager
+    end
+
     describe "/touchpoints" do
       describe "#index" do
         let(:service) { FactoryBot.create(:service) }
-        let(:user) { FactoryBot.create(:user, :admin, organization: service.organization) }
-        let!(:user_service) { FactoryBot.create(:user_service, user: user, service: service, role: UserService::Role::ServiceManager) }
+        let!(:user_service) { FactoryBot.create(:user_service, user: organization_manager, service: service, role: UserService::Role::ServiceManager) }
         let!(:form_template) { FactoryBot.create(:form_template) }
 
         before "User can create a Touchpoint" do
-          login_as user
           visit new_admin_touchpoint_path
 
           fill_in("touchpoint[name]", with: "Test Touchpoint")
@@ -164,7 +183,6 @@ feature "Touchpoints", js: true do
         describe "Touchpoint data validations" do
           describe "missing OMB Approval Number" do
             before "user tries to create a Touchpoint" do
-              login_as user
               visit new_admin_touchpoint_path
 
               fill_in("touchpoint[name]", with: "Test Touchpoint")
@@ -179,7 +197,6 @@ feature "Touchpoints", js: true do
 
           describe "missing Expiration Date" do
             before "user tries to create a Touchpoint" do
-              login_as user
               visit new_admin_touchpoint_path
 
               fill_in("touchpoint[name]", with: "Test Touchpoint")
