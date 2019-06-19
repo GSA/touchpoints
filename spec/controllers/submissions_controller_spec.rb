@@ -29,7 +29,7 @@ RSpec.describe SubmissionsController, type: :controller do
   # Submission. As you add validations to Submission, be sure to
   # adjust the attributes here as well.
 
-  let!(:touchpoint) { FactoryBot.create(:touchpoint) }
+  let!(:touchpoint) { FactoryBot.create(:touchpoint, :with_form) }
 
   let(:valid_attributes) {
     {
@@ -55,7 +55,7 @@ RSpec.describe SubmissionsController, type: :controller do
   # SubmissionsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  let(:admin) { FactoryBot.create(:user, :admin)}
+  let(:admin) { FactoryBot.create(:user, :admin) }
 
   before do
     sign_in(admin)

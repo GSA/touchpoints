@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 feature "Touchpoints", js: true do
+  let!(:organization) { FactoryBot.create(:organization) }
+  let!(:service) { FactoryBot.create(:service) }
+  let!(:touchpoint) { FactoryBot.create(:touchpoint, :with_form, service: service)}
   let(:future_date) {
     Time.now + 3.days
   }
@@ -13,7 +16,6 @@ feature "Touchpoints", js: true do
       end
 
       context "#index" do
-        let!(:service) { FactoryBot.create(:service) }
         let!(:user_service) { FactoryBot.create(:user_service, user: admin, service: service, role: UserService::Role::ServiceManager) }
         let!(:form_template) { FactoryBot.create(:form_template) }
 
@@ -32,7 +34,7 @@ feature "Touchpoints", js: true do
         end
 
         it "redirect to /touchpoints/:id with a success flash message" do
-          expect(page.current_path).to eq(admin_touchpoint_path(Touchpoint.first.id))
+          expect(page.current_path).to eq(admin_touchpoint_path(Touchpoint.last.id))
           expect(page).to have_content("Touchpoint was successfully created.")
           expect(page).to have_content(future_date.to_date.to_s)
           expect(page).to have_content("Notification emails: admin@example.gov")
@@ -42,7 +44,6 @@ feature "Touchpoints", js: true do
 
       context "#edit" do
         let!(:organization) { FactoryBot.create(:organization) }
-        let!(:touchpoint) { FactoryBot.create(:touchpoint)}
         let!(:form_template) { FactoryBot.create(:form_template) }
         let(:new_name) { "New Name" }
 
@@ -62,9 +63,7 @@ feature "Touchpoints", js: true do
       end
 
       context "#show" do
-        let!(:organization) { FactoryBot.create(:organization) }
-        let!(:service) { FactoryBot.create(:service) }
-        let!(:touchpoint) { FactoryBot.create(:touchpoint, :with_form, service: service) }
+
         let!(:user_service) { FactoryBot.create(:user_service, user: admin, service: service, role: UserService::Role::ServiceManager) }
 
         describe "Submission Export button" do
@@ -168,7 +167,7 @@ feature "Touchpoints", js: true do
 
         it "redirect to /touchpoints/:id with a success flash message" do
           expect(page).to have_content("Touchpoint was successfully created.")
-          @touchpoint = Touchpoint.first
+          @touchpoint = Touchpoint.last
           expect(page.current_path).to eq(admin_touchpoint_path(@touchpoint.id))
           expect(page).to have_content("Test Touchpoint")
           expect(page).to have_content(@touchpoint.service.name)
