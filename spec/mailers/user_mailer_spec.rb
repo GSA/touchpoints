@@ -3,7 +3,9 @@ require "rails_helper"
 RSpec.describe UserMailer, type: :mailer do
   describe "submission_notification" do
     let(:user) { FactoryBot.create(:user) }
-    let(:submission) { FactoryBot.create(:submission) }
+    let!(:service) { FactoryBot.create(:service) }
+    let!(:touchpoint) { FactoryBot.create(:touchpoint, :with_form, service: service) }
+    let!(:submission) { FactoryBot.create(:submission, touchpoint: touchpoint) }
     let(:mail) { UserMailer.submission_notification(submission: submission, emails: [user.email]) }
 
     it "renders the headers" do

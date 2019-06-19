@@ -1,4 +1,4 @@
-<div class="usa-grid">
+<div class="usa-grid-full">
   <div class="usa-width-full">
     <%= form_with(model: touchpoint, url: touchpoint.persisted? ? admin_touchpoint_path(touchpoint) : admin_touchpoints_path, local: true) do |form| %>
     <% if touchpoint.errors.any? %>
@@ -17,12 +17,21 @@
       </div>
     <% end %>
     <div class="field">
+      <%= form.label :service_id do %>
+        Which Service do you want to deploy this Touchpoint in?<br>
+        <span style="font-size: 0.75em;">
+          This Touchpoint.js code be inserted into a Tag in GTM and will be attached to a Homepage Trigger.
+        </span>
+      <% end %>
+      <%= form.select :service_id, options_for_select(current_user.services.map { |c| [c.name, c.id] }, selected: touchpoint.service_id), prompt: "Which Service?" %>
+    </div>
+    <div class="field">
       <%= form.label :name %>
       <%= form.text_field :name, placeholder: "Name this Touchpoint for your Reference" %>
     </div>
     <% if touchpoint.form %>
-      <%= form.label :form %>
-      <%= link_to "Customize this Touchpoint's Form", admin_touchpoint_form_path(touchpoint, touchpoint.form), class: "usa-button" %>
+      <br>
+      <%= link_to "Customize this Touchpoint's Form", admin_touchpoint_form_path(touchpoint, touchpoint.form), class: "usa-button usa-button-secondary" %>
     <% else %>
       <h3>
         Select a Form Template
@@ -70,22 +79,14 @@
       <%= form.label :element_selector %>
       <%= form.text_field :element_selector, placeholder: "button-id" %>
     </div>
-    <div class="field">
-      <%= form.label :expiration_date %>
-      <%= form.date_field :expiration_date %>
-    </div>
+    <h3><span title="Public Records Act">PRA</span> Information</h3>
     <div class="field">
       <%= form.label :omb_approval_number %>
       <%= form.text_field :omb_approval_number, placeholder: "OMB Approval #" %>
     </div>
     <div class="field">
-      <%= form.label :service_id do %>
-        Which Service do you want to deploy this Touchpoint in?<br>
-        <span style="font-size: 0.75em;">
-          This Touchpoint.js code be inserted into a Tag in GTM and will be attached to a Homepage Trigger.
-        </span>
-      <% end %>
-      <%= form.select :service_id, options_for_select(current_user.services.map { |c| [c.name, c.id] }, selected: touchpoint.service_id), prompt: "Which Service?" %>
+      <%= form.label :expiration_date %>
+      <%= form.date_field :expiration_date %>
     </div>
   </div>
   <br>

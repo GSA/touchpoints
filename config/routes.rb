@@ -29,7 +29,6 @@ Rails.application.routes.draw do
       member do
         get "export_submissions", to: "touchpoints#export_submissions", as: :export_submissions
         get "example", to: "touchpoints#example", as: :example
-        get "example/gtm", to: "touchpoints#gtm_example", as: :gtm_example
         get "js", to: "touchpoints#js", as: :js
         get "toggle_editability", to: "touchpoints#toggle_editability", as: :toggle_editability
         get "export_pra_document", as: :export_pra_document

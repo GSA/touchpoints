@@ -57,7 +57,6 @@ N.fba = {
 			d.body.appendChild(this.dialogEl);
 
 			d.getElementById('fba-modal-close').addEventListener( 'click', this.handleDialogClose, false );
-			d.getElementById('fba-submit').addEventListener( 'click', this.handleSubmitClick, false );
 		<% end %>
 
 		<% if touchpoint.delivery_method == "custom-button-modal" %>
@@ -67,6 +66,8 @@ N.fba = {
 			}
 			<% end %>
 		<% end %>
+
+			d.getElementById('fba-submit').addEventListener( 'click', this.handleSubmitClick, false );
 		},
 		resetErrors: function()
 		{

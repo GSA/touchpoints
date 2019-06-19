@@ -21,6 +21,14 @@
     <%= form.text_area :description, placeholder: "Describe this Service (audience, reach, metrics)" %>
   </div>
 
+  <div class="field">
+    <span>
+      An Organization Manager manages all Services for an Organization.
+    </span>
+    <%= form.check_box :hisp %>
+    <%= form.label :hisp %>
+  </div>
+
   <% if current_user.admin? %>
   <div class="field">
     <%= form.label :organization %>

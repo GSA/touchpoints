@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature "Example Website Integration", js: true do
   let(:admin) { FactoryBot.create(:user, :admin) }
-  let(:open_ended_touchpoint) { FactoryBot.create(:touchpoint) }
+  let(:open_ended_touchpoint) { FactoryBot.create(:touchpoint, :with_form) }
   let(:recruiter_form) { FactoryBot.create(:form, :recruiter) }
   let!(:recruiter_touchpoint) { FactoryBot.create(:touchpoint, form: recruiter_form) }
   let(:a11_form) { FactoryBot.create(:form, :a11) }
