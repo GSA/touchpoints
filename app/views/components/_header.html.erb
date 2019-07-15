@@ -94,14 +94,9 @@
         <ul class="usa-unstyled-list usa-nav-secondary-links">
           <% unless current_user %>
           <li>
-            <a href="/users/sign_up">
-              Sign up
-            </a>
-          </li>
-          <li>
-            <a href="/users/sign_in">
-              Sign in
-            </a>
+            <%= link_to user_login_dot_gov_omniauth_authorize_path do %>
+              Sign in with Login.gov
+            <% end %>
           </li>
           <% else %>
           <li>
