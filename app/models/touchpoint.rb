@@ -33,8 +33,8 @@ class Touchpoint < ApplicationRecord
     (self.form && self.service) ? true : false
   end
 
-  # returns javascript text that can be used standalone
-  # or injected into a GTM Container Tag
+  # returns javascript text that can be used standalone;
+  # renders .js, .html, and .css to render a Touchpoints experience
   def touchpoints_js_string
     ApplicationController.new.render_to_string(partial: "components/widget/fba.js", locals: { touchpoint: self })
   end

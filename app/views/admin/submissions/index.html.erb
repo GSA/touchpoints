@@ -130,7 +130,7 @@
   </div>
 <% end %>
 
-<script>
+<%= javascript_tag nonce: true do %>
   function truncate(string, length) {
     // Only if the string needs truncating
     if (string.length > length) {
@@ -152,4 +152,4 @@
       $(this).html(truncate($(this).attr("text"), 50));
     });
   });
-</script>
+<% end %>

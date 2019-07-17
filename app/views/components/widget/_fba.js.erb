@@ -32,12 +32,12 @@ N.fba = {
 		},
 		loadCss: function()
 		{
-			d.head.innerHTML += '<style>' + this.css + '</style>';
+			d.head.innerHTML += '<style nonce="<%= request.content_security_policy_nonce %>">' + this.css + '</style>';
 		},
 		loadHtml: function()
 		{
 			this.dialogEl = document.createElement('div');
-			this.dialogEl.style.display = "none";
+			this.dialogEl.setAttribute("hidden", true);
 			this.dialogEl.setAttribute('id', 'fba-modal');
 			this.dialogEl.setAttribute('role', 'dialog');
 
@@ -75,9 +75,9 @@ N.fba = {
 			var alertElementBody = document.getElementsByClassName("usa-alert-text")[0];
 			var alertErrorElement = document.querySelector("#fba-alert-error");
 			var alertErrorElementBody = alertErrorElement.getElementsByClassName("usa-alert-text")[0];
-			alertElement.style.display = "none";
+			alertElement.setAttribute("hidden", true);
 			alertElementBody.innerHTML = "";
-			alertErrorElement.style.display = "none";
+			alertErrorElement.setAttribute("hidden", true);
 			alertErrorElementBody.innerHTML = "";
 		},
 		handleClick: function(e) {
@@ -118,12 +118,12 @@ N.fba = {
 		// Used when in a modal
 		loadDialog: function()
 		{
-			d.getElementById('fba-modal').style.display = "block";
+			d.getElementById('fba-modal').removeAttribute("hidden");
 			this.dialogOpen = true;
 		},
 		closeDialog: function()
 		{
-			d.getElementById('fba-modal').style.display = "none";
+			d.getElementById('fba-modal').setAttribute("hidden");
 			this.resetFormDisplay();
 			this.dialogOpen = false;
 		},
@@ -139,7 +139,7 @@ N.fba = {
 
 			// Display success Message
 			alertElementBody.innerHTML += "Thank you. Your feedback has been received.";
-			alertElement.style.display = "block";
+			alertElement.removeAttribute("hidden");
 
 			// Hide Form Elements
 			if (document.getElementById('touchpoints-form')) {
@@ -148,7 +148,7 @@ N.fba = {
 				if (document.getElementById('touchpoints-form').getElementsByTagName("fieldset")) {
 					var fieldset = document.getElementById('touchpoints-form').getElementsByTagName("fieldset")[0]
 					if(fieldset) {
-						fieldset.style.display = "none";
+						fieldset.setAttribute("hidden", true);
 					}
 				}
 			}
@@ -170,7 +170,7 @@ N.fba = {
 				if (document.getElementById('touchpoints-form').getElementsByTagName("fieldset")) {
 					var fieldset = document.getElementById('touchpoints-form').getElementsByTagName("fieldset")[0]
 					if(fieldset) {
-						fieldset.style.display = "block";
+						fieldset.removeAttribute("hidden");
 					}
 				}
 			}
@@ -203,10 +203,10 @@ N.fba = {
 								alertErrorElementBody.innerHTML += "<br />";
 							}
 					  }
-						alertErrorElement.style.display = "block";
+						alertErrorElement.removeAttribute("hidden");
 				} else { // SERVER ERROR
 					console.log('failed');
-					alertErrorElement.style.display = "block";
+					alertErrorElement.removeAttribute("hidden");
 					alertErrorElementBody.innerHTML += "Server error. We're sorry, but this submission was not successful. The Product Team has been notified.";
 				}
 			}

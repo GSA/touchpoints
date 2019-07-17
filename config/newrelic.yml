@@ -13,6 +13,8 @@
 common: &default_settings
   # Required license key associated with your New Relic account.
   license_key: <%= ENV.fetch("NEW_RELIC_KEY") %>
+  browser_monitoring:
+    auto_instrument: false
 
   # To disable the agent regardless of other settings, uncomment the following:
   # agent_enabled: false

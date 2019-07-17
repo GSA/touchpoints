@@ -5,20 +5,6 @@
     <title>
       Touchpoints Example
     </title>
-    <!-- Demo content styles -->
-    <style>
-    .demo-content {
-      background-color: #efefef;
-      min-height: 100px;
-    }
-    .demo-grid {
-      margin-bottom: 4rem;
-    }
-    .demo-grid div {
-      min-height: 300px;
-    }
-    </style>
-    <!-- End demo content styles -->
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
     <!-- Load USWDS assets -->
@@ -71,6 +57,6 @@
     </div>
     <% end %>
     <!--- End demo content -->
-    <script src="<%= js_touchpoint_url(@touchpoint) %>" async></script>
+    <%= javascript_include_tag(js_touchpoint_url(@touchpoint), nonce: true, async: true) %>
   </body>
 </html>

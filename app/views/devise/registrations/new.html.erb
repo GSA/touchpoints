@@ -54,12 +54,12 @@
     <!-- It is worth considering how to templatize this -->
     <!-- to the greatest practical extent -->
     <%#= render "components/widget" %>
-    <div id="fba-modal" style="display: none;">
+    <div id="fba-modal" hidden>
       <div id="fba-modal-dialog">
         <h3 id="fba-modal-title"></h3>
         <a id="fba-modal-close" type="button" class="close-button" href="#">×</a>
         <p id="fba-instructions">
-          <div style="font-size: 18px; font-weight: bold;">
+          <div class="disclaimer_banner">
             This is a U.S. government service.
           </div>
           <p>
@@ -74,7 +74,7 @@
             If you have questions about these conditions, please email feedback-analytics@gsa.gov.
           </p>
 
-          <div style="text-align: right;">
+          <div class="align-right">
             <button type="button" name="button" class="close-button">Hide details</button>
           </div>
         </p>
@@ -84,9 +84,7 @@
   </div>
 </div>
 
-
-
-<script type="text/javascript">
+<%= javascript_include_tag nonce: true do %>
   $(function() {
     // Hide the form by default
     $(".login-form-body").hide();
@@ -110,4 +108,4 @@
       showModal();
     });
   });
-</script>
+<% end %>

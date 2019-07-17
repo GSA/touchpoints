@@ -164,7 +164,7 @@
 </div>
 <hr>
 
-<script type="text/javascript">
+<%= javascript_tag nonce: true do %>
   $(function() {
     // Initially set to disabled
     $("#add-user-button").attr("disabled", true);
@@ -240,4 +240,4 @@
       });
     });
   });
-</script>
+<% end %>

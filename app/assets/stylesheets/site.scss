@@ -62,3 +62,33 @@ footer {
 .table-scroll td {
 	white-space:nowrap;
 }
+
+hr.light {
+  border: none; border-bottom: 1px solid #d6d7d9;
+}
+
+.highlighted {
+  text-align: center;
+  background-color: lightyellow;
+  padding: 1em;
+}
+
+.disclaimer_banner {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.demo-content {
+  background-color: #efefef;
+  min-height: 100px;
+}
+.demo-grid {
+  margin-bottom: 4rem;
+}
+.demo-grid div {
+  min-height: 300px;
+}
