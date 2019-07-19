@@ -3,8 +3,11 @@ class User < ApplicationRecord
   # :lockable, and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :trackable, :confirmable,
+         :trackable,
+         # :confirmable,
          :timeoutable
+
+  devise :omniauthable, omniauth_providers: [:login_dot_gov]
 
   belongs_to :organization, optional: true
   has_many :user_services
@@ -14,6 +17,23 @@ class User < ApplicationRecord
   APPROVED_DOMAINS = [".gov", ".mil"]
 
   validates :email, presence: true, if: :tld_check
+
+  def self.from_omniauth(auth)
+    # Set login_dot_gov as Provider for legacy TP Devise accounts
+    # TODO: Remove once all accounts are migrated/have `provider` and `uid` set
+    @existing_user = User.find_by_email(auth.info.email)
+    if @existing_user && !@existing_user.provider.present?
+      @existing_user.provider = auth.provider
+      @existing_user.uid = auth.uid
+      @existing_user.save
+    end
+
+    # For login.gov native accounts
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email
+      user.password = Devise.friendly_token[0,20]
+    end
+  end
 
   def tld_check
     unless APPROVED_DOMAINS.any? { |word| email.end_with?(word) }
@@ -44,7 +64,7 @@ class User < ApplicationRecord
       if org = Organization.find_by_domain(address.domain)
         self.organization_id = org.id
       else
-        errors.add(:organization, "#{address.domain} is not a valid organization - Please contact Feedback Analytics Team for assistance")
+        errors.add(:organization, "'#{address.domain}' has not yet been configured for Touchpoints - Please contact the Feedback Analytics Team for assistance.")
       end
     end
 
