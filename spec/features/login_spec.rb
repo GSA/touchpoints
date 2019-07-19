@@ -73,7 +73,7 @@ feature "Login Flow", js: true do
       end
     end
 
-    describe "Sign In" do
+    xdescribe "Sign In" do
       let(:user) { FactoryBot.create(:user) }
 
       before "user completes Sign Up form" do
