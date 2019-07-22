@@ -97,4 +97,9 @@ Rails.application.configure do
 
   # For delivering email via Amazon SES with aws-sdk-rails
   config.action_mailer.delivery_method = :aws_sdk
+
+  # Prevent host header injection
+  # Reference: https://github.com/ankane/secure_rails
+  config.action_controller.default_url_options = { host: ENV.fetch("TOUCHPOINTS_WEB_DOMAIN") }
+  config.action_controller.asset_host = ENV.fetch("TOUCHPOINTS_WEB_DOMAIN")
 end
