@@ -12,7 +12,7 @@
     </div>
     <button class="usa-menu-btn">Menu</button>
   </div>
-  <nav role="navigation" class="usa-nav">
+  <nav role="navigation" class="usa-nav light-blue-bg">
     <div class="usa-nav-inner">
       <button class="usa-nav-close">
         <%= image_tag "close.svg", alt: "close" %>
@@ -25,23 +25,8 @@
             </a>
           </li>
           <li>
-            <a class="usa-nav-link admin" href="/admin/organizations">
-              <span>Organizations</span>
-            </a>
-          </li>
-          <li>
-            <a class="usa-nav-link admin" href="/admin/pra_contacts">
-              <span>PRA Contacts</span>
-            </a>
-          </li>
-          <li>
             <a class="usa-nav-link admin" href="/admin/users">
               <span>Users</span>
-            </a>
-          </li>
-          <li>
-            <a class="usa-nav-link admin" href="/admin/form_templates">
-              <span>Form Templates</span>
             </a>
           </li>
           <li>
@@ -55,6 +40,11 @@
           <li>
             <a class="usa-nav-link" href="/admin/forms">
               <span>Forms</span>
+            </a>
+          </li>
+          <li>
+            <a class="usa-nav-link" href="https://feedback.usa.gov" target="_blank" rel="noopener">
+              Support
             </a>
           </li>
         <% end %>
@@ -102,21 +92,14 @@
           <li>
             <a>
               <%= current_user.email %>
-              at
-              <%= current_user.organization_name %>
             </a>
           </li>
           <li>
             <a href="/users/sign_out">
-              Logout
+              Sign out
             </a>
           </li>
           <% end %>
-          <li>
-            <a href="https://feedback-staging.usa.gov" target="_blank" rel="noopener">
-              Support
-            </a>
-          </li>
         </ul>
       </div>
     </div>
