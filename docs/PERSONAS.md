@@ -11,8 +11,8 @@ Generally, Personas are a place to collect and display information related to us
 
 * System Administrator - can manage all aspects of Touchpoints
 * .gov Webmaster - User who manages an Organization's Touchpoints
-* Organization Manager - User who manages an Organization, and its Services, Containers, and Touchpoints
-* Service Manager - User who manages one or more Services, Containers, and Touchpoints
+* Organization Manager - User who manages an Organization, and its Services and Touchpoints
+* Service Manager - User who manages one or more Services and Touchpoints
 * Submission Viewer - User who `views` one or more Services, Touchpoints, Submissions
 * Public users - a non logged-in public user who uses a .gov website to access and or complete a Touchpoint for a Service
 
