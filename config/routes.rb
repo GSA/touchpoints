@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    get "dashboard", to: "site#dashboard"
     resources :form_templates
     resources :forms
     resources :users, except: [:new]

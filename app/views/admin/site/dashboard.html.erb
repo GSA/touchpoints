@@ -1,0 +1,22 @@
+<% content_for :full_layout do %>
+<section class="dark-blue-bg">
+  &nbsp;
+  <main id="main-content">
+    <div class="usa-grid">
+      <div class="usa-width-full">
+        <h1>
+          Welcome to Touchpoints
+        </h1>
+
+        <p>
+          You are a
+          <%= current_user.role %>
+          of
+          <%= current_user.organization.name %>.
+        </p>
+      </div>
+    </div>
+  </main>
+  <br>
+</section>
+<% end %>

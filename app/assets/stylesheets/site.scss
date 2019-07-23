@@ -62,3 +62,31 @@ footer {
 .table-scroll td {
 	white-space:nowrap;
 }
+
+.dark-blue-bg {
+  background-color: #162D50;
+  color: white;
+}
+
+.light-blue-bg {
+  background-color: #e1f3f8;
+}
+
+.hr {
+  border: none;
+  border-bottom: 1px solid #d6d7d9;
+  margin: 0;
+}
+
+// USWDS Overrides
+header.usa-header-extended nav.usa-nav {
+  border-top: 0;
+}
+
+header.usa-header {
+  border-bottom: 0;
+}
+
+.usa-alert {
+   margin-top: 0;
+}

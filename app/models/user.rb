@@ -55,6 +55,15 @@ class User < ApplicationRecord
     end
   end
 
+  def role
+    if self.admin?
+      "Admin"
+    elsif self.organization_manager?
+      "Organization Manager"
+    else
+      "User"
+    end
+  end
 
   private
 
