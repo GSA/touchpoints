@@ -19,12 +19,22 @@
           <%= link_to form.touchpoint.name, admin_touchpoint_path(form.touchpoint) if form.touchpoint %>
         </td>
         <td>
-          <%= link_to form.name, admin_touchpoint_form_path(form.touchpoint, form) if form.touchpoint %>
+          <% if form.touchpoint.present? %>
+            <%= link_to form.name, admin_touchpoint_form_path(form.touchpoint, form)  %>
+          <% else %>
+            <%= link_to form.name, admin_form_path(form)  %>
+          <% end %>
         </td>
-        <td><%= link_to 'Edit', edit_admin_touchpoint_form_path(form.touchpoint, form) %></td>
+        <td>
+          <%= link_to 'Edit', edit_admin_touchpoint_form_path(form.touchpoint, form) if form.touchpoint.present? %>
+        </td>
         <% if admin_permissions? %>
         <td>
-          <%= link_to 'Destroy', admin_touchpoint_form_path(form.touchpoint, form), method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% if form.touchpoint.present? %>
+            <%= link_to 'Destroy', admin_touchpoint_form_path(form.touchpoint, form), method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% else %>
+            <%= link_to 'Destroy', admin_form_path(form, form), method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
         </td>
         <% end %>
       </tr>
