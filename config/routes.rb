@@ -40,7 +40,7 @@ Rails.application.routes.draw do
         end
       end
     end
-    root to: "site#index"
+    root to: "site#dashboard"
   end
 
   get "status", to: "site#status", as: :status

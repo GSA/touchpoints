@@ -18,12 +18,10 @@
         <%= image_tag "close.svg", alt: "close" %>
       </button>
       <ul class="usa-nav-primary usa-accordion">
+        <li>
+          <%= link_to "My Dashboard", admin_dashboard_path, class: "usa-nav-link admin" %>
+        </li>
         <% if admin_permissions? %>
-          <li>
-            <a class="usa-nav-link admin" href="/admin">
-              <span>Admin</span>
-            </a>
-          </li>
           <li>
             <a class="usa-nav-link admin" href="/admin/users">
               <span>Users</span>
@@ -84,15 +82,13 @@
         <ul class="usa-unstyled-list usa-nav-secondary-links">
           <% unless current_user %>
           <li>
-            <%= link_to user_login_dot_gov_omniauth_authorize_path do %>
+            <%= link_to user_login_dot_gov_omniauth_authorize_path, class: "usa-nav-link admin" do %>
               Sign in with Login.gov
             <% end %>
           </li>
           <% else %>
           <li>
-            <a>
-              <%= current_user.email %>
-            </a>
+            <%= link_to current_user.email, admin_dashboard_path, class: "usa-nav-link admin" %>
           </li>
           <li>
             <a href="/users/sign_out">
