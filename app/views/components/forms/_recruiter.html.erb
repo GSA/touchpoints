@@ -1,6 +1,6 @@
 <form id="touchpoints-form" action="<%= root_url %>touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" data-kind="recruiter" method="POST">
   <%= hidden_field_tag :fba_location_code, params[:location_code] %>
-  <fieldset>
+  <fieldset id="touchpoints-form-body">
     <label for="fba-text-name">First name</label>
     <input id="fba-text-name" name="fba-text-name" class="full-name" type="text" maxlength="500">
     <label for="fba-text-email">Email address</label>
