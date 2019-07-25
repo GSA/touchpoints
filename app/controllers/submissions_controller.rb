@@ -2,7 +2,7 @@ class SubmissionsController < ApplicationController
   protect_from_forgery only: []
   before_action :set_touchpoint, only: [:new, :create]
 
-  layout 'public', :only => :new
+  layout 'public', only: :new
 
   def new
     unless @touchpoint.deployable_touchpoint?

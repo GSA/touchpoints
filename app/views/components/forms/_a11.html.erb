@@ -1,10 +1,10 @@
 <form id="touchpoints-form" action="<%= root_url %>touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" method="POST" data-kind="a11">
   <%= hidden_field_tag :fba_location_code, params[:location_code] %>
   <div id="touchpoints-form-body">
-    <fieldset class="radios">
-      <legend>
+    <fieldset class="radios" role="group" aria-labelledby="answer_01">
+      <h4 id="answer_01">
         <%= form.question_text_01 %>
-      </legend>
+      </h4>
       <div class="">
         <%= radio_button_tag :answer_01, 1 %>
         <%= label_tag "Strongly Disagree", nil, for: "answer_01_1" %>
@@ -27,10 +27,10 @@
       </div>
     </fieldset>
 
-    <fieldset class="radios">
-      <legend>
+    <fieldset class="radios" role="group" aria-labelledby="answer_02">
+      <h4 id="answer_02">
         <%= form.question_text_02 %>
-      </legend>
+      </h4>
       <div class="">
         <%= radio_button_tag :answer_02, 1 %>
         <%= label_tag "Strongly Disagree", nil, for: "answer_02_1" %>
@@ -53,10 +53,10 @@
       </div>
     </fieldset>
 
-    <fieldset class="radios">
-      <legend>
+    <fieldset class="radios" role="group" aria-labelledby="answer_03">
+      <h4 id="answer_03">
         <%= form.question_text_03 %>
-      </legend>
+      </h4>
       <div class="">
         <%= radio_button_tag :answer_03, 1 %>
         <%= label_tag "Strongly Disagree", nil, for: "answer_03_1" %>
@@ -79,10 +79,10 @@
       </div>
     </fieldset>
 
-    <fieldset class="radios">
-      <legend>
+    <fieldset class="radios" role="group" aria-labelledby="answer_04">
+      <h4 id="answer_04">
         <%= form.question_text_04 %>
-      </legend>
+      </h4>
       <div class="">
         <%= radio_button_tag :answer_04, 1 %>
         <%= label_tag "Strongly Disagree", nil, for: "answer_04_1" %>
@@ -105,10 +105,10 @@
       </div>
     </fieldset>
 
-    <fieldset class="radios">
-      <legend>
+    <fieldset class="radios" role="group" aria-labelledby="answer_05">
+      <h4 id="answer_05">
         <%= form.question_text_05 %>
-      </legend>
+      </h4>
       <div class="">
         <%= radio_button_tag :answer_05, 1 %>
         <%= label_tag "Strongly Disagree", nil, for: "answer_05_1" %>
@@ -131,10 +131,10 @@
       </div>
     </fieldset>
 
-    <fieldset class="radios">
-      <legend>
+    <fieldset class="radios" role="group" aria-labelledby="answer_06">
+      <h4 id="answer_06">
         <%= form.question_text_06 %>
-      </legend>
+      </h4>
       <div class="">
         <%= radio_button_tag :answer_06, 1 %>
         <%= label_tag "Strongly Disagree", nil, for: "answer_06_1" %>
@@ -157,10 +157,10 @@
       </div>
     </fieldset>
 
-    <fieldset class="radios">
-      <legend>
+    <fieldset class="radios" role="group" aria-labelledby="answer_07">
+      <h4 id="answer_07">
         <%= form.question_text_07 %>
-      </legend>
+      </h4>
       <div class="">
         <%= radio_button_tag :answer_07, 1 %>
         <%= label_tag "Strongly Disagree", nil, for: "answer_07_1" %>
@@ -184,10 +184,10 @@
     </fieldset>
 
     <% if form.question_text_08? %>
-    <fieldset class="radios">
-      <legend>
+    <fieldset class="radios" role="group" aria-labelledby="answer_08">
+      <h4 id="answer_08">
         <%= form.question_text_08 %>
-      </legend>
+      </h4>
       <div class="">
         <%= radio_button_tag :answer_08, 1 %>
         <%= label_tag "Strongly Disagree", nil, for: "answer_08_1" %>
@@ -212,10 +212,10 @@
     <% end %>
 
     <% if form.question_text_09? %>
-    <fieldset class="radios">
-      <legend>
+    <fieldset class="radios" role="group" aria-labelledby="answer_09">
+      <h4 id="answer_09">
         <%= form.question_text_09 %>
-      </legend>
+      </h4>
       <div class="">
         <%= radio_button_tag :answer_09, 1 %>
         <%= label_tag "Strongly Disagree", nil, for: "answer_09_1" %>
@@ -240,10 +240,10 @@
     <% end %>
 
     <% if form.question_text_10? %>
-    <fieldset class="radios">
-      <legend>
+    <fieldset class="radios" role="group" aria-labelledby="answer_10">
+      <h4 id="answer_10">
         <%= form.question_text_10 %>
-      </legend>
+      </h4>
       <div class="">
         <%= radio_button_tag :answer_10, 1 %>
         <%= label_tag "Strongly Disagree", nil, for: "answer_10_1" %>
@@ -268,10 +268,10 @@
     <% end %>
 
     <% if form.question_text_11? %>
-    <fieldset class="radios">
-      <legend>
+    <fieldset class="radios" role="group" aria-labelledby="answer_11">
+      <h4 id="answer_11">
         <%= form.question_text_11 %>
-      </legend>
+      </h4>
       <div class="">
         <%= radio_button_tag :answer_11, 1 %>
         <%= label_tag "Strongly Disagree", nil, for: "answer_11_1" %>
@@ -296,10 +296,10 @@
     <% end %>
 
     <% if form.question_text_12? %>
-    <fieldset class="radios">
-      <legend>
+    <fieldset class="radios" role="group" aria-labelledby="answer_12">
+      <h4 id="answer_12">
         <%= form.question_text_12 %>
-      </legend>
+      </h4>
       <div class="">
         <%= radio_button_tag :answer_12, 1 %>
         <%= label_tag "Strongly Disagree", nil, for: "answer_12_1" %>

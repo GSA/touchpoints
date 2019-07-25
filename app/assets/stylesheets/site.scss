@@ -99,6 +99,14 @@ header.usa-header {
   color: #162E51;
 }
 
+.radios {
+  padding: 1em 2em;
+}
+
 .radios > div {
   margin: 7px 0;
+}
+
+#touchpoints-form-body fieldset:nth-child(odd) {
+  background: #F9F9F9;
 }
