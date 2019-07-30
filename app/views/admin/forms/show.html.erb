@@ -35,6 +35,14 @@
   <strong>Character Limit:</strong>
   <%= @form.character_limit %>
 </p>
+<p>
+  <strong>Whitelist URL:</strong>
+  <%= @form.whitelist_url %>
+</p>
+<p>
+  <strong>Whitelist Test URL:</strong>
+  <%= @form.whitelist_test_url %>
+</p>
 <% if @touchpoint %>
   <%= link_to 'Edit', edit_admin_touchpoint_form_path(@touchpoint, @form), class: "usa-button" %>
 <% else %>
