@@ -1,6 +1,8 @@
 class Admin::SiteController < AdminController
-  before_action :ensure_admin
-
   def index
+    ensure_admin
+  end
+
+  def dashboard
   end
 end

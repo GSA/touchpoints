@@ -15,11 +15,12 @@ are not available for public Users.
 ### System Administrator
 
 * System Administrator can manage (CRUD) Organizations
+* System Administrator can manage Users
 * System Administrator can manage Programs
 * System Administrator can manage Services
-* System Administrator can manage Containers
 * System Administrator can manage Touchpoints
-* System Administrator can manage Users
+* System Administrator can manage PRA Contacts
+* System Administrator can manage Form Templates
 * System Administrator can perform all the functions of a Webmaster, Service Manager, and Submission Viewer
 * Webmaster can modify Triggering in Google Tag Manager
 
@@ -31,7 +32,7 @@ are not available for public Users.
 
 ### Webmaster `service_manager`
 
-* Webmaster can create a Container and get a .js Embed Code snippet
+* Webmaster can get a .js Embed Code snippet
 * Webmaster can add embed code to their website
 * [outside Touchpoints] Webmaster can verify the Embed Code is working
 * Webmaster to deploy website with Touchpoints embed code

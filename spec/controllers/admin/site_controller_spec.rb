@@ -4,8 +4,8 @@ RSpec.describe Admin::SiteController, type: :controller do
 
   context "not logged in" do
     describe "GET #index" do
-      it "returns http success" do
-        get :index
+      it "redirects to homepage" do
+        get :dashboard
         expect(response).to have_http_status(:redirect)
       end
     end

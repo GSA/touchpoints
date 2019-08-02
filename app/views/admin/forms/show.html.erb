@@ -3,7 +3,9 @@
 </h1>
 <p>
   <strong>Touchpoint:</strong>
-  <%= link_to @touchpoint.name, admin_touchpoint_path(@touchpoint) %>
+  <% if @touchpoint %>
+    <%= link_to @touchpoint.name, admin_touchpoint_path(@touchpoint) %>
+  <% end %>
 </p>
 <p>
   <strong>Name:</strong>
@@ -33,7 +35,19 @@
   <strong>Character Limit:</strong>
   <%= @form.character_limit %>
 </p>
-<%= link_to 'Edit', edit_admin_touchpoint_form_path(@touchpoint, @form), class: "usa-button" %>
+<p>
+  <strong>Whitelist URL:</strong>
+  <%= @form.whitelist_url %>
+</p>
+<p>
+  <strong>Whitelist Test URL:</strong>
+  <%= @form.whitelist_test_url %>
+</p>
+<% if @touchpoint %>
+  <%= link_to 'Edit', edit_admin_touchpoint_form_path(@touchpoint, @form), class: "usa-button" %>
+<% else %>
+  <%= link_to 'Edit', edit_admin_form_path(@form), class: "usa-button" %>
+<% end %>
 <hr>
 <h3>
   Form Preview
