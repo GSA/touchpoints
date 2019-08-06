@@ -46,7 +46,7 @@
       <ul>
         <% @service.touchpoints.each do |touchpoint| %>
         <li>
-          <%= link_to touchpoint.name, touchpoint_path(touchpoint) %>
+          <%= link_to touchpoint.name, admin_touchpoint_path(touchpoint) %>
         </li>
         <% end %>
       </ul>
