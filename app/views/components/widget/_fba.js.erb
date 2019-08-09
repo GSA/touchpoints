@@ -145,10 +145,10 @@ N.fba = {
 			if (document.getElementById('touchpoints-form')) {
 				// And clear the Form's Fields
 				document.getElementById('touchpoints-form').reset();
-				if (document.getElementById('touchpoints-form').getElementsByTagName("fieldset")) {
-					var fieldset = document.getElementById('touchpoints-form').getElementsByTagName("fieldset")[0]
-					if(fieldset) {
-						fieldset.style.display = "none";
+				if (document.getElementById('touchpoints-form-body')) {
+					var formBody = document.getElementById('touchpoints-form-body')
+					if(formBody) {
+						formBody.style.display = "none";
 					}
 				}
 			}
@@ -167,10 +167,10 @@ N.fba = {
 
 			// Show Form Elements
 			if (document.getElementById('touchpoints-form')) {
-				if (document.getElementById('touchpoints-form').getElementsByTagName("fieldset")) {
-					var fieldset = document.getElementById('touchpoints-form').getElementsByTagName("fieldset")[0]
-					if(fieldset) {
-						fieldset.style.display = "block";
+				if (document.getElementById('touchpoints-form-body')) {
+					var formBody = document.getElementById('touchpoints-form-body')
+					if(formBody) {
+						formBody.style.display = "block";
 					}
 				}
 			}

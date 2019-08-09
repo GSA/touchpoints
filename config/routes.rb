@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
   resources :touchpoints, only: [:show] do
     member do
@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :containers
+    get "dashboard", to: "site#dashboard"
     resources :form_templates
     resources :forms
     resources :users, except: [:new]
@@ -40,7 +40,7 @@ Rails.application.routes.draw do
         end
       end
     end
-    root to: "site#index"
+    root to: "site#dashboard"
   end
 
   get "status", to: "site#status", as: :status
