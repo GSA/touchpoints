@@ -1,5 +1,6 @@
 <h1>
-  Editing a User
+  Editing User
 </h1>
+Email: <%= link_to @user.email, admin_user_path %>
+<br>
 <%= render 'form', user: @user %>
-<%= link_to 'Show', admin_user_path(@user) %>
