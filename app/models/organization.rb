@@ -8,4 +8,5 @@ class Organization < ApplicationRecord
 
   validates :name, presence: true
   validates :domain, presence: true
+  validates :abbreviation, presence: true
 end
