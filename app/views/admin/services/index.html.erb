@@ -1,35 +1,36 @@
-<h1>Services</h1>
+<div class="well">
+  <h1>Services</h1>
 
-<table>
-  <thead>
-    <tr>
-      <% if current_user.admin? %>
-      <th>Organization</th>
-      <% end %>
-      <th>Name</th>
-      <th>Service manager</th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @services.each do |service| %>
+  <table>
+    <thead>
       <tr>
         <% if current_user.admin? %>
-        <td><%= link_to service.organization.name, admin_organization_path(service.organization) %></td>
+        <th>Organization</th>
         <% end %>
-        <td><%= link_to service.name, admin_service_path(service) %></td>
-        <td><%= service.service_manager %></td>
-        <td>
-          <% if is_at_least_service_manager?(user: current_user, service: service) %>
-            <%= link_to 'Edit', edit_admin_service_path(service) %>
-          <% end %>
-        </td>
+        <th>Name</th>
+        <th>Service manager</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
+    <tbody>
+      <% @services.each do |service| %>
+        <tr>
+          <% if current_user.admin? %>
+          <td><%= link_to service.organization.name, admin_organization_path(service.organization) %></td>
+          <% end %>
+          <td><%= link_to service.name, admin_service_path(service) %></td>
+          <td><%= service.service_manager %></td>
+          <td>
+            <% if is_at_least_service_manager?(user: current_user, service: service) %>
+              <%= link_to 'Edit', edit_admin_service_path(service) %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 <% if is_at_least_organization_manager?(user: current_user) %>
   <%= link_to 'New Service', new_admin_service_path, class: "usa-button" %>
 <% end %>

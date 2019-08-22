@@ -1,25 +1,36 @@
-<h1>
-  Editing <%= @form.kind %> Form
-</h1>
-<% if @form.kind == "a11" %>
-  <%= render 'components/forms/edit/a11', { touchpoint: @touchpoint, form: @form } %>
-<% else %>
-  <div class="usa-grid-full">
-    <div class="usa-width-one-half">
-      <%= render 'admin/forms/form', form: @form %>
+<div class="well">
+  <h1>
+    Editing <%= @form.kind %> Form
+  </h1>
+  <% if @form.kind == "a11" %>
+    <%= render 'components/forms/edit/a11', { touchpoint: @touchpoint, form: @form } %>
+  <% else %>
+    <div class="usa-grid-full">
+      <div class="usa-width-full">
+        <%= render 'admin/forms/form', form: @form %>
+      </div>
     </div>
-    <div class="usa-width-one-half">
-      <h3>
-        Preview
-      </h3>
+
+  <% end %>
+</div>
+<%= link_to 'Show', admin_touchpoint_form_path(@touchpoint, @form), class: "usa-button" if @touchpoint %>
+<%= link_to 'All Forms', admin_forms_path, class: "usa-button" %>
+<%= link_to 'Destroy', admin_touchpoint_form_path(@touchpoint, @form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button-red" if @touchpoint %>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="usa-grid-full">
+  <div class="usa-width-full">
+    <div class="well">
+      <h2>
+        Form Preview
+      </h2>
       <div class="touchpoint-card">
         <%= render partial: "components/forms/#{@form.kind}", locals: { form: @form, touchpoint: @touchpoint } %>
       </div>
     </div>
   </div>
-
-<% end %>
-
-<%= link_to 'Show', admin_touchpoint_form_path(@touchpoint, @form), class: "usa-button" if @touchpoint %>
-<%= link_to 'All Forms', admin_forms_path, class: "usa-button" %>
-<%= link_to 'Destroy', admin_touchpoint_form_path(@touchpoint, @form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button-red" if @touchpoint %>
+</div>

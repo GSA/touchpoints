@@ -18,9 +18,9 @@ class Touchpoint < ApplicationRecord
 
   DELIVERY_METHODS = [
     "touchpoints-hosted-only",
-    "inline",
     "modal",
-    "custom-button-modal"
+    "custom-button-modal",
+    "inline"
   ]
 
   scope :active, -> { where("id > 0") } # TODO: make this sample scope more intelligent/meaningful

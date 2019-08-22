@@ -12,35 +12,25 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :email %>
-    <%= form.text_field :email %>
-  </div>
-
-  <div class="field">
     <%= form.label :name %>
     <%= form.text_field :name %>
   </div>
-
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.text_field :email %>
+  </div>
+  <div class="field">
+    <%= form.label :organization_id %>
+    <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: (pra_contact.organization ? pra_contact.organization.id : nil)), include_blank: true %>
+  </div>
   <div class="field">
     <%= form.label :department %>
     <%= form.text_field :department %>
   </div>
-
   <div class="field">
     <%= form.label :program %>
     <%= form.text_field :program %>
   </div>
-
-  <div class="field">
-    <%= form.label :organization_id %>
-    <%= form.number_field :organization_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :program_id %>
-    <%= form.number_field :program_id %>
-  </div>
-
   <div class="actions">
     <%= form.submit %>
   </div>

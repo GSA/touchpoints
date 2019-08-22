@@ -1,168 +1,162 @@
-<h1>
-  Viewing a Service
-</h1>
-<p>
-  A Service Manager manages one or more Services (in the Service Design sense of the word).
-  A Service may have one or more Touchpoints. Each Touchpoint has a Form,
-  and the Form is created from a Form Template.
-</p>
-<p>
-  The minimal Service is composed of a 1) Start Event
-  2) End Event. Most Services have one or more Events
-  in between the Start and End events.
-  A Touchpoint may be attached to any Event in a Service.
-</p>
-<p>
-  <strong>Organization:</strong>
-  <% if is_at_least_service_manager?(user: current_user, service: @service) %>
-    <%= @service.organization ? link_to(@service.organization.name, admin_organization_path(@service.organization)) : nil %>
-  <% else %>
-    <%= @service.organization.name %>
-  <% end %>
-</p>
-<p>
-  <strong>Service Name:</strong>
-  <%= @service.name %>
-</p>
-<p>
-  <strong>Description:</strong>
-  <%= @service.description || "<i>no description provided</i>".html_safe %>
-</p>
-<p>
-  <strong>
-    <span title="High Impact Service Provider">HISP</span>
-    Service?
-  </strong>
-  <%= @service.hisp %>
-</p>
-<%= link_to 'Edit', edit_admin_service_path(@service), class: "usa-button" %>
-<hr>
-<% if is_at_least_service_manager?(user: current_user, service: @service) %>
-  <div>
-    <h2>
-      Touchpoints for this Service
-    </h2>
-    <% if @service.touchpoints.present? %>
-      <ul>
-        <% @service.touchpoints.each do |touchpoint| %>
-        <li>
-          <%= link_to touchpoint.name, admin_touchpoint_path(touchpoint) %>
-        </li>
+<div class="well">
+  <h1>
+    Viewing a Service
+  </h1>
+  <div class="well">
+    <p>
+      <strong>Organization:</strong>
+      <% if is_at_least_service_manager?(user: current_user, service: @service) %>
+      <%= @service.organization ? link_to(@service.organization.name, admin_organization_path(@service.organization)) : nil %>
+      <% else %>
+      <%= @service.organization.name %>
+      <% end %>
+    </p>
+    <p>
+      <strong>Service Name:</strong>
+      <%= @service.name %>
+    </p>
+    <p>
+      <strong>Description:</strong>
+      <%= @service.description || "<i>no description provided</i>".html_safe %>
+    </p>
+    <p>
+      <strong>
+        <span title="High Impact Service Provider">HISP</span>
+        Service?
+      </strong>
+      <%= @service.hisp %>
+    </p>
+  </div>
+  <%= link_to 'Edit', edit_admin_service_path(@service), class: "usa-button" %>
+
+  <div class="well">
+    <div class="roles-and-permissions">
+      <h2>
+        Roles & Permissions for this Service
+      </h2>
+      <p>
+        Assign permissions for others Users in your Organization.
+        Permission levels include: 1) Service Manager or 2) Submission Viewer.
+      </p>
+      <div>
+        <% if @service.users.present? %>
+        <table>
+          <thead>
+            <tr>
+              <th>
+                Role
+              </th>
+              <th>
+                Email
+              </th>
+              <th>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @service.users.each do |user| %>
+            <tr data-user-id="<%= user.id %>">
+              <td>
+                <% friendly_roles = {
+                  "service_manager" => "Service Manager",
+                  "submission_viewer" => "Submission Viewer"
+                }
+                %>
+                <%= friendly_roles[@service.user_role?(user: user)] %>
+              </td>
+              <td>
+                <%= user.email %>
+              </td>
+              <td>
+                <% if user != current_user && is_at_least_service_manager?(user: current_user, service: @service) %>
+                <a href="#" class="remove-user" data-id="<%= user.id %>">
+                  Remove
+                </a>
+                <% end %>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <% else %>
+        <div class="usa-alert usa-alert-info" >
+          <div class="usa-alert-body">
+            <p class="usa-alert-text">
+              No users at this time
+            </p>
+          </div>
+        </div>
         <% end %>
-      </ul>
-    <% else %>
-    <div class="usa-alert usa-alert-info">
-      <div class="usa-alert-body">
-        <p class="usa-alert-text">
-          No Touchpoints are assigned to this Service.
-        </p>
+
+        <% if flash && ["User successfully added", "User successfully removed"].include?(flash.notice) %>
+        <%= render 'components/flash', flash: flash %>
+        <% end %>
+
+        <% if is_at_least_service_manager?(user: current_user, service: @service) %>
+        <div class="well">
+          <% if @available_members.present? %>
+          <%= select_tag :add_user_id, options_for_select(@available_members.map { |user| [user.email, user.id] }), prompt: "Add a Service Manager?", id: "add-user-dropdown", style: "display: inline-block; margin-right: 1em;" %>
+          <!-- <span class="usa-buton" name="button" id="add-user-button">Add User</span> -->
+          <button type="button" name="button" id="add-user-button">Add Service Manager</button>
+          <% else %>
+          <div class="usa-alert usa-alert-info">
+            <div class="usa-alert-body">
+              <p class="usa-alert-text">
+                All Users have been added. No Service Managers to add.
+              </p>
+            </div>
+          </div>
+          <% end %>
+        </div>
+
+        <div class="well">
+          <% if @available_members.present? %>
+          <%= select_tag :add_user_id, options_for_select(@available_members.map { |user| [user.email, user.id] }), prompt: "Add a Submission Viewer?", id: "add-submission-viewer-dropdown", style: "display: inline-block; margin-right: 1em;" %>
+          <button type="button" name="button" id="add-submission-viewer-button">Add Submission Viewer</button>
+          <% else %>
+          <div class="usa-alert usa-alert-info">
+            <div class="usa-alert-body">
+              <p class="usa-alert-text">
+                All Users have been added. No Submission Viewers to add.
+              </p>
+            </div>
+          </div>
+          <% end %>
+        </div>
+        <% end %>
       </div>
     </div>
-    <div class="usa-alert">
-      Now that you have a Service
-      <%= link_to("add a Touchpoint", new_admin_touchpoint_path) %>
-    </div>
-    <% end %>
   </div>
-<% end %>
-<hr>
-<div class="roles-and-permissions">
-  <h2>
-    Roles & Permissions for this Service
-  </h2>
-  <p>
-    Assign permissions for others Users in your Organization.
-    Permission levels include: 1) Service Manager or 2) Submission Viewer.
-  </p>
-  <div>
-    <% if @service.users.present? %>
-      <table>
-        <thead>
-        <tr>
-          <th>
-            Role
-          </th>
-          <th>
-            Email
-          </th>
-          <th>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @service.users.each do |user| %>
-          <tr data-user-id="<%= user.id %>">
-            <td>
-              <% friendly_roles = {
-                "service_manager" => "Service Manager",
-                "submission_viewer" => "Submission Viewer"
-              }
-              %>
-              <%= friendly_roles[@service.user_role?(user: user)] %>
-            </td>
-            <td>
-              <%= user.email %>
-            </td>
-            <td>
-            <% if user != current_user && is_at_least_service_manager?(user: current_user, service: @service) %>
-              <a href="#" class="remove-user" data-id="<%= user.id %>">
-                Remove
-              </a>
-            <% end %>
-            </td>
-          </tr>
-        <% end %>
-        </tbody>
-      </table>
-    <% else %>
-      <div class="usa-alert usa-alert-info" >
+
+  <% if is_at_least_service_manager?(user: current_user, service: @service) %>
+    <div class="well">
+      <h2>
+        Touchpoints for this Service
+      </h2>
+      <% if @service.touchpoints.present? %>
+        <ul>
+          <% @service.touchpoints.each do |touchpoint| %>
+          <li>
+            <%= link_to touchpoint.name, admin_touchpoint_path(touchpoint) %>
+          </li>
+          <% end %>
+        </ul>
+      <% else %>
+      <div class="usa-alert usa-alert-info">
         <div class="usa-alert-body">
           <p class="usa-alert-text">
-            No users at this time
+            No Touchpoints are assigned to this Service.
           </p>
         </div>
       </div>
-    <% end %>
-
-    <% if flash && ["User successfully added", "User successfully removed"].include?(flash.notice) %>
-      <%= render 'components/flash', flash: flash %>
-    <% end %>
-
-    <% if is_at_least_service_manager?(user: current_user, service: @service) %>
-    <div>
-      <% if @available_members.present? %>
-        <%= select_tag :add_user_id, options_for_select(@available_members.map { |user| [user.email, user.id] }), prompt: "Add a Service Manager?", id: "add-user-dropdown", style: "display: inline-block; margin-right: 1em;" %>
-        <!-- <span class="usa-buton" name="button" id="add-user-button">Add User</span> -->
-        <button type="button" name="button" id="add-user-button">Add Service Manager</button>
-      <% else %>
-        <div class="usa-alert usa-alert-info">
-          <div class="usa-alert-body">
-            <p class="usa-alert-text">
-              All Users have been added. No Service Managers to add.
-            </p>
-          </div>
-        </div>
+      <div class="usa-alert">
+        Now that you have a Service
+        <%= link_to("add a Touchpoint", new_admin_touchpoint_path) %>
+      </div>
       <% end %>
     </div>
-
-    <div>
-      <% if @available_members.present? %>
-        <%= select_tag :add_user_id, options_for_select(@available_members.map { |user| [user.email, user.id] }), prompt: "Add a Submission Viewer?", id: "add-submission-viewer-dropdown", style: "display: inline-block; margin-right: 1em;" %>
-        <button type="button" name="button" id="add-submission-viewer-button">Add Submission Viewer</button>
-      <% else %>
-        <div class="usa-alert usa-alert-info">
-          <div class="usa-alert-body">
-            <p class="usa-alert-text">
-              All Users have been added. No Submission Viewers to add.
-            </p>
-          </div>
-        </div>
-      <% end %>
-    </div>
-    <% end %>
-  </div>
+  <% end %>
 </div>
-<hr>
 
 <script type="text/javascript">
   $(function() {

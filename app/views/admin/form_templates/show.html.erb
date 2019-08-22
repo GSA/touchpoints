@@ -1,62 +1,63 @@
-<h1>
-  Viewing a Form Template
-</h1>
-<p>
-  <strong>Name:</strong>
-  <%= @form_template.name %>
-</p>
+<div class="well">
+  <h1>
+    Viewing a Form Template
+  </h1>
+  <p>
+    <strong>Name:</strong>
+    <%= @form_template.name %>
+  </p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @form_template.title %>
-</p>
+  <p>
+    <strong>Title:</strong>
+    <%= @form_template.title %>
+  </p>
 
-<p>
-  <strong>Instructions:</strong>
-  <%= @form_template.instructions %>
-</p>
+  <p>
+    <strong>Instructions:</strong>
+    <%= @form_template.instructions %>
+  </p>
 
-<p>
-  <strong>Disclaimer text:</strong>
-  <%= @form_template.disclaimer_text %>
-</p>
+  <p>
+    <strong>Disclaimer text:</strong>
+    <%= @form_template.disclaimer_text %>
+  </p>
 
-<p>
-  <strong>Kind:</strong>
-  <%= @form_template.kind %>
-</p>
+  <p>
+    <strong>Kind:</strong>
+    <%= @form_template.kind %>
+  </p>
 
-<p>
-  <strong>Notes:</strong>
-  <%= @form_template.notes %>
-</p>
+  <p>
+    <strong>Notes:</strong>
+    <%= @form_template.notes %>
+  </p>
 
-<p>
-  <strong>Status:</strong>
-  <%= @form_template.status %>
-</p>
+  <p>
+    <strong>Status:</strong>
+    <%= @form_template.status %>
+  </p>
 
-<hr>
-
-<h2>
-  Form Preview
-</h2>
-<% if @form_template %>
-  <div class="touchpoint-card">
-    <%= render partial: "components/forms/#{@form_template.kind}", locals: { form: @form, touchpoint: nil } %>
+  <% if current_user && current_user.admin %>
+    <%= link_to 'Edit', edit_admin_form_template_path(@form_template), class: "usa-button" %>
+  <% end %>
+  <div class="well">
+    <h2>
+      Form Preview
+    </h2>
+    <% if @form_template %>
+      <div class="touchpoint-card">
+        <%= render partial: "components/forms/#{@form_template.kind}", locals: { form: @form, touchpoint: nil } %>
+      </div>
+    <% else %>
+      <div class="usa-alert usa-alert-info">
+        <div class="usa-alert-body">
+          <p class="usa-alert-text">
+            Form content is currently custom-created by the Touchpoints Product Team.
+            Please contact the Feedback Analytics Team for assistance.
+          </p>
+        </div>
+      </div>
+    <% end %>
   </div>
-<% else %>
-  <div class="usa-alert usa-alert-info">
-    <div class="usa-alert-body">
-      <p class="usa-alert-text">
-        Form content is currently custom-created by the Touchpoints Product Team.
-        Please contact the Feedback Analytics Team for assistance.
-      </p>
-    </div>
-  </div>
-<% end %>
-<hr>
-<% if current_user && current_user.admin %>
-  <%= link_to 'Edit', edit_admin_form_template_path(@form_template), class: "usa-button" %>
-<% end %>
+</div>
 <%= link_to 'View All Form Templates', admin_form_templates_path, class: "usa-button" %>

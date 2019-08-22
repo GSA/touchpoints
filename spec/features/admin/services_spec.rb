@@ -41,7 +41,7 @@ feature "Managing Services", js: true do
 
       it "arrive at /admin/services/new" do
         expect(page).to have_content("New Service")
-        expect(page).to have_content("Additional Service Managers can be assigned after creating this Service.")
+        expect(page).to have_content("Touchpoints allows Agencies to manage Services (in the Service Design sense of the word).")
         expect(page).to have_button("Create Service")
         expect(page.current_path).to eq("/admin/services/new")
       end
