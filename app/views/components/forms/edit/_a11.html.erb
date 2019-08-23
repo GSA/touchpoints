@@ -14,9 +14,20 @@
   <h3>
     <%= form.title %>
   </h3>
-  <div class="field">
-    <%= f.label :title %>
-    <%= f.text_field :title %>
+  <div class="usa-grid-full">
+    <div class="usa-width-one-half">
+      <div class="field">
+        <%= f.label :title %>
+        <%= f.text_field :title %>
+      </div>
+    </div>
+    <div class="usa-width-one-half">
+      <br>
+      <div class="field">
+        <%= f.check_box :display_header_logo %>
+        <%= f.label :display_header_logo %>
+      </div>
+    </div>
   </div>
   <div class="usa-grid-full">
     <div class="usa-width-one-half">
