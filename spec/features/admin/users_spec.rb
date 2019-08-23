@@ -20,7 +20,7 @@ feature "Managing Users", js: true do
 
     it "click through to User#edit" do
       page.all("tr")[1].click_on("Edit")
-      expect(page).to have_content("Editing a User")
+      expect(page).to have_content("Editing User")
     end
 
     describe "edit a User" do

@@ -21,28 +21,26 @@
     <%= form.text_area :description, placeholder: "Describe this Service (audience, reach, metrics)" %>
   </div>
 
-  <div class="field">
-    <span>
-      An Organization Manager manages all Services for an Organization.
-    </span>
-    <%= form.check_box :hisp %>
-    <%= form.label :hisp %>
-  </div>
-
   <% if current_user.admin? %>
   <div class="field">
     <%= form.label :organization %>
-    <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: (service.organization ? service.organization.id : nil)), prompt: "Select an Organization" %>
+    <%= form.select :organization_id, options_for_select(Organization.all.order(:name).map { |org| ["#{org.abbreviation}-#{org.name}", org.id] }, selected: (service.organization ? service.organization.id : nil)), prompt: "Select an Organization" %>
   </div>
   <% else %>
   <%= form.hidden_field :organization_id, value: current_user.organization.id %>
   <% end %>
 
+  <div class="field">
+    <%= form.check_box :hisp %>
+    <%= form.label :hisp, "HISP Agency?" %>
+  </div>
+
   <% if !service.persisted? %>
   <div class="usa-alert usa-alert-info" >
     <div class="usa-alert-body">
       <p class="usa-alert-text">
-        Additional Service Managers can be assigned after creating this Service.
+        Service Managers and Submissions Viewers
+        can be assigned to to this Service after creation.
       </p>
     </div>
   </div>

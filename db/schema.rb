@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_23_172842) do
+ActiveRecord::Schema.define(version: 2019_08_22_171237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 2019_07_23_172842) do
     t.integer "character_limit", default: 0
     t.string "whitelist_url", default: ""
     t.string "whitelist_test_url", default: ""
+    t.boolean "display_header_logo", default: false
   end
 
   create_table "organizations", force: :cascade do |t|

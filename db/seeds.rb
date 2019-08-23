@@ -17,7 +17,8 @@ return false if Rails.env.production?
 example_gov = Organization.create!({
   name: "Example.gov",
   domain: "example.gov",
-  url: "https://example.gov"
+  url: "https://example.gov",
+  abbreviation: "EX"
 })
 puts "Created Default Organization: #{example_gov.name}"
 
@@ -34,7 +35,8 @@ puts "Created Admin User: #{admin_user.email}"
 digital_gov = Organization.create!({
   name: "Digital.gov",
   domain: "digital.gov",
-  url: "https://digital.gov"
+  url: "https://digital.gov",
+  abbreviation: "DIGITAL"
 })
 puts "Creating additional Organization: #{digital_gov.name}"
 
@@ -52,7 +54,8 @@ program_2 = Program.create!({
 org_2 = Organization.create!({
   name: "Farmers.gov",
   domain: "example.gov",
-  url: "https://farmers.gov"
+  url: "https://farmers.gov",
+  abbreviation: "FARMERS"
 })
 program_3 = Program.create!({
   name: "Program 3 for Farmers.gov",
@@ -63,7 +66,8 @@ program_3 = Program.create!({
 org_3 = Organization.create!({
   name: "Cloud.gov",
   domain: "cloud.gov",
-  url: "https://cloud.gov"
+  url: "https://cloud.gov",
+  abbreviation: "CLOUD"
 })
 
 webmaster = User.new({
@@ -297,6 +301,16 @@ digital_gov_user = User.new({
 })
 digital_gov_user.save!
 puts "Created Test User in Secondary Organization: #{digital_gov_user.email}"
+
+## Generate admin
+admin_emails = ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
+admin_emails.each do |email|
+  User.new({
+    email: email.strip,
+    password: SecureRandom.hex,
+    admin: true
+  }).save!
+end
 
 pra_contact = PraContact.create!({
   email: "pra_contact@example.gov",

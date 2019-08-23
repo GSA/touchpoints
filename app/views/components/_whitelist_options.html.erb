@@ -1,0 +1,29 @@
+<div class="well">
+  <h3>
+    Whitelist Options
+  </h3>
+  <div class="usa-alert usa-alert-info">
+    <div class="usa-alert-body">
+      <p class="usa-alert-text">
+        If deploying a Touchpoint on your website, Whitelist URLs
+        are used to help ensure a Touchpoint is coming from a valid domain.
+        Two Whitelist URLs can be specified: one for your Production site,
+        and one for your Test or Staging site.
+      </p>
+    </div>
+  </div>
+  <div class="usa-grid-full">
+    <div class="usa-width-one-half">
+      <div class="field">
+        <%= f.label :whitelist_url %>
+        <%= f.text_field :whitelist_url %>
+      </div>
+    </div>
+    <div class="usa-width-one-half">
+      <div class="field">
+        <%= f.label :whitelist_test_url %>
+        <%= f.text_field :whitelist_test_url %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -107,7 +107,7 @@
             <%= link_to 'Flag', flag_admin_touchpoint_submission_path(submission.touchpoint, submission), method: :post, data: { confirm: 'Are you sure?' } %>
             <% end %>
           </td>
-          <% if @touchpoint.service && @touchpoint.service.user_role?(user: current_user) %>
+          <% if @touchpoint.service && (@touchpoint.service.user_role?(user: current_user) == UserService::Role::ServiceManager || current_user.organization_admin? || current_user.admin?) %>
           <td>
             <%= link_to 'Destroy', admin_touchpoint_submission_path(submission.touchpoint, submission), method: :delete, data: { confirm: 'Are you sure?' } %>
           </td>

@@ -1,25 +1,24 @@
-<h1>Organizations</h1>
+<div class="well">
+  <h1>Organizations</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Url</th>
-      <th>Abbreviation</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @organizations.each do |organization| %>
+  <table>
+    <thead>
       <tr>
-        <td><%= link_to organization.name, admin_organization_path(organization) %></td>
-        <td><%= organization.url %></td>
-        <td><%= organization.abbreviation %></td>
+        <th>Name</th>
+        <th>Url</th>
+        <th>Abbreviation</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
-
+    <tbody>
+      <% @organizations.each do |organization| %>
+        <tr>
+          <td><%= link_to organization.name, admin_organization_path(organization) %></td>
+          <td><%= organization.url %></td>
+          <td><%= organization.abbreviation %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 <%= link_to 'New Organization', new_admin_organization_path, class: "usa-button" %>
