@@ -4,8 +4,7 @@
   padding: 3px;
   border-radius: 3px;
 }
-.card,
-.touchpoint-card {
+.card {
   border: 1px solid black;
   padding: 10px;
 }
@@ -125,4 +124,11 @@ h1, h2, h3 {
 
 .form-header-logo {
   max-height: 36px;
+}
+
+.highlight {
+  background: #ebf3fa;
+}
+.white-bg {
+  background: #FFFFFF;
 }

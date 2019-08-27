@@ -48,7 +48,7 @@
           <th>Pathname</th>
           <th>Created At</th>
           <th></th>
-          <% if @touchpoint.service && @touchpoint.service.user_role?(user: current_user) %>
+          <% if @touchpoint.service && (@touchpoint.service.user_role?(user: current_user) == UserService::Role::ServiceManager || current_user.organization_manager? || current_user.admin?) %>
           <th></th>
           <% end %>
         </tr>
@@ -58,41 +58,41 @@
         <% @submissions.each do |submission| %>
         <tr title="Submission ID <%= submission.id %>">
           <% if @touchpoint.form.kind == "recruiter" %>
-          <td><%= submission.answer_01 %></td>
-          <td><%= submission.answer_02 %></td>
-          <td><%= submission.answer_03 %></td>
-          <td><%= submission.answer_04 %></td>
+          <td><%= sanitize(submission.answer_01) %></td>
+          <td><%= sanitize(submission.answer_02) %></td>
+          <td><%= sanitize(submission.answer_03) %></td>
+          <td><%= sanitize(submission.answer_04) %></td>
           <% end %>
           <% if @touchpoint.form.kind == "open-ended" %>
           <td>
-            <span class="truncate" text="<%= submission.answer_01 %>">
-              <%= submission.answer_01.truncate(50) %>
+            <span class="truncate" fulltext="<%= sanitize(submission.answer_01) %>">
+              <%= sanitize(submission.answer_01).truncate(50) %>
             </span>
           </td>
           <% end %>
           <% if @touchpoint.form.kind == "open-ended-with-contact-info" %>
           <td>
-            <span class="truncate" text="<%= submission.answer_01 %>">
-              <%= submission.answer_01.truncate(50) %>
+            <span class="truncate" fulltext="<%= sanitize(submission.answer_01) %>">
+              <%= sanitize(submission.answer_01).truncate(50) %>
             </span>
           </td>
-          <td><%= submission.answer_02 %></td>
-          <td><%= submission.answer_03 %></td>
-          <td><%= submission.answer_04 %></td>
+          <td><%= sanitize(submission.answer_02) %></td>
+          <td><%= sanitize(submission.answer_03) %></td>
+          <td><%= sanitize(submission.answer_04) %></td>
           <% end %>
           <% if @touchpoint.form.kind == "a11" %>
-          <td><%= submission.answer_01 %></td>
-          <td><%= submission.answer_02 %></td>
-          <td><%= submission.answer_03 %></td>
-          <td><%= submission.answer_04 %></td>
-          <td><%= submission.answer_05 %></td>
-          <td><%= submission.answer_06 %></td>
-          <td><%= submission.answer_07 %></td>
-          <td><%= submission.answer_08 %></td>
-          <td><%= submission.answer_09 %></td>
-          <td><%= submission.answer_10 %></td>
-          <td><%= submission.answer_11 %></td>
-          <td><%= submission.answer_12 %></td>
+          <td><%= sanitize(submission.answer_01) %></td>
+          <td><%= sanitize(submission.answer_02) %></td>
+          <td><%= sanitize(submission.answer_03) %></td>
+          <td><%= sanitize(submission.answer_04) %></td>
+          <td><%= sanitize(submission.answer_05) %></td>
+          <td><%= sanitize(submission.answer_06) %></td>
+          <td><%= sanitize(submission.answer_07) %></td>
+          <td><%= sanitize(submission.answer_08) %></td>
+          <td><%= sanitize(submission.answer_09) %></td>
+          <td><%= sanitize(submission.answer_10) %></td>
+          <td><%= sanitize(submission.answer_11) %></td>
+          <td><%= sanitize(submission.answer_12) %></td>
           <% end %>
           <td><%= submission.location_code %></td>
           <td><%= submission.ip_address %></td>
@@ -107,7 +107,7 @@
             <%= link_to 'Flag', flag_admin_touchpoint_submission_path(submission.touchpoint, submission), method: :post, data: { confirm: 'Are you sure?' } %>
             <% end %>
           </td>
-          <% if @touchpoint.service && (@touchpoint.service.user_role?(user: current_user) == UserService::Role::ServiceManager || current_user.organization_admin? || current_user.admin?) %>
+          <% if @touchpoint.service && (@touchpoint.service.user_role?(user: current_user) == UserService::Role::ServiceManager || current_user.organization_manager? || current_user.admin?) %>
           <td>
             <%= link_to 'Destroy', admin_touchpoint_submission_path(submission.touchpoint, submission), method: :delete, data: { confirm: 'Are you sure?' } %>
           </td>
@@ -142,14 +142,14 @@
     }
   }
   // When mousing over a cell with long text, show it all
-  // When mousing out, display 80 characters max
+  // When mousing out, display 50 characters max
   $(function() {
     $(".truncate").on("mouseover", function() {
-      $(this).html($(this).attr("text"));
+      $(this).text($(this).attr("fulltext"));
     });
 
     $(".truncate").on("mouseout", function() {
-      $(this).html(truncate($(this).attr("text"), 50));
+      $(this).text(truncate($(this).attr("fulltext"), 50));
     });
   });
 </script>

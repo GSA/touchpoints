@@ -1,7 +1,7 @@
 <div class="usa-grid-full">
   <div class="usa-width-full">
     <h2>
-      <% if form.display_header_logo && form.touchpoint.service.organization.logo.present? %>
+      <% if form.display_header_logo && (form.touchpoint && form.touchpoint.service && form.touchpoint.service.organization.logo.present?) %>
         <%= image_tag(form.touchpoint.service.organization.logo.thumb.url, alt: "Organization logo", class: "form-header-logo") %>
       <% end %>
       <%= form.title %>
