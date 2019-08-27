@@ -24,12 +24,18 @@
 <br>
 <div class="usa-grid-full">
   <div class="usa-width-full">
-    <div class="well">
+    <div class="well highlight">
       <h2>
         Form Preview
       </h2>
-      <div class="touchpoint-card">
-        <%= render partial: "components/forms/#{@form.kind}", locals: { form: @form, touchpoint: @touchpoint } %>
+      <div class="well">
+        <% if @form.kind.present? %>
+          <%= render partial: "components/forms/#{@form.kind}", locals: { form: @form, touchpoint: @touchpoint } %>
+        <% else %>
+          <div class="usa-alert">
+            This is a Custom Form
+          </div>
+        <% end %>
       </div>
     </div>
   </div>

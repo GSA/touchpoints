@@ -45,7 +45,7 @@
       Form Preview
     </h2>
     <% if @form_template %>
-      <div class="touchpoint-card">
+      <div class="well">
         <%= render partial: "components/forms/#{@form_template.kind}", locals: { form: @form, touchpoint: nil } %>
       </div>
     <% else %>
