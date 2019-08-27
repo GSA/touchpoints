@@ -175,9 +175,9 @@
           user_id : userId,
           role: "service_manager"
         }
-      }).success(function(response) {
+      }).done(function(response) {
         location.reload();
-      }).error(function(response) {
+      }).fail(function(response) {
         alert(response);
       });
     });
@@ -193,9 +193,9 @@
           user_id : userId,
           role: "submission_viewer"
         }
-      }).success(function(response) {
+      }).done(function(response) {
         location.reload();
-      }).error(function(response) {
+      }).fail(function(response) {
         alert(response);
       });
     });
@@ -227,9 +227,9 @@
         dataType: "json",
         method: "POST",
         data: { user_id : userId }
-      }).success(function(response) {
+      }).done(function(response) {
         location.reload();
-      }).error(function(response) {
+      }).fail(function(response) {
         alert(response);
       });
     });
