@@ -66,17 +66,13 @@ class Admin::UsersController < AdminController
           :admin,
           :organization_id,
           :organization_manager,
-          :email,
-          :password,
-          :password_confirmation,
+          :email
         )
       elsif current_user && current_user.organization_manager?
         params.require(:user).permit(
           :organization_id,
           :organization_manager,
-          :email,
-          :password,
-          :password_confirmation,
+          :email
         )
       end
     end

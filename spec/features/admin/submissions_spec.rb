@@ -33,6 +33,45 @@ feature "Submissions", js: true do
 
           end
         end
+
+        describe "flag a Submission" do
+          context "with one Submission" do
+            let!(:submission) { FactoryBot.create(:submission, touchpoint: touchpoint) }
+
+            before do
+              visit admin_touchpoint_path(touchpoint.id)
+              within("table") do
+                click_on "Flag"
+              end
+              page.driver.browser.switch_to.alert.accept
+            end
+
+            it "successfully flags Submission" do
+              expect(page).to have_content("Submission #{submission.id} was successfully flagged.")
+              within("table") do
+                expect(page).to have_content("flagged")
+              end
+            end
+          end
+        end
+
+        describe "delete a Submission" do
+          context "with one Submission" do
+            let!(:submission) { FactoryBot.create(:submission, touchpoint: touchpoint) }
+
+            before do
+              visit admin_touchpoint_path(touchpoint.id)
+              within("table") do
+                click_on "Destroy"
+              end
+              page.driver.browser.switch_to.alert.accept
+            end
+
+            it "successfully deletes a Submission" do
+              expect(page).to have_content("Submission #{submission.id} was successfully destroyed.")
+            end
+          end
+        end
       end
     end
   end
