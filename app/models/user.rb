@@ -17,6 +17,10 @@ class User < ApplicationRecord
 
   validates :email, presence: true, if: :tld_check
 
+  def self.admins
+    User.where(admin: true)
+  end
+
   def self.from_omniauth(auth)
     # Set login_dot_gov as Provider for legacy TP Devise accounts
     # TODO: Remove once all accounts are migrated/have `provider` and `uid` set

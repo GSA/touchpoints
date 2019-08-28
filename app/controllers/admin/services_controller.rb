@@ -14,8 +14,7 @@ class Admin::ServicesController < AdminController
   end
 
   def show
-    excluded_members = @service.users + [current_user]
-    @available_members = @service.organization.users - excluded_members
+    @available_members = (User.admins + @service.organization.users).uniq - @service.users
   end
 
   # Associate a user with a Service
