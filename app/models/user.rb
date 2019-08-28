@@ -1,10 +1,9 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
-  # :lockable, and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
+  # :lockable
+  devise :database_authenticatable,
+         :rememberable,
          :trackable,
-         # :confirmable,
          :timeoutable
 
   devise :omniauthable, omniauth_providers: [:login_dot_gov]
@@ -31,7 +30,7 @@ class User < ApplicationRecord
     # For login.gov native accounts
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
-      user.password = Devise.friendly_token[0,20]
+      user.password = Devise.friendly_token[0,24]
     end
   end
 
