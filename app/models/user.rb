@@ -70,13 +70,28 @@ class User < ApplicationRecord
 
   private
 
-    def ensure_organization
-      address = Mail::Address.new(self.email)
+    def parse_host_from_domain(string)
+      fragments = string.split(".")
+      if fragments.size == 2
+        return string
+      elsif fragments.size == 3
+        fragments.shift
+        return fragments.join(".")
+      elsif fragments.size == 4
+        fragments.shift
+        fragments.shift
+        return fragments.join(".")
+      end
+    end
 
-      if org = Organization.find_by_domain(address.domain)
+    def ensure_organization
+      email_address_domain = Mail::Address.new(self.email).domain
+      parsed_domain = parse_host_from_domain(email_address_domain)
+
+      if org = Organization.find_by_domain(parsed_domain)
         self.organization_id = org.id
       else
-        errors.add(:organization, "'#{address.domain}' has not yet been configured for Touchpoints - Please contact the Feedback Analytics Team for assistance.")
+        errors.add(:organization, "'#{email_address_domain}' has not yet been configured for Touchpoints - Please contact the Feedback Analytics Team for assistance.")
       end
     end
 
