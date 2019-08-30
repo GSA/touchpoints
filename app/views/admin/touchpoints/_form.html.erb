@@ -57,10 +57,12 @@
               <%= form.label f.name, for: "touchpoint_form_template_id_#{f.id}" %>
             </li>
             <% end %>
-            <li hidden>
-              <%= form.radio_button :form_template_id, :other %>
-              <%= form.label :other, for: "touchpoint_form_template_id_other" %>
+            <% if admin_permissions? %>
+            <li>
+              <%= form.label "Custom Form (only for Admins)" %>
+              <%= form.select :form_id, options_for_select(Form.all.map { |org| [org.name, org.id] }, selected: (touchpoint.form ? touchpoint.form.id : nil)), include_blank: true %>
             </li>
+            <% end %>
           </ul>
         </fieldset>
       <% end %>
