@@ -30,10 +30,12 @@
   <%= form.hidden_field :organization_id, value: current_user.organization.id %>
   <% end %>
 
+  <% if admin_permissions? %>
   <div class="field">
     <%= form.check_box :hisp %>
     <%= form.label :hisp, "HISP Agency?" %>
   </div>
+  <% end %>
 
   <% if !service.persisted? %>
   <div class="usa-alert usa-alert-info" >
