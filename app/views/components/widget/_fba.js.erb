@@ -227,7 +227,7 @@ N.fba = {
 				answer_03: form.querySelector("#fba-text-email").value
 			}
 			<% end %>
-			<% if @touchpoint.form.kind == "a11" %>
+			<% if ["a11", "a11_epa"].include?(@touchpoint.form.kind) %>
 			var params = {
 				answer_01: form.querySelector("input[name=answer_01]:checked") && form.querySelector("input[name=answer_01]:checked").value,
 				answer_02: form.querySelector("input[name=answer_02]:checked") && form.querySelector("input[name=answer_02]:checked").value,
