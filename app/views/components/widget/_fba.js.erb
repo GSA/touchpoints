@@ -252,6 +252,13 @@ N.fba = {
 			}
 			<% end %>
 
+			<% if @touchpoint.form.kind == "a11_osha_new_vpp" %>
+				<%= render 'components/forms/params/a11_osha_new_vpp' %>
+			<% end %>
+			<% if @touchpoint.form.kind == "a11_osha_annual_vpp" %>
+				<%= render 'components/forms/params/a11_osha_annual_vpp' %>
+			<% end %>
+
 			// Combine Referrer and Pathname with Form-specific params
 			params["referer"] = d.referrer;
 			params["page"] = window.location.pathname;
