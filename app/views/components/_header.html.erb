@@ -1,18 +1,18 @@
 <a class="usa-skipnav" href="#main-content">Skip to main content</a>
 <%= render 'components/usa-banner' unless request.path[0..5] == "/admin" %>
 <%= render 'components/beta-banner' %>
-<header class="usa-header usa-header-extended" role="banner">
+<header class="usa-header usa-header-extended">
   <div class="usa-navbar">
     <div class="usa-logo" id="extended-logo">
       <em class="usa-logo-text">
         <a href="/" title="Touchpoints" aria-label="Home">
-          <%= image_tag "touchpoints-logo-@2x.png", class: "header-logo" %>
+          <%= image_tag "touchpoints-logo-@2x.png", class: "header-logo", alt: "Touchpoints logo" %>
         </a>
       </em>
     </div>
     <button class="usa-menu-btn">Menu</button>
   </div>
-  <nav role="navigation" class="usa-nav light-blue-bg">
+  <nav class="usa-nav light-blue-bg">
     <div class="usa-nav-inner">
       <button class="usa-nav-close">
         <%= image_tag "close.svg", alt: "close" %>
@@ -43,7 +43,7 @@
             </a>
           </li>
           <li>
-            <a class="usa-nav-link" href="https://feedback.usa.gov" target="_blank" rel="noopener">
+            <a class="usa-nav-link" href="mailto:feedback-analytics@gsa.gov">
               Support
             </a>
           </li>
@@ -63,7 +63,7 @@
         <% end %>
         <% if !current_user %>
         <li>
-          <button class="usa-accordion-button usa-nav-link hide" aria-expanded="false" aria-controls="extended-nav-section-two">
+          <button class="usa-accordion-button usa-nav-link" aria-expanded="false" aria-controls="extended-nav-section-two">
             <span>Information</span>
           </button>
           <ul id="extended-nav-section-two" class="usa-nav-submenu">
@@ -93,9 +93,7 @@
             <%= link_to current_user.email, admin_dashboard_path, class: "usa-nav-link admin" %>
           </li>
           <li>
-            <a href="/users/sign_out">
-              Sign out
-            </a>
+            <%= link_to "Sign Out", destroy_user_session_path %>
           </li>
           <% end %>
         </ul>

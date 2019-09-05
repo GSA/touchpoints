@@ -227,7 +227,7 @@ N.fba = {
 				answer_03: form.querySelector("#fba-text-email").value
 			}
 			<% end %>
-			<% if @touchpoint.form.kind == "a11" %>
+			<% if ["a11", "a11_epa"].include?(@touchpoint.form.kind) %>
 			var params = {
 				answer_01: form.querySelector("input[name=answer_01]:checked") && form.querySelector("input[name=answer_01]:checked").value,
 				answer_02: form.querySelector("input[name=answer_02]:checked") && form.querySelector("input[name=answer_02]:checked").value,
@@ -250,6 +250,13 @@ N.fba = {
 				answer_03: form.querySelector("#fba-text-phone").value,
 				answer_04: form.querySelector("#fba-text-email").value
 			}
+			<% end %>
+
+			<% if @touchpoint.form.kind == "a11_osha_new_vpp" %>
+				<%= render 'components/forms/params/a11_osha_new_vpp' %>
+			<% end %>
+			<% if @touchpoint.form.kind == "a11_osha_annual_vpp" %>
+				<%= render 'components/forms/params/a11_osha_annual_vpp' %>
 			<% end %>
 
 			// Combine Referrer and Pathname with Form-specific params

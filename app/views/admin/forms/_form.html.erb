@@ -10,40 +10,48 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
+  <div class="usa-grid-full">
+    <div class="usa-width-one-half">
+      <div class="field">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+      </div>
+    </div>
+    <div class="usa-width-one-half">
+      <div class="field">
+        <%= f.label :title %>
+        <%= f.text_field :title %>
+      </div>
+    </div>
   </div>
   <div class="field">
-    <%= f.label :title %>
-    <%= f.text_field :title %>
+    <%= f.label :kind %>
+    <%= f.text_field :kind %>
   </div>
   <div class="field">
-    <%= f.label :instructions %>
-    <%= f.text_area :instructions %>
+    <%= f.check_box :display_header_logo %>
+    <%= f.label :display_header_logo, "Display Organization logo before title in Form header?" %>
   </div>
-  <div class="field">
-    <%= f.label :disclaimer_text %>
-    <%= f.text_area :disclaimer_text %>
-  </div>
-  <div class="field">
-    <%= f.label :notes %>
-    <%= f.text_area :notes %>
+  <div class="usa-grid-full">
+    <div class="usa-width-one-half">
+      <div class="field">
+        <%= f.label :instructions %>
+        <%= f.text_area :instructions %>
+      </div>
+    </div>
+    <div class="usa-width-one-half">
+      <div class="field">
+        <%= f.label :disclaimer_text %>
+        <%= f.text_area :disclaimer_text %>
+      </div>
+    </div>
   </div>
   <div class="field">
     <%= f.label :character_limit %>
     (100,000 characters max)
     <%= f.text_field :character_limit %>
   </div>
-  <div class="field">
-    <%= f.label :whitelist_url %>
-    <%= f.text_field :whitelist_url %>
-  </div>
-  <div class="field">
-    <%= f.label :whitelist_test_url %>
-    <%= f.text_field :whitelist_test_url %>
-  </div>
+  <%= render 'components/whitelist_options', f: f %>
   <div class="actions">
     <%= f.submit %>
   </div>

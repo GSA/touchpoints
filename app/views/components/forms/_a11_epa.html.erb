@@ -1,4 +1,4 @@
-<form id="touchpoints-form" action="<%= root_url %>touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" method="POST" data-kind="a11">
+<form id="touchpoints-form" action="<%= root_url %>touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" method="POST" data-kind="a11-epa">
   <%= hidden_field_tag :fba_location_code, params[:location_code] %>
   <div id="touchpoints-form-body">
     <fieldset class="radios" role="group" aria-labelledby="answer_01">
@@ -186,139 +186,15 @@
     <% if form.question_text_08? %>
     <fieldset class="radios" role="group" aria-labelledby="answer_08">
       <h4 id="answer_08">
-        <%= form.question_text_08 %>
+        <%= form.question_text_07 %>
       </h4>
       <div class="">
         <%= radio_button_tag :answer_08, 1 %>
-        <%= label_tag "Strongly Disagree", nil, for: "answer_08_1" %>
+        <%= label_tag :answer_08, "Yes", for: "answer_08_1" %>
       </div>
       <div class="">
         <%= radio_button_tag :answer_08, 2 %>
-        <%= label_tag "Disagree", nil, for: "answer_08_2" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_08, 3 %>
-        <%= label_tag "Neutral", nil, for: "answer_08_3" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_08, 4 %>
-        <%= label_tag "Agree", nil, for: "answer_08_4" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_08, 5 %>
-        <%= label_tag "Strongly Agree", nil, for: "answer_08_5" %>
-      </div>
-    </fieldset>
-    <% end %>
-
-    <% if form.question_text_09? %>
-    <fieldset class="radios" role="group" aria-labelledby="answer_09">
-      <h4 id="answer_09">
-        <%= form.question_text_09 %>
-      </h4>
-      <div class="">
-        <%= radio_button_tag :answer_09, 1 %>
-        <%= label_tag "Strongly Disagree", nil, for: "answer_09_1" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_09, 2 %>
-        <%= label_tag "Disagree", nil, for: "answer_09_2" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_09, 3 %>
-        <%= label_tag "Neutral", nil, for: "answer_09_3" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_09, 4 %>
-        <%= label_tag "Agree", nil, for: "answer_09_4" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_09, 5 %>
-        <%= label_tag "Strongly Agree", nil, for: "answer_09_5" %>
-      </div>
-    </fieldset>
-    <% end %>
-
-    <% if form.question_text_10? %>
-    <fieldset class="radios" role="group" aria-labelledby="answer_10">
-      <h4 id="answer_10">
-        <%= form.question_text_10 %>
-      </h4>
-      <div class="">
-        <%= radio_button_tag :answer_10, 1 %>
-        <%= label_tag "Strongly Disagree", nil, for: "answer_10_1" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_10, 2 %>
-        <%= label_tag "Disagree", nil, for: "answer_10_2" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_10, 3 %>
-        <%= label_tag "Neutral", nil, for: "answer_10_3" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_10, 4 %>
-        <%= label_tag "Agree", nil, for: "answer_10_4" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_10, 5 %>
-        <%= label_tag "Strongly Agree", nil, for: "answer_10_5" %>
-      </div>
-    </fieldset>
-    <% end %>
-
-    <% if form.question_text_11? %>
-    <fieldset class="radios" role="group" aria-labelledby="answer_11">
-      <h4 id="answer_11">
-        <%= form.question_text_11 %>
-      </h4>
-      <div class="">
-        <%= radio_button_tag :answer_11, 1 %>
-        <%= label_tag "Strongly Disagree", nil, for: "answer_11_1" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_11, 2 %>
-        <%= label_tag "Disagree", nil, for: "answer_11_2" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_11, 3 %>
-        <%= label_tag "Neutral", nil, for: "answer_11_3" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_11, 4 %>
-        <%= label_tag "Agree", nil, for: "answer_11_4" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_11, 5 %>
-        <%= label_tag "Strongly Agree", nil, for: "answer_11_5" %>
-      </div>
-    </fieldset>
-    <% end %>
-
-    <% if form.question_text_12? %>
-    <fieldset class="radios" role="group" aria-labelledby="answer_12">
-      <h4 id="answer_12">
-        <%= form.question_text_12 %>
-      </h4>
-      <div class="">
-        <%= radio_button_tag :answer_12, 1 %>
-        <%= label_tag "Strongly Disagree", nil, for: "answer_12_1" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_12, 2 %>
-        <%= label_tag "Disagree", nil, for: "answer_12_2" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_12, 3 %>
-        <%= label_tag "Neutral", nil, for: "answer_12_3" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_12, 4 %>
-        <%= label_tag "Agree", nil, for: "answer_12_4" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_12, 5 %>
-        <%= label_tag "Strongly Agree", nil, for: "answer_12_5" %>
+        <%= label_tag :answer_08, "No", for: "answer_08_2" %>
       </div>
     </fieldset>
     <% end %>

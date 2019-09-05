@@ -1,4 +1,4 @@
-<% if touchpoint.form.disclaimer_text? || touchpoint.omb_approval_number.present? %>
+<% if touchpoint && (touchpoint.form.disclaimer_text? || touchpoint.omb_approval_number.present?) %>
   <hr style="border: none; border-top: 1px solid #E5E5E5;">
   <div class="usa-grid-full">
     <div class="usa-width-full">

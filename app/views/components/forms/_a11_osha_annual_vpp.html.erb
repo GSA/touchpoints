@@ -1,27 +1,27 @@
-<form id="touchpoints-form" action="<%= root_url %>touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" method="POST" data-kind="a11">
+<form id="touchpoints-form" action="<%= root_url %>touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" method="POST" data-kind="a11-osha-annual-vpp">
   <%= hidden_field_tag :fba_location_code, params[:location_code] %>
   <div id="touchpoints-form-body">
     <fieldset class="radios" role="group" aria-labelledby="answer_01">
       <h4 id="answer_01">
-        <%= form.question_text_01 %>
+        I am satisfied with the service received from OSHA during the Voluntary Protection Program (VPP) Re-approval Process.
       </h4>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_01, 1 %>
         <%= label_tag "Strongly Disagree", nil, for: "answer_01_1" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_01, 2 %>
         <%= label_tag "Disagree", nil, for: "answer_01_2" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_01, 3 %>
         <%= label_tag "Neutral", nil, for: "answer_01_3" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_01, 4 %>
         <%= label_tag "Agree", nil, for: "answer_01_4" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_01, 5 %>
         <%= label_tag "Strongly Agree", nil, for: "answer_01_5" %>
       </div>
@@ -29,25 +29,25 @@
 
     <fieldset class="radios" role="group" aria-labelledby="answer_02">
       <h4 id="answer_02">
-        <%= form.question_text_02 %>
+        My experiences in the Voluntary Protection Program have increased my trust in the Occupational Safety and Health Administration (OSHA).
       </h4>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_02, 1 %>
         <%= label_tag "Strongly Disagree", nil, for: "answer_02_1" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_02, 2 %>
         <%= label_tag "Disagree", nil, for: "answer_02_2" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_02, 3 %>
         <%= label_tag "Neutral", nil, for: "answer_02_3" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_02, 4 %>
         <%= label_tag "Agree", nil, for: "answer_02_4" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_02, 5 %>
         <%= label_tag "Strongly Agree", nil, for: "answer_02_5" %>
       </div>
@@ -55,25 +55,25 @@
 
     <fieldset class="radios" role="group" aria-labelledby="answer_03">
       <h4 id="answer_03">
-        <%= form.question_text_03 %>
+        Our organization’s participation in the Voluntary Participation Program is valuable to us.
       </h4>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_03, 1 %>
         <%= label_tag "Strongly Disagree", nil, for: "answer_03_1" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_03, 2 %>
         <%= label_tag "Disagree", nil, for: "answer_03_2" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_03, 3 %>
         <%= label_tag "Neutral", nil, for: "answer_03_3" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_03, 4 %>
         <%= label_tag "Agree", nil, for: "answer_03_4" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_03, 5 %>
         <%= label_tag "Strongly Agree", nil, for: "answer_03_5" %>
       </div>
@@ -81,25 +81,25 @@
 
     <fieldset class="radios" role="group" aria-labelledby="answer_04">
       <h4 id="answer_04">
-        <%= form.question_text_04 %>
+        The information I needed to complete our re-approval was easy to find and understand.
       </h4>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_04, 1 %>
         <%= label_tag "Strongly Disagree", nil, for: "answer_04_1" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_04, 2 %>
         <%= label_tag "Disagree", nil, for: "answer_04_2" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_04, 3 %>
         <%= label_tag "Neutral", nil, for: "answer_04_3" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_04, 4 %>
         <%= label_tag "Agree", nil, for: "answer_04_4" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_04, 5 %>
         <%= label_tag "Strongly Agree", nil, for: "answer_04_5" %>
       </div>
@@ -107,25 +107,25 @@
 
     <fieldset class="radios" role="group" aria-labelledby="answer_05">
       <h4 id="answer_05">
-        <%= form.question_text_05 %>
+        It took a reasonable amount of time to arrange for the VPP reapproval on-site.
       </h4>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_05, 1 %>
         <%= label_tag "Strongly Disagree", nil, for: "answer_05_1" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_05, 2 %>
         <%= label_tag "Disagree", nil, for: "answer_05_2" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_05, 3 %>
         <%= label_tag "Neutral", nil, for: "answer_05_3" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_05, 4 %>
         <%= label_tag "Agree", nil, for: "answer_05_4" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_05, 5 %>
         <%= label_tag "Strongly Agree", nil, for: "answer_05_5" %>
       </div>
@@ -133,25 +133,25 @@
 
     <fieldset class="radios" role="group" aria-labelledby="answer_06">
       <h4 id="answer_06">
-        <%= form.question_text_06 %>
+        The information VPP will use to inspect our site and determine eligibility are clear.
       </h4>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_06, 1 %>
         <%= label_tag "Strongly Disagree", nil, for: "answer_06_1" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_06, 2 %>
         <%= label_tag "Disagree", nil, for: "answer_06_2" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_06, 3 %>
         <%= label_tag "Neutral", nil, for: "answer_06_3" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_06, 4 %>
         <%= label_tag "Agree", nil, for: "answer_06_4" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_06, 5 %>
         <%= label_tag "Strongly Agree", nil, for: "answer_06_5" %>
       </div>
@@ -159,169 +159,167 @@
 
     <fieldset class="radios" role="group" aria-labelledby="answer_07">
       <h4 id="answer_07">
-        <%= form.question_text_07 %>
+        OSHA’s VPP staff were helpful in assisting us through the reapproval process and on-site inspection.
       </h4>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_07, 1 %>
         <%= label_tag "Strongly Disagree", nil, for: "answer_07_1" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_07, 2 %>
         <%= label_tag "Disagree", nil, for: "answer_07_2" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_07, 3 %>
         <%= label_tag "Neutral", nil, for: "answer_07_3" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_07, 4 %>
         <%= label_tag "Agree", nil, for: "answer_07_4" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_07, 5 %>
         <%= label_tag "Strongly Agree", nil, for: "answer_07_5" %>
       </div>
     </fieldset>
 
-    <% if form.question_text_08? %>
+    <p class="radios">
+      OSHA would like to know if answers to the survey questions correlate with years in VPP, company size, NAICS codes/industries, and Region. OSHA proposes these six additional questions to better understand VPP participant engagement with OSHA, although alternative approaches that gather the same information would be considered.
+    </p>
+
     <fieldset class="radios" role="group" aria-labelledby="answer_08">
       <h4 id="answer_08">
-        <%= form.question_text_08 %>
+        How many years have you been in VPP?
       </h4>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_08, 1 %>
-        <%= label_tag "Strongly Disagree", nil, for: "answer_08_1" %>
+        <%= label_tag "3 or more", nil, for: "answer_08_1" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_08, 2 %>
-        <%= label_tag "Disagree", nil, for: "answer_08_2" %>
+        <%= label_tag "5 or more", nil, for: "answer_08_2" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_08, 3 %>
-        <%= label_tag "Neutral", nil, for: "answer_08_3" %>
+        <%= label_tag "10 or more", nil, for: "answer_08_3" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_08, 4 %>
-        <%= label_tag "Agree", nil, for: "answer_08_4" %>
+        <%= label_tag "15 or more", nil, for: "answer_08_4" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_08, 5 %>
-        <%= label_tag "Strongly Agree", nil, for: "answer_08_5" %>
+        <%= label_tag "More than 15 years", nil, for: "answer_08_5" %>
       </div>
     </fieldset>
-    <% end %>
 
-    <% if form.question_text_09? %>
     <fieldset class="radios" role="group" aria-labelledby="answer_09">
       <h4 id="answer_09">
-        <%= form.question_text_09 %>
+        How often do you talk to your OSHA contact?
       </h4>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_09, 1 %>
-        <%= label_tag "Strongly Disagree", nil, for: "answer_09_1" %>
+        <%= label_tag "Every Month", nil, for: "answer_09_1" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_09, 2 %>
-        <%= label_tag "Disagree", nil, for: "answer_09_2" %>
+        <%= label_tag "3-4 Times a Year ", nil, for: "answer_09_2" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_09, 3 %>
-        <%= label_tag "Neutral", nil, for: "answer_09_3" %>
+        <%= label_tag "Once a Year", nil, for: "answer_09_3" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_09, 4 %>
-        <%= label_tag "Agree", nil, for: "answer_09_4" %>
+        <%= label_tag "Every 2-3 Years", nil, for: "answer_09_4" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_09, 5 %>
-        <%= label_tag "Strongly Agree", nil, for: "answer_09_5" %>
+        <%= label_tag "Once Every 5 Years", nil, for: "answer_09_5" %>
       </div>
     </fieldset>
-    <% end %>
 
-    <% if form.question_text_10? %>
     <fieldset class="radios" role="group" aria-labelledby="answer_10">
       <h4 id="answer_10">
-        <%= form.question_text_10 %>
+        What do you usually talk to your OSHA contact about?
       </h4>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_10, 1 %>
-        <%= label_tag "Strongly Disagree", nil, for: "answer_10_1" %>
+        <%= label_tag "Routine VPP-required reports, on-site evaluations, SGE activities, etc.", "Routine VPP-required reports, on-site evaluations, SGE activities, etc.", for: "answer_10_1" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_10, 2 %>
-        <%= label_tag "Disagree", nil, for: "answer_10_2" %>
+        <%= label_tag "Current Safety and Health Industry Issues/Questions", nil, for: "answer_10_2" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_10, 3 %>
-        <%= label_tag "Neutral", nil, for: "answer_10_3" %>
+        <%= label_tag "Site-Specific Concerns", nil, for: "answer_10_3" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_10, 4 %>
-        <%= label_tag "Agree", nil, for: "answer_10_4" %>
+        <%= label_tag "Outreach, Mentoring, or other VPP-Promotion/Education Activities", nil, for: "answer_10_4" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_10, 5 %>
-        <%= label_tag "Strongly Agree", nil, for: "answer_10_5" %>
+        <%= label_tag "Other", nil, for: "answer_10_5" %>
+        <%= text_field_tag :answer_10 %>
       </div>
     </fieldset>
-    <% end %>
 
-    <% if form.question_text_11? %>
     <fieldset class="radios" role="group" aria-labelledby="answer_11">
       <h4 id="answer_11">
-        <%= form.question_text_11 %>
+        Which OSHA Region? 1-10
       </h4>
-      <div class="">
-        <%= radio_button_tag :answer_11, 1 %>
-        <%= label_tag "Strongly Disagree", nil, for: "answer_11_1" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_11, 2 %>
-        <%= label_tag "Disagree", nil, for: "answer_11_2" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_11, 3 %>
-        <%= label_tag "Neutral", nil, for: "answer_11_3" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_11, 4 %>
-        <%= label_tag "Agree", nil, for: "answer_11_4" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_11, 5 %>
-        <%= label_tag "Strongly Agree", nil, for: "answer_11_5" %>
-      </div>
+      <%= text_field_tag :answer_11 %>
     </fieldset>
-    <% end %>
 
-    <% if form.question_text_12? %>
     <fieldset class="radios" role="group" aria-labelledby="answer_12">
       <h4 id="answer_12">
-        <%= form.question_text_12 %>
+        VPP Status
       </h4>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_12, 1 %>
-        <%= label_tag "Strongly Disagree", nil, for: "answer_12_1" %>
+        <%= label_tag :answer_12, "Merit", for: "answer_12_1" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_12, 2 %>
-        <%= label_tag "Disagree", nil, for: "answer_12_2" %>
+        <%= label_tag :answer_12, "Star", for: "answer_12_2" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_12, 3 %>
-        <%= label_tag "Neutral", nil, for: "answer_12_3" %>
+        <%= label_tag :answer_12, "Conditional", for: "answer_12_3" %>
       </div>
-      <div class="">
+      <div>
         <%= radio_button_tag :answer_12, 4 %>
-        <%= label_tag "Agree", nil, for: "answer_12_4" %>
-      </div>
-      <div class="">
-        <%= radio_button_tag :answer_12, 5 %>
-        <%= label_tag "Strongly Agree", nil, for: "answer_12_5" %>
+        <%= label_tag :answer_12, "MWF", for: "answer_12_4" %>
       </div>
     </fieldset>
-    <% end %>
+
+    <fieldset class="radios" role="group" aria-labelledby="answer_13">
+      <h4 id="answer_13">
+        Does the site fall under the OSHA PSM Standard?
+      </h4>
+      <div>
+        <%= radio_button_tag :answer_13, 1 %>
+        <%= label_tag :answer_13, "Yes", for: "answer_13_1" %>
+      </div>
+      <div>
+        <%= radio_button_tag :answer_13, 2 %>
+        <%= label_tag :answer_13, "No", for: "answer_13_2" %>
+      </div>
+    </fieldset>
+    <fieldset class="radios" role="group" aria-labelledby="answer_14">
+      <h4 id="answer_14">
+        NAICS Code
+      </h4>
+      <%= text_field_tag :answer_14 %>
+    </fieldset>
+    <fieldset class="radios" role="group" aria-labelledby="answer_15">
+      <h4 id="answer_15">
+        Number of Employees
+      </h4>
+      <%= text_field_tag :answer_15 %>
+    </fieldset>
 
     <div class="button-wrapper">
       <button type="submit" id="fba-submit" class="usa-button-primary-alt">Submit</button>

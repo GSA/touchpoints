@@ -1,10 +1,9 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
-  # :lockable, and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
+  # :lockable
+  devise :database_authenticatable,
+         :rememberable,
          :trackable,
-         # :confirmable,
          :timeoutable
 
   devise :omniauthable, omniauth_providers: [:login_dot_gov]
@@ -17,6 +16,10 @@ class User < ApplicationRecord
   APPROVED_DOMAINS = [".gov", ".mil"]
 
   validates :email, presence: true, if: :tld_check
+
+  def self.admins
+    User.where(admin: true)
+  end
 
   def self.from_omniauth(auth)
     # Set login_dot_gov as Provider for legacy TP Devise accounts
@@ -31,7 +34,7 @@ class User < ApplicationRecord
     # For login.gov native accounts
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
-      user.password = Devise.friendly_token[0,20]
+      user.password = Devise.friendly_token[0,24]
     end
   end
 
@@ -67,13 +70,28 @@ class User < ApplicationRecord
 
   private
 
-    def ensure_organization
-      address = Mail::Address.new(self.email)
+    def parse_host_from_domain(string)
+      fragments = string.split(".")
+      if fragments.size == 2
+        return string
+      elsif fragments.size == 3
+        fragments.shift
+        return fragments.join(".")
+      elsif fragments.size == 4
+        fragments.shift
+        fragments.shift
+        return fragments.join(".")
+      end
+    end
 
-      if org = Organization.find_by_domain(address.domain)
+    def ensure_organization
+      email_address_domain = Mail::Address.new(self.email).domain
+      parsed_domain = parse_host_from_domain(email_address_domain)
+
+      if org = Organization.find_by_domain(parsed_domain)
         self.organization_id = org.id
       else
-        errors.add(:organization, "'#{address.domain}' has not yet been configured for Touchpoints - Please contact the Feedback Analytics Team for assistance.")
+        errors.add(:organization, "'#{email_address_domain}' has not yet been configured for Touchpoints - Please contact the Feedback Analytics Team for assistance.")
       end
     end
 

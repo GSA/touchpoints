@@ -4,8 +4,7 @@
   padding: 3px;
   border-radius: 3px;
 }
-.card,
-.touchpoint-card {
+.card {
   border: 1px solid black;
   padding: 10px;
 }
@@ -109,4 +108,29 @@ header.usa-header {
 
 #touchpoints-form-body fieldset:nth-child(odd) {
   background: #F9F9F9;
+}
+
+.well {
+  border: 1px solid #d6d7d9;
+  border-radius: 8px;
+  padding: 10px 20px;
+  margin: 10px 0;
+}
+
+// Override USDWS h1, h2, h3
+h1, h2, h3 {
+  margin: 0.5em 0;
+}
+
+.form-header-logo {
+  max-height: 36px;
+}
+.hide {
+  display: none;
+}
+.highlight {
+  background: #ebf3fa;
+}
+.white-bg {
+  background: #FFFFFF;
 }

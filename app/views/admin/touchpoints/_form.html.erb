@@ -1,6 +1,6 @@
+<%= form_with(model: touchpoint, url: touchpoint.persisted? ? admin_touchpoint_path(touchpoint) : admin_touchpoints_path, local: true) do |form| %>
 <div class="usa-grid-full">
   <div class="usa-width-full">
-    <%= form_with(model: touchpoint, url: touchpoint.persisted? ? admin_touchpoint_path(touchpoint) : admin_touchpoints_path, local: true) do |form| %>
     <% if touchpoint.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(touchpoint.errors.count, "error") %> prohibited this touchpoint from being saved:</h2>
@@ -29,101 +29,122 @@
       <%= form.label :name %>
       <%= form.text_field :name, placeholder: "Name this Touchpoint for your Reference" %>
     </div>
-    <% if touchpoint.form %>
-      <br>
-      <%= link_to "Customize this Touchpoint's Form", admin_touchpoint_form_path(touchpoint, touchpoint.form), class: "usa-button usa-button-secondary" %>
-    <% else %>
-      <h3>
-        Select a Form Template
-      </h3>
-      <div class="usa-alert usa-alert-info" >
-        <div class="usa-alert-body">
-          <p class="usa-alert-text">
-            Based on the Form Template selected,
-            an editable Form will be created.
-          </p>
+    <div class="well">
+      <% if touchpoint.form %>
+        <h3>
+          Touchpoint Form
+        </h3>
+        <%= link_to "Customize this Touchpoint's Form", admin_touchpoint_form_path(touchpoint, touchpoint.form), class: "usa-button usa-button-secondary" %>
+      <% else %>
+        <h3>
+          Select a Form Template
+        </h3>
+        <div class="usa-alert usa-alert-info" >
+          <div class="usa-alert-body">
+            <p class="usa-alert-text">
+              Based on the Form Template selected,
+              an editable Form will be created.
+            </p>
+          </div>
         </div>
-      </div>
-      <br>
+        <br>
+        <fieldset class="usa-fieldset-inputs usa-sans">
+          <legend class="usa-sr-only">Types of Forms</legend>
+          <ul class="usa-unstyled-list">
+            <% FormTemplate.all.order(:kind).each do |f| %>
+            <li>
+              <%= form.radio_button :form_template_id, f.id %>
+              <%= form.label f.name, for: "touchpoint_form_template_id_#{f.id}" %>
+            </li>
+            <% end %>
+            <% if admin_permissions? %>
+            <li>
+              <%= form.label "Custom Form (only for Admins)" %>
+              <%= form.select :form_id, options_for_select(Form.all.map { |org| [org.name, org.id] }, selected: (touchpoint.form ? touchpoint.form.id : nil)), include_blank: true %>
+            </li>
+            <% end %>
+          </ul>
+        </fieldset>
+      <% end %>
+    </div>
+    <div class="well">
+      <h3>
+        Select a Delivery Method
+      </h3>
       <fieldset class="usa-fieldset-inputs usa-sans">
         <legend class="usa-sr-only">Types of Forms</legend>
         <ul class="usa-unstyled-list">
-          <% FormTemplate.all.order(:kind).each do |f| %>
+          <% Touchpoint::DELIVERY_METHODS.each do |f| %>
           <li>
-            <%= form.radio_button :form_template_id, f.id %>
-            <%= form.label f.name, for: "touchpoint_form_template_id_#{f.id}" %>
+            <%= form.radio_button :delivery_method, f %>
+            <%= form.label f, for: "touchpoint_delivery_method_#{f}" %>
           </li>
           <% end %>
-          <li hidden>
-            <%= form.radio_button :form_template_id, :other %>
-            <%= form.label :other, for: "touchpoint_form_template_id_other" %>
-          </li>
         </ul>
       </fieldset>
-    <% end %>
-    <h3>
-      Select a Delivery Method
-    </h3>
-    <fieldset class="usa-fieldset-inputs usa-sans">
-      <legend class="usa-sr-only">Types of Forms</legend>
-      <ul class="usa-unstyled-list">
-        <% Touchpoint::DELIVERY_METHODS.each do |f| %>
-        <li>
-          <%= form.radio_button :delivery_method, f %>
-          <%= form.label f, for: "touchpoint_delivery_method_#{f}" %>
-        </li>
-        <% end %>
-      </ul>
-    </fieldset>
-    <div class="field">
-      <%= form.label :element_selector %>
-      <%= form.text_field :element_selector, placeholder: "button-id" %>
+      <div class="field">
+        <%= form.label :element_selector %>
+        <div>
+          <em>
+            Only required for "Inline" and "Custom-button-modal"
+          </em>
+        </div>
+        <%= form.text_field :element_selector, placeholder: "button-id" %>
+      </div>
     </div>
-    <h3><span title="Public Records Act">PRA</span> Information</h3>
-    <div class="field">
-      <%= form.label :omb_approval_number %>
-      <%= form.text_field :omb_approval_number, placeholder: "OMB Approval #" %>
-    </div>
-    <div class="field">
-      <%= form.label :expiration_date %>
-      <%= form.date_field :expiration_date %>
-    </div>
-  </div>
-  <br>
-  <hr>
-  <br>
-  <div class="usa-width-one-half">
-    <h3>
-      How does this support CX Goals?
-    </h3>
-    <div class="field">
-      <%= form.label :meaningful_response_size %>
-      <%= form.number_field :meaningful_response_size, placeholder: "1000" %>
-    </div>
-    <div class="field">
-      <%= form.label :purpose %>
-      <%= form.text_area :purpose %>
-    </div>
-    <div class="field">
-      <%= form.label :behavior_change %>
-      <%= form.text_area :behavior_change %>
-    </div>
-  </div>
-  <div class="usa-width-one-half">
-    <h3>
-      Submission Settings
-    </h3>
-    <div class="field">
-      <%= form.label "emails to notify when a Submission is received" %>
-      <%= form.text_field(:notification_emails, value: (touchpoint.notification_emails? ? touchpoint.notification_emails : current_user.email)) %>
+    <div class="well">
+      <h3>
+        <span title="Public Records Act">PRA</span>
+        Information
+      </h3>
+      <div class="usa-grid-full">
+        <div class="usa-width-one-half">
+          <div class="field">
+            <%= form.label :omb_approval_number %>
+            <%= form.text_field :omb_approval_number, placeholder: "OMB Approval #" %>
+          </div>
+        </div>
+        <div class="usa-width-one-half">
+          <div class="field">
+            <%= form.label :expiration_date %>
+            <%= form.date_field :expiration_date %>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-<br>
-<hr>
+<div class="well">
+  <div class="usa-grid-full">
+    <div class="usa-width-one-half">
+      <h3>
+        How does this support CX Goals?
+      </h3>
+      <div class="field">
+        <%= form.label :meaningful_response_size %>
+        <%= form.number_field :meaningful_response_size, placeholder: "1000" %>
+      </div>
+      <div class="field">
+        <%= form.label :purpose %>
+        <%= form.text_area :purpose %>
+      </div>
+    </div>
+    <div class="usa-width-one-half">
+      <h3>
+        Submission Settings
+      </h3>
+      <div class="field">
+        <%= form.label "emails to notify when a Submission is received" %>
+        <%= form.text_field(:notification_emails, value: (touchpoint.notification_emails? ? touchpoint.notification_emails : current_user.email)) %>
+      </div>
+      <div class="field">
+        <%= form.label :behavior_change %>
+        <%= form.text_area :behavior_change %>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="actions">
   <%= form.submit %>
 </div>
-<br>
-<br>
 <% end %>

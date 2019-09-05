@@ -14,26 +14,27 @@
     <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: user.organization_id), include_blank: true %>
   </div>
   <% if organization_manager_permissions? %>
-  <hr>
-  <div class="field">
-    <span>
-      An Organization Manager manages all Services for an Organization.
-    </span>
-    <%= form.check_box :organization_manager %>
-    <%= form.label :organization_manager %>
+  <div class="well">
+    <div class="field">
+      <span>
+        An Organization Manager manages all Services for an Organization.
+      </span>
+      <%= form.check_box :organization_manager %>
+      <%= form.label :organization_manager %>
+    </div>
   </div>
   <% end %>
-  <% if admin_permissions? %>
-  <hr>
-  <div class="field">
-    <span>
-      A Touchpoints Admin manages everything.
-    </span>
-    <%= form.check_box :admin %>
-    <%= form.label :admin %>
+  <div class="well">
+    <% if admin_permissions? %>
+    <div class="field">
+      <span>
+        A Touchpoints Admin manages everything.
+      </span>
+      <%= form.check_box :admin %>
+      <%= form.label :admin %>
+    </div>
+    <% end %>
   </div>
-  <% end %>
-
   <div class="actions">
     <%= form.submit %>
   </div>

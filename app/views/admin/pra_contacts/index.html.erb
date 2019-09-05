@@ -1,31 +1,30 @@
-<h1>
-  PRA Contacts
-</h1>
+<div class="well">
+  <h1>
+    PRA Contacts
+  </h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Email</th>
-      <th>Name</th>
-      <th>Department</th>
-      <th>Program</th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @pra_contacts.each do |pra_contact| %>
+  <table>
+    <thead>
       <tr>
-        <td><%= link_to pra_contact.email, admin_pra_contact_path(pra_contact) %></td>
-        <td><%= pra_contact.name %></td>
-        <td><%= pra_contact.department %></td>
-        <td><%= pra_contact.program %></td>
-        <td><%= link_to 'Edit', edit_admin_pra_contact_path(pra_contact) %></td>
+        <th>Email</th>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Program</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
-
+    <tbody>
+      <% @pra_contacts.each do |pra_contact| %>
+        <tr>
+          <td><%= link_to pra_contact.email, admin_pra_contact_path(pra_contact) %></td>
+          <td><%= pra_contact.name %></td>
+          <td><%= pra_contact.department %></td>
+          <td><%= pra_contact.program %></td>
+          <td><%= link_to 'Edit', edit_admin_pra_contact_path(pra_contact) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 <%= link_to 'New Pra Contact', new_admin_pra_contact_path, class: "usa-button" %>

@@ -1,61 +1,65 @@
-<h1>
-  Viewing a Form
-</h1>
-<p>
-  <strong>Touchpoint:</strong>
-  <% if @touchpoint %>
-    <%= link_to @touchpoint.name, admin_touchpoint_path(@touchpoint) %>
-  <% end %>
-</p>
-<p>
-  <strong>Name:</strong>
-  <%= @form.name %>
-</p>
-<p>
-  <strong>Title:</strong>
-  <%= @form.title %>
-</p>
-<p>
-  <strong>Instructions:</strong>
-  <%= @form.instructions %>
-</p>
-<p>
-  <strong>Disclaimer Text:</strong>
-  <%= @form.disclaimer_text %>
-</p>
-<p>
-  <strong>Kind:</strong>
-  <%= @form.kind %>
-</p>
-<p>
-  <strong>Notes:</strong>
-  <%= @form.notes %>
-</p>
-<p>
-  <strong>Character Limit:</strong>
-  <%= @form.character_limit %>
-</p>
-<p>
-  <strong>Whitelist URL:</strong>
-  <%= @form.whitelist_url %>
-</p>
-<p>
-  <strong>Whitelist Test URL:</strong>
-  <%= @form.whitelist_test_url %>
-</p>
-<% if @touchpoint %>
-  <%= link_to 'Edit', edit_admin_touchpoint_form_path(@touchpoint, @form), class: "usa-button" %>
-<% else %>
-  <%= link_to 'Edit', edit_admin_form_path(@form), class: "usa-button" %>
-<% end %>
-<hr>
-<h3>
-  Form Preview
-</h3>
-<div class="touchpoint-card">
-  <% if @form && @touchpoint %>
+<div class="well">
+  <h1>
+    Viewing a Form
+  </h1>
+  <div class="well">
+    <p>
+      <strong>Name:</strong>
+      <%= @form.name %>
+    </p>
+    <p>
+      <strong>Touchpoint:</strong>
+      <% if @touchpoint %>
+        <%= link_to @touchpoint.name, admin_touchpoint_path(@touchpoint) %>
+      <% end %>
+    </p>
+    <p>
+      <strong>Kind:</strong>
+      <%= @form.kind %>
+    </p>
+    <p>
+      <strong>Title:</strong>
+      <%= @form.title %>
+    </p>
+    <p>
+      <strong>Display Header Logo:</strong>
+      <%= @form.display_header_logo %>
+    </p>
+    <p>
+      <strong>Instructions:</strong>
+      <%= @form.instructions %>
+    </p>
+    <p>
+      <strong>Disclaimer Text:</strong>
+      <%= @form.disclaimer_text %>
+    </p>
+    <p>
+      <strong>Character Limit:</strong>
+      <%= @form.character_limit %>
+    </p>
+    <p>
+      <strong>Whitelist URL:</strong>
+      <%= @form.whitelist_url %>
+    </p>
+    <p>
+      <strong>Whitelist Test URL:</strong>
+      <%= @form.whitelist_test_url %>
+    </p>
+    <% if @touchpoint %>
+      <%= link_to 'Edit', edit_admin_touchpoint_form_path(@touchpoint, @form), class: "usa-button" %>
+    <% else %>
+      <%= link_to 'Edit', edit_admin_form_path(@form), class: "usa-button" %>
+    <% end %>
+  </div>
+</div>
+<div class="well highlight">
+  <h2>
+    Form Preview
+  </h2>
+  <div class="well white-bg">
+    <% if @form %>
     <%= render partial: "components/forms/custom_layout", locals: { touchpoint: @touchpoint, form: @form } %>
-  <% else %>
+    <% else %>
     <div class="usa-alert usa-alert-info">
       <div class="usa-alert-body">
         <p class="usa-alert-text">
@@ -64,5 +68,6 @@
         </p>
       </div>
     </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>
