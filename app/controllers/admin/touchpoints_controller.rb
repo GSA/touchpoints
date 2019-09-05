@@ -146,8 +146,9 @@ class Admin::TouchpointsController < AdminController
     def touchpoint_params
       params.require(:touchpoint).permit(
         :name,
-        :service_id,
         :organization_id,
+        :service_id,
+        :form_id,
         :expiration_date,
         :purpose,
         :meaningful_response_size,

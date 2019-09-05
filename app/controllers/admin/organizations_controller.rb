@@ -3,7 +3,7 @@ class Admin::OrganizationsController < AdminController
   before_action :set_organization, only: [:show, :edit, :update, :destroy]
 
   def index
-    @organizations = Organization.all
+    @organizations = Organization.all.order(:name)
   end
 
   def show
