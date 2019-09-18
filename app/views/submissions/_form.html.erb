@@ -1,4 +1,4 @@
-<%= render "components/forms/custom_layout", form: @touchpoint.form, touchpoint: @touchpoint %>
+<%= render "components/forms/custom_layout", form: @touchpoint.form, touchpoint: @touchpoint, questions: @touchpoint.form.questions %>
 <script>
   <%= render(partial: "components/widget/fba.js", locals: { touchpoint: @touchpoint, suppress_ui: true }) %>
 </script>

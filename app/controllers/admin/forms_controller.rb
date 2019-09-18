@@ -9,6 +9,7 @@ class Admin::FormsController < AdminController
 
   def show
     @touchpoint = @form.touchpoint
+    @questions = @form.questions
   end
 
   def new

@@ -48,6 +48,9 @@ class Admin::UsersController < AdminController
   end
 
   def destroy
+    ensure_admin
+    redirect_to(edit_admin_user_path(@user), alert: "Can't delete yourself") and return if @user == current_user
+
     @user.destroy
     respond_to do |format|
       format.html { redirect_to admin_users_url, notice: 'User was successfully destroyed.' }
