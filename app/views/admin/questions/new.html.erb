@@ -1,0 +1,11 @@
+<h1>New Question</h1>
+
+<p>
+  for <%= @form.name %>
+</p>
+
+<div class="well">
+  <%= render 'form', form: @form, question: @question %>
+
+  <%= link_to 'Back', admin_questions_path %>
+</div>

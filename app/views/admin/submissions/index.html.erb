@@ -12,6 +12,11 @@
     <table class="table-scroll">
       <thead>
         <tr>
+          <% if @touchpoint.form.kind == "custom" %>
+          <% @touchpoint.form.questions.each do |question| %>
+          <th><%= question.text %></th>
+          <% end %>
+          <% end %>
           <% if @touchpoint.form.kind == "recruiter" %>
           <th>First name</th>
           <th>Last name</th>
@@ -57,6 +62,13 @@
       <tbody>
         <% @submissions.each do |submission| %>
         <tr title="Submission ID <%= submission.id %>">
+          <% if @touchpoint.form.kind == "custom" %>
+            <% @touchpoint.form.questions.each do |question| %>
+            <td>
+              <%= sanitize(submission.send(question.answer_field.to_sym)) %>
+            </td>
+            <% end %>
+          <% end %>
           <% if @touchpoint.form.kind == "recruiter" %>
           <td><%= sanitize(submission.answer_01) %></td>
           <td><%= sanitize(submission.answer_02) %></td>

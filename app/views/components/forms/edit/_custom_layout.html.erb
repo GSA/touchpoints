@@ -13,7 +13,7 @@
     <% end %>
     <%= render 'components/forms/flash' %>
     <% if form.kind == "custom" %>
-      <%= render partial: "components/forms/custom", locals: { touchpoint: @touchpoint, form: form, questions: form.questions } %>
+      <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: form, questions: form.questions } %>
     <% else %>
       <%= render partial: "components/forms/#{form.kind}", locals: { touchpoint: @touchpoint, form: form } %>
     <% end %>
