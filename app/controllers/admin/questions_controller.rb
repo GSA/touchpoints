@@ -1,4 +1,4 @@
-class Admin::QuestionsController < ApplicationController
+class Admin::QuestionsController < AdminController
   before_action :set_form, only: [:new, :create, :show, :edit, :update, :destroy]
   before_action :set_question, only: [:show, :edit, :update, :destroy]
 
@@ -77,7 +77,7 @@ class Admin::QuestionsController < ApplicationController
       params.require(:question).permit(
         :form_id,
         :text,
-        :question_type, 
+        :question_type,
         :answer_field,
         :position,
         :is_required
