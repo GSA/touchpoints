@@ -1,5 +1,4 @@
-
-class Admin::QuestionOptionsController < ApplicationController
+class Admin::QuestionOptionsController < AdminController
   before_action :set_question, only: [:new, :create, :show, :edit, :update, :destroy]
   before_action :set_question_option, only: [:show, :edit, :update, :destroy]
 

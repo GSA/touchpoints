@@ -11,5 +11,9 @@ FactoryBot.define do
     trait :recruiter do
       kind { "recruiter" }
     end
+    trait :custom do
+      name { "Custom Test form" }
+      kind { "custom" }
+    end
   end
 end

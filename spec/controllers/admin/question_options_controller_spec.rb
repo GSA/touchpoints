@@ -25,6 +25,8 @@ require 'rails_helper'
 
 RSpec.describe Admin::QuestionOptionsController, type: :controller do
 
+  let(:admin) { FactoryBot.create(:user, :admin) }
+
   # This should return the minimal set of attributes required to create a valid
   # QuestionOption. As you add validations to QuestionOption, be sure to
   # adjust the attributes here as well.
@@ -40,6 +42,10 @@ RSpec.describe Admin::QuestionOptionsController, type: :controller do
   # in order to pass any filters (e.g. authentication) defined in
   # QuestionOptionsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
+
+  before do
+    sign_in admin
+  end
 
   describe "GET #index" do
     it "returns a success response" do
