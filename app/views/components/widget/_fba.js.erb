@@ -138,7 +138,7 @@ N.fba = {
 			var alertElementBody = document.getElementsByClassName("usa-alert-text")[0];
 
 			// Display success Message
-			alertElementBody.innerHTML += "Thank you. Your feedback has been received.";
+			alertElementBody.innerHTML += "<%= @touchpoint.form.success_text %>";
 			alertElement.style.display = "block";
 
 			// Hide Form Elements

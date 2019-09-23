@@ -6,19 +6,40 @@ feature "Touchpoints", js: true do
     let(:touchpoint) { FactoryBot.create(:touchpoint, :with_form, service: service) }
 
     describe "/touchpoints" do
-      before do
-        visit touchpoint_path(touchpoint)
-        expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit")
-        expect(page).to have_content("OMB Approval ##{touchpoint.omb_approval_number}")
-        expect(page).to have_content("Exp. Date #{touchpoint.expiration_date.strftime("%m/%d/%Y")}")
-        fill_in("fba-text-body", with: "User feedback")
-        click_button "Submit"
+      context "default success text" do
+        before do
+          visit touchpoint_path(touchpoint)
+          expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit")
+          expect(page).to have_content("OMB Approval ##{touchpoint.omb_approval_number}")
+          expect(page).to have_content("Exp. Date #{touchpoint.expiration_date.strftime("%m/%d/%Y")}")
+          fill_in("fba-text-body", with: "User feedback")
+          click_button "Submit"
+        end
+
+        describe "display default success text" do
+          it "renders success flash message" do
+            expect(page).to have_content("Thank you. Your feedback has been received.")
+            expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit") # stays on
+          end
+        end
       end
 
-      describe "display success message" do
-        it "renders success flash message" do
-          expect(page).to have_content("Thank you. Your feedback has been received.")
-          expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit") # stays on
+      context "custom success text" do
+        before do
+          touchpoint.form.update_attribute(:success_text, "Much success, yessss.")
+          visit touchpoint_path(touchpoint)
+          expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit")
+          expect(page).to have_content("OMB Approval ##{touchpoint.omb_approval_number}")
+          expect(page).to have_content("Exp. Date #{touchpoint.expiration_date.strftime("%m/%d/%Y")}")
+          fill_in("fba-text-body", with: "User feedback")
+          click_button "Submit"
+        end
+
+        describe "display custom success text" do
+          it "renders success flash message" do
+            expect(page).to have_content(touchpoint.form.success_text)
+            expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit") # stays on
+          end
         end
       end
     end
