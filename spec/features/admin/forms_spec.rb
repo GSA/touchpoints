@@ -58,7 +58,7 @@ feature "Forms", js: true do
         end
       end
 
-      describe "adding questions" do
+      describe "adding Questions" do
         describe "add a Text Field question" do
           before do
             visit edit_admin_form_path(form)
@@ -171,6 +171,41 @@ feature "Forms", js: true do
               # expect(page).to have_content("New Test Question Radio Buttons")
               # Radio buttons won't be showing yet. Because they need to be added.
             end
+          end
+        end
+
+      end
+
+      describe "deleting Questions" do
+        let(:service) { FactoryBot.create(:service) }
+        let(:touchpoint) { FactoryBot.create(:touchpoint, service: service) }
+
+        let(:form) { FactoryBot.create(:form, :custom, touchpoint: touchpoint) }
+        let!(:question) { FactoryBot.create(:question, form: form) }
+
+        context "without Service Manager permissions" do
+          before do
+            visit edit_admin_form_path(form)
+          end
+
+          it "does not see the Delete Question button" do
+            expect(page).to_not have_link("Delete Question")
+          end
+        end
+
+        context "with Service Manager permissions" do
+          let!(:user_service) { FactoryBot.create(:user_service, :service_manager, { service: service, user: admin }) }
+
+          before do
+            visit edit_admin_form_path(form)
+          end
+
+          it "see the delete button, click it, and delete the question" do
+            expect(page).to have_link("Delete Question")
+
+            click_on("Delete Question")
+            page.driver.browser.switch_to.alert.accept
+            expect(page).to have_content("Question was successfully destroyed.")
           end
         end
 
