@@ -25,12 +25,12 @@
 
   <div class="field">
     <%= f.label :answer_field %>
-    <%= f.select :answer_field, answer_fields, selected: question.question_type, include_blank: true %>
+    <%= f.select :answer_field, answer_fields, selected: question.answer_field, include_blank: true %>
   </div>
 
   <div class="field">
     <%= f.label :position %>
-    <%= f.number_field :position, value: (!question.persisted? ? (@form.questions.size + 1) : nil)  %>
+    <%= f.number_field :position, value: (!question.persisted? ? (@form.questions.size + 1) : question.position)  %>
   </div>
 
   <div class="field">

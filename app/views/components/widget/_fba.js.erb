@@ -220,7 +220,8 @@ N.fba = {
 			var params = {
 			<%# Dynamically write the Form parameters for Custom Forms %>
 			<% @touchpoint.form.questions.each do |question| %>
-				<%= question.answer_field %>: <%= raw question_type_javascript_params(question) %>,
+				<%= question.answer_field %>:
+				<%= raw question_type_javascript_params(question) %>,
 			<% end %>
 			}
 			<% end %>

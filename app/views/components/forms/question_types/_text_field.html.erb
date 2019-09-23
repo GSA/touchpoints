@@ -1,6 +1,7 @@
-<fieldset class="radios" role="group" aria-labelledby="answer_08">
-  <h4 id="answer_08">
+<fieldset class="radios" role="group" aria-labelledby="<%= question.answer_field %>">
+  <h4>
+    <%= question_number %>.
     <%= question.text %>
   </h4>
-  <%= text_field_tag :answer_08 %>
+  <%= text_field_tag question.answer_field.to_sym %>
 </fieldset>
