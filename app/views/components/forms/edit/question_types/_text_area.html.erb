@@ -2,6 +2,9 @@
   <h4 id="<%= question.answer_field %>">
     <%= question_number %>.
     <%= question.text %>
+    <span class="usa-label">
+      <%= question.answer_field %>
+    </span>
   </h4>
   <%= text_area_tag question.answer_field.to_sym %>
 </fieldset>
