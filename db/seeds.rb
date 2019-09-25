@@ -190,43 +190,46 @@ custom_form = Form.create({
   character_limit: 1000
 })
 
-Question.create({
+Question.create!({
   form: custom_form,
   text: "Custom Question Text Field",
   question_type: "text_field",
   position: 1,
+  answer_field: :answer_01,
   is_required: false,
 })
 
-Question.create({
+Question.create!({
   form: custom_form,
   text: "Custom Question Text Area",
   question_type: "textarea",
   position: 2,
+  answer_field: :answer_02,
   is_required: false,
 })
 
-radio_button_question = Question.create({
+radio_button_question = Question.create!({
   form: custom_form,
   text: "Custom Question Radio Buttons",
   question_type: "radio_buttons",
   position: 3,
+  answer_field: :answer_03,
   is_required: false,
 })
 
-QuestionOption.create({
+QuestionOption.create!({
   question: radio_button_question,
   text: "Option 1",
   position: 1
 })
 
-QuestionOption.create({
+QuestionOption.create!({
   question: radio_button_question,
   text: "Option 2",
   position: 2
 })
 
-QuestionOption.create({
+QuestionOption.create!({
   question: radio_button_question,
   text: "Option 3",
   position: 3
