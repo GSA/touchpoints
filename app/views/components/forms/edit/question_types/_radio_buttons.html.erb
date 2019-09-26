@@ -2,6 +2,9 @@
   <h4 id="answer_01">
     <%= question_number %>.
     <%= question.text %>
+    <span class="usa-label">
+      <%= question.answer_field %>
+    </span>
   </h4>
   <% question.question_options.each_with_index do |option, index| %>
   <div class="radio-button">

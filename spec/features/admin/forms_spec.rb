@@ -239,8 +239,46 @@ feature "Forms", js: true do
 
         xdescribe "adding Dropdown options" do
         end
-
       end
+
+      describe "click through to edit Question Option" do
+        describe "edit Radio Button option" do
+          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form) }
+          let!(:radio_button_option) { FactoryBot.create(:question_option, question: radio_button_question, position: 1) }
+
+          before do
+            visit edit_admin_form_path(form)
+            within (".question") do
+              click_on "Edit"
+            end
+          end
+
+          it "click through to Edit page" do
+            expect(page).to have_content("Editing Question Option")
+          end
+        end
+      end
+
+      describe "editing Question Options" do
+        describe "edit Radio Button option" do
+          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form) }
+          let!(:radio_button_option) { FactoryBot.create(:question_option, question: radio_button_question, position: 1) }
+
+          before do
+            visit edit_admin_form_question_question_option_path(form, radio_button_question, radio_button_option)
+            fill_in "question_option_text", with: "Edited Question Option Text"
+            click_on "Update Question option"
+          end
+
+          it "click through to Edit page" do
+            expect(page).to have_content("Question option was successfully updated.")
+            within (".question") do
+              expect(page).to have_content("Edited Question Option Text")
+            end
+          end
+        end
+      end
+
     end
 
   end

@@ -106,7 +106,11 @@ header.usa-header {
   margin: 7px 0;
 }
 
-#touchpoints-form-body fieldset:nth-child(odd) {
+#touchpoints-form-body > fieldset:nth-child(odd) {
+  background: #F9F9F9;
+}
+
+#touchpoints-form-body .question:nth-child(even) {
   background: #F9F9F9;
 }
 
