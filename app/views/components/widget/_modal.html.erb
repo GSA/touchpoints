@@ -6,7 +6,7 @@
   <a id="fba-modal-close" type="button" href="#">×</a>
   <% end %>
   <p id="fba-instructions">
-    <%= touchpoint.form.instructions %>
+    <%= sanitize(touchpoint.form.instructions) %>
   </p>
   <%= render 'components/forms/flash' %>
 
