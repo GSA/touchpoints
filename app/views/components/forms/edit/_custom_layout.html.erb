@@ -8,7 +8,7 @@
     </h2>
     <% if form.instructions.present? %>
       <p>
-        <%= form.instructions %>
+        <%= sanitize(form.instructions) %>
       </p>
     <% end %>
     <%= render 'components/forms/flash' %>

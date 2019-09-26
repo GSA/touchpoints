@@ -27,11 +27,11 @@
     </p>
     <p>
       <strong>Instructions:</strong>
-      <%= @form.instructions %>
+      <%= sanitize(@form.instructions) %>
     </p>
     <p>
       <strong>Disclaimer Text:</strong>
-      <%= @form.disclaimer_text %>
+      <%= sanitize(@form.disclaimer_text) %>
     </p>
     <p>
       <strong>Character Limit:</strong>
