@@ -1,0 +1,20 @@
+<fieldset class="radios" role="group" aria-labelledby="answer_01">
+  <h4 id="answer_01">
+    <%= question_number %>.
+    <%= question.text %>
+    <span class="usa-label">
+      <%= question.answer_field %>
+    </span>
+  </h4>
+  <% question.question_options.each_with_index do |option, index| %>
+  <div class="radio-button">
+    <%= radio_button_tag question.answer_field.to_sym, index + 1 %>
+    <%= label_tag nil, for: "answer_01_#{(index + 1).to_s}" do %>
+      <%= option.text %>
+      <%= link_to "Edit", edit_admin_form_question_question_option_path(option.question.form, option.question, option) %>
+    <% end %>
+
+  </div>
+  <% end %>
+  <%= link_to "Add Radio Button Option", new_admin_form_question_question_option_path(question.form, question), class: "usa-button" %>
+</fieldset>

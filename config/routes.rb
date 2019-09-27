@@ -14,7 +14,11 @@ Rails.application.routes.draw do
   namespace :admin do
     get "dashboard", to: "site#dashboard"
     resources :form_templates
-    resources :forms
+    resources :forms do
+      resources :questions do
+        resources :question_options
+      end
+    end
     resources :users, except: [:new]
     resources :organizations
     resources :pra_contacts

@@ -27,11 +27,11 @@
     </p>
     <p>
       <strong>Instructions:</strong>
-      <%= @form.instructions %>
+      <%= sanitize(@form.instructions) %>
     </p>
     <p>
       <strong>Disclaimer Text:</strong>
-      <%= @form.disclaimer_text %>
+      <%= sanitize(@form.disclaimer_text) %>
     </p>
     <p>
       <strong>Character Limit:</strong>
@@ -58,7 +58,7 @@
   </h2>
   <div class="well white-bg">
     <% if @form %>
-    <%= render partial: "components/forms/custom_layout", locals: { touchpoint: @touchpoint, form: @form } %>
+      <%= render partial: "components/forms/custom_layout", locals: { touchpoint: @touchpoint, form: @form } %>
     <% else %>
     <div class="usa-alert usa-alert-info">
       <div class="usa-alert-body">

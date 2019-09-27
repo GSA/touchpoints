@@ -9,6 +9,7 @@ class Admin::FormsController < AdminController
 
   def show
     @touchpoint = @form.touchpoint
+    @questions = @form.questions
   end
 
   def new
@@ -75,6 +76,7 @@ class Admin::FormsController < AdminController
         :notes,
         :status,
         :title,
+        :success_text,
         :instructions,
         :display_header_logo,
         :whitelist_url,

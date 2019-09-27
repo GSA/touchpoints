@@ -1,0 +1,22 @@
+<div class="usa-grid-full">
+  <div class="usa-width-full">
+    <h2 class="justify-vertical">
+      <% if form.display_header_logo && (form.touchpoint && form.touchpoint.service && form.touchpoint.service.organization.logo.present?) %>
+        <%= image_tag(form.touchpoint.service.organization.logo.thumb.url, alt: "Organization logo", class: "form-header-logo") %>
+      <% end %>
+      <%= form.title %>
+    </h2>
+    <% if form.instructions.present? %>
+      <p>
+        <%= sanitize(form.instructions) %>
+      </p>
+    <% end %>
+    <%= render 'components/forms/flash' %>
+    <% if form.kind == "custom" %>
+      <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: form, questions: form.questions } %>
+    <% else %>
+      <%= render partial: "components/forms/#{form.kind}", locals: { touchpoint: @touchpoint, form: form } %>
+    <% end %>
+  </div>
+</div>
+<%= render partial: 'components/forms/footer', locals: { touchpoint: @touchpoint } %>

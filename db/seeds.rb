@@ -179,6 +179,62 @@ form_4 = Form.create({
   character_limit: 6000
 })
 
+custom_form = Form.create({
+  name: "Custom Form",
+  kind:  "custom",
+  title: "",
+  instructions: "",
+  disclaimer_text: "Disclaimer Text Goes Here",
+  success_text: "Thank you for your submission 🎉",
+  notes: "",
+  character_limit: 1000
+})
+
+Question.create!({
+  form: custom_form,
+  text: "Custom Question Text Field",
+  question_type: "text_field",
+  position: 1,
+  answer_field: :answer_01,
+  is_required: false,
+})
+
+Question.create!({
+  form: custom_form,
+  text: "Custom Question Text Area",
+  question_type: "textarea",
+  position: 2,
+  answer_field: :answer_02,
+  is_required: false,
+})
+
+radio_button_question = Question.create!({
+  form: custom_form,
+  text: "Custom Question Radio Buttons",
+  question_type: "radio_buttons",
+  position: 3,
+  answer_field: :answer_03,
+  is_required: false,
+})
+
+QuestionOption.create!({
+  question: radio_button_question,
+  text: "Option 1",
+  position: 1
+})
+
+QuestionOption.create!({
+  question: radio_button_question,
+  text: "Option 2",
+  position: 2
+})
+
+QuestionOption.create!({
+  question: radio_button_question,
+  text: "Option 3",
+  position: 3
+})
+
 # A Service created by Admin
 service_1  = Service.create!({
   organization: example_gov,
