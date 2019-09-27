@@ -1,36 +1,40 @@
-<h1>
-  Viewing a User
-</h1>
-<% if @user.admin? %>
-  <span class="usa-label" style="background: #e31c3d;">
-    Admin User
-  </span>
-  <br>
-  <br>
-<% end %>
-Email: <%= link_to @user.email, "mailto:#{@user.email}" %>
-<br>
-Organization: <%= @user.organization ? link_to(@user.organization.name, admin_organization_path(@user.organization)) : "Undefined" %>
-<br>
-<h4>
-  Services
-</h4>
-<% if @services.present? %>
-  <ul>
-  <% @services.each do |service| %>
-    <li>
-      <%= link_to service.name, admin_service_path(service) %><br>
-    </li>
+<div class="well">
+  <h1>
+    Viewing a User
+  </h1>
+  <% if @user.admin? %>
+    <span class="usa-label" style="background: #e31c3d;">
+      Admin User
+    </span>
+    <br>
+    <br>
   <% end %>
-  </ul>
-<% else %>
-<div class="usa-alert usa-alert-info" >
-  <div class="usa-alert-body">
-    <p class="usa-alert-text">
-      No Services at this time
-    </p>
+  Email: <%= link_to @user.email, "mailto:#{@user.email}" %>
+  <br>
+  Organization: <%= @user.organization ? link_to(@user.organization.name, admin_organization_path(@user.organization)) : "Undefined" %>
+  <br>
+  <%= link_to 'Edit', edit_admin_user_path(@user), class: "usa-button" %>
+  <div class="well">
+    <h4>
+      Services
+    </h4>
+    <% if @services.present? %>
+      <ul>
+      <% @services.each do |service| %>
+        <li>
+          <%= link_to service.name, admin_service_path(service) %><br>
+        </li>
+      <% end %>
+      </ul>
+    <% else %>
+    <div class="usa-alert usa-alert-info" >
+      <div class="usa-alert-body">
+        <p class="usa-alert-text">
+          No Services at this time
+        </p>
+      </div>
+    </div>
+    <% end %>
   </div>
+
 </div>
-<% end %>
-<hr>
-<%= link_to 'Edit', edit_admin_user_path(@user), class: "usa-button" %>

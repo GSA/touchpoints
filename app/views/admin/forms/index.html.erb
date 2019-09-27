@@ -1,37 +1,33 @@
-<h1>Forms</h1>
+<div class="well">
+  <h1>Forms</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Touchpoint</th>
+        <th>Name</th>
+        <th></th>
+      </tr>
+    </thead>
 
-<table>
-  <thead>
-    <tr>
-      <th>Touchpoint</th>
-      <th>Name</th>
-      <th></th>
-      <% if admin_permissions? %>
-      <th></th>
-      <% end %>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @forms.each do |form| %>
+    <tbody>
+      <% @forms.each do |form| %>
       <tr>
         <td>
           <%= link_to form.touchpoint.name, admin_touchpoint_path(form.touchpoint) if form.touchpoint %>
         </td>
         <td>
-          <%= link_to form.name, admin_touchpoint_form_path(form.touchpoint, form) if form.touchpoint %>
+          <% if form.touchpoint.present? %>
+          <%= link_to form.name, admin_touchpoint_form_path(form.touchpoint, form)  %>
+          <% else %>
+          <%= link_to form.name, admin_form_path(form)  %>
+          <% end %>
         </td>
-        <td><%= link_to 'Edit', edit_admin_form_path(form) %></td>
-        <% if admin_permissions? %>
         <td>
-          <%= link_to 'Destroy', admin_form_path(form), method: :delete, data: { confirm: 'Are you sure?' } %>
+          <%= link_to 'Edit', edit_admin_touchpoint_form_path(form.touchpoint, form) if form.touchpoint.present? %>
         </td>
-        <% end %>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
+      <% end %>
+    </tbody>
+  </table>
+</div>
 <%= link_to 'New Form', new_admin_form_path, class: "usa-button" %>

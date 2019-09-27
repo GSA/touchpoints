@@ -4,8 +4,7 @@
   padding: 3px;
   border-radius: 3px;
 }
-.card,
-.touchpoint-card {
+.card {
   border: 1px solid black;
   padding: 10px;
 }
@@ -43,4 +42,107 @@ footer {
 .footer-text {
   color: #333333;
   line-height: 1.25rem;
+}
+
+// For the extra-wide Submissions table
+.table-scroll {
+	position:relative;
+	max-width: 100%;
+	margin: auto;
+}
+.table-wrap {
+	width:100%;
+	overflow:auto;
+}
+.table-scroll table {
+	width:100%;
+}
+.table-scroll th,
+.table-scroll td {
+	white-space:nowrap;
+}
+
+.dark-blue-bg {
+  background-color: #162D50;
+  color: white;
+}
+
+.light-blue-bg {
+  background-color: #e1f3f8;
+}
+
+.hr {
+  border: none;
+  border-bottom: 1px solid #d6d7d9;
+  margin: 0;
+}
+
+.header-logo {
+  max-height: 26px;
+}
+
+// USWDS Overrides
+header.usa-header-extended nav.usa-nav {
+  border-top: 0;
+}
+
+header.usa-header {
+  border-bottom: 0;
+}
+
+.usa-alert {
+   margin-top: 0;
+}
+
+.usa-nav-primary > li > a {
+  color: #162E51;
+}
+
+.radios {
+  padding: 1em 2em;
+}
+
+.radios > div {
+  margin: 7px 0;
+}
+
+#touchpoints-form-body > fieldset:nth-child(odd) {
+  background: #F9F9F9;
+}
+
+#touchpoints-form-body .question:nth-child(even) {
+  background: #F9F9F9;
+}
+
+.well {
+  border: 1px solid #d6d7d9;
+  border-radius: 8px;
+  padding: 10px 20px;
+  margin: 10px 0;
+}
+
+// Override USDWS h1, h2, h3
+h1, h2, h3 {
+  margin: 0.5em 0;
+}
+
+.justify-vertical {
+  display: flex;
+  align-items: center;
+}
+.form-header-logo {
+  max-height: 72px;
+}
+.hide {
+  display: none;
+}
+.highlight {
+  background: #ebf3fa;
+}
+.white-bg {
+  background: #FFFFFF;
+}
+
+.float-right {
+  float: right;
 }

@@ -1,65 +1,68 @@
-<br>
-<div class="usa-grid">
-  <div class="usa-width-one-half">
-    <h1>Touchpoints</h1>
+<div class="well">
+  <div class="usa-grid-full">
+    <div class="usa-width-one-half">
+      <h1>Touchpoints</h1>
+    </div>
   </div>
-  <div class="usa-width-one-half">
-    <%= render 'components/pra_contact_callout', { pra_contacts: @pra_contacts, organization: current_user.organization } %>
-  </div>
-</div>
-
-<table>
-  <thead>
-    <tr>
-    <% if admin_permissions? %>
-      <th>Organization</th>
-    <% end %>
-      <th>Service</th>
-      <th>Name</th>
-      <th>Form</th>
-      <th># Submissions</th>
-      <th>
-        <span title="A Deployable Touchpoint is 1) has a Form specified and 2) Assigned to a Service">
-          Deployable Touchpoint?
-        </span>
-      </th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @touchpoints.each do |touchpoint| %>
+  <table>
+    <thead>
       <tr>
       <% if admin_permissions? %>
-        <td>
-        <% if touchpoint.service %>
-          <%= link_to touchpoint.service.organization.name, admin_organization_path(touchpoint.service.organization) %>
-        <% end %>
-        </td>
+        <th>Organization</th>
       <% end %>
-        <td>
-          <% if touchpoint.service %>
-            <%= link_to touchpoint.service.name, admin_service_path(touchpoint.service) %>
-          <% end %>
-        </td>
-        <td><%= link_to touchpoint.name, admin_touchpoint_path(touchpoint) %></td>
-        <td>
-          <% if touchpoint.form %>
-          <%= link_to(touchpoint.form.name, admin_touchpoint_form_path(touchpoint, touchpoint.form)) %>
-          <% else %>
-          Form not specified
-          <% end %>
-        </td>
-        <td><%= touchpoint.submissions.size %></td>
-        <td>
-          <%= touchpoint.deployable_touchpoint? ? '✅' : '🔴' %>
-        </td>
-        <td><%= link_to 'Edit', edit_admin_touchpoint_path(touchpoint) %></td>
+        <th>Service</th>
+        <th>Name</th>
+        <th>Form</th>
+        <th># Submissions</th>
+        <th>
+          <span title="A Deployable Touchpoint is 1) has a Form specified and 2) Assigned to a Service">
+            Deployable Touchpoint?
+          </span>
+        </th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<% if admin_permissions? %>
-  <%= link_to 'Create New Touchpoint', new_admin_touchpoint_path, class: "usa-button" %>
-<% end %>
+    <tbody>
+      <% @touchpoints.each do |touchpoint| %>
+        <tr>
+        <% if admin_permissions? %>
+          <td>
+          <% if touchpoint.service %>
+            <%= link_to touchpoint.service.organization.name, admin_organization_path(touchpoint.service.organization) %>
+          <% end %>
+          </td>
+        <% end %>
+          <td>
+            <% if touchpoint.service %>
+              <%= link_to touchpoint.service.name, admin_service_path(touchpoint.service) %>
+            <% end %>
+          </td>
+          <td><%= link_to touchpoint.name, admin_touchpoint_path(touchpoint) %></td>
+          <td>
+            <% if touchpoint.form %>
+            <%= link_to(touchpoint.form.name, admin_touchpoint_form_path(touchpoint, touchpoint.form)) %>
+            <% else %>
+            Form not specified
+            <% end %>
+          </td>
+          <td><%= touchpoint.submissions.size %></td>
+          <td>
+            <%= touchpoint.deployable_touchpoint? ? '✅' : '🔴' %>
+          </td>
+          <td><%= link_to 'Edit', edit_admin_touchpoint_path(touchpoint) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <% if organization_manager_permissions? %>
+    <%= link_to 'Create New Touchpoint', new_admin_touchpoint_path, class: "usa-button" %>
+  <% end %>
+</div>
+<div class="usa-grid-full">
+  <div class="usa-width-full">
+    <%= render 'components/pra_contact_callout', { pra_contacts: @pra_contacts, organization: current_user.organization } %>
+  </div>
+  <br>
+</div>

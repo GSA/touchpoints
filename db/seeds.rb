@@ -14,14 +14,11 @@ production_suitable_seeds
 #   Staging and Development Environments; not Production.
 return false if Rails.env.production?
 
-puts "Cleaning Account Containers for Google Tag Manager Account #{ENV.fetch("GOOGLE_TAG_MANAGER_ACCOUNT_ID")}"
-service = GoogleApi.new
-service.clean_account_containers(account_id: ENV.fetch("GOOGLE_TAG_MANAGER_ACCOUNT_ID"))
-
 example_gov = Organization.create!({
   name: "Example.gov",
   domain: "example.gov",
-  url: "https://example.gov"
+  url: "https://example.gov",
+  abbreviation: "EX"
 })
 puts "Created Default Organization: #{example_gov.name}"
 
@@ -32,14 +29,14 @@ admin_user = User.new({
   password: "password",
   admin: true
 })
-admin_user.skip_confirmation!
 admin_user.save!
 puts "Created Admin User: #{admin_user.email}"
 
 digital_gov = Organization.create!({
   name: "Digital.gov",
   domain: "digital.gov",
-  url: "https://digital.gov"
+  url: "https://digital.gov",
+  abbreviation: "DIGITAL"
 })
 puts "Creating additional Organization: #{digital_gov.name}"
 
@@ -57,7 +54,8 @@ program_2 = Program.create!({
 org_2 = Organization.create!({
   name: "Farmers.gov",
   domain: "example.gov",
-  url: "https://farmers.gov"
+  url: "https://farmers.gov",
+  abbreviation: "FARMERS"
 })
 program_3 = Program.create!({
   name: "Program 3 for Farmers.gov",
@@ -68,7 +66,8 @@ program_3 = Program.create!({
 org_3 = Organization.create!({
   name: "Cloud.gov",
   domain: "cloud.gov",
-  url: "https://cloud.gov"
+  url: "https://cloud.gov",
+  abbreviation: "CLOUD"
 })
 
 webmaster = User.new({
@@ -76,7 +75,6 @@ webmaster = User.new({
   password: "password",
   organization: example_gov
 })
-webmaster.skip_confirmation!
 webmaster.save!
 puts "Created #{webmaster.email}"
 
@@ -86,7 +84,6 @@ organization_manager = User.new({
   organization: example_gov,
   organization_manager: true
 })
-organization_manager.skip_confirmation!
 organization_manager.save!
 puts "Created #{organization_manager.email}"
 
@@ -95,7 +92,6 @@ service_manager = User.new({
   password: "password",
   organization: example_gov
 })
-service_manager.skip_confirmation!
 service_manager.save!
 puts "Created #{service_manager.email}"
 
@@ -104,7 +100,6 @@ submission_viewer = User.new({
   password: "password",
   organization: example_gov
 })
-submission_viewer.skip_confirmation!
 submission_viewer.save!
 puts "Created #{submission_viewer.email}"
 
@@ -184,6 +179,62 @@ form_4 = Form.create({
   character_limit: 6000
 })
 
+custom_form = Form.create({
+  name: "Custom Form",
+  kind:  "custom",
+  title: "",
+  instructions: "",
+  disclaimer_text: "Disclaimer Text Goes Here",
+  success_text: "Thank you for your submission 🎉",
+  notes: "",
+  character_limit: 1000
+})
+
+Question.create!({
+  form: custom_form,
+  text: "Custom Question Text Field",
+  question_type: "text_field",
+  position: 1,
+  answer_field: :answer_01,
+  is_required: false,
+})
+
+Question.create!({
+  form: custom_form,
+  text: "Custom Question Text Area",
+  question_type: "textarea",
+  position: 2,
+  answer_field: :answer_02,
+  is_required: false,
+})
+
+radio_button_question = Question.create!({
+  form: custom_form,
+  text: "Custom Question Radio Buttons",
+  question_type: "radio_buttons",
+  position: 3,
+  answer_field: :answer_03,
+  is_required: false,
+})
+
+QuestionOption.create!({
+  question: radio_button_question,
+  text: "Option 1",
+  position: 1
+})
+
+QuestionOption.create!({
+  question: radio_button_question,
+  text: "Option 2",
+  position: 2
+})
+
+QuestionOption.create!({
+  question: radio_button_question,
+  text: "Option 3",
+  position: 3
+})
+
 # A Service created by Admin
 service_1  = Service.create!({
   organization: example_gov,
@@ -234,26 +285,6 @@ UserService.create(
   role: UserService::Role::ServiceManager
 )
 
-# Manually create, then relate Containers to Services
-container_1 = Container.create!({
-  service: service_1,
-  name: "#{digital_gov.name}'s Test Container 1"
-})
-
-container_2 = Container.create!({
-  service: service_2,
-  name: "#{digital_gov.name}'s Test Container 2"
-})
-
-container_3 = Container.create!({
-  service: service_3,
-  name: "#{org_2.name}'s Test Container 1"
-})
-
-container_4 = Container.create!({
-  service: service_4,
-  name: "#{org_2.name}'s Test Container 2"
-})
 
 # Touchpoints
 touchpoint_1 = Touchpoint.create!({
@@ -303,7 +334,7 @@ Submission.create!({
 
 Submission.create!({
   touchpoint: touchpoint_1,
-  answer_01: "Another body text"
+  answer_01: "Another body text " * 20
 })
 
 Submission.create!({
@@ -324,12 +355,21 @@ digital_gov_user = User.new({
   email: "user@digital.gov",
   password: "password"
 })
-digital_gov_user.skip_confirmation!
 digital_gov_user.save!
 puts "Created Test User in Secondary Organization: #{digital_gov_user.email}"
 
+## Generate admin
+admin_emails = ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
+admin_emails.each do |email|
+  User.new({
+    email: email.strip,
+    password: SecureRandom.hex,
+    admin: true
+  }).save!
+end
+
 pra_contact = PraContact.create!({
   email: "pra_contact@example.gov",
-  name: "Your Friendly PRA Contact"
+  name: "Rosa Parks"
 })
 puts "Created PRA Contact User for Primary Organization: #{pra_contact.email}"

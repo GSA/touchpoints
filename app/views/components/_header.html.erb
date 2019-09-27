@@ -1,47 +1,32 @@
 <a class="usa-skipnav" href="#main-content">Skip to main content</a>
 <%= render 'components/usa-banner' unless request.path[0..5] == "/admin" %>
 <%= render 'components/beta-banner' %>
-<header class="usa-header usa-header-extended" role="banner">
+<header class="usa-header usa-header-extended">
   <div class="usa-navbar">
     <div class="usa-logo" id="extended-logo">
       <em class="usa-logo-text">
-        <a href="/" title="Home" aria-label="Home">
-          Touchpoints
+        <a href="/" title="Touchpoints" aria-label="Home">
+          <%= image_tag "touchpoints-logo-@2x.png", class: "header-logo", alt: "Touchpoints logo" %>
         </a>
       </em>
     </div>
     <button class="usa-menu-btn">Menu</button>
   </div>
-  <nav role="navigation" class="usa-nav">
+  <nav class="usa-nav light-blue-bg">
     <div class="usa-nav-inner">
       <button class="usa-nav-close">
         <%= image_tag "close.svg", alt: "close" %>
       </button>
       <ul class="usa-nav-primary usa-accordion">
+        <% if current_user %>
+        <li>
+          <%= link_to "My Dashboard", admin_dashboard_path, class: "usa-nav-link admin" %>
+        </li>
+        <% end %>
         <% if admin_permissions? %>
-          <li>
-            <a class="usa-nav-link admin" href="/admin">
-              <span>Admin</span>
-            </a>
-          </li>
-          <li>
-            <a class="usa-nav-link admin" href="/admin/organizations">
-              <span>Organizations</span>
-            </a>
-          </li>
-          <li>
-            <a class="usa-nav-link admin" href="/admin/pra_contacts">
-              <span>PRA Contacts</span>
-            </a>
-          </li>
           <li>
             <a class="usa-nav-link admin" href="/admin/users">
               <span>Users</span>
-            </a>
-          </li>
-          <li>
-            <a class="usa-nav-link admin" href="/admin/form_templates">
-              <span>Form Templates</span>
             </a>
           </li>
           <li>
@@ -50,16 +35,16 @@
             </a>
           </li>
           <li>
-            <a class="usa-nav-link" href="/admin/containers">
-              <span>Containers</span>
-            </a>
-            <li>
-              <%= link_to "Touchpoints", admin_touchpoints_path, class: "usa-nav-link" %>
-            </li>
+            <%= link_to "Touchpoints", admin_touchpoints_path, class: "usa-nav-link" %>
           </li>
           <li>
             <a class="usa-nav-link" href="/admin/forms">
               <span>Forms</span>
+            </a>
+          </li>
+          <li>
+            <a class="usa-nav-link" href="mailto:feedback-analytics@gsa.gov">
+              Support
             </a>
           </li>
         <% end %>
@@ -78,18 +63,18 @@
         <% end %>
         <% if !current_user %>
         <li>
-          <button class="usa-accordion-button usa-nav-link hide" aria-expanded="false" aria-controls="extended-nav-section-two">
+          <button class="usa-accordion-button usa-nav-link" aria-expanded="false" aria-controls="extended-nav-section-two">
             <span>Information</span>
           </button>
           <ul id="extended-nav-section-two" class="usa-nav-submenu">
             <li>
-              <a href="https://github.com/GSA/touchpoints/blob/master/docs/PERSONAS.md" target="_blank">Who uses Touchpoints?</a>
+              <a href="https://github.com/GSA/touchpoints/blob/master/docs/PERSONAS.md" target="_blank" rel="noopener">Who uses Touchpoints?</a>
             </li>
             <li>
-              <a href="https://github.com/GSA/touchpoints/blob/master/docs/USE_CASES.md" target="_blank">What can users do?</a>
+              <a href="https://github.com/GSA/touchpoints/blob/master/docs/USE_CASES.md" target="_blank" rel="noopener">What can users do?</a>
             </li>
             <li>
-              <a href="https://github.com/gsa/touchpoints" target="_blank">Code</a>
+              <a href="https://github.com/gsa/touchpoints" target="_blank" rel="noopener">Code</a>
             </li>
           </ul>
         </li>
@@ -99,34 +84,18 @@
         <ul class="usa-unstyled-list usa-nav-secondary-links">
           <% unless current_user %>
           <li>
-            <a href="/users/sign_up">
-              Sign up
-            </a>
-          </li>
-          <li>
-            <a href="/users/sign_in">
-              Sign in
-            </a>
+            <%= link_to user_login_dot_gov_omniauth_authorize_path, class: "usa-nav-link admin" do %>
+              Sign in with Login.gov
+            <% end %>
           </li>
           <% else %>
           <li>
-            <a>
-              <%= current_user.email %>
-              at
-              <%= current_user.organization_name %>
-            </a>
+            <%= link_to current_user.email, admin_dashboard_path, class: "usa-nav-link admin" %>
           </li>
           <li>
-            <a href="/users/sign_out">
-              Logout
-            </a>
+            <%= link_to "Sign Out", destroy_user_session_path %>
           </li>
           <% end %>
-          <li>
-            <a href="https://feedback-staging.usa.gov" target="_blank">
-              Support
-            </a>
-          </li>
         </ul>
       </div>
     </div>

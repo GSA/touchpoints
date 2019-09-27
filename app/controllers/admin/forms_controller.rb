@@ -9,6 +9,7 @@ class Admin::FormsController < AdminController
 
   def show
     @touchpoint = @form.touchpoint
+    @questions = @form.questions
   end
 
   def new
@@ -35,7 +36,13 @@ class Admin::FormsController < AdminController
   def update
     respond_to do |format|
       if @form.update(form_params)
-        format.html { redirect_to admin_touchpoint_form_path(@form.touchpoint, @form), notice: 'Form was successfully updated.' }
+        format.html {
+          if @form.touchpoint
+            redirect_to admin_touchpoint_form_path(@form.touchpoint, @form), notice: 'Form was successfully updated.'
+          else
+            redirect_to admin_form_path(@form), notice: 'Form was successfully updated.'
+          end
+        }
         format.json { render :show, status: :ok, location: @form }
       else
         format.html { render :edit }
@@ -64,11 +71,14 @@ class Admin::FormsController < AdminController
     def form_params
       params.require(:form).permit(
         :name,
+        :kind,
         :character_limit,
         :notes,
         :status,
         :title,
+        :success_text,
         :instructions,
+        :display_header_logo,
         :whitelist_url,
         :whitelist_test_url,
         :disclaimer_text,

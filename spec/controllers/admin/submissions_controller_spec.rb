@@ -29,7 +29,9 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
   # Submission. As you add validations to Submission, be sure to
   # adjust the attributes here as well.
 
-  let!(:touchpoint) { FactoryBot.create(:touchpoint) }
+  let(:admin) { FactoryBot.create(:user, :admin)}
+  let!(:touchpoint) { FactoryBot.create(:touchpoint, :with_form) }
+  let!(:user_service) { FactoryBot.create(:user_service, user: admin, service: touchpoint.service, role: UserService::Role::ServiceManager) }
 
   let(:valid_attributes) {
     {
@@ -54,8 +56,6 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
   # in order to pass any filters (e.g. authentication) defined in
   # SubmissionsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
-
-  let(:admin) { FactoryBot.create(:user, :admin)}
 
   before do
     sign_in(admin)

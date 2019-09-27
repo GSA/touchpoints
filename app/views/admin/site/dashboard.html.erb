@@ -1,0 +1,55 @@
+<% content_for :full_layout do %>
+<section class="dark-blue-bg">
+  &nbsp;
+  <div class="usa-grid">
+    <div class="usa-width-full">
+      <h1>
+        Welcome to Touchpoints
+      </h1>
+
+      <p>
+        You are a
+        <%= current_user.role %>
+        of
+        <%= current_user.organization.name %>.
+      </p>
+    </div>
+  </div>
+  <br>
+</section>
+<section>
+  <main id="main-content">
+    <div class="usa-grid">
+      <div class="usa-width-full">
+        <div class="well">
+        <% if admin_permissions? %>
+          <p>
+            <ul>
+              <li>
+                <a class="usa-nav-link admin" href="/admin/organizations">
+                  <span>Manage Organizations</span>
+                </a>
+              </li>
+              <li>
+                <a class="usa-nav-link admin" href="/admin/pra_contacts">
+                  <span>Manage PRA Contacts</span>
+                </a>
+              </li>
+              <li>
+                <a class="usa-nav-link admin" href="/admin/form_templates">
+                  <span>Manage Form Templates</span>
+                </a>
+              </li>
+            </ul>
+          </p>
+        </main>
+        <% else %>
+          Get Started by creating a Service.<br>
+          Then, create a Touchpoint for that Service.<br>
+          Then, update the Touchpoint's Form.
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
+<% end %>

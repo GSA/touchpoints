@@ -5,6 +5,8 @@ class Submission < ApplicationRecord
   validate :validate_open_ended_form, if: :form_kind_is_open_ended?
   validate :validate_a11_form, if: :form_kind_is_a11?
 
+  scope :non_flagged, -> { where(flagged: false) }
+
   def validate_recruiter_form
     unless self.answer_01 && self.answer_01.present?
       errors.add(:first_name, "can't be blank")

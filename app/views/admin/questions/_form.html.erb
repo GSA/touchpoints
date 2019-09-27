@@ -1,0 +1,44 @@
+<%= form_with(model: question, url: (question.persisted? ? admin_form_question_path(form, question) : admin_form_questions_path(form)), local: true) do |f| %>
+  <% if question.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(question.errors.count, "error") %> prohibited this question from being saved:</h2>
+
+      <ul>
+      <% question.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :form_id, value: params[:form_id] %>
+
+  <div class="field">
+    <%= f.label :text %>
+    <%= f.text_field :text %>
+  </div>
+
+  <div class="field">
+    <%= f.label :question_type %>
+    <%= f.select :question_type, ["text_field", "textarea", "checkbox", "radio_buttons", "dropdown"], selected: question.question_type, include_blank: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :answer_field %>
+    <%= f.select :answer_field, answer_fields, selected: question.answer_field, include_blank: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :position %>
+    <%= f.number_field :position, value: (!question.persisted? ? (@form.questions.size + 1) : question.position)  %>
+  </div>
+
+  <div class="field">
+    <%= f.check_box :is_required %>
+    <%= f.label :is_required %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

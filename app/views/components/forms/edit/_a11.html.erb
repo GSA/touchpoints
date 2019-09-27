@@ -14,16 +14,40 @@
   <h3>
     <%= form.title %>
   </h3>
-  <div class="field">
-    <%= f.text_field :title %>
+  <div class="usa-grid-full">
+    <div class="usa-width-one-half">
+      <div class="field">
+        <%= f.label :title %>
+        <%= f.text_field :title %>
+      </div>
+    </div>
+    <div class="usa-width-one-half">
+      <br>
+      <div class="field">
+        <%= f.check_box :display_header_logo %>
+        <%= f.label :display_header_logo %>
+      </div>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :instructions %>
-    <%= f.text_field :instructions %>
+  <div class="usa-grid-full">
+    <div class="usa-width-one-half">
+      <div class="field">
+        <%= f.label :instructions %>
+        <%= f.text_area :instructions %>
+      </div>
+    </div>
+    <div class="usa-width-one-half">
+      <div class="field">
+        <%= f.label :disclaimer_text %>
+        <%= f.text_area :disclaimer_text %>
+      </div>
+    </div>
   </div>
+  <% if form.instructions.present? %>
   <p>
-    <%= form.instructions %>
+    <%= sanitize(form.instructions) %>
   </p>
+  <% end %>
   <fieldset>
     <table>
       <tr>
@@ -347,15 +371,10 @@
         </td>
       </tr>
     </table>
-    <%#= hidden_field_tag :authenticity_token, form_authenticity_token %>
-  <% if form.disclaimer_text? %>
-    <p>
-      <%= form.disclaimer_text %>
-    </p>
-  <% end %>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <%= render 'components/whitelist_options', f: f %>
+    <div class="actions">
+      <%= f.submit %>
+    </div>
   </fieldset>
 <% end %>
 

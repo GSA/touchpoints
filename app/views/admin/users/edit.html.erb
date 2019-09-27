@@ -1,5 +1,11 @@
-<h1>
-  Editing a User
-</h1>
-<%= render 'form', user: @user %>
-<%= link_to 'Show', admin_user_path(@user) %>
+<div class="well">
+  <h1>
+    Editing User
+  </h1>
+  Email: <%= link_to @user.email, admin_user_path %>
+  <br>
+  <%= render 'form', user: @user %>
+  <% unless @user == current_user %>
+  <%= link_to 'Destroy', admin_user_path(@user), method: :delete, data: { confirm: 'Are you sure?' } %>
+  <% end %>
+</div>

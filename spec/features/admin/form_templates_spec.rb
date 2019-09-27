@@ -6,28 +6,71 @@ feature "Managing Form Templates", js: true do
   let!(:form_template) { FactoryBot.create(:form_template) }
 
   context "as Admin" do
-    before "user creates a Touchpoint" do
+    before do
       login_as admin
-      visit admin_form_templates_path
     end
 
-    describe "create new Form Template" do
-      before do
-        click_link "New Form Template"
+    describe "new Form Template" do
+      before "user creates a Form Template" do
+        visit admin_form_templates_path
       end
 
-      it "arrive at Form" do
-        expect(page).to have_content("New Form Template")
+      describe "create new Form Template" do
+        before do
+          click_link "New Form Template"
+        end
+
+        it "arrive at Form" do
+          expect(page).to have_content("New Form Template")
+        end
       end
     end
 
     describe "edit existing Form Template" do
+      before do
+        visit admin_form_template_path(FormTemplate.first)
+      end
 
+      it "edit Form Template" do
+        click_link "Edit"
+        expect(page).to have_content("Editing Form Template")
+        fill_in("form_template_name", with: "Updated Form Name")
+        click_button "Update Form template"
+        expect(page).to have_content("Form template was successfully updated.")
+        expect(page).to have_content("Name: Updated Form Name")
+      end
     end
 
-    describe "display Edit link" do
-      it "display Edit link" do
-        expect(page).to have_link("Edit")
+    describe "view existing Form Templates" do
+      before do
+        @a11 = FactoryBot.create(:form_template, :a11)
+        @recruiter = FactoryBot.create(:form_template, :recruiter)
+        @oewci = FactoryBot.create(:form_template, :open_ended_with_contact_info)
+        visit admin_form_templates_path
+      end
+
+      describe "display Edit link" do
+        it "display Edit link" do
+          expect(page).to have_link("Edit")
+        end
+      end
+
+      it "loads each of the forms" do
+        visit admin_form_template_path(FormTemplate.first)
+        expect(page).to have_content("Viewing a Form Template")
+        expect(page).to have_content("Name: #{FormTemplate.first.name}")
+
+        visit admin_form_template_path(@a11)
+        expect(page).to have_content("Viewing a Form Template")
+        expect(page).to have_content("Name: #{@a11.name}")
+
+        visit admin_form_template_path(@recruiter)
+        expect(page).to have_content("Viewing a Form Template")
+        expect(page).to have_content("Name: #{@recruiter.name}")
+
+        visit admin_form_template_path(@oewci)
+        expect(page).to have_content("Viewing a Form Template")
+        expect(page).to have_content("Name: #{@oewci.name}")
       end
     end
   end

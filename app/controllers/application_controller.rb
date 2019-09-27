@@ -1,4 +1,9 @@
 class ApplicationController < ActionController::Base
+
+  def after_sign_in_path_for(resource)
+    admin_dashboard_path
+  end
+
   # Enforce Permissions
   def ensure_user
     redirect_to(root_path, notice: "Authorization is Required") unless current_user
@@ -12,8 +17,11 @@ class ApplicationController < ActionController::Base
     redirect_to(root_path, notice: "Authorization is Required") unless organization_manager_permissions?
   end
 
+  helper_method :ensure_service_manager
   def ensure_service_manager(service:)
-    redirect_to(root_path, notice: "Authorization is Required") unless current_user && (organization_manager_permissions? || service.user_role?(user: current_user) == UserService::Role::ServiceManager)
+    return false unless service.present?
+
+    redirect_to(root_path, notice: "Authorization is Required") unless service_permissions?(service: service)
   end
 
 
@@ -26,6 +34,13 @@ class ApplicationController < ActionController::Base
   helper_method :organization_manager_permissions?
   def organization_manager_permissions?
     current_user && (current_user.admin? || current_user.organization_manager?)
+  end
+
+  helper_method :service_permissions?
+  def service_permissions?(service:)
+    return false unless service.present?
+
+    service.user_role?(user: current_user) == UserService::Role::ServiceManager
   end
 
 

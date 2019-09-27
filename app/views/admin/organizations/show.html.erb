@@ -1,51 +1,53 @@
-<h1>
-  Viewing an Organization
-</h1>
-<div class="usa-alert">
-  <%= @organization.name %> has
-  <%= link_to(pluralize(@organization.users.length, "User"), admin_users_path) %>
-  managing
-  <%= link_to(pluralize(@organization.services.length, "Service"), admin_services_path) %>
-  and
-  <%= link_to(pluralize(@organization.touchpoints.length, "Touchpoint"), admin_touchpoints_path) %>.
-</div>
-<p>
-  <strong>Name:</strong>
-  <%= @organization.name %>
-</p>
-<% if @organization.logo %>
-<p>
-  <strong>Logo:</strong>
-  <% if @organization.logo_url.present? %>
-  (displaying Thumbnail version)
-  <br>
-  <br>
-  <%= image_tag(@organization.logo.thumb.url) %>
-  <br>
-  <%= link_to "Full Size", @organization.logo.url, target: "_blank" %><br>
-  <%= link_to "Thumbnail Size", @organization.logo.thumb.url, target: "_blank" %><br>
-  <%= link_to "Card Size", @organization.logo.card.url, target: "_blank" %><br>
-  <% else %>
-    A logo has not yet been uploaded
+<div class="well">
+  <h1>
+    Viewing an Organization
+  </h1>
+  <div class="usa-alert">
+    <%= @organization.name %> has
+    <%= link_to(pluralize(@organization.users.length, "User"), admin_users_path) %>
+    managing
+    <%= link_to(pluralize(@organization.services.length, "Service"), admin_services_path) %>
+    and
+    <%= link_to(pluralize(@organization.touchpoints.length, "Touchpoint"), admin_touchpoints_path) %>.
+  </div>
+  <p>
+    <strong>Name:</strong>
+    <%= @organization.name %>
+  </p>
+  <% if @organization.logo %>
+  <p>
+    <strong>Logo:</strong>
+    <% if @organization.logo_url.present? %>
+    (displaying Thumbnail version)
+    <br>
+    <br>
+    <%= image_tag(@organization.logo.thumb.url) %>
+    <br>
+    <%= link_to "Full Size", @organization.logo.url, target: "_blank", rel: "noopener" %><br>
+    <%= link_to "Thumbnail Size", @organization.logo.thumb.url, target: "_blank", rel: "noopener" %><br>
+    <%= link_to "Card Size", @organization.logo.card.url, target: "_blank", rel: "noopener" %><br>
+    <% else %>
+      A logo has not yet been uploaded
+    <% end %>
+  </p>
   <% end %>
-</p>
-<% end %>
-<p>
-  <strong>Organization Domain:</strong>
-  <%= @organization.domain %>
-</p>
-<p>
-  <strong>Website Url:</strong>
-  <%= link_to(@organization.url, @organization.url, target: "_blank") %>
-</p>
-<p>
-  <strong>Abbreviation:</strong>
-  <%= @organization.abbreviation %>
-</p>
+  <p>
+    <strong>Organization Domain:</strong>
+    <%= @organization.domain %>
+  </p>
+  <p>
+    <strong>Website Url:</strong>
+    <%= link_to(@organization.url, @organization.url, target: "_blank", rel: "noopener") %>
+  </p>
+  <p>
+    <strong>Abbreviation:</strong>
+    <%= @organization.abbreviation %>
+  </p>
 
-<p>
-  <strong>Notes:</strong>
-  <%= @organization.notes %>
-</p>
+  <p>
+    <strong>Notes:</strong>
+    <%= @organization.notes %>
+  </p>
 
-<%= link_to 'Edit', edit_admin_organization_path(@organization), class: "usa-button" %>
+  <%= link_to 'Edit', edit_admin_organization_path(@organization), class: "usa-button" %>
+</div>

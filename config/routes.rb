@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
   resources :touchpoints, only: [:show] do
     member do
@@ -12,9 +12,13 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :containers
+    get "dashboard", to: "site#dashboard"
     resources :form_templates
-    resources :forms
+    resources :forms do
+      resources :questions do
+        resources :question_options
+      end
+    end
     resources :users, except: [:new]
     resources :organizations
     resources :pra_contacts
@@ -29,15 +33,18 @@ Rails.application.routes.draw do
       member do
         get "export_submissions", to: "touchpoints#export_submissions", as: :export_submissions
         get "example", to: "touchpoints#example", as: :example
-        get "example/gtm", to: "touchpoints#gtm_example", as: :gtm_example
         get "js", to: "touchpoints#js", as: :js
         get "toggle_editability", to: "touchpoints#toggle_editability", as: :toggle_editability
         get "export_pra_document", as: :export_pra_document
       end
       resources :forms
-      resources :submissions, only: [:new, :show, :create, :destroy]
+      resources :submissions, only: [:new, :show, :create, :destroy] do
+        member do
+          post "flag", to: "submissions#flag", as: :flag
+        end
+      end
     end
-    root to: "site#index"
+    root to: "site#dashboard"
   end
 
   get "status", to: "site#status", as: :status

@@ -14,9 +14,7 @@ class Admin::ServicesController < AdminController
   end
 
   def show
-    excluded_members = @service.users + [current_user]
-    @available_members = @service.organization.users - excluded_members
-    @container = @service.container
+    @available_members = (User.admins + @service.organization.users).uniq - @service.users
   end
 
   # Associate a user with a Service
@@ -75,7 +73,6 @@ class Admin::ServicesController < AdminController
           user: current_user,
           role: UserService::Role::ServiceManager
         })
-        @service.create_container!
 
         format.html { redirect_to admin_service_path(@service), notice: 'Service was successfully created.' }
         format.json { render :show, status: :created, location: @service }
@@ -123,6 +120,7 @@ class Admin::ServicesController < AdminController
       params.require(:service).permit(
         :name,
         :description,
+        :hisp,
         :notes,
         :organization_id,
         :service_manager

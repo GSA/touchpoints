@@ -1,41 +1,42 @@
-<h1>
-  Form Templates
-</h1>
+<div class="well">
+  <h1>
+    Form Templates
+  </h1>
 
-<p>
-  Touchpoints provides a library of Form Templates.
-  Form Templates are used to create templated Forms
-  for a specific Touchpoint.
-</p>
+  <p class="usa-alert">
+    Touchpoints provides a library of Form Templates.
+    <br>
+    Form Templates are used to create customizable Forms
+    for a specific Touchpoint.
+  </p>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Kind</th>
-    <% if current_user.admin? %>
-      <th></th>
-    <% end %>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @form_templates.each do |form_template| %>
+  <table>
+    <thead>
       <tr>
-        <td><%= link_to form_template.name, admin_form_template_path(form_template) %></td>
-        <td><%= form_template.kind %></td>
+        <th>Name</th>
+        <th>Kind</th>
       <% if current_user.admin? %>
-        <td>
-          <%= link_to 'Edit', edit_admin_form_template_path(form_template) %>
-        </td>
+        <th></th>
       <% end %>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
+    <tbody>
+      <% @form_templates.each do |form_template| %>
+        <tr>
+          <td><%= link_to form_template.name, admin_form_template_path(form_template) %></td>
+          <td><%= form_template.kind %></td>
+        <% if current_user.admin? %>
+          <td>
+            <%= link_to 'Edit', edit_admin_form_template_path(form_template) %>
+          </td>
+        <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<% if admin_permissions? %>
-  <%= link_to 'New Form Template', new_admin_form_template_path, class: "usa-button" %>
-<% end %>
+  <% if admin_permissions? %>
+    <%= link_to 'New Form Template', new_admin_form_template_path, class: "usa-button" %>
+  <% end %>
+</div>

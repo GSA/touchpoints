@@ -1,24 +1,23 @@
 <h1>
-  Google Tag Manager Account
+  Touchpoints Admin
 </h1>
-<table>
-  <h3>
-    <%= @account[:name] %> -
-    <%= link_to(@account[:account_id], @account[:tag_manager_url]) %>
-  </h3>
-  <h6>
-    Containers
-  </h6>
-  <% @account[:containers].each do |container| %>
-    <%= link_to container.name, container.tag_manager_url, target: "_blank" %>
-    <%= container.public_id %>
-    <% workspaces = @google_api_service.list_account_container_workspaces(path: container.path) %>
-    <ul>
-      <% workspaces.each do |workspace| %>
-      <li>
-        <%= link_to workspace.name, workspace.tag_manager_url %><br>
-      </li>
-      <% end %>
-    </ul>
-  <% end %>
-</table>
+
+<p>
+  <ul>
+    <li>
+      <a class="usa-nav-link admin" href="/admin/organizations">
+        <span>Manage Organizations</span>
+      </a>
+    </li>
+    <li>
+      <a class="usa-nav-link admin" href="/admin/pra_contacts">
+        <span>Manage PRA Contacts</span>
+      </a>
+    </li>
+    <li>
+      <a class="usa-nav-link admin" href="/admin/form_templates">
+        <span>Manage Form Templates</span>
+      </a>
+    </li>
+  </ul>
+</p>

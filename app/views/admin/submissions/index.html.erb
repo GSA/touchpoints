@@ -7,79 +7,104 @@
 </h5>
 
 <% if @submissions.present? %>
-  <table>
-    <thead>
-      <tr>
-        <% if @touchpoint.form.kind == "recruiter" %>
-        <th>First name</th>
-        <th>Last name</th>
-        <th>Phone number</th>
-        <th>Email</th>
-        <% end %>
-        <% if @touchpoint.form.kind == "open-ended" %>
-        <th>Body</th>
-        <% end %>
-        <% if @touchpoint.form.kind == "open-ended-with-contact-info" %>
-        <th>Body</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <% end %>
-        <% if @touchpoint.form.kind == "a11" %>
-        <th>Overall satisfaction</th>
-        <th>Service confidence</th>
-        <th>Service effectiveness</th>
-        <th>Process ease</th>
-        <th>Process efficiency</th>
-        <th>Process transparency</th>
-        <th>People employees</th>
-        <th>Custom Question 1</th>
-        <th>Custom Question 2</th>
-        <th>Custom Question 3</th>
-        <th>Custom Question 4</th>
-        <th>Custom Question 5</th>
-        <% end %>
-        <th>Location Code</th>
-        <th>IP Address</th>
-        <th>User Agent</th>
-        <th>Referrer</th>
-        <th>Pathname</th>
-        <th>Created At</th>
-        <th></th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @submissions.each do |submission| %>
-        <tr title="Submission ID <%= submission.id %>">
+<div class="table-scroll">
+  <div class="table-wrap">
+    <table class="table-scroll">
+      <thead>
+        <tr>
+          <% if @touchpoint.form.kind == "custom" %>
+          <% @touchpoint.form.questions.each do |question| %>
+          <th><%= question.text %></th>
+          <% end %>
+          <% end %>
           <% if @touchpoint.form.kind == "recruiter" %>
-          <td><%= submission.answer_01 %></td>
-          <td><%= submission.answer_02 %></td>
-          <td><%= submission.answer_03 %></td>
-          <td><%= submission.answer_04 %></td>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>Phone number</th>
+          <th>Email</th>
           <% end %>
           <% if @touchpoint.form.kind == "open-ended" %>
-          <td><%= submission.answer_01 %></td>
+          <th>Body</th>
           <% end %>
           <% if @touchpoint.form.kind == "open-ended-with-contact-info" %>
-          <td><%= submission.answer_01 %></td>
-          <td><%= submission.answer_02 %></td>
-          <td><%= submission.answer_03 %></td>
-          <td><%= submission.answer_04 %></td>
+          <th>Body</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
           <% end %>
           <% if @touchpoint.form.kind == "a11" %>
-          <td><%= submission.answer_01 %></td>
-          <td><%= submission.answer_02 %></td>
-          <td><%= submission.answer_03 %></td>
-          <td><%= submission.answer_04 %></td>
-          <td><%= submission.answer_05 %></td>
-          <td><%= submission.answer_06 %></td>
-          <td><%= submission.answer_07 %></td>
-          <td><%= submission.answer_08 %></td>
-          <td><%= submission.answer_09 %></td>
-          <td><%= submission.answer_10 %></td>
-          <td><%= submission.answer_11 %></td>
-          <td><%= submission.answer_12 %></td>
+          <th>Overall satisfaction</th>
+          <th>Service confidence</th>
+          <th>Service effectiveness</th>
+          <th>Process ease</th>
+          <th>Process efficiency</th>
+          <th>Process transparency</th>
+          <th>People employees</th>
+          <th>Custom Question 1</th>
+          <th>Custom Question 2</th>
+          <th>Custom Question 3</th>
+          <th>Custom Question 4</th>
+          <th>Custom Question 5</th>
+          <% end %>
+          <th>Location Code</th>
+          <th>IP Address</th>
+          <th>User Agent</th>
+          <th>Referrer</th>
+          <th>Pathname</th>
+          <th>Created At</th>
+          <th></th>
+          <% if @touchpoint.service && (@touchpoint.service.user_role?(user: current_user) == UserService::Role::ServiceManager) %>
+          <th></th>
+          <% end %>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @submissions.each do |submission| %>
+        <tr title="Submission ID <%= submission.id %>">
+          <% if @touchpoint.form.kind == "custom" %>
+            <% @touchpoint.form.questions.each do |question| %>
+            <td>
+              <%= sanitize(submission.send(question.answer_field.to_sym)) %>
+            </td>
+            <% end %>
+          <% end %>
+          <% if @touchpoint.form.kind == "recruiter" %>
+          <td><%= sanitize(submission.answer_01) %></td>
+          <td><%= sanitize(submission.answer_02) %></td>
+          <td><%= sanitize(submission.answer_03) %></td>
+          <td><%= sanitize(submission.answer_04) %></td>
+          <% end %>
+          <% if @touchpoint.form.kind == "open-ended" %>
+          <td>
+            <span class="truncate" fulltext="<%= sanitize(submission.answer_01) %>">
+              <%= sanitize(submission.answer_01).truncate(50) %>
+            </span>
+          </td>
+          <% end %>
+          <% if @touchpoint.form.kind == "open-ended-with-contact-info" %>
+          <td>
+            <span class="truncate" fulltext="<%= sanitize(submission.answer_01) %>">
+              <%= sanitize(submission.answer_01).truncate(50) %>
+            </span>
+          </td>
+          <td><%= sanitize(submission.answer_02) %></td>
+          <td><%= sanitize(submission.answer_03) %></td>
+          <td><%= sanitize(submission.answer_04) %></td>
+          <% end %>
+          <% if @touchpoint.form.kind == "a11" %>
+          <td><%= sanitize(submission.answer_01) %></td>
+          <td><%= sanitize(submission.answer_02) %></td>
+          <td><%= sanitize(submission.answer_03) %></td>
+          <td><%= sanitize(submission.answer_04) %></td>
+          <td><%= sanitize(submission.answer_05) %></td>
+          <td><%= sanitize(submission.answer_06) %></td>
+          <td><%= sanitize(submission.answer_07) %></td>
+          <td><%= sanitize(submission.answer_08) %></td>
+          <td><%= sanitize(submission.answer_09) %></td>
+          <td><%= sanitize(submission.answer_10) %></td>
+          <td><%= sanitize(submission.answer_11) %></td>
+          <td><%= sanitize(submission.answer_12) %></td>
           <% end %>
           <td><%= submission.location_code %></td>
           <td><%= submission.ip_address %></td>
@@ -87,12 +112,25 @@
           <td><%= submission.referer %></td>
           <td><%= submission.page %></td>
           <td><%= submission.created_at %></td>
-          <td><%= link_to 'Destroy', admin_touchpoint_submission_path(submission.touchpoint, submission), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td>
+            <% if submission.flagged? %>
+              flagged
+            <% else %>
+            <%= link_to 'Flag', flag_admin_touchpoint_submission_path(submission.touchpoint, submission), method: :post, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+          </td>
+          <% if service_permissions?(service: @touchpoint.service) %>
+          <td>
+            <%= link_to 'Destroy', admin_touchpoint_submission_path(submission.touchpoint, submission), method: :delete, data: { confirm: 'Are you sure?' } %>
+          </td>
+          <% end %>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-    <%= link_to "Export Submissions to CSV", export_submissions_admin_touchpoint_url(@touchpoint, format: "csv"), class: "usa-button", target: "_blank" %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+    <%= link_to "Export Submissions to CSV", export_submissions_admin_touchpoint_url(@touchpoint, format: "csv"), class: "usa-button", target: "_blank", rel: "noopener" %>
 <% else %>
   <div class="usa-alert usa-alert-info">
     <div class="usa-alert-body">
@@ -103,3 +141,27 @@
     </div>
   </div>
 <% end %>
+
+<script>
+  function truncate(string, length) {
+    // Only if the string needs truncating
+    if (string.length > length) {
+      var truncatedText = $.trim(string).substring(0, length)
+      .split(" ").slice(0, -1).join(" ") + "...";
+      return truncatedText;
+    } else {
+      return string;
+    }
+  }
+  // When mousing over a cell with long text, show it all
+  // When mousing out, display 50 characters max
+  $(function() {
+    $(".truncate").on("mouseover", function() {
+      $(this).text($(this).attr("fulltext"));
+    });
+
+    $(".truncate").on("mouseout", function() {
+      $(this).text(truncate($(this).attr("fulltext"), 50));
+    });
+  });
+</script>

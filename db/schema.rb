@@ -10,19 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_05_051407) do
+ActiveRecord::Schema.define(version: 2019_09_23_195012) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "containers", force: :cascade do |t|
-    t.string "name"
-    t.string "gtm_container_id"
-    t.string "gtm_container_public_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "service_id", null: false
-  end
 
   create_table "form_templates", force: :cascade do |t|
     t.string "name"
@@ -69,6 +60,8 @@ ActiveRecord::Schema.define(version: 2019_06_05_051407) do
     t.integer "character_limit", default: 0
     t.string "whitelist_url", default: ""
     t.string "whitelist_test_url", default: ""
+    t.boolean "display_header_logo", default: false
+    t.text "success_text"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -100,6 +93,25 @@ ActiveRecord::Schema.define(version: 2019_06_05_051407) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "question_options", force: :cascade do |t|
+    t.integer "question_id"
+    t.string "text"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.integer "form_id"
+    t.string "text"
+    t.string "question_type"
+    t.string "answer_field"
+    t.integer "position"
+    t.boolean "is_required"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "services", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -107,6 +119,7 @@ ActiveRecord::Schema.define(version: 2019_06_05_051407) do
     t.string "service_manager"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "hisp", default: false
   end
 
   create_table "submissions", force: :cascade do |t|
@@ -139,12 +152,12 @@ ActiveRecord::Schema.define(version: 2019_06_05_051407) do
     t.text "answer_20"
     t.string "ip_address"
     t.string "location_code"
+    t.boolean "flagged", default: false
   end
 
   create_table "touchpoints", force: :cascade do |t|
     t.string "name", null: false
     t.boolean "enable_google_sheets", default: false
-    t.integer "container_id"
     t.string "google_sheet_id"
     t.integer "form_id"
     t.text "purpose"
@@ -159,15 +172,8 @@ ActiveRecord::Schema.define(version: 2019_06_05_051407) do
     t.date "expiration_date"
     t.integer "service_id"
     t.boolean "editable", default: true
-  end
-
-  create_table "triggers", force: :cascade do |t|
-    t.integer "touchpoint_id"
-    t.string "name"
-    t.string "kind"
-    t.string "fingerprint"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "delivery_method"
+    t.string "element_selector"
   end
 
   create_table "user_services", force: :cascade do |t|
@@ -198,6 +204,8 @@ ActiveRecord::Schema.define(version: 2019_06_05_051407) do
     t.datetime "updated_at", null: false
     t.boolean "admin", default: false
     t.boolean "organization_manager", default: false
+    t.string "provider"
+    t.string "uid"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

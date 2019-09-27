@@ -31,7 +31,8 @@ RSpec.describe Admin::OrganizationsController, type: :controller do
   let(:valid_attributes) {
     {
       name: "Example Gov",
-      domain: "example.gov"
+      domain: "example.gov",
+      abbreviation: "EX"
     }
   }
 

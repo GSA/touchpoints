@@ -2,7 +2,7 @@ class SubmissionsController < ApplicationController
   protect_from_forgery only: []
   before_action :set_touchpoint, only: [:new, :create]
 
-  layout 'public', :only => :new
+  layout 'public', only: :new
 
   def new
     unless @touchpoint.deployable_touchpoint?
@@ -145,6 +145,10 @@ class SubmissionsController < ApplicationController
           :referer,
           :page
         )
+      elsif @touchpoint.form.kind == "custom"
+        permitted_fields = @touchpoint.form.questions.collect(&:answer_field)
+        permitted_fields << [:location_code, :referer, :page]
+        params.require(:submission).permit(permitted_fields)
       else
         raise InvalidArgument("#{@touchpoint.name} has a Form with an unsupported Kind")
       end

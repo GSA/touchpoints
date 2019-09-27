@@ -1,4 +1,4 @@
-<div class="usa-grid">
+<div class="usa-grid-full">
   <div class="usa-width-full">
     <%= form_with(model: touchpoint, url: touchpoint.persisted? ? admin_touchpoint_path(touchpoint) : admin_touchpoints_path, local: true) do |form| %>
     <% if touchpoint.errors.any? %>
@@ -37,10 +37,6 @@
           <%= form.label f.name, for: "touchpoint_form_template_id_#{f.id}" %>
         </li>
       <% end %>
-        <li>
-          <%= form.radio_button :form_template_id, :other %>
-          <%= form.label :other, for: "touchpoint_form_template_id_other" %>
-        </li>
       </ul>
     </fieldset>
   </div>
