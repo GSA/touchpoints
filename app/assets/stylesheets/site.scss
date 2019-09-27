@@ -126,8 +126,12 @@ h1, h2, h3 {
   margin: 0.5em 0;
 }
 
+.justify-vertical {
+  display: flex;
+  align-items: center;
+}
 .form-header-logo {
-  max-height: 36px;
+  max-height: 72px;
 }
 .hide {
   display: none;
