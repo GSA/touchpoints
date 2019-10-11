@@ -141,6 +141,7 @@ class SubmissionsController < ApplicationController
           :answer_10,
           :answer_11,
           :answer_12,
+          :language,
           :location_code,
           :referer,
           :page
