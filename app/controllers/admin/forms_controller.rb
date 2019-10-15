@@ -76,6 +76,7 @@ class Admin::FormsController < AdminController
         :notes,
         :status,
         :title,
+        :modal_button_text,
         :success_text,
         :instructions,
         :display_header_logo,
