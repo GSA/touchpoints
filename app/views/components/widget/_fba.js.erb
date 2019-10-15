@@ -273,6 +273,7 @@ N.fba = {
 			params["referer"] = d.referrer;
 			params["page"] = window.location.pathname;
 			params["location_code"] = form.querySelector("#fba_location_code") ? form.querySelector("#fba_location_code").value : null;
+			params["language"] = "en";
 
 			// Submit Feedback with a POST
 			xhr.open("POST", url);

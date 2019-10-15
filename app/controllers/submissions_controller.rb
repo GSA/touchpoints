@@ -107,6 +107,7 @@ class SubmissionsController < ApplicationController
           :answer_02,
           :answer_03,
           :answer_04,
+          :language,
           :location_code,
           :referer,
           :page
@@ -114,6 +115,7 @@ class SubmissionsController < ApplicationController
       elsif @touchpoint.form.kind == "open-ended"
         params.require(:submission).permit(
           :answer_01,
+          :language,
           :location_code,
           :referer,
           :page
@@ -123,6 +125,7 @@ class SubmissionsController < ApplicationController
           :answer_01,
           :answer_02,
           :answer_03,
+          :language,
           :location_code,
           :referer,
           :page
@@ -148,7 +151,7 @@ class SubmissionsController < ApplicationController
         )
       elsif @touchpoint.form.kind == "custom"
         permitted_fields = @touchpoint.form.questions.collect(&:answer_field)
-        permitted_fields << [:location_code, :referer, :page]
+        permitted_fields << [:language, :location_code, :referer, :page]
         params.require(:submission).permit(permitted_fields)
       else
         raise InvalidArgument("#{@touchpoint.name} has a Form with an unsupported Kind")
