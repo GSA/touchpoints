@@ -29,6 +29,17 @@ class LogoUploader < CarrierWave::Uploader::Base
     process resize_to_fill: [360, 0]
   end
 
+  # This is the same size as Login.gov's uploaded image
+  version :tag do
+    process resize_to_fill: [342, 80]
+  end
+
+  # This is a square (only) version of the `tag`
+  #   good to use for circle/square logos
+  version :logo_square do
+    process resize_to_fill: [80, 80]
+  end
+
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   def extension_whitelist

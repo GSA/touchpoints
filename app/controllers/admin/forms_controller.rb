@@ -80,6 +80,7 @@ class Admin::FormsController < AdminController
         :success_text,
         :instructions,
         :display_header_logo,
+        :display_header_square_logo,
         :whitelist_url,
         :whitelist_test_url,
         :disclaimer_text,

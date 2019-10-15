@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_15_215026) do
+ActiveRecord::Schema.define(version: 2019_10_15_225236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 2019_10_15_215026) do
     t.boolean "display_header_logo", default: false
     t.text "success_text"
     t.string "modal_button_text"
+    t.boolean "display_header_square_logo"
   end
 
   create_table "organizations", force: :cascade do |t|
