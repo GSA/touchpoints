@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
+# Fail if anything within this script returns
+# a non-zero exit code
+set -e
+
 if [ "${CIRCLE_BRANCH}" == "production" ]
 then
-  # Fail if anything within this script returns
-  # a non-zero exit code
-  set -e
-
   echo "Logging into cloud.gov"
   # Log into CF and push
   cf login -a $CF_API_ENDPOINT -u $CF_PRODUCTION_SPACE_DEPLOYER_USERNAME -p $CF_PRODUCTION_SPACE_DEPLOYER_PASSWORD -o $CF_ORG -s prod
@@ -18,10 +18,6 @@ fi
 
 if [ "${CIRCLE_BRANCH}" == "master" ]
 then
-  # Fail if anything within this script returns
-  # a non-zero exit code
-  set -e
-
   echo "Logging into cloud.gov"
   # Log into CF and push
   cf login -a $CF_API_ENDPOINT -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $CF_SPACE
@@ -34,15 +30,11 @@ fi
 
 if [ "${CIRCLE_BRANCH}" == "develop" ]
 then
-  # Fail if anything within this script returns
-  # a non-zero exit code
-  set -e
-
-  echo "Deploying the 'deploy-from-circleci' branch to the Staging environment"
-
   echo "Logging into cloud.gov"
   # Log into CF and push
-  cf login -a $CF_API_ENDPOINT -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $CF_SPACE
+  cf api $CF_API_ENDPOINT
+  cf auth $CF_USERNAME $CF_PASSWORD
+  cf target -o $CF_ORG -s $CF_SPACE
   echo "Pushing to Staging..."
   cf v3-zdt-push touchpoints-staging
   echo "Push to Staging Complete."

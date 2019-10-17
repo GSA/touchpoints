@@ -8,13 +8,21 @@
         <%= render 'components/forms/question_types/text_field', form: form, question: question, question_number: index + 1 %>
       <% elsif question.question_type == "radio_buttons" %>
         <%= render 'components/forms/question_types/radio_buttons', form: form, question: question, question_number: index + 1 %>
-      <% else %>
+      <% elsif question.question_type == "dropdown" %>
+        <%= render 'components/forms/question_types/dropdown', form: form, question: question, question_number: index + 1 %>
+      <% elsif question.question_type == "checkbox" %>
+        <%= render 'components/forms/question_types/checkbox', form: form, question: question, question_number: index + 1 %>
+      <% elsif question.question_type == "textarea" %>
         <%= render 'components/forms/question_types/text_area', form: form, question: question, question_number: index + 1 %>
       <% end %>
     </div>
     <% end %>
     <div class="button-wrapper">
-      <button type="submit" id="fba-submit" class="usa-button-primary-alt">Submit</button>
+      <% if current_path.include?("/admin/forms") || current_path.include?("/admin/touchpoints/") %>
+        <button type="submit" id="fba-submit" class="usa-button-primary-alt" disabled>Submit</button>
+      <% else %>
+        <button type="submit" id="fba-submit" class="usa-button-primary-alt">Submit</button>
+      <% end %>
     </div>
   </div>
 </form>

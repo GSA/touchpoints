@@ -7,7 +7,11 @@
     <%= render 'components/forms/edit/question_types/text_field', form: form, question: question, question_number: index + 1 %>
   <% elsif question.question_type == "radio_buttons" %>
     <%= render 'components/forms/edit/question_types/radio_buttons', form: form, question: question, question_number: index + 1 %>
-  <% else %>
+  <% elsif question.question_type == "dropdown" %>
+    <%= render 'components/forms/edit/question_types/dropdown', form: form, question: question, question_number: index + 1 %>
+  <% elsif question.question_type == "checkbox" %>
+    <%= render 'components/forms/edit/question_types/checkbox', form: form, question: question, question_number: index + 1 %>
+  <% elsif question.question_type == "textarea" %>
     <%= render 'components/forms/edit/question_types/text_area', form: form, question: question, question_number: index + 1 %>
   <% end %>
   <%= link_to "Edit Question", edit_admin_form_question_path(@form, question), class: "usa-button" %>

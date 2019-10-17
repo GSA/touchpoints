@@ -60,9 +60,3 @@
     <%= link_to 'Create New Touchpoint', new_admin_touchpoint_path, class: "usa-button" %>
   <% end %>
 </div>
-<div class="usa-grid-full">
-  <div class="usa-width-full">
-    <%= render 'components/pra_contact_callout', { pra_contacts: @pra_contacts, organization: current_user.organization } %>
-  </div>
-  <br>
-</div>

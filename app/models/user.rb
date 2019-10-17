@@ -68,6 +68,18 @@ class User < ApplicationRecord
     end
   end
 
+  # For Devise
+  # This determines whether a user is inactive or not
+  def active_for_authentication?
+    self && !self.inactive?
+  end
+
+  # For Devise
+  # This is the flash message shown to a user when inactive
+  def inactive_message
+    "User account is inactive"
+  end
+
   private
 
     def parse_host_from_domain(string)

@@ -2,7 +2,10 @@
   <div class="usa-width-full">
     <h2 class="justify-vertical">
       <% if form.display_header_logo && (form.touchpoint && form.touchpoint.service && form.touchpoint.service.organization.logo.present?) %>
-        <%= image_tag(form.touchpoint.service.organization.logo.thumb.url, alt: "Organization logo", class: "form-header-logo") %>
+        <%= image_tag(form.touchpoint.service.organization.logo.tag.url, alt: "Organization logo", class: "form-header-logo") %>
+      <% end %>
+      <% if form.display_header_square_logo && (form.touchpoint && form.touchpoint.service && form.touchpoint.service.organization.logo.present?) %>
+        <%= image_tag(form.touchpoint.service.organization.logo.logo_square.url, alt: "Organization logo", class: "form-header-logo-square") %>
       <% end %>
       <%= form.title %>
     </h2>

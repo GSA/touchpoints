@@ -7,6 +7,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     login
   end
 
+  def failure
+    redirect_to new_user_session_path, alert: "Login.gov error: #{failure_message}"
+  end
+
 
   private
 
@@ -26,8 +30,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       set_flash_message(:notice, :success, kind: "Login.gov")
     elsif @user.errors.present?
       redirect_to root_path, alert: @user.errors.full_messages.join(",")
-    else
-      redirect_to root_path, notice: "Error: During oAuth Login"
+    # else
+    #   redirect_to root_path, notice: "Error: During oAuth Login"
     end
   end
 end

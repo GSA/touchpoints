@@ -9,4 +9,8 @@ class Form < ApplicationRecord
   def success_text
     super.present? ? super : "Thank you. Your feedback has been received."
   end
+
+  def modal_button_text
+    super.present? ? super : "Help improve this site"
+  end
 end
