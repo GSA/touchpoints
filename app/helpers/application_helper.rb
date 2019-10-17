@@ -15,7 +15,9 @@ module ApplicationHelper
     elsif question.question_type == "radio_buttons"
       "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
     elsif question.question_type == "checkbox"
+      "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
     elsif question.question_type == "dropdown"
+      "form.querySelector(\"##{question.answer_field}\").value"
     end
   end
 

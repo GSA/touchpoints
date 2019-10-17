@@ -1,0 +1,13 @@
+<fieldset class="radios" role="group" aria-labelledby="answer_01">
+  <h4>
+    <%= question_number %>.
+    <%= question.text %>
+    <span class="usa-label">
+      <%= question.answer_field %>
+    </span>
+  </h4>
+  <div class="radio-button">
+    <%= select_tag question.answer_field.to_sym, options_for_select(question.question_options.each_with_index.map { |option, index| [option.text, index] }), prompt: "Select one" %>
+  </div>
+  <%= link_to "Add Dropdown Option", new_admin_form_question_question_option_path(question.form, question), class: "usa-button" %>
+</fieldset>
