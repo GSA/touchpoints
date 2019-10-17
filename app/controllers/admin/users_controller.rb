@@ -69,9 +69,10 @@ class Admin::UsersController < AdminController
           :admin,
           :organization_id,
           :organization_manager,
-          :email
+          :email,
+          :inactive
         )
-      elsif current_user && current_user.organization_manager?
+      elsif organization_manager_permissions?
         params.require(:user).permit(
           :organization_id,
           :organization_manager,
