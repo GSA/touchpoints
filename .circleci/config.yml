@@ -30,10 +30,7 @@ jobs:
           keys:
           - v1-bundle-{{ checksum "Gemfile.lock" }}
 
-      - run:
-          name: install dependencies
-          command: |
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - run: bundle install && bundle clean
 
       - save_cache:
           paths:
