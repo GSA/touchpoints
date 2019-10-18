@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_23_195012) do
+ActiveRecord::Schema.define(version: 2019_10_16_195737) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,8 @@ ActiveRecord::Schema.define(version: 2019_09_23_195012) do
     t.string "whitelist_test_url", default: ""
     t.boolean "display_header_logo", default: false
     t.text "success_text"
+    t.string "modal_button_text"
+    t.boolean "display_header_square_logo"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -153,6 +155,7 @@ ActiveRecord::Schema.define(version: 2019_09_23_195012) do
     t.string "ip_address"
     t.string "location_code"
     t.boolean "flagged", default: false
+    t.string "language"
   end
 
   create_table "touchpoints", force: :cascade do |t|
@@ -206,6 +209,7 @@ ActiveRecord::Schema.define(version: 2019_09_23_195012) do
     t.boolean "organization_manager", default: false
     t.string "provider"
     t.string "uid"
+    t.boolean "inactive"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.5'
+ruby '2.6.5'
 
 gem 'aws-sdk-rails'
 gem 'caracal'
@@ -12,7 +12,7 @@ gem 'jquery-rails'
 gem 'mail'
 gem 'mini_magick'
 gem 'newrelic_rpm'
-gem 'omniauth_login_dot_gov', :git => 'https://github.com/18f/omniauth_login_dot_gov.git'
+gem 'omniauth_login_dot_gov', git: 'https://github.com/18f/omniauth_login_dot_gov.git', ref: '3703f9d3863300fd55eea6d05600d050e4cc9bb1'
 gem 'rails', '~> 5.2.1'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
@@ -28,9 +28,6 @@ gem 'jbuilder', '~> 2.5'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
-
-# Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -54,7 +51,7 @@ group :test do
   gem 'rspec-rails'
   gem 'selenium-webdriver'
   # gem 'chromedriver-helper'
-  gem 'webdrivers', '~> 3.0'
+  gem 'webdrivers'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

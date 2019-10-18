@@ -24,8 +24,8 @@
     </div>
   </div>
   <% end %>
+  <% if admin_permissions? %>
   <div class="well">
-    <% if admin_permissions? %>
     <div class="field">
       <span>
         A Touchpoints Admin manages everything.
@@ -33,8 +33,17 @@
       <%= form.check_box :admin %>
       <%= form.label :admin %>
     </div>
-    <% end %>
   </div>
+  <div class="well">
+    <div class="field">
+      <span>
+        De-activate a User Account.
+      </span>
+      <%= form.check_box :inactive %>
+      <%= form.label :inactive %>
+    </div>
+  </div>
+  <% end %>
   <div class="actions">
     <%= form.submit %>
   </div>

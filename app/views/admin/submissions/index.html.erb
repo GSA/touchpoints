@@ -51,6 +51,7 @@
           <th>User Agent</th>
           <th>Referrer</th>
           <th>Pathname</th>
+          <th>Language</th>
           <th>Created At</th>
           <th></th>
           <% if @touchpoint.service && (@touchpoint.service.user_role?(user: current_user) == UserService::Role::ServiceManager) %>
@@ -111,6 +112,7 @@
           <td><%= submission.user_agent %></td>
           <td><%= submission.referer %></td>
           <td><%= submission.page %></td>
+          <td><%= submission.language %></td>
           <td><%= submission.created_at %></td>
           <td>
             <% if submission.flagged? %>

@@ -28,13 +28,13 @@
     <main id="main-content">
       <div class="usa-grid">
         <div class="usa-width-full">
-          <%= render('components/flash', flash: flash) unless   suppress_main_layout_flash? %>
+          <%= render('components/flash', flash: flash) unless suppress_main_layout_flash? %>
           <%= yield %>
         </div>
       </div>
     </main>
     <% else %>
-      <%= render('components/flash', flash: flash) unless   suppress_main_layout_flash? %>
+      <%= render('components/flash', flash: flash) unless suppress_main_layout_flash? %>
       <%= yield :full_layout %>
     <% end %>
     <%= render "components/footer" %>
