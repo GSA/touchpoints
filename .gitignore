@@ -28,7 +28,7 @@
 
 # Don't check in these things
 .env.development
-manifest.yml
+.manifest.yml
 
 # For Macs
 .DS_Store
