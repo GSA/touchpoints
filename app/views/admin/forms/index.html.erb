@@ -6,6 +6,7 @@
         <th>Touchpoint</th>
         <th>Name</th>
         <th></th>
+        <th></th>
       </tr>
     </thead>
 
@@ -24,6 +25,9 @@
         </td>
         <td>
           <%= link_to 'Edit', edit_admin_touchpoint_form_path(form.touchpoint, form) if form.touchpoint.present? %>
+        </td>
+        <td>
+          <%= link_to 'Create a Copy', copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' } %>
         </td>
       </tr>
       <% end %>

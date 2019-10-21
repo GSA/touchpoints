@@ -18,6 +18,9 @@ Rails.application.routes.draw do
       resources :questions do
         resources :question_options
       end
+      member do
+        post "copy", to: "forms#copy", as: :copy
+      end
     end
     resources :users, except: [:new]
     resources :organizations
