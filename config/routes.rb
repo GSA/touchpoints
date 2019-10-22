@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     get "dashboard", to: "site#dashboard"
     resources :form_templates
     resources :forms do
+      resources :form_sections
       resources :questions do
         resources :question_options
       end

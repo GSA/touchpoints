@@ -1,0 +1,40 @@
+<%= form_with(model: form_section, url: (form_section.persisted? ? admin_form_form_section_path((@form)) : admin_form_form_sections_path(@form) ), local: true) do |form| %>
+  <% if form_section.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(form_section.errors.count, "error") %> prohibited this form_section from being saved:</h2>
+
+      <ul>
+      <% form_section.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.hidden_field :form_id, value: @form.id %>
+  <p>
+    For Form: <%= @form.name %>
+  </p>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :position %>
+    <% form_section_options = @form.form_sections.collect(&:position) %>
+    <% form_section_options_max = form_section_options.max %>
+    <% form_section_options = form_section_options - [form_section.position] + [form_section_options_max + 1] %>
+    <%= form.select :position, options_for_select(form_section_options), selected: form_section.position, include_blank: "Select Form Section" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :next_section_id %>
+    <%= form.select :next_section_id, options_for_select(@form.form_sections.map { |section| [section.title, section.id] }), selected: form_section.next_section_id, include_blank: "Select Form Section" %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

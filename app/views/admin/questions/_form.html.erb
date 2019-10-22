@@ -29,6 +29,12 @@
   </div>
 
   <div class="field">
+    <%= f.label :form_section %>
+    <% form_section_options = options_for_select(@form.form_sections.map { |section| [section.title, section.id] }) %>
+    <%= f.select :form_section_id, form_section_options, selected: question.form_section_id, include_blank: "Select Form Section" %>
+  </div>
+
+  <div class="field">
     <%= f.label :position %>
     <%= f.number_field :position, value: (!question.persisted? ? (@form.questions.size + 1) : question.position)  %>
   </div>

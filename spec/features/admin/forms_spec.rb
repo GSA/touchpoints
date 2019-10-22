@@ -40,7 +40,8 @@ feature "Forms", js: true do
     end
 
     context "Edit Form page" do
-      let(:form) { FactoryBot.create(:form, :custom) }
+      let!(:form) { FactoryBot.create(:form, :custom) }
+      let!(:form_section) { FactoryBot.create(:form_section, form: form) }
 
       describe "editing a Form definition" do
         before do
@@ -68,6 +69,7 @@ feature "Forms", js: true do
             fill_in "question_text", with: "New Test Question"
             select("text_field", from: "question_question_type")
             select("answer_01", from: "question_answer_field")
+            select(form_section.title, from: "question_form_section_id")
 
             expect(find_field('question_position').value).to eq '1'
             click_on "Create Question"
@@ -91,6 +93,7 @@ feature "Forms", js: true do
             fill_in "question_text", with: "New Text Area"
             select("textarea", from: "question_question_type")
             select("answer_01", from: "question_answer_field")
+            select(form_section.title, from: "question_form_section_id")
 
             expect(find_field('question_position').value).to eq '1'
             click_on "Create Question"
@@ -114,6 +117,7 @@ feature "Forms", js: true do
             fill_in "question_text", with: "New Test Question Radio Buttons"
             select("radio_buttons", from: "question_question_type")
             select("answer_01", from: "question_answer_field")
+            select(form_section.title, from: "question_form_section_id")
 
             expect(find_field('question_position').value).to eq '1'
             click_on "Create Question"
@@ -178,14 +182,15 @@ feature "Forms", js: true do
 
       describe "deleting Questions" do
         let(:service) { FactoryBot.create(:service) }
-        let(:touchpoint) { FactoryBot.create(:touchpoint, service: service) }
+        let!(:form2) { FactoryBot.create(:form, :custom) }
+        let!(:touchpoint) { FactoryBot.create(:touchpoint, service: service, form: form2) }
+        let!(:form_section2) { FactoryBot.create(:form_section, form: form2) }
+        let!(:question) { FactoryBot.create(:question, form: form2, form_section: form_section2) }
 
-        let(:form) { FactoryBot.create(:form, :custom, touchpoint: touchpoint) }
-        let!(:question) { FactoryBot.create(:question, form: form) }
 
         context "without Service Manager permissions" do
           before do
-            visit edit_admin_form_path(form)
+            visit edit_admin_form_path(form2)
           end
 
           it "does not see the Delete Question button" do
@@ -197,7 +202,7 @@ feature "Forms", js: true do
           let!(:user_service) { FactoryBot.create(:user_service, :service_manager, { service: service, user: admin }) }
 
           before do
-            visit edit_admin_form_path(form)
+            visit edit_admin_form_path(form2)
           end
 
           it "see the delete button, click it, and delete the question" do
@@ -213,7 +218,7 @@ feature "Forms", js: true do
 
       describe "adding Question Options" do
         describe "add Radio Button options" do
-          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form) }
+          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form, form_section: form_section) }
 
           before do
             visit edit_admin_form_path(form)
@@ -243,7 +248,7 @@ feature "Forms", js: true do
 
       describe "click through to edit Question Option" do
         describe "edit Radio Button option" do
-          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form) }
+          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form, form_section: form_section) }
           let!(:radio_button_option) { FactoryBot.create(:question_option, question: radio_button_question, position: 1) }
 
           before do
@@ -261,7 +266,7 @@ feature "Forms", js: true do
 
       describe "editing Question Options" do
         describe "edit Radio Button option" do
-          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form) }
+          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form, form_section: form_section) }
           let!(:radio_button_option) { FactoryBot.create(:question_option, question: radio_button_question, position: 1) }
 
           before do

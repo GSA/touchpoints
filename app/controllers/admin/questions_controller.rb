@@ -78,6 +78,7 @@ class Admin::QuestionsController < AdminController
     def question_params
       params.require(:question).permit(
         :form_id,
+        :form_section_id,
         :text,
         :question_type,
         :answer_field,
