@@ -26,6 +26,7 @@
       </div>
     <% end %>
 
+      <%= link_to 'Edit Form Section', edit_admin_form_form_section_path(form, section), class: "usa-button" %>
     <% unless section.questions.present? %>
       <%= link_to 'Delete Form Section', admin_form_form_section_path(form, section), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button-red" %>
     <% end %>
