@@ -28,7 +28,7 @@
       <h2>
         Form Preview
       </h2>
-      <div class="well">
+      <div>
         <% if @form.kind.present? && @form.kind == "custom" %>
           <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
         <% elsif @form.kind.present? %>

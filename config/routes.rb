@@ -15,8 +15,12 @@ Rails.application.routes.draw do
     get "dashboard", to: "site#dashboard"
     resources :form_templates
     resources :forms do
+      resources :form_sections
       resources :questions do
         resources :question_options
+      end
+      member do
+        post "copy", to: "forms#copy", as: :copy
       end
     end
     resources :users, except: [:new]

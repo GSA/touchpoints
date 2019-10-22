@@ -1,26 +1,39 @@
 <form id="touchpoints-form" action="<%= root_url %>touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" method="POST" data-kind="a11">
   <%= hidden_field_tag :fba_location_code, params[:location_code] %>
 
-<% questions.each_with_index do |question, index| %>
-<div class="question well">
-  <% if question.question_type == "text_field" %>
-    <%= render 'components/forms/edit/question_types/text_field', form: form, question: question, question_number: index + 1 %>
-  <% elsif question.question_type == "radio_buttons" %>
-    <%= render 'components/forms/edit/question_types/radio_buttons', form: form, question: question, question_number: index + 1 %>
-  <% elsif question.question_type == "dropdown" %>
-    <%= render 'components/forms/edit/question_types/dropdown', form: form, question: question, question_number: index + 1 %>
-  <% elsif question.question_type == "checkbox" %>
-    <%= render 'components/forms/edit/question_types/checkbox', form: form, question: question, question_number: index + 1 %>
-  <% elsif question.question_type == "textarea" %>
-    <%= render 'components/forms/edit/question_types/text_area', form: form, question: question, question_number: index + 1 %>
-  <% end %>
-  <%= link_to "Edit Question", edit_admin_form_question_path(@form, question), class: "usa-button" %>
-  <% if service_permissions?(service: @form.touchpoint && @form.touchpoint.service) %>
-    <%= link_to 'Delete Question', admin_form_question_path(@form, question), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button-red float-right" %>
-  <% end %>
-</div>
+  <% form.form_sections.each do |section| %>
+    <div class="well">
+      <h4>
+        <%= section.title %>
+      </h4>
+      <% section.questions.each_with_index do |question, index| %>
+      <div class="question well">
+        <% if question.question_type == "text_field" %>
+        <%= render 'components/forms/edit/question_types/text_field', form: form, question: question, question_number: index + 1 %>
+        <% elsif question.question_type == "radio_buttons" %>
+        <%= render 'components/forms/edit/question_types/radio_buttons', form: form, question: question, question_number: index + 1 %>
+        <% elsif question.question_type == "dropdown" %>
+        <%= render 'components/forms/edit/question_types/dropdown', form: form, question: question, question_number: index + 1 %>
+        <% elsif question.question_type == "checkbox" %>
+        <%= render 'components/forms/edit/question_types/checkbox', form: form, question: question, question_number: index + 1 %>
+        <% elsif question.question_type == "textarea" %>
+        <%= render 'components/forms/edit/question_types/text_area', form: form, question: question, question_number: index + 1 %>
+        <% end %>
+        <%= link_to "Edit Question", edit_admin_form_question_path(@form, question), class: "usa-button" %>
+        <% if service_permissions?(service: @form.touchpoint && @form.touchpoint.service) %>
+        <%= link_to 'Delete Question', admin_form_question_path(@form, question), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button-red float-right" %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% unless section.questions.present? %>
+      <%= link_to 'Delete Form Section', admin_form_form_section_path(form, section), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button-red" %>
+    <% end %>
+  </div>
 <br>
 <% end %>
 </form>
 
+<%= link_to "Add Form Section", new_admin_form_form_section_path(form), class: "usa-button" %>
+<br>
 <%= link_to "Add a Question", new_admin_form_question_path(form), class: "usa-button" %>
