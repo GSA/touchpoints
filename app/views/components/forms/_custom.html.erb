@@ -3,9 +3,9 @@
     <%= hidden_field_tag :fba_location_code, params[:location_code] %>
 
     <% form.form_sections.each do |section| %>
-      <div class="well white-bg">
+      <div class="well white-bg section <%= 'visible' if section == form.form_sections.first  %>">
         <h4>
-          Form Section <%= section.title %>
+          <%= section.title %>
         </h4>
 
         <% section.questions.each_with_index do |question, index| %>
@@ -27,19 +27,19 @@
         <% if section != form.form_sections.first || section != form.form_sections.last %>
           <div class="">
             <% if section != form.form_sections.first %>
-            <%= link_to "← Back", root_path, class: "usa-button" %>
+            <%= link_to "← Back", root_path, class: "usa-button previous-section" %>
             <% end %>
             <% if section != form.form_sections.last %>
-            <%= link_to "Next →", root_path, class: "usa-button" %>
+            <%= link_to "Next →", root_path, class: "usa-button next-section" %>
             <% end %>
-            <% if section == form.form_sections.last %>
-              <div class="button-wrapper">
-                <% if current_path.include?("/admin/forms") || current_path.include?("/admin/touchpoints/") %>
-                <button type="submit" id="fba-submit" class="usa-button-primary-alt" disabled>Submit</button>
-                <% else %>
-                <button type="submit" id="fba-submit" class="usa-button-primary-alt">Submit</button>
-                <% end %>
-              </div>
+          </div>
+        <% end %>
+        <% if section == form.form_sections.last %>
+          <div class="button-wrapper">
+            <% if current_path.include?("/admin/forms") || current_path.include?("/admin/touchpoints/") %>
+            <button type="submit" id="fba-submit" class="usa-button-primary-alt" disabled>Submit</button>
+            <% else %>
+            <button type="submit" id="fba-submit" class="usa-button-primary-alt">Submit</button>
             <% end %>
           </div>
         <% end %>
