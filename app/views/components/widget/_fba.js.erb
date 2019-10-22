@@ -292,16 +292,16 @@ fba.init({
 	'open': tabText
 });
 
-$(".previous-section").on("click", function(e) {
+jQuery(".previous-section").on("click", function(e) {
 	e.preventDefault();
-	var currentPage = $(this).closest(".section");
+	var currentPage = jQuery(this).closest(".section");
 	currentPage.removeClass("visible");
 	currentPage.prev().addClass("visible");
 });
 
-$(".next-section").on("click", function(e) {
+jQuery(".next-section").on("click", function(e) {
 	e.preventDefault();
-	var currentPage = $(this).closest(".section");
+	var currentPage = jQuery(this).closest(".section");
 	currentPage.removeClass("visible");
 	currentPage.next().addClass("visible");
 });
