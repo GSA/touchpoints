@@ -4,7 +4,7 @@ class Admin::FormsController < AdminController
   before_action :ensure_organization_manager
 
   def index
-    @forms = Form.all
+    @forms = Form.all.order("name ASC")
   end
 
   def show
