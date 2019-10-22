@@ -291,3 +291,17 @@ var tabText = "<%= @touchpoint.form.modal_button_text %>";
 fba.init({
 	'open': tabText
 });
+
+$(".previous-section").on("click", function(e) {
+	e.preventDefault();
+	var currentPage = $(this).closest(".section");
+	currentPage.removeClass("visible");
+	currentPage.prev().addClass("visible");
+});
+
+$(".next-section").on("click", function(e) {
+	e.preventDefault();
+	var currentPage = $(this).closest(".section");
+	currentPage.removeClass("visible");
+	currentPage.next().addClass("visible");
+});

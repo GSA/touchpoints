@@ -3,7 +3,7 @@
     <%= hidden_field_tag :fba_location_code, params[:location_code] %>
 
     <% form.form_sections.each do |section| %>
-      <div class="well white-bg">
+      <div class="well white-bg section <%= 'visible' if section == form.form_sections.first  %>">
         <h4>
           Form Section <%= section.title %>
         </h4>
@@ -27,10 +27,10 @@
         <% if section != form.form_sections.first || section != form.form_sections.last %>
           <div class="">
             <% if section != form.form_sections.first %>
-            <%= link_to "← Back", root_path, class: "usa-button" %>
+            <%= link_to "← Back", root_path, class: "usa-button previous-section" %>
             <% end %>
             <% if section != form.form_sections.last %>
-            <%= link_to "Next →", root_path, class: "usa-button" %>
+            <%= link_to "Next →", root_path, class: "usa-button next-section" %>
             <% end %>
             <% if section == form.form_sections.last %>
               <div class="button-wrapper">
