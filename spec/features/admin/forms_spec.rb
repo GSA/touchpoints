@@ -32,7 +32,6 @@ feature "Forms", js: true do
         expect(page.current_path).to eq(new_admin_form_path)
         fill_in "form_name", with: new_form.name
         fill_in "form_title", with: new_form.title
-        fill_in "form_kind", with: new_form.kind
         click_on "Create Form"
         expect(page).to have_content("Form was successfully created.")
         expect(page.current_path).to eq(admin_form_path(Form.first))

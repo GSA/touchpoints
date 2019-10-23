@@ -11,7 +11,6 @@
     </div>
   <% end %>
 
-  <%= form.hidden_field :form_id, value: @form.id %>
   <p>
     For Form: <%= @form.name %>
   </p>
@@ -23,7 +22,7 @@
 
   <div class="field">
     <%= form.label :position %>
-    <% form_section_options = @form.form_sections.collect(&:position) %>
+    <% form_section_options = @form.form_sections.select(&:persisted?).collect(&:position) %>
     <% form_section_options_max = form_section_options.compact.max %>
     <% form_section_options = form_section_options + [form_section_options_max + 1] %>
     <%= form.select :position, options_for_select(form_section_options, selected: form_section.position), include_blank: "Select Form Section" %>
