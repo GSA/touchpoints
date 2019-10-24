@@ -22,7 +22,6 @@ class Admin::FormsController < AdminController
 
   def create
     @form = Form.new(form_params)
-    @form.form_sections.new(title: "Page 1")
     @form.kind = "custom"
 
     respond_to do |format|

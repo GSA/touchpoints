@@ -77,3 +77,11 @@
 #touchpoints-form #fba-submit {
   width: auto;
 }
+
+// Form Sections
+#touchpoints-form div.section {
+  display: none;
+}
+#touchpoints-form div.section.visible {
+  display: block;
+}

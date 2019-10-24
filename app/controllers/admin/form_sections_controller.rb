@@ -17,7 +17,7 @@ class Admin::FormSectionsController < AdminController
   end
 
   def create
-    @form_section = FormSection.new(form_section_params)
+    @form_section = @form.form_sections.new(form_section_params)
 
     if @form_section.save
       redirect_to edit_admin_form_path(@form), notice: 'Form section was successfully created.'
@@ -49,6 +49,6 @@ class Admin::FormSectionsController < AdminController
     end
 
     def form_section_params
-      params.require(:form_section).permit(:form_id, :title, :position, :next_section_id)
+      params.require(:form_section).permit(:title, :position, :next_section_id)
     end
 end

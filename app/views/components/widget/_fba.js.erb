@@ -262,13 +262,6 @@ N.fba = {
 			}
 			<% end %>
 
-			<% if @touchpoint.form.kind == "a11_osha_new_vpp" %>
-				<%= render 'components/forms/params/a11_osha_new_vpp' %>
-			<% end %>
-			<% if @touchpoint.form.kind == "a11_osha_annual_vpp" %>
-				<%= render 'components/forms/params/a11_osha_annual_vpp' %>
-			<% end %>
-
 			// Combine Referrer and Pathname with Form-specific params
 			params["referer"] = d.referrer;
 			params["page"] = window.location.pathname;
@@ -292,16 +285,23 @@ fba.init({
 	'open': tabText
 });
 
-jQuery(".previous-section").on("click", function(e) {
-	e.preventDefault();
-	var currentPage = jQuery(this).closest(".section");
-	currentPage.removeClass("visible");
-	currentPage.prev().addClass("visible");
-});
+var previousButtons = document.getElementsByClassName("previous-section");
+var nextButtons = document.getElementsByClassName("next-section");
 
-jQuery(".next-section").on("click", function(e) {
-	e.preventDefault();
-	var currentPage = jQuery(this).closest(".section");
-	currentPage.removeClass("visible");
-	currentPage.next().addClass("visible");
-});
+for (var i = 0; i < previousButtons.length; i++) {
+	previousButtons[i].addEventListener('click', function(e) {
+		e.preventDefault();
+		var currentPage = this.closest(".section");
+		currentPage.classList.remove("visible");
+		currentPage.previousElementSibling.classList.add("visible");
+	});
+}
+
+for (var i = 0; i < nextButtons.length; i++) {
+	nextButtons[i].addEventListener('click', function(e) {
+		e.preventDefault();
+		var currentPage = this.closest(".section");
+		currentPage.classList.remove("visible");
+		currentPage.nextElementSibling.classList.add("visible");
+	});
+}
