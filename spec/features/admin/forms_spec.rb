@@ -40,7 +40,6 @@ feature "Forms", js: true do
 
     context "Edit Form page" do
       let!(:form) { FactoryBot.create(:form, :custom) }
-      let!(:form_section) { FactoryBot.create(:form_section, form: form) }
 
       describe "editing a Form definition" do
         before do
@@ -68,15 +67,14 @@ feature "Forms", js: true do
             fill_in "question_text", with: "New Test Question"
             select("text_field", from: "question_question_type")
             select("answer_01", from: "question_answer_field")
-            select(form_section.title, from: "question_form_section_id")
-
+            select(form.form_sections.first.title, from: "question_form_section_id")
             expect(find_field('question_position').value).to eq '1'
             click_on "Create Question"
           end
 
           it "can add a Text Field Question" do
             expect(page).to have_content("Question was successfully created.")
-            within ".question" do
+            within ".form-preview .question" do
               expect(page).to have_content("New Test Question")
               expect(page).to have_css("input[type='text']")
             end
@@ -92,8 +90,7 @@ feature "Forms", js: true do
             fill_in "question_text", with: "New Text Area"
             select("textarea", from: "question_question_type")
             select("answer_01", from: "question_answer_field")
-            select(form_section.title, from: "question_form_section_id")
-
+            select(form.form_sections.first.title, from: "question_form_section_id")
             expect(find_field('question_position').value).to eq '1'
             click_on "Create Question"
           end
@@ -116,7 +113,7 @@ feature "Forms", js: true do
             fill_in "question_text", with: "New Test Question Radio Buttons"
             select("radio_buttons", from: "question_question_type")
             select("answer_01", from: "question_answer_field")
-            select(form_section.title, from: "question_form_section_id")
+            select(form.form_sections.first.title, from: "question_form_section_id")
 
             expect(find_field('question_position').value).to eq '1'
             click_on "Create Question"
@@ -124,7 +121,7 @@ feature "Forms", js: true do
 
           it "can add a Text Field Question" do
             expect(page).to have_content("Question was successfully created.")
-            within ".question" do
+            within ".form-preview .question" do
               expect(page).to have_content("New Test Question Radio Buttons")
               # Radio buttons won't be showing yet. Because they need to be added.
             end
@@ -147,7 +144,7 @@ feature "Forms", js: true do
 
           xit "can add a Checkbox Question" do
             expect(page).to have_content("Question was successfully created.")
-            within ".question" do
+            within ".form-preview .question" do
               # expect(page).to have_content("New Test Question Radio Buttons")
               # Radio buttons won't be showing yet. Because they need to be added.
             end
@@ -217,7 +214,7 @@ feature "Forms", js: true do
 
       describe "adding Question Options" do
         describe "add Radio Button options" do
-          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form, form_section: form_section) }
+          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form, form_section: form.form_sections.first) }
 
           before do
             visit edit_admin_form_path(form)
@@ -247,7 +244,7 @@ feature "Forms", js: true do
 
       describe "click through to edit Question Option" do
         describe "edit Radio Button option" do
-          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form, form_section: form_section) }
+          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form, form_section: form.form_sections.first) }
           let!(:radio_button_option) { FactoryBot.create(:question_option, question: radio_button_question, position: 1) }
 
           before do
@@ -265,7 +262,7 @@ feature "Forms", js: true do
 
       describe "editing Question Options" do
         describe "edit Radio Button option" do
-          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form, form_section: form_section) }
+          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form, form_section: form.form_sections.first) }
           let!(:radio_button_option) { FactoryBot.create(:question_option, question: radio_button_question, position: 1) }
 
           before do
