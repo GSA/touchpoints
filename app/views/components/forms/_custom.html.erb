@@ -3,7 +3,7 @@
     <%= hidden_field_tag :fba_location_code, params[:location_code] %>
 
     <% form.form_sections.each do |section| %>
-      <div class="well white-bg section <%= 'visible' if section == form.form_sections.first  %>">
+      <div class="well white-bg section <%= 'visible' if section == form.form_sections.first  -%>">
         <h4>
           <%= section.title %>
         </h4>
