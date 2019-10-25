@@ -41,6 +41,14 @@
   <div class="usa-grid-full">
     <div class="usa-width-one-half">
       <div class="field">
+        <%= f.check_box :early_submission %>
+        <%= f.label :early_submission, "Early Submission: Display a submit button at the end of the first page in a multi-page form?" %>
+      </div>
+    </div>
+  </div>
+  <div class="usa-grid-full">
+    <div class="usa-width-one-half">
+      <div class="field">
         <%= f.label :modal_button_text %>
         <%= f.text_field :modal_button_text %>
       </div>

@@ -68,6 +68,9 @@ N.fba = {
 		<% end %>
 
 			d.getElementById('fba-submit').addEventListener( 'click', this.handleSubmitClick, false );
+			if (d.getElementById('fba-early-submit')) {
+				d.getElementById('fba-early-submit').addEventListener( 'click', this.handleSubmitClick, false );
+			}
 		},
 		resetErrors: function()
 		{
