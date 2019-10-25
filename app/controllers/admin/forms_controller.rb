@@ -89,6 +89,7 @@ class Admin::FormsController < AdminController
       params.require(:form).permit(
         :name,
         :kind,
+        :early_submission,
         :character_limit,
         :notes,
         :status,

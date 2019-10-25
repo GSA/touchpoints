@@ -4,9 +4,19 @@
 
     <% form.form_sections.each do |section| %>
       <div class="well white-bg section <%= 'visible' if section == form.form_sections.first  -%>">
+        <% if (section != form.form_sections.first) || (section != form.form_sections.last) %>
+          <div class="pagination-buttons">
+            <% if section != form.form_sections.first %>
+              <%= link_to "← Back", "#previous-page", class: "usa-button previous-section", 'data-form-section-target' => "" %>
+            <% end %>
+          </div>
+        <% end %>
+
+        <% if section.title.present? -%>
         <h4>
           <%= section.title %>
         </h4>
+        <% end %>
 
         <% section.questions.each_with_index do |question, index| %>
         <div class="question">
@@ -26,11 +36,16 @@
 
         <% if (section != form.form_sections.first) || (section != form.form_sections.last) %>
           <div class="pagination-buttons">
-            <% if section != form.form_sections.first %>
-              <%= link_to "← Back", root_path, class: "usa-button previous-section", 'data-form-section-target' => "" %>
-            <% end %>
-            <% if section != form.form_sections.last %>
-              <%= link_to "Next →", root_path, class: "usa-button next-section", 'data-form-section-target' => "" %>
+            <% if (section == form.form_sections.first) && form.early_submission? %>
+              <div>
+                <h4>
+                  Would you like to take two more minutes to answer more questions to help us improve our services?
+                </h4>
+                <%= link_to "Yes, keep going →", "#next-page", class: "usa-button next-section", 'data-form-section-target' => "" %>
+                <button type="submit" id="fba-early-submit" class="usa-button-secondary">No, only submit these responses</button>
+              </div>
+            <% elsif section != form.form_sections.last %>
+              <%= link_to "Next →", "#next-page", class: "usa-button next-section", 'data-form-section-target' => "" %>
             <% end %>
           </div>
         <% end %>
