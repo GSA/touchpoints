@@ -15,10 +15,5 @@
   <%= @form_section.position %>
 </p>
 
-<p>
-  <strong>Next section:</strong>
-  <%= @form_section.next_section_id %>
-</p>
-
 <%= link_to 'Edit', edit_admin_form_form_section_path(@form, @form_section) %> |
 <%= link_to 'Back', admin_form_form_sections_path(@form) %>
