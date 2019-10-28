@@ -28,11 +28,6 @@
     <%= form.select :position, options_for_select(form_section_options, selected: form_section.position), include_blank: "Select Form Section" %>
   </div>
 
-  <div class="field">
-    <%= form.label :next_section_id %>
-    <%= form.select :next_section_id, options_for_select(@form.form_sections.map { |section| [section.title, section.id] }), selected: form_section.next_section_id, include_blank: "Select Form Section" %>
-  </div>
-
   <div class="actions">
     <%= form.submit %>
   </div>

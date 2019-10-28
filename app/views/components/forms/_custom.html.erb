@@ -1,3 +1,5 @@
+<% multi_section_question_number = 0 %>
+
 <form id="touchpoints-form" action="<%= root_url %>touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" method="POST" data-kind="a11">
   <div id="touchpoints-form-body">
     <%= hidden_field_tag :fba_location_code, params[:location_code] %>
@@ -19,17 +21,19 @@
         <% end %>
 
         <% section.questions.each_with_index do |question, index| %>
+        <% multi_section_question_number += 1 %>
+
         <div class="question">
           <% if question.question_type == "text_field" %>
-            <%= render 'components/forms/question_types/text_field', form: form, question: question, question_number: index + 1 %>
+            <%= render 'components/forms/question_types/text_field', form: form, question: question, question_number: multi_section_question_number %>
           <% elsif question.question_type == "radio_buttons" %>
-            <%= render 'components/forms/question_types/radio_buttons', form: form, question: question, question_number: index + 1 %>
+            <%= render 'components/forms/question_types/radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
           <% elsif question.question_type == "dropdown" %>
-            <%= render 'components/forms/question_types/dropdown', form: form, question: question, question_number: index + 1 %>
+            <%= render 'components/forms/question_types/dropdown', form: form, question: question, question_number: multi_section_question_number %>
           <% elsif question.question_type == "checkbox" %>
-            <%= render 'components/forms/question_types/checkbox', form: form, question: question, question_number: index + 1 %>
+            <%= render 'components/forms/question_types/checkbox', form: form, question: question, question_number: multi_section_question_number %>
           <% elsif question.question_type == "textarea" %>
-            <%= render 'components/forms/question_types/text_area', form: form, question: question, question_number: index + 1 %>
+            <%= render 'components/forms/question_types/text_area', form: form, question: question, question_number: multi_section_question_number %>
           <% end %>
         </div>
         <% end %>
