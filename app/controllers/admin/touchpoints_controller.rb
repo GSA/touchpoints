@@ -117,6 +117,8 @@ class Admin::TouchpointsController < AdminController
   end
 
   def destroy
+    redirect_to(admin_touchpoints_path, alert: "Cannot delete Touchpoint because it has one or more Submissions") and return if @touchpoint.submissions.present?
+
     @touchpoint.destroy
     respond_to do |format|
       format.html { redirect_to admin_touchpoints_url, notice: 'Touchpoint was successfully destroyed.' }
