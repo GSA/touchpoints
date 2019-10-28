@@ -123,7 +123,7 @@
           </td>
           <% if service_permissions?(service: @touchpoint.service) %>
           <td>
-            <%= link_to 'Destroy', admin_touchpoint_submission_path(submission.touchpoint, submission), method: :delete, data: { confirm: 'Are you sure?' } %>
+            <%= link_to 'Delete', admin_touchpoint_submission_path(submission.touchpoint, submission), method: :delete, data: { confirm: 'Are you sure?' } %>
           </td>
           <% end %>
         </tr>

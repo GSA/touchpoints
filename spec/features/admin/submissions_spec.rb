@@ -62,7 +62,7 @@ feature "Submissions", js: true do
             before do
               visit admin_touchpoint_path(touchpoint.id)
               within("table") do
-                click_on "Destroy"
+                click_on "Delete"
               end
               page.driver.browser.switch_to.alert.accept
             end
