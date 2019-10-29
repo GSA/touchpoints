@@ -6,7 +6,6 @@ class Admin::TouchpointsController < AdminController
   skip_before_action :verify_authenticity_token, only: [:js]
   before_action :set_touchpoint, only: [
     :show, :edit, :update, :destroy,
-    :toggle_editability,
     :export_pra_document, :export_submissions,
     :example, :js, :trigger
   ]
@@ -50,11 +49,6 @@ class Admin::TouchpointsController < AdminController
   end
 
   def edit
-  end
-
-  def toggle_editability
-    @touchpoint.update_attribute(:editable, !@touchpoint.editable)
-    redirect_to admin_touchpoint_path(@touchpoint), notice: 'Touchpoint Editability was successfully updated.'
   end
 
   def create
