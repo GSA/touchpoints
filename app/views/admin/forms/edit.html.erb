@@ -15,7 +15,7 @@
 </div>
 <%= link_to 'Show', admin_touchpoint_form_path(@touchpoint, @form), class: "usa-button" if @touchpoint %>
 <%= link_to 'All Forms', admin_forms_path, class: "usa-button" %>
-<%= link_to 'Destroy', admin_touchpoint_form_path(@touchpoint, @form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button-red" if @touchpoint %>
+<%= link_to 'Delete', admin_touchpoint_form_path(@touchpoint, @form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button-red" if @touchpoint %>
 
 <br>
 <br>
@@ -28,7 +28,7 @@
       <h2>
         Form Preview
       </h2>
-      <div class="well">
+      <div>
         <% if @form.kind.present? && @form.kind == "custom" %>
           <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
         <% elsif @form.kind.present? %>

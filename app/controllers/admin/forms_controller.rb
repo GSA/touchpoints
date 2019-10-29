@@ -1,10 +1,10 @@
 class Admin::FormsController < AdminController
-  before_action :set_form, only: [:show, :edit, :update, :destroy]
+  before_action :set_form, only: [:show, :edit, :update, :copy, :destroy]
   before_action :set_touchpoint, only: [:show, :edit]
   before_action :ensure_organization_manager
 
   def index
-    @forms = Form.all
+    @forms = Form.all.order("name ASC")
   end
 
   def show
@@ -14,6 +14,7 @@ class Admin::FormsController < AdminController
 
   def new
     @form = Form.new
+    @form.kind = "custom"
   end
 
   def edit
@@ -21,6 +22,7 @@ class Admin::FormsController < AdminController
 
   def create
     @form = Form.new(form_params)
+    @form.kind = "custom"
 
     respond_to do |format|
       if @form.save
@@ -29,6 +31,21 @@ class Admin::FormsController < AdminController
       else
         format.html { render :new }
         format.json { render json: @form.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def copy
+    respond_to do |format|
+      new_form = @form.deep_clone include: { questions: :question_options }
+      new_form.name = "Copy of #{@form.name}"
+
+      if new_form.save
+        format.html { redirect_to admin_form_path(new_form), notice: 'Form was successfully copied.' }
+        format.json { render :show, status: :created, location: new_form }
+      else
+        format.html { render :new }
+        format.json { render json: new_form.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -72,6 +89,7 @@ class Admin::FormsController < AdminController
       params.require(:form).permit(
         :name,
         :kind,
+        :early_submission,
         :character_limit,
         :notes,
         :status,

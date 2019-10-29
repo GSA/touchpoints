@@ -192,6 +192,7 @@ custom_form = Form.create({
 
 Question.create!({
   form: custom_form,
+  form_section: custom_form.form_sections.first,
   text: "Custom Question Text Field",
   question_type: "text_field",
   position: 1,
@@ -201,6 +202,7 @@ Question.create!({
 
 Question.create!({
   form: custom_form,
+  form_section: custom_form.form_sections.first,
   text: "Custom Question Text Area",
   question_type: "textarea",
   position: 2,
@@ -210,6 +212,7 @@ Question.create!({
 
 radio_button_question = Question.create!({
   form: custom_form,
+  form_section: custom_form.form_sections.first,
   text: "Custom Question Radio Buttons",
   question_type: "radio_buttons",
   position: 3,

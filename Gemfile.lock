@@ -59,17 +59,17 @@ GEM
     aes_key_wrap (1.0.1)
     arel (9.0.0)
     aws-eventstream (1.0.3)
-    aws-partitions (1.226.0)
-    aws-sdk-core (3.69.1)
+    aws-partitions (1.230.0)
+    aws-sdk-core (3.72.0)
       aws-eventstream (~> 1.0, >= 1.0.2)
-      aws-partitions (~> 1.0)
+      aws-partitions (~> 1, >= 1.228.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
     aws-sdk-rails (3.0.5)
       aws-sdk-ses (~> 1)
       railties (>= 5.2.0)
-    aws-sdk-ses (1.26.0)
-      aws-sdk-core (~> 3, >= 3.61.1)
+    aws-sdk-ses (1.27.0)
+      aws-sdk-core (~> 3, >= 3.71.0)
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.1.0)
       aws-eventstream (~> 1.0, >= 1.0.2)
@@ -103,6 +103,8 @@ GEM
     connection_pool (2.2.2)
     crass (1.0.5)
     database_cleaner (1.7.0)
+    deep_cloneable (3.0.0)
+      activerecord (>= 3.1.0, < 7)
     devise (4.7.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -115,7 +117,7 @@ GEM
       dotenv (= 2.7.5)
       railties (>= 3.2, < 6.1)
     erubi (1.9.0)
-    excon (0.67.0)
+    excon (0.68.0)
     execjs (2.7.0)
     factory_bot (5.1.1)
       activesupport (>= 4.2.0)
@@ -165,7 +167,7 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
-    loofah (2.3.0)
+    loofah (2.3.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -274,7 +276,7 @@ GEM
     selenium-webdriver (3.142.6)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
-    sidekiq (6.0.2)
+    sidekiq (6.0.3)
       connection_pool (>= 2.2.2)
       rack (>= 2.0.0)
       rack-protection (>= 2.0.0)
@@ -320,6 +322,7 @@ DEPENDENCIES
   caracal
   carrierwave
   database_cleaner
+  deep_cloneable
   devise
   dotenv-rails
   factory_bot_rails

@@ -1,0 +1,6 @@
+<h1>Editing Form Section</h1>
+
+<%= render 'form', form_section: @form_section %>
+
+<%= link_to 'Show', admin_form_form_section_path(@form, @form_section), class: "usa-button" %>
+<%= link_to 'View All Form Sections', admin_form_form_sections_path(@form), class: "usa-button usa-button-gray"  %>

@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_16_195737) do
+ActiveRecord::Schema.define(version: 2019_10_29_171237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "form_sections", force: :cascade do |t|
+    t.integer "form_id"
+    t.string "title"
+    t.integer "position"
+    t.integer "next_section_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "form_templates", force: :cascade do |t|
     t.string "name"
@@ -64,6 +73,7 @@ ActiveRecord::Schema.define(version: 2019_10_16_195737) do
     t.text "success_text"
     t.string "modal_button_text"
     t.boolean "display_header_square_logo"
+    t.boolean "early_submission", default: false
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -112,6 +122,7 @@ ActiveRecord::Schema.define(version: 2019_10_16_195737) do
     t.boolean "is_required"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "form_section_id"
   end
 
   create_table "services", force: :cascade do |t|
@@ -174,7 +185,6 @@ ActiveRecord::Schema.define(version: 2019_10_16_195737) do
     t.string "omb_approval_number"
     t.date "expiration_date"
     t.integer "service_id"
-    t.boolean "editable", default: true
     t.string "delivery_method"
     t.string "element_selector"
   end

@@ -32,7 +32,6 @@ feature "Forms", js: true do
         expect(page.current_path).to eq(new_admin_form_path)
         fill_in "form_name", with: new_form.name
         fill_in "form_title", with: new_form.title
-        fill_in "form_kind", with: new_form.kind
         click_on "Create Form"
         expect(page).to have_content("Form was successfully created.")
         expect(page.current_path).to eq(admin_form_path(Form.first))
@@ -40,7 +39,7 @@ feature "Forms", js: true do
     end
 
     context "Edit Form page" do
-      let(:form) { FactoryBot.create(:form, :custom) }
+      let!(:form) { FactoryBot.create(:form, :custom) }
 
       describe "editing a Form definition" do
         before do
@@ -68,14 +67,14 @@ feature "Forms", js: true do
             fill_in "question_text", with: "New Test Question"
             select("text_field", from: "question_question_type")
             select("answer_01", from: "question_answer_field")
-
+            select(form.form_sections.first.title, from: "question_form_section_id")
             expect(find_field('question_position').value).to eq '1'
             click_on "Create Question"
           end
 
           it "can add a Text Field Question" do
             expect(page).to have_content("Question was successfully created.")
-            within ".question" do
+            within ".form-preview .question" do
               expect(page).to have_content("New Test Question")
               expect(page).to have_css("input[type='text']")
             end
@@ -91,7 +90,7 @@ feature "Forms", js: true do
             fill_in "question_text", with: "New Text Area"
             select("textarea", from: "question_question_type")
             select("answer_01", from: "question_answer_field")
-
+            select(form.form_sections.first.title, from: "question_form_section_id")
             expect(find_field('question_position').value).to eq '1'
             click_on "Create Question"
           end
@@ -114,6 +113,7 @@ feature "Forms", js: true do
             fill_in "question_text", with: "New Test Question Radio Buttons"
             select("radio_buttons", from: "question_question_type")
             select("answer_01", from: "question_answer_field")
+            select(form.form_sections.first.title, from: "question_form_section_id")
 
             expect(find_field('question_position').value).to eq '1'
             click_on "Create Question"
@@ -121,7 +121,7 @@ feature "Forms", js: true do
 
           it "can add a Text Field Question" do
             expect(page).to have_content("Question was successfully created.")
-            within ".question" do
+            within ".form-preview .question" do
               expect(page).to have_content("New Test Question Radio Buttons")
               # Radio buttons won't be showing yet. Because they need to be added.
             end
@@ -144,7 +144,7 @@ feature "Forms", js: true do
 
           xit "can add a Checkbox Question" do
             expect(page).to have_content("Question was successfully created.")
-            within ".question" do
+            within ".form-preview .question" do
               # expect(page).to have_content("New Test Question Radio Buttons")
               # Radio buttons won't be showing yet. Because they need to be added.
             end
@@ -178,14 +178,15 @@ feature "Forms", js: true do
 
       describe "deleting Questions" do
         let(:service) { FactoryBot.create(:service) }
-        let(:touchpoint) { FactoryBot.create(:touchpoint, service: service) }
+        let!(:form2) { FactoryBot.create(:form, :custom) }
+        let!(:touchpoint) { FactoryBot.create(:touchpoint, service: service, form: form2) }
+        let!(:form_section2) { FactoryBot.create(:form_section, form: form2) }
+        let!(:question) { FactoryBot.create(:question, form: form2, form_section: form_section2) }
 
-        let(:form) { FactoryBot.create(:form, :custom, touchpoint: touchpoint) }
-        let!(:question) { FactoryBot.create(:question, form: form) }
 
         context "without Service Manager permissions" do
           before do
-            visit edit_admin_form_path(form)
+            visit edit_admin_form_path(form2)
           end
 
           it "does not see the Delete Question button" do
@@ -197,7 +198,7 @@ feature "Forms", js: true do
           let!(:user_service) { FactoryBot.create(:user_service, :service_manager, { service: service, user: admin }) }
 
           before do
-            visit edit_admin_form_path(form)
+            visit edit_admin_form_path(form2)
           end
 
           it "see the delete button, click it, and delete the question" do
@@ -213,7 +214,7 @@ feature "Forms", js: true do
 
       describe "adding Question Options" do
         describe "add Radio Button options" do
-          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form) }
+          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form, form_section: form.form_sections.first) }
 
           before do
             visit edit_admin_form_path(form)
@@ -243,7 +244,7 @@ feature "Forms", js: true do
 
       describe "click through to edit Question Option" do
         describe "edit Radio Button option" do
-          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form) }
+          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form, form_section: form.form_sections.first) }
           let!(:radio_button_option) { FactoryBot.create(:question_option, question: radio_button_question, position: 1) }
 
           before do
@@ -261,7 +262,7 @@ feature "Forms", js: true do
 
       describe "editing Question Options" do
         describe "edit Radio Button option" do
-          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form) }
+          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form, form_section: form.form_sections.first) }
           let!(:radio_button_option) { FactoryBot.create(:question_option, question: radio_button_question, position: 1) }
 
           before do

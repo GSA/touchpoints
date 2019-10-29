@@ -5,7 +5,7 @@
         Viewing a Touchpoint
       </h1>
     </div>
-    <div class="usa-width-one-half">
+    <div class="usa-width-full">
       <p>
         <strong>Name:</strong>
         <%= @touchpoint.name %>
@@ -35,70 +35,58 @@
         <% end %>
       </p>
       <p>
-        <strong>Delivery Method:</strong>
-        <%= @touchpoint.delivery_method %>
-      </p>
-      <p>
-        <strong>Element Selector:</strong>
-        <%= @touchpoint.element_selector %>
-      </p>
-      <p>
-        <strong>OMB Approval #</strong>
-        <%= @touchpoint.omb_approval_number %>
-      </p>
-      <p>
-        <strong>Expiration Date:</strong>
-        <%= @touchpoint.expiration_date %>
-      </p>
-      <p>
-        <strong>Purpose:</strong>
-        <% if @touchpoint.behavior_change? %>
-        <%= @touchpoint.purpose %>
-        <% else %>
-        Not specified.
-        <% end %>
-      </p>
-      <p>
-        <strong>Meaningful response size:</strong>
-        <% if @touchpoint.meaningful_response_size? %>
-        <%= @touchpoint.meaningful_response_size %>
-        <% else %>
-        Not specified.
-        <% end %>
-      </p>
-      <p>
-        <strong>Behavior change:</strong>
-        <% if @touchpoint.behavior_change? %>
-        <%= @touchpoint.behavior_change %>
-        <% else %>
-        Not specified.
-        <% end %>
-      </p>
-      <p>
         <strong>Notification emails:</strong>
         <%= @touchpoint.notification_emails %>
       </p>
-      <p>
-        <strong>Editable?:</strong>
-        <%= @touchpoint.editable %>
-      </p>
-    </div>
-    <div class="usa-width-one-half">
+      <div class="well">
+        <p>
+          <strong>Delivery Method:</strong>
+          <%= @touchpoint.delivery_method %>
+        </p>
+        <p>
+          <strong>Element Selector:</strong>
+          <%= @touchpoint.element_selector %>
+        </p>
+      </div>
+      <div class="well">
+        <p>
+          <strong>OMB Approval #</strong>
+          <%= @touchpoint.omb_approval_number %>
+        </p>
+        <p>
+          <strong>Expiration Date:</strong>
+          <%= @touchpoint.expiration_date %>
+        </p>
+      </div>
+      <div class="well">
+        <p>
+          <strong>Purpose:</strong>
+          <% if @touchpoint.behavior_change? %>
+          <%= @touchpoint.purpose %>
+          <% else %>
+          Not specified.
+          <% end %>
+        </p>
+        <p>
+          <strong>Meaningful response size:</strong>
+          <% if @touchpoint.meaningful_response_size? %>
+          <%= @touchpoint.meaningful_response_size %>
+          <% else %>
+          Not specified.
+          <% end %>
+        </p>
+        <p>
+          <strong>Behavior change:</strong>
+          <% if @touchpoint.behavior_change? %>
+          <%= @touchpoint.behavior_change %>
+          <% else %>
+          Not specified.
+          <% end %>
+        </p>
+      </div>
     </div>
   </div>
-  <hr>
-  <% if @touchpoint.editable? %>
-    <%= link_to 'Edit', edit_admin_touchpoint_path(@touchpoint), class: "usa-button" %>
-    <br>
-    <%= link_to 'Lock this Touchpoint for Publishing', toggle_editability_admin_touchpoint_path(@touchpoint), class: "usa-button usa-button-secondary" %>
-    <i>
-      Note: it can be unlocked
-    </i>
-  <% else %>
-    <%= link_to 'Edit', "#", class: "usa-button usa-button-disabled" %> This Touchpoint is no longer editable because it has received Submissions.
-    <br>
-    <%= link_to 'Make this Touchpoint editable again', toggle_editability_admin_touchpoint_path(@touchpoint), class: "usa-button" %>
-  <% end %>
+  <%= link_to 'Edit', edit_admin_touchpoint_path(@touchpoint), class: "usa-button" %>
 </div>
 <div class="well">
   <% if admin_permissions? %>

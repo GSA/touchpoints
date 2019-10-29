@@ -24,10 +24,6 @@
       </div>
     </div>
   </div>
-  <div class="field">
-    <%= f.label :kind %>
-    <%= f.text_field :kind %>
-  </div>
   <div class="usa-grid-full">
     <div class="usa-width-one-half">
       <div class="field">
@@ -45,16 +41,20 @@
   <div class="usa-grid-full">
     <div class="usa-width-one-half">
       <div class="field">
+        <%= f.check_box :early_submission %>
+        <%= f.label :early_submission, "Early Submission: Display a submit button at the end of the first page in a multi-page form?" %>
+      </div>
+    </div>
+  </div>
+  <div class="usa-grid-full">
+    <div class="usa-width-one-half">
+      <div class="field">
         <%= f.label :modal_button_text %>
         <%= f.text_field :modal_button_text %>
       </div>
     </div>
-    <div class="usa-width-one-half">
-      <div class="field">
-        <%= f.label :success_text %>
-        <%= f.text_area :success_text %>
-      </div>
-    </div>
+  </div>
+  <div class="usa-grid-full">
     <div class="usa-width-one-half">
       <div class="field">
         <%= f.label :instructions %>
@@ -65,6 +65,14 @@
       <div class="field">
         <%= f.label :disclaimer_text %>
         <%= f.text_area :disclaimer_text %>
+      </div>
+    </div>
+  </div>
+  <div class="usa-grid-full">
+    <div class="usa-width-one-half">
+      <div class="field">
+        <%= f.label :success_text %>
+        <%= f.text_area :success_text %>
       </div>
     </div>
   </div>
