@@ -4,8 +4,27 @@ class Submission < ApplicationRecord
   validate :validate_recruiter_form, if: :form_kind_is_recruiter?
   validate :validate_open_ended_form, if: :form_kind_is_open_ended?
   validate :validate_a11_form, if: :form_kind_is_a11?
+  validate :validate_custom_form, if: :form_kind_is_custom?
 
   scope :non_flagged, -> { where(flagged: false) }
+
+  def validate_custom_form
+    @valid_form_condition = false
+
+    # gather all answer fields
+    valid_answer_fields = self.touchpoint.form.questions.collect(&:answer_field)
+    # loop the fields and ensure there is at least one answered
+    valid_answer_fields.each do |valid_field|
+      if self.send(valid_field).present?
+        @valid_form_condition = true
+      end
+    end
+
+    unless @valid_form_condition
+      # push an error to a blank key to generate the generic error message
+      errors[""] << "Please answer at least one of the core 7 questions."
+    end
+  end
 
   def validate_recruiter_form
     unless self.answer_01 && self.answer_01.present?
@@ -48,6 +67,10 @@ class Submission < ApplicationRecord
   # NOTE: this is brittle.
   #       this pattern will require every field to declare its validations
   #       Rethink.
+  def form_kind_is_custom?
+    self.touchpoint.form.kind == "custom"
+  end
+
   def form_kind_is_recruiter?
     self.touchpoint.form.kind == "recruiter"
   end
