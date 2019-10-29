@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_25_171549) do
+ActiveRecord::Schema.define(version: 2019_10_29_171237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -185,7 +185,6 @@ ActiveRecord::Schema.define(version: 2019_10_25_171549) do
     t.string "omb_approval_number"
     t.date "expiration_date"
     t.integer "service_id"
-    t.boolean "editable", default: true
     t.string "delivery_method"
     t.string "element_selector"
   end

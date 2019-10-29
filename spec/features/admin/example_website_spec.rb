@@ -2,7 +2,8 @@ require 'rails_helper'
 
 feature "Example Website Integration", js: true do
   let(:admin) { FactoryBot.create(:user, :admin) }
-  let(:open_ended_touchpoint) { FactoryBot.create(:touchpoint, :with_form) }
+  let(:open_ended_form) { FactoryBot.create(:form, :open_ended_form) }
+  let(:open_ended_touchpoint) { FactoryBot.create(:touchpoint, form: open_ended_form) }
   let(:recruiter_form) { FactoryBot.create(:form, :recruiter) }
   let!(:recruiter_touchpoint) { FactoryBot.create(:touchpoint, form: recruiter_form) }
   let(:a11_form) { FactoryBot.create(:form, :a11) }
@@ -36,7 +37,7 @@ feature "Example Website Integration", js: true do
 
         describe "submit the form" do
           before "fill-in the form" do
-            fill_in "fba-text-body", with: "All my open-ended concerns."
+            fill_in "answer_01", with: "All my open-ended concerns."
             click_button "Submit"
           end
 
