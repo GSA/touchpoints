@@ -12,26 +12,26 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.label :name, class: "usa-label" %>
+    <%= form.text_field :name, class: "usa-input" %>
   </div>
   <div class="field">
-    <%= form.label :email %>
-    <%= form.text_field :email %>
+    <%= form.label :email, class: "usa-label" %>
+    <%= form.text_field :email, class: "usa-input" %>
   </div>
   <div class="field">
-    <%= form.label :organization_id %>
-    <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: (pra_contact.organization ? pra_contact.organization.id : nil)), include_blank: true %>
+    <%= form.label :organization_id, class: "usa-label" %>
+    <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: (pra_contact.organization ? pra_contact.organization.id : nil)), { prompt: "Which Organization?" }, { class: "usa-select" } %>
   </div>
   <div class="field">
-    <%= form.label :department %>
-    <%= form.text_field :department %>
+    <%= form.label :department, class: "usa-label" %>
+    <%= form.text_field :department, class: "usa-input" %>
   </div>
   <div class="field">
-    <%= form.label :program %>
-    <%= form.text_field :program %>
+    <%= form.label :program, class: "usa-label" %>
+    <%= form.text_field :program, class: "usa-input" %>
   </div>
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <p>
+    <%= form.submit class: "usa-button" %>
+  </p>
 <% end %>

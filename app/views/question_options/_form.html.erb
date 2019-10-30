@@ -16,16 +16,16 @@
   </div>
 
   <div class="field">
-    <%= form.label :text %>
-    <%= form.text_field :text %>
+    <%= form.label :text, class: "usa-label" %>
+    <%= form.text_field :text, class: "usa-input" %>
   </div>
 
   <div class="field">
-    <%= form.label :position %>
-    <%= form.number_field :position %>
+    <%= form.label :position, class: "usa-label" %>
+    <%= form.number_field :position, class: "usa-input" %>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <p>
+    <%= form.submit class: "usa-button" %>
+  </p>
 <% end %>

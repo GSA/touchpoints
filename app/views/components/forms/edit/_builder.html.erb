@@ -21,20 +21,23 @@
         <% end %>
         <%= link_to "Edit Question", edit_admin_form_question_path(@form, question), class: "usa-button" %>
         <% if service_permissions?(service: @form.touchpoint && @form.touchpoint.service) %>
-        <%= link_to 'Delete Question', admin_form_question_path(@form, question), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button-red float-right" %>
+        <%= link_to 'Delete Question', admin_form_question_path(@form, question), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" %>
         <% end %>
       </div>
     <% end %>
 
       <%= link_to 'Edit Form Section', edit_admin_form_form_section_path(form, section), class: "usa-button" %>
     <% unless section.questions.present? %>
-      <%= link_to 'Delete Form Section', admin_form_form_section_path(form, section), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button-red" %>
+      <%= link_to 'Delete Form Section', admin_form_form_section_path(form, section), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" %>
     <% end %>
   </div>
 <br>
 <% end %>
 </form>
 
-<%= link_to "Add Form Section", new_admin_form_form_section_path(form), class: "usa-button" %>
-<br>
-<%= link_to "Add a Question", new_admin_form_question_path(form), class: "usa-button" %>
+<p>
+  <%= link_to "Add a Question", new_admin_form_question_path(form), class: "usa-button" %>
+</p>
+<p>
+  <%= link_to "Add Form Section", new_admin_form_form_section_path(form), class: "usa-button" %>
+</p>

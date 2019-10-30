@@ -1,4 +1,4 @@
-<%= form_with(model: service, url: service.persisted? ? admin_service_path(service) : admin_services_path , local: true) do |form| %>
+<%= form_with(model: service, url: service.persisted? ? admin_service_path(service) : admin_services_path , local: true, class: "usa-form") do |form| %>
   <% if service.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(service.errors.count, "error") %> prohibited this service from being saved:</h2>
@@ -12,35 +12,39 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name, placeholder: "What is the name of this Service?" %>
+    <%= form.label :name, class: "usa-label" %>
+    <%= form.text_field :name, class: "usa-input", placeholder: "What is the name of this Service?" %>
   </div>
 
   <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description, placeholder: "Describe this Service (audience, reach, metrics)" %>
+    <%= form.label :description, class: "usa-label" %>
+    <%= form.text_area :description, class: "usa-textarea", placeholder: "Describe this Service (audience, reach, metrics)" %>
   </div>
 
   <% if current_user.admin? %>
-  <div class="field">
-    <%= form.label :organization %>
-    <%= form.select :organization_id, options_for_select(Organization.all.order(:name).map { |org| ["#{org.abbreviation}-#{org.name}", org.id] }, selected: (service.organization ? service.organization.id : nil)), prompt: "Select an Organization" %>
-  </div>
+    <div class="field">
+      <%= form.label :organization, class: "usa-label" %>
+      <%= form.select :organization_id, options_for_select(Organization.all.order(:name).map { |org| ["#{org.abbreviation}-#{org.name}", org.id] }, selected: (service.organization ? service.organization.id : nil)), { prompt: "Select an Organization" }, { class: "usa-select" } %>
+    </div>
   <% else %>
-  <%= form.hidden_field :organization_id, value: current_user.organization.id %>
+    <%= form.hidden_field :organization_id, value: current_user.organization.id %>
   <% end %>
 
   <% if admin_permissions? %>
-  <div class="field">
-    <%= form.check_box :hisp %>
-    <%= form.label :hisp, "HISP Agency?" %>
-  </div>
+  <br>
+  <fieldset class="usa-fieldset">
+    <legend class="usa-sr-only">HISP Agency</legend>
+    <div class="usa-checkbox">
+      <%= form.check_box :hisp, class: "usa-checkbox__input" %>
+      <%= form.label :hisp, "HISP Agency?", class: "usa-checkbox__label" %>
+    </div>
+  </fieldset>
   <% end %>
 
-  <% if !service.persisted? %>
-  <div class="usa-alert usa-alert-info" >
-    <div class="usa-alert-body">
-      <p class="usa-alert-text">
+  <% if !service.persisted? -%>
+  <div class="usa-alert usa-alert--info" >
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
         Service Managers and Submissions Viewers
         can be assigned to to this Service after creation.
       </p>
@@ -48,7 +52,7 @@
   </div>
   <% end %>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <p>
+    <%= form.submit class: "usa-button" %>
+  </p>
 <% end %>

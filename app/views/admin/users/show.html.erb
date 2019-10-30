@@ -3,7 +3,7 @@
     Viewing a User
   </h1>
   <% if @user.admin? %>
-    <span class="usa-label" style="background: #e31c3d;">
+    <span class="usa-tag" style="background: #e31c3d;">
       Admin User
     </span>
     <br>
@@ -12,8 +12,9 @@
   Email: <%= link_to @user.email, "mailto:#{@user.email}" %>
   <br>
   Organization: <%= @user.organization ? link_to(@user.organization.name, admin_organization_path(@user.organization)) : "Undefined" %>
-  <br>
-  <%= link_to 'Edit', edit_admin_user_path(@user), class: "usa-button" %>
+  <p>
+    <%= link_to 'Edit', edit_admin_user_path(@user), class: "usa-button" %>
+  </p>
   <div class="well">
     <h4>
       Services
@@ -27,9 +28,9 @@
       <% end %>
       </ul>
     <% else %>
-    <div class="usa-alert usa-alert-info" >
-      <div class="usa-alert-body">
-        <p class="usa-alert-text">
+    <div class="usa-alert usa-alert--info" >
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
           No Services at this time
         </p>
       </div>

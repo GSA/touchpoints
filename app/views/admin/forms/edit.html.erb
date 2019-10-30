@@ -1,29 +1,27 @@
 <div class="well">
   <h1>
-    Editing <%= @form.kind %> Form
+    Editing Form
   </h1>
   <% if @form.kind == "a11" %>
     <%= render 'components/forms/edit/a11', { touchpoint: @touchpoint, form: @form } %>
   <% else %>
-    <div class="usa-grid-full">
-      <div class="usa-width-full">
+    <div class="grid-row">
+      <div class="grid-col-12">
         <%= render 'admin/forms/form', form: @form %>
       </div>
     </div>
-
   <% end %>
 </div>
-<%= link_to 'Show', admin_touchpoint_form_path(@touchpoint, @form), class: "usa-button" if @touchpoint %>
-<%= link_to 'All Forms', admin_forms_path, class: "usa-button" %>
-<%= link_to 'Delete', admin_touchpoint_form_path(@touchpoint, @form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button-red" if @touchpoint %>
-
+<p>
+  <%= link_to 'Show', admin_touchpoint_form_path(@touchpoint, @form), class: "usa-button" if @touchpoint %>
+  <%= link_to 'All Forms', admin_forms_path, class: "usa-button usa-button--outline" %>
+  <%= link_to 'Delete', admin_touchpoint_form_path(@touchpoint, @form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" if @touchpoint %>
+</p>
 <br>
+<hr>
 <br>
-<br>
-<br>
-<br>
-<div class="usa-grid-full">
-  <div class="usa-width-full">
+<div class="grid-row">
+  <div class="grid-col-12">
     <div class="well highlight">
       <h2>
         Form Preview

@@ -32,7 +32,7 @@ feature "Managing Users", js: true do
       end
 
       it "update existing user to an Admin role" do
-        expect(page.find(".usa-label")).to have_content("Admin User".upcase)
+        expect(page.find(".usa-tag")).to have_content("Admin User".upcase)
       end
     end
   end

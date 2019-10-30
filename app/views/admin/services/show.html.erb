@@ -40,7 +40,7 @@
       </p>
       <div>
         <% if @service.users.present? %>
-        <table>
+        <table class="usa-table">
           <thead>
             <tr>
               <th>
@@ -79,9 +79,9 @@
           </tbody>
         </table>
         <% else %>
-        <div class="usa-alert usa-alert-info" >
-          <div class="usa-alert-body">
-            <p class="usa-alert-text">
+        <div class="usa-alert usa-alert--info" >
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">
               No users at this time
             </p>
           </div>
@@ -99,9 +99,9 @@
           <!-- <span class="usa-buton" name="button" id="add-user-button">Add User</span> -->
           <button type="button" name="button" id="add-user-button">Add Service Manager</button>
           <% else %>
-          <div class="usa-alert usa-alert-info">
-            <div class="usa-alert-body">
-              <p class="usa-alert-text">
+          <div class="usa-alert usa-alert--info">
+            <div class="usa-alert__body">
+              <p class="usa-alert__text">
                 All Users have been added. No Service Managers to add.
               </p>
             </div>
@@ -114,9 +114,9 @@
           <%= select_tag :add_user_id, options_for_select(@available_members.map { |user| [user.email, user.id] }), prompt: "Add a Submission Viewer?", id: "add-submission-viewer-dropdown", style: "display: inline-block; margin-right: 1em;" %>
           <button type="button" name="button" id="add-submission-viewer-button">Add Submission Viewer</button>
           <% else %>
-          <div class="usa-alert usa-alert-info">
-            <div class="usa-alert-body">
-              <p class="usa-alert-text">
+          <div class="usa-alert usa-alert--info">
+            <div class="usa-alert__body">
+              <p class="usa-alert__text">
                 All Users have been added. No Submission Viewers to add.
               </p>
             </div>
@@ -142,9 +142,9 @@
           <% end %>
         </ul>
       <% else %>
-      <div class="usa-alert usa-alert-info">
-        <div class="usa-alert-body">
-          <p class="usa-alert-text">
+      <div class="usa-alert usa-alert--info">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
             No Touchpoints are assigned to this Service.
           </p>
         </div>
