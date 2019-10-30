@@ -9,7 +9,7 @@
 <% if @submissions.present? %>
 <div class="table-scroll">
   <div class="table-wrap">
-    <table class="table-scroll">
+    <table class="usa-table table-scroll">
       <thead>
         <tr>
           <% if @touchpoint.form.kind == "custom" %>
@@ -132,11 +132,12 @@
     </table>
   </div>
 </div>
-    <%= link_to "Export Submissions to CSV", export_submissions_admin_touchpoint_url(@touchpoint, format: "csv"), class: "usa-button", target: "_blank", rel: "noopener" %>
+  <br>
+  <%= link_to "Export Submissions to CSV", export_submissions_admin_touchpoint_url(@touchpoint, format: "csv"), class: "usa-button", target: "_blank", rel: "noopener" %>
 <% else %>
-  <div class="usa-alert usa-alert-info">
-    <div class="usa-alert-body">
-      <p class="usa-alert-text">
+  <div class="usa-alert usa-alert--info">
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
         Export is not available.
         This Touchpoint has yet to receive any Submissions.
       </p>

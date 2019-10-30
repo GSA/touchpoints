@@ -5,5 +5,5 @@
   <%= render 'form', organization: @organization %>
 </div>
 <%= link_to 'Show', admin_organization_path(@organization), class: "usa-button" %>
-<%= link_to 'All Organizations', admin_organizations_path, class: "usa-button" %>
-<%= link_to 'Delete', admin_organization_path(@organization), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button-red" %>
+<%= link_to 'All Organizations', admin_organizations_path, class: "usa-button usa-button--outline" %>
+<%= link_to 'Delete', admin_organization_path(@organization), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" %>

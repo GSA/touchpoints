@@ -1,7 +1,7 @@
 <fieldset class="radios" role="group" aria-labelledby="<%= question.answer_field %>">
-  <h4>
+  <label class="usa-label" for="input-type-text">
     <%= question_number %>.
     <%= question.text %>
-  </h4>
-  <%= text_field_tag question.answer_field.to_sym %>
+  </label>
+  <%= text_field_tag question.answer_field.to_sym, nil, class: "usa-input" %>
 </fieldset>

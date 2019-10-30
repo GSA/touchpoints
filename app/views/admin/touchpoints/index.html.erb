@@ -1,6 +1,6 @@
 <div class="well">
   <h1>Touchpoints</h1>
-  <table>
+  <table class="usa-table">
     <thead>
       <tr>
       <% if admin_permissions? %>
@@ -51,8 +51,9 @@
       <% end %>
     </tbody>
   </table>
-
-  <% if organization_manager_permissions? %>
-    <%= link_to 'Create New Touchpoint', new_admin_touchpoint_path, class: "usa-button" %>
-  <% end %>
 </div>
+<% if organization_manager_permissions? %>
+<p>
+  <%= link_to 'Create New Touchpoint', new_admin_touchpoint_path, class: "usa-button" %>
+</p>
+<% end %>

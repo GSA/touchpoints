@@ -1,14 +1,14 @@
-<div class="usa-grid-full">
-  <div class="usa-width-full">
+<div class="grid-row">
+  <div class="grid-col-12">
     <%= form_with(model: touchpoint, url: touchpoint.persisted? ? admin_touchpoint_path(touchpoint) : admin_touchpoints_path, local: true) do |form| %>
     <% if touchpoint.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(touchpoint.errors.count, "error") %> prohibited this touchpoint from being saved:</h2>
         <% touchpoint.errors.full_messages.each do |message| %>
-          <div class="usa-alert usa-alert-error" >
-            <div class="usa-alert-body">
-              <h3 class="usa-alert-heading">Error</h3>
-              <p class="usa-alert-text">
+          <div class="usa-alert usa-alert--error" >
+            <div class="usa-alert__body">
+              <h3 class="usa-alert__heading">Error</h3>
+              <p class="usa-alert__text">
                 <%= message %>
               </p>
             </div>
@@ -19,9 +19,9 @@
     <h3>
       Select a Form Template
     </h3>
-    <div class="usa-alert usa-alert-info" >
-      <div class="usa-alert-body">
-        <p class="usa-alert-text">
+    <div class="usa-alert usa-alert--info" >
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
           Based on the Form Template selected,
           an editable Form will be created.
         </p>
@@ -42,7 +42,7 @@
   </div>
 </div>
 <div class="actions">
-  <%= form.submit "Select a Form Template" %>
+  <%= form.submit "Select a Form Template", class: "usa-button" %>
 </div>
 <% end %>
 <hr>

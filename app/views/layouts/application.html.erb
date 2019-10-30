@@ -26,11 +26,9 @@
     <%= render 'components/header' %>
     <% unless content_for?(:full_layout) %>
     <main id="main-content">
-      <div class="usa-grid">
-        <div class="usa-width-full">
-          <%= render('components/flash', flash: flash) unless suppress_main_layout_flash? %>
-          <%= yield %>
-        </div>
+      <div class="grid-container">
+        <%= render('components/flash', flash: flash) unless suppress_main_layout_flash? %>
+        <%= yield %>
       </div>
     </main>
     <% else %>

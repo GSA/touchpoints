@@ -6,7 +6,8 @@ class Admin::UsersController < AdminController
     if current_user.admin?
       @users = User.all.includes(:organization)
     else
-      @users = current_user.organization.users.includes(:organization)
+      organization = current_user.organization
+      @users = organization.users.includes(:organization)
     end
   end
 

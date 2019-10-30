@@ -24,10 +24,14 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <%= render 'components/slim_header' %>
-    <div class="usa-grid">
-      <div class="usa-width-full">
-        <%= render 'components/flash', flash: flash %>
-        <%= yield %>
+    <div class="grid-container">
+      <div class="grid-row">
+        <div class="grid-col-12">
+          <div class="usa-width-full">
+            <%= render 'components/flash', flash: flash %>
+            <%= yield %>
+          </div>
+        </div>
       </div>
     </div>
   </body>

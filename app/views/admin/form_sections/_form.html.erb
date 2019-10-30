@@ -16,19 +16,19 @@
   </p>
 
   <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
+    <%= form.label :title, class: "usa-label" %>
+    <%= form.text_field :title, class: "usa-input" %>
   </div>
 
   <div class="field">
-    <%= form.label :position %>
+    <%= form.label :position, class: "usa-label" %>
     <% form_section_options = @form.form_sections.select(&:persisted?).collect(&:position) %>
     <% form_section_options_max = form_section_options.compact.max %>
     <% form_section_options = form_section_options + [form_section_options_max + 1] %>
-    <%= form.select :position, options_for_select(form_section_options, selected: form_section.position), include_blank: "Select Form Section" %>
+    <%= form.select :position, options_for_select(form_section_options, selected: form_section.position), { include_blank: "Select Form Section" }, { class: "usa-select" } %>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <p>
+    <%= form.submit class: "usa-button" %>
+  </p>
 <% end %>

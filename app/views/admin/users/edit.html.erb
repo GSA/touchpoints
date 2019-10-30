@@ -5,7 +5,4 @@
   Email: <%= link_to @user.email, admin_user_path %>
   <br>
   <%= render 'form', user: @user %>
-  <% unless @user == current_user %>
-  <%= link_to 'Delete', admin_user_path(@user), method: :delete, data: { confirm: 'Are you sure?' } %>
-  <% end %>
 </div>

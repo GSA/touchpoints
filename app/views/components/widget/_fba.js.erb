@@ -75,9 +75,9 @@ N.fba = {
 		resetErrors: function()
 		{
 			var alertElement = document.querySelector("#fba-alert");
-			var alertElementBody = document.getElementsByClassName("usa-alert-text")[0];
+			var alertElementBody = document.getElementsByClassName("usa-alert__text")[0];
 			var alertErrorElement = document.querySelector("#fba-alert-error");
-			var alertErrorElementBody = alertErrorElement.getElementsByClassName("usa-alert-text")[0];
+			var alertErrorElementBody = alertErrorElement.getElementsByClassName("usa-alert__text")[0];
 			alertElement.style.display = "none";
 			alertElementBody.innerHTML = "";
 			alertErrorElement.style.display = "none";
@@ -138,7 +138,7 @@ N.fba = {
 		showFormSuccess: function(e)
 		{
 			var alertElement = document.querySelector("#fba-alert");
-			var alertElementBody = document.getElementsByClassName("usa-alert-text")[0];
+			var alertElementBody = document.getElementsByClassName("usa-alert__text")[0];
 
 			// Display success Message
 			alertElementBody.innerHTML += "<%= @touchpoint.form.success_text %>";
@@ -181,9 +181,9 @@ N.fba = {
 		formSuccess: function(e) {
 			// Clear the alert box
 			var alertElement = document.querySelector("#fba-alert");
-			var alertElementBody = document.getElementsByClassName("usa-alert-text")[0];
+			var alertElementBody = document.getElementsByClassName("usa-alert__text")[0];
 			var alertErrorElement = document.querySelector("#fba-alert-error");
-			var alertErrorElementBody = alertErrorElement.getElementsByClassName("usa-alert-text")[0];
+			var alertErrorElementBody = alertErrorElement.getElementsByClassName("usa-alert__text")[0];
 			alertElementBody.innerHTML = "";
 			alertErrorElementBody.innerHTML = "";
 
@@ -297,6 +297,7 @@ for (var i = 0; i < previousButtons.length; i++) {
 		var currentPage = this.closest(".section");
 		currentPage.classList.remove("visible");
 		currentPage.previousElementSibling.classList.add("visible");
+		window.scrollTo(0, 0);
 	});
 }
 
@@ -306,5 +307,6 @@ for (var i = 0; i < nextButtons.length; i++) {
 		var currentPage = this.closest(".section");
 		currentPage.classList.remove("visible");
 		currentPage.nextElementSibling.classList.add("visible");
+		window.scrollTo(0, 0);
 	});
 }
