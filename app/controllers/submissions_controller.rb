@@ -8,6 +8,7 @@ class SubmissionsController < ApplicationController
     unless @touchpoint.deployable_touchpoint?
       redirect_to root_path, alert: "Touchpoint does not have a Service specified"
     end
+    @touchpoint.update_attribute(:survey_form_activations, @touchpoint.survey_form_activations += 1)
     @submission = Submission.new
     # set location code in the form based on `?location_code=`
     @submission.location_code = params[:location_code]
@@ -101,18 +102,7 @@ class SubmissionsController < ApplicationController
       # TODO: handle as a case statement
       # TODO: split Form-specific parameter whitelisting into Form's definitions
       # TODO: Consider Making `recruiter`, the Form.kind, a Class/Module, for better strictnesss/verbosity.
-      if @touchpoint.form.kind == "recruiter"
-        params.require(:submission).permit(
-          :answer_01,
-          :answer_02,
-          :answer_03,
-          :answer_04,
-          :language,
-          :location_code,
-          :referer,
-          :page
-        )
-      elsif @touchpoint.form.kind == "open-ended"
+      if @touchpoint.form.kind == "open-ended"
         params.require(:submission).permit(
           :answer_01,
           :language,

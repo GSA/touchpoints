@@ -256,14 +256,6 @@ N.fba = {
 				answer_12: form.querySelector("input[name=answer_12]:checked") && form.querySelector("input[name=answer_12]:checked").value
 			}
 			<% end %>
-			<% if @touchpoint.form.kind == "recruiter" %>
-			var params = {
-				answer_01: form.querySelector("#fba-text-name").value,
-				answer_02: "",
-				answer_03: form.querySelector("#fba-text-phone").value,
-				answer_04: form.querySelector("#fba-text-email").value
-			}
-			<% end %>
 
 			// Combine Referrer and Pathname with Form-specific params
 			params["referer"] = d.referrer;

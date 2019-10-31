@@ -17,12 +17,6 @@
           <th><%= question.text %></th>
           <% end %>
           <% end %>
-          <% if @touchpoint.form.kind == "recruiter" %>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>Phone number</th>
-          <th>Email</th>
-          <% end %>
           <% if @touchpoint.form.kind == "open-ended" %>
           <th>Body</th>
           <% end %>
@@ -69,12 +63,6 @@
               <%= sanitize(submission.send(question.answer_field.to_sym)) %>
             </td>
             <% end %>
-          <% end %>
-          <% if @touchpoint.form.kind == "recruiter" %>
-          <td><%= sanitize(submission.answer_01) %></td>
-          <td><%= sanitize(submission.answer_02) %></td>
-          <td><%= sanitize(submission.answer_03) %></td>
-          <td><%= sanitize(submission.answer_04) %></td>
           <% end %>
           <% if @touchpoint.form.kind == "open-ended" %>
           <td>

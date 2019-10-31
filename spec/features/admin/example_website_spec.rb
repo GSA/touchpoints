@@ -53,7 +53,6 @@ feature "Example Website Integration", js: true do
         visit example_admin_touchpoint_path(recruiter_touchpoint)
       end
 
-
       it "loads Badge with Text" do
         expect(page).to have_content("Help improve this site")
       end
@@ -73,10 +72,10 @@ feature "Example Website Integration", js: true do
 
         describe "submit the form" do
           before "fill-in the form" do
-            fill_in "fba-text-name", with: "Concerned Citizen"
-            fill_in "fba-text-email", with: "test_public_user@example.com"
-            fill_in "fba-text-phone", with: "555-123-4567"
-            click_button "Send"
+            fill_in "answer_01", with: "Concerned Citizen"
+            fill_in "answer_02", with: "test_public_user@example.com"
+            fill_in "answer_03", with: "555-123-4567"
+            click_button "Submit"
           end
 
           it "display .js success alert" do
