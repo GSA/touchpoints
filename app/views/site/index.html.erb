@@ -2,28 +2,24 @@
   Welcome to Touchpoints
 </h1>
 <p>
-  In the practice of Service Design,
-  a <strong>Touchpoint</strong>
-  is where the exchange between a Customer and Service Provider occurs.
+  A <strong>Touchpoint</strong>
+  is the interaction point between a Customer and Service Provider.
 </p>
 <p>
-  Touchpoints is great for:
+  Touchpoints exists to help Federal Agencies:
 </p>
-<ul>
-  <li>Soliciting open-ended Feedback</li>
-  <li>Recruiting users to talk to during product and service development</li>
-  <li>Administering the A11 Form</li>
-</ul>
-Also,
-<ul>
-  <li><a href="https://digital.gov/dap">Digital Analytics Program</a> Integration</li>
-  <li>Website Tag Management</li>
-  <li>Event-tracking</li>
+<ul class="usa-list">
+  <li>Administer the A-11 Form</li>
+  <li>Streamline CX CAP Goal reporting</li>
+  <li>Solicit open-ended Feedback</li>
+  <li>Recruit users to talk to during product and service development</li>
 </ul>
 <% unless current_user %>
+<br>
 <p>
   If you have a .gov address,
   <br>
-  <a href="/users/sign_up" class="usa-button">Sign Up</a>
+  <br>
+  <%= link_to "Sign in with Login.gov", user_login_dot_gov_omniauth_authorize_path, class: "usa-button" %>
 </p>
 <% end %>

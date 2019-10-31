@@ -1,8 +1,8 @@
-<%= form_with(model: user, url: (user.persisted? ? admin_user_path(user) : admin_users_path), local: true) do |form| %>
+<%= form_with(model: user, url: (user.persisted? ? admin_user_path(user) : admin_users_path), local: true, class: "usa-form") do |form| %>
   <% if user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
-      <ul>
+      <ul class="usa-list">
       <% user.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
@@ -10,41 +10,50 @@
     </div>
   <% end %>
   <div class="field">
-    <%= form.label :organization_id %>
-    <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: user.organization_id), include_blank: true %>
+    <%= form.label :organization_id, class: "usa-label" %>
+    <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: user.organization_id), { prompt: "Select Organization" }, { class: "usa-select" } %>
   </div>
   <% if organization_manager_permissions? %>
   <div class="well">
-    <div class="field">
-      <span>
-        An Organization Manager manages all Services for an Organization.
-      </span>
-      <%= form.check_box :organization_manager %>
-      <%= form.label :organization_manager %>
-    </div>
+    <p>
+      An Organization Manager manages all Services for an Organization.
+    </p>
+    <fieldset class="usa-fieldset">
+      <legend class="usa-sr-only">Historical figures 1</legend>
+      <div class="usa-checkbox">
+        <%= form.check_box :organization_manager, class: "usa-checkbox__input" %>
+        <%= form.label :organization_manager, class: "usa-checkbox__label" %>
+      </div>
+    </fieldset>
   </div>
   <% end %>
   <% if admin_permissions? %>
   <div class="well">
-    <div class="field">
-      <span>
-        A Touchpoints Admin manages everything.
-      </span>
-      <%= form.check_box :admin %>
-      <%= form.label :admin %>
-    </div>
+    <p>
+      A Touchpoints Admin manages everything.
+    </p>
+    <fieldset class="usa-fieldset">
+      <legend class="usa-sr-only">Historical figures 1</legend>
+      <div class="usa-checkbox">
+        <%= form.check_box :admin, class: "usa-checkbox__input" %>
+        <%= form.label :admin, class: "usa-checkbox__label" %>
+      </div>
+    </fieldset>
   </div>
   <div class="well">
-    <div class="field">
-      <span>
-        De-activate a User Account.
-      </span>
-      <%= form.check_box :inactive %>
-      <%= form.label :inactive %>
-    </div>
+    <p>
+      De-activate a User Account.
+    </p>
+    <fieldset class="usa-fieldset">
+      <legend class="usa-sr-only">Historical figures 1</legend>
+      <div class="usa-checkbox">
+        <%= form.check_box :inactive, class: "usa-checkbox__input" %>
+        <%= form.label :inactive, class: "usa-checkbox__label" %>
+      </div>
+    </fieldset>
   </div>
   <% end %>
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit class: "usa-button" %>
   </div>
 <% end %>

@@ -3,7 +3,7 @@
     <div id="error_explanation">
       <h2><%= pluralize(form.errors.count, "error") %> prohibited this form from being saved:</h2>
 
-      <ul>
+      <ul class="usa-list">
       <% form.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
@@ -14,14 +14,14 @@
   <h3>
     <%= form.title %>
   </h3>
-  <div class="usa-grid-full">
-    <div class="usa-width-one-half">
+  <div class="grid-row">
+    <div class="grid-col-6">
       <div class="field">
         <%= f.label :title %>
         <%= f.text_field :title %>
       </div>
     </div>
-    <div class="usa-width-one-half">
+    <div class="grid-col-6">
       <br>
       <div class="field">
         <%= f.check_box :display_header_logo %>
@@ -29,14 +29,14 @@
       </div>
     </div>
   </div>
-  <div class="usa-grid-full">
-    <div class="usa-width-one-half">
+  <div class="grid-row">
+    <div class="grid-col-6">
       <div class="field">
         <%= f.label :instructions %>
         <%= f.text_area :instructions %>
       </div>
     </div>
-    <div class="usa-width-one-half">
+    <div class="grid-col-6">
       <div class="field">
         <%= f.label :disclaimer_text %>
         <%= f.text_area :disclaimer_text %>
@@ -49,7 +49,7 @@
   </p>
   <% end %>
   <fieldset>
-    <table>
+    <table class="usa-table">
       <tr>
         <td style="width: 100%;"></td>
         <td>

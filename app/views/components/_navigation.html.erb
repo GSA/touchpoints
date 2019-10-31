@@ -1,0 +1,99 @@
+<div class="usa-overlay"></div>
+<header class="usa-header usa-header--extended">
+  <div class="usa-navbar">
+    <div class="usa-logo" id="extended-logo">
+      <a href="/" title="Touchpoints" aria-label="Home">
+        <%= image_tag "touchpoints-logo-@2x.png", class: "header-logo", alt: "Touchpoints logo" %>
+      </a>
+    </div>
+    <button class="usa-menu-btn">Menu</button>
+  </div>
+  <nav aria-label="Primary navigation" class="usa-nav">
+    <div class="usa-nav__inner">
+      <button class="usa-nav__close">
+        <%= image_tag "close.svg", alt: "close" %>
+      </button>
+      <ul class="usa-nav__primary usa-accordion">
+        <% if current_user %>
+        <li class="usa-nav__primary-item">
+          <%= link_to "My Dashboard", admin_dashboard_path, class: "usa-nav__link admin" %>
+        </li>
+        <% end %>
+        <% if admin_permissions? %>
+        <li class="usa-nav__primary-item">
+          <a class="usa-nav-link admin" href="/admin/users">
+            <span>Users</span>
+          </a>
+        </li>
+        <li class="usa-nav__primary-item">
+          <a class="usa-nav-link" href="/admin/services">
+            <span>Services</span>
+          </a>
+        </li>
+        <li class="usa-nav__primary-item">
+          <%= link_to "Touchpoints", admin_touchpoints_path, class: "usa-nav-link" %>
+        </li>
+        <li class="usa-nav__primary-item">
+          <a class="usa-nav-link" href="/admin/forms">
+            <span>Forms</span>
+          </a>
+        </li>
+        <li class="usa-nav__primary-item">
+          <a class="usa-nav-link" href="mailto:feedback-analytics@gsa.gov">
+            Support
+          </a>
+        </li>
+        <% end %>
+        <% if current_user && !current_user.admin? %>
+        <li class="usa-nav__primary-item">
+          <a class="usa-nav-link" href="/admin/services">
+            <span>Services</span>
+          </a>
+        </li>
+        <li class="usa-nav__primary-item">
+          <%= link_to "Touchpoints", admin_touchpoints_path, class: "usa-nav-link" %>
+        </li>
+        <li class="usa-nav__primary-item">
+          <%= link_to "Form Templates", admin_form_templates_path, class: "usa-nav-link" %>
+        </li>
+        <% end %>
+        <% if !current_user %>
+        <li class="usa-nav__primary-item">
+          <button class="usa-accordion__button usa-nav__link" aria-expanded="false" aria-controls="basic-nav-section-one">
+            <span>Information</span>
+          </button>
+          <ul id="basic-nav-section-one" class="usa-nav__submenu">
+            <li class="usa-nav__submenu-item">
+              <a href="https://github.com/GSA/touchpoints/blob/master/docs/PERSONAS.md" target="_blank" rel="noopener">Who uses Touchpoints?</a>
+            </li>
+            <li class="usa-nav__submenu-item">
+              <a href="https://github.com/GSA/touchpoints/blob/master/docs/USE_CASES.md" target="_blank" rel="noopener">What can users do?</a>
+            </li>
+            <li class="usa-nav__submenu-item">
+              <a href="https://github.com/gsa/touchpoints" target="_blank" rel="noopener">Open-source code</a>
+            </li>
+          </ul>
+        </li>
+        <% end %>
+      </ul>
+      <div class="usa-nav__secondary">
+        <ul class="usa-nav__secondary-links">
+          <% unless current_user %>
+          <li class="usa-nav__secondary-item">
+            <%= link_to user_login_dot_gov_omniauth_authorize_path, class: "usa-nav-link admin" do %>
+              Sign in with Login.gov
+            <% end %>
+          </li>
+          <% else %>
+          <li class="usa-nav__secondary-item">
+            <%= link_to current_user.email, admin_dashboard_path, class: "usa-nav-link admin" %>
+          </li>
+          <li class="usa-nav__secondary-item">
+            <%= link_to "Sign Out", destroy_user_session_path %>
+          </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

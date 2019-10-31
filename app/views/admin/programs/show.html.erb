@@ -1,19 +1,21 @@
 <p id="notice"><%= notice %></p>
+<div class="well">
+  <p>
+    <strong>Name:</strong>
+    <%= @program.name %>
+  </p>
 
+  <p>
+    <strong>Organization:</strong>
+    <%= @program.organization_id ? link_to(@program.organization.name, admin_organization_path(@program.organization)) : nil %>
+  </p>
+
+  <p>
+    <strong>Url:</strong>
+    <%= @program.url %>
+  </p>
+</div>
 <p>
-  <strong>Name:</strong>
-  <%= @program.name %>
+  <%= link_to 'Edit', edit_admin_program_path(@program), class: "usa-button" %>
+  <%= link_to 'All Programs', admin_programs_path, class: "usa-button usa-button--outline" %>
 </p>
-
-<p>
-  <strong>Organization:</strong>
-  <%= @program.organization_id ? link_to(@program.organization.name, admin_organization_path(@program.organization)) : nil %>
-</p>
-
-<p>
-  <strong>Url:</strong>
-  <%= @program.url %>
-</p>
-
-<%= link_to 'Edit', edit_admin_program_path(@program) %> |
-<%= link_to 'Back', admin_programs_path %>

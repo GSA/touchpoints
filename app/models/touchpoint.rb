@@ -1,5 +1,5 @@
 class Touchpoint < ApplicationRecord
-  belongs_to :service, optional: true
+  belongs_to :service
   belongs_to :form, optional: true
   has_many :submissions
 

@@ -1,7 +1,7 @@
 <% if touchpoint && (touchpoint.form.disclaimer_text? || touchpoint.omb_approval_number.present?) %>
   <hr style="border: none; border-top: 1px solid #E5E5E5;">
-  <div class="usa-grid-full">
-    <div class="usa-width-full">
+  <div class="grid-row">
+    <div class="grid-col-12">
       <small id="fba-dialog-privacy">
         <% if touchpoint.form.disclaimer_text? %>
           <p>
@@ -12,8 +12,8 @@
     </div>
   </div>
   <% if touchpoint.omb_approval_number.present? || touchpoint.expiration_date? %>
-  <div class="usa-grid-full">
-    <div class="usa-width-full">
+  <div class="grid-row">
+    <div class="grid-col-12">
       <div style="text-align: right;">
         <small>
           <% if touchpoint.present? %>

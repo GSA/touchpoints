@@ -3,7 +3,7 @@
     <div id="error_explanation">
       <h2><%= pluralize(program.errors.count, "error") %> prohibited this program from being saved:</h2>
 
-      <ul>
+      <ul class="usa-list">
       <% program.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
@@ -12,25 +12,25 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.label :name, class: "usa-input" %>
+    <%= form.text_field :name, class: "usa-input" %>
   </div>
 
   <% if current_user.admin? %>
     <div class="field">
-      <%= form.label :organization_id %>
-      <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: (program.organization ? program.organization.id : nil)), include_blank: true %>
+      <%= form.label :organization_id, class: "usa-input" %>
+      <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: (program.organization ? program.organization.id : nil)), { include_blank: true }, { class: "usa-select" } %>
     </div>
   <% else %>
     <%= form.hidden_field :organization_id, value: current_user.organization_id %>
   <% end %>
 
   <div class="field">
-    <%= form.label :url %>
-    <%= form.text_field :url %>
+    <%= form.label :url, class: "usa-input" %>
+    <%= form.text_field :url, class: "usa-input" %>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <p>
+    <%= form.submit class: "usa-button" %>
+  </p>
 <% end %>
