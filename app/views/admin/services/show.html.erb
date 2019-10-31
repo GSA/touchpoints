@@ -134,7 +134,7 @@
         Touchpoints for this Service
       </h2>
       <% if @service.touchpoints.present? %>
-        <ul>
+        <ul class="usa-list">
           <% @service.touchpoints.each do |touchpoint| %>
           <li>
             <%= link_to touchpoint.name, admin_touchpoint_path(touchpoint) %>

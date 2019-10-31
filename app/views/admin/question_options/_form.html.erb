@@ -3,7 +3,7 @@
     <div id="error_explanation">
       <h2><%= pluralize(question_option.errors.count, "error") %> prohibited this question_option from being saved:</h2>
 
-      <ul>
+      <ul class="usa-list">
       <% question_option.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>

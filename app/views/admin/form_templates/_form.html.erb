@@ -3,7 +3,7 @@
     <div id="error_explanation">
       <h2><%= pluralize(form_template.errors.count, "error") %> prohibited this form_template from being saved:</h2>
 
-      <ul>
+      <ul class="usa-list">
       <% form_template.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>

@@ -20,7 +20,7 @@
       Services
     </h4>
     <% if @services.present? %>
-      <ul>
+      <ul class="usa-list">
       <% @services.each do |service| %>
         <li>
           <%= link_to service.name, admin_service_path(service) %><br>

@@ -4,7 +4,7 @@
       <h2>
         <%= pluralize(organization.errors.count, "error") %> prohibited this organization from being saved:
       </h2>
-      <ul>
+      <ul class="usa-list">
       <% organization.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>

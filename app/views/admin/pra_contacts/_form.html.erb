@@ -3,7 +3,7 @@
     <div id="error_explanation">
       <h2><%= pluralize(pra_contact.errors.count, "error") %> prohibited this pra_contact from being saved:</h2>
 
-      <ul>
+      <ul class="usa-list">
       <% pra_contact.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
