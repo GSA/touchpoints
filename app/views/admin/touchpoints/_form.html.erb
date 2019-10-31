@@ -101,8 +101,26 @@
         </div>
         <div class="grid-col-6">
           <div class="field">
+            <%= form.label :federal_register_url, class: "usa-label" %>
+            <%= form.text_field :federal_register_url, class: "usa-input", placeholder: "https://www.federalregister.gov/..." %>
+          </div>
+        </div>
+        <div class="grid-col-6">
+          <div class="field">
+            <%= form.label :medium, "Medium of Delivery", class: "usa-label" %>
+            <%= form.text_field :medium, class: "usa-input", placeholder: "From a Call-center" %>
+          </div>
+        </div>
+        <div class="grid-col-6">
+          <div class="field">
+            <%= form.label :anticipated_delivery_count, class: "usa-label" %>
+            <%= form.text_field :anticipated_delivery_count, class: "usa-input", placeholder: "100" %>
+          </div>
+        </div>
+        <div class="grid-col-6">
+          <div class="field">
             <%= form.label :expiration_date, class: "usa-label" %>
-            <%= form.date_field :expiration_date, class: "usa-input"%>
+            <%= form.date_field :expiration_date, class: "usa-input" %>
           </div>
         </div>
       </div>
