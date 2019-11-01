@@ -102,25 +102,7 @@ class SubmissionsController < ApplicationController
       # TODO: handle as a case statement
       # TODO: split Form-specific parameter whitelisting into Form's definitions
       # TODO: Consider Making `recruiter`, the Form.kind, a Class/Module, for better strictnesss/verbosity.
-      if @touchpoint.form.kind == "open-ended"
-        params.require(:submission).permit(
-          :answer_01,
-          :language,
-          :location_code,
-          :referer,
-          :page
-        )
-      elsif @touchpoint.form.kind == "open-ended-with-contact-info"
-        params.require(:submission).permit(
-          :answer_01,
-          :answer_02,
-          :answer_03,
-          :language,
-          :location_code,
-          :referer,
-          :page
-        )
-      elsif @touchpoint.form.kind == "a11"
+      if @touchpoint.form.kind == "a11"
         params.require(:submission).permit(
           :answer_01,
           :answer_02,

@@ -1,7 +1,6 @@
 class Submission < ApplicationRecord
   belongs_to :touchpoint
 
-  validate :validate_open_ended_form, if: :form_kind_is_open_ended?
   validate :validate_a11_form, if: :form_kind_is_a11?
   validate :validate_custom_form, if: :form_kind_is_custom?
 
@@ -22,16 +21,6 @@ class Submission < ApplicationRecord
     unless @valid_form_condition
       # push an error to a blank key to generate the generic error message
       errors[""] << "Please answer at least one of the core 7 questions."
-    end
-  end
-
-  def validate_open_ended_form
-    unless self.answer_01 && self.answer_01.present?
-      errors.add(:body, "can't be blank")
-    end
-    character_limit = self.touchpoint.form.character_limit
-    if self.answer_01 && self.answer_01.length > character_limit
-      errors.add(:body, "is limited to #{character_limit} characters")
     end
   end
 
@@ -61,11 +50,6 @@ class Submission < ApplicationRecord
     self.touchpoint.form.kind == "custom"
   end
 
-  def form_kind_is_open_ended?
-    self.touchpoint.form.kind == "open-ended" ||
-    self.touchpoint.form.kind == "open-ended-with-contact-info"
-  end
-
   def form_kind_is_a11?
     self.touchpoint.form.kind == "a11"
   end
@@ -74,14 +58,6 @@ class Submission < ApplicationRecord
     if self.touchpoint.form.kind == "open-ended"
       values = [
         self.answer_01
-      ]
-    end
-    if self.touchpoint.form.kind == "open-ended-with-contact-info"
-      values = [
-        self.answer_01,
-        self.answer_02,
-        self.answer_03,
-        self.answer_04
       ]
     end
     if self.touchpoint.form.kind == "a11"

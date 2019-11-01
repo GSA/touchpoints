@@ -17,15 +17,6 @@
           <th><%= question.text %></th>
           <% end %>
           <% end %>
-          <% if @touchpoint.form.kind == "open-ended" %>
-          <th>Body</th>
-          <% end %>
-          <% if @touchpoint.form.kind == "open-ended-with-contact-info" %>
-          <th>Body</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Phone</th>
-          <% end %>
           <% if @touchpoint.form.kind == "a11" %>
           <th>Overall satisfaction</th>
           <th>Service confidence</th>
@@ -63,23 +54,6 @@
               <%= sanitize(submission.send(question.answer_field.to_sym)) %>
             </td>
             <% end %>
-          <% end %>
-          <% if @touchpoint.form.kind == "open-ended" %>
-          <td>
-            <span class="truncate" fulltext="<%= sanitize(submission.answer_01) %>">
-              <%= sanitize(submission.answer_01).truncate(50) %>
-            </span>
-          </td>
-          <% end %>
-          <% if @touchpoint.form.kind == "open-ended-with-contact-info" %>
-          <td>
-            <span class="truncate" fulltext="<%= sanitize(submission.answer_01) %>">
-              <%= sanitize(submission.answer_01).truncate(50) %>
-            </span>
-          </td>
-          <td><%= sanitize(submission.answer_02) %></td>
-          <td><%= sanitize(submission.answer_03) %></td>
-          <td><%= sanitize(submission.answer_04) %></td>
           <% end %>
           <% if @touchpoint.form.kind == "a11" %>
           <td><%= sanitize(submission.answer_01) %></td>

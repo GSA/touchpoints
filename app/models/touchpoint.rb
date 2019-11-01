@@ -56,9 +56,7 @@ class Touchpoint < ApplicationRecord
   end
 
   APPROVED_FORM_KINDS = [
-    "open-ended",
-    "open-ended-with-contact-info",
-    "a11",
+    "a11"
   ]
 
   def fields_for_export
@@ -72,28 +70,7 @@ class Touchpoint < ApplicationRecord
   def hashed_fields_for_export
     raise InvalidArgument unless self.form
 
-    if self.form.kind == "open-ended"
-      {
-        answer_01: "Body",
-        ip_address: "IP Address",
-        user_agent: "User Agent",
-        page: "Page",
-        referer: "Referrer",
-        created_at: "Created At"
-      }
-    elsif self.form.kind == "open-ended-with-contact-info"
-      {
-        answer_01: "Body",
-        answer_02: "Name",
-        answer_03: "Email",
-        answer_04: "Phone",
-        ip_address: "IP Address",
-        user_agent: "User Agent",
-        page: "Page",
-        referer: "Referrer",
-        created_at: "Created At"
-      }
-    elsif self.form.kind == "a11"
+    if self.form.kind == "a11"
       {
         answer_01: "Overall satisfaction",
         answer_02: "Service confidence",

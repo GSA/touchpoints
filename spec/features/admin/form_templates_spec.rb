@@ -44,7 +44,6 @@ feature "Managing Form Templates", js: true do
     describe "view existing Form Templates" do
       before do
         @a11 = FactoryBot.create(:form_template, :a11)
-        @oewci = FactoryBot.create(:form_template, :open_ended_with_contact_info)
         visit admin_form_templates_path
       end
 
@@ -62,10 +61,6 @@ feature "Managing Form Templates", js: true do
         visit admin_form_template_path(@a11)
         expect(page).to have_content("Viewing a Form Template")
         expect(page).to have_content("Name: #{@a11.name}")
-
-        visit admin_form_template_path(@oewci)
-        expect(page).to have_content("Viewing a Form Template")
-        expect(page).to have_content("Name: #{@oewci.name}")
       end
     end
   end

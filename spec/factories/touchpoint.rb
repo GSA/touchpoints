@@ -17,7 +17,7 @@ FactoryBot.define do
       element_selector { "existing-website-button-id" }
     end
     trait :with_form do
-      form
+      association :form, :open_ended_form 
     end
   end
 end

@@ -86,7 +86,7 @@ RSpec.describe SubmissionsController, type: :controller do
       it "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: { submission: invalid_attributes, touchpoint_id: touchpoint.id }, session: valid_session, format: :json
         expect(response.status).to eq(422)
-        expect(JSON.parse(response.body)["messages"]).to eq({ "body"=>["can't be blank"] })
+        expect(JSON.parse(response.body)["messages"]).to eq({ ""=>["Please answer at least one of the core 7 questions."] })
         expect(JSON.parse(response.body)["status"]).to eq("unprocessable_entity")
       end
     end

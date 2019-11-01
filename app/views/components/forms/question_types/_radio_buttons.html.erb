@@ -1,8 +1,9 @@
-<fieldset class="radios" role="group" aria-labelledby="<%= question.answer_field %>">
-  <h4>
+<fieldset class="usa-fieldset radios" role="group" aria-labelledby="<%= question.answer_field %>">
+  <legend class="usa-sr-only"><%= question.answer_field %></legend>
+  <label class="usa-label">
     <%= question_number %>.
     <%= question.text %>
-  </h4>
+  </label>
   <% question.question_options.each_with_index do |option, index| %>
   <div class="radio-button usa-radio">
     <%= radio_button_tag(question.answer_field.to_sym, index + 1, nil, { value: option.text, class: "usa-radio__input" }) %>

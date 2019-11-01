@@ -1,9 +1,0 @@
-<form id="touchpoints-form" action="<%= root_url %>touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" data-kind="open-ended" method="POST">
-  <%= hidden_field_tag :fba_location_code, params[:location_code] %>
-  <fieldset id="touchpoints-form-body">
-    <textarea id="fba-text-body" name="fba-text-body" class="body"></textarea>
-    <div class="button-wrapper">
-      <button type="submit" id="fba-submit" class="usa-button" href="#">Submit</button>
-    </div>
-  </fieldset>
-</form>
