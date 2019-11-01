@@ -151,6 +151,9 @@ class Admin::TouchpointsController < AdminController
         :behavior_change,
         :notification_emails,
         :omb_approval_number,
+        :federal_register_url,
+        :medium,
+        :anticipated_delivery_count,
         :delivery_method,
         :element_selector
       )

@@ -9,7 +9,35 @@ FactoryBot.define do
       kind { "a11" }
     end
     trait :recruiter do
-      kind { "recruiter" }
+      name { "Recruiter" }
+      kind { "custom" }
+      after(:create) do |f, evaluator|
+        FactoryBot.create(:question,
+          form: f,
+          question_type: "text_field",
+          form_section: f.form_sections.first,
+          answer_field: "answer_01",
+          position: 1,
+          text: "Name"
+        )
+        FactoryBot.create(:question,
+          form: f,
+          question_type: "text_field",
+          form_section: f.form_sections.first,
+          answer_field: "answer_02",
+          position: 2,
+          text: "Email"
+        )
+        FactoryBot.create(:question,
+          form: f,
+          question_type: "text_field",
+          form_section: f.form_sections.first,
+          answer_field: "answer_03",
+          position: 3,
+          text: "Phone Number"
+        )
+      end
+
     end
     trait :custom do
       name { "Custom Test form" }
