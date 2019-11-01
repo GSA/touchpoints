@@ -1,4 +1,4 @@
-<fieldset class="radios" role="group" aria-labelledby="answer_01">
+<fieldset class="radios" role="group" aria-labelledby="<%= question.answer_field %>">
   <h4>
     <%= question_number %>.
     <%= question.text %>
@@ -8,10 +8,9 @@
   </h4>
   <% question.question_options.each_with_index do |option, index| %>
   <div class="radio-button">
-    <%= check_box_tag question.answer_field.to_sym, index + 1 %>
-    <%= label_tag nil, for: "#{question.answer_field.to_sym}_#{(index + 1).to_s}" do %>
+    <%= check_box_tag("#{question.answer_field}_#{(index + 1).to_s}", index + 1, nil, { value: option.text , class: "usa-checkbox__input" }) %>
+    <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}", class: "usa-checkbox__label") do %>
       <%= option.text %>
-      <%= link_to "Edit", edit_admin_form_question_question_option_path(option.question.form, option.question, option) %>
     <% end %>
   </div>
   <% end %>

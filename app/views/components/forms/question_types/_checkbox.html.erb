@@ -5,8 +5,8 @@
   </h4>
   <% question.question_options.each_with_index do |option, index| %>
   <div class="radio-button">
-    <%= check_box_tag question.answer_field.to_sym, index + 1, nil, { value: option.text } %>
-    <%= label_tag nil, for: "#{question.answer_field}_#{(index + 1).to_s}" do %>
+    <%= check_box_tag("#{question.answer_field}_#{(index + 1).to_s}", index + 1, nil, { value: option.text , class: "usa-checkbox__input" }) %>
+    <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}", class: "usa-checkbox__label") do %>
       <%= option.text %>
     <% end %>
   </div>
