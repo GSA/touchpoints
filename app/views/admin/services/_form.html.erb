@@ -1,4 +1,4 @@
-<%= form_with(model: service, url: service.persisted? ? admin_service_path(service) : admin_services_path , local: true, class: "usa-form") do |form| %>
+<%= form_with(model: service, url: service.persisted? ? admin_service_path(service) : admin_services_path , local: true) do |form| %>
   <% if service.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(service.errors.count, "error") %> prohibited this service from being saved:</h2>
