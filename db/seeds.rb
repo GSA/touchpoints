@@ -14,6 +14,9 @@ production_suitable_seeds
 #   Staging and Development Environments; not Production.
 return false if Rails.env.production?
 
+require_relative 'seeds/forms/a11'
+require_relative 'seeds/forms/kitchen_sink'
+
 example_gov = Organization.create!({
   name: "Example.gov",
   domain: "example.gov",
@@ -103,140 +106,113 @@ submission_viewer = User.new({
 submission_viewer.save!
 puts "Created #{submission_viewer.email}"
 
-# Form Templates
-form_1 = FormTemplate.create({
-  name: "Open-ended",
-  kind:  "open-ended",
-  title: "Custom Open-ended Title",
-  instructions: "Share feedback about the new example.gov website and recommend additional features.",
-  disclaimer_text: "Disclaimer Text Goes Here",
-  notes: ""
-})
-
-form_2 = FormTemplate.create({
-  name: "Recruiter",
-  kind:  "recruiter",
-  title: "",
-  instructions: "",
-  disclaimer_text: "Disclaimer Text Goes Here",
-  notes: ""
-})
-
-form_3 = FormTemplate.create({
-  name: "À11 - 7 Question Form",
-  kind:  "a11",
-  title: "",
-  instructions: "",
-  disclaimer_text: "Disclaimer Text Goes Here",
-  notes: ""
-})
-
-form_4 = FormTemplate.create({
-  name: "Open Ended Form with Contact Information",
-  kind:  "open-ended-with-contact-info",
-  title: "",
-  instructions: "",
-  disclaimer_text: "Disclaimer Text Goes Here",
-  notes: ""
-})
-
 # Forms
-form_1 = Form.create({
+
+## Create the Open-ended Form
+open_ended_form = Form.create({
   name: "Open-ended",
-  kind:  "open-ended",
+  kind:  "custom",
   title: "Custom Open-ended Title",
   instructions: "Share feedback about the new example.gov website and recommend additional features.",
   disclaimer_text: "Disclaimer Text Goes Here",
   notes: "",
   character_limit: 6000
 })
+Question.create!({
+  form: open_ended_form,
+  form_section: open_ended_form.form_sections.first,
+  text: "How can we improve this website to better meet your needs?",
+  question_type: "textarea",
+  position: 1,
+  answer_field: :answer_01,
+  is_required: true,
+})
 
-form_2 = Form.create({
+## Create the Recruiter Form
+recruiter_form = Form.create({
   name: "Recruiter",
-  kind:  "recruiter",
-  title: "",
-  instructions: "",
-  disclaimer_text: "Disclaimer Text Goes Here",
-  notes: ""
-})
-
-form_3 = Form.create({
-  name: "À11 - 7 Question Form",
-  kind:  "a11",
-  title: "",
-  instructions: "",
-  disclaimer_text: "Disclaimer Text Goes Here",
-  notes: ""
-})
-
-form_4 = Form.create({
-  name: "Open Ended Form with Contact Information",
-  kind:  "open-ended-with-contact-info",
-  title: "",
-  instructions: "",
-  disclaimer_text: "Disclaimer Text Goes Here",
-  notes: "",
-  character_limit: 6000
-})
-
-custom_form = Form.create({
-  name: "Custom Form",
   kind:  "custom",
   title: "",
   instructions: "",
   disclaimer_text: "Disclaimer Text Goes Here",
-  success_text: "Thank you for your submission 🎉",
-  notes: "",
-  character_limit: 1000
+  notes: ""
 })
-
 Question.create!({
-  form: custom_form,
-  form_section: custom_form.form_sections.first,
-  text: "Custom Question Text Field",
+  form: recruiter_form,
+  form_section: recruiter_form.form_sections.first,
+  text: "Name",
   question_type: "text_field",
   position: 1,
   answer_field: :answer_01,
   is_required: false,
 })
-
 Question.create!({
-  form: custom_form,
-  form_section: custom_form.form_sections.first,
-  text: "Custom Question Text Area",
-  question_type: "textarea",
+  form: recruiter_form,
+  form_section: recruiter_form.form_sections.first,
+  text: "Email",
+  question_type: "text_field",
   position: 2,
   answer_field: :answer_02,
   is_required: false,
 })
-
-radio_button_question = Question.create!({
-  form: custom_form,
-  form_section: custom_form.form_sections.first,
-  text: "Custom Question Radio Buttons",
-  question_type: "radio_buttons",
+Question.create!({
+  form: recruiter_form,
+  form_section: recruiter_form.form_sections.first,
+  text: "Phone Number",
+  question_type: "text_field",
   position: 3,
   answer_field: :answer_03,
   is_required: false,
 })
 
-QuestionOption.create!({
-  question: radio_button_question,
-  text: "Option 1",
-  position: 1
+form_3 = Form.create({
+  name: "À11 - 7 Question Form",
+  kind:  "custom",
+  title: "",
+  instructions: "",
+  disclaimer_text: "Disclaimer Text Goes Here",
+  notes: ""
 })
 
-QuestionOption.create!({
-  question: radio_button_question,
-  text: "Option 2",
-  position: 2
+open_ended_form_with_contact_information = Form.create({
+  name: "Open Ended Form with Contact Information",
+  kind:  "custom",
+  title: "",
+  instructions: "",
+  disclaimer_text: "Disclaimer Text Goes Here",
+  notes: "",
+  character_limit: 6000
+})
+Question.create!({
+  form: open_ended_form_with_contact_information,
+  form_section: open_ended_form_with_contact_information.form_sections.first,
+  text: "How can we improve this website to better meet your needs?",
+  question_type: "textarea",
+  position: 1,
+  answer_field: :answer_01,
+  is_required: true,
+})
+Question.create!({
+  form: open_ended_form_with_contact_information,
+  form_section: open_ended_form_with_contact_information.form_sections.first,
+  text: "Name",
+  question_type: "text_field",
+  position: 1,
+  answer_field: :answer_01,
+  is_required: false,
+})
+Question.create!({
+  form: open_ended_form_with_contact_information,
+  form_section: open_ended_form_with_contact_information.form_sections.first,
+  text: "Email",
+  question_type: "text_field",
+  position: 2,
+  answer_field: :answer_02,
+  is_required: false,
 })
 
-QuestionOption.create!({
-  question: radio_button_question,
-  text: "Option 3",
-  position: 3
-})
+a11_form = Seeds::Forms.a11
+kitchen_sink_form = Seeds::Forms.kitchen_sink
 
 # A Service created by Admin
 service_1  = Service.create!({
@@ -291,7 +267,7 @@ UserService.create(
 
 # Touchpoints
 touchpoint_1 = Touchpoint.create!({
-  form: form_1,
+  form: open_ended_form,
   service: service_1,
   name: "Open-ended Feedback",
   purpose: "Soliciting feedback",
@@ -301,7 +277,7 @@ touchpoint_1 = Touchpoint.create!({
 })
 
 touchpoint_2 = Touchpoint.create!({
-  form: form_2,
+  form: recruiter_form,
   service: service_1,
   name: "Recruiter",
   purpose: "Improving Customer Experience with proactive research and service",
@@ -321,7 +297,7 @@ touchpoint_3 = Touchpoint.create!({
 })
 
 touchpoint_4 = Touchpoint.create!({
-  form: form_4,
+  form: open_ended_form_with_contact_information,
   service: service_2,
   name: "A11 - 7 question test - DB",
   purpose: "CX",
