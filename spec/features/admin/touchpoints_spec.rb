@@ -104,7 +104,7 @@ feature "Touchpoints", js: true do
           end
 
           it "can complete then submit the inline Form and see a Success message" do
-            fill_in "fba-text-body", with: "We the People of the United States, in Order to form a more perfect Union..."
+            fill_in "answer_01", with: "We the People of the United States, in Order to form a more perfect Union..."
             click_on "Submit"
             expect(page).to have_content("Success")
             expect(page).to have_content("Thank you. Your feedback has been received.")
@@ -133,9 +133,6 @@ feature "Touchpoints", js: true do
           fill_in("touchpoint[name]", with: "Test Touchpoint")
           fill_in("touchpoint[omb_approval_number]", with: 1234)
           fill_in("touchpoint[expiration_date]", with: future_date.strftime("%m/%d/%Y"))
-          # FIXME
-          # this is non-conventional, because USWDS hides inputs and uses CSS :before
-          # first("label[for=touchpoint_form_template_id_1]").click
           select(service.name, from: "touchpoint[service_id]")
           fill_in("touchpoint[meaningful_response_size]", with: 50)
           fill_in("touchpoint[notification_emails]", with: "admin@example.gov")

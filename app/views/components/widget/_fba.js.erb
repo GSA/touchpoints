@@ -228,34 +228,6 @@ N.fba = {
 			<% end %>
 			}
 			<% end %>
-			<% if @touchpoint.form.kind == "open-ended" %>
-			var params = {
-				answer_01: form.querySelector("#fba-text-body").value
-			}
-			<% end %>
-			<% if @touchpoint.form.kind == "open-ended-with-contact-info" %>
-			var params = {
-				answer_01: form.querySelector("#fba-text-body").value,
-				answer_02: form.querySelector("#fba-text-name").value,
-				answer_03: form.querySelector("#fba-text-email").value
-			}
-			<% end %>
-			<% if ["a11", "a11_epa"].include?(@touchpoint.form.kind) %>
-			var params = {
-				answer_01: form.querySelector("input[name=answer_01]:checked") && form.querySelector("input[name=answer_01]:checked").value,
-				answer_02: form.querySelector("input[name=answer_02]:checked") && form.querySelector("input[name=answer_02]:checked").value,
-				answer_03: form.querySelector("input[name=answer_03]:checked") && form.querySelector("input[name=answer_03]:checked").value,
-				answer_04: form.querySelector("input[name=answer_04]:checked") && form.querySelector("input[name=answer_04]:checked").value,
-				answer_05: form.querySelector("input[name=answer_05]:checked") && form.querySelector("input[name=answer_05]:checked").value,
-				answer_06: form.querySelector("input[name=answer_06]:checked") && form.querySelector("input[name=answer_06]:checked").value,
-				answer_07: form.querySelector("input[name=answer_07]:checked") && form.querySelector("input[name=answer_07]:checked").value,
-				answer_08: form.querySelector("input[name=answer_08]:checked") && form.querySelector("input[name=answer_08]:checked").value,
-				answer_09: form.querySelector("input[name=answer_09]:checked") && form.querySelector("input[name=answer_09]:checked").value,
-				answer_10: form.querySelector("input[name=answer_10]:checked") && form.querySelector("input[name=answer_10]:checked").value,
-				answer_11: form.querySelector("input[name=answer_11]:checked") && form.querySelector("input[name=answer_11]:checked").value,
-				answer_12: form.querySelector("input[name=answer_12]:checked") && form.querySelector("input[name=answer_12]:checked").value
-			}
-			<% end %>
 
 			// Combine Referrer and Pathname with Form-specific params
 			params["referer"] = d.referrer;
