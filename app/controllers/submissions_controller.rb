@@ -102,26 +102,7 @@ class SubmissionsController < ApplicationController
       # TODO: handle as a case statement
       # TODO: split Form-specific parameter whitelisting into Form's definitions
       # TODO: Consider Making `recruiter`, the Form.kind, a Class/Module, for better strictnesss/verbosity.
-      if @touchpoint.form.kind == "a11"
-        params.require(:submission).permit(
-          :answer_01,
-          :answer_02,
-          :answer_03,
-          :answer_04,
-          :answer_05,
-          :answer_06,
-          :answer_07,
-          :answer_08,
-          :answer_09,
-          :answer_10,
-          :answer_11,
-          :answer_12,
-          :language,
-          :location_code,
-          :referer,
-          :page
-        )
-      elsif @touchpoint.form.kind == "custom"
+      if @touchpoint.form.kind == "custom"
         permitted_fields = @touchpoint.form.questions.collect(&:answer_field)
         permitted_fields << [:language, :location_code, :referer, :page]
         params.require(:submission).permit(permitted_fields)

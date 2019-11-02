@@ -6,10 +6,6 @@ FactoryBot.define do
     notes { "Notes" }
     character_limit { 1000 }
 
-    trait :a11 do
-      kind { "a11" }
-    end
-
     trait :recruiter do
       name { "Recruiter" }
       kind { "custom" }

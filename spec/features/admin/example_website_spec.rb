@@ -6,8 +6,6 @@ feature "Example Website Integration", js: true do
   let(:open_ended_touchpoint) { FactoryBot.create(:touchpoint, form: open_ended_form) }
   let(:recruiter_form) { FactoryBot.create(:form, :recruiter) }
   let!(:recruiter_touchpoint) { FactoryBot.create(:touchpoint, form: recruiter_form) }
-  let(:a11_form) { FactoryBot.create(:form, :a11) }
-  let!(:a11_touchpoint) { FactoryBot.create(:touchpoint, form: a11_form) }
 
   describe "third-party .gov website" do
     before do

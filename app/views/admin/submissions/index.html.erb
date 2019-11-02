@@ -12,25 +12,11 @@
     <table class="usa-table table-scroll">
       <thead>
         <tr>
-          <% if @touchpoint.form.kind == "custom" %>
+        <% if @touchpoint.form.kind == "custom" %>
           <% @touchpoint.form.questions.each do |question| %>
           <th><%= question.text %></th>
           <% end %>
-          <% end %>
-          <% if @touchpoint.form.kind == "a11" %>
-          <th>Overall satisfaction</th>
-          <th>Service confidence</th>
-          <th>Service effectiveness</th>
-          <th>Process ease</th>
-          <th>Process efficiency</th>
-          <th>Process transparency</th>
-          <th>People employees</th>
-          <th>Custom Question 1</th>
-          <th>Custom Question 2</th>
-          <th>Custom Question 3</th>
-          <th>Custom Question 4</th>
-          <th>Custom Question 5</th>
-          <% end %>
+        <% end %>
           <th>Location Code</th>
           <th>IP Address</th>
           <th>User Agent</th>
@@ -39,9 +25,9 @@
           <th>Language</th>
           <th>Created At</th>
           <th></th>
-          <% if @touchpoint.service && (@touchpoint.service.user_role?(user: current_user) == UserService::Role::ServiceManager) %>
+        <% if @touchpoint.service && (@touchpoint.service.user_role?(user: current_user) == UserService::Role::ServiceManager) %>
           <th></th>
-          <% end %>
+        <% end %>
         </tr>
       </thead>
 
@@ -54,20 +40,6 @@
               <%= sanitize(submission.send(question.answer_field.to_sym)) %>
             </td>
             <% end %>
-          <% end %>
-          <% if @touchpoint.form.kind == "a11" %>
-          <td><%= sanitize(submission.answer_01) %></td>
-          <td><%= sanitize(submission.answer_02) %></td>
-          <td><%= sanitize(submission.answer_03) %></td>
-          <td><%= sanitize(submission.answer_04) %></td>
-          <td><%= sanitize(submission.answer_05) %></td>
-          <td><%= sanitize(submission.answer_06) %></td>
-          <td><%= sanitize(submission.answer_07) %></td>
-          <td><%= sanitize(submission.answer_08) %></td>
-          <td><%= sanitize(submission.answer_09) %></td>
-          <td><%= sanitize(submission.answer_10) %></td>
-          <td><%= sanitize(submission.answer_11) %></td>
-          <td><%= sanitize(submission.answer_12) %></td>
           <% end %>
           <td><%= submission.location_code %></td>
           <td><%= submission.ip_address %></td>
