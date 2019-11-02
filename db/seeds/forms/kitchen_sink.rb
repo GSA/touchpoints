@@ -4,7 +4,7 @@ module Seeds
     # Create a Custom Form with a 2nd Page/Form Section
     def self.kitchen_sink
       custom_form = Form.create({
-        name: "Custom Form",
+        name: "Kitchen Sink Form",
         kind:  "custom",
         title: "",
         instructions: "",
@@ -109,6 +109,7 @@ module Seeds
         position: 3
       })
 
+      custom_form
     end
   end
 end

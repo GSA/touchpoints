@@ -228,7 +228,7 @@ N.fba = {
 			<% end %>
 			}
 			<% end %>
-			<% if ["a11", "a11_epa"].include?(@touchpoint.form.kind) %>
+			<% if ["a11"].include?(@touchpoint.form.kind) %>
 			var params = {
 				answer_01: form.querySelector("input[name=answer_01]:checked") && form.querySelector("input[name=answer_01]:checked").value,
 				answer_02: form.querySelector("input[name=answer_02]:checked") && form.querySelector("input[name=answer_02]:checked").value,

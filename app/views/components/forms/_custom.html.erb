@@ -54,13 +54,13 @@
           </div>
         <% end %>
         <% if section == form.form_sections.last %>
-          <div class="submit-button button-wrapper">
+          <p class="submit-button">
             <% if current_path.include?("/admin/forms") || current_path.include?("/admin/touchpoints/") %>
             <button type="submit" id="fba-submit" class="usa-button" disabled>Submit</button>
             <% else %>
             <button type="submit" id="fba-submit" class="usa-button">Submit</button>
             <% end %>
-          </div>
+          </p>
         <% end %>
       </div>
     <% end %>

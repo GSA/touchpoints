@@ -114,6 +114,7 @@ module Seeds
         end
       end
 
+      a11_form
     end
   end
 end

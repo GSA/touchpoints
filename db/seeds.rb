@@ -165,15 +165,6 @@ Question.create!({
   is_required: false,
 })
 
-form_3 = Form.create({
-  name: "À11 - 7 Question Form",
-  kind:  "custom",
-  title: "",
-  instructions: "",
-  disclaimer_text: "Disclaimer Text Goes Here",
-  notes: ""
-})
-
 open_ended_form_with_contact_information = Form.create({
   name: "Open Ended Form with Contact Information",
   kind:  "custom",
@@ -287,9 +278,9 @@ touchpoint_2 = Touchpoint.create!({
 })
 
 touchpoint_3 = Touchpoint.create!({
-  form: form_3,
+  form: a11_form,
   service: service_2,
-  name: "A11 - 7 question test - DB",
+  name: "A11 - 7 question test",
   purpose: "CX",
   meaningful_response_size: 100,
   behavior_change: "Better customer service",
