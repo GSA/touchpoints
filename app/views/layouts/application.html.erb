@@ -20,17 +20,15 @@
 
   <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<%= ENV.fetch("TOUCHPOINTS_GTM_CONTAINER_ID") %>"
+    <noscript><iframe sandbox="allow-same-origin allow-scripts" src="https://www.googletagmanager.com/ns.html?id=<%= ENV.fetch("TOUCHPOINTS_GTM_CONTAINER_ID") %>"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <%= render 'components/header' %>
     <% unless content_for?(:full_layout) %>
     <main id="main-content">
-      <div class="usa-grid">
-        <div class="usa-width-full">
-          <%= render('components/flash', flash: flash) unless suppress_main_layout_flash? %>
-          <%= yield %>
-        </div>
+      <div class="grid-container">
+        <%= render('components/flash', flash: flash) unless suppress_main_layout_flash? %>
+        <%= yield %>
       </div>
     </main>
     <% else %>

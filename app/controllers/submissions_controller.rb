@@ -8,6 +8,7 @@ class SubmissionsController < ApplicationController
     unless @touchpoint.deployable_touchpoint?
       redirect_to root_path, alert: "Touchpoint does not have a Service specified"
     end
+    @touchpoint.update_attribute(:survey_form_activations, @touchpoint.survey_form_activations += 1)
     @submission = Submission.new
     # set location code in the form based on `?location_code=`
     @submission.location_code = params[:location_code]
@@ -101,55 +102,7 @@ class SubmissionsController < ApplicationController
       # TODO: handle as a case statement
       # TODO: split Form-specific parameter whitelisting into Form's definitions
       # TODO: Consider Making `recruiter`, the Form.kind, a Class/Module, for better strictnesss/verbosity.
-      if @touchpoint.form.kind == "recruiter"
-        params.require(:submission).permit(
-          :answer_01,
-          :answer_02,
-          :answer_03,
-          :answer_04,
-          :language,
-          :location_code,
-          :referer,
-          :page
-        )
-      elsif @touchpoint.form.kind == "open-ended"
-        params.require(:submission).permit(
-          :answer_01,
-          :language,
-          :location_code,
-          :referer,
-          :page
-        )
-      elsif @touchpoint.form.kind == "open-ended-with-contact-info"
-        params.require(:submission).permit(
-          :answer_01,
-          :answer_02,
-          :answer_03,
-          :language,
-          :location_code,
-          :referer,
-          :page
-        )
-      elsif @touchpoint.form.kind == "a11"
-        params.require(:submission).permit(
-          :answer_01,
-          :answer_02,
-          :answer_03,
-          :answer_04,
-          :answer_05,
-          :answer_06,
-          :answer_07,
-          :answer_08,
-          :answer_09,
-          :answer_10,
-          :answer_11,
-          :answer_12,
-          :language,
-          :location_code,
-          :referer,
-          :page
-        )
-      elsif @touchpoint.form.kind == "custom"
+      if @touchpoint.form.kind == "custom"
         permitted_fields = @touchpoint.form.questions.collect(&:answer_field)
         permitted_fields << [:language, :location_code, :referer, :page]
         params.require(:submission).permit(permitted_fields)

@@ -1,9 +1,9 @@
 <div class="well">
   <h1>New Service</h1>
-  <div class="usa-alert usa-alert-info">
-    <div class="usa-alert-body">
-      <h3 class="usa-alert-heading">About Services in Touchpoints</h3>
-      <p class="usa-alert-text">
+  <div class="usa-alert usa-alert--info">
+    <div class="usa-alert__body">
+      <h3 class="usa-alert__heading">About Services in Touchpoints</h3>
+      <p class="usa-alert__text">
         Touchpoints allows Agencies to manage Services
         (in the <em>Service Design</em> sense of the word).
         <br>
@@ -22,4 +22,6 @@
   </p>
   <%= render 'form', service: @service %>
 </div>
-<%= link_to 'All Services', admin_services_path, class: "usa-button" %>
+<p>
+  <%= link_to 'All Services', admin_services_path, class: "usa-button usa-button--outline" %>
+</p>

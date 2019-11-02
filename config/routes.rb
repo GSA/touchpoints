@@ -12,7 +12,6 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    get "dashboard", to: "site#dashboard"
     resources :form_templates
     resources :forms do
       resources :form_sections
@@ -47,10 +46,9 @@ Rails.application.routes.draw do
         end
       end
     end
-    root to: "site#dashboard"
+    root to: "site#index"
   end
 
   get "status", to: "site#status", as: :status
-  get "onboarding", to: "site#onboarding", as: :onboarding
   root to: "site#index"
 end

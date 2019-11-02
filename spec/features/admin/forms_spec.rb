@@ -229,7 +229,7 @@ feature "Forms", js: true do
             fill_in("question_option_text", with: "New Test Radio Option")
             click_on("Create Question option")
             expect(page).to have_content("Question option was successfully created.")
-            within ".question" do
+            within ".question .usa-checkbox" do
               expect(find("label")).to have_content("New Test Radio Option")
             end
           end

@@ -1,7 +1,7 @@
 <div class="well">
   <h1>Services</h1>
 
-  <table>
+  <table class="usa-table">
     <thead>
       <tr>
         <% if current_user.admin? %>
@@ -32,5 +32,7 @@
   </table>
 </div>
 <% if is_at_least_organization_manager?(user: current_user) %>
-  <%= link_to 'New Service', new_admin_service_path, class: "usa-button" %>
+  <p>
+    <%= link_to 'New Service', new_admin_service_path, class: "usa-button" %>
+  </p>
 <% end %>

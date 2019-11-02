@@ -1,5 +1,5 @@
 class Touchpoint < ApplicationRecord
-  belongs_to :service, optional: true
+  belongs_to :service
   belongs_to :form, optional: true
   has_many :submissions
 
@@ -55,16 +55,8 @@ class Touchpoint < ApplicationRecord
     end
   end
 
-  APPROVED_FORM_KINDS = [
-    "recruiter",
-    "open-ended",
-    "open-ended-with-contact-info",
-    "a11",
-  ]
-
   def fields_for_export
     raise InvalidArgument unless self.form
-    raise InvalidArgument("#{@touchpoint.name} has a Form with an unsupported Kind") unless APPROVED_FORM_KINDS.include?(self.form.kind)
 
     self.hashed_fields_for_export.keys
   end
@@ -73,59 +65,17 @@ class Touchpoint < ApplicationRecord
   def hashed_fields_for_export
     raise InvalidArgument unless self.form
 
-    if self.form.kind == "recruiter"
-      {
-        answer_01: "First Name",
-        answer_02: "Last Name",
-        answer_03: "Email",
-        answer_04: "IP Address",
+    hash = {}
+
+    if self.form.kind == "custom"
+      self.form.questions.map { |q| hash[q.answer_field] = q.text }
+      hash.merge({
         ip_address: "IP Address",
         user_agent: "User Agent",
         page: "Page",
         referer: "Referrer",
         created_at: "Created At"
-      }
-    elsif self.form.kind == "open-ended"
-      {
-        answer_01: "Body",
-        ip_address: "IP Address",
-        user_agent: "User Agent",
-        page: "Page",
-        referer: "Referrer",
-        created_at: "Created At"
-      }
-    elsif self.form.kind == "open-ended-with-contact-info"
-      {
-        answer_01: "Body",
-        answer_02: "Name",
-        answer_03: "Email",
-        answer_04: "Phone",
-        ip_address: "IP Address",
-        user_agent: "User Agent",
-        page: "Page",
-        referer: "Referrer",
-        created_at: "Created At"
-      }
-    elsif self.form.kind == "a11"
-      {
-        answer_01: "Overall satisfaction",
-        answer_02: "Service confidence",
-        answer_03: "Service effectiveness",
-        answer_04: "Process ease",
-        answer_05: "Process efficiency",
-        answer_06: "Process transparency",
-        answer_07: "People employees",
-        answer_08: "Custom Question 1",
-        answer_09: "Custom Question 2",
-        answer_10: "Custom Question 3",
-        answer_11: "Custom Question 4",
-        answer_12: "Custom Question 5",
-        ip_address: "IP Address",
-        user_agent: "User Agent",
-        page: "Page",
-        referer: "Referrer",
-        created_at: "Created At"
-      }
+      })
     else
       raise InvalidArgument("#{@touchpoint.name} has a Form with an unsupported Kind")
     end

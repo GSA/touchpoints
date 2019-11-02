@@ -1,5 +1,5 @@
-<div class="usa-grid-full">
-  <div class="usa-width-full">
+<div class="grid-row">
+  <div class="grid-col-12">
     <h2 class="justify-vertical">
       <% if form.display_header_logo && (form.touchpoint && form.touchpoint.service && form.touchpoint.service.organization.logo.present?) %>
         <%= image_tag(form.touchpoint.service.organization.logo.tag.url, alt: "Organization logo", class: "form-header-logo") %>

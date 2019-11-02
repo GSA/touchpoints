@@ -1,11 +1,13 @@
 <div class="well">
-  <div class="usa-grid-full">
-    <div class="usa-width-full">
+  <div class="grid-row">
+    <div class="grid-col-12">
       <h1>
         Viewing a Touchpoint
       </h1>
     </div>
-    <div class="usa-width-full">
+  </div>
+  <div class="grid-row">
+    <div class="grid-col-12">
       <p>
         <strong>Name:</strong>
         <%= @touchpoint.name %>
@@ -54,6 +56,22 @@
           <%= @touchpoint.omb_approval_number %>
         </p>
         <p>
+          <strong>Federal Register URL:</strong>
+          <%= @touchpoint.federal_register_url %>
+        </p>
+        <p>
+          <strong>Medium of Delivery:</strong>
+          <%= @touchpoint.medium %>
+        </p>
+        <p>
+          <strong>Anticipated Delivery Count:</strong>
+          <%= @touchpoint.anticipated_delivery_count %>
+        </p>
+        <p>
+          <strong>Survey Form Activations:</strong>
+          <%= @touchpoint.survey_form_activations %>
+        </p>
+        <p>
           <strong>Expiration Date:</strong>
           <%= @touchpoint.expiration_date %>
         </p>
@@ -88,15 +106,15 @@
   </div>
   <%= link_to 'Edit', edit_admin_touchpoint_path(@touchpoint), class: "usa-button" %>
 </div>
-<div class="well">
+<div class="well hide">
   <% if admin_permissions? %>
   <div class="pra-features">
     <h3>
       PRA Features
     </h3>
-    <div class="usa-alert usa-alert-info" >
-      <div class="usa-alert-body">
-        <p class="usa-alert-text">
+    <div class="usa-alert usa-alert--info" >
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
           Gathering public feedback requires
           authorization and approvals, including PRA.
           Public Records Act (PRA)
@@ -113,39 +131,38 @@
         </p>
       </div>
     </div>
+    <br>
     <%= link_to "Generate PRA Form Part A", export_pra_document_admin_touchpoint_path(@touchpoint, format: "docx", type: "part_a"), class: "usa-button" %>
   </div>
   <% end %>
 </div>
 <div class="well">
-  <ul class="usa-accordion-bordered">
-    <li>
-      <button class="usa-accordion-button"
-        aria-expanded="false"
-        aria-controls="b-a1">
+  <div class="usa-accordion usa-accordion--bordered">
+    <h2 class="usa-accordion__heading">
+      <button class="usa-accordion__button" aria-expanded="false" aria-controls="b-a1">
         Learn more about the options for publishing a Touchpoint
       </button>
-      <div id="b-a1" class="usa-accordion-content">
-        <p>
-          Service Managers are responsible for determining where a Touchpoint is
-          presented in a user's journey. The Feedback Analytics team can also
-          provide assistance in this regard.
-        </p>
-        <p>
-          A Touchpoint can be shared with a user in a couple ways. Touchpoints hosts
-          Touchpoints via a public URL, where users can access them directly.
-          An Agency can use the public URL in a link on a website, in a customer
-          communication.
-          For example, including the public URL in a CRM follow-up response email.
-        </p>
-        <p>
-          A Touchpoint can also be embedded on a website via a script tag.
-          An embedded Touchpoint displays a tab and pops a modal by default; though,
-          it is customizable to a certain extent.
-        </p>
-      </div>
-    </li>
-  </ul>
+    </h2>
+    <div id="b-a1" class="usa-accordion__content usa-prose">
+      <p>
+        Service Managers are responsible for determining where a Touchpoint is
+        presented in a user's journey. The Feedback Analytics team can also
+        provide assistance in this regard.
+      </p>
+      <p>
+        A Touchpoint can be shared with a user in a couple ways. Touchpoints hosts
+        Touchpoints via a public URL, where users can access them directly.
+        An Agency can use the public URL in a link on a website, in a customer
+        communication.
+        For example, including the public URL in a CRM follow-up response email.
+      </p>
+      <p>
+        A Touchpoint can also be embedded on a website via a script tag.
+        An embedded Touchpoint displays a tab and pops a modal by default; though,
+        it is customizable to a certain extent.
+      </p>
+    </div>
+  </div>
   <h3>
     Publishing a Touchpoint
   </h3>
@@ -217,10 +234,10 @@
       </p>
     <% end %>
   <% else %>
-    <div class="usa-alert usa-alert-error" >
-      <div class="usa-alert-body">
-        <h3 class="usa-alert-heading">Touchpoint is not yet deployable</h3>
-        <p class="usa-alert-text">
+    <div class="usa-alert usa-alert--error" >
+      <div class="usa-alert__body">
+        <h3 class="usa-alert__heading">Touchpoint is not yet deployable</h3>
+        <p class="usa-alert__text">
           This Touchpoint does not specify a Form and/or Service.
         </p>
       </div>

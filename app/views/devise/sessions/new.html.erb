@@ -1,5 +1,5 @@
-<div class="usa-grid-full">
-  <div class="usa-width-one-half">
+<div class="grid-row">
+  <div class="grid-col-6">
     <div class="login-form">
       <div class="disclaimer">
         <br>
@@ -11,8 +11,9 @@
           recording, and no expectation of privacy.
           Misuse is subject to criminal and civil penalties.
           <%= link_to "Read more details", "#", id: "read-more-details" %>.
-          <br>
-          <%= link_to "Agree and continue to Sign In", user_login_dot_gov_omniauth_authorize_path, id: "agree-button", class: "usa-button" %>
+          <p>
+            <%= link_to "Agree and continue to Sign In", user_login_dot_gov_omniauth_authorize_path, id: "agree-button", class: "usa-button" %>
+          </p>
         </div>
         <br>
         <%= link_to "Learn about getting access to Touchpoints.", "https://feedback.usa.gov", target: "_blank", rel: "noopener" %>

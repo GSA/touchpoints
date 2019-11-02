@@ -1,6 +1,6 @@
 <% multi_section_question_number = 0 %>
 
-<form id="touchpoints-form" action="<%= root_url %>touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" method="POST" data-kind="a11">
+<form id="touchpoints-form" action="<%= root_url %>touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" method="POST">
   <div id="touchpoints-form-body">
     <%= hidden_field_tag :fba_location_code, params[:location_code] %>
 
@@ -46,7 +46,7 @@
                   Would you like to take two more minutes to answer more questions to help us improve our services?
                 </h4>
                 <%= link_to "Yes, keep going →", "#next-page", class: "usa-button next-section", 'data-form-section-target' => "" %>
-                <button type="submit" id="fba-early-submit" class="usa-button-secondary">No, only submit these responses</button>
+                <button type="submit" id="fba-early-submit" class="usa-button usa-button--base">No, only submit these responses</button>
               </div>
             <% elsif section != form.form_sections.last %>
               <%= link_to "Next →", "#next-page", class: "usa-button next-section", 'data-form-section-target' => "" %>
@@ -54,13 +54,13 @@
           </div>
         <% end %>
         <% if section == form.form_sections.last %>
-          <div class="submit-button button-wrapper">
+          <p class="submit-button">
             <% if current_path.include?("/admin/forms") || current_path.include?("/admin/touchpoints/") %>
-            <button type="submit" id="fba-submit" class="usa-button-primary-alt" disabled>Submit</button>
+            <button type="submit" id="fba-submit" class="usa-button" disabled>Submit</button>
             <% else %>
-            <button type="submit" id="fba-submit" class="usa-button-primary-alt">Submit</button>
+            <button type="submit" id="fba-submit" class="usa-button">Submit</button>
             <% end %>
-          </div>
+          </p>
         <% end %>
       </div>
     <% end %>

@@ -4,7 +4,7 @@
       <h2>
         <%= pluralize(organization.errors.count, "error") %> prohibited this organization from being saved:
       </h2>
-      <ul>
+      <ul class="usa-list">
       <% organization.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
@@ -12,41 +12,43 @@
     </div>
   <% end %>
   <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name, placeholder: "General Services Administration" %>
+    <%= form.label :name, class: "usa-label" %>
+    <%= form.text_field :name, class: "usa-input", placeholder: "General Services Administration" %>
   </div>
   <div class="field">
-    <%= form.label :logo %>
-    <div class="usa-alert usa-alert-info">
-      <div class="usa-alert-body">
-        <p class="usa-alert-text">
+    <%= form.label :logo, class: "usa-label" %>
+    <div class="usa-alert usa-alert--info">
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
           The uploaded logo will be transformed into 2 additional sizes:
-          <ul>
+          <ul class="usa-list">
             <li>Thumbnail - 96px width by 96px tall</li>
             <li>Card - 360px wide by variable height</li>
           </ul>
         </p>
       </div>
     </div>
-    <%= form.file_field :logo %>
+    <p>
+      <%= form.file_field :logo, class: "usa-button" %>
+    </p>
   </div>
   <div class="field">
-    <%= form.label :domain %>
-    <%= form.text_field :domain, placeholder: "gsa.gov" %>
+    <%= form.label :domain, class: "usa-label" %>
+    <%= form.text_field :domain, class: "usa-input", placeholder: "gsa.gov" %>
   </div>
   <div class="field">
-    <%= form.label :url %>
-    <%= form.text_field :url, placeholder: "https://gsa.gov" %>
+    <%= form.label :url, class: "usa-label" %>
+    <%= form.text_field :url, class: "usa-input", placeholder: "https://gsa.gov" %>
   </div>
   <div class="field">
-    <%= form.label :abbreviation %>
-    <%= form.text_field :abbreviation, placeholder: "GSA" %>
+    <%= form.label :abbreviation, class: "usa-label" %>
+    <%= form.text_field :abbreviation, class: "usa-input", placeholder: "GSA" %>
   </div>
   <div class="field">
-    <%= form.label :notes %>
-    <%= form.text_area :notes, placeholder: "CX & Service Design notes about this Org" %>
+    <%= form.label :notes, class: "usa-label" %>
+    <%= form.text_area :notes, class: "usa-textarea", placeholder: "CX & Service Design notes about this Org" %>
   </div>
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <p>
+    <%= form.submit class: "usa-button" %>
+  </p>
 <% end %>

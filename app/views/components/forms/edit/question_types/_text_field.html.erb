@@ -1,10 +1,10 @@
-<fieldset class="radios" role="group" aria-labelledby="<%= question.answer_field %>">
-  <h4>
+<div class="radios" role="group" aria-labelledby="<%= question.answer_field %>">
+  <label class="usa-label" for="<%= question.answer_field.to_sym %>">
     <%= question_number %>.
     <%= question.text %>
-    <span class="usa-label">
-      <%= question.answer_field %>
-    </span>
-  </h4>
-  <%= text_field_tag question.answer_field.to_sym %>
-</fieldset>
+  </label>
+  <span class="usa-tag">
+    <%= question.answer_field %>
+  </span>
+  <%= text_field_tag question.answer_field.to_sym, nil, class: "usa-input" %>
+</div>

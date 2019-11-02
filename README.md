@@ -1,12 +1,13 @@
+![Touchpoints Logo](https://github.com/GSA/touchpoints/blob/master/app/assets/images/touchpoints-logo-@2x.png?raw=true)
+
 > Please note that this project is a [beta](https://18f.gsa.gov/dashboard/stages/#beta) product, in early development and is not guaranteed stable at this time.
 
-# Touchpoints
 
 ## Overview
 
 Touchpoints enables government agencies
 to solicit and process user feedback to
-support the continuous improvement of public systems, services, processes, and policies.
+support continuous improvement of public service delivery.
 
 Touchpoints is a web application
 that makes it easy to deploy
@@ -16,11 +17,22 @@ Additionally, Touchpoints provides features specific the
 [Customer Experience](https://www.performance.gov/cx/)
 in the US Federal Government.
 
-The current version of Touchpoints is live at https://touchpoints.app.cloud.gov.
-A current demo version is live at https://touchpoints-demo.app.cloud.gov.
 GSA's Federal Acquisition Service (FAS) is developing Touchpoints in-house by the [Feedback Analytics Team](mailto:feedback-analytics@gsa.gov), within the Technology Transformation Services' [Office of Products and Programs (OPP)](https://www.gsa.gov/about-us/organization/federal-acquisition-service/technology-transformation-services/office-of-products-and-programs).
 
-## Process
+Touchpoints is live at <https://touchpoints.app.cloud.gov>.
+
+A current Demo version is live at <https://touchpoints-demo.app.cloud.gov>,
+and government customers are [encouraged](https://github.com/GSA/touchpoints/wiki/Touchpoints-Demo-Environment) to sign up and try it out.
+
+## Documentation
+
+See the [Touchpoints wiki](https://github.com/gsa/touchpoints/wiki) for more information about:
+
+-   Technical product documentation
+-   Product team responsibilities
+-   User guidance
+
+## Team Process
 
 We are tracking the work for Touchpoints on our internal [kanban](https://en.wikipedia.org/wiki/Kanban) board.
 

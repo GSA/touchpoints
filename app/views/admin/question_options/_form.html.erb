@@ -3,7 +3,7 @@
     <div id="error_explanation">
       <h2><%= pluralize(question_option.errors.count, "error") %> prohibited this question_option from being saved:</h2>
 
-      <ul>
+      <ul class="usa-list">
       <% question_option.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
@@ -14,16 +14,16 @@
   <%= form.hidden_field :question_id, value: @question.id %>
 
   <div class="field">
-    <%= form.label :text %>
-    <%= form.text_field :text %>
+    <%= form.label :text, class: "usa-label" %>
+    <%= form.text_field :text, class: "usa-input" %>
   </div>
 
   <div class="field">
-    <%= form.label :position %>
-    <%= form.number_field :position, value: (question_option.persisted? ? question_option.position : question.question_options.length + 1)  %>
+    <%= form.label :position, class: "usa-label" %>
+    <%= form.number_field :position, value: (question_option.persisted? ? question_option.position : question.question_options.length + 1), class: "usa-input" %>
   </div>
 
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <p>
+    <%= form.submit class: "usa-button" %>
+  </p>
 <% end %>

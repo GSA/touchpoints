@@ -12,7 +12,7 @@ feature "Touchpoints", js: true do
           expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit")
           expect(page).to have_content("OMB Approval ##{touchpoint.omb_approval_number}")
           expect(page).to have_content("Exp. Date #{touchpoint.expiration_date.strftime("%m/%d/%Y")}")
-          fill_in("fba-text-body", with: "User feedback")
+          fill_in("answer_01", with: "User feedback")
           click_button "Submit"
         end
 
@@ -31,7 +31,7 @@ feature "Touchpoints", js: true do
           expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit")
           expect(page).to have_content("OMB Approval ##{touchpoint.omb_approval_number}")
           expect(page).to have_content("Exp. Date #{touchpoint.expiration_date.strftime("%m/%d/%Y")}")
-          fill_in("fba-text-body", with: "User feedback")
+          fill_in("answer_01", with: "User feedback")
           click_button "Submit"
         end
 
@@ -50,12 +50,12 @@ feature "Touchpoints", js: true do
         expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit")
         expect(page).to have_content("OMB Approval ##{touchpoint.omb_approval_number}")
         expect(page).to have_content("Exp. Date #{touchpoint.expiration_date.strftime("%m/%d/%Y")}")
-        fill_in("fba-text-body", with: "T" * 100 * ((touchpoint.form.character_limit.to_i / 100) + 10))
+        fill_in("answer_01", with: "T" * 100 * ((touchpoint.form.character_limit.to_i / 100) + 10))
         click_button "Submit"
       end
 
       describe "display flash error on submission" do
-        it "renders body character_limit flash message" do
+        xit "renders body character_limit flash message" do
           expect(page).to have_content("body is limited to #{touchpoint.form.character_limit} characters")
           expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit")
         end
@@ -65,7 +65,7 @@ feature "Touchpoints", js: true do
     describe "/touchpoints?location_code=" do
       before do
         visit submit_touchpoint_path(touchpoint, location_code: "TEST_LOCATION_CODE")
-        fill_in("fba-text-body", with: "User feedback")
+        fill_in("answer_01", with: "User feedback")
         click_button "Submit"
       end
 
