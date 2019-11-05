@@ -8,6 +8,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def github
+    redirect_to root_path, alert: "Invalid request" unless ENV["GITHUB_CLIENT_ID"].present?
     @email = auth_hash["info"]["email"]
     login
   end
