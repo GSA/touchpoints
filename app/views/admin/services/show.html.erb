@@ -95,9 +95,9 @@
         <% if is_at_least_service_manager?(user: current_user, service: @service) %>
         <div class="well">
           <% if @available_members.present? %>
-          <%= select_tag :add_user_id, options_for_select(@available_members.map { |user| [user.email, user.id] }), prompt: "Add a Service Manager?", id: "add-user-dropdown", style: "display: inline-block; margin-right: 1em;" %>
+          <%= select_tag :add_user_id, options_for_select(@available_members.map { |user| [user.email, user.id] }), prompt: "Add a Service Manager?", id: "add-user-dropdown", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
           <!-- <span class="usa-buton" name="button" id="add-user-button">Add User</span> -->
-          <button type="button" name="button" id="add-user-button">Add Service Manager</button>
+          <button type="button" class="usa-button" name="button" id="add-user-button">Add Service Manager</button>
           <% else %>
           <div class="usa-alert usa-alert--info">
             <div class="usa-alert__body">
@@ -111,8 +111,8 @@
 
         <div class="well">
           <% if @available_members.present? %>
-          <%= select_tag :add_user_id, options_for_select(@available_members.map { |user| [user.email, user.id] }), prompt: "Add a Submission Viewer?", id: "add-submission-viewer-dropdown", style: "display: inline-block; margin-right: 1em;" %>
-          <button type="button" name="button" id="add-submission-viewer-button">Add Submission Viewer</button>
+          <%= select_tag :add_user_id, options_for_select(@available_members.map { |user| [user.email, user.id] }), prompt: "Add a Submission Viewer?", id: "add-submission-viewer-dropdown", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
+          <button type="button" class="usa-button" name="button" id="add-submission-viewer-button">Add Submission Viewer</button>
           <% else %>
           <div class="usa-alert usa-alert--info">
             <div class="usa-alert__body">
