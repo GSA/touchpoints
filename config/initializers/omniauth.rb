@@ -13,7 +13,7 @@
 # Of note: .gsub() is used below for the `private_key`,
 # to decode the line breaks properly
 
-return unless ENV.fetch("LOGIN_GOV_ENABLED") == "true"
+return if !ENV.fetch('GITHUB_CLIENT_ID').blank?
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :login_dot_gov, {

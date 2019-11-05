@@ -12,7 +12,11 @@
           Misuse is subject to criminal and civil penalties.
           <%= link_to "Read more details", "#", id: "read-more-details" %>.
           <p>
-            <%= link_to "Agree and continue to Sign In", user_login_dot_gov_omniauth_authorize_path, id: "agree-button", class: "usa-button" %>
+            <% if !ENV.fetch('GITHUB_CLIENT_ID').blank? %>
+              <%= link_to "Agree and continue to Sign In", user_github_omniauth_authorize_path, id: "agree-button", class: "usa-button" %>
+            <% else %>
+              <%= link_to "Agree and continue to Sign In", user_login_dot_gov_omniauth_authorize_path, id: "agree-button", class: "usa-button" %>
+            <% end %>
           </p>
         </div>
         <br>

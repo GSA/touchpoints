@@ -6,7 +6,7 @@ class User < ApplicationRecord
          :trackable,
          :timeoutable
 
-  devise :omniauthable, omniauth_providers: [:login_dot_gov]
+  devise :omniauthable, omniauth_providers: [:login_dot_gov, :github]
 
   belongs_to :organization, optional: true
   has_many :user_services
@@ -39,6 +39,7 @@ class User < ApplicationRecord
   end
 
   def tld_check
+    return true if !ENV.fetch('GITHUB_CLIENT_ID').blank?
     unless APPROVED_DOMAINS.any? { |word| email.end_with?(word) }
       errors.add(:email, "is not from a valid TLD - .gov and .mil domains only")
       return false

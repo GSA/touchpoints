@@ -17,9 +17,16 @@
 <% unless current_user %>
 <br>
 <p>
+<% if ENV.fetch('GITHUB_CLIENT_ID').blank? %>
   If you have a .gov address,
   <br>
   <br>
   <%= link_to "Sign in with Login.gov", user_login_dot_gov_omniauth_authorize_path, class: "usa-button" %>
+<% else %>
+  If you have a github account,
+  <br>
+  <br>
+  <%= link_to "Sign in with Github", user_github_omniauth_authorize_path, class: "usa-button" %>
+<% end %>
 </p>
 <% end %>

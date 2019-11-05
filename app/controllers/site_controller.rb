@@ -1,5 +1,6 @@
 class SiteController < ApplicationController
   def index
+    Rails.logger.debug("** AKT ** index")
   end
 
   def status

@@ -80,9 +80,15 @@
         <ul class="usa-nav__secondary-links">
           <% unless current_user %>
           <li class="usa-nav__secondary-item">
-            <%= link_to user_login_dot_gov_omniauth_authorize_path, class: "usa-nav__link admin" do %>
-              Sign in with Login.gov
-            <% end %>
+            <% if ENV.fetch('GITHUB_CLIENT_ID').blank? %> 
+              <%= link_to user_login_dot_gov_omniauth_authorize_path, class: "usa-nav__link admin" do %>
+                Sign in with Login.gov
+              <% end %>
+            <% else %>
+              <%= link_to user_github_omniauth_authorize_path, class: "usa-nav__link admin" do %>
+                Sign in with Github
+              <% end %>  
+            <% end %>          
           </li>
           <% else %>
           <li class="usa-nav__secondary-item">

@@ -7,6 +7,14 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     login
   end
 
+  def github
+    Rails.logger.debug("** AKT ** login_github")
+    Rails.logger.debug("** AKT ** auth_hash: #{auth_hash.to_s}")
+    @email = auth_hash["info"]["email"]
+    Rails.logger.debug("** AKT ** email: #{@email}")
+    login
+  end
+
   def failure
     redirect_to new_user_session_path, alert: "Login.gov error: #{failure_message}"
   end
@@ -22,6 +30,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if @email.present?
       @user = User.from_omniauth(auth_hash)
     end
+
+    Rails.logger.debug("** AKT ** login user #{@user.to_s}")
 
     # If user exists
     # Else, if valid email and no user, we create an account.
