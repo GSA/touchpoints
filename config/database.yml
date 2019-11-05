@@ -23,8 +23,6 @@ default: &default
 
 development:
   <<: *default
-  host: postgresql
-  user: postgresql
   database: touchpoints_development
 
   # The specified database role being used to connect to postgres.
