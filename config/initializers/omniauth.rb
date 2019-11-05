@@ -1,6 +1,3 @@
-# The ENV variable "LOGIN_GOV_ENABLED" must be set to `true`
-# in order to enable Login.gov integration
-#
 # LOGIN_GOV_PRIVATE_KEY expects the .pem in a certain format
 # For the .pem (private key):
 #
