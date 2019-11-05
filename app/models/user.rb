@@ -39,7 +39,8 @@ class User < ApplicationRecord
   end
 
   def tld_check
-    return true if !ENV.fetch('GITHUB_CLIENT_ID').blank?
+    return true if ENV['GITHUB_CLIENT_ID'].present?
+
     unless APPROVED_DOMAINS.any? { |word| email.end_with?(word) }
       errors.add(:email, "is not from a valid TLD - .gov and .mil domains only")
       return false
