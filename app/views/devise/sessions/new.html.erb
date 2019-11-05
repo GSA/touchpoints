@@ -13,10 +13,12 @@
           <%= link_to "Read more details", "#", id: "read-more-details" %>.
           <p>
             <% if ENV['GITHUB_CLIENT_ID'].present? %>
-              <%= link_to "Agree and continue to Sign In", user_github_omniauth_authorize_path, id: "agree-button", class: "usa-button" %>
+              <%= link_to "Agree and continue to Sign In with GitHub", user_github_omniauth_authorize_path, id: "agree-button", class: "usa-button" %>
             <% end %>
+          </p>
+          <p>
             <% if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
-              <%= link_to "Agree and continue to Sign In", user_login_dot_gov_omniauth_authorize_path, id: "agree-button", class: "usa-button" %>
+              <%= link_to "Agree and continue to Sign In with Login.gov", user_login_dot_gov_omniauth_authorize_path, id: "agree-button", class: "usa-button" %>
             <% end %>
           </p>
         </div>

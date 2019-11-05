@@ -16,18 +16,20 @@
 </ul>
 <% unless current_user %>
 <br>
-<p>
 <% if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
+<p>
   If you have a .gov address,
   <br>
   <br>
   <%= link_to "Sign in with Login.gov", user_login_dot_gov_omniauth_authorize_path, class: "usa-button" %>
+</p>
 <% end %>
 <% if ENV['GITHUB_CLIENT_ID'].present? %>
+<p>
   If you have a GitHub account,
   <br>
   <br>
   <%= link_to "Sign in with GitHub", user_github_omniauth_authorize_path, class: "usa-button" %>
-<% end %>
 </p>
+<% end %>
 <% end %>
