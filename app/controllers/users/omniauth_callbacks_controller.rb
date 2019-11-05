@@ -7,6 +7,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     login
   end
 
+  def github
+    @email = auth_hash["info"]["email"]
+    login
+  end
+
   def failure
     redirect_to new_user_session_path, alert: "Login.gov error: #{failure_message}"
   end
