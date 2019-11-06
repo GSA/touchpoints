@@ -4,6 +4,7 @@
     <%= question_number %>.
     <%= question.text %>
   </label>
+  <br>
   <% question.question_options.each_with_index do |option, index| %>
   <div class="radio-button usa-radio">
     <%= radio_button_tag(question.answer_field.to_sym, index + 1, nil, { value: option.text, class: "usa-radio__input" }) %>

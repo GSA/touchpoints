@@ -4,10 +4,13 @@
 # pem_string = File.open("your-filepath.pem", "r").read
 # use the value `pem_string`
 
-# eg:
+# Example:
 # export LOGIN_GOV_PRIVATE_KEY="#{pem_string}"
-# Of note: .gsub() is used for the `private_key`
-# below, to decode the line breaks properly
+#
+# Of note: .gsub() is used below for the `private_key`,
+# to decode the line breaks properly
+
+return unless ENV['LOGIN_GOV_CLIENT_ID'].present?
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :login_dot_gov, {
