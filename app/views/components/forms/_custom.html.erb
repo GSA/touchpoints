@@ -49,7 +49,9 @@
                 <button type="submit" id="fba-early-submit" class="usa-button usa-button--base">No, only submit these responses</button>
               </div>
             <% elsif section != form.form_sections.last %>
-              <%= link_to "Next →", "#next-page", class: "usa-button next-section", 'data-form-section-target' => "" %>
+              <p>
+                <%= link_to "Next →", "#next-page", class: "usa-button next-section", 'data-form-section-target' => "" %>
+              </p>
             <% end %>
           </div>
         <% end %>
