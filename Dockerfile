@@ -2,7 +2,7 @@
 FROM ruby:2.6.5-slim
 
 # install rails dependencies
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs libsqlite3-dev && apt-get install -y git
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs postgresql-client && apt-get install -y git
 
 # create a folder /FlexUOMConverter in the docker container and go into that folder
 RUN mkdir /touchpoints
@@ -12,8 +12,6 @@ WORKDIR /touchpoints
 COPY Gemfile /touchpoints/Gemfile
 
 # Run bundle install to install gems inside the gemfile
-#RUN gem update --system
-#RUN gem install bundler -v 2.0.1
 RUN bundle install
 
 

@@ -39,7 +39,7 @@ class User < ApplicationRecord
   end
 
   def tld_check
-    unless APPROVED_DOMAINS.any? { |word| email.end_with?(word) }
+    unless ENV['GITHUB_CLIENT_ID'].present? or APPROVED_DOMAINS.any? { |word| email.end_with?(word) }
       errors.add(:email, "is not from a valid TLD - #{APPROVED_DOMAINS.to_sentence} domains only")
       return false
     end
