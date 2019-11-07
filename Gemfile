@@ -4,7 +4,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.5'
 
 gem 'aws-sdk-rails'
-gem 'aws-partitions'
 gem 'caracal'
 gem 'carrierwave'
 gem 'deep_cloneable'
