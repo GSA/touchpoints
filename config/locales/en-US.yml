@@ -29,5 +29,14 @@
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
 
-en:
-  hello: "Hello world"
+en-US:
+  touchpoint: "Touchpoint"
+  touchpoints: "Touchpoints"
+  site:
+    header: "Welcome to %{touchpoints}"
+    definition_html: "A <strong>%{touchpoint}</strong> is the interaction point between a Customer and Service Provider."
+    list_header: "%{touchpoints} exists to help Federal Agencies:"
+    list_item_1: "Administer the A-11 Form"
+    list_item_2: "Streamline CX CAP Goal reporting"
+    list_item_3: "Solicit open-ended Feedback"
+    list_item_4: "Recruit users to talk to during product and service development"
