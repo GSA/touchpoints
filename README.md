@@ -1,8 +1,5 @@
 ![Touchpoints Logo](https://github.com/GSA/touchpoints/blob/master/app/assets/images/touchpoints-logo-@2x.png?raw=true)
 
-> Please note that this project is a [beta](https://18f.gsa.gov/dashboard/stages/#beta) product, in early development and is not guaranteed stable at this time.
-
-
 ## Overview
 
 Touchpoints enables government agencies
