@@ -1,23 +1,25 @@
 <form id="touchpoints-form" action="<%= root_url %>touchpoints/<%= touchpoint.present? ? touchpoint.id : nil %>/submissions.json" method="POST">
   <%= hidden_field_tag :fba_location_code, params[:location_code] %>
 
+  <% multi_section_question_number = 0 %>
   <% form.form_sections.each do |section| %>
     <div class="well">
       <h4>
         <%= section.title %>
       </h4>
       <% section.questions.each_with_index do |question, index| %>
+      <% multi_section_question_number += 1 %>
       <div class="question well">
         <% if question.question_type == "text_field" %>
-        <%= render 'components/forms/edit/question_types/text_field', form: form, question: question, question_number: index + 1 %>
+        <%= render 'components/forms/edit/question_types/text_field', form: form, question: question, question_number: multi_section_question_number %>
         <% elsif question.question_type == "radio_buttons" %>
-        <%= render 'components/forms/edit/question_types/radio_buttons', form: form, question: question, question_number: index + 1 %>
+        <%= render 'components/forms/edit/question_types/radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
         <% elsif question.question_type == "dropdown" %>
-        <%= render 'components/forms/edit/question_types/dropdown', form: form, question: question, question_number: index + 1 %>
+        <%= render 'components/forms/edit/question_types/dropdown', form: form, question: question, question_number: multi_section_question_number %>
         <% elsif question.question_type == "checkbox" %>
-        <%= render 'components/forms/edit/question_types/checkbox', form: form, question: question, question_number: index + 1 %>
+        <%= render 'components/forms/edit/question_types/checkbox', form: form, question: question, question_number: multi_section_question_number %>
         <% elsif question.question_type == "textarea" %>
-        <%= render 'components/forms/edit/question_types/text_area', form: form, question: question, question_number: index + 1 %>
+        <%= render 'components/forms/edit/question_types/text_area', form: form, question: question, question_number: multi_section_question_number %>
         <% end %>
         <%= link_to "Edit Question", edit_admin_form_question_path(@form, question), class: "usa-button" %>
         <% if service_permissions?(service: @form.touchpoint && @form.touchpoint.service) %>
