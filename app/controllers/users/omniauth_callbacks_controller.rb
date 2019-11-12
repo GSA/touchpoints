@@ -1,5 +1,6 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def login_dot_gov
+    @kind = "Login.gov"
     if (auth_hash && auth_hash["info"]["email_verified"])
       @email = auth_hash["info"]["email"]
     end
@@ -8,15 +9,15 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def github
+    @kind = "GitHub"
     redirect_to root_path, alert: "Invalid request" unless ENV["GITHUB_CLIENT_ID"].present?
     @email = auth_hash["info"]["email"]
     login
   end
 
   def failure
-    redirect_to new_user_session_path, alert: "Login.gov error: #{failure_message}"
+    redirect_to new_user_session_path, alert: "#{@kind} error: #{failure_message}"
   end
-
 
   private
 
@@ -33,7 +34,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     # Else, if valid email and no user, we create an account.
     if !@user.errors.present?
       sign_in_and_redirect(:user, @user)
-      set_flash_message(:notice, :success, kind: "Login.gov")
+      set_flash_message(:notice, :success, kind: @kind)
     elsif @user.errors.present?
       redirect_to root_path, alert: @user.errors.full_messages.join(",")
     # else
