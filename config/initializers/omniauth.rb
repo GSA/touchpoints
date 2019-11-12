@@ -12,6 +12,8 @@
 
 return unless ENV['LOGIN_GOV_CLIENT_ID'].present?
 
+Rails.configuration.x.omniauth.providers << :login_dot_gov
+
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :login_dot_gov, {
     name: :login_dot_gov,

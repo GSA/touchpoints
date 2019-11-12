@@ -13,6 +13,9 @@ module Touchpoints
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 
+    # Initialize an array of Omniauth providers
+    config.x.omniauth.providers = []
+
     # When I18n.config.enforce_available_locales is true we'll raise an I18n::InvalidLocale
     # exception if the passed locale is unavailable. See http://stackoverflow.com/a/20381730
     config.i18n.enforce_available_locales = false
@@ -60,7 +63,7 @@ module Touchpoints
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = 'utf-8'
-    
+
     config.generators do |g|
       g.test_framework :rspec
     end

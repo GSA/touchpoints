@@ -6,7 +6,7 @@ class User < ApplicationRecord
          :trackable,
          :timeoutable
 
-  devise :omniauthable, omniauth_providers: [:login_dot_gov, :github]
+  devise :omniauthable, omniauth_providers: Rails.configuration.x.omniauth.providers
 
   belongs_to :organization, optional: true
   has_many :user_services

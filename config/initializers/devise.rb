@@ -257,6 +257,7 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   if ENV['GITHUB_CLIENT_ID'].present?
+    Rails.configuration.x.omniauth.providers << :github
     config.omniauth :github, ENV.fetch('GITHUB_CLIENT_ID'), ENV.fetch('GITHUB_SECRET'), scope: 'user'
   end
 
