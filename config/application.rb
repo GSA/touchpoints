@@ -26,7 +26,7 @@ module Touchpoints
 
     # Set list here instead of relying on backend reading translation files in case any file is incomplete
     # and we don't want to include it.
-    config.i18n.available_locales = ['en-US', 'zh-CN']
+    config.i18n.available_locales = ['en-US', 'zh-CN', 'es']
 
     # Configure where to look for yml-based i18n files
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]

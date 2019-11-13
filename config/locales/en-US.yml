@@ -50,6 +50,8 @@ en-US:
     next: "Next →"
     back: "← Back"
     select_one: "Select one"
+    page_1: "Page 1"
+    page_2: "Page 2"
   header:
     official: "An official website of the United States government"
     heres_how_you_know: "Here’s how you know"
