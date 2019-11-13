@@ -40,7 +40,7 @@ en-US:
   success: "Success"
   error: "Error"
   the_feedback_and_analytics_team: " the Feedback and Analytics Team"
-  form:   
+  form:
     submit: "Submit"
     submit_thankyou: "Thank you. Your feedback has been received."
     help_improve: "Help improve this site"
@@ -59,7 +59,7 @@ en-US:
     dot_gov_websites: "Federal government websites often end in .gov or .mil. Before sharing sensitive information, make sure you’re on a federal government site."
     this_site_is_secure: "This site is secure."
     https_notes_html: "The <strong>https://</strong> ensures that you are connecting to the official website and that any information you provide is encrypted and transmitted securely."
-    disclaimer_1: "This website is currently in "  
+    disclaimer_1: "This website is currently in "
   site:
     header: "Welcome to %{touchpoints}"
     definition_html: "A <strong>%{touchpoint}</strong> is the interaction point between a Customer and Service Provider."
