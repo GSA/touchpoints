@@ -17,6 +17,24 @@ return false if Rails.env.production?
 require_relative 'seeds/forms/a11'
 require_relative 'seeds/forms/kitchen_sink'
 
+frikshun = Organization.create!({
+  name: "FrikShun",
+  domain: "frikshun.com",
+  url: "https://www.frikshun.com",
+  abbreviation: "FS"
+})
+puts "Created Default Organization: #{frikshun.name}"
+
+# Create Seeds
+admin_user = User.new({
+  organization: frikshun,
+  email: "akt@frikshun.com",
+  password: "password",
+  admin: true
+})
+admin_user.save!
+puts "Created Admin User: #{admin_user.email}"
+
 example_gov = Organization.create!({
   name: "Example.gov",
   domain: "example.gov",

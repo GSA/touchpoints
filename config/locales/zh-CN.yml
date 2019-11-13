@@ -39,6 +39,8 @@ zh-CN:
     next: "下一个→"    
     back: "←返回"   
     select_one: "选择一个" 
+    page_1: "第一頁"
+    page_2: "第二頁"    
   header:
     official: "美国政府的官方网站"
     heres_how_you_know: "这就是你所知道的"
