@@ -33,12 +33,14 @@ zh-CN:
     submit: "提交"
     submit_thankyou: "谢谢. 已收到您的反馈."
     help_improve: "帮助改善这个网站"
-    answer_more_questions: "您是否想再花两分钟回答另外五个问题，以帮助我们改善服务质量？"    
+    answer_more_questions: "您是否想再花两分钟回答另外五个问题，以帮助我们改善服务质量？"
     yes_keep_going: "是的，继续前进→"
     no_submit: "不，仅提交这些回复"
-    next: "下一个→"    
-    back: "←返回"   
-    select_one: "选择一个" 
+    next: "下一个→"
+    back: "←返回"
+    select_one: "选择一个"
+    page_1: "第一頁"
+    page_2: "第二頁"
   header:
     official: "美国政府的官方网站"
     heres_how_you_know: "这就是你所知道的"
@@ -46,7 +48,7 @@ zh-CN:
     dot_gov_websites: "联邦政府网站通常以.gov或.mil结尾。在共享敏感信息之前，请确保您位于联邦政府网站上。"
     this_site_is_secure: "该网站是安全的。"
     https_notes_html: "<strong>https://</strong>确保您连接到官方网站，并且您提供的任何信息均已加密并安全地传输。"
-    disclaimer_1: "该网站目前在"    
+    disclaimer_1: "该网站目前在"
   site:
     header: "欢迎来到%{touchpoints}"
     definition_html: "一种<strong>%{touchpoint}</strong>是客户和服务提供商之间的交互点。"
@@ -54,7 +56,7 @@ zh-CN:
     list_item_1: "管理A-11表格"
     list_item_2: "简化CX CAP目标报告"
     list_item_3: "征集开放式反馈"
-    list_item_4: "招募用户在产品和服务开发过程中进行交谈"    
+    list_item_4: "招募用户在产品和服务开发过程中进行交谈"
   activerecord:
     errors:
       messages:
@@ -72,7 +74,7 @@ zh-CN:
     - 周五
     - 周六
     abbr_month_names:
-    - 
+    -
     - 1月
     - 2月
     - 3月
@@ -98,7 +100,7 @@ zh-CN:
       long: "%Y年%m月%d日"
       short: "%m月%d日"
     month_names:
-    - 
+    -
     - 一月
     - 二月
     - 三月

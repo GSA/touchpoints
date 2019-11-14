@@ -17,6 +17,27 @@ return false if Rails.env.production?
 require_relative 'seeds/forms/a11'
 require_relative 'seeds/forms/kitchen_sink'
 
+# Create Seeds
+
+if ENV["DEVELOPER_EMAIL_ADDRESS"].present?
+  developer_organization = Organization.create!({
+    name: "Development Org",
+    domain: "lvh.me",
+    url: "https://lvh.me",
+    abbreviation: "DEV"
+  })
+  puts "Created Default Organization: #{developer_organization.name}"
+
+  developer_user = User.new({
+    organization: developer_organization,
+    email: ENV["DEVELOPER_EMAIL_ADDRESS"],
+    password: "password",
+    admin: true
+  })
+  developer_user.save!
+  puts "Created Developer User: #{developer_user.email}"
+end
+
 example_gov = Organization.create!({
   name: "Example.gov",
   domain: "example.gov",
@@ -25,7 +46,6 @@ example_gov = Organization.create!({
 })
 puts "Created Default Organization: #{example_gov.name}"
 
-# Create Seeds
 admin_user = User.new({
   organization: example_gov,
   email: "admin@example.gov",
