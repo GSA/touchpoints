@@ -10,7 +10,7 @@ class Form < ApplicationRecord
   after_create :create_first_form_section
 
   def create_first_form_section
-    self.form_sections.create(title: (I18n.t 'page_1'), position: 1)
+    self.form_sections.create(title: (I18n.t 'form.page_1'), position: 1)
   end
 
   def success_text
