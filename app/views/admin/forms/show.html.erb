@@ -8,6 +8,10 @@
       <%= @form.name %>
     </p>
     <p>
+      <strong>Title:</strong>
+      <%= @form.title %>
+    </p>
+    <p>
       <strong>Touchpoint:</strong>
       <% if @touchpoint %>
         <%= link_to @touchpoint.name, admin_touchpoint_path(@touchpoint) %>
@@ -16,10 +20,6 @@
     <p>
       <strong>Kind:</strong>
       <%= @form.kind %>
-    </p>
-    <p>
-      <strong>Title:</strong>
-      <%= @form.title %>
     </p>
     <p>
       <strong>Display (320px wide by 80px tall) Header Logo:</strong>
