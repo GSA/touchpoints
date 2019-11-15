@@ -20,9 +20,11 @@ require_relative 'seeds/forms/kitchen_sink'
 # Create Seeds
 
 if ENV["DEVELOPER_EMAIL_ADDRESS"].present?
+  #assumes email addresses in the form user@domain
+  domain = ENV["DEVELOPER_EMAIL_ADDRESS"].split("@")[1]
   developer_organization = Organization.create!({
     name: "Development Org",
-    domain: "lvh.me",
+    domain: domain,
     url: "https://lvh.me",
     abbreviation: "DEV"
   })
