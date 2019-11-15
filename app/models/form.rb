@@ -10,14 +10,14 @@ class Form < ApplicationRecord
   after_create :create_first_form_section
 
   def create_first_form_section
-    self.form_sections.create(title: "Page 1", position: 1)
+    self.form_sections.create(title: (I18n.t 'form.page_1'), position: 1)
   end
 
   def success_text
-    super.present? ? super : "Thank you. Your feedback has been received."
+    super.present? ? super : (I18n.t 'form.submit_thankyou')
   end
 
   def modal_button_text
-    super.present? ? super : "Help improve this site"
+    super.present? ? super : (I18n.t 'form.help_improve')
   end
 end

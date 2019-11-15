@@ -9,7 +9,7 @@
         <% if (section != form.form_sections.first) || (section != form.form_sections.last) %>
           <div class="pagination-buttons">
             <% if section != form.form_sections.first %>
-              <%= link_to "← Back", "#previous-page", class: "usa-button previous-section", 'data-form-section-target' => "" %>
+              <%= link_to (t 'form.back'), "#previous-page", class: "usa-button previous-section", 'data-form-section-target' => "" %>
             <% end %>
           </div>
         <% end %>
@@ -43,14 +43,14 @@
             <% if (section == form.form_sections.first) && form.early_submission? %>
               <div>
                 <h4>
-                  Would you like to take two more minutes to answer more questions to help us improve our services?
+                  <%= t 'form.answer_more_questions' %>
                 </h4>
-                <%= link_to "Yes, keep going →", "#next-page", class: "usa-button next-section", 'data-form-section-target' => "" %>
-                <button type="submit" id="fba-early-submit" class="usa-button usa-button--base">No, only submit these responses</button>
+                <%= link_to (t 'form.yes_keep_going'), "#next-page", class: "usa-button next-section", 'data-form-section-target' => "" %>
+                <button type="submit" id="fba-early-submit" class="usa-button usa-button--base"><%= t 'form.no_submit' %></button>
               </div>
             <% elsif section != form.form_sections.last %>
               <p>
-                <%= link_to "Next →", "#next-page", class: "usa-button next-section", 'data-form-section-target' => "" %>
+                <%= link_to (t 'form.next'), "#next-page", class: "usa-button next-section", 'data-form-section-target' => "" %>
               </p>
             <% end %>
           </div>
@@ -58,9 +58,9 @@
         <% if section == form.form_sections.last %>
           <p class="submit-button">
             <% if current_path.include?("/admin/forms") || current_path.include?("/admin/touchpoints/") %>
-            <button type="submit" id="fba-submit" class="usa-button" disabled>Submit</button>
+            <button type="submit" id="fba-submit" class="usa-button" disabled><%= t 'form.submit' %></button>
             <% else %>
-            <button type="submit" id="fba-submit" class="usa-button">Submit</button>
+            <button type="submit" id="fba-submit" class="usa-button"><%= t 'form.submit' %></button>
             <% end %>
           </p>
         <% end %>

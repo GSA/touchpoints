@@ -1,21 +1,19 @@
 <h1>
-  Welcome to Touchpoints
+  <%= t('site.header',touchpoints: (t 'touchpoints')) %>
 </h1>
 <p>
-  A <strong>Touchpoint</strong>
-  is the interaction point between a Customer and Service Provider.
+  <%= t('site.definition_html',touchpoint: (t 'touchpoint')) %>
 </p>
 <p>
-  Touchpoints exists to help Federal Agencies:
+  <%= t('site.list_header',touchpoints:(t 'touchpoints')) %>
 </p>
 <ul class="usa-list">
-  <li>Administer the A-11 Form</li>
-  <li>Streamline CX CAP Goal reporting</li>
-  <li>Solicit open-ended Feedback</li>
-  <li>Recruit users to talk to during product and service development</li>
+  <li><%= t 'site.list_item_1' %></li>
+  <li><%= t 'site.list_item_2' %></li>
+  <li><%= t 'site.list_item_3' %></li>
+  <li><%= t 'site.list_item_4' %></li>
 </ul>
 <% unless current_user %>
-<br>
 <% if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
 <p>
   If you have a .gov address,
@@ -33,3 +31,4 @@
 </p>
 <% end %>
 <% end %>
+<br>

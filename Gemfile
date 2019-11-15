@@ -13,6 +13,7 @@ gem 'jquery-rails'
 gem 'mail'
 gem 'mini_magick'
 gem 'newrelic_rpm'
+gem 'omniauth-github'
 gem 'omniauth_login_dot_gov', git: 'https://github.com/18f/omniauth_login_dot_gov.git', ref: '3703f9d3863300fd55eea6d05600d050e4cc9bb1'
 gem 'rails', '~> 5.2.1'
 gem 'pg', '>= 0.18', '< 2.0'
@@ -33,7 +34,6 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'dotenv-rails'
-  gem 'omniauth-github'
   gem 'pry'
   gem 'rspec_junit_formatter'
 end
