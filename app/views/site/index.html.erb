@@ -11,10 +11,9 @@
   <li><%= t 'site.list_item_1' %></li>
   <li><%= t 'site.list_item_2' %></li>
   <li><%= t 'site.list_item_3' %></li>
-  <li><%= t 'site.list_item_4' %></li>    
+  <li><%= t 'site.list_item_4' %></li>
 </ul>
 <% unless current_user %>
-<br>
 <% if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
 <p>
   If you have a .gov address,
@@ -32,3 +31,4 @@
 </p>
 <% end %>
 <% end %>
+<br>
