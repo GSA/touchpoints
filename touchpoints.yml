@@ -1,0 +1,31 @@
+applications:
+- name: touchpoints
+  command: bundle exec rake cf:on_first_instance db:migrate && bundle exec rails s -b 0.0.0.0 -p $PORT -e $RAILS_ENV
+  env:
+    AWS_ACCESS_KEY_ID:
+    AWS_REGION:
+    AWS_SECRET_ACCESS_KEY:
+    LOGIN_GOV_CLIENT_ID: urn:gov:gsa:openidconnect.profiles:sp:sso:gsa-tts-opp:touchpoints
+    LOGIN_GOV_IDP_BASE_URL: https://secure.login.gov/
+    LOGIN_GOV_PRIVATE_KEY:
+    LOGIN_GOV_REDIRECT_URI: https://touchpoints.app.cloud.gov/users/auth/login_dot_gov/callback
+    NEW_RELIC_KEY:
+    RAILS_ENV: production
+    S3_AWS_ACCESS_KEY_ID:
+    S3_AWS_BUCKET_NAME:
+    S3_AWS_HOST:
+    S3_AWS_REGION:
+    S3_AWS_SECRET_ACCESS_KEY:
+    TOUCHPOINTS_EMAIL_SENDER:
+    TOUCHPOINTS_GTM_CONTAINER_ID:
+    TOUCHPOINTS_WEB_DOMAIN: touchpoints.app.cloud.gov
+  buildpacks:
+    - https://github.com/cloudfoundry/nodejs-buildpack.git
+    - https://github.com/cloudfoundry/ruby-buildpack.git
+  services:
+    - touchpoints-prod-db
+    - touchpoints-prod-redis
+    - touchpoints-prod-s3
+    - touchpoints-prod-deployer
+  routes:
+    - route: touchpoints
