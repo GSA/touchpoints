@@ -25,11 +25,9 @@
       <div>
         <% if @form.kind.present? && @form.kind == "custom" %>
           <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
-        <% elsif @form.kind.present? %>
-          <%= render partial: "components/forms/#{@form.kind}", locals: { form: @form, touchpoint: @touchpoint } %>
         <% else %>
           <div class="usa-alert">
-            This is a Custom Form
+            This is a legacy hard-coded Form
           </div>
         <% end %>
       </div>

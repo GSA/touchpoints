@@ -12,10 +12,8 @@
     <table class="usa-table table-scroll">
       <thead>
         <tr>
-        <% if @touchpoint.form.kind == "custom" %>
-          <% @touchpoint.form.questions.each do |question| %>
+        <% @touchpoint.form.questions.each do |question| %>
           <th><%= question.text %></th>
-          <% end %>
         <% end %>
           <th>Location Code</th>
           <th>IP Address</th>
@@ -34,13 +32,11 @@
       <tbody>
         <% @submissions.each do |submission| %>
         <tr title="Submission ID <%= submission.id %>">
-          <% if @touchpoint.form.kind == "custom" %>
-            <% @touchpoint.form.questions.each do |question| %>
-            <td>
-              <%= sanitize(submission.send(question.answer_field.to_sym)) %>
-            </td>
-            <% end %>
-          <% end %>
+        <% @touchpoint.form.questions.each do |question| %>
+          <td>
+            <%= sanitize(submission.send(question.answer_field.to_sym)) %>
+          </td>
+        <% end %>
           <td><%= submission.location_code %></td>
           <td><%= submission.ip_address %></td>
           <td><%= submission.user_agent %></td>
