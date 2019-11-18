@@ -90,9 +90,9 @@ class SubmissionsController < ApplicationController
 
     def set_touchpoint
       if params[:touchpoint] # coming from /touchpoints/:id/submit
-        @touchpoint = Touchpoint.find(params[:id])
+        @touchpoint = TouchpointCache.retrieve_tp(params[:id])
       else
-        @touchpoint = Touchpoint.find(params[:touchpoint_id])
+        @touchpoint = TouchpointCache.retrieve_tp(params[:touchpoint_id])
       end
       raise InvalidArgument("Touchpoint does not exist") unless @touchpoint
     end
