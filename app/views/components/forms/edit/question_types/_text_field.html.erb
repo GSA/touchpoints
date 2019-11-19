@@ -3,8 +3,15 @@
     <%= question_number %>.
     <%= question.text %>
   </label>
-  <span class="usa-tag">
-    <%= question.answer_field %>
-  </span>
+  <p>
+    <span class="usa-tag">
+      <%= question.answer_field %>
+    </span>
+    <% if question.is_required? %>
+    <span class="usa-tag" style="background-color: red;">
+      Required
+    </span>
+    <% end %>
+  </p>
   <%= text_field_tag question.answer_field.to_sym, nil, class: "usa-input" %>
 </div>
