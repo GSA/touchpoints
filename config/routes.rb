@@ -35,6 +35,8 @@ Rails.application.routes.draw do
     resources :touchpoints do
       member do
         get "export_submissions", to: "touchpoints#export_submissions", as: :export_submissions
+        get "export_a11_header", to: "touchpoints#export_a11_header", as: :export_a11_header
+        get "export_a11_submissions", to: "touchpoints#export_a11_submissions", as: :export_a11_submissions
         get "example", to: "touchpoints#example", as: :example
         get "js", to: "touchpoints#js", as: :js
         get "export_pra_document", as: :export_pra_document
