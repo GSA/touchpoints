@@ -196,6 +196,7 @@ GEM
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
+    oj (3.9.2)
     omniauth (1.9.0)
       hashie (>= 3.4.6, < 3.7.0)
       rack (>= 1.6.2, < 3)
@@ -344,6 +345,7 @@ DEPENDENCIES
   mail
   mini_magick
   newrelic_rpm
+  oj
   omniauth-github
   omniauth_login_dot_gov!
   pg (>= 0.18, < 2.0)
@@ -351,6 +353,7 @@ DEPENDENCIES
   puma
   rack-cors
   rails (~> 5.2.1)
+  redis (~> 4.0)
   rspec-rails
   rspec_junit_formatter
   sass-rails

@@ -2,9 +2,10 @@ class FormSection < ApplicationRecord
   belongs_to :form
   has_many :questions
 
+  after_save do | form_section |
+    TouchpointCache.invalidate(form_section.form.touchpoint.id) if form_section.form.touchpoint.present?
+  end
+
   default_scope { order(position: :asc) }
 
-  def title
-    super ? super : "Unnamed Form Section Title"
-  end
 end

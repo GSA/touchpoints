@@ -9,15 +9,20 @@ class Form < ApplicationRecord
 
   after_create :create_first_form_section
 
+  after_save do | form |
+    TouchpointCache.invalidate(form.touchpoint.id) if form.touchpoint.present?
+  end
+
   def create_first_form_section
     self.form_sections.create(title: (I18n.t 'page_1'), position: 1)
   end
 
   def success_text
-    super.present? ? super : (I18n.t 'form.submit_thankyou')
+    I18n.t 'form.submit_thankyou'
   end
 
   def modal_button_text
-    super.present? ? super : (I18n.t 'form.help_improve')
+    I18n.t 'form.help_improve'
   end
+
 end
