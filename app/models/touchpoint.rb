@@ -67,18 +67,15 @@ class Touchpoint < ApplicationRecord
 
     hash = {}
 
-    if self.form.kind == "custom"
-      self.form.questions.map { |q| hash[q.answer_field] = q.text }
-      hash.merge({
-        ip_address: "IP Address",
-        user_agent: "User Agent",
-        page: "Page",
-        referer: "Referrer",
-        created_at: "Created At"
-      })
-    else
-      raise InvalidArgument("#{@touchpoint.name} has a Form with an unsupported Kind")
-    end
+    self.form.questions.map { |q| hash[q.answer_field] = q.text }
+
+    hash.merge({
+      ip_address: "IP Address",
+      user_agent: "User Agent",
+      page: "Page",
+      referer: "Referrer",
+      created_at: "Created At"
+    })
   end
 
 end

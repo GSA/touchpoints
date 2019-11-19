@@ -218,7 +218,6 @@ N.fba = {
 	    var url = form.action;
 	    var xhr = new XMLHttpRequest();
 
-			<% if @touchpoint.form.kind == "custom" %>
 			// for each form question
 			var params = {
 			<%# Dynamically write the Form parameters for Custom Forms %>
@@ -227,7 +226,6 @@ N.fba = {
 				<%= raw question_type_javascript_params(question) %>,
 			<% end %>
 			}
-			<% end %>
 
 			// Combine Referrer and Pathname with Form-specific params
 			params["referer"] = d.referrer;

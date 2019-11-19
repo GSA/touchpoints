@@ -38,9 +38,7 @@ class Submission < ApplicationRecord
   end
 
   def to_rows
-    if self.touchpoint.form.kind == "custom"
-      values = self.touchpoints.form.questions.collect(&:answer_field)
-    end
+    values = self.touchpoints.form.questions.collect(&:answer_field)
 
     values = values + [
       self.ip_address,

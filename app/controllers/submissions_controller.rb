@@ -99,16 +99,8 @@ class SubmissionsController < ApplicationController
     end
 
     def submission_params
-      # Accept submitted form parameters based on the Touchpoint's Form's properties
-      # TODO: handle as a case statement
-      # TODO: split Form-specific parameter whitelisting into Form's definitions
-      # TODO: Consider Making `recruiter`, the Form.kind, a Class/Module, for better strictnesss/verbosity.
-      if @touchpoint.form.kind == "custom"
-        permitted_fields = @touchpoint.form.questions.collect(&:answer_field)
-        permitted_fields << [:language, :location_code, :referer, :page]
-        params.require(:submission).permit(permitted_fields)
-      else
-        raise InvalidArgument("#{@touchpoint.name} has a Form with an unsupported Kind")
-      end
+      permitted_fields = @touchpoint.form.questions.collect(&:answer_field)
+      permitted_fields << [:language, :location_code, :referer, :page]
+      params.require(:submission).permit(permitted_fields)
     end
 end
