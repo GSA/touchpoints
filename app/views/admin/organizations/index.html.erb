@@ -1,21 +1,19 @@
 <div class="well">
   <h1>Organizations</h1>
-
   <table class="usa-table">
     <thead>
       <tr>
+        <th>Abbreviation</th>
         <th>Name</th>
         <th>Url</th>
-        <th>Abbreviation</th>
       </tr>
     </thead>
-
     <tbody>
       <% @organizations.each do |organization| %>
         <tr>
+          <td><%= organization.abbreviation %></td>
           <td><%= link_to organization.name, admin_organization_path(organization) %></td>
           <td><%= organization.url %></td>
-          <td><%= organization.abbreviation %></td>
         </tr>
       <% end %>
     </tbody>
