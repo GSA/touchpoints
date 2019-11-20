@@ -140,8 +140,6 @@ N.fba = {
 				}
 			});
 			for (var key in questions) {
-				var questionDiv = questions[key].closest(".question");
-				var questionNum = questionDiv.querySelector("span").innerText;
 				N.fba.showValidationError(questions[key],'<%= I18n.t 'form.field_is_required' %>');
 				return false;
 			}
@@ -149,7 +147,7 @@ N.fba = {
 		},
 		showValidationError: function(question,error) {
 			var questionDiv = question.closest(".question");
-			var questionNum = questionDiv.querySelector("span").innerText;
+			var questionNum = questionDiv.querySelector("label").innerText;
 			questionDiv.setAttribute('class', 'usa-form-group usa-form-group--error');
 			var span = document.createElement('span');
 			span.setAttribute('id' ,'input-error-message');
