@@ -44,6 +44,24 @@ feature "Touchpoints", js: true do
       end
     end
 
+    describe "required question" do
+      before do
+        touchpoint.form.questions.first.update_attribute(:is_required, true)
+        visit touchpoint_path(touchpoint)
+        click_on "Submit"
+      end
+
+      it "displays an error message" do
+        expect(page).to have_content("You must respond to question: 1. Test Open Area")
+      end
+
+      it "can successfully submit after completing the required question" do
+        fill_in("answer_01", with: "a response to this required question")
+        click_button "Submit"
+        expect(page).to have_content("Thank you. Your feedback has been received.")
+      end
+    end
+
     describe "character_limit" do
       before do
         visit touchpoint_path(touchpoint)
