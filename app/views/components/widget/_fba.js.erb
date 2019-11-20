@@ -4,8 +4,22 @@
 N.fba = {
 	css: '<%= escape_javascript(render partial: "components/widget/widget.css", locals: { touchpoint: touchpoint }) %>',
 
+	// enable Javascript experience
+	javscriptIsEnabled: function()
+	{
+		var javascriptDisabledMessage = document.getElementsByClassName("javascript-disabled-message")[0];
+		var touchpointForm = document.getElementsByClassName("touchpoint-form")[0];
+		if (javascriptDisabledMessage) {
+			javascriptDisabledMessage.remove();
+		}
+		if (touchpointForm) {
+			touchpointForm.classList.remove("hide");
+		}
+	},
 	init: function( options )
 	{
+		this.javscriptIsEnabled();
+
 		this.options = options;
 		this.loadCss();
 		this.loadHtml();
