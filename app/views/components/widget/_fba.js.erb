@@ -103,10 +103,36 @@ N.fba = {
 			N.fba.closeDialog();
 		},
 		handleSubmitClick: function(e) {
+			console.log("Handle submit click...");
 			e.preventDefault();
 			d.getElementById('fba-submit').disabled = true;
 			N.fba.resetErrors();
-			N.fba.sendFeedback();
+			if (N.fba.validateForm()) {
+				N.fba.sendFeedback();
+			} else {
+				console.log("Form is invalid...");
+			}
+		},
+		validateForm: function() {
+			console.log("Validating form...");
+			var form = document.querySelector('#touchpoints-form');
+			console.log(form);
+			var requiredItems = form.querySelectorAll('[required]');
+			[].forEach.call(requiredItems, function(item) {
+				console.log(item);
+				console.log(item.type);
+				if (item.type == 'radio') {
+					console.log('Checking radio');
+					var radioOptions = form.querySelectorAll('[name=' + item.name )
+					var found_value = false;
+					[].forEach.call(radioOptions, function(opt) {
+						console.log(opt.checked);
+						if (opt.checked) found_value = true;
+					});
+					if (!found_value) return false;
+				}
+			});
+			return true;
 		},
 		loadButton: function()
 		{
