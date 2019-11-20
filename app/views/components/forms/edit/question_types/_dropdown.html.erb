@@ -2,9 +2,16 @@
   <label class="usa-label">
     <%= question_number %>.
     <%= question.text %>
-    <span class="usa-tag">
-      <%= question.answer_field %>
-    </span>
+    <p>
+      <span class="usa-tag">
+        <%= question.answer_field %>
+      </span>
+      <% if question.is_required? %>
+      <span class="usa-tag" style="background-color: red;">
+        Required
+      </span>
+      <% end %>
+    </p>
   </label>
   <br>
   <div class="radio-button">

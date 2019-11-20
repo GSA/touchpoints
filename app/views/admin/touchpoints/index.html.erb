@@ -15,7 +15,6 @@
             Deployable Touchpoint?
           </span>
         </th>
-        <th></th>
       </tr>
     </thead>
 
@@ -25,19 +24,19 @@
         <% if admin_permissions? %>
           <td>
           <% if touchpoint.service %>
-            <%= link_to touchpoint.service.organization.name, admin_organization_path(touchpoint.service.organization) %>
+            <%= touchpoint.service.organization.name %>
           <% end %>
           </td>
         <% end %>
           <td>
             <% if touchpoint.service %>
-              <%= link_to touchpoint.service.name, admin_service_path(touchpoint.service) %>
+              <%= touchpoint.service.name %>
             <% end %>
           </td>
           <td><%= link_to touchpoint.name, admin_touchpoint_path(touchpoint) %></td>
           <td>
             <% if touchpoint.form %>
-            <%= link_to(touchpoint.form.name, admin_touchpoint_form_path(touchpoint, touchpoint.form)) %>
+              <%= touchpoint.form.name %>
             <% else %>
             Form not specified
             <% end %>
@@ -46,7 +45,6 @@
           <td>
             <%= touchpoint.deployable_touchpoint? ? '✅' : '🔴' %>
           </td>
-          <td><%= link_to 'Edit', edit_admin_touchpoint_path(touchpoint) %></td>
         </tr>
       <% end %>
     </tbody>

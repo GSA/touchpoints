@@ -14,7 +14,7 @@
       <% @forms.each do |form| %>
       <tr>
         <td>
-          <%= link_to form.touchpoint.name, admin_touchpoint_path(form.touchpoint) if form.touchpoint %>
+          <%= form.touchpoint.name if form.touchpoint %>
         </td>
         <td>
           <% if form.touchpoint.present? %>
