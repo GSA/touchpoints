@@ -1,1 +1,10 @@
-<%= render 'form', touchpoint: @touchpoint, submission: @submission %>
+<div class="touchpoints-form-wrapper">
+  <div class="javascript-disabled-message" style="padding: 25px; text-align: center;">
+    Javascript is required for this form to function properly.
+    <br>
+    Javascript does not appear to be enabled.
+  </div>
+  <div class="touchpoint-form hide">
+    <%= render 'form', touchpoint: @touchpoint, submission: @submission %>
+  </div>
+</div>

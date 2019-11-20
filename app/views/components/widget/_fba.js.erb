@@ -4,8 +4,18 @@
 N.fba = {
 	css: '<%= escape_javascript(render partial: "components/widget/widget.css", locals: { touchpoint: touchpoint }) %>',
 
+	// enable Javascript experience
+	javscriptIsEnabled()
+	{
+		var javascriptDisabledMessage = document.getElementsByClassName("javascript-disabled-message")[0];
+		javascriptDisabledMessage.remove();
+		var touchpointForm = document.getElementsByClassName("touchpoint-form")[0];
+		touchpointForm.classList.remove("hide");
+	},
 	init: function( options )
 	{
+		javscriptIsEnabled();
+
 		this.options = options;
 		this.loadCss();
 		this.loadHtml();
