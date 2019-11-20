@@ -103,36 +103,79 @@ N.fba = {
 			N.fba.closeDialog();
 		},
 		handleSubmitClick: function(e) {
-			console.log("Handle submit click...");
 			e.preventDefault();
-			d.getElementById('fba-submit').disabled = true;
 			N.fba.resetErrors();
-			if (N.fba.validateForm()) {
+			if (N.fba.validateForm(document.querySelector('#touchpoints-form'))) {
+				d.getElementById('fba-submit').disabled = true;
 				N.fba.sendFeedback();
-			} else {
-				console.log("Form is invalid...");
 			}
 		},
-		validateForm: function() {
-			console.log("Validating form...");
-			var form = document.querySelector('#touchpoints-form');
-			console.log(form);
+		validateForm: function(form) {
+			N.fba.hideValidationError(form);
+			var valid = N.fba.checkRequired(form)
+			return valid;
+		},
+		checkRequired: function(form) {
 			var requiredItems = form.querySelectorAll('[required]');
+			var questions = {};
+			// Build a dictionary of questions which require an answer
+			[].forEach.call(requiredItems, function(item) { questions[item.name] = item });
+
 			[].forEach.call(requiredItems, function(item) {
-				console.log(item);
-				console.log(item.type);
-				if (item.type == 'radio') {
-					console.log('Checking radio');
-					var radioOptions = form.querySelectorAll('[name=' + item.name )
-					var found_value = false;
-					[].forEach.call(radioOptions, function(opt) {
-						console.log(opt.checked);
-						if (opt.checked) found_value = true;
-					});
-					if (!found_value) return false;
+				switch (item.type) {
+				case 'radio':
+					if (item.checked) delete(questions[item.name]);
+					break;
+				case 'checkbox':
+				    //TODO: This needs some discussion.
+				    // What does it mean for a checkbox to be required?
+				    // By it's very nature no response is a valid response for a checkbox
+					delete(questions[item.name]);
+					break;
+				case 'select-one':
+					if (item.selectedIndex > 0) delete(questions[item.name]);
+					break;
+				default:
+					if (item.value.length > 0) delete(questions[item.name]);
 				}
 			});
+			for (var key in questions) {
+				var questionDiv = questions[key].closest(".question");
+				var questionNum = questionDiv.querySelector("span").innerText;
+				N.fba.showValidationError(questions[key],'<%= I18n.t 'form.field_is_required' %>');
+				return false;
+			}
 			return true;
+		},
+		showValidationError: function(question,error) {
+			var questionDiv = question.closest(".question");
+			var questionNum = questionDiv.querySelector("span").innerText;
+			questionDiv.setAttribute('class', 'usa-form-group usa-form-group--error');
+			var span = document.createElement('span');
+			span.setAttribute('id' ,'input-error-message');
+			span.setAttribute('role','alert');
+			span.setAttribute('class','usa-error-message');
+			span.innerText = error + questionNum;
+			questionDiv.appendChild(span);
+			var input = document.createElement('input');
+			input.setAttribute('style','display:none');
+			input.setAttribute('id','input-error');
+			input.setAttribute('type','text');
+			input.setAttribute('class','usa-input usa-input--error');
+			input.setAttribute('name','input-error');
+			input.setAttribute('aria-describedby','input-error-message');
+			questionDiv.appendChild(input);
+			questionDiv.scrollIntoView();
+			questionDiv.focus();
+		},
+		hideValidationError: function(form) {
+			var elem = form.querySelector('.usa-form-group--error');
+			if (elem == null) return;
+			elem.setAttribute('class','question');
+			var elem = form.querySelector('#input-error-message');
+			if (elem != null) elem.parentNode.removeChild(elem);
+			elem = form.querySelector('#input-error');
+			if (elem != null) elem.parentNode.removeChild(elem);
 		},
 		loadButton: function()
 		{
@@ -283,6 +326,7 @@ for (var i = 0; i < previousButtons.length; i++) {
 	previousButtons[i].addEventListener('click', function(e) {
 		e.preventDefault();
 		var currentPage = this.closest(".section");
+		if (!fba.validateForm(currentPage)) return false;
 		currentPage.classList.remove("visible");
 		currentPage.previousElementSibling.classList.add("visible");
 		window.scrollTo(0, 0);
@@ -293,6 +337,7 @@ for (var i = 0; i < nextButtons.length; i++) {
 	nextButtons[i].addEventListener('click', function(e) {
 		e.preventDefault();
 		var currentPage = this.closest(".section");
+		if (!fba.validateForm(currentPage)) return false;
 		currentPage.classList.remove("visible");
 		currentPage.nextElementSibling.classList.add("visible");
 		window.scrollTo(0, 0);
