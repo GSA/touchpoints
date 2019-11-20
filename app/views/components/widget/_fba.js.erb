@@ -127,10 +127,7 @@ N.fba = {
 					if (item.checked) delete(questions[item.name]);
 					break;
 				case 'checkbox':
-				    //TODO: This needs some discussion.
-				    // What does it mean for a checkbox to be required?
-				    // By it's very nature no response is a valid response for a checkbox
-					delete(questions[item.name]);
+				  // Checkboxes are implicitly optional
 					break;
 				case 'select-one':
 					if (item.selectedIndex > 0) delete(questions[item.name]);
@@ -147,14 +144,15 @@ N.fba = {
 		},
 		showValidationError: function(question,error) {
 			var questionDiv = question.closest(".question");
-			var questionNum = questionDiv.querySelector("label").innerText;
+			var label = questionDiv.querySelector("label");
+			var questionNum = label.innerText;
 			questionDiv.setAttribute('class', 'usa-form-group usa-form-group--error');
 			var span = document.createElement('span');
 			span.setAttribute('id' ,'input-error-message');
 			span.setAttribute('role','alert');
 			span.setAttribute('class','usa-error-message');
 			span.innerText = error + questionNum;
-			questionDiv.appendChild(span);
+			label.parentNode.insertBefore(span, label.nextSibling);
 			var input = document.createElement('input');
 			input.setAttribute('style','display:none');
 			input.setAttribute('id','input-error');
