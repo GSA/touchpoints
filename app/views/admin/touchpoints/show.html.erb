@@ -27,13 +27,9 @@
       <p>
         <strong>Form:</strong>
         <% if @touchpoint.form %>
-        <%= link_to(@touchpoint.form.name, admin_touchpoint_form_path(@touchpoint, @touchpoint.form)) %>
+          <%= link_to(@touchpoint.form.name, admin_touchpoint_form_path(@touchpoint, @touchpoint.form)) %>
         <% else %>
-        No Form assigned.
-
-        Choose a Form Template.
-
-        <%= render "form_template_form", { touchpoint: @touchpoint } %>
+          No form assigned
         <% end %>
       </p>
       <p>
