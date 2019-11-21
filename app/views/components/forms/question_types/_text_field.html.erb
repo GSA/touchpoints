@@ -3,5 +3,5 @@
     <%= t question_number.to_s %>.
     <%= question.text %>
   </label>
-  <%= text_field_tag question.answer_field.to_sym, nil, class: "usa-input" %>
+  <%= text_field_tag question.answer_field.to_sym, nil, class: "usa-input", required: question.is_required  %>
 </div>
