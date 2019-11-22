@@ -1,116 +1,62 @@
-<HTML>
-
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
 <head>
+  <meta charset="utf-8">
     <title>
-        Touchpoints - 404 Page Not Found
+      Touchpoints - Page Not Found (404)
     </title>
-    <link rel="stylesheet" media="all" href="/assets/application.debug-9cc68ed10e5d2be3a27b2782308f07353b61ef2f2e50390c05059038c9c952af.css">
-    <script async="" src="https://www.googletagmanager.com/gtm.js?id=GTM-your-number"></script>
-    <script src="/assets/application.debug-a63886e07a2850b9f57b4342713c0155fce56c4ff910f7fb9001a6198350a092.js"></script>
+    <style>
+    	.div-centered {
+    		text-align: center;
+    	}
+    </style>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+
     <!-- Google Tag Manager -->
-    <script>
-    (function(w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({
-            'gtm.start': new Date().getTime(),
-            event: 'gtm.js'
-        });
-        var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s),
-            dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true;
-        j.src =
-            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-        f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-your-number');
-    </script>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','<%= ENV.fetch("TOUCHPOINTS_GTM_CONTAINER_ID") %>');</script>
     <!-- End Google Tag Manager -->
-    <style piggy-ext="" data-styled-version="4.2.0"></style>
-    <style piggy-ext="" data-styled-version="4.2.0"></style>
-</head>
+  </head>
 
 <body>
-    <div class="usa-banner">
-        <div class="usa-accordion">
-            <header class="usa-banner__header">
-                <div class="usa-banner__inner">
-                    <div class="grid-col-auto">
-                        <img class="usa-banner__header-flag" src="/assets/us_flag_small-8a6f68dd8703ce4cb475c92fc1eefa84c41f4741ec4c6ca8403ef99b74b94d20.png" alt="U.S. flag">
-                    </div>
-                    <div class="grid-col-fill tablet:grid-col-auto">
-                        <p class="usa-banner__header-text">An official website of the United States government</p>
-                        <p class="usa-banner__header-action" aria-hidden="true">Here’s how you know</p>
-                    </div>
-                    <button class="usa-accordion__button usa-banner__button" aria-expanded="false" aria-controls="gov-banner">
-                        <span class="usa-banner__button-text">Here’s how you know</span>
-                    </button>
-                </div>
-            </header>
-            <div class="usa-banner__content usa-accordion__content" id="gov-banner" hidden="">
-                <div class="grid-row grid-gap-lg">
-                    <div class="usa-banner__guidance tablet:grid-col-6">
-                        <img class="usa-banner__icon usa-media-block__img" src="/assets/icon-dot-gov-54f6653a149c83b73515cc2ec032a18151b57d3ffe97ef04495ce6623e48d1bb.svg" alt="Dot gov">
-                        <div class="usa-media-block__body">
-                            <p>
-                                <strong>The .gov means it’s official.</strong>
-                                <br> Federal government websites often end in .gov or .mil. Before sharing sensitive information, make sure you’re on a federal government site.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="usa-banner__guidance tablet:grid-col-6">
-                        <img class="usa-banner__icon usa-media-block__img" src="/assets/icon-https-912daff95ce9cabae7d0195d39aa98d49c4bec3b975d404ac266534c069cee20.svg" alt="Https">
-                        <div class="usa-media-block__body">
-                            <p>
-                                <strong>This site is secure.</strong>
-                                <br>The <strong>https://</strong> ensures that you are connecting to the official website and that any information you provide is encrypted and transmitted securely.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <%= render 'components/usa-banner' %>
+  <div class="grid-container">
+    <div class="grid-row">
+      <div class="grid-col">
+	    <div class="usa-logo div-centered" id="extended-logo">
+	      <a href="/" title="Touchpoints" aria-label="Home">
+	        <%= image_tag "touchpoints-logo-@2x.png", class: "header-logo", alt: "Touchpoints logo" %>
+	      </a>
+	    </div>
+        <article class="usa-prose" style="text-align: center;">
+          <h1 class="">
+            Page Not Found (404)
+          </h1>
+          <div class="message">
+            <p>
+              The resource you requested cannot be found.
+              <br>
+              If you entered a web address, please check that it is correct.
+              <br>
+            </p>
+          </div>
+        </article>
+      </div>
     </div>
-    <main id="main-content">
-    	<div class="grid-container">
-	        Status <%= params[:status] %><br/><br/>
-	        Page Not Found
-    	</div>
-    </main>
-    <footer class="grid-container">
-        <div class="grid-row">
-            <div class="grid-col-6">
-                <ul class="footer-links">
-                    <li>
-                        <a href="https://feedback.usa.gov/assets/files/touchpoints_tos.pdf" target="_blank" rel="noopener">
-                            Terms of Service</a>
-                    </li>
-                    <li>
-                        <a href="mailto:feedback-analytics@gsa.gov">
-                            Get help for customer issues</a>
-                    </li>
-                    <li>
-                        <a href="https://www.gsa.gov/about-us/organization/federal-acquisition-service/technology-transformation-services/office-of-products-and-programs" target="_blank" rel="noopener">
-                            Built and maintained by OPP</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="grid-col-6">
-                <ul class="footer-info">
-                    <li>
-                        A United States government application
-                    </li>
-                    <li>
-                        <a href="https://github.com/GSA/touchpoints/blob/master/LICENSE.md">
-                            Open source and in the public domain</a>
-                    </li>
-                    <li>
-                        <a href="https://18f.gsa.gov/vulnerability-disclosure-policy/">
-                            Vulnerability disclosure policy</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </footer>
+    <div class="grid-row">
+      <div class="grid-col div-centered">
+          Questions? Email: <a href="mailto:feedback-analytics@gsa.gov">feedback-analytics@gsa.gov</a>
+          <br/><br/>
+      </div>
+    </div>
+   <%= render "components/footer" %>
 </body>
 
-</HTML>
+</html>
