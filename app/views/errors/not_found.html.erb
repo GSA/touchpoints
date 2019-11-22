@@ -1,62 +1,32 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-  <meta charset="utf-8">
-    <title>
-      Touchpoints - Page Not Found (404)
-    </title>
-    <style>
-    	.div-centered {
-    		text-align: center;
-    	}
-    </style>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-
-    <%= stylesheet_link_tag    'application', media: 'all' %>
-    <%= javascript_include_tag 'application' %>
-
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','<%= ENV.fetch("TOUCHPOINTS_GTM_CONTAINER_ID") %>');</script>
-    <!-- End Google Tag Manager -->
-  </head>
-
-<body>
-  <%= render 'components/usa-banner' %>
-  <div class="grid-container">
-    <div class="grid-row">
-      <div class="grid-col">
-	    <div class="usa-logo div-centered" id="extended-logo">
-	      <a href="/" title="Touchpoints" aria-label="Home">
-	        <%= image_tag "touchpoints-logo-@2x.png", class: "header-logo", alt: "Touchpoints logo" %>
-	      </a>
-	    </div>
-        <article class="usa-prose" style="text-align: center;">
-          <h1 class="">
-            Page Not Found (404)
-          </h1>
-          <div class="message">
-            <p>
-              The resource you requested cannot be found.
-              <br>
-              If you entered a web address, please check that it is correct.
-              <br>
-            </p>
-          </div>
-        </article>
-      </div>
+<div class="grid-container maintenance">
+  <div class="grid-row">
+    <div class="grid-col">
+    <div class="usa-logo text-center" id="extended-logo">
+      <a href="/" title="Touchpoints" aria-label="Home">
+        <%= image_tag "touchpoints-logo-@2x.png", class: "header-logo", alt: "Touchpoints logo" %>
+      </a>
     </div>
-    <div class="grid-row">
-      <div class="grid-col div-centered">
-          Questions? Email: <a href="mailto:feedback-analytics@gsa.gov">feedback-analytics@gsa.gov</a>
-          <br/><br/>
-      </div>
+      <article class="usa-prose" style="text-align: center;">
+        <h1 class="">
+          Page Not Found (404)
+        </h1>
+        <div class="message">
+          <p>
+            The resource you requested cannot be found.
+            <br>
+            If you entered a web address, please check that it is correct.
+            <br>
+          </p>
+        </div>
+      </article>
     </div>
-   <%= render "components/footer" %>
-</body>
-
-</html>
+  </div>
+  <div class="grid-row">
+    <div class="grid-col">
+      <footer>
+        Contact us:
+        <a href="mailto:feedback-analytics@gsa.gov">feedback-analytics@gsa.gov</a>
+      </footer>
+    </div>
+  </div>
+</div>
