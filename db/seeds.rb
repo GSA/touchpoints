@@ -338,9 +338,20 @@ Submission.create!({
 })
 
 # TODO: Seed A11
-# Submission.create!({
-#   touchpoint: touchpoint_3
-# })
+range = [1,2,3,4,5]
+50.times do |i|
+  Submission.create!({
+    touchpoint: touchpoint_3,
+    answer_01: range.sample,
+    answer_02: range.sample,
+    answer_03: range.sample,
+    answer_04: range.sample,
+    answer_05: range.sample,
+    answer_06: range.sample,
+    answer_07: range.sample
+  })
+  touchpoint_3.update_attribute(:survey_form_activations, touchpoint_3.survey_form_activations + 1)
+end
 
 
 digital_gov_user = User.new({

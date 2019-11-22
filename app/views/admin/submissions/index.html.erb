@@ -12,10 +12,8 @@
     <table class="usa-table table-scroll">
       <thead>
         <tr>
-        <% if @touchpoint.form.kind == "custom" %>
-          <% @touchpoint.form.questions.each do |question| %>
+        <% @touchpoint.form.questions.each do |question| %>
           <th><%= question.text %></th>
-          <% end %>
         <% end %>
           <th>Location Code</th>
           <th>IP Address</th>
@@ -34,13 +32,11 @@
       <tbody>
         <% @submissions.each do |submission| %>
         <tr title="Submission ID <%= submission.id %>">
-          <% if @touchpoint.form.kind == "custom" %>
-            <% @touchpoint.form.questions.each do |question| %>
-            <td>
-              <%= sanitize(submission.send(question.answer_field.to_sym)) %>
-            </td>
-            <% end %>
-          <% end %>
+        <% @touchpoint.form.questions.each do |question| %>
+          <td>
+            <%= sanitize(submission.send(question.answer_field.to_sym)) %>
+          </td>
+        <% end %>
           <td><%= submission.location_code %></td>
           <td><%= submission.ip_address %></td>
           <td><%= submission.user_agent %></td>
@@ -68,6 +64,12 @@
 </div>
   <br>
   <%= link_to "Export Submissions to CSV", export_submissions_admin_touchpoint_url(@touchpoint, format: "csv"), class: "usa-button", target: "_blank", rel: "noopener" %>
+  <br>
+  <br>
+  <div class="">
+    <%= link_to "Export A-11 Header Report", export_a11_header_admin_touchpoint_url(@touchpoint, format: "csv"), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" %>
+    <%= link_to "Export A-11 Submissions Report", export_a11_submissions_admin_touchpoint_url(@touchpoint, format: "csv"), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" %>
+  </div>
 <% else %>
   <div class="usa-alert usa-alert--info">
     <div class="usa-alert__body">

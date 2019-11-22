@@ -9,7 +9,7 @@ es:
   success: "Éxito"
   error: "Error"
   the_feedback_and_analytics_team: " el equipo de retroalimentación y análisis"
-  form:   
+  form:
     submit: "Enviar"
     submit_thankyou: "Gracias. Su comentario ha sido recibido."
     help_improve: "Ayuda a mejorar este sitio"
@@ -20,7 +20,8 @@ es:
     back: "← Volver"
     select_one: "Seleccione uno"
     page_1: "Página 1"
-    page_2: "Página 2"    
+    page_2: "Página 2"
+    field_is_required: "Debes responder a la pregunta: "
   header:
     official: "Un sitio web oficial del gobierno de los Estados Unidos"
     heres_how_you_know: "Así es como sabes"
@@ -28,7 +29,7 @@ es:
     dot_gov_websites: "Los sitios web del gobierno federal a menudo terminan en .gov o .mil. Antes de compartir información confidencial, asegúrese de estar en un sitio del gobierno federal."
     this_site_is_secure: "Este sitio es seguro."
     https_notes_html: "El <strong>https://</strong> asegura que se está conectando al sitio web oficial y que toda la información que proporciona está encriptada y transmitida de forma segura."
-    disclaimer_1: "Este sitio web está actualmente en"  
+    disclaimer_1: "Este sitio web está actualmente en"
   site:
     header: "Bienvenido a %{touchpoints}"
     definition_html: "Un <strong>%{touchpoint}</strong> es el punto de interacción entre un Cliente y un Proveedor de servicios."
@@ -36,7 +37,7 @@ es:
     list_item_1: "Administrar el formulario A-11"
     list_item_2: "Agilice los informes de objetivos de CX CAP"
     list_item_3: "Solicitar comentarios abiertos"
-    list_item_4: "Reclutar usuarios para hablar durante el desarrollo de productos y servicios"  
+    list_item_4: "Reclutar usuarios para hablar durante el desarrollo de productos y servicios"
   activerecord:
     errors:
       messages:
@@ -54,7 +55,7 @@ es:
     - vie
     - sáb
     abbr_month_names:
-    - 
+    -
     - ene
     - feb
     - mar
@@ -80,7 +81,7 @@ es:
       long: "%-d de %B de %Y"
       short: "%-d de %b"
     month_names:
-    - 
+    -
     - enero
     - febrero
     - marzo

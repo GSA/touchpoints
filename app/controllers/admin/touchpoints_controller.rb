@@ -7,6 +7,8 @@ class Admin::TouchpointsController < AdminController
   before_action :set_touchpoint, only: [
     :show, :edit, :update, :destroy,
     :export_pra_document, :export_submissions,
+    :export_a11_header,
+    :export_a11_submissions,
     :example, :js, :trigger
   ]
 
@@ -36,6 +38,34 @@ class Admin::TouchpointsController < AdminController
       #  Export to CSV
       format.csv {
         send_data @touchpoint.to_csv, filename: "touchpoint-submissions-#{timestamp_string}.csv"
+      }
+    end
+  end
+
+  def export_a11_header
+    current_reporting_quarter_start_date = Date.parse("2019-10-01")
+    current_reporting_quarter_end_date = Date.parse("2020-01-31")
+
+    start_date = params[:start_date] || current_reporting_quarter_start_date
+    end_date = params[:end_date] || current_reporting_quarter_end_date
+
+    respond_to do |format|
+      format.csv {
+        send_data @touchpoint.to_a11_header_csv(start_date: start_date, end_date: end_date), filename: "touchpoint-a11-header-#{timestamp_string}.csv"
+      }
+    end
+  end
+
+  def export_a11_submissions
+    current_reporting_quarter_start_date = Date.parse("2019-10-01")
+    current_reporting_quarter_end_date = Date.parse("2020-01-31")
+
+    start_date = params[:start_date] || current_reporting_quarter_start_date
+    end_date = params[:end_date] || current_reporting_quarter_end_date
+
+    respond_to do |format|
+      format.csv {
+        send_data @touchpoint.to_a11_submissions_csv(start_date: start_date, end_date: end_date), filename: "touchpoint-a11-submissions-#{timestamp_string}.csv"
       }
     end
   end

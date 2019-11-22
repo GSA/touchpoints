@@ -14,7 +14,6 @@ class Admin::FormsController < AdminController
 
   def new
     @form = Form.new
-    @form.kind = "custom"
   end
 
   def edit
