@@ -27,6 +27,7 @@ module Seeds
         question_type: "radio_buttons",
         position: 1,
         answer_field: :answer_01,
+        is_required: true
       })
       question_02 = Question.create!({
         form: a11_form,
@@ -35,6 +36,7 @@ module Seeds
         question_type: "radio_buttons",
         position: 2,
         answer_field: :answer_02,
+        is_required: true
       })
       question_08 = Question.create!({
         form: a11_form,
