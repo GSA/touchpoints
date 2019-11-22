@@ -27,6 +27,7 @@
       <%= form.text_field :name, class: "usa-input", placeholder: "Name this Touchpoint for your Reference" %>
     </div>
     <div class="well">
+    <% if touchpoint.persisted? %>
       <% if touchpoint.form %>
         <h3>
           Touchpoint Form
@@ -34,35 +35,32 @@
         <%= link_to "Customize this Touchpoint's Form", admin_touchpoint_form_path(touchpoint, touchpoint.form), class: "usa-button usa-button--base" %>
       <% else %>
         <h3>
-          Select a Form Template
+          Select a Form
         </h3>
         <div class="usa-alert usa-alert--info" >
           <div class="usa-alert__body">
             <p class="usa-alert__text">
-              Based on the Form Template selected,
-              an editable Form will be created.
+              Select an existing Form below, or
+              <%= link_to "Create", new_admin_form_path %>
+              a new Form, then come back to assign it to this Touchpoint.
             </p>
           </div>
         </div>
-        <br>
-        <fieldset class="usa-fieldset-inputs usa-sans">
-          <legend class="usa-sr-only">Types of Forms</legend>
-          <ul class="usa-unstyled-list">
-            <% FormTemplate.all.order(:kind).each do |f| %>
-            <li>
-              <%= form.radio_button :form_template_id, f.id %>
-              <%= form.label f.name, class: "usa-label", for: "touchpoint_form_template_id_#{f.id}" %>
-            </li>
-            <% end %>
-            <% if admin_permissions? %>
-            <li>
-              <%= form.label "Custom Form (only for Admins)", class: "usa-label" %>
-              <%= form.select :form_id, options_for_select(Form.all.map { |org| [org.name, org.id] }, selected: (touchpoint.form ? touchpoint.form.id : nil)), { include_blank: true }, { class: "usa-select" } %>
-            </li>
-            <% end %>
-          </ul>
-        </fieldset>
+        <%= form.label "Form", class: "usa-label" %>
+        <%= form.select :form_id, options_for_select(Form.all.map { |org| [org.name, org.id] }, selected: (touchpoint.form ? touchpoint.form.id : nil)), { include_blank: true }, { class: "usa-select" } %>
       <% end %>
+    <% else %>
+    <div class="usa-alert usa-alert--info" >
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
+          A Touchpoint also requires a Form.
+          After creating this Touchpoint,
+          you will be able to assign a Form.
+          You may need to create a Form, then come back to assign it.
+        </p>
+      </div>
+    </div>
+    <% end %>
     </div>
     <div class="well">
       <h3>

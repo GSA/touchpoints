@@ -13,6 +13,8 @@ module Touchpoints
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 
+    config.exceptions_app = self.routes # a Rack Application
+
     # Initialize an array of Omniauth providers
     config.x.omniauth.providers = []
 
