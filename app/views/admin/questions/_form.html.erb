@@ -28,6 +28,13 @@
     <%= f.select :answer_field, answer_fields, { selected: question.answer_field, include_blank: true }, { class: "usa-select" } %>
   </div>
 
+  <% if question.question_type == "text_field" || question.question_type == "textarea" %>
+  <div class="field">
+    <%= f.label :character_limit, class: "usa-label" %>
+    <%= f.number_field :character_limit, class: "usa-input" %>
+  </div>
+  <% end %>
+
   <div class="well">
     <h4>
       Positioning
