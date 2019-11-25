@@ -73,9 +73,9 @@ class Touchpoint < ApplicationRecord
       "end_date",
       "total_volume",
       "survey_opp_volume",
-      "num_responses",
+      "response_count",
       "OMB_control_number",
-      "link"
+      "federal_register_url"
     ]
 
     CSV.generate(headers: true) do |csv|
