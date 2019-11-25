@@ -1,7 +1,7 @@
 class Submission < ApplicationRecord
   belongs_to :touchpoint
 
-  validate :validate_custom_form, if: :form_kind_is_custom?
+  validate :validate_custom_form
 
   scope :non_flagged, -> { where(flagged: false) }
 
@@ -28,13 +28,6 @@ class Submission < ApplicationRecord
     return unless self.touchpoint.notification_emails?
     emails_to_notify = self.touchpoint.notification_emails
     UserMailer.submission_notification(submission: self, emails: emails_to_notify).deliver_now
-  end
-
-  # NOTE: this is brittle.
-  #       this pattern will require every field to declare its validations
-  #       Rethink.
-  def form_kind_is_custom?
-    self.touchpoint.form.kind == "custom"
   end
 
   def to_rows
