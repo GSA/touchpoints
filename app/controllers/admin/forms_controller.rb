@@ -21,7 +21,6 @@ class Admin::FormsController < AdminController
 
   def create
     @form = Form.new(form_params)
-    @form.kind = "custom"
 
     respond_to do |format|
       if @form.save

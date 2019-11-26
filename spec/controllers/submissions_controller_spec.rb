@@ -83,10 +83,27 @@ RSpec.describe SubmissionsController, type: :controller do
     end
 
     context "with invalid params" do
-      it "returns a success response (i.e. to display the 'new' template)" do
+      before do
+        touchpoint.form.questions.first.update_attribute(:is_required,true)
         post :create, params: { submission: invalid_attributes, touchpoint_id: touchpoint.id }, session: valid_session, format: :json
+      end
+
+      it "returns an error response indicating the field is required" do
         expect(response.status).to eq(422)
-        expect(JSON.parse(response.body)["messages"]).to eq({ ""=>["Please answer at least one of the core 7 questions."] })
+        expect(JSON.parse(response.body)["messages"]).to eq({ "answer_01" => ["is required"] })
+        expect(JSON.parse(response.body)["status"]).to eq("unprocessable_entity")
+      end
+    end
+
+    context "with excess characters" do
+      before do
+        touchpoint.form.questions.first.update_attribute(:character_limit, 5)
+        post :create, params: { submission: { answer_01: "more than 5 characters" }, touchpoint_id: touchpoint.id }, session: valid_session, format: :json
+      end
+
+      it "returns an error response indicating character limit has been exceeded" do
+        expect(response.status).to eq(422)
+        expect(JSON.parse(response.body)["messages"]).to eq({ "answer_01" => ["exceeds character limit of 5"] })
         expect(JSON.parse(response.body)["status"]).to eq("unprocessable_entity")
       end
     end

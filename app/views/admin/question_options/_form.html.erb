@@ -19,6 +19,11 @@
   </div>
 
   <div class="field">
+    <%= form.label :value, class: "usa-label" %>
+    <%= form.text_field :value, class: "usa-input" %>
+  </div>
+
+  <div class="field">
     <%= form.label :position, class: "usa-label" %>
     <%= form.number_field :position, value: (question_option.persisted? ? question_option.position : question.question_options.length + 1), class: "usa-input" %>
   </div>

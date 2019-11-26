@@ -46,16 +46,19 @@ module Seeds
       QuestionOption.create!({
         question: radio_button_question,
         text: "Option 1",
+        value: 1,
         position: 1
       })
       QuestionOption.create!({
         question: radio_button_question,
         text: "Option 2",
+        value: 2,
         position: 2
       })
       QuestionOption.create!({
         question: radio_button_question,
         text: "Option 3",
+        value: 3,
         position: 3
       })
 
@@ -71,16 +74,19 @@ module Seeds
       QuestionOption.create!({
         question: checkbox_question,
         text: "Option 1",
+        value: 1,
         position: 1
       })
       QuestionOption.create!({
         question: checkbox_question,
         text: "Option 2",
+        value: 2,
         position: 2
       })
       QuestionOption.create!({
         question: checkbox_question,
         text: "Option 3",
+        value: 3,
         position: 3
       })
 
@@ -96,16 +102,19 @@ module Seeds
       QuestionOption.create!({
         question: dropdown_question,
         text: "Option 1",
+        value: 1,
         position: 1
       })
       QuestionOption.create!({
         question: dropdown_question,
         text: "Option 2",
+        value: 2,
         position: 2
       })
       QuestionOption.create!({
         question: dropdown_question,
         text: "Option 3",
+        value: 3,
         position: 3
       })
 
