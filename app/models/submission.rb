@@ -8,18 +8,28 @@ class Submission < ApplicationRecord
   def validate_custom_form
     @valid_form_condition = false
 
-    # gather all answer fields
-    valid_answer_fields = self.touchpoint.form.questions.collect(&:answer_field)
-    # loop the fields and ensure there is at least one answered
-    valid_answer_fields.each do |valid_field|
-      if self.send(valid_field).present?
-        @valid_form_condition = true
-      end
-    end
+    questions = self.touchpoint.form.questions
 
-    unless @valid_form_condition
-      # push an error to a blank key to generate the generic error message
-      errors[""] << "Please answer at least one of the core 7 questions."
+    # Isolate questions that were answered
+    answered_questions = self.attributes.select { |key, value| value.present? }
+    # Filter out all non-question attributes
+    answered_questions.delete("touchpoint_id")
+    answered_questions.delete("user_agent")
+    answered_questions.delete("page")
+    answered_questions.delete("ip_address")
+    answered_questions.delete("language")
+    answered_questions.delete("referer")
+
+    # For each question
+    # Run Custom Validations
+    questions.each do |question|
+      if question.is_required && !answered_questions[question.answer_field]
+        errors.messages[question.answer_field] << "is required"
+      end
+
+      if question.character_limit.present? && answered_questions[question.answer_field] && answered_questions[question.answer_field].length > question.character_limit
+        errors.messages[question.answer_field] << "exceeds character limit of #{question.character_limit}"
+      end
     end
   end
 
