@@ -41,7 +41,6 @@ class SubmissionsController < ApplicationController
     end
 
     @submission = Submission.new(submission_params)
-    @submission.touchpoint_id = @touchpoint.id
     @submission.touchpoint = @touchpoint
     @submission.user_agent = request.user_agent
     @submission.referer = submission_params[:referer]

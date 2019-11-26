@@ -9,6 +9,10 @@ class Touchpoint < ApplicationRecord
 
   validate :omb_number_with_expiration_date
 
+  after_save do |touchpoint|
+    TouchpointCache.invalidate(touchpoint.id)
+  end
+
   def omb_number_with_expiration_date
     if omb_approval_number.present? && !expiration_date.present?
       errors.add(:expiration_date, "required with an OMB Number")

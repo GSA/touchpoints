@@ -27,6 +27,7 @@ feature "Touchpoints", js: true do
       context "custom success text" do
         before do
           touchpoint.form.update_attribute(:success_text, "Much success, yessss.")
+          touchpoint.reload
           visit touchpoint_path(touchpoint)
           expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit")
           expect(page).to have_content("OMB Approval ##{touchpoint.omb_approval_number}")
