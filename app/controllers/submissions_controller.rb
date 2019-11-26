@@ -41,7 +41,7 @@ class SubmissionsController < ApplicationController
     end
 
     @submission = Submission.new(submission_params)
-    @submission.touchpoint_id = @touchpoint.id
+    @submission.touchpoint = @touchpoint
     @submission.user_agent = request.user_agent
     @submission.referer = submission_params[:referer]
     @submission.page = submission_params[:page]
@@ -90,9 +90,9 @@ class SubmissionsController < ApplicationController
 
     def set_touchpoint
       if params[:touchpoint] # coming from /touchpoints/:id/submit
-        @touchpoint = Touchpoint.find(params[:id])
+        @touchpoint = TouchpointCache.fetch(params[:id])
       else
-        @touchpoint = Touchpoint.find(params[:touchpoint_id])
+        @touchpoint = TouchpointCache.fetch(params[:touchpoint_id])
       end
       raise InvalidArgument("Touchpoint does not exist") unless @touchpoint
     end
