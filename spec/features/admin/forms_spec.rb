@@ -210,6 +210,23 @@ feature "Forms", js: true do
           end
         end
 
+        context "with Service Manager permissions user updates a Touchpoint Form Section" do
+          let!(:user_service) { FactoryBot.create(:user_service, :service_manager, { service: service, user: admin }) }
+          let(:new_title) { "New Form Section Title" }
+
+          before do
+            visit edit_admin_form_form_section_path(form_section2.form.id,form_section2.id)
+            fill_in("form_section[title]", with: new_title)
+            click_button "Update Form section"
+          end
+
+          it "redirect to /admin/forms/:id/edit with a success flash message" do
+            expect(page.current_path).to eq(edit_admin_form_path(form_section2.form.id))
+            expect(page).to have_content("Form section was successfully updated.")
+            expect(page).to have_content(new_title)
+          end
+        end
+
       end
 
       describe "adding Question Options" do
