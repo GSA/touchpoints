@@ -4,7 +4,7 @@ class Question < ApplicationRecord
   has_many :question_options, dependent: :destroy
 
   validates :answer_field, presence: true
-  validates :character_limit, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 100000 }
+  validates :character_limit, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 100000, allow_nil: true }
 
   default_scope { order(position: :asc) }
 end
