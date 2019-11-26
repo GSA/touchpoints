@@ -3,14 +3,21 @@
   <label class="usa-label">
     <%= question_number %>.
     <%= question.text %>
-    <span class="usa-tag">
-      <%= question.answer_field %>
-    </span>
+    <p>
+      <span class="usa-tag">
+        <%= question.answer_field %>
+      </span>
+      <% if question.is_required? %>
+      <span class="usa-tag" style="background-color: red;">
+        Required
+      </span>
+      <% end %>
+    </p>
   </label>
   <br>
   <% question.question_options.each_with_index do |option, index| %>
   <div class="usa-checkbox">
-    <%= radio_button_tag question.answer_field.to_sym, option.position, nil, { class: "usa-checkbox__input" } %>
+    <%= radio_button_tag(question.answer_field.to_sym, index + 1, nil, { value: option.value, class: "usa-radio__input", required: question.is_required  }) %>
     <%= label_tag nil, for: "#{question.answer_field.to_sym}_#{option.position}", class: "usa-checkbox__label" do %>
       <%= option.text %>
       <%= link_to "Edit", edit_admin_form_question_question_option_path(option.question.form, option.question, option) %>

@@ -20,16 +20,10 @@
   <div class="grid-col-12">
     <div class="well highlight">
       <h2>
-        Form Preview
+        Form Editor
       </h2>
       <div>
-        <% if @form.kind.present? && @form.kind == "custom" %>
-          <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
-        <% else %>
-          <div class="usa-alert">
-            This is a legacy hard-coded Form
-          </div>
-        <% end %>
+        <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>  
       </div>
     </div>
   </div>

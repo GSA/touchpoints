@@ -69,7 +69,8 @@ class Admin::QuestionsController < AdminController
         :question_type,
         :answer_field,
         :position,
-        :is_required
+        :is_required,
+        :character_limit
       )
     end
 end

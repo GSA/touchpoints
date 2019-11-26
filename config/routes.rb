@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
+
+  match "/404", :to => "errors#not_found", :via => :all
+  match "/500", :to => "errors#internal_server_error", :via => :all
+
   resources :touchpoints, only: [:show] do
     member do
       get "js", to: "touchpoints#js", as: :js
@@ -24,7 +28,6 @@ Rails.application.routes.draw do
     end
     resources :users, except: [:new]
     resources :organizations
-    resources :pra_contacts
     resources :programs
     resources :services do
       member do
@@ -35,6 +38,8 @@ Rails.application.routes.draw do
     resources :touchpoints do
       member do
         get "export_submissions", to: "touchpoints#export_submissions", as: :export_submissions
+        get "export_a11_header", to: "touchpoints#export_a11_header", as: :export_a11_header
+        get "export_a11_submissions", to: "touchpoints#export_a11_submissions", as: :export_a11_submissions
         get "example", to: "touchpoints#example", as: :example
         get "js", to: "touchpoints#js", as: :js
         get "export_pra_document", as: :export_pra_document

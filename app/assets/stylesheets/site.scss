@@ -139,3 +139,27 @@ h1, h2, h3 {
 .float-right {
   float: right;
 }
+
+
+// Maintenance Page Styles
+.maintenance footer {
+  align-items: center;
+  border-top: 1px solid #E5E5E5;
+  bottom: 0;
+  left: 0;
+  padding-left: 10%;
+  position: fixed;
+  text-align: center;
+  vertical-align: middle;
+  width: 100%;
+}
+
+@media all and (min-width: 40em) {
+  .maintenance .usa-prose h1 {
+    margin-top: 75px;
+    font-size: 50px;
+  }
+  .maintenance footer {
+    font-size: 22px;
+  }
+}

@@ -11,16 +11,16 @@
           recording, and no expectation of privacy.
           Misuse is subject to criminal and civil penalties.
           <%= link_to "Read more details", "#", id: "read-more-details" %>.
+          <% if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
           <p>
-            <% if ENV['GITHUB_CLIENT_ID'].present? %>
-              <%= link_to "Agree and continue to Sign In with GitHub", user_github_omniauth_authorize_path, id: "agree-button", class: "usa-button" %>
-            <% end %>
+            <%= link_to "Agree and continue to Sign In with Login.gov", user_login_dot_gov_omniauth_authorize_path, id: "agree-button", class: "usa-button" %>
           </p>
+          <% end %>
+          <% if ENV['GITHUB_CLIENT_ID'].present? %>
           <p>
-            <% if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
-              <%= link_to "Agree and continue to Sign In with Login.gov", user_login_dot_gov_omniauth_authorize_path, id: "agree-button", class: "usa-button" %>
-            <% end %>
+            <%= link_to "Agree and continue to Sign In with GitHub", user_github_omniauth_authorize_path, id: "agree-button", class: "usa-button" %>
           </p>
+          <% end %>
         </div>
         <br>
         <%= link_to "Learn about getting access to Touchpoints.", "https://feedback.usa.gov", target: "_blank", rel: "noopener" %>

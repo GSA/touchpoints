@@ -9,7 +9,6 @@
         <% end %>
         <th>Name</th>
         <th>Service manager</th>
-        <th></th>
       </tr>
     </thead>
 
@@ -17,15 +16,12 @@
       <% @services.each do |service| %>
         <tr>
           <% if current_user.admin? %>
-          <td><%= link_to service.organization.name, admin_organization_path(service.organization) %></td>
+          <td>
+            <%= service.organization.name %>
+          </td>
           <% end %>
           <td><%= link_to service.name, admin_service_path(service) %></td>
           <td><%= service.service_manager %></td>
-          <td>
-            <% if is_at_least_service_manager?(user: current_user, service: service) %>
-              <%= link_to 'Edit', edit_admin_service_path(service) %>
-            <% end %>
-          </td>
         </tr>
       <% end %>
     </tbody>

@@ -7,7 +7,7 @@
   <br>
   <% question.question_options.each_with_index do |option, index| %>
   <div class="radio-button usa-radio">
-    <%= radio_button_tag(question.answer_field.to_sym, index + 1, nil, { value: option.text, class: "usa-radio__input" }) %>
+    <%= radio_button_tag(question.answer_field.to_sym, index + 1, nil, { value: option.value, class: "usa-radio__input", required: question.is_required  }) %>
     <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}", class: "usa-radio__label") do %>
       <%= option.text %>
     <% end %>
