@@ -1,24 +1,26 @@
-<p id="notice"><%= notice %></p>
+<div class="well">
+  <%= render 'components/forms/flash' %>
 
-<p>
-  <strong>Text:</strong>
-  <%= @question.text %>
-</p>
+  <p>
+    <strong>Text:</strong>
+    <%= @question.text %>
+  </p>
 
-<p>
-  <strong>Position:</strong>
-  <%= @question.position %>
-</p>
+  <p>
+    <strong>Position:</strong>
+    <%= @question.position %>
+  </p>
 
-<p>
-  <strong>Question type:</strong>
-  <%= @question.question_type %>
-</p>
+  <p>
+    <strong>Question type:</strong>
+    <%= @question.question_type %>
+  </p>
 
-<p>
-  <strong>Is required:</strong>
-  <%= @question.is_required %>
-</p>
+  <p>
+    <strong>Is required:</strong>
+    <%= @question.is_required %>
+  </p>
 
-<%= link_to 'Edit', edit_question_path(@question) %> |
-<%= link_to 'Back', questions_path %>
+  <%= link_to 'Edit', edit_question_path(@question) %> |
+  <%= link_to 'Back', questions_path %>  
+</div>
