@@ -31,7 +31,7 @@
   <% if question.question_type == "text_field" || question.question_type == "textarea" %>
   <div class="field">
     <%= f.label :character_limit, class: "usa-label" %>
-    <%= f.number_field :character_limit, class: "usa-input" %>
+    <%= f.number_field :character_limit, class: "usa-input", max: "100000" %>
   </div>
   <% end %>
 
