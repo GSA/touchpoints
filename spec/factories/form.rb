@@ -5,6 +5,8 @@ FactoryBot.define do
     kind { "custom" }
     notes { "Notes" }
     character_limit { 1000 }
+    success_text { "Thank you. Your feedback has been received." }
+    modal_button_text { "Help improve this site" }
 
     trait :recruiter do
       name { "Recruiter" }

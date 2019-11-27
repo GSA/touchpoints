@@ -14,6 +14,8 @@ class Admin::FormsController < AdminController
 
   def new
     @form = Form.new
+    @form.modal_button_text = I18n.t('form.help_improve')
+    @form.success_text = I18n.t('form.submit_thankyou')
   end
 
   def edit
