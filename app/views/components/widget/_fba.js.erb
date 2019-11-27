@@ -187,6 +187,17 @@ N.fba = {
 			elem = form.querySelector('#input-error');
 			if (elem != null) elem.parentNode.removeChild(elem);
 		},
+		textCounter: function(field,maxlimit)
+			{
+			 var countfield = field.parentNode.querySelector(".counter");
+			 if ( field.value.length > maxlimit ) {
+			  field.value = field.value.substring( 0, maxlimit );
+			  countfield.innerText = '0';
+			  return false;
+			 } else {
+			  countfield.innerText = "" + (maxlimit - field.value.length);
+			 }
+		},
 		loadButton: function()
 		{
 			this.buttonEl = document.createElement('a');
