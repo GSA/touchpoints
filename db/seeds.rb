@@ -370,9 +370,3 @@ admin_emails.each do |email|
     admin: true
   }).save!
 end
-
-pra_contact = PraContact.create!({
-  email: "pra_contact@example.gov",
-  name: "Rosa Parks"
-})
-puts "Created PRA Contact User for Primary Organization: #{pra_contact.email}"

@@ -6,7 +6,6 @@ ruby '2.6.5'
 gem 'aws-sdk-rails'
 gem 'caracal'
 gem 'carrierwave'
-gem 'deep_cloneable'
 gem 'devise'
 gem 'fog-aws'
 gem 'jquery-rails'
@@ -22,17 +21,12 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'sass-rails'
 gem 'sidekiq'
 gem 'uglifier'
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
+# Use Redis to cache Touchpoints in all envs
+gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-# Use ActiveStorage variant
-# gem 'mini_magick', '~> 4.8'
-
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'dotenv-rails'
   gem 'pry'
   gem 'rspec_junit_formatter'

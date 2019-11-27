@@ -17,7 +17,13 @@ module Seeds
       a11_form.form_sections.create(title: "Page 2", position: 2)
 
       # Specify the Question Options
-      options = ["strongly disagree", "disagree", "neutral", "agree", "strongly agree"]
+      options = {
+        "strongly disagree" => "1",
+        "disagree" => "2",
+        "neutral" => "3",
+        "agree" => "4",
+        "strongly agree" => "5"
+      }
 
       # Page 1
       question_01 = Question.create!({
@@ -107,11 +113,12 @@ module Seeds
         question_06,
         question_07,
       ].each do |q|
-        options.each_with_index do |option, j|
+        options.each_with_index do |(option, value), j|
           QuestionOption.create!({
             question: q,
             text: option,
-            position: j
+            value: value,
+            position: j + 1
           })
         end
       end
