@@ -65,18 +65,19 @@ feature "Touchpoints", js: true do
 
     describe "character_limit" do
       before do
+        question = touchpoint.form.questions.first
+        question.update_attribute(:character_limit, 150)
         visit touchpoint_path(touchpoint)
         expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit")
         expect(page).to have_content("OMB Approval ##{touchpoint.omb_approval_number}")
         expect(page).to have_content("Exp. Date #{touchpoint.expiration_date.strftime("%m/%d/%Y")}")
-        fill_in("answer_01", with: "T" * 100 * ((touchpoint.form.character_limit.to_i / 100) + 10))
+        fill_in("answer_01", with: "T" * 145)
         click_button "Submit"
       end
 
-      describe "display flash error on submission" do
-        xit "renders body character_limit flash message" do
-          expect(page).to have_content("body is limited to #{touchpoint.form.character_limit} characters")
-          expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit")
+      describe "character counter" do
+        it "updates character count" do
+          expect(page).to have_content("Chars remaining: 5")
         end
       end
     end
