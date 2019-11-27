@@ -35,10 +35,9 @@ class Admin::FormsController < AdminController
 
   def copy
     respond_to do |format|
-      new_form = @form.deep_clone include: { questions: :question_options }
-      new_form.name = "Copy of #{@form.name}"
+      new_form = @form.duplicate!
 
-      if new_form.save
+      if new_form.valid?
         format.html { redirect_to admin_form_path(new_form), notice: 'Form was successfully copied.' }
         format.json { render :show, status: :created, location: new_form }
       else

@@ -102,8 +102,6 @@ GEM
     connection_pool (2.2.2)
     crass (1.0.5)
     database_cleaner (1.7.0)
-    deep_cloneable (3.0.0)
-      activerecord (>= 3.1.0, < 7)
     devise (4.7.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -333,7 +331,6 @@ DEPENDENCIES
   caracal
   carrierwave
   database_cleaner
-  deep_cloneable
   devise
   dotenv-rails
   factory_bot_rails
