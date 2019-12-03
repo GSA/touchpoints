@@ -1,6 +1,8 @@
 es:
   touchpoint: "Punto de contacto"
   touchpoints: "Puntos de contacto"
+  powered_by: "Energizado por"
+  omb_approval: "Aprobación OMB # 1234 Exp. Fecha 12/01/2019"
   beta: "beta"
   report_an_issue: "Reportar un problema"
   contact: "contacto"

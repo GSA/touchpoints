@@ -76,3 +76,30 @@
   font-size: 0.8em;
   color: #BBBBBB;
 }
+
+.public-footer-left {
+    text-align: left;
+    float: left;
+}
+
+.public-footer-right {
+    text-align: right;
+    float: right;
+}
+
+.public-footer-text {
+    color: white;
+    font-size: 14pt;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 50px;
+}
+
+.public-footer-icon {
+    max-height: 36px;
+    max-width: 36px;
+    height: 36px;
+    width: 36px;
+    margin: 7px;
+    vertical-align: middle;
+}
