@@ -60,6 +60,11 @@ class Admin::QuestionOptionsController < AdminController
     end
 
     def question_option_params
-      params.require(:question_option).permit(:question_id, :text, :position)
+      params.require(:question_option).permit(
+        :question_id,
+        :text,
+        :position,
+        :value
+      )
     end
 end

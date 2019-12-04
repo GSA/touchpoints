@@ -283,6 +283,7 @@ feature "Forms", js: true do
           before do
             visit edit_admin_form_question_question_option_path(form, radio_button_question, radio_button_option)
             fill_in "question_option_text", with: "Edited Question Option Text"
+            fill_in "question_option_value", with: "100"
             click_on "Update Question option"
           end
 
@@ -291,6 +292,11 @@ feature "Forms", js: true do
             within (".question") do
               expect(page).to have_content("Edited Question Option Text")
             end
+
+            # Ensure other (non UI-visible) data persists
+            visit edit_admin_form_question_question_option_path(form, radio_button_question, radio_button_option)
+            expect(page.find_field("question_option_text").value).to eq("Edited Question Option Text")
+            expect(page.find_field("question_option_value").value).to eq("100")
           end
         end
       end
