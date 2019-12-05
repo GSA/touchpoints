@@ -6,6 +6,7 @@ class UserMailer < ApplicationMailer
   #   en.user_mailer.submission_notification.subject
   #
   def submission_notification(submission:, emails: [])
+    attachments.inline["logo.png"] = @@header_logo
     @submission = submission
     @touchpoint = @submission.touchpoint
     mail subject: "New Submission to #{@touchpoint.name}",
