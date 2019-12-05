@@ -1,5 +1,10 @@
-<h1>New User Account Notification</h1>
-
+<div class="email-header">
+    <%= image_tag(attachments['logo.png'].url) %>
+</div>
+<h3>New user account created</h3>
 <p>
-  A new user account with email <%= @user.email %> was created on <%= Date.today %>
+    You've successfully registered account <%= @user.email %> on <%= Date.today %>.
+</p>
+<p>
+  You will be notified of what action to take next...
 </p>

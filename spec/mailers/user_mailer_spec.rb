@@ -53,13 +53,13 @@ RSpec.describe UserMailer, type: :mailer do
     let(:mail) { UserMailer.new_user_notification(user) }
 
     it "renders the headers" do
-      expect(mail.subject).to eq("New user account registration #{user.email}")
+      expect(mail.subject).to eq("New user account created")
       expect(mail.to).to eq([UserMailer.touchpoints_team])
       expect(mail.from).to eq([ENV.fetch("TOUCHPOINTS_EMAIL_SENDER")])
     end
 
     it "renders the body" do
-      expect(mail.body.encoded).to match("New User Account Notification")
+      expect(mail.body.encoded).to match("New user account created")
     end
 
   end
@@ -69,13 +69,13 @@ RSpec.describe UserMailer, type: :mailer do
     let(:mail) { UserMailer.org_user_notification(user,user) }
 
     it "renders the headers" do
-      expect(mail.subject).to eq("A new user has been added to your organization")
+      expect(mail.subject).to eq("New user added to organization")
       expect(mail.to).to eq([user.email])
       expect(mail.from).to eq([ENV.fetch("TOUCHPOINTS_EMAIL_SENDER")])
     end
 
     it "renders the body" do
-      expect(mail.body.encoded).to match("New User Added to Org")
+      expect(mail.body.encoded).to match("New user added to organization")
     end
 
   end
@@ -85,13 +85,13 @@ RSpec.describe UserMailer, type: :mailer do
     let(:mail) { UserMailer.no_org_notification(user) }
 
     it "renders the headers" do
-      expect(mail.subject).to eq("Problem with new user account registration, #{user.email} -- organization not found")
+      expect(mail.subject).to eq("New user account creation failed")
       expect(mail.to).to eq([UserMailer.touchpoints_support])
       expect(mail.from).to eq([ENV.fetch("TOUCHPOINTS_EMAIL_SENDER")])
     end
 
     it "renders the body" do
-      expect(mail.body.encoded).to match("New User Account Creation Failed, No Organization Found")
+      expect(mail.body.encoded).to match("New user account creation failed")
     end
 
   end

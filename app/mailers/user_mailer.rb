@@ -1,6 +1,5 @@
 class UserMailer < ApplicationMailer
 
-
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -37,22 +36,25 @@ class UserMailer < ApplicationMailer
   end
 
   def new_user_notification(user)
+    attachments.inline["logo.png"] = @@header_logo
     @user = user
-    mail subject: "New user account registration #{@user.email}",
+    mail subject: "New user account created",
       to: UserMailer.touchpoints_team
 
   end
 
   def org_user_notification(user, org_admin)
+    attachments.inline["logo.png"] = @@header_logo
     @user = user
     @org_admin = org_admin
-    mail subject: "A new user has been added to your organization",
+    mail subject: "New user added to organization",
       to: org_admin.email
   end
 
   def no_org_notification(user)
+    attachments.inline["logo.png"] = @@header_logo
     @user = user
-    mail subject: "Problem with new user account registration, #{@user.email} -- organization not found",
+    mail subject: "New user account creation failed",
       to: UserMailer.touchpoints_support
 
   end

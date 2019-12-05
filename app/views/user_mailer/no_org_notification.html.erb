@@ -1,5 +1,11 @@
-<h1>New User Account Creation Failed, No Organization Found</h1>
+<div class="email-header">
+    <%= image_tag(attachments['logo.png'].url) %>
+</div>
+<h3>New user account creation failed</h3>
 
 <p>
-  Registration failed for new user account with email <%= @user.email %> on <%= Date.today %>.  No organization matching email domain was found.
+  Your attempt to register account <%= @user.email %> on <%= Date.today %> could not be completed.  No organization matching that domain was found.
+</p>
+<p>
+  You will be notified of what action to take next...
 </p>

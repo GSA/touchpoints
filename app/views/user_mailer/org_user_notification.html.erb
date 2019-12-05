@@ -1,5 +1,11 @@
-<h1>New User Added to Org <%= @user.organization.domain %></h1>
+<div class="email-header">
+    <%= image_tag(attachments['logo.png'].url) %>
+</div>
+<h3>New user added to organization</h3>
 
 <p>
-  A new user account with email <%= @user.email %> was added to organization <%= @user.organization.domain %>  on <%= Date.today %>
+  A new user with account <%= @user.email %> was added to organization <%= @user.organization.domain %> on <%= Date.today %>.
+</p>
+<p>
+  You will be notified of what action to take next...
 </p>
