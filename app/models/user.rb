@@ -13,6 +13,8 @@ class User < ApplicationRecord
   has_many :services, through: :user_services
   has_many :touchpoints, through: :services
 
+  after_create :send_new_user_notification
+
   APPROVED_DOMAINS = [".gov", ".mil"]
 
   validates :email, presence: true, if: :tld_check
@@ -103,7 +105,18 @@ class User < ApplicationRecord
       if org = Organization.find_by_domain(parsed_domain)
         self.organization_id = org.id
       else
+        UserMailer.no_org_notification(self).deliver_now
         errors.add(:organization, "'#{email_address_domain}' has not yet been configured for Touchpoints - Please contact the Feedback Analytics Team for assistance.")
+      end
+    end
+
+    def send_new_user_notification
+      # Send notification to Touchpoints
+      UserMailer.new_user_notification(self).deliver_now
+
+      # Send notification to Org Admins
+      self.organization.users.select { | user | user.organization_manager? }.each do | om |
+        UserMailer.org_user_notification(self,om).deliver_now
       end
     end
 

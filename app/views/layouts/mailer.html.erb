@@ -1,13 +1,39 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <style>
-      /* Email styles need to be inline */
-    </style>
-  </head>
+    /* Email styles need to be inline */
+    html {
+        -webkit-font-feature-settings: 'kern'1;
+        font-feature-settings: 'kern'1;
+        -webkit-font-kerning: normal;
+        font-kerning: normal;
+        font-family: Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
+        font-size: 100%;
+    }
 
-  <body>
+    body {
+        background-color: white;
+        color: #1b1b1b;
+        overflow-x: hidden;
+    }
+
+    h1 {
+        display: block;
+        font-size: 2em;
+        margin-block-start: 0.67em;
+        margin-block-end: 0.67em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+    }
+    </style>
+</head>
+
+<body>
     <%= yield %>
-  </body>
+</body>
+
 </html>
