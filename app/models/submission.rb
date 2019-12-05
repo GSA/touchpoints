@@ -38,12 +38,12 @@ class Submission < ApplicationRecord
   def send_notifications
     return unless self.touchpoint.send_notifications?
     return unless self.touchpoint.notification_emails?
-    emails_to_notify = self.touchpoint.notification_emails
+    emails_to_notify = self.touchpoint.notification_emails.split(",")
     #add service manager(s) to notification distribution
     self.touchpoint.service.users.select { | u | self.touchpoint.service.user_role?(user: u) == UserService::Role::ServiceManager }.each do | sm |
       emails_to_notify << sm.email unless emails_to_notify.include?(sm.email)
     end
-    UserMailer.submission_notification(submission: self, emails: emails_to_notify).deliver_now
+    UserMailer.submission_notification(submission: self, emails: emails_to_notify.uniq).deliver_now
   end
 
   def to_rows
