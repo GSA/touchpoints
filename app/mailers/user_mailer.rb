@@ -63,10 +63,10 @@ class UserMailer < ApplicationMailer
 private
 
   def self.touchpoints_team
-    ENV['TOUCHPOINTS_TEAM'] ? ENV['TOUCHPOINTS_TEAM'] : 'team@touchpoints.gov'
+    ENV.fetch('TOUCHPOINTS_TEAM') { 'feedback-analytics@gsa.gov' }
   end
 
   def self.touchpoints_support
-    ENV['TOUCHPOINTS_SUPPORT'] ? ENV['TOUCHPOINTS_SUPPORT'] : 'support@touchpoints.gov'
+    ENV.fetch('TOUCHPOINTS_SUPPORT') { 'feedback-analytics@gsa.gov' }
   end
 end

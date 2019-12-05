@@ -4,8 +4,16 @@
 <h3>New user account creation failed</h3>
 
 <p>
-  Your attempt to register account <%= @user.email %> on <%= Date.today %> could not be completed.  No organization matching that domain was found.
+  The attempt to register account
+  <%= @user.email %>
+  on
+  <%= Date.today %> could not be completed.
+  No organization matching that domain was found.
 </p>
+<h4>
+  Next Steps:
+</h4>
 <p>
-  You will be notified of what action to take next...
+  To resolve: Create an Organization with a .gov domain that matches this .gov user.
+  The user will then be able to login.
 </p>

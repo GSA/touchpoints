@@ -1,5 +1,9 @@
-New user added to organization
+New user added to organization <%= @user.organization.name %>.
 
 A new user with account <%= @user.email %> was added to organization <%= @user.organization.domain %> on <%= Date.today %>.
 
-You will be notified of what action to take next...
+
+Next Steps:
+
+Assign permissions to this User on the Service.
+The User can be made a Service Manager or Submission Viewer.
