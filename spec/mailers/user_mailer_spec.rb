@@ -54,7 +54,7 @@ RSpec.describe UserMailer, type: :mailer do
 
     it "renders the headers" do
       expect(mail.subject).to eq("New user account registration #{user.email}")
-      expect(mail.to).to eq([ENV.fetch("TOUCHPOINTS_TEAM")])
+      expect(mail.to).to eq([UserMailer.touchpoints_team])
       expect(mail.from).to eq([ENV.fetch("TOUCHPOINTS_EMAIL_SENDER")])
     end
 
@@ -86,7 +86,7 @@ RSpec.describe UserMailer, type: :mailer do
 
     it "renders the headers" do
       expect(mail.subject).to eq("Problem with new user account registration, #{user.email} -- organization not found")
-      expect(mail.to).to eq([ENV.fetch("TOUCHPOINTS_SUPPORT")])
+      expect(mail.to).to eq([UserMailer.touchpoints_support])
       expect(mail.from).to eq([ENV.fetch("TOUCHPOINTS_EMAIL_SENDER")])
     end
 

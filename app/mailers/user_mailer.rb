@@ -1,5 +1,6 @@
 class UserMailer < ApplicationMailer
 
+
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -38,7 +39,7 @@ class UserMailer < ApplicationMailer
   def new_user_notification(user)
     @user = user
     mail subject: "New user account registration #{@user.email}",
-      to: ENV['TOUCHPOINTS_TEAM']
+      to: UserMailer.touchpoints_team
 
   end
 
@@ -52,7 +53,17 @@ class UserMailer < ApplicationMailer
   def no_org_notification(user)
     @user = user
     mail subject: "Problem with new user account registration, #{@user.email} -- organization not found",
-      to: ENV['TOUCHPOINTS_SUPPORT']
+      to: UserMailer.touchpoints_support
 
+  end
+
+private
+
+  def self.touchpoints_team
+    ENV['TOUCHPOINTS_TEAM'] ? ENV['TOUCHPOINTS_TEAM'] : 'team@touchpoints.gov'
+  end
+
+  def self.touchpoints_support
+    ENV['TOUCHPOINTS_SUPPORT'] ? ENV['TOUCHPOINTS_SUPPORT'] : 'support@touchpoints.gov'
   end
 end
