@@ -54,7 +54,6 @@ admin_user = User.new({
   password: "password",
   admin: true
 })
-admin_user.skip_confirmation!
 admin_user.save!
 puts "Created Admin User: #{admin_user.email}"
 
@@ -101,7 +100,6 @@ webmaster = User.new({
   password: "password",
   organization: example_gov
 })
-webmaster.skip_confirmation!
 webmaster.save!
 puts "Created #{webmaster.email}"
 
@@ -111,7 +109,6 @@ organization_manager = User.new({
   organization: example_gov,
   organization_manager: true
 })
-organization_manager.skip_confirmation!
 organization_manager.save!
 puts "Created #{organization_manager.email}"
 
@@ -120,7 +117,6 @@ service_manager = User.new({
   password: "password",
   organization: example_gov
 })
-service_manager.skip_confirmation!
 service_manager.save!
 puts "Created #{service_manager.email}"
 
@@ -129,7 +125,6 @@ submission_viewer = User.new({
   password: "password",
   organization: example_gov
 })
-submission_viewer.skip_confirmation
 submission_viewer.save!
 puts "Created #{submission_viewer.email}"
 
@@ -358,12 +353,10 @@ range = [1,2,3,4,5]
   touchpoint_3.update_attribute(:survey_form_activations, touchpoint_3.survey_form_activations + 1)
 end
 
-
 digital_gov_user = User.new({
   email: "user@digital.gov",
   password: "password"
 })
-digital_gov_user.skip_confirmation!
 digital_gov_user.save!
 puts "Created Test User in Secondary Organization: #{digital_gov_user.email}"
 
