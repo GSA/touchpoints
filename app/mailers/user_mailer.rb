@@ -11,7 +11,7 @@ class UserMailer < ApplicationMailer
     @touchpoint = @submission.touchpoint
     mail subject: "New Submission to #{@touchpoint.name}",
       to: emails,
-      bcc: "ryan.wold@gsa.gov,lauren.ancona@gsa.gov"
+      bcc: ["ryan.wold@gsa.gov", "lauren.ancona@gsa.gov"]
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -20,9 +20,9 @@ class UserMailer < ApplicationMailer
   #   en.user_mailer.admin_summary.subject
   #
   def admin_summary
-    @greeting = "Hi"
+    @greeting = "Hi, admin_summary"
 
-    mail to: "to@example.org"
+    mail to: "ryan.wold@gsa.gov"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -31,9 +31,9 @@ class UserMailer < ApplicationMailer
   #   en.user_mailer.webmaster_summary.subject
   #
   def webmaster_summary
-    @greeting = "Hi"
+    @greeting = "Hi, webmaster_summary"
 
-    mail to: "to@example.org"
+    mail to: "ryan.wold@gsa.gov"
   end
 
   def new_user_notification(user)
