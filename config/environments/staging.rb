@@ -99,7 +99,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'touchpoints-staging.app.cloud.gov', port: 443 }
 
   # For delivering email via Amazon SES with aws-sdk-rails
-  config.action_mailer.delivery_method = :aws_sdk
+  config.action_mailer.delivery_method = :ses
 
   # Prevent host header injection
   # Reference: https://github.com/ankane/secure_rails
