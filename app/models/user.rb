@@ -119,13 +119,4 @@ class User < ApplicationRecord
         UserMailer.org_user_notification(self,om).deliver_now
       end
     end
-
-    # TODO - remove this overriding behavior that disabled email sending
-    #        once Touchpoints has an email account and config setup
-    def send_confirmation_notification?
-      # Explicitly confirm the User's account
-      self.confirmed_at = Time.now
-
-      return false
-    end
 end
