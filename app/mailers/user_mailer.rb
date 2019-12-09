@@ -9,9 +9,10 @@ class UserMailer < ApplicationMailer
     attachments.inline["logo.png"] = @@header_logo
     @submission = submission
     @touchpoint = @submission.touchpoint
+    admin_emails = ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
     mail subject: "New Submission to #{@touchpoint.name}",
       to: emails,
-      bcc: ["ryan.wold@gsa.gov", "lauren.ancona@gsa.gov"]
+      bcc: admin_emails
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
