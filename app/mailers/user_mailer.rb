@@ -23,7 +23,7 @@ class UserMailer < ApplicationMailer
   def admin_summary
     @greeting = "Hi, admin_summary"
 
-    mail to: "ryan.wold@gsa.gov"
+    mail to: ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -34,7 +34,7 @@ class UserMailer < ApplicationMailer
   def webmaster_summary
     @greeting = "Hi, webmaster_summary"
 
-    mail to: "ryan.wold@gsa.gov"
+    mail to: ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
   end
 
   def new_user_notification(user)
