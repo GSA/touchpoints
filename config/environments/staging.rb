@@ -104,5 +104,6 @@ Rails.application.configure do
   config.action_controller.asset_host = ENV.fetch("TOUCHPOINTS_WEB_DOMAIN")
 
   # Temporarilty Disable Email Sending
+  config.action_mailer.delivery_method = :test
   config.action_mailer.perform_deliveries = false
 end
