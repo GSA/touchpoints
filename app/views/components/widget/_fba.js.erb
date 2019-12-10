@@ -10,7 +10,7 @@ N.fba = {
 		var javascriptDisabledMessage = document.getElementsByClassName("javascript-disabled-message")[0];
 		var touchpointForm = document.getElementsByClassName("touchpoint-form")[0];
 		if (javascriptDisabledMessage) {
-			javascriptDisabledMessage.remove();
+			javascriptDisabledMessage.classList.add("hide");
 		}
 		if (touchpointForm) {
 			touchpointForm.classList.remove("hide");
