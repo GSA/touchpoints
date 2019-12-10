@@ -50,7 +50,7 @@ puts "Created Default Organization: #{example_gov.name}"
 
 admin_user = User.new({
   organization: example_gov,
-  email: "admin@example.gov",
+  email: "ryan.wold+staging@gsa.gov",
   password: "password",
   admin: true
 })
@@ -305,8 +305,7 @@ touchpoint_3 = Touchpoint.create!({
   name: "A11 - 7 question test",
   purpose: "CX",
   meaningful_response_size: 100,
-  behavior_change: "Better customer service",
-  notification_emails: "ryan.wold@gsa.gov"
+  behavior_change: "Better customer service"
 })
 
 touchpoint_4 = Touchpoint.create!({
@@ -352,7 +351,6 @@ range = [1,2,3,4,5]
   })
   touchpoint_3.update_attribute(:survey_form_activations, touchpoint_3.survey_form_activations + 1)
 end
-
 
 digital_gov_user = User.new({
   email: "user@digital.gov",

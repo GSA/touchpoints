@@ -11,7 +11,7 @@ feature "Touchpoints", js: true do
           visit touchpoint_path(touchpoint)
           expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit")
           expect(page).to have_content("OMB Approval ##{touchpoint.omb_approval_number}")
-          expect(page).to have_content("Exp. Date #{touchpoint.expiration_date.strftime("%m/%d/%Y")}")
+          expect(page).to have_content("Expiration Date #{touchpoint.expiration_date.strftime("%m/%d/%Y")}")
           fill_in("answer_01", with: "User feedback")
           click_button "Submit"
         end
@@ -31,7 +31,7 @@ feature "Touchpoints", js: true do
           visit touchpoint_path(touchpoint)
           expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit")
           expect(page).to have_content("OMB Approval ##{touchpoint.omb_approval_number}")
-          expect(page).to have_content("Exp. Date #{touchpoint.expiration_date.strftime("%m/%d/%Y")}")
+          expect(page).to have_content("Expiration Date #{touchpoint.expiration_date.strftime("%m/%d/%Y")}")
           fill_in("answer_01", with: "User feedback")
           click_button "Submit"
         end
@@ -70,7 +70,7 @@ feature "Touchpoints", js: true do
         visit touchpoint_path(touchpoint)
         expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit")
         expect(page).to have_content("OMB Approval ##{touchpoint.omb_approval_number}")
-        expect(page).to have_content("Exp. Date #{touchpoint.expiration_date.strftime("%m/%d/%Y")}")
+        expect(page).to have_content("Expiration Date #{touchpoint.expiration_date.strftime("%m/%d/%Y")}")
         fill_in("answer_01", with: "T" * 145)
       end
 

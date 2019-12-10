@@ -1,0 +1,10 @@
+<div class="email-header">
+    <%= image_tag(attachments['logo.png'].url) %>
+</div>
+<h3>New user account created</h3>
+<p>
+  You've successfully registered account <%= @user.email %> on <%= Date.today %>.
+</p>
+<p>
+  Login to Touchpoints at <%= root_url %>
+</p>
