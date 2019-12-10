@@ -26,7 +26,11 @@ Rails.application.routes.draw do
         post "copy", to: "forms#copy", as: :copy
       end
     end
-    resources :users, except: [:new]
+    resources :users, except: [:new] do
+      member do
+        get "deactivate", to: "users#deactivate"
+      end
+    end
     resources :organizations
     resources :programs
     resources :services do
@@ -53,6 +57,8 @@ Rails.application.routes.draw do
     end
     root to: "site#index"
   end
+
+
 
   get "status", to: "site#status", as: :status
   root to: "site#index"

@@ -1,6 +1,6 @@
 class Admin::UsersController < AdminController
-  before_action :ensure_organization_manager
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_organization_manager, except: [:deactivate]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :deactivate]
 
   def index
     if current_user.admin?
@@ -57,6 +57,15 @@ class Admin::UsersController < AdminController
       format.html { redirect_to admin_users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def deactivate
+    #ensure login.gov origin
+
+
+    Rails.logger.debug("** AJKT **Deactivating user with id: #{params[:id]}")
+    @user.deactivate
+    render json: { "msg": "User #{@user.email} successfully deactivated." }
   end
 
   private

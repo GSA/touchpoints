@@ -61,6 +61,14 @@ class UserMailer < ApplicationMailer
 
   end
 
+  def account_deactivated_notification(user)
+    attachments.inline["logo.png"] = @@header_logo
+    @user = user
+    mail subject: "User account deactivated",
+      to: UserMailer.touchpoints_team
+
+  end
+
 private
 
   def self.touchpoints_team
