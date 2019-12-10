@@ -32,6 +32,8 @@
 en-US:
   touchpoint: "Touchpoint"
   touchpoints: "Touchpoints"
+  powered_by: "Powered by"
+  omb_approval: "OMB Approval #1234 Exp. Date 12/01/2019"
   beta: "beta"
   report_an_issue: "report an issue"
   contact: "contact"

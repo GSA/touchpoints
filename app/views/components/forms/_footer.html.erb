@@ -1,21 +1,33 @@
 <% if touchpoint && (touchpoint.form.disclaimer_text? || touchpoint.omb_approval_number.present?) %>
   <hr style="border: none; border-top: 1px solid #E5E5E5;">
-  <div class="grid-row">
-    <div class="grid-col-12">
-      <small id="fba-dialog-privacy">
+  <div class="grid-container">
+    <div class="grid-row">
+      <div class="grid-col-12">
         <% if touchpoint.form.disclaimer_text? %>
           <p>
+            <small id="fba-dialog-privacy">
             <%= touchpoint.form.disclaimer_text.html_safe %>
+            </small>
           </p>
+          <br>
         <% end %>
-      </small>
+      </div>
     </div>
   </div>
-  <% if touchpoint.omb_approval_number.present? || touchpoint.expiration_date? %>
-  <div class="grid-row">
-    <div class="grid-col-12">
-      <div style="text-align: right;">
-        <small>
+<% end %>
+
+<div class="usa-banner">
+  <header class="usa-banner__header">
+    <div class="usa-banner__inner">
+      <div class="grid-col-auto">
+        <img class="usa-banner__header-flag" src="<%= image_path("us_flag_small.png") %>" alt="U.S. flag">
+      </div>
+      <div class="grid-col-fill tablet:grid-col-auto">
+        <p class="usa-banner__header-text">
+          An official form of the United States government.
+          <%= t 'powered_by' %>
+          <a href="<%= root_url %>" target="_blank" rel="noopener"><%= t 'touchpoints' %></a>.
+          <br>
           <% if touchpoint.present? %>
             <% if touchpoint.omb_approval_number.present? %>
             OMB Approval #<span class="omb-approval-number"><%= touchpoint.omb_approval_number %></span>
@@ -23,16 +35,11 @@
 
             <% if touchpoint.expiration_date? %>
             &middot;
-            Exp. Date <%= touchpoint.expiration_date.strftime("%m/%d/%Y") %>
+            Expiration Date <%= touchpoint.expiration_date.strftime("%m/%d/%Y") %>
             <% end %>
-          <% else %>
-          OMB Approval #<span class="omb-approval-number">00000000</span>
-          &middot;
-          Exp. Date MM/DD/YYYY
           <% end %>
-        </small>
+        </p>
       </div>
     </div>
-  </div>
-  <% end %>
-<% end %>
+  </header>
+</div>
