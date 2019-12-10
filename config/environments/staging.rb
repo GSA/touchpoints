@@ -98,18 +98,6 @@ Rails.application.configure do
   # For Devise
   config.action_mailer.default_url_options = { host: 'touchpoints-staging.app.cloud.gov', port: 443 }
 
-  # For delivering email via Amazon SES with aws-sdk-rails
-  config.action_mailer.delivery_method = :smtp
-
-  config.action_mailer.smtp_settings = {
-    address: 'email-smtp.us-east-1.amazonaws.com',
-    port: 587,
-    user_name: ENV.fetch('SES_SMTP_USERNAME'), # Your SMTP user
-    password: ENV.fetch('SES_SMTP_PASSWORD'), # Your SMTP password
-    authentication: :login,
-    enable_starttls_auto: true
-  }
-
   # Prevent host header injection
   # Reference: https://github.com/ankane/secure_rails
   config.action_controller.default_url_options = { host: ENV.fetch("TOUCHPOINTS_WEB_DOMAIN") }
