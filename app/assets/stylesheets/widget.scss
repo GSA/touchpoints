@@ -11,12 +11,15 @@
 }
 
 #fba-modal-dialog {
-  max-width: 500px;
+  max-width: 560px;
   background: #fff;
-  padding: 20px;
   position: relative;
   margin: 0 auto;
   border: 1px solid #E5E5E5;
+}
+
+#fba-modal-dialog .wrapper {
+  padding: 20px;
 }
 
 .fixed-tab-button {
@@ -102,4 +105,8 @@
     width: 36px;
     margin: 7px;
     vertical-align: middle;
+}
+
+#fba-modal-dialog .usa-banner__inner {
+  padding-left: 0;
 }
