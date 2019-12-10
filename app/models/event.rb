@@ -1,5 +1,6 @@
 class Event < ApplicationRecord
 
+	# Extend this list with all First Class event types to be logged TP-
 	@@names = {
 		:user_deactivated => 'user_deactivated'
 	}
