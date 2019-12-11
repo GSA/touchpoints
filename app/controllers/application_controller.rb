@@ -24,11 +24,11 @@ class ApplicationController < ActionController::Base
     redirect_to(root_path, notice: "Authorization is Required") unless organization_manager_permissions?
   end
 
-  helper_method :ensure_service_manager
-  def ensure_service_manager(service:)
-    return false unless service.present?
+  helper_method :ensure_touchpoint_manager
+  def ensure_touchpoint_manager(touchpoint:)
+    return false unless touchpoint.present?
 
-    redirect_to(root_path, notice: "Authorization is Required") unless service_permissions?(service: service)
+    redirect_to(root_path, notice: "Authorization is Required") unless touchpoint_permissions?(touchpoint: touchpoint)
   end
 
 
@@ -43,11 +43,11 @@ class ApplicationController < ActionController::Base
     current_user && (current_user.admin? || current_user.organization_manager?)
   end
 
-  helper_method :service_permissions?
-  def service_permissions?(service:)
-    return false unless service.present?
+  helper_method :touchpoint_permissions?
+  def touchpoint_permissions?(touchpoint:)
+    return false unless touchpoint.present?
 
-    service.user_role?(user: current_user) == UserService::Role::ServiceManager
+    touchpoint.user_role?(user: current_user) == UserRole::Role::TouchpointManager
   end
 
 

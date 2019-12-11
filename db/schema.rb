@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_26_164641) do
+ActiveRecord::Schema.define(version: 2019_12_11_055942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -162,6 +162,18 @@ ActiveRecord::Schema.define(version: 2019_11_26_164641) do
     t.string "federal_register_url"
     t.integer "anticipated_delivery_count", default: 0
     t.integer "survey_form_activations", default: 0
+    t.integer "organization_id"
+    t.boolean "hisp", default: false
+  end
+
+  create_table "user_roles", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "service_id"
+    t.integer "touchpoint_id"
+    t.integer "form_id"
+    t.string "role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "user_services", force: :cascade do |t|

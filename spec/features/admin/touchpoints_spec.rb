@@ -2,8 +2,7 @@ require 'rails_helper'
 
 feature "Touchpoints", js: true do
   let!(:organization) { FactoryBot.create(:organization) }
-  let!(:service) { FactoryBot.create(:service) }
-  let!(:touchpoint) { FactoryBot.create(:touchpoint, :with_form, service: service)}
+  let!(:touchpoint) { FactoryBot.create(:touchpoint, :with_form, organization: organization)}
   let(:future_date) {
     Time.now + 3.days
   }
@@ -16,14 +15,12 @@ feature "Touchpoints", js: true do
       end
 
       context "#index" do
-        let!(:user_service) { FactoryBot.create(:user_service, user: admin, service: service, role: UserService::Role::ServiceManager) }
+        let!(:user_role) { FactoryBot.create(:user_role, user: admin, touchpoint: touchpoint, role: UserRole::Role::TouchpointManager) }
         let!(:form_template) { FactoryBot.create(:form_template) }
 
         before "user creates a Touchpoint" do
           visit new_admin_touchpoint_path
           fill_in("touchpoint[name]", with: "Test Touchpoint")
-          select(service.name, from: "touchpoint[service_id]")
-
           fill_in("touchpoint[purpose]", with: "Compliance")
           fill_in("touchpoint[expiration_date]", with: future_date.strftime("%m/%d/%Y"))
           fill_in("touchpoint[omb_approval_number]", with: "12345")
@@ -63,8 +60,7 @@ feature "Touchpoints", js: true do
       end
 
       context "#show" do
-
-        let!(:user_service) { FactoryBot.create(:user_service, user: admin, service: service, role: UserService::Role::ServiceManager) }
+        let!(:user_role) { FactoryBot.create(:user_role, user: admin, touchpoint: touchpoint, role: UserRole::Role::TouchpointManager) }
 
         describe "Submission Export button" do
           context "when no Submissions exist" do
@@ -85,7 +81,7 @@ feature "Touchpoints", js: true do
             end
 
             it "display table list of Submissions and Export CSV button link" do
-              within("table") do
+              within("table.submissions") do
                 expect(page).to have_content(submission.answer_01)
               end
               expect(page).to have_link("Export Submissions to CSV")
@@ -123,8 +119,6 @@ feature "Touchpoints", js: true do
 
     describe "/touchpoints" do
       describe "#new" do
-        let(:service) { FactoryBot.create(:service) }
-        let!(:user_service) { FactoryBot.create(:user_service, user: organization_manager, service: service, role: UserService::Role::ServiceManager) }
         let!(:form_template) { FactoryBot.create(:form_template) }
 
         before "User can create a Touchpoint" do
@@ -133,7 +127,6 @@ feature "Touchpoints", js: true do
           fill_in("touchpoint[name]", with: "Test Touchpoint")
           fill_in("touchpoint[omb_approval_number]", with: 1234)
           fill_in("touchpoint[expiration_date]", with: future_date.strftime("%m/%d/%Y"))
-          select(service.name, from: "touchpoint[service_id]")
           fill_in("touchpoint[meaningful_response_size]", with: 50)
           fill_in("touchpoint[notification_emails]", with: "admin@example.gov")
           fill_in("touchpoint[purpose]", with: "Compliance")
@@ -146,7 +139,6 @@ feature "Touchpoints", js: true do
           @touchpoint = Touchpoint.last
           expect(page.current_path).to eq(admin_touchpoint_path(@touchpoint.id))
           expect(page).to have_content("Test Touchpoint")
-          expect(page).to have_content(@touchpoint.service.name)
           expect(page).to have_content("1234")
           expect(page).to have_content("50")
           expect(page).to have_content("1234")
@@ -156,26 +148,11 @@ feature "Touchpoints", js: true do
         end
 
         describe "Touchpoint data validations" do
-          describe "missing Service" do
-            before "user tries to create a Touchpoint" do
-              visit new_admin_touchpoint_path
-              fill_in("touchpoint[name]", with: "Test Touchpoint")
-              click_button "Create Touchpoint"
-            end
-
-            it "display a flash message about missing Service" do
-              within(".usa-alert--error") do
-                expect(page).to have_content("Service must exist")
-              end
-            end
-          end
-
           describe "missing OMB Approval Number" do
             before "user tries to create a Touchpoint" do
               visit new_admin_touchpoint_path
 
               fill_in("touchpoint[name]", with: "Test Touchpoint")
-              select(service.name, from: "touchpoint[service_id]")
               fill_in("touchpoint[expiration_date]", with: future_date.strftime("%m/%d/%Y"))
               click_button "Create Touchpoint"
             end
@@ -192,7 +169,6 @@ feature "Touchpoints", js: true do
               visit new_admin_touchpoint_path
 
               fill_in("touchpoint[name]", with: "Test Touchpoint")
-              select(service.name, from: "touchpoint[service_id]")
               fill_in("touchpoint[omb_approval_number]", with: 1234)
               click_button "Create Touchpoint"
             end

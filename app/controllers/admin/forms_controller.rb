@@ -1,7 +1,6 @@
 class Admin::FormsController < AdminController
   before_action :set_form, only: [:show, :edit, :update, :copy, :destroy]
   before_action :set_touchpoint, only: [:show, :edit]
-  before_action :ensure_organization_manager
 
   def index
     @forms = Form.all.order("name ASC")

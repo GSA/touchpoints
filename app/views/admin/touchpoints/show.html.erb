@@ -14,15 +14,7 @@
       </p>
       <p>
         <strong>Organization:</strong>
-        <%= link_to(@touchpoint.service.organization.name, admin_organization_path(@touchpoint.service.organization)) if @touchpoint.service %>
-      </p>
-      <p>
-        <strong>Service:</strong>
-        <% if @touchpoint.service %>
-        <%= link_to(@touchpoint.service.name, admin_service_path(@touchpoint.service)) %>
-        <% else %>
-        ⚠️ This Touchpoint is not assigned to a Service.
-        <% end %>
+        <%#= link_to(@touchpoint.organization.name, admin_organization_path(@touchpoint.organization)) if @touchpoint.organization %>
       </p>
       <p>
         <strong>Form:</strong>
@@ -33,10 +25,20 @@
         <% end %>
       </p>
       <p>
+        <strong>
+          <span title="High Impact Service Provider">HISP</span>
+          Service?
+        </strong>
+        <%= @touchpoint.hisp? ? "Yes ✅" : "No" %>
+      </p>
+      <p>
         <strong>Notification emails:</strong>
         <%= @touchpoint.notification_emails %>
       </p>
       <div class="well">
+        <h3>
+          Delivery Method
+        </h3>
         <p>
           <strong>Delivery Method:</strong>
           <%= @touchpoint.delivery_method %>
@@ -47,6 +49,9 @@
         </p>
       </div>
       <div class="well">
+        <h3>
+          PRA Information
+        </h3>
         <p>
           <strong>OMB Approval #</strong>
           <%= @touchpoint.omb_approval_number %>
@@ -73,6 +78,9 @@
         </p>
       </div>
       <div class="well">
+        <h3>
+          Customer Experience Notes
+        </h3>
         <p>
           <strong>Purpose:</strong>
           <% if @touchpoint.behavior_change? %>
@@ -102,6 +110,94 @@
   </div>
   <%= link_to 'Edit', edit_admin_touchpoint_path(@touchpoint), class: "usa-button" %>
 </div>
+<div class="well">
+  <div class="roles-and-permissions">
+    <h2>
+      Roles & Permissions for this Touchpoint
+    </h2>
+    <p>
+      Assign permissions for others Users in your Organization.
+      Permission levels include: 1) Touchpoint Manager or 2) Submission Viewer.
+    </p>
+    <% if flash && ["User successfully added", "User successfully removed"].include?(flash.notice) %>
+    <%= render 'components/flash', flash: flash %>
+    <% end %>
+
+    <% if is_at_least_touchpoint_manager?(user: current_user, touchpoint: @touchpoint) %>
+      <% if @available_members.present? %>
+      <div class="well">
+        <%= select_tag :add_user_id, options_for_select(@available_members.map { |user| [user.email, user.id] }), prompt: "Add a Touchpoint Manager?", id: "add-user-dropdown", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
+        <button type="button" class="usa-button" name="button" id="add-user-button">Add Touchpoint Manager</button>
+      </div>
+      <% else %>
+      <div class="usa-alert usa-alert--info">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            All Users have been added. No Touchpoint Managers or Submission Viewers to add.
+          </p>
+        </div>
+      </div>
+      <% end %>
+    <% if @available_members.present? %>
+    <div class="well">
+      <%= select_tag :add_user_id, options_for_select(@available_members.map { |user| [user.email, user.id] }), prompt: "Add a Submission Viewer?", id: "add-submission-viewer-dropdown", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
+      <button type="button" class="usa-button" name="button" id="add-submission-viewer-button">Add Submission Viewer</button>
+    </div>
+    <% end %>
+    <% end %>
+
+    <div>
+      <% if @touchpoint.users.present? %>
+      <table class="usa-table">
+        <thead>
+          <tr>
+            <th>
+              Role
+            </th>
+            <th>
+              Email
+            </th>
+            <th>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @touchpoint.users.each do |user| %>
+          <tr data-user-id="<%= user.id %>">
+            <td>
+              <% friendly_roles = {
+                "submission_viewer" => "Submission Viewer",
+                "touchpoint_manager" => "Touchpoint Manager"
+              }
+              %>
+              <%= friendly_roles[@touchpoint.user_role?(user: user)] %>
+            </td>
+            <td>
+              <%= user.email %>
+            </td>
+            <td>
+              <% if user != current_user && is_at_least_touchpoint_manager?(user: current_user, touchpoint: @touchpoint) %>
+              <a href="javascript:void(0)" class="remove-user" data-id="<%= user.id %>">
+                Remove
+              </a>
+              <% end %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <% else %>
+      <div class="usa-alert usa-alert--info" >
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            No users at this time
+          </p>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
 <div class="well hide">
   <% if admin_permissions? %>
   <div class="pra-features">
@@ -118,10 +214,10 @@
           and Touchpoint Form being presented to a public user.
         </p>
         <p>
-          Because Services and their touchpoints are defined
-          here in Touchpoints,
+          Because Touchpoints are defined
+          in this application,
           some
-          <strong>compliance forms</strong> can be
+          <strong>Compliance forms</strong> can be
           <strong>automated</strong>
           to various extents.
         </p>
@@ -141,7 +237,7 @@
     </h2>
     <div id="b-a1" class="usa-accordion__content usa-prose">
       <p>
-        Service Managers are responsible for determining where a Touchpoint is
+        Touchpoint Managers are responsible for determining where a Touchpoint is
         presented in a user's journey. The Feedback Analytics team can also
         provide assistance in this regard.
       </p>
@@ -164,15 +260,13 @@
   </h3>
   <% if @touchpoint.form || @touchpoint.deployable_touchpoint? %>
     <h5>
-      1) Public Touchpoints URL
+      1) Here is your public Touchpoints URL.
     </h5>
+    <% if @touchpoint.deployable_touchpoint? %>
     <p>
-      <%= link_to 'View the page', submit_touchpoint_path(@touchpoint), class: "usa-button" %>
-
-      <% if @touchpoint.deployable_touchpoint? %>
-        <%= link_to submit_touchpoint_url(@touchpoint), submit_touchpoint_url(@touchpoint) %>
-      <% end %>
+      <%= link_to submit_touchpoint_url(@touchpoint), submit_touchpoint_url(@touchpoint) %>
     </p>
+    <% end %>
     <% if @touchpoint.delivery_method == "modal" || @touchpoint.delivery_method == "inline" || @touchpoint.delivery_method == "custom-button-modal" %>
       <h5>
         2) Javascript Embed
@@ -234,7 +328,7 @@
       <div class="usa-alert__body">
         <h3 class="usa-alert__heading">Touchpoint is not yet deployable</h3>
         <p class="usa-alert__text">
-          This Touchpoint does not specify a Form and/or Service.
+          This Touchpoint does not specify a Form.
         </p>
       </div>
     </div>
@@ -246,3 +340,82 @@
 </div>
 <br>
 <br>
+
+<script type="text/javascript">
+  $(function() {
+    // Initially set to disabled
+    $("#add-user-button").attr("disabled", true);
+    $("#add-submission-viewer-button").attr("disabled", true);
+
+    $("#add-user-button").on("click", function(e) {
+      var userId = $("#add-user-dropdown").val();
+
+      var request = $.ajax({
+        url: "/admin/touchpoints/<%= @touchpoint.id %>/add_user",
+        dataType: "json",
+        method: "POST",
+        data: {
+          user_id : userId,
+          role: "touchpoint_manager"
+        }
+      }).done(function(response) {
+        location.reload();
+      }).fail(function(response) {
+        alert(response);
+      });
+    });
+
+    $("#add-submission-viewer-button").on("click", function(e) {
+      var userId = $("#add-submission-viewer-dropdown").val();
+
+      var request = $.ajax({
+        url: "/admin/touchpoints/<%= @touchpoint.id %>/add_user",
+        dataType: "json",
+        method: "POST",
+        data: {
+          user_id : userId,
+          role: "submission_viewer"
+        }
+      }).done(function(response) {
+        location.reload();
+      }).fail(function(response) {
+        alert(response);
+      });
+    });
+
+    $("#add-user-dropdown").on("change", function(e) {
+      var userId = e.target.value
+      if (userId != "") {
+        $("#add-user-button").attr("disabled", false);
+      } else {
+        $("#add-user-button").attr("disabled", true);
+      }
+    });
+
+    $("#add-submission-viewer-dropdown").on("change", function(e) {
+      var userId = e.target.value
+      if (userId != "") {
+        $("#add-submission-viewer-button").attr("disabled", false);
+      } else {
+        $("#add-submission-viewer-button").attr("disabled", true);
+      }
+    });
+
+    // Remove a Touchpoint Manager or Submission Viewer User
+    $(".remove-user").on("click", function(e) {
+      e.preventDefault();
+      var userId = $(this).attr("data-id");
+
+      var request = $.ajax({
+        url: "/admin/touchpoints/<%= @touchpoint.id %>/remove_user",
+        dataType: "json",
+        method: "DELETE",
+        data: { user_id : userId }
+      }).done(function(response) {
+        location.reload();
+      }).fail(function(response) {
+        alert(response);
+      });
+    });
+  });
+</script>

@@ -30,19 +30,18 @@ feature "Example Website Integration", js: true do
     end
 
     it "has instructional text" do
-      expect(page).to have_content("Get Started by creating a Service.")
-      expect(page).to have_content("Then, create a Touchpoint for that Service.")
-      expect(page).to have_content("Then, update the Touchpoint's Form.")
+      expect(page).to have_content("Create a Touchpoint")
+      expect(page).to have_content("Create a Touchpoint")
+      expect(page).to have_content("Test the Form by creating a Submission")
     end
   end
 
-  describe "Service Manager" do
-    let(:service_manager) { FactoryBot.create(:user) }
-    let(:service) { FactoryBot.create(:service) }
-    let!(:user_service) { FactoryBot.create(:user_service, :service_manager, user: service_manager, service: service) }
+  describe "Touchpoint Manager" do
+    let(:touchpoint_manager) { FactoryBot.create(:user) }
+    # let!(:user_role) { FactoryBot.create(:user_role, :touchpoint_manager, user: touchpoint_manager, touchpoint: touchpoint) }
 
     before do
-      login_as(service_manager)
+      login_as(touchpoint_manager)
       visit admin_root_path
     end
 
@@ -52,9 +51,9 @@ feature "Example Website Integration", js: true do
     end
 
     it "has instructional text" do
-      expect(page).to have_content("Get Started by creating a Service.")
-      expect(page).to have_content("Then, create a Touchpoint for that Service.")
-      expect(page).to have_content("Then, update the Touchpoint's Form.")
+      expect(page).to have_content("Create a Touchpoint")
+      expect(page).to have_content("Create a Touchpoint")
+      expect(page).to have_content("Test the Form by creating a Submission")
     end
   end
 
@@ -76,9 +75,9 @@ feature "Example Website Integration", js: true do
     end
 
     it "has instructional text" do
-      expect(page).to have_content("Get Started by creating a Service.")
-      expect(page).to have_content("Then, create a Touchpoint for that Service.")
-      expect(page).to have_content("Then, update the Touchpoint's Form.")
+      expect(page).to have_content("Create a Touchpoint")
+      expect(page).to have_content("Create a Touchpoint")
+      expect(page).to have_content("Test the Form by creating a Submission")
     end
   end
 

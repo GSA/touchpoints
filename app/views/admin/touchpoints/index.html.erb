@@ -6,12 +6,11 @@
       <% if admin_permissions? %>
         <th>Organization</th>
       <% end %>
-        <th>Service</th>
         <th>Name</th>
         <th>Form</th>
         <th># Submissions</th>
         <th>
-          <span title="A Deployable Touchpoint is 1) has a Form specified and 2) Assigned to a Service">
+          <span title="A Deployable Touchpoint has a Form specified">
             Deployable Touchpoint?
           </span>
         </th>
@@ -23,16 +22,9 @@
         <tr>
         <% if admin_permissions? %>
           <td>
-          <% if touchpoint.service %>
-            <%= touchpoint.service.organization.name %>
-          <% end %>
+            <%= touchpoint.organization.name %>
           </td>
         <% end %>
-          <td>
-            <% if touchpoint.service %>
-              <%= touchpoint.service.name %>
-            <% end %>
-          </td>
           <td><%= link_to touchpoint.name, admin_touchpoint_path(touchpoint) %></td>
           <td>
             <% if touchpoint.form %>

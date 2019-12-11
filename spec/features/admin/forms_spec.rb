@@ -177,14 +177,14 @@ feature "Forms", js: true do
       end
 
       describe "deleting Questions" do
-        let(:service) { FactoryBot.create(:service) }
+        let(:organization) { FactoryBot.create(:organization) }
         let!(:form2) { FactoryBot.create(:form, :custom) }
-        let!(:touchpoint) { FactoryBot.create(:touchpoint, service: service, form: form2) }
+        let!(:touchpoint) { FactoryBot.create(:touchpoint, organization: organization, form: form2) }
         let!(:form_section2) { FactoryBot.create(:form_section, form: form2) }
         let!(:question) { FactoryBot.create(:question, form: form2, form_section: form_section2) }
 
 
-        context "without Service Manager permissions" do
+        context "without Touchpoint Manager permissions" do
           before do
             visit edit_admin_form_path(form2)
           end
@@ -194,8 +194,8 @@ feature "Forms", js: true do
           end
         end
 
-        context "with Service Manager permissions" do
-          let!(:user_service) { FactoryBot.create(:user_service, :service_manager, { service: service, user: admin }) }
+        context "with Touchpoint Manager permissions" do
+          let!(:user_role) { FactoryBot.create(:user_role, :touchpoint_manager, { touchpoint: touchpoint, user: admin }) }
 
           before do
             visit edit_admin_form_path(form2)
