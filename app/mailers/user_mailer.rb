@@ -69,7 +69,7 @@ class UserMailer < ApplicationMailer
 
   end
 
-private
+  private
 
   def self.touchpoints_team
     ENV.fetch('TOUCHPOINTS_TEAM') { 'feedback-analytics@gsa.gov' }
