@@ -3,6 +3,11 @@
     Viewing a Form
   </h1>
   <div class="well">
+    <% if @form.template %>
+      <span class="usa-tag" style="background: #e31c3d;">
+        Form Template : <%= @form.kind %> 
+      </span>
+    <% end %>
     <p>
       <strong>Name:</strong>
       <%= @form.name %>
@@ -56,6 +61,10 @@
     <p>
       <strong>Whitelist Test URL:</strong>
       <%= @form.whitelist_test_url %>
+    </p>
+    <p>
+      <strong>Created By:</strong>
+      <%= @form.user.email if @form.user %>
     </p>
     <% if @touchpoint %>
       <%= link_to 'Edit', edit_admin_touchpoint_form_path(@touchpoint, @form), class: "usa-button" %>

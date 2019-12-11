@@ -3,17 +3,22 @@
   <table class="usa-table">
     <thead>
       <tr>
-        <th>Touchpoint</th>
-        <th>Name</th>
-        <th></th>
+        <th>Touchpoint Name</th>
+        <th>Form Name</th>
+        <th style="border: none; background: none;"></th>
       </tr>
     </thead>
-
     <tbody>
       <% @forms.each do |form| %>
       <tr>
         <td>
-          <%= form.touchpoint.name if form.touchpoint %>
+          <%= form.touchpoint.name if form.touchpoint.present? %>
+          <% if form.template %>
+            <br>
+            <span class="usa-tag" style="background: #e31c3d;">
+              <%= form.kind %>
+            </span>
+          <% end %>
         </td>
         <td>
           <% if form.touchpoint.present? %>
@@ -22,8 +27,8 @@
           <%= link_to form.name, admin_form_path(form)  %>
           <% end %>
         </td>
-        <td>
-          <%= link_to 'Create a Copy', copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' } %>
+        <td style="border-right: none;">
+          <%= link_to 'Copy this Form', copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline" %>
         </td>
       </tr>
       <% end %>

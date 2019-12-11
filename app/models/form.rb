@@ -1,4 +1,5 @@
 class Form < ApplicationRecord
+  belongs_to :user
   has_one :touchpoint
   has_many :questions
   has_many :form_sections
@@ -11,6 +12,10 @@ class Form < ApplicationRecord
 
   after_save do |form|
     TouchpointCache.invalidate(form.touchpoint.id) if form.touchpoint.present?
+  end
+
+  def self.templates
+    Form.all.where(template: true)
   end
 
   def create_first_form_section

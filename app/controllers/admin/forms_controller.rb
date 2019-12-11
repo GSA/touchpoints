@@ -3,7 +3,12 @@ class Admin::FormsController < AdminController
   before_action :set_touchpoint, only: [:show, :edit]
 
   def index
-    @forms = Form.all.order("name ASC")
+    if admin_permissions?
+      @forms = Form.all.order("name ASC")
+    else
+      @forms = current_user.forms.order("name ASC").entries
+      @forms = @forms + Form.templates
+    end
   end
 
   def show
@@ -22,6 +27,9 @@ class Admin::FormsController < AdminController
 
   def create
     @form = Form.new(form_params)
+    unless @form.user
+      @form.user = current_user
+    end
 
     respond_to do |format|
       if @form.save
@@ -85,6 +93,8 @@ class Admin::FormsController < AdminController
 
     def form_params
       params.require(:form).permit(
+        :user_id,
+        :template,
         :name,
         :kind,
         :early_submission,

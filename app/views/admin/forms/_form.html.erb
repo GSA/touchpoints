@@ -10,6 +10,29 @@
       </ul>
     </div>
   <% end %>
+  <% if admin_permissions? %>
+  <div class="grid-row grid-gap-md">
+    <div class="grid-col-6">
+      <%= f.select :user_id, options_for_select(User.all.map { |user| [user.email, user.id] }), { prompt: "Add a Submission Viewer?" }, { id: "add-submission-viewer-dropdown", style: "display: inline-block; margin-right: 1em;", class: "usa-select" } %>
+    </div>
+    <div class="grid-col-6">
+      <br>
+      <fieldset class="usa-fieldset">
+        <legend class="usa-sr-only">Form Template?</legend>
+        <div class="usa-checkbox">
+          <%= f.check_box :template, class: "usa-checkbox__input" %>
+          <%= f.label :template, "Form Template?", class: "usa-checkbox__label" %>
+        </div>
+      </fieldset>
+    </div>
+    <div class="grid-col-6">
+      <div class="field">
+        <%= f.label :kind, class: "usa-label" %>
+        <%= f.text_field :kind, class: "usa-input" %>
+      </div>
+    </div>
+  </div>
+  <% end %>
   <div class="grid-row grid-gap-md">
     <div class="grid-col-6">
       <div class="field">

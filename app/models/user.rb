@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_many :services, through: :user_services
   has_many :user_roles
   has_many :touchpoints, through: :user_roles, primary_key: "touchpoint_id"
+  has_many :forms
 
   after_create :send_new_user_notification
 
