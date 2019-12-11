@@ -131,7 +131,8 @@ puts "Created #{submission_viewer.email}"
 # Forms
 
 ## Create the Open-ended Form
-open_ended_form = Form.create({
+open_ended_form = Form.create!({
+  user: admin_user,
   name: "Open-ended",
   kind:  "custom",
   title: "Custom Open-ended Title",
@@ -152,6 +153,7 @@ Question.create!({
 
 ## Create the Recruiter Form
 recruiter_form = Form.create({
+  user: admin_user,
   name: "Recruiter",
   kind:  "custom",
   title: "",
@@ -188,6 +190,7 @@ Question.create!({
 })
 
 open_ended_form_with_contact_information = Form.create({
+  user: admin_user,
   name: "Open Ended Form with Contact Information",
   kind:  "custom",
   title: "",

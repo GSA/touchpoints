@@ -22,9 +22,11 @@ class Form < ApplicationRecord
     self.form_sections.create(title: (I18n.t 'form.page_1'), position: 1)
   end
 
-  def duplicate!
+  def duplicate!(user:)
     new_form = self.dup
     new_form.name = "Copy of #{self.name}"
+    new_form.template = false
+    new_form.user = user
     new_form.save
 
     # Manually remove the Form Section created with create_first_form_section

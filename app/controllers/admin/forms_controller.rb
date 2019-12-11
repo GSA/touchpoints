@@ -23,6 +23,7 @@ class Admin::FormsController < AdminController
   end
 
   def edit
+    ensure_touchpoint_manager(touchpoint: @touchpoint)
   end
 
   def create
@@ -44,7 +45,7 @@ class Admin::FormsController < AdminController
 
   def copy
     respond_to do |format|
-      new_form = @form.duplicate!
+      new_form = @form.duplicate!(user: current_user)
 
       if new_form.valid?
         format.html { redirect_to admin_form_path(new_form), notice: 'Form was successfully copied.' }
@@ -57,6 +58,8 @@ class Admin::FormsController < AdminController
   end
 
   def update
+    ensure_touchpoint_manager(touchpoint: @touchpoint)
+
     respond_to do |format|
       if @form.update(form_params)
         format.html {
@@ -75,6 +78,8 @@ class Admin::FormsController < AdminController
   end
 
   def destroy
+    ensure_touchpoint_manager(touchpoint: @touchpoint)
+
     @form.destroy
     respond_to do |format|
       format.html { redirect_to admin_forms_url, notice: 'Form was successfully destroyed.' }

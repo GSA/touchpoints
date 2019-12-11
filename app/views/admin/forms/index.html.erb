@@ -27,7 +27,7 @@
           <%= link_to form.name, admin_form_path(form)  %>
           <% end %>
         </td>
-        <td style="border-right: none;">
+        <td>
           <%= link_to 'Copy this Form', copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline" %>
         </td>
       </tr>

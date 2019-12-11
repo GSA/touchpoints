@@ -59,7 +59,11 @@
           </div>
         </div>
         <%= form.label "Form", class: "usa-label" %>
-        <%= form.select :form_id, options_for_select(Form.all.map { |org| [org.name, org.id] }, selected: (touchpoint.form ? touchpoint.form.id : nil)), { include_blank: true }, { class: "usa-select" } %>
+        <% if admin_permissions? %>
+          <%= form.select :form_id, options_for_select(Form.all.map { |org| [org.name, org.id] }, selected: (touchpoint.form ? touchpoint.form.id : nil)), { include_blank: true }, { class: "usa-select" } %>
+        <% else %>
+          <%= form.select :form_id, options_for_select(current_user.forms.map { |org| [org.name, org.id] }, selected: (touchpoint.form ? touchpoint.form.id : nil)), { include_blank: true }, { class: "usa-select" } %>
+        <% end %>
       <% end %>
     <% else %>
     <div class="usa-alert usa-alert--info" >

@@ -5,7 +5,7 @@
   <div class="well">
     <% if @form.template %>
       <span class="usa-tag" style="background: #e31c3d;">
-        Form Template : <%= @form.kind %> 
+        Form Template : <%= @form.kind %>
       </span>
     <% end %>
     <p>
@@ -66,10 +66,12 @@
       <strong>Created By:</strong>
       <%= @form.user.email if @form.user %>
     </p>
-    <% if @touchpoint %>
-      <%= link_to 'Edit', edit_admin_touchpoint_form_path(@touchpoint, @form), class: "usa-button" %>
-    <% else %>
-      <%= link_to 'Edit', edit_admin_form_path(@form), class: "usa-button" %>
+    <% if @form.user == current_user || admin_permissions? %>
+      <% if @touchpoint %>
+        <%= link_to 'Edit', edit_admin_touchpoint_form_path(@touchpoint, @form), class: "usa-button" %>
+      <% else %>
+        <%= link_to 'Edit', edit_admin_form_path(@form), class: "usa-button" %>
+      <% end %>
     <% end %>
   </div>
 </div>

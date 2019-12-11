@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
   def touchpoint_permissions?(touchpoint:)
     return false unless touchpoint.present?
 
-    touchpoint.user_role?(user: current_user) == UserRole::Role::TouchpointManager
+    (touchpoint.user_role?(user: current_user) == UserRole::Role::TouchpointManager) || admin_permissions?
   end
 
 
