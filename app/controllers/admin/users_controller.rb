@@ -66,31 +66,31 @@ class Admin::UsersController < AdminController
   end
 
   private
-  # TODO Ensure request is coming from login.gov
-  # Implementation details TBD, for now look for presence of secret key in header
-  def request_source_authorized?
-    (request.headers["HTTP_LOGIN_GOV_PRIVATE_KEY"].present? and request.headers["HTTP_LOGIN_GOV_PRIVATE_KEY"] == ENV["LOGIN_GOV_PRIVATE_KEY"]) ? true : false
-  end
-
-  def set_user
-    @user = User.find(params[:id])
-  end
-
-  def user_params
-    if admin_permissions?
-      params.require(:user).permit(
-        :admin,
-        :organization_id,
-        :organization_manager,
-        :email,
-        :inactive
-      )
-    elsif organization_manager_permissions?
-      params.require(:user).permit(
-        :organization_id,
-        :organization_manager,
-        :email
-      )
+    # TODO Ensure request is coming from login.gov
+    # Implementation details TBD, for now look for presence of secret key in header
+    def request_source_authorized?
+      (request.headers["HTTP_LOGIN_GOV_PRIVATE_KEY"].present? and request.headers["HTTP_LOGIN_GOV_PRIVATE_KEY"] == ENV["LOGIN_GOV_PRIVATE_KEY"]) ? true : false
     end
-  end
+
+    def set_user
+      @user = User.find(params[:id])
+    end
+
+    def user_params
+      if admin_permissions?
+        params.require(:user).permit(
+          :admin,
+          :organization_id,
+          :organization_manager,
+          :email,
+          :inactive
+        )
+      elsif organization_manager_permissions?
+        params.require(:user).permit(
+          :organization_id,
+          :organization_manager,
+          :email
+        )
+      end
+    end
 end
