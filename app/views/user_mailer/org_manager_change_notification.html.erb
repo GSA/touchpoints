@@ -1,0 +1,10 @@
+<div class="email-header">
+    <%= image_tag(attachments['logo.png'].url) %>
+</div>
+<h3>
+  Account #{change} as organization manager.
+</h3>
+
+<p>
+  <%= @user.organization.name %> account <%= @user.email %> <%= change %> as organization manager on <%= Date.today %>.
+</p>
