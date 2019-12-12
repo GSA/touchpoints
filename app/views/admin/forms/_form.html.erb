@@ -13,7 +13,7 @@
   <% if admin_permissions? %>
   <div class="grid-row grid-gap-md">
     <div class="grid-col-6">
-      <%= f.select :user_id, options_for_select(User.all.map { |user| [user.email, user.id] }), { prompt: "Add a Submission Viewer?" }, { id: "add-submission-viewer-dropdown", style: "display: inline-block; margin-right: 1em;", class: "usa-select" } %>
+      <%= f.select :user_id, options_for_select(User.all.map { |user| [user.email, user.id] }), { prompt: "Form Owner?" }, { id: "add-submission-viewer-dropdown", style: "display: inline-block; margin-right: 1em;", class: "usa-select" } %>
     </div>
     <div class="grid-col-6">
       <br>
