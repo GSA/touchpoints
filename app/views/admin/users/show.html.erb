@@ -15,27 +15,26 @@
   <p>
     <%= link_to 'Edit', edit_admin_user_path(@user), class: "usa-button" %>
   </p>
-  <div class="well">
-    <h4>
-      Services
-    </h4>
-    <% if @services.present? %>
-      <ul class="usa-list">
-      <% @services.each do |service| %>
-        <li>
-          <%= link_to service.name, admin_service_path(service) %><br>
-        </li>
-      <% end %>
-      </ul>
-    <% else %>
-    <div class="usa-alert usa-alert--info" >
-      <div class="usa-alert__body">
-        <p class="usa-alert__text">
-          No Services at this time
-        </p>
-      </div>
-    </div>
+</div>
+<div class="well">
+  <h4>
+    Touchpoints
+  </h4>
+  <% if @touchpoints.present? %>
+    <ul class="usa-list">
+    <% @touchpoints.each do |touchpoint| %>
+      <li>
+        <%= link_to touchpoint.name, admin_touchpoint_path(touchpoint) %><br>
+      </li>
     <% end %>
+    </ul>
+  <% else %>
+  <div class="usa-alert usa-alert--info" >
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        No Touchpoints at this time
+      </p>
+    </div>
   </div>
-
+  <% end %>
 </div>

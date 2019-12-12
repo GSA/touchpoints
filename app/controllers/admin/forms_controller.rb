@@ -1,10 +1,14 @@
 class Admin::FormsController < AdminController
   before_action :set_form, only: [:show, :edit, :update, :copy, :destroy]
   before_action :set_touchpoint, only: [:show, :edit]
-  before_action :ensure_organization_manager
 
   def index
-    @forms = Form.all.order("name ASC")
+    if admin_permissions?
+      @forms = Form.all.order("name ASC")
+    else
+      @forms = current_user.forms.order("name ASC").entries
+      @forms = @forms + Form.templates
+    end
   end
 
   def show
@@ -19,10 +23,14 @@ class Admin::FormsController < AdminController
   end
 
   def edit
+    ensure_touchpoint_manager(touchpoint: @touchpoint)
   end
 
   def create
     @form = Form.new(form_params)
+    unless @form.user
+      @form.user = current_user
+    end
 
     respond_to do |format|
       if @form.save
@@ -37,7 +45,7 @@ class Admin::FormsController < AdminController
 
   def copy
     respond_to do |format|
-      new_form = @form.duplicate!
+      new_form = @form.duplicate!(user: current_user)
 
       if new_form.valid?
         format.html { redirect_to admin_form_path(new_form), notice: 'Form was successfully copied.' }
@@ -50,6 +58,8 @@ class Admin::FormsController < AdminController
   end
 
   def update
+    ensure_touchpoint_manager(touchpoint: @touchpoint)
+
     respond_to do |format|
       if @form.update(form_params)
         format.html {
@@ -68,6 +78,8 @@ class Admin::FormsController < AdminController
   end
 
   def destroy
+    ensure_touchpoint_manager(touchpoint: @touchpoint)
+
     @form.destroy
     respond_to do |format|
       format.html { redirect_to admin_forms_url, notice: 'Form was successfully destroyed.' }
@@ -86,6 +98,8 @@ class Admin::FormsController < AdminController
 
     def form_params
       params.require(:form).permit(
+        :user_id,
+        :template,
         :name,
         :kind,
         :early_submission,

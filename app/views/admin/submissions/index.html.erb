@@ -9,7 +9,7 @@
 <% if @submissions.present? %>
 <div class="table-scroll">
   <div class="table-wrap">
-    <table class="usa-table table-scroll">
+    <table class="usa-table table-scroll submissions">
       <thead>
         <tr>
         <% @touchpoint.form.questions.each do |question| %>
@@ -23,7 +23,7 @@
           <th>Language</th>
           <th>Created At</th>
           <th></th>
-        <% if @touchpoint.service && (@touchpoint.service.user_role?(user: current_user) == UserService::Role::ServiceManager) %>
+        <% if @touchpoint && (@touchpoint.user_role?(user: current_user) == UserRole::Role::TouchpointManager) %>
           <th></th>
         <% end %>
         </tr>
@@ -51,7 +51,7 @@
             <%= link_to 'Flag', flag_admin_touchpoint_submission_path(submission.touchpoint, submission), method: :post, data: { confirm: 'Are you sure?' } %>
             <% end %>
           </td>
-          <% if service_permissions?(service: @touchpoint.service) %>
+          <% if touchpoint_permissions?(touchpoint: @touchpoint) %>
           <td>
             <%= link_to 'Delete', admin_touchpoint_submission_path(submission.touchpoint, submission), method: :delete, data: { confirm: 'Are you sure?' } %>
           </td>
