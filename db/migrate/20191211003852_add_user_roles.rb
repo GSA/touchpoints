@@ -14,14 +14,27 @@ class AddUserRoles < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
-    # Migrate ServiceManager and Submission Viewers User Service
+    # Migrate ServiceManager and SubmissionViewers UserServices
     # permissions to User Roles
-    UserService.all.each do |user_service|
-      UserRole.create!({
-        user_id: user_service.user_id,
-        service_id: user_service.service_id,
-        role: user_service.role
-      })
+    Service.all.each do |service|
+      puts "Service #{service.name}"
+      service.user_services.each do |user_service|
+        puts "UserService #{user_service.id}"
+        service.touchpoints.each do |touchpoint|
+          puts "Touchpoint #{touchpoint.name}"
+          if user_service.role == UserService::Role::ServiceManager
+            @translated_role = UserRole::Role::TouchpointManager
+          elsif user_service.role == UserService::Role::SubmissionViewer
+            @translated_role = UserRole::Role::SubmissionViewer
+          end
+
+          UserRole.create!({
+            user_id: user_service.user_id,
+            touchpoint_id: touchpoint.id,
+            role: @translated_role
+          })
+        end
+      end
     end
 
     puts "created #{UserRole.count} UserRoles from UserServices"
