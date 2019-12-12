@@ -9,8 +9,6 @@ class User < ApplicationRecord
   devise :omniauthable, omniauth_providers: Rails.configuration.x.omniauth.providers
 
   belongs_to :organization, optional: true
-  has_many :user_services
-  has_many :services, through: :user_services
   has_many :user_roles
   has_many :touchpoints, through: :user_roles, primary_key: "touchpoint_id"
   has_many :forms
