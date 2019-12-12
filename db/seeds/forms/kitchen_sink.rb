@@ -4,6 +4,7 @@ module Seeds
     # Create a Custom Form with a 2nd Page/Form Section
     def self.kitchen_sink
       custom_form = Form.create({
+        template: true,
         user: User.first,
         name: "Kitchen Sink Form",
         kind:  "custom",
