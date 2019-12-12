@@ -6,7 +6,7 @@ class SubmissionsController < ApplicationController
 
   def new
     unless @touchpoint.deployable_touchpoint?
-      redirect_to root_path, alert: "Touchpoint does not have a Service specified"
+      redirect_to root_path, alert: "Touchpoint is not yet deployable."
     end
     @touchpoint.update_attribute(:survey_form_activations, @touchpoint.survey_form_activations += 1)
     @submission = Submission.new
@@ -21,7 +21,7 @@ class SubmissionsController < ApplicationController
     headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
 
     # Prevent the Submission if this is a published Touchpoint and if:
-    if @touchpoint.service &&
+    if @touchpoint &&
       request.referer &&
       # is not from the Form's whitelist URL
       (@touchpoint.form.whitelist_url.present? ? !request.referer.start_with?(@touchpoint.form.whitelist_url) : true) &&
@@ -32,7 +32,7 @@ class SubmissionsController < ApplicationController
       # is not from the example Touchpoints page
       !request.referer.start_with?(example_admin_touchpoint_url(@touchpoint)) &&
       # is not from the Organization URL
-      !request.referer.start_with?(@touchpoint.service.organization.url)
+      !request.referer.start_with?(@touchpoint.organization.url)
 
       render json: {
         status: :unprocessable_entity,

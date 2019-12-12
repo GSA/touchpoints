@@ -3,6 +3,7 @@ module Seeds
     def self.a11
       # Create the A11 Form
       a11_form = Form.create({
+        user: User.first,
         name: "A11 Form",
         kind:  "custom",
         title: "",

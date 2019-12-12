@@ -112,13 +112,13 @@ organization_manager = User.new({
 organization_manager.save!
 puts "Created #{organization_manager.email}"
 
-service_manager = User.new({
-  email: "service_manager@example.gov",
+touchpoint_manager = User.new({
+  email: "touchpoint_manager@example.gov",
   password: "password",
   organization: example_gov
 })
-service_manager.save!
-puts "Created #{service_manager.email}"
+touchpoint_manager.save!
+puts "Created #{touchpoint_manager.email}"
 
 submission_viewer = User.new({
   email: "viewer@example.gov",
@@ -131,7 +131,8 @@ puts "Created #{submission_viewer.email}"
 # Forms
 
 ## Create the Open-ended Form
-open_ended_form = Form.create({
+open_ended_form = Form.create!({
+  user: admin_user,
   name: "Open-ended",
   kind:  "custom",
   title: "Custom Open-ended Title",
@@ -152,6 +153,7 @@ Question.create!({
 
 ## Create the Recruiter Form
 recruiter_form = Form.create({
+  user: admin_user,
   name: "Recruiter",
   kind:  "custom",
   title: "",
@@ -188,6 +190,7 @@ Question.create!({
 })
 
 open_ended_form_with_contact_information = Form.create({
+  user: admin_user,
   name: "Open Ended Form with Contact Information",
   kind:  "custom",
   title: "",
@@ -227,96 +230,65 @@ Question.create!({
 a11_form = Seeds::Forms.a11
 kitchen_sink_form = Seeds::Forms.kitchen_sink
 
-# A Service created by Admin
-service_1  = Service.create!({
-  organization: example_gov,
-  name: "Test Service 1"
-})
-UserService.create(
-  user: admin_user,
-  service: service_1,
-  role: UserService::Role::ServiceManager
-)
-
-# A 2nd Service created by Admin
-service_2  = Service.create!({
-  organization: example_gov,
-  name: "Test Service 2"
-})
-UserService.create(
-  user: admin_user,
-  service: service_2,
-  role: UserService::Role::ServiceManager
-)
-
-# A Service created by Webmaster
-service_3  = Service.create!({
-  organization: digital_gov,
-  name: "Test Service 3"
-})
-UserService.create(
-  user: webmaster,
-  service: service_3,
-  role: UserService::Role::ServiceManager
-)
-# Submission Viewer can view the Admin's Service
-UserService.create(
-  user: submission_viewer,
-  service: service_2,
-  role: UserService::Role::SubmissionViewer
-)
-
-# A Service created by Admin in another Organization
-service_4  = Service.create!({
-  organization: org_2,
-  name: "Test Service 4 (for Farmers.gov)"
-})
-UserService.create(
-  user: admin_user,
-  service: service_4,
-  role: UserService::Role::ServiceManager
-)
-
-
 # Touchpoints
 touchpoint_1 = Touchpoint.create!({
+  organization: example_gov,
   form: open_ended_form,
-  service: service_1,
   name: "Open-ended Feedback",
   purpose: "Soliciting feedback",
   meaningful_response_size: 30,
   behavior_change: "Looking for opportunities to improve",
   notification_emails: "ryan.wold@gsa.gov"
 })
+UserRole.create(
+  user: admin_user,
+  touchpoint: touchpoint_1,
+  role: UserRole::Role::TouchpointManager
+)
 
 touchpoint_2 = Touchpoint.create!({
+  organization: example_gov,
   form: recruiter_form,
-  service: service_1,
   name: "Recruiter",
   purpose: "Improving Customer Experience with proactive research and service",
   meaningful_response_size: 100,
   behavior_change: "We will use the this feedback to inform Product and Program decisions",
   notification_emails: "ryan.wold@gsa.gov"
 })
+UserRole.create(
+  user: admin_user,
+  touchpoint: touchpoint_2,
+  role: UserRole::Role::TouchpointManager
+)
 
 touchpoint_3 = Touchpoint.create!({
+  organization: example_gov,
   form: a11_form,
-  service: service_2,
   name: "A11 - 7 question test",
   purpose: "CX",
   meaningful_response_size: 100,
   behavior_change: "Better customer service"
 })
+UserRole.create(
+  user: admin_user,
+  touchpoint: touchpoint_3,
+  role: UserRole::Role::TouchpointManager
+)
 
 touchpoint_4 = Touchpoint.create!({
+  organization: example_gov,
   form: open_ended_form_with_contact_information,
-  service: service_2,
   name: "A11 - 7 question test - DB",
   purpose: "CX",
   meaningful_response_size: 100,
   behavior_change: "Better customer service",
   notification_emails: "ryan.wold@gsa.gov"
 })
+UserRole.create(
+  user: admin_user,
+  touchpoint: touchpoint_4,
+  role: UserRole::Role::TouchpointManager
+)
 
 Submission.create!({
   touchpoint: touchpoint_1,

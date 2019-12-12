@@ -6,8 +6,6 @@
     <%= @organization.name %> has
     <%= link_to(pluralize(@organization.users.length, "User"), admin_users_path) %>
     managing
-    <%= link_to(pluralize(@organization.services.length, "Service"), admin_services_path) %>
-    and
     <%= link_to(pluralize(@organization.touchpoints.length, "Touchpoint"), admin_touchpoints_path) %>.
   </div>
   <p>

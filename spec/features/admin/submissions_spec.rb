@@ -2,8 +2,7 @@ require 'rails_helper'
 
 feature "Submissions", js: true do
   let!(:organization) { FactoryBot.create(:organization) }
-  let!(:service) { FactoryBot.create(:service) }
-  let!(:touchpoint) { FactoryBot.create(:touchpoint, :with_form, service: service)}
+  let!(:touchpoint) { FactoryBot.create(:touchpoint, :with_form, organization: organization)}
 
   context "as Admin" do
     describe "/touchpoints/:id with submissions" do
@@ -13,8 +12,7 @@ feature "Submissions", js: true do
       end
 
       context "#show" do
-
-        let!(:user_service) { FactoryBot.create(:user_service, user: admin, service: service, role: UserService::Role::ServiceManager) }
+        let!(:user_role) { FactoryBot.create(:user_role, user: admin, touchpoint: touchpoint, role: UserRole::Role::TouchpointManager) }
 
         describe "xss injection attempt" do
           context "when no Submissions exist" do
@@ -24,11 +22,13 @@ feature "Submissions", js: true do
             end
 
             it "does not render javascript" do
-              find('table tbody td:first-child').hover
-              expect(find('table tbody').text).to have_content("content_tag(")
-              # Does not spawn an alert (which is good)
-              expect { page.driver.browser.switch_to.alert.accept }.to raise_error(Selenium::WebDriver::Error::NoSuchAlertError)
-              expect(find('table tbody').text).to_not have_content("script")
+              within("table.submissions") do
+                find('tbody td:first-child').hover
+                expect(find('table tbody').text).to have_content("content_tag(")
+                # Does not spawn an alert (which is good)
+                expect { page.driver.browser.switch_to.alert.accept }.to raise_error(Selenium::WebDriver::Error::NoSuchAlertError)
+                expect(find('table tbody').text).to_not have_content("script")
+              end
             end
 
           end
@@ -40,7 +40,7 @@ feature "Submissions", js: true do
 
             before do
               visit admin_touchpoint_path(touchpoint.id)
-              within("table") do
+              within("table.submissions") do
                 click_on "Flag"
               end
               page.driver.browser.switch_to.alert.accept
@@ -48,7 +48,7 @@ feature "Submissions", js: true do
 
             it "successfully flags Submission" do
               expect(page).to have_content("Submission #{submission.id} was successfully flagged.")
-              within("table") do
+              within("table.submissions") do
                 expect(page).to have_content("flagged")
               end
             end
@@ -61,7 +61,7 @@ feature "Submissions", js: true do
 
             before do
               visit admin_touchpoint_path(touchpoint.id)
-              within("table") do
+              within("table.submissions") do
                 click_on "Delete"
               end
               page.driver.browser.switch_to.alert.accept

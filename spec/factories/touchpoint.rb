@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :touchpoint do
-    service
+    organization
     name { "Example Touchpoint" }
     omb_approval_number { rand(10000).to_s }
     expiration_date { Time.now + 2.months }
@@ -17,7 +17,7 @@ FactoryBot.define do
       element_selector { "existing-website-button-id" }
     end
     trait :with_form do
-      association :form, :open_ended_form 
+      association :form, :open_ended_form
     end
   end
 end

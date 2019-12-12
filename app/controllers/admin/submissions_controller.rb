@@ -19,7 +19,7 @@ class Admin::SubmissionsController < AdminController
   end
 
   def destroy
-    ensure_service_manager(service: @touchpoint.service)
+    ensure_touchpoint_manager(touchpoint: @touchpoint)
 
     @submission.destroy
     respond_to do |format|
