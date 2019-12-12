@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 feature "Forms", js: true do
-  let(:admin) { FactoryBot.create(:user, :admin) }
   let!(:organization) { FactoryBot.create(:organization) }
 
   context "as Admin" do
+    let(:admin) { FactoryBot.create(:user, :admin) }
+
     before do
       login_as(admin)
     end
@@ -183,46 +184,13 @@ feature "Forms", js: true do
         let!(:form_section2) { FactoryBot.create(:form_section, form: form2) }
         let!(:question) { FactoryBot.create(:question, form: form2, form_section: form_section2) }
 
-
-        context "without Touchpoint Manager permissions" do
+        context "with Admin permissions" do
           before do
             visit edit_admin_form_path(form2)
           end
 
-          it "does not see the Delete Question button" do
-            expect(page).to_not have_link("Delete Question")
-          end
-        end
-
-        context "with Touchpoint Manager permissions" do
-          let!(:user_role) { FactoryBot.create(:user_role, :touchpoint_manager, { touchpoint: touchpoint, user: admin }) }
-
-          before do
-            visit edit_admin_form_path(form2)
-          end
-
-          it "see the delete button, click it, and delete the question" do
+          it "sees the Delete Question button" do
             expect(page).to have_link("Delete Question")
-
-            click_on("Delete Question")
-            page.driver.browser.switch_to.alert.accept
-            expect(page).to have_content("Question was successfully destroyed.")
-          end
-
-          describe "update a Touchpoint Form Section" do
-            let(:new_title) { "New Form Section Title" }
-
-            before do
-              visit edit_admin_form_form_section_path(form_section2.form.id, form_section2.id)
-              fill_in("form_section[title]", with: new_title)
-              click_button "Update Form section"
-            end
-
-            it "redirect to /admin/forms/:id/edit with a success flash message" do
-              expect(page.current_path).to eq(edit_admin_form_path(form_section2.form.id))
-              expect(page).to have_content("Form section was successfully updated.")
-              expect(page).to have_content(new_title)
-            end
           end
         end
       end
@@ -303,5 +271,68 @@ feature "Forms", js: true do
 
     end
 
+  end
+
+  context "without Touchpoint Manager permissions" do
+    let(:user) { FactoryBot.create(:user) }
+    let(:another_user) { FactoryBot.create(:user) }
+    let!(:another_users_form) { FactoryBot.create(:form, :custom, user: another_user) }
+
+    before do
+      login_as(user)
+      visit edit_admin_form_path(another_users_form)
+    end
+
+    it "does not see the Delete Question button" do
+      expect(page).to_not have_link("Delete Question")
+    end
+  end
+
+  context "as Touchpoints Manager" do
+    let(:organization) { FactoryBot.create(:organization) }
+    let(:touchpoints_manager) { FactoryBot.create(:user) }
+
+    before do
+      login_as(touchpoints_manager)
+    end
+
+    describe "deleting Questions" do
+      let!(:touchpoint) { FactoryBot.create(:touchpoint, organization: organization, form: form2) }
+      let!(:form2) { FactoryBot.create(:form, :custom, user: touchpoints_manager) }
+      let!(:form_section2) { FactoryBot.create(:form_section, form: form2) }
+      let!(:question) { FactoryBot.create(:question, form: form2, form_section: form_section2) }
+
+      context "with Touchpoint Manager permissions" do
+        let!(:user_role) { FactoryBot.create(:user_role, :touchpoint_manager, { touchpoint: touchpoint, user: touchpoints_manager }) }
+
+        before do
+          visit edit_admin_form_path(form2)
+        end
+
+        it "see the delete button, click it, and delete the question" do
+          expect(page).to have_link("Delete Question")
+
+          click_on("Delete Question")
+          page.driver.browser.switch_to.alert.accept
+          expect(page).to have_content("Question was successfully destroyed.")
+        end
+
+        describe "update a Touchpoint Form Section" do
+          let(:new_title) { "New Form Section Title" }
+
+          before do
+            visit edit_admin_form_form_section_path(form_section2.form.id, form_section2.id)
+            fill_in("form_section[title]", with: new_title)
+            click_button "Update Form section"
+          end
+
+          it "redirect to /admin/forms/:id/edit with a success flash message" do
+            expect(page.current_path).to eq(edit_admin_form_path(form_section2.form.id))
+            expect(page).to have_content("Form section was successfully updated.")
+            expect(page).to have_content(new_title)
+          end
+        end
+      end
+    end
   end
 end
