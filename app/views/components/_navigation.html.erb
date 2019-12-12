@@ -26,11 +26,6 @@
           </a>
         </li>
         <li class="usa-nav__primary-item">
-          <a class="usa-nav__link" href="/admin/services">
-            <span>Services</span>
-          </a>
-        </li>
-        <li class="usa-nav__primary-item">
           <%= link_to "Touchpoints", admin_touchpoints_path, class: "usa-nav__link" %>
         </li>
         <li class="usa-nav__primary-item">
@@ -46,15 +41,17 @@
         <% end %>
         <% if current_user && !current_user.admin? %>
         <li class="usa-nav__primary-item">
-          <a class="usa-nav__link" href="/admin/services">
-            <span>Services</span>
-          </a>
-        </li>
-        <li class="usa-nav__primary-item">
           <%= link_to "Touchpoints", admin_touchpoints_path, class: "usa-nav__link" %>
         </li>
         <li class="usa-nav__primary-item">
-          <%= link_to "Form Templates", admin_form_templates_path, class: "usa-nav__link" %>
+          <a class="usa-nav__link" href="/admin/forms">
+            <span>Forms</span>
+          </a>
+        </li>
+        <li class="usa-nav__primary-item">
+          <a class="usa-nav__link" href="mailto:feedback-analytics@gsa.gov">
+            Support
+          </a>
         </li>
         <% end %>
         <% if !current_user %>
@@ -95,7 +92,7 @@
           <% end %>
         <% else %>
           <li class="usa-nav__secondary-item">
-            <%= link_to current_user.email, admin_root_path, class: "admin" %>
+            <%= current_user.email %>
           </li>
           <li class="usa-nav__secondary-item">
             <%= link_to "Sign Out", destroy_user_session_path %>

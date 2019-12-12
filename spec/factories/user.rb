@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :user do
-    email { "webmaster@example.gov" }
     organization
+    sequence(:email) { |n| "webmaster#{n}@example.gov" }
     password { "password" }
     confirmed_at { Time.now }
     trait :admin do

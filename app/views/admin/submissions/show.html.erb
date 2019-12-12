@@ -4,8 +4,8 @@
 </p>
 <p>
   <strong>Organization</strong>
-  <% if @submission.touchpoint.service %>
-    <%= link_to(@submission.organization_name, admin_organization_path(@submission.touchpoint.service.organization)) %>
+  <% if @submission.touchpoint %>
+    <%= link_to(@submission.organization_name, admin_organization_path(@submission.touchpoint.organization)) %>
   <% else %>
     <%= @submission.organization_name %>
   <% end %>

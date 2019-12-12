@@ -2,8 +2,8 @@ require 'rails_helper'
 
 feature "Touchpoints", js: true do
   context "as Admin" do
-    let(:service) { FactoryBot.create(:service) }
-    let(:touchpoint) { FactoryBot.create(:touchpoint, :with_form, service: service) }
+    let(:organization) { FactoryBot.create(:organization) }
+    let(:touchpoint) { FactoryBot.create(:touchpoint, :with_form, organization: organization) }
 
     describe "/touchpoints" do
       context "default success text" do

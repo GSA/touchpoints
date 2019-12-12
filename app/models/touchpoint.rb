@@ -1,7 +1,10 @@
 class Touchpoint < ApplicationRecord
-  belongs_to :service
+  belongs_to :service, optional: true
   belongs_to :form, optional: true
+  belongs_to :organization
   has_many :submissions
+  has_many :user_roles
+  has_many :users, through: :user_roles, :primary_key => "touchpoint_id"
 
   validates :name, presence: true
   validates :anticipated_delivery_count, numericality: true, allow_nil: true
@@ -36,7 +39,7 @@ class Touchpoint < ApplicationRecord
   end
 
   def deployable_touchpoint?
-    (self.form && self.service) ? true : false
+    self.form ? true : false
   end
 
   # returns javascript text that can be used standalone
@@ -59,6 +62,11 @@ class Touchpoint < ApplicationRecord
         csv << attributes.map { |attr| submission.send(attr) }
       end
     end
+  end
+
+  def user_role?(user:)
+    role = self.user_roles.find_by_user_id(user.id)
+    role.present? ? role.role : nil
   end
 
   # TODO: Refactor into a Report class
@@ -86,7 +94,7 @@ class Touchpoint < ApplicationRecord
       submission = non_flagged_submissions.first
       csv << header_attributes
       csv << [
-        submission.touchpoint.service.name,
+        "Service Name Goes Here",
         submission.touchpoint.name,
         submission.touchpoint.medium,
         start_date,

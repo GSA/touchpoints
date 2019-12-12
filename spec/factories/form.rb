@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :form do
+    user
     name { "Open-ended Test form" }
     title { "Do you have a few minutes to help us test this site?" }
     kind { "custom" }

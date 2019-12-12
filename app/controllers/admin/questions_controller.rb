@@ -43,7 +43,7 @@ class Admin::QuestionsController < AdminController
   end
 
   def destroy
-    ensure_service_manager(service: @form.touchpoint && @form.touchpoint.service)
+    ensure_touchpoint_manager(touchpoint: @form.touchpoint)
 
     @question.destroy
     respond_to do |format|

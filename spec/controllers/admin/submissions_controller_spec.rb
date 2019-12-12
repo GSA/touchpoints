@@ -31,7 +31,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
 
   let(:admin) { FactoryBot.create(:user, :admin)}
   let!(:touchpoint) { FactoryBot.create(:touchpoint, :with_form) }
-  let!(:user_service) { FactoryBot.create(:user_service, user: admin, service: touchpoint.service, role: UserService::Role::ServiceManager) }
+  let!(:user_role) { FactoryBot.create(:user_role, user: admin, touchpoint: touchpoint, role: UserRole::Role::TouchpointManager) }
 
   let(:valid_attributes) {
     {

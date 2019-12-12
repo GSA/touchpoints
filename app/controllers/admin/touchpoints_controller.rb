@@ -3,13 +3,17 @@ require 'csv'
 class Admin::TouchpointsController < AdminController
   respond_to :html, :js, :docx
 
+  before_action :ensure_organization_manager, only: [:destroy]
+
   skip_before_action :verify_authenticity_token, only: [:js]
+  before_action :set_user, only: [:add_user, :remove_user]
   before_action :set_touchpoint, only: [
     :show, :edit, :update, :destroy,
     :export_pra_document, :export_submissions,
     :export_a11_header,
     :export_a11_submissions,
-    :example, :js, :trigger
+    :example, :js, :trigger,
+    :add_user, :remove_user
   ]
 
   def export_pra_document
@@ -70,6 +74,7 @@ class Admin::TouchpointsController < AdminController
   end
 
   def show
+    @available_members = (User.admins + @touchpoint.organization.users).uniq - @touchpoint.users
   end
 
   def new
@@ -81,9 +86,15 @@ class Admin::TouchpointsController < AdminController
 
   def create
     @touchpoint = Touchpoint.new(touchpoint_params)
+    @touchpoint.organization_id = @touchpoint.organization_id || current_user.organization.id
 
     respond_to do |format|
       if @touchpoint.save
+        UserRole.create!({
+          touchpoint_id: @touchpoint.id,
+          user: current_user,
+          role: UserRole::Role::TouchpointManager
+        })
 
         # Create a Form based on the Form Template
         if !form_template_params.empty?
@@ -158,6 +169,46 @@ class Admin::TouchpointsController < AdminController
     render(partial: "components/widget/fba.js", locals: { touchpoint: @touchpoint })
   end
 
+  # Associate a user with a Touchpoint
+  def add_user
+    raise ArgumentException unless current_user.admin? || (@touchpoint.user_role?(user: current_user) == UserRole::Role::TouchpointManager)
+    raise ArgumentException unless UserRole::ROLES.include?(params[:role])
+
+    @role = UserRole.new({
+      user_id: @user.id,
+      touchpoint_id: @touchpoint.id,
+      role: params[:role],
+    })
+
+    if @role.save
+      flash[:notice] = "User Role successfully added to Touchpoint"
+
+      render json: {
+          email: @user.email,
+          touchpoint: @touchpoint.id
+        }
+    else
+      render json: @role.errors, status: :unprocessable_entity
+    end
+  end
+
+  # Disassociate a user with a Touchpoint
+  def remove_user
+    @role = @touchpoint.user_roles.find_by_user_id(params[:user_id])
+
+    if @role.destroy
+      flash[:notice] = "User Role successfully removed from Touchpoint"
+
+      render json: {
+        email: @user.email,
+        touchpoint: @touchpoint.id
+      }
+    else
+      render json: @role.errors, status: :unprocessable_entity
+    end
+  end
+
+
   private
     def set_touchpoint
       if admin_permissions?
@@ -167,11 +218,14 @@ class Admin::TouchpointsController < AdminController
       end
     end
 
+    def set_user
+      @user = User.find(params[:user_id])
+    end
+
     def touchpoint_params
       params.require(:touchpoint).permit(
         :name,
         :organization_id,
-        :service_id,
         :form_id,
         :expiration_date,
         :purpose,
@@ -183,7 +237,8 @@ class Admin::TouchpointsController < AdminController
         :medium,
         :anticipated_delivery_count,
         :delivery_method,
-        :element_selector
+        :element_selector,
+        :hisp
       )
     end
 
