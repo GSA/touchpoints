@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_11_215936) do
+ActiveRecord::Schema.define(version: 2019_12_12_220914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,18 +20,6 @@ ActiveRecord::Schema.define(version: 2019_12_11_215936) do
     t.string "title"
     t.integer "position"
     t.integer "next_section_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "form_templates", force: :cascade do |t|
-    t.string "name"
-    t.string "title"
-    t.string "instructions"
-    t.text "disclaimer_text"
-    t.string "kind"
-    t.text "notes"
-    t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -68,14 +56,6 @@ ActiveRecord::Schema.define(version: 2019_12_11_215936) do
     t.string "logo"
   end
 
-  create_table "programs", force: :cascade do |t|
-    t.string "name"
-    t.integer "organization_id"
-    t.string "url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "question_options", force: :cascade do |t|
     t.integer "question_id"
     t.string "text"
@@ -96,16 +76,6 @@ ActiveRecord::Schema.define(version: 2019_12_11_215936) do
     t.datetime "updated_at", null: false
     t.integer "form_section_id"
     t.integer "character_limit"
-  end
-
-  create_table "services", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.integer "organization_id"
-    t.string "service_manager"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "hisp", default: false
   end
 
   create_table "submissions", force: :cascade do |t|
@@ -157,7 +127,6 @@ ActiveRecord::Schema.define(version: 2019_12_11_215936) do
     t.datetime "end_date"
     t.string "omb_approval_number"
     t.date "expiration_date"
-    t.integer "service_id"
     t.string "delivery_method"
     t.string "element_selector"
     t.string "medium"
@@ -170,20 +139,11 @@ ActiveRecord::Schema.define(version: 2019_12_11_215936) do
 
   create_table "user_roles", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "service_id"
     t.integer "touchpoint_id"
     t.integer "form_id"
     t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "user_services", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "service_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "role"
   end
 
   create_table "users", force: :cascade do |t|

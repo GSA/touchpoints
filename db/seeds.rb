@@ -65,27 +65,11 @@ digital_gov = Organization.create!({
 })
 puts "Creating additional Organization: #{digital_gov.name}"
 
-program_1 = Program.create!({
-  name: "Program 1 for Digital.gov",
-  organization: digital_gov,
-  url: "https://digital.gov/program-name"
-})
-program_2 = Program.create!({
-  name: "Program 2 for Digital.gov",
-  organization: digital_gov,
-  url: "https://digital.gov/program-name-2"
-})
-
 org_2 = Organization.create!({
   name: "Farmers.gov",
   domain: "example.gov",
   url: "https://farmers.gov",
   abbreviation: "FARMERS"
-})
-program_3 = Program.create!({
-  name: "Program 3 for Farmers.gov",
-  organization: org_2,
-  url: "https://farmers.gov/program-name-3"
 })
 
 org_3 = Organization.create!({

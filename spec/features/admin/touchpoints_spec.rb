@@ -16,7 +16,6 @@ feature "Touchpoints", js: true do
 
       context "#index" do
         let!(:user_role) { FactoryBot.create(:user_role, user: admin, touchpoint: touchpoint, role: UserRole::Role::TouchpointManager) }
-        let!(:form_template) { FactoryBot.create(:form_template) }
 
         before "user creates a Touchpoint" do
           visit new_admin_touchpoint_path
@@ -41,7 +40,6 @@ feature "Touchpoints", js: true do
 
       context "#edit" do
         let!(:organization) { FactoryBot.create(:organization) }
-        let!(:form_template) { FactoryBot.create(:form_template) }
         let(:new_name) { "New Name" }
 
         describe "user updates a Touchpoint" do
@@ -119,8 +117,6 @@ feature "Touchpoints", js: true do
 
     describe "/touchpoints" do
       describe "#new" do
-        let!(:form_template) { FactoryBot.create(:form_template) }
-
         before "User can create a Touchpoint" do
           visit new_admin_touchpoint_path
 

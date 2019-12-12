@@ -96,23 +96,6 @@ class Admin::TouchpointsController < AdminController
           role: UserRole::Role::TouchpointManager
         })
 
-        # Create a Form based on the Form Template
-        if !form_template_params.empty?
-          form_template = FormTemplate.find(form_template_params[:form_template_id])
-
-          if form_template
-            new_form = Form.create({
-              name: form_template.name,
-              title: form_template.title,
-              instructions: form_template.instructions,
-              disclaimer_text: form_template.disclaimer_text,
-              kind: form_template.kind,
-              character_limit: 6000
-            })
-            @touchpoint.update_attribute(:form, new_form)
-          end
-        end
-
         format.html { redirect_to admin_touchpoint_path(@touchpoint), notice: 'Touchpoint was successfully created.' }
         format.json { render :show, status: :created, location: @touchpoint }
       else
@@ -123,21 +106,6 @@ class Admin::TouchpointsController < AdminController
   end
 
   def update
-    if !form_template_params.empty? && !@touchpoint.form
-      form_template = FormTemplate.find(form_template_params[:form_template_id])
-
-      if form_template
-        @touchpoint.form = Form.create({
-          name: form_template.name,
-          title: form_template.title,
-          instructions: form_template.instructions,
-          disclaimer_text: form_template.disclaimer_text,
-          kind: form_template.kind,
-          character_limit: 6000
-        })
-      end
-    end
-
     respond_to do |format|
       if @touchpoint.update(touchpoint_params)
         format.html { redirect_to admin_touchpoint_path(@touchpoint), notice: 'Touchpoint was successfully updated.' }
@@ -239,12 +207,6 @@ class Admin::TouchpointsController < AdminController
         :delivery_method,
         :element_selector,
         :hisp
-      )
-    end
-
-    def form_template_params
-      params.require(:touchpoint).permit(
-        :form_template_id
       )
     end
 end
