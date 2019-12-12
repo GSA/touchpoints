@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Example Website Integration", js: true do
+feature "Admin Dashboard", js: true do
 
   describe "Admin" do
     let(:admin) { FactoryBot.create(:user, :admin) }
@@ -31,17 +31,16 @@ feature "Example Website Integration", js: true do
 
     it "has instructional text" do
       expect(page).to have_content("Create a Touchpoint")
-      expect(page).to have_content("Create a Touchpoint")
+      expect(page).to have_content("Update the Touchpoint's Form")
       expect(page).to have_content("Test the Form by creating a Submission")
     end
   end
 
-  describe "Touchpoint Manager" do
-    let(:touchpoint_manager) { FactoryBot.create(:user) }
-    # let!(:user_role) { FactoryBot.create(:user_role, :touchpoint_manager, user: touchpoint_manager, touchpoint: touchpoint) }
+  describe "Logged in User" do
+    let(:user) { FactoryBot.create(:user) }
 
     before do
-      login_as(touchpoint_manager)
+      login_as(user)
       visit admin_root_path
     end
 
@@ -52,7 +51,7 @@ feature "Example Website Integration", js: true do
 
     it "has instructional text" do
       expect(page).to have_content("Create a Touchpoint")
-      expect(page).to have_content("Create a Touchpoint")
+      expect(page).to have_content("Update the Touchpoint's Form")
       expect(page).to have_content("Test the Form by creating a Submission")
     end
   end
@@ -76,7 +75,7 @@ feature "Example Website Integration", js: true do
 
     it "has instructional text" do
       expect(page).to have_content("Create a Touchpoint")
-      expect(page).to have_content("Create a Touchpoint")
+      expect(page).to have_content("Update the Touchpoint's Form")
       expect(page).to have_content("Test the Form by creating a Submission")
     end
   end
