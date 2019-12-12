@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_12_212116) do
+ActiveRecord::Schema.define(version: 2019_12_12_220914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,18 +20,6 @@ ActiveRecord::Schema.define(version: 2019_12_12_212116) do
     t.string "title"
     t.integer "position"
     t.integer "next_section_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "form_templates", force: :cascade do |t|
-    t.string "name"
-    t.string "title"
-    t.string "instructions"
-    t.text "disclaimer_text"
-    t.string "kind"
-    t.text "notes"
-    t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -66,14 +54,6 @@ ActiveRecord::Schema.define(version: 2019_12_12_212116) do
     t.integer "external_id"
     t.string "domain"
     t.string "logo"
-  end
-
-  create_table "programs", force: :cascade do |t|
-    t.string "name"
-    t.integer "organization_id"
-    t.string "url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "question_options", force: :cascade do |t|
