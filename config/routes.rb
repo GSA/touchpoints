@@ -16,7 +16,6 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :form_templates
     resources :forms do
       resources :form_sections
       resources :questions do
@@ -28,7 +27,6 @@ Rails.application.routes.draw do
     end
     resources :users, except: [:new]
     resources :organizations
-    resources :programs
     resources :touchpoints do
       member do
         get "export_submissions", to: "touchpoints#export_submissions", as: :export_submissions

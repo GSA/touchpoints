@@ -12,7 +12,7 @@ feature "Admin Dashboard", js: true do
 
     it "has admin links" do
       expect(page).to have_link("Manage Organizations")
-      expect(page).to have_link("Manage Form Templates")
+      expect(page).to have_link("Manage Forms")
     end
   end
 
