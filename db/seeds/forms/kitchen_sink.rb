@@ -5,9 +5,9 @@ module Seeds
     def self.kitchen_sink
       custom_form = Form.create({
         template: true,
+        kind:  "kitchen sink",
         user: User.first,
         name: "Kitchen Sink Form",
-        kind:  "custom",
         title: "",
         instructions: "",
         disclaimer_text: "Disclaimer Text Goes Here",
