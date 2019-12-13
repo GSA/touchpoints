@@ -19,6 +19,17 @@ class User < ApplicationRecord
 
   validates :email, presence: true, if: :tld_check
 
+  def managed_forms
+    roles = self.user_roles.where(role: UserRole::Role::TouchpointManager)
+    touchpoints = roles.map { |role|
+      role.touchpoint
+    }
+    forms = touchpoints.map { |tp|
+      tp.form if tp.form.present?
+    }.compact
+    forms
+  end
+
   def self.admins
     User.where(admin: true)
   end
