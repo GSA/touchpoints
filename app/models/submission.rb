@@ -36,6 +36,7 @@ class Submission < ApplicationRecord
   end
 
   def send_notifications
+    Event.log_event(Event.names[:touchpoint_form_submitted], 'Submission', self.id, "Submission received for organization '#{self.organization_name}' touchpoint '#{self.touchpoint.name}' ")
     return unless self.touchpoint.send_notifications?
     return unless self.touchpoint.notification_emails?
     emails_to_notify = self.touchpoint.notification_emails.split(",")

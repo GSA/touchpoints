@@ -144,4 +144,22 @@ RSpec.describe Admin::UsersController, type: :controller do
     end
   end
 
+  describe "GET #deactivate" do
+    it "returns a 403 Unauthorized response" do
+      user = User.create! valid_attributes
+      get :deactivate, params: {id: user.to_param}, session: valid_session
+      expect(response.body).to include("Request must come from valid login.gov source")
+    end
+
+    it "returns a success response" do
+      user = User.create! valid_attributes
+      ENV["LOGIN_GOV_PRIVATE_KEY"] = 'TestKey'
+      headers = { "HTTP_LOGIN_GOV_PRIVATE_KEY" => ENV["LOGIN_GOV_PRIVATE_KEY"] }
+      request.headers.merge! headers
+      get :deactivate, params: {id: user.to_param}, session: valid_session
+      expect(response).to be_successful
+      expect(response.body).to include("successfully deactivated")
+    end
+  end
+
 end

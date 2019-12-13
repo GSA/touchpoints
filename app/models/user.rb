@@ -82,6 +82,14 @@ class User < ApplicationRecord
     "User account is inactive"
   end
 
+  def deactivate
+    self.inactive = true
+    self.save
+    UserMailer.org_manager_change_notification(self,'removed').deliver_now if self.organization_manager?
+    UserMailer.account_deactivated_notification(self).deliver_now
+    Event.log_event(Event.names[:user_deactivated], "User", self.id, "User account #{self.email} deactivated on #{Date.today}")
+  end
+
   private
 
     def parse_host_from_domain(string)
