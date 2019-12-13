@@ -72,6 +72,7 @@ class UserMailer < ApplicationMailer
   def org_manager_change_notification(user, change)
     attachments.inline["logo.png"] = @@header_logo
     @user = user
+    @change = change
     mail subject: "Account #{change} as organization manager",
       to: UserMailer.touchpoints_team
   end

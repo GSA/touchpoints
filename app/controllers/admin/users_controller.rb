@@ -37,8 +37,10 @@ class Admin::UsersController < AdminController
   end
 
   def update
+    org_mgr = @user.organization_manager?
     respond_to do |format|
       if @user.update(user_params)
+        send_notifications(@user, org_mgr)
         format.html { redirect_to admin_user_path(@user), notice: 'User was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -92,5 +94,13 @@ class Admin::UsersController < AdminController
           :email
         )
       end
+    end
+
+    def send_notifications(user, was_org_manager)
+        if user.organization_manager? != was_org_manager
+          change = user.organization_manager? ? 'added' : 'removed'
+          Event.log_event(Event.names[:organization_manager_changed],  "User", user.id, "Organization manager #{change}", current_user.id)
+          UserMailer.org_manager_change_notification(user, change).deliver_now
+        end
     end
 end
