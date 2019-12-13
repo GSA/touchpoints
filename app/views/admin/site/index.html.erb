@@ -20,8 +20,8 @@
 <section>
   <main id="main-content">
     <div class="grid-container">
-      <div class="well">
       <% if admin_permissions? %>
+      <div class="well">
         <p>
           <ul class="usa-list">
             <li>
@@ -36,7 +36,25 @@
             </li>
           </ul>
         </p>
-      </main>
+      </div>
+      <div class="well">
+        <% @hisp_touchpoints = Touchpoint.where(hisp: true).includes(:organization).order(:organization_id) %>
+        <h3>
+          <%= @hisp_touchpoints.count %> HISP Touchpoints
+        </h3>
+        <ul>
+        <% @hisp_touchpoints.each do |touchpoint| %>
+          <li>
+            <%= touchpoint.organization.name %>
+            <strong>
+              <%= touchpoint.name %>
+            </strong>
+            has
+            <%= touchpoint.submissions.count %> Responses.
+          </li>
+        <% end %>
+        </ul>
+      </div>
       <% else %>
         <p>
           <small>
@@ -66,7 +84,7 @@
           </li>
         </ol>
       <% end %>
-    </div>
   </div>
+  </main>
 </section>
 <% end %>
