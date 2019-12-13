@@ -25,9 +25,9 @@ module ApplicationHelper
     user.admin? || user.organization_manager?
   end
 
-  def is_at_least_service_manager?(user:, service:)
+  def is_at_least_touchpoint_manager?(user:, touchpoint:)
     user.admin? || user.organization_manager? ||
-      service.user_role?(user: user) == UserService::Role::ServiceManager
+      touchpoint.user_role?(user: user) == UserRole::Role::TouchpointManager
   end
 
   def current_path

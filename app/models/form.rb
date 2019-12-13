@@ -1,4 +1,5 @@
 class Form < ApplicationRecord
+  belongs_to :user
   has_one :touchpoint
   has_many :questions
   has_many :form_sections
@@ -13,13 +14,19 @@ class Form < ApplicationRecord
     TouchpointCache.invalidate(form.touchpoint.id) if form.touchpoint.present?
   end
 
+  def self.templates
+    Form.all.where(template: true)
+  end
+
   def create_first_form_section
     self.form_sections.create(title: (I18n.t 'form.page_1'), position: 1)
   end
 
-  def duplicate!
+  def duplicate!(user:)
     new_form = self.dup
     new_form.name = "Copy of #{self.name}"
+    new_form.template = false
+    new_form.user = user
     new_form.save
 
     # Manually remove the Form Section created with create_first_form_section

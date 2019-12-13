@@ -9,9 +9,9 @@ class User < ApplicationRecord
   devise :omniauthable, omniauth_providers: Rails.configuration.x.omniauth.providers
 
   belongs_to :organization, optional: true
-  has_many :user_services
-  has_many :services, through: :user_services
-  has_many :touchpoints, through: :services
+  has_many :user_roles
+  has_many :touchpoints, through: :user_roles, primary_key: "touchpoint_id"
+  has_many :forms
 
   after_create :send_new_user_notification
 
@@ -123,8 +123,8 @@ class User < ApplicationRecord
       UserMailer.new_user_notification(self).deliver_now
 
       # Send notification to Org Admins
-      self.organization.users.select { | user | user.organization_manager? }.each do | om |
-        UserMailer.org_user_notification(self,om).deliver_now
+      self.organization.users.select { |user| user.organization_manager? }.each do |om|
+        UserMailer.org_user_notification(self, om).deliver_now
       end
     end
 end

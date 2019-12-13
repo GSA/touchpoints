@@ -1,6 +1,6 @@
 class PraForm
   def self.part_a(touchpoint:)
-    organization = touchpoint.service.organization
+    organization = touchpoint.organization
 
     @docx = Caracal::Document.new do |docx|
       # Define Styles

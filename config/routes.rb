@@ -16,7 +16,6 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :form_templates
     resources :forms do
       resources :form_sections
       resources :questions do
@@ -32,13 +31,6 @@ Rails.application.routes.draw do
       end
     end
     resources :organizations
-    resources :programs
-    resources :services do
-      member do
-        post "add_user", to: "services#add_user", as: :add_user
-        post "remove_user", to: "services#remove_user", as: :remove_user
-      end
-    end
     resources :touchpoints do
       member do
         get "export_submissions", to: "touchpoints#export_submissions", as: :export_submissions
@@ -47,6 +39,9 @@ Rails.application.routes.draw do
         get "example", to: "touchpoints#example", as: :example
         get "js", to: "touchpoints#js", as: :js
         get "export_pra_document", as: :export_pra_document
+
+        post "add_user", to: "touchpoints#add_user", as: :add_user
+        delete "remove_user", to: "touchpoints#remove_user", as: :remove_user
       end
       resources :forms
       resources :submissions, only: [:new, :show, :create, :destroy] do

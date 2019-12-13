@@ -3,13 +3,17 @@ require 'csv'
 class Admin::TouchpointsController < AdminController
   respond_to :html, :js, :docx
 
+  before_action :ensure_organization_manager, only: [:destroy]
+
   skip_before_action :verify_authenticity_token, only: [:js]
+  before_action :set_user, only: [:add_user, :remove_user]
   before_action :set_touchpoint, only: [
     :show, :edit, :update, :destroy,
     :export_pra_document, :export_submissions,
     :export_a11_header,
     :export_a11_submissions,
-    :example, :js, :trigger
+    :example, :js, :trigger,
+    :add_user, :remove_user
   ]
 
   def export_pra_document
@@ -70,6 +74,7 @@ class Admin::TouchpointsController < AdminController
   end
 
   def show
+    @available_members = (User.admins + @touchpoint.organization.users).uniq - @touchpoint.users
   end
 
   def new
@@ -81,26 +86,15 @@ class Admin::TouchpointsController < AdminController
 
   def create
     @touchpoint = Touchpoint.new(touchpoint_params)
+    @touchpoint.organization_id = @touchpoint.organization_id || current_user.organization.id
 
     respond_to do |format|
       if @touchpoint.save
-
-        # Create a Form based on the Form Template
-        if !form_template_params.empty?
-          form_template = FormTemplate.find(form_template_params[:form_template_id])
-
-          if form_template
-            new_form = Form.create({
-              name: form_template.name,
-              title: form_template.title,
-              instructions: form_template.instructions,
-              disclaimer_text: form_template.disclaimer_text,
-              kind: form_template.kind,
-              character_limit: 6000
-            })
-            @touchpoint.update_attribute(:form, new_form)
-          end
-        end
+        UserRole.create!({
+          touchpoint_id: @touchpoint.id,
+          user: current_user,
+          role: UserRole::Role::TouchpointManager
+        })
 
         format.html { redirect_to admin_touchpoint_path(@touchpoint), notice: 'Touchpoint was successfully created.' }
         format.json { render :show, status: :created, location: @touchpoint }
@@ -112,21 +106,6 @@ class Admin::TouchpointsController < AdminController
   end
 
   def update
-    if !form_template_params.empty? && !@touchpoint.form
-      form_template = FormTemplate.find(form_template_params[:form_template_id])
-
-      if form_template
-        @touchpoint.form = Form.create({
-          name: form_template.name,
-          title: form_template.title,
-          instructions: form_template.instructions,
-          disclaimer_text: form_template.disclaimer_text,
-          kind: form_template.kind,
-          character_limit: 6000
-        })
-      end
-    end
-
     respond_to do |format|
       if @touchpoint.update(touchpoint_params)
         format.html { redirect_to admin_touchpoint_path(@touchpoint), notice: 'Touchpoint was successfully updated.' }
@@ -158,6 +137,46 @@ class Admin::TouchpointsController < AdminController
     render(partial: "components/widget/fba.js", locals: { touchpoint: @touchpoint })
   end
 
+  # Associate a user with a Touchpoint
+  def add_user
+    raise ArgumentException unless current_user.admin? || (@touchpoint.user_role?(user: current_user) == UserRole::Role::TouchpointManager)
+    raise ArgumentException unless UserRole::ROLES.include?(params[:role])
+
+    @role = UserRole.new({
+      user_id: @user.id,
+      touchpoint_id: @touchpoint.id,
+      role: params[:role],
+    })
+
+    if @role.save
+      flash[:notice] = "User Role successfully added to Touchpoint"
+
+      render json: {
+          email: @user.email,
+          touchpoint: @touchpoint.id
+        }
+    else
+      render json: @role.errors, status: :unprocessable_entity
+    end
+  end
+
+  # Disassociate a user with a Touchpoint
+  def remove_user
+    @role = @touchpoint.user_roles.find_by_user_id(params[:user_id])
+
+    if @role.destroy
+      flash[:notice] = "User Role successfully removed from Touchpoint"
+
+      render json: {
+        email: @user.email,
+        touchpoint: @touchpoint.id
+      }
+    else
+      render json: @role.errors, status: :unprocessable_entity
+    end
+  end
+
+
   private
     def set_touchpoint
       if admin_permissions?
@@ -167,11 +186,14 @@ class Admin::TouchpointsController < AdminController
       end
     end
 
+    def set_user
+      @user = User.find(params[:user_id])
+    end
+
     def touchpoint_params
       params.require(:touchpoint).permit(
         :name,
         :organization_id,
-        :service_id,
         :form_id,
         :expiration_date,
         :purpose,
@@ -183,13 +205,8 @@ class Admin::TouchpointsController < AdminController
         :medium,
         :anticipated_delivery_count,
         :delivery_method,
-        :element_selector
-      )
-    end
-
-    def form_template_params
-      params.require(:touchpoint).permit(
-        :form_template_id
+        :element_selector,
+        :hisp
       )
     end
 end

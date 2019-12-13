@@ -10,38 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_09_171909) do
+ActiveRecord::Schema.define(version: 2019_12_12_220914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "events", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "object_type"
-    t.integer "object_id"
-    t.string "description", null: false
-    t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "form_sections", force: :cascade do |t|
     t.integer "form_id"
     t.string "title"
     t.integer "position"
     t.integer "next_section_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "form_templates", force: :cascade do |t|
-    t.string "name"
-    t.string "title"
-    t.string "instructions"
-    t.text "disclaimer_text"
-    t.string "kind"
-    t.text "notes"
-    t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -64,6 +42,8 @@ ActiveRecord::Schema.define(version: 2019_12_09_171909) do
     t.string "modal_button_text"
     t.boolean "display_header_square_logo"
     t.boolean "early_submission", default: false
+    t.integer "user_id"
+    t.boolean "template", default: false
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -74,14 +54,6 @@ ActiveRecord::Schema.define(version: 2019_12_09_171909) do
     t.integer "external_id"
     t.string "domain"
     t.string "logo"
-  end
-
-  create_table "programs", force: :cascade do |t|
-    t.string "name"
-    t.integer "organization_id"
-    t.string "url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "question_options", force: :cascade do |t|
@@ -104,16 +76,6 @@ ActiveRecord::Schema.define(version: 2019_12_09_171909) do
     t.datetime "updated_at", null: false
     t.integer "form_section_id"
     t.integer "character_limit"
-  end
-
-  create_table "services", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.integer "organization_id"
-    t.string "service_manager"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "hisp", default: false
   end
 
   create_table "submissions", force: :cascade do |t|
@@ -165,21 +127,23 @@ ActiveRecord::Schema.define(version: 2019_12_09_171909) do
     t.datetime "end_date"
     t.string "omb_approval_number"
     t.date "expiration_date"
-    t.integer "service_id"
     t.string "delivery_method"
     t.string "element_selector"
     t.string "medium"
     t.string "federal_register_url"
     t.integer "anticipated_delivery_count", default: 0
     t.integer "survey_form_activations", default: 0
+    t.integer "organization_id"
+    t.boolean "hisp", default: false
   end
 
-  create_table "user_services", force: :cascade do |t|
+  create_table "user_roles", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "service_id", null: false
+    t.integer "touchpoint_id"
+    t.integer "form_id"
+    t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "role"
   end
 
   create_table "users", force: :cascade do |t|
