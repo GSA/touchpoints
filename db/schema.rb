@@ -145,6 +145,13 @@ ActiveRecord::Schema.define(version: 2019_12_13_161518) do
     t.integer "survey_form_activations", default: 0
     t.integer "organization_id"
     t.boolean "hisp", default: false
+    t.string "service_name"
+    t.text "data_submission_comment"
+    t.string "survey_instrument_reference"
+    t.string "agency_poc_email"
+    t.string "agency_poc_name"
+    t.string "department"
+    t.string "bureau"
   end
 
   create_table "user_roles", force: :cascade do |t|
