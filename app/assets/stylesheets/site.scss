@@ -78,10 +78,42 @@ footer {
 }
 
 .header-logo {
-  max-height: 26px;
+  max-height: 32px;
 }
 
 // USWDS Overrides
+@media (min-width: 64em) {
+  .usa-header nav {
+    background-color: #162E51;
+
+    .usa-nav__primary >
+    .usa-nav__primary-item >
+    a {
+      color: white;
+      font-family: Merriweather Web, Georgia, Cambria, Times New Roman, Times, serif;
+      font-weight: normal;
+    }
+  }
+
+  // Underline white nav links
+  .usa-header--extended .usa-current::after,
+  .usa-header--extended [aria-expanded=true]::after,
+  .usa-header--extended .usa-nav__link:hover::after {
+    background-color: white;
+    height: 3px;
+    margin-bottom: 7px;
+  }
+
+  .usa-header--extended .usa-logo {
+    font-size: initial;
+    margin: 1rem 0;
+  }
+
+  .usa-logo {
+    margin-top: 1rem;
+  }
+}
+
 .usa-alert {
    margin-top: 0;
 }
