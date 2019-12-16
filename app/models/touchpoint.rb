@@ -76,7 +76,7 @@ class Touchpoint < ApplicationRecord
   end
 
   def deployable_touchpoint?
-    self.form ? true : false
+    ( self.aasm_state.live? and self.form )? true : false
   end
 
   # returns javascript text that can be used standalone
