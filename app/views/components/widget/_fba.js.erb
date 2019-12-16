@@ -88,9 +88,9 @@ N.fba = {
 		},
 		resetErrors: function()
 		{
-			var alertElement = document.querySelector("#fba-alert");
+			var alertElement = document.querySelector(".fba-alert");
 			var alertElementBody = document.getElementsByClassName("usa-alert__text")[0];
-			var alertErrorElement = document.querySelector("#fba-alert-error");
+			var alertErrorElement = document.querySelector(".fba-alert-error");
 			var alertErrorElementBody = alertErrorElement.getElementsByClassName("usa-alert__text")[0];
 			alertElement.style.display = "none";
 			alertElementBody.innerHTML = "";
@@ -227,7 +227,7 @@ N.fba = {
 		},
 		showFormSuccess: function(e)
 		{
-			var alertElement = document.querySelector("#fba-alert");
+			var alertElement = document.querySelector(".fba-alert");
 			var alertElementBody = document.getElementsByClassName("usa-alert__text")[0];
 
 			// Display success Message
@@ -270,9 +270,9 @@ N.fba = {
 		},
 		formSuccess: function(e) {
 			// Clear the alert box
-			var alertElement = document.querySelector("#fba-alert");
+			var alertElement = document.querySelector(".fba-alert");
 			var alertElementBody = document.getElementsByClassName("usa-alert__text")[0];
-			var alertErrorElement = document.querySelector("#fba-alert-error");
+			var alertErrorElement = document.querySelector(".fba-alert-error");
 			var alertErrorElementBody = alertErrorElement.getElementsByClassName("usa-alert__text")[0];
 			alertElementBody.innerHTML = "";
 			alertErrorElementBody.innerHTML = "";
