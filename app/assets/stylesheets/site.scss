@@ -86,12 +86,24 @@ footer {
   .usa-header nav {
     background-color: #162E51;
 
+    .usa-nav__primary {
+      font-family: Merriweather Web, Georgia, Cambria, Times New Roman, Times, serif;
+    }
+
     .usa-nav__primary >
     .usa-nav__primary-item >
     a {
       color: white;
-      font-family: Merriweather Web, Georgia, Cambria, Times New Roman, Times, serif;
       font-weight: normal;
+    }
+
+    .usa-nav__primary button {
+      color: white;
+    }
+
+    .usa-nav__primary button[aria-expanded=false]{
+      background-image:asset_url("angle-arrow-down-white.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+      background-image:asset_url("angle-arrow-down-white.svg"), linear-gradient(transparent, transparent);
     }
   }
 
