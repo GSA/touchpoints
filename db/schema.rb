@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_13_161518) do
+ActiveRecord::Schema.define(version: 2019_12_16_145714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -152,6 +152,7 @@ ActiveRecord::Schema.define(version: 2019_12_13_161518) do
     t.string "agency_poc_name"
     t.string "department"
     t.string "bureau"
+    t.string "aasm_state"
   end
 
   create_table "user_roles", force: :cascade do |t|

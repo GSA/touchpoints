@@ -25,6 +25,7 @@ gem 'uglifier'
 gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+gem 'aasm', '~> 4.12'
 
 group :development, :test do
   gem 'dotenv-rails'

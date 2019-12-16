@@ -176,7 +176,6 @@ class Admin::TouchpointsController < AdminController
     end
   end
 
-
   private
     def set_touchpoint
       if admin_permissions?
@@ -193,6 +192,7 @@ class Admin::TouchpointsController < AdminController
     def touchpoint_params
       params.require(:touchpoint).permit(
         :name,
+        :aasm_state,
         :organization_id,
         :form_id,
         :expiration_date,

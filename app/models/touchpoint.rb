@@ -1,4 +1,6 @@
 class Touchpoint < ApplicationRecord
+  include AASM
+
   belongs_to :form, optional: true
   belongs_to :organization
   has_many :submissions
@@ -10,6 +12,8 @@ class Touchpoint < ApplicationRecord
   validates :meaningful_response_size, numericality: true, allow_nil: true
 
   validate :omb_number_with_expiration_date
+
+  after_initialize  :check_expired
 
   after_save do |touchpoint|
     TouchpointCache.invalidate(touchpoint.id)
@@ -30,6 +34,40 @@ class Touchpoint < ApplicationRecord
     "custom-button-modal",
     "inline"
   ]
+
+
+  aasm do
+      state :in_development, initial: true
+      state :ready_to_submit_to_PRA # manual
+      state :submitted_to_PRA # manual
+      state :PRA_approved # manual - adding OMB Numbers
+      state :PRA_denied # manual
+      state :live # manual
+      state :archived # after End Date, or manual
+
+
+      event :develop do
+        transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :in_development
+      end
+      event :ready_to_submit do
+        transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :ready_to_submit_to_PRA
+      end
+      event :submit do
+        transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :submitted_to_PRA
+      end
+      event :approve do
+        transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :PRA_approved
+      end
+      event :deny do
+        transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :PRA_denied
+      end
+      event :publish do
+        transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :live
+      end
+      event :archive do
+        transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :archived
+      end
+  end
 
   scope :active, -> { where("id > 0") } # TODO: make this sample scope more intelligent/meaningful
 
@@ -243,6 +281,20 @@ class Touchpoint < ApplicationRecord
       referer: "Referrer",
       created_at: "Created At"
     })
+  end
+
+  def transitionable_states
+      self.aasm.states(permitted: true)
+  end
+
+  def all_states
+    self.aasm.states
+  end
+
+private
+
+  def check_expired
+     self.archive! if !self.archived? and self.expiration_date.present? and self.expiration_date <= Date.today
   end
 
 end
