@@ -7,7 +7,7 @@ RSpec.describe Touchpoint, type: :model do
 
     context "initial state" do
       it "sets initial state" do
- 		tp = Touchpoint.new
+        tp = Touchpoint.new
         expect(tp.in_development?).to eq(true)
       end
     end
