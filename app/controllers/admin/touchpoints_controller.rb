@@ -220,9 +220,14 @@ class Admin::TouchpointsController < AdminController
 
     # Add rules for automated touchpoint state transitions here
     def transition_state
-
       if params["touchpoint"]["omb_approval_number"].present? and !@touchpoint.omb_approval_number.present?
         params["touchpoint"]["aasm_state"] = "PRA_approved"
+      end
+      if params["touchpoint"]["aasm_state"] == "live" and !@touchpoint.live?
+        Event.log_event(Event.names[:touchpoint_published],"Touchpoint",@touchpoint.id,"Touchpoint #{@touchpoint.name} published on #{Date.today}",current_user.id)
+      end
+      if params["touchpoint"]["aasm_state"] == "archived" and !@touchpoint.archived?
+        Event.log_event(Event.names[:touchpoint_archived],"Touchpoint",@touchpoint.id,"Touchpoint #{@touchpoint.name} archived on #{Date.today}",current_user.id)
       end
     end
 end

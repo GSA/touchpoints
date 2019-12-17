@@ -291,10 +291,11 @@ class Touchpoint < ApplicationRecord
     self.aasm.states
   end
 
-private
-
   def check_expired
-     self.archive! if !self.archived? and self.expiration_date.present? and self.expiration_date <= Date.today
+    if !self.archived? and self.expiration_date.present? and self.expiration_date <= Date.today
+      self.id ? self.archive! : self.archive
+      Event.log_event(Event.names[:touchpoint_archived],"Touchpoint",self.id,"Touchpoint #{self.name} archived on #{Date.today}") if self.id
+    end
   end
 
 end
