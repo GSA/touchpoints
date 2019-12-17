@@ -37,36 +37,36 @@ class Touchpoint < ApplicationRecord
 
 
   aasm do
-      state :in_development, initial: true
-      state :ready_to_submit_to_PRA # manual
-      state :submitted_to_PRA # manual
-      state :PRA_approved # manual - adding OMB Numbers
-      state :PRA_denied # manual
-      state :live # manual
-      state :archived # after End Date, or manual
+    state :in_development, initial: true
+    state :ready_to_submit_to_PRA # manual
+    state :submitted_to_PRA # manual
+    state :PRA_approved # manual - adding OMB Numbers
+    state :PRA_denied # manual
+    state :live # manual
+    state :archived # after End Date, or manual
 
 
-      event :develop do
-        transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :in_development
-      end
-      event :ready_to_submit do
-        transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :ready_to_submit_to_PRA
-      end
-      event :submit do
-        transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :submitted_to_PRA
-      end
-      event :approve do
-        transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :PRA_approved
-      end
-      event :deny do
-        transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :PRA_denied
-      end
-      event :publish do
-        transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :live
-      end
-      event :archive do
-        transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :archived
-      end
+    event :develop do
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :in_development
+    end
+    event :ready_to_submit do
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :ready_to_submit_to_PRA
+    end
+    event :submit do
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :submitted_to_PRA
+    end
+    event :approve do
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :PRA_approved
+    end
+    event :deny do
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :PRA_denied
+    end
+    event :publish do
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :live
+    end
+    event :archive do
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :archived
+    end
   end
 
   scope :active, -> { where("id > 0") } # TODO: make this sample scope more intelligent/meaningful
@@ -275,16 +275,16 @@ class Touchpoint < ApplicationRecord
     self.form.questions.map { |q| hash[q.answer_field] = q.text }
 
     hash.merge({
-      ip_address: "IP Address",
-      user_agent: "User Agent",
-      page: "Page",
-      referer: "Referrer",
-      created_at: "Created At"
+                 ip_address: "IP Address",
+                 user_agent: "User Agent",
+                 page: "Page",
+                 referer: "Referrer",
+                 created_at: "Created At"
     })
   end
 
   def transitionable_states
-      self.aasm.states(permitted: true)
+    self.aasm.states(permitted: true)
   end
 
   def all_states
