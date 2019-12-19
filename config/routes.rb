@@ -25,11 +25,8 @@ Rails.application.routes.draw do
         post "copy", to: "forms#copy", as: :copy
       end
     end
-    resources :users, except: [:new] do
-      member do
-        get "deactivate", to: "users#deactivate"
-      end
-    end
+    resources :users, except: [:new]
+    get "account_delete", to: "users#deactivate"
     resources :organizations
     resources :touchpoints do
       member do

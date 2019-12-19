@@ -21,6 +21,7 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'sass-rails'
 gem 'sidekiq'
 gem 'uglifier'
+gem 'json-jwt'
 # Use Redis to cache Touchpoints in all envs
 gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
