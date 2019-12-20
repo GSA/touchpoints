@@ -206,7 +206,14 @@ class Admin::TouchpointsController < AdminController
         :anticipated_delivery_count,
         :delivery_method,
         :element_selector,
-        :hisp
+        :hisp,
+        :service_name,
+        :data_submission_comment,
+        :survey_instrument_reference,
+        :agency_poc_email,
+        :agency_poc_name,
+        :department,
+        :bureau,
       )
     end
 end

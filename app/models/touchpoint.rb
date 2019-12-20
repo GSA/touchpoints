@@ -77,6 +77,12 @@ class Touchpoint < ApplicationRecord
     return nil unless non_flagged_submissions.present?
 
     header_attributes = [
+      "submission comment",
+      "survey_instrument_reference",
+      "agency_poc_name",
+      "agency_poc_email",
+      "department",
+      "bureau",
       "service",
       "transaction_point",
       "mode",
@@ -93,7 +99,13 @@ class Touchpoint < ApplicationRecord
       submission = non_flagged_submissions.first
       csv << header_attributes
       csv << [
-        "Service Name Goes Here",
+        submission.touchpoint.data_submission_comment,
+        submission.touchpoint.survey_instrument_reference,
+        submission.touchpoint.agency_poc_name,
+        submission.touchpoint.agency_poc_email,
+        submission.touchpoint.department,
+        submission.touchpoint.bureau,
+        submission.touchpoint.service_name,
         submission.touchpoint.name,
         submission.touchpoint.medium,
         start_date,

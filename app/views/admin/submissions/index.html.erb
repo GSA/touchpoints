@@ -15,11 +15,6 @@
         <% @touchpoint.form.questions.each do |question| %>
           <th><%= question.text %></th>
         <% end %>
-          <th>Location Code</th>
-          <th>IP Address</th>
-          <th>User Agent</th>
-          <th>Referrer</th>
-          <th>Pathname</th>
           <th>Language</th>
           <th>Created At</th>
           <th></th>
@@ -38,10 +33,6 @@
           </td>
         <% end %>
           <td><%= submission.location_code %></td>
-          <td><%= submission.ip_address %></td>
-          <td><%= submission.user_agent %></td>
-          <td><%= submission.referer %></td>
-          <td><%= submission.page %></td>
           <td><%= submission.language %></td>
           <td><%= submission.created_at %></td>
           <td>

@@ -61,7 +61,23 @@ class UserMailer < ApplicationMailer
 
   end
 
-private
+  def account_deactivated_notification(user)
+    attachments.inline["logo.png"] = @@header_logo
+    @user = user
+    mail subject: "User account deactivated",
+      to: UserMailer.touchpoints_team
+
+  end
+
+  def org_manager_change_notification(user, change)
+    attachments.inline["logo.png"] = @@header_logo
+    @user = user
+    @change = change
+    mail subject: "Account #{change} as organization manager",
+      to: UserMailer.touchpoints_team
+  end
+
+  private
 
   def self.touchpoints_team
     ENV.fetch('TOUCHPOINTS_TEAM') { 'feedback-analytics@gsa.gov' }

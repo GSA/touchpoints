@@ -7,11 +7,13 @@ class Admin::FormsController < AdminController
       @forms = Form.all.order("name ASC")
     else
       @forms = current_user.forms.order("name ASC").entries
+      @forms = @forms + current_user.managed_forms
       @forms = @forms + Form.templates
     end
   end
 
   def show
+    ensure_touchpoint_manager(touchpoint: @touchpoint) unless @form.template?
     @touchpoint = @form.touchpoint
     @questions = @form.questions
   end
@@ -27,6 +29,8 @@ class Admin::FormsController < AdminController
   end
 
   def create
+    ensure_touchpoint_manager(touchpoint: @touchpoint)
+
     @form = Form.new(form_params)
     unless @form.user
       @form.user = current_user

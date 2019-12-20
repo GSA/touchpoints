@@ -33,7 +33,8 @@ feature "Touchpoints", js: true do
           expect(page.current_path).to eq(admin_touchpoint_path(Touchpoint.last.id))
           expect(page).to have_content("Touchpoint was successfully created.")
           expect(page).to have_content(future_date.to_date.to_s)
-          expect(page).to have_content("Notification emails: admin@example.gov")
+          expect(page).to have_content("Notification emails")
+          expect(page).to have_content("admin@example.gov")
           expect(page).to have_content("12345")
         end
       end
@@ -140,7 +141,8 @@ feature "Touchpoints", js: true do
           expect(page).to have_content("1234")
           expect(page).to have_content("Compliance")
           expect(page).to have_content("to be determined")
-          expect(page).to have_content("Notification emails: admin@example.gov")
+          expect(page).to have_content("Notification emails")
+          expect(page).to have_content("admin@example.gov")
         end
 
         describe "Touchpoint data validations" do

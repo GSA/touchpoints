@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_12_220914) do
+ActiveRecord::Schema.define(version: 2019_12_13_161518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "events", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "object_type"
+    t.integer "object_id"
+    t.string "description", null: false
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "form_sections", force: :cascade do |t|
     t.integer "form_id"
@@ -135,6 +145,13 @@ ActiveRecord::Schema.define(version: 2019_12_12_220914) do
     t.integer "survey_form_activations", default: 0
     t.integer "organization_id"
     t.boolean "hisp", default: false
+    t.string "service_name"
+    t.text "data_submission_comment"
+    t.string "survey_instrument_reference"
+    t.string "agency_poc_email"
+    t.string "agency_poc_name"
+    t.string "department"
+    t.string "bureau"
   end
 
   create_table "user_roles", force: :cascade do |t|

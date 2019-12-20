@@ -19,6 +19,17 @@ class User < ApplicationRecord
 
   validates :email, presence: true, if: :tld_check
 
+  def managed_forms
+    roles = self.user_roles.where(role: UserRole::Role::TouchpointManager)
+    touchpoints = roles.map { |role|
+      role.touchpoint
+    }
+    forms = touchpoints.map { |tp|
+      tp.form if tp.form.present?
+    }.compact
+    forms
+  end
+
   def self.admins
     User.where(admin: true)
   end
@@ -80,6 +91,14 @@ class User < ApplicationRecord
   # This is the flash message shown to a user when inactive
   def inactive_message
     "User account is inactive"
+  end
+
+  def deactivate
+    self.inactive = true
+    self.save
+    UserMailer.org_manager_change_notification(self,'removed').deliver_now if self.organization_manager?
+    UserMailer.account_deactivated_notification(self).deliver_now
+    Event.log_event(Event.names[:user_deactivated], "User", self.id, "User account #{self.email} deactivated on #{Date.today}")
   end
 
   private
