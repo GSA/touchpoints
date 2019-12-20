@@ -42,7 +42,7 @@ feature "Managing Organizations", js: true do
     end
 
     it "redirected do homepage with error message" do
-      expect(page.current_path).to eq(root_path)
+      expect(page.current_path).to eq(admin_root_path)
       expect(page).to have_content("Authorization is Required")
     end
   end
