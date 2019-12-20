@@ -18,7 +18,7 @@
           <th>Language</th>
           <th>Created At</th>
           <th></th>
-        <% if @touchpoint && (@touchpoint.user_role?(user: current_user) == UserRole::Role::TouchpointManager) %>
+        <% if touchpoint_permissions?(touchpoint: @touchpoint) %>
           <th></th>
         <% end %>
         </tr>
