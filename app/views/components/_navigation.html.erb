@@ -33,11 +33,6 @@
             <span>Forms</span>
           </a>
         </li>
-        <li class="usa-nav__primary-item">
-          <a class="usa-nav__link" href="mailto:feedback-analytics@gsa.gov">
-            Support
-          </a>
-        </li>
         <% end %>
         <% if current_user && !current_user.admin? %>
         <li class="usa-nav__primary-item">
@@ -46,11 +41,6 @@
         <li class="usa-nav__primary-item">
           <a class="usa-nav__link" href="/admin/forms">
             <span>Forms</span>
-          </a>
-        </li>
-        <li class="usa-nav__primary-item">
-          <a class="usa-nav__link" href="mailto:feedback-analytics@gsa.gov">
-            Support
           </a>
         </li>
         <% end %>
@@ -72,6 +62,11 @@
           </ul>
         </li>
         <% end %>
+        <li class="usa-nav__primary-item">
+          <a class="usa-nav__link" href="mailto:feedback-analytics@gsa.gov">
+            Support
+          </a>
+        </li>
       </ul>
       <div class="usa-nav__secondary">
         <ul class="usa-nav__secondary-links">

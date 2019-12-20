@@ -40,7 +40,7 @@ feature "Example Website Integration", js: true do
           end
 
           it "display .js success alert" do
-            expect(page.find("#fba-alert")).to have_content("Thank you. Your feedback has been received.")
+            expect(page.find(".fba-alert")).to have_content("Thank you. Your feedback has been received.")
           end
         end
       end
@@ -77,7 +77,7 @@ feature "Example Website Integration", js: true do
           end
 
           it "display .js success alert" do
-            expect(page.find("#fba-alert")).to have_content("Thank you. Your feedback has been received.")
+            expect(page.find(".fba-alert")).to have_content("Thank you. Your feedback has been received.")
           end
         end
       end
