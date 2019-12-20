@@ -65,25 +65,26 @@ N.fba = {
 			<% end %>
 		<% end %>
 
-		<% if touchpoint.delivery_method != "inline" %>
-			<%# inject the form interface for modal and custom-button-modal %>
+		<%# inject the form interface for modal and custom-button-modal %>
+		<% if touchpoint.delivery_method == "modal" || touchpoint.delivery_method == "custom-button-modal" %>
 			this.dialogEl.innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { touchpoint: touchpoint }) %>";
 			d.body.appendChild(this.dialogEl);
 
-			d.getElementById('fba-modal-close').addEventListener( 'click', this.handleDialogClose, false );
+			d.getElementById('fba-modal-close').addEventListener('click', this.handleDialogClose, false);
 		<% end %>
 
+		<%# add button behaviors for custom-button-modal %>
 		<% if touchpoint.delivery_method == "custom-button-modal" %>
 			<% if touchpoint.element_selector? %>
 			if(d.getElementById('<%= touchpoint.element_selector %>') != null) {
-				d.getElementById('<%= touchpoint.element_selector %>').addEventListener( 'click', this.handleButtonClick, false );
+				d.getElementById('<%= touchpoint.element_selector %>').addEventListener('click', this.handleButtonClick, false);
 			}
 			<% end %>
 		<% end %>
 
-			d.getElementById('fba-submit').addEventListener( 'click', this.handleSubmitClick, false );
+			d.getElementById('fba-submit').addEventListener('click', this.handleSubmitClick, false);
 			if (d.getElementById('fba-early-submit')) {
-				d.getElementById('fba-early-submit').addEventListener( 'click', this.handleSubmitClick, false );
+				d.getElementById('fba-early-submit').addEventListener('click', this.handleSubmitClick, false);
 			}
 		},
 		resetErrors: function()
@@ -204,7 +205,7 @@ N.fba = {
 			this.buttonEl.setAttribute('id', 'fba-button');
 			this.buttonEl.setAttribute('class', 'fixed-tab-button');
 			this.buttonEl.setAttribute('href', '#');
-			this.buttonEl.addEventListener( 'click', this.handleButtonClick, false );
+			this.buttonEl.addEventListener('click', this.handleButtonClick, false);
 			this.buttonEl.innerHTML = this.options.open;
 			d.body.appendChild(this.buttonEl);
 		},
