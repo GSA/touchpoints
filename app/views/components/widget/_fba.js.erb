@@ -239,11 +239,19 @@ N.fba = {
 				// And clear the Form's Fields
 				document.getElementById('touchpoints-form').reset();
 				if (document.getElementById('touchpoints-form-body')) {
-					var formBody = document.getElementById('touchpoints-form-body')
+					var formBody = document.getElementById('touchpoints-form-body');
 					if(formBody) {
 						formBody.style.display = "none";
 					}
 				}
+
+				if (document.getElementsByClassName('touchpoints-form-disclaimer')) {
+					var formDisclaimer = document.getElementsByClassName('touchpoints-form-disclaimer')[0];
+					if(formDisclaimer) {
+						formDisclaimer.style.display = "none";
+					}
+				}
+
 			}
 		},
 		resetFormDisplay: function()
