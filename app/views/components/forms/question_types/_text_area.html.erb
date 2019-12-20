@@ -3,10 +3,10 @@
     <%= t question_number.to_s %>.
     <%= question.text %>
   </label>
-  <%# if question.character_limit && question.character_limit > 0 %>
+  <% if question.character_limit && question.character_limit > 0 %>
     <%= text_area_tag question.answer_field.to_sym, nil, class: "usa-textarea", required: question.is_required, maxlength: question.max_length, onkeyup: "fba.textCounter(this,#{question.max_length});" %>
-  <%# else %>
-    <%#= text_area_tag question.answer_field.to_sym, nil, class: "usa-textarea", required: question.is_required, maxlength: question.max_length %>
-  <%# end %>
+  <% else %>
+    <%= text_area_tag question.answer_field.to_sym, nil, class: "usa-textarea", required: question.is_required, maxlength: question.max_length %>
+  <% end %>
   <em class="counter-msg" style="display:<%= (question.character_limit.present? ? 'block' : 'none') %>"><%= t 'form.chars_remaining' %> <span class="counter"><%= question.max_length %></span></em>
 </div>
