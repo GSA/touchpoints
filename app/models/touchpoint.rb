@@ -6,6 +6,7 @@ class Touchpoint < ApplicationRecord
   has_many :users, through: :user_roles, :primary_key => "touchpoint_id"
 
   validates :name, presence: true
+  validates :delivery_method, presence: true
   validates :anticipated_delivery_count, numericality: true, allow_nil: true
   validates :meaningful_response_size, numericality: true, allow_nil: true
 
