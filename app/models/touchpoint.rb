@@ -76,7 +76,7 @@ class Touchpoint < ApplicationRecord
   end
 
   def deployable_touchpoint?
-    self.live? ? true : false
+    self.live?
   end
 
   # returns javascript text that can be used standalone
