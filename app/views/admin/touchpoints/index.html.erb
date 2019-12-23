@@ -9,6 +9,7 @@
         <th>Name</th>
         <th>Form</th>
         <th># Submissions</th>
+        <th>State</th>
         <th>
           <span title="A Deployable Touchpoint has a Form specified">
             Deployable Touchpoint?
@@ -34,6 +35,9 @@
             <% end %>
           </td>
           <td><%= touchpoint.submissions.size %></td>
+          <td>
+            <%= touchpoint.aasm_state %>
+          </td>
           <td>
             <%= touchpoint.deployable_touchpoint? ? '✅' : '🔴' %>
           </td>

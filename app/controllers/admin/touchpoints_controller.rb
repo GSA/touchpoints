@@ -106,6 +106,7 @@ class Admin::TouchpointsController < AdminController
   end
 
   def update
+    transition_state
     respond_to do |format|
       if @touchpoint.update(touchpoint_params)
         format.html { redirect_to admin_touchpoint_path(@touchpoint), notice: 'Touchpoint was successfully updated.' }
@@ -176,7 +177,6 @@ class Admin::TouchpointsController < AdminController
     end
   end
 
-
   private
     def set_touchpoint
       if admin_permissions?
@@ -193,6 +193,7 @@ class Admin::TouchpointsController < AdminController
     def touchpoint_params
       params.require(:touchpoint).permit(
         :name,
+        :aasm_state,
         :organization_id,
         :form_id,
         :expiration_date,
@@ -215,5 +216,18 @@ class Admin::TouchpointsController < AdminController
         :department,
         :bureau,
       )
+    end
+
+    # Add rules for automated touchpoint state transitions here
+    def transition_state
+      if params["touchpoint"]["omb_approval_number"].present? and !@touchpoint.omb_approval_number.present?
+        params["touchpoint"]["aasm_state"] = "PRA_approved"
+      end
+      if params["touchpoint"]["aasm_state"] == "live" and !@touchpoint.live?
+        Event.log_event(Event.names[:touchpoint_published],"Touchpoint",@touchpoint.id,"Touchpoint #{@touchpoint.name} published on #{Date.today}",current_user.id)
+      end
+      if params["touchpoint"]["aasm_state"] == "archived" and !@touchpoint.archived?
+        Event.log_event(Event.names[:touchpoint_archived],"Touchpoint",@touchpoint.id,"Touchpoint #{@touchpoint.name} archived on #{Date.today}",current_user.id)
+      end
     end
 end

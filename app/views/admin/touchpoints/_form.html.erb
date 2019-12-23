@@ -38,6 +38,10 @@
       <%= form.label :name, class: "usa-label" %>
       <%= form.text_field :name, class: "usa-input", placeholder: "Name this Touchpoint for your Reference" %>
     </div>
+    <div class="field">
+      <%= form.label :aasm_state, "State", class: "usa-label" %>
+      <%= form.select :aasm_state, options_for_select(@touchpoint.transitionable_states, selected: @touchpoint.aasm_state), { prompt: "Transition to State" }, {class: "usa-select"} %>
+    </div>
     <div class="well">
     <% if touchpoint.persisted? %>
       <% if touchpoint.form %>
