@@ -23,6 +23,7 @@ gem 'sidekiq'
 gem 'uglifier'
 # Use Redis to cache Touchpoints in all envs
 gem 'redis', '~> 4.0'
+gem 'redis-namespace'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
