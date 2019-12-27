@@ -1,3 +1,4 @@
+require 'csv'
 class Touchpoint < ApplicationRecord
   belongs_to :form, optional: true
   belongs_to :organization

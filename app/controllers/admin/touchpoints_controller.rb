@@ -37,12 +37,8 @@ class Admin::TouchpointsController < AdminController
   end
 
   def export_submissions
-    respond_to do |format|
-      #  Export to CSV
-      format.csv {
-        send_data @touchpoint.to_csv, filename: "touchpoint-submissions-#{timestamp_string}.csv"
-      }
-    end
+    ExportJob.perform_later(params[:uuid],@touchpoint.id,"touchpoint-submissions-#{timestamp_string}.csv")
+    render json: { result: :ok }
   end
 
   def export_a11_header
