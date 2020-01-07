@@ -2,122 +2,165 @@
 <div>
   <div class="grid-row">
     <div class="grid-col-12">
-      <%= link_to 'Edit', edit_admin_touchpoint_path(@touchpoint), class: "usa-button float-right" %>
-      <small>
-        Viewing a Touchpoint
-      </small>
+      <%= link_to 'Edit Touchpoint', edit_admin_touchpoint_path(@touchpoint), class: "usa-button float-right" %>
       <h1>
         <%= @touchpoint.name %>
         <span class="usa-tag" style="background: #e31c3d;"> <%= @touchpoint.aasm_state %>
       </h1>
     </div>
   </div>
-  <div>
-    <div class="usa-accordion usa-accordion--bordered">
-      <h2 class="usa-accordion__heading">
-        <button class="usa-accordion__button" aria-expanded="false" aria-controls="b-a1">
-          Learn more about the options for publishing a Touchpoint
-        </button>
-      </h2>
-      <div id="b-a1" class="usa-accordion__content usa-prose">
-        <p>
-          Touchpoint Managers are responsible for determining where a Touchpoint is
-          presented in a user's journey. The Feedback Analytics team can also
-          provide assistance in this regard.
-        </p>
-        <p>
-          A Touchpoint can be shared with a user in a couple ways. Touchpoints hosts
-          Touchpoints via a public URL, where users can access them directly.
-          An Agency can use the public URL in a link on a website, in a customer
-          communication.
-          For example, including the public URL in a CRM follow-up response email.
-        </p>
-        <p>
-          A Touchpoint can also be embedded on a website via a script tag.
-          An embedded Touchpoint displays a tab and pops a modal by default; though,
-          it is customizable to a certain extent.
-        </p>
+  <div class="grid-row grid-gap-md">
+    <div class="tablet:grid-col-6">
+      <div class="state-tracker">
+        <div class="step <%= "completed" if ["in_development", "live", "archived"].include?(@touchpoint.aasm_state) -%>">
+          <div class="indicator">
+            <span style="font-size: 48px;">
+              <i class="fas fa-check-circle"></i>
+            </span>
+          </div>
+          In development
+        </div>
+        <div class="step <%= "completed" if ["live", "archived"].include?(@touchpoint.aasm_state) -%>">
+          <div class="indicator">
+            <span style="font-size: 48px;">
+              <i class="fas fa-check-circle"></i>
+            </span>
+          </div>
+          <div class="">
+            Published
+          </div>
+        </div>
+        <div class="step <%= "completed" if ["archived"].include?(@touchpoint.aasm_state) -%>">
+          <div class="indicator">
+            <span style="font-size: 48px;">
+              <i class="far fa-circle"></i>
+            </span>
+          </div>
+          <div class="">
+            Archived
+          </div>
+        </div>
+        <br style="clear: both;">
       </div>
     </div>
-    <h3>
-      Publishing a Touchpoint
-    </h3>
-    <% if @touchpoint.form || @touchpoint.deployable_touchpoint? %>
-      <h5>
-        1) Here is your public Touchpoints URL.
-      </h5>
-      <% if @touchpoint.deployable_touchpoint? %>
-      <p>
-        <%= link_to submit_touchpoint_url(@touchpoint), submit_touchpoint_url(@touchpoint) %>
-      </p>
-      <% end %>
-      <% if @touchpoint.delivery_method == "modal" || @touchpoint.delivery_method == "inline" || @touchpoint.delivery_method == "custom-button-modal" %>
-        <h5>
-          2) Javascript Embed
-        </h5>
-        <p>
-          <% if @touchpoint.deployable_touchpoint? %>
-            <% if @touchpoint.delivery_method == "custom-button-modal" %>
-            <p>
-              Add the following markup to your site
-              as a place to display the Touchpoint
-              <i>inline</i>.
-            </p>
-            <p>
-              <span class="code">
-                <%= h("<a id=\"#{@touchpoint.element_selector}\"></a>") %>
-              </span>
-            </p>
-            <% end %>
-            <% if @touchpoint.delivery_method == "inline" %>
-            <p>
-              Add the following markup to your site
-              as a place to display the Touchpoint
-              <i>inline</i>.
-            </p>
-            <p>
-              <span class="code">
-                <%= h("<div id=\"#{@touchpoint.element_selector}\"></div>") %>
-              </span>
-            </p>
-            <% end %>
+    <div class="tablet:grid-col-6 bg-gray-5">
+      <div class="usa-accordion usa-accordion--bordered">
+        <h2 class="usa-accordion__heading">
+          <button class="usa-accordion__button" aria-expanded="false" aria-controls="b-a1">
+            Learn more about the options for publishing a Touchpoint
+          </button>
+        </h2>
+        <div id="b-a1" class="usa-accordion__content usa-prose">
           <p>
-            Add the following script to your site to generate a Tab & Modal on your site.
+            Touchpoint Managers are responsible for determining where a Touchpoint is
+            presented in a user's journey. The Feedback Analytics team can also
+            provide assistance in this regard.
           </p>
           <p>
-            <span class="code">
-              <%= h("<script src=\"#{js_touchpoint_url(@touchpoint)}\" async></script>") %>
-            </span>
+            A Touchpoint can be shared with a user in a couple ways. Touchpoints hosts
+            Touchpoints via a public URL, where users can access them directly.
+            An Agency can use the public URL in a link on a website, in a customer
+            communication.
+            For example, including the public URL in a CRM follow-up response email.
           </p>
-          <% end %>
-          <% if @touchpoint.delivery_method == "inline" %>
           <p>
-            <%= link_to 'View an example: Inline', example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank", rel: "noopener" %>
-          </p>
-          <% end %>
-          <% if @touchpoint.delivery_method == "custom-button-modal" %>
-          <p>
-            <%= link_to 'View an example: Custom button modal', example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank", rel: "noopener" %>
-          </p>
-          <% end %>
-          <% if @touchpoint.delivery_method == "modal" %>
-          <p>
-            <%= link_to 'View an example: Tab + Modal', example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank", rel: "noopener" %>
-          </p>
-          <% end %>
-        </p>
-      <% end %>
-    <% else %>
-      <div class="usa-alert usa-alert--error" >
-        <div class="usa-alert__body">
-          <h3 class="usa-alert__heading">Touchpoint is not yet deployable</h3>
-          <p class="usa-alert__text">
-            This Touchpoint needs a Form.
+            A Touchpoint can also be embedded on a website via a script tag.
+            An embedded Touchpoint displays a tab and pops a modal by default; though,
+            it is customizable to a certain extent.
           </p>
         </div>
       </div>
-    <% end %>
+      <div>
+        <button type="button" name="button" class="usa-button usa-button--outline float-right">
+          Publish
+        </button>
+        <h2>
+          Publish your form
+          <i class="fas fa-question-circle"></i>
+        </h2>
+        <% if @touchpoint.deployable_touchpoint? %>
+          <strong>
+           Form URL
+          </strong>
+          <br>
+          <p>
+            This is where the public can access your form.
+          </p>
+          <p>
+            <%= link_to submit_touchpoint_url(@touchpoint), submit_touchpoint_url(@touchpoint) %>
+          </p>
+          <% if @touchpoint.delivery_method == "modal" || @touchpoint.delivery_method == "inline" || @touchpoint.delivery_method == "custom-button-modal" %>
+            <strong>
+              Javascript embed
+            </strong>
+            <br>
+            <p>
+              <% if @touchpoint.deployable_touchpoint? %>
+                <% if @touchpoint.delivery_method == "custom-button-modal" %>
+                <p>
+                  Add the following markup to your site
+                  as a place to display the Touchpoint
+                  <i>inline</i>.
+                </p>
+                <p>
+                  <span class="code">
+                    <%= h("<a id=\"#{@touchpoint.element_selector}\"></a>") %>
+                  </span>
+                </p>
+                <% end %>
+                <% if @touchpoint.delivery_method == "inline" %>
+                <p>
+                  Add the following markup to your site
+                  as a place to display the Touchpoint
+                  <i>inline</i>.
+                </p>
+                <p>
+                  <span class="code">
+                    <%= h("<div id=\"#{@touchpoint.element_selector}\"></div>") %>
+                  </span>
+                </p>
+                <% end %>
+              <p>
+                Add the following script to your site to embed your form.
+              </p>
+              <p>
+                <div class="code" style="background-color: #DCDEE0; min-height: 80px;">
+                  <%= h("<script src=\"#{js_touchpoint_url(@touchpoint)}\" async></script>") %>
+                </div>
+              </p>
+              <% end %>
+              <% if @touchpoint.delivery_method == "inline" %>
+              <p>
+                <%= link_to 'View an example: Inline', example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank", rel: "noopener" %>
+              </p>
+              <% end %>
+              <% if @touchpoint.delivery_method == "custom-button-modal" %>
+              <p>
+                <%= link_to 'View an example: Custom button modal', example_admin_touchpoint_path(@touchpoint), class: "usa-button", target: "_blank", rel: "noopener" %>
+              </p>
+              <% end %>
+              <% if @touchpoint.delivery_method == "modal" %>
+              <p>
+                <%= link_to 'View an example: Tab + Modal', example_admin_touchpoint_path(@touchpoint), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" %>
+              </p>
+              <% end %>
+            </p>
+          <% end %>
+        <% else %>
+          <div class="usa-alert usa-alert--error" >
+            <div class="usa-alert__body">
+              <h3 class="usa-alert__heading">Touchpoint is not yet deployable</h3>
+              <p class="usa-alert__text">
+                This Touchpoint needs a Form.
+              </p>
+            </div>
+          </div>
+          <br>
+        <% end %>
+      </div>
+    </div>
   </div>
+  <br>
   <hr>
   <div class="grid-row grid-gap-md">
     <div class="tablet:grid-col-4">
