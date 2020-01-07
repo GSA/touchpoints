@@ -49,7 +49,7 @@ feature "Submissions", js: true do
             it "successfully flags Submission" do
               expect(page).to have_content("Submission #{submission.id} was successfully flagged.")
               within("table.submissions") do
-                expect(page).to have_content("flagged")
+                expect(page).to have_content("Flagged")
               end
             end
           end

@@ -47,6 +47,7 @@ Rails.application.routes.draw do
       resources :submissions, only: [:new, :show, :create, :destroy] do
         member do
           post "flag", to: "submissions#flag", as: :flag
+          post "unflag", to: "submissions#unflag", as: :unflag
         end
       end
     end

@@ -328,10 +328,10 @@
                 <th>
                   Role
                 </th>
-                <th>
+                <th style="border-right: none;">
                   Email
                 </th>
-                <th>
+                <th style="border-left: none;">
                 </th>
               </tr>
             </thead>
@@ -346,12 +346,13 @@
                   %>
                   <%= friendly_roles[@touchpoint.user_role?(user: user)] %>
                 </td>
-                <td>
+                <th style="border-right: none;">
                   <%= user.email %>
                 </td>
-                <td>
+                <th style="border-left: none;">
                   <% if user != current_user && is_at_least_touchpoint_manager?(user: current_user, touchpoint: @touchpoint) %>
                   <a href="javascript:void(0)" class="remove-user usa-button usa-button--secondary" data-id="<%= user.id %>">
+                    <i class="fas fa-trash"></i>
                     Delete
                   </a>
                   <% end %>
@@ -373,33 +374,33 @@
       </div>
     </div>
   </div>
-  <div class="grid-col-4">
-    <h3>
-      Add a new User Role
-    </h3>
-    <% if is_at_least_touchpoint_manager?(user: current_user, touchpoint: @touchpoint) %>
-      <% if @available_members.present? %>
-      <div>
-        <%= select_tag :add_user_id, options_for_select(@available_members.map { |user| [user.email, user.id] }), prompt: "Add a Touchpoint Manager?", id: "add-user-dropdown", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
-        <button type="button" class="usa-button" name="button" id="add-user-button">Add Touchpoint Manager</button>
-      </div>
-      <% else %>
-      <div class="usa-alert usa-alert--info">
-        <div class="usa-alert__body">
-          <p class="usa-alert__text">
-            All Users have been added. No Touchpoint Managers or Submission Viewers to add.
-          </p>
+  <div class="grid-col-4 bg-accent-cool-lighter">
+    <div style="padding: 7px;">
+      <h3>
+        Add new user
+      </h3>
+      <% if is_at_least_touchpoint_manager?(user: current_user, touchpoint: @touchpoint) %>
+        <% if @available_members.present? %>
+        <div>
+          <strong>
+            Role
+          </strong>
+          <br>
+          <%= select_tag :add_user_id, options_for_select(@available_members.map { |user| [user.email, user.id] }), prompt: "Which User?", id: "add-user-id", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
+          <br>
+          <br>
+          <strong>
+            User name
+          </strong>
+          <br>
+          <%= select_tag :role, options_for_select([ ["Touchpoint Manager", "touchpoint_manager"], ["Submission Viewer", "submission_viewer"] ]), prompt: "Select a Role", id: "add-user-role", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
+          <br>
+          <br>
+          <button type="button" class="usa-button" name="button" id="add-user-button">Add User</button>
         </div>
-      </div>
+        <% end %>
       <% end %>
-      <br>
-      <% if @available_members.present? %>
-      <div>
-        <%= select_tag :add_user_id, options_for_select(@available_members.map { |user| [user.email, user.id] }), prompt: "Add a Submission Viewer?", id: "add-submission-viewer-dropdown", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
-        <button type="button" class="usa-button" name="button" id="add-submission-viewer-button">Add Submission Viewer</button>
-      </div>
-      <% end %>
-    <% end %>
+    </div>
   </div>
 </div>
 <div class="well hide">
@@ -444,10 +445,10 @@
   $(function() {
     // Initially set to disabled
     $("#add-user-button").attr("disabled", true);
-    $("#add-submission-viewer-button").attr("disabled", true);
 
     $("#add-user-button").on("click", function(e) {
-      var userId = $("#add-user-dropdown").val();
+      var userId = $("#add-user-id").val();
+      var role = $("#add-user-role").val();
 
       var request = $.ajax({
         url: "/admin/touchpoints/<%= @touchpoint.id %>/add_user",
@@ -455,7 +456,7 @@
         method: "POST",
         data: {
           user_id : userId,
-          role: "touchpoint_manager"
+          role: role
         }
       }).done(function(response) {
         location.reload();
@@ -464,39 +465,12 @@
       });
     });
 
-    $("#add-submission-viewer-button").on("click", function(e) {
-      var userId = $("#add-submission-viewer-dropdown").val();
-
-      var request = $.ajax({
-        url: "/admin/touchpoints/<%= @touchpoint.id %>/add_user",
-        dataType: "json",
-        method: "POST",
-        data: {
-          user_id : userId,
-          role: "submission_viewer"
-        }
-      }).done(function(response) {
-        location.reload();
-      }).fail(function(response) {
-        alert(response);
-      });
-    });
-
-    $("#add-user-dropdown").on("change", function(e) {
+    $("#add-user-role").on("change", function(e) {
       var userId = e.target.value
       if (userId != "") {
         $("#add-user-button").attr("disabled", false);
       } else {
         $("#add-user-button").attr("disabled", true);
-      }
-    });
-
-    $("#add-submission-viewer-dropdown").on("change", function(e) {
-      var userId = e.target.value
-      if (userId != "") {
-        $("#add-submission-viewer-button").attr("disabled", false);
-      } else {
-        $("#add-submission-viewer-button").attr("disabled", true);
       }
     });
 

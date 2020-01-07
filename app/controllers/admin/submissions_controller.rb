@@ -1,7 +1,7 @@
 class Admin::SubmissionsController < AdminController
   protect_from_forgery only: []
-  before_action :set_touchpoint, only: [:index, :show, :flag, :destroy]
-  before_action :set_submission, only: [:show, :flag, :destroy]
+  before_action :set_touchpoint, only: [:index, :show, :flag, :unflag, :destroy]
+  before_action :set_submission, only: [:show, :flag, :unflag, :destroy]
 
   def index
     @submissions = @touchpoint.submissions.includes(:organization)
@@ -14,6 +14,14 @@ class Admin::SubmissionsController < AdminController
     @submission.update_attribute(:flagged, true)
     respond_to do |format|
       format.html { redirect_to admin_touchpoint_url(@touchpoint), notice: "Submission #{@submission.id} was successfully flagged." }
+      format.json { head :no_content }
+    end
+  end
+
+  def unflag
+    @submission.update_attribute(:flagged, false)
+    respond_to do |format|
+      format.html { redirect_to admin_touchpoint_url(@touchpoint), notice: "Submission #{@submission.id} was successfully unflagged." }
       format.json { head :no_content }
     end
   end
