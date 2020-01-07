@@ -1,3 +1,4 @@
+require 'csv'
 class Touchpoint < ApplicationRecord
   include AASM
 
