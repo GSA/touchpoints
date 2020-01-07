@@ -74,3 +74,182 @@
 #fba-modal-dialog .usa-banner__inner {
   padding-left: 12px;
 }
+
+<% if touchpoint.delivery_method == "inline" %>
+#fba-modal-dialog {
+    -webkit-font-feature-settings: "kern" 1;
+    font-feature-settings: "kern" 1;
+    -webkit-font-kerning: normal;
+    font-kerning: normal;
+    font-kerning: normal;
+    font-family: Source Sans Pro Web,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;
+    font-size: 100%;
+    background-color: #fff;
+    color: #1b1b1b;
+    overflow-x: hidden;
+    display: block;
+}
+.usa-textarea {
+    height: 10rem;
+}
+.usa-input, .usa-range, .usa-select, .usa-textarea {
+    border: 1px solid #565c65;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0;
+    color: #1b1b1b;
+    display: block;
+    height: 2.5rem;
+    margin-top: .5rem;
+    max-width: 30rem;
+    padding: .5rem;
+    width: 100%;
+}
+.usa-fieldset, .usa-hint, .usa-input, .usa-range, .usa-select, .usa-textarea {
+    font-family: Source Sans Pro Web,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;
+    font-size: 1.06471rem;
+    line-height: 1.26796;
+}
+.usa-button {
+    font-family: Source Sans Pro Web,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;
+    font-size: 1.06471rem;
+    line-height: .93923;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #005ea2;
+    border: 0;
+    border-radius: .25rem;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 700;
+    margin-right: .5rem;
+    padding: .75rem 1.25rem;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+    text-transform: none;
+    overflow: visible;
+}
+.usa-button:visited {
+    color: #fff;
+}
+.usa-banner__inner {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 64rem;
+    padding-left: 1rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    padding-right: 0;
+}
+.usa-banner__header-text {
+    margin-bottom: 0;
+    margin-top: 0;
+    font-size: .79853rem;
+    line-height: 1.12707;
+}
+.usa-banner__header {
+    padding-bottom: .5rem;
+    padding-top: .5rem;
+    font-size: .79853rem;
+    font-weight: 400;
+    min-height: 3rem;
+    position: relative;
+}
+.usa-banner {
+    font-family: Source Sans Pro Web,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;
+    font-size: 1.06471rem;
+    line-height: 1.52155;
+    background-color: #f0f0f0;
+}
+.usa-banner__header-flag {
+    float: left;
+    margin-right: .5rem;
+    width: 1rem;
+}
+.grid-container, .grid-container-card {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.usa-checkbox__label, .usa-radio__label {
+    cursor: pointer;
+    display: inherit;
+    font-weight: 400;
+    margin-bottom: .75rem;
+    padding-left: 2rem;
+    position: relative;
+    text-indent: -2rem;
+}
+.usa-fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+.usa-label {
+    display: block;
+    line-height: 1.12707;
+    margin-top: 1.5rem;
+    max-width: 30rem;
+}
+.usa-fieldset, .usa-hint, .usa-input, .usa-range, .usa-select, .usa-textarea {
+    font-family: Source Sans Pro Web,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif;
+    font-size: 1.06471rem;
+    line-height: 1.26796;
+}
+.usa-checkbox__label:before, .usa-radio__label:before {
+    -webkit-box-shadow: 0 0 0 2px #71767a;
+    box-shadow: 0 0 0 2px #71767a;
+    line-height: 1.25rem;
+    margin-right: .75rem;
+}
+.usa-radio__label:before {
+    height: 1.25rem;
+    border-radius: 99rem;
+    width: 1.25rem;
+}
+.usa-checkbox__label, .usa-radio__label {
+    cursor: pointer;
+    display: inherit;
+    font-weight: 400;
+    margin-bottom: .75rem;
+    padding-left: 2rem;
+    position: relative;
+    text-indent: -2rem;
+}
+.usa-checkbox__label:before, .usa-radio__label:before {
+    background: #fff;
+    content: "\a0";
+    display: inline-block;
+    left: 2px;
+    position: relative;
+    vertical-align: middle\0;
+}
+.usa-checkbox__input, .usa-radio__input {
+    position: absolute;
+    left: -999em;
+}
+.usa-sr-only {
+    position: absolute;
+    left: -999em;
+}
+#fba-modal-dialog .wrapper {
+    padding: 20px;
+}
+*, :after, :before {
+    -webkit-box-sizing: inherit;
+    box-sizing: inherit;
+}
+<% end %>
