@@ -29,7 +29,9 @@ Rails.application.routes.draw do
       end
     end
     resources :users, except: [:new] do
-      get "deactivate", to: "users#deactivate"
+      collection do
+        get "deactivate", to: "users#deactivate"
+      end
     end
     resources :organizations
     resources :touchpoints do
