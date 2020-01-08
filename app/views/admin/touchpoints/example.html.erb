@@ -5,6 +5,7 @@
     <title>
       Touchpoints Example
     </title>
+    
     <!-- Demo content styles -->
     <style>
     .demo-content {
@@ -20,16 +21,9 @@
     }
     </style>
     <!-- End demo content styles -->
+
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
-
-
-    <!-- Load USWDS assets only if delivery method not inline -->
-
-    <% if @touchpoint.delivery_method == "touchpoints-hosted-only" %>
-      <script src='https://cdnjs.cloudflare.com/ajax/libs/uswds/2.1.0/js/uswds.min.js'></script>
-      <link href='https://cdnjs.cloudflare.com/ajax/libs/uswds/2.1.0/css/uswds.min.css' rel='stylesheet'/>
-    <% end %>
     <!-- Load recruiter locally for dev -->
     <!-- <script src='https://rawgit.com/GSA/recruiter/master/recruiter.js'></script> -->
     <!-- <script src='recruiter.js'></script> -->
