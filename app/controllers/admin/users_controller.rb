@@ -1,6 +1,6 @@
 class Admin::UsersController < AdminController
   before_action :ensure_organization_manager, except: [:deactivate]
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :deactivate]
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
     if current_user.admin?
@@ -62,16 +62,39 @@ class Admin::UsersController < AdminController
   end
 
   def deactivate
-    render json: { "errors": "Request must come from valid login.gov source", "status": 403} and return if !request_source_authorized?
-    @user.deactivate
-    render json: { "msg": "User #{@user.email} successfully deactivated." }
+    uuid = get_uuid_from_request
+    render json: { "errors": "Request must come from valid login.gov source", "status": 403} and return if !uuid
+    user = User.where(uid: uuid).first
+    # Do we care if the user account deleted from login.gov was not found in touchpoints?
+    user.deactivate if user
+    render json: { "msg": "User successfully deactivated." }
   end
 
   private
-    # TODO Ensure request is coming from login.gov
-    # Implementation details TBD, for now look for presence of secret key in header
-    def request_source_authorized?
-      (request.headers["HTTP_LOGIN_GOV_PRIVATE_KEY"].present? and request.headers["HTTP_LOGIN_GOV_PRIVATE_KEY"] == ENV["LOGIN_GOV_PRIVATE_KEY"]) ? true : false
+    def get_uuid_from_request
+      return nil if !request.headers["HTTP_AUTHORIZATION"].present?
+      begin
+        decoded = JWT.decode http_token, login_gov_public_key, true, { algorithm: "RS256" }
+        payload = decoded.first
+        uuid = payload["events"]["https://schemas.openid.net/secevent/risc/event-type/account-purged"]["subject"]["sub"]
+      rescue
+        nil
+      end
+    end
+
+    def login_gov_public_key
+      return OpenSSL::PKey::RSA.new(ENV["LOGIN_GOV_PUBLIC_KEY"]) if ENV["LOGIN_GOV_PUBLIC_KEY"].present?
+      jwks_raw = Net::HTTP.get URI(ENV["LOGIN_GOV_OPENID_CERT_URL"])
+      jwks_key = JSON.parse(jwks_raw)["keys"].first
+      jwks_key["alg": "RS256"]
+      jwk = JSON::JWK.new(jwks_key)
+      public_key = jwk.to_key
+    end
+
+    def http_token
+      if request.headers['HTTP_AUTHORIZATION'].present?
+        request.headers['HTTP_AUTHORIZATION'].split(' ').last
+      end
     end
 
     def set_user
