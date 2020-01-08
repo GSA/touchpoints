@@ -226,7 +226,8 @@ touchpoint_1 = Touchpoint.create!({
   purpose: "Soliciting feedback",
   meaningful_response_size: 30,
   behavior_change: "Looking for opportunities to improve",
-  notification_emails: "ryan.wold@gsa.gov"
+  notification_emails: "ryan.wold@gsa.gov",
+  aasm_state: "live"
 })
 UserRole.create(
   user: admin_user,
@@ -242,7 +243,8 @@ touchpoint_2 = Touchpoint.create!({
   purpose: "Improving Customer Experience with proactive research and service",
   meaningful_response_size: 100,
   behavior_change: "We will use the this feedback to inform Product and Program decisions",
-  notification_emails: "ryan.wold@gsa.gov"
+  notification_emails: "ryan.wold@gsa.gov",
+  aasm_state: "live"
 })
 UserRole.create(
   user: admin_user,
@@ -257,7 +259,8 @@ touchpoint_3 = Touchpoint.create!({
   name: "A11 - 7 question test",
   purpose: "CX",
   meaningful_response_size: 100,
-  behavior_change: "Better customer service"
+  behavior_change: "Better customer service",
+  aasm_state: "live"
 })
 UserRole.create(
   user: admin_user,
@@ -273,7 +276,8 @@ touchpoint_4 = Touchpoint.create!({
   purpose: "CX",
   meaningful_response_size: 100,
   behavior_change: "Better customer service",
-  notification_emails: "ryan.wold@gsa.gov"
+  notification_emails: "ryan.wold@gsa.gov",
+  aasm_state: "live"
 })
 UserRole.create(
   user: admin_user,
