@@ -1,5 +1,5 @@
 <h1>
-  Submissions
+  Form Responses
 </h1>
 <h5>
   for
@@ -16,10 +16,12 @@
           <th><%= question.text %></th>
         <% end %>
           <th>Language</th>
-          <th>Created At</th>
-          <th></th>
+          <th>
+            Created At
+          </th>
+          <th style="border-right: none;"></th>
         <% if touchpoint_permissions?(touchpoint: @touchpoint) %>
-          <th></th>
+          <th style="border-left: none;"></th>
         <% end %>
         </tr>
       </thead>
@@ -34,16 +36,25 @@
         <% end %>
           <td><%= submission.language %></td>
           <td><%= submission.created_at %></td>
-          <td>
+          <td style="border-right: none;">
             <% if submission.flagged? %>
-              flagged
+              <%= link_to unflag_admin_touchpoint_submission_path(submission.touchpoint, submission), class: "usa-button usa-button--outline", method: :post, data: { confirm: 'Are you sure?' } do %>
+              <i class="far fa-times-circle"></i>
+              Flagged
+              <% end %>
             <% else %>
-            <%= link_to 'Flag', flag_admin_touchpoint_submission_path(submission.touchpoint, submission), method: :post, data: { confirm: 'Are you sure?' } %>
+              <%= link_to flag_admin_touchpoint_submission_path(submission.touchpoint, submission), class: "usa-button", method: :post, data: { confirm: 'Are you sure?' } do %>
+                <i class="far fa-flag"></i>
+                Flag
+              <% end %>
             <% end %>
           </td>
           <% if touchpoint_permissions?(touchpoint: @touchpoint) %>
-          <td>
-            <%= link_to 'Delete', admin_touchpoint_submission_path(submission.touchpoint, submission), method: :delete, data: { confirm: 'Are you sure?' } %>
+          <td style="border-left: none;">
+            <%= link_to admin_touchpoint_submission_path(submission.touchpoint, submission), class: "usa-button usa-button--secondary", method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <i class="fas fa-trash"></i>
+              Delete
+            <% end %>
           </td>
           <% end %>
         </tr>
@@ -53,7 +64,7 @@
   </div>
 </div>
   <br>
-  <%= link_to "Export Submissions to CSV", export_submissions_admin_touchpoint_url(@touchpoint, format: "csv"), class: "usa-button", target: "_blank", rel: "noopener" %>
+  <%= link_to "Export Submissions to CSV", export_submissions_admin_touchpoint_url(@touchpoint, format: "csv"), class: "usa-button export-btn", target: "_blank", rel: "noopener" %>
   <br>
   <br>
   <div class="">
@@ -92,5 +103,24 @@
     $(".truncate").on("mouseout", function() {
       $(this).text(truncate($(this).attr("fulltext"), 50));
     });
+  });
+</script>
+<script language='javascript'>
+  $(function() {
+    $('.export-btn').click(function(e) {
+      e.preventDefault();
+      console.log($(this).text());
+      if ($(this).text() == "Exporting...") {
+        console.log("Click disabled while exporting");
+        return false;
+      }
+      var uuid = generateUUID();
+      $(this).html('Exporting...').addClass('cursor-not-allowed');
+      var url = $(this).attr('href') + '?uuid=' + uuid + '&touchpoint_id=<%= @touchpoint.id %>';
+      subscribeExportChannel(uuid, function() {
+        $.get(url);
+      });
+      return false;
+    })
   });
 </script>

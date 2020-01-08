@@ -1,6 +1,9 @@
+require 'sidekiq/web'
+
+
 Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
-
+  mount Sidekiq::Web => '/sidekiq'
 
   match "/404", :to => "errors#not_found", :via => :all
   match "/500", :to => "errors#internal_server_error", :via => :all
@@ -47,6 +50,7 @@ Rails.application.routes.draw do
       resources :submissions, only: [:new, :show, :create, :destroy] do
         member do
           post "flag", to: "submissions#flag", as: :flag
+          post "unflag", to: "submissions#unflag", as: :unflag
         end
       end
     end
