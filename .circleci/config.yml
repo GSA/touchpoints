@@ -30,7 +30,7 @@ jobs:
           keys:
           - v1-bundle-{{ checksum "Gemfile.lock" }}
 
-      - run: bundle install && bundle clean
+      - run: bundle install
 
       - save_cache:
           paths:

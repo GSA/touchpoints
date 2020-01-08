@@ -34,7 +34,7 @@ module Touchpoints
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
     # Fallback language if translation missing in selected culture
-    config.i18n.fallbacks = [:'en-US']
+    config.i18n.fallbacks = [I18n.default_locale]
 
     # Database file for country lookup by IP. From https://github.com/yhirose/maxminddb
     #config.locale_by_country_db = 'lib/GeoLite2-Country.mmdb'
