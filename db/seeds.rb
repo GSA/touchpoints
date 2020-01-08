@@ -221,6 +221,7 @@ kitchen_sink_form = Seeds::Forms.kitchen_sink
 touchpoint_1 = Touchpoint.create!({
   organization: example_gov,
   form: open_ended_form,
+  delivery_method: "touchpoints-hosted-only",
   name: "Open-ended Feedback",
   purpose: "Soliciting feedback",
   meaningful_response_size: 30,
@@ -236,6 +237,7 @@ UserRole.create(
 touchpoint_2 = Touchpoint.create!({
   organization: example_gov,
   form: recruiter_form,
+  delivery_method: "touchpoints-hosted-only",
   name: "Recruiter",
   purpose: "Improving Customer Experience with proactive research and service",
   meaningful_response_size: 100,
@@ -251,6 +253,7 @@ UserRole.create(
 touchpoint_3 = Touchpoint.create!({
   organization: example_gov,
   form: a11_form,
+  delivery_method: "touchpoints-hosted-only",
   name: "A11 - 7 question test",
   purpose: "CX",
   meaningful_response_size: 100,
@@ -265,6 +268,7 @@ UserRole.create(
 touchpoint_4 = Touchpoint.create!({
   organization: example_gov,
   form: open_ended_form_with_contact_information,
+  delivery_method: "touchpoints-hosted-only",
   name: "A11 - 7 question test - DB",
   purpose: "CX",
   meaningful_response_size: 100,

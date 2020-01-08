@@ -46,7 +46,7 @@ class Submission < ApplicationRecord
       emails_to_notify << sm.email unless emails_to_notify.include?(sm.email)
     end
 
-    UserMailer.submission_notification(submission: self, emails: emails_to_notify.uniq).deliver_now
+    UserMailer.submission_notification(submission: self, emails: emails_to_notify.uniq).deliver_later
   end
 
   def to_rows

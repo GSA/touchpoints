@@ -38,6 +38,10 @@
       <%= form.label :name, class: "usa-label" %>
       <%= form.text_field :name, class: "usa-input", placeholder: "Name this Touchpoint for your Reference" %>
     </div>
+    <div class="field">
+      <%= form.label :aasm_state, "State", class: "usa-label" %>
+      <%= form.select :aasm_state, options_for_select(@touchpoint.transitionable_states, selected: @touchpoint.aasm_state), { prompt: "Transition to State" }, {class: "usa-select"} %>
+    </div>
     <div class="well">
     <% if touchpoint.persisted? %>
       <% if touchpoint.form %>
@@ -83,7 +87,7 @@
         Select a Delivery Method
       </h3>
       <fieldset class="usa-fieldset">
-        <legend class="usa-sr-only">Types of Forms</legend>
+        <legend class="usa-sr-only">Delivery Methods</legend>
         <% Touchpoint::DELIVERY_METHODS.each do |f| %>
           <div class="usa-checkbox">
             <%= form.radio_button :delivery_method, f, class: "usa-checkbox__input" %>
@@ -98,7 +102,7 @@
             Only required for "Inline" and "Custom-button-modal"
           </em>
         </div>
-        <%= form.text_field :element_selector, class: "usa-input", placeholder: "button-id" %>
+        <%= form.text_field :element_selector, class: "usa-input", placeholder: "#html-element-id" %>
       </div>
     </div>
     <div class="well">

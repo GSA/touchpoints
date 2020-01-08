@@ -96,8 +96,8 @@ class User < ApplicationRecord
   def deactivate
     self.inactive = true
     self.save
-    UserMailer.org_manager_change_notification(self,'removed').deliver_now if self.organization_manager?
-    UserMailer.account_deactivated_notification(self).deliver_now
+    UserMailer.org_manager_change_notification(self,'removed').deliver_later if self.organization_manager?
+    UserMailer.account_deactivated_notification(self).deliver_later
     Event.log_event(Event.names[:user_deactivated], "User", self.id, "User account #{self.email} deactivated on #{Date.today}")
   end
 
@@ -124,18 +124,18 @@ class User < ApplicationRecord
       if org = Organization.find_by_domain(parsed_domain)
         self.organization_id = org.id
       else
-        UserMailer.no_org_notification(self).deliver_now
+        UserMailer.no_org_notification(self).deliver_later if self.id
         errors.add(:organization, "'#{email_address_domain}' has not yet been configured for Touchpoints - Please contact the Feedback Analytics Team for assistance.")
       end
     end
 
     def send_new_user_notification
       # Send notification to Touchpoints
-      UserMailer.new_user_notification(self).deliver_now
+      UserMailer.new_user_notification(self).deliver_later
 
       # Send notification to Org Admins
       self.organization.users.select { |user| user.organization_manager? }.each do |om|
-        UserMailer.org_user_notification(self, om).deliver_now
+        UserMailer.org_user_notification(self, om).deliver_later
       end
     end
 end

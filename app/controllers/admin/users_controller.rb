@@ -123,7 +123,7 @@ class Admin::UsersController < AdminController
         if user.organization_manager? != was_org_manager
           change = user.organization_manager? ? 'added' : 'removed'
           Event.log_event(Event.names[:organization_manager_changed],  "User", user.id, "Organization manager #{change}", current_user.id)
-          UserMailer.org_manager_change_notification(user, change).deliver_now
+          UserMailer.org_manager_change_notification(user, change).deliver_later
         end
     end
 end
