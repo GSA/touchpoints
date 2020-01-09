@@ -273,6 +273,20 @@ feature "Forms", js: true do
 
   end
 
+  context "form owner without Touchpoint Manager permissions" do
+    let(:user) { FactoryBot.create(:user) }
+    let!(:users_form) { FactoryBot.create(:form, :custom, user: user) }
+
+    before do
+      login_as(user)
+      visit edit_admin_form_path(users_form)
+    end
+
+    it "does see the Delete Question button" do
+      expect(page).to have_link("Add a Question")
+    end
+  end
+
   context "without Touchpoint Manager permissions" do
     let(:user) { FactoryBot.create(:user) }
     let(:another_user) { FactoryBot.create(:user) }
