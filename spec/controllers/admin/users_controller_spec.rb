@@ -151,6 +151,9 @@ RSpec.describe Admin::UsersController, type: :controller do
     end
 
     it "returns a success response" do
+
+      u = User.new({email: 'testdeactivate@example.gov',uid: '127608c1-55ff-476d-8b5a-8e3cab524bdc'})
+      u.save
       rsa_private = OpenSSL::PKey::RSA.generate 2048
       ENV["LOGIN_GOV_PUBLIC_KEY"] = rsa_private.public_key.to_s
       jwt_data = {
@@ -173,8 +176,11 @@ RSpec.describe Admin::UsersController, type: :controller do
       headers = { "HTTP_AUTHORIZATION" => "WebPush " + jws.to_s }
       request.headers.merge! headers
       get :deactivate, params: {}, session: valid_session
+      u.reload
       expect(response).to be_successful
       expect(response.body).to include("successfully deactivated")
+      expect(u.inactive).to eq(true)
+      u.destroy
     end
   end
 
