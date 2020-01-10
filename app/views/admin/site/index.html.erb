@@ -47,10 +47,10 @@
           <li>
             <%= touchpoint.organization.name %>
             <strong>
-              <%= touchpoint.name %>
+              <%= link_to touchpoint.name, admin_touchpoint_path(touchpoint) %>
             </strong>
             has
-            <%= touchpoint.submissions.count %> Responses.
+            <%= pluralize(touchpoint.submissions.size, "Response") %>.
           </li>
         <% end %>
         </ul>
