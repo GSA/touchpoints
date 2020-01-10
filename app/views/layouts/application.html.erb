@@ -4,25 +4,36 @@
     <title>
       Touchpoints
     </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta name="description" content="Making customer feedback easier for federal agencies" />
+    <meta name="keywords" content="customer experience, CX, feedback, government, technology, civic-tech" />
+
+    <meta property="og:title" content="Touchpoints" />
+    <meta property="og:site_name" content="Touchpoints">
+    <meta property="og:description" content="Making customer feedback easier for federal agencies">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://touchpoints.app.cloud.gov/" />
+    <%= favicon_link_tag asset_path('favicon.ico') %>
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
-    <!-- Google Tag Manager -->
+
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
   })(window,document,'script','dataLayer','<%= ENV.fetch("TOUCHPOINTS_GTM_CONTAINER_ID") %>');</script>
-    <!-- End Google Tag Manager -->
   </head>
 
   <body>
-    <!-- Google Tag Manager (noscript) -->
+
     <noscript><iframe sandbox="allow-same-origin allow-scripts" src="https://www.googletagmanager.com/ns.html?id=<%= ENV.fetch("TOUCHPOINTS_GTM_CONTAINER_ID") %>"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+
     <%= render 'components/header' %>
     <% unless content_for?(:full_layout) %>
     <main id="main-content">
