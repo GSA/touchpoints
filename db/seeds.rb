@@ -257,6 +257,7 @@ touchpoint_3 = Touchpoint.create!({
   form: a11_form,
   delivery_method: "touchpoints-hosted-only",
   name: "A11 - 7 question test",
+  hisp: true,
   purpose: "CX",
   meaningful_response_size: 100,
   behavior_change: "Better customer service",
