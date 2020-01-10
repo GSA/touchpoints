@@ -3,7 +3,10 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
-  mount Sidekiq::Web => '/sidekiq'
+
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 
   match "/404", :to => "errors#not_found", :via => :all
   match "/500", :to => "errors#internal_server_error", :via => :all
