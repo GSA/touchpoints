@@ -30,9 +30,9 @@ class Admin::TouchpointsController < AdminController
 
   def index
     if admin_permissions?
-      @touchpoints = Touchpoint.all
+      @touchpoints = Touchpoint.all.order(:organization_id, :name)
     else
-      @touchpoints = current_user.touchpoints
+      @touchpoints = current_user.touchpoints.order(:organization_id, :name)
     end
   end
 
