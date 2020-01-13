@@ -359,7 +359,7 @@ DEPENDENCIES
   rspec_junit_formatter
   sass-rails
   selenium-webdriver
-  sidekiq
+  sidekiq (>= 4.2)
   tzinfo-data
   uglifier
   web-console (>= 3.3.0)

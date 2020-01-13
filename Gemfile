@@ -19,7 +19,7 @@ gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma'
 gem 'rack-cors', require: 'rack/cors'
 gem 'sass-rails'
-gem 'sidekiq'
+gem 'sidekiq', '>= 4.2'
 gem 'uglifier'
 gem 'json-jwt'
 # Use Redis to cache Touchpoints in all envs
