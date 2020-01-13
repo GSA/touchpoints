@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
   authenticate :user, lambda { |u| u.admin? } do
-    mount Sidekiq::Web => '/sidekiq'
+    mount Sidekiq::Web => '/admin/sidekiq'
   end
 
   match "/404", :to => "errors#not_found", :via => :all
