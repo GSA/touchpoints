@@ -12,7 +12,6 @@ module Seeds
         disclaimer_text: "Disclaimer Text Goes Here",
         success_text: "Thank you for your submission 🎉",
         notes: "",
-        character_limit: 1000,
         early_submission: true
       })
       # Create Page 2

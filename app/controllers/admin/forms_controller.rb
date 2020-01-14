@@ -107,7 +107,6 @@ class Admin::FormsController < AdminController
         :name,
         :kind,
         :early_submission,
-        :character_limit,
         :notes,
         :status,
         :title,
