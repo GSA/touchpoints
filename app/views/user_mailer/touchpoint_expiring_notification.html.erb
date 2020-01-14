@@ -1,0 +1,12 @@
+<div class="email-header">
+    <%= image_tag(attachments['logo.png'].url) %>
+</div>
+<h3>
+  Touchpoint is expiring soon.
+</h3>
+<p>
+  Touchpoint #{@touchpoint.name} will expire on #{@touchpoint.expiration_date}.
+</p>
+<p>
+  Visit <a href="<%= touchpoint_url(@touchpoint) %>"><%= touchpoint_url(@touchpoint) %></a> to view.
+</p>
