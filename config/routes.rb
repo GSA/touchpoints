@@ -60,8 +60,7 @@ Rails.application.routes.draw do
     root to: "site#index"
   end
 
-
-
+  get "terms", to: "site#terms", as: :terms
   get "status", to: "site#status", as: :status
   root to: "site#index"
 end
