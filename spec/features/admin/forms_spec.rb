@@ -318,11 +318,11 @@ feature "Forms", js: true do
       end
 
       it "displays Copy button" do
-        expect(page).to have_link("Copy this Form")
+        expect(page).to have_link("Copy form")
       end
 
       it "shows successful message" do
-        click_on("Copy this Form")
+        click_on("Copy form")
         page.driver.browser.switch_to.alert.accept
         # redirects to /admin/forms/:id/edit
         expect(page).to have_content("Form was successfully copied.")
