@@ -7,12 +7,12 @@ class TouchpointCache
   def self.fetch(id)
     Rails.cache.fetch(TOUCHPOINT_NAMESPACE + id.to_s, expires_in: 1.day) do
       # Pull in all objects required to build a touchpoint
-      Touchpoint.includes({ form: [:questions, form_sections: [questions: [:question_options]]] }, :organization).find(id)
+      Touchpoint.includes({ form: [:questions, form_sections: [questions: [:question_options]]] }, :organization).where(uuid: id).first
     end
   end
 
   def self.invalidate(id)
     Rails.cache.delete(TOUCHPOINT_NAMESPACE + id.to_s)
   end
-  
+
 end

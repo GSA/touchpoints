@@ -17,6 +17,8 @@ class Touchpoint < ApplicationRecord
 
   after_initialize  :check_expired
 
+  before_save :set_uuid
+
   after_save do |touchpoint|
     TouchpointCache.invalidate(touchpoint.id)
   end

@@ -6,6 +6,10 @@ module ApplicationHelper
     end
   end
 
+  def submit_touchpoint_url(touchpoint)
+    return "#{root_url}touchpoints/#{touchpoint.uuid}/submit"
+  end
+
   # Returns javascript to capture form input for one Form Question
   def question_type_javascript_params(question)
     if question.question_type == "text_field"

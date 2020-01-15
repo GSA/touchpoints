@@ -18,6 +18,6 @@ class TouchpointsController < ApplicationController
 
   private
     def set_touchpoint
-      @touchpoint = Touchpoint.find(params[:id])
+      @touchpoint = Touchpoint.where(uuid: params[:id]).first
     end
 end
