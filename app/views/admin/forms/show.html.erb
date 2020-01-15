@@ -26,6 +26,12 @@
       <strong>Kind:</strong>
       <%= @form.kind %>
     </p>
+    <% if @form.template %>
+    <p>
+      <strong>Notes:</strong>
+      <%= @form.notes %>
+    </p>
+    <% end %>
     <p>
       <strong>Display (320px wide by 80px tall) Header Logo:</strong>
       <%= @form.display_header_logo %>
@@ -49,10 +55,6 @@
     <p>
       <strong>Disclaimer Text:</strong>
       <%= sanitize(@form.disclaimer_text) %>
-    </p>
-    <p>
-      <strong>Character Limit:</strong>
-      <%= @form.character_limit %>
     </p>
     <p>
       <strong>Whitelist URL:</strong>

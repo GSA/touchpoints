@@ -6,14 +6,14 @@ module Seeds
       custom_form = Form.create({
         template: true,
         kind:  "kitchen sink",
+        notes: "An example form that uses at least one of every form element",
         user: User.first,
         name: "Kitchen Sink Form",
         title: "",
         instructions: "",
         disclaimer_text: "Disclaimer Text Goes Here",
-        success_text: "Thank you for your submission 🎉",
-        notes: "",
-        character_limit: 1000
+        success_text: "Thank you for your response 🎉",
+        notes: ""
       })
       custom_form.form_sections.create(title: "Page 2", position: 2)
 
