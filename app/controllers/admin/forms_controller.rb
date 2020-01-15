@@ -52,7 +52,7 @@ class Admin::FormsController < AdminController
       new_form = @form.duplicate!(user: current_user)
 
       if new_form.valid?
-        format.html { redirect_to admin_form_path(new_form), notice: 'Form was successfully copied.' }
+        format.html { redirect_to edit_admin_form_path(new_form), notice: 'Form was successfully copied.' }
         format.json { render :show, status: :created, location: new_form }
       else
         format.html { render :new }

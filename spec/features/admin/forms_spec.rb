@@ -310,6 +310,25 @@ feature "Forms", js: true do
       login_as(touchpoints_manager)
     end
 
+    describe "copying a Form" do
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, user_id: touchpoints_manager.id) }
+
+      before do
+        visit admin_forms_path
+      end
+
+      it "displays Copy button" do
+        expect(page).to have_link("Copy this Form")
+      end
+
+      it "shows successful message" do
+        click_on("Copy this Form")
+        page.driver.browser.switch_to.alert.accept
+        # redirects to /admin/forms/:id/edit
+        expect(page).to have_content("Form was successfully copied.")
+      end
+    end
+
     describe "deleting Questions" do
       let!(:touchpoint) { FactoryBot.create(:touchpoint, organization: organization, form: form2) }
       let!(:form2) { FactoryBot.create(:form, :custom, user: touchpoints_manager) }
