@@ -118,6 +118,7 @@ puts "Created #{submission_viewer.email}"
 open_ended_form = Form.create!({
   template: true,
   kind: "open ended",
+  notes: "An open-ended Feedback Form useful for general website and program feedback.",
   user: admin_user,
   name: "Open-ended",
   title: "Custom Open-ended Title",
@@ -139,6 +140,7 @@ Question.create!({
 recruiter_form = Form.create({
   template: true,
   kind: "recruiter",
+  notes: "A form useful for recruiting users to participate in research.",
   user: admin_user,
   name: "Recruiter",
   title: "",
@@ -177,6 +179,7 @@ Question.create!({
 open_ended_form_with_contact_information = Form.create({
   template: true,
   kind: "open ended with contact information",
+  notes: "An open-ended feedback form with information to follow up with the user.",
   user: admin_user,
   name: "Open Ended Form with Contact Information",
   title: "",

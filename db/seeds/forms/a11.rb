@@ -5,12 +5,13 @@ module Seeds
       a11_form = Form.create({
         template: true,
         kind:  "a11",
+        notes: "Standard A-11 Form in support of the CX CAP Goal",
         user: User.first,
         name: "A11 Form",
         title: "",
         instructions: "",
         disclaimer_text: "Disclaimer Text Goes Here",
-        success_text: "Thank you for your submission 🎉",
+        success_text: "Thank you for your response 🎉",
         notes: "",
         early_submission: true
       })
