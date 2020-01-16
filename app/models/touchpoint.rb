@@ -17,6 +17,8 @@ class Touchpoint < ApplicationRecord
 
   after_initialize  :check_expired
 
+  before_save :set_uuid
+
   after_save do |touchpoint|
     TouchpointCache.invalidate(touchpoint.id)
   end
@@ -298,6 +300,10 @@ class Touchpoint < ApplicationRecord
       self.id ? self.archive! : self.archive
       Event.log_event(Event.names[:touchpoint_archived],"Touchpoint",self.id,"Touchpoint #{self.name} archived on #{Date.today}") if self.id
     end
+  end
+
+  def set_uuid
+    self.uuid = SecureRandom.uuid  if !self.uuid.present?
   end
 
 end

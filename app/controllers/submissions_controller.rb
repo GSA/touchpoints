@@ -90,7 +90,8 @@ class SubmissionsController < ApplicationController
 
     def set_touchpoint
       if params[:touchpoint] # coming from /touchpoints/:id/submit
-        @touchpoint = TouchpointCache.fetch(params[:id])
+        id = (params[:id].to_s.length < 36) ? params[:id] : Touchpoint.where(uuid: params[:id]).first.id
+        @touchpoint = TouchpointCache.fetch(id)
       else
         @touchpoint = TouchpointCache.fetch(params[:touchpoint_id])
       end

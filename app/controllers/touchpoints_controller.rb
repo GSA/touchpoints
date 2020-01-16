@@ -18,6 +18,6 @@ class TouchpointsController < ApplicationController
 
   private
     def set_touchpoint
-      @touchpoint = Touchpoint.find(params[:id])
+      @touchpoint =  (params[:id].to_s.length < 36)  ? Touchpoint.find(params[:id]) : Touchpoint.where(uuid:params[:id]).first
     end
 end

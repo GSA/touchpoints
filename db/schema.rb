@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_14_234932) do
+ActiveRecord::Schema.define(version: 2020_01_16_155307) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -152,6 +152,8 @@ ActiveRecord::Schema.define(version: 2020_01_14_234932) do
     t.string "department"
     t.string "bureau"
     t.string "aasm_state"
+    t.string "uuid"
+    t.index ["uuid"], name: "index_touchpoints_on_uuid"
   end
 
   create_table "user_roles", force: :cascade do |t|
