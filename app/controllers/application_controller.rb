@@ -11,10 +11,6 @@ class ApplicationController < ActionController::Base
     admin_root_path
   end
 
-  def submit_touchpoint_url(touchpoint)
-    return "#{root_url}touchpoints/#{touchpoint.uuid}/submit"
-  end
-
   # Enforce Permissions
   def ensure_user
     redirect_to(root_path, notice: "Authorization is Required") unless current_user

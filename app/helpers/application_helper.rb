@@ -6,7 +6,7 @@ module ApplicationHelper
     end
   end
 
-  def submit_touchpoint_url(touchpoint)
+  def submit_touchpoint_uuid_url(touchpoint)
     return "#{root_url}touchpoints/#{touchpoint.uuid}/submit"
   end
 
