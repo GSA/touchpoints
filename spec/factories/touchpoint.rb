@@ -4,7 +4,8 @@ FactoryBot.define do
     name { "Example Touchpoint" }
     omb_approval_number { rand(10000).to_s }
     expiration_date { Time.now + 2.months }
-    aasm_state { "live"}
+    aasm_state { "live" }
+    uuid { SecureRandom.uuid }
     delivery_method { "modal" }
     trait :touchpoints_hosted_only do
       delivery_method { "touchpoints-hosted-only" }
