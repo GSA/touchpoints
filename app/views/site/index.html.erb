@@ -1,3 +1,4 @@
+<br>
 <div class="grid-row grid-gap-md">
   <div class="grid-col-6">
     <h1>
@@ -17,7 +18,7 @@
     </ul>
   </div>
   <div class="grid-col-6">
-    <%= image_tag "touchpoints-screenshot.jpg", alt: "Touchpoints screenshot", style: "width: 100%;" %>
+    <%= image_tag "touchpoints-screenshot.jpg", alt: "Touchpoints screenshot" %>
   </div>
 </div>
 <br>
@@ -31,7 +32,7 @@
     </h2>
     <% if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
     <p>
-      Any Federal employee with a .gov email address can use Touchpoints.
+      Any federal employee with a .gov or .mil email address can use Touchpoints.
       Your account will be automatically created the first time you sign in.
     </p>
     <p>
@@ -46,7 +47,7 @@
     <% if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
     <p>
       Touchpoints uses Login.gov to handle user accounts.
-      Once you authenticate with Login.gov you will be signed in and redirected back to Touchpoints.
+      Once you authenticate with Login.gov, you will be signed in and redirected back to Touchpoints.
     </p>
     <p>
       <%= link_to "Sign in with Login.gov", user_login_dot_gov_omniauth_authorize_path, class: "usa-button" %>
