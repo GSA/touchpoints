@@ -12,8 +12,7 @@ module Seeds
         title: "",
         instructions: "",
         disclaimer_text: "Disclaimer Text Goes Here",
-        success_text: "Thank you for your response 🎉",
-        notes: ""
+        success_text: "Thank you for your response 🎉"
       })
       custom_form.form_sections.create(title: "Page 2", position: 2)
 

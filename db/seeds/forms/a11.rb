@@ -12,7 +12,6 @@ module Seeds
         instructions: "",
         disclaimer_text: "Disclaimer Text Goes Here",
         success_text: "Thank you for your response 🎉",
-        notes: "",
         early_submission: true
       })
       # Create Page 2
