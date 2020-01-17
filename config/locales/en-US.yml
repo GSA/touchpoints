@@ -64,11 +64,3 @@ en-US:
     this_site_is_secure: "This site is secure."
     https_notes_html: "The <strong>https://</strong> ensures that you are connecting to the official website and that any information you provide is encrypted and transmitted securely."
     disclaimer_1: "This website is currently in "
-  site:
-    header: "Welcome to %{touchpoints}"
-    definition_html: "A <strong>%{touchpoint}</strong> is the interaction point between a customer and service provider."
-    list_header: "%{touchpoints} exists to help federal agencies:"
-    list_item_1: "Administer the A-11 form"
-    list_item_2: "Streamline customer experience (CX) CAP Goal reporting"
-    list_item_3: "Solicit open-ended feedback"
-    list_item_4: "Recruit users to talk to during product and service development"
