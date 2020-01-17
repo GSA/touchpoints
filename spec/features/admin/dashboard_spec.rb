@@ -86,7 +86,7 @@ feature "Admin Dashboard", js: true do
     end
 
     it "redirected to home page and sees flash message" do
-      expect(page.current_path).to eq(root_path)
+      expect(page.current_path).to eq(index_path)
       expect(page).to have_content("Authorization is Required")
     end
   end

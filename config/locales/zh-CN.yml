@@ -53,14 +53,6 @@ zh-CN:
     this_site_is_secure: "该网站是安全的。"
     https_notes_html: "<strong>https://</strong>确保您连接到官方网站，并且您提供的任何信息均已加密并安全地传输。"
     disclaimer_1: "该网站目前在"
-  site:
-    header: "欢迎来到%{touchpoints}"
-    definition_html: "一种<strong>%{touchpoint}</strong>是客户和服务提供商之间的交互点。"
-    list_header: "%{touchpoints}存在以帮助联邦机构："
-    list_item_1: "管理A-11表格"
-    list_item_2: "简化CX CAP目标报告"
-    list_item_3: "征集开放式反馈"
-    list_item_4: "招募用户在产品和服务开发过程中进行交谈"
   activerecord:
     errors:
       messages:

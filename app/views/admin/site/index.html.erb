@@ -34,16 +34,24 @@
                 <span>Manage Forms</span>
               </a>
             </li>
+            <li>
+              <a href="/admin/sidekiq">
+                <span>Manage Sidekiq</span>
+              </a>
+            </li>
           </ul>
         </p>
       </div>
-      <div class="well">
+      <br>
+      <div class="touchpoints hisp">
         <% @hisp_touchpoints = Touchpoint.where(hisp: true).includes(:organization).order(:organization_id) %>
         <h3>
           <%= @hisp_touchpoints.count %> HISP Touchpoints
+          <% total_responses = 0 %>
         </h3>
         <ul>
         <% @hisp_touchpoints.each do |touchpoint| %>
+          <% total_responses = total_responses + touchpoint.submissions.size %>
           <li>
             <%= touchpoint.organization.name %>
             <strong>
@@ -54,6 +62,10 @@
           </li>
         <% end %>
         </ul>
+
+        <p>
+          Total: <%= pluralize(total_responses, "responses") %>
+        </p>
       </div>
       <% else %>
         <p>
@@ -84,7 +96,9 @@
           </li>
         </ol>
       <% end %>
-  </div>
+      <br>
+      <br>
+    </div>
   </main>
 </section>
 <% end %>
