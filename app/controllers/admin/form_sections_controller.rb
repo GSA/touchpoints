@@ -14,6 +14,7 @@ class Admin::FormSectionsController < AdminController
   end
 
   def edit
+    render layout: false
   end
 
   def create
@@ -28,7 +29,7 @@ class Admin::FormSectionsController < AdminController
 
   def update
     if @form_section.update(form_section_params)
-      redirect_to edit_admin_form_path(@form), notice: 'Form section was successfully updated.'
+      redirect_to edit_admin_form_url(@form), notice: 'Form section was successfully updated.'
     else
       render :edit
     end
