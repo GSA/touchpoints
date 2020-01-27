@@ -60,6 +60,6 @@ module ApplicationHelper
   end
 
   def submit_touchpoint_uuid_url(touchpoint)
-    return "#{root_url}touchpoints/#{touchpoint.uuid}/submit"
+    return "#{root_url}touchpoints/#{touchpoint.uuid[0..7]}/submit"
   end
 end
