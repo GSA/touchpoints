@@ -13,11 +13,12 @@ class TouchpointsController < ApplicationController
   end
 
   def show
-    redirect_to submit_touchpoint_path(@touchpoint) # instead of rendering #show
+    redirect_to submit_touchpoint_path(@touchpoint.short_uuid) # instead of rendering #show
   end
+
 
   private
     def set_touchpoint
-      @touchpoint = (params[:id].to_s.length == 8) ? Touchpoint.where("uuid LIKE ?", "#{params[:id]}%").first : Touchpoint.find(params[:id])
+      @touchpoint = (params[:id].to_s.length == 8) ? Touchpoint.find_by_short_uuid(params[:id]) : Touchpoint.find(params[:id])
     end
 end

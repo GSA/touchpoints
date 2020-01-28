@@ -40,8 +40,8 @@ class Admin::SubmissionsController < AdminController
   private
 
     def set_touchpoint
-      @touchpoint = current_user.touchpoints.find(params[:touchpoint_id])
-      raise InvalidArgument("Touchpoint does not exist") unless @touchpoint
+      @touchpoint = current_user.touchpoints.find_by_short_uuid(params[:touchpoint_id])
+      raise ActiveRecord::RecordNotFound, "no touchpoint with ID of #{params[:touchpoint_id]}" unless @touchpoint
     end
 
     def set_submission

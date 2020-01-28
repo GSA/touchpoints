@@ -50,7 +50,7 @@ describe TouchpointsController, type: :controller do
 
   describe "GET #show with UUID" do
     it "returns a success response" do
-      get :show, params: { id: touchpoint.uuid[0..7] }, session: valid_session
+      get :show, params: { id: touchpoint.short_uuid }, session: valid_session
       expect(response).to redirect_to(submit_touchpoint_path(touchpoint))
     end
   end

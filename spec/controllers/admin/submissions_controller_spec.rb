@@ -64,14 +64,14 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
   describe "GET #show" do
     it "returns a success response" do
       submission = Submission.create! valid_attributes
-      get :show, params: { id: submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
+      get :show, params: { id: submission.to_param, touchpoint_id: touchpoint.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
 
   describe "GET #new" do
     it "returns a success response" do
-      get :new, params: { touchpoint_id: touchpoint.id }, session: valid_session
+      get :new, params: { touchpoint_id: touchpoint.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -80,13 +80,13 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
     it "destroys the requested submission" do
       submission = Submission.create! valid_attributes
       expect {
-        delete :destroy, params: {id: submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
+        delete :destroy, params: {id: submission.to_param, touchpoint_id: touchpoint.to_param }, session: valid_session
       }.to change(Submission, :count).by(-1)
     end
 
     it "redirects to the submissions list" do
       submission = Submission.create! valid_attributes
-      delete :destroy, params: {id: submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
+      delete :destroy, params: {id: submission.to_param, touchpoint_id: touchpoint.to_param }, session: valid_session
       expect(response).to redirect_to(admin_touchpoint_url(touchpoint))
     end
   end

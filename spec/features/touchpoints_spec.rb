@@ -3,13 +3,13 @@ require 'rails_helper'
 feature "Touchpoints", js: true do
   context "as Admin" do
     let(:organization) { FactoryBot.create(:organization) }
-    let(:touchpoint) { FactoryBot.create(:touchpoint, :with_form, organization: organization) }
+    let!(:touchpoint) { FactoryBot.create(:touchpoint, :with_form, organization: organization) }
 
     describe "/touchpoints" do
       context "default success text" do
         before do
           visit touchpoint_path(touchpoint)
-          expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit")
+          expect(page.current_path).to eq("/touchpoints/#{touchpoint.short_uuid}/submit")
           expect(page).to have_content("OMB Approval ##{touchpoint.omb_approval_number}")
           expect(page).to have_content("Expiration Date #{touchpoint.expiration_date.strftime("%m/%d/%Y")}")
           fill_in("answer_01", with: "User feedback")
@@ -19,7 +19,7 @@ feature "Touchpoints", js: true do
         describe "display default success text" do
           it "renders success flash message" do
             expect(page).to have_content("Thank you. Your feedback has been received.")
-            expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit") # stays on
+            expect(page.current_path).to eq("/touchpoints/#{touchpoint.short_uuid}/submit") # stays on
           end
         end
       end
@@ -29,7 +29,7 @@ feature "Touchpoints", js: true do
           touchpoint.form.update_attribute(:success_text, "Much success, yessss.")
           touchpoint.reload
           visit touchpoint_path(touchpoint)
-          expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit")
+          expect(page.current_path).to eq("/touchpoints/#{touchpoint.short_uuid}/submit")
           expect(page).to have_content("OMB Approval ##{touchpoint.omb_approval_number}")
           expect(page).to have_content("Expiration Date #{touchpoint.expiration_date.strftime("%m/%d/%Y")}")
           fill_in("answer_01", with: "User feedback")
@@ -39,7 +39,7 @@ feature "Touchpoints", js: true do
         describe "display custom success text" do
           it "renders success flash message" do
             expect(page).to have_content(touchpoint.form.success_text)
-            expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit") # stays on
+            expect(page.current_path).to eq("/touchpoints/#{touchpoint.short_uuid}/submit") # stays on
           end
         end
       end
@@ -68,7 +68,7 @@ feature "Touchpoints", js: true do
         question = touchpoint.form.questions.first
         question.update_attribute(:character_limit, 150)
         visit touchpoint_path(touchpoint)
-        expect(page.current_path).to eq("/touchpoints/#{touchpoint.id}/submit")
+        expect(page.current_path).to eq("/touchpoints/#{touchpoint.short_uuid}/submit")
         expect(page).to have_content("OMB Approval ##{touchpoint.omb_approval_number}")
         expect(page).to have_content("Expiration Date #{touchpoint.expiration_date.strftime("%m/%d/%Y")}")
         fill_in("answer_01", with: "T" * 145)
@@ -91,7 +91,7 @@ feature "Touchpoints", js: true do
       describe "#show" do
         it "renders success flash message and persists location_code" do
           expect(page).to have_content("Thank you. Your feedback has been received.")
-          expect(page).to have_current_path("/touchpoints/#{touchpoint.id}/submit?location_code=TEST_LOCATION_CODE") # stays on same page after form submission
+          expect(page).to have_current_path("/touchpoints/#{touchpoint.short_uuid}/submit?location_code=TEST_LOCATION_CODE") # stays on same page after form submission
 
           # Asserting against the database/model directly here isn't ideal.
           # An alternative is to send location_code back to the client and assert against it

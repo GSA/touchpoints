@@ -37,7 +37,7 @@ class Admin::TouchpointsController < AdminController
   end
 
   def export_submissions
-    ExportJob.perform_later(params[:uuid],@touchpoint.id,"touchpoint-submissions-#{timestamp_string}.csv")
+    ExportJob.perform_later(params[:uuid],@touchpoint.uuid,"touchpoint-submissions-#{timestamp_string}.csv")
     render json: { result: :ok }
   end
 
@@ -87,7 +87,7 @@ class Admin::TouchpointsController < AdminController
     respond_to do |format|
       if @touchpoint.save
         UserRole.create!({
-          touchpoint_id: @touchpoint.id,
+          touchpoint: @touchpoint,
           user: current_user,
           role: UserRole::Role::TouchpointManager
         })
@@ -140,8 +140,8 @@ class Admin::TouchpointsController < AdminController
     raise ArgumentException unless UserRole::ROLES.include?(params[:role])
 
     @role = UserRole.new({
-      user_id: @user.id,
-      touchpoint_id: @touchpoint.id,
+      user: @user,
+      touchpoint: @touchpoint,
       role: params[:role],
     })
 
@@ -150,7 +150,7 @@ class Admin::TouchpointsController < AdminController
 
       render json: {
           email: @user.email,
-          touchpoint: @touchpoint.id
+          touchpoint: @touchpoint.uuid
         }
     else
       render json: @role.errors, status: :unprocessable_entity
@@ -166,7 +166,7 @@ class Admin::TouchpointsController < AdminController
 
       render json: {
         email: @user.email,
-        touchpoint: @touchpoint.id
+        touchpoint: @touchpoint.uuid
       }
     else
       render json: @role.errors, status: :unprocessable_entity
@@ -176,10 +176,11 @@ class Admin::TouchpointsController < AdminController
   private
     def set_touchpoint
       if admin_permissions?
-        @touchpoint = Touchpoint.find(params[:id])
+        @touchpoint = Touchpoint.find_by_short_uuid(params[:id])
       else
-        @touchpoint = current_user.touchpoints.find(params[:id])
+        @touchpoint = current_user.touchpoints.find_by_short_uuid(params[:id])
       end
+      raise ActiveRecord::RecordNotFound, "no touchpoint with ID of #{params[:id]}" unless @touchpoint.present?
     end
 
     def set_user
@@ -220,10 +221,10 @@ class Admin::TouchpointsController < AdminController
         params["touchpoint"]["aasm_state"] = "PRA_approved"
       end
       if params["touchpoint"]["aasm_state"] == "live" and !@touchpoint.live?
-        Event.log_event(Event.names[:touchpoint_published],"Touchpoint",@touchpoint.id,"Touchpoint #{@touchpoint.name} published on #{Date.today}",current_user.id)
+        Event.log_event(Event.names[:touchpoint_published],"Touchpoint",@touchpoint.uuid,"Touchpoint #{@touchpoint.name} published on #{Date.today}",current_user.id)
       end
       if params["touchpoint"]["aasm_state"] == "archived" and !@touchpoint.archived?
-        Event.log_event(Event.names[:touchpoint_archived],"Touchpoint",@touchpoint.id,"Touchpoint #{@touchpoint.name} archived on #{Date.today}",current_user.id)
+        Event.log_event(Event.names[:touchpoint_archived],"Touchpoint",@touchpoint.uuid,"Touchpoint #{@touchpoint.name} archived on #{Date.today}",current_user.id)
       end
     end
 end
