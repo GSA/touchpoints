@@ -35,13 +35,13 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
     it "destroys the requested submission" do
       submission = Submission.create! valid_attributes
       expect {
-        delete :destroy, params: {id: submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
+        delete :destroy, params: {id: submission.to_param, touchpoint_id: touchpoint.to_param }, session: valid_session
       }.to change(Submission, :count).by(-1)
     end
 
     it "redirects to the submissions list" do
       submission = Submission.create! valid_attributes
-      delete :destroy, params: {id: submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
+      delete :destroy, params: {id: submission.to_param, touchpoint_id: touchpoint.to_param }, session: valid_session
       expect(response).to redirect_to(admin_touchpoint_url(touchpoint))
     end
   end
@@ -49,7 +49,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
   describe "POST #flag" do
     before do
       @submission = Submission.create! valid_attributes
-      post :flag, params: {id: @submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
+      post :flag, params: {id: @submission.to_param, touchpoint_id: touchpoint.to_param }, session: valid_session
       @submission.reload
     end
 
@@ -63,7 +63,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
       @submission = Submission.create! valid_attributes.merge!({ flagged: true })
       expect(@submission.flagged).to be true
 
-      post :unflag, params: { id: @submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
+      post :unflag, params: { id: @submission.to_param, touchpoint_id: touchpoint.to_param }, session: valid_session
       @submission.reload
     end
 

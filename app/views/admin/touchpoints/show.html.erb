@@ -87,7 +87,7 @@
             This is where the public can access your form.
           </p>
           <p>
-            <%= link_to submit_touchpoint_url(@touchpoint), submit_touchpoint_url(@touchpoint) %>
+            <%= link_to submit_touchpoint_uuid_url(@touchpoint), submit_touchpoint_uuid_url(@touchpoint) %>
           </p>
           <% if @touchpoint.delivery_method == "modal" || @touchpoint.delivery_method == "inline" || @touchpoint.delivery_method == "custom-button-modal" %>
             <strong>
@@ -494,7 +494,7 @@
       var role = $("#add-user-role").val();
 
       var request = $.ajax({
-        url: "/admin/touchpoints/<%= @touchpoint.id %>/add_user",
+        url: "/admin/touchpoints/<%= @touchpoint.short_uuid %>/add_user",
         dataType: "json",
         method: "POST",
         data: {
@@ -523,7 +523,7 @@
       var userId = $(this).attr("data-id");
 
       var request = $.ajax({
-        url: "/admin/touchpoints/<%= @touchpoint.id %>/remove_user",
+        url: "/admin/touchpoints/<%= @touchpoint.short_uuid %>/remove_user",
         dataType: "json",
         method: "DELETE",
         data: { user_id : userId }
