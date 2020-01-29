@@ -21,7 +21,6 @@
   <main id="main-content">
     <div class="grid-container">
       <% if admin_permissions? %>
-      <%= render 'components/weekly_metrics' %>
       <div class="well">
         <p>
           <ul class="usa-list">
@@ -43,6 +42,7 @@
           </ul>
         </p>
       </div>
+      <%= render 'components/weekly_metrics' %>
       <br>
       <div class="touchpoints hisp">
         <% @hisp_touchpoints = Touchpoint.where(hisp: true).includes(:organization).order(:organization_id) %>
