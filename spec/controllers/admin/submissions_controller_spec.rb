@@ -49,7 +49,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
   describe "POST #flag" do
     before do
       @submission = Submission.create! valid_attributes
-      post :flag, params: {id: @submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
+      post :flag, params: {id: @submission.to_param, touchpoint_id: touchpoint.to_param }, session: valid_session
       @submission.reload
     end
 
@@ -63,7 +63,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
       @submission = Submission.create! valid_attributes.merge!({ flagged: true })
       expect(@submission.flagged).to be true
 
-      post :unflag, params: { id: @submission.to_param, touchpoint_id: touchpoint.id }, session: valid_session
+      post :unflag, params: { id: @submission.to_param, touchpoint_id: touchpoint.to_param }, session: valid_session
       @submission.reload
     end
 
