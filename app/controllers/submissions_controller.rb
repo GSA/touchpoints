@@ -6,7 +6,7 @@ class SubmissionsController < ApplicationController
 
   def new
     unless @touchpoint.deployable_touchpoint?
-      redirect_to root_path, alert: "Touchpoint is not yet deployable."
+      redirect_to index_path, alert: "Touchpoint is not yet deployable."
     end
     @touchpoint.update_attribute(:survey_form_activations, @touchpoint.survey_form_activations += 1)
     @submission = Submission.new
