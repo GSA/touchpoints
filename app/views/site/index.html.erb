@@ -1,29 +1,4 @@
-<br>
-<div class="grid-row grid-gap-md">
-  <div class="grid-col-6">
-    <h1>
-      <%= t('site.header',touchpoints: (t 'touchpoints')) %>
-    </h1>
-    <p>
-      <%= t('site.definition_html',touchpoint: (t 'touchpoint')) %>
-    </p>
-    <p>
-      <%= t('site.list_header',touchpoints:(t 'touchpoints')) %>
-    </p>
-    <ul class="usa-list">
-      <li><%= t 'site.list_item_1' %></li>
-      <li><%= t 'site.list_item_2' %></li>
-      <li><%= t 'site.list_item_3' %></li>
-      <li><%= t 'site.list_item_4' %></li>
-    </ul>
-  </div>
-  <div class="grid-col-6">
-    <%= image_tag "touchpoints-screenshot.jpg", alt: "Touchpoints screenshot" %>
-  </div>
-</div>
-<br>
 <% unless current_user %>
-<hr>
 <br>
 <div class="grid-row grid-gap-md">
   <div class="grid-col-6">

@@ -59,7 +59,7 @@ class SubmissionsController < ApplicationController
       respond_to do |format|
         if submission.save
           format.html {
-            redirect_to submit_touchpoint_path(submission.touchpoint), notice: 'Thank You. Submission was successfully created.' }
+            redirect_to submit_touchpoint_path(submission.touchpoint), notice: 'Thank You. Response was submitted successfully.' }
           format.json {
             render json: {
               submission: {

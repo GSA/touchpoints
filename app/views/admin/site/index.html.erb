@@ -21,6 +21,7 @@
   <main id="main-content">
     <div class="grid-container">
       <% if admin_permissions? %>
+      <%= render 'components/weekly_metrics' %>
       <div class="well">
         <p>
           <ul class="usa-list">
@@ -42,13 +43,16 @@
           </ul>
         </p>
       </div>
-      <div class="well">
+      <br>
+      <div class="touchpoints hisp">
         <% @hisp_touchpoints = Touchpoint.where(hisp: true).includes(:organization).order(:organization_id) %>
         <h3>
           <%= @hisp_touchpoints.count %> HISP Touchpoints
+          <% total_responses = 0 %>
         </h3>
         <ul>
         <% @hisp_touchpoints.each do |touchpoint| %>
+          <% total_responses = total_responses + touchpoint.submissions.size %>
           <li>
             <%= touchpoint.organization.name %>
             <strong>
@@ -59,12 +63,16 @@
           </li>
         <% end %>
         </ul>
+
+        <p>
+          Total: <%= pluralize(total_responses, "responses") %>
+        </p>
       </div>
       <% else %>
         <p>
           <small>
             A Touchpoint is a point of interaction between a service and a User.
-            A Touchpoint includes a Form. Customers respond to Forms and create Submissions as feedback.
+            A Touchpoint includes a Form. Customers respond to Forms and create Responses as feedback.
           </small>
         </p>
         <h4>
@@ -79,7 +87,7 @@
             Update the Touchpoint's Form
           </li>
           <li>
-            Test the Form by creating a Submission
+            Test the Form by creating a Response
           </li>
           <li>
             Deploy the Form to Users on your website or via your email system
@@ -89,7 +97,9 @@
           </li>
         </ol>
       <% end %>
-  </div>
+      <br>
+      <br>
+    </div>
   </main>
 </section>
 <% end %>
