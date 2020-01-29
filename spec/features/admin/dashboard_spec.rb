@@ -32,7 +32,7 @@ feature "Admin Dashboard", js: true do
     it "has instructional text" do
       expect(page).to have_content("Create a Touchpoint")
       expect(page).to have_content("Update the Touchpoint's Form")
-      expect(page).to have_content("Test the Form by creating a Submission")
+      expect(page).to have_content("Test the Form by creating a Response")
     end
   end
 
@@ -52,7 +52,7 @@ feature "Admin Dashboard", js: true do
     it "has instructional text" do
       expect(page).to have_content("Create a Touchpoint")
       expect(page).to have_content("Update the Touchpoint's Form")
-      expect(page).to have_content("Test the Form by creating a Submission")
+      expect(page).to have_content("Test the Form by creating a Response")
     end
   end
 
@@ -76,7 +76,7 @@ feature "Admin Dashboard", js: true do
     it "has instructional text" do
       expect(page).to have_content("Create a Touchpoint")
       expect(page).to have_content("Update the Touchpoint's Form")
-      expect(page).to have_content("Test the Form by creating a Submission")
+      expect(page).to have_content("Test the Form by creating a Response")
     end
   end
 

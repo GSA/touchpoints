@@ -10,7 +10,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def github
     @kind = "GitHub"
-    redirect_to root_path, alert: "Invalid request" unless ENV["GITHUB_CLIENT_ID"].present?
+    redirect_to index_path, alert: "Invalid request" unless ENV["GITHUB_CLIENT_ID"].present?
     @email = auth_hash["info"]["email"]
     login
   end
@@ -36,7 +36,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       sign_in_and_redirect(:user, @user)
       set_flash_message(:notice, :success, kind: @kind)
     elsif @user.errors.present?
-      redirect_to root_path, alert: @user.errors.full_messages.join(",")
+      redirect_to index_path, alert: @user.errors.full_messages.join(",")
     # else
     #   redirect_to root_path, notice: "Error: During oAuth Login"
     end

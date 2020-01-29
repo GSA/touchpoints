@@ -18,7 +18,7 @@ feature "Submissions", js: true do
           context "when no Submissions exist" do
             before do
               FactoryBot.create(:submission, touchpoint: touchpoint, answer_01: "content_tag(&quot;/&gt;&lt;script&gt;alert(&#39;hack!&#39;);&lt;/script&gt;&quot;)")
-              visit admin_touchpoint_path(touchpoint.id)
+              visit admin_touchpoint_path(touchpoint)
             end
 
             it "does not render javascript" do
@@ -39,7 +39,7 @@ feature "Submissions", js: true do
             let!(:submission) { FactoryBot.create(:submission, touchpoint: touchpoint) }
 
             before do
-              visit admin_touchpoint_path(touchpoint.id)
+              visit admin_touchpoint_path(touchpoint)
               within("table.submissions") do
                 click_on "Flag"
               end
@@ -47,7 +47,7 @@ feature "Submissions", js: true do
             end
 
             it "successfully flags Submission" do
-              expect(page).to have_content("Submission #{submission.id} was successfully flagged.")
+              expect(page).to have_content("Response #{submission.id} was successfully flagged.")
               within("table.submissions") do
                 expect(page).to have_content("Flagged")
               end
@@ -60,7 +60,7 @@ feature "Submissions", js: true do
             let!(:submission) { FactoryBot.create(:submission, touchpoint: touchpoint) }
 
             before do
-              visit admin_touchpoint_path(touchpoint.id)
+              visit admin_touchpoint_path(touchpoint)
               within("table.submissions") do
                 click_on "Delete"
               end
@@ -68,7 +68,7 @@ feature "Submissions", js: true do
             end
 
             it "successfully deletes a Submission" do
-              expect(page).to have_content("Submission #{submission.id} was successfully destroyed.")
+              expect(page).to have_content("Response #{submission.id} was successfully destroyed.")
             end
           end
         end

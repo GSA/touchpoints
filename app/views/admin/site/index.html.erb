@@ -42,6 +42,7 @@
           </ul>
         </p>
       </div>
+      <%= render 'components/weekly_metrics' %>
       <br>
       <div class="touchpoints hisp">
         <% @hisp_touchpoints = Touchpoint.where(hisp: true).includes(:organization).order(:organization_id) %>
@@ -71,7 +72,7 @@
         <p>
           <small>
             A Touchpoint is a point of interaction between a service and a User.
-            A Touchpoint includes a Form. Customers respond to Forms and create Submissions as feedback.
+            A Touchpoint includes a Form. Customers respond to Forms and create Responses as feedback.
           </small>
         </p>
         <h4>
@@ -86,7 +87,7 @@
             Update the Touchpoint's Form
           </li>
           <li>
-            Test the Form by creating a Submission
+            Test the Form by creating a Response
           </li>
           <li>
             Deploy the Form to Users on your website or via your email system

@@ -50,7 +50,7 @@ Rails.application.routes.draw do
         delete "remove_user", to: "touchpoints#remove_user", as: :remove_user
       end
       resources :forms
-      resources :submissions, only: [:new, :show, :create, :destroy] do
+      resources :submissions, only: [:destroy] do
         member do
           post "flag", to: "submissions#flag", as: :flag
           post "unflag", to: "submissions#unflag", as: :unflag
