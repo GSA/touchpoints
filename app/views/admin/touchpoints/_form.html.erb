@@ -107,6 +107,7 @@
     </div>
     <div class="well">
       <h3>
+        <i class="fa fa-pencil-alt"></i>
         <span title="Public Records Act">PRA</span>
         Information
       </h3>
@@ -195,18 +196,19 @@
         <%= form.label :purpose, class: "usa-label" %>
         <%= form.text_area :purpose, class: "usa-textarea" %>
       </div>
-    </div>
-    <div class="grid-col-6">
-      <h3>
-        Submission Settings
-      </h3>
-      <div class="field">
-        <%= form.label "emails to notify when a Submission is received", class: "usa-label" %>
-        <%= form.text_field(:notification_emails, value: (touchpoint.notification_emails? ? touchpoint.notification_emails : current_user.email), class: "usa-input") %>
-      </div>
       <div class="field">
         <%= form.label :behavior_change, class: "usa-label" %>
         <%= form.text_area :behavior_change, class: "usa-textarea" %>
+      </div>
+    </div>
+    <div class="grid-col-6">
+      <h3>
+        <i class="fa fa-envelope"></i>
+        Notification Settings
+      </h3>
+      <div class="field">
+        <%= form.label "emails to notify when a Response is received", class: "usa-label" %>
+        <%= form.text_field(:notification_emails, value: (touchpoint.notification_emails? ? touchpoint.notification_emails : current_user.email), class: "usa-input") %>
       </div>
     </div>
   </div>

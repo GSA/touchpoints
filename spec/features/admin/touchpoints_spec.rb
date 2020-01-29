@@ -67,8 +67,8 @@ feature "Touchpoints", js: true do
               visit admin_touchpoint_path(touchpoint.id)
             end
 
-            it "display No Submissions message" do
-              expect(page).to have_content("Export is not available. This Touchpoint has yet to receive any Submissions.")
+            it "display No Responses message" do
+              expect(page).to have_content("Export is not available. This Touchpoint has yet to receive any Responses.")
             end
           end
 
@@ -83,7 +83,7 @@ feature "Touchpoints", js: true do
               within("table.submissions") do
                 expect(page).to have_content(submission.answer_01)
               end
-              expect(page).to have_link("Export Submissions to CSV")
+              expect(page).to have_link("Export Responses to CSV")
             end
           end
 
