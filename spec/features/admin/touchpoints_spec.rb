@@ -30,7 +30,7 @@ feature "Touchpoints", js: true do
         end
 
         it "redirect to /touchpoints/:id with a success flash message" do
-          expect(page.current_path).to eq(admin_touchpoint_path(Touchpoint.last.id))
+          expect(page.current_path).to eq(admin_touchpoint_path(Touchpoint.last))
           expect(page).to have_content("Touchpoint was successfully created.")
           expect(page).to have_content(future_date.to_date.to_s)
           expect(page).to have_content("Notification emails")
@@ -45,13 +45,13 @@ feature "Touchpoints", js: true do
 
         describe "user updates a Touchpoint" do
           before do
-            visit edit_admin_touchpoint_path(touchpoint.id)
+            visit edit_admin_touchpoint_path(touchpoint)
             fill_in("touchpoint[name]", with: new_name)
             click_button "Update Touchpoint"
           end
 
-          it "redirect to /touchpoints/:id with a success flash message" do
-            expect(page.current_path).to eq(admin_touchpoint_path(touchpoint.id))
+          it "redirect to /touchpoints/:uuid with a success flash message" do
+            expect(page.current_path).to eq(admin_touchpoint_path(touchpoint))
             expect(page).to have_content("Touchpoint was successfully updated.")
             expect(page).to have_content(new_name)
           end
@@ -64,11 +64,11 @@ feature "Touchpoints", js: true do
         describe "Submission Export button" do
           context "when no Submissions exist" do
             before do
-              visit admin_touchpoint_path(touchpoint.id)
+              visit admin_touchpoint_path(touchpoint)
             end
 
-            it "display No Submissions message" do
-              expect(page).to have_content("Export is not available. This Touchpoint has yet to receive any Submissions.")
+            it "display No Responses message" do
+              expect(page).to have_content("Export is not available. This Touchpoint has yet to receive any Responses.")
             end
           end
 
@@ -76,14 +76,14 @@ feature "Touchpoints", js: true do
             let!(:submission) { FactoryBot.create(:submission, touchpoint: touchpoint)}
 
             before do
-              visit admin_touchpoint_path(touchpoint.id)
+              visit admin_touchpoint_path(touchpoint)
             end
 
             it "display table list of Submissions and Export CSV button link" do
               within("table.submissions") do
                 expect(page).to have_content(submission.answer_01)
               end
-              expect(page).to have_link("Export Submissions to CSV")
+              expect(page).to have_link("Export Responses to CSV")
             end
           end
 
@@ -95,7 +95,7 @@ feature "Touchpoints", js: true do
           let(:inline_touchpoint) { FactoryBot.create(:touchpoint, :inline, :with_form) }
 
           before "/admin/touchpoints/:id/example" do
-            visit example_admin_touchpoint_path(inline_touchpoint.id)
+            visit example_admin_touchpoint_path(inline_touchpoint)
           end
 
           it "can complete then submit the inline Form and see a Success message" do
@@ -131,10 +131,10 @@ feature "Touchpoints", js: true do
           click_button "Create Touchpoint"
         end
 
-        it "redirect to /touchpoints/:id with a success flash message" do
+        it "redirect to /touchpoints/:uuid with a success flash message" do
           expect(page).to have_content("Touchpoint was successfully created.")
           @touchpoint = Touchpoint.last
-          expect(page.current_path).to eq(admin_touchpoint_path(@touchpoint.id))
+          expect(page.current_path).to eq(admin_touchpoint_path(@touchpoint))
           expect(page).to have_content("Test Touchpoint")
           expect(page).to have_content("1234")
           expect(page).to have_content("50")

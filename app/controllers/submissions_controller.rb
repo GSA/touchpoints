@@ -6,7 +6,7 @@ class SubmissionsController < ApplicationController
 
   def new
     unless @touchpoint.deployable_touchpoint?
-      redirect_to root_path, alert: "Touchpoint is not yet deployable."
+      redirect_to index_path, alert: "Touchpoint is not yet deployable."
     end
     @touchpoint.update_attribute(:survey_form_activations, @touchpoint.survey_form_activations += 1)
     @submission = Submission.new
@@ -27,8 +27,10 @@ class SubmissionsController < ApplicationController
       (@touchpoint.form.whitelist_url.present? ? !request.referer.start_with?(@touchpoint.form.whitelist_url) : true) &&
       # is not from the Form's test whitelist URL
       (@touchpoint.form.whitelist_test_url.present? ? !request.referer.start_with?(@touchpoint.form.whitelist_test_url) : true) &&
-      # is not from the public Touchpoints page
+      # is not from either form (ID or UUID) of the public Touchpoints page
       !request.referer.start_with?(submit_touchpoint_url(@touchpoint)) &&
+      !request.referer.start_with?(submit_touchpoint_url(@touchpoint.short_uuid)) &&
+
       # is not from the example Touchpoints page
       !request.referer.start_with?(example_admin_touchpoint_url(@touchpoint)) &&
       # is not from the Organization URL
@@ -57,7 +59,7 @@ class SubmissionsController < ApplicationController
       respond_to do |format|
         if submission.save
           format.html {
-            redirect_to submit_touchpoint_path(submission.touchpoint), notice: 'Thank You. Submission was successfully created.' }
+            redirect_to submit_touchpoint_path(submission.touchpoint), notice: 'Thank You. Response was submitted successfully.' }
           format.json {
             render json: {
               submission: {
@@ -67,7 +69,7 @@ class SubmissionsController < ApplicationController
                 email: submission.answer_03,
                 phone_number: submission.answer_04,
                 touchpoint: {
-                  id: submission.touchpoint.id,
+                  id: submission.touchpoint.uuid,
                   name: submission.touchpoint.name,
                   organization_name: submission.organization_name
                 }
@@ -90,11 +92,17 @@ class SubmissionsController < ApplicationController
 
     def set_touchpoint
       if params[:touchpoint] # coming from /touchpoints/:id/submit
-        @touchpoint = TouchpointCache.fetch(params[:id])
-      else
-        @touchpoint = TouchpointCache.fetch(params[:touchpoint_id])
+        @short_uuid = (params[:id].to_s.length == 8) ?
+          params[:id] :
+          Touchpoint.find_by_id(params[:id]).short_uuid
+        @touchpoint = TouchpointCache.fetch(@short_uuid)
+      elsif params[:touchpoint_id]
+        @short_uuid = (params[:touchpoint_id].to_s.length == 8) ?
+          params[:touchpoint_id] :
+          (Touchpoint.find_by_id(params[:touchpoint_id]) && Touchpoint.find_by_id(params[:touchpoint_id]).short_uuid)
+        @touchpoint = TouchpointCache.fetch(@short_uuid)
       end
-      raise InvalidArgument("Touchpoint does not exist") unless @touchpoint
+      raise ActiveRecord::RecordNotFound, "no touchpoint with ID of #{@short_uuid}" unless @touchpoint.present?
     end
 
     def submission_params

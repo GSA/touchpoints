@@ -14,7 +14,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it "renders the body" do
-      expect(mail.body.encoded).to match("Touchpoints.gov Submission Notification")
+      expect(mail.body.encoded).to match("Touchpoints.gov Response Notification")
       expect(mail.body.encoded).to match("New feedback has been submitted to your form, #{submission.touchpoint.name}.")
     end
   end

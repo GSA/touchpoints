@@ -17,8 +17,22 @@ class Touchpoint < ApplicationRecord
 
   after_initialize  :check_expired
 
+  before_save :set_uuid
+
   after_save do |touchpoint|
-    TouchpointCache.invalidate(touchpoint.id)
+    TouchpointCache.invalidate(touchpoint.short_uuid)
+  end
+
+  def self.find_by_short_uuid(short_uuid)
+    where("uuid LIKE ?", "#{short_uuid}%").first
+  end
+
+  def to_param
+    short_uuid
+  end
+
+  def short_uuid
+    uuid[0..7]
   end
 
   def omb_number_with_expiration_date
@@ -298,6 +312,10 @@ class Touchpoint < ApplicationRecord
       self.id ? self.archive! : self.archive
       Event.log_event(Event.names[:touchpoint_archived],"Touchpoint",self.id,"Touchpoint #{self.name} archived on #{Date.today}") if self.id
     end
+  end
+
+  def set_uuid
+    self.uuid = SecureRandom.uuid  if !self.uuid.present?
   end
 
 end

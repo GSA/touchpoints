@@ -62,14 +62,25 @@ RSpec.describe SubmissionsController, type: :controller do
   end
 
   describe "GET #new" do
-    it "returns a success response" do
+    it "returns a success response with a Touchpoint ID" do
       get :new, params: { touchpoint_id: touchpoint.id }, session: valid_session
       expect(response).to be_successful
+    end
+
+    it "returns a success response with a Touchpoint UUID" do
+      get :new, params: { touchpoint_id: touchpoint.short_uuid }, session: valid_session
+      expect(response).to be_successful
+    end
+
+    it "returns a fail response with an invalid Touchpoint UUID" do
+      expect {
+        get :new, params: { touchpoint_id: touchpoint.short_uuid.reverse }, session: valid_session
+      }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
   describe "POST #create" do
-    context "with valid params" do
+    context "with valid params and an ID" do
       it "creates a new Submission" do
         expect {
           post :create, params: {submission: valid_attributes, touchpoint_id: touchpoint.id }, session: valid_session
@@ -78,6 +89,19 @@ RSpec.describe SubmissionsController, type: :controller do
 
       it "redirects to the created submission" do
         post :create, params: { submission: valid_attributes, touchpoint_id: touchpoint.id }, session: valid_session
+        expect(response).to redirect_to(submit_touchpoint_path(touchpoint))
+      end
+    end
+
+    context "with valid param and a UUID" do
+      it "creates a new Submission" do
+        expect {
+          post :create, params: {submission: valid_attributes, touchpoint_id: touchpoint.short_uuid }, session: valid_session
+        }.to change(Submission, :count).by(1)
+      end
+
+      it "redirects to the created submission" do
+        post :create, params: { submission: valid_attributes, touchpoint_id: touchpoint.short_uuid }, session: valid_session
         expect(response).to redirect_to(submit_touchpoint_path(touchpoint))
       end
     end

@@ -10,7 +10,7 @@ class Form < ApplicationRecord
   after_create :create_first_form_section
 
   after_save do |form|
-    TouchpointCache.invalidate(form.touchpoint.id) if form.touchpoint.present?
+    TouchpointCache.invalidate(form.touchpoint.short_uuid) if form.touchpoint.present?
   end
 
   def self.templates

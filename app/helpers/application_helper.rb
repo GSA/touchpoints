@@ -58,4 +58,8 @@ module ApplicationHelper
       "answer_20"
     ]
   end
+
+  def submit_touchpoint_uuid_url(touchpoint)
+    return "#{root_url}touchpoints/#{touchpoint.short_uuid}/submit"
+  end
 end
