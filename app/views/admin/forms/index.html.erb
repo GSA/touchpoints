@@ -3,14 +3,18 @@
   <table class="usa-table">
     <thead>
       <tr>
-        <th>Touchpoint Name</th>
-        <th>Form Name</th>
-        <th style="border: none; background: none;"></th>
+        <th></th>
+        <th>Touchpoint name</th>
+        <th>Form name</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
-      <% @forms.each do |form| %>
+      <% @forms.select { |f| !f.template }.each_with_index do |form, index| %>
       <tr>
+        <td>
+          <%= index + 1 %>
+        </td>
         <td>
           <%= form.touchpoint.name if form.touchpoint.present? %>
           <% if form.template %>
@@ -28,13 +32,56 @@
           <% end %>
         </td>
         <td>
-          <%= link_to 'Copy this Form', copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline" %>
+          <%= link_to copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline" do %>
+            <i class="fa fa-copy"></i>
+            Copy form
+          <% end %>
         </td>
       </tr>
       <% end %>
     </tbody>
   </table>
+  <p>
+    <%= link_to 'New Form', new_admin_form_path, class: "usa-button" %>
+  </p>
 </div>
-<p>
-  <%= link_to 'New Form', new_admin_form_path, class: "usa-button" %>
-</p>
+<div class="form-templates">
+  <div class="grid-row grid-gap-md">
+    <div class="grid-col-8">
+      <h1>
+        Form Templates
+      </h1>
+      <p>
+        Here are some common forms that you can use to get started.
+        Copy the form template you want to use, and edit your copy to suit your needs.
+      </p>
+    </div>
+  </div>
+  <% @forms.select { |f| f.template }.in_groups_of(2, false).each do |forms| %>
+  <div class="grid-row grid-gap-md">
+    <% forms.each do |form| %>
+      <% next unless form.template? %>
+      <div class="grid-col-6">
+        <strong>
+          <%= form.name %>
+        </strong>
+        <p>
+          <%= form.notes %>
+          &nbsp;
+        </p>
+        <br>
+        <div class="grid-row grid-gap-md">
+          <div class="grid-col-6">
+            <%= link_to 'Use this Template', copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline" %>
+          </div>
+          <div class="grid-col-6">
+            <%#= link_to 'Preview Template', copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <br>
+  <br>
+  <% end %>
+<div>

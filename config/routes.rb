@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
   authenticate :user, lambda { |u| u.admin? } do
-    mount Sidekiq::Web => '/sidekiq'
+    mount Sidekiq::Web => '/admin/sidekiq'
   end
 
   match "/404", :to => "errors#not_found", :via => :all
@@ -50,7 +50,7 @@ Rails.application.routes.draw do
         delete "remove_user", to: "touchpoints#remove_user", as: :remove_user
       end
       resources :forms
-      resources :submissions, only: [:new, :show, :create, :destroy] do
+      resources :submissions, only: [:destroy] do
         member do
           post "flag", to: "submissions#flag", as: :flag
           post "unflag", to: "submissions#unflag", as: :unflag
@@ -60,8 +60,7 @@ Rails.application.routes.draw do
     root to: "site#index"
   end
 
-
-
   get "status", to: "site#status", as: :status
-  root to: "site#index"
+  get "index", to: "site#index", as: :index
+  root to: redirect("https://touchpoints.digital.gov/")
 end

@@ -33,14 +33,6 @@ es:
     this_site_is_secure: "Este sitio es seguro."
     https_notes_html: "El <strong>https://</strong> asegura que se está conectando al sitio web oficial y que toda la información que proporciona está encriptada y transmitida de forma segura."
     disclaimer_1: "Este sitio web está actualmente en"
-  site:
-    header: "Bienvenido a %{touchpoints}"
-    definition_html: "Un <strong>%{touchpoint}</strong> es el punto de interacción entre un Cliente y un Proveedor de servicios."
-    list_header: "%{touchpoints} existe para ayudar a las agencias federales:"
-    list_item_1: "Administrar el formulario A-11"
-    list_item_2: "Agilice los informes de objetivos de CX CAP"
-    list_item_3: "Solicitar comentarios abiertos"
-    list_item_4: "Reclutar usuarios para hablar durante el desarrollo de productos y servicios"
   activerecord:
     errors:
       messages:

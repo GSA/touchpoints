@@ -13,22 +13,22 @@ class ApplicationController < ActionController::Base
 
   # Enforce Permissions
   def ensure_user
-    redirect_to(root_path, notice: "Authorization is Required") unless current_user
+    redirect_to(index_path, notice: "Authorization is Required") unless current_user
   end
 
   def ensure_admin
-    redirect_to(root_path, notice: "Authorization is Required") unless admin_permissions?
+    redirect_to(index_path, notice: "Authorization is Required") unless admin_permissions?
   end
 
   def ensure_organization_manager
-    redirect_to(root_path, notice: "Authorization is Required") unless organization_manager_permissions?
+    redirect_to(index_path, notice: "Authorization is Required") unless organization_manager_permissions?
   end
 
   helper_method :ensure_touchpoint_manager
   def ensure_touchpoint_manager(touchpoint:)
     return false unless touchpoint.present?
 
-    redirect_to(root_path, notice: "Authorization is Required") unless touchpoint_permissions?(touchpoint: touchpoint)
+    redirect_to(index_path, notice: "Authorization is Required") unless touchpoint_permissions?(touchpoint: touchpoint)
   end
 
 

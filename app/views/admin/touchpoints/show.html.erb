@@ -57,14 +57,14 @@
             provide assistance in this regard.
           </p>
           <p>
-            A Touchpoint can be shared with a user in a couple ways. Touchpoints hosts
-            Touchpoints via a public URL, where users can access them directly.
-            An Agency can use the public URL in a link on a website, in a customer
-            communication.
+            A Touchpoint can be shared with a user in 2 ways: #1 Touchpoints hosts
+            a form at a public URL, where users can access them directly.
+            An Agency can use the public URL in a link on a website,
+            in a customer communication.
             For example, including the public URL in a CRM follow-up response email.
           </p>
           <p>
-            A Touchpoint can also be embedded on a website via a script tag.
+            Or, #2 A Touchpoint can also be embedded on a website via a script tag.
             An embedded Touchpoint displays a tab and pops a modal by default; though,
             it is customizable to a certain extent.
           </p>
@@ -87,7 +87,7 @@
             This is where the public can access your form.
           </p>
           <p>
-            <%= link_to submit_touchpoint_url(@touchpoint), submit_touchpoint_url(@touchpoint) %>
+            <%= link_to submit_touchpoint_uuid_url(@touchpoint), submit_touchpoint_uuid_url(@touchpoint) %>
           </p>
           <% if @touchpoint.delivery_method == "modal" || @touchpoint.delivery_method == "inline" || @touchpoint.delivery_method == "custom-button-modal" %>
             <strong>
@@ -350,7 +350,7 @@
             Touchpoint Manager
           </strong>
           <br>
-          Can create, edit, and activate a form + Submission Viewer permissions
+          Can create, edit, and activate a form + Response Viewer permissions
         </p>
         <p>
           <strong>
@@ -383,7 +383,7 @@
               <tr data-user-id="<%= user.id %>">
                 <td>
                   <% friendly_roles = {
-                    "submission_viewer" => "Submission Viewer",
+                    "submission_viewer" => "Response Viewer",
                     "touchpoint_manager" => "Touchpoint Manager"
                   }
                   %>
@@ -436,7 +436,7 @@
             User name
           </strong>
           <br>
-          <%= select_tag :role, options_for_select([ ["Touchpoint Manager", "touchpoint_manager"], ["Submission Viewer", "submission_viewer"] ]), prompt: "Select a Role", id: "add-user-role", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
+          <%= select_tag :role, options_for_select([ ["Touchpoint Manager", "touchpoint_manager"], ["Response Viewer", "submission_viewer"] ]), prompt: "Select a Role", id: "add-user-role", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
           <br>
           <br>
           <button type="button" class="usa-button" name="button" id="add-user-button">Add User</button>
@@ -494,7 +494,7 @@
       var role = $("#add-user-role").val();
 
       var request = $.ajax({
-        url: "/admin/touchpoints/<%= @touchpoint.id %>/add_user",
+        url: "/admin/touchpoints/<%= @touchpoint.short_uuid %>/add_user",
         dataType: "json",
         method: "POST",
         data: {
@@ -523,7 +523,7 @@
       var userId = $(this).attr("data-id");
 
       var request = $.ajax({
-        url: "/admin/touchpoints/<%= @touchpoint.id %>/remove_user",
+        url: "/admin/touchpoints/<%= @touchpoint.short_uuid %>/remove_user",
         dataType: "json",
         method: "DELETE",
         data: { user_id : userId }
