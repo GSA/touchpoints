@@ -7,6 +7,8 @@ class Form < ApplicationRecord
   validates :name, presence: true
   validates_length_of :disclaimer_text, in: 0..500, allow_blank: true
 
+  before_save :set_uuid
+
   after_create :create_first_form_section
 
   after_save do |form|
@@ -54,6 +56,10 @@ class Form < ApplicationRecord
     end
 
     return new_form
+  end
+
+  def set_uuid
+    self.uuid = SecureRandom.uuid  if !self.uuid.present?
   end
 
 end

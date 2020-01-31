@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_16_155307) do
+ActiveRecord::Schema.define(version: 2020_01_31_221046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,14 @@ ActiveRecord::Schema.define(version: 2020_01_16_155307) do
     t.boolean "early_submission", default: false
     t.integer "user_id"
     t.boolean "template", default: false
+    t.string "notification_emails"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string "uuid"
+    t.string "aasm_state"
+    t.string "delivery_method"
+    t.string "element_selector"
+    t.index ["uuid"], name: "index_forms_on_uuid"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -63,6 +71,25 @@ ActiveRecord::Schema.define(version: 2020_01_16_155307) do
     t.integer "external_id"
     t.string "domain"
     t.string "logo"
+  end
+
+  create_table "pra_records", force: :cascade do |t|
+    t.integer "form_id"
+    t.string "omb_approval_number"
+    t.date "expiration_date"
+    t.string "medium"
+    t.string "federal_register_url"
+    t.integer "anticipated_delivery_count", default: 0
+    t.boolean "hisp", default: false
+    t.string "service_name"
+    t.text "data_submission_comment"
+    t.string "survey_instrument_reference"
+    t.string "agency_poc_email"
+    t.string "agency_poc_name"
+    t.string "department"
+    t.string "bureau"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "question_options", force: :cascade do |t|
