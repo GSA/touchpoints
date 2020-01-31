@@ -20,11 +20,8 @@ feature "Touchpoints", js: true do
         before "user creates a Touchpoint" do
           visit new_admin_touchpoint_path
           fill_in("touchpoint[name]", with: "Test Touchpoint")
-          fill_in("touchpoint[purpose]", with: "Compliance")
           fill_in("touchpoint[expiration_date]", with: future_date.strftime("%m/%d/%Y"))
           fill_in("touchpoint[omb_approval_number]", with: "12345")
-          fill_in("touchpoint[meaningful_response_size]", with: 50)
-          fill_in("touchpoint[behavior_change]", with: "to be determined")
           fill_in("touchpoint[notification_emails]", with: "admin@example.gov")
           click_button "Create Touchpoint"
         end
@@ -124,10 +121,7 @@ feature "Touchpoints", js: true do
           fill_in("touchpoint[name]", with: "Test Touchpoint")
           fill_in("touchpoint[omb_approval_number]", with: 1234)
           fill_in("touchpoint[expiration_date]", with: future_date.strftime("%m/%d/%Y"))
-          fill_in("touchpoint[meaningful_response_size]", with: 50)
           fill_in("touchpoint[notification_emails]", with: "admin@example.gov")
-          fill_in("touchpoint[purpose]", with: "Compliance")
-          fill_in("touchpoint[behavior_change]", with: "to be determined")
           click_button "Create Touchpoint"
         end
 
@@ -137,10 +131,6 @@ feature "Touchpoints", js: true do
           expect(page.current_path).to eq(admin_touchpoint_path(@touchpoint))
           expect(page).to have_content("Test Touchpoint")
           expect(page).to have_content("1234")
-          expect(page).to have_content("50")
-          expect(page).to have_content("1234")
-          expect(page).to have_content("Compliance")
-          expect(page).to have_content("to be determined")
           expect(page).to have_content("Notification emails")
           expect(page).to have_content("admin@example.gov")
         end

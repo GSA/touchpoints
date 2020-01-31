@@ -211,38 +211,6 @@
           <%= @touchpoint.element_selector %>
         </p>
       </div>
-      <div>
-        <h2>
-          Customer Experience Notes
-        </h2>
-        <p>
-          <strong>Purpose</strong>
-          <br>
-          <% if @touchpoint.behavior_change? %>
-          <%= @touchpoint.purpose %>
-          <% else %>
-          Not specified.
-          <% end %>
-        </p>
-        <p>
-          <strong>Meaningful response size</strong>
-          <br>
-          <% if @touchpoint.meaningful_response_size? %>
-          <%= @touchpoint.meaningful_response_size %>
-          <% else %>
-          Not specified.
-          <% end %>
-        </p>
-        <p>
-          <strong>Behavior change</strong>
-          <br>
-          <% if @touchpoint.behavior_change? %>
-          <%= @touchpoint.behavior_change %>
-          <% else %>
-          Not specified.
-          <% end %>
-        </p>
-      </div>
     </div>
   </div>
   <hr>
