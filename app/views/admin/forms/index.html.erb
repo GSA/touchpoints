@@ -1,5 +1,6 @@
 <div class="well">
   <h1>Forms</h1>
+  <% if @forms.select { |f| !f.template }.present? %>
   <table class="usa-table">
     <thead>
       <tr>
@@ -41,6 +42,9 @@
       <% end %>
     </tbody>
   </table>
+  <% else %>
+    Get started by creating a form.
+  <% end %>
   <p>
     <%= link_to 'New Form', new_admin_form_path, class: "usa-button" %>
   </p>
