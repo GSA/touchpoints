@@ -150,12 +150,7 @@ ActiveRecord::Schema.define(version: 2020_01_31_221046) do
 
   create_table "touchpoints", force: :cascade do |t|
     t.string "name", null: false
-    t.boolean "enable_google_sheets", default: false
-    t.string "google_sheet_id"
     t.integer "form_id"
-    t.text "purpose"
-    t.integer "meaningful_response_size"
-    t.text "behavior_change"
     t.string "notification_emails"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

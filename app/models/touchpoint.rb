@@ -11,7 +11,6 @@ class Touchpoint < ApplicationRecord
   validates :name, presence: true
   validates :delivery_method, presence: true
   validates :anticipated_delivery_count, numericality: true, allow_nil: true
-  validates :meaningful_response_size, numericality: true, allow_nil: true
 
   validate :omb_number_with_expiration_date
 
