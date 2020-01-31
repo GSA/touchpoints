@@ -478,7 +478,7 @@
 </div>
 <hr>
 <div>
-  <% @submissions = @touchpoint.submissions %>
+  <% @submissions = @touchpoint.submissions.order("created_at ASC") %>
   <%= render file: "admin/submissions/index" %>
 </div>
 <br>
