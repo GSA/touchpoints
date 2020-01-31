@@ -189,7 +189,7 @@
       <p>
         <strong>
           <span title="High Impact Service Provider">HISP</span>
-          Service?
+          service?
         </strong>
         <br>
         <%= @touchpoint.hisp? ? "Yes ✅" : "No" %>
@@ -198,15 +198,15 @@
     <div class="tablet:grid-col-4">
       <div>
         <h2>
-          Delivery Method
+          Delivery method
         </h2>
         <p>
-          <strong>Delivery Method</strong>
+          <strong>Delivery method</strong>
           <br>
           <%= @touchpoint.delivery_method %>
         </p>
         <p>
-          <strong>Element Selector</strong>
+          <strong>Element selector</strong>
           <br>
           <%= @touchpoint.element_selector %>
         </p>
@@ -259,27 +259,27 @@
     <div class="tablet:grid-col-4">
       <div>
         <p>
-          <strong>Service Name</strong>
+          <strong>Service # NOTE: ame</strong>
           <br>
           <%= @touchpoint.service_name %>
         </p>
         <p>
-          <strong>Data Submission Comment</strong>
+          <strong>Data submission comment</strong>
           <br>
           <%= @touchpoint.data_submission_comment %>
         </p>
         <p>
-          <strong>Survey Instrument Reference</strong>
+          <strong>Survey instrument reference</strong>
           <br>
           <%= @touchpoint.survey_instrument_reference %>
         </p>
         <p>
-          <strong>Agency Point of Contact Email</strong>
+          <strong>Agency point of contact email</strong>
           <br>
           <%= @touchpoint.agency_poc_email %>
         </p>
         <p>
-          <strong>Agency Point of Contact Name</strong>
+          <strong>Agency point of contact name</strong>
           <br>
           <%= @touchpoint.agency_poc_name %>
         </p>
@@ -297,7 +297,7 @@
     </div>
     <div class="tablet:grid-col-4">
       <p>
-        <strong>OMB Approval #</strong>
+        <strong>OMB approval #</strong>
         <%= @touchpoint.omb_approval_number %>
       </p>
       <p>
@@ -306,22 +306,22 @@
         <%= @touchpoint.federal_register_url %>
       </p>
       <p>
-        <strong>Medium of Delivery</strong>
+        <strong>Medium of delivery</strong>
         <br>
         <%= @touchpoint.medium %>
       </p>
       <p>
-        <strong>Anticipated Delivery Count</strong>
+        <strong>Anticipated delivery count</strong>
         <br>
         <%= @touchpoint.anticipated_delivery_count %>
       </p>
       <p>
-        <strong>Survey Form Activations</strong>
+        <strong>Survey form activations</strong>
         <br>
         <%= @touchpoint.survey_form_activations %>
       </p>
       <p>
-        <strong>Expiration Date</strong>
+        <strong>Expiration date</strong>
         <br>
         <%= @touchpoint.expiration_date %>
       </p>
@@ -343,21 +343,21 @@
     <div>
       <div class="roles-and-permissions">
         <p>
-          Manage permissions for users in your Organization.
+          Manage permissions for users in your organization.
         </p>
         <p>
           <strong>
             Touchpoint Manager
           </strong>
           <br>
-          Can create, edit, and activate a form + Response Viewer permissions
+          Can create, edit, and activate a form + Response Viewer permissions.
         </p>
         <p>
           <strong>
-            Submission Viewer
+            Response Viewer
           </strong>
           <br>
-          Can view form submissions and export responses
+          Can view form submissions and export responses.
         </p>
         <% if flash && ["User successfully added", "User successfully removed"].include?(flash.notice) %>
         <%= render 'components/flash', flash: flash %>
@@ -426,14 +426,14 @@
         <% if @available_members.present? %>
         <div>
           <strong>
-            Role
+            User
           </strong>
           <br>
           <%= select_tag :add_user_id, options_for_select(@available_members.map { |user| [user.email, user.id] }), prompt: "Which User?", id: "add-user-id", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
           <br>
           <br>
           <strong>
-            User name
+            Role
           </strong>
           <br>
           <%= select_tag :role, options_for_select([ ["Touchpoint Manager", "touchpoint_manager"], ["Response Viewer", "submission_viewer"] ]), prompt: "Select a Role", id: "add-user-role", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
@@ -517,7 +517,7 @@
       }
     });
 
-    // Remove a Touchpoint Manager or Submission Viewer User
+    // Remove a Touchpoint Manager or Response Viewer User
     $(".remove-user").on("click", function(e) {
       e.preventDefault();
       var userId = $(this).attr("data-id");
