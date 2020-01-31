@@ -30,7 +30,7 @@
         <tr title="Response ID <%= submission.id %>">
         <% @touchpoint.form.questions.each do |question| %>
           <td>
-            <%= sanitize(submission.send(question.answer_field.to_sym)).truncate(160) %>
+            <%= sanitize(submission.send(question.answer_field.to_sym)).to_s.truncate(160) %>
           </td>
         <% end %>
           <td><%= submission.created_at %></td>
