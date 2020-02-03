@@ -27,12 +27,8 @@ class SubmissionsController < ApplicationController
       (@touchpoint.form.whitelist_url.present? ? !request.referer.start_with?(@touchpoint.form.whitelist_url) : true) &&
       # is not from the Form's test whitelist URL
       (@touchpoint.form.whitelist_test_url.present? ? !request.referer.start_with?(@touchpoint.form.whitelist_test_url) : true) &&
-      # is not from either form (ID or UUID) of the public Touchpoints page
-      !request.referer.start_with?(submit_touchpoint_url(@touchpoint)) &&
-      !request.referer.start_with?(submit_touchpoint_url(@touchpoint.short_uuid)) &&
-
-      # is not from the example Touchpoints page
-      !request.referer.start_with?(example_admin_touchpoint_url(@touchpoint)) &&
+      # is not from the Touchpoints app
+      !request.referer.start_with?(root_url) &&
       # is not from the Organization URL
       !request.referer.start_with?(@touchpoint.organization.url)
 

@@ -34,7 +34,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     # Else, if valid email and no user, we create an account.
     if !@user.errors.present?
       sign_in_and_redirect(:user, @user)
-      set_flash_message(:notice, :success, kind: @kind)
     elsif @user.errors.present?
       redirect_to index_path, alert: @user.errors.full_messages.join(",")
     # else

@@ -5,7 +5,7 @@
       <tr>
         <th>Abbreviation</th>
         <th>Name</th>
-        <th>Url</th>
+        <th>URL</th>
       </tr>
     </thead>
     <tbody>
@@ -13,7 +13,9 @@
         <tr>
           <td><%= organization.abbreviation %></td>
           <td><%= link_to organization.name, admin_organization_path(organization) %></td>
-          <td><%= organization.url %></td>
+          <td>
+            <%= link_to organization.url, organization.url, target: "_blank", rel: "noopener" %>
+          </td>
         </tr>
       <% end %>
     </tbody>

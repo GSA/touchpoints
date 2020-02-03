@@ -221,9 +221,6 @@ touchpoint_1 = Touchpoint.create!({
   form: open_ended_form,
   delivery_method: "touchpoints-hosted-only",
   name: "Open-ended Feedback",
-  purpose: "Soliciting feedback",
-  meaningful_response_size: 30,
-  behavior_change: "Looking for opportunities to improve",
   notification_emails: "ryan.wold@gsa.gov",
   aasm_state: "live"
 })
@@ -238,9 +235,6 @@ touchpoint_2 = Touchpoint.create!({
   form: recruiter_form,
   delivery_method: "touchpoints-hosted-only",
   name: "Recruiter",
-  purpose: "Improving Customer Experience with proactive research and service",
-  meaningful_response_size: 100,
-  behavior_change: "We will use the this feedback to inform Product and Program decisions",
   notification_emails: "ryan.wold@gsa.gov",
   aasm_state: "live"
 })
@@ -256,9 +250,6 @@ touchpoint_3 = Touchpoint.create!({
   delivery_method: "touchpoints-hosted-only",
   name: "A11 - 7 question test",
   hisp: true,
-  purpose: "CX",
-  meaningful_response_size: 100,
-  behavior_change: "Better customer service",
   aasm_state: "live"
 })
 UserRole.create(
@@ -272,9 +263,6 @@ touchpoint_4 = Touchpoint.create!({
   form: open_ended_form_with_contact_information,
   delivery_method: "touchpoints-hosted-only",
   name: "A11 - 7 question test - DB",
-  purpose: "CX",
-  meaningful_response_size: 100,
-  behavior_change: "Better customer service",
   notification_emails: "ryan.wold@gsa.gov",
   aasm_state: "live"
 })

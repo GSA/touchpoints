@@ -1,4 +1,5 @@
 <div class="well">
+  <%= link_to 'Edit user', edit_admin_user_path(@user), class: "usa-button float-right" %>
   <h1>
     Viewing a User
   </h1>
@@ -12,9 +13,6 @@
   Email: <%= link_to @user.email, "mailto:#{@user.email}" %>
   <br>
   Organization: <%= @user.organization ? link_to(@user.organization.name, admin_organization_path(@user.organization)) : "Undefined" %>
-  <p>
-    <%= link_to 'Edit', edit_admin_user_path(@user), class: "usa-button" %>
-  </p>
 </div>
 <div class="well">
   <h4>
