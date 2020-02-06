@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_16_155307) do
+ActiveRecord::Schema.define(version: 2020_01_31_205419) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -123,12 +123,7 @@ ActiveRecord::Schema.define(version: 2020_01_16_155307) do
 
   create_table "touchpoints", force: :cascade do |t|
     t.string "name", null: false
-    t.boolean "enable_google_sheets", default: false
-    t.string "google_sheet_id"
     t.integer "form_id"
-    t.text "purpose"
-    t.integer "meaningful_response_size"
-    t.text "behavior_change"
     t.string "notification_emails"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

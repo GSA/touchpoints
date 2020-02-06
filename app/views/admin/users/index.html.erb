@@ -5,7 +5,7 @@
     <thead>
       <tr>
         <th>Admin</th>
-        <th>Org Manager</th>
+        <th>Org mgr</th>
         <th>Email</th>
         <th>Organization Name</th>
         <th></th>
@@ -15,8 +15,8 @@
     <tbody>
       <% @users.each do |user| %>
         <tr>
-          <td><%= user.admin? ? '✅' : nil %></td>
-          <td><%= user.organization_manager? ? '✅' : nil %></td>
+          <td class="text-center"><%= user.admin? ? '✅' : nil %></td>
+          <td class="text-center"><%= user.organization_manager? ? '✅' : nil %></td>
           <td><%= link_to user.email, admin_user_path(user) %></td>
           <td><%= user.organization ? user.organization.name : nil %></td>
           <td><%= link_to 'Edit', edit_admin_user_path(user) %></td>

@@ -15,7 +15,6 @@
         <% @touchpoint.form.questions.each do |question| %>
           <th><%= question.text %></th>
         <% end %>
-          <th>Language</th>
           <th>
             Created At
           </th>
@@ -31,10 +30,9 @@
         <tr title="Response ID <%= submission.id %>">
         <% @touchpoint.form.questions.each do |question| %>
           <td>
-            <%= sanitize(submission.send(question.answer_field.to_sym)) %>
+            <%= sanitize(submission.send(question.answer_field.to_sym)).to_s.truncate(160) %>
           </td>
         <% end %>
-          <td><%= submission.language %></td>
           <td><%= submission.created_at %></td>
           <td style="border-right: none;">
             <% if submission.flagged? %>
