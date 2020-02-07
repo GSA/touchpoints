@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Touchpoint, type: :model do
-  let!(:touchpoint) { FactoryBot.create(:touchpoint, :with_form) }
+  let(:organization) { FactoryBot.create(:organization) }
+  let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
+  let(:form) { FactoryBot.create(:form, organization: organization, user: admin)}
+  let(:touchpoint) { FactoryBot.create(:touchpoint, organization: organization, form: form) }
 
   describe "validate state transitions" do
 

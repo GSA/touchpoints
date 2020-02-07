@@ -1,13 +1,13 @@
-<% if touchpoint && (touchpoint.form.disclaimer_text?) %>
+<% if form && form.disclaimer_text? %>
 <div class="touchpoints-form-disclaimer">
   <hr style="border: none; border-top: 1px solid #E5E5E5;">
   <div class="grid-container">
     <div class="grid-row">
       <div class="grid-col-12">
-        <% if touchpoint.form.disclaimer_text? %>
+        <% if form.disclaimer_text? %>
           <p>
             <small id="fba-dialog-privacy">
-            <%= touchpoint.form.disclaimer_text.html_safe %>
+            <%= form.disclaimer_text.html_safe %>
             </small>
           </p>
           <br>
@@ -30,14 +30,14 @@
           <%= t 'powered_by' %>
           <a href="<%= root_url %>" target="_blank" rel="noopener"><%= t 'touchpoints' %></a>.
           <br>
-          <% if touchpoint.present? %>
-            <% if touchpoint.omb_approval_number.present? %>
-            OMB Approval #<span class="omb-approval-number"><%= touchpoint.omb_approval_number %></span>
+          <% if form.present? %>
+            <% if form.omb_approval_number.present? %>
+            OMB Approval #<span class="omb-approval-number"><%= form.omb_approval_number %></span>
             <% end %>
 
-            <% if touchpoint.expiration_date? %>
+            <% if form.expiration_date? %>
             &middot;
-            Expiration Date <%= touchpoint.expiration_date.strftime("%m/%d/%Y") %>
+            Expiration Date <%= form.expiration_date.strftime("%m/%d/%Y") %>
             <% end %>
           <% end %>
         </p>

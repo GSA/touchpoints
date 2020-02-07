@@ -2,7 +2,10 @@ require 'rails_helper'
 
 RSpec.describe TouchpointCache, type: :model do
 
-  let!(:touchpoint) { FactoryBot.create(:touchpoint, :with_form) }
+  let(:organization) { FactoryBot.create(:organization) }
+  let(:user) { FactoryBot.create(:user, organization: organization) }
+  let(:form) { FactoryBot.create(:form, organization: organization, user: user)}
+  let!(:touchpoint) { FactoryBot.create(:touchpoint, organization: organization, form: form) }
 
   describe "validate cache fetch" do
     context "Store and Fetch Touchpoint" do

@@ -3,6 +3,7 @@ module Seeds
     def self.a11
       # Create the A11 Form
       a11_form = Form.create({
+        organization: Organization.first,
         template: true,
         kind:  "a11",
         notes: "Standard A-11 Form in support of the CX CAP Goal",
@@ -12,7 +13,8 @@ module Seeds
         instructions: "",
         disclaimer_text: "Disclaimer Text Goes Here",
         success_text: "Thank you for your response 🎉",
-        early_submission: true
+        early_submission: true,
+        delivery_method: "modal"
       })
       # Create Page 2
       a11_form.form_sections.create(title: "Page 2", position: 2)

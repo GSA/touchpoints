@@ -1,11 +1,11 @@
 <div class="grid-row">
   <div class="grid-col-12">
     <h2 class="justify-vertical">
-      <% if form.display_header_logo && (form.touchpoint && form.touchpoint.organization.logo.present?) %>
-        <%= image_tag(form.touchpoint.organization.logo.tag.url, alt: "Organization logo", class: "form-header-logo") %>
+      <% if form.display_header_logo && (form.organization.logo.present?) %>
+        <%= image_tag(form.organization.logo.tag.url, alt: "Organization logo", class: "form-header-logo") %>
       <% end %>
-      <% if form.display_header_square_logo && (form.touchpoint && form.touchpoint.organization.logo.present?) %>
-        <%= image_tag(form.touchpoint.organization.logo.logo_square.url, alt: "Organization logo", class: "form-header-logo-square") %>
+      <% if form.display_header_square_logo && (form.touchpoint && form.organization.logo.present?) %>
+        <%= image_tag(form.organization.logo.logo_square.url, alt: "Organization logo", class: "form-header-logo-square") %>
       <% end %>
       <%= form.title %>
     </h2>
@@ -15,7 +15,7 @@
       </p>
     <% end %>
     <%= render 'components/forms/flash' %>
-    <%= render partial: "components/forms/custom", locals: { touchpoint: @touchpoint, form: form, questions: form.questions } %>
+    <%= render partial: "components/forms/custom", locals: { form: form, questions: form.questions } %>
   </div>
 </div>
-<%= render partial: 'components/forms/footer', locals: { touchpoint: @touchpoint } %>
+<%= render partial: 'components/forms/footer', locals: { form: form } %>

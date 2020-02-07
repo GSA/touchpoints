@@ -6,11 +6,13 @@ class UserRole < ApplicationRecord
   validates :role, presence: true
 
   module Role
+    FormManager = "form_manager"
     TouchpointManager = "touchpoint_manager"
     SubmissionViewer = "submission_viewer"
   end
 
   ROLES = [
+    UserRole::Role::FormManager,
     UserRole::Role::TouchpointManager,
     UserRole::Role::SubmissionViewer
   ]

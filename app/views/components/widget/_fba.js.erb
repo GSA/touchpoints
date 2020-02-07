@@ -2,7 +2,7 @@
 
 (function ( d, N ) { 'use strict';
 N.fba = {
-	css: '<%= escape_javascript(render partial: "components/widget/widget.css", locals: { touchpoint: touchpoint }) %>',
+	css: '<%= escape_javascript(render partial: "components/widget/widget.css", locals: { form: form }) %>',
 
 	// enable Javascript experience
 	javscriptIsEnabled: function()
@@ -24,7 +24,7 @@ N.fba = {
 		this.loadCss();
 		this.loadHtml();
 		<% unless (local_assigns.has_key?(:suppress_ui) && suppress_ui) -%>
-			<% if touchpoint.delivery_method == "modal" -%>
+			<% if form.delivery_method == "modal" -%>
 				this.loadButton();
 			<% end %>
 		<% end %>
@@ -56,28 +56,28 @@ N.fba = {
 			this.dialogEl.setAttribute('role', 'dialog');
 
 		<%# inject the form interface for inline %>
-		<% if touchpoint.delivery_method == "inline" %>
-			<% if touchpoint.element_selector? %>
-			if(d.getElementById('<%= touchpoint.element_selector %>') != null) {
-				d.getElementById('<%= touchpoint.element_selector %>').innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { touchpoint: touchpoint }) %>";
+		<% if form.delivery_method == "inline" %>
+			<% if form.element_selector? %>
+			if(d.getElementById('<%= form.element_selector %>') != null) {
+				d.getElementById('<%= form.element_selector %>').innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
 				d.body.appendChild(this.dialogEl);
 			}
 			<% end %>
 		<% end %>
 
 		<%# inject the form interface for modal and custom-button-modal %>
-		<% if touchpoint.delivery_method == "modal" || touchpoint.delivery_method == "custom-button-modal" %>
-			this.dialogEl.innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { touchpoint: touchpoint }) %>";
+		<% if form.delivery_method == "modal" || form.delivery_method == "custom-button-modal" %>
+			this.dialogEl.innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
 			d.body.appendChild(this.dialogEl);
 
 			d.getElementById('fba-modal-close').addEventListener('click', this.handleDialogClose, false);
 		<% end %>
 
 		<%# add button behaviors for custom-button-modal %>
-		<% if touchpoint.delivery_method == "custom-button-modal" %>
-			<% if touchpoint.element_selector? %>
-			if(d.getElementById('<%= touchpoint.element_selector %>') != null) {
-				d.getElementById('<%= touchpoint.element_selector %>').addEventListener('click', this.handleButtonClick, false);
+		<% if form.delivery_method == "custom-button-modal" %>
+			<% if form.element_selector? %>
+			if(d.getElementById('<%= form.element_selector %>') != null) {
+				d.getElementById('<%= form.element_selector %>').addEventListener('click', this.handleButtonClick, false);
 			}
 			<% end %>
 		<% end %>
@@ -99,12 +99,12 @@ N.fba = {
 			alertErrorElementBody.innerHTML = "";
 		},
 		handleClick: function(e) {
-		<% if touchpoint.delivery_method == "modal" %>
+		<% if form.delivery_method == "modal" %>
 			if (N.fba.dialogOpen && !e.target.closest('#fba-button') && !e.target.closest('#fba-modal-dialog')) {
 				N.fba.closeDialog();
 			}
-		<% elsif touchpoint.delivery_method == "custom-button-modal" %>
-			if (N.fba.dialogOpen && !e.target.closest('#' + '<%= touchpoint.element_selector %>') && !e.target.closest('#fba-modal-dialog')) {
+		<% elsif form.delivery_method == "custom-button-modal" %>
+			if (N.fba.dialogOpen && !e.target.closest('#' + '<%= form.element_selector %>') && !e.target.closest('#fba-modal-dialog')) {
 				N.fba.closeDialog();
 			}
 		<% end %>
@@ -232,7 +232,7 @@ N.fba = {
 			var alertElementBody = document.getElementsByClassName("usa-alert__text")[0];
 
 			// Display success Message
-			alertElementBody.innerHTML += "<%= @touchpoint.form.success_text %>";
+			alertElementBody.innerHTML += "<%= form.success_text %>";
 			alertElement.style.display = "block";
 
 			// Hide Form Elements
@@ -320,7 +320,7 @@ N.fba = {
 			// for each form question
 			var params = {
 			<%# Dynamically write the Form parameters for Custom Forms %>
-			<% @touchpoint.form.questions.each do |question| %>
+			<% form.questions.each do |question| %>
 				<%= question.answer_field %>:
 				<%= raw question_type_javascript_params(question) %>,
 			<% end %>
@@ -343,7 +343,7 @@ N.fba = {
 	};
 }( document, window ));
 
-var tabText = "<%= @touchpoint.form.modal_button_text %>";
+var tabText = "<%= form.modal_button_text %>";
 
 fba.init({
 	'open': tabText

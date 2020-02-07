@@ -1,14 +1,14 @@
 class SubmissionsController < ApplicationController
   protect_from_forgery only: []
-  before_action :set_touchpoint, only: [:new, :create]
+  before_action :set_form, only: [:new, :create]
 
   layout 'public', only: :new
 
   def new
-    unless @touchpoint.deployable_touchpoint?
-      redirect_to index_path, alert: "Touchpoint is not yet deployable."
+    unless @form.deployable_form?
+      redirect_to index_path, alert: "Form is not yet deployable."
     end
-    @touchpoint.update_attribute(:survey_form_activations, @touchpoint.survey_form_activations += 1)
+    @form.update_attribute(:survey_form_activations, @form.survey_form_activations += 1)
     @submission = Submission.new
     # set location code in the form based on `?location_code=`
     @submission.location_code = params[:location_code]
@@ -20,17 +20,17 @@ class SubmissionsController < ApplicationController
     headers['Access-Control-Request-Method'] = '*'
     headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
 
-    # Prevent the Submission if this is a published Touchpoint and if:
-    if @touchpoint &&
+    # Prevent the Submission if this is a published Form and if:
+    if @form &&
       request.referer &&
       # is not from the Form's whitelist URL
-      (@touchpoint.form.whitelist_url.present? ? !request.referer.start_with?(@touchpoint.form.whitelist_url) : true) &&
+      (@form.whitelist_url.present? ? !request.referer.start_with?(@form.whitelist_url) : true) &&
       # is not from the Form's test whitelist URL
-      (@touchpoint.form.whitelist_test_url.present? ? !request.referer.start_with?(@touchpoint.form.whitelist_test_url) : true) &&
+      (@form.whitelist_test_url.present? ? !request.referer.start_with?(@form.whitelist_test_url) : true) &&
       # is not from the Touchpoints app
       !request.referer.start_with?(root_url) &&
       # is not from the Organization URL
-      !request.referer.start_with?(@touchpoint.organization.url)
+      !request.referer.start_with?(@form.organization.url)
 
       render json: {
         status: :unprocessable_entity,
@@ -39,7 +39,7 @@ class SubmissionsController < ApplicationController
     end
 
     @submission = Submission.new(submission_params)
-    @submission.touchpoint = @touchpoint
+    @submission.form = @form
     @submission.user_agent = request.user_agent
     @submission.referer = submission_params[:referer]
     @submission.page = submission_params[:page]
@@ -55,7 +55,7 @@ class SubmissionsController < ApplicationController
       respond_to do |format|
         if submission.save
           format.html {
-            redirect_to submit_touchpoint_path(submission.touchpoint), notice: 'Thank You. Response was submitted successfully.' }
+            redirect_to submit_touchpoint_path(submission.form.short_uuid), notice: 'Thank You. Response was submitted successfully.' }
           format.json {
             render json: {
               submission: {
@@ -64,9 +64,9 @@ class SubmissionsController < ApplicationController
                 last_name: submission.answer_02,
                 email: submission.answer_03,
                 phone_number: submission.answer_04,
-                touchpoint: {
-                  id: submission.touchpoint.uuid,
-                  name: submission.touchpoint.name,
+                form: {
+                  id: submission.form.uuid,
+                  name: submission.form.name,
                   organization_name: submission.organization_name
                 }
               }
@@ -86,23 +86,27 @@ class SubmissionsController < ApplicationController
       end
     end
 
-    def set_touchpoint
-      if params[:touchpoint] # coming from /touchpoints/:id/submit
+    def set_form
+      if params[:form] # coming from /touchpoints/:id/submit
         @short_uuid = (params[:id].to_s.length == 8) ?
           params[:id] :
-          Touchpoint.find_by_id(params[:id]).short_uuid
-        @touchpoint = TouchpointCache.fetch(@short_uuid)
+          Form.find_by_id(params[:id]).short_uuid
+      elsif params[:form_id]
+        @short_uuid = (params[:form_id].to_s.length == 8) ?
+          params[:form_id] :
+          (Form.find_by_uuid(params[:form_id]) || Form.find_by_id(params[:form_id]).short_uuid)
       elsif params[:touchpoint_id]
         @short_uuid = (params[:touchpoint_id].to_s.length == 8) ?
           params[:touchpoint_id] :
-          (Touchpoint.find_by_id(params[:touchpoint_id]) && Touchpoint.find_by_id(params[:touchpoint_id]).short_uuid)
-        @touchpoint = TouchpointCache.fetch(@short_uuid)
+          (Form.find_by_legacy_touchpoints_uuid(params[:touchpoint_id]) || Form.find_by_legacy_touchpoints_id(params[:touchpoint_id]).short_uuid || Form.find_by_uuid(params[:form_id]) || Form.find_by_id(params[:form_id]).short_uuid)
       end
-      raise ActiveRecord::RecordNotFound, "no touchpoint with ID of #{@short_uuid}" unless @touchpoint.present?
+
+      @form = FormCache.fetch(@short_uuid)
+      raise ActiveRecord::RecordNotFound, "no form with ID of #{@short_uuid}" unless @form.present?
     end
 
     def submission_params
-      permitted_fields = @touchpoint.form.questions.collect(&:answer_field)
+      permitted_fields = @form.questions.collect(&:answer_field)
       permitted_fields << [:language, :location_code, :referer, :page]
       params.require(:submission).permit(permitted_fields)
     end

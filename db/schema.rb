@@ -53,13 +53,32 @@ ActiveRecord::Schema.define(version: 2020_01_31_221046) do
     t.boolean "early_submission", default: false
     t.integer "user_id"
     t.boolean "template", default: false
+    t.string "uuid"
+    t.integer "organization_id"
+    t.boolean "hisp"
+    t.string "omb_approval_number"
+    t.date "expiration_date"
+    t.string "medium"
+    t.string "federal_register_url"
+    t.integer "anticipated_delivery_count"
+    t.string "service_name"
+    t.text "data_submission_comment"
+    t.string "survey_instrument_reference"
+    t.string "agency_poc_email"
+    t.string "agency_poc_name"
+    t.string "department"
+    t.string "bureau"
     t.string "notification_emails"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.string "uuid"
     t.string "aasm_state"
     t.string "delivery_method"
     t.string "element_selector"
+    t.integer "survey_form_activations", default: 0
+    t.integer "legacy_touchpoint_id"
+    t.string "legacy_touchpoint_uuid"
+    t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
+    t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["uuid"], name: "index_forms_on_uuid"
   end
 
@@ -71,25 +90,6 @@ ActiveRecord::Schema.define(version: 2020_01_31_221046) do
     t.integer "external_id"
     t.string "domain"
     t.string "logo"
-  end
-
-  create_table "pra_records", force: :cascade do |t|
-    t.integer "form_id"
-    t.string "omb_approval_number"
-    t.date "expiration_date"
-    t.string "medium"
-    t.string "federal_register_url"
-    t.integer "anticipated_delivery_count", default: 0
-    t.boolean "hisp", default: false
-    t.string "service_name"
-    t.text "data_submission_comment"
-    t.string "survey_instrument_reference"
-    t.string "agency_poc_email"
-    t.string "agency_poc_name"
-    t.string "department"
-    t.string "bureau"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "question_options", force: :cascade do |t|
@@ -115,7 +115,7 @@ ActiveRecord::Schema.define(version: 2020_01_31_221046) do
   end
 
   create_table "submissions", force: :cascade do |t|
-    t.integer "touchpoint_id", null: false
+    t.integer "touchpoint_id"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -146,6 +146,7 @@ ActiveRecord::Schema.define(version: 2020_01_31_221046) do
     t.string "location_code"
     t.boolean "flagged", default: false
     t.string "language"
+    t.integer "form_id"
   end
 
   create_table "touchpoints", force: :cascade do |t|
