@@ -18,10 +18,6 @@ class Touchpoint < ApplicationRecord
 
   before_save :set_uuid
 
-  after_save do |touchpoint|
-    TouchpointCache.invalidate(touchpoint.short_uuid)
-  end
-
   def self.find_by_short_uuid(short_uuid)
     where("uuid LIKE ?", "#{short_uuid}%").first
   end
