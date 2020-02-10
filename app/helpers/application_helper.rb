@@ -25,9 +25,9 @@ module ApplicationHelper
     user.admin? || user.organization_manager?
   end
 
-  def is_at_least_touchpoint_manager?(user:, touchpoint:)
+  def is_at_least_form_manager?(user:, form:)
     user.admin? || user.organization_manager? ||
-      touchpoint.user_role?(user: user) == UserRole::Role::TouchpointManager
+      form.user_role?(user: user) == UserRole::Role::FormManager
   end
 
   def current_path
@@ -59,7 +59,8 @@ module ApplicationHelper
     ]
   end
 
-  def submit_touchpoint_uuid_url(touchpoint)
-    return "#{root_url}touchpoints/#{touchpoint.short_uuid}/submit"
+  # Legacy route from before the Form model was merged with the Touchpoint model
+  def submit_touchpoint_uuid_url(form)
+    return "#{root_url}touchpoints/#{form.short_uuid}/submit"
   end
 end

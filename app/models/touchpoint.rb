@@ -18,10 +18,6 @@ class Touchpoint < ApplicationRecord
 
   before_save :set_uuid
 
-  after_save do |touchpoint|
-    TouchpointCache.invalidate(touchpoint.short_uuid)
-  end
-
   def self.find_by_short_uuid(short_uuid)
     where("uuid LIKE ?", "#{short_uuid}%").first
   end
@@ -152,22 +148,22 @@ class Touchpoint < ApplicationRecord
       submission = non_flagged_submissions.first
       csv << header_attributes
       csv << [
-        submission.touchpoint.data_submission_comment,
-        submission.touchpoint.survey_instrument_reference,
-        submission.touchpoint.agency_poc_name,
-        submission.touchpoint.agency_poc_email,
-        submission.touchpoint.department,
-        submission.touchpoint.bureau,
-        submission.touchpoint.service_name,
-        submission.touchpoint.name,
-        submission.touchpoint.medium,
+        submission.form.data_submission_comment,
+        submission.form.survey_instrument_reference,
+        submission.form.agency_poc_name,
+        submission.form.agency_poc_email,
+        submission.form.department,
+        submission.form.bureau,
+        submission.form.service_name,
+        submission.form.name,
+        submission.form.medium,
         start_date,
         end_date,
-        submission.touchpoint.anticipated_delivery_count,
-        submission.touchpoint.survey_form_activations,
+        submission.form.anticipated_delivery_count,
+        submission.form.survey_form_activations,
         non_flagged_submissions.length,
-        submission.touchpoint.omb_approval_number,
-        submission.touchpoint.federal_register_url,
+        submission.form.omb_approval_number,
+        submission.form.federal_register_url,
       ]
     end
   end

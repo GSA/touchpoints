@@ -3,7 +3,7 @@ class FormSection < ApplicationRecord
   has_many :questions
 
   after_save do | form_section |
-    TouchpointCache.invalidate(form_section.form.touchpoint.short_uuid) if form_section.form.touchpoint.present?
+    FormCache.invalidate(form_section.form.short_uuid) if form_section.form.present?
   end
 
   default_scope { order(position: :asc) }

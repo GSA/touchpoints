@@ -1,0 +1,2 @@
+class PraRecord < ApplicationRecord
+end

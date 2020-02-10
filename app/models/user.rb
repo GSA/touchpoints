@@ -10,8 +10,8 @@ class User < ApplicationRecord
 
   belongs_to :organization, optional: true
   has_many :user_roles
-  has_many :touchpoints, through: :user_roles, primary_key: "touchpoint_id"
-  has_many :forms
+  has_many :forms, through: :user_roles, primary_key: "form_id"
+
 
   after_create :send_new_user_notification
 
@@ -20,13 +20,10 @@ class User < ApplicationRecord
   validates :email, presence: true, if: :tld_check
 
   def managed_forms
-    roles = self.user_roles.where(role: UserRole::Role::TouchpointManager)
-    touchpoints = roles.map { |role|
-      role.touchpoint
+    roles = self.user_roles.where(role: UserRole::Role::FormManager)
+    forms = roles.map { |role|
+      role.form
     }
-    forms = touchpoints.map { |tp|
-      tp.form if tp.form.present?
-    }.compact
     forms
   end
 

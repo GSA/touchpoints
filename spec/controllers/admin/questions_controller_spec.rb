@@ -25,7 +25,8 @@ require 'rails_helper'
 
 RSpec.describe Admin::QuestionsController, type: :controller do
 
-  let(:admin) { FactoryBot.create(:user, :admin) }
+  let(:organization) { FactoryBot.create(:organization)}
+  let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
 
   # This should return the minimal set of attributes required to create a valid
   # Question. As you add validations to Question, be sure to
@@ -64,7 +65,7 @@ RSpec.describe Admin::QuestionsController, type: :controller do
   end
 
   describe "GET #new" do
-    let(:form) { FactoryBot.create(:form) }
+    let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin)}
 
     it "returns a success response" do
       get :new, params: { form_id: form.id }, session: valid_session

@@ -1,19 +1,18 @@
 <div id="fba-modal-dialog">
   <div class="wrapper">
     <h3 id="fba-modal-title">
-      <%= touchpoint.form.title %>
+      <%= form.title %>
     </h3>
-    <% unless touchpoint.delivery_method == "inline" %>
+    <% unless form.delivery_method == "inline" %>
     <a id="fba-modal-close" type="button" href="#">×</a>
     <% end %>
     <p id="fba-instructions">
-      <%= sanitize(touchpoint.form.instructions) %>
+      <%= sanitize(form.instructions) %>
     </p>
     <%= render 'components/forms/flash' %>
 
-    <%= render partial: "components/forms/custom", locals: { touchpoint: touchpoint, form: touchpoint.form, questions: touchpoint.form.questions } %>
+    <%= render partial: "components/forms/custom", locals: { form: form, questions: form.questions } %>
 
   </div>
-  <%= render partial: 'components/forms/footer', locals: { touchpoint: @touchpoint, form: @touchpoint.form } %>
+  <%= render partial: 'components/forms/footer', locals: { form: form } %>
 </div>
-

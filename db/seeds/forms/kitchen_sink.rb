@@ -4,6 +4,7 @@ module Seeds
     # Create a Custom Form with a 2nd Page/Form Section
     def self.kitchen_sink
       custom_form = Form.create({
+        organization: Organization.first,
         template: true,
         kind:  "kitchen sink",
         notes: "An example form that uses at least one of every form element",
@@ -12,7 +13,8 @@ module Seeds
         title: "",
         instructions: "",
         disclaimer_text: "Disclaimer Text Goes Here",
-        success_text: "Thank you for your response 🎉"
+        success_text: "Thank you for your response 🎉",
+        delivery_method: "modal"
       })
       custom_form.form_sections.create(title: "Page 2", position: 2)
 

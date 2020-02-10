@@ -1,5 +1,5 @@
 class Submission < ApplicationRecord
-  belongs_to :touchpoint
+  belongs_to :form
 
   validate :validate_custom_form
 
@@ -10,12 +10,13 @@ class Submission < ApplicationRecord
   def validate_custom_form
     @valid_form_condition = false
 
-    questions = self.touchpoint.form.questions
+    questions = self.form.questions
 
     # Isolate questions that were answered
     answered_questions = self.attributes.select { |key, value| value.present? }
     # Filter out all non-question attributes
     answered_questions.delete("touchpoint_id")
+    answered_questions.delete("form_id")
     answered_questions.delete("user_agent")
     answered_questions.delete("page")
     answered_questions.delete("ip_address")
@@ -36,13 +37,13 @@ class Submission < ApplicationRecord
   end
 
   def send_notifications
-    Event.log_event(Event.names[:touchpoint_form_submitted], 'Submission', self.id, "Submission received for organization '#{self.organization_name}' touchpoint '#{self.touchpoint.name}' ")
-    return unless self.touchpoint.send_notifications?
-    return unless self.touchpoint.notification_emails?
-    emails_to_notify = self.touchpoint.notification_emails.split(",")
+    Event.log_event(Event.names[:touchpoint_form_submitted], 'Submission', self.id, "Submission received for organization '#{self.organization_name}' form '#{self.form.name}' ")
+    return unless self.form.send_notifications?
+    return unless self.form.notification_emails?
+    emails_to_notify = self.form.notification_emails.split(",")
 
     # Add Touchpoint Manager(s) to notification distribution list
-    self.touchpoint.users.select { | u | self.touchpoint.user_role?(user: u) == UserRole::Role::TouchpointManager }.each do | sm |
+    self.form.users.select { | u | self.form.user_role?(user: u) == UserRole::Role::TouchpointManager }.each do | sm |
       emails_to_notify << sm.email unless emails_to_notify.include?(sm.email)
     end
 
@@ -50,7 +51,7 @@ class Submission < ApplicationRecord
   end
 
   def to_rows
-    values = self.touchpoints.form.questions.collect(&:answer_field)
+    values = self.form.questions.collect(&:answer_field)
 
     values = values + [
       self.ip_address,
@@ -64,6 +65,6 @@ class Submission < ApplicationRecord
   end
 
   def organization_name
-    self.touchpoint ? self.touchpoint.organization.name : "Placeholder Org Name"
+    form.organization.present? ? form.organization.name : "Org Name"
   end
 end

@@ -1,11 +1,10 @@
 <div class="well">
   <h1>Forms</h1>
   <% if @forms.select { |f| !f.template }.present? %>
-  <table class="usa-table">
+  <table class="usa-table" style="width: 100%;">
     <thead>
       <tr>
         <th></th>
-        <th>Touchpoint name</th>
         <th>Form name</th>
         <th></th>
       </tr>
@@ -13,26 +12,13 @@
     <tbody>
       <% @forms.select { |f| !f.template }.each_with_index do |form, index| %>
       <tr>
-        <td>
+        <td style="max-width: 0.25em;">
           <%= index + 1 %>
         </td>
-        <td>
-          <%= form.touchpoint.name if form.touchpoint.present? %>
-          <% if form.template %>
-            <br>
-            <span class="usa-tag" style="background: #e31c3d;">
-              <%= form.kind %>
-            </span>
-          <% end %>
-        </td>
-        <td>
-          <% if form.touchpoint.present? %>
-          <%= link_to form.name, admin_touchpoint_form_path(form.touchpoint, form)  %>
-          <% else %>
+        <td
           <%= link_to form.name, admin_form_path(form)  %>
-          <% end %>
         </td>
-        <td>
+        <td  style="max-width: 4em;">
           <%= link_to copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline" do %>
             <i class="fa fa-copy"></i>
             Copy form

@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 feature "Managing Users", js: true do
-  let(:admin) { FactoryBot.create(:user, :admin) }
-  let(:organization_manager) { FactoryBot.create(:user, :organization_manager) }
+  let(:organization) { FactoryBot.create(:organization) }
+  let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
+  let(:organization_manager) { FactoryBot.create(:user, :organization_manager, organization: organization) }
 
   context "as Admin" do
     before "user creates a Touchpoint" do

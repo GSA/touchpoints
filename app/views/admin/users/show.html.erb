@@ -18,11 +18,11 @@
   <h4>
     Touchpoints
   </h4>
-  <% if @touchpoints.present? %>
+  <% if @forms.present? %>
     <ul class="usa-list">
-    <% @touchpoints.each do |touchpoint| %>
+    <% @forms.each do |form| %>
       <li>
-        <%= link_to touchpoint.name, admin_touchpoint_path(touchpoint) %><br>
+        <%= link_to form.name, admin_form_path(form) %><br>
       </li>
     <% end %>
     </ul>
@@ -30,7 +30,7 @@
   <div class="usa-alert usa-alert--info" >
     <div class="usa-alert__body">
       <p class="usa-alert__text">
-        No Touchpoints at this time
+        No Forms at this time
       </p>
     </div>
   </div>
