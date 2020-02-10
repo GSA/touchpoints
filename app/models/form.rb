@@ -1,3 +1,5 @@
+require 'csv'
+
 class Form < ApplicationRecord
   include AASM
 
@@ -295,37 +297,37 @@ class Form < ApplicationRecord
       @hash.each_pair do |key, values|
         @question_text = "123"
         if key == :answer_01
-          question = form.questions.where(answer_field: key).first
+          question = questions.where(answer_field: key).first
           response_volume = values.values.collect { |v| v.to_i }.sum
           @question_text = question.text
           standardized_question_number = 1
         elsif key == :answer_02
-          question = form.questions.where(answer_field: key).first
+          question = questions.where(answer_field: key).first
           response_volume = values.values.collect { |v| v.to_i }.sum
           @question_text = question.text
           standardized_question_number = 2
         elsif key == :answer_03
-          question = form.questions.where(answer_field: key).first
+          question = questions.where(answer_field: key).first
           response_volume = values.values.collect { |v| v.to_i }.sum
           @question_text = question.text
           standardized_question_number = 3
         elsif key == :answer_04
-          question = form.questions.where(answer_field: key).first
+          question = questions.where(answer_field: key).first
           response_volume = values.values.collect { |v| v.to_i }.sum
           @question_text = question.text
           standardized_question_number = 4
         elsif key == :answer_05
-          question = form.questions.where(answer_field: key).first
+          question = questions.where(answer_field: key).first
           response_volume = values.values.collect { |v| v.to_i }.sum
           @question_text = question.text
           standardized_question_number = 5
         elsif key == :answer_06
-          question = form.questions.where(answer_field: key).first
+          question = questions.where(answer_field: key).first
           response_volume = values.values.collect { |v| v.to_i }.sum
           @question_text = question.text
           standardized_question_number = 6
         elsif key == :answer_07
-          question = form.questions.where(answer_field: key).first
+          question = questions.where(answer_field: key).first
           response_volume = values.values.collect { |v| v.to_i }.sum
           @question_text = question.text
           standardized_question_number = 7
@@ -351,18 +353,14 @@ class Form < ApplicationRecord
   end
 
   def fields_for_export
-    raise InvalidArgument unless self.form
-
     self.hashed_fields_for_export.keys
   end
 
   # TODO: Move to /models/submission.rb
   def hashed_fields_for_export
-    raise InvalidArgument unless self.form
-
     hash = {}
 
-    self.form.questions.map { |q| hash[q.answer_field] = q.text }
+    self.questions.map { |q| hash[q.answer_field] = q.text }
 
     hash.merge({
                  ip_address: "IP Address",

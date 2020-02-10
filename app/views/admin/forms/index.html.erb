@@ -15,8 +15,8 @@
         <td style="max-width: 0.25em;">
           <%= index + 1 %>
         </td>
-        <td
-          <%= link_to form.name, admin_form_path(form)  %>
+        <td>
+          <%= link_to form.name, admin_form_path(form) %>
         </td>
         <td  style="max-width: 4em;">
           <%= link_to copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline" do %>

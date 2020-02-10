@@ -29,7 +29,9 @@ feature "Forms", js: true do
         it "display forms in a table" do
           rows = page.all("tr")
           expect(rows.length).to eq 4 # 3 forms, plus 1 header row
-          expect(rows[1]).to have_content(form.name)
+          expect(rows[1]).to have_content("1")
+          expect(rows[1]).to have_link(form.name)
+          expect(rows[1]).to have_link("Copy form")
         end
 
         it "display 'new form' button" do

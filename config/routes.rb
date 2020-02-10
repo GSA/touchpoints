@@ -33,10 +33,10 @@ Rails.application.routes.draw do
       member do
         get "example", to: "forms#example", as: :example
         get "export_pra_document", as: :export_pra_document
-        get "export_submissions", to: "touchpoints#export_submissions", as: :export_submissions
-        get "export_a11_header", to: "touchpoints#export_a11_header", as: :export_a11_header
-        get "export_a11_submissions", to: "touchpoints#export_a11_submissions", as: :export_a11_submissions
-        get "js", to: "touchpoints#js", as: :js
+        get "export_submissions", to: "forms#export_submissions", as: :export_submissions
+        get "export_a11_header", to: "forms#export_a11_header", as: :export_a11_header
+        get "export_a11_submissions", to: "forms#export_a11_submissions", as: :export_a11_submissions
+        get "js", to: "forms#js", as: :js
         post "add_user", to: "forms#add_user", as: :add_user
         post "copy", to: "forms#copy", as: :copy
         delete "remove_user", to: "forms#remove_user", as: :remove_user
