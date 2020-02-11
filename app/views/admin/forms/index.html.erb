@@ -6,6 +6,7 @@
       <tr>
         <th></th>
         <th>Form name</th>
+        <th>Responses</th>
         <th></th>
       </tr>
     </thead>
@@ -18,7 +19,10 @@
         <td>
           <%= link_to form.name, admin_form_path(form) %>
         </td>
-        <td  style="max-width: 4em;">
+        <td>
+          <%= form.submissions.size %>
+        </td>
+        <td style="max-width: 5em;">
           <%= link_to copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline" do %>
             <i class="fa fa-copy"></i>
             Copy form
