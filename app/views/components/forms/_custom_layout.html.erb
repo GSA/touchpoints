@@ -1,10 +1,10 @@
 <div class="grid-row">
   <div class="grid-col-12">
     <h2 class="justify-vertical">
-      <% if form.display_header_logo && (form.organization.logo.present?) %>
+      <% if form.display_header_logo && form.organization.logo.present? %>
         <%= image_tag(form.organization.logo.tag.url, alt: "Organization logo", class: "form-header-logo") %>
       <% end %>
-      <% if form.display_header_square_logo && (form.touchpoint && form.organization.logo.present?) %>
+      <% if form.display_header_square_logo && form.organization.logo.present? %>
         <%= image_tag(form.organization.logo.logo_square.url, alt: "Organization logo", class: "form-header-logo-square") %>
       <% end %>
       <%= form.title %>

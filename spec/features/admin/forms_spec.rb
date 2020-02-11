@@ -56,6 +56,7 @@ feature "Forms", js: true do
         fill_in "form_title", with: new_form.title
         select(new_form.organization.name, from: "form_organization_id")
         find("label[for='form_delivery_method_touchpoints-hosted-only']").click
+        find("label[for='form_display_header_square_logo']").click
         fill_in("form[omb_approval_number]", with: 1234)
         fill_in("form[expiration_date]", with: future_date.strftime("%m/%d/%Y"))
         fill_in("form[notification_emails]", with: "admin@example.gov")
