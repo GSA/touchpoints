@@ -6,6 +6,7 @@
       <tr>
         <th></th>
         <th>Form name</th>
+        <th>State</th>
         <th>Responses</th>
         <th></th>
       </tr>
@@ -18,6 +19,9 @@
         </td>
         <td>
           <%= link_to form.name, admin_form_path(form) %>
+        </td>
+        <td>
+          <%= form.aasm_state %>
         </td>
         <td>
           <%= form.submissions.size %>
