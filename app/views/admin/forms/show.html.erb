@@ -130,12 +130,12 @@
               <% end %>
               <% if @form.delivery_method == "inline" %>
               <p>
-                <%= link_to 'View an example: Inline', example_admin_touchpoint_path(@form), class: "usa-button", target: "_blank", rel: "noopener" %>
+                <%= link_to 'View an example: Inline', example_admin_form_path(@form), class: "usa-button", target: "_blank", rel: "noopener" %>
               </p>
               <% end %>
               <% if @form.delivery_method == "custom-button-modal" %>
               <p>
-                <%= link_to 'View an example: Custom button modal', example_admin_touchpoint_path(@form), class: "usa-button", target: "_blank", rel: "noopener" %>
+                <%= link_to 'View an example: Custom button modal', example_admin_form_path(@form), class: "usa-button", target: "_blank", rel: "noopener" %>
               </p>
               <% end %>
               <% if @form.delivery_method == "modal" %>

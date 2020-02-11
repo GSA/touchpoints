@@ -50,28 +50,52 @@ feature "Forms", js: true do
     describe "/admin/forms/new" do
       let(:new_form) { FactoryBot.build(:form, :custom, organization: organization) }
 
-      before do
-        visit new_admin_form_path
-        expect(page.current_path).to eq(new_admin_form_path)
-        fill_in "form_name", with: new_form.name
-        fill_in "form_title", with: new_form.title
-        select(new_form.organization.name, from: "form_organization_id")
-        find("label[for='form_delivery_method_touchpoints-hosted-only']").click
-        find("label[for='form_display_header_square_logo']").click
-        fill_in("form[omb_approval_number]", with: 1234)
-        fill_in("form[expiration_date]", with: future_date.strftime("%m/%d/%Y"))
-        fill_in("form[notification_emails]", with: "admin@example.gov")
-        click_on "Create Form"
+      describe "new touchpoint hosted form" do
+        before do
+          visit new_admin_form_path
+          expect(page.current_path).to eq(new_admin_form_path)
+          fill_in "form_name", with: new_form.name
+          fill_in "form_title", with: new_form.title
+          select(new_form.organization.name, from: "form_organization_id")
+          find("label[for='form_delivery_method_touchpoints-hosted-only']").click
+          find("label[for='form_display_header_square_logo']").click
+          fill_in("form[omb_approval_number]", with: 1234)
+          fill_in("form[expiration_date]", with: future_date.strftime("%m/%d/%Y"))
+          fill_in("form[notification_emails]", with: "admin@example.gov")
+          click_on "Create Form"
+        end
+
+        it "redirect to /form/:uuid with a success flash message" do
+          expect(page).to have_content("Form was successfully created.")
+          @form = Form.last
+          expect(page.current_path).to eq(admin_form_path(@form.short_uuid))
+          expect(page).to have_content(new_form.name)
+          expect(page).to have_content("1234")
+          expect(page).to have_content("Notification emails")
+          expect(page).to have_content("admin@example.gov")
+        end
       end
 
-      it "redirect to /form/:uuid with a success flash message" do
-        expect(page).to have_content("Form was successfully created.")
-        @form = Form.last
-        expect(page.current_path).to eq(admin_form_path(@form.short_uuid))
-        expect(page).to have_content(new_form.name)
-        expect(page).to have_content("1234")
-        expect(page).to have_content("Notification emails")
-        expect(page).to have_content("admin@example.gov")
+      describe "new inline form" do
+        before do
+          visit new_admin_form_path
+          expect(page.current_path).to eq(new_admin_form_path)
+          fill_in "form_name", with: new_form.name
+          fill_in "form_title", with: new_form.title
+          select(new_form.organization.name, from: "form_organization_id")
+          select("live", from: "form_aasm_state")
+          find("label[for='form_delivery_method_inline']").click
+          fill_in("form[notification_emails]", with: "admin@example.gov")
+          click_on "Create Form"
+        end
+
+        it "redirect to /form/:uuid with a success flash message" do
+          expect(page).to have_content("Form was successfully created.")
+          @form = Form.last
+          expect(page.current_path).to eq(admin_form_path(@form.short_uuid))
+          expect(page).to have_content(new_form.name)
+          expect(page).to have_content("admin@example.gov")
+        end
       end
 
       describe "Form model validations" do
