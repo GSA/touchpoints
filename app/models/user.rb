@@ -19,14 +19,6 @@ class User < ApplicationRecord
 
   validates :email, presence: true, if: :tld_check
 
-  def managed_forms
-    roles = self.user_roles.where("role = ? OR role = ?", UserRole::Role::FormManager, UserRole::Role::FormManager)
-    forms = roles.map { |role|
-      role.form
-    }
-    forms
-  end
-
   def self.admins
     User.where(admin: true)
   end
