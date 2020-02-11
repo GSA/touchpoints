@@ -33,7 +33,7 @@ feature "Admin Dashboard", js: true do
         expect(page).to have_content("Agencies with Touchpoints")
         expect(page).to have_content(form.organization.name)
         expect(page).to have_link(form.name)
-        expect(page).to have_link("0 responses")
+        expect(page).to have_content("0 responses")
       end
     end
   end
