@@ -36,8 +36,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       sign_in_and_redirect(:user, @user)
     elsif @user.errors.present?
       redirect_to index_path, alert: @user.errors.full_messages.join(",")
-    # else
-    #   redirect_to root_path, notice: "Error: During oAuth Login"
     end
   end
 end

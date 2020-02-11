@@ -1,19 +1,16 @@
 class Admin::SubmissionsController < AdminController
   protect_from_forgery only: []
-  before_action :set_touchpoint, only: [:index, :show, :flag, :unflag, :destroy]
-  before_action :set_submission, only: [:show, :flag, :unflag, :destroy]
+  before_action :set_form, only: [:index, :flag, :unflag, :destroy]
+  before_action :set_submission, only: [:flag, :unflag, :destroy]
 
   def index
-    @submissions = @touchpoint.submissions.includes(:organization)
-  end
-
-  def show
+    @submissions = @form.submissions.includes(:organization)
   end
 
   def flag
     @submission.update_attribute(:flagged, true)
     respond_to do |format|
-      format.html { redirect_to admin_touchpoint_url(@touchpoint), notice: "Response #{@submission.id} was successfully flagged." }
+      format.html { redirect_to admin_form_url(@form), notice: "Response #{@submission.id} was successfully flagged." }
       format.json { head :no_content }
     end
   end
@@ -21,17 +18,17 @@ class Admin::SubmissionsController < AdminController
   def unflag
     @submission.update_attribute(:flagged, false)
     respond_to do |format|
-      format.html { redirect_to admin_touchpoint_url(@touchpoint), notice: "Response #{@submission.id} was successfully unflagged." }
+      format.html { redirect_to admin_form_url(@form), notice: "Response #{@submission.id} was successfully unflagged." }
       format.json { head :no_content }
     end
   end
 
   def destroy
-    ensure_touchpoint_manager(touchpoint: @touchpoint)
+    ensure_form_manager(form: @form)
 
     @submission.destroy
     respond_to do |format|
-      format.html { redirect_to admin_touchpoint_url(@touchpoint), notice: "Response #{@submission.id} was successfully destroyed." }
+      format.html { redirect_to admin_form_url(@form.short_uuid), notice: "Response #{@submission.id} was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -39,12 +36,12 @@ class Admin::SubmissionsController < AdminController
 
   private
 
-    def set_touchpoint
-      @touchpoint = current_user.touchpoints.find_by_short_uuid(params[:touchpoint_id])
-      raise ActiveRecord::RecordNotFound, "no touchpoint with ID of #{params[:touchpoint_id]}" unless @touchpoint
+    def set_form
+      @form = current_user.forms.find_by_short_uuid(params[:form_id]) || current_user.forms.find(params[:form_id])
+      raise ActiveRecord::RecordNotFound, "no form with ID of #{params[:form_id]}" unless @form
     end
 
     def set_submission
-      @submission = @touchpoint.submissions.find(params[:id])
+      @submission = @form.submissions.find(params[:id])
     end
 end

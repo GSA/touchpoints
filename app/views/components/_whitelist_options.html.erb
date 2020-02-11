@@ -1,28 +1,28 @@
-<div class="well">
+<div>
   <h3>
     Whitelist Options
   </h3>
   <div class="usa-alert usa-alert--info">
     <div class="usa-alert__body">
       <p class="usa-alert__text">
-        If deploying a Touchpoint on your website, Whitelist URLs
-        are used to help ensure a Touchpoint is coming from a valid domain.
-        Two Whitelist URLs can be specified: one for your Production site,
-        and one for your Test or Staging site.
+        If deploying a Form on your website, Whitelist URLs
+        are used to ensure a Touchpoint is coming from a valid domain.
+        A Whitelist URL can be specified for 1) your Production site,
+        and 2) your Test or Staging site.
       </p>
     </div>
   </div>
   <div class="grid-row grid-gap-md">
     <div class="grid-col-6">
       <div class="field">
-        <%= f.label :whitelist_url, class: "usa-label" %>
-        <%= f.text_field :whitelist_url, class: "usa-input" %>
+        <%= f.label :whitelist_url, "Whitelist Production URL", class: "usa-label" %>
+        <%= f.text_field :whitelist_url, class: "usa-input", placeholder: "https://example.gov" %>
       </div>
     </div>
     <div class="grid-col-6">
       <div class="field">
         <%= f.label :whitelist_test_url, class: "usa-label" %>
-        <%= f.text_field :whitelist_test_url, class: "usa-input" %>
+        <%= f.text_field :whitelist_test_url, class: "usa-input", placeholder: "https://staging.example.gov" %>
       </div>
     </div>
   </div>
