@@ -21,7 +21,6 @@ class Admin::FormsController < AdminController
       @forms = Form.all.order("organization_id ASC").order("name ASC")
     else
       @forms = current_user.forms.order("organization_id ASC").order("name ASC").entries
-      @forms = @forms + current_user.managed_forms
       @forms = @forms + Form.templates
     end
   end
