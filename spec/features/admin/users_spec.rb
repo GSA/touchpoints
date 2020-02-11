@@ -24,6 +24,29 @@ feature "Managing Users", js: true do
       expect(page).to have_content("Editing User")
     end
 
+    describe "view a User" do
+      before do
+        visit admin_user_path(organization_manager)
+      end
+
+      it "shows no forms message" do
+        expect(page).to have_content("No Forms at this time")
+      end
+
+      context "with submissions" do
+        let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: organization_manager) }
+        let!(:user_role) { FactoryBot.create(:user_role, user: organization_manager, form:form, role: UserRole::Role::FormManager) }
+
+        before do
+          visit admin_user_path(organization_manager)
+        end
+
+        it "shows each form" do
+          expect(page).to have_link(form.name)
+        end
+      end
+    end
+
     describe "edit a User" do
       before do
         visit edit_admin_user_path(organization_manager)
