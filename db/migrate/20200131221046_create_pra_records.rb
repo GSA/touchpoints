@@ -39,7 +39,7 @@ class CreatePraRecords < ActiveRecord::Migration[5.2]
     # Update Touchpoint -> Form
     # Update Organization -> Form
     Touchpoint.all.each do |touchpoint|
-      return unless touchpoint.form.present?
+      next unless touchpoint.form.present?
       # Migrate Touchpoint data to the Form
       form = touchpoint.form
       # Use the existing Form's name
@@ -75,14 +75,14 @@ class CreatePraRecords < ActiveRecord::Migration[5.2]
 
     # Update Submission -> Form
     Touchpoint.all.each do |touchpoint|
-      return unless touchpoint.form.present?
+      next unless touchpoint.form.present?
 
       touchpoint.submissions.update_all(form_id: touchpoint.form.id)
     end
 
     # Update UserRole -> Form
     UserRole.all.each do |role|
-      return unless role.touchpoint.form.present?
+      next unless role.touchpoint && role.touchpoint.form.present?
 
       role.form_id = role.touchpoint.form_id
       if role.role == UserRole::Role::TouchpointManager
@@ -90,9 +90,5 @@ class CreatePraRecords < ActiveRecord::Migration[5.2]
       end
       role.save!
     end
-
-    # Migrate Submission answers to Forms
-
-    # change_column_default :submissions, :form_id, :integer, null: false
   end
 end
