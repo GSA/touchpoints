@@ -203,13 +203,6 @@
       </div>
     </div>
   </div>
-  <hr>
-  <% if @form %>
-    <%= render 'components/pra_records/show', { form: @form } %>
-  <% else %>
-    PRA Record has not yet been migrated. Please be patient.
-  <% end %>
-  <hr>
   <div class="well">
     <% if @form.template %>
       <span class="usa-tag" style="background: #e31c3d;">
@@ -270,6 +263,13 @@
       <%= link_to 'Edit', edit_admin_form_path(@form), class: "usa-button" %>
     <% end %>
   </div>
+
+  <% if @form %>
+    <%= render 'components/pra_records/show', { form: @form } %>
+  <% else %>
+    PRA Record has not yet been migrated. Please be patient.
+  <% end %>
+
 </div>
 <div class="well highlight form-preview">
   <h2>
