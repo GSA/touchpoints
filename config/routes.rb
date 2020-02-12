@@ -39,6 +39,7 @@ Rails.application.routes.draw do
         get "js", to: "forms#js", as: :js
         post "add_user", to: "forms#add_user", as: :add_user
         post "copy", to: "forms#copy", as: :copy
+        post "publish", to: "forms#publish", as: :publish
         delete "remove_user", to: "forms#remove_user", as: :remove_user
       end
       resources :form_sections

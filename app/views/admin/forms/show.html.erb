@@ -1,7 +1,9 @@
 <div class="well">
   <div class="grid-row">
     <div class="grid-col-12">
-      <%= link_to 'Edit form', edit_admin_form_path(@form), class: "usa-button float-right" %>
+      <% if is_at_least_form_manager?(user: current_user, form: @form) %>
+        <%= link_to 'Edit form', edit_admin_form_path(@form), class: "usa-button float-right" %>
+      <% end %>
       <h1>
         <%= @form.name %>
         <span class="usa-tag" style="background: #e31c3d;"> <%= @form.aasm_state %>
@@ -70,13 +72,14 @@
         </div>
       </div>
       <div>
-        <button type="button" name="button" class="usa-button usa-button--outline float-right">
-          Publish
-        </button>
-        <h2>
-          Publish your form
-          <i class="fas fa-question-circle"></i>
-        </h2>
+        <% if !@form.deployable_form? %>
+          <%= link_to 'Publish', publish_admin_form_path(@form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline float-right" %>
+          <h2>
+            Publish your form
+            <i class="fas fa-question-circle"></i>
+          </h2>
+        <% end %>
+
         <% if @form.deployable_form? %>
           <strong>
            Form URL
@@ -203,12 +206,16 @@
       </div>
     </div>
   </div>
-  <div class="well">
+  <div>
     <% if @form.template %>
       <span class="usa-tag" style="background: #e31c3d;">
         Form Template : <%= @form.kind %>
       </span>
     <% end %>
+    <p>
+      <strong>Form Owner:</strong>
+      <%= @form.user.email if @form.user %>
+    </p>
     <p>
       <strong>Title:</strong>
       <%= @form.title %>
@@ -255,13 +262,6 @@
       <strong>Whitelist Test URL:</strong>
       <%= @form.whitelist_test_url %>
     </p>
-    <p>
-      <strong>Created By:</strong>
-      <%= @form.user.email if @form.user %>
-    </p>
-    <% if @form.user == current_user || is_at_least_form_manager?(user: current_user, form: @form) %>
-      <%= link_to 'Edit', edit_admin_form_path(@form), class: "usa-button" %>
-    <% end %>
   </div>
 
   <% if @form %>
