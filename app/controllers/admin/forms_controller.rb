@@ -199,7 +199,7 @@ class Admin::FormsController < AdminController
   end
 
   def export_submissions
-    ExportJob.perform_later(params[:uuid],@form.uuid,"touchpoints-form-responses-#{timestamp_string}.csv")
+    ExportJob.perform_later(params[:uuid], @form.short_uuid, "touchpoints-form-responses-#{timestamp_string}.csv")
     render json: { result: :ok }
   end
 
@@ -241,8 +241,7 @@ class Admin::FormsController < AdminController
       if admin_permissions?
         @form = Form.find_by_short_uuid(params[:id]) || Form.find_by_id(params[:id])
       else
-        @form = Form.find_by_short_uuid(params[:id]) || Form.find_by_id(params[:id])
-        # @form = current_user.forms.find_by_short_uuid(params[:id]) || current_user.forms.find_by_id(params[:id])
+        @form = current_user.forms.find_by_short_uuid(params[:id]) || current_user.forms.find_by_id(params[:id])
       end
       redirect_to admin_root_path, notice: "no form with ID of #{params[:id]}" unless @form
     end
