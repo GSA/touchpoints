@@ -8,7 +8,7 @@ class SubmissionsController < ApplicationController
     unless @form.deployable_form?
       redirect_to index_path, alert: "Form is not yet deployable."
     end
-    @form.update_attribute(:survey_form_activations, @form.survey_form_activations += 1)
+    @form.increment!(:survey_form_activations)
     @submission = Submission.new
     # set location code in the form based on `?location_code=`
     @submission.location_code = params[:location_code]
