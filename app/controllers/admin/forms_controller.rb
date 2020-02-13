@@ -9,11 +9,13 @@ class Admin::FormsController < AdminController
   before_action :set_user, only: [:add_user, :remove_user]
   before_action :set_form, only: [
     :show, :edit, :update, :copy, :destroy,
-    :export_pra_document, :export_submissions,
+    :export_pra_document,
+    :export_submissions,
     :export_a11_header,
     :export_a11_submissions,
     :example, :js, :trigger,
-    :add_user, :remove_user
+    :add_user, :remove_user,
+    :publish
   ]
 
   def index
@@ -23,6 +25,13 @@ class Admin::FormsController < AdminController
       @forms = current_user.forms.order("organization_id ASC").order("name ASC").entries
       @forms = @forms + Form.templates
     end
+  end
+
+  def publish
+    Event.log_event(Event.names[:form_published], "Form", @form.uuid,"Form #{@form.name} published at #{DateTime.now}", current_user.id)
+
+    @form.update_attribute(:aasm_state, :live)
+    redirect_to admin_form_path(@form), notice: "Published"
   end
 
   def show

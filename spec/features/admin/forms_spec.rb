@@ -145,11 +145,23 @@ feature "Forms", js: true do
         visit admin_form_path(form)
       end
 
+      context "for :in_development touchpoint" do
+        describe "Publishing" do
+          before do
+            form.update_attribute(:aasm_state, :in_development)
+            visit admin_form_path(form)
+            click_on "Publish"
+            page.driver.browser.switch_to.alert.accept
+          end
+
+          it "display 'Published' flash message" do
+            expect(page).to have_content("Published")
+          end
+        end
+      end
+
       describe "Submission Export button" do
         context "when no Submissions exist" do
-          it "display No Responses message" do
-            expect(page).to have_content("Export is not available. This Form has yet to receive any Responses.")
-          end
         end
 
         context "when Submissions exist" do

@@ -35,14 +35,17 @@ class Form < ApplicationRecord
   ]
 
   def self.find_by_short_uuid(short_uuid)
+    return nil unless short_uuid && short_uuid.length == 8
     where("uuid LIKE ?", "#{short_uuid}%").first
   end
 
   def self.find_by_legacy_touchpoints_id(id)
+    return nil unless id && id.length < 4
     where(legacy_touchpoint_id: id).first
   end
 
   def self.find_by_legacy_touchpoints_uuid(short_uuid)
+    return nil unless short_uuid && short_uuid.length == 8
     where("legacy_touchpoint_uuid LIKE ?", "#{short_uuid}%").first
   end
 
