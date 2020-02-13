@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
 
+  LEGACY_TOUCHPOINTS_URL_MAP = LegacyTouchpointUrlMap.map
+
   around_action :switch_locale
 
   def switch_locale(&action)
