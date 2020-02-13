@@ -238,11 +238,7 @@ class Admin::FormsController < AdminController
 
   private
     def set_form
-      if admin_permissions?
-        @form = Form.find_by_short_uuid(params[:id]) || Form.find_by_id(params[:id])
-      else
-        @form = current_user.forms.find_by_short_uuid(params[:id]) || current_user.forms.find_by_id(params[:id])
-      end
+      @form = Form.find_by_short_uuid(params[:id]) || Form.find_by_id(params[:id])
       redirect_to admin_root_path, notice: "no form with ID of #{params[:id]}" unless @form
     end
 
