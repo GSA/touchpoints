@@ -1,24 +1,22 @@
 class TouchpointsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:js]
-  before_action :set_touchpoint, only: [:show, :js]
-
-  layout 'public', only: :index
-
-  def index
-    @touchpoints = Touchpoint.active.all
-  end
+  before_action :set_touchpoint
 
   def js
-    render(partial: "components/widget/fba.js", locals: { touchpoint: @touchpoint })
+    render(partial: "components/widget/fba.js", locals: { form: @form })
   end
 
   def show
-    redirect_to submit_touchpoint_path(@touchpoint.short_uuid) # instead of rendering #show
+    redirect_to submit_touchpoint_path(@form.short_uuid) # instead of rendering #show
   end
 
 
   private
     def set_touchpoint
-      @touchpoint = (params[:id].to_s.length == 8) ? Touchpoint.find_by_short_uuid(params[:id]) : Touchpoint.find(params[:id])
+      @form = (params[:id].to_s.length == 8) ?
+        (Form.find_by_legacy_touchpoints_uuid(params[:id]) || Form.find_by_short_uuid(params[:id])) :
+        (Form.find_by_legacy_touchpoints_id(params[:id]) || Form.find_by_id(params[:id]))
+
+      raise ActiveRecord::RecordNotFound, "no form with ID of #{params[:id]}" unless @form.present?
     end
 end

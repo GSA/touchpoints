@@ -7,7 +7,7 @@
     <%= @organization.name %> has
     <%= link_to(pluralize(@organization.users.length, "User"), admin_users_path) %>
     managing
-    <%= link_to(pluralize(@organization.touchpoints.length, "Touchpoint"), admin_touchpoints_path) %>.
+    <%= link_to(pluralize(@organization.forms.length, "Form"), admin_forms_path) %>.
   </div>
   <p>
     <strong>Name:</strong>
@@ -48,12 +48,12 @@
   </p>
   <div class="touchpoints well">
     <h3>
-      <%= @organization.touchpoints.size %> Touchpoints
+      <%= @organization.forms.size %> Forms
     </h3>
 
-    <% @organization.touchpoints.each do |touchpoint| %>
+    <% @organization.forms.each do |form| %>
       <p>
-        <%= link_to touchpoint.name, admin_touchpoint_path(touchpoint) %>
+        <%= link_to form.name, admin_form_path(form.short_uuid) %>
       </p>
     <% end %>
   </div>

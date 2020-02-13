@@ -12,7 +12,7 @@ class Admin::UsersController < AdminController
   end
 
   def show
-    @touchpoints = @user.touchpoints
+    @forms = @user.forms
   end
 
   def new

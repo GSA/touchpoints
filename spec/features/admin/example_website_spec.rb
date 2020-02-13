@@ -1,11 +1,10 @@
 require 'rails_helper'
 
 feature "Example Website Integration", js: true do
-  let(:admin) { FactoryBot.create(:user, :admin) }
-  let(:open_ended_form) { FactoryBot.create(:form, :open_ended_form) }
-  let(:open_ended_touchpoint) { FactoryBot.create(:touchpoint, form: open_ended_form) }
-  let(:recruiter_form) { FactoryBot.create(:form, :recruiter) }
-  let!(:recruiter_touchpoint) { FactoryBot.create(:touchpoint, form: recruiter_form) }
+  let(:organization) { FactoryBot.create(:organization)}
+  let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
+  let(:open_ended_form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin) }
+  let(:recruiter_form) { FactoryBot.create(:form, :recruiter, organization: organization, user: admin) }
 
   describe "third-party .gov website" do
     before do
@@ -14,7 +13,7 @@ feature "Example Website Integration", js: true do
 
     context "Open-ended Touchpoint" do
       before do
-        visit example_admin_touchpoint_path(open_ended_touchpoint)
+        visit example_admin_form_path(open_ended_form.short_uuid)
       end
 
       it "loads Badge with Text" do
@@ -29,7 +28,7 @@ feature "Example Website Integration", js: true do
         it "opens Modal" do
           expect(page).to have_css("#fba-modal-dialog", visible: true)
           within "#fba-modal-dialog" do
-            expect(page).to have_content open_ended_touchpoint.form.title
+            expect(page).to have_content open_ended_form.title
           end
         end
 
@@ -48,7 +47,7 @@ feature "Example Website Integration", js: true do
 
     context "Recruiter Touchpoint" do
       before do
-        visit example_admin_touchpoint_path(recruiter_touchpoint)
+        visit example_admin_form_path(recruiter_form.short_uuid)
       end
 
       it "loads Badge with Text" do

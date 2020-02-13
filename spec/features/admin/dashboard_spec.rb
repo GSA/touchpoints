@@ -3,16 +3,38 @@ require 'rails_helper'
 feature "Admin Dashboard", js: true do
 
   describe "Admin" do
-    let(:admin) { FactoryBot.create(:user, :admin) }
+    let(:organization) { FactoryBot.create(:organization)}
+    let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
 
     before do
       login_as(admin)
       visit admin_root_path
     end
 
-    it "has admin links" do
+    it "display admin links" do
       expect(page).to have_link("Manage Organizations")
-      expect(page).to have_link("Manage Forms")
+      expect(page).to have_link("Manage Sidekiq")
+    end
+
+    it "display weekly metrics" do
+      expect(page).to have_content("Weekly Product & Program Use Metrics")
+      expect(page).to have_content("Agencies with Touchpoints")
+    end
+
+    describe "with HISP forms" do
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, hisp: true) }
+
+      before do
+        visit admin_root_path
+      end
+
+      it "display HISP forms" do
+        expect(page).to have_content("Weekly Product & Program Use Metrics")
+        expect(page).to have_content("Agencies with Touchpoints")
+        expect(page).to have_content(form.organization.name)
+        expect(page).to have_link(form.name)
+        expect(page).to have_content("0 responses")
+      end
     end
   end
 

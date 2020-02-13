@@ -116,6 +116,7 @@ puts "Created #{submission_viewer.email}"
 
 ## Create the Open-ended Form
 open_ended_form = Form.create!({
+  organization: example_gov,
   template: true,
   kind: "open ended",
   notes: "An open-ended Feedback Form useful for general website and program feedback.",
@@ -123,7 +124,8 @@ open_ended_form = Form.create!({
   name: "Open-ended",
   title: "Custom Open-ended Title",
   instructions: "Share feedback about the new example.gov website and recommend additional features.",
-  disclaimer_text: "Disclaimer Text Goes Here"
+  disclaimer_text: "Disclaimer Text Goes Here",
+  delivery_method: "modal"
 })
 Question.create!({
   form: open_ended_form,
@@ -137,6 +139,7 @@ Question.create!({
 
 ## Create the Recruiter Form
 recruiter_form = Form.create({
+  organization: example_gov,
   template: true,
   kind: "recruiter",
   notes: "A form useful for recruiting users to participate in research.",
@@ -144,7 +147,8 @@ recruiter_form = Form.create({
   name: "Recruiter",
   title: "",
   instructions: "",
-  disclaimer_text: "Disclaimer Text Goes Here"
+  disclaimer_text: "Disclaimer Text Goes Here",
+  delivery_method: "modal"
 })
 Question.create!({
   form: recruiter_form,
@@ -175,6 +179,7 @@ Question.create!({
 })
 
 open_ended_form_with_contact_information = Form.create({
+  organization: example_gov,
   template: true,
   kind: "open ended with contact information",
   notes: "An open-ended feedback form with information to follow up with the user.",
@@ -182,7 +187,8 @@ open_ended_form_with_contact_information = Form.create({
   name: "Open Ended Form with Contact Information",
   title: "",
   instructions: "",
-  disclaimer_text: "Disclaimer Text Goes Here"
+  disclaimer_text: "Disclaimer Text Goes Here",
+  delivery_method: "modal"
 })
 Question.create!({
   form: open_ended_form_with_contact_information,
@@ -273,17 +279,20 @@ UserRole.create(
 )
 
 Submission.create!({
-  touchpoint: touchpoint_1,
+  form: open_ended_form,
+  touchpoint_id: 999,
   answer_01: "Body text"
 })
 
 Submission.create!({
-  touchpoint: touchpoint_1,
+  form: open_ended_form,
+  touchpoint_id: 999,
   answer_01: "Another body text " * 20
 })
 
 Submission.create!({
-  touchpoint: touchpoint_2,
+  form: touchpoint_2.form,
+  touchpoint_id: 999,
   answer_01: "Mary",
   answer_02: "Public",
   answer_03: "public_user_3@example.com",
@@ -294,7 +303,8 @@ Submission.create!({
 range = [1,2,3,4,5]
 50.times do |i|
   Submission.create!({
-    touchpoint: touchpoint_3,
+    form: touchpoint_3.form,
+    touchpoint_id: 999,
     answer_01: range.sample,
     answer_02: range.sample,
     answer_03: range.sample,

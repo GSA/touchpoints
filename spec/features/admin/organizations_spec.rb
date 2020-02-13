@@ -1,9 +1,12 @@
 require 'rails_helper'
 
 feature "Managing Organizations", js: true do
-  let(:new_organization) { FactoryBot.build(:organization) }
-  let(:admin) { FactoryBot.create(:user, :admin) }
-  let(:organization_manager) { FactoryBot.create(:user, :organization_manager) }
+  let!(:new_organization) { FactoryBot.build(:organization, name: "New Org") }
+
+  let!(:organization) { FactoryBot.create(:organization) }
+  let!(:organization2) { FactoryBot.create(:organization, name: "Organization 2", domain: "test.gov") }
+  let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
+  let(:organization_manager) { FactoryBot.create(:user, :organization_manager, organization: organization2, email: "test@test.gov") }
 
   context "as Admin" do
     before "visit Organization listing" do

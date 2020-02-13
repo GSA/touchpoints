@@ -3,10 +3,16 @@ class Event < ApplicationRecord
   # Extend this list with all First Class event types to be logged TP-
   @@names = {
     :organization_manager_changed => 'organization_manager_changed',
+    :user_deactivated => 'user_deactivated',
+
     :touchpoint_archived => 'touchpoint_archived',
     :touchpoint_form_submitted => 'touchpoint_form_submitted',
     :touchpoint_published => 'touchpoint_published',
-    :user_deactivated => 'user_deactivated'
+
+    :form_archived => 'form_archived',
+    :form_submitted => 'form_submitted',
+    :form_published => 'form_published',
+    :form_deleted => 'form_deleted'
   }
 
   def self.log_event(ename, otype, oid, desc, uid = nil)
