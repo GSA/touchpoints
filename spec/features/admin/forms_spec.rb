@@ -462,7 +462,7 @@ feature "Forms", js: true do
 
       it "redirects to /admin" do
         expect(page.current_path).to eq(admin_root_path)
-        expect(page).to have_content("no form with ID of #{form.short_uuid}")
+        expect(page).to have_content("Authorization is Required")
       end
     end
   end
