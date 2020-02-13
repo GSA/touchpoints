@@ -87,19 +87,37 @@ class SubmissionsController < ApplicationController
     end
 
     def set_form
-      if params[:form] # coming from /touchpoints/:id/submit
-        @short_uuid = (params[:id].to_s.length == 8) ?
-          params[:id] :
-          Form.find_by_id(params[:id]).short_uuid
+      if params[:form]
+        @short_uuid = params[:id].to_s
+        if LEGACY_TOUCHPOINTS_URL_MAP.has_key?(params[:id].to_s)
+          @short_uuid = LEGACY_TOUCHPOINTS_URL_MAP[params[:id].to_s]
+        end
       elsif params[:form_id]
-        @short_uuid = (params[:form_id].to_s.length == 8) ?
-          params[:form_id] :
-          (Form.find_by_uuid(params[:form_id]) || Form.find_by_id(params[:form_id]).short_uuid)
+        @short_uuid = params[:form_id].to_s
+        if LEGACY_TOUCHPOINTS_URL_MAP.has_key?(params[:form_id].to_s)
+          @short_uuid = LEGACY_TOUCHPOINTS_URL_MAP[params[:form_id].to_s]
+        end
       elsif params[:touchpoint_id]
-        @short_uuid = (params[:touchpoint_id].to_s.length == 8) ?
-          params[:touchpoint_id] :
-          (Form.find_by_legacy_touchpoints_uuid(params[:touchpoint_id]) || Form.find_by_legacy_touchpoints_id(params[:touchpoint_id]).short_uuid || Form.find_by_uuid(params[:form_id]) || Form.find_by_id(params[:form_id]).short_uuid)
+        @short_uuid = params[:touchpoint_id].to_s
+        if LEGACY_TOUCHPOINTS_URL_MAP.has_key?(params[:touchpoint_id].to_s)
+          @short_uuid = LEGACY_TOUCHPOINTS_URL_MAP[params[:touchpoint_id].to_s]
+        end
       end
+      puts "SHORT UUID #{@short_uuid}"
+
+      # if params[:form] # coming from /touchpoints/:id/submit
+      #   @short_uuid = (params[:id].to_s.length == 8) ?
+      #     params[:id] :
+      #     Form.find_by_legacy_touchpoints_id(params[:id]).short_uuid
+      # elsif params[:form_id]
+      #   @short_uuid = (params[:form_id].to_s.length == 8) ?
+      #     params[:form_id] :
+      #     (Form.find_by_short_uuid(params[:form_id]) || Form.find_by_id(params[:form_id]).short_uuid)
+      # elsif params[:touchpoint_id]
+      #   @short_uuid = (params[:touchpoint_id].to_s.length == 8) ?
+      #     params[:touchpoint_id] :
+      #     (Form.find_by_legacy_touchpoints_uuid(params[:touchpoint_id]) || Form.find_by_legacy_touchpoints_id(params[:touchpoint_id]).short_uuid || Form.find_by_short_uuid(params[:form_id]) || Form.find_by_id(params[:form_id]).short_uuid)
+      # end
 
       @form = FormCache.fetch(@short_uuid)
       raise ActiveRecord::RecordNotFound, "no form with ID of #{@short_uuid}" unless @form.present?
