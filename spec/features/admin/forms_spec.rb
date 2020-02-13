@@ -435,7 +435,8 @@ feature "Forms", js: true do
 
   context "form owner with Form Manager permissions" do
     let(:user) { FactoryBot.create(:user, organization: organization) }
-    let!(:form) { FactoryBot.create(:form, :custom, organization: organization, user: user) }
+    let(:form) { FactoryBot.create(:form, :custom, organization: organization, user: user) }
+    let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form: form, user: user) }
 
     before do
       login_as(user)
@@ -453,14 +454,16 @@ feature "Forms", js: true do
     let(:user2) { FactoryBot.create(:user, organization: organization) }
     let!(:form) { FactoryBot.create(:form, :custom, organization: organization, user: user2) }
 
-    before do
-      login_as(user)
-      visit edit_admin_form_path(form.short_uuid)
-    end
+    describe "cannot edit the form" do
+      before do
+        login_as(user)
+        visit edit_admin_form_path(form.short_uuid)
+      end
 
-    it "redirects to /admin" do
-      expect(page.current_path).to eq(admin_root_path)
-      expect(page).to have_content("Welcome to Touchpoints")
+      it "redirects to /admin" do
+        expect(page.current_path).to eq(admin_root_path)
+        expect(page).to have_content("no form with ID of #{form.short_uuid}")
+      end
     end
   end
 
