@@ -57,4 +57,12 @@ class ApplicationController < ActionController::Base
   def timestamp_string
     Time.now.strftime('%Y-%m-%d_%H-%M-%S')
   end
+
+
+  private
+
+  # For Devise
+  def after_sign_out_path_for(resource_or_scope)
+    index_path
+  end
 end
