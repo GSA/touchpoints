@@ -527,8 +527,8 @@ feature "Forms", js: true do
     end
 
     describe "deleting Questions" do
-      let!(:form2) { FactoryBot.create(:form, :custom, organization: organization, user: touchpoints_manager) }
-      let!(:form_section2) { FactoryBot.create(:form_section, form: form2) }
+      let(:form2) { FactoryBot.create(:form, :custom, organization: organization, user: touchpoints_manager) }
+      let(:form_section2) { FactoryBot.create(:form_section, form: form2) }
       let!(:question) { FactoryBot.create(:question, form: form2, form_section: form_section2) }
 
       context "with Touchpoint Manager permissions" do
@@ -550,13 +550,13 @@ feature "Forms", js: true do
           let(:new_title) { "New Form Section Title" }
 
           before do
-            visit edit_admin_form_form_section_path(form_section2.form.id, form_section2.id)
+            visit edit_admin_form_form_section_path(form_section2.form, form_section2)
             fill_in("form_section[title]", with: new_title)
             click_button "Update Form section"
           end
 
           it "redirect to /admin/forms/:id/edit with a success flash message" do
-            expect(page.current_path).to eq(edit_admin_form_path(form_section2.form.id))
+            expect(page.current_path).to eq(edit_admin_form_path(form_section2.form))
             expect(page).to have_content("Form section was successfully updated.")
             expect(page).to have_content(new_title)
           end

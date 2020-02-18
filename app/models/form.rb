@@ -49,9 +49,9 @@ class Form < ApplicationRecord
     where("legacy_touchpoint_uuid LIKE ?", "#{short_uuid}%").first
   end
 
-  # def to_param
-    # short_uuid
-  # end
+  def to_param
+    short_uuid
+  end
 
   def short_uuid
     uuid[0..7]
