@@ -84,5 +84,8 @@ module Touchpoints
         resource '*', headers: :any, methods: [:get, :post, :options]
       end
     end
+
+    config.session_store :cookie_store, key: '_session_id'
+    config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
   end
 end
