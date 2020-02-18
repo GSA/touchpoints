@@ -227,3 +227,10 @@ h4 {
     }
   }
 }
+
+.no-outline {
+  border: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  text-decoration: underline;
+}
