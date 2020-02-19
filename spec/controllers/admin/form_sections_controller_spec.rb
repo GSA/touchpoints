@@ -66,7 +66,7 @@ RSpec.describe Admin::FormSectionsController, type: :controller do
 
   describe "GET #new" do
     it "returns a success response" do
-      get :new, params: { form_id: FactoryBot.create(:form, organization: organization, user: admin).id }, session: valid_session
+      get :new, params: { form_id: FactoryBot.create(:form, organization: organization, user: admin) }, session: valid_session
       expect(response).to be_successful
     end
   end
