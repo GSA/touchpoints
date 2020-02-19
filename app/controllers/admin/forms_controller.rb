@@ -129,13 +129,15 @@ class Admin::FormsController < AdminController
   def destroy
     ensure_form_manager(form: @form)
 
-    redirect_to(admin_forms_path, alert: "Cannot delete Form because it has one or more Submissions") and return if @form.submissions.present?
-
-    Event.log_event(Event.names[:form_deleted], "Form", @form.uuid,"Form #{@form.name} deleted at #{DateTime.now}", current_user.id)
-
-    @form.destroy
     respond_to do |format|
-      format.html { redirect_to admin_forms_url, notice: 'Form was successfully destroyed.' }
+      format.html {
+        if @form.destroy
+          Event.log_event(Event.names[:form_deleted], "Form", @form.uuid,"Form #{@form.name} deleted at #{DateTime.now}", current_user.id)
+          redirect_to admin_forms_url, notice: 'Form was successfully destroyed.'
+        else
+          redirect_to edit_admin_form_url(@form), notice: @form.errors.full_messages.to_sentence
+        end
+      }
       format.json { head :no_content }
     end
   end

@@ -20,6 +20,14 @@ class Form < ApplicationRecord
   validate :omb_number_with_expiration_date
 
   before_save :set_uuid
+  before_destroy :ensure_no_responses
+
+  def ensure_no_responses
+    if submissions.count > 0
+      errors.add(:response_count_error, "This form cannot be deleted because it has responses")
+      throw(:abort)
+    end
+  end
 
   after_create :create_first_form_section
 

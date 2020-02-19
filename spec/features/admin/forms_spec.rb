@@ -203,9 +203,12 @@ feature "Forms", js: true do
     context "Edit Form page" do
       let!(:form) { FactoryBot.create(:form, :custom, organization: organization, user: admin) }
 
+      before do
+        visit edit_admin_form_path(form)
+      end
+
       describe "editing a Form definition" do
         before do
-          visit edit_admin_form_path(form)
           fill_in "form_name", with: "Updated Form Name"
           fill_in "form_title", with: "Updated Title"
           click_on "Update Form"
@@ -216,6 +219,32 @@ feature "Forms", js: true do
           expect(page.current_path).to eq(admin_form_path(form))
           expect(page).to have_content("Updated Form Name")
           expect(page).to have_content("Updated Title")
+        end
+      end
+
+      describe "delete a Form" do
+        context "with no responses" do
+          before do
+            click_on "Delete"
+            page.driver.browser.switch_to.alert.accept
+          end
+
+          it "can delete existing Form" do
+            expect(page).to have_content("Form was successfully destroyed.")
+          end
+        end
+
+        context "with responses" do
+          let!(:submission) { FactoryBot.create(:submission, form: form)}
+
+          before do
+            click_on "Delete"
+            page.driver.browser.switch_to.alert.accept
+          end
+
+          it "cannot delete existing Form" do
+            expect(page).to have_content("This form cannot be deleted because it has responses")
+          end
         end
       end
 
