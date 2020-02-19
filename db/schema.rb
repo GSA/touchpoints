@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_19_164425) do
+ActiveRecord::Schema.define(version: 2020_02_19_201414) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -115,7 +115,6 @@ ActiveRecord::Schema.define(version: 2020_02_19_164425) do
   end
 
   create_table "submissions", force: :cascade do |t|
-    t.integer "touchpoint_id"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -149,39 +148,8 @@ ActiveRecord::Schema.define(version: 2020_02_19_164425) do
     t.integer "form_id"
   end
 
-  create_table "touchpoints", force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "form_id"
-    t.string "notification_emails"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "start_date"
-    t.datetime "end_date"
-    t.string "omb_approval_number"
-    t.date "expiration_date"
-    t.string "delivery_method"
-    t.string "element_selector"
-    t.string "medium"
-    t.string "federal_register_url"
-    t.integer "anticipated_delivery_count", default: 0
-    t.integer "survey_form_activations", default: 0
-    t.integer "organization_id"
-    t.boolean "hisp", default: false
-    t.string "service_name"
-    t.text "data_submission_comment"
-    t.string "survey_instrument_reference"
-    t.string "agency_poc_email"
-    t.string "agency_poc_name"
-    t.string "department"
-    t.string "bureau"
-    t.string "aasm_state"
-    t.string "uuid"
-    t.index ["uuid"], name: "index_touchpoints_on_uuid"
-  end
-
   create_table "user_roles", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "touchpoint_id"
     t.integer "form_id"
     t.string "role"
     t.datetime "created_at", null: false
