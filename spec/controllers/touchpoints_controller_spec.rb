@@ -39,19 +39,21 @@ describe TouchpointsController, type: :controller do
   # TouchpointsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  let!(:touchpoint) { FactoryBot.create(:touchpoint) }
+  let(:organization) { FactoryBot.create(:organization) }
+  let(:user) { FactoryBot.create(:user, organization: organization) }
+  let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: user) }
 
   describe "GET #show with ID" do
     it "returns a success response" do
-      get :show, params: { id: touchpoint.to_param }, session: valid_session
-      expect(response).to redirect_to(submit_touchpoint_path(touchpoint))
+      get :show, params: { id: form.legacy_touchpoint_id }, session: valid_session
+      expect(response).to redirect_to(submit_touchpoint_path(form))
     end
   end
 
   describe "GET #show with UUID" do
     it "returns a success response" do
-      get :show, params: { id: touchpoint.short_uuid }, session: valid_session
-      expect(response).to redirect_to(submit_touchpoint_path(touchpoint))
+      get :show, params: { id: form.short_uuid }, session: valid_session
+      expect(response).to redirect_to(submit_touchpoint_path(form))
     end
   end
 
@@ -64,13 +66,13 @@ describe TouchpointsController, type: :controller do
 
     it "throws an ActiveRecord error for too few characters in the UUID" do
       expect {
-        get :show, params: { id: touchpoint.uuid[0..6] }, session: valid_session
+        get :show, params: { id: form.uuid[0..6] }, session: valid_session
       }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it "throws an ActiveRecord error for too many characters in the UUID" do
       expect {
-        get :show, params: { id: touchpoint.uuid[0..9] }, session: valid_session
+        get :show, params: { id: form.uuid[0..9] }, session: valid_session
       }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end

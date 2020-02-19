@@ -22,7 +22,7 @@
         <%= render 'components/forms/edit/question_types/text_area', form: form, question: question, question_number: multi_section_question_number %>
         <% end %>
         <%= link_to "Edit Question", edit_admin_form_question_path(@form, question), class: "usa-button" %>
-        <% if touchpoint_permissions?(touchpoint: @form.touchpoint) %>
+        <% if form_permissions?(form: @form) %>
         <%= link_to 'Delete Question', admin_form_question_path(@form, question), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" %>
         <% end %>
       </div>

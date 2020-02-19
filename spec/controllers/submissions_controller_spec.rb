@@ -29,11 +29,13 @@ RSpec.describe SubmissionsController, type: :controller do
   # Submission. As you add validations to Submission, be sure to
   # adjust the attributes here as well.
 
-  let!(:touchpoint) { FactoryBot.create(:touchpoint, :with_form) }
+  let(:organization) { FactoryBot.create(:organization)}
+  let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
+  let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin)}
 
   let(:valid_attributes) {
     {
-      touchpoint_id: touchpoint.id,
+      form_id: form.id,
       answer_01: "body text",
       answer_02: "James",
       answer_03: "Madison",
@@ -55,7 +57,6 @@ RSpec.describe SubmissionsController, type: :controller do
   # SubmissionsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  let(:admin) { FactoryBot.create(:user, :admin) }
 
   before do
     sign_in(admin)
@@ -63,18 +64,18 @@ RSpec.describe SubmissionsController, type: :controller do
 
   describe "GET #new" do
     it "returns a success response with a Touchpoint ID" do
-      get :new, params: { touchpoint_id: touchpoint.id }, session: valid_session
+      get :new, params: { touchpoint_id: form.short_uuid }, session: valid_session
       expect(response).to be_successful
     end
 
     it "returns a success response with a Touchpoint UUID" do
-      get :new, params: { touchpoint_id: touchpoint.short_uuid }, session: valid_session
+      get :new, params: { touchpoint_id: form.short_uuid }, session: valid_session
       expect(response).to be_successful
     end
 
     it "returns a fail response with an invalid Touchpoint UUID" do
       expect {
-        get :new, params: { touchpoint_id: touchpoint.short_uuid.reverse }, session: valid_session
+        get :new, params: { touchpoint_id: form.short_uuid.reverse }, session: valid_session
       }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
@@ -83,33 +84,33 @@ RSpec.describe SubmissionsController, type: :controller do
     context "with valid params and an ID" do
       it "creates a new Submission" do
         expect {
-          post :create, params: {submission: valid_attributes, touchpoint_id: touchpoint.id }, session: valid_session
+          post :create, params: {submission: valid_attributes, form_id: form.short_uuid }, session: valid_session
         }.to change(Submission, :count).by(1)
       end
 
       it "redirects to the created submission" do
-        post :create, params: { submission: valid_attributes, touchpoint_id: touchpoint.id }, session: valid_session
-        expect(response).to redirect_to(submit_touchpoint_path(touchpoint))
+        post :create, params: { submission: valid_attributes, form_id: form.short_uuid }, session: valid_session
+        expect(response).to redirect_to(submit_touchpoint_path(form))
       end
     end
 
     context "with valid param and a UUID" do
       it "creates a new Submission" do
         expect {
-          post :create, params: {submission: valid_attributes, touchpoint_id: touchpoint.short_uuid }, session: valid_session
+          post :create, params: {submission: valid_attributes, form_id: form.short_uuid }, session: valid_session
         }.to change(Submission, :count).by(1)
       end
 
       it "redirects to the created submission" do
-        post :create, params: { submission: valid_attributes, touchpoint_id: touchpoint.short_uuid }, session: valid_session
-        expect(response).to redirect_to(submit_touchpoint_path(touchpoint))
+        post :create, params: { submission: valid_attributes, form_id: form.short_uuid }, session: valid_session
+        expect(response).to redirect_to(submit_touchpoint_path(form))
       end
     end
 
     context "with invalid params" do
       before do
-        touchpoint.form.questions.first.update_attribute(:is_required,true)
-        post :create, params: { submission: invalid_attributes, touchpoint_id: touchpoint.id }, session: valid_session, format: :json
+        form.questions.first.update_attribute(:is_required, true)
+        post :create, params: { submission: invalid_attributes, form_id: form.short_uuid }, session: valid_session, format: :json
       end
 
       it "returns an error response indicating the field is required" do
@@ -121,8 +122,8 @@ RSpec.describe SubmissionsController, type: :controller do
 
     context "with excess characters" do
       before do
-        touchpoint.form.questions.first.update_attribute(:character_limit, 5)
-        post :create, params: { submission: { answer_01: "more than 5 characters" }, touchpoint_id: touchpoint.id }, session: valid_session, format: :json
+        form.questions.first.update_attribute(:character_limit, 5)
+        post :create, params: { submission: { answer_01: "more than 5 characters" }, touchpoint_id: form.short_uuid }, session: valid_session, format: :json
       end
 
       it "returns an error response indicating character limit has been exceeded" do

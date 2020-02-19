@@ -1,5 +1,5 @@
 <div class="well">
-  <% @touchpoints = Touchpoint.all %>
+  <% @forms = Form.all %>
   <h3>
     Weekly Product & Program Use Metrics
   </h3>
@@ -17,11 +17,11 @@
     </tr>
     <tr>
       <td>
-        <%= @touchpoints.collect(&:organization_id).uniq.size %>
+        <%= @forms.collect(&:organization_id).uniq.size %>
       </td>
       <td>
-        <% non_omb_touchpoints = @touchpoints.select { |tp| !tp.omb_approval_number.present? }.collect(&:omb_approval_number).size %>
-        <% omb_touchpoints = @touchpoints.select { |tp| tp.omb_approval_number.present? }.collect(&:omb_approval_number).uniq.size %>
+        <% non_omb_touchpoints = @forms.select { |tp| !tp.omb_approval_number.present? }.collect(&:omb_approval_number).size %>
+        <% omb_touchpoints = @forms.select { |tp| tp.omb_approval_number.present? }.collect(&:omb_approval_number).uniq.size %>
         <% reportable_touchpoints = non_omb_touchpoints + omb_touchpoints %>
         <%= reportable_touchpoints %>
       </td>

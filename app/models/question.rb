@@ -9,7 +9,7 @@ class Question < ApplicationRecord
   validates :character_limit, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: MAX_CHARACTERS, allow_nil: true }
 
   after_save do | question |
-    TouchpointCache.invalidate(question.form.touchpoint.short_uuid) if question.form.touchpoint.present?
+    FormCache.invalidate(question.form.short_uuid)
   end
 
   def max_length

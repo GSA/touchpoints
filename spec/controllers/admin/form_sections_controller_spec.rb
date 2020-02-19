@@ -41,7 +41,8 @@ RSpec.describe Admin::FormSectionsController, type: :controller do
   # FormSectionsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  let(:admin) { FactoryBot.create(:user, :admin) }
+  let(:organization) { FactoryBot.create(:organization) }
+  let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
 
   before do
     sign_in(admin)
@@ -65,7 +66,7 @@ RSpec.describe Admin::FormSectionsController, type: :controller do
 
   describe "GET #new" do
     it "returns a success response" do
-      get :new, params: { form_id: FactoryBot.create(:form).id }, session: valid_session
+      get :new, params: { form_id: FactoryBot.create(:form, organization: organization, user: admin) }, session: valid_session
       expect(response).to be_successful
     end
   end

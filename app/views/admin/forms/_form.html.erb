@@ -3,41 +3,80 @@
     <div id="error_explanation">
       <h2><%= pluralize(form.errors.count, "error") %> prohibited this form from being saved:</h2>
 
-      <ul class="usa-list">
       <% form.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+        <div class="usa-alert usa-alert--error" >
+          <div class="usa-alert__body">
+            <h3 class="usa-alert__heading">Error</h3>
+            <p class="usa-alert__text">
+              <%= message %>
+            </p>
+          </div>
+        </div>
       <% end %>
-      </ul>
     </div>
   <% end %>
   <% if admin_permissions? %>
-  <div class="grid-row grid-gap-md">
-    <div class="grid-col-6">
-      <%= f.select :user_id, options_for_select(User.all.map { |user| [user.email, user.id] }, selected: form.user_id), { prompt: "Form Owner?" }, { id: "add-submission-viewer-dropdown", style: "display: inline-block; margin-right: 1em;", class: "usa-select" } %>
-    </div>
-    <div class="grid-col-6">
-      <br>
-      <fieldset class="usa-fieldset">
-        <legend class="usa-sr-only">Form Template?</legend>
-        <div class="usa-checkbox">
-          <%= f.check_box :template, class: "usa-checkbox__input" %>
-          <%= f.label :template, "Form Template?", class: "usa-checkbox__label" %>
+  <div class="well">
+    <h4>
+      Admin options
+    </h4>
+    <div class="grid-row grid-gap-md">
+      <div class="grid-col-6">
+        <div class="field">
+          <%= f.label :organization, class: "usa-label" %>
+          <%= f.select :organization_id, options_for_select(Organization.all.order(:name).map { |org| ["#{org.abbreviation}-#{org.name}", org.id] }, selected: (form.organization ? form.organization.id : nil)), { prompt: "Select an Organization" }, { class: "usa-select" } %>
         </div>
-      </fieldset>
-    </div>
-    <div class="grid-col-6">
-      <div class="field">
-        <%= f.label :kind, class: "usa-label" %>
-        <%= f.text_field :kind, class: "usa-input" %>
+      </div>
+      <div class="grid-col-6">
+        <br>
+        <br>
+        <br>
+        <fieldset class="usa-fieldset">
+          <legend class="usa-sr-only">HISP Form?</legend>
+          <div class="usa-checkbox">
+            <%= f.check_box :hisp, class: "usa-checkbox__input" %>
+            <%= f.label :hisp, "HISP Form?", class: "usa-checkbox__label" %>
+          </div>
+        </fieldset>
       </div>
     </div>
-    <div class="grid-col-6">
-      <div class="field">
-        <%= f.label :notes, class: "usa-label" %>
-        <%= f.text_field :notes, class: "usa-input" %>
+    <div class="grid-row grid-gap-md">
+      <div class="grid-col-6">
+        <%= f.label "Form owner", class: "usa-label" %>
+        <%= f.select :user_id, options_for_select(User.all.map { |user| [user.email, user.id] }, selected: form.user_id), { prompt: "Form Owner?" }, { id: "add-submission-viewer-dropdown", style: "display: inline-block; margin-right: 1em;", class: "usa-select" } %>
+      </div>
+    </div>
+    <div class="grid-row grid-gap-md">
+      <div class="grid-col-6">
+        <div class="field">
+          <%= f.label :kind, class: "usa-label" %>
+          <%= f.text_field :kind, class: "usa-input" %>
+        </div>
+      </div>
+      <div class="grid-col-6">
+        <br>
+        <br>
+        <br>
+        <fieldset class="usa-fieldset">
+          <legend class="usa-sr-only">Form Template?</legend>
+          <div class="usa-checkbox">
+            <%= f.check_box :template, class: "usa-checkbox__input" %>
+            <%= f.label :template, "Form Template?", class: "usa-checkbox__label" %>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+    <div class="grid-row grid-gap-md">
+      <div class="grid-col-6">
+        <div class="field">
+          <%= f.label :notes, class: "usa-label" %>
+          <%= f.text_area :notes, class: "usa-textarea" %>
+        </div>
       </div>
     </div>
   </div>
+  <% else %>
+    <%= f.hidden_field :organization_id, value: current_user.organization.id %>
   <% end %>
   <div class="grid-row grid-gap-md">
     <div class="grid-col-6">
@@ -52,10 +91,19 @@
         <%= f.text_field :title, class: "usa-input" %>
       </div>
     </div>
+    <div class="grid-col-6">
+      <div class="field">
+        <%= f.label :aasm_state, "State", class: "usa-label" %>
+        <%= f.select :aasm_state, options_for_select(form.transitionable_states, selected: form.aasm_state), { prompt: "Transition to State" }, {class: "usa-select"} %>
+      </div>
+    </div>
   </div>
   <br>
   <div class="grid-row grid-gap-md">
     <div class="grid-col-6">
+      <h3>
+        Form customizations
+      </h3>
       <fieldset class="usa-fieldset">
         <legend class="usa-sr-only">Display Organization Tag Logo</legend>
         <div class="usa-checkbox">
@@ -79,37 +127,163 @@
       </fieldset>
     </div>
   </div>
-  <div class="grid-row">
-    <div class="grid-col-6">
-      <div class="field">
-        <%= f.label :modal_button_text, class: "usa-label" %>
-        <%= f.text_field :modal_button_text, class: "usa-input" %>
-      </div>
-    </div>
-  </div>
   <div class="grid-row grid-gap-md">
-    <div class="grid-col-6">
+    <div class="grid-col-4">
       <div class="field">
         <%= f.label :instructions, class: "usa-label" %>
+        <div>
+          <em>
+            Displayed under Form title before Form body.
+          </em>
+        </div>
         <%= f.text_area :instructions, class: "usa-textarea" %>
       </div>
     </div>
-    <div class="grid-col-6">
+    <div class="grid-col-4">
       <div class="field">
         <%= f.label :disclaimer_text, class: "usa-label" %>
+        <div>
+          <em>
+            Displayed before Form submission.
+          </em>
+        </div>
         <%= f.text_area :disclaimer_text, class: "usa-textarea", maxlength: 500 %>
       </div>
     </div>
-  </div>
-  <div class="grid-row grid-gap-md">
-    <div class="grid-col-6">
+    <div class="grid-col-4">
       <div class="field">
         <%= f.label :success_text, class: "usa-label" %>
+        <div>
+          <em>
+            Displayed after a Form is submitted.
+          </em>
+        </div>
         <%= f.text_area :success_text, class: "usa-textarea" %>
       </div>
     </div>
   </div>
-  <%= render 'components/whitelist_options', f: f %>
+  <div class="well">
+    <h3>
+      Select a Delivery Method
+    </h3>
+    <fieldset class="usa-fieldset">
+      <legend class="usa-sr-only">Delivery Methods</legend>
+      <% Form::DELIVERY_METHODS.each do |delivery_method| %>
+        <div class="usa-checkbox">
+          <%= f.radio_button :delivery_method, delivery_method, class: "usa-checkbox__input" %>
+          <%= f.label delivery_method, class: "usa-checkbox__label", for: "form_delivery_method_#{delivery_method}" %>
+        </div>
+      <% end %>
+    </fieldset>
+    <div class="grid-row">
+      <div class="grid-col-6">
+        <div class="field">
+          <%= f.label :modal_button_text, class: "usa-label" %>
+          <%= f.text_field :modal_button_text, class: "usa-input" %>
+        </div>
+        <div class="field">
+          <%= f.label :element_selector, class: "usa-label" %>
+          <div>
+            <em>
+              Only required for "Inline" and "Custom-button-modal"
+            </em>
+          </div>
+          <%= f.text_field :element_selector, class: "usa-input", placeholder: "#html-element-id" %>
+        </div>
+      </div>
+    </div>
+    <br>
+    <%= render 'components/whitelist_options', f: f %>
+  </div>
+  <div class="well">
+    <h3>
+      <i class="fa fa-pencil-alt"></i>
+      <span title="Public Records Act">PRA</span>
+      Information
+    </h3>
+    <div class="grid-row grid-gap-md">
+      <div class="grid-col-6">
+        <div class="field">
+          <%= f.label :service_name, class: "usa-label" %>
+          <%= f.text_field :service_name, class: "usa-input", placeholder: "Name of the Service receiving feedback" %>
+        </div>
+      </div>
+      <div class="grid-col-6">
+        <div class="field">
+          <%= f.label :survey_instrument_reference, class: "usa-label" %>
+          <%= f.text_field :survey_instrument_reference, class: "usa-input", placeholder: "Survey instrument reference" %>
+        </div>
+      </div>
+      <div class="grid-col-6">
+        <div class="field">
+          <%= f.label :agency_poc_name, class: "usa-label" %>
+          <%= f.text_field :agency_poc_name, class: "usa-input", placeholder: "Point of Contact's Name" %>
+        </div>
+      </div>
+      <div class="grid-col-6">
+        <div class="field">
+          <%= f.label :agency_poc_email, class: "usa-label" %>
+          <%= f.text_field :agency_poc_email, class: "usa-input", placeholder: "Point of Contact's Email" %>
+        </div>
+      </div>
+      <div class="grid-col-6">
+        <div class="field">
+          <%= f.label :department, class: "usa-label" %>
+          <%= f.text_field :department, class: "usa-input", placeholder: "Department" %>
+        </div>
+      </div>
+      <div class="grid-col-6">
+        <div class="field">
+          <%= f.label :bureau, class: "usa-label" %>
+          <%= f.text_field :bureau, class: "usa-input", placeholder: "Bureau" %>
+        </div>
+      </div>
+      <div class="grid-col-6">
+        <div class="field">
+          <%= f.label :omb_approval_number, class: "usa-label" %>
+          <%= f.text_field :omb_approval_number, class: "usa-input", placeholder: "OMB Approval #" %>
+        </div>
+      </div>
+      <div class="grid-col-6">
+        <div class="field">
+          <%= f.label :federal_register_url, class: "usa-label" %>
+          <%= f.text_field :federal_register_url, class: "usa-input", placeholder: "https://www.federalregister.gov/..." %>
+        </div>
+      </div>
+      <div class="grid-col-6">
+        <div class="field">
+          <%= f.label :medium, "Medium of Delivery", class: "usa-label" %>
+          <%= f.text_field :medium, class: "usa-input", placeholder: "From a Call-center" %>
+        </div>
+      </div>
+      <div class="grid-col-6">
+        <div class="field">
+          <%= f.label :anticipated_delivery_count, class: "usa-label" %>
+          <%= f.number_field :anticipated_delivery_count, class: "usa-input", placeholder: "100" %>
+        </div>
+      </div>
+      <div class="grid-col-6">
+        <div class="field">
+          <%= f.label :expiration_date, class: "usa-label" %>
+          <%= f.date_field :expiration_date, class: "usa-input" %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="well">
+    <div class="grid-row grid-gap-md">
+      <div class="grid-col-6">
+        <h3>
+          <i class="fa fa-envelope"></i>
+          Notification Settings
+        </h3>
+        <div class="field">
+          <%= f.label "emails to notify when a Response is received", class: "usa-label" %>
+          <%= f.text_field(:notification_emails, value: (form.notification_emails? ? form.notification_emails : current_user.email), class: "usa-input") %>
+        </div>
+      </div>
+    </div>
+  </div>
   <p>
     <%= f.submit class: "usa-button" %>
   </p>

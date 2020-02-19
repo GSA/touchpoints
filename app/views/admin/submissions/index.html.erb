@@ -1,57 +1,55 @@
 <h1>
-  <%= @submissions.size %> Form Responses
+  <%= submissions.size %> Form Responses
 </h1>
 <h5>
   for
-  <%= @touchpoint.name %>
+  <%= form.name %>
 </h5>
 
-<% if @submissions.present? %>
+<% if submissions.present? %>
 <div class="table-scroll">
   <div class="table-wrap">
     <table class="usa-table table-scroll submissions">
       <thead>
         <tr>
-        <% @touchpoint.form.questions.each do |question| %>
+        <% form.questions.each do |question| %>
           <th><%= question.text %></th>
         <% end %>
-          <th>Language</th>
           <th>
             Created At
           </th>
           <th style="border-right: none;"></th>
-        <% if touchpoint_permissions?(touchpoint: @touchpoint) %>
+        <% if form_permissions?(form: @form) %>
           <th style="border-left: none;"></th>
         <% end %>
         </tr>
       </thead>
 
       <tbody>
-        <% @submissions.each do |submission| %>
+        <% submissions.each do |submission| %>
         <tr title="Response ID <%= submission.id %>">
-        <% @touchpoint.form.questions.each do |question| %>
+        <% form.questions.each do |question| %>
           <td>
-            <%= sanitize(submission.send(question.answer_field.to_sym)) %>
+            <%= sanitize(submission.send(question.answer_field.to_sym)).to_s.truncate(160) %>
           </td>
         <% end %>
-          <td><%= submission.language %></td>
           <td><%= submission.created_at %></td>
           <td style="border-right: none;">
             <% if submission.flagged? %>
-              <%= link_to unflag_admin_touchpoint_submission_path(submission.touchpoint, submission), class: "usa-button usa-button--outline", method: :post, data: { confirm: 'Are you sure?' } do %>
+              <%= link_to unflag_admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--outline", method: :post, data: { confirm: 'Are you sure?' } do %>
               <i class="far fa-times-circle"></i>
               Flagged
               <% end %>
             <% else %>
-              <%= link_to flag_admin_touchpoint_submission_path(submission.touchpoint, submission), class: "usa-button", method: :post, data: { confirm: 'Are you sure?' } do %>
+              <%= link_to flag_admin_form_submission_path(submission.form, submission), class: "usa-button", method: :post, data: { confirm: 'Are you sure?' } do %>
                 <i class="far fa-flag"></i>
                 Flag
               <% end %>
             <% end %>
           </td>
-          <% if touchpoint_permissions?(touchpoint: @touchpoint) %>
+          <% if form_permissions?(form: @form) %>
           <td style="border-left: none;">
-            <%= link_to admin_touchpoint_submission_path(submission.touchpoint, submission), class: "usa-button usa-button--secondary", method: :delete, data: { confirm: 'Are you sure?' } do %>
+            <%= link_to admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--secondary", method: :delete, data: { confirm: 'Are you sure?' } do %>
               <i class="fas fa-trash"></i>
               Delete
             <% end %>
@@ -64,14 +62,14 @@
   </div>
 </div>
   <br>
-  <%= link_to "Export Responses to CSV", export_submissions_admin_touchpoint_url(@touchpoint, format: "csv"), class: "usa-button export-btn", target: "_blank", rel: "noopener" %>
+  <%= link_to "Export Responses to CSV", export_submissions_admin_form_url(form, format: "csv"), class: "usa-button export-btn", target: "_blank", rel: "noopener" %>
 
-  <% if @touchpoint.form && @touchpoint.form.kind == "a11" %>
+  <% if form && form.kind == "a11" %>
   <br>
   <br>
   <div class="">
-    <%= link_to "Export A-11 Header Report", export_a11_header_admin_touchpoint_url(@touchpoint, format: "csv"), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" %>
-    <%= link_to "Export A-11 Responses Report", export_a11_submissions_admin_touchpoint_url(@touchpoint, format: "csv"), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" %>
+    <%= link_to "Export A-11 Header Report", export_a11_header_admin_form_url(form, format: "csv"), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" %>
+    <%= link_to "Export A-11 Responses Report", export_a11_submissions_admin_form_url(form, format: "csv"), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" %>
   </div>
   <% end %>
 
@@ -80,7 +78,7 @@
     <div class="usa-alert__body">
       <p class="usa-alert__text">
         Export is not available.
-        This Touchpoint has yet to receive any Responses.
+        This Form has yet to receive any Responses.
       </p>
     </div>
   </div>
@@ -109,18 +107,17 @@
     });
   });
 </script>
-<script language='javascript'>
+<script>
   $(function() {
     $('.export-btn').click(function(e) {
       e.preventDefault();
-      console.log($(this).text());
       if ($(this).text() == "Exporting...") {
         console.log("Click disabled while exporting");
         return false;
       }
       var uuid = generateUUID();
       $(this).html('Exporting...').addClass('cursor-not-allowed');
-      var url = $(this).attr('href') + '?uuid=' + uuid + '&touchpoint_id=<%= @touchpoint.short_uuid %>';
+      var url = $(this).attr('href') + '?uuid=' + uuid + '&touchpoint_id=<%= form.short_uuid %>';
       subscribeExportChannel(uuid, function() {
         $.get(url);
       });

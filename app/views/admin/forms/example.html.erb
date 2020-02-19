@@ -30,21 +30,21 @@
   </head>
   <body>
     <!-- Demo content -->
-    <% if @touchpoint.delivery_method == "inline" %>
+    <% if @form.delivery_method == "inline" %>
     <br>
     <div class="grid-container">
       <div class="grid-col-12">
-        <div id="<%= @touchpoint.element_selector %>">
+        <div id="<%= @form.element_selector %>">
           Touchpoint will be rendered here.
         </div>
       </div>
     </div>
     <br>
-    <% elsif @touchpoint.delivery_method == "custom-button-modal" %>
+    <% elsif @form.delivery_method == "custom-button-modal" %>
     <br>
     <div class="grid-container">
       <div class="grid-col-12">
-        <a id="<%= @touchpoint.element_selector %>">
+        <a id="<%= @form.element_selector %>">
           Custom button
         </a>
       </div>
@@ -78,6 +78,6 @@
     </div>
     <% end %>
     <!--- End demo content -->
-    <script src="<%= js_touchpoint_url(@touchpoint) %>" async></script>
+    <script src="<%= js_touchpoint_url(@form) %>" async></script>
   </body>
 </html>
