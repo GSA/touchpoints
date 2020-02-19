@@ -10,7 +10,7 @@ class Form < ApplicationRecord
   has_many :questions
   has_many :submissions
 
-  has_many :user_roles
+  has_many :user_roles, dependent: :destroy
   has_many :users, through: :user_roles, :primary_key => "form_id"
 
   validates :name, presence: true
