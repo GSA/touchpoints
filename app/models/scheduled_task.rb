@@ -1,9 +1,9 @@
 class ScheduledTask
 
-	def self.check_expiring_touchpoints
-		tps = Touchpoint.where(expiration_date: Date.today + 7).or(Touchpoint.where(expiration_date: ScheduledTask.skip_weekends(Date.today)))
-		tps.each do | tp |
-			UserMailer.touchpoint_expiring_notification(tp).deliver_later
+	def self.check_expiring_forms
+		forms = Form.where(expiration_date: Date.today + 7).or(Form.where(expiration_date: ScheduledTask.skip_weekends(Date.today)))
+		forms.each do |f|
+			UserMailer.form_expiring_notification(f).deliver_later
 		end
 	end
 

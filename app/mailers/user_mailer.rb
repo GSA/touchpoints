@@ -45,10 +45,10 @@ class UserMailer < ApplicationMailer
 
   end
 
-  def touchpoint_expiring_notification(touchpoint)
+  def form_expiring_notification(touchpoint)
     attachments.inline["logo.png"] = @@header_logo
-    @touchpoint = touchpoint
-    mail subject: "Touchpoint #{@touchpoint.name} expiring on #{@touchpoint.expiration_date}",
+    @form = form
+    mail subject: "Form #{@form.name} expiring on #{@form.expiration_date}",
       to: ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
 
   end

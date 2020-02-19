@@ -6,5 +6,5 @@
 set :output, "tmp/cron_log.log"
 
 every 1.days do
-   runner "ScheduledTask.check_expiring_touchpoints"
+  runner "ScheduledTask.check_expiring_forms"
 end
