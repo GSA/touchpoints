@@ -26,6 +26,8 @@ class Admin::SubmissionsController < AdminController
   def destroy
     ensure_form_manager(form: @form)
 
+    Event.log_event(Event.names[:response_deleted], "Submission", @submission.id, "Submission #{@submission.id} deleted at #{DateTime.now}", current_user.id)
+
     @submission.destroy
     respond_to do |format|
       format.html { redirect_to admin_form_url(@form), notice: "Response #{@submission.id} was successfully destroyed." }

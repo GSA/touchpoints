@@ -14,7 +14,10 @@ class Event < ApplicationRecord
     :form_archived => 'form_archived',
     :form_submitted => 'form_submitted',
     :form_published => 'form_published',
-    :form_deleted => 'form_deleted'
+    :form_copied => 'form_copied',
+    :form_deleted => 'form_deleted',
+
+    :response_deleted => 'response_deleted'
   }
 
   def self.log_event(ename, otype, oid, desc, uid = nil)
