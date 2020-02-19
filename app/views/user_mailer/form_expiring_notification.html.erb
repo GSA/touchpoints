@@ -1,0 +1,12 @@
+<div class="email-header">
+    <%= image_tag(attachments['logo.png'].url) %>
+</div>
+<h3>
+  Form is expiring soon.
+</h3>
+<p>
+  Form #{@form.name} will expire on #{@form.expiration_date}.
+</p>
+<p>
+  Visit <%= link_to admin_form_url(@form), admin_form_url(@touchpoint) %> to view.
+</p>
