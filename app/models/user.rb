@@ -9,7 +9,7 @@ class User < ApplicationRecord
   devise :omniauthable, omniauth_providers: Rails.configuration.x.omniauth.providers
 
   belongs_to :organization, optional: true
-  has_many :user_roles
+  has_many :user_roles, dependent: :destroy
   has_many :forms, through: :user_roles, primary_key: "form_id"
 
 

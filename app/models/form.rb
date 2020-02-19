@@ -10,7 +10,7 @@ class Form < ApplicationRecord
   has_many :questions
   has_many :submissions
 
-  has_many :user_roles
+  has_many :user_roles, dependent: :destroy
   has_many :users, through: :user_roles, :primary_key => "form_id"
 
   validates :name, presence: true
@@ -20,6 +20,14 @@ class Form < ApplicationRecord
   validate :omb_number_with_expiration_date
 
   before_save :set_uuid
+  before_destroy :ensure_no_responses
+
+  def ensure_no_responses
+    if submissions.count > 0
+      errors.add(:response_count_error, "This form cannot be deleted because it has responses")
+      throw(:abort)
+    end
+  end
 
   after_create :create_first_form_section
 
@@ -49,9 +57,9 @@ class Form < ApplicationRecord
     where("legacy_touchpoint_uuid LIKE ?", "#{short_uuid}%").first
   end
 
-  # def to_param
-    # short_uuid
-  # end
+  def to_param
+    short_uuid
+  end
 
   def short_uuid
     uuid[0..7]

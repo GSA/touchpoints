@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-  <%= f.hidden_field :form_id, value: params[:form_id] %>
+  <%= f.hidden_field :form_id, value: @form.id %>
 
   <div class="field">
     <%= f.label :text, class: "usa-label" %>

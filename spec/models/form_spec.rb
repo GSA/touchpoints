@@ -6,6 +6,25 @@ RSpec.describe Form, type: :model do
   let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: user) }
   let!(:submission) { FactoryBot.create(:submission, form: form) }
 
+  describe "#uuid" do
+    context "newly created Form" do
+      it "is assigned a 36-char UUID" do
+        expect(form.persisted?).to eq(true)
+        expect(form.uuid.length).to eq(36)
+      end
+    end
+  end
+
+  describe "#short_uuid" do
+    context "newly created Form" do
+      it "is assigned an 8-char short_uuid" do
+        expect(form.persisted?).to eq(true)
+        expect(form.short_uuid.length).to eq(8)
+        expect(form.short_uuid).to eq(form.uuid[0..7])
+      end
+    end
+  end
+
   describe "#user_role?" do
     context "without user_role" do
       it "returns nil" do
@@ -62,6 +81,21 @@ RSpec.describe Form, type: :model do
       expect(csv).to include("response_count")
       expect(csv).to include("OMB_control_number")
       expect(csv).to include("federal_register_url")
+    end
+  end
+
+  describe "#user_roles" do
+    let!(:user_role) { FactoryBot.create(:user_role, user: user, form: form, role: UserRole::Role::FormManager)}
+
+    before do
+      form.submissions.destroy_all # manually remove the Form's seeded submission
+
+      expect(UserRole.count).to eq(1)
+      form.destroy
+    end
+
+    it "delete User Roles when Form is deleted" do
+      expect(UserRole.count).to eq(0)
     end
   end
 end

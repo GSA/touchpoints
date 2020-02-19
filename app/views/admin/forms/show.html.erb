@@ -127,7 +127,7 @@
               </p>
               <p>
                 <div class="code" style="background-color: #DCDEE0; min-height: 80px;">
-                  <%= h("<script src=\"#{js_touchpoint_url(@form)}\" async></script>") %>
+                  <%= h("<script src=\"#{js_touchpoint_url(@form.short_uuid)}\" async></script>") %>
                 </div>
               </p>
               <% end %>

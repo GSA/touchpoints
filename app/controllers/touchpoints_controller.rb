@@ -8,7 +8,7 @@ class TouchpointsController < ApplicationController
   end
 
   def show
-    redirect_to submit_touchpoint_path(@form.short_uuid) # instead of rendering #show
+    redirect_to submit_touchpoint_path(@form) # instead of rendering #show
   end
 
 
