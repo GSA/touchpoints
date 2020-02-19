@@ -46,14 +46,14 @@ describe TouchpointsController, type: :controller do
   describe "GET #show with ID" do
     it "returns a success response" do
       get :show, params: { id: form.legacy_touchpoint_id }, session: valid_session
-      expect(response).to redirect_to(submit_touchpoint_path(form.short_uuid))
+      expect(response).to redirect_to(submit_touchpoint_path(form))
     end
   end
 
   describe "GET #show with UUID" do
     it "returns a success response" do
       get :show, params: { id: form.short_uuid }, session: valid_session
-      expect(response).to redirect_to(submit_touchpoint_path(form.short_uuid))
+      expect(response).to redirect_to(submit_touchpoint_path(form))
     end
   end
 

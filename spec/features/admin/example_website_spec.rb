@@ -13,7 +13,7 @@ feature "Example Website Integration", js: true do
 
     context "Open-ended Touchpoint" do
       before do
-        visit example_admin_form_path(open_ended_form.short_uuid)
+        visit example_admin_form_path(open_ended_form)
       end
 
       it "loads Badge with Text" do
@@ -47,7 +47,7 @@ feature "Example Website Integration", js: true do
 
     context "Recruiter Touchpoint" do
       before do
-        visit example_admin_form_path(recruiter_form.short_uuid)
+        visit example_admin_form_path(recruiter_form)
       end
 
       it "loads Badge with Text" do

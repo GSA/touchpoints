@@ -1,6 +1,6 @@
 <div class="well">
   <p>
-    <%= link_to 'New Form', new_admin_form_path, class: "usa-button float-right" %>
+    <%= link_to 'Create New Form', new_admin_form_path, class: "usa-button float-right" %>
     <h1>Forms</h1>
   </p>
   <% if @forms.select { |f| !f.template }.present? %>
@@ -9,7 +9,7 @@
       <tr>
         <th></th>
         <th>Form name</th>
-        <th>State</th>
+        <th>Form status</th>
         <th>Responses</th>
         <th></th>
       </tr>
@@ -17,7 +17,7 @@
     <tbody>
       <% @forms.select { |f| !f.template }.each_with_index do |form, index| %>
       <tr>
-        <td>
+        <td class="text-center">
           <%= index + 1 %>
         </td>
         <td>
@@ -30,7 +30,7 @@
           <%= form.submissions.size %>
         </td>
         <td style="min-width: 1em;">
-          <%= link_to copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline" do %>
+          <%= link_to copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline no-outline" do %>
             <i class="fa fa-copy"></i>
             Copy form
           <% end %>

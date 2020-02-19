@@ -1,3 +1,5 @@
+require 'csv'
+
 class Event < ApplicationRecord
 
   # Extend this list with all First Class event types to be logged TP-
@@ -31,5 +33,25 @@ class Event < ApplicationRecord
 
   def self.valid_events
     @@names.values
+  end
+
+  def self.to_csv
+    attributes = [
+      :name,
+      :object_type,
+      :object_id,
+      :description,
+      :user_id,
+      :created_at,
+      :updated_at
+    ]
+
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+
+      Event.all.each do |event|
+        csv << attributes.map { |attr| event.send(attr) }
+      end
+    end
   end
 end
