@@ -6,6 +6,25 @@ RSpec.describe Form, type: :model do
   let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: user) }
   let!(:submission) { FactoryBot.create(:submission, form: form) }
 
+  describe "#uuid" do
+    context "newly created Form" do
+      it "is assigned a 36-char UUID" do
+        expect(form.persisted?).to eq(true)
+        expect(form.uuid.length).to eq(36)
+      end
+    end
+  end
+
+  describe "#short_uuid" do
+    context "newly created Form" do
+      it "is assigned an 8-char short_uuid" do
+        expect(form.persisted?).to eq(true)
+        expect(form.short_uuid.length).to eq(8)
+        expect(form.short_uuid).to eq(form.uuid[0..7])
+      end
+    end
+  end
+
   describe "#user_role?" do
     context "without user_role" do
       it "returns nil" do

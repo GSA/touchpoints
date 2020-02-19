@@ -9,7 +9,7 @@ feature "Touchpoints", js: true do
     describe "/touchpoints" do
       context "default success text" do
         before do
-          visit touchpoint_path(form.short_uuid)
+          visit touchpoint_path(form)
           expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
           expect(page).to have_content("OMB Approval ##{form.omb_approval_number}")
           expect(page).to have_content("Expiration Date #{form.expiration_date.strftime("%m/%d/%Y")}")
@@ -29,7 +29,7 @@ feature "Touchpoints", js: true do
         before do
           form.update_attribute(:success_text, "Much success, yessss.")
           form.reload
-          visit touchpoint_path(form.short_uuid)
+          visit touchpoint_path(form)
           expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
           expect(page).to have_content("OMB Approval ##{form.omb_approval_number}")
           expect(page).to have_content("Expiration Date #{form.expiration_date.strftime("%m/%d/%Y")}")
@@ -49,7 +49,7 @@ feature "Touchpoints", js: true do
     describe "required question" do
       before do
         form.questions.first.update_attribute(:is_required, true)
-        visit touchpoint_path(form.short_uuid)
+        visit touchpoint_path(form)
         click_on "Submit"
       end
 
@@ -68,7 +68,7 @@ feature "Touchpoints", js: true do
       before do
         question = form.questions.first
         question.update_attribute(:character_limit, 150)
-        visit touchpoint_path(form.short_uuid)
+        visit touchpoint_path(form)
         expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
         expect(page).to have_content("OMB Approval ##{form.omb_approval_number}")
         expect(page).to have_content("Expiration Date #{form.expiration_date.strftime("%m/%d/%Y")}")
@@ -84,7 +84,7 @@ feature "Touchpoints", js: true do
 
     describe "/touchpoints?location_code=" do
       before do
-        visit submit_touchpoint_path(form.short_uuid, location_code: "TEST_LOCATION_CODE")
+        visit submit_touchpoint_path(form, location_code: "TEST_LOCATION_CODE")
         fill_in("answer_01", with: "User feedback")
         click_button "Submit"
       end

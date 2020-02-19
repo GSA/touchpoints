@@ -90,7 +90,7 @@ RSpec.describe SubmissionsController, type: :controller do
 
       it "redirects to the created submission" do
         post :create, params: { submission: valid_attributes, form_id: form.short_uuid }, session: valid_session
-        expect(response).to redirect_to(submit_touchpoint_path(form.short_uuid))
+        expect(response).to redirect_to(submit_touchpoint_path(form))
       end
     end
 
@@ -103,7 +103,7 @@ RSpec.describe SubmissionsController, type: :controller do
 
       it "redirects to the created submission" do
         post :create, params: { submission: valid_attributes, form_id: form.short_uuid }, session: valid_session
-        expect(response).to redirect_to(submit_touchpoint_path(form.short_uuid))
+        expect(response).to redirect_to(submit_touchpoint_path(form))
       end
     end
 

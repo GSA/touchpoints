@@ -53,7 +53,7 @@
 
     <% @organization.forms.each do |form| %>
       <p>
-        <%= link_to form.name, admin_form_path(form.short_uuid) %>
+        <%= link_to form.name, admin_form_path(form) %>
       </p>
     <% end %>
   </div>

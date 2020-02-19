@@ -68,7 +68,7 @@ feature "Forms", js: true do
         it "redirect to /form/:uuid with a success flash message" do
           expect(page).to have_content("Form was successfully created.")
           @form = Form.last
-          expect(page.current_path).to eq(admin_form_path(@form.short_uuid))
+          expect(page.current_path).to eq(admin_form_path(@form))
           expect(page).to have_content(new_form.name)
           expect(page).to have_content("1234")
           expect(page).to have_content("Notification emails")
@@ -92,7 +92,7 @@ feature "Forms", js: true do
         it "redirect to /form/:uuid with a success flash message" do
           expect(page).to have_content("Form was successfully created.")
           @form = Form.last
-          expect(page.current_path).to eq(admin_form_path(@form.short_uuid))
+          expect(page.current_path).to eq(admin_form_path(@form))
           expect(page).to have_content(new_form.name)
           expect(page).to have_content("admin@example.gov")
         end
@@ -185,7 +185,7 @@ feature "Forms", js: true do
           let(:form2) { FactoryBot.create(:form, :open_ended_form, :inline, organization: organization, user: admin)}
 
           before "/admin/forms/:uiid/example" do
-            visit example_admin_form_path(form2.short_uuid)
+            visit example_admin_form_path(form2)
           end
 
           it "can complete then submit the inline Form and see a Success message" do
@@ -469,11 +469,11 @@ feature "Forms", js: true do
 
     before do
       login_as(user)
-      visit edit_admin_form_path(form.short_uuid)
+      visit edit_admin_form_path(form)
     end
 
     it "can edit form" do
-      expect(page.current_path).to eq(edit_admin_form_path(form.short_uuid))
+      expect(page.current_path).to eq(edit_admin_form_path(form))
       expect(page).to have_content("Editing Form")
     end
   end
@@ -486,7 +486,7 @@ feature "Forms", js: true do
     describe "cannot edit the form" do
       before do
         login_as(user)
-        visit edit_admin_form_path(form.short_uuid)
+        visit edit_admin_form_path(form)
       end
 
       it "redirects to /admin" do

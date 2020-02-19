@@ -79,7 +79,7 @@ class Admin::FormsController < AdminController
           role: UserRole::Role::FormManager
         })
 
-        format.html { redirect_to admin_form_path(@form.short_uuid), notice: 'Form was successfully created.' }
+        format.html { redirect_to admin_form_path(@form), notice: 'Form was successfully created.' }
         format.json { render :show, status: :created, location: @form }
       else
         format.html { render :new }
@@ -99,7 +99,7 @@ class Admin::FormsController < AdminController
           role: UserRole::Role::FormManager
         })
 
-        format.html { redirect_to edit_admin_form_path(new_form.short_uuid), notice: 'Form was successfully copied.' }
+        format.html { redirect_to edit_admin_form_path(new_form), notice: 'Form was successfully copied.' }
         format.json { render :show, status: :created, location: new_form }
       else
         format.html { render :new }

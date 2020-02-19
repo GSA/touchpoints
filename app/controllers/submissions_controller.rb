@@ -55,7 +55,7 @@ class SubmissionsController < ApplicationController
       respond_to do |format|
         if submission.save
           format.html {
-            redirect_to submit_touchpoint_path(submission.form.short_uuid), notice: 'Thank You. Response was submitted successfully.' }
+            redirect_to submit_touchpoint_path(submission.form), notice: 'Thank You. Response was submitted successfully.' }
           format.json {
             render json: {
               submission: {
