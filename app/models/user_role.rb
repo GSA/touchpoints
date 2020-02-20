@@ -1,6 +1,5 @@
 class UserRole < ApplicationRecord
   belongs_to :user
-  belongs_to :touchpoint, optional: true
   belongs_to :form, optional: true
 
   validates :role, presence: true
