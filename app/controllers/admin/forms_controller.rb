@@ -99,6 +99,8 @@ class Admin::FormsController < AdminController
           role: UserRole::Role::FormManager
         })
 
+        Event.log_event(Event.names[:form_copied], "Form", @form.uuid, "Form #{@form.name} copied at #{DateTime.now}", current_user.id)
+
         format.html { redirect_to edit_admin_form_path(new_form), notice: 'Form was successfully copied.' }
         format.json { render :show, status: :created, location: new_form }
       else

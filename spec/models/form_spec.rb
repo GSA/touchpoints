@@ -98,4 +98,38 @@ RSpec.describe Form, type: :model do
       expect(UserRole.count).to eq(0)
     end
   end
+
+  describe "validate state transitions" do
+    let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
+    let(:form) { FactoryBot.create(:form, organization: organization, user: admin)}
+
+    context "initial state" do
+      it "sets initial state" do
+        f = Form.new
+        expect(f.in_development?).to eq(true)
+      end
+    end
+
+    context "transitionable touchpoint" do
+      it "transitions state" do
+        form.develop
+        expect(form.in_development?).to eq(true)
+        expect(form.live?).to eq(false)
+        form.publish
+        expect(form.in_development?).to eq(false)
+        expect(form.live?).to eq(true)
+      end
+    end
+
+    context "expired form" do
+      it "archives expired form" do
+        form.publish
+        expect(form.live?).to eq(true)
+        form.expiration_date = Date.today - 1
+        form.check_expired
+        expect(form.live?).to eq(false)
+        expect(form.archived?).to eq(true)
+      end
+    end
+  end
 end

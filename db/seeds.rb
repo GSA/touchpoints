@@ -221,78 +221,42 @@ Question.create!({
 a11_form = Seeds::Forms.a11
 kitchen_sink_form = Seeds::Forms.kitchen_sink
 
-# Touchpoints
-touchpoint_1 = Touchpoint.create!({
-  organization: example_gov,
-  form: open_ended_form,
-  delivery_method: "touchpoints-hosted-only",
-  name: "Open-ended Feedback",
-  notification_emails: "ryan.wold@gsa.gov",
-  aasm_state: "live"
-})
 UserRole.create(
   user: admin_user,
-  touchpoint: touchpoint_1,
-  role: UserRole::Role::TouchpointManager
-)
-
-touchpoint_2 = Touchpoint.create!({
-  organization: example_gov,
-  form: recruiter_form,
-  delivery_method: "touchpoints-hosted-only",
-  name: "Recruiter",
-  notification_emails: "ryan.wold@gsa.gov",
-  aasm_state: "live"
-})
-UserRole.create(
-  user: admin_user,
-  touchpoint: touchpoint_2,
-  role: UserRole::Role::TouchpointManager
-)
-
-touchpoint_3 = Touchpoint.create!({
-  organization: example_gov,
   form: a11_form,
-  delivery_method: "touchpoints-hosted-only",
-  name: "A11 - 7 question test",
-  hisp: true,
-  aasm_state: "live"
-})
-UserRole.create(
-  user: admin_user,
-  touchpoint: touchpoint_3,
-  role: UserRole::Role::TouchpointManager
+  role: UserRole::Role::FormManager
 )
 
-touchpoint_4 = Touchpoint.create!({
-  organization: example_gov,
-  form: open_ended_form_with_contact_information,
-  delivery_method: "touchpoints-hosted-only",
-  name: "A11 - 7 question test - DB",
-  notification_emails: "ryan.wold@gsa.gov",
-  aasm_state: "live"
-})
 UserRole.create(
   user: admin_user,
-  touchpoint: touchpoint_4,
-  role: UserRole::Role::TouchpointManager
+  form: recruiter_form,
+  role: UserRole::Role::FormManager
+)
+
+UserRole.create(
+  user: admin_user,
+  form: a11_form,
+  role: UserRole::Role::FormManager
+)
+
+UserRole.create(
+  user: admin_user,
+  form: open_ended_form_with_contact_information,
+  role: UserRole::Role::FormManager
 )
 
 Submission.create!({
   form: open_ended_form,
-  touchpoint_id: 999,
   answer_01: "Body text"
 })
 
 Submission.create!({
   form: open_ended_form,
-  touchpoint_id: 999,
   answer_01: "Another body text " * 20
 })
 
 Submission.create!({
-  form: touchpoint_2.form,
-  touchpoint_id: 999,
+  form: recruiter_form,
   answer_01: "Mary",
   answer_02: "Public",
   answer_03: "public_user_3@example.com",
@@ -303,8 +267,7 @@ Submission.create!({
 range = [1,2,3,4,5]
 50.times do |i|
   Submission.create!({
-    form: touchpoint_3.form,
-    touchpoint_id: 999,
+    form: a11_form,
     answer_01: range.sample,
     answer_02: range.sample,
     answer_03: range.sample,
@@ -313,7 +276,7 @@ range = [1,2,3,4,5]
     answer_06: range.sample,
     answer_07: range.sample
   })
-  touchpoint_3.update_attribute(:survey_form_activations, touchpoint_3.survey_form_activations + 1)
+  a11_form.update_attribute(:survey_form_activations, a11_form.survey_form_activations + 1)
 end
 
 digital_gov_user = User.new({
