@@ -5,6 +5,14 @@ class Question < ApplicationRecord
 
   MAX_CHARACTERS = 100000
 
+  QUESTION_TYPES = [
+    "text_field",
+    "textarea",
+    "checkbox",
+    "radio_buttons",
+    "dropdown"
+  ]
+
   validates :answer_field, presence: true
   validates :character_limit, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: MAX_CHARACTERS, allow_nil: true }
 

@@ -9,6 +9,7 @@ class Admin::FormsController < AdminController
   before_action :set_user, only: [:add_user, :remove_user]
   before_action :set_form, only: [
     :show, :edit, :update, :copy, :destroy,
+    :export,
     :export_pra_document,
     :export_submissions,
     :export_a11_header,
@@ -25,6 +26,24 @@ class Admin::FormsController < AdminController
       @forms = current_user.forms.order("organization_id ASC").order("name ASC").entries
       @forms = @forms + Form.templates
     end
+  end
+
+  def export
+    questions = []
+    @form.questions.each do |q|
+      attrs = q.attributes
+
+      if q.question_options.present?
+        attrs[:question_options] = []
+        q.question_options.each do |qo|
+          attrs[:question_options] << qo.attributes
+        end
+      end
+
+      questions << attrs
+    end
+
+    render json: { form: @form, questions: questions }
   end
 
   def publish
