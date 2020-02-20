@@ -196,8 +196,6 @@ feature "Forms", js: true do
           end
         end
       end
-
-
     end
 
     context "Edit Form page" do
@@ -244,6 +242,29 @@ feature "Forms", js: true do
 
           it "cannot delete existing Form" do
             expect(page).to have_content("This form cannot be deleted because it has responses")
+          end
+        end
+      end
+
+      describe "adding Form Sections" do
+        before do
+          visit edit_admin_form_path(form)
+          click_on "Add Form Section"
+        end
+
+        it "displays /admin/forms/:id/form_sections/new" do
+          expect(page).to have_content("New Form Section")
+        end
+
+        describe "add Form Section" do
+          before do
+            fill_in("form_section_title", with: "Test Form Section Title")
+            select("1", from: "form_section_position")
+            click_on "Create Form section"
+          end
+
+          it "create Form Section successfully" do
+            expect(page).to have_content("Form section was successfully created.")
           end
         end
       end
