@@ -42,9 +42,9 @@ class Submission < ApplicationRecord
     return unless self.form.notification_emails?
     emails_to_notify = self.form.notification_emails.split(",")
 
-    # Add Touchpoint Manager(s) to notification distribution list
-    self.form.users.select { | u | self.form.user_role?(user: u) == UserRole::Role::TouchpointManager }.each do | sm |
-      emails_to_notify << sm.email unless emails_to_notify.include?(sm.email)
+    # Add Form Manager(s) to notification distribution list
+    self.form.users.select { | u | self.form.user_role?(user: u) == UserRole::Role::FormManager }.each do |mgr|
+      emails_to_notify << mgr.email
     end
 
     UserMailer.submission_notification(submission: self, emails: emails_to_notify.uniq).deliver_later

@@ -10,6 +10,7 @@ FactoryBot.define do
     modal_button_text { "Help improve this site" }
     legacy_touchpoint_id { 123 }
     legacy_touchpoint_uuid { "ABCD1234" }
+    notification_emails { user.email }
 
     omb_approval_number { rand(10000).to_s }
     expiration_date { Time.now + 2.months }
