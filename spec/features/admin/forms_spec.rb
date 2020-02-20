@@ -401,8 +401,8 @@ feature "Forms", js: true do
             fill_in("question_option_text", with: "New Test Radio Option")
             click_on("Create Question option")
             expect(page).to have_content("Question option was successfully created.")
-            within ".question .usa-checkbox" do
-              expect(find("label")).to have_content("New Test Radio Option")
+            within "#touchpoints-form" do
+              expect(all("label").last).to have_content("New Test Radio Option")
             end
           end
         end
@@ -421,13 +421,17 @@ feature "Forms", js: true do
 
           before do
             visit edit_admin_form_path(form)
+
             within (".question") do
-              click_on "Edit"
+              within all(".usa-checkbox").first do
+                click_on "Edit"
+              end
             end
           end
 
           it "click through to Edit page" do
             expect(page).to have_content("Editing Question Option")
+            expect(find_field("question_option_text").value).to eq(radio_button_option.text)
           end
         end
       end
@@ -590,6 +594,23 @@ feature "Forms", js: true do
             expect(page).to have_content(new_title)
           end
         end
+      end
+    end
+
+    describe "#export" do
+      let(:form_manager) { FactoryBot.create(:user, organization: organization) }
+      let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: form_manager)}
+      let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form, form_section: form.form_sections.first) }
+      let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form: form) }
+
+      before do
+        visit export_admin_form_path(form)
+      end
+
+      it "includes form attributes" do
+        expect(page).to have_content("form")
+        expect(page).to have_content("questions")
+        expect(page).to have_content("question_options")
       end
     end
   end

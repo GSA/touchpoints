@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     resources :forms do
       member do
         get "example", to: "forms#example", as: :example
+        get "export", to: "forms#export", as: :export
         get "export_pra_document", as: :export_pra_document
         get "export_submissions", to: "forms#export_submissions", as: :export_submissions
         get "export_a11_header", to: "forms#export_a11_header", as: :export_a11_header
