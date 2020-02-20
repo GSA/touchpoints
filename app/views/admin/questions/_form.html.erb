@@ -20,7 +20,7 @@
 
   <div class="field">
     <%= f.label :question_type, class: "usa-label" %>
-    <%= f.select :question_type, ["text_field", "textarea", "checkbox", "radio_buttons", "dropdown"], { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
+    <%= f.select :question_type, Question::QUESTION_TYPES, { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
   </div>
 
   <div class="field">
