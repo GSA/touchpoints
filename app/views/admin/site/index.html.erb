@@ -81,10 +81,10 @@
 
         <ol>
           <li>
-            Create a Touchpoint
+            <%= link_to "Create a Form", new_admin_form_path(ref: :dashboard) %>
           </li>
           <li>
-            Update the Touchpoint's Form
+            Customize the Form with Questions and Question Options
           </li>
           <li>
             Test the Form by creating a Response
@@ -94,6 +94,9 @@
           </li>
           <li>
             Receive feedback from Users
+          </li>
+          <li>
+            Use the feedback to improve service delivery
           </li>
         </ol>
       <% end %>

@@ -10,6 +10,7 @@
       </h1>
     </div>
   </div>
+  <% if is_at_least_form_manager?(user: current_user, form: @form) %>
   <div class="grid-row grid-gap-md">
     <div class="tablet:grid-col-6">
       <div class="state-tracker">
@@ -163,6 +164,7 @@
     </div>
   </div>
   <br>
+  <% end %>
   <hr>
   <div class="grid-row grid-gap-md">
     <div class="tablet:grid-col-4">
@@ -292,7 +294,9 @@
 </div>
 
 
-<%= render 'components/roles_and_permissions', form: @form %>
+<% if is_at_least_form_manager?(user: current_user, form: @form) %>
+  <%= render 'components/roles_and_permissions', form: @form %>
+<% end %>
 
 <div>
   <% @submissions = @form.submissions.order("created_at ASC") %>
