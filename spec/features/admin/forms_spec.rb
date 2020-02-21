@@ -5,15 +5,14 @@ feature "Forms", js: true do
     Time.now + 3.days
   }
   let!(:organization) { FactoryBot.create(:organization) }
+  let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
 
   context "as Admin" do
-    let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
-
-    before do
-      login_as(admin)
-    end
-
     describe "/admin/forms" do
+      before do
+        login_as(admin)
+      end
+
       context "with 3 forms" do
         let!(:form) { FactoryBot.create(:form, organization: organization, user: admin)}
         let!(:form2) { FactoryBot.create(:form, organization: organization, user: admin)}
@@ -48,6 +47,10 @@ feature "Forms", js: true do
     end
 
     describe "/admin/forms/new" do
+      before do
+        login_as(admin)
+      end
+
       let(:new_form) { FactoryBot.build(:form, :custom, organization: organization) }
 
       describe "new touchpoint hosted form" do
@@ -137,11 +140,14 @@ feature "Forms", js: true do
       end
     end
 
+    # as a Form Manager
     describe "/admin/forms/:uuid" do
-      let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin)}
-      let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
+      let(:user) { FactoryBot.create(:user, organization: organization) }
+      let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: user)}
+      let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: user, form: form) }
 
       before do
+        login_as(user)
         visit admin_form_path(form)
       end
 
@@ -156,7 +162,67 @@ feature "Forms", js: true do
 
           it "display 'Published' flash message" do
             expect(page).to have_content("Published")
+            expect(page).to have_content("Roles & Permissions")
           end
+        end
+      end
+
+      describe "Submission Export button" do
+        context "when no Submissions exist" do
+        end
+
+        context "when Submissions exist" do
+          let!(:submission) { FactoryBot.create(:submission, form: form)}
+
+          before do
+            visit admin_form_path(form)
+          end
+
+          it "display table list of Responses and Export CSV button link" do
+            within("table.submissions") do
+              expect(page).to have_content(submission.answer_01)
+            end
+            expect(page).to have_link("Export Responses to CSV")
+          end
+        end
+      end
+
+      describe "/admin/forms/:uuid/example" do
+        describe "Form with `inline` delivery_method" do
+          let(:form2) { FactoryBot.create(:form, :open_ended_form, :inline, organization: organization, user: user)}
+
+          before "/admin/forms/:uiid/example" do
+            visit example_admin_form_path(form2)
+          end
+
+          it "can complete then submit the inline Form and see a Success message" do
+            fill_in "answer_01", with: "We the People of the United States, in Order to form a more perfect Union..."
+            click_on "Submit"
+            expect(page).to have_content("Success")
+            expect(page).to have_content("Thank you. Your feedback has been received.")
+          end
+        end
+      end
+    end
+
+    # as a Response Viewer
+    describe "/admin/forms/:uuid" do
+      let(:response_viewer) { FactoryBot.create(:user, organization: organization) }
+      let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: response_viewer)}
+      let!(:user_role) { FactoryBot.create(:user_role, :response_viewer, user: response_viewer, form: form) }
+
+      before do
+        login_as(response_viewer)
+        visit admin_form_path(form)
+      end
+
+      describe "unavailable UI features" do
+        it "does not display 'Publish' component" do
+          expect(page).not_to have_content("Publish your form")
+        end
+
+        it "does not display 'Roles and Permissions' component" do
+          expect(page).not_to have_content("Roles & Permissions")
         end
       end
 
@@ -202,6 +268,7 @@ feature "Forms", js: true do
       let!(:form) { FactoryBot.create(:form, :custom, organization: organization, user: admin) }
 
       before do
+        login_as(admin)
         visit edit_admin_form_path(form)
       end
 

@@ -54,7 +54,7 @@ class Admin::FormsController < AdminController
   end
 
   def show
-    ensure_form_manager(form: @form) unless @form.template?
+    ensure_response_viewer(form: @form) unless @form.template?
 
     @available_members = (User.admins + @form.organization.users).uniq - @form.users
     @questions = @form.questions
