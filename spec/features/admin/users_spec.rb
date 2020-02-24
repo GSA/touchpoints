@@ -78,7 +78,6 @@ feature "Managing Users", js: true do
     it "permitted to see the page" do
       expect(page).to have_content("Users")
       within "table" do
-        expect(page).to have_content("Admin")
         expect(page).to have_content("Org mgr")
         expect(page).to have_content("Email")
         expect(page).to have_content("Organization Name")
