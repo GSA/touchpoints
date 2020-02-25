@@ -84,12 +84,5 @@ module Touchpoints
         resource '*', headers: :any, methods: [:get, :post, :options]
       end
     end
-
-    config.middleware.insert_before 0, Rack::Cors do
-      allow do
-        origins 'http://lvh.me:3000'
-        resource '*', headers: :any, methods: [:get, :post, :options]
-      end
-    end
   end
 end
