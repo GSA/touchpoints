@@ -84,8 +84,5 @@ module Touchpoints
         resource '*', headers: :any, methods: [:get, :post, :options]
       end
     end
-
-    config.session_store :cookie_store, key: '_touchpoints_session', domain: ENV.fetch("TOUCHPOINTS_WEB_DOMAIN")
-    config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
   end
 end

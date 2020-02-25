@@ -42,7 +42,7 @@
     <div class="field">
       <%= f.label :form_section, class: "usa-label" %>
       <% form_section_options = options_for_select(@form.form_sections.map { |section| ["#{section.position} - #{section.title}", section.id] }, selected: question.form_section_id) %>
-      <%= f.select :form_section_id, form_section_options, { include_blank: "Select Form Section" }, { class: "usa-select" } %>
+      <%= f.select :form_section_id, form_section_options, {}, { class: "usa-select" } %>
     </div>
 
     <div class="field">
