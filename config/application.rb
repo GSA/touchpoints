@@ -85,7 +85,11 @@ module Touchpoints
       end
     end
 
-    config.session_store :cookie_store, key: '_touchpoints_session', domain: ENV.fetch("TOUCHPOINTS_WEB_DOMAIN")
-    config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins 'http://lvh.me:3000'
+        resource '*', headers: :any, methods: [:get, :post, :options]
+      end
+    end
   end
 end

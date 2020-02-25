@@ -1,6 +1,6 @@
 class UserRole < ApplicationRecord
   belongs_to :user
-  belongs_to :form, optional: true
+  belongs_to :form
 
   validates :role, presence: true
 

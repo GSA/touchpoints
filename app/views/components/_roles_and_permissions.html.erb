@@ -48,7 +48,7 @@
               </tr>
             </thead>
             <tbody>
-              <% form.users.each do |user| %>
+              <% form.users.order(:email).each do |user| %>
               <tr data-user-id="<%= user.id %>">
                 <td>
                   <% friendly_roles = {
@@ -91,7 +91,7 @@
       <h3>
         Add new user
       </h3>
-      
+
       <% if @available_members.present? %>
       <div>
         <strong>
