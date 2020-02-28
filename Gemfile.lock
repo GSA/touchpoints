@@ -211,7 +211,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
     public_suffix (4.0.3)
-    puma (4.3.1)
+    puma (4.3.3)
       nio4r (~> 2.0)
     rack (2.2.2)
     rack-cors (1.1.1)
@@ -353,7 +353,7 @@ DEPENDENCIES
   omniauth_login_dot_gov!
   pg (>= 0.18, < 2.0)
   pry
-  puma
+  puma (>= 4.3.2)
   rack-cors
   rails (~> 5.2.3)
   redis
