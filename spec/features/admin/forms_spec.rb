@@ -598,7 +598,7 @@ feature "Forms", js: true do
   end
 
 
-  context "without Touchpoint Manager permissions" do
+  context "without Form Manager permissions" do
     let(:user) { FactoryBot.create(:user, organization: organization) }
     let(:another_user) { FactoryBot.create(:user, organization: organization) }
     let!(:another_users_form) { FactoryBot.create(:form, :custom, organization: organization, user: another_user) }
@@ -652,7 +652,7 @@ feature "Forms", js: true do
       let(:form_section2) { FactoryBot.create(:form_section, form: form2) }
       let!(:question) { FactoryBot.create(:question, form: form2, form_section: form_section2) }
 
-      context "with Touchpoint Manager permissions" do
+      context "with Form Manager permissions" do
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, { form: form2, user: touchpoints_manager }) }
 
         before do
