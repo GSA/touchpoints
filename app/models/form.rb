@@ -31,7 +31,7 @@ class Form < ApplicationRecord
 
   after_create :create_first_form_section
 
-  after_save do |form|
+  after_commit do |form|
     FormCache.invalidate(form.short_uuid)
   end
 
