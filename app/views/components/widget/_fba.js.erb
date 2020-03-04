@@ -142,7 +142,7 @@ N.fba = {
 					if (item.checked) delete(questions[item.name]);
 					break;
 				case 'checkbox':
-				  // Checkboxes are implicitly optional
+				  if (item.checked) delete(questions[item.name]);
 					break;
 				case 'select-one':
 					if (item.selectedIndex > 0) delete(questions[item.name]);

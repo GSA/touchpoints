@@ -474,7 +474,7 @@ feature "Forms", js: true do
 
       describe "adding Question Options" do
         describe "add Radio Button options" do
-          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form, form_section: form.form_sections.first) }
+          let!(:radio_button_question) { FactoryBot.create(:question, :with_radio_buttons, form: form, form_section: form.form_sections.first) }
 
           before do
             visit edit_admin_form_path(form)
@@ -504,7 +504,7 @@ feature "Forms", js: true do
 
       describe "click through to edit Question Option" do
         describe "edit Radio Button option" do
-          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form, form_section: form.form_sections.first) }
+          let!(:radio_button_question) { FactoryBot.create(:question, :with_radio_buttons, form: form, form_section: form.form_sections.first) }
           let!(:radio_button_option) { FactoryBot.create(:question_option, question: radio_button_question, position: 1) }
 
           before do
@@ -526,7 +526,7 @@ feature "Forms", js: true do
 
       describe "editing Question Options" do
         describe "edit Radio Button option" do
-          let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form, form_section: form.form_sections.first) }
+          let!(:radio_button_question) { FactoryBot.create(:question, :with_radio_buttons, form: form, form_section: form.form_sections.first) }
           let!(:radio_button_option) { FactoryBot.create(:question_option, question: radio_button_question, position: 1) }
 
           before do
@@ -688,7 +688,7 @@ feature "Forms", js: true do
     describe "#export" do
       let(:form_manager) { FactoryBot.create(:user, organization: organization) }
       let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: form_manager)}
-      let!(:radio_button_question) { FactoryBot.create(:question, :radio_buttons, form: form, form_section: form.form_sections.first) }
+      let!(:radio_button_question) { FactoryBot.create(:question, :with_radio_buttons, form: form, form_section: form.form_sections.first) }
       let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form: form) }
 
       before do

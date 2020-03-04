@@ -6,11 +6,16 @@ class Question < ApplicationRecord
   MAX_CHARACTERS = 100000
 
   QUESTION_TYPES = [
+    # Standard elements
     "text_field",
     "textarea",
     "checkbox",
     "radio_buttons",
-    "dropdown"
+    "dropdown",
+    # Custom elements
+    "star_radio_buttons",
+    "thumbs_up_down_buttons",
+    "matrix_checkboxes"
   ]
 
   validates :answer_field, presence: true
