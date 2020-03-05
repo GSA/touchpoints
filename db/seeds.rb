@@ -15,6 +15,8 @@ production_suitable_seeds
 return false if Rails.env.production?
 
 require_relative 'seeds/forms/a11'
+require_relative 'seeds/forms/a11_v2'
+require_relative 'seeds/forms/thumbs_up_down'
 require_relative 'seeds/forms/kitchen_sink'
 
 # Create Seeds
@@ -219,6 +221,8 @@ Question.create!({
 })
 
 a11_form = Seeds::Forms.a11
+a11_v2_form = Seeds::Forms.a11_v2
+thumbs_up_down_form = Seeds::Forms.thumbs_up_down
 kitchen_sink_form = Seeds::Forms.kitchen_sink
 
 UserRole.create(
@@ -229,13 +233,25 @@ UserRole.create(
 
 UserRole.create(
   user: admin_user,
-  form: recruiter_form,
+  form: a11_v2_form,
   role: UserRole::Role::FormManager
 )
 
 UserRole.create(
   user: admin_user,
-  form: a11_form,
+  form: thumbs_up_down_form,
+  role: UserRole::Role::FormManager
+)
+
+UserRole.create(
+  user: admin_user,
+  form: kitchen_sink_form,
+  role: UserRole::Role::FormManager
+)
+
+UserRole.create(
+  user: admin_user,
+  form: recruiter_form,
   role: UserRole::Role::FormManager
 )
 
