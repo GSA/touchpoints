@@ -15,6 +15,7 @@ class Question < ApplicationRecord
     # Custom elements
     "star_radio_buttons",
     "thumbs_up_down_buttons",
+    "yes_no_buttons",
     "matrix_checkboxes"
   ]
 

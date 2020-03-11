@@ -30,6 +30,8 @@
             <%= render 'components/forms/question_types/star_radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
           <% elsif question.question_type == "thumbs_up_down_buttons" %>
             <%= render 'components/forms/question_types/thumbs_up_down_buttons', form: form, question: question, question_number: multi_section_question_number %>
+          <% elsif question.question_type == "yes_no_buttons" %>
+            <%= render 'components/forms/question_types/yes_no_buttons', form: form, question: question, question_number: multi_section_question_number %>
           <% elsif question.question_type == "radio_buttons" %>
             <%= render 'components/forms/question_types/radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
           <% elsif question.question_type == "dropdown" %>

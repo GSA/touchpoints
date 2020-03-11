@@ -1,12 +1,14 @@
-<div class="<%= question.answer_field %>" role="group" aria-labelledby="<%= question.answer_field %>" style="width: 480px; padding-top: 1px;">
-  <label class="usa-label text-center" style="font-weight: bold; margin-bottom: 1em;">
-    <%= question.text %>
-  </label>
-  <% question.question_options.each_with_index do |option, index| %>
-    <%= check_box_tag("#{question.answer_field}_#{(index + 1).to_s}", index + 1, nil, { value: option.text , class: "usa-checkbox__input", required: question.is_required  }) %>
-    <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}", class: "usa-checkbox__label usa-button", style: "width: 49%; margin: 1px; display: inline-block;") do %>
-    <%= option.text %>
+<div class="<%= question.answer_field %>" role="group" aria-labelledby="<%= question.answer_field %>" style="padding-left: 2em; padding-top: 1px;">
+  <div style="width: 480px;">
+    <label class="usa-label text-center" style="font-weight: bold; margin-bottom: 1em;">
+      <%= question.text %>
+    </label>
+    <% question.question_options.each_with_index do |option, index| %>
+      <%= check_box_tag("#{question.answer_field}_#{(index + 1).to_s}", index + 1, nil, { value: option.text , class: "usa-checkbox__input", required: question.is_required  }) %>
+      <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}", class: "usa-checkbox__label usa-button", style: "width: 49%; margin: 1px; display: inline-block;") do %>
+      <%= option.text %>
+      <% end %>
     <% end %>
-  <% end %>
+  </div>
 </div>
 <br>
