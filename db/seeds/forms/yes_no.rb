@@ -8,19 +8,21 @@ module Seeds
         kind:  "custom",
         notes: "Yes/No Form",
         user: User.first,
-        name: "Per page feedback",
+        name: "Yes/No per page feedback",
         title: "",
         instructions: "",
-        disclaimer_text: "Disclaimer Text Goes Here",
+        disclaimer_text: "",
         success_text: "Thank you for your response 🎉",
-        delivery_method: "modal"
+        delivery_method: "inline"
       })
+
+      form.form_sections.first.update_attribute(:title, nil)
 
       # Page 1
       question_01 = Question.create!({
         form: form,
         form_section: (form.form_sections.first),
-        text: "",
+        text: "Was this page useful?",
         question_type: "yes_no_buttons",
         position: 1,
         answer_field: :answer_01,
