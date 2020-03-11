@@ -3,11 +3,11 @@
 </h3>
 
 <table class="usa-table">
-  <% @events = Event.limit(500).order("created_at ASC") %>
+  <% @events = Event.limit(500).order("created_at DESC") %>
   <% @users = User.all %>
   <% @user_email_map = {} %>
   <% @users.map { |user| @user_email_map[user.id] = user.email } %>
-  <% @events.each do |event| %>
+  <% @events.reverse.each do |event| %>
   <tr>
     <td><%= event.object_type %></td>
     <td><%= event.object_id %></td>
