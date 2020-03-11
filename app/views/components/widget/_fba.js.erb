@@ -55,8 +55,16 @@ N.fba = {
 			this.dialogEl.setAttribute('id', 'fba-modal');
 			this.dialogEl.setAttribute('role', 'dialog');
 
-		<%# inject the form interface for inline %>
-		<% if form.delivery_method == "inline" %>
+		<%# inject the form interface for inline with no wrapper, for digital.gov %>
+		<% if form.delivery_method == "inline" && form.suppress_submit_button %>
+			<% if form.element_selector? %>
+			if(d.getElementById('<%= form.element_selector %>') != null) {
+				d.getElementById('<%= form.element_selector %>').innerHTML = "<%= escape_javascript render(partial: 'components/widget/no_modal', locals: { form: form }) %>";
+				d.body.appendChild(this.dialogEl);
+			}
+			<% end %>
+		<%# inject the form interface for inline with the modal wrapper %>
+		<% elsif form.delivery_method == "inline" %>
 			<% if form.element_selector? %>
 			if(d.getElementById('<%= form.element_selector %>') != null) {
 				d.getElementById('<%= form.element_selector %>').innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
@@ -317,7 +325,9 @@ N.fba = {
 					fba.showFormSuccess();
 	      } else if (this.status === 422) { // FORM ERRORS =\
 						fba.successState = false;
-						d.getElementById('fba-submit').disabled = false;
+						if(d.getElementById('fba-submit')) {
+							d.getElementById('fba-submit').disabled = false;
+						}
 					  var jsonResponse = JSON.parse(this.response);
 					  var errors = jsonResponse.messages;
 
