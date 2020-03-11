@@ -4,7 +4,9 @@
       <%= question.text %>
     </label>
   </div>
-  <br>
-  <button type="button" name="button" class="usa-button">Yes</button>
-  <button type="button" name="button" class="usa-button">No</button>
+  <p class="submit-button">
+    <input type="hidden" id="fba-touchpoints-page-form" name="<%= question.answer_field.to_sym %>" value="">
+    <input id="fba-touchpoints-page-form-yes" type="submit" value="yes" class="usa-button">
+    <input id="fba-touchpoints-page-form-no" type="submit" value="no" class="usa-button">
+  </p>
 </div>

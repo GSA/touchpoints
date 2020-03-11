@@ -63,7 +63,7 @@
             <% end %>
           </div>
         <% end %>
-        <% if section == form.form_sections.last %>
+        <% if section == form.form_sections.last && !form.suppress_submit_button %>
           <p class="submit-button">
             <% if current_path.include?("/admin/forms") || current_path.include?("/admin/touchpoints/") %>
             <button type="submit" id="fba-submit" class="usa-button" disabled><%= t 'form.submit' %></button>

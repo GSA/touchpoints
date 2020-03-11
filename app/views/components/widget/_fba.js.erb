@@ -82,9 +82,18 @@ N.fba = {
 			<% end %>
 		<% end %>
 
-			d.getElementById('fba-submit').addEventListener('click', this.handleSubmitClick, false);
+
+			if (d.getElementById('fba-submit')) {
+				d.getElementById('fba-submit').addEventListener('click', this.handleSubmitClick, false);
+			}
+
 			if (d.getElementById('fba-early-submit')) {
 				d.getElementById('fba-early-submit').addEventListener('click', this.handleSubmitClick, false);
+			}
+
+			if (d.getElementById('fba-touchpoints-page-form')) {
+				d.getElementById('fba-touchpoints-page-form-yes').addEventListener('click', this.handleYesNoSubmitClick, false);
+				d.getElementById('fba-touchpoints-page-form-no').addEventListener('click', this.handleYesNoSubmitClick, false);
 			}
 		},
 		resetErrors: function()
@@ -122,6 +131,19 @@ N.fba = {
 			N.fba.resetErrors();
 			if (N.fba.validateForm(document.querySelector('#touchpoints-form'))) {
 				d.getElementById('fba-submit').disabled = true;
+				N.fba.sendFeedback();
+			}
+		},
+		handleYesNoSubmitClick: function(e) {
+			e.preventDefault();
+
+			var input = d.getElementById('fba-touchpoints-page-form')
+			input.value = this.value;
+			N.fba.resetErrors();
+			if (N.fba.validateForm(document.querySelector('#touchpoints-form'))) {
+				if (d.getElementById('fba-submit')) {
+					d.getElementById('fba-submit').disabled = true;
+				}
 				N.fba.sendFeedback();
 			}
 		},
@@ -289,7 +311,9 @@ N.fba = {
 			if (this.readyState === 4) {
 	      if (this.status === 201) { // SUCCESS!
 					fba.successState = true;
-					d.getElementById('fba-submit').disabled = true;
+					if(d.getElementById('fba-submit')) {
+						d.getElementById('fba-submit').disabled = true;
+					}
 					fba.showFormSuccess();
 	      } else if (this.status === 422) { // FORM ERRORS =\
 						fba.successState = false;

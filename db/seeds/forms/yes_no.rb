@@ -1,12 +1,12 @@
 module Seeds
   module Forms
-    def self.thumbs_up_down
-      # Create the thumbs up/down form
-      thumbs_up_down = Form.create({
+    def self.yes_no
+      # Create the yes/no buttons form
+      form = Form.create({
         organization: Organization.first,
         template: true,
         kind:  "custom",
-        notes: "Thumbs up/down",
+        notes: "Yes/No Form",
         user: User.first,
         name: "Per page feedback",
         title: "",
@@ -18,16 +18,16 @@ module Seeds
 
       # Page 1
       question_01 = Question.create!({
-        form: thumbs_up_down,
-        form_section: (thumbs_up_down.form_sections.first),
-        text: "Was this page useful?",
-        question_type: "thumbs_up_down_buttons",
+        form: form,
+        form_section: (form.form_sections.first),
+        text: "",
+        question_type: "yes_no_buttons",
         position: 1,
         answer_field: :answer_01,
         is_required: true
       })
 
-      thumbs_up_down
+      form
     end
   end
 end
