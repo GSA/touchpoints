@@ -46,33 +46,6 @@
       </div>
     </div>
     <div class="tablet:grid-col-6 bg-gray-5">
-      <div class="usa-accordion usa-accordion--bordered">
-        <h2 class="usa-accordion__heading">
-          <button class="usa-accordion__button" aria-expanded="false" aria-controls="b-a1">
-            Learn more about the options for publishing a Touchpoint
-          </button>
-        </h2>
-        <div id="b-a1" class="usa-accordion__content usa-prose">
-          <p>
-            Form Managers are responsible for determining where a Form is
-            presented in a user's journey. The Feedback Analytics team can
-            provide assistance in this regard.
-          </p>
-          <p>
-            A Form can be shared with a user in 2 ways: #1 Touchpoints hosts
-            a form at a public URL, where users can access them directly.
-            An Agency can use the public URL in a link on a website,
-            in a customer communication.
-            For example, including the public URL in a follow-up
-            response email from an existing CRM.
-          </p>
-          <p>
-            Or, #2 A Touchpoint can also be embedded on a website via a script tag.
-            An embedded Touchpoint displays a tab and pops a modal by default; though,
-            it is customizable to a certain extent.
-          </p>
-        </div>
-      </div>
       <div>
         <% if !@form.deployable_form? %>
           <%= link_to 'Publish', publish_admin_form_path(@form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline float-right" %>
