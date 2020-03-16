@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_14_234932) do
+ActiveRecord::Schema.define(version: 2020_02_19_201414) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2020_01_14_234932) do
   create_table "events", force: :cascade do |t|
     t.string "name", null: false
     t.string "object_type"
-    t.integer "object_id"
+    t.string "object_id", null: false
     t.string "description", null: false
     t.integer "user_id"
     t.datetime "created_at", null: false
@@ -53,6 +53,33 @@ ActiveRecord::Schema.define(version: 2020_01_14_234932) do
     t.boolean "early_submission", default: false
     t.integer "user_id"
     t.boolean "template", default: false
+    t.string "uuid"
+    t.integer "organization_id"
+    t.boolean "hisp"
+    t.string "omb_approval_number"
+    t.date "expiration_date"
+    t.string "medium"
+    t.string "federal_register_url"
+    t.integer "anticipated_delivery_count"
+    t.string "service_name"
+    t.text "data_submission_comment"
+    t.string "survey_instrument_reference"
+    t.string "agency_poc_email"
+    t.string "agency_poc_name"
+    t.string "department"
+    t.string "bureau"
+    t.string "notification_emails"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string "aasm_state"
+    t.string "delivery_method"
+    t.string "element_selector"
+    t.integer "survey_form_activations", default: 0
+    t.integer "legacy_touchpoint_id"
+    t.string "legacy_touchpoint_uuid"
+    t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
+    t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
+    t.index ["uuid"], name: "index_forms_on_uuid"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -88,7 +115,6 @@ ActiveRecord::Schema.define(version: 2020_01_14_234932) do
   end
 
   create_table "submissions", force: :cascade do |t|
-    t.integer "touchpoint_id", null: false
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -119,44 +145,11 @@ ActiveRecord::Schema.define(version: 2020_01_14_234932) do
     t.string "location_code"
     t.boolean "flagged", default: false
     t.string "language"
-  end
-
-  create_table "touchpoints", force: :cascade do |t|
-    t.string "name", null: false
-    t.boolean "enable_google_sheets", default: false
-    t.string "google_sheet_id"
     t.integer "form_id"
-    t.text "purpose"
-    t.integer "meaningful_response_size"
-    t.text "behavior_change"
-    t.string "notification_emails"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "start_date"
-    t.datetime "end_date"
-    t.string "omb_approval_number"
-    t.date "expiration_date"
-    t.string "delivery_method"
-    t.string "element_selector"
-    t.string "medium"
-    t.string "federal_register_url"
-    t.integer "anticipated_delivery_count", default: 0
-    t.integer "survey_form_activations", default: 0
-    t.integer "organization_id"
-    t.boolean "hisp", default: false
-    t.string "service_name"
-    t.text "data_submission_comment"
-    t.string "survey_instrument_reference"
-    t.string "agency_poc_email"
-    t.string "agency_poc_name"
-    t.string "department"
-    t.string "bureau"
-    t.string "aasm_state"
   end
 
   create_table "user_roles", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "touchpoint_id"
     t.integer "form_id"
     t.string "role"
     t.datetime "created_at", null: false

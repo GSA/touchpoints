@@ -5,11 +5,25 @@ class Question < ApplicationRecord
 
   MAX_CHARACTERS = 100000
 
+  QUESTION_TYPES = [
+    # Standard elements
+    "text_field",
+    "textarea",
+    "checkbox",
+    "radio_buttons",
+    "dropdown",
+    # Custom elements
+    "star_radio_buttons",
+    "thumbs_up_down_buttons",
+    "yes_no_buttons",
+    "matrix_checkboxes"
+  ]
+
   validates :answer_field, presence: true
   validates :character_limit, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: MAX_CHARACTERS, allow_nil: true }
 
-  after_save do | question |
-    TouchpointCache.invalidate(question.form.touchpoint.id) if question.form.touchpoint.present?
+  after_commit do |question|
+    FormCache.invalidate(question.form.short_uuid)
   end
 
   def max_length

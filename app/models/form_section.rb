@@ -2,8 +2,10 @@ class FormSection < ApplicationRecord
   belongs_to :form
   has_many :questions
 
-  after_save do | form_section |
-    TouchpointCache.invalidate(form_section.form.touchpoint.id) if form_section.form.touchpoint.present?
+  validates :position, presence: true
+
+  after_commit do | form_section |
+    FormCache.invalidate(form_section.form.short_uuid) if form_section.form.present?
   end
 
   default_scope { order(position: :asc) }

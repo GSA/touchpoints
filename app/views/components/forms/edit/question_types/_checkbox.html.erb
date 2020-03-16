@@ -12,9 +12,6 @@
       </span>
       <% end %>
     </p>
-    <span class="usa-tag">
-      <%= question.answer_field %>
-    </span>
   </label>
   <br>
   <% question.question_options.each_with_index do |option, index| %>
@@ -22,6 +19,7 @@
     <%= check_box_tag("#{question.answer_field}_#{(index + 1).to_s}", index + 1, nil, { value: option.text , class: "usa-checkbox__input" }) %>
     <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}", class: "usa-checkbox__label") do %>
       <%= option.text %>
+      <%= link_to "Edit", edit_admin_form_question_question_option_path(option.question.form, option.question, option) %>
     <% end %>
   </div>
   <% end %>

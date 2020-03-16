@@ -25,7 +25,8 @@ require 'rails_helper'
 
 RSpec.describe Admin::QuestionOptionsController, type: :controller do
 
-  let(:admin) { FactoryBot.create(:user, :admin) }
+  let(:organization) { FactoryBot.create(:organization) }
+  let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
 
   # This should return the minimal set of attributes required to create a valid
   # QuestionOption. As you add validations to QuestionOption, be sure to
@@ -64,9 +65,9 @@ RSpec.describe Admin::QuestionOptionsController, type: :controller do
   end
 
   describe "GET #new" do
-    let(:form) { FactoryBot.create(:form) }
+    let(:form) { FactoryBot.create(:form, organization: organization, user: admin) }
     let!(:form_section) { FactoryBot.create(:form_section, form: form) }
-    let(:question) { FactoryBot.create(:question, :radio_buttons, form: form, form_section: form_section) }
+    let(:question) { FactoryBot.create(:question, :with_radio_buttons, form: form, form_section: form_section) }
 
     it "returns a success response" do
       get :new, params: { form_id: form.id, question_id: question.id }, session: valid_session

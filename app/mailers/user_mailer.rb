@@ -8,9 +8,9 @@ class UserMailer < ApplicationMailer
   def submission_notification(submission:, emails: [])
     attachments.inline["logo.png"] = @@header_logo
     @submission = submission
-    @touchpoint = @submission.touchpoint
+    @form = @submission.form
     admin_emails = ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
-    mail subject: "New Submission to #{@touchpoint.name}",
+    mail subject: "New Submission to #{@form.name}",
       to: emails,
       bcc: admin_emails
   end
@@ -42,6 +42,14 @@ class UserMailer < ApplicationMailer
     @user = user
     mail subject: "New user account created",
       to: UserMailer.touchpoints_team
+
+  end
+
+  def form_expiring_notification(touchpoint)
+    attachments.inline["logo.png"] = @@header_logo
+    @form = form
+    mail subject: "Form #{@form.name} expiring on #{@form.expiration_date}",
+      to: ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
 
   end
 

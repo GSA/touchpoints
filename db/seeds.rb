@@ -15,7 +15,10 @@ production_suitable_seeds
 return false if Rails.env.production?
 
 require_relative 'seeds/forms/a11'
+require_relative 'seeds/forms/a11_v2'
 require_relative 'seeds/forms/kitchen_sink'
+require_relative 'seeds/forms/thumbs_up_down'
+require_relative 'seeds/forms/yes_no'
 
 # Create Seeds
 
@@ -116,6 +119,7 @@ puts "Created #{submission_viewer.email}"
 
 ## Create the Open-ended Form
 open_ended_form = Form.create!({
+  organization: example_gov,
   template: true,
   kind: "open ended",
   notes: "An open-ended Feedback Form useful for general website and program feedback.",
@@ -123,7 +127,8 @@ open_ended_form = Form.create!({
   name: "Open-ended",
   title: "Custom Open-ended Title",
   instructions: "Share feedback about the new example.gov website and recommend additional features.",
-  disclaimer_text: "Disclaimer Text Goes Here"
+  disclaimer_text: "Disclaimer Text Goes Here",
+  delivery_method: "modal"
 })
 Question.create!({
   form: open_ended_form,
@@ -137,6 +142,7 @@ Question.create!({
 
 ## Create the Recruiter Form
 recruiter_form = Form.create({
+  organization: example_gov,
   template: true,
   kind: "recruiter",
   notes: "A form useful for recruiting users to participate in research.",
@@ -144,7 +150,8 @@ recruiter_form = Form.create({
   name: "Recruiter",
   title: "",
   instructions: "",
-  disclaimer_text: "Disclaimer Text Goes Here"
+  disclaimer_text: "Disclaimer Text Goes Here",
+  delivery_method: "modal"
 })
 Question.create!({
   form: recruiter_form,
@@ -175,6 +182,7 @@ Question.create!({
 })
 
 open_ended_form_with_contact_information = Form.create({
+  organization: example_gov,
   template: true,
   kind: "open ended with contact information",
   notes: "An open-ended feedback form with information to follow up with the user.",
@@ -182,7 +190,8 @@ open_ended_form_with_contact_information = Form.create({
   name: "Open Ended Form with Contact Information",
   title: "",
   instructions: "",
-  disclaimer_text: "Disclaimer Text Goes Here"
+  disclaimer_text: "Disclaimer Text Goes Here",
+  delivery_method: "modal"
 })
 Question.create!({
   form: open_ended_form_with_contact_information,
@@ -213,89 +222,66 @@ Question.create!({
 })
 
 a11_form = Seeds::Forms.a11
+a11_v2_form = Seeds::Forms.a11_v2
+thumbs_up_down_form = Seeds::Forms.thumbs_up_down
 kitchen_sink_form = Seeds::Forms.kitchen_sink
+yes_no_form = Seeds::Forms.yes_no
 
-# Touchpoints
-touchpoint_1 = Touchpoint.create!({
-  organization: example_gov,
-  form: open_ended_form,
-  delivery_method: "touchpoints-hosted-only",
-  name: "Open-ended Feedback",
-  purpose: "Soliciting feedback",
-  meaningful_response_size: 30,
-  behavior_change: "Looking for opportunities to improve",
-  notification_emails: "ryan.wold@gsa.gov",
-  aasm_state: "live"
-})
 UserRole.create(
   user: admin_user,
-  touchpoint: touchpoint_1,
-  role: UserRole::Role::TouchpointManager
-)
-
-touchpoint_2 = Touchpoint.create!({
-  organization: example_gov,
-  form: recruiter_form,
-  delivery_method: "touchpoints-hosted-only",
-  name: "Recruiter",
-  purpose: "Improving Customer Experience with proactive research and service",
-  meaningful_response_size: 100,
-  behavior_change: "We will use the this feedback to inform Product and Program decisions",
-  notification_emails: "ryan.wold@gsa.gov",
-  aasm_state: "live"
-})
-UserRole.create(
-  user: admin_user,
-  touchpoint: touchpoint_2,
-  role: UserRole::Role::TouchpointManager
-)
-
-touchpoint_3 = Touchpoint.create!({
-  organization: example_gov,
   form: a11_form,
-  delivery_method: "touchpoints-hosted-only",
-  name: "A11 - 7 question test",
-  hisp: true,
-  purpose: "CX",
-  meaningful_response_size: 100,
-  behavior_change: "Better customer service",
-  aasm_state: "live"
-})
-UserRole.create(
-  user: admin_user,
-  touchpoint: touchpoint_3,
-  role: UserRole::Role::TouchpointManager
+  role: UserRole::Role::FormManager
 )
 
-touchpoint_4 = Touchpoint.create!({
-  organization: example_gov,
-  form: open_ended_form_with_contact_information,
-  delivery_method: "touchpoints-hosted-only",
-  name: "A11 - 7 question test - DB",
-  purpose: "CX",
-  meaningful_response_size: 100,
-  behavior_change: "Better customer service",
-  notification_emails: "ryan.wold@gsa.gov",
-  aasm_state: "live"
-})
 UserRole.create(
   user: admin_user,
-  touchpoint: touchpoint_4,
-  role: UserRole::Role::TouchpointManager
+  form: a11_v2_form,
+  role: UserRole::Role::FormManager
 )
+
+UserRole.create(
+  user: admin_user,
+  form: thumbs_up_down_form,
+  role: UserRole::Role::FormManager
+)
+
+UserRole.create(
+  user: admin_user,
+  form: kitchen_sink_form,
+  role: UserRole::Role::FormManager
+)
+
+UserRole.create(
+  user: admin_user,
+  form: recruiter_form,
+  role: UserRole::Role::FormManager
+)
+
+UserRole.create(
+  user: admin_user,
+  form: open_ended_form_with_contact_information,
+  role: UserRole::Role::FormManager
+)
+
+UserRole.create(
+  user: admin_user,
+  form: yes_no_form,
+  role: UserRole::Role::FormManager
+)
+
 
 Submission.create!({
-  touchpoint: touchpoint_1,
+  form: open_ended_form,
   answer_01: "Body text"
 })
 
 Submission.create!({
-  touchpoint: touchpoint_1,
+  form: open_ended_form,
   answer_01: "Another body text " * 20
 })
 
 Submission.create!({
-  touchpoint: touchpoint_2,
+  form: recruiter_form,
   answer_01: "Mary",
   answer_02: "Public",
   answer_03: "public_user_3@example.com",
@@ -306,7 +292,7 @@ Submission.create!({
 range = [1,2,3,4,5]
 50.times do |i|
   Submission.create!({
-    touchpoint: touchpoint_3,
+    form: a11_form,
     answer_01: range.sample,
     answer_02: range.sample,
     answer_03: range.sample,
@@ -315,7 +301,7 @@ range = [1,2,3,4,5]
     answer_06: range.sample,
     answer_07: range.sample
   })
-  touchpoint_3.update_attribute(:survey_form_activations, touchpoint_3.survey_form_activations + 1)
+  a11_form.update_attribute(:survey_form_activations, a11_form.survey_form_activations + 1)
 end
 
 digital_gov_user = User.new({

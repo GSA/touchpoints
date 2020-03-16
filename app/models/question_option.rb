@@ -3,8 +3,8 @@ class QuestionOption < ApplicationRecord
 
   validates :position, presence: true
 
-  after_save do | question_option |
-    TouchpointCache.invalidate(question_option.question.form.touchpoint.id) if question_option.question.form.touchpoint.present?
+  after_commit do |question_option|
+    FormCache.invalidate(question_option.question.form.short_uuid)
   end
 
   default_scope { order(position: :asc) }

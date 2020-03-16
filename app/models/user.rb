@@ -9,26 +9,15 @@ class User < ApplicationRecord
   devise :omniauthable, omniauth_providers: Rails.configuration.x.omniauth.providers
 
   belongs_to :organization, optional: true
-  has_many :user_roles
-  has_many :touchpoints, through: :user_roles, primary_key: "touchpoint_id"
-  has_many :forms
+  has_many :user_roles, dependent: :destroy
+  has_many :forms, through: :user_roles, primary_key: "form_id"
+
 
   after_create :send_new_user_notification
 
   APPROVED_DOMAINS = [".gov", ".mil"]
 
   validates :email, presence: true, if: :tld_check
-
-  def managed_forms
-    roles = self.user_roles.where(role: UserRole::Role::TouchpointManager)
-    touchpoints = roles.map { |role|
-      role.touchpoint
-    }
-    forms = touchpoints.map { |tp|
-      tp.form if tp.form.present?
-    }.compact
-    forms
-  end
 
   def self.admins
     User.where(admin: true)

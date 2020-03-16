@@ -23,12 +23,6 @@ footer {
 .footer-info {
   text-align: right;
 }
-.footer-info a,
-.footer-link_style,
-.footer-links a {
-  color: #333;
-  text-decoration: underline;
-}
 .footer-info,
 .footer-links,
 .usa-unstyled-list {
@@ -40,11 +34,10 @@ footer {
 .footer-info li,
 .footer-links li,
 .footer-text {
-  color: #333333;
   line-height: 1.25rem;
 }
 
-// For the extra-wide Submissions table
+// For the extra-wide Responses table
 .table-scroll {
 	position:relative;
 	max-width: 100%;
@@ -130,6 +123,7 @@ footer {
    margin-top: 0;
 }
 
+.submit-button,
 .radios {
   padding: 1em 2em;
 }
@@ -233,4 +227,15 @@ h4 {
       color: green;
     }
   }
+}
+
+.no-outline {
+  border: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  text-decoration: underline;
+}
+
+pre {
+  word-wrap: break-word;
 }

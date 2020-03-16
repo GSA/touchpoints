@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
 
+  LEGACY_TOUCHPOINTS_URL_MAP = LegacyTouchpointUrlMap.map
+
   around_action :switch_locale
 
   def switch_locale(&action)
@@ -24,11 +26,18 @@ class ApplicationController < ActionController::Base
     redirect_to(index_path, notice: "Authorization is Required") unless organization_manager_permissions?
   end
 
-  helper_method :ensure_touchpoint_manager
-  def ensure_touchpoint_manager(touchpoint:)
-    return false unless touchpoint.present?
+  helper_method :ensure_form_manager
+  def ensure_form_manager(form:)
+    return false unless form.present?
 
-    redirect_to(index_path, notice: "Authorization is Required") unless touchpoint_permissions?(touchpoint: touchpoint)
+    redirect_to(index_path, notice: "Authorization is Required") unless form_permissions?(form: form)
+  end
+
+  helper_method :ensure_response_viewer
+  def ensure_response_viewer(form:)
+    return false unless form.present?
+
+    redirect_to(index_path, notice: "Authorization is Required") unless response_viewer_permissions?(form: form)
   end
 
 
@@ -43,16 +52,31 @@ class ApplicationController < ActionController::Base
     current_user && (current_user.admin? || current_user.organization_manager?)
   end
 
-  helper_method :touchpoint_permissions?
-  def touchpoint_permissions?(touchpoint:)
-    return false unless touchpoint.present?
+  helper_method :form_permissions?
+  def form_permissions?(form:)
+    return false unless form.present?
 
-    (touchpoint.user_role?(user: current_user) == UserRole::Role::TouchpointManager) || admin_permissions?
+    form.user == current_user || (form.user_role?(user: current_user) == UserRole::Role::FormManager) || admin_permissions?
+  end
+
+  helper_method :response_viewer_permissions?
+  def response_viewer_permissions?(form:)
+    return false unless form.present?
+    
+    (form.user_role?(user: current_user) == UserRole::Role::ResponseViewer) || form_permissions?(form: form)
   end
 
 
   # Helpers
   def timestamp_string
     Time.now.strftime('%Y-%m-%d_%H-%M-%S')
+  end
+
+
+  private
+
+  # For Devise
+  def after_sign_out_path_for(resource_or_scope)
+    index_path
   end
 end

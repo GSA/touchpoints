@@ -11,14 +11,23 @@ class Touchpoint < ApplicationRecord
   validates :name, presence: true
   validates :delivery_method, presence: true
   validates :anticipated_delivery_count, numericality: true, allow_nil: true
-  validates :meaningful_response_size, numericality: true, allow_nil: true
 
   validate :omb_number_with_expiration_date
 
   after_initialize  :check_expired
 
-  after_save do |touchpoint|
-    TouchpointCache.invalidate(touchpoint.id)
+  before_save :set_uuid
+
+  def self.find_by_short_uuid(short_uuid)
+    where("uuid LIKE ?", "#{short_uuid}%").first
+  end
+
+  def to_param
+    short_uuid
+  end
+
+  def short_uuid
+    uuid[0..7]
   end
 
   def omb_number_with_expiration_date
@@ -139,22 +148,22 @@ class Touchpoint < ApplicationRecord
       submission = non_flagged_submissions.first
       csv << header_attributes
       csv << [
-        submission.touchpoint.data_submission_comment,
-        submission.touchpoint.survey_instrument_reference,
-        submission.touchpoint.agency_poc_name,
-        submission.touchpoint.agency_poc_email,
-        submission.touchpoint.department,
-        submission.touchpoint.bureau,
-        submission.touchpoint.service_name,
-        submission.touchpoint.name,
-        submission.touchpoint.medium,
+        submission.form.data_submission_comment,
+        submission.form.survey_instrument_reference,
+        submission.form.agency_poc_name,
+        submission.form.agency_poc_email,
+        submission.form.department,
+        submission.form.bureau,
+        submission.form.service_name,
+        submission.form.name,
+        submission.form.medium,
         start_date,
         end_date,
-        submission.touchpoint.anticipated_delivery_count,
-        submission.touchpoint.survey_form_activations,
+        submission.form.anticipated_delivery_count,
+        submission.form.survey_form_activations,
         non_flagged_submissions.length,
-        submission.touchpoint.omb_approval_number,
-        submission.touchpoint.federal_register_url,
+        submission.form.omb_approval_number,
+        submission.form.federal_register_url,
       ]
     end
   end
@@ -298,6 +307,10 @@ class Touchpoint < ApplicationRecord
       self.id ? self.archive! : self.archive
       Event.log_event(Event.names[:touchpoint_archived],"Touchpoint",self.id,"Touchpoint #{self.name} archived on #{Date.today}") if self.id
     end
+  end
+
+  def set_uuid
+    self.uuid = SecureRandom.uuid  if !self.uuid.present?
   end
 
 end

@@ -30,35 +30,36 @@
               </a>
             </li>
             <li>
-              <a href="/admin/forms">
-                <span>Manage Forms</span>
+              <a href="/admin/sidekiq">
+                <span>Manage Sidekiq</span>
               </a>
             </li>
             <li>
-              <a href="/admin/sidekiq">
-                <span>Manage Sidekiq</span>
+              <a href="/admin/events">
+                <span>Review System Events</span>
               </a>
             </li>
           </ul>
         </p>
       </div>
+      <%= render 'components/weekly_metrics' %>
       <br>
-      <div class="touchpoints hisp">
-        <% @hisp_touchpoints = Touchpoint.where(hisp: true).includes(:organization).order(:organization_id) %>
+      <div class="forms hisp">
+        <% @hisp_forms = Form.where(hisp: true).includes(:organization).order(:organization_id) %>
         <h3>
-          <%= @hisp_touchpoints.count %> HISP Touchpoints
+          <%= @hisp_forms.count %> HISP Forms
           <% total_responses = 0 %>
         </h3>
         <ul>
-        <% @hisp_touchpoints.each do |touchpoint| %>
-          <% total_responses = total_responses + touchpoint.submissions.size %>
+        <% @hisp_forms.each do |form| %>
+          <% total_responses = total_responses + form.submissions.size %>
           <li>
-            <%= touchpoint.organization.name %>
+            <%= form.organization.name %>
             <strong>
-              <%= link_to touchpoint.name, admin_touchpoint_path(touchpoint) %>
+              <%= link_to form.name, admin_form_path(form) %>
             </strong>
             has
-            <%= pluralize(touchpoint.submissions.size, "Response") %>.
+            <%= pluralize(form.submissions.size, "Response") %>.
           </li>
         <% end %>
         </ul>
@@ -68,31 +69,28 @@
         </p>
       </div>
       <% else %>
-        <p>
-          <small>
-            A Touchpoint is a point of interaction between a service and a User.
-            A Touchpoint includes a Form. Customers respond to Forms and create Submissions as feedback.
-          </small>
-        </p>
         <h4>
-          What's next?
+          Get started with Touchpoints:
         </h4>
 
         <ol>
           <li>
-            Create a Touchpoint
+            <%= link_to "Create a Form", new_admin_form_path(ref: :dashboard) %>
           </li>
           <li>
-            Update the Touchpoint's Form
+            Customize the Form with Questions and Question Options
           </li>
           <li>
-            Test the Form by creating a Submission
+            Test the Form by creating a Response
           </li>
           <li>
             Deploy the Form to Users on your website or via your email system
           </li>
           <li>
             Receive feedback from Users
+          </li>
+          <li>
+            Use the feedback to improve service delivery
           </li>
         </ol>
       <% end %>

@@ -2,11 +2,11 @@
     <%= image_tag(attachments['logo.png'].url) %>
 </div>
 <h3>
-  Touchpoints.gov Submission Notification
+  Touchpoints.gov Response Notification
 </h3>
 <p>
-  New feedback has been submitted to your form, <%= @touchpoint.name %>.
+  New feedback has been submitted to your form, <%= @form.name %>.
 </p>
 <p>
-  Visit <a href="<%= touchpoint_url(@touchpoint) %>"><%= touchpoint_url(@touchpoint) %></a> to view.
+  Visit <a href="<%= admin_form_url(@form) %>"><%= admin_form_url(@form) %></a> to view.
 </p>

@@ -4,15 +4,15 @@ class Admin::UsersController < AdminController
 
   def index
     if current_user.admin?
-      @users = User.all.includes(:organization)
+      @users = User.all.includes(:organization).order(:organization_id, :email)
     else
       organization = current_user.organization
-      @users = organization.users.includes(:organization)
+      @users = organization.users.includes(:organization).order(:organization_id, :email)
     end
   end
 
   def show
-    @touchpoints = @user.touchpoints
+    @forms = @user.forms
   end
 
   def new

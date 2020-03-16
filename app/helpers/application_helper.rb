@@ -14,6 +14,14 @@ module ApplicationHelper
       "form.querySelector(\"##{question.answer_field}\").value"
     elsif question.question_type == "radio_buttons"
       "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
+    elsif question.question_type == "star_radio_buttons"
+      "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
+    elsif question.question_type == "thumbs_up_down_buttons"
+      "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
+    elsif question.question_type == "yes_no_buttons"
+      "form.querySelector(\"input[name=#{question.answer_field}]\") && form.querySelector(\"input[name=#{question.answer_field}]\").value"
+    elsif question.question_type == "matrix_checkboxes"
+      "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
     elsif question.question_type == "checkbox"
       "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
     elsif question.question_type == "dropdown"
@@ -25,9 +33,9 @@ module ApplicationHelper
     user.admin? || user.organization_manager?
   end
 
-  def is_at_least_touchpoint_manager?(user:, touchpoint:)
+  def is_at_least_form_manager?(user:, form:)
     user.admin? || user.organization_manager? ||
-      touchpoint.user_role?(user: user) == UserRole::Role::TouchpointManager
+      form.user_role?(user: user) == UserRole::Role::FormManager
   end
 
   def current_path
@@ -57,5 +65,10 @@ module ApplicationHelper
       "answer_19",
       "answer_20"
     ]
+  end
+
+  # Legacy route from before the Form model was merged with the Touchpoint model
+  def submit_touchpoint_uuid_url(form)
+    return "#{root_url}touchpoints/#{form.short_uuid}/submit"
   end
 end

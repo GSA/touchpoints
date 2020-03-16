@@ -1,13 +1,18 @@
-<div class="well">
+<div class="users">
   <h1>Users</h1>
 
   <table class="usa-table">
     <thead>
       <tr>
+      <% if current_user.admin? %>
         <th>Admin</th>
-        <th>Org Manager</th>
+      <% end %>
+        <th>Org mgr</th>
         <th>Email</th>
         <th>Organization Name</th>
+      <% if current_user.admin? %>
+        <th>Last signed in</th>
+      <% end %>
         <th></th>
       </tr>
     </thead>
@@ -15,10 +20,15 @@
     <tbody>
       <% @users.each do |user| %>
         <tr>
-          <td><%= user.admin? ? '✅' : nil %></td>
-          <td><%= user.organization_manager? ? '✅' : nil %></td>
+        <% if current_user.admin? %>
+          <td class="text-center"><%= user.admin? ? '✅' : nil %></td>
+        <% end %>
+          <td class="text-center"><%= user.organization_manager? ? '✅' : nil %></td>
           <td><%= link_to user.email, admin_user_path(user) %></td>
           <td><%= user.organization ? user.organization.name : nil %></td>
+        <% if current_user.admin? %>
+          <td><%= time_ago_in_words(user.last_sign_in_at) if user.last_sign_in_at %></td>
+        <% end %>
           <td><%= link_to 'Edit', edit_admin_user_path(user) %></td>
         </tr>
       <% end %>

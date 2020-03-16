@@ -46,7 +46,7 @@ class Admin::FormSectionsController < AdminController
     end
 
     def set_form
-      @form = Form.find(params[:form_id])
+      @form = Form.find_by_short_uuid(params[:form_id])
     end
 
     def form_section_params

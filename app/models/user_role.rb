@@ -1,18 +1,17 @@
 class UserRole < ApplicationRecord
   belongs_to :user
-  belongs_to :touchpoint, optional: true
-  belongs_to :form, optional: true
+  belongs_to :form
 
   validates :role, presence: true
 
   module Role
-    TouchpointManager = "touchpoint_manager"
-    SubmissionViewer = "submission_viewer"
+    FormManager = "form_manager"
+    ResponseViewer = "response_viewer"
   end
 
   ROLES = [
-    UserRole::Role::TouchpointManager,
-    UserRole::Role::SubmissionViewer
+    UserRole::Role::FormManager,
+    UserRole::Role::ResponseViewer
   ]
 
   def valid_role?

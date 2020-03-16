@@ -71,7 +71,7 @@
   display: none;
 }
 
-<% if touchpoint.delivery_method != "touchpoints-hosted-only" %>
+<% if form.delivery_method != "touchpoints-hosted-only" %>
 /*! uswds v2.1.0 */
 #fba-modal-dialog .usa-list, #fba-modal-dialog .usa-prose > ul,
 #fba-modal-dialog .usa-prose > ol{
@@ -4203,6 +4203,55 @@ img{
   }
 }
 
-
+#star_rating svg {
+	width: 1em;
+	height: 1em;
+	fill: currentColor;
+	stroke: currentColor;
+}
+#star_rating label, #star_rating output {
+	display: block;
+	float: left;
+	font-size: 2em;
+	height: 1.2em;
+	color: #036;
+	cursor: pointer;
+	/* Transparent border-bottom avoids jumping
+	   when a colored border is applied
+		 on :hover/:focus */
+	border-bottom: 2px solid transparent;
+}
+#star_rating output {
+	font-size: 1.5em;
+	padding: 0 1em;
+}
+#star_rating input:checked ~ label {
+	color: #999;
+}
+#star_rating input:checked + label {
+	color: #036;
+	border-bottom-color: #036;
+}
+#star_rating input:focus + label {
+	border-bottom-style: dotted;
+}
+#star_rating:hover input + label {
+	color: #036;
+}
+#star_rating input:hover ~ label,
+#star_rating input:focus ~ label,
+#star_rating input[id="star0"] + label {
+	color: #999;
+}
+#star_rating input:hover + label,
+#star_rating input:focus + label {
+	color: #036;
+}
+#star_rating input[id="star0"]:checked + label {
+	color: #ff2d21;
+}
+#star_rating .visuallyhidden {
+	display: none;
+}
 
 <% end %>

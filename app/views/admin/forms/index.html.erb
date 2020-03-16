@@ -1,38 +1,36 @@
 <div class="well">
-  <h1>Forms</h1>
-  <table class="usa-table">
+  <p>
+    <%= link_to 'Create New Form', new_admin_form_path, class: "usa-button float-right" %>
+    <h1>Forms</h1>
+  </p>
+  <% if @forms.select { |f| !f.template }.present? %>
+  <table class="usa-table" style="width: 100%;">
     <thead>
       <tr>
         <th></th>
-        <th>Touchpoint name</th>
         <th>Form name</th>
+        <th>Form status</th>
+        <th>Responses</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
       <% @forms.select { |f| !f.template }.each_with_index do |form, index| %>
       <tr>
-        <td>
+        <td class="text-center">
           <%= index + 1 %>
         </td>
         <td>
-          <%= form.touchpoint.name if form.touchpoint.present? %>
-          <% if form.template %>
-            <br>
-            <span class="usa-tag" style="background: #e31c3d;">
-              <%= form.kind %>
-            </span>
-          <% end %>
+          <%= link_to form.name, admin_form_path(form) %>
         </td>
         <td>
-          <% if form.touchpoint.present? %>
-          <%= link_to form.name, admin_touchpoint_form_path(form.touchpoint, form)  %>
-          <% else %>
-          <%= link_to form.name, admin_form_path(form)  %>
-          <% end %>
+          <%= form.aasm_state %>
         </td>
         <td>
-          <%= link_to copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline" do %>
+          <%= form.submissions.size %>
+        </td>
+        <td style="min-width: 1em;">
+          <%= link_to copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline no-outline" do %>
             <i class="fa fa-copy"></i>
             Copy form
           <% end %>
@@ -41,9 +39,9 @@
       <% end %>
     </tbody>
   </table>
-  <p>
-    <%= link_to 'New Form', new_admin_form_path, class: "usa-button" %>
-  </p>
+  <% else %>
+    Get started by creating a form.
+  <% end %>
 </div>
 <div class="form-templates">
   <div class="grid-row grid-gap-md">
@@ -52,8 +50,8 @@
         Form Templates
       </h1>
       <p>
-        Here are some common forms that you can use to get started.
-        Copy the form template you want to use, and edit your copy to suit your needs.
+        Here are some common forms you can use to get started.
+        Copy the form template you want to use, then edit the copy to suit your needs.
       </p>
     </div>
   </div>
