@@ -31,7 +31,7 @@ class Form < ApplicationRecord
 
   after_create :create_first_form_section
 
-  after_save do |form|
+  after_commit do |form|
     FormCache.invalidate(form.short_uuid)
   end
 
@@ -41,6 +41,10 @@ class Form < ApplicationRecord
     "custom-button-modal",
     "inline"
   ]
+
+  def suppress_submit_button
+    self.questions.collect(&:question_type).include?("yes_no_buttons")
+  end
 
   def self.find_by_short_uuid(short_uuid)
     return nil unless short_uuid && short_uuid.length == 8
