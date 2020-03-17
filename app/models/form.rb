@@ -43,7 +43,7 @@ class Form < ApplicationRecord
   ]
 
   def suppress_submit_button
-    self.questions.collect(&:question_type).include?("yes_no_buttons")
+    self.questions.collect(&:question_type).include?("yes_no_buttons") || self.questions.collect(&:question_type).include?("custom_text_display")
   end
 
   def self.find_by_short_uuid(short_uuid)

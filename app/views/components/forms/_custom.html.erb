@@ -42,6 +42,8 @@
             <%= render 'components/forms/question_types/checkbox', form: form, question: question, question_number: multi_section_question_number %>
           <% elsif question.question_type == "textarea" %>
             <%= render 'components/forms/question_types/text_area', form: form, question: question, question_number: multi_section_question_number %>
+          <% elsif question.question_type == "custom_text_display" %>
+            <%= render 'components/forms/question_types/custom_text_display', form: form, question: question, question_number: multi_section_question_number %>
           <% end %>
         </div>
         <% end %>
