@@ -341,7 +341,6 @@ feature "Forms", js: true do
           before do
             visit edit_admin_form_path(form)
             click_on "Add a Question"
-            expect(page.current_path).to eq(new_admin_form_question_path(form))
             expect(page).to have_content("New Question")
             fill_in "question_text", with: "New Test Question"
             select("text_field", from: "question_question_type")
@@ -364,7 +363,6 @@ feature "Forms", js: true do
           before do
             visit edit_admin_form_path(form)
             click_on "Add a Question"
-            expect(page.current_path).to eq(new_admin_form_question_path(form))
             expect(page).to have_content("New Question")
             fill_in "question_text", with: "New Text Area"
             select("textarea", from: "question_question_type")
@@ -387,7 +385,6 @@ feature "Forms", js: true do
           before do
             visit edit_admin_form_path(form)
             click_on "Add a Question"
-            expect(page.current_path).to eq(new_admin_form_question_path(form))
             expect(page).to have_content("New Question")
             fill_in "question_text", with: "New Test Question Radio Buttons"
             select("radio_buttons", from: "question_question_type")
@@ -487,9 +484,10 @@ feature "Forms", js: true do
 
           it "create a Radio Button option" do
             fill_in("question_option_text", with: "New Test Radio Option")
+            fill_in("question_option_value", with: "123")
             click_on("Create Question option")
             expect(page).to have_content("Question option was successfully created.")
-            within "#touchpoints-form" do
+            within ".form-section-div" do
               expect(all("label").last).to have_content("New Test Radio Option")
             end
           end
