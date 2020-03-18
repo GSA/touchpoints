@@ -26,7 +26,6 @@ Rails.application.routes.draw do
       get "js", to: "touchpoints#js", as: :js
       get "submit", to: "submissions#new", form: true, as: :submit
     end
-    resources :forms
     resources :submissions, only: [:new, :create]
   end
 
