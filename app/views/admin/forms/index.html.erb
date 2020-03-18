@@ -55,31 +55,30 @@
       </p>
     </div>
   </div>
-  <% @forms.select { |f| f.template }.in_groups_of(2, false).each do |forms| %>
+  <% @forms.select { |f| f.template }.each do |form| %>
   <div class="grid-row grid-gap-md">
-    <% forms.each do |form| %>
       <% next unless form.template? %>
-      <div class="grid-col-6">
-        <strong>
-          <%= form.name %>
-        </strong>
-        <p>
-          <%= form.notes %>
-          &nbsp;
-        </p>
-        <br>
-        <div class="grid-row grid-gap-md">
-          <div class="grid-col-6">
-            <%= link_to 'Use this Template', copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline" %>
-          </div>
-          <div class="grid-col-6">
-            <%#= link_to 'Preview Template', copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "" %>
+      <div class="grid-col-12">
+        <div class="well">
+          <strong>
+            <%= form.name %>
+          </strong>
+          <p>
+            <%= form.notes %>
+            &nbsp;
+          </p>
+          <br>
+          <div class="grid-row grid-gap-md">
+            <div class="grid-col-12">
+              <%= link_to 'Preview Template', example_admin_form_path(form), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" %>
+              <%= link_to 'Use this Template', copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline" %>
+            <% if admin_permissions? %>
+              <%= link_to 'Edit Template', edit_admin_form_path(form), class: "usa-button usa-button--outline" %>
+            <% end %>
+            </div>
           </div>
         </div>
       </div>
-    <% end %>
   </div>
-  <br>
-  <br>
   <% end %>
 <div>

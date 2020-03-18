@@ -51,20 +51,14 @@ feature "Forms", js: true do
         login_as(admin)
       end
 
-      let(:new_form) { FactoryBot.build(:form, :custom, organization: organization) }
+      let(:new_form) { FactoryBot.create(:form, :custom, organization: organization, user: admin) }
 
       describe "new touchpoint hosted form" do
         before do
           visit new_admin_form_path
           expect(page.current_path).to eq(new_admin_form_path)
-          fill_in "form_name", with: new_form.name
-          fill_in "form_title", with: new_form.title
           select(new_form.organization.name, from: "form_organization_id")
-          find("label[for='form_delivery_method_touchpoints-hosted-only']").click
-          find("label[for='form_display_header_square_logo']").click
-          fill_in("form[omb_approval_number]", with: 1234)
-          fill_in("form[expiration_date]", with: future_date.strftime("%m/%d/%Y"))
-          fill_in("form[notification_emails]", with: "admin@example.gov")
+          fill_in "form_name", with: new_form.name
           click_on "Create Form"
         end
 
@@ -73,8 +67,6 @@ feature "Forms", js: true do
           @form = Form.last
           expect(page.current_path).to eq(admin_form_path(@form))
           expect(page).to have_content(new_form.name)
-          expect(page).to have_content("1234")
-          expect(page).to have_content("Notification emails")
           expect(page).to have_content("admin@example.gov")
         end
       end
@@ -83,12 +75,8 @@ feature "Forms", js: true do
         before do
           visit new_admin_form_path
           expect(page.current_path).to eq(new_admin_form_path)
-          fill_in "form_name", with: new_form.name
-          fill_in "form_title", with: new_form.title
           select(new_form.organization.name, from: "form_organization_id")
-          select("live", from: "form_aasm_state")
-          find("label[for='form_delivery_method_inline']").click
-          fill_in("form[notification_emails]", with: "admin@example.gov")
+          fill_in "form_name", with: new_form.name
           click_on "Create Form"
         end
 
@@ -102,15 +90,14 @@ feature "Forms", js: true do
       end
 
       describe "Form model validations" do
-        describe "missing OMB Approval Number" do
-          before "user tries to create a Touchpoint" do
-            visit new_admin_form_path
+        let(:existing_form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, omb_approval_number: nil, expiration_date: nil)}
 
-            fill_in("form[name]", with: "Test Form")
-            select(new_form.organization.name, from: "form_organization_id")
-            find("label[for='form_delivery_method_touchpoints-hosted-only']").click
+        describe "missing OMB Approval Number" do
+          before "user tries to update a Touchpoint" do
+            visit edit_admin_form_path(existing_form)
+
             fill_in("form[expiration_date]", with: future_date.strftime("%m/%d/%Y"))
-            click_button "Create Form"
+            click_button "Update Form"
           end
 
           it "display a flash message about missing OMB Approval Number" do
@@ -121,14 +108,11 @@ feature "Forms", js: true do
         end
 
         describe "missing Expiration Date" do
-          before "user tries to create a Touchpoint" do
-            visit new_admin_form_path
+          before "user tries to update a Touchpoint" do
+            visit edit_admin_form_path(existing_form)
 
-            fill_in("form[name]", with: "Test Form")
-            select(new_form.organization.name, from: "form_organization_id")
-            find("label[for='form_delivery_method_touchpoints-hosted-only']").click
             fill_in("form[omb_approval_number]", with: 1234)
-            click_button "Create Form"
+            click_button "Update Form"
           end
 
           it "display a flash message about missing Expiration Date" do
@@ -290,7 +274,7 @@ feature "Forms", js: true do
       describe "delete a Form" do
         context "with no responses" do
           before do
-            click_on "Delete"
+            click_on "Delete Form"
             page.driver.browser.switch_to.alert.accept
           end
 
@@ -303,7 +287,7 @@ feature "Forms", js: true do
           let!(:submission) { FactoryBot.create(:submission, form: form)}
 
           before do
-            click_on "Delete"
+            click_on "Delete Form"
             page.driver.browser.switch_to.alert.accept
           end
 
@@ -340,7 +324,7 @@ feature "Forms", js: true do
         describe "add a Text Field question" do
           before do
             visit edit_admin_form_path(form)
-            click_on "Add a Question"
+            click_on "Add Question"
             expect(page).to have_content("New Question")
             fill_in "question_text", with: "New Test Question"
             select("text_field", from: "question_question_type")
@@ -362,7 +346,7 @@ feature "Forms", js: true do
         describe "add a Text Area question" do
           before do
             visit edit_admin_form_path(form)
-            click_on "Add a Question"
+            click_on "Add Question"
             expect(page).to have_content("New Question")
             fill_in "question_text", with: "New Text Area"
             select("textarea", from: "question_question_type")
@@ -374,7 +358,7 @@ feature "Forms", js: true do
 
           it "can add a Text Area question" do
             expect(page).to have_content("Question was successfully created.")
-            within ".question" do
+            within ".form-preview .question" do
               expect(page).to have_content("New Text Area")
               expect(page).to have_css("textarea")
             end
@@ -384,7 +368,7 @@ feature "Forms", js: true do
         describe "add a Radio Buttons question" do
           before do
             visit edit_admin_form_path(form)
-            click_on "Add a Question"
+            click_on "Add Question"
             expect(page).to have_content("New Question")
             fill_in "question_text", with: "New Test Question Radio Buttons"
             select("radio_buttons", from: "question_question_type")
@@ -407,7 +391,7 @@ feature "Forms", js: true do
         describe "add a Checkbox question" do
           before do
             visit edit_admin_form_path(form)
-            click_on "Add a Question"
+            click_on "Add Question"
             expect(page.current_path).to eq(new_admin_form_question_path(form))
             expect(page).to have_content("New Question")
             fill_in "checkbox", with: "New Test Question Radio Buttons"
@@ -430,7 +414,7 @@ feature "Forms", js: true do
         describe "add a Dropdown question" do
           before do
             visit edit_admin_form_path(form)
-            click_on "Add a Question"
+            click_on "Add Question"
             expect(page.current_path).to eq(new_admin_form_question_path(form))
             expect(page).to have_content("New Question")
             fill_in "dropdown", with: "New Test Question Radio Buttons"

@@ -14,22 +14,36 @@
   <%= f.hidden_field :form_id, value: @form.id %>
 
   <div class="field">
+    <%= f.label :question_type, class: "usa-label" %>
+    <% if admin_permissions? %>
+    <%= f.select :question_type, Question::QUESTION_TYPES, { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
+    <% else %>
+    <%= f.select :question_type, Question::QUESTION_TYPES - ["star_radio_buttons", "yes_no_buttons", "thumbs_up_down_buttons", "matrix_checkboxes"], { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
+    <% end %>
+  </div>
+
+  <div class="field">
     <%= f.label :text, class: "usa-label" %>
     <%= f.text_field :text, class: "usa-input" %>
   </div>
 
-  <div class="field">
-    <%= f.label :question_type, class: "usa-label" %>
-  <% if admin_permissions? %>
-    <%= f.select :question_type, Question::QUESTION_TYPES, { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
-  <% else %>
-    <%= f.select :question_type, Question::QUESTION_TYPES - ["star_radio_buttons", "yes_no_buttons", "thumbs_up_down_buttons", "matrix_checkboxes"], { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
-  <% end %>
+  <div class="grid-row">
+    <div class="grid-col-12">
+      <div class="field">
+        <%= f.label :answer_field, class: "usa-label" %>
+        <%= f.select :answer_field, answer_fields, { selected: question.answer_field, include_blank: true }, { class: "usa-select" } %>
+      </div>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :answer_field, class: "usa-label" %>
-    <%= f.select :answer_field, answer_fields, { selected: question.answer_field, include_blank: true }, { class: "usa-select" } %>
+  <div class="grid-row">
+    <div class="grid-col-12">
+      <p style="font-size: 0.875em; color: #333;">
+        Answer Fields are used to define which database field an answer is stored in.
+        <br>
+        Typically, question #1 is `answer_01` and question #2 is `answer_02`,
+        but these can be customized.
+      </p>
+    </div>
   </div>
 
   <% if question.question_type == "text_field" || question.question_type == "textarea" %>

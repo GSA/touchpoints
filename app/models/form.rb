@@ -18,9 +18,28 @@ class Form < ApplicationRecord
   validates :delivery_method, presence: true
   validates :anticipated_delivery_count, numericality: true, allow_nil: true
   validate :omb_number_with_expiration_date
+  validate :target_for_delivery_method
+  validate :ensure_modal_text
 
-  before_save :set_uuid
+  before_create :set_uuid
   before_destroy :ensure_no_responses
+
+
+  def target_for_delivery_method
+    if self.delivery_method == "custom-button-modal" || self.delivery_method == "inline"
+      if self.element_selector == ""
+        errors.add(:element_selector, "can't be blank for an inline form")
+      end
+    end
+  end
+
+  def ensure_modal_text
+    if self.delivery_method == "modal"
+      if self.modal_button_text == ""
+        errors.add(:modal_button_text, "can't be blank for an modal form")
+      end
+    end
+  end
 
   def ensure_no_responses
     if submissions.count > 0

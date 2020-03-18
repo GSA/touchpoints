@@ -86,6 +86,7 @@ class Admin::FormsController < AdminController
     ensure_form_manager(form: @form)
 
     @form = Form.new(form_params)
+    @form.delivery_method = "touchpoints-hosted-only"
     unless @form.user
       @form.user = current_user
     end

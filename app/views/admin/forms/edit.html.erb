@@ -1,30 +1,15 @@
-<div class="well">
+<div class="well2">
   <h1>
     Editing Form
   </h1>
   <div class="grid-row">
     <div class="grid-col-12">
       <%= render 'admin/forms/form', form: @form %>
+      <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
     </div>
   </div>
 </div>
 <p>
   <%= link_to 'Show', admin_touchpoint_form_path(@touchpoint, @form), class: "usa-button" if @touchpoint %>
   <%= link_to 'All Forms', admin_forms_path, class: "usa-button usa-button--outline" %>
-  <%= link_to 'Delete', admin_form_path(@form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" %>
 </p>
-<br>
-<hr>
-<br>
-<div class="grid-row">
-  <div class="grid-col-12">
-    <div class="well highlight">
-      <h2>
-        Form Editor
-      </h2>
-      <div>
-        <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
-      </div>
-    </div>
-  </div>
-</div>

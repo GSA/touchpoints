@@ -2,7 +2,9 @@
   <div class="grid-row">
     <div class="grid-col-12">
       <% if is_at_least_form_manager?(user: current_user, form: @form) %>
-        <%= link_to 'Edit form', edit_admin_form_path(@form), class: "usa-button float-right" %>
+        <span class="float-right">
+          <%= link_to 'Edit form', edit_admin_form_path(@form), class: "usa-button" %>
+        </span>
       <% end %>
       <h1>
         <%= @form.name %>
@@ -245,8 +247,8 @@
   <% else %>
     PRA Record has not yet been migrated. Please be patient.
   <% end %>
-
 </div>
+
 <div class="well highlight form-preview">
   <h2>
     Form Preview
@@ -266,7 +268,6 @@
     <% end %>
   </div>
 </div>
-
 
 <% if is_at_least_form_manager?(user: current_user, form: @form) %>
   <%= render 'components/roles_and_permissions', form: @form %>

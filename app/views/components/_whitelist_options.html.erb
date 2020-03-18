@@ -13,15 +13,15 @@
     </div>
   </div>
   <div class="grid-row grid-gap-md">
-    <div class="grid-col-6">
+    <div class="grid-col-12">
       <div class="field">
-        <%= f.label :whitelist_url, "Whitelist Production URL", class: "usa-label" %>
+        <%= f.label :whitelist_url, "Site URL where form will display", class: "usa-label" %>
         <%= f.text_field :whitelist_url, class: "usa-input", placeholder: "https://example.gov" %>
       </div>
     </div>
-    <div class="grid-col-6">
+    <div class="grid-col-12">
       <div class="field">
-        <%= f.label :whitelist_test_url, class: "usa-label" %>
+        <%= f.label :whitelist_test_url, "URL for staging or testing site where form will display", class: "usa-label" %>
         <%= f.text_field :whitelist_test_url, class: "usa-input", placeholder: "https://staging.example.gov" %>
       </div>
     </div>
