@@ -3,22 +3,22 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.5'
 
-gem 'aws-sdk-rails'
+gem 'aws-sdk-rails', '>= 3.0.5'
 gem 'caracal'
 gem 'carrierwave'
-gem 'devise'
+gem 'devise', '>= 4.7.1'
 gem 'fog-aws'
-gem 'jquery-rails'
+gem 'jquery-rails', '>= 4.3.5'
 gem 'mail'
 gem 'mini_magick'
 gem 'newrelic_rpm'
 gem 'omniauth-github'
 gem 'omniauth_login_dot_gov', git: 'https://github.com/18f/omniauth_login_dot_gov.git', ref: '3703f9d3863300fd55eea6d05600d050e4cc9bb1'
-gem 'rails', '~> 5.2.3'
+gem 'rails', '~> 5.2.4', '>= 5.2.4.2'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma'
 gem 'rack-cors', require: 'rack/cors'
-gem 'sass-rails'
+gem 'sass-rails', '>= 6.0.0'
 gem 'sidekiq', '< 6'
 gem 'uglifier'
 gem 'json-jwt'
@@ -31,14 +31,14 @@ gem 'aasm', '~> 4.12'
 gem 'whenever', require: false
 
 group :development, :test do
-  gem 'dotenv-rails'
+  gem 'dotenv-rails', '>= 2.7.5'
   gem 'pry'
   gem 'rspec_junit_formatter'
 end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'web-console', '>= 3.3.0'
+  gem 'web-console', '>= 3.7.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
 end
 
@@ -46,8 +46,8 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara'#, '>= 2.15'
   gem 'database_cleaner'
-  gem 'factory_bot_rails'
-  gem 'rspec-rails'
+  gem 'factory_bot_rails', '>= 5.1.1'
+  gem 'rspec-rails', '>= 3.9.0'
   gem 'selenium-webdriver'
   # gem 'chromedriver-helper'
   gem 'webdrivers'
