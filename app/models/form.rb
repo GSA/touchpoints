@@ -6,12 +6,12 @@ class Form < ApplicationRecord
   belongs_to :user
   belongs_to :organization
 
-  has_many :form_sections
-  has_many :questions
+  has_many :form_sections, dependent: :destroy
+  has_many :questions, dependent: :destroy
   has_many :submissions
 
   has_many :user_roles, dependent: :destroy
-  has_many :users, through: :user_roles, :primary_key => "form_id"
+  has_many :users, through: :user_roles, primary_key: :form_id
 
   validates :name, presence: true
   validates_length_of :disclaimer_text, in: 0..500, allow_blank: true
