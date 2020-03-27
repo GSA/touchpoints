@@ -4,6 +4,7 @@
       <% if is_at_least_form_manager?(user: current_user, form: @form) %>
         <span class="float-right">
           <%= link_to 'Edit form', edit_admin_form_path(@form), class: "usa-button" %>
+          <%= link_to 'Notification settings', notifications_admin_form_path(@form), class: "usa-button" %>
         </span>
       <% end %>
       <h1>

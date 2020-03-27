@@ -9,6 +9,7 @@ class Admin::FormsController < AdminController
   before_action :set_user, only: [:add_user, :remove_user]
   before_action :set_form, only: [
     :show, :edit, :update, :copy, :destroy,
+    :notifications,
     :export,
     :export_pra_document,
     :export_submissions,
@@ -79,6 +80,10 @@ class Admin::FormsController < AdminController
   end
 
   def edit
+    ensure_form_manager(form: @form)
+  end
+
+  def notifications
     ensure_form_manager(form: @form)
   end
 

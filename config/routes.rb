@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :forms do
       member do
+        get "notifications", to: "forms#notifications", as: :notifications
         get "example", to: "forms#example", as: :example
         get "export", to: "forms#export", as: :export
         get "export_pra_document", as: :export_pra_document

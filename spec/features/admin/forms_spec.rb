@@ -192,6 +192,24 @@ feature "Forms", js: true do
       end
     end
 
+    describe "/admin/forms/:uuid/notifications" do
+      let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin)}
+      let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
+
+      before do
+        login_as(admin)
+        visit notifications_admin_form_path(form)
+        expect(find_field('form_notification_emails').value).to eq(form.notification_emails)
+        fill_in("form_notification_emails", with: "new@email.gov")
+        click_on "Update Form"
+      end
+
+      it "updates successfully" do
+        expect(page).to have_content("Form was successfully updated.")
+        expect(page).to have_content("new@email.gov")
+      end
+    end
+
     # as a Response Viewer
     describe "/admin/forms/:uuid" do
       let(:response_viewer) { FactoryBot.create(:user, organization: organization) }
