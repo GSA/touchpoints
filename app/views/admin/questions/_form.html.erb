@@ -28,7 +28,7 @@
   </div>
 
   <div class="grid-row">
-    <div class="grid-col-12">
+    <div class="grid-col-6">
       <div class="field">
         <%= f.label :answer_field, class: "usa-label" %>
         <%= f.select :answer_field, answer_fields, { selected: question.answer_field, include_blank: true }, { class: "usa-select" } %>
@@ -36,7 +36,7 @@
     </div>
   </div>
   <div class="grid-row">
-    <div class="grid-col-12">
+    <div class="grid-col-6">
       <p style="font-size: 0.875em; color: #333;">
         Answer Fields are used to define which database field an answer is stored in.
         <br>

@@ -5,10 +5,12 @@ class SubmissionsController < ApplicationController
   layout 'public', only: :new
 
   def new
-    unless @form.deployable_form?
+    unless @form.deployable_form? || current_user
       redirect_to index_path, alert: "Form is not yet deployable."
     end
-    @form.increment!(:survey_form_activations)
+    if !current_user
+      @form.increment!(:survey_form_activations)
+    end
     @submission = Submission.new
     # set location code in the form based on `?location_code=`
     @submission.location_code = params[:location_code]

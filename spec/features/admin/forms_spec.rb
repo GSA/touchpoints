@@ -6,6 +6,7 @@ feature "Forms", js: true do
   }
   let!(:organization) { FactoryBot.create(:organization) }
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
+  let(:user) { FactoryBot.create(:user, organization: organization) }
 
   context "as Admin" do
     describe "/admin/forms" do
@@ -17,12 +18,28 @@ feature "Forms", js: true do
         let!(:form) { FactoryBot.create(:form, organization: organization, user: admin)}
         let!(:form2) { FactoryBot.create(:form, organization: organization, user: admin)}
         let!(:form3) { FactoryBot.create(:form, organization: organization, user: admin)}
+        let!(:form_template) { FactoryBot.create(:form, organization: organization, user: user, template: true, aasm_state: :in_development)}
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
         let!(:user_role2) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form2) }
         let!(:user_role3) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form3) }
 
         before do
           visit admin_forms_path
+        end
+
+        describe "can preview a template" do
+          before do
+            within ".form-templates" do
+              click_on "Preview Template"
+              # The following `visit` should not be necessary, but Capybara isn't updating current_path
+              visit submit_touchpoint_path(form_template)
+            end
+          end
+
+          it "can preview a template" do
+            expect(page.current_path).to eq(submit_touchpoint_path(form_template))
+            expect(page).to have_content(form_template.title)
+          end
         end
 
         it "display forms in a table" do
@@ -178,7 +195,7 @@ feature "Forms", js: true do
         describe "Form with `inline` delivery_method" do
           let(:form2) { FactoryBot.create(:form, :open_ended_form, :inline, organization: organization, user: user)}
 
-          before "/admin/forms/:uiid/example" do
+          before "/admin/forms/:uuid/example" do
             visit example_admin_form_path(form2)
           end
 
@@ -702,6 +719,32 @@ feature "Forms", js: true do
         expect(page).to have_content("form")
         expect(page).to have_content("questions")
         expect(page).to have_content("question_options")
+      end
+    end
+  end
+
+  context "as non-logged in User" do
+    let!(:form_template) { FactoryBot.create(:form, organization: organization, user: admin, template: true, aasm_state: :in_development) }
+
+    describe "cannot access forms" do
+      before do
+        visit admin_forms_path
+      end
+
+      it "display flash message on homepage" do
+        expect(page.current_path).to eq(index_path)
+        expect(page).to have_content("Authorization is Required")
+      end
+    end
+
+    describe "cannot preview a form template" do
+      before do
+        visit submit_touchpoint_path(form_template)
+      end
+
+      it "cannot preview a form template" do
+        expect(page.current_path).to eq(index_path)
+        expect(page).to have_content("Form is not yet deployable.")
       end
     end
   end

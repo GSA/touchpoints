@@ -5,7 +5,14 @@
   <div class="grid-row">
     <div class="grid-col-12">
       <%= render 'admin/forms/form', form: @form %>
-      <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
+      <br>
+      <br>
+      <div class="highlight pad">
+        <h2>
+          Form Builder
+        </h2>
+        <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
+      </div>
     </div>
   </div>
 </div>
