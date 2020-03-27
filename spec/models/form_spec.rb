@@ -132,4 +132,39 @@ RSpec.describe Form, type: :model do
       end
     end
   end
+
+  describe "dependent data relations" do
+    let(:form_without_responses) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: user) }
+    let!(:user_role) { FactoryBot.create(:user_role, user: user, form: form_without_responses, role: UserRole::Role::FormManager)}
+
+    describe "delete the Form's Form Sections" do
+      before do
+        expect(form_without_responses.form_sections.count).to eq 1
+      end
+
+      it "destroys dependent Form Section" do
+        expect { form_without_responses.destroy }.to change { FormSection.count }.by(-1)
+      end
+    end
+
+    describe "delete the Form's Questions" do
+      before do
+        expect(form_without_responses.questions.count).to eq 1
+      end
+
+      it "destroys dependent Questions" do
+        expect { form_without_responses.destroy }.to change { Question.count }.by(-1)
+      end
+    end
+
+    describe "delete the Form's UserRoles" do
+      before do
+        expect(form_without_responses.user_roles.count).to eq 1
+      end
+
+      it "destroys dependent UserRole" do
+        expect { form_without_responses.destroy }.to change { UserRole.count }.by(-1)
+      end
+    end
+  end
 end

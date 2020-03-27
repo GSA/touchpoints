@@ -6,21 +6,40 @@ class Form < ApplicationRecord
   belongs_to :user
   belongs_to :organization
 
-  has_many :form_sections
-  has_many :questions
+  has_many :form_sections, dependent: :destroy
+  has_many :questions, dependent: :destroy
   has_many :submissions
 
   has_many :user_roles, dependent: :destroy
-  has_many :users, through: :user_roles, :primary_key => "form_id"
+  has_many :users, through: :user_roles, primary_key: :form_id
 
   validates :name, presence: true
   validates_length_of :disclaimer_text, in: 0..500, allow_blank: true
   validates :delivery_method, presence: true
   validates :anticipated_delivery_count, numericality: true, allow_nil: true
   validate :omb_number_with_expiration_date
+  validate :target_for_delivery_method
+  validate :ensure_modal_text
 
-  before_save :set_uuid
+  before_create :set_uuid
   before_destroy :ensure_no_responses
+
+
+  def target_for_delivery_method
+    if self.delivery_method == "custom-button-modal" || self.delivery_method == "inline"
+      if self.element_selector == ""
+        errors.add(:element_selector, "can't be blank for an inline form")
+      end
+    end
+  end
+
+  def ensure_modal_text
+    if self.delivery_method == "modal"
+      if self.modal_button_text == ""
+        errors.add(:modal_button_text, "can't be blank for an modal form")
+      end
+    end
+  end
 
   def ensure_no_responses
     if submissions.count > 0
@@ -43,7 +62,7 @@ class Form < ApplicationRecord
   ]
 
   def suppress_submit_button
-    self.questions.collect(&:question_type).include?("yes_no_buttons")
+    self.questions.collect(&:question_type).include?("yes_no_buttons") || self.questions.collect(&:question_type).include?("custom_text_display")
   end
 
   def self.find_by_short_uuid(short_uuid)

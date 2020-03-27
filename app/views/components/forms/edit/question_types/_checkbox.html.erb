@@ -23,5 +23,7 @@
     <% end %>
   </div>
   <% end %>
-  <%= link_to "Add Checkbox Option", new_admin_form_question_question_option_path(question.form, question), class: "usa-button" %>
+  <div class="new-question-options-div">  
+    <%= link_to "Add Checkbox Option", new_admin_form_question_question_option_path(question.form, question), class: "usa-button form-add-question-option" %>
+  </div>
 </div>

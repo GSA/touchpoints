@@ -6,6 +6,7 @@ feature "Forms", js: true do
   }
   let!(:organization) { FactoryBot.create(:organization) }
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
+  let(:user) { FactoryBot.create(:user, organization: organization) }
 
   context "as Admin" do
     describe "/admin/forms" do
@@ -13,16 +14,32 @@ feature "Forms", js: true do
         login_as(admin)
       end
 
-      context "with 3 forms" do
+      context "with multiple (3) forms" do
         let!(:form) { FactoryBot.create(:form, organization: organization, user: admin)}
         let!(:form2) { FactoryBot.create(:form, organization: organization, user: admin)}
         let!(:form3) { FactoryBot.create(:form, organization: organization, user: admin)}
+        let!(:form_template) { FactoryBot.create(:form, organization: organization, user: user, template: true, aasm_state: :in_development)}
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
         let!(:user_role2) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form2) }
         let!(:user_role3) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form3) }
 
         before do
           visit admin_forms_path
+        end
+
+        describe "can preview a template" do
+          before do
+            within ".form-templates" do
+              click_on "Preview Template"
+              # The following `visit` should not be necessary, but Capybara isn't updating current_path
+              visit submit_touchpoint_path(form_template)
+            end
+          end
+
+          it "can preview a template" do
+            expect(page.current_path).to eq(submit_touchpoint_path(form_template))
+            expect(page).to have_content(form_template.title)
+          end
         end
 
         it "display forms in a table" do
@@ -51,31 +68,26 @@ feature "Forms", js: true do
         login_as(admin)
       end
 
-      let(:new_form) { FactoryBot.build(:form, :custom, organization: organization) }
+      let(:new_form) { FactoryBot.create(:form, :custom, organization: organization, user: admin) }
 
       describe "new touchpoint hosted form" do
         before do
           visit new_admin_form_path
           expect(page.current_path).to eq(new_admin_form_path)
-          fill_in "form_name", with: new_form.name
-          fill_in "form_title", with: new_form.title
           select(new_form.organization.name, from: "form_organization_id")
-          find("label[for='form_delivery_method_touchpoints-hosted-only']").click
-          find("label[for='form_display_header_square_logo']").click
-          fill_in("form[omb_approval_number]", with: 1234)
-          fill_in("form[expiration_date]", with: future_date.strftime("%m/%d/%Y"))
-          fill_in("form[notification_emails]", with: "admin@example.gov")
+          fill_in "form_name", with: new_form.name
           click_on "Create Form"
         end
 
         it "redirect to /form/:uuid with a success flash message" do
           expect(page).to have_content("Form was successfully created.")
           @form = Form.last
-          expect(page.current_path).to eq(admin_form_path(@form))
-          expect(page).to have_content(new_form.name)
-          expect(page).to have_content("1234")
-          expect(page).to have_content("Notification emails")
-          expect(page).to have_content("admin@example.gov")
+          expect(page.current_path).to eq(edit_admin_form_path(@form))
+          expect(find_field('form_name').value).to eq new_form.name
+
+          # This should work, but is not. Next line gets the job done.
+          # expect(page).to have_select("form_user_id", selected: "admin@example.gov")
+          expect(page.find("#form_user_id").text).to eq "admin@example.gov"
         end
       end
 
@@ -83,34 +95,29 @@ feature "Forms", js: true do
         before do
           visit new_admin_form_path
           expect(page.current_path).to eq(new_admin_form_path)
-          fill_in "form_name", with: new_form.name
-          fill_in "form_title", with: new_form.title
           select(new_form.organization.name, from: "form_organization_id")
-          select("live", from: "form_aasm_state")
-          find("label[for='form_delivery_method_inline']").click
-          fill_in("form[notification_emails]", with: "admin@example.gov")
+          fill_in "form_name", with: new_form.name
           click_on "Create Form"
         end
 
         it "redirect to /form/:uuid with a success flash message" do
           expect(page).to have_content("Form was successfully created.")
           @form = Form.last
-          expect(page.current_path).to eq(admin_form_path(@form))
-          expect(page).to have_content(new_form.name)
-          expect(page).to have_content("admin@example.gov")
+          expect(page.current_path).to eq(edit_admin_form_path(@form))
+          expect(find_field('form_name').value).to eq new_form.name
+          expect(page.find("#form_user_id").text).to eq "admin@example.gov"
         end
       end
 
       describe "Form model validations" do
-        describe "missing OMB Approval Number" do
-          before "user tries to create a Touchpoint" do
-            visit new_admin_form_path
+        let(:existing_form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, omb_approval_number: nil, expiration_date: nil)}
 
-            fill_in("form[name]", with: "Test Form")
-            select(new_form.organization.name, from: "form_organization_id")
-            find("label[for='form_delivery_method_touchpoints-hosted-only']").click
+        describe "missing OMB Approval Number" do
+          before "user tries to update a Touchpoint" do
+            visit edit_admin_form_path(existing_form)
+
             fill_in("form[expiration_date]", with: future_date.strftime("%m/%d/%Y"))
-            click_button "Create Form"
+            click_button "Update Form"
           end
 
           it "display a flash message about missing OMB Approval Number" do
@@ -121,14 +128,11 @@ feature "Forms", js: true do
         end
 
         describe "missing Expiration Date" do
-          before "user tries to create a Touchpoint" do
-            visit new_admin_form_path
+          before "user tries to update a Touchpoint" do
+            visit edit_admin_form_path(existing_form)
 
-            fill_in("form[name]", with: "Test Form")
-            select(new_form.organization.name, from: "form_organization_id")
-            find("label[for='form_delivery_method_touchpoints-hosted-only']").click
             fill_in("form[omb_approval_number]", with: 1234)
-            click_button "Create Form"
+            click_button "Update Form"
           end
 
           it "display a flash message about missing Expiration Date" do
@@ -191,7 +195,7 @@ feature "Forms", js: true do
         describe "Form with `inline` delivery_method" do
           let(:form2) { FactoryBot.create(:form, :open_ended_form, :inline, organization: organization, user: user)}
 
-          before "/admin/forms/:uiid/example" do
+          before "/admin/forms/:uuid/example" do
             visit example_admin_form_path(form2)
           end
 
@@ -202,6 +206,24 @@ feature "Forms", js: true do
             expect(page).to have_content("Thank you. Your feedback has been received.")
           end
         end
+      end
+    end
+
+    describe "/admin/forms/:uuid/notifications" do
+      let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin)}
+      let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
+
+      before do
+        login_as(admin)
+        visit notifications_admin_form_path(form)
+        expect(find_field('form_notification_emails').value).to eq(form.notification_emails)
+        fill_in("form_notification_emails", with: "new@email.gov")
+        click_on "Update Form"
+      end
+
+      it "updates successfully" do
+        expect(page).to have_content("Form was successfully updated.")
+        expect(page).to have_content("new@email.gov")
       end
     end
 
@@ -290,7 +312,7 @@ feature "Forms", js: true do
       describe "delete a Form" do
         context "with no responses" do
           before do
-            click_on "Delete"
+            click_on "Delete Form"
             page.driver.browser.switch_to.alert.accept
           end
 
@@ -303,7 +325,7 @@ feature "Forms", js: true do
           let!(:submission) { FactoryBot.create(:submission, form: form)}
 
           before do
-            click_on "Delete"
+            click_on "Delete Form"
             page.driver.browser.switch_to.alert.accept
           end
 
@@ -340,8 +362,7 @@ feature "Forms", js: true do
         describe "add a Text Field question" do
           before do
             visit edit_admin_form_path(form)
-            click_on "Add a Question"
-            expect(page.current_path).to eq(new_admin_form_question_path(form))
+            click_on "Add Question"
             expect(page).to have_content("New Question")
             fill_in "question_text", with: "New Test Question"
             select("text_field", from: "question_question_type")
@@ -363,8 +384,7 @@ feature "Forms", js: true do
         describe "add a Text Area question" do
           before do
             visit edit_admin_form_path(form)
-            click_on "Add a Question"
-            expect(page.current_path).to eq(new_admin_form_question_path(form))
+            click_on "Add Question"
             expect(page).to have_content("New Question")
             fill_in "question_text", with: "New Text Area"
             select("textarea", from: "question_question_type")
@@ -376,7 +396,7 @@ feature "Forms", js: true do
 
           it "can add a Text Area question" do
             expect(page).to have_content("Question was successfully created.")
-            within ".question" do
+            within ".form-preview .question" do
               expect(page).to have_content("New Text Area")
               expect(page).to have_css("textarea")
             end
@@ -386,8 +406,7 @@ feature "Forms", js: true do
         describe "add a Radio Buttons question" do
           before do
             visit edit_admin_form_path(form)
-            click_on "Add a Question"
-            expect(page.current_path).to eq(new_admin_form_question_path(form))
+            click_on "Add Question"
             expect(page).to have_content("New Question")
             fill_in "question_text", with: "New Test Question Radio Buttons"
             select("radio_buttons", from: "question_question_type")
@@ -410,7 +429,7 @@ feature "Forms", js: true do
         describe "add a Checkbox question" do
           before do
             visit edit_admin_form_path(form)
-            click_on "Add a Question"
+            click_on "Add Question"
             expect(page.current_path).to eq(new_admin_form_question_path(form))
             expect(page).to have_content("New Question")
             fill_in "checkbox", with: "New Test Question Radio Buttons"
@@ -433,7 +452,7 @@ feature "Forms", js: true do
         describe "add a Dropdown question" do
           before do
             visit edit_admin_form_path(form)
-            click_on "Add a Question"
+            click_on "Add Question"
             expect(page.current_path).to eq(new_admin_form_question_path(form))
             expect(page).to have_content("New Question")
             fill_in "dropdown", with: "New Test Question Radio Buttons"
@@ -487,9 +506,10 @@ feature "Forms", js: true do
 
           it "create a Radio Button option" do
             fill_in("question_option_text", with: "New Test Radio Option")
+            fill_in("question_option_value", with: "123")
             click_on("Create Question option")
             expect(page).to have_content("Question option was successfully created.")
-            within "#touchpoints-form" do
+            within ".form-section-div" do
               expect(all("label").last).to have_content("New Test Radio Option")
             end
           end
@@ -699,6 +719,32 @@ feature "Forms", js: true do
         expect(page).to have_content("form")
         expect(page).to have_content("questions")
         expect(page).to have_content("question_options")
+      end
+    end
+  end
+
+  context "as non-logged in User" do
+    let!(:form_template) { FactoryBot.create(:form, organization: organization, user: admin, template: true, aasm_state: :in_development) }
+
+    describe "cannot access forms" do
+      before do
+        visit admin_forms_path
+      end
+
+      it "display flash message on homepage" do
+        expect(page.current_path).to eq(index_path)
+        expect(page).to have_content("Authorization is Required")
+      end
+    end
+
+    describe "cannot preview a form template" do
+      before do
+        visit submit_touchpoint_path(form_template)
+      end
+
+      it "cannot preview a form template" do
+        expect(page.current_path).to eq(index_path)
+        expect(page).to have_content("Form is not yet deployable.")
       end
     end
   end

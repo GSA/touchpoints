@@ -9,6 +9,7 @@ class Admin::FormsController < AdminController
   before_action :set_user, only: [:add_user, :remove_user]
   before_action :set_form, only: [
     :show, :edit, :update, :copy, :destroy,
+    :notifications,
     :export,
     :export_pra_document,
     :export_submissions,
@@ -82,10 +83,15 @@ class Admin::FormsController < AdminController
     ensure_form_manager(form: @form)
   end
 
+  def notifications
+    ensure_form_manager(form: @form)
+  end
+
   def create
     ensure_form_manager(form: @form)
 
     @form = Form.new(form_params)
+    @form.delivery_method = "touchpoints-hosted-only"
     unless @form.user
       @form.user = current_user
     end
@@ -98,7 +104,7 @@ class Admin::FormsController < AdminController
           role: UserRole::Role::FormManager
         })
 
-        format.html { redirect_to admin_form_path(@form), notice: 'Form was successfully created.' }
+        format.html { redirect_to edit_admin_form_path(@form), notice: 'Form was successfully created.' }
         format.json { render :show, status: :created, location: @form }
       else
         format.html { render :new }
