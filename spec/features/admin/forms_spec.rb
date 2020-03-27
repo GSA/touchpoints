@@ -13,7 +13,7 @@ feature "Forms", js: true do
         login_as(admin)
       end
 
-      context "with 3 forms" do
+      context "with multiple (3) forms" do
         let!(:form) { FactoryBot.create(:form, organization: organization, user: admin)}
         let!(:form2) { FactoryBot.create(:form, organization: organization, user: admin)}
         let!(:form3) { FactoryBot.create(:form, organization: organization, user: admin)}
@@ -65,9 +65,12 @@ feature "Forms", js: true do
         it "redirect to /form/:uuid with a success flash message" do
           expect(page).to have_content("Form was successfully created.")
           @form = Form.last
-          expect(page.current_path).to eq(admin_form_path(@form))
-          expect(page).to have_content(new_form.name)
-          expect(page).to have_content("admin@example.gov")
+          expect(page.current_path).to eq(edit_admin_form_path(@form))
+          expect(find_field('form_name').value).to eq new_form.name
+
+          # This should work, but is not. Next line gets the job done.
+          # expect(page).to have_select("form_user_id", selected: "admin@example.gov")
+          expect(page.find("#form_user_id").text).to eq "admin@example.gov"
         end
       end
 
@@ -83,9 +86,9 @@ feature "Forms", js: true do
         it "redirect to /form/:uuid with a success flash message" do
           expect(page).to have_content("Form was successfully created.")
           @form = Form.last
-          expect(page.current_path).to eq(admin_form_path(@form))
-          expect(page).to have_content(new_form.name)
-          expect(page).to have_content("admin@example.gov")
+          expect(page.current_path).to eq(edit_admin_form_path(@form))
+          expect(find_field('form_name').value).to eq new_form.name
+          expect(page.find("#form_user_id").text).to eq "admin@example.gov"
         end
       end
 

@@ -42,8 +42,8 @@
     </div>
     <div class="grid-row grid-gap-md">
       <div class="grid-col-6">
-        <%= f.label "Form owner", class: "usa-label" %>
-        <%= f.select :user_id, options_for_select(User.all.map { |user| [user.email, user.id] }, selected: form.user_id), { prompt: "Form Owner?" }, { id: "add-submission-viewer-dropdown", style: "display: inline-block; margin-right: 1em;", class: "usa-select" } %>
+        <%= f.label :user_id, "Form owner", class: "usa-label" %>
+        <%= f.select :user_id, options_for_select(User.all.map { |user| [user.email, user.id] }, selected: form.user_id), { prompt: "Form Owner?" }, { class: "usa-select" } %>
       </div>
     </div>
     <div class="grid-row grid-gap-md">
