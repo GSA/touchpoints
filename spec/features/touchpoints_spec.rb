@@ -100,5 +100,28 @@ feature "Touchpoints", js: true do
         end
       end
     end
+
+    describe "A-11 Version 2 Form" do
+      let!(:custom_form) { FactoryBot.create(:form, :a11_v2, organization: organization, user: user) }
+
+      before do
+        visit submit_touchpoint_path(custom_form)
+        find("label[for='star4']").click
+        # fill_in("answer_02", with: "User feedback")
+        fill_in("answer_03", with: "User feedback")
+        click_button "Submit"
+      end
+
+      it "" do
+        expect(page).to have_content("Thank you. Your feedback has been received.")
+
+        # Asserting against the database/model directly here isn't ideal.
+        # An alternative is to send location_code back to the client and assert against it
+        last_submission = Submission.last
+        expect(last_submission.answer_01).to eq "4"
+        # expect(last_submission.answer_02).to eq "TEST_LOCATION_CODE"
+        expect(last_submission.answer_03).to eq "User feedback"
+      end
+    end
   end
 end

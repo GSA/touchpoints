@@ -57,6 +57,27 @@ RSpec.describe Admin::FormsController, type: :controller do
     end
   end
 
+  describe "GET #notifications" do
+    it "returns a success response" do
+      form = Form.create! valid_attributes
+      get :show, params: {id: form.to_param}, session: valid_session
+      expect(response).to be_successful
+    end
+  end
+
+  describe "GET #new" do
+    let(:user) { FactoryBot.create(:user, :admin) }
+
+    before do
+      sign_in(user)
+    end
+
+    it "returns a success response" do
+      get :new, params: {}, session: valid_session
+      expect(response).to be_successful
+    end
+  end
+
   describe "GET #new" do
     let(:user) { FactoryBot.create(:user, :admin) }
 

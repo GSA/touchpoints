@@ -42,8 +42,8 @@
     </div>
     <div class="grid-row grid-gap-md">
       <div class="grid-col-6">
-        <%= f.label "Form owner", class: "usa-label" %>
-        <%= f.select :user_id, options_for_select(User.all.map { |user| [user.email, user.id] }, selected: form.user_id), { prompt: "Form Owner?" }, { id: "add-submission-viewer-dropdown", style: "display: inline-block; margin-right: 1em;", class: "usa-select" } %>
+        <%= f.label :user_id, "Form owner", class: "usa-label" %>
+        <%= f.select :user_id, options_for_select(User.all.map { |user| [user.email, user.id] }, selected: form.user_id), { prompt: "Form Owner?" }, { class: "usa-select" } %>
       </div>
     </div>
     <div class="grid-row grid-gap-md">
@@ -78,32 +78,64 @@
   <% else %>
     <%= f.hidden_field :organization_id, value: current_user.organization.id %>
   <% end %>
+
   <div class="grid-row grid-gap-md">
     <div class="grid-col-6">
       <div class="field">
-        <%= f.label :name, class: "usa-label" %>
+        <%= f.label :name, "Form system name", class: "usa-label" %>
         <%= f.text_field :name, class: "usa-input" %>
       </div>
     </div>
-    <div class="grid-col-6">
-      <div class="field">
-        <%= f.label :title, class: "usa-label" %>
-        <%= f.text_field :title, class: "usa-input" %>
-      </div>
-    </div>
+    <% if form.persisted? %>
     <div class="grid-col-6">
       <div class="field">
         <%= f.label :aasm_state, "State", class: "usa-label" %>
         <%= f.select :aasm_state, options_for_select(form.transitionable_states, selected: form.aasm_state), { prompt: "Transition to State" }, {class: "usa-select"} %>
       </div>
     </div>
+    <% end %>
+  </div>
+  <br>
+  <% if form.persisted? %>
+  <hr>
+  <br>
+  <h2>
+    Form Builder
+  </h2>
+  <div class="grid-row grid-gap-md">
+    <div class="grid-col-12">
+      <p>
+        The form builder is used to build USWDS compatible,
+        PRA-compliant forms.
+      </p>
+      <p>
+        A form consists of one or more questions.
+        Each question can be a different type;
+        like an input field, set of radio buttons, or a dropdown selector.
+      </p>
+      <p>
+        Questions can be displayed on one or more pages, called Form Sections.
+      </p>
+      <p>
+        Users submit the forms. Response viewers can export responses for processing.
+      </p>
+    </div>
+  </div>
+  <div class="grid-row grid-gap-md">
+    <div class="grid-col-6">
+      <div class="field">
+        <%= f.label :title, "Form title", class: "usa-label" %>
+        <%= f.text_field :title, class: "usa-input" %>
+      </div>
+    </div>
   </div>
   <br>
   <div class="grid-row grid-gap-md">
-    <div class="grid-col-6">
+    <div class="grid-col-12">
       <h3>
-        Form customizations
+        Display a logo?
       </h3>
+      <br>
       <fieldset class="usa-fieldset">
         <legend class="usa-sr-only">Display Organization Tag Logo</legend>
         <div class="usa-checkbox">
@@ -162,15 +194,18 @@
       </div>
     </div>
   </div>
+  <br>
+  <br>
+  <h2>
+    Select a Delivery Method
+  </h2>
   <div class="well">
-    <h3>
-      Select a Delivery Method
-    </h3>
+    <br>
     <fieldset class="usa-fieldset">
       <legend class="usa-sr-only">Delivery Methods</legend>
-      <% Form::DELIVERY_METHODS.each do |delivery_method| %>
+      <% Form::DELIVERY_METHODS.each_with_index do |delivery_method, index| %>
         <div class="usa-checkbox">
-          <%= f.radio_button :delivery_method, delivery_method, class: "usa-checkbox__input" %>
+          <%= f.radio_button :delivery_method, delivery_method, class: "usa-checkbox__input"  %>
           <%= f.label delivery_method, class: "usa-checkbox__label", for: "form_delivery_method_#{delivery_method}" %>
         </div>
       <% end %>
@@ -270,21 +305,11 @@
       </div>
     </div>
   </div>
-  <div class="well">
-    <div class="grid-row grid-gap-md">
-      <div class="grid-col-6">
-        <h3>
-          <i class="fa fa-envelope"></i>
-          Notification Settings
-        </h3>
-        <div class="field">
-          <%= f.label "emails to notify when a Response is received", class: "usa-label" %>
-          <%= f.text_field(:notification_emails, value: (form.notification_emails? ? form.notification_emails : current_user.email), class: "usa-input") %>
-        </div>
-      </div>
-    </div>
-  </div>
+  <% end %>
   <p>
     <%= f.submit class: "usa-button" %>
+  <% if form.persisted? %>
+    <%= link_to 'Delete Form', admin_form_path(form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" %>
+  <% end %>
   </p>
 <% end %>

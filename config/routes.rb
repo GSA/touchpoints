@@ -8,8 +8,10 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/admin/sidekiq'
   end
 
-  match "/404", :to => "errors#not_found", :via => :all
-  match "/500", :to => "errors#internal_server_error", :via => :all
+  unless Rails.env.development?
+    match "/404", :to => "errors#not_found", :via => :all
+    match "/500", :to => "errors#internal_server_error", :via => :all
+  end
 
   resources :forms, only: [:show] do
     member do
@@ -24,13 +26,13 @@ Rails.application.routes.draw do
       get "js", to: "touchpoints#js", as: :js
       get "submit", to: "submissions#new", form: true, as: :submit
     end
-    resources :forms
     resources :submissions, only: [:new, :create]
   end
 
   namespace :admin do
     resources :forms do
       member do
+        get "notifications", to: "forms#notifications", as: :notifications
         get "example", to: "forms#example", as: :example
         get "export", to: "forms#export", as: :export
         get "export_pra_document", as: :export_pra_document

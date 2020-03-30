@@ -55,8 +55,16 @@ N.fba = {
 			this.dialogEl.setAttribute('id', 'fba-modal');
 			this.dialogEl.setAttribute('role', 'dialog');
 
-		<%# inject the form interface for inline %>
-		<% if form.delivery_method == "inline" %>
+		<%# inject the form interface for inline with no wrapper, for digital.gov %>
+		<% if form.delivery_method == "inline" && form.suppress_submit_button %>
+			<% if form.element_selector? %>
+			if(d.getElementById('<%= form.element_selector %>') != null) {
+				d.getElementById('<%= form.element_selector %>').innerHTML = "<%= escape_javascript render(partial: 'components/widget/no_modal', locals: { form: form }) %>";
+				d.body.appendChild(this.dialogEl);
+			}
+			<% end %>
+		<%# inject the form interface for inline with the modal wrapper %>
+		<% elsif form.delivery_method == "inline" %>
 			<% if form.element_selector? %>
 			if(d.getElementById('<%= form.element_selector %>') != null) {
 				d.getElementById('<%= form.element_selector %>').innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
@@ -82,9 +90,18 @@ N.fba = {
 			<% end %>
 		<% end %>
 
-			d.getElementById('fba-submit').addEventListener('click', this.handleSubmitClick, false);
+
+			if (d.getElementById('fba-submit')) {
+				d.getElementById('fba-submit').addEventListener('click', this.handleSubmitClick, false);
+			}
+
 			if (d.getElementById('fba-early-submit')) {
 				d.getElementById('fba-early-submit').addEventListener('click', this.handleSubmitClick, false);
+			}
+
+			if (d.getElementById('fba-touchpoints-page-form')) {
+				d.getElementById('fba-touchpoints-page-form-yes').addEventListener('click', this.handleYesNoSubmitClick, false);
+				d.getElementById('fba-touchpoints-page-form-no').addEventListener('click', this.handleYesNoSubmitClick, false);
 			}
 		},
 		resetErrors: function()
@@ -125,6 +142,19 @@ N.fba = {
 				N.fba.sendFeedback();
 			}
 		},
+		handleYesNoSubmitClick: function(e) {
+			e.preventDefault();
+
+			var input = d.getElementById('fba-touchpoints-page-form')
+			input.value = this.value;
+			N.fba.resetErrors();
+			if (N.fba.validateForm(document.querySelector('#touchpoints-form'))) {
+				if (d.getElementById('fba-submit')) {
+					d.getElementById('fba-submit').disabled = true;
+				}
+				N.fba.sendFeedback();
+			}
+		},
 		validateForm: function(form) {
 			N.fba.hideValidationError(form);
 			var valid = N.fba.checkRequired(form)
@@ -142,7 +172,7 @@ N.fba = {
 					if (item.checked) delete(questions[item.name]);
 					break;
 				case 'checkbox':
-				  // Checkboxes are implicitly optional
+				  if (item.checked) delete(questions[item.name]);
 					break;
 				case 'select-one':
 					if (item.selectedIndex > 0) delete(questions[item.name]);
@@ -289,11 +319,15 @@ N.fba = {
 			if (this.readyState === 4) {
 	      if (this.status === 201) { // SUCCESS!
 					fba.successState = true;
-					d.getElementById('fba-submit').disabled = true;
+					if(d.getElementById('fba-submit')) {
+						d.getElementById('fba-submit').disabled = true;
+					}
 					fba.showFormSuccess();
 	      } else if (this.status === 422) { // FORM ERRORS =\
 						fba.successState = false;
-						d.getElementById('fba-submit').disabled = false;
+						if(d.getElementById('fba-submit')) {
+							d.getElementById('fba-submit').disabled = false;
+						}
 					  var jsonResponse = JSON.parse(this.response);
 					  var errors = jsonResponse.messages;
 

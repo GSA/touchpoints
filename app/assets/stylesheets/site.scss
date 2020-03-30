@@ -123,6 +123,7 @@ footer {
    margin-top: 0;
 }
 
+.submit-button,
 .radios {
   padding: 1em 2em;
 }
@@ -142,6 +143,11 @@ footer {
 .well {
   border: 1px solid #d6d7d9;
   border-radius: 8px;
+  padding: 10px 20px;
+  margin: 10px 0;
+}
+
+.pad {
   padding: 10px 20px;
   margin: 10px 0;
 }

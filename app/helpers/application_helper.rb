@@ -14,10 +14,20 @@ module ApplicationHelper
       "form.querySelector(\"##{question.answer_field}\").value"
     elsif question.question_type == "radio_buttons"
       "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
+    elsif question.question_type == "star_radio_buttons"
+      "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
+    elsif question.question_type == "thumbs_up_down_buttons"
+      "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
+    elsif question.question_type == "yes_no_buttons"
+      "form.querySelector(\"input[name=#{question.answer_field}]\") && form.querySelector(\"input[name=#{question.answer_field}]\").value"
+    elsif question.question_type == "matrix_checkboxes"
+      "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
     elsif question.question_type == "checkbox"
       "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
     elsif question.question_type == "dropdown"
       "form.querySelector(\"##{question.answer_field}\").value"
+    elsif question.question_type == "custom_text_display"
+      "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
     end
   end
 

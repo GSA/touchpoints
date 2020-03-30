@@ -11,6 +11,7 @@ class Admin::QuestionOptionsController < AdminController
 
   def new
     @question_option = QuestionOption.new
+    render layout: false
   end
 
   def edit

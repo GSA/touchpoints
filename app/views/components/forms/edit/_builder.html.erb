@@ -1,9 +1,9 @@
-<form id="touchpoints-form" action="<%= root_url %>touchpoints/<%= touchpoint.present? ? touchpoint.short_uuid : nil %>/submissions.json" method="POST">
+<div>
   <%= hidden_field_tag :fba_location_code, params[:location_code] %>
 
   <% multi_section_question_number = 0 %>
   <% form.form_sections.each do |section| %>
-    <div class="well">
+    <div class="form-section-div">
       <h4>
         <%= section.title %>
       </h4>
@@ -11,35 +11,80 @@
       <% multi_section_question_number += 1 %>
       <div class="question well">
         <% if question.question_type == "text_field" %>
-        <%= render 'components/forms/edit/question_types/text_field', form: form, question: question, question_number: multi_section_question_number %>
+          <%= render 'components/forms/edit/question_types/text_field', form: form, question: question, question_number: multi_section_question_number %>
         <% elsif question.question_type == "radio_buttons" %>
-        <%= render 'components/forms/edit/question_types/radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
+          <%= render 'components/forms/edit/question_types/radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
+        <% elsif question.question_type == "thumbs_up_down_buttons" %>
+          <%= render 'components/forms/edit/question_types/radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
         <% elsif question.question_type == "dropdown" %>
-        <%= render 'components/forms/edit/question_types/dropdown', form: form, question: question, question_number: multi_section_question_number %>
+          <%= render 'components/forms/edit/question_types/dropdown', form: form, question: question, question_number: multi_section_question_number %>
         <% elsif question.question_type == "checkbox" %>
-        <%= render 'components/forms/edit/question_types/checkbox', form: form, question: question, question_number: multi_section_question_number %>
+          <%= render 'components/forms/edit/question_types/checkbox', form: form, question: question, question_number: multi_section_question_number %>
         <% elsif question.question_type == "textarea" %>
-        <%= render 'components/forms/edit/question_types/text_area', form: form, question: question, question_number: multi_section_question_number %>
+          <%= render 'components/forms/edit/question_types/text_area', form: form, question: question, question_number: multi_section_question_number %>
+        <% elsif question.question_type == "custom_text_display" %>
+          <%= render 'components/forms/question_types/custom_text_display', form: form, question: question, question_number: multi_section_question_number %>
+          <br>
         <% end %>
+
         <%= link_to "Edit Question", edit_admin_form_question_path(@form, question), class: "usa-button" %>
+
         <% if form_permissions?(form: @form) %>
         <%= link_to 'Delete Question', admin_form_question_path(@form, question), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" %>
         <% end %>
       </div>
     <% end %>
-
-      <%= link_to 'Edit Form Section', edit_admin_form_form_section_path(form, section), class: "usa-button" %>
+    <%= link_to 'Edit Form Section', edit_admin_form_form_section_path(form, section), class: "usa-button  form-section-edit" %>
     <% unless section.questions.present? %>
       <%= link_to 'Delete Form Section', admin_form_form_section_path(form, section), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" %>
     <% end %>
   </div>
 <br>
 <% end %>
-</form>
-
+</div>
+<div class="new-question-div"></div>
 <p>
-  <%= link_to "Add a Question", new_admin_form_question_path(form), class: "usa-button" %>
+  <%= link_to "Add Question", new_admin_form_question_path(form), class: "usa-button form-add-question" %>
 </p>
 <p>
   <%= link_to "Add Form Section", new_admin_form_form_section_path(form), class: "usa-button" %>
 </p>
+
+<script>
+  $('.form-section-edit').click(function(event) {
+     event.preventDefault();
+     var contentDiv =  $(this).closest('div.form-section-div');
+     $.ajax({
+        type: "GET",
+        url: $(this).attr("href"),
+        success: function (data) {
+          contentDiv.html(data);
+        }
+     });
+  });
+
+  $('.form-add-question').click(function(event) {
+     event.preventDefault();
+
+     var contentDiv =  $('div.new-question-div');
+     $.ajax({
+        type: "GET",
+        url: $(this).attr("href"),
+        success: function (data) {
+          contentDiv.html(data);
+        }
+     });
+  });
+
+  $('.form-add-question-option').click(function(event) {
+     event.preventDefault();
+     var contentDiv =  $(this).closest('div.new-question-options-div');
+      $.ajax({
+        type: "GET",
+        url: $(this).attr("href"),
+        success: function (data) {
+          contentDiv.html(data);
+        }
+     });
+  });
+</script>
