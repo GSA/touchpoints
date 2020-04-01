@@ -1,0 +1,42 @@
+<div class="grid-row grid-gap-md">
+  <div class="grid-col-12">
+    <h3>
+      Organizations without an Organization Manager
+    </h3>
+
+    <% Organization.all.order(:name).each do |organization| %>
+      <% next unless organization.managers.empty? %>
+
+      <%= link_to organization.name, admin_organization_path(organization) %>
+      <br>
+    <% end %>
+
+    <br>
+    <hr>
+
+    <h3>
+      Forms without a Form Manager
+    </h3>
+
+    <% @unmanaged_forms = Form.all.order(:name) %>
+    <% if @unmanaged_forms.present? %>
+      <% @unmanaged_forms.each do |form| %>
+        <% manager_roles = form.user_roles.select { |user_role| user_role.role == "form_manager" } %>
+        <% next unless manager_roles.empty? %>
+        <%= link_to form.name, admin_form_path(form) %>
+        <br>
+      <% end %>
+    <% else %>
+      <div class="usa-alert usa-alert--success" >
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            All forms have at least one manager.
+          </p>
+        </div>
+      </div>
+    <% end %>
+
+    <br>
+    <br>
+  </div>
+</div>

@@ -62,6 +62,7 @@ Rails.application.routes.draw do
       end
     end
     resources :organizations
+    get "management", to: "site#management", as: :management
     get "events", to: "site#events", as: :events
     get "events/export", to: "site#events_export", as: :export_events
     root to: "site#index"
