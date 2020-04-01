@@ -640,6 +640,23 @@ feature "Forms", js: true do
       login_as(touchpoints_manager)
     end
 
+    describe "create a form" do
+      before do
+        visit new_admin_form_path
+        fill_in "form_name", with: "New test form name"
+        click_on "Create Form"
+        visit admin_form_path(Form.first)
+        click_on "Notification settings"
+      end
+
+      it "set notification_email to the email of the user who creates the form" do
+        within ".usa-nav__secondary .user-name" do
+          expect(page).to have_content(touchpoints_manager.email)
+        end
+        expect(find_field('form_notification_emails').value).to eq(touchpoints_manager.email)
+      end
+    end
+
     describe "copying a Form" do
       let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: touchpoints_manager) }
       let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form: form, user: touchpoints_manager) }
