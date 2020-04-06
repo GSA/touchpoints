@@ -309,6 +309,12 @@ feature "Forms", js: true do
         end
       end
 
+      describe "modifying Form Sections" do
+        it "cannot delete the only remaining form section" do
+          expect(page).to_not have_content("Delete Form Section")
+        end
+      end
+
       describe "delete a Form" do
         context "with no responses" do
           before do
