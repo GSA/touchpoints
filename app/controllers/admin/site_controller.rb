@@ -9,4 +9,8 @@ class Admin::SiteController < AdminController
     ExportEventsJob.perform_later(params[:uuid])
     render json: { result: :ok }
   end
+
+  def management
+    ensure_admin
+  end
 end

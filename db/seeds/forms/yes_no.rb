@@ -5,7 +5,7 @@ module Seeds
       form = Form.create({
         organization: Organization.first,
         template: true,
-        kind:  "custom",
+        kind:  "yes_no",
         notes: "Yes/No Form",
         user: User.first,
         name: "Yes/No per page feedback",

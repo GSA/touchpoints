@@ -18,6 +18,11 @@
           <th>
             Created At
           </th>
+        <% if @form.kind == :yes_no.to_s %>
+          <th>
+            Referer
+          </th>
+        <% end %>
           <th style="border-right: none;"></th>
         <% if form_permissions?(form: @form) %>
           <th style="border-left: none;"></th>
@@ -34,6 +39,11 @@
           </td>
         <% end %>
           <td><%= submission.created_at %></td>
+          <% if @form.kind == "yes_no" %>
+            <td>
+              <%= submission.referer %>
+            </td>
+          <% end %>
           <td style="border-right: none;">
             <% if submission.flagged? %>
               <%= link_to unflag_admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--outline", method: :post, data: { confirm: 'Are you sure?' } do %>
