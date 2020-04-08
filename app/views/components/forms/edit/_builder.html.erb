@@ -35,7 +35,7 @@
       </div>
     <% end %>
     <%= link_to 'Edit Form Section', edit_admin_form_form_section_path(form, section), class: "usa-button  form-section-edit" %>
-    <% unless section.questions.present? %>
+    <% unless section.questions.present? || form.form_sections.count == 1  %>
       <%= link_to 'Delete Form Section', admin_form_form_section_path(form, section), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" %>
     <% end %>
   </div>

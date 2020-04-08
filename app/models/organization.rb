@@ -8,4 +8,8 @@ class Organization < ApplicationRecord
   validates :name, uniqueness: true
   validates :domain, presence: true
   validates :abbreviation, presence: true
+
+  def managers
+    users.where(organization_manager: true)
+  end
 end
