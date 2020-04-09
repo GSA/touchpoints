@@ -8,13 +8,13 @@ module Seeds
         template: true,
         kind:  "kitchen sink",
         notes: "An example form that uses at least one of every form element",
+        name: "Kitchen Sink Form Template",
+        title: "Kitchen Sink Form 🧼",
         user: User.first,
-        name: "Kitchen Sink Form",
-        title: "",
         instructions: "",
         disclaimer_text: "Disclaimer Text Goes Here",
         success_text: "Thank you for your response 🎉",
-        delivery_method: "modal"
+        delivery_method: "touchpoints-only"
       })
       custom_form.form_sections.create(title: "Page 2", position: 2)
 
@@ -36,13 +36,22 @@ module Seeds
         answer_field: :answer_02,
         is_required: false,
       })
+      Question.create!({
+        form: custom_form,
+        form_section: custom_form.form_sections.first,
+        text: '<p>Custom text <a href="#">that supports HTML</a> goes here.</p>',
+        question_type: "text_display",
+        position: 3,
+        answer_field: :answer_20,
+        is_required: false,
+      })
 
       radio_button_question = Question.create!({
         form: custom_form,
         form_section: custom_form.form_sections.last,
         text: "Custom Question Radio Buttons",
         question_type: "radio_buttons",
-        position: 3,
+        position: 4,
         answer_field: :answer_03,
         is_required: false,
       })
@@ -70,7 +79,7 @@ module Seeds
         form_section: custom_form.form_sections.last,
         text: "Custom Question Checkboxes",
         question_type: "checkbox",
-        position: 4,
+        position: 5,
         answer_field: :answer_04,
         is_required: false,
       })
@@ -79,6 +88,12 @@ module Seeds
         text: "Option 1",
         value: 1,
         position: 1
+      })
+      QuestionOption.create!({
+        question: checkbox_question,
+        text: "Option 2",
+        value: 2,
+        position: 2
       })
       QuestionOption.create!({
         question: checkbox_question,
@@ -98,7 +113,7 @@ module Seeds
         form_section: custom_form.form_sections.last,
         text: "Custom Question Dropdown",
         question_type: "dropdown",
-        position: 5,
+        position: 6,
         answer_field: :answer_05,
         is_required: false,
       })

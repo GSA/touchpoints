@@ -104,6 +104,37 @@ FactoryBot.define do
       end
     end
 
+    trait :kitchen_sink do
+      name { "Kitchen Sink Form 🧼" }
+      kind { "custom" }
+      after(:create) do |f, evaluator|
+        FactoryBot.create(:question,
+          form: f,
+          question_type: "text_field",
+          form_section: f.form_sections.first,
+          answer_field: "answer_01",
+          position: 1,
+          text: "An input field"
+        )
+        FactoryBot.create(:question,
+          form: f,
+          question_type: "text_display",
+          form_section: f.form_sections.first,
+          answer_field: "answer_20",
+          position: 2,
+          text: "Some custom <a href='#'>html</a>"
+        )
+        FactoryBot.create(:question,
+          form: f,
+          question_type: "textarea",
+          form_section: f.form_sections.first,
+          answer_field: "answer_02",
+          position: 3,
+          text: "A textarea field"
+        )
+      end
+    end
+
     trait :a11_v2 do
       name { "Version 2 of the A11 form" }
       kind { "custom" }

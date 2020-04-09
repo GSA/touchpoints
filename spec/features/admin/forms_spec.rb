@@ -478,6 +478,29 @@ feature "Forms", js: true do
           end
         end
 
+        describe "add a text display element" do
+          before do
+            visit edit_admin_form_path(form)
+            click_on "Add Question"
+            expect(page.current_path).to eq(edit_admin_form_path(form))
+            expect(page).to have_content("New Question")
+
+            select("text_display", from: "question_question_type")
+            fill_in "question_text", with: 'Some custom <a href="#">html</a>'
+            select("answer_20", from: "question_answer_field")
+            expect(find_field('question_position').value).to eq '1'
+            click_on "Create Question"
+          end
+
+          it "display text display element with html" do
+            expect(page).to have_content("Question was successfully created.")
+            within ".form-preview .question" do
+              expect(page).to have_content("Some custom")
+              expect(page).to have_link("html")
+            end
+          end
+        end
+
       end
 
       describe "deleting Questions" do

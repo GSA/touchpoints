@@ -72,6 +72,30 @@ feature "Submissions", js: true do
             end
           end
         end
+
+        context "for a form with a text_display element" do
+          context "with one Submission" do
+            let(:form_with_text_display) { FactoryBot.create(:form, :kitchen_sink, organization: organization, user: admin) }
+            let!(:submission) { FactoryBot.create(:submission, form: form_with_text_display) }
+
+            before do
+              visit admin_form_path(form_with_text_display)
+            end
+
+            it "does not display text_display question title" do
+              within ".responses .table-scroll" do
+                expect(page).to have_content("An input field")
+                expect(page).to_not have_content("Some custom")
+                expect(page).to_not have_content("<a>")
+                expect(page).to_not have_content("</a>")
+                expect(page).to have_content("A textarea field")
+                expect(page).to have_content("Created At")
+                expect(page).to have_link("Flag")
+                expect(page).to have_link("Delete")
+              end
+            end
+          end
+        end
       end
     end
   end
