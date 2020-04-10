@@ -4,7 +4,7 @@
     <h1>Forms</h1>
   </p>
   <% if @forms.select { |f| !f.template }.present? %>
-  <table class="usa-table" style="width: 100%;">
+  <table class="usa-table width-full">
     <thead>
       <tr>
         <th></th>
@@ -29,7 +29,7 @@
         <td>
           <%= form.submissions.size %>
         </td>
-        <td style="min-width: 1em;">
+        <td>
           <%= link_to copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline no-outline" do %>
             <i class="fa fa-copy"></i>
             Copy form

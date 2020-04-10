@@ -25,6 +25,8 @@
         <% elsif question.question_type == "custom_text_display" %>
           <%= render 'components/forms/question_types/custom_text_display', form: form, question: question, question_number: multi_section_question_number %>
           <br>
+        <% elsif question.question_type == "text_display" %>
+          <%= render 'components/forms/question_types/text_display', form: form, question: question, question_number: multi_section_question_number %>
         <% end %>
 
         <%= link_to "Edit Question", edit_admin_form_question_path(@form, question), class: "usa-button" %>

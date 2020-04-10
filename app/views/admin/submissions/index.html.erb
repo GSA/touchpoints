@@ -7,12 +7,13 @@
 </h5>
 
 <% if submissions.present? %>
-<div class="table-scroll">
+<div class="responses table-scroll">
   <div class="table-wrap">
     <table class="usa-table table-scroll submissions">
       <thead>
         <tr>
         <% form.questions.each do |question| %>
+          <% next if question.question_type == "text_display" %>
           <th><%= question.text %></th>
         <% end %>
           <th>
@@ -34,6 +35,7 @@
         <% submissions.each do |submission| %>
         <tr title="Response ID <%= submission.id %>">
         <% form.questions.each do |question| %>
+          <% next if question.question_type == "text_display" %>
           <td>
             <%= sanitize(submission.send(question.answer_field.to_sym)).to_s.truncate(160) %>
           </td>
