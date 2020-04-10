@@ -38,6 +38,7 @@ class Submission < ApplicationRecord
 
   def send_notifications
     Event.log_event(Event.names[:touchpoint_form_submitted], 'Submission', self.id, "Submission received for organization '#{self.organization_name}' form '#{self.form.name}' ")
+    return unless ENV["ENABLE_EMAIL_NOTIFICATIONS"] == "true"
     return unless self.form.send_notifications?
     return unless self.form.notification_emails?
     emails_to_notify = self.form.notification_emails.split(",")
