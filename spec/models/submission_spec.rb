@@ -9,6 +9,9 @@ RSpec.describe Submission, type: :model do
   let(:submission) { FactoryBot.create(:submission, form: form)}
 
   describe "#send_notifications" do
+    before do
+      ENV["ENABLE_EMAIL_NOTIFICATIONS"] = "true"
+    end
 
     it "returns a DeliveryJob" do
       expect(submission.send_notifications.class).to eq(ActionMailer::DeliveryJob)

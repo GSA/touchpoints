@@ -9,7 +9,7 @@
       <% end %>
       <h1>
         <%= @form.name %>
-        <span class="usa-tag" style="background: #e31c3d;"> <%= @form.aasm_state %>
+        <span class="usa-tag bg-secondary"> <%= @form.aasm_state %>
       </h1>
     </div>
   </div>
@@ -19,7 +19,7 @@
       <div class="state-tracker">
         <div class="step <%= "completed" if ["in_development", "live", "archived"].include?(@form.aasm_state) -%>">
           <div class="indicator">
-            <span style="font-size: 48px;">
+            <span class="font-sans-2xl">
               <i class="fas fa-check-circle"></i>
             </span>
           </div>
@@ -27,29 +27,29 @@
         </div>
         <div class="step <%= "completed" if ["live", "archived"].include?(@form.aasm_state) -%>">
           <div class="indicator">
-            <span style="font-size: 48px;">
+            <span class="font-sans-2xl">
               <i class="fas fa-check-circle"></i>
             </span>
           </div>
-          <div class="">
+          <div>
             Published
           </div>
         </div>
         <div class="step <%= "completed" if ["archived"].include?(@form.aasm_state) -%>">
           <div class="indicator">
-            <span style="font-size: 48px;">
+            <span class="font-sans-2xl">
               <i class="far fa-circle"></i>
             </span>
           </div>
-          <div class="">
+          <div>
             Archived
           </div>
         </div>
-        <br style="clear: both;">
+        <br class="usa-display">
       </div>
     </div>
     <div class="tablet:grid-col-6 bg-gray-5">
-      <div>
+      <div class="padding-1">
         <% if !@form.deployable_form? %>
           <%= link_to 'Publish', publish_admin_form_path(@form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline float-right" %>
           <h2>
@@ -104,7 +104,7 @@
                 Add the following script to your site to embed your form.
               </p>
               <p>
-                <div class="code" style="background-color: #DCDEE0; min-height: 80px;">
+                <div class="code minh-10 bg-base-lighter">
                   <%= h("<script src=\"#{js_touchpoint_url(@form.short_uuid)}\" async></script>") %>
                 </div>
               </p>
@@ -187,8 +187,9 @@
   </div>
   <div>
     <% if @form.template %>
-      <span class="usa-tag" style="background: #e31c3d;">
-        Form Template : <%= @form.kind %>
+      <strong>Form Template:</strong>
+      <span class="usa-tag bg-accent-warm">
+        <%= @form.kind %>
       </span>
     <% end %>
     <p>

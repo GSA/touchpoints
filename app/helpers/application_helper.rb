@@ -26,6 +26,8 @@ module ApplicationHelper
       "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
     elsif question.question_type == "dropdown"
       "form.querySelector(\"##{question.answer_field}\").value"
+    elsif question.question_type == "text_display"
+      "null"
     elsif question.question_type == "custom_text_display"
       "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
     end

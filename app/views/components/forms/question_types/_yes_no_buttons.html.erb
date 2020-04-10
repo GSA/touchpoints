@@ -1,9 +1,7 @@
-<div style="text-align: center; padding: 1em;">
-  <div>
-    <label for="<%= question.answer_field.to_sym %>">
-      <%= question.text %>
-    </label>
-  </div>
+<div>
+  <label for="<%= question.answer_field.to_sym %>">
+    <%= question.text %>
+  </label>
   <p class="submit-button">
     <input type="hidden" id="fba-touchpoints-page-form" name="<%= question.answer_field.to_sym %>" value="">
     <input id="fba-touchpoints-page-form-yes" type="submit" value="yes" class="usa-button">

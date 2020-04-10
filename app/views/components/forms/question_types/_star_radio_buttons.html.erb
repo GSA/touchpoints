@@ -1,7 +1,10 @@
-<div class="" style="width: 480px; margin-top: 30px; margin-bottom: 10px;">
-  <p class="text-center" style="font-weight: bold;">
+<div class="">
+  <legend class="usa-sr-only"><%= question.answer_field %></legend>
+  <label class="usa-label">
+    <%= t question_number.to_s %>.
     <%= question.text %>
-  </p>
+  </label>
+  <br>
   <div id="star_rating" style="text-align: center; width: 180px; margin: 0 auto;">
     <input value="1" id="star1" type="radio" name="<%= question.answer_field %>" class="visuallyhidden">
     <label for="star1">
@@ -44,6 +47,6 @@
     </label>
 
     <output></output>
-    <div style="clear: both;"></div>
+    <div class="usa-display"></div>
   </div>
 </div>

@@ -7,22 +7,26 @@
 </h5>
 
 <% if submissions.present? %>
-<div class="table-scroll">
+<div class="responses table-scroll">
   <div class="table-wrap">
     <table class="usa-table table-scroll submissions">
       <thead>
         <tr>
         <% form.questions.each do |question| %>
+          <% next if question.question_type == "text_display" %>
           <th><%= question.text %></th>
         <% end %>
+        <% if @form.kind == "yes_no" %>
           <th>
-            Created At
+            Page
           </th>
-        <% if @form.kind == :yes_no.to_s %>
           <th>
             Referer
           </th>
         <% end %>
+          <th>
+            Created At
+          </th>
           <th style="border-right: none;"></th>
         <% if form_permissions?(form: @form) %>
           <th style="border-left: none;"></th>
@@ -34,16 +38,20 @@
         <% submissions.each do |submission| %>
         <tr title="Response ID <%= submission.id %>">
         <% form.questions.each do |question| %>
+          <% next if question.question_type == "text_display" %>
           <td>
             <%= sanitize(submission.send(question.answer_field.to_sym)).to_s.truncate(160) %>
           </td>
         <% end %>
-          <td><%= submission.created_at %></td>
           <% if @form.kind == "yes_no" %>
-            <td>
-              <%= submission.referer %>
-            </td>
+          <td>
+            <%= submission.page %>
+          </td>
+          <td>
+            <%= submission.referer %>
+          </td>
           <% end %>
+          <td><%= submission.created_at %></td>
           <td style="border-right: none;">
             <% if submission.flagged? %>
               <%= link_to unflag_admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--outline", method: :post, data: { confirm: 'Are you sure?' } do %>
