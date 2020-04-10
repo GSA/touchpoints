@@ -213,7 +213,7 @@ class Form < ApplicationRecord
   end
 
   def to_csv
-    non_flagged_submissions = self.submissions.non_flagged
+    non_flagged_submissions = self.submissions.non_flagged.order("created_at")
     return nil unless non_flagged_submissions.present?
 
     header_attributes = self.hashed_fields_for_export.values
