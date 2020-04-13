@@ -22,7 +22,7 @@ class Admin::QuestionsController < AdminController
 
     respond_to do |format|
       if @question.save
-        format.html { redirect_to admin_form_path(@form), notice: 'Question was successfully created.' }
+        format.html { redirect_to edit_admin_form_path(@form), notice: 'Question was successfully created.' }
         format.json { render :show, status: :created, location: @question }
       else
         format.html { render :new }
