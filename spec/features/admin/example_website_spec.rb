@@ -25,10 +25,17 @@ feature "Example Website Integration", js: true do
           click_on "fba-button"
         end
 
-        it "opens Modal" do
-          expect(page).to have_css("#fba-modal-dialog", visible: true)
-          within "#fba-modal-dialog" do
-            expect(page).to have_content open_ended_form.title
+        describe "standard Modal" do
+          it "opens the modal" do
+            expect(page).to have_css("#fba-modal-dialog", visible: true)
+            within "#fba-modal-dialog" do
+              expect(page).to have_content open_ended_form.title
+            end
+          end
+
+          it "close the modal" do
+            find("#fba-modal-close").click
+            expect(page).to_not have_css("#fba-modal")
           end
         end
 
