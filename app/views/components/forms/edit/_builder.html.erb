@@ -1,6 +1,5 @@
 <div>
   <%= hidden_field_tag :fba_location_code, params[:location_code] %>
-
   <% multi_section_question_number = 0 %>
   <% form.form_sections.each do |section| %>
     <div class="form-section-div">
@@ -28,8 +27,8 @@
         <% elsif question.question_type == "text_display" %>
           <%= render 'components/forms/question_types/text_display', form: form, question: question, question_number: multi_section_question_number %>
         <% end %>
-
-        <%= link_to "Edit Question", edit_admin_form_question_path(@form, question), class: "usa-button" %>
+        </p>
+        <%= link_to "Edit Question", edit_admin_form_question_path(@form, question), class: "usa-button form-edit-question" %>
 
         <% if form_permissions?(form: @form) %>
         <%= link_to 'Delete Question', admin_form_question_path(@form, question), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" %>
@@ -89,4 +88,41 @@
         }
      });
   });
+
+  $('.form-edit-question').click(function(event) {
+     event.preventDefault();
+     var contentDiv =  $(this).closest('div.question');
+     $.ajax({
+        type: "GET",
+        url: $(this).attr("href"),
+        success: function (data) {
+          contentDiv.html(data);
+        }
+     });
+  });
+
+  $('.form-edit-question-option-cb').click(function(event) {
+    event.preventDefault();
+    var contentDiv =  $(this).closest('div.radio-button');
+    $.ajax({
+      type: "GET",
+      url: $(this).attr("href"),
+      success: function (data) {
+        contentDiv.html(data);
+      }
+    });
+ });
+
+ $('.form-edit-question-option-rb').click(function(event) {
+  event.preventDefault();
+  var contentDiv =  $(this).closest('div.usa-checkbox');
+  $.ajax({
+    type: "GET",
+    url: $(this).attr("href"),
+    success: function (data) {
+      contentDiv.html(data);
+    }
+  });
+});
+
 </script>
