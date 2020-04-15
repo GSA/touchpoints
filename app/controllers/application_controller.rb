@@ -29,6 +29,7 @@ class ApplicationController < ActionController::Base
   helper_method :ensure_form_manager
   def ensure_form_manager(form:)
     return false unless form.present?
+    return true if admin_permissions?
 
     redirect_to(index_path, notice: "Authorization is Required") unless form_permissions?(form: form)
   end
@@ -36,10 +37,11 @@ class ApplicationController < ActionController::Base
   helper_method :ensure_response_viewer
   def ensure_response_viewer(form:)
     return false unless form.present?
+    return true if admin_permissions?
+    return true if form_permissions?(form: form)
 
     redirect_to(index_path, notice: "Authorization is Required") unless response_viewer_permissions?(form: form)
   end
-
 
   # Define Permissions
   helper_method :admin_permissions?
@@ -56,13 +58,13 @@ class ApplicationController < ActionController::Base
   def form_permissions?(form:)
     return false unless form.present?
 
-    form.user == current_user || (form.user_role?(user: current_user) == UserRole::Role::FormManager) || admin_permissions?
+    (form.user_role?(user: current_user) == UserRole::Role::FormManager)
   end
 
   helper_method :response_viewer_permissions?
   def response_viewer_permissions?(form:)
     return false unless form.present?
-    
+
     (form.user_role?(user: current_user) == UserRole::Role::ResponseViewer) || form_permissions?(form: form)
   end
 
