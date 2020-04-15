@@ -27,18 +27,39 @@ feature "Forms", js: true do
           visit admin_forms_path
         end
 
-        describe "can preview a template" do
-          before do
-            within ".form-templates" do
-              click_on "Preview Template"
-              # The following `visit` should not be necessary, but Capybara isn't updating current_path
-              visit submit_touchpoint_path(form_template)
+        context "Form Templates" do
+          describe "can preview a template" do
+            before do
+              within ".form-templates" do
+                click_on "Preview Template"
+                # The following `visit` should not be necessary, but Capybara isn't updating current_path
+                visit submit_touchpoint_path(form_template)
+              end
+            end
+
+            it "can preview a template" do
+              expect(page.current_path).to eq(submit_touchpoint_path(form_template))
+              expect(page).to have_content(form_template.title)
             end
           end
 
-          it "can preview a template" do
-            expect(page.current_path).to eq(submit_touchpoint_path(form_template))
-            expect(page).to have_content(form_template.title)
+          describe "can edit a template" do
+            before do
+              within ".form-templates" do
+                click_on "Edit Template"
+              end
+            end
+
+            it "can edit a form template" do
+              expect(page.current_path).to eq(edit_admin_form_path(form_template))
+              expect(page).to have_content("Editing Form")
+              expect(form_template.template).to eq(true)
+              fill_in("form_notes", with: "Updated notes text")
+              click_on "Update Form"
+              expect(page).to have_content("Form was successfully updated.")
+              expect(page.current_path).to eq(admin_form_path(form_template))
+              expect(page).to have_content("Updated notes text")
+            end
           end
         end
 

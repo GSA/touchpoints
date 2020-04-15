@@ -33,7 +33,7 @@
                 <i class="fa fa-copy"></i>
                 Copy Template
               <% end %>
-            <% if !admin_permissions? %>
+            <% if admin_permissions? %>
               <%= link_to edit_admin_form_path(form), class: "usa-button usa-button--outline" do %>
                 <i class="fa fa-edit"></i>
                 Edit Template
