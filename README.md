@@ -16,9 +16,9 @@ in the US Federal Government.
 
 GSA's Federal Acquisition Service (FAS) is developing Touchpoints in-house by the [Feedback Analytics Team](mailto:feedback-analytics@gsa.gov), within the Technology Transformation Services' [Office of Products and Programs (OPP)](https://www.gsa.gov/about-us/organization/federal-acquisition-service/technology-transformation-services/office-of-products-and-programs).
 
-Touchpoints is live at <https://touchpoints.app.cloud.gov>.
+Touchpoints is live at <https://touchpoints.digital.gov>.
 
-A current Demo version is live at <https://touchpoints-demo.app.cloud.gov>,
+A current Demo version is live at <https://touchpoints-demo.app.cloud.gov/index>,
 and government customers are [encouraged](https://github.com/GSA/touchpoints/wiki/Touchpoints-Demo-Environment) to sign up and try it out.
 
 ## Documentation

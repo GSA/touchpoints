@@ -2,10 +2,11 @@ require 'rails_helper'
 
 feature "Submissions", js: true do
   let(:organization) { FactoryBot.create(:organization) }
-  let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
-  let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin) }
 
   context "as Admin" do
+    let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
+    let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin) }
+
     describe "/forms/:id with submissions" do
       before do
         login_as admin
@@ -13,7 +14,6 @@ feature "Submissions", js: true do
 
       context "#show" do
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
-        # let!(:user_role) { FactoryBot.create(:user_role, user: admin, form: form, role: UserRole::Role::FormManager) }
 
         describe "xss injection attempt" do
           context "when no Submissions exist" do
@@ -72,10 +72,66 @@ feature "Submissions", js: true do
             end
           end
         end
+      end
 
+    end
+  end
+
+  context "as Form Manager" do
+    describe "/forms/:id with submissions" do
+      let!(:form_manager) { FactoryBot.create(:user, organization: organization) }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: form_manager) }
+      let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form: form) }
+
+      before do
+        login_as form_manager
+      end
+
+      context "#show" do
+        describe "flag a Submission" do
+          context "with one Submission" do
+            let!(:submission) { FactoryBot.create(:submission, form: form) }
+
+            before do
+              visit admin_form_path(form)
+              within("table.submissions") do
+                click_on "Flag"
+              end
+              page.driver.browser.switch_to.alert.accept
+            end
+
+            it "successfully flags Submission" do
+              expect(page).to have_content("Response #{submission.id} was successfully flagged.")
+              within("table.submissions") do
+                expect(page).to have_content("Flagged")
+              end
+            end
+          end
+        end
+
+        describe "delete a Submission" do
+          context "with one Submission" do
+            let!(:submission) { FactoryBot.create(:submission, form: form) }
+
+            before do
+              visit admin_form_path(form)
+              within("table.submissions") do
+                click_on "Delete"
+              end
+              page.driver.browser.switch_to.alert.accept
+            end
+
+            it "successfully deletes a Submission" do
+              expect(page).to have_content("Response #{submission.id} was successfully destroyed.")
+            end
+          end
+        end
+
+        # This is a common test. not specific to just the Form Manager
         context "for a form with a text_display element" do
           context "with one Submission" do
-            let(:form_with_text_display) { FactoryBot.create(:form, :kitchen_sink, organization: organization, user: admin) }
+            let(:form_with_text_display) { FactoryBot.create(:form, :kitchen_sink, organization: organization, user: form_manager) }
+            let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form: form_with_text_display) }
             let!(:submission) { FactoryBot.create(:submission, form: form_with_text_display) }
 
             before do
@@ -97,6 +153,102 @@ feature "Submissions", js: true do
           end
         end
       end
+
     end
   end
+
+  context "as Response Viewer" do
+    describe "/forms/:id with submissions" do
+      let(:response_viewer) { FactoryBot.create(:user, organization: organization) }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: response_viewer) }
+      let!(:user_role) { FactoryBot.create(:user_role, :response_viewer, user: response_viewer, form: form) }
+
+      before do
+        login_as response_viewer
+      end
+
+      context "#show" do
+        let!(:submission) { FactoryBot.create(:submission, form: form) }
+
+        before do
+          visit admin_form_path(form)
+        end
+
+        describe "flag a Submission" do
+          context "with one Response" do
+            before do
+              within("table.submissions") do
+                click_on "Flag"
+              end
+              page.driver.browser.switch_to.alert.accept
+            end
+
+            it "successfully flags Submission" do
+              expect(page).to have_content("Response #{submission.id} was successfully flagged.")
+              within("table.submissions") do
+                expect(page).to have_content("Flagged")
+              end
+            end
+          end
+        end
+
+        context "with one Response" do
+          describe "row-level response buttons " do
+            it "do not show Delete button" do
+              within("table.submissions") do
+                expect(page).to_not have_content("Delete")
+              end
+            end
+          end
+        end
+      end
+
+    end
+  end
+
+  context "non-privileged User" do
+    let(:admin) { FactoryBot.create(:user, organization: organization) }
+    let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin) }
+    let(:user) { FactoryBot.create(:user, organization: organization) }
+
+    context "with an existing Form that the user doesn't have permissions to" do
+      describe "/forms/:id with submissions" do
+        before do
+          login_as user
+        end
+
+        context "#show" do
+          before do
+            visit admin_form_path(form)
+          end
+
+          it "prevent access and redirect to admin index page" do
+            expect(page).to have_content("Authorization is Required")
+            expect(page.current_path).to eq(admin_root_path)
+          end
+        end
+      end
+    end
+  end
+
+  context "logged out user" do
+    describe "/forms/:id with submissions" do
+      let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin) }
+      let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
+      let!(:submission) { FactoryBot.create(:submission, form: form) }
+
+      context "with one Submission" do
+        before do
+          visit admin_form_path(form)
+        end
+
+        it "prevent access and redirect to index page" do
+          expect(page).to have_content("Authorization is Required")
+          expect(page.current_path).to eq(index_path)
+        end
+      end
+    end
+  end
+
 end

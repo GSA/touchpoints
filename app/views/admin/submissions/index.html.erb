@@ -27,10 +27,7 @@
           <th>
             Created At
           </th>
-          <th style="border-right: none;"></th>
-        <% if form_permissions?(form: @form) %>
-          <th style="border-left: none;"></th>
-        <% end %>
+          <th></th>
         </tr>
       </thead>
 
@@ -52,7 +49,7 @@
           </td>
           <% end %>
           <td><%= submission.created_at %></td>
-          <td style="border-right: none;">
+          <td>
             <% if submission.flagged? %>
               <%= link_to unflag_admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--outline", method: :post, data: { confirm: 'Are you sure?' } do %>
               <i class="far fa-times-circle"></i>
@@ -64,15 +61,14 @@
                 Flag
               <% end %>
             <% end %>
-          </td>
-          <% if form_permissions?(form: @form) %>
-          <td style="border-left: none;">
-            <%= link_to admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--secondary", method: :delete, data: { confirm: 'Are you sure?' } do %>
+
+            <% if form_permissions?(form: @form) %>
+              <%= link_to admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--secondary", method: :delete, data: { confirm: 'Are you sure?' } do %>
               <i class="fas fa-trash"></i>
               Delete
+              <% end %>
             <% end %>
           </td>
-          <% end %>
         </tr>
         <% end %>
       </tbody>

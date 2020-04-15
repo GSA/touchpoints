@@ -48,7 +48,6 @@ feature "Forms", js: true do
           expect(rows[1]).to have_content("1") # id
           expect(rows[1]).to have_link(form.name)
           expect(rows[1]).to have_content("0") # submissions
-          expect(rows[1]).to have_link("Copy form")
         end
 
         it "display 'new form' button" do
@@ -687,28 +686,18 @@ feature "Forms", js: true do
     end
 
     describe "copying a Form" do
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: touchpoints_manager) }
+      let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: touchpoints_manager) }
       let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form: form, user: touchpoints_manager) }
 
       before do
-        visit admin_forms_path
-      end
-
-      it "displays Copy button" do
-        row = all("table tr").last
-        within(row) do
-          expect(page).to have_link("Copy form")
-        end
+        visit admin_form_path(form)
+        expect(page).to have_link("Copy form")
       end
 
       it "shows successful message" do
-        row = all("table tr").last
-        within(row) do
-          click_on("Copy form")
-        end
-
+        click_on("Copy form")
         page.driver.browser.switch_to.alert.accept
-        # redirects to /admin/forms/:id/edit
+
         expect(page).to have_content("Form was successfully copied.")
       end
     end
