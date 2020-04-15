@@ -31,7 +31,7 @@
 
   <body>
     <noscript><iframe sandbox="allow-same-origin allow-scripts" src="https://www.googletagmanager.com/ns.html?id=<%= ENV.fetch("TOUCHPOINTS_GTM_CONTAINER_ID") %>"
-    height="0" width="0" hidden="true"></iframe></noscript>
+    height="0" width="0" hidden></iframe></noscript>
 
     <%= render 'components/header' %>
     <% unless content_for?(:full_layout) %>
