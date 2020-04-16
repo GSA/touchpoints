@@ -475,25 +475,70 @@ feature "Forms", js: true do
           end
         end
 
-        describe "add a Dropdown question" do
-          before do
-            visit edit_admin_form_path(form)
-            click_on "Add Question"
-            expect(page.current_path).to eq(new_admin_form_question_path(form))
-            expect(page).to have_content("New Question")
-            fill_in "dropdown", with: "New Test Question Radio Buttons"
-            select("radio_buttons", from: "question_question_type")
-            select("answer_01", from: "question_answer_field")
+        context "Dropdown Question" do
+          describe "#create" do
+            before do
+              visit edit_admin_form_path(form)
+              click_on "Add Question"
+              expect(page.current_path).to eq(edit_admin_form_path(form))
+              expect(page).to have_content("New Question")
+              select("dropdown", from: "question_question_type")
+              fill_in "question_text", with: "New dropdown field"
+              select("answer_01", from: "question_answer_field")
 
-            expect(find_field('question_position').value).to eq '1'
-            click_on "Create Question"
-          end
+              expect(find_field('question_position').value).to eq '1'
+              click_on "Create Question"
+            end
 
-          xit "can add a Text Field Question" do
-            expect(page).to have_content("Question was successfully created.")
-            within ".question" do
-              # expect(page).to have_content("New Test Question Radio Buttons")
-              # Radio buttons won't be showing yet. Because they need to be added.
+            it "can add a dropdown Question" do
+              expect(page).to have_content("Question was successfully created.")
+              within ".form-preview" do
+                expect(page).to have_content("New dropdown field")
+                # Radio buttons won't be showing yet. Because they need to be added.
+              end
+            end
+
+            describe "#edit" do
+              before do
+                visit edit_admin_form_path(form)
+                click_on "Edit Question"
+                expect(page.current_path).to eq(edit_admin_form_question_path(form, form.questions.first))
+                expect(page).to have_content("Editing Question")
+                expect(find_field('question_text').value).to eq 'New dropdown field'
+              end
+
+              it "add a Question Option for a dropdown" do
+                fill_in "question_text", with: "Updated question text"
+                click_on "Update Question"
+
+                expect(page).to have_content("Question was successfully updated.")
+                expect(page.current_path).to eq(edit_admin_form_path(form))
+                within ".form-builder" do
+                  expect(page).to have_content("1. Updated question text")
+                end
+              end
+            end
+
+            describe "Question Options for a dropdown" do
+              before do
+                visit edit_admin_form_path(form)
+                click_on "Add Dropdown Option"
+                expect(page.current_path).to eq(edit_admin_form_path(form))
+                expect(page).to have_content("New Question")
+                fill_in "question_option_text", with: "Dropdown option #1"
+                fill_in "question_option_value", with: "value1"
+                expect(find_field('question_option_position').value).to eq '1'
+                click_on "Create Question option"
+              end
+
+              it "add a Question Option for a dropdown" do
+                expect(page).to have_content("Question option was successfully created.")
+                expect(page.current_path).to eq(edit_admin_form_path(form))
+                within ".form-builder" do
+                  expect(page).to have_content("Dropdown option #1")
+                  expect(page).to have_link("Edit")
+                end
+              end
             end
           end
         end
