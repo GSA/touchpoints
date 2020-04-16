@@ -136,6 +136,56 @@ module Seeds
         position: 3
       })
 
+      Question.create!({
+        form: custom_form,
+        form_section: custom_form.form_sections.last,
+        text: "Star radio buttons",
+        question_type: "star_radio_buttons",
+        position: 7,
+        answer_field: :answer_06,
+        is_required: false
+      })
+
+      Question.create!({
+        form: custom_form,
+        form_section: custom_form.form_sections.last,
+        text: "Thumbs up/down buttons",
+        question_type: "thumbs_up_down_buttons",
+        position: 7,
+        answer_field: :answer_06,
+        is_required: false
+      })
+
+      Question.create!({
+        form: custom_form,
+        form_section: custom_form.form_sections.last,
+        text: "Yes/No buttons",
+        question_type: "yes_no_buttons",
+        position: 8,
+        answer_field: :answer_07,
+        is_required: false
+      })
+
+      Question.create!({
+        form: custom_form,
+        form_section: custom_form.form_sections.last,
+        text: "Matrix checkboxes",
+        question_type: "matrix_checkboxes",
+        position: 9,
+        answer_field: :answer_08,
+        is_required: false
+      })
+
+      Question.create!({
+        form: custom_form,
+        form_section: custom_form.form_sections.last,
+        text: "Custom text display",
+        question_type: "custom_text_display",
+        position: 10,
+        answer_field: :answer_09,
+        is_required: false
+      })
+
       custom_form
     end
   end

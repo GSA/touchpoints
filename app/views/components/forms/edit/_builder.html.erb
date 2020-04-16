@@ -15,7 +15,8 @@
         <% elsif question.question_type == "radio_buttons" %>
           <%= render 'components/forms/edit/question_types/radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
         <% elsif question.question_type == "thumbs_up_down_buttons" %>
-          <%= render 'components/forms/edit/question_types/radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
+          <%= render 'components/forms/question_types/thumbs_up_down_buttons', form: form, question: question, question_number: multi_section_question_number %>
+          <br>
         <% elsif question.question_type == "dropdown" %>
           <%= render 'components/forms/edit/question_types/dropdown', form: form, question: question, question_number: multi_section_question_number %>
         <% elsif question.question_type == "checkbox" %>
@@ -25,6 +26,12 @@
         <% elsif question.question_type == "custom_text_display" %>
           <%= render 'components/forms/question_types/custom_text_display', form: form, question: question, question_number: multi_section_question_number %>
           <br>
+        <% elsif question.question_type == "star_radio_buttons" %>
+          <%= render 'components/forms/question_types/star_radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
+        <% elsif question.question_type == "matrix_checkboxes" %>
+          <%= render 'components/forms/edit/question_types/matrix_checkboxes', form: form, question: question, question_number: multi_section_question_number %>
+        <% elsif question.question_type == "yes_no_buttons" %>
+          <%= render 'components/forms/question_types/yes_no_buttons', form: form, question: question, question_number: multi_section_question_number %>
         <% elsif question.question_type == "text_display" %>
           <%= render 'components/forms/question_types/text_display', form: form, question: question, question_number: multi_section_question_number %>
         <% end %>
