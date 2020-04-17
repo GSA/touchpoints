@@ -27,7 +27,7 @@
         <% elsif question.question_type == "text_display" %>
           <%= render 'components/forms/question_types/text_display', form: form, question: question, question_number: multi_section_question_number %>
         <% end %>
-        </p>
+
         <%= link_to "Edit Question", edit_admin_form_question_path(@form, question), class: "usa-button form-edit-question" %>
 
         <% if form_permissions?(form: @form) %>
@@ -101,7 +101,7 @@
      });
   });
 
-  $('.form-edit-question-option-cb').click(function(event) {
+  $('.form-edit-question-option-checkbox').click(function(event) {
     event.preventDefault();
     var contentDiv =  $(this).closest('div.radio-button');
     $.ajax({
@@ -113,7 +113,7 @@
     });
  });
 
- $('.form-edit-question-option-rb').click(function(event) {
+ $('.form-edit-question-option-radio-button').click(function(event) {
   event.preventDefault();
   var contentDiv =  $(this).closest('div.usa-checkbox');
   $.ajax({

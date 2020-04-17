@@ -37,7 +37,6 @@ class Admin::QuestionsController < AdminController
       if @question.update(question_params)
         format.html { redirect_to edit_admin_form_path(@form), notice: 'Question was successfully updated.' }
         format.json { 
-          # binding.pry
           render :show, status: :ok, location: @question 
         }
       else
@@ -79,4 +78,3 @@ class Admin::QuestionsController < AdminController
       )
     end
 end
-
