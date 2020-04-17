@@ -9,4 +9,5 @@
   </p>
 
   <%= render 'form', form: @question.form, question: @question, question_option: @question_option %>
+  <%= link_to 'Cancel', edit_admin_form_path(@question.form) %>
 </div>

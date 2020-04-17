@@ -400,7 +400,8 @@ feature "Forms", js: true do
 
           it "can add a Text Field Question" do
             expect(page).to have_content("Question was successfully created.")
-            within ".form-preview .question" do
+            expect(page.current_path).to eq(edit_admin_form_path(form))
+            within ".form-builder .question" do
               expect(page).to have_content("New Test Question")
               expect(page).to have_css("input[type='text']")
             end
@@ -422,7 +423,8 @@ feature "Forms", js: true do
 
           it "can add a Text Area question" do
             expect(page).to have_content("Question was successfully created.")
-            within ".form-preview .question" do
+            expect(page.current_path).to eq(edit_admin_form_path(form))
+            within ".form-builder .question" do
               expect(page).to have_content("New Text Area")
               expect(page).to have_css("textarea")
             end
@@ -445,7 +447,8 @@ feature "Forms", js: true do
 
           it "can add a Text Field Question" do
             expect(page).to have_content("Question was successfully created.")
-            within ".form-preview .question" do
+            expect(page.current_path).to eq(edit_admin_form_path(form))
+            within ".form-builder .question" do
               expect(page).to have_content("New Test Question Radio Buttons")
               # Radio buttons won't be showing yet. Because they need to be added.
             end
@@ -492,7 +495,8 @@ feature "Forms", js: true do
 
             it "can add a dropdown Question" do
               expect(page).to have_content("Question was successfully created.")
-              within ".form-preview" do
+              expect(page.current_path).to eq(edit_admin_form_path(form))
+              within ".form-builder" do
                 expect(page).to have_content("New dropdown field")
                 # Radio buttons won't be showing yet. Because they need to be added.
               end
@@ -502,7 +506,7 @@ feature "Forms", js: true do
               before do
                 visit edit_admin_form_path(form)
                 click_on "Edit Question"
-                expect(page.current_path).to eq(edit_admin_form_question_path(form, form.questions.first))
+                expect(page.current_path).to eq(edit_admin_form_path(form))
                 expect(page).to have_content("Editing Question")
                 expect(find_field('question_text').value).to eq 'New dropdown field'
               end
@@ -559,7 +563,7 @@ feature "Forms", js: true do
 
           it "display text display element with html" do
             expect(page).to have_content("Question was successfully created.")
-            within ".form-preview .question" do
+            within ".form-builder .question" do
               expect(page).to have_content("Some custom")
               expect(page).to have_link("html")
             end
