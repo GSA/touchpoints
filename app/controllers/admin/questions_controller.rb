@@ -15,6 +15,7 @@ class Admin::QuestionsController < AdminController
   end
 
   def edit
+    render layout: false
   end
 
   def create
@@ -22,7 +23,7 @@ class Admin::QuestionsController < AdminController
 
     respond_to do |format|
       if @question.save
-        format.html { redirect_to admin_form_path(@form), notice: 'Question was successfully created.' }
+        format.html { redirect_to edit_admin_form_path(@form), notice: 'Question was successfully created.' }
         format.json { render :show, status: :created, location: @question }
       else
         format.html { render :new }
@@ -35,7 +36,9 @@ class Admin::QuestionsController < AdminController
     respond_to do |format|
       if @question.update(question_params)
         format.html { redirect_to edit_admin_form_path(@form), notice: 'Question was successfully updated.' }
-        format.json { render :show, status: :ok, location: @question }
+        format.json {
+          render :show, status: :ok, location: @question
+        }
       else
         format.html { render :edit }
         format.json { render json: @question.errors, status: :unprocessable_entity }

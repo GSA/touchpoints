@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_19_201414) do
+ActiveRecord::Schema.define(version: 2020_04_20_191739) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_201414) do
     t.integer "survey_form_activations", default: 0
     t.integer "legacy_touchpoint_id"
     t.string "legacy_touchpoint_uuid"
+    t.boolean "load_css", default: false
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["uuid"], name: "index_forms_on_uuid"

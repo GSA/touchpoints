@@ -21,7 +21,9 @@ N.fba = {
 		this.javscriptIsEnabled();
 
 		this.options = options;
+		<% if form.load_css %>
 		this.loadCss();
+		<% end %>
 		this.loadHtml();
 		<% unless (local_assigns.has_key?(:suppress_ui) && suppress_ui) -%>
 			<% if form.delivery_method == "modal" -%>
