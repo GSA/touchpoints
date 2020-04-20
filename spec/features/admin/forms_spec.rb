@@ -222,6 +222,23 @@ feature "Forms", js: true do
           it "can complete then submit the inline Form and see a Success message" do
             fill_in "answer_01", with: "We the People of the United States, in Order to form a more perfect Union..."
             click_on "Submit"
+
+            expect(page).to have_content("Success")
+            expect(page).to have_content("Thank you. Your feedback has been received.")
+          end
+        end
+
+        context "With load_css" do
+          let(:form3) { FactoryBot.create(:form, :open_ended_form, :inline, organization: organization, user: user, load_css: true)}
+
+          before "/admin/forms/:uuid/example" do
+            visit example_admin_form_path(form3)
+          end
+
+          it "can complete then submit the inline Form and see a Success message" do
+            fill_in "answer_01", with: "We the People of the United States, in Order to form a more perfect Union..."
+            click_on "Submit"
+
             expect(page).to have_content("Success")
             expect(page).to have_content("Thank you. Your feedback has been received.")
           end

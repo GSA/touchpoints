@@ -92,6 +92,7 @@ class Admin::FormsController < AdminController
 
     @form = Form.new(form_params)
     @form.delivery_method = "touchpoints-hosted-only"
+    @form.load_css = true
     unless @form.user
       @form.user = current_user
     end
@@ -313,6 +314,8 @@ class Admin::FormsController < AdminController
         :agency_poc_name,
         :department,
         :bureau,
+
+        :load_css,
 
         :question_text_01,
         :question_text_02,
