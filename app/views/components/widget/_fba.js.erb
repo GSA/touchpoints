@@ -269,7 +269,7 @@ N.fba = {
 			var alertElementBody = touchpointsFormWrapper.getElementsByClassName("usa-alert__text")[0];
 
 			// Display success Message
-			alertElementBody.innerHTML += "<%= form.success_text %>";
+			alertElementBody.innerHTML += "<%= escape_javascript(form.success_text) %>";
 			alertElement.removeAttribute("hidden");
 
 			// Hide Form Elements

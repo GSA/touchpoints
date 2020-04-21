@@ -27,7 +27,7 @@ feature "Touchpoints", js: true do
 
       context "custom success text" do
         before do
-          form.update_attribute(:success_text, "Much success, yessss.")
+          form.update_attribute(:success_text, "Much success, yessss. \n With a second line.")
           form.reload
           visit touchpoint_path(form)
           expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
