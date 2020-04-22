@@ -2,7 +2,9 @@
 
 (function ( d, N ) { 'use strict';
 N.fba = {
+	<% if form.load_css %>
 	css: '<%= escape_javascript(render partial: "components/widget/widget.css", locals: { form: form }) %>',
+	<% end %>
 
 	// enable Javascript experience
 	javscriptIsEnabled: function()
@@ -21,7 +23,9 @@ N.fba = {
 		this.javscriptIsEnabled();
 
 		this.options = options;
+		<% if form.load_css %>
 		this.loadCss();
+		<% end %>
 		this.loadHtml();
 		<% unless (local_assigns.has_key?(:suppress_ui) && suppress_ui) -%>
 			<% if form.delivery_method == "modal" -%>
@@ -44,10 +48,12 @@ N.fba = {
 				self.handleClick(event);
 			});
 		},
+		<% if form.load_css %>
 		loadCss: function()
 		{
 			d.head.innerHTML += '<style>' + this.css + '</style>';
 		},
+		<% end %>
 		loadHtml: function()
 		{
 			this.dialogEl = document.createElement('div');
@@ -55,7 +61,7 @@ N.fba = {
 			this.dialogEl.setAttribute('id', 'fba-modal');
 			this.dialogEl.setAttribute('role', 'dialog');
 
-		<%# inject the form interface for inline with no wrapper, for digital.gov %>
+		<%# inject the form interface for inline with no wrapper %>
 		<% if form.delivery_method == "inline" && form.suppress_submit_button %>
 			<% if form.element_selector? %>
 			if(d.getElementById('<%= form.element_selector %>') != null) {
@@ -90,7 +96,6 @@ N.fba = {
 			<% end %>
 		<% end %>
 
-
 			if (d.getElementById('fba-submit')) {
 				d.getElementById('fba-submit').addEventListener('click', this.handleSubmitClick, false);
 			}
@@ -106,9 +111,10 @@ N.fba = {
 		},
 		resetErrors: function()
 		{
-			var alertElement = document.querySelector(".fba-alert");
-			var alertElementBody = document.getElementsByClassName("usa-alert__text")[0];
-			var alertErrorElement = document.querySelector(".fba-alert-error");
+			var touchpointsFormWrapper = document.querySelector(".touchpoints-form-wrapper");
+			var alertElement = touchpointsFormWrapper.querySelector(".fba-alert");
+			var alertElementBody = touchpointsFormWrapper.getElementsByClassName("usa-alert__text")[0];
+			var alertErrorElement = touchpointsFormWrapper.querySelector(".fba-alert-error");
 			var alertErrorElementBody = alertErrorElement.getElementsByClassName("usa-alert__text")[0];
 			alertElement.setAttribute("hidden", true);
 			alertElementBody.innerHTML = "";
@@ -258,11 +264,12 @@ N.fba = {
 		},
 		showFormSuccess: function(e)
 		{
-			var alertElement = document.querySelector(".fba-alert");
-			var alertElementBody = document.getElementsByClassName("usa-alert__text")[0];
+			var touchpointsFormWrapper = document.querySelector(".touchpoints-form-wrapper");
+			var alertElement = touchpointsFormWrapper.querySelector(".fba-alert");
+			var alertElementBody = touchpointsFormWrapper.getElementsByClassName("usa-alert__text")[0];
 
 			// Display success Message
-			alertElementBody.innerHTML += "<%= form.success_text %>";
+			alertElementBody.innerHTML += "<%= escape_javascript(form.success_text) %>";
 			alertElement.removeAttribute("hidden");
 
 			// Hide Form Elements
@@ -309,9 +316,10 @@ N.fba = {
 		},
 		formSuccess: function(e) {
 			// Clear the alert box
-			var alertElement = document.querySelector(".fba-alert");
-			var alertElementBody = document.getElementsByClassName("usa-alert__text")[0];
-			var alertErrorElement = document.querySelector(".fba-alert-error");
+			var touchpointsFormWrapper = document.querySelector(".touchpoints-form-wrapper");
+			var alertElement = touchpointsFormWrapper.querySelector(".fba-alert");
+			var alertElementBody = touchpointsFormWrapper.getElementsByClassName("usa-alert__text")[0];
+			var alertErrorElement = touchpointsFormWrapper.querySelector(".fba-alert-error");
 			var alertErrorElementBody = alertErrorElement.getElementsByClassName("usa-alert__text")[0];
 			alertElementBody.innerHTML = "";
 			alertErrorElementBody.innerHTML = "";

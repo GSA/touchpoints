@@ -27,7 +27,7 @@ feature "Touchpoints", js: true do
 
       context "custom success text" do
         before do
-          form.update_attribute(:success_text, "Much success, yessss.")
+          form.update_attribute(:success_text, "Much success. \n With a second line.")
           form.reload
           visit touchpoint_path(form)
           expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
@@ -39,8 +39,8 @@ feature "Touchpoints", js: true do
 
         describe "display custom success text" do
           it "renders success flash message" do
-            expect(page).to have_content(form.success_text)
-            expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit") # stays on
+            expect(page).to have_text(form.success_text.gsub("\n ", "")) # convert the line break and following space to html text
+            expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit") # stays on same page
           end
         end
       end

@@ -157,6 +157,13 @@
           <%= f.label :early_submission, "Early Submission: Display a submit button at the end of the first page in a multi-page form?", class: "usa-checkbox__label" %>
         </div>
       </fieldset>
+      <fieldset class="usa-fieldset">
+        <legend class="usa-sr-only">Load USWDS</legend>
+        <div class="usa-checkbox">
+          <%= f.check_box :load_css, class: "usa-checkbox__input" %>
+          <%= f.label :load_css, "Load USWDS CSS - note: use if your site does not implement USWDS styling.", class: "usa-checkbox__label" %>
+        </div>
+      </fieldset>
     </div>
   </div>
   <div class="grid-row grid-gap-md">
@@ -223,7 +230,7 @@
               Only required for "Inline" and "Custom-button-modal"
             </em>
           </div>
-          <%= f.text_field :element_selector, class: "usa-input", placeholder: "#html-element-id" %>
+          <%= f.text_field :element_selector, class: "usa-input", placeholder: "html-element-id" %>
         </div>
       </div>
     </div>
