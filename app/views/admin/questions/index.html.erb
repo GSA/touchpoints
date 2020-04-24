@@ -2,7 +2,7 @@
 
 <h1>Questions</h1>
 
-<table class="usa-table">
+<table class="usa-table questions">
   <thead>
     <tr>
       <th>Text</th>
@@ -22,7 +22,8 @@
         <td><%= question.is_required %></td>
         <td><%= link_to 'Show', question %></td>
         <td><%= link_to 'Edit', edit_question_path(question) %></td>
-        <td><%= link_to 'Delete', question, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Delete', question, method: :delete, data: { confirm: 'Are you sure?' }, 
+        :remote => true, :class => 'form-delete-question' %></td>
       </tr>
     <% end %>
   </tbody>
@@ -30,4 +31,4 @@
 
 <br>
 
-<%= link_to 'New Question', new_question_path %>
+<%= link_to 'New Question', new_question_path, remote: true%>

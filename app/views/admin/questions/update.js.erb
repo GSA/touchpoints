@@ -1,0 +1,4 @@
+$('.form-ajax-render').on('ajax:success', function(event) { 
+    console.log('vp-update');
+    $("<%= escape_javascript(render partial: 'components/forms/edit/builder', locals: { form: @form, questions: @form.questions }) %>").appendTo("#questions");    
+});
