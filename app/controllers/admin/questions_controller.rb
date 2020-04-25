@@ -35,9 +35,7 @@ class Admin::QuestionsController < AdminController
       if @question.update(question_params)
         format.html { redirect_to edit_admin_form_question_path(@form,question), notice: 'Question was successfully updated.' }
         format.js { render :layout => false }
-        format.json {
-          render :show, status: :ok, location: @question
-        }
+        format.json { render :show, status: :ok, location: @question }
       else
         format.html { render :edit }
         format.json { render json: @question.errors, status: :unprocessable_entity }
