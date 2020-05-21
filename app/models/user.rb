@@ -26,7 +26,7 @@ class User < ApplicationRecord
   def self.from_omniauth(auth)
     # Set login_dot_gov as Provider for legacy TP Devise accounts
     # TODO: Remove once all accounts are migrated/have `provider` and `uid` set
-    @existing_user = User.find_by_uid(auth.uid)
+    @existing_user = User.find_by_email(auth.info.email)
     if @existing_user && !@existing_user.provider.present?
       @existing_user.provider = auth.provider
       @existing_user.uid = auth.uid
