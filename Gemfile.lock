@@ -288,6 +288,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    secure_headers (6.3.0)
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
@@ -361,6 +362,7 @@ DEPENDENCIES
   rspec-rails
   rspec_junit_formatter
   sass-rails
+  secure_headers
   selenium-webdriver
   sidekiq (< 6)
   tzinfo-data

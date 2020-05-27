@@ -78,6 +78,6 @@
     </div>
     <% end %>
     <!--- End demo content -->
-    <script src="<%= js_touchpoint_url(@form) %>" async></script>
+    <%= nonced_javascript_include_tag(js_touchpoint_url(@form), async: true) %>
   </body>
 </html>

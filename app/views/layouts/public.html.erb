@@ -9,7 +9,7 @@
     <%= csp_meta_tag %>
     <%= favicon_link_tag asset_path('favicon.ico') %>
     <%= stylesheet_link_tag    'application', media: 'all' %>
-    <%= javascript_include_tag 'application' %>
+    <%= nonced_javascript_include_tag 'application' %>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
