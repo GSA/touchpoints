@@ -73,10 +73,6 @@ class Admin::FormsController < AdminController
 
   def new
     @form = Form.new
-    @form.organization_id = current_user.organization_id
-    @form.user_id = current_user.id
-    @form.modal_button_text = I18n.t('form.help_improve')
-    @form.success_text = I18n.t('form.submit_thankyou')
   end
 
   def edit
@@ -91,6 +87,12 @@ class Admin::FormsController < AdminController
     ensure_form_manager(form: @form)
 
     @form = Form.new(form_params)
+
+    @form.organization_id = current_user.organization_id
+    @form.user_id = current_user.id
+    @form.title = @form.name
+    @form.modal_button_text = I18n.t('form.help_improve')
+    @form.success_text = I18n.t('form.submit_thankyou')
     @form.delivery_method = "touchpoints-hosted-only"
     @form.load_css = true
     unless @form.user
