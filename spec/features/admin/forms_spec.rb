@@ -105,6 +105,13 @@ feature "Forms", js: true do
           expect(page.current_path).to eq(edit_admin_form_path(@form))
           expect(find_field('form_name').value).to eq new_form.name
 
+          expect(@form.user).to eq admin
+          expect(@form.organization).to eq admin.organization
+          expect(@form.title).to eq new_form.name
+
+          expect(find_field('form_modal_button_text').value).to eq(I18n.t('form.help_improve'))
+          expect(find_field('form_success_text').value).to eq(I18n.t('form.submit_thankyou'))
+
           # This should work, but is not. Next line gets the job done.
           # expect(page).to have_select("form_user_id", selected: "admin@example.gov")
           expect(page.find("#form_user_id").text).to eq "admin@example.gov"
