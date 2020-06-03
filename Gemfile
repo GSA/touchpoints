@@ -49,6 +49,7 @@ group :test do
   gem 'factory_bot_rails'
   gem 'rspec-rails'
   gem 'selenium-webdriver'
+  gem 'simplecov', require: false, group: :test
   # gem 'chromedriver-helper'
   gem 'webdrivers'
 end
