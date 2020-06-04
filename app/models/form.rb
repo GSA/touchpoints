@@ -24,6 +24,7 @@ class Form < ApplicationRecord
   before_create :set_uuid
   before_destroy :ensure_no_responses
 
+  mount_uploader :logo, LogoUploader
 
   def target_for_delivery_method
     if self.delivery_method == "custom-button-modal" || self.delivery_method == "inline"
