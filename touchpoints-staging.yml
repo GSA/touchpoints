@@ -5,6 +5,7 @@ applications:
       AWS_ACCESS_KEY_ID:
       AWS_REGION:
       AWS_SECRET_ACCESS_KEY:
+      S3_AWS_BUCKET_NAME:
       DISABLE_DATABASE_ENVIRONMENT_CHECK: 1
       LOGIN_GOV_CLIENT_ID: urn:gov:gsa:openidconnect.profiles:sp:sso:gsa-tts-opp:touchpoints-staging
       LOGIN_GOV_IDP_BASE_URL: https://idp.int.identitysandbox.gov/
@@ -12,11 +13,10 @@ applications:
       LOGIN_GOV_REDIRECT_URI: https://touchpoints-staging.app.cloud.gov/users/auth/login_dot_gov/callback
       NEW_RELIC_KEY:
       RAILS_ENV: staging
-      S3_AWS_ACCESS_KEY_ID:
-      S3_AWS_BUCKET_NAME:
-      S3_AWS_HOST:
-      S3_AWS_REGION:
-      S3_AWS_SECRET_ACCESS_KEY:
+      S3_AWS_ACCESS_KEY_ID: AKIAR7FXZINYKUROFXV5
+      S3_AWS_BUCKET_NAME: cg-88a32a3b-cf99-42ea-9c50-2cbd88e5a5b9
+      S3_AWS_REGION: us-gov-west-1
+      S3_AWS_SECRET_ACCESS_KEY: zSY/MHp72sEQc4D+AJkRSeo4OOaPDqFRfMRF1fdD
       TOUCHPOINTS_ADMIN_EMAILS:
       TOUCHPOINTS_EMAIL_SENDER:
       TOUCHPOINTS_GTM_CONTAINER_ID:
