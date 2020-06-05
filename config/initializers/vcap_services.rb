@@ -39,7 +39,8 @@ def set_redis!(vcap_services_json)
     raise Exception.new("Redis credentials could not be derived from Cloud Foundry VCAP_SERVICES")
   end
 
-  ENV["REDIS_URL"] = redis_credentials["uri"]
+  # use `rediss://` to force HTTPS
+  ENV["REDIS_URL"] = redis_credentials["uri"].gsub("redis://", "rediss://")
 end
 
 # Set ENV variables
