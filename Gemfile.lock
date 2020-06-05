@@ -1,14 +1,13 @@
 GIT
   remote: https://github.com/18f/omniauth_login_dot_gov.git
-  revision: 3703f9d3863300fd55eea6d05600d050e4cc9bb1
-  ref: 3703f9d3863300fd55eea6d05600d050e4cc9bb1
+  revision: 7b8c917c511aa044b1faec16d2e20ae82f16f9f5
   specs:
-    omniauth_login_dot_gov (0.0.1)
-      faraday
-      json-jwt
-      jwt
-      multi_json
-      omniauth
+    omniauth_login_dot_gov (0.0.2)
+      faraday (~> 0.17)
+      json-jwt (~> 1.11)
+      jwt (~> 2.2)
+      multi_json (~> 1.14)
+      omniauth (~> 1.8.1)
 
 GEM
   remote: https://rubygems.org/
@@ -61,8 +60,8 @@ GEM
     aes_key_wrap (1.0.1)
     arel (9.0.0)
     aws-eventstream (1.1.0)
-    aws-partitions (1.325.0)
-    aws-sdk-core (3.97.1)
+    aws-partitions (1.326.0)
+    aws-sdk-core (3.98.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
@@ -125,7 +124,7 @@ GEM
     factory_bot_rails (5.2.0)
       factory_bot (~> 5.2.0)
       railties (>= 4.2.0)
-    faraday (1.0.1)
+    faraday (0.17.3)
       multipart-post (>= 1.2, < 3)
     ffi (1.13.0)
     fog-aws (3.6.5)
@@ -147,8 +146,8 @@ GEM
     formatador (0.2.5)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    hashie (4.1.0)
-    i18n (1.8.2)
+    hashie (3.5.7)
+    i18n (1.8.3)
       concurrent-ruby (~> 1.0)
     image_processing (1.11.0)
       mini_magick (>= 4.9.5, < 5)
@@ -197,15 +196,15 @@ GEM
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
-    omniauth (1.9.1)
-      hashie (>= 3.4.6)
+    omniauth (1.8.1)
+      hashie (>= 3.4.6, < 3.6.0)
       rack (>= 1.6.2, < 3)
     omniauth-github (1.4.0)
       omniauth (~> 1.5)
       omniauth-oauth2 (>= 1.4.0, < 2.0)
-    omniauth-oauth2 (1.6.0)
+    omniauth-oauth2 (1.5.0)
       oauth2 (~> 1.1)
-      omniauth (~> 1.9)
+      omniauth (~> 1.2)
     orm_adapter (0.5.0)
     pg (1.2.3)
     pry (0.13.1)
@@ -301,7 +300,7 @@ GEM
       docile (~> 1.1)
       simplecov-html (~> 0.11)
     simplecov-html (0.12.2)
-    sprockets (4.0.0)
+    sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-rails (3.2.1)
@@ -379,4 +378,4 @@ RUBY VERSION
    ruby 2.6.5p114
 
 BUNDLED WITH
-   1.17.3
+   2.1.4
