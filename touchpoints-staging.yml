@@ -30,4 +30,4 @@ applications:
       - touchpoints-staging-redis
       - touchpoints-staging-s3
     routes:
-      - route: touchpoints-staging
+      - route: touchpoints-staging.app.cloud.gov

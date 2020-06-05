@@ -28,4 +28,4 @@ applications:
       - touchpoints-demo-s3
       - touchpoints-staging-deployer
     routes:
-      - route: touchpoints-demo
+      - route: touchpoints-demo.app.cloud.gov
