@@ -156,6 +156,7 @@ class Form < ApplicationRecord
   def duplicate!(user:)
     new_form = self.dup
     new_form.name = "Copy of #{self.name}"
+    new_form.title = new_form.name
     new_form.aasm_state = :in_development
     new_form.uuid = nil
     new_form.legacy_touchpoint_id = nil

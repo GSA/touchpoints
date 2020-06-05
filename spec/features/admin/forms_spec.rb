@@ -792,6 +792,12 @@ feature "Forms", js: true do
         click_on("Copy form")
         page.driver.browser.switch_to.alert.accept
 
+        expect(expect(find_field('form_name').value).to eq "Copy of #{form.name}")
+        expect(expect(find_field('form_title').value).to eq "Copy of #{form.name}")
+        expect(expect(find_field('form_instructions').value).to eq form.instructions.to_s)
+        expect(expect(find_field('form_disclaimer_text').value).to eq form.disclaimer_text.to_s)
+        expect(expect(find_field('form_success_text').value).to eq form.success_text)
+
         expect(page).to have_content("Form was successfully copied.")
       end
     end
