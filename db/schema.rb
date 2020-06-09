@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_04_221352) do
+ActiveRecord::Schema.define(version: 2020_06_09_183232) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -148,6 +148,8 @@ ActiveRecord::Schema.define(version: 2020_06_04_221352) do
     t.boolean "flagged", default: false
     t.string "language"
     t.integer "form_id"
+    t.string "uuid"
+    t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
   end
 
   create_table "user_roles", force: :cascade do |t|
