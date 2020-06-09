@@ -20,6 +20,25 @@ RSpec.describe Submission, type: :model do
     it "to Form.notification_emails and each Form Manager" do
       expect(submission.send_notifications.arguments[3][:emails]).to eq(form.notification_emails.split(",") + [user_role2.user.email])
     end
+  end
 
+  describe "uuid" do
+    it "has UUID set by default" do
+      expect(submission.uuid).to be_present
+      expect(submission.uuid.length).to eq(36)
+    end
+
+    describe "uniqueness" do
+      let(:submission2) { FactoryBot.create(:submission, form: form)}
+
+      before do
+        submission.uuid = submission2.uuid
+        submission.save
+      end
+
+      it "throws error when trying to duplicate UUID" do
+        expect(submission.errors.messages).to eq({:uuid=>["has already been taken"]})
+      end
+    end
   end
 end
