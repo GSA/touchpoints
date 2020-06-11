@@ -28,10 +28,11 @@ def set_s3!(vcap_services_json)
   ENV["S3_AWS_SECRET_ACCESS_KEY"] = s3_credentials["secret_access_key"]
   ENV["S3_AWS_REGION"] = s3_credentials["region"]
   ENV["S3_AWS_BUCKET_NAME"] = s3_credentials["bucket"]
+  puts "Set S3_AWS... ENV variables via vcap_services.rb"
 end
 
 def set_redis!(vcap_services_json)
-  redis_settings = vcap_services_json["redis"]
+  redis_settings = vcap_services_json["redis32"]
   return false unless redis_settings.present?
 
   redis_credentials = redis_settings[0]["credentials"]
@@ -40,7 +41,8 @@ def set_redis!(vcap_services_json)
   end
 
   # use `rediss://` to force HTTPS
-  ENV["REDIS_URL"] = redis_credentials["uri"].gsub("redis://", "rediss://")
+  ENV["REDIS_URL"] = redis_credentials["uri"]
+  puts "Set REDIS_URL ENV variable via vcap_services.rb"
 end
 
 # Set ENV variables

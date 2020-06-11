@@ -5,7 +5,6 @@ applications:
       AWS_ACCESS_KEY_ID:
       AWS_REGION:
       AWS_SECRET_ACCESS_KEY:
-      S3_AWS_BUCKET_NAME:
       DISABLE_DATABASE_ENVIRONMENT_CHECK: 1
       LOGIN_GOV_CLIENT_ID: urn:gov:gsa:openidconnect.profiles:sp:sso:gsa-tts-opp:touchpoints-staging
       LOGIN_GOV_IDP_BASE_URL: https://idp.int.identitysandbox.gov/
