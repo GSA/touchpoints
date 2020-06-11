@@ -2,7 +2,9 @@ class Submission < ApplicationRecord
   belongs_to :form
 
   validate :validate_custom_form
+  validates :uuid, uniqueness: true
 
+  before_create :set_uuid
   after_create :send_notifications
 
   scope :non_flagged, -> { where(flagged: false) }
@@ -67,5 +69,9 @@ class Submission < ApplicationRecord
 
   def organization_name
     form.organization.present? ? form.organization.name : "Org Name"
+  end
+
+  def set_uuid
+    self.uuid = SecureRandom.uuid if !self.uuid.present?
   end
 end

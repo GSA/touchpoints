@@ -13,7 +13,6 @@ applications:
     RAILS_ENV: production
     S3_AWS_ACCESS_KEY_ID:
     S3_AWS_BUCKET_NAME:
-    S3_AWS_HOST:
     S3_AWS_REGION:
     S3_AWS_SECRET_ACCESS_KEY:
     TOUCHPOINTS_EMAIL_SENDER:
@@ -28,4 +27,4 @@ applications:
     - touchpoints-prod-s3
     - touchpoints-prod-deployer
   routes:
-    - route: touchpoints
+    - route: touchpoints.app.cloud.gov

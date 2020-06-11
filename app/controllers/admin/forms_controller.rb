@@ -21,11 +21,12 @@ class Admin::FormsController < AdminController
   ]
 
   def index
+    @templates = Form.templates
+
     if admin_permissions?
-      @forms = Form.all.order("organization_id ASC").order("name ASC")
+      @forms = Form.non_templates.order("organization_id ASC").order("name ASC")
     else
-      @forms = current_user.forms.order("organization_id ASC").order("name ASC").entries
-      @forms = @forms + Form.templates
+      @forms = current_user.forms.non_templates.order("organization_id ASC").order("name ASC").entries
     end
   end
 
@@ -294,6 +295,7 @@ class Admin::FormsController < AdminController
         :delivery_method,
         :element_selector,
         :notification_emails,
+        :logo,
         :modal_button_text,
         :success_text,
         :instructions,

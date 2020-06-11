@@ -10,7 +10,7 @@
       </p>
     </div>
   </div>
-  <% @forms.select { |f| f.template }.each do |form| %>
+  <% @templates.each do |form| %>
   <div class="grid-row grid-gap-md">
       <% next unless form.template? %>
       <div class="grid-col-12">

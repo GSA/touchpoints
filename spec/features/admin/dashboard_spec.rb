@@ -16,9 +16,22 @@ feature "Admin Dashboard", js: true do
       expect(page).to have_link("Manage Sidekiq")
     end
 
-    it "display weekly metrics" do
-      expect(page).to have_content("Weekly Product & Program Use Metrics")
-      expect(page).to have_content("Agencies with Touchpoints")
+    describe "weekly metrics" do
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, hisp: true) }
+      let!(:form_template) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, template: true) }
+
+
+      before do
+        visit admin_root_path
+      end
+
+      it "display weekly metrics" do
+        expect(page).to have_content("Weekly Product & Program Use Metrics")
+        expect(page).to have_content("Agencies with Forms")
+        expect(find(".reportable-organizations")).to have_content("1")
+        expect(find(".reportable-forms")).to have_content("1")
+        expect(find(".reportable-submissions")).to have_content("0")
+      end
     end
 
     describe "with HISP forms" do
@@ -30,7 +43,7 @@ feature "Admin Dashboard", js: true do
 
       it "display HISP forms" do
         expect(page).to have_content("Weekly Product & Program Use Metrics")
-        expect(page).to have_content("Agencies with Touchpoints")
+        expect(page).to have_content("Agencies with Forms")
         expect(page).to have_content(form.organization.name)
         expect(page).to have_link(form.name)
         expect(page).to have_content("0 responses")

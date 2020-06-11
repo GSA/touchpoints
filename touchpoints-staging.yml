@@ -14,7 +14,6 @@ applications:
       RAILS_ENV: staging
       S3_AWS_ACCESS_KEY_ID:
       S3_AWS_BUCKET_NAME:
-      S3_AWS_HOST:
       S3_AWS_REGION:
       S3_AWS_SECRET_ACCESS_KEY:
       TOUCHPOINTS_ADMIN_EMAILS:
@@ -30,4 +29,4 @@ applications:
       - touchpoints-staging-redis
       - touchpoints-staging-s3
     routes:
-      - route: touchpoints-staging
+      - route: touchpoints-staging.app.cloud.gov

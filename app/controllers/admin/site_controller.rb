@@ -1,5 +1,6 @@
 class Admin::SiteController < AdminController
   def index
+    @forms = Form.non_templates
   end
 
   def events

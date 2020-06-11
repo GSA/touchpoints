@@ -31,3 +31,5 @@
 
 # For Macs
 .DS_Store
+
+/coverage/
