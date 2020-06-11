@@ -47,7 +47,7 @@
           </ul>
         </p>
       </div>
-      <%= render 'components/weekly_metrics' %>
+      <%= render 'components/weekly_metrics', forms: @forms %>
       <br>
       <div class="forms hisp">
         <% @hisp_forms = Form.where(hisp: true).includes(:organization).order(:organization_id) %>

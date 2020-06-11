@@ -24,6 +24,9 @@ class Form < ApplicationRecord
   before_create :set_uuid
   before_destroy :ensure_no_responses
 
+  scope :non_templates, -> { where(template: false) }
+  scope :templates, -> { where(template: true) }
+
   mount_uploader :logo, LogoUploader
 
   def target_for_delivery_method
@@ -91,11 +94,6 @@ class Form < ApplicationRecord
 
   def send_notifications?
     self.notification_emails.present?
-  end
-
-
-  def self.templates
-    Form.all.where(template: true)
   end
 
   def create_first_form_section

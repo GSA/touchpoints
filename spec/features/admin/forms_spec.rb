@@ -32,14 +32,16 @@ feature "Forms", js: true do
             before do
               within ".form-templates" do
                 click_on "Preview Template"
-                # The following `visit` should not be necessary, but Capybara isn't updating current_path
+                # Opens in new window
                 visit submit_touchpoint_path(form_template)
               end
             end
 
             it "can preview a template" do
-              expect(page.current_path).to eq(submit_touchpoint_path(form_template))
-              expect(page).to have_content(form_template.title)
+              within_window(windows.last) do
+                expect(page.current_path).to eq(submit_touchpoint_path(form_template))
+                expect(page).to have_content(form_template.title)
+              end
             end
           end
 
