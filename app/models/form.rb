@@ -24,6 +24,10 @@ class Form < ApplicationRecord
   before_create :set_uuid
   before_destroy :ensure_no_responses
 
+  scope :non_templates, -> { where(template: false) }
+  scope :templates, -> { where(template: true) }
+
+  mount_uploader :logo, LogoUploader
 
   def target_for_delivery_method
     if self.delivery_method == "custom-button-modal" || self.delivery_method == "inline"
@@ -92,11 +96,6 @@ class Form < ApplicationRecord
     self.notification_emails.present?
   end
 
-
-  def self.templates
-    Form.all.where(template: true)
-  end
-
   def create_first_form_section
     self.form_sections.create(title: (I18n.t 'form.page_1'), position: 1)
   end
@@ -155,6 +154,7 @@ class Form < ApplicationRecord
   def duplicate!(user:)
     new_form = self.dup
     new_form.name = "Copy of #{self.name}"
+    new_form.title = new_form.name
     new_form.aasm_state = :in_development
     new_form.uuid = nil
     new_form.legacy_touchpoint_id = nil

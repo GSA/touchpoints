@@ -32,14 +32,16 @@ feature "Forms", js: true do
             before do
               within ".form-templates" do
                 click_on "Preview Template"
-                # The following `visit` should not be necessary, but Capybara isn't updating current_path
+                # Opens in new window
                 visit submit_touchpoint_path(form_template)
               end
             end
 
             it "can preview a template" do
-              expect(page.current_path).to eq(submit_touchpoint_path(form_template))
-              expect(page).to have_content(form_template.title)
+              within_window(windows.last) do
+                expect(page.current_path).to eq(submit_touchpoint_path(form_template))
+                expect(page).to have_content(form_template.title)
+              end
             end
           end
 
@@ -791,6 +793,12 @@ feature "Forms", js: true do
       it "shows successful message" do
         click_on("Copy form")
         page.driver.browser.switch_to.alert.accept
+
+        expect(expect(find_field('form_name').value).to eq "Copy of #{form.name}")
+        expect(expect(find_field('form_title').value).to eq "Copy of #{form.name}")
+        expect(expect(find_field('form_instructions').value).to eq form.instructions.to_s)
+        expect(expect(find_field('form_disclaimer_text').value).to eq form.disclaimer_text.to_s)
+        expect(expect(find_field('form_success_text').value).to eq form.success_text)
 
         expect(page).to have_content("Form was successfully copied.")
       end
