@@ -15,21 +15,11 @@
       </button>
       <ul class="usa-nav__primary usa-accordion">
         <% if current_user %>
-        <li class="usa-nav__primary-item">
-          <%= link_to "My Dashboard", admin_root_path, class: "usa-nav__link admin" %>
-        </li>
-        <% end %>
-        <% if admin_permissions? %>
-        <li class="usa-nav__primary-item">
-          <a class="usa-nav__link admin" href="/admin/users">
-            <span>Users</span>
-          </a>
-        </li>
         <% end %>
         <% if current_user %>
         <li class="usa-nav__primary-item">
           <a class="usa-nav__link" href="/admin/forms">
-            <span>Forms</span>
+            <span>Surveys</span>
           </a>
         </li>
         <% end %>
@@ -60,8 +50,21 @@
           <li class="usa-nav__secondary-item user-name">
             <%= current_user.email %>
           </li>
+          <% if admin_permissions? %>
+          <li class="usa-nav__secondary-item user-name">
+            <%= link_to admin_dashboard_path do %>
+              <i class="fa fa-lock"></i>
+              &nbsp;
+              Admin
+            <% end %>
+          </li>
+          <% end %>
           <li class="usa-nav__secondary-item">
-            <%= link_to "Sign Out", destroy_user_session_path %>
+            <%= link_to destroy_user_session_path do %>
+              Sign Out
+              &nbsp;
+              <i class="fa fa-sign-out-alt"></i>
+            <% end %>
           </li>
         <% end %>
         </ul>

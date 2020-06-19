@@ -415,4 +415,12 @@ class Form < ApplicationRecord
     end
   end
 
+  def completion_rate
+    if self.survey_form_activations == 0
+      "N/A"
+    else
+      "#{((self.submissions.size / self.survey_form_activations.to_f) * 100).round(0)}%"
+    end
+  end
+
 end

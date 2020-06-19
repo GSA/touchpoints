@@ -8,7 +8,8 @@ class Admin::FormsController < AdminController
   skip_before_action :verify_authenticity_token, only: [:js]
   before_action :set_user, only: [:add_user, :remove_user]
   before_action :set_form, only: [
-    :show, :edit, :update, :copy, :destroy,
+    :show, :edit, :update, :destroy,
+    :copy, :copy_by_id,
     :notifications,
     :export,
     :export_pra_document,
@@ -21,8 +22,6 @@ class Admin::FormsController < AdminController
   ]
 
   def index
-    @templates = Form.templates
-
     if admin_permissions?
       @forms = Form.non_templates.order("organization_id ASC").order("name ASC")
     else
@@ -73,7 +72,9 @@ class Admin::FormsController < AdminController
   end
 
   def new
+    @templates = Form.templates
     @form = Form.new
+    @surveys = current_user.forms.non_templates.order("organization_id ASC").order("name ASC").entries
   end
 
   def edit
@@ -108,7 +109,7 @@ class Admin::FormsController < AdminController
           role: UserRole::Role::FormManager
         })
 
-        format.html { redirect_to edit_admin_form_path(@form), notice: 'Form was successfully created.' }
+        format.html { redirect_to edit_admin_form_path(@form), notice: 'Survey was successfully created.' }
         format.json { render :show, status: :created, location: @form }
       else
         format.html { render :new }
@@ -130,13 +131,17 @@ class Admin::FormsController < AdminController
 
         Event.log_event(Event.names[:form_copied], "Form", @form.uuid, "Form #{@form.name} copied at #{DateTime.now}", current_user.id)
 
-        format.html { redirect_to edit_admin_form_path(new_form), notice: 'Form was successfully copied.' }
+        format.html { redirect_to edit_admin_form_path(new_form), notice: 'Survey was successfully copied.' }
         format.json { render :show, status: :created, location: new_form }
       else
         format.html { render :new }
         format.json { render json: new_form.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def copy_by_id
+    copy
   end
 
   def update
@@ -147,7 +152,7 @@ class Admin::FormsController < AdminController
     respond_to do |format|
       if @form.update(form_params)
         format.html {
-          redirect_to admin_form_path(@form), notice: 'Form was successfully updated.'
+          redirect_to admin_form_path(@form), notice: 'Survey was successfully updated.'
         }
         format.json { render :show, status: :ok, location: @form }
       else
@@ -164,7 +169,7 @@ class Admin::FormsController < AdminController
       format.html {
         if @form.destroy
           Event.log_event(Event.names[:form_deleted], "Form", @form.uuid,"Form #{@form.name} deleted at #{DateTime.now}", current_user.id)
-          redirect_to admin_forms_url, notice: 'Form was successfully destroyed.'
+          redirect_to admin_forms_url, notice: 'Survey was successfully destroyed.'
         else
           redirect_to edit_admin_form_url(@form), notice: @form.errors.full_messages.to_sentence
         end
@@ -272,7 +277,7 @@ class Admin::FormsController < AdminController
   private
     def set_form
       @form = Form.find_by_short_uuid(params[:id])
-      redirect_to admin_root_path, notice: "no form with ID of #{params[:id]}" unless @form
+      redirect_to admin_forms_path, notice: "no survey with ID of #{params[:id]}" unless @form
     end
 
     def set_user

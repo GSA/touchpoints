@@ -15,7 +15,7 @@
       <% end %>
     </div>
   <% end %>
-  <% if admin_permissions? %>
+  <% if admin_permissions? && form.persisted? %>
   <div class="well">
     <h4>
       Admin options
@@ -80,14 +80,14 @@
   <% end %>
 
   <div class="grid-row grid-gap-md">
-    <div class="grid-col-6">
+    <div class="grid-col-12">
       <div class="field">
-        <%= f.label :name, "Form system name", class: "usa-label" %>
+        <%= f.label :name, "Survey name", class: "usa-label" %>
         <%= f.text_field :name, class: "usa-input" %>
       </div>
     </div>
     <% if form.persisted? %>
-    <div class="grid-col-6">
+    <div class="grid-col-12">
       <div class="field">
         <%= f.label :aasm_state, "State", class: "usa-label" %>
         <%= f.select :aasm_state, options_for_select(form.transitionable_states, selected: form.aasm_state), { prompt: "Transition to State" }, {class: "usa-select"} %>
@@ -331,9 +331,9 @@
   </div>
   <% end %>
   <p>
-    <%= f.submit class: "usa-button" %>
+    <%= f.submit (form.persisted? ? "Update Survey" : "Create Survey"), class: "usa-button" %>
   <% if form.persisted? %>
-    <%= link_to 'Delete Form', admin_form_path(form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" %>
+    <%= link_to 'Delete Survey', admin_form_path(form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" %>
   <% end %>
   </p>
 <% end %>

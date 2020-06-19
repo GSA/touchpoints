@@ -124,7 +124,7 @@ open_ended_form = Form.create!({
   kind: "open ended",
   notes: "An open-ended Feedback Form useful for general website and program feedback.",
   user: admin_user,
-  name: "Open-ended",
+  name: "Open-ended Feedback",
   title: "Custom Open-ended Title",
   instructions: "Share feedback about the new example.gov website and recommend additional features.",
   disclaimer_text: "Disclaimer Text Goes Here",

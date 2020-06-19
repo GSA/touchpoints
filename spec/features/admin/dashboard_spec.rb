@@ -7,12 +7,13 @@ feature "Admin Dashboard", js: true do
     let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
 
     before do
-      login_as(admin)
-      visit admin_root_path
+      login_as admin
+      visit admin_dashboard_path
     end
 
     it "display admin links" do
-      expect(page).to have_link("Manage Organizations")
+      expect(page).to have_link("Organizations")
+      expect(page).to have_link("Users")
       expect(page).to have_link("Manage Sidekiq")
     end
 
@@ -22,7 +23,7 @@ feature "Admin Dashboard", js: true do
 
 
       before do
-        visit admin_root_path
+        visit admin_dashboard_path
       end
 
       it "display weekly metrics" do
@@ -38,7 +39,7 @@ feature "Admin Dashboard", js: true do
       let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, hisp: true) }
 
       before do
-        visit admin_root_path
+        visit admin_dashboard_path
       end
 
       it "display HISP forms" do
@@ -55,12 +56,13 @@ feature "Admin Dashboard", js: true do
     let(:organization_manager) { FactoryBot.create(:user, :organization_manager) }
 
     before do
-      login_as(organization_manager)
-      visit admin_root_path
+      login_as organization_manager
+      visit admin_dashboard_path
     end
 
     it "does not have admin links" do
-      expect(page).to_not have_link("Manage Organizations")
+      expect(page).to_not have_link("Organizations")
+      expect(page).to_not have_link("Users")
       expect(page).to_not have_link("Manage Form Templates")
     end
 
@@ -82,8 +84,8 @@ feature "Admin Dashboard", js: true do
     let(:user) { FactoryBot.create(:user) }
 
     before do
-      login_as(user)
-      visit admin_root_path
+      login_as user
+      visit admin_dashboard_path
     end
 
     it "does not have admin links" do

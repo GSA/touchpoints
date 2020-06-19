@@ -239,3 +239,32 @@ h4 {
 pre {
   word-wrap: break-word;
 }
+
+.usa-table tbody tr:hover,
+tbody tr:hover,
+tbody tr:hover td {
+  background-color: #F0F0F0;;
+}
+
+.light-bg {
+  background-color: #F0F0F0;
+}
+
+.white-bg {
+  background-color: #white;
+}
+
+// Override styles for the float menus on /admin/forms
+.usa-nav__primary.float-menu button[aria-expanded=false] {
+  background: none;
+  color: inherit;
+}
+.usa-nav__primary.float-menu button[aria-expanded=true] {
+  background: none;
+  color: inherit;
+}
+
+.usa-button.usa-button--unstyled {
+  margin-right: 1em;
+  text-decoration: none;
+}

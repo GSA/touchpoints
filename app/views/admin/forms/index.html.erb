@@ -1,100 +1,102 @@
-<div class="form-templates">
-  <div class="grid-row grid-gap-md">
-    <div class="grid-col-8">
-      <h1>
-        Form Templates
-      </h1>
-      <p>
-        Here are some common forms you can use to get started.
-        Copy the form template you want to use, then edit the copy to suit your needs.
-      </p>
-    </div>
-  </div>
-  <% @templates.each do |form| %>
-  <div class="grid-row grid-gap-md">
-      <% next unless form.template? %>
-      <div class="grid-col-12">
-        <div class="well">
-          <strong>
-            <%= form.name %>
-          </strong>
-          <p>
-            <%= form.notes %>
-            &nbsp;
-          </p>
-          <br>
-          <div class="grid-row grid-gap-md">
-            <div class="grid-col-12">
-              <%= link_to submit_touchpoint_uuid_url(form), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" do %>
-                <i class="fa fa-eye"></i>
-                Preview Template
-              <% end %>
-              <%= link_to copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button" do %>
-                <i class="fa fa-copy"></i>
-                Copy Template
-              <% end %>
-            <% if admin_permissions? %>
-              <%= link_to edit_admin_form_path(form), class: "usa-button usa-button--outline" do %>
-                <i class="fa fa-edit"></i>
-                Edit Template
-              <% end %>
-            <% end %>
-            </div>
-          </div>
-        </div>
-      </div>
-  </div>
+<p>
+  <%= link_to new_admin_form_path, class: "usa-button float-right" do %>
+  <i class="fa fa-plus-circle"></i>
+  New Survey
   <% end %>
-<div>
+  <h1>
+    My Surveys
+  </h1>
+</p>
 
-<div class="well">
-  <p>
-    <%= link_to 'Create New Form', new_admin_form_path, class: "usa-button float-right" %>
-    <h1>
-      My Forms
-    </h1>
-  </p>
-  <% if @forms.select { |f| !f.template }.present? %>
-  <table class="usa-table width-full">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Form name</th>
-        <th>Form status</th>
-        <th>Responses</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @forms.select { |f| !f.template }.each_with_index do |form, index| %>
-      <tr>
-        <td class="text-center">
-          <%= index + 1 %>
-        </td>
-        <td>
-          <%= link_to form.name, admin_form_path(form) %>
-        </td>
-        <td>
+<% if @forms.select { |f| !f.template }.present? %>
+<table class="usa-table width-full">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th># Questions</th>
+      <th># Responses</th>
+      <th># Activations</th>
+      <th>Completion Rate</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @forms.select { |f| !f.template }.each_with_index do |form, index| %>
+    <tr>
+      <td class="text-center">
+        <%= index + 1 %>
+      </td>
+      <td>
+        <%= link_to form.name, admin_form_path(form) %>
+      </td>
+      <td>
+        <%= form.questions.size %>
+      </td>
+      <td>
+        <%= form.submissions.size %>
+      </td>
+      <td>
+        <%= form.survey_form_activations %>
+      </td>
+      <td>
+        <%= form.completion_rate %>
+      </td>
+      <td>
+        <% if form.aasm_state == "live" %>
+        <span class="usa-tag bg-green">
           <%= form.aasm_state %>
-        </td>
-        <td>
-          <%= form.submissions.size %>
-        </td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <% else %>
-    <div class="usa-alert" >
-      <div class="usa-alert__body">
-        <h3 class="usa-alert__heading">
-          Welcome to Touchpoints 👋
-        </h3>
-        <p class="usa-alert__text">
-          Get started by copying an existing Form Template above,
-          or create a form from scratch.
-          For custom forms, be sure to work with OIRA to ensure PRA approval.
-        </p>
-      </div>
-    </div>
-  <% end %>
+        </span>
+        <% elsif form.aasm_state == "in_development" %>
+        <span class="usa-tag bg-cyan">
+          <%= form.aasm_state %>
+        </span>
+        <% else %>
+        <span class="usa-tag">
+          <%= form.aasm_state %>
+        </span>
+        <% end %>
+      </td>
+      <td>
+        <ul class="usa-nav__primary float-menu usa-accordion">
+          <li class="usa-nav__primary-item">
+            <button class="usa-accordion__button usa-nav__link  usa-current" aria-expanded="false" aria-controls="extended-nav-section-one">
+              <span><i class="fa fa-ellipsis-v"></i></span>
+            </button>
+            <ul id="extended-nav-section-one" class="usa-nav__submenu" hidden="">
+              <li class="usa-nav__submenu-item">
+                <%= link_to edit_admin_form_path(form) do %>
+                  Edit
+                <% end %>
+              </li>
+              <li class="usa-nav__submenu-item">
+                <%= link_to 'Preview', example_admin_form_path(form), target: "_blank", rel: "noopener" %>
+              </li>
+              <li class="usa-nav__submenu-item">
+                <%= link_to copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' } do %>
+                  Copy
+                <% end %>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<% else %>
+<div class="usa-alert">
+  <div class="usa-alert__body">
+    <h3 class="usa-alert__heading">
+      Welcome to Touchpoints 👋
+    </h3>
+    <p class="usa-alert__text">
+      Get started by copying an existing Form Template above,
+      or create a form from scratch.
+      For custom forms, be sure to work with OIRA to ensure PRA approval.
+    </p>
+  </div>
 </div>
+<% end %>

@@ -24,7 +24,7 @@
           <%= f.text_field(:notification_emails, value: (form.notification_emails? ? form.notification_emails : current_user.email), class: "usa-input") %>
         </div>
         <p>
-          <%= f.submit class: "usa-button" %>
+          <%= f.submit "Update Survey", class: "usa-button" %>
         </p>
       </div>
     </div>
