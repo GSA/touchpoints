@@ -25,6 +25,7 @@
         then edit the copy to suit your needs.
       </p>
 
+    <% if @templates.present? %>
       <% @templates.each do |form| %>
       <div class="grid-row grid-gap-md">
           <% next unless form.template? %>
@@ -54,6 +55,7 @@
           </div>
       </div>
       <% end %>
+    <% end %>
     </div>
   </div>
   <div class="grid-col-4">
@@ -86,7 +88,12 @@
           </p>
         <% end %>
       <% else %>
-        No Surveys
+        <%= form_tag(copy_id_admin_forms_path) do %>
+          <%= select_tag "id", options_from_collection_for_select(@surveys, "short_uuid", "name"), { prompt: "Select a Survey", class: "usa-select", disabled: true } %>
+          <p>
+            <%= submit_tag "Copy Survey", class: "usa-button" %>
+          </p>
+        <% end %>
       <% end %>
     </div>
   </div>

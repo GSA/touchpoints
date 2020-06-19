@@ -8,7 +8,7 @@
   </h1>
 </p>
 
-<% if @forms.select { |f| !f.template }.present? %>
+<% if @forms.present? %>
 <table class="usa-table width-full">
   <thead>
     <tr>
@@ -87,15 +87,18 @@
   </tbody>
 </table>
 <% else %>
-<div class="usa-alert">
-  <div class="usa-alert__body">
-    <h3 class="usa-alert__heading">
-      Welcome to Touchpoints 👋
-    </h3>
-    <p class="usa-alert__text">
-      Get started by copying an existing Form Template above,
-      or create a form from scratch.
-      For custom forms, be sure to work with OIRA to ensure PRA approval.
+<div class="grid-row grid-gap-md">
+  <div class="grid-col-12">
+    <p class="font-serif-xl">
+      Welcome to Touchpoints!
+    </p>
+    <p class="font-sans-lg">
+      To get started,
+      <%= link_to "create a new survey", new_admin_form_path %>.
+    </p>
+    <p>
+      You can create a survey from an existing template, copy a previous survey,
+      or start from scratch.
     </p>
   </div>
 </div>
