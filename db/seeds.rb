@@ -128,7 +128,9 @@ open_ended_form = Form.create!({
   title: "Custom Open-ended Title",
   instructions: "Share feedback about the new example.gov website and recommend additional features.",
   disclaimer_text: "Disclaimer Text Goes Here",
-  delivery_method: "modal"
+  delivery_method: "modal",
+  modal_button_text: "Click here to leave feedback"
+
 })
 Question.create!({
   form: open_ended_form,
@@ -151,7 +153,8 @@ recruiter_form = Form.create({
   title: "",
   instructions: "",
   disclaimer_text: "Disclaimer Text Goes Here",
-  delivery_method: "modal"
+  delivery_method: "modal",
+  modal_button_text: "Click here to leave feedback"
 })
 Question.create!({
   form: recruiter_form,
@@ -191,7 +194,8 @@ open_ended_form_with_contact_information = Form.create({
   title: "",
   instructions: "",
   disclaimer_text: "Disclaimer Text Goes Here",
-  delivery_method: "modal"
+  delivery_method: "modal",
+  modal_button_text: "Click here to leave feedback"
 })
 Question.create!({
   form: open_ended_form_with_contact_information,

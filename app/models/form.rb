@@ -39,7 +39,7 @@ class Form < ApplicationRecord
 
   def ensure_modal_text
     if self.delivery_method == "modal"
-      if self.modal_button_text == ""
+      if self.modal_button_text.empty?
         errors.add(:modal_button_text, "can't be blank for an modal form")
       end
     end

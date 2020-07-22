@@ -14,7 +14,7 @@ module Seeds
         instructions: "",
         disclaimer_text: "Disclaimer Text Goes Here",
         success_text: "Thank you for your response 🎉",
-        delivery_method: "touchpoints-only"
+        delivery_method: "touchpoints-hosted-only"
       })
       custom_form.form_sections.create(title: "Page 2", position: 2)
 

@@ -39,8 +39,8 @@ feature "Forms", js: true do
 
             it "can preview a template" do
               within_window(windows.last) do
-                expect(page.current_path).to eq(submit_touchpoint_path(form_template))
-                expect(page).to have_content(form_template.title)
+                expect(page.current_path).to eq(example_admin_form_path(form_template))
+                expect(page).to have_content(form_template.modal_button_text)
               end
             end
           end
@@ -779,7 +779,7 @@ feature "Forms", js: true do
         visit admin_forms_path
         within(".float-menu") do
           find("button").click
-          find("#extended-nav-section-one", visible: true)
+          find("#extended-nav-section-one-#{form.short_uuid}", visible: true)
         end
       end
 

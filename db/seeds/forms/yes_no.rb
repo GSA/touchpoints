@@ -13,7 +13,8 @@ module Seeds
         instructions: "",
         disclaimer_text: "",
         success_text: "Thank you for your response 🎉",
-        delivery_method: "inline"
+        delivery_method: "inline",
+        element_selector: "an-html-id"
       })
 
       form.form_sections.first.update_attribute(:title, nil)

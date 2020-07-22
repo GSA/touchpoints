@@ -14,7 +14,8 @@ module Seeds
         disclaimer_text: "Disclaimer Text Goes Here",
         success_text: "Thank you for your response 🎉",
         early_submission: true,
-        delivery_method: "modal"
+        delivery_method: "modal",
+        modal_button_text: "Click here to leave feedback"
       })
 
       # Page 1
