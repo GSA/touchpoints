@@ -13,12 +13,22 @@
   <thead>
     <tr>
       <th>#</th>
-      <th>Name</th>
-      <th># Questions</th>
-      <th># Responses</th>
-      <th># Activations</th>
-      <th>Completion Rate</th>
-      <th>Status</th>
+      <th data-type="name">Name</th>
+      <th>
+        Questions
+      </th>
+      <th>
+        Activations
+      </th>
+      <th>
+        Responses
+      </th>
+      <th>
+        <small>
+          Completion Rate
+        </small>
+      </th>
+      <th data-type="status">Status</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -35,10 +45,10 @@
         <%= form.questions.size %>
       </td>
       <td>
-        <%= form.submissions.size %>
+        <%= form.survey_form_activations %>
       </td>
       <td>
-        <%= form.survey_form_activations %>
+        <%= form.submissions.size %>
       </td>
       <td>
         <%= form.completion_rate %>
