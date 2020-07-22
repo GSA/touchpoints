@@ -39,7 +39,7 @@ class Form < ApplicationRecord
 
   def ensure_modal_text
     if self.delivery_method == "modal"
-      if self.modal_button_text == ""
+      if self.modal_button_text.empty?
         errors.add(:modal_button_text, "can't be blank for an modal form")
       end
     end
@@ -412,6 +412,14 @@ class Form < ApplicationRecord
     end
     if expiration_date.present? && !omb_approval_number.present?
       errors.add(:omb_approval_number, "required with an Expiration Date")
+    end
+  end
+
+  def completion_rate
+    if self.survey_form_activations == 0
+      "N/A"
+    else
+      "#{((self.submissions.size / self.survey_form_activations.to_f) * 100).round(0)}%"
     end
   end
 

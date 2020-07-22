@@ -1,18 +1,22 @@
-<div class="well2">
-  <h1>
-    Editing Form
-  </h1>
-  <div class="grid-row">
-    <div class="grid-col-12">
-      <%= render 'admin/forms/form', form: @form %>
-      <br>
-      <br>
-      <div class="highlight pad form-builder">
-        <h2>
-          Form Builder
-        </h2>
-        <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
-      </div>
+<% content_for :navigation_title do %>
+  Editing Survey
+<% end %>
+<div class="grid-row">
+  <div class="grid-col">
+    <p>
+      <%= link_to admin_form_path(@form) do %>
+        <i class="fa fa-arrow-circle-left"></i>
+        Back to Survey
+      <% end %>
+    </p>
+    <%= render 'admin/forms/form', form: @form %>
+    <br>
+    <br>
+    <div class="highlight pad form-builder">
+      <h2>
+        Form Builder
+      </h2>
+      <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
     </div>
   </div>
 </div>

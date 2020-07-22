@@ -1,8 +1,103 @@
-<div class="well">
-  <div class="grid-row">
-    <div class="grid-col-12">
-      <h1>New Form</h1>
+<% content_for :navigation_title do %>
+  New Survey
+<% end %>
+
+<div class="grid-col-12">
+  <p>
+    <a href="/admin/forms">
+      <span class="fa fa-arrow-circle-left"></span>
+      Back to My Surveys
+    </a>
+  </p>
+  <p class="font-sans-lg">
+    Select
+    <strong>ONE</strong>
+    method to start building your survey.
+  </p>
+</div>
+<div class="grid-row grid-gap-md">
+  <div class="grid-col-4">
+    <div class="well light-bg form-templates">
+      <h3>
+        <i class="fa fa-list-alt" aria-hidden="true"></i>
+        Use a Template
+      </h3>
+      <p>
+        Here are some common surveys you can use to get started.
+        Select the template you want to use,
+        then edit the copy to suit your needs.
+      </p>
+
+    <% if @templates.present? %>
+      <% @templates.each do |form| %>
+      <div class="grid-row grid-gap-md">
+          <% next unless form.template? %>
+          <div class="grid-col-12">
+            <div class="well white-bg">
+              <strong class="font-family-serif">
+                <%= form.name %>
+              </strong>
+              <p>
+                <%= form.notes %>
+                &nbsp;
+              </p>
+              <br>
+              <div class="grid-row grid-gap-md">
+                <div class="grid-col-12">
+                  <%= link_to example_admin_form_path(form), class: "usa-button usa-button--unstyled", target: "_blank", rel: "noopener" do %>
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                    Preview
+                  <% end %>
+                  <%= link_to copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--unstyled" do %>
+                    <i class="fa fa-copy" aria-hidden="true"></i>
+                    Use
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      <% end %>
+    <% end %>
+    </div>
+  </div>
+  <div class="grid-col-4">
+    <div class="well light-bg">
+      <h3>
+        <i class="fa fa-flag" aria-hidden="true"></i>
+        Start from scratch
+      </h3>
+      <p>
+        Enter the following information to create a new survey from scratch.
+      </p>
       <%= render 'form', form: @form %>
+    </div>
+  </div>
+  <div class="grid-col-4">
+    <div class="well light-bg">
+      <h3>
+        <i class="fa fa-copy" aria-hidden="true"></i>
+        Copy a Survey
+      </h3>
+      <p>
+        Select which of your existing surveys you'd like to copy
+        and give it a new name.
+      </p>
+      <% if @surveys.present? %>
+        <%= form_tag(copy_id_admin_forms_path) do %>
+          <%= select_tag "id", options_from_collection_for_select(@surveys, "short_uuid", "name"), { prompt: "Select a Survey", class: "usa-select" } %>
+          <p>
+            <%= submit_tag "Copy Survey", class: "usa-button" %>
+          </p>
+        <% end %>
+      <% else %>
+        <%= form_tag(copy_id_admin_forms_path) do %>
+          <%= select_tag "id", options_from_collection_for_select(@surveys, "short_uuid", "name"), { prompt: "Select a Survey", class: "usa-select", disabled: true } %>
+          <p>
+            <%= submit_tag "Copy Survey", class: "usa-button" %>
+          </p>
+        <% end %>
+      <% end %>
     </div>
   </div>
 </div>

@@ -1,26 +1,37 @@
-<h3>
+<% content_for :navigation_title do %>
   Events
-</h3>
-
+<% end %>
 <table class="usa-table">
   <% @events = Event.limit(500).order("created_at DESC") %>
   <% @users = User.all %>
   <% @user_email_map = {} %>
   <% @users.map { |user| @user_email_map[user.id] = user.email } %>
-  <% @events.reverse.each do |event| %>
+  <thead>
   <tr>
-    <td><%= event.object_type %></td>
-    <td><%= event.object_id %></td>
-    <td><%= event.description %></td>
-    <td><%= @user_email_map[event.user_id] %></td>
-    <td><%= event.created_at %></td>
-    <td><%= event.updated_at %></td>
+    <th>Object Type</th>
+    <th>ID</th>
+    <th>Description</th>
+    <th>User</th>
+    <th>Created at</th>
+    <th>Updated at</th>
   </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% @events.reverse.each do |event| %>
+    <tr>
+      <td><%= event.object_type %></td>
+      <td><%= event.object_id %></td>
+      <td><%= event.description %></td>
+      <td><%= @user_email_map[event.user_id] %></td>
+      <td><%= event.created_at %></td>
+      <td><%= event.updated_at %></td>
+    </tr>
+    <% end %>
+  </tbody>
 </table>
 
 <p>
-  <%= link_to "Export Responses to CSV", admin_export_events_url(format: "csv"), class: "usa-button export-btn", target: "_blank", rel: "noopener" %>
+  <%= link_to "Export Events to CSV", admin_export_events_url(format: "csv"), class: "usa-button export-btn", target: "_blank", rel: "noopener" %>
 </p>
 
 <script>

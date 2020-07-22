@@ -1,15 +1,21 @@
+<% content_for :navigation_title do %>
+  Viewing Survey
+<% end %>
+<p>
+  <%= link_to admin_forms_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to My Surveys
+  <% end %>
+</p>
 <div class="well">
   <div class="grid-row">
     <div class="grid-col-12">
+
       <% if is_at_least_form_manager?(user: current_user, form: @form) %>
         <span class="float-right">
           <%= link_to edit_admin_form_path(@form), class: "usa-button usa-button--outline" do %>
             <i class="fa fa-edit"></i>
             Edit form
-          <% end %>
-          <%= link_to copy_admin_form_path(@form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline" do %>
-            <i class="fa fa-copy"></i>
-            Copy form
           <% end %>
         </span>
       <% end %>

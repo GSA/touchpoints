@@ -239,3 +239,56 @@ h4 {
 pre {
   word-wrap: break-word;
 }
+
+.usa-table tbody tr:hover,
+tbody tr:hover,
+tbody tr:hover td {
+  background-color: #F0F0F0;;
+}
+
+.light-bg {
+  background-color: #F0F0F0;
+}
+
+.white-bg {
+  background-color: #white;
+}
+
+// Override styles for the float menus on /admin/forms
+.usa-nav__primary.float-menu button[aria-expanded=false] {
+  background: none;
+  color: inherit;
+}
+.usa-nav__primary.float-menu button[aria-expanded=true] {
+  background: none;
+  color: inherit;
+}
+
+.usa-button.usa-button--unstyled {
+  margin-right: 1em;
+  text-decoration: none;
+}
+
+.usa-table {
+  th, td {
+    border: none;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  th:first-child {
+    border-top-left-radius: 10px;
+  }
+  td:first-child {
+    border-left: 1px solid #f0f0f0;
+  }
+  th:last-child {
+    border-top-right-radius: 10px;
+  }
+  td:last-child {
+    border-right: 1px solid #f0f0f0;
+  }
+}
+
+// Override
+.usa-nav__secondary {
+  bottom: 1.5rem;
+}
