@@ -13,22 +13,6 @@
       <button class="usa-nav__close">
         <%= image_tag "close.svg", alt: "close" %>
       </button>
-      <ul class="usa-nav__primary usa-accordion">
-        <% if current_user %>
-        <% end %>
-        <% if current_user %>
-        <li class="usa-nav__primary-item">
-          <a class="usa-nav__link" href="/admin/forms">
-            <span>Surveys</span>
-          </a>
-        </li>
-        <% end %>
-        <li class="usa-nav__primary-item">
-          <a class="usa-nav__link">
-            <span>&nbsp;</span>
-          </a>
-        </li>
-      </ul>
       <div class="usa-nav__secondary">
         <ul class="usa-nav__secondary-links">
         <% unless current_user %>
@@ -72,3 +56,16 @@
     </div>
   </nav>
 </header>
+<% if current_user && content_for?(:navigation_title) %>
+<div style="background-color: #162E51;">
+  <div class="grid-container">
+    <div class="grid-row">
+      <div class="grid-col">
+        <div class="font-heading-xl" style="margin: 0.75em 0; color: white; font-weight: normal;">
+          <%= yield(:navigation_title) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

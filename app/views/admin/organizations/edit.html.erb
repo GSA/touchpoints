@@ -1,11 +1,14 @@
+<% content_for :navigation_title do %>
+  Editing Organization
+<% end %>
 <div class="well">
-  <h1>
-    Editing an Organization
-  </h1>
   <%= render 'form', organization: @organization %>
 </div>
 <p>
   <%= link_to 'Show', admin_organization_path(@organization), class: "usa-button" %>
   <%= link_to 'All Organizations', admin_organizations_path, class: "usa-button usa-button--outline" %>
-  <%= link_to 'Delete', admin_organization_path(@organization), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" %>
+  <%= link_to admin_organization_path(@organization), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
+    <i class="fas fa-trash"></i>
+    Delete
+  <% end %>
 </p>

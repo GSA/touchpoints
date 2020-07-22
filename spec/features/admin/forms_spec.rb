@@ -776,12 +776,15 @@ feature "Forms", js: true do
       let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form: form, user: touchpoints_manager) }
 
       before do
-        visit admin_form_path(form)
-        expect(page).to have_link("Copy form")
+        visit admin_forms_path
+        within(".float-menu") do
+          find("button").click
+          find("#extended-nav-section-one", visible: true)
+        end
       end
 
       it "shows successful message" do
-        click_on("Copy form")
+        click_link("Copy")
         page.driver.browser.switch_to.alert.accept
 
         expect(expect(find_field('form_name').value).to eq "Copy of #{form.name}")

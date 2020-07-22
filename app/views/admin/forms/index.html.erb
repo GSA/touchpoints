@@ -1,12 +1,12 @@
-<p>
-  <%= link_to new_admin_form_path, class: "usa-button float-right" do %>
-  <i class="fa fa-plus-circle"></i>
-  New Survey
-  <% end %>
-  <h1>
+<% content_for :navigation_title do %>
+  <%= link_to new_admin_form_path, style: "color: white; text-decoration: none;" do %>
     My Surveys
-  </h1>
-</p>
+  <% end %>
+  <%= link_to new_admin_form_path, class: "usa-button float-right" do %>
+    <i class="fa fa-plus-circle"></i>
+    New Survey
+  <% end %>
+<% end %>
 
 <% if @forms.present? %>
 <table class="usa-table width-full">
@@ -24,9 +24,7 @@
         Responses
       </th>
       <th>
-        <small>
-          Completion Rate
-        </small>
+        Completion Rate
       </th>
       <th data-type="status">Status</th>
       <th>Actions</th>
@@ -98,7 +96,7 @@
 </table>
 <% else %>
 <div class="grid-row grid-gap-md">
-  <div class="grid-col-12">
+  <div class="grid-col">
     <p class="font-serif-xl">
       Welcome to Touchpoints!
     </p>
