@@ -14,6 +14,7 @@
     </h1>
   </div>
 </div>
+<%= render 'components/a11_analysis' if admin_permissions? %>
 <div>
   <% @submissions = @form.submissions.order("created_at ASC") %>
   <%= render file: "admin/submissions/index", locals: { form: @form, submissions: @submissions } %>
