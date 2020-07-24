@@ -1,4 +1,4 @@
-<div class="grid-row grid-gap-md">
+<div class="grid-row">
   <div class="grid-col-12">
     <div>
       <h2>
@@ -7,7 +7,7 @@
     </div>
   </div>
 </div>
-<div class="grid-row grid-gap-md">
+<div class="grid-row grid-gap-lg">
   <div class="grid-col-8">
     <div>
       <div class="roles-and-permissions">
@@ -34,16 +34,16 @@
 
         <div>
           <% if form.users.present? %>
-          <table class="usa-table">
+          <table class="usa-table" style="width: 100%;">
             <thead>
               <tr>
                 <th>
                   Role
                 </th>
-                <th style="border-right: none;">
+                <th>
                   Email
                 </th>
-                <th style="border-left: none;">
+                <th>
                 </th>
               </tr>
             </thead>
@@ -58,10 +58,10 @@
                   %>
                   <%= friendly_roles[form.user_role?(user: user)] %>
                 </td>
-                <th style="border-right: none;">
+                <td>
                   <%= user.email %>
                 </td>
-                <th style="border-left: none;">
+                <td>
                   <% if user != current_user && is_at_least_form_manager?(user: current_user, form: @form) %>
                   <a href="javascript:void(0)" class="remove-user usa-button usa-button--secondary" data-id="<%= user.id %>">
                     <i class="fas fa-trash"></i>
@@ -110,6 +110,10 @@
         <br>
         <button type="button" class="usa-button" name="button" id="add-user-button">Add User</button>
       </div>
+      <% else %>
+        <p class="usa-prose">
+          There are no additional members to add at this time.
+        </p>
       <% end %>
     </div>
   </div>

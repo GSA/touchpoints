@@ -86,7 +86,7 @@
         <%= f.text_field :name, class: "usa-input" %>
       </div>
     </div>
-    <% if form.persisted? %>
+    <% if form.persisted? && admin_permissions? %>
     <div class="grid-col-12">
       <div class="field">
         <%= f.label :aasm_state, "State", class: "usa-label" %>
@@ -333,7 +333,10 @@
   <p>
     <%= f.submit (form.persisted? ? "Update Survey" : "Create Survey"), class: "usa-button" %>
   <% if form.persisted? %>
-    <%= link_to 'Delete Survey', admin_form_path(form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" %>
+    <%= link_to admin_form_path(form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" do %>
+      <i class="fas fa-trash"></i>
+      Delete Survey
+    <% end %>
   <% end %>
   </p>
 <% end %>

@@ -43,7 +43,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
     it "redirects to the submissions list" do
       submission = Submission.create! valid_attributes
       delete :destroy, params: {id: submission.to_param, form_id: form.short_uuid }, session: valid_session
-      expect(response).to redirect_to(admin_form_url(form.short_uuid))
+      expect(response).to redirect_to(responses_admin_form_url(form.short_uuid))
     end
   end
 

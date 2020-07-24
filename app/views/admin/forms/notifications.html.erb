@@ -1,15 +1,16 @@
-<div class="well2">
-  <h1>
-    <i class="fa fa-envelope"></i>
-    Editing Notification Settings
-  </h1>
-  <p>
-    for <%= @form.name %>
-  </p>
-  <div class="grid-row">
-    <div class="grid-col-12">
-      <%= render 'admin/forms/form_notifications', form: @form %>
-    </div>
+<% content_for :navigation_title do %>
+  <i class="fa fa-envelope"></i>
+  Editing Notification Settings: <%= @form.name %>
+<% end %>
+<p>
+  <%= link_to admin_form_path(@form) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to My Survey
+  <% end %>
+</p>
+<div class="grid-row">
+  <div class="grid-col-12">
+    <%= render 'admin/forms/form_notifications', form: @form %>
   </div>
 </div>
 <p>

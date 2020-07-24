@@ -1,5 +1,5 @@
 <% content_for :navigation_title do %>
-  Editing Survey
+  Editing Questions for Survey: <%= @form.name %>
 <% end %>
 <div class="grid-row">
   <div class="grid-col">
@@ -9,18 +9,11 @@
         Back to Survey
       <% end %>
     </p>
-    <%= render 'admin/forms/form', form: @form %>
-    <br>
-    <br>
-    <div class="highlight form-builder">
-      <h2>
-        Form Builder
-      </h2>
+    <h2>
+      Form Builder
+    </h2>
+    <div class="form-builder">
       <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
     </div>
   </div>
 </div>
-<p>
-  <%= link_to 'Show', admin_touchpoint_form_path(@touchpoint, @form), class: "usa-button" if @touchpoint %>
-  <%= link_to 'All Forms', admin_forms_path, class: "usa-button usa-button--outline" %>
-</p>

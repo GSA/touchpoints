@@ -96,22 +96,13 @@ feature "Forms", js: true do
           click_on "Create Survey"
         end
 
-        it "redirect to /form/:uuid with a success flash message" do
-          expect(page).to have_content("Survey was successfully created.")
+        it "redirect to /form/:uuid/questions with a success flash message" do
+          expect(find('.usa-alert.usa-alert--info')).to have_content("Survey was successfully created.")
           @form = Form.last
-          expect(page.current_path).to eq(edit_admin_form_path(@form))
-          expect(find_field('form_name').value).to eq new_form.name
-
-          expect(@form.user).to eq admin
-          expect(@form.organization).to eq admin.organization
-          expect(@form.title).to eq new_form.name
-
-          expect(find_field('form_modal_button_text').value).to eq(I18n.t('form.help_improve'))
-          expect(find_field('form_success_text').value).to eq(I18n.t('form.submit_thankyou'))
-
-          # This should work, but is not. Next line gets the job done.
-          # expect(page).to have_select("form_user_id", selected: "admin@example.gov")
-          expect(page.find("#form_user_id").text).to eq "admin@example.gov"
+          expect(page).to have_content("Editing Questions")
+          expect(page).to have_content(@form.name)
+          expect(page).to have_content("Form Builder")
+          expect(page.current_path).to eq(questions_admin_form_path(@form))
         end
       end
 
@@ -123,12 +114,10 @@ feature "Forms", js: true do
           click_on "Create Survey"
         end
 
-        it "redirect to /form/:uuid with a success flash message" do
-          expect(page).to have_content("Survey was successfully created.")
+        it "redirect to /form/:uuid/questions with a success flash message" do
+          expect(find('.usa-alert.usa-alert--info')).to have_content("Survey was successfully created.")
           @form = Form.last
-          expect(page.current_path).to eq(edit_admin_form_path(@form))
-          expect(find_field('form_name').value).to eq new_form.name
-          expect(page.find("#form_user_id").text).to eq "admin@example.gov"
+          expect(page.current_path).to eq(questions_admin_form_path(@form))
         end
       end
 
@@ -189,20 +178,31 @@ feature "Forms", js: true do
 
           it "display 'Published' flash message" do
             expect(page).to have_content("Published")
-            expect(page).to have_content("Roles & Permissions")
+            expect(page).to have_content("Viewing Survey: #{form.name}")
+            expect(page).to have_content("General Information")
           end
         end
       end
 
       describe "Submission Export button" do
         context "when no Submissions exist" do
+          before do
+            visit responses_admin_form_path(form)
+          end
+
+          it "display text conveying there are no responses yet" do
+            expect(page).to have_content("0 Form Responses")
+            expect(page).to have_content("Export is not available.")
+            expect(page).to have_content("This Form has yet to receive any Responses.")
+            expect(page).to_not have_link("Export Responses to CSV")
+          end
         end
 
         context "when Submissions exist" do
           let!(:submission) { FactoryBot.create(:submission, form: form)}
 
           before do
-            visit admin_form_path(form)
+            visit responses_admin_form_path(form)
           end
 
           it "display table list of Responses and Export CSV button link" do
@@ -296,7 +296,7 @@ feature "Forms", js: true do
           let!(:submission) { FactoryBot.create(:submission, form: form)}
 
           before do
-            visit admin_form_path(form)
+            visit responses_admin_form_path(form)
           end
 
           it "display table list of Responses and Export CSV button link" do
@@ -763,15 +763,23 @@ feature "Forms", js: true do
         visit new_admin_form_path
         fill_in "form_name", with: "New test form name"
         click_on "Create Survey"
-        visit admin_form_path(Form.first)
-        click_on "Notification settings"
       end
 
-      it "set notification_email to the email of the user who creates the form" do
-        within ".usa-nav__secondary .user-name" do
-          expect(page).to have_content(touchpoints_manager.email)
+      it "arrives at /admin/forms/:uuid/questions" do
+        expect(page.current_path).to eq questions_admin_form_path(Form.first)
+      end
+
+      context "notification settings" do
+        before do
+          visit notifications_admin_form_path(Form.first)
         end
-        expect(find_field('form_notification_emails').value).to eq(touchpoints_manager.email)
+
+        it "set notification_email to the email of the user who creates the form" do
+          within ".usa-nav__secondary .user-name" do
+            expect(page).to have_content(touchpoints_manager.email)
+          end
+          expect(find_field('form_notification_emails').value).to eq(touchpoints_manager.email)
+        end
       end
     end
 
@@ -787,16 +795,11 @@ feature "Forms", js: true do
         end
       end
 
-      it "shows successful message" do
+      it "conveys the survey was successfully copied" do
         click_link("Copy")
         page.driver.browser.switch_to.alert.accept
-
-        expect(expect(find_field('form_name').value).to eq "Copy of #{form.name}")
-        expect(expect(find_field('form_title').value).to eq "Copy of #{form.name}")
-        expect(expect(find_field('form_instructions').value).to eq form.instructions.to_s)
-        expect(expect(find_field('form_disclaimer_text').value).to eq form.disclaimer_text.to_s)
-        expect(expect(find_field('form_success_text').value).to eq form.success_text)
-
+        expect(page).to have_content("Editing Questions")
+        expect(page).to have_content("Copy of #{form.name}")
         expect(page).to have_content("Survey was successfully copied.")
       end
     end
