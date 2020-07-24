@@ -243,7 +243,8 @@ pre {
 .usa-table tbody tr:hover,
 tbody tr:hover,
 tbody tr:hover td {
-  background-color: #F0F0F0;;
+  background-color: #E1F3F8;
+  cursor: grab;
 }
 
 .light-bg {
@@ -291,4 +292,33 @@ tbody tr:hover td {
 // Override
 .usa-nav__secondary {
   bottom: 1.5rem;
+}
+
+
+// Add Custom Inverted button style
+.usa-button.usa-button-inverted {
+  border-color: #005ea2;
+  background-color: white;
+  color: #005ea2;
+}
+
+.usa-button.usa-button-inverted:hover {
+  border-color: white;
+  background-color: #005ea2;
+  color: white;
+}
+
+.add-box-shadow {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 64em) {
+  .float-menu .usa-nav__submenu {
+    background-color: #F0F0F0;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    .usa-nav__submenu-item a {
+      color: #005ea2;
+    }
+  }
 }

@@ -17,12 +17,12 @@
 </div>
 <div class="grid-row grid-gap-md">
   <div class="grid-col-4">
-    <div class="well light-bg form-templates">
-      <h3>
-        <i class="fa fa-list-alt" aria-hidden="true"></i>
+    <div class="well light-bg form-templates add-box-shadow">
+      <div class="font-heading-lg">
+        <i class="far fa-list-alt" aria-hidden="true"></i>
         Use a Template
-      </h3>
-      <p>
+      </div>
+      <p class="usa-prose">
         Here are some common surveys you can use to get started.
         Select the template you want to use,
         then edit the copy to suit your needs.
@@ -62,37 +62,37 @@
     </div>
   </div>
   <div class="grid-col-4">
-    <div class="well light-bg">
-      <h3>
-        <i class="fa fa-flag" aria-hidden="true"></i>
-        Start from scratch
-      </h3>
-      <p>
+    <div class="well light-bg add-box-shadow">
+      <div class="font-heading-lg">
+        <i class="far fa-flag" aria-hidden="true"></i>
+        Start from Scratch
+      </div>
+      <p class="usa-prose">
         Enter the following information to create a new survey from scratch.
       </p>
       <%= render 'form', form: @form %>
     </div>
   </div>
   <div class="grid-col-4">
-    <div class="well light-bg">
-      <h3>
-        <i class="fa fa-copy" aria-hidden="true"></i>
+    <div class="well light-bg add-box-shadow">
+      <div class="font-heading-lg">
+        <i class="far fa-copy" aria-hidden="true"></i>
         Copy a Survey
-      </h3>
-      <p>
+      </div>
+      <p class="usa-prose">
         Select which of your existing surveys you'd like to copy
         and give it a new name.
       </p>
       <% if @surveys.present? %>
         <%= form_tag(copy_id_admin_forms_path) do %>
-          <%= select_tag "id", options_from_collection_for_select(@surveys, "short_uuid", "name"), { prompt: "Select a Survey", class: "usa-select" } %>
+          <%= select_tag "id", options_from_collection_for_select(@surveys, "short_uuid", "name"), { prompt: "Select a survey", class: "usa-select" } %>
           <p>
-            <%= submit_tag "Copy Survey", class: "usa-button" %>
+            <%= submit_tag "Copy Survey", class: "usa-button", disabled: true %>
           </p>
         <% end %>
       <% else %>
         <%= form_tag(copy_id_admin_forms_path) do %>
-          <%= select_tag "id", options_from_collection_for_select(@surveys, "short_uuid", "name"), { prompt: "Select a Survey", class: "usa-select", disabled: true } %>
+          <%= select_tag "id", options_from_collection_for_select(@surveys, "short_uuid", "name"), { prompt: "Select a survey", class: "usa-select", disabled: true } %>
           <p>
             <%= submit_tag "Copy Survey", class: "usa-button" %>
           </p>
@@ -101,3 +101,15 @@
     </div>
   </div>
 </div>
+
+<script>
+  // Enable copy button if a valid dropdown item is selected
+  $("select#id").on("change", function() {
+    var contents = $(this).val();
+    if(contents == "") {
+      $("input[type='submit'][value='Copy Survey']").prop("disabled", true)
+    } else {
+      $("input[type='submit'][value='Copy Survey']").prop("disabled", false)
+    }
+  })
+</script>

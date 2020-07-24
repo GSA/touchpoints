@@ -72,7 +72,11 @@ feature "Forms", js: true do
         end
 
         it "display 'create survey' button" do
-          expect(page).to have_button("Create Survey")
+          expect(page).to have_button("Create Survey", disabled: true)
+        end
+
+        it "display 'copy survey' button" do
+          expect(page).to have_button("Copy Survey", disabled: true)
         end
       end
     end

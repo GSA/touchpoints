@@ -95,8 +95,8 @@
     </div>
     <% end %>
   </div>
-  <br>
   <% if form.persisted? %>
+  <br>
   <hr>
   <br>
   <h2>
@@ -336,4 +336,21 @@
     <%= link_to 'Delete Survey', admin_form_path(form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" %>
   <% end %>
   </p>
+<% end %>
+
+<% if !form.persisted? %>
+<script>
+  // Disable create button by default
+  $("input[type='submit'][value='Create Survey']").prop("disabled", true)
+
+  // Enable create button if a form name is specified
+  $("#form_name").on("keyup", function() {
+    var contents = $(this).val();
+    if(contents.length >= 3) {
+      $("input[type='submit'][value='Create Survey']").prop("disabled", false)
+    } else {
+      $("input[type='submit'][value='Create Survey']").prop("disabled", true)
+    }
+  })
+</script>
 <% end %>
