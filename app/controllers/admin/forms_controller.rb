@@ -9,6 +9,7 @@ class Admin::FormsController < AdminController
   before_action :set_user, only: [:add_user, :remove_user]
   before_action :set_form, only: [
     :show, :edit, :update, :destroy,
+    :permissions, :questions, :responses,
     :copy, :copy_by_id,
     :notifications,
     :export,
@@ -61,6 +62,20 @@ class Admin::FormsController < AdminController
     @questions = @form.questions
   end
 
+  def permissions
+    ensure_response_viewer(form: @form) unless @form.template?
+    @available_members = (User.admins + @form.organization.users).uniq - @form.users
+  end
+
+  def questions
+    ensure_response_viewer(form: @form) unless @form.template?
+    @questions = @form.questions
+  end
+
+  def responses
+    ensure_response_viewer(form: @form) unless @form.template?
+  end
+
   def example
     redirect_to touchpoint_path, notice: "Previewing Touchpoint" and return if @form.delivery_method == "touchpoints-hosted-only"
     redirect_to admin_forms_path, notice: "Form does not have a delivery_method of 'modal' or 'inline' or 'custom-button-modal'" and return unless @form.delivery_method == "modal" || @form.delivery_method == "inline" || @form.delivery_method == "custom-button-modal"
@@ -110,7 +125,7 @@ class Admin::FormsController < AdminController
           role: UserRole::Role::FormManager
         })
 
-        format.html { redirect_to edit_admin_form_path(@form), notice: 'Survey was successfully created.' }
+        format.html { redirect_to questions_admin_form_path(@form), notice: 'Survey was successfully created.' }
         format.json { render :show, status: :created, location: @form }
       else
         format.html { render :new }
@@ -132,7 +147,7 @@ class Admin::FormsController < AdminController
 
         Event.log_event(Event.names[:form_copied], "Form", @form.uuid, "Form #{@form.name} copied at #{DateTime.now}", current_user.id)
 
-        format.html { redirect_to edit_admin_form_path(new_form), notice: 'Survey was successfully copied.' }
+        format.html { redirect_to questions_admin_form_path(new_form), notice: 'Survey was successfully copied.' }
         format.json { render :show, status: :created, location: new_form }
       else
         format.html { render :new }

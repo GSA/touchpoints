@@ -1,0 +1,33 @@
+<h3>
+  A-11 Analysis
+</h3>
+<table class="usa-table">
+  <thead>
+    <tr>
+      <th>Responses</th>
+      <th>Activations</th>
+      <th>Rate</th>
+      <th>Satisfied</th>
+      <th>Confidence</th>
+      <th>Effective</th>
+      <th>Easy</th>
+      <th>Efficient</th>
+      <th>Transparent</th>
+      <th>Employee</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @form.submissions.size %></td>
+      <td><%= @form.survey_form_activations %></td>
+      <td><%= @form.completion_rate %></td>
+      <td><%= @form.average_answer(:answer_01)[:average] %></td>
+      <td><%= @form.average_answer(:answer_02)[:average] %></td>
+      <td><%= @form.average_answer(:answer_03)[:average] %></td>
+      <td><%= @form.average_answer(:answer_04)[:average] %></td>
+      <td><%= @form.average_answer(:answer_05)[:average] %></td>
+      <td><%= @form.average_answer(:answer_06)[:average] %></td>
+      <td><%= @form.average_answer(:answer_07)[:average] %></td>
+    </tr>
+  </tbody>
+</table>

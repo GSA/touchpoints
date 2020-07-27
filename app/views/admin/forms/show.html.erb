@@ -1,5 +1,5 @@
 <% content_for :navigation_title do %>
-  Viewing Survey
+  Viewing Survey: <%= @form.name %>
 <% end %>
 <p>
   <%= link_to admin_forms_path do %>
@@ -7,162 +7,186 @@
     Back to My Surveys
   <% end %>
 </p>
-<div class="well">
-  <div class="grid-row">
-    <div class="grid-col-12">
-
-      <% if is_at_least_form_manager?(user: current_user, form: @form) %>
-        <span class="float-right">
-          <%= link_to edit_admin_form_path(@form), class: "usa-button usa-button--outline" do %>
-            <i class="fa fa-edit"></i>
-            Edit form
-          <% end %>
-        </span>
-      <% end %>
-      <h1>
-        <%= @form.name %>
-      </h1>
+<% if is_at_least_form_manager?(user: current_user, form: @form) %>
+  <span class="float-right">
+    <%= link_to edit_admin_form_path(@form), class: "usa-button usa-button--outline" do %>
+      <i class="fa fa-edit"></i>
+      Edit form
+    <% end %>
+  </span>
+<% end %>
+<ul class="usa-button-group usa-button-group--segmented">
+  <li class="usa-button-group__item">
+    <%= link_to admin_form_path(@form), class: "usa-button" do %>
+      Survey information
+    <% end %>
+  </li>
+  <li class="usa-button-group__item">
+    <%= link_to permissions_admin_form_path(@form), class: "usa-button usa-button--outline" do %>
+      Permissions
+    <% end %>
+  </li>
+  <li class="usa-button-group__item">
+    <%= link_to questions_admin_form_path(@form), class: "usa-button usa-button--outline" do %>
+      Questions (<%= @form.questions.size %>)
+    <% end %>
+  </li>
+  <li class="usa-button-group__item">
+    <%= link_to responses_admin_form_path(@form), class: "usa-button usa-button--outline" do %>
+      Responses (<%= @form.submissions.size %>)
+    <% end %>
+  </li>
+</ul>
+<br>
+<% if is_at_least_form_manager?(user: current_user, form: @form) %>
+<div class="grid-row grid-gap-md">
+  <div class="tablet:grid-col-6">
+    <div class="state-tracker">
+      <div class="step <%= "completed" if ["in_development", "live", "archived"].include?(@form.aasm_state) -%>">
+        <div class="indicator">
+          <span class="font-sans-2xl">
+            <i class="fas fa-check-circle"></i>
+          </span>
+        </div>
+        In development
+      </div>
+      <div class="step <%= "completed" if ["live", "archived"].include?(@form.aasm_state) -%>">
+        <div class="indicator">
+          <span class="font-sans-2xl">
+            <i class="fas fa-check-circle"></i>
+          </span>
+        </div>
+        <div>
+          Published
+        </div>
+      </div>
+      <div class="step <%= "completed" if ["archived"].include?(@form.aasm_state) -%>">
+        <div class="indicator">
+          <span class="font-sans-2xl">
+            <i class="far fa-circle"></i>
+          </span>
+        </div>
+        <div>
+          Archived
+        </div>
+      </div>
+      <br class="usa-display">
     </div>
   </div>
-  <% if is_at_least_form_manager?(user: current_user, form: @form) %>
-  <div class="grid-row grid-gap-md">
-    <div class="tablet:grid-col-6">
-      <div class="state-tracker">
-        <div class="step <%= "completed" if ["in_development", "live", "archived"].include?(@form.aasm_state) -%>">
-          <div class="indicator">
-            <span class="font-sans-2xl">
-              <i class="fas fa-check-circle"></i>
-            </span>
-          </div>
-          In development
-        </div>
-        <div class="step <%= "completed" if ["live", "archived"].include?(@form.aasm_state) -%>">
-          <div class="indicator">
-            <span class="font-sans-2xl">
-              <i class="fas fa-check-circle"></i>
-            </span>
-          </div>
-          <div>
-            Published
-          </div>
-        </div>
-        <div class="step <%= "completed" if ["archived"].include?(@form.aasm_state) -%>">
-          <div class="indicator">
-            <span class="font-sans-2xl">
-              <i class="far fa-circle"></i>
-            </span>
-          </div>
-          <div>
-            Archived
-          </div>
-        </div>
-        <br class="usa-display">
-      </div>
-    </div>
-    <div class="tablet:grid-col-6 bg-gray-5">
-      <div class="padding-1">
-        <% if !@form.deployable_form? %>
-          <%= link_to 'Publish', publish_admin_form_path(@form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline float-right" %>
-          <h2>
-            Publish your form
-            <i class="fas fa-question-circle"></i>
-          </h2>
-        <% end %>
+  <div class="tablet:grid-col-6 bg-gray-5">
+    <div class="padding-1">
+      <% if !@form.deployable_form? %>
+        <h2>
+          <i class="far fa-check-circle"></i>
+          Publish your form
+        </h2>
+      <% end %>
 
-        <% if @form.deployable_form? %>
+      <% if @form.deployable_form? %>
+        <strong>
+         Form URL
+        </strong>
+        <br>
+        <p>
+          This is where the public can access your form.
+        </p>
+        <p>
+          <%= link_to submit_touchpoint_uuid_url(@form), submit_touchpoint_uuid_url(@form) %>
+        </p>
+        <% if @form.delivery_method == "modal" || @form.delivery_method == "inline" || @form.delivery_method == "custom-button-modal" %>
           <strong>
-           Form URL
+            Javascript embed
           </strong>
           <br>
           <p>
-            This is where the public can access your form.
-          </p>
-          <p>
-            <%= link_to submit_touchpoint_uuid_url(@form), submit_touchpoint_uuid_url(@form) %>
-          </p>
-          <% if @form.delivery_method == "modal" || @form.delivery_method == "inline" || @form.delivery_method == "custom-button-modal" %>
-            <strong>
-              Javascript embed
-            </strong>
-            <br>
-            <p>
-              <% if @form.deployable_form? %>
-                <% if @form.delivery_method == "custom-button-modal" %>
-                <p>
-                  Add the following markup to your site
-                  as a place to display the Touchpoint
-                  <i>inline</i>.
-                </p>
-                <p>
-                  <span class="code">
-                    <%= h("<a id=\"#{@form.element_selector}\"></a>") %>
-                  </span>
-                </p>
-                <% end %>
-                <% if @form.delivery_method == "inline" %>
-                <p>
-                  Add the following markup to your site
-                  as a place to display the Touchpoint
-                  <i>inline</i>.
-                </p>
-                <p>
-                  <span class="code">
-                    <%= h("<div id=\"#{@form.element_selector}\"></div>") %>
-                  </span>
-                </p>
-                <% end %>
+            <% if @form.deployable_form? %>
+              <% if @form.delivery_method == "custom-button-modal" %>
               <p>
-                Add the following script to your site to embed your form.
+                Add the following markup to your site
+                as a place to display the Touchpoint
+                <i>inline</i>.
               </p>
               <p>
-                <div class="code minh-10 bg-base-lighter">
-                  <%= h("<script src=\"#{js_touchpoint_url(@form.short_uuid)}\" async></script>") %>
-                </div>
+                <span class="code">
+                  <%= h("<a id=\"#{@form.element_selector}\"></a>") %>
+                </span>
               </p>
               <% end %>
               <% if @form.delivery_method == "inline" %>
-              <h4>
-                Preview an example:
-              </h4>
               <p>
-                <%= link_to 'Inline', example_admin_form_path(@form), class: "usa-button", target: "_blank", rel: "noopener" %>
+                Add the following markup to your site
+                as a place to display the Touchpoint
+                <i>inline</i>.
+              </p>
+              <p>
+                <span class="code">
+                  <%= h("<div id=\"#{@form.element_selector}\"></div>") %>
+                </span>
               </p>
               <% end %>
-              <% if @form.delivery_method == "custom-button-modal" %>
-              <h4>
-                Preview an example:
-              </h4>
-              <p>
-                <%= link_to 'Custom button modal', example_admin_form_path(@form), class: "usa-button", target: "_blank", rel: "noopener" %>
-              </p>
-              <% end %>
-              <% if @form.delivery_method == "modal" %>
-              <h4>
-                Preview an example:
-              </h4>
-              <p>
-                <%= link_to 'Tab + Modal', example_admin_form_path(@form), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" %>
-              </p>
+            <p>
+              Add the following script to your site to embed your form.
+            </p>
+            <p>
+              <div class="code minh-10 bg-base-lighter">
+                <%= h("<script src=\"#{js_touchpoint_url(@form.short_uuid)}\" async></script>") %>
+              </div>
+            </p>
+            <% end %>
+            <% if @form.delivery_method == "inline" %>
+            <h4>
+              Preview an example:
+            </h4>
+            <p>
+              <%= link_to 'Inline', example_admin_form_path(@form), class: "usa-button", target: "_blank", rel: "noopener" %>
+            </p>
+            <% end %>
+            <% if @form.delivery_method == "custom-button-modal" %>
+            <h4>
+              Preview an example:
+            </h4>
+            <p>
+              <%= link_to 'Custom button modal', example_admin_form_path(@form), class: "usa-button", target: "_blank", rel: "noopener" %>
+            </p>
+            <% end %>
+            <% if @form.delivery_method == "modal" %>
+            <h4>
+              Preview an example:
+            </h4>
+            <p>
+              <%= link_to 'Tab + Modal', example_admin_form_path(@form), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" %>
+            </p>
+            <% end %>
+          </p>
+        <% end %>
+      <% else %>
+        <div class="usa-alert usa-alert--error" >
+          <div class="usa-alert__body">
+            <h3 class="usa-alert__heading">Survey is not published</h3>
+            <p>
+              <%= link_to example_admin_form_path(@form), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" do %>
+                <i class="fa fa-eye"></i>
+                Preview
               <% end %>
             </p>
-          <% end %>
-        <% else %>
-          <div class="usa-alert usa-alert--error" >
-            <div class="usa-alert__body">
-              <h3 class="usa-alert__heading">Form is not yet deployable</h3>
-              <p class="usa-alert__text">
-                This Form is not in a 'live' state.
-              </p>
-            </div>
+            <p class="usa-alert__text">
+              Publish to make it "live."
+            </p>
           </div>
-          <br>
+        </div>
+        <br>
+        <%= link_to publish_admin_form_path(@form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button width-full" do %>
+          <i class="far fa-check-circle"></i>
+          Publish
         <% end %>
-      </div>
+        <br>
+      <% end %>
     </div>
   </div>
-  <br>
-  <% end %>
-  <hr>
+</div>
+<br>
+<% end %>
+<div class="well">
   <div class="grid-row grid-gap-md">
     <div class="tablet:grid-col-4">
       <h2>
@@ -280,12 +304,6 @@
       <%= @form.whitelist_test_url %>
     </p>
   </div>
-
-  <% if @form %>
-    <%= render 'components/pra_records/show', { form: @form } %>
-  <% else %>
-    PRA Record has not yet been migrated. Please be patient.
-  <% end %>
 </div>
 
 <div class="well highlight form-preview">
@@ -308,23 +326,6 @@
   </div>
 </div>
 
-<% if is_at_least_form_manager?(user: current_user, form: @form) %>
-  <%= render 'components/roles_and_permissions', form: @form %>
-<% end %>
-
-<%= link_to notifications_admin_form_path(@form), class: "usa-button usa-button--outline" do %>
-  <i class="fa fa-envelope"></i>
-  Notification settings
-<% end %>
-
-<br>
-<br>
-<hr>
-
-<div>
-  <% @submissions = @form.submissions.order("created_at ASC") %>
-  <%= render file: "admin/submissions/index", locals: { form: @form, submissions: @submissions } %>
-</div>
 <br>
 <br>
 

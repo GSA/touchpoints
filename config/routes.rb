@@ -40,6 +40,9 @@ Rails.application.routes.draw do
         get "export_a11_header", to: "forms#export_a11_header", as: :export_a11_header
         get "export_a11_submissions", to: "forms#export_a11_submissions", as: :export_a11_submissions
         get "js", to: "forms#js", as: :js
+        get "permissions", to: "forms#permissions", as: :permissions
+        get "questions", to: "forms#questions", as: :questions
+        get "responses", to: "forms#responses", as: :responses
         post "add_user", to: "forms#add_user", as: :add_user
         post "copy", to: "forms#copy", as: :copy
         post "publish", to: "forms#publish", as: :publish

@@ -423,4 +423,18 @@ class Form < ApplicationRecord
     end
   end
 
+  def average_answer(answer)
+    responses = self.submissions.collect(&answer)
+    responses = responses.reject { |string| !string.present? }
+    responses = responses.map { |string| string.to_i }
+    response_total = responses.sum
+    response_count = responses.size.to_f
+    average = response_total / response_count
+    {
+      response_total: response_total,
+      response_count: response_count,
+      average: average.round(3)
+    }
+  end
+
 end
