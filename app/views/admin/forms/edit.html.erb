@@ -10,14 +10,6 @@
       <% end %>
     </p>
     <%= render 'admin/forms/form', form: @form %>
-    <br>
-    <br>
-    <div class="highlight form-builder">
-      <h2>
-        Form Builder
-      </h2>
-      <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
-    </div>
   </div>
 </div>
 <p>
