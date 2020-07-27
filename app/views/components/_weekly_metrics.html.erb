@@ -1,32 +1,32 @@
-<div class="well">
-  <h3>
-    Weekly Product & Program Use Metrics
-  </h3>
-  <table class="usa-table">
+<h3>
+  Weekly Product & Program Use Metrics
+</h3>
+<table class="usa-table" style="width: 100%;">
+  <thead>
     <tr>
-      <td>
+      <th>
         Agencies with Forms
-      </td>
-      <td>
+      </th>
+      <th>
         Unique Forms (per OMB Approval Number)
-      </td>
-      <td>
+      </th>
+      <th>
         Responses
-      </td>
+      </th>
     </tr>
-    <tr>
-      <td class="reportable-organizations">
-        <%= forms.collect(&:organization_id).uniq.size %>
-      </td>
-      <td class="reportable-forms">
-        <% non_omb_touchpoints = forms.select { |f| !f.omb_approval_number.present? }.collect(&:omb_approval_number).size %>
-        <% omb_touchpoints = forms.select { |f| f.omb_approval_number.present? }.collect(&:omb_approval_number).uniq.size %>
-        <% reportable_touchpoints = non_omb_touchpoints + omb_touchpoints %>
-        <%= reportable_touchpoints %>
-      </td>
-      <td class="reportable-submissions">
-        <%= Submission.count %>
-      </td>
-    </tr>
-  </table>
-</div>
+  </thead>
+  <tr>
+    <td class="reportable-organizations">
+      <%= forms.collect(&:organization_id).uniq.size %>
+    </td>
+    <td class="reportable-forms">
+      <% non_omb_touchpoints = forms.select { |f| !f.omb_approval_number.present? }.collect(&:omb_approval_number).size %>
+      <% omb_touchpoints = forms.select { |f| f.omb_approval_number.present? }.collect(&:omb_approval_number).uniq.size %>
+      <% reportable_touchpoints = non_omb_touchpoints + omb_touchpoints %>
+      <%= reportable_touchpoints %>
+    </td>
+    <td class="reportable-submissions">
+      <%= Submission.count %>
+    </td>
+  </tr>
+</table>

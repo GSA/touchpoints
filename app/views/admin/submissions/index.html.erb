@@ -1,10 +1,6 @@
 <h2>
-  <%= submissions.size %> Form Responses
+  <%= submissions.size %> Responses
 </h2>
-<h5>
-  for
-  <%= form.name %>
-</h5>
 
 <% if submissions.present? %>
 <div class="responses table-scroll">
@@ -81,9 +77,21 @@
   <% if form && form.kind == "a11" %>
   <br>
   <br>
-  <div class="">
-    <%= link_to "Export A-11 Header Report", export_a11_header_admin_form_url(form, format: "csv"), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" %>
-    <%= link_to "Export A-11 Responses Report", export_a11_submissions_admin_form_url(form, format: "csv"), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" %>
+  <hr style="border: none; border-top: 1px solid #F0F0F0; margin: 3em 0;">
+  <div class="grid-row">
+    <div class="grid-col">
+      <%= link_to "Export A-11 Header Report", export_a11_header_admin_form_url(form, format: "csv"), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" %>
+      <%= link_to "Export A-11 Responses Report", export_a11_submissions_admin_form_url(form, format: "csv"), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" %>
+      <br>
+      <br>
+      <div class="usa-alert usa-alert--info">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            Learn more about the Service Definition file format
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
   <% end %>
 
