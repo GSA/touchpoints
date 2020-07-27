@@ -191,7 +191,7 @@ feature "Forms", js: true do
           end
 
           it "display text conveying there are no responses yet" do
-            expect(page).to have_content("0 Form Responses")
+            expect(page).to have_content("0 Responses")
             expect(page).to have_content("Export is not available.")
             expect(page).to have_content("This Form has yet to receive any Responses.")
             expect(page).to_not have_link("Export Responses to CSV")

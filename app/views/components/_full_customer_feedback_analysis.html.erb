@@ -1,6 +1,8 @@
 <table class="usa-table">
   <thead>
     <tr>
+      <th>Organization</th>
+      <th>Touchpoint</th>
       <th>Responses</th>
       <th>Activations</th>
       <th>Rate</th>
@@ -14,7 +16,10 @@
     </tr>
   </thead>
   <tbody>
+    <% Form.where(kind: "a11").each do |form| %>
     <tr>
+      <td><%= form.organization.name %></td>
+      <td><%= form.name %></td>
       <td><%= form.submissions.size %></td>
       <td><%= form.survey_form_activations %></td>
       <td><%= form.completion_rate %></td>
@@ -26,5 +31,6 @@
       <td><%= form.average_answer(:answer_06)[:average] %></td>
       <td><%= form.average_answer(:answer_07)[:average] %></td>
     </tr>
+    <% end %>
   </tbody>
 </table>
