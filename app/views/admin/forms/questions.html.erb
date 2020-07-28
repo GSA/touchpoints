@@ -1,0 +1,19 @@
+<% content_for :navigation_title do %>
+  Editing Questions for Survey: <%= @form.name %>
+<% end %>
+<div class="grid-row">
+  <div class="grid-col">
+    <p>
+      <%= link_to admin_form_path(@form) do %>
+        <i class="fa fa-arrow-circle-left"></i>
+        Back to Survey
+      <% end %>
+    </p>
+    <h2>
+      Form Builder
+    </h2>
+    <div class="form-builder">
+      <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
+    </div>
+  </div>
+</div>

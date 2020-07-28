@@ -51,7 +51,7 @@ RSpec.describe Form, type: :model do
 
   describe "#to_csv" do
     it "returns Submission fields" do
-      csv = form.to_csv.to_s
+      csv = form.to_csv(start_date: Time.now.beginning_of_quarter, end_date: Time.now.end_of_quarter).to_s
 
       expect(csv).to include("IP Address")
       expect(csv).to include("User Agent")

@@ -19,7 +19,7 @@ feature "Submissions", js: true do
           context "when no Submissions exist" do
             before do
               FactoryBot.create(:submission, form: form, answer_01: "content_tag(&quot;/&gt;&lt;script&gt;alert(&#39;hack!&#39;);&lt;/script&gt;&quot;)")
-              visit admin_form_path(form)
+              visit responses_admin_form_path(form)
             end
 
             it "does not render javascript" do
@@ -39,7 +39,7 @@ feature "Submissions", js: true do
             let!(:submission) { FactoryBot.create(:submission, form: form) }
 
             before do
-              visit admin_form_path(form)
+              visit responses_admin_form_path(form)
               within("table.submissions") do
                 click_on "Flag"
               end
@@ -60,7 +60,7 @@ feature "Submissions", js: true do
             let!(:submission) { FactoryBot.create(:submission, form: form) }
 
             before do
-              visit admin_form_path(form)
+              visit responses_admin_form_path(form)
               within("table.submissions") do
                 click_on "Delete"
               end
@@ -93,7 +93,7 @@ feature "Submissions", js: true do
             let!(:submission) { FactoryBot.create(:submission, form: form) }
 
             before do
-              visit admin_form_path(form)
+              visit responses_admin_form_path(form)
               within("table.submissions") do
                 click_on "Flag"
               end
@@ -114,7 +114,7 @@ feature "Submissions", js: true do
             let!(:submission) { FactoryBot.create(:submission, form: form) }
 
             before do
-              visit admin_form_path(form)
+              visit responses_admin_form_path(form)
               within("table.submissions") do
                 click_on "Delete"
               end
@@ -135,7 +135,7 @@ feature "Submissions", js: true do
             let!(:submission) { FactoryBot.create(:submission, form: form_with_text_display) }
 
             before do
-              visit admin_form_path(form_with_text_display)
+              visit responses_admin_form_path(form_with_text_display)
             end
 
             it "does not display text_display question title" do
@@ -171,7 +171,7 @@ feature "Submissions", js: true do
         let!(:submission) { FactoryBot.create(:submission, form: form) }
 
         before do
-          visit admin_form_path(form)
+          visit responses_admin_form_path(form)
         end
 
         describe "flag a Submission" do

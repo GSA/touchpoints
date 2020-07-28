@@ -1,19 +1,17 @@
 <% content_for :navigation_title do %>
-  <%= link_to new_admin_form_path, style: "color: white; text-decoration: none;" do %>
-    My Surveys
-  <% end %>
-  <%= link_to new_admin_form_path, class: "usa-button float-right" do %>
+  My Surveys
+  <%= link_to new_admin_form_path, class: "usa-button usa-button-inverted float-right" do %>
     <i class="fa fa-plus-circle"></i>
     New Survey
   <% end %>
 <% end %>
 
 <% if @forms.present? %>
-<table class="usa-table width-full">
-  <thead>
+<table class="usa-table">
+  <thead class="font-sans-3xs">
     <tr>
       <th>#</th>
-      <th data-type="name">Name</th>
+      <th data-type="name" style="min-width: 260px;">Name</th>
       <th>
         Questions
       </th>

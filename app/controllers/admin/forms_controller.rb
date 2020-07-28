@@ -9,6 +9,7 @@ class Admin::FormsController < AdminController
   before_action :set_user, only: [:add_user, :remove_user]
   before_action :set_form, only: [
     :show, :edit, :update, :destroy,
+    :permissions, :questions, :responses,
     :copy, :copy_by_id,
     :notifications,
     :export,
@@ -56,9 +57,25 @@ class Admin::FormsController < AdminController
 
   def show
     ensure_response_viewer(form: @form) unless @form.template?
-
-    @available_members = (User.admins + @form.organization.users).uniq - @form.users
     @questions = @form.questions
+  end
+
+  def permissions
+    ensure_response_viewer(form: @form) unless @form.template?
+    if admin_permissions?
+      @available_members = User.all - @form.users
+    else
+      @available_members = (User.admins + @form.organization.users).uniq - @form.users
+    end
+  end
+
+  def questions
+    ensure_response_viewer(form: @form) unless @form.template?
+    @questions = @form.questions
+  end
+
+  def responses
+    ensure_response_viewer(form: @form) unless @form.template?
   end
 
   def example
@@ -110,7 +127,7 @@ class Admin::FormsController < AdminController
           role: UserRole::Role::FormManager
         })
 
-        format.html { redirect_to edit_admin_form_path(@form), notice: 'Survey was successfully created.' }
+        format.html { redirect_to questions_admin_form_path(@form), notice: 'Survey was successfully created.' }
         format.json { render :show, status: :created, location: @form }
       else
         format.html { render :new }
@@ -132,7 +149,7 @@ class Admin::FormsController < AdminController
 
         Event.log_event(Event.names[:form_copied], "Form", @form.uuid, "Form #{@form.name} copied at #{DateTime.now}", current_user.id)
 
-        format.html { redirect_to edit_admin_form_path(new_form), notice: 'Survey was successfully copied.' }
+        format.html { redirect_to questions_admin_form_path(new_form), notice: 'Survey was successfully copied.' }
         format.json { render :show, status: :created, location: new_form }
       else
         format.html { render :new }
@@ -238,18 +255,18 @@ class Admin::FormsController < AdminController
   end
 
   def export_submissions
-    ExportJob.perform_later(params[:uuid], @form.short_uuid, "touchpoints-form-responses-#{timestamp_string}.csv")
+    start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Time.now.beginning_of_quarter
+    end_date = params[:end_date] ? Date.parse(params[:end_date]).to_date : Time.now.end_of_quarter
+
+    ExportJob.perform_later(params[:uuid], @form.short_uuid, start_date.to_s, end_date.to_s, "touchpoints-form-responses-#{timestamp_string}.csv")
     render json: { result: :ok }
   end
 
   # A-11 Header report. File 1 of 2
   #
   def export_a11_header
-    current_reporting_quarter_start_date = Date.parse("2019-10-01")
-    current_reporting_quarter_end_date = Date.parse("2020-01-31")
-
-    start_date = params[:start_date] || current_reporting_quarter_start_date
-    end_date = params[:end_date] || current_reporting_quarter_end_date
+    start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Time.now.beginning_of_quarter
+    end_date = params[:end_date] ? Date.parse(params[:end_date]).to_date : Time.now.end_of_quarter
 
     respond_to do |format|
       format.csv {
@@ -261,11 +278,8 @@ class Admin::FormsController < AdminController
   # A-11 Detail report. File 2 of 2
   #
   def export_a11_submissions
-    current_reporting_quarter_start_date = Date.parse("2019-10-01")
-    current_reporting_quarter_end_date = Date.parse("2020-01-31")
-
-    start_date = params[:start_date] || current_reporting_quarter_start_date
-    end_date = params[:end_date] || current_reporting_quarter_end_date
+    start_date = Date.parse(params[:start_date]).to_date || Time.now.beginning_of_quarter
+    end_date = Date.parse(params[:end_date]).to_date || Time.now.end_of_quarter
 
     respond_to do |format|
       format.csv {
