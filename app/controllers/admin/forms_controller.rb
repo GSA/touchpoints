@@ -255,18 +255,18 @@ class Admin::FormsController < AdminController
   end
 
   def export_submissions
-    ExportJob.perform_later(params[:uuid], @form.short_uuid, "touchpoints-form-responses-#{timestamp_string}.csv")
+    start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Time.now.beginning_of_quarter
+    end_date = params[:end_date] ? Date.parse(params[:end_date]).to_date : Time.now.end_of_quarter
+
+    ExportJob.perform_later(params[:uuid], @form.short_uuid, start_date.to_s, end_date.to_s, "touchpoints-form-responses-#{timestamp_string}.csv")
     render json: { result: :ok }
   end
 
   # A-11 Header report. File 1 of 2
   #
   def export_a11_header
-    current_reporting_quarter_start_date = Date.parse("2019-10-01")
-    current_reporting_quarter_end_date = Date.parse("2020-01-31")
-
-    start_date = params[:start_date] || current_reporting_quarter_start_date
-    end_date = params[:end_date] || current_reporting_quarter_end_date
+    start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Time.now.beginning_of_quarter
+    end_date = params[:end_date] ? Date.parse(params[:end_date]).to_date : Time.now.end_of_quarter
 
     respond_to do |format|
       format.csv {
@@ -278,11 +278,8 @@ class Admin::FormsController < AdminController
   # A-11 Detail report. File 2 of 2
   #
   def export_a11_submissions
-    current_reporting_quarter_start_date = Date.parse("2019-10-01")
-    current_reporting_quarter_end_date = Date.parse("2020-01-31")
-
-    start_date = params[:start_date] || current_reporting_quarter_start_date
-    end_date = params[:end_date] || current_reporting_quarter_end_date
+    start_date = Date.parse(params[:start_date]).to_date || Time.now.beginning_of_quarter
+    end_date = Date.parse(params[:end_date]).to_date || Time.now.end_of_quarter
 
     respond_to do |format|
       format.csv {

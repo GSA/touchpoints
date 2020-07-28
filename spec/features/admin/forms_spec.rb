@@ -209,7 +209,7 @@ feature "Forms", js: true do
             within("table.submissions") do
               expect(page).to have_content(submission.answer_01)
             end
-            expect(page).to have_link("Export Responses to CSV")
+            expect(page).to have_link("Export All Responses to CSV")
           end
         end
       end
@@ -303,7 +303,7 @@ feature "Forms", js: true do
             within("table.submissions") do
               expect(page).to have_content(submission.answer_01)
             end
-            expect(page).to have_link("Export Responses to CSV")
+            expect(page).to have_link("Export All Responses to CSV")
           end
         end
       end

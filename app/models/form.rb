@@ -212,8 +212,8 @@ class Form < ApplicationRecord
     ApplicationController.new.render_to_string(partial: "components/widget/fba.js", locals: { touchpoint: self })
   end
 
-  def to_csv
-    non_flagged_submissions = self.submissions.non_flagged.order("created_at")
+  def to_csv(start_date: nil, end_date: nil)
+    non_flagged_submissions = self.submissions.non_flagged.where("created_at >= ?", start_date).where("created_at <= ?", end_date).order("created_at")
     return nil unless non_flagged_submissions.present?
 
     header_attributes = self.hashed_fields_for_export.values
@@ -238,7 +238,7 @@ class Form < ApplicationRecord
   # Generates 1 of 2 exported files for the A11
   # This is a one record metadata file
   def to_a11_header_csv(start_date:, end_date:)
-    non_flagged_submissions = self.submissions.non_flagged
+    non_flagged_submissions = self.submissions.non_flagged.where("created_at >= ?", start_date).where("created_at <= ?", end_date)
     return nil unless non_flagged_submissions.present?
 
     header_attributes = [
@@ -287,7 +287,7 @@ class Form < ApplicationRecord
   # Generates the 2nd of 2 exported files for the A11
   # This is a 7 record detail file; one for each question
   def to_a11_submissions_csv(start_date:, end_date:)
-    non_flagged_submissions = self.submissions.non_flagged
+    non_flagged_submissions = self.submissions.non_flagged.where("created_at >= ?", start_date).where("created_at <= ?", end_date)
     return nil unless non_flagged_submissions.present?
 
     header_attributes = [
