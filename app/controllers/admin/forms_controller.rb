@@ -57,14 +57,16 @@ class Admin::FormsController < AdminController
 
   def show
     ensure_response_viewer(form: @form) unless @form.template?
-
-    @available_members = (User.admins + @form.organization.users).uniq - @form.users
     @questions = @form.questions
   end
 
   def permissions
     ensure_response_viewer(form: @form) unless @form.template?
-    @available_members = (User.admins + @form.organization.users).uniq - @form.users
+    if admin_permissions?
+      @available_members = User.all - @form.users
+    else
+      @available_members = (User.admins + @form.organization.users).uniq - @form.users
+    end
   end
 
   def questions

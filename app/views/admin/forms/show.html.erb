@@ -151,10 +151,16 @@
             <% end %>
             <% if @form.delivery_method == "modal" %>
             <h4>
-              Preview an example:
+              Preview your survey:
             </h4>
             <p>
-              <%= link_to 'Tab + Modal', example_admin_form_path(@form), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" %>
+              Delivery method: <%= @form.delivery_method %>
+            </p>
+            <p>
+              <%= link_to example_admin_form_path(@form), class: "usa-button usa-button--outline width-full", target: "_blank", rel: "noopener" do %>
+                <i class="fa fa-eye"></i>
+                Preview
+              <% end %>
             </p>
             <% end %>
           </p>
@@ -306,28 +312,6 @@
   </div>
 </div>
 
-<div class="well highlight form-preview">
-  <h2>
-    Form Preview
-  </h2>
-  <div class="well white-bg">
-    <% if @form %>
-      <%= render partial: "components/forms/custom_layout", locals: { touchpoint: @form, form: @form } %>
-    <% else %>
-    <div class="usa-alert usa-alert--info">
-      <div class="usa-alert__body">
-        <p class="usa-alert__text">
-          Form content is currently custom-created by the Touchpoints Product Team.
-          Please contact the Feedback Analytics Team for assistance.
-        </p>
-      </div>
-    </div>
-    <% end %>
-  </div>
-</div>
-
-<br>
-<br>
 
 <script type="text/javascript">
   $(function() {
