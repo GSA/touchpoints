@@ -25,7 +25,7 @@
           <td class="text-center"><%= user.admin? ? '✅' : nil %></td>
         <% end %>
           <td class="text-center"><%= user.organization_manager? ? '✅' : nil %></td>
-          <td><%= link_to user.email, admin_user_path(user) %></td>
+          <td><%= link_to_if !user.inactive, user.email, admin_user_path(user) %></td>
           <td><%= user.organization ? user.organization.name : nil %></td>
         <% if current_user.admin? %>
           <td><%= time_ago_in_words(user.last_sign_in_at) if user.last_sign_in_at %></td>
@@ -36,3 +36,10 @@
     </tbody>
   </table>
 </div>
+
+<p>
+  <%= link_to active_admin_users_path(format: :csv), class: "usa-button usa-button--outline" do %>
+    <i class="fa fa-download"></i>
+    Export Active Users
+  <% end %>
+</p>

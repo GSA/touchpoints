@@ -19,6 +19,8 @@ class User < ApplicationRecord
 
   validates :email, presence: true, if: :tld_check
 
+  scope :active, -> { where("inactive ISNULL or inactive = false") }
+
   def self.admins
     User.where(admin: true)
   end
@@ -88,6 +90,25 @@ class User < ApplicationRecord
     UserMailer.org_manager_change_notification(self,'removed').deliver_later if self.organization_manager?
     UserMailer.account_deactivated_notification(self).deliver_later
     Event.log_event(Event.names[:user_deactivated], "User", self.id, "User account #{self.email} deactivated on #{Date.today}")
+  end
+
+  def self.to_csv
+    active_users = self.order("email")
+    return nil unless active_users.present?
+
+    header_attributes = ["organization_name", "email", "last_sign_in_at"]
+    attributes = active_users.map { |u| {
+      organization_name: u.organization.name,
+      email: u.email,
+      last_sign_in_at: u.last_sign_in_at
+    }}
+
+    CSV.generate(headers: true) do |csv|
+      csv << header_attributes
+      attributes.each do |attrs|
+        csv << attrs.values
+      end
+    end
   end
 
   private

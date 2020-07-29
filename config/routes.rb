@@ -65,6 +65,7 @@ Rails.application.routes.draw do
     resources :users, except: [:new] do
       collection do
         get "deactivate", to: "users#deactivate"
+        get "active", to: "users#active", as: :active
       end
     end
     resources :organizations

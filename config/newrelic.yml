@@ -11,6 +11,7 @@
 # https://docs.newrelic.com/docs/agents/ruby-agent/installation-configuration/ruby-agent-configuration
 
 common: &default_settings
+  host: gov-collector.newrelic.com
   # Required license key associated with your New Relic account.
   license_key: <%= ENV.fetch("NEW_RELIC_KEY") %>
 
