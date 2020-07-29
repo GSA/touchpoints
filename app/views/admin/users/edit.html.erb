@@ -1,6 +1,12 @@
 <% content_for :navigation_title do %>
   Editing User
 <% end %>
+<p>
+  <%= link_to admin_user_path(@user) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to User
+  <% end %>
+</p>
 <div class="well">
   Email: <%= link_to @user.email, admin_user_path %>
   <br>
