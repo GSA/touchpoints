@@ -1,0 +1,71 @@
+<% content_for :navigation_title do %>
+  Viewing Responses for <%= @form.name %>
+<% end %>
+<p>
+  <%= link_to admin_form_path(@form) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Survey
+  <% end %>
+</p>
+<h3>
+  Customer Feedback Analysis
+</h3>
+<%= render 'components/a11_analysis', { form: @form } if admin_permissions? %>
+<div>
+  <% @submissions = @form.submissions.order("created_at ASC") %>
+  <%= render file: "admin/submissions/index", locals: { form: @form, submissions: @submissions } %>
+</div>
+<br>
+<br>
+
+<script type="text/javascript">
+  $(function() {
+    // Initially set to disabled
+    $("#add-user-button").attr("disabled", true);
+
+    $("#add-user-button").on("click", function(e) {
+      var userId = $("#add-user-id").val();
+      var role = $("#add-user-role").val();
+
+      var request = $.ajax({
+        url: "/admin/forms/<%= @form.short_uuid %>/add_user",
+        dataType: "json",
+        method: "POST",
+        data: {
+          user_id : userId,
+          role: role
+        }
+      }).done(function(response) {
+        location.reload();
+      }).fail(function(response) {
+        alert(response);
+      });
+    });
+
+    $("#add-user-role").on("change", function(e) {
+      var userId = e.target.value
+      if (userId != "") {
+        $("#add-user-button").attr("disabled", false);
+      } else {
+        $("#add-user-button").attr("disabled", true);
+      }
+    });
+
+    // Remove a Form Manager or Response Viewer User
+    $(".remove-user").on("click", function(e) {
+      e.preventDefault();
+      var userId = $(this).attr("data-id");
+
+      var request = $.ajax({
+        url: "/admin/forms/<%= @form.short_uuid %>/remove_user",
+        dataType: "json",
+        method: "DELETE",
+        data: { user_id : userId }
+      }).done(function(response) {
+        location.reload();
+      }).fail(function(response) {
+        alert(response);
+      });
+    });
+  });
+</script>

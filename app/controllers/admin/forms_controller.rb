@@ -8,7 +8,9 @@ class Admin::FormsController < AdminController
   skip_before_action :verify_authenticity_token, only: [:js]
   before_action :set_user, only: [:add_user, :remove_user]
   before_action :set_form, only: [
-    :show, :edit, :update, :copy, :destroy,
+    :show, :edit, :update, :destroy,
+    :permissions, :questions, :responses,
+    :copy, :copy_by_id,
     :notifications,
     :export,
     :export_pra_document,
@@ -21,8 +23,6 @@ class Admin::FormsController < AdminController
   ]
 
   def index
-    @templates = Form.templates
-
     if admin_permissions?
       @forms = Form.non_templates.order("organization_id ASC").order("name ASC")
     else
@@ -57,12 +57,29 @@ class Admin::FormsController < AdminController
 
   def show
     ensure_response_viewer(form: @form) unless @form.template?
-
-    @available_members = (User.admins + @form.organization.users).uniq - @form.users
     @questions = @form.questions
   end
 
+  def permissions
+    ensure_response_viewer(form: @form) unless @form.template?
+    if admin_permissions?
+      @available_members = User.all - @form.users
+    else
+      @available_members = (User.admins + @form.organization.users).uniq - @form.users
+    end
+  end
+
+  def questions
+    ensure_response_viewer(form: @form) unless @form.template?
+    @questions = @form.questions
+  end
+
+  def responses
+    ensure_response_viewer(form: @form) unless @form.template?
+  end
+
   def example
+    redirect_to touchpoint_path, notice: "Previewing Touchpoint" and return if @form.delivery_method == "touchpoints-hosted-only"
     redirect_to admin_forms_path, notice: "Form does not have a delivery_method of 'modal' or 'inline' or 'custom-button-modal'" and return unless @form.delivery_method == "modal" || @form.delivery_method == "inline" || @form.delivery_method == "custom-button-modal"
 
     render layout: false
@@ -73,7 +90,9 @@ class Admin::FormsController < AdminController
   end
 
   def new
+    @templates = Form.templates
     @form = Form.new
+    @surveys = current_user.forms.non_templates.order("organization_id ASC").order("name ASC").entries
   end
 
   def edit
@@ -108,7 +127,7 @@ class Admin::FormsController < AdminController
           role: UserRole::Role::FormManager
         })
 
-        format.html { redirect_to edit_admin_form_path(@form), notice: 'Form was successfully created.' }
+        format.html { redirect_to questions_admin_form_path(@form), notice: 'Survey was successfully created.' }
         format.json { render :show, status: :created, location: @form }
       else
         format.html { render :new }
@@ -130,13 +149,17 @@ class Admin::FormsController < AdminController
 
         Event.log_event(Event.names[:form_copied], "Form", @form.uuid, "Form #{@form.name} copied at #{DateTime.now}", current_user.id)
 
-        format.html { redirect_to edit_admin_form_path(new_form), notice: 'Form was successfully copied.' }
+        format.html { redirect_to questions_admin_form_path(new_form), notice: 'Survey was successfully copied.' }
         format.json { render :show, status: :created, location: new_form }
       else
         format.html { render :new }
         format.json { render json: new_form.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def copy_by_id
+    copy
   end
 
   def update
@@ -147,7 +170,7 @@ class Admin::FormsController < AdminController
     respond_to do |format|
       if @form.update(form_params)
         format.html {
-          redirect_to admin_form_path(@form), notice: 'Form was successfully updated.'
+          redirect_to admin_form_path(@form), notice: 'Survey was successfully updated.'
         }
         format.json { render :show, status: :ok, location: @form }
       else
@@ -164,7 +187,7 @@ class Admin::FormsController < AdminController
       format.html {
         if @form.destroy
           Event.log_event(Event.names[:form_deleted], "Form", @form.uuid,"Form #{@form.name} deleted at #{DateTime.now}", current_user.id)
-          redirect_to admin_forms_url, notice: 'Form was successfully destroyed.'
+          redirect_to admin_forms_url, notice: 'Survey was successfully destroyed.'
         else
           redirect_to edit_admin_form_url(@form), notice: @form.errors.full_messages.to_sentence
         end
@@ -232,18 +255,18 @@ class Admin::FormsController < AdminController
   end
 
   def export_submissions
-    ExportJob.perform_later(params[:uuid], @form.short_uuid, "touchpoints-form-responses-#{timestamp_string}.csv")
+    start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Time.now.beginning_of_quarter
+    end_date = params[:end_date] ? Date.parse(params[:end_date]).to_date : Time.now.end_of_quarter
+
+    ExportJob.perform_later(params[:uuid], @form.short_uuid, start_date.to_s, end_date.to_s, "touchpoints-form-responses-#{timestamp_string}.csv")
     render json: { result: :ok }
   end
 
   # A-11 Header report. File 1 of 2
   #
   def export_a11_header
-    current_reporting_quarter_start_date = Date.parse("2019-10-01")
-    current_reporting_quarter_end_date = Date.parse("2020-01-31")
-
-    start_date = params[:start_date] || current_reporting_quarter_start_date
-    end_date = params[:end_date] || current_reporting_quarter_end_date
+    start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Time.now.beginning_of_quarter
+    end_date = params[:end_date] ? Date.parse(params[:end_date]).to_date : Time.now.end_of_quarter
 
     respond_to do |format|
       format.csv {
@@ -255,11 +278,8 @@ class Admin::FormsController < AdminController
   # A-11 Detail report. File 2 of 2
   #
   def export_a11_submissions
-    current_reporting_quarter_start_date = Date.parse("2019-10-01")
-    current_reporting_quarter_end_date = Date.parse("2020-01-31")
-
-    start_date = params[:start_date] || current_reporting_quarter_start_date
-    end_date = params[:end_date] || current_reporting_quarter_end_date
+    start_date = Date.parse(params[:start_date]).to_date || Time.now.beginning_of_quarter
+    end_date = Date.parse(params[:end_date]).to_date || Time.now.end_of_quarter
 
     respond_to do |format|
       format.csv {
@@ -272,7 +292,7 @@ class Admin::FormsController < AdminController
   private
     def set_form
       @form = Form.find_by_short_uuid(params[:id])
-      redirect_to admin_root_path, notice: "no form with ID of #{params[:id]}" unless @form
+      redirect_to admin_forms_path, notice: "no survey with ID of #{params[:id]}" unless @form
     end
 
     def set_user

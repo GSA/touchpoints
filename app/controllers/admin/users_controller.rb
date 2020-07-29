@@ -11,6 +11,12 @@ class Admin::UsersController < AdminController
     end
   end
 
+  def active
+    respond_to do |format|
+      format.csv { send_data User.active.to_csv, filename: "users-#{Date.today}.csv" }
+    end
+  end
+
   def show
     @forms = @user.forms
   end

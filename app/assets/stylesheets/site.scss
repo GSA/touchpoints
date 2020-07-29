@@ -239,3 +239,148 @@ h4 {
 pre {
   word-wrap: break-word;
 }
+
+.usa-table tbody tr:hover,
+tbody tr:hover,
+tbody tr:hover td {
+  background-color: #E1F3F8;
+  cursor: grab;
+}
+
+.light-bg {
+  background-color: #F0F0F0;
+}
+
+.white-bg {
+  background-color: #white;
+}
+
+// Override styles for the float menus on /admin/forms
+.usa-nav__primary.float-menu button[aria-expanded=false] {
+  background: none;
+  color: inherit;
+}
+.usa-nav__primary.float-menu button[aria-expanded=true] {
+  background: none;
+  color: inherit;
+}
+
+.usa-button.usa-button--unstyled {
+  margin-right: 1em;
+  text-decoration: none;
+}
+
+.usa-table {
+  th, td {
+    border: none;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  th:first-child {
+    border-top-left-radius: 10px;
+  }
+  td:first-child {
+    border-left: 1px solid #f0f0f0;
+  }
+  th:last-child {
+    border-top-right-radius: 10px;
+  }
+  td:last-child {
+    border-right: 1px solid #f0f0f0;
+  }
+}
+
+// Override
+.usa-nav__secondary {
+  bottom: 1.5rem;
+}
+
+
+// Add Custom Inverted button style
+.usa-button.usa-button-inverted {
+  border-color: #005ea2;
+  background-color: white;
+  color: #005ea2;
+}
+
+.usa-button.usa-button-inverted:hover {
+  border-color: white;
+  background-color: #005ea2;
+  color: white;
+}
+
+.add-box-shadow {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 64em) {
+  .float-menu .usa-nav__submenu {
+    background-color: #F0F0F0;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    .usa-nav__submenu-item a {
+      color: #005ea2;
+    }
+  }
+}
+
+.form-section-div {
+  .well2 {
+    background: #F0F0F0;
+    margin-bottom: 4em;
+    padding: 1em;
+  }
+  .well2:last-child {
+    margin-bottom: 0;
+  }
+}
+
+#star_rating svg {
+	width: 1em;
+	height: 1em;
+	fill: currentColor;
+	stroke: currentColor;
+}
+#star_rating label, #star_rating output {
+	display: block;
+	float: left;
+	font-size: 2em;
+	height: 1.2em;
+	color: #036;
+	cursor: pointer;
+	/* Transparent border-bottom avoids jumping
+	   when a colored border is applied
+		 on :hover/:focus */
+	border-bottom: 2px solid transparent;
+}
+#star_rating output {
+	font-size: 1.5em;
+	padding: 0 1em;
+}
+#star_rating input:checked ~ label {
+	color: #999;
+}
+#star_rating input:checked + label {
+	color: #036;
+	border-bottom-color: #036;
+}
+#star_rating input:focus + label {
+	border-bottom-style: dotted;
+}
+#star_rating:hover input + label {
+	color: #036;
+}
+#star_rating input:hover ~ label,
+#star_rating input:focus ~ label,
+#star_rating input[id="star0"] + label {
+	color: #999;
+}
+#star_rating input:hover + label,
+#star_rating input:focus + label {
+	color: #036;
+}
+#star_rating input[id="star0"]:checked + label {
+	color: #ff2d21;
+}
+#star_rating .visuallyhidden {
+	display: none;
+}

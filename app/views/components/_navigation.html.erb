@@ -13,32 +13,6 @@
       <button class="usa-nav__close">
         <%= image_tag "close.svg", alt: "close" %>
       </button>
-      <ul class="usa-nav__primary usa-accordion">
-        <% if current_user %>
-        <li class="usa-nav__primary-item">
-          <%= link_to "My Dashboard", admin_root_path, class: "usa-nav__link admin" %>
-        </li>
-        <% end %>
-        <% if admin_permissions? %>
-        <li class="usa-nav__primary-item">
-          <a class="usa-nav__link admin" href="/admin/users">
-            <span>Users</span>
-          </a>
-        </li>
-        <% end %>
-        <% if current_user %>
-        <li class="usa-nav__primary-item">
-          <a class="usa-nav__link" href="/admin/forms">
-            <span>Forms</span>
-          </a>
-        </li>
-        <% end %>
-        <li class="usa-nav__primary-item">
-          <a class="usa-nav__link">
-            <span>&nbsp;</span>
-          </a>
-        </li>
-      </ul>
       <div class="usa-nav__secondary">
         <ul class="usa-nav__secondary-links">
         <% unless current_user %>
@@ -60,8 +34,21 @@
           <li class="usa-nav__secondary-item user-name">
             <%= current_user.email %>
           </li>
+          <% if admin_permissions? %>
+          <li class="usa-nav__secondary-item user-name">
+            <%= link_to admin_dashboard_path do %>
+              <i class="fa fa-lock"></i>
+              &nbsp;
+              Admin
+            <% end %>
+          </li>
+          <% end %>
           <li class="usa-nav__secondary-item">
-            <%= link_to "Sign Out", destroy_user_session_path %>
+            <%= link_to destroy_user_session_path do %>
+              Sign Out
+              &nbsp;
+              <i class="fa fa-sign-out-alt"></i>
+            <% end %>
           </li>
         <% end %>
         </ul>
@@ -69,3 +56,16 @@
     </div>
   </nav>
 </header>
+<% if current_user && content_for?(:navigation_title) %>
+<div style="background-color: #162E51;">
+  <div class="grid-container">
+    <div class="grid-row">
+      <div class="grid-col">
+        <div class="font-heading-xl" style="margin: 0.75em 0; color: white; font-weight: normal;">
+          <%= yield(:navigation_title) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

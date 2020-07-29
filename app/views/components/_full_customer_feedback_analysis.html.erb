@@ -1,0 +1,57 @@
+<table class="usa-table" id="customer-feedback-summary">
+  <thead>
+    <tr>
+      <th>Organization</th>
+      <th>Touchpoint</th>
+      <th>Responses</th>
+      <th>Activations</th>
+      <th>Rate</th>
+      <th>Satisfied</th>
+      <th>Confidence</th>
+      <th>Effective</th>
+      <th>Easy</th>
+      <th>Efficient</th>
+      <th>Transparent</th>
+      <th>Employee</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% Form.where(kind: "a11").each do |form| %>
+    <tr>
+      <td><%= form.organization.name %></td>
+      <td><%= form.name %></td>
+      <td><%= form.submissions.size %></td>
+      <td><%= form.survey_form_activations %></td>
+      <td><%= form.completion_rate %></td>
+      <td class="auto-shade"><%= form.average_answer(:answer_01)[:average] %></td>
+      <td class="auto-shade"><%= form.average_answer(:answer_02)[:average] %></td>
+      <td class="auto-shade"><%= form.average_answer(:answer_03)[:average] %></td>
+      <td class="auto-shade"><%= form.average_answer(:answer_04)[:average] %></td>
+      <td class="auto-shade"><%= form.average_answer(:answer_05)[:average] %></td>
+      <td class="auto-shade"><%= form.average_answer(:answer_06)[:average] %></td>
+      <td class="auto-shade"><%= form.average_answer(:answer_07)[:average] %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= javascript_include_tag "d3.v5.min.js" %>
+<script>
+  var colorScale = d3.scaleLinear()
+    .domain([2, 4.15, 5])
+    .range(["#F9CC9C", "#F3F3F3", "#B6D7A8"]);
+
+  // Loop each row
+  $.each($("#customer-feedback-summary tbody tr"), function() {
+    // Loop each row's .auto-shade cells
+    var cells = $(this).find("td.auto-shade");
+    $.each(cells, function() {
+      var parsedNumber = parseInt($(this).text());
+      if(parsedNumber) {
+        var bgColor = colorScale($(this).text());
+        var color = d3.color(bgColor).hex();
+        $(this).css({ "background-color" : color });
+      }
+    });
+  });
+</script>

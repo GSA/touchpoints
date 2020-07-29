@@ -23,7 +23,7 @@ class Admin::QuestionsController < AdminController
 
     respond_to do |format|
       if @question.save
-        format.html { redirect_to edit_admin_form_path(@form), notice: 'Question was successfully created.' }
+        format.html { redirect_to questions_admin_form_path(@form), notice: 'Question was successfully created.' }
         format.json { render :show, status: :created, location: @question }
       else
         format.html { render :new }
@@ -35,7 +35,7 @@ class Admin::QuestionsController < AdminController
   def update
     respond_to do |format|
       if @question.update(question_params)
-        format.html { redirect_to edit_admin_form_path(@form), notice: 'Question was successfully updated.' }
+        format.html { redirect_to questions_admin_form_path(@form), notice: 'Question was successfully updated.' }
         format.json {
           render :show, status: :ok, location: @question
         }
@@ -51,7 +51,7 @@ class Admin::QuestionsController < AdminController
 
     @question.destroy
     respond_to do |format|
-      format.html { redirect_to edit_admin_form_url(@form), notice: 'Question was successfully destroyed.' }
+      format.html { redirect_to questions_admin_form_url(@form), notice: 'Question was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

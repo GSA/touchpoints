@@ -1,10 +1,6 @@
-<h1>
-  <%= submissions.size %> Form Responses
-</h1>
-<h5>
-  for
-  <%= form.name %>
-</h5>
+<h2>
+  <%= submissions.size %> Responses
+</h2>
 
 <% if submissions.present? %>
 <div class="responses table-scroll">
@@ -76,17 +72,52 @@
   </div>
 </div>
   <br>
-  <%= link_to "Export Responses to CSV", export_submissions_admin_form_url(form, format: "csv"), class: "usa-button export-btn", target: "_blank", rel: "noopener" %>
+  <%= link_to "Export All Responses to CSV", export_submissions_admin_form_url(form, start_date: "2019-10-01", format: "csv"), class: "usa-button export-btn", target: "_blank", rel: "noopener" %>
 
   <% if form && form.kind == "a11" %>
   <br>
   <br>
-  <div class="">
-    <%= link_to "Export A-11 Header Report", export_a11_header_admin_form_url(form, format: "csv"), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" %>
-    <%= link_to "Export A-11 Responses Report", export_a11_submissions_admin_form_url(form, format: "csv"), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" %>
+  <hr style="border: none; border-top: 1px solid #F0F0F0; margin: 3em 0;">
+  <h2>
+    Performance.gov Reporting
+  </h2>
+  <p>
+    Reports are generated for download in .csv format.
+  </p>
+  <% quarterly_submissions = @form.submissions.order(:created_at).entries.map { |e| e.attributes.merge(quarter: e.created_at.beginning_of_quarter.to_date, end_of_quarter: e.created_at.end_of_quarter ) } %>
+  <% quarters = quarterly_submissions.collect { |e| e[:quarter] }.uniq %>
+  <% quarters.each do |quarter| %>
+  <div class="grid-row">
+    <div class="grid-col">
+      <p>
+        <%# Per quarter each federal fiscal calendar year %>
+        <% if quarter.month == 10 %>
+          Quarter 1: <%= quarter %> to <%= quarter.end_of_quarter %>
+        <% elsif quarter.month == 1 %>
+          Quarter 2: <%= quarter %> to <%= quarter.end_of_quarter %>
+        <% elsif quarter.month == 4 %>
+          Quarter 3: <%= quarter %> to <%= quarter.end_of_quarter %>
+        <% elsif quarter.month == 7 %>
+          Quarter 4: <%= quarter %> to <%= quarter.end_of_quarter %>
+        <% end %>
+      </p>
+      <%= link_to export_submissions_admin_form_url(form, start_date: quarter.to_date, end_date: quarter.end_of_quarter.to_date, format: "csv"), class: "usa-button usa-button--outline export-cx-summary-button" do %>
+        <i class="fa fa-download"></i>
+        Responses
+      <% end %>
+      <%= link_to export_a11_header_admin_form_url(form, start_date: quarter.to_date, end_date: quarter.end_of_quarter.to_date, format: "csv"), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" do %>
+        <i class="fa fa-download"></i>
+        Header Report
+      <% end %>
+      <%= link_to export_a11_submissions_admin_form_url(form, start_date: quarter.to_date, end_date: quarter.end_of_quarter.to_date, format: "csv"), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" do %>
+        <i class="fa fa-download"></i>
+        Responses Summary
+      <% end %>
+    </div>
   </div>
+  <br>
   <% end %>
-
+  <% end %>
 <% else %>
   <div class="usa-alert usa-alert--info">
     <div class="usa-alert__body">
@@ -131,7 +162,22 @@
       }
       var uuid = generateUUID();
       $(this).html('Exporting...').addClass('cursor-not-allowed');
-      var url = $(this).attr('href') + '?uuid=' + uuid + '&touchpoint_id=<%= form.short_uuid %>';
+      var url = $(this).attr('href') + '&uuid=' + uuid + '&touchpoint_id=<%= form.short_uuid %>';
+      subscribeExportChannel(uuid, function() {
+        $.get(url);
+      });
+      return false;
+    })
+
+    $('.export-cx-summary-button').click(function(e) {
+      e.preventDefault();
+      if ($(this).text() == "Exporting...") {
+        console.log("Click disabled while exporting");
+        return false;
+      }
+      var uuid = generateUUID();
+      $(this).html('Exporting...').addClass('cursor-not-allowed');
+      var url = $(this).attr('href') + '&uuid=' + uuid + '&touchpoint_id=<%= form.short_uuid %>';
       subscribeExportChannel(uuid, function() {
         $.get(url);
       });

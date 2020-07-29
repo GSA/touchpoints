@@ -15,7 +15,7 @@
       <% end %>
     </div>
   <% end %>
-  <% if admin_permissions? %>
+  <% if admin_permissions? && form.persisted? %>
   <div class="well">
     <h4>
       Admin options
@@ -80,14 +80,14 @@
   <% end %>
 
   <div class="grid-row grid-gap-md">
-    <div class="grid-col-6">
+    <div class="grid-col-12">
       <div class="field">
-        <%= f.label :name, "Form system name", class: "usa-label" %>
+        <%= f.label :name, "Survey name", class: "usa-label" %>
         <%= f.text_field :name, class: "usa-input" %>
       </div>
     </div>
-    <% if form.persisted? %>
-    <div class="grid-col-6">
+    <% if form.persisted? && admin_permissions? %>
+    <div class="grid-col-12">
       <div class="field">
         <%= f.label :aasm_state, "State", class: "usa-label" %>
         <%= f.select :aasm_state, options_for_select(form.transitionable_states, selected: form.aasm_state), { prompt: "Transition to State" }, {class: "usa-select"} %>
@@ -95,8 +95,8 @@
     </div>
     <% end %>
   </div>
-  <br>
   <% if form.persisted? %>
+  <br>
   <hr>
   <br>
   <h2>
@@ -331,9 +331,29 @@
   </div>
   <% end %>
   <p>
-    <%= f.submit class: "usa-button" %>
+    <%= f.submit (form.persisted? ? "Update Survey" : "Create Survey"), class: "usa-button" %>
   <% if form.persisted? %>
-    <%= link_to 'Delete Form', admin_form_path(form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" %>
+    <%= link_to admin_form_path(form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" do %>
+      <i class="fas fa-trash"></i>
+      Delete Survey
+    <% end %>
   <% end %>
   </p>
+<% end %>
+
+<% if !form.persisted? %>
+<script>
+  // Disable create button by default
+  $("input[type='submit'][value='Create Survey']").prop("disabled", true)
+
+  // Enable create button if a form name is specified
+  $("#form_name").on("keyup", function() {
+    var contents = $(this).val();
+    if(contents.length >= 3) {
+      $("input[type='submit'][value='Create Survey']").prop("disabled", false)
+    } else {
+      $("input[type='submit'][value='Create Survey']").prop("disabled", true)
+    }
+  })
+</script>
 <% end %>

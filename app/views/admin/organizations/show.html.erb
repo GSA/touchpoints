@@ -1,8 +1,8 @@
+<% content_for :navigation_title do %>
+  Viewing Organization
+<% end %>
 <div class="well">
   <%= link_to 'Edit organization', edit_admin_organization_path(@organization), class: "usa-button float-right" %>
-  <h1>
-    Viewing an Organization
-  </h1>
   <div class="usa-alert">
     <%= @organization.name %> has
     <%= link_to(pluralize(@organization.users.length, "User"), admin_users_path) %>

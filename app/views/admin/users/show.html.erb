@@ -1,8 +1,14 @@
+<% content_for :navigation_title do %>
+  Viewing User
+<% end %>
+<p>
+  <%= link_to admin_users_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Users
+  <% end %>
+</p>
 <div class="well">
   <%= link_to 'Edit user', edit_admin_user_path(@user), class: "usa-button float-right" %>
-  <h1>
-    Viewing a User
-  </h1>
   <% if @user.admin? %>
     <span class="usa-tag bg-secondary-vivid">
       Admin User

@@ -26,7 +26,12 @@
           <ul class="usa-list">
             <li>
               <a href="/admin/organizations">
-                <span>Manage Organizations</span>
+                <span>Organizations</span>
+              </a>
+            </li>
+            <li>
+              <a href="/admin/users">
+                <span>Users</span>
               </a>
             </li>
             <li>
@@ -73,6 +78,14 @@
           Total: <%= pluralize(total_responses, "responses") %>
         </p>
       </div>
+
+      <hr>
+
+      <h3>
+        Customer Feedback Analysis
+      </h3>
+      <%= render 'components/full_customer_feedback_analysis' if admin_permissions?  %>
+
       <% else %>
         <h4>
           Get started with Touchpoints:

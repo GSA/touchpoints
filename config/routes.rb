@@ -40,10 +40,16 @@ Rails.application.routes.draw do
         get "export_a11_header", to: "forms#export_a11_header", as: :export_a11_header
         get "export_a11_submissions", to: "forms#export_a11_submissions", as: :export_a11_submissions
         get "js", to: "forms#js", as: :js
+        get "permissions", to: "forms#permissions", as: :permissions
+        get "questions", to: "forms#questions", as: :questions
+        get "responses", to: "forms#responses", as: :responses
         post "add_user", to: "forms#add_user", as: :add_user
         post "copy", to: "forms#copy", as: :copy
         post "publish", to: "forms#publish", as: :publish
         delete "remove_user", to: "forms#remove_user", as: :remove_user
+      end
+      collection do
+        post "copy", to: "forms#copy", as: :copy_id
       end
       resources :form_sections
       resources :questions do
@@ -59,13 +65,15 @@ Rails.application.routes.draw do
     resources :users, except: [:new] do
       collection do
         get "deactivate", to: "users#deactivate"
+        get "active", to: "users#active", as: :active
       end
     end
     resources :organizations
+    get "dashboard", to: "site#index", as: :dashboard
     get "management", to: "site#management", as: :management
     get "events", to: "site#events", as: :events
     get "events/export", to: "site#events_export", as: :export_events
-    root to: "site#index"
+    root to: "forms#index"
   end
 
   get "status", to: "site#status", as: :status
