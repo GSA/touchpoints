@@ -19,18 +19,14 @@
 }
 
 #fba-modal-dialog .wrapper {
-  padding: 20px;
+  padding: 20px 20px 0 20px;
 }
 
 .fixed-tab-button {
-  position: fixed;
-  bottom: 0;
-  right: 50px;
-  background: #02bfe7;
-  color: #fff;
+  bottom: 12px;
   padding: 5px 10px;
-  font-size: 1em;
-  text-decoration: none;
+  position: fixed;
+  right: 12px;
   z-index: 9999;
 }
 
@@ -4255,3 +4251,62 @@ img{
 }
 
 <% end %>
+
+/*! from USWDS  uswds v2.8.0 */
+#fba-button.usa-button{
+  font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
+  font-size:1.06rem;
+  line-height:0.9;
+  -moz-osx-font-smoothing:grayscale;
+  -webkit-font-smoothing:antialiased;
+  color:white;
+  background-color:#005ea2;
+  -webkit-appearance:none;
+     -moz-appearance:none;
+          appearance:none;
+  border:0;
+  border-radius:0.25rem;
+  cursor:pointer;
+  display:inline-block;
+  font-weight:bold;
+  margin-right:0.5rem;
+  padding:0.75rem 1.25rem;
+  text-align:center;
+  text-decoration:none;
+  /* width:100%; */
+}
+
+.usa-skipnav.touchpoints-skipnav{
+  font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
+  font-size:1.06rem;
+  line-height:1.5;
+  color:#005ea2;
+  text-decoration:underline;
+  background:transparent;
+  left:0;
+  padding:0.5rem 1rem;
+  position:absolute;
+  top:-3.8rem;
+  transition:0.2s ease-in-out;
+  z-index:100;
+}
+.usa-skipnav.touchpoints-skipnav:hover{
+  color:#1a4480;
+}
+.usa-skipnav.touchpoints-skipnav:active{
+  color:#162e51;
+}
+.usa-skipnav.touchpoints-skipnav:focus{
+  outline:0.25rem solid #2491ff;
+  outline-offset:0;
+}
+.usa-skipnav.touchpoints-skipnav:visited{
+  color:#54278f;
+}
+.usa-skipnav.touchpoints-skipnav:focus{
+  background:white;
+  left:0;
+  position:absolute;
+  top:0;
+  transition:0.2s ease-in-out;
+}
