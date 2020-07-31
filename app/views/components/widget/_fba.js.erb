@@ -246,13 +246,24 @@ N.fba = {
 			this.buttonEl.setAttribute('aria-haspopup', 'dialog');
 			this.buttonEl.addEventListener('click', this.handleButtonClick, false);
 			this.buttonEl.innerHTML = this.options.open;
+			d.body.appendChild(this.buttonEl);
 
-			// Insert after the skipnav link, if one is detected
+			this.loadFeebackSkipLink();
+		},
+		loadFeebackSkipLink: function() {
+			this.skipLink = document.createElement('a');
+			this.skipLink.setAttribute('class', 'usa-skipnav touchpoints-skipnav');
+			this.skipLink.setAttribute('href', '#fba-button');
+			this.skipLink.addEventListener('click', function() {
+				document.getElementById("fba-button").focus();
+			});
+			this.skipLink.innerHTML = 'Skip to feedback';
+
 			var existingSkipLinks = document.querySelector('.usa-skipnav');
 			if(existingSkipLinks) {
-				existingSkipLinks.insertAdjacentElement('afterend', this.buttonEl);
+				existingSkipLinks.insertAdjacentElement('afterend', this.skipLink);
 			} else {
-				d.body.prepend(this.buttonEl);
+				d.body.prepend(this.skipLink);
 			}
 		},
 		// Used when in a modal
