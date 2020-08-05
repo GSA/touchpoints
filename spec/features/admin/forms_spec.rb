@@ -757,6 +757,24 @@ feature "Forms", js: true do
       login_as(touchpoints_manager)
     end
 
+    context "#new form page" do
+      before do
+        visit new_admin_form_path
+      end
+
+      describe "create a survey feature" do
+        it "Create button is disabled by default" do
+          expect(find("input[value='Create Survey']").disabled?).to be(true)
+        end
+      end
+
+      describe "copy a survey feature" do
+        it "Copy button is disabled by default" do
+          expect(find("input[value='Copy Survey']").disabled?).to be(true)
+        end
+      end
+    end
+
     describe "create a form" do
       before do
         visit new_admin_form_path
