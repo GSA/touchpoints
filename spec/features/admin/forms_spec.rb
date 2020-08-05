@@ -740,13 +740,39 @@ feature "Forms", js: true do
     let(:another_user) { FactoryBot.create(:user, organization: organization) }
     let!(:another_users_form) { FactoryBot.create(:form, :custom, organization: organization, user: another_user) }
 
-    before do
-      login_as(user)
-      visit edit_admin_form_path(another_users_form)
+    describe "reduced UI features on /edit" do
+      before do
+        login_as(user)
+        visit edit_admin_form_path(another_users_form)
+      end
+
+      it "does not see the Delete Question button" do
+        expect(page).to_not have_link("Delete Question")
+      end
     end
 
-    it "does not see the Delete Question button" do
-      expect(page).to_not have_link("Delete Question")
+    describe "insufficient privileges to /permissions" do
+      before do
+        login_as(user)
+        visit permissions_admin_form_path(another_users_form)
+      end
+
+      it "is redirected away and shown a message" do
+        expect(page).to have_content("Authorization is Required")
+        expect(page.current_path).to eq admin_root_path
+      end
+    end
+
+    describe "insufficient privileges to /questions" do
+      before do
+        login_as(user)
+        visit questions_admin_form_path(another_users_form)
+      end
+
+      it "is redirected away and shown a message" do
+        expect(page).to have_content("Authorization is Required")
+        expect(page.current_path).to eq admin_root_path
+      end
     end
   end
 
