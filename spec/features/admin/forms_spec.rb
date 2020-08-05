@@ -288,6 +288,30 @@ feature "Forms", js: true do
         end
       end
 
+      describe "insufficient privileges to /permissions" do
+        before do
+          login_as(user)
+          visit permissions_admin_form_path(form)
+        end
+
+        it "is redirected away and shown a message" do
+          expect(page).to have_content("Authorization is Required")
+          expect(page.current_path).to eq admin_root_path
+        end
+      end
+
+      describe "insufficient privileges to /questions" do
+        before do
+          login_as(user)
+          visit questions_admin_form_path(form)
+        end
+
+        it "is redirected away and shown a message" do
+          expect(page).to have_content("Authorization is Required")
+          expect(page.current_path).to eq admin_root_path
+        end
+      end
+
       describe "Submission Export button" do
         context "when no Submissions exist" do
         end
