@@ -61,11 +61,11 @@ class Admin::FormsController < AdminController
   end
 
   def permissions
-    ensure_response_viewer(form: @form) unless @form.template?
+    ensure_form_manager(form: @form)
     if admin_permissions?
       @available_members = User.all - @form.users
     else
-      @available_members = (User.admins + @form.organization.users).uniq - @form.users
+      @available_members = @form.organization.users - @form.users
     end
   end
 
@@ -75,7 +75,7 @@ class Admin::FormsController < AdminController
   end
 
   def questions
-    ensure_response_viewer(form: @form) unless @form.template?
+    ensure_form_manager(form: @form) unless @form.template?
     @questions = @form.questions
   end
 
