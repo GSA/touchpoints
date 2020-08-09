@@ -1,0 +1,29 @@
+<% content_for :navigation_title do %>
+  Feedback on call center <%= @form.name %>
+<% end %>
+<div class="grid-row">
+  <div class="grid-col">
+    <p>
+    <%= link_to admin_forms_path do %>
+      <i class="fa fa-arrow-circle-left"></i>
+      Back to My Surveys
+    <% end %>
+    </p>
+    <div id="tabs">
+      <ul class="nav">
+        <li><a href="#tabs-1">Survey Information</a>
+        </li>
+        <li><a href="#tabs-2">Build Survey</a>
+        </li>
+      </ul>
+      <div id="tabs-1">
+        Survey Information
+      </div>
+      <div id="tabs-2">
+        <div class="form-builder">
+          <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

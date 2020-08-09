@@ -42,6 +42,7 @@ Rails.application.routes.draw do
         get "js", to: "forms#js", as: :js
         get "permissions", to: "forms#permissions", as: :permissions
         get "questions", to: "forms#questions", as: :questions
+        get "create_from_scratch", to: "forms#create_from_scratch", as: :create_from_scratch
         get "responses", to: "forms#responses", as: :responses
         post "add_user", to: "forms#add_user", as: :add_user
         post "copy", to: "forms#copy", as: :copy
