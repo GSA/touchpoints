@@ -1,27 +1,25 @@
 <div>
   <h3>
-    Whitelist Options
+    Whitelist Options (optional)
   </h3>
   <div class="usa-alert usa-alert--info">
     <div class="usa-alert__body">
       <p class="usa-alert__text">
-        If deploying a Form on your website, Whitelist URLs
-        are used to ensure a Touchpoint is coming from a valid domain.
-        A Whitelist URL can be specified for 1) your Production site,
-        and 2) your Test or Staging site.
+        If you're adding a form to your website, you may need to add the site's URL to a whitelist, which will help ensure that the
+        form can be correctly displayed.  This will indicate to our system that it's coming from a valid website.
       </p>
     </div>
   </div>
   <div class="grid-row grid-gap-md">
     <div class="grid-col-12">
       <div class="field">
-        <%= f.label :whitelist_url, "Site URL where form will display", class: "usa-label" %>
+        <%= f.label :whitelist_url, "URL where survey will display on your website", class: "usa-label" %>
         <%= f.text_field :whitelist_url, class: "usa-input", placeholder: "https://example.gov" %>
       </div>
     </div>
     <div class="grid-col-12">
       <div class="field">
-        <%= f.label :whitelist_test_url, "URL for staging or testing site where form will display", class: "usa-label" %>
+        <%= f.label :whitelist_test_url, "URL for staging or testing site where survey will display", class: "usa-label" %>
         <%= f.text_field :whitelist_test_url, class: "usa-input", placeholder: "https://staging.example.gov" %>
       </div>
     </div>

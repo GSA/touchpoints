@@ -17,13 +17,16 @@
         </li>
       </ul>
       <div id="tabs-1">
-        Survey Information
+        <%= render 'admin/forms/survey_information', form: @form %>
       </div>
-      <div id="tabs-2">
-        <div class="form-builder">
-          <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
-        </div>
+      <div id="tabs-2" class="form-builder">
+        <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
       </div>
     </div>
   </div>
 </div>
+<script>
+$(function() {
+  $( "#tabs" ).tabs();
+});
+</script>
