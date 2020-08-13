@@ -34,7 +34,10 @@
   <% end %>
   <br>
   <div class="new-question-options-div">
-    <%= link_to "Add Matrix Checkbox Question Option", new_admin_form_question_question_option_path(question.form, question), class: "usa-button usa-button--outline form-add-question-option" %>
+    <%= link_to new_admin_form_question_question_option_path(question.form, question), class: "usa-button usa-button--outline form-add-question-option" do %>
+      <span class="fa fa-plus"></span>
+      Add Matrix Checkbox Question Option
+    <% end %>
   </div>
 </div>
 <br>

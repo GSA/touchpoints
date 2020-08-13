@@ -92,9 +92,9 @@
         <% end %>
       <% else %>
         <%= form_tag(copy_id_admin_forms_path) do %>
-          <%= select_tag "id", options_from_collection_for_select(@surveys, "short_uuid", "name"), { prompt: "Select a survey", class: "usa-select", disabled: true } %>
+          <%= select_tag "id", options_from_collection_for_select(@surveys, "short_uuid", "name"), { prompt: "Select a survey", class: "usa-select" } %>
           <p>
-            <%= submit_tag "Copy Survey", class: "usa-button" %>
+            <%= submit_tag "Copy Survey", class: "usa-button", disabled: true %>
           </p>
         <% end %>
       <% end %>
