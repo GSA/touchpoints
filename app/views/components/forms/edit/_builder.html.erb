@@ -4,11 +4,16 @@
   <% form.form_sections.each do |section| %>
     <div class="form-section-div">
       <div class="section pad well2">
-        <%= link_to 'Edit Form Section', edit_admin_form_form_section_path(form, section), class: "usa-button form-section-edit float-right" %>
-        <h3>
-          <%= section.title %>
-        </h3>
-        <br>
+        <div>
+          <%= link_to edit_admin_form_form_section_path(form, section), class: "usa-button form-section-edit float-right" do %>
+            <span class="fa fa-pencil-alt"></span>
+            Edit Section
+          <% end %>
+          <h3>
+            <%= section.title %>
+          </h3>
+          <div style="clear: both;"></div>
+        </div>
 
         <% section.questions.each_with_index do |question, index| %>
         <% multi_section_question_number += 1 %>
@@ -39,18 +44,24 @@
             <%= render 'components/forms/question_types/text_display', form: form, question: question, question_number: multi_section_question_number %>
           <% end %>
 
-          <%= link_to "Edit Question", edit_admin_form_question_path(@form, question), class: "usa-button form-edit-question" %>
+          <%= link_to edit_admin_form_question_path(@form, question), class: "usa-button form-edit-question" do %>
+            <span class="fa fa-pencil-alt"></span>
+            Edit Question
+           <% end %>
 
           <% if form_permissions?(form: @form) %>
             <%= link_to admin_form_question_path(@form, question), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" do %>
-              <i class="fas fa-trash"></i>
+              <span class="fas fa-trash"></span>
               Delete Question
             <% end %>
           <% end %>
         </div>
         <% end %>
         <% unless section.questions.present? || form.form_sections.count == 1  %>
-        <%= link_to 'Delete Form Section', admin_form_form_section_path(form, section), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" %>
+        <%= link_to admin_form_form_section_path(form, section), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
+          <span class="fas fa-trash"></span>
+          Delete Section
+        <% end %>
         <% end %>
       </div>
   </div>
@@ -59,10 +70,16 @@
 </div>
 <div class="new-question-div"></div>
 <p>
-  <%= link_to "Add Question", new_admin_form_question_path(form), class: "usa-button form-add-question" %>
+  <%= link_to new_admin_form_question_path(form), class: "usa-button form-add-question" do %>
+    <span class="fa fa-plus"></span>
+    Add Question
+  <% end %>
 </p>
 <p>
-  <%= link_to "Add Form Section", new_admin_form_form_section_path(form), class: "usa-button" %>
+  <%= link_to new_admin_form_form_section_path(form), class: "usa-button" do %>
+    <span class="fa fa-plus"></span>
+    Add Section
+  <% end %>
 </p>
 
 <script>

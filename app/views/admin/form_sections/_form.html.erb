@@ -29,6 +29,6 @@
   </div>
 
   <p>
-    <%= html_form.submit class: "usa-button" %>
+    <%= html_form.submit (form_section.persisted? ? "Update Section" : "Create Section"), class: "usa-button" %>
   </p>
 <% end %>
