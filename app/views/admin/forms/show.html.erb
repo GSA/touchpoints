@@ -9,9 +9,9 @@
 </p>
 <% if is_at_least_form_manager?(user: current_user, form: @form) %>
   <span class="float-right">
-    <%= link_to edit_admin_form_path(@form), class: "usa-button usa-button--outline" do %>
+    <%= link_to create_from_scratch_admin_form_path(@form), class: "usa-button usa-button--outline" do %>
       <i class="fa fa-edit"></i>
-      Edit form
+      Edit survey
     <% end %>
   </span>
 <% end %>

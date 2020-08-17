@@ -179,7 +179,7 @@ class Admin::FormsController < AdminController
         }
         format.json { render :show, status: :ok, location: @form }
       else
-        format.html { render :edit }
+        format.html { render "admin/forms/create_from_scratch" }
         format.json { render json: @form.errors, status: :unprocessable_entity }
       end
     end
