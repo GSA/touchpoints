@@ -9,11 +9,13 @@
         Back to Survey
       <% end %>
     </p>
-    <h2>
-      Form Builder
-    </h2>
-    <div class="form-builder">
-      <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
+    <div class="questions-spa-div">
+      <h2>
+        Survey Questions
+      </h2>
+      <div class="form-builder">
+        <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
+      </div>
     </div>
   </div>
 </div>

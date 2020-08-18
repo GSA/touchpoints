@@ -3,21 +3,15 @@
   <% multi_section_question_number = 0 %>
   <% form.form_sections.each do |section| %>
     <div class="form-section-div">
+      <div class="section-header-div">
+        <span class="section-title">Section title</span><br/>
+        <input type="text" class="section-title-input" name="section_title" value="<%= section.title %>" >
+      </div>
       <div class="section pad well2">
-        <div>
-          <%= link_to edit_admin_form_form_section_path(form, section), class: "usa-button form-section-edit float-right" do %>
-            <span class="fa fa-pencil-alt"></span>
-            Edit Section
-          <% end %>
-          <h3>
-            <%= section.title %>
-          </h3>
-          <div style="clear: both;"></div>
-        </div>
-
         <% section.questions.each_with_index do |question, index| %>
         <% multi_section_question_number += 1 %>
         <div class="question well">
+          <h3>Question <%= multi_section_question_number %> </h3>
           <% if question.question_type == "text_field" %>
             <%= render 'components/forms/edit/question_types/text_field', form: form, question: question, question_number: multi_section_question_number %>
           <% elsif question.question_type == "radio_buttons" %>
