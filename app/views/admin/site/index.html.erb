@@ -57,7 +57,7 @@
       <h3>
         Submissions per day
       </h3>
-      <table class="usa-table">
+      <table class="usa-table daily-submissions">
       <% Submission.group("date(created_at)").size.sort.last(45).each do |key, value| %>
       <tr>
         <td>
