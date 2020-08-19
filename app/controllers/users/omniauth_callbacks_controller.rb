@@ -26,9 +26,13 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def login
+    Event.log_event(Event.names[:user_authentication_attempt], "Event::Generic", 1, "Email #{@email} attempted to authenticate on #{Date.today}")
+
     if @email.present?
       @user = User.from_omniauth(auth_hash)
     end
+
+    Event.log_event(Event.names[:user_authentication_successful], "User", @user.id, "User #{@user.email} successfully authenticated on #{Date.today}", @user.id)
 
     # If user exists
     # Else, if valid email and no user, we create an account.
