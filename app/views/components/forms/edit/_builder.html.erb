@@ -6,10 +6,37 @@
       <div class="section-header-div">
         <span class="section-title">Section title</span><br/>
         <input type="text" class="section-title-input" name="section_title" value="<%= section.title %>" >
+        <div class="section-menu-div">
+          <i class="fas fa-ellipsis-v"></i>
+          <div id="section-dropdown" class="dropdown-content">
+            <hr width="100%">
+            <ul>
+              <li><a href="#" id="add-question">Add Question</a></li>
+              <li><a href="#" id="move-section-up">Move Section Up</a></li>
+              <li><a href="#" id="move-section-down">Move Section Down</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
+
       <div class="section pad well2">
+
         <% section.questions.each_with_index do |question, index| %>
         <% multi_section_question_number += 1 %>
+
+        <div class="question-menu-div">
+          <i class="fas fa-ellipsis-v"></i>
+          <div id="question-dropdown" class="dropdown-content">
+            <hr width="100%">
+            <ul>
+              <li><a href="#" id="add-question">Edit Question</a></li>
+              <li><a href="#" id="add-question">Delete Question</a></li>
+              <li><a href="#" id="move-question-up">Move Question Up</a></li>
+              <li><a href="#" id="move-question-down">Move Question Down</a></li>
+            </ul>
+          </div>
+        </div>
+
         <div class="question well">
           <h3>Question <%= multi_section_question_number %> </h3>
           <% if question.question_type == "text_field" %>
@@ -77,6 +104,20 @@
 </p>
 
 <script>
+
+  $( document ).ready(function() {
+    $(".dropdown-content").hide();
+  });
+
+  $(".section-menu-div").click(function(event) {
+    $(event.target).find(".dropdown-content").toggle();
+  });
+
+  $(".question-menu-div").click(function(event) {
+    console.log("Question Menu Div clicked");
+    $(event.target).find(".dropdown-content").toggle();
+  });
+
   $('.form-section-edit').click(function(event) {
      event.preventDefault();
      var contentDiv =  $(this).closest('div.form-section-div');
