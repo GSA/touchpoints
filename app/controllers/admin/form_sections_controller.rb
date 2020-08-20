@@ -11,6 +11,7 @@ class Admin::FormSectionsController < AdminController
 
   def new
     @form_section = @form.form_sections.new
+    render layout: false
   end
 
   def edit

@@ -7,14 +7,18 @@
         <span class="section-title">Section title</span><br/>
         <input type="text" class="section-title-input" name="section_title" value="<%= section.title %>" >
         <div class="section-menu-div">
-          <i class="fas fa-ellipsis-v"></i>
+          <div class="section-menu-action">
+            <i class="fas fa-ellipsis-v ma-dropdown"></i>
+          </div>
           <div id="section-dropdown" class="dropdown-content">
-            <hr width="100%">
-            <ul>
-              <li><a href="#" id="add-question">Add Question</a></li>
-              <li><a href="#" id="move-section-up">Move Section Up</a></li>
-              <li><a href="#" id="move-section-down">Move Section Down</a></li>
-            </ul>
+            <p>
+              <%= link_to new_admin_form_form_section_path(form), class: "usa-label form-section-add" do %>
+                Add section
+              <% end %>
+              <a href="#" id="add-question">Add question</a><br/>
+              <a href="#" id="move-section-up">Move section up</a><br/>
+              <a href="#" id="move-section-down">Move section down</a><br/>
+            </p>
           </div>
         </div>
       </div>
@@ -24,20 +28,20 @@
         <% section.questions.each_with_index do |question, index| %>
         <% multi_section_question_number += 1 %>
 
-        <div class="question-menu-div">
-          <i class="fas fa-ellipsis-v"></i>
-          <div id="question-dropdown" class="dropdown-content">
-            <hr width="100%">
-            <ul>
-              <li><a href="#" id="add-question">Edit Question</a></li>
-              <li><a href="#" id="add-question">Delete Question</a></li>
-              <li><a href="#" id="move-question-up">Move Question Up</a></li>
-              <li><a href="#" id="move-question-down">Move Question Down</a></li>
-            </ul>
-          </div>
-        </div>
-
         <div class="question well">
+          <div class=".question-menu-div">
+            <div class="question-menu-action">
+              <i class="fas fa-ellipsis-v ma-dropdown"></i>
+            </div>
+            <div id="question-dropdown" class="dropdown-content">
+              <p>
+                <a href="#" id="add-question">Edit question</a><br/>
+                <a href="#" id="add-question">Delete question</a><br/>
+                <a href="#" id="move-question-up">Move question Up</a><br/>
+                <a href="#" id="move-question-down">Move question Down</a><br/>
+              </p>
+            </div>
+          </div>
           <h3>Question <%= multi_section_question_number %> </h3>
           <% if question.question_type == "text_field" %>
             <%= render 'components/forms/edit/question_types/text_field', form: form, question: question, question_number: multi_section_question_number %>
@@ -109,13 +113,28 @@
     $(".dropdown-content").hide();
   });
 
-  $(".section-menu-div").click(function(event) {
-    $(event.target).find(".dropdown-content").toggle();
+  $(".ma-dropdown").click(function(event) {
+    $(event.target).parent().parent().find(".dropdown-content").toggle();
   });
 
-  $(".question-menu-div").click(function(event) {
-    console.log("Question Menu Div clicked");
-    $(event.target).find(".dropdown-content").toggle();
+  $(".section-menu-action").click(function(event) {
+    $(event.target).parent().find(".dropdown-content").toggle();
+  });
+
+  $(".question-menu-action").click(function(event) {
+    $(event.target).parent().find(".dropdown-content").toggle();
+  });
+
+  $('.form-section-add').click(function(event) {
+     event.preventDefault();
+     var contentDiv =  $(this).closest('div.form-section-div').parent();
+     $.ajax({
+        type: "GET",
+        url: $(this).attr("href"),
+        success: function (data) {
+          contentDiv.prepend(data);
+        }
+     });
   });
 
   $('.form-section-edit').click(function(event) {

@@ -395,28 +395,51 @@ tbody tr:hover td {
   border-radius: 8px 8px 8px 8px;
   padding-top: 10px;
 }
-.section-menu-div {
+.section-menu-action, .question-menu-action {
   float: right;
   background: #FFFFFF;
   border: 2px solid black;
-  border-radius: 8px;
+  border-radius: 50%;
   padding: 8px;
   position: relative;
+  padding-left: 16px;
+  padding-right: 16px;
   z-index: 2;
   top: -10px;
   right: 10px;
 }
-.question-menu-div {
+
+.question-menu-action {
+  top: 0px;
+}
+
+.section-menu-div {
   float: right;
-  background: #F0F0F0;
-  border: 2px solid black;
-  border-radius: 8px;
-  padding: 8px;
+  position: relative;
+  z-index: 2;
+  top: 0px;
+}
+.qustion-menu-div {
+  float: right;
   position: relative;
   z-index: 1;
-  top: 14px;
-  right: 10px;
+  margin-top: 20px;
 }
+.dropdown-content {
+  border: 2px solid black;
+  background: #FFFFFF;
+  position: relative;
+  top: 24px;
+  float: right;
+  padding-left: 16px;
+  padding-right: 16px;
+  line-height: 24px;
+}
+.dropdown-content a:hover, .dropdown-content a:visited, .dropdown-content a:link, .dropdown-content a:active {
+    text-decoration: none;
+    color: blue;
+}
+
 .section-title {
   padding-left: 20px ;
   padding-bottom: 10px;
