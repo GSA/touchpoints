@@ -12,9 +12,7 @@
           </div>
           <div id="section-dropdown" class="dropdown-content">
             <p>
-              <%= link_to new_admin_form_form_section_path(form), class: "usa-label form-section-add" do %>
-                Add section
-              <% end %>
+              <%= link_to 'Add section', new_admin_form_form_section_path(form), class: 'usa-label form-add-section'  %>
               <a href="#" id="add-question">Add question</a><br/>
               <a href="#" id="move-section-up">Move section up</a><br/>
               <a href="#" id="move-section-down">Move section down</a><br/>
@@ -106,11 +104,33 @@
     Add Section
   <% end %>
 </p>
-
+<div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content"></div>
+  </div>
+</div>
 <script>
 
   $( document ).ready(function() {
     $(".dropdown-content").hide();
+
+
+    $('.form-add-section').click(function(event) {
+      var dlg_opt = {
+        autoOpen: false,
+        modal: true,
+        title: 'New section'
+      };
+      event.preventDefault();
+      $.ajax({
+        type: "GET",
+        url: $(this).attr("href"),
+        success: function (data) {
+          $("#modal-window").find(".modal-content").html(data);
+          $("#modal-window").dialog(dlg_opt).dialog("open");
+        }
+      });
+    });
   });
 
   $(".ma-dropdown").click(function(event) {
@@ -125,17 +145,7 @@
     $(event.target).parent().find(".dropdown-content").toggle();
   });
 
-  $('.form-section-add').click(function(event) {
-     event.preventDefault();
-     var contentDiv =  $(this).closest('div.form-section-div').parent();
-     $.ajax({
-        type: "GET",
-        url: $(this).attr("href"),
-        success: function (data) {
-          contentDiv.prepend(data);
-        }
-     });
-  });
+
 
   $('.form-section-edit').click(function(event) {
      event.preventDefault();

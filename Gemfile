@@ -9,6 +9,7 @@ gem 'carrierwave'
 gem 'devise', '>= 4.7.1'
 gem 'fog-aws'
 gem 'jquery-rails', '>= 4.4.0'
+gem 'jquery-ui-rails'
 gem 'mail'
 gem 'mini_magick'
 gem 'newrelic_rpm'
@@ -29,6 +30,7 @@ gem 'redis-namespace'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'aasm', '~> 4.12'
 gem 'whenever', require: false
+
 
 group :development, :test do
   gem 'dotenv-rails', '>= 2.7.5'

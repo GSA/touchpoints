@@ -1,4 +1,4 @@
-<div class="form-section-div">
+<div class="well form-section-div">
     <%= form_with(model: form_section, url: (form_section.persisted? ? admin_form_form_section_path((form)) : admin_form_form_sections_path(form) ), local: true) do |html_form| %>
       <% if form_section.errors.any? %>
         <div id="error_explanation">
@@ -11,10 +11,6 @@
           </ul>
         </div>
       <% end %>
-
-      <p>
-        For Survey: <%= form.name %>
-      </p>
 
       <div class="field">
         <%= html_form.label :title, class: "usa-label" %>
@@ -34,3 +30,5 @@
       </p>
     <% end %>
 </div>
+
+
