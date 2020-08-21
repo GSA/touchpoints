@@ -325,12 +325,12 @@ N.fba = {
 		},
 		resetFormDisplay: function()
 		{
-			if (fba.successState === false) {
+			if (this.successState === false) {
 				return false;
 			}
 
 			// Hide and Reset Flash Message
-			fba.resetErrors();
+			this.resetErrors();
 
 			// Re-enable Submit Button
 			var formElement = d.querySelector(".touchpoints-form");
@@ -360,19 +360,19 @@ N.fba = {
 			var formElement = d.querySelector(".touchpoints-form");
 			var submitButton = formElement.querySelector("[type='submit']");
 
-			if (this.readyState === 4) {
-	      if (this.status === 201) { // SUCCESS!
-					fba.successState = true;
+			if (e.target.readyState === 4) {
+	      if (e.target.status === 201) { // SUCCESS!
+					this.successState = true;
 					if(submitButton) {
 						submitButton.disabled = true;
 					}
-					fba.showFormSuccess();
-	      } else if (this.status === 422) { // FORM ERRORS =\
-						fba.successState = false;
+					this.showFormSuccess();
+	      } else if (e.target.status === 422) { // FORM ERRORS =\
+						this.successState = false;
 						if(submitButton) {
 							submitButton.disabled = false;
 						}
-					  var jsonResponse = JSON.parse(this.response);
+					  var jsonResponse = JSON.parse(e.target.response);
 					  var errors = jsonResponse.messages;
 
 					  for (var err in errors) {
@@ -413,7 +413,7 @@ N.fba = {
 			// Submit Feedback with a POST
 			xhr.open("POST", url);
 			xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8;");
-	    xhr.onload = callback.bind(xhr);
+	    xhr.onload = callback.bind(this);
 	    xhr.send(JSON.stringify({
 				"submission": params
 			}));
