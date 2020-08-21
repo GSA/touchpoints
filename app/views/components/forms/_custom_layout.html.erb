@@ -18,7 +18,6 @@
     <%= render partial: "components/forms/custom", locals: { form: form, questions: form.questions } %>
   </div>
 </div>
-<br>
 <% unless form.questions.collect(&:question_type).include?("custom_text_display") %>
   <%= render partial: 'components/forms/footer', locals: { form: form } %>
 <% end %>

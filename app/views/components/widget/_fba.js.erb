@@ -85,7 +85,7 @@ N.fba = {
 			this.dialogEl.innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
 			d.body.appendChild(this.dialogEl);
 
-			d.getElementById('fba-modal-close').addEventListener('click', this.handleDialogClose, false);
+			d.querySelector('#fba-modal-close').addEventListener('click', this.handleDialogClose, false);
 		<% end %>
 
 		<%# add button behaviors for custom-button-modal %>
@@ -101,15 +101,17 @@ N.fba = {
 			// returns 1 or more submit buttons within the .touchpoints-form
 			var submitButtons = formElement.querySelectorAll("[type='submit']");
 			var that = this;
-			if (submitButtons) {
-				submitButtons.forEach(function(submitButton) {
-					submitButton.addEventListener('click', that.handleSubmitClick, false);
-				})
-			}
 
-			if (d.getElementById('fba-touchpoints-page-form')) {
-				d.getElementById('fba-touchpoints-page-form-yes').addEventListener('click', this.handleYesNoSubmitClick, false);
-				d.getElementById('fba-touchpoints-page-form-no').addEventListener('click', this.handleYesNoSubmitClick, false);
+			// if yes/no questions
+			if (d.querySelector('#fba-touchpoints-page-form')) {
+				d.querySelector('#fba-touchpoints-page-form-yes').addEventListener('click', this.handleYesNoSubmitClick, false);
+				d.querySelector('#fba-touchpoints-page-form-no').addEventListener('click', this.handleYesNoSubmitClick, false);
+			} else {
+				if (submitButtons) {
+					submitButtons.forEach(function(submitButton) {
+						submitButton.addEventListener('click', that.handleSubmitClick, false);
+					})
+				}
 			}
 		},
 		resetErrors: function()
@@ -156,7 +158,7 @@ N.fba = {
 		handleYesNoSubmitClick: function(e) {
 			e.preventDefault();
 
-			var input = d.getElementById('fba-touchpoints-page-form')
+			var input = d.querySelector('#fba-touchpoints-page-form');
 			input.value = this.value;
 			N.fba.resetErrors();
 			var formElement = document.querySelector('.touchpoints-form');
@@ -260,7 +262,7 @@ N.fba = {
 			this.skipLink.setAttribute('class', 'usa-skipnav touchpoints-skipnav');
 			this.skipLink.setAttribute('href', '#fba-button');
 			this.skipLink.addEventListener('click', function() {
-				document.getElementById("fba-button").focus();
+				document.querySelector("#fba-button").focus();
 			});
 			this.skipLink.innerHTML = 'Skip to feedback';
 
@@ -302,8 +304,8 @@ N.fba = {
 			if (document.querySelector('.touchpoints-form')) {
 				// And clear the Form's Fields
 				document.querySelector('.touchpoints-form').reset();
-				if (document.getElementById('touchpoints-form-body')) {
-					var formBody = document.getElementById('touchpoints-form-body');
+				if (document.querySelector('#touchpoints-form-body')) {
+					var formBody = document.querySelector('#touchpoints-form-body');
 					if(formBody) {
 						formBody.setAttribute("hidden", true);
 					}
@@ -334,8 +336,8 @@ N.fba = {
 
 			// Show Form Elements
 			if (document.querySelector('.touchpoints-form')) {
-				if (document.getElementById('touchpoints-form-body')) {
-					var formBody = document.getElementById('touchpoints-form-body')
+				if (document.querySelector('#touchpoints-form-body')) {
+					var formBody = document.querySelector('#touchpoints-form-body')
 					if(formBody) {
 						formBody.removeAttribute("hidden");
 					}
