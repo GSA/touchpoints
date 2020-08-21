@@ -102,11 +102,12 @@ N.fba = {
 			var submitButtons = formElement.querySelectorAll("[type='submit']");
 			var that = this;
 
-			// if yes/no questions
-			if (d.querySelector('.fba-touchpoints-page-form')) {
-				d.querySelector('#fba-touchpoints-page-form-yes').addEventListener('click', this.handleYesNoSubmitClick, false);
-				d.querySelector('#fba-touchpoints-page-form-no').addEventListener('click', this.handleYesNoSubmitClick, false);
-			} else {
+			var yesNoForm = d.querySelector('.touchpoints-yes-no-buttons');
+			if (yesNoForm) { // only for yes/no questions
+				submitButtons.forEach(function(submitButton) {
+					submitButton.addEventListener('click', that.handleYesNoSubmitClick, false);
+				})
+			} else { // for all other types of forms/questions
 				if (submitButtons) {
 					submitButtons.forEach(function(submitButton) {
 						submitButton.addEventListener('click', that.handleSubmitClick, false);
@@ -163,10 +164,10 @@ N.fba = {
 			N.fba.resetErrors();
 			var formElement = document.querySelector('.touchpoints-form');
 			if (N.fba.validateForm(formElement)) {
-				var submitButton = formElement.querySelector("[type='submit']");
-				if (submitButton) {
+				var submitButtons = formElement.querySelectorAll("[type='submit']");
+				submitButtons.forEach(function(submitButton) {
 					submitButton.disabled = true;
-				}
+				})
 				N.fba.sendFeedback();
 			}
 		},
