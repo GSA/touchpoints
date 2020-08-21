@@ -1,7 +1,7 @@
 <% multi_section_question_number = 0 %>
 
 <form class="touchpoints-form" action="<%= root_url %>touchpoints/<%= form.present? ? form.short_uuid : nil %>/submissions.json" method="POST">
-  <div id="touchpoints-form-body" class="touchpoints-form-body">
+  <div class="touchpoints-form-body">
     <%= hidden_field_tag :fba_location_code, params[:location_code] %>
 
     <% form.form_sections.each do |section| %>
