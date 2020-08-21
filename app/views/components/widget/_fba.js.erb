@@ -103,7 +103,7 @@ N.fba = {
 			var that = this;
 
 			// if yes/no questions
-			if (d.querySelector('#fba-touchpoints-page-form')) {
+			if (d.querySelector('.fba-touchpoints-page-form')) {
 				d.querySelector('#fba-touchpoints-page-form-yes').addEventListener('click', this.handleYesNoSubmitClick, false);
 				d.querySelector('#fba-touchpoints-page-form-no').addEventListener('click', this.handleYesNoSubmitClick, false);
 			} else {
@@ -158,7 +158,7 @@ N.fba = {
 		handleYesNoSubmitClick: function(e) {
 			e.preventDefault();
 
-			var input = d.querySelector('#fba-touchpoints-page-form');
+			var input = d.querySelector('.fba-touchpoints-page-form');
 			input.value = this.value;
 			N.fba.resetErrors();
 			var formElement = document.querySelector('.touchpoints-form');
