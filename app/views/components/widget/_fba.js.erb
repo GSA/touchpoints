@@ -97,12 +97,14 @@ N.fba = {
 			<% end %>
 		<% end %>
 
-			if (d.getElementById('fba-submit')) {
-				d.getElementById('fba-submit').addEventListener('click', this.handleSubmitClick, false);
-			}
-
-			if (d.getElementById('fba-early-submit')) {
-				d.getElementById('fba-early-submit').addEventListener('click', this.handleSubmitClick, false);
+			var formElement = d.querySelector('.touchpoints-form');
+			// returns 1 or more submit buttons within the .touchpoints-form
+			var submitButtons = formElement.querySelectorAll("[type='submit']");
+			var that = this;
+			if (submitButtons) {
+				submitButtons.forEach(function(submitButton) {
+					submitButton.addEventListener('click', that.handleSubmitClick, false);
+				})
 			}
 
 			if (d.getElementById('fba-touchpoints-page-form')) {
@@ -144,8 +146,10 @@ N.fba = {
 		handleSubmitClick: function(e) {
 			e.preventDefault();
 			N.fba.resetErrors();
-			if (N.fba.validateForm(document.querySelector('#touchpoints-form'))) {
-				d.getElementById('fba-submit').disabled = true;
+			var formElement = document.querySelector('.touchpoints-form');
+			if (N.fba.validateForm(formElement)) {
+				var submitButton = formElement.querySelector("[type='submit']");
+				submitButton.disabled = true;
 				N.fba.sendFeedback();
 			}
 		},
@@ -155,9 +159,11 @@ N.fba = {
 			var input = d.getElementById('fba-touchpoints-page-form')
 			input.value = this.value;
 			N.fba.resetErrors();
-			if (N.fba.validateForm(document.querySelector('#touchpoints-form'))) {
-				if (d.getElementById('fba-submit')) {
-					d.getElementById('fba-submit').disabled = true;
+			var formElement = document.querySelector('.touchpoints-form');
+			if (N.fba.validateForm(formElement)) {
+				var submitButton = formElement.querySelector("[type='submit']");
+				if (submitButton) {
+					submitButton.disabled = true;
 				}
 				N.fba.sendFeedback();
 			}
@@ -279,7 +285,7 @@ N.fba = {
 		},
 		sendFeedback: function()
 		{
-			var form = document.getElementById("touchpoints-form");
+			var form = document.querySelector(".touchpoints-form");
 			this.ajaxPost(form, this.formSuccess);
 		},
 		showFormSuccess: function(e)
@@ -293,9 +299,9 @@ N.fba = {
 			alertElement.removeAttribute("hidden");
 
 			// Hide Form Elements
-			if (document.getElementById('touchpoints-form')) {
+			if (document.querySelector('.touchpoints-form')) {
 				// And clear the Form's Fields
-				document.getElementById('touchpoints-form').reset();
+				document.querySelector('.touchpoints-form').reset();
 				if (document.getElementById('touchpoints-form-body')) {
 					var formBody = document.getElementById('touchpoints-form-body');
 					if(formBody) {
@@ -322,10 +328,12 @@ N.fba = {
 			fba.resetErrors();
 
 			// Re-enable Submit Button
-			d.getElementById('fba-submit').disabled = false;
+			var formElement = d.querySelector(".touchpoints-form");
+			var submitButton = formElement.querySelector("[type='submit']");
+			submitButton.disabled = false;
 
 			// Show Form Elements
-			if (document.getElementById('touchpoints-form')) {
+			if (document.querySelector('.touchpoints-form')) {
 				if (document.getElementById('touchpoints-form-body')) {
 					var formBody = document.getElementById('touchpoints-form-body')
 					if(formBody) {
@@ -344,17 +352,20 @@ N.fba = {
 			alertElementBody.innerHTML = "";
 			alertErrorElementBody.innerHTML = "";
 
+			var formElement = d.querySelector(".touchpoints-form");
+			var submitButton = formElement.querySelector("[type='submit']");
+
 			if (this.readyState === 4) {
 	      if (this.status === 201) { // SUCCESS!
 					fba.successState = true;
-					if(d.getElementById('fba-submit')) {
-						d.getElementById('fba-submit').disabled = true;
+					if(submitButton) {
+						submitButton.disabled = true;
 					}
 					fba.showFormSuccess();
 	      } else if (this.status === 422) { // FORM ERRORS =\
 						fba.successState = false;
-						if(d.getElementById('fba-submit')) {
-							d.getElementById('fba-submit').disabled = false;
+						if(submitButton) {
+							submitButton.disabled = false;
 						}
 					  var jsonResponse = JSON.parse(this.response);
 					  var errors = jsonResponse.messages;
