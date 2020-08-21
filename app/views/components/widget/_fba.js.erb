@@ -59,6 +59,7 @@ N.fba = {
 			this.dialogEl = document.createElement('div');
 			this.dialogEl.setAttribute("hidden", true);
 			this.dialogEl.setAttribute('id', 'fba-modal');
+			this.dialogEl.setAttribute('class', 'fba-modal');
 			this.dialogEl.setAttribute('role', 'dialog');
 			this.dialogEl.setAttribute('aria-modal', 'true');
 
@@ -269,12 +270,12 @@ N.fba = {
 		// Used when in a modal
 		loadDialog: function()
 		{
-			d.getElementById('fba-modal').removeAttribute("hidden");
+			d.querySelector('.fba-modal').removeAttribute("hidden");
 			this.dialogOpen = true;
 		},
 		closeDialog: function()
 		{
-			d.getElementById('fba-modal').setAttribute("hidden", true);
+			d.querySelector('.fba-modal').setAttribute("hidden", true);
 			this.resetFormDisplay();
 			this.dialogOpen = false;
 		},
