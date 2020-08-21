@@ -85,7 +85,7 @@ N.fba = {
 			this.dialogEl.innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
 			d.body.appendChild(this.dialogEl);
 
-			d.querySelector('#fba-modal-close').addEventListener('click', this.handleDialogClose, false);
+			d.querySelector('.fba-modal-close').addEventListener('click', this.handleDialogClose, false);
 		<% end %>
 
 		<%# add button behaviors for custom-button-modal %>
