@@ -85,14 +85,14 @@ N.fba = {
 			this.dialogEl.innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
 			d.body.appendChild(this.dialogEl);
 
-			d.querySelector('.fba-modal-close').addEventListener('click', this.handleDialogClose, false);
+			d.querySelector('.fba-modal-close').addEventListener('click', this.handleDialogClose.bind(this), false);
 		<% end %>
 
 		<%# add button behaviors for custom-button-modal %>
 		<% if form.delivery_method == "custom-button-modal" %>
 			<% if form.element_selector? %>
 			if(d.getElementById('<%= form.element_selector %>') != null) {
-				d.getElementById('<%= form.element_selector %>').addEventListener('click', this.handleButtonClick, false);
+				d.getElementById('<%= form.element_selector %>').addEventListener('click', this.handleButtonClick.bind(this), false);
 			}
 			<% end %>
 		<% end %>
@@ -105,12 +105,12 @@ N.fba = {
 			var yesNoForm = d.querySelector('.touchpoints-yes-no-buttons');
 			if (yesNoForm) { // only for yes/no questions
 				submitButtons.forEach(function(submitButton) {
-					submitButton.addEventListener('click', that.handleYesNoSubmitClick, false);
+					submitButton.addEventListener('click', that.handleYesNoSubmitClick.bind(that), false);
 				})
 			} else { // for all other types of forms/questions
 				if (submitButtons) {
 					submitButtons.forEach(function(submitButton) {
-						submitButton.addEventListener('click', that.handleSubmitClick, false);
+						submitButton.addEventListener('click', that.handleSubmitClick.bind(that), false);
 					})
 				}
 			}
@@ -129,31 +129,32 @@ N.fba = {
 		},
 		handleClick: function(e) {
 		<% if form.delivery_method == "modal" %>
-			if (N.fba.dialogOpen && !e.target.closest('#fba-button') && !e.target.closest('.fba-modal-dialog')) {
-				N.fba.closeDialog();
+			if (this.dialogOpen && !e.target.closest('#fba-button') && !e.target.closest('.fba-modal-dialog')) {
+				this.closeDialog();
 			}
 		<% elsif form.delivery_method == "custom-button-modal" %>
-			if (N.fba.dialogOpen && !e.target.closest('#' + '<%= form.element_selector %>') && !e.target.closest('.fba-modal-dialog')) {
-				N.fba.closeDialog();
+			if (this.dialogOpen && !e.target.closest('#' + '<%= form.element_selector %>') && !e.target.closest('.fba-modal-dialog')) {
+				this.closeDialog();
 			}
 		<% end %>
 		},
 		handleButtonClick: function(e) {
 			e.preventDefault();
-			N.fba.loadDialog();
+			this.loadDialog();
 		},
 		handleDialogClose: function(e) {
 			e.preventDefault();
-			N.fba.closeDialog();
+			this.closeDialog();
 		},
 		handleSubmitClick: function(e) {
 			e.preventDefault();
-			N.fba.resetErrors();
+			this.resetErrors();
+			var self = this;
 			var formElement = document.querySelector('.touchpoints-form');
-			if (N.fba.validateForm(formElement)) {
+			if (self.validateForm(formElement)) {
 				var submitButton = formElement.querySelector("[type='submit']");
 				submitButton.disabled = true;
-				N.fba.sendFeedback();
+				self.sendFeedback();
 			}
 		},
 		handleYesNoSubmitClick: function(e) {
@@ -161,19 +162,20 @@ N.fba = {
 
 			var input = d.querySelector('.fba-touchpoints-page-form');
 			input.value = this.value;
-			N.fba.resetErrors();
+			this.resetErrors();
+			var self = this;
 			var formElement = document.querySelector('.touchpoints-form');
-			if (N.fba.validateForm(formElement)) {
+			if (self.validateForm(formElement)) {
 				var submitButtons = formElement.querySelectorAll("[type='submit']");
 				submitButtons.forEach(function(submitButton) {
 					submitButton.disabled = true;
 				})
-				N.fba.sendFeedback();
+				self.sendFeedback();
 			}
 		},
 		validateForm: function(form) {
-			N.fba.hideValidationError(form);
-			var valid = N.fba.checkRequired(form)
+			this.hideValidationError(form);
+			var valid = this.checkRequired(form);
 			return valid;
 		},
 		checkRequired: function(form) {
@@ -198,7 +200,7 @@ N.fba = {
 				}
 			});
 			for (var key in questions) {
-				N.fba.showValidationError(questions[key],'<%= I18n.t 'form.field_is_required' %>');
+				this.showValidationError(questions[key],'<%= I18n.t 'form.field_is_required' %>');
 				return false;
 			}
 			return true;
@@ -252,7 +254,7 @@ N.fba = {
 			this.buttonEl.setAttribute('class', 'fixed-tab-button usa-button');
 			this.buttonEl.setAttribute('href', '#');
 			this.buttonEl.setAttribute('aria-haspopup', 'dialog');
-			this.buttonEl.addEventListener('click', this.handleButtonClick, false);
+			this.buttonEl.addEventListener('click', this.handleButtonClick.bind(this), false);
 			this.buttonEl.innerHTML = this.options.open;
 			d.body.appendChild(this.buttonEl);
 
