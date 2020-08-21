@@ -1,19 +1,21 @@
 <div class="touchpoints-form-wrapper">
-  <% if form.title? %>
-    <h3 id="fba-modal-title">
-      <%= form.title %>
-    </h3>
-  <% end %>
-  <% unless form.delivery_method == "inline" %>
-    <a class="fba-modal-close" type="button" href="#">×</a>
-  <% end %>
+  <div class="wrapper">
+    <% if form.title? %>
+      <h3 id="fba-modal-title">
+        <%= form.title %>
+      </h3>
+    <% end %>
+    <% unless form.delivery_method == "inline" %>
+      <a class="fba-modal-close" type="button" href="#">×</a>
+    <% end %>
 
-  <% if form.instructions? %>
-  <p class="fba-instructions">
-    <%= sanitize(form.instructions) %>
-  </p>
-  <% end %>
-  <%= render 'components/forms/flash' %>
-
-  <%= render partial: "components/forms/custom", locals: { form: form, questions: form.questions } %>
+    <% if form.instructions? %>
+    <p class="fba-instructions">
+      <%= sanitize(form.instructions) %>
+    </p>
+    <% end %>
+    <%= render 'components/forms/flash' %>
+    <%= render partial: "components/forms/custom", locals: { form: form, questions: form.questions } %>
+  </div>
+  <%= yield %>
 </div>

@@ -129,11 +129,11 @@ N.fba = {
 		},
 		handleClick: function(e) {
 		<% if form.delivery_method == "modal" %>
-			if (N.fba.dialogOpen && !e.target.closest('#fba-button') && !e.target.closest('#fba-modal-dialog')) {
+			if (N.fba.dialogOpen && !e.target.closest('#fba-button') && !e.target.closest('.fba-modal-dialog')) {
 				N.fba.closeDialog();
 			}
 		<% elsif form.delivery_method == "custom-button-modal" %>
-			if (N.fba.dialogOpen && !e.target.closest('#' + '<%= form.element_selector %>') && !e.target.closest('#fba-modal-dialog')) {
+			if (N.fba.dialogOpen && !e.target.closest('#' + '<%= form.element_selector %>') && !e.target.closest('.fba-modal-dialog')) {
 				N.fba.closeDialog();
 			}
 		<% end %>
