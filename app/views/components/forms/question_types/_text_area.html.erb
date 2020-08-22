@@ -1,10 +1,7 @@
 <div class="radios" role="group" aria-labelledby="<%= question.answer_field %>">
-  <label class="usa-label" for="<%= question.answer_field.to_sym %>">
-    <%= t question_number.to_s %>.
-    <%= question.text %>
-  </label>
+  <%= render 'components/question_title', question: question, question_number: question_number %>
   <% if question.character_limit && question.character_limit > 0 %>
-    <%= text_area_tag question.answer_field.to_sym, nil, class: "usa-textarea", required: question.is_required, maxlength: question.max_length, onkeyup: "fba.textCounter(this,#{question.max_length});" %>
+    <%= text_area_tag question.answer_field.to_sym, nil, class: "usa-textarea", required: question.is_required, maxlength: question.max_length, onkeyup: "touchpointForm#{form.short_uuid}.textCounter(this,#{question.max_length});" %>
   <% else %>
     <%= text_area_tag question.answer_field.to_sym, nil, class: "usa-textarea", required: question.is_required, maxlength: question.max_length %>
   <% end %>
