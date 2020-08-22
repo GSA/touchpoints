@@ -57,6 +57,10 @@ feature "Touchpoints", js: true do
         expect(page).to have_content("You must respond to question: 1. Test Open Area")
       end
 
+      it "regression: does not display invisible error message inputs" do
+        expect(page).to have_no_css("input", visible: true)
+      end
+
       it "can successfully submit after completing the required question" do
         fill_in("answer_01", with: "a response to this required question")
         click_button "Submit"
