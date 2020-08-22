@@ -1,49 +1,57 @@
 // Form components are namespaced under 'fba' = 'Feedback Analytics'
+'use strict';
 
-(function ( d, N ) { 'use strict';
-N.fba = {
-	<% if form.load_css %>
-	css: '<%= escape_javascript(render partial: "components/widget/widget.css", locals: { form: form }) %>',
-	<% end %>
-
-	// enable Javascript experience
-	javscriptIsEnabled: function()
-	{
-		var javascriptDisabledMessage = document.getElementsByClassName("javascript-disabled-message")[0];
-		var touchpointForm = document.getElementsByClassName("touchpoint-form")[0];
-		if (javascriptDisabledMessage) {
-			javascriptDisabledMessage.classList.add("hide");
-		}
-		if (touchpointForm) {
-			touchpointForm.classList.remove("hide");
-		}
-	},
-	init: function( options )
-	{
-		this.javscriptIsEnabled();
-
-		this.options = options;
+function FBAform(d, N) {
+	return {
 		<% if form.load_css %>
-		this.loadCss();
+		css: '<%= escape_javascript(render partial: "components/widget/widget.css", locals: { form: form }) %>',
 		<% end %>
-		this.loadHtml();
-		<% unless (local_assigns.has_key?(:suppress_ui) && suppress_ui) -%>
-			<% if form.delivery_method == "modal" -%>
-				this.loadButton();
+		formId: "<%= form.short_uuid %>",
+		formComponent: function() {
+			return document.querySelector("[data-touchpoints-form-id='" + this.formId + "']")
+		},
+		formElement: function() {
+			return this.formComponent().querySelector("form");
+		},
+
+		// enable Javascript experience
+		javscriptIsEnabled: function() {
+			var javascriptDisabledMessage = document.getElementsByClassName("javascript-disabled-message")[0];
+			var touchpointForm = document.getElementsByClassName("touchpoint-form")[0];
+			if (javascriptDisabledMessage) {
+				javascriptDisabledMessage.classList.add("hide");
+			}
+			if (touchpointForm) {
+				touchpointForm.classList.remove("hide");
+			}
+		},
+		init: function(options) {
+			this.javscriptIsEnabled();
+
+			this.options = options;
+			<% if form.load_css %>
+			this.loadCss();
 			<% end %>
-		<% end %>
-		this.bindEventListeners();
-		this.dialogOpen = false; // initially false
-		this.successState = false; // initially false
-	},
-	bindEventListeners: function()
-	{
-		var self = this;
-		d.addEventListener('keyup', function (event) {
-			var x = event.keyCode;
-			if( x == 27 && self.dialogOpen == true) {
-				self.closeDialog();
-			}});
+			this.loadHtml();
+			<% unless (local_assigns.has_key?(:suppress_ui) && suppress_ui) -%>
+				<% if form.delivery_method == "modal" -%>
+					this.loadButton();
+				<% end %>
+			<% end %>
+			this.bindEventListeners();
+			this.dialogOpen = false; // initially false
+			this.successState = false; // initially false
+			this.pagination();
+			return this;
+		},
+		bindEventListeners: function() {
+			var self = this;
+			d.addEventListener('keyup', function (event) {
+				var x = event.keyCode;
+				if( x == 27 && self.dialogOpen == true) {
+					self.closeDialog();
+				}
+			});
 			d.addEventListener('click', function (event) {
 				self.handleClick(event);
 			});
@@ -56,18 +64,11 @@ N.fba = {
 		<% end %>
 		loadHtml: function()
 		{
-			this.dialogEl = document.createElement('div');
-			this.dialogEl.setAttribute("hidden", true);
-			this.dialogEl.setAttribute('class', 'fba-modal');
-			this.dialogEl.setAttribute('role', 'dialog');
-			this.dialogEl.setAttribute('aria-modal', 'true');
-
 		<%# inject the form interface for inline with no wrapper %>
 		<% if form.delivery_method == "inline" && form.suppress_submit_button %>
 			<% if form.element_selector? %>
 			if(d.getElementById('<%= form.element_selector %>') != null) {
 				d.getElementById('<%= form.element_selector %>').innerHTML = "<%= escape_javascript render(partial: 'components/widget/no_modal', locals: { form: form }) %>";
-				d.body.appendChild(this.dialogEl);
 			}
 			<% end %>
 		<%# inject the form interface for inline with the modal wrapper %>
@@ -75,13 +76,18 @@ N.fba = {
 			<% if form.element_selector? %>
 			if(d.getElementById('<%= form.element_selector %>') != null) {
 				d.getElementById('<%= form.element_selector %>').innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
-				d.body.appendChild(this.dialogEl);
 			}
 			<% end %>
 		<% end %>
 
 		<%# inject the form interface for modal and custom-button-modal %>
 		<% if form.delivery_method == "modal" || form.delivery_method == "custom-button-modal" %>
+			this.dialogEl = document.createElement('div');
+			this.dialogEl.setAttribute("hidden", true);
+			this.dialogEl.setAttribute('class', 'fba-modal');
+			this.dialogEl.setAttribute('role', 'dialog');
+			this.dialogEl.setAttribute('aria-modal', 'true');
+
 			this.dialogEl.innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
 			d.body.appendChild(this.dialogEl);
 
@@ -97,8 +103,8 @@ N.fba = {
 			<% end %>
 		<% end %>
 
-			var formElement = d.querySelector('.touchpoints-form');
-			// returns 1 or more submit buttons within the .touchpoints-form
+			var formElement = this.formElement();
+			// returns 1 or more submit buttons within the Touchpoints form
 			var submitButtons = formElement.querySelectorAll("[type='submit']");
 			var that = this;
 
@@ -117,10 +123,10 @@ N.fba = {
 		},
 		resetErrors: function()
 		{
-			var touchpointsFormWrapper = document.querySelector(".touchpoints-form-wrapper");
-			var alertElement = touchpointsFormWrapper.querySelector(".fba-alert");
-			var alertElementBody = touchpointsFormWrapper.getElementsByClassName("usa-alert__text")[0];
-			var alertErrorElement = touchpointsFormWrapper.querySelector(".fba-alert-error");
+			var formComponent = this.formComponent();
+			var alertElement = formComponent.querySelector(".fba-alert");
+			var alertElementBody = formComponent.getElementsByClassName("usa-alert__text")[0];
+			var alertErrorElement = formComponent.querySelector(".fba-alert-error");
 			var alertErrorElementBody = alertErrorElement.getElementsByClassName("usa-alert__text")[0];
 			alertElement.setAttribute("hidden", true);
 			alertElementBody.innerHTML = "";
@@ -149,8 +155,8 @@ N.fba = {
 		handleSubmitClick: function(e) {
 			e.preventDefault();
 			this.resetErrors();
+			var formElement = this.formElement();
 			var self = this;
-			var formElement = document.querySelector('.touchpoints-form');
 			if (self.validateForm(formElement)) {
 				var submitButton = formElement.querySelector("[type='submit']");
 				submitButton.disabled = true;
@@ -160,11 +166,11 @@ N.fba = {
 		handleYesNoSubmitClick: function(e) {
 			e.preventDefault();
 
-			var input = d.querySelector('.fba-touchpoints-page-form');
+			var input = this.formComponent().querySelector('.fba-touchpoints-page-form');
 			input.value = this.value;
 			this.resetErrors();
 			var self = this;
-			var formElement = document.querySelector('.touchpoints-form');
+			var formElement = this.formElement();
 			if (self.validateForm(formElement)) {
 				var submitButtons = formElement.querySelectorAll("[type='submit']");
 				submitButtons.forEach(function(submitButton) {
@@ -255,7 +261,7 @@ N.fba = {
 			this.buttonEl.setAttribute('href', '#');
 			this.buttonEl.setAttribute('aria-haspopup', 'dialog');
 			this.buttonEl.addEventListener('click', this.handleButtonClick.bind(this), false);
-			this.buttonEl.innerHTML = this.options.open;
+			this.buttonEl.innerHTML = this.options.modalButtonText;
 			d.body.appendChild(this.buttonEl);
 
 			this.loadFeebackSkipLink();
@@ -290,32 +296,32 @@ N.fba = {
 		},
 		sendFeedback: function()
 		{
-			var form = document.querySelector(".touchpoints-form");
+			var form = this.formElement();
 			this.ajaxPost(form, this.formSuccess);
 		},
 		showFormSuccess: function(e)
 		{
-			var touchpointsFormWrapper = document.querySelector(".touchpoints-form-wrapper");
-			var alertElement = touchpointsFormWrapper.querySelector(".fba-alert");
-			var alertElementBody = touchpointsFormWrapper.getElementsByClassName("usa-alert__text")[0];
+			var formComponent = this.formComponent();
+			var formElement = this.formElement();
+			var alertElement = formComponent.querySelector(".fba-alert");
+			var alertElementBody = formComponent.querySelector(".usa-alert__text");
 
 			// Display success Message
 			alertElementBody.innerHTML += "<%= escape_javascript(form.success_text) %>";
 			alertElement.removeAttribute("hidden");
 
 			// Hide Form Elements
-			if (document.querySelector('.touchpoints-form')) {
+			if (formElement) {
 				// And clear the Form's Fields
-				document.querySelector('.touchpoints-form').reset();
-				if (document.querySelector('.touchpoints-form-body')) {
-					var formBody = document.querySelector('.touchpoints-form-body');
+				formElement.reset();
+				if (formElement.querySelector('.touchpoints-form-body')) {
+					var formBody = formElement.querySelector('.touchpoints-form-body');
 					if(formBody) {
 						formBody.setAttribute("hidden", true);
 					}
 				}
-
-				if (document.getElementsByClassName('touchpoints-form-disclaimer')) {
-					var formDisclaimer = document.getElementsByClassName('touchpoints-form-disclaimer')[0];
+				if (formComponent.querySelector('.touchpoints-form-disclaimer')) {
+					var formDisclaimer = formComponent.querySelector('.touchpoints-form-disclaimer');
 					if(formDisclaimer) {
 						formDisclaimer.setAttribute("hidden", true);
 					}
@@ -333,14 +339,14 @@ N.fba = {
 			this.resetErrors();
 
 			// Re-enable Submit Button
-			var formElement = d.querySelector(".touchpoints-form");
+			var formElement = this.formElement();
 			var submitButton = formElement.querySelector("[type='submit']");
 			submitButton.disabled = false;
 
 			// Show Form Elements
-			if (document.querySelector('.touchpoints-form')) {
-				if (document.querySelector('.touchpoints-form-body')) {
-					var formBody = document.querySelector('.touchpoints-form-body')
+			if (formElement) {
+				if (formElement.querySelector('.touchpoints-form-body')) {
+					var formBody = formElement.querySelector('.touchpoints-form-body')
 					if(formBody) {
 						formBody.removeAttribute("hidden");
 					}
@@ -349,15 +355,15 @@ N.fba = {
 		},
 		formSuccess: function(e) {
 			// Clear the alert box
-			var touchpointsFormWrapper = document.querySelector(".touchpoints-form-wrapper");
-			var alertElement = touchpointsFormWrapper.querySelector(".fba-alert");
-			var alertElementBody = touchpointsFormWrapper.getElementsByClassName("usa-alert__text")[0];
-			var alertErrorElement = touchpointsFormWrapper.querySelector(".fba-alert-error");
+			var formComponent = this.formComponent();
+			var alertElement = formComponent.querySelector(".fba-alert");
+			var alertElementBody = formComponent.getElementsByClassName("usa-alert__text")[0];
+			var alertErrorElement = formComponent.querySelector(".fba-alert-error");
 			var alertErrorElementBody = alertErrorElement.getElementsByClassName("usa-alert__text")[0];
 			alertElementBody.innerHTML = "";
 			alertErrorElementBody.innerHTML = "";
 
-			var formElement = d.querySelector(".touchpoints-form");
+			var formElement = this.formElement();
 			var submitButton = formElement.querySelector("[type='submit']");
 
 			if (e.target.readyState === 4) {
@@ -417,37 +423,41 @@ N.fba = {
 	    xhr.send(JSON.stringify({
 				"submission": params
 			}));
+		},
+		pagination: function() {
+			var previousButtons = document.getElementsByClassName("previous-section");
+			var nextButtons = document.getElementsByClassName("next-section");
+
+			var self = this;
+			for (var i = 0; i < previousButtons.length; i++) {
+				previousButtons[i].addEventListener('click', function(e) {
+					e.preventDefault();
+					var currentPage = e.target.closest(".section");
+					if (!this.validateForm(currentPage)) return false;
+					currentPage.classList.remove("visible");
+					currentPage.previousElementSibling.classList.add("visible");
+					window.scrollTo(0, 0);
+				}.bind(self));
+			}
+
+			for (var i = 0; i < nextButtons.length; i++) {
+				nextButtons[i].addEventListener('click', function(e) {
+					e.preventDefault();
+					var currentPage = e.target.closest(".section");
+					if (!this.validateForm(currentPage)) return false;
+					currentPage.classList.remove("visible");
+					currentPage.nextElementSibling.classList.add("visible");
+					window.scrollTo(0, 0);
+				}.bind(self))
+			}
 		}
 	};
-}( document, window ));
+};
 
-var tabText = "<%= form.modal_button_text %>";
+// Form Settings
+var formOptions = {
+	'modalButtonText': "<%= form.modal_button_text %>"
+};
 
-fba.init({
-	'open': tabText
-});
-
-var previousButtons = document.getElementsByClassName("previous-section");
-var nextButtons = document.getElementsByClassName("next-section");
-
-for (var i = 0; i < previousButtons.length; i++) {
-	previousButtons[i].addEventListener('click', function(e) {
-		e.preventDefault();
-		var currentPage = this.closest(".section");
-		if (!fba.validateForm(currentPage)) return false;
-		currentPage.classList.remove("visible");
-		currentPage.previousElementSibling.classList.add("visible");
-		window.scrollTo(0, 0);
-	});
-}
-
-for (var i = 0; i < nextButtons.length; i++) {
-	nextButtons[i].addEventListener('click', function(e) {
-		e.preventDefault();
-		var currentPage = this.closest(".section");
-		if (!fba.validateForm(currentPage)) return false;
-		currentPage.classList.remove("visible");
-		currentPage.nextElementSibling.classList.add("visible");
-		window.scrollTo(0, 0);
-	});
-}
+// Create unique Touchpoints form object
+const touchpointForm<%= form.short_uuid %> = new FBAform(document, window).init(formOptions);
