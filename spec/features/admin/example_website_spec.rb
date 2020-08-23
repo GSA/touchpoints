@@ -27,15 +27,15 @@ feature "Example Website Integration", js: true do
 
         describe "standard Modal" do
           it "opens the modal" do
-            expect(page).to have_css("#fba-modal-dialog", visible: true)
-            within "#fba-modal-dialog" do
+            expect(page).to have_css(".touchpoints-form-wrapper", visible: true)
+            within ".touchpoints-form-wrapper" do
               expect(page).to have_content open_ended_form.title
             end
           end
 
           it "close the modal" do
-            find("#fba-modal-close").click
-            expect(page).to_not have_css("#fba-modal")
+            find(".fba-modal-close").click
+            expect(page).to_not have_css(".fba-modal")
           end
         end
 
@@ -67,9 +67,9 @@ feature "Example Website Integration", js: true do
         end
 
         it "opens Modal" do
-          expect(page).to have_css("#fba-modal-dialog", visible: true)
+          expect(page).to have_css(".touchpoints-form-wrapper", visible: true)
 
-          within "#fba-modal-dialog" do
+          within ".touchpoints-form-wrapper" do
             expect(page).to have_content "Do you have a few minutes to help us test this site?"
           end
         end

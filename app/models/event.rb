@@ -1,11 +1,17 @@
 require 'csv'
 
 class Event < ApplicationRecord
+  # Event::Generic is used to log generic types of events, such as sign in attempts
+  class Generic
+    # `1` is used as an id for Generic events
+  end
 
   # Extend this list with all First Class event types to be logged TP-
   @@names = {
     :organization_manager_changed => 'organization_manager_changed',
     :user_deactivated => 'user_deactivated',
+    :user_authentication_attempt => 'user_authentication_attempt',
+    :user_authentication_successful => 'user_authentication_successful',
 
     :touchpoint_archived => 'touchpoint_archived',
     :touchpoint_form_submitted => 'touchpoint_form_submitted',

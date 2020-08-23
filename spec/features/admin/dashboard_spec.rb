@@ -21,7 +21,6 @@ feature "Admin Dashboard", js: true do
       let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, hisp: true) }
       let!(:form_template) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, template: true) }
 
-
       before do
         visit admin_dashboard_path
       end
@@ -32,6 +31,37 @@ feature "Admin Dashboard", js: true do
         expect(find(".reportable-organizations")).to have_content("1")
         expect(find(".reportable-forms")).to have_content("1")
         expect(find(".reportable-submissions")).to have_content("0")
+      end
+    end
+
+    describe "daily totals" do
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, hisp: true) }
+      let!(:form_template) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, template: true) }
+
+      before do
+        Submission.create({
+          form_id: form.id,
+          answer_01: "yes",
+          created_at: Time.now - 10.days
+        })
+        Submission.create({
+          form_id: form.id,
+          answer_01: "yes",
+          created_at: Time.now - 5.days
+        })
+        Submission.create({
+          form_id: form.id,
+          answer_01: "yes",
+          created_at: Time.now - 5.days
+        })
+        visit admin_dashboard_path
+      end
+
+      it "display weekly metrics" do
+        within(".daily-submissions") do
+          expect(find_all("tr").size).to eq(2)
+          expect(find_all("tr")[0]).to have_content(2)
+        end
       end
     end
 
