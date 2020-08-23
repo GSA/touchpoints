@@ -1,12 +1,5 @@
 <div class="well">
-  <h1>
-    New Question
-  </h1>
-  <p>
-    for <%= @form.name %>
-  </p>
   <div>
     <%= render 'form', form: @form, question: @question %>
-    <%= link_to 'Cancel', edit_admin_form_path(@form) %>
   </div>
 </div>

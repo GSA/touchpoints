@@ -12,8 +12,12 @@
           </div>
           <div id="section-dropdown" class="dropdown-content">
             <p>
-              <%= link_to 'Add section', new_admin_form_form_section_path(form), class: 'usa-label form-add-section'  %>
-              <a href="#" id="add-question">Add question</a><br/>
+              <%= link_to 'Add section', new_admin_form_form_section_path(form), class: 'form-add-section' %><br/>
+              <%= link_to 'Edit section', edit_admin_form_form_section_path(form, section), class: 'form-edit-section' %><br/>
+              <% unless section.questions.present? || form.form_sections.count == 1  %>
+                <%= link_to 'Delete section', admin_form_form_section_path(form, section), method: :delete, data: { confirm: 'Are you sure?' }, class: 'form-delete-section' %><br/>
+              <% end %>
+              <%= link_to 'Add question', new_admin_form_question_path(form), class: "form-add-question" %><br/>
               <a href="#" id="move-section-up">Move section up</a><br/>
               <a href="#" id="move-section-down">Move section down</a><br/>
             </p>
@@ -33,10 +37,12 @@
             </div>
             <div id="question-dropdown" class="dropdown-content">
               <p>
-                <a href="#" id="add-question">Edit question</a><br/>
-                <a href="#" id="add-question">Delete question</a><br/>
-                <a href="#" id="move-question-up">Move question Up</a><br/>
-                <a href="#" id="move-question-down">Move question Down</a><br/>
+                  <%= link_to 'Edit question', edit_admin_form_question_path(@form, question), class: "form-edit-question" %><br/>
+                  <% if form_permissions?(form: @form) %>
+                    <%= link_to 'Delete question', admin_form_question_path(@form, question), method: :delete, data: { confirm: 'Are you sure?' }, class: "form-delete-question" %><br/>
+                  <% end %>
+                  <a href="#" id="move-question-up">Move question Up</a><br/>
+                  <a href="#" id="move-question-down">Move question Down</a><br/>
               </p>
             </div>
           </div>
@@ -67,48 +73,14 @@
             <%= render 'components/forms/question_types/text_display', form: form, question: question, question_number: multi_section_question_number %>
           <% end %>
 
-          <%= link_to edit_admin_form_question_path(@form, question), class: "usa-button form-edit-question" do %>
-            <span class="fa fa-pencil-alt"></span>
-            Edit Question
-           <% end %>
-
-          <% if form_permissions?(form: @form) %>
-            <%= link_to admin_form_question_path(@form, question), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" do %>
-              <span class="fas fa-trash"></span>
-              Delete Question
-            <% end %>
-          <% end %>
         </div>
-        <% end %>
-        <% unless section.questions.present? || form.form_sections.count == 1  %>
-        <%= link_to admin_form_form_section_path(form, section), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
-          <span class="fas fa-trash"></span>
-          Delete Section
-        <% end %>
         <% end %>
       </div>
   </div>
   <br>
   <% end %>
 </div>
-<div class="new-question-div"></div>
-<p>
-  <%= link_to new_admin_form_question_path(form), class: "usa-button form-add-question" do %>
-    <span class="fa fa-plus"></span>
-    Add Question
-  <% end %>
-</p>
-<p>
-  <%= link_to new_admin_form_form_section_path(form), class: "usa-button" do %>
-    <span class="fa fa-plus"></span>
-    Add Section
-  <% end %>
-</p>
-<div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content"></div>
-  </div>
-</div>
+
 <script>
 
   $( document ).ready(function() {
@@ -131,6 +103,58 @@
         }
       });
     });
+
+    $('.form-edit-section').click(function(event) {
+      var dlg_opt = {
+        autoOpen: false,
+        modal: true,
+        title: 'Edit section'
+      };
+      event.preventDefault();
+      $.ajax({
+        type: "GET",
+        url: $(this).attr("href"),
+        success: function (data) {
+          $("#modal-window").find(".modal-content").html(data);
+          $("#modal-window").dialog(dlg_opt).dialog("open");
+        }
+      });
+    });
+
+    $('.form-add-question').click(function(event) {
+      var dlg_opt = {
+        autoOpen: false,
+        modal: true,
+        title: 'Add question'
+      };
+      event.preventDefault();
+      $.ajax({
+        type: "GET",
+        url: $(this).attr("href"),
+        success: function (data) {
+          $("#modal-window").find(".modal-content").html(data);
+          $("#modal-window").dialog(dlg_opt).dialog("open");
+        }
+      });
+    });
+
+    $('.form-edit-question').click(function(event) {
+      var dlg_opt = {
+        autoOpen: false,
+        modal: true,
+        title: 'Edit question'
+      };
+      event.preventDefault();
+      $.ajax({
+        type: "GET",
+        url: $(this).attr("href"),
+        success: function (data) {
+          $("#modal-window").find(".modal-content").html(data);
+          $("#modal-window").dialog(dlg_opt).dialog("open");
+        }
+      });
+    });
+
   });
 
   $(".ma-dropdown").click(function(event) {
@@ -145,49 +169,10 @@
     $(event.target).parent().find(".dropdown-content").toggle();
   });
 
-
-
-  $('.form-section-edit').click(function(event) {
-     event.preventDefault();
-     var contentDiv =  $(this).closest('div.form-section-div');
-     $.ajax({
-        type: "GET",
-        url: $(this).attr("href"),
-        success: function (data) {
-          contentDiv.html(data);
-        }
-     });
-  });
-
-  $('.form-add-question').click(function(event) {
-     event.preventDefault();
-
-     var contentDiv =  $('div.new-question-div');
-     $.ajax({
-        type: "GET",
-        url: $(this).attr("href"),
-        success: function (data) {
-          contentDiv.html(data);
-        }
-     });
-  });
-
   $('.form-add-question-option').click(function(event) {
      event.preventDefault();
      var contentDiv =  $(this).closest('div.new-question-options-div');
       $.ajax({
-        type: "GET",
-        url: $(this).attr("href"),
-        success: function (data) {
-          contentDiv.html(data);
-        }
-     });
-  });
-
-  $('.form-edit-question').click(function(event) {
-     event.preventDefault();
-     var contentDiv =  $(this).closest('div.question');
-     $.ajax({
         type: "GET",
         url: $(this).attr("href"),
         success: function (data) {
