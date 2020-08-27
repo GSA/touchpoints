@@ -10,7 +10,7 @@ class Admin::FormsController < AdminController
   before_action :set_form, only: [
     :show, :edit, :update, :destroy,
     :permissions, :questions, :responses,
-    :copy, :copy_by_id, :create_from_scratch,
+    :copy, :copy_by_id,
     :notifications,
     :export,
     :export_pra_document,
@@ -67,11 +67,6 @@ class Admin::FormsController < AdminController
     else
       @available_members = @form.organization.users - @form.users
     end
-  end
-
-  def create_from_scratch
-    ensure_response_viewer(form: @form) unless @form.template?
-    @questions = @form.questions
   end
 
   def questions
@@ -132,7 +127,7 @@ class Admin::FormsController < AdminController
           role: UserRole::Role::FormManager
         })
 
-        format.html { redirect_to create_from_scratch_admin_form_path(@form), notice: 'Survey was successfully created.' }
+        format.html { redirect_to questions_admin_form_path(@form), notice: 'Survey was successfully created.' }
         format.json { render :show, status: :created, location: @form }
       else
         format.html { render :new }
@@ -179,7 +174,7 @@ class Admin::FormsController < AdminController
         }
         format.json { render :show, status: :ok, location: @form }
       else
-        format.html { render "admin/forms/create_from_scratch" }
+        format.html { render :edit }
         format.json { render json: @form.errors, status: :unprocessable_entity }
       end
     end

@@ -14,7 +14,6 @@
 //= require file-saver/dist/FileSaver
 //= require jquery3
 //= require jquery_ujs
-//= require jquery-ui
 //= require uswds
 
 
