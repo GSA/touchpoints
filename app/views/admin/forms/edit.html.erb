@@ -16,3 +16,30 @@
   <%= link_to 'Show', admin_touchpoint_form_path(@touchpoint, @form), class: "usa-button" if @touchpoint %>
   <%= link_to 'All Forms', admin_forms_path, class: "usa-button usa-button--outline" %>
 </p>
+
+<script>
+  $(function() {
+    $("#form_delivery_method_touchpoints-hosted-only").click(function() {
+      $('#delivery-method-text').hide();
+      $('#delivery-method-html-id').hide();
+      $('#allowlist-options').hide();
+    });
+    $("#form_delivery_method_modal").click(function() {
+      $('#delivery-method-text').show();
+      $('#delivery-method-html-id').hide();
+      $('#allowlist-options').show();
+    });
+    $("#form_delivery_method_custom-button-modal").click(function() {
+      $('#delivery-method-text').hide();
+      $('#delivery-method-html-id').show();
+      $('#allowlist-options').show();
+    });
+    $("#form_delivery_method_inline").click(function() {
+      $('#delivery-method-text').hide();
+      $('#delivery-method-html-id').show();
+      $('#allowlist-options').show();
+    });
+
+    $("#form_delivery_method_<%= @form.delivery_method %>").click();
+  });
+</script>
