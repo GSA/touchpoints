@@ -4,8 +4,7 @@
   <% form.form_sections.each do |section| %>
     <div class="form-section-div">
       <div class="section-header-div">
-        <span class="section-title">Section title</span><br/>
-        <input type="text" class="section-title-input" name="section_title" value="<%= section.title %>" >
+        <span class="section-title"><%= section.title %></span><br/>
         <div class="section-menu-div">
           <div class="section-menu-action">
             <i class="fas fa-ellipsis-v ma-dropdown"></i>
@@ -18,14 +17,12 @@
                 <%= link_to 'Delete section', admin_form_form_section_path(form, section), method: :delete, data: { confirm: 'Are you sure?' }, class: 'form-delete-section' %><br/>
               <% end %>
               <%= link_to 'Add question', new_admin_form_question_path(form), class: "form-add-question" %><br/>
-              <a href="#" id="move-section-up">Move section up</a><br/>
-              <a href="#" id="move-section-down">Move section down</a><br/>
             </p>
           </div>
         </div>
       </div>
 
-      <div class="section pad well2">
+      <div class="section well2">
 
         <% section.questions.each_with_index do |question, index| %>
         <% multi_section_question_number += 1 %>
@@ -41,8 +38,6 @@
                   <% if form_permissions?(form: @form) %>
                     <%= link_to 'Delete question', admin_form_question_path(@form, question), method: :delete, data: { confirm: 'Are you sure?' }, class: "form-delete-question" %><br/>
                   <% end %>
-                  <a href="#" id="move-question-up">Move question Up</a><br/>
-                  <a href="#" id="move-question-down">Move question Down</a><br/>
               </p>
             </div>
           </div>
@@ -91,15 +86,16 @@
       var dlg_opt = {
         autoOpen: false,
         modal: true,
-        title: 'New section'
+        title: 'New section',
+        width: 300
       };
       event.preventDefault();
       $.ajax({
         type: "GET",
         url: $(this).attr("href"),
         success: function (data) {
-          $("#modal-window").find(".modal-content").html(data);
-          $("#modal-window").dialog(dlg_opt).dialog("open");
+          $("#fba-modal-dialog").find(".modal-content").html(data);
+          $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
         }
       });
     });
@@ -108,15 +104,16 @@
       var dlg_opt = {
         autoOpen: false,
         modal: true,
-        title: 'Edit section'
+        title: 'Edit section',
+        width: 300
       };
       event.preventDefault();
       $.ajax({
         type: "GET",
         url: $(this).attr("href"),
         success: function (data) {
-          $("#modal-window").find(".modal-content").html(data);
-          $("#modal-window").dialog(dlg_opt).dialog("open");
+          $("#fba-modal-dialog").find(".modal-content").html(data);
+          $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
         }
       });
     });
@@ -125,15 +122,16 @@
       var dlg_opt = {
         autoOpen: false,
         modal: true,
-        title: 'Add question'
+        title: 'Add question',
+        width: 600
       };
       event.preventDefault();
       $.ajax({
         type: "GET",
         url: $(this).attr("href"),
         success: function (data) {
-          $("#modal-window").find(".modal-content").html(data);
-          $("#modal-window").dialog(dlg_opt).dialog("open");
+          $("#fba-modal-dialog").find(".modal-content").html(data);
+          $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
         }
       });
     });
@@ -142,15 +140,16 @@
       var dlg_opt = {
         autoOpen: false,
         modal: true,
-        title: 'Edit question'
+        title: 'Edit question',
+        width: 600
       };
       event.preventDefault();
       $.ajax({
         type: "GET",
         url: $(this).attr("href"),
         success: function (data) {
-          $("#modal-window").find(".modal-content").html(data);
-          $("#modal-window").dialog(dlg_opt).dialog("open");
+          $("#fba-modal-dialog").find(".modal-content").html(data);
+          $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
         }
       });
     });
@@ -159,6 +158,16 @@
 
   $(".ma-dropdown").click(function(event) {
     $(event.target).parent().parent().find(".dropdown-content").toggle();
+  });
+
+  $(".section-menu-action").mouseover(function(event) {
+    $(".dropdown-content").hide();
+    $(event.target).parent().find(".dropdown-content").show();
+  });
+
+  $(".question-menu-action").mouseover(function(event) {
+    $(".dropdown-content").hide();
+    $(event.target).parent().find(".dropdown-content").show();
   });
 
   $(".section-menu-action").click(function(event) {

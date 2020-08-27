@@ -391,7 +391,6 @@ tbody tr:hover td {
   padding: 10px;
 }
 .form-section-div {
-  background: #71767A;
   border-radius: 8px 8px 8px 8px;
   padding-top: 10px;
 }
@@ -405,7 +404,7 @@ tbody tr:hover td {
   padding-left: 16px;
   padding-right: 16px;
   z-index: 2;
-  top: -10px;
+  top: -18px;
   right: 10px;
 }
 
@@ -435,15 +434,29 @@ tbody tr:hover td {
   padding-right: 16px;
   line-height: 24px;
 }
+.section-menu-div .dropdown-content {
+  top: 10px;
+}
 .dropdown-content a:hover, .dropdown-content a:visited, .dropdown-content a:link, .dropdown-content a:active {
     text-decoration: none;
     color: blue;
 }
-
+.section-header-div {
+  border-radius: 8px 8px 0px 0px;
+  padding: 8px 0px 0px 0px;
+  background: #71767A;
+  height: 50px;
+}
 .section-title {
+  position: relative;
+  top: 10px;
+  padding-top: 10px;
   padding-left: 20px ;
   padding-bottom: 10px;
   color: #FFFFFF;
+}
+.ui-widget-header {
+  background: #FFFFFF;
 }
 .section-title-input {
   background: #FFFFFF;
