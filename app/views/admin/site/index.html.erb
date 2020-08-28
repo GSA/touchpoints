@@ -54,21 +54,7 @@
       </div>
       <%= render 'components/weekly_metrics', forms: @forms %>
 
-      <h3>
-        Submissions per day
-      </h3>
-      <table class="usa-table daily-submissions">
-      <% Submission.group("date(created_at)").size.sort.last(45).each do |key, value| %>
-      <tr>
-        <td>
-          <%= key %>
-        </td>
-        <td>
-          <%= value %>
-        </td>
-      </tr>
-      <% end %>
-      </table>
+      <%= render 'components/admin/responses_per_day' %>
 
       <br>
       <div class="forms hisp">
