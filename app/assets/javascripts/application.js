@@ -15,6 +15,8 @@
 //= require jquery3
 //= require jquery_ujs
 //= require jquery-ui
+//= require jquery-ui/widget
+//= require jquery-ui/sortable
 //= require uswds
 
 

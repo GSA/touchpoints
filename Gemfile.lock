@@ -56,6 +56,7 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    acts-as-list (0.1.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     aes_key_wrap (1.1.0)
@@ -341,6 +342,7 @@ PLATFORMS
 
 DEPENDENCIES
   aasm (~> 4.12)
+  acts-as-list
   aws-sdk-rails (>= 3.1.0)
   capybara (>= 3.32.2)
   caracal
