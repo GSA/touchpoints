@@ -1,6 +1,6 @@
 <%= javascript_include_tag "chartjs-2.9.3.bundle.js" %>
 
-<div id="daily-responses">  
+<div id="daily-responses">
   <h3>
     Responses per day
   </h3>
@@ -10,7 +10,6 @@
   </div>
 </div>
 
-<% @submissions = Submission.group("date(created_at)").size.sort.last(45) %>
 <script>
 $(function() {
   var ctx = document.getElementById('myChart').getContext('2d');
@@ -18,14 +17,14 @@ $(function() {
     type: 'bar',
     data: {
       labels: [
-      <% @submissions.each do |key, value| %>
+      <% response_groups.each do |key, value| %>
         '<%= key.strftime("%m-%d") %>',
       <% end %>
       ],
       datasets: [{
         label: '# of Responses',
         data: [
-        <% @submissions.each do |key, value| %>
+        <% response_groups.each do |key, value| %>
           <%= value %>,
         <% end %>
         ],

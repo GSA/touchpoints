@@ -54,7 +54,7 @@
       </div>
       <%= render 'components/weekly_metrics', forms: @forms %>
 
-      <%= render 'components/admin/responses_per_day' %>
+      <%= render 'components/admin/responses_per_day', response_groups: Submission.group("date(created_at)").size.sort.last(45) %>
 
       <br>
       <div class="forms hisp">
