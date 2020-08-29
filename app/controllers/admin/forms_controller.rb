@@ -9,6 +9,7 @@ class Admin::FormsController < AdminController
   before_action :set_user, only: [:add_user, :remove_user]
   before_action :set_form, only: [
     :show, :edit, :update, :destroy,
+    :compliance,
     :permissions, :questions, :responses,
     :copy, :copy_by_id,
     :notifications,
@@ -329,6 +330,7 @@ class Admin::FormsController < AdminController
         :omb_approval_number,
         :expiration_date,
         :medium,
+        :occasion,
         :federal_register_url,
         :anticipated_delivery_count,
         :service_name,
