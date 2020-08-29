@@ -122,7 +122,7 @@ feature "Forms", js: true do
 
         describe "missing OMB Approval Number" do
           before "user tries to update a Touchpoint" do
-            visit edit_admin_form_path(existing_form)
+            visit compliance_admin_form_path(existing_form)
 
             fill_in("form[expiration_date]", with: future_date.strftime("%m/%d/%Y"))
             click_button "Update Survey"
@@ -137,7 +137,7 @@ feature "Forms", js: true do
 
         describe "missing Expiration Date" do
           before "user tries to update a Touchpoint" do
-            visit edit_admin_form_path(existing_form)
+            visit compliance_admin_form_path(existing_form)
 
             fill_in("form[omb_approval_number]", with: 1234)
             click_button "Update Survey"

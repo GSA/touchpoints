@@ -16,6 +16,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def failure
+    Event.log_event(Event.names[:user_authentication_failure], "Event::Generic", 1, "Email #{@email} failed to authenticate on #{Date.today}. #{failure_message}")
     redirect_to new_user_session_path, alert: "#{@kind} error: #{failure_message}"
   end
 
