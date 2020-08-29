@@ -1,4 +1,5 @@
 <% content_for :full_layout do %>
+<%= javascript_include_tag "chartjs-2.9.3.bundle.js" %>
 <section class="light-blue-bg">
   &nbsp;
   <div class="grid-container">
@@ -54,7 +55,7 @@
       </div>
       <%= render 'components/weekly_metrics', forms: @forms %>
 
-      <%= render 'components/admin/responses_per_day' %>
+      <%= render 'components/admin/responses_per_day', response_groups: Submission.group("date(created_at)").size.sort.last(45) %>
 
       <br>
       <div class="forms hisp">

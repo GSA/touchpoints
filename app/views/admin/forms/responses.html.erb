@@ -1,3 +1,5 @@
+<%= javascript_include_tag "chartjs-2.9.3.bundle.js" %>
+
 <% content_for :navigation_title do %>
   Viewing Responses for <%= @form.name %>
 <% end %>
@@ -12,6 +14,8 @@
   Customer Feedback Analysis
 </h3>
 <%= render 'components/a11_analysis', { form: @form } if admin_permissions? %>
+<%= render 'components/admin/a11_chart', form: @form if @form.kind == "a11" %>
+<%= render 'components/admin/responses_per_day', response_groups: @form.submissions.group("date(created_at)").size.sort.last(45) %>
 <div>
   <% @submissions = @form.submissions.order("created_at ASC") %>
   <%= render file: "admin/submissions/index", locals: { form: @form, submissions: @submissions } %>
