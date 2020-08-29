@@ -2,11 +2,12 @@
   Viewing Responses for <%= @form.name %>
 <% end %>
 <p>
-  <%= link_to admin_form_path(@form) do %>
+  <%= link_to admin_forms_path do %>
     <i class="fa fa-arrow-circle-left"></i>
-    Back to Survey
+    Back to Surveys
   <% end %>
 </p>
+<%= render 'admin/forms/nav', form: @form %>
 <h3>
   Customer Feedback Analysis
 </h3>
