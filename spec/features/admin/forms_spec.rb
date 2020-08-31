@@ -693,6 +693,32 @@ feature "Forms", js: true do
       expect(page.current_path).to eq(edit_admin_form_path(form))
       expect(page).to have_content("Editing Survey")
     end
+
+    describe "can delete a Form" do
+      context "with no responses" do
+        before do
+          click_on "Delete Survey"
+          page.driver.browser.switch_to.alert.accept
+        end
+
+        it "can delete existing Form" do
+          expect(page).to have_content("Survey was successfully destroyed.")
+        end
+      end
+
+      context "with responses" do
+        let!(:submission) { FactoryBot.create(:submission, form: form)}
+
+        before do
+          click_on "Delete Survey"
+          page.driver.browser.switch_to.alert.accept
+        end
+
+        it "cannot delete existing Form" do
+          expect(page).to have_content("This form cannot be deleted because it has responses")
+        end
+      end
+    end
   end
 
   context "user without Form Manager permissions" do
