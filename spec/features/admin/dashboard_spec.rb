@@ -58,10 +58,8 @@ feature "Admin Dashboard", js: true do
       end
 
       it "display weekly metrics" do
-        within(".daily-submissions") do
-          expect(find_all("tr").size).to eq(2)
-          expect(find_all("tr")[0]).to have_content(2)
-        end
+        expect(page).to have_css("#daily-responses")
+        expect(page).to have_css("canvas")
       end
     end
 

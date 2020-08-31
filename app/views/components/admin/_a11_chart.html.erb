@@ -1,0 +1,55 @@
+<div id="a11-chart-div">
+  <h3>
+    CX Chart
+  </h3>
+
+  <div style="width:100%;">
+    <canvas id="cx-chart"></canvas>
+  </div>
+</div>
+
+<script>
+$(function() {
+  var ctx = document.getElementById('cx-chart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: [
+        "satisfied",
+        "trust",
+        "effective",
+        "easy",
+        "efficient",
+        "transparent",
+        "employee"
+      ],
+      datasets: [{
+        label: 'Question Scores (on a scale of 1 to 5)',
+        data: [
+          <%= form.average_answer(:answer_01)[:average] %>,
+          <%= form.average_answer(:answer_02)[:average] %>,
+          <%= form.average_answer(:answer_03)[:average] %>,
+          <%= form.average_answer(:answer_04)[:average] %>,
+          <%= form.average_answer(:answer_05)[:average] %>,
+          <%= form.average_answer(:answer_06)[:average] %>,
+          <%= form.average_answer(:answer_07)[:average] %>,
+        ]
+      }]
+    },
+    options: {
+      responsive: true,
+      legend: {
+        position: 'bottom',
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            min: 0,
+            max: 5
+          }
+        }]
+      }
+    }
+  });
+})
+</script>

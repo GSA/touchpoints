@@ -122,7 +122,7 @@ feature "Forms", js: true do
 
         describe "missing OMB Approval Number" do
           before "user tries to update a Touchpoint" do
-            visit edit_admin_form_path(existing_form)
+            visit compliance_admin_form_path(existing_form)
 
             fill_in("form[expiration_date]", with: future_date.strftime("%m/%d/%Y"))
             click_button "Update Survey"
@@ -137,7 +137,7 @@ feature "Forms", js: true do
 
         describe "missing Expiration Date" do
           before "user tries to update a Touchpoint" do
-            visit edit_admin_form_path(existing_form)
+            visit compliance_admin_form_path(existing_form)
 
             fill_in("form[omb_approval_number]", with: 1234)
             click_button "Update Survey"
@@ -692,6 +692,32 @@ feature "Forms", js: true do
     it "can edit form" do
       expect(page.current_path).to eq(edit_admin_form_path(form))
       expect(page).to have_content("Editing Survey")
+    end
+
+    describe "can delete a Form" do
+      context "with no responses" do
+        before do
+          click_on "Delete Survey"
+          page.driver.browser.switch_to.alert.accept
+        end
+
+        it "can delete existing Form" do
+          expect(page).to have_content("Survey was successfully destroyed.")
+        end
+      end
+
+      context "with responses" do
+        let!(:submission) { FactoryBot.create(:submission, form: form)}
+
+        before do
+          click_on "Delete Survey"
+          page.driver.browser.switch_to.alert.accept
+        end
+
+        it "cannot delete existing Form" do
+          expect(page).to have_content("This form cannot be deleted because it has responses")
+        end
+      end
     end
   end
 

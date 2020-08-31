@@ -12,6 +12,7 @@ class Event < ApplicationRecord
     :user_deactivated => 'user_deactivated',
     :user_authentication_attempt => 'user_authentication_attempt',
     :user_authentication_successful => 'user_authentication_successful',
+    :user_authentication_failure => 'user_authentication_failure',
 
     :touchpoint_archived => 'touchpoint_archived',
     :touchpoint_form_submitted => 'touchpoint_form_submitted',

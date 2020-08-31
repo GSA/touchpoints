@@ -3,12 +3,11 @@ require 'csv'
 class Admin::FormsController < AdminController
   respond_to :html, :js, :docx
 
-  before_action :ensure_organization_manager, only: [:destroy]
-
   skip_before_action :verify_authenticity_token, only: [:js]
   before_action :set_user, only: [:add_user, :remove_user]
   before_action :set_form, only: [
     :show, :edit, :update, :destroy,
+    :compliance,
     :permissions, :questions, :responses,
     :copy, :copy_by_id,
     :notifications,
@@ -76,6 +75,7 @@ class Admin::FormsController < AdminController
 
   def responses
     ensure_response_viewer(form: @form) unless @form.template?
+    @response_groups = @form.submissions.group("date(created_at)").size.sort.last(45)
   end
 
   def example
@@ -329,6 +329,7 @@ class Admin::FormsController < AdminController
         :omb_approval_number,
         :expiration_date,
         :medium,
+        :occasion,
         :federal_register_url,
         :anticipated_delivery_count,
         :service_name,
