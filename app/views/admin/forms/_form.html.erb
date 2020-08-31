@@ -220,114 +220,77 @@
   </div>
   <br>
   <br>
-  <h2>
-    Select a Delivery Method
-  </h2>
   <div class="well">
+    <h2>
+      How should the survey be published?
+    </h2>
+    <div class="usa-alert usa-alert--info">
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
+          <strong>Options for Publishing Your Survey</strong>
+          <br>
+          A survey can be shared with users in a couple ways.
+          <br>
+          <ol>
+            <li>
+              We can
+              <strong>host your form</strong>
+              directly on the Touchpoints page.
+              Users will be able to access it from a publically available URL that
+              you share on a website or email.
+              No coding or embedding is needed for this option.
+            </li>
+            <li>
+              A survey can also be embedded directly on your website
+              using one of three different methods:
+              <ol>
+                <li>
+                  <strong>Modal</strong> -
+                  Touchpoints will insert a default button on your website with
+                  the text that you indicate.  The button will launch
+                  a modal box displaying your survey
+                </li>
+                <li>
+                  <strong>Custom button modal</strong> -
+                  Works like the modal, except you provide your own custom
+                  styled button with the use of an
+                  html-element-id
+                </li>
+                <li>
+                  <strong>Inline</strong> -
+                  Touchpoints will embed your survey directly onto your
+                  website using an html-element-id
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </p>
+      </div>
+    </div>
     <br>
     <fieldset class="usa-fieldset">
       <legend class="usa-sr-only">Delivery Methods</legend>
       <% Form::DELIVERY_METHODS.each_with_index do |delivery_method, index| %>
         <div class="usa-checkbox">
-          <%= f.radio_button :delivery_method, delivery_method, class: "usa-checkbox__input"  %>
-          <%= f.label delivery_method, class: "usa-checkbox__label", for: "form_delivery_method_#{delivery_method}" %>
+          <%= f.radio_button :delivery_method, delivery_method[0], class: "usa-checkbox__input"  %>
+          <%= f.label delivery_method[1], class: "usa-checkbox__label", for: "form_delivery_method_#{delivery_method[0]}" %>
         </div>
       <% end %>
     </fieldset>
     <div class="grid-row">
       <div class="grid-col-6">
-        <div class="field">
+        <div class="field" id="delivery-method-text" hidden="true">
           <%= f.label :modal_button_text, class: "usa-label" %>
           <%= f.text_field :modal_button_text, class: "usa-input" %>
         </div>
-        <div class="field">
+        <div class="field" id="delivery-method-html-id" hidden="true">
           <%= f.label :element_selector, class: "usa-label" %>
-          <div>
-            <em>
-              Only required for "Inline" and "Custom-button-modal"
-            </em>
-          </div>
           <%= f.text_field :element_selector, class: "usa-input", placeholder: "html-element-id" %>
         </div>
       </div>
     </div>
     <br>
     <%= render 'components/whitelist_options', f: f %>
-  </div>
-  <div class="well">
-    <h3>
-      <i class="fa fa-pencil-alt"></i>
-      <span title="Public Records Act">PRA</span>
-      Information
-    </h3>
-    <div class="grid-row grid-gap-md">
-      <div class="grid-col-6">
-        <div class="field">
-          <%= f.label :service_name, class: "usa-label" %>
-          <%= f.text_field :service_name, class: "usa-input", placeholder: "Name of the Service receiving feedback" %>
-        </div>
-      </div>
-      <div class="grid-col-6">
-        <div class="field">
-          <%= f.label :survey_instrument_reference, class: "usa-label" %>
-          <%= f.text_field :survey_instrument_reference, class: "usa-input", placeholder: "Survey instrument reference" %>
-        </div>
-      </div>
-      <div class="grid-col-6">
-        <div class="field">
-          <%= f.label :agency_poc_name, class: "usa-label" %>
-          <%= f.text_field :agency_poc_name, class: "usa-input", placeholder: "Point of Contact's Name" %>
-        </div>
-      </div>
-      <div class="grid-col-6">
-        <div class="field">
-          <%= f.label :agency_poc_email, class: "usa-label" %>
-          <%= f.text_field :agency_poc_email, class: "usa-input", placeholder: "Point of Contact's Email" %>
-        </div>
-      </div>
-      <div class="grid-col-6">
-        <div class="field">
-          <%= f.label :department, class: "usa-label" %>
-          <%= f.text_field :department, class: "usa-input", placeholder: "Department" %>
-        </div>
-      </div>
-      <div class="grid-col-6">
-        <div class="field">
-          <%= f.label :bureau, class: "usa-label" %>
-          <%= f.text_field :bureau, class: "usa-input", placeholder: "Bureau" %>
-        </div>
-      </div>
-      <div class="grid-col-6">
-        <div class="field">
-          <%= f.label :omb_approval_number, class: "usa-label" %>
-          <%= f.text_field :omb_approval_number, class: "usa-input", placeholder: "OMB Approval #" %>
-        </div>
-      </div>
-      <div class="grid-col-6">
-        <div class="field">
-          <%= f.label :federal_register_url, class: "usa-label" %>
-          <%= f.text_field :federal_register_url, class: "usa-input", placeholder: "https://www.federalregister.gov/..." %>
-        </div>
-      </div>
-      <div class="grid-col-6">
-        <div class="field">
-          <%= f.label :medium, "Medium of Delivery", class: "usa-label" %>
-          <%= f.text_field :medium, class: "usa-input", placeholder: "From a Call-center" %>
-        </div>
-      </div>
-      <div class="grid-col-6">
-        <div class="field">
-          <%= f.label :anticipated_delivery_count, class: "usa-label" %>
-          <%= f.number_field :anticipated_delivery_count, class: "usa-input", placeholder: "100" %>
-        </div>
-      </div>
-      <div class="grid-col-6">
-        <div class="field">
-          <%= f.label :expiration_date, class: "usa-label" %>
-          <%= f.date_field :expiration_date, class: "usa-input" %>
-        </div>
-      </div>
-    </div>
   </div>
   <% end %>
   <p>

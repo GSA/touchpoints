@@ -1,16 +1,21 @@
+<%= javascript_include_tag "chartjs-2.9.3.bundle.js" %>
+
 <% content_for :navigation_title do %>
   Viewing Responses for <%= @form.name %>
 <% end %>
 <p>
-  <%= link_to admin_form_path(@form) do %>
+  <%= link_to admin_forms_path do %>
     <i class="fa fa-arrow-circle-left"></i>
-    Back to Survey
+    Back to Surveys
   <% end %>
 </p>
+<%= render 'admin/forms/nav', form: @form %>
 <h3>
   Customer Feedback Analysis
 </h3>
 <%= render 'components/a11_analysis', { form: @form } if admin_permissions? %>
+<%= render 'components/admin/a11_chart', form: @form if @form.kind == "a11" %>
+<%= render 'components/admin/responses_per_day', response_groups: @response_groups %>
 <div>
   <% @submissions = @form.submissions.order("created_at ASC") %>
   <%= render file: "admin/submissions/index", locals: { form: @form, submissions: @submissions } %>

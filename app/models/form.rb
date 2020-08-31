@@ -59,11 +59,12 @@ class Form < ApplicationRecord
   end
 
   DELIVERY_METHODS = [
-    "touchpoints-hosted-only",
-    "modal",
-    "custom-button-modal",
-    "inline"
+    ["touchpoints-hosted-only", "Hosted directly on Touchpoints"],
+    ["modal","Modal"],
+    ["custom-button-modal","Custom button modal"],
+    ["inline","Inline"]
   ]
+
 
   def suppress_submit_button
     self.questions.collect(&:question_type).include?("yes_no_buttons") || self.questions.collect(&:question_type).include?("custom_text_display")
