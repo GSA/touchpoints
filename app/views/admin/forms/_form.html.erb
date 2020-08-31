@@ -220,10 +220,53 @@
   </div>
   <br>
   <br>
-  <h2>
-    Select a Delivery Method
-  </h2>
   <div class="well">
+    <h2>
+      How should the survey be published?
+    </h2>
+    <div class="usa-alert usa-alert--info">
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
+          <strong>Options for Publishing Your Survey</strong>
+          <br>
+          A survey can be shared with users in a couple ways.
+          <br>
+          <ol>
+            <li>
+              We can
+              <strong>host your form</strong>
+              directly on the Touchpoints page.
+              Users will be able to access it from a publically available URL that
+              you share on a website or email.
+              No coding or embedding is needed for this option.
+            </li>
+            <li>
+              A survey can also be embedded directly on your website
+              using one of three different methods:
+              <ol>
+                <li>
+                  <strong>Modal</strong> -
+                  Touchpoints will insert a default button on your website with
+                  the text that you indicate.  The button will launch
+                  a modal box displaying your survey
+                </li>
+                <li>
+                  <strong>Custom button modal</strong> -
+                  Works like the modal, except you provide your own custom
+                  styled button with the use of an
+                  html-element-id
+                </li>
+                <li>
+                  <strong>Inline</strong> -
+                  Touchpoints will embed your survey directly onto your
+                  website using an html-element-id
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </p>
+      </div>
+    </div>
     <br>
     <fieldset class="usa-fieldset">
       <legend class="usa-sr-only">Delivery Methods</legend>
@@ -236,17 +279,12 @@
     </fieldset>
     <div class="grid-row">
       <div class="grid-col-6">
-        <div class="field">
+        <div class="field" id="delivery-method-text" hidden="true">
           <%= f.label :modal_button_text, class: "usa-label" %>
           <%= f.text_field :modal_button_text, class: "usa-input" %>
         </div>
-        <div class="field">
+        <div class="field" id="delivery-method-html-id" hidden="true">
           <%= f.label :element_selector, class: "usa-label" %>
-          <div>
-            <em>
-              Only required for "Inline" and "Custom-button-modal"
-            </em>
-          </div>
           <%= f.text_field :element_selector, class: "usa-input", placeholder: "html-element-id" %>
         </div>
       </div>
