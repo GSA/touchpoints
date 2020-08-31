@@ -43,6 +43,8 @@ Rails.application.routes.draw do
         get "permissions", to: "forms#permissions", as: :permissions
         get "compliance", to: "forms#compliance", as: :compliance
         get "questions", to: "forms#questions", as: :questions
+        patch "questions", to: "questions#sort", as: :sort_questions
+        patch "form_sections", to: "form_sections#sort", as: :sort_sections
         get "responses", to: "forms#responses", as: :responses
         post "add_user", to: "forms#add_user", as: :add_user
         post "copy", to: "forms#copy", as: :copy
@@ -52,9 +54,14 @@ Rails.application.routes.draw do
       collection do
         post "copy", to: "forms#copy", as: :copy_id
       end
-      resources :form_sections
+      resources :form_sections do
+        patch "sort", to: "form_sections#sort", as: :sort_sections
+      end
       resources :questions do
         resources :question_options
+        collection do
+          patch "questions", to: "questions#sort", as: :sort_questions
+        end
       end
       resources :submissions, only: [:destroy] do
         member do

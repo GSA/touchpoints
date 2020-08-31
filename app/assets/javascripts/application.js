@@ -13,10 +13,8 @@
 //= require cable
 //= require file-saver/dist/FileSaver
 //= require jquery3
-//= require jquery_ujs
 //= require jquery-ui
-//= require jquery-ui/widget
-//= require jquery-ui/sortable
+//= require rails-ujs
 //= require uswds
 
 

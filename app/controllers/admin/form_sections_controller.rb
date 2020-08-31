@@ -18,6 +18,14 @@ class Admin::FormSectionsController < AdminController
     render layout: false
   end
 
+  def sort
+    params[:form_section].each_with_index do |id, index|
+      FormSection.where(id: id).update_all(position: index + 1)
+    end
+
+    head :ok
+  end
+
   def create
     @form_section = @form.form_sections.new(form_section_params)
 
