@@ -3,8 +3,6 @@ require 'csv'
 class Admin::FormsController < AdminController
   respond_to :html, :js, :docx
 
-  before_action :ensure_organization_manager, only: [:destroy]
-
   skip_before_action :verify_authenticity_token, only: [:js]
   before_action :set_user, only: [:add_user, :remove_user]
   before_action :set_form, only: [
