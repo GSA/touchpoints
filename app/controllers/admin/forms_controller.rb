@@ -75,6 +75,7 @@ class Admin::FormsController < AdminController
 
   def responses
     ensure_response_viewer(form: @form) unless @form.template?
+    @response_groups = @form.submissions.group("date(created_at)").size.sort.last(45)
   end
 
   def example
