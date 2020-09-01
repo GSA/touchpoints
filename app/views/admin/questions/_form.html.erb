@@ -53,21 +53,12 @@
   </div>
   <% end %>
 
-  <div class="well">
-    <h4>
-      Positioning
-    </h4>
-    <div class="field">
-      <%= f.label :form_section, class: "usa-label" %>
-      <% form_section_options = options_for_select(@form.form_sections.map { |section| ["#{section.position} - #{section.title}", section.id] }, selected: question.form_section_id) %>
-      <%= f.select :form_section_id, form_section_options, {}, { class: "usa-select" } %>
-    </div>
-
-    <div class="field">
-      <%= f.label :position, class: "usa-label" %>
-      <%= f.number_field :position, value: (!question.persisted? ? (@form.questions.size + 1) : question.position), class: "usa-input"  %>
-    </div>
+  <div class="field">
+    <%= f.label :form_section, class: "usa-label" %>
+    <% form_section_options = options_for_select(@form.form_sections.map { |section| ["#{section.position} - #{section.title}", section.id] }, selected: question.form_section_id) %>
+    <%= f.select :form_section_id, form_section_options, {}, { class: "usa-select" } %>
   </div>
+
 
   <br>
   <fieldset class="usa-fieldset">

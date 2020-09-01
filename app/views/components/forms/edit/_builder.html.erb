@@ -22,7 +22,7 @@
         </div>
       </div>
 
-      <div class="section well2 list-group" id="questions">
+      <div class="section well2 list-group questions">
         <% section.questions.each_with_index do |question, index| %>
           <% multi_section_question_number += 1 %>
           <div class="question well list-group-item" id="<%= dom_id(question) %>" >
@@ -151,7 +151,7 @@
         }
       });
     });
-    $("#questions").sortable({
+    $(".questions").sortable({
       update: function(e, ui) {
         $.ajax({
           url: $(this).data("url"),
