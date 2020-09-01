@@ -17,14 +17,6 @@
         <%= html_form.text_field :title, class: "usa-input" %>
       </div>
 
-      <div class="field">
-        <%= html_form.label :position, class: "usa-label" %>
-        <% form_section_options = form.form_sections.select(&:persisted?).collect(&:position) %>
-        <% form_section_options_max = form_section_options.compact.max %>
-        <% form_section_options = form_section_options + [form_section_options_max + 1] %>
-        <%= html_form.select :position, options_for_select(form_section_options, selected: form_section.position), { include_blank: "Select Form Section" }, { class: "usa-select" } %>
-      </div>
-
       <p>
         <%= html_form.submit (form_section.persisted? ? "Update Section" : "Create Section"), class: "usa-button" %>
       </p>
