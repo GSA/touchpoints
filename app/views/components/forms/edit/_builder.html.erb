@@ -175,6 +175,7 @@
     });
 
     $(".questions").sortable({
+      distance: 20,
       update: function(e, ui) {
         $.ajax({
           url: $(this).data("url"),
@@ -185,6 +186,7 @@
     });
 
     $("#sections").sortable({
+      distance: 20,
       update: function(e, ui) {
         var url = ui.item.data("url");
         $.ajax({
