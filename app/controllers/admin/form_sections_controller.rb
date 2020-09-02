@@ -26,6 +26,14 @@ class Admin::FormSectionsController < AdminController
     head :ok
   end
 
+
+  def update_title
+    return unless params[:title] && params[:title].length > 1
+    FormSection.where(id: params[:form_section_id]).update(title: params[:title])
+
+    head :ok
+  end
+
   def create
     @form_section = @form.form_sections.new(form_section_params)
 

@@ -3,17 +3,14 @@
   <% multi_section_question_number = 0 %>
   <% form.form_sections.each do |section| %>
     <div class="form-section-div list-group-item" id="<%= dom_id(section) %>" data-url="<%= admin_form_form_section_path(section) %>/sort">
+
       <div class="section-header-div">
-        <span class="section-title"><%= section.title %></span><br/>
-        <div class="section-menu-div">
-          <div class="section-menu-action">
-            <i class="fas fa-ellipsis-v ma-dropdown"></i>
-          </div>
-          <div id="section-dropdown" class="dropdown-content">
-            <p>
-              <%= link_to 'Edit Section', edit_admin_form_form_section_path(form, section), class: 'form-edit-section' %><br/>
-            </p>
-          </div>
+        <div class="section-title-view"><span class="section-titl-lbl"><%= section.title %><span><br/></div>
+        <div class="section-title-edit">
+          <input type="text" value="<%= section.title %>" class="section-title" />
+          <a href="<%= admin_form_form_section_path(form, section) %>" class="form-section-save" >
+            <span class="icon-div"><i class="fas fa-save" title="Save section title"></i></span>
+          </a><br/>
         </div>
       </div>
 
@@ -21,6 +18,7 @@
         <% section.questions.each_with_index do |question, index| %>
           <% multi_section_question_number += 1 %>
           <div class="question well list-group-item" id="<%= dom_id(question) %>" >
+
             <div class="question-menu-div">
               <div class="question-menu-action">
                 <i class="fas fa-ellipsis-v ma-dropdown"></i>
@@ -34,6 +32,7 @@
                 </p>
               </div>
             </div>
+
             <h3>Question <%= multi_section_question_number %></h3>
             <% if question.question_type == "text_field" %>
               <%= render 'components/forms/edit/question_types/text_field', form: form, question: question, question_number: multi_section_question_number %>
@@ -89,7 +88,7 @@
 
   $( document ).ready(function() {
     $(".dropdown-content").hide();
-
+    $("div.section-title-edit").hide();
 
     $('.form-add-section').click(function(event) {
       var dlg_opt = {
@@ -109,21 +108,33 @@
       });
     });
 
-    $('.form-edit-section').click(function(event) {
-      var dlg_opt = {
-        autoOpen: false,
-        modal: true,
-        title: 'Edit Form Section',
-        width: 300
-      };
+    $("div.section-title-view").click(function(event) {
+      $('div.section-title-edit').hide();
+      $('div.section-title-view').show();
+      $(this).hide();
+      var titleEdit = $(this).parent().find("div.section-title-edit");
+      $(titleEdit).show();
+    });
+
+    $("span.section-title-lbl").click(function(event) {
+      $('div.section-title-edit').hide();
+      $('div.section-title-view').show();
+      $(this).parent().hide();
+      var titleEdit = $(this).parent().parent().find("div.section-title-edit");
+      $(titleEdit).show();
+    });
+
+    $('.form-section-save').click(function(event) {
       event.preventDefault();
+      var titleInput = $(this).parent().find("input.section-title");
+      var titleLabel = $(this).parent().parent().find("div.section-title-view");
+      $(titleLabel).html($(titleInput).val());
+      $('div.section-title-edit').hide();
+      $(titleLabel).show();
       $.ajax({
-        type: "GET",
-        url: $(this).attr("href"),
-        success: function (data) {
-          $("#fba-modal-dialog").find(".modal-content").html(data);
-          $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
-        }
+        type: "PATCH",
+        url: $(this).attr("href") + "/update_title",
+        data: {title: $(titleInput).val()}
       });
     });
 
@@ -162,6 +173,7 @@
         }
       });
     });
+
     $(".questions").sortable({
       update: function(e, ui) {
         $.ajax({

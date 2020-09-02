@@ -447,13 +447,26 @@ tbody tr:hover td {
   background: #71767A;
   height: 50px;
 }
-.section-title {
+.section-title-view {
   position: relative;
-  top: 10px;
   padding-top: 10px;
   padding-left: 20px ;
   padding-bottom: 10px;
   color: #FFFFFF;
+}
+.section-title-edit {
+  position: relative;
+  padding-top: 10px;
+  padding-left: 20px ;
+  padding-bottom: 10px;
+  color: #000000;
+}
+.icon-div {
+    border-radius: 4px 4px 4px 4px;
+    background: #FFFFFF;
+    padding-left: 2px;
+    padding-right: 2px;
+    border: 2px solid #000000;
 }
 .ui-widget-header {
   background: #FFFFFF;

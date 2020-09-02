@@ -56,6 +56,7 @@ Rails.application.routes.draw do
       end
       resources :form_sections do
         patch "sort", to: "form_sections#sort", as: :sort_sections
+        patch "update_title", to: "form_sections#update_title", as: :inline_update
       end
       resources :questions do
         resources :question_options
