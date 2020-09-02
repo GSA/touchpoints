@@ -95,9 +95,9 @@ feature "Forms", js: true do
         it "redirect to /form/:uuid/questions with a success flash message" do
           expect(find('.usa-alert.usa-alert--info')).to have_content("Survey was successfully created.")
           @form = Form.last
-          expect(page).to have_content("Editing Questions")
+          expect(page).to have_content("Editing Questions for Survey")
           expect(page).to have_content(@form.name)
-          expect(page).to have_content("Form Builder")
+          expect(page).to have_content("Survey Questions")
           expect(page.current_path).to eq(questions_admin_form_path(@form))
         end
       end
@@ -512,9 +512,10 @@ feature "Forms", js: true do
               describe "#edit" do
                 before do
                   visit questions_admin_form_path(form)
+                  page.execute_script "$('.question-menu-action').trigger('mouseover')"
+                  expect(page).to have_selector('.dropdown-content',visible: true)
                   click_on "Edit Question"
                   expect(page.current_path).to eq(questions_admin_form_path(form))
-                  expect(page).to have_content("Editing Question")
                   expect(find_field('question_text').value).to eq 'New dropdown field'
                 end
 
@@ -588,6 +589,8 @@ feature "Forms", js: true do
           context "with Form Manager permissions" do
             before do
               visit questions_admin_form_path(form2)
+              page.execute_script "$('.question-menu-action').trigger('mouseover')"
+              expect(page).to have_selector('.dropdown-content',visible: true)
             end
 
             it "display the Delete Question button" do
@@ -844,6 +847,8 @@ feature "Forms", js: true do
 
         before do
           visit questions_admin_form_path(form2)
+          page.execute_script "$('.question-menu-action').trigger('mouseover')"
+          expect(page).to have_selector('.dropdown-content',visible: true)
         end
 
         it "see the delete button, click it, and delete the question" do

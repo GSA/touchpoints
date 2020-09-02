@@ -11,12 +11,7 @@
           </div>
           <div id="section-dropdown" class="dropdown-content">
             <p>
-              <%= link_to 'Add section', new_admin_form_form_section_path(form), class: 'form-add-section' %><br/>
-              <%= link_to 'Edit section', edit_admin_form_form_section_path(form, section), class: 'form-edit-section' %><br/>
-              <% unless section.questions.present? || form.form_sections.count == 1  %>
-                <%= link_to 'Delete section', admin_form_form_section_path(form, section), method: :delete, data: { confirm: 'Are you sure?' }, class: 'form-delete-section' %><br/>
-              <% end %>
-              <%= link_to 'Add question', new_admin_form_question_path(form), class: "form-add-question" %><br/>
+              <%= link_to 'Edit Section', edit_admin_form_form_section_path(form, section), class: 'form-edit-section' %><br/>
             </p>
           </div>
         </div>
@@ -26,15 +21,15 @@
         <% section.questions.each_with_index do |question, index| %>
           <% multi_section_question_number += 1 %>
           <div class="question well list-group-item" id="<%= dom_id(question) %>" >
-            <div class=".question-menu-div">
+            <div class="question-menu-div">
               <div class="question-menu-action">
                 <i class="fas fa-ellipsis-v ma-dropdown"></i>
               </div>
-              <div id="question-dropdown" class="dropdown-content">
+              <div class="dropdown-content">
                 <p>
-                    <%= link_to 'Edit question', edit_admin_form_question_path(@form, question), class: "form-edit-question" %><br/>
+                    <%= link_to 'Edit Question', edit_admin_form_question_path(@form, question), class: "form-edit-question" %><br/>
                     <% if form_permissions?(form: @form) %>
-                      <%= link_to 'Delete question', admin_form_question_path(@form, question), method: :delete, data: { confirm: 'Are you sure?' }, class: "form-delete-question" %><br/>
+                      <%= link_to 'Delete Question', admin_form_question_path(@form, question), method: :delete, data: { confirm: 'Are you sure?' }, class: "form-delete-question" %><br/>
                     <% end %>
                 </p>
               </div>
@@ -65,15 +60,31 @@
             <% elsif question.question_type == "text_display" %>
               <%= render 'components/forms/question_types/text_display', form: form, question: question, question_number: multi_section_question_number %>
             <% end %>
-
           </div>
+        <% end %>
+        <% unless section.questions.present? || form.form_sections.count == 1  %>
+          <%= link_to admin_form_form_section_path(form, section), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
+            <span class="fas fa-trash"></span>
+            Delete Section
+          <% end %>
         <% end %>
       </div>
   </div>
   <br>
   <% end %>
 </div>
-
+<p>
+  <%= link_to new_admin_form_question_path(form), class: "usa-button form-add-question" do %>
+    <span class="fa fa-plus"></span>
+     Add Question
+  <% end %>
+</p>
+<p>
+  <%= link_to new_admin_form_form_section_path(form), class: "usa-button form-add-section" do %>
+    <span class="fa fa-plus"></span>
+    Add Section
+  <% end %>
+</p>
 <script>
 
   $( document ).ready(function() {
@@ -84,7 +95,7 @@
       var dlg_opt = {
         autoOpen: false,
         modal: true,
-        title: 'New section',
+        title: 'New Form Section',
         width: 300
       };
       event.preventDefault();
@@ -102,7 +113,7 @@
       var dlg_opt = {
         autoOpen: false,
         modal: true,
-        title: 'Edit section',
+        title: 'Edit Form Section',
         width: 300
       };
       event.preventDefault();
@@ -120,7 +131,7 @@
       var dlg_opt = {
         autoOpen: false,
         modal: true,
-        title: 'Add question',
+        title: 'New Question',
         width: 600
       };
       event.preventDefault();
@@ -138,7 +149,7 @@
       var dlg_opt = {
         autoOpen: false,
         modal: true,
-        title: 'Edit question',
+        title: 'Edit Question',
         width: 600
       };
       event.preventDefault();
