@@ -61,6 +61,7 @@ class Admin::QuestionsController < AdminController
 
     @question.destroy
     respond_to do |format|
+      format.js { }
       format.html { redirect_to questions_admin_form_url(@form), notice: 'Question was successfully destroyed.' }
       format.json { head :no_content }
     end
