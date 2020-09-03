@@ -323,16 +323,6 @@ tbody tr:hover td {
   }
 }
 
-.form-section-div {
-  .well2 {
-    background: #F0F0F0;
-    margin-bottom: 4em;
-    padding: 1em;
-  }
-  .well2:last-child {
-    margin-bottom: 0;
-  }
-}
 
 #star_rating svg {
 	width: 1em;
@@ -383,4 +373,111 @@ tbody tr:hover td {
 }
 #star_rating .visuallyhidden {
 	display: none;
+}
+.form-section-div {
+  .well2 {
+    border-radius: 0px 0px 8px 8px;
+    background: #FFFFFF;
+    margin-bottom: 4em;
+    padding: 1em;
+  }
+  .well2:last-child {
+    margin-bottom: 0;
+  }
+}
+.questions-spa-div {
+  background: #F0F0F0;
+  border-radius: 8px;
+  padding: 10px;
+}
+.form-section-div {
+  border-radius: 8px 8px 8px 8px;
+  padding-top: 10px;
+}
+.section-menu-action, .question-menu-action {
+  float: right;
+  background: #FFFFFF;
+  border: 2px solid black;
+  border-radius: 50%;
+  padding: 8px;
+  position: relative;
+  padding-left: 16px;
+  padding-right: 16px;
+  z-index: 2;
+  top: -18px;
+  right: 10px;
+}
+
+.question-menu-action {
+  top: 0px;
+}
+
+.section-menu-div {
+  float: right;
+  position: relative;
+  z-index: 2;
+  top: 0px;
+}
+.qustion-menu-div {
+  float: right;
+  position: relative;
+  z-index: 1;
+  margin-top: 20px;
+}
+.dropdown-content {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  background: white;
+  position: relative;
+  top: 24px;
+  float: right;
+  padding-left: 16px;
+  padding-right: 16px;
+  line-height: 24px;
+}
+.section-menu-div .dropdown-content {
+  top: 10px;
+}
+.dropdown-content a:hover, .dropdown-content a:visited, .dropdown-content a:link, .dropdown-content a:active {
+    text-decoration: none;
+    color: blue;
+}
+.section-header-div {
+  border-radius: 8px 8px 0px 0px;
+  padding: 8px 0px 0px 0px;
+  background: #71767A;
+  height: 50px;
+}
+.section-title-view {
+  position: relative;
+  padding-top: 10px;
+  padding-left: 20px ;
+  padding-bottom: 10px;
+  color: #FFFFFF;
+}
+.section-title-edit {
+  position: relative;
+  padding-top: 10px;
+  padding-left: 20px ;
+  padding-bottom: 10px;
+  color: #000000;
+}
+a.form-section-save {
+  color: white;
+}
+.ui-widget-header {
+  background: #FFFFFF;
+}
+.section-title-input {
+  background: #FFFFFF;
+  /* #71767a bg-base */
+  margin-left: 20px;
+  margin-top: 10px;
+  padding: 5px;
+  border: 1px solid #71767A;
+  box-sizing: border-box;
+  width: 200px;
+}
+#modal-window {
+  min-width: 600px;
+  background: #FFFFFF;
 }

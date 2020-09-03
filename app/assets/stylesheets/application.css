@@ -13,5 +13,6 @@
  *= require uswds
  *= require site
  *= require font-awesome-all
+ *= require jquery-ui
  *= require_self
  */

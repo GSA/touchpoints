@@ -16,7 +16,11 @@
   <div class="field">
     <%= f.label :question_type, class: "usa-label" %>
     <% if admin_permissions? %>
-    <%= f.select :question_type, Question::QUESTION_TYPES, { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
+    <br>
+    <% Question::QUESTION_TYPES.each do |kind| %>
+      <%= f.radio_button :question_type, kind %> <%= kind %>
+      <br>
+    <% end %>
     <% else %>
     <%= f.select :question_type, Question::QUESTION_TYPES - ["star_radio_buttons", "yes_no_buttons", "thumbs_up_down_buttons", "matrix_checkboxes"], { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
     <% end %>
@@ -53,7 +57,7 @@
   </div>
   <% end %>
 
-  <div class="well">
+  <div>
     <h4>
       Positioning
     </h4>
@@ -61,11 +65,6 @@
       <%= f.label :form_section, class: "usa-label" %>
       <% form_section_options = options_for_select(@form.form_sections.map { |section| ["#{section.position} - #{section.title}", section.id] }, selected: question.form_section_id) %>
       <%= f.select :form_section_id, form_section_options, {}, { class: "usa-select" } %>
-    </div>
-
-    <div class="field">
-      <%= f.label :position, class: "usa-label" %>
-      <%= f.number_field :position, value: (!question.persisted? ? (@form.questions.size + 1) : question.position), class: "usa-input"  %>
     </div>
   </div>
 

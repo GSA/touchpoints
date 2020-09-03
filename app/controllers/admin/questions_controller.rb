@@ -3,7 +3,7 @@ class Admin::QuestionsController < AdminController
   before_action :set_question, only: [:show, :edit, :update, :destroy]
 
   def index
-    @questions = Question.all
+    @questions = Question.all.order(:position)
   end
 
   def show
@@ -18,8 +18,18 @@ class Admin::QuestionsController < AdminController
     render layout: false
   end
 
+  def sort
+    params[:question].each_with_index do |id, index|
+      Question.where(id: id).update_all(position: index + 1)
+    end
+
+    head :ok
+  end
+
   def create
+    next_position = @form.questions.size + 1
     @question = Question.new(question_params)
+    @question.position = next_position
 
     respond_to do |format|
       if @question.save

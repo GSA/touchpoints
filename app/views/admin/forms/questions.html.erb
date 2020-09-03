@@ -10,11 +10,25 @@
 <%= render 'admin/forms/nav', form: @form %>
 <div class="grid-row">
   <div class="grid-col">
-    <h2>
-      Form Builder
-    </h2>
-    <div class="form-builder">
-      <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
+    <p>
+      <%= link_to admin_form_path(@form) do %>
+        <i class="fa fa-arrow-circle-left"></i>
+        Back to Survey
+      <% end %>
+    </p>
+    <div class="questions-spa-div">
+      <h2>
+        Survey Questions
+      </h2>
+      <div class="form-builder">
+        <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
+      </div>
     </div>
+  </div>
+</div>
+<div id="fba-modal" class="hide usa-prose">
+  <div id="fba-modal-dialog" class="fba-modal-dialog">
+    <h3 id="fba-modal-title"></h3>
+    <div class="modal-content"></div>
   </div>
 </div>
