@@ -2,9 +2,4 @@
   <h1>Editing Question Option</h1>
 
   <%= render 'form', form: @question.form, question: @question, question_option: @question_option %>
-
-  <p>
-    <%= link_to 'Back to Edit Form', edit_admin_form_path(@question.form), class: "usa-button usa-button--outline" %>
-    <%= link_to 'Delete Question Option', admin_form_question_question_option_path(@question.form, @question, @question_option), class: "usa-button bg-red", method: :delete, data: { confirm: 'Are you sure?' } %>
-  </p>
 </div>
