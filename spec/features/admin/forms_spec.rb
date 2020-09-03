@@ -870,11 +870,11 @@ feature "Forms", js: true do
         end
 
         it "see the delete button, click it, and delete the question" do
+          expect(page).to have_css(".question#question_#{form2.id}")
           expect(page).to have_link("Delete")
-
           click_on("Delete")
           page.driver.browser.switch_to.alert.accept
-          expect(page).to have_content("Question was successfully destroyed.")
+          expect(page).to_not have_css(".question#question_#{form2.id}")
         end
 
         describe "update a Touchpoint Form Section" do
