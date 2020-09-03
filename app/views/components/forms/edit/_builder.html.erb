@@ -9,7 +9,7 @@
         <div class="section-title-edit">
           <input type="text" value="<%= section.title %>" class="section-title" />
           <a href="<%= admin_form_form_section_path(form, section) %>" class="form-section-save" >
-            <span class="icon-div"><i class="fas fa-save" title="Save section title"></i></span>
+            <i class="fas fa-save" title="Save section title"></i>
           </a><br/>
         </div>
       </div>
@@ -19,19 +19,26 @@
           <% multi_section_question_number += 1 %>
           <div class="question well list-group-item" id="<%= dom_id(question) %>" >
 
+            <% if form_permissions?(form: @form) %>
             <div class="question-menu-div">
               <div class="question-menu-action">
                 <i class="fas fa-ellipsis-v ma-dropdown"></i>
               </div>
               <div class="dropdown-content">
                 <p>
-                    <%= link_to 'Edit Question', edit_admin_form_question_path(@form, question), class: "form-edit-question" %><br/>
-                    <% if form_permissions?(form: @form) %>
-                      <%= link_to 'Delete Question', admin_form_question_path(@form, question), method: :delete, data: { confirm: 'Are you sure?' }, class: "form-delete-question" %><br/>
-                    <% end %>
+                  <%= link_to edit_admin_form_question_path(@form, question), class: "form-edit-question" do %>
+                    <i class="fa fa-pencil-alt"></i>
+                    Edit
+                  <% end %>
+                  <br>
+                  <%= link_to admin_form_question_path(@form, question), method: :delete, data: { confirm: 'Are you sure?' }, class: "form-delete-question" do %>
+                    <i class="fa fa-trash"></i>
+                    Delete
+                  <% end %>
                 </p>
               </div>
             </div>
+            <% end %>
 
             <h3>Question <%= multi_section_question_number %></h3>
             <% if question.question_type == "text_field" %>
@@ -84,12 +91,13 @@
     Add Section
   <% end %>
 </p>
-<script>
 
+<script>
   $( document ).ready(function() {
     $(".dropdown-content").hide();
     $("div.section-title-edit").hide();
 
+    <% if form_permissions?(form: @form) %>
     $('.form-add-section').click(function(event) {
       var dlg_opt = {
         autoOpen: false,
@@ -139,13 +147,13 @@
     });
 
     $('.form-add-question').click(function(event) {
+      event.preventDefault();
       var dlg_opt = {
         autoOpen: false,
         modal: true,
         title: 'New Question',
         width: 600
       };
-      event.preventDefault();
       $.ajax({
         type: "GET",
         url: $(this).attr("href"),
@@ -196,7 +204,6 @@
         });
       }
     });
-
   });
 
   $(".ma-dropdown").click(function(event) {
@@ -255,6 +262,6 @@
       contentDiv.html(data);
     }
   });
+  <% end %>
 });
-
 </script>

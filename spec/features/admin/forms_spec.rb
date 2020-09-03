@@ -265,6 +265,7 @@ feature "Forms", js: true do
 
       context "Edit Form page" do
         let!(:form) { FactoryBot.create(:form, :custom, organization: organization, user: admin) }
+        let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
 
         before do
           login_as(admin)
@@ -396,7 +397,7 @@ feature "Forms", js: true do
               click_on "Add Question"
               expect(page).to have_content("New Question")
               fill_in "question_text", with: "New Test Question"
-              select("text_field", from: "question_question_type")
+              choose "question_question_type_text_field"
               select("answer_01", from: "question_answer_field")
               select(form.form_sections.first.title, from: "question_form_section_id")
               click_on "Create Question"
@@ -418,7 +419,7 @@ feature "Forms", js: true do
               click_on "Add Question"
               expect(page).to have_content("New Question")
               fill_in "question_text", with: "New Text Area"
-              select("textarea", from: "question_question_type")
+              choose "question_question_type_textarea"
               select("answer_01", from: "question_answer_field")
               select(form.form_sections.first.title, from: "question_form_section_id")
               click_on "Create Question"
@@ -440,7 +441,7 @@ feature "Forms", js: true do
               click_on "Add Question"
               expect(page).to have_content("New Question")
               fill_in "question_text", with: "New Test Question Radio Buttons"
-              select("radio_buttons", from: "question_question_type")
+              choose "question_question_type_radio_buttons"
               select("answer_01", from: "question_answer_field")
               select(form.form_sections.first.title, from: "question_form_section_id")
               click_on "Create Question"
@@ -463,7 +464,7 @@ feature "Forms", js: true do
               expect(page.current_path).to eq(new_admin_form_question_path(form))
               expect(page).to have_content("New Question")
               fill_in "checkbox", with: "New Test Question Radio Buttons"
-              select("radio_buttons", from: "question_question_type")
+              choose "question_question_type_radio_buttons"
               select("answer_01", from: "question_answer_field")
               click_on "Create Question"
             end
@@ -484,7 +485,8 @@ feature "Forms", js: true do
                 click_on "Add Question"
                 expect(page.current_path).to eq(questions_admin_form_path(form))
                 expect(page).to have_content("New Question")
-                select("dropdown", from: "question_question_type")
+                choose "question_question_type_dropdown"
+                # select("dropdown", from: "question_question_type")
                 fill_in "question_text", with: "New dropdown field"
                 select("answer_01", from: "question_answer_field")
                 click_on "Create Question"
@@ -504,7 +506,7 @@ feature "Forms", js: true do
                   visit questions_admin_form_path(form)
                   page.execute_script "$('.question-menu-action').trigger('mouseover')"
                   expect(page).to have_selector('.dropdown-content',visible: true)
-                  click_on "Edit Question"
+                  click_on "Edit"
                   expect(page.current_path).to eq(questions_admin_form_path(form))
                   expect(find_field('question_text').value).to eq 'New dropdown field'
                 end
@@ -551,8 +553,7 @@ feature "Forms", js: true do
               click_on "Add Question"
               expect(page.current_path).to eq(questions_admin_form_path(form))
               expect(page).to have_content("New Question")
-
-              select("text_display", from: "question_question_type")
+              choose "question_question_type_text_display"
               fill_in "question_text", with: 'Some custom <a href="#">html</a>'
               select("answer_20", from: "question_answer_field")
               click_on "Create Question"
@@ -583,7 +584,7 @@ feature "Forms", js: true do
             end
 
             it "display the Delete Question button" do
-              expect(page).to have_link("Delete Question")
+              expect(page).to have_link("Delete")
             end
           end
         end
@@ -642,6 +643,8 @@ feature "Forms", js: true do
         end
 
         describe "editing Question Options" do
+          let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form: form, user: user) }
+
           describe "edit Radio Button option" do
             let!(:radio_button_question) { FactoryBot.create(:question, :with_radio_buttons, form: form, form_section: form.form_sections.first) }
             let!(:radio_button_option) { FactoryBot.create(:question_option, question: radio_button_question, position: 1) }
@@ -726,7 +729,7 @@ feature "Forms", js: true do
       end
 
       it "does not see the Delete Question button" do
-        expect(page).to_not have_link("Delete Question")
+        expect(page).to_not have_link("Delete")
       end
     end
 
@@ -841,9 +844,9 @@ feature "Forms", js: true do
         end
 
         it "see the delete button, click it, and delete the question" do
-          expect(page).to have_link("Delete Question")
+          expect(page).to have_link("Delete")
 
-          click_on("Delete Question")
+          click_on("Delete")
           page.driver.browser.switch_to.alert.accept
           expect(page).to have_content("Question was successfully destroyed.")
         end
