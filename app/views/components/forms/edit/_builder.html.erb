@@ -3,6 +3,11 @@
     <%= form.title %>
   </h3>
 <% end %>
+<% if form.instructions? %>
+<p class="fba-instructions">
+  <%= sanitize(form.instructions) %>
+</p>
+<% end %>
 <div class="sorting-div list-group" id="sections">
   <%= hidden_field_tag :fba_location_code, params[:location_code] %>
   <% multi_section_question_number = 0 %>

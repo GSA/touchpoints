@@ -14,7 +14,6 @@
       <% end %>
     </p>
   </label>
-  <br>
   <% question.question_options.each_with_index do |option, index| %>
   <div class="usa-checkbox">
     <%= radio_button_tag(question.answer_field.to_sym, index + 1, nil, { value: option.value, class: "usa-radio__input", required: question.is_required  }) %>
