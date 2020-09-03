@@ -258,8 +258,16 @@ class Admin::FormsController < AdminController
     start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Time.now.beginning_of_quarter
     end_date = params[:end_date] ? Date.parse(params[:end_date]).to_date : Time.now.end_of_quarter
 
-    ExportJob.perform_later(params[:uuid], @form.short_uuid, start_date.to_s, end_date.to_s, "touchpoints-form-responses-#{timestamp_string}.csv")
-    render json: { result: :ok }
+    respond_to do |format|
+      format.csv {
+        csv_content = Form.find_by_short_uuid(@form.short_uuid).to_csv(start_date: start_date, end_date: end_date)
+        send_data csv_content
+      }
+      format.json {
+        ExportJob.perform_later(params[:uuid], @form.short_uuid, start_date.to_s, end_date.to_s, "touchpoints-form-responses-#{timestamp_string}.csv")
+        render json: { result: :ok }
+      }
+    end
   end
 
   # A-11 Header report. File 1 of 2
