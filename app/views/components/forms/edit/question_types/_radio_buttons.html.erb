@@ -25,6 +25,9 @@
   </div>
   <% end %>
   <div class="new-question-options-div">
-    <%= link_to "Add Radio Button Option", new_admin_form_question_question_option_path(question.form, question), class: "usa-button usa-button--outline form-add-question-option" %>
+    <%= link_to new_admin_form_question_question_option_path(question.form, question), class: "usa-button form-add-question-option" do %>
+      <i class="fa fa-plus"></i>
+      Add Radio Button Option
+    <% end %>
   </div>
 </fieldset>

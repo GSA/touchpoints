@@ -30,5 +30,13 @@
 
   <p>
     <%= form.submit class: "usa-button" %>
+
+    <% if question_option.persisted? %>
+      <%= link_to admin_form_question_question_option_path(form, question, question_option), class: "usa-button bg-red float-right", method: :delete, data: { confirm: 'Are you sure?' } do %>
+        <i class="fa fa-trash"></i>
+        Delete
+      <% end %>
+    <% end %>
+
   </p>
 <% end %>

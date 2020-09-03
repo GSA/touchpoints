@@ -13,6 +13,16 @@
     <% end %>
   </li>
   <li class="usa-button-group__item">
+    <%= link_to questions_admin_form_path(form), class: "usa-button #{current_path == questions_admin_form_path(form) ? nil : 'usa-button--outline'}" do %>
+    Questions (<%= form.questions.size %>)
+    <% end %>
+  </li>
+  <li class="usa-button-group__item">
+    <%= link_to responses_admin_form_path(form), class: "usa-button #{current_path == responses_admin_form_path(form) ? nil : 'usa-button--outline'}" do %>
+      Responses (<%= form.submissions.size %>)
+    <% end %>
+  </li>
+  <li class="usa-button-group__item">
     <%= link_to permissions_admin_form_path(form), class: "usa-button #{current_path == permissions_admin_form_path(form) ? nil : 'usa-button--outline'}" do %>
       Permissions
     <% end %>
@@ -20,16 +30,6 @@
   <li class="usa-button-group__item">
     <%= link_to compliance_admin_form_path(form), class: "usa-button #{current_path == compliance_admin_form_path(form) ? nil : 'usa-button--outline'}" do %>
       PRA
-    <% end %>
-  </li>
-  <li class="usa-button-group__item">
-    <%= link_to questions_admin_form_path(form), class: "usa-button #{current_path == questions_admin_form_path(form) ? nil : 'usa-button--outline'}" do %>
-      Questions (<%= form.questions.size %>)
-    <% end %>
-  </li>
-  <li class="usa-button-group__item">
-    <%= link_to responses_admin_form_path(form), class: "usa-button #{current_path == responses_admin_form_path(form) ? nil : 'usa-button--outline'}" do %>
-      Responses (<%= form.submissions.size %>)
     <% end %>
   </li>
 </ul>
