@@ -95,9 +95,9 @@ feature "Forms", js: true do
         it "redirect to /form/:uuid/questions with a success flash message" do
           expect(find('.usa-alert.usa-alert--info')).to have_content("Survey was successfully created.")
           @form = Form.last
-          expect(page).to have_content("Editing Questions for Survey")
+          expect(page).to have_content("Editing Questions for")
           expect(page).to have_content(@form.name)
-          expect(page).to have_content("Survey Questions")
+          expect(page).to have_content(@form.title)
           expect(page.current_path).to eq(questions_admin_form_path(@form))
         end
       end

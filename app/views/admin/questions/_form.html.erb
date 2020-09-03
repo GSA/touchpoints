@@ -14,6 +14,11 @@
   <%= f.hidden_field :form_id, value: @form.id %>
 
   <div class="field">
+    <%= f.label :text, class: "usa-label" %>
+    <%= f.text_field :text, class: "usa-input" %>
+  </div>
+
+  <div class="field">
     <%= f.label :question_type, class: "usa-label" %>
     <% if admin_permissions? %>
     <br>
@@ -26,15 +31,10 @@
     <% end %>
   </div>
 
-  <div class="field">
-    <%= f.label :text, class: "usa-label" %>
-    <%= f.text_field :text, class: "usa-input" %>
-  </div>
-
   <div class="grid-row">
-    <div class="grid-col-6">
+    <div class="grid-col-12">
       <div class="field">
-        <%= f.label :answer_field, class: "usa-label" %>
+        <%= f.label :answer_field, "Which A-11 question does this pertain to?", class: "usa-label" %>
         <%= f.select :answer_field, answer_fields, { selected: question.answer_field, include_blank: true }, { class: "usa-select" } %>
       </div>
     </div>
@@ -57,15 +57,10 @@
   </div>
   <% end %>
 
-  <div>
-    <h4>
-      Positioning
-    </h4>
-    <div class="field">
-      <%= f.label :form_section, class: "usa-label" %>
-      <% form_section_options = options_for_select(@form.form_sections.map { |section| ["#{section.position} - #{section.title}", section.id] }, selected: question.form_section_id) %>
-      <%= f.select :form_section_id, form_section_options, {}, { class: "usa-select" } %>
-    </div>
+  <div class="field">
+    <%= f.label :form_section, "Which form section?", class: "usa-label" %>
+    <% form_section_options = options_for_select(@form.form_sections.map { |section| ["#{section.position} - #{section.title}", section.id] }, selected: question.form_section_id) %>
+    <%= f.select :form_section_id, form_section_options, {}, { class: "usa-select" } %>
   </div>
 
   <br>

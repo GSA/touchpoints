@@ -1,4 +1,9 @@
-<div class="sorting-div  list-group" id="sections">
+<% if form.title? %>
+  <h3 id="fba-modal-title">
+    <%= form.title %>
+  </h3>
+<% end %>
+<div class="sorting-div list-group" id="sections">
   <%= hidden_field_tag :fba_location_code, params[:location_code] %>
   <% multi_section_question_number = 0 %>
   <% form.form_sections.each do |section| %>
@@ -17,30 +22,9 @@
       <div class="section well2 list-group questions">
         <% section.questions.each_with_index do |question, index| %>
           <% multi_section_question_number += 1 %>
-          <div class="question well list-group-item" id="<%= dom_id(question) %>" >
+          <div class="question well3 list-group-item" id="<%= dom_id(question) %>" >
+            <%= render 'components/forms/edit/button_dropdown', { form: form, question: question } if form_permissions?(form: form) %>
 
-            <% if form_permissions?(form: @form) %>
-            <div class="question-menu-div">
-              <div class="question-menu-action">
-                <i class="fas fa-ellipsis-v ma-dropdown"></i>
-              </div>
-              <div class="dropdown-content">
-                <p>
-                  <%= link_to edit_admin_form_question_path(@form, question), class: "form-edit-question" do %>
-                    <i class="fa fa-pencil-alt"></i>
-                    Edit
-                  <% end %>
-                  <br>
-                  <%= link_to admin_form_question_path(@form, question), method: :delete, data: { confirm: 'Are you sure?', remote: true }, class: "form-delete-question" do %>
-                    <i class="fa fa-trash"></i>
-                    Delete
-                  <% end %>
-                </p>
-              </div>
-            </div>
-            <% end %>
-
-            <h3>Question <%= multi_section_question_number %></h3>
             <% if question.question_type == "text_field" %>
               <%= render 'components/forms/edit/question_types/text_field', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "radio_buttons" %>
@@ -68,7 +52,13 @@
             <% end %>
           </div>
         <% end %>
+        <%= link_to new_admin_form_question_path(form), class: "usa-button form-add-question" do %>
+          <span class="fa fa-plus"></span>
+          Add Question
+        <% end %>
+        <br>
         <% unless section.questions.present? || form.form_sections.count == 1  %>
+          <br>
           <%= link_to admin_form_form_section_path(form, section), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
             <span class="fas fa-trash"></span>
             Delete Section
@@ -79,12 +69,6 @@
   <br>
   <% end %>
 </div>
-<p>
-  <%= link_to new_admin_form_question_path(form), class: "usa-button form-add-question" do %>
-    <span class="fa fa-plus"></span>
-     Add Question
-  <% end %>
-</p>
 <p>
   <%= link_to new_admin_form_form_section_path(form), class: "usa-button form-add-section" do %>
     <span class="fa fa-plus"></span>
