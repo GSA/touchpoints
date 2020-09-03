@@ -11,14 +11,33 @@ class Admin::FormSectionsController < AdminController
 
   def new
     @form_section = @form.form_sections.new
+    render layout: false
   end
 
   def edit
     render layout: false
   end
 
+  def sort
+    params[:form_section].each_with_index do |id, index|
+      FormSection.where(id: id).update_all(position: index + 1)
+    end
+
+    head :ok
+  end
+
+
+  def update_title
+    return unless params[:title] && params[:title].length > 1
+    FormSection.where(id: params[:form_section_id]).update(title: params[:title])
+
+    head :ok
+  end
+
   def create
+    next_position = @form.form_sections.collect(&:position).max + 1
     @form_section = @form.form_sections.new(form_section_params)
+    @form_section.position = next_position
 
     if @form_section.save
       redirect_to questions_admin_form_path(@form), notice: 'Form section was successfully created.'

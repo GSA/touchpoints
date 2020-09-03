@@ -59,7 +59,7 @@ class Form < ApplicationRecord
   end
 
   DELIVERY_METHODS = [
-    ["touchpoints-hosted-only", "Hosted directly on Touchpoints"],
+    ["touchpoints-hosted-only", "Hosted on Touchpoints"],
     ["modal","Modal"],
     ["custom-button-modal","Custom button modal"],
     ["inline","Inline"]

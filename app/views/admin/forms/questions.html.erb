@@ -1,5 +1,5 @@
 <% content_for :navigation_title do %>
-  Editing Questions for Survey: <%= @form.name %>
+  Editing Questions for: <%= @form.name %>
 <% end %>
 <p>
   <%= link_to admin_forms_path do %>
@@ -8,13 +8,19 @@
   <% end %>
 </p>
 <%= render 'admin/forms/nav', form: @form %>
+<br>
 <div class="grid-row">
   <div class="grid-col">
-    <h2>
-      Form Builder
-    </h2>
-    <div class="form-builder">
-      <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
+    <div class="questions-spa-div">
+      <div class="form-builder">
+        <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
+      </div>
     </div>
+    <br>
+  </div>
+</div>
+<div id="fba-modal" class="hide usa-prose">
+  <div id="fba-modal-dialog" class="fba-modal-dialog">
+    <div class="modal-content"></div>
   </div>
 </div>

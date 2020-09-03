@@ -1,8 +1,5 @@
-<div class="<%= question.answer_field %>" role="group" aria-labelledby="<%= question.answer_field %>">
-  <label class="usa-label">
-    <%= t question_number.to_s %>.
-    <%= question.text %>
-  </label>
+<div class="radios <%= question.answer_field %>" role="group" aria-labelledby="<%= question.answer_field %>">
+  <%= render 'components/question_title', question: question, question_number: question_number %>
   <br>
   <div>
     <% question.question_options.each_with_index do |option, index| %>

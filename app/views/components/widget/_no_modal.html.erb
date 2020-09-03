@@ -2,7 +2,7 @@
   <div class="wrapper">
     <% if form.title? %>
       <h3 id="fba-modal-title">
-        <%= form.title %>
+        <%= form.title || "Form Title" %>
       </h3>
     <% end %>
     <% unless form.delivery_method == "inline" %>

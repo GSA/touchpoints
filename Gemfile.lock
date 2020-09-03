@@ -56,6 +56,7 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    acts-as-list (0.1.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     aes_key_wrap (1.1.0)
@@ -159,6 +160,8 @@ GEM
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
+    jquery-ui-rails (6.0.1)
+      railties (>= 3.2.16)
     json-jwt (1.13.0)
       activesupport (>= 4.2)
       aes_key_wrap
@@ -339,6 +342,7 @@ PLATFORMS
 
 DEPENDENCIES
   aasm (~> 4.12)
+  acts-as-list
   aws-sdk-rails (>= 3.1.0)
   capybara (>= 3.32.2)
   caracal
@@ -349,6 +353,7 @@ DEPENDENCIES
   factory_bot_rails (>= 5.2.0)
   fog-aws
   jquery-rails (>= 4.4.0)
+  jquery-ui-rails
   json-jwt
   listen (>= 3.0.5, < 3.2)
   mail

@@ -95,9 +95,9 @@ feature "Forms", js: true do
         it "redirect to /form/:uuid/questions with a success flash message" do
           expect(find('.usa-alert.usa-alert--info')).to have_content("Survey was successfully created.")
           @form = Form.last
-          expect(page).to have_content("Editing Questions")
+          expect(page).to have_content("Editing Questions for")
           expect(page).to have_content(@form.name)
-          expect(page).to have_content("Form Builder")
+          expect(page).to have_content(@form.title)
           expect(page.current_path).to eq(questions_admin_form_path(@form))
         end
       end
@@ -265,6 +265,7 @@ feature "Forms", js: true do
 
       context "Edit Form page" do
         let!(:form) { FactoryBot.create(:form, :custom, organization: organization, user: admin) }
+        let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
 
         before do
           login_as(admin)
@@ -336,7 +337,6 @@ feature "Forms", js: true do
             describe "add Form Section" do
               before do
                 fill_in("form_section_title", with: "Test Form Section Title")
-                select("1", from: "form_section_position")
                 click_on "Create Section"
               end
 
@@ -380,7 +380,6 @@ feature "Forms", js: true do
                 click_on "Add Section"
                 expect(page).to have_content("New Form Section")
                 fill_in("form_section_title", with: "Test Form Section Title")
-                select("1", from: "form_section_position")
                 click_on "Create Section"
               end
 
@@ -398,10 +397,9 @@ feature "Forms", js: true do
               click_on "Add Question"
               expect(page).to have_content("New Question")
               fill_in "question_text", with: "New Test Question"
-              select("text_field", from: "question_question_type")
+              choose "question_question_type_text_field"
               select("answer_01", from: "question_answer_field")
               select(form.form_sections.first.title, from: "question_form_section_id")
-              expect(find_field('question_position').value).to eq '1'
               click_on "Create Question"
             end
 
@@ -421,10 +419,9 @@ feature "Forms", js: true do
               click_on "Add Question"
               expect(page).to have_content("New Question")
               fill_in "question_text", with: "New Text Area"
-              select("textarea", from: "question_question_type")
+              choose "question_question_type_textarea"
               select("answer_01", from: "question_answer_field")
               select(form.form_sections.first.title, from: "question_form_section_id")
-              expect(find_field('question_position').value).to eq '1'
               click_on "Create Question"
             end
 
@@ -444,11 +441,9 @@ feature "Forms", js: true do
               click_on "Add Question"
               expect(page).to have_content("New Question")
               fill_in "question_text", with: "New Test Question Radio Buttons"
-              select("radio_buttons", from: "question_question_type")
+              choose "question_question_type_radio_buttons"
               select("answer_01", from: "question_answer_field")
               select(form.form_sections.first.title, from: "question_form_section_id")
-
-              expect(find_field('question_position').value).to eq '1'
               click_on "Create Question"
             end
 
@@ -469,10 +464,8 @@ feature "Forms", js: true do
               expect(page.current_path).to eq(new_admin_form_question_path(form))
               expect(page).to have_content("New Question")
               fill_in "checkbox", with: "New Test Question Radio Buttons"
-              select("radio_buttons", from: "question_question_type")
+              choose "question_question_type_radio_buttons"
               select("answer_01", from: "question_answer_field")
-
-              expect(find_field('question_position').value).to eq '1'
               click_on "Create Question"
             end
 
@@ -492,11 +485,10 @@ feature "Forms", js: true do
                 click_on "Add Question"
                 expect(page.current_path).to eq(questions_admin_form_path(form))
                 expect(page).to have_content("New Question")
-                select("dropdown", from: "question_question_type")
+                choose "question_question_type_dropdown"
+                # select("dropdown", from: "question_question_type")
                 fill_in "question_text", with: "New dropdown field"
                 select("answer_01", from: "question_answer_field")
-
-                expect(find_field('question_position').value).to eq '1'
                 click_on "Create Question"
               end
 
@@ -512,9 +504,10 @@ feature "Forms", js: true do
               describe "#edit" do
                 before do
                   visit questions_admin_form_path(form)
-                  click_on "Edit Question"
+                  page.execute_script "$('.question-menu-action').trigger('mouseover')"
+                  expect(page).to have_selector('.dropdown-content',visible: true)
+                  click_on "Edit"
                   expect(page.current_path).to eq(questions_admin_form_path(form))
-                  expect(page).to have_content("Editing Question")
                   expect(find_field('question_text').value).to eq 'New dropdown field'
                 end
 
@@ -560,11 +553,9 @@ feature "Forms", js: true do
               click_on "Add Question"
               expect(page.current_path).to eq(questions_admin_form_path(form))
               expect(page).to have_content("New Question")
-
-              select("text_display", from: "question_question_type")
+              choose "question_question_type_text_display"
               fill_in "question_text", with: 'Some custom <a href="#">html</a>'
               select("answer_20", from: "question_answer_field")
-              expect(find_field('question_position').value).to eq '1'
               click_on "Create Question"
             end
 
@@ -588,10 +579,12 @@ feature "Forms", js: true do
           context "with Form Manager permissions" do
             before do
               visit questions_admin_form_path(form2)
+              page.execute_script "$('.question-menu-action').trigger('mouseover')"
+              expect(page).to have_selector('.dropdown-content',visible: true)
             end
 
             it "display the Delete Question button" do
-              expect(page).to have_link("Delete Question")
+              expect(page).to have_link("Delete")
             end
           end
         end
@@ -650,6 +643,8 @@ feature "Forms", js: true do
         end
 
         describe "editing Question Options" do
+          let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form: form, user: user) }
+
           describe "edit Radio Button option" do
             let!(:radio_button_question) { FactoryBot.create(:question, :with_radio_buttons, form: form, form_section: form.form_sections.first) }
             let!(:radio_button_option) { FactoryBot.create(:question_option, question: radio_button_question, position: 1) }
@@ -760,7 +755,7 @@ feature "Forms", js: true do
       end
 
       it "does not see the Delete Question button" do
-        expect(page).to_not have_link("Delete Question")
+        expect(page).to_not have_link("Delete")
       end
     end
 
@@ -870,14 +865,16 @@ feature "Forms", js: true do
 
         before do
           visit questions_admin_form_path(form2)
+          page.execute_script "$('.question-menu-action').trigger('mouseover')"
+          expect(page).to have_selector('.dropdown-content',visible: true)
         end
 
         it "see the delete button, click it, and delete the question" do
-          expect(page).to have_link("Delete Question")
-
-          click_on("Delete Question")
+          expect(page).to have_css(".question#question_#{form2.id}")
+          expect(page).to have_link("Delete")
+          click_on("Delete")
           page.driver.browser.switch_to.alert.accept
-          expect(page).to have_content("Question was successfully destroyed.")
+          expect(page).to_not have_css(".question#question_#{form2.id}")
         end
 
         describe "update a Touchpoint Form Section" do

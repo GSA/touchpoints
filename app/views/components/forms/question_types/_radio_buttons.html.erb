@@ -1,9 +1,6 @@
 <fieldset class="usa-fieldset radios" role="group" aria-labelledby="<%= question.answer_field %>">
   <legend class="usa-sr-only"><%= question.answer_field %></legend>
-  <label class="usa-label">
-    <%= t question_number.to_s %>.
-    <%= question.text %>
-  </label>
+  <%= render 'components/question_title', question: question, question_number: question_number %>
   <br>
   <% question.question_options.each_with_index do |option, index| %>
   <div class="radio-button usa-radio">
