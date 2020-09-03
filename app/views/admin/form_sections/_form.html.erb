@@ -1,4 +1,4 @@
-<div class="well form-section-div">
+<div class="form-section-div">
     <%= form_with(model: form_section, url: (form_section.persisted? ? admin_form_form_section_path((form)) : admin_form_form_sections_path(form) ), local: true) do |html_form| %>
       <% if form_section.errors.any? %>
         <div id="error_explanation">
@@ -17,18 +17,8 @@
         <%= html_form.text_field :title, class: "usa-input" %>
       </div>
 
-      <div class="field">
-        <%= html_form.label :position, class: "usa-label" %>
-        <% form_section_options = form.form_sections.select(&:persisted?).collect(&:position) %>
-        <% form_section_options_max = form_section_options.compact.max %>
-        <% form_section_options = form_section_options + [form_section_options_max + 1] %>
-        <%= html_form.select :position, options_for_select(form_section_options, selected: form_section.position), { include_blank: "Select Form Section" }, { class: "usa-select" } %>
-      </div>
-
       <p>
         <%= html_form.submit (form_section.persisted? ? "Update Section" : "Create Section"), class: "usa-button" %>
       </p>
     <% end %>
 </div>
-
-

@@ -27,7 +27,9 @@ class Admin::QuestionsController < AdminController
   end
 
   def create
+    next_position = @form.questions.size + 1
     @question = Question.new(question_params)
+    @question.position = next_position
 
     respond_to do |format|
       if @question.save

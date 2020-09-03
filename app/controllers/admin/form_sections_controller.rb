@@ -35,7 +35,9 @@ class Admin::FormSectionsController < AdminController
   end
 
   def create
+    next_position = @form.form_sections.collect(&:position).max + 1
     @form_section = @form.form_sections.new(form_section_params)
+    @form_section.position = next_position
 
     if @form_section.save
       redirect_to questions_admin_form_path(@form), notice: 'Form section was successfully created.'

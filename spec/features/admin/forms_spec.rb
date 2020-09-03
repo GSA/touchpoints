@@ -336,7 +336,6 @@ feature "Forms", js: true do
             describe "add Form Section" do
               before do
                 fill_in("form_section_title", with: "Test Form Section Title")
-                select("1", from: "form_section_position")
                 click_on "Create Section"
               end
 
@@ -380,7 +379,6 @@ feature "Forms", js: true do
                 click_on "Add Section"
                 expect(page).to have_content("New Form Section")
                 fill_in("form_section_title", with: "Test Form Section Title")
-                select("1", from: "form_section_position")
                 click_on "Create Section"
               end
 
@@ -401,7 +399,6 @@ feature "Forms", js: true do
               select("text_field", from: "question_question_type")
               select("answer_01", from: "question_answer_field")
               select(form.form_sections.first.title, from: "question_form_section_id")
-              expect(find_field('question_position').value).to eq '1'
               click_on "Create Question"
             end
 
@@ -424,7 +421,6 @@ feature "Forms", js: true do
               select("textarea", from: "question_question_type")
               select("answer_01", from: "question_answer_field")
               select(form.form_sections.first.title, from: "question_form_section_id")
-              expect(find_field('question_position').value).to eq '1'
               click_on "Create Question"
             end
 
@@ -447,8 +443,6 @@ feature "Forms", js: true do
               select("radio_buttons", from: "question_question_type")
               select("answer_01", from: "question_answer_field")
               select(form.form_sections.first.title, from: "question_form_section_id")
-
-              expect(find_field('question_position').value).to eq '1'
               click_on "Create Question"
             end
 
@@ -471,8 +465,6 @@ feature "Forms", js: true do
               fill_in "checkbox", with: "New Test Question Radio Buttons"
               select("radio_buttons", from: "question_question_type")
               select("answer_01", from: "question_answer_field")
-
-              expect(find_field('question_position').value).to eq '1'
               click_on "Create Question"
             end
 
@@ -495,8 +487,6 @@ feature "Forms", js: true do
                 select("dropdown", from: "question_question_type")
                 fill_in "question_text", with: "New dropdown field"
                 select("answer_01", from: "question_answer_field")
-
-                expect(find_field('question_position').value).to eq '1'
                 click_on "Create Question"
               end
 
@@ -565,7 +555,6 @@ feature "Forms", js: true do
               select("text_display", from: "question_question_type")
               fill_in "question_text", with: 'Some custom <a href="#">html</a>'
               select("answer_20", from: "question_answer_field")
-              expect(find_field('question_position').value).to eq '1'
               click_on "Create Question"
             end
 
