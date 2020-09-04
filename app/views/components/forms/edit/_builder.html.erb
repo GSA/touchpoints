@@ -1,129 +1,224 @@
-<div>
+<% if form.title? %>
+  <h3 id="fba-modal-title">
+    <%= form.title %>
+  </h3>
+<% end %>
+<% if form.instructions? %>
+<p class="fba-instructions">
+  <%= sanitize(form.instructions) %>
+</p>
+<% end %>
+<div class="sorting-div list-group" id="sections">
   <%= hidden_field_tag :fba_location_code, params[:location_code] %>
   <% multi_section_question_number = 0 %>
   <% form.form_sections.each do |section| %>
-    <div class="form-section-div">
-      <div class="section pad well2">
-        <div>
-          <%= link_to edit_admin_form_form_section_path(form, section), class: "usa-button form-section-edit float-right" do %>
-            <span class="fa fa-pencil-alt"></span>
-            Edit Section
-          <% end %>
-          <h3>
-            <%= section.title %>
-          </h3>
-          <div style="clear: both;"></div>
-        </div>
+    <div class="form-section-div list-group-item" id="<%= dom_id(section) %>" data-url="<%= admin_form_form_section_path(section) %>/sort">
 
+      <div class="section-header-div">
+        <div class="section-title-view"><span class="section-titl-lbl"><%= section.title %><span><br/></div>
+        <div class="section-title-edit">
+          <input type="text" value="<%= section.title %>" class="section-title" />
+          <a href="<%= admin_form_form_section_path(form, section) %>" class="form-section-save" >
+            <i class="fas fa-save" title="Save section title"></i>
+          </a><br/>
+        </div>
+      </div>
+
+      <div class="section well2 list-group questions">
         <% section.questions.each_with_index do |question, index| %>
-        <% multi_section_question_number += 1 %>
-        <div class="question well">
-          <% if question.question_type == "text_field" %>
-            <%= render 'components/forms/edit/question_types/text_field', form: form, question: question, question_number: multi_section_question_number %>
-          <% elsif question.question_type == "radio_buttons" %>
-            <%= render 'components/forms/edit/question_types/radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
-          <% elsif question.question_type == "thumbs_up_down_buttons" %>
-            <%= render 'components/forms/question_types/thumbs_up_down_buttons', form: form, question: question, question_number: multi_section_question_number %>
-            <br>
-          <% elsif question.question_type == "dropdown" %>
-            <%= render 'components/forms/edit/question_types/dropdown', form: form, question: question, question_number: multi_section_question_number %>
-          <% elsif question.question_type == "checkbox" %>
-            <%= render 'components/forms/edit/question_types/checkbox', form: form, question: question, question_number: multi_section_question_number %>
-          <% elsif question.question_type == "textarea" %>
-            <%= render 'components/forms/edit/question_types/text_area', form: form, question: question, question_number: multi_section_question_number %>
-          <% elsif question.question_type == "custom_text_display" %>
-            <%= render 'components/forms/question_types/custom_text_display', form: form, question: question, question_number: multi_section_question_number %>
-            <br>
-          <% elsif question.question_type == "star_radio_buttons" %>
-            <%= render 'components/forms/question_types/star_radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
-          <% elsif question.question_type == "matrix_checkboxes" %>
-            <%= render 'components/forms/edit/question_types/matrix_checkboxes', form: form, question: question, question_number: multi_section_question_number %>
-          <% elsif question.question_type == "yes_no_buttons" %>
-            <%= render 'components/forms/question_types/yes_no_buttons', form: form, question: question, question_number: multi_section_question_number %>
-          <% elsif question.question_type == "text_display" %>
-            <%= render 'components/forms/question_types/text_display', form: form, question: question, question_number: multi_section_question_number %>
-          <% end %>
+          <% multi_section_question_number += 1 %>
+          <div class="question well3 list-group-item" id="<%= dom_id(question) %>" >
+            <%= render 'components/forms/edit/button_dropdown', { form: form, question: question } if form_permissions?(form: form) %>
 
-          <%= link_to edit_admin_form_question_path(@form, question), class: "usa-button form-edit-question" do %>
-            <span class="fa fa-pencil-alt"></span>
-            Edit Question
-           <% end %>
-
-          <% if form_permissions?(form: @form) %>
-            <%= link_to admin_form_question_path(@form, question), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" do %>
-              <span class="fas fa-trash"></span>
-              Delete Question
+            <% if question.question_type == "text_field" %>
+              <%= render 'components/forms/edit/question_types/text_field', form: form, question: question, question_number: multi_section_question_number %>
+            <% elsif question.question_type == "radio_buttons" %>
+              <%= render 'components/forms/edit/question_types/radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
+            <% elsif question.question_type == "thumbs_up_down_buttons" %>
+              <%= render 'components/forms/question_types/thumbs_up_down_buttons', form: form, question: question, question_number: multi_section_question_number %>
+              <br>
+            <% elsif question.question_type == "dropdown" %>
+              <%= render 'components/forms/edit/question_types/dropdown', form: form, question: question, question_number: multi_section_question_number %>
+            <% elsif question.question_type == "checkbox" %>
+              <%= render 'components/forms/edit/question_types/checkbox', form: form, question: question, question_number: multi_section_question_number %>
+            <% elsif question.question_type == "textarea" %>
+              <%= render 'components/forms/edit/question_types/text_area', form: form, question: question, question_number: multi_section_question_number %>
+            <% elsif question.question_type == "custom_text_display" %>
+              <%= render 'components/forms/question_types/custom_text_display', form: form, question: question, question_number: multi_section_question_number %>
+              <br>
+            <% elsif question.question_type == "star_radio_buttons" %>
+              <%= render 'components/forms/question_types/star_radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
+            <% elsif question.question_type == "matrix_checkboxes" %>
+              <%= render 'components/forms/edit/question_types/matrix_checkboxes', form: form, question: question, question_number: multi_section_question_number %>
+            <% elsif question.question_type == "yes_no_buttons" %>
+              <%= render 'components/forms/question_types/yes_no_buttons', form: form, question: question, question_number: multi_section_question_number %>
+            <% elsif question.question_type == "text_display" %>
+              <%= render 'components/forms/question_types/text_display', form: form, question: question, question_number: multi_section_question_number %>
             <% end %>
-          <% end %>
-        </div>
+          </div>
         <% end %>
+        <%= link_to new_admin_form_question_path(form), class: "usa-button form-add-question" do %>
+          <span class="fa fa-plus"></span>
+          Add Question
+        <% end %>
+        <br>
         <% unless section.questions.present? || form.form_sections.count == 1  %>
-        <%= link_to admin_form_form_section_path(form, section), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
-          <span class="fas fa-trash"></span>
-          Delete Section
-        <% end %>
+          <br>
+          <%= link_to admin_form_form_section_path(form, section), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
+            <span class="fas fa-trash"></span>
+            Delete Section
+          <% end %>
         <% end %>
       </div>
   </div>
   <br>
   <% end %>
 </div>
-<div class="new-question-div"></div>
-<p>
-  <%= link_to new_admin_form_question_path(form), class: "usa-button form-add-question" do %>
-    <span class="fa fa-plus"></span>
-    Add Question
-  <% end %>
-</p>
-<p>
-  <%= link_to new_admin_form_form_section_path(form), class: "usa-button" do %>
-    <span class="fa fa-plus"></span>
-    Add Section
-  <% end %>
-</p>
+<%= link_to new_admin_form_form_section_path(form), class: "usa-button form-add-section" do %>
+  <span class="fa fa-plus"></span>
+  Add Section
+<% end %>
 
 <script>
-  $('.form-section-edit').click(function(event) {
-     event.preventDefault();
-     var contentDiv =  $(this).closest('div.form-section-div');
-     $.ajax({
+  $( document ).ready(function() {
+    $(".dropdown-content").hide();
+    $("div.section-title-edit").hide();
+
+    <% if form_permissions?(form: @form) %>
+    $('.form-add-section').click(function(event) {
+      var dlg_opt = {
+        autoOpen: false,
+        modal: true,
+        title: 'New Form Section',
+        width: 300
+      };
+      event.preventDefault();
+      $.ajax({
         type: "GET",
         url: $(this).attr("href"),
         success: function (data) {
-          contentDiv.html(data);
+          $("#fba-modal-dialog").find(".modal-content").html(data);
+          $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
         }
-     });
+      });
+    });
+
+    $("div.section-title-view").click(function(event) {
+      $('div.section-title-edit').hide();
+      $('div.section-title-view').show();
+      $(this).hide();
+      var titleEdit = $(this).parent().find("div.section-title-edit");
+      $(titleEdit).show();
+    });
+
+    $("span.section-title-lbl").click(function(event) {
+      $('div.section-title-edit').hide();
+      $('div.section-title-view').show();
+      $(this).parent().hide();
+      var titleEdit = $(this).parent().parent().find("div.section-title-edit");
+      $(titleEdit).show();
+    });
+
+    $('.form-section-save').click(function(event) {
+      event.preventDefault();
+      var titleInput = $(this).parent().find("input.section-title");
+      var titleLabel = $(this).parent().parent().find("div.section-title-view");
+      $(titleLabel).html($(titleInput).val());
+      $('div.section-title-edit').hide();
+      $(titleLabel).show();
+      $.ajax({
+        type: "PATCH",
+        url: $(this).attr("href") + "/update_title",
+        data: {title: $(titleInput).val()}
+      });
+    });
+
+    $('.form-add-question').click(function(event) {
+      event.preventDefault();
+      var dlg_opt = {
+        autoOpen: false,
+        modal: true,
+        title: 'New Question',
+        width: 600
+      };
+      $.ajax({
+        type: "GET",
+        url: $(this).attr("href"),
+        success: function (data) {
+          $("#fba-modal-dialog").find(".modal-content").html(data);
+          $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
+        }
+      });
+    });
+
+    $('.form-edit-question').click(function(event) {
+      var dlg_opt = {
+        autoOpen: false,
+        modal: true,
+        title: 'Edit Question',
+        width: 600
+      };
+      event.preventDefault();
+      $.ajax({
+        type: "GET",
+        url: $(this).attr("href"),
+        success: function (data) {
+          $("#fba-modal-dialog").find(".modal-content").html(data);
+          $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
+        }
+      });
+    });
+
+    $(".questions").sortable({
+      distance: 20,
+      update: function(e, ui) {
+        $.ajax({
+          url: $(this).data("url"),
+          type: "PATCH",
+          data: $(this).sortable('serialize')
+        });
+      }
+    });
+
+    $("#sections").sortable({
+      distance: 20,
+      update: function(e, ui) {
+        var url = ui.item.data("url");
+        $.ajax({
+          url: url,
+          type: "PATCH",
+          data: $(this).sortable('serialize')
+        });
+      }
+    });
   });
 
-  $('.form-add-question').click(function(event) {
-     event.preventDefault();
+  $(".ma-dropdown").click(function(event) {
+    $(event.target).parent().parent().find(".dropdown-content").toggle();
+  });
 
-     var contentDiv =  $('div.new-question-div');
-     $.ajax({
-        type: "GET",
-        url: $(this).attr("href"),
-        success: function (data) {
-          contentDiv.html(data);
-        }
-     });
+  $(".section-menu-action").mouseover(function(event) {
+    $(".dropdown-content").hide();
+    $(event.target).parent().find(".dropdown-content").show();
+  });
+
+  $(".question-menu-action").mouseover(function(event) {
+    $(".dropdown-content").hide();
+    $(event.target).parent().find(".dropdown-content").show();
+  });
+
+  $(".section-menu-action").click(function(event) {
+    $(event.target).parent().find(".dropdown-content").toggle();
+  });
+
+  $(".question-menu-action").click(function(event) {
+    $(event.target).parent().find(".dropdown-content").toggle();
   });
 
   $('.form-add-question-option').click(function(event) {
      event.preventDefault();
      var contentDiv =  $(this).closest('div.new-question-options-div');
       $.ajax({
-        type: "GET",
-        url: $(this).attr("href"),
-        success: function (data) {
-          contentDiv.html(data);
-        }
-     });
-  });
-
-  $('.form-edit-question').click(function(event) {
-     event.preventDefault();
-     var contentDiv =  $(this).closest('div.question');
-     $.ajax({
         type: "GET",
         url: $(this).attr("href"),
         success: function (data) {
@@ -154,6 +249,6 @@
       contentDiv.html(data);
     }
   });
+  <% end %>
 });
-
 </script>
