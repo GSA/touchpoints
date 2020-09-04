@@ -28,10 +28,10 @@ es:
   header:
     official: "Un sitio web oficial del gobierno de los Estados Unidos"
     heres_how_you_know: "Así es como sabes"
-    dot_gov_means_official: "El .gov significa que es oficial."
-    dot_gov_websites: "Los sitios web del gobierno federal a menudo terminan en .gov o .mil. Antes de compartir información confidencial, asegúrese de estar en un sitio del gobierno federal."
-    this_site_is_secure: "Este sitio es seguro."
-    https_notes_html: "El <strong>https://</strong> asegura que se está conectando al sitio web oficial y que toda la información que proporciona está encriptada y transmitida de forma segura."
+    dot_gov_means_official: "Los sitios web oficiales usan .gov"
+    dot_gov_websites: "Un sitio web <strong>.gov</strong> pertenece a una organización oficial del Gobierno de Estados Unidos."
+    this_site_is_secure: "Los sitios web seguros .gov usan HTTPS"
+    https_notes_html: "Un <strong>candado 🔒</strong> o <strong>https://</strong> significa que usted se conectó de forma segura a un sitio web .gov. Comparta información sensible sólo en sitios web oficiales y seguros."
     disclaimer_1: "Este sitio web está actualmente en"
   activerecord:
     errors:

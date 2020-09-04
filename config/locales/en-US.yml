@@ -59,8 +59,8 @@ en-US:
   header:
     official: "An official website of the United States government"
     heres_how_you_know: "Here’s how you know"
-    dot_gov_means_official: "The .gov means it’s official."
-    dot_gov_websites: "Federal government websites often end in .gov or .mil. Before sharing sensitive information, make sure you’re on a federal government site."
-    this_site_is_secure: "This site is secure."
-    https_notes_html: "The <strong>https://</strong> ensures that you are connecting to the official website and that any information you provide is encrypted and transmitted securely."
+    dot_gov_means_official: "Official websites use .gov"
+    dot_gov_websites: "A <strong>.gov</strong> website belongs to an official government organization in the United States."
+    this_site_is_secure: "Secure .gov websites use HTTPS"
+    https_notes_html: "A <strong>lock 🔒</strong> or <strong>https://</strong> means you’ve safely connected to the .gov website. Share sensitive information only on official, secure websites."
     disclaimer_1: "This website is currently in "
