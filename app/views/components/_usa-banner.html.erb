@@ -21,16 +21,18 @@
           <div class="usa-media-block__body">
             <p>
               <strong><%= t 'header.dot_gov_means_official' %></strong>
-              <br> <%= t 'header.dot_gov_websites' %>
+              <br>
+              <%= t('header.dot_gov_websites').html_safe %>
             </p>
           </div>
         </div>
         <div class="usa-banner__guidance tablet:grid-col-6">
-          <img class="usa-banner__icon usa-media-block__img" src="<%= image_path("icon-https.svg") %>" alt="Https">
+          <img class="usa-banner__icon usa-media-block__img" src="<%= image_path("icon-https.svg") %>" alt="https">
           <div class="usa-media-block__body">
             <p>
               <strong><%= t 'header.this_site_is_secure' %></strong>
-              <br><%= t 'header.https_notes_html' %>
+              <br>
+              <%= t 'header.https_notes_html' %>
             </p>
           </div>
         </div>
