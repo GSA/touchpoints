@@ -74,6 +74,14 @@
         </div>
       </div>
     </div>
+    <div class="grid-row grid-gap-md">
+      <div class="grid-col-6">
+        <div class="field">
+          <%= f.label :aasm_state, "State", class: "usa-label" %>
+          <%= f.select :aasm_state, options_for_select(form.transitionable_states, selected: form.aasm_state), { prompt: "Transition to State" }, {class: "usa-select"} %>
+        </div>
+      </div>
+    </div>
   </div>
   <% else %>
     <%= f.hidden_field :organization_id, value: current_user.organization.id %>
@@ -86,49 +94,10 @@
         <%= f.text_field :name, class: "usa-input" %>
       </div>
     </div>
-    <% if form.persisted? && admin_permissions? %>
-    <div class="grid-col-12">
-      <div class="field">
-        <%= f.label :aasm_state, "State", class: "usa-label" %>
-        <%= f.select :aasm_state, options_for_select(form.transitionable_states, selected: form.aasm_state), { prompt: "Transition to State" }, {class: "usa-select"} %>
-      </div>
-    </div>
-    <% end %>
   </div>
   <% if form.persisted? %>
   <br>
   <hr>
-  <br>
-  <h2>
-    Form Builder
-  </h2>
-  <div class="grid-row grid-gap-md">
-    <div class="grid-col-12">
-      <p>
-        The form builder is used to build USWDS compatible,
-        PRA-compliant forms.
-      </p>
-      <p>
-        A form consists of one or more questions.
-        Each question can be a different type;
-        like an input field, set of radio buttons, or a dropdown selector.
-      </p>
-      <p>
-        Questions can be displayed on one or more pages, called Form Sections.
-      </p>
-      <p>
-        Users submit the forms. Response viewers can export responses for processing.
-      </p>
-    </div>
-  </div>
-  <div class="grid-row grid-gap-md">
-    <div class="grid-col-6">
-      <div class="field">
-        <%= f.label :title, "Form title", class: "usa-label" %>
-        <%= f.text_field :title, class: "usa-input" %>
-      </div>
-    </div>
-  </div>
   <br>
   <div class="grid-row grid-gap-md">
     <div class="grid-col-12">

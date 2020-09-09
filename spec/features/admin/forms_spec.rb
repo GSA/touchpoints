@@ -275,7 +275,6 @@ feature "Forms", js: true do
         describe "editing a Form definition" do
           before do
             fill_in "form_name", with: "Updated Form Name"
-            fill_in "form_title", with: "Updated Title"
             click_on "Update Survey"
           end
 
@@ -283,7 +282,6 @@ feature "Forms", js: true do
             expect(page).to have_content("Survey was successfully updated.")
             expect(page.current_path).to eq(admin_form_path(form))
             expect(page).to have_content("Updated Form Name")
-            expect(page).to have_content("Updated Title")
           end
         end
 
