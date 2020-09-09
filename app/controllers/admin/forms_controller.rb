@@ -18,7 +18,7 @@ class Admin::FormsController < AdminController
     :export_a11_submissions,
     :example, :js, :trigger,
     :add_user, :remove_user,
-    :publish
+    :publish, :update_title
   ]
 
   def index
@@ -52,6 +52,13 @@ class Admin::FormsController < AdminController
 
     @form.update_attribute(:aasm_state, :live)
     redirect_to admin_form_path(@form), notice: "Published"
+  end
+
+  def update_title
+    return unless params[:title] && params[:title].length > 1
+    @form.update!(title: params[:title])
+
+    head :ok
   end
 
   def show

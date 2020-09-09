@@ -1,7 +1,13 @@
 <% if form.title? %>
-  <h3 id="fba-modal-title">
+  <h3 id="fba-modal-title" class="form-title-view">
     <%= form.title %>
   </h3>
+  <div class="form-title-edit">
+    <input type="text" value="<%= form.title %>" class="form-title" />
+    <a href="<%= admin_form_path(form) %>" class="form-title-save" >
+      <i class="fas fa-save" title="Save form title"></i>
+    </a><br/>
+  </div>
 <% end %>
 <% if form.instructions? %>
 <p class="fba-instructions">
@@ -83,6 +89,7 @@
   $( document ).ready(function() {
     $(".dropdown-content").hide();
     $("div.section-title-edit").hide();
+    $(".form-title-edit").hide();
 
     <% if form_permissions?(form: @form) %>
     $('.form-add-section').click(function(event) {
@@ -103,6 +110,11 @@
       });
     });
 
+    $('.form-title-view').click(function(event) {
+      $('.form-title-edit').show();
+      $('.form-title-view').hide();
+    });
+
     $("div.section-title-view").click(function(event) {
       $('div.section-title-edit').hide();
       $('div.section-title-view').show();
@@ -117,6 +129,20 @@
       $(this).parent().hide();
       var titleEdit = $(this).parent().parent().find("div.section-title-edit");
       $(titleEdit).show();
+    });
+
+    $('.form-title-save').click(function(event) {
+      event.preventDefault();
+      var titleInput = $('.form-title');
+      var titleLabel = $('.form-title-view');
+      $(titleLabel).html($(titleInput).val());
+      $('.form-title-edit').hide();
+      $(titleLabel).show();
+      $.ajax({
+        type: "PATCH",
+        url: $(this).attr("href") + "/update_title",
+        data: {title: $(titleInput).val()}
+      });
     });
 
     $('.form-section-save').click(function(event) {
