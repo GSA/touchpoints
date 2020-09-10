@@ -1,5 +1,6 @@
 class Admin::UsersController < AdminController
   before_action :ensure_organization_manager, except: [:deactivate]
+  before_action :ensure_admin, only: [:inactive]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -9,6 +10,11 @@ class Admin::UsersController < AdminController
       organization = current_user.organization
       @users = organization.users.includes(:organization).order(:organization_id, :email)
     end
+  end
+
+  def inactive
+    @users = User.all.includes(:organization).where("last_sign_in_at < ? OR last_sign_in_at ISNULL", Time.now - 90.days).order(:organization_id, :email)
+    render :index
   end
 
   def active
