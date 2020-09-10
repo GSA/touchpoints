@@ -24,6 +24,10 @@ class Event < ApplicationRecord
     :form_copied => 'form_copied',
     :form_deleted => 'form_deleted',
 
+    :user_deleted => 'user_deleted',
+    :user_deleted => 'user_deactivated',
+    :user_update => 'user_update',
+
     :response_deleted => 'response_deleted'
   }
 

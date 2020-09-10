@@ -53,6 +53,7 @@ class Admin::UsersController < AdminController
     respond_to do |format|
       if @user.update(user_params)
         send_notifications(@user, org_mgr)
+        Event.log_event(Event.names[:user_update], "User", @user.id, "User #{@user.email} was updated by #{current_user.email} on #{Date.today}")
         format.html { redirect_to admin_user_path(@user), notice: 'User was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -67,6 +68,7 @@ class Admin::UsersController < AdminController
     redirect_to(edit_admin_user_path(@user), alert: "Can't delete yourself") and return if @user == current_user
 
     @user.destroy
+    Event.log_event(Event.names[:user_deleted], "User", @user.id, "User #{@user.email} was deleted by #{current_user.email} on #{Date.today}")
     respond_to do |format|
       format.html { redirect_to admin_users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
@@ -79,6 +81,7 @@ class Admin::UsersController < AdminController
     user = User.where(uid: uuid).first
     # Do we care if the user account deleted from login.gov was not found in touchpoints?
     user.deactivate if user
+    Event.log_event(Event.names[:user_deactivated], "User", user.id, "User #{user.email} was deactivated on #{Date.today}")
     render json: { "msg": "User successfully deactivated." }
   end
 
