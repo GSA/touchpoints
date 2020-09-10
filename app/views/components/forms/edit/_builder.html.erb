@@ -1,23 +1,39 @@
-<% if form.title? %>
-  <h3 id="fba-modal-title">
-    <%= form.title %>
-  </h3>
-<% end %>
-<% if form.instructions? %>
-<p class="fba-instructions">
-  <%= sanitize(form.instructions) %>
-</p>
-<% end %>
+<h3 id="fba-modal-title" class="form-title-view">
+  <span class="form-title-lbl"><%= form.title %></span>
+  &nbsp;
+  <i class="fas fa-pencil-alt" title="Edit form title"></i>
+</h3>
+<div class="form-title-edit">
+  <input type="text" value="<%= form.title %>" class="usa-input display-inline form-title" />
+  <a href="<%= admin_form_path(form) %>" class="form-title-save">
+    <i class="fas fa-save" title="Save form title"></i>
+  </a>
+</div>
+
+<div class="fba-instructions">
+  <p class="display-inline"><%= sanitize(form.instructions) -%></p>
+  <div class="field" hidden="true">
+    <%= label_tag :instructions, "Editing Instructions", class: "usa-label" %>
+    <%= text_area_tag :instructions, nil, class: "usa-textarea display-inline" %>
+    <a href="<%= admin_form_path(form) %>" class="save button form-instructions-save">
+      <i class="fas fa-save" title="Save instructions"></i>
+    </a>
+  </div>
+  <i class="edit button fas fa-pencil-alt" title="Edit instructions"></i>
+</div>
 <div class="sorting-div list-group" id="sections">
   <%= hidden_field_tag :fba_location_code, params[:location_code] %>
   <% multi_section_question_number = 0 %>
   <% form.form_sections.each do |section| %>
-    <div class="form-section-div list-group-item" id="<%= dom_id(section) %>" data-url="<%= admin_form_form_section_path(section) %>/sort">
-
+    <div class="form-section-div list-group-item" id="<%= dom_id(section) %>" data-url="<%= admin_form_form_section_path(section) %>/sort" data-id="<%= form.short_uuid %>">
       <div class="section-header-div">
-        <div class="section-title-view"><span class="section-titl-lbl"><%= section.title %><span><br/></div>
+        <div class="section-title-view">
+          <span class="section-title-lbl"><%= section.title %></span>
+          &nbsp;&nbsp;
+          <i class="fas fa-pencil-alt" title="Edit section title"></i>
+        </div>
         <div class="section-title-edit">
-          <input type="text" value="<%= section.title %>" class="section-title" />
+          <input type="text" value="<%= section.title %>" class="usa-input display-inline section-title" />
           <a href="<%= admin_form_form_section_path(form, section) %>" class="form-section-save" >
             <i class="fas fa-save" title="Save section title"></i>
           </a><br/>
@@ -79,121 +95,181 @@
   Add Section
 <% end %>
 
+<div class="fba-disclaimer-text">
+  <p class="display-inline">
+    <div class="touchpoints-form-disclaimer">
+      <hr style="border: none; border-top: 1px solid #E5E5E5;">
+      <div class="grid-container">
+        <div class="grid-row">
+          <div class="grid-col-12">
+            <p>
+              <small>
+                <span id="fba-dialog-privacy"><%= sanitize(form.disclaimer_text) %></span>
+              </small>
+              <i class="edit button fas fa-pencil-alt" title="Edit disclaimer text"></i>
+            </p>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p>
+  <div class="field" hidden="true">
+    <%= label_tag :disclaimer_text, "Editing Disclaimer Text", class: "usa-label" %>
+    <%= text_area_tag :disclaimer_text, nil, class: "usa-textarea display-inline" %>
+    <a href="<%= admin_form_path(form) %>" class="save button form-disclaimer-text-save">
+      <i class="fas fa-save" title="Save disclaimer_text"></i>
+    </a>
+  </div>
+</div>
+
 <script>
-  $( document ).ready(function() {
-    $(".dropdown-content").hide();
-    $("div.section-title-edit").hide();
+$(function() {
+  $(".dropdown-content").hide();
+  $("div.section-title-edit").hide();
+  $(".form-title-edit").hide();
 
-    <% if form_permissions?(form: @form) %>
-    $('.form-add-section').click(function(event) {
-      var dlg_opt = {
-        autoOpen: false,
-        modal: true,
-        title: 'New Form Section',
-        width: 300
-      };
-      event.preventDefault();
-      $.ajax({
-        type: "GET",
-        url: $(this).attr("href"),
-        success: function (data) {
-          $("#fba-modal-dialog").find(".modal-content").html(data);
-          $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
-        }
-      });
-    });
-
-    $("div.section-title-view").click(function(event) {
-      $('div.section-title-edit').hide();
-      $('div.section-title-view').show();
-      $(this).hide();
-      var titleEdit = $(this).parent().find("div.section-title-edit");
-      $(titleEdit).show();
-    });
-
-    $("span.section-title-lbl").click(function(event) {
-      $('div.section-title-edit').hide();
-      $('div.section-title-view').show();
-      $(this).parent().hide();
-      var titleEdit = $(this).parent().parent().find("div.section-title-edit");
-      $(titleEdit).show();
-    });
-
-    $('.form-section-save').click(function(event) {
-      event.preventDefault();
-      var titleInput = $(this).parent().find("input.section-title");
-      var titleLabel = $(this).parent().parent().find("div.section-title-view");
-      $(titleLabel).html($(titleInput).val());
-      $('div.section-title-edit').hide();
-      $(titleLabel).show();
-      $.ajax({
-        type: "PATCH",
-        url: $(this).attr("href") + "/update_title",
-        data: {title: $(titleInput).val()}
-      });
-    });
-
-    $('.form-add-question').click(function(event) {
-      event.preventDefault();
-      var dlg_opt = {
-        autoOpen: false,
-        modal: true,
-        title: 'New Question',
-        width: 600
-      };
-      $.ajax({
-        type: "GET",
-        url: $(this).attr("href"),
-        success: function (data) {
-          $("#fba-modal-dialog").find(".modal-content").html(data);
-          $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
-        }
-      });
-    });
-
-    $('.form-edit-question').click(function(event) {
-      var dlg_opt = {
-        autoOpen: false,
-        modal: true,
-        title: 'Edit Question',
-        width: 600
-      };
-      event.preventDefault();
-      $.ajax({
-        type: "GET",
-        url: $(this).attr("href"),
-        success: function (data) {
-          $("#fba-modal-dialog").find(".modal-content").html(data);
-          $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
-        }
-      });
-    });
-
-    $(".questions").sortable({
-      distance: 20,
-      update: function(e, ui) {
-        $.ajax({
-          url: $(this).data("url"),
-          type: "PATCH",
-          data: $(this).sortable('serialize')
-        });
-      }
-    });
-
-    $("#sections").sortable({
-      distance: 20,
-      update: function(e, ui) {
-        var url = ui.item.data("url");
-        $.ajax({
-          url: url,
-          type: "PATCH",
-          data: $(this).sortable('serialize')
-        });
+  <% if form_permissions?(form: form) %>
+  $('.form-add-section').on("click", function(event) {
+    var dlg_opt = {
+      autoOpen: false,
+      modal: true,
+      title: 'New Form Section',
+      width: 300
+    };
+    event.preventDefault();
+    $.ajax({
+      type: "GET",
+      url: $(this).attr("href"),
+      success: function (data) {
+        $("#fba-modal-dialog").find(".modal-content").html(data);
+        $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
       }
     });
   });
 
-  $(".ma-dropdown").click(function(event) {
+  $('.form-title-view').on("click", function(event) {
+    $('.form-title-edit').show();
+    $('.form-title-edit').children().show();
+    $('.form-title-view').hide();
+  });
+
+  $("div.section-title-view").on("click", function(event) {
+    $('div.section-title-edit').hide();
+    $('div.section-title-view').show();
+    $('div.section-title-view').children().show();
+    $(this).hide();
+    var titleEdit = $(this).parent().find("div.section-title-edit");
+    $(titleEdit).show();
+  });
+
+  $("span.section-title-lbl").on("click", function(event) {
+    $('div.section-title-edit').hide();
+    $('div.section-title-view').show();
+    $(this).parent().hide();
+    var titleEdit = $(this).parent().parent().find("div.section-title-edit");
+    titleEdit.show();
+    titleEdit.find("input").focus();
+  });
+
+  $('.form-title-save').on("click", function(event) {
+    event.preventDefault();
+    var titleInput = $('.form-title');
+    var titleLabel = $('.form-title-lbl');
+    $(titleLabel).html($(titleInput).val());
+    $('.form-title-edit').hide();
+    $('.form-title-view').show();
+    $.ajax({
+      type: "PATCH",
+      url: $(this).attr("href") + "/update_title",
+      data: {title: $(titleInput).val()}
+    });
+  });
+
+  $('.form-section-save').on("click", function(event) {
+    event.preventDefault();
+    var titleInput = $(this).parent().find("input.section-title");
+    var titleLabel = $(this).parent().parent().find(".section-title-lbl");
+    $(titleLabel).html($(titleInput).val());
+    $('div.section-title-edit').hide();
+    $(titleLabel).parent().show();
+    $.ajax({
+      context: this,
+      type: "PATCH",
+      url: $(this).attr("href") + "/update_title",
+      data: {
+        title: $(titleInput).val()
+      }
+    }).fail(function() {
+      alert('Error while updating Form Section');
+    })
+    .done(function(data) {
+      var titleLabel = $(".form-section[data-id='" + data.short_uuid + "']");
+      $(titleLabel).html(data.title);
+    });
+  });
+
+  $('.form-add-question').on("click", function(event) {
+    event.preventDefault();
+    var dlg_opt = {
+      autoOpen: false,
+      modal: true,
+      title: 'New Question',
+      width: 600
+    };
+    $.ajax({
+      type: "GET",
+      url: $(this).attr("href"),
+      success: function (data) {
+        $("#fba-modal-dialog").find(".modal-content").html(data);
+        $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
+      }
+    });
+  });
+
+  $('.form-edit-question').on("click", function(event) {
+    var dlg_opt = {
+      autoOpen: false,
+      modal: true,
+      title: 'Edit Question',
+      width: 600
+    };
+    event.preventDefault();
+    $.ajax({
+      type: "GET",
+      url: $(this).attr("href"),
+      success: function (data) {
+        $("#fba-modal-dialog").find(".modal-content").html(data);
+        $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
+      }
+    });
+  });
+
+  $(".questions").sortable({
+    distance: 20,
+    update: function(e, ui) {
+      $.ajax({
+        url: $(this).data("url"),
+        type: "PATCH",
+        data: $(this).sortable('serialize')
+      });
+    }
+  });
+
+  $("#sections").sortable({
+    distance: 20,
+    update: function(e, ui) {
+      var url = ui.item.data("url");
+      $.ajax({
+        url: url,
+        type: "PATCH",
+        data: $(this).sortable('serialize')
+      });
+    }
+  });
+
+
+  $(".ma-dropdown").on("click", function(event) {
     $(event.target).parent().parent().find(".dropdown-content").toggle();
   });
 
@@ -207,15 +283,15 @@
     $(event.target).parent().find(".dropdown-content").show();
   });
 
-  $(".section-menu-action").click(function(event) {
+  $(".section-menu-action").on("click", function(event) {
     $(event.target).parent().find(".dropdown-content").toggle();
   });
 
-  $(".question-menu-action").click(function(event) {
+  $(".question-menu-action").on("click", function(event) {
     $(event.target).parent().find(".dropdown-content").toggle();
   });
 
-  $('.form-add-question-option').click(function(event) {
+  $('.form-add-question-option').on("click", function(event) {
      event.preventDefault();
      var contentDiv =  $(this).closest('div.new-question-options-div');
       $.ajax({
@@ -227,7 +303,7 @@
      });
   });
 
-  $('.form-edit-question-option-checkbox').click(function(event) {
+  $('.form-edit-question-option-checkbox').on("click", function(event) {
     event.preventDefault();
     var contentDiv =  $(this).closest('div.radio-button');
     $.ajax({
@@ -237,18 +313,73 @@
         contentDiv.html(data);
       }
     });
- });
-
- $('.form-edit-question-option-radio-button').click(function(event) {
-  event.preventDefault();
-  var contentDiv =  $(this).closest('div.usa-checkbox');
-  $.ajax({
-    type: "GET",
-    url: $(this).attr("href"),
-    success: function (data) {
-      contentDiv.html(data);
-    }
   });
-  <% end %>
+
+  $('.form-edit-question-option-radio-button').on("click", function(event) {
+    event.preventDefault();
+    var contentDiv =  $(this).closest('div.usa-checkbox');
+    $.ajax({
+      type: "GET",
+      url: $(this).attr("href"),
+      success: function (data) {
+        contentDiv.html(data);
+      }
+    });
+  });
+
+  $(".fba-instructions .edit.button").on("click", function(event) {
+    event.preventDefault();
+    $(".fba-instructions .field").show();
+    $(".fba-instructions .field #instructions").val($(".fba-instructions p").html());
+    $(this).hide();
+    $(".fba-instructions p").hide();
+  });
+
+  $(".fba-instructions .save.button").on("click", function(event) {
+    event.preventDefault();
+    $(".fba-instructions p").hide();
+    $(".fba-instructions .field").show();
+
+    $.ajax({
+      type: "PATCH",
+      url: $(this).attr("href") + "/update_instructions",
+      data: {
+        instructions: $(".fba-instructions .field #instructions").val()
+      }
+    }).done(function(data) {
+      $(".fba-instructions .field").hide()
+      $(".fba-instructions p").html(data.instructions)
+      $(".fba-instructions p").show();
+      $(".fba-instructions .edit.button").show();
+    });
+  });
+
+  $(".fba-disclaimer-text .edit.button").on("click", function(event) {
+    event.preventDefault();
+    $(".fba-disclaimer-text .field").show();
+    $(".fba-disclaimer-text .field #disclaimer_text").val($(".fba-disclaimer-text #fba-dialog-privacy").html());
+    $(this).hide();
+    $(".fba-disclaimer-text p").hide();
+  });
+
+  $(".fba-disclaimer-text .save.button").on("click", function(event) {
+    event.preventDefault();
+    $(".fba-disclaimer-text p").hide();
+    $(".fba-disclaimer-text .field").show();
+
+    $.ajax({
+      type: "PATCH",
+      url: $(this).attr("href") + "/update_disclaimer_text",
+      data: {
+        disclaimer_text: $(".fba-disclaimer-text .field #disclaimer_text").val()
+      }
+    }).done(function(data) {
+      $(".fba-disclaimer-text .field").hide()
+      $(".fba-disclaimer-text #fba-dialog-privacy").html(data.disclaimer_text)
+      $(".fba-disclaimer-text p").show();
+      $(".fba-disclaimer-text .edit.button").show();
+    });
+  });
+<% end %>
 });
 </script>
