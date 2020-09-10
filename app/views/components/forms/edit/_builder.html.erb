@@ -1,14 +1,13 @@
-<% if form.title? %>
-  <h3 id="fba-modal-title" class="form-title-view">
-    <span class="form-title-lbl"><%= form.title %></span> &nbsp;&nbsp; <i class="fas fa-pencil-alt" title="Edit form title"></i>
-  </h3>
-  <div class="form-title-edit">
-    <input type="text" value="<%= form.title %>" class="form-title" />
-    <a href="<%= admin_form_path(form) %>" class="form-title-save" >
-      <i class="fas fa-save" title="Save form title"></i>
-    </a><br/>
-  </div>
-<% end %>
+<h3 id="fba-modal-title" class="form-title-view">
+  <span class="form-title-lbl"><%= form.title %></span> &nbsp;&nbsp; <i class="fas fa-pencil-alt" title="Edit form title"></i>
+</h3>
+<div class="form-title-edit">
+  <input type="text" value="<%= form.title %>" class="usa-input display-inline form-title" />
+  <a href="<%= admin_form_path(form) %>" class="form-title-save" >
+    <i class="fas fa-save" title="Save form title"></i>
+  </a>
+</div>
+
 <% if form.instructions? %>
 <p class="fba-instructions">
   <%= sanitize(form.instructions) %>
@@ -18,17 +17,15 @@
   <%= hidden_field_tag :fba_location_code, params[:location_code] %>
   <% multi_section_question_number = 0 %>
   <% form.form_sections.each do |section| %>
-    <div class="form-section-div list-group-item" id="<%= dom_id(section) %>" data-url="<%= admin_form_form_section_path(section) %>/sort">
-
+    <div class="form-section-div list-group-item" id="<%= dom_id(section) %>" data-url="<%= admin_form_form_section_path(section) %>/sort" data-id="<%= form.short_uuid %>">
       <div class="section-header-div">
         <div class="section-title-view">
           <span class="section-title-lbl"><%= section.title %></span>
           &nbsp;&nbsp;
           <i class="fas fa-pencil-alt" title="Edit section title"></i>
-          <br/>
         </div>
         <div class="section-title-edit">
-          <input type="text" value="<%= section.title %>" class="section-title" />
+          <input type="text" value="<%= section.title %>" class="usa-input display-inline section-title" />
           <a href="<%= admin_form_form_section_path(form, section) %>" class="form-section-save" >
             <i class="fas fa-save" title="Save section title"></i>
           </a><br/>
@@ -97,7 +94,7 @@
     $(".form-title-edit").hide();
 
     <% if form_permissions?(form: @form) %>
-    $('.form-add-section').click(function(event) {
+    $('.form-add-section').on("click", function(event) {
       var dlg_opt = {
         autoOpen: false,
         modal: true,
@@ -115,13 +112,13 @@
       });
     });
 
-    $('.form-title-view').click(function(event) {
+    $('.form-title-view').on("click", function(event) {
       $('.form-title-edit').show();
       $('.form-title-edit').children().show();
       $('.form-title-view').hide();
     });
 
-    $("div.section-title-view").click(function(event) {
+    $("div.section-title-view").on("click", function(event) {
       $('div.section-title-edit').hide();
       $('div.section-title-view').show();
       $('div.section-title-view').children().show();
@@ -130,15 +127,16 @@
       $(titleEdit).show();
     });
 
-    $("span.section-title-lbl").click(function(event) {
+    $("span.section-title-lbl").on("click", function(event) {
       $('div.section-title-edit').hide();
       $('div.section-title-view').show();
       $(this).parent().hide();
       var titleEdit = $(this).parent().parent().find("div.section-title-edit");
-      $(titleEdit).show();
+      titleEdit.show();
+      titleEdit.find("input").focus();
     });
 
-    $('.form-title-save').click(function(event) {
+    $('.form-title-save').on("click", function(event) {
       event.preventDefault();
       var titleInput = $('.form-title');
       var titleLabel = $('.form-title-lbl');
@@ -152,7 +150,7 @@
       });
     });
 
-    $('.form-section-save').click(function(event) {
+    $('.form-section-save').on("click", function(event) {
       event.preventDefault();
       var titleInput = $(this).parent().find("input.section-title");
       var titleLabel = $(this).parent().parent().find(".section-title-lbl");
@@ -160,13 +158,22 @@
       $('div.section-title-edit').hide();
       $(titleLabel).parent().show();
       $.ajax({
+        context: this,
         type: "PATCH",
         url: $(this).attr("href") + "/update_title",
-        data: {title: $(titleInput).val()}
+        data: {
+          title: $(titleInput).val()
+        }
+      }).fail(function() {
+        alert('Error while updating Form Section');
+      })
+      .done(function(data) {
+        var titleLabel = $(".form-section[data-id='" + data.short_uuid + "']");
+        $(titleLabel).html(data.title);
       });
     });
 
-    $('.form-add-question').click(function(event) {
+    $('.form-add-question').on("click", function(event) {
       event.preventDefault();
       var dlg_opt = {
         autoOpen: false,
@@ -184,7 +191,7 @@
       });
     });
 
-    $('.form-edit-question').click(function(event) {
+    $('.form-edit-question').on("click", function(event) {
       var dlg_opt = {
         autoOpen: false,
         modal: true,
@@ -226,7 +233,7 @@
     });
   });
 
-  $(".ma-dropdown").click(function(event) {
+  $(".ma-dropdown").on("click", function(event) {
     $(event.target).parent().parent().find(".dropdown-content").toggle();
   });
 
@@ -240,15 +247,15 @@
     $(event.target).parent().find(".dropdown-content").show();
   });
 
-  $(".section-menu-action").click(function(event) {
+  $(".section-menu-action").on("click", function(event) {
     $(event.target).parent().find(".dropdown-content").toggle();
   });
 
-  $(".question-menu-action").click(function(event) {
+  $(".question-menu-action").on("click", function(event) {
     $(event.target).parent().find(".dropdown-content").toggle();
   });
 
-  $('.form-add-question-option').click(function(event) {
+  $('.form-add-question-option').on("click", function(event) {
      event.preventDefault();
      var contentDiv =  $(this).closest('div.new-question-options-div');
       $.ajax({
@@ -260,7 +267,7 @@
      });
   });
 
-  $('.form-edit-question-option-checkbox').click(function(event) {
+  $('.form-edit-question-option-checkbox').on("click", function(event) {
     event.preventDefault();
     var contentDiv =  $(this).closest('div.radio-button');
     $.ajax({
@@ -272,7 +279,7 @@
     });
  });
 
- $('.form-edit-question-option-radio-button').click(function(event) {
+ $('.form-edit-question-option-radio-button').on("click", function(event) {
   event.preventDefault();
   var contentDiv =  $(this).closest('div.usa-checkbox');
   $.ajax({

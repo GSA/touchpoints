@@ -180,6 +180,25 @@ feature "Forms", js: true do
           end
         end
 
+        describe "Common Form Elements" do
+          context "title" do
+            before do
+              visit questions_admin_form_path(form)
+            end
+
+            it "has inline editable input that can be updated and saved" do
+              find(".form-title-lbl").click
+              expect(find("input.form-title")).to be_visible
+              find("input.form-title").set("Updated Form Title")
+              find(".form-title-edit .fa-save").click
+              expect(find(".form-title-lbl")).to have_content("Updated Form Title")
+              # and persists after refresh
+              visit questions_admin_form_path(form)
+              expect(find(".form-title-lbl")).to have_content("Updated Form Title")
+            end
+          end
+        end
+
         describe "Submission Export button" do
           context "when no Submissions exist" do
             before do
@@ -250,7 +269,6 @@ feature "Forms", js: true do
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
 
         before do
-          # login_as(admin)
           visit notifications_admin_form_path(form)
           expect(find_field('form_notification_emails').value).to eq(form.notification_emails)
           fill_in("form_notification_emails", with: "new@email.gov")
@@ -340,6 +358,29 @@ feature "Forms", js: true do
 
               it "create Form Section successfully" do
                 expect(page).to have_content("Form section was successfully created.")
+              end
+            end
+          end
+
+          describe "editing Form Sections" do
+            before do
+              visit questions_admin_form_path(form)
+            end
+
+            describe "FormSection.title" do
+              before do
+                find(".section-title-lbl").click
+              end
+
+              it "displays editable input that can be updated and saved" do
+                expect(find("input.section-title").value).to eq("Page 1")
+                find(".section-title").set("New Form Section Title")
+                find(".form-section-save").click
+
+                expect(find(".section-title-lbl")).to have_content("New Form Section Title")
+                # and persists after refresh
+                visit questions_admin_form_path(form)
+                expect(find(".section-title-lbl")).to have_content("New Form Section Title")
               end
             end
           end

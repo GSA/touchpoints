@@ -55,10 +55,8 @@ class Admin::FormsController < AdminController
   end
 
   def update_title
-    return unless params[:title] && params[:title].length > 1
-    @form.update!(title: params[:title], name: params[:title])
-
-    head :ok
+    @form.update!(title: params[:title])
+    render json: @form
   end
 
   def show
