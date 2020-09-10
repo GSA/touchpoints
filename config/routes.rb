@@ -51,6 +51,8 @@ Rails.application.routes.draw do
         post "publish", to: "forms#publish", as: :publish
         delete "remove_user", to: "forms#remove_user", as: :remove_user
         patch "update_title", to: "forms#update_title", as: :update_title
+        patch "update_instructions", to: "forms#update_instructions", as: :update_instructions
+        patch "update_disclaimer_text", to: "forms#update_disclaimer_text", as: :update_disclaimer_text
       end
       collection do
         post "copy", to: "forms#copy", as: :copy_id

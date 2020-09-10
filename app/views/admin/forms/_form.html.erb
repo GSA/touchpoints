@@ -104,7 +104,6 @@
       <h3>
         Display a logo?
       </h3>
-      <br>
       <div class="field">
         <%= f.label :logo, class: "usa-label" %>
         <div class="usa-alert usa-alert--info">
@@ -153,29 +152,7 @@
     </div>
   </div>
   <div class="grid-row grid-gap-md">
-    <div class="grid-col-4">
-      <div class="field">
-        <%= f.label :instructions, class: "usa-label" %>
-        <div>
-          <em>
-            Displayed under Form title before Form body.
-          </em>
-        </div>
-        <%= f.text_area :instructions, class: "usa-textarea" %>
-      </div>
-    </div>
-    <div class="grid-col-4">
-      <div class="field">
-        <%= f.label :disclaimer_text, class: "usa-label" %>
-        <div>
-          <em>
-            Displayed before Form submission.
-          </em>
-        </div>
-        <%= f.text_area :disclaimer_text, class: "usa-textarea", maxlength: 500 %>
-      </div>
-    </div>
-    <div class="grid-col-4">
+    <div class="grid-col-6">
       <div class="field">
         <%= f.label :success_text, class: "usa-label" %>
         <div>
