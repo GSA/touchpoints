@@ -1,6 +1,6 @@
 <% if form.title? %>
   <h3 id="fba-modal-title" class="form-title-view">
-    <%= form.title %>
+    <span class="form-title-lbl"><%= form.title %></span> &nbsp;&nbsp; <i class="fas fa-pencil-alt" title="Edit form title"></i>
   </h3>
   <div class="form-title-edit">
     <input type="text" value="<%= form.title %>" class="form-title" />
@@ -21,7 +21,12 @@
     <div class="form-section-div list-group-item" id="<%= dom_id(section) %>" data-url="<%= admin_form_form_section_path(section) %>/sort">
 
       <div class="section-header-div">
-        <div class="section-title-view"><span class="section-titl-lbl"><%= section.title %><span><br/></div>
+        <div class="section-title-view">
+          <span class="section-title-lbl"><%= section.title %></span>
+          &nbsp;&nbsp;
+          <i class="fas fa-pencil-alt" title="Edit section title"></i>
+          <br/>
+        </div>
         <div class="section-title-edit">
           <input type="text" value="<%= section.title %>" class="section-title" />
           <a href="<%= admin_form_form_section_path(form, section) %>" class="form-section-save" >
@@ -112,12 +117,14 @@
 
     $('.form-title-view').click(function(event) {
       $('.form-title-edit').show();
+      $('.form-title-edit').children().show();
       $('.form-title-view').hide();
     });
 
     $("div.section-title-view").click(function(event) {
       $('div.section-title-edit').hide();
       $('div.section-title-view').show();
+      $('div.section-title-view').children().show();
       $(this).hide();
       var titleEdit = $(this).parent().find("div.section-title-edit");
       $(titleEdit).show();
@@ -134,10 +141,10 @@
     $('.form-title-save').click(function(event) {
       event.preventDefault();
       var titleInput = $('.form-title');
-      var titleLabel = $('.form-title-view');
+      var titleLabel = $('.form-title-lbl');
       $(titleLabel).html($(titleInput).val());
       $('.form-title-edit').hide();
-      $(titleLabel).show();
+      $('.form-title-view').show();
       $.ajax({
         type: "PATCH",
         url: $(this).attr("href") + "/update_title",
@@ -148,10 +155,10 @@
     $('.form-section-save').click(function(event) {
       event.preventDefault();
       var titleInput = $(this).parent().find("input.section-title");
-      var titleLabel = $(this).parent().parent().find("div.section-title-view");
+      var titleLabel = $(this).parent().parent().find(".section-title-lbl");
       $(titleLabel).html($(titleInput).val());
       $('div.section-title-edit').hide();
-      $(titleLabel).show();
+      $(titleLabel).parent().show();
       $.ajax({
         type: "PATCH",
         url: $(this).attr("href") + "/update_title",
