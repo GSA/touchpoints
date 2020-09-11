@@ -40,39 +40,41 @@
         </div>
       </div>
 
-      <div class="section well2 list-group questions">
-        <% section.questions.each_with_index do |question, index| %>
-          <% multi_section_question_number += 1 %>
-          <div class="question well3 list-group-item" id="<%= dom_id(question) %>" >
-            <%= render 'components/forms/edit/button_dropdown', { form: form, question: question } if form_permissions?(form: form) %>
+      <div class="section well2 list-group">
+        <div class="questions">
+          <% section.questions.each_with_index do |question, index| %>
+            <% multi_section_question_number += 1 %>
+            <div class="question well3 list-group-item" id="<%= dom_id(question) %>" >
+              <%= render 'components/forms/edit/button_dropdown', { form: form, question: question } if form_permissions?(form: form) %>
 
-            <% if question.question_type == "text_field" %>
-              <%= render 'components/forms/edit/question_types/text_field', form: form, question: question, question_number: multi_section_question_number %>
-            <% elsif question.question_type == "radio_buttons" %>
-              <%= render 'components/forms/edit/question_types/radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
-            <% elsif question.question_type == "thumbs_up_down_buttons" %>
-              <%= render 'components/forms/question_types/thumbs_up_down_buttons', form: form, question: question, question_number: multi_section_question_number %>
-              <br>
-            <% elsif question.question_type == "dropdown" %>
-              <%= render 'components/forms/edit/question_types/dropdown', form: form, question: question, question_number: multi_section_question_number %>
-            <% elsif question.question_type == "checkbox" %>
-              <%= render 'components/forms/edit/question_types/checkbox', form: form, question: question, question_number: multi_section_question_number %>
-            <% elsif question.question_type == "textarea" %>
-              <%= render 'components/forms/edit/question_types/text_area', form: form, question: question, question_number: multi_section_question_number %>
-            <% elsif question.question_type == "custom_text_display" %>
-              <%= render 'components/forms/question_types/custom_text_display', form: form, question: question, question_number: multi_section_question_number %>
-              <br>
-            <% elsif question.question_type == "star_radio_buttons" %>
-              <%= render 'components/forms/question_types/star_radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
-            <% elsif question.question_type == "matrix_checkboxes" %>
-              <%= render 'components/forms/edit/question_types/matrix_checkboxes', form: form, question: question, question_number: multi_section_question_number %>
-            <% elsif question.question_type == "yes_no_buttons" %>
-              <%= render 'components/forms/question_types/yes_no_buttons', form: form, question: question, question_number: multi_section_question_number %>
-            <% elsif question.question_type == "text_display" %>
-              <%= render 'components/forms/question_types/text_display', form: form, question: question, question_number: multi_section_question_number %>
-            <% end %>
-          </div>
-        <% end %>
+              <% if question.question_type == "text_field" %>
+                <%= render 'components/forms/edit/question_types/text_field', form: form, question: question, question_number: multi_section_question_number %>
+              <% elsif question.question_type == "radio_buttons" %>
+                <%= render 'components/forms/edit/question_types/radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
+              <% elsif question.question_type == "thumbs_up_down_buttons" %>
+                <%= render 'components/forms/question_types/thumbs_up_down_buttons', form: form, question: question, question_number: multi_section_question_number %>
+                <br>
+              <% elsif question.question_type == "dropdown" %>
+                <%= render 'components/forms/edit/question_types/dropdown', form: form, question: question, question_number: multi_section_question_number %>
+              <% elsif question.question_type == "checkbox" %>
+                <%= render 'components/forms/edit/question_types/checkbox', form: form, question: question, question_number: multi_section_question_number %>
+              <% elsif question.question_type == "textarea" %>
+                <%= render 'components/forms/edit/question_types/text_area', form: form, question: question, question_number: multi_section_question_number %>
+              <% elsif question.question_type == "custom_text_display" %>
+                <%= render 'components/forms/question_types/custom_text_display', form: form, question: question, question_number: multi_section_question_number %>
+                <br>
+              <% elsif question.question_type == "star_radio_buttons" %>
+                <%= render 'components/forms/question_types/star_radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
+              <% elsif question.question_type == "matrix_checkboxes" %>
+                <%= render 'components/forms/edit/question_types/matrix_checkboxes', form: form, question: question, question_number: multi_section_question_number %>
+              <% elsif question.question_type == "yes_no_buttons" %>
+                <%= render 'components/forms/question_types/yes_no_buttons', form: form, question: question, question_number: multi_section_question_number %>
+              <% elsif question.question_type == "text_display" %>
+                <%= render 'components/forms/question_types/text_display', form: form, question: question, question_number: multi_section_question_number %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
         <%= link_to new_admin_form_question_path(form), class: "usa-button form-add-question" do %>
           <span class="fa fa-plus"></span>
           Add Question
