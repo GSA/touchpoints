@@ -25,7 +25,7 @@
   <%= hidden_field_tag :fba_location_code, params[:location_code] %>
   <% multi_section_question_number = 0 %>
   <% form.form_sections.each do |section| %>
-    <div class="form-section-div list-group-item" id="<%= dom_id(section) %>" data-url="<%= admin_form_form_section_path(section) %>/sort" data-id="<%= form.short_uuid %>">
+    <div class="form-section-div list-group-item" id="<%= dom_id(section) %>" data-url="<%= admin_form_form_section_path(section) %>/sort" data-id="<%= section.id %>">
       <div class="section-header-div">
         <div class="section-title-view">
           <span class="section-title-lbl"><%= section.title %></span>
@@ -206,7 +206,7 @@ $(function() {
       alert('Error while updating Form Section');
     })
     .done(function(data) {
-      var titleLabel = $(".form-section[data-id='" + data.short_uuid + "']");
+      var titleLabel = $(".form-section-div[data-id='" + data.id + "'] .section-title-lbl");
       $(titleLabel).html(data.title);
     });
   });
@@ -252,7 +252,7 @@ $(function() {
     connectWith: ".questions",
     distance: 20,
     update: function(e, ui) {
-      var section_id = $(this).closest(".form-section-div").attr('id');
+      var section_id = $(this).closest(".form-section-div").attr('data-id');
       var data = $(this).sortable('serialize');
       data = data + "&form_section_id=" + section_id
       $.ajax({
