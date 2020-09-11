@@ -21,7 +21,7 @@ class Admin::QuestionsController < AdminController
   def sort
     form_section_id = params[:form_section_id]
     params[:question].each_with_index do |id, index|
-      Question.where(id: id).update_all(position: index + 1, form_section_id: form_section_id)
+      Question.find(id).update_attributes(position: index + 1, form_section_id: form_section_id)
     end
 
     head :ok
