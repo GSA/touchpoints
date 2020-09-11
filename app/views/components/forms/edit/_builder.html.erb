@@ -246,12 +246,17 @@ $(function() {
   });
 
   $(".questions").sortable({
+    items: '.question',
+    connectWith: ".questions",
     distance: 20,
     update: function(e, ui) {
+      var section_id = $(this).closest(".form-section-div").attr('id');
+      var data = $(this).sortable('serialize');
+      data = data + "&form_section_id=" + section_id
       $.ajax({
         url: $(this).data("url"),
         type: "PATCH",
-        data: $(this).sortable('serialize')
+        data: data
       });
     }
   });
@@ -267,7 +272,6 @@ $(function() {
       });
     }
   });
-
 
   $(".ma-dropdown").on("click", function(event) {
     $(event.target).parent().parent().find(".dropdown-content").toggle();

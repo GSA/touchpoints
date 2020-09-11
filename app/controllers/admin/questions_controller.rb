@@ -19,8 +19,9 @@ class Admin::QuestionsController < AdminController
   end
 
   def sort
+    form_section_id = params[:form_section_id].split("_").last.to_i
     params[:question].each_with_index do |id, index|
-      Question.where(id: id).update_all(position: index + 1)
+      Question.where(id: id).update_all(position: index + 1, form_section_id: form_section_id)
     end
 
     head :ok
