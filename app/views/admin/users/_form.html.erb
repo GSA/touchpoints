@@ -55,5 +55,11 @@
   <% end %>
   <div class="actions">
     <%= form.submit class: "usa-button" %>
+    <% if admin_permissions? %>
+      <%= link_to admin_user_path(user), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" do %>
+        <i class="fas fa-trash"></i>
+        Delete User
+      <% end %>
+      <% end %>
   </div>
 <% end %>

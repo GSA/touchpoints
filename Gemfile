@@ -6,17 +6,17 @@ ruby '2.6.5'
 gem 'aws-sdk-rails', '>= 3.1.0'
 gem 'caracal'
 gem 'carrierwave'
-gem 'devise', '>= 4.7.1'
+gem 'devise', '>= 4.7.2'
 gem 'fog-aws'
 gem 'jquery-rails', '>= 4.4.0'
-gem 'jquery-ui-rails'
+gem 'jquery-ui-rails', '>= 6.0.1'
 gem 'acts-as-list'
 gem 'mail'
 gem 'mini_magick'
 gem 'newrelic_rpm'
 gem 'omniauth-github', '>= 1.4.0'
 gem 'omniauth_login_dot_gov', git: 'https://github.com/18f/omniauth_login_dot_gov.git', ref: '3703f9d3863300fd55eea6d05600d050e4cc9bb1'
-gem 'rails', '~> 5.2.4', '>= 5.2.4.3'
+gem 'rails', '~> 5.2.4', '>= 5.2.4.4'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma'
 gem 'rack-cors', '>= 1.1.1', require: 'rack/cors'
@@ -34,7 +34,7 @@ gem 'whenever', require: false
 
 
 group :development, :test do
-  gem 'dotenv-rails', '>= 2.7.5'
+  gem 'dotenv-rails', '>= 2.7.6'
   gem 'pry'
   gem 'rspec_junit_formatter'
 end
@@ -49,7 +49,7 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 3.32.2'
   gem 'database_cleaner'
-  gem 'factory_bot_rails', '>= 5.2.0'
+  gem 'factory_bot_rails', '>= 6.1.0'
   gem 'rspec-rails', '>= 4.0.1'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false, group: :test
