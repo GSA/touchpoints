@@ -51,6 +51,18 @@ feature "Managing Users", js: true do
           expect(page).to have_link(form.name)
         end
       end
+
+      describe "/admin/users/inactive" do
+        before do
+          visit inactive_admin_users_path
+        end
+
+        it "displays inactive users" do
+          expect(page).to have_css("table")
+          expect(User.count).to eq(2) # out of 2
+          expect(page).to have_content(organization_manager.email) # only 1 is inactive
+        end
+      end
     end
 
     describe "edit a User" do
@@ -72,22 +84,37 @@ feature "Managing Users", js: true do
 
     before do
       login_as organization_manager
-      visit admin_users_path
     end
 
-    it "permitted to see the page" do
-      expect(page).to have_content("Users")
-      within "table" do
-        expect(page).to have_content("Org mgr")
-        expect(page).to have_content("Email")
-        expect(page).to have_content("Organization Name")
-        expect(page).to have_link("Edit")
+    describe "admin" do
+      before do
+        visit admin_users_path
+      end
+
+      it "permitted to see the page" do
+        expect(page).to have_content("Users")
+        within "table" do
+          expect(page).to have_content("Org mgr")
+          expect(page).to have_content("Email")
+          expect(page).to have_content("Organization Name")
+          expect(page).to have_link("Edit")
+        end
+      end
+
+      it "does not display Admin nor Last Sign in at" do
+        expect(page).not_to have_content("Admin")
+        expect(page).not_to have_content("Last signed in")
       end
     end
 
-    it "does not display Admin nor Last Sign in at" do
-      expect(page).not_to have_content("Admin")
-      expect(page).not_to have_content("Last signed in")
+    describe "/admin/users/inactive" do
+      before do
+        visit inactive_admin_users_path
+      end
+
+      it "is not permitted to see inactive users list" do
+        expect(page).to have_content("Authorization is Required")
+      end
     end
   end
 

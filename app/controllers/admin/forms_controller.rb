@@ -18,7 +18,8 @@ class Admin::FormsController < AdminController
     :export_a11_submissions,
     :example, :js, :trigger,
     :add_user, :remove_user,
-    :publish
+    :publish,
+    :update_title, :update_instructions, :update_disclaimer_text
   ]
 
   def index
@@ -52,6 +53,21 @@ class Admin::FormsController < AdminController
 
     @form.update_attribute(:aasm_state, :live)
     redirect_to admin_form_path(@form), notice: "Published"
+  end
+
+  def update_title
+    @form.update!(title: params[:title])
+    render json: @form
+  end
+
+  def update_instructions
+    @form.update!(instructions: params[:instructions])
+    render json: @form
+  end
+
+  def update_disclaimer_text
+    @form.update!(disclaimer_text: params[:disclaimer_text])
+    render json: @form
   end
 
   def show

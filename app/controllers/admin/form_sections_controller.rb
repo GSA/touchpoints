@@ -28,10 +28,9 @@ class Admin::FormSectionsController < AdminController
 
 
   def update_title
-    return unless params[:title] && params[:title].length > 1
-    FormSection.where(id: params[:form_section_id]).update(title: params[:title])
-
-    head :ok
+    section = FormSection.where(id: params[:form_section_id]).first
+    section.update!(title: params[:title])
+    render json: section
   end
 
   def create

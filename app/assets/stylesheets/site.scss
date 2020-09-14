@@ -446,10 +446,10 @@ tbody tr:hover td {
     color: blue;
 }
 .section-header-div {
-  border-radius: 8px 8px 0px 0px;
-  padding: 8px 0px 0px 0px;
   background: #71767A;
-  height: 50px;
+  border-radius: 8px 8px 0px 0px;
+  min-height: 50px;
+  padding: 8px 0px 0px 0px;
 }
 .section-title-view {
   position: relative;
@@ -484,4 +484,13 @@ a.form-section-save {
 #modal-window {
   min-width: 600px;
   background: #FFFFFF;
+}
+.fa-pencil-alt, .fa-save {
+  cursor: pointer;
+}
+.form-title {
+  width: 400px;
+}
+.questions {
+  min-height: 10px;
 }

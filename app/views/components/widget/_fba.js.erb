@@ -110,12 +110,12 @@ function FBAform(d, N) {
 
 			var yesNoForm = d.querySelector('.touchpoints-yes-no-buttons');
 			if (yesNoForm) { // only for yes/no questions
-				submitButtons.forEach(function(submitButton) {
+				Array.prototype.forEach.call(submitButtons, function(submitButton) {
 					submitButton.addEventListener('click', that.handleYesNoSubmitClick.bind(that), false);
 				})
 			} else { // for all other types of forms/questions
 				if (submitButtons) {
-					submitButtons.forEach(function(submitButton) {
+					Array.prototype.forEach.call(submitButtons, function(submitButton) {
 						submitButton.addEventListener('click', that.handleSubmitClick.bind(that), false);
 					})
 				}
@@ -173,7 +173,7 @@ function FBAform(d, N) {
 			var formElement = this.formElement();
 			if (self.validateForm(formElement)) {
 				var submitButtons = formElement.querySelectorAll("[type='submit']");
-				submitButtons.forEach(function(submitButton) {
+				Array.prototype.forEach.call(submitButtons, function(submitButton) {
 					submitButton.disabled = true;
 				})
 				self.sendFeedback();
@@ -188,9 +188,9 @@ function FBAform(d, N) {
 			var requiredItems = form.querySelectorAll('[required]');
 			var questions = {};
 			// Build a dictionary of questions which require an answer
-			[].forEach.call(requiredItems, function(item) { questions[item.name] = item });
+			Array.prototype.forEach.call(requiredItems, function(item) { questions[item.name] = item });
 
-			[].forEach.call(requiredItems, function(item) {
+			Array.prototype.forEach.call(requiredItems, function(item) {
 				switch (item.type) {
 				case 'radio':
 					if (item.checked) delete(questions[item.name]);
