@@ -123,8 +123,14 @@ feature "Forms", js: true do
         describe "missing OMB Approval Number" do
           before "user tries to update a Touchpoint" do
             visit compliance_admin_form_path(existing_form)
+            find(".usa-date-picker__button").click
+            expect(page).to have_css(".usa-date-picker--active")
+            # arbitrarily pick a date that is next month, third week, third day (from Sunday)
+            find(".usa-date-picker__calendar__next-month").click
+            within(".usa-date-picker--active table") do
+              find_all("tr")[2].find_all("td")[2].click
+            end
 
-            fill_in("form[expiration_date]", with: future_date.strftime("%m/%d/%Y"))
             click_button "Update Survey"
           end
 
