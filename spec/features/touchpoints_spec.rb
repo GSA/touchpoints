@@ -81,7 +81,7 @@ feature "Touchpoints", js: true do
 
       describe "character counter" do
         it "updates character count" do
-          expect(page).to have_content("Chars remaining: 5")
+          expect(page).to have_content("5 characters left")
         end
       end
     end
