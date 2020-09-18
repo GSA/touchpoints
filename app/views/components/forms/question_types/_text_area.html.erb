@@ -1,15 +1,15 @@
 <div class="radios" role="group" aria-labelledby="<%= question.answer_field %>">
-  <%= render 'components/question_title', question: question, question_number: question_number %>
-  <% if question.character_limit && question.character_limit > 0 %>
-  	<div class="usa-character-count">
-	    <div class="usa-form-group">
-		    <%= text_area_tag question.answer_field.to_sym, nil, class: "usa-textarea usa-character-count__field", required: question.is_required, maxlength: question.max_length, "aria-describedby": question.answer_field + "-textarea-info" %>
+	<%= render 'components/question_title', question: question, question_number: question_number %>
+	<% if question.character_limit && question.character_limit > 0 %>
+		<div class="usa-character-count">
+		    <div class="usa-form-group">
+			    <%= text_area_tag question.answer_field.to_sym, nil, class: "usa-textarea usa-character-count__field", required: question.is_required, maxlength: question.max_length, "aria-describedby": question.answer_field + "-textarea-info" %>
+			</div>
+		    <span id="<%= question.answer_field %>-textarea-info" class="usa-hint usa-character-count__message" aria-live="polite">
+				You can enter up to <%= question.max_length %> characters
+		    </span>
 		</div>
-	    <span id="<%= question.answer_field %>-textarea-info" class="usa-hint usa-character-count__message" aria-live="polite">
-	      You can enter up to <%= question.max_length %> characters
-	    </span>
-	</div>
-  <% else %>
-    <%= text_area_tag question.answer_field.to_sym, nil, class: "usa-textarea", required: question.is_required, maxlength: question.max_length %>
-  <% end %>
+	<% else %>
+		<%= text_area_tag question.answer_field.to_sym, nil, class: "usa-textarea", required: question.is_required, maxlength: question.max_length %>
+	<% end %>
 </div>
