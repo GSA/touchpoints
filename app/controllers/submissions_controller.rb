@@ -112,7 +112,7 @@ class SubmissionsController < ApplicationController
 
     def submission_params
       permitted_fields = @form.questions.collect(&:answer_field)
-      permitted_fields << [:language, :location_code, :referer, :page, answer_04:[]]
+      permitted_fields << [:language, :location_code, :referer, :page]
       params.require(:submission).permit(permitted_fields)
     end
 end
