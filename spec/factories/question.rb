@@ -20,10 +20,10 @@ FactoryBot.define do
       text { "Test Radio Buttons Question" }
       question_type { "checkboxes" }
       after(:create) do |checkbox_question, evaluator|
-        FactoryBot.create(:question_option, question: checkbox_question, position: 1)
-        FactoryBot.create(:question_option, question: checkbox_question, position: 2)
-        FactoryBot.create(:question_option, question: checkbox_question, position: 3)
-        FactoryBot.create(:question_option, question: checkbox_question, position: 4)
+        FactoryBot.create(:question_option, question: checkbox_question, position: 1, text: 'One')
+        FactoryBot.create(:question_option, question: checkbox_question, position: 2, text: 'Two')
+        FactoryBot.create(:question_option, question: checkbox_question, position: 3, text: 'Three')
+        FactoryBot.create(:question_option, question: checkbox_question, position: 4, text: 'Four')
       end
     end
   end
