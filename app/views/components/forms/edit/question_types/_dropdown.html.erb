@@ -1,18 +1,5 @@
 <div class="radios" role="group" aria-labelledby="<%= question.answer_field %>">
-  <label class="usa-label">
-    <%= question_number %>.
-    <%= question.text %>
-    <p>
-      <span class="usa-tag">
-        <%= question.answer_field %>
-      </span>
-      <% if question.is_required? %>
-      <span class="usa-tag bg-secondary-vivid">
-        Required
-      </span>
-      <% end %>
-    </p>
-  </label>
+  <%= render 'components/questions/text', question: question, question_number: question_number %>
   <br>
   <div class="radio-button">
     <%= select_tag(question.answer_field.to_sym, options_for_select(question.question_options.each_with_index.map { |option, index| [option.text, option.value] }), { prompt: (t 'form.select_one'), class: "usa-select", required: question.is_required  }) %>
