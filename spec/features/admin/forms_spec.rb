@@ -544,6 +544,21 @@ feature "Forms", js: true do
             end
           end
 
+          describe "answer display" do
+            let!(:first_question) { FactoryBot.create(:question, form: form, form_section: form.form_sections.first, answer_field: :answer_01) }
+
+            before do
+              visit questions_admin_form_path(form)
+              click_on "Add Question"
+            end
+
+            it "displays answers that are not assigned to other Questions" do
+              expect(page).to have_content("New Question")
+              expect(find("#question_answer_field")).to_not have_content("answer_01")
+              expect(find("#question_answer_field")).to have_content("answer_02")
+            end
+          end
+
           context "Dropdown Question" do
             describe "#create" do
               before do
