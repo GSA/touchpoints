@@ -685,28 +685,6 @@ feature "Forms", js: true do
           end
         end
 
-        describe "click through to edit Question Option" do
-          describe "edit Radio Button option" do
-            let!(:radio_button_question) { FactoryBot.create(:question, :with_radio_buttons, form: form, form_section: form.form_sections.first) }
-            let!(:radio_button_option) { FactoryBot.create(:question_option, question: radio_button_question, position: 1) }
-
-            before do
-              visit questions_admin_form_path(form)
-
-              within (".question") do
-                within all(".usa-checkbox").first do
-                  click_on "Edit"
-                end
-              end
-            end
-
-            it "click through to Edit page" do
-              expect(page).to have_content("Editing Question Option")
-              expect(find_field("question_option_text").value).to eq(radio_button_option.text)
-            end
-          end
-        end
-
         describe "editing Question Options" do
           let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form: form, user: user) }
 
