@@ -243,13 +243,13 @@ function FBAform(d, N) {
 		},
 		textCounter: function(field,maxlimit)
 			{
-			 var countfield = field.parentNode.querySelector(".counter");
+			 var countfield = field.parentNode.querySelector(".counter-msg");
 			 if ( field.value.length > maxlimit ) {
 			  field.value = field.value.substring( 0, maxlimit );
-			  countfield.innerText = '0';
+			  countfield.innerText = '0 characters left';
 			  return false;
 			 } else {
-			  countfield.innerText = "" + (maxlimit - field.value.length);
+			  countfield.innerText = "" + (maxlimit - field.value.length) + " characters left";
 			 }
 		},
 		loadButton: function()
