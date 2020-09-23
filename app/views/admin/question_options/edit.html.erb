@@ -2,4 +2,5 @@
   <h1>Editing Question Option</h1>
 
   <%= render 'form', form: @question.form, question: @question, question_option: @question_option %>
+  <%= link_to 'Cancel', questions_admin_form_path(@question.form) %>
 </div>

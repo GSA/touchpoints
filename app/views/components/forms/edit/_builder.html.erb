@@ -305,6 +305,7 @@ $(function() {
         url: $(this).attr("href"),
         success: function (data) {
           contentDiv.html(data);
+          contentDiv.find("#question_option_text").focus();
         }
      });
   });
@@ -317,6 +318,7 @@ $(function() {
       url: $(this).attr("href"),
       success: function (data) {
         contentDiv.html(data);
+        contentDiv.find("#question_option_text").focus();
       }
     });
   });
@@ -329,6 +331,20 @@ $(function() {
       url: $(this).attr("href"),
       success: function (data) {
         contentDiv.html(data);
+        contentDiv.find("#question_option_text").focus();
+      }
+    });
+  });
+
+  $('.form-edit-question-dropdown-option').on("click", function(event) {
+    event.preventDefault();
+    var contentDiv =  $(this).closest('div.radio-button');
+    $.ajax({
+      type: "GET",
+      url: $(this).attr("href"),
+      success: function (data) {
+        contentDiv.html(data);
+        contentDiv.find("#question_option_text").focus();
       }
     });
   });

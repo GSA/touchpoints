@@ -181,7 +181,7 @@ feature "Forms", js: true do
             it "display 'Published' flash message" do
               expect(page).to have_content("Published")
               expect(page).to have_content("Viewing Survey: #{form.name}")
-              expect(page).to have_content("General Information")
+              expect(page).to have_content("General Form Information")
             end
           end
         end
@@ -303,7 +303,8 @@ feature "Forms", js: true do
 
         it "updates successfully" do
           expect(page).to have_content("Survey was successfully updated.")
-          expect(page).to have_content("new@email.gov")
+          visit notifications_admin_form_path(form)
+          expect(find("input[type='text']").value).to eq("new@email.gov")
         end
       end
 
@@ -662,6 +663,7 @@ feature "Forms", js: true do
               visit questions_admin_form_path(form)
               click_on "Add Radio Button Option"
               expect(page).to have_content("New Question Option")
+              expect(page).to have_selector('.well #question_option_text:focus')
               expect(page).to have_content("for the question: #{radio_button_question.text}")
               expect(page).to have_content("with a question_type of: radio_buttons")
               expect(page).to have_content("on the form #{form.name}")
@@ -733,6 +735,25 @@ feature "Forms", js: true do
               expect(page.find_field("question_option_value").value).to eq("100")
             end
           end
+
+          describe "edit Dropdown option" do
+            let!(:dropdown_question) { FactoryBot.create(:question, :with_dropdown_options, form: form, form_section: form.form_sections.first) }
+            let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form: form, user: admin) }
+
+            before do
+              visit questions_admin_form_path(form)
+              find_all(".form-edit-question-dropdown-option").first.click
+              fill_in "question_option_text", with: "Edited Question Option Text"
+              fill_in "question_option_value", with: "100"
+              click_on "Update Question option"
+            end
+
+            it "reloads Questions page" do
+              expect(page).to have_content("Question option was successfully updated.")
+              expect(page).to have_content("Edited Question Option Text")
+            end
+          end
+
         end
 
       end
