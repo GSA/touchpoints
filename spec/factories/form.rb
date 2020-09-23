@@ -165,5 +165,20 @@ FactoryBot.define do
       end
     end
 
+    trait :checkbox_form do
+      name { "Checkbox form" }
+      kind { "custom" }
+      after(:create) do |f, evaluator|
+        FactoryBot.create(:question,
+          :with_checkbox_options,
+          form: f,
+          answer_field: :answer_03,
+          question_type: "checkbox",
+          form_section: f.form_sections.first,
+          text: "Name"
+        )
+      end
+    end
+
   end
 end

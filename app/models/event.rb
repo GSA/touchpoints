@@ -10,6 +10,8 @@ class Event < ApplicationRecord
   @@names = {
     :organization_manager_changed => 'organization_manager_changed',
     :user_deactivated => 'user_deactivated',
+    :user_deleted => 'user_deleted',
+    :user_update => 'user_update',
     :user_authentication_attempt => 'user_authentication_attempt',
     :user_authentication_successful => 'user_authentication_successful',
     :user_authentication_failure => 'user_authentication_failure',
@@ -24,9 +26,6 @@ class Event < ApplicationRecord
     :form_copied => 'form_copied',
     :form_deleted => 'form_deleted',
 
-    :user_deleted => 'user_deleted',
-    :user_deleted => 'user_deactivated',
-    :user_update => 'user_update',
 
     :response_deleted => 'response_deleted'
   }

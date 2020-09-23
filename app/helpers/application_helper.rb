@@ -24,7 +24,7 @@ module ApplicationHelper
     elsif question.question_type == "matrix_checkboxes"
       "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
     elsif question.question_type == "checkbox"
-      "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
+      "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && Array.apply(null,form.querySelectorAll(\"input[name=#{question.answer_field}]:checked\")).map(function(x) {return x.value;}).join(',')"
     elsif question.question_type == "dropdown"
       "form.querySelector(\"##{question.answer_field}\").value"
     elsif question.question_type == "text_display"
