@@ -544,6 +544,21 @@ feature "Forms", js: true do
             end
           end
 
+          describe "answer display" do
+            let!(:first_question) { FactoryBot.create(:question, form: form, form_section: form.form_sections.first, answer_field: :answer_01) }
+
+            before do
+              visit questions_admin_form_path(form)
+              click_on "Add Question"
+            end
+
+            it "displays answers that are not assigned to other Questions" do
+              expect(page).to have_content("New Question")
+              expect(find("#question_answer_field")).to_not have_content("answer_01")
+              expect(find("#question_answer_field")).to have_content("answer_02")
+            end
+          end
+
           context "Dropdown Question" do
             describe "#create" do
               before do
@@ -667,6 +682,12 @@ feature "Forms", js: true do
               expect(page).to have_content("for the question: #{radio_button_question.text}")
               expect(page).to have_content("with a question_type of: radio_buttons")
               expect(page).to have_content("on the form #{form.name}")
+            end
+
+            it "Question Option value is populated with Question Option name by default, on outfocus" do
+              fill_in("question_option_text", with: "New Test Radio Option")
+              page.evaluate_script("$('#question_option_value').focus()")
+              expect(find("#question_option_value").value).to eq("New Test Radio Option")
             end
 
             it "create a Radio Button option" do
