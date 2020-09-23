@@ -1,14 +1,14 @@
 <div class="radios" role="group" aria-labelledby="<%= question.answer_field %>">
   <%= render 'components/questions/text', question: question, question_number: question_number %>
   <br>
-  <div class="radio-button">
-    <%= select_tag(question.answer_field.to_sym, options_for_select(question.question_options.each_with_index.map { |option, index| [option.text, option.value] }), { prompt: (t 'form.select_one'), class: "usa-select", required: question.is_required  }) %>
+  <%= select_tag(question.answer_field.to_sym, options_for_select(question.question_options.each_with_index.map { |option, index| [option.text, option.value] }), { prompt: (t 'form.select_one'), class: "usa-select", required: question.is_required  }) %>
+  <div class="options">
   </div>
   <% question.question_options.each_with_index do |option, index| %>
-  <div>
+  <div class="radio-button">
     <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}") do %>
       <%= option.text %>
-      <%= link_to "Edit", edit_admin_form_question_question_option_path(option.question.form, option.question, option) %>
+      <%= link_to "Edit", edit_admin_form_question_question_option_path(option.question.form, option.question, option), class: "form-edit-question-dropdown-option" %>
     <% end %>
   </div>
   <% end %>
