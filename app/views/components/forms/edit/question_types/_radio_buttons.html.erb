@@ -17,9 +17,11 @@
   <% question.question_options.each_with_index do |option, index| %>
   <div class="usa-checkbox">
     <%= radio_button_tag(question.answer_field.to_sym, index + 1, nil, { value: option.value, class: "usa-radio__input", required: question.is_required  }) %>
-    <%= label_tag nil, for: "#{question.answer_field.to_sym}_#{option.position}", class: "usa-radio__label" do %>
-      <%= option.text %>
-      <%= link_to "Edit", edit_admin_form_question_question_option_path(option.question.form, option.question, option), class: "form-edit-question-option-radio-button" %>
+    <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}", class: "usa-radio__label") do %>
+        <span class="question-option-view"><%= option.text %></span>
+        <input type="text" value="<%= option.text %>" class="usa-input display-inline question-option-edit" data-href="<%= admin_form_question_question_option_path(option.question.form, option.question, option) %>" />
+      <%= link_to raw('<i class="edit button fas fa-pencil-alt" title="Edit text" style="display:inherit"></i>'), edit_admin_form_question_question_option_path(option.question.form, option.question, option), style: "text-decoration: none", class: "form-edit-question-option-checkbox" %>
+      <%= link_to raw('<i class="delete button fas fa-trash-alt" title="Delete question option" style="display:inherit; color: red"></i>'), admin_form_question_question_option_path(option.question.form, option.question, option), style: "text-decoration: none", class: "form-delete-question-option" %>
     <% end %>
   </div>
   <% end %>

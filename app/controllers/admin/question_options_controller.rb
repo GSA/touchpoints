@@ -18,6 +18,12 @@ class Admin::QuestionOptionsController < AdminController
     render layout: false
   end
 
+  def update_title
+    question_option = QuestionOption.where(id: params[:question_option_id]).first
+    question_option.update!(text: params[:text])
+    render json: question_option
+  end
+
   def create
     @question_option = QuestionOption.new(question_option_params)
 

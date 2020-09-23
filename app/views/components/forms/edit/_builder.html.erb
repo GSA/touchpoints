@@ -130,6 +130,7 @@ $(function() {
   $(".dropdown-content").hide();
   $("div.section-title-edit").hide();
   $(".form-title-edit").hide();
+  $(".question-option-edit").hide();
 
   <% if form_permissions?(form: form) %>
   $('.form-add-section').on("click", function(event) {
@@ -172,6 +173,39 @@ $(function() {
     var titleEdit = $(this).parent().parent().find("div.section-title-edit");
     titleEdit.show();
     titleEdit.find("input").focus();
+  });
+
+  $(".question-option-view").on("click", function(event) {
+    $('.question-option-edit').hide();
+    $('.question-option-view').show();
+    $(this).hide();
+    var titleEdit = $(this).parent().find(".question-option-edit");
+    titleEdit.show();
+    titleEdit.find("input").focus();
+  });
+
+  $(".question-option-edit").keyup(function(event) {
+    if (event.keyCode == 13) {
+      $('.question-option-edit').hide();
+      $('.question-option-view').show();
+      $(this).parent().find('.question-option-view').html($(this).val());
+      $.ajax({
+        type: "PATCH",
+        url: $(this).attr("data-href") + "/update_title",
+        data: {text: $(this).val()}
+      });
+    }
+  });
+
+  $(".form-delete-question-option").on("click", function(event) {
+    event.preventDefault();
+    if (confirm('Are you sure?')) {
+      $(this).parent().parent().remove();
+      $.ajax({
+        type: "DELETE",
+        url: $(this).attr("href")
+      });
+    }
   });
 
   $('.form-title-save').on("click", function(event) {
