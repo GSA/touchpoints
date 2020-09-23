@@ -46,6 +46,24 @@ feature "Touchpoints", js: true do
       end
     end
 
+    describe "checkbox question" do
+      let!(:checkbox_form) { FactoryBot.create(:form, :checkbox_form, organization: organization, user: user) }
+
+      before do
+        visit touchpoint_path(checkbox_form)
+        all('.usa-checkbox__label').each do |checkbox_label|
+          checkbox_label.click
+        end
+        click_on "Submit"
+      end
+
+      it "persists checkbox question values to db as comma separated list" do
+        expect(page).to have_content("Thank you. Your feedback has been received.")
+        expect(Submission.last.answer_03).to eq "One,Two,Three,Four"
+      end
+
+    end
+
     describe "required question" do
       before do
         form.questions.first.update_attribute(:is_required, true)

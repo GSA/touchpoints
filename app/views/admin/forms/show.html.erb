@@ -164,20 +164,15 @@
 <br>
 <% end %>
 <div class="well">
-  <div class="grid-row grid-gap-md">
-    <div class="tablet:grid-col-4">
+  <div class="grid-row grid-gap-lg">
+    <div class="tablet:grid-col-6">
       <h2>
-        General Information
+        General Form Information
       </h2>
       <p>
         <strong>Organization</strong>
         <br>
         <%= link_to(@form.organization.name, admin_organization_path(@form.organization)) if @form.organization %>
-      </p>
-      <p>
-        <strong>Notification emails</strong>
-        <br>
-        <%= @form.notification_emails %>
       </p>
       <p>
         <strong>
@@ -188,7 +183,7 @@
         <%= @form.hisp? ? "Yes ✅" : "No" %>
       </p>
     </div>
-    <div class="tablet:grid-col-4">
+    <div class="tablet:grid-col-6">
       <div>
         <h2>
           Delivery method
@@ -198,11 +193,13 @@
           <br>
           <%= @form.delivery_method %>
         </p>
+        <% if @form.delivery_method == "touchpoints-hosted-only" || @form.delivery_method == "modal" %>
+        <% else %>
         <p>
           <strong>Element selector</strong>
-          <br>
           <%= @form.element_selector %>
         </p>
+        <% end %>
       </div>
     </div>
   </div>
@@ -214,16 +211,12 @@
       </span>
     <% end %>
     <p>
+      <strong>Name:</strong>
+      <%= @form.name %>
+    </p>
+    <p>
       <strong>Form Owner:</strong>
       <%= @form.user.email if @form.user %>
-    </p>
-    <p>
-      <strong>Title:</strong>
-      <%= @form.title %>
-    </p>
-    <p>
-      <strong>Kind:</strong>
-      <%= @form.kind %>
     </p>
     <% if @form.template %>
     <p>
@@ -231,54 +224,12 @@
       <%= @form.notes %>
     </p>
     <% end %>
-    <% if @form.logo %>
     <p>
-      <strong>Logo:</strong>
-      <% if @form.logo_url.present? %>
-      (displaying Thumbnail version)
-      <br>
-      <br>
-      <%= image_tag(@form.logo.thumb.url) %>
-      <br>
-      <%= link_to "Full Size", @form.logo.url, target: "_blank", rel: "noopener" %><br>
-      <%= link_to "Thumbnail Size", @form.logo.thumb.url, target: "_blank", rel: "noopener" %><br>
-      <%= link_to "Card Size", @form.logo.card.url, target: "_blank", rel: "noopener" %><br>
-      <% else %>
-        A logo has not yet been uploaded
-      <% end %>
-    </p>
-    <% end %>
-    <p>
-      <strong>Display (320px wide by 80px tall) Header Logo:</strong>
-      <%= @form.display_header_logo %>
-    </p>
-    <p>
-      <strong>Display (80px wide by 80px tall) Header Logo:</strong>
-      <%= @form.display_header_square_logo %>
-    </p>
-    <p>
-      <strong>Modal Button Text:</strong>
-      <%= sanitize(@form.modal_button_text) %>
-    </p>
-    <p>
-      <strong>Success Text:</strong>
-      <%= sanitize(@form.success_text) %>
-    </p>
-    <p>
-      <strong>Instructions:</strong>
-      <%= sanitize(@form.instructions) %>
-    </p>
-    <p>
-      <strong>Disclaimer Text:</strong>
-      <%= sanitize(@form.disclaimer_text) %>
-    </p>
-    <p>
-      <strong>Whitelist URL:</strong>
-      <%= @form.whitelist_url %>
-    </p>
-    <p>
-      <strong>Whitelist Test URL:</strong>
-      <%= @form.whitelist_test_url %>
+      <strong>Created on:</strong>
+      <%= @form.created_at.to_date %>
+      <small>
+        (<%= time_ago_in_words(@form.created_at) %> ago)
+      </small>
     </p>
   </div>
 </div>
