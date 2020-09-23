@@ -669,6 +669,12 @@ feature "Forms", js: true do
               expect(page).to have_content("on the form #{form.name}")
             end
 
+            it "Question Option value is populated with Question Option name by default, on outfocus" do
+              fill_in("question_option_text", with: "New Test Radio Option")
+              page.evaluate_script("$('#question_option_value').focus()")
+              expect(find("#question_option_value").value).to eq("New Test Radio Option")
+            end
+
             it "create a Radio Button option" do
               fill_in("question_option_text", with: "New Test Radio Option")
               fill_in("question_option_value", with: "123")
