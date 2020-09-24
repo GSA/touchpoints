@@ -1,0 +1,46 @@
+<% days_since = params[:recent] && params[:recent].to_i < 30 ? params[:recent].to_i : 3 %>
+<% todays_submissions = Submission.where("created_at > ?", Time.now - days_since.days) %>
+<% form_ids = todays_submissions.collect(&:form_id).uniq  %>
+<% forms = Form.find(form_ids)  %>
+
+<div id="recent-responses">
+  <h3>
+    Recent Responses (last <%= days_since %> days)
+  </h3>
+  <% if forms.present?  %>
+    <table class="usa-table">
+      <thead>
+        <tr>
+          <th>
+            Organization name
+          </th>
+          <th>
+            Form name
+          </th>
+          <th>
+            Response count
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% forms.each do |form|  %>
+        <tr>
+          <td>
+            <%= form.organization.name %>
+          </td>
+          <td>
+            <%= link_to form.name, admin_form_path(form) %>
+          </td>
+          <td>
+            <%= form.submissions.where("created_at > ?", Time.now - days_since.days).count %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="usa-alert">
+      No responses in the recent timeframe.
+    </div>
+  <% end %>
+</div>
