@@ -1,8 +1,3 @@
-<% days_since = params[:recent] && params[:recent].to_i < 30 ? params[:recent].to_i : 3 %>
-<% todays_submissions = Submission.where("created_at > ?", Time.now - days_since.days) %>
-<% form_ids = todays_submissions.collect(&:form_id).uniq  %>
-<% forms = Form.find(form_ids)  %>
-
 <div id="recent-responses">
   <h3>
     Recent Responses (last <%= days_since %> days)
@@ -26,7 +21,7 @@
         <% forms.each do |form|  %>
         <tr>
           <td>
-            <%= form.organization.name %>
+            <%= link_to form.organization.name, admin_organization_path(form.organization) %>
           </td>
           <td>
             <%= link_to form.name, admin_form_path(form) %>
@@ -43,4 +38,18 @@
       No responses in the recent timeframe.
     </div>
   <% end %>
+  <p>
+    See the last:
+    <a href="?recent=7">
+      7 days
+    </a>
+    &middot;
+    <a href="?recent=14">
+      14 days
+    </a>
+    &middot;
+    <a href="?recent=30">
+      30 days
+    </a>
+  </p>
 </div>

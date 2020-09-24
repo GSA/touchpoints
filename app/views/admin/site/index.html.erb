@@ -54,7 +54,7 @@
         </p>
       </div>
       <%= render 'components/weekly_metrics', forms: @forms %>
-      <%= render 'components/admin/recent_responses' %>
+      <%= render 'components/admin/recent_responses', forms: @recent_forms, days_since: @days_since %>
       <%= render 'components/admin/responses_per_day', response_groups: @response_groups %>
       <br>
       <div class="forms hisp">
