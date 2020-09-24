@@ -1,8 +1,8 @@
-<h3 id="fba-modal-title" class="form-title-view">
+<h2 id="fba-modal-title" class="form-title-view">
   <span class="form-title-lbl"><%= form.title %></span>
   &nbsp;
   <i class="fas fa-pencil-alt" title="Edit form title"></i>
-</h3>
+</h2>
 <div class="form-title-edit">
   <input type="text" value="<%= form.title %>" class="usa-input display-inline form-title" />
   <a href="<%= admin_form_path(form) %>" class="form-title-save">
@@ -22,7 +22,6 @@
   <i class="edit button fas fa-pencil-alt" title="Edit instructions"></i>
 </div>
 <div class="sorting-div list-group" id="sections">
-  <%= hidden_field_tag :fba_location_code, params[:location_code] %>
   <% multi_section_question_number = 0 %>
   <% form.form_sections.each do |section| %>
     <div class="form-section-div list-group-item" id="<%= dom_id(section) %>" data-url="<%= admin_form_form_section_path(section) %>/sort" data-id="<%= section.id %>">
@@ -44,7 +43,7 @@
         <div class="questions">
           <% section.questions.each_with_index do |question, index| %>
             <% multi_section_question_number += 1 %>
-            <div class="question well3 list-group-item" id="<%= dom_id(question) %>" >
+            <div class="question well list-group-item" id="<%= dom_id(question) %>" >
               <%= render 'components/forms/edit/button_dropdown', { form: form, question: question } if form_permissions?(form: form) %>
 
               <% if question.question_type == "text_field" %>
