@@ -1,6 +1,6 @@
 <div class="radios" role="group" aria-labelledby="<%= question.answer_field %>">
   <legend class="usa-sr-only"><%= question.answer_field %></legend>
-  <%= render 'components/question_title', question: question, question_number: question_number %>
+  <%= render 'components/question_title', question: question %>
   <br>
   <div id="star_rating" style="text-align: center; margin: 0 auto;">
     <input value="1" id="star1" type="radio" name="<%= question.answer_field %>" class="visuallyhidden">

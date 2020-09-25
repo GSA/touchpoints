@@ -1,6 +1,6 @@
 <div class="<%= question.answer_field %>" role="group" aria-labelledby="<%= question.answer_field %>">
   <legend class="usa-sr-only"><%= question.answer_field %></legend>
-  <%= render 'components/questions/text', question: question, question_number: question_number %>
+  <%= render 'components/question_title', question: question, form_builder: true %>
   <br>
   <div>
     <% question.question_options.each_with_index do |option, index| %>

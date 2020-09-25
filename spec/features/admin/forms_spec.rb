@@ -599,7 +599,7 @@ feature "Forms", js: true do
                   expect(page).to have_content("Question was successfully updated.")
                   expect(page.current_path).to eq(questions_admin_form_path(form))
                   within ".form-builder" do
-                    expect(page).to have_content("1. Updated question text")
+                    expect(page).to have_content("Updated question text")
                   end
                 end
               end
