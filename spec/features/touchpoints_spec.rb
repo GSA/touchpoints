@@ -72,7 +72,7 @@ feature "Touchpoints", js: true do
       end
 
       it "displays an error message" do
-        expect(page).to have_content("You must respond to question: 1. Test Open Area")
+        expect(page).to have_content("You must respond to question: Test Open Area")
       end
 
       it "regression: does not display invisible error message inputs" do
