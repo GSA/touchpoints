@@ -5,7 +5,7 @@
     <%= hidden_field_tag :fba_location_code, params[:location_code] %>
 
     <% form.form_sections.each do |section| %>
-      <div class="well white-bg section <%= 'visible' if section == form.form_sections.first  -%>">
+      <div class="white-bg section <%= 'visible' if section == form.form_sections.first  -%>">
         <% if (section != form.form_sections.first) || (section != form.form_sections.last) %>
           <div class="pagination-buttons">
             <% if section != form.form_sections.first %>
@@ -28,7 +28,7 @@
           end
         %>
 
-        <div class="question">
+        <div class="question well">
           <% if question.question_type == "text_field" %>
             <%= render 'components/forms/question_types/text_field', form: form, question: question, question_number: multi_section_question_number %>
           <% elsif question.question_type == "star_radio_buttons" %>

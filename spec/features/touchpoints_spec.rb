@@ -72,7 +72,7 @@ feature "Touchpoints", js: true do
       end
 
       it "displays an error message" do
-        expect(page).to have_content("You must respond to question: 1. Test Open Area")
+        expect(page).to have_content("You must respond to question: Test Open Area")
       end
 
       it "regression: does not display invisible error message inputs" do
@@ -99,7 +99,7 @@ feature "Touchpoints", js: true do
 
       describe "character counter" do
         it "updates character count" do
-          expect(page).to have_content("Chars remaining: 5")
+          expect(page).to have_content("5 characters left")
         end
       end
     end
