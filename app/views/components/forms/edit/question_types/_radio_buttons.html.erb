@@ -1,6 +1,6 @@
 <fieldset class="usa-fieldset radios" role="group" aria-labelledby="<%= question.answer_field %>">
   <legend class="usa-sr-only"><%= question.answer_field %></legend>
-  <%= render 'components/questions/text', question: question, question_number: question_number %>
+  <%= render 'components/question_title', question: question, form_builder: true %>
   <% question.question_options.each_with_index do |option, index| %>
   <div class="usa-checkbox">
     <%= radio_button_tag(question.answer_field.to_sym, index + 1, nil, { value: option.value, class: "usa-radio__input", required: question.is_required  }) %>
