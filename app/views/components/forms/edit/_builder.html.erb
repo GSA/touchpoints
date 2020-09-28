@@ -262,6 +262,17 @@ $(function() {
     }
   });
 
+  $(".question_options").sortable({
+    items: '.question_option',
+    update: function(e, ui) {
+      $.ajax({
+        url: $(this).data("url"),
+        type: "PATCH",
+        data: $(this).sortable('serialize')
+      });
+    }
+  });
+
   $("#sections").sortable({
     distance: 20,
     update: function(e, ui) {

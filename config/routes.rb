@@ -43,6 +43,7 @@ Rails.application.routes.draw do
         get "permissions", to: "forms#permissions", as: :permissions
         get "compliance", to: "forms#compliance", as: :compliance
         get "questions", to: "forms#questions", as: :questions
+        patch "question_options", to: "question_options#sort", as: :sort_question_options
         patch "questions", to: "questions#sort", as: :sort_questions
         patch "form_sections", to: "form_sections#sort", as: :sort_sections
         get "responses", to: "forms#responses", as: :responses
@@ -62,6 +63,9 @@ Rails.application.routes.draw do
         patch "update_title", to: "form_sections#update_title", as: :inline_update
       end
       resources :questions do
+        member do
+          patch "question_options", to: "question_options#sort", as: :sort_question_options
+        end
         resources :question_options
         collection do
           patch "questions", to: "questions#sort", as: :sort_questions

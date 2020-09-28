@@ -1,8 +1,8 @@
-<div class="radios" role="group" aria-labelledby="<%= question.answer_field %>">
+<div class="radios question_options list-group" role="group" aria-labelledby="<%= question.answer_field %>" data-url="<%= admin_form_question_question_options_path(question.form, question) %>">
   <%= render 'components/question_title', question: question, form_builder: true %>
   <br>
   <% question.question_options.each_with_index do |option, index| %>
-  <div class="radio-button">
+  <div class="radio-button question_option list-group-item" id="<%= dom_id(option) %>"  >
     <%= check_box_tag("#{question.answer_field}_#{(index + 1).to_s}", index + 1, nil, { value: option.text , class: "usa-checkbox__input" }) %>
     <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}", class: "usa-checkbox__label") do %>
       <%= option.text %>

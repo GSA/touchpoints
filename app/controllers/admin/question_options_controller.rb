@@ -18,6 +18,14 @@ class Admin::QuestionOptionsController < AdminController
     render layout: false
   end
 
+  def sort
+    params[:question_option].each_with_index do |id, index|
+      QuestionOption.find(id).update_attributes(position: index + 1)
+    end
+
+    head :ok
+  end
+
   def create
     @question_option = QuestionOption.new(question_option_params)
 
