@@ -25,11 +25,21 @@
   </div>
   <br>
   <% question.question_options.each_with_index do |option, index| %>
-  <div class="usa-checkbox">
+  <div class="usa-checkbox question-option">
     <%= label_tag nil, for: "#{question.answer_field.to_sym}_#{option.position}" do %>
-      <%= option.text %>
-      <%= link_to "Edit", edit_admin_form_question_question_option_path(option.question.form, option.question, option) %>
+      <span class="question-option-view"><%= option.text %></span>
+      <input type="text" value="<%= option.text %>" class="usa-input display-inline question-option-edit" data-href="<%= admin_form_question_question_option_path(option.question.form, option.question, option) %>" />
     <% end %>
+    <span class="float-right">
+      <%= link_to edit_admin_form_question_question_option_path(option.question.form, option.question, option), class: "edit button", style: "text-decoration: none;" do %>
+        <i class="fas fa-pencil-alt" title="Edit question option" style="text-decoration: none;"></i>
+      <% end %>
+      &nbsp;
+      &nbsp;
+      <%= link_to edit_admin_form_question_question_option_path(option.question.form, option.question, option), class: "save button", style: "text-decoration: none;" do %>
+        <i class="delete button fas fa-trash-alt" title="Delete question option" style="text-decoration: none; display:inherit; color: red;"></i>
+      <% end %>
+    </span>
   </div>
   <% end %>
   <br>

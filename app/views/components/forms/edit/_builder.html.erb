@@ -343,21 +343,9 @@ $(function() {
      });
   });
 
-  $('.form-edit-question-option-checkbox').on("click", function(event) {
+  $('.question .edit.button').on("click", function(event) {
     event.preventDefault();
-    var contentDiv =  $(this).closest('div.radio-button');
-    $.ajax({
-      type: "GET",
-      url: $(this).attr("href"),
-      success: function (data) {
-        contentDiv.html(data);
-      }
-    });
-  });
-
-  $('.form-edit-question-option-radio-button').on("click", function(event) {
-    event.preventDefault();
-    var contentDiv =  $(this).closest('div.usa-checkbox');
+    var contentDiv =  $(this).closest('.question-option');
     $.ajax({
       type: "GET",
       url: $(this).attr("href"),
