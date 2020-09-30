@@ -26,5 +26,16 @@ FactoryBot.define do
         FactoryBot.create(:question_option, question: checkbox_question, position: 4, text: 'Four')
       end
     end
+
+    trait :with_dropdown_options do
+      text { "Test Dropdown Question" }
+      question_type { "dropdown" }
+      after(:create) do |dropdown_question, evaluator|
+        FactoryBot.create(:question_option, question: dropdown_question, position: 1, text: 'One')
+        FactoryBot.create(:question_option, question: dropdown_question, position: 2, text: 'Two')
+        FactoryBot.create(:question_option, question: dropdown_question, position: 3, text: 'Three')
+        FactoryBot.create(:question_option, question: dropdown_question, position: 4, text: 'Four')
+      end
+    end
   end
 end

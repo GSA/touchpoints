@@ -1,4 +1,4 @@
-<div class="well">  
+<div class="well">
   <h1>New Question Option</h1>
   <p>
     for the question: <%= @question.text %>
@@ -9,5 +9,5 @@
   </p>
 
   <%= render 'form', form: @question.form, question: @question, question_option: @question_option %>
-  <%= link_to 'Cancel', edit_admin_form_path(@question.form) %>
+  <%= link_to 'Cancel', questions_admin_form_path(@question.form) %>
 </div>
