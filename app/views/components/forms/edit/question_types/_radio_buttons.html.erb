@@ -1,8 +1,8 @@
-<fieldset class="usa-fieldset radios" role="group" aria-labelledby="<%= question.answer_field %>">
+<fieldset class="usa-fieldset radios question_options list-group" role="group" aria-labelledby="<%= question.answer_field %>" data-url="<%= admin_form_question_question_options_path(question.form, question) %>">
   <legend class="usa-sr-only"><%= question.answer_field %></legend>
   <%= render 'components/question_title', question: question, form_builder: true %>
   <% question.question_options.each_with_index do |option, index| %>
-  <div class="usa-checkbox">
+  <div class="usa-checkbox  question_option list-group-item"  id="<%= dom_id(option) %>"  >
     <%= radio_button_tag(question.answer_field.to_sym, index + 1, nil, { value: option.value, class: "usa-radio__input", required: question.is_required  }) %>
     <%= label_tag nil, for: "#{question.answer_field.to_sym}_#{option.position}", class: "usa-radio__label" do %>
       <%= option.text %>
