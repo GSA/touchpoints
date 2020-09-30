@@ -605,7 +605,8 @@ feature "Forms", js: true do
                   expect(page.current_path).to eq(questions_admin_form_path(form))
                   within ".form-builder" do
                     expect(page).to have_content("Dropdown option #1")
-                    expect(page).to have_link("Edit")
+                    expect(page).to have_css(".edit.button")
+                    expect(page).to have_css(".delete.button")
                   end
                 end
               end
