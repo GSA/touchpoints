@@ -20,15 +20,16 @@
 
   <div class="field">
     <%= f.label :question_type, class: "usa-label" %>
-    <% if admin_permissions? %>
+  <% if admin_permissions? %>
     <br>
     <% Question::QUESTION_TYPES.each do |kind| %>
-      <%= f.radio_button :question_type, kind %> <%= kind %>
+      <%= f.radio_button :question_type, kind %>
+      <%= kind %>
       <br>
     <% end %>
-    <% else %>
-    <%= f.select :question_type, Question::QUESTION_TYPES - ["checkbox", "text_display", "star_radio_buttons", "yes_no_buttons", "thumbs_up_down_buttons", "matrix_checkboxes", "custom_text_display"], { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
-    <% end %>
+  <% else %>
+    <%= f.select :question_type, Question::QUESTION_TYPES - ["text_display", "star_radio_buttons", "yes_no_buttons", "thumbs_up_down_buttons", "matrix_checkboxes", "custom_text_display"], { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
+  <% end %>
   </div>
 
   <div class="grid-row">

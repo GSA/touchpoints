@@ -1,6 +1,5 @@
 <div class="radios list-group" role="group" aria-labelledby="<%= question.answer_field %>" data-url="<%= admin_form_question_question_options_path(question.form, question) %>">
   <%= render 'components/question_title', question: question, form_builder: true %>
-  <br>
   <div class="question-options">
   <% question.question_options.each_with_index do |option, index| %>
     <%= render "components/forms/edit/question_types/checkbox_option", question: question, option: option, index: index %>
