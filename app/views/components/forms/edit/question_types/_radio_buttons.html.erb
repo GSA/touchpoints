@@ -1,19 +1,15 @@
-<fieldset class="usa-fieldset radios question_options list-group" role="group" aria-labelledby="<%= question.answer_field %>" data-url="<%= admin_form_question_question_options_path(question.form, question) %>">
+<fieldset class="usa-fieldset radios list-group" role="group" aria-labelledby="<%= question.answer_field %>" data-url="<%= admin_form_question_question_options_path(question.form, question) %>">
   <legend class="usa-sr-only"><%= question.answer_field %></legend>
   <%= render 'components/question_title', question: question, form_builder: true %>
+  <div class="question-options">
   <% question.question_options.each_with_index do |option, index| %>
-  <div class="usa-checkbox  question_option list-group-item"  id="<%= dom_id(option) %>"  >
-    <%= radio_button_tag(question.answer_field.to_sym, index + 1, nil, { value: option.value, class: "usa-radio__input", required: question.is_required  }) %>
-    <%= label_tag nil, for: "#{question.answer_field.to_sym}_#{option.position}", class: "usa-radio__label" do %>
-      <%= option.text %>
-      <%= link_to "Edit", edit_admin_form_question_question_option_path(option.question.form, option.question, option), class: "form-edit-question-option-radio-button" %>
-    <% end %>
-  </div>
+    <%= render "components/forms/edit/question_types/radio_button_option", question: question, option: option, index: index %>
   <% end %>
-  <div class="new-question-options-div">
-    <%= link_to new_admin_form_question_question_option_path(question.form, question), class: "usa-button form-add-question-option" do %>
-      <i class="fa fa-plus"></i>
-      Add Radio Button Option
-    <% end %>
   </div>
 </fieldset>
+<div class="new-question-options-div">
+  <%= link_to new_admin_form_question_question_option_path(question.form, question), class: "usa-button usa-button--outline form-add-question-option" do %>
+  <i class="fa fa-plus"></i>
+  Add Radio Button Option
+  <% end %>
+</div>
