@@ -615,9 +615,9 @@ feature "Forms", js: true do
                 end
 
                 it "add a Question Option for a dropdown" do
-                  expect(page).to have_content("Question option was successfully created.")
                   expect(page.current_path).to eq(questions_admin_form_path(form))
-                  within ".form-builder" do
+                  expect(page).to have_content("Dropdown option #1")
+                  within ".form-builder .question-options .question-option[data-id='#{QuestionOption.last.id}']" do
                     expect(page).to have_content("Dropdown option #1")
                     expect(page).to have_css(".edit.button")
                     expect(page).to have_css(".delete.button")
@@ -693,8 +693,9 @@ feature "Forms", js: true do
               fill_in("question_option_text", with: "New Test Radio Option")
               fill_in("question_option_value", with: "123")
               click_on("Create Question option")
-              expect(page).to have_content("Question option was successfully created.")
-              within ".form-section-div" do
+
+              expect(page).to have_content("New Test Radio Option")
+              within ".form-builder .question-options .question-option[data-id='#{QuestionOption.last.id}']" do
                 expect(all("label").last).to have_content("New Test Radio Option")
               end
             end
@@ -747,8 +748,10 @@ feature "Forms", js: true do
             end
 
             it "reloads Questions page" do
-              expect(page).to have_content("Question option was successfully updated.")
               expect(page).to have_content("Edited Question Option Text")
+              within ".form-builder .question-options" do
+                expect(page).to have_content("Edited Question Option Text")
+              end
             end
           end
 
