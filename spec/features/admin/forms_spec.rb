@@ -611,8 +611,6 @@ feature "Forms", js: true do
                   expect(page.current_path).to eq(questions_admin_form_path(form))
                   expect(page).to have_content("New Question")
                   fill_in "question_option_text", with: "Dropdown option #1"
-                  fill_in "question_option_value", with: "value1"
-                  expect(find_field('question_option_position').value).to eq '1'
                   click_on "Create Question option"
                 end
 

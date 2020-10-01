@@ -23,20 +23,14 @@
     <%= form.text_field :value, class: "usa-input" %>
   </div>
 
-  <div class="field">
-    <%= form.label :position, class: "usa-label" %>
-    <%= form.number_field :position, value: (question_option.persisted? ? question_option.position : question.question_options.length + 1), class: "usa-input" %>
-  </div>
-
   <p>
     <%= form.submit class: "usa-button" %>
 
-    <% if question_option.persisted? %>
-      <%= link_to admin_form_question_question_option_path(form, question, question_option), class: "usa-button bg-red float-right", method: :delete, data: { confirm: 'Are you sure?' } do %>
-        <i class="fa fa-trash"></i>
-        Delete
-      <% end %>
+  <% if question_option.persisted? %>
+    <%= link_to admin_form_question_question_option_path(form, question, question_option), class: "usa-button bg-red float-right", method: :delete, data: { confirm: 'Are you sure?' } do %>
+      <i class="fa fa-trash"></i>
+      Delete
     <% end %>
-
+  <% end %>
   </p>
 <% end %>

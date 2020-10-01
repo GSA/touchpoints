@@ -183,15 +183,16 @@ $(function() {
     titleEdit.find("input").focus();
   });
 
-  $(".question-option-edit").keyup(function(event) {
+  $(".question-option-edit input").keyup(function(event) {
     if (event.keyCode == 13) {
-      $('.question-option-edit').hide();
-      $('.question-option-view').show();
-      $(this).parent().find('.question-option-view').html($(this).val());
+      $(this).parent().parent().find('.question-option-view').html($(this).val());
       $.ajax({
         type: "PATCH",
         url: $(this).attr("data-href") + "/update_title",
-        data: {text: $(this).val()}
+        data: { text: $(this).val() }
+      }).done(function() {
+        $('.question-option-edit').hide();
+        $('.question-option-view').show();
       });
     }
   });

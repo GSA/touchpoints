@@ -26,6 +26,7 @@ class Admin::QuestionOptionsController < AdminController
 
   def create
     @question_option = QuestionOption.new(question_option_params)
+    @question_option.position = @question_option.question.question_options.size + 1
 
     respond_to do |format|
       if @question_option.save

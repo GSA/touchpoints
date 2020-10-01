@@ -6,7 +6,9 @@
     <%= radio_button_tag(question.answer_field.to_sym, index + 1, nil, { value: option.value, class: "usa-radio__input", required: question.is_required  }) %>
     <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}", class: "usa-radio__label") do %>
       <span class="question-option-view"><%= option.text %></span>
-      <input type="text" value="<%= option.text %>" class="usa-input display-inline question-option-edit" data-href="<%= admin_form_question_question_option_path(option.question.form, option.question, option) %>" />
+      <span class="question-option-edit">
+        <input type="text" value="<%= option.text %>" class="usa-input display-inline" data-href="<%= admin_form_question_question_option_path(option.question.form, option.question, option) %>" />
+      </span>
       <span class="float-right">
         <%= link_to edit_admin_form_question_question_option_path(option.question.form, option.question, option), style: "text-decoration: none", class: "edit button form-edit-question-option-checkbox" do %>
           <i class="fas fa-pencil-alt" title="Edit text" style="display:inherit"></i>
