@@ -285,6 +285,17 @@ $(function() {
     }
   });
 
+  $(".question-options").sortable({
+    items: '.question-option',
+    update: function(e, ui) {
+      $.ajax({
+        url: $(this).parent().data("url"),
+        type: "PATCH",
+        data: $(this).sortable('serialize')
+      });
+    }
+  });
+
   $("#sections").sortable({
     distance: 20,
     update: function(e, ui) {

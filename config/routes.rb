@@ -62,6 +62,9 @@ Rails.application.routes.draw do
         patch "update_title", to: "form_sections#update_title", as: :inline_update
       end
       resources :questions do
+        member do
+          patch "question_options", to: "question_options#sort", as: :sort_question_options
+        end
         resources :question_options do
           patch "update_title", to: "question_options#update_title", as: :inline_update
         end

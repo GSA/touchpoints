@@ -1,7 +1,6 @@
-<div class="question-option" data-id="<%= option.id %>">
+<div class="question-option list-group-item" id="<%= dom_id(option) %>" data-id="<%= option.id %>">
   <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}") do %>
     <span class="question-option-view"><%= option.text %></span>
-
     <span class="question-option-edit">
       <input type="text" value="<%= option.text %>" class="usa-input display-inline" data-href="<%= admin_form_question_question_option_path(option.question.form, option.question, option) %>" />
     </span>
@@ -12,7 +11,7 @@
       &nbsp;
       &nbsp;
       <%= link_to admin_form_question_question_option_path(option.question.form, option.question, option), style: "text-decoration: none", class: "delete button form-delete-question-option", method: :delete, data: { confirm: 'Are you sure?', remote: true } do %>
-        <i class="fas fa-trash-alt" title="Delete question option" style="display:inherit; color: red"></i>
+        <i class="fas fa-trash-alt" title="Delete question option" style="display:inherit; color: red;"></i>
       <% end %>
     </span>
   <% end %>

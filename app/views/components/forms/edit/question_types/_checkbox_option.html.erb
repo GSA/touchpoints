@@ -1,4 +1,4 @@
-<div class="question-option" data-id="<%= option.id %>">
+<div class="question-option list-group-item" id="<%= dom_id(option) %>" data-id="<%= option.id %>">
   <%= check_box_tag("#{question.answer_field}_#{(index + 1).to_s}", index + 1, nil, { value: option.text , class: "usa-checkbox__input" }) %>
   <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}", class: "usa-checkbox__label") do %>
     <span class="question-option-view"><%= option.text %></span>
@@ -7,7 +7,7 @@
     </span>
     <span class="float-right">
       <%= link_to edit_admin_form_question_question_option_path(question.form, question, option), style: "text-decoration: none;", class: "edit button form-edit-question-option-checkbox" do %>
-      <i class="fas fa-pencil-alt" title="Edit text" style="display:inherit;"></i>
+        <i class="fas fa-pencil-alt" title="Edit text" style="display:inherit;"></i>
       <% end %>
       &nbsp;
       &nbsp;
