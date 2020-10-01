@@ -8,6 +8,7 @@ class Question < ApplicationRecord
   QUESTION_TYPES = [
     # Standard elements
     "text_field",
+    "text_email_field",
     "textarea",
     "checkbox",
     "radio_buttons",
