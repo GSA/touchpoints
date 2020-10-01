@@ -2,7 +2,7 @@
   <legend class="usa-sr-only"><%= question.answer_field %></legend>
   <%= render 'components/question_title', question: question, form_builder: true %>
   <% question.question_options.each_with_index do |option, index| %>
-  <div class="radio-button usa-radio question-option">
+  <div class="radio-button usa-radio question-option" data-id="<%= option.id %>">
     <%= radio_button_tag(question.answer_field.to_sym, index + 1, nil, { value: option.value, class: "usa-radio__input", required: question.is_required  }) %>
     <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}", class: "usa-radio__label") do %>
       <span class="question-option-view"><%= option.text %></span>
@@ -15,7 +15,7 @@
         <% end %>
         &nbsp;
         &nbsp;
-        <%= link_to admin_form_question_question_option_path(option.question.form, option.question, option), style: "text-decoration: none", class: "form-delete-question-option delete button" do %>
+        <%= link_to admin_form_question_question_option_path(option.question.form, option.question, option), style: "text-decoration: none", class: "form-delete-question-option delete button", method: :delete, data: { confirm: 'Are you sure?', remote: true }  do %>
           <i class="fas fa-trash-alt" title="Delete question option" style="display:inherit; color: red"></i>
         <% end %>
       </span>

@@ -55,7 +55,7 @@ class Admin::QuestionOptionsController < AdminController
     @question_option.destroy
     respond_to do |format|
       format.html { redirect_to questions_admin_form_path(@question_option.question.form), notice: 'Question option was successfully destroyed.' }
-      format.json { head :no_content }
+      format.js { }
     end
   end
 

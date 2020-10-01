@@ -197,17 +197,6 @@ $(function() {
     }
   });
 
-  $(".form-delete-question-option").on("click", function(event) {
-    event.preventDefault();
-    if (confirm('Are you sure?')) {
-      $(this).closest(".question-option").remove();
-      $.ajax({
-        type: "DELETE",
-        url: $(this).attr("href")
-      });
-    }
-  });
-
   $('.form-title-save').on("click", function(event) {
     event.preventDefault();
     var titleInput = $('.form-title');
