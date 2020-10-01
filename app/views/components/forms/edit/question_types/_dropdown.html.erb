@@ -2,17 +2,15 @@
   <%= render 'components/question_title', question: question, form_builder: true %>
   <br>
   <%= select_tag(question.answer_field.to_sym, options_for_select(question.question_options.each_with_index.map { |option, index| [option.text, option.value] }), { prompt: (t 'form.select_one'), class: "usa-select", required: question.is_required  }) %>
-  <div class="options">
-  </div>
+  <div class="question-options">
   <% question.question_options.each_with_index do |option, index| %>
-  <div class="radio-button">
-    <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}") do %>
-      <%= option.text %>
-      <%= link_to "Edit", edit_admin_form_question_question_option_path(option.question.form, option.question, option), class: "form-edit-question-dropdown-option" %>
-    <% end %>
-  </div>
+    <%= render "components/forms/edit/question_types/dropdown_option", question: question, option: option, index: index %>
   <% end %>
-  <div class="new-question-options-div">
-    <%= link_to "Add Dropdown Option", new_admin_form_question_question_option_path(question.form, question), class: "usa-button usa-button--outline form-add-question-option" %>
   </div>
+</div>
+<div class="new-question-options-div">
+  <%= link_to new_admin_form_question_question_option_path(question.form, question), class: "usa-button usa-button--outline form-add-question-option" do %>
+  <i class="fa fa-plus"></i>
+  Add Dropdown Option
+  <% end %>
 </div>

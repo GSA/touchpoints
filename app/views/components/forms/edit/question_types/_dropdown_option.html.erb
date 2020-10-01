@@ -1,0 +1,19 @@
+<div class="question-option" data-id="<%= option.id %>">
+  <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}") do %>
+    <span class="question-option-view"><%= option.text %></span>
+
+    <span class="question-option-edit">
+      <input type="text" value="<%= option.text %>" class="usa-input display-inline" data-href="<%= admin_form_question_question_option_path(option.question.form, option.question, option) %>" />
+    </span>
+    <span class="float-right">
+      <%= link_to edit_admin_form_question_question_option_path(option.question.form, option.question, option), style: "text-decoration: none", class: "edit button form-edit-question-dropdown-option" do %>
+        <i class="fas fa-pencil-alt" title="Edit text" style="display:inherit"></i>
+      <% end %>
+      &nbsp;
+      &nbsp;
+      <%= link_to admin_form_question_question_option_path(option.question.form, option.question, option), style: "text-decoration: none", class: "delete button form-delete-question-option", method: :delete, data: { confirm: 'Are you sure?', remote: true } do %>
+        <i class="fas fa-trash-alt" title="Delete question option" style="display:inherit; color: red"></i>
+      <% end %>
+    </span>
+  <% end %>
+</div>
