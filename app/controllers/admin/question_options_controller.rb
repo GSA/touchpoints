@@ -18,13 +18,28 @@ class Admin::QuestionOptionsController < AdminController
     render layout: false
   end
 
+  def sort
+    params[:question_option].each_with_index do |id, index|
+      QuestionOption.find(id).update_attributes(position: index + 1)
+    end
+
+    head :ok
+  end
+
+  def update_title
+    question_option = QuestionOption.where(id: params[:question_option_id]).first
+    question_option.update!(text: params[:text])
+    render json: question_option
+  end
+
   def create
     @question_option = QuestionOption.new(question_option_params)
+    @question_option.position = @question_option.question.question_options.size + 1
 
     respond_to do |format|
       if @question_option.save
         format.html { redirect_to questions_admin_form_path(@question.form), notice: 'Question option was successfully created.' }
-        format.json { render :show, status: :created, location: @question_option }
+        format.js {}
       else
         format.html { render :new }
         format.json { render json: @question_option.errors, status: :unprocessable_entity }
@@ -36,7 +51,7 @@ class Admin::QuestionOptionsController < AdminController
     respond_to do |format|
       if @question_option.update(question_option_params)
         format.html { redirect_to questions_admin_form_path(@question.form), notice: 'Question option was successfully updated.' }
-        format.json { render :show, status: :ok, location: @question_option }
+        format.js {}
       else
         format.html { render :edit }
         format.json { render json: @question_option.errors, status: :unprocessable_entity }
@@ -48,7 +63,7 @@ class Admin::QuestionOptionsController < AdminController
     @question_option.destroy
     respond_to do |format|
       format.html { redirect_to questions_admin_form_path(@question_option.question.form), notice: 'Question option was successfully destroyed.' }
-      format.json { head :no_content }
+      format.js { }
     end
   end
 

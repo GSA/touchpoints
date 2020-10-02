@@ -120,7 +120,7 @@ footer {
 
 .submit-button,
 .radios {
-  padding: 1em 2em;
+  padding: 1em 0;
 }
 
 .radios > div {
@@ -479,4 +479,13 @@ a.form-section-save {
 }
 .questions {
   min-height: 10px;
+}
+
+// Single line text field input treatment
+.question-option-edit input {
+  margin-top: -10px;
+  height: inherit;
+  padding: 0 0.5rem;
+  border: none;
+  border-bottom: 1px solid black;
 }

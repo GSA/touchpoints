@@ -1,30 +1,24 @@
-<div class="<%= question.answer_field %>" role="group" aria-labelledby="<%= question.answer_field %>">
+<div class="<%= question.answer_field %>" role="group" aria-labelledby="<%= question.answer_field %>" data-url="<%= admin_form_question_question_options_path(question.form, question) %>">
   <legend class="usa-sr-only"><%= question.answer_field %></legend>
   <%= render 'components/question_title', question: question, form_builder: true %>
-  <br>
-  <div>
-    <% question.question_options.each_with_index do |option, index| %>
-      <%= check_box_tag("#{question.answer_field}_#{(index + 1).to_s}", index + 1, nil, { value: option.text , class: "usa-checkbox__input", required: question.is_required  }) %>
-      <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}", class: "usa-checkbox__label usa-button", style: "width: 49%; margin: 1px; display: inline-block;") do %>
-      <%= option.text %>
-      <% end %>
-    <% end %>
-  </div>
-  <br>
   <% question.question_options.each_with_index do |option, index| %>
-  <div class="usa-checkbox">
-    <%= label_tag nil, for: "#{question.answer_field.to_sym}_#{option.position}" do %>
-      <%= option.text %>
-      <%= link_to "Edit", edit_admin_form_question_question_option_path(option.question.form, option.question, option) %>
+    <%= check_box_tag("#{question.answer_field}_#{(index + 1).to_s}", index + 1, nil, { value: option.text , class: "usa-checkbox__input", required: question.is_required  }) %>
+    <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}", class: "usa-checkbox__label usa-button", style: "width: 49%; margin: 1px; display: inline-block;") do %>
+    <%= option.text %>
     <% end %>
-  </div>
   <% end %>
   <br>
-  <div class="new-question-options-div">
-    <%= link_to new_admin_form_question_question_option_path(question.form, question), class: "usa-button usa-button--outline form-add-question-option" do %>
-      <span class="fa fa-plus"></span>
-      Add Matrix Checkbox Question Option
-    <% end %>
+  <br>
+  <div class="question-options">
+  <% question.question_options.each_with_index do |option, index| %>
+    <%= render "components/forms/edit/question_types/checkbox_option", question: question, option: option, index: index %>
+  <% end %>
   </div>
+</div>
+<div class="new-question-options-div">
+  <%= link_to new_admin_form_question_question_option_path(question.form, question), class: "usa-button usa-button--outline form-add-question-option" do %>
+  <span class="fa fa-plus"></span>
+  Add Matrix Checkbox Question Option
+  <% end %>
 </div>
 <br>
