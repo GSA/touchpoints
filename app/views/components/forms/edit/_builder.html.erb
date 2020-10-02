@@ -48,6 +48,8 @@
 
               <% if question.question_type == "text_field" %>
                 <% @form_component_path = 'components/forms/edit/question_types/text_field' %>
+              <% elsif question.question_type == "text_email_field" %>
+                <% @form_component_path = 'components/forms/edit/question_types/text_email_field' %>
               <% elsif question.question_type == "radio_buttons" %>
                 <% @form_component_path = 'components/forms/edit/question_types/radio_buttons' %>
               <% elsif question.question_type == "thumbs_up_down_buttons" %>
