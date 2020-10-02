@@ -47,30 +47,31 @@
               <%= render 'components/forms/edit/button_dropdown', { form: form, question: question } if form_permissions?(form: form) %>
 
               <% if question.question_type == "text_field" %>
-                <%= render 'components/forms/edit/question_types/text_field', form: form, question: question, question_number: multi_section_question_number %>
+                <% @form_component_path = 'components/forms/edit/question_types/text_field' %>
+              <% elsif question.question_type == "text_email_field" %>
+                <% @form_component_path = 'components/forms/edit/question_types/text_email_field' %>
               <% elsif question.question_type == "radio_buttons" %>
-                <%= render 'components/forms/edit/question_types/radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
+                <% @form_component_path = 'components/forms/edit/question_types/radio_buttons' %>
               <% elsif question.question_type == "thumbs_up_down_buttons" %>
-                <%= render 'components/forms/question_types/thumbs_up_down_buttons', form: form, question: question, question_number: multi_section_question_number %>
-                <br>
+                <% @form_component_path = 'components/forms/question_types/thumbs_up_down_buttons' %>
               <% elsif question.question_type == "dropdown" %>
-                <%= render 'components/forms/edit/question_types/dropdown', form: form, question: question, question_number: multi_section_question_number %>
+                <% @form_component_path = 'components/forms/edit/question_types/dropdown' %>
               <% elsif question.question_type == "checkbox" %>
-                <%= render 'components/forms/edit/question_types/checkbox', form: form, question: question, question_number: multi_section_question_number %>
+                <% @form_component_path = 'components/forms/edit/question_types/checkbox' %>
               <% elsif question.question_type == "textarea" %>
-                <%= render 'components/forms/edit/question_types/text_area', form: form, question: question, question_number: multi_section_question_number %>
+                <% @form_component_path = 'components/forms/edit/question_types/text_area' %>
               <% elsif question.question_type == "custom_text_display" %>
-                <%= render 'components/forms/question_types/custom_text_display', form: form, question: question, question_number: multi_section_question_number %>
-                <br>
+                <% @form_component_path = 'components/forms/question_types/custom_text_display' %>
               <% elsif question.question_type == "star_radio_buttons" %>
-                <%= render 'components/forms/question_types/star_radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
+                <% @form_component_path = 'components/forms/question_types/star_radio_buttons' %>
               <% elsif question.question_type == "matrix_checkboxes" %>
-                <%= render 'components/forms/edit/question_types/matrix_checkboxes', form: form, question: question, question_number: multi_section_question_number %>
+                <% @form_component_path = 'components/forms/edit/question_types/matrix_checkboxes' %>
               <% elsif question.question_type == "yes_no_buttons" %>
-                <%= render 'components/forms/question_types/yes_no_buttons', form: form, question: question, question_number: multi_section_question_number %>
+                <% @form_component_path = 'components/forms/question_types/yes_no_buttons' %>
               <% elsif question.question_type == "text_display" %>
-                <%= render 'components/forms/question_types/text_display', form: form, question: question, question_number: multi_section_question_number %>
+                <% @form_component_path = 'components/forms/question_types/text_display' %>
               <% end %>
+              <%= render @form_component_path, form: form, question: question, question_number: multi_section_question_number %>
             </div>
           <% end %>
         </div>
@@ -129,6 +130,7 @@ $(function() {
   $(".dropdown-content").hide();
   $("div.section-title-edit").hide();
   $(".form-title-edit").hide();
+  $(".question-option-edit").hide();
 
   <% if form_permissions?(form: form) %>
   $('.form-add-section').on("click", function(event) {
@@ -171,6 +173,29 @@ $(function() {
     var titleEdit = $(this).parent().parent().find("div.section-title-edit");
     titleEdit.show();
     titleEdit.find("input").focus();
+  });
+
+  $(".question-option-view").on("click", function(event) {
+    $('.question-option-edit').hide();
+    $('.question-option-view').show();
+    $(this).hide();
+    var titleEdit = $(this).parent().find(".question-option-edit");
+    titleEdit.show();
+    titleEdit.find("input").focus();
+  });
+
+  $(".question-option-edit input").keyup(function(event) {
+    if (event.keyCode == 13) {
+      $(this).parent().parent().find('.question-option-view').html($(this).val());
+      $.ajax({
+        type: "PATCH",
+        url: $(this).attr("data-href") + "/update_title",
+        data: { text: $(this).val() }
+      }).done(function() {
+        $('.question-option-edit').hide();
+        $('.question-option-view').show();
+      });
+    }
   });
 
   $('.form-title-save').on("click", function(event) {
@@ -218,12 +243,16 @@ $(function() {
       title: 'New Question',
       width: 600
     };
+    var formSection = $(this).parents(".form-section-div")[0];
+    var formSectionId = $(formSection).attr("data-id");
     $.ajax({
       type: "GET",
       url: $(this).attr("href"),
       success: function (data) {
         $("#fba-modal-dialog").find(".modal-content").html(data);
         $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
+        $("#fba-modal-dialog question_text").focus();
+        $("#fba-modal-dialog #question_form_section_id").val(formSectionId);
       }
     });
   });
@@ -258,6 +287,17 @@ $(function() {
         url: $(this).data("url"),
         type: "PATCH",
         data: data
+      });
+    }
+  });
+
+  $(".question-options").sortable({
+    items: '.question-option',
+    update: function(e, ui) {
+      $.ajax({
+        url: $(this).parent().data("url"),
+        type: "PATCH",
+        data: $(this).sortable('serialize')
       });
     }
   });
@@ -297,21 +337,8 @@ $(function() {
   });
 
   $('.form-add-question-option').on("click", function(event) {
-     event.preventDefault();
-     var contentDiv =  $(this).closest('div.new-question-options-div');
-      $.ajax({
-        type: "GET",
-        url: $(this).attr("href"),
-        success: function (data) {
-          contentDiv.html(data);
-          contentDiv.find("#question_option_text").focus();
-        }
-     });
-  });
-
-  $('.form-edit-question-option-checkbox').on("click", function(event) {
     event.preventDefault();
-    var contentDiv =  $(this).closest('div.radio-button');
+    var contentDiv =  $(this).closest('div.new-question-options-div');
     $.ajax({
       type: "GET",
       url: $(this).attr("href"),
@@ -322,9 +349,9 @@ $(function() {
     });
   });
 
-  $('.form-edit-question-option-radio-button').on("click", function(event) {
+  $('.question .edit.button').on("click", function(event) {
     event.preventDefault();
-    var contentDiv =  $(this).closest('div.usa-checkbox');
+    var contentDiv =  $(this).closest('.question-option');
     $.ajax({
       type: "GET",
       url: $(this).attr("href"),

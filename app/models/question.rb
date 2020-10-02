@@ -3,11 +3,14 @@ class Question < ApplicationRecord
   belongs_to :form_section, required: true
   has_many :question_options, dependent: :destroy
 
+  validates :question_type, presence: true
+
   MAX_CHARACTERS = 100000
 
   QUESTION_TYPES = [
     # Standard elements
     "text_field",
+    "text_email_field",
     "textarea",
     "checkbox",
     "radio_buttons",

@@ -20,15 +20,16 @@
 
   <div class="field">
     <%= f.label :question_type, class: "usa-label" %>
-    <% if admin_permissions? %>
+  <% if admin_permissions? %>
     <br>
     <% Question::QUESTION_TYPES.each do |kind| %>
-      <%= f.radio_button :question_type, kind %> <%= kind %>
+      <%= f.radio_button :question_type, kind %>
+      <%= kind %>
       <br>
     <% end %>
-    <% else %>
-    <%= f.select :question_type, Question::QUESTION_TYPES - ["checkbox", "text_display", "star_radio_buttons", "yes_no_buttons", "thumbs_up_down_buttons", "matrix_checkboxes", "custom_text_display"], { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
-    <% end %>
+  <% else %>
+    <%= f.select :question_type, Question::QUESTION_TYPES - ["text_display", "star_radio_buttons", "yes_no_buttons", "thumbs_up_down_buttons", "matrix_checkboxes", "custom_text_display"], { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
+  <% end %>
   </div>
 
   <div class="grid-row">
@@ -57,12 +58,8 @@
   </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :form_section, "Which form section?", class: "usa-label" %>
-    <% form_section_options = options_for_select(@form.form_sections.map { |section| ["#{section.position} - #{section.title}", section.id] }, selected: question.form_section_id) %>
-    <%= f.select :form_section_id, form_section_options, {}, { class: "usa-select" } %>
-  </div>
-
+  <%= f.hidden_field :form_section_id %>
+  
   <br>
   <fieldset class="usa-fieldset">
     <legend class="usa-sr-only">Is this question required?</legend>
