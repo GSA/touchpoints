@@ -3,6 +3,8 @@ class Question < ApplicationRecord
   belongs_to :form_section, required: true
   has_many :question_options, dependent: :destroy
 
+  validates :question_type, presence: true
+
   MAX_CHARACTERS = 100000
 
   QUESTION_TYPES = [

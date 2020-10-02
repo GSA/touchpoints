@@ -465,7 +465,6 @@ feature "Forms", js: true do
               fill_in "question_text", with: "New Test Question"
               choose "question_question_type_text_field"
               select("answer_01", from: "question_answer_field")
-              select(form.form_sections.first.title, from: "question_form_section_id")
               click_on "Create Question"
             end
 
@@ -487,7 +486,6 @@ feature "Forms", js: true do
               fill_in "question_text", with: "New Text Area"
               choose "question_question_type_textarea"
               select("answer_01", from: "question_answer_field")
-              select(form.form_sections.first.title, from: "question_form_section_id")
               click_on "Create Question"
             end
 
@@ -509,7 +507,6 @@ feature "Forms", js: true do
               fill_in "question_text", with: "New Test Question Radio Buttons"
               choose "question_question_type_radio_buttons"
               select("answer_01", from: "question_answer_field")
-              select(form.form_sections.first.title, from: "question_form_section_id")
               click_on "Create Question"
             end
 
@@ -680,7 +677,6 @@ feature "Forms", js: true do
               expect(page).to have_selector('.well #question_option_text:focus')
               expect(page).to have_content("for the question: #{radio_button_question.text}")
               expect(page).to have_content("with a question_type of: radio_buttons")
-              expect(page).to have_content("on the form #{form.name}")
             end
 
             it "Question Option value is populated with Question Option name by default, on outfocus" do
@@ -977,6 +973,33 @@ feature "Forms", js: true do
             expect(page.current_path).to eq(questions_admin_form_path(form_section2.form))
             expect(page).to have_content("Form section was successfully updated.")
             expect(page).to have_content(new_title)
+          end
+        end
+
+        describe "multiple Touchpoint Form Sections" do
+          let(:new_title) { "New Form Section Title" }
+
+          before do
+            visit questions_admin_form_path(form_section2.form)
+            find_all(".form-add-question").first.click
+            fill_in "question_text", with: "Question in Form Section 1"
+            select("text_field", from: "question_question_type")
+            click_on "Create Question"
+            expect(page).to have_content("Question was successfully created.")
+            # Select the Add Question button in the 2nd Form Section
+            find_all(".form-add-question").last.click
+            fill_in "question_text", with: "Question in Form Section 2"
+            select("text_field", from: "question_question_type")
+            click_on "Create Question"
+          end
+
+          it "creates the question in the correct Form Section" do
+            within(find_all(".form-section-div").first) do
+              expect(page).to have_content("Question in Form Section 1")
+            end
+            within(find_all(".form-section-div").last) do
+              expect(page).to have_content("Question in Form Section 2")
+            end
           end
         end
       end
