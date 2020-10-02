@@ -4,8 +4,6 @@
     for the question: <%= @question.text %>
     <br>
     with a question_type of: <%= @question.question_type %>
-    <br>
-    on the form <%= @question.form.name %>
   </p>
 
   <%= render 'form', form: @question.form, question: @question, question_option: @question_option %>
