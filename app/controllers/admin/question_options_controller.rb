@@ -33,13 +33,30 @@ class Admin::QuestionOptionsController < AdminController
   end
 
   def create
-    @question_option = QuestionOption.new(question_option_params)
-    @question_option.position = @question_option.question.question_options.size + 1
+    text_array = question_option_params[:text].split("\n")
+    position = @question.question_options.size + 1
+    @question_options = []
+    result = false
+
+    if text_array.length > 0
+      text_array.each do | txt |
+        @question_option = QuestionOption.new(question_id: params[:question_id], text: txt, value: txt, position: position)
+        result = @question_option.save
+        @question_options << @question_option
+        break unless result
+        position += 1
+      end
+    else
+      @question_option = QuestionOption.new(question_option_params)
+      @question_option.position = position
+      result = @question_option.save
+      @question_options << @question_option
+    end
 
     respond_to do |format|
-      if @question_option.save
+      if result
         format.html { redirect_to questions_admin_form_path(@question.form), notice: 'Question option was successfully created.' }
-        format.js {}
+        format.js { }
       else
         format.html { render :new }
         format.json { render json: @question_option.errors, status: :unprocessable_entity }

@@ -424,10 +424,19 @@ $(function() {
   });
 
   // Set Question Option value to what the Question Option name is initially
-  $(".question").on('focusout', "input.usa-input[type='text'][name='question_option[text]']", function() {
+  $(".question").on('focusout', "textarea.usa-input[name='question_option[text]']", function() {
     var enteredText = $(this).val();
+    numberOfLineBreaks = (enteredText.match(/\n/g)||[]).length;
     var questionDiv = $($(this).parents(".well")[0]);
     var valueField = questionDiv.find("input.usa-input[type='text'][name='question_option[value]']");
+    var valueLabel = valueField.parent().find(".usa-label");
+    if (numberOfLineBreaks > 0) {
+      valueField.hide();
+      valueLabel.hide();
+    } else {
+      valueField.show();
+      valueLabel.show();
+    }
     if (valueField.val() === '') {
       valueField.val(enteredText);
     }
