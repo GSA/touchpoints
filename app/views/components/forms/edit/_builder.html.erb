@@ -48,6 +48,8 @@
 
               <% if question.question_type == "text_field" %>
                 <% @form_component_path = 'components/forms/edit/question_types/text_field' %>
+              <% elsif question.question_type == "text_email_field" %>
+                <% @form_component_path = 'components/forms/edit/question_types/text_email_field' %>
               <% elsif question.question_type == "radio_buttons" %>
                 <% @form_component_path = 'components/forms/edit/question_types/radio_buttons' %>
               <% elsif question.question_type == "thumbs_up_down_buttons" %>
@@ -241,12 +243,16 @@ $(function() {
       title: 'New Question',
       width: 600
     };
+    var formSection = $(this).parents(".form-section-div")[0];
+    var formSectionId = $(formSection).attr("data-id");
     $.ajax({
       type: "GET",
       url: $(this).attr("href"),
       success: function (data) {
         $("#fba-modal-dialog").find(".modal-content").html(data);
         $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
+        $("#fba-modal-dialog question_text").focus();
+        $("#fba-modal-dialog #question_form_section_id").val(formSectionId);
       }
     });
   });
@@ -331,16 +337,16 @@ $(function() {
   });
 
   $('.form-add-question-option').on("click", function(event) {
-     event.preventDefault();
-     var contentDiv =  $(this).closest('div.new-question-options-div');
-      $.ajax({
-        type: "GET",
-        url: $(this).attr("href"),
-        success: function (data) {
-          contentDiv.html(data);
-          contentDiv.find("#question_option_text").focus();
-        }
-     });
+    event.preventDefault();
+    var contentDiv =  $(this).closest('div.new-question-options-div');
+    $.ajax({
+      type: "GET",
+      url: $(this).attr("href"),
+      success: function (data) {
+        contentDiv.html(data);
+        contentDiv.find("#question_option_text").focus();
+      }
+    });
   });
 
   $('.question .edit.button').on("click", function(event) {
