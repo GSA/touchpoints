@@ -1,14 +1,14 @@
-<% if @question_option.question.question_type == "radio_buttons" %>
+<% if @question.question_type == "radio_buttons" %>
   <% @form_component_path = "components/forms/edit/question_types/radio_button_option" %>
-<% elsif @question_option.question.question_type == "thumbs_up_down_buttons" %>
+<% elsif @question.question_type == "thumbs_up_down_buttons" %>
   <% @form_component_path = 'components/forms/question_types/thumbs_up_down_buttons' %>
-<% elsif @question_option.question.question_type == "dropdown" %>
+<% elsif @question.question_type == "dropdown" %>
   <% @form_component_path = "components/forms/edit/question_types/dropdown_option" %>
-<% elsif @question_option.question.question_type == "checkbox" %>
+<% elsif @question.question_type == "checkbox" %>
   <% @form_component_path = "components/forms/edit/question_types/checkbox_option" %>
-<% elsif @question_option.question.question_type == "matrix_checkboxes" %>
+<% elsif @question.question_type == "matrix_checkboxes" %>
   <% @form_component_path = "components/forms/edit/question_types/checkbox_option" %>
-<% elsif @question_option.question.question_type == "yes_no_buttons" %>
+<% elsif @question.question_type == "yes_no_buttons" %>
   <% @form_component_path = 'components/forms/question_types/yes_no_buttons' %>
 <% end %>
 
@@ -20,3 +20,6 @@
 	<% @position += 1 %>
 <% end %>
 $(".new-question-options-div form").trigger("reset");
+<% if @errors.length > 0 %>
+	alert("<%= @errors.join('\n') %>");
+<% end %>
