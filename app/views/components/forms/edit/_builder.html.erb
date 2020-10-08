@@ -11,7 +11,12 @@
 </div>
 
 <div class="fba-instructions">
-  <p class="display-inline"><%= sanitize(form.instructions) -%></p>
+  <% if form.instructions.blank? %>
+    <span class='usa-hint'>Survey Instructions</span>
+  <% end %>
+  <p class="display-inline">
+      <%= sanitize(form.instructions) -%>
+  </p>
   <div class="field" hidden="true">
     <%= label_tag :instructions, "Editing Instructions", class: "usa-label" %>
     <%= text_area_tag :instructions, nil, class: "usa-textarea display-inline" %>
@@ -105,6 +110,9 @@
         <div class="grid-row">
           <div class="grid-col-12">
             <p>
+              <% if form.disclaimer_text.blank? %>
+                <span class='usa-hint'>Survey Disclaimer Text</span>
+              <% end %>
               <small>
                 <span id="fba-dialog-privacy"><%= sanitize(form.disclaimer_text) %></span>
               </small>
@@ -378,6 +386,7 @@ $(function() {
   $(".fba-instructions .edit.button").on("click", function(event) {
     event.preventDefault();
     $(".fba-instructions .field").show();
+    $(".fba-instructions .usa-hint").hide();
     $(".fba-instructions .field #instructions").val($(".fba-instructions p").html());
     $(this).hide();
     $(".fba-instructions p").hide();
@@ -405,6 +414,7 @@ $(function() {
   $(".fba-disclaimer-text .edit.button").on("click", function(event) {
     event.preventDefault();
     $(".fba-disclaimer-text .field").show();
+    $(".fba-disclaimer-text .usa-hint").hide();
     $(".fba-disclaimer-text .field #disclaimer_text").val($(".fba-disclaimer-text #fba-dialog-privacy").html());
     $(this).hide();
     $(".fba-disclaimer-text p").hide();
