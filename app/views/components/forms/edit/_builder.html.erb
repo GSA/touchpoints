@@ -353,7 +353,7 @@ $(function() {
     });
   });
 
-  $('.question .edit.button').on("click", function(event) {
+  $('.question').on("click", ".edit.button", function(event) {
     event.preventDefault();
     var contentDiv =  $(this).closest('.question-option');
     $.ajax({
