@@ -11,7 +11,10 @@
 </div>
 
 <div class="fba-instructions">
-  <p class="display-inline"><%= sanitize(form.instructions) -%></p>
+  <span class='usa-hint' <%= 'hidden' if form.instructions? %>>Survey Instructions</span>
+  <p class="display-inline">
+    <%= sanitize(form.instructions) -%>
+  </p>
   <div class="field" hidden="true">
     <%= label_tag :instructions, "Editing Instructions", class: "usa-label" %>
     <%= text_area_tag :instructions, nil, class: "usa-textarea display-inline" %>
@@ -105,6 +108,7 @@
         <div class="grid-row">
           <div class="grid-col-12">
             <p>
+              <span class='usa-hint' <%= 'hidden' if form.disclaimer_text? %>>Survey Disclaimer Text</span>
               <small>
                 <span id="fba-dialog-privacy"><%= sanitize(form.disclaimer_text) %></span>
               </small>
@@ -378,7 +382,8 @@ $(function() {
   $(".fba-instructions .edit.button").on("click", function(event) {
     event.preventDefault();
     $(".fba-instructions .field").show();
-    $(".fba-instructions .field #instructions").val($(".fba-instructions p").html());
+    $(".fba-instructions .usa-hint").hide();
+    $(".fba-instructions .field #instructions").val($(".fba-instructions p").html().trim());
     $(this).hide();
     $(".fba-instructions p").hide();
   });
@@ -395,6 +400,9 @@ $(function() {
         instructions: $(".fba-instructions .field #instructions").val()
       }
     }).done(function(data) {
+      if (data.instructions === "") {
+        $(".fba-instructions .usa-hint").show();
+      }
       $(".fba-instructions .field").hide()
       $(".fba-instructions p").html(data.instructions)
       $(".fba-instructions p").show();
@@ -405,6 +413,7 @@ $(function() {
   $(".fba-disclaimer-text .edit.button").on("click", function(event) {
     event.preventDefault();
     $(".fba-disclaimer-text .field").show();
+    $(".fba-disclaimer-text .usa-hint").hide();
     $(".fba-disclaimer-text .field #disclaimer_text").val($(".fba-disclaimer-text #fba-dialog-privacy").html());
     $(this).hide();
     $(".fba-disclaimer-text p").hide();
@@ -422,6 +431,9 @@ $(function() {
         disclaimer_text: $(".fba-disclaimer-text .field #disclaimer_text").val()
       }
     }).done(function(data) {
+      if (data.disclaimer_text === "") {
+        $(".fba-disclaimer-text .usa-hint").show();
+      }
       $(".fba-disclaimer-text .field").hide();
       $(".fba-disclaimer-text #fba-dialog-privacy").html(data.disclaimer_text);
       $(".fba-disclaimer-text p").show();
