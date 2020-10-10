@@ -42,15 +42,14 @@ class Submission < ApplicationRecord
     Event.log_event(Event.names[:touchpoint_form_submitted], 'Submission', self.id, "Submission received for organization '#{self.organization_name}' form '#{self.form.name}' ")
     return unless ENV["ENABLE_EMAIL_NOTIFICATIONS"] == "true"
     return unless self.form.send_notifications?
-    return unless self.form.notification_emails?
     emails_to_notify = self.form.notification_emails.split(",")
 
     # Add Form Manager(s) to notification distribution list
-    self.form.users.select { | u | self.form.user_role?(user: u) == UserRole::Role::FormManager }.each do |mgr|
+    self.form.users.select { |u| self.form.user_role?(user: u) == UserRole::Role::FormManager }.each do |mgr|
       emails_to_notify << mgr.email
     end
 
-    UserMailer.submission_notification(submission: self, emails: emails_to_notify.uniq).deliver_later
+    UserMailer.submission_notification(submission_id: self.id, emails: emails_to_notify.uniq).deliver_later
   end
 
   def to_rows
