@@ -91,6 +91,14 @@ RSpec.describe Admin::QuestionOptionsController, type: :controller do
         }.to change(QuestionOption, :count).by(1)
       end
 
+      it "creates multiple QuestionOptions" do
+        multiple_value_attributes = valid_attributes.clone
+        multiple_value_attributes["text"] = "a, b, c"
+        expect {
+          post :create, params: {question_option: multiple_value_attributes}, session: valid_session
+        }.to change(QuestionOption, :count).by(3)
+      end
+
       it "redirects to the created question_option" do
         post :create, params: {question_option: valid_attributes}, session: valid_session
         expect(response).to redirect_to(QuestionOption.last)

@@ -5,9 +5,9 @@ class UserMailer < ApplicationMailer
   #
   #   en.user_mailer.submission_notification.subject
   #
-  def submission_notification(submission:, emails: [])
+  def submission_notification(submission_id:, emails: [])
     attachments.inline["logo.png"] = @@header_logo
-    @submission = submission
+    @submission = Submission.find(submission_id)
     @form = @submission.form
     admin_emails = ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
     mail subject: "New Submission to #{@form.name}",
