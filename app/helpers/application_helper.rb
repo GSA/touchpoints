@@ -78,4 +78,8 @@ module ApplicationHelper
   def submit_touchpoint_uuid_url(form)
     return "#{root_url}touchpoints/#{form.short_uuid}/submit"
   end
+
+  def format_time(time, timezone)
+    I18n.l time.to_time.in_time_zone(timezone), format: :long
+  end
 end
