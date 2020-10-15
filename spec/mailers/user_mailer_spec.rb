@@ -6,7 +6,7 @@ RSpec.describe UserMailer, type: :mailer do
     let(:user) { FactoryBot.create(:user, organization: organization) }
     let(:form) { FactoryBot.create(:form, organization: organization, user: user)}
     let!(:submission) { FactoryBot.create(:submission, form: form) }
-    let(:mail) { UserMailer.submission_notification(submission: submission, emails: [user.email]) }
+    let(:mail) { UserMailer.submission_notification(submission_id: submission.id, emails: [user.email]) }
 
     it "renders the headers" do
       expect(mail.subject).to eq("New Submission to #{submission.form.name}")
