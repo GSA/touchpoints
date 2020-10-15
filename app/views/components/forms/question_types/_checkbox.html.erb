@@ -1,12 +1,15 @@
-<div class="radios" role="group" aria-labelledby="<%= question.answer_field %>">
+<fieldset class="usa-fieldset radios list-group" role="group" aria-labelledby="<%= question.answer_field %>">
+  <legend class="usa-sr-only"><%= question.text %></legend>
   <%= render 'components/question_title', question: question %>
   <br>
-  <% question.question_options.each_with_index do |option, index| %>
-  <div class="usa-checkbox">
-    <%= check_box_tag("#{question.answer_field}_#{(index + 1).to_s}", index + 1, nil, { name: question.answer_field, multiple: true, value: option.text , class: "usa-checkbox__input", required: question.is_required  }) %>
-    <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}", class: "usa-checkbox__label") do %>
-      <%= option.text %>
+  <div class="question-options">
+    <% question.question_options.each_with_index do |option, index| %>
+    <div class="usa-checkbox">
+      <%= check_box_tag("#{question.answer_field}_#{(index + 1).to_s}", index + 1, nil, { name: question.answer_field, multiple: true, value: option.text , class: "usa-checkbox__input", required: question.is_required  }) %>
+      <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}", class: "usa-checkbox__label") do %>
+        <%= option.text %>
+      <% end %>
+    </div>
     <% end %>
   </div>
-  <% end %>
-</div>
+</fieldset>
