@@ -29,6 +29,13 @@ Rails.application.routes.draw do
     resources :submissions, only: [:new, :create]
   end
 
+  namespace :api do
+    namespace :v1 do
+      resources :forms
+      resources :responses
+    end
+  end
+
   namespace :admin do
     resources :forms do
       member do

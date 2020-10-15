@@ -33,17 +33,45 @@ class Admin::QuestionOptionsController < AdminController
   end
 
   def create
-    @question_option = QuestionOption.new(question_option_params)
-    @question_option.position = @question_option.question.question_options.size + 1
+    text_array = question_option_params[:text].split("\n")
+    position = @question.question_options.size + 1
+    @question_options = []
+    @errors = []
+    result = false
+
+    if text_array.length > 0
+      text_array.each do | txt |
+        question_option = QuestionOption.where(question_id: params[:question_id], text: txt).first
+        if question_option
+          @errors << "Question option already exists for text #{txt}"
+          next
+        end
+        question_option = QuestionOption.new(question_id: params[:question_id], text: txt, value: txt, position: position)
+        if question_option.save
+          @question_options << question_option
+          position += 1
+        else
+          @errors << question_option.errors
+        end
+      end
+    else
+      question_option = QuestionOption.where(question_id: params[:question_id], text: params[:text]).first
+      if question_option
+        @errors << "Question option already exists for text #{params[:text]}"
+      else
+        question_option = QuestionOption.new(question_option_params)
+        question_option.position = position
+        if question_option.save
+          @question_options << question_option
+        else
+          @errors << question_option.errors + "\n" unless result
+        end
+      end
+    end
 
     respond_to do |format|
-      if @question_option.save
-        format.html { redirect_to questions_admin_form_path(@question.form), notice: 'Question option was successfully created.' }
-        format.js {}
-      else
-        format.html { render :new }
-        format.json { render json: @question_option.errors, status: :unprocessable_entity }
-      end
+      format.html { redirect_to questions_admin_form_path(@question.form), notice: 'Question option was successfully created.' }
+      format.js { }
     end
   end
 
