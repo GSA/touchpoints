@@ -44,7 +44,7 @@
             <%= submission.referer %>
           </td>
           <% end %>
-          <td><%= format_time(submission.created_at, current_user.time_zone) %></td>
+          <td><%= format_time(submission.created_at, submission.form.time_zone.present? ? submission.form.time_zone : current_user.time_zone) %></td>
           <td>
             <% if submission.flagged? %>
               <%= link_to unflag_admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--outline", method: :post, data: { confirm: 'Are you sure?' } do %>

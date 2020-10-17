@@ -16,7 +16,7 @@
       </div>
       <div class="field">
         <%= f.label :time_zone, class: "usa-label" %>
-        <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone::MAPPING.keys.sort, selected: current_user.time_zone), { prompt: "Select a TimeZone" }, { class: "usa-select" } %>
+        <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone::MAPPING.keys.sort, selected: current_user.time_zone), { prompt: "Select a time zone" }, { class: "usa-select" } %>
       </div>
       <div class="field">
         <br/>

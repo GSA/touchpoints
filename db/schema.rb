@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_13_143712) do
+ActiveRecord::Schema.define(version: 2020_10_17_212113) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_143712) do
     t.boolean "load_css", default: true
     t.string "logo"
     t.string "occasion"
+    t.string "time_zone"
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["uuid"], name: "index_forms_on_uuid"
