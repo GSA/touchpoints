@@ -72,12 +72,13 @@
     <%= f.submit class: "usa-button save-question" %>
   </p>
 <% end %>
-
-<script>
-  $('.save-question').on("click", function(event) {
-    if (!$("input[name='question[question_type]']:checked").val()) {
-       alert('You must select a question type!');
-       event.preventDefault();
-    }
-  });
-</script>
+<% if admin_permissions? %>
+  <script>
+    $('.save-question').on("click", function(event) {
+      if (!$("input[name='question[question_type]']:checked").val()) {
+         alert('You must select a question type!');
+         event.preventDefault();
+      }
+    });
+  </script>
+<% end %>

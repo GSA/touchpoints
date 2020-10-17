@@ -520,24 +520,33 @@ feature "Forms", js: true do
             end
           end
 
+          describe "ensure question type" do
+            before do
+              visit questions_admin_form_path(form)
+              click_on "Add Question"
+              expect(page).to have_content("New Question")
+              select("answer_01", from: "question_answer_field")
+              click_on "Create Question"
+            end
+
+            it "must have question type selected" do
+              text = page.driver.browser.switch_to.alert.text
+              expect(text).to eq("You must select a question type!")
+            end
+          end
+
           describe "add a Checkbox question" do
             before do
               visit questions_admin_form_path(form)
               click_on "Add Question"
-              expect(page.current_path).to eq(new_admin_form_question_path(form))
               expect(page).to have_content("New Question")
-              fill_in "checkbox", with: "New Test Question Radio Buttons"
-              choose "question_question_type_radio_buttons"
+              choose "question_question_type_checkbox"
               select("answer_01", from: "question_answer_field")
               click_on "Create Question"
             end
 
             xit "can add a Checkbox Question" do
               expect(page).to have_content("Question was successfully created.")
-              within ".form-preview .question" do
-                # expect(page).to have_content("New Test Question Radio Buttons")
-                # Radio buttons won't be showing yet. Because they need to be added.
-              end
             end
           end
 
