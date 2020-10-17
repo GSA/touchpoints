@@ -59,7 +59,7 @@
   <% end %>
 
   <%= f.hidden_field :form_section_id %>
-  
+
   <br>
   <fieldset class="usa-fieldset">
     <legend class="usa-sr-only">Is this question required?</legend>
@@ -69,6 +69,15 @@
     </div>
   </fieldset>
   <p>
-    <%= f.submit class: "usa-button" %>
+    <%= f.submit class: "usa-button save-question" %>
   </p>
 <% end %>
+
+<script>
+  $('.save-question').on("click", function(event) {
+    if (!$("input[name='question[question_type]']:checked").val()) {
+       alert('You must select a question type!');
+       event.preventDefault();
+    }
+  });
+</script>
