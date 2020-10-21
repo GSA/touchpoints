@@ -545,8 +545,9 @@ feature "Forms", js: true do
               click_on "Create Question"
             end
 
-            xit "can add a Checkbox Question" do
+            it "can add a Checkbox Question" do
               expect(page).to have_content("Question was successfully created.")
+              expect(page).to have_link("Add Checkbox Option")
             end
           end
 
