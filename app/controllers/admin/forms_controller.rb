@@ -336,6 +336,7 @@ class Admin::FormsController < AdminController
         :notes,
         :status,
         :title,
+        :time_zone,
         :delivery_method,
         :element_selector,
         :notification_emails,

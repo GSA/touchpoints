@@ -95,6 +95,12 @@
       </div>
     </div>
   </div>
+  <div class="grid-col-12">
+    <div class="field">
+      <%= f.label :time_zone, "Survey time zone", class: "usa-label" %>
+      <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone::MAPPING.keys.sort, selected: form.time_zone), { prompt: "Select a time zone" }, { class: "usa-select" } %>
+    </div>
+  </div>
   <% if form.persisted? %>
   <br>
   <hr>
