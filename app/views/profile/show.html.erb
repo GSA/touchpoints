@@ -1,0 +1,28 @@
+<% content_for :navigation_title do %>
+  User Profile
+<% end %>
+<p>
+  <%= link_to admin_forms_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to My Surveys
+  <% end %>
+</p>
+<%= form_with(model: current_user, url: "profile", local: true) do |f| %>
+  <div class="grid-row grid-gap-md">
+    <div class="tablet:grid-col-6">
+      <div class="field">
+        <%= f.label :email, class: "usa-label" %>
+        <span class="usa-hint"><%= current_user.email %></span>
+      </div>
+      <div class="field">
+        <%= f.label :time_zone, class: "usa-label" %>
+        <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone::MAPPING.keys.sort, selected: current_user.time_zone), { prompt: "Select a time zone" }, { class: "usa-select" } %>
+      </div>
+      <div class="field">
+        <br/>
+        <%= f.submit class: "usa-button" %>
+        <br/><br/>
+      </div>
+    </div>
+  </div>
+<% end %>

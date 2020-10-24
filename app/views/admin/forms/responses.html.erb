@@ -17,7 +17,6 @@
 <%= render 'components/admin/a11_chart', form: @form if @form.kind == "a11" %>
 <%= render 'components/admin/responses_per_day', response_groups: @response_groups %>
 <div>
-  <% @submissions = @form.submissions.order("created_at ASC") %>
   <%= render file: "admin/submissions/index", locals: { form: @form, submissions: @submissions } %>
 </div>
 <br>
