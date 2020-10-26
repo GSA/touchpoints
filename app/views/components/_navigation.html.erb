@@ -32,7 +32,7 @@
           <% end %>
         <% else %>
           <li class="usa-nav__secondary-item user-name">
-            <%= current_user.email %>
+            <a href="/profile" title="Click to update profile"><%= current_user.email %></a>
           </li>
           <% if admin_permissions? %>
           <li class="usa-nav__secondary-item user-name">

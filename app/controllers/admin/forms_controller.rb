@@ -92,6 +92,7 @@ class Admin::FormsController < AdminController
   def responses
     ensure_response_viewer(form: @form) unless @form.template?
     @response_groups = @form.submissions.group("date(created_at)").size.sort.last(45)
+    @submissions = @form.submissions.order("created_at ASC")
   end
 
   def example
@@ -336,6 +337,7 @@ class Admin::FormsController < AdminController
         :notes,
         :status,
         :title,
+        :time_zone,
         :delivery_method,
         :element_selector,
         :notification_emails,

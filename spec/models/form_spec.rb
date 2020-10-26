@@ -6,8 +6,36 @@ RSpec.describe Form, type: :model do
   let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: user) }
   let!(:submission) { FactoryBot.create(:submission, form: form) }
 
-  describe "#uuid" do
+  describe "required attributes" do
     context "newly created Form" do
+      before do
+        @form = Form.create({})
+      end
+
+      it "requires name" do
+        expect(@form.errors.messages).to have_key(:user)
+        expect(@form.errors.messages[:user]).to eq(["must exist"])
+      end
+
+      it "requires organization" do
+        expect(@form.errors.messages).to have_key(:organization)
+        expect(@form.errors.messages[:organization]).to eq(["must exist"])
+      end
+
+      it "requires user" do
+        expect(@form.errors.messages).to have_key(:user)
+        expect(@form.errors.messages[:user]).to eq(["must exist"])
+      end
+
+      it "requires delivery_method" do
+        expect(@form.errors.messages).to have_key(:delivery_method)
+        expect(@form.errors.messages[:delivery_method]).to eq(["can't be blank"])
+      end
+    end
+  end
+
+  context "newly created Form" do
+    describe "#uuid" do
       it "is assigned a 36-char UUID" do
         expect(form.persisted?).to eq(true)
         expect(form.uuid.length).to eq(36)
@@ -130,6 +158,29 @@ RSpec.describe Form, type: :model do
         expect(form.live?).to eq(false)
         expect(form.archived?).to eq(true)
       end
+    end
+  end
+
+  describe "#duplicate!" do
+    before do
+      @duplicate_form = form.duplicate!(user: user)
+    end
+
+    it "adds 'Copy' to name" do
+      expect(@duplicate_form.name).to eq("Copy of #{form.name}")
+    end
+
+    it "resets survey_form_activations to 0" do
+      expect(@duplicate_form.survey_form_activations).to eq(0)
+    end
+
+    it "resets many other attributes" do
+      expect(@duplicate_form.aasm_state).to eq("in_development")
+      expect(@duplicate_form.legacy_touchpoint_id).to eq(nil)
+      expect(@duplicate_form.legacy_touchpoint_uuid).to eq(nil)
+      expect(@duplicate_form.template).to eq(false)
+      expect(@duplicate_form.user).to eq(user)
+      expect(@duplicate_form.persisted?).to eq(true)
     end
   end
 
