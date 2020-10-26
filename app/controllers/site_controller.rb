@@ -1,7 +1,11 @@
 class SiteController < ApplicationController
   def index
     if current_user
-      redirect_to admin_root_path
+      if ENV["INDEX_URL"].present?
+        redirect_to ENV["INDEX_URL"]
+      else
+        redirect_to admin_root_path
+      end
     end
   end
 
