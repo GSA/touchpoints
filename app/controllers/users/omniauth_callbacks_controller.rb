@@ -33,13 +33,13 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       @user = User.from_omniauth(auth_hash)
     end
 
-    Event.log_event(Event.names[:user_authentication_successful], "User", @user.id, "User #{@user.email} successfully authenticated on #{Date.today}", @user.id)
-
     # If user exists
     # Else, if valid email and no user, we create an account.
     if !@user.errors.present?
+      Event.log_event(Event.names[:user_authentication_successful], "User", @user.id, "User #{@user.email} successfully authenticated on #{Date.today}", @user.id)
       sign_in_and_redirect(:user, @user)
     elsif @user.errors.present?
+      Event.log_event(Event.names[:user_authentication_successful], "User", 0, "User #{@email} did not successfully authenticate on #{Date.today}", @user.id)
       redirect_to index_path, alert: @user.errors.full_messages.join(",")
     end
   end
