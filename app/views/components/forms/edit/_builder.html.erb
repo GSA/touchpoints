@@ -279,6 +279,21 @@ $(function() {
     });
   });
 
+  $('.question-option-save').on("click", function(event) {
+    event.preventDefault();
+    console.log($(this).parent());
+    console.log($(this).parent().find("input"));
+    var option_text = $(this).parent().find("input")[0];
+    var option_value = $(this).parent().find("input")[1];
+    console.log($(option_text).val());
+    console.log($(option_value).val());
+    $.ajax({
+      type: "PATCH",
+      url: $(this).attr("href"),
+      data: {question_option: {text: $(option_text).val(), value: $(option_value).val()}}
+    });
+  });
+
   $(".questions").sortable({
     items: '.question',
     connectWith: ".questions",

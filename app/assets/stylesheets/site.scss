@@ -484,8 +484,9 @@ a.form-section-save {
 // Single line text field input treatment
 .question-option-edit input {
   margin-top: -10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   height: inherit;
   padding: 0 0.5rem;
-  border: none;
-  border-bottom: 1px solid black;
+  width: 40%;
 }
