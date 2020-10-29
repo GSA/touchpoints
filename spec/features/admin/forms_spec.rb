@@ -728,37 +728,6 @@ feature "Forms", js: true do
               click_on "Update Question option"
             end
 
-            it "click through to Edit page" do
-              expect(page).to have_content("Question option was successfully updated.")
-              within (".question") do
-                expect(page).to have_content("Edited Question Option Text")
-              end
-
-              # Ensure other (non UI-visible) data persists
-              visit edit_admin_form_question_question_option_path(form, radio_button_question, radio_button_option)
-              expect(page.find_field("question_option_text").value).to eq("Edited Question Option Text")
-              expect(page.find_field("question_option_value").value).to eq("100")
-            end
-          end
-
-          describe "edit Dropdown option" do
-            let!(:dropdown_question) { FactoryBot.create(:question, :with_dropdown_options, form: form, form_section: form.form_sections.first) }
-            let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form: form, user: admin) }
-
-            before do
-              visit questions_admin_form_path(form)
-              find_all(".form-edit-question-dropdown-option").first.click
-              fill_in "question_option_text", with: "Edited Question Option Text"
-              fill_in "question_option_value", with: "100"
-              click_on "Update Question option"
-            end
-
-            it "reloads Questions page" do
-              expect(page).to have_content("Edited Question Option Text")
-              within ".form-builder .question-options" do
-                expect(page).to have_content("Edited Question Option Text")
-              end
-            end
           end
 
         end

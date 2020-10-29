@@ -216,6 +216,17 @@ $(function() {
     });
   });
 
+  $(".form-delete-question-option").on("click", function(event) {
+    event.preventDefault();
+    if (confirm('Are you sure?')) {
+      $(this).parent().parent().remove();
+      $.ajax({
+        type: "DELETE",
+        url: $(this).attr("href")
+      });
+    }
+  });
+
   $('.form-section-save').on("click", function(event) {
     event.preventDefault();
     var titleInput = $(this).parent().find("input.section-title");
@@ -279,18 +290,17 @@ $(function() {
     });
   });
 
-  $('.question-option-save').on("click", function(event) {
+  $('.form-save-question-option').on("click", function(event) {
     event.preventDefault();
-    console.log($(this).parent());
-    console.log($(this).parent().find("input"));
-    var option_text = $(this).parent().find("input")[0];
-    var option_value = $(this).parent().find("input")[1];
-    console.log($(option_text).val());
-    console.log($(option_value).val());
+    var option_text = $($(this).parent().find("input")[0]).val();
+    var option_value = $($(this).parent().find("input")[1]).val();
+    $(".question-option-edit").hide();
+    $(".question-option-view").show();
+    $(this).parent().parent().find('.question-option-view').html(option_text + "(" + option_value + ")");
     $.ajax({
       type: "PATCH",
       url: $(this).attr("href"),
-      data: {question_option: {text: $(option_text).val(), value: $(option_value).val()}}
+      data: {question_option: {text: option_text, value: option_value}}
     });
   });
 

@@ -77,7 +77,6 @@ class Admin::QuestionOptionsController < AdminController
 
   def update
     @question_option.update(question_option_params)
-    head :ok
     render json: @question_option
   end
 
