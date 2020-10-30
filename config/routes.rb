@@ -105,6 +105,5 @@ Rails.application.routes.draw do
   patch "profile", to: "profile#update", as: :profile_update
   get "status", to: "site#status", as: :status
   get "index", to: "site#index", as: :index
-  root to: redirect("https://touchpoints.digital.gov/")
-  root to: "site#index"
+  root to: redirect(ENV.fetch("INDEX_URL"))
 end
