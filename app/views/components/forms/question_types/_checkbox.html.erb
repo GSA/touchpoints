@@ -10,8 +10,8 @@
       <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}", class: "usa-checkbox__label") do %>
         <%= option.text %>
       <% end %>
-      <% if option.text.upcase == "OTHER" %>
-        <input type="text" name="<%= question.answer_field %>_other" id="<%= question.answer_field %>_other" cb_id="<%= @option_id %>" placeholder="Enter other text" class="usa-input other-option" />
+      <% if ["OTHER", "OTRO"].include?(option.text.upcase) %>
+        <input type="text" name="<%= question.answer_field %>_other" id="<%= question.answer_field %>_other" data-checkbox-id="<%= @option_id %>" placeholder="Enter other text" class="usa-input other-option" />
         <br/>
       <% end %>
     </div>

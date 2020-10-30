@@ -88,16 +88,15 @@
   </div>
 </form>
 <script>
-  // Set other type checkbox option values as associated option text field is updated
+  // Set 'other' type checkbox option values when associated option text field is updated
   $('.usa-input.other-option').keyup(function() {
     // strip commas
     var val = $(this).val().replace(/,/g, '');
-    // if user has cleared custom text, then reset cb value to "other"
-    if (val == '') val = 'other';
+    // if user has cleared custom text, then reset checkbox value to "other"
+    if (val == '') { val = 'other'; }
     // set the value of the checkbox option to the custom text as entered
-    var option_selector = "#" + $(this).attr("cb_id");
+    var option_selector = "#" + $(this).attr("data-checkbox-id");
     $(option_selector).prop('checked',true);
     $(option_selector).val(val);
   });
 </script>
-
