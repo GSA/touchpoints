@@ -10,6 +10,8 @@ es:
   or: "o"
   success: "Éxito"
   error: "Error"
+  "yes": "sí"
+  "no": "no"
   the_feedback_and_analytics_team: " el equipo de retroalimentación y análisis"
   form:
     submit: "Enviar"
