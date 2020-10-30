@@ -30,6 +30,8 @@ zh-CN:
   or: "要么"
   success: "成功"
   error: "错误"
+  "yes": "是的"
+  "no": "不"
   the_feedback_and_analytics_team: " 反馈和分析团队"
   form:
     submit: "提交"
