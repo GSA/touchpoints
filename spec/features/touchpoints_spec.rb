@@ -62,6 +62,46 @@ feature "Touchpoints", js: true do
         expect(Submission.last.answer_03).to eq "One,Two,Three,Four"
       end
 
+      context "with an question option of 'other'" do
+        before do
+          checkbox_form.questions.first.question_options.create!(text: "other", position: 5)
+          checkbox_form.questions.first.question_options.create!(text: "otro", position: 6)
+          visit touchpoint_path(checkbox_form)
+        end
+
+        context "default 'other' value" do
+          before do
+            all('.usa-checkbox__label').each do |checkbox_label|
+              checkbox_label.click
+            end
+            click_on "Submit"
+          end
+
+          it "persists 'other' checkbox question default values to db as comma separated list" do
+            expect(page).to have_content("Thank you. Your feedback has been received.")
+            expect(Submission.last.answer_03).to eq "One,Two,Three,Four,other,otro"
+          end
+        end
+
+        context "user-entered 'other' value" do
+          before do
+            all('.usa-checkbox__label').each do |checkbox_label|
+              checkbox_label.click
+            end
+
+            inputs = find_all("input")
+            inputs.first.set("hi")
+            inputs.last.set("bye")
+            click_on "Submit"
+          end
+
+          it "persists 'other' checkbox question custom values to db as comma separated list" do
+            expect(page).to have_content("Thank you. Your feedback has been received.")
+            expect(Submission.last.answer_03).to eq "One,Two,Three,Four,hi,bye"
+          end
+        end
+      end
+
     end
 
     describe "required question" do
