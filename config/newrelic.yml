@@ -39,4 +39,4 @@ staging:
 
 production:
   <<: *default_settings
-  app_name: touchpoints-production
+  app_name: <%= ENV.fetch("NEW_RELIC_APP_NAME", "touchpoints-production") %>
