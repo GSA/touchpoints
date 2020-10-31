@@ -27,6 +27,7 @@ en-US:
     page_2: "Page 2"
     field_is_required: "You must respond to question: "
     chars_remaining: "Chars remaining: "
+    enter_other_text: "Enter other text"
   header:
     official: "An official website of the United States government"
     heres_how_you_know: "Here’s how you know"

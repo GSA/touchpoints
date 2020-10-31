@@ -4,6 +4,7 @@ class Question < ApplicationRecord
   has_many :question_options, dependent: :destroy
 
   validates :question_type, presence: true
+  validate :validate_question_types
 
   MAX_CHARACTERS = 100000
 
@@ -34,6 +35,12 @@ class Question < ApplicationRecord
   def max_length
   	return character_limit if character_limit.present?
   	MAX_CHARACTERS
+  end
+
+  def validate_question_types
+    if !QUESTION_TYPES.include?(question_type)
+      errors.add(:question_type, "Invalid question type '#{question_type}'. Valid types include: #{QUESTION_TYPES.to_sentence}.")
+    end
   end
 
   default_scope { order(position: :asc) }
