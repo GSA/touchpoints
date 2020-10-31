@@ -47,6 +47,7 @@ zh-CN:
     page_2: "第二頁"
     field_is_required: 您必須回答以下問題
     chars_remaining: "剩餘字符: "
+    enter_other_text: "输入其他文字"
   header:
     official: "美国政府的官方网站"
     heres_how_you_know: "这就是你所知道的"
