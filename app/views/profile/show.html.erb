@@ -19,6 +19,23 @@
         <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone::MAPPING.keys.sort, selected: current_user.time_zone), { prompt: "Select a time zone" }, { class: "usa-select" } %>
       </div>
       <div class="field">
+        <%= label_tag :api_key, "API Key", class: "usa-label api-key-label" %>
+        <% if current_user.api_key.present? %>
+          <span class='usa-hint'><%= current_user.api_key %></span>
+        <% end %>
+      </div>
+      <div class="field">
+        <% if current_user.api_key.blank? %>
+          <%= link_to "/profile/api_key", class: "usa-button profile-add-api-key" do %>
+            Generate API Key
+          <% end %>
+        <% else %>
+          <%= link_to "/profile/delete_api_key", class: "usa-button profile-delete-api-key" do %>
+            Remove API Key
+          <% end %>
+        <% end %>
+      </div>
+      <div class="field">
         <br/>
         <%= f.submit class: "usa-button" %>
         <br/><br/>
