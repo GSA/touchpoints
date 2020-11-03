@@ -9,6 +9,10 @@
       <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}", class: "usa-radio__label") do %>
         <%= option.text %>
       <% end %>
+      <% if ["OTHER", "OTRO"].include?(option.text.upcase) %>
+        <input type="text" name="<%= question.answer_field %>_other" id="<%= question.answer_field %>_other" data-checkbox-id="<%= @option_id %>" placeholder="<%= t 'form.enter_other_text' %>" class="usa-input other-option" />
+        <br/>
+      <% end %>
     </div>
   <% end %>
   </div>
