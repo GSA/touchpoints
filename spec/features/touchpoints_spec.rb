@@ -118,11 +118,13 @@ feature "Touchpoints", js: true do
 
       it "persists radio button question values to db" do
         expect(page).to have_content("Thank you. Your feedback has been received.")
+        # implicitly test radio options
         expect(Submission.last.answer_03).to eq last_radio_option.value
+        # explicitly test that the default "other" value works (separately from the input box)
+        expect(Submission.last.answer_03).to eq "other"
       end
 
       context "with an question option of 'other'" do
-
         context "user-entered 'other' value" do
           before do
             visit touchpoint_path(radio_button_form)
@@ -142,9 +144,7 @@ feature "Touchpoints", js: true do
           end
         end
       end
-
     end
-
 
     describe "required question" do
       before do
