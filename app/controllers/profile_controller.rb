@@ -10,6 +10,16 @@ class ProfileController < ApplicationController
     redirect_to admin_root_path, notice: "User profile updated"
   end
 
+  def generate_api_key
+    current_user.set_api_key
+    redirect_to controller: :profile, action: :show
+  end
+
+  def delete_api_key
+    current_user.unset_api_key
+    redirect_to controller: :profile, action: :show
+  end
+
 private
 
   def user_params

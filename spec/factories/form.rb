@@ -29,6 +29,12 @@ FactoryBot.define do
       element_selector { "existing-website-button-id" }
     end
 
+    trait :with_responses do
+      after(:create) do |f, evaluator|
+        3.times { FactoryBot.create(:submission, form: f) }
+      end
+    end
+
     trait :recruiter do
       name { "Recruiter" }
       kind { "custom" }
