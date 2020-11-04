@@ -21,7 +21,18 @@
       <div class="field">
         <%= label_tag :api_key, "API Key", class: "usa-label api-key-label" %>
         <% if current_user.api_key.present? %>
-          <span class='usa-hint'><%= current_user.api_key %></span>
+          <pre><%= current_user.api_key %></pre>
+
+          <div class="usa-alert usa-alert--info" >
+            <div class="usa-alert__body">
+              <h3 class="usa-alert__heading">API Documentation</h3>
+              <p class="usa-alert__text">
+                See the Touchpoints wiki for
+                <a href="https://github.com/GSA/touchpoints/wiki/API" target="_blank" rel="noopener">API documentation</a>.
+              </p>
+            </div>
+          </div>
+          <br>
         <% end %>
       </div>
       <div class="field">

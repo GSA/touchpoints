@@ -111,6 +111,14 @@ class User < ApplicationRecord
     end
   end
 
+  def set_api_key
+    update(api_key: ApiKey.generator)
+  end
+
+  def unset_api_key
+    update(api_key: nil)
+  end
+
   private
 
     def parse_host_from_domain(string)

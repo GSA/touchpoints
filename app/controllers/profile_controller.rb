@@ -11,12 +11,12 @@ class ProfileController < ApplicationController
   end
 
   def generate_api_key
-    current_user.update(:api_key => ApiKey.generator)
+    current_user.set_api_key
     redirect_to controller: :profile, action: :show
   end
 
   def delete_api_key
-    current_user.update(:api_key => nil)
+    current_user.unset_api_key
     redirect_to controller: :profile, action: :show
   end
 
