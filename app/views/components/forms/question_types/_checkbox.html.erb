@@ -11,7 +11,7 @@
         <%= option.text %>
       <% end %>
       <% if ["OTHER", "OTRO"].include?(option.text.upcase) %>
-        <input type="text" name="<%= question.answer_field %>_other" id="<%= question.answer_field %>_other" data-checkbox-id="<%= @option_id %>" placeholder="<%= t 'form.enter_other_text' %>" class="usa-input other-option" />
+        <input type="text" name="<%= question.answer_field %>_other" id="<%= question.answer_field %>_other" data-option-id="<%= @option_id %>" placeholder="<%= t 'form.enter_other_text' %>" class="usa-input other-option" />
         <br/>
       <% end %>
     </div>

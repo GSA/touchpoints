@@ -104,6 +104,48 @@ feature "Touchpoints", js: true do
 
     end
 
+    describe "radio buttons question" do
+      let!(:radio_button_form) { FactoryBot.create(:form, :radio_button_form, organization: organization, user: user) }
+      let!(:last_radio_option) {radio_button_form.questions.first.question_options.create!(text: 'other', value: 'other', position: 6)}
+
+      before do
+        visit touchpoint_path(radio_button_form)
+        all('.usa-radio__label').each do |radio_button_label|
+          radio_button_label.click
+        end
+        click_on "Submit"
+      end
+
+      it "persists radio button question values to db" do
+        expect(page).to have_content("Thank you. Your feedback has been received.")
+        # implicitly test radio options
+        expect(Submission.last.answer_03).to eq last_radio_option.value
+        # explicitly test that the default "other" value works (separately from the input box)
+        expect(Submission.last.answer_03).to eq "other"
+      end
+
+      context "with an question option of 'other'" do
+        context "user-entered 'other' value" do
+          before do
+            visit touchpoint_path(radio_button_form)
+            all('.usa-radio__label').each do |radio_label|
+              radio_label.click
+            end
+
+            inputs = find_all("input")
+            inputs.first.set("hi")
+            inputs.last.set("bye")
+            click_on "Submit"
+          end
+
+          it "persists 'other' checkbox question custom values to db as comma separated list" do
+            expect(page).to have_content("Thank you. Your feedback has been received.")
+            expect(Submission.last.answer_03).to eq "bye"
+          end
+        end
+      end
+    end
+
     describe "required question" do
       before do
         form.questions.first.update_attribute(:is_required, true)
