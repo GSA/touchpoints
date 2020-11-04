@@ -186,5 +186,19 @@ FactoryBot.define do
       end
     end
 
+    trait :radio_button_form do
+      name { "Radio button form" }
+      kind { "custom" }
+      after(:create) do |f, evaluator|
+        FactoryBot.create(:question,
+          :with_radio_buttons,
+          form: f,
+          answer_field: :answer_03,
+          question_type: "radio_buttons",
+          form_section: f.form_sections.first,
+          text: "Name"
+        )
+      end
+    end
   end
 end
