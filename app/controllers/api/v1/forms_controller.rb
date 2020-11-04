@@ -2,20 +2,24 @@ class Api::V1::FormsController < ::ApiController
   def index
     respond_to do |format|
       format.json {
-        render json: Form.limit(100)
+        render json: { forms: current_user.forms.limit(100) }
       }
     end
   end
 
   def show
-    @form = Form.find_by_short_uuid(params[:id])
+    @form = current_user.forms.find_by_short_uuid(params[:id])
 
     respond_to do |format|
       format.json {
-        render json: {
-          form: @form,
-          responses: @form.submissions
-        }
+        if @form
+          render json: {
+            form: @form,
+            responses: @form.submissions
+          }
+        else
+          render json: { error: { message: "no form with Short UUID of #{params[:id]}", status: 404 } }, status: 404
+        end
       }
     end
   end
