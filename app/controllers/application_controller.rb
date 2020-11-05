@@ -22,9 +22,6 @@ class ApplicationController < ActionController::Base
     redirect_to(index_path, notice: "Authorization is Required") unless admin_permissions?
   end
 
-  def ensure_organization_manager
-    redirect_to(index_path, notice: "Authorization is Required") unless organization_manager_permissions?
-  end
 
   helper_method :ensure_form_manager
   def ensure_form_manager(form:)
@@ -47,11 +44,6 @@ class ApplicationController < ActionController::Base
   helper_method :admin_permissions?
   def admin_permissions?
     current_user && current_user.admin?
-  end
-
-  helper_method :organization_manager_permissions?
-  def organization_manager_permissions?
-    current_user && (current_user.admin? || current_user.organization_manager?)
   end
 
   helper_method :form_permissions?
