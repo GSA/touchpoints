@@ -1,8 +1,13 @@
-<h2>
-  <%= submissions.size %> Responses
-</h2>
+
 
 <% if submissions.present? %>
+<h2>
+  <%= page_entries_info submissions, entry_name: 'Responses' %>
+</h2>
+<%= paginate submissions %>
+<br/>
+
+
 <div class="responses table-scroll">
   <div class="table-wrap">
     <table class="usa-table table-scroll submissions">

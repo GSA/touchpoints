@@ -31,6 +31,7 @@ gem 'redis-namespace'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'aasm', '~> 4.12'
 gem 'whenever', require: false
+gem 'kaminari'
 
 
 group :development, :test do
