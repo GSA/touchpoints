@@ -4,7 +4,7 @@ class Admin::SubmissionsController < AdminController
   before_action :set_submission, only: [:flag, :unflag, :destroy]
 
   def index
-    @submissions = @form.submissions.includes(:organization).page params[:page]
+    @submissions = @form.submissions.includes(:organization).order(" created_at desc").page params[:page]
   end
 
   def flag
