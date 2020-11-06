@@ -5,13 +5,13 @@
     <span class="question-option-edit">
       <input type="text" value="<%= option.text %>" class="usa-input display-inline" />&nbsp;&nbsp;
       <input type="text" value="<%= option.value %>" class="usa-input display-inline"/>&nbsp;&nbsp;
-      <%= link_to admin_form_question_question_option_path(question.form, question, option), style: "text-decoration: none;", class: "delete button form-save-question-option"  do %>
-        <i class="fas fa-save" title="Save question option text and value" style="display:inherit; color: blue;"></i>
+      <%= link_to admin_form_question_question_option_path(question.form, question, option), class: "delete button form-save-question-option"  do %>
+        <i class="fas fa-save" title="Save question option text and value"></i>
       <% end %>
     </span>
     <span class="float-right">
-      <%= link_to admin_form_question_question_option_path(question.form, question, option), style: "text-decoration: none;", class: "delete button form-delete-question-option", method: :delete, data: { remote: true } do %>
-        <i class="fas fa-trash-alt" title="Delete question option" style="display:inherit; color: red;"></i>
+      <%= link_to admin_form_question_question_option_path(question.form, question, option), class: "delete button form-delete-question-option", method: :delete, data: { remote: true } do %>
+        <i class="fas fa-trash-alt" title="Delete question option"></i>
       <% end %>
     </span>
   <% end %>

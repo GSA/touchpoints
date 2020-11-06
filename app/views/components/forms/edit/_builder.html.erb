@@ -174,7 +174,7 @@ $(function() {
     $('div.section-title-edit').hide();
     $('div.section-title-view').show();
     $(this).parent().hide();
-    var titleEdit = $(this).parent().parent().find("div.section-title-edit");
+    var titleEdit = $(this).closest('div.section-header-div').find("div.section-title-edit");
     titleEdit.show();
     titleEdit.find("input").focus();
   });
@@ -190,7 +190,7 @@ $(function() {
 
   $(".question-option-edit input").keyup(function(event) {
     if (event.keyCode == 13) {
-      $(this).parent().parent().find('.question-option-view').html($(this).val());
+      $(this).closest('div.question-option').find('.question-option-view').html($(this).val());
       $.ajax({
         type: "PATCH",
         url: $(this).attr("data-href") + "/update_title",
@@ -219,7 +219,7 @@ $(function() {
   $(".form-delete-question-option").on("click", function(event) {
     event.preventDefault();
     if (confirm('Are you sure?')) {
-      $(this).parent().parent().remove();
+      $(this).closest('div.question-option').remove();
       $.ajax({
         type: "DELETE",
         url: $(this).attr("href")
@@ -229,8 +229,8 @@ $(function() {
 
   $('.form-section-save').on("click", function(event) {
     event.preventDefault();
-    var titleInput = $(this).parent().find("input.section-title");
-    var titleLabel = $(this).parent().parent().find(".section-title-lbl");
+    var titleInput = $(this).closest('div.section-header-div').find("input.section-title");
+    var titleLabel = $(this).closest('div.section-header-div').find(".section-title-lbl");
     $(titleLabel).html($(titleInput).val());
     $('div.section-title-edit').hide();
     $(titleLabel).parent().show();
@@ -296,7 +296,7 @@ $(function() {
     var option_value = $($(this).parent().find("input")[1]).val();
     $(".question-option-edit").hide();
     $(".question-option-view").show();
-    $(this).parent().parent().find('.question-option-view').html(option_text + "(" + option_value + ")");
+    $(this).closest('div.question-option').find('.question-option-view').html(option_text + "(" + option_value + ")");
     $.ajax({
       type: "PATCH",
       url: $(this).attr("href"),
@@ -341,10 +341,6 @@ $(function() {
         data: $(this).sortable('serialize')
       });
     }
-  });
-
-  $(".ma-dropdown").on("click", function(event) {
-    $(event.target).parent().parent().find(".dropdown-content").toggle();
   });
 
   $(".section-menu-action").mouseover(function(event) {
