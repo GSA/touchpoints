@@ -90,15 +90,6 @@ webmaster = User.new({
 webmaster.save!
 puts "Created #{webmaster.email}"
 
-organization_manager = User.new({
-  email: "organization_manager@example.gov",
-  password: "password",
-  organization: example_gov,
-  organization_manager: true
-})
-organization_manager.save!
-puts "Created #{organization_manager.email}"
-
 touchpoint_manager = User.new({
   email: "touchpoint_manager@example.gov",
   password: "password",
