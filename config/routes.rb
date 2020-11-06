@@ -32,7 +32,6 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :forms
-      resources :responses
     end
   end
 
@@ -103,8 +102,9 @@ Rails.application.routes.draw do
 
   get "profile", to: "profile#show", as: :profile
   patch "profile", to: "profile#update", as: :profile_update
+  get "profile/api_key", to: "profile#generate_api_key", as: :generate_api_key
+  get "profile/delete_api_key", to: "profile#delete_api_key", as: :delete_api_key
   get "status", to: "site#status", as: :status
   get "index", to: "site#index", as: :index
-  root to: redirect("https://touchpoints.digital.gov/")
-  root to: "site#index"
+  root to: redirect(ENV.fetch("INDEX_URL"))
 end

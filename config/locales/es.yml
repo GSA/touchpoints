@@ -10,6 +10,8 @@ es:
   or: "o"
   success: "Éxito"
   error: "Error"
+  "yes": "sí"
+  "no": "no"
   the_feedback_and_analytics_team: " el equipo de retroalimentación y análisis"
   form:
     submit: "Enviar"
@@ -25,6 +27,7 @@ es:
     page_2: "Página 2"
     field_is_required: "Debes responder a la pregunta: "
     chars_remaining: "Caracteres restantes: "
+    enter_other_text: "Ingresa otro texto"
   header:
     official: "Un sitio web oficial del gobierno de los Estados Unidos"
     heres_how_you_know: "Así es como sabes"

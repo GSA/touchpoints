@@ -4,12 +4,11 @@
 <div class="grid-row grid-gap-md">
   <div class="grid-col-12">
     <h3>
-      Organizations without an Organization Manager
+      Organizations without active Forms
     </h3>
 
     <% Organization.all.order(:name).each do |organization| %>
-      <% next unless organization.managers.empty? %>
-
+      <% next unless organization.forms.empty? %>
       <%= link_to organization.name, admin_organization_path(organization) %>
       <br>
     <% end %>

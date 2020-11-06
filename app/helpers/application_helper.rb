@@ -36,12 +36,8 @@ module ApplicationHelper
     end
   end
 
-  def is_at_least_organization_manager?(user:)
-    user.admin? || user.organization_manager?
-  end
-
   def is_at_least_form_manager?(user:, form:)
-    user.admin? || user.organization_manager? ||
+    user.admin? ||
       form.user_role?(user: user) == UserRole::Role::FormManager
   end
 
