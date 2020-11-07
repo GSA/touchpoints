@@ -5,6 +5,9 @@ class SiteController < ApplicationController
     end
   end
 
+  def agencies
+  end
+
   def status
     render json: {
       status: :success,

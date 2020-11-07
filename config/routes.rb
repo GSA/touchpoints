@@ -100,6 +100,7 @@ Rails.application.routes.draw do
     root to: "forms#index"
   end
 
+  get "agencies", to: "site#agencies", as: :agencies
   get "profile", to: "profile#show", as: :profile
   patch "profile", to: "profile#update", as: :profile_update
   get "profile/api_key", to: "profile#generate_api_key", as: :generate_api_key
