@@ -1,6 +1,5 @@
 class Admin::UsersController < AdminController
-  before_action :ensure_organization_manager, except: [:deactivate]
-  before_action :ensure_admin, only: [:inactive]
+  before_action :ensure_admin, except: [:deactivate]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -49,10 +48,8 @@ class Admin::UsersController < AdminController
   end
 
   def update
-    org_mgr = @user.organization_manager?
     respond_to do |format|
       if @user.update(user_params)
-        send_notifications(@user, org_mgr)
         Event.log_event(Event.names[:user_update], "User", @user.id, "User #{@user.email} was updated by #{current_user.email} on #{Date.today}")
         format.html { redirect_to admin_user_path(@user), notice: 'User was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
@@ -117,29 +114,11 @@ class Admin::UsersController < AdminController
     end
 
     def user_params
-      if admin_permissions?
-        params.require(:user).permit(
-          :admin,
-          :organization_id,
-          :organization_manager,
-          :email,
-          :inactive
-        )
-      elsif organization_manager_permissions?
-        params.require(:user).permit(
-          :organization_id,
-          :organization_manager,
-          :email
-        )
-      end
-    end
-
-    def send_notifications(user, was_org_manager)
-        if user.organization_manager? != was_org_manager
-          change = user.organization_manager? ? 'added' : 'removed'
-          Event.log_event(Event.names[:organization_manager_changed],  "User", user.id, "Organization manager #{change}", current_user.id)
-          return unless ENV["ENABLE_EMAIL_NOTIFICATIONS"] == "true"
-          UserMailer.org_manager_change_notification(user, change).deliver_later
-        end
+      params.require(:user).permit(
+        :admin,
+        :organization_id,
+        :email,
+        :inactive
+      )
     end
 end

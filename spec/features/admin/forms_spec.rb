@@ -827,15 +827,6 @@ feature "Forms", js: true do
     end
   end
 
-
-  xcontext "as Organization Manager" do
-    let(:organization_manager) { FactoryBot.create(:user, :organization_manager, organization: organization) }
-
-    before do
-      login_as organization_manager
-    end
-  end
-
   context "without Form Manager permissions" do
     let(:user) { FactoryBot.create(:user, organization: organization) }
     let(:another_user) { FactoryBot.create(:user, organization: organization) }
