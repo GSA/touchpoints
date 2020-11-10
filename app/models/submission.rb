@@ -9,9 +9,6 @@ class Submission < ApplicationRecord
 
   scope :non_flagged, -> { where(flagged: false) }
 
-  paginates_per 100
-  max_paginates_per 500
-
   def validate_custom_form
     @valid_form_condition = false
 
