@@ -474,18 +474,24 @@ a.form-section-save {
 .fa-pencil-alt, .fa-save {
   cursor: pointer;
 }
+.fa-save {
+  display:inherit;
+  color: blue;
+}
+.fa-trash-alt {
+   display:inherit;
+   color: red;
+}
 .form-title {
   width: 400px;
 }
 .questions {
   min-height: 10px;
 }
-
+a.form-save-question-option, a.form-delete-question-option {
+  text-decoration:none;
+}
 // Single line text field input treatment
 .question-option-edit input {
-  margin-top: -10px;
-  height: inherit;
-  padding: 0 0.5rem;
-  border: none;
-  border-bottom: 1px solid black;
+  width: 40%;
 }

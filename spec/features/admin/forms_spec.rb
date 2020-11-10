@@ -729,11 +729,7 @@ feature "Forms", js: true do
             end
 
             it "click through to Edit page" do
-              expect(page).to have_content("Question option was successfully updated.")
-              within (".question") do
-                expect(page).to have_content("Edited Question Option Text")
-              end
-
+              expect(page).to have_content("Edited Question Option Text")
               # Ensure other (non UI-visible) data persists
               visit edit_admin_form_question_question_option_path(form, radio_button_question, radio_button_option)
               expect(page.find_field("question_option_text").value).to eq("Edited Question Option Text")
@@ -754,7 +750,7 @@ feature "Forms", js: true do
             end
 
             it "reloads Questions page" do
-              expect(page).to have_content("Edited Question Option Text")
+              click_on "Cancel"
               within ".form-builder .question-options" do
                 expect(page).to have_content("Edited Question Option Text")
               end
