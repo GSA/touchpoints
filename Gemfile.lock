@@ -167,6 +167,18 @@ GEM
       aes_key_wrap
       bindata
     jwt (2.2.2)
+    kaminari (1.2.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.1)
+      kaminari-activerecord (= 1.2.1)
+      kaminari-core (= 1.2.1)
+    kaminari-actionview (1.2.1)
+      actionview
+      kaminari-core (= 1.2.1)
+    kaminari-activerecord (1.2.1)
+      activerecord
+      kaminari-core (= 1.2.1)
+    kaminari-core (1.2.1)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -355,6 +367,7 @@ DEPENDENCIES
   jquery-rails (>= 4.4.0)
   jquery-ui-rails (>= 6.0.1)
   json-jwt
+  kaminari
   listen (>= 3.0.5, < 3.2)
   mail
   mini_magick

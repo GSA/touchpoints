@@ -36,7 +36,7 @@
     <div class="grid-col-12">
       <div class="field">
         <%= f.label :answer_field, "Which A-11 question does this pertain to?", class: "usa-label" %>
-        <%= f.select :answer_field, answer_fields - form.questions.collect(&:answer_field), { selected: question.answer_field }, { class: "usa-select" } %>
+        <%= f.select :answer_field, answer_fields - (form.questions.collect(&:answer_field) - [question.answer_field]), { selected: question.answer_field }, { class: "usa-select" } %>
       </div>
     </div>
   </div>
