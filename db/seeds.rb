@@ -283,6 +283,13 @@ Submission.create!({
   answer_04: "5555550000"
 })
 
+100.times do |i|
+  Submission.create!({
+    form: open_ended_form,
+    answer_01: "Body text"
+  })
+end
+
 # TODO: Seed A11
 range = [1,2,3,4,5]
 50.times do |i|

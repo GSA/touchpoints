@@ -1,8 +1,9 @@
 <h2>
   <%= page_entries_info submissions, entry_name: 'Responses' %>
 </h2>
-<%= paginate submissions, remote: true %>
-<br/>
+<p>
+  <%= paginate submissions, remote: true %>
+</p>
 <div class="responses table-scroll">
   <div class="table-wrap">
     <table class="usa-table table-scroll submissions">
@@ -69,3 +70,6 @@
     </table>
   </div>
 </div>
+<p>
+  <%= paginate submissions, remote: true %>
+</p>
