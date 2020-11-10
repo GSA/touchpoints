@@ -1,7 +1,10 @@
 <div class="question-option list-group-item" id="<%= dom_id(option) %>" data-id="<%= option.id %>">
   <%= check_box_tag("#{question.answer_field}_#{(index + 1).to_s}", index + 1, nil, { value: option.text , class: "usa-checkbox__input" }) %>
   <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}", class: "usa-checkbox__label") do %>
-    <span class="question-option-view"><%= option.text %>(<%= option.value %>)</span>
+    <span class="question-option-view">
+      <%= option.text %>
+      <% if option.text != option.value %> (<%= option.value %>)<% end %>
+    </span>
     <span class="question-option-edit">
       <input type="text" name="question_option[text]" value="<%= option.text %>" class="usa-input display-inline" />&nbsp;&nbsp;
       <input type="text" name="question_option[value]" value="<%= option.value %>" class="usa-input display-inline"/>&nbsp;&nbsp;
