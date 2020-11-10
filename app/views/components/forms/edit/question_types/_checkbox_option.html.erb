@@ -3,8 +3,8 @@
   <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}", class: "usa-checkbox__label") do %>
     <span class="question-option-view"><%= option.text %>(<%= option.value %>)</span>
     <span class="question-option-edit">
-      <input type="text" value="<%= option.text %>" class="usa-input display-inline" />&nbsp;&nbsp;
-      <input type="text" value="<%= option.value %>" class="usa-input display-inline"/>&nbsp;&nbsp;
+      <input type="text" name="question_option[text]" value="<%= option.text %>" class="usa-input display-inline" />&nbsp;&nbsp;
+      <input type="text" name="question_option[value]" value="<%= option.value %>" class="usa-input display-inline"/>&nbsp;&nbsp;
       <%= link_to admin_form_question_question_option_path(question.form, question, option), class: "delete button form-save-question-option"  do %>
         <i class="fas fa-save" title="Save question option text and value"></i>
       <% end %>
