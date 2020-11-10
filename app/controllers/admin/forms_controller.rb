@@ -78,9 +78,9 @@ class Admin::FormsController < AdminController
   def permissions
     ensure_form_manager(form: @form)
     if admin_permissions?
-      @available_members = User.all - @form.users
+      @available_members = User.all.order(:email) - @form.users
     else
-      @available_members = @form.organization.users - @form.users
+      @available_members = @form.organization.users.order(:email) - @form.users
     end
   end
 
