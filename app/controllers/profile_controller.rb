@@ -3,6 +3,7 @@ class ProfileController < ApplicationController
     if current_user.blank?
       redirect_to admin_root_path
     end
+    @api_key_warning = (current_user.api_key_update_date.present? and current_user.api_key_update_date < (Time.now - 6.months) ) ? true : false
   end
 
   def update

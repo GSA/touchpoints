@@ -21,8 +21,17 @@
       <div class="field">
         <%= label_tag :api_key, "API Key", class: "usa-label" %>
         <% if current_user.api_key.present? %>
+          <% if  @api_key_warning %>
+            <div class="usa-alert usa-alert--warning" >
+              <div class="usa-alert__body">
+                <p class="usa-alert__text">
+                  Your API Key was last updated more than six months ago!  Please remove then re-generate your API Key.
+                </p>
+              </div>
+            </div>
+          <% end %>
           <pre><%= current_user.api_key %></pre>
-
+          <span class="usa-hint">last updated at <%= format_time(current_user.api_key_update_date, current_user.time_zone) %></span>
           <div class="usa-alert usa-alert--info" >
             <div class="usa-alert__body">
               <h3 class="usa-alert__heading">API Documentation</h3>

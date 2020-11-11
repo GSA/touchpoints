@@ -109,11 +109,11 @@ class User < ApplicationRecord
   end
 
   def set_api_key
-    update(api_key: ApiKey.generator)
+    update(api_key: ApiKey.generator, api_key_update_date: Time.now)
   end
 
   def unset_api_key
-    update(api_key: nil)
+    update(api_key: nil, api_key_update_date: nil)
   end
 
   private
