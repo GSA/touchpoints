@@ -76,23 +76,13 @@ class Admin::QuestionOptionsController < AdminController
   end
 
   def update
-    respond_to do |format|
-      if @question_option.update(question_option_params)
-        format.html { redirect_to questions_admin_form_path(@question.form), notice: 'Question option was successfully updated.' }
-        format.js {}
-      else
-        format.html { render :edit }
-        format.json { render json: @question_option.errors, status: :unprocessable_entity }
-      end
-    end
+    @question_option.update(question_option_params)
+    render json: @question_option
   end
 
   def destroy
     @question_option.destroy
-    respond_to do |format|
-      format.html { redirect_to questions_admin_form_path(@question_option.question.form), notice: 'Question option was successfully destroyed.' }
-      format.js { }
-    end
+    head :ok
   end
 
   private

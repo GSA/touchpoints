@@ -232,7 +232,7 @@ feature "Forms", js: true do
             end
 
             it "display text conveying there are no responses yet" do
-              expect(page).to have_content("0 Responses")
+              expect(page).to have_content("Responses (0)")
               expect(page).to have_content("Export is not available.")
               expect(page).to have_content("This Form has yet to receive any Responses.")
               expect(page).to_not have_link("Export Responses to CSV")
@@ -729,11 +729,7 @@ feature "Forms", js: true do
             end
 
             it "click through to Edit page" do
-              expect(page).to have_content("Question option was successfully updated.")
-              within (".question") do
-                expect(page).to have_content("Edited Question Option Text")
-              end
-
+              expect(page).to have_content("Edited Question Option Text")
               # Ensure other (non UI-visible) data persists
               visit edit_admin_form_question_question_option_path(form, radio_button_question, radio_button_option)
               expect(page.find_field("question_option_text").value).to eq("Edited Question Option Text")
@@ -754,7 +750,7 @@ feature "Forms", js: true do
             end
 
             it "reloads Questions page" do
-              expect(page).to have_content("Edited Question Option Text")
+              click_on "Cancel"
               within ".form-builder .question-options" do
                 expect(page).to have_content("Edited Question Option Text")
               end
@@ -824,15 +820,6 @@ feature "Forms", js: true do
         expect(page.current_path).to eq(admin_root_path)
         expect(page).to have_content("Authorization is Required")
       end
-    end
-  end
-
-
-  xcontext "as Organization Manager" do
-    let(:organization_manager) { FactoryBot.create(:user, :organization_manager, organization: organization) }
-
-    before do
-      login_as organization_manager
     end
   end
 

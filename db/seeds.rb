@@ -90,15 +90,6 @@ webmaster = User.new({
 webmaster.save!
 puts "Created #{webmaster.email}"
 
-organization_manager = User.new({
-  email: "organization_manager@example.gov",
-  password: "password",
-  organization: example_gov,
-  organization_manager: true
-})
-organization_manager.save!
-puts "Created #{organization_manager.email}"
-
 touchpoint_manager = User.new({
   email: "touchpoint_manager@example.gov",
   password: "password",
@@ -291,6 +282,13 @@ Submission.create!({
   answer_03: "public_user_3@example.com",
   answer_04: "5555550000"
 })
+
+100.times do |i|
+  Submission.create!({
+    form: open_ended_form,
+    answer_01: "Body text"
+  })
+end
 
 # TODO: Seed A11
 range = [1,2,3,4,5]
