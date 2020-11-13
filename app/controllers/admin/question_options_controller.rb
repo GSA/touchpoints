@@ -77,7 +77,7 @@ class Admin::QuestionOptionsController < AdminController
 
   def update
     @question_option.update(question_option_params)
-    render json: @question_option
+    render :update, format: :js
   end
 
   def destroy
