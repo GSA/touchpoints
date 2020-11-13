@@ -30,8 +30,7 @@ class Admin::SubmissionsController < AdminController
 
     @submission.destroy
     respond_to do |format|
-      format.html { redirect_to responses_admin_form_path(@form), notice: "Response #{@submission.id} was successfully destroyed." }
-      format.json { head :no_content }
+      format.js { render :destroy }
     end
   end
 

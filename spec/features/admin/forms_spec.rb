@@ -618,17 +618,27 @@ feature "Forms", js: true do
                   expect(page.current_path).to eq(questions_admin_form_path(form))
                   expect(page).to have_content("New Question")
                   fill_in "question_option_text", with: "Dropdown option #1"
+                  # Create the option
                   click_on "Create Question option"
                 end
 
                 it "add a Question Option for a dropdown" do
                   expect(page.current_path).to eq(questions_admin_form_path(form))
                   expect(page).to have_content("Dropdown option #1")
+
                   within ".form-builder .question-options .question-option[data-id='#{QuestionOption.last.id}']" do
                     expect(page).to have_content("Dropdown option #1")
-                    expect(page).to have_css(".edit.button")
                     expect(page).to have_css(".delete.button")
                   end
+
+                  # Update the option
+                  within(".question-options") do
+                    find_all(".question-option .question-option-view").first.click
+                    fill_in "question_option_text", with: "Edited Question Option Text"
+                    fill_in "question_option_value", with: "100"
+                    find(".fa-save").click
+                  end
+                  expect(page).to have_content("Edited Question Option Text (100)")
                 end
               end
             end
@@ -715,25 +725,24 @@ feature "Forms", js: true do
         end
 
         describe "editing Question Options" do
-          let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form: form, user: user) }
+          let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form: form, user: admin) }
 
           describe "edit Radio Button option" do
             let!(:radio_button_question) { FactoryBot.create(:question, :with_radio_buttons, form: form, form_section: form.form_sections.first) }
             let!(:radio_button_option) { FactoryBot.create(:question_option, question: radio_button_question, position: 1) }
 
             before do
-              visit edit_admin_form_question_question_option_path(form, radio_button_question, radio_button_option)
-              fill_in "question_option_text", with: "Edited Question Option Text"
-              fill_in "question_option_value", with: "100"
-              click_on "Update Question option"
+              visit questions_admin_form_path(form)
+              within(".question-options") do
+                find_all(".question-option .question-option-view").first.click
+                fill_in "question_option_text", with: "Edited Question Option Text"
+                fill_in "question_option_value", with: "100"
+                find(".fa-save").click
+              end
             end
 
-            it "click through to Edit page" do
-              expect(page).to have_content("Edited Question Option Text")
-              # Ensure other (non UI-visible) data persists
-              visit edit_admin_form_question_question_option_path(form, radio_button_question, radio_button_option)
-              expect(page.find_field("question_option_text").value).to eq("Edited Question Option Text")
-              expect(page.find_field("question_option_value").value).to eq("100")
+            it "display the updated text and custom value" do
+              expect(page).to have_content("Edited Question Option Text (100)")
             end
           end
 
@@ -743,17 +752,15 @@ feature "Forms", js: true do
 
             before do
               visit questions_admin_form_path(form)
-              find_all(".form-edit-question-dropdown-option").first.click
+              find_all(".question-option-view").first.click
               fill_in "question_option_text", with: "Edited Question Option Text"
               fill_in "question_option_value", with: "100"
-              click_on "Update Question option"
+              find(".button.form-save-question-option").click
             end
 
-            it "reloads Questions page" do
-              click_on "Cancel"
-              within ".form-builder .question-options" do
-                expect(page).to have_content("Edited Question Option Text")
-              end
+            it "display updated text and value" do
+              expect(page).to have_content("Edited Question Option Text (100)")
+              expect(find_all(".question-option-view").first).to have_content("Edited Question Option Text (100)")
             end
           end
 
