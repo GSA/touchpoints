@@ -51,6 +51,7 @@ group :test do
   gem 'capybara', '>= 3.32.2'
   gem 'database_cleaner'
   gem 'factory_bot_rails', '>= 6.1.0'
+  gem 'rails-controller-testing'
   gem 'rspec-rails', '>= 4.0.1'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false, group: :test
