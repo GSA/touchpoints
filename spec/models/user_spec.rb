@@ -90,6 +90,31 @@ RSpec.describe User, type: :model do
         expect(@user.errors.messages[:organization].first).to include("'toomany.associates.subdomain.example.gov' has not yet been configured for Touchpoints")
       end
     end
+
+    context "api key" do
+      before do
+        FactoryBot.create(:organization)
+        @user.email = "user@example.gov"
+        @user.save
+      end
+
+      it "api_key is nil" do
+        expect(@user.api_key).to be_nil
+        expect(@user.api_key_updated_at).to be_nil
+      end
+
+      it "api_key is generated" do
+        @user.set_api_key
+        expect(@user.api_key.length).to be > 0
+        expect(@user.api_key_updated_at).to be > Time.now - 1.minute
+      end
+
+      it "api_key is removed" do
+        @user.unset_api_key
+        expect(@user.api_key).to be_nil
+        expect(@user.api_key_updated_at).to be_nil
+      end
+    end
   end
 
 end
