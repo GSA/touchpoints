@@ -61,6 +61,7 @@ feature "Submissions", js: true do
 
             before do
               visit responses_admin_form_path(form)
+              expect(page).to have_css(".responses table tbody tr")
               within("table.submissions") do
                 click_on "Delete"
               end
@@ -68,7 +69,7 @@ feature "Submissions", js: true do
             end
 
             it "successfully deletes a Submission" do
-              expect(page).to have_content("Response #{submission.id} was successfully destroyed.")
+              expect(page).to_not have_css(".responses table tbody tr")
             end
           end
         end
@@ -115,6 +116,7 @@ feature "Submissions", js: true do
 
             before do
               visit responses_admin_form_path(form)
+              expect(page).to have_css(".responses table tbody tr")
               within("table.submissions") do
                 click_on "Delete"
               end
@@ -122,7 +124,7 @@ feature "Submissions", js: true do
             end
 
             it "successfully deletes a Submission" do
-              expect(page).to have_content("Response #{submission.id} was successfully destroyed.")
+              expect(page).to_not have_css(".responses table tbody tr")
             end
           end
         end

@@ -8,7 +8,7 @@ class Event < ApplicationRecord
 
   # Extend this list with all First Class event types to be logged TP-
   @@names = {
-    :organization_manager_changed => 'organization_manager_changed',
+    :organization_manager_changed => 'organization_manager_changed', # Legacy event
     :user_deactivated => 'user_deactivated',
     :user_deleted => 'user_deleted',
     :user_update => 'user_update',
@@ -25,7 +25,6 @@ class Event < ApplicationRecord
     :form_published => 'form_published',
     :form_copied => 'form_copied',
     :form_deleted => 'form_deleted',
-
 
     :response_deleted => 'response_deleted'
   }

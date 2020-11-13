@@ -1,0 +1,75 @@
+<h2>
+  <%= page_entries_info submissions, entry_name: 'Responses' %>
+</h2>
+<p>
+  <%= paginate submissions, remote: true %>
+</p>
+<div class="responses table-scroll">
+  <div class="table-wrap">
+    <table class="usa-table table-scroll submissions">
+      <thead>
+        <tr>
+        <% form.questions.each do |question| %>
+          <% next if question.question_type == "text_display" %>
+          <th><%= question.text %></th>
+        <% end %>
+        <% if form.kind == "yes_no" %>
+          <th>
+            Page
+          </th>
+          <th>
+            Referer
+          </th>
+        <% end %>
+          <th>
+            Created At
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% submissions.each do |submission| %>
+        <tr class="response" title="Response ID <%= submission.id %>" data-id="<%= submission.uuid %>">
+        <% form.questions.each do |question| %>
+          <% next if question.question_type == "text_display" %>
+          <td>
+            <%= sanitize(submission.send(question.answer_field.to_sym)).to_s.truncate(160) %>
+          </td>
+        <% end %>
+        <% if form.kind == "yes_no" %>
+          <td>
+            <%= submission.page %>
+          </td>
+          <td>
+            <%= submission.referer %>
+          </td>
+        <% end %>
+          <td><%= format_time(submission.created_at, submission.form.time_zone.present? ? submission.form.time_zone : current_user.time_zone) %></td>
+          <td>
+            <% if submission.flagged? %>
+              <%= link_to unflag_admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--outline", method: :post, data: { confirm: 'Are you sure?' } do %>
+              <i class="far fa-times-circle"></i>
+              Flagged
+              <% end %>
+            <% else %>
+              <%= link_to flag_admin_form_submission_path(submission.form, submission), class: "usa-button", method: :post, data: { confirm: 'Are you sure?' } do %>
+                <i class="far fa-flag"></i>
+                Flag
+              <% end %>
+            <% end %>
+            <% if form_permissions?(form: form) %>
+              <%= link_to admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--secondary", method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <i class="fas fa-trash"></i>
+              Delete
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<p>
+  <%= paginate submissions, remote: true %>
+</p>

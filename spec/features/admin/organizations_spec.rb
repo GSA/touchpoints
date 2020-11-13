@@ -6,7 +6,6 @@ feature "Managing Organizations", js: true do
   let!(:organization) { FactoryBot.create(:organization) }
   let!(:organization2) { FactoryBot.create(:organization, name: "Organization 2", domain: "test.gov") }
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
-  let(:organization_manager) { FactoryBot.create(:user, :organization_manager, organization: organization2, email: "test@test.gov") }
 
   context "as Admin" do
     before "visit Organization listing" do
@@ -35,18 +34,6 @@ feature "Managing Organizations", js: true do
       it "successfully creates an Organization" do
         expect(page).to have_content("Organization was successfully created.")
       end
-    end
-  end
-
-  context "as Organization Manager" do
-    before "Sign in" do
-      login_as organization_manager
-      visit admin_organizations_path
-    end
-
-    it "redirected do homepage with error message" do
-      expect(page.current_path).to eq(admin_root_path)
-      expect(page).to have_content("Authorization is Required")
     end
   end
 end

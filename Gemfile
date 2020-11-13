@@ -31,6 +31,7 @@ gem 'redis-namespace'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'aasm', '~> 4.12'
 gem 'whenever', require: false
+gem 'kaminari'
 
 
 group :development, :test do
@@ -50,6 +51,7 @@ group :test do
   gem 'capybara', '>= 3.32.2'
   gem 'database_cleaner'
   gem 'factory_bot_rails', '>= 6.1.0'
+  gem 'rails-controller-testing'
   gem 'rspec-rails', '>= 4.0.1'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false, group: :test

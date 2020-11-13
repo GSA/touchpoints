@@ -65,8 +65,6 @@ class User < ApplicationRecord
   def role
     if self.admin?
       "Admin"
-    elsif self.organization_manager?
-      "Organization Manager"
     else
       "User"
     end
@@ -87,7 +85,6 @@ class User < ApplicationRecord
   def deactivate
     self.inactive = true
     self.save
-    UserMailer.org_manager_change_notification(self,'removed').deliver_later if self.organization_manager?
     UserMailer.account_deactivated_notification(self).deliver_later
     Event.log_event(Event.names[:user_deactivated], "User", self.id, "User account #{self.email} deactivated on #{Date.today}")
   end
@@ -112,11 +109,11 @@ class User < ApplicationRecord
   end
 
   def set_api_key
-    update(api_key: ApiKey.generator)
+    update(api_key: ApiKey.generator, api_key_updated_at: Time.now)
   end
 
   def unset_api_key
-    update(api_key: nil)
+    update(api_key: nil, api_key_updated_at: nil)
   end
 
   private
@@ -148,12 +145,6 @@ class User < ApplicationRecord
     end
 
     def send_new_user_notification
-      # Send notification to Touchpoints
       UserMailer.new_user_notification(self).deliver_later
-
-      # Send notification to Org Admins
-      self.organization.users.select { |user| user.organization_manager? }.each do |om|
-        UserMailer.org_user_notification(self, om).deliver_later
-      end
     end
 end

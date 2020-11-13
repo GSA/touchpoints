@@ -36,14 +36,14 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
     it "destroys the requested submission" do
       submission = Submission.create! valid_attributes
       expect {
-        delete :destroy, params: {id: submission.to_param, form_id: form.short_uuid }, session: valid_session
+        delete :destroy, params: { id: submission.to_param, form_id: form.short_uuid }, session: valid_session, format: :js
       }.to change(Submission, :count).by(-1)
     end
 
     it "redirects to the submissions list" do
       submission = Submission.create! valid_attributes
-      delete :destroy, params: {id: submission.to_param, form_id: form.short_uuid }, session: valid_session
-      expect(response).to redirect_to(responses_admin_form_url(form.short_uuid))
+      delete :destroy, params: {id: submission.to_param, form_id: form.short_uuid }, session: valid_session, format: :js
+      expect(response).to render_template(:destroy)
     end
   end
 
