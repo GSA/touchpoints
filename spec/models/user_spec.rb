@@ -100,19 +100,19 @@ RSpec.describe User, type: :model do
 
       it "api_key is nil" do
         expect(@user.api_key).to be_nil
-        expect(@user.api_key_update_date).to be_nil
+        expect(@user.api_key_updated_at).to be_nil
       end
 
       it "api_key is generated" do
         @user.set_api_key
         expect(@user.api_key.length).to be > 0
-        expect(@user.api_key_update_date).to be > Time.now - 1.minute
+        expect(@user.api_key_updated_at).to be > Time.now - 1.minute
       end
 
       it "api_key is removed" do
         @user.unset_api_key
         expect(@user.api_key).to be_nil
-        expect(@user.api_key_update_date).to be_nil
+        expect(@user.api_key_updated_at).to be_nil
       end
     end
   end
