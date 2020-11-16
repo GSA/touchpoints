@@ -726,8 +726,8 @@ img{
 
 #fba-modal-dialog .usa-checkbox__input:checked + #fba-modal-dialog .usa-checkbox__label::before,
 #fba-modal-dialog .usa-checkbox__input:checked:disabled + #fba-modal-dialog .usa-checkbox__label::before{
-  background-image:asset-url("correct8.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("correct8.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "correct8.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "correct8.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
   background-position:center center;
 }
@@ -793,8 +793,8 @@ img{
 }
 
 #fba-modal-dialog .usa-select{
-  background-image:asset-url("arrow-both.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("arrow-both.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "arrow-both.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "arrow-both.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
   -webkit-appearance:none;
      -moz-appearance:none;
@@ -1463,7 +1463,7 @@ img{
 }
 
 #fba-modal-dialog .usa-link--external::after{
-  background:asset-url("external-link.svg") no-repeat 0 0;
+  background:url(<%= asset_path "external-link.svg" %>) no-repeat 0 0;
   background-size:100%;
   content:'';
   display:inline-block;
@@ -1474,13 +1474,13 @@ img{
 }
 
 #fba-modal-dialog .usa-link--external:hover::after{
-  background-image:asset-url("external-link-hover.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("external-link-hover.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "external-link-hover.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "external-link-hover.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
 }
 
 #fba-modal-dialog .usa-link--external#fba-modal-dialog .usa-link--alt::after{
-  background:asset-url("external-link-alt.svg") no-repeat 0 0;
+  background:url(<%= asset_path "external-link-alt.svg" %>) no-repeat 0 0;
   background-size:100%;
   content:'';
   display:inline-block;
@@ -1491,8 +1491,8 @@ img{
 }
 
 #fba-modal-dialog .usa-link--external#fba-modal-dialog .usa-link--alt:hover::after{
-  background-image:asset-url("external-link-alt-hover.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("external-link-alt-hover.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "external-link-alt-hover.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "external-link-alt-hover.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
 }
 
@@ -1685,8 +1685,8 @@ img{
   margin:0;
   padding:0;
   text-align:left;
-  background-image:asset-url("minus.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("minus.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "minus.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "minus.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
   background-color:#f0f0f0;
   background-position:right 1.25rem center;
@@ -1734,8 +1734,8 @@ img{
 }
 
 #fba-modal-dialog .usa-accordion__button[aria-expanded=false]{
-  background-image:asset-url("plus.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("plus.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "plus.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "plus.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
   background-size:1rem;
 }
@@ -1830,8 +1830,8 @@ img{
 }
 
 #fba-modal-dialog .usa-alert--success{
-  background-image:asset-url("alerts/success.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("alerts/success.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "alerts/success.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "alerts/success.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
   background-color:#ecf3ec;
 }
@@ -1845,8 +1845,8 @@ img{
 }
 
 #fba-modal-dialog .usa-alert--warning{
-  background-image:asset-url("alerts/warning.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("alerts/warning.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "alerts/warning.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "alerts/warning.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
   background-color:#faf3d1;
 }
@@ -1860,8 +1860,8 @@ img{
 }
 
 #fba-modal-dialog .usa-alert--error{
-  background-image:asset-url("alerts/error.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("alerts/error.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "alerts/error.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "alerts/error.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
   background-color:#f4e3db;
 }
@@ -1875,8 +1875,8 @@ img{
 }
 
 #fba-modal-dialog .usa-alert--info{
-  background-image:asset-url("alerts/info.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("alerts/info.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "alerts/info.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "alerts/info.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
   background-color:#e7f6f8;
 }
@@ -2019,8 +2019,8 @@ img{
 }
 
 #fba-modal-dialog .usa-banner__header-action::after{
-  background-image:asset-url("angle-arrow-down-primary.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("angle-arrow-down-primary.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "angle-arrow-down-primary.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "angle-arrow-down-primary.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
   background-position:center center;
   background-repeat:no-repeat;
@@ -2033,8 +2033,8 @@ img{
 }
 
 #fba-modal-dialog .usa-banner__header-action:hover::after{
-  background-image:asset-url("angle-arrow-down-primary-hover.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("angle-arrow-down-primary-hover.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "angle-arrow-down-primary-hover.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "angle-arrow-down-primary-hover.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
 }
 
@@ -2166,8 +2166,8 @@ img{
 }
 
 #fba-modal-dialog .usa-checklist__item#fba-modal-dialog .usa-checklist__item--checked::before{
-  background-image:asset-url("correct9.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("correct9.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "correct9.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "correct9.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
   background-position:100%;
   background-size:100%;
@@ -2397,26 +2397,26 @@ img{
 }
 
 #fba-modal-dialog .usa-social-link--facebook{
-  background-image:asset-url("social-icons/facebook25.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("social-icons/facebook25.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "social-icons/facebook25.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "social-icons/facebook25.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
 }
 
 #fba-modal-dialog .usa-social-link--twitter{
-  background-image:asset-url("social-icons/twitter16.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("social-icons/twitter16.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "social-icons/twitter16.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "social-icons/twitter16.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
 }
 
 #fba-modal-dialog .usa-social-link--youtube{
-  background-image:asset-url("social-icons/youtube15.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("social-icons/youtube15.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "social-icons/youtube15.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "social-icons/youtube15.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
 }
 
 #fba-modal-dialog .usa-social-link--rss{
-  background-image:asset-url("social-icons/rss25.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("social-icons/rss25.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "social-icons/rss25.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "social-icons/rss25.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
 }
 
@@ -2447,8 +2447,8 @@ img{
   font-size:0.97574rem;
   line-height:1.22983;
   font-weight:bold;
-  background-image:asset-url("arrow-down.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("arrow-down.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "arrow-down.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "arrow-down.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
   background-position:1rem center;
   background-size:0.75rem;
@@ -2462,8 +2462,8 @@ img{
 }
 
 #fba-modal-dialog .usa-footer--big #fba-modal-dialog .usa-footer__primary-content--collapsible.hidden #fba-modal-dialog .usa-footer__primary-link{
-  background-image:asset-url("arrow-right.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("arrow-right.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "arrow-right.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "arrow-right.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
   cursor:pointer;
 }
@@ -2706,7 +2706,7 @@ img{
   line-height:1.52155;
   padding-bottom:2rem;
   padding-top:2rem;
-  background-image:asset-url("hero.png");
+  background-image:url(<%= asset_path "hero.png" %>);
   background-position:center;
   background-size:cover;
   color:white;
@@ -2830,16 +2830,16 @@ img{
 }
 
 #fba-modal-dialog .usa-nav__primary button[aria-expanded=false]{
-  background-image:asset-url("plus-alt.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("plus-alt.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "plus-alt.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "plus-alt.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
   background-position:right 0 center;
   background-size:0.75rem;
 }
 
 #fba-modal-dialog .usa-nav__primary button[aria-expanded=true]{
-  background-image:asset-url("minus-alt.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("minus-alt.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "minus-alt.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "minus-alt.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
   background-position:right 0 center;
   background-size:0.75rem;
@@ -2988,8 +2988,8 @@ img{
 }
 
 #fba-modal-dialog .usa-search [type=submit]{
-  background-image:asset-url("search.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("search.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "search.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "search.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
   background-position:center center;
   background-size:1.5rem;
@@ -3285,8 +3285,8 @@ img{
 }
 #fba-modal-dialog .usa-search--small [type=submit],
 #fba-modal-dialog .usa-search--small #fba-modal-dialog .usa-search__submit{
-  background-image:asset-url("search.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("search.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "search.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "search.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
   background-position:center center;
   background-size:1.5rem;
@@ -3458,8 +3458,8 @@ img{
   position:relative;
 }
 #fba-modal-dialog .usa-banner__button::after{
-  background-image:asset-url("angle-arrow-down-primary.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("angle-arrow-down-primary.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "angle-arrow-down-primary.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "angle-arrow-down-primary.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
   background-position:center center;
   background-repeat:no-repeat;
@@ -3471,8 +3471,8 @@ img{
   margin-left:2px;
 }
 #fba-modal-dialog .usa-banner__button:hover::after{
-  background-image:asset-url("angle-arrow-down-primary-hover.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("angle-arrow-down-primary-hover.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "angle-arrow-down-primary-hover.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "angle-arrow-down-primary-hover.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
 }
 #fba-modal-dialog .usa-banner__button:hover{
@@ -3484,8 +3484,8 @@ img{
   position:relative;
 }
 #fba-modal-dialog .usa-banner__button[aria-expanded=true]::after{
-  background-image:asset-url("angle-arrow-up-primary.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("angle-arrow-up-primary.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "angle-arrow-up-primary.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "angle-arrow-up-primary.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
   background-position:center center;
   background-repeat:no-repeat;
@@ -3497,8 +3497,8 @@ img{
   margin-left:2px;
 }
 #fba-modal-dialog .usa-banner__button[aria-expanded=true]:hover::after{
-  background-image:asset-url("angle-arrow-up-primary-hover.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("angle-arrow-up-primary-hover.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "angle-arrow-up-primary-hover.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "angle-arrow-up-primary-hover.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
 }
 #fba-modal-dialog .usa-banner__button[aria-expanded=true]::after{
@@ -3917,20 +3917,20 @@ img{
   background-color:transparent;
 }
 #fba-modal-dialog .usa-nav__primary button[aria-expanded=false]{
-  background-image:asset-url("angle-arrow-down.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("angle-arrow-down.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "angle-arrow-down.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "angle-arrow-down.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
   background-size:0.5rem;
   background-position:right 1rem top 53%;
 }
 #fba-modal-dialog .usa-nav__primary button[aria-expanded=false]:hover{
-  background-image:asset-url("angle-arrow-down-primary.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("angle-arrow-down-primary.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "angle-arrow-down-primary.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "angle-arrow-down-primary.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
 }
 #fba-modal-dialog .usa-nav__primary button[aria-expanded=true]{
-  background-image:asset-url("angle-arrow-up-white.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:asset-url("angle-arrow-up-white.svg"), linear-gradient(transparent, transparent);
+  background-image:url(<%= asset_path "angle-arrow-up-white.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+  background-image:url(<%= asset_path "angle-arrow-up-white.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
   -moz-osx-font-smoothing:grayscale;
   -webkit-font-smoothing:antialiased;
@@ -4051,7 +4051,7 @@ img{
   #fba-modal-dialog .usa-checkbox__input:checked:disabled + #fba-modal-dialog .usa-checkbox__label::before{
     background-image:none;
     background-color:white;
-    content:asset-url("correct8-alt.svg");
+    content:url(<%= asset_path "correct8-alt.svg" %>);
     text-indent:0;
   }
 }
@@ -4061,8 +4061,8 @@ img{
     width:100%;
   }
   #fba-modal-dialog .usa-banner__button[aria-expanded=true]::after{
-    background-image:asset-url("close-blue-60v-alt.svg"), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-    background-image:asset-url("close-blue-60v-alt.svg"), linear-gradient(transparent, transparent);
+    background-image:url(<%= asset_path "close-blue-60v-alt.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
+    background-image:url(<%= asset_path "close-blue-60v-alt.svg" %>), linear-gradient(transparent, transparent);
     background-repeat:no-repeat;
     background-position:center center;
     background-repeat:no-repeat;
