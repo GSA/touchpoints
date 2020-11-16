@@ -58,18 +58,22 @@ feature "Submissions", js: true do
         describe "delete a Submission" do
           context "with one Submission" do
             let!(:submission) { FactoryBot.create(:submission, form: form) }
+            let!(:submission2) { FactoryBot.create(:submission, form: form, answer_01: "Unique Text askldfjsadkl;fsda") }
 
             before do
               visit responses_admin_form_path(form)
               expect(page).to have_css(".responses table tbody tr")
+              expect(page.find_all(".responses table tbody tr").size).to eq(2)
               within("table.submissions") do
-                click_on "Delete"
+                first("tr.response").click_on "Delete" # latest response
               end
               page.driver.browser.switch_to.alert.accept
             end
 
             it "successfully deletes a Submission" do
-              expect(page).to_not have_css(".responses table tbody tr")
+              expect(page).to have_content(submission.answer_01)
+              expect(page).to_not have_content(submission2.answer_01)
+              expect(page.find_all(".responses table tbody tr").size).to eq(1)
             end
           end
         end
