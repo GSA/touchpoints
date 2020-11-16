@@ -200,5 +200,21 @@ FactoryBot.define do
         )
       end
     end
+
+    trait :yes_no_buttons do
+      name { "Yes/No buttons form" }
+      kind { "custom" }
+      delivery_method { "inline" }
+      element_selector { "touchpoint-goes-here" }
+      after(:create) do |f, evaluator|
+        FactoryBot.create(:question,
+          form: f,
+          answer_field: :answer_01,
+          question_type: "yes_no_buttons",
+          form_section: f.form_sections.first,
+          text: "Was this page useful?"
+        )
+      end
+    end
   end
 end
