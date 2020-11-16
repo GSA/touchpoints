@@ -4,7 +4,7 @@ class Admin::SubmissionsController < AdminController
   before_action :set_submission, only: [:flag, :unflag, :destroy]
 
   def index
-    @submissions = @form.submissions.includes(:organization)
+    @submissions = @form.submissions.includes(:organization).order(" created_at desc").page params[:page]
   end
 
   def flag
@@ -30,8 +30,7 @@ class Admin::SubmissionsController < AdminController
 
     @submission.destroy
     respond_to do |format|
-      format.html { redirect_to responses_admin_form_path(@form), notice: "Response #{@submission.id} was successfully destroyed." }
-      format.json { head :no_content }
+      format.js { render :destroy }
     end
   end
 

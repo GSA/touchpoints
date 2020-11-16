@@ -165,9 +165,9 @@ function FBAform(d, N) {
 		},
 		handleYesNoSubmitClick: function(e) {
 			e.preventDefault();
-
+			
 			var input = this.formComponent().querySelector('.fba-touchpoints-page-form');
-			input.value = this.value;
+			input.value = e.target.value;
 			this.resetErrors();
 			var self = this;
 			var formElement = this.formElement();
