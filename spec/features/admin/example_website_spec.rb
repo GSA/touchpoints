@@ -89,5 +89,40 @@ feature "Example Website Integration", js: true do
       end
     end
 
+    context "Yes/No Buttons" do
+      let(:yes_no_buttons_form) { FactoryBot.create(:form, :yes_no_buttons, organization: organization, user: admin) }
+
+      before do
+        visit example_admin_form_path(yes_no_buttons_form)
+      end
+
+      it "loads the form inline" do
+        expect(page).to have_content("Do you have a few minutes to help us test this site?")
+        expect(page).to have_content("Was this page useful?")
+      end
+
+      describe "submits `Yes`" do
+        before do
+          click_on "yes"
+        end
+
+        it "display success message" do
+          expect(page).to have_content("Thank you. Your feedback has been received.")
+          expect(yes_no_buttons_form.submissions.first.answer_01).to eq("yes")
+        end
+      end
+
+      describe "submits `No`" do
+        before do
+          click_on "no"
+        end
+
+        it "display success message" do
+          expect(page).to have_content("Thank you. Your feedback has been received.")
+          expect(yes_no_buttons_form.submissions.first.answer_01).to eq("no")
+        end
+      end
+    end
+
   end
 end

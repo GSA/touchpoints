@@ -58,7 +58,7 @@
               <% end %>
             <% end %>
             <% if form_permissions?(form: form) %>
-              <%= link_to admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--secondary", method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <%= link_to admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--secondary", method: :delete, remote: true, data: { confirm: 'Are you sure?' } do %>
               <i class="fas fa-trash"></i>
               Delete
               <% end %>
