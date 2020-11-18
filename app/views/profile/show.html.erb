@@ -20,6 +20,7 @@
       </div>
       <div class="field">
         <%= label_tag :api_key, "API Key", class: "usa-label" %>
+        <%= f.text_field :api_key, class: "usa-input" %>
         <% if current_user.api_key.present? %>
           <% if  @api_key_warning %>
             <div class="usa-alert usa-alert--warning" >
@@ -30,8 +31,9 @@
               </div>
             </div>
           <% end %>
-          <pre><%= current_user.api_key %></pre>
           <span class="usa-hint">last updated at <%= format_time(current_user.api_key_updated_at, current_user.time_zone) %></span>
+          <br>
+          <br>
           <div class="usa-alert usa-alert--info" >
             <div class="usa-alert__body">
               <h3 class="usa-alert__heading">API Documentation</h3>
@@ -43,19 +45,6 @@
           </div>
         <% end %>
         <br>
-      </div>
-      <div class="field">
-        <% if current_user.api_key.blank? %>
-          <%= link_to "/profile/api_key", class: "usa-button usa-button--outline profile-add-api-key" do %>
-            <i class="fa fa-plus"></i>
-            Generate API Key
-          <% end %>
-        <% else %>
-          <%= link_to "/profile/delete_api_key", class: "usa-button usa-button--secondary profile-delete-api-key" do %>
-            <i class="fa fa-times"></i>&nbsp;
-            Remove API Key
-          <% end %>
-        <% end %>
       </div>
       <div class="field">
         <br/>
