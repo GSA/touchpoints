@@ -12,6 +12,14 @@ class User < ApplicationRecord
   has_many :user_roles, dependent: :destroy
   has_many :forms, through: :user_roles, primary_key: "form_id"
 
+  before_update :update_api_key_updated_at
+
+  def update_api_key_updated_at
+    if self.api_key_changed?
+      self.api_key_updated_at = Time.now
+    end
+  end
+
 
   after_create :send_new_user_notification
 
