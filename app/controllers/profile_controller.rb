@@ -2,7 +2,6 @@ class ProfileController < ApplicationController
   before_action :ensure_user
 
   def show
-    redirect_to admin_root_path
   end
 
   def update
