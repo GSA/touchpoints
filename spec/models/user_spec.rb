@@ -103,16 +103,16 @@ RSpec.describe User, type: :model do
         expect(@user.api_key_updated_at).to be_nil
       end
 
-      it "api_key is generated" do
-        @user.set_api_key
-        expect(@user.api_key.length).to be > 0
-        expect(@user.api_key_updated_at).to be > Time.now - 1.minute
+      it "api_key must be 40 characters long, to match api.data.gov" do
+        @user.update(api_key: "key too short")
+        expect(@user.errors.full_messages.first).to eq("Api key is not 40 characters, as expected from api.data.gov.")
       end
 
-      it "api_key is removed" do
-        @user.unset_api_key
-        expect(@user.api_key).to be_nil
+      it "api_key_updated_at is updated when the API Key is updated" do
         expect(@user.api_key_updated_at).to be_nil
+        @user.update(api_key: TEST_API_KEY)
+
+        expect(@user.api_key_updated_at).to_not be_nil
       end
     end
   end
