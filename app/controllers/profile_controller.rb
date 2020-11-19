@@ -5,8 +5,11 @@ class ProfileController < ApplicationController
   end
 
   def update
-    current_user.update_attributes(user_params)
-    redirect_to profile_path, notice: "User profile updated"
+    if current_user.update(user_params)
+      redirect_to profile_path, notice: "User profile updated"
+    else
+      render :show
+    end
   end
 
 private

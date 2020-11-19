@@ -7,6 +7,16 @@
     Back to My Surveys
   <% end %>
 </p>
+<% if current_user.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(current_user.errors.count, "error") %> prohibited this user from being saved:</h2>
+    <ul class="usa-list">
+    <% current_user.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
 <%= form_with(model: current_user, url: "profile", local: true) do |f| %>
   <div class="grid-row grid-gap-md">
     <div class="tablet:grid-col-6">
@@ -20,7 +30,7 @@
       </div>
       <div class="field">
         <%= label_tag :api_key, "API Key", class: "usa-label" %>
-        <%= f.text_field :api_key, class: "usa-input" %>
+        <%= f.text_field :api_key, class: "usa-input", placeholder: "40 character api.data.gov API Key" %>
         <% if current_user.api_key.present? %>
           <% if  @api_key_warning %>
             <div class="usa-alert usa-alert--warning" >

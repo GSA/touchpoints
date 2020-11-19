@@ -12,11 +12,18 @@ class User < ApplicationRecord
   has_many :user_roles, dependent: :destroy
   has_many :forms, through: :user_roles, primary_key: "form_id"
 
-  before_update :update_api_key_updated_at
+  validate :api_key_format
+  before_save :update_api_key_updated_at
 
   def update_api_key_updated_at
     if self.api_key_changed?
       self.api_key_updated_at = Time.now
+    end
+  end
+
+  def api_key_format
+    if self.api_key.present? && self.api_key.length != 40
+      errors.add(:api_key, "is not 40 characters, as expected from api.data.gov.")
     end
   end
 
