@@ -29,8 +29,15 @@ feature "Profile", js: true do
           visit profile_path
         end
 
-        it 'enters new api key' do
+        it 'enters an invalid (too short) new api key' do
           fill_in("user[api_key]", with: "123")
+          click_on "Update User"
+          expect(page).to have_content("Api key is not 40 characters, as expected from api.data.gov.")
+          expect(page.current_path).to have_content(profile_path)
+        end
+
+        it 'enters new, valid api key' do
+          fill_in("user[api_key]", with: TEST_API_KEY)
           click_on "Update User"
           expect(page).to have_content("User profile updated")
           expect(page.current_path).to have_content(profile_path)
