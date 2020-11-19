@@ -39,7 +39,7 @@ feature "Profile", js: true do
 
       context "with the api key set" do
         before do
-          user.set_api_key
+          user.update_attribute(:api_key, TEST_API_KEY)
           visit profile_path
         end
 

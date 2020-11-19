@@ -31,10 +31,10 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v0 do
-      resources :forms, only: [:index, :get]
+      resources :forms, only: [:index, :show]
     end
     namespace :v1 do
-      resources :forms, only: [:index, :get]
+      resources :forms, only: [:index, :show]
     end
   end
 
