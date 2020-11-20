@@ -191,41 +191,6 @@ module Seeds
         is_required: false
       })
 
-      matrix_checkbox_question = Question.create!({
-        form: custom_form,
-        form_section: custom_elements_section,
-        text: "Matrix checkboxes",
-        question_type: "matrix_checkboxes",
-        position: 11,
-        answer_field: :answer_11,
-        is_required: false
-      })
-
-      QuestionOption.create!({
-        question: matrix_checkbox_question,
-        text: "Option 1",
-        value: 1,
-        position: 1
-      })
-      QuestionOption.create!({
-        question: matrix_checkbox_question,
-        text: "Option 2",
-        value: 2,
-        position: 2
-      })
-      QuestionOption.create!({
-        question: matrix_checkbox_question,
-        text: "Option 3",
-        value: 3,
-        position: 3
-      })
-      QuestionOption.create!({
-        question: matrix_checkbox_question,
-        text: "Option 4",
-        value: 4,
-        position: 4
-      })
-
       custom_form
     end
   end
