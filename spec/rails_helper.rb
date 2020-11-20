@@ -41,6 +41,8 @@ Capybara.javascript_driver = :selenium_chrome
 Capybara.default_max_wait_time = 3
 Capybara.raise_server_errors = false
 
+TEST_API_KEY = "1234567890123456789012345678901234567890"
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

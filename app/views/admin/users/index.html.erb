@@ -18,7 +18,7 @@
 
     <tbody>
       <% @users.each do |user| %>
-        <tr>
+        <tr class="user" data-id="<%= user.id %>">
         <% if current_user.admin? %>
           <td class="text-center"><%= user.admin? ? '✅' : nil %></td>
         <% end %>
