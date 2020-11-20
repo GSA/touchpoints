@@ -27,7 +27,7 @@
 <div class="sorting-div list-group" id="sections">
   <% multi_section_question_number = 0 %>
   <% form.form_sections.each do |section| %>
-    <div class="form-section-div list-group-item" id="<%= dom_id(section) %>" data-url="<%= admin_form_form_section_path(section) %>/sort" data-id="<%= section.id %>">
+    <div class="form-section-div" id="<%= dom_id(section) %>" data-url="<%= admin_form_form_section_path(section) %>/sort" data-id="<%= section.id %>">
       <div class="section-header-div">
         <div class="section-title-view">
           <span class="section-title-lbl"><%= section.title %></span>
@@ -46,7 +46,7 @@
         <div class="questions">
           <% section.questions.each_with_index do |question, index| %>
             <% multi_section_question_number += 1 %>
-            <div class="question well list-group-item" id="<%= dom_id(question) %>" >
+            <div class="question well" id="<%= dom_id(question) %>" >
               <%= render 'components/forms/edit/button_dropdown', { form: form, question: question } if form_permissions?(form: form) %>
 
               <% if question.question_type == "text_field" %>
@@ -67,8 +67,6 @@
                 <% @form_component_path = 'components/forms/question_types/custom_text_display' %>
               <% elsif question.question_type == "star_radio_buttons" %>
                 <% @form_component_path = 'components/forms/question_types/star_radio_buttons' %>
-              <% elsif question.question_type == "matrix_checkboxes" %>
-                <% @form_component_path = 'components/forms/edit/question_types/matrix_checkboxes' %>
               <% elsif question.question_type == "yes_no_buttons" %>
                 <% @form_component_path = 'components/forms/question_types/yes_no_buttons' %>
               <% elsif question.question_type == "text_display" %>
@@ -388,7 +386,7 @@ $(function() {
 
   $('.form-edit-question-dropdown-option').on("click", function(event) {
     event.preventDefault();
-    var contentDiv =  $(this).closest('div.radio-button');
+    var contentDiv =  $(this).closest('div.usa-radio');
     $.ajax({
       type: "GET",
       url: $(this).attr("href"),
