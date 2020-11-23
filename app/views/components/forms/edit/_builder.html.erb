@@ -4,10 +4,7 @@
   <i class="fas fa-pencil-alt" title="Edit form title"></i>
 </h2>
 <div class="form-title-edit">
-  <input type="text" value="<%= form.title %>" class="usa-input display-inline form-title" />
-  <a href="<%= admin_form_path(form) %>" class="form-title-save">
-    <i class="fas fa-save" title="Save form title"></i>
-  </a>
+  <input type="text" value="<%= form.title %>" class="usa-input display-inline form-title-input" data-url="<%= admin_form_path(form) %>" />
 </div>
 
 <div class="fba-instructions">
@@ -202,16 +199,16 @@ $(function() {
     }
   });
 
-  $('.form-title-save').on("click", function(event) {
+  $('.form-title-input').on("blur", function(event) {
     event.preventDefault();
-    var titleInput = $('.form-title');
+    var titleInput = $('.form-title-input');
     var titleLabel = $('.form-title-lbl');
     $(titleLabel).html($(titleInput).val());
     $('.form-title-edit').hide();
     $('.form-title-view').show();
     $.ajax({
       type: "PATCH",
-      url: $(this).attr("href") + "/update_title",
+      url: $(this).attr("data-url") + "/update_title",
       data: {title: $(titleInput).val()}
     });
   });
