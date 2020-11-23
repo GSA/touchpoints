@@ -28,7 +28,7 @@
       <br>
     <% end %>
   <% else %>
-    <%= f.select :question_type, Question::QUESTION_TYPES - ["text_display", "star_radio_buttons", "yes_no_buttons", "thumbs_up_down_buttons", "matrix_checkboxes", "custom_text_display"], { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
+    <%= f.select :question_type, Question::QUESTION_TYPES - ["text_display", "star_radio_buttons", "yes_no_buttons", "thumbs_up_down_buttons", "custom_text_display"], { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
   <% end %>
   </div>
 

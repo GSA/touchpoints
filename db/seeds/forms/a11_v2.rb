@@ -32,7 +32,7 @@ module Seeds
         form: a11_v2_form,
         form_section: (a11_v2_form.form_sections.first),
         text: "What went well?",
-        question_type: "matrix_checkboxes",
+        question_type: "checkbox",
         position: 2,
         answer_field: :answer_02,
         is_required: true
