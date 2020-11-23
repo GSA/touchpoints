@@ -2132,7 +2132,8 @@ img{
   color:#54278f;
 }
 
-#fba-modal-dialog .usa-banner__button:hover, #fba-modal-dialog .usa-banner__button:active{
+#fba-modal-dialog .usa-banner__button:hover,
+#fba-modal-dialog .usa-banner__button:active{
   -moz-osx-font-smoothing:auto;
   -webkit-font-smoothing:subpixel-antialiased;
   background-color:transparent;
@@ -2143,8 +2144,14 @@ img{
 #fba-modal-dialog .usa-banner__button:visited{
   color:#54278f;
 }
-#fba-modal-dialog .usa-banner__button:hover, .usa-banner__button:active{
+#fba-modal-dialog .usa-banner__button:hover,
+#fba-modal-dialog .usa-banner__button:active{
   color:#0b4778;
+}
+@media all and (max-width: 39.99em){
+  #fba-modal-dialog .usa-banner__button{
+    width:100%;
+  }
 }
 
 #fba-modal-dialog .usa-banner__button[aria-expanded=false]{
@@ -2782,35 +2789,10 @@ img{
     padding:0 0 0.25rem 0.5rem;
     width:100%;
   }
-  #fba-modal-dialog .usa-header--basic .usa-nav__primary-item > .usa-current,
-.usa-header--basic .usa-nav__link:hover{
-    position:relative;
-  }
-  #fba-modal-dialog .usa-header--basic .usa-nav__primary-item > .usa-current::after,
-.usa-header--basic .usa-nav__link:hover::after{
-    background-color:#005ea2;
-    border-radius:0;
-    content:"";
-    display:block;
-    position:absolute;
-    height:0.25rem;
-    left:1rem;
-    right:1rem;
-    bottom:-0.25rem;
-  }
+  /* not using usa-nav__primary */
   #fba-modal-dialog .usa-header--basic .usa-nav__link[aria-expanded=true]::after,
 .usa-header--basic .usa-nav__link[aria-expanded=true]:hover::after{
     display:none;
-  }
-  #fba-modal-dialog .usa-header--basic .usa-nav__primary{
-    width:auto;
-  }
-  #fba-modal-dialog .usa-header--basic .usa-nav__primary-item:last-of-type{
-    position:relative;
-  }
-  #fba-modal-dialog .usa-header--basic .usa-nav__primary-item:last-of-type .usa-nav__submenu{
-    position:absolute;
-    right:0;
   }
   #fba-modal-dialog .usa-header--basic .usa-search{
     top:0;
@@ -2827,31 +2809,10 @@ img{
     margin-top:-2.5rem;
   }
 }
-@media all and (min-width: 64em){
-  #fba-modal-dialog .usa-header--basic.usa-header--megamenu .usa-nav__primary-item:last-of-type{
-    position:static;
-  }
-}
 
 @media all and (min-width: 64em){
   #fba-modal-dialog .usa-header--extended{
     padding-top:0;
-  }
-  #fba-modal-dialog .usa-header--extended .usa-nav__primary-item > .usa-current,
-.usa-header--extended .usa-nav__primary-item > .usa-nav__link:hover{
-    position:relative;
-  }
-  #fba-modal-dialog .usa-header--extended .usa-nav__primary-item > .usa-current::after,
-.usa-header--extended .usa-nav__primary-item > .usa-nav__link:hover::after{
-    background-color:#005ea2;
-    border-radius:0;
-    content:"";
-    display:block;
-    position:absolute;
-    height:0.25rem;
-    left:1rem;
-    right:1rem;
-    bottom:0;
   }
   #fba-modal-dialog .usa-header--extended .usa-nav__link[aria-expanded=true]::after,
 .usa-header--extended .usa-nav__link[aria-expanded=true]:hover::after{
@@ -2907,30 +2868,9 @@ img{
   }
 }
 @media all and (min-width: 64em){
-  #fba-modal-dialog .usa-header--extended .usa-nav__primary{
-    margin-left:-1rem;
-  }
-  #fba-modal-dialog .usa-header--extended .usa-nav__primary::after{
-    clear:both;
-    content:"";
-    display:block;
-  }
-}
-@media all and (min-width: 64em){
   #fba-modal-dialog .usa-header--extended .usa-nav__link{
     padding-bottom:1rem;
     padding-top:1rem;
-  }
-}
-@media all and (min-width: 64em){
-  #fba-modal-dialog .usa-header--extended .usa-nav__submenu .usa-grid-full{
-    padding-left:0.75rem;
-  }
-}
-@media all and (min-width: 64em){
-  #fba-modal-dialog .usa-header--extended .usa-nav__submenu.usa-megamenu{
-    left:0;
-    padding-left:2rem;
   }
 }
 
@@ -2989,123 +2929,6 @@ img{
   font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
   font-size:1.06rem;
   line-height:0.9;
-}
-
-#fba-modal-dialog .usa-nav__primary .usa-nav__primary-item a{
-  text-decoration:none;
-}
-
-#fba-modal-dialog .usa-nav__primary > .usa-nav__primary-item{
-  line-height:1.1;
-}
-
-#fba-modal-dialog .usa-nav__primary button{
-  -moz-osx-font-smoothing:auto;
-  -webkit-font-smoothing:subpixel-antialiased;
-  color:#005ea2;
-  text-decoration:underline;
-  background-color:transparent;
-  border:0;
-  border-radius:0;
-  box-shadow:none;
-  font-weight:normal;
-  margin:0;
-  padding:0;
-  text-align:left;
-  color:#565c65;
-  font-weight:normal;
-  line-height:1.1;
-  padding:0.75rem 1rem;
-  text-decoration:none;
-}
-
-#fba-modal-dialog .usa-nav__primary button:hover{
-  color:#1a4480;
-}
-
-#fba-modal-dialog .usa-nav__primary button:active{
-  color:#162e51;
-}
-
-#fba-modal-dialog .usa-nav__primary button:focus{
-  outline:0.25rem solid #2491ff;
-  outline-offset:0;
-}
-
-#fba-modal-dialog .usa-nav__primary button:visited{
-  color:#562b97;
-}
-
-#fba-modal-dialog .usa-nav__primary button:hover,
-#fba-modal-dialog .usa-nav__primary button:active{
-  -moz-osx-font-smoothing:auto;
-  -webkit-font-smoothing:subpixel-antialiased;
-  background-color:transparent;
-  box-shadow:none;
-  text-decoration:underline;
-}
-@media all and (min-width: 64em){
-  #fba-modal-dialog .usa-nav__primary button{
-    line-height:0.9;
-    padding:1rem;
-    font-size:0.93rem;
-    font-weight:bold;
-  }
-}
-#fba-modal-dialog .usa-nav__primary button:hover{
-  color:#005ea2;
-  background-color:#f0f0f0;
-  text-decoration:none;
-}
-@media all and (min-width: 64em){
-  #fba-modal-dialog .usa-nav__primary button:hover{
-    background-color:transparent;
-  }
-}
-#fba-modal-dialog .usa-nav__primary button[aria-expanded=false]{
-  background-image:url(<%= asset_path "plus-alt.svg" %>), linear-gradient(transparent, transparent);
-  background-repeat:no-repeat;
-  background-position:right 0 center;
-  background-size:0.75rem;
-}
-@media all and (min-width: 64em){
-  #fba-modal-dialog .usa-nav__primary button[aria-expanded=false]{
-    background-image:url(<%= asset_path "angle-arrow-down.svg" %>), linear-gradient(transparent, transparent);
-    background-repeat:no-repeat;
-    background-size:0.5rem;
-    background-position:right 1rem top 53%;
-  }
-}
-@media all and (min-width: 64em){
-  #fba-modal-dialog .usa-nav__primary button[aria-expanded=false]:hover{
-    background-image:url(<%= asset_path "angle-arrow-down-primary.svg" %>), linear-gradient(transparent, transparent);
-    background-repeat:no-repeat;
-  }
-}
-
-#fba-modal-dialog .usa-nav__primary button[aria-expanded=true]{
-  background-image:url(<%= asset_path "minus-alt.svg" %>), linear-gradient(transparent, transparent);
-  background-repeat:no-repeat;
-  background-position:right 0 center;
-  background-size:0.75rem;
-}
-@media all and (min-width: 64em){
-  #fba-modal-dialog .usa-nav__primary button[aria-expanded=true]{
-    background-image:url(<%= asset_path "angle-arrow-up-white.svg" %>), linear-gradient(transparent, transparent);
-    background-repeat:no-repeat;
-    -moz-osx-font-smoothing:grayscale;
-    -webkit-font-smoothing:antialiased;
-    background-size:0.5rem;
-    background-color:#162e51;
-    background-position:right 1rem top 53%;
-    color:white;
-  }
-}
-@media all and (min-width: 64em){
-  #fba-modal-dialog .usa-nav__primary .usa-accordion__button span{
-    margin-right:0;
-    padding-right:1rem;
-  }
 }
 
 #fba-modal-dialog .usa-nav__secondary{
@@ -3884,9 +3707,6 @@ img{
   right:1rem;
   bottom:-0.25rem;
 }
-#fba-modal-dialog .usa-header--basic #fba-modal-dialog .usa-nav__primary{
-  width:auto;
-}
 #fba-modal-dialog .usa-header--basic #fba-modal-dialog .usa-search{
   top:0;
 }
@@ -3935,17 +3755,9 @@ img{
   padding-left:1rem !important;
   position:relative;
 }
-#fba-modal-dialog .usa-header--extended #fba-modal-dialog .usa-nav__primary::after{
-  clear:both;
-  content:'';
-  display:block;
-}
 #fba-modal-dialog .usa-header--extended #fba-modal-dialog .usa-nav__link{
   padding-bottom:1rem;
   padding-top:1rem;
-}
-#fba-modal-dialog .usa-header--extended #fba-modal-dialog .usa-nav__submenu #fba-modal-dialog .usa-grid-full{
-  padding-left:0.75rem;
 }
 #fba-modal-dialog .usa-header--extended #fba-modal-dialog .usa-megamenu{
   left:0;
@@ -3965,65 +3777,6 @@ img{
 }
 #fba-modal-dialog .usa-nav #fba-modal-dialog .usa-search{
   margin-left:1rem;
-}
-#fba-modal-dialog .usa-nav__primary{
-  display:-webkit-box;
-  display:-ms-flexbox;
-  display:flex;
-}
-#fba-modal-dialog .usa-nav__primary > #fba-modal-dialog .usa-nav__primary-item{
-  font-size:0.93162rem;
-  line-height:0.93923;
-}
-#fba-modal-dialog .usa-nav__primary > #fba-modal-dialog .usa-nav__primary-item > a{
-  line-height:0.93923;
-  padding:1rem;
-  color:#565c65;
-  display:block;
-  font-weight:bold;
-}
-#fba-modal-dialog .usa-nav__primary > #fba-modal-dialog .usa-nav__primary-item > a:hover{
-  color:#005ea2;
-}
-#fba-modal-dialog .usa-nav__primary a{
-  padding-bottom:0.5rem;
-  padding-top:0.5rem;
-}
-#fba-modal-dialog .usa-nav__primary button{
-  line-height:0.93923;
-  padding:1rem;
-  font-size:0.93162rem;
-  font-weight:bold;
-}
-#fba-modal-dialog .usa-nav__primary button:hover{
-  background-color:transparent;
-}
-#fba-modal-dialog .usa-nav__primary button[aria-expanded=false]{
-  background-image:url(<%= asset_path "angle-arrow-down.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:url(<%= asset_path "angle-arrow-down.svg" %>), linear-gradient(transparent, transparent);
-  background-repeat:no-repeat;
-  background-size:0.5rem;
-  background-position:right 1rem top 53%;
-}
-#fba-modal-dialog .usa-nav__primary button[aria-expanded=false]:hover{
-  background-image:url(<%= asset_path "angle-arrow-down-primary.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:url(<%= asset_path "angle-arrow-down-primary.svg" %>), linear-gradient(transparent, transparent);
-  background-repeat:no-repeat;
-}
-#fba-modal-dialog .usa-nav__primary button[aria-expanded=true]{
-  background-image:url(<%= asset_path "angle-arrow-up-white.svg" %>), -webkit-gradient(linear, left top, left bottom, from(transparent), to(transparent));
-  background-image:url(<%= asset_path "angle-arrow-up-white.svg" %>), linear-gradient(transparent, transparent);
-  background-repeat:no-repeat;
-  -moz-osx-font-smoothing:grayscale;
-  -webkit-font-smoothing:antialiased;
-  background-size:0.5rem;
-  background-color:#162e51;
-  background-position:right 1rem top 53%;
-  color:white;
-}
-#fba-modal-dialog .usa-nav__primary #fba-modal-dialog .usa-accordion__button span{
-  margin-right:0;
-  padding-right:1rem;
 }
 #fba-modal-dialog .usa-nav__secondary{
   bottom:4rem;
@@ -4051,31 +3804,6 @@ img{
   color:#dcdee0;
   content:'|';
   padding-right:0.25rem;
-}
-#fba-modal-dialog .usa-nav__submenu{
-  margin-bottom:0;
-  margin-top:0;
-  list-style-type:none;
-  padding-left:0;
-  background-color:#162e51;
-  width:15rem;
-  padding:1rem;
-  position:absolute;
-  z-index:400;
-}
-#fba-modal-dialog .usa-nav__submenu #fba-modal-dialog .usa-nav__submenu-item + *{
-  margin-top:0.75rem;
-}
-#fba-modal-dialog .usa-nav__submenu #fba-modal-dialog .usa-nav__submenu-item a{
-  color:white;
-  padding:0;
-  line-height:1.26796;
-}
-#fba-modal-dialog .usa-nav__submenu #fba-modal-dialog .usa-nav__submenu-item a:hover{
-  background-color:transparent;
-  color:white;
-  padding:0;
-  text-decoration:underline;
 }
 #fba-modal-dialog .usa-nav__close{
   display:none;
@@ -4192,85 +3920,6 @@ img{
     display:-webkit-box;
     display:-ms-flexbox;
     display:flex;
-  }
-  #fba-modal-dialog .usa-nav__primary{
-    margin-bottom:0;
-    margin-top:0;
-    list-style-type:none;
-    padding-left:0;
-    margin-top:1.5rem;
-    -webkit-box-ordinal-group:3;
-        -ms-flex-order:2;
-            order:2;
-  }
-  #fba-modal-dialog .usa-nav__primary > li{
-    margin-bottom:0;
-    max-width:unset;
-  }
-  #fba-modal-dialog .usa-nav__primary-item{
-    border-top:1px solid #dcdee0;
-  }
-  #fba-modal-dialog .usa-nav__primary a{
-    color:#565c65;
-    display:block;
-    padding:0.5rem 1rem;
-    text-decoration:none;
-  }
-  #fba-modal-dialog .usa-nav__primary a:hover{
-    background-color:#f0f0f0;
-    color:#005ea2;
-    text-decoration:none;
-  }
-  #fba-modal-dialog .usa-nav__primary a:focus{
-    outline-offset:0;
-  }
-  #fba-modal-dialog .usa-nav__primary #fba-modal-dialog .usa-current{
-    position:relative;
-    color:#005ea2;
-    font-weight:bold;
-  }
-  #fba-modal-dialog .usa-nav__primary #fba-modal-dialog .usa-current::after{
-    background-color:#005ea2;
-    border-radius:99rem;
-    content:'';
-    display:block;
-    position:absolute;
-    bottom:0.25rem;
-    top:0.25rem;
-    width:0.25rem;
-    left:0.25rem;
-  }
-  #fba-modal-dialog .usa-nav__primary a{
-    padding-bottom:0.75rem;
-    padding-top:0.75rem;
-  }
-  #fba-modal-dialog .usa-nav__submenu{
-    margin-bottom:0;
-    margin-top:0;
-    list-style-type:none;
-    padding-left:0;
-    margin:0;
-  }
-  #fba-modal-dialog .usa-nav__submenu > li{
-    margin-bottom:0;
-    max-width:unset;
-  }
-  #fba-modal-dialog .usa-nav__submenu-item{
-    border-top:1px solid #dcdee0;
-    font-size:0.93162rem;
-  }
-  #fba-modal-dialog .usa-nav__submenu #fba-modal-dialog .usa-current::after{
-    display:none;
-  }
-  #fba-modal-dialog .usa-nav__submenu a{
-    padding-left:2rem;
-  }
-  #fba-modal-dialog .usa-nav__submenu #fba-modal-dialog .usa-nav__submenu a{
-    padding-left:3rem;
-  }
-  #fba-modal-dialog .usa-nav__submenu #fba-modal-dialog .usa-nav__submenu #fba-modal-dialog .usa-nav__submenu a{
-    content:'foobar';
-    padding-left:4rem;
   }
 }
 
