@@ -193,34 +193,27 @@ feature "Forms", js: true do
             end
 
             it "has inline editable title that can be updated and saved" do
-              find(".form-title-lbl").click
-              expect(find("input.form-title")).to be_visible
-              find("input.form-title").set("Updated Form Title")
-              find(".form-title-edit .fa-save").click
-              expect(find(".form-title-lbl")).to have_content("Updated Form Title")
+              find(".survey-title-input").set("Updated Form Title")
+              find("#instructions").click
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find(".form-title-lbl")).to have_content("Updated Form Title")
+              expect(find(".survey-title-input").value).to eq("Updated Form Title")
             end
 
             it "has inline editable instructions textbox that can be updated and saved" do
-              find(".fba-instructions .edit.button").click
-              fill_in("instructions", with: "<a href="">HTML Instruct</a>ions")
-              find(".fba-instructions .save.button").click
-              expect(find(".fba-instructions")).to have_link("HTML Instruct")
+              find("#instructions").set("<a href="">HTML Instruct</a>ions")
+              find("#disclaimer_text").click
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find(".fba-instructions")).to have_link("HTML Instruct")
+              expect(find("#instructions").value).to have_link("HTML Instruct")
             end
 
             it "has inline editable disclaimer text textbox that can be updated and saved" do
-              find(".fba-disclaimer-text .edit.button").click
-              fill_in("disclaimer_text", with: "Disclaaaaaaaimer!")
-              find(".fba-disclaimer-text .save.button").click
-              expect(find(".fba-disclaimer-text")).to have_content("Disclaaaaaaaimer!")
+              find("#disclaimer_text").set("Disclaaaaaaaimer!")
+              find("#instructions").click
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find(".fba-disclaimer-text")).to have_content("Disclaaaaaaaimer!")
+              expect(find("#disclaimer_text").value).to eq("Disclaaaaaaaimer!")
             end
           end
         end
