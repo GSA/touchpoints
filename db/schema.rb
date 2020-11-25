@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 2020_11_11_135309) do
     t.boolean "load_css", default: true
     t.string "logo"
     t.string "occasion"
-    t.string "time_zone"
+    t.string "time_zone", default: "Eastern Time (US & Canada)"
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["uuid"], name: "index_forms_on_uuid"
