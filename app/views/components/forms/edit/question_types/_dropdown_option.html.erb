@@ -1,4 +1,4 @@
-<div class="question-option list-group-item" id="<%= dom_id(option) %>" data-id="<%= option.id %>">
+<div class="question-option" id="<%= dom_id(option) %>" data-id="<%= option.id %>">
   <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}") do %>
     <%= render 'components/forms/edit/question_types/update_value_text_fields', { question: question, option: option } %>
   <% end %>

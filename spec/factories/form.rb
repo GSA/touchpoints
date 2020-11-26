@@ -157,7 +157,7 @@ FactoryBot.define do
           :with_checkbox_options,
           form: f,
           answer_field: :answer_02,
-          question_type: "matrix_checkboxes",
+          question_type: "checkbox",
           form_section: f.form_sections.first,
           text: "Name"
         )
