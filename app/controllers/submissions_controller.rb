@@ -46,8 +46,9 @@ class SubmissionsController < ApplicationController
     @submission.referer = submission_params[:referer]
     @submission.page = submission_params[:page]
     @submission.ip_address = request.remote_ip
-
-    create_in_local_database(@submission)
+    @result = create_in_local_database(@submission)
+    @form.update(response_count: @form.submissions.size, last_response_created_at: @submission.created_at)
+    @result
   end
 
 
@@ -105,7 +106,6 @@ class SubmissionsController < ApplicationController
           @short_uuid = LEGACY_TOUCHPOINTS_URL_MAP[params[:touchpoint_id].to_s]
         end
       end
-
       @form = FormCache.fetch(@short_uuid)
       raise ActiveRecord::RecordNotFound, "no form with ID of #{@short_uuid}" unless @form.present?
     end
