@@ -47,15 +47,9 @@
           <td><%= format_time(submission.created_at, submission.form.time_zone.present? ? submission.form.time_zone : current_user.time_zone) %></td>
           <td>
             <% if submission.flagged? %>
-              <%= link_to unflag_admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--outline", method: :post, data: { confirm: 'Are you sure?' } do %>
-              <i class="far fa-times-circle"></i>
-              Flagged
-              <% end %>
+              <%= render :partial => "admin/submissions/flag", :locals => { submission: submission } %>
             <% else %>
-              <%= link_to flag_admin_form_submission_path(submission.form, submission), class: "usa-button", method: :post, data: { confirm: 'Are you sure?' } do %>
-                <i class="far fa-flag"></i>
-                Flag
-              <% end %>
+              <%= render :partial => "admin/submissions/unflag", :locals => { submission: submission } %>
             <% end %>
             <% if form_permissions?(form: form) %>
               <%= link_to admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--secondary", method: :delete, remote: true, data: { confirm: 'Are you sure?' } do %>
