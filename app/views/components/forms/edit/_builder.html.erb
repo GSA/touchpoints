@@ -1,16 +1,19 @@
+<% @tabindex = 0 %>
 <div class="form-title-edit">
-  <span class='usa-hint'>Survey Title</span>
-  <br/>
-  <input type="text" value="<%= form.title %>" class="usa-input display-inline survey-title-input" data-url="<%= admin_form_path(form) %>" />
+  <h3><span type="text" contenteditable="true" tabindex=<%= @tabindex += 1 %> class="usa-label display-inline survey-title-input" data-url="<%= admin_form_path(form) %>">
+    <%= form.title.present? ? form.title : 'Survey Title'  %>
+  </span>
   &nbsp;
   <span class="usa-hint save-notice survey-title">
      <i class="fa fa-check-circle" aria-hidden="true"></i> survey title saved
-  </span>
+  </span></h3>
 </div>
+<br/>
 <div class="fba-instructions">
   <div class="field">
-    <%= label_tag :instructions, "Survey Instructions", class: "usa-label" %>
-    <%= text_area_tag :instructions, sanitize(form.instructions), class: "usa-textarea display-inline",  'data-url': admin_form_path(form) %>
+    <div class="usa-label display-inline" id="instructions" data-url="<%= admin_form_path(form) %>" contenteditable="true" tabindex=<%= @tabindex += 1 %> >
+      <%= form.instructions.present? ? sanitize(form.instructions) : 'Survey Instructions' %>
+    </div>
     <span class="usa-hint save-notice survey-instructions">
        <i class="fa fa-check-circle" aria-hidden="true"></i> survey instructions saved
     </span>
@@ -23,15 +26,11 @@
     <div class="form-section-div" id="<%= dom_id(section) %>" data-url="<%= admin_form_form_section_path(section) %>/sort" data-id="<%= section.id %>">
       <div class="section-header-div">
         <div class="section-title-view">
-          <span class="section-title-lbl"><%= section.title %></span>
+          <span class="section-title" status-id="section-<%= section.id %>" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_form_section_path(form, section) %>"><%= section.title %></span>
           &nbsp;&nbsp;
-          <i class="fas fa-pencil-alt" title="Edit section title"></i>
-        </div>
-        <div class="section-title-edit">
-          <input type="text" value="<%= section.title %>" class="usa-input display-inline section-title" />
-          <a href="<%= admin_form_form_section_path(form, section) %>" class="form-section-save" >
-            <i class="fas fa-save" title="Save section title"></i>
-          </a><br/>
+          <span class="usa-hint save-notice" id="section-<%= section.id %>">
+             <i class="fa fa-check-circle" aria-hidden="true"></i> section title saved
+          </span>
         </div>
       </div>
 
@@ -90,11 +89,13 @@
   <span class="fa fa-plus"></span>
   Add Section
 <% end %>
-
+<br/>
+<br/>
 <div class="fba-disclaimer-text">
   <div class="field">
-    <%= label_tag :disclaimer_text, "Survey Disclaimer Text", class: "usa-label" %>
-    <%= text_area_tag :disclaimer_text, sanitize(form.disclaimer_text), class: "usa-textarea display-inline", 'data-url': admin_form_path(form) %>
+    <div class="usa-label display-inline" id="disclaimer_text" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form)  %>" >
+      <%= form.disclaimer_text.present? ? sanitize(form.disclaimer_text) : 'Survey Disclaimer Text' %>
+    </div>
     <span class="usa-hint save-notice survey-disclaimer">
        <i class="fa fa-check-circle" aria-hidden="true"></i> survey disclaimer saved
     </span>
@@ -104,13 +105,11 @@
 <script>
 $(function() {
   $(".dropdown-content").hide();
-  $("div.section-title-edit").hide();
   $(".question-option-edit").hide();
   $(".survey-title-input").focus();
 
   <% if form_permissions?(form: form) %>
 
-    //*****  FORM META ******
     $('.survey-title-input').on("blur", function(event) {
       event.preventDefault();
       $('span.usa-hint.save-notice.survey-title').show();
@@ -118,7 +117,7 @@ $(function() {
       $.ajax({
         type: "PATCH",
         url: $(this).attr("data-url") + "/update_title",
-        data: {title: $(this).val()}
+        data: {title: $(this).text()}
       });
     });
 
@@ -128,7 +127,7 @@ $(function() {
         type: "PATCH",
         url:  $(this).attr("data-url") + "/update_instructions",
         data: {
-          instructions: $(this).val()
+          instructions: $(this).text()
         }
       }).done(function(data) {
         $('span.usa-hint.save-notice.survey-instructions').show();
@@ -142,14 +141,33 @@ $(function() {
         type: "PATCH",
         url: $(this).attr("data-url") + "/update_disclaimer_text",
         data: {
-          disclaimer_text: $(this).val()
+          disclaimer_text: $(this).text()
         }
       }).done(function(data) {
         $('span.usa-hint.save-notice.survey-disclaimer').show();
         $('span.usa-hint.save-notice.survey-disclaimer').fadeOut(2000);
+        $('.survey-title-input').focus();
       });
     });
-    //*****  END FORM META ******
+
+    $(".section-title").on("blur", function(event) {
+      event.preventDefault();
+      $.ajax({
+        type: "PATCH",
+        url:  $(this).attr("data-url") + "/update_title",
+        data: {
+          title: $(this).text()
+        }
+      }).done(function(data) {
+        $("#section-" + data['id']).show();
+        $("#section-" + data['id']).fadeOut(2000);
+      });
+    });
+
+    $(".section-title").click(function() {
+      $(this).focus();
+    });
+
 
   $('.form-add-section').on("click", function(event) {
     var dlg_opt = {
@@ -167,24 +185,6 @@ $(function() {
         $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
       }
     });
-  });
-
-  $("div.section-title-view").on("click", function(event) {
-    $('div.section-title-edit').hide();
-    $('div.section-title-view').show();
-    $('div.section-title-view').children().show();
-    $(this).hide();
-    var titleEdit = $(this).parent().find("div.section-title-edit");
-    $(titleEdit).show();
-  });
-
-  $("span.section-title-lbl").on("click", function(event) {
-    $('div.section-title-edit').hide();
-    $('div.section-title-view').show();
-    $(this).parent().hide();
-    var titleEdit = $(this).closest('div.section-header-div').find("div.section-title-edit");
-    titleEdit.show();
-    titleEdit.find("input").focus();
   });
 
   $(".question-options").on("click", ".question-option-view", function(event) {
@@ -219,29 +219,6 @@ $(function() {
         url: $(this).attr("href")
       });
     }
-  });
-
-  $('.form-section-save').on("click", function(event) {
-    event.preventDefault();
-    var titleInput = $(this).closest('div.section-header-div').find("input.section-title");
-    var titleLabel = $(this).closest('div.section-header-div').find(".section-title-lbl");
-    $(titleLabel).html($(titleInput).val());
-    $('div.section-title-edit').hide();
-    $(titleLabel).parent().show();
-    $.ajax({
-      context: this,
-      type: "PATCH",
-      url: $(this).attr("href") + "/update_title",
-      data: {
-        title: $(titleInput).val()
-      }
-    }).fail(function() {
-      alert('Error while updating Form Section');
-    })
-    .done(function(data) {
-      var titleLabel = $(".form-section-div[data-id='" + data.id + "'] .section-title-lbl");
-      $(titleLabel).html(data.title);
-    });
   });
 
   $('.form-add-question').on("click", function(event) {
