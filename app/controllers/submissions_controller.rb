@@ -46,9 +46,7 @@ class SubmissionsController < ApplicationController
     @submission.referer = submission_params[:referer]
     @submission.page = submission_params[:page]
     @submission.ip_address = request.remote_ip
-    @result = create_in_local_database(@submission)
-    @form.update(response_count: @form.submissions.size, last_response_created_at: @submission.created_at)
-    @result
+    create_in_local_database(@submission)
   end
 
 
