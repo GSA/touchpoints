@@ -1,1 +1,1 @@
-$("#flag-submission-<%= @submission.id %>").parent().html("<%= j (render partial: 'unflag', :locals => {submission: @submission}) %>")
+$('#td-flag-<%= @submission.id %>').html("<%= j (render partial: 'unflag', :locals => {submission: @submission}) %>")
