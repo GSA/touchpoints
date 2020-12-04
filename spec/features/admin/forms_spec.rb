@@ -186,6 +186,14 @@ feature "Forms", js: true do
           end
         end
 
+        context "copy from form info" do
+          it "can copy a form" do
+            click_on "Copy"
+            page.driver.browser.switch_to.alert.accept
+            expect(page).to have_content("Survey was successfully copied")
+          end
+        end
+
         describe "Common Form Elements" do
           context "title" do
             before do

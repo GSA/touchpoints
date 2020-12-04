@@ -2,9 +2,9 @@
   <label for="<%= question.answer_field.to_sym %>">
     <%= question.text %>
   </label>
-  <p class="submit-button">
+  <p class="usa-button-group submit-button">
     <input type="hidden" class="fba-touchpoints-page-form" name="<%= question.answer_field.to_sym %>" value="">
-    <input type="submit" class="usa-button" value="<%= t 'yes' %>">
-    <input type="submit" class="usa-button" value="<%= t 'no' %>">
+    <input type="submit" class="usa-button usa-button-group__item" value="<%= t 'yes' %>">
+    <input type="submit" class="usa-button usa-button-group__item" value="<%= t 'no' %>">
   </p>
 </div>

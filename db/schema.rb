@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_11_135309) do
+ActiveRecord::Schema.define(version: 2020_11_30_200350) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,8 @@ ActiveRecord::Schema.define(version: 2020_11_11_135309) do
     t.string "logo"
     t.string "occasion"
     t.string "time_zone", default: "Eastern Time (US & Canada)"
+    t.integer "response_count", default: 0
+    t.datetime "last_response_created_at"
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["uuid"], name: "index_forms_on_uuid"
