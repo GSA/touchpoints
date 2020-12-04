@@ -133,6 +133,11 @@
                 Preview
               <% end %>
             </p>
+            <p>
+                <%= link_to copy_admin_form_path(@form), class: "usa-button usa-button--outline width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
+                  Copy
+                <% end %>
+            </p>
             <% end %>
           </p>
         <% end %>
@@ -144,6 +149,9 @@
               <%= link_to example_admin_form_path(@form), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" do %>
                 <i class="fa fa-eye"></i>
                 Preview
+              <% end %>
+              <%= link_to copy_admin_form_path(@form), class: "usa-button usa-button--outline", method: :post, data: { confirm: 'Are you sure?' } do %>
+                Copy
               <% end %>
             </p>
             <p class="usa-alert__text">
@@ -231,5 +239,13 @@
         (<%= time_ago_in_words(@form.created_at) %> ago)
       </small>
     </p>
+  </div>
+  <div>
+    <p>
+      <strong>Number of responses:</strong> <%= @form.submissions.size %>
+      <% if @form.last_response_created_at.present? %>
+        ( <small>last response created on <%= format_time(@form.last_response_created_at, current_user.time_zone) %></small> )
+      <% end %>
+    <p>
   </div>
 </div>
