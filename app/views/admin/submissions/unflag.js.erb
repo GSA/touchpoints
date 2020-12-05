@@ -1,1 +1,1 @@
-$('#td-flag-<%= @submission.id %>').html("<%= j (render partial: 'unflag', :locals => {submission: @submission}) %>")
+$(".response[data-id='<%= @submission.uuid %>'] .flagged").html("<%= j (render partial: 'unflag', :locals => { submission: @submission }) %>")

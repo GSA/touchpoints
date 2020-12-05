@@ -46,7 +46,7 @@
           </td>
         <% end %>
           <td><%= format_time(submission.created_at, submission.form.time_zone.present? ? submission.form.time_zone : current_user.time_zone) %></td>
-          <td id="td-flag-<%= submission.id %>">
+          <td class="flagged">
             <% if submission.flagged? %>
               <%= render :partial => "admin/submissions/flag", :locals => { submission: submission } %>
             <% else %>
