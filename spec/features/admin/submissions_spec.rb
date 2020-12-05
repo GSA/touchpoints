@@ -47,7 +47,6 @@ feature "Submissions", js: true do
             end
 
             it "successfully flags Submission" do
-              expect(page).to have_content("Response #{submission.id} was successfully flagged.")
               within("table.submissions") do
                 expect(page).to have_content("Flagged")
               end
@@ -106,7 +105,6 @@ feature "Submissions", js: true do
             end
 
             it "successfully flags Submission" do
-              expect(page).to have_content("Response #{submission.id} was successfully flagged.")
               within("table.submissions") do
                 expect(page).to have_content("Flagged")
               end
@@ -190,7 +188,6 @@ feature "Submissions", js: true do
             end
 
             it "successfully flags Submission" do
-              expect(page).to have_content("Response #{submission.id} was successfully flagged.")
               within("table.submissions") do
                 expect(page).to have_content("Flagged")
               end
