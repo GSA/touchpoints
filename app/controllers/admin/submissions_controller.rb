@@ -9,18 +9,10 @@ class Admin::SubmissionsController < AdminController
 
   def flag
     @submission.update_attribute(:flagged, true)
-    respond_to do |format|
-      format.html { redirect_to responses_admin_form_path(@form), notice: "Response #{@submission.id} was successfully flagged." }
-      format.json { head :no_content }
-    end
   end
 
   def unflag
     @submission.update_attribute(:flagged, false)
-    respond_to do |format|
-      format.html { redirect_to responses_admin_form_path(@form), notice: "Response #{@submission.id} was successfully unflagged." }
-      format.json { head :no_content }
-    end
   end
 
   def destroy

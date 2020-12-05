@@ -1,0 +1,4 @@
+<%= link_to flag_admin_form_submission_path(submission.form, submission), id: "flag-submission-#{submission.id}", remote: true, class: "usa-button", method: :post, data: { confirm: 'Are you sure?' } do %>
+<i class="far fa-flag"></i>
+Flag
+<% end %>
