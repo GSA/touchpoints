@@ -78,12 +78,30 @@ feature "Admin Dashboard", js: true do
         expect(page).to have_content("0 responses")
       end
     end
+
+    describe "with HISP forms" do
+      let!(:form) { FactoryBot.create(:form, kind: "a11", organization: organization, user: admin, hisp: true) }
+
+      before do
+        visit admin_dashboard_path
+      end
+
+      it "display Customer Feedback Analysis" do
+        expect(page).to have_content("Customer Feedback Analysis")
+        expect(page).to have_css("#customer-feedback-summary")
+        within "#customer-feedback-summary" do
+          expect(find_all("tbody tr").size).to eq(1)
+          expect(page).to have_content form.organization.name
+          expect(page).to have_content form.name
+        end
+      end
+    end
   end
 
   # Note:
   # Public users do not log in.
-  # Logged in users are .gov users, but may not have permissions
-  #  to edit any Services or other resources
+  # Logged in users are .gov users, but have no default permissions,
+  # thus cannot access or edit any resources
   describe "non-privileged User" do
     let(:user) { FactoryBot.create(:user) }
 

@@ -65,14 +65,14 @@
         </h3>
         <ul>
         <% @hisp_forms.each do |form| %>
-          <% total_responses = total_responses + form.submissions.size %>
+          <% total_responses = total_responses + form.response_count %>
           <li>
             <%= form.organization.name %>
             <strong>
               <%= link_to form.name, admin_form_path(form) %>
             </strong>
             has
-            <%= pluralize(form.submissions.size, "Response") %>.
+            <%= pluralize(form.response_count, "Response") %>.
           </li>
         <% end %>
         </ul>
