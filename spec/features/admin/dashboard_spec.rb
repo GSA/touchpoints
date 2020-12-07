@@ -100,8 +100,7 @@ feature "Admin Dashboard", js: true do
 
   # Note:
   # Public users do not log in.
-  # Logged in users are .gov users, but have no default permissions,
-  # thus cannot access or edit any resources
+  # Logged in users are .gov users, but have no default permissions
   describe "non-privileged User" do
     let(:user) { FactoryBot.create(:user) }
 
