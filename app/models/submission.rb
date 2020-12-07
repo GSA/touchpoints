@@ -1,11 +1,12 @@
 class Submission < ApplicationRecord
-  belongs_to :form
+  belongs_to :form, counter_cache: :response_count
 
   validate :validate_custom_form
   validates :uuid, uniqueness: true
 
   before_create :set_uuid
   after_create :send_notifications
+  after_create :update_form
 
   scope :non_flagged, -> { where(flagged: false) }
 
@@ -50,6 +51,10 @@ class Submission < ApplicationRecord
     end
 
     UserMailer.submission_notification(submission_id: self.id, emails: emails_to_notify.uniq).deliver_later
+  end
+
+  def update_form
+    form.update(last_response_created_at: created_at)
   end
 
   def to_rows
