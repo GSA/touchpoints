@@ -242,7 +242,7 @@
   </div>
   <div>
     <p>
-      <strong>Number of responses:</strong> <%= @form.submissions.size %>
+      <strong>Number of responses:</strong> <%= @form.response_count %>
       <% if @form.last_response_created_at.present? %>
         ( <small>last response created on <%= format_time(@form.last_response_created_at, current_user.time_zone) %></small> )
       <% end %>
