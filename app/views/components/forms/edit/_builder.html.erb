@@ -11,9 +11,9 @@
   </h2>
 </div>
 <p class="fba-instructions">
-  <div class="display-inline instructions" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>">
+  <span class="display-inline instructions" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>">
     <%= form.instructions.present? ? sanitize(form.instructions) : 'Survey Instructions' %>
-  </div>
+  </span>
   &nbsp;&nbsp;
   <span class="usa-hint save-notice survey-instructions">
      <i class="fa fa-check-circle" aria-hidden="true"></i> survey instructions saved
@@ -121,7 +121,7 @@ $(function() {
       });
     });
 
-    $("div.instructions").on("blur", function(event) {
+    $(".fba-instructions .instructions").on("blur", function(event) {
       event.preventDefault();
       $.ajax({
         type: "PATCH",

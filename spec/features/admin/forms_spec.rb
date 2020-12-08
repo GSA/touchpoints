@@ -209,11 +209,13 @@ feature "Forms", js: true do
             end
 
             it "has inline editable instructions textbox that can be updated and saved" do
-              find("#instructions").set("<a href="">HTML Instruct</a>ions")
-              find("#instructions").native.send_key :tab
+              within ".fba-instructions" do
+                find(".instructions").set("<a href="">HTML Instruct</a>ions")
+                find(".instructions").native.send_key :tab
+              end
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find("#instructions")).to have_link("HTML Instruct")
+              expect(find(".instructions")).to have_link("HTML Instruct")
             end
 
             it "has inline editable disclaimer text textbox that can be updated and saved" do
