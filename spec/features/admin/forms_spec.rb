@@ -212,15 +212,17 @@ feature "Forms", js: true do
               within ".fba-instructions" do
                 find(".instructions").set("<a href="">HTML Instruct</a>ions")
                 find(".instructions").native.send_key :tab
+                expect(page).to have_content("survey instructions saved")
               end
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find(".instructions")).to have_link("HTML Instruct")
+              expect(find(".fba-instructions")).to have_link("HTML Instruct")
             end
 
             it "has inline editable disclaimer text textbox that can be updated and saved" do
               find("#disclaimer_text").set("Disclaaaaaaaimer!")
               find("#disclaimer_text").native.send_key :tab
+              expect(page).to have_content("survey disclaimer saved")
               # and persists after refresh
               visit questions_admin_form_path(form)
               expect(find("#disclaimer_text")).to have_content("Disclaaaaaaaimer!")

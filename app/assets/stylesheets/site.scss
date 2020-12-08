@@ -438,8 +438,8 @@ tbody tr:hover td {
   padding: 8px 0px 0px 0px;
 }
 .fba-instructions .instructions {
-  min-width: 50px;
   display: inline-block;
+  min-width: 50px;
 }
 .section-title {
   display: inline-block;
@@ -496,9 +496,9 @@ nav.pagination {
   padding-left: 20px;
 }
 span.usa-hint.save-notice {
-  padding: 4px;
-  border-radius: 4px;
-  display: none;
   background: white;
+  border-radius: 4px;
   color: green;
+  display: none;
+  padding: 4px;
 }
