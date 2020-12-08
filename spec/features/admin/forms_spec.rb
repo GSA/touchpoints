@@ -440,10 +440,9 @@ feature "Forms", js: true do
                   click_on "Delete Section"
                   page.driver.browser.switch_to.alert.accept
                 end
-
+                expect(page.current_path).to eq(questions_admin_form_path(form))
                 expect(page).to have_content("Form section was successfully destroyed.")
                 expect(find_all(".section").size).to eq(1)
-                expect(page.current_path).to eq(questions_admin_form_path(form))
               end
             end
 
