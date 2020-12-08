@@ -1,15 +1,17 @@
 <% @tabindex = 0 %>
 <div class="form-title-edit">
-  <h2><span type="text" contenteditable="true" tabindex=<%= @tabindex += 1 %> class="survey-title-input" data-url="<%= admin_form_path(form) %>">
-    <%= form.title.present? ? form.title : 'Survey Title'  %>
-  </span>
-  &nbsp;&nbsp;
-  <span class="usa-hint save-notice survey-title">
-     <i class="fa fa-check-circle" aria-hidden="true"></i> survey title saved
-  </span></h2>
+  <h2>
+    <span type="text" contenteditable="true" tabindex="<%= @tabindex += 1 %>" class="survey-title-input" data-url="<%= admin_form_path(form) %>">
+      <%= form.title.present? ? form.title : 'Survey Title'  %>
+    </span>
+    &nbsp;&nbsp;
+    <span class="usa-hint save-notice survey-title">
+      <i class="fa fa-check-circle" aria-hidden="true"></i> survey title saved
+    </span>
+  </h2>
 </div>
 <p class="fba-instructions">
-  <div class="display-inline" id="instructions" data-url="<%= admin_form_path(form) %>" contenteditable="true" tabindex=<%= @tabindex += 1 %> >
+  <div class="display-inline instructions" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>">
     <%= form.instructions.present? ? sanitize(form.instructions) : 'Survey Instructions' %>
   </div>
   &nbsp;&nbsp;
@@ -24,14 +26,13 @@
     <div class="form-section-div" id="<%= dom_id(section) %>" data-url="<%= admin_form_form_section_path(section) %>/sort" data-id="<%= section.id %>">
       <div class="section-header-div">
         <h4 class="section-title-view">
-          <span class="section-title" status-id="section-<%= section.id %>" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_form_section_path(form, section) %>"><%= section.title %></span>
+          <span class="section-title" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_form_section_path(form, section) %>"><%= section.title %></span>
           &nbsp;&nbsp;
           <span class="usa-hint save-notice" id="section-<%= section.id %>">
-             <i class="fa fa-check-circle" aria-hidden="true"></i> section title saved
+            <i class="fa fa-check-circle" aria-hidden="true"></i> section title saved
           </span>
         </h4>
       </div>
-
       <div class="section well2 list-group">
         <div class="questions">
           <% section.questions.each_with_index do |question, index| %>
@@ -120,7 +121,7 @@ $(function() {
       });
     });
 
-    $("div#instructions").on("blur", function(event) {
+    $("div.instructions").on("blur", function(event) {
       event.preventDefault();
       $.ajax({
         type: "PATCH",

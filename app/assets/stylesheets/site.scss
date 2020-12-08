@@ -437,6 +437,10 @@ tbody tr:hover td {
   min-height: 50px;
   padding: 8px 0px 0px 0px;
 }
+.section-title {
+  display: inline-block;
+  min-width: 50px;
+}
 .section-title-view {
   position: relative;
   padding-top: 10px;
