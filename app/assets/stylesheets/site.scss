@@ -442,14 +442,9 @@ tbody tr:hover td {
   padding-top: 10px;
   padding-left: 20px ;
   padding-bottom: 10px;
+  margin-block-start: 0em;
+  margin-block-end: 0em;
   color: #FFFFFF;
-}
-.section-title-edit {
-  position: relative;
-  padding-top: 10px;
-  padding-left: 20px ;
-  padding-bottom: 10px;
-  color: #000000;
 }
 a.form-section-save {
   color: white;
@@ -457,16 +452,7 @@ a.form-section-save {
 .ui-widget-header {
   background: #FFFFFF;
 }
-.section-title-input {
-  background: #FFFFFF;
-  /* #71767a bg-base */
-  margin-left: 20px;
-  margin-top: 10px;
-  padding: 5px;
-  border: 1px solid #71767A;
-  box-sizing: border-box;
-  width: 200px;
-}
+
 #modal-window {
   min-width: 600px;
   background: #FFFFFF;

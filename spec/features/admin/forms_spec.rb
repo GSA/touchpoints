@@ -202,26 +202,26 @@ feature "Forms", js: true do
 
             it "has inline editable title that can be updated and saved" do
               find(".survey-title-input").set("Updated Form Title")
-              find("#instructions").click
+              find(".survey-title-input").native.send_key :tab
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find(".survey-title-input").value).to eq("Updated Form Title")
+              expect(find(".survey-title-input")).to have_content("Updated Form Title")
             end
 
             it "has inline editable instructions textbox that can be updated and saved" do
               find("#instructions").set("<a href="">HTML Instruct</a>ions")
-              find("#disclaimer_text").click
+              find("#instructions").native.send_key :tab
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find("#instructions").value).to have_link("HTML Instruct")
+              expect(find("#instructions")).to have_link("HTML Instruct")
             end
 
             it "has inline editable disclaimer text textbox that can be updated and saved" do
               find("#disclaimer_text").set("Disclaaaaaaaimer!")
-              find("#instructions").click
+              find("#disclaimer_text").native.send_key :tab
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find("#disclaimer_text").value).to eq("Disclaaaaaaaimer!")
+              expect(find("#disclaimer_text")).to have_content("Disclaaaaaaaimer!")
             end
           end
         end
@@ -397,18 +397,18 @@ feature "Forms", js: true do
 
             describe "FormSection.title" do
               before do
-                find(".section-title-lbl").click
+                find(".section-title").click
               end
 
               it "displays editable input that can be updated and saved" do
-                expect(find("input.section-title").value).to eq("Page 1")
+                expect(find(".section-title").text).to eq("Page 1")
                 find(".section-title").set("New Form Section Title")
-                find(".form-section-save").click
+                find(".section-title").native.send_keys :tab
 
-                expect(find(".section-title-lbl")).to have_content("New Form Section Title")
+                expect(find(".section-title").text).to eq("New Form Section Title")
                 # and persists after refresh
                 visit questions_admin_form_path(form)
-                expect(find(".section-title-lbl")).to have_content("New Form Section Title")
+                expect(find(".section-title").text).to eq("New Form Section Title")
               end
             end
           end

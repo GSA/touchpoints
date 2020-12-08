@@ -1,37 +1,35 @@
 <% @tabindex = 0 %>
 <div class="form-title-edit">
-  <h3><span type="text" contenteditable="true" tabindex=<%= @tabindex += 1 %> class="usa-label display-inline survey-title-input" data-url="<%= admin_form_path(form) %>">
+  <h2><span type="text" contenteditable="true" tabindex=<%= @tabindex += 1 %> class="survey-title-input" data-url="<%= admin_form_path(form) %>">
     <%= form.title.present? ? form.title : 'Survey Title'  %>
   </span>
-  &nbsp;
+  &nbsp;&nbsp;
   <span class="usa-hint save-notice survey-title">
      <i class="fa fa-check-circle" aria-hidden="true"></i> survey title saved
-  </span></h3>
+  </span></h2>
 </div>
-<br/>
-<div class="fba-instructions">
-  <div class="field">
-    <div class="usa-label display-inline" id="instructions" data-url="<%= admin_form_path(form) %>" contenteditable="true" tabindex=<%= @tabindex += 1 %> >
-      <%= form.instructions.present? ? sanitize(form.instructions) : 'Survey Instructions' %>
-    </div>
-    <span class="usa-hint save-notice survey-instructions">
-       <i class="fa fa-check-circle" aria-hidden="true"></i> survey instructions saved
-    </span>
+<p class="fba-instructions">
+  <div class="display-inline" id="instructions" data-url="<%= admin_form_path(form) %>" contenteditable="true" tabindex=<%= @tabindex += 1 %> >
+    <%= form.instructions.present? ? sanitize(form.instructions) : 'Survey Instructions' %>
   </div>
-</div>
+  &nbsp;&nbsp;
+  <span class="usa-hint save-notice survey-instructions">
+     <i class="fa fa-check-circle" aria-hidden="true"></i> survey instructions saved
+  </span>
+</p>
 
 <div class="sorting-div list-group" id="sections">
   <% multi_section_question_number = 0 %>
   <% form.form_sections.each do |section| %>
     <div class="form-section-div" id="<%= dom_id(section) %>" data-url="<%= admin_form_form_section_path(section) %>/sort" data-id="<%= section.id %>">
       <div class="section-header-div">
-        <div class="section-title-view">
+        <h4 class="section-title-view">
           <span class="section-title" status-id="section-<%= section.id %>" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_form_section_path(form, section) %>"><%= section.title %></span>
           &nbsp;&nbsp;
           <span class="usa-hint save-notice" id="section-<%= section.id %>">
              <i class="fa fa-check-circle" aria-hidden="true"></i> section title saved
           </span>
-        </div>
+        </h4>
       </div>
 
       <div class="section well2 list-group">
@@ -91,16 +89,17 @@
 <% end %>
 <br/>
 <br/>
-<div class="fba-disclaimer-text">
-  <div class="field">
-    <div class="usa-label display-inline" id="disclaimer_text" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form)  %>" >
+<p class="fba-disclaimer-text">
+  <small>
+    <div class="display-inline" id="disclaimer_text" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form)  %>" >
       <%= form.disclaimer_text.present? ? sanitize(form.disclaimer_text) : 'Survey Disclaimer Text' %>
     </div>
+    &nbsp;&nbsp;
     <span class="usa-hint save-notice survey-disclaimer">
        <i class="fa fa-check-circle" aria-hidden="true"></i> survey disclaimer saved
     </span>
-  </div>
-</div>
+  </small>
+</p>
 
 <script>
 $(function() {
@@ -121,7 +120,7 @@ $(function() {
       });
     });
 
-    $(".fba-instructions .field #instructions").on("blur", function(event) {
+    $("div#instructions").on("blur", function(event) {
       event.preventDefault();
       $.ajax({
         type: "PATCH",
@@ -135,7 +134,7 @@ $(function() {
       });
     });
 
-    $(".fba-disclaimer-text .field #disclaimer_text").on("blur", function(event) {
+    $("div#disclaimer_text").on("blur", function(event) {
       event.preventDefault();
       $.ajax({
         type: "PATCH",
@@ -146,7 +145,6 @@ $(function() {
       }).done(function(data) {
         $('span.usa-hint.save-notice.survey-disclaimer').show();
         $('span.usa-hint.save-notice.survey-disclaimer').fadeOut(2000);
-        $('.survey-title-input').focus();
       });
     });
 
@@ -166,6 +164,9 @@ $(function() {
 
     $(".section-title").click(function() {
       $(this).focus();
+    });
+    $(".section-title-view").click(function() {
+      $(this).find(".section-title").focus();
     });
 
 
