@@ -437,19 +437,22 @@ tbody tr:hover td {
   min-height: 50px;
   padding: 8px 0px 0px 0px;
 }
+.fba-instructions .instructions {
+  display: inline-block;
+  min-width: 50px;
+}
+.section-title {
+  display: inline-block;
+  min-width: 50px;
+}
 .section-title-view {
   position: relative;
   padding-top: 10px;
   padding-left: 20px ;
   padding-bottom: 10px;
+  margin-block-start: 0em;
+  margin-block-end: 0em;
   color: #FFFFFF;
-}
-.section-title-edit {
-  position: relative;
-  padding-top: 10px;
-  padding-left: 20px ;
-  padding-bottom: 10px;
-  color: #000000;
 }
 a.form-section-save {
   color: white;
@@ -457,16 +460,7 @@ a.form-section-save {
 .ui-widget-header {
   background: #FFFFFF;
 }
-.section-title-input {
-  background: #FFFFFF;
-  /* #71767a bg-base */
-  margin-left: 20px;
-  margin-top: 10px;
-  padding: 5px;
-  border: 1px solid #71767A;
-  box-sizing: border-box;
-  width: 200px;
-}
+
 #modal-window {
   min-width: 600px;
   background: #FFFFFF;
@@ -500,4 +494,11 @@ nav.pagination {
   font-size:1.06rem;
   line-height:1.3;
   padding-left: 20px;
+}
+span.usa-hint.save-notice {
+  background: white;
+  border-radius: 4px;
+  color: green;
+  display: none;
+  padding: 4px;
 }
