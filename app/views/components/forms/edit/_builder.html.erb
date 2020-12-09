@@ -106,14 +106,12 @@
 $(function() {
   $(".dropdown-content").hide();
   $(".question-option-edit").hide();
-  $(".survey-title-input").focus();
 
   <% if form_permissions?(form: form) %>
-
     $('.survey-title-input').on("blur", function(event) {
       event.preventDefault();
-      $('span.usa-hint.save-notice.survey-title').show();
-      $('span.usa-hint.save-notice.survey-title').fadeOut(2000);
+      $('.usa-hint.save-notice.survey-title').show();
+      $('.usa-hint.save-notice.survey-title').fadeOut(2000);
       $.ajax({
         type: "PATCH",
         url: $(this).attr("data-url") + "/update_title",
@@ -130,8 +128,8 @@ $(function() {
           instructions: $(this).text()
         }
       }).done(function(data) {
-        $('span.usa-hint.save-notice.survey-instructions').show();
-        $('span.usa-hint.save-notice.survey-instructions').fadeOut(2000);
+        $('.usa-hint.save-notice.survey-instructions').show();
+        $('.usa-hint.save-notice.survey-instructions').fadeOut(2000);
       });
     });
 
@@ -144,8 +142,8 @@ $(function() {
           disclaimer_text: $(this).text()
         }
       }).done(function(data) {
-        $('span.usa-hint.save-notice.survey-disclaimer').show();
-        $('span.usa-hint.save-notice.survey-disclaimer').fadeOut(2000);
+        $('.usa-hint.save-notice.survey-disclaimer').show();
+        $('.usa-hint.save-notice.survey-disclaimer').fadeOut(2000);
       });
     });
 
