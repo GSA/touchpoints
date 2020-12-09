@@ -34,9 +34,17 @@ class SubmissionsController < ApplicationController
       # is not from the Organization URL
       !request.referer.start_with?(@form.organization.url)
 
+      error_options = {
+        custom_params: {
+          referer: request.referer
+        },
+        expected: true
+      }
+      NewRelic::Agent.notice_error(ArgumentError, error_options)
+
       render json: {
         status: :unprocessable_entity,
-        messages: {"submission": ["request made from non-authorized host"] }
+        messages: { "submission": ["request made from non-authorized host"] }
         }, status: :unprocessable_entity and return
     end
 
