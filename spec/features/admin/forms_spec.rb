@@ -201,34 +201,32 @@ feature "Forms", js: true do
             end
 
             it "has inline editable title that can be updated and saved" do
-              find(".form-title-lbl").click
-              expect(find("input.form-title")).to be_visible
-              find("input.form-title").set("Updated Form Title")
-              find(".form-title-edit .fa-save").click
-              expect(find(".form-title-lbl")).to have_content("Updated Form Title")
+              find(".survey-title-input").set("Updated Form Title")
+              find(".survey-title-input").native.send_key :tab
+              expect(page).to have_content("survey title saved")
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find(".form-title-lbl")).to have_content("Updated Form Title")
+              expect(find(".survey-title-input")).to have_content("Updated Form Title")
             end
 
             it "has inline editable instructions textbox that can be updated and saved" do
-              find(".fba-instructions .edit.button").click
-              fill_in("instructions", with: "<a href="">HTML Instruct</a>ions")
-              find(".fba-instructions .save.button").click
-              expect(find(".fba-instructions")).to have_link("HTML Instruct")
+              within ".fba-instructions" do
+                find(".instructions").set("<a href="">HTML Instruct</a>ions")
+                find(".instructions").native.send_key :tab
+                expect(page).to have_content("survey instructions saved")
+              end
               # and persists after refresh
               visit questions_admin_form_path(form)
               expect(find(".fba-instructions")).to have_link("HTML Instruct")
             end
 
             it "has inline editable disclaimer text textbox that can be updated and saved" do
-              find(".fba-disclaimer-text .edit.button").click
-              fill_in("disclaimer_text", with: "Disclaaaaaaaimer!")
-              find(".fba-disclaimer-text .save.button").click
-              expect(find(".fba-disclaimer-text")).to have_content("Disclaaaaaaaimer!")
+              find("#disclaimer_text").set("Disclaaaaaaaimer!")
+              find("#disclaimer_text").native.send_key :tab
+              expect(page).to have_content("survey disclaimer saved")
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find(".fba-disclaimer-text")).to have_content("Disclaaaaaaaimer!")
+              expect(find("#disclaimer_text")).to have_content("Disclaaaaaaaimer!")
             end
           end
         end
@@ -404,18 +402,18 @@ feature "Forms", js: true do
 
             describe "FormSection.title" do
               before do
-                find(".section-title-lbl").click
+                find(".section-title").click
               end
 
               it "displays editable input that can be updated and saved" do
-                expect(find("input.section-title").value).to eq("Page 1")
+                expect(find(".section-title").text).to eq("Page 1")
                 find(".section-title").set("New Form Section Title")
-                find(".form-section-save").click
+                find(".section-title").native.send_keys :tab
 
-                expect(find(".section-title-lbl")).to have_content("New Form Section Title")
+                expect(find(".section-title").text).to eq("New Form Section Title")
                 # and persists after refresh
                 visit questions_admin_form_path(form)
-                expect(find(".section-title-lbl")).to have_content("New Form Section Title")
+                expect(find(".section-title").text).to eq("New Form Section Title")
               end
             end
           end
@@ -442,10 +440,9 @@ feature "Forms", js: true do
                   click_on "Delete Section"
                   page.driver.browser.switch_to.alert.accept
                 end
-
+                expect(page.current_path).to eq(questions_admin_form_path(form))
                 expect(page).to have_content("Form section was successfully destroyed.")
                 expect(find_all(".section").size).to eq(1)
-                expect(page.current_path).to eq(questions_admin_form_path(form))
               end
             end
 

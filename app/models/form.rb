@@ -157,6 +157,7 @@ class Form < ApplicationRecord
     new_form.name = "Copy of #{self.name}"
     new_form.title = new_form.name
     new_form.survey_form_activations = 0
+    new_form.response_count = 0
     new_form.aasm_state = :in_development
     new_form.uuid = nil
     new_form.legacy_touchpoint_id = nil
@@ -421,7 +422,7 @@ class Form < ApplicationRecord
     if self.survey_form_activations == 0
       "N/A"
     else
-      "#{((self.submissions.size / self.survey_form_activations.to_f) * 100).round(0)}%"
+      "#{((self.response_count / self.survey_form_activations.to_f) * 100).round(0)}%"
     end
   end
 
@@ -430,7 +431,7 @@ class Form < ApplicationRecord
     responses = responses.reject { |string| !string.present? }
     responses = responses.map { |string| string.to_i }
     response_total = responses.sum
-    average = response_total / response_count
+    average = response_total / response_count.to_f
     {
       response_total: response_total,
       response_count: response_count,
