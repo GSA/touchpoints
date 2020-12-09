@@ -1,47 +1,38 @@
-<h2 id="fba-modal-title" class="form-title-view">
-  <span class="form-title-lbl"><%= form.title %></span>
-  &nbsp;
-  <i class="fas fa-pencil-alt" title="Edit form title"></i>
-</h2>
+<% @tabindex = 0 %>
 <div class="form-title-edit">
-  <input type="text" value="<%= form.title %>" class="usa-input display-inline form-title" />
-  <a href="<%= admin_form_path(form) %>" class="form-title-save">
-    <i class="fas fa-save" title="Save form title"></i>
-  </a>
+  <h2>
+    <span type="text" contenteditable="true" tabindex="<%= @tabindex += 1 %>" class="survey-title-input" data-url="<%= admin_form_path(form) %>">
+      <%= form.title.present? ? form.title : 'Survey Title'  %>
+    </span>
+    &nbsp;&nbsp;
+    <span class="usa-hint save-notice survey-title">
+      <i class="fa fa-check-circle" aria-hidden="true"></i> survey title saved
+    </span>
+  </h2>
 </div>
+<p class="fba-instructions">
+  <span class="display-inline instructions" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>">
+    <%= form.instructions.present? ? sanitize(form.instructions) : 'Survey Instructions' %>
+  </span>
+  &nbsp;&nbsp;
+  <span class="usa-hint save-notice survey-instructions">
+     <i class="fa fa-check-circle" aria-hidden="true"></i> survey instructions saved
+  </span>
+</p>
 
-<div class="fba-instructions">
-  <span class='usa-hint' <%= 'hidden' if form.instructions? %>>Survey Instructions</span>
-  <p class="display-inline">
-    <%= sanitize(form.instructions) -%>
-  </p>
-  <div class="field" hidden="true">
-    <%= label_tag :instructions, "Editing Instructions", class: "usa-label" %>
-    <%= text_area_tag :instructions, nil, class: "usa-textarea display-inline" %>
-    <a href="<%= admin_form_path(form) %>" class="save button form-instructions-save">
-      <i class="fas fa-save" title="Save instructions"></i>
-    </a>
-  </div>
-  <i class="edit button fas fa-pencil-alt" title="Edit instructions"></i>
-</div>
 <div class="sorting-div list-group" id="sections">
   <% multi_section_question_number = 0 %>
   <% form.form_sections.each do |section| %>
     <div class="form-section-div" id="<%= dom_id(section) %>" data-url="<%= admin_form_form_section_path(section) %>/sort" data-id="<%= section.id %>">
       <div class="section-header-div">
-        <div class="section-title-view">
-          <span class="section-title-lbl"><%= section.title %></span>
+        <h4 class="section-title-view">
+          <span class="section-title" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_form_section_path(form, section) %>"><%= section.title %></span>
           &nbsp;&nbsp;
-          <i class="fas fa-pencil-alt" title="Edit section title"></i>
-        </div>
-        <div class="section-title-edit">
-          <input type="text" value="<%= section.title %>" class="usa-input display-inline section-title" />
-          <a href="<%= admin_form_form_section_path(form, section) %>" class="form-section-save" >
-            <i class="fas fa-save" title="Save section title"></i>
-          </a><br/>
-        </div>
+          <span class="usa-hint save-notice" id="section-<%= section.id %>">
+            <i class="fa fa-check-circle" aria-hidden="true"></i> section title saved
+          </span>
+        </h4>
       </div>
-
       <div class="section well2 list-group">
         <div class="questions">
           <% section.questions.each_with_index do |question, index| %>
@@ -97,44 +88,87 @@
   <span class="fa fa-plus"></span>
   Add Section
 <% end %>
-
-<div class="fba-disclaimer-text">
-  <p class="display-inline">
-    <div class="touchpoints-form-disclaimer">
-      <hr style="border: none; border-top: 1px solid #E5E5E5;">
-      <div class="grid-container">
-        <div class="grid-row">
-          <div class="grid-col-12">
-            <p>
-              <span class='usa-hint' <%= 'hidden' if form.disclaimer_text? %>>Survey Disclaimer Text</span>
-              <small>
-                <span id="fba-dialog-privacy"><%= sanitize(form.disclaimer_text) %></span>
-              </small>
-              <i class="edit button fas fa-pencil-alt" title="Edit disclaimer text"></i>
-            </p>
-            <br>
-          </div>
-        </div>
-      </div>
+<br/>
+<br/>
+<p class="fba-disclaimer-text">
+  <small>
+    <div class="display-inline" id="disclaimer_text" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form)  %>" >
+      <%= form.disclaimer_text.present? ? sanitize(form.disclaimer_text) : 'Survey Disclaimer Text' %>
     </div>
-  </p>
-  <div class="field" hidden="true">
-    <%= label_tag :disclaimer_text, "Editing Disclaimer Text", class: "usa-label" %>
-    <%= text_area_tag :disclaimer_text, nil, class: "usa-textarea display-inline" %>
-    <a href="<%= admin_form_path(form) %>" class="save button form-disclaimer-text-save">
-      <i class="fas fa-save" title="Save disclaimer_text"></i>
-    </a>
-  </div>
-</div>
+    &nbsp;&nbsp;
+    <span class="usa-hint save-notice survey-disclaimer">
+       <i class="fa fa-check-circle" aria-hidden="true"></i> survey disclaimer saved
+    </span>
+  </small>
+</p>
 
 <script>
 $(function() {
   $(".dropdown-content").hide();
-  $("div.section-title-edit").hide();
-  $(".form-title-edit").hide();
   $(".question-option-edit").hide();
 
   <% if form_permissions?(form: form) %>
+    $('.survey-title-input').on("blur", function(event) {
+      event.preventDefault();
+      $('.usa-hint.save-notice.survey-title').show();
+      $('.usa-hint.save-notice.survey-title').fadeOut(2000);
+      $.ajax({
+        type: "PATCH",
+        url: $(this).attr("data-url") + "/update_title",
+        data: {title: $(this).text()}
+      });
+    });
+
+    $(".fba-instructions .instructions").on("blur", function(event) {
+      event.preventDefault();
+      $.ajax({
+        type: "PATCH",
+        url:  $(this).attr("data-url") + "/update_instructions",
+        data: {
+          instructions: $(this).text()
+        }
+      }).done(function(data) {
+        $('.usa-hint.save-notice.survey-instructions').show();
+        $('.usa-hint.save-notice.survey-instructions').fadeOut(2000);
+      });
+    });
+
+    $("div#disclaimer_text").on("blur", function(event) {
+      event.preventDefault();
+      $.ajax({
+        type: "PATCH",
+        url: $(this).attr("data-url") + "/update_disclaimer_text",
+        data: {
+          disclaimer_text: $(this).text()
+        }
+      }).done(function(data) {
+        $('.usa-hint.save-notice.survey-disclaimer').show();
+        $('.usa-hint.save-notice.survey-disclaimer').fadeOut(2000);
+      });
+    });
+
+    $(".section-title").on("blur", function(event) {
+      event.preventDefault();
+      $.ajax({
+        type: "PATCH",
+        url:  $(this).attr("data-url") + "/update_title",
+        data: {
+          title: $(this).text()
+        }
+      }).done(function(data) {
+        $("#section-" + data['id']).show();
+        $("#section-" + data['id']).fadeOut(2000);
+      });
+    });
+
+    $(".section-title").click(function() {
+      $(this).focus();
+    });
+    $(".section-title-view").click(function() {
+      $(this).find(".section-title").focus();
+    });
+
+
   $('.form-add-section').on("click", function(event) {
     var dlg_opt = {
       autoOpen: false,
@@ -151,30 +185,6 @@ $(function() {
         $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
       }
     });
-  });
-
-  $('.form-title-view').on("click", function(event) {
-    $('.form-title-edit').show();
-    $('.form-title-edit').children().show();
-    $('.form-title-view').hide();
-  });
-
-  $("div.section-title-view").on("click", function(event) {
-    $('div.section-title-edit').hide();
-    $('div.section-title-view').show();
-    $('div.section-title-view').children().show();
-    $(this).hide();
-    var titleEdit = $(this).parent().find("div.section-title-edit");
-    $(titleEdit).show();
-  });
-
-  $("span.section-title-lbl").on("click", function(event) {
-    $('div.section-title-edit').hide();
-    $('div.section-title-view').show();
-    $(this).parent().hide();
-    var titleEdit = $(this).closest('div.section-header-div').find("div.section-title-edit");
-    titleEdit.show();
-    titleEdit.find("input").focus();
   });
 
   $(".question-options").on("click", ".question-option-view", function(event) {
@@ -200,20 +210,6 @@ $(function() {
     }
   });
 
-  $('.form-title-save').on("click", function(event) {
-    event.preventDefault();
-    var titleInput = $('.form-title');
-    var titleLabel = $('.form-title-lbl');
-    $(titleLabel).html($(titleInput).val());
-    $('.form-title-edit').hide();
-    $('.form-title-view').show();
-    $.ajax({
-      type: "PATCH",
-      url: $(this).attr("href") + "/update_title",
-      data: {title: $(titleInput).val()}
-    });
-  });
-
   $(".form-delete-question-option").on("click", function(event) {
     event.preventDefault();
     if (confirm('Are you sure?')) {
@@ -223,29 +219,6 @@ $(function() {
         url: $(this).attr("href")
       });
     }
-  });
-
-  $('.form-section-save').on("click", function(event) {
-    event.preventDefault();
-    var titleInput = $(this).closest('div.section-header-div').find("input.section-title");
-    var titleLabel = $(this).closest('div.section-header-div').find(".section-title-lbl");
-    $(titleLabel).html($(titleInput).val());
-    $('div.section-title-edit').hide();
-    $(titleLabel).parent().show();
-    $.ajax({
-      context: this,
-      type: "PATCH",
-      url: $(this).attr("href") + "/update_title",
-      data: {
-        title: $(titleInput).val()
-      }
-    }).fail(function() {
-      alert('Error while updating Form Section');
-    })
-    .done(function(data) {
-      var titleLabel = $(".form-section-div[data-id='" + data.id + "'] .section-title-lbl");
-      $(titleLabel).html(data.title);
-    });
   });
 
   $('.form-add-question').on("click", function(event) {
@@ -394,68 +367,6 @@ $(function() {
         contentDiv.html(data);
         contentDiv.find("#question_option_text").focus();
       }
-    });
-  });
-
-  $(".fba-instructions .edit.button").on("click", function(event) {
-    event.preventDefault();
-    $(".fba-instructions .field").show();
-    $(".fba-instructions .usa-hint").hide();
-    $(".fba-instructions .field #instructions").val($(".fba-instructions p").html().trim());
-    $(this).hide();
-    $(".fba-instructions p").hide();
-  });
-
-  $(".fba-instructions .save.button").on("click", function(event) {
-    event.preventDefault();
-    $(".fba-instructions p").hide();
-    $(".fba-instructions .field").show();
-
-    $.ajax({
-      type: "PATCH",
-      url: $(this).attr("href") + "/update_instructions",
-      data: {
-        instructions: $(".fba-instructions .field #instructions").val()
-      }
-    }).done(function(data) {
-      if (data.instructions === "") {
-        $(".fba-instructions .usa-hint").show();
-      }
-      $(".fba-instructions .field").hide()
-      $(".fba-instructions p").html(data.instructions)
-      $(".fba-instructions p").show();
-      $(".fba-instructions .edit.button").show();
-    });
-  });
-
-  $(".fba-disclaimer-text .edit.button").on("click", function(event) {
-    event.preventDefault();
-    $(".fba-disclaimer-text .field").show();
-    $(".fba-disclaimer-text .usa-hint").hide();
-    $(".fba-disclaimer-text .field #disclaimer_text").val($(".fba-disclaimer-text #fba-dialog-privacy").html());
-    $(this).hide();
-    $(".fba-disclaimer-text p").hide();
-  });
-
-  $(".fba-disclaimer-text .save.button").on("click", function(event) {
-    event.preventDefault();
-    $(".fba-disclaimer-text p").hide();
-    $(".fba-disclaimer-text .field").show();
-
-    $.ajax({
-      type: "PATCH",
-      url: $(this).attr("href") + "/update_disclaimer_text",
-      data: {
-        disclaimer_text: $(".fba-disclaimer-text .field #disclaimer_text").val()
-      }
-    }).done(function(data) {
-      if (data.disclaimer_text === "") {
-        $(".fba-disclaimer-text .usa-hint").show();
-      }
-      $(".fba-disclaimer-text .field").hide();
-      $(".fba-disclaimer-text #fba-dialog-privacy").html(data.disclaimer_text);
-      $(".fba-disclaimer-text p").show();
-      $(".fba-disclaimer-text .edit.button").show();
     });
   });
 
