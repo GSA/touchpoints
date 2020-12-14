@@ -373,7 +373,7 @@ GEM
       nokogiri (~> 1.8)
 
 PLATFORMS
-  x86_64-darwin-18
+  ruby
 
 DEPENDENCIES
   aasm (~> 4.12)
@@ -418,7 +418,7 @@ DEPENDENCIES
   whenever
 
 RUBY VERSION
-   ruby 2.6.5p114
+   ruby 2.6.6p146
 
 BUNDLED WITH
    2.2.1
