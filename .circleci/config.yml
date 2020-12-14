@@ -25,7 +25,7 @@ jobs:
     steps:
       - checkout
 
-      - run: gem install bundler
+      - run: gem install bundler 2.1.4
 
       # Download and cache dependencies
       - restore_cache:
