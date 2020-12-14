@@ -1,3 +1,4 @@
+
 require 'rails_helper'
 
 feature "Forms", js: true do
@@ -333,6 +334,7 @@ feature "Forms", js: true do
             expect(page).to have_content("Survey was successfully updated.")
             expect(page.current_path).to eq(admin_form_path(form))
             expect(page).to have_content("Updated Form Name")
+
           end
         end
 
@@ -778,16 +780,25 @@ feature "Forms", js: true do
   context "form owner with Form Manager permissions" do
     let(:user) { FactoryBot.create(:user, organization: organization) }
     let(:form) { FactoryBot.create(:form, :custom, organization: organization, user: user) }
-    let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form: form, user: user) }
+
+    let(:another_organization) { FactoryBot.create(:organization, :another) }
+    let(:another_user) { FactoryBot.create(:user, email: "user@another.gov", organization: another_organization) }
+    let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form: form, user: another_user) }
 
     before do
-      login_as(user)
+      login_as(another_user)
       visit edit_admin_form_path(form)
     end
 
     it "can edit form" do
       expect(page.current_path).to eq(edit_admin_form_path(form))
       expect(page).to have_content("Editing Survey")
+    end
+
+    it "regression: edit does not set the Organization to the user's org" do
+      click_on "Update Survey"
+      expect(page).to have_content("Organization")
+      expect(page).to have_link("Example.gov")
     end
 
     describe "can delete a Form" do

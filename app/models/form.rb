@@ -401,11 +401,12 @@ class Form < ApplicationRecord
     self.questions.map { |q| hash[q.answer_field] = q.text }
 
     hash.merge({
-                 ip_address: "IP Address",
-                 user_agent: "User Agent",
-                 page: "Page",
-                 referer: "Referrer",
-                 created_at: "Created At"
+      location_code: "Location Code",
+      ip_address: "IP Address",
+      user_agent: "User Agent",
+      page: "Page",
+      referer: "Referrer",
+      created_at: "Created At"
     })
   end
 
