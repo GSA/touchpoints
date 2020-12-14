@@ -6,7 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-       - image: circleci/ruby:2.6.5-node-browsers
+       - image: circleci/ruby:2.6.6-node-browsers
          environment:
             RAILS_ENV: test
             PGHOST: 127.0.0.1
@@ -26,7 +26,7 @@ jobs:
       - checkout
 
       - run: gem install bundler
-      
+
       # Download and cache dependencies
       - restore_cache:
           keys:
