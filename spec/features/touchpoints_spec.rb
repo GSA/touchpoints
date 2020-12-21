@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 feature "Touchpoints", js: true do
+  let(:organization) { FactoryBot.create(:organization) }
+
   context "as Admin" do
-    let(:organization) { FactoryBot.create(:organization) }
     let!(:user) { FactoryBot.create(:user, :admin, organization: organization) }
     let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: user) }
 
@@ -225,6 +226,56 @@ feature "Touchpoints", js: true do
         expect(last_submission.answer_01).to eq "4"
         # expect(last_submission.answer_02).to eq "TEST_LOCATION_CODE"
         expect(last_submission.answer_03).to eq "User feedback"
+      end
+    end
+  end
+
+  context "as public user" do
+    let!(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
+
+    describe "/touchpoints" do
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, aasm_state: 'in_development') }
+
+      context "for an in_development form" do
+        before do
+          visit touchpoint_path(form)
+        end
+
+        it "redirect to index and display a flash message" do
+          expect(page).to have_content("Form is not currently deployed.")
+          expect(page.current_path).to eq(index_path)
+        end
+      end
+    end
+
+    describe "/touchpoints" do
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, aasm_state: 'archived') }
+
+      context "for an archived form" do
+        before do
+          visit touchpoint_path(form)
+        end
+
+        it "render archived/inactive message" do
+          expect(page).to have_content("This form is not currently accepting feedback")
+          expect(page).to have_content(form.title)
+          expect(page.current_path).to eq(submit_form_path(form))
+        end
+      end
+    end
+
+    describe "/touchpoints" do
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, aasm_state: 'live') }
+
+      context "for a live form" do
+        before do
+          visit touchpoint_path(form)
+        end
+
+        it "render the form" do
+          expect(page).to have_css(".touchpoints-form")
+          expect(page).to have_content(form.title)
+        end
       end
     end
   end

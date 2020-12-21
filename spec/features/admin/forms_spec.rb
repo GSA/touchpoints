@@ -1,4 +1,3 @@
-
 require 'rails_helper'
 
 feature "Forms", js: true do
@@ -334,7 +333,6 @@ feature "Forms", js: true do
             expect(page).to have_content("Survey was successfully updated.")
             expect(page.current_path).to eq(admin_form_path(form))
             expect(page).to have_content("Updated Form Name")
-
           end
         end
 
@@ -1159,7 +1157,7 @@ feature "Forms", js: true do
 
       it "cannot preview a form template" do
         expect(page.current_path).to eq(index_path)
-        expect(page).to have_content("Form is not yet deployable.")
+        expect(page).to have_content("Form is not currently deployed.")
       end
     end
   end
