@@ -259,7 +259,7 @@ feature "Touchpoints", js: true do
         it "render archived/inactive message" do
           expect(page).to have_content("This form is not currently accepting feedback")
           expect(page).to have_content(form.title)
-          expect(page.current_path).to eq(submit_form_path(form))
+          expect(page.current_path).to eq(submit_touchpoint_path(form))
         end
       end
     end
