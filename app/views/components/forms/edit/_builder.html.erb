@@ -11,9 +11,7 @@
   </h2>
 </div>
 <div class="fba-instructions">
-  <span class="display-inline instructions preserve-whitespace" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>" data-html-value="<%= form.instructions %>">
-    <%= form.instructions.present? ? sanitize(form.instructions) : 'Survey Instructions' %>
-  </span>
+  <span class="display-inline instructions preserve-whitespace" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>" data-html-value="<%= form.instructions %>"><%= form.instructions.present? ? sanitize(form.instructions) : 'Survey Instructions' %></span>
   &nbsp;&nbsp;
   <span class="usa-hint save-notice survey-instructions">
     <i class="fa fa-check-circle" aria-hidden="true"></i> survey instructions saved
@@ -92,9 +90,7 @@
 <br/>
 <small>
   <p class="fba-disclaimer-text ">
-    <div class="preserve-whitespace" id="disclaimer_text" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>" data-html-value="<%= form.disclaimer_text %>">
-      <%= form.disclaimer_text.present? ? sanitize(form.disclaimer_text) : 'Survey Disclaimer Text' %>
-    </div>
+    <div class="preserve-whitespace" id="disclaimer_text" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>" data-html-value="<%= form.disclaimer_text %>"><%= form.disclaimer_text.present? ? sanitize(form.disclaimer_text) : 'Survey Disclaimer Text' %></div>
     &nbsp;&nbsp;
     <span class="usa-hint save-notice survey-disclaimer">
        <i class="fa fa-check-circle" aria-hidden="true"></i> survey disclaimer saved
