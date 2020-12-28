@@ -5,8 +5,10 @@ class SubmissionsController < ApplicationController
   layout 'public', only: :new
 
   def new
-    unless @form.deployable_form? || current_user
-      redirect_to index_path, alert: "Form is not yet deployable."
+    if @form.archived?
+      # okay
+    elsif !@form.deployable_form? && !current_user
+      redirect_to index_path, alert: "Form is not currently deployed."
     end
     if !current_user
       @form.increment!(:survey_form_activations)
