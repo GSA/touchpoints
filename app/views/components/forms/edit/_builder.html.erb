@@ -10,15 +10,15 @@
     </span>
   </h2>
 </div>
-<p class="fba-instructions">
-  <span class="display-inline instructions" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>">
+<div class="fba-instructions">
+  <span class="display-inline instructions preserve-whitespace" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>" data-html-value="<%= form.instructions %>">
     <%= form.instructions.present? ? sanitize(form.instructions) : 'Survey Instructions' %>
   </span>
   &nbsp;&nbsp;
   <span class="usa-hint save-notice survey-instructions">
-     <i class="fa fa-check-circle" aria-hidden="true"></i> survey instructions saved
+    <i class="fa fa-check-circle" aria-hidden="true"></i> survey instructions saved
   </span>
-</p>
+</div>
 
 <div class="sorting-div list-group" id="sections">
   <% multi_section_question_number = 0 %>
@@ -90,17 +90,17 @@
 <% end %>
 <br/>
 <br/>
-<p class="fba-disclaimer-text">
-  <small>
-    <div class="display-inline" id="disclaimer_text" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form)  %>" >
+<small>
+  <p class="fba-disclaimer-text ">
+    <div class="preserve-whitespace" id="disclaimer_text" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>" data-html-value="<%= form.disclaimer_text %>">
       <%= form.disclaimer_text.present? ? sanitize(form.disclaimer_text) : 'Survey Disclaimer Text' %>
     </div>
     &nbsp;&nbsp;
     <span class="usa-hint save-notice survey-disclaimer">
        <i class="fa fa-check-circle" aria-hidden="true"></i> survey disclaimer saved
     </span>
-  </small>
-</p>
+  </p>
+</small>
 
 <script>
 $(function() {
@@ -119,6 +119,16 @@ $(function() {
       });
     });
 
+    $(".fba-instructions .instructions").on("focus", function(event) {
+      event.preventDefault();
+      $(this).text($(this).attr("data-html-value"));
+    });
+
+    $("#disclaimer_text").on("focus", function(event) {
+      event.preventDefault();
+      $(this).text($(this).attr("data-html-value"));
+    });
+
     $(".fba-instructions .instructions").on("blur", function(event) {
       event.preventDefault();
       $.ajax({
@@ -128,12 +138,14 @@ $(function() {
           instructions: $(this).text()
         }
       }).done(function(data) {
+        $(".fba-instructions .instructions").attr("data-html-value", data.instructions);
+        $(".fba-instructions .instructions").html(data.instructions);
         $('.usa-hint.save-notice.survey-instructions').show();
         $('.usa-hint.save-notice.survey-instructions').fadeOut(2000);
       });
     });
 
-    $("div#disclaimer_text").on("blur", function(event) {
+    $("#disclaimer_text").on("blur", function(event) {
       event.preventDefault();
       $.ajax({
         type: "PATCH",
@@ -142,6 +154,8 @@ $(function() {
           disclaimer_text: $(this).text()
         }
       }).done(function(data) {
+        $("#disclaimer_text").attr("data-html-value", data.disclaimer_text);
+        $("#disclaimer_text").html(data.disclaimer_text);
         $('.usa-hint.save-notice.survey-disclaimer').show();
         $('.usa-hint.save-notice.survey-disclaimer').fadeOut(2000);
       });

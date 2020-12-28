@@ -211,22 +211,28 @@ feature "Forms", js: true do
 
             it "has inline editable instructions textbox that can be updated and saved" do
               within ".fba-instructions" do
-                find(".instructions").set("<a href="">HTML Instruct</a>ions")
+                find(".instructions").set("")
+                find(".instructions").set("Some <a href=\"#\">HTML Instructions</a> go here")
                 find(".instructions").native.send_key :tab
                 expect(page).to have_content("survey instructions saved")
               end
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find(".fba-instructions")).to have_link("HTML Instruct")
+              expect(find(".fba-instructions")).to have_link("HTML Instructions")
+              expect(find(".fba-instructions")).to have_content("go here")
             end
 
             it "has inline editable disclaimer text textbox that can be updated and saved" do
-              find("#disclaimer_text").set("Disclaaaaaaaimer!")
+              find("#disclaimer_text").set("Disclaaaaaaaimer! with <a href=\"#\">a new link</a>")
               find("#disclaimer_text").native.send_key :tab
               expect(page).to have_content("survey disclaimer saved")
+              expect(find("#disclaimer_text")).to have_content("Disclaaaaaaaimer!")
+              expect(find("#disclaimer_text")).to have_link("a new link")
+
               # and persists after refresh
               visit questions_admin_form_path(form)
               expect(find("#disclaimer_text")).to have_content("Disclaaaaaaaimer!")
+              expect(find("#disclaimer_text")).to have_link("a new link")
             end
           end
         end
