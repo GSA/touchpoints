@@ -211,22 +211,28 @@ feature "Forms", js: true do
 
             it "has inline editable instructions textbox that can be updated and saved" do
               within ".fba-instructions" do
-                find(".instructions").set("<a href="">HTML Instruct</a>ions")
+                find(".instructions").set("")
+                find(".instructions").set("Some <a href=\"#\">HTML Instructions</a> go here")
                 find(".instructions").native.send_key :tab
                 expect(page).to have_content("survey instructions saved")
               end
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find(".fba-instructions")).to have_link("HTML Instruct")
+              expect(find(".fba-instructions")).to have_link("HTML Instructions")
+              expect(find(".fba-instructions")).to have_content("go here")
             end
 
             it "has inline editable disclaimer text textbox that can be updated and saved" do
-              find("#disclaimer_text").set("Disclaaaaaaaimer!")
+              find("#disclaimer_text").set("Disclaaaaaaaimer! with <a href=\"#\">a new link</a>")
               find("#disclaimer_text").native.send_key :tab
               expect(page).to have_content("survey disclaimer saved")
+              expect(find("#disclaimer_text")).to have_content("Disclaaaaaaaimer!")
+              expect(find("#disclaimer_text")).to have_link("a new link")
+
               # and persists after refresh
               visit questions_admin_form_path(form)
               expect(find("#disclaimer_text")).to have_content("Disclaaaaaaaimer!")
+              expect(find("#disclaimer_text")).to have_link("a new link")
             end
           end
         end
@@ -778,16 +784,25 @@ feature "Forms", js: true do
   context "form owner with Form Manager permissions" do
     let(:user) { FactoryBot.create(:user, organization: organization) }
     let(:form) { FactoryBot.create(:form, :custom, organization: organization, user: user) }
-    let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form: form, user: user) }
+
+    let(:another_organization) { FactoryBot.create(:organization, :another) }
+    let(:another_user) { FactoryBot.create(:user, email: "user@another.gov", organization: another_organization) }
+    let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form: form, user: another_user) }
 
     before do
-      login_as(user)
+      login_as(another_user)
       visit edit_admin_form_path(form)
     end
 
     it "can edit form" do
       expect(page.current_path).to eq(edit_admin_form_path(form))
       expect(page).to have_content("Editing Survey")
+    end
+
+    it "regression: edit does not set the Organization to the user's org" do
+      click_on "Update Survey"
+      expect(page).to have_content("Organization")
+      expect(page).to have_link("Example.gov")
     end
 
     describe "can delete a Form" do
@@ -1148,7 +1163,7 @@ feature "Forms", js: true do
 
       it "cannot preview a form template" do
         expect(page.current_path).to eq(index_path)
-        expect(page).to have_content("Form is not yet deployable.")
+        expect(page).to have_content("Form is not currently deployed.")
       end
     end
   end

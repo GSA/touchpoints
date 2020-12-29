@@ -1,10 +1,14 @@
 <div class="touchpoints-form-wrapper" data-touchpoints-form-id="<%= @form.short_uuid %>">
+<% if @form.aasm_state == 'archived' %>
+  <%= render 'archived_form', form: @form %>
+<% else %>
   <div class="javascript-disabled-message text-center padding-3">
     Javascript is required for this form to function properly.
     <br>
     Javascript does not appear to be enabled.
   </div>
   <div class="touchpoint-form hide">
-    <%= render 'form', touchpoint: @touchpoint, submission: @submission %>
+    <%= render 'form', form: @form %>
   </div>
+<% end %>
 </div>
