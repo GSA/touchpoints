@@ -3,11 +3,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.6'
 
-gem 'aws-sdk-rails', '>= 3.1.0'
-gem 'caracal'
+gem 'aws-sdk-rails', '>= 3.4.0'
+gem 'caracal', '>= 1.4.1'
 gem 'carrierwave'
-gem 'devise', '>= 4.7.2'
-gem 'fog-aws'
+gem 'devise', '>= 4.7.3'
+gem 'fog-aws', '>= 3.7.0'
 gem 'jquery-rails', '>= 4.4.0'
 gem 'jquery-ui-rails', '>= 6.0.1'
 gem 'acts-as-list'
@@ -31,7 +31,7 @@ gem 'redis-namespace'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'aasm', '~> 4.12'
 gem 'whenever', require: false
-gem 'kaminari'
+gem 'kaminari', '>= 1.2.1'
 
 
 group :development, :test do
@@ -48,15 +48,15 @@ end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 3.32.2'
+  gem 'capybara', '>= 3.34.0'
   gem 'database_cleaner'
   gem 'factory_bot_rails', '>= 6.1.0'
-  gem 'rails-controller-testing'
-  gem 'rspec-rails', '>= 4.0.1'
+  gem 'rails-controller-testing', '>= 1.0.5'
+  gem 'rspec-rails', '>= 4.0.2'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false, group: :test
   # gem 'chromedriver-helper'
-  gem 'webdrivers'
+  gem 'webdrivers', '>= 4.4.1'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
