@@ -248,8 +248,6 @@ GEM
     rack (2.2.3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
-    rack-protection (2.1.0)
-      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (5.2.4.4)
@@ -284,7 +282,7 @@ GEM
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    redis (4.1.4)
+    redis (4.2.5)
     redis-namespace (1.8.0)
       redis (>= 3.0.4)
     regexp_parser (1.8.2)
@@ -327,8 +325,8 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
-    sidekiq (5.2.9)
-      connection_pool (~> 2.2, >= 2.2.2)
+    sidekiq (6.1.2)
+      connection_pool (>= 2.2.2)
       rack (~> 2.0)
       rack-protection (>= 1.5.0)
       redis (>= 3.3.5, < 4.2)
@@ -408,7 +406,7 @@ DEPENDENCIES
   rspec_junit_formatter
   sass-rails (>= 6.0.0)
   selenium-webdriver
-  sidekiq (>= 5.2.7, < 6)
+  sidekiq
   simplecov
   tzinfo-data
   uglifier
