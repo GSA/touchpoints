@@ -11,10 +11,8 @@
 <br>
 <div class="grid-row">
   <div class="grid-col">
-    <div class="questions-spa-div">
-      <div class="form-builder">
-        <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
-      </div>
+    <div class="touchpoint-form form-builder">
+      <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
     </div>
     <br>
   </div>
