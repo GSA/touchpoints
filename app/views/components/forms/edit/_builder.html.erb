@@ -11,31 +11,32 @@
   </h2>
 </div>
 <div class="fba-instructions">
-  <span class="display-inline instructions preserve-whitespace" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>" data-html-value="<%= form.instructions %>"><%= form.instructions.present? ? sanitize(form.instructions) : 'Survey Instructions' %></span>
+  <span class="display-inline instructions" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>" data-html-value="<%= form.instructions %>"><%= form.instructions.present? ? sanitize(form.instructions) : 'Survey Instructions' %></span>
   &nbsp;&nbsp;
   <span class="usa-hint save-notice survey-instructions">
     <i class="fa fa-check-circle" aria-hidden="true"></i> survey instructions saved
   </span>
 </div>
+<br>
 
-<div class="sorting-div list-group" id="sections">
+<div class="sorting-div">
   <% multi_section_question_number = 0 %>
   <% form.form_sections.each do |section| %>
     <div class="form-section-div" id="<%= dom_id(section) %>" data-url="<%= admin_form_form_section_path(section) %>/sort" data-id="<%= section.id %>">
-      <div class="section-header-div">
-        <h4 class="section-title-view">
-          <span class="section-title" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_form_section_path(form, section) %>"><%= section.title %></span>
-          &nbsp;&nbsp;
-          <span class="usa-hint save-notice" id="section-<%= section.id %>">
-            <i class="fa fa-check-circle" aria-hidden="true"></i> section title saved
-          </span>
-        </h4>
-      </div>
-      <div class="section well2 list-group">
+      <div class="section">
+        <div class="section-header">
+          <h4 class="section-title-view">
+            <span class="section-title" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_form_section_path(form, section) %>"><%= section.title %></span>
+            &nbsp;&nbsp;
+            <span class="usa-hint save-notice" id="section-<%= section.id %>">
+              <i class="fa fa-check-circle" aria-hidden="true"></i> section title saved
+            </span>
+          </h4>
+        </div>
         <div class="questions">
           <% section.questions.each_with_index do |question, index| %>
             <% multi_section_question_number += 1 %>
-            <div class="question well" id="<%= dom_id(question) %>" >
+            <div class="question white-bg" id="<%= dom_id(question) %>">
               <%= render 'components/forms/edit/button_dropdown', { form: form, question: question } if form_permissions?(form: form) %>
 
               <% if question.question_type == "text_field" %>
@@ -311,7 +312,7 @@ $(function() {
     }
   });
 
-  $("#sections").sortable({
+  $(".sorting-div").sortable({
     distance: 20,
     update: function(e, ui) {
       var url = ui.item.data("url");
@@ -323,18 +324,9 @@ $(function() {
     }
   });
 
-  $(".section-menu-action").mouseover(function(event) {
-    $(".dropdown-content").hide();
-    $(event.target).parent().find(".dropdown-content").show();
-  });
-
   $(".question-menu-action").mouseover(function(event) {
     $(".dropdown-content").hide();
     $(event.target).parent().find(".dropdown-content").show();
-  });
-
-  $(".section-menu-action").on("click", function(event) {
-    $(event.target).parent().find(".dropdown-content").toggle();
   });
 
   $(".question-menu-action").on("click", function(event) {
@@ -384,7 +376,7 @@ $(function() {
   $(".question").on('focusout', "textarea.usa-input[name='question_option[text]']", function() {
     var enteredText = $(this).val();
     numberOfLineBreaks = (enteredText.match(/\n/g)||[]).length;
-    var questionDiv = $($(this).parents(".well")[0]);
+    var questionDiv = $($(this).parents(".question")[0]);
     var valueField = questionDiv.find("input.usa-input[type='text'][name='question_option[value]']");
     var valueLabel = valueField.parent().find(".usa-label");
     if (numberOfLineBreaks > 0) {

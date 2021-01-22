@@ -273,7 +273,7 @@ feature "Touchpoints", js: true do
         end
 
         it "render the form" do
-          expect(page).to have_css(".touchpoints-form")
+          expect(page).to have_css(".touchpoint-form")
           expect(page).to have_content(form.title)
         end
       end
