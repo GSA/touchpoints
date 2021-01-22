@@ -12,7 +12,10 @@
 <div class="grid-row">
   <div class="grid-col">
     <div class="touchpoint-form form-builder">
-      <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
+      <div class="inner-wrapper">
+        <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
+      </div>
+      <%= render partial: 'components/forms/footer_banner', locals: { form: @form } %>
     </div>
     <br>
   </div>
