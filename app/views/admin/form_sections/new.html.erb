@@ -1,1 +1,42 @@
-<%= render 'form', form: @form, form_section: @form_section %>
+<div class="form-section-div" id="<%= dom_id(@section) %>"  data-url="<%= admin_form_form_section_path(@form, @section) %>/sort" data-id="<%= @section.id %>">
+  <div class="section">
+    <div class="section-header">
+      <h4 class="section-title-view">
+        <span class="section-title" contenteditable="true" data-url="<%= admin_form_form_section_path(@form, @section) %>"><%= @section.title %></span>
+        &nbsp;&nbsp;
+        <span class="usa-hint save-notice" id="section-<%= @section.id %>">
+          <i class="fa fa-check-circle" aria-hidden="true"></i> section title saved
+        </span>
+      </h4>
+    </div>
+    <div class="questions ui-sortable">
+    </div>
+    <%= link_to new_admin_form_question_path(@form), class: "usa-button form-add-question_#{ @section.id }" do %>
+      <span class="fa fa-plus"></span>
+      Add Question
+    <% end %>
+    <br>
+    <% unless @section.questions.present? || @form.form_sections.count == 1  %>
+      <br>
+      <%= link_to admin_form_form_section_path(@form, @section), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
+        <span class="fas fa-trash"></span>
+        Delete Section
+      <% end %>
+    <% end %>
+  </div>
+</div>
+<script>
+$('.form-add-question_<%= @section.id %>').on("click", function(event) {
+    event.preventDefault();
+    var formSection = $(this).parents(".form-section-div")[0];
+    var formSectionId = $(formSection).attr("data-id");
+    $.ajax({
+      type: "GET",
+      url: $(this).attr("href"),
+      data: { "form_section_id": formSectionId },
+      success: function (data) {
+        $("#form_section_" + formSectionId).find(".questions").append(data);
+      }
+    });
+  });
+</script>

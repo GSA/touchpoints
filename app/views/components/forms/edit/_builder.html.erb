@@ -181,19 +181,12 @@ $(function() {
 
 
   $('.form-add-section').on("click", function(event) {
-    var dlg_opt = {
-      autoOpen: false,
-      modal: true,
-      title: 'New Form Section',
-      width: 300
-    };
     event.preventDefault();
     $.ajax({
       type: "GET",
       url: $(this).attr("href"),
       success: function (data) {
-        $("#fba-modal-dialog").find(".modal-content").html(data);
-        $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
+        $(".sorting-div").append(data);
       }
     });
   });
@@ -234,40 +227,26 @@ $(function() {
 
   $('.form-add-question').on("click", function(event) {
     event.preventDefault();
-    var dlg_opt = {
-      autoOpen: false,
-      modal: true,
-      title: 'New Question',
-      width: 600
-    };
     var formSection = $(this).parents(".form-section-div")[0];
     var formSectionId = $(formSection).attr("data-id");
     $.ajax({
       type: "GET",
       url: $(this).attr("href"),
+      data: { "form_section_id": formSectionId },
       success: function (data) {
-        $("#fba-modal-dialog").find(".modal-content").html(data);
-        $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
-        $("#fba-modal-dialog question_text").focus();
-        $("#fba-modal-dialog #question_form_section_id").val(formSectionId);
+        $("#form_section_" + formSectionId).find(".questions").append(data);
       }
     });
   });
 
   $('.form-edit-question').on("click", function(event) {
-    var dlg_opt = {
-      autoOpen: false,
-      modal: true,
-      title: 'Edit Question',
-      width: 600
-    };
     event.preventDefault();
+    var question_id = "#question_" + $(this).attr("data-question-id")
     $.ajax({
       type: "GET",
       url: $(this).attr("href"),
       success: function (data) {
-        $("#fba-modal-dialog").find(".modal-content").html(data);
-        $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
+        $(question_id).html(data);
       }
     });
   });
