@@ -15,7 +15,6 @@ class Admin::FormSectionsController < AdminController
     @section.title = "New Section"
     @section.position = next_position
     @section.save!
-    @section.reload
     render layout: false
   end
 
