@@ -135,8 +135,8 @@ $(function() {
           instructions: $(this).text()
         }
       }).done(function(data) {
-        $(".fba-instructions .instructions").attr("data-html-value", data.instructions);
-        $(".fba-instructions .instructions").html(data.instructions);
+        $(".fba-instructions .instructions").attr("data-html-value", data.data.attributes.instructions);
+        $(".fba-instructions .instructions").html(data.data.attributes.instructions);
         $('.usa-hint.save-notice.survey-instructions').show();
         $('.usa-hint.save-notice.survey-instructions').fadeOut(2000);
       });
@@ -151,8 +151,8 @@ $(function() {
           disclaimer_text: $(this).text()
         }
       }).done(function(data) {
-        $("#disclaimer_text").attr("data-html-value", data.disclaimer_text);
-        $("#disclaimer_text").html(data.disclaimer_text);
+        $("#disclaimer_text").attr("data-html-value", data.data.attributes.disclaimer_text);
+        $("#disclaimer_text").html(data.data.attributes.disclaimer_text);
         $('.usa-hint.save-notice.survey-disclaimer').show();
         $('.usa-hint.save-notice.survey-disclaimer').fadeOut(2000);
       });
