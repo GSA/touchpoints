@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Api::V1::FormsController, type: :controller do
+describe Api::V0::FormsController, type: :controller do
   describe "unauthenticated request" do
     before do
       get :index
@@ -53,13 +53,12 @@ describe Api::V1::FormsController, type: :controller do
         it "return an array of forms" do
           parsed_response = JSON.parse(response.body)
           expect(response.status).to eq(200)
-          expect(parsed_response["data"].class).to be(Array)
-          expect(parsed_response["data"].size).to eq(1)
-          expect(parsed_response["data"].first.class).to be(Hash)
-          expect(parsed_response["data"].first["id"]).to eq(form.id.to_s)
+          expect(parsed_response["forms"].class).to be(Array)
+          expect(parsed_response["forms"].size).to eq(1)
         end
       end
     end
+
 
     describe "#show" do
       context "passing a valid API_KEY" do
@@ -76,10 +75,10 @@ describe Api::V1::FormsController, type: :controller do
         it "return an array of forms" do
           parsed_response = JSON.parse(response.body)
           expect(response.status).to eq(200)
-          expect(parsed_response["data"].class).to be(Hash)
-          expect(parsed_response["data"]["attributes"]["name"]).to eq(form.name)
-          expect(parsed_response["data"]["relationships"]["submissions"]["data"].class).to eq(Array)
-          expect(parsed_response["data"]["relationships"]["submissions"]["data"].size).to eq(3)
+          expect(parsed_response["form"].class).to be(Hash)
+          expect(parsed_response["form"]["name"]).to eq(form.name)
+          expect(parsed_response["responses"].class).to eq(Array)
+          expect(parsed_response["responses"].size).to eq(3)
         end
       end
     end
