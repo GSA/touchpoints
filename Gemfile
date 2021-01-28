@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.6'
 
+gem 'active_model_serializers'
 gem 'aws-sdk-rails', '>= 3.1.0'
 gem 'caracal'
 gem 'carrierwave'
