@@ -25,18 +25,3 @@
     <% end %>
   </div>
 </div>
-<script>
-$('.form-add-question_<%= @section.id %>').on("click", function(event) {
-    event.preventDefault();
-    var formSection = $(this).parents(".form-section-div")[0];
-    var formSectionId = $(formSection).attr("data-id");
-    $.ajax({
-      type: "GET",
-      url: $(this).attr("href"),
-      data: { "form_section_id": formSectionId },
-      success: function (data) {
-        $("#form_section_" + formSectionId).find(".questions").append(data);
-      }
-    });
-  });
-</script>

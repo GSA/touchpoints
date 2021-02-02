@@ -11,11 +11,17 @@
   </h2>
 </div>
 <div class="fba-instructions">
-  <span class="display-inline instructions" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>" data-html-value="<%= form.instructions %>"><%= form.instructions.present? ? sanitize(form.instructions) : 'Survey Instructions' %></span>
-  &nbsp;&nbsp;
+  Instructions:
+  <br>
+  <textarea class="instructions" name="instructions" rows="8" cols="80" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>"><%= form.instructions %></textarea>
   <span class="usa-hint save-notice survey-instructions">
-    <i class="fa fa-check-circle" aria-hidden="true"></i> survey instructions saved
+    <i class="fa fa-check-circle" aria-hidden="true"></i> saved
   </span>
+  <br>
+  <span class="display-inline instructions-show">
+    <%= form.instructions.present? ? sanitize(form.instructions) : 'Survey Instructions' %>
+  </span>
+  &nbsp;&nbsp;
 </div>
 <br>
 
@@ -89,15 +95,23 @@
 <% end %>
 <br/>
 <br/>
-<small>
-  <p class="fba-disclaimer-text ">
-    <div class="preserve-whitespace" id="disclaimer_text" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>" data-html-value="<%= form.disclaimer_text %>"><%= form.disclaimer_text.present? ? sanitize(form.disclaimer_text) : 'Survey Disclaimer Text' %></div>
-    &nbsp;&nbsp;
-    <span class="usa-hint save-notice survey-disclaimer">
-       <i class="fa fa-check-circle" aria-hidden="true"></i> survey disclaimer saved
-    </span>
-  </p>
-</small>
+<div class="grid-row">
+  <div class="grid-col-12">
+    <div class="touchpoints-form-disclaimer">
+      <hr style="border: none; border-top: 1px solid #E5E5E5;">
+      <small id="fba-dialog-privacy">
+        <p class="fba-disclaimer-text">
+          <textarea id="disclaimer_text" name="disclaimer-text" rows="8" cols="80" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>"><%= form.disclaimer_text %></textarea>
+          <span class="usa-hint save-notice survey-disclaimer">
+            <i class="fa fa-check-circle" aria-hidden="true"></i> saved
+          </span>
+          <div id="disclaimer_text-show" tabindex="<%= @tabindex += 1 %>"><%= form.disclaimer_text.present? ? sanitize(form.disclaimer_text) : 'Survey Disclaimer Text' %></div>
+        </p>
+      </small>
+    </div>
+  </div>
+</div>
+<br>
 
 <script>
 $(function() {
@@ -116,11 +130,6 @@ $(function() {
       });
     });
 
-    $(".fba-instructions .instructions").on("focus", function(event) {
-      event.preventDefault();
-      $(this).text($(this).attr("data-html-value"));
-    });
-
     $("#disclaimer_text").on("focus", function(event) {
       event.preventDefault();
       $(this).text($(this).attr("data-html-value"));
@@ -132,11 +141,10 @@ $(function() {
         type: "PATCH",
         url:  $(this).attr("data-url") + "/update_instructions",
         data: {
-          instructions: $(this).text()
+          instructions: $(this).val()
         }
       }).done(function(data) {
-        $(".fba-instructions .instructions").attr("data-html-value", data.data.attributes.instructions);
-        $(".fba-instructions .instructions").html(data.data.attributes.instructions);
+        $(".fba-instructions .instructions-show").html(data.data.attributes.instructions);
         $('.usa-hint.save-notice.survey-instructions').show();
         $('.usa-hint.save-notice.survey-instructions').fadeOut(2000);
       });
@@ -148,11 +156,10 @@ $(function() {
         type: "PATCH",
         url: $(this).attr("data-url") + "/update_disclaimer_text",
         data: {
-          disclaimer_text: $(this).text()
+          disclaimer_text: $(this).val()
         }
       }).done(function(data) {
-        $("#disclaimer_text").attr("data-html-value", data.data.attributes.disclaimer_text);
-        $("#disclaimer_text").html(data.data.attributes.disclaimer_text);
+        $("#disclaimer_text-show").html(data.data.attributes.disclaimer_text);
         $('.usa-hint.save-notice.survey-disclaimer').show();
         $('.usa-hint.save-notice.survey-disclaimer').fadeOut(2000);
       });
