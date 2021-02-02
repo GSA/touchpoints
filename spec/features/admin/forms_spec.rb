@@ -224,16 +224,18 @@ feature "Forms", js: true do
             end
 
             it "has inline editable disclaimer text textbox that can be updated and saved" do
-              find("disclaimer-text").set("Disclaaaaaaaimer! with <a href=\"#\">a new link</a>")
-              find("#disclaimer_text").native.send_key :tab
-              expect(page).to have_content("survey disclaimer saved")
-              expect(find("#disclaimer_text")).to have_content("Disclaaaaaaaimer!")
-              expect(find("#disclaimer_text")).to have_link("a new link")
+              fill_in("disclaimer-text", with: "Disclaaaaaaaimer! with <a href=\"#\">a new link</a>")
+              within ".touchpoints-form-disclaimer" do
+                find("#disclaimer_text").native.send_key :tab
+                expect(page).to have_content("saved")
+                expect(find("#disclaimer_text-show")).to have_content("Disclaaaaaaaimer!")
+                expect(find("#disclaimer_text-show")).to have_link("a new link")
+              end
 
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find("#disclaimer_text")).to have_content("Disclaaaaaaaimer!")
-              expect(find("#disclaimer_text")).to have_link("a new link")
+              expect(find("#disclaimer_text-show")).to have_content("Disclaaaaaaaimer!")
+              expect(find("#disclaimer_text-show")).to have_link("a new link")
             end
           end
         end
