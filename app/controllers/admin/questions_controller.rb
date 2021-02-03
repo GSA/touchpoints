@@ -79,7 +79,7 @@ class Admin::QuestionsController < AdminController
       @question.form_section_id = params[:form_section_id]
       @question.text = "New Question"
       @question.question_type = "text_field"
-      @question.answer_field = first_unused_answer_field(@question.form_section_id)
+      @question.answer_field = first_unused_answer_field
       @question.save!
     end
 
@@ -100,8 +100,8 @@ class Admin::QuestionsController < AdminController
       )
     end
 
-    def first_unused_answer_field(form_section_id)
-      answer_fields = Question.where(form_id: @form.id, form_section_id: form_section_id).collect { | q | q.answer_field }
+    def first_unused_answer_field
+      answer_fields = Question.where(form_id: @form.id).collect { | q | q.answer_field }
       (1..20).each do | ind |
         af = "answer_#{ind.to_s.rjust(2,"0")}"
         return af unless answer_fields.include?(af)
