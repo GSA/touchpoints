@@ -11,6 +11,7 @@ class Admin::QuestionsController < AdminController
 
   def new
     @question = Question.new
+    set_defaults
     render layout: false
   end
 
@@ -73,6 +74,15 @@ class Admin::QuestionsController < AdminController
       @question = Question.find(params[:id])
     end
 
+    def set_defaults
+      @question.form_id = @form.id
+      @question.form_section_id = params[:form_section_id]
+      @question.text = "New Question"
+      @question.question_type = "text_field"
+      @question.answer_field = first_unused_answer_field
+      @question.save!
+    end
+
     def set_form
       @form = Form.find_by_short_uuid(params[:form_id])
     end
@@ -89,4 +99,14 @@ class Admin::QuestionsController < AdminController
         :character_limit
       )
     end
+
+    def first_unused_answer_field
+      answer_fields = Question.where(form_id: @form.id).collect { | q | q.answer_field }
+      (1..20).each do | ind |
+        af = "answer_#{ind.to_s.rjust(2,"0")}"
+        return af unless answer_fields.include?(af)
+      end
+      "answer_01"
+    end
+
 end
