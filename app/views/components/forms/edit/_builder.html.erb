@@ -72,10 +72,7 @@
             </div>
           <% end %>
         </div>
-        <%= link_to new_admin_form_question_path(form), class: "usa-button form-add-question" do %>
-          <span class="fa fa-plus"></span>
-          Add Question
-        <% end %>
+        <%= render 'admin/forms/add_question', form: form %>
         <br>
         <% unless section.questions.present? || form.form_sections.count == 1  %>
           <br>
@@ -221,7 +218,7 @@ $(function() {
     }
   });
 
-  $(".form-delete-question-option").on("click", function(event) {
+  $('.form-builder').on("click", ".form-delete-question-option", function(event) {
     event.preventDefault();
     if (confirm('Are you sure?')) {
       $(this).closest('div.question-option').remove();
@@ -232,7 +229,7 @@ $(function() {
     }
   });
 
-  $('.form-add-question').on("click", function(event) {
+  $('.form-builder').on("click", '.form-add-question', function(event) {
     event.preventDefault();
     var formSection = $(this).parents(".form-section-div")[0];
     var formSectionId = $(formSection).attr("data-id");
@@ -246,7 +243,7 @@ $(function() {
     });
   });
 
-  $('.form-edit-question').on("click", function(event) {
+  $('.form-builder').on("click", '.form-edit-question', function(event) {
     event.preventDefault();
     var question_id = "#question_" + $(this).attr("data-question-id")
     $.ajax({

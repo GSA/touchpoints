@@ -11,10 +11,7 @@
     </div>
     <div class="questions ui-sortable">
     </div>
-    <%= link_to new_admin_form_question_path(@form), class: "usa-button form-add-question_#{ @section.id }" do %>
-      <span class="fa fa-plus"></span>
-      Add Question
-    <% end %>
+    <%= render 'admin/forms/add_question', form: @form %>
     <br>
     <% unless @section.questions.present? || @form.form_sections.count == 1  %>
       <br>
@@ -25,18 +22,3 @@
     <% end %>
   </div>
 </div>
-<script>
-$('.form-add-question_<%= @section.id %>').on("click", function(event) {
-    event.preventDefault();
-    var formSection = $(this).parents(".form-section-div")[0];
-    var formSectionId = $(formSection).attr("data-id");
-    $.ajax({
-      type: "GET",
-      url: $(this).attr("href"),
-      data: { "form_section_id": formSectionId },
-      success: function (data) {
-        $("#form_section_" + formSectionId).find(".questions").append(data);
-      }
-    });
-  });
-</script>
