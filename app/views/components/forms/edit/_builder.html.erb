@@ -218,7 +218,7 @@ $(function() {
     }
   });
 
-  $('.form-builder').on("click", ".form-delete-question-option", function(event) {
+  $(".form-builder").on("click", ".form-delete-question-option", function(event) {
     event.preventDefault();
     if (confirm('Are you sure?')) {
       $(this).closest('div.question-option').remove();
@@ -318,13 +318,15 @@ $(function() {
 
   $('.form-add-question-option').on("click", function(event) {
     event.preventDefault();
-    var contentDiv =  $(this).closest('div.new-question-options-div');
+    $(this).closest('div.new-question-options-div').find('.form-add-question-option').hide();
+    var editDiv =  $(this).closest('div.new-question-options-div').find('.question-option-form');
     $.ajax({
       type: "GET",
       url: $(this).attr("href"),
       success: function (data) {
-        contentDiv.html(data);
-        contentDiv.find("#question_option_text").focus();
+        editDiv.html(data);
+        $(editDiv).show();
+        editDiv.find("#question_option_text").focus();
       }
     });
   });

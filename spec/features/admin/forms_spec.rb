@@ -517,6 +517,14 @@ feature "Forms", js: true do
             it "can add a Checkbox Question" do
               expect(page).to have_link("Add Checkbox Option")
             end
+
+            it "can cancel a Checkbox Question" do
+              click_on "Add Checkbox Option"
+              expect(page).to have_content("New Question Option")
+              click_on "Cancel"
+              expect(page.current_path).to eq(admin_form_questions_path(form))
+              expect(page).not_to have_content("New Question Option")
+            end
           end
 
           describe "answer display" do
@@ -604,6 +612,13 @@ feature "Forms", js: true do
                   end
                   expect(page).to have_content("Edited Question Option Text (100)")
                 end
+
+                it "can cancel a Dropdown Question option" do
+                  expect(page).to have_content("New Question Option")
+                  click_on "Cancel"
+                  expect(page.current_path).to eq(admin_form_questions_path(form))
+                  expect(page).not_to have_content("New Question Option")
+                end
               end
             end
           end
@@ -676,6 +691,13 @@ feature "Forms", js: true do
               within ".form-builder .question-options .question-option[data-id='#{QuestionOption.last.id}']" do
                 expect(all("label").last).to have_content("New Test Radio Option")
               end
+            end
+
+            it "can cancel a Radio Button question" do
+              expect(page).to have_content("New Question Option")
+              click_on "Cancel"
+              expect(page.current_path).to eq(admin_form_questions_path(form))
+              expect(page).not_to have_content("New Question Option")
             end
           end
 
