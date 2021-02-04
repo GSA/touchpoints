@@ -7,5 +7,11 @@
   </p>
 
   <%= render 'form', form: @question.form, question: @question, question_option: @question_option %>
-  <%= link_to 'Cancel', questions_admin_form_path(@question.form) %>
+  <%= link_to 'Cancel', questions_admin_form_path(@question.form), class: "question-option-cancel" %>
 </div>
+<script>
+  $('.question-option-cancel').on("click", function(event) {
+    event.preventDefault();
+    $(this).closest('div.new-question-options-div').find('.question-option-edit').hide();
+  });
+</script>

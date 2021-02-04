@@ -335,13 +335,14 @@ $(function() {
 
   $('.form-add-question-option').on("click", function(event) {
     event.preventDefault();
-    var contentDiv =  $(this).closest('div.new-question-options-div');
+    var editDiv =  $(this).closest('div.new-question-options-div').find('.question-option-edit');
     $.ajax({
       type: "GET",
       url: $(this).attr("href"),
       success: function (data) {
-        contentDiv.html(data);
-        contentDiv.find("#question_option_text").focus();
+        editDiv.html(data);
+        $(editDiv).show();
+        editDiv.find("#question_option_text").focus();
       }
     });
   });
