@@ -335,7 +335,8 @@ $(function() {
 
   $('.form-add-question-option').on("click", function(event) {
     event.preventDefault();
-    var editDiv =  $(this).closest('div.new-question-options-div').find('.question-option-edit');
+    $(this).closest('div.new-question-options-div').find('.form-add-question-option').hide();
+    var editDiv =  $(this).closest('div.new-question-options-div').find('.question-option-form');
     $.ajax({
       type: "GET",
       url: $(this).attr("href"),

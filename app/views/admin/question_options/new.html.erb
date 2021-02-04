@@ -12,6 +12,7 @@
 <script>
   $('.question-option-cancel').on("click", function(event) {
     event.preventDefault();
-    $(this).closest('div.new-question-options-div').find('.question-option-edit').hide();
+    $(this).closest('div.new-question-options-div').find('.question-option-form').hide();
+    $(this).closest('div.new-question-options-div').find('.form-add-question-option').show();
   });
 </script>
