@@ -118,8 +118,7 @@ footer {
    margin-top: 0;
 }
 
-.submit-button,
-.radios {
+.submit-button {
   padding: 1em 0;
 }
 
@@ -133,8 +132,7 @@ footer {
 
 .well {
   border: 1px solid #d6d7d9;
-  border-radius: 8px;
-  padding: 10px 20px;
+  padding: 20px;
   margin: 10px 0;
 }
 
@@ -169,11 +167,6 @@ h1, h2, h3 {
 .white-bg {
   background: #FFFFFF;
 }
-
-.float-right {
-  float: right;
-}
-
 
 // Maintenance Page Styles
 .maintenance footer {
@@ -371,20 +364,10 @@ tbody tr:hover td {
 	display: none;
 }
 .form-section-div {
-  .well2 {
-    border-radius: 0px 0px 8px 8px;
-    background: #FFFFFF;
-    margin-bottom: 4em;
-  }
-  .well2:last-child {
-    margin-bottom: 0;
-  }
+  background-color: #f0f0f0;
 }
-.form-section-div {
-  border-radius: 8px 8px 8px 8px;
-  padding-top: 10px;
-}
-.section-menu-action, .question-menu-action {
+
+.question-menu-action {
   float: right;
   background: #FFFFFF;
   border: 2px solid black;
@@ -394,12 +377,8 @@ tbody tr:hover td {
   padding-left: 16px;
   padding-right: 16px;
   z-index: 2;
-  top: -18px;
   right: 10px;
-}
-
-.question-menu-action {
-  top: 0px;
+  top: 10px;
 }
 
 .section-menu-div {
@@ -431,9 +410,8 @@ tbody tr:hover td {
     text-decoration: none;
     color: blue;
 }
-.section-header-div {
+.section-header {
   background: #71767A;
-  border-radius: 8px 8px 0px 0px;
   min-height: 50px;
   padding: 8px 0px 0px 0px;
 }
@@ -503,6 +481,35 @@ span.usa-hint.save-notice {
   padding: 4px;
 }
 
-.preserve-whitespace {
-  white-space: pre-line;
+// The public page
+.usa-width-full {
+  .touchpoint-form {
+    margin-top: 10px;
+    margin-bottom: 40px;
+  }
+}
+
+.touchpoint-form {
+  background-color: #F1F1F1;
+
+  .inner-wrapper {
+    padding: 20px 20px 0 20px;
+  }
+
+  .section {
+    padding: 20px 0;
+  }
+  .section:first-child {
+    padding-top: 0;
+  }
+  .section .questions .question:first-child {
+    margin-top: 0;
+  }
+  .question {
+    margin: 10px 0;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 1px;
+  }
 }
