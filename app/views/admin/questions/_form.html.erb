@@ -1,4 +1,4 @@
-<%= form_with(model: question, url: (question.persisted? ? admin_form_question_path(form, question) : admin_form_questions_path(form)), local: true) do |f| %>
+<%= form_with(model: question, url: (question.persisted? ? admin_form_question_path(form, question) : admin_form_questions_path(form)), local: true, class: 'question-form' ) do |f| %>
   <div class="question white-bg" id="question_<%= question.id %>">
     <% if question.errors.any? %>
       <div id="error_explanation">
@@ -77,9 +77,25 @@
 <% if admin_permissions? %>
   <script>
     $('.save-question').on("click", function(event) {
+      event.preventDefault();
       if (!$("input[name='question[question_type]']:checked").val()) {
          alert('You must select a question type!');
-         event.preventDefault();
+      } else {
+        console.log("Saving question");
+        var url = $(".question-form").attr("action");
+        console.log(url);
+        var data = $(".question-form").serialize();
+        console.log(data);
+        $.ajax({
+            url: url,
+            type: 'post',
+            data: data,
+            success: function(resp) {
+                       console.log(resp);
+                       var question_id = "div#<%= dom_id(question) %>"
+                       $(question_id).html(resp);
+                     }
+        });
       }
     });
   </script>
