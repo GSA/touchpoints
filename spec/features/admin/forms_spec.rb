@@ -448,27 +448,26 @@ feature "Forms", js: true do
         end
 
         describe "character limit field" do
-            before do
-              visit questions_admin_form_path(form)
-              click_on "Add Question"
+          before do
+            visit questions_admin_form_path(form)
+            click_on "Add Question"
+          end
 
-            end
+          it 'shows character limit field' do
+            choose "question_question_type_text_field"
+            expect(page).to have_content("Character limit")
+            choose "question_question_type_textarea"
+            expect(page).to have_content("Character limit")
+          end
 
-            it 'shows character limit field' do
-              choose "question_question_type_text_field"
-              expect(page).to have_content("Character limit")
-              choose "question_question_type_textarea"
-              expect(page).to have_content("Character limit")
-            end
-
-            it 'hides character limit field' do
-              choose "question_question_type_radio_buttons"
-              expect(page).not_to have_content("Character limit")
-              choose "question_question_type_dropdown"
-              expect(page).not_to have_content("Character limit")
-              choose "question_question_type_checkbox"
-              expect(page).not_to have_content("Character limit")
-            end
+          it 'hides character limit field' do
+            choose "question_question_type_radio_buttons"
+            expect(page).not_to have_content("Character limit")
+            choose "question_question_type_dropdown"
+            expect(page).not_to have_content("Character limit")
+            choose "question_question_type_checkbox"
+            expect(page).not_to have_content("Character limit")
+          end
         end
 
         describe "adding Questions" do
