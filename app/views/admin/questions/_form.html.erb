@@ -78,16 +78,21 @@
   <script>
     $('.save-question').on("click", function(event) {
       event.preventDefault();
-      if (!$("input[name='question[question_type]']:checked").val()) {
-         alert('You must select a question type!');
+
+      var questionType = $("input[name='question[question_type]']:checked").val();
+      if (!questionType) {
+         alert('Please select a question type');
       } else {
         $.ajax({
-            url: $(".question-form").attr("action"),
-            type: 'post',
-            data: $(".question-form").serialize(),
-            success: function(resp) {
-                       $("div#<%= dom_id(question) %>").html(resp);
-                     }
+          url: $(".question-form").attr("action"),
+          type: 'post',
+          data: $(".question-form").serialize(),
+          success: function(resp) {
+            $("div#<%= dom_id(question) %>").html(resp);
+            $(".question#question_<%= question.id %> .question-option-edit").hide();
+            $(".dropdown-content").hide();
+            $(".question-option-edit").hide();
+          }
         });
       }
     });
