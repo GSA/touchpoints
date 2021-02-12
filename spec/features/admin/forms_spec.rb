@@ -599,7 +599,6 @@ feature "Forms", js: true do
                   fill_in "question_text", with: "Updated question text"
                   click_on "Update Question"
 
-                  expect(page).to have_content("Question was successfully updated.")
                   expect(page.current_path).to eq(questions_admin_form_path(form))
                   within ".form-builder" do
                     expect(page).to have_content("Updated question text")
@@ -1006,10 +1005,12 @@ feature "Forms", js: true do
             select("text_field", from: "question_question_type")
             click_on "Update Question"
             # Select the Add Question button in the 2nd Form Section
+            visit questions_admin_form_path(form_section2.form)
             find_all(".form-add-question").last.click
             fill_in "question_text", with: "Question in Form Section 2"
             select("text_field", from: "question_question_type")
             click_on "Update Question"
+            visit questions_admin_form_path(form_section2.form)
           end
 
           it "creates the question in the correct Form Section" do
