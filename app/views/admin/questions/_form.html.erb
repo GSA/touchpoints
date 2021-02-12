@@ -53,7 +53,7 @@
     </div>
 
     <% if question.question_type == "text_field" || question.question_type == "textarea" %>
-    <div class="field">
+    <div class="field character-limit">
       <%= f.label :character_limit, class: "usa-label" %>
       <%= f.number_field :character_limit, class: "usa-input", max: "100000" %>
     </div>
@@ -82,5 +82,13 @@
          event.preventDefault();
       }
     });
+    $("input[name='question[question_type]']").on("click", function(event) {
+      if ($(this)[0].id == 'question_question_type_text_field' || $(this)[0].id == 'question_question_type_textarea') {
+        $(".character-limit").show();
+      } else {
+        $(".character-limit").hide();
+      }
+    });
   </script>
+
 <% end %>
