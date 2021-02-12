@@ -32,7 +32,7 @@ def set_s3!(vcap_services_json)
 end
 
 def set_redis!(vcap_services_json)
-  redis_settings = vcap_services_json["redis32"]
+  redis_settings = vcap_services_json["aws-elasticache-redis"]
   return false unless redis_settings.present?
 
   redis_credentials = redis_settings[0]["credentials"]
@@ -41,7 +41,7 @@ def set_redis!(vcap_services_json)
   end
 
   # use `rediss://` to force HTTPS
-  ENV["REDIS_URL"] = redis_credentials["uri"]
+  ENV["REDIS_URL"] = redis_credentials["uri"].gsub("redis:", "rediss:")
   puts "Set REDIS_URL ENV variable via vcap_services.rb"
 end
 

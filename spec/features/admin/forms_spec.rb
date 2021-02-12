@@ -211,10 +211,11 @@ feature "Forms", js: true do
 
             it "has inline editable instructions textbox that can be updated and saved" do
               within ".fba-instructions" do
-                find(".instructions").set("")
-                find(".instructions").set("Some <a href=\"#\">HTML Instructions</a> go here")
+                fill_in "instructions", with: "Some <a href=\"#\">HTML Instructions</a> go here"
                 find(".instructions").native.send_key :tab
-                expect(page).to have_content("survey instructions saved")
+                expect(page).to have_content("go here")
+                expect(page).to have_link("HTML Instructions")
+                expect(page).to have_content("saved")
               end
               # and persists after refresh
               visit questions_admin_form_path(form)
@@ -223,16 +224,18 @@ feature "Forms", js: true do
             end
 
             it "has inline editable disclaimer text textbox that can be updated and saved" do
-              find("#disclaimer_text").set("Disclaaaaaaaimer! with <a href=\"#\">a new link</a>")
-              find("#disclaimer_text").native.send_key :tab
-              expect(page).to have_content("survey disclaimer saved")
-              expect(find("#disclaimer_text")).to have_content("Disclaaaaaaaimer!")
-              expect(find("#disclaimer_text")).to have_link("a new link")
+              fill_in("disclaimer-text", with: "Disclaaaaaaaimer! with <a href=\"#\">a new link</a>")
+              within ".touchpoints-form-disclaimer" do
+                find("#disclaimer_text").native.send_key :tab
+                expect(page).to have_content("saved")
+                expect(find("#disclaimer_text-show")).to have_content("Disclaaaaaaaimer!")
+                expect(find("#disclaimer_text-show")).to have_link("a new link")
+              end
 
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find("#disclaimer_text")).to have_content("Disclaaaaaaaimer!")
-              expect(find("#disclaimer_text")).to have_link("a new link")
+              expect(find("#disclaimer_text-show")).to have_content("Disclaaaaaaaimer!")
+              expect(find("#disclaimer_text-show")).to have_link("a new link")
             end
           end
         end
@@ -386,19 +389,9 @@ feature "Forms", js: true do
             end
 
             it "displays /admin/forms/:id/form_sections/new" do
-              expect(page).to have_content("New Form Section")
+              expect(page).to have_content("New Section")
             end
 
-            describe "add Form Section" do
-              before do
-                fill_in("form_section_title", with: "Test Form Section Title")
-                click_on "Create Section"
-              end
-
-              it "create Form Section successfully" do
-                expect(page).to have_content("Form section was successfully created.")
-              end
-            end
           end
 
           describe "editing Form Sections" do
@@ -451,19 +444,29 @@ feature "Forms", js: true do
                 expect(find_all(".section").size).to eq(1)
               end
             end
+          end
+        end
 
-            describe "add Form Section" do
-              before do
-                click_on "Add Section"
-                expect(page).to have_content("New Form Section")
-                fill_in("form_section_title", with: "Test Form Section Title")
-                click_on "Create Section"
-              end
+        describe "character limit field" do
+          before do
+            visit questions_admin_form_path(form)
+            click_on "Add Question"
+          end
 
-              it "create Form Section successfully" do
-                expect(page).to have_content("Form section was successfully created.")
-              end
-            end
+          it 'shows character limit field' do
+            choose "question_question_type_text_field"
+            expect(page).to have_content("Character limit")
+            choose "question_question_type_textarea"
+            expect(page).to have_content("Character limit")
+          end
+
+          it 'hides character limit field' do
+            choose "question_question_type_radio_buttons"
+            expect(page).not_to have_content("Character limit")
+            choose "question_question_type_dropdown"
+            expect(page).not_to have_content("Character limit")
+            choose "question_question_type_checkbox"
+            expect(page).not_to have_content("Character limit")
           end
         end
 
@@ -472,15 +475,13 @@ feature "Forms", js: true do
             before do
               visit questions_admin_form_path(form)
               click_on "Add Question"
-              expect(page).to have_content("New Question")
               fill_in "question_text", with: "New Test Question"
               choose "question_question_type_text_field"
               select("answer_01", from: "question_answer_field")
-              click_on "Create Question"
+              click_on "Update Question"
             end
 
             it "can add a Text Field Question" do
-              expect(page).to have_content("Question was successfully created.")
               expect(page.current_path).to eq(questions_admin_form_path(form))
               within ".form-builder .question" do
                 expect(page).to have_content("New Test Question")
@@ -493,15 +494,13 @@ feature "Forms", js: true do
             before do
               visit questions_admin_form_path(form)
               click_on "Add Question"
-              expect(page).to have_content("New Question")
               fill_in "question_text", with: "New Text Area"
               choose "question_question_type_textarea"
               select("answer_01", from: "question_answer_field")
-              click_on "Create Question"
+              click_on "Update Question"
             end
 
             it "can add a Text Area question" do
-              expect(page).to have_content("Question was successfully created.")
               expect(page.current_path).to eq(questions_admin_form_path(form))
               within ".form-builder .question" do
                 expect(page).to have_content("New Text Area")
@@ -514,15 +513,13 @@ feature "Forms", js: true do
             before do
               visit questions_admin_form_path(form)
               click_on "Add Question"
-              expect(page).to have_content("New Question")
               fill_in "question_text", with: "New Test Question Radio Buttons"
               choose "question_question_type_radio_buttons"
               select("answer_01", from: "question_answer_field")
-              click_on "Create Question"
+              click_on "Update Question"
             end
 
             it "can add a Text Field Question" do
-              expect(page).to have_content("Question was successfully created.")
               expect(page.current_path).to eq(questions_admin_form_path(form))
               within ".form-builder .question" do
                 expect(page).to have_content("New Test Question Radio Buttons")
@@ -531,34 +528,25 @@ feature "Forms", js: true do
             end
           end
 
-          describe "ensure question type" do
-            before do
-              visit questions_admin_form_path(form)
-              click_on "Add Question"
-              expect(page).to have_content("New Question")
-              select("answer_01", from: "question_answer_field")
-              click_on "Create Question"
-            end
-
-            it "must have question type selected" do
-              text = page.driver.browser.switch_to.alert.text
-              expect(text).to eq("You must select a question type!")
-            end
-          end
-
           describe "add a Checkbox question" do
             before do
               visit questions_admin_form_path(form)
               click_on "Add Question"
-              expect(page).to have_content("New Question")
               choose "question_question_type_checkbox"
               select("answer_01", from: "question_answer_field")
-              click_on "Create Question"
+              click_on "Update Question"
             end
 
             it "can add a Checkbox Question" do
-              expect(page).to have_content("Question was successfully created.")
               expect(page).to have_link("Add Checkbox Option")
+            end
+
+            it "can cancel a Checkbox Question" do
+              click_on "Add Checkbox Option"
+              expect(page).to have_content("New Question Option")
+              click_on "Cancel"
+              expect(page.current_path).to eq(admin_form_questions_path(form))
+              expect(page).not_to have_content("New Question Option")
             end
           end
 
@@ -571,7 +559,6 @@ feature "Forms", js: true do
             end
 
             it "displays answers that are not assigned to other Questions" do
-              expect(page).to have_content("New Question")
               expect(find("#question_answer_field")).to_not have_content("answer_01")
               expect(find("#question_answer_field")).to have_content("answer_02")
             end
@@ -583,16 +570,14 @@ feature "Forms", js: true do
                 visit questions_admin_form_path(form)
                 click_on "Add Question"
                 expect(page.current_path).to eq(questions_admin_form_path(form))
-                expect(page).to have_content("New Question")
                 choose "question_question_type_dropdown"
                 # select("dropdown", from: "question_question_type")
                 fill_in "question_text", with: "New dropdown field"
                 select("answer_01", from: "question_answer_field")
-                click_on "Create Question"
+                click_on "Update Question"
               end
 
               it "can add a dropdown Question" do
-                expect(page).to have_content("Question was successfully created.")
                 expect(page.current_path).to eq(questions_admin_form_path(form))
                 within ".form-builder" do
                   expect(page).to have_content("New dropdown field")
@@ -614,7 +599,6 @@ feature "Forms", js: true do
                   fill_in "question_text", with: "Updated question text"
                   click_on "Update Question"
 
-                  expect(page).to have_content("Question was successfully updated.")
                   expect(page.current_path).to eq(questions_admin_form_path(form))
                   within ".form-builder" do
                     expect(page).to have_content("Updated question text")
@@ -627,7 +611,6 @@ feature "Forms", js: true do
                   visit questions_admin_form_path(form)
                   click_on "Add Dropdown Option"
                   expect(page.current_path).to eq(questions_admin_form_path(form))
-                  expect(page).to have_content("New Question")
                   fill_in "question_option_text", with: "Dropdown option #1"
                   # Create the option
                   click_on "Create Question option"
@@ -651,6 +634,13 @@ feature "Forms", js: true do
                   end
                   expect(page).to have_content("Edited Question Option Text (100)")
                 end
+
+                it "can cancel a Dropdown Question option" do
+                  expect(page).to have_content("New Question Option")
+                  click_on "Cancel"
+                  expect(page.current_path).to eq(admin_form_questions_path(form))
+                  expect(page).not_to have_content("New Question Option")
+                end
               end
             end
           end
@@ -660,15 +650,13 @@ feature "Forms", js: true do
               visit questions_admin_form_path(form)
               click_on "Add Question"
               expect(page.current_path).to eq(questions_admin_form_path(form))
-              expect(page).to have_content("New Question")
               choose "question_question_type_text_display"
               fill_in "question_text", with: 'Some custom <a href="#">html</a>'
               select("answer_20", from: "question_answer_field")
-              click_on "Create Question"
+              click_on "Update Question"
             end
 
             it "display text display element with html" do
-              expect(page).to have_content("Question was successfully created.")
               within ".form-builder .question" do
                 expect(page).to have_content("Some custom")
                 expect(page).to have_link("html")
@@ -725,6 +713,13 @@ feature "Forms", js: true do
               within ".form-builder .question-options .question-option[data-id='#{QuestionOption.last.id}']" do
                 expect(all("label").last).to have_content("New Test Radio Option")
               end
+            end
+
+            it "can cancel a Radio Button question" do
+              expect(page).to have_content("New Question Option")
+              click_on "Cancel"
+              expect(page.current_path).to eq(admin_form_questions_path(form))
+              expect(page).not_to have_content("New Question Option")
             end
           end
 
@@ -1008,13 +1003,14 @@ feature "Forms", js: true do
             find_all(".form-add-question").first.click
             fill_in "question_text", with: "Question in Form Section 1"
             select("text_field", from: "question_question_type")
-            click_on "Create Question"
-            expect(page).to have_content("Question was successfully created.")
+            click_on "Update Question"
             # Select the Add Question button in the 2nd Form Section
+            visit questions_admin_form_path(form_section2.form)
             find_all(".form-add-question").last.click
             fill_in "question_text", with: "Question in Form Section 2"
             select("text_field", from: "question_question_type")
-            click_on "Create Question"
+            click_on "Update Question"
+            visit questions_admin_form_path(form_section2.form)
           end
 
           it "creates the question in the correct Form Section" do

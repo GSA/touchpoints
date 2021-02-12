@@ -10,7 +10,11 @@ class Admin::FormSectionsController < AdminController
   end
 
   def new
-    @form_section = @form.form_sections.new
+    next_position = @form.form_sections.collect(&:position).max + 1
+    @section = @form.form_sections.new
+    @section.title = "New Section"
+    @section.position = next_position
+    @section.save!
     render layout: false
   end
 

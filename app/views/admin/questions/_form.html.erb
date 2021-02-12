@@ -1,84 +1,108 @@
-<%= form_with(model: question, url: (question.persisted? ? admin_form_question_path(form, question) : admin_form_questions_path(form)), local: true) do |f| %>
-  <% if question.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(question.errors.count, "error") %> prohibited this question from being saved:</h2>
+<%= form_with(model: question, url: (question.persisted? ? admin_form_question_path(form, question) : admin_form_questions_path(form)), local: true, class: 'question-form' ) do |f| %>
+  <div class="question white-bg" id="question_<%= question.id %>">
+    <% if question.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(question.errors.count, "error") %> prohibited this question from being saved:</h2>
 
-      <ul class="usa-list">
-      <% question.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <%= f.hidden_field :form_id, value: @form.id %>
-
-  <div class="field">
-    <%= f.label :text, class: "usa-label" %>
-    <%= f.text_field :text, class: "usa-input" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :question_type, class: "usa-label" %>
-  <% if admin_permissions? %>
-    <br>
-    <% Question::QUESTION_TYPES.each do |kind| %>
-      <%= f.radio_button :question_type, kind %>
-      <%= kind %>
-      <br>
+        <ul class="usa-list">
+        <% question.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
     <% end %>
-  <% else %>
-    <%= f.select :question_type, Question::QUESTION_TYPES - ["text_display", "star_radio_buttons", "yes_no_buttons", "thumbs_up_down_buttons", "custom_text_display"], { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
-  <% end %>
-  </div>
 
-  <div class="grid-row">
-    <div class="grid-col-12">
-      <div class="field">
-        <%= f.label :answer_field, "Which A-11 question does this pertain to?", class: "usa-label" %>
-        <%= f.select :answer_field, answer_fields - (form.questions.collect(&:answer_field) - [question.answer_field]), { selected: question.answer_field }, { class: "usa-select" } %>
+    <%= f.hidden_field :form_id, value: @form.id %>
+
+    <div class="field">
+      <%= f.label :text, class: "usa-label" %>
+      <%= f.text_field :text, class: "usa-input" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :question_type, class: "usa-label" %>
+    <% if admin_permissions? %>
+      <br>
+      <% Question::QUESTION_TYPES.each do |kind| %>
+        <%= f.radio_button :question_type, kind %>
+        <%= kind %>
+        <br>
+      <% end %>
+    <% else %>
+      <%= f.select :question_type, Question::QUESTION_TYPES - ["text_display", "star_radio_buttons", "yes_no_buttons", "thumbs_up_down_buttons", "custom_text_display"], { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
+    <% end %>
+    </div>
+
+    <div class="grid-row">
+      <div class="grid-col-12">
+        <div class="field">
+          <%= f.label :answer_field, "Which A-11 question does this pertain to?", class: "usa-label" %>
+          <%= f.select :answer_field, answer_fields - (form.questions.collect(&:answer_field) - [question.answer_field]), { selected: question.answer_field }, { class: "usa-select" } %>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="grid-row">
-    <div class="grid-col-12">
-      <small>
-        Answer Fields are used to define which database field an answer is stored in.
-        <br>
-        Typically, question #1 is `answer_01` and question #2 is `answer_02`,
-        but these can be customized for your reporting needs.
-      </small>
+    <div class="grid-row">
+      <div class="grid-col-12">
+        <small>
+          Answer Fields are used to define which database field an answer is stored in.
+          <br>
+          Typically, question #1 is `answer_01` and question #2 is `answer_02`,
+          but these can be customized for your reporting needs.
+        </small>
+      </div>
     </div>
-  </div>
 
-  <% if question.question_type == "text_field" || question.question_type == "textarea" %>
-  <div class="field">
-    <%= f.label :character_limit, class: "usa-label" %>
-    <%= f.number_field :character_limit, class: "usa-input", max: "100000" %>
-  </div>
-  <% end %>
-
-  <%= f.hidden_field :form_section_id %>
-
-  <br>
-  <fieldset class="usa-fieldset">
-    <legend class="usa-sr-only">Is this question required?</legend>
-    <div class="usa-checkbox">
-      <%= f.check_box :is_required, class: "usa-checkbox__input" %>
-      <%= f.label :is_required, class: "usa-checkbox__label" %>
+    <% if question.question_type == "text_field" || question.question_type == "textarea" %>
+    <div class="field character-limit">
+      <%= f.label :character_limit, class: "usa-label" %>
+      <%= f.number_field :character_limit, class: "usa-input", max: "100000" %>
     </div>
-  </fieldset>
-  <p>
-    <%= f.submit class: "usa-button save-question" %>
-  </p>
+    <% end %>
+
+    <%= f.hidden_field :form_section_id %>
+
+    <br>
+    <fieldset class="usa-fieldset">
+      <legend class="usa-sr-only">Is this question required?</legend>
+      <div class="usa-checkbox">
+        <%= f.check_box :is_required, class: "usa-checkbox__input" %>
+        <%= f.label :is_required, class: "usa-checkbox__label" %>
+      </div>
+    </fieldset>
+    <p>
+      <%= f.submit class: "usa-button save-question" %>
+    </p>
+  </div>
 <% end %>
 <% if admin_permissions? %>
   <script>
     $('.save-question').on("click", function(event) {
-      if (!$("input[name='question[question_type]']:checked").val()) {
-         alert('You must select a question type!');
-         event.preventDefault();
+      event.preventDefault();
+
+      var questionType = $("input[name='question[question_type]']:checked").val();
+      if (!questionType) {
+         alert('Please select a question type');
+      } else {
+        $.ajax({
+          url: $(".question-form").attr("action"),
+          type: 'post',
+          data: $(".question-form").serialize(),
+          success: function(resp) {
+            $("div#<%= dom_id(question) %>").html(resp);
+            $(".question#question_<%= question.id %> .question-option-edit").hide();
+            $(".dropdown-content").hide();
+            $(".question-option-edit").hide();
+          }
+        });
+      }
+    });
+    $("input[name='question[question_type]']").on("click", function(event) {
+      if ($(this)[0].id == 'question_question_type_text_field' || $(this)[0].id == 'question_question_type_textarea') {
+        $(".character-limit").show();
+      } else {
+        $(".character-limit").hide();
       }
     });
   </script>
+
 <% end %>

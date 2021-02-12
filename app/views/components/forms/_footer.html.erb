@@ -5,12 +5,9 @@
     <div class="grid-row">
       <div class="grid-col-12">
         <% if form.disclaimer_text? %>
-          <p>
-            <small id="fba-dialog-privacy">
+          <small id="fba-dialog-privacy">
             <%= form.disclaimer_text.html_safe %>
-            </small>
-          </p>
-          <br>
+          </small>
         <% end %>
       </div>
     </div>
