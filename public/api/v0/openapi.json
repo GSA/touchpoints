@@ -59,7 +59,8 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array"
+                  "type": "array",
+                  "$ref": "#/definitions/Forms"
                 }
               }
             }
@@ -94,7 +95,8 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "type": "object",
+                  "$ref": "#/definitions/Form"
                 }
               }
             }
@@ -196,6 +198,10 @@
           "anticipated_delivery_count": {
             "type": "integer",
             "format": "int32"
+          },
+          "submissions": {
+            "type": "array",
+            "$ref": "#/definitions/Submissions"
           }
         }
       },
