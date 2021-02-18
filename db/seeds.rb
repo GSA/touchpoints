@@ -322,3 +322,42 @@ admin_emails.each do |email|
     admin: true
   }).save!
 end
+
+
+
+service_1 = Service.create({
+  name: ""
+})
+stage_before = ServiceStage.create({
+  name: "Before",
+  service: service_1
+})
+stage_during = ServiceStage.create({
+  name: "During",
+  service: service_1
+})
+stage_after = ServiceStage.create({
+  name: "After",
+  service: service_1
+})
+barrier_1 = Barrier.create({
+  name: "technical"
+})
+barrier_2 = Barrier.create({
+  name: "policy"
+})
+barrier_3 = Barrier.create({
+  name: "location"
+})
+ServiceStageBarrier.create({
+  stage: before,
+  barrier: barrier_1
+})
+ServiceStageBarrier.create({
+  stage: during,
+  barrier: barrier_2
+})
+ServiceStageBarrier.create({
+  stage: after,
+  barrier: barrier_3
+})

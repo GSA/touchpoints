@@ -1,0 +1,100 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <%= link_to admin_services_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Services
+  <% end %>
+</p>
+
+<p>
+  <div class="float-right">
+    <%= link_to edit_admin_service_path(@service), class: "usa-button usa-button--outline" do %>
+    <i class="fa fa-pencil-alt"></i>
+      Edit
+    <% end %>
+  </div>
+</p>
+
+<p>
+  <strong>Organization:</strong>
+  <%= @service.organization.name %>
+</p>
+<p>
+  <strong>Name:</strong>
+  <%= @service.name %>
+</p>
+<p>
+  <strong>Description:</strong>
+  <%= @service.description %>
+</p>
+<% if @service.notes? %>
+  <p>
+    <strong>Notes:</strong>
+    <%= @service.notes %>
+  </p>
+<% end %>
+
+<hr>
+
+<% all_stages = @service.service_stages.sort_by(&:total_eligble_population).reverse %>
+<% first_stage = all_stages.first %>
+<% last_stage = all_stages.last %>
+
+<div class="">
+  <h4>
+    Uptake
+  </h4>
+  How many people made it to the final, successful end state of this service.
+  <h2>
+    <%= takeup_percentage = ((last_stage.total_eligble_population.to_f / first_stage.total_eligble_population.to_f) * 100).round(2) %>%
+  </h2>
+</div>
+
+<hr>
+
+<h3>
+  Stages
+</h3>
+<table border="1">
+<tr>
+  <% @service.service_stages.each do |stage| %>
+  <td style="width: <%= 98.0 / @service.service_stages.length %>%; vertical-align: top;">
+    <h4>
+      <%= link_to stage.name, service_stage_path(stage), target: "_blank" %>
+    </h4>
+    <p>
+      <i>
+        <%= stage.time %> minutes
+      </i>
+    </p>
+    <p>
+      <%= number_with_delimiter stage.total_eligble_population %> takeup
+    </p>
+    <p style="color: blue;">
+      <%= stage.description %>
+    </p>
+
+    <h4>
+      Barriers
+    </h4>
+    <% @barriers = stage.barriers %>
+    <% if @barriers.present? %>
+      <% @barriers.each do |barrier| %>
+        <%= barrier.name %>
+        <br>
+      <% end %>
+    <% else %>
+      No barriers.
+    <% end %>
+  </td>
+  <% end %>
+</tr>
+</table>
+
+<p>
+  <%= link_to new_service_stage_path(service_id: @service.id), class: "usa-button", "data-remote" => true do %>
+    <i class="fa fa-plus"></i>
+    Add Stage
+  <% end %>
+</p>

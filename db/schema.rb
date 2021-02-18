@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_30_200350) do
+ActiveRecord::Schema.define(version: 2021_02_12_051535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "barriers", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "events", force: :cascade do |t|
     t.string "name", null: false
@@ -118,6 +125,33 @@ ActiveRecord::Schema.define(version: 2020_11_30_200350) do
     t.datetime "updated_at", null: false
     t.integer "form_section_id"
     t.integer "character_limit"
+  end
+
+  create_table "service_stage_barriers", force: :cascade do |t|
+    t.integer "service_stage_id"
+    t.integer "barrier_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "service_stages", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "service_id"
+    t.text "notes"
+    t.integer "time"
+    t.integer "total_eligble_population"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "organization_id"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "submissions", force: :cascade do |t|

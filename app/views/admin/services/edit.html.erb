@@ -1,0 +1,7 @@
+<h1>Editing Service</h1>
+
+<%= render 'form', service: @service %>
+
+<%= link_to 'Show', admin_service_path(@service) %> |
+<%= link_to 'Back', admin_services_path %>
+<%= link_to 'Destroy', admin_service_path(@service), method: :delete, data: { confirm: 'Are you sure?' } %>

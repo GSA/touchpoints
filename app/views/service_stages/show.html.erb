@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<h3>
+  Service Stage
+</h3>
+<p>
+  <strong>Service:</strong>
+  <%= link_to @service_stage.service.name, service_path(@service_stage.service) %>
+</p>
+<p>
+  <strong>Organization:</strong>
+  <%= link_to @service_stage.service.organization.name, admin_organization_path(@service_stage.service.organization) %>
+</p>
+<p>
+  <strong>Name:</strong>
+  <%= @service_stage.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @service_stage.description %>
+</p>
+
+
+<p>
+  <strong>Notes:</strong>
+  <%= @service_stage.notes %>
+</p>
+
+<p>
+  <strong>Time:</strong>
+  <%= @service_stage.time %> minutes
+</p>
+
+<p>
+  <strong>Total eligble population:</strong>
+  <%= number_with_delimiter @service_stage.total_eligble_population %>
+</p>
+
+<%= link_to 'Edit', edit_service_stage_path(@service_stage) %> |
+<%= link_to 'Back', service_stages_path %>

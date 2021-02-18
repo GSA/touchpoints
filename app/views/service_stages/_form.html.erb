@@ -1,0 +1,54 @@
+<%= form_with(model: service_stage, local: true) do |form| %>
+  <% if service_stage.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(service_stage.errors.count, "error") %> prohibited this service_stage from being saved:</h2>
+
+      <ul>
+      <% service_stage.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :service_id %>
+    <%= form.select :service_id, options_for_select(Service.all.map { |s| [s.name, s.id] }) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :notes %>
+    <%= form.text_area :notes %>
+  </div>
+
+  <div class="field">
+    <%= form.label :time %>
+    <%= form.number_field :time %>
+  </div>
+
+  <div class="field">
+    <%= form.label :total_eligble_population %>
+    <%= form.number_field :total_eligble_population %>
+  </div>
+
+  <div class="field">
+    <%= form.label :barrier_id %>
+    <%= form.select :barrier_id, options_for_select(Barrier.all.map { |s| [s.name, s.id] }) %>
+    <br>
+    <%= link_to 'Add a Barrier', new_barrier_path %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

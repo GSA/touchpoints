@@ -1,7 +1,9 @@
 require 'sidekiq/web'
 
-
 Rails.application.routes.draw do
+  resources :service_stage_barriers
+  resources :barriers
+  resources :service_stages
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
   authenticate :user, lambda { |u| u.admin? } do
@@ -39,6 +41,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    resources :services
     resources :forms do
       member do
         get "notifications", to: "forms#notifications", as: :notifications
