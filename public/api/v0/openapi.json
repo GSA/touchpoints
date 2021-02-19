@@ -10,22 +10,19 @@
       "email": "feedback-analytics@gsa.gov"
     }
   },
-  "servers": [
-    {
-      "url": "https://api.data.gov/analytics/touchpoints/v0/",
-      "variables": {
-        "scheme": {
-          "description": "API responses are available via https only",
-          "enum": [
-            "https"
-          ],
-          "default": "https"
-        }
+  "servers": [{
+    "url": "https://api.data.gov/analytics/touchpoints/v0/",
+    "variables": {
+      "scheme": {
+        "description": "API responses are available via https only",
+        "enum": [
+          "https"
+        ],
+        "default": "https"
       }
     }
-  ],
-  "tags": [
-    {
+  }],
+  "tags": [{
       "name": "cx",
       "description": "Customer Experience"
     },
@@ -51,8 +48,6 @@
           "forms",
           "surveys"
         ],
-        "parameters": {
-        },
         "responses": {
           "200": {
             "description": "Returns an array of forms",
@@ -60,7 +55,9 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "$ref": "#/definitions/Forms"
+                  "items": {
+                    "$ref": "#/components/schemas/Forms"
+                  }
                 }
               }
             }
@@ -69,10 +66,10 @@
       }
     },
     "/forms/{short-uuid}/": {
-      "summary": "Provides the general information about the API and the list of fields that can be used to query the dataset.",
-      "description": "This GET API returns the list of all the searchable field names that are in the oa_citations. Please see the 'fields' attribute which returns an array of field names. Each field or a combination of fields can be searched using the syntax options shown below.",
-      "operationId": "forms#show",
       "get": {
+        "summary": "Provides the general information about the API and the list of fields that can be used to query the dataset.",
+        "description": "This GET API returns the list of all the searchable field names that are in the oa_citations. Please see the 'fields' attribute which returns an array of field names. Each field or a combination of fields can be searched using the syntax options shown below.",
+        "operationId": "forms#show",
         "tags": [
           "forms",
           "surveys",
@@ -80,23 +77,22 @@
           "responses",
           "feedback"
         ],
-        "parameters": {
-          "name": "id",
-          "in": "id",
+        "parameters": [{
+          "name": "short-uuid",
+          "in": "path",
           "description": "Short UUID of the form",
           "required": true,
           "schema": {
             "type": "string"
           }
-        },
+        }],
         "responses": {
           "200": {
             "description": "The dataset API for the given version is found and it is accessible to consume.",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "$ref": "#/definitions/Form"
+                  "$ref": "#/components/schemas/Form"
                 }
               }
             }
@@ -106,14 +102,19 @@
     }
   },
   "components": {
-    "securitySchemes":
-      "ApiKeyAuth":
-        "type": "apiKey"
-        "in": "header"
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
         "name": "X-API-KEY"
+      }
+    },
     "schemas": {
       "Form": {
-        "required": "id",
+        "type": "object",
+        "required": [
+          "id"
+        ],
         "properties": {
           "uuid": {
             "type": "string",
@@ -200,29 +201,123 @@
             "format": "int32"
           },
           "submissions": {
-            "type": "array",
-            "$ref": "#/definitions/Submissions"
+            "$ref": "#/components/schemas/Submissions"
           }
         }
       },
       "Forms": {
         "type": "array",
         "items": {
-          "$ref": "#/definitions/Form"
+          "$ref": "#/components/schemas/Form"
         }
       },
       "Submission": {
         "required": "form_id",
         "properties": {
-
+          "user_id" : {
+            "type": "integer"
+          },
+          "uuid" : {
+            "type": "string"
+          },
+          "created_at" : {
+            "type": "datetime"
+          },
+          "updated_at" : {
+            "type": "datetime"
+          },
+          "referer" : {
+            "type": "string"
+          },
+          "page" : {
+            "type": "string"
+          },
+          "user_agent" : {
+            "type": "string"
+          },
+          "answer_01" : {
+            "type": "string"
+          },
+          "answer_02" : {
+            "type": "string"
+          },
+          "answer_03" : {
+            "type": "string"
+          },
+          "answer_04" : {
+            "type": "string"
+          },
+          "answer_05" : {
+            "type": "string"
+          },
+          "answer_06" : {
+            "type": "string"
+          },
+          "answer_07" : {
+            "type": "string"
+          },
+          "answer_08" : {
+            "type": "string"
+          },
+          "answer_09" : {
+            "type": "string"
+          },
+          "answer_10" : {
+            "type": "string"
+          },
+          "answer_11" : {
+            "type": "string"
+          },
+          "answer_12" : {
+            "type": "string"
+          },
+          "answer_13" : {
+            "type": "string"
+          },
+          "answer_14" : {
+            "type": "string"
+          },
+          "answer_15" : {
+            "type": "string"
+          },
+          "answer_16" : {
+            "type": "string"
+          },
+          "answer_17" : {
+            "type": "string"
+          },
+          "answer_18" : {
+            "type": "string"
+          },
+          "answer_19" : {
+            "type": "string"
+          },
+          "answer_20" : {
+            "type": "string"
+          },
+          "ip_address" : {
+            "type": "string"
+          },
+          "location_code" : {
+            "type": "string"
+          },
+          "flagged" : {
+            "type": "boolean"
+          },
+          "language" : {
+            "type": "string"
+          }
         }
       },
       "Submissions": {
         "type": "array",
         "items": {
-          "$ref": "#/definitions/Submission"
+          "$ref": "#/components/schemas/Submission"
         }
       }
     }
-  }
+  },
+  "security": [{
+    "ApiKeyAuth": []
+  }]
 }
