@@ -350,14 +350,14 @@ barrier_3 = Barrier.create({
   name: "location"
 })
 ServiceStageBarrier.create({
-  stage: before,
+  stage: stage_before,
   barrier: barrier_1
 })
 ServiceStageBarrier.create({
-  stage: during,
+  stage: stage_during,
   barrier: barrier_2
 })
 ServiceStageBarrier.create({
-  stage: after,
+  stage: stage_after,
   barrier: barrier_3
 })
