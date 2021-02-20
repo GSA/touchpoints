@@ -41,7 +41,11 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :services
+    resources :services do
+      member do
+        get "equity-assessment", to: "services#equity_assessment"
+      end
+    end
     resources :forms do
       member do
         get "notifications", to: "forms#notifications", as: :notifications

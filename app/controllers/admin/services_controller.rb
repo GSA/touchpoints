@@ -1,6 +1,6 @@
 class Admin::ServicesController < ApplicationController
   before_action :ensure_user
-  before_action :set_service, only: [:show, :edit, :update, :destroy]
+  before_action :set_service, only: [:show, :edit, :update, :destroy, :equity_assessment]
 
   # GET /services
   def index
@@ -25,7 +25,7 @@ class Admin::ServicesController < ApplicationController
     @service = Service.new(service_params)
 
     if @service.save
-      redirect_to @service, notice: 'Service was successfully created.'
+      redirect_to admin_service_path(@service), notice: 'Service was successfully created.'
     else
       render :new
     end
@@ -44,6 +44,9 @@ class Admin::ServicesController < ApplicationController
   def destroy
     @service.destroy
     redirect_to services_url, notice: 'Service was successfully destroyed.'
+  end
+
+  def equity_assessment
   end
 
   private

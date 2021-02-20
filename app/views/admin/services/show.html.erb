@@ -47,7 +47,9 @@
   </h4>
   How many people made it to the final, successful end state of this service.
   <h2>
+  <% if first_stage.present? %>
     <%= takeup_percentage = ((last_stage.total_eligble_population.to_f / first_stage.total_eligble_population.to_f) * 100).round(2) %>%
+  <% end %>
   </h2>
 </div>
 
