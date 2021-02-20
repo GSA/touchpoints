@@ -326,7 +326,16 @@ end
 
 
 service_1 = Service.create({
-  name: ""
+  name: "USPTO",
+  organization: Organization.first
+})
+service_2 = Service.create({
+  name: "IRS",
+  organization: Organization.first
+})
+service_3 = Service.create({
+  name: "HUD",
+  organization: Organization.first
 })
 stage_before = ServiceStage.create({
   name: "Before",
@@ -350,14 +359,14 @@ barrier_3 = Barrier.create({
   name: "location"
 })
 ServiceStageBarrier.create({
-  stage: stage_before,
+  service_stage: stage_before,
   barrier: barrier_1
 })
 ServiceStageBarrier.create({
-  stage: stage_during,
+  service_stage: stage_during,
   barrier: barrier_2
 })
 ServiceStageBarrier.create({
-  stage: stage_after,
+  service_stage: stage_after,
   barrier: barrier_3
 })
