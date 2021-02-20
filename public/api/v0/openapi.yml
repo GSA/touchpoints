@@ -43,7 +43,7 @@ paths:
                   forms:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Forms'
+                      $ref: '#/components/schemas/Form'
   '/forms/{short-uuid}/':
     get:
       summary: Provides the general information about the API and the list of fields that can be used to query the dataset.
@@ -68,7 +68,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Form'
+                type: object
+                properties:
+                  form:
+                    type: object
+                    $ref: '#/components/schemas/Form'
+
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -83,6 +88,10 @@ components:
       properties:
         uuid:
           type: string
+          format: uuid
+        id:
+          type: integer
+          format: int32
         organization_id:
           type: integer
           format: int32
