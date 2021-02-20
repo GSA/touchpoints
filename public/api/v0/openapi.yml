@@ -217,5 +217,3 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Submission'
-security:
-  - ApiKeyAuth: []
