@@ -1,0 +1,98 @@
+{
+  "data": [{
+    "id": "1",
+    "type": "forms",
+    "attributes": {
+      "name": "Open-ended Feedback",
+      "title": "Custom Open-ended Title",
+      "instructions": "Share feedback about the new example.gov website and recommend additional features.",
+      "disclaimer_text": "Disclaimer Text Goes Here",
+      "kind": "open ended",
+      "notes": "An open-ended Feedback Form useful for general website and program feedback.",
+      "status": null,
+      "created_at": "2021-01-28T21:33:59.490Z",
+      "updated_at": "2021-01-28T21:34:01.194Z",
+      "whitelist_url": "",
+      "whitelist_test_url": "",
+      "display_header_logo": false,
+      "success_text": null,
+      "modal_button_text": "Click here to leave feedback",
+      "display_header_square_logo": null,
+      "early_submission": false,
+      "user_id": 1,
+      "template": true,
+      "uuid": "a5ad2e97-e655-45dc-8b59-ad54cb5bc640",
+      "organization_id": 2,
+      "omb_approval_number": null,
+      "expiration_date": null,
+      "medium": null,
+      "federal_register_url": null,
+      "anticipated_delivery_count": null,
+      "service_name": null,
+      "data_submission_comment": null,
+      "survey_instrument_reference": null,
+      "agency_poc_email": null,
+      "agency_poc_name": null,
+      "department": null,
+      "bureau": null,
+      "notification_emails": null,
+      "start_date": null,
+      "end_date": null,
+      "aasm_state": "in_development",
+      "delivery_method": "modal",
+      "element_selector": null,
+      "survey_form_activations": 0,
+      "load_css": true,
+      "logo": {
+        "url": null,
+        "thumb": {
+          "url": null
+        },
+        "card": {
+          "url": null
+        },
+        "tag": {
+          "url": null
+        },
+        "logo_square": {
+          "url": null
+        }
+      },
+      "time_zone": "Eastern Time (US \u0026 Canada)",
+      "response_count": 102,
+      "last_response_created_at": "2021-01-28T21:34:01.190Z"
+    },
+    "relationships": {
+      "submissions": {
+        "data": [{
+          "id": "1",
+          "type": "submissions"
+        }, {
+          "id": "2",
+          "type": "submissions"
+        }, {
+          "id": "4",
+          "type": "submissions"
+        }, {
+          "id": "5",
+          "type": "submissions"
+        }, {
+          "id": "6",
+          "type": "submissions"
+        }, {
+          "id": "7",
+          "type": "submissions"
+        }, {
+          "id": "8",
+          "type": "submissions"
+        }, {
+          "id": "9",
+          "type": "submissions"
+        }, {
+          "id": "10",
+          "type": "submissions"
+        }]
+      }
+    }
+  }]
+}
