@@ -43,7 +43,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :services do
       member do
-        get "equity-assessment", to: "services#equity_assessment"
+        get "equity-assessment", to: "services#equity_assessment", as: :equity_assessment
       end
     end
     resources :forms do

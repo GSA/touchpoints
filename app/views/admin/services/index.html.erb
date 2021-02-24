@@ -1,3 +1,7 @@
+<% content_for :navigation_title do %>
+  Services
+<% end %>
+
 <p>
   <%= link_to admin_forms_path do %>
     <i class="fa fa-arrow-circle-left"></i>
@@ -7,15 +11,11 @@
 
 <p id="notice"><%= notice %></p>
 
-
-<h1>Services</h1>
-
 <table class="usa-table">
   <thead>
     <tr>
       <th>Organization</th>
       <th>Name</th>
-      <th>Description</th>
     </tr>
   </thead>
 
@@ -24,7 +24,6 @@
       <tr>
         <td><%= service.organization.name %></td>
         <td><%= link_to service.name, admin_service_path(service) %></td>
-        <td><%= service.description %></td>
       </tr>
     <% end %>
   </tbody>
@@ -32,7 +31,18 @@
 <p>
   <%= link_to 'New Service', new_admin_service_path, class: "usa-button" %>
 </p>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <p>
   <h5>Service Data &amp; Configuration</h5>
-  <%= link_to 'New Barrier', new_barrier_path, class: "usa-button" %>
+  <%= link_to 'Barriers', barriers_path, class: "usa-button" %>
 </p>

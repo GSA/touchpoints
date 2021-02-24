@@ -1,3 +1,14 @@
+<% content_for :navigation_title do %>
+  <%= @service.name %>
+<% end %>
+
+<p>
+  <%= link_to admin_service_path(@service) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Service
+  <% end %>
+</p>
+
 <h1>Editing Service</h1>
 
 <%= render 'form', service: @service %>
