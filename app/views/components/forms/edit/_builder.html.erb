@@ -307,17 +307,18 @@ $(function() {
     }
   });
 
-  $(".question-menu-action").mouseover(function(event) {
+  $(".form-builder").on("mouseover", ".question-menu-action", function(event) {
     $(".dropdown-content").hide();
     $(event.target).parent().find(".dropdown-content").show();
   });
 
-  $(".question-menu-action").on("click", function(event) {
+  $(".form-builder").on("click", ".question-menu-action", function(event) {
     $(event.target).parent().find(".dropdown-content").toggle();
   });
 
-  $('.form-add-question-option').on("click", function(event) {
+  $('.form-builder').on("click", '.form-add-question-option', function(event) {
     event.preventDefault();
+
     $(this).closest('div.new-question-options-div').find('.form-add-question-option').hide();
     var editDiv =  $(this).closest('div.new-question-options-div').find('.question-option-form');
     $.ajax({
