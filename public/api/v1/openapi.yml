@@ -1,0 +1,238 @@
+  openapi: 3.0.1
+  info:
+    description: The Touchpoints API allows agencys users to programatically read Forms and Responses.
+    version: 1.0.0
+    title: Touchpoints API
+    contact:
+      name: Touchpoints
+      url: 'https://touchpoints.digital.gov'
+      email: feedback-analytics@gsa.gov
+  servers:
+    - url: 'https://api.data.gov/analytics/touchpoints/v1/'
+      variables:
+        scheme:
+          description: API responses are available via https only
+          enum:
+            - https
+          default: https
+  tags:
+    - name: TP
+      description: Touchpoints
+  paths:
+    /forms:
+      get:
+        summary: List available data sets
+        operationId: forms
+        tags:
+          - forms
+        responses:
+          '200':
+            description: Returns an array of forms
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Form'
+    '/forms/{id}/':
+      summary: Provides the general information about the API and the list of fields that can be used to query the dataset.
+      description: This GET API returns the list of all the searchable field names that are in the oa_citations. Please see the 'fields' attribute which returns an array of field names. Each field or a combination of fields can be searched using the syntax options shown below.
+      get:
+        operationId: forms#show
+        tags:
+          - forms
+        parameters:
+          - in: path
+            name: id
+            description: Short UUID of the form
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: The dataset API for the given version is found and it is accessible to consume.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                        attributes:
+                          type: object
+                          $ref: '#/components/schemas/Form'
+  components:
+    securitySchemes:
+      ApiKeyAuth:
+        type: apiKey
+        in: header
+        name: X-API-KEY
+    schemas:
+      Form:
+        type: object
+        required:
+          - id
+          - name
+        properties:
+          id:
+            type: integer
+            format: int32
+          type:
+            type: string
+          attributes:
+            type: object
+            properties:
+              uuid:
+                type: string
+                format: uuid
+              organization_id:
+                type: integer
+                format: int32
+              name:
+                type: string
+              instructions:
+                type: string
+              kind:
+                type: string
+              notes:
+                type: string
+              status:
+                type: string
+              created_at:
+                type: string
+              updated_at:
+                type: string
+              element_selector:
+                type: string
+              whitelist_url:
+                type: string
+              whitelist_test_url:
+                type: string
+              display_header_logo:
+                type: boolean
+              display_header_square_logo:
+                type: boolean
+              early_submission:
+                type: boolean
+              template:
+                type: boolean
+              load_css:
+                type: boolean
+              logo:
+                type: object
+              success_text:
+                type: string
+              modal_button_text:
+                type: string
+              omb_approval_number:
+                type: string
+              expiration_date:
+                type: string
+              federal_register_url:
+                type: string
+              service_name:
+                type: string
+              survey_instrument_reference:
+                type: string
+              survey_form_activations:
+                type: integer
+                format: int32
+              anticipated_delivery_count:
+                type: integer
+                format: int32
+              relationships:
+                type: object
+                properties:
+                  submissions:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Submission'
+
+      Forms:
+        type: array
+        items:
+          $ref: '#/components/schemas/Form'
+      Submission:
+        type: object
+        required:
+          - form_id
+        properties:
+          form_id:
+            type: string
+          user_id:
+            type: integer
+          uuid:
+            type: string
+          created_at:
+            type: string
+          updated_at:
+            type: string
+          referer:
+            type: string
+          page:
+            type: string
+          user_agent:
+            type: string
+          answer_01:
+            type: string
+          answer_02:
+            type: string
+          answer_03:
+            type: string
+          answer_04:
+            type: string
+          answer_05:
+            type: string
+          answer_06:
+            type: string
+          answer_07:
+            type: string
+          answer_08:
+            type: string
+          answer_09:
+            type: string
+          answer_10:
+            type: string
+          answer_11:
+            type: string
+          answer_12:
+            type: string
+          answer_13:
+            type: string
+          answer_14:
+            type: string
+          answer_15:
+            type: string
+          answer_16:
+            type: string
+          answer_17:
+            type: string
+          answer_18:
+            type: string
+          answer_19:
+            type: string
+          answer_20:
+            type: string
+          ip_address:
+            type: string
+          location_code:
+            type: string
+          flagged:
+            type: boolean
+          language:
+            type: string
+      Submissions:
+        type: array
+        items:
+          $ref: '#/components/schemas/Submission'
