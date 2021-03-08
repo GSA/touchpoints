@@ -383,14 +383,14 @@ PLATFORMS
 
 DEPENDENCIES
   aasm (~> 4.12)
-  active_model_serializers
+  active_model_serializers (>= 0.10.12)
   acts-as-list
-  aws-sdk-rails (>= 3.1.0)
+  aws-sdk-rails (>= 3.6.0)
   capybara (>= 3.32.2)
   caracal
   carrierwave
   database_cleaner
-  devise (>= 4.7.2)
+  devise (>= 4.7.3)
   dotenv-rails (>= 2.7.6)
   factory_bot_rails (>= 6.1.0)
   fog-aws
@@ -412,7 +412,7 @@ DEPENDENCIES
   rails-controller-testing
   redis
   redis-namespace
-  rspec-rails (>= 4.0.1)
+  rspec-rails (>= 4.0.2)
   rspec_junit_formatter
   sass-rails (>= 6.0.0)
   selenium-webdriver
