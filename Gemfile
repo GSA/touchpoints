@@ -3,11 +3,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.6'
 
-gem 'active_model_serializers'
-gem 'aws-sdk-rails', '>= 3.1.0'
+gem 'active_model_serializers', '>= 0.10.12'
+gem 'aws-sdk-rails', '>= 3.6.0'
 gem 'caracal'
 gem 'carrierwave'
-gem 'devise', '>= 4.7.2'
+gem 'devise', '>= 4.7.3'
 gem 'fog-aws'
 gem 'jquery-rails', '>= 4.4.0'
 gem 'jquery-ui-rails', '>= 6.0.1'
@@ -53,9 +53,9 @@ group :test do
   gem 'database_cleaner'
   gem 'factory_bot_rails', '>= 6.1.0'
   gem 'rails-controller-testing'
-  gem 'rspec-rails', '>= 4.0.1'
+  gem 'rspec-rails', '>= 4.0.2'
   gem 'selenium-webdriver'
-  gem 'simplecov', require: false, group: :test
+  gem 'simplecov', require: false
   # gem 'chromedriver-helper'
   gem 'webdrivers'
 end
