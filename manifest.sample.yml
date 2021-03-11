@@ -1,8 +1,8 @@
 applications:
   - name: your-app-name-goes-here (touchpoints-dev-[YOURINSTANCE])
-    command: bundle exec rake db:migrate && bundle exec rails s -b 0.0.0.0 -p $PORT -e $RAILS_ENV
+    command: bundle exec rake db:migrate && cf:log_new_relic_deployment && bundle exec rails s -b 0.0.0.0 -p $PORT -e $RAILS_ENV
     # use the command below with DISABLE_DATABASE_ENVIRONMENT_CHECK to re-seed a Dev or Staging environment on each deploy
-    # command: bundle exec rake db:schema:load && rake db:seed && bundle exec rails s -b 0.0.0.0 -p $PORT -e $RAILS_ENV
+    # command: bundle exec rake db:schema:load && rake db:seed && cf:log_new_relic_deployment && bundle exec rails s -b 0.0.0.0 -p $PORT -e $RAILS_ENV
 
     env:
       # For AWS SES (Simple Email Service)
