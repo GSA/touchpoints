@@ -43,6 +43,22 @@
       </div>
       <br class="usa-display">
     </div>
+    <p>
+      <strong class="font-sans-3xl">
+        <%= @form.response_count %> responses
+      </strong>
+      <br>
+      <% if @form.last_response_created_at.present? %>
+      <small>
+        Latest response:
+        <%= time_ago_in_words(@form.last_response_created_at) %> ago
+        <br>
+        at <span class="form-created-at">
+          <%= format_time(@form.last_response_created_at, current_user.time_zone) %>
+        </span>
+      </small>
+      <% end %>
+    <p>
   </div>
   <div class="tablet:grid-col-6 bg-gray-5">
     <div class="padding-1">
@@ -172,11 +188,15 @@
 <br>
 <% end %>
 <div class="well">
-  <div class="grid-row grid-gap-lg">
+  <div class="grid-row grid-gap-md">
     <div class="tablet:grid-col-6">
       <h2>
-        General Form Information
+        Form Information
       </h2>
+    </div>
+  </div>
+  <div class="grid-row grid-gap-md">
+    <div class="tablet:grid-col-6">
       <p>
         <strong>Organization</strong>
         <br>
@@ -188,14 +208,20 @@
           service?
         </strong>
         <br>
-        <%= @form.hisp? ? "Yes ✅" : "No" %>
+        <% if @form.hisp? %>
+          Yes ✅
+        <% else  %>
+          <span>No</span>
+        <% end  %>
+      </p>
+      <p>
+        <strong>Timezone</strong>
+        <br>
+        <%= @form.time_zone %>
       </p>
     </div>
     <div class="tablet:grid-col-6">
       <div>
-        <h2>
-          Delivery method
-        </h2>
         <p>
           <strong>Delivery method</strong>
           <br>
@@ -205,47 +231,36 @@
         <% else %>
         <p>
           <strong>Element selector</strong>
+          <br>
           <%= @form.element_selector %>
         </p>
         <% end %>
+        <p>
+          <strong>Form Owner</strong>
+          <br>
+          <%= @form.user.email if @form.user %>
+        </p>
+        <p>
+          <strong>Created at</strong>
+          <br>
+          <%= @form.created_at.to_date %>
+          <small>
+            (<%= time_ago_in_words(@form.created_at) %> ago)
+          </small>
+        </p>
       </div>
     </div>
   </div>
   <div>
     <% if @form.template %>
-      <strong>Form Template:</strong>
-      <span class="usa-tag bg-accent-warm">
-        <%= @form.kind %>
-      </span>
-    <% end %>
-    <p>
-      <strong>Name:</strong>
-      <%= @form.name %>
-    </p>
-    <p>
-      <strong>Form Owner:</strong>
-      <%= @form.user.email if @form.user %>
-    </p>
-    <% if @form.template %>
+    <strong>Form Template:</strong>
+    <span class="usa-tag bg-accent-warm">
+      <%= @form.kind %>
+    </span>
     <p>
       <strong>Notes:</strong>
       <%= @form.notes %>
     </p>
     <% end %>
-    <p>
-      <strong>Created on:</strong>
-      <%= @form.created_at.to_date %>
-      <small>
-        (<%= time_ago_in_words(@form.created_at) %> ago)
-      </small>
-    </p>
-  </div>
-  <div>
-    <p>
-      <strong>Number of responses:</strong> <%= @form.response_count %>
-      <% if @form.last_response_created_at.present? %>
-        ( <small>last response created on <%= format_time(@form.last_response_created_at, current_user.time_zone) %></small> )
-      <% end %>
-    <p>
   </div>
 </div>

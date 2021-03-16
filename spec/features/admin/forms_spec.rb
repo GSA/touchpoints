@@ -575,6 +575,7 @@ feature "Forms", js: true do
                 fill_in "question_text", with: "New dropdown field"
                 select("answer_01", from: "question_answer_field")
                 click_on "Update Question"
+                expect(page).to have_css("#answer_01")
               end
 
               it "can add a dropdown Question" do
