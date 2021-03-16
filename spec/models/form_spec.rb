@@ -43,13 +43,23 @@ RSpec.describe Form, type: :model do
     end
 
     describe "#hashed_fields_for_export" do
+      before do
+        q3 = form.questions.create!(answer_field: "answer_03", text: "03", form_section_id: form.form_sections.first.id, question_type: "text_field", position: 3)
+        q2 = form.questions.create!(answer_field: "answer_02", text: "02", form_section_id: form.form_sections.first.id, question_type: "text_field", position: 2)
+      end
+
       it "returns a hash of questions, location_code, and 'standard' attributes" do
         expect(form.hashed_fields_for_export.class).to eq(Hash)
-        expect(form.hashed_fields_for_export.keys).to include(
-          "answer_01", # question fields
-          :location_code, # custom location code
-          :ip_address, :user_agent, :page, :referer, :created_at # standard fields
-        )
+        expect(form.hashed_fields_for_export.keys).to eq([
+          # question fields
+          "answer_01",
+          "answer_02",
+          "answer_03",
+          # custom location code
+          :location_code,
+          # standard fields
+          :ip_address, :user_agent, :page, :referer, :created_at
+        ])
       end
     end
   end

@@ -181,7 +181,7 @@ feature "Forms", js: true do
             it "display 'Published' flash message" do
               expect(page).to have_content("Published")
               expect(page).to have_content("Viewing Survey: #{form.name}")
-              expect(page).to have_content("General Form Information")
+              expect(page).to have_content("Form Information")
             end
           end
         end
