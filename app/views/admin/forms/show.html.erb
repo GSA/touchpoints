@@ -78,7 +78,7 @@
           This is where the public can access your form.
         </p>
         <p>
-          <%= link_to submit_touchpoint_uuid_url(@form), submit_touchpoint_uuid_url(@form) %>
+          <%= link_to submit_touchpoint_uuid_url(@form), submit_touchpoint_uuid_url(@form), target: "_blank" %>
         </p>
         <% if @form.delivery_method == "modal" || @form.delivery_method == "inline" || @form.delivery_method == "custom-button-modal" %>
           <strong>

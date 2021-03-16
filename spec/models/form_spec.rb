@@ -44,8 +44,11 @@ RSpec.describe Form, type: :model do
 
     describe "#hashed_fields_for_export" do
       before do
+        second_form_section = form.form_sections.create(title: "Section 2", position: 2)
         q3 = form.questions.create!(answer_field: "answer_03", text: "03", form_section_id: form.form_sections.first.id, question_type: "text_field", position: 3)
         q2 = form.questions.create!(answer_field: "answer_02", text: "02", form_section_id: form.form_sections.first.id, question_type: "text_field", position: 2)
+        q4 = form.questions.create!(answer_field: "answer_10", text: "10", form_section_id: second_form_section.id, question_type: "text_field", position: 1)
+        q5 = form.questions.create!(answer_field: "answer_04", text: "02", form_section_id: second_form_section.id, question_type: "text_field", position: 2)
       end
 
       it "returns a hash of questions, location_code, and 'standard' attributes" do
@@ -55,6 +58,8 @@ RSpec.describe Form, type: :model do
           "answer_01",
           "answer_02",
           "answer_03",
+          "answer_10",
+          "answer_04",
           # custom location code
           :location_code,
           # standard fields
