@@ -158,6 +158,7 @@ class Form < ApplicationRecord
     new_form.title = new_form.name
     new_form.survey_form_activations = 0
     new_form.response_count = 0
+    new_form.last_response_created_at = nil
     new_form.aasm_state = :in_development
     new_form.uuid = nil
     new_form.legacy_touchpoint_id = nil
@@ -398,7 +399,7 @@ class Form < ApplicationRecord
   def hashed_fields_for_export
     hash = {}
 
-    self.questions.map { |q| hash[q.answer_field] = q.text }
+    self.ordered_questions.map { |q| hash[q.answer_field] = q.text }
 
     hash.merge({
       location_code: "Location Code",
@@ -408,6 +409,14 @@ class Form < ApplicationRecord
       referer: "Referrer",
       created_at: "Created At"
     })
+  end
+
+  def ordered_questions
+    array = []
+    self.form_sections.each do |section|
+      array.concat(section.questions.ordered.entries)
+    end
+    array
   end
 
   def omb_number_with_expiration_date

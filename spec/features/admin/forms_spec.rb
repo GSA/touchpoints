@@ -181,7 +181,7 @@ feature "Forms", js: true do
             it "display 'Published' flash message" do
               expect(page).to have_content("Published")
               expect(page).to have_content("Viewing Survey: #{form.name}")
-              expect(page).to have_content("General Form Information")
+              expect(page).to have_content("Form Information")
             end
           end
         end
@@ -575,6 +575,7 @@ feature "Forms", js: true do
                 fill_in "question_text", with: "New dropdown field"
                 select("answer_01", from: "question_answer_field")
                 click_on "Update Question"
+                expect(page).to have_css("#answer_01")
               end
 
               it "can add a dropdown Question" do

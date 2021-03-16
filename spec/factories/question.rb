@@ -3,6 +3,7 @@ FactoryBot.define do
     text { "Test Question" }
     question_type { "text_field" }
     answer_field { "answer_01" }
+    position { 1 }
 
     trait :with_radio_buttons do
       text { "Test Radio Buttons Question" }
