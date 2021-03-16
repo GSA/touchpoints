@@ -398,7 +398,7 @@ class Form < ApplicationRecord
   def hashed_fields_for_export
     hash = {}
 
-    self.questions.map { |q| hash[q.answer_field] = q.text }
+    self.questions.ordered.map { |q| hash[q.answer_field] = q.text }
 
     hash.merge({
       location_code: "Location Code",

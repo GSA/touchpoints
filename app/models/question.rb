@@ -6,6 +6,9 @@ class Question < ApplicationRecord
   validates :question_type, presence: true
   validate :validate_question_types
 
+  default_scope { order(position: :asc) }
+  scope :ordered, -> { order(position: :asc) }
+
   MAX_CHARACTERS = 100000
 
   QUESTION_TYPES = [
@@ -41,6 +44,4 @@ class Question < ApplicationRecord
       errors.add(:question_type, "Invalid question type '#{question_type}'. Valid types include: #{QUESTION_TYPES.to_sentence}.")
     end
   end
-
-  default_scope { order(position: :asc) }
 end
