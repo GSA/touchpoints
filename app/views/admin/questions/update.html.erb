@@ -10,6 +10,8 @@
 <% @form_component_path = 'components/forms/question_types/thumbs_up_down_buttons' %>
 <% elsif @question.question_type == "dropdown" %>
 <% @form_component_path = 'components/forms/edit/question_types/dropdown' %>
+<% elsif @question.question_type == "states_dropdown" %>
+<% @form_component_path = 'components/forms/edit/question_types/states_dropdown' %>
 <% elsif @question.question_type == "checkbox" %>
 <% @form_component_path = 'components/forms/edit/question_types/checkbox' %>
 <% elsif @question.question_type == "textarea" %>

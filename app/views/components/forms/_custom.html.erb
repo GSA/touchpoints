@@ -46,6 +46,8 @@
               <%= render 'components/forms/question_types/radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "dropdown" %>
               <%= render 'components/forms/question_types/dropdown', form: form, question: question, question_number: multi_section_question_number %>
+            <% elsif question.question_type == "states_dropdown" %>
+              <%= render 'components/forms/question_types/states_dropdown', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "checkbox" %>
               <%= render 'components/forms/question_types/checkbox', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "textarea" %>

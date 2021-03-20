@@ -646,6 +646,49 @@ feature "Forms", js: true do
             end
           end
 
+          context "States Dropdown Question" do
+            describe "#create" do
+              before do
+                visit questions_admin_form_path(form)
+                click_on "Add Question"
+                expect(page.current_path).to eq(questions_admin_form_path(form))
+                choose "question_question_type_states_dropdown"
+                fill_in "question_text", with: "New dropdown field"
+                select("answer_01", from: "question_answer_field")
+                click_on "Update Question"
+                expect(page).to have_css("#answer_01")
+              end
+
+              it "can add a dropdown Question" do
+                expect(page.current_path).to eq(questions_admin_form_path(form))
+                within ".form-builder" do
+                  expect(page).to have_content("New dropdown field")
+                end
+              end
+
+              describe "#edit" do
+                before do
+                  visit questions_admin_form_path(form)
+                  page.execute_script "$('.question-menu-action').trigger('mouseover')"
+                  expect(page).to have_selector('.dropdown-content',visible: true)
+                  click_on "Edit"
+                  expect(page.current_path).to eq(questions_admin_form_path(form))
+                  expect(find_field('question_text').value).to eq 'New dropdown field'
+                end
+
+                it "add a Question Option for a dropdown" do
+                  fill_in "question_text", with: "Updated question text"
+                  click_on "Update Question"
+
+                  expect(page.current_path).to eq(questions_admin_form_path(form))
+                  within ".form-builder" do
+                    expect(page).to have_content("Updated question text")
+                  end
+                end
+              end
+            end
+          end
+
           describe "add a text display element" do
             before do
               visit questions_admin_form_path(form)
