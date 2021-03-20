@@ -20,6 +20,11 @@
     </div>
 
     <div class="field">
+      <%= f.label :placeholder_text, "Placeholder text", class: "usa-label" %>
+      <%= f.text_field :placeholder_text, class: "usa-input" %>
+    </div>
+
+    <div class="field">
       <%= f.label :question_type, class: "usa-label" %>
     <% if admin_permissions? %>
       <br>
