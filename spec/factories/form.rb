@@ -157,7 +157,6 @@ FactoryBot.define do
           :with_checkbox_options,
           form: f,
           answer_field: :answer_02,
-          question_type: "checkbox",
           form_section: f.form_sections.first,
           text: "Name"
         )
@@ -179,7 +178,6 @@ FactoryBot.define do
           :with_checkbox_options,
           form: f,
           answer_field: :answer_03,
-          question_type: "checkbox",
           form_section: f.form_sections.first,
           text: "Name"
         )
@@ -194,7 +192,20 @@ FactoryBot.define do
           :with_radio_buttons,
           form: f,
           answer_field: :answer_03,
-          question_type: "radio_buttons",
+          form_section: f.form_sections.first,
+          text: "Name"
+        )
+      end
+    end
+
+    trait :states_dropdown_form do
+      name { "States dropdown form" }
+      kind { "custom" }
+      after(:create) do |f, evaluator|
+        FactoryBot.create(:question,
+          :states_dropdown,
+          form: f,
+          answer_field: :answer_03,
           form_section: f.form_sections.first,
           text: "Name"
         )
