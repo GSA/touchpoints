@@ -186,6 +186,22 @@ feature "Forms", js: true do
           end
         end
 
+        context "for a non-archived touchpoint" do
+          describe "archive" do
+            before do
+              form.update_attribute(:aasm_state, :in_development)
+              visit admin_form_path(form)
+              click_on "Archive this form"
+              page.driver.browser.switch_to.alert.accept
+            end
+
+            it "display 'Archived' flash message" do
+              expect(page).to have_content("Archived")
+              expect(page).to have_content('Publish to make it "live."')
+            end
+          end
+        end
+
         context "copy from form info" do
           it "can copy a form" do
             click_on "Copy"

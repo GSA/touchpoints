@@ -19,6 +19,7 @@ class Admin::FormsController < AdminController
     :example, :js, :trigger,
     :add_user, :remove_user,
     :publish,
+    :archive,
     :update_title, :update_instructions, :update_disclaimer_text
   ]
 
@@ -51,8 +52,15 @@ class Admin::FormsController < AdminController
   def publish
     Event.log_event(Event.names[:form_published], "Form", @form.uuid,"Form #{@form.name} published at #{DateTime.now}", current_user.id)
 
-    @form.update_attribute(:aasm_state, :live)
+    @form.publish!
     redirect_to admin_form_path(@form), notice: "Published"
+  end
+
+  def archive
+    Event.log_event(Event.names[:form_archived], "Form", @form.uuid,"Form #{@form.name} archived at #{DateTime.now}", current_user.id)
+
+    @form.archive!
+    redirect_to admin_form_path(@form), notice: "Archived"
   end
 
   def update_title
