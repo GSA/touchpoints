@@ -8,25 +8,27 @@ class Event < ApplicationRecord
 
   # Extend this list with all First Class event types to be logged TP-
   @@names = {
-    :organization_manager_changed => 'organization_manager_changed', # Legacy event
-    :user_deactivated => 'user_deactivated',
-    :user_deleted => 'user_deleted',
-    :user_update => 'user_update',
-    :user_authentication_attempt => 'user_authentication_attempt',
-    :user_authentication_successful => 'user_authentication_successful',
-    :user_authentication_failure => 'user_authentication_failure',
+    organization_manager_changed: 'organization_manager_changed', # Legacy event
+    user_deactivated: 'user_deactivated',
+    user_deleted: 'user_deleted',
+    user_update: 'user_update',
+    user_authentication_attempt: 'user_authentication_attempt',
+    user_authentication_successful: 'user_authentication_successful',
+    user_authentication_failure: 'user_authentication_failure',
 
-    :touchpoint_archived => 'touchpoint_archived',
-    :touchpoint_form_submitted => 'touchpoint_form_submitted',
-    :touchpoint_published => 'touchpoint_published',
+    touchpoint_archived: 'touchpoint_archived',
+    touchpoint_form_submitted: 'touchpoint_form_submitted',
+    touchpoint_published: 'touchpoint_published',
 
-    :form_archived => 'form_archived',
-    :form_submitted => 'form_submitted',
-    :form_published => 'form_published',
-    :form_copied => 'form_copied',
-    :form_deleted => 'form_deleted',
+    form_archived: 'form_archived',
+    form_submitted: 'form_submitted',
+    form_published: 'form_published',
+    form_copied: 'form_copied',
+    form_deleted: 'form_deleted',
 
-    :response_deleted => 'response_deleted'
+    response_flagged: 'response_flagged',
+    response_unflagged: 'response_unflagged',
+    response_deleted: 'response_deleted'
   }
 
   def self.log_event(ename, otype, oid, desc, uid = nil)
