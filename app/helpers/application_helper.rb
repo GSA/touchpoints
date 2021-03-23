@@ -25,7 +25,7 @@ module ApplicationHelper
       "form.querySelector(\"input[name=#{question.answer_field}]\") && form.querySelector(\"input[name=#{question.answer_field}]\").value"
     elsif question.question_type == "checkbox"
       "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && Array.apply(null,form.querySelectorAll(\"input[name=#{question.answer_field}]:checked\")).map(function(x) {return x.value;}).join(',')"
-    elsif question.question_type == "dropdown"
+    elsif ["dropdown", "states_dropdown"].include?(question.question_type)
       "form.querySelector(\"##{question.answer_field}\").value"
     elsif question.question_type == "text_display"
       "null"

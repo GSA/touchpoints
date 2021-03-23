@@ -90,6 +90,7 @@ class Admin::QuestionsController < AdminController
         :form_id,
         :form_section_id,
         :text,
+        :placeholder_text,
         :question_type,
         :answer_field,
         :position,

@@ -34,7 +34,11 @@
       <div class="step <%= "completed" if ["archived"].include?(@form.aasm_state) -%>">
         <div class="indicator">
           <span class="font-sans-2xl">
-            <i class="far fa-circle"></i>
+            <% if @form.archived? %>
+              <i class="fas fa-check-circle"></i>
+            <% else %>
+              <i class="far fa-circle"></i>
+            <% end %>
           </span>
         </div>
         <div>
@@ -150,9 +154,10 @@
               <% end %>
             </p>
             <p>
-                <%= link_to copy_admin_form_path(@form), class: "usa-button usa-button--outline width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
-                  Copy
-                <% end %>
+              <%= link_to copy_admin_form_path(@form), class: "usa-button usa-button--outline width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
+                <i class="fa fa-copy"></i>
+                Copy
+              <% end %>
             </p>
             <% end %>
           </p>
@@ -167,6 +172,7 @@
                 Preview
               <% end %>
               <%= link_to copy_admin_form_path(@form), class: "usa-button usa-button--outline", method: :post, data: { confirm: 'Are you sure?' } do %>
+                <i class="fa fa-copy"></i>
                 Copy
               <% end %>
             </p>
@@ -175,13 +181,21 @@
             </p>
           </div>
         </div>
-        <br>
-        <%= link_to publish_admin_form_path(@form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button width-full" do %>
-          <i class="far fa-check-circle"></i>
-          Publish
-        <% end %>
-        <br>
+        <p>
+          <%= link_to publish_admin_form_path(@form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button width-full" do %>
+            <i class="far fa-check-circle"></i>
+            Publish
+          <% end %>
+        </p>
       <% end %>
+
+    <% unless @form.archived? %>
+      <p>
+        <%= link_to archive_admin_form_path(@form), class: "usa-button usa-button--accent-cool width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
+          Archive this form
+        <% end %>
+      </p>
+    <% end %>
     </div>
   </div>
 </div>

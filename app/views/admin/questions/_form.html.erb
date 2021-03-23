@@ -35,6 +35,26 @@
 
     <div class="grid-row">
       <div class="grid-col-12">
+        <% if ["text_field", "textarea", "text_email_field"].include?(question.question_type) %>
+        <div class="field placeholder-text">
+          <%= f.label :placeholder_text, "Placeholder text", class: "usa-label" %>
+          <%= f.text_field :placeholder_text, class: "usa-input" %>
+        </div>
+        <div class="field character-limit">
+          <%= f.label :character_limit, class: "usa-label" %>
+          <%= f.number_field :character_limit, class: "usa-input", max: "100000" %>
+        </div>
+        <% end %>
+
+        <br>
+        <fieldset class="usa-fieldset">
+          <legend class="usa-sr-only">Is this question required?</legend>
+          <div class="usa-checkbox">
+            <%= f.check_box :is_required, class: "usa-checkbox__input" %>
+            <%= f.label :is_required, "Is required?", class: "usa-checkbox__label" %>
+          </div>
+        </fieldset>
+
         <div class="field">
           <%= f.label :answer_field, "Which A-11 question does this pertain to?", class: "usa-label" %>
           <%= f.select :answer_field, answer_fields - (form.questions.collect(&:answer_field) - [question.answer_field]), { selected: question.answer_field }, { class: "usa-select" } %>
@@ -52,23 +72,7 @@
       </div>
     </div>
 
-    <% if question.question_type == "text_field" || question.question_type == "textarea" %>
-    <div class="field character-limit">
-      <%= f.label :character_limit, class: "usa-label" %>
-      <%= f.number_field :character_limit, class: "usa-input", max: "100000" %>
-    </div>
-    <% end %>
-
     <%= f.hidden_field :form_section_id %>
-
-    <br>
-    <fieldset class="usa-fieldset">
-      <legend class="usa-sr-only">Is this question required?</legend>
-      <div class="usa-checkbox">
-        <%= f.check_box :is_required, class: "usa-checkbox__input" %>
-        <%= f.label :is_required, class: "usa-checkbox__label" %>
-      </div>
-    </fieldset>
     <p>
       <%= f.submit class: "usa-button save-question" %>
     </p>
@@ -96,10 +100,13 @@
         });
       }
     });
+
     $("input[name='question[question_type]']").on("click", function(event) {
-      if ($(this)[0].id == 'question_question_type_text_field' || $(this)[0].id == 'question_question_type_textarea') {
+      if ($(this)[0].id == 'question_question_type_text_field' || $(this)[0].id == 'question_question_type_text_email_field' || $(this)[0].id == 'question_question_type_textarea') {
+        $(".placeholder-text").show();
         $(".character-limit").show();
       } else {
+        $(".placeholder-text").hide();
         $(".character-limit").hide();
       }
     });
