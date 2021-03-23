@@ -147,6 +147,33 @@ feature "Touchpoints", js: true do
       end
     end
 
+    describe "states dropdown question" do
+      let!(:dropdown_form) { FactoryBot.create(:form, :states_dropdown_form, organization: organization, user: user) }
+
+      before do
+        visit touchpoint_path(dropdown_form)
+        select("CA", from: "answer_03")
+        click_on "Submit"
+      end
+
+      it "persists question values to db" do
+        expect(page).to have_content("Thank you. Your feedback has been received.")
+        expect(Submission.last.answer_03).to eq "CA"
+      end
+
+      context "when required" do
+        before do
+          dropdown_form.questions.first.update(is_required: true)
+          visit touchpoint_path(dropdown_form)
+        end
+
+        it "display flash message" do
+          click_on "Submit"
+          expect(page).to have_content("You must respond to question:")
+        end
+      end
+    end
+
     describe "required question" do
       before do
         form.questions.first.update_attribute(:is_required, true)

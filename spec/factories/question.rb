@@ -5,6 +5,10 @@ FactoryBot.define do
     answer_field { "answer_01" }
     position { 1 }
 
+    trait :states_dropdown do
+      question_type { "states_dropdown" }
+    end
+
     trait :with_radio_buttons do
       text { "Test Radio Buttons Question" }
       question_type { "radio_buttons" }
@@ -19,7 +23,7 @@ FactoryBot.define do
 
     trait :with_checkbox_options do
       text { "Test Radio Buttons Question" }
-      question_type { "checkboxes" }
+      question_type { "checkbox" }
       after(:create) do |checkbox_question, evaluator|
         FactoryBot.create(:question_option, question: checkbox_question, position: 1, text: 'One')
         FactoryBot.create(:question_option, question: checkbox_question, position: 2, text: 'Two')

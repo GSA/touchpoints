@@ -6,6 +6,6 @@
 		<%= question.max_length %> characters allowed
 	</span>
   <% else %>
-    <%= text_field_tag question.answer_field.to_sym, nil, class: "usa-input", required: question.is_required, maxlength: question.max_length %>
+    <%= text_field_tag question.answer_field.to_sym, nil, class: "usa-input", required: question.is_required, maxlength: question.max_length, placeholder: question.placeholder_text %>
   <% end %>
 </div>

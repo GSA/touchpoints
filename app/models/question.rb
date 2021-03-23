@@ -21,10 +21,11 @@ class Question < ApplicationRecord
     "dropdown",
     # Custom elements
     "text_display",
+    "custom_text_display",
+    "states_dropdown",
     "star_radio_buttons",
     "thumbs_up_down_buttons",
     "yes_no_buttons",
-    "custom_text_display"
   ]
 
   validates :answer_field, presence: true

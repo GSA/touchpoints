@@ -119,27 +119,26 @@ class Form < ApplicationRecord
     state :live # manual
     state :archived # after End Date, or manual
 
-
     event :develop do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :in_development
+      transitions from: [:ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :in_development
     end
     event :ready_to_submit do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :ready_to_submit_to_PRA
+      transitions from: [:in_development, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :ready_to_submit_to_PRA
     end
     event :submit do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :submitted_to_PRA
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :submitted_to_PRA
     end
     event :approve do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :PRA_approved
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_denied, :live, :archived], to: :PRA_approved
     end
     event :deny do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :PRA_denied
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :live, :archived], to: :PRA_denied
     end
     event :publish do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :live
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :archived], to: :live
     end
     event :archive do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :archived
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live], to: :archived
     end
   end
 
@@ -150,7 +149,6 @@ class Form < ApplicationRecord
   def all_states
     self.aasm.states
   end
-
 
   def duplicate!(user:)
     new_form = self.dup
