@@ -31,7 +31,7 @@ gem 'redis-namespace'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem 'aasm', '~> 4.12'
-gem 'webpacker', '~> 5.0'
+# gem 'webpacker', '~> 5.0'
 gem 'whenever', require: false
 gem 'kaminari'
 
