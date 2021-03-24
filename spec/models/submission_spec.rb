@@ -14,11 +14,11 @@ RSpec.describe Submission, type: :model do
     end
 
     it "returns a DeliveryJob" do
-      expect(submission.send_notifications.class).to eq(ActionMailer::DeliveryJob)
+      expect(submission.send_notifications.class).to eq(ActionMailer::MailDeliveryJob)
     end
 
     it "to Form.notification_emails and each Form Manager" do
-      expect(submission.send_notifications.arguments[3][:emails]).to eq(form.notification_emails.split(",") + [user_role2.user.email])
+      expect(submission.send_notifications.arguments[3][:args].first[:emails]).to eq(form.notification_emails.split(",") + [user_role2.user.email])
     end
   end
 
