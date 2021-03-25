@@ -1,0 +1,152 @@
+en-US:
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      accepted: must be accepted
+      blank: can't be blank
+      confirmation: doesn't match %{attribute}
+      empty: can't be empty
+      equal_to: must be equal to %{count}
+      even: must be even
+      exclusion: is reserved
+      greater_than: must be greater than %{count}
+      greater_than_or_equal_to: must be greater than or equal to %{count}
+      inclusion: is not included in the list
+      invalid: is invalid
+      less_than: must be less than %{count}
+      less_than_or_equal_to: must be less than or equal to %{count}
+      model_invalid: 'Validation failed: %{errors}'
+      not_a_number: is not a number
+      not_an_integer: must be an integer
+      odd: must be odd
+      other_than: must be other than %{count}
+      present: must be blank
+      required: must exist
+      taken: has already been taken
+      too_long:
+        one: is too long (maximum is 1 character)
+        other: is too long (maximum is %{count} characters)
+      too_short:
+        one: is too short (minimum is 1 character)
+        other: is too short (minimum is %{count} characters)
+      wrong_length:
+        one: is the wrong length (should be 1 character)
+        other: is the wrong length (should be %{count} characters)
+    template:
+      body: 'There were problems with the following fields:'
+      header:
+        one: 1 error prohibited this %{model} from being saved
+        other: "%{count} errors prohibited this %{model} from being saved"
+  time:
+    am: am
+    formats:
+      default: "%a, %d %b %Y %I:%M:%S %p %Z"
+      long: "%B %d, %Y %I:%M %p"
+      short: "%d %b %I:%M %p"
+    pm: pm
+  date:
+    month_names:
+      - January
+      - February
+      - March
+      - April
+      - May
+      - June
+      - July
+      - August
+      - September
+      - October
+      - November
+      - December
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: about 1 hour
+        other: about %{count} hours
+      about_x_months:
+        one: about 1 month
+        other: about %{count} months
+      about_x_years:
+        one: about 1 year
+        other: about %{count} years
+      almost_x_years:
+        one: almost 1 year
+        other: almost %{count} years
+      half_a_minute: half a minute
+      less_than_x_seconds:
+        one: less than 1 second
+        other: less than %{count} seconds
+      less_than_x_minutes:
+        one: less than a minute
+        other: less than %{count} minutes
+      over_x_years:
+        one: over 1 year
+        other: over %{count} years
+      x_seconds:
+        one: 1 second
+        other: "%{count} seconds"
+      x_minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+      x_days:
+        one: 1 day
+        other: "%{count} days"
+      x_months:
+        one: 1 month
+        other: "%{count} months"
+      x_years:
+        one: 1 year
+        other: "%{count} years"
+  touchpoint: "Touchpoint"
+  touchpoints: "Touchpoints"
+  powered_by: "Powered by"
+  omb_approval: "OMB Approval #1234 Exp. Date 12/01/2019"
+  beta: "beta"
+  report_an_issue: "report an issue"
+  contact: "contact"
+  please: "Please"
+  or: "or"
+  success: "Success"
+  error: "Error"
+  "yes": "yes"
+  "no": "no"
+  the_feedback_and_analytics_team: " the Feedback and Analytics Team"
+  form:
+    submit: "Submit"
+    submit_thankyou: "Thank you. Your feedback has been received."
+    help_improve: "Help improve this site"
+    answer_more_questions: "Would you like to take two more minutes to answer more questions to help us improve our services?"
+    yes_keep_going: "Yes, keep going →"
+    no_submit: "No, only submit these responses"
+    next: "Next →"
+    back: "← Back"
+    select_one: "Select one"
+    page_1: "Page 1"
+    page_2: "Page 2"
+    field_is_required: "You must respond to question: "
+    chars_remaining: "Chars remaining: "
+    enter_other_text: "Enter other text"
+  header:
+    official: "An official website of the United States government"
+    heres_how_you_know: "Here’s how you know"
+    dot_gov_means_official: "Official websites use .gov"
+    dot_gov_websites: "A <strong>.gov</strong> website belongs to an official government organization in the United States."
+    this_site_is_secure: "Secure .gov websites use HTTPS"
+    https_notes_html: "A <strong>lock 🔒</strong> or <strong>https://</strong> means you’ve safely connected to the .gov website. Share sensitive information only on official, secure websites."
+    disclaimer_1: "This website is currently in "
+  views:
+    pagination:
+      first: "&laquo; First"
+      last: "Last &raquo;"
+      previous: "&lsaquo; Prev"
+      next: "Next &rsaquo;"
+      truncate: "&hellip;"
+  helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: "No %{entry_name} found"
+          one: "Displaying <b>1</b> %{entry_name}"
+          other: "Displaying <b>all %{count}</b> %{entry_name}"
+      more_pages:
+        display_entries: "Displaying %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b> in total"
