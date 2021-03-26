@@ -9,12 +9,12 @@ class Admin::SubmissionsController < AdminController
 
   def flag
     Event.log_event(Event.names[:response_flagged], "Submission", @submission.id, "Submission #{@submission.id} flagged at #{DateTime.now}", current_user.id)
-    @submission.update_attribute(:flagged, true)
+    @submission.update(flagged: true)
   end
 
   def unflag
     Event.log_event(Event.names[:response_unflagged], "Submission", @submission.id, "Submission #{@submission.id} unflagged at #{DateTime.now}", current_user.id)
-    @submission.update_attribute(:flagged, false)
+    @submission.update(flagged: false)
   end
 
   def destroy

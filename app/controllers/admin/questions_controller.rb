@@ -1,5 +1,5 @@
 class Admin::QuestionsController < AdminController
-  before_action :set_form, only: [:new, :create, :show, :edit, :update, :destroy]
+  before_action :set_form, only: [:new, :create, :show, :edit, :update, :sort, :destroy]
   before_action :set_question, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -22,7 +22,7 @@ class Admin::QuestionsController < AdminController
   def sort
     form_section_id = params[:form_section_id]
     params[:question].each_with_index do |id, index|
-      Question.find(id).update_attributes(position: index + 1, form_section_id: form_section_id)
+      @form.questions.find(id).update(position: index + 1, form_section_id: form_section_id)
     end
 
     head :ok
@@ -68,8 +68,12 @@ class Admin::QuestionsController < AdminController
   end
 
   private
+    def set_form
+      @form = Form.find_by_short_uuid(params[:form_id])
+    end
+
     def set_question
-      @question = Question.find(params[:id])
+      @question = @form.questions.find(params[:id])
     end
 
     def set_defaults
@@ -79,10 +83,6 @@ class Admin::QuestionsController < AdminController
       @question.question_type = "text_field"
       @question.answer_field = first_unused_answer_field
       @question.save!
-    end
-
-    def set_form
-      @form = Form.find_by_short_uuid(params[:form_id])
     end
 
     def question_params

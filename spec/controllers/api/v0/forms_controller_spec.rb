@@ -45,7 +45,7 @@ describe Api::V0::FormsController, type: :controller do
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: user, form: form) }
 
         before do
-          user.update_attribute(:api_key, TEST_API_KEY)
+          user.update(api_key: TEST_API_KEY)
           request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch("API_HTTP_USERNAME"), ENV.fetch("API_HTTP_PASSWORD"))
           get :index, format: :json, params: { "API_KEY" => user.api_key }
         end
@@ -67,7 +67,7 @@ describe Api::V0::FormsController, type: :controller do
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: user, form: form) }
 
         before do
-          user.update_attribute(:api_key, TEST_API_KEY)
+          user.update(api_key: TEST_API_KEY)
           request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch("API_HTTP_USERNAME"), ENV.fetch("API_HTTP_PASSWORD"))
           get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key }
         end

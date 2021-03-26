@@ -58,11 +58,12 @@ class Admin::FormSectionsController < AdminController
   end
 
   def destroy
-    if @form.form_sections.count > 1
-      @form_section.destroy
-      redirect_to questions_admin_form_url(@form), notice: 'Form section was successfully destroyed.'
-    else
+    if @form.form_sections.count < 1
       redirect_to questions_admin_form_url(@form), alert: 'Cannot delete only remaining Form section'
+    elsif @form_section.destroy
+      redirect_to questions_admin_form_url(@form), notice: 'Form section was successfully deleted.'
+    else
+      redirect_to questions_admin_form_url(@form), alert: 'Form section cannot be deleted because it has one or more questions.'
     end
   end
 

@@ -116,7 +116,7 @@ RSpec.describe SubmissionsController, type: :controller do
 
     context "with invalid params" do
       before do
-        form.questions.first.update_attribute(:is_required, true)
+        form.questions.first.update(is_required: true)
         post :create, params: { submission: invalid_attributes, form_id: form.short_uuid }, session: valid_session, format: :json
       end
 
@@ -129,7 +129,7 @@ RSpec.describe SubmissionsController, type: :controller do
 
     context "with excess characters" do
       before do
-        form.questions.first.update_attribute(:character_limit, 5)
+        form.questions.first.update(character_limit: 5)
         post :create, params: { submission: { answer_01: "more than 5 characters" }, touchpoint_id: form.short_uuid }, session: valid_session, format: :json
       end
 

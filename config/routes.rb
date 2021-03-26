@@ -52,7 +52,6 @@ Rails.application.routes.draw do
         get "permissions", to: "forms#permissions", as: :permissions
         get "compliance", to: "forms#compliance", as: :compliance
         get "questions", to: "forms#questions", as: :questions
-        patch "questions", to: "questions#sort", as: :sort_questions
         patch "form_sections", to: "form_sections#sort", as: :sort_sections
         get "responses", to: "forms#responses", as: :responses
         post "add_user", to: "forms#add_user", as: :add_user
@@ -79,7 +78,7 @@ Rails.application.routes.draw do
           patch "update_title", to: "question_options#update_title", as: :inline_update
         end
         collection do
-          patch "questions", to: "questions#sort", as: :sort_questions
+          patch "sort", to: "questions#sort", as: :sort_questions
         end
       end
       resources :submissions, only: [:destroy] do
