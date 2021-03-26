@@ -172,7 +172,7 @@ feature "Forms", js: true do
         context "for :in_development touchpoint" do
           describe "Publishing" do
             before do
-              form.update_attribute(:aasm_state, :in_development)
+              form.update(aasm_state: :in_development)
               visit admin_form_path(form)
               click_on "Publish"
               page.driver.browser.switch_to.alert.accept
@@ -189,7 +189,7 @@ feature "Forms", js: true do
         context "for a non-archived touchpoint" do
           describe "archive" do
             before do
-              form.update_attribute(:aasm_state, :in_development)
+              form.update(aasm_state: :in_development)
               visit admin_form_path(form)
               click_on "Archive this form"
               page.driver.browser.switch_to.alert.accept
