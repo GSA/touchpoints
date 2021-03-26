@@ -6,7 +6,7 @@ class Form < ApplicationRecord
   belongs_to :user
   belongs_to :organization
 
-  has_many :form_sections, dependent: :destroy
+  has_many :form_sections, dependent: :delete_all
   has_many :questions, dependent: :destroy
   has_many :submissions
 

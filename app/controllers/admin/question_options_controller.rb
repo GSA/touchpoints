@@ -20,7 +20,7 @@ class Admin::QuestionOptionsController < AdminController
 
   def sort
     params[:question_option].each_with_index do |id, index|
-      QuestionOption.find(id).update_attributes(position: index + 1)
+      QuestionOption.find(id).update(position: index + 1)
     end
 
     head :ok

@@ -28,7 +28,7 @@ feature "Touchpoints", js: true do
 
       context "custom success text" do
         before do
-          form.update_attribute(:success_text, "Much success. \n With a second line.")
+          form.update(success_text: "Much success. \n With a second line.")
           form.reload
           visit touchpoint_path(form)
           expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
@@ -176,7 +176,7 @@ feature "Touchpoints", js: true do
 
     describe "required question" do
       before do
-        form.questions.first.update_attribute(:is_required, true)
+        form.questions.first.update(is_required: true)
         visit touchpoint_path(form)
         click_on "Submit"
       end
@@ -199,7 +199,7 @@ feature "Touchpoints", js: true do
     describe "character_limit" do
       before do
         question = form.questions.first
-        question.update_attribute(:character_limit, 150)
+        question.update(character_limit: 150)
         visit touchpoint_path(form)
         expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
         expect(page).to have_content("OMB Approval ##{form.omb_approval_number}")

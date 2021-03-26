@@ -177,9 +177,9 @@ RSpec.describe Form, type: :model do
 
     context "expired form" do
       before do
-        form.update_attribute(:aasm_state, :archived)
+        form.update(aasm_state: :archived)
       end
-      
+
       it "archives expired form" do
         form.publish!
         expect(form.live?).to eq(true)
