@@ -653,6 +653,7 @@ feature "Forms", js: true do
                 end
 
                 it "can cancel a Dropdown Question option" do
+                  click_on "Add Dropdown Option"
                   expect(page).to have_content("New Question Option")
                   click_on "Cancel"
                   expect(page.current_path).to eq(admin_form_questions_path(form))
