@@ -279,7 +279,7 @@ $(function() {
       var data = $(this).sortable('serialize');
       data = data + "&form_section_id=" + section_id;
       $.ajax({
-        url: $(this).data("url"),
+        url: '<%= sort_questions_admin_form_questions_path(@form) %>',
         type: "PATCH",
         data: data
       });
