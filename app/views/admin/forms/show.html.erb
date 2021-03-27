@@ -75,18 +75,18 @@
 
       <% if @form.deployable_form? %>
         <strong>
-         Form URL
+         Touchpoints-hosted URL
         </strong>
         <br>
         <p>
-          This is where the public can access your form.
+          This form can be publicly accessed from the following URL.
         </p>
         <p>
           <%= link_to submit_touchpoint_uuid_url(@form), submit_touchpoint_uuid_url(@form), target: "_blank" %>
         </p>
         <% if @form.delivery_method == "modal" || @form.delivery_method == "inline" || @form.delivery_method == "custom-button-modal" %>
           <strong>
-            Javascript embed
+            Javascript embed code
           </strong>
           <br>
           <p>
@@ -97,6 +97,7 @@
                 as a place to display the Touchpoint
                 <i>inline</i>.
               </p>
+
               <p>
                 <span class="code">
                   <%= h("<a id=\"#{@form.element_selector}\"></a>") %>
@@ -118,11 +119,19 @@
             <p>
               Add the following script to your site to embed your form.
             </p>
-            <p>
+            <div>
               <div class="code minh-10 bg-base-lighter">
-                <%= h("<script src=\"#{js_touchpoint_url(@form.short_uuid)}\" async></script>") %>
+                <%= h("<script src=\"#{touchpoint_url(@form.short_uuid, format: :js)}\" async></script>") %>
               </div>
-            </p>
+              <p>
+                This alternative script version includes an integrity attribute.
+                Changing any aspect of the Form's display will change this checksum,
+                and if deployed, could become invalid.
+              </p>
+              <div class="code minh-10 bg-base-lighter">
+                <%= h("<script src=\"#{touchpoint_url(@form.short_uuid, format: :js)}\" integrity=\"sha256-#{form_integrity_checksum(form: @form)}\" async></script>") %>
+              </div>
+            </div>
             <% end %>
             <% if @form.delivery_method == "inline" %>
             <h4>
