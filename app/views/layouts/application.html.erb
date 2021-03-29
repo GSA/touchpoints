@@ -15,8 +15,8 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= favicon_link_tag asset_path('favicon.ico') %>
-    <%= stylesheet_link_tag 'application', media: 'all' %>
-    <%= javascript_include_tag 'application' %>
+    <%= stylesheet_link_tag 'application', media: 'all', integrity: true %>
+    <%= javascript_include_tag 'application', integrity: true %>
     <%= render 'components/analytics/script_header' %>
   </head>
   <body>
