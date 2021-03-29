@@ -123,11 +123,24 @@
               <div class="code minh-10 bg-base-lighter">
                 <%= h("<script src=\"#{touchpoint_url(@form.short_uuid, format: :js)}\" async></script>") %>
               </div>
-              <p>
-                This alternative script version includes an integrity attribute.
-                Changing any aspect of the Form's display will change this checksum,
-                and if deployed, could become invalid.
-              </p>
+            </div>
+            <br>
+            <div class="usa-checkbox">
+              <input class="usa-checkbox__input" type="checkbox" value="1" name="form[integrity-hashed-url]" id="integrity-hashed-url-checkbox">
+              <label class="usa-checkbox__label" for="integrity-hashed-url-checkbox">with integrity hash</label>
+            </div>
+            <div id="integrity-hashed-url" hidden="true">
+              <div class="usa-alert usa-alert--warning" >
+                <div class="usa-alert__body">
+                  <p class="usa-alert__text">
+                    This alternative version of embed script includes an integrity attribute.
+                    Using this version offers more security.
+                    Changing any aspect of the Form's display will change this checksum,
+                    and if deployed, could become invalid.
+                  </p>
+                </div>
+              </div>
+              <br>
               <div class="code minh-10 bg-base-lighter">
                 <%= h("<script src=\"#{touchpoint_url(@form.short_uuid, format: :js)}\" integrity=\"sha256-#{form_integrity_checksum(form: @form)}\" async></script>") %>
               </div>
@@ -287,3 +300,16 @@
     <% end %>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(function() {
+    $("#integrity-hashed-url-checkbox").on("click", function(i, b) {
+      debugger
+      if ($(this).is(':checked')) {
+        $("#integrity-hashed-url").show();
+      } else {
+        $("#integrity-hashed-url").hide();
+      }
+    })
+  })
+</script>
