@@ -131,17 +131,33 @@ RSpec.describe Admin::FormSectionsController, type: :controller do
   end
 
   describe "DELETE #destroy" do
+    let(:form) { FactoryBot.create(:form, organization: organization, user: admin) }
+    let!(:form_section) { FactoryBot.create(:form_section, form: form) }
+
+    before do
+      sign_in(admin)
+    end
+
     it "destroys the requested form_section" do
-      form_section = FormSection.create! valid_attributes
       expect {
-        delete :destroy, params: {id: form_section.to_param}, session: valid_session
+        delete :destroy, params: {form_id: form.short_uuid, id: form_section.to_param}, session: valid_session
       }.to change(FormSection, :count).by(-1)
     end
 
+    context "with a question" do
+      let!(:question) { FactoryBot.create(:question, form: form, form_section: form_section) }
+      
+      it "show flash message when trying to delete a form_section that still has questions" do
+        expect {
+          delete :destroy, params: {form_id: form.short_uuid, id: form_section.to_param}, session: valid_session, format: :js
+        }.to change(FormSection, :count).by(0)
+        expect(flash[:alert]).to eq("Form section cannot be deleted because it has one or more questions.")
+      end
+    end
+
     it "redirects to the form_sections list" do
-      form_section = FormSection.create! valid_attributes
-      delete :destroy, params: {id: form_section.to_param}, session: valid_session
-      expect(response).to redirect_to(form_sections_url)
+      delete :destroy, params: {form_id: form.short_uuid, id: form_section.to_param}, session: valid_session
+      expect(response).to redirect_to(admin_form_questions_url)
     end
   end
 

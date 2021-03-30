@@ -28,7 +28,7 @@ feature "Touchpoints", js: true do
 
       context "custom success text" do
         before do
-          form.update_attribute(:success_text, "Much success. \n With a second line.")
+          form.update(success_text: "Much success. \n With a second line.")
           form.reload
           visit touchpoint_path(form)
           expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
@@ -147,9 +147,36 @@ feature "Touchpoints", js: true do
       end
     end
 
+    describe "states dropdown question" do
+      let!(:dropdown_form) { FactoryBot.create(:form, :states_dropdown_form, organization: organization, user: user) }
+
+      before do
+        visit touchpoint_path(dropdown_form)
+        select("CA", from: "answer_03")
+        click_on "Submit"
+      end
+
+      it "persists question values to db" do
+        expect(page).to have_content("Thank you. Your feedback has been received.")
+        expect(Submission.last.answer_03).to eq "CA"
+      end
+
+      context "when required" do
+        before do
+          dropdown_form.questions.first.update(is_required: true)
+          visit touchpoint_path(dropdown_form)
+        end
+
+        it "display flash message" do
+          click_on "Submit"
+          expect(page).to have_content("You must respond to question:")
+        end
+      end
+    end
+
     describe "required question" do
       before do
-        form.questions.first.update_attribute(:is_required, true)
+        form.questions.first.update(is_required: true)
         visit touchpoint_path(form)
         click_on "Submit"
       end
@@ -172,7 +199,7 @@ feature "Touchpoints", js: true do
     describe "character_limit" do
       before do
         question = form.questions.first
-        question.update_attribute(:character_limit, 150)
+        question.update(character_limit: 150)
         visit touchpoint_path(form)
         expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
         expect(page).to have_content("OMB Approval ##{form.omb_approval_number}")

@@ -92,7 +92,7 @@
       <div class="grid-col-6">
         <div class="field">
           <%= f.label :aasm_state, "State", class: "usa-label" %>
-          <%= f.select :aasm_state, options_for_select(form.transitionable_states, selected: form.aasm_state), { prompt: "Transition to State" }, {class: "usa-select"} %>
+          <%= f.select :aasm_state, options_for_select(@form.all_states, selected: form.aasm_state), { prompt: "Transition to State" }, {class: "usa-select"} %>
         </div>
       </div>
     </div>

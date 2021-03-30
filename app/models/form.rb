@@ -6,7 +6,7 @@ class Form < ApplicationRecord
   belongs_to :user
   belongs_to :organization
 
-  has_many :form_sections, dependent: :destroy
+  has_many :form_sections, dependent: :delete_all
   has_many :questions, dependent: :destroy
   has_many :submissions
 
@@ -119,27 +119,26 @@ class Form < ApplicationRecord
     state :live # manual
     state :archived # after End Date, or manual
 
-
     event :develop do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :in_development
+      transitions from: [:ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :in_development
     end
     event :ready_to_submit do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :ready_to_submit_to_PRA
+      transitions from: [:in_development, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :ready_to_submit_to_PRA
     end
     event :submit do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :submitted_to_PRA
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :submitted_to_PRA
     end
     event :approve do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :PRA_approved
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_denied, :live, :archived], to: :PRA_approved
     end
     event :deny do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :PRA_denied
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :live, :archived], to: :PRA_denied
     end
     event :publish do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :live
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :archived], to: :live
     end
     event :archive do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :archived
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live], to: :archived
     end
   end
 
@@ -151,13 +150,13 @@ class Form < ApplicationRecord
     self.aasm.states
   end
 
-
   def duplicate!(user:)
     new_form = self.dup
     new_form.name = "Copy of #{self.name}"
     new_form.title = new_form.name
     new_form.survey_form_activations = 0
     new_form.response_count = 0
+    new_form.last_response_created_at = nil
     new_form.aasm_state = :in_development
     new_form.uuid = nil
     new_form.legacy_touchpoint_id = nil
@@ -398,7 +397,7 @@ class Form < ApplicationRecord
   def hashed_fields_for_export
     hash = {}
 
-    self.questions.map { |q| hash[q.answer_field] = q.text }
+    self.ordered_questions.map { |q| hash[q.answer_field] = q.text }
 
     hash.merge({
       location_code: "Location Code",
@@ -408,6 +407,14 @@ class Form < ApplicationRecord
       referer: "Referrer",
       created_at: "Created At"
     })
+  end
+
+  def ordered_questions
+    array = []
+    self.form_sections.each do |section|
+      array.concat(section.questions.ordered.entries)
+    end
+    array
   end
 
   def omb_number_with_expiration_date

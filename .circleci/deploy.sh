@@ -17,7 +17,7 @@ else
   echo "Not on the production branch."
 fi
 
-if [ "${CIRCLE_BRANCH}" == "master" ]
+if [ "${CIRCLE_BRANCH}" == "main" ]
 then
   echo "Logging into cloud.gov"
   # Log into CF and push
@@ -27,7 +27,7 @@ then
   cf v3-zdt-push touchpoints-demo-sidekiq-worker
   echo "Push to Demo Complete."
 else
-  echo "Not on the master branch."
+  echo "Not on the main branch."
 fi
 
 if [ "${CIRCLE_BRANCH}" == "develop" ]

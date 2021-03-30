@@ -43,13 +43,28 @@ RSpec.describe Form, type: :model do
     end
 
     describe "#hashed_fields_for_export" do
+      before do
+        second_form_section = form.form_sections.create(title: "Section 2", position: 2)
+        q3 = form.questions.create!(answer_field: "answer_03", text: "03", form_section_id: form.form_sections.first.id, question_type: "text_field", position: 3)
+        q2 = form.questions.create!(answer_field: "answer_02", text: "02", form_section_id: form.form_sections.first.id, question_type: "text_field", position: 2)
+        q4 = form.questions.create!(answer_field: "answer_10", text: "10", form_section_id: second_form_section.id, question_type: "text_field", position: 1)
+        q5 = form.questions.create!(answer_field: "answer_04", text: "02", form_section_id: second_form_section.id, question_type: "text_field", position: 2)
+      end
+
       it "returns a hash of questions, location_code, and 'standard' attributes" do
         expect(form.hashed_fields_for_export.class).to eq(Hash)
-        expect(form.hashed_fields_for_export.keys).to include(
-          "answer_01", # question fields
-          :location_code, # custom location code
-          :ip_address, :user_agent, :page, :referer, :created_at # standard fields
-        )
+        expect(form.hashed_fields_for_export.keys).to eq([
+          # question fields
+          "answer_01",
+          "answer_02",
+          "answer_03",
+          "answer_10",
+          "answer_04",
+          # custom location code
+          :location_code,
+          # standard fields
+          :ip_address, :user_agent, :page, :referer, :created_at
+        ])
       end
     end
   end
@@ -161,8 +176,12 @@ RSpec.describe Form, type: :model do
     end
 
     context "expired form" do
+      before do
+        form.update(aasm_state: :archived)
+      end
+
       it "archives expired form" do
-        form.publish
+        form.publish!
         expect(form.live?).to eq(true)
         form.expiration_date = Date.today - 1
         form.check_expired

@@ -4,15 +4,17 @@ class Admin::SubmissionsController < AdminController
   before_action :set_submission, only: [:flag, :unflag, :destroy]
 
   def index
-    @submissions = @form.submissions.includes(:organization).order(" created_at desc").page params[:page]
+    @submissions = @form.submissions.includes(:organization).order("created_at desc").page params[:page]
   end
 
   def flag
-    @submission.update_attribute(:flagged, true)
+    Event.log_event(Event.names[:response_flagged], "Submission", @submission.id, "Submission #{@submission.id} flagged at #{DateTime.now}", current_user.id)
+    @submission.update(flagged: true)
   end
 
   def unflag
-    @submission.update_attribute(:flagged, false)
+    Event.log_event(Event.names[:response_unflagged], "Submission", @submission.id, "Submission #{@submission.id} unflagged at #{DateTime.now}", current_user.id)
+    @submission.update(flagged: false)
   end
 
   def destroy

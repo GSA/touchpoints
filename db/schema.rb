@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_12_051535) do
+ActiveRecord::Schema.define(version: 2021_03_20_052354) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -125,6 +125,7 @@ ActiveRecord::Schema.define(version: 2021_02_12_051535) do
     t.datetime "updated_at", null: false
     t.integer "form_section_id"
     t.integer "character_limit"
+    t.string "placeholder_text"
   end
 
   create_table "service_stage_barriers", force: :cascade do |t|

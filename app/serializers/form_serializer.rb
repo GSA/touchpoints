@@ -45,5 +45,6 @@ class FormSerializer < ActiveModel::Serializer
   :response_count,
   :last_response_created_at
 
+  has_many :questions
   has_many :submissions
 end

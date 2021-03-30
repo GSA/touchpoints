@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 
   resources :forms, only: [:show] do
     member do
-      get "js", to: "touchpoints#js", as: :js
+      get "js", to: "touchpoints#show", as: :js, format: :js
       get "submit", to: "submissions#new", form: true, as: :submit
     end
     resources :submissions, only: [:new, :create]
@@ -25,7 +25,7 @@ Rails.application.routes.draw do
 
   resources :touchpoints, only: [:show] do
     member do
-      get "js", to: "touchpoints#js", as: :js
+      get "js", to: "touchpoints#show", as: :js, format: :js
       get "submit", to: "submissions#new", form: true, as: :submit
     end
     resources :submissions, only: [:new, :create]
@@ -59,12 +59,12 @@ Rails.application.routes.draw do
         get "permissions", to: "forms#permissions", as: :permissions
         get "compliance", to: "forms#compliance", as: :compliance
         get "questions", to: "forms#questions", as: :questions
-        patch "questions", to: "questions#sort", as: :sort_questions
         patch "form_sections", to: "form_sections#sort", as: :sort_sections
         get "responses", to: "forms#responses", as: :responses
         post "add_user", to: "forms#add_user", as: :add_user
         post "copy", to: "forms#copy", as: :copy
         post "publish", to: "forms#publish", as: :publish
+        post "archive", to: "forms#archive", as: :archive
         delete "remove_user", to: "forms#remove_user", as: :remove_user
         patch "update_title", to: "forms#update_title", as: :update_title
         patch "update_instructions", to: "forms#update_instructions", as: :update_instructions
@@ -77,15 +77,15 @@ Rails.application.routes.draw do
         patch "sort", to: "form_sections#sort", as: :sort_sections
         patch "update_title", to: "form_sections#update_title", as: :inline_update
       end
-      resources :questions do
+      resources :questions, except: [:show] do
         member do
           patch "question_options", to: "question_options#sort", as: :sort_question_options
         end
-        resources :question_options do
+        resources :question_options, except: [:index, :show] do
           patch "update_title", to: "question_options#update_title", as: :inline_update
         end
         collection do
-          patch "questions", to: "questions#sort", as: :sort_questions
+          patch "sort", to: "questions#sort", as: :sort_questions
         end
       end
       resources :submissions, only: [:destroy] do
