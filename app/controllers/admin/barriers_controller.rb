@@ -1,5 +1,5 @@
-class BarriersController < ApplicationController
-  before_action :ensure_user
+class Admin::BarriersController < AdminController
+  before_action :ensure_admin
   before_action :set_barrier, only: [:show, :edit, :update, :destroy]
 
   # GET /barriers
@@ -25,7 +25,7 @@ class BarriersController < ApplicationController
     @barrier = Barrier.new(barrier_params)
 
     if @barrier.save
-      redirect_to @barrier, notice: 'Barrier was successfully created.'
+      redirect_to admin_barrier_path(@barrier), notice: 'Barrier was successfully created.'
     else
       render :new
     end
@@ -34,7 +34,7 @@ class BarriersController < ApplicationController
   # PATCH/PUT /barriers/1
   def update
     if @barrier.update(barrier_params)
-      redirect_to @barrier, notice: 'Barrier was successfully updated.'
+      redirect_to admin_barrier_path(@barrier), notice: 'Barrier was successfully updated.'
     else
       render :edit
     end
@@ -43,7 +43,7 @@ class BarriersController < ApplicationController
   # DELETE /barriers/1
   def destroy
     @barrier.destroy
-    redirect_to barriers_url, notice: 'Barrier was successfully destroyed.'
+    redirect_to admin_barriers_url, notice: 'Barrier was successfully destroyed.'
   end
 
   private

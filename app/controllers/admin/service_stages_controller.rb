@@ -1,5 +1,5 @@
-class ServiceStagesController < ApplicationController
-  before_action :ensure_user
+class Admin::ServiceStagesController < AdminController
+  before_action :ensure_admin
   before_action :set_service_stage, only: [:show, :edit, :update, :destroy]
 
   # GET /service_stages
@@ -25,7 +25,7 @@ class ServiceStagesController < ApplicationController
     @service_stage = ServiceStage.new(service_stage_params)
 
     if @service_stage.save
-      redirect_to @service_stage, notice: 'Service stage was successfully created.'
+      redirect_to admin_service_stage_path(@service_stage), notice: 'Service stage was successfully created.'
     else
       render :new
     end
@@ -34,7 +34,7 @@ class ServiceStagesController < ApplicationController
   # PATCH/PUT /service_stages/1
   def update
     if @service_stage.update(service_stage_params)
-      redirect_to @service_stage, notice: 'Service stage was successfully updated.'
+      redirect_to admin_service_stage_path(@service_stage), notice: 'Service stage was successfully updated.'
     else
       render :edit
     end
@@ -43,7 +43,7 @@ class ServiceStagesController < ApplicationController
   # DELETE /service_stages/1
   def destroy
     @service_stage.destroy
-    redirect_to service_stages_url, notice: 'Service stage was successfully destroyed.'
+    redirect_to admin_service_stages_url, notice: 'Service stage was successfully destroyed.'
   end
 
   private

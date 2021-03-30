@@ -1,8 +1,6 @@
 <% content_for :navigation_title do %>
-  <%= @service.name %>
+  Service: <%= @service.name %>
 <% end %>
-
-<p id="notice"><%= notice %></p>
 
 <p>
   <%= link_to admin_services_path do %>
@@ -39,9 +37,7 @@
   </p>
 <% end %>
 
-
-
-<% all_stages = @service.service_stages.sort_by(&:total_eligble_population).reverse %>
+<% all_stages = @service.service_stages %>
 <% first_stage = all_stages.first %>
 <% last_stage = all_stages.last %>
 
@@ -59,15 +55,15 @@
 
 <hr>
 
-<!-- <h3>
+<h2>
   Stages
-</h3> -->
-<table border="1" hidden>
+</h2>
+<table border="1" style="width: 100%;">
 <tr>
   <% @service.service_stages.each do |stage| %>
   <td style="width: <%= 98.0 / @service.service_stages.length %>%; vertical-align: top;">
     <h4>
-      <%= link_to stage.name, service_stage_path(stage), target: "_blank" %>
+      <%= link_to stage.name, admin_service_stage_path(stage), target: "_blank" %>
     </h4>
     <p>
       <i>
@@ -98,18 +94,18 @@
 </tr>
 </table>
 
-<h4>
-  Supplemental service information
-</h4>
-<p>
-  <!--
-  <%= link_to new_service_stage_path(service_id: @service.id), class: "usa-button", "data-remote" => true do %>
-    <i class="fa fa-plus"></i>
-    Add Stage
-  <% end %>
-  -->
-  <%= link_to equity_assessment_admin_service_path(@service), class: "usa-button usa-button--outline" do %>
-    <i class="fa fa-pencil-alt"></i>
-    Equity Assessment
-  <% end %>
-</p>
+<div class="well">
+  <h4>
+    Supplemental service information
+  </h4>
+  <p>
+    <%= link_to new_admin_service_stage_path(service_id: @service.id), class: "usa-button" do %>
+      <i class="fa fa-plus"></i>
+      Add Stage
+    <% end %>
+    <%= link_to equity_assessment_admin_service_path(@service), class: "usa-button usa-button--outline" do %>
+      <i class="fa fa-pencil-alt"></i>
+      Equity Assessment
+    <% end %>
+  </p>
+</div>

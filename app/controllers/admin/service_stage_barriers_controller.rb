@@ -1,5 +1,5 @@
-class ServiceStageBarriersController < ApplicationController
-  before_action :ensure_user
+class Admin::ServiceStageBarriersController < AdminController
+  before_action :ensure_admin
   before_action :set_service_stage_barrier, only: [:show, :edit, :update, :destroy]
 
   # GET /service_stage_barriers

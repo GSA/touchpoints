@@ -5,7 +5,7 @@
 </h3>
 <p>
   <strong>Service:</strong>
-  <%= link_to @service_stage.service.name, service_path(@service_stage.service) %>
+  <%= link_to @service_stage.service.name, admin_service_path(@service_stage.service) %>
 </p>
 <p>
   <strong>Organization:</strong>
@@ -37,5 +37,5 @@
   <%= number_with_delimiter @service_stage.total_eligble_population %>
 </p>
 
-<%= link_to 'Edit', edit_service_stage_path(@service_stage) %> |
-<%= link_to 'Back', service_stages_path %>
+<%= link_to 'Edit', edit_admin_service_stage_path(@service_stage) %> |
+<%= link_to 'Back', admin_service_stages_path %>

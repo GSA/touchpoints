@@ -1,0 +1,54 @@
+<%= form_with(model: service_stage, url: service_stage.persisted? ? admin_service_stage_path(service_stage) : admin_service_stages_path, local: true) do |form| %>
+  <% if service_stage.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(service_stage.errors.count, "error") %> prohibited this service_stage from being saved:</h2>
+
+      <ul>
+      <% service_stage.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name, class: "usa-label" %>
+    <%= form.text_field :name, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description, class: "usa-label" %>
+    <%= form.text_area :description, class: "usa-textarea" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :service_id, class: "usa-label" %>
+    <%= form.select :service_id, options_for_select(Service.all.map { |s| [s.name, s.id] }), {}, { class: "usa-select" } %>
+  </div>
+
+  <div class="field">
+    <%= form.label :notes, class: "usa-label" %>
+    <%= form.text_area :notes, class: "usa-textarea" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :time, class: "usa-label" %>
+    <%= form.number_field :time, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :total_eligble_population, class: "usa-label" %>
+    <%= form.number_field :total_eligble_population, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :barrier_id, class: "usa-label" %>
+    <%= form.select :barrier_id, options_for_select(Barrier.all.map { |s| [s.name, s.id] }), {}, { class: "usa-select" } %>
+    <br>
+    <%= link_to 'Add a Barrier', new_admin_barrier_path, class: "usa-button usa-button--outline" %>
+  </div>
+
+  <p>
+    <%= form.submit class: "usa-button" %>
+  </p>
+<% end %>

@@ -1,9 +1,6 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  resources :service_stage_barriers
-  resources :barriers
-  resources :service_stages
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
   authenticate :user, lambda { |u| u.admin? } do
@@ -45,6 +42,7 @@ Rails.application.routes.draw do
       member do
         get "equity-assessment", to: "services#equity_assessment", as: :equity_assessment
       end
+      resources :service_stages
     end
     resources :forms do
       member do
@@ -103,6 +101,10 @@ Rails.application.routes.draw do
       end
     end
     resources :organizations
+    resources :service_stages
+    resources :barriers
+    resources :service_stage_barriers
+
     get "dashboard", to: "site#index", as: :dashboard
     get "management", to: "site#management", as: :management
     get "events", to: "site#events", as: :events

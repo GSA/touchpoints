@@ -9,13 +9,12 @@
   <% end %>
 </p>
 
-<p id="notice"><%= notice %></p>
-
 <table class="usa-table">
   <thead>
     <tr>
       <th>Organization</th>
       <th>Name</th>
+      <th># of Stages</th>
     </tr>
   </thead>
 
@@ -24,25 +23,11 @@
       <tr>
         <td><%= service.organization.name %></td>
         <td><%= link_to service.name, admin_service_path(service) %></td>
+        <td><%= link_to service.service_stages.count, admin_service_service_stages_path(service) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 <p>
   <%= link_to 'New Service', new_admin_service_path, class: "usa-button" %>
-</p>
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<p>
-  <h5>Service Data &amp; Configuration</h5>
-  <%= link_to 'Barriers', barriers_path, class: "usa-button" %>
 </p>

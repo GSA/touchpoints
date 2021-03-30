@@ -1,8 +1,16 @@
-<p id="notice"><%= notice %></p>
+<% content_for :navigation_title do %>
+  Service Stages
+<% end %>
+<p>
+  <%= link_to admin_services_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Services
+  <% end %>
+</p>
 
 <h1>Service Stages</h1>
 
-<table>
+<table class="usa-table">
   <thead>
     <tr>
       <th>Name</th>
@@ -11,7 +19,7 @@
       <th>Notes</th>
       <th>Time</th>
       <th>Total eligble population</th>
-      <th colspan="3"></th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
@@ -24,14 +32,13 @@
         <td><%= service_stage.notes %></td>
         <td><%= service_stage.time %></td>
         <td><%= service_stage.total_eligble_population %></td>
-        <td><%= link_to 'Show', service_stage %></td>
-        <td><%= link_to 'Edit', edit_service_stage_path(service_stage) %></td>
-        <td><%= link_to 'Destroy', service_stage, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', admin_service_stage_path(service_stage) %></td>
+        <td><%= link_to 'Edit', edit_admin_service_stage_path(service_stage) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Service Stage', new_service_stage_path %>
+<p>
+  <%= link_to 'New Service Stage', new_admin_service_stage_path, class: "usa-button" %>
+</p>

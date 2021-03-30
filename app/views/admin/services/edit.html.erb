@@ -1,5 +1,5 @@
 <% content_for :navigation_title do %>
-  <%= @service.name %>
+  Editing Service: <%= @service.name %>
 <% end %>
 
 <p>
@@ -9,10 +9,11 @@
   <% end %>
 </p>
 
-<h1>Editing Service</h1>
-
 <%= render 'form', service: @service %>
 
-<%= link_to 'Show', admin_service_path(@service) %> |
-<%= link_to 'Back', admin_services_path %>
-<%= link_to 'Destroy', admin_service_path(@service), method: :delete, data: { confirm: 'Are you sure?' } %>
+<p>
+  <%= link_to admin_service_path(@service), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
+    <i class="fa fa-trash"></i>
+    Destroy
+  <% end %>
+</p>
