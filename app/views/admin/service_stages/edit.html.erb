@@ -1,9 +1,9 @@
 <h1>Editing Service Stage</h1>
 
-<%= render 'form', service_stage: @service_stage %>
+<%= render 'form', service: @service, service_stage: @service_stage %>
 
 <p>
-  <%= link_to 'Show', admin_service_stage_path(@service_stage) %> |
-  <%= link_to 'Back', admin_service_stages_path %>
+  <%= link_to 'Show', admin_service_service_stage_path(@service, @service_stage) %> |
+  <%= link_to 'Back', admin_service_service_stages_path(@service) %>
   <%= link_to 'Destroy', admin_service_stage_path, method: :delete, data: { confirm: 'Are you sure?' } %>
 </p>

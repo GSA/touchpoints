@@ -1,5 +1,5 @@
 <% content_for :navigation_title do %>
-  Service Stages
+  Service Stages for: <%= @service.name %>
 <% end %>
 <p>
   <%= link_to admin_services_path do %>
@@ -8,32 +8,25 @@
   <% end %>
 </p>
 
-<h1>Service Stages</h1>
-
 <table class="usa-table">
   <thead>
     <tr>
       <th>Name</th>
       <th>Description</th>
-      <th>Service</th>
-      <th>Notes</th>
       <th>Time</th>
       <th>Total eligble population</th>
-      <th colspan="2"></th>
+      <th></th>
     </tr>
   </thead>
 
   <tbody>
     <% @service_stages.each do |service_stage| %>
       <tr>
-        <td><%= service_stage.name %></td>
+        <td><%= link_to service_stage.name, admin_service_service_stage_path(@service, service_stage) %></td>
         <td><%= service_stage.description %></td>
-        <td><%= service_stage.service_id %></td>
-        <td><%= service_stage.notes %></td>
         <td><%= service_stage.time %></td>
         <td><%= service_stage.total_eligble_population %></td>
-        <td><%= link_to 'Show', admin_service_stage_path(service_stage) %></td>
-        <td><%= link_to 'Edit', edit_admin_service_stage_path(service_stage) %></td>
+        <td><%= link_to 'Edit', edit_admin_service_service_stage_path(@service, service_stage) %></td>
       </tr>
     <% end %>
   </tbody>

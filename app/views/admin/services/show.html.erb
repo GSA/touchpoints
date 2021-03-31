@@ -63,7 +63,7 @@
   <% @service.service_stages.each do |stage| %>
   <td style="width: <%= 98.0 / @service.service_stages.length %>%; vertical-align: top;">
     <h4>
-      <%= link_to stage.name, admin_service_stage_path(stage), target: "_blank" %>
+      <%= link_to stage.name, admin_service_service_stage_path(@service, stage) %>
     </h4>
     <p>
       <i>
@@ -94,15 +94,18 @@
 </tr>
 </table>
 
+<p>
+  <%= link_to new_admin_service_service_stage_path(@service), class: "usa-button" do %>
+  <i class="fa fa-plus"></i>
+  Add Stage
+  <% end %>
+</p>
+
 <div class="well">
   <h4>
     Supplemental service information
   </h4>
   <p>
-    <%= link_to new_admin_service_stage_path(service_id: @service.id), class: "usa-button" do %>
-      <i class="fa fa-plus"></i>
-      Add Stage
-    <% end %>
     <%= link_to equity_assessment_admin_service_path(@service), class: "usa-button usa-button--outline" do %>
       <i class="fa fa-pencil-alt"></i>
       Equity Assessment

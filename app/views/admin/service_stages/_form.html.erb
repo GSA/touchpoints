@@ -1,4 +1,4 @@
-<%= form_with(model: service_stage, url: service_stage.persisted? ? admin_service_stage_path(service_stage) : admin_service_stages_path, local: true) do |form| %>
+<%= form_with(model: service_stage, url: service_stage.persisted? ? admin_service_service_stage_path(service, service_stage) : admin_service_service_stages_path(service), local: true) do |form| %>
   <% if service_stage.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(service_stage.errors.count, "error") %> prohibited this service_stage from being saved:</h2>

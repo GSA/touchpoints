@@ -1,5 +1,5 @@
 <% content_for :navigation_title do %>
-  New Service Stage
+  New Service Stage: <%= @service.name %>
 <% end %>
 <p>
   <%= link_to admin_services_path do %>
@@ -8,4 +8,4 @@
   <% end %>
 </p>
 
-<%= render 'form', service_stage: @service_stage %>
+<%= render 'form', service: @service, service_stage: @service_stage %>
