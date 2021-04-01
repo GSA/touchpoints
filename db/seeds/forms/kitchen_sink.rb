@@ -191,6 +191,16 @@ module Seeds
         is_required: false
       })
 
+      Question.create!({
+        form: custom_form,
+        form_section: custom_elements_section,
+        text: "hidden value",
+        question_type: "hidden",
+        position: 11,
+        answer_field: :answer_11,
+        is_required: false
+      })
+
       custom_form
     end
   end

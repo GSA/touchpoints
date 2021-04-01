@@ -19,6 +19,7 @@ class Question < ApplicationRecord
     "checkbox",
     "radio_buttons",
     "dropdown",
+    "hidden",
     # Custom elements
     "text_display",
     "custom_text_display",
