@@ -1,12 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe QuestionOption, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
-
   let(:organization) { FactoryBot.create(:organization) }
   let(:user) { FactoryBot.create(:user, organization: organization) }
   let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: user) }
-  let!(:option_question) { FactoryBot.create(:question, form: form, question_type: "checkbox", form_section: form.form_sections.first) }
+  let!(:option_question) { FactoryBot.create(:question, form: form, question_type: "checkbox", form_section: form.form_sections.first, answer_field: :answer_02) }
 
   context "without question or position" do
     before do
