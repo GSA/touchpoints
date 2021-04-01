@@ -1089,7 +1089,7 @@ feature "Forms", js: true do
     describe "#export" do
       let(:form_manager) { FactoryBot.create(:user, organization: organization) }
       let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: form_manager)}
-      let!(:radio_button_question) { FactoryBot.create(:question, :with_radio_buttons, form: form, form_section: form.form_sections.first) }
+      let!(:radio_button_question) { FactoryBot.create(:question, :with_radio_buttons, form: form, form_section: form.form_sections.first, answer_field: :answer_02) }
       let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form: form) }
 
       before do
