@@ -1,5 +1,12 @@
 <label class="usa-label" for="<%= question.answer_field.to_sym %>">
   <%= question.text %>
+  <% if question.help_text? %>
+  <p>
+    <small>
+      <%= question.help_text %>
+    </small>
+  </p>
+  <% end %>
   <% if local_assigns[:form_builder] && form_builder %>
   <span class="display-block">
     <span class="usa-tag">
