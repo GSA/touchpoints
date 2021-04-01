@@ -7,12 +7,12 @@
     <% form.form_sections.each do |section| %>
       <div class="section <%= 'visible' if section == form.form_sections.first  -%>">
         <% if (section != form.form_sections.first) || (section != form.form_sections.last) %>
+          <% if section != form.form_sections.first %>
           <div class="pagination-buttons">
-            <% if section != form.form_sections.first %>
-              <%= link_to (t 'form.back'), "#previous-page", class: "usa-button previous-section", 'data-form-section-target' => "" %>
-            <% end %>
+            <%= link_to (t 'form.back'), "#previous-page", class: "usa-button previous-section", 'data-form-section-target' => "" %>
           </div>
           <br>
+          <% end %>
         <% end %>
 
         <% if section.title.present? -%>
