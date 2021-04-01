@@ -487,6 +487,37 @@ feature "Forms", js: true do
         end
 
         describe "adding Questions" do
+          describe "help text and placeholder text" do
+            before do
+              visit questions_admin_form_path(form)
+              click_on "Add Question"
+              fill_in "question_text", with: "New Test Question"
+              choose "question_question_type_text_field"
+              fill_in "question_help_text", with: "Additional help text for this question"
+              fill_in "question_placeholder_text", with: "Placeholder text for this question"
+              select("answer_01", from: "question_answer_field")
+              click_on "Update Question"
+            end
+
+            it "persist and display help text" do
+              expect(page.current_path).to eq(questions_admin_form_path(form))
+              within ".form-builder .question" do
+                expect(page).to have_content("New Test Question")
+                expect(page).to have_content("Additional help text for this question")
+                expect(page).to have_css("input#answer_01[type='text']")
+              end
+            end
+
+            it "persist and display placeholder text" do
+              expect(page.current_path).to eq(questions_admin_form_path(form))
+              within ".form-builder .question" do
+                expect(page).to have_content("New Test Question")
+                expect(page).to have_css("input#answer_01[type='text']")
+                expect(find("#answer_01")["placeholder"]).to eq("Placeholder text for this question")
+              end
+            end
+          end
+
           describe "add a Text Field question" do
             before do
               visit questions_admin_form_path(form)
