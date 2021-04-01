@@ -10,6 +10,8 @@ module ApplicationHelper
   def question_type_javascript_params(question)
     if question.question_type == "text_field"
       "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
+    elsif question.question_type == "hidden"
+      "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
     elsif question.question_type == "text_email_field"
       "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
     elsif question.question_type == "textarea"
@@ -74,5 +76,10 @@ module ApplicationHelper
 
   def format_time(time, timezone)
     I18n.l time.to_time.in_time_zone(timezone), format: :long
+  end
+
+  def form_integrity_checksum(form:)
+    data_to_encode = render(partial: "components/widget/fba.js", locals: { form: form })
+    Digest::SHA256.base64digest(data_to_encode)
   end
 end

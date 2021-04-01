@@ -12,6 +12,7 @@
               <%= link_to (t 'form.back'), "#previous-page", class: "usa-button previous-section", 'data-form-section-target' => "" %>
             <% end %>
           </div>
+          <br>
         <% end %>
 
         <% if section.title.present? -%>
@@ -25,12 +26,13 @@
         <div class="questions">
           <% section.questions.each_with_index do |question, index| %>
           <%
-            # Don't increment question numbers for display text
-            if !["text_display", "custom_text_display"].include?(question.question_type)
+            # Don't increment question numbers for these type of questions
+            if !["text_display", "custom_text_display", "hidden"].include?(question.question_type)
               multi_section_question_number += 1
             end
           %>
 
+        <% if question.question_type != "hidden" %>
           <div class="question white-bg">
             <% if question.question_type == "text_field" %>
               <%= render 'components/forms/question_types/text_field', form: form, question: question, question_number: multi_section_question_number %>
@@ -58,7 +60,10 @@
               <%= render 'components/forms/question_types/custom_text_display', form: form, question: question, question_number: multi_section_question_number %>
             <% end %>
           </div>
+          <% else %>
+            <%= render 'components/forms/question_types/hidden_field', form: form, question: question, question_number: multi_section_question_number %>
           <% end %>
+        <% end %>
         </div>
 
         <% if (section != form.form_sections.first) || (section != form.form_sections.last) %>
@@ -80,11 +85,7 @@
         <% end %>
         <% if section == form.form_sections.last && !form.suppress_submit_button %>
           <p class="submit-button">
-            <% if current_path.include?("/admin/forms") || current_path.include?("/admin/touchpoints/") %>
-            <button type="submit" class="usa-button" disabled><%= t 'form.submit' %></button>
-            <% else %>
             <button type="submit" class="usa-button"><%= t 'form.submit' %></button>
-            <% end %>
           </p>
         <% end %>
       </div>
