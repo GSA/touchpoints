@@ -89,7 +89,7 @@ module Seeds
         question_type: "checkbox",
         help_text: "This is help text for checkboxes.",
         position: 4,
-        answer_field: :answer_04,
+        answer_field: :answer_05,
         is_required: false,
       })
       QuestionOption.create!({
@@ -124,7 +124,7 @@ module Seeds
         question_type: "dropdown",
         help_text: "This is help text for a dropdown.",
         position: 5,
-        answer_field: :answer_05,
+        answer_field: :answer_06,
         is_required: false,
       })
       QuestionOption.create!({
@@ -146,6 +146,16 @@ module Seeds
         position: 3
       })
 
+      Question.create!({
+        form: custom_form,
+        form_section: option_elements_section,
+        text: "hidden value",
+        question_type: "hidden",
+        position: 11,
+        answer_field: :answer_07,
+        is_required: false
+      })
+
       custom_elements_section = custom_form.form_sections.create(title: "Custom elements", position: 3)
       Question.create!({
         form: custom_form,
@@ -153,7 +163,7 @@ module Seeds
         text: '<p>Custom text <a href="#">that supports HTML</a> goes here.</p>',
         question_type: "text_display",
         position: 6,
-        answer_field: :answer_06,
+        answer_field: :answer_15,
         is_required: false,
       })
 
@@ -163,7 +173,7 @@ module Seeds
         text: "Custom text display",
         question_type: "custom_text_display",
         position: 7,
-        answer_field: :answer_07,
+        answer_field: :answer_16,
         is_required: false
       })
 
@@ -173,7 +183,7 @@ module Seeds
         text: "Star radio buttons",
         question_type: "star_radio_buttons",
         position: 8,
-        answer_field: :answer_08,
+        answer_field: :answer_17,
         is_required: false
       })
 
@@ -183,7 +193,7 @@ module Seeds
         text: "Thumbs up/down buttons",
         question_type: "thumbs_up_down_buttons",
         position: 9,
-        answer_field: :answer_09,
+        answer_field: :answer_18,
         is_required: false
       })
 
@@ -193,17 +203,7 @@ module Seeds
         text: "Yes/No buttons",
         question_type: "yes_no_buttons",
         position: 10,
-        answer_field: :answer_10,
-        is_required: false
-      })
-
-      Question.create!({
-        form: custom_form,
-        form_section: custom_elements_section,
-        text: "hidden value",
-        question_type: "hidden",
-        position: 11,
-        answer_field: :answer_11,
+        answer_field: :answer_19,
         is_required: false
       })
 
