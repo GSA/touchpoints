@@ -2,6 +2,7 @@ FactoryBot.define do
   factory :question do
     text { "Test Question" }
     question_type { "text_field" }
+    help_text { "This is help text." }
     answer_field { "answer_01" }
     position { 1 }
 

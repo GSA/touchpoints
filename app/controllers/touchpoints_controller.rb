@@ -1,14 +1,21 @@
 class TouchpointsController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: [:js]
+  skip_before_action :verify_authenticity_token
   before_action :set_touchpoint
+
+  def show
+    respond_to do |format|
+      format.html {
+        redirect_to submit_touchpoint_path(@form) # instead of rendering #show
+      }
+      format.js {
+        js
+      }
+    end
+  end
 
   def js
     @form.increment!(:survey_form_activations)
     render(partial: "components/widget/fba.js", locals: { form: @form })
-  end
-
-  def show
-    redirect_to submit_touchpoint_path(@form) # instead of rendering #show
   end
 
 

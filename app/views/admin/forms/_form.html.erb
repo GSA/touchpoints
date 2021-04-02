@@ -170,46 +170,36 @@
   <br>
   <div class="well">
     <h2>
-      How should the survey be published?
+      How will users access this survey?
     </h2>
     <div class="usa-alert usa-alert--info">
       <div class="usa-alert__body">
         <p class="usa-alert__text">
           <strong>Options for Publishing Your Survey</strong>
           <br>
-          A survey can be shared with users in a couple ways.
+          When a Touchpoint is published,
+          it will be available at a URL on Touchpoints.
           <br>
+
+          Additionally, a survey form can be embedded on an existing web property
+          using one of three different methods:
           <ol>
             <li>
-              We can
-              <strong>host your form</strong>
-              on the Touchpoints page.
-              Users will be able to access it from a publically available URL that
-              you share on a website or email.
-              No coding or embedding is needed for this option.
+              <strong>Tab button &amp; modal</strong> -
+              Touchpoints will insert a default button on your website with
+              the text that you indicate.  The button will launch
+              a modal box displaying your survey
             </li>
             <li>
-              A survey can also be embedded directly on your website
-              using one of three different methods:
-              <ol>
-                <li>
-                  <strong>Modal</strong> -
-                  Touchpoints will insert a default button on your website with
-                  the text that you indicate.  The button will launch
-                  a modal box displaying your survey
-                </li>
-                <li>
-                  <strong>Custom button modal</strong> -
-                  Works like the modal, except you provide your own custom
-                  styled button with the use of an
-                  html-element-id
-                </li>
-                <li>
-                  <strong>Inline</strong> -
-                  Touchpoints will embed your survey directly onto your
-                  website using an html-element-id
-                </li>
-              </ol>
+              <strong>Custom button &amp; modal</strong> -
+              Works like the modal, except you provide your own custom
+              styled button with the use of a
+              #html-element-id
+            </li>
+            <li>
+              <strong>Inline</strong> -
+              Touchpoints will embed your survey directly onto your
+              website using a #html-element-id
             </li>
           </ol>
         </p>
@@ -220,8 +210,8 @@
       <legend class="usa-sr-only">Delivery Methods</legend>
       <% Form::DELIVERY_METHODS.each_with_index do |delivery_method, index| %>
         <div class="usa-checkbox">
-          <%= f.radio_button :delivery_method, delivery_method[0], class: "usa-checkbox__input"  %>
-          <%= f.label delivery_method[1], class: "usa-checkbox__label", for: "form_delivery_method_#{delivery_method[0]}" %>
+          <%= f.radio_button :delivery_method, delivery_method[0], class: "usa-radio__input"  %>
+          <%= f.label delivery_method[1], class: "usa-radio__label", for: "form_delivery_method_#{delivery_method[0]}" %>
         </div>
       <% end %>
     </fieldset>
@@ -233,7 +223,7 @@
         </div>
         <div class="field" id="delivery-method-html-id" hidden="true">
           <%= f.label :element_selector, class: "usa-label" %>
-          <%= f.text_field :element_selector, class: "usa-input", placeholder: "html-element-id" %>
+          <%= f.text_field :element_selector, class: "usa-input", placeholder: "#html-element-id" %>
         </div>
       </div>
     </div>

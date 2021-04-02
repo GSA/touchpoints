@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   resources :forms, only: [:show] do
     member do
-      get "js", to: "touchpoints#js", as: :js
+      get "js", to: "touchpoints#js", as: :js_form
       get "submit", to: "submissions#new", form: true, as: :submit
     end
     resources :submissions, only: [:new, :create]
@@ -70,11 +70,11 @@ Rails.application.routes.draw do
         patch "sort", to: "form_sections#sort", as: :sort_sections
         patch "update_title", to: "form_sections#update_title", as: :inline_update
       end
-      resources :questions do
+      resources :questions, except: [:show] do
         member do
           patch "question_options", to: "question_options#sort", as: :sort_question_options
         end
-        resources :question_options do
+        resources :question_options, except: [:index, :show] do
           patch "update_title", to: "question_options#update_title", as: :inline_update
         end
         collection do
