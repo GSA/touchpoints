@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   resources :forms, only: [:show] do
     member do
-      get "js", to: "touchpoints#show", as: :js, format: :js
+      get "js", to: "touchpoints#js", as: :js_form
       get "submit", to: "submissions#new", form: true, as: :submit
     end
     resources :submissions, only: [:new, :create]
@@ -23,7 +23,7 @@ Rails.application.routes.draw do
 
   resources :touchpoints, only: [:show] do
     member do
-      get "js", to: "touchpoints#show", as: :js, format: :js
+      get "js", to: "touchpoints#js", as: :js
       get "submit", to: "submissions#new", form: true, as: :submit
     end
     resources :submissions, only: [:new, :create]
