@@ -50,10 +50,30 @@ describe TouchpointsController, type: :controller do
     end
   end
 
+  describe "GET #js with ID" do
+    render_views
+
+    it "returns a success response" do
+      get :js, params: { id: form.short_uuid }, session: valid_session
+      expect(response.body).to include("use strict")
+      expect(response.body).to include("Create unique Touchpoints form object")
+    end
+  end
+
   describe "GET #show with UUID" do
     it "returns a success response" do
       get :show, params: { id: form.short_uuid }, session: valid_session
       expect(response).to redirect_to(submit_touchpoint_path(form))
+    end
+  end
+
+  describe "GET #show (.js) with UUID" do
+    render_views
+
+    it "returns a success response" do
+      get :show, params: { id: form.short_uuid }, session: valid_session, format: :js
+      expect(response.body).to include("use strict")
+      expect(response.body).to include("Create unique Touchpoints form object")
     end
   end
 
