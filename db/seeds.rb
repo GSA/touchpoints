@@ -203,7 +203,7 @@ Question.create!({
   text: "Name",
   question_type: "text_field",
   position: 1,
-  answer_field: :answer_01,
+  answer_field: :answer_02,
   is_required: false,
 })
 Question.create!({
@@ -212,7 +212,7 @@ Question.create!({
   text: "Email",
   question_type: "text_field",
   position: 2,
-  answer_field: :answer_02,
+  answer_field: :answer_03,
   is_required: false,
 })
 

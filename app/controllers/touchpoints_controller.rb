@@ -8,10 +8,14 @@ class TouchpointsController < ApplicationController
         redirect_to submit_touchpoint_path(@form) # instead of rendering #show
       }
       format.js {
-        @form.increment!(:survey_form_activations)
-        render(partial: "components/widget/fba.js", locals: { form: @form })
+        js
       }
     end
+  end
+
+  def js
+    @form.increment!(:survey_form_activations)
+    render(partial: "components/widget/fba.js", locals: { form: @form })
   end
 
 

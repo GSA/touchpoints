@@ -5,6 +5,7 @@ class Question < ApplicationRecord
 
   validates :question_type, presence: true
   validate :validate_question_types
+  validates_uniqueness_of :answer_field, scope: :form_id
 
   default_scope { order(position: :asc) }
   scope :ordered, -> { order(position: :asc) }
@@ -19,6 +20,7 @@ class Question < ApplicationRecord
     "checkbox",
     "radio_buttons",
     "dropdown",
+    "hidden",
     # Custom elements
     "text_display",
     "custom_text_display",

@@ -1,7 +1,6 @@
 <fieldset class="usa-fieldset radios" role="group" aria-labelledby="<%= question.answer_field %>">
   <legend class="usa-sr-only"><%= question.text %></legend>
   <%= render 'components/question_title', question: question %>
-  <br>
   <div class="question-options">
     <% question.question_options.each_with_index do |option, index| %>
     <div class="usa-checkbox" id="<%= dom_id(option) %>" data-id="<%= option.id %>">
