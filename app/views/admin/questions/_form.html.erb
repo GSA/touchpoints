@@ -79,6 +79,7 @@
     <%= f.hidden_field :form_section_id %>
     <p>
       <%= f.submit class: "usa-button save-question" %>
+      <%= link_to 'Cancel', questions_admin_form_path(@question.form), class: "cancel-question" %>
     </p>
   </div>
 <% end %>
@@ -103,6 +104,20 @@
           }
         });
       }
+    });
+
+    $('.cancel-question').on("click", function(event) {
+      event.preventDefault();
+      $.ajax({
+        url: $(".question-form").attr("action"),
+        type: 'get',
+        success: function(resp) {
+          $("div#<%= dom_id(question) %>").html(resp);
+          $(".question#question_<%= question.id %> .question-option-edit").hide();
+          $(".dropdown-content").hide();
+          $(".question-option-edit").hide();
+        }
+      });
     });
 
     $("input[name='question[question_type]']").on("click", function(event) {
