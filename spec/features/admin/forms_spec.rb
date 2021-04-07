@@ -597,6 +597,36 @@ feature "Forms", js: true do
             end
           end
 
+          describe "#edit question and cancel" do
+            let!(:first_question) { FactoryBot.create(:question, form: form, form_section: form.form_sections.first, answer_field: :answer_01) }
+            
+            before do
+              visit questions_admin_form_path(form)
+              page.execute_script "$('.question-menu-action').trigger('mouseover')"
+              expect(page).to have_selector('.dropdown-content',visible: true)
+              click_on "Edit"
+              expect(page.current_path).to eq(questions_admin_form_path(form))
+              expect(page).to have_content("Cancel")
+            end
+
+            it "removes the edit form on cancel" do
+              click_on "Cancel"
+              expect(page.current_path).to eq(questions_admin_form_path(form))
+              within ".form-builder" do
+                expect(page).not_to have_content("Cancel")
+              end
+            end
+
+            it "does not persist change on cancel" do
+              fill_in "question_text", with: "Canceled question"
+              click_on "Cancel"
+              expect(page.current_path).to eq(questions_admin_form_path(form))
+              within ".form-builder" do
+                expect(page).not_to have_content("Canceled question")
+              end
+            end            
+          end
+
           describe "answer display" do
             let!(:first_question) { FactoryBot.create(:question, form: form, form_section: form.form_sections.first, answer_field: :answer_01) }
 
