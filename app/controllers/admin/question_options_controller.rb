@@ -51,7 +51,7 @@ class Admin::QuestionOptionsController < AdminController
           @question_options << question_option
           position += 1
         else
-          @errors << question_option.errors
+          @errors << question_option.errors.full_messages
         end
       end
     else
@@ -64,14 +64,19 @@ class Admin::QuestionOptionsController < AdminController
         if question_option.save
           @question_options << question_option
         else
-          @errors << question_option.errors + "\n" unless result
+          @errors << question_option.errors.full_messages
         end
       end
     end
 
     respond_to do |format|
-      format.html { redirect_to questions_admin_form_path(@question.form), notice: 'Question option was successfully created.' }
-      format.js { }
+      if @errors.empty?
+        format.html { redirect_to questions_admin_form_path(@question.form), notice: 'Question option was successfully created.' }
+        format.js { }
+      else
+        format.html { redirect_to questions_admin_form_path(@question.form), alert: "Question option could not be created! #{@errors.join(', ')}" }
+        format.js { render json: @errors, status: :unprocessable_entity }        
+      end
     end
   end
 
