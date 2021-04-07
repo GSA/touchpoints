@@ -713,6 +713,14 @@ feature "Forms", js: true do
                   expect(page).to have_content("Edited Question Option Text (100)")
                 end
 
+                it "will prevent updating a question option with no text" do
+                  click_on "Add Dropdown Option"
+                  expect(page).to have_content("New Question Option")
+                  click_on "Create Question option"
+                  page.driver.browser.switch_to.alert.accept
+                  expect(page).to have_button("Create Question option")
+                end  
+
                 it "can cancel a Dropdown Question option" do
                   click_on "Add Dropdown Option"
                   expect(page).to have_content("New Question Option")
