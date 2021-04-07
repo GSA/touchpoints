@@ -7,6 +7,7 @@ class Admin::QuestionsController < AdminController
   end
 
   def show
+    render layout: false
   end
 
   def new
