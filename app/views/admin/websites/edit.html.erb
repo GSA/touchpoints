@@ -1,0 +1,15 @@
+<% content_for :navigation_title do %>
+  Editing Website: <%= @website.domain %>
+<% end %>
+<p>
+  <%= link_to admin_website_path(@website) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Website
+  <% end %>
+</p>
+
+<%= render 'form', website: @website %>
+
+<%= link_to 'Show', admin_website_path(@website) %> |
+<%= link_to 'Back', admin_websites_path(@website) %> |
+<%= link_to 'Destroy', admin_website_path(@website), method: :delete, data: { confirm: 'Are you sure?' } %>
