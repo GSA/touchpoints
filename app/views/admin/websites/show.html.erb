@@ -2,11 +2,16 @@
   Website: <%= @website.domain %>
 <% end %>
 <p>
+  <%= link_to edit_admin_website_path(@website), class: "usa-button usa-button--outline float-right" do %>
+    <i class="fa fa-pencil-alt"></i>
+    Edit
+  <% end %>
   <%= link_to admin_websites_path do %>
     <i class="fa fa-arrow-circle-left"></i>
     Back to Websites
   <% end %>
 </p>
+
 <p>
   <strong>Domain:</strong>
   <%= @website.domain %>
@@ -165,11 +170,4 @@
 <p>
   <strong>Notes:</strong>
   <%= @website.notes %>
-</p>
-
-<p>
-  <%= link_to edit_admin_website_path(@website), class: "usa-button" do %>
-    <i class="fa fa-pencil-alt"></i>
-    Edit
-  <% end %>
 </p>
