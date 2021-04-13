@@ -10,7 +10,7 @@
 
 <%= render 'form', website: @website %>
 
-<div>
-  <%= link_to 'Destroy', admin_website_path(@website), method: :delete, data: { confirm: 'Are you sure?' }, class: "float-right usa-button" %>
-  <br>
-</div>
+<hr>
+<%= link_to 'Destroy', admin_website_path(@website), method: :delete, data: { confirm: 'Are you sure?' }, class: "float-right usa-button usa-button--secondary" %>
+<div style="clear: both;"></div>
+<br>

@@ -12,162 +12,161 @@
   <% end %>
 </p>
 
-<p>
-  <strong>Domain:</strong>
-  <%= @website.domain %>
-</p>
+<br>
 
-<p>
-  <strong>Parent domain:</strong>
-  <%= @website.parent_domain %>
-</p>
+<div class="grid-row grid-gap-md">
+  <div class="grid-col-6">
+    <h3>
+      Domain and organization
+    </h3>
+    <p>
+      <strong>Domain:</strong>
+      <%= @website.domain %>
+    </p>
+    <p>
+      <strong>Parent domain:</strong>
+      <%= @website.parent_domain %>
+    </p>
+    <p>
+      <strong>Office:</strong>
+      <%= @website.office %>
+    </p>
+    <p>
+      <strong>Sub-office:</strong>
+      <%= @website.sub_office %>
+    </p>
+    <p>
+      <strong>Contact email:</strong>
+      <%= @website.contact_email %>
+    </p>
+    <p>
+      <strong>Site owner email:</strong>
+      <%= @website.site_owner_email %>
+    </p>
+  </div>
+  <div class="grid-col-6">
+    <h3>
+      Website status and links
+    </h3>
+    <p>
+      <strong>Production status:</strong>
+      <%= @website.production_status %>
+    </p>
+    <p>
+      <strong>Redirects to:</strong>
+      <%= @website.redirects_to %>
+    </p>
+    <p>
+      <strong>Status code:</strong>
+      <%= @website.status_code %>
+    </p>
+    <p>
+      <strong>Sitemap url:</strong>
+      <%= @website.sitemap_url %>
+    </p>
+    <p>
+      <strong>Mobile friendly:</strong>
+      <%= @website.mobile_friendly %>
+    </p>
+    <p>
+      <strong>Has search:</strong>
+      <%= @website.has_search %>
+    </p>
+    <p>
+      <small>
+        Powered by
+        <a href="https://digital.gov/site-scanning/" target="_blank">Site Scanner</a>
+      </small>
+    </p>
+  </div>
+</div>
 
-<p>
-  <strong>Office:</strong>
-  <%= @website.office %>
-</p>
+<hr>
 
-<p>
-  <strong>Office:</strong>
-  <%= @website.office_id %>
-</p>
+<div class="grid-row grid-gap-md">
+  <div class="grid-col-6">
+    <h3>
+      Organizational readiness
+    </h3>
+    <p>
+      <strong>Required by law or policy:</strong>
+      <%= @website.required_by_law_or_policy %>
+    </p>
+    <p>
+      <strong>Cost estimator url:</strong>
+      <%= @website.cost_estimator_url %>
+    </p>
+    <p>
+      <strong>Modernization plan url:</strong>
+      <%= @website.modernization_plan_url %>
+    </p>
+    <p>
+      <strong>Annual baseline cost:</strong>
+      <%= @website.annual_baseline_cost %>
+    </p>
+    <p>
+      <strong>Modernization cost:</strong>
+      <%= @website.modernization_cost %>
+    </p>
+    <p>
+      <strong>Type of site:</strong>
+      <%= @website.type_of_site %>
+    </p>
+    <p>
+      <strong>Digital brand category:</strong>
+      <%= @website.digital_brand_category %>
+    </p>
+  </div>
+  <div class="grid-col-6">
+    <h3>
+      Platform choices
+    </h3>
+    <p>
+      <strong>Cms platform:</strong>
+      <%= @website.cms_platform %>
+    </p>
+    <p>
+      <strong>Has dap:</strong>
+      <%= @website.has_dap %>
+    </p>
+    <p>
+      <strong>Dap gtm code:</strong>
+      <%= @website.dap_gtm_code %>
+    </p>
+    <p>
+      <strong>Analytics url:</strong>
+      <%= @website.analytics_url %>
+    </p>
+    <p>
+      <strong>Uses feedback:</strong>
+      <%= @website.uses_feedback %>
+    </p>
+    <p>
+      <strong>Feedback tool:</strong>
+      <%= @website.feedback_tool %>
+    </p>
+    <p>
+      <strong>Current uswds score:</strong>
+      <%= @website.current_uswds_score %>
+    </p>
+    <p>
+      <strong>Uses tracking cookies:</strong>
+      <%= @website.uses_tracking_cookies %>
+    </p>
+    <p>
+      <strong>Has authenticated experience:</strong>
+      <%= @website.has_authenticated_experience %>
+    </p>
+    <p>
+      <strong>Authentication tool:</strong>
+      <%= @website.authentication_tool %>
+    </p>
+  </div>
+</div>
 
-<p>
-  <strong>Sub-office:</strong>
-  <%= @website.sub_office %>
-</p>
-
-<p>
-  <strong>Suboffice:</strong>
-  <%= @website.suboffice_id %>
-</p>
-
-<p>
-  <strong>Contact email:</strong>
-  <%= @website.contact_email %>
-</p>
-
-<p>
-  <strong>Site owner email:</strong>
-  <%= @website.site_owner_email %>
-</p>
-
-<p>
-  <strong>Production status:</strong>
-  <%= @website.production_status %>
-</p>
-
-<p>
-  <strong>Type of site:</strong>
-  <%= @website.type_of_site %>
-</p>
-
-<p>
-  <strong>Digital brand category:</strong>
-  <%= @website.digital_brand_category %>
-</p>
-
-<p>
-  <strong>Redirects to:</strong>
-  <%= @website.redirects_to %>
-</p>
-
-<p>
-  <strong>Status code:</strong>
-  <%= @website.status_code %>
-</p>
-
-<p>
-  <strong>Cms platform:</strong>
-  <%= @website.cms_platform %>
-</p>
-
-<p>
-  <strong>Required by law or policy:</strong>
-  <%= @website.required_by_law_or_policy %>
-</p>
-
-<p>
-  <strong>Has dap:</strong>
-  <%= @website.has_dap %>
-</p>
-
-<p>
-  <strong>Dap gtm code:</strong>
-  <%= @website.dap_gtm_code %>
-</p>
-
-<p>
-  <strong>Cost estimator url:</strong>
-  <%= @website.cost_estimator_url %>
-</p>
-
-<p>
-  <strong>Modernization plan url:</strong>
-  <%= @website.modernization_plan_url %>
-</p>
-
-<p>
-  <strong>Annual baseline cost:</strong>
-  <%= @website.annual_baseline_cost %>
-</p>
-
-<p>
-  <strong>Modernization cost:</strong>
-  <%= @website.modernization_cost %>
-</p>
-
-<p>
-  <strong>Analytics url:</strong>
-  <%= @website.analytics_url %>
-</p>
-
-<p>
-  <strong>Current uswds score:</strong>
-  <%= @website.current_uswds_score %>
-</p>
-
-<p>
-  <strong>Uses feedback:</strong>
-  <%= @website.uses_feedback %>
-</p>
-
-<p>
-  <strong>Feedback tool:</strong>
-  <%= @website.feedback_tool %>
-</p>
-
-<p>
-  <strong>Sitemap url:</strong>
-  <%= @website.sitemap_url %>
-</p>
-
-<p>
-  <strong>Mobile friendly:</strong>
-  <%= @website.mobile_friendly %>
-</p>
-
-<p>
-  <strong>Has search:</strong>
-  <%= @website.has_search %>
-</p>
-
-<p>
-  <strong>Uses tracking cookies:</strong>
-  <%= @website.uses_tracking_cookies %>
-</p>
-
-<p>
-  <strong>Has authenticated experience:</strong>
-  <%= @website.has_authenticated_experience %>
-</p>
-
-<p>
-  <strong>Authentication tool:</strong>
-  <%= @website.authentication_tool %>
-</p>
-
-<p>
-  <strong>Notes:</strong>
-  <%= @website.notes %>
-</p>
+<div class="well">
+  <p>
+    <strong>Notes:</strong>
+    <%= @website.notes %>
+  </p>
+</div>
