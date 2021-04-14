@@ -13,7 +13,6 @@ class Admin::WebsitesController < AdminController
   def show
   end
 
-
   def new
     @website = Website.new
   end
