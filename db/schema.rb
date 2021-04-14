@@ -142,7 +142,8 @@ ActiveRecord::Schema.define(version: 2021_04_01_215215) do
     t.integer "service_id"
     t.text "notes"
     t.integer "time"
-    t.integer "total_eligble_population"
+    t.integer "total_eligible_population"
+    t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -48,38 +48,68 @@
   How many people made it to the final, successful end state of this service.
   <h2>
   <% if first_stage.present? %>
-    <%= takeup_percentage = ((last_stage.total_eligble_population.to_f / first_stage.total_eligble_population.to_f) * 100).round(2) %>%
+    <%= takeup_percentage = ((last_stage.total_eligible_population.to_f / first_stage.total_eligible_population.to_f) * 100).round(2) %>%
   <% end %>
   </h2>
 </div>
 
 <hr>
 
-<h2>
-  Stages
-</h2>
+<div class="grid-row grid-gap-md">
+  <div class="grid-col-9">
+    <h2>
+      Service Stages
+    </h2>
+    <p class="usa-prose">
+      Each Service is can be decomposed into multiple Stages.
+      Delineating each step is useful for calculating <a href="https://pra.digital.gov/burden/" target="_blank" rel="noopener">Burden</a>.
+      Learn more about how <a href="https://www.performance.gov/cx/blog/journey-mapping/" target="_blank" rel="noopener">
+        service blueprints and journey maps
+      </a> are used to design, manage, and improve services.
+    </p>
+  </div>
+</div>
+
 <table border="1" style="width: 100%;">
 <tr>
   <% @service.service_stages.each do |stage| %>
-  <td style="width: <%= 98.0 / @service.service_stages.length %>%; vertical-align: top;">
+  <td style="padding: 0 10px 20px 10px; width: <%= 98.0 / @service.service_stages.length %>%; vertical-align: top;">
     <h4>
       <%= link_to stage.name, admin_service_service_stage_path(@service, stage) %>
     </h4>
     <p>
+      <div class="text-uppercase">
+        <small>
+          Time
+        </small>
+      </div>
       <i>
-        <%= stage.time %> minutes
+        <%= stage.time || "?" %> minutes
       </i>
     </p>
     <p>
-      <%= number_with_delimiter stage.total_eligble_population %> takeup
+      <div class="text-uppercase">
+        <small>
+          Takeup
+        </small>
+      </div>
+      <%= number_with_delimiter stage.total_eligible_population %>
     </p>
     <p style="color: blue;">
+      <div class="text-uppercase">
+        <small>
+          Description
+        </small>
+      </div>
       <%= stage.description %>
+      &nbsp;
     </p>
 
-    <h4>
-      Barriers
-    </h4>
+    <div class="text-uppercase">
+      <small>
+        Barriers
+      </small>
+    </div>
     <% @barriers = stage.barriers %>
     <% if @barriers.present? %>
       <% @barriers.each do |barrier| %>

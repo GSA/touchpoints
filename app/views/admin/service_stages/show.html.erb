@@ -38,10 +38,10 @@
 </p>
 
 <p>
-  <strong>Total eligble population:</strong>
-  <%= number_with_delimiter @service_stage.total_eligble_population %>
+  <strong>Total eligible population:</strong>
+  <%= number_with_delimiter @service_stage.total_eligible_population %>
 </p>
 
 <p>
-<%= link_to 'Edit', edit_admin_service_service_stage_path(@service, @service_stage) %> |
-<%= link_to 'Back', admin_service_service_stages_path(@service) %>
+  <%= link_to 'Edit', edit_admin_service_service_stage_path(@service, @service_stage), class: "usa-button" %>
+</p>

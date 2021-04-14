@@ -51,6 +51,8 @@ class Admin::ServiceStagesController < AdminController
     end
 
     def service_stage_params
-      params.require(:service_stage).permit(:name, :description, :service_id, :notes, :time, :total_eligble_population)
+      params.require(:service_stage).permit(:name, :description, :service_id, :notes, :time,
+        :position,
+        :total_eligible_population)
     end
 end

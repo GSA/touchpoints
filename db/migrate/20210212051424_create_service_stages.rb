@@ -6,6 +6,7 @@ class CreateServiceStages < ActiveRecord::Migration[5.2]
       t.integer :service_id
       t.text :notes
       t.integer :time
+      t.integer :position
       t.integer :total_eligble_population
 
       t.timestamps
