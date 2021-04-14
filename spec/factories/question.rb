@@ -6,6 +6,11 @@ FactoryBot.define do
     answer_field { "answer_01" }
     position { 1 }
 
+    trait :phone do
+      text { "Phone Number" }
+      question_type { "text_phone_field" }
+    end
+
     trait :states_dropdown do
       question_type { "states_dropdown" }
     end

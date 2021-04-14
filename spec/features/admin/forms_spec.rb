@@ -537,6 +537,25 @@ feature "Forms", js: true do
             end
           end
 
+          describe "add a Text Phone Field question" do
+            before do
+              visit questions_admin_form_path(form)
+              click_on "Add Question"
+              fill_in "question_text", with: "New Test Question"
+              choose "question_question_type_text_phone_field"
+              select("answer_01", from: "question_answer_field")
+              click_on "Update Question"
+            end
+
+            it "can add a Text Field Question" do
+              expect(page.current_path).to eq(questions_admin_form_path(form))
+              within ".form-builder .question" do
+                expect(page).to have_content("New Test Question")
+                expect(page).to have_css("input[type='tel']")
+              end
+            end
+          end
+
           describe "add a Text Area question" do
             before do
               visit questions_admin_form_path(form)
