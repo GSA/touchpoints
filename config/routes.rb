@@ -105,6 +105,7 @@ Rails.application.routes.draw do
 
   get "profile", to: "profile#show", as: :profile
   patch "profile", to: "profile#update", as: :profile_update
+  patch "invite", to: "profile#invite", as: :invite
   get "status", to: "site#status", as: :status
   get "index", to: "site#index", as: :index
   root to: redirect(ENV.fetch("INDEX_URL"))
