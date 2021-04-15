@@ -53,6 +53,7 @@ Rails.application.routes.draw do
         get "export_submissions", to: "forms#export_submissions", as: :export_submissions
         get "export_a11_header", to: "forms#export_a11_header", as: :export_a11_header
         get "export_a11_submissions", to: "forms#export_a11_submissions", as: :export_a11_submissions
+        patch "invite", to: "forms#invite", as: :invite
         get "js", to: "forms#js", as: :js
         get "permissions", to: "forms#permissions", as: :permissions
         get "compliance", to: "forms#compliance", as: :compliance
@@ -110,7 +111,6 @@ Rails.application.routes.draw do
 
   get "profile", to: "profile#show", as: :profile
   patch "profile", to: "profile#update", as: :profile_update
-  patch "invite", to: "profile#invite", as: :invite
   get "status", to: "site#status", as: :status
   get "index", to: "site#index", as: :index
   root to: redirect(ENV.fetch("INDEX_URL"))
