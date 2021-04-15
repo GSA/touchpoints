@@ -1363,6 +1363,10 @@ feature "Forms", js: true do
           expect(page).to have_content("Please enter a valid email address")
           expect(page.current_path).to eq(permissions_admin_form_path(form))
         end
+
+        after do
+          ENV["GITHUB_CLIENT_ID"] = nil
+        end
       end
 
       it "shows an alert when the email address already exists" do
