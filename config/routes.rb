@@ -39,6 +39,11 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    resources :websites do
+      collection do
+        get "gsa", to: "websites#gsa"
+      end
+    end
     resources :forms do
       member do
         get "notifications", to: "forms#notifications", as: :notifications
