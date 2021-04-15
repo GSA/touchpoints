@@ -30,10 +30,10 @@ feature "Profile", js: true do
         end
 
         it "sends an invite to the designated user" do
-          #fill_in("user[refer_user]", with: "newuser@domain.gov")
-          #click_on "Invite User"
-          #expect(page).to have_content("Invite sent to newuser@domain.gov")
-          #expect(page.current_path).to have_content(profile_path)
+          fill_in("user[refer_user]", with: "newuser@domain.gov")
+          click_on "Invite User"
+          expect(page).to have_content("Invite sent to newuser@domain.gov")
+          expect(page.current_path).to have_content(profile_path)
         end
       end
 
@@ -43,17 +43,23 @@ feature "Profile", js: true do
         end
 
         it "shows an alert when the email address is not provided" do
-
+          fill_in("user[refer_user]", with: "")
+          click_on "Invite User"
+          expect(page).to have_content("Please enter a valid email address")
+          expect(page.current_path).to have_content(profile_path)
         end
         it "shows an alert when the email address is not a valid email" do
-
-        end   
-        it "shows an alert when the email address is not a valid domain" do
-
-        end         
+          fill_in("user[refer_user]", with: "test")
+          click_on "Invite User"
+          expect(page).to have_content("Please enter a valid email address")
+          expect(page.current_path).to have_content(profile_path)
+        end
         it "shows an alert when the email address already exists" do
-
-        end              
+          fill_in("user[refer_user]", with: user.email)
+          click_on "Invite User"
+          expect(page).to have_content("User with email #{user.email} already exists")
+          expect(page.current_path).to have_content(profile_path)
+        end
       end
     end
 
