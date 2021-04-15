@@ -19,6 +19,44 @@ feature "Profile", js: true do
       end
     end
 
+    describe "/invite" do
+      before do
+        login_as(user)
+      end
+
+      context "with a valid email" do
+        before do
+          visit profile_path
+        end
+
+        it "sends an invite to the designated user" do
+          #fill_in("user[refer_user]", with: "newuser@domain.gov")
+          #click_on "Invite User"
+          #expect(page).to have_content("Invite sent to newuser@domain.gov")
+          #expect(page.current_path).to have_content(profile_path)
+        end
+      end
+
+      context "with an invalid email" do
+        before do
+          visit profile_path
+        end
+
+        it "shows an alert when the email address is not provided" do
+
+        end
+        it "shows an alert when the email address is not a valid email" do
+
+        end   
+        it "shows an alert when the email address is not a valid domain" do
+
+        end         
+        it "shows an alert when the email address already exists" do
+
+        end              
+      end
+    end
+
     describe "/profile" do
       before do
         login_as(user)
