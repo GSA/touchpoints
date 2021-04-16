@@ -66,7 +66,6 @@ class UserMailer < ApplicationMailer
     @user = user
     mail subject: "New user account creation failed",
       to: UserMailer.touchpoints_support
-
   end
 
   def account_deactivated_notification(user)
@@ -74,15 +73,13 @@ class UserMailer < ApplicationMailer
     @user = user
     mail subject: "User account deactivated",
       to: UserMailer.touchpoints_team
-
   end
 
   def invite(user, invitee)
-    attachments.inline["logo.png"] = @@header_logo    
+    attachments.inline["logo.png"] = @@header_logo
     @user = user
     @invitee = invitee
     mail subject: "Touchpoints invite", to: @invitee
-
   end
 
   private
