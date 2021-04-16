@@ -113,9 +113,8 @@ Rails.application.configure do
   config.action_controller.default_url_options = { host: ENV.fetch("TOUCHPOINTS_WEB_DOMAIN") }
   config.action_controller.asset_host = ENV.fetch("TOUCHPOINTS_WEB_DOMAIN")
 
-  # Temporarilty Disable Email Sending
-  config.action_mailer.delivery_method = :test
-  config.action_mailer.perform_deliveries = false
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
 
   # Inserts middleware to perform automatic connection switching.
   # The `database_selector` hash is used to pass options to the DatabaseSelector
