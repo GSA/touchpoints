@@ -1,11 +1,6 @@
 class Admin::SubmissionsController < AdminController
-  protect_from_forgery only: []
-  before_action :set_form, only: [:index, :flag, :unflag, :destroy]
-  before_action :set_submission, only: [:flag, :unflag, :destroy]
-
-  def index
-    @submissions = @form.submissions.includes(:organization).order("created_at desc").page params[:page]
-  end
+  before_action :set_form
+  before_action :set_submission
 
   def flag
     Event.log_event(Event.names[:response_flagged], "Submission", @submission.id, "Submission #{@submission.id} flagged at #{DateTime.now}", current_user.id)
