@@ -618,7 +618,7 @@ feature "Forms", js: true do
 
           describe "#edit question and cancel" do
             let!(:first_question) { FactoryBot.create(:question, form: form, form_section: form.form_sections.first, answer_field: :answer_01) }
-            
+
             before do
               visit questions_admin_form_path(form)
               page.execute_script "$('.question-menu-action').trigger('mouseover')"
@@ -643,7 +643,7 @@ feature "Forms", js: true do
               within ".form-builder" do
                 expect(page).not_to have_content("Canceled question")
               end
-            end            
+            end
           end
 
           describe "answer display" do
@@ -738,7 +738,7 @@ feature "Forms", js: true do
                   click_on "Create Question option"
                   page.driver.browser.switch_to.alert.accept
                   expect(page).to have_button("Create Question option")
-                end  
+                end
 
                 it "can cancel a Dropdown Question option" do
                   click_on "Add Dropdown Option"
@@ -1309,6 +1309,71 @@ feature "Forms", js: true do
       it "cannot preview a form template" do
         expect(page.current_path).to eq(index_path)
         expect(page).to have_content("Form is not currently deployed.")
+      end
+    end
+  end
+
+  describe "/invite" do
+    let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin)}
+
+    before do
+      login_as(admin)
+    end
+
+    context "with a valid email" do
+      before do
+        visit permissions_admin_form_path(form)
+      end
+
+      it "sends an invite to the designated user" do
+        fill_in("user[refer_user]", with: "newuser@domain.gov")
+        click_on "Invite User"
+        expect(page).to have_content("Invite sent to newuser@domain.gov")
+        expect(page.current_path).to eq(permissions_admin_form_path(form))
+      end
+    end
+
+    context "with an invalid email" do
+      before do
+        visit permissions_admin_form_path(form)
+      end
+
+      it "shows an alert when the email address is not provided" do
+        fill_in("user[refer_user]", with: "")
+        click_on "Invite User"
+        expect(page).to have_content("Please enter a valid .gov or .mil email address")
+        expect(page.current_path).to eq(permissions_admin_form_path(form))
+      end
+
+      it "shows a gov-specific user alert when the email address is not a valid email" do
+        fill_in("user[refer_user]", with: "test")
+        click_on "Invite User"
+        expect(page).to have_content("Please enter a valid .gov or .mil email address")
+        expect(page.current_path).to eq(permissions_admin_form_path(form))
+      end
+
+      context "when using GitHub for oAuth" do
+        before do
+          ENV["GITHUB_CLIENT_ID"] = "something"
+        end
+
+        it "shows a generic user alert when the email address is not a valid email" do
+          fill_in("user[refer_user]", with: "test")
+          click_on "Invite User"
+          expect(page).to have_content("Please enter a valid email address")
+          expect(page.current_path).to eq(permissions_admin_form_path(form))
+        end
+
+        after do
+          ENV["GITHUB_CLIENT_ID"] = nil
+        end
+      end
+
+      it "shows an alert when the email address already exists" do
+        fill_in("user[refer_user]", with: user.email)
+        click_on "Invite User"
+        expect(page).to have_content("User with email #{user.email} already exists")
+        expect(page.current_path).to eq(permissions_admin_form_path(form))
       end
     end
   end

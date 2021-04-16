@@ -77,6 +77,13 @@ class UserMailer < ApplicationMailer
 
   end
 
+  def invite(user, invitee)
+    attachments.inline["logo.png"] = @@header_logo    
+    @user = user
+    @invitee = invitee
+    mail subject: "Touchpoints invite", to: @invitee
+
+  end
 
   private
 
