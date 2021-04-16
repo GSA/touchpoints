@@ -537,6 +537,25 @@ feature "Forms", js: true do
             end
           end
 
+          describe "add a Text Phone Field question" do
+            before do
+              visit questions_admin_form_path(form)
+              click_on "Add Question"
+              fill_in "question_text", with: "New Test Question"
+              choose "question_question_type_text_phone_field"
+              select("answer_01", from: "question_answer_field")
+              click_on "Update Question"
+            end
+
+            it "can add a Text Field Question" do
+              expect(page.current_path).to eq(questions_admin_form_path(form))
+              within ".form-builder .question" do
+                expect(page).to have_content("New Test Question")
+                expect(page).to have_css("input[type='tel']")
+              end
+            end
+          end
+
           describe "add a Text Area question" do
             before do
               visit questions_admin_form_path(form)
@@ -595,6 +614,36 @@ feature "Forms", js: true do
               expect(page.current_path).to eq(admin_form_questions_path(form))
               expect(page).not_to have_content("New Question Option")
             end
+          end
+
+          describe "#edit question and cancel" do
+            let!(:first_question) { FactoryBot.create(:question, form: form, form_section: form.form_sections.first, answer_field: :answer_01) }
+            
+            before do
+              visit questions_admin_form_path(form)
+              page.execute_script "$('.question-menu-action').trigger('mouseover')"
+              expect(page).to have_selector('.dropdown-content',visible: true)
+              click_on "Edit"
+              expect(page.current_path).to eq(questions_admin_form_path(form))
+              expect(page).to have_content("Cancel")
+            end
+
+            it "removes the edit form on cancel" do
+              click_on "Cancel"
+              expect(page.current_path).to eq(questions_admin_form_path(form))
+              within ".form-builder" do
+                expect(page).not_to have_content("Cancel")
+              end
+            end
+
+            it "does not persist change on cancel" do
+              fill_in "question_text", with: "Canceled question"
+              click_on "Cancel"
+              expect(page.current_path).to eq(questions_admin_form_path(form))
+              within ".form-builder" do
+                expect(page).not_to have_content("Canceled question")
+              end
+            end            
           end
 
           describe "answer display" do
@@ -682,6 +731,14 @@ feature "Forms", js: true do
                   end
                   expect(page).to have_content("Edited Question Option Text (100)")
                 end
+
+                it "will prevent updating a question option with no text" do
+                  click_on "Add Dropdown Option"
+                  expect(page).to have_content("New Question Option")
+                  click_on "Create Question option"
+                  page.driver.browser.switch_to.alert.accept
+                  expect(page).to have_button("Create Question option")
+                end  
 
                 it "can cancel a Dropdown Question option" do
                   click_on "Add Dropdown Option"

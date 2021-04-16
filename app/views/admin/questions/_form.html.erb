@@ -39,7 +39,7 @@
           <%= f.label :help_text, "Help text", class: "usa-label" %>
           <%= f.text_field :help_text, class: "usa-input" %>
         </div>
-        <% if ["text_field", "textarea", "text_email_field"].include?(question.question_type) %>
+        <% if ["text_field", "textarea", "text_email_field","text_phone_field"].include?(question.question_type) %>
         <div class="field placeholder-text">
           <%= f.label :placeholder_text, "Placeholder text", class: "usa-label" %>
           <%= f.text_field :placeholder_text, class: "usa-input" %>
@@ -79,6 +79,7 @@
     <%= f.hidden_field :form_section_id %>
     <p>
       <%= f.submit class: "usa-button save-question" %>
+      <%= link_to 'Cancel', questions_admin_form_path(@question.form), class: "cancel-question" %>
     </p>
   </div>
 <% end %>
@@ -105,8 +106,22 @@
       }
     });
 
+    $('.cancel-question').on("click", function(event) {
+      event.preventDefault();
+      $.ajax({
+        url: $(".question-form").attr("action"),
+        type: 'get',
+        success: function(resp) {
+          $("div#<%= dom_id(question) %>").html(resp);
+          $(".question#question_<%= question.id %> .question-option-edit").hide();
+          $(".dropdown-content").hide();
+          $(".question-option-edit").hide();
+        }
+      });
+    });
+
     $("input[name='question[question_type]']").on("click", function(event) {
-      if ($(this)[0].id == 'question_question_type_text_field' || $(this)[0].id == 'question_question_type_text_email_field' || $(this)[0].id == 'question_question_type_textarea') {
+      if ($(this)[0].id == 'question_question_type_text_field' || $(this)[0].id == 'question_question_type_text_email_field' || $(this)[0].id == 'question_question_type_text_phone_field' || $(this)[0].id == 'question_question_type_textarea') {
         $(".placeholder-text").show();
         $(".character-limit").show();
       } else {
