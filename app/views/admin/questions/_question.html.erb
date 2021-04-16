@@ -1,0 +1,32 @@
+<%= render 'components/forms/edit/button_dropdown', { form: form, question: question } if form_permissions?(form: form) %>
+
+<% if question.question_type == "text_field" %>
+<% @form_component_path = 'components/forms/edit/question_types/text_field' %>
+<% elsif question.question_type == "text_email_field" %>
+<% @form_component_path = 'components/forms/edit/question_types/text_email_field' %>
+<% elsif question.question_type == "text_phone_field" %>
+<% @form_component_path = 'components/forms/edit/question_types/text_phone_field' %>
+<% elsif question.question_type == "radio_buttons" %>
+<% @form_component_path = 'components/forms/edit/question_types/radio_buttons' %>
+<% elsif question.question_type == "thumbs_up_down_buttons" %>
+<% @form_component_path = 'components/forms/question_types/thumbs_up_down_buttons' %>
+<% elsif question.question_type == "dropdown" %>
+<% @form_component_path = 'components/forms/edit/question_types/dropdown' %>
+<% elsif question.question_type == "states_dropdown" %>
+<% @form_component_path = 'components/forms/edit/question_types/states_dropdown' %>
+<% elsif question.question_type == "checkbox" %>
+<% @form_component_path = 'components/forms/edit/question_types/checkbox' %>
+<% elsif question.question_type == "textarea" %>
+<% @form_component_path = 'components/forms/edit/question_types/text_area' %>
+<% elsif question.question_type == "hidden" %>
+<% @form_component_path = 'components/forms/edit/question_types/hidden_field' %>
+<% elsif question.question_type == "custom_text_display" %>
+<% @form_component_path = 'components/forms/question_types/custom_text_display' %>
+<% elsif question.question_type == "star_radio_buttons" %>
+<% @form_component_path = 'components/forms/question_types/star_radio_buttons' %>
+<% elsif question.question_type == "yes_no_buttons" %>
+<% @form_component_path = 'components/forms/question_types/yes_no_buttons' %>
+<% elsif question.question_type == "text_display" %>
+<% @form_component_path = 'components/forms/question_types/text_display' %>
+<% end %>
+<%= render @form_component_path, form: form, question: question, question_number: question.position %>

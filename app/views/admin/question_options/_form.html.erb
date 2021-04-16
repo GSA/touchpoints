@@ -15,7 +15,7 @@
 
   <div class="field">
     <%= form.label :text, class: "usa-label" %>
-    <%= form.text_area :text, class: "usa-input", rows: 5 %>
+    <%= form.text_area :text, class: "usa-input question-option-text", rows: 5 %>
   </div>
 
   <div class="field">
@@ -24,7 +24,7 @@
   </div>
 
   <p>
-    <%= form.submit class: "usa-button" %>
+    <%= form.submit class: "usa-button question-option-save" %>
 
   <% if question_option.persisted? %>
     <%= link_to admin_form_question_question_option_path(form, question, question_option), class: "usa-button bg-red float-right", method: :delete, data: { confirm: 'Are you sure?' } do %>
@@ -34,3 +34,12 @@
   <% end %>
   </p>
 <% end %>
+<script>
+  $('.question-option-save').on("click", function(event) {
+      var text_value = $.trim($('.question-option-text').val())
+      if (text_value.length == 0) {
+        alert("Please enter a value for question option text!");
+        return false;
+      }
+  }); 
+</script> 

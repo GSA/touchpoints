@@ -39,6 +39,11 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    resources :websites do
+      collection do
+        get "gsa", to: "websites#gsa"
+      end
+    end
     resources :forms do
       member do
         get "notifications", to: "forms#notifications", as: :notifications
@@ -70,7 +75,7 @@ Rails.application.routes.draw do
         patch "sort", to: "form_sections#sort", as: :sort_sections
         patch "update_title", to: "form_sections#update_title", as: :inline_update
       end
-      resources :questions, except: [:show] do
+      resources :questions do
         member do
           patch "question_options", to: "question_options#sort", as: :sort_question_options
         end

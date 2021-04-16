@@ -16,6 +16,7 @@ class Question < ApplicationRecord
     # Standard elements
     "text_field",
     "text_email_field",
+    "text_phone_field",
     "textarea",
     "checkbox",
     "radio_buttons",

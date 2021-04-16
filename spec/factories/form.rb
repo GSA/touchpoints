@@ -178,8 +178,20 @@ FactoryBot.define do
           :with_checkbox_options,
           form: f,
           answer_field: :answer_03,
-          form_section: f.form_sections.first,
-          text: "Name"
+          form_section: f.form_sections.first
+        )
+      end
+    end
+
+    trait :phone do
+      name { "Phone text form" }
+      kind { "custom" }
+      after(:create) do |f, evaluator|
+        FactoryBot.create(:question,
+          :phone,
+          form: f,
+          answer_field: :answer_03,
+          form_section: f.form_sections.first
         )
       end
     end
@@ -192,8 +204,7 @@ FactoryBot.define do
           :with_radio_buttons,
           form: f,
           answer_field: :answer_03,
-          form_section: f.form_sections.first,
-          text: "Name"
+          form_section: f.form_sections.first
         )
       end
     end

@@ -1,0 +1,62 @@
+<% content_for :navigation_title do %>
+  GSA Websites
+<% end %>
+<p>
+  <%= link_to admin_websites_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Websites
+  <% end %>
+</p>
+
+<table class="usa-table" style="overflow-x: scroll;">
+  <thead>
+    <tr>
+      <th>View</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>
+        <%= @websites.where(production_status: "Production").count %>
+        Live Sites
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= @websites.where(production_status: "Production").where(office: "CFO").count %>
+        CFO Sites
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= @websites.where(production_status: "Production").where(office: "FAS").where("sub_office NOT LIKE ?", "TTS%").count %>
+        FAS Sites
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= @websites.where(production_status: "Production").where(office: "GSA IT").count %>
+        GSA IT Sites
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= @websites.where(production_status: "Production").where(office: "OGP").count %>
+        OGP Sites
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= @websites.where(production_status: "Production").where(office: "PBS").count %>
+        PBS Sites
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= @websites.where(production_status: "Production").where("sub_office LIKE ?", "TTS%").count %>
+        TTS Sites
+      </td>
+    </tr>
+  </tbody>
+</table>
