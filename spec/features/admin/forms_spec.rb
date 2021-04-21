@@ -408,6 +408,12 @@ feature "Forms", js: true do
               expect(page).to have_content("New Section")
             end
 
+            it "can edit new form section title" do
+              find('.section-title',text: 'New Section').click
+              find('.section-title',text: 'New Section').set("New Form Section Title")
+              find('.section-title',text: 'New Form Section Title').native.send_keys :tab
+              expect(page).to have_content("New Form Section Title")
+            end
           end
 
           describe "editing Form Sections" do
