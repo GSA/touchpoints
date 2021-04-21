@@ -68,16 +68,7 @@ class Admin::QuestionOptionsController < AdminController
         end
       end
     end
-
-    respond_to do |format|
-      if @errors.empty?
-        format.html { redirect_to questions_admin_form_path(@question.form), notice: 'Question option was successfully created.' }
-        format.js { }
-      else
-        format.html { redirect_to questions_admin_form_path(@question.form), alert: "Question option could not be created! #{@errors.join(', ')}" }
-        format.js { render json: @errors, status: :unprocessable_entity }        
-      end
-    end
+   render :create, format: :js
   end
 
   def update
