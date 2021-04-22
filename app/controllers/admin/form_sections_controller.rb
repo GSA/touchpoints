@@ -15,6 +15,8 @@ class Admin::FormSectionsController < AdminController
     @section.title = "New Section"
     @section.position = next_position
     @section.save!
+    @tabindex = 0
+    @multi_section_question_number = 0
     render layout: false
   end
 
