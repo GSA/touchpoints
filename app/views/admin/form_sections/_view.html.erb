@@ -2,7 +2,7 @@
   <div class="section">
     <div class="section-header">
       <h4 class="section-title-view">
-        <span class="section-title" contenteditable="true" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_form_section_path(form, section) %>"><%= section.title %></span>
+        <input class="usa-label section-title" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_form_section_path(form, section) %>" value="<%= section.title %>" />
         &nbsp;&nbsp;
         <span class="usa-hint save-notice" id="section-<%= section.id %>">
           <i class="fa fa-check-circle" aria-hidden="true"></i> section title saved
@@ -36,7 +36,7 @@
         type: "PATCH",
         url:  $(this).attr("data-url") + "/update_title",
         data: {
-          title: $(this).text()
+          title: $(this).val()
         }
       }).done(function(data) {
         $("#section-" + data['id']).show();

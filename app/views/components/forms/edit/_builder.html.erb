@@ -1,14 +1,12 @@
 <% @tabindex = 0 %>
 <div class="form-title-edit">
-  <h2>
-    <span type="text" contenteditable="true" tabindex="<%= @tabindex += 1 %>" class="survey-title-input" data-url="<%= admin_form_path(form) %>">
-      <%= form.title.present? ? form.title : 'Survey Title'  %>
-    </span>
+    <input type="text" tabindex="<%= @tabindex += 1 %>" class="usa-label survey-title-input" 
+      data-url="<%= admin_form_path(form) %>"
+      value="<%= form.title.present? ? form.title : 'Survey Title'  %>" />
     &nbsp;&nbsp;
     <span class="usa-hint save-notice survey-title">
       <i class="fa fa-check-circle" aria-hidden="true"></i> survey title saved
     </span>
-  </h2>
 </div>
 <div class="fba-instructions">
   Instructions:
@@ -68,7 +66,7 @@ $(function() {
       $.ajax({
         type: "PATCH",
         url: $(this).attr("data-url") + "/update_title",
-        data: {title: $(this).text()}
+        data: {title: $(this).val()}
       });
     });
 
