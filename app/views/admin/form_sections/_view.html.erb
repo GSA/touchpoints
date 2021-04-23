@@ -1,13 +1,16 @@
 <div class="form-section-div" id="<%= dom_id(section) %>" data-id="<%= section.id %>">
   <div class="section">
     <div class="section-header">
-      <h4 class="section-title-view">
+      <div class="section-title-view">
+        <label class="usa-label text-uppercase font-body-3xs" style="margin-top: 0;" for="instructions">
+          Form section title
+        </label>
         <input class="usa-input section-title" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_form_section_path(form, section) %>" value="<%= section.title %>" />
         &nbsp;&nbsp;
         <span class="usa-hint save-notice" id="section-<%= section.id %>">
           <i class="fa fa-check-circle" aria-hidden="true"></i> section title saved
         </span>
-      </h4>
+      </div>
     </div>
     <div class="questions">
       <% section.questions.each_with_index do |question, index| %>
@@ -42,11 +45,5 @@
         $("#section-" + data['id']).show();
         $("#section-" + data['id']).fadeOut(2000);
       });
-    });
-    $(".section-title").click(function() {
-      $(this).focus();
-    });
-    $(".section-title-view").click(function() {
-      $(this).find(".section-title").focus();
     });
 </script>
