@@ -53,7 +53,11 @@
   <%= link_to 'Create New Website', new_admin_website_path, class: "usa-button" %>
 </p>
 
-<script type="text/javascript">
+<p>
+  <%= link_to 'Export all websites to CSV', export_csv_admin_websites_path, class: "usa-button usa-button--outline" %>
+</p>
+
+<script>
   $(function() {
     $("#main-content").css("overflow-x", "scroll");
   })

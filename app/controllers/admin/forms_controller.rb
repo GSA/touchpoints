@@ -10,6 +10,7 @@ class Admin::FormsController < AdminController
     :compliance,
     :permissions, :questions, :responses,
     :copy, :copy_by_id,
+    :invite,
     :notifications,
     :export,
     :export_pra_document,
@@ -47,6 +48,25 @@ class Admin::FormsController < AdminController
     end
 
     render json: { form: @form, questions: questions }
+  end
+
+  def invite
+    invitee = invite_params[:refer_user]
+
+    if invitee.present? && invitee =~ URI::MailTo::EMAIL_REGEXP && (ENV['GITHUB_CLIENT_ID'].present? ? true : User::APPROVED_DOMAINS.any? { |word| invitee.end_with?(word) })
+      if User.exists?(email: invitee)
+        redirect_to permissions_admin_form_path(@form), alert: "User with email #{invitee} already exists"
+      else
+        UserMailer.invite(current_user, invitee).deliver_later
+        redirect_to permissions_admin_form_path(@form), notice: "Invite sent to #{invitee}"
+      end
+    else
+      if ENV['GITHUB_CLIENT_ID'].present?
+        redirect_to permissions_admin_form_path(@form), alert: "Please enter a valid email address"
+      else
+        redirect_to permissions_admin_form_path(@form), alert: "Please enter a valid .gov or .mil email address"
+      end
+    end
   end
 
   def publish
@@ -417,5 +437,9 @@ class Admin::FormsController < AdminController
       if params["form"]["aasm_state"] == "archived" and !@form.archived?
         Event.log_event(Event.names[:form_archived], "Form", @form.uuid, "Form #{@form.name} archived at #{DateTime.now}", current_user.id)
       end
+    end
+
+    def invite_params
+    	params.require(:user).permit(:refer_user)
     end
 end

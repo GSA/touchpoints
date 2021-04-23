@@ -59,7 +59,7 @@
       </h3>
       <div class="field">
         <%= form.label :production_status, class: "usa-label" %>
-        <%= form.text_field :production_status, class: "usa-input" %>
+        <%= form.select :production_status, Website::PRODUCTION_STATUSES, { include_blank: true }, { class: "usa-select" } %>
       </div>
       <div class="field">
         <%= form.label :redirects_to, class: "usa-label" %>
@@ -118,7 +118,7 @@
       </div>
       <div class="field">
         <%= form.label :type_of_site, class: "usa-label" %>
-        <%= form.text_field :type_of_site, class: "usa-input" %>
+        <%= form.select :type_of_site, Website::TYPE_OF_SITES, { include_blank: true }, { class: "usa-select" } %>
       </div>
       <div class="field">
         <%= form.label :digital_brand_category, class: "usa-label" %>
@@ -181,11 +181,13 @@
       </div>
     </div>
   </div>
-
-  <hr>
-  <div class="field">
-    <%= form.label :notes, class: "usa-label" %>
-    <%= form.text_area :notes, class: "usa-textarea" %>
+  <br>
+  <br>
+  <div class="well">
+    <div class="field">
+      <%= form.label :notes, class: "usa-label" %>
+      <%= form.text_area :notes, class: "usa-textarea" %>
+    </div>
   </div>
 
   <p>

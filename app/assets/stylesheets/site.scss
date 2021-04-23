@@ -432,6 +432,16 @@ tbody tr:hover td {
   margin-block-end: 0em;
   color: #FFFFFF;
 }
+.form-builder {
+  .section {
+    border-bottom: 2px solid white;
+    padding-bottom: 20px;
+  }
+  .section-title-view {
+    padding-top: 0px ;
+  }
+
+}
 a.form-section-save {
   color: white;
 }

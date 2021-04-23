@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     resources :websites do
       collection do
         get "gsa", to: "websites#gsa"
+        get "export_csv", to: "websites#export_csv", as: :export_csv
       end
     end
     resources :forms do
@@ -53,6 +54,7 @@ Rails.application.routes.draw do
         get "export_submissions", to: "forms#export_submissions", as: :export_submissions
         get "export_a11_header", to: "forms#export_a11_header", as: :export_a11_header
         get "export_a11_submissions", to: "forms#export_a11_submissions", as: :export_a11_submissions
+        patch "invite", to: "forms#invite", as: :invite
         get "js", to: "forms#js", as: :js
         get "permissions", to: "forms#permissions", as: :permissions
         get "compliance", to: "forms#compliance", as: :compliance

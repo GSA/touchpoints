@@ -36,10 +36,22 @@
 <% end %>
 <script>
   $('.question-option-save').on("click", function(event) {
-      var text_value = $.trim($('.question-option-text').val())
-      if (text_value.length == 0) {
+      event.preventDefault();
+      var form = $(this).parents('form:first');
+      var inputs = $(form).find(".usa-input");
+      var option_text = $($(inputs[0])).val();
+      var option_value = $($(inputs[1])).val();
+      option_text = $.trim(option_text)
+      if (option_text.length == 0) {
         alert("Please enter a value for question option text!");
         return false;
       }
+      $(".question-option-edit").hide();
+      $(".question-option-view").show();
+      $.ajax({
+        type: "POST",
+        url: $(form).prop("action"),
+        data: { question_option: { text: option_text, value: option_value } }
+      });      
   }); 
 </script> 
