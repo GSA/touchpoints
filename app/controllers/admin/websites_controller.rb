@@ -3,7 +3,20 @@ class Admin::WebsitesController < AdminController
   before_action :set_admin_website, only: [:show, :edit, :update, :destroy]
 
   def index
+    if admin_permissions?
+      if params[:all]
+        @websites = Website.all
+      else
+        @websites = Website.active
+      end
+    else
+      @websites = Website.where("site_owner_email = ? OR contact_email = ?", current_user.email, current_user.email)
+    end
+  end
+
+  def export_csv
     @websites = Website.all
+    send_data @websites.to_csv
   end
 
   def gsa
