@@ -1,6 +1,6 @@
 <% @tabindex = 0 %>
 <div class="form-title-edit">
-    <input type="text" tabindex="<%= @tabindex += 1 %>" class="usa-label survey-title-input" 
+    <input type="text" tabindex="<%= @tabindex += 1 %>" class="usa-input survey-title-input"
       data-url="<%= admin_form_path(form) %>"
       value="<%= form.title.present? ? form.title : 'Survey Title'  %>" />
     &nbsp;&nbsp;
