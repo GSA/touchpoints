@@ -222,7 +222,7 @@ feature "Forms", js: true do
               expect(page).to have_content("survey title saved")
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find(".survey-title-input")).to have_content("Updated Form Title")
+              expect(find(".survey-title-input").value).to eq("Updated Form Title")
             end
 
             it "has inline editable instructions textbox that can be updated and saved" do
@@ -401,19 +401,13 @@ feature "Forms", js: true do
           describe "adding Form Sections" do
             before do
               visit questions_admin_form_path(form)
-              click_on "Add Section"
             end
 
             it "displays /admin/forms/:id/form_sections/new" do
-              expect(page).to have_content("New Section")
+              click_on "Add Section"
+              expect(find_all(".section-title").last.value).to eq("New Section")
             end
 
-            it "can edit new form section title" do
-              find('.section-title',text: 'New Section').click
-              find('.section-title',text: 'New Section').set("New Form Section Title")
-              find('.section-title',text: 'New Form Section Title').native.send_keys :tab
-              expect(page).to have_content("New Form Section Title")
-            end
           end
 
           describe "editing Form Sections" do
@@ -422,19 +416,16 @@ feature "Forms", js: true do
             end
 
             describe "FormSection.title" do
-              before do
-                find(".section-title").click
-              end
 
               it "displays editable input that can be updated and saved" do
-                expect(find(".section-title").text).to eq("Page 1")
-                find(".section-title").set("New Form Section Title")
+                expect(find(".section-title").value).to eq("Page 1")
+                find(".section-title").fill_in with: "New Form Section Title"
                 find(".section-title").native.send_keys :tab
 
-                expect(find(".section-title").text).to eq("New Form Section Title")
+                expect(find(".section-title").value).to eq("New Form Section Title")
                 # and persists after refresh
                 visit questions_admin_form_path(form)
-                expect(find(".section-title").text).to eq("New Form Section Title")
+                expect(find(".section-title").value).to eq("New Form Section Title")
               end
             end
           end
@@ -1142,7 +1133,7 @@ feature "Forms", js: true do
           it "redirect to /admin/forms/:id/edit with a success flash message" do
             expect(page.current_path).to eq(questions_admin_form_path(form_section2.form))
             expect(page).to have_content("Form section was successfully updated.")
-            expect(page).to have_content(new_title)
+            expect(find_all(".section-title").last.value).to eq(new_title)
           end
         end
 
