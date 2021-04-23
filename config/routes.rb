@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     resources :websites do
       collection do
         get "gsa", to: "websites#gsa"
+        get "export_csv", to: "websites#export_csv", as: :export_csv
       end
     end
     resources :forms do
