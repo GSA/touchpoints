@@ -1,27 +1,28 @@
 <% @tabindex = 0 %>
 <div class="form-title-edit">
-  <h2>
-    <span type="text" contenteditable="true" tabindex="<%= @tabindex += 1 %>" class="survey-title-input" data-url="<%= admin_form_path(form) %>">
-      <%= form.title.present? ? form.title : 'Survey Title'  %>
-    </span>
-    &nbsp;&nbsp;
-    <span class="usa-hint save-notice survey-title">
-      <i class="fa fa-check-circle" aria-hidden="true"></i> survey title saved
-    </span>
-  </h2>
+  <div class="text-uppercase font-body-3xs">
+    Form title
+  </div>
+  <input type="text" tabindex="<%= @tabindex += 1 %>" class="usa-input survey-title-input"
+    data-url="<%= admin_form_path(form) %>"
+    value="<%= form.title.present? ? form.title : 'Survey Title'  %>" />
+  <span class="usa-hint save-notice survey-title">
+    <i class="fa fa-check-circle" aria-hidden="true"></i> survey title saved
+  </span>
 </div>
 <div class="fba-instructions">
-  Instructions:
-  <br>
-  <textarea class="instructions" name="instructions" rows="8" cols="80" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>"><%= form.instructions %></textarea>
+  <label class="usa-label text-uppercase font-body-3xs" for="instructions">
+    Instructions
+  </label>
+  <textarea class="usa-textarea instructions" name="instructions" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>"><%= form.instructions %></textarea>
   <span class="usa-hint save-notice survey-instructions">
     <i class="fa fa-check-circle" aria-hidden="true"></i> saved
   </span>
   <br>
   <span class="display-inline instructions-show">
-    <%= form.instructions.present? ? sanitize(form.instructions) : 'Survey Instructions' %>
+    <%= form.instructions.present? ? sanitize(form.instructions) : 'Preview instructions here' %>
   </span>
-  &nbsp;&nbsp;
+  &nbsp;
 </div>
 <br>
 
@@ -41,9 +42,12 @@
 <div class="grid-row">
   <div class="grid-col-12">
     <div class="touchpoints-form-disclaimer">
+      <label class="usa-label text-uppercase font-body-3xs" for="disclaimer-text">
+        Disclaimer text
+      </label>
       <small id="fba-dialog-privacy">
         <p class="fba-disclaimer-text">
-          <textarea id="disclaimer_text" name="disclaimer-text" rows="8" cols="80" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>"><%= form.disclaimer_text %></textarea>
+          <textarea id="disclaimer_text" class="usa-textarea" name="disclaimer-text" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>"><%= form.disclaimer_text %></textarea>
           <span class="usa-hint save-notice survey-disclaimer">
             <i class="fa fa-check-circle" aria-hidden="true"></i> saved
           </span>
@@ -68,7 +72,7 @@ $(function() {
       $.ajax({
         type: "PATCH",
         url: $(this).attr("data-url") + "/update_title",
-        data: {title: $(this).text()}
+        data: {title: $(this).val()}
       });
     });
 
