@@ -401,13 +401,13 @@ feature "Forms", js: true do
           describe "adding Form Sections" do
             before do
               visit questions_admin_form_path(form)
+              click_on "Add Section"
+              find_all(".section-title").last.native.send_keys :tab
             end
 
             it "displays /admin/forms/:id/form_sections/new" do
-              click_on "Add Section"
               expect(find_all(".section-title").last.value).to eq("New Section")
             end
-
           end
 
           describe "editing Form Sections" do
