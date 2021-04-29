@@ -11,6 +11,11 @@ FactoryBot.define do
       question_type { "text_phone_field" }
     end
 
+    trait :email do
+      text { "Email" }
+      question_type { "text_email_field" }
+    end
+
     trait :states_dropdown do
       question_type { "states_dropdown" }
     end
