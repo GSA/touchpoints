@@ -21,6 +21,12 @@ class Website < ApplicationRecord
     "Informational"
   ]
 
+  def admin?(user:)
+    raise ArgumentException unless user.class == User
+
+    user.admin? || self.contact_email == user.email || self.site_owner_email == user.email
+  end
+
   def self.to_csv
     websites = Website.all
     header_attributes = websites.first.attributes.keys || []
