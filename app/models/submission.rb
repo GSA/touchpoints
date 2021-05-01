@@ -45,11 +45,6 @@ class Submission < ApplicationRecord
     return unless self.form.send_notifications?
     emails_to_notify = self.form.notification_emails.split(",")
 
-    # Add Form Manager(s) to notification distribution list
-    self.form.users.select { |u| self.form.user_role?(user: u) == UserRole::Role::FormManager }.each do |mgr|
-      emails_to_notify << mgr.email
-    end
-
     UserMailer.submission_notification(submission_id: self.id, emails: emails_to_notify.uniq).deliver_later
   end
 

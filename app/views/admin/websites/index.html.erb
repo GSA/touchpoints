@@ -26,6 +26,9 @@
 
 <p>
   Count = <%= @websites.size %>
+  &middot;
+  <%= link_to "Active sites", "?" %>
+  <%= link_to "Include inactive sites", "?all=1" %>
 </p>
 <table class="usa-table" style="overflow-x: scroll;">
   <thead>
@@ -34,6 +37,8 @@
       <th>Office</th>
       <th>Sub-office</th>
       <th>Domain</th>
+      <th>Staging Site</th>
+      <th>Site owner email</th>
     </tr>
   </thead>
 
@@ -44,6 +49,10 @@
         <td><%= website.office %></td>
         <td><%= website.sub_office %></td>
         <td><%= link_to(website.domain, admin_website_path(website)) %></td>
+        <td>
+          <%= website.domain.include?("staging") || website.domain.include?("preview") || website.domain.include?("sandbox") || website.domain.include?("beta") ? "YES" : "" %>
+        </td>
+        <td><%= website.site_owner_email %></td>
       </tr>
     <% end %>
   </tbody>

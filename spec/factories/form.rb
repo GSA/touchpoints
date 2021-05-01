@@ -196,6 +196,19 @@ FactoryBot.define do
       end
     end
 
+    trait :email do
+      name { "Email text form" }
+      kind { "custom" }
+      after(:create) do |f, evaluator|
+        FactoryBot.create(:question,
+          :email,
+          form: f,
+          answer_field: :answer_03,
+          form_section: f.form_sections.first
+        )
+      end
+    end
+
     trait :radio_button_form do
       name { "Radio button form" }
       kind { "custom" }
