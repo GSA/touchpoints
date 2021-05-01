@@ -1,6 +1,5 @@
 User account deactivated
 
-Account <%= @user.email %> was deaactivated on <%= Date.today %>.
+Account <%= @user.email %> was deactivated on <%= Date.today %>.
 
-Login to Touchpoints at <%= root_url %>
-
+Login to Touchpoints at <%= ENV.fetch("INDEX_URL") %>.
