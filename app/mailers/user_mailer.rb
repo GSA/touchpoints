@@ -42,7 +42,6 @@ class UserMailer < ApplicationMailer
     @user = user
     mail subject: "New user account created",
       to: UserMailer.touchpoints_team
-
   end
 
   def form_expiring_notification(touchpoint)
@@ -50,7 +49,6 @@ class UserMailer < ApplicationMailer
     @form = form
     mail subject: "Form #{@form.name} expiring on #{@form.expiration_date}",
       to: ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
-
   end
 
   def org_user_notification(user, org_admin)
@@ -76,6 +74,7 @@ class UserMailer < ApplicationMailer
   end
 
   def invite(user, invitee)
+    Event.log_event(Event.names[:user_send_invitation], "User", user.id, "User #{user.email} invited #{invitee} at #{Time.now.to_s}")
     attachments.inline["logo.png"] = @@header_logo
     @user = user
     @invitee = invitee

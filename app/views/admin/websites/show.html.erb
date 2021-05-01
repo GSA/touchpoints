@@ -2,9 +2,11 @@
   Website: <%= @website.domain %>
 <% end %>
 <p>
-  <%= link_to edit_admin_website_path(@website), class: "usa-button usa-button--outline float-right" do %>
-    <i class="fa fa-pencil-alt"></i>
-    Edit
+  <% if @website.admin?(user: current_user) %>
+    <%= link_to edit_admin_website_path(@website), class: "usa-button usa-button--outline float-right" do %>
+      <i class="fa fa-pencil-alt"></i>
+      Edit
+    <% end %>
   <% end %>
   <%= link_to admin_websites_path do %>
     <i class="fa fa-arrow-circle-left"></i>
@@ -14,35 +16,67 @@
 
 <br>
 
+<% if @website.production_status ==  "Archived" %>
+<div class="usa-alert usa-alert--warning" >
+  <div class="usa-alert__body">
+    <p class="usa-alert__text">
+      The website
+      <%= @website.domain %>
+      is archived.
+    </p>
+  </div>
+</div>
+<br>
+<% end %>
+
 <div class="grid-row grid-gap-md">
   <div class="grid-col-6">
     <h3>
       Domain and organization
     </h3>
-    <p>
-      <strong>Domain:</strong>
-      <%= @website.domain %>
-    </p>
-    <p>
-      <strong>Parent domain:</strong>
-      <%= @website.parent_domain %>
-    </p>
-    <p>
-      <strong>Office:</strong>
-      <%= @website.office %>
-    </p>
-    <p>
-      <strong>Sub-office:</strong>
-      <%= @website.sub_office %>
-    </p>
-    <p>
-      <strong>Contact email:</strong>
-      <%= @website.contact_email %>
-    </p>
-    <p>
-      <strong>Site owner email:</strong>
-      <%= @website.site_owner_email %>
-    </p>
+    <div class="grid-row">
+      <div class="grid-col-6">
+        <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
+          Parent domain
+        </label>
+        <%#= @website.parent_domain %>
+        <%= @website.domain.split(".")[-2..-1].join(".") %>
+      </div>
+      <div class="grid-col-6">
+        <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
+          Domain
+        </label>
+        <%= link_to @website.domain, "https://#{@website.domain}", target: "_blank", rel: "noopener" %>
+      </div>
+    </div>
+    <div class="grid-row">
+      <div class="grid-col-6">
+        <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
+          Office
+        </label>
+        <%= @website.office %>
+      </div>
+      <div class="grid-col-6">
+        <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
+          Sub-office
+        </label>
+        <%= @website.sub_office %>
+      </div>
+    </div>
+    <div class="grid-row">
+      <div class="grid-col-6">
+        <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
+          Contact email
+        </label>
+        <%= @website.contact_email %>
+      </div>
+      <div class="grid-col-6">
+        <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
+          Site owner email
+        </label>
+        <%= @website.site_owner_email %>
+      </div>
+    </div>
   </div>
   <div class="grid-col-6">
     <h3>
