@@ -63,7 +63,7 @@ RSpec.describe Form, type: :model do
           # custom location code
           :location_code,
           # standard fields
-          :ip_address, :user_agent, :page, :referer, :created_at
+          :user_agent, :page, :referer, :created_at, :ip_address
         ])
       end
     end
@@ -104,14 +104,38 @@ RSpec.describe Form, type: :model do
   end
 
   describe "#to_csv" do
-    it "returns Submission fields" do
-      csv = form.to_csv(start_date: Time.now.beginning_of_quarter, end_date: Time.now.end_of_quarter).to_s
+    context "an Organization with enabled IP address" do
+      before do
+        organization.update(enable_ip_address: true)
+        form.reload
+      end
 
-      expect(csv).to include("IP Address")
-      expect(csv).to include("User Agent")
-      expect(csv).to include("Page")
-      expect(csv).to include("Referrer")
-      expect(csv).to include("Created At")
+      it "returns Submission fields" do
+        csv = form.to_csv(start_date: Time.now.beginning_of_quarter, end_date: Time.now.end_of_quarter).to_s
+
+        expect(csv).to include("IP Address")
+        expect(csv).to include("User Agent")
+        expect(csv).to include("Page")
+        expect(csv).to include("Referrer")
+        expect(csv).to include("Created At")
+      end
+    end
+
+    context "an Organization without enabled IP address" do
+      before do
+        organization.update(enable_ip_address: false)
+        form.reload
+      end
+
+      it "returns Submission fields" do
+        csv = form.to_csv(start_date: Time.now.beginning_of_quarter, end_date: Time.now.end_of_quarter).to_s
+
+        expect(csv).to_not include("IP Address")
+        expect(csv).to include("User Agent")
+        expect(csv).to include("Page")
+        expect(csv).to include("Referrer")
+        expect(csv).to include("Created At")
+      end
     end
   end
 
