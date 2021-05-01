@@ -1,10 +1,6 @@
 class Admin::FormSectionsController < AdminController
-  before_action :set_form, only: [:new, :create, :index, :show, :edit, :update, :destroy]
+  before_action :set_form, only: [:new, :create, :show, :edit, :update, :destroy]
   before_action :set_form_section, only: [:show, :edit, :update, :destroy]
-
-  def index
-    @form_sections = @form.form_sections
-  end
 
   def show
   end

@@ -1067,7 +1067,6 @@ feature "Forms", js: true do
       context "notification settings" do
         before "notification_email is blank by default" do
           visit notifications_admin_form_path(Form.first)
-          binding.pry
           within ".usa-nav__secondary .user-name" do
             expect(page).to have_content(touchpoints_manager.email)
           end
