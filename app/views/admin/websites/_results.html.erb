@@ -1,0 +1,27 @@
+<p>
+  Count = <%= @websites.size %>
+  <% if @websites.size == Admin::WebsitesController::MAX_RESULTS %>
+      <em>, max results returned -- use search field to limit results</em>
+  <% end %>
+</p>
+<table class="usa-table" style="overflow-x: scroll;">
+  <thead>
+    <tr>
+      <th>Production status</th>
+      <th>Office</th>
+      <th>Sub-office</th>
+      <th>Domain</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @websites.order(:production_status).each do |website| %>
+      <tr>
+        <td><%= website.production_status %></td>
+        <td><%= website.office %></td>
+        <td><%= website.sub_office %></td>
+        <td><%= link_to(website.domain, admin_website_path(website)) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
