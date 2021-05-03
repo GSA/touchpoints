@@ -1065,15 +1065,21 @@ feature "Forms", js: true do
       end
 
       context "notification settings" do
-        before do
+        before "notification_email is blank by default" do
           visit notifications_admin_form_path(Form.first)
-        end
-
-        it "set notification_email to the email of the user who creates the form" do
           within ".usa-nav__secondary .user-name" do
             expect(page).to have_content(touchpoints_manager.email)
           end
-          expect(find_field('form_notification_emails').value).to eq(touchpoints_manager.email)
+          expect(find_field('form_notification_emails').value).to eq("")
+        end
+
+        it "can be updated" do
+          fill_in "form_notification_emails", with: "user@example.gov"
+          click_on "Update Survey"
+          expect(page).to have_content("Survey was successfully updated.")
+          
+          visit notifications_admin_form_path(Form.first)
+          expect(find_field('form_notification_emails').value).to eq("user@example.gov")
         end
       end
     end

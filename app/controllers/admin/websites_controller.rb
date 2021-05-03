@@ -24,7 +24,7 @@ class Admin::WebsitesController < AdminController
     search_text = params[:search] 
     if search_text.present?
       search_text = "%" + search_text + "%"
-      @websites = Website.where(" domain like ? or office like ? or sub_office like ? or production_status like ? ", search_text, search_text, search_text, search_text).limit(MAX_RESULTS)
+      @websites = Website.where(" domain like ? or office like ? or sub_office like ? or production_status like ? or site_owner_email like ? ", search_text, search_text, search_text, search_text, search_text).limit(MAX_RESULTS)
     else
       @websites = Website.all.limit(MAX_RESULTS)
     end
