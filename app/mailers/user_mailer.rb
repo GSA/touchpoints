@@ -11,8 +11,7 @@ class UserMailer < ApplicationMailer
     @form = @submission.form
     admin_emails = ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
     mail subject: "New Submission to #{@form.name}",
-      to: emails,
-      bcc: admin_emails
+      to: emails
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
