@@ -1,10 +1,7 @@
 <div class="email-header">
-    <%= image_tag(attachments['logo.png'].url) %>
+  <%= image_tag(attachments['logo.png'].url, alt: "Touchpoints logo") %>
 </div>
 <h3>User account deactivated</h3>
 <p>
-  Account <%= @user.email %> was deaactivated on <%= Date.today %>.
-</p>
-<p>
-  Login to Touchpoints at <%= root_url %>
+  Account <%= @user.email %> was deactivated on <%= Date.today %>.
 </p>
