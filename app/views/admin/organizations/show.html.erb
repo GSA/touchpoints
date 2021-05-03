@@ -1,6 +1,12 @@
 <% content_for :navigation_title do %>
   Viewing Organization
 <% end %>
+<p>
+  <%= link_to admin_organizations_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Organizations
+  <% end %>
+</p>
 <div class="well">
   <%= link_to 'Edit organization', edit_admin_organization_path(@organization), class: "usa-button float-right" %>
   <div class="usa-alert">
@@ -58,3 +64,9 @@
     <% end %>
   </div>
 </div>
+<p>
+  <%= link_to edit_admin_organization_path(@organization), class: "usa-button" do %>
+    <i class="fa fa-pencil-alt"></i>
+    Edit
+  <% end %>
+</p>

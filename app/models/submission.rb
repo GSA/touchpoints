@@ -5,7 +5,8 @@ class Submission < ApplicationRecord
   validates :uuid, uniqueness: true
 
   before_create :set_uuid
-  after_create :send_notifications
+  after_commit :send_notifications, on: :create
+
   after_create :update_form
 
   scope :non_flagged, -> { where(flagged: false) }

@@ -1077,7 +1077,7 @@ feature "Forms", js: true do
           fill_in "form_notification_emails", with: "user@example.gov"
           click_on "Update Survey"
           expect(page).to have_content("Survey was successfully updated.")
-          
+
           visit notifications_admin_form_path(Form.first)
           expect(find_field('form_notification_emails').value).to eq("user@example.gov")
         end
