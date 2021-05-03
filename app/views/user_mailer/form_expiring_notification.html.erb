@@ -5,5 +5,9 @@
   Form is expiring soon.
 </h3>
 <p>
-  The form, <%= link_to @form.name, admin_form_url(@form) %><%=  %>, will expire on <%= @form.expiration_date %>.
+  Form <%= link_to @form.name, admin_form_url(@form) %>
+  will expire on <%= @form.expiration_date %>.
+</p>
+<p>
+  Visit <%= link_to admin_form_url(@form), admin_form_url(@form) %> to view.
 </p>
