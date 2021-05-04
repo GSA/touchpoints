@@ -3,8 +3,10 @@
 </div>
 <h3>You have been invited to Touchpoints</h3>
 <p>
-  <%= @user.email %> is inviting you to Touchpoints.
-  <br/><br/>
+  <%= @user.email %>
+  has invited you to Touchpoints.
+</p>
+<p>
   Please visit the following link to sign up:
   <%= link_to "Touchpoints", ENV.fetch("INDEX_URL") %>.
 </p>
