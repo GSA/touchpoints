@@ -1,12 +1,11 @@
 <p>
-  Count = <%= @websites.size %>
-  <% if @websites.size == Admin::WebsitesController::MAX_RESULTS %>
-      <em>, max results returned -- use search field to limit results</em>
-  <% end %>
-  <br/>
+    Count = <%= @websites.size %>
     &middot;
-    <%= link_to "Active sites", "?" %>
-    <%= link_to "Include inactive sites", "?all=1" %>
+    <% if params[:all] %>
+      <%= link_to "View Active sites (#{Website::ACTIVE_PRODUCTION_STATUSES.to_sentence})", "?active=1" %>
+    <% else %>
+      <%= link_to "View All sites (also includes #{(Website::PRODUCTION_STATUSES - Website::ACTIVE_PRODUCTION_STATUSES) .to_sentence})", "?all=1" %>
+    <% end %>
 </p>
 <table class="usa-table" style="overflow-x: scroll;">
   <thead>

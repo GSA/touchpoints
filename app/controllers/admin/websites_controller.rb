@@ -1,17 +1,16 @@
 class Admin::WebsitesController < AdminController
   before_action :ensure_admin
   before_action :set_admin_website, only: [:show, :edit, :update, :destroy]
-  MAX_RESULTS = 50
 
   def index
     if admin_permissions?
       if params[:all]
-        @websites = Website.all.limit(MAX_RESULTS)
+        @websites = Website.all
       else
-        @websites = Website.active.limit(MAX_RESULTS)
+        @websites = Website.active
       end
     else
-      @websites = Website.where("site_owner_email = ? OR contact_email = ?", current_user.email, current_user.email).limit(MAX_RESULTS)
+      @websites = Website.where("site_owner_email = ? OR contact_email = ?", current_user.email, current_user.email)
     end
   end
 
@@ -21,12 +20,12 @@ class Admin::WebsitesController < AdminController
   end
 
   def search
-    search_text = params[:search] 
+    search_text = params[:search]
     if search_text.present?
       search_text = "%" + search_text + "%"
-      @websites = Website.where(" domain like ? or office like ? or sub_office like ? or production_status like ? or site_owner_email like ? ", search_text, search_text, search_text, search_text, search_text).limit(MAX_RESULTS)
+      @websites = Website.where(" domain like ? or office like ? or sub_office like ? or production_status like ? or site_owner_email like ? ", search_text, search_text, search_text, search_text, search_text)
     else
-      @websites = Website.all.limit(MAX_RESULTS)
+      @websites = Website.all
     end
   end
 

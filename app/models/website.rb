@@ -11,6 +11,12 @@ class Website < ApplicationRecord
     "Staging"
   ]
 
+  ACTIVE_PRODUCTION_STATUSES = [
+    "Production",
+    "Redirect",
+    "Staging"
+  ]
+
   TYPE_OF_SITES = [
     "Application",
     "Application Login",
