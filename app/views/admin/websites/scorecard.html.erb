@@ -22,6 +22,42 @@ Website Scorecard for <%= @website.domain %>
     <h3 id="siteScore">55</h3>
   </div>
 </div>
+
+<% begin %>
+<% url = "https://api.gsa.gov/technology/site-scanning/v1/websites/#{@website.domain}?api_key=#{ENV.fetch("API_DATA_GOV_KEY")}&limit=10" %>
+<% require 'open-uri' %>
+<% text = URI.open(url).read %>
+
+<% hash = JSON.parse(text) %>
+
+<table>
+  <% hash.each_pair do |key, value| %>
+  <tr>
+    <td style="text-align: right; padding-right: 20px; padding-bottom: 10px;">
+      <strong>
+        <%= key %>
+      </strong>
+    </td>
+    <td>
+      <%= value %>
+    </td>
+  </tr>
+  <% end %>
+</table>
+<% rescue %>
+<div class="usa-alert usa-alert--error usa-alert--slim">
+  <div class="usa-alert__body">
+    <p class="usa-alert__text">
+      Site Scanning result for
+      <strong>
+        <%= @website.domain %>
+      </strong>
+      is not available.
+    </p>
+  </div>
+</div>
+<% end %>
+
 <div class="usa-summary-box" role="complementary">
   <div class="usa-summary-box__body">
     <h4 class="usa-summary-box__heading"></h4>
