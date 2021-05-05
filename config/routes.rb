@@ -45,6 +45,9 @@ Rails.application.routes.draw do
         get "gsa", to: "websites#gsa"
         get "export_csv", to: "websites#export_csv", as: :export_csv
       end
+      member do
+        get "scorecard", to: "websites#scorecard", as: :scorecard
+      end
     end
     resources :forms do
       member do

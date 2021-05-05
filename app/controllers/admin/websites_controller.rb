@@ -1,6 +1,6 @@
 class Admin::WebsitesController < AdminController
   before_action :ensure_admin
-  before_action :set_admin_website, only: [:show, :edit, :update, :destroy]
+  before_action :set_admin_website, only: [:show, :scorecard, :edit, :update, :destroy]
 
   def index
     if admin_permissions?
@@ -17,6 +17,9 @@ class Admin::WebsitesController < AdminController
   def export_csv
     @websites = Website.all
     send_data @websites.to_csv
+  end
+
+  def scorecard
   end
 
   def search
