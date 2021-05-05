@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :websites do
       collection do
+        get "search", to: "websites#search"
         get "gsa", to: "websites#gsa"
         get "export_csv", to: "websites#export_csv", as: :export_csv
       end

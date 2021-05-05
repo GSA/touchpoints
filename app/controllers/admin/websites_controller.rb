@@ -19,6 +19,16 @@ class Admin::WebsitesController < AdminController
     send_data @websites.to_csv
   end
 
+  def search
+    search_text = params[:search]
+    if search_text.present?
+      search_text = "%" + search_text + "%"
+      @websites = Website.where(" domain like ? or office like ? or sub_office like ? or production_status like ? or site_owner_email like ? ", search_text, search_text, search_text, search_text, search_text)
+    else
+      @websites = Website.all
+    end
+  end
+
   def gsa
     @websites = Website.all
   end
