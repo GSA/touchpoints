@@ -240,14 +240,16 @@ feature "Submissions", js: true do
             it "toggle this setting from on to off" do
               find("#button-toggle-table-display-options").click
               find(".usa-checkbox label").click
+              expect(find("#form_ui_truncate_text_responses", visible: false).checked?).to eq false
               click_on "Update options"
+
+              # this will be true when the page reloads
+              expect(page).to have_css("#table-display-options", visible: false)
 
               # reload the page
               visit responses_admin_form_path(form)
               form.reload
               expect(form.ui_truncate_text_responses).to eq false
-              find("#button-toggle-table-display-options").click
-              expect(page).to have_css("#table-display-options", visible: true)
               expect(find("#form_ui_truncate_text_responses", visible: false).checked?).to eq false
 
               expect(page).to have_content("superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext super")
