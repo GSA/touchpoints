@@ -190,22 +190,75 @@ feature "Submissions", js: true do
 
       context "#show" do
         let!(:submission) { FactoryBot.create(:submission, form: form) }
+        let!(:submission2) { FactoryBot.create(:submission, form: form, answer_01: "superlongtext " * 500) }
 
         before do
           visit responses_admin_form_path(form)
         end
 
+        describe "truncate text in the table displayed" do
+
+          context "ui_truncate_text_responses is ON" do
+
+            it "is on by default" do
+              expect(page).to have_css("#button-toggle-table-display-options", visible: true)
+              expect(page).to have_css("#table-display-options", visible: false)
+
+              find("#button-toggle-table-display-options").click # to open option settings
+
+              # Inspects the hidden checkbox to ensure it is checked
+              expect(find("#form_ui_truncate_text_responses", visible: false).checked?).to eq true
+            end
+
+            it "truncates text longer than 160 characters to 160 characters" do
+              expect(page).to have_content("superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext sup...")
+
+              expect(page).to_not have_content("superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext super")
+            end
+
+            it "toggle this setting from on to off" do
+              find("#button-toggle-table-display-options").click
+              find(".usa-checkbox label").click
+              click_on "Update options"
+
+              # reload the page
+              visit responses_admin_form_path(form)
+              form.reload
+              expect(form.ui_truncate_text_responses).to eq false
+              find("#button-toggle-table-display-options").click
+              expect(find("#form_ui_truncate_text_responses", visible: false).checked?).to eq false
+
+              expect(page).to have_content("superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext super")
+            end
+          end
+
+          context "ui_truncate_text_responses is OFF" do
+            before do
+              form.update(ui_truncate_text_responses: false)
+              visit responses_admin_form_path(form)
+            end
+
+            it "display text longer than 160 characters" do
+              visit responses_admin_form_path(form)
+              find("#button-toggle-table-display-options").click
+              expect(find("#form_ui_truncate_text_responses", visible: false).checked?).to eq false
+
+              expect(page).to have_content("superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext super")
+            end
+          end
+        end
+
         describe "flag a Submission" do
           context "with one Response" do
             before do
-              within("table.submissions") do
+              within("table.submissions tbody tr:first-child") do
                 click_on "Flag"
               end
               page.driver.browser.switch_to.alert.accept
             end
 
             it "successfully flags Submission" do
-              within("table.submissions") do
+              within("table.submissions tbody tr:first-child") do
                 expect(page).to have_content("Flagged")
               end
             end
