@@ -12,21 +12,21 @@
   In response to Touchpoint form
 </div>
 <p>
-  <strong class="usa-label">
+  <label class="usa-label">
     Organization
-  </strong>
+  </label>
   <%= link_to(@submission.form.organization.name, admin_organization_path(@submission.form.organization)) %>
 </p>
 <p>
-  <strong class="usa-label">
+  <label class="usa-label">
     Form
-  </strong>
+  </label>
   <%= link_to(@submission.form.name, touchpoint_path(@submission.form)) %>
 </p>
 <p>
-  <strong class="usa-label">
+  <label class="usa-label">
     Response count
-  </strong>
+  </label>
   <%= @submission.form.response_count %>
 </p>
 
@@ -36,59 +36,59 @@
   </div>
 
   <p>
-    <strong class="usa-label">
+    <label class="usa-label">
       Unique Response ID
-    </strong>
+    </label>
     <%= @submission.uuid %>
   </p>
   <p>
-    <strong class="usa-label">
+    <label class="usa-label">
       Received at
-    </strong>
+    </label>
     <%= @submission.created_at %> -
     <%= time_ago_in_words(@submission.created_at) %> ago
   </p>
   <p>
-    <strong class="usa-label">
+    <label class="usa-label">
       Location code
-    </strong>
+    </label>
     <%= @submission.location_code? ? @submission.location_code : "none" %>
   </p>
   <p>
-    <strong class="usa-label">
+    <label class="usa-label">
       User agent
-    </strong>
+    </label>
     <%= @submission.user_agent %>
   </p>
   <p>
-    <strong class="usa-label">
-      Referer
-    </strong>
-    <%= @submission.referer %>
-  </p>
-  <p>
-    <strong class="usa-label">
-      Page
-    </strong>
+    <label class="usa-label">
+      Page submitted from
+    </label>
     <%= @submission.page %>
   </p>
   <p>
-    <strong class="usa-label">
+    <label class="usa-label">
+      Referer
+    </label>
+    <%= @submission.referer %>
+  </p>
+  <p>
+    <label class="usa-label">
       Language
-    </strong>
+    </label>
     <%= @submission.language %>
   </p>
   <p>
-    <strong class="usa-label">
+    <label class="usa-label">
       Flagged
-    </strong>
+    </label>
     <%= @submission.flagged %>
   </p>
   <p>
-    <strong class="usa-label">
+    <label class="usa-label">
       Archived
-    </strong>
-    <%= @submission.archived %>
+    </label>
+    <%= @submission.archived? %>
   </p>
 </div>
 
