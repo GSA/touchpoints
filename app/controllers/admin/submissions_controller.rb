@@ -33,6 +33,16 @@ class Admin::SubmissionsController < AdminController
     @submission.update(flagged: false)
   end
 
+  def archive
+    Event.log_event(Event.names[:response_archived], "Submission", @submission.id, "Submission #{@submission.id} archived at #{DateTime.now}", current_user.id)
+    @submission.update(archived: true)
+  end
+
+  def unarchive
+    Event.log_event(Event.names[:response_unarchived], "Submission", @submission.id, "Submission #{@submission.id} unarchived at #{DateTime.now}", current_user.id)
+    @submission.update(archived: false)
+  end
+
   def destroy
     ensure_form_manager(form: @form)
 

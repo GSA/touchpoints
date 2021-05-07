@@ -1,0 +1,1 @@
+$(".response[data-id='<%= @submission.uuid %>'] .archived").html("<%= j (render 'unarchive', { submission: @submission }) %>")

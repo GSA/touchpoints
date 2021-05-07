@@ -11,6 +11,7 @@ class Submission < ApplicationRecord
 
   after_create :update_form
 
+  scope :non_archived, -> { where("archived IS NOT TRUE") }
   scope :non_flagged, -> { where(flagged: false) }
 
   aasm do
@@ -18,7 +19,6 @@ class Submission < ApplicationRecord
     state :acknowledged
     state :dispatched
     state :responded
-    state :archived
 
     event :receive do
       transitions from: [:archived], to: :received
@@ -31,9 +31,6 @@ class Submission < ApplicationRecord
     end
     event :responded do
       transitions from: [:dispatched, :archived], to: :responded
-    end
-    event :archive do
-      transitions from: [:received, :acknowledged, :responded], to: :archived
     end
   end
 

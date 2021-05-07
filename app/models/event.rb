@@ -29,6 +29,8 @@ class Event < ApplicationRecord
 
     response_flagged: 'response_flagged',
     response_unflagged: 'response_unflagged',
+    response_archived: 'response_archived',
+    response_unarchived: 'response_unarchived',
     response_deleted: 'response_deleted',
     response_status_changed: 'response_status_changed',
   }

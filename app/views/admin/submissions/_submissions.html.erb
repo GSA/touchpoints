@@ -33,6 +33,7 @@
           <th></th>
           <th></th>
           <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -70,9 +71,16 @@
           </td>
           <td class="flagged">
             <% if submission.flagged? %>
-              <%= render :partial => "admin/submissions/flag", :locals => { submission: submission } %>
+              <%= render "admin/submissions/flag", { submission: submission } %>
             <% else %>
-              <%= render :partial => "admin/submissions/unflag", :locals => { submission: submission } %>
+              <%= render "admin/submissions/unflag", { submission: submission } %>
+            <% end %>
+          </td>
+          <td class="archived">
+            <% if submission.archived? %>
+              <%= render "admin/submissions/archive", { submission: submission } %>
+            <% else %>
+              <%= render "admin/submissions/unarchive", { submission: submission } %>
             <% end %>
           </td>
           <td>

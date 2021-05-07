@@ -120,7 +120,12 @@ class Admin::FormsController < AdminController
   def responses
     ensure_response_viewer(form: @form) unless @form.template?
     @response_groups = @form.submissions.group("date(created_at)").size.sort.last(45)
-    @submissions = @form.submissions.order("created_at DESC").page params[:page]
+
+    if params[:archived]
+      @submissions = @form.submissions.order("created_at DESC").page params[:page]
+    else
+      @submissions = @form.submissions.non_archived.order("created_at DESC").page params[:page]
+    end
   end
 
   def response_page

@@ -29,6 +29,8 @@ class SubmissionSerializer < ActiveModel::Serializer
     :ip_address,
     :location_code,
     :flagged,
+    :archived,
+    :aasm_state,
     :language,
     :uuid
 end

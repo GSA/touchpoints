@@ -21,6 +21,12 @@
   </h4>
   <div class="grid-row grid-gap-md">
     <div class="grid-col-6">
+      <ul class="usa-list">
+        <li>
+          <%= link_to "Include Archived Submissions", "?archived=1" %>
+        </li>
+      </ul>
+
       <fieldset class="usa-fieldset">
         <legend class="usa-sr-only">HISP Form?</legend>
         <div class="usa-checkbox">
@@ -30,6 +36,7 @@
       </fieldset>
     </div>
   </div>
+  <br>
   <div class="grid-row grid-gap-md">
     <p>
       <%= f.submit "Update options", class: "usa-button" %>

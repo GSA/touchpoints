@@ -96,6 +96,8 @@ Rails.application.routes.draw do
         member do
           post "flag", to: "submissions#flag", as: :flag
           post "unflag", to: "submissions#unflag", as: :unflag
+          post "archive", to: "submissions#archive", as: :archive
+          post "unarchive", to: "submissions#unarchive", as: :unarchive
         end
       end
     end
