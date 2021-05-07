@@ -158,7 +158,7 @@ ActiveRecord::Schema.define(version: 2021_05_07_055442) do
     t.integer "form_id"
     t.string "uuid"
     t.string "aasm_state", default: "received"
-    t.boolean "archived"
+    t.boolean "archived", default: false
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
   end
 
