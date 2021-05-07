@@ -51,6 +51,26 @@ feature "Submissions", js: true do
           end
         end
 
+        describe "archive a Submission" do
+          context "with one Submission" do
+            let!(:submission) { FactoryBot.create(:submission, form: form) }
+
+            before do
+              visit responses_admin_form_path(form)
+              within("table.submissions") do
+                click_on "Archive"
+              end
+              page.driver.browser.switch_to.alert.accept
+            end
+
+            it "successfully archives Submission" do
+              within("table.submissions") do
+                expect(page).to have_content("Archive")
+              end
+            end
+          end
+        end
+
         describe "flag a Submission" do
           context "with one Submission" do
             let!(:submission) { FactoryBot.create(:submission, form: form) }
@@ -205,7 +225,8 @@ feature "Submissions", js: true do
               expect(page).to have_css("#table-display-options", visible: false)
 
               find("#button-toggle-table-display-options").click # to open option settings
-
+              expect(page).to have_css("#table-display-options", visible: true)
+              
               # Inspects the hidden checkbox to ensure it is checked
               expect(find("#form_ui_truncate_text_responses", visible: false).checked?).to eq true
             end
