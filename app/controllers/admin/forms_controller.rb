@@ -403,6 +403,8 @@ class Admin::FormsController < AdminController
 
         :load_css,
 
+        :ui_truncate_text_responses,
+
         :question_text_01,
         :question_text_02,
         :question_text_03,

@@ -34,6 +34,23 @@ feature "Submissions", js: true do
           end
         end
 
+        describe "view a Response" do
+          context "with one Response" do
+            let!(:submission) { FactoryBot.create(:submission, form: form) }
+
+            before do
+              visit responses_admin_form_path(form)
+              within("table.submissions") do
+                click_on "View"
+              end
+            end
+
+            it "view a response" do
+              expect(page).to have_content("Viewing a response")
+            end
+          end
+        end
+
         describe "flag a Submission" do
           context "with one Submission" do
             let!(:submission) { FactoryBot.create(:submission, form: form) }
