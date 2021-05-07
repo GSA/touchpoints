@@ -205,4 +205,6 @@
   </p>
 </div>
 
-<%= link_to "Scorecard", scorecard_admin_website_path(@website), class: "usa-button" %>
+<% if admin_permissions? %>
+  <%= link_to "Scorecard", scorecard_admin_website_path(@website), class: "usa-button" %>
+<% end %>
