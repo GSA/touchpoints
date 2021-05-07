@@ -1,6 +1,8 @@
 class Website < ApplicationRecord
   validates :domain, presence: true
 
+  belongs_to :organization, optional: true
+
   scope :active, -> { where("production_status = 'Production' OR production_status = 'Redirect' OR production_status = 'Staging'") }
 
   PRODUCTION_STATUSES = [
