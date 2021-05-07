@@ -1,16 +1,12 @@
 class Admin::WebsitesController < AdminController
-  before_action :ensure_admin, except: [:index]
+  before_action :ensure_admin, except: [:index, :show]
   before_action :set_admin_website, only: [:show, :scorecard, :edit, :update, :destroy]
 
   def index
-    if admin_permissions?
-      if params[:all]
-        @websites = Website.all.order(:production_status, :domain)
-      else
-        @websites = Website.active.order(:production_status, :domain)
-      end
+    if params[:all]
+      @websites = Website.all.order(:production_status, :domain)
     else
-      @websites = Website.where("site_owner_email = ? OR contact_email = ?", current_user.email, current_user.email)
+      @websites = Website.active.order(:production_status, :domain)
     end
   end
 
