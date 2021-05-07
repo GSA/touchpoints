@@ -21,7 +21,7 @@ class Submission < ApplicationRecord
     state :responded
 
     event :receive do
-      transitions from: [:archived], to: :received
+      transitions from: [:responded], to: :received
     end
     event :acknowledge do
       transitions from: [:received], to: :acknowledged

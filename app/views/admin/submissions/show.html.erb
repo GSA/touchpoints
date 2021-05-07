@@ -118,3 +118,12 @@
   </div>
   <%= render 'admin/submissions/status_form', { form: @form, submission: @submission } %>
 </div>
+
+<% if form_permissions?(form: @form) %>
+  <p>
+    <%= link_to admin_form_submission_path(@form, @submission), class: "usa-button usa-button--secondary", method: :delete, remote: true, data: { confirm: 'Are you sure?' } do %>
+    <i class="fas fa-trash"></i>
+    Delete this response
+    <% end %>
+  </p>
+<% end %>

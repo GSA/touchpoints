@@ -38,15 +38,18 @@ feature "Submissions", js: true do
           context "with one Response" do
             let!(:submission) { FactoryBot.create(:submission, form: form) }
 
-            before do
-              visit responses_admin_form_path(form)
-              within("table.submissions") do
-                click_on "View"
+            describe "click View link in responses table" do
+              before do
+                visit responses_admin_form_path(form)
+                within("table.submissions") do
+                  click_on "View"
+                end
               end
-            end
 
-            it "view a response" do
-              expect(page).to have_content("Viewing a response")
+              it "view a response" do
+                expect(page).to have_content("Viewing a response")
+                expect(page.current_path).to eq(admin_form_submission_path(form, submission))
+              end
             end
           end
         end
@@ -90,29 +93,6 @@ feature "Submissions", js: true do
             end
           end
         end
-
-        describe "delete a Submission" do
-          context "with one Submission" do
-            let!(:submission) { FactoryBot.create(:submission, form: form) }
-            let!(:submission2) { FactoryBot.create(:submission, form: form, answer_01: "Unique Text askldfjsadkl;fsda") }
-
-            before do
-              visit responses_admin_form_path(form)
-              expect(page).to have_css(".responses table tbody tr")
-              expect(page.find_all(".responses table tbody tr").size).to eq(2)
-              within("table.submissions") do
-                first("tr.response").click_on "Delete" # latest response
-              end
-              page.driver.browser.switch_to.alert.accept
-            end
-
-            it "successfully deletes a Submission" do
-              expect(page).to have_content(submission.answer_01)
-              expect(page).to_not have_content(submission2.answer_01)
-              expect(page.find_all(".responses table tbody tr").size).to eq(1)
-            end
-          end
-        end
       end
 
     end
@@ -152,18 +132,18 @@ feature "Submissions", js: true do
         describe "delete a Submission" do
           context "with one Submission" do
             let!(:submission) { FactoryBot.create(:submission, form: form) }
+            let!(:submission2) { FactoryBot.create(:submission, form: form) }
 
             before do
-              visit responses_admin_form_path(form)
-              expect(page).to have_css(".responses table tbody tr")
-              within("table.submissions") do
-                click_on "Delete"
-              end
+              visit admin_form_submission_path(form, submission)
+              click_on "Delete this response"
               page.driver.browser.switch_to.alert.accept
             end
 
             it "successfully deletes a Submission" do
-              expect(page).to_not have_css(".responses table tbody tr")
+              expect(page).to have_content("Viewing Responses for")
+              expect(page.current_path).to eq(responses_admin_form_path(form))
+              expect(page.find_all(".responses table tbody tr").size).to eq(1)
             end
           end
         end
@@ -187,8 +167,9 @@ feature "Submissions", js: true do
                 expect(page).to_not have_content("</a>")
                 expect(page).to have_content("A textarea field")
                 expect(page).to have_content("Created At")
+                expect(page).to have_link("View")
                 expect(page).to have_link("Flag")
-                expect(page).to have_link("Delete")
+                expect(page).to have_link("Archive")
               end
             end
           end

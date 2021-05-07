@@ -33,7 +33,6 @@
           <th></th>
           <th></th>
           <th></th>
-          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -77,18 +76,12 @@
             <% end %>
           </td>
           <td class="archived">
+            <% if form_permissions?(form: form) %>
             <% if submission.archived? %>
               <%= render "admin/submissions/archive", { submission: submission } %>
             <% else %>
               <%= render "admin/submissions/unarchive", { submission: submission } %>
             <% end %>
-          </td>
-          <td>
-            <% if form_permissions?(form: form) %>
-              <%= link_to admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--secondary", method: :delete, remote: true, data: { confirm: 'Are you sure?' } do %>
-              <i class="fas fa-trash"></i>
-              Delete
-              <% end %>
             <% end %>
           </td>
         </tr>
