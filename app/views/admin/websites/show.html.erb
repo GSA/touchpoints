@@ -205,7 +205,7 @@
   </p>
 </div>
 
-<% if admin_permissions? %>
+<% if @website.admin?(user: current_user) %>
 <div class="well">
   <h3>
     Additional website information

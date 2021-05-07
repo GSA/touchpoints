@@ -1,5 +1,5 @@
 class Admin::WebsitesController < AdminController
-  before_action :ensure_admin, except: [:index, :show]
+  before_action :ensure_admin, except: [:index, :show, :scorecard]
   before_action :set_admin_website, only: [:show, :scorecard, :edit, :update, :destroy]
 
   def index
@@ -16,6 +16,7 @@ class Admin::WebsitesController < AdminController
   end
 
   def scorecard
+    ensure_website_admin(website: @website, user: current_user)
   end
 
   def search

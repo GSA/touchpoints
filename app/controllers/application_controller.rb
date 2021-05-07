@@ -40,6 +40,14 @@ class ApplicationController < ActionController::Base
     redirect_to(index_path, notice: "Authorization is Required") unless response_viewer_permissions?(form: form)
   end
 
+  helper_method :ensure_website_admin
+  def ensure_website_admin(website:, user:)
+    return false unless user.present?
+    return true if admin_permissions?
+
+    redirect_to(admin_websites_path, notice: "Authorization is Required") unless website.admin?(user: user)
+  end
+
   # Define Permissions
   helper_method :admin_permissions?
   def admin_permissions?
