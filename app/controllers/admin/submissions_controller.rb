@@ -2,6 +2,9 @@ class Admin::SubmissionsController < AdminController
   before_action :set_form
   before_action :set_submission
 
+  def show
+  end
+
   def flag
     Event.log_event(Event.names[:response_flagged], "Submission", @submission.id, "Submission #{@submission.id} flagged at #{DateTime.now}", current_user.id)
     @submission.update(flagged: true)
