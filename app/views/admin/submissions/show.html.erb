@@ -86,20 +86,6 @@
   </p>
 </div>
 
-<div class="hide">
-  <hr>
-  <br>
-  <div class="text-uppercase font-body-3xs">
-    Processing each response
-  </div>
-  <p>
-    <strong class="usa-label">
-      Status
-    </strong>
-    Received | Acknowledged | Responded to | Archived
-  </p>
-</div>
-
 <br>
 <div class="text-uppercase font-body-3xs">
   Question responses
@@ -119,3 +105,10 @@
 
 <br>
 <br>
+
+<div class="well">
+  <div class="text-uppercase font-body-3xs">
+    Processing each response
+  </div>
+  <%= render 'admin/submissions/status_form', { form: @form, submission: @submission } %>
+</div>

@@ -1,0 +1,53 @@
+<%= form_with(model: submission, url: admin_form_submission_path(form, submission), local: true) do |f| %>
+  <% if form.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(form.errors.count, "error") %> prohibited this form from being saved:</h2>
+
+      <% form.errors.full_messages.each do |message| %>
+        <div class="usa-alert usa-alert--error" >
+          <div class="usa-alert__body">
+            <h3 class="usa-alert__heading">Error</h3>
+            <p class="usa-alert__text">
+              <%= message %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="grid-row grid-gap-md">
+    <div class="grid-col-6">
+      <p>
+        Every response begins with a "received" status.
+        From the received status, a Response can proceed through the states of:
+        Acknowledged, Dispatched, and Responded.
+      </p>
+      <fieldset class="usa-fieldset">
+        <div>
+          <%= f.label :aasm_state, "Status", class: "usa-label" %>
+          <%= f.select :aasm_state, [:received, :acknowledged, :dispatched, :responded, :archived], {}, class: "usa-select" %>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <div class="grid-row grid-gap-md">
+    <p>
+      <%= f.submit "Update status", class: "usa-button" %>
+    </p>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $(function(){
+    $("#button-toggle-table-display-options").on("click", function() {
+      $("#table-display-options").toggle();
+      $("#form_ui_truncate_text_responses").focus();
+    });
+
+    const element = document.querySelector("form");
+    element.addEventListener("ajax:success", (event) => {
+      location.reload();
+    });
+  });
+</script>

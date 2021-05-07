@@ -92,7 +92,7 @@ Rails.application.routes.draw do
           patch "sort", to: "questions#sort", as: :sort_questions
         end
       end
-      resources :submissions, only: [:show, :destroy] do
+      resources :submissions, only: [:show, :update, :destroy] do
         member do
           post "flag", to: "submissions#flag", as: :flag
           post "unflag", to: "submissions#unflag", as: :unflag

@@ -5,6 +5,24 @@ class Admin::SubmissionsController < AdminController
   def show
   end
 
+  def update
+    respond_to do |format|
+      if @submission.update(status_params)
+        Event.log_event(Event.names[:response_status_changed], "Submission", @submission.id, "Submission #{@submission.id} changed status to #{status_params[:aasm_state]} at #{DateTime.now}", current_user.id)
+
+        format.html {
+          redirect_to admin_form_submission_path(@form, @submission), notice: 'Response was successfully updated.'
+        }
+        format.json { render :show, status: :ok, location: @form }
+      else
+        format.html {
+          redirect_to admin_form_submission_path(@form, @submission), alert: 'Response could not be updated.'
+        }
+        format.json { render json: @form.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def flag
     Event.log_event(Event.names[:response_flagged], "Submission", @submission.id, "Submission #{@submission.id} flagged at #{DateTime.now}", current_user.id)
     @submission.update(flagged: true)
@@ -40,5 +58,9 @@ class Admin::SubmissionsController < AdminController
 
     def set_submission
       @submission = @form.submissions.find(params[:id])
+    end
+
+    def status_params
+    	params.require(:submission).permit(:aasm_state)
     end
 end

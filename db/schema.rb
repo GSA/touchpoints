@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_07_010116) do
+ActiveRecord::Schema.define(version: 2021_05_07_055442) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -157,6 +157,7 @@ ActiveRecord::Schema.define(version: 2021_05_07_010116) do
     t.string "language"
     t.integer "form_id"
     t.string "uuid"
+    t.string "aasm_state", default: "received"
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
   end
 
