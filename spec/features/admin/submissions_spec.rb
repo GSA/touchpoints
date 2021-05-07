@@ -226,7 +226,7 @@ feature "Submissions", js: true do
 
               find("#button-toggle-table-display-options").click # to open option settings
               expect(page).to have_css("#table-display-options", visible: true)
-              
+
               # Inspects the hidden checkbox to ensure it is checked
               expect(find("#form_ui_truncate_text_responses", visible: false).checked?).to eq true
             end
@@ -247,6 +247,7 @@ feature "Submissions", js: true do
               form.reload
               expect(form.ui_truncate_text_responses).to eq false
               find("#button-toggle-table-display-options").click
+              expect(page).to have_css("#table-display-options", visible: true)
               expect(find("#form_ui_truncate_text_responses", visible: false).checked?).to eq false
 
               expect(page).to have_content("superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext super")
