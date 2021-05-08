@@ -1,0 +1,4 @@
+<%= link_to archive_admin_form_submission_path(submission.form, submission), id: "archive-submission-#{submission.id}", remote: true, class: "usa-button usa-button--accent-cool", method: :post, data: { confirm: 'Are you sure?' } do %>
+<i class="fa fa-inbox"></i>
+Archive
+<% end %>

@@ -1,0 +1,130 @@
+<% begin %>
+<% url = "https://api.gsa.gov/technology/site-scanning/v1/websites/#{@website.domain}?api_key=#{ENV.fetch("API_DATA_GOV_KEY")}&limit=10" %>
+<% require 'open-uri' %>
+<% text = URI.open(url).read %>
+<% hash = JSON.parse(text) %>
+
+<h3>
+  Site Scanner results
+</h3>
+
+<div class="text-uppercase font-body-3xs">
+  Web Domain
+  <!-- Target URL -->
+</div>
+<%= hash["target_url"] %>
+<br>
+<div class="text-uppercase font-body-3xs">
+  final_url:
+</div>
+<%= hash["final_url"] %>
+<br>
+<br>
+<div class="text-uppercase font-body-3xs">
+  og_title_final_url:
+</div>
+<%= hash["og_title_final_url"] %>
+<br>
+<div class="text-uppercase font-body-3xs">
+  og_description_final_url:
+</div>
+<%= hash["og_description_final_url"] %>
+<br>
+<div class="text-uppercase font-body-3xs">
+  final_url_same_domain:
+</div>
+<%= hash["final_url_same_domain"] %>
+<div class="well">
+  <div class="text-uppercase font-body-3xs">
+    Agency branch
+    <!-- Target URL Branch: -->
+  </div>
+  <%= hash["target_url_branch"] %>
+  <br>
+  <div class="text-uppercase font-body-3xs" data-agency-code="<%= hash["target_url_agency_code"] %>">
+    Agency
+    <!-- target_url_agency_owner: -->
+  </div>
+  <%= hash["target_url_agency_owner"] %>
+  <br>
+  <div class="text-uppercase font-body-3xs" data-bureau-code="<%= hash["target_url_bureau_code"] %>">
+    target_url_bureau_owner:
+  </div>
+  <%= hash["target_url_bureau_owner"] %>
+  <br>
+</div>
+<div class="well">
+  <div class="text-uppercase font-body-3xs">
+    scan_date:
+  </div>
+  <%= hash["scan_date"] %>
+  <br>
+  <div class="text-uppercase font-body-3xs">
+    scan_status:
+  </div>
+  <%= hash["scan_status"] %>
+</div>
+
+<div class="well">
+  <div class="text-uppercase font-body-3xs">
+    uswds_semantic_version:
+  </div>
+  <%= hash["uswds_semantic_version"] %>
+</div>
+
+<div class="well">
+  <div class="text-uppercase font-body-3xs">
+    dap_detected_final_url:
+  </div>
+  <%= hash["dap_detected_final_url"] %>
+  <br>
+  <div class="text-uppercase font-body-3xs">
+    dap_parameters_final_url:
+  </div>
+  <%= hash["dap_parameters_final_url"] %>
+</div>
+
+<div class="well">
+  <div class="text-uppercase font-body-3xs">
+    robots_txt_detected:
+  </div>
+  <%= hash["robots_txt_detected"] %>
+  <br>
+  <div class="text-uppercase font-body-3xs">
+    robots_txt_final_url:
+  </div>
+  <%= hash["robots_txt_final_url"] %>
+</div>
+
+<div class="well">
+  <div class="text-uppercase font-body-3xs">
+    sitemap_xml_detected:
+  </div>
+  <%= hash["sitemap_xml_detected"] %>
+  <br>
+  <div class="text-uppercase font-body-3xs">
+    sitemap_xml_final_url:
+  </div>
+  <%= hash["sitemap_xml_final_url"] %>
+</div>
+
+<div class="well">
+  <div class="text-uppercase font-body-3xs">
+    third_party_service_domains:
+  </div>
+  <%= hash["third_party_service_domains"] %>
+</div>
+
+<% rescue %>
+<div class="usa-alert usa-alert--error usa-alert--slim">
+  <div class="usa-alert__body">
+    <p class="usa-alert__text">
+      Site Scanning result for
+      <strong>
+        <%= @website.domain %>
+      </strong>
+      is not available.
+    </p>
+  </div>
+</div>
+<% end %>

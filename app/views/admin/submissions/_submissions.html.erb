@@ -1,6 +1,12 @@
 <h2>
   <%= page_entries_info submissions, entry_name: 'Responses' %>
+  <button id="button-toggle-table-display-options" type="button">
+    <i class="fa fa-cog"></i>
+  </button>
 </h2>
+<div id="table-display-options" class="well hide">
+  <%= render 'admin/forms/ui_form', form: form %>
+</div>
 <p>
   <%= paginate submissions, remote: true %>
 </p>
@@ -24,6 +30,8 @@
           <th>
             Created At
           </th>
+          <th>Status</th>
+          <th></th>
           <th></th>
           <th></th>
         </tr>
@@ -33,9 +41,15 @@
         <tr class="response" title="Response ID <%= submission.id %>" data-id="<%= submission.uuid %>">
         <% form.questions.each do |question| %>
           <% next if question.question_type == "text_display" %>
-          <td>
-            <%= sanitize(submission.send(question.answer_field.to_sym)).to_s.truncate(160) %>
-          </td>
+          <% if form.ui_truncate_text_responses? %>
+            <td>
+              <%= sanitize(submission.send(question.answer_field.to_sym)).to_s.truncate(160) %>
+            </td>
+          <% else %>
+            <td>
+              <%= sanitize(submission.send(question.answer_field.to_sym)) %>
+            </td>
+          <% end %>
         <% end %>
         <% if form.kind == "yes_no" %>
           <td>
@@ -45,20 +59,33 @@
             <%= submission.referer %>
           </td>
         <% end %>
-          <td><%= format_time(submission.created_at, submission.form.time_zone.present? ? submission.form.time_zone : current_user.time_zone) %></td>
-          <td class="flagged">
-            <% if submission.flagged? %>
-              <%= render :partial => "admin/submissions/flag", :locals => { submission: submission } %>
-            <% else %>
-              <%= render :partial => "admin/submissions/unflag", :locals => { submission: submission } %>
-            <% end %>
+          <td>
+            <%= format_time(submission.created_at, submission.form.time_zone.present? ? submission.form.time_zone : current_user.time_zone) %>
+          </td>
+          <td>
+            <%= submission.aasm_state %>
           </td>
           <td>
             <% if form_permissions?(form: form) %>
-              <%= link_to admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--secondary", method: :delete, remote: true, data: { confirm: 'Are you sure?' } do %>
-              <i class="fas fa-trash"></i>
-              Delete
+              <%= link_to admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--outline" do %>
+                View
               <% end %>
+            <% end %>
+          </td>
+          <td class="flagged">
+            <% if submission.flagged? %>
+              <%= render "admin/submissions/flag", { submission: submission } %>
+            <% else %>
+              <%= render "admin/submissions/unflag", { submission: submission } %>
+            <% end %>
+          </td>
+          <td class="archived">
+            <% if form_permissions?(form: form) %>
+            <% if submission.archived? %>
+              <%= render "admin/submissions/archive", { submission: submission } %>
+            <% else %>
+              <%= render "admin/submissions/unarchive", { submission: submission } %>
+            <% end %>
             <% end %>
           </td>
         </tr>

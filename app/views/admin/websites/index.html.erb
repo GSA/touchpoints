@@ -24,43 +24,34 @@
   </div>
 </div>
 
-<p>
-  Count = <%= @websites.size %>
-  &middot;
-  <%= link_to "Active sites", "?" %>
-  <%= link_to "Include inactive sites", "?all=1" %>
-</p>
-<table class="usa-table" style="overflow-x: scroll;">
-  <thead>
-    <tr>
-      <th>Production status</th>
-      <th>Office</th>
-      <th>Sub-office</th>
-      <th>Domain</th>
-      <th>Staging Site</th>
-      <th>Site owner email</th>
-    </tr>
-  </thead>
+<div class="well usa-prose">
+  <p>
+    All websites are viewable by Touchpoints users.
+  </p>
+  <p>
+    Website editing permissions are assigned to users who have an email
+    that matches the
+    Contact email or Site owner email
+    of a Website.
+  </p>
+</div>
 
-  <tbody>
-    <% @websites.order(:production_status).each do |website| %>
-      <tr>
-        <td><%= website.production_status %></td>
-        <td><%= website.office %></td>
-        <td><%= website.sub_office %></td>
-        <td><%= link_to(website.domain, admin_website_path(website)) %></td>
-        <td>
-          <%= website.domain.include?("staging") || website.domain.include?("preview") || website.domain.include?("sandbox") || website.domain.include?("beta") ? "YES" : "" %>
-        </td>
-        <td><%= website.site_owner_email %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<br/>
 
+<div class="field">
+<%= label_tag :search_text, "Find Websites: " %>
+<%= text_field_tag :search_text, nil, class: "usa-input", placeholder: "Search by domain, site owner email, office, or sub-office" %>
+</div>
+
+<div class="search-results">
+  <%= render 'results' %>
+</div>
+
+<% if admin_permissions? %>
 <p>
   <%= link_to 'Create New Website', new_admin_website_path, class: "usa-button" %>
 </p>
+<% end %>
 
 <p>
   <%= link_to 'Export all websites to CSV', export_csv_admin_websites_path, class: "usa-button usa-button--outline" %>
@@ -69,5 +60,14 @@
 <script>
   $(function() {
     $("#main-content").css("overflow-x", "scroll");
-  })
+
+    $("#search_text").keyup(function() {
+      $.ajax({
+        url: '/admin/websites/search',
+        data: {
+          search: $(this).val()
+        }
+      });
+    });
+  });
 </script>

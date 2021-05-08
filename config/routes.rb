@@ -41,8 +41,12 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :websites do
       collection do
+        get "search", to: "websites#search"
         get "gsa", to: "websites#gsa"
         get "export_csv", to: "websites#export_csv", as: :export_csv
+      end
+      member do
+        get "scorecard", to: "websites#scorecard", as: :scorecard
       end
     end
     resources :forms do
@@ -88,10 +92,12 @@ Rails.application.routes.draw do
           patch "sort", to: "questions#sort", as: :sort_questions
         end
       end
-      resources :submissions, only: [:destroy] do
+      resources :submissions, only: [:show, :update, :destroy] do
         member do
           post "flag", to: "submissions#flag", as: :flag
           post "unflag", to: "submissions#unflag", as: :unflag
+          post "archive", to: "submissions#archive", as: :archive
+          post "unarchive", to: "submissions#unarchive", as: :unarchive
         end
       end
     end
