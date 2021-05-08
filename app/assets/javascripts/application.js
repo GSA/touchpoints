@@ -15,8 +15,7 @@
 //= require jquery3
 //= require jquery-ui
 //= require rails-ujs
-//= require uswds
-
+//= require uswds-init
 
 function generateUUID() {
   var S4 = function() {

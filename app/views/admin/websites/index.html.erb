@@ -23,19 +23,35 @@
     </p>
   </div>
 </div>
+
+<div class="well usa-prose">
+  <p>
+    All websites are viewable by Touchpoints users.
+  </p>
+  <p>
+    Website editing permissions are assigned to users who have an email
+    that matches the
+    Contact email or Site owner email
+    of a Website.
+  </p>
+</div>
+
 <br/>
+
 <div class="field">
 <%= label_tag :search_text, "Find Websites: " %>
-<%= text_field_tag :search_text, nil, class: "usa-input" %>
+<%= text_field_tag :search_text, nil, class: "usa-input", placeholder: "Search by domain, site owner email, office, or sub-office" %>
 </div>
 
 <div class="search-results">
   <%= render 'results' %>
 </div>
 
+<% if admin_permissions? %>
 <p>
   <%= link_to 'Create New Website', new_admin_website_path, class: "usa-button" %>
 </p>
+<% end %>
 
 <p>
   <%= link_to 'Export all websites to CSV', export_csv_admin_websites_path, class: "usa-button usa-button--outline" %>
@@ -44,11 +60,14 @@
 <script>
   $(function() {
     $("#main-content").css("overflow-x", "scroll");
-  });
-  $("#search_text").keyup(function() {
-   $.ajax({
-      url: '/admin/websites/search',
-      data: {search: $(this).val()}
-   });
+
+    $("#search_text").keyup(function() {
+      $.ajax({
+        url: '/admin/websites/search',
+        data: {
+          search: $(this).val()
+        }
+      });
+    });
   });
 </script>

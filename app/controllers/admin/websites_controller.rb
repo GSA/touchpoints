@@ -1,22 +1,22 @@
 class Admin::WebsitesController < AdminController
-  before_action :ensure_admin
-  before_action :set_admin_website, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_admin, except: [:index, :show, :scorecard]
+  before_action :set_admin_website, only: [:show, :scorecard, :edit, :update, :destroy]
 
   def index
-    if admin_permissions?
-      if params[:all]
-        @websites = Website.all
-      else
-        @websites = Website.active
-      end
+    if params[:all]
+      @websites = Website.all.order(:production_status, :domain)
     else
-      @websites = Website.where("site_owner_email = ? OR contact_email = ?", current_user.email, current_user.email)
+      @websites = Website.active.order(:production_status, :domain)
     end
   end
 
   def export_csv
     @websites = Website.all
     send_data @websites.to_csv
+  end
+
+  def scorecard
+    ensure_website_admin(website: @website, user: current_user)
   end
 
   def search

@@ -83,12 +83,20 @@
     </p>
   </div>
 <% end %>
-<% if admin_permissions? %>
-  <script>
+
+<% if form_permissions?(form: @form) %>
+<script>
     $('.save-question').on("click", function(event) {
       event.preventDefault();
 
-      var questionType = $("input[name='question[question_type]']:checked").val();
+      <% if form_permissions?(form: @form) %>
+        var questionType = $("#question_question_type option:selected").text();
+      <% end %>
+
+      <% if admin_permissions? %>
+      var questionType = $("input[name='question[question_type]']").val();
+      <% end %>
+
       if (!questionType) {
          alert('Please select a question type');
       } else {
@@ -130,5 +138,4 @@
       }
     });
   </script>
-
 <% end %>

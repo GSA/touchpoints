@@ -1,4 +1,6 @@
 class Submission < ApplicationRecord
+  include AASM
+
   belongs_to :form, counter_cache: :response_count
 
   validate :validate_custom_form
@@ -9,7 +11,28 @@ class Submission < ApplicationRecord
 
   after_create :update_form
 
+  scope :non_archived, -> { where("archived IS NOT TRUE") }
   scope :non_flagged, -> { where(flagged: false) }
+
+  aasm do
+    state :received, initial: true
+    state :acknowledged
+    state :dispatched
+    state :responded
+
+    event :receive do
+      transitions from: [:responded], to: :received
+    end
+    event :acknowledge do
+      transitions from: [:received], to: :acknowledged
+    end
+    event :dispatch do
+      transitions from: [:acknowledged], to: :dispatched
+    end
+    event :responded do
+      transitions from: [:dispatched, :archived], to: :responded
+    end
+  end
 
   def validate_custom_form
     @valid_form_condition = false
