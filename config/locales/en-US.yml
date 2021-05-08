@@ -26,6 +26,7 @@ en-US:
     page_1: "Page 1"
     page_2: "Page 2"
     field_is_required: "You must respond to question: "
+    field_is_invalid: "Please enter a valid value: "    
     chars_remaining: "Chars remaining: "
     enter_other_text: "Enter other text"
   header:
