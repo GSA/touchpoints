@@ -9,7 +9,6 @@ class UserMailer < ApplicationMailer
     set_logo
     @submission = Submission.find(submission_id)
     @form = @submission.form
-    admin_emails = ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
     mail subject: "New Submission to #{@form.name}",
       to: emails
   end
