@@ -1,28 +1,71 @@
 applications:
   - name: your-app-name-goes-here (touchpoints-dev-[YOURINSTANCE])
-    command: bundle exec rake db:migrate && cf:log_new_relic_deployment && bundle exec rails s -b 0.0.0.0 -p $PORT -e $RAILS_ENV
+    # For the Rails web server instances
+    command: bundle exec rails s -b 0.0.0.0 -p $PORT -e $RAILS_ENV
+
+    # For Staging
     # use the command below with DISABLE_DATABASE_ENVIRONMENT_CHECK to re-seed a Dev or Staging environment on each deploy
     # command: bundle exec rake db:schema:load && rake db:seed && cf:log_new_relic_deployment && bundle exec rails s -b 0.0.0.0 -p $PORT -e $RAILS_ENV
 
+
+    # For the Sidekiq instance
+    #command: bundle exec rake cf:on_first_instance db:migrate cf:log_new_relic_deployment && bundle exec sidekiq
+
     env:
+      # to access Touchpoints /api/ endpoints
+      API_HTTP_PASSWORD: specify-your-api-password
+      API_HTTP_USERNAME: specify-your-api-username # consider a key/pair
+
       # For AWS SES (Simple Email Service)
       AWS_SES_ACCESS_KEY_ID:
-      AWS_SES_SECRET_ACCESS_KEY:
       AWS_SES_REGION:
+      AWS_SES_SECRET_ACCESS_KEY:
 
-      # DISABLE_DATABASE_ENVIRONMENT_CHECK: 1 # DANGEROUS!
+      # DISABLE_DATABASE_ENVIRONMENT_CHECK: 1 # DANGEROUS! typically used for Staging environments
+
+      # Send mail notifications in the app?
+      ENABLE_EMAIL_NOTIFICATIONS: true
+
+      # Used to configure GitHub, if its used as an oAuth provider
+      GITHUB_CLIENT_ID:
+      GITHUB_SECRET:
+
+      # Google Tag Manager Container ID that Touchpoints uses for its own Analytics
+      GTM_CONTAINER_ID:
+
+      INDEX_URL: https://example.gov/
+
+      # Login.gov configs
+      LOGIN_GOV_CLIENT_ID:
+      LOGIN_GOV_IDP_BASE_URL:
+      LOGIN_GOV_PRIVATE_KEY: -----BEGIN PRIVATE KEY----------END PRIVATE KEY-----\n
+      LOGIN_GOV_REDIRECT_URI:
+
       NEW_RELIC_KEY:
-      # RAILS_ENV: production | staging # OPTIONAL
+
+      # Used to specify environemnt. Typically `production`, sometimes `staging`
+      RAILS_ENV: production
 
       # For S3 on Cloud.gov
       S3_AWS_ACCESS_KEY_ID:
-      S3_AWS_SECRET_ACCESS_KEY:
-      S3_AWS_REGION:
       S3_AWS_BUCKET_NAME:
+      S3_AWS_HOST:
+      S3_AWS_REGION:
+      S3_AWS_SECRET_ACCESS_KEY:
 
       # For the GTM Tag the Touchpoints site itself uses
-      TOUCHPOINTS_GTM_CONTAINER_ID:
-      TOUCHPOINTS_EMAIL_SENDER: your@gsa.gov-email
+      TOUCHPOINTS_ADMIN_EMAILS: admin@example.gov
+      TOUCHPOINTS_EMAIL_SENDER: no-reply-or-notifications@example.gov
+      TOUCHPOINTS_GTM_CONTAINER_ID: GTM-1234567
+      TOUCHPOINTS_TEAM: team@example.gov
+      TOUCHPOINTS_WEB_DOMAIN: your-app-route.example.gov
     buildpacks:
-      - https://github.com/cloudfoundry/nodejs-buildpack.git
-      - https://github.com/cloudfoundry/ruby-buildpack.git
+      - nodejs_buildpack
+      - ruby_buildpack
+    services:
+      - your-cloud-gov-postgres-db-service
+      - your-cloud-gov-redis-service
+      - your-cloud-gov-s3-service
+      - your-cloud-gov-deployer-account
+    routes:
+      - route: your-app-route.app.cloud.gov
