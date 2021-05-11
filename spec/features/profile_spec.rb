@@ -16,6 +16,11 @@ feature "Profile", js: true do
           expect(page.current_path).to eq(index_path)
           expect(page).not_to have_content("Your API Key was last updated more than")
         end
+
+        it 'sets the redirect path' do
+          login_as(user)
+          expect(page.current_path).to eq(profile_path)          
+        end
       end
     end
 
