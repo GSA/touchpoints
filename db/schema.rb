@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_01_215215) do
+ActiveRecord::Schema.define(version: 2021_05_07_055442) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(version: 2021_04_01_215215) do
     t.string "time_zone", default: "Eastern Time (US & Canada)"
     t.integer "response_count", default: 0
     t.datetime "last_response_created_at"
+    t.boolean "ui_truncate_text_responses", default: true
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["uuid"], name: "index_forms_on_uuid"
@@ -103,6 +104,7 @@ ActiveRecord::Schema.define(version: 2021_04_01_215215) do
     t.integer "external_id"
     t.string "domain"
     t.string "logo"
+    t.boolean "enable_ip_address", default: true
   end
 
   create_table "question_options", force: :cascade do |t|
@@ -190,6 +192,8 @@ ActiveRecord::Schema.define(version: 2021_04_01_215215) do
     t.string "language"
     t.integer "form_id"
     t.string "uuid"
+    t.string "aasm_state", default: "received"
+    t.boolean "archived", default: false
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
   end
 
@@ -229,6 +233,43 @@ ActiveRecord::Schema.define(version: 2021_04_01_215215) do
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "websites", force: :cascade do |t|
+    t.string "domain"
+    t.string "parent_domain"
+    t.string "office"
+    t.integer "office_id"
+    t.string "sub_office"
+    t.integer "suboffice_id"
+    t.string "contact_email"
+    t.string "site_owner_email"
+    t.string "production_status"
+    t.string "type_of_site"
+    t.string "digital_brand_category"
+    t.string "redirects_to"
+    t.string "status_code"
+    t.string "cms_platform"
+    t.string "required_by_law_or_policy"
+    t.boolean "has_dap"
+    t.string "dap_gtm_code"
+    t.string "cost_estimator_url"
+    t.string "modernization_plan_url"
+    t.float "annual_baseline_cost"
+    t.float "modernization_cost"
+    t.string "analytics_url"
+    t.integer "current_uswds_score"
+    t.boolean "uses_feedback"
+    t.string "feedback_tool"
+    t.string "sitemap_url"
+    t.boolean "mobile_friendly"
+    t.boolean "has_search"
+    t.boolean "uses_tracking_cookies"
+    t.boolean "has_authenticated_experience"
+    t.string "authentication_tool"
+    t.text "notes"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
 end
