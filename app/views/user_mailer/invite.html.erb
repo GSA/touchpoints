@@ -1,0 +1,12 @@
+<div class="email-header">
+  <%= image_tag(attachments['logo.png'].url, alt: "Touchpoints logo") %>
+</div>
+<h3>You have been invited to Touchpoints</h3>
+<p>
+  <%= @user.email %>
+  has invited you to Touchpoints.
+</p>
+<p>
+  Please visit the following link to sign up:
+  <%= link_to "Touchpoints", ENV.fetch("INDEX_URL") %>.
+</p>

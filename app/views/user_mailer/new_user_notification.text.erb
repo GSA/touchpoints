@@ -1,5 +1,5 @@
 New user account created
 
-You've successfully registered account <%= @user.email %> on <%= Date.today %>.
+<%= @user.email %> was created on <%= Date.today %>.
 
-Login to Touchpoints at <%= root_url %>.
+Login to Touchpoints at <%= ENV.fetch("INDEX_URL") %>.

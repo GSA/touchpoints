@@ -174,6 +174,45 @@ feature "Touchpoints", js: true do
       end
     end
 
+    describe "phone number question" do
+      let!(:dropdown_form) { FactoryBot.create(:form, :phone, organization: organization, user: user) }
+
+      before do
+        visit touchpoint_path(dropdown_form)
+      end
+
+      it "allows numeric input and a maximum of 10 numbers" do
+        fill_in "answer_03", with: "12345678901234"
+        expect(find("#answer_03").value).to eq("(123) 456-7890")
+      end
+
+      it "disallows text input" do
+        fill_in "answer_03", with: "abc"
+        expect(find("#answer_03").value).to eq("")
+      end
+    end
+
+    describe "email question" do
+      let!(:dropdown_form) { FactoryBot.create(:form, :email, organization: organization, user: user) }
+
+      before do
+        visit touchpoint_path(dropdown_form)
+      end
+
+      it "allows valid email address" do
+        fill_in "answer_03", with: "test@test.com"
+        find("#answer_03").native.send_key :tab
+        expect(find("#answer_03").value).to eq("test@test.com")
+      end
+
+      it "disallows invalid text input" do
+        fill_in "answer_03", with: "test@testcom"
+        find("#answer_03").native.send_key :tab
+        page.driver.browser.switch_to.alert.accept        
+        expect(find("#answer_03").value).to eq("")
+      end
+    end
+
     describe "required question" do
       before do
         form.questions.first.update(is_required: true)

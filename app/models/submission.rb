@@ -1,14 +1,38 @@
 class Submission < ApplicationRecord
+  include AASM
+
   belongs_to :form, counter_cache: :response_count
 
   validate :validate_custom_form
   validates :uuid, uniqueness: true
 
   before_create :set_uuid
-  after_create :send_notifications
+  after_commit :send_notifications, on: :create
+
   after_create :update_form
 
+  scope :non_archived, -> { where("archived IS NOT TRUE") }
   scope :non_flagged, -> { where(flagged: false) }
+
+  aasm do
+    state :received, initial: true
+    state :acknowledged
+    state :dispatched
+    state :responded
+
+    event :receive do
+      transitions from: [:responded], to: :received
+    end
+    event :acknowledge do
+      transitions from: [:received], to: :acknowledged
+    end
+    event :dispatch do
+      transitions from: [:acknowledged], to: :dispatched
+    end
+    event :responded do
+      transitions from: [:dispatched, :archived], to: :responded
+    end
+  end
 
   def validate_custom_form
     @valid_form_condition = false
@@ -44,11 +68,6 @@ class Submission < ApplicationRecord
     return unless ENV["ENABLE_EMAIL_NOTIFICATIONS"] == "true"
     return unless self.form.send_notifications?
     emails_to_notify = self.form.notification_emails.split(",")
-
-    # Add Form Manager(s) to notification distribution list
-    self.form.users.select { |u| self.form.user_role?(user: u) == UserRole::Role::FormManager }.each do |mgr|
-      emails_to_notify << mgr.email
-    end
 
     UserMailer.submission_notification(submission_id: self.id, emails: emails_to_notify.uniq).deliver_later
   end

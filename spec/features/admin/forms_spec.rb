@@ -222,7 +222,7 @@ feature "Forms", js: true do
               expect(page).to have_content("survey title saved")
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find(".survey-title-input")).to have_content("Updated Form Title")
+              expect(find(".survey-title-input").value).to eq("Updated Form Title")
             end
 
             it "has inline editable instructions textbox that can be updated and saved" do
@@ -402,12 +402,12 @@ feature "Forms", js: true do
             before do
               visit questions_admin_form_path(form)
               click_on "Add Section"
+              find_all(".section-title").last.native.send_keys :tab
             end
 
             it "displays /admin/forms/:id/form_sections/new" do
-              expect(page).to have_content("New Section")
+              expect(find_all(".section-title").last.value).to eq("New Section")
             end
-
           end
 
           describe "editing Form Sections" do
@@ -416,19 +416,16 @@ feature "Forms", js: true do
             end
 
             describe "FormSection.title" do
-              before do
-                find(".section-title").click
-              end
 
               it "displays editable input that can be updated and saved" do
-                expect(find(".section-title").text).to eq("Page 1")
-                find(".section-title").set("New Form Section Title")
+                expect(find(".section-title").value).to eq("Page 1")
+                find(".section-title").fill_in with: "New Form Section Title"
                 find(".section-title").native.send_keys :tab
 
-                expect(find(".section-title").text).to eq("New Form Section Title")
+                expect(find(".section-title").value).to eq("New Form Section Title")
                 # and persists after refresh
                 visit questions_admin_form_path(form)
-                expect(find(".section-title").text).to eq("New Form Section Title")
+                expect(find(".section-title").value).to eq("New Form Section Title")
               end
             end
           end
@@ -537,6 +534,25 @@ feature "Forms", js: true do
             end
           end
 
+          describe "add a Text Phone Field question" do
+            before do
+              visit questions_admin_form_path(form)
+              click_on "Add Question"
+              fill_in "question_text", with: "New Test Question"
+              choose "question_question_type_text_phone_field"
+              select("answer_01", from: "question_answer_field")
+              click_on "Update Question"
+            end
+
+            it "can add a Text Field Question" do
+              expect(page.current_path).to eq(questions_admin_form_path(form))
+              within ".form-builder .question" do
+                expect(page).to have_content("New Test Question")
+                expect(page).to have_css("input[type='tel']")
+              end
+            end
+          end
+
           describe "add a Text Area question" do
             before do
               visit questions_admin_form_path(form)
@@ -599,7 +615,7 @@ feature "Forms", js: true do
 
           describe "#edit question and cancel" do
             let!(:first_question) { FactoryBot.create(:question, form: form, form_section: form.form_sections.first, answer_field: :answer_01) }
-            
+
             before do
               visit questions_admin_form_path(form)
               page.execute_script "$('.question-menu-action').trigger('mouseover')"
@@ -624,7 +640,7 @@ feature "Forms", js: true do
               within ".form-builder" do
                 expect(page).not_to have_content("Canceled question")
               end
-            end            
+            end
           end
 
           describe "answer display" do
@@ -713,9 +729,13 @@ feature "Forms", js: true do
                   expect(page).to have_content("Edited Question Option Text (100)")
                 end
 
+                it "will prevent updating a question option with no text" do
+                  click_on "Create Question option"
+                  page.driver.browser.switch_to.alert.accept
+                  expect(page).to have_button("Create Question option")
+                end
+
                 it "can cancel a Dropdown Question option" do
-                  click_on "Add Dropdown Option"
-                  expect(page).to have_content("New Question Option")
                   click_on "Cancel"
                   expect(page.current_path).to eq(admin_form_questions_path(form))
                   expect(page).not_to have_content("New Question Option")
@@ -1045,15 +1065,21 @@ feature "Forms", js: true do
       end
 
       context "notification settings" do
-        before do
+        before "notification_email is blank by default" do
           visit notifications_admin_form_path(Form.first)
-        end
-
-        it "set notification_email to the email of the user who creates the form" do
           within ".usa-nav__secondary .user-name" do
             expect(page).to have_content(touchpoints_manager.email)
           end
-          expect(find_field('form_notification_emails').value).to eq(touchpoints_manager.email)
+          expect(find_field('form_notification_emails').value).to eq("")
+        end
+
+        it "can be updated" do
+          fill_in "form_notification_emails", with: "user@example.gov"
+          click_on "Update Survey"
+          expect(page).to have_content("Survey was successfully updated.")
+
+          visit notifications_admin_form_path(Form.first)
+          expect(find_field('form_notification_emails').value).to eq("user@example.gov")
         end
       end
     end
@@ -1113,7 +1139,7 @@ feature "Forms", js: true do
           it "redirect to /admin/forms/:id/edit with a success flash message" do
             expect(page.current_path).to eq(questions_admin_form_path(form_section2.form))
             expect(page).to have_content("Form section was successfully updated.")
-            expect(page).to have_content(new_title)
+            expect(find_all(".section-title").last.value).to eq(new_title)
           end
         end
 
@@ -1282,6 +1308,71 @@ feature "Forms", js: true do
       it "cannot preview a form template" do
         expect(page.current_path).to eq(index_path)
         expect(page).to have_content("Form is not currently deployed.")
+      end
+    end
+  end
+
+  describe "/invite" do
+    let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin)}
+
+    before do
+      login_as(admin)
+    end
+
+    context "with a valid email" do
+      before do
+        visit permissions_admin_form_path(form)
+      end
+
+      it "sends an invite to the designated user" do
+        fill_in("user[refer_user]", with: "newuser@domain.gov")
+        click_on "Invite User"
+        expect(page).to have_content("Invite sent to newuser@domain.gov")
+        expect(page.current_path).to eq(permissions_admin_form_path(form))
+      end
+    end
+
+    context "with an invalid email" do
+      before do
+        visit permissions_admin_form_path(form)
+      end
+
+      it "shows an alert when the email address is not provided" do
+        fill_in("user[refer_user]", with: "")
+        click_on "Invite User"
+        expect(page).to have_content("Please enter a valid .gov or .mil email address")
+        expect(page.current_path).to eq(permissions_admin_form_path(form))
+      end
+
+      it "shows a gov-specific user alert when the email address is not a valid email" do
+        fill_in("user[refer_user]", with: "test")
+        click_on "Invite User"
+        expect(page).to have_content("Please enter a valid .gov or .mil email address")
+        expect(page.current_path).to eq(permissions_admin_form_path(form))
+      end
+
+      context "when using GitHub for oAuth" do
+        before do
+          ENV["GITHUB_CLIENT_ID"] = "something"
+        end
+
+        it "shows a generic user alert when the email address is not a valid email" do
+          fill_in("user[refer_user]", with: "test")
+          click_on "Invite User"
+          expect(page).to have_content("Please enter a valid email address")
+          expect(page.current_path).to eq(permissions_admin_form_path(form))
+        end
+
+        after do
+          ENV["GITHUB_CLIENT_ID"] = nil
+        end
+      end
+
+      it "shows an alert when the email address already exists" do
+        fill_in("user[refer_user]", with: user.email)
+        click_on "Invite User"
+        expect(page).to have_content("User with email #{user.email} already exists")
+        expect(page.current_path).to eq(permissions_admin_form_path(form))
       end
     end
   end

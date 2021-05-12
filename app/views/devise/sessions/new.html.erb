@@ -6,24 +6,24 @@
         <br>
         <br>
         <div class="usa-alert">
-          This is a U.S. government service.
-          Your use indicates your consent to monitoring,
-          recording, and no expectation of privacy.
-          Misuse is subject to criminal and civil penalties.
-          <%= link_to "Read more details", "#", id: "read-more-details" %>.
-          <% if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
-          <p>
-            <%= link_to "Agree and continue to Sign In with Login.gov", user_login_dot_gov_omniauth_authorize_path, id: "agree-button", class: "usa-button" %>
-          </p>
-          <% end %>
-          <% if ENV['GITHUB_CLIENT_ID'].present? %>
-          <p>
-            <%= link_to "Agree and continue to Sign In with GitHub", user_github_omniauth_authorize_path, id: "agree-button", class: "usa-button" %>
-          </p>
-          <% end %>
+          <div class="usa-alert__body">
+            This is a U.S. government service.
+            Your use indicates your consent to monitoring,
+            recording, and no expectation of privacy.
+            Misuse is subject to criminal and civil penalties.
+            <%= link_to "Read more details", "#", id: "read-more-details" %>.
+            <% if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
+            <p>
+              <%= link_to "Agree and continue to Sign In with Login.gov", user_login_dot_gov_omniauth_authorize_path, id: "agree-button", class: "usa-button" %>
+            </p>
+            <% end %>
+            <% if ENV['GITHUB_CLIENT_ID'].present? %>
+            <p>
+              <%= link_to "Agree and continue to Sign In with GitHub", user_github_omniauth_authorize_path, id: "agree-button", class: "usa-button" %>
+            </p>
+            <% end %>
+          </div>
         </div>
-        <br>
-        <%= link_to "Email us to get access to Touchpoints", "mailto:feedback-analytics@gsa.gov", target: "_blank", rel: "noopener" %>.
       </div>
     </div>
 

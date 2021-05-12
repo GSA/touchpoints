@@ -399,14 +399,21 @@ class Form < ApplicationRecord
 
     self.ordered_questions.map { |q| hash[q.answer_field] = q.text }
 
-    hash.merge({
+    hash.merge!({
       location_code: "Location Code",
-      ip_address: "IP Address",
       user_agent: "User Agent",
       page: "Page",
       referer: "Referrer",
       created_at: "Created At"
     })
+
+    if self.organization.enable_ip_address?
+      hash.merge!({
+        ip_address: "IP Address"
+      })
+    end
+
+    hash
   end
 
   def ordered_questions

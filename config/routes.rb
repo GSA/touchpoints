@@ -44,6 +44,18 @@ Rails.application.routes.draw do
       end
       resources :service_stages
     end
+
+    resources :websites do
+      collection do
+        get "search", to: "websites#search"
+        get "gsa", to: "websites#gsa"
+        get "export_csv", to: "websites#export_csv", as: :export_csv
+      end
+      member do
+        get "scorecard", to: "websites#scorecard", as: :scorecard
+      end
+    end
+
     resources :forms do
       member do
         get "notifications", to: "forms#notifications", as: :notifications
@@ -53,6 +65,7 @@ Rails.application.routes.draw do
         get "export_submissions", to: "forms#export_submissions", as: :export_submissions
         get "export_a11_header", to: "forms#export_a11_header", as: :export_a11_header
         get "export_a11_submissions", to: "forms#export_a11_submissions", as: :export_a11_submissions
+        patch "invite", to: "forms#invite", as: :invite
         get "js", to: "forms#js", as: :js
         get "permissions", to: "forms#permissions", as: :permissions
         get "compliance", to: "forms#compliance", as: :compliance
@@ -71,7 +84,7 @@ Rails.application.routes.draw do
       collection do
         post "copy", to: "forms#copy", as: :copy_id
       end
-      resources :form_sections do
+      resources :form_sections, except: [:index] do
         patch "sort", to: "form_sections#sort", as: :sort_sections
         patch "update_title", to: "form_sections#update_title", as: :inline_update
       end
@@ -86,10 +99,12 @@ Rails.application.routes.draw do
           patch "sort", to: "questions#sort", as: :sort_questions
         end
       end
-      resources :submissions, only: [:destroy] do
+      resources :submissions, only: [:show, :update, :destroy] do
         member do
           post "flag", to: "submissions#flag", as: :flag
           post "unflag", to: "submissions#unflag", as: :unflag
+          post "archive", to: "submissions#archive", as: :archive
+          post "unarchive", to: "submissions#unarchive", as: :unarchive
         end
       end
     end

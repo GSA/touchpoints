@@ -26,6 +26,7 @@ es:
     page_1: "Página 1"
     page_2: "Página 2"
     field_is_required: "Debes responder a la pregunta: "
+    field_is_invalid: "Por favor ingrese una cifra válida: "    
     chars_remaining: "Caracteres restantes: "
     enter_other_text: "Ingresa otro texto"
   header:

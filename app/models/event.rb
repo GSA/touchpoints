@@ -15,6 +15,7 @@ class Event < ApplicationRecord
     user_authentication_attempt: 'user_authentication_attempt',
     user_authentication_successful: 'user_authentication_successful',
     user_authentication_failure: 'user_authentication_failure',
+    user_send_invitation: 'user_send_invitation',
 
     touchpoint_archived: 'touchpoint_archived',
     touchpoint_form_submitted: 'touchpoint_form_submitted',
@@ -28,7 +29,10 @@ class Event < ApplicationRecord
 
     response_flagged: 'response_flagged',
     response_unflagged: 'response_unflagged',
-    response_deleted: 'response_deleted'
+    response_archived: 'response_archived',
+    response_unarchived: 'response_unarchived',
+    response_deleted: 'response_deleted',
+    response_status_changed: 'response_status_changed',
   }
 
   def self.log_event(ename, otype, oid, desc, uid = nil)

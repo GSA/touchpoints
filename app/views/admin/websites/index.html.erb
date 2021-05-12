@@ -1,0 +1,73 @@
+<% content_for :navigation_title do %>
+  Websites
+<% end %>
+<p>
+  <%= link_to admin_dashboard_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Admin
+  <% end %>
+</p>
+
+<div class="usa-alert usa-alert--info" >
+  <div class="usa-alert__body">
+    <h3 class="usa-alert__heading">
+      Website inventory is an experimental feature.
+    </h3>
+    <p class="usa-alert__text">
+      The GSA EDX team is current exploring ways to improve governance
+      of shared data assets.
+    </p>
+    <p class="usa-alert__text">
+      A shared governance model is being developed to support the maintenance
+      of this inventory of GSA websites.
+    </p>
+  </div>
+</div>
+
+<div class="well usa-prose">
+  <p>
+    All websites are viewable by Touchpoints users.
+  </p>
+  <p>
+    Website editing permissions are assigned to users who have an email
+    that matches the
+    Contact email or Site owner email
+    of a Website.
+  </p>
+</div>
+
+<br/>
+
+<div class="field">
+<%= label_tag :search_text, "Find Websites: " %>
+<%= text_field_tag :search_text, nil, class: "usa-input", placeholder: "Search by domain, site owner email, office, or sub-office" %>
+</div>
+
+<div class="search-results">
+  <%= render 'results' %>
+</div>
+
+<% if admin_permissions? %>
+<p>
+  <%= link_to 'Create New Website', new_admin_website_path, class: "usa-button" %>
+</p>
+<% end %>
+
+<p>
+  <%= link_to 'Export all websites to CSV', export_csv_admin_websites_path, class: "usa-button usa-button--outline" %>
+</p>
+
+<script>
+  $(function() {
+    $("#main-content").css("overflow-x", "scroll");
+
+    $("#search_text").keyup(function() {
+      $.ajax({
+        url: '/admin/websites/search',
+        data: {
+          search: $(this).val()
+        }
+      });
+    });
+  });
+</script>

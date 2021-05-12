@@ -165,7 +165,7 @@ function FBAform(d, N) {
 		},
 		handleYesNoSubmitClick: function(e) {
 			e.preventDefault();
-			
+
 			var input = this.formComponent().querySelector('.fba-touchpoints-page-form');
 			input.value = e.target.value;
 			this.resetErrors();
@@ -181,7 +181,7 @@ function FBAform(d, N) {
 		},
 		validateForm: function(form) {
 			this.hideValidationError(form);
-			var valid = this.checkRequired(form);
+			var valid = this.checkRequired(form) && this.checkEmail(form) && this.checkPhone(form);
 			return valid;
 		},
 		checkRequired: function(form) {
@@ -211,6 +211,44 @@ function FBAform(d, N) {
 			}
 			return true;
 		},
+		checkEmail: function(form) {
+			var emailItems = form.querySelectorAll('input[type="email"]');
+			var questions = {};
+			// Build a dictionary of questions which require an answer
+			Array.prototype.forEach.call(emailItems, function(item) { questions[item.name] = item });
+			Array.prototype.forEach.call(emailItems, function(item) {
+			  if (item.value.length == 0) {
+			  	delete(questions[item.name]);
+			  } else {
+			    var EmailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;		
+			    if (EmailRegex.test(item.value)) delete(questions[item.name]);
+			  }
+			});
+			for (var key in questions) {
+				this.showValidationError(questions[key],'<%= I18n.t 'form.field_is_invalid' %>');
+				return false;
+			}		
+			return true;
+		},		
+		checkPhone: function(form) {
+			var phoneItems = form.querySelectorAll('input[type="tel"]');
+			var questions = {};
+			// Build a dictionary of questions which require an answer
+			Array.prototype.forEach.call(phoneItems, function(item) { questions[item.name] = item });
+			Array.prototype.forEach.call(phoneItems, function(item) {
+			  if (item.value.length == 0) {
+			  	delete(questions[item.name]);
+			  } else {
+			    var PhoneRegex = /^[0-9]{10}$/;		
+			    if (PhoneRegex.test(item.value)) delete(questions[item.name]);
+			  }
+			});
+			for (var key in questions) {
+				this.showValidationError(questions[key],'<%= I18n.t 'form.field_is_invalid' %>');
+				return false;
+			}		
+			return true;
+		},				
 		showValidationError: function(question,error) {
 			var questionDiv = question.closest(".question");
 			var label = questionDiv.querySelector("label");
@@ -299,6 +337,9 @@ function FBAform(d, N) {
 			var form = this.formElement();
 			this.ajaxPost(form, this.formSuccess);
 		},
+		successText: function() {
+			return "<%= escape_javascript(form.success_text) %>";
+		},
 		showFormSuccess: function(e)
 		{
 			var formComponent = this.formComponent();
@@ -307,7 +348,7 @@ function FBAform(d, N) {
 			var alertElementBody = formComponent.querySelector(".usa-alert__text");
 
 			// Display success Message
-			alertElementBody.innerHTML += "<%= escape_javascript(form.success_text) %>";
+			alertElementBody.innerHTML += this.successText();
 			alertElement.removeAttribute("hidden");
 
 			// Hide Form Elements

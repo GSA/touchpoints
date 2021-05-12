@@ -1,0 +1,11 @@
+<% content_for :navigation_title do %>
+  New Website
+<% end %>
+<p>
+  <%= link_to admin_websites_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Websites
+  <% end %>
+</p>
+
+<%= render 'form', website: @website %>

@@ -63,7 +63,8 @@ class Admin::OrganizationsController < AdminController
         :url,
         :abbreviation,
         :notes,
-        :external_id
+        :external_id,
+        :enable_ip_address
       )
     end
 end

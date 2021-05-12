@@ -1,0 +1,225 @@
+<% content_for :navigation_title do %>
+  Website: <%= @website.domain %>
+<% end %>
+<p>
+  <% if @website.admin?(user: current_user) %>
+    <%= link_to edit_admin_website_path(@website), class: "usa-button usa-button--outline float-right" do %>
+      <i class="fa fa-pencil-alt"></i>
+      Edit
+    <% end %>
+  <% end %>
+  <%= link_to admin_websites_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Websites
+  <% end %>
+</p>
+
+<br>
+
+<% if @website.production_status ==  "Archived" %>
+<div class="usa-alert usa-alert--warning" >
+  <div class="usa-alert__body">
+    <p class="usa-alert__text">
+      The website
+      <%= @website.domain %>
+      is archived.
+    </p>
+  </div>
+</div>
+<br>
+<% end %>
+
+<div class="grid-row grid-gap-md">
+  <div class="grid-col-6">
+    <h3>
+      Domain and organization
+    </h3>
+    <div class="grid-row">
+      <div class="grid-col-6">
+        <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
+          Parent domain
+        </label>
+        <%#= @website.parent_domain %>
+        <%= @website.domain.split(".")[-2..-1].join(".") %>
+      </div>
+      <div class="grid-col-6">
+        <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
+          Domain
+        </label>
+        <%= link_to @website.domain, "https://#{@website.domain}", target: "_blank", rel: "noopener" %>
+      </div>
+    </div>
+    <div class="grid-row">
+      <div class="grid-col-6">
+        <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
+          Office
+        </label>
+        <%= @website.office %>
+      </div>
+      <div class="grid-col-6">
+        <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
+          Sub-office
+        </label>
+        <%= @website.sub_office %>
+      </div>
+    </div>
+    <div class="grid-row">
+      <div class="grid-col-6">
+        <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
+          Contact email
+        </label>
+        <%= @website.contact_email %>
+      </div>
+      <div class="grid-col-6">
+        <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
+          Site owner email
+        </label>
+        <%= @website.site_owner_email %>
+      </div>
+    </div>
+  </div>
+  <div class="grid-col-6">
+    <h3>
+      Website status and links
+    </h3>
+    <p>
+      <strong>Production status:</strong>
+      <%= @website.production_status %>
+    </p>
+    <p>
+      <strong>Redirects to:</strong>
+      <%= @website.redirects_to %>
+    </p>
+    <p>
+      <strong>Status code:</strong>
+      <%= @website.status_code %>
+    </p>
+    <p>
+      <strong>Sitemap url:</strong>
+      <%= @website.sitemap_url %>
+    </p>
+    <p>
+      <strong>Mobile friendly:</strong>
+      <%= @website.mobile_friendly %>
+    </p>
+    <p>
+      <strong>Has search:</strong>
+      <%= @website.has_search %>
+    </p>
+    <p>
+      <small>
+        Powered by
+        <a href="https://digital.gov/site-scanning/" target="_blank">Site Scanner</a>
+      </small>
+    </p>
+  </div>
+</div>
+
+<hr>
+
+<div class="grid-row grid-gap-md">
+  <div class="grid-col-6">
+    <h3>
+      Organizational readiness
+    </h3>
+    <p>
+      <strong>Required by law or policy:</strong>
+      <%= @website.required_by_law_or_policy %>
+    </p>
+    <p>
+      <strong>Cost estimator url:</strong>
+      <%= @website.cost_estimator_url %>
+    </p>
+    <p>
+      <strong>Modernization plan url:</strong>
+      <%= @website.modernization_plan_url %>
+    </p>
+    <p>
+      <strong>Annual baseline cost:</strong>
+      <%= @website.annual_baseline_cost %>
+    </p>
+    <p>
+      <strong>Modernization cost:</strong>
+      <%= @website.modernization_cost %>
+    </p>
+    <p>
+      <strong>Type of site:</strong>
+      <p>
+        <% Website::TYPE_OF_SITES.each do |category| %>
+        <span class="usa-tag bg-primary-light <%= "bg-primary" if category.downcase == @website.type_of_site.downcase %>"><%= category %></span>
+        <% end %>
+      </p>
+    </p>
+    <p>
+      <strong>Digital brand category:</strong>
+      <p>
+      <% Website::DIGITAL_BRAND_CATEGORIES.each do |category| %>
+        <span class="usa-tag bg-primary-light <%= "bg-primary" if category.downcase == @website.digital_brand_category.downcase %>"><%= category %></span>
+      <% end %>
+      </p>
+    </p>
+  </div>
+  <div class="grid-col-6">
+    <h3>
+      Platform choices
+    </h3>
+    <p>
+      <strong>Cms platform:</strong>
+      <%= @website.cms_platform %>
+    </p>
+    <p>
+      <strong>Has dap:</strong>
+      <%= @website.has_dap %>
+    </p>
+    <p>
+      <strong>Dap gtm code:</strong>
+      <%= @website.dap_gtm_code %>
+    </p>
+    <p>
+      <strong>Analytics url:</strong>
+      <%= @website.analytics_url %>
+    </p>
+    <p>
+      <strong>Uses feedback:</strong>
+      <%= @website.uses_feedback %>
+    </p>
+    <p>
+      <strong>Feedback tool:</strong>
+      <%= @website.feedback_tool %>
+    </p>
+    <p>
+      <strong>Current uswds score:</strong>
+      <%= @website.current_uswds_score %>
+    </p>
+    <p>
+      <strong>Uses tracking cookies:</strong>
+      <%= @website.uses_tracking_cookies %>
+    </p>
+    <p>
+      <strong>Has authenticated experience:</strong>
+      <%= @website.has_authenticated_experience %>
+    </p>
+    <p>
+      <strong>Authentication tool:</strong>
+      <%= @website.authentication_tool %>
+    </p>
+  </div>
+</div>
+
+<div class="well">
+  <p>
+    <strong>Notes:</strong>
+    <%= @website.notes %>
+  </p>
+</div>
+
+<% if @website.admin?(user: current_user) %>
+<div class="well">
+  <h3>
+    Additional website information
+  </h3>
+  <p>
+    <%= link_to "View website scorecard", scorecard_admin_website_path(@website), class: "usa-button" %>
+  </p>
+</div>
+<% end %>

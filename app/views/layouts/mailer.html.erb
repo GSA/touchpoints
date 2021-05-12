@@ -6,18 +6,22 @@
     <style>
     /* Email styles need to be inline */
     html {
+        border: 1px solid #999;
         -webkit-font-feature-settings: 'kern'1;
         font-feature-settings: 'kern'1;
         -webkit-font-kerning: normal;
         font-kerning: normal;
         font-family: Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
         font-size: 100%;
+        max-width: 600px;
+        margin: 20px;
     }
 
     body {
         background-color: white;
         color: #1b1b1b;
         overflow-x: hidden;
+        text-align: left;
     }
 
     h1 {
@@ -38,14 +42,13 @@
     }
 
     .email-header {
-        margin: 7px;
-        text-align: center;
+      margin: 7px;
     }
     </style>
 </head>
 
 <body>
-    <%= yield %>
+  <%= yield %>
 </body>
 
 </html>
