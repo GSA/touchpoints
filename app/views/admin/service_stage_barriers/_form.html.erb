@@ -13,7 +13,6 @@
 
   <div class="field">
     <%= form.label :service_stage_id %>
-    <%#= form.number_field :service_stage_id %>
     <%= form.select :service_stage_id, options_for_select(ServiceStage.all.map {|ss| [ss.name, ss.id] }) %>
   </div>
 

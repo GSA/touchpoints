@@ -90,10 +90,6 @@
 </p>
 
 <div class="well">
-  <%#= render "omb_a11_cx_quarterly_reporting", collection: @collection %>
-  <%#= render "admin/omb_cx_reporting_collections/form", omb_cx_reporting_collection: OmbCxReportingCollection.new %>
-
-  <%#= OmbCxReportingCollection.create(collection_id: @collection.id) %>
   <% OmbCxReportingCollection.where(collection_id: @collection.id).each do |collection| %>
     <%= link_to (collection.service_provided || "this"), admin_omb_cx_reporting_collection_path(collection) %>
     <br>
