@@ -122,7 +122,8 @@
       </div>
       <div class="field">
         <%= form.label :digital_brand_category, class: "usa-label" %>
-        <%= form.text_field :digital_brand_category, class: "usa-input" %>
+        <%= form.select :digital_brand_category, Website::DIGITAL_BRAND_CATEGORIES, { include_blank: true }, class: "usa-select" %>
+
       </div>
     </div>
     <div class="grid-col-6">

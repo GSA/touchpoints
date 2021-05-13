@@ -1,0 +1,27 @@
+<%= form_with(model: service_stage_barrier, local: true) do |form| %>
+  <% if service_stage_barrier.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(service_stage_barrier.errors.count, "error") %> prohibited this service_stage_barrier from being saved:</h2>
+
+      <ul>
+      <% service_stage_barrier.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :service_stage_id %>
+    <%= form.select :service_stage_id, options_for_select(ServiceStage.all.map {|ss| [ss.name, ss.id] }) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :barrier_id %>
+    <%= form.select :barrier_id, options_for_select(Barrier.all.map {|b| [b.name, b.id] }) %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,27 @@
+<%= form_with(model: barrier, url: (barrier.persisted? ? admin_barrier_path(barrier) : admin_barriers_path), local: true) do |form| %>
+  <% if barrier.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(barrier.errors.count, "error") %> prohibited this barrier from being saved:</h2>
+
+      <ul>
+      <% barrier.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name, class: "usa-label" %>
+    <%= form.text_field :name, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description, class: "usa-label" %>
+    <%= form.text_area :description, class: "usa-textarea" %>
+  </div>
+
+  <p>
+    <%= form.submit class: "usa-button" %>
+  </p>
+<% end %>

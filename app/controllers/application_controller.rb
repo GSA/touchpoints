@@ -15,7 +15,10 @@ class ApplicationController < ActionController::Base
 
   # Enforce Permissions
   def ensure_user
-    redirect_to(index_path, notice: "Authorization is Required") unless current_user
+    if !current_user
+      store_location_for(:user, request.fullpath)
+      redirect_to(index_path, notice: "Authorization is Required")
+    end
   end
 
   def ensure_admin
@@ -79,5 +82,14 @@ class ApplicationController < ActionController::Base
   # For Devise
   def after_sign_out_path_for(resource_or_scope)
     index_path
+  end
+
+  def after_sign_in_path_for(resource_or_scope)
+    redirect_url = stored_location_for(resource_or_scope)
+    if redirect_url.present?
+      "#{request.base_url}#{redirect_url}"
+    else
+      super
+    end
   end
 end

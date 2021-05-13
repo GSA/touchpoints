@@ -40,5 +40,22 @@
 
     <br>
     <br>
+    <div class="well">
+      <h3>
+        Forms with Notifications
+      </h3>
+      <%= Form.where("notification_emails IS NOT NULL AND notification_emails != ''").count %>
+    </div>
+    <div class="well">
+      <h3>
+        Data Collections
+      </h3>
+      <%= Collection.count %>
+      <h3>
+        OMB CX Reporting Collections
+      </h3>
+      <%= OmbCxReportingCollection.count %>
+    </div>
   </div>
 </div>
+<br>

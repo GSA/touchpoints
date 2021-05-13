@@ -1,0 +1,11 @@
+<% content_for :navigation_title do %>
+  New Barrier
+<% end %>
+<p>
+  <%= link_to admin_barriers_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Barriers
+  <% end %>
+</p>
+
+<%= render 'form', barrier: @barrier %>

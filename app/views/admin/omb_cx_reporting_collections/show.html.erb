@@ -1,0 +1,337 @@
+<% content_for :navigation_title do %>
+  One reporting sheet in a CX Quarterly report
+
+  <%= link_to edit_admin_omb_cx_reporting_collection_path(@omb_cx_reporting_collection), class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-pencil-alt"></i>
+    Edit
+  <% end %>
+<% end %>
+
+<p>
+  <%= link_to admin_collections_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Data Collections
+  <% end %>
+</p>
+
+<div>
+  <div class="field">
+    Collection:
+    <%= link_to @omb_cx_reporting_collection.collection.name, admin_collection_path(@omb_cx_reporting_collection.collection) %>
+  </div>
+  <div class="field">
+    Service Provided:
+    <%= @omb_cx_reporting_collection.service_provided %>
+  </div>
+  <div class="field">
+    Transaction point:
+    <%= @omb_cx_reporting_collection.transaction_point %>
+  </div>
+  <div class="field">
+    Channel:
+    <%= @omb_cx_reporting_collection.channel %>
+  </div>
+  <div class="field">
+    Volume of customers:
+    <%= @omb_cx_reporting_collection.volume_of_customers %>
+  </div>
+  <div class="field">
+    Customers provided a feedback opportunity:
+    <%= @omb_cx_reporting_collection.volume_of_customers_provided_survey_opportunity %>
+  </div>
+  <div class="field">
+    Volume of respondents:
+    <%= @omb_cx_reporting_collection.volume_of_respondents %>
+  </div>
+  <div class="field">
+    OMB Control Number:
+    <%= @omb_cx_reporting_collection.omb_control_number %>
+  </div>
+  <div class="field">
+    Federal Register URL:
+    <%= @omb_cx_reporting_collection.federal_register_url %>
+  </div>
+</div>
+
+<table class="usa-table">
+  <thead>
+    <tr>
+      <th>
+      </th>
+      <th>
+        Question text
+      </th>
+      <th>
+        1
+      </th>
+      <th>
+        2
+      </th>
+      <th>
+        3
+      </th>
+      <th>
+        4
+      </th>
+      <th>
+        5
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        Satisfaction
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q1_text %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q1_1 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q1_2 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q1_3 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q1_4 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q1_5 %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Trust or Confidence
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q2_text %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q2_1 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q2_2 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q2_3 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q2_4 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q2_5 %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Effectiveness (Service)
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q3_text %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q3_1 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q3_2 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q3_3 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q3_4 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q3_5 %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Ease (Process)
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q4_text %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q4_1 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q4_2 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q4_3 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q4_4 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q4_5 %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Efficiency (Process)
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q5_text %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q5_1 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q5_2 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q5_3 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q5_4 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q5_5 %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Transparency (Process)
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q6_text %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q6_1 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q6_2 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q6_3 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q6_4 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q6_5 %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Employee (People)
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q7_text %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q7_1 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q7_2 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q7_3 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q7_4 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q7_5 %>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        Question 8
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q8_text %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q8_1 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q8_2 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q8_3 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q8_4 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q8_5 %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Question 9
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q9_text %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q9_1 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q9_2 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q9_3 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q9_4 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q9_5 %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Question 10
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q10_text %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q10_1 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q10_2 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q10_3 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q10_4 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q10_5 %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Question 11
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q11_text %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q11_1 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q11_2 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q11_3 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q11_4 %>
+      </td>
+      <td>
+        <%= @omb_cx_reporting_collection.q11_5 %>
+      </td>
+    </tr>
+  </tbody>
+</table>

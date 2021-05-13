@@ -14,12 +14,12 @@ feature "Managing Websites", js: true do
     it "load the Websites#index page" do
       expect(page).to have_content("Websites")
       expect(page).to have_content("Website inventory is an experimental feature.")
-      expect(page).to have_content("Create New Website")
+      expect(page).to have_content("New Website")
     end
 
     describe "create a new Website" do
       before "user fill-in the form" do
-        click_on "Create New Website"
+        click_on "New Website"
         expect(page).to have_content("New Website")
         fill_in :website_domain, with: test_website.domain
         click_on "Create Website"

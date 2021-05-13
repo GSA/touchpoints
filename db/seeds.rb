@@ -322,3 +322,75 @@ admin_emails.each do |email|
     admin: true
   }).save!
 end
+
+
+## Services
+
+service_1 = Service.create({
+  name: "USPTO",
+  organization: Organization.first
+})
+service_2 = Service.create({
+  name: "IRS",
+  organization: Organization.first
+})
+service_3 = Service.create({
+  name: "HUD",
+  organization: Organization.first
+})
+stage_before = ServiceStage.create({
+  name: "Before",
+  service: service_1
+})
+stage_during = ServiceStage.create({
+  name: "During",
+  service: service_1
+})
+stage_after = ServiceStage.create({
+  name: "After",
+  service: service_1
+})
+barrier_1 = Barrier.create({
+  name: "technical"
+})
+barrier_2 = Barrier.create({
+  name: "policy"
+})
+barrier_3 = Barrier.create({
+  name: "location"
+})
+ServiceStageBarrier.create({
+  service_stage: stage_before,
+  barrier: barrier_1
+})
+ServiceStageBarrier.create({
+  service_stage: stage_during,
+  barrier: barrier_2
+})
+ServiceStageBarrier.create({
+  service_stage: stage_after,
+  barrier: barrier_3
+})
+
+Website.create!({
+  domain: "gsa.gov",
+  production_status: "production"
+})
+
+Website.create!({
+  domain: "digital.gov",
+  production_status: "production"
+})
+
+Website.create!({
+  domain: "touchpoints.digital.gov",
+  production_status: "production"
+})
+
+Collection.create({
+  organization_id: Organization.first,
+  user: User.all.sample,
+  name: "CX Quarterly Data Collection",
+  start_date: "2021-01-01",
+  end_date: "2021-03-31"
+})

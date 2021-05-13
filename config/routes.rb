@@ -1,6 +1,5 @@
 require 'sidekiq/web'
 
-
 Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
@@ -39,6 +38,17 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    resources :services do
+      member do
+        get "equity-assessment", to: "services#equity_assessment", as: :equity_assessment
+        get "cx-reporting", to: "services#omb_cx_reporting", as: :omb_cx_reporting
+      end
+      resources :service_stages
+    end
+
+    resources :collections
+    resources :omb_cx_reporting_collections
+
     resources :websites do
       collection do
         get "search", to: "websites#search"
@@ -49,6 +59,7 @@ Rails.application.routes.draw do
         get "scorecard", to: "websites#scorecard", as: :scorecard
       end
     end
+
     resources :forms do
       member do
         get "notifications", to: "forms#notifications", as: :notifications
@@ -109,6 +120,10 @@ Rails.application.routes.draw do
       end
     end
     resources :organizations
+    resources :service_stages
+    resources :barriers
+    resources :service_stage_barriers
+
     get "dashboard", to: "site#index", as: :dashboard
     get "management", to: "site#management", as: :management
     get "events", to: "site#events", as: :events
