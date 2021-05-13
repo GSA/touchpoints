@@ -1,0 +1,56 @@
+<style media="screen">
+  .usa-label {
+    font-weight: bold;
+  }
+</style>
+
+<p>
+  <%= link_to admin_service_path(@service) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Service
+  <% end %>
+</p>
+
+<div class="usa-section">
+  <h1>
+    CX quarterly reporting
+    <br>
+  </h1>
+  <p>
+    for <%= @service.name %>
+    <br>
+    by <%= @service.organization.name %>
+    <br>
+    by <%= current_user.email %>
+  </p>
+</div>
+
+<div class="usa-section">
+  <h2>
+    Data Collections
+  </h2>
+  <h4>
+    2020
+  </h4>
+  <%= link_to new_admin_collection_path, class: "usa-button" do %>
+    Q1
+  <% end %>
+  <%= link_to new_admin_collection_path(@service), class: "usa-button" do %>
+    Q2
+  <% end %>
+  <%= link_to new_admin_collection_path(@service), class: "usa-button" do %>
+    Q3
+  <% end %>
+  <%= link_to new_admin_collection_path(@service), class: "usa-button" do %>
+    Q4
+  <% end %>
+  <h4>
+    2021
+  </h4>
+  <%= link_to new_admin_collection_path(@service), class: "usa-button" do %>
+    Q1
+  <% end %>
+  <%= link_to new_admin_collection_path(@service), class: "usa-button" do %>
+    Q2
+  <% end %>
+</div>

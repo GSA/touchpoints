@@ -1,0 +1,31 @@
+<% content_for :navigation_title do %>
+  Barriers
+<% end %>
+<p>
+  <%= link_to admin_forms_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to My Surveys
+  <% end %>
+</p>
+
+<table class="usa-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @barriers.each do |barrier| %>
+      <tr>
+        <td><%= link_to barrier.name, admin_barrier_path(barrier) %></td>
+        <td><%= barrier.description %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p>
+  <%= link_to 'New Barrier', new_admin_barrier_path, class: "usa-button" %>
+</p>

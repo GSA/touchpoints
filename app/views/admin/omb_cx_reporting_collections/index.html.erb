@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Omb Cx Reporting Collections</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @omb_cx_reporting_collections.each do |omb_cx_reporting_collection| %>
+      <tr>
+        <tr>
+          <%= omb_cx_reporting_collection.inspect %> 
+        </tr>
+        <tr>
+
+        </tr>
+        <td><%= link_to 'Show', admin_omb_cx_reporting_collection_path(omb_cx_reporting_collection) %></td>
+        <td><%= link_to 'Edit', edit_admin_omb_cx_reporting_collection_path(omb_cx_reporting_collection) %></td>
+        <td><%= link_to 'Destroy', admin_omb_cx_reporting_collection_path(omb_cx_reporting_collection), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Omb Cx Reporting Collection', new_admin_omb_cx_reporting_collection_path %>

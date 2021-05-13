@@ -1,0 +1,101 @@
+<% content_for :navigation_title do %>
+  Data Collection
+  <%= link_to edit_admin_collection_path(@collection), class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-pencil-alt"></i>
+    Edit
+  <% end %>
+<% end %>
+
+<p>
+  <%= link_to admin_collections_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Data Collections
+  <% end %>
+</p>
+
+<h2>
+  <%= @collection.name %>
+</h2>
+
+<div class="text-uppercase font-body-3xs">
+  About this collection
+</div>
+<p>
+  CX Customer Experience reporting is rooted in A-11 Section 280 guidance.
+</p>
+<p>
+  Each quarter, OMB collects data from all HISPs and the data reported on performance.gov/cx.
+</p>
+
+<div class="well">
+  <p>
+    <strong>Organization:</strong>
+    <%= @collection.organization.name %>
+  </p>
+  <p>
+    <strong>User:</strong>
+    <%= @collection.user.email if @collection.user %>
+  </p>
+
+  <p>
+    <strong>Date range:</strong>
+    <br>
+    <span><%= @collection.start_date %></span>
+    to
+    <br>
+    <span><%= @collection.end_date %></span>
+  </p>
+
+  <p>
+    <strong>Year:</strong>
+    <%= @collection.year %>
+  </p>
+
+  <p>
+    <strong>Quarter:</strong>
+    <%= @collection.quarter %>
+  </p>
+</div>
+
+<p>
+  <strong>Status</strong>
+  <%= @collection.aasm_state %>
+</p>
+
+<div class="usa-step-indicator" aria-label="progress">
+  <ol class="usa-step-indicator__segments">
+    <li class="usa-step-indicator__segment usa-step-indicator__segment--complete">
+      <span class="usa-step-indicator__segment-label">
+        Draft
+        <% if @collection.draft? %>
+          <span class="usa-sr-only">completed</span>
+        <% end %>
+      </span>
+    </li>
+    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if @collection.published? %> <%= "usa-step-indicator__segment--current" if @collection.finalized? %>">
+      <span class="usa-step-indicator__segment-label">
+        Finalize
+        <span class="usa-sr-only">completed</span>
+      </span>
+    </li>
+    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if @collection.archived? %> <%= "usa-step-indicator__segment--current" if @collection.published? %>"  aria-current="true">
+      <span class="usa-step-indicator__segment-label">Publish</span>
+    </li>
+  </ol>
+</div>
+
+<p>
+  <strong>Integrity hash:</strong>
+  <%= @collection.integrity_hash || "not yet finalized" %>
+</p>
+
+<div class="well">
+  <% OmbCxReportingCollection.where(collection_id: @collection.id).each do |collection| %>
+    <%= link_to (collection.service_provided || "this"), admin_omb_cx_reporting_collection_path(collection) %>
+    <br>
+  <% end %>
+
+  <p>
+    <%= link_to "Add a Service Touchpoint to report on", new_admin_omb_cx_reporting_collection_path, class: "usa-button" %>
+  </p>
+</div>

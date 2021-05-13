@@ -1,0 +1,15 @@
+<% content_for :navigation_title do %>
+  Editing Data Collection
+<% end %>
+
+<p>
+  <%= link_to admin_collection_path(@collection) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Data Collection
+  <% end %>
+</p>
+
+<%= render 'form', collection: @collection %>
+
+<%= link_to 'Show', admin_collection_path(@collection) %> |
+<%= link_to 'Destroy', admin_collection_path(@collection), method: :delete, data: { confirm: 'Are you sure?' } %>
