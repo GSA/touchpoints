@@ -165,7 +165,7 @@ GEM
       railties (>= 3.2)
     erubi (1.10.0)
     excon (0.81.0)
-    execjs (2.8.0)
+    execjs (2.7.0)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
