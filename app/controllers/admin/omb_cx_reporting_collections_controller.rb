@@ -2,25 +2,20 @@ class Admin::OmbCxReportingCollectionsController < AdminController
   before_action :ensure_admin
   before_action :set_omb_cx_reporting_collection, only: [:show, :edit, :update, :destroy]
 
-  # GET /omb_cx_reporting_collections
   def index
     @omb_cx_reporting_collections = OmbCxReportingCollection.all
   end
 
-  # GET /omb_cx_reporting_collections/1
   def show
   end
 
-  # GET /omb_cx_reporting_collections/new
   def new
     @omb_cx_reporting_collection = OmbCxReportingCollection.new
   end
 
-  # GET /omb_cx_reporting_collections/1/edit
   def edit
   end
 
-  # POST /omb_cx_reporting_collections
   def create
     @omb_cx_reporting_collection = OmbCxReportingCollection.new(omb_cx_reporting_collection_params)
 
@@ -31,7 +26,6 @@ class Admin::OmbCxReportingCollectionsController < AdminController
     end
   end
 
-  # PATCH/PUT /omb_cx_reporting_collections/1
   def update
     if @omb_cx_reporting_collection.update(omb_cx_reporting_collection_params)
       redirect_to admin_omb_cx_reporting_collection_path(@omb_cx_reporting_collection), notice: 'Omb cx reporting collection was successfully updated.'
@@ -40,19 +34,16 @@ class Admin::OmbCxReportingCollectionsController < AdminController
     end
   end
 
-  # DELETE /omb_cx_reporting_collections/1
   def destroy
     @omb_cx_reporting_collection.destroy
     redirect_to admin_omb_cx_reporting_collections_url, notice: 'Omb cx reporting collection was successfully destroyed.'
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_omb_cx_reporting_collection
       @omb_cx_reporting_collection = OmbCxReportingCollection.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def omb_cx_reporting_collection_params
       params.require(:omb_cx_reporting_collection).permit(
         :collection_id,
