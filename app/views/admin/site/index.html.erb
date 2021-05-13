@@ -31,6 +31,16 @@
               </a>
             </li>
             <li>
+              <a href="/admin/users">
+                <span>Users</span>
+              </a>
+            </li>
+            <li>
+              <%= link_to admin_services_path do %>
+              <span>Services</span>
+              <% end %>
+            </li>
+            <li>
               <a href="/admin/websites">
                 <span>Websites</span>
               </a>
@@ -40,9 +50,14 @@
               </a>
             </li>
             <li>
-              <a href="/admin/users">
-                <span>Users</span>
-              </a>
+              <%= link_to admin_barriers_path do %>
+                <span>Barriers</span>
+              <% end %>
+            </li>
+            <li>
+              <%= link_to admin_collections_path do %>
+              <span>Data Collections</span>
+              <% end %>
             </li>
             <li>
               <a href="/admin/sidekiq">

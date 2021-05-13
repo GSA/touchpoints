@@ -29,6 +29,12 @@ class Website < ApplicationRecord
     "Informational"
   ]
 
+  DIGITAL_BRAND_CATEGORIES = [
+    "GSA Business",
+    "Hybrid",
+    "External"
+  ]
+
   def admin?(user:)
     raise ArgumentException unless user.class == User
 

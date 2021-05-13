@@ -264,14 +264,8 @@ tbody tr:hover td {
     border: none;
     border-bottom: 1px solid #f0f0f0;
   }
-  th:first-child {
-    border-top-left-radius: 10px;
-  }
   td:first-child {
     border-left: 1px solid #f0f0f0;
-  }
-  th:last-child {
-    border-top-right-radius: 10px;
   }
   td:last-child {
     border-right: 1px solid #f0f0f0;
@@ -311,7 +305,6 @@ tbody tr:hover td {
     }
   }
 }
-
 
 #star_rating svg {
 	width: 1em;

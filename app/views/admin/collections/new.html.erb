@@ -1,0 +1,12 @@
+<% content_for :navigation_title do %>
+  New Data Collection
+<% end %>
+
+<p>
+  <%= link_to admin_collections_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Data Collections
+  <% end %>
+</p>
+
+<%= render 'form', collection: @collection %>

@@ -144,11 +144,19 @@
     </p>
     <p>
       <strong>Type of site:</strong>
-      <%= @website.type_of_site %>
+      <p>
+        <% Website::TYPE_OF_SITES.each do |category| %>
+        <span class="usa-tag bg-primary-light <%= "bg-primary" if category.downcase == @website.type_of_site.downcase %>"><%= category %></span>
+        <% end %>
+      </p>
     </p>
     <p>
       <strong>Digital brand category:</strong>
-      <%= @website.digital_brand_category %>
+      <p>
+      <% Website::DIGITAL_BRAND_CATEGORIES.each do |category| %>
+        <span class="usa-tag bg-primary-light <%= "bg-primary" if category.downcase == @website.digital_brand_category.downcase %>"><%= category %></span>
+      <% end %>
+      </p>
     </p>
   </div>
   <div class="grid-col-6">

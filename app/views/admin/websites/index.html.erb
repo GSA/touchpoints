@@ -1,6 +1,13 @@
 <% content_for :navigation_title do %>
   Websites
+  <% if admin_permissions? %>
+  <%= link_to new_admin_website_path, class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-plus-circle"></i>
+    New Website
+  <% end %>
+  <% end %>
 <% end %>
+
 <p>
   <%= link_to admin_dashboard_path do %>
     <i class="fa fa-arrow-circle-left"></i>
@@ -46,12 +53,6 @@
 <div class="search-results">
   <%= render 'results' %>
 </div>
-
-<% if admin_permissions? %>
-<p>
-  <%= link_to 'Create New Website', new_admin_website_path, class: "usa-button" %>
-</p>
-<% end %>
 
 <p>
   <%= link_to 'Export all websites to CSV', export_csv_admin_websites_path, class: "usa-button usa-button--outline" %>

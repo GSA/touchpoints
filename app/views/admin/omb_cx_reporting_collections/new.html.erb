@@ -1,0 +1,11 @@
+<% content_for :navigation_title do %>
+  New Omb Cx Reporting Collection
+<% end %>
+<p>
+  <%= link_to admin_collections_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Data Collections
+  <% end %>
+</p>
+
+<%= render 'form', omb_cx_reporting_collection: @omb_cx_reporting_collection %>

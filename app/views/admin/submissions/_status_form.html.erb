@@ -17,11 +17,11 @@
   <% end %>
 
   <div class="grid-row grid-gap-md">
-    <div class="grid-col-6">
+    <div class="grid-col-12">
       <p>
         Every response begins with a "received" status.
-        From the received status, a Response can proceed through the states of:
-        Acknowledged, Dispatched, and Responded.
+        You have the option to track
+        additional states of a response by updating its status.
       </p>
       <fieldset class="usa-fieldset">
         <div>
@@ -31,11 +31,8 @@
       </fieldset>
     </div>
   </div>
-  <div class="grid-row grid-gap-md">
-    <p>
-      <%= f.submit "Update status", class: "usa-button" %>
-    </p>
-  </div>
+  <br>
+  <%= f.submit "Update status", class: "usa-button" %>
 <% end %>
 
 <script type="text/javascript">

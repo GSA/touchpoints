@@ -7,116 +7,148 @@
     Back to Responses
   <% end %>
 </p>
-<br>
-<div class="text-uppercase font-body-3xs">
-  In response to Touchpoint form
-</div>
-<p>
-  <label class="usa-label">
-    Organization
-  </label>
-  <%= link_to(@submission.form.organization.name, admin_organization_path(@submission.form.organization)) %>
-</p>
-<p>
-  <label class="usa-label">
-    Form
-  </label>
-  <%= link_to(@submission.form.name, touchpoint_path(@submission.form)) %>
-</p>
-<p>
-  <label class="usa-label">
-    Response count
-  </label>
-  <%= @submission.form.response_count %>
-</p>
+<div class="grid-row grid-gap-md">
+  <div class="grid-col-8">
+    <div class="well">
+      <div class="text-uppercase font-body-3xs">
+        Form information
+      </div>
+      <div class="grid-row grid-gap-md">
+        <div class="grid-col-12">
+          <label class="usa-label">
+            Organization
+          </label>
+          <%= link_to(@submission.form.organization.name, admin_organization_path(@submission.form.organization)) %>
+        </div>
+      </div>
+      <div class="grid-row grid-gap-md">
+        <div class="grid-col-6">
+          <label class="usa-label">
+            Name
+          </label>
+          <%= link_to(@submission.form.name, admin_form_path(@submission.form)) %>
+        </div>
+        <div class="grid-col-6">
+          <label class="usa-label">
+            Title
+          </label>
+          <%= link_to(@submission.form.title, questions_admin_form_path(@submission.form)) %>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div class="responses">
+      <div class="text-uppercase font-body-3xs">
+        Response answers
+      </div>
 
-<div class="well">
-  <div class="text-uppercase font-body-3xs">
-    Response metadata
+      <table class="usa-table" style="width: 100%;">
+        <thead>
+          <tr>
+            <th>
+              Question
+            </th>
+            <th>
+              Answer
+            </th>
+          </tr>
+        </thead>
+      <% @form.questions.each do |question| %>
+      <% next if question.question_type == "text_display" %>
+      <tr>
+        <td>
+          <%= question.text %>
+        </td>
+        <td>
+          <%= sanitize(@submission.send(question.answer_field.to_sym)) %>
+        </td>
+      </tr>
+      <% end %>
+      </table>
+    </div>
+    <br>
+    <br>
+    <div class="well">
+      <div class="text-uppercase font-body-3xs">
+        Response metadata
+      </div>
+
+      <p>
+        <label class="usa-label">
+          Unique Response ID
+        </label>
+        <%= @submission.uuid %>
+      </p>
+      <p>
+        <label class="usa-label">
+          Received at
+        </label>
+        <%= @submission.created_at %> -
+        <%= time_ago_in_words(@submission.created_at) %> ago
+      </p>
+      <p>
+        <label class="usa-label">
+          Location code
+        </label>
+        <%= @submission.location_code? ? @submission.location_code : "none" %>
+      </p>
+      <p>
+        <label class="usa-label">
+          User agent
+        </label>
+        <%= @submission.user_agent %>
+      </p>
+      <p>
+        <label class="usa-label">
+          Page submitted from
+        </label>
+        <%= @submission.page %>
+      </p>
+      <p>
+        <label class="usa-label">
+          Referer
+        </label>
+        <%= @submission.referer %>
+      </p>
+      <p>
+        <label class="usa-label">
+          Language
+        </label>
+        <%= @submission.language %>
+      </p>
+      <p>
+        <label class="usa-label">
+          Flagged
+        </label>
+        <%= @submission.flagged %>
+      </p>
+      <p>
+        <label class="usa-label">
+          Archived
+        </label>
+        <%= @submission.archived? %>
+      </p>
+    </div>
   </div>
-
-  <p>
-    <label class="usa-label">
-      Unique Response ID
-    </label>
-    <%= @submission.uuid %>
-  </p>
-  <p>
-    <label class="usa-label">
-      Received at
-    </label>
-    <%= @submission.created_at %> -
-    <%= time_ago_in_words(@submission.created_at) %> ago
-  </p>
-  <p>
-    <label class="usa-label">
-      Location code
-    </label>
-    <%= @submission.location_code? ? @submission.location_code : "none" %>
-  </p>
-  <p>
-    <label class="usa-label">
-      User agent
-    </label>
-    <%= @submission.user_agent %>
-  </p>
-  <p>
-    <label class="usa-label">
-      Page submitted from
-    </label>
-    <%= @submission.page %>
-  </p>
-  <p>
-    <label class="usa-label">
-      Referer
-    </label>
-    <%= @submission.referer %>
-  </p>
-  <p>
-    <label class="usa-label">
-      Language
-    </label>
-    <%= @submission.language %>
-  </p>
-  <p>
-    <label class="usa-label">
-      Flagged
-    </label>
-    <%= @submission.flagged %>
-  </p>
-  <p>
-    <label class="usa-label">
-      Archived
-    </label>
-    <%= @submission.archived? %>
-  </p>
-</div>
-
-<br>
-<div class="text-uppercase font-body-3xs">
-  Question responses
-</div>
-
-<% @form.questions.each do |question| %>
-  <% next if question.question_type == "text_display" %>
-  <% if @form.ui_truncate_text_responses? %>
-    <strong class="usa-label">
-      <%= question.text %>
-    </strong>
-    <p>
-      <%= sanitize(@submission.send(question.answer_field.to_sym)) %>
-    </p>
-  <% end %>
-<% end %>
-
-<br>
-<br>
-
-<div class="well">
-  <div class="text-uppercase font-body-3xs">
-    Processing each response
+  <div class="grid-col-4">
+    <div class="well usa-section usa-section--dark">
+      <div class="text-uppercase font-body-3xs">
+        Processing each response
+      </div>
+      <%= render 'admin/submissions/status_form', { form: @form, submission: @submission } %>
+    </div>
+    <div class="usa-alert usa-alert--info usa-alert--slim" >
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
+          About the
+          <%= link_to "https://github.com/GSA/touchpoints/wiki/Feedback-lifecyle", target: "_blank", rel: "noopener" do %>
+          Feedback lifecycle
+          <% end %>
+        </p>
+      </div>
+    </div>
   </div>
-  <%= render 'admin/submissions/status_form', { form: @form, submission: @submission } %>
 </div>
 
 <% if form_permissions?(form: @form) %>
