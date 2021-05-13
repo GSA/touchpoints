@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   def ensure_user
     if !current_user
       store_location_for(:user, request.fullpath)
-      redirect_to(index_path, notice: "Authorization is Required") unless current_user
+      redirect_to(index_path, notice: "Authorization is Required")
     end
   end
 
@@ -91,5 +91,5 @@ class ApplicationController < ActionController::Base
     else
       super
     end
-  end  
+  end
 end

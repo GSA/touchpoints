@@ -46,7 +46,9 @@ class Admin::CollectionsController < AdminController
     end
 
     def collection_params
-      params.require(:collection).permit(:name, :start_date, :end_date, :organization_id, :year, :quarter, :user_id, :integrity_hash,
+      params.require(:collection).permit(:name, :start_date, :end_date, :organization_id, :year, :quarter, :user_id,
+      :reflection,
+      :integrity_hash,
       :aasm_state)
     end
 end

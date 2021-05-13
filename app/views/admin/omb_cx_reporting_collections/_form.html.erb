@@ -11,14 +11,10 @@
   </div>
 <% end %>
 
-<div class="actions">
-  <%= form.submit %>
-</div>
-
-<div class="usa-section">
+<div>
   <div class="field">
     <%= form.label :collection_id, class: "usa-label" %>
-    <%= form.text_field :collection_id, class: "usa-input" %>
+    <%= form.select :collection_id, options_for_select(Collection.all.map { |c| ["FY#{c.year}-Q#{c.quarter} #{c.name}", c.id]}), { include_blank: true }, class: "usa-select" %>
   </div>
   <div class="field">
     <%= form.label :service_provided, class: "usa-label" %>
@@ -336,14 +332,6 @@
     </tr>
   </tbody>
 </table>
-
-<label for="" class="usa-label">
-  Reflection on data
-</label>
-<small>
-  What did your agency learn from this quarter / past pull's data? What seems to matter to your customers? Where might there be a pain point?
-</small>
-<textarea name="name" rows="8" cols="80" class="usa-textarea"></textarea>
 
 <p>
   <%= form.submit class: "usa-button", style: "width: 100%;" %>

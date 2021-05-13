@@ -65,6 +65,12 @@
     </div>
   </fieldset>
 
+  <%= f.label :reflection, class: "usa-label" %>
+  <small>
+    What did your agency learn from this quarter / past pull's data? What seems to matter to your customers? Where might there be a pain point?
+  </small>
+
+  <%= f.text_area :reflection, class: "usa-textarea", rows: 8 %>
 
   <p>
     <%= f.submit class: "usa-button" %>

@@ -1,6 +1,13 @@
-<p id="notice"><%= notice %></p>
+<% content_for :navigation_title do %>
+  Omb Cx Reporting Collections
+<% end %>
+<p>
+  <%= link_to admin_services_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Services
+  <% end %>
+</p>
 
-<h1>Omb Cx Reporting Collections</h1>
 
 <table>
   <thead>
@@ -13,7 +20,7 @@
     <% @omb_cx_reporting_collections.each do |omb_cx_reporting_collection| %>
       <tr>
         <tr>
-          <%= omb_cx_reporting_collection.inspect %> 
+          <%= omb_cx_reporting_collection.inspect %>
         </tr>
         <tr>
 

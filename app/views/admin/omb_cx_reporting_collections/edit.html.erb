@@ -1,6 +1,16 @@
-<h1>Editing Omb Cx Reporting Collection</h1>
+<% content_for :navigation_title do %>
+  Editing Omb Cx Reporting Collection
+  <%= link_to new_admin_collection_path, class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-pencil-alt"></i>
+    New Data Collection
+  <% end %>
+<% end %>
+
+<p>
+  <%= link_to admin_collections_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Data Collections
+  <% end %>
+</p>
 
 <%= render 'form', omb_cx_reporting_collection: @omb_cx_reporting_collection %>
-
-<%= link_to 'Show', admin_omb_cx_reporting_collection_path(@omb_cx_reporting_collection) %> |
-<%= link_to 'Back', admin_omb_cx_reporting_collections_path %>
