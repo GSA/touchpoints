@@ -386,3 +386,11 @@ Website.create!({
   domain: "touchpoints.digital.gov",
   production_status: "production"
 })
+
+Collection.create({
+  organization_id: Organization.first,
+  user: User.all.sample,
+  name: "CX Quarterly Data Collection",
+  start_date: "2021-01-01",
+  end_date: "2021-03-31"
+})
