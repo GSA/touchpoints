@@ -41,9 +41,13 @@ Rails.application.routes.draw do
     resources :services do
       member do
         get "equity-assessment", to: "services#equity_assessment", as: :equity_assessment
+        get "cx-reporting", to: "services#omb_cx_reporting", as: :omb_cx_reporting
       end
       resources :service_stages
     end
+
+    resources :collections
+    resources :omb_cx_reporting_collections
 
     resources :websites do
       collection do

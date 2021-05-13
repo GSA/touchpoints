@@ -1,0 +1,2 @@
+class OmbCxReportingCollection < ApplicationRecord
+end

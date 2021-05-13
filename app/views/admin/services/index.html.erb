@@ -1,5 +1,9 @@
 <% content_for :navigation_title do %>
   Services
+  <%= link_to new_admin_service_path, class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-plus-circle"></i>
+    New Service
+  <% end %>
 <% end %>
 
 <p>
@@ -12,7 +16,9 @@
 <table class="usa-table">
   <thead>
     <tr>
+    <% if admin_permissions? %>
       <th>Organization</th>
+    <% end %>
       <th>Name</th>
       <th># of Stages</th>
     </tr>
@@ -21,13 +27,12 @@
   <tbody>
     <% @services.each do |service| %>
       <tr>
+      <% if admin_permissions? %>
         <td><%= service.organization.name %></td>
+      <% end %>
         <td><%= link_to service.name, admin_service_path(service) %></td>
         <td><%= link_to service.service_stages.count, admin_service_service_stages_path(service) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-<p>
-  <%= link_to 'New Service', new_admin_service_path, class: "usa-button" %>
-</p>

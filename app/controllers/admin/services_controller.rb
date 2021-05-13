@@ -1,6 +1,10 @@
 class Admin::ServicesController < AdminController
   before_action :ensure_admin
-  before_action :set_service, only: [:show, :edit, :update, :destroy, :equity_assessment]
+  before_action :set_service, only: [
+    :show, :edit, :update, :destroy,
+    :equity_assessment,
+    :omb_cx_reporting,
+  ]
 
   def index
     @services = Service.all
@@ -40,6 +44,9 @@ class Admin::ServicesController < AdminController
   end
 
   def equity_assessment
+  end
+
+  def omb_cx_reporting
   end
 
   private

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_07_055442) do
+ActiveRecord::Schema.define(version: 2021_05_13_005842) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,20 @@ ActiveRecord::Schema.define(version: 2021_05_07_055442) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "collections", force: :cascade do |t|
+    t.string "name"
+    t.date "start_date"
+    t.date "end_date"
+    t.integer "organization_id"
+    t.string "year"
+    t.string "quarter"
+    t.integer "user_id"
+    t.string "integrity_hash"
+    t.string "aasm_state"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "events", force: :cascade do |t|
@@ -94,6 +108,87 @@ ActiveRecord::Schema.define(version: 2021_05_07_055442) do
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["uuid"], name: "index_forms_on_uuid"
+  end
+
+  create_table "omb_cx_reporting_collections", force: :cascade do |t|
+    t.integer "collection_id"
+    t.string "service_provided"
+    t.text "transaction_point"
+    t.string "channel"
+    t.integer "volume_of_customers"
+    t.integer "volume_of_customers_provided_survey_opportunity"
+    t.integer "volume_of_respondents"
+    t.string "omb_control_number"
+    t.string "federal_register_url"
+    t.string "q1_text"
+    t.string "q1_1"
+    t.string "q1_2"
+    t.string "q1_3"
+    t.string "q1_4"
+    t.string "q1_5"
+    t.string "q2_text"
+    t.string "q2_1"
+    t.string "q2_2"
+    t.string "q2_3"
+    t.string "q2_4"
+    t.string "q2_5"
+    t.string "q3_text"
+    t.string "q3_1"
+    t.string "q3_2"
+    t.string "q3_3"
+    t.string "q3_4"
+    t.string "q3_5"
+    t.string "q4_text"
+    t.string "q4_1"
+    t.string "q4_2"
+    t.string "q4_3"
+    t.string "q4_4"
+    t.string "q4_5"
+    t.string "q5_text"
+    t.string "q5_1"
+    t.string "q5_2"
+    t.string "q5_3"
+    t.string "q5_4"
+    t.string "q5_5"
+    t.string "q6_text"
+    t.string "q6_1"
+    t.string "q6_2"
+    t.string "q6_3"
+    t.string "q6_4"
+    t.string "q6_5"
+    t.string "q7_text"
+    t.string "q7_1"
+    t.string "q7_2"
+    t.string "q7_3"
+    t.string "q7_4"
+    t.string "q7_5"
+    t.string "q8_text"
+    t.string "q8_1"
+    t.string "q8_2"
+    t.string "q8_3"
+    t.string "q8_4"
+    t.string "q8_5"
+    t.string "q9_text"
+    t.string "q9_1"
+    t.string "q9_2"
+    t.string "q9_3"
+    t.string "q9_4"
+    t.string "q9_5"
+    t.string "q10_text"
+    t.string "q10_1"
+    t.string "q10_2"
+    t.string "q10_3"
+    t.string "q10_4"
+    t.string "q10_5"
+    t.string "q11_text"
+    t.string "q11_1"
+    t.string "q11_2"
+    t.string "q11_3"
+    t.string "q11_4"
+    t.string "q11_5"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["collection_id"], name: "index_omb_cx_reporting_collections_on_collection_id"
   end
 
   create_table "organizations", force: :cascade do |t|

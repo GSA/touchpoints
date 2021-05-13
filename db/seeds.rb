@@ -371,3 +371,18 @@ ServiceStageBarrier.create({
   service_stage: stage_after,
   barrier: barrier_3
 })
+
+Website.create!({
+  domain: "gsa.gov",
+  production_status: "production"
+})
+
+Website.create!({
+  domain: "digital.gov",
+  production_status: "production"
+})
+
+Website.create!({
+  domain: "touchpoints.digital.gov",
+  production_status: "production"
+})

@@ -14,7 +14,7 @@ feature "Managing Websites", js: true do
     it "load the Websites#index page" do
       expect(page).to have_content("Websites")
       expect(page).to have_content("Website inventory is an experimental feature.")
-      expect(page).to have_content("Create New Website")
+      expect(page).to have_content("New Website")
     end
 
     describe "create a new Website" do
