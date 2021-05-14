@@ -19,16 +19,25 @@ class Collection < ApplicationRecord
 
   aasm do
     state :draft, initial: true
-    state :finalized
+    state :submitted
     state :published
+    state :change_requested
     state :archived
 
-    event :finalize do
-     transitions from: :draft, to: :finalized
+    event :submit do
+     transitions from: :draft, to: :submitted
     end
 
     event :publish do
-     transitions from: :finalized, to: :published
+     transitions from: :submitted, to: :published
+    end
+
+    event :request_change do
+      transitions to: :change_requested
+    end
+
+    event :archive do
+      transitions to: :archived
     end
 
     event :reset do
