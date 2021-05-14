@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_13_202937) do
+ActiveRecord::Schema.define(version: 2021_05_14_004620) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,71 +122,71 @@ ActiveRecord::Schema.define(version: 2021_05_13_202937) do
     t.string "omb_control_number"
     t.string "federal_register_url"
     t.string "q1_text"
-    t.string "q1_1"
-    t.string "q1_2"
-    t.string "q1_3"
-    t.string "q1_4"
-    t.string "q1_5"
+    t.integer "q1_1", default: 0
+    t.integer "q1_2", default: 0
+    t.integer "q1_3", default: 0
+    t.integer "q1_4", default: 0
+    t.integer "q1_5", default: 0
     t.string "q2_text"
-    t.string "q2_1"
-    t.string "q2_2"
-    t.string "q2_3"
-    t.string "q2_4"
-    t.string "q2_5"
+    t.integer "q2_1", default: 0
+    t.integer "q2_2", default: 0
+    t.integer "q2_3", default: 0
+    t.integer "q2_4", default: 0
+    t.integer "q2_5", default: 0
     t.string "q3_text"
-    t.string "q3_1"
-    t.string "q3_2"
-    t.string "q3_3"
-    t.string "q3_4"
-    t.string "q3_5"
+    t.integer "q3_1", default: 0
+    t.integer "q3_2", default: 0
+    t.integer "q3_3", default: 0
+    t.integer "q3_4", default: 0
+    t.integer "q3_5", default: 0
     t.string "q4_text"
-    t.string "q4_1"
-    t.string "q4_2"
-    t.string "q4_3"
-    t.string "q4_4"
-    t.string "q4_5"
+    t.integer "q4_1", default: 0
+    t.integer "q4_2", default: 0
+    t.integer "q4_3", default: 0
+    t.integer "q4_4", default: 0
+    t.integer "q4_5", default: 0
     t.string "q5_text"
-    t.string "q5_1"
-    t.string "q5_2"
-    t.string "q5_3"
-    t.string "q5_4"
-    t.string "q5_5"
+    t.integer "q5_1", default: 0
+    t.integer "q5_2", default: 0
+    t.integer "q5_3", default: 0
+    t.integer "q5_4", default: 0
+    t.integer "q5_5", default: 0
     t.string "q6_text"
-    t.string "q6_1"
-    t.string "q6_2"
-    t.string "q6_3"
-    t.string "q6_4"
-    t.string "q6_5"
+    t.integer "q6_1", default: 0
+    t.integer "q6_2", default: 0
+    t.integer "q6_3", default: 0
+    t.integer "q6_4", default: 0
+    t.integer "q6_5", default: 0
     t.string "q7_text"
-    t.string "q7_1"
-    t.string "q7_2"
-    t.string "q7_3"
-    t.string "q7_4"
-    t.string "q7_5"
+    t.integer "q7_1", default: 0
+    t.integer "q7_2", default: 0
+    t.integer "q7_3", default: 0
+    t.integer "q7_4", default: 0
+    t.integer "q7_5", default: 0
     t.string "q8_text"
-    t.string "q8_1"
-    t.string "q8_2"
-    t.string "q8_3"
-    t.string "q8_4"
-    t.string "q8_5"
+    t.integer "q8_1", default: 0
+    t.integer "q8_2", default: 0
+    t.integer "q8_3", default: 0
+    t.integer "q8_4", default: 0
+    t.integer "q8_5", default: 0
     t.string "q9_text"
-    t.string "q9_1"
-    t.string "q9_2"
-    t.string "q9_3"
-    t.string "q9_4"
-    t.string "q9_5"
+    t.integer "q9_1", default: 0
+    t.integer "q9_2", default: 0
+    t.integer "q9_3", default: 0
+    t.integer "q9_4", default: 0
+    t.integer "q9_5", default: 0
     t.string "q10_text"
-    t.string "q10_1"
-    t.string "q10_2"
-    t.string "q10_3"
-    t.string "q10_4"
-    t.string "q10_5"
+    t.integer "q10_1", default: 0
+    t.integer "q10_2", default: 0
+    t.integer "q10_3", default: 0
+    t.integer "q10_4", default: 0
+    t.integer "q10_5", default: 0
     t.string "q11_text"
-    t.string "q11_1"
-    t.string "q11_2"
-    t.string "q11_3"
-    t.string "q11_4"
-    t.string "q11_5"
+    t.integer "q11_1", default: 0
+    t.integer "q11_2", default: 0
+    t.integer "q11_3", default: 0
+    t.integer "q11_4", default: 0
+    t.integer "q11_5", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["collection_id"], name: "index_omb_cx_reporting_collections_on_collection_id"
