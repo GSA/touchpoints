@@ -106,4 +106,33 @@
     $(option_selector).prop('checked',true);
     $(option_selector).val(val);
   });
+  function showValid(elem) {
+    var questionDiv = $(elem).closest(".question");
+    $(questionDiv).removeClass('usa-form-group--error');
+    var span = questionDiv.find('#input-error-message');
+    $(elem).removeClass("usa-input--error");
+    $(elem).addClass("usa-input--success");
+    $(span).remove();
+  }
+  function showWarning(elem, msg) {
+    var questionDiv = $(elem).closest(".question");
+    $(questionDiv).addClass('usa-form-group--error');
+    var span = questionDiv.find('#input-error-message');
+    var label = questionDiv.find("label");
+    $(elem).addClass("usa-input--error");
+    $(elem).removeClass("usa-input--success");
+    var span = questionDiv.find('#email-input-error-message');
+    if (span.length == 0) {
+      console.log("Creating error span");
+      span = document.createElement('span');
+      span.setAttribute('id', 'input-error-message');
+      span.setAttribute('role','alert');
+      span.setAttribute('class','usa-error-message');
+    } else {
+      console.log("Found error span");
+    }
+    span.innerText = msg;
+    $(span).insertAfter(label)
+    $(this).focus();
+  }
 </script>
