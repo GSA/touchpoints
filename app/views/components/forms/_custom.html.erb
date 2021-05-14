@@ -123,13 +123,10 @@
     $(elem).removeClass("usa-input--success");
     var span = questionDiv.find('#email-input-error-message');
     if (span.length == 0) {
-      console.log("Creating error span");
       span = document.createElement('span');
       span.setAttribute('id', 'input-error-message');
       span.setAttribute('role','alert');
       span.setAttribute('class','usa-error-message');
-    } else {
-      console.log("Found error span");
     }
     span.innerText = msg;
     $(span).insertAfter(label)
