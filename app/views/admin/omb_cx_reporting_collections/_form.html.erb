@@ -14,7 +14,7 @@
 <div>
   <div class="field">
     <%= form.label :collection_id, class: "usa-label" %>
-    <%= form.select :collection_id, options_for_select(Collection.all.map { |c| ["FY#{c.year}-Q#{c.quarter} #{c.name}", c.id]}), { include_blank: true }, class: "usa-select" %>
+    <%= form.select :collection_id, options_for_select(Collection.all.map { |c| ["#{c.organization.name} - FY#{c.year}-Q#{c.quarter} #{c.name}", c.id]}), { include_blank: true }, class: "usa-select" %>
   </div>
   <div class="field">
     <%= form.label :service_provided, class: "usa-label" %>
@@ -26,7 +26,7 @@
   </div>
   <div class="field">
     <%= form.label :channel, class: "usa-label" %>
-    <%= form.select :channel, [:computer, :mobile, :paper, :in_person], { prompt: "What type of response channel?" }, class: "usa-select" %>
+    <%= form.select :channel, [:computer, :mobile, :paper, :phone, :automated_phone, :in_person], { prompt: "What type of response channel?" }, class: "usa-select" %>
   </div>
   <div class="field">
     <%= form.label :volume_of_customers, class: "usa-label" %>
