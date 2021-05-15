@@ -1,38 +1,38 @@
 <% content_for :navigation_title do %>
   Omb Cx Reporting Collections
+
+  <%= link_to new_admin_omb_cx_reporting_collection_path, class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-pencil-alt"></i>
+    New Collection
+  <% end %>
 <% end %>
 <p>
-  <%= link_to admin_services_path do %>
+  <%= link_to admin_collections_path do %>
     <i class="fa fa-arrow-circle-left"></i>
-    Back to Services
+    Back to Data Collections
   <% end %>
 </p>
 
-
-<table>
+<table class="usa-table">
   <thead>
     <tr>
-      <th colspan="3"></th>
+      <th>Collection name</th>
+      <th>Service provided</th>
     </tr>
   </thead>
 
   <tbody>
     <% @omb_cx_reporting_collections.each do |omb_cx_reporting_collection| %>
       <tr>
-        <tr>
-          <%= omb_cx_reporting_collection.inspect %>
-        </tr>
-        <tr>
-
-        </tr>
-        <td><%= link_to 'Show', admin_omb_cx_reporting_collection_path(omb_cx_reporting_collection) %></td>
-        <td><%= link_to 'Edit', edit_admin_omb_cx_reporting_collection_path(omb_cx_reporting_collection) %></td>
-        <td><%= link_to 'Destroy', admin_omb_cx_reporting_collection_path(omb_cx_reporting_collection), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <%= link_to omb_cx_reporting_collection.collection.name, admin_omb_cx_reporting_collection_path(omb_cx_reporting_collection) %>
+        </td>
+        <td>
+          <%= omb_cx_reporting_collection.service_provided %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New Omb Cx Reporting Collection', new_admin_omb_cx_reporting_collection_path %>

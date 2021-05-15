@@ -14,7 +14,7 @@
   <% if admin_permissions? %>
   <div class="field">
     <%= f.label :organization_id, class: "usa-label" %>
-    <%= f.select :organization_id, options_for_select(Organization.all.map { |o| [o.name, o.id]}), { prompt: "Which Organization?" }, { class: "usa-select" } %>
+    <%= f.select :organization_id, options_for_select(Organization.all.map { |o| [o.name, o.id]}, collection.organization_id), { prompt: "Which Organization?", include_blank: true }, { class: "usa-select" } %>
   </div>
   <% else %>
     <%= f.hidden_field :organization_id, value: current_user.organization_id %>
@@ -28,7 +28,7 @@
 
   <div class="field">
     <%= f.label :aasm_state, class: "usa-label" %>
-    <%= f.select :aasm_state, [:draft, :finalized, :published], { include_blank: true }, class: "usa-select" %>
+    <%= f.select :aasm_state, [:draft, :submitted, :published, :changes_requested], {}, class: "usa-select" %>
   </div>
 
   <div class="field usa-form-group">

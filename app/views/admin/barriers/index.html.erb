@@ -1,10 +1,14 @@
 <% content_for :navigation_title do %>
   Barriers
+  <%= link_to new_admin_barrier_path, class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-plus-circle"></i>
+    New Barrier
+  <% end %>
 <% end %>
 <p>
   <%= link_to admin_forms_path do %>
     <i class="fa fa-arrow-circle-left"></i>
-    Back to My Surveys
+    Back to Surveys
   <% end %>
 </p>
 
@@ -25,7 +29,3 @@
     <% end %>
   </tbody>
 </table>
-
-<p>
-  <%= link_to 'New Barrier', new_admin_barrier_path, class: "usa-button" %>
-</p>
