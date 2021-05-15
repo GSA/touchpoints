@@ -208,8 +208,7 @@ feature "Touchpoints", js: true do
       it "disallows invalid text input" do
         fill_in "answer_03", with: "test@testcom"
         find("#answer_03").native.send_key :tab
-        page.driver.browser.switch_to.alert.accept        
-        expect(find("#answer_03").value).to eq("")
+        expect(page).to have_content("Please enter a valid email")
       end
     end
 
