@@ -28,7 +28,7 @@
 
   <div class="field">
     <%= f.label :aasm_state, class: "usa-label" %>
-    <%= f.select :aasm_state, [:draft, :finalized, :published, :changes_requested], { include_blank: true }, class: "usa-select" %>
+    <%= f.select :aasm_state, [:draft, :submitted, :published, :changes_requested], {}, class: "usa-select" %>
   </div>
 
   <div class="field usa-form-group">

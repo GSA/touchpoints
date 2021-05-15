@@ -72,9 +72,9 @@
         <% end %>
       </span>
     </li>
-    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if @collection.published? %> <%= "usa-step-indicator__segment--current" if @collection.finalized? %>">
+    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if @collection.published? %> <%= "usa-step-indicator__segment--current" if @collection.submitted? %>">
       <span class="usa-step-indicator__segment-label">
-        Finalize
+        Submit
         <span class="usa-sr-only">completed</span>
       </span>
     </li>
@@ -113,11 +113,11 @@
 <p>
   <strong>Integrity hash</strong>
   <br>
-  <%= @collection.integrity_hash || "not yet finalized" %>
+  <%= @collection.integrity_hash || "not yet published" %>
 </p>
 
 <p>
   <%= link_to admin_collections_path, class: "usa-button" do %>
-    Finalize this Data Collection
+    Publish this Data Collection
   <% end %>
 </p>
