@@ -3,6 +3,7 @@ class Collection < ApplicationRecord
 
   belongs_to :organization
   belongs_to :user
+  has_many :omb_cx_reporting_collections
 
   after_create :generate_supporting_elements
 

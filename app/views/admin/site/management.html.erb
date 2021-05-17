@@ -50,11 +50,82 @@
       <h3>
         Data Collections
       </h3>
-      <%= Collection.count %>
+      <%= Collection.count %> Created
+      <br>
+      <%= Collection.where(aasm_state: :published).count %> Published
+
       <h3>
         OMB CX Reporting Collections
       </h3>
       <%= OmbCxReportingCollection.count %>
+
+      <hr>
+
+      <% @total_volume_of_customers = 0 %>
+      <% @total_volume_of_respondents = 0 %>
+
+      <table class="usa-table">
+        <thead>
+          <tr>
+            <th>
+              Organization
+            </th>
+            <th>
+              Service Provided
+            </th>
+            <th>
+              Channel
+            </th>
+            <th>
+              Respondents
+            </th>
+            <th>
+              Total Customers
+            </th>
+          </tr>
+        </thead>
+
+      <% @cx_collections = [] %>
+      <% @collections = Collection.where(quarter: "2").each do |c| %>
+        <% c.omb_cx_reporting_collections.each do |s| %>
+        <% @cx_collections << s %>
+          <tr>
+            <td>
+              <%= c.organization.name %>
+            </td>
+            <td>
+              <%= s.service_provided %>
+            </td>
+            <td>
+              <%= s.channel %>
+            </td>
+            <td>
+              <%= s.volume_of_respondents %>
+            </td>
+            <td>
+              <%= s.volume_of_customers %>
+            </td>
+          </tr>
+          <% @total_volume_of_customers += s.volume_of_customers.to_i %>
+          <% @total_volume_of_respondents += s.volume_of_respondents.to_i %>
+        <% end %>
+      <% end %>
+      <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+          <%= @total_volume_of_respondents %>
+        </td>
+        <td>
+          <%= @total_volume_of_customers %>
+        </td>
+        <td>
+        </td>
+      </tr>
+      </table>
+
     </div>
   </div>
 </div>

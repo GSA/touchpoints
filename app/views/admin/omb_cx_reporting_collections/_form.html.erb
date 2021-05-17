@@ -14,7 +14,7 @@
 <div>
   <div class="field">
     <%= form.label :collection_id, class: "usa-label" %>
-    <%= form.select :collection_id, options_for_select(Collection.all.map { |c| ["#{c.organization.name} - FY#{c.year}-Q#{c.quarter} #{c.name}", c.id]}), { include_blank: true }, class: "usa-select" %>
+    <%= form.select :collection_id, options_for_select(Collection.all.map { |c| ["#{c.organization.name} - FY#{c.year}-Q#{c.quarter} #{c.name}", c.id]}, omb_cx_reporting_collection.collection_id), { include_blank: true }, class: "usa-select" %>
   </div>
   <div class="field">
     <%= form.label :service_provided, class: "usa-label" %>
@@ -30,15 +30,15 @@
   </div>
   <div class="field">
     <%= form.label :volume_of_customers, class: "usa-label" %>
-    <%= form.text_field :volume_of_customers, class: "usa-input", placeholder: "# of customers (total volume)" %>
+    <%= form.number_field :volume_of_customers, class: "usa-input", placeholder: "# of customers (total volume)" %>
   </div>
   <div class="field">
     <%= form.label :volume_of_customers_provided_survey_opportunity, class: "usa-label" %>
-    <%= form.text_field :volume_of_customers_provided_survey_opportunity, class: "usa-input", placeholder: "# of customers shown this prompt" %>
+    <%= form.number_field :volume_of_customers_provided_survey_opportunity, class: "usa-input", placeholder: "# of customers shown this prompt" %>
   </div>
   <div class="field">
     <%= form.label :volume_of_respondents, class: "usa-label" %>
-    <%= form.text_field :volume_of_respondents, class: "usa-input", placeholder: "# of respondents" %>
+    <%= form.number_field :volume_of_respondents, class: "usa-input", placeholder: "# of respondents" %>
   </div>
   <div class="field">
     <%= form.label :omb_control_number, class: "usa-label" %>
