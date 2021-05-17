@@ -77,18 +77,40 @@
               Channel
             </th>
             <th>
+              OMB Control Number
+            </th>
+            <th>
               Respondents
             </th>
             <th>
               Total Customers
             </th>
+            <th>
+              Satisfaction
+            </th>
+            <th>
+              Trust or Confidence
+            </th>
+            <th>
+              Effectiveness (Service)
+            </th>
+            <th>
+              Ease (Process)
+            </th>
+            <th>
+              Efficiency (Process)
+            </th>
+            <th>
+              Transparency (Process)
+            </th>
+            <th>
+              Employee (People)
+            </th>
           </tr>
         </thead>
 
-      <% @cx_collections = [] %>
       <% @collections = Collection.where(quarter: "2").each do |c| %>
         <% c.omb_cx_reporting_collections.each do |s| %>
-        <% @cx_collections << s %>
           <tr>
             <td>
               <%= c.organization.name %>
@@ -100,10 +122,69 @@
               <%= s.channel %>
             </td>
             <td>
+              <%= s.omb_control_number %>
+            </td>
+            <td>
               <%= s.volume_of_respondents %>
             </td>
             <td>
               <%= s.volume_of_customers %>
+            </td>
+            <td class="auto-shade">
+              <%= s.q1_point_scale %>
+            </td>
+            <td class="auto-shade">
+              <%= s.q2_point_scale %>
+            </td>
+            <td class="auto-shade">
+              <%= s.q3_point_scale %>
+            </td>
+            <td class="auto-shade">
+              <%= s.q4_point_scale %>
+            </td>
+            <td class="auto-shade">
+              <%= s.q5_point_scale %>
+            </td>
+            <td class="auto-shade">
+              <%= s.q6_point_scale %>
+            </td>
+            <td class="auto-shade">
+              <%= s.q7_point_scale %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td class="auto-shade">
+              <%= s.q1_total %>
+            </td>
+            <td class="auto-shade">
+              <%= s.q2_total %>
+            </td>
+            <td class="auto-shade">
+              <%= s.q3_total %>
+            </td>
+            <td class="auto-shade">
+              <%= s.q4_total %>
+            </td>
+            <td class="auto-shade">
+              <%= s.q5_total %>
+            </td>
+            <td class="auto-shade">
+              <%= s.q6_total %>
+            </td>
+            <td class="auto-shade">
+              <%= s.q7_total %>
             </td>
           </tr>
           <% @total_volume_of_customers += s.volume_of_customers.to_i %>
@@ -111,6 +192,11 @@
         <% end %>
       <% end %>
       <tr>
+        <td>
+          TOTALS
+        </td>
+        <td>
+        </td>
         <td>
         </td>
         <td>
@@ -123,9 +209,20 @@
         </td>
         <td>
         </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
       </tr>
       </table>
-
     </div>
   </div>
 </div>
