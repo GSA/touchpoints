@@ -22,13 +22,12 @@
 
   <div class="field">
     <%= f.label :name, class: "usa-label" %>
-    <%= f.text_field :name, class: "usa-input" %>
-    <%= f.select :name, ["CX Quarterly Reporting"], { include_blank: true }, class: "usa-select" %>
+    <%= f.select :name, ["CX Quarterly Reporting"], {}, class: "usa-select" %>
   </div>
 
   <div class="field">
     <%= f.label :aasm_state, class: "usa-label" %>
-    <%= f.select :aasm_state, [:draft, :submitted, :published, :changes_requested], {}, class: "usa-select" %>
+    <%= f.select :aasm_state, [:draft, :submitted, :published, :change_requested], {}, class: "usa-select" %>
   </div>
 
   <div class="field usa-form-group">
