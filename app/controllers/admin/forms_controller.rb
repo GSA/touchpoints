@@ -21,6 +21,7 @@ class Admin::FormsController < AdminController
     :add_user, :remove_user,
     :publish,
     :archive,
+    :update_ui_truncation,
     :update_title, :update_instructions, :update_disclaimer_text
   ]
 
@@ -217,6 +218,18 @@ class Admin::FormsController < AdminController
 
   def copy_by_id
     copy
+  end
+
+  def update_ui_truncation
+    ensure_response_viewer(form: @form)
+
+    respond_to do |format|
+      if @form.update(ui_truncate_text_responses: !@form.ui_truncate_text_responses)
+        format.json { render json: {}, status: :ok, location: @form }
+      else
+        format.json { render json: @form.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def update
