@@ -111,7 +111,7 @@
 
       <% @collections = Collection.where(quarter: "2").each do |c| %>
         <% c.omb_cx_reporting_collections.each do |s| %>
-          <tr>
+          <tr class="five-point-scale">
             <td>
               <%= c.organization.name %>
             </td>
@@ -227,3 +227,24 @@
   </div>
 </div>
 <br>
+
+<%= javascript_include_tag "d3.v5.min.js" %>
+<script>
+  var colorScale = d3.scaleLinear()
+    .domain([2, 4.15, 5])
+    .range(["#F9CC9C", "#F3F3F3", "#B6D7A8"]);
+
+  // Loop each row
+  $.each($("tbody tr.five-point-scale"), function() {
+    // Loop each row's .auto-shade cells
+    var cells = $(this).find("td.auto-shade");
+    $.each(cells, function() {
+      var parsedNumber = parseInt($(this).text());
+      if(parsedNumber) {
+        var bgColor = colorScale($(this).text());
+        var color = d3.color(bgColor).hex();
+        $(this).css({ "background-color" : color });
+      }
+    });
+  });
+</script>

@@ -431,3 +431,24 @@
     </tfoot>
   </tbody>
 </table>
+
+<h4>
+  CSV files for performance.gov/cx charts
+</h4>
+<p>
+  hisp_service_id,year,quarter,touchpoint,surveys_offered_count,response_count,satisfied,trust,effective,easy,efficient,transparent,employee
+  <br>
+  <%= @omb_cx_reporting_collection.collection.organization.name %>,
+  <%= @omb_cx_reporting_collection.collection.year %>,
+  <%= @omb_cx_reporting_collection.collection.quarter %>,
+  <%= @omb_cx_reporting_collection.channel %>,
+  <%= @omb_cx_reporting_collection.volume_of_customers %>,
+  <%= @omb_cx_reporting_collection.volume_of_respondents %>,
+  <%= @omb_cx_reporting_collection.q1_point_scale %>,
+  <%= @omb_cx_reporting_collection.q2_point_scale %>,
+  <%= @omb_cx_reporting_collection.q3_point_scale %>,
+  <%= @omb_cx_reporting_collection.q4_point_scale %>,
+  <%= @omb_cx_reporting_collection.q5_point_scale %>,
+  <%= @omb_cx_reporting_collection.q6_point_scale %>,
+  <%= @omb_cx_reporting_collection.q7_point_scale %>
+</p>
