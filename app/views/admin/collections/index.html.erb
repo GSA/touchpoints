@@ -13,7 +13,6 @@
       <th>Organization</th>
       <th>Year</th>
       <th>Quarter</th>
-      <th>User</th>
       <th>Status</th>
     </tr>
   </thead>
@@ -25,7 +24,6 @@
         <td><%= collection.organization.name %></td>
         <td><%= collection.year %></td>
         <td><%= collection.quarter %></td>
-        <td><%= collection.user.email if collection.user %></td>
         <td><%= collection.aasm_state %></td>
       </tr>
     <% end %>

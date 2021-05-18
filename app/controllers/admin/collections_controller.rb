@@ -3,7 +3,7 @@ class Admin::CollectionsController < AdminController
   before_action :set_collection, only: [:show, :edit, :update, :destroy]
 
   def index
-    @collections = Collection.all
+    @collections = Collection.all.includes(:organization).order('organizations.name')
   end
 
   def show
