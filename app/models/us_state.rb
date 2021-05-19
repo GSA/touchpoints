@@ -40,6 +40,7 @@ class UsState
     { name: "Mississippi", abbreviation: "MS" },
     { name: "Missouri", abbreviation: "MO" },
     { name: "Pennsylvania", abbreviation: "PA" },
+    { name: "Puerto Rico", abbreviation: "PR" },
     { name: "Rhode Island", abbreviation: "RI" },
     { name: "South Carolina", abbreviation: "SC" },
     { name: "South Dakota", abbreviation: "SD" },
