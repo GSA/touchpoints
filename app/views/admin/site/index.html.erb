@@ -23,58 +23,70 @@
     <div class="grid-container">
       <% if admin_permissions? %>
       <div class="well">
-        <p>
-          <ul class="usa-list">
-            <li>
-              <a href="/admin/organizations">
-                <span>Organizations</span>
-              </a>
-            </li>
-            <li>
-              <a href="/admin/users">
-                <span>Users</span>
-              </a>
-            </li>
-            <li>
-              <%= link_to admin_services_path do %>
-              <span>Services</span>
-              <% end %>
-            </li>
-            <li>
-              <a href="/admin/websites">
-                <span>Websites</span>
-              </a>
-              -
-              <a href="/admin/websites/gsa">
-                <span>GSA Summary</span>
-              </a>
-            </li>
-            <li>
-              <%= link_to admin_barriers_path do %>
+        <div class="grid-row">
+          <div class="grid-col-4">
+            <ul class="usa-list">
+              <li>
+                <a href="/admin/organizations">
+                  <span>Organizations</span>
+                </a>
+              </li>
+              <li>
+                <a href="/admin/users">
+                  <span>Users</span>
+                </a>
+              </li>
+              <li>
+                <a href="/admin/sidekiq">
+                  <span>Manage Sidekiq</span>
+                </a>
+              </li>
+              <li>
+                <a href="/admin/events">
+                  <span>Review System Events</span>
+                </a>
+              </li>
+              <li>
+                <a href="/admin/management">
+                  <span>Client Management</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="grid-col-4">
+            <ul class="usa-list">
+              <li>
+                <%= link_to admin_services_path do %>
+                <span>Services</span>
+                <% end %>
+              </li>
+              <li>
+                <a href="/admin/websites">
+                  <span>Websites</span>
+                </a>
+                -
+                <a href="/admin/websites/gsa">
+                  <span>GSA Summary</span>
+                </a>
+              </li>
+              <li>
+                <%= link_to admin_barriers_path do %>
                 <span>Barriers</span>
-              <% end %>
-            </li>
-            <li>
-              <%= link_to admin_collections_path do %>
-              <span>Data Collections</span>
-              <% end %>
-            </li>
-            <li>
-              <a href="/admin/sidekiq">
-                <span>Manage Sidekiq</span>
-              </a>
-            </li>
-            <li>
-              <a href="/admin/events">
-                <span>Review System Events</span>
-              </a>
-            </li>
-            <li>
-              <a href="/admin/management">
-                <span>Client Management</span>
-              </a>
-            </li>
-          </ul>
+                <% end %>
+              </li>
+            </ul>
+          </div>
+          <div class="grid-col-4">
+            <ul class="usa-list">
+              <li>
+                <%= link_to admin_collections_path do %>
+                <span>Data Collections</span>
+                <% end %>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <p>
         </p>
       </div>
       <%= render 'components/weekly_metrics', forms: @forms %>
