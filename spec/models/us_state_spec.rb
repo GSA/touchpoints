@@ -7,7 +7,7 @@ RSpec.describe UsState, type: :model do
     end
 
     it "of 51 elements" do
-      expect(UsState::STATES.size).to eq(51)
+      expect(UsState::STATES.size).to eq(52)
     end
 
     it "each element is a hash with name and abbreviation" do
