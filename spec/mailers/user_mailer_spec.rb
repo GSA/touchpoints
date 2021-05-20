@@ -20,6 +20,28 @@ RSpec.describe UserMailer, type: :mailer do
     end
   end
 
+  describe "submission_digest" do
+    let!(:organization) { FactoryBot.create(:organization) }
+    let(:user) { FactoryBot.create(:user, organization: organization) }
+    let(:form) { FactoryBot.create(:form, organization: organization, user: user)}
+    let!(:submission) { FactoryBot.create(:submission, form: form) }
+
+    it "renders the headers" do
+      begin_day = 1.day.ago
+      mail = UserMailer.submissions_digest(form.id, begin_day)
+      expect(mail.subject).to eq("New Submissions to #{form.name} since #{begin_day}")
+      expect(mail.to).to eq(form.notification_emails.split)
+      expect(mail.from).to eq([ENV.fetch("TOUCHPOINTS_EMAIL_SENDER")])
+    end
+
+    it "renders the body" do
+      begin_day = 1.day.ago
+      mail = UserMailer.submissions_digest(form.id, begin_day)
+      expect(mail.body.encoded).to match("Notification of feedback received since #{ @begin_day }")
+      expect(mail.body.encoded).to match("1 feedback responses have been submitted to your form, #{ form.name }, since #{begin_day}")
+    end
+  end
+
   describe "admin_summary" do
     let(:mail) { UserMailer.admin_summary }
 
