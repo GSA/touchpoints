@@ -446,11 +446,13 @@ class Form < ApplicationRecord
     responses = responses.reject { |string| !string.present? }
     responses = responses.map { |string| string.to_i }
     response_total = responses.sum
-    average = response_total / response_count.to_f
+
+    responses_count = responses.size
+    average = response_total / responses_count.to_f
     {
       response_total: response_total,
-      response_count: response_count,
-      average: average.round(3)
+      response_count: responses_count,
+      average: average.round(2)
     }
   end
 

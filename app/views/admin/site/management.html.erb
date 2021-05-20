@@ -109,6 +109,13 @@
           </tr>
         </thead>
 
+      <% @q1_runningtotal = 0 %>
+      <% @q2_runningtotal = 0 %>
+      <% @q3_runningtotal = 0 %>
+      <% @q4_runningtotal = 0 %>
+      <% @q5_runningtotal = 0 %>
+      <% @q6_runningtotal = 0 %>
+      <% @q7_runningtotal = 0 %>
       <% @collections = Collection.where(quarter: "2").each do |c| %>
         <% c.omb_cx_reporting_collections.each do |s| %>
           <tr class="five-point-scale">
@@ -166,24 +173,31 @@
             <td>
             </td>
             <td class="auto-shade">
+              <% @q1_runningtotal += s.q1_total %>
               <%= s.q1_total %>
             </td>
             <td class="auto-shade">
+              <% @q2_runningtotal += s.q2_total %>
               <%= s.q2_total %>
             </td>
             <td class="auto-shade">
+              <% @q3_runningtotal += s.q3_total %>
               <%= s.q3_total %>
             </td>
             <td class="auto-shade">
+              <% @q4_runningtotal += s.q4_total %>
               <%= s.q4_total %>
             </td>
             <td class="auto-shade">
+              <% @q5_runningtotal += s.q5_total %>
               <%= s.q5_total %>
             </td>
             <td class="auto-shade">
+              <% @q6_runningtotal += s.q6_total %>
               <%= s.q6_total %>
             </td>
             <td class="auto-shade">
+              <% @q7_runningtotal += s.q7_total %>
               <%= s.q7_total %>
             </td>
           </tr>
@@ -208,18 +222,25 @@
           <%= @total_volume_of_customers %>
         </td>
         <td>
+          <%= @q1_runningtotal %>
         </td>
         <td>
+          <%= @q2_runningtotal %>
         </td>
         <td>
+          <%= @q3_runningtotal %>
         </td>
         <td>
+          <%= @q4_runningtotal %>
         </td>
         <td>
+          <%= @q5_runningtotal %>
         </td>
         <td>
+          <%= @q6_runningtotal %>
         </td>
         <td>
+          <%= @q7_runningtotal %>
         </td>
       </tr>
       </table>

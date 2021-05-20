@@ -106,7 +106,7 @@ en-US:
         other: "%{count} years"
   touchpoint: "Touchpoint"
   touchpoints: "Touchpoints"
-  powered_by: "Powered by"
+  provided_by: "Provided by"
   omb_approval: "OMB Approval #1234 Exp. Date 12/01/2019"
   beta: "beta"
   report_an_issue: "report an issue"
@@ -131,7 +131,7 @@ en-US:
     page_1: "Page 1"
     page_2: "Page 2"
     field_is_required: "You must respond to question: "
-    field_is_invalid: "Please enter a valid value: "    
+    field_is_invalid: "Please enter a valid value: "
     chars_remaining: "Chars remaining: "
     enter_other_text: "Enter other text"
   header:

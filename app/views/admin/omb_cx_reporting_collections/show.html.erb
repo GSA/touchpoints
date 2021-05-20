@@ -20,6 +20,10 @@
     <%= link_to @omb_cx_reporting_collection.collection.name, admin_collection_path(@omb_cx_reporting_collection.collection) %>
   </div>
   <div class="field">
+    Organization:
+    <%= @omb_cx_reporting_collection.collection.organization.name %>
+  </div>
+  <div class="field">
     Service Provided:
     <%= @omb_cx_reporting_collection.service_provided %>
   </div>
@@ -433,15 +437,12 @@
 </table>
 
 <h4>
-  CSV files for performance.gov/cx charts
+  CSV data for performance.gov/cx chart
 </h4>
 <p>
   hisp_service_id,year,quarter,touchpoint,surveys_offered_count,response_count,satisfied,trust,effective,easy,efficient,transparent,employee
   <br>
-  <%= @omb_cx_reporting_collection.collection.organization.name %>,
-  <%= @omb_cx_reporting_collection.collection.year %>,
-  <%= @omb_cx_reporting_collection.collection.quarter %>,
-  <%= @omb_cx_reporting_collection.channel %>,
+  <%= @omb_cx_reporting_collection.collection.organization.name %>,<%= @omb_cx_reporting_collection.collection.year %>,<%= @omb_cx_reporting_collection.collection.quarter %>,<%= @omb_cx_reporting_collection.channel %>,
   <%= @omb_cx_reporting_collection.volume_of_customers %>,
   <%= @omb_cx_reporting_collection.volume_of_respondents %>,
   <%= @omb_cx_reporting_collection.q1_point_scale %>,
