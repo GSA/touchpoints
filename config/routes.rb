@@ -46,7 +46,11 @@ Rails.application.routes.draw do
       resources :service_stages
     end
 
-    resources :collections
+    resources :collections do
+      member do
+        post "copy", to: "collections#copy", as: :copy
+      end
+    end
     resources :omb_cx_reporting_collections
 
     resources :websites do

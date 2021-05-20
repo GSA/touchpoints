@@ -46,4 +46,22 @@ class Collection < ApplicationRecord
     end
 
   end
+
+  def duplicate!(user:)
+    new_collection = self.dup
+    new_collection.user = user
+    new_collection.name = "Copy of #{self.name}"
+    new_collection.quarter = nil
+    new_collection.aasm_state = :draft
+    new_collection.save
+
+    # Loop OMB CX Reporting Collections to create them for new_collection
+    self.omb_cx_reporting_collections.each do |omb_cx_reporting_collection|
+      new_omb_cx_reporting_collection = omb_cx_reporting_collection.dup
+      new_omb_cx_reporting_collection.collection = new_collection
+      new_omb_cx_reporting_collection.save!
+    end
+
+    return new_collection
+  end
 end
