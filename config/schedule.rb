@@ -8,3 +8,11 @@ set :output, "tmp/cron_log.log"
 every 1.days do
   runner "ScheduledTask.check_expiring_forms"
 end
+
+every 1.day, :at => "09:00pm" do
+  runner "Submission.send_daily_notifications"
+end
+
+every :monday, :at => "05:00am" do
+  runner "Submission.send_weekly_notifications"
+end
