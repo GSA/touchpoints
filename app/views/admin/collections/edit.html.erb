@@ -1,5 +1,9 @@
 <% content_for :navigation_title do %>
   Editing Data Collection
+  <%= link_to copy_admin_collection_path(@collection), method: :post, class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-trash"></i>
+    Copy this collection
+  <% end %>
 <% end %>
 
 <p>
@@ -15,7 +19,7 @@
 
 <p>
   <%= link_to admin_collection_path(@collection), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
-  <i class="fa fa-trash"></i>
+    <i class="fa fa-trash"></i>
     Delete
   <% end %>
 </p>
