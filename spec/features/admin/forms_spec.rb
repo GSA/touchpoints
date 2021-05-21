@@ -1329,7 +1329,7 @@ feature "Forms", js: true do
       end
 
       it "shows a gov-specific user alert when the email address is not a valid email" do
-        fill_in("user[refer_user]", with: "test")
+        fill_in("user[refer_user]", with: "test@example.com")
         click_on "Invite User"
         expect(page).to have_content("Please enter a valid .gov or .mil email address")
         expect(page.current_path).to eq(permissions_admin_form_path(form))
@@ -1340,11 +1340,12 @@ feature "Forms", js: true do
           ENV["GITHUB_CLIENT_ID"] = "something"
         end
 
-        it "shows a generic user alert when the email address is not a valid email" do
+        it "shows an HTML valiation user alert when the email address is not valid" do
+          expect(page).to have_content("Invite a colleague")
           fill_in("user[refer_user]", with: "test")
           click_on "Invite User"
-          expect(page).to have_content("Please enter a valid email address")
-          expect(page.current_path).to eq(permissions_admin_form_path(form))
+          message = page.find("#user_refer_user").native.attribute("validationMessage")
+          expect(message).to have_content "Please include an '@' in the email address."
         end
 
         after do
