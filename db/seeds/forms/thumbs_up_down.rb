@@ -12,7 +12,6 @@ module Seeds
         title: "",
         instructions: "",
         disclaimer_text: "",
-        success_text: "Thank you for your response 🎉",
         delivery_method: "inline",
         element_selector: "an-html-id"
       })

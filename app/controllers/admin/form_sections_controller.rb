@@ -1,9 +1,6 @@
 class Admin::FormSectionsController < AdminController
   before_action :set_form, only: [:new, :create, :show, :edit, :update, :destroy]
-  before_action :set_form_section, only: [:show, :edit, :update, :destroy]
-
-  def show
-  end
+  before_action :set_form_section, only: [:edit, :update, :destroy]
 
   def new
     next_position = @form.form_sections.collect(&:position).max + 1
@@ -67,7 +64,7 @@ class Admin::FormSectionsController < AdminController
 
   private
     def set_form_section
-      @form_section = FormSection.find(params[:id])
+      @form_section = @form.form_sections.find(params[:id])
     end
 
     def set_form

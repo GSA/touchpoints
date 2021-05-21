@@ -939,7 +939,7 @@ feature "Forms", js: true do
     it "regression: edit does not set the Organization to the user's org" do
       click_on "Update Survey"
       expect(page).to have_content("Organization")
-      expect(page).to have_link("Example.gov")
+      expect(page).to have_content("Example.gov")
     end
 
     describe "can delete a Form" do
@@ -1125,22 +1125,6 @@ feature "Forms", js: true do
           click_on("Delete")
           page.driver.browser.switch_to.alert.accept
           expect(page).to_not have_css(".question#question_#{form2.id}")
-        end
-
-        describe "update a Touchpoint Form Section" do
-          let(:new_title) { "New Form Section Title" }
-
-          before do
-            visit edit_admin_form_form_section_path(form_section2.form, form_section2)
-            fill_in("form_section[title]", with: new_title)
-            click_button "Update Section"
-          end
-
-          it "redirect to /admin/forms/:id/edit with a success flash message" do
-            expect(page.current_path).to eq(questions_admin_form_path(form_section2.form))
-            expect(page).to have_content("Form section was successfully updated.")
-            expect(find_all(".section-title").last.value).to eq(new_title)
-          end
         end
 
         describe "multiple Touchpoint Form Sections" do

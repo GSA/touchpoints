@@ -236,7 +236,7 @@
       <p>
         <strong>Organization</strong>
         <br>
-        <%= link_to(@form.organization.name, admin_organization_path(@form.organization)) if @form.organization %>
+        <%= link_to_if(admin_permissions?, @form.organization.name, admin_organization_path(@form.organization)) %>
       </p>
       <p>
         <strong>
