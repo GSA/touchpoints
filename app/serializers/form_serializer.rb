@@ -12,6 +12,7 @@ class FormSerializer < ActiveModel::Serializer
   :whitelist_url,
   :whitelist_test_url,
   :display_header_logo,
+  :success_text_heading,
   :success_text,
   :modal_button_text,
   :display_header_square_logo,

@@ -169,8 +169,9 @@ class Admin::FormsController < AdminController
     @form.organization_id = current_user.organization_id
     @form.user_id = current_user.id
     @form.title = @form.name
-    @form.modal_button_text = I18n.t('form.help_improve')
-    @form.success_text = I18n.t('form.submit_thankyou')
+    @form.modal_button_text = t('form.help_improve')
+    @form.success_text_heading = t('success')
+    @form.success_text = t('form.submit_thankyou')
     @form.delivery_method = "touchpoints-hosted-only"
     @form.load_css = true
     unless @form.user
@@ -396,6 +397,7 @@ class Admin::FormsController < AdminController
         :notification_emails,
         :logo,
         :modal_button_text,
+        :success_text_heading,
         :success_text,
         :instructions,
         :display_header_logo,

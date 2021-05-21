@@ -6,6 +6,7 @@ FactoryBot.define do
     title { "Do you have a few minutes to help us test this site?" }
     kind { "custom" }
     notes { "Notes" }
+    success_text_heading { "Success" }
     success_text { "Thank you. Your feedback has been received." }
     modal_button_text { "Help improve this site" }
     legacy_touchpoint_id { 123 }
