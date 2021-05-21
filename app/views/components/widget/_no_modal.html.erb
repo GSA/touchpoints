@@ -14,7 +14,7 @@
       <%= sanitize(form.instructions) %>
     </p>
     <% end %>
-    <%= render 'components/forms/flash' %>
+    <%= render 'components/forms/flash', form: form %>
     <%= render partial: "components/forms/custom", locals: { form: form, questions: form.questions } %>
   </div>
   <%= yield %>

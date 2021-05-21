@@ -169,6 +169,17 @@
         <%= f.text_area :success_text, class: "usa-textarea" %>
       </div>
     </div>
+    <div class="grid-col-6 flash-preview">
+      <br>
+      <br>
+      <br>
+      <%= render 'components/forms/flash', form: @form %>
+    </div>
+    <script>
+      $(function() {
+        $(".flash-preview .usa-alert--success").removeAttr("hidden");
+      });
+    </script>
   </div>
   <br>
   <br>
