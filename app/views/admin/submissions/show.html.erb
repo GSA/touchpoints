@@ -61,7 +61,7 @@
           <%= question.text %>
         </td>
         <td>
-          <%= sanitize(@submission.send(question.answer_field.to_sym)) %>
+          <%= simple_format(@submission.send(question.answer_field.to_sym), sanitize: true) %>
         </td>
       </tr>
       <% end %>
