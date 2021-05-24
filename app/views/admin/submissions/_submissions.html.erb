@@ -43,11 +43,11 @@
           <% next if question.question_type == "text_display" %>
           <% if form.ui_truncate_text_responses? %>
             <td>
-              <%= sanitize(submission.send(question.answer_field.to_sym)).to_s.truncate(160) %>
+              <%= simple_format(submission.send(question.answer_field.to_sym).to_s.truncate(160), sanitize: true) %>
             </td>
           <% else %>
             <td>
-              <%= sanitize(submission.send(question.answer_field.to_sym)) %>
+              <%= simple_format(submission.send(question.answer_field.to_sym), sanitize: true) %>
             </td>
           <% end %>
         <% end %>
