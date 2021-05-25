@@ -1,0 +1,12 @@
+<div class="email-header">
+  <%= image_tag(attachments['logo.png'].url, alt: "Touchpoints logo") %>
+</div>
+<h3>
+  Notification of feedback received since <%= @begin_day %>
+</h3>
+<p>
+  <%= @submissions.count %> feedback responses have been submitted to your form, <%= @form.name %>, since <%= @begin_day %>.
+</p>
+<p>
+  Visit <a href="<%= responses_admin_form_url(@form) %>"><%= responses_admin_form_url(@form) %></a> to view.
+</p>
