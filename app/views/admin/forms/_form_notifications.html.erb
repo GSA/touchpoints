@@ -21,8 +21,23 @@
       <div class="grid-col-6">
         <div class="field">
           <%= f.label "emails to notify when a Response is received", class: "usa-label" %>
-          <%= f.text_field(:notification_emails, class: "usa-input") %>
+          <%= f.text_field(:notification_emails, class: "usa-input", placeholder: "user@example.gov, user2@example.gov") %>
         </div>
+        <fieldset class="usa-fieldset">
+          <span class="usa-label">Frequency of notifications</span>
+          <div class="usa-checkbox">
+            <%= f.radio_button :notification_frequency, "instant", class: "usa-radio__input", checked: (form.notification_frequency == "instant")  %>
+            <%= f.label "instant", class: "usa-radio__label", for: "form_notification_frequency_instant" %>
+          </div>
+          <div class="usa-checkbox">
+            <%= f.radio_button :notification_frequency, "daily", class: "usa-radio__input", checked: (form.notification_frequency == "daily")  %>
+            <%= f.label "daily", class: "usa-radio__label", for: "form_notification_frequency_daily" %>
+          </div>
+          <div class="usa-checkbox">
+            <%= f.radio_button :notification_frequency, "weekly", class: "usa-radio__input", checked: (form.notification_frequency == "weekly")  %>
+            <%= f.label "weekly", class: "usa-radio__label", for: "form_notification_frequency_weekly" %>
+          </div>
+        </fieldset>
         <p>
           <%= f.submit "Update Survey", class: "usa-button" %>
         </p>

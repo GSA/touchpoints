@@ -1,0 +1,5 @@
+Notification of feedback received since <%= @begin_day %>
+
+<%= @submissions.count %> feedback responses have been submitted to your form, <%= @form.name %>, since <%= @begin_day %>.
+
+Visit <%= admin_form_url(@form) %> to view.

@@ -84,8 +84,8 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     aes_key_wrap (1.1.0)
     aws-eventstream (1.1.1)
-    aws-partitions (1.458.0)
-    aws-record (2.5.0)
+    aws-partitions (1.461.0)
+    aws-record (2.6.0)
       aws-sdk-dynamodb (~> 1.18)
     aws-sdk-core (3.114.0)
       aws-eventstream (~> 1, >= 1.0.2)
@@ -241,13 +241,17 @@ GEM
     mime-types-data (3.2021.0225)
     mini_magick (4.11.0)
     mini_mime (1.0.3)
+    mini_portile2 (2.5.1)
     minitest (5.14.4)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     newrelic_rpm (7.0.0)
     nio4r (2.5.7)
-    nokogiri (1.11.4-x86_64-darwin)
+    nokogiri (1.11.5)
+      mini_portile2 (~> 2.5.0)
+      racc (~> 1.4)
+    nokogiri (1.11.5-x86_64-darwin)
       racc (~> 1.4)
     oauth2 (1.4.7)
       faraday (>= 0.8, < 2.0)
@@ -270,7 +274,7 @@ GEM
       coderay (~> 1.1)
       method_source (~> 1.0)
     public_suffix (4.0.6)
-    puma (5.3.1)
+    puma (5.3.2)
       nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
@@ -400,6 +404,7 @@ GEM
     zeitwerk (2.4.2)
 
 PLATFORMS
+  ruby
   x86_64-darwin-19
 
 DEPENDENCIES
