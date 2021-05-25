@@ -107,6 +107,7 @@ ActiveRecord::Schema.define(version: 2021_05_21_040210) do
     t.datetime "last_response_created_at"
     t.boolean "ui_truncate_text_responses", default: true
     t.string "success_text_heading"
+    t.string "notification_frequency", default: "instant"
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["uuid"], name: "index_forms_on_uuid"

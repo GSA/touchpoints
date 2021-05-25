@@ -395,6 +395,7 @@ class Admin::FormsController < AdminController
         :delivery_method,
         :element_selector,
         :notification_emails,
+        :notification_frequency,
         :logo,
         :modal_button_text,
         :success_text_heading,
