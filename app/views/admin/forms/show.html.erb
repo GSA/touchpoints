@@ -1,4 +1,10 @@
 <% content_for :navigation_title do %>
+  <% if is_at_least_form_manager?(user: current_user, form: @form) %>
+    <%= link_to edit_admin_form_path(@form), class: "float-right usa-button usa-button-inverted" do %>
+      <i class="fa fa-edit"></i>
+      Edit survey
+    <% end %>
+  <% end %>
   Viewing Survey: <%= @form.name %>
 <% end %>
 <p>
