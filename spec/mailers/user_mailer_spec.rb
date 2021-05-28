@@ -44,6 +44,28 @@ RSpec.describe UserMailer, type: :mailer do
     end
   end
 
+  describe "account_deactivation_scheduled_notification" do
+    let!(:organization) { FactoryBot.create(:organization) }
+    let(:user) { FactoryBot.create(:user, organization: organization) }
+    let(:active_days) { 14 }
+    let(:mail) { UserMailer.account_deactivation_scheduled_notification(user.email, active_days) }
+
+    before do
+      ENV["ENABLE_EMAIL_NOTIFICATIONS"] = "true"
+    end
+
+    it "renders the headers" do
+      expect(mail.subject).to eq("Your account is scheduled to be deactivated in #{active_days} days due to inactivity")
+      expect(mail.to).to eq([user.email])
+      expect(mail.from).to eq([ENV.fetch("TOUCHPOINTS_EMAIL_SENDER")])
+    end
+
+    it "renders the body" do
+      expect(mail.body.encoded).to match("Account deactivation scheduled in #{ active_days } days.")
+      expect(mail.body.encoded).to match("Your account is scheduled to be deactivated in #{ active_days } days due to inactivity.")
+    end
+  end
+
   describe "admin_summary" do
     let(:mail) { UserMailer.admin_summary }
 

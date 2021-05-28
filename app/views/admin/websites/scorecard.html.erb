@@ -8,22 +8,9 @@ Website Scorecard for <%= @website.domain %>
   <% end %>
 </p>
 
-<div class="grid-row grid-gap">
-  <div class="grid-col-6">
-    <h2>
-      Web domain
-    </h2>
-    <h3>
-      <%= @website.domain %>
-    </h3>
-  </div>
-  <div class="grid-col-6">
-    <h2>Site Score</h2>
-    <h3 id="siteScore">55</h3>
-  </div>
+<div class="well">
+  <%= render 'components/site_scanner_results' %>
 </div>
-
-<%= render 'components/site_scanner_results' %>
 
 <div class="usa-summary-box" role="complementary">
   <div class="usa-summary-box__body">
