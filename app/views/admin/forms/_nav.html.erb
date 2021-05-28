@@ -1,11 +1,3 @@
-<% if is_at_least_form_manager?(user: current_user, form: @form) %>
-  <span class="float-right">
-    <%= link_to edit_admin_form_path(@form), class: "usa-button #{current_path == edit_admin_form_path(form) ? nil : 'usa-button--outline'}" do %>
-      <i class="fa fa-edit"></i>
-      Edit survey
-    <% end %>
-  </span>
-<% end %>
 <ul class="usa-button-group usa-button-group--segmented">
   <li class="usa-button-group__item">
     <%= link_to admin_form_path(form), class: "usa-button #{current_path == admin_form_path(form) ? nil : 'usa-button--outline'}" do %>

@@ -9,22 +9,24 @@ every 1.days do
   runner "ScheduledTask.check_expiring_forms"
 end
 
-every 1.day, :at => "09:00pm" do
-  runner "Submission.send_daily_notifications"
+# Notifications for Responses
+every 1.day, at: "09:00pm" do
+  rake "scheduled_jobs:send_daily_notifications"
 end
 
-every 1.days, :at => "10:00pm" do
-  runner "User.deactivate_inactive_accounts"
+every :monday, at: "05:00am" do
+  rake "scheduled_jobs:send_weekly_notifications"
 end
 
-every 1.day, :at => "10:15pm" do
-  runner "User.send_account_deactivation_notifications(7)"
+# Admin Emails
+every 1.days, at: "10:00pm" do
+  rake "scheduled_jobs:deactivate_inactive_users"
 end
 
-every 1.days, :at => "10:30pm" do
-  runner "User.send_account_deactivation_notifications(14)"
+every 1.day, at: "10:15pm" do
+  rake "scheduled_jobs:send_one_week_until_inactivation_warning"
 end
 
-every :monday, :at => "05:00am" do
-  runner "Submission.send_weekly_notifications"
+every 1.days, at: "10:30pm" do
+  rake "scheduled_jobs:send_two_weeks_until_inactivation_warning"
 end
