@@ -24,6 +24,14 @@ class UserMailer < ApplicationMailer
     mail subject: "New Submissions to #{@form.name} since #{@begin_day}", to: emails
   end
 
+  def account_deactivation_scheduled_notification(email, active_days)
+    return unless ENV["ENABLE_EMAIL_NOTIFICATIONS"] == "true"
+    @active_days = active_days
+    set_logo
+
+    mail subject: "Your account is scheduled to be deactivated in #{@active_days} days due to inactivity", to: email
+  end
+
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
