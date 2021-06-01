@@ -1,4 +1,10 @@
 <% content_for :navigation_title do %>
+  <% if is_at_least_form_manager?(user: current_user, form: @form) %>
+    <%= link_to edit_admin_form_path(@form), class: "float-right usa-button usa-button-inverted" do %>
+      <i class="fa fa-edit"></i>
+      Edit survey
+    <% end %>
+  <% end %>
   Viewing Survey: <%= @form.name %>
 <% end %>
 <p>
@@ -236,7 +242,7 @@
       <p>
         <strong>Organization</strong>
         <br>
-        <%= link_to(@form.organization.name, admin_organization_path(@form.organization)) if @form.organization %>
+        <%= link_to_if(admin_permissions?, @form.organization.name, admin_organization_path(@form.organization)) %>
       </p>
       <p>
         <strong>

@@ -21,6 +21,7 @@ class Admin::FormsController < AdminController
     :add_user, :remove_user,
     :publish,
     :archive,
+    :update_ui_truncation,
     :update_title, :update_instructions, :update_disclaimer_text
   ]
 
@@ -168,8 +169,9 @@ class Admin::FormsController < AdminController
     @form.organization_id = current_user.organization_id
     @form.user_id = current_user.id
     @form.title = @form.name
-    @form.modal_button_text = I18n.t('form.help_improve')
-    @form.success_text = I18n.t('form.submit_thankyou')
+    @form.modal_button_text = t('form.help_improve')
+    @form.success_text_heading = t('success')
+    @form.success_text = t('form.submit_thankyou')
     @form.delivery_method = "touchpoints-hosted-only"
     @form.load_css = true
     unless @form.user
@@ -217,6 +219,18 @@ class Admin::FormsController < AdminController
 
   def copy_by_id
     copy
+  end
+
+  def update_ui_truncation
+    ensure_response_viewer(form: @form)
+
+    respond_to do |format|
+      if @form.update(ui_truncate_text_responses: !@form.ui_truncate_text_responses)
+        format.json { render json: {}, status: :ok, location: @form }
+      else
+        format.json { render json: @form.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def update
@@ -381,8 +395,10 @@ class Admin::FormsController < AdminController
         :delivery_method,
         :element_selector,
         :notification_emails,
+        :notification_frequency,
         :logo,
         :modal_button_text,
+        :success_text_heading,
         :success_text,
         :instructions,
         :display_header_logo,

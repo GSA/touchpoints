@@ -27,7 +27,6 @@ class User < ApplicationRecord
     end
   end
 
-
   after_create :send_new_user_notification
 
   APPROVED_DOMAINS = [".gov", ".mil"]
@@ -102,6 +101,27 @@ class User < ApplicationRecord
     self.save
     UserMailer.account_deactivated_notification(self).deliver_later
     Event.log_event(Event.names[:user_deactivated], "User", self.id, "User account #{self.email} deactivated on #{Date.today}")
+  end
+
+  def self.send_account_deactivation_notifications(expire_days)
+    users = User.deactivation_pending(expire_days)
+    users.each do | user |
+      UserMailer.account_deactivation_scheduled_notification(user.email, expire_days).deliver_later
+    end
+  end
+
+  def self.deactivation_pending(expire_days)
+    min_time = ((90 - expire_days) + 1).days.ago
+    max_time = (90 - expire_days).days.ago
+    User.active.where("(last_sign_in_at ISNULL AND created_at BETWEEN ? AND ?) OR (last_sign_in_at BETWEEN ? AND ?)", min_time, max_time, min_time, max_time)
+  end
+
+  def self.deactivate_inactive_accounts
+    # Find all accounts scheduled to be deactivated in 14 days
+    users = User.active.where("(last_sign_in_at ISNULL AND created_at <= ?) OR (last_sign_in_at <= ?)", 90.days.ago, 90.days.ago)
+    users.each do | user |
+      user.deactivate
+    end
   end
 
   def self.to_csv

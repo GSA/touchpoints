@@ -8,114 +8,140 @@
   Site Scanner results
 </h3>
 
-<div class="text-uppercase font-body-3xs">
-  Web Domain
-  <!-- Target URL -->
+<div class="grid-row">
+  <div class="grid-col-6">
+  </div>
+  <div class="grid-col-6">
+  </div>
 </div>
-<%= hash["target_url"] %>
-<br>
-<div class="text-uppercase font-body-3xs">
-  final_url:
+
+
+<div class="grid-row">
+  <div class="grid-col-6">
+
+  </div>
+  <div class="grid-col-6">
+  </div>
 </div>
-<%= hash["final_url"] %>
-<br>
-<br>
-<div class="text-uppercase font-body-3xs">
-  og_title_final_url:
-</div>
-<%= hash["og_title_final_url"] %>
-<br>
-<div class="text-uppercase font-body-3xs">
-  og_description_final_url:
-</div>
-<%= hash["og_description_final_url"] %>
-<br>
-<div class="text-uppercase font-body-3xs">
-  final_url_same_domain:
-</div>
-<%= hash["final_url_same_domain"] %>
+
 <div class="well">
-  <div class="text-uppercase font-body-3xs">
-    Agency branch
-    <!-- Target URL Branch: -->
+  <div class="grid-row">
+    <div class="grid-col-6">
+      <div class="text-uppercase font-body-3xs">
+        Web Domain
+      </div>
+      <%= hash["target_url"] %>
+      <br>
+      <br>
+      <div class="text-uppercase font-body-3xs">
+        Final URL
+      </div>
+      <%= link_to hash["final_url"], hash["final_url"], class: "usa-link", target: "_blank", rel: "noopener" %>
+      <br>
+      <br>
+      <div class="text-uppercase font-body-3xs">
+        Title
+      </div>
+      <%= hash["og_title_final_url"] %>
+      <br>
+      <br>
+      <div class="text-uppercase font-body-3xs">
+        Description
+      </div>
+      <%= hash["og_description_final_url"] %>
+    </div>
+    <div class="grid-col-6">
+      <div class="text-uppercase font-body-3xs">
+        Agency branch
+      </div>
+      <%= hash["target_url_branch"] %>
+      <br>
+      <br>
+      <div class="text-uppercase font-body-3xs" data-agency-code="<%= hash["target_url_agency_code"] %>">
+        Agency
+      </div>
+      <%= hash["target_url_agency_owner"] %>
+      <% begin %>
+        <% @org = Organization.find_by(name: hash["target_url_agency_owner"]) %>
+        <br>
+        <%= @org.present? ? link_to(@org.name, admin_organization_path(@org.id)) : hash["target_url_agency_owner"] %>
+      <% rescue %>
+      <% end %>
+      <br>
+      <br>
+      <div class="text-uppercase font-body-3xs" data-bureau-code="<%= hash["target_url_bureau_code"] %>">
+        Bureau
+      </div>
+      <%= hash["target_url_bureau_owner"] %>
+    </div>
   </div>
-  <%= hash["target_url_branch"] %>
-  <br>
-  <div class="text-uppercase font-body-3xs" data-agency-code="<%= hash["target_url_agency_code"] %>">
-    Agency
-    <!-- target_url_agency_owner: -->
-  </div>
-  <%= hash["target_url_agency_owner"] %>
-  <br>
-  <div class="text-uppercase font-body-3xs" data-bureau-code="<%= hash["target_url_bureau_code"] %>">
-    target_url_bureau_owner:
-  </div>
-  <%= hash["target_url_bureau_owner"] %>
-  <br>
 </div>
+
 <div class="well">
-  <div class="text-uppercase font-body-3xs">
-    scan_date:
+  <div class="grid-row">
+    <div class="grid-col-6">
+      <div class="text-uppercase font-body-3xs">
+        DAP DETECTED FINAL URL
+      </div>
+      <%= hash["dap_detected_final_url"] %>
+    </div>
+    <div class="grid-col-6">
+      <div class="text-uppercase font-body-3xs">
+        DAP Parameters
+      </div>
+      <%= hash["dap_parameters_final_url"] %>
+    </div>
   </div>
-  <%= hash["scan_date"] %>
-  <br>
-  <div class="text-uppercase font-body-3xs">
-    scan_status:
+</div>
+
+<div class="well">
+  <div class="grid-row">
+    <div class="grid-col-6">
+      <div class="text-uppercase font-body-3xs">
+        Sitemap URL
+      </div>
+      <%= link_to hash["sitemap_xml_final_url"], hash["sitemap_xml_final_url"], class: "usa-link", target: "_blank", rel: "noopener" %>
+    </div>
+    <div class="grid-col-6">
+      <div class="text-uppercase font-body-3xs">
+        Robots TXT URL
+      </div>
+      <%= link_to hash["robots_txt_final_url"], hash["robots_txt_final_url"], class: "usa-link", target: "_blank", rel: "noopener" %>
+    </div>
   </div>
-  <%= hash["scan_status"] %>
+</div>
+
+<div class="well">
+  <div class="grid-row">
+    <div class="grid-col-6">
+      <div class="text-uppercase font-body-3xs">
+        USWDS Version
+      </div>
+      <%= hash["uswds_semantic_version"] %>
+    </div>
+    <div class="grid-col-6">
+      <div class="text-uppercase font-body-3xs">
+        Latest Version
+      </div>
+      <!-- TODO: Automate. For now: Update by hand -->
+      2.11.2
+    </div>
+  </div>
 </div>
 
 <div class="well">
   <div class="text-uppercase font-body-3xs">
-    uswds_semantic_version:
+    Third party domains
   </div>
-  <%= hash["uswds_semantic_version"] %>
+  <ul class="usa-list">
+    <% hash["third_party_service_domains"].sort.each do |d| %>
+    <li>
+      <%= d %>
+    </li>
+    <% end %>
+  </ul>
 </div>
-
-<div class="well">
-  <div class="text-uppercase font-body-3xs">
-    dap_detected_final_url:
-  </div>
-  <%= hash["dap_detected_final_url"] %>
-  <br>
-  <div class="text-uppercase font-body-3xs">
-    dap_parameters_final_url:
-  </div>
-  <%= hash["dap_parameters_final_url"] %>
-</div>
-
-<div class="well">
-  <div class="text-uppercase font-body-3xs">
-    robots_txt_detected:
-  </div>
-  <%= hash["robots_txt_detected"] %>
-  <br>
-  <div class="text-uppercase font-body-3xs">
-    robots_txt_final_url:
-  </div>
-  <%= hash["robots_txt_final_url"] %>
-</div>
-
-<div class="well">
-  <div class="text-uppercase font-body-3xs">
-    sitemap_xml_detected:
-  </div>
-  <%= hash["sitemap_xml_detected"] %>
-  <br>
-  <div class="text-uppercase font-body-3xs">
-    sitemap_xml_final_url:
-  </div>
-  <%= hash["sitemap_xml_final_url"] %>
-</div>
-
-<div class="well">
-  <div class="text-uppercase font-body-3xs">
-    third_party_service_domains:
-  </div>
-  <%= hash["third_party_service_domains"] %>
-</div>
-
-<% rescue %>
+<%# rescue %>
 <div class="usa-alert usa-alert--error usa-alert--slim">
   <div class="usa-alert__body">
     <p class="usa-alert__text">

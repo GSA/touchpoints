@@ -115,6 +115,51 @@ RSpec.describe User, type: :model do
         expect(@user.api_key_updated_at).to_not be_nil
       end
     end
+
+    context "account expiration" do
+      before do
+        FactoryBot.create(:organization)
+        @user.email = "user@example.gov"
+        @user.save
+      end
+
+      it "expires user last_sign_in <= 90 days ago" do
+        @user.last_sign_in_at = 91.days.ago
+        @user.inactive = false
+        @user.save
+        User.deactivate_inactive_accounts
+        @user.reload
+        expect(@user.inactive).to be_truthy
+      end
+
+      it "expires user never signed in and created_at <= 90 days ago" do
+        @user.last_sign_in_at = nil
+        @user.created_at = 91.days.ago
+        @user.inactive = false
+        @user.save
+        User.deactivate_inactive_accounts
+        @user.reload
+        expect(@user.inactive).to be_truthy
+      end
+
+      it "finds users who have signed in and are scheduled to deactivate in 1 week" do
+        @user.last_sign_in_at = 83.days.ago
+        @user.inactive = false
+        @user.save
+        users = User.deactivation_pending(7)
+        expect(users.count).to eq(1)
+      end
+
+      it "finds users who have never signed in and are scheduled to deactivate in 1 week" do
+        @user.created_at = 83.days.ago
+        @user.last_sign_in_at = nil
+        @user.inactive = false
+        @user.save
+        users = User.deactivation_pending(7)
+        expect(users.count).to eq(1)
+      end
+
+    end
   end
 
 end

@@ -1,13 +1,13 @@
 <% content_for :navigation_title do %>
   Website: <%= @website.domain %>
-<% end %>
-<p>
   <% if @website.admin?(user: current_user) %>
-    <%= link_to edit_admin_website_path(@website), class: "usa-button usa-button--outline float-right" do %>
+    <%= link_to edit_admin_website_path(@website), class: "usa-button usa-button-inverted float-right" do %>
       <i class="fa fa-pencil-alt"></i>
       Edit
     <% end %>
   <% end %>
+<% end %>
+<p>
   <%= link_to admin_websites_path do %>
     <i class="fa fa-arrow-circle-left"></i>
     Back to Websites
@@ -108,7 +108,7 @@
     </p>
     <p>
       <small>
-        Powered by
+        Provided by
         <a href="https://digital.gov/site-scanning/" target="_blank">Site Scanner</a>
       </small>
     </p>

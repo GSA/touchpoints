@@ -46,7 +46,11 @@ Rails.application.routes.draw do
       resources :service_stages
     end
 
-    resources :collections
+    resources :collections do
+      member do
+        post "copy", to: "collections#copy", as: :copy
+      end
+    end
     resources :omb_cx_reporting_collections
 
     resources :websites do
@@ -84,11 +88,12 @@ Rails.application.routes.draw do
         patch "update_title", to: "forms#update_title", as: :update_title
         patch "update_instructions", to: "forms#update_instructions", as: :update_instructions
         patch "update_disclaimer_text", to: "forms#update_disclaimer_text", as: :update_disclaimer_text
+        patch "update_ui_truncation", to: "forms#update_ui_truncation", as: :update_ui_truncation
       end
       collection do
         post "copy", to: "forms#copy", as: :copy_id
       end
-      resources :form_sections, except: [:index] do
+      resources :form_sections, except: [:index, :show, :edit] do
         patch "sort", to: "form_sections#sort", as: :sort_sections
         patch "update_title", to: "form_sections#update_title", as: :inline_update
       end

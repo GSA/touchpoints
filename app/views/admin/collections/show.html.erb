@@ -72,9 +72,9 @@
         <% end %>
       </span>
     </li>
-    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if @collection.published? %> <%= "usa-step-indicator__segment--current" if @collection.finalized? %>">
+    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if @collection.published? %> <%= "usa-step-indicator__segment--current" if @collection.submitted? %>">
       <span class="usa-step-indicator__segment-label">
-        Finalize
+        Submit
         <span class="usa-sr-only">completed</span>
       </span>
     </li>
@@ -104,20 +104,42 @@
   </p>
 </div>
 
+<div class="well">
+  <h4>
+    CSV data for performance.gov/cx charts
+  </h4>
+  <p>
+    hisp_service_id,year,quarter,touchpoint,surveys_offered_count,response_count,satisfied,trust,effective,easy,efficient,transparent,employee
+    <br>
+    <% @collection.omb_cx_reporting_collections.each do |omb_cx_reporting_collection| %>
+    <%= omb_cx_reporting_collection.collection.organization.name %>,<%= omb_cx_reporting_collection.collection.year %>,<%= omb_cx_reporting_collection.collection.quarter %>,<%= omb_cx_reporting_collection.channel %>,
+    <%= omb_cx_reporting_collection.volume_of_customers %>,
+    <%= omb_cx_reporting_collection.volume_of_respondents %>,
+    <%= omb_cx_reporting_collection.q1_point_scale %>,
+    <%= omb_cx_reporting_collection.q2_point_scale %>,
+    <%= omb_cx_reporting_collection.q3_point_scale %>,
+    <%= omb_cx_reporting_collection.q4_point_scale %>,
+    <%= omb_cx_reporting_collection.q5_point_scale %>,
+    <%= omb_cx_reporting_collection.q6_point_scale %>,
+    <%= omb_cx_reporting_collection.q7_point_scale %>
+    <br>
+    <% end %>
+  </p>
+</div>
 
 <p>
   <strong>Reflection</strong>
   <br>
-  <%= @collection.reflection %>
+  <%= simple_format(@collection.reflection) %>
 </p>
 <p>
   <strong>Integrity hash</strong>
   <br>
-  <%= @collection.integrity_hash || "not yet finalized" %>
+  <%= @collection.integrity_hash || "not yet published" %>
 </p>
 
 <p>
   <%= link_to admin_collections_path, class: "usa-button" do %>
-    Finalize this Data Collection
+    Publish this Data Collection
   <% end %>
 </p>

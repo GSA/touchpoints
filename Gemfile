@@ -4,6 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.6'
 
 gem 'active_model_serializers', '>= 0.10.12'
+gem 'acts-as-list'
 gem 'aws-sdk-rails', '>= 3.6.0'
 gem 'caracal'
 gem 'carrierwave'
@@ -11,13 +12,13 @@ gem 'devise', '>= 4.7.3'
 gem 'fog-aws'
 gem 'jquery-rails', '>= 4.4.0'
 gem 'jquery-ui-rails', '>= 6.0.1'
-gem 'acts-as-list'
+gem 'kaminari', '>= 1.2.1'
 gem 'mail'
 gem 'mini_magick'
 gem 'newrelic_rpm'
 gem 'omniauth-github'
 gem 'omniauth_login_dot_gov', git: 'https://github.com/18f/omniauth_login_dot_gov.git', branch: 'main'
-gem 'rails', '~> 6.1.3'
+gem 'rails', '>= 6.1.3.2'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'rack-cors', '>= 1.1.1', require: 'rack/cors'
@@ -33,7 +34,6 @@ gem 'redis-namespace'
 gem 'aasm', '~> 4.12'
 # gem 'webpacker', '~> 5.0'
 gem 'whenever', require: false
-gem 'kaminari'
 
 
 group :development, :test do
@@ -44,7 +44,7 @@ end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'web-console', '>= 3.7.0'
+  gem 'web-console', '>= 4.1.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
 end
 

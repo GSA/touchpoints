@@ -15,7 +15,6 @@ module Seeds
         disclaimer_text: "Disclaimer text goes Here",
         omb_approval_number: "1234-5678",
         expiration_date: Time.now + 2.years,
-        success_text: "Thank you for your response 🎉",
         delivery_method: "touchpoints-hosted-only"
       })
       text_elements_section = custom_form.form_sections.first
