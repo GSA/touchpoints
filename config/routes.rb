@@ -140,5 +140,7 @@ Rails.application.routes.draw do
   patch "profile", to: "profile#update", as: :profile_update
   get "status", to: "site#status", as: :status
   get "index", to: "site#index", as: :index
+  get "feed", to: "submissions#feed", as: :feed
+  get "export_feed", to: "submissions#export_feed", as: :export_feed
   root to: redirect(ENV.fetch("INDEX_URL"))
 end
