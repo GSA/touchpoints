@@ -229,7 +229,8 @@ pre {
   word-wrap: break-word;
 }
 
-.usa-table tbody tr:hover,
+.usa-table
+tbody tr:hover,
 tbody tr:hover,
 tbody tr:hover td {
   background-color: #E1F3F8;
@@ -261,14 +262,16 @@ tbody tr:hover td {
 
 .usa-table {
   th, td {
-    border: none;
-    border-bottom: 1px solid #f0f0f0;
+    border: 1px solid #f0f0f0;
   }
   td:first-child {
     border-left: 1px solid #f0f0f0;
   }
   td:last-child {
     border-right: 1px solid #f0f0f0;
+  }
+  tbody tr:last-child {
+    border-bottom: 1px solid #f0f0f0;
   }
 }
 

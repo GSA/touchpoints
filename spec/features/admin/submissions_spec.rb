@@ -282,9 +282,35 @@ feature "Submissions", js: true do
             end
           end
         end
+
+        describe "/feed" do
+          context "with one Submission" do
+            before do
+              visit admin_feed_path
+            end
+
+            it "prevent access and redirect to index page" do
+              expect(page).to have_content("Touchpoints Question Response Feed")
+              expect(page).to have_content("Download CSV")
+            end
+          end
+        end
+
+        describe "/export_feed.csv?days_limit=3" do
+          context "with one Submission" do
+            before do
+              visit admin_export_feed_path(format: :csv, days_limit: 3)
+            end
+
+            it "downloads the .csv and stays on page" do
+              expect(page).to have_content("Viewing Responses")
+            end
+          end
+        end
       end
 
     end
+
   end
 
   context "non-privileged User" do
@@ -313,15 +339,41 @@ feature "Submissions", js: true do
   end
 
   context "logged out user" do
-    describe "/forms/:id with submissions" do
-      let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin) }
-      let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
-      let!(:submission) { FactoryBot.create(:submission, form: form) }
+    let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
+    let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin) }
+    let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
+    let!(:submission) { FactoryBot.create(:submission, form: form) }
 
+    describe "/forms/:id with submissions" do
       context "with one Submission" do
         before do
           visit admin_form_path(form)
+        end
+
+        it "prevent access and redirect to index page" do
+          expect(page).to have_content("Authorization is Required")
+          expect(page.current_path).to eq(index_path)
+        end
+      end
+    end
+
+    describe "/feed" do
+      context "with one Submission" do
+        before do
+          visit admin_feed_path
+        end
+
+        it "prevent access and redirect to index page" do
+          expect(page).to have_content("Authorization is Required")
+          expect(page.current_path).to eq(index_path)
+        end
+      end
+    end
+
+    describe "/export_feed" do
+      context "with one Submission" do
+        before do
+          visit admin_export_feed_path
         end
 
         it "prevent access and redirect to index page" do
