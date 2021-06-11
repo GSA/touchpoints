@@ -5,7 +5,7 @@
     	<option value=<%= day %> <%= "selected" if day == @days_limit %> ><%= day %> <%= "day".pluralize(day) %> ago</option>
     <% end %>
 </select>
-<div align="right"><a href="/export_feed.csv?days_limit=<%= @days_limit %>"><span class="usa-label">Download CSV</span></a></div>
+<div align="right"><a href="/admin/export_feed.csv?days_limit=<%= @days_limit %>"><span class="usa-label">Download CSV</span></a></div>
 <br />
 <table class="usa-table--striped">
     <thead>
@@ -59,6 +59,6 @@
 </table>
 <script>
   $('#days-ago-select').change(function(e) {
-  	window.location = "/feed?days_limit=" + $(this).children("option:selected").val()
+  	window.location = "/admin/feed?days_limit=" + $(this).children("option:selected").val()
   });
 </script>
