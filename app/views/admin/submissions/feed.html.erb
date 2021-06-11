@@ -1,16 +1,20 @@
 <h2>Touchpoints Question Response Feed</h2>
 <span class="usa-label"><%= @feed.count %> questions answered since</span>
-<select name="days-ago-select" id="days-ago-select" class="usa-select">
-	<% [1,7,30,60,90,360].each do | day | %>
+<div>
+	<a href="/admin/export_feed.csv?days_limit=<%= @days_limit %>" class="usa-button float-right">
+		Download CSV
+	</a>
+	<select name="days-ago-select" id="days-ago-select" class="usa-select">
+		<% [1,7,30,60,90,360].each do | day | %>
     	<option value=<%= day %> <%= "selected" if day == @days_limit %> ><%= day %> <%= "day".pluralize(day) %> ago</option>
     <% end %>
-</select>
-<div align="right"><a href="/admin/export_feed.csv?days_limit=<%= @days_limit %>"><span class="usa-label">Download CSV</span></a></div>
+	</select>
+</div>
 <br />
-<table class="usa-table--striped">
+<table class="usa-table usa-table--striped">
     <thead>
         <th>Organization ID</th>
-        <th>Orangizationd Name</th>
+        <th>Orangization Name</th>
         <th>Form ID</th>
         <th>Form Name</th>
         <th>Submission ID</th>
