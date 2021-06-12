@@ -1,0 +1,68 @@
+<h2>Touchpoints Question Response Feed</h2>
+<span class="usa-label"><%= @feed.count %> questions answered since</span>
+<div>
+	<a href="/admin/export_feed.csv?days_limit=<%= @days_limit %>" class="usa-button float-right">
+		Download CSV
+	</a>
+	<select name="days-ago-select" id="days-ago-select" class="usa-select">
+		<% [1,7,30,60,90,360].each do | day | %>
+    	<option value=<%= day %> <%= "selected" if day == @days_limit %> ><%= day %> <%= "day".pluralize(day) %> ago</option>
+    <% end %>
+	</select>
+</div>
+<br />
+<table class="usa-table usa-table--striped">
+    <thead>
+        <th>Organization ID</th>
+        <th>Orangization Name</th>
+        <th>Form ID</th>
+        <th>Form Name</th>
+        <th>Submission ID</th>
+        <th>Question ID</th>
+        <th>Question Text</th>
+        <th>Response Text</th>
+        <th>Question With Response Text</th>
+        <th>Created At</th>
+    </thead>
+    <tbody>
+        <% @feed.each  do | row | %>
+        <tr>
+            <td>
+                <%= row[:organization_id] %>
+            </td>
+            <td>
+                <%= row[:organization_name] %>
+            </td>
+            <td>
+                <%= row[:form_id] %>
+            </td>
+            <td>
+                <%= row[:form_name] %>
+            </td>
+            <td>
+                <%= row[:submission_id] %>
+            </td>
+            <td>
+                <%= row[:question_id] %>
+            </td>
+            <td>
+                <%= row[:question_text] %>
+            </td>
+            <td>
+                <%= row[:response_text] %>
+            </td>
+            <td>
+                <%= row[:question_with_response_text] %>
+            </td>
+            <td>
+                <%= row[:created_at] %>
+            </td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
+<script>
+  $('#days-ago-select').change(function(e) {
+  	window.location = "/admin/feed?days_limit=" + $(this).children("option:selected").val()
+  });
+</script>
