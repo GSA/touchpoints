@@ -93,6 +93,36 @@ feature "Submissions", js: true do
             end
           end
         end
+
+        describe "/feed" do
+          context "with one Submission" do
+            let!(:submission) { FactoryBot.create(:submission, form: form) }
+
+            before do
+              visit admin_feed_path
+            end
+
+            it "prevent access and redirect to index page" do
+              expect(page).to have_content("Touchpoints Question Response Feed")
+              expect(page).to have_content("Download CSV")
+            end
+          end
+        end
+
+        describe "/export_feed.csv?days_limit=3" do
+          let!(:submission) { FactoryBot.create(:submission, form: form) }
+
+          context "with one Submission" do
+            before do
+              visit admin_feed_path
+              visit admin_export_feed_path(format: :csv, days_limit: 3)
+            end
+
+            it "downloads the .csv and stays on page" do
+              expect(page).to have_content("Touchpoints Question Response Feed")
+            end
+          end
+        end
       end
 
     end
@@ -179,6 +209,31 @@ feature "Submissions", js: true do
         end
       end
 
+      describe "/feed" do
+        context "with one Submission" do
+          before do
+            visit admin_feed_path
+          end
+
+          it "prevent access and redirect to index page" do
+            expect(page).to have_content("Authorization is Required")
+            expect(page.current_path).to eq(admin_root_path)
+          end
+        end
+      end
+
+      describe "/export_feed" do
+        context "with one Submission" do
+          before do
+            visit admin_export_feed_path
+          end
+
+          it "prevent access and redirect to index page" do
+            expect(page).to have_content("Authorization is Required")
+            expect(page.current_path).to eq(admin_root_path)
+          end
+        end
+      end
     end
   end
 
@@ -283,30 +338,6 @@ feature "Submissions", js: true do
           end
         end
 
-        describe "/feed" do
-          context "with one Submission" do
-            before do
-              visit admin_feed_path
-            end
-
-            it "prevent access and redirect to index page" do
-              expect(page).to have_content("Touchpoints Question Response Feed")
-              expect(page).to have_content("Download CSV")
-            end
-          end
-        end
-
-        describe "/export_feed.csv?days_limit=3" do
-          context "with one Submission" do
-            before do
-              visit admin_export_feed_path(format: :csv, days_limit: 3)
-            end
-
-            it "downloads the .csv and stays on page" do
-              expect(page).to have_content("Viewing Responses")
-            end
-          end
-        end
       end
 
     end
@@ -348,32 +379,6 @@ feature "Submissions", js: true do
       context "with one Submission" do
         before do
           visit admin_form_path(form)
-        end
-
-        it "prevent access and redirect to index page" do
-          expect(page).to have_content("Authorization is Required")
-          expect(page.current_path).to eq(index_path)
-        end
-      end
-    end
-
-    describe "/feed" do
-      context "with one Submission" do
-        before do
-          visit admin_feed_path
-        end
-
-        it "prevent access and redirect to index page" do
-          expect(page).to have_content("Authorization is Required")
-          expect(page.current_path).to eq(index_path)
-        end
-      end
-    end
-
-    describe "/export_feed" do
-      context "with one Submission" do
-        before do
-          visit admin_export_feed_path
         end
 
         it "prevent access and redirect to index page" do
