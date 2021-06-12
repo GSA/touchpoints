@@ -1,4 +1,5 @@
 class Admin::SubmissionsController < AdminController
+  before_action :ensure_admin, only: [:feed, :export_feed]
   before_action :set_form, except: [:feed, :export_feed]
   before_action :set_submission, except: [:feed, :export_feed]
 
