@@ -34,6 +34,7 @@ gem 'redis-namespace'
 gem 'aasm', '~> 4.12'
 # gem 'webpacker', '~> 5.0'
 gem 'whenever', require: false
+gem 'logstop'
 
 
 group :development, :test do
