@@ -1,9 +1,15 @@
 class Admin::CollectionsController < AdminController
-  before_action :ensure_admin
-  before_action :set_collection, only: [:show, :edit, :copy, :update, :destroy]
+  before_action :set_collection, only: [:show, :edit, :copy,
+    :submit, :publish,
+    :update, :destroy
+  ]
 
   def index
-    @collections = Collection.all.includes(:organization).order('organizations.name')
+    if admin_permissions?
+      @collections = Collection.all.includes(:organization).order('organizations.name')
+    else
+      @collections = current_user.organization.collections.includes(:organization)
+    end
   end
 
   def show
@@ -14,6 +20,18 @@ class Admin::CollectionsController < AdminController
   end
 
   def edit
+  end
+
+  def submit
+    @collection.submit!
+    Event.log_event(Event.names[:collection_submitted], "Collection", @collection.id, "Collection #{@collection.name} submitted at #{DateTime.now}", current_user.id)
+    redirect_to admin_collection_path(@collection), notice: 'Collection has been submitted successfully.'
+  end
+
+  def publish
+    @collection.publish!
+    Event.log_event(Event.names[:collection_published], "Collection", @collection.id, "Collection #{@collection.name} published at #{DateTime.now}", current_user.id)
+    redirect_to admin_collection_path(@collection), notice: 'Collection has been published successfully.'
   end
 
   def copy
@@ -45,6 +63,7 @@ class Admin::CollectionsController < AdminController
 
   def update
     if @collection.update(collection_params)
+      Event.log_event(Event.names[:collection_updated], "Collection", @collection.id, "Collection #{@collection.name} updated at #{DateTime.now}", current_user.id)
       redirect_to admin_collection_path(@collection), notice: 'Collection was successfully updated.'
     else
       render :edit
@@ -58,7 +77,11 @@ class Admin::CollectionsController < AdminController
 
   private
     def set_collection
-      @collection = Collection.find(params[:id])
+      if admin_permissions?
+        @collection = Collection.find(params[:id])
+      else
+        @collection = current_user.collections.find(params[:id])
+      end
     end
 
     def collection_params

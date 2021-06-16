@@ -1,5 +1,5 @@
 <% content_for :navigation_title do %>
-  One reporting sheet in a CX Quarterly report
+  CX service reporting worksheet
 
   <%= link_to edit_admin_omb_cx_reporting_collection_path(@omb_cx_reporting_collection), class: "usa-button usa-button-inverted float-right" do %>
     <i class="fa fa-pencil-alt"></i>
@@ -14,46 +14,102 @@
   <% end %>
 </p>
 
-<div>
-  <div class="field">
-    Collection:
-    <%= link_to @omb_cx_reporting_collection.collection.name, admin_collection_path(@omb_cx_reporting_collection.collection) %>
+<div class="well">
+  <div class="text-uppercase font-body-3xs">
+    General information
   </div>
-  <div class="field">
-    Organization:
-    <%= @omb_cx_reporting_collection.collection.organization.name %>
-  </div>
-  <div class="field">
-    Service Provided:
-    <%= @omb_cx_reporting_collection.service_provided %>
-  </div>
-  <div class="field">
-    Transaction point:
-    <%= @omb_cx_reporting_collection.transaction_point %>
-  </div>
-  <div class="field">
-    Channel:
-    <%= @omb_cx_reporting_collection.channel %>
-  </div>
-  <div class="field">
-    Volume of customers:
-    <%= @omb_cx_reporting_collection.volume_of_customers %>
-  </div>
-  <div class="field">
-    Customers provided a feedback opportunity:
-    <%= @omb_cx_reporting_collection.volume_of_customers_provided_survey_opportunity %>
-  </div>
-  <div class="field">
-    Volume of respondents:
-    <%= @omb_cx_reporting_collection.volume_of_respondents %>
-  </div>
-  <div class="field">
-    OMB Control Number:
-    <%= @omb_cx_reporting_collection.omb_control_number %>
-  </div>
-  <div class="field">
-    Federal Register URL:
-    <%= @omb_cx_reporting_collection.federal_register_url %>
+  <br>
+  <div class="grid-row">
+    <div class="grid-col-4">
+      <p>
+        <div class="field">
+          <strong>Collection</strong>
+          <br>
+          <%= link_to @omb_cx_reporting_collection.collection.name, admin_collection_path(@omb_cx_reporting_collection.collection) %>
+        </div>
+      </p>
+      <p>
+        <div class="field">
+          <strong>
+            Organization
+          </strong>
+          <br>
+          <%= @omb_cx_reporting_collection.collection.organization.name %>
+        </div>
+      </p>
+      <p>
+        <div class="field">
+          <strong>
+            Service Provided
+          </strong>
+          <br>
+          <%= @omb_cx_reporting_collection.service_provided %>
+        </div>
+      </p>
+    </div>
+    <div class="grid-col-4">
+      <p>
+        <div class="field">
+          <strong>
+            Transaction point
+          </strong>
+          <br>
+          <%= @omb_cx_reporting_collection.transaction_point %>
+        </div>
+      </p>
+      <p>
+        <div class="field">
+          <strong>
+            Channel
+          </strong>
+          <%= @omb_cx_reporting_collection.channel %>
+        </div>
+      </p>
+      <p>
+        <div class="field">
+          <strong>
+            OMB Control Number
+          </strong>
+          <%= @omb_cx_reporting_collection.omb_control_number %>
+        </div>
+      </p>
+      <p>
+        <div class="field">
+          <strong>
+            Federal Register URL
+          </strong>
+          <br>
+          <%= @omb_cx_reporting_collection.federal_register_url %>
+        </div>
+      </p>
+    </div>
+    <div class="grid-col-4">
+      <p>
+        <div class="field">
+          <strong>
+            Volume of customers
+          </strong>
+          <br>
+          <%= @omb_cx_reporting_collection.volume_of_customers %>
+        </div>
+      </p>
+      <p>
+        <div class="field">
+          <strong>
+            Customers provided a feedback opportunity
+          </strong>
+          <%= @omb_cx_reporting_collection.volume_of_customers_provided_survey_opportunity %>
+        </div>
+      </p>
+      <p>
+        <div class="field">
+          <strong>
+            Volume of respondents
+          </strong>
+          <%= @omb_cx_reporting_collection.volume_of_respondents %>
+        </div>
+      </p>
+    </div>
   </div>
 </div>
 
@@ -436,20 +492,22 @@
   </tbody>
 </table>
 
-<h4>
-  CSV data for performance.gov/cx chart
-</h4>
-<p>
-  hisp_service_id,year,quarter,touchpoint,surveys_offered_count,response_count,satisfied,trust,effective,easy,efficient,transparent,employee
-  <br>
-  <%= @omb_cx_reporting_collection.collection.organization.name %>,<%= @omb_cx_reporting_collection.collection.year %>,<%= @omb_cx_reporting_collection.collection.quarter %>,<%= @omb_cx_reporting_collection.channel %>,
-  <%= @omb_cx_reporting_collection.volume_of_customers %>,
-  <%= @omb_cx_reporting_collection.volume_of_respondents %>,
-  <%= @omb_cx_reporting_collection.q1_point_scale %>,
-  <%= @omb_cx_reporting_collection.q2_point_scale %>,
-  <%= @omb_cx_reporting_collection.q3_point_scale %>,
-  <%= @omb_cx_reporting_collection.q4_point_scale %>,
-  <%= @omb_cx_reporting_collection.q5_point_scale %>,
-  <%= @omb_cx_reporting_collection.q6_point_scale %>,
-  <%= @omb_cx_reporting_collection.q7_point_scale %>
-</p>
+<div <%= "hidden" unless !admin_permissions? %>>
+  <h4>
+    CSV data for performance.gov/cx chart
+  </h4>
+  <p>
+    hisp_service_id,year,quarter,touchpoint,surveys_offered_count,response_count,satisfied,trust,effective,easy,efficient,transparent,employee
+    <br>
+    <%= @omb_cx_reporting_collection.collection.organization.name %>,<%= @omb_cx_reporting_collection.collection.year %>,<%= @omb_cx_reporting_collection.collection.quarter %>,<%= @omb_cx_reporting_collection.channel %>,
+    <%= @omb_cx_reporting_collection.volume_of_customers %>,
+    <%= @omb_cx_reporting_collection.volume_of_respondents %>,
+    <%= @omb_cx_reporting_collection.q1_point_scale %>,
+    <%= @omb_cx_reporting_collection.q2_point_scale %>,
+    <%= @omb_cx_reporting_collection.q3_point_scale %>,
+    <%= @omb_cx_reporting_collection.q4_point_scale %>,
+    <%= @omb_cx_reporting_collection.q5_point_scale %>,
+    <%= @omb_cx_reporting_collection.q6_point_scale %>,
+    <%= @omb_cx_reporting_collection.q7_point_scale %>
+  </p>
+</div>

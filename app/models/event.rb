@@ -28,7 +28,9 @@ class Event < ApplicationRecord
     form_deleted: 'form_deleted',
 
     collection_created: 'collection_created',
+    collection_updated: 'collection_updated',
     collection_copied: 'collection_copied',
+    collection_submitted: 'collection_submitted',
     collection_published: 'collection_published',
     collection_change_requested: 'collection_change_requested',
     collection_deleted: 'collection_deleted',
