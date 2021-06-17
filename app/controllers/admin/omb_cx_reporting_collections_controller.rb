@@ -1,8 +1,8 @@
 class Admin::OmbCxReportingCollectionsController < AdminController
-  before_action :ensure_admin
   before_action :set_omb_cx_reporting_collection, only: [:show, :edit, :update, :destroy]
 
   def index
+    ensure_admin
     @omb_cx_reporting_collections = OmbCxReportingCollection.all
   end
 
@@ -36,7 +36,7 @@ class Admin::OmbCxReportingCollectionsController < AdminController
 
   def destroy
     @omb_cx_reporting_collection.destroy
-    redirect_to admin_omb_cx_reporting_collections_url, notice: 'Omb cx reporting collection was successfully destroyed.'
+    redirect_to admin_collection_url(@omb_cx_reporting_collection.collection), notice: 'Omb cx reporting collection was successfully destroyed.'
   end
 
   private

@@ -168,6 +168,8 @@ class User < ApplicationRecord
     end
 
     def ensure_organization
+      return if organization_id.present?
+
       email_address_domain = Mail::Address.new(self.email).domain
       parsed_domain = parse_host_from_domain(email_address_domain)
 

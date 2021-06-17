@@ -71,14 +71,24 @@ feature "Managing Users", js: true do
     end
 
     describe "edit a User" do
+      let!(:another_organization) { FactoryBot.create(:organization, :another) }
+
       before do
         visit edit_admin_user_path(user)
-        expect(page.find("input[name='user[admin]'][type='hidden']", visible: false).value).to eq("0")
-        page.find("label[for='user_admin']").click
+      end
+
+      it "update existing user to another Organization" do
+        expect(page.find("select[name='user[organization_id]']").value).to eq("1")
+        select(another_organization.name, from: "user_organization_id")
         click_button("Update User")
+        expect(page).to have_content("User was successfully updated.")
+        expect(page).to have_content(another_organization.name)
       end
 
       it "update existing user to an Admin role" do
+        expect(page.find("input[name='user[admin]'][type='hidden']", visible: false).value).to eq("0")
+        page.find("label[for='user_admin']").click
+        click_button("Update User")
         expect(page.find(".usa-tag")).to have_content("Admin User".upcase)
       end
     end
