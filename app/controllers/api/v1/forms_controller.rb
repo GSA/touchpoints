@@ -13,7 +13,7 @@ class Api::V1::FormsController < ::ApiController
     respond_to do |format|
       format.json {
         if @form
-          render json: @form, include: [:questions, :submissions], serializer: FormSerializer
+          render json: @form, include: [:questions, :submissions], serializer: FullFormSerializer
         else
           render json: { error: { message: "no form with Short UUID of #{params[:id]}", status: 404 } }, status: 404
         end
