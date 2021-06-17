@@ -1,8 +1,8 @@
 class Admin::OmbCxReportingCollectionsController < AdminController
-  before_action :ensure_admin
   before_action :set_omb_cx_reporting_collection, only: [:show, :edit, :update, :destroy]
 
   def index
+    ensure_admin
     @omb_cx_reporting_collections = OmbCxReportingCollection.all
   end
 

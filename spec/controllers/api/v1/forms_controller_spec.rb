@@ -66,7 +66,7 @@ describe Api::V1::FormsController, type: :controller do
 
         it "return a form's submissions" do
           relationships = @parsed_response["data"].first["relationships"]
-          expect(relationships.keys).to include("submissions")
+          expect(relationships.keys).to_not include("submissions")
         end
       end
     end
@@ -81,15 +81,25 @@ describe Api::V1::FormsController, type: :controller do
           user.update(api_key: TEST_API_KEY)
           request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch("API_HTTP_USERNAME"), ENV.fetch("API_HTTP_PASSWORD"))
           get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key }
+          @parsed_response = JSON.parse(response.body)
         end
 
         it "return an array of forms" do
-          parsed_response = JSON.parse(response.body)
           expect(response.status).to eq(200)
-          expect(parsed_response["data"].class).to be(Hash)
-          expect(parsed_response["data"]["attributes"]["name"]).to eq(form.name)
-          expect(parsed_response["data"]["relationships"]["submissions"]["data"].class).to eq(Array)
-          expect(parsed_response["data"]["relationships"]["submissions"]["data"].size).to eq(3)
+          expect(@parsed_response["data"].class).to be(Hash)
+          expect(@parsed_response["data"]["attributes"]["name"]).to eq(form.name)
+          expect(@parsed_response["data"]["relationships"]["submissions"]["data"].class).to eq(Array)
+          expect(@parsed_response["data"]["relationships"]["submissions"]["data"].size).to eq(3)
+        end
+
+        it "return a form's questions" do
+          relationships = @parsed_response["data"]["relationships"]
+          expect(relationships.keys).to include("questions")
+        end
+
+        it "return a form's submissions" do
+          relationships = @parsed_response["data"]["relationships"]
+          expect(relationships.keys).to include("submissions")
         end
       end
     end
