@@ -25,10 +25,14 @@
     <%= f.select :name, ["CX Quarterly Reporting"], {}, class: "usa-select" %>
   </div>
 
+  <% if admin_permissions? && collection.persisted? %>
   <div class="field">
     <%= f.label :aasm_state, class: "usa-label" %>
     <%= f.select :aasm_state, [:draft, :submitted, :published, :change_requested], {}, class: "usa-select" %>
   </div>
+  <% else %>
+    <%= f.hidden_field :aasm_state, value: :draft %>
+  <% end %>
 
   <div class="field usa-form-group">
     <%= f.label :start_date, class: "usa-label", id: "expiration-date-label" %>
@@ -45,7 +49,7 @@
   </div>
 
   <div class="field">
-    <%= f.label :year, class: "usa-label" %>
+    <%= f.label :year, "Fiscal Year", class: "usa-label" %>
     <%= f.text_field :year, class: "usa-input" %>
   </div>
 

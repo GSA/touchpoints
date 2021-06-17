@@ -94,6 +94,8 @@ class Admin::SubmissionsController < AdminController
       submissions = submissions.where("created_at >= ?",days_limit.days.ago) if days_limit > 0
       submissions.each do |submission|
         form.questions.each do |question|
+          question_text = question.text.to_s
+          answer_text = Logstop.scrub(submission.send(question.answer_field.to_sym).to_s)
           @hash = {
             organization_id: form.organization_id,
             organization_name: form.organization.name,
@@ -102,9 +104,9 @@ class Admin::SubmissionsController < AdminController
             submission_id: submission.id,
             question_id: question.id,
             user_id: submission.user_id,
-            question_text: question.text.to_s,
-            response_text: submission.send(question.answer_field.to_sym).to_s,
-            question_with_response_text: question.text.to_s + ': ' + submission.send(question.answer_field.to_sym).to_s,
+            question_text: question_text,
+            response_text: answer_text,
+            question_with_response_text: question_text + ': ' + answer_text,
             created_at: submission.created_at
           }
           all_question_responses << @hash

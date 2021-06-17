@@ -49,6 +49,8 @@ Rails.application.routes.draw do
     resources :collections do
       member do
         post "copy", to: "collections#copy", as: :copy
+        post "submit", to: "collections#submit", as: :submit
+        post "publish", to: "collections#publish", as: :publish
       end
     end
     resources :omb_cx_reporting_collections
