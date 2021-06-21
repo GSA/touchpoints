@@ -14,124 +14,159 @@
 
 RSpec.describe "/collections", type: :request do
 
-  # Collection. As you add validations to Collection, be sure to
-  # adjust the attributes here as well.
+  let(:organization) { FactoryBot.create(:organization) }
+  let(:another_organization) { FactoryBot.create(:organization, :another) }
+  let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
+  let(:user) { FactoryBot.create(:user, organization: another_organization) }
+
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    FactoryBot.build(:collection, organization: organization, user: admin).attributes
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+      name: "Only",
+      organization_id: nil,
+      user_id: nil,
+    }
   }
 
-  let(:organization) { FactoryBot.create(:organization) }
-  let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
 
-  before do
-    login_as(admin)
-  end
-
-  describe "GET /index" do
-    it "renders a successful response" do
-      Collection.create! valid_attributes
-      get admin_collections_url
-      expect(response).to be_successful
+  context "as an Admin" do
+    before do
+      login_as(admin)
     end
-  end
 
-  describe "GET /show" do
-    it "renders a successful response" do
-      collection = Collection.create! valid_attributes
-      get collection_url(collection)
-      expect(response).to be_successful
+    describe "GET /index" do
+      it "renders a successful response" do
+        Collection.create! valid_attributes
+        get admin_collections_url
+        expect(response).to be_successful
+      end
     end
-  end
 
-  describe "GET /new" do
-    it "renders a successful response" do
-      get new_admin_collection_url
-      expect(response).to be_successful
+    describe "GET /show" do
+      it "renders a successful response" do
+        collection = Collection.create! valid_attributes
+        get admin_collection_url(collection)
+        expect(response).to be_successful
+      end
     end
-  end
 
-  describe "GET /edit" do
-    it "render a successful response" do
-      collection = Collection.create! valid_attributes
-      get edit_collection_url(collection)
-      expect(response).to be_successful
+    describe "GET /new" do
+      it "renders a successful response" do
+        get new_admin_collection_url
+        expect(response).to be_successful
+      end
     end
-  end
 
-  describe "POST /create" do
-    context "with valid parameters" do
-      it "creates a new Collection" do
-        expect {
+    describe "GET /edit" do
+      it "render a successful response" do
+        collection = Collection.create! valid_attributes
+        get edit_admin_collection_url(collection)
+        expect(response).to be_successful
+      end
+    end
+
+    describe "POST /create" do
+      context "with valid parameters" do
+        it "creates a new Collection" do
+          expect {
+            post admin_collections_url, params: { collection: valid_attributes }
+          }.to change(Collection, :count).by(1)
+        end
+
+        it "redirects to the created collection" do
           post admin_collections_url, params: { collection: valid_attributes }
-        }.to change(Collection, :count).by(1)
+          expect(response).to redirect_to(admin_collection_url(Collection.last))
+        end
       end
 
-      it "redirects to the created collection" do
-        post admin_collections_url, params: { collection: valid_attributes }
-        expect(response).to redirect_to(collection_url(Collection.last))
-      end
-    end
+      context "with invalid parameters" do
+        it "does not create a new Collection" do
+          expect {
+            post admin_collections_url, params: { collection: invalid_attributes }
+          }.to change(Collection, :count).by(0)
+        end
 
-    context "with invalid parameters" do
-      it "does not create a new Collection" do
-        expect {
+        it "renders a successful response (i.e. to display the 'new' template)" do
           post admin_collections_url, params: { collection: invalid_attributes }
-        }.to change(Collection, :count).by(0)
+          expect(response).to be_successful
+        end
+      end
+    end
+
+    describe "PATCH /update" do
+      context "with valid parameters" do
+        let(:new_attributes) {
+          skip("Add a hash of attributes valid for your model")
+        }
+
+        it "updates the requested collection" do
+          collection = Collection.create! valid_attributes
+          patch admin_collection_url(collection), params: { collection: new_attributes }
+          collection.reload
+          skip("Add assertions for updated state")
+        end
+
+        it "redirects to the collection" do
+          collection = Collection.create! valid_attributes
+          patch admin_collection_url(collection), params: { collection: new_attributes }
+          collection.reload
+          expect(response).to redirect_to(collection_url(collection))
+        end
       end
 
-      it "renders a successful response (i.e. to display the 'new' template)" do
-        post admin_collections_url, params: { collection: invalid_attributes }
+      context "with invalid parameters" do
+        it "renders a successful response (i.e. to display the 'edit' template)" do
+          collection = Collection.create! valid_attributes
+          patch admin_collection_url(collection), params: { collection: invalid_attributes }
+          expect(response).to be_successful
+        end
+      end
+    end
+
+    describe "DELETE /destroy" do
+      it "destroys the requested collection" do
+        collection = Collection.create! valid_attributes
+        expect {
+          delete admin_collection_url(collection)
+        }.to change(Collection, :count).by(-1)
+      end
+
+      it "redirects to the collections list" do
+        collection = Collection.create! valid_attributes
+        delete admin_collection_url(collection)
+        expect(response).to redirect_to(admin_collections_url)
+      end
+    end
+  end
+
+  context "as an Admin" do
+    let(:user2) { FactoryBot.create(:user, organization: another_organization) }
+
+    before do
+      login_as(user)
+    end
+
+    describe "GET /show" do
+      let(:collection) { FactoryBot.create(:collection, organization: another_organization, user: user2) }
+
+      it "renders a successful response" do
+        get admin_collection_url(collection)
         expect(response).to be_successful
       end
     end
-  end
 
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
+    describe "GET /show" do
+      let(:collection) { FactoryBot.create(:collection, organization: organization, user: user2) }
 
-      it "updates the requested collection" do
-        collection = Collection.create! valid_attributes
-        patch collection_url(collection), params: { collection: new_attributes }
-        collection.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "redirects to the collection" do
-        collection = Collection.create! valid_attributes
-        patch collection_url(collection), params: { collection: new_attributes }
-        collection.reload
-        expect(response).to redirect_to(collection_url(collection))
-      end
-    end
-
-    context "with invalid parameters" do
-      it "renders a successful response (i.e. to display the 'edit' template)" do
-        collection = Collection.create! valid_attributes
-        patch collection_url(collection), params: { collection: invalid_attributes }
-        expect(response).to be_successful
+      it "renders RecordNotFounds successful response" do
+        expect {
+          get admin_collection_url(collection)
+        }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end
 
-  describe "DELETE /destroy" do
-    it "destroys the requested collection" do
-      collection = Collection.create! valid_attributes
-      expect {
-        delete collection_url(collection)
-      }.to change(Collection, :count).by(-1)
-    end
-
-    it "redirects to the collections list" do
-      collection = Collection.create! valid_attributes
-      delete collection_url(collection)
-      expect(response).to redirect_to(admin_collections_url)
-    end
-  end
 end
