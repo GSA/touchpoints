@@ -34,6 +34,7 @@
     <%= f.hidden_field :aasm_state, value: :draft %>
   <% end %>
 
+  <% if collection.persisted? %>
   <div class="field usa-form-group">
     <%= f.label :start_date, class: "usa-label", id: "expiration-date-label" %>
     <div class="usa-date-picker" data-default-value="<%= collection.start_date %>">
@@ -47,12 +48,14 @@
       <%= f.text_field :end_date, placeholder: "mm/dd/yyyy", class: "usa-input" %>
     </div>
   </div>
+  <% end %>
 
   <div class="field">
-    <%= f.label :year, "Fiscal Year", class: "usa-label" %>
+    <%= f.label :year, "Fiscal year", class: "usa-label" %>
     <%= f.text_field :year, class: "usa-input" %>
   </div>
 
+  <%= f.label :quarter, "Fiscal quarter", class: "usa-label" %>
   <fieldset class="usa-fieldset" role="group" aria-labelledby="quarter">
     <legend class="usa-sr-only">Quarter</legend>
     <div class="question-options">

@@ -5,6 +5,9 @@ class Collection < ApplicationRecord
   belongs_to :user
   has_many :omb_cx_reporting_collections
 
+  validates :year, presence: true
+  validates :quarter, presence: true
+
   after_create :generate_supporting_elements
 
   validates :name, presence: true
@@ -59,6 +62,64 @@ class Collection < ApplicationRecord
     self.omb_cx_reporting_collections.each do |omb_cx_reporting_collection|
       new_omb_cx_reporting_collection = omb_cx_reporting_collection.dup
       new_omb_cx_reporting_collection.collection = new_collection
+      new_omb_cx_reporting_collection.volume_of_customers = 0
+      new_omb_cx_reporting_collection.volume_of_customers_provided_survey_opportunity = 0
+      new_omb_cx_reporting_collection.volume_of_respondents = 0    
+      new_omb_cx_reporting_collection.q1_1 = 0
+      new_omb_cx_reporting_collection.q1_2 = 0
+      new_omb_cx_reporting_collection.q1_3 = 0
+      new_omb_cx_reporting_collection.q1_4 = 0
+      new_omb_cx_reporting_collection.q1_5 = 0
+      new_omb_cx_reporting_collection.q2_1 = 0
+      new_omb_cx_reporting_collection.q2_2 = 0
+      new_omb_cx_reporting_collection.q2_3 = 0
+      new_omb_cx_reporting_collection.q2_4 = 0
+      new_omb_cx_reporting_collection.q2_5 = 0
+      new_omb_cx_reporting_collection.q3_1 = 0
+      new_omb_cx_reporting_collection.q3_2 = 0
+      new_omb_cx_reporting_collection.q3_3 = 0
+      new_omb_cx_reporting_collection.q3_4 = 0
+      new_omb_cx_reporting_collection.q3_5 = 0
+      new_omb_cx_reporting_collection.q4_1 = 0
+      new_omb_cx_reporting_collection.q4_2 = 0
+      new_omb_cx_reporting_collection.q4_3 = 0
+      new_omb_cx_reporting_collection.q4_4 = 0
+      new_omb_cx_reporting_collection.q4_5 = 0
+      new_omb_cx_reporting_collection.q5_1 = 0
+      new_omb_cx_reporting_collection.q5_2 = 0
+      new_omb_cx_reporting_collection.q5_3 = 0
+      new_omb_cx_reporting_collection.q5_4 = 0
+      new_omb_cx_reporting_collection.q5_5 = 0
+      new_omb_cx_reporting_collection.q6_1 = 0
+      new_omb_cx_reporting_collection.q6_2 = 0
+      new_omb_cx_reporting_collection.q6_3 = 0
+      new_omb_cx_reporting_collection.q6_4 = 0
+      new_omb_cx_reporting_collection.q6_5 = 0
+      new_omb_cx_reporting_collection.q7_1 = 0
+      new_omb_cx_reporting_collection.q7_2 = 0
+      new_omb_cx_reporting_collection.q7_3 = 0
+      new_omb_cx_reporting_collection.q7_4 = 0
+      new_omb_cx_reporting_collection.q7_5 = 0
+      new_omb_cx_reporting_collection.q8_1 = 0
+      new_omb_cx_reporting_collection.q8_2 = 0
+      new_omb_cx_reporting_collection.q8_3 = 0
+      new_omb_cx_reporting_collection.q8_4 = 0
+      new_omb_cx_reporting_collection.q8_5 = 0
+      new_omb_cx_reporting_collection.q9_1 = 0
+      new_omb_cx_reporting_collection.q9_2 = 0
+      new_omb_cx_reporting_collection.q9_3 = 0
+      new_omb_cx_reporting_collection.q9_4 = 0
+      new_omb_cx_reporting_collection.q9_5 = 0
+      new_omb_cx_reporting_collection.q10_1 = 0
+      new_omb_cx_reporting_collection.q10_2 = 0
+      new_omb_cx_reporting_collection.q10_3 = 0
+      new_omb_cx_reporting_collection.q10_4 = 0
+      new_omb_cx_reporting_collection.q10_5 = 0
+      new_omb_cx_reporting_collection.q11_1 = 0
+      new_omb_cx_reporting_collection.q11_2 = 0
+      new_omb_cx_reporting_collection.q11_3 = 0
+      new_omb_cx_reporting_collection.q11_4 = 0
+      new_omb_cx_reporting_collection.q11_5 = 0
       new_omb_cx_reporting_collection.save!
     end
 

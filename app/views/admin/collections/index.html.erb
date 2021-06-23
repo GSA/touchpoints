@@ -24,7 +24,11 @@
         <td><%= collection.organization.name %></td>
         <td><%= collection.year %></td>
         <td><%= collection.quarter %></td>
-        <td><%= collection.aasm_state %></td>
+        <td>
+          <span class="usa-tag <%= 'bg-mint' if collection.draft? -%> <%= 'bg-accent-cool' if collection.submitted? -%> <%= 'bg-accent-warm' if collection.change_requested? -%>">
+            <%= collection.aasm_state %>
+          </span>
+        </td>
       </tr>
     <% end %>
   </tbody>

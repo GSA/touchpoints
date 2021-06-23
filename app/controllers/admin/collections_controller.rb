@@ -6,9 +6,9 @@ class Admin::CollectionsController < AdminController
 
   def index
     if admin_permissions?
-      @collections = Collection.all.includes(:organization).order('organizations.name')
+      @collections = Collection.all.order('organizations.name', :year, :quarter).includes(:organization)
     else
-      @collections = current_user.organization.collections.includes(:organization)
+      @collections = current_user.organization.collections.order('organizations.name', :year, :quarter).includes(:organization)
     end
   end
 
@@ -17,6 +17,8 @@ class Admin::CollectionsController < AdminController
 
   def new
     @collection = Collection.new
+    @collection.year = fiscal_year(Date.today)
+    @collection.quarter = fiscal_quarter(Date.today)
   end
 
   def edit

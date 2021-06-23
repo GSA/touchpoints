@@ -9,6 +9,22 @@ class ApplicationController < ActionController::Base
     I18n.with_locale(locale, &action)
   end
 
+  def fiscal_year(date)
+    (date - 3.months).year
+  end
+
+  def fiscal_quarter(date)
+    if [10, 11, 12].include?(date.month)
+      1
+    elsif [1, 2, 3].include?(date.month)
+      2
+    elsif [4, 5, 6].include?(date.month)
+      3
+    elsif [7, 8, 9].include?(date.month)
+      4
+    end
+  end
+
   def after_sign_in_path_for(resource)
     admin_root_path
   end
