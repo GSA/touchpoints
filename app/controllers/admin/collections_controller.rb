@@ -17,6 +17,8 @@ class Admin::CollectionsController < AdminController
 
   def new
     @collection = Collection.new
+    @collection.year = fiscal_year(Date.today)
+    @collection.quarter = fiscal_quarter(Date.today)
   end
 
   def edit

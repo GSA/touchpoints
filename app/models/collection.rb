@@ -5,6 +5,9 @@ class Collection < ApplicationRecord
   belongs_to :user
   has_many :omb_cx_reporting_collections
 
+  validates :year, presence: true
+  validates :quarter, presence: true
+
   after_create :generate_supporting_elements
 
   validates :name, presence: true
