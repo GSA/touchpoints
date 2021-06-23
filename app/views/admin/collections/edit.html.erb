@@ -19,7 +19,7 @@
     Delete
   <% end %>
 
-  <%= link_to copy_admin_collection_path(@collection), method: :post, class: "usa-button usa-button--outline float-right" do %>
+  <%= link_to copy_admin_collection_path(@collection), method: :post, class: "usa-button usa-button--outline float-right", data: { confirm: 'Are you sure?' } do %>
     <i class="fa fa-trash"></i>
     Copy this collection
   <% end %>
