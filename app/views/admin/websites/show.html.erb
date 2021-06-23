@@ -213,7 +213,6 @@
   </p>
 </div>
 
-<% if @website.admin?(user: current_user) %>
 <div class="well">
   <h3>
     Additional website information
@@ -222,4 +221,3 @@
     <%= link_to "View website scorecard", scorecard_admin_website_path(@website), class: "usa-button" %>
   </p>
 </div>
-<% end %>
