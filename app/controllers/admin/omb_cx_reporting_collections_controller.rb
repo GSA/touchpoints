@@ -15,11 +15,16 @@ class Admin::OmbCxReportingCollectionsController < AdminController
     else
       @collections = current_user.collections
     end
-    
+
     @omb_cx_reporting_collection = OmbCxReportingCollection.new
   end
 
   def edit
+    if admin_permissions?
+      @collections = Collection.all
+    else
+      @collections = current_user.collections
+    end
   end
 
   def create
