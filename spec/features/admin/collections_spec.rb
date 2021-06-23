@@ -134,6 +134,19 @@ feature "Data Collections", js: true do
       it "renders Collection dropdown with 1 organization's collections" do
         expect(page.all("select option").count).to eq(1)
       end
+
+      context "#copy" do
+        before do
+          click_on "Copy this collection"
+          page.driver.browser.switch_to.alert.accept
+        end
+
+        it "renders a successful response" do
+          expect(page).to have_content("Collection was successfully copied.")
+          expect(page).to have_content("Copy of #{collection.name}")
+        end
+      end
+
     end
   end
 

@@ -54,7 +54,6 @@ class Collection < ApplicationRecord
     new_collection = self.dup
     new_collection.user = user
     new_collection.name = "Copy of #{self.name}"
-    new_collection.quarter = nil
     new_collection.aasm_state = :draft
     new_collection.save
 
@@ -64,7 +63,7 @@ class Collection < ApplicationRecord
       new_omb_cx_reporting_collection.collection = new_collection
       new_omb_cx_reporting_collection.volume_of_customers = 0
       new_omb_cx_reporting_collection.volume_of_customers_provided_survey_opportunity = 0
-      new_omb_cx_reporting_collection.volume_of_respondents = 0    
+      new_omb_cx_reporting_collection.volume_of_respondents = 0
       new_omb_cx_reporting_collection.q1_1 = 0
       new_omb_cx_reporting_collection.q1_2 = 0
       new_omb_cx_reporting_collection.q1_3 = 0

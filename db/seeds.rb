@@ -390,6 +390,8 @@ Website.create!({
 data_collection = Collection.create!({
   organization: Organization.first,
   user: User.all.sample,
+  year: 2021,
+  quarter: 2,
   name: "CX Quarterly Data Collection",
   start_date: "2021-01-01",
   end_date: "2021-03-31"
