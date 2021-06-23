@@ -15,7 +15,7 @@ class Collection < ApplicationRecord
   def generate_supporting_elements
     if self.name.include?("CX Quarterly")
       OmbCxReportingCollection.create!({
-        collection_id: self.id,
+        collection: self,
         service_provided: "Description of your service"
       })
     end

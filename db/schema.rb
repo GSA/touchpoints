@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_21_040210) do
+ActiveRecord::Schema.define(version: 2021_06_23_201507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,9 +118,9 @@ ActiveRecord::Schema.define(version: 2021_05_21_040210) do
     t.string "service_provided"
     t.text "transaction_point"
     t.string "channel"
-    t.integer "volume_of_customers"
-    t.integer "volume_of_customers_provided_survey_opportunity"
-    t.integer "volume_of_respondents"
+    t.integer "volume_of_customers", default: 0
+    t.integer "volume_of_customers_provided_survey_opportunity", default: 0
+    t.integer "volume_of_respondents", default: 0
     t.string "omb_control_number"
     t.string "federal_register_url"
     t.string "q1_text"
