@@ -1,0 +1,17 @@
+<div class="email-header">
+  <%= image_tag(attachments['logo.png'].url, alt: "Touchpoints logo") %>
+</div>
+<h3>
+  Data Collection Notification
+</h3>
+<p>
+  Updates to the Data Collection,
+  <%= @collection.name %>
+  have occurred.
+</p>
+<p>
+  Visit
+  <a href="<%= admin_collection_url(@collection) %>">
+    <%= admin_collection_url(@collection) %>
+  </a> to view.
+</p>

@@ -27,6 +27,7 @@ class Admin::CollectionsController < AdminController
   def submit
     @collection.submit!
     Event.log_event(Event.names[:collection_submitted], "Collection", @collection.id, "Collection #{@collection.name} submitted at #{DateTime.now}", current_user.id)
+    UserMailer.collection_notification(collection_id: @collection.id).deliver_later
     redirect_to admin_collection_path(@collection), notice: 'Collection has been submitted successfully.'
   end
 
