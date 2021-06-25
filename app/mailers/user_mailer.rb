@@ -13,6 +13,13 @@ class UserMailer < ApplicationMailer
       to: emails
   end
 
+  def collection_notification(collection_id:)
+    set_logo
+    @collection = Collection.find(collection_id)
+    mail subject: "Data Collection notification to #{@collection.name}",
+      to: ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
+  end
+
   def submissions_digest(form_id, begin_day)
     return unless ENV["ENABLE_EMAIL_NOTIFICATIONS"] == "true"
     @begin_day = begin_day

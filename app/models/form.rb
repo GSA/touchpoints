@@ -150,7 +150,7 @@ class Form < ApplicationRecord
     self.aasm.states
   end
 
-  def duplicate!(user:)
+  def duplicate!(new_user:)
     new_form = self.dup
     new_form.name = "Copy of #{self.name}"
     new_form.title = new_form.name
@@ -162,8 +162,9 @@ class Form < ApplicationRecord
     new_form.legacy_touchpoint_id = nil
     new_form.legacy_touchpoint_uuid = nil
     new_form.template = false
-    new_form.user = user
-    new_form.save
+    new_form.user = new_user
+    new_form.organization = new_user.organization
+    new_form.save!
 
     # Manually remove the Form Section created with create_first_form_section
     new_form.form_sections.destroy_all

@@ -50,9 +50,9 @@ class Collection < ApplicationRecord
 
   end
 
-  def duplicate!(user:)
+  def duplicate!(new_user:)
     new_collection = self.dup
-    new_collection.user = user
+    new_collection.user = new_user
     new_collection.name = "Copy of #{self.name}"
     new_collection.aasm_state = :draft
     new_collection.save
