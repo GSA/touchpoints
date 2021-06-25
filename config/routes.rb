@@ -80,7 +80,6 @@ Rails.application.routes.draw do
         get "permissions", to: "forms#permissions", as: :permissions
         get "compliance", to: "forms#compliance", as: :compliance
         get "questions", to: "forms#questions", as: :questions
-        patch "form_sections", to: "form_sections#sort", as: :sort_sections
         get "responses", to: "forms#responses", as: :responses
         post "add_user", to: "forms#add_user", as: :add_user
         post "copy", to: "forms#copy", as: :copy

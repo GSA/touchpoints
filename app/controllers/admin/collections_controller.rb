@@ -27,6 +27,7 @@ class Admin::CollectionsController < AdminController
   def submit
     @collection.submit!
     Event.log_event(Event.names[:collection_submitted], "Collection", @collection.id, "Collection #{@collection.name} submitted at #{DateTime.now}", current_user.id)
+    UserMailer.collection_notification(collection_id: @collection.id).deliver_later
     redirect_to admin_collection_path(@collection), notice: 'Collection has been submitted successfully.'
   end
 
@@ -38,7 +39,7 @@ class Admin::CollectionsController < AdminController
 
   def copy
     respond_to do |format|
-      new_collection = @collection.duplicate!(user: current_user)
+      new_collection = @collection.duplicate!(new_user: current_user)
 
       if new_collection.valid?
         Event.log_event(Event.names[:collection_copied], "Collection", @collection.id, "Collection #{@collection.name} copied at #{DateTime.now}", current_user.id)

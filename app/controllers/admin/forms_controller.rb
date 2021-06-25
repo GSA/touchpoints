@@ -197,7 +197,7 @@ class Admin::FormsController < AdminController
 
   def copy
     respond_to do |format|
-      new_form = @form.duplicate!(user: current_user)
+      new_form = @form.duplicate!(new_user: current_user)
 
       if new_form.valid?
         @role = UserRole.create!({
