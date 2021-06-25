@@ -85,7 +85,7 @@
       <p>
         <strong>Collection status</strong>
         <br>
-        <%= @collection.aasm_state %>
+        <%= render 'components/collection_status_tag', collection: @collection %>
       </p>
     </div>
   </div>
