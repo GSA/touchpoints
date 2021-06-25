@@ -217,7 +217,7 @@ RSpec.describe Form, type: :model do
 
   describe "#duplicate!" do
     before do
-      @duplicate_form = form.duplicate!(user: user)
+      @duplicate_form = form.duplicate!(new_user: user)
     end
 
     it "adds 'Copy' to name" do

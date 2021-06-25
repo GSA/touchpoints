@@ -38,7 +38,7 @@ class Admin::CollectionsController < AdminController
 
   def copy
     respond_to do |format|
-      new_collection = @collection.duplicate!(user: current_user)
+      new_collection = @collection.duplicate!(new_user: current_user)
 
       if new_collection.valid?
         Event.log_event(Event.names[:collection_copied], "Collection", @collection.id, "Collection #{@collection.name} copied at #{DateTime.now}", current_user.id)
