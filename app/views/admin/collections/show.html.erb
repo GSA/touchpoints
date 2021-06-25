@@ -1,8 +1,10 @@
 <% content_for :navigation_title do %>
   Data Collection
-  <%= link_to edit_admin_collection_path(@collection), class: "usa-button usa-button-inverted float-right" do %>
-    <i class="fa fa-pencil-alt"></i>
-    Edit
+  <% if @collection.draft? || admin_permissions? %>
+    <%= link_to edit_admin_collection_path(@collection), class: "usa-button usa-button-inverted float-right" do %>
+      <i class="fa fa-pencil-alt"></i>
+      Edit
+    <% end %>
   <% end %>
 <% end %>
 
