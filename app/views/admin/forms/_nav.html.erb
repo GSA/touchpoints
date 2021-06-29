@@ -6,12 +6,12 @@
   </li>
   <li class="usa-button-group__item">
     <%= link_to questions_admin_form_path(form), class: "usa-button #{current_path == questions_admin_form_path(form) ? nil : 'usa-button--outline'}" do %>
-    Questions (<%= form.questions.size %>)
+    Questions
     <% end %>
   </li>
   <li class="usa-button-group__item">
     <%= link_to responses_admin_form_path(form), class: "usa-button #{current_path == responses_admin_form_path(form) ? nil : 'usa-button--outline'}" do %>
-      Responses (<%= form.response_count %>)
+      Responses
     <% end %>
   </li>
   <li class="usa-button-group__item">
