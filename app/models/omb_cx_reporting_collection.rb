@@ -11,6 +11,14 @@ class OmbCxReportingCollection < ApplicationRecord
     self.send("#{question}_5") * 5.0
   end
 
+  def omb_control_number
+    super || "OMB Control Number"
+  end
+
+  def federal_register_url
+    super || "Federal Register URL"
+  end
+
   def q1_point_scale
     (
       answer_points(question: :q1) /

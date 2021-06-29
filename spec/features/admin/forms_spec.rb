@@ -1094,14 +1094,16 @@ feature "Forms", js: true do
           find("button").click
           find("#extended-nav-section-one-#{form.short_uuid}", visible: true)
         end
+        click_link("Copy")
+        page.driver.browser.switch_to.alert.accept
       end
 
       it "conveys the survey was successfully copied" do
-        click_link("Copy")
-        page.driver.browser.switch_to.alert.accept
-        expect(page).to have_content("Editing Questions")
-        expect(page).to have_content("Copy of #{form.name}")
         expect(page).to have_content("Survey was successfully copied.")
+        expect(page.current_path).to eq(admin_form_path(Form.last.short_uuid))
+        expect(page).to have_content("Viewing Survey")
+        expect(page).to have_content("Copy of #{form.name}")
+        expect(page).to have_content("0 responses")
       end
     end
 
