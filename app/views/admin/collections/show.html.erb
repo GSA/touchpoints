@@ -128,7 +128,7 @@
     <% end %>
   </p>
   <% end %>
-  <%= render 'views/admin/collections/csv_data', collection: @collection %>
+  <%= render('views/admin/collections/csv_data', collection: @collection) if admin_permissions? %>
 </div>
 
 <p class="usa-prose">
