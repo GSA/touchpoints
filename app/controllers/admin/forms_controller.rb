@@ -121,18 +121,19 @@ class Admin::FormsController < AdminController
   def responses
     ensure_response_viewer(form: @form) unless @form.template?
     @response_groups = @form.submissions.group("date(created_at)").size.sort.last(45)
-
+    @show_archived = true if params[:archived]
+    @all_submissions = @form.submissions
     if params[:archived]
-      @submissions = @form.submissions.order("created_at DESC").page params[:page]
+      @submissions = @all_submissions.order("created_at DESC").page params[:page]
     else
-      @submissions = @form.submissions.non_archived.order("created_at DESC").page params[:page]
+      @submissions = @all_submissions.non_archived.order("created_at DESC").page params[:page]
     end
   end
 
   def response_page
     @submissions = @form.submissions.order("created_at DESC").page params[:page]
     respond_to do |format|
-        format.js
+      format.js
     end
   end
 
@@ -208,7 +209,7 @@ class Admin::FormsController < AdminController
 
         Event.log_event(Event.names[:form_copied], "Form", @form.uuid, "Form #{@form.name} copied at #{DateTime.now}", current_user.id)
 
-        format.html { redirect_to questions_admin_form_path(new_form), notice: 'Survey was successfully copied.' }
+        format.html { redirect_to admin_form_path(new_form), notice: 'Survey was successfully copied.' }
         format.json { render :show, status: :created, location: new_form }
       else
         format.html { render :new }

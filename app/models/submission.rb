@@ -11,7 +11,8 @@ class Submission < ApplicationRecord
 
   after_create :update_form
 
-  scope :non_archived, -> { where("archived IS NOT TRUE") }
+  scope :archived, -> { where(archived: true) }
+  scope :non_archived, -> { where(archived: false) }
   scope :non_flagged, -> { where(flagged: false) }
 
   aasm do
