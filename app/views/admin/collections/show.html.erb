@@ -32,19 +32,23 @@
   <br>
 <% end %>
 
-<div class="text-uppercase font-body-3xs">
+<p class="text-uppercase font-body-3xs">
   About this data collection
+</p>
+<div class="usa-alert">
+  <div class="usa-alert__body">
+    <p class="usa-alert__text">
+      CX Customer Experience reporting is rooted in
+      <a href="https://www.performance.gov/cx/assets/files/a11-280.pdf" target="_blank" rel="noopener">A-11 Section 280</a>
+      guidance.
+    </p>
+    <p class="usa-alert__text">
+      Each quarter, OMB coordinates this data collection from all HISPs.
+      This data will be summarized and reported on
+      <a href="https://performance.gov/cx/" target="_blank" rel="noopener">performance.gov/cx</a>.
+    </p>
+  </div>
 </div>
-<p>
-  CX Customer Experience reporting is rooted in
-  <a href="https://www.performance.gov/cx/assets/files/a11-280.pdf" target="_blank" rel="noopener">A-11 Section 280</a>
-  guidance.
-</p>
-<p>
-  Each quarter, OMB coordinates this data collection from all HISPs.
-  This data will be summarized and reported on
-  <a href="https://performance.gov/cx/" target="_blank" rel="noopener">performance.gov/cx</a>.
-</p>
 
 <div class="well">
   <div class="text-uppercase font-body-3xs">
@@ -96,14 +100,18 @@
   <h2>
     Services to report on
   </h2>
-  <div class="usa-prose">
-    Add a Service reporting page for each touchpoint within a HISP service.
-    Each of these services correspond to the individual sheets within
-    the previous version of the
-    <a href="https://www.performance.gov/cx/assets/files/CX-Feedback-Data-Submission.xlsx" target="_blank">OMB Reporting spreadsheet template</a>.
-    Some agencies may choose to use the spreadsheet to gather data
-    and share it around internally for review and approval.
-    If so, enter the spreadsheet data here, when complete.
+  <div class="usa-alert">
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        Add a Service reporting page for each touchpoint within a HISP service.
+        Each of these services correspond to the individual sheets within
+        the previous version of the
+        <a href="https://www.performance.gov/cx/assets/files/CX-Feedback-Data-Submission.xlsx" target="_blank">OMB Reporting spreadsheet template</a>.
+        Some agencies may choose to use the spreadsheet to gather data
+        and share it around internally for review and approval.
+        If so, enter the spreadsheet data here, when complete.
+      </p>
+    </div>
   </div>
   <ul class="usa-list">
   <% OmbCxReportingCollection.where(collection_id: @collection.id).each do |collection| %>
@@ -112,43 +120,21 @@
     </li>
   <% end %>
   </ul>
+  <% if @collection.draft? %>
   <p>
-    <%= link_to new_admin_omb_cx_reporting_collection_path, class: "usa-button usa-button--outline" do %>
+    <%= link_to new_admin_omb_cx_reporting_collection_path(collection_id: @collection.id), class: "usa-button usa-button--outline" do %>
       <i class="fa fa-plus"></i>
       Add a Service to report on
     <% end %>
   </p>
+  <% end %>
+  <%= render 'views/admin/collections/csv_data', collection: @collection %>
 </div>
 
-<% if admin_permissions? %>
-<div class="well">
-  <h4>
-    CSV data for performance.gov/cx charts
-  </h4>
-  <p>
-    hisp_service_id,year,quarter,touchpoint,surveys_offered_count,response_count,satisfied,trust,effective,easy,efficient,transparent,employee
-    <br>
-    <% @collection.omb_cx_reporting_collections.each do |omb_cx_reporting_collection| %>
-    <%= omb_cx_reporting_collection.collection.organization.name %>,<%= omb_cx_reporting_collection.collection.year %>,<%= omb_cx_reporting_collection.collection.quarter %>,<%= omb_cx_reporting_collection.channel %>,
-    <%= omb_cx_reporting_collection.volume_of_customers %>,
-    <%= omb_cx_reporting_collection.volume_of_respondents %>,
-    <%= omb_cx_reporting_collection.q1_point_scale %>,
-    <%= omb_cx_reporting_collection.q2_point_scale %>,
-    <%= omb_cx_reporting_collection.q3_point_scale %>,
-    <%= omb_cx_reporting_collection.q4_point_scale %>,
-    <%= omb_cx_reporting_collection.q5_point_scale %>,
-    <%= omb_cx_reporting_collection.q6_point_scale %>,
-    <%= omb_cx_reporting_collection.q7_point_scale %>
-    <br>
-    <% end %>
-  </p>
-</div>
-<% end %>
-
-<p>
+<p class="usa-prose">
   <strong>Reflection text</strong>
   <br>
-  <%= @collection.reflection? ? simple_format(@collection.reflection) : "---" %>
+  <%= raw(@collection.reflection? ? simple_format(@collection.reflection) : "Please #{link_to 'edit', edit_admin_collection_path(@collection)} this Reflection text prior to submitting.") %>
 </p>
 <p hidden>
   <strong>Integrity hash</strong>
@@ -158,7 +144,20 @@
 
 <p>
   <% if !@collection.submitted? && !@collection.published? %>
-    <%= link_to submit_admin_collection_path(@collection), class: "usa-button", method: "post" do %>
+    <div class="usa-alert usa-alert--info" >
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
+          Submitting this Data Collection will send an email
+          to <%= ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",").to_sentence %>
+          who will
+          1. review the data, then
+          2. contact you via email
+          prior to publishing data on performance.gov.
+        </p>
+      </div>
+    </div>
+    <br>
+    <%= link_to submit_admin_collection_path(@collection), class: "usa-button full-width", method: "post", data: { confirm: 'Are you sure?' } do %>
       Submit this Data Collection
     <% end %>
   <% elsif !@collection.published? && admin_permissions? %>
@@ -167,3 +166,4 @@
     <% end %>
   <% end %>
 </p>
+<br>
