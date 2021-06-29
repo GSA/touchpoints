@@ -17,6 +17,10 @@ class Admin::OmbCxReportingCollectionsController < AdminController
     end
 
     @omb_cx_reporting_collection = OmbCxReportingCollection.new
+    
+    if params[:collection_id]
+      @omb_cx_reporting_collection.collection_id = params[:collection_id]
+    end
   end
 
   def edit

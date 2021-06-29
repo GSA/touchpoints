@@ -21,6 +21,18 @@ class Collection < ApplicationRecord
     end
   end
 
+  def bureau
+    "bureau"
+  end
+
+  def service_provided
+    "service_provided"
+  end
+
+  def omb_control_number
+    "omb_control_number"
+  end
+
   aasm do
     state :draft, initial: true
     state :submitted
@@ -123,5 +135,23 @@ class Collection < ApplicationRecord
     end
 
     return new_collection
+  end
+
+  def totals
+    @volume_of_customers = 0
+    @volume_of_customers_provided_survey_opportunity = 0
+    @volume_of_respondents = 0
+
+    self.omb_cx_reporting_collections.each do |omb_cx_reporting_collection|
+      @volume_of_customers += omb_cx_reporting_collection.volume_of_customers.to_i
+      @volume_of_customers_provided_survey_opportunity += omb_cx_reporting_collection.volume_of_customers_provided_survey_opportunity.to_i
+      @volume_of_respondents += omb_cx_reporting_collection.volume_of_respondents.to_i
+    end
+
+    {
+      volume_of_customers: @volume_of_customers,
+      volume_of_customers_provided_survey_opportunity: @volume_of_customers_provided_survey_opportunity,
+      volume_of_respondents: @volume_of_respondents
+    }
   end
 end
