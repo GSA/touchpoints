@@ -1,12 +1,14 @@
  require 'rails_helper'
 
 feature "Data Collections", js: true do
-  let!(:organization) { FactoryBot.create(:organization) }
+  let(:organization) { FactoryBot.create(:organization) }
+  let!(:service) { FactoryBot.create(:service, organization: organization, hisp: false) }
   let(:another_organization) { FactoryBot.create(:organization, :another) }
+  let!(:another_service) { FactoryBot.create(:service, organization: another_organization, hisp: true) }
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
   let(:user) { FactoryBot.create(:user, organization: another_organization) }
-  let!(:collection) { FactoryBot.create(:collection, organization: another_organization, user: user) }
-  let!(:admin_collection) { FactoryBot.create(:collection, organization: organization, user: admin) }
+  let!(:collection) { FactoryBot.create(:collection, organization: another_organization, user: user, service: another_service) }
+  let!(:admin_collection) { FactoryBot.create(:collection, organization: organization, user: admin, service: service) }
 
   context "as an Admin" do
     before do
@@ -114,7 +116,7 @@ feature "Data Collections", js: true do
     end
 
     describe "GET /show" do
-      let(:collection) { FactoryBot.create(:collection, organization: another_organization, user: user) }
+      let(:collection) { FactoryBot.create(:collection, organization: another_organization, user: user, service: another_service) }
 
       it "renders a successful response" do
         visit admin_collection_path(collection)
@@ -132,7 +134,7 @@ feature "Data Collections", js: true do
       end
 
       it "renders Collection dropdown with 1 organization's collections" do
-        expect(page.all("select option").count).to eq(1)
+        expect(page.all("select#collection_name option").count).to eq(1)
       end
 
       context "#copy" do

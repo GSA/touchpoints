@@ -11,7 +11,7 @@
   <% end %>
   <div class="field">
     <%= form.label :organization_id, class: "usa-label" %>
-    <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: user.organization_id), { prompt: "Select Organization" }, { class: "usa-select" } %>
+    <%= form.select :organization_id, options_for_select(organization_dropdown_options, selected: user.organization_id), { prompt: "Select Organization" }, { class: "usa-select" } %>
   </div>
   <% if admin_permissions? %>
   <div class="well">

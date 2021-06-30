@@ -18,7 +18,7 @@ feature "Admin Dashboard", js: true do
     end
 
     describe "weekly metrics" do
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, hisp: true) }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin) }
       let!(:form_template) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, template: true) }
 
       before do
@@ -35,7 +35,7 @@ feature "Admin Dashboard", js: true do
     end
 
     describe "daily totals" do
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, hisp: true) }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin) }
       let!(:form_template) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, template: true) }
 
       before do
@@ -64,23 +64,7 @@ feature "Admin Dashboard", js: true do
     end
 
     describe "with HISP forms" do
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, hisp: true) }
-
-      before do
-        visit admin_dashboard_path
-      end
-
-      it "display HISP forms" do
-        expect(page).to have_content("Weekly Product & Program Use Metrics")
-        expect(page).to have_content("Agencies with Forms")
-        expect(page).to have_content(form.organization.name)
-        expect(page).to have_link(form.name)
-        expect(page).to have_content("0 responses")
-      end
-    end
-
-    describe "with HISP forms" do
-      let!(:form) { FactoryBot.create(:form, kind: "a11", organization: organization, user: admin, hisp: true) }
+      let!(:form) { FactoryBot.create(:form, kind: "a11", organization: organization, user: admin) }
 
       before do
         visit admin_dashboard_path

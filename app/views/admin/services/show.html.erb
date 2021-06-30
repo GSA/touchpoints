@@ -1,41 +1,71 @@
 <% content_for :navigation_title do %>
   Service: <%= @service.name %>
-<% end %>
-
-<p>
-  <%= link_to admin_services_path do %>
-    <i class="fa fa-arrow-circle-left"></i>
-    Back to Services
-  <% end %>
-</p>
-
-<p>
   <div class="float-right">
-    <%= link_to edit_admin_service_path(@service), class: "usa-button usa-button--outline" do %>
+    <%= link_to edit_admin_service_path(@service), class: "usa-button usa-button-inverted" do %>
     <i class="fa fa-pencil-alt"></i>
       Edit
     <% end %>
   </div>
-</p>
+<% end %>
 
 <p>
-  <strong>Organization:</strong>
-  <%= @service.organization.name %>
+  <%= link_to admin_services_path do %>
+  <i class="fa fa-arrow-circle-left"></i>
+  Back to Services
+  <% end %>
 </p>
-<p>
-  <strong>Name:</strong>
-  <%= @service.name %>
-</p>
-<p>
-  <strong>Description:</strong>
-  <%= @service.description %>
-</p>
-<% if @service.notes? %>
-  <p>
-    <strong>Notes:</strong>
-    <%= @service.notes %>
-  </p>
-<% end %>
+
+<div class="grid-row grid-gap-lg">
+  <div class="grid-col-6">
+    <p>
+      <strong>Organization</strong>
+      <br>
+      <%= @service.organization.name %>
+    </p>
+    <p>
+      <strong>Name</strong>
+      <br>
+      <%= @service.name %>
+    </p>
+    <p>
+      <strong>Description</strong>
+      <br>
+      <%= @service.description %>
+    </p>
+    <p>
+      <strong>Notes</strong>
+      <%= @service.notes %>
+    </p>
+  </div>
+  <div class="grid-col-6">
+    <p>
+      <strong>Department</strong>
+      <br>
+      <%= @service.department %>
+    </p>
+    <p>
+      <strong>Bureau</strong>
+      <br>
+      <%= @service.bureau %>
+    </p>
+    <p>
+      <strong>Bureau abbreviation</strong>
+      <br>
+      <%= @service.bureau_abbreviation %>
+    </p>
+    <p>
+      <strong>Service abbreviation</strong>
+      <br>
+      <%= @service.service_abbreviation %>
+    </p>
+    <p>
+      <strong>Service slug</strong>
+      <br>
+      <%= @service.service_slug %>
+    </p>
+  </div>
+</div>
+
 
 <% all_stages = @service.service_stages %>
 <% first_stage = all_stages.first %>

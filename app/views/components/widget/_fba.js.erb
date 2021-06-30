@@ -4,7 +4,7 @@
 function FBAform(d, N) {
 	return {
 		<% if form.load_css %>
-		css: '<%= escape_javascript(render partial: "components/widget/widget.css", locals: { form: form }) %>',
+		css: '<%= escape_javascript(render partial: "components/widget/widget", formats: :css, locals: { form: form }) %>',
 		<% end %>
 		formId: "<%= form.short_uuid %>",
 		formComponent: function() {
