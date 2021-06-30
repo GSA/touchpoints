@@ -66,6 +66,7 @@ class Admin::ServicesController < AdminController
         :organization_id,
         :service_abbreviation,
         :service_slug,
+        :url,
       )
     end
 end
