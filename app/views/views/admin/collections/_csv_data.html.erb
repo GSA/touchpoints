@@ -36,7 +36,7 @@
         <%= "POC name" %>,
         <%= collection.user.email %>,
         <%= collection.organization.name %>,
-        <%= collection.bureau %>,
+        <%= collection.service ? collection.service.bureau : "Bureau" %>,
         <%= collection.service_provided %>,
         <%= collection.start_date %>,
         <%= collection.end_date %>,
