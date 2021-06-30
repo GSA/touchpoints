@@ -2,7 +2,6 @@
   Events
 <% end %>
 <table class="usa-table">
-  <% @events = Event.limit(500).order("created_at DESC") %>
   <% @users = User.all %>
   <% @user_email_map = {} %>
   <% @users.map { |user| @user_email_map[user.id] = user.email } %>
@@ -29,6 +28,7 @@
     <% end %>
   </tbody>
 </table>
+<%= paginate @events %>
 
 <p>
   <%= link_to "Export Events to CSV", admin_export_events_url(format: "csv"), class: "usa-button export-btn", target: "_blank", rel: "noopener" %>
