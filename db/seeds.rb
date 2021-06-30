@@ -389,6 +389,7 @@ Website.create!({
 
 data_collection = Collection.create!({
   organization: Organization.first,
+  service: service_1,
   user: User.all.sample,
   year: 2021,
   quarter: 2,
