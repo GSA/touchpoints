@@ -130,13 +130,6 @@ class Admin::FormsController < AdminController
     end
   end
 
-  def response_page
-    @submissions = @form.submissions.order("created_at DESC").page params[:page]
-    respond_to do |format|
-      format.js
-    end
-  end
-
   def example
     redirect_to touchpoint_path, notice: "Previewing Touchpoint" and return if @form.delivery_method == "touchpoints-hosted-only"
     redirect_to admin_forms_path, notice: "Form does not have a delivery_method of 'modal' or 'inline' or 'custom-button-modal'" and return unless @form.delivery_method == "modal" || @form.delivery_method == "inline" || @form.delivery_method == "custom-button-modal"
