@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_23_201507) do
+ActiveRecord::Schema.define(version: 2021_06_30_011617) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 2021_06_23_201507) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "reflection"
+    t.integer "service_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -77,7 +78,6 @@ ActiveRecord::Schema.define(version: 2021_06_23_201507) do
     t.boolean "template", default: false
     t.string "uuid"
     t.integer "organization_id"
-    t.boolean "hisp"
     t.string "omb_approval_number"
     t.date "expiration_date"
     t.string "medium"
@@ -255,6 +255,12 @@ ActiveRecord::Schema.define(version: 2021_06_23_201507) do
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "hisp", default: false
+    t.string "department", default: ""
+    t.string "bureau", default: ""
+    t.string "bureau_abbreviation", default: ""
+    t.string "service_abbreviation", default: ""
+    t.string "service_slug", default: ""
   end
 
   create_table "submissions", force: :cascade do |t|

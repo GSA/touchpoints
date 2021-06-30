@@ -38,20 +38,10 @@
       <div class="grid-col-6">
         <div class="field">
           <%= f.label :organization, class: "usa-label" %>
-          <%= f.select :organization_id, options_for_select(Organization.all.order(:name).map { |org| ["#{org.abbreviation}-#{org.name}", org.id] }, selected: (form.organization ? form.organization.id : nil)), { prompt: "Select an Organization" }, { class: "usa-select" } %>
+          <%= f.select :organization_id, options_for_select(organization_dropdown_options, selected: (form.organization ? form.organization.id : nil)), { prompt: "Select an Organization" }, { class: "usa-select" } %>
         </div>
       </div>
       <div class="grid-col-6">
-        <br>
-        <br>
-        <br>
-        <fieldset class="usa-fieldset">
-          <legend class="usa-sr-only">HISP Form?</legend>
-          <div class="usa-checkbox">
-            <%= f.check_box :hisp, class: "usa-checkbox__input" %>
-            <%= f.label :hisp, "HISP Form?", class: "usa-checkbox__label" %>
-          </div>
-        </fieldset>
       </div>
     </div>
     <div class="grid-row grid-gap-md">

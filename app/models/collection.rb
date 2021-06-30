@@ -2,6 +2,7 @@ class Collection < ApplicationRecord
   include AASM
 
   belongs_to :organization
+  belongs_to :service
   belongs_to :user
   has_many :omb_cx_reporting_collections
 

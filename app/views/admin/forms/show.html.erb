@@ -245,18 +245,6 @@
         <%= link_to_if(admin_permissions?, @form.organization.name, admin_organization_path(@form.organization)) %>
       </p>
       <p>
-        <strong>
-          <span title="High Impact Service Provider">HISP</span>
-          service?
-        </strong>
-        <br>
-        <% if @form.hisp? %>
-          Yes ✅
-        <% else  %>
-          <span>No</span>
-        <% end  %>
-      </p>
-      <p>
         <strong>Timezone</strong>
         <br>
         <%= @form.time_zone %>

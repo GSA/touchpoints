@@ -14,11 +14,16 @@
   <% if admin_permissions? %>
   <div class="field">
     <%= f.label :organization_id, class: "usa-label" %>
-    <%= f.select :organization_id, options_for_select(Organization.all.map { |o| [o.name, o.id]}, collection.organization_id), { prompt: "Which Organization?", include_blank: true }, { class: "usa-select" } %>
+    <%= f.select :organization_id, options_for_select(organization_dropdown_options, collection.organization_id), { prompt: "Which Organization?", include_blank: true }, { class: "usa-select" } %>
   </div>
   <% else %>
     <%= f.hidden_field :organization_id, value: current_user.organization_id %>
   <% end %>
+
+  <div class="field">
+    <%= f.label :service_id, "HISP Service", class: "usa-label" %>
+    <%= f.select :service_id, Service.hisp.map { |h| ["#{h.organization.name} - #{h.name}", h.id] }, {}, class: "usa-select" %>
+  </div>
 
   <div class="field">
     <%= f.label :name, class: "usa-label" %>

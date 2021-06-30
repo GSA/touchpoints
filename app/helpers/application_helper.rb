@@ -6,6 +6,10 @@ module ApplicationHelper
     end
   end
 
+  def organization_dropdown_options
+    Organization.all.order(:name).map { |org| ["#{org.abbreviation} - #{org.name}", org.id] }
+  end
+
   # Returns javascript to capture form input for one Form Question
   def question_type_javascript_params(question)
     if question.question_type == "text_field"
@@ -15,7 +19,7 @@ module ApplicationHelper
     elsif question.question_type == "text_email_field"
       "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
     elsif question.question_type == "text_phone_field"
-      "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"      
+      "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
     elsif question.question_type == "textarea"
       "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
     elsif question.question_type == "radio_buttons"
@@ -81,7 +85,7 @@ module ApplicationHelper
   end
 
   def form_integrity_checksum(form:)
-    data_to_encode = render(partial: "components/widget/fba.js", locals: { form: form })
+    data_to_encode = render(partial: "components/widget/fba", formats: :js, locals: { form: form })
     Digest::SHA256.base64digest(data_to_encode)
   end
 end
