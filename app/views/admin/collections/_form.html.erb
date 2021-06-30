@@ -21,6 +21,11 @@
   <% end %>
 
   <div class="field">
+    <%= f.label :hisp_name, class: "usa-label" %>
+    <%= f.select :hisp_name, Service.hisp.map { |h| ["#{h.organization.name} - #{h.name}", h.id] }, {}, class: "usa-select" %>
+  </div>
+
+  <div class="field">
     <%= f.label :name, class: "usa-label" %>
     <%= f.select :name, ["CX Quarterly Reporting"], {}, class: "usa-select" %>
   </div>
