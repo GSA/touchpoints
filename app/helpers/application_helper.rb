@@ -85,7 +85,7 @@ module ApplicationHelper
   end
 
   def form_integrity_checksum(form:)
-    data_to_encode = render(partial: "components/widget/fba.js", locals: { form: form })
+    data_to_encode = render(partial: "components/widget/fba", formats: :js, locals: { form: form })
     Digest::SHA256.base64digest(data_to_encode)
   end
 end
