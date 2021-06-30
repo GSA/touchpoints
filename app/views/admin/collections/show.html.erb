@@ -1,3 +1,6 @@
+<%= javascript_include_tag "chartjs-2.9.3.bundle.js" %>
+<%= javascript_include_tag "performance-charts.js" %>
+
 <% content_for :navigation_title do %>
   Data Collection
   <% if @collection.draft? || admin_permissions? %>
@@ -62,11 +65,10 @@
         <%= @collection.organization.name %>
       </p>
       <p>
-        <strong>User</strong>
+        <strong>Service</strong>
         <br>
-        <%= @collection.user.email if @collection.user %>
+        <%= @collection.service.name %>
       </p>
-
     </div>
     <div class="grid-col-4">
       <p>
@@ -86,6 +88,11 @@
       </p>
     </div>
     <div class="grid-col-4">
+      <p>
+        <strong>User</strong>
+        <br>
+        <%= @collection.user.email %>
+      </p>
       <p>
         <strong>Collection status</strong>
         <br>
@@ -129,6 +136,7 @@
   </p>
   <% end %>
   <%= render('views/admin/collections/csv_data', collection: @collection) if admin_permissions? %>
+  <%= render 'components/performance_charts', collection: @collection if @collection.omb_cx_reporting_collections.present? %>
 </div>
 
 <p class="usa-prose">

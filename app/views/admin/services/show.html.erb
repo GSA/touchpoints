@@ -1,11 +1,11 @@
 <% content_for :navigation_title do %>
-  Service: <%= @service.name %>
   <div class="float-right">
     <%= link_to edit_admin_service_path(@service), class: "usa-button usa-button-inverted" do %>
     <i class="fa fa-pencil-alt"></i>
-      Edit
+    Edit
     <% end %>
   </div>
+  Service: <%= @service.name %>
 <% end %>
 
 <p>
