@@ -1,0 +1,91 @@
+<style>
+  canvas {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+</style>
+
+<a id="cx-charts-<%= collection.service.service_slug %>"></a>
+
+<div class="usa-grid">
+  <div class="usa-width-full">
+    <div style="width:100%;">
+      <canvas id="canvas-q2-<%= collection.service.service_slug %>"></canvas>
+    </div>
+  </div>
+</div>
+
+<script>
+  chartConfigs["q2-<%= collection.service.service_slug %>"] = {
+    type: 'bar',
+    data: {
+      labels: [
+        "satisfaction",
+        "trust",
+        "effectiveness",
+        "ease",
+        "efficiency",
+        "transparency",
+        "employee",
+      ],
+      datasets: [
+        <% collection.omb_cx_reporting_collections.each_with_index do |omb_cx_reporting_collection, i| %>
+          {
+            label: '<%= omb_cx_reporting_collection.service_provided %>',
+            data: [
+              <%= omb_cx_reporting_collection.q1_point_scale %>,
+              <%= omb_cx_reporting_collection.q2_point_scale %>,
+              <%= omb_cx_reporting_collection.q3_point_scale %>,
+              <%= omb_cx_reporting_collection.q4_point_scale %>,
+              <%= omb_cx_reporting_collection.q5_point_scale %>,
+              <%= omb_cx_reporting_collection.q6_point_scale %>,
+              <%= omb_cx_reporting_collection.q7_point_scale %>
+            ],
+            backgroundColor: Object.values(window.chartjsColors)[<%= i %>],
+            borderColor: Object.values(window.chartjsColors)[<%= i %>],
+            borderWidth: 1,
+          },
+        <% end %>
+      ]
+    },
+    options: {
+      responsive: true,
+      legend: {
+        position: 'bottom',
+      },
+      hover: {
+        mode: 'index'
+      },
+      scales: {
+        xAxes: [{
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Quarter'
+          }
+        }],
+        yAxes: [{
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Value'
+          },
+          ticks: {
+            min: 1.0,
+            max: 5.0
+          }
+        }]
+      },
+      title: {
+        display: true,
+        text: 'CX Results for Q<%= collection.quarter %> FY<%= collection.year %>'
+      }
+    }
+  };
+
+  window.addEventListener("load", function() {
+    var ctx2 = document.getElementById('canvas-q<%= collection.quarter %>-<%= collection.service.service_slug %>').getContext('2d');
+    cxCharts["<%= collection.service.service_slug %>"] = new Chart(ctx2, chartConfigs["q<%= collection.quarter %>-<%= collection.service.service_slug %>"]);
+  });
+</script>
