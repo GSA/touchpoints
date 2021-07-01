@@ -42,6 +42,14 @@ class ApplicationController < ActionController::Base
   end
 
 
+  helper_method :ensure_collection_owner
+  def ensure_collection_owner(collection:)
+    return false unless collection.present?
+    return true if admin_permissions?
+
+    redirect_to(index_path, notice: "Authorization is Required") unless collection_permissions?(collections: collection)
+  end
+
   helper_method :ensure_form_manager
   def ensure_form_manager(form:)
     return false unless form.present?
@@ -70,6 +78,12 @@ class ApplicationController < ActionController::Base
   helper_method :admin_permissions?
   def admin_permissions?
     current_user && current_user.admin?
+  end
+
+  helper_method :collection_permissions?
+  def collection_permissions?(collection:)
+    return false unless collection.present?
+    collection.user == current_user
   end
 
   helper_method :form_permissions?

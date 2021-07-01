@@ -13,6 +13,7 @@ class Admin::CollectionsController < AdminController
   end
 
   def show
+    ensure_collection_owner(collection: @collection)
   end
 
   def new
@@ -22,6 +23,7 @@ class Admin::CollectionsController < AdminController
   end
 
   def edit
+    ensure_collection_owner(collection: @collection)
   end
 
   def submit
@@ -38,6 +40,8 @@ class Admin::CollectionsController < AdminController
   end
 
   def copy
+    ensure_collection_owner(collection: @collection)
+
     respond_to do |format|
       new_collection = @collection.duplicate!(new_user: current_user)
 
@@ -58,6 +62,7 @@ class Admin::CollectionsController < AdminController
 
     @collection.user = current_user
     if @collection.save
+      Event.log_event(Event.names[:collection_created], "Collection", @collection.id, "Collection #{@collection.name} created at #{DateTime.now}", current_user.id)
       redirect_to admin_collection_path(@collection), notice: 'Collection was successfully created.'
     else
       render :new
@@ -65,6 +70,8 @@ class Admin::CollectionsController < AdminController
   end
 
   def update
+    ensure_collection_owner(collection: @collection)
+
     if @collection.update(collection_params)
       Event.log_event(Event.names[:collection_updated], "Collection", @collection.id, "Collection #{@collection.name} updated at #{DateTime.now}", current_user.id)
       redirect_to admin_collection_path(@collection), notice: 'Collection was successfully updated.'
@@ -74,7 +81,9 @@ class Admin::CollectionsController < AdminController
   end
 
   def destroy
+    ensure_collection_owner(collection: @collection)
     @collection.destroy
+    Event.log_event(Event.names[:collection_deleted], "Collection", @collection.id, "Collection #{@collection.name} deleted at #{DateTime.now}", current_user.id)
     redirect_to admin_collections_url, notice: 'Collection was successfully destroyed.'
   end
 

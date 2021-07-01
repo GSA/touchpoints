@@ -20,6 +20,15 @@
     <%= f.hidden_field :organization_id, value: current_user.organization_id %>
   <% end %>
 
+  <% if admin_permissions? %>
+  <div class="field">
+    <%= f.label :user_id, class: "usa-label" %>
+    <%= f.select :user_id, options_for_select(User.all.collect { |u| [u.email, u.id] }, collection.user_id), { prompt: "Which User?", include_blank: true }, { class: "usa-select" } %>
+  </div>
+  <% else %>
+    <%= f.hidden_field :user_id, value: current_user.id %>
+  <% end %>
+
   <div class="field">
     <%= f.label :service_id, "HISP Service", class: "usa-label" %>
     <%= f.select :service_id, Service.hisp.map { |h| ["#{h.organization.name} - #{h.name}", h.id] }, {}, class: "usa-select" %>
