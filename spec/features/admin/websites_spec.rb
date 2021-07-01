@@ -22,6 +22,7 @@ feature "Managing Websites", js: true do
         click_on "New Website"
         expect(page).to have_content("New Website")
         fill_in :website_domain, with: test_website.domain
+        select("Application", from: "website_type_of_site")
         click_on "Create Website"
       end
 
