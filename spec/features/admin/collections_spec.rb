@@ -51,6 +51,7 @@ feature "Data Collections", js: true do
       context "with valid parameters" do
         before do
           select(organization.name, from: "collection_organization_id")
+          select(service.name, from: "collection_service_id")
           click_on "Create Collection"
         end
 

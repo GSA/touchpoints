@@ -10,6 +10,7 @@ class Admin::SiteController < AdminController
   end
 
   def events
+    @events = Event.limit(500).order("created_at DESC").page params[:page]
   end
 
   def events_export

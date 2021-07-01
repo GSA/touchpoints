@@ -9,8 +9,9 @@
 <table class="usa-table">
   <thead>
     <tr>
-      <th>Name</th>
       <th>Organization</th>
+      <th>Service</th>
+      <th>Collection name</th>
       <th>Year</th>
       <th>Quarter</th>
       <th>Status</th>
@@ -20,8 +21,9 @@
   <tbody>
     <% @collections.each do |collection| %>
       <tr>
-        <td><%= link_to collection.name, admin_collection_path(collection) %></td>
         <td><%= collection.organization.name %></td>
+        <td><%= collection.service.name %></td>
+        <td><%= link_to collection.name, admin_collection_path(collection) %></td>
         <td><%= collection.year %></td>
         <td><%= collection.quarter %></td>
         <td>
