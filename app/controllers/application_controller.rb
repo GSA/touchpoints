@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
     return false unless collection.present?
     return true if admin_permissions?
 
-    redirect_to(index_path, notice: "Authorization is Required") unless collection_permissions?(collections: collection)
+    redirect_to(index_path, notice: "Authorization is Required") unless collection_permissions?(collection: collection)
   end
 
   helper_method :ensure_form_manager
