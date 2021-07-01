@@ -100,21 +100,21 @@ describe Api::V0::FormsController, type: :controller do
         end
 
         it "returns an array of forms with page 1 of 2 results" do
-          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page_num: 0, page_size: 2 }
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page: 0, page_size: 2 }
           parsed_response = JSON.parse(response.body)
           expect(response.status).to eq(200)
           expect(parsed_response["responses"].size).to eq(2)
         end
 
         it "returns an array of forms with page 2 with 1 result" do
-          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page_num: 1, page_size: 2 }
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page: 1, page_size: 2 }
           parsed_response = JSON.parse(response.body)
           expect(response.status).to eq(200)
           expect(parsed_response["responses"].size).to eq(1)
         end
 
         it "returns an array of forms with page 3 with 0 results" do
-          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page_num: 2, page_size: 2 }
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page: 2, page_size: 2 }
           parsed_response = JSON.parse(response.body)
           expect(response.status).to eq(200)
           expect(parsed_response["responses"].size).to eq(0)
