@@ -1,5 +1,6 @@
 class Website < ApplicationRecord
   validates :domain, presence: true
+  validates :type_of_site, presence: true
 
   belongs_to :organization, optional: true
 
