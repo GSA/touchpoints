@@ -81,6 +81,45 @@ describe Api::V0::FormsController, type: :controller do
           expect(parsed_response["responses"].size).to eq(3)
         end
       end
+
+      context "paging" do
+        let!(:user) { FactoryBot.create(:user) }
+        let(:form) { FactoryBot.create(:form, :with_responses, user: user, organization: user.organization) }
+        let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: user, form: form) }
+
+        before do
+          user.update(api_key: TEST_API_KEY)
+          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch("API_HTTP_USERNAME"), ENV.fetch("API_HTTP_PASSWORD"))
+        end
+
+        it "returns an array of forms with default page number and size" do
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key }
+          parsed_response = JSON.parse(response.body)
+          expect(response.status).to eq(200)
+          expect(parsed_response["responses"].size).to eq(3)
+        end
+
+        it "returns an array of forms with page 1 of 2 results" do
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page_num: 0, page_size: 2 }
+          parsed_response = JSON.parse(response.body)
+          expect(response.status).to eq(200)
+          expect(parsed_response["responses"].size).to eq(2)
+        end
+
+        it "returns an array of forms with page 2 with 1 result" do
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page_num: 1, page_size: 2 }
+          parsed_response = JSON.parse(response.body)
+          expect(response.status).to eq(200)
+          expect(parsed_response["responses"].size).to eq(1)
+        end
+
+        it "returns an array of forms with page 3 with 0 results" do
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page_num: 2, page_size: 2 }
+          parsed_response = JSON.parse(response.body)
+          expect(response.status).to eq(200)
+          expect(parsed_response["responses"].size).to eq(0)
+        end
+      end
     end
   end
 end
