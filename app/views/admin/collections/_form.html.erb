@@ -31,7 +31,7 @@
 
   <div class="field">
     <%= f.label :service_id, "HISP Service", class: "usa-label" %>
-    <%= f.select :service_id, Service.hisp.map { |h| ["#{h.organization.name} - #{h.name}", h.id] }, {}, class: "usa-select" %>
+    <%= f.select :service_id, Service.hisp.map { |h| ["#{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, class: "usa-select" %>
   </div>
 
   <div class="field">
