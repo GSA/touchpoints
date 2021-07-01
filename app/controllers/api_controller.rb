@@ -1,5 +1,5 @@
 class ApiController < ::ApplicationController
-  #http_basic_authenticate_with name: ENV.fetch("API_HTTP_USERNAME"), password: ENV.fetch("API_HTTP_PASSWORD")
+  http_basic_authenticate_with name: ENV.fetch("API_HTTP_USERNAME"), password: ENV.fetch("API_HTTP_PASSWORD")
   before_action :set_current_user
 
   def set_current_user
