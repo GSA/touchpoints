@@ -1,6 +1,6 @@
 class FullFormSerializer < ActiveModel::Serializer
 
-  attributes :page_num, :page_size
+  attributes :page_num, :page_size, :start_date, :end_date
 
   def page_num
     @instance_options[:page_num]
@@ -8,6 +8,14 @@ class FullFormSerializer < ActiveModel::Serializer
 
   def page_size
     @instance_options[:page_size]
+  end
+
+  def start_date
+    @instance_options[:start_date]
+  end
+
+  def end_date
+    @instance_options[:end_date]
   end
 
   attributes :id,
@@ -62,6 +70,6 @@ class FullFormSerializer < ActiveModel::Serializer
   has_many :submissions
 
   def submissions
-    object.submissions.limit(page_size).offset(page_size * page_num)
+    object.submissions.where('created_at BETWEEN ? AND ?',start_date,end_date).limit(page_size).offset(page_size * page_num)
   end
 end
