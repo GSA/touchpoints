@@ -81,6 +81,101 @@ describe Api::V0::FormsController, type: :controller do
           expect(parsed_response["responses"].size).to eq(3)
         end
       end
+
+      context "paging" do
+        let!(:user) { FactoryBot.create(:user) }
+        let(:form) { FactoryBot.create(:form, :with_responses, user: user, organization: user.organization) }
+        let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: user, form: form) }
+
+        before do
+          user.update(api_key: TEST_API_KEY)
+          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch("API_HTTP_USERNAME"), ENV.fetch("API_HTTP_PASSWORD"))
+        end
+
+        it "returns an array of forms with default page number and size" do
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key }
+          parsed_response = JSON.parse(response.body)
+          expect(response.status).to eq(200)
+          expect(parsed_response["responses"].size).to eq(3)
+        end
+
+        it "returns an array of forms with page 1 of 2 results" do
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page: 0, page_size: 2 }
+          parsed_response = JSON.parse(response.body)
+          expect(response.status).to eq(200)
+          expect(parsed_response["responses"].size).to eq(2)
+        end
+
+        it "returns an array of forms with page 2 with 1 result" do
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page: 1, page_size: 2 }
+          parsed_response = JSON.parse(response.body)
+          expect(response.status).to eq(200)
+          expect(parsed_response["responses"].size).to eq(1)
+        end
+
+        it "returns an array of forms with page 3 with 0 results" do
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page: 2, page_size: 2 }
+          parsed_response = JSON.parse(response.body)
+          expect(response.status).to eq(200)
+          expect(parsed_response["responses"].size).to eq(0)
+        end
+      end
+
+      context "date_filter" do
+        let!(:user) { FactoryBot.create(:user) }
+        let(:form) { FactoryBot.create(:form, :with_responses, user: user, organization: user.organization) }
+        let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: user, form: form) }
+
+        before do
+          user.update(api_key: TEST_API_KEY)
+          form.submissions[0].created_at = 2.days.ago
+          form.submissions[0].save
+          form.submissions[1].created_at = 1.day.ago
+          form.submissions[1].save
+          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch("API_HTTP_USERNAME"), ENV.fetch("API_HTTP_PASSWORD"))
+        end
+
+        it "returns an array of forms with date filter defaults" do
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key }
+          parsed_response = JSON.parse(response.body)
+          expect(response.status).to eq(200)
+          expect(parsed_response["responses"].size).to eq(3)
+        end
+
+        it "returns an array of forms with submissions which occurred during the past day" do
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, start_date: Date.today.strftime("%Y-%m-%d"), end_date: 1.day.from_now.strftime("%Y-%m-%d") }
+          parsed_response = JSON.parse(response.body)
+          expect(response.status).to eq(200)
+          expect(parsed_response["responses"].size).to eq(1)
+        end
+
+        it "returns an array of forms with submissions which occurred during the past two days" do
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, start_date: 1.days.ago.strftime("%Y-%m-%d"), end_date: 1.day.from_now.strftime("%Y-%m-%d") }
+          parsed_response = JSON.parse(response.body)
+          expect(response.status).to eq(200)
+          expect(parsed_response["responses"].size).to eq(2)
+        end
+
+        it "returns an array of forms with submissions which occurred during the past week" do
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, start_date: 7.days.ago.strftime("%Y-%m-%d"), end_date: 1.day.from_now.strftime("%Y-%m-%d") }
+          parsed_response = JSON.parse(response.body)
+          expect(response.status).to eq(200)
+          expect(parsed_response["responses"].size).to eq(3)
+        end
+
+        it "returns an array of forms with submissions which occurred during the past week with paging" do
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page: 0, page_size: 2, start_date: 7.days.ago.strftime("%Y-%m-%d"), end_date: 1.day.from_now.strftime("%Y-%m-%d") }
+          parsed_response = JSON.parse(response.body)
+          expect(response.status).to eq(200)
+          expect(parsed_response["responses"].size).to eq(2)
+        end
+
+        it "returns an invalid input response for a bad date input" do
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, start_date: 'Foo', end_date: 7.days.from_now.strftime("%Y-%m-%d") }
+          parsed_response = JSON.parse(response.body)
+          expect(response.status).to eq(400)
+        end
+      end
     end
   end
 end

@@ -135,7 +135,7 @@
     <% end %>
   </p>
   <% end %>
-  <%= render('views/admin/collections/csv_data', collection: @collection) if admin_permissions? %>
+  <%= render('admin/collections/csv_data', collection: @collection) if admin_permissions? %>
   <%= render 'components/performance_charts', collection: @collection if @collection.omb_cx_reporting_collections.present? %>
 </div>
 

@@ -12,7 +12,7 @@ RSpec.describe Website, type: :model do
 
     it "does not save and adds an error indicating domain is required" do
       expect(@website.valid?).to eq(false)
-      expect(@website.errors.full_messages).to eq(["Domain can't be blank"])
+      expect(@website.errors.full_messages).to eq(["Domain can't be blank", "Type of site can't be blank"])
     end
   end
 end

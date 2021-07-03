@@ -492,4 +492,12 @@
   </tbody>
 </table>
 
-<%= render('views/admin/omb_cx_reporting_collections/csv_data', omb_cx_reporting_collection: @omb_cx_reporting_collection) if admin_permissions? %>
+<p>
+  <strong>
+    Operational metrics
+  </strong>
+  <br>
+  <%= @omb_cx_reporting_collection.operational_metrics %>
+</p>
+
+<%= render('admin/omb_cx_reporting_collections/csv_data', omb_cx_reporting_collection: @omb_cx_reporting_collection) if admin_permissions? %>

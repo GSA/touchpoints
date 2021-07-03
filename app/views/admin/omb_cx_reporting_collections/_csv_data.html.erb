@@ -1,0 +1,60 @@
+<div class="usa-accordion usa-accordion--bordered">
+  <h4 class="usa-accordion__heading">
+    <button
+      class="usa-accordion__button"
+      aria-expanded="false"
+      aria-controls="csv-data"
+    >
+      CSV data for performance.gov/cx charts
+    </button>
+  </h4>
+  <div id="csv-data" class="usa-accordion__content">
+    <h4>
+      Service summary
+    </h4>
+    <p>
+      hisp_service_id,year,quarter,touchpoint,surveys_offered_count,response_count,satisfied,trust,effective,easy,efficient,transparent,employee
+      <br>
+      <%= omb_cx_reporting_collection.collection.organization.name %>,
+      <%= omb_cx_reporting_collection.collection.year %>,
+      <%= omb_cx_reporting_collection.collection.quarter %>,
+      <%= omb_cx_reporting_collection.channel %>,
+      <%= omb_cx_reporting_collection.volume_of_customers %>,
+      <%= omb_cx_reporting_collection.volume_of_respondents %>,
+      <%= omb_cx_reporting_collection.q1_point_scale %>,
+      <%= omb_cx_reporting_collection.q2_point_scale %>,
+      <%= omb_cx_reporting_collection.q3_point_scale %>,
+      <%= omb_cx_reporting_collection.q4_point_scale %>,
+      <%= omb_cx_reporting_collection.q5_point_scale %>,
+      <%= omb_cx_reporting_collection.q6_point_scale %>,
+      <%= omb_cx_reporting_collection.q7_point_scale %>
+    </p>
+
+    <h4>
+      Service details
+    </h4>
+
+    service_id,
+    year,
+    quarter,
+    standardized_question_number,
+    standardized_question_identifier,
+    customized_question_text,
+    likert_scale_1,
+    likert_scale_2,
+    likert_scale_3,
+    likert_scale_4,
+    likert_scale_5,
+    point_scale,
+    response_volume,
+    notes,
+    start_date,
+    end_date
+    <br>
+    <% (1..7).each do |question_number| %>
+      <%= render 'admin/collections/csv_detail_row', omb_cx_reporting_collection: omb_cx_reporting_collection, question_number: question_number %>
+      <br>
+    <% end %>
+  </div>
+</div>
+<br>
