@@ -374,16 +374,19 @@ ServiceStageBarrier.create({
 
 Website.create!({
   domain: "gsa.gov",
+  type_of_site: "Informational",
   production_status: "production"
 })
 
 Website.create!({
   domain: "digital.gov",
+  type_of_site: "Informational",
   production_status: "production"
 })
 
 Website.create!({
   domain: "touchpoints.digital.gov",
+  type_of_site: "Application",
   production_status: "production"
 })
 
