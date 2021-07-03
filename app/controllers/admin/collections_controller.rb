@@ -6,9 +6,9 @@ class Admin::CollectionsController < AdminController
 
   def index
     if admin_permissions?
-      @collections = Collection.all.order('organizations.name', :year, :quarter).includes(:organization, :service)
+      @collections = Collection.all.order('organizations.name', 'services.name', :year, :quarter).includes(:organization, :service)
     else
-      @collections = current_user.organization.collections.order('organizations.name', :year, :quarter).includes(:organization, :service)
+      @collections = current_user.organization.collections.order('organizations.name', 'services.name', :year, :quarter).includes(:organization, :service)
     end
   end
 
@@ -108,7 +108,8 @@ class Admin::CollectionsController < AdminController
         :service_id,
         :reflection,
         :integrity_hash,
-        :aasm_state
+        :aasm_state,
+        :rating,
       )
     end
 end

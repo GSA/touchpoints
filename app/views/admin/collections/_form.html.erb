@@ -48,6 +48,19 @@
     <%= f.hidden_field :aasm_state, value: :draft %>
   <% end %>
 
+  <% if admin_permissions? && collection.persisted? %>
+  <% rating_options = [
+      ["🟢 Reporting within A-11 guidelines", "TRUE"],
+      ["🔴 Not submitting data", "FALSE"],
+      ["🟡 Reporting partially within A-11 guidelines", "PARTIAL"]
+    ]
+   %>
+  <div class="field">
+    <%= f.label :rating, class: "usa-label" %>
+    <%= f.select :rating, rating_options, { include_blank: true }, { class: "usa-select" } %>
+  </div>
+  <% end %>
+
   <% if collection.persisted? %>
   <div class="field usa-form-group">
     <%= f.label :start_date, class: "usa-label", id: "expiration-date-label" %>
