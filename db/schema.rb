@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_02_223917) do
+ActiveRecord::Schema.define(version: 2021_07_03_051341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -192,6 +192,7 @@ ActiveRecord::Schema.define(version: 2021_07_02_223917) do
     t.integer "q11_5", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "operational_metrics"
     t.index ["collection_id"], name: "index_omb_cx_reporting_collections_on_collection_id"
   end
 

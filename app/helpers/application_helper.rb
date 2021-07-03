@@ -10,6 +10,18 @@ module ApplicationHelper
     Organization.all.order(:name).map { |org| ["#{org.abbreviation} - #{org.name}", org.id] }
   end
 
+  def hisp_questions_key
+    {
+      "1" => "satisfaction",
+      "2" => "trust",
+      "3" => "effectiveness",
+      "4" => "ease",
+      "5" => "effiency",
+      "6" => "transparency",
+      "7" => "employee",
+    }
+  end
+
   # Returns javascript to capture form input for one Form Question
   def question_type_javascript_params(question)
     if question.question_type == "text_field"

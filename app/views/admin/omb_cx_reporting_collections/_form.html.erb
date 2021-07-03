@@ -48,8 +48,12 @@
     <%= form.label :federal_register_url, class: "usa-label" %>
     <%= form.text_field :federal_register_url, class: "usa-input", placeholder: "https://federalregister.gov/..." %>
   </div>
+  <div class="field">
+    <%= form.label :operational_metrics, class: "usa-label" %>
+    <%= form.text_area :operational_metrics, class: "usa-textarea", placeholder: "Website use statistics, call center service levels, application processing times, etc." %>
+  </div>
 </div>
-
+<br>
 <p>
   Copy and paste the question text for at least questions 1-7.
   And, enter the number of respondents for each of the likert scale options; 1-5.
