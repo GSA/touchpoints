@@ -1,0 +1,47 @@
+<div class="usa-accordion usa-accordion--bordered">
+  <h4 class="usa-accordion__heading">
+    <button
+      class="usa-accordion__button"
+      aria-expanded="false"
+      aria-controls="csv-data-2"
+    >
+      HISP-Services-Question-Details.csv
+    </button>
+  </h4>
+  <div id="csv-data-2" class="usa-accordion__content">
+    <div>
+      <p>
+        This .csv data is used to populate the individual Services of each HISP on performance.gov.
+      </p>
+    </div>
+
+    service_id,
+    year,
+    quarter,
+    standardized_question_number,
+    standardized_question_identifier,
+    customized_question_text,
+    likert_scale_1,
+    likert_scale_2,
+    likert_scale_3,
+    likert_scale_4,
+    likert_scale_5,
+    point_scale,
+    response_volume,
+    notes,
+    start_date,
+    end_date
+    <br>
+    <% Service.hisp.includes(:organization).order("organizations.name").each do |service| %>
+      <% service.collections.each do |collection| %>
+        <% collection.omb_cx_reporting_collections.includes(:collection).order("collections.year", "collections.quarter").each do |omb_cx_reporting_collection| %>
+          <% (1..7).each do |question_number| %>
+            <%= render 'admin/collections/csv_detail_row', omb_cx_reporting_collection: omb_cx_reporting_collection, question_number: question_number %>,
+            <br>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+<br>

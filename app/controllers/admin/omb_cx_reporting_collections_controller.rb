@@ -17,7 +17,7 @@ class Admin::OmbCxReportingCollectionsController < AdminController
     end
 
     @omb_cx_reporting_collection = OmbCxReportingCollection.new
-    
+
     if params[:collection_id]
       @omb_cx_reporting_collection.collection_id = params[:collection_id]
     end
@@ -70,6 +70,7 @@ class Admin::OmbCxReportingCollectionsController < AdminController
         :volume_of_respondents,
         :omb_control_number,
         :federal_register_url,
+        :operational_metrics,
         :q1_text,
         :q1_1,
         :q1_2,
