@@ -59,9 +59,7 @@ class Submission < ApplicationRecord
       end
 
       if question.character_limit.present? && answered_questions[question.answer_field] && answered_questions[question.answer_field].length > question.character_limit
-        errors.messages[question.answer_field] << "exceeds character limit of #{question.character_limit}"
-        errors.add("question.answer_field", :blank, message: "exceeds character limit of #{question.character_limit}")
-
+        errors.add(question.answer_field.to_sym, :blank, message: "exceeds character limit of #{question.character_limit}")
       end
     end
   end

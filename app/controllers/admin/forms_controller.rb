@@ -138,7 +138,7 @@ class Admin::FormsController < AdminController
   end
 
   def js
-    render(partial: "components/widget/fba.js", locals: { form: @form })
+    render(partial: "components/widget/fba", formats: :js, locals: { form: @form })
   end
 
   def new
