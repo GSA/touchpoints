@@ -83,7 +83,7 @@ class ApplicationController < ActionController::Base
   helper_method :collection_permissions?
   def collection_permissions?(collection:)
     return false unless collection.present?
-    collection.user == current_user
+    collection.organization == current_user.organization
   end
 
   helper_method :form_permissions?
