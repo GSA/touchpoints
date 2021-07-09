@@ -97,6 +97,10 @@
         Organizational readiness
       </h3>
       <div class="field">
+        <%= form.label :repository_url, class: "usa-label" %>
+        <%= form.text_field :repository_url, class: "usa-input", placeholder: "https://github.com/gsa/touchpoints/" %>
+      </div>
+      <div class="field">
         <%= form.label :required_by_law_or_policy, class: "usa-label" %>
         <%= form.text_field :required_by_law_or_policy, class: "usa-input" %>
       </div>

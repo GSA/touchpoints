@@ -123,6 +123,10 @@
       Organizational readiness
     </h3>
     <p>
+      <strong>Repository url:</strong>
+      <%= link_to @website.repository_url, @website.repository_url, target: "_blank", rel: "noopener" %>
+    </p>
+    <p>
       <strong>Required by law or policy:</strong>
       <%= @website.required_by_law_or_policy %>
     </p>
@@ -154,7 +158,7 @@
       <strong>Digital brand category:</strong>
       <p>
       <% Website::DIGITAL_BRAND_CATEGORIES.each do |category| %>
-        <span class="usa-tag bg-primary-light <%= "bg-primary" if category.downcase == @website.digital_brand_category.downcase %>"><%= category %></span>
+        <span class="usa-tag bg-primary-light <%= "bg-primary" if @website.digital_brand_category? && category.downcase == @website.digital_brand_category.downcase %>"><%= category %></span>
       <% end %>
       </p>
     </p>
