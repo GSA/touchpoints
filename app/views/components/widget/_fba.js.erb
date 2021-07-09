@@ -92,6 +92,10 @@ function FBAform(d, N) {
 			d.body.appendChild(this.dialogEl);
 
 			d.querySelector('.fba-modal-close').addEventListener('click', this.handleDialogClose.bind(this), false);
+			var otherElements = d.querySelectorAll(".usa-input.other-option");
+			for (var i = 0; i < otherElements.length; i++) {
+			    otherElements[i].addEventListener('keyup', this.handleOtherOption.bind(this), false);
+			}
 		<% end %>
 
 		<%# add button behaviors for custom-button-modal %>
@@ -153,6 +157,14 @@ function FBAform(d, N) {
 		handleDialogClose: function(e) {
 			e.preventDefault();
 			this.closeDialog();
+		},
+		handleOtherOption: function(e) {
+			var selectorId =  "#" + e.srcElement.getAttribute("data-option-id");
+			var other_val = e.target.value.replace(/,/g, '');
+			if (other_val == '') other_val = 'other';
+			var option = this.formElement().querySelector(selectorId);
+			option.checked = true;
+			option.value = other_val;
 		},
 		handleSubmitClick: function(e) {
 			e.preventDefault();
