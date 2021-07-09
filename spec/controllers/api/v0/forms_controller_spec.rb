@@ -97,27 +97,43 @@ describe Api::V0::FormsController, type: :controller do
           parsed_response = JSON.parse(response.body)
           expect(response.status).to eq(200)
           expect(parsed_response["responses"].size).to eq(3)
+          expect(parsed_response["links"]["first"]).not_to be_nil
+          expect(parsed_response["links"]["prev"]).to be_nil
+          expect(parsed_response["links"]["next"]).to be_nil
+          expect(parsed_response["links"]["last"]).not_to be_nil
         end
 
         it "returns an array of forms with page 1 of 2 results" do
-          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page: 0, page_size: 2 }
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page: 0, size: 2 }
           parsed_response = JSON.parse(response.body)
           expect(response.status).to eq(200)
           expect(parsed_response["responses"].size).to eq(2)
+          expect(parsed_response["links"]["first"]).not_to be_nil
+          expect(parsed_response["links"]["prev"]).to be_nil
+          expect(parsed_response["links"]["next"]).not_to be_nil
+          expect(parsed_response["links"]["last"]).not_to be_nil
         end
 
         it "returns an array of forms with page 2 with 1 result" do
-          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page: 1, page_size: 2 }
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page: 1, size: 2 }
           parsed_response = JSON.parse(response.body)
           expect(response.status).to eq(200)
           expect(parsed_response["responses"].size).to eq(1)
+          expect(parsed_response["links"]["first"]).not_to be_nil
+          expect(parsed_response["links"]["prev"]).not_to be_nil
+          expect(parsed_response["links"]["next"]).to be_nil
+          expect(parsed_response["links"]["last"]).not_to be_nil
         end
 
         it "returns an array of forms with page 3 with 0 results" do
-          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page: 2, page_size: 2 }
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page: 2, size: 2 }
           parsed_response = JSON.parse(response.body)
           expect(response.status).to eq(200)
           expect(parsed_response["responses"].size).to eq(0)
+          expect(parsed_response["links"]["first"]).not_to be_nil
+          expect(parsed_response["links"]["prev"]).not_to be_nil
+          expect(parsed_response["links"]["next"]).to be_nil
+          expect(parsed_response["links"]["last"]).not_to be_nil
         end
       end
 
@@ -164,7 +180,7 @@ describe Api::V0::FormsController, type: :controller do
         end
 
         it "returns an array of forms with submissions which occurred during the past week with paging" do
-          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page: 0, page_size: 2, start_date: 7.days.ago.strftime("%Y-%m-%d"), end_date: 1.day.from_now.strftime("%Y-%m-%d") }
+          get :show, format: :json, params: { id: form.short_uuid, "API_KEY" => user.api_key, page: 0, size: 2, start_date: 7.days.ago.strftime("%Y-%m-%d"), end_date: 1.day.from_now.strftime("%Y-%m-%d") }
           parsed_response = JSON.parse(response.body)
           expect(response.status).to eq(200)
           expect(parsed_response["responses"].size).to eq(2)
