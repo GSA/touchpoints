@@ -7,7 +7,7 @@ gem 'active_model_serializers', '>= 0.10.12'
 gem 'acts-as-list'
 gem 'aws-sdk-rails', '>= 3.6.0'
 gem 'caracal'
-gem 'carrierwave'
+gem 'carrierwave', '>= 2.2.1'
 gem 'devise', '>= 4.7.3'
 gem 'fog-aws'
 gem 'jquery-rails', '>= 4.4.0'
@@ -51,7 +51,7 @@ end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 3.32.2'
+  gem 'capybara', '>= 3.35.3'
   gem 'database_cleaner'
   gem 'factory_bot_rails', '>= 6.1.0'
   gem 'rails-controller-testing'

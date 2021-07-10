@@ -125,20 +125,155 @@ FactoryBot.define do
         )
         FactoryBot.create(:question,
           form: f,
-          question_type: "text_display",
+          question_type: "text_email_field",
           form_section: f.form_sections.first,
-          answer_field: "answer_20",
+          answer_field: "answer_02",
           position: 2,
-          text: "Some custom <a href='#'>html</a>"
+          text: "An email field"
         )
         FactoryBot.create(:question,
           form: f,
           question_type: "textarea",
           form_section: f.form_sections.first,
-          answer_field: "answer_02",
+          answer_field: "answer_03",
           position: 3,
           text: "A textarea field"
         )
+        FactoryBot.create(:question,
+          form: f,
+          question_type: "text_display",
+          form_section: f.form_sections.first,
+          answer_field: "answer_20",
+          position: 20,
+          text: "Some custom <a href='#'>html</a>"
+        )
+
+        option_elements_section = f.form_sections.create(title: "Option elements", position: 2)
+        radio_button_question = FactoryBot.create(:question,
+          form: f,
+          form_section: option_elements_section,
+          question_type: "text_display",
+          text: "Custom Question Radio Buttons",
+          question_type: "radio_buttons",
+          help_text: "This is help text for radio buttons.",
+          answer_field: :answer_04,
+          position: 4,
+          is_required: false,
+        )
+
+        QuestionOption.create!({
+          question: radio_button_question,
+          text: "Option 1",
+          value: 1,
+          position: 1
+        })
+        QuestionOption.create!({
+          question: radio_button_question,
+          text: "Option 2",
+          value: 2,
+          position: 2
+        })
+        QuestionOption.create!({
+          question: radio_button_question,
+          text: "Option 3",
+          value: 3,
+          position: 3
+        })
+        QuestionOption.create!({
+          question: radio_button_question,
+          text: "Otro",
+          value: 4,
+          position: 4
+        })
+
+        checkbox_question = FactoryBot.create(:question,
+          form: f,
+          form_section: option_elements_section,
+          text: "Custom Question Checkboxes",
+          question_type: "checkbox",
+          help_text: "This is help text for checkboxes.",
+          position: 5,
+          answer_field: :answer_05,
+          is_required: false,
+        )
+        QuestionOption.create!({
+          question: checkbox_question,
+          text: "Option 1",
+          value: 1,
+          position: 1
+        })
+        QuestionOption.create!({
+          question: checkbox_question,
+          text: "Option 2",
+          value: 2,
+          position: 2
+        })
+        QuestionOption.create!({
+          question: checkbox_question,
+          text: "Other",
+          value: 3,
+          position: 3
+        })
+
+        dropdown_question = Question.create!({
+          form: f,
+          form_section: option_elements_section,
+          text: "Custom Question Dropdown",
+          question_type: "dropdown",
+          help_text: "This is help text for a dropdown.",
+          position: 5,
+          answer_field: :answer_06,
+          is_required: false,
+        })
+        QuestionOption.create!({
+          question: dropdown_question,
+          text: "Option 1",
+          value: 1,
+          position: 1
+        })
+        QuestionOption.create!({
+          question: dropdown_question,
+          text: "Option 2",
+          value: 2,
+          position: 2
+        })
+        QuestionOption.create!({
+          question: dropdown_question,
+          text: "Option 3",
+          value: 3,
+          position: 3
+        })
+
+        Question.create!({
+          form: f,
+          form_section: option_elements_section,
+          text: "hidden value",
+          question_type: "hidden",
+          position: 11,
+          answer_field: :answer_07,
+          is_required: false
+        })
+
+        custom_elements_section = f.form_sections.create(title: "Custom elements", position: 3)
+        Question.create!({
+          form: f,
+          form_section: custom_elements_section,
+          text: '<p>Custom text <a href="#">that supports HTML</a> goes here.</p>',
+          question_type: "text_display",
+          position: 6,
+          answer_field: :answer_15,
+          is_required: false,
+        })
+
+        Question.create!({
+          form: f,
+          form_section: custom_elements_section,
+          text: "Star radio buttons",
+          question_type: "star_radio_buttons",
+          position: 8,
+          answer_field: :answer_17,
+          is_required: false
+        })
       end
     end
 
