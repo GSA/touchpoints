@@ -3,6 +3,12 @@ class OmbCxReportingCollection < ApplicationRecord
 
   validates :service_provided, presence: true
 
+  (1..11).each do |q|
+    (1..5).each do |a|
+      validates_numericality_of "q#{q}_#{a}".to_sym
+    end
+  end
+
   def answer_points(question: :q1)
     self.send("#{question}_1") * 1.0 +
     self.send("#{question}_2") * 2.0 +
