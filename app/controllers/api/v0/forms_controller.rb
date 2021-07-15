@@ -9,9 +9,9 @@ class Api::V0::FormsController < ::ApiController
 
   def show
     form = current_user.forms.find_by_short_uuid(params[:id])
-    page_num = (params[:page].present? ? params[:page].to_i : 0)
-    page_size = (params[:page_size].present? ? params[:page_size].to_i : 500)
-    page_size = 5000 if page_size > 5000
+    page = (params[:page].present? ? params[:page].to_i : 0)
+    size = (params[:size].present? ? params[:size].to_i : 500)
+    size = 5000 if size > 5000
     # Date filter defaults to 1 year ago and 1 day from now
     # Is there ever a case where we'd want to see submissions older than a year via the API?
     begin
@@ -26,13 +26,29 @@ class Api::V0::FormsController < ::ApiController
         if form
           render json: {
             form: form,
-            responses: form.submissions.where('created_at BETWEEN ? AND ?',start_date,end_date).limit(page_size).offset(page_size * page_num)
+            responses: form.submissions.where('created_at BETWEEN ? AND ?',start_date,end_date).limit(size).offset(size * page),
+            links: links(form, page, size)
           }
         else
           render json: { error: { message: "no form with Short UUID of #{params[:id]}", status: 404 } }, status: 404
         end
       }
     end
+  end
+
+  def links(form, page, size)
+    ret = {}
+    if params[:page].present?
+      ret["first"] = request.original_url.gsub(/page=[0-9]+/i,"page=0")
+      ret["next"] = request.original_url.gsub(/page=[0-9]+/i,"page=" + (page + 1).to_s) if (form.submissions.size > ( (page + 1) * size))
+      ret["prev"] = request.original_url.gsub(/page=[0-9]+/i,"page=" + (page - 1).to_s) if page > 0
+      ret["last"] = request.original_url.gsub(/page=[0-9]+/i,"page=" + (form.submissions.size / size).floor.to_s)
+    else
+      ret["first"] = request.original_url + "&page=0"
+      ret["next"] = request.original_url + "&page=1" if form.submissions.size > size
+      ret["last"] = request.original_url + "&page=" + (form.submissions.size / size).floor.to_s
+    end
+    ret
   end
 
 end

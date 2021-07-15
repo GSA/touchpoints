@@ -181,7 +181,7 @@ feature "Forms", js: true do
             it "display 'Published' flash message" do
               expect(page).to have_content("Published")
               expect(page).to have_content("Viewing Survey: #{form.name}")
-              expect(page).to have_content("Form Information")
+              expect(page).to have_content("Survey Information".upcase)
             end
           end
         end
@@ -191,7 +191,7 @@ feature "Forms", js: true do
             before do
               form.update(aasm_state: :in_development)
               visit admin_form_path(form)
-              click_on "Archive this form"
+              click_on "Archive this survey"
               page.driver.browser.switch_to.alert.accept
             end
 
