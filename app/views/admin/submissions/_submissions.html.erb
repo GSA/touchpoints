@@ -20,6 +20,13 @@
     <table class="usa-table table-scroll submissions">
       <thead>
         <tr>
+          <th>View</th>
+          <th>Flag</th>
+          <th>Archive</th>
+          <th>Status</th>
+          <th>
+            Created At
+          </th>
         <% form.questions.each do |question| %>
           <% next if question.question_type == "text_display" %>
           <th><%= question.text %></th>
@@ -32,13 +39,6 @@
             Referer
           </th>
         <% end %>
-          <th>
-            Created At
-          </th>
-          <th>Status</th>
-          <th></th>
-          <th></th>
-          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -48,32 +48,6 @@
           <% next %>
         <% end %>
         <tr class="response" title="Response ID <%= submission.id %>" data-id="<%= submission.uuid %>">
-        <% form.questions.each do |question| %>
-          <% next if question.question_type == "text_display" %>
-          <% if form.ui_truncate_text_responses? %>
-            <td>
-              <%= simple_format(submission.send(question.answer_field.to_sym).to_s.truncate(160), sanitize: true) %>
-            </td>
-          <% else %>
-            <td>
-              <%= simple_format(submission.send(question.answer_field.to_sym), sanitize: true) %>
-            </td>
-          <% end %>
-        <% end %>
-        <% if form.kind == "yes_no" %>
-          <td>
-            <%= submission.page %>
-          </td>
-          <td>
-            <%= submission.referer %>
-          </td>
-        <% end %>
-          <td>
-            <%= format_time(submission.created_at, submission.form.time_zone.present? ? submission.form.time_zone : current_user.time_zone) %>
-          </td>
-          <td>
-            <%= submission.aasm_state %>
-          </td>
           <td>
             <% if form_permissions?(form: form) %>
               <%= link_to admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--outline" do %>
@@ -97,6 +71,32 @@
             <% end %>
             <% end %>
           </td>
+          <td>
+            <%= submission.aasm_state %>
+          </td>
+          <td>
+            <%= format_time(submission.created_at, submission.form.time_zone.present? ? submission.form.time_zone : current_user.time_zone) %>
+          </td>
+        <% form.questions.each do |question| %>
+          <% next if question.question_type == "text_display" %>
+          <% if form.ui_truncate_text_responses? %>
+            <td>
+              <%= simple_format(submission.send(question.answer_field.to_sym).to_s.truncate(160), sanitize: true) %>
+            </td>
+          <% else %>
+            <td>
+              <%= simple_format(submission.send(question.answer_field.to_sym), sanitize: true) %>
+            </td>
+          <% end %>
+        <% end %>
+        <% if form.kind == "yes_no" %>
+          <td>
+            <%= submission.page %>
+          </td>
+          <td>
+            <%= submission.referer %>
+          </td>
+        <% end %>
         </tr>
         <% end %>
       </tbody>

@@ -220,7 +220,7 @@
     <% unless @form.archived? %>
       <p>
         <%= link_to archive_admin_form_path(@form), class: "usa-button usa-button--accent-cool width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
-          Archive this form
+          Archive this survey
         <% end %>
       </p>
     <% end %>
@@ -232,9 +232,9 @@
 <div class="well">
   <div class="grid-row grid-gap-md">
     <div class="tablet:grid-col-6">
-      <h2>
-        Form Information
-      </h2>
+      <div class="text-uppercase font-body-3xs">
+        Survey information
+      </div>
     </div>
   </div>
   <div class="grid-row grid-gap-md">
@@ -250,12 +250,12 @@
         <%= @form.time_zone %>
       </p>
     </div>
-    <div class="tablet:grid-col-6">
+    <div class="tablet:grid-col-3">
       <div>
         <p>
-          <strong>Delivery method</strong>
+          <strong>Survey owner</strong>
           <br>
-          <%= @form.delivery_method %>
+          <%= @form.user.email if @form.user %>
         </p>
         <% if @form.delivery_method == "touchpoints-hosted-only" || @form.delivery_method == "modal" %>
         <% else %>
@@ -266,11 +266,6 @@
         </p>
         <% end %>
         <p>
-          <strong>Form Owner</strong>
-          <br>
-          <%= @form.user.email if @form.user %>
-        </p>
-        <p>
           <strong>Created at</strong>
           <br>
           <%= @form.created_at.to_date %>
@@ -278,6 +273,25 @@
             (<%= time_ago_in_words(@form.created_at) %> ago)
           </small>
         </p>
+      </div>
+    </div>
+    <div class="tablet:grid-col-3">
+      <div>
+        <p>
+          <strong>Delivery method</strong>
+          <br>
+          <span class="usa-tag">
+            <%= @form.delivery_method %>
+          </span>
+        </p>
+        <% if @form.delivery_method == "touchpoints-hosted-only" || @form.delivery_method == "modal" %>
+        <% else %>
+        <p>
+          <strong>Element selector</strong>
+          <br>
+          <%= @form.element_selector %>
+        </p>
+        <% end %>
       </div>
     </div>
   </div>
