@@ -196,13 +196,13 @@ feature "Submissions", js: true do
                 expect(page).to_not have_content("<a>")
                 expect(page).to_not have_content("</a>")
                 expect(page).to have_content("A textarea field")
-                expect(page).to have_content("Created At")
-                expect(page).to have_content("Status")
 
-                expect(page).to have_content("received")
                 expect(page).to have_link("View")
                 expect(page).to have_link("Flag")
                 expect(page).to have_link("Archive")
+                expect(page).to have_content("Status")
+                expect(page).to have_content("received")
+                expect(page).to have_content("Created At")
               end
             end
           end
