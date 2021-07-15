@@ -1,5 +1,6 @@
 class Admin::OmbCxReportingCollectionsController < AdminController
   before_action :set_omb_cx_reporting_collection, only: [:show, :edit, :update, :destroy]
+  before_action :set_collections, only: [:new, :create, :edit, :update]
 
   def index
     ensure_admin
@@ -10,12 +11,6 @@ class Admin::OmbCxReportingCollectionsController < AdminController
   end
 
   def new
-    if admin_permissions?
-      @collections = Collection.all
-    else
-      @collections = current_user.collections
-    end
-
     @omb_cx_reporting_collection = OmbCxReportingCollection.new
 
     if params[:collection_id]
@@ -24,11 +19,6 @@ class Admin::OmbCxReportingCollectionsController < AdminController
   end
 
   def edit
-    if admin_permissions?
-      @collections = Collection.all
-    else
-      @collections = current_user.collections
-    end
   end
 
   def create
@@ -57,6 +47,14 @@ class Admin::OmbCxReportingCollectionsController < AdminController
   private
     def set_omb_cx_reporting_collection
       @omb_cx_reporting_collection = OmbCxReportingCollection.find(params[:id])
+    end
+
+    def set_collections
+      if admin_permissions?
+        @collections = Collection.all
+      else
+        @collections = current_user.collections
+      end
     end
 
     def omb_cx_reporting_collection_params
