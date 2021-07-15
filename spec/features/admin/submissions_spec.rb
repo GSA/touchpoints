@@ -54,6 +54,25 @@ feature "Submissions", js: true do
           end
         end
 
+        describe "view many Responses" do
+          context "with more than 1 page worth of Responses" do
+            let!(:submission) { FactoryBot.create_list(:submission, 120, form: form) }
+
+            describe "click View link in responses table" do
+              before do
+                visit responses_admin_form_path(form)
+                within(find_all(".pagination").first) do
+                  click_link "2"
+                end
+              end
+
+              it "view the 2nd page of responses" do
+                expect(page).to have_content("Displaying Responses 101 - 120 of 120")
+              end
+            end
+          end
+        end
+
         describe "archive a Submission" do
           context "with one Submission" do
             let!(:submission) { FactoryBot.create(:submission, form: form) }
