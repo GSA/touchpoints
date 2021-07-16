@@ -2,9 +2,9 @@
 Website Statuscard for <%= @website.domain %>
 <% end %>
 <p>
-  <%= link_to admin_websites_path do %>
+  <%= link_to admin_website_path(@website) do %>
   <i class="fa fa-arrow-circle-left"></i>
-  Back to Websites
+  Back to Website
   <% end %>
 </p>
 
