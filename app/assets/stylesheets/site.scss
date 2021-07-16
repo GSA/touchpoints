@@ -524,3 +524,8 @@ span.usa-hint.save-notice {
 .usa-button.full-width {
   width: 100%;
 }
+
+table .no-wrap {
+  overflow: hidden;
+  white-space: nowrap;
+}
