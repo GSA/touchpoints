@@ -15,6 +15,7 @@
       </p>
     </div>
 
+    hisp_id,
     service_id,
     year,
     quarter,
@@ -29,6 +30,7 @@
     point_scale,
     response_volume,
     notes,
+    question_total,
     start_date,
     end_date
     <br>
@@ -36,7 +38,7 @@
       <% service.collections.each do |collection| %>
         <% collection.omb_cx_reporting_collections.includes(:collection).order("collections.year", "collections.quarter").each do |omb_cx_reporting_collection| %>
           <% (1..7).each do |question_number| %>
-            <%= render 'admin/collections/csv_detail_row', omb_cx_reporting_collection: omb_cx_reporting_collection, question_number: question_number %>,
+            <%= render 'admin/collections/csv_detail_row', omb_cx_reporting_collection: omb_cx_reporting_collection, question_number: question_number %>
             <br>
           <% end %>
         <% end %>
