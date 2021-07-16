@@ -1,6 +1,6 @@
 class Admin::WebsitesController < AdminController
-  before_action :ensure_admin, except: [:index, :show, :scorecard]
-  before_action :set_admin_website, only: [:show, :scorecard, :edit, :update, :destroy]
+  before_action :ensure_admin, except: [:index, :show, :statuscard]
+  before_action :set_admin_website, only: [:show, :statuscard, :edit, :update, :destroy]
 
   def index
     if params[:all]
@@ -15,7 +15,7 @@ class Admin::WebsitesController < AdminController
     send_data @websites.to_csv
   end
 
-  def scorecard
+  def statuscard
     ensure_website_admin(website: @website, user: current_user)
   end
 
@@ -69,6 +69,7 @@ class Admin::WebsitesController < AdminController
   private
     def set_admin_website
       @website = Website.find(params[:id])
+      # @website = Website.find_by_domain(params[:id])
     end
 
     def admin_website_params

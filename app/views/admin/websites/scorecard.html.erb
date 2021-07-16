@@ -1,5 +1,5 @@
 <% content_for :navigation_title do %>
-Website Scorecard for <%= @website.domain %>
+Website Statuscard for <%= @website.domain %>
 <% end %>
 <p>
   <%= link_to admin_websites_path do %>
@@ -19,7 +19,9 @@ Website Scorecard for <%= @website.domain %>
       <div class="usa-alert usa-alert--info usa-alert--slim">
         <div class="usa-alert__body">
           <p class="usa-alert__text">
-            This site scorecard is exploring how to automate the identification and testing of objective GSA and federal website guidelines. A full listing of all requirements can be found at
+            This website statuscard is exploring how to automate
+            the identification and testing of objective GSA and federal website guidelines.
+            A full listing of all requirements can be found at
             <a href="https://digital.gov/resources/21st-century-integrated-digital-experience-act/">here</a>.
           </p>
         </div>
@@ -30,7 +32,7 @@ Website Scorecard for <%= @website.domain %>
 <div class="grid-row grid-gap">
   <div class="tablet:grid-col-3">
     <nav aria-label="Secondary navigation" class="margin-top-4">
-      <ul class="usa-sidenav" id="scorecard-sidenav">
+      <ul class="usa-sidenav" id="statuscard-sidenav">
         <li class="usa-sidenav__item">
           <a href="#example" class="">Example Category</a>
         </li>
