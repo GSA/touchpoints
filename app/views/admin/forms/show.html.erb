@@ -18,41 +18,7 @@
 <% if is_at_least_form_manager?(user: current_user, form: @form) %>
 <div class="grid-row grid-gap-md">
   <div class="tablet:grid-col-6">
-    <div class="state-tracker">
-      <div class="step <%= "completed" if ["in_development", "live", "archived"].include?(@form.aasm_state) -%>">
-        <div class="indicator">
-          <span class="font-sans-2xl">
-            <i class="fas fa-check-circle"></i>
-          </span>
-        </div>
-        In development
-      </div>
-      <div class="step <%= "completed" if ["live", "archived"].include?(@form.aasm_state) -%>">
-        <div class="indicator">
-          <span class="font-sans-2xl">
-            <i class="fas fa-check-circle"></i>
-          </span>
-        </div>
-        <div>
-          Published
-        </div>
-      </div>
-      <div class="step <%= "completed" if ["archived"].include?(@form.aasm_state) -%>">
-        <div class="indicator">
-          <span class="font-sans-2xl">
-            <% if @form.archived? %>
-              <i class="fas fa-check-circle"></i>
-            <% else %>
-              <i class="far fa-circle"></i>
-            <% end %>
-          </span>
-        </div>
-        <div>
-          Archived
-        </div>
-      </div>
-      <br class="usa-display">
-    </div>
+    <%= render 'admin/forms/step_indicator', form: @form %>
     <p>
       <strong class="font-sans-3xl">
         <%= @form.response_count %> responses
