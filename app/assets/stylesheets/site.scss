@@ -471,6 +471,10 @@ a.form-section-save {
 a.form-save-question-option, a.form-delete-question-option {
   text-decoration:none;
 }
+
+a.form-delete-question-option {
+  text-indent: 0;
+}
 // Single line text field input treatment
 .question-option-edit input {
   width: 40%;
