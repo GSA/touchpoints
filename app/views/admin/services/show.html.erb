@@ -168,6 +168,22 @@
 
 <div class="well">
   <h4>
+    Data Collections
+  </h4>
+  <ul>
+    <% @service.collections.order(:year, :quarter).each do |c| %>
+    <li>
+      <%= link_to admin_collection_path(c) do %>
+        <%= c.year %>
+        <%= c.quarter %>
+        <%= c.name %>
+      <% end %>
+    </li>
+    <% end %>
+  </ul>
+</div>
+<div class="well">
+  <h4>
     Supplemental service information
   </h4>
   <p>
