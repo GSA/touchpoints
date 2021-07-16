@@ -48,8 +48,6 @@ footer {
 .table-scroll th,
 .table-scroll td {
   max-width: 600px;
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 .dark-blue-bg {
@@ -471,6 +469,10 @@ a.form-section-save {
 a.form-save-question-option, a.form-delete-question-option {
   text-decoration:none;
 }
+
+a.form-delete-question-option {
+  text-indent: 0;
+}
 // Single line text field input treatment
 .question-option-edit input {
   width: 40%;
@@ -521,4 +523,9 @@ span.usa-hint.save-notice {
 
 .usa-button.full-width {
   width: 100%;
+}
+
+table .no-wrap {
+  overflow: hidden;
+  white-space: nowrap;
 }

@@ -80,7 +80,7 @@
         <% form.questions.each do |question| %>
           <% next if question.question_type == "text_display" %>
           <% if form.ui_truncate_text_responses? %>
-            <td>
+            <td class="no-wrap">
               <%= simple_format(submission.send(question.answer_field.to_sym).to_s.truncate(160), sanitize: true) %>
             </td>
           <% else %>
