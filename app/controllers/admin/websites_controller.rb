@@ -68,8 +68,7 @@ class Admin::WebsitesController < AdminController
 
   private
     def set_admin_website
-      @website = Website.find(params[:id])
-      # @website = Website.find_by_domain(params[:id])
+      @website = Website.find_by_id(params[:id])
     end
 
     def admin_website_params
