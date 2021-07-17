@@ -1,0 +1,31 @@
+<div class="usa-step-indicator" aria-label="progress">
+  <ol class="usa-step-indicator__segments">
+    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--current" if ["in_development"].include?(form.aasm_state) -%> <%= "usa-step-indicator__segment--complete" if ["live", "archived"].include?(form.aasm_state) -%>">
+      <span class="usa-step-indicator__segment-label">In development
+        <% if ["live", "archived"].include?(form.aasm_state) -%>
+          <span class="usa-sr-only">completed</span>
+        <% else %>
+          <span class="usa-sr-only">not completed</span>
+        <% end %>
+      </span>
+    </li>
+    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--current" if ["live"].include?(form.aasm_state) -%> <%= "usa-step-indicator__segment--complete" if ["archived"].include?(form.aasm_state) -%>">
+      <span class="usa-step-indicator__segment-label">Published
+        <% if ["archived"].include?(form.aasm_state) -%>
+          <span class="usa-sr-only">completed</span>
+        <% else %>
+          <span class="usa-sr-only">not completed</span>
+        <% end %>
+      </span>
+    </li>
+    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--current" if ["archived"].include?(form.aasm_state) -%>" aria-current="true">
+      <span class="usa-step-indicator__segment-label">Archived
+        <% if ["archived"].include?(form.aasm_state) -%>
+          <span class="usa-sr-only">completed</span>
+        <% else %>
+          <span class="usa-sr-only">not completed</span>
+        <% end %>
+      </span>
+    </li>
+  </ol>
+</div>

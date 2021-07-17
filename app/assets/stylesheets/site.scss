@@ -198,26 +198,6 @@ h4 {
   font-family:Merriweather Web, Georgia, Cambria, Times New Roman, Times, serif;
 }
 
-.state-tracker {
-  background-color: #f0f0f0;
-
-  .step {
-    float: left;
-    padding: 10px;
-    color: #999;
-    width: 33%;
-    text-align: center;
-
-    .indicator {
-      width: 100%;
-    }
-
-    &.completed {
-      color: green;
-    }
-  }
-}
-
 .no-outline {
   border: none;
   -webkit-box-shadow: none;
