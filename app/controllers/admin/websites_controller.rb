@@ -1,5 +1,4 @@
 class Admin::WebsitesController < AdminController
-  before_action :ensure_admin, except: [:index, :show, :statuscard]
   before_action :set_admin_website, only: [:show, :statuscard, :edit, :update, :destroy]
 
   def index
@@ -16,7 +15,6 @@ class Admin::WebsitesController < AdminController
   end
 
   def statuscard
-    ensure_website_admin(website: @website, user: current_user)
   end
 
   def search
@@ -41,6 +39,7 @@ class Admin::WebsitesController < AdminController
   end
 
   def edit
+    ensure_website_admin(website: @website, user: current_user)
   end
 
   def create
@@ -54,6 +53,8 @@ class Admin::WebsitesController < AdminController
   end
 
   def update
+    ensure_website_admin(website: @website, user: current_user)
+
     if @website.update(admin_website_params)
       redirect_to admin_website_url(@website), notice: 'Website was successfully updated.'
     else
@@ -62,6 +63,8 @@ class Admin::WebsitesController < AdminController
   end
 
   def destroy
+    ensure_admin
+
     @website.destroy
     redirect_to admin_websites_url, notice: 'Website was successfully destroyed.'
   end
