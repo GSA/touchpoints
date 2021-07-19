@@ -32,7 +32,7 @@
             end
           %>
 
-        <% if question.question_type != "hidden" %>
+        <% if question.question_type != "hidden_field" %>
           <div class="question white-bg">
             <% if question.question_type == "text_field" %>
               <%= render 'components/forms/question_types/text_field', form: form, question: question, question_number: multi_section_question_number %>
