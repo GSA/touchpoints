@@ -26,7 +26,7 @@ module ApplicationHelper
   def question_type_javascript_params(question)
     if question.question_type == "text_field"
       "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
-    elsif question.question_type == "hidden"
+    elsif question.question_type == "hidden_field"
       "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
     elsif question.question_type == "text_email_field"
       "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
