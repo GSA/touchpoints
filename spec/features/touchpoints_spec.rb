@@ -192,6 +192,33 @@ feature "Touchpoints", js: true do
       end
     end
 
+    describe "hidden_field question" do
+
+      let!(:hidden_field_form) { FactoryBot.create(:form, :hidden_field_form, organization: organization, user: user) }
+
+      context "render" do
+        before do
+          visit submit_touchpoint_path(hidden_field_form)
+        end
+
+        it "generates hidden field" do
+          expect(find("#answer_01", :visible => false).value).to eq("hidden value")
+        end
+      end
+
+      context "submit" do
+        before do
+          visit touchpoint_path(hidden_field_form)
+          click_button "Submit"
+        end
+
+        it "persists the hidden field" do
+          expect(page).to have_content("Thank you. Your feedback has been received.")
+          expect(Submission.last.answer_01).to eq "hidden value"
+        end
+      end
+    end
+
     describe "email question" do
       let!(:dropdown_form) { FactoryBot.create(:form, :email, organization: organization, user: user) }
 

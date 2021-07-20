@@ -86,6 +86,23 @@ FactoryBot.define do
       end
     end
 
+    trait :hidden_field_form do
+      name { "Hidden Field Test form" }
+      kind { "custom" }
+      after(:create) do |f, evaluator|
+        FactoryBot.create(:question,
+          form: f,
+          form_section: f.form_sections.first,
+          answer_field: :answer_01,
+          text: "hidden value",
+          placeholder_text: "hidden value",
+          question_type: "hidden_field",
+          position: 1,
+          is_required: false
+        )
+      end
+    end
+
     trait :open_ended_form_with_contact_information do
       name { "Open-ended Test form with Contact Information" }
       kind { "custom" }
@@ -147,6 +164,16 @@ FactoryBot.define do
           position: 20,
           text: "Some custom <a href='#'>html</a>"
         )
+        Question.create!({
+          form: f,
+          form_section: f.form_sections.first,
+          text: "hidden value",
+          placeholder_text: "hidden value",
+          question_type: "hidden_field",
+          position: 21,
+          answer_field: :answer_07,
+          is_required: false
+        })
 
         option_elements_section = f.form_sections.create(title: "Option elements", position: 2)
         radio_button_question = FactoryBot.create(:question,
@@ -242,16 +269,6 @@ FactoryBot.define do
           text: "Option 3",
           value: 3,
           position: 3
-        })
-
-        Question.create!({
-          form: f,
-          form_section: option_elements_section,
-          text: "hidden value",
-          question_type: "hidden",
-          position: 11,
-          answer_field: :answer_07,
-          is_required: false
         })
 
         custom_elements_section = f.form_sections.create(title: "Custom elements", position: 3)
