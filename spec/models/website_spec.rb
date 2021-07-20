@@ -18,7 +18,7 @@ RSpec.describe Website, type: :model do
 
   describe "try to create a new website" do
     let!(:existing_website) { FactoryBot.create(:website) }
-    let(:new_website) { FactoryBot.build(:website) }
+    let(:new_website) { FactoryBot.build(:website, domain: existing_website.domain) }
 
     before do
       new_website

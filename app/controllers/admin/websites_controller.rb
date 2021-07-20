@@ -1,6 +1,5 @@
 class Admin::WebsitesController < AdminController
-  before_action :ensure_admin, except: [:index, :show, :scorecard]
-  before_action :set_admin_website, only: [:show, :scorecard, :edit, :update, :destroy]
+  before_action :set_website, only: [:show, :statuscard, :edit, :update, :destroy]
 
   def index
     if params[:all]
@@ -15,8 +14,7 @@ class Admin::WebsitesController < AdminController
     send_data @websites.to_csv
   end
 
-  def scorecard
-    ensure_website_admin(website: @website, user: current_user)
+  def statuscard
   end
 
   def search
@@ -41,6 +39,7 @@ class Admin::WebsitesController < AdminController
   end
 
   def edit
+    ensure_website_admin(website: @website, user: current_user)
   end
 
   def create
@@ -54,6 +53,8 @@ class Admin::WebsitesController < AdminController
   end
 
   def update
+    ensure_website_admin(website: @website, user: current_user)
+
     if @website.update(admin_website_params)
       redirect_to admin_website_url(@website), notice: 'Website was successfully updated.'
     else
@@ -62,13 +63,15 @@ class Admin::WebsitesController < AdminController
   end
 
   def destroy
+    ensure_admin
+
     @website.destroy
     redirect_to admin_websites_url, notice: 'Website was successfully destroyed.'
   end
 
   private
-    def set_admin_website
-      @website = Website.find(params[:id])
+    def set_website
+      @website = Website.find_by_id(params[:id])
     end
 
     def admin_website_params

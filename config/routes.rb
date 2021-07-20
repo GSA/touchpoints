@@ -62,7 +62,7 @@ Rails.application.routes.draw do
         get "export_csv", to: "websites#export_csv", as: :export_csv
       end
       member do
-        get "scorecard", to: "websites#scorecard", as: :scorecard
+        get "statuscard", to: "websites#statuscard", as: :statuscard
       end
     end
 

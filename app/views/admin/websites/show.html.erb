@@ -131,22 +131,6 @@
       <%= @website.required_by_law_or_policy %>
     </p>
     <p>
-      <strong>Cost estimator url:</strong>
-      <%= @website.cost_estimator_url %>
-    </p>
-    <p>
-      <strong>Modernization plan url:</strong>
-      <%= @website.modernization_plan_url %>
-    </p>
-    <p>
-      <strong>Annual baseline cost:</strong>
-      <%= @website.annual_baseline_cost %>
-    </p>
-    <p>
-      <strong>Modernization cost:</strong>
-      <%= @website.modernization_cost %>
-    </p>
-    <p>
       <strong>Type of site:</strong>
       <p>
         <% Website::TYPE_OF_SITES.each do |category| %>
@@ -222,6 +206,6 @@
     Additional website information
   </h3>
   <p>
-    <%= link_to "View website scorecard", scorecard_admin_website_path(@website), class: "usa-button" %>
+    <%= link_to "View website statuscard", statuscard_admin_website_path(@website), class: "usa-button" %>
   </p>
 </div>
