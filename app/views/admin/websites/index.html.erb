@@ -1,10 +1,8 @@
 <% content_for :navigation_title do %>
   Websites
-  <% if admin_permissions? %>
   <%= link_to new_admin_website_path, class: "usa-button usa-button-inverted float-right" do %>
     <i class="fa fa-plus-circle"></i>
     New Website
-  <% end %>
   <% end %>
 <% end %>
 

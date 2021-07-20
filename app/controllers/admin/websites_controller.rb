@@ -1,5 +1,5 @@
 class Admin::WebsitesController < AdminController
-  before_action :set_admin_website, only: [:show, :statuscard, :edit, :update, :destroy]
+  before_action :set_website, only: [:show, :statuscard, :edit, :update, :destroy]
 
   def index
     if params[:all]
@@ -70,7 +70,7 @@ class Admin::WebsitesController < AdminController
   end
 
   private
-    def set_admin_website
+    def set_website
       @website = Website.find_by_id(params[:id])
     end
 
