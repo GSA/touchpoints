@@ -75,7 +75,10 @@ class Admin::WebsitesController < AdminController
     end
 
     def admin_website_params
-      params.require(:website).permit(:domain, :parent_domain, :office, :office_id, :sub_office, :suboffice_id, :contact_email, :site_owner_email, :production_status, :type_of_site, :digital_brand_category, :redirects_to, :status_code, :cms_platform, :required_by_law_or_policy, :has_dap, :dap_gtm_code, :cost_estimator_url, :modernization_plan_url, :annual_baseline_cost, :modernization_cost, :analytics_url, :current_uswds_score, :uses_feedback, :feedback_tool, :sitemap_url, :mobile_friendly, :has_search, :uses_tracking_cookies, :has_authenticated_experience, :authentication_tool,
+      params.require(:website).permit(:domain, :parent_domain, :office, :office_id, :sub_office, :suboffice_id, :contact_email, :site_owner_email, :production_status, :type_of_site, :digital_brand_category, :redirects_to, :status_code, :cms_platform, :required_by_law_or_policy, :has_dap, :dap_gtm_code, :cost_estimator_url, :modernization_plan_url, :annual_baseline_cost, :modernization_cost, :analytics_url, :current_uswds_score, :uses_feedback, :feedback_tool, :sitemap_url, :mobile_friendly, :has_search, :uses_tracking_cookies,
+      :hosting_platform,
+      :has_authenticated_experience,
+      :authentication_tool,
       :repository_url,
       :notes)
     end
