@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.6'
+ruby '2.7.4'
 
 gem 'active_model_serializers', '>= 0.10.12'
 gem 'acts-as-list'
