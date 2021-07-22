@@ -105,29 +105,12 @@
         <%= form.text_field :required_by_law_or_policy, class: "usa-input" %>
       </div>
       <div class="field">
-        <%= form.label :cost_estimator_url, class: "usa-label" %>
-        <%= form.text_field :cost_estimator_url, class: "usa-input" %>
-      </div>
-      <div class="field">
-        <%= form.label :modernization_plan_url, class: "usa-label" %>
-        <%= form.text_field :modernization_plan_url, class: "usa-input" %>
-      </div>
-      <div class="field">
-        <%= form.label :annual_baseline_cost, class: "usa-label" %>
-        <%= form.text_field :annual_baseline_cost, class: "usa-input" %>
-      </div>
-      <div class="field">
-        <%= form.label :modernization_cost, class: "usa-label" %>
-        <%= form.text_field :modernization_cost, class: "usa-input" %>
-      </div>
-      <div class="field">
         <%= form.label :type_of_site, class: "usa-label" %>
         <%= form.select :type_of_site, Website::TYPE_OF_SITES, { include_blank: true }, { class: "usa-select" } %>
       </div>
       <div class="field">
         <%= form.label :digital_brand_category, class: "usa-label" %>
         <%= form.select :digital_brand_category, Website::DIGITAL_BRAND_CATEGORIES, { include_blank: true }, class: "usa-select" %>
-
       </div>
     </div>
     <div class="grid-col-6">
@@ -136,32 +119,24 @@
       </h3>
       <div class="field">
         <%= form.label :hosting_platform, class: "usa-label" %>
-        <%= form.text_field :hosting_platform, class: "usa-input" %>
+        <%= form.text_field :hosting_platform, class: "usa-input", placeholder: "Cloud.gov or AWS" %>
       </div>
       <div class="field">
-        <%= form.label :cms_platform, class: "usa-label" %>
-        <%= form.text_field :cms_platform, class: "usa-input" %>
-      </div>
-      <br>
-      <div class="usa-checkbox">
-        <%= form.check_box :has_dap, class: "usa-checkbox__input" %>
-        <%= form.label :has_dap, class: "usa-checkbox__label" %>
+        <%= form.label :cms_platform, "Content Management platorm", class: "usa-label" %>
+        <%= form.text_field :cms_platform, class: "usa-input", placeholder: "Cloud.gov pages or Drupal" %>
       </div>
       <div class="field">
-        <%= form.label :dap_gtm_code, class: "usa-label" %>
+        <%= form.label :dap_gtm_code, "DAP GTM Code", class: "usa-label" %>
         <%= form.text_field :dap_gtm_code, class: "usa-input" %>
       </div>
       <div class="field">
         <%= form.label :analytics_url, class: "usa-label" %>
         <%= form.text_field :analytics_url, class: "usa-input" %>
       </div>
-      <br>
-      <fieldset class="usa-fieldset">
-        <div class="usa-checkbox">
-          <%= form.check_box :uses_feedback, class: "usa-checkbox__input" %>
-          <%= form.label :uses_feedback, class: "usa-checkbox__label" %>
-        </div>
-      </fieldset>
+      <div class="field">
+        <%= form.label :authentication_tool, class: "usa-label" %>
+        <%= form.text_field :authentication_tool, class: "usa-input" %>
+      </div>
       <div class="field">
         <%= form.label :feedback_tool, class: "usa-label" %>
         <%= form.text_field :feedback_tool, class: "usa-input" %>
@@ -170,7 +145,6 @@
         <%= form.label :current_uswds_score, class: "usa-label" %>
         <%= form.number_field :current_uswds_score, class: "usa-input" %>
       </div>
-
       <br>
       <fieldset class="usa-fieldset">
         <div class="usa-checkbox">
@@ -178,16 +152,6 @@
           <%= form.label :uses_tracking_cookies, class: "usa-checkbox__label" %>
         </div>
       </fieldset>
-      <fieldset class="usa-fieldset">
-        <div class="usa-checkbox">
-          <%= form.check_box :has_authenticated_experience, class: "usa-checkbox__input" %>
-          <%= form.label :has_authenticated_experience, class: "usa-checkbox__label" %>
-        </div>
-      </fieldset>
-      <div class="field">
-        <%= form.label :authentication_tool, class: "usa-label" %>
-        <%= form.text_field :authentication_tool, class: "usa-input" %>
-      </div>
     </div>
   </div>
   <br>
