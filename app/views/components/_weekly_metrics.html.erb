@@ -5,28 +5,51 @@
   <thead>
     <tr>
       <th>
-        Agencies with Forms
+        Agencies
       </th>
       <th>
-        Unique Forms (per OMB Approval Number)
+        Forms
       </th>
       <th>
         Responses
       </th>
+      <th>
+        Websites
+      </th>
+      <th>
+        Services
+      </th>
+      <th>
+        Data Collections
+      </th>
+      <th>
+        Service details
+      </th>
     </tr>
   </thead>
-  <tr>
-    <td class="reportable-organizations">
-      <%= forms.collect(&:organization_id).uniq.size %>
-    </td>
-    <td class="reportable-forms">
-      <% non_omb_touchpoints = forms.select { |f| !f.omb_approval_number.present? }.collect(&:omb_approval_number).size %>
-      <% omb_touchpoints = forms.select { |f| f.omb_approval_number.present? }.collect(&:omb_approval_number).uniq.size %>
-      <% reportable_touchpoints = non_omb_touchpoints + omb_touchpoints %>
-      <%= reportable_touchpoints %>
-    </td>
-    <td class="reportable-submissions">
-      <%= Submission.count %>
-    </td>
-  </tr>
+  <tbody>
+    <tr>
+      <td class="reportable-organizations">
+        <%= Organization.count %>
+      </td>
+      <td class="reportable-forms">
+        <%= Form.non_templates.count %>
+      </td>
+      <td class="reportable-submissions">
+        <%= Submission.count %>
+      </td>
+      <td>
+        <%= Website.count %>
+      </td>
+      <td>
+        <%= Service.count %>
+      </td>
+      <td>
+        <%= Collection.count %>
+      </td>
+      <td>
+        <%= OmbCxReportingCollection.count %>
+      </td>
+    </tr>
+  </tbody>
 </table>
