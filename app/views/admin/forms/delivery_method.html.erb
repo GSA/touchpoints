@@ -28,11 +28,7 @@
   <% end %>
   <div class="grid-row">
     <div class="grid-col">
-
-      <div class="well">
-        <h2>
-          Delivery Options
-        </h2>
+      <div>
         <div class="usa-alert usa-alert--info">
           <div class="usa-alert__body">
             <p class="usa-alert__text">
@@ -69,7 +65,9 @@
 
         <br>
         <fieldset class="usa-fieldset">
-          <legend class="usa-sr-only">Delivery Methods</legend>
+          How will users access this survey?
+          <br>
+          <legend class="usa-sr-only">Delivery methods</legend>
           <% Form::DELIVERY_METHODS.each_with_index do |delivery_method, index| %>
             <div class="usa-checkbox">
               <%= f.radio_button :delivery_method, delivery_method[0], class: "usa-radio__input"  %>
@@ -85,7 +83,7 @@
             </div>
             <div class="field" id="delivery-method-html-id" hidden="true">
               <%= f.label :element_selector, class: "usa-label" %>
-              <%= f.text_field :element_selector, class: "usa-input", placeholder: "#html-element-id" %>
+              <%= f.text_field :element_selector, class: "usa-input", placeholder: "html-element-id" %>
             </div>
           </div>
         </div>
@@ -101,15 +99,15 @@
               <div class="usa-alert usa-alert--info">
                   <div class="usa-alert__body">
                     <p class="usa-alert__text">
-                      Once delivery options have been saved you can preview this survey by clicking the below button:
+                      After the delivery method has been saved you can preview this survey.
                     </p>
-                    <br/>
-                    <%= link_to example_admin_form_path(@form), class: "usa-button", target: "_blank", rel: "noopener" do %>
-                      <i class="fa fa-eye"></i>
-                      Preview
-                    <% end %>
                   </div>
               </div>
+              <br>
+              <%= link_to example_admin_form_path(@form), class: "usa-button usa-button--outline full-width", target: "_blank", rel: "noopener" do %>
+                <i class="fa fa-eye"></i>
+                Preview
+              <% end %>
             </div>
           </div>
     </div>
