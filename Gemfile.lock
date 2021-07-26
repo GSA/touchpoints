@@ -84,7 +84,7 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     aes_key_wrap (1.1.0)
     aws-eventstream (1.1.1)
-    aws-partitions (1.478.0)
+    aws-partitions (1.479.0)
     aws-record (2.6.0)
       aws-sdk-dynamodb (~> 1.18)
     aws-sdk-core (3.117.0)
@@ -164,7 +164,7 @@ GEM
       dotenv (= 2.7.6)
       railties (>= 3.2)
     erubi (1.10.0)
-    excon (0.84.0)
+    excon (0.85.0)
     execjs (2.8.1)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
@@ -456,4 +456,4 @@ RUBY VERSION
    ruby 2.7.4p191
 
 BUNDLED WITH
-   2.2.19
+   2.2.24
