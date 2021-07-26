@@ -339,6 +339,40 @@ feature "Forms", js: true do
         end
       end
 
+      context "Edit Delivery Method" do
+        let!(:form) { FactoryBot.create(:form, :custom, organization: organization, user: admin) }
+        let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
+
+        before do
+          login_as(admin)
+          visit delivery_method_admin_form_path(form)
+        end
+
+        describe "editing the whitelist url" do
+          before do
+            fill_in "form_whitelist_url", with: "example.com"
+            click_on "Update Survey"
+          end
+
+          it "can edit existing Form" do
+            expect(page).to have_content("Survey was successfully updated.")
+            expect(page.current_path).to eq(delivery_method_admin_form_path(form))
+            expect(find("#form_whitelist_url").value).to eq("example.com")
+          end
+        end
+
+        describe "editing the delivery method" do
+          before do
+            find('label', :text => 'Custom button & modal').click
+            click_on "Update Survey"
+          end
+
+          it "fails without specifying the selector" do
+            expect(page).to have_content("Element selector can't be blank for an inline form")
+          end
+        end
+      end
+
       context "Edit Form page" do
         let!(:form) { FactoryBot.create(:form, :custom, organization: organization, user: admin) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }

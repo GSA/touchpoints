@@ -69,6 +69,13 @@ footer {
   max-height: 32px;
 }
 
+.delivery-options-preview {
+  border: 1px solid;
+  border-radius: 4px;
+  padding: 20px;
+  margin: 20px;
+}
+
 // USWDS Overrides
 @media (min-width: 64em) {
   .usa-header nav {
