@@ -26,8 +26,14 @@ feature "Admin Dashboard", js: true do
       end
 
       it "display weekly metrics" do
-        expect(page).to have_content("Weekly Product & Program Use Metrics")
-        expect(page).to have_content("Agencies with Forms")
+        expect(page).to have_content("Weekly Product Metrics")
+        expect(page).to have_content("Agencies")
+        expect(page).to have_content("Forms")
+        expect(page).to have_content("Responses")
+        expect(page).to have_content("Services")
+        expect(page).to have_content("Websites")
+        expect(page).to have_content("Data Collections")
+        expect(page).to have_content("Service details")
         expect(find(".reportable-organizations")).to have_content("1")
         expect(find(".reportable-forms")).to have_content("1")
         expect(find(".reportable-submissions")).to have_content("0")
@@ -60,24 +66,6 @@ feature "Admin Dashboard", js: true do
       it "display weekly metrics" do
         expect(page).to have_css("#daily-responses")
         expect(page).to have_css("canvas")
-      end
-    end
-
-    describe "with HISP forms" do
-      let!(:form) { FactoryBot.create(:form, kind: "a11", organization: organization, user: admin) }
-
-      before do
-        visit admin_dashboard_path
-      end
-
-      it "display Customer Feedback Analysis" do
-        expect(page).to have_content("Customer Feedback Analysis")
-        expect(page).to have_css("#customer-feedback-summary")
-        within "#customer-feedback-summary" do
-          expect(find_all("tbody tr").size).to eq(1)
-          expect(page).to have_content form.organization.name
-          expect(page).to have_content form.name
-        end
       end
     end
   end
