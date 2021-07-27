@@ -8,7 +8,7 @@ class Admin::FormsController < AdminController
   before_action :set_form, only: [
     :show, :edit, :update, :destroy,
     :compliance,
-    :permissions, :questions, :responses,
+    :permissions, :questions, :responses, :delivery_method,
     :copy, :copy_by_id,
     :invite,
     :notifications,
@@ -130,6 +130,10 @@ class Admin::FormsController < AdminController
     end
   end
 
+  def delivery_method
+    ensure_form_manager(form: @form)
+  end
+
   def example
     redirect_to touchpoint_path, notice: "Previewing Touchpoint" and return if @form.delivery_method == "touchpoints-hosted-only"
     redirect_to admin_forms_path, notice: "Form does not have a delivery_method of 'modal' or 'inline' or 'custom-button-modal'" and return unless @form.delivery_method == "modal" || @form.delivery_method == "inline" || @form.delivery_method == "custom-button-modal"
@@ -235,13 +239,22 @@ class Admin::FormsController < AdminController
     respond_to do |format|
       if @form.update(form_params)
         format.html {
-          redirect_to admin_form_path(@form), notice: 'Survey was successfully updated.'
+          redirect_to get_edit_path(@form), notice: 'Survey was successfully updated.'
         }
         format.json { render :show, status: :ok, location: @form }
       else
-        format.html { render :edit }
+        format.html { render (params[:form][:delivery_method].present? ? :delivery_method : :edit) }
         format.json { render json: @form.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  # Start building our wizard workflow
+  def get_edit_path(form)
+    if params[:form][:delivery_method].present?
+      delivery_method_admin_form_path(form)
+    else
+      admin_form_path(form)
     end
   end
 

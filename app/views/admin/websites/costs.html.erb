@@ -1,0 +1,11 @@
+<% content_for :navigation_title do %>
+  Editing Website: <%= @website.domain %>
+<% end %>
+<p>
+  <%= link_to admin_website_path(@website) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Website
+  <% end %>
+</p>
+
+<%= render 'costs_form', website: @website %>
