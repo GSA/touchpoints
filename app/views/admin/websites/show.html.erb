@@ -152,6 +152,10 @@
       Platform choices
     </h3>
     <p>
+      <strong>Hosting platform:</strong>
+      <%= @website.hosting_platform %>
+    </p>
+    <p>
       <strong>Cms platform:</strong>
       <%= @website.cms_platform %>
     </p>
@@ -206,6 +210,7 @@
     Additional website information
   </h3>
   <p>
-    <%= link_to "View website statuscard", statuscard_admin_website_path(@website), class: "usa-button" %>
+    <%= link_to "Website costs", costs_admin_website_path(@website), class: "usa-button usa-button--outline" %>
+    <%= link_to "Website statuscard", statuscard_admin_website_path(@website), class: "usa-button" %>
   </p>
 </div>

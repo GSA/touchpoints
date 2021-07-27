@@ -62,6 +62,7 @@ Rails.application.routes.draw do
         get "export_csv", to: "websites#export_csv", as: :export_csv
       end
       member do
+        get "costs", to: "websites#costs", as: :costs
         get "statuscard", to: "websites#statuscard", as: :statuscard
       end
     end
@@ -81,6 +82,7 @@ Rails.application.routes.draw do
         get "compliance", to: "forms#compliance", as: :compliance
         get "questions", to: "forms#questions", as: :questions
         get "responses", to: "forms#responses", as: :responses
+        get "delivery_method", to: "forms#delivery_method", as: :delivery_method
         post "add_user", to: "forms#add_user", as: :add_user
         post "copy", to: "forms#copy", as: :copy
         post "publish", to: "forms#publish", as: :publish

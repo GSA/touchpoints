@@ -172,69 +172,6 @@
     </script>
   </div>
   <br>
-  <br>
-  <div class="well">
-    <h2>
-      How will users access this survey?
-    </h2>
-    <div class="usa-alert usa-alert--info">
-      <div class="usa-alert__body">
-        <p class="usa-alert__text">
-          <strong>Options for Publishing Your Survey</strong>
-          <br>
-          When a Touchpoint is published,
-          it will be available at a URL on Touchpoints.
-          <br>
-
-          Additionally, a survey form can be embedded on an existing web property
-          using one of three different methods:
-          <ol>
-            <li>
-              <strong>Tab button &amp; modal</strong> -
-              Touchpoints will insert a default button on your website with
-              the text that you indicate.  The button will launch
-              a modal box displaying your survey
-            </li>
-            <li>
-              <strong>Custom button &amp; modal</strong> -
-              Works like the modal, except you provide your own custom
-              styled button with the use of a
-              #html-element-id
-            </li>
-            <li>
-              <strong>Inline</strong> -
-              Touchpoints will embed your survey directly onto your
-              website using a #html-element-id
-            </li>
-          </ol>
-        </p>
-      </div>
-    </div>
-    <br>
-    <fieldset class="usa-fieldset">
-      <legend class="usa-sr-only">Delivery Methods</legend>
-      <% Form::DELIVERY_METHODS.each_with_index do |delivery_method, index| %>
-        <div class="usa-checkbox">
-          <%= f.radio_button :delivery_method, delivery_method[0], class: "usa-radio__input"  %>
-          <%= f.label delivery_method[1], class: "usa-radio__label", for: "form_delivery_method_#{delivery_method[0]}" %>
-        </div>
-      <% end %>
-    </fieldset>
-    <div class="grid-row">
-      <div class="grid-col-6">
-        <div class="field" id="delivery-method-text" hidden="true">
-          <%= f.label :modal_button_text, class: "usa-label" %>
-          <%= f.text_field :modal_button_text, class: "usa-input" %>
-        </div>
-        <div class="field" id="delivery-method-html-id" hidden="true">
-          <%= f.label :element_selector, class: "usa-label" %>
-          <%= f.text_field :element_selector, class: "usa-input", placeholder: "#html-element-id" %>
-        </div>
-      </div>
-    </div>
-    <br>
-    <%= render 'components/whitelist_options', f: f %>
-  </div>
   <% end %>
   <p>
     <%= f.submit (form.persisted? ? "Update Survey" : "Create Survey"), class: "usa-button" %>

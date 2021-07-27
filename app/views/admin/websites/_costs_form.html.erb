@@ -1,0 +1,49 @@
+<%= form_with(model: website, url: website.persisted? ? admin_website_path(website) : admin_websites_path) do |form| %>
+  <% if website.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(website.errors.count, "error") %> prohibited this website from being saved:</h2>
+
+      <ul>
+        <% website.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <hr>
+
+  <div class="grid-row grid-gap">
+    <div class="grid-col-6">
+      <h3>
+        Website cost information
+      </h3>
+      <div class="field">
+        <%= form.label :cost_estimator_url, class: "usa-label" %>
+        <%= form.text_field :cost_estimator_url, class: "usa-input" %>
+      </div>
+      <div class="field">
+        <%= form.label :modernization_plan_url, class: "usa-label" %>
+        <%= form.text_field :modernization_plan_url, class: "usa-input" %>
+      </div>
+      <div class="field">
+        <%= form.label :annual_baseline_cost, class: "usa-label" %>
+        <%= form.number_field :annual_baseline_cost, class: "usa-input", step: "0.01" %>
+      </div>
+      <div class="field">
+        <%= form.label :modernization_cost, "Modernization costs FY2020", class: "usa-label" %>
+        <%= form.number_field :modernization_cost, class: "usa-input", step: "0.01" %>
+      </div>
+      <div class="field">
+        <%= form.label :modernization_cost_2021, "Modernization costs FY2021", class: "usa-label" %>
+        <%= form.number_field :modernization_cost_2021, class: "usa-input", step: "0.01" %>
+      </div>
+    </div>
+    <div class="grid-col-6">
+    </div>
+  </div>
+  <br>
+  <p>
+    <%= form.submit class: "usa-button" %>
+  </p>
+<% end %>
