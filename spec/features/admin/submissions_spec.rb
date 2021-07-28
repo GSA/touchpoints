@@ -77,7 +77,7 @@ feature "Submissions", js: true do
           context "with one Submission" do
             let!(:submission) { FactoryBot.create(:submission, form: form) }
 
-            before do
+            before "click on Archive" do
               visit responses_admin_form_path(form)
               within("table.submissions") do
                 click_on "Archive"
@@ -85,9 +85,10 @@ feature "Submissions", js: true do
               page.driver.browser.switch_to.alert.accept
             end
 
-            it "successfully archives Submission" do
+            it "remove the Archived submission's table row" do
               within("table.submissions") do
-                expect(page).to have_content("Archive")
+                expect(page).to_not have_content(submission.answer_01)
+                expect(find_all("tbody tr").size).to eq(0)
               end
             end
           end

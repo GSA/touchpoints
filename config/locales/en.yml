@@ -1,6 +1,8 @@
 en-US:
   errors:
     format: "%{attribute} %{message}"
+    request:
+      unauthorized_host: "request made from non-authorized host"
     messages:
       accepted: must be accepted
       blank: can't be blank
