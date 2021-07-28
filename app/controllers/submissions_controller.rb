@@ -44,7 +44,7 @@ class SubmissionsController < ApplicationController
 
       render json: {
         status: :unprocessable_entity,
-        messages: { submission: ['request made from non-authorized host'] }
+        messages: { submission: [I18n.t 'errors.request.unauthorized_host'] }
       }, status: :unprocessable_entity and return
     end
 
