@@ -328,15 +328,18 @@ end
 
 service_1 = Service.create({
   name: "USPTO",
-  organization: Organization.first
+  organization: Organization.first,
+  hisp: true,
 })
 service_2 = Service.create({
   name: "IRS",
-  organization: Organization.first
+  organization: Organization.first,
+  hisp: true,
 })
 service_3 = Service.create({
   name: "HUD",
-  organization: Organization.first
+  organization: Organization.first,
+  hisp: true,
 })
 stage_before = ServiceStage.create({
   name: "Before",
@@ -393,6 +396,28 @@ Website.create!({
 data_collection = Collection.create!({
   organization: Organization.first,
   service: service_1,
+  user: User.all.sample,
+  year: 2021,
+  quarter: 2,
+  name: "CX Quarterly Data Collection",
+  start_date: "2021-01-01",
+  end_date: "2021-03-31"
+})
+
+data_collection = Collection.create!({
+  organization: Organization.first,
+  service: service_2,
+  user: User.all.sample,
+  year: 2021,
+  quarter: 2,
+  name: "CX Quarterly Data Collection",
+  start_date: "2021-01-01",
+  end_date: "2021-03-31"
+})
+
+data_collection = Collection.create!({
+  organization: Organization.first,
+  service: service_3,
   user: User.all.sample,
   year: 2021,
   quarter: 2,
