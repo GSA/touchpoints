@@ -328,9 +328,17 @@ end
 ## Services
 
 service_1 = Service.create({
-  name: "USPTO",
+  name: "USPTO Trademarks",
   organization: Organization.first,
   hisp: true,
+  notes: "Headline notes about the service",
+  description: "A blurb describing this service. A few hundred words...",
+  department: "Department of Commerce",
+  bureau: "Patents and Trademarks",
+  bureau_abbreviation: "trademarks",
+  service_abbreviation: "uspto",
+  service_slug: "doc-trademarks",
+  url: "https://uspto.gov/trademarks",
 })
 service_2 = Service.create({
   name: "IRS",
