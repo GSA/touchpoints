@@ -13,20 +13,20 @@
 
   <% if admin_permissions? %>
   <div class="field">
+    <%= f.label :user_id, class: "usa-label" %>
+    <%= f.select :user_id, options_for_select(User.all.collect { |u| [u.email, u.id] }, collection.user_id), { prompt: "Which User?", include_blank: true }, { class: "usa-select" } %>
+  </div>
+  <% else %>
+  <%= f.hidden_field :user_id, value: current_user.id %>
+  <% end %>
+
+  <% if admin_permissions? %>
+  <div class="field">
     <%= f.label :organization_id, class: "usa-label" %>
     <%= f.select :organization_id, options_for_select(organization_dropdown_options, collection.organization_id), { prompt: "Which Organization?", include_blank: true }, { class: "usa-select" } %>
   </div>
   <% else %>
     <%= f.hidden_field :organization_id, value: current_user.organization_id %>
-  <% end %>
-
-  <% if admin_permissions? %>
-  <div class="field">
-    <%= f.label :user_id, class: "usa-label" %>
-    <%= f.select :user_id, options_for_select(User.all.collect { |u| [u.email, u.id] }, collection.user_id), { prompt: "Which User?", include_blank: true }, { class: "usa-select" } %>
-  </div>
-  <% else %>
-    <%= f.hidden_field :user_id, value: current_user.id %>
   <% end %>
 
   <div class="field">
