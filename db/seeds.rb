@@ -415,7 +415,8 @@ data_collection = Collection.create!({
   quarter: 2,
   name: "CX Quarterly Data Collection",
   start_date: "2021-01-01",
-  end_date: "2021-03-31"
+  end_date: "2021-03-31",
+  rating: "TRUE",
 })
 
 data_collection = Collection.create!({
@@ -426,7 +427,8 @@ data_collection = Collection.create!({
   quarter: 3,
   name: "CX Quarterly Data Collection",
   start_date: "2021-04-01",
-  end_date: "2021-06-30"
+  end_date: "2021-06-30",
+  rating: "FALSE",
 })
 
 data_collection = Collection.create!({
@@ -437,7 +439,8 @@ data_collection = Collection.create!({
   quarter: 4,
   name: "CX Quarterly Data Collection",
   start_date: "2021-07-01",
-  end_date: "2021-09-30"
+  end_date: "2021-09-30",
+  rating: "PARTIAL",
 })
 
 OmbCxReportingCollection.create!({
