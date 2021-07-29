@@ -51,7 +51,7 @@ class Admin::QuestionsController < AdminController
         format.html { render layout: false }
         format.json { render json: @question }
       else
-        format.html { render :edit }
+        format.html { render layout: false }
         format.json { render json: @question.errors, status: :unprocessable_entity }
       end
     end
@@ -71,6 +71,7 @@ class Admin::QuestionsController < AdminController
   private
     def set_form
       @form = Form.find_by_short_uuid(params[:form_id])
+      @form.reload
     end
 
     def set_question
