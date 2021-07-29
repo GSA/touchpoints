@@ -1,5 +1,5 @@
 <%= form_with(model: question, url: (question.persisted? ? admin_form_question_path(form, question) : admin_form_questions_path(form)), local: true, class: 'question-form' ) do |f| %>
-  <div class="question white-bg" id="question_<%= question.id %>">
+  <div class="question white-bg" id="question_<%= question.id %>" data-id="<%= question.id %>">
     <% if question.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(question.errors.count, "error") %> prohibited this question from being saved:</h2>
@@ -90,7 +90,7 @@
 
 <% if form_permissions?(form: @form) %>
 <script>
-    $('.save-question').on("click", function(event) {
+    $('.question .save-question').on("click", function(event) {
       event.preventDefault();
 
       <% if form_permissions?(form: @form) %>
@@ -110,10 +110,12 @@
           type: 'post',
           data: thisForm.serialize(),
           success: function(resp) {
-            $("div#<%= dom_id(question) %>").html(resp);
-            $(".question#question_<%= question.id %> .question-option-edit").hide();
-            $(".dropdown-content").hide();
-            $(".question-option-edit").hide();
+            var questionId = $(resp).find(".form-edit-question").data("id");
+            var ele = $("div#question_" + questionId);
+
+            ele.html(resp);
+            ele.find(".question-option-edit").hide();
+            ele.find(".dropdown-content").hide();
           }
         });
       }
@@ -126,9 +128,12 @@
         url: thisForm.attr("action"),
         type: 'get',
         success: function(resp) {
-          $("div#<%= dom_id(question) %>").html(resp);
-          $(".question#question_<%= question.id %> .question-option-edit").hide();
-          $(".dropdown-content").hide();
+          var questionId = $(resp).find(".form-edit-question").data("id");
+          var ele = $("div#question_" + questionId);
+
+          ele.html(resp);
+          ele.find(".question-option-edit").hide();
+          ele.find(".dropdown-content").hide();
         }
       });
     });
