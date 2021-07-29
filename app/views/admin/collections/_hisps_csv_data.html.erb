@@ -14,50 +14,58 @@
         This .csv data is used to populate the list of HISPs on performance.gov.
       </p>
       <p>
-        department,
-        department_abbreviation,
-        bureau,
-        bureau_abbreviation,
-        service,
-        service_abbreviation,
-        service_id,
-        url,
-        headline,
-        blurb,
-        links,
-        dap_identifier,
+        <% header_fields = [
+            :department,
+            :department_abbreviation,
+            :bureau,
+            :bureau_abbreviation,
+            :service,
+            :service_abbreviation,
+            :service_id,
+            :url,
+            :headline,
+            :blurb,
+            :links,
+            :dap_identifier
+          ]
+        %>
         <% [2020, 2021].each do |year| %>
           <% [1, 2, 3, 4].each do |quarter| %>
-          data_<%= year %>_q<%= quarter %>,
-          data_<%= year %>_q<%= quarter %>_notes,
+            <% header_fields << "data_#{ year }_q#{ quarter }" %>
+            <% header_fields << "data_#{ year }_q#{ quarter }_notes" %>
           <% end %>
         <% end %>
+        <%= header_fields.join(",").gsub(", ", ",") %>
         <br>
         <% Service.hisp.includes(:organization).order("organizations.name", :name).each do |service| %>
-          <%= service.organization.name %>,
-          <%= service.organization.abbreviation %>,
-          <%= service.bureau %>,
-          <%= service.bureau_abbreviation %>,
-          <%= service.name %>,
-          <%= service.service_abbreviation %>,
-          <%= service.service_slug %>,
-          <%= service.url %>,
-          <%= service.description %>,
-          <%= service.notes %>,
-          links,
-          dap_identifier,
+          <% row_fields = [
+              service.organization.name,
+              service.organization.abbreviation,
+              service.bureau,
+              service.bureau_abbreviation,
+              service.name,
+              service.service_abbreviation,
+              service.service_slug,
+              service.url,
+              service.description,
+              service.notes,
+              "links",
+              "dap_identifier"
+            ]
+          %>
           <% [2020, 2021].each do |year| %>
             <% [1, 2, 3, 4].each do |quarter| %>
               <% collection = service.collections.where(quarter: quarter, year: year).first %>
               <% if collection.present? %>
-                <%= collection.rating %>,
-                q<%= quarter %>_notes,
+                <% row_fields << collection.rating %>
+                <% row_fields << "q#{ quarter }_notes" %>
               <% else %>
-                "",
-                "",
+                <% row_fields << "" %>
+                <% row_fields << "" %>
               <% end %>
             <% end %>
           <% end %>
+          <%= row_fields.join(",").gsub(", ", ",") %>
           <br>
         <% end %>
       </p>
