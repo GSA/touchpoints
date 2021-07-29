@@ -104,10 +104,11 @@
       if (!questionType) {
          alert('Please select a question type');
       } else {
+        var thisForm = $(this).closest("form");
         $.ajax({
-          url: $(".question-form").attr("action"),
+          url: thisForm.attr("action"),
           type: 'post',
-          data: $(".question-form").serialize(),
+          data: thisForm.serialize(),
           success: function(resp) {
             $("div#<%= dom_id(question) %>").html(resp);
             $(".question#question_<%= question.id %> .question-option-edit").hide();
@@ -120,14 +121,14 @@
 
     $('.cancel-question').on("click", function(event) {
       event.preventDefault();
+      var thisForm = $(this).closest("form");
       $.ajax({
-        url: $(".question-form").attr("action"),
+        url: thisForm.attr("action"),
         type: 'get',
         success: function(resp) {
           $("div#<%= dom_id(question) %>").html(resp);
           $(".question#question_<%= question.id %> .question-option-edit").hide();
           $(".dropdown-content").hide();
-          $(".question-option-edit").hide();
         }
       });
     });
