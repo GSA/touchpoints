@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    get "a11", to: "site#a11", as: :a11
     resources :services do
       member do
         get "equity-assessment", to: "services#equity_assessment", as: :equity_assessment
