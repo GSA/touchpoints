@@ -64,7 +64,8 @@ class Admin::OrganizationsController < AdminController
         :abbreviation,
         :notes,
         :external_id,
-        :enable_ip_address
+        :enable_ip_address,
+        :digital_analytics_path,
       )
     end
 end

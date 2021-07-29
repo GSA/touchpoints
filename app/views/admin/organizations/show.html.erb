@@ -24,11 +24,18 @@
   </div>
   <p>
     <strong>Name:</strong>
+    <br>
     <%= @organization.name %>
+  </p>
+  <p>
+    <strong>Abbreviation:</strong>
+    <br>
+    <%= @organization.abbreviation %>
   </p>
   <% if @organization.logo %>
   <p>
     <strong>Logo:</strong>
+    <br>
     <% if @organization.logo_url.present? %>
     (displaying Thumbnail version)
     <br>
@@ -45,57 +52,75 @@
   <% end %>
   <p>
     <strong>Organization Domain:</strong>
+    <br>
     <%= @organization.domain %>
   </p>
   <p>
     <strong>Website Url:</strong>
+    <br>
     <%= link_to(@organization.url, @organization.url, target: "_blank", rel: "noopener") %>
   </p>
   <p>
-    <strong>Abbreviation:</strong>
-    <%= @organization.abbreviation %>
+    <strong>Digital Analytics URL:</strong>
+    <br>
+    <% if @organization.digital_analytics_path? %>
+      <%= link_to("https://analytics.usa.gov/#{@organization.digital_analytics_path}", "https://analytics.usa.gov/#{@organization.digital_analytics_path}", target: "_blank", rel: "noopener") %>
+    <% end %>
   </p>
   <p>
     <strong>Notes:</strong>
     <%= @organization.notes %>
   </p>
-  <div class="touchpoints well">
-    <h3>
-      <%= @organization.services.size %> Services
-    </h3>
+</div>
+<div class="touchpoints well">
+  <h3>
+    <%= @organization.services.size %> Services
+  </h3>
 
-    <ul class="usa-list">
-    <% @organization.services.each do |service| %>
-      <li>
-        <%= link_to service.name, admin_service_path(service) %>
-      </li>
-    <% end %>
-    </ul>
-  </div>
-  <div class="touchpoints well">
-    <h3>
-      <%= @organization.forms.size %> Forms
-    </h3>
+  <ul class="usa-list">
+  <% @organization.services.each do |service| %>
+    <li>
+      <%= link_to service.name, admin_service_path(service) %>
+    </li>
+  <% end %>
+  </ul>
+</div>
+<div class="touchpoints well">
+  <h3>
+    <%= @organization.forms.size %> Forms
+  </h3>
 
-    <ul class="usa-list">
-    <% @organization.forms.each do |form| %>
-      <li>
-        <%= link_to form.name, admin_form_path(form) %>
-      </li>
-    <% end %>
-    </ul>
-  </div>
-  <div class="collections well">
-    <h3>
-      <%= @organization.collections.size %> Collections
-    </h3>
+  <ul class="usa-list">
+  <% @organization.forms.each do |form| %>
+    <li>
+      <%= link_to form.name, admin_form_path(form) %>
+    </li>
+  <% end %>
+  </ul>
+</div>
+<div class="collections well">
+  <h3>
+    <%= @organization.collections.size %> Collections
+  </h3>
 
-    <ul class="usa-list">
-    <% @organization.collections.each do |collection| %>
-      <li>
-        <%= link_to collection.name, admin_collection_path(collection) %>
-      </li>
-    <% end %>
-    </ul>
-  </div>
+  <ul class="usa-list">
+  <% @organization.collections.each do |collection| %>
+    <li>
+      <%= link_to collection.name, admin_collection_path(collection) %>
+    </li>
+  <% end %>
+  </ul>
+</div>
+<div class="users well">
+  <h3>
+    <%= @organization.users.size %> Users
+  </h3>
+
+  <ul class="usa-list">
+  <% @organization.users.each do |user| %>
+    <li>
+      <%= link_to user.email, admin_user_path(user) %>
+    </li>
+  <% end %>
+  </ul>
 </div>

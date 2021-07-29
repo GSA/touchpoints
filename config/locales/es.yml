@@ -145,6 +145,8 @@ es:
       year: Año
   errors:
     format: "%{attribute} %{message}"
+    request:
+      unauthorized_host: "solicitud realizada desde un host no autorizado"
     messages:
       accepted: debe ser aceptado
       blank: no puede estar en blanco
