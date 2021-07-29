@@ -15,6 +15,7 @@
       <th>Year</th>
       <th>Quarter</th>
       <th>Status</th>
+      <th>Rating</th>
     </tr>
   </thead>
 
@@ -28,6 +29,9 @@
         <td><%= collection.quarter %></td>
         <td>
           <%= render 'components/collection_status_tag', collection: collection %>
+        </td>
+        <td>
+          <%= collection_rating_label(rating: collection.rating) %>
         </td>
       </tr>
     <% end %>

@@ -25,7 +25,6 @@
             :url,
             :headline,
             :blurb,
-            :links,
             :dap_identifier
           ]
         %>
@@ -47,10 +46,9 @@
               service.service_abbreviation,
               service.service_slug,
               service.url,
-              service.description,
-              service.notes,
-              "links",
-              "dap_identifier"
+              "\"#{service.notes}\"",
+              "\"#{service.description}\"",
+              service.organization.digital_analytics_path
             ]
           %>
           <% [2020, 2021].each do |year| %>
