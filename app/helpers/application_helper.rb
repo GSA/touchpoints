@@ -22,6 +22,16 @@ module ApplicationHelper
     }
   end
 
+  def collection_rating_label(rating:)
+    if rating == "TRUE"
+      "🟢"
+    elsif rating == "FALSE"
+      "🔴"
+    elsif rating == "PARTIAL"
+      "🟡"
+    end
+  end
+
   # Returns javascript to capture form input for one Form Question
   def question_type_javascript_params(question)
     if question.question_type == "text_field"

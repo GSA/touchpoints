@@ -3,7 +3,8 @@ def production_suitable_seeds
     name: "General Services Administration",
     abbreviation: "GSA",
     domain: "gsa.gov",
-    url: "https://gsa.gov"
+    url: "https://gsa.gov",
+    digital_analytics_path: "general-services-administration"
   })
   puts "Created Organization: #{gsa.name}"
 end
@@ -327,9 +328,17 @@ end
 ## Services
 
 service_1 = Service.create({
-  name: "USPTO",
+  name: "USPTO Trademarks",
   organization: Organization.first,
   hisp: true,
+  notes: "Headline notes about the service",
+  description: "A blurb describing this service. A few hundred words...",
+  department: "Department of Commerce",
+  bureau: "Patents and Trademarks",
+  bureau_abbreviation: "trademarks",
+  service_abbreviation: "uspto",
+  service_slug: "doc-trademarks",
+  url: "https://uspto.gov/trademarks",
 })
 service_2 = Service.create({
   name: "IRS",
@@ -340,6 +349,11 @@ service_3 = Service.create({
   name: "HUD",
   organization: Organization.first,
   hisp: true,
+})
+service_4 = Service.create({
+  name: "Touchpoints",
+  organization: Organization.first,
+  hisp: false,
 })
 stage_before = ServiceStage.create({
   name: "Before",
@@ -401,7 +415,8 @@ data_collection = Collection.create!({
   quarter: 2,
   name: "CX Quarterly Data Collection",
   start_date: "2021-01-01",
-  end_date: "2021-03-31"
+  end_date: "2021-03-31",
+  rating: "TRUE",
 })
 
 data_collection = Collection.create!({
@@ -409,10 +424,11 @@ data_collection = Collection.create!({
   service: service_2,
   user: User.all.sample,
   year: 2021,
-  quarter: 2,
+  quarter: 3,
   name: "CX Quarterly Data Collection",
-  start_date: "2021-01-01",
-  end_date: "2021-03-31"
+  start_date: "2021-04-01",
+  end_date: "2021-06-30",
+  rating: "FALSE",
 })
 
 data_collection = Collection.create!({
@@ -420,10 +436,11 @@ data_collection = Collection.create!({
   service: service_3,
   user: User.all.sample,
   year: 2021,
-  quarter: 2,
+  quarter: 4,
   name: "CX Quarterly Data Collection",
-  start_date: "2021-01-01",
-  end_date: "2021-03-31"
+  start_date: "2021-07-01",
+  end_date: "2021-09-30",
+  rating: "PARTIAL",
 })
 
 OmbCxReportingCollection.create!({
