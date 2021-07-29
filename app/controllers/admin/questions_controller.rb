@@ -51,7 +51,7 @@ class Admin::QuestionsController < AdminController
         format.html { render layout: false }
         format.json { render json: @question }
       else
-        format.html { render :edit }
+        format.html { render layout: false }
         format.json { render json: @question.errors, status: :unprocessable_entity }
       end
     end

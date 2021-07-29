@@ -677,6 +677,22 @@ feature "Forms", js: true do
             end
           end
 
+          describe "chaining add edit question operations" do
+
+            before do
+              visit questions_admin_form_path(form)
+            end
+
+            it "successfully executes add-update-add-update sequence" do
+              click_on "Add Question"
+              click_on "Update Question"
+              expect(page).not_to have_content("prohibited this question from being saved")
+              click_on "Add Question"
+              click_on "Update Question"
+              expect(page).not_to have_content("prohibited this question from being saved")
+            end
+          end
+
           describe "answer display" do
             let!(:first_question) { FactoryBot.create(:question, form: form, form_section: form.form_sections.first, answer_field: :answer_01) }
 

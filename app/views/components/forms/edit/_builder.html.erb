@@ -172,12 +172,13 @@ $(function() {
 
   $('.form-builder').on("click", '.form-edit-question', function(event) {
     event.preventDefault();
-    var question_id = "#question_" + $(this).attr("data-question-id")
+
+    var questionId = "#question_" + $(this).data("id");
     $.ajax({
       type: "GET",
       url: $(this).attr("href"),
       success: function (data) {
-        $(question_id).html(data);
+        $(questionId).html(data);
       }
     });
   });

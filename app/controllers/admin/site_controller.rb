@@ -13,6 +13,9 @@ class Admin::SiteController < AdminController
     @events = Event.limit(500).order("created_at DESC").page params[:page]
   end
 
+  def a11
+  end
+
   def events_export
     ExportEventsJob.perform_later(params[:uuid])
     render json: { result: :ok }
