@@ -34,7 +34,7 @@
             <% header_fields << "data_#{ year }_q#{ quarter }_notes" %>
           <% end %>
         <% end %>
-        <%= header_fields.join(",").gsub(", ", ",") %>
+        <%= header_fields.join(",") %>
         <br>
         <% Service.hisp.includes(:organization).order("organizations.name", :name).each do |service| %>
           <% row_fields = [
@@ -63,7 +63,7 @@
               <% end %>
             <% end %>
           <% end %>
-          <%= row_fields.join(",").gsub(", ", ",") %>
+          <%= row_fields.join(",") %>
           <br>
         <% end %>
       </p>
