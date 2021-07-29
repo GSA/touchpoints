@@ -47,8 +47,8 @@
               service.service_abbreviation,
               service.service_slug,
               service.url,
-              service.description,
-              service.notes,
+              "\"#{service.notes}\"",
+              "\"#{service.description}\"",
               "links",
               "dap_identifier"
             ]

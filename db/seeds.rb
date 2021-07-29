@@ -3,7 +3,8 @@ def production_suitable_seeds
     name: "General Services Administration",
     abbreviation: "GSA",
     domain: "gsa.gov",
-    url: "https://gsa.gov"
+    url: "https://gsa.gov",
+    digital_analytics_path: "general-services-administration"
   })
   puts "Created Organization: #{gsa.name}"
 end
@@ -341,6 +342,11 @@ service_3 = Service.create({
   organization: Organization.first,
   hisp: true,
 })
+service_4 = Service.create({
+  name: "Touchpoints",
+  organization: Organization.first,
+  hisp: false,
+})
 stage_before = ServiceStage.create({
   name: "Before",
   service: service_1
@@ -409,10 +415,10 @@ data_collection = Collection.create!({
   service: service_2,
   user: User.all.sample,
   year: 2021,
-  quarter: 2,
+  quarter: 3,
   name: "CX Quarterly Data Collection",
-  start_date: "2021-01-01",
-  end_date: "2021-03-31"
+  start_date: "2021-04-01",
+  end_date: "2021-06-30"
 })
 
 data_collection = Collection.create!({
@@ -420,10 +426,10 @@ data_collection = Collection.create!({
   service: service_3,
   user: User.all.sample,
   year: 2021,
-  quarter: 2,
+  quarter: 4,
   name: "CX Quarterly Data Collection",
-  start_date: "2021-01-01",
-  end_date: "2021-03-31"
+  start_date: "2021-07-01",
+  end_date: "2021-09-30"
 })
 
 OmbCxReportingCollection.create!({
