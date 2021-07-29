@@ -71,7 +71,6 @@ class Admin::QuestionsController < AdminController
   private
     def set_form
       @form = Form.find_by_short_uuid(params[:form_id])
-      @form.reload
     end
 
     def set_question
