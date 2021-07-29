@@ -18,6 +18,8 @@ class Admin::CollectionsController < AdminController
 
   def new
     @collection = Collection.new
+    @collection.organization_id = params[:organization_id]
+    @collection.service_id = params[:service_id]
     @collection.year = fiscal_year(Date.today)
     @collection.quarter = fiscal_quarter(Date.today)
   end

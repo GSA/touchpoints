@@ -96,24 +96,6 @@ feature "Data Collections", js: true do
         expect(page).to have_content("Collection was successfully destroyed.")
       end
     end
-
-
-    describe "with HISP forms" do
-      let!(:form) { FactoryBot.create(:form, kind: "a11", organization: organization, user: admin) }
-
-      before do
-        visit admin_collections_path
-      end
-
-      it "display Customer Feedback Analysis" do
-        expect(page).to have_css("#customer-feedback-summary")
-        within "#customer-feedback-summary" do
-          expect(find_all("tbody tr").size).to eq(1)
-          expect(page).to have_content form.organization.name
-          expect(page).to have_content form.name
-        end
-      end
-    end
   end
 
   context "as a non-admin User" do
