@@ -39,7 +39,7 @@
         <% Service.hisp.includes(:organization).order("organizations.name", :name).each do |service| %>
           <% row_fields = [
               service.organization.name,
-              service.organization.abbreviation,
+              service.organization.abbreviation.downcase,
               service.bureau,
               service.bureau_abbreviation,
               service.name,
