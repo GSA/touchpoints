@@ -69,6 +69,11 @@
         <br>
         <%= @collection.service.name %>
       </p>
+      <p>
+        <strong>User</strong>
+        <br>
+        <%= @collection.user.email %>
+      </p>
     </div>
     <div class="grid-col-4">
       <p>
@@ -89,14 +94,14 @@
     </div>
     <div class="grid-col-4">
       <p>
-        <strong>User</strong>
-        <br>
-        <%= @collection.user.email %>
-      </p>
-      <p>
         <strong>Collection status</strong>
         <br>
         <%= render 'components/collection_status_tag', collection: @collection %>
+      </p>
+      <p>
+        <strong>Rating</strong>
+        <br>
+        <%= collection_rating_label(rating: @collection.rating) %>
       </p>
     </div>
   </div>
