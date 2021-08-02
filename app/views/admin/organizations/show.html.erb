@@ -98,6 +98,19 @@
   <% end %>
   </ul>
 </div>
+<div class="service-providers well">
+  <h3>
+    <%= @organization.service_providers.size %> Service Providers
+  </h3>
+
+  <ul class="usa-list">
+  <% @organization.service_providers.each do |service| %>
+    <li>
+      <%= link_to service.name, admin_service_provider_path(service) %>
+    </li>
+  <% end %>
+  </ul>
+</div>
 <div class="collections well">
   <h3>
     <%= @organization.collections.size %> Collections

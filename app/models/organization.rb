@@ -2,6 +2,7 @@ class Organization < ApplicationRecord
   has_many :users
   has_many :services
   has_many :forms
+  has_many :service_providers
   has_many :collections
 
   mount_uploader :logo, LogoUploader
