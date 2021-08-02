@@ -62,7 +62,6 @@ Rails.application.routes.draw do
         get "gsa", to: "websites#gsa"
         get "export_csv", to: "websites#export_csv", as: :export_csv
         get "collection_preview", to: "websites@collection_preview", as: :collection_preview
-
       end
       member do
         get "costs", to: "websites#costs", as: :costs
