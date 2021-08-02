@@ -1,0 +1,56 @@
+<% content_for :navigation_title do %>
+  <div class="float-right">
+    <%= link_to edit_admin_service_provider_path(@service_provider), class: "usa-button usa-button-inverted" do %>
+    <i class="fa fa-pencil-alt"></i>
+    Edit
+    <% end %>
+  </div>
+  Service Provider: <%= @service_provider.name %>
+<% end %>
+
+<p>
+  <%= link_to admin_service_providers_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Service Providers
+  <% end %>
+</p>
+
+<p>
+  <strong>Organization:</strong>
+  <%= @service_provider.organization.name %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @service_provider.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @service_provider.description %>
+</p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @service_provider.notes %>
+</p>
+
+<p>
+  <strong>Department:</strong>
+  <%= @service_provider.department %>
+</p>
+
+<p>
+  <strong>Department abbreviation:</strong>
+  <%= @service_provider.department_abbreviation %>
+</p>
+
+<p>
+  <strong>Bureau:</strong>
+  <%= @service_provider.bureau %>
+</p>
+
+<p>
+  <strong>Bureau abbreviation:</strong>
+  <%= @service_provider.bureau_abbreviation %>
+</p>
