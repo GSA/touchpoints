@@ -1,0 +1,19 @@
+<div class="email-header">
+  <%= image_tag(attachments['logo.png'].url, alt: "Touchpoints logo") %>
+</div>
+<h1>Webmaster Data Collection Request</h1>
+<p>
+Hi <%= @email %>,
+</p>
+<p>
+You are receiving this email because you are identified as a website owner for one or more GSA websites:
+</p>
+<p>
+<a href="<%= website.domain %>"><%= @website.domain %></a><br/>
+</p>
+<p>
+Please log into Touchpoints to update your website records.
+</p>
+<p>
+If you have any questions at all, please contact the EDX (Enterprise Digital Experience) team or ryan.wold@gsa.gov.
+</p>
