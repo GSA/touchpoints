@@ -54,3 +54,33 @@
   <strong>Bureau abbreviation:</strong>
   <%= @service_provider.bureau_abbreviation %>
 </p>
+
+<hr>
+
+<div class="services well">
+  <h3>
+    <%= @service_provider.services.size %> Services
+  </h3>
+
+  <ul class="usa-list">
+  <% @service_provider.services.each do |service| %>
+    <li>
+      <%= link_to service.name, admin_service_path(service) %>
+    </li>
+  <% end %>
+  </ul>
+</div>
+
+<div class="collections well">
+  <h3>
+    <%= @service_provider.collections.size %> Collections
+  </h3>
+
+  <ul class="usa-list">
+  <% @service_provider.collections.each do |collection| %>
+    <li>
+      <%= link_to collection.name, admin_collection_path(collection) %>
+    </li>
+  <% end %>
+  </ul>
+</div>

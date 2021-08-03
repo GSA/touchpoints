@@ -16,7 +16,7 @@ class CreateServiceProviders < ActiveRecord::Migration[6.1]
     add_column :services, :service_provider_id, :integer
 
     Service.all.each do |service|
-      ServiceProvider.create!({
+      new_service_provider = ServiceProvider.create!({
         organization_id: service.organization_id,
         name: service.name,
         department: service.department,
@@ -26,6 +26,8 @@ class CreateServiceProviders < ActiveRecord::Migration[6.1]
         description: service.description,
         notes: service.notes
       })
+
+      service.update(service_provider_id: new_service_provider.id)
     end
 
   end
