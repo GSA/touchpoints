@@ -14,6 +14,8 @@ class CreateServiceProviders < ActiveRecord::Migration[6.1]
     end
 
     add_column :services, :service_provider_id, :integer
+    add_column :collections, :service_provider_id, :integer
+    add_column :omb_cx_reporting_collections, :service_id, :integer
 
     Service.all.each do |service|
       new_service_provider = ServiceProvider.create!({
@@ -29,6 +31,5 @@ class CreateServiceProviders < ActiveRecord::Migration[6.1]
 
       service.update(service_provider_id: new_service_provider.id)
     end
-
   end
 end

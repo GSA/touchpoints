@@ -65,9 +65,9 @@
         <%= @collection.organization.name %>
       </p>
       <p>
-        <strong>Service</strong>
+        <strong>Service Provider</strong>
         <br>
-        <%= @collection.service.name %>
+        <%= @collection.service_provider.name %>
       </p>
       <p>
         <strong>User</strong>
@@ -126,9 +126,9 @@
     </div>
   </div>
   <ul class="usa-list">
-  <% OmbCxReportingCollection.where(collection_id: @collection.id).each do |collection| %>
+  <% OmbCxReportingCollection.where(collection_id: @collection.id).each do |cx_collection| %>
     <li>
-      <%= link_to (collection.service_provided || "this"), admin_omb_cx_reporting_collection_path(collection) %>
+      <%= link_to (cx_collection.service.name), admin_omb_cx_reporting_collection_path(cx_collection) %>
     </li>
   <% end %>
   </ul>

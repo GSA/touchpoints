@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2021_08_02_214747) do
     t.string "reflection"
     t.integer "service_id"
     t.string "rating"
+    t.integer "service_provider_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -193,6 +194,7 @@ ActiveRecord::Schema.define(version: 2021_08_02_214747) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "operational_metrics"
+    t.integer "service_id"
     t.index ["collection_id"], name: "index_omb_cx_reporting_collections_on_collection_id"
   end
 
