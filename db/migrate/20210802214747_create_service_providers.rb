@@ -5,6 +5,7 @@ class CreateServiceProviders < ActiveRecord::Migration[6.1]
       t.string :name
       t.text :description
       t.text :notes
+      t.string :slug
       t.string :department
       t.string :department_abbreviation
       t.string :bureau

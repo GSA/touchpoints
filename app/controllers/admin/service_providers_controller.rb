@@ -44,6 +44,16 @@ class Admin::ServiceProvidersController < AdminController
     end
 
     def service_provider_params
-      params.require(:service_provider).permit(:organization_id, :name, :description, :notes, :department, :department_abbreviation, :bureau, :bureau_abbreviation)
+      params.require(:service_provider).permit(
+        :organization_id,
+        :name,
+        :description,
+        :notes,
+        :slug,
+        :department,
+        :department_abbreviation,
+        :bureau,
+        :bureau_abbreviation,
+      )
     end
 end

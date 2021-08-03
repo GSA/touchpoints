@@ -239,6 +239,7 @@ ActiveRecord::Schema.define(version: 2021_08_02_214747) do
     t.string "name"
     t.text "description"
     t.text "notes"
+    t.string "slug"
     t.string "department"
     t.string "department_abbreviation"
     t.string "bureau"

@@ -11,10 +11,6 @@
     <tr>
       <th>Organization</th>
       <th>Name</th>
-      <th>Department</th>
-      <th>Department abbreviation</th>
-      <th>Bureau</th>
-      <th>Bureau abbreviation</th>
     </tr>
   </thead>
 
@@ -23,10 +19,6 @@
       <tr>
         <td><%= service_provider.organization.name %></td>
         <td><%= link_to service_provider.name, admin_service_provider_path(service_provider) %></td>
-        <td><%= service_provider.department %></td>
-        <td><%= service_provider.department_abbreviation %></td>
-        <td><%= service_provider.bureau %></td>
-        <td><%= service_provider.bureau_abbreviation %></td>
       </tr>
     <% end %>
   </tbody>
