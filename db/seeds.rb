@@ -325,6 +325,30 @@ admin_emails.each do |email|
 end
 
 
+service_provider_1 = ServiceProvider.create({
+  organization: example_gov,
+  name: "Example HISP",
+  description: "Description for an example HISP",
+  notes: "notes for example HISP",
+  department: "Example Department",
+  department_abbreviation: "dept",
+  bureau: "Example Bureau",
+  bureau_abbreviation: "bureau",
+  slug: "dept-example",
+})
+
+service_provider_2 = ServiceProvider.create({
+  organization: Organization.first,
+  name: "GSA High Impact Service Provider - USA.gov",
+  description: "A Description of the USA.gov HISP",
+  notes: "notes on the usa.gov HISP",
+  department: "General Services Administration",
+  department_abbreviation: "gsa",
+  bureau: "Technology Transformation Services",
+  bureau_abbreviation: "tts",
+  slug: "gsa-usagov",
+})
+
 ## Services
 
 service_1 = Service.create({
@@ -339,21 +363,25 @@ service_1 = Service.create({
   service_abbreviation: "uspto",
   service_slug: "doc-trademarks",
   url: "https://uspto.gov/trademarks",
+  service_provider: service_provider_1,
 })
 service_2 = Service.create({
   name: "IRS",
   organization: Organization.first,
   hisp: true,
+  service_provider: service_provider_2,
 })
 service_3 = Service.create({
   name: "HUD",
   organization: Organization.first,
   hisp: true,
+  service_provider: service_provider_2,
 })
 service_4 = Service.create({
   name: "Touchpoints",
   organization: Organization.first,
   hisp: false,
+  service_provider: nil,
 })
 stage_before = ServiceStage.create({
   name: "Before",
@@ -417,6 +445,7 @@ data_collection = Collection.create!({
   start_date: "2021-01-01",
   end_date: "2021-03-31",
   rating: "TRUE",
+  service_provider: service_provider_1,
 })
 
 data_collection = Collection.create!({
@@ -429,6 +458,7 @@ data_collection = Collection.create!({
   start_date: "2021-04-01",
   end_date: "2021-06-30",
   rating: "FALSE",
+  service_provider: service_provider_1,
 })
 
 data_collection = Collection.create!({
@@ -441,6 +471,7 @@ data_collection = Collection.create!({
   start_date: "2021-07-01",
   end_date: "2021-09-30",
   rating: "PARTIAL",
+  service_provider: service_provider_2,
 })
 
 OmbCxReportingCollection.create!({

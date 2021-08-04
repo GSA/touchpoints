@@ -1,0 +1,29 @@
+<% content_for :navigation_title do %>
+  Service Providers
+  <%= link_to new_admin_service_path, class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-plus-circle"></i>
+    New Service Provider
+  <% end %>
+<% end %>
+
+<table class="usa-table">
+  <thead>
+    <tr>
+      <th>Organization</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @service_providers.each do |service_provider| %>
+      <tr>
+        <td><%= service_provider.organization.name %></td>
+        <td><%= link_to service_provider.name, admin_service_provider_path(service_provider) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p>
+  <%= link_to 'New Service Provider', new_admin_service_provider_path, class: "usa-button" %>
+</p>

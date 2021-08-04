@@ -15,7 +15,7 @@ require 'rails_helper'
 RSpec.describe Admin::CollectionsController, type: :controller do
 
  let(:organization) { FactoryBot.create(:organization) }
- let(:service) { FactoryBot.create(:service, organization: organization) }
+ let(:service_provider) { FactoryBot.create(:service_provider, organization: organization) }
  let(:another_organization) { FactoryBot.create(:organization, :another) }
  let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
  let(:user) { FactoryBot.create(:user, organization: another_organization) }
@@ -23,7 +23,7 @@ RSpec.describe Admin::CollectionsController, type: :controller do
  let(:valid_session) { {} }
 
  let(:valid_attributes) {
-   FactoryBot.build(:collection, organization: organization, user: admin, service: service).attributes
+   FactoryBot.build(:collection, organization: organization, user: admin, service_provider: service_provider).attributes
  }
 
  let(:invalid_attributes) {
@@ -42,7 +42,7 @@ RSpec.describe Admin::CollectionsController, type: :controller do
    end
 
    describe "GET /show" do
-     let(:collection) { FactoryBot.create(:collection, organization: another_organization, user: user2, service: service) }
+     let(:collection) { FactoryBot.create(:collection, organization: another_organization, user: user2, service_provider: service_provider) }
 
      it "renders a successful response" do
        get :index, params: {}, session: valid_session
@@ -52,7 +52,7 @@ RSpec.describe Admin::CollectionsController, type: :controller do
 
    context "for a Collection from another organization" do
      describe "GET /show" do
-       let!(:collection) { FactoryBot.create(:collection, organization: organization, user: admin, service: service) }
+       let!(:collection) { FactoryBot.create(:collection, organization: organization, user: admin, service_provider: service_provider) }
 
        it "renders RecordNotFound" do
          expect {

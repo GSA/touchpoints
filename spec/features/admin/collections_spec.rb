@@ -2,13 +2,13 @@
 
 feature "Data Collections", js: true do
   let(:organization) { FactoryBot.create(:organization) }
-  let!(:service) { FactoryBot.create(:service, organization: organization, hisp: false) }
+  let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization) }
   let(:another_organization) { FactoryBot.create(:organization, :another) }
-  let!(:another_service) { FactoryBot.create(:service, organization: another_organization, hisp: true) }
+  let!(:another_service_provider) { FactoryBot.create(:service_provider, organization: another_organization, name: "Another HISP") }
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
   let(:user) { FactoryBot.create(:user, organization: another_organization) }
-  let!(:collection) { FactoryBot.create(:collection, organization: another_organization, user: user, service: another_service) }
-  let!(:admin_collection) { FactoryBot.create(:collection, organization: organization, user: admin, service: service) }
+  let!(:collection) { FactoryBot.create(:collection, organization: another_organization, user: user, service_provider: another_service_provider) }
+  let!(:admin_collection) { FactoryBot.create(:collection, organization: organization, user: admin, service_provider: service_provider) }
 
   context "as an Admin" do
     before do
@@ -51,7 +51,7 @@ feature "Data Collections", js: true do
       context "with valid parameters" do
         before do
           select(organization.name, from: "collection_organization_id")
-          select(service.name, from: "collection_service_id")
+          select(service_provider.name, from: "collection_service_provider_id")
           click_on "Create Collection"
         end
 
@@ -117,7 +117,7 @@ feature "Data Collections", js: true do
     end
 
     describe "GET /show" do
-      let(:collection) { FactoryBot.create(:collection, organization: another_organization, user: user, service: another_service) }
+      let(:collection) { FactoryBot.create(:collection, organization: another_organization, user: user, service_provider: another_service_provider) }
 
       it "renders a successful response" do
         visit admin_collection_path(collection)

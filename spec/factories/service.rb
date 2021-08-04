@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :service do
-    name { "HISP Service" }
+    name { "Service to deliver to customer" }
     organization
   end
 end

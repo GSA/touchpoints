@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_29_025142) do
+ActiveRecord::Schema.define(version: 2021_08_02_214747) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2021_07_29_025142) do
     t.string "reflection"
     t.integer "service_id"
     t.string "rating"
+    t.integer "service_provider_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -193,6 +194,7 @@ ActiveRecord::Schema.define(version: 2021_07_29_025142) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "operational_metrics"
+    t.integer "service_id"
     t.index ["collection_id"], name: "index_omb_cx_reporting_collections_on_collection_id"
   end
 
@@ -232,6 +234,20 @@ ActiveRecord::Schema.define(version: 2021_07_29_025142) do
     t.string "help_text"
   end
 
+  create_table "service_providers", force: :cascade do |t|
+    t.integer "organization_id"
+    t.string "name"
+    t.text "description"
+    t.text "notes"
+    t.string "slug"
+    t.string "department"
+    t.string "department_abbreviation"
+    t.string "bureau"
+    t.string "bureau_abbreviation"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "service_stage_barriers", force: :cascade do |t|
     t.integer "service_stage_id"
     t.integer "barrier_id"
@@ -265,6 +281,7 @@ ActiveRecord::Schema.define(version: 2021_07_29_025142) do
     t.string "service_abbreviation", default: ""
     t.string "service_slug", default: ""
     t.string "url", default: ""
+    t.integer "service_provider_id"
   end
 
   create_table "submissions", force: :cascade do |t|

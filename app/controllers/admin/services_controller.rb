@@ -56,6 +56,8 @@ class Admin::ServicesController < AdminController
 
     def service_params
       params.require(:service).permit(
+        :organization_id,
+        :service_provider_id,
         :bureau,
         :bureau_abbreviation,
         :department,
@@ -63,7 +65,6 @@ class Admin::ServicesController < AdminController
         :hisp,
         :name,
         :notes,
-        :organization_id,
         :service_abbreviation,
         :service_slug,
         :url,
