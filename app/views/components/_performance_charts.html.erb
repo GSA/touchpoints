@@ -6,18 +6,20 @@
   }
 </style>
 
-<a id="cx-charts-<%= collection.service.service_slug %>"></a>
+<% @slug = collection.try(:service).try(:service_slug) || "FIXME" %>
+
+<a id="cx-charts-<%= @slug %>"></a>
 
 <div class="usa-grid">
   <div class="usa-width-full">
     <div style="width:100%;">
-      <canvas id="canvas-q<%= collection.quarter %>-<%= collection.service.service_slug %>"></canvas>
+      <canvas id="canvas-q<%= collection.quarter %>-<%= @slug %>"></canvas>
     </div>
   </div>
 </div>
 
 <script>
-  chartConfigs["q<%= collection.quarter %>-<%= collection.service.service_slug %>"] = {
+  chartConfigs["q<%= collection.quarter %>-<%= @slug %>"] = {
     type: 'bar',
     data: {
       labels: [
@@ -32,7 +34,7 @@
       datasets: [
         <% collection.omb_cx_reporting_collections.each_with_index do |omb_cx_reporting_collection, i| %>
           {
-            label: '<%= omb_cx_reporting_collection.service_provided %>',
+            label: '<%= omb_cx_reporting_collection.service ? omb_cx_reporting_collection.service.name : "LABEL" %>',
             data: [
               <%= omb_cx_reporting_collection.q1_point_scale %>,
               <%= omb_cx_reporting_collection.q2_point_scale %>,
@@ -85,7 +87,7 @@
   };
 
   window.addEventListener("load", function() {
-    var ctx2 = document.getElementById('canvas-q<%= collection.quarter %>-<%= collection.service.service_slug %>').getContext('2d');
-    cxCharts["<%= collection.service.service_slug %>"] = new Chart(ctx2, chartConfigs["q<%= collection.quarter %>-<%= collection.service.service_slug %>"]);
+    var ctx2 = document.getElementById('canvas-q<%= collection.quarter %>-<%= @slug %>').getContext('2d');
+    cxCharts["<%= @slug %>"] = new Chart(ctx2, chartConfigs["q<%= collection.quarter %>-<%= @slug %>"]);
   });
 </script>

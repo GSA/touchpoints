@@ -2,7 +2,8 @@ class Collection < ApplicationRecord
   include AASM
 
   belongs_to :organization
-  belongs_to :service
+  belongs_to :service, optional: true
+  belongs_to :service_provider
   belongs_to :user
   has_many :omb_cx_reporting_collections
 
@@ -17,7 +18,8 @@ class Collection < ApplicationRecord
     if self.name.include?("CX Quarterly")
       OmbCxReportingCollection.create!({
         collection: self,
-        service_provided: "Description of your service"
+        service_provided: "Description of your service",
+        service: self.service
       })
     end
   end
@@ -69,6 +71,7 @@ class Collection < ApplicationRecord
     new_collection.name = "Copy of #{self.name}"
     new_collection.start_date = nil
     new_collection.end_date = nil
+    new_collection.rating = nil
     new_collection.aasm_state = :draft
     new_collection.save
 

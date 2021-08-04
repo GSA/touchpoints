@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :collection do
     organization
     user
-    service
+    service_provider
     name { "Test Data Collection" }
     start_date { "2021-03-01" }
     end_date { "2021-06-30" }
