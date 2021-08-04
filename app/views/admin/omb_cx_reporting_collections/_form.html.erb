@@ -17,6 +17,10 @@
     <%= form.select :collection_id, options_for_select(@collections.map { |c| ["#{c.organization.name} - FY#{c.year}-Q#{c.quarter} #{c.name}", c.id]}, omb_cx_reporting_collection.collection_id), { include_blank: true }, class: "usa-select" %>
   </div>
   <div class="field">
+    <%= form.label :service_id, class: "usa-label" %>
+    <%= form.select :service_id, Service.all.map { |h| ["#{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, class: "usa-select" %>
+  </div>
+  <div class="field">
     <%= form.label :service_provided, class: "usa-label" %>
     <%= form.text_field :service_provided, class: "usa-input", placeholder: "Description of the service provided" %>
   </div>

@@ -34,7 +34,7 @@
         <td><%= link_to service.name, admin_service_path(service) %></td>
         <td><%= link_to service.service_stages.count, admin_service_service_stages_path(service) %></td>
         <td>
-          <% if service.hisp? %>
+          <% if service.service_provider %>
             <span class="usa-tag bg-cyan">HISP</span>
           <% end %>
         </td>

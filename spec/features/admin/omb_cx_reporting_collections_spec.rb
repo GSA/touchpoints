@@ -3,11 +3,12 @@ require 'rails_helper'
 RSpec.describe "/omb_cx_reporting_collections", js: true do
 
   let(:organization) { FactoryBot.create(:organization) }
-  let!(:service) { FactoryBot.create(:service, organization: organization) }
+  let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization) }
+  let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider) }
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
   let(:user) { FactoryBot.create(:user, organization: organization) }
-  let!(:collection) { FactoryBot.create(:collection, organization: organization, user: user, service: service) }
-  let(:omb_cx_reporting_collection) { FactoryBot.create(:omb_cx_reporting_collection, collection: collection) }
+  let!(:collection) { FactoryBot.create(:collection, organization: organization, user: user, service_provider: service_provider) }
+  let(:omb_cx_reporting_collection) { FactoryBot.create(:omb_cx_reporting_collection, collection: collection, service: service) }
 
   before do
     login_as(admin)
@@ -47,6 +48,7 @@ RSpec.describe "/omb_cx_reporting_collections", js: true do
     describe "" do
       before do
         select(collection.name, from: "omb_cx_reporting_collection_collection_id")
+        select(service.name, from: "omb_cx_reporting_collection_service_id")
         fill_in :omb_cx_reporting_collection_service_provided, with: "Description of your service"
         click_on "Update CX Service Detail Report"
       end

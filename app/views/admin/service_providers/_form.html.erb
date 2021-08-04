@@ -1,0 +1,67 @@
+<%= form_with(model: service_provider, url: (service_provider.persisted? ? admin_service_provider_path(service_provider) : admin_service_providers_path)) do |form| %>
+  <% if service_provider.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(service_provider.errors.count, "error") %> prohibited this service_provider from being saved:</h2>
+
+      <ul>
+        <% service_provider.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid-row grid-gap-lg">
+    <div class="grid-col-6">
+      <div class="field">
+        <%= form.label :organization_id, class: "usa-label" %>
+        <%= form.select :organization_id, options_for_select(organization_dropdown_options, service_provider.organization_id), { prompt: "Which Organization?", include_blank: true }, { class: "usa-select" } %>
+      </div>
+
+      <div class="field">
+        <%= form.label :name, class: "usa-label" %>
+        <%= form.text_field :name, class: "usa-input" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :description, class: "usa-label" %>
+        <%= form.text_area :description, class: "usa-textarea" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :notes, class: "usa-label" %>
+        <%= form.text_area :notes, class: "usa-textarea" %>
+      </div>
+    </div>
+    <div class="grid-col-6">
+      <div class="field">
+        <%= form.label :department, class: "usa-label" %>
+        <%= form.text_field :department, class: "usa-input" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :department_abbreviation, class: "usa-label" %>
+        <%= form.text_field :department_abbreviation, class: "usa-input" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :bureau, class: "usa-label" %>
+        <%= form.text_field :bureau, class: "usa-input" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :bureau_abbreviation, class: "usa-label" %>
+        <%= form.text_field :bureau_abbreviation, class: "usa-input" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :slug, class: "usa-label" %>
+        <%= form.text_field :slug, class: "usa-input" %>
+      </div>
+    </div>
+  </div>
+
+  <p class="actions">
+    <%= form.submit class: "usa-button" %>
+  </p>
+<% end %>
