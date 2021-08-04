@@ -1,6 +1,6 @@
 class OmbCxReportingCollection < ApplicationRecord
   belongs_to :collection
-  belongs_to :service
+  belongs_to :service, optional: true
 
   validates :service_provided, presence: true
 

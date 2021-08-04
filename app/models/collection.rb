@@ -18,7 +18,8 @@ class Collection < ApplicationRecord
     if self.name.include?("CX Quarterly")
       OmbCxReportingCollection.create!({
         collection: self,
-        service_provided: "Description of your service"
+        service_provided: "Description of your service",
+        service: self.service
       })
     end
   end

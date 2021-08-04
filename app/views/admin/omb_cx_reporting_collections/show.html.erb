@@ -43,7 +43,7 @@
             Service Provided
           </strong>
           <br>
-          <%= @omb_cx_reporting_collection.service_provider.name %>
+          <%= @omb_cx_reporting_collection.try(:service).try(:name) %>
         </div>
       </p>
     </div>

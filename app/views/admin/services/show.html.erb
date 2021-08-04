@@ -23,6 +23,11 @@
       <%= @service.organization.name %>
     </p>
     <p>
+      <strong>Service Provider</strong>
+      <br>
+      <%= @service.service_provider ? link_to_if(admin_permissions?, @service.service_provider.name, admin_service_provider_path(@service.service_provider), target: "_blank", rel: "noopener") : nil %>
+    </p>
+    <p>
       <strong>Name</strong>
       <br>
       <%= @service.name %>

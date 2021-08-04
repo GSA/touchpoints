@@ -60,6 +60,7 @@ class Admin::OmbCxReportingCollectionsController < AdminController
     def omb_cx_reporting_collection_params
       params.require(:omb_cx_reporting_collection).permit(
         :collection_id,
+        :service_id,
         :service_provided,
         :transaction_point,
         :channel,
