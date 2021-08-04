@@ -187,7 +187,7 @@
     <% end %>
 
     <p>
-      <%= link_to new_admin_collection_path(organization_id: @service.organization, service_provider_id: @service.service_provider.id), class: "usa-button usa-button--outline" do %>
+      <%= link_to new_admin_collection_path(organization_id: @service.organization_id, service_provider_id: @service.service_provider_id), class: "usa-button usa-button--outline" do %>
         <i class="fa fa-plus"></i>
         New Data Collection
       <% end %>
