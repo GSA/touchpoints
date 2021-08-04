@@ -35,13 +35,14 @@ class Admin::WebsitesController < AdminController
   end
 
   def collection_preview
+    ensure_admin
     @websites = Website.active.order(:site_owner_email, :domain)
   end
 
   def collection_request
-    UserMailer.webmaster_data_collection(@website.site_owner_email, @website).deliver_later
-    UserMailer.webmaster_data_collection(@website.contact_email, @website).deliver_later if @website.contact_email.present?
-    UserMailer.webmaster_data_collection(current_user.email, @website).deliver_later
+    UserMailer.website_data_collection(@website.site_owner_email, @website).deliver_later if @website.site_owner_email.present?
+    UserMailer.website_data_collection(@website.contact_email, @website).deliver_later if @website.contact_email.present?
+    UserMailer.website_data_collection(current_user.email, @website).deliver_later
     redirect_to admin_websites_url, notice: "Website data collection request was successfully sent for #{@website.domain}"
   end
 
