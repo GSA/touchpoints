@@ -23,7 +23,7 @@
 
   <div class="field">
     <%= form.label :service_id, class: "usa-label" %>
-    <%= form.select :service_id, options_for_select(Service.all.map { |s| [s.name, s.id] }), {}, { class: "usa-select" } %>
+    <%= form.select :service_id, options_for_select(Service.all.includes(:organization).order("organizations.name", :name).map { |s| ["#{s.organization.name} - #{s.name}", s.id] }), {}, { class: "usa-select" } %>
   </div>
 
   <div class="field">
