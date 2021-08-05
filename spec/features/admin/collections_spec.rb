@@ -3,6 +3,7 @@
 feature "Data Collections", js: true do
   let(:organization) { FactoryBot.create(:organization) }
   let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization) }
+  let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, hisp: true) }
   let(:another_organization) { FactoryBot.create(:organization, :another) }
   let!(:another_service_provider) { FactoryBot.create(:service_provider, organization: another_organization, name: "Another HISP") }
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
@@ -52,6 +53,7 @@ feature "Data Collections", js: true do
         before do
           select(organization.name, from: "collection_organization_id")
           select(service_provider.name, from: "collection_service_provider_id")
+          select(service.name, from: "collection_service_id")
           click_on "Create Collection"
         end
 
