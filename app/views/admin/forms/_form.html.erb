@@ -175,12 +175,6 @@
   <% end %>
   <p>
     <%= f.submit (form.persisted? ? "Update Survey" : "Create Survey"), class: "usa-button" %>
-  <% if form.persisted? %>
-    <%= link_to admin_form_path(form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" do %>
-      <i class="fas fa-trash"></i>
-      Delete Survey
-    <% end %>
-  <% end %>
   </p>
 <% end %>
 

@@ -373,32 +373,14 @@ feature "Forms", js: true do
         end
       end
 
-      context "Edit Form page" do
+      context "Show Form Page Delete Action" do
         let!(:form) { FactoryBot.create(:form, :custom, organization: organization, user: admin) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
 
         before do
           login_as(admin)
-          visit edit_admin_form_path(form)
-        end
-
-        describe "editing a Form definition" do
-          before do
-            fill_in "form_name", with: "Updated Form Name"
-            click_on "Update Survey"
-          end
-
-          it "can edit existing Form" do
-            expect(page).to have_content("Survey was successfully updated.")
-            expect(page.current_path).to eq(admin_form_path(form))
-            expect(page).to have_content("Updated Form Name")
-          end
-        end
-
-        describe "modifying Form Sections" do
-          it "cannot delete the only remaining form section" do
-            expect(page).to_not have_content("Delete Form Section")
-          end
+          form.archive!
+          visit admin_form_path(form)
         end
 
         describe "delete a Form" do
@@ -424,6 +406,35 @@ feature "Forms", js: true do
             it "cannot delete existing Form" do
               expect(page).to have_content("This form cannot be deleted because it has responses")
             end
+          end
+        end
+      end
+
+      context "Edit Form page" do
+        let!(:form) { FactoryBot.create(:form, :custom, organization: organization, user: admin) }
+        let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
+
+        before do
+          login_as(admin)
+          visit edit_admin_form_path(form)
+        end
+
+        describe "editing a Form definition" do
+          before do
+            fill_in "form_name", with: "Updated Form Name"
+            click_on "Update Survey"
+          end
+
+          it "can edit existing Form" do
+            expect(page).to have_content("Survey was successfully updated.")
+            expect(page.current_path).to eq(admin_form_path(form))
+            expect(page).to have_content("Updated Form Name")
+          end
+        end
+
+        describe "modifying Form Sections" do
+          it "cannot delete the only remaining form section" do
+            expect(page).to_not have_content("Delete Form Section")
           end
         end
 
@@ -968,7 +979,10 @@ feature "Forms", js: true do
     end
   end
 
-  context "form owner with Form Manager permissions" do
+ context "Form owner with Form Manager permissions Delete Action" do
+    let!(:form) { FactoryBot.create(:form, :custom, organization: organization, user: admin) }
+    let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
+
     let(:user) { FactoryBot.create(:user, organization: organization) }
     let(:form) { FactoryBot.create(:form, :custom, organization: organization, user: user) }
 
@@ -978,18 +992,8 @@ feature "Forms", js: true do
 
     before do
       login_as(another_user)
-      visit edit_admin_form_path(form)
-    end
-
-    it "can edit form" do
-      expect(page.current_path).to eq(edit_admin_form_path(form))
-      expect(page).to have_content("Editing Survey")
-    end
-
-    it "regression: edit does not set the Organization to the user's org" do
-      click_on "Update Survey"
-      expect(page).to have_content("Organization")
-      expect(page).to have_content("Example.gov")
+      form.archive!
+      visit admin_form_path(form)
     end
 
     describe "can delete a Form" do
@@ -1017,6 +1021,33 @@ feature "Forms", js: true do
         end
       end
     end
+  end
+
+
+  context "form owner with Form Manager permissions" do
+    let(:user) { FactoryBot.create(:user, organization: organization) }
+    let(:form) { FactoryBot.create(:form, :custom, organization: organization, user: user) }
+
+    let(:another_organization) { FactoryBot.create(:organization, :another) }
+    let(:another_user) { FactoryBot.create(:user, email: "user@another.gov", organization: another_organization) }
+    let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form: form, user: another_user) }
+
+    before do
+      login_as(another_user)
+      visit edit_admin_form_path(form)
+    end
+
+    it "can edit form" do
+      expect(page.current_path).to eq(edit_admin_form_path(form))
+      expect(page).to have_content("Editing Survey")
+    end
+
+    it "regression: edit does not set the Organization to the user's org" do
+      click_on "Update Survey"
+      expect(page).to have_content("Organization")
+      expect(page).to have_content("Example.gov")
+    end
+
   end
 
   context "user without Form Manager permissions" do
