@@ -1,0 +1,30 @@
+<div class="usa-accordion usa-accordion--bordered">
+  <h4 class="usa-accordion__heading">
+    <button
+      class="usa-accordion__button"
+      aria-expanded="false"
+      aria-controls="cx-summary-data"
+    >
+      cx-summary-data.csv
+    </button>
+  </h4>
+  <div id="cx-summary-data" class="usa-accordion__content">
+    <h4>
+      cx-summary-data.csv
+    </h4>
+    <p>
+      hisp_service_id,year,quarter,touchpoint,surveys_offered_count,response_count,satisfied,trust,effective,easy,efficient,transparent,employee
+      <br>
+      <% ServiceProvider.all.includes(:organization).order("organizations.name", :name).each do |service_provider| %>
+        <% service_provider.services.includes(:organization).order("organizations.name", :name).each do |service| %>
+          <% service.collections.order(:year, :quarter).each do |collection| %>
+            <% collection.omb_cx_reporting_collections.includes(:service).order("services.name").each do |omb_cx_reporting_collection| %>
+              <%= omb_cx_reporting_collection.collection.organization.name %>,<%= omb_cx_reporting_collection.collection.year %>,<%= omb_cx_reporting_collection.collection.quarter %>,<%= omb_cx_reporting_collection.channel %>,<%= omb_cx_reporting_collection.volume_of_customers %>,<%= omb_cx_reporting_collection.volume_of_respondents %>,<%= omb_cx_reporting_collection.q1_point_scale %>,<%= omb_cx_reporting_collection.q2_point_scale %>,<%= omb_cx_reporting_collection.q3_point_scale %>,<%= omb_cx_reporting_collection.q4_point_scale %>,<%= omb_cx_reporting_collection.q5_point_scale %>,<%= omb_cx_reporting_collection.q6_point_scale %>,<%= omb_cx_reporting_collection.q7_point_scale %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </p>
+  </div>
+</div>
+<br>
