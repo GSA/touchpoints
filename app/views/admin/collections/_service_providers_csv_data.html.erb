@@ -1,0 +1,45 @@
+<div class="usa-accordion usa-accordion--bordered">
+  <h4 class="usa-accordion__heading">
+    <button
+      class="usa-accordion__button"
+      aria-expanded="false"
+      aria-controls="csv-data"
+    >
+      HISPS.csv
+    </button>
+  </h4>
+  <div id="csv-data" class="usa-accordion__content">
+    <div>
+      <p>
+        This .csv data is used to populate the list of HISPs on performance.gov.
+      </p>
+      <p>
+        <% header_fields = [
+            :department,
+            :department_abbreviation,
+            :service_provider_id,
+            :name,
+            :description,
+            :notes
+          ]
+        %>
+        <%= header_fields.join(",") %>
+        <br>
+        <% ServiceProvider.includes(:organization).order("organizations.name", :name).each do |hisp| %>
+          <% row_fields = [
+              hisp.organization.name,
+              hisp.organization.abbreviation.downcase,
+              hisp.slug,
+              hisp.name,
+              "\"#{hisp.description}\"",
+              "\"#{hisp.notes}\""
+            ]
+          %>
+          <%= row_fields.join(",") %>
+          <br>
+        <% end %>
+      </p>
+    </div>
+  </div>
+</div>
+<br>
