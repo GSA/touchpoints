@@ -72,13 +72,26 @@
     <%= @organization.notes %>
   </p>
 </div>
+<div class="service-providers well">
+  <h3>
+    <%= @organization.service_providers.size %> Service Providers
+  </h3>
+
+  <ul class="usa-list">
+  <% @organization.service_providers.order(:name).each do |service| %>
+    <li>
+      <%= link_to service.name, admin_service_provider_path(service) %>
+    </li>
+  <% end %>
+  </ul>
+</div>
 <div class="services well">
   <h3>
     <%= @organization.services.size %> Services
   </h3>
 
   <ul class="usa-list">
-  <% @organization.services.each do |service| %>
+  <% @organization.services.order(:name).each do |service| %>
     <li>
       <%= link_to service.name, admin_service_path(service) %>
     </li>
@@ -98,26 +111,13 @@
   <% end %>
   </ul>
 </div>
-<div class="service-providers well">
-  <h3>
-    <%= @organization.service_providers.size %> Service Providers
-  </h3>
-
-  <ul class="usa-list">
-  <% @organization.service_providers.each do |service| %>
-    <li>
-      <%= link_to service.name, admin_service_provider_path(service) %>
-    </li>
-  <% end %>
-  </ul>
-</div>
 <div class="collections well">
   <h3>
     <%= @organization.collections.size %> Collections
   </h3>
 
   <ul class="usa-list">
-  <% @organization.collections.each do |collection| %>
+  <% @organization.collections.order(:year, :quarter).each do |collection| %>
     <li>
       <%= link_to collection.name, admin_collection_path(collection) %>
     </li>
@@ -130,7 +130,7 @@
   </h3>
 
   <ul class="usa-list">
-  <% @organization.users.each do |user| %>
+  <% @organization.users.order(:email).each do |user| %>
     <li>
       <%= link_to user.email, admin_user_path(user) %>
     </li>
