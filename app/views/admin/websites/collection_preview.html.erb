@@ -16,7 +16,7 @@ Website Data Collection Preview
 			<tr>
 				<td><%= website.site_owner_email %></td>
 				<td><%= website.domain %></td>
-				<td><%= Website.column_names.select { | cn | website.send(cn).blank? } %></td>
+				<td><%= website.blankFields %></td>
 				<td><%= link_to 'Send Website Data Collection Request', "/admin/websites/#{website.id}/collection_request/", data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline" %>
 			</tr>
 		<% end %>

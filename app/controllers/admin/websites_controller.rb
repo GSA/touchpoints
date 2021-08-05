@@ -40,9 +40,12 @@ class Admin::WebsitesController < AdminController
   end
 
   def collection_request
-    UserMailer.website_data_collection(@website.site_owner_email, @website).deliver_later if @website.site_owner_email.present?
-    UserMailer.website_data_collection(@website.contact_email, @website).deliver_later if @website.contact_email.present?
-    UserMailer.website_data_collection(current_user.email, @website).deliver_later
+    # fetch all websites for site owner
+    @websites = Website.active.where(site_owner_email: @website.site_owner_email)
+    # only include websites which are missing data
+    @websites = @websites.select { | ws | ws.requiresDataCollection? }
+    UserMailer.website_data_collection(@website.site_owner_email, @websites).deliver_later if @website.site_owner_email.present?
+    UserMailer.website_data_collection(current_user.email, @websites).deliver_later
     redirect_to admin_websites_url, notice: "Website data collection request was successfully sent for #{@website.domain}"
   end
 
