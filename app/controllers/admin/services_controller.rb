@@ -7,7 +7,7 @@ class Admin::ServicesController < AdminController
   ]
 
   def index
-    @services = Service.all.includes(:organization).order("organizations.name")
+    @services = Service.all.includes(:organization).order("organizations.name", :name)
   end
 
   def show

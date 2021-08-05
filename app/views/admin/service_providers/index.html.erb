@@ -27,3 +27,5 @@
 <p>
   <%= link_to 'New Service Provider', new_admin_service_provider_path, class: "usa-button" %>
 </p>
+
+<%= render 'admin/collections/service_providers_csv_data' if admin_permissions? %>
