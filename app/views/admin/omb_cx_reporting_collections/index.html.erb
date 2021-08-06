@@ -16,8 +16,9 @@
 <table class="usa-table">
   <thead>
     <tr>
-      <th>Collection name</th>
-      <th>Service provided</th>
+      <th>Collection</th>
+      <th>Service</th>
+      <th>CX Reporting Collection name</th>
     </tr>
   </thead>
 
@@ -25,10 +26,13 @@
     <% @omb_cx_reporting_collections.each do |omb_cx_reporting_collection| %>
       <tr>
         <td>
-          <%= link_to omb_cx_reporting_collection.collection.name, admin_omb_cx_reporting_collection_path(omb_cx_reporting_collection) %>
+          <%= omb_cx_reporting_collection.service.service_provider.name %>
         </td>
         <td>
-          <%= omb_cx_reporting_collection.service_provider.name %>
+          <%= omb_cx_reporting_collection.service.name %>
+        </td>
+        <td>
+          <%= link_to omb_cx_reporting_collection.collection.name, admin_omb_cx_reporting_collection_path(omb_cx_reporting_collection) %>
         </td>
       </tr>
     <% end %>
