@@ -54,6 +54,7 @@ class Admin::ServiceProvidersController < AdminController
         :department_abbreviation,
         :bureau,
         :bureau_abbreviation,
+        :new,
       )
     end
 end
