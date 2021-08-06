@@ -476,6 +476,7 @@ data_collection = Collection.create!({
 
 OmbCxReportingCollection.create!({
   collection: data_collection,
+  service: service_1,
   service_provided: "Test CX Quarterly Reporting",
   q1_text: "Question 1",
   q1_1: rand(1000),
