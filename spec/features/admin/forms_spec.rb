@@ -1229,6 +1229,9 @@ feature "Forms", js: true do
           end
 
           it "creates the question in the correct Form Section" do
+            # race condition can occur when visit returns immediately before all page sections are rendered
+            # question_3 only exists in the 2nd form section
+            find('#question_3') # will wait until element with id question_3 is found, or a timeout occurs
             within(find_all(".form-section-div").first) do
               expect(page).to have_content("Question in Form Section 1")
             end
