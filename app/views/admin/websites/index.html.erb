@@ -54,6 +54,9 @@
 
 <p>
   <%= link_to 'Export all websites to CSV', export_csv_admin_websites_path, class: "usa-button usa-button--outline" %>
+  <% if admin_permissions? %>
+    <%= link_to 'Preview Website Data Collection', collection_preview_admin_websites_path, class: "usa-button usa-button--outline" %>
+  <% end %>
 </p>
 
 <script>
