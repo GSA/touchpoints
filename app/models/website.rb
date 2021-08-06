@@ -43,6 +43,14 @@ class Website < ApplicationRecord
     user.admin? || self.contact_email == user.email || self.site_owner_email == user.email
   end
 
+  def blankFields
+    Website.column_names.select { | cn | self.send(cn).blank? }
+  end
+
+  def requiresDataCollection?
+    blankFields.size > 0
+  end
+
   def self.to_csv
     websites = Website.all
     header_attributes = websites.first.attributes.keys || []

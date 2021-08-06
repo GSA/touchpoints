@@ -10,19 +10,7 @@ class Collection < ApplicationRecord
   validates :year, presence: true
   validates :quarter, presence: true
 
-  after_create :generate_supporting_elements
-
   validates :name, presence: true
-
-  def generate_supporting_elements
-    if self.name.include?("CX Quarterly")
-      OmbCxReportingCollection.create!({
-        collection: self,
-        service_provided: "Description of your service",
-        service: self.service
-      })
-    end
-  end
 
   def bureau
     "bureau"
