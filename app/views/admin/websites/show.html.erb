@@ -36,14 +36,14 @@
     </h3>
     <div class="grid-row">
       <div class="grid-col-6">
-        <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
+        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
           Parent domain
         </label>
         <%#= @website.parent_domain %>
         <%= @website.domain.split(".")[-2..-1].join(".") %>
       </div>
       <div class="grid-col-6">
-        <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
+        <label class="usa-label text-uppercase font-body-3xs" for="domain">
           Domain
         </label>
         <%= link_to @website.domain, "https://#{@website.domain}", target: "_blank", rel: "noopener" %>
@@ -51,13 +51,13 @@
     </div>
     <div class="grid-row">
       <div class="grid-col-6">
-        <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
+        <label class="usa-label text-uppercase font-body-3xs" for="office">
           Office
         </label>
         <%= @website.office %>
       </div>
       <div class="grid-col-6">
-        <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
+        <label class="usa-label text-uppercase font-body-3xs" for="suboffice">
           Sub-office
         </label>
         <%= @website.sub_office %>
@@ -65,14 +65,14 @@
     </div>
     <div class="grid-row">
       <div class="grid-col-6">
-        <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
+        <label class="usa-label text-uppercase font-body-3xs" for="contact_email">
           Contact email
         </label>
         <%= @website.contact_email %>
       </div>
       <div class="grid-col-6">
         <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
-          Site owner email
+          Site Manager email
         </label>
         <%= @website.site_owner_email %>
       </div>
