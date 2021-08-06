@@ -335,6 +335,7 @@ service_provider_1 = ServiceProvider.create({
   bureau: "Example Bureau",
   bureau_abbreviation: "bureau",
   slug: "example-service1",
+  new: false,
 })
 
 service_provider_2 = ServiceProvider.create({
@@ -347,6 +348,7 @@ service_provider_2 = ServiceProvider.create({
   bureau: "CX Labs",
   bureau_abbreviation: "labs",
   slug: "example-service2",
+  new: false,
 })
 
 service_provider_3 = ServiceProvider.create({
@@ -359,6 +361,7 @@ service_provider_3 = ServiceProvider.create({
   bureau: "Technology Transformation Services",
   bureau_abbreviation: "tts",
   slug: "gsa-usagov",
+  new: true,
 })
 
 ## Services

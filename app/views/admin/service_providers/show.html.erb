@@ -17,6 +17,14 @@
 
 <div class="grid-row grid-gap-md">
   <div class="grid-col-6">
+    <% if @service_provider.new? %>
+    <p>
+      <span class="usa-tag bg-primary-light">
+        New Service Provider
+      </span>
+    </p>
+    <% end %>
+
     <p>
       <strong>Organization:</strong>
       <%= link_to_if admin_permissions?, @service_provider.organization.name, admin_organization_path(@service_provider.organization) %>

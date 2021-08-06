@@ -58,6 +58,14 @@
         <%= form.label :slug, class: "usa-label" %>
         <%= form.text_field :slug, class: "usa-input" %>
       </div>
+
+      <fieldset class="usa-fieldset">
+        <legend class="usa-sr-only">New Service Provider?</legend>
+        <div class="usa-checkbox">
+          <%= form.check_box :new, class: "usa-checkbox__input" %>
+          <%= form.label :new, "New Service Provider?", class: "usa-checkbox__label" %>
+        </div>
+      </fieldset>
     </div>
   </div>
 
