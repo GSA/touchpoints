@@ -2,7 +2,6 @@ class Collection < ApplicationRecord
   include AASM
 
   belongs_to :organization
-  belongs_to :service, optional: true
   belongs_to :service_provider
   belongs_to :user
   has_many :omb_cx_reporting_collections
@@ -11,14 +10,6 @@ class Collection < ApplicationRecord
   validates :quarter, presence: true
 
   validates :name, presence: true
-
-  def bureau
-    "bureau"
-  end
-
-  def service_provided
-    "service_provided"
-  end
 
   def omb_control_number
     "omb_control_number"
