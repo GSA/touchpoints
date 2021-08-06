@@ -1,5 +1,5 @@
 class Admin::WebsitesController < AdminController
-  before_action :set_website, only: [:show, :costs, :statuscard, :edit, :update, :destroy]
+  before_action :set_website, only: [:show, :costs, :statuscard, :edit, :update, :destroy, :collection_request]
 
   def index
     if params[:all]
@@ -32,6 +32,21 @@ class Admin::WebsitesController < AdminController
   end
 
   def show
+  end
+
+  def collection_preview
+    ensure_admin
+    @websites = Website.active.order(:site_owner_email, :domain)
+  end
+
+  def collection_request
+    # fetch all websites for site owner
+    @websites = Website.active.where(site_owner_email: @website.site_owner_email)
+    # only include websites which are missing data
+    @websites = @websites.select { | ws | ws.requiresDataCollection? }
+    UserMailer.website_data_collection(@website.site_owner_email, @websites).deliver_later if @website.site_owner_email.present?
+    UserMailer.website_data_collection(current_user.email, @websites).deliver_later
+    redirect_to admin_websites_url, notice: "Website data collection request was successfully sent for #{@website.domain}"
   end
 
   def new

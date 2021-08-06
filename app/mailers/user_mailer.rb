@@ -63,6 +63,16 @@ class UserMailer < ApplicationMailer
     mail to: ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
   end
 
+  def website_data_collection(email, websites)
+    return unless email
+
+    set_logo
+    @greeting = "Hi, #{email}"
+    @email = email
+    @websites = websites
+    mail subject: "Website Data Collection Request", to: email
+  end
+
   def new_user_notification(user)
     set_logo
     @user = user
