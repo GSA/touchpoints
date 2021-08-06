@@ -334,10 +334,22 @@ service_provider_1 = ServiceProvider.create({
   department_abbreviation: "dept",
   bureau: "Example Bureau",
   bureau_abbreviation: "bureau",
-  slug: "dept-example",
+  slug: "example-service1",
 })
 
 service_provider_2 = ServiceProvider.create({
+  organization: example_gov,
+  name: "Example High Impact Service Provider - example.gov",
+  description: "A Description of the Example HISP",
+  notes: "notes on the example.gov HISP",
+  department: "Example",
+  department_abbreviation: "ex",
+  bureau: "CX Labs",
+  bureau_abbreviation: "labs",
+  slug: "example-service2",
+})
+
+service_provider_3 = ServiceProvider.create({
   organization: Organization.first,
   name: "GSA High Impact Service Provider - USA.gov",
   description: "A Description of the USA.gov HISP",
@@ -366,23 +378,30 @@ service_1 = Service.create({
   service_provider: service_provider_1,
 })
 service_2 = Service.create({
-  name: "IRS",
-  organization: Organization.first,
-  hisp: true,
+  organization: service_provider_2.organization,
   service_provider: service_provider_2,
+  name: "Example",
+  hisp: true,
 })
 service_3 = Service.create({
-  name: "HUD",
   organization: Organization.first,
-  hisp: true,
   service_provider: service_provider_2,
+  name: "HUD",
+  hisp: true,
 })
 service_4 = Service.create({
-  name: "Touchpoints",
   organization: Organization.first,
-  hisp: false,
+  service_provider: service_provider_3,
+  name: "IRS",
+  hisp: true,
+  })
+service_5 = Service.create({
+  organization: Organization.first,
   service_provider: nil,
+  name: "Touchpoints",
+  hisp: false,
 })
+
 stage_before = ServiceStage.create({
   name: "Before",
   service: service_1
@@ -395,6 +414,7 @@ stage_after = ServiceStage.create({
   name: "After",
   service: service_1
 })
+
 barrier_1 = Barrier.create({
   name: "technical"
 })
@@ -437,7 +457,7 @@ Website.create!({
 
 data_collection = Collection.create!({
   organization: Organization.first,
-  service: service_1,
+  service_provider: service_provider_1,
   user: User.all.sample,
   year: 2021,
   quarter: 2,
@@ -445,12 +465,11 @@ data_collection = Collection.create!({
   start_date: "2021-01-01",
   end_date: "2021-03-31",
   rating: "TRUE",
-  service_provider: service_provider_1,
 })
 
 data_collection = Collection.create!({
   organization: Organization.first,
-  service: service_2,
+  service_provider: service_provider_1,
   user: User.all.sample,
   year: 2021,
   quarter: 3,
@@ -458,12 +477,47 @@ data_collection = Collection.create!({
   start_date: "2021-04-01",
   end_date: "2021-06-30",
   rating: "FALSE",
-  service_provider: service_provider_1,
 })
 
 data_collection = Collection.create!({
-  organization: Organization.first,
-  service: service_3,
+  organization: example_gov,
+  service_provider: service_provider_2,
+  user: User.all.sample,
+  year: 2021,
+  quarter: 1,
+  name: "CX Quarterly Data Collection",
+  start_date: "2020-10-31",
+  end_date: "2020-12-31",
+  rating: "PARTIAL",
+})
+
+data_collection = Collection.create!({
+  organization: example_gov,
+  service_provider: service_provider_2,
+  user: User.all.sample,
+  year: 2021,
+  quarter: 2,
+  name: "CX Quarterly Data Collection",
+  start_date: "2021-01-01",
+  end_date: "2021-03-31",
+  rating: "PARTIAL",
+})
+
+data_collection = Collection.create!({
+  organization: example_gov,
+  service_provider: service_provider_2,
+  user: User.all.sample,
+  year: 2021,
+  quarter: 3,
+  name: "CX Quarterly Data Collection",
+  start_date: "2021-04-01",
+  end_date: "2021-06-30",
+  rating: "PARTIAL",
+})
+
+data_collection = Collection.create!({
+  organization: example_gov,
+  service_provider: service_provider_2,
   user: User.all.sample,
   year: 2021,
   quarter: 4,
@@ -471,8 +525,8 @@ data_collection = Collection.create!({
   start_date: "2021-07-01",
   end_date: "2021-09-30",
   rating: "PARTIAL",
-  service_provider: service_provider_2,
 })
+
 
 OmbCxReportingCollection.create!({
   collection: data_collection,

@@ -8,9 +8,9 @@
 <% end %>
 
 <p>
-  <%= link_to admin_collections_path do %>
+  <%= link_to admin_omb_cx_reporting_collections_path do %>
     <i class="fa fa-arrow-circle-left"></i>
-    Back to Data Collections
+    Back to OMB CX Reporting Collections
   <% end %>
 </p>
 
@@ -43,7 +43,7 @@
             Service Provided
           </strong>
           <br>
-          <%= @omb_cx_reporting_collection.try(:service).try(:name) %>
+          <%= link_to(@omb_cx_reporting_collection.service.name, admin_service_path(@omb_cx_reporting_collection)) %>
         </div>
       </p>
     </div>
@@ -62,6 +62,7 @@
           <strong>
             Channel
           </strong>
+          <br>
           <%= @omb_cx_reporting_collection.channel %>
         </div>
       </p>
@@ -70,6 +71,7 @@
           <strong>
             OMB Control Number
           </strong>
+          <br>
           <%= @omb_cx_reporting_collection.omb_control_number %>
         </div>
       </p>
@@ -98,6 +100,7 @@
           <strong>
             Customers provided a feedback opportunity
           </strong>
+          <br>
           <%= @omb_cx_reporting_collection.volume_of_customers_provided_survey_opportunity %>
         </div>
       </p>
@@ -106,6 +109,7 @@
           <strong>
             Volume of respondents
           </strong>
+          <br>
           <%= @omb_cx_reporting_collection.volume_of_respondents %>
         </div>
       </p>

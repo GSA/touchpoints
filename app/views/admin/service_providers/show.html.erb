@@ -79,16 +79,26 @@
   </ul>
 </div>
 
-<div class="collections well">
-  <h3>
-    <%= @service_provider.collections.size %> Data Collections
-  </h3>
-
-  <ul class="usa-list">
-  <% @service_provider.collections.each do |collection| %>
+<div class="well">
+  <h4>
+    Data Collections
+  </h4>
+  <ul>
+    <% @service_provider.collections.order(:year, :quarter).each do |c| %>
     <li>
-      <%= link_to collection.name, admin_collection_path(collection) %>
+      <%= link_to admin_collection_path(c) do %>
+        <%= c.year %>
+        <%= c.quarter %>
+        <%= c.name %>
+      <% end %>
     </li>
-  <% end %>
+    <% end %>
+
+    <p>
+      <%= link_to new_admin_collection_path(organization_id: @service_provider.organization_id, service_provider_id: @service_provider.id), class: "usa-button usa-button--outline" do %>
+        <i class="fa fa-plus"></i>
+        New Data Collection
+      <% end %>
+    </p>
   </ul>
 </div>

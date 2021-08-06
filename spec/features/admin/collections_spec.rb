@@ -53,7 +53,6 @@ feature "Data Collections", js: true do
         before do
           select(organization.name, from: "collection_organization_id")
           select(service_provider.name, from: "collection_service_provider_id")
-          select(service.name, from: "collection_service_id")
           click_on "Create Collection"
         end
 

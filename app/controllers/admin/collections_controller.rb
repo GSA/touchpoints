@@ -9,15 +9,15 @@ class Admin::CollectionsController < AdminController
 
     if admin_permissions?
       if @quarter
-        @collections = Collection.where(quarter: @quarter).order('organizations.name', 'services.name', :year, :quarter).includes(:organization, :service)
+        @collections = Collection.where(quarter: @quarter).order('organizations.name', :year, :quarter).includes(:organization)
       else
-        @collections = Collection.all.order('organizations.name', 'services.name', :year, :quarter).includes(:organization, :service)
+        @collections = Collection.all.order('organizations.name', :year, :quarter).includes(:organization)
       end
     else
       if @quarter
-        @collections = current_user.collections.where(quarter: @quarter).order('organizations.name', 'services.name', :year, :quarter).includes(:organization, :service)
+        @collections = current_user.collections.where(quarter: @quarter).order('organizations.name', :year, :quarter).includes(:organization)
       else
-        @collections = current_user.organization.collections.order('organizations.name', 'services.name', :year, :quarter).includes(:organization, :service)
+        @collections = current_user.organization.collections.order('organizations.name', :year, :quarter).includes(:organization)
       end
     end
   end
@@ -28,6 +28,7 @@ class Admin::CollectionsController < AdminController
 
   def new
     @collection = Collection.new
+    @collection.user = current_user
     @collection.organization_id = params[:organization_id]
     @collection.service_provider_id = params[:service_provider_id]
     @collection.year = fiscal_year(Date.today)
@@ -115,7 +116,6 @@ class Admin::CollectionsController < AdminController
         :end_date,
         :organization_id,
         :service_provider_id,
-        :service_id,
         :year,
         :quarter,
         :user_id,
