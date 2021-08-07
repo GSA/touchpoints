@@ -22,12 +22,10 @@
       <%= render 'components/reporting/cx_summary_data_header_row' %>
       <br>
       <% ServiceProvider.all.includes(:organization).order("organizations.name", :name).each do |service_provider| %>
-        <% service_provider.services.each do |service| %>
-          <% service.collections.order(:year, :quarter).each do |collection| %>
-            <% collection.omb_cx_reporting_collections.includes(:service).order("services.name").each do |omb_cx_reporting_collection| %>
-              <%= render "components/reporting/cx_summary_data_detail_row", omb_cx_reporting_collection: omb_cx_reporting_collection %>
-              <br>
-            <% end %>
+        <% service_provider.services.order(:name).each do |service| %>
+          <% service.omb_cx_reporting_collections.includes(:service, :collection).order("collections.year", "collections.quarter", "services.name").each do |omb_cx_reporting_collection| %>
+            <%= render "components/reporting/cx_summary_data_detail_row", omb_cx_reporting_collection: omb_cx_reporting_collection %>
+            <br>
           <% end %>
         <% end %>
       <% end %>
