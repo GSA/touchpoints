@@ -5,13 +5,19 @@
       aria-expanded="false"
       aria-controls="cx-summary-data"
     >
-      cx-summary-data.csv
+      hisp_service_reports.csv
     </button>
   </h4>
   <div id="cx-summary-data" class="usa-accordion__content">
-    <h4>
-      cx-summary-data.csv
-    </h4>
+    <p>
+      This data is used for performance.gov/cx.
+      The .csv is placed at /data/hisp_service_reports.csv.
+    </p>
+    <p>
+      This data is primarily a listing of OMB CX Reporting Collections,
+      and the data is used to generate bar charts of the quarterly reports,
+      for each Service.
+    </p>
     <p>
       <%= render 'components/reporting/cx_summary_data_header_row' %>
       <br>
