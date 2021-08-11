@@ -38,6 +38,8 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    get "/reporting/hisps", to: "reporting#hisps", as: :hisps
+
     get "a11", to: "site#a11", as: :a11
     resources :service_providers
     resources :services do

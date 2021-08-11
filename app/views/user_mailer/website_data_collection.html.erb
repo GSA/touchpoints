@@ -14,7 +14,7 @@
   <ul>
     <% @websites.each do | website | %>
     <li>
-      <%= link_to website.domain, admin_website_url(website.domain) %>
+      <%= link_to website.domain, admin_website_url(website) %>
     </li>
     <% end %>
   </ul>
