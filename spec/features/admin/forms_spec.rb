@@ -253,6 +253,30 @@ feature "Forms", js: true do
               expect(find("#disclaimer_text-show")).to have_content("Disclaaaaaaaimer!")
               expect(find("#disclaimer_text-show")).to have_link("a new link")
             end
+
+            it "has inline editable success text heading that can be updated and saved" do
+              fill_in("form_success_text_heading", with: "Sucesssss Header!")
+              within "#success_text_div" do
+                find("#form_success_text_heading").native.send_key :tab
+                expect(page).to have_content( "Sucesssss Header!")
+              end
+
+              # and persists after refresh
+              visit questions_admin_form_path(form)
+              expect(page).to have_content("Sucesssss Header!")
+            end
+
+            it "has inline editable success text textbox that can be updated and saved" do
+              fill_in("form_success_text", with: "Sucesssss!")
+              within "#success_text_div" do
+                find("#form_success_text").native.send_key :tab
+                expect(page).to have_content("Sucesssss!")
+              end
+
+              # and persists after refresh
+              visit questions_admin_form_path(form)
+              expect(page).to have_content("Sucesssss!")
+            end
           end
         end
 
