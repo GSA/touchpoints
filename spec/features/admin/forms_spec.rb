@@ -47,18 +47,18 @@ feature "Forms", js: true do
 
           describe "can edit a template" do
             before do
-              visit edit_admin_form_path(form_template)
+              visit admin_form_path(form_template)
             end
 
             it "can edit a form template" do
-              expect(page.current_path).to eq(edit_admin_form_path(form_template))
-              expect(page).to have_content("Editing Survey")
+              expect(page.current_path).to eq(admin_form_path(form_template))
+              expect(page).to have_content("Admin options")
               expect(form_template.template).to eq(true)
               fill_in("form_notes", with: "Updated notes text")
-              click_on "Update Survey"
+              click_on "Update Survey Admin Options"
               expect(page).to have_content("Survey was successfully updated.")
               expect(page.current_path).to eq(admin_form_path(form_template))
-              expect(page).to have_content("Updated notes text")
+              expect(page).to have_content("Survey was successfully updated")
             end
           end
         end
@@ -1226,16 +1226,14 @@ feature "Forms", js: true do
             select("text_field", from: "question_question_type")
             click_on "Update Question"
             visit questions_admin_form_path(form_section2.form)
+            page.has_css?('#form_section_2')
           end
 
           it "creates the question in the correct Form Section" do
-            # race condition can occur when visit returns immediately before all page sections are rendered
-            # question_3 only exists in the 2nd form section
-            find('#question_3') # will wait until element with id question_3 is found, or a timeout occurs
             within(find_all(".form-section-div").first) do
               expect(page).to have_content("Question in Form Section 1")
             end
-            within(find_all(".form-section-div").last) do
+            within(find('#form_section_2')) do
               expect(page).to have_content("Question in Form Section 2")
             end
           end
