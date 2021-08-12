@@ -99,6 +99,7 @@ Rails.application.routes.draw do
         patch "update_disclaimer_text", to: "forms#update_disclaimer_text", as: :update_disclaimer_text
         patch "update_success_text", to: "forms#update_success_text", as: :update_success_text
         patch "update_ui_truncation", to: "forms#update_ui_truncation", as: :update_ui_truncation
+        patch "update_display_logo", to: "forms#update_display_logo", as: :update_display_logo
       end
       collection do
         post "copy", to: "forms#copy", as: :copy_id
