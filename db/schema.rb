@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_06_185156) do
+ActiveRecord::Schema.define(version: 2021_08_12_052325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,6 +112,30 @@ ActiveRecord::Schema.define(version: 2021_08_06_185156) do
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["uuid"], name: "index_forms_on_uuid"
+  end
+
+  create_table "goals", force: :cascade do |t|
+    t.integer "organization_id"
+    t.string "name"
+    t.text "description"
+    t.string "tags", array: true
+    t.integer "users", array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tags"], name: "index_goals_on_tags", using: :gin
+    t.index ["users"], name: "index_goals_on_users", using: :gin
+  end
+
+  create_table "milestones", force: :cascade do |t|
+    t.integer "organization_id"
+    t.integer "goal_id"
+    t.string "name"
+    t.text "description"
+    t.date "due_date"
+    t.string "status"
+    t.text "notes"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "omb_cx_reporting_collections", force: :cascade do |t|
@@ -246,6 +270,7 @@ ActiveRecord::Schema.define(version: 2021_08_06_185156) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "new"
+    t.boolean "inactive"
   end
 
   create_table "service_stage_barriers", force: :cascade do |t|
