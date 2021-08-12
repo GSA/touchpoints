@@ -1,4 +1,7 @@
 <% @tabindex = 0 %>
+<div>
+  <%= render 'admin/forms/logo_display', { form: form } %>
+</div>
 <div class="form-title-edit">
   <div class="text-uppercase font-body-3xs">
     Survey title
@@ -25,7 +28,6 @@
   &nbsp;
 </div>
 <br>
-
 <div class="sorting-div">
   <% multi_section_question_number = 0 %>
   <% form.form_sections.each do |section| %>

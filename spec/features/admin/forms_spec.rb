@@ -1249,7 +1249,10 @@ feature "Forms", js: true do
             fill_in "question_text", with: "Question in Form Section 2"
             select("text_field", from: "question_question_type")
             click_on "Update Question"
+            # Wait for Add Question to appear
+            page.has_css?('.form_add_question')
             visit questions_admin_form_path(form_section2.form)
+            # Wait for 2nd form section to render
             page.has_css?('#form_section_2')
           end
 
