@@ -1,8 +1,12 @@
-<p id="notice"><%= notice %></p>
+<% content_for :navigation_title do %>
+  Milestones
+  <%= link_to new_admin_milestone_path, class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-plus-circle"></i>
+    New Milestone
+  <% end %>
+<% end %>
 
-<h1>Milestones</h1>
-
-<table>
+<table class="usa-table">
   <thead>
     <tr>
       <th>Organization</th>
@@ -10,28 +14,18 @@
       <th>Description</th>
       <th>Due date</th>
       <th>Status</th>
-      <th>Notes</th>
-      <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @milestones.each do |milestone| %>
       <tr>
-        <td><%= milestone.organization_id %></td>
-        <td><%= milestone.name %></td>
+        <td><%= milestone.organization.name %></td>
+        <td><%= link_to milestone.name, admin_milestone_path(milestone) %></td>
         <td><%= milestone.description %></td>
         <td><%= milestone.due_date %></td>
         <td><%= milestone.status %></td>
-        <td><%= milestone.notes %></td>
-        <td><%= link_to 'Show', admin_milestone_path(milestone) %></td>
-        <td><%= link_to 'Edit', edit_admin_milestone_path(milestone) %></td>
-        <td><%= link_to 'Destroy', admin_milestone_path(milestone), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<p>
-  <%= link_to 'New Milestone', new_admin_milestone_path, class: "usa-button" %>
-</p>

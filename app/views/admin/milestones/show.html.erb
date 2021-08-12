@@ -1,34 +1,50 @@
-<p id="notice"><%= notice %></p>
+<% content_for :navigation_title do %>
+  <%= link_to edit_admin_milestone_path(@milestone), class: "float-right usa-button usa-button-inverted" do %>
+    <i class="fa fa-edit"></i>
+    Edit Milestone
+  <% end %>
 
+  Viewing Milestone: <%= @milestone.name %>
+<% end %>
 <p>
-  <strong>Organization:</strong>
-  <%= @milestone.organization_id %>
+  <%= link_to admin_milestones_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Milestones
+  <% end %>
 </p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @milestone.name %>
-</p>
+<div class="grid-row grid-gap-md">
+  <div class="grid-col">
+    <p>
+      <strong>Organization:</strong>
+      <%= @milestone.organization.name %>
+    </p>
 
-<p>
-  <strong>Description:</strong>
-  <%= @milestone.description %>
-</p>
+    <p>
+      <strong>Name:</strong>
+      <%= @milestone.name %>
+    </p>
 
-<p>
-  <strong>Due date:</strong>
-  <%= @milestone.due_date %>
-</p>
+    <p>
+      <strong>Due date:</strong>
+      <%= @milestone.due_date %>
+    </p>
 
-<p>
-  <strong>Status:</strong>
-  <%= @milestone.status %>
-</p>
+    <p>
+      <strong>Status:</strong>
+      <%= @milestone.status %>
+    </p>
 
-<p>
-  <strong>Notes:</strong>
-  <%= @milestone.notes %>
-</p>
-
-<%= link_to 'Edit', edit_admin_milestone_path(@milestone) %> |
-<%= link_to 'Back', admin_milestones_path %>
+  </div>
+  <div class="grid-col">
+    <p>
+      <strong>Description:</strong>
+      <%= @milestone.description %>
+    </p>
+    
+    <p>
+      <strong>Notes:</strong>
+      <%= @milestone.notes %>
+    </p>
+  </div>
+</div>
