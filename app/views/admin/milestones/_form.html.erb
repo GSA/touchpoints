@@ -1,4 +1,4 @@
-<%= form_with(model: milestone) do |form| %>
+<%= form_with(model: milestone, url: milestone.persisted? ? admin_milestone_path(milestone) : admin_milestones_path) do |form| %>
   <% if milestone.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(milestone.errors.count, "error") %> prohibited this milestone from being saved:</h2>

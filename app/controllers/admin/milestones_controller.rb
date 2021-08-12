@@ -1,4 +1,4 @@
-class MilestonesController < ApplicationController
+class Admin::MilestonesController < ApplicationController
   before_action :set_milestone, only: [:show, :edit, :update, :destroy]
 
   # GET /milestones
@@ -24,7 +24,7 @@ class MilestonesController < ApplicationController
     @milestone = Milestone.new(milestone_params)
 
     if @milestone.save
-      redirect_to @milestone, notice: 'Milestone was successfully created.'
+      redirect_to admin_milestone_path(@milestone), notice: 'Milestone was successfully created.'
     else
       render :new
     end
@@ -33,7 +33,7 @@ class MilestonesController < ApplicationController
   # PATCH/PUT /milestones/1
   def update
     if @milestone.update(milestone_params)
-      redirect_to @milestone, notice: 'Milestone was successfully updated.'
+      redirect_to admin_milestone_path(@milestone), notice: 'Milestone was successfully updated.'
     else
       render :edit
     end
@@ -42,7 +42,7 @@ class MilestonesController < ApplicationController
   # DELETE /milestones/1
   def destroy
     @milestone.destroy
-    redirect_to milestones_url, notice: 'Milestone was successfully destroyed.'
+    redirect_to admin_milestones_url, notice: 'Milestone was successfully destroyed.'
   end
 
   private

@@ -1,7 +1,6 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  resources :milestones
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
   authenticate :user, lambda { |u| u.admin? } do
@@ -59,6 +58,7 @@ Rails.application.routes.draw do
       end
     end
     resources :omb_cx_reporting_collections
+    resources :milestones
 
     resources :websites do
       collection do
