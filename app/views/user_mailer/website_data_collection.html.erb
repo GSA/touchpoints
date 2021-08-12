@@ -8,13 +8,13 @@
   Hi <%= @email %>,
 </p>
 <p>
-  You are receiving this email because you are identified as a website owner for one or more GSA websites:
+  You are receiving this email because you are identified as a website manager for one or more GSA websites:
 </p>
 <p>
   <ul>
     <% @websites.each do | website | %>
     <li>
-      <%= link_to website.domain, admin_website_url(website.domain) %>
+      <%= link_to website.domain, admin_website_url(website) %>
     </li>
     <% end %>
   </ul>

@@ -38,6 +38,8 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    get "/reporting/hisps", to: "reporting#hisps", as: :hisps
+
     get "a11", to: "site#a11", as: :a11
     resources :service_providers
     resources :services do
@@ -95,6 +97,7 @@ Rails.application.routes.draw do
         patch "update_title", to: "forms#update_title", as: :update_title
         patch "update_instructions", to: "forms#update_instructions", as: :update_instructions
         patch "update_disclaimer_text", to: "forms#update_disclaimer_text", as: :update_disclaimer_text
+        patch "update_success_text", to: "forms#update_success_text", as: :update_success_text
         patch "update_ui_truncation", to: "forms#update_ui_truncation", as: :update_ui_truncation
       end
       collection do
