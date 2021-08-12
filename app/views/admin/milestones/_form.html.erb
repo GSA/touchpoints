@@ -19,6 +19,11 @@
     </div>
 
     <div class="field">
+      <%= form.label :goal_id, class: "usa-label" %>
+      <%= form.select :goal_id, options_for_select(Goal.all.map { |g| [g.name, g.id] }, milestone.goal_id), { prompt: "Which Goal?", include_blank: true }, { class: "usa-select" } %>
+    </div>
+
+    <div class="field">
       <%= form.label :name, class: "usa-label" %>
       <%= form.text_field :name, class: "usa-input" %>
     </div>

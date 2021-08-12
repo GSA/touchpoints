@@ -58,6 +58,7 @@ Rails.application.routes.draw do
       end
     end
     resources :omb_cx_reporting_collections
+    resources :goals
     resources :milestones
 
     resources :websites do

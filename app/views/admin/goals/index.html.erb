@@ -1,0 +1,31 @@
+<% content_for :navigation_title do %>
+  Goals
+  <%= link_to new_admin_goal_path, class: "usa-button usa-button-inverted float-right" do %>
+  <i class="fa fa-plus-circle"></i>
+    New Goal
+  <% end %>
+<% end %>
+
+<table class="usa-table">
+  <thead>
+    <tr>
+      <th>Organization</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Tags</th>
+      <th>Users</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @goals.each do |goal| %>
+      <tr>
+        <td><%= goal.organization.name %></td>
+        <td><%= link_to goal.name, admin_goal_path(goal) %></td>
+        <td><%= goal.description %></td>
+        <td><%= goal.tags %></td>
+        <td><%= goal.users %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

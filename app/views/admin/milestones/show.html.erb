@@ -21,6 +21,11 @@
     </p>
 
     <p>
+      <strong>Goal:</strong>
+      <%= link_to(@milestone.goal.name, admin_goal_path(@milestone.goal)) if @milestone.goal %>
+    </p>
+
+    <p>
       <strong>Name:</strong>
       <%= @milestone.name %>
     </p>
@@ -41,7 +46,7 @@
       <strong>Description:</strong>
       <%= @milestone.description %>
     </p>
-    
+
     <p>
       <strong>Notes:</strong>
       <%= @milestone.notes %>
