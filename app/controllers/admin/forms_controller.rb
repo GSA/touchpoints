@@ -105,8 +105,8 @@ class Admin::FormsController < AdminController
   end
 
   def update_display_logo
-    @form.update(form_params)
-    render(partial: "admin/forms/logo_display", locals: { form: @formn })
+    @form.update(form_logo_params)
+    render(partial: "admin/forms/logo_display", locals: { form: @form })
   end
 
   def show
@@ -465,6 +465,12 @@ class Admin::FormsController < AdminController
         :question_text_18,
         :question_text_19,
         :question_text_20
+      )
+    end
+
+    def form_logo_params
+      params.require(:form).permit(
+        :logo
       )
     end
 
