@@ -1,4 +1,4 @@
-class Admin::MilestonesController < ApplicationController
+class Admin::MilestonesController < AdminController
   before_action :set_milestone, only: [:show, :edit, :update, :destroy]
 
   # GET /milestones
