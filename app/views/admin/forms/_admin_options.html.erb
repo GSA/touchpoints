@@ -1,0 +1,92 @@
+<% if admin_permissions? %>
+<%= render 'components/flash' %>
+<%= form_with(model: form, url: update_admin_options_admin_form_url(@form, format: :js), local: false) do |f| %>
+  <% if form.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(form.errors.count, "error") %> prohibited this form from being saved:</h2>
+      <% form.errors.full_messages.each do |message| %>
+        <div class="usa-alert usa-alert--error" >
+          <div class="usa-alert__body">
+            <h3 class="usa-alert__heading">Error</h3>
+            <p class="usa-alert__text">
+              <%= message %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+  <div class="well">
+    <h4>
+      Admin options
+    </h4>
+    <div class="grid-row grid-gap-md">
+      <div class="grid-col-6">
+        <div class="field">
+          <%= f.label :organization, class: "usa-label" %>
+          <%= f.select :organization_id, options_for_select(organization_dropdown_options, selected: (@form.organization ? @form.organization.id : nil)), { prompt: "Select an Organization" }, { class: "usa-select" } %>
+        </div>
+      </div>
+      <div class="grid-col-6">
+      </div>
+    </div>
+    <div class="grid-row grid-gap-md">
+      <div class="grid-col-6">
+        <%= f.label :user_id, "Form owner", class: "usa-label" %>
+        <%= f.select :user_id, options_for_select(User.all.map { |user| [user.email, user.id] }, selected: @form.user_id), { prompt: "Form Owner?" }, { class: "usa-select" } %>
+      </div>
+    </div>
+    <div class="grid-row grid-gap-md">
+      <div class="grid-col-6">
+        <div class="field">
+          <%= f.label :kind, class: "usa-label" %>
+          <%= f.text_field :kind, class: "usa-input" %>
+        </div>
+      </div>
+      <div class="grid-col-6">
+        <br>
+        <br>
+        <br>
+        <fieldset class="usa-fieldset">
+          <legend class="usa-sr-only">Form Template?</legend>
+          <div class="usa-checkbox">
+            <%= f.check_box :template, class: "usa-checkbox__input" %>
+            <%= f.label :template, "Form Template?", class: "usa-checkbox__label" %>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+    <div class="grid-row grid-gap-md">
+      <div class="grid-col-6">
+        <div class="field">
+          <%= f.label :aasm_state, "State", class: "usa-label" %>
+          <%= f.select :aasm_state, options_for_select(@form.all_states, selected: @form.aasm_state), { prompt: "Transition to State" }, {class: "usa-select"} %>
+        </div>
+      </div>
+    </div>
+  <br>
+  <div class="grid-row grid-gap-md">
+    <div class="grid-col-12">
+      <fieldset class="usa-fieldset">
+        <legend class="usa-sr-only">Display Organization Tag Logo</legend>
+        <div class="usa-checkbox">
+          <%= f.check_box :early_submission, class: "usa-checkbox__input" %>
+          <%= f.label :early_submission, "Early Submission: Display a submit button at the end of the first page in a multi-page form?", class: "usa-checkbox__label" %>
+        </div>
+      </fieldset>
+      <fieldset class="usa-fieldset">
+        <legend class="usa-sr-only">Load USWDS</legend>
+        <div class="usa-checkbox">
+          <%= f.check_box :load_css, class: "usa-checkbox__input" %>
+          <%= f.label :load_css, "Load USWDS CSS - note: use if your site does not implement USWDS styling.", class: "usa-checkbox__label" %>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <br>
+    <p>
+      <%= f.submit (@form.persisted? ? "Update Survey Admin Options " : "Create Survey"), class: "usa-button" %>
+    </p>
+  </div>
+<% end %>
+<% end %>
