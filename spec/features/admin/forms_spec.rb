@@ -444,13 +444,15 @@ feature "Forms", js: true do
         describe "editing a Form definition" do
           before do
             fill_in "form_name", with: "Updated Form Name"
-            click_on "Update Survey Admin Options"
+            fill_in "form_notes", with: "Updated form notes"
+            click_on "Update Survey Options"
           end
 
           it "can edit existing Form" do
             visit admin_form_path(form)
             expect(page.current_path).to eq(admin_form_path(form))
             expect(find('#form_name').value).to eq("Updated Form Name")
+            expect(find('#form_notes').value).to eq("Updated form notes")
           end
         end
 
