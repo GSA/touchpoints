@@ -1,6 +1,21 @@
 <% if admin_permissions? && @form.persisted? %>
 <%= form_with(model: form, url: update_admin_options_admin_form_url(@form, format: :js), local: false) do |f| %>
-<div class="well">
+  <% if form.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(form.errors.count, "error") %> prohibited this form from being saved:</h2>
+      <% form.errors.full_messages.each do |message| %>
+        <div class="usa-alert usa-alert--error" >
+          <div class="usa-alert__body">
+            <h3 class="usa-alert__heading">Error</h3>
+            <p class="usa-alert__text">
+              <%= message %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+  <div class="well">
     <h4>
       Admin options
     </h4>
