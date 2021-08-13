@@ -66,6 +66,14 @@
           <%= form.label :new, "New Service Provider?", class: "usa-checkbox__label" %>
         </div>
       </fieldset>
+
+      <fieldset class="usa-fieldset">
+        <legend class="usa-sr-only">Inactive?</legend>
+        <div class="usa-checkbox">
+          <%= form.check_box :inactive, class: "usa-checkbox__input" %>
+          <%= form.label :inactive, class: "usa-checkbox__label" %>
+        </div>
+      </fieldset>
     </div>
   </div>
 

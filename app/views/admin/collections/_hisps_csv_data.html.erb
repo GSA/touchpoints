@@ -37,7 +37,7 @@
         <% end %>
         <%= header_fields.join(",") %>
         <br>
-        <% ServiceProvider.includes(:organization).order("organizations.name", :name).each do |hisp| %>
+        <% ServiceProvider.active.includes(:organization).order("organizations.name", :name).each do |hisp| %>
           <% hisp.services.hisp.order(:name).each do |service| %>
             <% row_fields = [
                 service.organization.name,

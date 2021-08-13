@@ -37,7 +37,7 @@
     %>
     <%= header_fields.join(",") %>
     <br>
-  <% ServiceProvider.includes(:organization).order("organizations.name", :name).each do |service_provider| %>
+  <% ServiceProvider.active.includes(:organization).order("organizations.name", :name).each do |service_provider| %>
     <% service_provider.services.includes(:organization).order("organizations.name", :name).each do |service| %>
       <% service.collections.each do |collection| %>
         <% collection.omb_cx_reporting_collections.includes(:collection).order("collections.year", "collections.quarter").each do |omb_cx_reporting_collection| %>

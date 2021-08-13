@@ -13,7 +13,7 @@ class Admin::ReportingController < AdminController
 
     row << header_fields.join(",")
 
-    ServiceProvider.includes(:organization).order("organizations.name", :name).each do |hisp|
+    ServiceProvider.active.includes(:organization).order("organizations.name", :name).each do |hisp|
     row_fields = [
         hisp.organization.name,
         hisp.organization.abbreviation.downcase,

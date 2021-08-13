@@ -4,4 +4,6 @@ class ServiceProvider < ApplicationRecord
   has_many :collections, through: :services
 
   validates :slug, presence: true
+
+  scope :active, -> { where("inactive ISNULL or inactive = false") }
 end

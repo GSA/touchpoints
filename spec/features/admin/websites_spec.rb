@@ -4,11 +4,11 @@ feature "Managing Websites", js: true do
   let!(:organization) { FactoryBot.create(:organization) }
 
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
-  let!(:website_owner) { FactoryBot.create(:user, organization: organization) }
+  let!(:website_manager) { FactoryBot.create(:user, organization: organization) }
   let(:user) { FactoryBot.create(:user, organization: organization) }
 
-  let!(:website) { FactoryBot.create(:website, site_owner_email: website_owner.email ) }
-  let!(:new_website) { FactoryBot.build(:website, site_owner_email: website_owner.email ) }
+  let!(:website) { FactoryBot.create(:website, site_owner_email: website_manager.email ) }
+  let!(:new_website) { FactoryBot.build(:website, site_owner_email: website_manager.email ) }
 
   context "as Admin" do
     before do
@@ -38,9 +38,9 @@ feature "Managing Websites", js: true do
     end
   end
 
-  context "as Website Owner" do
+  context "as Website Manager" do
     before "visit Organization listing" do
-      login_as website_owner
+      login_as website_manager
       visit admin_websites_path
     end
 
