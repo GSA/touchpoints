@@ -22,7 +22,8 @@ class Admin::FormsController < AdminController
     :publish,
     :archive,
     :update_ui_truncation,
-    :update_title, :update_instructions, :update_disclaimer_text, :update_success_text, :update_display_logo
+    :update_title, :update_instructions, :update_disclaimer_text,
+    :update_success_text, :update_display_logo, :update_admin_options
   ]
 
   def index
@@ -106,6 +107,10 @@ class Admin::FormsController < AdminController
 
   def update_display_logo
     @form.update(form_logo_params)
+  end
+
+  def update_admin_options
+    @form.update(form_admin_options_params)
   end
 
   def show
@@ -472,6 +477,23 @@ class Admin::FormsController < AdminController
         :logo,
         :display_header_logo,
         :display_header_square_logo,
+      )
+    end
+
+    def form_admin_options_params
+      params.require(:form).permit(
+        :name,
+        :time_zone,
+        :organization_id,
+        :user_id,
+        :template,
+        :kind,
+        :aasm_state,
+        :early_submission,
+        :notes,
+        :status,
+        :title,
+        :load_css
       )
     end
 

@@ -42,19 +42,19 @@
     </div>
     <br>
     <%= f.submit "Update logo", class: "usa-button usa-button-outline" %>
-  <% end %>
-
-  <% if form.logo.present? %>
-    <% if form.display_header_logo %>
-      <p>
-        <%= image_tag(form.logo.tag.url, alt: "Organization logo", class: "form-header-logo") %>
-      </p>
-    <% end %>
-    <% if form.display_header_square_logo %>
-      <p>
-        <%= image_tag(form.logo.logo_square.url, alt: "Organization logo", class: "form-header-logo-square") %>
-      </p>
+    <br/>
+    <% if form.logo.present? %>
+      <% if form.display_header_logo %>
+        <p>
+          <%= image_tag(form.logo.tag.url, alt: "Organization logo", class: "form-header-logo") %>
+        </p>
+      <% end %>
+      <% if form.display_header_square_logo %>
+        <p>
+          <%= image_tag(form.logo.logo_square.url, alt: "Organization logo", class: "form-header-logo-square") %>
+        </p>
+      <% end %>
     <% end %>
   <% end %>
 </div>
-<br/>
+
