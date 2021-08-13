@@ -1,0 +1,42 @@
+<%= form_with(model: goal, url: goal.persisted? ? admin_goal_path(goal) : admin_goals_path) do |form| %>
+  <% if goal.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(goal.errors.count, "error") %> prohibited this goal from being saved:</h2>
+
+      <ul>
+        <% goal.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :organization_id, class: "usa-label" %>
+    <%= form.select :organization_id, options_for_select(organization_dropdown_options, goal.organization_id), { prompt: "Which Organization?", include_blank: true }, { class: "usa-select" } %>
+  </div>
+
+  <div class="field">
+    <%= form.label :name, class: "usa-label" %>
+    <%= form.text_field :name, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description, class: "usa-label" %>
+    <%= form.text_area :description, class: "usa-textarea" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :tags, class: "usa-label" %>
+    <%= form.text_field :tags %>
+  </div>
+
+  <div class="field">
+    <%= form.label :users, class: "usa-label" %>
+    <%= form.number_field :users %>
+  </div>
+
+  <p>
+    <%= form.submit class: "usa-button" %>
+  </p>
+<% end %>

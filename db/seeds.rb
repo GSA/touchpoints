@@ -1,12 +1,12 @@
 def production_suitable_seeds
-  gsa = Organization.create!({
+  @gsa = Organization.create!({
     name: "General Services Administration",
     abbreviation: "GSA",
     domain: "gsa.gov",
     url: "https://gsa.gov",
     digital_analytics_path: "general-services-administration"
   })
-  puts "Created Organization: #{gsa.name}"
+  puts "Created Organization: #{@gsa.name}"
 end
 
 production_suitable_seeds
@@ -577,4 +577,49 @@ OmbCxReportingCollection.create!({
   q7_3: rand(1000),
   q7_4: rand(1000),
   q7_5: rand(1000),
+})
+
+goal_1 = Goal.create!({
+  organization: @gsa,
+  name: "Example Goal 1",
+  tags: ["this", "that", "other"],
+  users: [1]
+})
+
+goal_2 = Goal.create!({
+  organization: @gsa,
+  name: "Example Goal 2",
+  tags: ["this", "that", "other", "unique"],
+  users: []
+})
+
+goal_3 = Goal.create!({
+  organization: example_gov,
+  name: "Example Goal 2",
+  tags: ["this", "that"],
+  users: []
+})
+
+milestone_1 = Milestone.create!({
+  organization: @gsa,
+  goal: goal_1,
+  name: "Milestone"
+})
+
+milestone_2 = Milestone.create!({
+  organization: @gsa,
+  goal: goal_2,
+  name: "Milestone for Goal 1"
+})
+
+milestone_3 = Milestone.create!({
+  organization: example_gov,
+  goal: goal_3,
+  name: "Milestone for Example.gov"
+})
+
+milestone_4 = Milestone.create!({
+  organization: @gsa,
+  goal: nil,
+  name: "Milestone not attached to a Goal"
 })

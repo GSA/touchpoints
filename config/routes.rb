@@ -58,6 +58,8 @@ Rails.application.routes.draw do
       end
     end
     resources :omb_cx_reporting_collections
+    resources :goals
+    resources :milestones
 
     resources :websites do
       collection do
@@ -97,7 +99,9 @@ Rails.application.routes.draw do
         patch "update_title", to: "forms#update_title", as: :update_title
         patch "update_instructions", to: "forms#update_instructions", as: :update_instructions
         patch "update_disclaimer_text", to: "forms#update_disclaimer_text", as: :update_disclaimer_text
+        patch "update_success_text", to: "forms#update_success_text", as: :update_success_text
         patch "update_ui_truncation", to: "forms#update_ui_truncation", as: :update_ui_truncation
+        patch "update_display_logo", to: "forms#update_display_logo", as: :update_display_logo
       end
       collection do
         post "copy", to: "forms#copy", as: :copy_id

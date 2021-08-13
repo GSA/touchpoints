@@ -1,0 +1,18 @@
+<% content_for :navigation_title do %>
+  New Milestone
+<% end %>
+
+<div class="grid-row">
+  <div class="grid-col">
+    <p>
+      <%= link_to admin_milestones_path do %>
+        <i class="fa fa-arrow-circle-left"></i>
+        Back to Milestones
+      <% end %>
+    </p>
+  </div>
+</div>
+
+<%= render 'form', milestone: @milestone %>
+
+<br>

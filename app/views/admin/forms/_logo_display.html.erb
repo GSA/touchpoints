@@ -1,0 +1,60 @@
+<div id="display-logo-div">
+  <% form = @form %>
+  <% if form.errors.any? %>
+  <div id="error_explanation">
+    <div class="usa-alert usa-alert--error" >
+      <div class="usa-alert__body">
+        <h3 class="usa-alert__heading">Error</h3>
+        <p class="usa-alert__text">
+          Logo upload failed, please try again with a valid image file
+        </p>
+      </div>
+    </div>
+  </div>
+  <% end %>
+
+  <%= form_with(model: form, url: update_display_logo_admin_form_url(form, format: :js), html: { multipart: :true }, local: false) do |f| %>
+    <div class="grid-row grid-gap-md">
+      <div class="grid-col-12">
+        <div class="usa-form-group">
+          <%= f.label :logo_display, "Display a Logo?", class: "usa-label text-uppercase font-body-3xs", for: "file-input-single" %>
+          <%= f.file_field :logo, class: "usa-file-input display-logo", data_url: admin_form_path(form) %>
+        </div>
+        <p>
+          <span hidden="true" class="uploading-msg usa-hint save-notice">Uploading file, please wait...</span>
+        </p>
+
+        <fieldset class="usa-fieldset">
+          <legend class="usa-sr-only">Display Organization Tag Logo</legend>
+          <div class="usa-checkbox">
+            <%= f.check_box :display_header_logo, class: "usa-checkbox__input" %>
+            <%= f.label :display_header_logo, "Display (320px wide by 80px tall) Organization logo before the title in the Form header?", class: "usa-checkbox__label" %>
+          </div>
+        </fieldset>
+        <fieldset class="usa-fieldset">
+          <legend class="usa-sr-only">Display Organization Tag Logo</legend>
+          <div class="usa-checkbox">
+            <%= f.check_box :display_header_square_logo, class: "usa-checkbox__input" %>
+            <%= f.label :display_header_square_logo, "Display Square (80px wide by 80px tall) Organization logo before the title in the Form header?", class: "usa-checkbox__label" %>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+    <br>
+    <%= f.submit "Update logo", class: "usa-button usa-button-outline" %>
+  <% end %>
+
+  <% if form.logo.present? %>
+    <% if form.display_header_logo %>
+      <p>
+        <%= image_tag(form.logo.tag.url, alt: "Organization logo", class: "form-header-logo") %>
+      </p>
+    <% end %>
+    <% if form.display_header_square_logo %>
+      <p>
+        <%= image_tag(form.logo.logo_square.url, alt: "Organization logo", class: "form-header-logo-square") %>
+      </p>
+    <% end %>
+  <% end %>
+</div>
+<br/>

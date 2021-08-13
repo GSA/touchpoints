@@ -22,7 +22,7 @@ class Admin::FormsController < AdminController
     :publish,
     :archive,
     :update_ui_truncation,
-    :update_title, :update_instructions, :update_disclaimer_text
+    :update_title, :update_instructions, :update_disclaimer_text, :update_success_text, :update_display_logo
   ]
 
   def index
@@ -97,6 +97,15 @@ class Admin::FormsController < AdminController
   def update_disclaimer_text
     @form.update!(disclaimer_text: params[:disclaimer_text])
     render json: @form
+  end
+
+  def update_success_text
+    @form.update!(success_text: params[:success_text], success_text_heading: params[:success_text_heading])
+    render(partial: "admin/questions/success_text", locals: { form: @form })
+  end
+
+  def update_display_logo
+    @form.update(form_logo_params)
   end
 
   def show
@@ -413,6 +422,8 @@ class Admin::FormsController < AdminController
         :whitelist_url,
         :whitelist_test_url,
         :disclaimer_text,
+        :success_text,
+        :success_text_heading,
 
         # PRA Info
         :omb_approval_number,
@@ -453,6 +464,14 @@ class Admin::FormsController < AdminController
         :question_text_18,
         :question_text_19,
         :question_text_20
+      )
+    end
+
+    def form_logo_params
+      params.require(:form).permit(
+        :logo,
+        :display_header_logo,
+        :display_header_square_logo,
       )
     end
 

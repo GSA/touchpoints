@@ -1,13 +1,6 @@
 # Try to get S3 settings from Cloud Foundry's VCAP_SERVICES object
 vcap_services = ENV["VCAP_SERVICES"]
 
-# If Touchpoints is hosted somewhere besides Cloud Foundry
-# these ENV variables can be specified directly, instead of using VCAP_SERVICES
-return false unless vcap_services.present?
-
-vcap_services_json = JSON.parse(vcap_services)
-
-
 #
 # Define helper methods
 #
@@ -45,6 +38,11 @@ def set_redis!(vcap_services_json)
   puts "Set REDIS_URL ENV variable via vcap_services.rb"
 end
 
-# Set ENV variables
-set_s3!(vcap_services_json)
-set_redis!(vcap_services_json)
+
+if vcap_services.present?
+  vcap_services_json = JSON.parse(vcap_services)
+
+  # Set ENV variables
+  set_s3!(vcap_services_json)
+  set_redis!(vcap_services_json)
+end

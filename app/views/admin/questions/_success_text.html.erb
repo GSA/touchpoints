@@ -1,0 +1,43 @@
+<%= form_with(model: form, url: (form.persisted? ? admin_form_path(form) : admin_forms_path), local: true) do |f| %>
+  <div class="grid-row grid-gap-md">
+    <div class="grid-col-6">
+      <div class="field">
+        <%= f.label :success_text_heading, "SUCCESS TEXT HEADING", class: "usa-label text-uppercase font-body-3xs" %>
+        <%= f.text_field :success_text_heading, class: "usa-input success_text", data_url:  admin_form_path(form) %>
+      </div>
+      <div class="field">
+        <%= f.label :success_text, "SUCCESS TEXT", class: "usa-label text-uppercase font-body-3xs" %>
+        <div>
+          <em>
+            Displayed after a Form is submitted.
+          </em>
+        </div>
+        <%= f.text_area :success_text, class: "usa-textarea success_text", data_url:  admin_form_path(form)  %>
+      </div>
+    </div>
+    <div class="grid-col-6 flash-preview">
+      <br>
+      <br>
+      <br>
+      <%= render 'components/forms/flash', form: form %>
+    </div>
+    <script>
+      $(function() {
+        $(".flash-preview .usa-alert--success").removeAttr("hidden");
+      });
+      $(".success_text").on("blur", function(event) {
+        event.preventDefault();
+        $.ajax({
+          type: "PATCH",
+          url: $(this).attr("data_url") + "/update_success_text",
+          data: {
+            success_text: $(form_success_text).val(),
+            success_text_heading: $(form_success_text_heading).val()
+          }
+        }).done(function(data) {
+          $("#success_text_div").html(data);
+        });
+      });
+    </script>
+  </div>
+<% end %>

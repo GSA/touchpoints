@@ -1,0 +1,55 @@
+<% content_for :navigation_title do %>
+  <%= link_to edit_admin_milestone_path(@milestone), class: "float-right usa-button usa-button-inverted" do %>
+    <i class="fa fa-edit"></i>
+    Edit Milestone
+  <% end %>
+
+  Viewing Milestone: <%= @milestone.name %>
+<% end %>
+<p>
+  <%= link_to admin_milestones_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Milestones
+  <% end %>
+</p>
+
+<div class="grid-row grid-gap-md">
+  <div class="grid-col">
+    <p>
+      <strong>Organization:</strong>
+      <%= @milestone.organization.name %>
+    </p>
+
+    <p>
+      <strong>Goal:</strong>
+      <%= link_to(@milestone.goal.name, admin_goal_path(@milestone.goal)) if @milestone.goal %>
+    </p>
+
+    <p>
+      <strong>Name:</strong>
+      <%= @milestone.name %>
+    </p>
+
+    <p>
+      <strong>Due date:</strong>
+      <%= @milestone.due_date %>
+    </p>
+
+    <p>
+      <strong>Status:</strong>
+      <%= @milestone.status %>
+    </p>
+
+  </div>
+  <div class="grid-col">
+    <p>
+      <strong>Description:</strong>
+      <%= @milestone.description %>
+    </p>
+
+    <p>
+      <strong>Notes:</strong>
+      <%= @milestone.notes %>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<% content_for :navigation_title do %>
+  Editing Milestone
+<% end %>
+<div class="grid-row">
+  <div class="grid-col">
+    <p>
+      <%= link_to admin_milestone_path(@milestone) do %>
+        <i class="fa fa-arrow-circle-left"></i>
+        Back to Milestone
+      <% end %>
+    </p>
+  </div>
+</div>
+
+<div class="well">
+  <%= render 'form', milestone: @milestone %>
+</div>
+
+<div class="grid-row">
+  <div class="grid-col">
+    <div class="float-right">
+      <%= link_to admin_milestone_path(@milestone), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
+      <i class="fa fa-trash"></i>
+      Delete milestone
+      <% end %>
+      <br>
+    </div>
+  </div>
+  <br>
+</div>
+
+<br>

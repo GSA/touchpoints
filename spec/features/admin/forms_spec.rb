@@ -253,6 +253,30 @@ feature "Forms", js: true do
               expect(find("#disclaimer_text-show")).to have_content("Disclaaaaaaaimer!")
               expect(find("#disclaimer_text-show")).to have_link("a new link")
             end
+
+            it "has inline editable success text heading that can be updated and saved" do
+              fill_in("form_success_text_heading", with: "Sucesssss Header!")
+              within "#success_text_div" do
+                find("#form_success_text_heading").native.send_key :tab
+                expect(page).to have_content( "Sucesssss Header!")
+              end
+
+              # and persists after refresh
+              visit questions_admin_form_path(form)
+              expect(page).to have_content("Sucesssss Header!")
+            end
+
+            it "has inline editable success text textbox that can be updated and saved" do
+              fill_in("form_success_text", with: "Sucesssss!")
+              within "#success_text_div" do
+                find("#form_success_text").native.send_key :tab
+                expect(page).to have_content("Sucesssss!")
+              end
+
+              # and persists after refresh
+              visit questions_admin_form_path(form)
+              expect(page).to have_content("Sucesssss!")
+            end
           end
         end
 
@@ -1225,7 +1249,10 @@ feature "Forms", js: true do
             fill_in "question_text", with: "Question in Form Section 2"
             select("text_field", from: "question_question_type")
             click_on "Update Question"
+            # Wait for Add Question to appear
+            page.has_css?('.form_add_question')
             visit questions_admin_form_path(form_section2.form)
+            # Wait for 2nd form section to render
             page.has_css?('#form_section_2')
           end
 
