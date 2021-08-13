@@ -56,9 +56,7 @@ feature "Forms", js: true do
               expect(form_template.template).to eq(true)
               fill_in("form_notes", with: "Updated notes text")
               click_on "Update Survey Admin Options"
-              expect(page).to have_content("Survey was successfully updated.")
               expect(page.current_path).to eq(admin_form_path(form_template))
-              expect(page).to have_content("Survey was successfully updated")
             end
           end
         end
@@ -440,19 +438,21 @@ feature "Forms", js: true do
 
         before do
           login_as(admin)
-          visit edit_admin_form_path(form)
+          visit admin_form_path(form)
         end
 
         describe "editing a Form definition" do
           before do
             fill_in "form_name", with: "Updated Form Name"
-            click_on "Update Survey"
+            fill_in "form_notes", with: "Updated form notes"
+            click_on "Update Survey Options"
           end
 
           it "can edit existing Form" do
-            expect(page).to have_content("Survey was successfully updated.")
+            visit admin_form_path(form)
             expect(page.current_path).to eq(admin_form_path(form))
-            expect(page).to have_content("Updated Form Name")
+            expect(find('#form_name').value).to eq("Updated Form Name")
+            expect(find('#form_notes').value).to eq("Updated form notes")
           end
         end
 

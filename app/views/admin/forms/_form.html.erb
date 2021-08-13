@@ -23,35 +23,6 @@
       </div>
     </div>
   </div>
-  <div class="grid-col-12">
-    <div class="field">
-      <%= f.label :time_zone, "Survey time zone", class: "usa-label" %>
-      <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone::MAPPING.keys.sort, selected: form.time_zone), { prompt: "Select a time zone" }, { class: "usa-select" } %>
-    </div>
-  </div>
-
-  <% if form.persisted? %>
-  <br>
-  <div class="grid-row grid-gap-md">
-    <div class="grid-col-12">
-      <fieldset class="usa-fieldset">
-        <legend class="usa-sr-only">Display Organization Tag Logo</legend>
-        <div class="usa-checkbox">
-          <%= f.check_box :early_submission, class: "usa-checkbox__input" %>
-          <%= f.label :early_submission, "Early Submission: Display a submit button at the end of the first page in a multi-page form?", class: "usa-checkbox__label" %>
-        </div>
-      </fieldset>
-      <fieldset class="usa-fieldset">
-        <legend class="usa-sr-only">Load USWDS</legend>
-        <div class="usa-checkbox">
-          <%= f.check_box :load_css, class: "usa-checkbox__input" %>
-          <%= f.label :load_css, "Load USWDS CSS - note: use if your site does not implement USWDS styling.", class: "usa-checkbox__label" %>
-        </div>
-      </fieldset>
-    </div>
-  </div>
-  <br>
-  <% end %>
   <p>
     <%= f.submit (form.persisted? ? "Update Survey" : "Create Survey"), class: "usa-button" %>
   </p>
