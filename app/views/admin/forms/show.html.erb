@@ -279,6 +279,9 @@
 <div class="admin-options">
   <%= render 'admin/forms/admin_options', form: @form %>
 </div>
+<div class="form-manager-options">
+  <%= render 'admin/forms/form_manager_options', form: @form %>
+</div>
 <script type="text/javascript">
   $(function() {
     $("#integrity-hashed-url-checkbox").on("click", function(i, b) {

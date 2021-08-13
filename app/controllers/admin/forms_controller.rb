@@ -23,7 +23,8 @@ class Admin::FormsController < AdminController
     :archive,
     :update_ui_truncation,
     :update_title, :update_instructions, :update_disclaimer_text,
-    :update_success_text, :update_display_logo, :update_admin_options
+    :update_success_text, :update_display_logo,
+    :update_admin_options, :update_form_manager_options,
   ]
 
   def index
@@ -111,6 +112,12 @@ class Admin::FormsController < AdminController
 
   def update_admin_options
     @form.update(form_admin_options_params)
+    flash.now[:notice] = "Admin form options updated successfully"
+  end
+
+  def update_form_manager_options
+    @form.update(form_admin_options_params)
+    flash.now[:notice] = "Form Manager forms options updated successfully"
   end
 
   def show
