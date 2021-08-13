@@ -5,7 +5,7 @@ class Website < ApplicationRecord
 
   belongs_to :organization, optional: true
 
-  scope :active, -> { where("production_status = 'Production' OR production_status = 'Redirect' OR production_status = 'Staging'") }
+  scope :active, -> { where("production_status = 'Production' OR production_status = 'Staging'") }
 
   PRODUCTION_STATUSES = [
     "Archived",
@@ -17,7 +17,6 @@ class Website < ApplicationRecord
 
   ACTIVE_PRODUCTION_STATUSES = [
     "Production",
-    "Redirect",
     "Staging"
   ]
 
