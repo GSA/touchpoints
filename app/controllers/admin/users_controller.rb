@@ -117,8 +117,9 @@ class Admin::UsersController < AdminController
       params.require(:user).permit(
         :admin,
         :organization_id,
+        :organizational_website_manager,
         :email,
-        :inactive
+        :inactive,
       )
     end
 end
