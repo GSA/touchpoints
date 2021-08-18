@@ -14,6 +14,27 @@ feature "Forms", js: true do
     end
 
     describe "/admin/forms" do
+
+    context "within builder page" do
+      let!(:form) { FactoryBot.create(:form, organization: organization, user: admin)}
+
+      before do
+        visit questions_admin_form_path(form)
+      end
+
+      describe "can preview a form" do
+          before do
+            click_on "Preview"
+          end
+
+          it "can preview a form" do
+            within_window(windows.last) do
+              expect(page.current_path).to eq(example_admin_form_path(form))
+            end
+          end
+        end
+      end
+
       context "with multiple (3) forms" do
         let!(:form) { FactoryBot.create(:form, organization: organization, user: admin)}
         let!(:form2) { FactoryBot.create(:form, organization: organization, user: admin)}
