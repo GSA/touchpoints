@@ -17,6 +17,7 @@
       </div>
       <%= render partial: 'components/forms/footer_banner', locals: { form: @form } %>
     </div>
-    <br>
+
+    <%= render "admin/forms/preview", { form: @form } %>
   </div>
 </div>
