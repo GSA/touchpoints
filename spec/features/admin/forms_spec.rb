@@ -467,6 +467,7 @@ feature "Forms", js: true do
             fill_in "form_name", with: "Updated Form Name"
             fill_in "form_notes", with: "Updated form notes"
             click_on "Update Survey Options"
+            expect(page).to have_content("Form Manager forms options updated successfully")
           end
 
           it "can edit existing Form" do
