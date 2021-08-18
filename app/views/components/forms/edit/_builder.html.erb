@@ -65,7 +65,9 @@
   <%= render "admin/questions/success_text", {form: form} %>
 </div>
 <br>
-
+<div id="preview_div">
+  <%= render "admin/forms/preview", {form: form} %>
+</div>
 <script>
 $(function() {
   $(".dropdown-content").hide();
