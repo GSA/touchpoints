@@ -283,6 +283,10 @@ function FBAform(d, N) {
 			questionDiv.appendChild(input);
 			questionDiv.scrollIntoView();
 			questionDiv.focus();
+			// enable submit button ( so user can fix error and resubmit )
+		    document.querySelector('#submit_form_button').disabled = false;
+		    document.querySelector('#submit_form_button').classList.remove("aria-disabled");
+		    document.querySelector(".submit-notice").style.display = "none";
 		},
 		hideValidationError: function(form) {
 			var elem = form.querySelector('.usa-form-group--error');
@@ -292,6 +296,10 @@ function FBAform(d, N) {
 			if (elem != null) elem.parentNode.removeChild(elem);
 			elem = form.querySelector('#input-error');
 			if (elem != null) elem.parentNode.removeChild(elem);
+			// disable submit button
+		    document.querySelector('#submit_form_button').disabled = true;
+		    document.querySelector('#submit_form_button').classList.add("aria-disabled");
+		    document.querySelector(".submit-notice").style.display = "block";
 		},
 		textCounter: function(field,maxlimit)
 			{
