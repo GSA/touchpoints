@@ -256,7 +256,7 @@ feature "Touchpoints", js: true do
 
       it "can successfully submit after completing the required question" do
         fill_in("answer_01", with: "a response to this required question")
-        click_button "Submit"
+        find(".submit_form_button").click
         expect(page).to have_content("Thank you. Your feedback has been received.")
       end
     end
