@@ -172,8 +172,11 @@ function FBAform(d, N) {
 			var formElement = this.formElement();
 			var self = this;
 			if (self.validateForm(formElement)) {
+				// disable submit button and show sending feedback message
 				var submitButton = formElement.querySelector("[type='submit']");
 				submitButton.disabled = true;
+				submitButton.classList.add("aria-disabled");
+		    	document.querySelector(".submit-notice").style.display = "block";
 				self.sendFeedback();
 			}
 		},
@@ -284,8 +287,9 @@ function FBAform(d, N) {
 			questionDiv.scrollIntoView();
 			questionDiv.focus();
 			// enable submit button ( so user can fix error and resubmit )
-		    document.querySelector('#submit_form_button').disabled = false;
-		    document.querySelector('#submit_form_button').classList.remove("aria-disabled");
+			var submitButton = document.querySelector("[type='submit']");
+			submitButton.disabled = false;
+			submitButton.classList.remove("aria-disabled");
 		    document.querySelector(".submit-notice").style.display = "none";
 		},
 		hideValidationError: function(form) {
@@ -296,10 +300,6 @@ function FBAform(d, N) {
 			if (elem != null) elem.parentNode.removeChild(elem);
 			elem = form.querySelector('#input-error');
 			if (elem != null) elem.parentNode.removeChild(elem);
-			// disable submit button
-		    document.querySelector('#submit_form_button').disabled = true;
-		    document.querySelector('#submit_form_button').classList.add("aria-disabled");
-		    document.querySelector(".submit-notice").style.display = "block";
 		},
 		textCounter: function(field,maxlimit)
 			{

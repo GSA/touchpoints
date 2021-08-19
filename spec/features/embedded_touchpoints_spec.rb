@@ -39,7 +39,7 @@ feature "Touchpoints", js: true do
           select("Option 2", from: "answer_06")
           click_on "Next"
           expect(page).to have_content("Custom elements")
-          click_on "Submit"
+          find("#submit_form_button").click
 
           # shows success flash message
           expect(page).to have_content("Success")
