@@ -87,9 +87,8 @@
         <% end %>
         <% if section == form.form_sections.last && !form.suppress_submit_button %>
           <p class="submit-button">
-            <button type="submit" id="submit_form_button" class="usa-button"><%= t 'form.submit' %></button>
+            <button type="submit" class="usa-button submit_form_button"><%= t 'form.submit' %></button>
           </p>
-          <span class="submit-notice" hidden="true">Your submission has been sent...</span>
         <% end %>
       </div>
     <% end %>
