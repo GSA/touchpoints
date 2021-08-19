@@ -39,7 +39,7 @@ class Website < ApplicationRecord
   def admin?(user:)
     raise ArgumentException unless user.class == User
 
-    user.admin? || self.contact_email == user.email || self.site_owner_email == user.email
+    user.admin? || user.organizational_website_manager || self.contact_email == user.email || self.site_owner_email == user.email
   end
 
   def blankFields

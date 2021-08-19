@@ -179,7 +179,6 @@ FactoryBot.define do
         radio_button_question = FactoryBot.create(:question,
           form: f,
           form_section: option_elements_section,
-          question_type: "text_display",
           text: "Custom Question Radio Buttons",
           question_type: "radio_buttons",
           help_text: "This is help text for radio buttons.",

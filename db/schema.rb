@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_12_052325) do
+ActiveRecord::Schema.define(version: 2021_08_16_171147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -380,6 +380,7 @@ ActiveRecord::Schema.define(version: 2021_08_12_052325) do
     t.string "time_zone", default: "Eastern Time (US & Canada)"
     t.string "api_key"
     t.datetime "api_key_updated_at"
+    t.boolean "organizational_website_manager", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

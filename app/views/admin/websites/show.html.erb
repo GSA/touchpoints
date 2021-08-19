@@ -3,7 +3,7 @@
   <% if @website.admin?(user: current_user) %>
     <%= link_to edit_admin_website_path(@website), class: "usa-button usa-button-inverted float-right" do %>
       <i class="fa fa-pencil-alt"></i>
-      Edit
+      Edit Website
     <% end %>
   <% end %>
 <% end %>
@@ -30,6 +30,7 @@
 <% end %>
 
 <div class="grid-row grid-gap-md">
+
   <div class="grid-col-6">
     <h3>
       Domain and organization
@@ -39,7 +40,6 @@
         <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
           Parent domain
         </label>
-        <%#= @website.parent_domain %>
         <%= @website.domain.split(".")[-2..-1].join(".") %>
       </div>
       <div class="grid-col-6">
@@ -82,36 +82,48 @@
     <h3>
       Website status and links
     </h3>
-    <p>
-      <strong>Production status:</strong>
-      <%= @website.production_status %>
-    </p>
-    <p>
-      <strong>Redirects to:</strong>
-      <%= @website.redirects_to %>
-    </p>
-    <p>
-      <strong>Status code:</strong>
-      <%= @website.status_code %>
-    </p>
-    <p>
-      <strong>Sitemap url:</strong>
-      <%= @website.sitemap_url %>
-    </p>
-    <p>
-      <strong>Mobile friendly:</strong>
-      <%= @website.mobile_friendly %>
-    </p>
-    <p>
-      <strong>Has search:</strong>
-      <%= @website.has_search %>
-    </p>
-    <p>
-      <small>
-        Provided by
-        <a href="https://digital.gov/site-scanning/" target="_blank">Site Scanner</a>
-      </small>
-    </p>
+    <div class="grid-row">
+      <div class="grid-col-12">
+        <p>
+          <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+            Production status
+          </label>
+          <%= @website.production_status %>
+        </p>
+        <p>
+          <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+            Redirects to
+          </label>
+          <%= @website.redirects_to || "---" %>
+        </p>
+        <p>
+          <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+            Sitemap url
+          </label>
+          <%= @website.sitemap_url || "---" %>
+        </p>
+        <p>
+          <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+            Mobile friendly
+          </label>
+          <%= @website.mobile_friendly || "---" %>
+        </p>
+        <p>
+          <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+            Has Search?
+          </label>
+          <%= @website.has_search || "---" %>
+        </p>
+        <p>
+          <small>
+            Provided by
+            <a href="https://digital.gov/site-scanning/" target="_blank">
+              Site Scanner
+            </a>
+          </small>
+        </p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -123,15 +135,21 @@
       Organizational readiness
     </h3>
     <p>
-      <strong>Repository url:</strong>
+      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+        Repository url
+      </label>
       <%= link_to @website.repository_url, @website.repository_url, target: "_blank", rel: "noopener" %>
     </p>
     <p>
-      <strong>Required by law or policy:</strong>
-      <%= @website.required_by_law_or_policy %>
+      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+        Required by law or policy
+      </label>
+      <%= @website.required_by_law_or_policy || "---" %>
     </p>
     <p>
-      <strong>Type of site:</strong>
+      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+        Type of site
+      </label>
       <p>
         <% Website::TYPE_OF_SITES.each do |category| %>
         <span class="usa-tag bg-primary-light <%= "bg-primary" if category.downcase == @website.type_of_site.downcase %>"><%= category %></span>
@@ -139,7 +157,9 @@
       </p>
     </p>
     <p>
-      <strong>Digital brand category:</strong>
+      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+        Digital brand category
+      </label>
       <p>
       <% Website::DIGITAL_BRAND_CATEGORIES.each do |category| %>
         <span class="usa-tag bg-primary-light <%= "bg-primary" if @website.digital_brand_category? && category.downcase == @website.digital_brand_category.downcase %>"><%= category %></span>
@@ -152,65 +172,88 @@
       Platform choices
     </h3>
     <p>
-      <strong>Hosting platform:</strong>
-      <%= @website.hosting_platform %>
+      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+        Hosting platform
+      </label>
+      <%= @website.hosting_platform || "---" %>
     </p>
     <p>
-      <strong>Cms platform:</strong>
-      <%= @website.cms_platform %>
+      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+        CMS platform
+      </label>
+      <%= @website.cms_platform || "---" %>
     </p>
     <p>
-      <strong>Has dap:</strong>
-      <%= @website.has_dap %>
+      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+        Has DAP?
+      </label>
+      <%= @website.has_dap || "---" %>
     </p>
     <p>
-      <strong>Dap gtm code:</strong>
-      <%= @website.dap_gtm_code %>
+      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+        DAP GTM code
+      </label>
+      <%= @website.dap_gtm_code || "---" %>
     </p>
     <p>
-      <strong>Analytics url:</strong>
-      <%= @website.analytics_url %>
+      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+        Analytics url
+      </label>
+      <%= @website.analytics_url || "---" %>
     </p>
     <p>
-      <strong>Uses feedback:</strong>
-      <%= @website.uses_feedback %>
+      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+        Uses feedback
+      </label>
+      <%= @website.uses_feedback || "---" %>
     </p>
     <p>
-      <strong>Feedback tool:</strong>
-      <%= @website.feedback_tool %>
+      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+        Feedback tool
+      </label>
+      <%= @website.feedback_tool || "---" %>
     </p>
     <p>
-      <strong>Current uswds score:</strong>
-      <%= @website.current_uswds_score %>
+      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+        USWDS score
+      </label>
+      <%= @website.current_uswds_score || "---" %>
     </p>
     <p>
-      <strong>Uses tracking cookies:</strong>
-      <%= @website.uses_tracking_cookies %>
+      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+        Uses tracking cookies
+      </label>
+      <%= @website.uses_tracking_cookies || "---" %>
     </p>
     <p>
-      <strong>Has authenticated experience:</strong>
-      <%= @website.has_authenticated_experience %>
+      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+        Has authenticated experience
+      </label>
+      <%= @website.has_authenticated_experience || "---" %>
     </p>
     <p>
-      <strong>Authentication tool:</strong>
-      <%= @website.authentication_tool %>
+      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+        Authentication tool
+      </label>
+      <%= @website.authentication_tool || "---" %>
     </p>
   </div>
 </div>
 
 <div class="well">
   <p>
-    <strong>Notes:</strong>
-    <%= @website.notes %>
+    <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+      Notes
+    </label>
+    <%= @website.notes || "---" %>
   </p>
 </div>
-
-<div class="well">
+<br>
+<div>
   <h3>
     Additional website information
   </h3>
   <p>
-    <%= link_to "Website costs", costs_admin_website_path(@website), class: "usa-button usa-button--outline" %>
-    <%= link_to "Website statuscard", statuscard_admin_website_path(@website), class: "usa-button" %>
+    <%= link_to "Website Statuscard", statuscard_admin_website_path(@website), class: "usa-button usa-button--outline" %>
   </p>
 </div>
