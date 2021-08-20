@@ -172,8 +172,10 @@ function FBAform(d, N) {
 			var formElement = this.formElement();
 			var self = this;
 			if (self.validateForm(formElement)) {
+				// disable submit button and show sending feedback message
 				var submitButton = formElement.querySelector("[type='submit']");
 				submitButton.disabled = true;
+				submitButton.classList.add("aria-disabled");
 				self.sendFeedback();
 			}
 		},
@@ -283,6 +285,11 @@ function FBAform(d, N) {
 			questionDiv.appendChild(input);
 			questionDiv.scrollIntoView();
 			questionDiv.focus();
+
+			// enable submit button ( so user can fix error and resubmit )
+			var submitButton = document.querySelector("[type='submit']");
+			submitButton.disabled = false;
+			submitButton.classList.remove("aria-disabled");
 		},
 		hideValidationError: function(form) {
 			var elem = form.querySelector('.usa-form-group--error');
