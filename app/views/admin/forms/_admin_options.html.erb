@@ -1,5 +1,7 @@
 <% if admin_permissions? %>
-<%= render 'components/flash' %>
+<% if request.format == "text/javascript" %>
+  <%= render 'components/flash' %>
+<% end %>
 <%= form_with(model: form, url: update_admin_options_admin_form_url(@form, format: :js), local: false) do |f| %>
   <% if form.errors.any? %>
     <div id="error_explanation">
