@@ -12,6 +12,7 @@
  *
  *= require uswds
  *= require uswds-tab-friendly-form-fill
+ *= require uswds-components
  *= require site
  *= require font-awesome-all
  *= require jquery-ui
