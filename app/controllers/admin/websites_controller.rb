@@ -65,6 +65,7 @@ class Admin::WebsitesController < AdminController
     @website = Website.new(admin_website_params)
 
     if @website.save
+      Event.log_event(Event.names[:website_created], "Website", @website.id, "Website #{@website.domain} created at #{DateTime.now}", current_user.id)
       redirect_to admin_website_url(@website), notice: 'Website was successfully created.'
     else
       render :new
@@ -73,8 +74,9 @@ class Admin::WebsitesController < AdminController
 
   def update
     ensure_website_admin(website: @website, user: current_user)
-
+    current_state = @website.production_status
     if @website.update(admin_website_params)
+      log_update(current_state)
       redirect_to admin_website_url(@website), notice: 'Website was successfully updated.'
     else
       render :edit
@@ -85,10 +87,19 @@ class Admin::WebsitesController < AdminController
     ensure_admin
 
     @website.destroy
+    Event.log_event(Event.names[:website_deleted], "Website", @website.id, "Website #{@website.domain} deleted at #{DateTime.now}", current_user.id)
     redirect_to admin_websites_url, notice: 'Website was successfully destroyed.'
   end
 
   private
+
+    def log_update(current_state)
+      Event.log_event(Event.names[:website_updated], "Website", @website.id, "Website #{@website.domain} updated at #{DateTime.now}", current_user.id)
+      if admin_website_params[:production_status] != current_state
+        Event.log_event(Event.names[:website_state_changed], "Website", @website.id, "Website #{@website.domain} state changed to #{admin_website_params[:production_status]} at #{DateTime.now}", current_user.id)
+      end
+    end
+
     def set_website
       @website = Website.find_by_id(params[:id])
     end
