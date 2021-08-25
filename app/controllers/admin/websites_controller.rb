@@ -65,6 +65,7 @@ class Admin::WebsitesController < AdminController
     @website = Website.new(admin_website_params)
 
     if @website.save
+      UserMailer.website_created(website: @website).deliver_later
       redirect_to admin_website_url(@website), notice: 'Website was successfully created.'
     else
       render :new

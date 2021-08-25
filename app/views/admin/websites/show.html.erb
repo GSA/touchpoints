@@ -29,6 +29,18 @@
 <br>
 <% end %>
 
+<% if @website.production_status == "newly_requested" %>
+<div class="usa-section">
+  <p>
+    This website <%= @website.domain %>
+    was created for approval about
+    <%= time_ago_in_words(@website.created_at) %> ago.
+  </p>
+  <%= link_to "Approve", admin_website_path(@website), class: "usa-button usa-button--success bg-mint" %>
+  <%= link_to "Deny", admin_website_path(@website), class: "usa-button usa-button--secondary" %>
+</div>
+<% end %>
+
 <div class="grid-row grid-gap-md">
 
   <div class="grid-col-6">

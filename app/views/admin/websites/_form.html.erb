@@ -57,10 +57,12 @@
       <h3>
         Website status and links
       </h3>
+      <% if @website.persisted? %>
       <div class="field">
         <%= form.label :production_status, class: "usa-label" %>
-        <%= form.select :production_status, Website::PRODUCTION_STATUSES, { include_blank: true }, { class: "usa-select" } %>
+        <%= form.select :production_status, options_for_select(Website::PRODUCTION_STATUSES.collect { |k,v| [v, k]}), { include_blank: true }, { class: "usa-select" } %>
       </div>
+      <% end %>
       <div class="field">
         <%= form.label :redirects_to, class: "usa-label" %>
         <%= form.text_field :redirects_to, class: "usa-input" %>
@@ -91,7 +93,7 @@
 
   <br>
   <br>
-  
+
   <div class="grid-row grid-gap">
     <div class="grid-col-6">
       <h3>
