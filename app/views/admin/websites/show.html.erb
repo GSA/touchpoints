@@ -30,14 +30,14 @@
 <% end %>
 
 <% if @website.production_status == "newly_requested" %>
-<div class="usa-section">
+<div class="usa-section well">
   <p>
     This website <%= @website.domain %>
     was created for approval about
     <%= time_ago_in_words(@website.created_at) %> ago.
   </p>
-  <%= link_to "Approve", admin_website_path(@website), class: "usa-button usa-button--success bg-mint" %>
-  <%= link_to "Deny", admin_website_path(@website), class: "usa-button usa-button--secondary" %>
+  <%= link_to "Approve", approve_admin_website_path(@website), class: "usa-button usa-button--success bg-mint", method: :post %>
+  <%= link_to "Deny", deny_admin_website_path(@website), class: "usa-button usa-button--secondary", method: :post %>
 </div>
 <% end %>
 
