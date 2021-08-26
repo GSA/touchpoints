@@ -1,4 +1,4 @@
-<fieldset class="usa-fieldset radios list-group" role="group" aria-labelledby="<%= question.answer_field %>" data-url="<%= admin_form_question_question_options_path(question.form, question) %>">
+<fieldset class="usa-fieldset radios" role="group" aria-labelledby="<%= question.answer_field %>" data-url="<%= admin_form_question_question_options_path(question.form, question) %>">
   <legend class="usa-sr-only"><%= question.text %></legend>
   <%= render 'components/question_title', question: question, form_builder: true %>
   <div class="question-options">
@@ -8,8 +8,9 @@
   </div>
 </fieldset>
 <div class="new-question-options-div">
+  <div class="question-option-form"></div>
   <%= link_to new_admin_form_question_question_option_path(question.form, question), class: "usa-button usa-button--outline form-add-question-option" do %>
-  <i class="fa fa-plus"></i>
-  Add Radio Button Option
+    <i class="fa fa-plus"></i>
+    Add Radio Button Option
   <% end %>
 </div>

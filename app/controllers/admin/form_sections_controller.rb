@@ -1,16 +1,15 @@
 class Admin::FormSectionsController < AdminController
-  before_action :set_form, only: [:new, :create, :index, :show, :edit, :update, :destroy]
-  before_action :set_form_section, only: [:show, :edit, :update, :destroy]
-
-  def index
-    @form_sections = @form.form_sections
-  end
-
-  def show
-  end
+  before_action :set_form, only: [:new, :create, :show, :edit, :update, :destroy]
+  before_action :set_form_section, only: [:edit, :update, :destroy]
 
   def new
-    @form_section = @form.form_sections.new
+    next_position = @form.form_sections.collect(&:position).max + 1
+    @section = @form.form_sections.new
+    @section.title = "New Section"
+    @section.position = next_position
+    @section.save!
+    @tabindex = 0
+    @multi_section_question_number = 0
     render layout: false
   end
 
@@ -54,17 +53,18 @@ class Admin::FormSectionsController < AdminController
   end
 
   def destroy
-    if @form.form_sections.count > 1
-      @form_section.destroy
-      redirect_to questions_admin_form_url(@form), notice: 'Form section was successfully destroyed.'
-    else
+    if @form.form_sections.count < 1
       redirect_to questions_admin_form_url(@form), alert: 'Cannot delete only remaining Form section'
+    elsif @form_section.destroy
+      redirect_to questions_admin_form_url(@form), notice: 'Form section was successfully deleted.'
+    else
+      redirect_to questions_admin_form_url(@form), alert: 'Form section cannot be deleted because it has one or more questions.'
     end
   end
 
   private
     def set_form_section
-      @form_section = FormSection.find(params[:id])
+      @form_section = @form.form_sections.find(params[:id])
     end
 
     def set_form

@@ -1,0 +1,19 @@
+<% content_for :navigation_title do %>
+  Editing CX service reporting worksheet
+<% end %>
+
+<p>
+  <%= link_to admin_omb_cx_reporting_collection_path(@omb_cx_reporting_collection) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to CX service reporting worksheet
+  <% end %>
+</p>
+
+<%= render 'form', omb_cx_reporting_collection: @omb_cx_reporting_collection %>
+
+<p>
+  <%= link_to admin_omb_cx_reporting_collection_path(@omb_cx_reporting_collection), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
+  <i class="fas fa-trash"></i>
+  Delete
+  <% end %>
+</p>

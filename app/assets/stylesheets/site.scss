@@ -47,7 +47,7 @@ footer {
 }
 .table-scroll th,
 .table-scroll td {
-	white-space:nowrap;
+  max-width: 600px;
 }
 
 .dark-blue-bg {
@@ -67,6 +67,13 @@ footer {
 
 .header-logo {
   max-height: 32px;
+}
+
+.delivery-options-preview {
+  border: 1px solid;
+  border-radius: 4px;
+  padding: 20px;
+  margin: 20px;
 }
 
 // USWDS Overrides
@@ -118,8 +125,7 @@ footer {
    margin-top: 0;
 }
 
-.submit-button,
-.radios {
+.submit-button {
   padding: 1em 0;
 }
 
@@ -133,8 +139,7 @@ footer {
 
 .well {
   border: 1px solid #d6d7d9;
-  border-radius: 8px;
-  padding: 10px 20px;
+  padding: 20px;
   margin: 10px 0;
 }
 
@@ -170,11 +175,6 @@ h1, h2, h3 {
   background: #FFFFFF;
 }
 
-.float-right {
-  float: right;
-}
-
-
 // Maintenance Page Styles
 .maintenance footer {
   align-items: center;
@@ -205,26 +205,6 @@ h4 {
   font-family:Merriweather Web, Georgia, Cambria, Times New Roman, Times, serif;
 }
 
-.state-tracker {
-  background-color: #f0f0f0;
-
-  .step {
-    float: left;
-    padding: 10px;
-    color: #999;
-    width: 33%;
-    text-align: center;
-
-    .indicator {
-      width: 100%;
-    }
-
-    &.completed {
-      color: green;
-    }
-  }
-}
-
 .no-outline {
   border: none;
   -webkit-box-shadow: none;
@@ -236,7 +216,8 @@ pre {
   word-wrap: break-word;
 }
 
-.usa-table tbody tr:hover,
+.usa-table
+tbody tr:hover,
 tbody tr:hover,
 tbody tr:hover td {
   background-color: #E1F3F8;
@@ -268,20 +249,16 @@ tbody tr:hover td {
 
 .usa-table {
   th, td {
-    border: none;
-    border-bottom: 1px solid #f0f0f0;
-  }
-  th:first-child {
-    border-top-left-radius: 10px;
+    border: 1px solid #f0f0f0;
   }
   td:first-child {
     border-left: 1px solid #f0f0f0;
   }
-  th:last-child {
-    border-top-right-radius: 10px;
-  }
   td:last-child {
     border-right: 1px solid #f0f0f0;
+  }
+  tbody tr:last-child {
+    border-bottom: 1px solid #f0f0f0;
   }
 }
 
@@ -318,7 +295,6 @@ tbody tr:hover td {
     }
   }
 }
-
 
 #star_rating svg {
 	width: 1em;
@@ -371,20 +347,10 @@ tbody tr:hover td {
 	display: none;
 }
 .form-section-div {
-  .well2 {
-    border-radius: 0px 0px 8px 8px;
-    background: #FFFFFF;
-    margin-bottom: 4em;
-  }
-  .well2:last-child {
-    margin-bottom: 0;
-  }
+  background-color: #f0f0f0;
 }
-.form-section-div {
-  border-radius: 8px 8px 8px 8px;
-  padding-top: 10px;
-}
-.section-menu-action, .question-menu-action {
+
+.question-menu-action {
   float: right;
   background: #FFFFFF;
   border: 2px solid black;
@@ -394,12 +360,8 @@ tbody tr:hover td {
   padding-left: 16px;
   padding-right: 16px;
   z-index: 2;
-  top: -18px;
   right: 10px;
-}
-
-.question-menu-action {
-  top: 0px;
+  top: 10px;
 }
 
 .section-menu-div {
@@ -431,25 +393,37 @@ tbody tr:hover td {
     text-decoration: none;
     color: blue;
 }
-.section-header-div {
+.section-header {
   background: #71767A;
-  border-radius: 8px 8px 0px 0px;
   min-height: 50px;
   padding: 8px 0px 0px 0px;
+}
+.fba-instructions .instructions {
+  display: inline-block;
+  min-width: 50px;
+}
+.section-title {
+  display: inline-block;
+  min-width: 50px;
 }
 .section-title-view {
   position: relative;
   padding-top: 10px;
   padding-left: 20px ;
   padding-bottom: 10px;
+  margin-block-start: 0em;
+  margin-block-end: 0em;
   color: #FFFFFF;
 }
-.section-title-edit {
-  position: relative;
-  padding-top: 10px;
-  padding-left: 20px ;
-  padding-bottom: 10px;
-  color: #000000;
+.form-builder {
+  .section {
+    border-bottom: 2px solid white;
+    padding-bottom: 20px;
+  }
+  .section-title-view {
+    padding-top: 0px ;
+  }
+
 }
 a.form-section-save {
   color: white;
@@ -457,16 +431,7 @@ a.form-section-save {
 .ui-widget-header {
   background: #FFFFFF;
 }
-.section-title-input {
-  background: #FFFFFF;
-  /* #71767a bg-base */
-  margin-left: 20px;
-  margin-top: 10px;
-  padding: 5px;
-  border: 1px solid #71767A;
-  box-sizing: border-box;
-  width: 200px;
-}
+
 #modal-window {
   min-width: 600px;
   background: #FFFFFF;
@@ -491,6 +456,10 @@ a.form-section-save {
 a.form-save-question-option, a.form-delete-question-option {
   text-decoration:none;
 }
+
+a.form-delete-question-option {
+  text-indent: 0;
+}
 // Single line text field input treatment
 .question-option-edit input {
   width: 40%;
@@ -500,4 +469,50 @@ nav.pagination {
   font-size:1.06rem;
   line-height:1.3;
   padding-left: 20px;
+}
+span.usa-hint.save-notice {
+  background: white;
+  border-radius: 4px;
+  color: green;
+  display: none;
+  padding: 4px;
+}
+
+// The public page
+.usa-width-full {
+  .touchpoint-form {
+    margin-top: 10px;
+    margin-bottom: 40px;
+  }
+}
+
+.touchpoint-form {
+  background-color: #F1F1F1;
+
+  .inner-wrapper {
+    padding: 20px 20px 0 20px;
+  }
+  .section .questions .question:first-child {
+    margin-top: 0;
+  }
+  .question {
+    margin: 10px 0;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 1px;
+  }
+  .word-break {
+    word-break: break-all;
+    word-wrap: break-word;
+  }
+}
+
+.usa-button.full-width {
+  width: 100%;
+}
+
+table .no-wrap {
+  overflow: hidden;
+  white-space: nowrap;
 }

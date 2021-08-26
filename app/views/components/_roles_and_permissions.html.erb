@@ -19,7 +19,7 @@
             Form Manager
           </strong>
           <br>
-          Can create, edit, and activate a form + Response Viewer permissions.
+          Can create, edit, and activate a survey + Response Viewer permissions.
         </p>
         <p>
           <strong>
@@ -92,13 +92,22 @@
         Add new user
       </h3>
 
+      <p>
+        <small>
+          Users in the dropdown are limited to users with a
+          @<%= form.organization.domain %> address. Contact
+          <a href="mailto:feedback-analytics@gsa.gov">support</a>
+          to add a user from another organization.
+        </small>
+      </p>
+
       <% if available_members.present? %>
       <div>
         <strong>
           User
         </strong>
         <br>
-        <%= select_tag :add_user_id, options_for_select(available_members.map { |user| [user.email, user.id] }), prompt: "Which User?", id: "add-user-id", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
+        <%= select_tag :add_user_id, options_for_select(available_members.map { |user| [user.email, user.id] }), prompt: "Select user by email", id: "add-user-id", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
         <br>
         <br>
         <strong>
@@ -114,6 +123,28 @@
         <p class="usa-prose">
           There are no additional members to add at this time.
         </p>
+      <% end %>
+    </div>
+
+    <div class="well">
+      <%= form_with(model: current_user, url: "invite", local: true) do |f| %>
+        <div class="grid-row grid-gap-md">
+          <div class="tablet:grid-col-12">
+            <p>
+              Don't see a user to add in a dropdown?
+            </p>
+
+            <div class="field">
+              <%= label_tag :refer_user, "Invite a colleague to Touchpoints", class: "usa-label" %>
+              <%= f.email_field :refer_user, class: "usa-input", placeholder: "user@example.gov" %>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <br/>
+          <%= f.submit "Invite User", class: "usa-button" %>
+          <br/><br/>
+        </div>
       <% end %>
     </div>
   </div>

@@ -8,8 +8,9 @@ class Admin::FormsController < AdminController
   before_action :set_form, only: [
     :show, :edit, :update, :destroy,
     :compliance,
-    :permissions, :questions, :responses,
+    :permissions, :questions, :responses, :delivery_method,
     :copy, :copy_by_id,
+    :invite,
     :notifications,
     :export,
     :export_pra_document,
@@ -19,7 +20,11 @@ class Admin::FormsController < AdminController
     :example, :js, :trigger,
     :add_user, :remove_user,
     :publish,
-    :update_title, :update_instructions, :update_disclaimer_text
+    :archive,
+    :update_ui_truncation,
+    :update_title, :update_instructions, :update_disclaimer_text,
+    :update_success_text, :update_display_logo,
+    :update_admin_options, :update_form_manager_options,
   ]
 
   def index
@@ -48,11 +53,37 @@ class Admin::FormsController < AdminController
     render json: { form: @form, questions: questions }
   end
 
+  def invite
+    invitee = invite_params[:refer_user]
+
+    if invitee.present? && invitee =~ URI::MailTo::EMAIL_REGEXP && (ENV['GITHUB_CLIENT_ID'].present? ? true : User::APPROVED_DOMAINS.any? { |word| invitee.end_with?(word) })
+      if User.exists?(email: invitee)
+        redirect_to permissions_admin_form_path(@form), alert: "User with email #{invitee} already exists"
+      else
+        UserMailer.invite(current_user, invitee).deliver_later
+        redirect_to permissions_admin_form_path(@form), notice: "Invite sent to #{invitee}"
+      end
+    else
+      if ENV['GITHUB_CLIENT_ID'].present?
+        redirect_to permissions_admin_form_path(@form), alert: "Please enter a valid email address"
+      else
+        redirect_to permissions_admin_form_path(@form), alert: "Please enter a valid .gov or .mil email address"
+      end
+    end
+  end
+
   def publish
     Event.log_event(Event.names[:form_published], "Form", @form.uuid,"Form #{@form.name} published at #{DateTime.now}", current_user.id)
 
-    @form.update_attribute(:aasm_state, :live)
+    @form.publish!
     redirect_to admin_form_path(@form), notice: "Published"
+  end
+
+  def archive
+    Event.log_event(Event.names[:form_archived], "Form", @form.uuid,"Form #{@form.name} archived at #{DateTime.now}", current_user.id)
+
+    @form.archive!
+    redirect_to admin_form_path(@form), notice: "Archived"
   end
 
   def update_title
@@ -68,6 +99,25 @@ class Admin::FormsController < AdminController
   def update_disclaimer_text
     @form.update!(disclaimer_text: params[:disclaimer_text])
     render json: @form
+  end
+
+  def update_success_text
+    @form.update!(success_text: params[:success_text], success_text_heading: params[:success_text_heading])
+    render(partial: "admin/questions/success_text", locals: { form: @form })
+  end
+
+  def update_display_logo
+    @form.update(form_logo_params)
+  end
+
+  def update_admin_options
+    @form.update(form_admin_options_params)
+    flash.now[:notice] = "Admin form options updated successfully"
+  end
+
+  def update_form_manager_options
+    @form.update(form_admin_options_params)
+    flash.now[:notice] = "Form Manager forms options updated successfully"
   end
 
   def show
@@ -92,14 +142,17 @@ class Admin::FormsController < AdminController
   def responses
     ensure_response_viewer(form: @form) unless @form.template?
     @response_groups = @form.submissions.group("date(created_at)").size.sort.last(45)
-    @submissions = @form.submissions.order("created_at DESC").page params[:page]
+    @show_archived = true if params[:archived]
+    @all_submissions = @form.submissions
+    if params[:archived]
+      @submissions = @all_submissions.order("created_at DESC").page params[:page]
+    else
+      @submissions = @all_submissions.non_archived.order("created_at DESC").page params[:page]
+    end
   end
 
-  def response_page
-    @submissions = @form.submissions.order("created_at DESC").page params[:page]
-    respond_to do |format|
-        format.js
-    end
+  def delivery_method
+    ensure_form_manager(form: @form)
   end
 
   def example
@@ -110,7 +163,7 @@ class Admin::FormsController < AdminController
   end
 
   def js
-    render(partial: "components/widget/fba.js", locals: { form: @form })
+    render(partial: "components/widget/fba", formats: :js, locals: { form: @form })
   end
 
   def new
@@ -135,8 +188,9 @@ class Admin::FormsController < AdminController
     @form.organization_id = current_user.organization_id
     @form.user_id = current_user.id
     @form.title = @form.name
-    @form.modal_button_text = I18n.t('form.help_improve')
-    @form.success_text = I18n.t('form.submit_thankyou')
+    @form.modal_button_text = t('form.help_improve')
+    @form.success_text_heading = t('success')
+    @form.success_text = t('form.submit_thankyou')
     @form.delivery_method = "touchpoints-hosted-only"
     @form.load_css = true
     unless @form.user
@@ -162,7 +216,7 @@ class Admin::FormsController < AdminController
 
   def copy
     respond_to do |format|
-      new_form = @form.duplicate!(user: current_user)
+      new_form = @form.duplicate!(new_user: current_user)
 
       if new_form.valid?
         @role = UserRole.create!({
@@ -173,7 +227,7 @@ class Admin::FormsController < AdminController
 
         Event.log_event(Event.names[:form_copied], "Form", @form.uuid, "Form #{@form.name} copied at #{DateTime.now}", current_user.id)
 
-        format.html { redirect_to questions_admin_form_path(new_form), notice: 'Survey was successfully copied.' }
+        format.html { redirect_to admin_form_path(new_form), notice: 'Survey was successfully copied.' }
         format.json { render :show, status: :created, location: new_form }
       else
         format.html { render :new }
@@ -186,6 +240,18 @@ class Admin::FormsController < AdminController
     copy
   end
 
+  def update_ui_truncation
+    ensure_response_viewer(form: @form)
+
+    respond_to do |format|
+      if @form.update(ui_truncate_text_responses: !@form.ui_truncate_text_responses)
+        format.json { render json: {}, status: :ok, location: @form }
+      else
+        format.json { render json: @form.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def update
     ensure_form_manager(form: @form)
 
@@ -194,13 +260,22 @@ class Admin::FormsController < AdminController
     respond_to do |format|
       if @form.update(form_params)
         format.html {
-          redirect_to admin_form_path(@form), notice: 'Survey was successfully updated.'
+          redirect_to get_edit_path(@form), notice: 'Survey was successfully updated.'
         }
         format.json { render :show, status: :ok, location: @form }
       else
-        format.html { render :edit }
+        format.html { render (params[:form][:delivery_method].present? ? :delivery_method : :edit) }
         format.json { render json: @form.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  # Start building our wizard workflow
+  def get_edit_path(form)
+    if params[:form][:delivery_method].present?
+      delivery_method_admin_form_path(form)
+    else
+      admin_form_path(form)
     end
   end
 
@@ -348,8 +423,10 @@ class Admin::FormsController < AdminController
         :delivery_method,
         :element_selector,
         :notification_emails,
+        :notification_frequency,
         :logo,
         :modal_button_text,
+        :success_text_heading,
         :success_text,
         :instructions,
         :display_header_logo,
@@ -357,6 +434,8 @@ class Admin::FormsController < AdminController
         :whitelist_url,
         :whitelist_test_url,
         :disclaimer_text,
+        :success_text,
+        :success_text_heading,
 
         # PRA Info
         :omb_approval_number,
@@ -374,6 +453,8 @@ class Admin::FormsController < AdminController
         :bureau,
 
         :load_css,
+
+        :ui_truncate_text_responses,
 
         :question_text_01,
         :question_text_02,
@@ -398,6 +479,31 @@ class Admin::FormsController < AdminController
       )
     end
 
+    def form_logo_params
+      params.require(:form).permit(
+        :logo,
+        :display_header_logo,
+        :display_header_square_logo,
+      )
+    end
+
+    def form_admin_options_params
+      params.require(:form).permit(
+        :name,
+        :time_zone,
+        :organization_id,
+        :user_id,
+        :template,
+        :kind,
+        :aasm_state,
+        :early_submission,
+        :notes,
+        :status,
+        :title,
+        :load_css
+      )
+    end
+
     # Add rules for AASM state transitions here
     def transition_state
       if params["form"]["omb_approval_number"].present? and !@form.omb_approval_number.present?
@@ -409,5 +515,9 @@ class Admin::FormsController < AdminController
       if params["form"]["aasm_state"] == "archived" and !@form.archived?
         Event.log_event(Event.names[:form_archived], "Form", @form.uuid, "Form #{@form.name} archived at #{DateTime.now}", current_user.id)
       end
+    end
+
+    def invite_params
+    	params.require(:user).permit(:refer_user)
     end
 end

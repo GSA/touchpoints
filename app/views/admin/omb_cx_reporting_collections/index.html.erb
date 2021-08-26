@@ -1,0 +1,42 @@
+<% content_for :navigation_title do %>
+  Omb Cx Reporting Collections
+
+  <%= link_to new_admin_omb_cx_reporting_collection_path, class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-pencil-alt"></i>
+    New Collection
+  <% end %>
+<% end %>
+<p>
+  <%= link_to admin_collections_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Data Collections
+  <% end %>
+</p>
+
+<table class="usa-table">
+  <thead>
+    <tr>
+      <th>Collection</th>
+      <th>Service</th>
+      <th>CX Reporting Collection name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @omb_cx_reporting_collections.each do |omb_cx_reporting_collection| %>
+      <tr>
+        <td>
+          <%= omb_cx_reporting_collection.service.service_provider.name %>
+        </td>
+        <td>
+          <%= omb_cx_reporting_collection.service.name %>
+        </td>
+        <td>
+          <%= link_to omb_cx_reporting_collection.collection.name, admin_omb_cx_reporting_collection_path(omb_cx_reporting_collection) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

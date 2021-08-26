@@ -4,7 +4,7 @@
   </div>
   <div class="dropdown-content">
     <p>
-      <%= link_to edit_admin_form_question_path(form, question), class: "form-edit-question" do %>
+      <%= link_to edit_admin_form_question_path(form, question), class: "form-edit-question", data: { id: question.id } do %>
         <i class="fa fa-pencil-alt"></i>
         Edit
       <% end %>

@@ -5,6 +5,10 @@ class Question < ApplicationRecord
 
   validates :question_type, presence: true
   validate :validate_question_types
+  validates_uniqueness_of :answer_field, scope: :form_id
+
+  default_scope { order(position: :asc) }
+  scope :ordered, -> { order(position: :asc) }
 
   MAX_CHARACTERS = 100000
 
@@ -12,17 +16,20 @@ class Question < ApplicationRecord
     # Standard elements
     "text_field",
     "text_email_field",
+    "text_phone_field",
     "textarea",
     "checkbox",
     "radio_buttons",
     "dropdown",
+    "hidden",
     # Custom elements
     "text_display",
+    "custom_text_display",
+    "states_dropdown",
     "star_radio_buttons",
     "thumbs_up_down_buttons",
     "yes_no_buttons",
-    "matrix_checkboxes",
-    "custom_text_display"
+    "hidden_field"
   ]
 
   validates :answer_field, presence: true
@@ -42,6 +49,4 @@ class Question < ApplicationRecord
       errors.add(:question_type, "Invalid question type '#{question_type}'. Valid types include: #{QUESTION_TYPES.to_sentence}.")
     end
   end
-
-  default_scope { order(position: :asc) }
 end

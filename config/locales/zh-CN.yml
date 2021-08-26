@@ -21,7 +21,7 @@ zh-CN:
   20: "二十"
   touchpoint: "接触点"
   touchpoints: "接触点"
-  powered_by: "P供電"
+  provided_by: "由...提供"
   omb_approval: "OMB批准＃1234 Exp。日期12/01/2019"
   beta: "贝塔"
   report_an_issue: "报告问题"
@@ -46,6 +46,7 @@ zh-CN:
     page_1: "第一頁"
     page_2: "第二頁"
     field_is_required: 您必須回答以下問題
+    field_is_invalid: 请输入一个有效的值
     chars_remaining: "剩餘字符: "
     enter_other_text: "输入其他文字"
   header:
@@ -140,6 +141,8 @@ zh-CN:
       year: 年
   errors:
     format: "%{attribute}%{message}"
+    request:
+      unauthorized_host: "来自非授权主机的请求"
     messages:
       accepted: 必须是可被接受的
       blank: 不能为空字符

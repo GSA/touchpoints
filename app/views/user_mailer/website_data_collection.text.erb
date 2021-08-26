@@ -1,0 +1,13 @@
+Website Data Collection Request
+
+Hi <%= @email %>,
+
+You are receiving this email because you are identified as a website manager for one or more GSA websites:
+
+<% @websites.each do | website | %>
+  <%= admin_website_url(website) %>
+<% end %>
+
+Log into Touchpoints to update your website records.
+
+For questions, contact the EDX (Enterprise Digital Experience) team or <%= ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",").to_sentence %>.

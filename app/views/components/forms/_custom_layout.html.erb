@@ -1,21 +1,23 @@
-<div class="grid-row">
-  <div class="grid-col-12">
-    <h2 class="justify-vertical">
-      <% if form.display_header_logo && form.logo.present? %>
-        <%= image_tag(form.logo.tag.url, alt: "Organization logo", class: "form-header-logo") %>
+<div class="inner-wrapper">
+  <div class="grid-row">
+    <div class="grid-col-12">
+      <h2 class="justify-vertical word-break">
+        <% if form.display_header_logo && form.logo.present? %>
+          <%= image_tag(form.logo.tag.url, alt: "Organization logo", class: "form-header-logo") %>
+        <% end %>
+        <% if form.display_header_square_logo && form.logo.present? %>
+          <%= image_tag(form.logo.logo_square.url, alt: "Organization logo", class: "form-header-logo-square") %>
+        <% end %>
+        <%= form.title %>
+      </h2>
+      <% if form.instructions.present? %>
+        <p>
+          <%= sanitize(form.instructions) %>
+        </p>
       <% end %>
-      <% if form.display_header_square_logo && form.logo.present? %>
-        <%= image_tag(form.logo.logo_square.url, alt: "Organization logo", class: "form-header-logo-square") %>
-      <% end %>
-      <%= form.title %>
-    </h2>
-    <% if form.instructions.present? %>
-      <p>
-        <%= sanitize(form.instructions) %>
-      </p>
-    <% end %>
-    <%= render 'components/forms/flash' %>
-    <%= render partial: "components/forms/custom", locals: { form: form, questions: form.questions } %>
+      <%= render 'components/forms/flash', form: form %>
+      <%= render partial: "components/forms/custom", locals: { form: form, questions: form.questions } %>
+    </div>
   </div>
 </div>
 <% unless form.questions.collect(&:question_type).include?("custom_text_display") %>

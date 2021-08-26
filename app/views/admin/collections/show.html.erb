@@ -1,0 +1,182 @@
+<%= javascript_include_tag "chartjs-2.9.3.bundle.js" %>
+<%= javascript_include_tag "performance-charts.js" %>
+
+<% content_for :navigation_title do %>
+  Data Collection
+  <% if @collection.draft? || admin_permissions? %>
+    <%= link_to edit_admin_collection_path(@collection), class: "usa-button usa-button-inverted float-right" do %>
+      <i class="fa fa-pencil-alt"></i>
+      Edit
+    <% end %>
+  <% end %>
+<% end %>
+
+<p>
+  <%= link_to admin_collections_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Data Collections
+  <% end %>
+</p>
+
+<h2>
+  <%= @collection.name %>
+</h2>
+
+<% if !@collection.submitted? && !@collection.published? %>
+<% elsif !@collection.published? %>
+<% else %>
+  <div class="usa-alert usa-alert--warning" >
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        This data collection has been published.
+      </p>
+    </div>
+  </div>
+  <br>
+<% end %>
+
+<p class="text-uppercase font-body-3xs">
+  About this data collection
+</p>
+<div class="usa-alert">
+  <div class="usa-alert__body">
+    <p class="usa-alert__text">
+      CX Customer Experience reporting is rooted in
+      <a href="https://www.performance.gov/cx/assets/files/a11-280.pdf" target="_blank" rel="noopener">A-11 Section 280</a>
+      guidance.
+    </p>
+    <p class="usa-alert__text">
+      Each quarter, OMB coordinates this data collection from all HISPs.
+      This data will be summarized and reported on
+      <a href="https://performance.gov/cx/" target="_blank" rel="noopener">performance.gov/cx</a>.
+    </p>
+  </div>
+</div>
+
+<div class="well">
+  <div class="text-uppercase font-body-3xs">
+    General information
+  </div>
+  <div class="grid-row">
+    <div class="grid-col-4">
+      <p>
+        <strong>Organization</strong>
+        <br>
+        <%= @collection.organization.name %>
+      </p>
+      <p>
+        <strong>Service Provider</strong>
+        <br>
+        <%= @collection.service_provider.name %>
+      </p>
+      <p>
+        <strong>User</strong>
+        <br>
+        <%= @collection.user.email %>
+      </p>
+    </div>
+    <div class="grid-col-4">
+      <p>
+        <strong>Quarter and Fiscal year</strong>
+        <br>
+        Q<%= @collection.quarter %>
+        FY<%= @collection.year %>
+      </p>
+
+      <p>
+        <strong>Date range</strong>
+        <br>
+        <span><%= @collection.start_date %></span>
+        to
+        <br>
+        <span><%= @collection.end_date %></span>
+      </p>
+    </div>
+    <div class="grid-col-4">
+      <p>
+        <strong>Collection status</strong>
+        <br>
+        <%= render 'components/collection_status_tag', collection: @collection %>
+      </p>
+      <p>
+        <strong>Rating</strong>
+        <br>
+        <%= collection_rating_label(rating: @collection.rating) %>
+      </p>
+    </div>
+  </div>
+  <%= render 'components/step_indicator', collection: @collection %>
+</div>
+
+<div class="well">
+  <h2>
+    Services to report on
+  </h2>
+  <div class="usa-alert">
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        Add a Service reporting page for each touchpoint within a HISP service.
+        Each of these services correspond to the individual sheets within
+        the previous version of the
+        <a href="https://www.performance.gov/cx/assets/files/CX-Feedback-Data-Submission.xlsx" target="_blank">OMB Reporting spreadsheet template</a>.
+        Some agencies may choose to use the spreadsheet to gather data
+        and share it around internally for review and approval.
+        If so, enter the spreadsheet data here, when complete.
+      </p>
+    </div>
+  </div>
+  <ul class="usa-list">
+  <% OmbCxReportingCollection.where(collection_id: @collection.id).each do |cx_collection| %>
+    <li>
+      <%= link_to ("#{cx_collection.try(:service).try(:name)} - #{cx_collection.service_provided}"), admin_omb_cx_reporting_collection_path(cx_collection)  %>
+    </li>
+  <% end %>
+  </ul>
+  <% if @collection.draft? %>
+  <p>
+    <%= link_to new_admin_omb_cx_reporting_collection_path(collection_id: @collection.id), class: "usa-button usa-button--outline" do %>
+      <i class="fa fa-plus"></i>
+      Add a Service to report on
+    <% end %>
+  </p>
+  <% end %>
+  <%= render('admin/collections/csv_data', collection: @collection) if admin_permissions? %>
+  <%= render 'components/performance_charts', collection: @collection if @collection.omb_cx_reporting_collections.present? %>
+</div>
+
+<p class="usa-prose">
+  <strong>Reflection text</strong>
+  <br>
+  <%= raw(@collection.reflection? ? simple_format(@collection.reflection) : "Please #{link_to 'edit', edit_admin_collection_path(@collection)} this Reflection text prior to submitting.") %>
+</p>
+<p hidden>
+  <strong>Integrity hash</strong>
+  <br>
+  <%= @collection.integrity_hash || "not yet published" %>
+</p>
+
+<p>
+  <% if !@collection.submitted? && !@collection.published? %>
+    <div class="usa-alert usa-alert--info" >
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
+          Submitting this Data Collection will send an email
+          to <%= ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",").to_sentence %>
+          who will
+          1. review the data, then
+          2. contact you via email
+          prior to publishing data on performance.gov.
+        </p>
+      </div>
+    </div>
+    <br>
+    <%= link_to submit_admin_collection_path(@collection), class: "usa-button full-width", method: "post", data: { confirm: 'Are you sure?' } do %>
+      Submit this Data Collection
+    <% end %>
+  <% elsif !@collection.published? && admin_permissions? %>
+    <%= link_to publish_admin_collection_path(@collection), class: "usa-button", method: "post" do %>
+      Publish this Data Collection
+    <% end %>
+  <% end %>
+</p>
+<br>

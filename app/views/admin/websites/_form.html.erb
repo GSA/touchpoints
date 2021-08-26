@@ -1,0 +1,170 @@
+<%= form_with(model: website, url: website.persisted? ? admin_website_path(website) : admin_websites_path) do |form| %>
+  <% if website.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(website.errors.count, "error") %> prohibited this website from being saved:</h2>
+
+      <ul>
+        <% website.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid-row grid-gap">
+    <div class="grid-col-6">
+      <h3>
+        Organization and domain
+      </h3>
+      <div class="field">
+        <%= form.label :domain, class: "usa-label" %>
+        <%= form.text_field :domain, class: "usa-input", placeholder: "touchpoints.digital.gov" %>
+      </div>
+      <div class="field">
+        <%= form.label :parent_domain, class: "usa-label" %>
+        <%= form.text_field :parent_domain, class: "usa-input", placeholder: "digital.gov" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :office, class: "usa-label" %>
+        <%= form.text_field :office, class: "usa-input", placeholder: "TTS" %>
+      </div>
+
+      <div class="field" hidden>
+        <%= form.label :office_id, class: "usa-label" %>
+        <%= form.number_field :office_id %>
+      </div>
+
+      <div class="field">
+        <%= form.label :sub_office, class: "usa-label" %>
+        <%= form.text_field :sub_office, class: "usa-input", placeholder: "Data Portfolio" %>
+      </div>
+
+      <div class="field" hidden>
+        <%= form.label :suboffice_id, class: "usa-label" %>
+        <%= form.number_field :suboffice_id %>
+      </div>
+      <div class="field">
+        <%= form.label :contact_email, class: "usa-label" %>
+        <%= form.text_field :contact_email, class: "usa-input" %>
+      </div>
+      <div class="field">
+        <%= form.label :site_owner_email, "Website Manager email", class: "usa-label" %>
+        <%= form.text_field :site_owner_email, class: "usa-input" %>
+      </div>
+    </div>
+    <div class="grid-col-6">
+      <h3>
+        Website status and links
+      </h3>
+      <div class="field">
+        <%= form.label :production_status, class: "usa-label" %>
+        <%= form.select :production_status, Website::PRODUCTION_STATUSES, { include_blank: true }, { class: "usa-select" } %>
+      </div>
+      <div class="field">
+        <%= form.label :redirects_to, class: "usa-label" %>
+        <%= form.text_field :redirects_to, class: "usa-input" %>
+      </div>
+      <div class="field">
+        <%= form.label :status_code, class: "usa-label" %>
+        <%= form.text_field :status_code, class: "usa-input" %>
+      </div>
+      <div class="field">
+        <%= form.label :sitemap_url, class: "usa-label" %>
+        <%= form.text_field :sitemap_url, class: "usa-input" %>
+      </div>
+      <br>
+      <fieldset class="usa-fieldset">
+        <div class="usa-checkbox">
+          <%= form.check_box :mobile_friendly, class: "usa-checkbox__input" %>
+          <%= form.label :mobile_friendly, class: "usa-checkbox__label" %>
+        </div>
+      </fieldset>
+      <fieldset class="usa-fieldset">
+        <div class="usa-checkbox">
+          <%= form.check_box :has_search, class: "usa-checkbox__input" %>
+          <%= form.label :has_search, class: "usa-checkbox__label" %>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+
+  <br>
+  <br>
+  
+  <div class="grid-row grid-gap">
+    <div class="grid-col-6">
+      <h3>
+        Organizational readiness
+      </h3>
+      <div class="field">
+        <%= form.label :repository_url, class: "usa-label" %>
+        <%= form.text_field :repository_url, class: "usa-input", placeholder: "https://github.com/gsa/touchpoints/" %>
+      </div>
+      <div class="field">
+        <%= form.label :required_by_law_or_policy, class: "usa-label" %>
+        <%= form.text_field :required_by_law_or_policy, class: "usa-input" %>
+      </div>
+      <div class="field">
+        <%= form.label :type_of_site, class: "usa-label" %>
+        <%= form.select :type_of_site, Website::TYPE_OF_SITES, { include_blank: true }, { class: "usa-select" } %>
+      </div>
+      <div class="field">
+        <%= form.label :digital_brand_category, class: "usa-label" %>
+        <%= form.select :digital_brand_category, Website::DIGITAL_BRAND_CATEGORIES, { include_blank: true }, class: "usa-select" %>
+      </div>
+    </div>
+    <div class="grid-col-6">
+      <h3>
+        Platform choices
+      </h3>
+      <div class="field">
+        <%= form.label :hosting_platform, class: "usa-label" %>
+        <%= form.text_field :hosting_platform, class: "usa-input", placeholder: "Cloud.gov or AWS" %>
+      </div>
+      <div class="field">
+        <%= form.label :cms_platform, "Content Management platorm", class: "usa-label" %>
+        <%= form.text_field :cms_platform, class: "usa-input", placeholder: "Cloud.gov pages or Drupal" %>
+      </div>
+      <div class="field">
+        <%= form.label :dap_gtm_code, "DAP GTM Code", class: "usa-label" %>
+        <%= form.text_field :dap_gtm_code, class: "usa-input" %>
+      </div>
+      <div class="field">
+        <%= form.label :analytics_url, class: "usa-label" %>
+        <%= form.text_field :analytics_url, class: "usa-input" %>
+      </div>
+      <div class="field">
+        <%= form.label :authentication_tool, class: "usa-label" %>
+        <%= form.text_field :authentication_tool, class: "usa-input" %>
+      </div>
+      <div class="field">
+        <%= form.label :feedback_tool, class: "usa-label" %>
+        <%= form.text_field :feedback_tool, class: "usa-input" %>
+      </div>
+      <div class="field">
+        <%= form.label :current_uswds_score, class: "usa-label" %>
+        <%= form.number_field :current_uswds_score, class: "usa-input" %>
+      </div>
+      <br>
+      <fieldset class="usa-fieldset">
+        <div class="usa-checkbox">
+          <%= form.check_box :uses_tracking_cookies, class: "usa-checkbox__input" %>
+          <%= form.label :uses_tracking_cookies, class: "usa-checkbox__label" %>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <br>
+  <br>
+  <div class="well">
+    <div class="field">
+      <%= form.label :notes, class: "usa-label" %>
+      <%= form.text_area :notes, class: "usa-textarea" %>
+    </div>
+  </div>
+
+  <p>
+    <%= form.submit class: "usa-button" %>
+  </p>
+<% end %>

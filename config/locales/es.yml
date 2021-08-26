@@ -1,7 +1,7 @@
 es:
   touchpoint: "Punto de contacto"
   touchpoints: "Puntos de contacto"
-  powered_by: "Energizado por"
+  provided_by: "Proporcionado por"
   omb_approval: "Aprobación OMB # 1234 Exp. Fecha 12/01/2019"
   beta: "beta"
   report_an_issue: "Reportar un problema"
@@ -26,6 +26,7 @@ es:
     page_1: "Página 1"
     page_2: "Página 2"
     field_is_required: "Debes responder a la pregunta: "
+    field_is_invalid: "Por favor ingrese una cifra válida: "
     chars_remaining: "Caracteres restantes: "
     enter_other_text: "Ingresa otro texto"
   header:
@@ -144,6 +145,8 @@ es:
       year: Año
   errors:
     format: "%{attribute} %{message}"
+    request:
+      unauthorized_host: "solicitud realizada desde un host no autorizado"
     messages:
       accepted: debe ser aceptado
       blank: no puede estar en blanco

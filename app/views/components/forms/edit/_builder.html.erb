@@ -1,182 +1,132 @@
-<h2 id="fba-modal-title" class="form-title-view">
-  <span class="form-title-lbl"><%= form.title %></span>
-  &nbsp;
-  <i class="fas fa-pencil-alt" title="Edit form title"></i>
-</h2>
+<% @tabindex = 0 %>
+<div>
+  <%= render 'admin/forms/logo_display', { form: form } %>
+</div>
 <div class="form-title-edit">
-  <input type="text" value="<%= form.title %>" class="usa-input display-inline form-title" />
-  <a href="<%= admin_form_path(form) %>" class="form-title-save">
-    <i class="fas fa-save" title="Save form title"></i>
-  </a>
-</div>
-
-<div class="fba-instructions">
-  <span class='usa-hint' <%= 'hidden' if form.instructions? %>>Survey Instructions</span>
-  <p class="display-inline">
-    <%= sanitize(form.instructions) -%>
-  </p>
-  <div class="field" hidden="true">
-    <%= label_tag :instructions, "Editing Instructions", class: "usa-label" %>
-    <%= text_area_tag :instructions, nil, class: "usa-textarea display-inline" %>
-    <a href="<%= admin_form_path(form) %>" class="save button form-instructions-save">
-      <i class="fas fa-save" title="Save instructions"></i>
-    </a>
+  <div class="text-uppercase font-body-3xs">
+    Survey title
   </div>
-  <i class="edit button fas fa-pencil-alt" title="Edit instructions"></i>
+  <input type="text" tabindex="<%= @tabindex += 1 %>" class="usa-input survey-title-input"
+    data-url="<%= admin_form_path(form) %>"
+    value="<%= form.title.present? ? form.title : 'Survey Title'  %>" />
+  <span class="usa-hint save-notice survey-title">
+    <i class="fa fa-check-circle" aria-hidden="true"></i> survey title saved
+  </span>
 </div>
-<div class="sorting-div list-group" id="sections">
+<div class="fba-instructions">
+  <label class="usa-label text-uppercase font-body-3xs" for="instructions">
+    Instructions
+  </label>
+  <textarea class="usa-textarea instructions" name="instructions" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>"><%= form.instructions %></textarea>
+  <span class="usa-hint save-notice survey-instructions">
+    <i class="fa fa-check-circle" aria-hidden="true"></i> saved
+  </span>
+  <br>
+  <span class="display-inline instructions-show">
+    <%= form.instructions.present? ? sanitize(form.instructions) : 'Preview instructions here' %>
+  </span>
+  &nbsp;
+</div>
+<br>
+<div class="sorting-div">
   <% multi_section_question_number = 0 %>
   <% form.form_sections.each do |section| %>
-    <div class="form-section-div list-group-item" id="<%= dom_id(section) %>" data-url="<%= admin_form_form_section_path(section) %>/sort" data-id="<%= section.id %>">
-      <div class="section-header-div">
-        <div class="section-title-view">
-          <span class="section-title-lbl"><%= section.title %></span>
-          &nbsp;&nbsp;
-          <i class="fas fa-pencil-alt" title="Edit section title"></i>
-        </div>
-        <div class="section-title-edit">
-          <input type="text" value="<%= section.title %>" class="usa-input display-inline section-title" />
-          <a href="<%= admin_form_form_section_path(form, section) %>" class="form-section-save" >
-            <i class="fas fa-save" title="Save section title"></i>
-          </a><br/>
-        </div>
-      </div>
-
-      <div class="section well2 list-group">
-        <div class="questions">
-          <% section.questions.each_with_index do |question, index| %>
-            <% multi_section_question_number += 1 %>
-            <div class="question well list-group-item" id="<%= dom_id(question) %>" >
-              <%= render 'components/forms/edit/button_dropdown', { form: form, question: question } if form_permissions?(form: form) %>
-
-              <% if question.question_type == "text_field" %>
-                <% @form_component_path = 'components/forms/edit/question_types/text_field' %>
-              <% elsif question.question_type == "text_email_field" %>
-                <% @form_component_path = 'components/forms/edit/question_types/text_email_field' %>
-              <% elsif question.question_type == "radio_buttons" %>
-                <% @form_component_path = 'components/forms/edit/question_types/radio_buttons' %>
-              <% elsif question.question_type == "thumbs_up_down_buttons" %>
-                <% @form_component_path = 'components/forms/question_types/thumbs_up_down_buttons' %>
-              <% elsif question.question_type == "dropdown" %>
-                <% @form_component_path = 'components/forms/edit/question_types/dropdown' %>
-              <% elsif question.question_type == "checkbox" %>
-                <% @form_component_path = 'components/forms/edit/question_types/checkbox' %>
-              <% elsif question.question_type == "textarea" %>
-                <% @form_component_path = 'components/forms/edit/question_types/text_area' %>
-              <% elsif question.question_type == "custom_text_display" %>
-                <% @form_component_path = 'components/forms/question_types/custom_text_display' %>
-              <% elsif question.question_type == "star_radio_buttons" %>
-                <% @form_component_path = 'components/forms/question_types/star_radio_buttons' %>
-              <% elsif question.question_type == "matrix_checkboxes" %>
-                <% @form_component_path = 'components/forms/edit/question_types/matrix_checkboxes' %>
-              <% elsif question.question_type == "yes_no_buttons" %>
-                <% @form_component_path = 'components/forms/question_types/yes_no_buttons' %>
-              <% elsif question.question_type == "text_display" %>
-                <% @form_component_path = 'components/forms/question_types/text_display' %>
-              <% end %>
-              <%= render @form_component_path, form: form, question: question, question_number: multi_section_question_number %>
-            </div>
-          <% end %>
-        </div>
-        <%= link_to new_admin_form_question_path(form), class: "usa-button form-add-question" do %>
-          <span class="fa fa-plus"></span>
-          Add Question
-        <% end %>
-        <br>
-        <% unless section.questions.present? || form.form_sections.count == 1  %>
-          <br>
-          <%= link_to admin_form_form_section_path(form, section), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
-            <span class="fas fa-trash"></span>
-            Delete Section
-          <% end %>
-        <% end %>
-      </div>
-  </div>
-  <br>
+    <%= render 'admin/form_sections/view', { form: form, section: section, multi_section_question_number: multi_section_question_number, tabindex: @tabindex } %>
   <% end %>
 </div>
 <%= link_to new_admin_form_form_section_path(form), class: "usa-button form-add-section" do %>
   <span class="fa fa-plus"></span>
   Add Section
 <% end %>
-
-<div class="fba-disclaimer-text">
-  <p class="display-inline">
+<br/>
+<br/>
+<hr style="border: none; border-top: 1px solid #E5E5E5;">
+<div class="grid-row">
+  <div class="grid-col-12">
     <div class="touchpoints-form-disclaimer">
-      <hr style="border: none; border-top: 1px solid #E5E5E5;">
-      <div class="grid-container">
-        <div class="grid-row">
-          <div class="grid-col-12">
-            <p>
-              <span class='usa-hint' <%= 'hidden' if form.disclaimer_text? %>>Survey Disclaimer Text</span>
-              <small>
-                <span id="fba-dialog-privacy"><%= sanitize(form.disclaimer_text) %></span>
-              </small>
-              <i class="edit button fas fa-pencil-alt" title="Edit disclaimer text"></i>
-            </p>
-            <br>
-          </div>
-        </div>
-      </div>
+      <label class="usa-label text-uppercase font-body-3xs" for="disclaimer-text">
+        Disclaimer text
+      </label>
+      <small id="fba-dialog-privacy">
+        <p class="fba-disclaimer-text">
+          <textarea id="disclaimer_text" class="usa-textarea" name="disclaimer-text" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>"><%= form.disclaimer_text %></textarea>
+          <span class="usa-hint save-notice survey-disclaimer">
+            <i class="fa fa-check-circle" aria-hidden="true"></i> saved
+          </span>
+          <div id="disclaimer_text-show" tabindex="<%= @tabindex += 1 %>"><%= form.disclaimer_text.present? ? sanitize(form.disclaimer_text) : 'Survey Disclaimer Text' %></div>
+        </p>
+      </small>
     </div>
-  </p>
-  <div class="field" hidden="true">
-    <%= label_tag :disclaimer_text, "Editing Disclaimer Text", class: "usa-label" %>
-    <%= text_area_tag :disclaimer_text, nil, class: "usa-textarea display-inline" %>
-    <a href="<%= admin_form_path(form) %>" class="save button form-disclaimer-text-save">
-      <i class="fas fa-save" title="Save disclaimer_text"></i>
-    </a>
   </div>
 </div>
+<br/>
+<hr style="border: none; border-top: 1px solid #E5E5E5;">
+<div id="success_text_div">
+  <%= render "admin/questions/success_text", {form: form} %>
+</div>
+<br>
 
 <script>
 $(function() {
   $(".dropdown-content").hide();
-  $("div.section-title-edit").hide();
-  $(".form-title-edit").hide();
   $(".question-option-edit").hide();
 
   <% if form_permissions?(form: form) %>
+    $('.survey-title-input').on("blur", function(event) {
+      event.preventDefault();
+      $('.usa-hint.save-notice.survey-title').show();
+      $('.usa-hint.save-notice.survey-title').fadeOut(2000);
+      $.ajax({
+        type: "PATCH",
+        url: $(this).attr("data-url") + "/update_title",
+        data: {title: $(this).val()}
+      });
+    });
+
+    $("#disclaimer_text").on("focus", function(event) {
+      event.preventDefault();
+      $(this).text($(this).attr("data-html-value"));
+    });
+
+    $(".fba-instructions .instructions").on("blur", function(event) {
+      event.preventDefault();
+      $.ajax({
+        type: "PATCH",
+        url:  $(this).attr("data-url") + "/update_instructions",
+        data: {
+          instructions: $(this).val()
+        }
+      }).done(function(data) {
+        $(".fba-instructions .instructions-show").html(data.data.attributes.instructions);
+        $('.usa-hint.save-notice.survey-instructions').show();
+        $('.usa-hint.save-notice.survey-instructions').fadeOut(2000);
+      });
+    });
+
+    $("#disclaimer_text").on("blur", function(event) {
+      event.preventDefault();
+      $.ajax({
+        type: "PATCH",
+        url: $(this).attr("data-url") + "/update_disclaimer_text",
+        data: {
+          disclaimer_text: $(this).val()
+        }
+      }).done(function(data) {
+        $("#disclaimer_text-show").html(data.data.attributes.disclaimer_text);
+        $('.usa-hint.save-notice.survey-disclaimer').show();
+        $('.usa-hint.save-notice.survey-disclaimer').fadeOut(2000);
+      });
+    });
+
   $('.form-add-section').on("click", function(event) {
-    var dlg_opt = {
-      autoOpen: false,
-      modal: true,
-      title: 'New Form Section',
-      width: 300
-    };
     event.preventDefault();
     $.ajax({
       type: "GET",
       url: $(this).attr("href"),
       success: function (data) {
-        $("#fba-modal-dialog").find(".modal-content").html(data);
-        $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
+        $(".sorting-div").append(data);
       }
     });
-  });
-
-  $('.form-title-view').on("click", function(event) {
-    $('.form-title-edit').show();
-    $('.form-title-edit').children().show();
-    $('.form-title-view').hide();
-  });
-
-  $("div.section-title-view").on("click", function(event) {
-    $('div.section-title-edit').hide();
-    $('div.section-title-view').show();
-    $('div.section-title-view').children().show();
-    $(this).hide();
-    var titleEdit = $(this).parent().find("div.section-title-edit");
-    $(titleEdit).show();
-  });
-
-  $("span.section-title-lbl").on("click", function(event) {
-    $('div.section-title-edit').hide();
-    $('div.section-title-view').show();
-    $(this).parent().hide();
-    var titleEdit = $(this).closest('div.section-header-div').find("div.section-title-edit");
-    titleEdit.show();
-    titleEdit.find("input").focus();
   });
 
   $(".question-options").on("click", ".question-option-view", function(event) {
@@ -202,21 +152,7 @@ $(function() {
     }
   });
 
-  $('.form-title-save').on("click", function(event) {
-    event.preventDefault();
-    var titleInput = $('.form-title');
-    var titleLabel = $('.form-title-lbl');
-    $(titleLabel).html($(titleInput).val());
-    $('.form-title-edit').hide();
-    $('.form-title-view').show();
-    $.ajax({
-      type: "PATCH",
-      url: $(this).attr("href") + "/update_title",
-      data: {title: $(titleInput).val()}
-    });
-  });
-
-  $(".form-delete-question-option").on("click", function(event) {
+  $(".form-builder").on("click", ".form-delete-question-option", function(event) {
     event.preventDefault();
     if (confirm('Are you sure?')) {
       $(this).closest('div.question-option').remove();
@@ -227,65 +163,29 @@ $(function() {
     }
   });
 
-  $('.form-section-save').on("click", function(event) {
+  $('.form-builder').on("click", '.form-add-question', function(event) {
     event.preventDefault();
-    var titleInput = $(this).closest('div.section-header-div').find("input.section-title");
-    var titleLabel = $(this).closest('div.section-header-div').find(".section-title-lbl");
-    $(titleLabel).html($(titleInput).val());
-    $('div.section-title-edit').hide();
-    $(titleLabel).parent().show();
-    $.ajax({
-      context: this,
-      type: "PATCH",
-      url: $(this).attr("href") + "/update_title",
-      data: {
-        title: $(titleInput).val()
-      }
-    }).fail(function() {
-      alert('Error while updating Form Section');
-    })
-    .done(function(data) {
-      var titleLabel = $(".form-section-div[data-id='" + data.id + "'] .section-title-lbl");
-      $(titleLabel).html(data.title);
-    });
-  });
-
-  $('.form-add-question').on("click", function(event) {
-    event.preventDefault();
-    var dlg_opt = {
-      autoOpen: false,
-      modal: true,
-      title: 'New Question',
-      width: 600
-    };
     var formSection = $(this).parents(".form-section-div")[0];
     var formSectionId = $(formSection).attr("data-id");
     $.ajax({
       type: "GET",
       url: $(this).attr("href"),
+      data: { "form_section_id": formSectionId },
       success: function (data) {
-        $("#fba-modal-dialog").find(".modal-content").html(data);
-        $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
-        $("#fba-modal-dialog question_text").focus();
-        $("#fba-modal-dialog #question_form_section_id").val(formSectionId);
+        $("#form_section_" + formSectionId).find(".questions").append(data);
       }
     });
   });
 
-  $('.form-edit-question').on("click", function(event) {
-    var dlg_opt = {
-      autoOpen: false,
-      modal: true,
-      title: 'Edit Question',
-      width: 600
-    };
+  $('.form-builder').on("click", '.form-edit-question', function(event) {
     event.preventDefault();
+
+    var questionId = "#question_" + $(this).data("id");
     $.ajax({
       type: "GET",
       url: $(this).attr("href"),
       success: function (data) {
-        $("#fba-modal-dialog").find(".modal-content").html(data);
-        $("#fba-modal-dialog").dialog(dlg_opt).dialog("open");
+        $(questionId).html(data);
       }
     });
   });
@@ -312,7 +212,7 @@ $(function() {
       var data = $(this).sortable('serialize');
       data = data + "&form_section_id=" + section_id;
       $.ajax({
-        url: $(this).data("url"),
+        url: '<%= sort_questions_admin_form_questions_path(@form) %>',
         type: "PATCH",
         data: data
       });
@@ -330,7 +230,7 @@ $(function() {
     }
   });
 
-  $("#sections").sortable({
+  $(".sorting-div").sortable({
     distance: 20,
     update: function(e, ui) {
       var url = ui.item.data("url");
@@ -342,33 +242,27 @@ $(function() {
     }
   });
 
-  $(".section-menu-action").mouseover(function(event) {
+  $(".form-builder").on("mouseover", ".question-menu-action", function(event) {
     $(".dropdown-content").hide();
     $(event.target).parent().find(".dropdown-content").show();
   });
 
-  $(".question-menu-action").mouseover(function(event) {
-    $(".dropdown-content").hide();
-    $(event.target).parent().find(".dropdown-content").show();
-  });
-
-  $(".section-menu-action").on("click", function(event) {
+  $(".form-builder").on("click", ".question-menu-action", function(event) {
     $(event.target).parent().find(".dropdown-content").toggle();
   });
 
-  $(".question-menu-action").on("click", function(event) {
-    $(event.target).parent().find(".dropdown-content").toggle();
-  });
-
-  $('.form-add-question-option').on("click", function(event) {
+  $('.form-builder').on("click", '.form-add-question-option', function(event) {
     event.preventDefault();
-    var contentDiv =  $(this).closest('div.new-question-options-div');
+
+    $(this).closest('div.new-question-options-div').find('.form-add-question-option').hide();
+    var editDiv =  $(this).closest('div.new-question-options-div').find('.question-option-form');
     $.ajax({
       type: "GET",
       url: $(this).attr("href"),
       success: function (data) {
-        contentDiv.html(data);
-        contentDiv.find("#question_option_text").focus();
+        editDiv.html(data);
+        $(editDiv).show();
+        editDiv.find("#question_option_text").focus();
       }
     });
   });
@@ -388,7 +282,7 @@ $(function() {
 
   $('.form-edit-question-dropdown-option').on("click", function(event) {
     event.preventDefault();
-    var contentDiv =  $(this).closest('div.radio-button');
+    var contentDiv =  $(this).closest('div.usa-radio');
     $.ajax({
       type: "GET",
       url: $(this).attr("href"),
@@ -399,73 +293,11 @@ $(function() {
     });
   });
 
-  $(".fba-instructions .edit.button").on("click", function(event) {
-    event.preventDefault();
-    $(".fba-instructions .field").show();
-    $(".fba-instructions .usa-hint").hide();
-    $(".fba-instructions .field #instructions").val($(".fba-instructions p").html().trim());
-    $(this).hide();
-    $(".fba-instructions p").hide();
-  });
-
-  $(".fba-instructions .save.button").on("click", function(event) {
-    event.preventDefault();
-    $(".fba-instructions p").hide();
-    $(".fba-instructions .field").show();
-
-    $.ajax({
-      type: "PATCH",
-      url: $(this).attr("href") + "/update_instructions",
-      data: {
-        instructions: $(".fba-instructions .field #instructions").val()
-      }
-    }).done(function(data) {
-      if (data.instructions === "") {
-        $(".fba-instructions .usa-hint").show();
-      }
-      $(".fba-instructions .field").hide()
-      $(".fba-instructions p").html(data.instructions)
-      $(".fba-instructions p").show();
-      $(".fba-instructions .edit.button").show();
-    });
-  });
-
-  $(".fba-disclaimer-text .edit.button").on("click", function(event) {
-    event.preventDefault();
-    $(".fba-disclaimer-text .field").show();
-    $(".fba-disclaimer-text .usa-hint").hide();
-    $(".fba-disclaimer-text .field #disclaimer_text").val($(".fba-disclaimer-text #fba-dialog-privacy").html());
-    $(this).hide();
-    $(".fba-disclaimer-text p").hide();
-  });
-
-  $(".fba-disclaimer-text .save.button").on("click", function(event) {
-    event.preventDefault();
-    $(".fba-disclaimer-text p").hide();
-    $(".fba-disclaimer-text .field").show();
-
-    $.ajax({
-      type: "PATCH",
-      url: $(this).attr("href") + "/update_disclaimer_text",
-      data: {
-        disclaimer_text: $(".fba-disclaimer-text .field #disclaimer_text").val()
-      }
-    }).done(function(data) {
-      if (data.disclaimer_text === "") {
-        $(".fba-disclaimer-text .usa-hint").show();
-      }
-      $(".fba-disclaimer-text .field").hide();
-      $(".fba-disclaimer-text #fba-dialog-privacy").html(data.disclaimer_text);
-      $(".fba-disclaimer-text p").show();
-      $(".fba-disclaimer-text .edit.button").show();
-    });
-  });
-
   // Set Question Option value to what the Question Option name is initially
   $(".question").on('focusout', "textarea.usa-input[name='question_option[text]']", function() {
     var enteredText = $(this).val();
     numberOfLineBreaks = (enteredText.match(/\n/g)||[]).length;
-    var questionDiv = $($(this).parents(".well")[0]);
+    var questionDiv = $($(this).parents(".question")[0]);
     var valueField = questionDiv.find("input.usa-input[type='text'][name='question_option[value]']");
     var valueLabel = valueField.parent().find(".usa-label");
     if (numberOfLineBreaks > 0) {

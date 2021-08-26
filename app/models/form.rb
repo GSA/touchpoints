@@ -6,7 +6,7 @@ class Form < ApplicationRecord
   belongs_to :user
   belongs_to :organization
 
-  has_many :form_sections, dependent: :destroy
+  has_many :form_sections, dependent: :delete_all
   has_many :questions, dependent: :destroy
   has_many :submissions
 
@@ -59,10 +59,10 @@ class Form < ApplicationRecord
   end
 
   DELIVERY_METHODS = [
-    ["touchpoints-hosted-only", "Hosted on Touchpoints"],
-    ["modal","Modal"],
-    ["custom-button-modal","Custom button modal"],
-    ["inline","Inline"]
+    ["touchpoints-hosted-only", "Hosted only on the Touchpoints site"],
+    ["modal", "Tab button & modal"],
+    ["custom-button-modal", "Custom button & modal"],
+    ["inline", "Embedded inline on your site"]
   ]
 
 
@@ -119,27 +119,26 @@ class Form < ApplicationRecord
     state :live # manual
     state :archived # after End Date, or manual
 
-
     event :develop do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :in_development
+      transitions from: [:ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :in_development
     end
     event :ready_to_submit do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :ready_to_submit_to_PRA
+      transitions from: [:in_development, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :ready_to_submit_to_PRA
     end
     event :submit do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :submitted_to_PRA
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :submitted_to_PRA
     end
     event :approve do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :PRA_approved
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_denied, :live, :archived], to: :PRA_approved
     end
     event :deny do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :PRA_denied
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :live, :archived], to: :PRA_denied
     end
     event :publish do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :live
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :archived], to: :live
     end
     event :archive do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :archived
+      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live], to: :archived
     end
   end
 
@@ -151,19 +150,21 @@ class Form < ApplicationRecord
     self.aasm.states
   end
 
-
-  def duplicate!(user:)
+  def duplicate!(new_user:)
     new_form = self.dup
     new_form.name = "Copy of #{self.name}"
     new_form.title = new_form.name
     new_form.survey_form_activations = 0
+    new_form.response_count = 0
+    new_form.last_response_created_at = nil
     new_form.aasm_state = :in_development
     new_form.uuid = nil
     new_form.legacy_touchpoint_id = nil
     new_form.legacy_touchpoint_uuid = nil
     new_form.template = false
-    new_form.user = user
-    new_form.save
+    new_form.user = new_user
+    new_form.organization = new_user.organization
+    new_form.save!
 
     # Manually remove the Form Section created with create_first_form_section
     new_form.form_sections.destroy_all
@@ -211,7 +212,7 @@ class Form < ApplicationRecord
   # returns javascript text that can be used standalone
   # or injected into a GTM Container Tag
   def touchpoints_js_string
-    ApplicationController.new.render_to_string(partial: "components/widget/fba.js", locals: { touchpoint: self })
+    ApplicationController.new.render_to_string(partial: "components/widget/fba", formats: :js, locals: { touchpoint: self })
   end
 
   def to_csv(start_date: nil, end_date: nil)
@@ -397,15 +398,31 @@ class Form < ApplicationRecord
   def hashed_fields_for_export
     hash = {}
 
-    self.questions.map { |q| hash[q.answer_field] = q.text }
+    self.ordered_questions.map { |q| hash[q.answer_field] = q.text }
 
-    hash.merge({
-                 ip_address: "IP Address",
-                 user_agent: "User Agent",
-                 page: "Page",
-                 referer: "Referrer",
-                 created_at: "Created At"
+    hash.merge!({
+      location_code: "Location Code",
+      user_agent: "User Agent",
+      page: "Page",
+      referer: "Referrer",
+      created_at: "Created At"
     })
+
+    if self.organization.enable_ip_address?
+      hash.merge!({
+        ip_address: "IP Address"
+      })
+    end
+
+    hash
+  end
+
+  def ordered_questions
+    array = []
+    self.form_sections.each do |section|
+      array.concat(section.questions.ordered.entries)
+    end
+    array
   end
 
   def omb_number_with_expiration_date
@@ -421,7 +438,7 @@ class Form < ApplicationRecord
     if self.survey_form_activations == 0
       "N/A"
     else
-      "#{((self.submissions.size / self.survey_form_activations.to_f) * 100).round(0)}%"
+      "#{((self.response_count / self.survey_form_activations.to_f) * 100).round(0)}%"
     end
   end
 
@@ -430,12 +447,13 @@ class Form < ApplicationRecord
     responses = responses.reject { |string| !string.present? }
     responses = responses.map { |string| string.to_i }
     response_total = responses.sum
-    response_count = responses.size.to_f
-    average = response_total / response_count
+
+    responses_count = responses.size
+    average = response_total / responses_count.to_f
     {
       response_total: response_total,
-      response_count: response_count,
-      average: average.round(3)
+      response_count: responses_count,
+      average: average.round(2)
     }
   end
 

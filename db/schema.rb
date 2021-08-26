@@ -2,18 +2,42 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_11_135309) do
+ActiveRecord::Schema.define(version: 2021_08_16_171147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "barriers", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "collections", force: :cascade do |t|
+    t.string "name"
+    t.date "start_date"
+    t.date "end_date"
+    t.integer "organization_id"
+    t.string "year"
+    t.string "quarter"
+    t.integer "user_id"
+    t.string "integrity_hash"
+    t.string "aasm_state"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "reflection"
+    t.string "rating"
+    t.integer "service_provider_id"
+  end
 
   create_table "events", force: :cascade do |t|
     t.string "name", null: false
@@ -55,7 +79,6 @@ ActiveRecord::Schema.define(version: 2020_11_11_135309) do
     t.boolean "template", default: false
     t.string "uuid"
     t.integer "organization_id"
-    t.boolean "hisp"
     t.string "omb_approval_number"
     t.date "expiration_date"
     t.string "medium"
@@ -81,9 +104,121 @@ ActiveRecord::Schema.define(version: 2020_11_11_135309) do
     t.string "logo"
     t.string "occasion"
     t.string "time_zone", default: "Eastern Time (US & Canada)"
+    t.integer "response_count", default: 0
+    t.datetime "last_response_created_at"
+    t.boolean "ui_truncate_text_responses", default: true
+    t.string "success_text_heading"
+    t.string "notification_frequency", default: "instant"
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["uuid"], name: "index_forms_on_uuid"
+  end
+
+  create_table "goals", force: :cascade do |t|
+    t.integer "organization_id"
+    t.string "name"
+    t.text "description"
+    t.string "tags", array: true
+    t.integer "users", array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tags"], name: "index_goals_on_tags", using: :gin
+    t.index ["users"], name: "index_goals_on_users", using: :gin
+  end
+
+  create_table "milestones", force: :cascade do |t|
+    t.integer "organization_id"
+    t.integer "goal_id"
+    t.string "name"
+    t.text "description"
+    t.date "due_date"
+    t.string "status"
+    t.text "notes"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "omb_cx_reporting_collections", force: :cascade do |t|
+    t.integer "collection_id"
+    t.string "service_provided"
+    t.text "transaction_point"
+    t.string "channel"
+    t.integer "volume_of_customers", default: 0
+    t.integer "volume_of_customers_provided_survey_opportunity", default: 0
+    t.integer "volume_of_respondents", default: 0
+    t.string "omb_control_number"
+    t.string "federal_register_url"
+    t.string "q1_text"
+    t.integer "q1_1", default: 0
+    t.integer "q1_2", default: 0
+    t.integer "q1_3", default: 0
+    t.integer "q1_4", default: 0
+    t.integer "q1_5", default: 0
+    t.string "q2_text"
+    t.integer "q2_1", default: 0
+    t.integer "q2_2", default: 0
+    t.integer "q2_3", default: 0
+    t.integer "q2_4", default: 0
+    t.integer "q2_5", default: 0
+    t.string "q3_text"
+    t.integer "q3_1", default: 0
+    t.integer "q3_2", default: 0
+    t.integer "q3_3", default: 0
+    t.integer "q3_4", default: 0
+    t.integer "q3_5", default: 0
+    t.string "q4_text"
+    t.integer "q4_1", default: 0
+    t.integer "q4_2", default: 0
+    t.integer "q4_3", default: 0
+    t.integer "q4_4", default: 0
+    t.integer "q4_5", default: 0
+    t.string "q5_text"
+    t.integer "q5_1", default: 0
+    t.integer "q5_2", default: 0
+    t.integer "q5_3", default: 0
+    t.integer "q5_4", default: 0
+    t.integer "q5_5", default: 0
+    t.string "q6_text"
+    t.integer "q6_1", default: 0
+    t.integer "q6_2", default: 0
+    t.integer "q6_3", default: 0
+    t.integer "q6_4", default: 0
+    t.integer "q6_5", default: 0
+    t.string "q7_text"
+    t.integer "q7_1", default: 0
+    t.integer "q7_2", default: 0
+    t.integer "q7_3", default: 0
+    t.integer "q7_4", default: 0
+    t.integer "q7_5", default: 0
+    t.string "q8_text"
+    t.integer "q8_1", default: 0
+    t.integer "q8_2", default: 0
+    t.integer "q8_3", default: 0
+    t.integer "q8_4", default: 0
+    t.integer "q8_5", default: 0
+    t.string "q9_text"
+    t.integer "q9_1", default: 0
+    t.integer "q9_2", default: 0
+    t.integer "q9_3", default: 0
+    t.integer "q9_4", default: 0
+    t.integer "q9_5", default: 0
+    t.string "q10_text"
+    t.integer "q10_1", default: 0
+    t.integer "q10_2", default: 0
+    t.integer "q10_3", default: 0
+    t.integer "q10_4", default: 0
+    t.integer "q10_5", default: 0
+    t.string "q11_text"
+    t.integer "q11_1", default: 0
+    t.integer "q11_2", default: 0
+    t.integer "q11_3", default: 0
+    t.integer "q11_4", default: 0
+    t.integer "q11_5", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.text "operational_metrics"
+    t.integer "service_id"
+    t.index ["collection_id"], name: "index_omb_cx_reporting_collections_on_collection_id"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -94,6 +229,8 @@ ActiveRecord::Schema.define(version: 2020_11_11_135309) do
     t.integer "external_id"
     t.string "domain"
     t.string "logo"
+    t.boolean "enable_ip_address", default: true
+    t.string "digital_analytics_path"
   end
 
   create_table "question_options", force: :cascade do |t|
@@ -116,6 +253,60 @@ ActiveRecord::Schema.define(version: 2020_11_11_135309) do
     t.datetime "updated_at", null: false
     t.integer "form_section_id"
     t.integer "character_limit"
+    t.string "placeholder_text"
+    t.string "help_text"
+  end
+
+  create_table "service_providers", force: :cascade do |t|
+    t.integer "organization_id"
+    t.string "name"
+    t.text "description"
+    t.text "notes"
+    t.string "slug"
+    t.string "department"
+    t.string "department_abbreviation"
+    t.string "bureau"
+    t.string "bureau_abbreviation"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.boolean "new"
+    t.boolean "inactive"
+  end
+
+  create_table "service_stage_barriers", force: :cascade do |t|
+    t.integer "service_stage_id"
+    t.integer "barrier_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "service_stages", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "service_id"
+    t.text "notes"
+    t.integer "time"
+    t.integer "total_eligible_population"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "organization_id"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "hisp", default: false
+    t.string "department", default: ""
+    t.string "bureau", default: ""
+    t.string "bureau_abbreviation", default: ""
+    t.string "service_abbreviation", default: ""
+    t.string "service_slug", default: ""
+    t.string "url", default: ""
+    t.integer "service_provider_id"
   end
 
   create_table "submissions", force: :cascade do |t|
@@ -151,6 +342,8 @@ ActiveRecord::Schema.define(version: 2020_11_11_135309) do
     t.string "language"
     t.integer "form_id"
     t.string "uuid"
+    t.string "aasm_state", default: "received"
+    t.boolean "archived", default: false
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
   end
 
@@ -187,9 +380,52 @@ ActiveRecord::Schema.define(version: 2020_11_11_135309) do
     t.string "time_zone", default: "Eastern Time (US & Canada)"
     t.string "api_key"
     t.datetime "api_key_updated_at"
+    t.boolean "organizational_website_manager", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "websites", force: :cascade do |t|
+    t.string "domain"
+    t.string "parent_domain"
+    t.string "office"
+    t.integer "office_id"
+    t.string "sub_office"
+    t.integer "suboffice_id"
+    t.string "contact_email"
+    t.string "site_owner_email"
+    t.string "production_status"
+    t.string "type_of_site"
+    t.string "digital_brand_category"
+    t.string "redirects_to"
+    t.string "status_code"
+    t.string "cms_platform"
+    t.string "required_by_law_or_policy"
+    t.boolean "has_dap"
+    t.string "dap_gtm_code"
+    t.string "cost_estimator_url"
+    t.string "modernization_plan_url"
+    t.float "annual_baseline_cost"
+    t.float "modernization_cost"
+    t.string "analytics_url"
+    t.integer "current_uswds_score"
+    t.boolean "uses_feedback"
+    t.string "feedback_tool"
+    t.string "sitemap_url"
+    t.boolean "mobile_friendly"
+    t.boolean "has_search"
+    t.boolean "uses_tracking_cookies"
+    t.boolean "has_authenticated_experience"
+    t.string "authentication_tool"
+    t.text "notes"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "repository_url"
+    t.string "hosting_platform"
+    t.float "modernization_cost_2021"
+    t.float "modernization_cost_2022"
+    t.float "modernization_cost_2023"
   end
 
 end

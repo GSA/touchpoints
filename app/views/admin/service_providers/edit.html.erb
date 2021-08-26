@@ -1,0 +1,21 @@
+<% content_for :navigation_title do %>
+  Editing Service Provider: <%= @service_provider.name %>
+<% end %>
+
+<p>
+  <%= link_to admin_service_provider_path(@service_provider) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Service Provider
+  <% end %>
+</p>
+
+<%= render 'form', service_provider: @service_provider %>
+
+<hr>
+
+<p>
+  <%= link_to admin_service_provider_path(@service_provider), class: "usa-button usa-button--secondary", method: :delete, data: { confirm: 'Are you sure?' } do %>
+    <i class="fa fa-trash"></i>
+    Destroy
+  <% end %>
+</p>

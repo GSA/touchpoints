@@ -4,7 +4,7 @@
 function FBAform(d, N) {
 	return {
 		<% if form.load_css %>
-		css: '<%= escape_javascript(render partial: "components/widget/widget.css", locals: { form: form }) %>',
+		css: '<%= escape_javascript(render partial: "components/widget/widget", formats: :css, locals: { form: form }) %>',
 		<% end %>
 		formId: "<%= form.short_uuid %>",
 		formComponent: function() {
@@ -92,6 +92,10 @@ function FBAform(d, N) {
 			d.body.appendChild(this.dialogEl);
 
 			d.querySelector('.fba-modal-close').addEventListener('click', this.handleDialogClose.bind(this), false);
+			var otherElements = d.querySelectorAll(".usa-input.other-option");
+			for (var i = 0; i < otherElements.length; i++) {
+			    otherElements[i].addEventListener('keyup', this.handleOtherOption.bind(this), false);
+			}
 		<% end %>
 
 		<%# add button behaviors for custom-button-modal %>
@@ -125,10 +129,12 @@ function FBAform(d, N) {
 		{
 			var formComponent = this.formComponent();
 			var alertElement = formComponent.querySelector(".fba-alert");
+			var alertElementHeading = formComponent.getElementsByClassName("usa-alert__heading")[0];
 			var alertElementBody = formComponent.getElementsByClassName("usa-alert__text")[0];
 			var alertErrorElement = formComponent.querySelector(".fba-alert-error");
 			var alertErrorElementBody = alertErrorElement.getElementsByClassName("usa-alert__text")[0];
 			alertElement.setAttribute("hidden", true);
+			alertElementHeading.innerHTML = "";
 			alertElementBody.innerHTML = "";
 			alertErrorElement.setAttribute("hidden", true);
 			alertErrorElementBody.innerHTML = "";
@@ -152,20 +158,30 @@ function FBAform(d, N) {
 			e.preventDefault();
 			this.closeDialog();
 		},
+		handleOtherOption: function(e) {
+			var selectorId =  "#" + e.srcElement.getAttribute("data-option-id");
+			var other_val = e.target.value.replace(/,/g, '');
+			if (other_val == '') other_val = 'other';
+			var option = this.formElement().querySelector(selectorId);
+			option.checked = true;
+			option.value = other_val;
+		},
 		handleSubmitClick: function(e) {
 			e.preventDefault();
 			this.resetErrors();
 			var formElement = this.formElement();
 			var self = this;
 			if (self.validateForm(formElement)) {
+				// disable submit button and show sending feedback message
 				var submitButton = formElement.querySelector("[type='submit']");
 				submitButton.disabled = true;
+				submitButton.classList.add("aria-disabled");
 				self.sendFeedback();
 			}
 		},
 		handleYesNoSubmitClick: function(e) {
 			e.preventDefault();
-			
+
 			var input = this.formComponent().querySelector('.fba-touchpoints-page-form');
 			input.value = e.target.value;
 			this.resetErrors();
@@ -181,7 +197,7 @@ function FBAform(d, N) {
 		},
 		validateForm: function(form) {
 			this.hideValidationError(form);
-			var valid = this.checkRequired(form);
+			var valid = this.checkRequired(form) && this.checkEmail(form) && this.checkPhone(form);
 			return valid;
 		},
 		checkRequired: function(form) {
@@ -211,6 +227,44 @@ function FBAform(d, N) {
 			}
 			return true;
 		},
+		checkEmail: function(form) {
+			var emailItems = form.querySelectorAll('input[type="email"]');
+			var questions = {};
+			// Build a dictionary of questions which require an answer
+			Array.prototype.forEach.call(emailItems, function(item) { questions[item.name] = item });
+			Array.prototype.forEach.call(emailItems, function(item) {
+			  if (item.value.length == 0) {
+			  	delete(questions[item.name]);
+			  } else {
+			    var EmailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+			    if (EmailRegex.test(item.value)) delete(questions[item.name]);
+			  }
+			});
+			for (var key in questions) {
+				this.showValidationError(questions[key],'<%= I18n.t 'form.field_is_invalid' %>');
+				return false;
+			}
+			return true;
+		},
+		checkPhone: function(form) {
+			var phoneItems = form.querySelectorAll('input[type="tel"]');
+			var questions = {};
+			// Build a dictionary of questions which require an answer
+			Array.prototype.forEach.call(phoneItems, function(item) { questions[item.name] = item });
+			Array.prototype.forEach.call(phoneItems, function(item) {
+			  if (item.value.length == 0) {
+			  	delete(questions[item.name]);
+			  } else {
+			    var PhoneRegex = /^[0-9]{10}$/;
+			    if (PhoneRegex.test(item.value)) delete(questions[item.name]);
+			  }
+			});
+			for (var key in questions) {
+				this.showValidationError(questions[key],'<%= I18n.t 'form.field_is_invalid' %>');
+				return false;
+			}
+			return true;
+		},
 		showValidationError: function(question,error) {
 			var questionDiv = question.closest(".question");
 			var label = questionDiv.querySelector("label");
@@ -231,6 +285,11 @@ function FBAform(d, N) {
 			questionDiv.appendChild(input);
 			questionDiv.scrollIntoView();
 			questionDiv.focus();
+
+			// enable submit button ( so user can fix error and resubmit )
+			var submitButton = document.querySelector("[type='submit']");
+			submitButton.disabled = false;
+			submitButton.classList.remove("aria-disabled");
 		},
 		hideValidationError: function(form) {
 			var elem = form.querySelector('.usa-form-group--error');
@@ -299,15 +358,23 @@ function FBAform(d, N) {
 			var form = this.formElement();
 			this.ajaxPost(form, this.formSuccess);
 		},
+		successHeadingText: function() {
+			return "<%= escape_javascript(form.success_text_heading) %>";
+		},
+		successText: function() {
+			return "<%= escape_javascript(form.success_text) %>";
+		},
 		showFormSuccess: function(e)
 		{
 			var formComponent = this.formComponent();
 			var formElement = this.formElement();
 			var alertElement = formComponent.querySelector(".fba-alert");
+			var alertElementHeading = formComponent.querySelector(".usa-alert__heading");
 			var alertElementBody = formComponent.querySelector(".usa-alert__text");
 
 			// Display success Message
-			alertElementBody.innerHTML += "<%= escape_javascript(form.success_text) %>";
+			alertElementHeading.innerHTML += this.successHeadingText();
+			alertElementBody.innerHTML += this.successText();
 			alertElement.removeAttribute("hidden");
 
 			// Hide Form Elements

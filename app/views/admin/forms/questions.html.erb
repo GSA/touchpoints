@@ -11,16 +11,13 @@
 <br>
 <div class="grid-row">
   <div class="grid-col">
-    <div class="questions-spa-div">
-      <div class="form-builder">
+    <div class="touchpoint-form form-builder">
+      <div class="inner-wrapper">
         <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
       </div>
+      <%= render partial: 'components/forms/footer_banner', locals: { form: @form } %>
     </div>
-    <br>
-  </div>
-</div>
-<div id="fba-modal" class="hide usa-prose">
-  <div id="fba-modal-dialog" class="fba-modal-dialog">
-    <div class="modal-content"></div>
+
+    <%= render "admin/forms/preview", { form: @form } %>
   </div>
 </div>

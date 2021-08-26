@@ -1,0 +1,123 @@
+<% content_for :navigation_title do %>
+  <div class="float-right">
+    <%= link_to edit_admin_service_provider_path(@service_provider), class: "usa-button usa-button-inverted" do %>
+    <i class="fa fa-pencil-alt"></i>
+    Edit
+    <% end %>
+  </div>
+  Service Provider: <%= @service_provider.name %>
+<% end %>
+
+<p>
+  <%= link_to admin_service_providers_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Service Providers
+  <% end %>
+</p>
+
+<% if @service_provider.inactive? %>
+<div class="usa-alert usa-alert--warning" >
+  <div class="usa-alert__body">
+    <h3 class="usa-alert__heading">Inactive</h3>
+    <p class="usa-alert__text">
+      This Service Provider is no longer active.
+    </p>
+  </div>
+</div>
+<% end %>
+
+<div class="grid-row grid-gap-md">
+  <div class="grid-col-6">
+    <% if @service_provider.new? %>
+    <p>
+      <span class="usa-tag bg-primary-light">
+        New Service Provider
+      </span>
+    </p>
+    <% end %>
+
+    <p>
+      <strong>Organization:</strong>
+      <%= link_to_if admin_permissions?, @service_provider.organization.name, admin_organization_path(@service_provider.organization) %>
+    </p>
+
+    <p>
+      <strong>Name:</strong>
+      <%= @service_provider.name %>
+    </p>
+
+    <p>
+      <strong>Description:</strong>
+      <%= @service_provider.description %>
+    </p>
+
+    <p>
+      <strong>Notes:</strong>
+      <%= @service_provider.notes %>
+    </p>
+  </div>
+  <div class="grid-col-6">
+    <p>
+      <strong>Department:</strong>
+      <%= @service_provider.department %>
+    </p>
+
+    <p>
+      <strong>Department abbreviation:</strong>
+      <%= @service_provider.department_abbreviation %>
+    </p>
+
+    <p>
+      <strong>Bureau:</strong>
+      <%= @service_provider.bureau %>
+    </p>
+
+    <p>
+      <strong>Bureau abbreviation:</strong>
+      <%= @service_provider.bureau_abbreviation %>
+    </p>
+
+    <p>
+      <strong>Slug:</strong>
+      <%= @service_provider.slug %>
+    </p>
+  </div>
+</div>
+
+<div class="services well">
+  <h3>
+    <%= @service_provider.services.size %> Services
+  </h3>
+
+  <ul class="usa-list">
+  <% @service_provider.services.each do |service| %>
+    <li>
+      <%= link_to service.name, admin_service_path(service) %>
+    </li>
+  <% end %>
+  </ul>
+</div>
+
+<div class="well">
+  <h4>
+    Data Collections
+  </h4>
+  <ul>
+    <% @service_provider.collections.order(:year, :quarter).each do |c| %>
+    <li>
+      <%= link_to admin_collection_path(c) do %>
+        <%= c.year %>
+        <%= c.quarter %>
+        <%= c.name %>
+      <% end %>
+    </li>
+    <% end %>
+
+    <p>
+      <%= link_to new_admin_collection_path(organization_id: @service_provider.organization_id, service_provider_id: @service_provider.id), class: "usa-button usa-button--outline" do %>
+        <i class="fa fa-plus"></i>
+        New Data Collection
+      <% end %>
+    </p>
+  </ul>
+</div>

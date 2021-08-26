@@ -1,4 +1,4 @@
-<%= render "components/forms/custom_layout", form: @form, questions: @form.questions %>
+<%= render "components/forms/custom_layout", form: form, questions: form.questions %>
 <script>
-  <%= render(partial: "components/widget/fba.js", locals: { form: @form, suppress_ui: true }) %>
+  <%= render(partial: "components/widget/fba", formats: :js, locals: { form: form, suppress_ui: true }) %>
 </script>

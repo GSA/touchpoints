@@ -6,14 +6,43 @@ module ApplicationHelper
     end
   end
 
+  def organization_dropdown_options
+    Organization.all.order(:name).map { |org| ["#{org.abbreviation} - #{org.name}", org.id] }
+  end
+
+  def hisp_questions_key
+    {
+      "1" => "satisfaction",
+      "2" => "trust",
+      "3" => "effectiveness",
+      "4" => "ease",
+      "5" => "effiency",
+      "6" => "transparency",
+      "7" => "employee",
+    }
+  end
+
+  def collection_rating_label(rating:)
+    if rating == "TRUE"
+      "🟢"
+    elsif rating == "FALSE"
+      "🔴"
+    elsif rating == "PARTIAL"
+      "🟡"
+    end
+  end
+
   # Returns javascript to capture form input for one Form Question
   def question_type_javascript_params(question)
     if question.question_type == "text_field"
-      "form.querySelector(\"##{question.answer_field}\").value"
+      "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
+    elsif question.question_type == "hidden_field"
+      "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
     elsif question.question_type == "text_email_field"
-      "form.querySelector(\"##{question.answer_field}\").value"
+      "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
+    elsif question.question_type == "text_phone_field"
+      "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
     elsif question.question_type == "textarea"
-      "form.querySelector(\"##{question.answer_field}\").value"
       "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
     elsif question.question_type == "radio_buttons"
       "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
@@ -23,12 +52,10 @@ module ApplicationHelper
       "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
     elsif question.question_type == "yes_no_buttons"
       "form.querySelector(\"input[name=#{question.answer_field}]\") && form.querySelector(\"input[name=#{question.answer_field}]\").value"
-    elsif question.question_type == "matrix_checkboxes"
-      "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
     elsif question.question_type == "checkbox"
       "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && Array.apply(null,form.querySelectorAll(\"input[name=#{question.answer_field}]:checked\")).map(function(x) {return x.value;}).join(',')"
-    elsif question.question_type == "dropdown"
-      "form.querySelector(\"##{question.answer_field}\").value"
+    elsif ["dropdown", "states_dropdown"].include?(question.question_type)
+      "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
     elsif question.question_type == "text_display"
       "null"
     elsif question.question_type == "custom_text_display"
@@ -77,5 +104,10 @@ module ApplicationHelper
 
   def format_time(time, timezone)
     I18n.l time.to_time.in_time_zone(timezone), format: :long
+  end
+
+  def form_integrity_checksum(form:)
+    data_to_encode = render(partial: "components/widget/fba", formats: :js, locals: { form: form })
+    Digest::SHA256.base64digest(data_to_encode)
   end
 end

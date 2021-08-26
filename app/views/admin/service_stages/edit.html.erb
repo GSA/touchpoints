@@ -1,0 +1,17 @@
+<% content_for :navigation_title do %>
+  Editing Service Stage for <%= @service.name %>
+<% end %>
+<p>
+  <%= link_to admin_service_path(@service) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Service
+  <% end %>
+</p>
+
+<%= render 'form', service: @service, service_stage: @service_stage %>
+
+<p>
+  <%= link_to 'Destroy', admin_service_service_stage_path(@service), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" %>
+  <div style="clear:both"></div>
+  <br>
+</p>

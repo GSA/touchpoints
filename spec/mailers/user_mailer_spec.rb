@@ -20,6 +20,52 @@ RSpec.describe UserMailer, type: :mailer do
     end
   end
 
+  describe "submission_digest" do
+    let!(:organization) { FactoryBot.create(:organization) }
+    let(:user) { FactoryBot.create(:user, organization: organization) }
+    let(:form) { FactoryBot.create(:form, organization: organization, user: user)}
+    let!(:submission) { FactoryBot.create(:submission, form: form) }
+    let(:begin_day) { 1.day.ago }
+    let(:mail) { UserMailer.submissions_digest(form.id, begin_day) }
+
+    before do
+      ENV["ENABLE_EMAIL_NOTIFICATIONS"] = "true"
+    end
+
+    it "renders the headers" do
+      expect(mail.subject).to eq("New Submissions to #{form.name} since #{begin_day}")
+      expect(mail.to).to eq(form.notification_emails.split)
+      expect(mail.from).to eq([ENV.fetch("TOUCHPOINTS_EMAIL_SENDER")])
+    end
+
+    it "renders the body" do
+      expect(mail.body.encoded).to match("Notification of feedback received since #{ @begin_day }")
+      expect(mail.body.encoded).to match("1 feedback responses have been submitted to your form, #{ form.name }, since #{begin_day}")
+    end
+  end
+
+  describe "account_deactivation_scheduled_notification" do
+    let!(:organization) { FactoryBot.create(:organization) }
+    let(:user) { FactoryBot.create(:user, organization: organization) }
+    let(:active_days) { 14 }
+    let(:mail) { UserMailer.account_deactivation_scheduled_notification(user.email, active_days) }
+
+    before do
+      ENV["ENABLE_EMAIL_NOTIFICATIONS"] = "true"
+    end
+
+    it "renders the headers" do
+      expect(mail.subject).to eq("Your account is scheduled to be deactivated in #{active_days} days due to inactivity")
+      expect(mail.to).to eq([user.email])
+      expect(mail.from).to eq([ENV.fetch("TOUCHPOINTS_EMAIL_SENDER")])
+    end
+
+    it "renders the body" do
+      expect(mail.body.encoded).to match("Account deactivation scheduled in #{ active_days } days.")
+      expect(mail.body.encoded).to match("Your account is scheduled to be deactivated in #{ active_days } days due to inactivity.")
+    end
+  end
+
   describe "admin_summary" do
     let(:mail) { UserMailer.admin_summary }
 

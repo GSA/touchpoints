@@ -1,0 +1,35 @@
+<div class="usa-accordion usa-accordion--bordered">
+  <h4 class="usa-accordion__heading">
+    <button
+      class="usa-accordion__button"
+      aria-expanded="false"
+      aria-controls="cx-summary-data"
+    >
+      hisp_service_reports.csv
+    </button>
+  </h4>
+  <div id="cx-summary-data" class="usa-accordion__content">
+    <p>
+      This data is used for performance.gov/cx.
+      The .csv is placed at /data/hisp_service_reports.csv.
+    </p>
+    <p>
+      This data is primarily a listing of OMB CX Reporting Collections,
+      and the data is used to generate bar charts of the quarterly reports,
+      for each Service.
+    </p>
+    <p>
+      <%= render 'components/reporting/cx_summary_data_header_row' %>
+      <br>
+      <% ServiceProvider.all.includes(:organization).order("organizations.name", :name).each do |service_provider| %>
+        <% service_provider.services.order(:name).each do |service| %>
+          <% service.omb_cx_reporting_collections.includes(:service, :collection).order("collections.year", "collections.quarter", "services.name").each do |omb_cx_reporting_collection| %>
+            <%= render "components/reporting/cx_summary_data_detail_row", omb_cx_reporting_collection: omb_cx_reporting_collection %>
+            <br>
+          <% end %>
+        <% end %>
+      <% end %>
+    </p>
+  </div>
+</div>
+<br>

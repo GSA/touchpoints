@@ -35,14 +35,29 @@
             <a href="/profile" title="Click to update profile"><%= current_user.email %></a>
           </li>
           <% if admin_permissions? %>
-          <li class="usa-nav__secondary-item user-name">
+          <li class="usa-nav__secondary-item">
             <%= link_to admin_dashboard_path do %>
               <i class="fa fa-lock"></i>
               &nbsp;
               Admin
             <% end %>
           </li>
+          <li class="usa-nav__secondary-item">
+            <%= link_to admin_services_path do %>
+            Services
+            <% end %>
+          </li>
           <% end %>
+          <li class="usa-nav__secondary-item">
+            <%= link_to admin_websites_path do %>
+              Websites
+            <% end %>
+          </li>
+          <li class="usa-nav__secondary-item">
+            <%= link_to admin_collections_path do %>
+              Collections
+            <% end %>
+          </li>
           <li class="usa-nav__secondary-item">
             <%= link_to destroy_user_session_path do %>
               Sign Out

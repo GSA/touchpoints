@@ -1,0 +1,11 @@
+<% content_for :navigation_title do %>
+  New Service Stage: <%= @service.name %>
+<% end %>
+<p>
+  <%= link_to admin_services_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Services
+  <% end %>
+</p>
+
+<%= render 'form', service: @service, service_stage: @service_stage %>

@@ -1,0 +1,12 @@
+<% content_for :navigation_title do %>
+  New Goal
+<% end %>
+
+<p>
+  <%= link_to admin_goals_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Goals
+  <% end %>
+</p>
+
+<%= render 'form', goal: @goal %>

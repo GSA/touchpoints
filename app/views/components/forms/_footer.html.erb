@@ -5,12 +5,9 @@
     <div class="grid-row">
       <div class="grid-col-12">
         <% if form.disclaimer_text? %>
-          <p>
-            <small id="fba-dialog-privacy">
+          <small id="fba-dialog-privacy">
             <%= form.disclaimer_text.html_safe %>
-            </small>
-          </p>
-          <br>
+          </small>
         <% end %>
       </div>
     </div>
@@ -18,30 +15,4 @@
 </div>
 <% end %>
 
-<div class="usa-banner">
-  <header class="usa-banner__header">
-    <div class="usa-banner__inner">
-      <div class="grid-col-auto">
-        <img class="usa-banner__header-flag" src="<%= image_path("us_flag_small.png") %>" alt="U.S. flag">
-      </div>
-      <div class="grid-col-fill tablet:grid-col-auto">
-        <p class="usa-banner__header-text">
-          An official form of the United States government.
-          <%= t 'powered_by' %>
-          <a href="<%= root_url %>" target="_blank" rel="noopener"><%= t 'touchpoints' %></a>
-          <br>
-          <% if form.present? %>
-            <% if form.omb_approval_number.present? %>
-            OMB Approval #<span class="omb-approval-number"><%= form.omb_approval_number %></span>
-            <% end %>
-
-            <% if form.expiration_date? %>
-            &middot;
-            Expiration Date <%= form.expiration_date.strftime("%m/%d/%Y") %>
-            <% end %>
-          <% end %>
-        </p>
-      </div>
-    </div>
-  </header>
-</div>
+<%= render "components/forms/footer_banner", form: form %>

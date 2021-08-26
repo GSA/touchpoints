@@ -1,0 +1,28 @@
+<div class="email-header">
+  <%= image_tag(attachments['logo.png'].url, alt: "Touchpoints logo") %>
+</div>
+<h1>
+  Website Data Collection Request
+</h1>
+<p>
+  Hi <%= @email %>,
+</p>
+<p>
+  You are receiving this email because you are identified as a website manager for one or more GSA websites:
+</p>
+<p>
+  <ul>
+    <% @websites.each do | website | %>
+    <li>
+      <%= link_to website.domain, admin_website_url(website) %>
+    </li>
+    <% end %>
+  </ul>
+</p>
+<p>
+  Log into Touchpoints to update your website records.
+</p>
+<p>
+  For questions, contact the EDX (Enterprise Digital Experience) team or
+  <%= ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",").to_sentence %>.
+</p>

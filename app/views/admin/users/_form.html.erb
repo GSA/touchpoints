@@ -11,7 +11,7 @@
   <% end %>
   <div class="field">
     <%= form.label :organization_id, class: "usa-label" %>
-    <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, selected: user.organization_id), { prompt: "Select Organization" }, { class: "usa-select" } %>
+    <%= form.select :organization_id, options_for_select(organization_dropdown_options, selected: user.organization_id), { prompt: "Select Organization" }, { class: "usa-select" } %>
   </div>
   <% if admin_permissions? %>
   <div class="well">
@@ -19,7 +19,7 @@
       A Touchpoints Admin manages everything.
     </p>
     <fieldset class="usa-fieldset">
-      <legend class="usa-sr-only">Historical figures 1</legend>
+      <legend class="usa-sr-only">Administrative User</legend>
       <div class="usa-checkbox">
         <%= form.check_box :admin, class: "usa-checkbox__input" %>
         <%= form.label :admin, class: "usa-checkbox__label" %>
@@ -28,10 +28,22 @@
   </div>
   <div class="well">
     <p>
+      Organizational Website Manager
+    </p>
+    <fieldset class="usa-fieldset">
+      <legend class="usa-sr-only">Inactive User</legend>
+      <div class="usa-checkbox">
+        <%= form.check_box :organizational_website_manager, class: "usa-checkbox__input" %>
+        <%= form.label :organizational_website_manager, class: "usa-checkbox__label" %>
+      </div>
+    </fieldset>
+  </div>
+  <div class="well">
+    <p>
       De-activate user account.
     </p>
     <fieldset class="usa-fieldset">
-      <legend class="usa-sr-only">Historical figures 1</legend>
+      <legend class="usa-sr-only">Inactive User</legend>
       <div class="usa-checkbox">
         <%= form.check_box :inactive, class: "usa-checkbox__input" %>
         <%= form.label :inactive, class: "usa-checkbox__label" %>

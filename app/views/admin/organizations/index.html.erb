@@ -1,6 +1,11 @@
 <% content_for :navigation_title do %>
   Organizations
+  <%= link_to new_admin_organization_path, class: "usa-button usa-button-inverted float-right" do %>
+  <i class="fa fa-plus-circle"></i>
+    New Organization
+  <% end %>
 <% end %>
+
 <table class="usa-table" style="width: 100%;">
   <thead>
     <tr>
@@ -21,9 +26,3 @@
     <% end %>
   </tbody>
 </table>
-<p>
-  <%= link_to new_admin_organization_path, class: "usa-button" do %>
-    <i class="fa fa-plus-circle"></i>
-    New Organization
-  <% end %>
-</p>

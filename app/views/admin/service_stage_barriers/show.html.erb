@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Service:</strong>
+  <%= link_to @service_stage_barrier.service_stage.service.name, service_path(@service_stage_barrier.service_stage.service) %>
+</p>
+
+<p>
+  <strong>Service stage:</strong>
+  <%= link_to @service_stage_barrier.service_stage.name, service_stage_path(@service_stage_barrier.service_stage_id) %>
+</p>
+
+<p>
+  <strong>Barrier:</strong>
+  <%= link_to @service_stage_barrier.barrier.name, barrier_path(@service_stage_barrier.barrier_id) %>
+</p>
+
+<%= link_to 'Edit', edit_service_stage_barrier_path(@service_stage_barrier) %> |
+<%= link_to 'Back', service_stage_barriers_path %>

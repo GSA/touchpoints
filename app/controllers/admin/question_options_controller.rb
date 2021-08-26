@@ -20,7 +20,7 @@ class Admin::QuestionOptionsController < AdminController
 
   def sort
     params[:question_option].each_with_index do |id, index|
-      QuestionOption.find(id).update_attributes(position: index + 1)
+      QuestionOption.find(id).update(position: index + 1)
     end
 
     head :ok
@@ -51,7 +51,7 @@ class Admin::QuestionOptionsController < AdminController
           @question_options << question_option
           position += 1
         else
-          @errors << question_option.errors
+          @errors << question_option.errors.full_messages
         end
       end
     else
@@ -64,15 +64,11 @@ class Admin::QuestionOptionsController < AdminController
         if question_option.save
           @question_options << question_option
         else
-          @errors << question_option.errors + "\n" unless result
+          @errors << question_option.errors.full_messages
         end
       end
     end
-
-    respond_to do |format|
-      format.html { redirect_to questions_admin_form_path(@question.form), notice: 'Question option was successfully created.' }
-      format.js { }
-    end
+   render :create, format: :js
   end
 
   def update

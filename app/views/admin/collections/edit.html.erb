@@ -1,0 +1,26 @@
+<% content_for :navigation_title do %>
+  Editing Data Collection
+<% end %>
+
+<p>
+  <%= link_to admin_collection_path(@collection) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Data Collection
+  <% end %>
+</p>
+
+<%= render 'form', collection: @collection %>
+
+<hr>
+
+<p>
+  <%= link_to admin_collection_path(@collection), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
+    <i class="fa fa-trash"></i>
+    Delete
+  <% end %>
+
+  <%= link_to copy_admin_collection_path(@collection), method: :post, class: "usa-button usa-button--outline float-right", data: { confirm: 'Are you sure?' } do %>
+    <i class="fa fa-trash"></i>
+    Copy this collection
+  <% end %>
+</p>

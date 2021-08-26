@@ -1,0 +1,64 @@
+<div class="usa-accordion usa-accordion--bordered">
+  <h4 class="usa-accordion__heading">
+    <button
+      class="usa-accordion__button"
+      aria-expanded="false"
+      aria-controls="csv-data"
+    >
+      CSV data for performance.gov/cx charts
+    </button>
+  </h4>
+  <div id="csv-data" class="usa-accordion__content">
+    <div>
+      <h4>
+        Service Summary
+      </h4>
+      <p>
+        submission comment,
+        survey_instrument_reference,
+        agency_poc_name,
+        agency_poc_email,
+        department,
+        bureau,
+        service,
+        transaction_point,
+        mode,
+        start_date,
+        end_date,
+        total_volume,
+        survey_opp_volume,
+        response_count,
+        OMB_control_number,
+        federal_register_url
+        <br>
+        "<%= collection.reflection || "Please enter reflection text" %>",
+        <%= "---" %>,
+        <%= "POC name" %>,
+        <%= collection.user.email %>,
+        <%= collection.organization.name %>,
+        <%= collection.service_provider ? collection.service_provider.bureau : "" %>,
+        <%= collection.service_provider ? collection.service_provider.name : "" %>,
+        <%= collection.start_date %>,
+        <%= collection.end_date %>,
+        <%= collection.totals[:volume_of_customers] %>,
+        <%= collection.totals[:volume_of_customers_provided_survey_opportunity] %>,
+        <%= collection.totals[:volume_of_respondents] %>,
+        <%= collection.omb_cx_reporting_collections.first.omb_control_number if collection.omb_cx_reporting_collections.first %>,
+        <%= collection.omb_cx_reporting_collections.first.federal_register_url if collection.omb_cx_reporting_collections.first %>
+      </p>
+    </div>
+    <div>
+      <h4>
+        cx-summary-data.csv
+      </h4>
+      <p>
+        <%= render 'components/reporting/cx_summary_data_header_row' %>
+        <br>
+        <% collection.omb_cx_reporting_collections.each do |reporting_collection| %>
+        <%= render "components/reporting/cx_summary_data_detail_row", omb_cx_reporting_collection: reporting_collection %>
+        <br>
+        <% end %>
+      </p>
+    </div>
+  </div>
+</div>

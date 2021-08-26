@@ -1,0 +1,1 @@
+$(".response[data-id='<%= @submission.uuid %>'] .flagged").html("<%= j (render partial: 'flag', :locals => { submission: @submission }) %>")

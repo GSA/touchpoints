@@ -1,0 +1,77 @@
+<div class="usa-accordion usa-accordion--bordered">
+  <h4 class="usa-accordion__heading">
+    <button
+      class="usa-accordion__button"
+      aria-expanded="false"
+      aria-controls="csv-data"
+    >
+      hisp_services.csv
+    </button>
+  </h4>
+  <div id="csv-data" class="usa-accordion__content">
+    <div>
+      <p>
+        This .csv data is used to populate the list of HISPs on performance.gov.
+      </p>
+      <p>
+        <% header_fields = [
+            :department,
+            :department_abbreviation,
+            :bureau,
+            :bureau_abbreviation,
+            :service_provider_id,
+            :service,
+            :service_abbreviation,
+            :service_id,
+            :url,
+            :headline,
+            :blurb,
+            :dap_identifier
+          ]
+        %>
+        <% [2020, 2021].each do |year| %>
+          <% [1, 2, 3, 4].each do |quarter| %>
+            <% header_fields << "data_#{ year }_q#{ quarter }" %>
+            <% header_fields << "data_#{ year }_q#{ quarter }_notes" %>
+          <% end %>
+        <% end %>
+        <%= header_fields.join(",") %>
+        <br>
+        <% ServiceProvider.active.includes(:organization).order("organizations.name", :name).each do |hisp| %>
+          <% hisp.services.hisp.order(:name).each do |service| %>
+            <% row_fields = [
+                service.organization.name,
+                service.organization.abbreviation.downcase,
+                service.bureau,
+                service.bureau_abbreviation,
+                service.service_provider.slug,
+                service.name,
+                service.service_abbreviation,
+                service.service_slug,
+                service.url,
+                "\"#{service.notes}\"",
+                "\"#{service.description}\"",
+                service.organization.digital_analytics_path
+              ]
+            %>
+            <% [2020, 2021].each do |year| %>
+              <% [1, 2, 3, 4].each do |quarter| %>
+                <% collection = service.collections.where(quarter: quarter, year: year).first %>
+                <% if collection.present? %>
+                  <% row_fields << collection.rating %>
+                  <% row_fields << "q#{ quarter }_notes" %>
+                <% else %>
+                  <% row_fields << "" %>
+                  <% row_fields << "" %>
+                <% end %>
+              <% end %>
+            <% end %>
+            <%= row_fields.join(",") %>
+            <br>
+          <% end %>
+        <% end %>
+      </p>
+    </div>
+  </div>
+</div>
+<br>

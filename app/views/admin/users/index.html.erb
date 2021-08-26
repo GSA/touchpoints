@@ -18,11 +18,16 @@
 
     <tbody>
       <% @users.each do |user| %>
-        <tr>
+        <tr class="user" data-id="<%= user.id %>">
         <% if current_user.admin? %>
           <td class="text-center"><%= user.admin? ? '✅' : nil %></td>
         <% end %>
-          <td><%= link_to_if !user.inactive, user.email, admin_user_path(user) %></td>
+          <td>
+            <%= link_to user.email, admin_user_path(user) %>
+            <% if user.inactive? %>
+            <span class="usa-tag float-right">Inactive</span>
+            <% end %>
+          </td>
           <td><%= user.organization ? user.organization.name : nil %></td>
         <% if current_user.admin? %>
           <td><%= time_ago_in_words(user.last_sign_in_at) if user.last_sign_in_at %></td>

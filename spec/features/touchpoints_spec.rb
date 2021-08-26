@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 feature "Touchpoints", js: true do
+  let(:organization) { FactoryBot.create(:organization) }
+
   context "as Admin" do
-    let(:organization) { FactoryBot.create(:organization) }
     let!(:user) { FactoryBot.create(:user, :admin, organization: organization) }
     let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: user) }
 
@@ -27,7 +28,7 @@ feature "Touchpoints", js: true do
 
       context "custom success text" do
         before do
-          form.update_attribute(:success_text, "Much success. \n With a second line.")
+          form.update(success_text: "Much success. \n With a second line.")
           form.reload
           visit touchpoint_path(form)
           expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
@@ -146,9 +147,101 @@ feature "Touchpoints", js: true do
       end
     end
 
+    describe "states dropdown question" do
+      let!(:dropdown_form) { FactoryBot.create(:form, :states_dropdown_form, organization: organization, user: user) }
+
+      before do
+        visit touchpoint_path(dropdown_form)
+        select("CA", from: "answer_03")
+        click_on "Submit"
+      end
+
+      it "persists question values to db" do
+        expect(page).to have_content("Thank you. Your feedback has been received.")
+        expect(Submission.last.answer_03).to eq "CA"
+      end
+
+      context "when required" do
+        before do
+          dropdown_form.questions.first.update(is_required: true)
+          visit touchpoint_path(dropdown_form)
+        end
+
+        it "display flash message" do
+          click_on "Submit"
+          expect(page).to have_content("You must respond to question:")
+        end
+      end
+    end
+
+    describe "phone number question" do
+      let!(:dropdown_form) { FactoryBot.create(:form, :phone, organization: organization, user: user) }
+
+      before do
+        visit touchpoint_path(dropdown_form)
+      end
+
+      it "allows numeric input and a maximum of 10 numbers" do
+        fill_in "answer_03", with: "12345678901234"
+        expect(find("#answer_03").value).to eq("(123) 456-7890")
+      end
+
+      it "disallows text input" do
+        fill_in "answer_03", with: "abc"
+        expect(find("#answer_03").value).to eq("")
+      end
+    end
+
+    describe "hidden_field question" do
+
+      let!(:hidden_field_form) { FactoryBot.create(:form, :hidden_field_form, organization: organization, user: user) }
+
+      context "render" do
+        before do
+          visit submit_touchpoint_path(hidden_field_form)
+        end
+
+        it "generates hidden field" do
+          expect(find("#answer_01", :visible => false).value).to eq("hidden value")
+        end
+      end
+
+      context "submit" do
+        before do
+          visit touchpoint_path(hidden_field_form)
+          click_button "Submit"
+        end
+
+        it "persists the hidden field" do
+          expect(page).to have_content("Thank you. Your feedback has been received.")
+          expect(Submission.last.answer_01).to eq "hidden value"
+        end
+      end
+    end
+
+    describe "email question" do
+      let!(:dropdown_form) { FactoryBot.create(:form, :email, organization: organization, user: user) }
+
+      before do
+        visit touchpoint_path(dropdown_form)
+      end
+
+      it "allows valid email address" do
+        fill_in "answer_03", with: "test@test.com"
+        find("#answer_03").native.send_key :tab
+        expect(find("#answer_03").value).to eq("test@test.com")
+      end
+
+      it "disallows invalid text input" do
+        fill_in "answer_03", with: "test@testcom"
+        find("#answer_03").native.send_key :tab
+        expect(page).to have_content("Please enter a valid email")
+      end
+    end
+
     describe "required question" do
       before do
-        form.questions.first.update_attribute(:is_required, true)
+        form.questions.first.update(is_required: true)
         visit touchpoint_path(form)
         click_on "Submit"
       end
@@ -163,7 +256,7 @@ feature "Touchpoints", js: true do
 
       it "can successfully submit after completing the required question" do
         fill_in("answer_01", with: "a response to this required question")
-        click_button "Submit"
+        find(".submit_form_button").click
         expect(page).to have_content("Thank you. Your feedback has been received.")
       end
     end
@@ -171,7 +264,7 @@ feature "Touchpoints", js: true do
     describe "character_limit" do
       before do
         question = form.questions.first
-        question.update_attribute(:character_limit, 150)
+        question.update(character_limit: 150)
         visit touchpoint_path(form)
         expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
         expect(page).to have_content("OMB Approval ##{form.omb_approval_number}")
@@ -225,6 +318,56 @@ feature "Touchpoints", js: true do
         expect(last_submission.answer_01).to eq "4"
         # expect(last_submission.answer_02).to eq "TEST_LOCATION_CODE"
         expect(last_submission.answer_03).to eq "User feedback"
+      end
+    end
+  end
+
+  context "as public user" do
+    let!(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
+
+    describe "/touchpoints" do
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, aasm_state: 'in_development') }
+
+      context "for an in_development form" do
+        before do
+          visit touchpoint_path(form)
+        end
+
+        it "redirect to index and display a flash message" do
+          expect(page).to have_content("Form is not currently deployed.")
+          expect(page.current_path).to eq(index_path)
+        end
+      end
+    end
+
+    describe "/touchpoints" do
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, aasm_state: 'archived') }
+
+      context "for an archived form" do
+        before do
+          visit touchpoint_path(form)
+        end
+
+        it "render archived/inactive message" do
+          expect(page).to have_content("This form is not currently accepting feedback")
+          expect(page).to have_content(form.title)
+          expect(page.current_path).to eq(submit_touchpoint_path(form))
+        end
+      end
+    end
+
+    describe "/touchpoints" do
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, aasm_state: 'live') }
+
+      context "for a live form" do
+        before do
+          visit touchpoint_path(form)
+        end
+
+        it "render the form" do
+          expect(page).to have_css(".touchpoint-form")
+          expect(page).to have_content(form.title)
+        end
       end
     end
   end

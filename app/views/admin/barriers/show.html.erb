@@ -1,0 +1,23 @@
+<% content_for :navigation_title do %>
+  Viewing Barrier: <%= @barrier.name %>
+  <%= link_to edit_admin_barrier_path(@barrier), class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-pencil-alt"></i>
+    Edit
+  <% end %>
+<% end %>
+<p>
+  <%= link_to admin_barriers_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Barriers
+  <% end %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @barrier.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @barrier.description %>
+</p>

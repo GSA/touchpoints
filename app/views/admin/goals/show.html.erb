@@ -1,0 +1,59 @@
+<% content_for :navigation_title do %>
+  Viewing Goal
+  <%= link_to edit_admin_goal_path(@goal), class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-pencil-alt"></i>
+    Edit
+  <% end %>
+<% end %>
+
+<p>
+  <%= link_to admin_goals_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Goals
+  <% end %>
+</p>
+
+<p>
+  <strong>Organization:</strong>
+  <br>
+  <%= @goal.organization.name %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <br>
+  <%= @goal.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <br>
+  <%= @goal.description %>
+</p>
+
+<p>
+  <strong>Tags:</strong>
+  <br>
+  <%= @goal.tags %>
+</p>
+
+<p>
+  <strong>Users:</strong>
+  <br>
+  <%= @goal.users %>
+</p>
+
+<div class="well">
+  <h3>
+    Milestones
+  </h3>
+  <p>
+    <ul class="usa-list">
+    <% @goal.milestones.each do |milestone| %>
+      <li>
+        <%= link_to milestone.name, admin_milestone_path(milestone) %>
+      </li>
+    <% end %>
+    </ul>
+  </p>
+</div>

@@ -12,37 +12,23 @@
 <% if is_at_least_form_manager?(user: current_user, form: @form) %>
 <div class="grid-row grid-gap-md">
   <div class="tablet:grid-col-6">
-    <div class="state-tracker">
-      <div class="step <%= "completed" if ["in_development", "live", "archived"].include?(@form.aasm_state) -%>">
-        <div class="indicator">
-          <span class="font-sans-2xl">
-            <i class="fas fa-check-circle"></i>
-          </span>
-        </div>
-        In development
-      </div>
-      <div class="step <%= "completed" if ["live", "archived"].include?(@form.aasm_state) -%>">
-        <div class="indicator">
-          <span class="font-sans-2xl">
-            <i class="fas fa-check-circle"></i>
-          </span>
-        </div>
-        <div>
-          Published
-        </div>
-      </div>
-      <div class="step <%= "completed" if ["archived"].include?(@form.aasm_state) -%>">
-        <div class="indicator">
-          <span class="font-sans-2xl">
-            <i class="far fa-circle"></i>
-          </span>
-        </div>
-        <div>
-          Archived
-        </div>
-      </div>
-      <br class="usa-display">
-    </div>
+    <%= render 'admin/forms/step_indicator', form: @form %>
+    <p>
+      <strong class="font-sans-3xl">
+        <%= @form.response_count %> responses
+      </strong>
+      <br>
+      <% if @form.last_response_created_at.present? %>
+      <small>
+        Latest response:
+        <%= time_ago_in_words(@form.last_response_created_at) %> ago
+        <br>
+        at <span class="form-created-at">
+          <%= format_time(@form.last_response_created_at, current_user.time_zone) %>
+        </span>
+      </small>
+      <% end %>
+    <p>
   </div>
   <div class="tablet:grid-col-6 bg-gray-5">
     <div class="padding-1">
@@ -55,18 +41,18 @@
 
       <% if @form.deployable_form? %>
         <strong>
-         Form URL
+         Touchpoints-hosted URL
         </strong>
         <br>
         <p>
-          This is where the public can access your form.
+          This form can be publicly accessed from the following URL.
         </p>
         <p>
-          <%= link_to submit_touchpoint_uuid_url(@form), submit_touchpoint_uuid_url(@form) %>
+          <%= link_to submit_touchpoint_uuid_url(@form), submit_touchpoint_uuid_url(@form), target: "_blank" %>
         </p>
         <% if @form.delivery_method == "modal" || @form.delivery_method == "inline" || @form.delivery_method == "custom-button-modal" %>
           <strong>
-            Javascript embed
+            Javascript embed code
           </strong>
           <br>
           <p>
@@ -77,6 +63,7 @@
                 as a place to display the Touchpoint
                 <i>inline</i>.
               </p>
+
               <p>
                 <span class="code">
                   <%= h("<a id=\"#{@form.element_selector}\"></a>") %>
@@ -98,11 +85,32 @@
             <p>
               Add the following script to your site to embed your form.
             </p>
-            <p>
+            <div>
               <div class="code minh-10 bg-base-lighter">
-                <%= h("<script src=\"#{js_touchpoint_url(@form.short_uuid)}\" async></script>") %>
+                <%= h("<script src=\"#{touchpoint_url(@form.short_uuid, format: :js)}\" async></script>") %>
               </div>
-            </p>
+            </div>
+            <br>
+            <div class="usa-checkbox">
+              <input class="usa-checkbox__input" type="checkbox" value="1" name="form[integrity-hashed-url]" id="integrity-hashed-url-checkbox">
+              <label class="usa-checkbox__label" for="integrity-hashed-url-checkbox">with integrity hash</label>
+            </div>
+            <div id="integrity-hashed-url" hidden="true">
+              <div class="usa-alert usa-alert--warning" >
+                <div class="usa-alert__body">
+                  <p class="usa-alert__text">
+                    This alternative version of embed script includes an integrity attribute.
+                    Using this version offers more security.
+                    Changing any aspect of the Form's display will change this checksum,
+                    and if deployed, could become invalid.
+                  </p>
+                </div>
+              </div>
+              <br>
+              <div class="code minh-10 bg-base-lighter">
+                <%= h("<script src=\"#{touchpoint_url(@form.short_uuid, format: :js)}\" integrity=\"sha256-#{form_integrity_checksum(form: @form)}\" async></script>") %>
+              </div>
+            </div>
             <% end %>
             <% if @form.delivery_method == "inline" %>
             <h4>
@@ -133,6 +141,12 @@
                 Preview
               <% end %>
             </p>
+            <p>
+              <%= link_to copy_admin_form_path(@form), class: "usa-button usa-button--outline width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
+                <i class="fa fa-copy"></i>
+                Copy
+              <% end %>
+            </p>
             <% end %>
           </p>
         <% end %>
@@ -145,58 +159,104 @@
                 <i class="fa fa-eye"></i>
                 Preview
               <% end %>
+              <%= link_to copy_admin_form_path(@form), class: "usa-button usa-button--outline", method: :post, data: { confirm: 'Are you sure?' } do %>
+                <i class="fa fa-copy"></i>
+                Copy
+              <% end %>
             </p>
             <p class="usa-alert__text">
               Publish to make it "live."
             </p>
           </div>
         </div>
-        <br>
-        <%= link_to publish_admin_form_path(@form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button width-full" do %>
-          <i class="far fa-check-circle"></i>
-          Publish
-        <% end %>
-        <br>
+        <p>
+          <%= link_to publish_admin_form_path(@form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button width-full" do %>
+            <i class="far fa-check-circle"></i>
+            Publish
+          <% end %>
+        </p>
       <% end %>
+
+    <% unless @form.archived? %>
+      <p>
+        <%= link_to archive_admin_form_path(@form), class: "usa-button usa-button--accent-cool width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
+          Archive this survey
+        <% end %>
+      </p>
+    <% end %>
+    <% if @form.archived? || !@form.deployable_form? %>
+      <% if @form.persisted? %>
+        <%= link_to admin_form_path(@form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary width-full" do %>
+          <i class="fas fa-trash"></i>
+          Delete Survey
+        <% end %>
+      <% end %>
+    <% end %>
     </div>
   </div>
 </div>
 <br>
 <% end %>
 <div class="well">
-  <div class="grid-row grid-gap-lg">
+  <div class="grid-row grid-gap-md">
     <div class="tablet:grid-col-6">
-      <h2>
-        General Form Information
-      </h2>
+      <div class="text-uppercase font-body-3xs">
+        Survey information
+      </div>
+    </div>
+  </div>
+  <div class="grid-row grid-gap-md">
+    <div class="tablet:grid-col-6">
       <p>
         <strong>Organization</strong>
         <br>
-        <%= link_to(@form.organization.name, admin_organization_path(@form.organization)) if @form.organization %>
+        <%= link_to_if(admin_permissions?, @form.organization.name, admin_organization_path(@form.organization)) %>
       </p>
       <p>
-        <strong>
-          <span title="High Impact Service Provider">HISP</span>
-          service?
-        </strong>
+        <strong>Timezone</strong>
         <br>
-        <%= @form.hisp? ? "Yes ✅" : "No" %>
+        <%= @form.time_zone %>
       </p>
     </div>
-    <div class="tablet:grid-col-6">
+    <div class="tablet:grid-col-3">
       <div>
-        <h2>
-          Delivery method
-        </h2>
         <p>
-          <strong>Delivery method</strong>
+          <strong>Survey owner</strong>
           <br>
-          <%= @form.delivery_method %>
+          <%= @form.user.email if @form.user %>
         </p>
         <% if @form.delivery_method == "touchpoints-hosted-only" || @form.delivery_method == "modal" %>
         <% else %>
         <p>
           <strong>Element selector</strong>
+          <br>
+          <%= @form.element_selector %>
+        </p>
+        <% end %>
+        <p>
+          <strong>Created at</strong>
+          <br>
+          <%= @form.created_at.to_date %>
+          <small>
+            (<%= time_ago_in_words(@form.created_at) %> ago)
+          </small>
+        </p>
+      </div>
+    </div>
+    <div class="tablet:grid-col-3">
+      <div>
+        <p>
+          <strong>Delivery method</strong>
+          <br>
+          <span class="usa-tag">
+            <%= @form.delivery_method %>
+          </span>
+        </p>
+        <% if @form.delivery_method == "touchpoints-hosted-only" || @form.delivery_method == "modal" %>
+        <% else %>
+        <p>
+          <strong>Element selector</strong>
+          <br>
           <%= @form.element_selector %>
         </p>
         <% end %>
@@ -205,31 +265,32 @@
   </div>
   <div>
     <% if @form.template %>
-      <strong>Form Template:</strong>
-      <span class="usa-tag bg-accent-warm">
-        <%= @form.kind %>
-      </span>
-    <% end %>
-    <p>
-      <strong>Name:</strong>
-      <%= @form.name %>
-    </p>
-    <p>
-      <strong>Form Owner:</strong>
-      <%= @form.user.email if @form.user %>
-    </p>
-    <% if @form.template %>
+    <strong>Form Template:</strong>
+    <span class="usa-tag bg-accent-warm">
+      <%= @form.kind %>
+    </span>
     <p>
       <strong>Notes:</strong>
       <%= @form.notes %>
     </p>
     <% end %>
-    <p>
-      <strong>Created on:</strong>
-      <%= @form.created_at.to_date %>
-      <small>
-        (<%= time_ago_in_words(@form.created_at) %> ago)
-      </small>
-    </p>
   </div>
 </div>
+<div class="admin-options">
+  <%= render 'admin/forms/admin_options', form: @form %>
+</div>
+<div class="form-manager-options">
+  <%= render 'admin/forms/form_manager_options', form: @form %>
+</div>
+<script type="text/javascript">
+  $(function() {
+    $("#integrity-hashed-url-checkbox").on("click", function(i, b) {
+      debugger
+      if ($(this).is(':checked')) {
+        $("#integrity-hashed-url").show();
+      } else {
+        $("#integrity-hashed-url").hide();
+      }
+    })
+  })
+</script>

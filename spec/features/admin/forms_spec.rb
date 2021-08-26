@@ -14,6 +14,27 @@ feature "Forms", js: true do
     end
 
     describe "/admin/forms" do
+
+    context "within builder page" do
+      let!(:form) { FactoryBot.create(:form, organization: organization, user: admin)}
+
+      before do
+        visit questions_admin_form_path(form)
+      end
+
+      describe "can preview a form" do
+          before do
+            click_on "Preview"
+          end
+
+          it "can preview a form" do
+            within_window(windows.last) do
+              expect(page.current_path).to eq(example_admin_form_path(form))
+            end
+          end
+        end
+      end
+
       context "with multiple (3) forms" do
         let!(:form) { FactoryBot.create(:form, organization: organization, user: admin)}
         let!(:form2) { FactoryBot.create(:form, organization: organization, user: admin)}
@@ -47,18 +68,16 @@ feature "Forms", js: true do
 
           describe "can edit a template" do
             before do
-              visit edit_admin_form_path(form_template)
+              visit admin_form_path(form_template)
             end
 
             it "can edit a form template" do
-              expect(page.current_path).to eq(edit_admin_form_path(form_template))
-              expect(page).to have_content("Editing Survey")
+              expect(page.current_path).to eq(admin_form_path(form_template))
+              expect(page).to have_content("Admin options")
               expect(form_template.template).to eq(true)
               fill_in("form_notes", with: "Updated notes text")
-              click_on "Update Survey"
-              expect(page).to have_content("Survey was successfully updated.")
+              click_on "Update Survey Admin Options"
               expect(page.current_path).to eq(admin_form_path(form_template))
-              expect(page).to have_content("Updated notes text")
             end
           end
         end
@@ -172,7 +191,7 @@ feature "Forms", js: true do
         context "for :in_development touchpoint" do
           describe "Publishing" do
             before do
-              form.update_attribute(:aasm_state, :in_development)
+              form.update(aasm_state: :in_development)
               visit admin_form_path(form)
               click_on "Publish"
               page.driver.browser.switch_to.alert.accept
@@ -181,8 +200,32 @@ feature "Forms", js: true do
             it "display 'Published' flash message" do
               expect(page).to have_content("Published")
               expect(page).to have_content("Viewing Survey: #{form.name}")
-              expect(page).to have_content("General Form Information")
+              expect(page).to have_content("Survey Information".upcase)
             end
+          end
+        end
+
+        context "for a non-archived touchpoint" do
+          describe "archive" do
+            before do
+              form.update(aasm_state: :in_development)
+              visit admin_form_path(form)
+              click_on "Archive this survey"
+              page.driver.browser.switch_to.alert.accept
+            end
+
+            it "display 'Archived' flash message" do
+              expect(page).to have_content("Archived")
+              expect(page).to have_content('Publish to make it "live."')
+            end
+          end
+        end
+
+        context "copy from form info" do
+          it "can copy a form" do
+            click_on "Copy"
+            page.driver.browser.switch_to.alert.accept
+            expect(page).to have_content("Survey was successfully copied")
           end
         end
 
@@ -193,34 +236,65 @@ feature "Forms", js: true do
             end
 
             it "has inline editable title that can be updated and saved" do
-              find(".form-title-lbl").click
-              expect(find("input.form-title")).to be_visible
-              find("input.form-title").set("Updated Form Title")
-              find(".form-title-edit .fa-save").click
-              expect(find(".form-title-lbl")).to have_content("Updated Form Title")
+              find(".survey-title-input").set("Updated Form Title")
+              find(".survey-title-input").native.send_key :tab
+              expect(page).to have_content("survey title saved")
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find(".form-title-lbl")).to have_content("Updated Form Title")
+              expect(find(".survey-title-input").value).to eq("Updated Form Title")
             end
 
             it "has inline editable instructions textbox that can be updated and saved" do
-              find(".fba-instructions .edit.button").click
-              fill_in("instructions", with: "<a href="">HTML Instruct</a>ions")
-              find(".fba-instructions .save.button").click
-              expect(find(".fba-instructions")).to have_link("HTML Instruct")
+              within ".fba-instructions" do
+                fill_in "instructions", with: "Some <a href=\"#\">HTML Instructions</a> go here"
+                find(".instructions").native.send_key :tab
+                expect(page).to have_content("go here")
+                expect(page).to have_link("HTML Instructions")
+                expect(page).to have_content("saved")
+              end
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find(".fba-instructions")).to have_link("HTML Instruct")
+              expect(find(".fba-instructions")).to have_link("HTML Instructions")
+              expect(find(".fba-instructions")).to have_content("go here")
             end
 
             it "has inline editable disclaimer text textbox that can be updated and saved" do
-              find(".fba-disclaimer-text .edit.button").click
-              fill_in("disclaimer_text", with: "Disclaaaaaaaimer!")
-              find(".fba-disclaimer-text .save.button").click
-              expect(find(".fba-disclaimer-text")).to have_content("Disclaaaaaaaimer!")
+              fill_in("disclaimer-text", with: "Disclaaaaaaaimer! with <a href=\"#\">a new link</a>")
+              within ".touchpoints-form-disclaimer" do
+                find("#disclaimer_text").native.send_key :tab
+                expect(page).to have_content("saved")
+                expect(find("#disclaimer_text-show")).to have_content("Disclaaaaaaaimer!")
+                expect(find("#disclaimer_text-show")).to have_link("a new link")
+              end
+
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find(".fba-disclaimer-text")).to have_content("Disclaaaaaaaimer!")
+              expect(find("#disclaimer_text-show")).to have_content("Disclaaaaaaaimer!")
+              expect(find("#disclaimer_text-show")).to have_link("a new link")
+            end
+
+            it "has inline editable success text heading that can be updated and saved" do
+              fill_in("form_success_text_heading", with: "Sucesssss Header!")
+              within "#success_text_div" do
+                find("#form_success_text_heading").native.send_key :tab
+                expect(page).to have_content( "Sucesssss Header!")
+              end
+
+              # and persists after refresh
+              visit questions_admin_form_path(form)
+              expect(page).to have_content("Sucesssss Header!")
+            end
+
+            it "has inline editable success text textbox that can be updated and saved" do
+              fill_in("form_success_text", with: "Sucesssss!")
+              within "#success_text_div" do
+                find("#form_success_text").native.send_key :tab
+                expect(page).to have_content("Sucesssss!")
+              end
+
+              # and persists after refresh
+              visit questions_admin_form_path(form)
+              expect(page).to have_content("Sucesssss!")
             end
           end
         end
@@ -232,7 +306,7 @@ feature "Forms", js: true do
             end
 
             it "display text conveying there are no responses yet" do
-              expect(page).to have_content("Responses (0)")
+              expect(page).to have_content("Responses")
               expect(page).to have_content("Export is not available.")
               expect(page).to have_content("This Form has yet to receive any Responses.")
               expect(page).to_not have_link("Export Responses to CSV")
@@ -308,32 +382,48 @@ feature "Forms", js: true do
         end
       end
 
-      context "Edit Form page" do
+      context "Edit Delivery Method" do
         let!(:form) { FactoryBot.create(:form, :custom, organization: organization, user: admin) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
 
         before do
           login_as(admin)
-          visit edit_admin_form_path(form)
+          visit delivery_method_admin_form_path(form)
         end
 
-        describe "editing a Form definition" do
+        describe "editing the whitelist url" do
           before do
-            fill_in "form_name", with: "Updated Form Name"
+            fill_in "form_whitelist_url", with: "example.com"
             click_on "Update Survey"
           end
 
           it "can edit existing Form" do
             expect(page).to have_content("Survey was successfully updated.")
-            expect(page.current_path).to eq(admin_form_path(form))
-            expect(page).to have_content("Updated Form Name")
+            expect(page.current_path).to eq(delivery_method_admin_form_path(form))
+            expect(find("#form_whitelist_url").value).to eq("example.com")
           end
         end
 
-        describe "modifying Form Sections" do
-          it "cannot delete the only remaining form section" do
-            expect(page).to_not have_content("Delete Form Section")
+        describe "editing the delivery method" do
+          before do
+            find('label', :text => 'Custom button & modal').click
+            click_on "Update Survey"
           end
+
+          it "fails without specifying the selector" do
+            expect(page).to have_content("Element selector can't be blank for an inline form")
+          end
+        end
+      end
+
+      context "Show Form Page Delete Action" do
+        let!(:form) { FactoryBot.create(:form, :custom, organization: organization, user: admin) }
+        let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
+
+        before do
+          login_as(admin)
+          form.archive!
+          visit admin_form_path(form)
         end
 
         describe "delete a Form" do
@@ -361,6 +451,38 @@ feature "Forms", js: true do
             end
           end
         end
+      end
+
+      context "Edit Form page" do
+        let!(:form) { FactoryBot.create(:form, :custom, organization: organization, user: admin) }
+        let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
+
+        before do
+          login_as(admin)
+          visit admin_form_path(form)
+        end
+
+        describe "editing a Form definition" do
+          before do
+            fill_in "form_name", with: "Updated Form Name"
+            fill_in "form_notes", with: "Updated form notes"
+            click_on "Update Survey Options"
+            expect(page).to have_content("Form Manager forms options updated successfully")
+          end
+
+          it "can edit existing Form" do
+            visit admin_form_path(form)
+            expect(page.current_path).to eq(admin_form_path(form))
+            expect(find('#form_name').value).to eq("Updated Form Name")
+            expect(find('#form_notes').value).to eq("Updated form notes")
+          end
+        end
+
+        describe "modifying Form Sections" do
+          it "cannot delete the only remaining form section" do
+            expect(page).to_not have_content("Delete Form Section")
+          end
+        end
 
         context "Form Sections" do
           before do
@@ -371,21 +493,11 @@ feature "Forms", js: true do
             before do
               visit questions_admin_form_path(form)
               click_on "Add Section"
+              find_all(".section-title").last.native.send_keys :tab
             end
 
             it "displays /admin/forms/:id/form_sections/new" do
-              expect(page).to have_content("New Form Section")
-            end
-
-            describe "add Form Section" do
-              before do
-                fill_in("form_section_title", with: "Test Form Section Title")
-                click_on "Create Section"
-              end
-
-              it "create Form Section successfully" do
-                expect(page).to have_content("Form section was successfully created.")
-              end
+              expect(find_all(".section-title").last.value).to eq("New Section")
             end
           end
 
@@ -395,19 +507,16 @@ feature "Forms", js: true do
             end
 
             describe "FormSection.title" do
-              before do
-                find(".section-title-lbl").click
-              end
 
               it "displays editable input that can be updated and saved" do
-                expect(find("input.section-title").value).to eq("Page 1")
-                find(".section-title").set("New Form Section Title")
-                find(".form-section-save").click
+                expect(find(".section-title").value).to eq("Page 1")
+                find(".section-title").fill_in with: "New Form Section Title"
+                find(".section-title").native.send_keys :tab
 
-                expect(find(".section-title-lbl")).to have_content("New Form Section Title")
+                expect(find(".section-title").value).to eq("New Form Section Title")
                 # and persists after refresh
                 visit questions_admin_form_path(form)
-                expect(find(".section-title-lbl")).to have_content("New Form Section Title")
+                expect(find(".section-title").value).to eq("New Form Section Title")
               end
             end
           end
@@ -434,42 +543,80 @@ feature "Forms", js: true do
                   click_on "Delete Section"
                   page.driver.browser.switch_to.alert.accept
                 end
-
-                expect(page).to have_content("Form section was successfully destroyed.")
-                expect(find_all(".section").size).to eq(1)
                 expect(page.current_path).to eq(questions_admin_form_path(form))
-              end
-            end
-
-            describe "add Form Section" do
-              before do
-                click_on "Add Section"
-                expect(page).to have_content("New Form Section")
-                fill_in("form_section_title", with: "Test Form Section Title")
-                click_on "Create Section"
-              end
-
-              it "create Form Section successfully" do
-                expect(page).to have_content("Form section was successfully created.")
+                expect(page).to have_content("Form section was successfully deleted.")
+                expect(find_all(".section").size).to eq(1)
               end
             end
           end
         end
 
+        describe "character limit field" do
+          before do
+            visit questions_admin_form_path(form)
+            click_on "Add Question"
+          end
+
+          it 'shows character limit field' do
+            choose "question_question_type_text_field"
+            expect(page).to have_content("Character limit")
+            choose "question_question_type_textarea"
+            expect(page).to have_content("Character limit")
+          end
+
+          it 'hides character limit field' do
+            choose "question_question_type_radio_buttons"
+            expect(page).not_to have_content("Character limit")
+            choose "question_question_type_dropdown"
+            expect(page).not_to have_content("Character limit")
+            choose "question_question_type_checkbox"
+            expect(page).not_to have_content("Character limit")
+          end
+        end
+
         describe "adding Questions" do
+          describe "help text and placeholder text" do
+            before do
+              visit questions_admin_form_path(form)
+              click_on "Add Question"
+              fill_in "question_text", with: "New Test Question"
+              choose "question_question_type_text_field"
+              fill_in "question_help_text", with: "Additional help text for this question"
+              fill_in "question_placeholder_text", with: "Placeholder text for this question"
+              select("answer_01", from: "question_answer_field")
+              click_on "Update Question"
+            end
+
+            it "persist and display help text" do
+              expect(page.current_path).to eq(questions_admin_form_path(form))
+              within ".form-builder .question" do
+                expect(page).to have_content("New Test Question")
+                expect(page).to have_content("Additional help text for this question")
+                expect(page).to have_css("input#answer_01[type='text']")
+              end
+            end
+
+            it "persist and display placeholder text" do
+              expect(page.current_path).to eq(questions_admin_form_path(form))
+              within ".form-builder .question" do
+                expect(page).to have_content("New Test Question")
+                expect(page).to have_css("input#answer_01[type='text']")
+                expect(find("#answer_01")["placeholder"]).to eq("Placeholder text for this question")
+              end
+            end
+          end
+
           describe "add a Text Field question" do
             before do
               visit questions_admin_form_path(form)
               click_on "Add Question"
-              expect(page).to have_content("New Question")
               fill_in "question_text", with: "New Test Question"
               choose "question_question_type_text_field"
               select("answer_01", from: "question_answer_field")
-              click_on "Create Question"
+              click_on "Update Question"
             end
 
             it "can add a Text Field Question" do
-              expect(page).to have_content("Question was successfully created.")
               expect(page.current_path).to eq(questions_admin_form_path(form))
               within ".form-builder .question" do
                 expect(page).to have_content("New Test Question")
@@ -478,19 +625,36 @@ feature "Forms", js: true do
             end
           end
 
+          describe "add a Text Phone Field question" do
+            before do
+              visit questions_admin_form_path(form)
+              click_on "Add Question"
+              fill_in "question_text", with: "New Test Question"
+              choose "question_question_type_text_phone_field"
+              select("answer_01", from: "question_answer_field")
+              click_on "Update Question"
+            end
+
+            it "can add a Text Field Question" do
+              expect(page.current_path).to eq(questions_admin_form_path(form))
+              within ".form-builder .question" do
+                expect(page).to have_content("New Test Question")
+                expect(page).to have_css("input[type='tel']")
+              end
+            end
+          end
+
           describe "add a Text Area question" do
             before do
               visit questions_admin_form_path(form)
               click_on "Add Question"
-              expect(page).to have_content("New Question")
               fill_in "question_text", with: "New Text Area"
               choose "question_question_type_textarea"
               select("answer_01", from: "question_answer_field")
-              click_on "Create Question"
+              click_on "Update Question"
             end
 
             it "can add a Text Area question" do
-              expect(page).to have_content("Question was successfully created.")
               expect(page.current_path).to eq(questions_admin_form_path(form))
               within ".form-builder .question" do
                 expect(page).to have_content("New Text Area")
@@ -503,15 +667,13 @@ feature "Forms", js: true do
             before do
               visit questions_admin_form_path(form)
               click_on "Add Question"
-              expect(page).to have_content("New Question")
               fill_in "question_text", with: "New Test Question Radio Buttons"
               choose "question_question_type_radio_buttons"
               select("answer_01", from: "question_answer_field")
-              click_on "Create Question"
+              click_on "Update Question"
             end
 
             it "can add a Text Field Question" do
-              expect(page).to have_content("Question was successfully created.")
               expect(page.current_path).to eq(questions_admin_form_path(form))
               within ".form-builder .question" do
                 expect(page).to have_content("New Test Question Radio Buttons")
@@ -520,34 +682,71 @@ feature "Forms", js: true do
             end
           end
 
-          describe "ensure question type" do
-            before do
-              visit questions_admin_form_path(form)
-              click_on "Add Question"
-              expect(page).to have_content("New Question")
-              select("answer_01", from: "question_answer_field")
-              click_on "Create Question"
-            end
-
-            it "must have question type selected" do
-              text = page.driver.browser.switch_to.alert.text
-              expect(text).to eq("You must select a question type!")
-            end
-          end
-
           describe "add a Checkbox question" do
             before do
               visit questions_admin_form_path(form)
               click_on "Add Question"
-              expect(page).to have_content("New Question")
               choose "question_question_type_checkbox"
               select("answer_01", from: "question_answer_field")
-              click_on "Create Question"
+              click_on "Update Question"
             end
 
             it "can add a Checkbox Question" do
-              expect(page).to have_content("Question was successfully created.")
               expect(page).to have_link("Add Checkbox Option")
+            end
+
+            it "can cancel a Checkbox Question" do
+              click_on "Add Checkbox Option"
+              expect(page).to have_content("New Question Option")
+              click_on "Cancel"
+              expect(page.current_path).to eq(admin_form_questions_path(form))
+              expect(page).not_to have_content("New Question Option")
+            end
+          end
+
+          describe "#edit question and cancel" do
+            let!(:first_question) { FactoryBot.create(:question, form: form, form_section: form.form_sections.first, answer_field: :answer_01) }
+
+            before do
+              visit questions_admin_form_path(form)
+              page.execute_script "$('.question-menu-action').trigger('mouseover')"
+              expect(page).to have_selector('.dropdown-content',visible: true)
+              click_on "Edit"
+              expect(page.current_path).to eq(questions_admin_form_path(form))
+              expect(page).to have_content("Cancel")
+            end
+
+            it "removes the edit form on cancel" do
+              click_on "Cancel"
+              expect(page.current_path).to eq(questions_admin_form_path(form))
+              within ".form-builder" do
+                expect(page).not_to have_content("Cancel")
+              end
+            end
+
+            it "does not persist change on cancel" do
+              fill_in "question_text", with: "Canceled question"
+              click_on "Cancel"
+              expect(page.current_path).to eq(questions_admin_form_path(form))
+              within ".form-builder" do
+                expect(page).not_to have_content("Canceled question")
+              end
+            end
+          end
+
+          describe "chaining add edit question operations" do
+
+            before do
+              visit questions_admin_form_path(form)
+            end
+
+            it "successfully executes add-update-add-update sequence" do
+              click_on "Add Question"
+              click_on "Update Question"
+              expect(page).not_to have_content("prohibited this question from being saved")
+              click_on "Add Question"
+              click_on "Update Question"
+              expect(page).not_to have_content("prohibited this question from being saved")
             end
           end
 
@@ -560,7 +759,6 @@ feature "Forms", js: true do
             end
 
             it "displays answers that are not assigned to other Questions" do
-              expect(page).to have_content("New Question")
               expect(find("#question_answer_field")).to_not have_content("answer_01")
               expect(find("#question_answer_field")).to have_content("answer_02")
             end
@@ -572,16 +770,15 @@ feature "Forms", js: true do
                 visit questions_admin_form_path(form)
                 click_on "Add Question"
                 expect(page.current_path).to eq(questions_admin_form_path(form))
-                expect(page).to have_content("New Question")
                 choose "question_question_type_dropdown"
                 # select("dropdown", from: "question_question_type")
                 fill_in "question_text", with: "New dropdown field"
                 select("answer_01", from: "question_answer_field")
-                click_on "Create Question"
+                click_on "Update Question"
+                expect(page).to have_css("#answer_01")
               end
 
               it "can add a dropdown Question" do
-                expect(page).to have_content("Question was successfully created.")
                 expect(page.current_path).to eq(questions_admin_form_path(form))
                 within ".form-builder" do
                   expect(page).to have_content("New dropdown field")
@@ -603,7 +800,6 @@ feature "Forms", js: true do
                   fill_in "question_text", with: "Updated question text"
                   click_on "Update Question"
 
-                  expect(page).to have_content("Question was successfully updated.")
                   expect(page.current_path).to eq(questions_admin_form_path(form))
                   within ".form-builder" do
                     expect(page).to have_content("Updated question text")
@@ -616,7 +812,6 @@ feature "Forms", js: true do
                   visit questions_admin_form_path(form)
                   click_on "Add Dropdown Option"
                   expect(page.current_path).to eq(questions_admin_form_path(form))
-                  expect(page).to have_content("New Question")
                   fill_in "question_option_text", with: "Dropdown option #1"
                   # Create the option
                   click_on "Create Question option"
@@ -640,6 +835,61 @@ feature "Forms", js: true do
                   end
                   expect(page).to have_content("Edited Question Option Text (100)")
                 end
+
+                it "will prevent updating a question option with no text" do
+                  click_on "Create Question option"
+                  page.driver.browser.switch_to.alert.accept
+                  expect(page).to have_button("Create Question option")
+                end
+
+                it "can cancel a Dropdown Question option" do
+                  click_on "Cancel"
+                  expect(page.current_path).to eq(admin_form_questions_path(form))
+                  expect(page).not_to have_content("New Question Option")
+                end
+              end
+            end
+          end
+
+          context "States Dropdown Question" do
+            describe "#create" do
+              before do
+                visit questions_admin_form_path(form)
+                click_on "Add Question"
+                expect(page.current_path).to eq(questions_admin_form_path(form))
+                choose "question_question_type_states_dropdown"
+                fill_in "question_text", with: "New dropdown field"
+                select("answer_01", from: "question_answer_field")
+                click_on "Update Question"
+                expect(page).to have_css("#answer_01")
+              end
+
+              it "can add a dropdown Question" do
+                expect(page.current_path).to eq(questions_admin_form_path(form))
+                within ".form-builder" do
+                  expect(page).to have_content("New dropdown field")
+                end
+              end
+
+              describe "#edit" do
+                before do
+                  visit questions_admin_form_path(form)
+                  page.execute_script "$('.question-menu-action').trigger('mouseover')"
+                  expect(page).to have_selector('.dropdown-content',visible: true)
+                  click_on "Edit"
+                  expect(page.current_path).to eq(questions_admin_form_path(form))
+                  expect(find_field('question_text').value).to eq 'New dropdown field'
+                end
+
+                it "add a Question Option for a dropdown" do
+                  fill_in "question_text", with: "Updated question text"
+                  click_on "Update Question"
+
+                  expect(page.current_path).to eq(questions_admin_form_path(form))
+                  within ".form-builder" do
+                    expect(page).to have_content("Updated question text")
+                  end
+                end
               end
             end
           end
@@ -649,15 +899,13 @@ feature "Forms", js: true do
               visit questions_admin_form_path(form)
               click_on "Add Question"
               expect(page.current_path).to eq(questions_admin_form_path(form))
-              expect(page).to have_content("New Question")
               choose "question_question_type_text_display"
               fill_in "question_text", with: 'Some custom <a href="#">html</a>'
               select("answer_20", from: "question_answer_field")
-              click_on "Create Question"
+              click_on "Update Question"
             end
 
             it "display text display element with html" do
-              expect(page).to have_content("Question was successfully created.")
               within ".form-builder .question" do
                 expect(page).to have_content("Some custom")
                 expect(page).to have_link("html")
@@ -715,6 +963,13 @@ feature "Forms", js: true do
                 expect(all("label").last).to have_content("New Test Radio Option")
               end
             end
+
+            it "can cancel a Radio Button question" do
+              expect(page).to have_content("New Question Option")
+              click_on "Cancel"
+              expect(page.current_path).to eq(admin_form_questions_path(form))
+              expect(page).not_to have_content("New Question Option")
+            end
           end
 
           xdescribe "adding Checkbox options" do
@@ -770,19 +1025,21 @@ feature "Forms", js: true do
     end
   end
 
-  context "form owner with Form Manager permissions" do
+ context "Form owner with Form Manager permissions Delete Action" do
+    let!(:form) { FactoryBot.create(:form, :custom, organization: organization, user: admin) }
+    let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
+
     let(:user) { FactoryBot.create(:user, organization: organization) }
     let(:form) { FactoryBot.create(:form, :custom, organization: organization, user: user) }
-    let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form: form, user: user) }
+
+    let(:another_organization) { FactoryBot.create(:organization, :another) }
+    let(:another_user) { FactoryBot.create(:user, email: "user@another.gov", organization: another_organization) }
+    let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form: form, user: another_user) }
 
     before do
-      login_as(user)
-      visit edit_admin_form_path(form)
-    end
-
-    it "can edit form" do
-      expect(page.current_path).to eq(edit_admin_form_path(form))
-      expect(page).to have_content("Editing Survey")
+      login_as(another_user)
+      form.archive!
+      visit admin_form_path(form)
     end
 
     describe "can delete a Form" do
@@ -810,6 +1067,33 @@ feature "Forms", js: true do
         end
       end
     end
+  end
+
+
+  context "form owner with Form Manager permissions" do
+    let(:user) { FactoryBot.create(:user, organization: organization) }
+    let(:form) { FactoryBot.create(:form, :custom, organization: organization, user: user) }
+
+    let(:another_organization) { FactoryBot.create(:organization, :another) }
+    let(:another_user) { FactoryBot.create(:user, email: "user@another.gov", organization: another_organization) }
+    let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form: form, user: another_user) }
+
+    before do
+      login_as(another_user)
+      visit edit_admin_form_path(form)
+    end
+
+    it "can edit form" do
+      expect(page.current_path).to eq(edit_admin_form_path(form))
+      expect(page).to have_content("Editing Survey")
+    end
+
+    it "regression: edit does not set the Organization to the user's org" do
+      click_on "Update Survey"
+      expect(page).to have_content("Organization")
+      expect(page).to have_content("Example.gov")
+    end
+
   end
 
   context "user without Form Manager permissions" do
@@ -908,15 +1192,21 @@ feature "Forms", js: true do
       end
 
       context "notification settings" do
-        before do
+        before "notification_email is blank by default" do
           visit notifications_admin_form_path(Form.first)
-        end
-
-        it "set notification_email to the email of the user who creates the form" do
           within ".usa-nav__secondary .user-name" do
             expect(page).to have_content(touchpoints_manager.email)
           end
-          expect(find_field('form_notification_emails').value).to eq(touchpoints_manager.email)
+          expect(find_field('form_notification_emails').value).to eq("")
+        end
+
+        it "can be updated" do
+          fill_in "form_notification_emails", with: "user@example.gov"
+          click_on "Update Survey"
+          expect(page).to have_content("Survey was successfully updated.")
+
+          visit notifications_admin_form_path(Form.first)
+          expect(find_field('form_notification_emails').value).to eq("user@example.gov")
         end
       end
     end
@@ -931,14 +1221,16 @@ feature "Forms", js: true do
           find("button").click
           find("#extended-nav-section-one-#{form.short_uuid}", visible: true)
         end
+        click_link("Copy")
+        page.driver.browser.switch_to.alert.accept
       end
 
       it "conveys the survey was successfully copied" do
-        click_link("Copy")
-        page.driver.browser.switch_to.alert.accept
-        expect(page).to have_content("Editing Questions")
-        expect(page).to have_content("Copy of #{form.name}")
         expect(page).to have_content("Survey was successfully copied.")
+        expect(page.current_path).to eq(admin_form_path(Form.last.short_uuid))
+        expect(page).to have_content("Viewing Survey")
+        expect(page).to have_content("Copy of #{form.name}")
+        expect(page).to have_content("0 responses")
       end
     end
 
@@ -964,22 +1256,6 @@ feature "Forms", js: true do
           expect(page).to_not have_css(".question#question_#{form2.id}")
         end
 
-        describe "update a Touchpoint Form Section" do
-          let(:new_title) { "New Form Section Title" }
-
-          before do
-            visit edit_admin_form_form_section_path(form_section2.form, form_section2)
-            fill_in("form_section[title]", with: new_title)
-            click_button "Update Section"
-          end
-
-          it "redirect to /admin/forms/:id/edit with a success flash message" do
-            expect(page.current_path).to eq(questions_admin_form_path(form_section2.form))
-            expect(page).to have_content("Form section was successfully updated.")
-            expect(page).to have_content(new_title)
-          end
-        end
-
         describe "multiple Touchpoint Form Sections" do
           let(:new_title) { "New Form Section Title" }
 
@@ -988,20 +1264,25 @@ feature "Forms", js: true do
             find_all(".form-add-question").first.click
             fill_in "question_text", with: "Question in Form Section 1"
             select("text_field", from: "question_question_type")
-            click_on "Create Question"
-            expect(page).to have_content("Question was successfully created.")
+            click_on "Update Question"
             # Select the Add Question button in the 2nd Form Section
+            visit questions_admin_form_path(form_section2.form)
             find_all(".form-add-question").last.click
             fill_in "question_text", with: "Question in Form Section 2"
             select("text_field", from: "question_question_type")
-            click_on "Create Question"
+            click_on "Update Question"
+            # Wait for Add Question to appear
+            page.has_css?('.form_add_question')
+            visit questions_admin_form_path(form_section2.form)
+            # Wait for 2nd form section to render
+            page.has_css?('#form_section_2')
           end
 
           it "creates the question in the correct Form Section" do
             within(find_all(".form-section-div").first) do
               expect(page).to have_content("Question in Form Section 1")
             end
-            within(find_all(".form-section-div").last) do
+            within(find('#form_section_2')) do
               expect(page).to have_content("Question in Form Section 2")
             end
           end
@@ -1012,7 +1293,7 @@ feature "Forms", js: true do
     describe "#export" do
       let(:form_manager) { FactoryBot.create(:user, organization: organization) }
       let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: form_manager)}
-      let!(:radio_button_question) { FactoryBot.create(:question, :with_radio_buttons, form: form, form_section: form.form_sections.first) }
+      let!(:radio_button_question) { FactoryBot.create(:question, :with_radio_buttons, form: form, form_section: form.form_sections.first, answer_field: :answer_02) }
       let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form: form) }
 
       before do
@@ -1143,7 +1424,73 @@ feature "Forms", js: true do
 
       it "cannot preview a form template" do
         expect(page.current_path).to eq(index_path)
-        expect(page).to have_content("Form is not yet deployable.")
+        expect(page).to have_content("Form is not currently deployed.")
+      end
+    end
+  end
+
+  describe "/invite" do
+    let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin)}
+
+    before do
+      login_as(admin)
+    end
+
+    context "with a valid email" do
+      before do
+        visit permissions_admin_form_path(form)
+      end
+
+      it "sends an invite to the designated user" do
+        fill_in("user[refer_user]", with: "newuser@domain.gov")
+        click_on "Invite User"
+        expect(page).to have_content("Invite sent to newuser@domain.gov")
+        expect(page.current_path).to eq(permissions_admin_form_path(form))
+      end
+    end
+
+    context "with an invalid email" do
+      before do
+        visit permissions_admin_form_path(form)
+      end
+
+      it "shows an alert when the email address is not provided" do
+        fill_in("user[refer_user]", with: "")
+        click_on "Invite User"
+        expect(page).to have_content("Please enter a valid .gov or .mil email address")
+        expect(page.current_path).to eq(permissions_admin_form_path(form))
+      end
+
+      it "shows a gov-specific user alert when the email address is not a valid email" do
+        fill_in("user[refer_user]", with: "test@example.com")
+        click_on "Invite User"
+        expect(page).to have_content("Please enter a valid .gov or .mil email address")
+        expect(page.current_path).to eq(permissions_admin_form_path(form))
+      end
+
+      context "when using GitHub for oAuth" do
+        before do
+          ENV["GITHUB_CLIENT_ID"] = "something"
+        end
+
+        it "shows an HTML valiation user alert when the email address is not valid" do
+          expect(page).to have_content("Invite a colleague")
+          fill_in("user[refer_user]", with: "test")
+          click_on "Invite User"
+          message = page.find("#user_refer_user").native.attribute("validationMessage")
+          expect(message).to have_content "Please include an '@' in the email address."
+        end
+
+        after do
+          ENV["GITHUB_CLIENT_ID"] = nil
+        end
+      end
+
+      it "shows an alert when the email address already exists" do
+        fill_in("user[refer_user]", with: user.email)
+        click_on "Invite User"
+        expect(page).to have_content("User with email #{user.email} already exists")
+        expect(page.current_path).to eq(permissions_admin_form_path(form))
       end
     end
   end

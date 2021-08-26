@@ -12,7 +12,6 @@ module Seeds
         title: "",
         instructions: "",
         disclaimer_text: "Disclaimer Text Goes Here",
-        success_text: "Thank you for your response 🎉",
         early_submission: true,
         delivery_method: "modal",
         modal_button_text: "Click here to leave feedback"
@@ -32,7 +31,7 @@ module Seeds
         form: a11_v2_form,
         form_section: (a11_v2_form.form_sections.first),
         text: "What went well?",
-        question_type: "matrix_checkboxes",
+        question_type: "checkbox",
         position: 2,
         answer_field: :answer_02,
         is_required: true

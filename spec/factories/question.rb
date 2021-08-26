@@ -2,7 +2,23 @@ FactoryBot.define do
   factory :question do
     text { "Test Question" }
     question_type { "text_field" }
+    help_text { "This is help text." }
     answer_field { "answer_01" }
+    position { 1 }
+
+    trait :phone do
+      text { "Phone Number" }
+      question_type { "text_phone_field" }
+    end
+
+    trait :email do
+      text { "Email" }
+      question_type { "text_email_field" }
+    end
+
+    trait :states_dropdown do
+      question_type { "states_dropdown" }
+    end
 
     trait :with_radio_buttons do
       text { "Test Radio Buttons Question" }
@@ -18,7 +34,7 @@ FactoryBot.define do
 
     trait :with_checkbox_options do
       text { "Test Radio Buttons Question" }
-      question_type { "checkboxes" }
+      question_type { "checkbox" }
       after(:create) do |checkbox_question, evaluator|
         FactoryBot.create(:question_option, question: checkbox_question, position: 1, text: 'One')
         FactoryBot.create(:question_option, question: checkbox_question, position: 2, text: 'Two')

@@ -1,0 +1,19 @@
+<% content_for :navigation_title do %>
+  Editing Website: <%= @website.domain %>
+<% end %>
+<p>
+  <%= link_to admin_website_path(@website) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Website
+  <% end %>
+</p>
+
+<%= render 'form', website: @website %>
+
+<hr>
+<%= link_to admin_website_path(@website), method: :delete, data: { confirm: 'Are you sure?' }, class: "float-right usa-button usa-button--secondary" do %>
+  <i class="fa fa-trash"></i>
+  Delete
+<% end %>
+<div style="clear: both;"></div>
+<br>

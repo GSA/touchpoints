@@ -4,7 +4,7 @@ class Admin::UsersController < AdminController
 
   def index
     if current_user.admin?
-      @users = User.all.includes(:organization).order(:organization_id, :email)
+      @users = User.all.includes(:organization).order("inactive DESC", :organization_id, :email)
     else
       organization = current_user.organization
       @users = organization.users.includes(:organization).order(:organization_id, :email)
@@ -117,8 +117,9 @@ class Admin::UsersController < AdminController
       params.require(:user).permit(
         :admin,
         :organization_id,
+        :organizational_website_manager,
         :email,
-        :inactive
+        :inactive,
       )
     end
 end

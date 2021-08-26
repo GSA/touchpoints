@@ -5,12 +5,12 @@ class SubmissionsController < ApplicationController
   layout 'public', only: :new
 
   def new
-    unless @form.deployable_form? || current_user
-      redirect_to index_path, alert: "Form is not yet deployable."
+    if @form.archived?
+      # okay
+    elsif !@form.deployable_form? && !current_user
+      redirect_to index_path, alert: 'Form is not currently deployed.'
     end
-    if !current_user
-      @form.increment!(:survey_form_activations)
-    end
+    @form.increment!(:survey_form_activations) unless current_user
     @submission = Submission.new
     # set location code in the form based on `?location_code=`
     @submission.location_code = params[:location_code]
@@ -34,10 +34,18 @@ class SubmissionsController < ApplicationController
       # is not from the Organization URL
       !request.referer.start_with?(@form.organization.url)
 
+      error_options = {
+        custom_params: {
+          referer: request.referer
+        },
+        expected: true
+      }
+      NewRelic::Agent.notice_error(ArgumentError, error_options)
+
       render json: {
         status: :unprocessable_entity,
-        messages: {"submission": ["request made from non-authorized host"] }
-        }, status: :unprocessable_entity and return
+        messages: { submission: [t('errors.request.unauthorized_host')] }
+      }, status: :unprocessable_entity and return
     end
 
     @submission = Submission.new(submission_params)
@@ -45,20 +53,21 @@ class SubmissionsController < ApplicationController
     @submission.user_agent = request.user_agent
     @submission.referer = submission_params[:referer]
     @submission.page = submission_params[:page]
-    @submission.ip_address = request.remote_ip
 
+    @submission.ip_address = request.remote_ip if @form.organization.enable_ip_address?
     create_in_local_database(@submission)
   end
-
 
   private
 
     def create_in_local_database(submission)
       respond_to do |format|
         if submission.save
-          format.html {
-            redirect_to submit_touchpoint_path(submission.form), notice: 'Thank You. Response was submitted successfully.' }
-          format.json {
+          format.html do
+            redirect_to submit_touchpoint_path(submission.form),
+                        notice: 'Thank You. Response was submitted successfully.'
+          end
+          format.json do
             render json: {
               submission: {
                 id: submission.id,
@@ -73,17 +82,17 @@ class SubmissionsController < ApplicationController
                 }
               }
             },
-            status: :created
-          }
+                   status: :created
+          end
         else
-          format.html {
-          }
-          format.json {
+          format.html do
+          end
+          format.json do
             render json: {
               status: :unprocessable_entity,
               messages: submission.errors
             }, status: :unprocessable_entity
-          }
+          end
         end
       end
     end
@@ -105,14 +114,13 @@ class SubmissionsController < ApplicationController
           @short_uuid = LEGACY_TOUCHPOINTS_URL_MAP[params[:touchpoint_id].to_s]
         end
       end
-
       @form = FormCache.fetch(@short_uuid)
       raise ActiveRecord::RecordNotFound, "no form with ID of #{@short_uuid}" unless @form.present?
     end
 
     def submission_params
       permitted_fields = @form.questions.collect(&:answer_field)
-      permitted_fields << [:language, :location_code, :referer, :page]
+      permitted_fields << %i[language location_code referer page]
       params.require(:submission).permit(permitted_fields)
     end
 end

@@ -11,7 +11,22 @@ class User < ApplicationRecord
   belongs_to :organization, optional: true
   has_many :user_roles, dependent: :destroy
   has_many :forms, through: :user_roles, primary_key: "form_id"
+  has_many :collections, through: :organization
 
+  validate :api_key_format
+  before_save :update_api_key_updated_at
+
+  def update_api_key_updated_at
+    if self.api_key_changed?
+      self.api_key_updated_at = Time.now
+    end
+  end
+
+  def api_key_format
+    if self.api_key.present? && self.api_key.length != 40
+      errors.add(:api_key, "is not 40 characters, as expected from api.data.gov.")
+    end
+  end
 
   after_create :send_new_user_notification
 
@@ -89,6 +104,27 @@ class User < ApplicationRecord
     Event.log_event(Event.names[:user_deactivated], "User", self.id, "User account #{self.email} deactivated on #{Date.today}")
   end
 
+  def self.send_account_deactivation_notifications(expire_days)
+    users = User.deactivation_pending(expire_days)
+    users.each do | user |
+      UserMailer.account_deactivation_scheduled_notification(user.email, expire_days).deliver_later
+    end
+  end
+
+  def self.deactivation_pending(expire_days)
+    min_time = ((90 - expire_days) + 1).days.ago
+    max_time = (90 - expire_days).days.ago
+    User.active.where("(last_sign_in_at ISNULL AND created_at BETWEEN ? AND ?) OR (last_sign_in_at BETWEEN ? AND ?)", min_time, max_time, min_time, max_time)
+  end
+
+  def self.deactivate_inactive_accounts
+    # Find all accounts scheduled to be deactivated in 14 days
+    users = User.active.where("(last_sign_in_at ISNULL AND created_at <= ?) OR (last_sign_in_at <= ?)", 90.days.ago, 90.days.ago)
+    users.each do | user |
+      user.deactivate
+    end
+  end
+
   def self.to_csv
     active_users = self.order("email")
     return nil unless active_users.present?
@@ -133,6 +169,8 @@ class User < ApplicationRecord
     end
 
     def ensure_organization
+      return if organization_id.present?
+
       email_address_domain = Mail::Address.new(self.email).domain
       parsed_domain = parse_host_from_domain(email_address_domain)
 

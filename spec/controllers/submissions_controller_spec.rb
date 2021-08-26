@@ -88,6 +88,13 @@ RSpec.describe SubmissionsController, type: :controller do
         }.to change(Submission, :count).by(1)
       end
 
+      it "updates the form response_count and last_response_created_at" do
+        post :create, params: {submission: valid_attributes, form_id: form.short_uuid }, session: valid_session
+        form.reload
+        expect(form.response_count).to be > 0
+        expect(form.last_response_created_at).not_to be nil
+      end
+
       it "redirects to the created submission" do
         post :create, params: { submission: valid_attributes, form_id: form.short_uuid }, session: valid_session
         expect(response).to redirect_to(submit_touchpoint_path(form))
@@ -109,7 +116,7 @@ RSpec.describe SubmissionsController, type: :controller do
 
     context "with invalid params" do
       before do
-        form.questions.first.update_attribute(:is_required, true)
+        form.questions.first.update(is_required: true)
         post :create, params: { submission: invalid_attributes, form_id: form.short_uuid }, session: valid_session, format: :json
       end
 
@@ -122,7 +129,7 @@ RSpec.describe SubmissionsController, type: :controller do
 
     context "with excess characters" do
       before do
-        form.questions.first.update_attribute(:character_limit, 5)
+        form.questions.first.update(character_limit: 5)
         post :create, params: { submission: { answer_01: "more than 5 characters" }, touchpoint_id: form.short_uuid }, session: valid_session, format: :json
       end
 

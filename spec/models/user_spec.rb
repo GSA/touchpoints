@@ -103,17 +103,62 @@ RSpec.describe User, type: :model do
         expect(@user.api_key_updated_at).to be_nil
       end
 
-      it "api_key is generated" do
-        @user.set_api_key
-        expect(@user.api_key.length).to be > 0
-        expect(@user.api_key_updated_at).to be > Time.now - 1.minute
+      it "api_key must be 40 characters long, to match api.data.gov" do
+        @user.update(api_key: "key too short")
+        expect(@user.errors.full_messages.first).to eq("Api key is not 40 characters, as expected from api.data.gov.")
       end
 
-      it "api_key is removed" do
-        @user.unset_api_key
-        expect(@user.api_key).to be_nil
+      it "api_key_updated_at is updated when the API Key is updated" do
         expect(@user.api_key_updated_at).to be_nil
+        @user.update(api_key: TEST_API_KEY)
+
+        expect(@user.api_key_updated_at).to_not be_nil
       end
+    end
+
+    context "account expiration" do
+      before do
+        FactoryBot.create(:organization)
+        @user.email = "user@example.gov"
+        @user.save
+      end
+
+      it "expires user last_sign_in <= 90 days ago" do
+        @user.last_sign_in_at = 91.days.ago
+        @user.inactive = false
+        @user.save
+        User.deactivate_inactive_accounts
+        @user.reload
+        expect(@user.inactive).to be_truthy
+      end
+
+      it "expires user never signed in and created_at <= 90 days ago" do
+        @user.last_sign_in_at = nil
+        @user.created_at = 91.days.ago
+        @user.inactive = false
+        @user.save
+        User.deactivate_inactive_accounts
+        @user.reload
+        expect(@user.inactive).to be_truthy
+      end
+
+      it "finds users who have signed in and are scheduled to deactivate in 1 week" do
+        @user.last_sign_in_at = 83.days.ago
+        @user.inactive = false
+        @user.save
+        users = User.deactivation_pending(7)
+        expect(users.count).to eq(1)
+      end
+
+      it "finds users who have never signed in and are scheduled to deactivate in 1 week" do
+        @user.created_at = 83.days.ago
+        @user.last_sign_in_at = nil
+        @user.inactive = false
+        @user.save
+        users = User.deactivation_pending(7)
+        expect(users.count).to eq(1)
+      end
+
     end
   end
 

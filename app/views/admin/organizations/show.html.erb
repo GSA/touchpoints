@@ -1,21 +1,41 @@
 <% content_for :navigation_title do %>
   Viewing Organization
+  <%= link_to edit_admin_organization_path(@organization), class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-pencil-alt"></i>
+    Edit
+  <% end %>
 <% end %>
+
+<p>
+  <%= link_to admin_organizations_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Organizations
+  <% end %>
+</p>
 <div class="well">
   <%= link_to 'Edit organization', edit_admin_organization_path(@organization), class: "usa-button float-right" %>
   <div class="usa-alert">
-    <%= @organization.name %> has
-    <%= link_to(pluralize(@organization.users.length, "User"), admin_users_path) %>
-    managing
-    <%= link_to(pluralize(@organization.forms.length, "Form"), admin_forms_path) %>.
+    <div class="usa-alert__body">
+      <%= @organization.name %> has
+      <%= link_to(pluralize(@organization.users.length, "User"), admin_users_path) %>
+      managing
+      <%= link_to(pluralize(@organization.forms.length, "Form"), admin_forms_path) %>.
+    </div>
   </div>
   <p>
     <strong>Name:</strong>
+    <br>
     <%= @organization.name %>
+  </p>
+  <p>
+    <strong>Abbreviation:</strong>
+    <br>
+    <%= @organization.abbreviation %>
   </p>
   <% if @organization.logo %>
   <p>
     <strong>Logo:</strong>
+    <br>
     <% if @organization.logo_url.present? %>
     (displaying Thumbnail version)
     <br>
@@ -32,29 +52,88 @@
   <% end %>
   <p>
     <strong>Organization Domain:</strong>
+    <br>
     <%= @organization.domain %>
   </p>
   <p>
     <strong>Website Url:</strong>
+    <br>
     <%= link_to(@organization.url, @organization.url, target: "_blank", rel: "noopener") %>
   </p>
   <p>
-    <strong>Abbreviation:</strong>
-    <%= @organization.abbreviation %>
+    <strong>Digital Analytics URL:</strong>
+    <br>
+    <% if @organization.digital_analytics_path? %>
+      <%= link_to("https://analytics.usa.gov/#{@organization.digital_analytics_path}", "https://analytics.usa.gov/#{@organization.digital_analytics_path}", target: "_blank", rel: "noopener") %>
+    <% end %>
   </p>
   <p>
     <strong>Notes:</strong>
     <%= @organization.notes %>
   </p>
-  <div class="touchpoints well">
-    <h3>
-      <%= @organization.forms.size %> Forms
-    </h3>
+</div>
+<div class="service-providers well">
+  <h3>
+    <%= @organization.service_providers.size %> Service Providers
+  </h3>
 
-    <% @organization.forms.each do |form| %>
-      <p>
-        <%= link_to form.name, admin_form_path(form) %>
-      </p>
-    <% end %>
-  </div>
+  <ul class="usa-list">
+  <% @organization.service_providers.order(:name).each do |service| %>
+    <li>
+      <%= link_to service.name, admin_service_provider_path(service) %>
+    </li>
+  <% end %>
+  </ul>
+</div>
+<div class="services well">
+  <h3>
+    <%= @organization.services.size %> Services
+  </h3>
+
+  <ul class="usa-list">
+  <% @organization.services.order(:name).each do |service| %>
+    <li>
+      <%= link_to service.name, admin_service_path(service) %>
+    </li>
+  <% end %>
+  </ul>
+</div>
+<div class="touchpoints well">
+  <h3>
+    <%= @organization.forms.size %> Forms
+  </h3>
+
+  <ul class="usa-list">
+  <% @organization.forms.each do |form| %>
+    <li>
+      <%= link_to form.name, admin_form_path(form) %>
+    </li>
+  <% end %>
+  </ul>
+</div>
+<div class="collections well">
+  <h3>
+    <%= @organization.collections.size %> Collections
+  </h3>
+
+  <ul class="usa-list">
+  <% @organization.collections.order(:year, :quarter).each do |collection| %>
+    <li>
+      <%= link_to collection.name, admin_collection_path(collection) %>
+    </li>
+  <% end %>
+  </ul>
+</div>
+<div class="users well">
+  <h3>
+    <%= @organization.users.size %> Users
+  </h3>
+
+  <ul class="usa-list">
+  <% @organization.users.order(:email).each do |user| %>
+    <li>
+      <%= link_to user.email, admin_user_path(user) %>
+    </li>
+  <% end %>
+  </ul>
 </div>

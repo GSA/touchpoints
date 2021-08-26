@@ -1,0 +1,4 @@
+<%= link_to unflag_admin_form_submission_path(submission.form, submission), id: "flag-submission-#{submission.id}", remote: true, class: "usa-button usa-button--outline", method: :post, data: { confirm: 'Are you sure?' } do %>
+<i class="far fa-times-circle"></i>
+Flagged
+<% end %>

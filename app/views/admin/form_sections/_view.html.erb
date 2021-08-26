@@ -1,0 +1,49 @@
+<div class="form-section-div" id="<%= dom_id(section) %>" data-id="<%= section.id %>" data-url="<%= admin_form_form_section_sort_sections_path(form, section) %>">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title-view">
+        <label class="usa-label text-uppercase font-body-3xs" style="margin-top: 0;" for="instructions">
+          Section title
+        </label>
+        <input class="usa-input section-title" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_form_section_path(form, section) %>" value="<%= section.title %>" />
+        &nbsp;&nbsp;
+        <span class="usa-hint save-notice" id="section-<%= section.id %>">
+          <i class="fa fa-check-circle" aria-hidden="true"></i> section title saved
+        </span>
+      </div>
+    </div>
+    <div class="questions">
+      <% section.questions.each_with_index do |question, index| %>
+        <% multi_section_question_number += 1 %>
+        <div class="question white-bg" id="<%= dom_id(question) %>">
+          <%= render 'admin/questions/question', { form: form, question: question } %>
+        </div>
+      <% end %>
+    </div>
+    <%= render 'admin/forms/add_question', form: form %>
+    <br>
+    <% unless section.questions.present? || form.form_sections.count == 1  %>
+      <br>
+      <%= link_to admin_form_form_section_path(form, section), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
+        <span class="fas fa-trash"></span>
+        Delete Section
+      <% end %>
+    <% end %>
+  </div>
+</div>
+<br>
+<script>
+    $(".section-title").on("blur", function(event) {
+      event.preventDefault();
+      $.ajax({
+        type: "PATCH",
+        url:  $(this).attr("data-url") + "/update_title",
+        data: {
+          title: $(this).val()
+        }
+      }).done(function(data) {
+        $("#section-" + data['id']).show();
+        $("#section-" + data['id']).fadeOut(2000);
+      });
+    });
+</script>

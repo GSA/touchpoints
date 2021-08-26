@@ -41,9 +41,25 @@
     <%= form.text_field :url, class: "usa-input", placeholder: "https://gsa.gov" %>
   </div>
   <div class="field">
+    <%= form.label :digital_analytics_path, class: "usa-label" %>
+    <%= form.text_field :digital_analytics_path, class: "usa-input", placeholder: "See usa.analytics.gov" %>
+  </div>
+  <div class="field">
     <%= form.label :abbreviation, class: "usa-label" %>
     <%= form.text_field :abbreviation, class: "usa-input", placeholder: "GSA" %>
   </div>
+  <br>
+  <fieldset class="usa-fieldset">
+    <div class="usa-checkbox">
+      <%= form.check_box :enable_ip_address, class: "usa-checkbox__input" %>
+      <%= form.label :enable_ip_address, "Record IP address?", class: "usa-checkbox__label" %>
+      <p>
+        <small>
+          Checking this box stores IP address for responses and includes it in CSV exports.
+        </small>
+      </p>
+    </div>
+  </fieldset>
   <div class="field">
     <%= form.label :notes, class: "usa-label" %>
     <%= form.text_area :notes, class: "usa-textarea", placeholder: "CX & Service Design notes about this Org" %>

@@ -1,0 +1,88 @@
+<%= form_with(model: service, url: service.persisted? ? admin_service_path(service) : admin_services_path, local: true) do |form| %>
+<% if service.errors.any? %>
+<div id="error_explanation">
+  <h2><%= pluralize(service.errors.count, "error") %> prohibited this service from being saved:</h2>
+  <ul>
+    <% service.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+<div class="grid-row grid-gap-lg">
+  <div class="grid-col-6">
+    <% if admin_permissions? %>
+    <div class="field">
+      <%= form.label :organization_id, class: "usa-label" %>
+      <%= form.select :organization_id, options_for_select(organization_dropdown_options, service.organization_id), { prompt: "Which Organization?", include_blank: true }, { class: "usa-select" } %>
+    </div>
+    <div class="field">
+      <%= form.label :service_provider_id, class: "usa-label" %>
+      <%= form.select :service_provider_id, options_for_select(ServiceProvider.all.map { |p| [p.name, p.id] }, service.service_provider_id), { prompt: "Which Organization?", include_blank: true }, { class: "usa-select" } %>
+    </div>
+    <% else %>
+    <%= form.hidden_field :organization_id, value: current_user.organization_id %>
+    <% end %>
+
+    <div class="field">
+      <%= form.label :name, class: "usa-label" %>
+      <%= form.text_field :name, class: "usa-input", placeholder: "What is the name of this Service?" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :description, class: "usa-label" %>
+      <%= form.text_area :description, class: "usa-textarea", placeholder: "Describe who this service is for and what the service entails." %>
+    </div>
+
+    <div class="field">
+      <%= form.label :notes, class: "usa-label" %>
+      <%= form.text_area :notes, class: "usa-textarea", placeholder: "Additional notes about the service" %>
+    </div>
+  </div>
+  <div class="grid-col-6">
+    <div class="field">
+      <%= form.label :department, class: "usa-label" %>
+      <%= form.text_field :department, class: "usa-input", placeholder: "Department" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :bureau, class: "usa-label" %>
+      <%= form.text_field :bureau, class: "usa-input", placeholder: "Bureau" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :bureau_abbreviation, class: "usa-label" %>
+      <%= form.text_field :bureau_abbreviation, class: "usa-input", placeholder: "bureau_abbreviation" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :service_abbreviation, class: "usa-label" %>
+      <%= form.text_field :service_abbreviation, class: "usa-input", placeholder: "service_abbreviation" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :service_slug, class: "usa-label" %>
+      <%= form.text_field :service_slug, class: "usa-input", placeholder: "service-slug" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :url, class: "usa-label" %>
+      <%= form.text_field :url, class: "usa-input", placeholder: "https://example.gov/service-name" %>
+    </div>
+
+    <fieldset class="usa-fieldset">
+      <legend class="usa-sr-only">HISP Service?</legend>
+      <div class="usa-checkbox">
+        <%= form.check_box :hisp, class: "usa-checkbox__input" %>
+        <%= form.label :hisp, "HISP Service?", class: "usa-checkbox__label" %>
+      </div>
+    </fieldset>
+  </div>
+</div>
+
+  <p>
+    <div class="actions">
+      <%= form.submit class: "usa-button" %>
+    </div>
+  </p>
+<% end %>

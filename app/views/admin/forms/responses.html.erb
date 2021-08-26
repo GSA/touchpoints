@@ -17,7 +17,7 @@
 <%= render 'components/admin/a11_chart', form: @form if @form.kind == "a11" %>
 <%= render 'components/admin/responses_per_day', response_groups: @response_groups %>
 <div>
-  <%= render file: "admin/submissions/index", locals: { form: @form, submissions: @submissions } %>
+  <%= render template: "admin/submissions/index", locals: { form: @form, submissions: @submissions, all_submissions: @all_submissions } %>
 </div>
 <br>
 <br>

@@ -1,0 +1,224 @@
+<% content_for :navigation_title do %>
+  <div class="float-right">
+    <%= link_to edit_admin_service_path(@service), class: "usa-button usa-button-inverted" do %>
+    <i class="fa fa-pencil-alt"></i>
+    Edit
+    <% end %>
+  </div>
+  Service: <%= @service.name %>
+<% end %>
+
+<p>
+  <%= link_to admin_services_path do %>
+  <i class="fa fa-arrow-circle-left"></i>
+  Back to Services
+  <% end %>
+</p>
+
+<div class="grid-row grid-gap-lg">
+  <div class="grid-col-6">
+    <p>
+      <strong>Organization</strong>
+      <br>
+      <%= @service.organization.name %>
+    </p>
+    <p>
+      <strong>Service Provider</strong>
+      <br>
+      <%= @service.service_provider ? link_to_if(admin_permissions?, @service.service_provider.name, admin_service_provider_path(@service.service_provider), target: "_blank", rel: "noopener") : nil %>
+    </p>
+    <p>
+      <strong>Name</strong>
+      <br>
+      <%= @service.name %>
+    </p>
+    <p>
+      <strong>Description</strong>
+      <br>
+      <%= @service.description %>
+    </p>
+    <p>
+      <strong>Notes</strong>
+      <br>
+      <%= @service.notes %>
+    </p>
+  </div>
+  <div class="grid-col-6">
+    <p>
+      <strong>Department</strong>
+      <br>
+      <%= @service.department %>
+    </p>
+    <p>
+      <strong>Bureau</strong>
+      <br>
+      <%= @service.bureau %>
+    </p>
+    <p>
+      <strong>Bureau abbreviation</strong>
+      <br>
+      <%= @service.bureau_abbreviation %>
+    </p>
+    <p>
+      <strong>Service abbreviation</strong>
+      <br>
+      <%= @service.service_abbreviation %>
+    </p>
+    <p>
+      <strong>Service slug</strong>
+      <br>
+      <%= @service.service_slug %>
+    </p>
+    <p>
+      <strong>Url</strong>
+      <br>
+      <%= link_to @service.url, @service.url %>
+    </p>
+  </div>
+</div>
+
+
+<% all_stages = @service.service_stages %>
+<% first_stage = all_stages.first %>
+<% last_stage = all_stages.last %>
+
+<div class="" hidden>
+  <h4>
+    Uptake
+  </h4>
+  How many people made it to the final, successful end state of this service.
+  <h2>
+  <% if first_stage.present? %>
+    <%= takeup_percentage = ((last_stage.total_eligible_population.to_f / first_stage.total_eligible_population.to_f) * 100).round(2) %>%
+  <% end %>
+  </h2>
+</div>
+
+<hr>
+
+<div class="well">
+  <div class="grid-row grid-gap-md">
+    <div class="grid-col-9">
+      <h2>
+        Service Stages
+      </h2>
+      <p class="usa-prose">
+        Each Service is can be decomposed into multiple Stages.
+        Delineating each step is useful for calculating
+        <a href="https://pra.digital.gov/burden/" target="_blank" rel="noopener">Burden</a>.
+        Learn more about how
+        <a href="https://www.performance.gov/cx/blog/journey-mapping/" target="_blank" rel="noopener">
+          service blueprints and journey maps
+        </a>
+        are used to design, manage, and improve services.
+      </p>
+    </div>
+  </div>
+
+  <table border="1" style="width: 100%;">
+  <tr>
+    <% @service.service_stages.each do |stage| %>
+    <td style="padding: 0 10px 20px 10px; width: <%= 98.0 / @service.service_stages.length %>%; vertical-align: top;">
+      <h4>
+        <%= link_to stage.name, admin_service_service_stage_path(@service, stage) %>
+      </h4>
+      <p>
+        <div class="text-uppercase">
+          <small>
+            Time
+          </small>
+        </div>
+        <i>
+          <%= stage.time || "?" %> minutes
+        </i>
+      </p>
+      <p>
+        <div class="text-uppercase">
+          <small>
+            Takeup
+          </small>
+        </div>
+        <%= number_with_delimiter stage.total_eligible_population %>
+      </p>
+      <p style="color: blue;">
+        <div class="text-uppercase">
+          <small>
+            Description
+          </small>
+        </div>
+        <%= stage.description %>
+        &nbsp;
+      </p>
+
+      <div class="text-uppercase">
+        <small>
+          Barriers
+        </small>
+      </div>
+      <% @barriers = stage.barriers %>
+      <% if @barriers.present? %>
+        <% @barriers.each do |barrier| %>
+          <%= barrier.name %>
+          <br>
+        <% end %>
+      <% else %>
+        No barriers.
+      <% end %>
+    </td>
+    <% end %>
+  </tr>
+  </table>
+
+  <p>
+    <%= link_to new_admin_service_service_stage_path(@service), class: "usa-button usa-button--outline" do %>
+    <i class="fa fa-plus"></i>
+    Add Stage
+    <% end %>
+  </p>
+</div>
+
+<div class="well">
+  <h3>
+    Supplemental service information
+  </h3>
+  <p>
+    <%= link_to equity_assessment_admin_service_path(@service), class: "usa-button usa-button--outline" do %>
+      <i class="fa fa-pencil-alt"></i>
+      Equity Assessment
+    <% end %>
+    <%= link_to omb_cx_reporting_admin_service_path(@service), class: "usa-button usa-button--outline" do %>
+      <i class="fa fa-pencil-alt"></i>
+      OMB Quarterly Reporting
+    <% end %>
+  </p>
+
+  <div>
+    <h4>
+      Data Collections
+    </h4>
+
+    <% @collections = @service.collections.order(:year, :quarter) %>
+    <% if @collections.present? %>
+    <ul>
+      <% @collections.each do |c| %>
+      <li>
+        <%= link_to admin_collection_path(c) do %>
+          <%= c.year %>
+          <%= c.quarter %>
+          <%= c.name %>
+        <% end %>
+      </li>
+      <% end %>
+    </ul>
+    <% else %>
+      <div class="usa-alert usa-alert--info">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            No Data Collections exist for this Service.
+            <%= link_to "Learn more", admin_collections_path %>
+          </p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
