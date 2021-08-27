@@ -28,14 +28,14 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-bundle-{{ checksum "Gemfile.lock" }}
+          - v2-bundle-{{ checksum "Gemfile.lock" }}
 
       - run: bundle install
 
       - save_cache:
           paths:
             - ./vendor/bundle
-          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+          key: v2-bundle-{{ checksum "Gemfile.lock" }}
 
       # Database setup
       - run: bundle exec rake db:create
