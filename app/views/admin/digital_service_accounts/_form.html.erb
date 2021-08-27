@@ -1,0 +1,63 @@
+<%= form_with(model: digital_service_account, url: (digital_service_account.persisted? ? admin_digital_service_account_path(digital_service_account) : admin_digital_service_accounts_path)) do |form| %>
+  <% if digital_service_account.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(digital_service_account.errors.count, "error") %> prohibited this digital_service_account from being saved:</h2>
+
+      <ul>
+        <% digital_service_account.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :organization_id, class: "usa-label" %>
+    <%= form.select :organization_id, options_for_select(organization_dropdown_options, digital_service_account.organization_id), { prompt: "Which Organization?", include_blank: true }, { class: "usa-select" } %>
+  </div>
+
+  <div class="field">
+    <%= form.label :service, class: "usa-label" %>
+    <%= form.text_field :service, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :account, "Account platform", class: "usa-label" %>
+    <%= form.text_field :account, class: "usa-input" %>
+  </div>
+
+
+  <div class="field">
+    <%= form.label :service_url, class: "usa-label" %>
+    <%= form.text_field :service_url, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :short_description, class: "usa-label" %>
+    <%= form.text_field :short_description, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :long_description, class: "usa-label" %>
+    <%= form.text_area :long_description, class: "usa-textarea" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :language, class: "usa-label" %>
+    <%= form.text_field :language, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :tags, class: "usa-label" %>
+    <%= form.text_field :tags, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status, class: "usa-label" %>
+    <%= form.text_field :status, class: "usa-input" %>
+  </div>
+
+  <p>
+    <%= form.submit class: "usa-button" %>
+  </p>
+<% end %>

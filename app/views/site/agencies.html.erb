@@ -7,8 +7,6 @@
     <%= name %>
   </h4>
   <% accounts.each do |account| %>
-    <%#= account %>
-    <%#= account["agencies"] ? JSON.parse(account["agencies"]) : "zzaaa" %>
     <%= account["agencies"] %>
     <div class="" data-id="<%= account["id"] %>" style="font-size: 2em;">
       <%= link_to account["service_url"] do %>
@@ -36,5 +34,17 @@
       <% end %>
     </div>
   <% end %>
+<hr>
+<% end %>
+
+<hr>
+
+<% @accounts = CSV.open("social_media_export.csv", headers: true).read %>
+
+<% @accounts.each do |account| %>
+<% fields = ["id","created_at","updated_at","service_url","organization","account","language","service","status","short_description","long_description","agencies","contacts","tags"].each do |field| %>
+  <%= field %>: <%= account[field] %>
+  <br>
+<% end %>
 <hr>
 <% end %>

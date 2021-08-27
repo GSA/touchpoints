@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_16_171147) do
+ActiveRecord::Schema.define(version: 2021_08_27_010134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,41 @@ ActiveRecord::Schema.define(version: 2021_08_16_171147) do
     t.string "reflection"
     t.string "rating"
     t.integer "service_provider_id"
+  end
+
+  create_table "digital_products", force: :cascade do |t|
+    t.integer "organization_id"
+    t.integer "user_id"
+    t.string "service"
+    t.string "url"
+    t.string "code_repository_url"
+    t.string "language"
+    t.string "status"
+    t.string "aasm_status"
+    t.string "short_description"
+    t.text "long_description"
+    t.text "notes"
+    t.string "tags"
+    t.datetime "certified_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "digital_service_accounts", force: :cascade do |t|
+    t.integer "organization_id"
+    t.integer "user_id"
+    t.string "service"
+    t.string "service_url"
+    t.string "account"
+    t.string "language"
+    t.string "status"
+    t.string "short_description"
+    t.text "long_description"
+    t.text "notes"
+    t.string "tags"
+    t.datetime "certified_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "events", force: :cascade do |t|

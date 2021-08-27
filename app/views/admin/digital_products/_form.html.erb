@@ -1,0 +1,78 @@
+<%= form_with(model: digital_product, url: digital_product.persisted? ? admin_digital_product_path(digital_product) : admin_digital_products_path) do |form| %>
+  <% if digital_product.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(digital_product.errors.count, "error") %> prohibited this digital_product from being saved:</h2>
+
+      <ul>
+        <% digital_product.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :organization_id, class: "usa-label" %>
+    <%= form.select :organization_id, options_for_select(organization_dropdown_options, digital_product.organization_id), { prompt: "Which Organization?", include_blank: true }, { class: "usa-select" } %>
+  </div>
+
+  <div class="field">
+    <%= form.label :service, "Name of the product", class: "usa-label" %>
+    <%= form.text_field :service, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :short_description, class: "usa-label" %>
+    <%= form.text_field :short_description, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :long_description, class: "usa-label" %>
+    <small>
+      Should be the same or similar to your app store description
+    </small>
+    <%= form.text_area :long_description, class: "usa-textarea" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :url, class: "usa-label" %>
+    <%= form.text_field :url, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :code_repository_url, class: "usa-label" %>
+    <%= form.text_field :code_repository_url, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :language, class: "usa-label" %>
+    <%= form.text_field :language, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status, class: "usa-label" %>
+    <%= form.text_field :status, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :aasm_status, class: "usa-label" %>
+    <%= form.text_field :aasm_status, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :tags, class: "usa-label" %>
+    <%= form.text_field :tags, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :notes, class: "usa-label" %>
+    <small>
+      Do not include PII content in this field.
+    </small>
+    <%= form.text_area :notes, class: "usa-textarea", placeholder: "Consider including contact information" %>
+  </div>
+
+  <p>
+    <%= form.submit class: "usa-button" %>
+  </p>
+<% end %>

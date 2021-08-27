@@ -74,6 +74,8 @@ Rails.application.routes.draw do
         get "collection_request", to: "websites@collection_request", as: :collection_request
       end
     end
+    resources :digital_service_accounts
+    resources :digital_products
 
     resources :forms do
       member do
