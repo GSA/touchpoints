@@ -37,9 +37,10 @@ end
 Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
-Capybara.javascript_driver = :selenium_chrome
-Capybara.default_max_wait_time = 10
-Capybara.raise_server_errors = false
+# Capybara.javascript_driver = :selenium_chrome
+Capybara.javascript_driver = :selenium_chrome_headless
+Capybara.default_max_wait_time = 3
+Capybara.raise_server_errors = true
 
 TEST_API_KEY = "1234567890123456789012345678901234567890"
 
@@ -70,6 +71,8 @@ RSpec.configure do |config|
     # :rack_test driver's Rack app under test shares database connection
     # with the specs, so continue to use transaction strategy for speed.
     driver_shares_db_connection_with_specs = Capybara.current_driver == :rack_test
+
+    page.driver.browser.manage.window.resize_to(1200, 800)
 
     if !driver_shares_db_connection_with_specs
       # Driver is probably for an external browser with an app
