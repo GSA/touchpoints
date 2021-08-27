@@ -38,7 +38,7 @@ Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
 Capybara.javascript_driver = :selenium_chrome
-Capybara.default_max_wait_time = 3
+Capybara.default_max_wait_time = 10
 Capybara.raise_server_errors = false
 
 TEST_API_KEY = "1234567890123456789012345678901234567890"
