@@ -29,6 +29,20 @@
 <br>
 <% end %>
 
+<% if @website.production_status == "newly_requested" %>
+<div class="usa-section well">
+  <p>
+    This website <%= @website.domain %>
+    was created for approval about
+    <%= time_ago_in_words(@website.created_at) %> ago.
+  </p>
+  <%= link_to "Approve", approve_admin_website_path(@website), class: "usa-button usa-button--success bg-mint", method: :post %>
+  <%= link_to "Deny", deny_admin_website_path(@website), class: "usa-button usa-button--secondary", method: :post %>
+</div>
+<% end %>
+
+<%= render 'admin/websites/step_indicator', website: @website %>
+
 <div class="grid-row grid-gap-md">
 
   <div class="grid-col-6">
@@ -86,9 +100,15 @@
       <div class="grid-col-12">
         <p>
           <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-            Production status
+            Status
           </label>
-          <%= @website.production_status %>
+          <ul class="usa-list usa-list--unstyled">
+            <% Website::PRODUCTION_STATUSES.each_pair do |key, value| %>
+            <li>
+              <span class="usa-tag bg-primary-light <%= "bg-primary" if @website.production_status == key %>"><%= value %></span>
+            </li>
+          <% end %>
+          </ul>
         </p>
         <p>
           <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
@@ -151,9 +171,13 @@
         Type of site
       </label>
       <p>
+        <ul class="usa-list usa-list--unstyled">
         <% Website::TYPE_OF_SITES.each do |category| %>
-        <span class="usa-tag bg-primary-light <%= "bg-primary" if category.downcase == @website.type_of_site.downcase %>"><%= category %></span>
+          <li>
+            <span class="usa-tag bg-primary-light <%= "bg-primary" if category.downcase == @website.type_of_site.downcase %>"><%= category %></span>
+          </li>
         <% end %>
+        </ul>
       </p>
     </p>
     <p>
@@ -161,9 +185,13 @@
         Digital brand category
       </label>
       <p>
-      <% Website::DIGITAL_BRAND_CATEGORIES.each do |category| %>
-        <span class="usa-tag bg-primary-light <%= "bg-primary" if @website.digital_brand_category? && category.downcase == @website.digital_brand_category.downcase %>"><%= category %></span>
-      <% end %>
+        <ul class="usa-list usa-list--unstyled">
+          <% Website::DIGITAL_BRAND_CATEGORIES.each do |category| %>
+          <li>
+            <span class="usa-tag bg-primary-light <%= "bg-primary" if @website.digital_brand_category? && category.downcase == @website.digital_brand_category.downcase %>"><%= category %></span>
+          </li>
+        <% end %>
+        </ul>
       </p>
     </p>
   </div>
