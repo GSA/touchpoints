@@ -63,6 +63,15 @@ class UserMailer < ApplicationMailer
     mail to: ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
   end
 
+  def website_created(website:)
+    return unless website
+
+    set_logo
+    @website = website
+    @emails = ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
+    mail subject: "Touchpoints notification: Website created", to: @emails
+  end
+
   def website_data_collection(email, websites)
     return unless email
 

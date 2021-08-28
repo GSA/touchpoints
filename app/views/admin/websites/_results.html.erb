@@ -2,20 +2,26 @@
     Count = <%= @websites.size %>
     &middot;
     <% if params[:all] %>
-      <%= link_to "View Active sites (#{Website::ACTIVE_PRODUCTION_STATUSES.to_sentence})", "?active=1" %>
+      <%= link_to "View Active sites", "?active=1" %>
+      <small>
+        (<%= Website::ACTIVE_PRODUCTION_STATUSES.to_sentence %>)
+      </small>
     <% else %>
-      <%= link_to "View All sites (also includes #{(Website::PRODUCTION_STATUSES - Website::ACTIVE_PRODUCTION_STATUSES) .to_sentence})", "?all=1" %>
+      <%= link_to "View All sites", "?all=1" %>
+      <small>
+        (also includes <%= (Website::PRODUCTION_STATUSES.keys - Website::ACTIVE_PRODUCTION_STATUSES).to_sentence %>)
+      </small>
     <% end %>
 </p>
 <table class="usa-table" style="overflow-x: scroll;">
   <thead>
     <tr>
-      <th>Production status</th>
+      <th>Status</th>
       <th>Office</th>
       <th>Sub-office</th>
       <th>Domain</th>
-      <th>Staging Site</th>
-      <th>Site owner email</th>
+      <th>Staging site?</th>
+      <th>Website Manager</th>
     </tr>
   </thead>
   <tbody>

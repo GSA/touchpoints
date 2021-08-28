@@ -1,5 +1,9 @@
 class Admin::WebsitesController < AdminController
-  before_action :set_website, only: [:show, :costs, :statuscard, :edit, :update, :destroy, :collection_request]
+  before_action :set_website, only: [
+    :show, :costs, :statuscard, :edit, :update, :destroy, :collection_request,
+    :approve,
+    :deny
+  ]
 
   def index
     if params[:all]
@@ -66,6 +70,7 @@ class Admin::WebsitesController < AdminController
 
     if @website.save
       Event.log_event(Event.names[:website_created], "Website", @website.id, "Website #{@website.domain} created at #{DateTime.now}", current_user.id)
+      UserMailer.website_created(website: @website).deliver_later
       redirect_to admin_website_url(@website), notice: 'Website was successfully created.'
     else
       render :new
@@ -78,6 +83,26 @@ class Admin::WebsitesController < AdminController
     if @website.update(admin_website_params)
       log_update(current_state)
       redirect_to admin_website_url(@website), notice: 'Website was successfully updated.'
+    else
+      render :edit
+    end
+  end
+
+  def approve
+    ensure_website_admin(website: @website, user: current_user)
+    @website.approve
+    if @website.save
+      redirect_to admin_website_url(@website), notice: "Website #{@website.domain} was approved."
+    else
+      render :edit
+    end
+  end
+
+  def deny
+    ensure_website_admin(website: @website, user: current_user)
+    @website.deny
+    if @website.save
+      redirect_to admin_website_url(@website), notice: "Website #{@website.domain} was denied."
     else
       render :edit
     end
