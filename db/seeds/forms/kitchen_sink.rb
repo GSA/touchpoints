@@ -149,7 +149,7 @@ module Seeds
         form: custom_form,
         form_section: option_elements_section,
         text: "hidden value",
-        question_type: "hidden",
+        question_type: "hidden_field",
         position: 11,
         answer_field: :answer_07,
         is_required: false
