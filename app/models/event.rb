@@ -41,6 +41,11 @@ class Event < ApplicationRecord
     response_unarchived: 'response_unarchived',
     response_deleted: 'response_deleted',
     response_status_changed: 'response_status_changed',
+
+    website_created: 'website_created',
+    website_updated: 'website_updated',
+    website_deleted: 'website_deleted',
+    website_state_changed: 'website_state_changed',
   }
 
   def self.log_event(ename, otype, oid, desc, uid = nil)

@@ -72,6 +72,8 @@ Rails.application.routes.draw do
         get "costs", to: "websites#costs", as: :costs
         get "statuscard", to: "websites#statuscard", as: :statuscard
         get "collection_request", to: "websites@collection_request", as: :collection_request
+        post "approve", to: "websites#approve", as: :approve
+        post "deny", to: "websites#deny", as: :deny
       end
     end
     resources :digital_service_accounts

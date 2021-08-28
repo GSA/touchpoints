@@ -5,6 +5,5 @@ FactoryBot.define do
     parent_domain { "example.gov" }
     office { "OFFICE" }
     sub_office { "SUBOFFICE" }
-    production_status { "Production" }
   end
 end
