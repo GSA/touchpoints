@@ -23,7 +23,7 @@ class SubmissionsController < ApplicationController
     headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
 
     # Catch SPAMMERS
-    if @form && params[:fba_directive].present?
+    if @form && submission_params[:fba_directive].present?
       Rails.logger.warn("SPAM subverted from #{request.referer}")
       head :ok and return
     end
@@ -126,7 +126,7 @@ class SubmissionsController < ApplicationController
 
     def submission_params
       permitted_fields = @form.questions.collect(&:answer_field)
-      permitted_fields << %i[language location_code referer page]
+      permitted_fields << %i[language location_code referer page fba_directive]
       params.require(:submission).permit(permitted_fields)
     end
 end
