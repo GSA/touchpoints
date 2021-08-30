@@ -81,6 +81,24 @@ RSpec.describe SubmissionsController, type: :controller do
   end
 
   describe "POST #create" do
+
+    context "SPAMBOT" do
+      it "won't create a submission if SPAMBOT detected" do
+        spam_attributes = {
+          form_id: form.id,
+          answer_01: "body text",
+          answer_02: "James",
+          answer_03: "Madison",
+          answer_04: "james.madison@lvh.me",
+          fba_directive: 'SPAM text'
+        }
+        expect {
+          post :create, params: {submission: spam_attributes, form_id: form.short_uuid}, session: valid_session
+        }.to change(Submission, :count).by(0)
+      end
+
+    end
+
     context "with valid params and an ID" do
       it "creates a new Submission" do
         expect {
