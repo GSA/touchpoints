@@ -1,6 +1,7 @@
 class SubmissionsController < ApplicationController
   protect_from_forgery only: []
   before_action :set_form, only: [:new, :create]
+
   layout 'public', only: :new
 
   def new
