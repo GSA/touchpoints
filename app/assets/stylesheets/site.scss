@@ -516,3 +516,8 @@ table .no-wrap {
   overflow: hidden;
   white-space: nowrap;
 }
+
+// override default USWDS style
+.form-builder .usa-checkbox {
+  background: none;
+}
