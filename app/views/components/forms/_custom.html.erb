@@ -5,6 +5,7 @@
     <%= hidden_field_tag :fba_location_code, params[:location_code] %>
 
     <% form.form_sections.each do |section| %>
+      <%= f.invisible_captcha :subtitle %>
       <div class="section <%= 'visible' if section == form.form_sections.first  -%>">
         <% if (section != form.form_sections.first) || (section != form.form_sections.last) %>
           <% if section != form.form_sections.first %>
