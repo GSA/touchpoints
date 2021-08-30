@@ -5,7 +5,6 @@
     <%= hidden_field_tag :fba_location_code, params[:location_code] %>
     <input type="text" name="fba_directive" style="display:none !important" tabindex="-1" autocomplete="off">
     <% form.form_sections.each do |section| %>
-
       <div class="section <%= 'visible' if section == form.form_sections.first  -%>">
         <% if (section != form.form_sections.first) || (section != form.form_sections.last) %>
           <% if section != form.form_sections.first %>
