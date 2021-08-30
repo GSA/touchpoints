@@ -33,7 +33,7 @@ feature "Touchpoints", js: true do
           click_button "Submit"
         end
 
-        it "returns success with an empty page" do
+        it "fails the submission" do
           expect(page).to have_content("this submission was not successful")
           expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit") # stays on
         end
