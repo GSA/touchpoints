@@ -1,8 +1,6 @@
 class SubmissionsController < ApplicationController
   protect_from_forgery only: []
   before_action :set_form, only: [:new, :create]
-  invisible_captcha only: [:create], honeypot: :subtitle
-
   layout 'public', only: :new
 
   def new
@@ -22,6 +20,12 @@ class SubmissionsController < ApplicationController
     headers['Access-Control-Allow-Methods'] = 'POST'
     headers['Access-Control-Request-Method'] = '*'
     headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+
+    # Catch SPAMMERS
+    if @form && params[:fba_directive].present?
+      Rails.logger.warn("SPAM subverted from #{request.referer}")
+      head :ok and return
+    end
 
     # Prevent the Submission if this is a published Form and if:
     if @form &&

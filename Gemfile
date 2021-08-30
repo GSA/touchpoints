@@ -35,7 +35,6 @@ gem 'aasm', '~> 4.12'
 # gem 'webpacker', '~> 5.0'
 gem 'whenever', require: false
 gem 'logstop'
-gem 'invisible_captcha'
 
 
 group :development, :test do
