@@ -26,6 +26,20 @@ feature "Touchpoints", js: true do
         end
       end
 
+      context "SPAMBOT" do
+        before do
+          visit touchpoint_path(form)
+          page.execute_script("$('#fba_directive').val('SPAM Text')")
+          click_button "Submit"
+        end
+
+        it "fails the submission" do
+          expect(page).to have_content("this submission was not successful")
+          expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit") # stays on
+        end
+
+      end
+
       context "custom success text" do
         before do
           form.update(success_text: "Much success. \n With a second line.")

@@ -2,6 +2,7 @@ class Submission < ApplicationRecord
   include AASM
 
   belongs_to :form, counter_cache: :response_count
+  attr_accessor :fba_directive # for SPAM capture
 
   validate :validate_custom_form
   validates :uuid, uniqueness: true
