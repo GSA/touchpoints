@@ -16,6 +16,7 @@
 <table class="usa-table" style="overflow-x: scroll;">
   <thead>
     <tr>
+      <th>View</th>
       <th>Status</th>
       <th>Office</th>
       <th>Sub-office</th>
@@ -27,10 +28,11 @@
   <tbody>
     <% @websites.order(:production_status).each do |website| %>
       <tr>
+        <td><%= link_to("View", admin_website_path(website), class: "usa-button") %></td>
         <td><%= website.production_status %></td>
         <td><%= website.office %></td>
         <td><%= website.sub_office %></td>
-        <td><%= link_to(website.domain, admin_website_path(website)) %></td>
+        <td><%= website.domain %></td>
         <td>
           <%= website.domain.include?("staging") || website.domain.include?("preview") || website.domain.include?("sandbox") || website.domain.include?("beta") ? "YES" : "" %>
         </td>

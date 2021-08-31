@@ -98,7 +98,7 @@ feature "Managing Websites", js: true do
     describe "editing another's Website" do
       before do
         visit admin_websites_path
-        click_on website.domain
+        click_on "View"
       end
 
       it "can view successfully but not see an edit button" do
