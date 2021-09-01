@@ -1,0 +1,46 @@
+<% content_for :navigation_title do %>
+  Event Log for <%= @collection.name %>
+<% end %>
+<p>
+  <%= link_to admin_collection_path(@collection) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Data Collection
+  <% end %>
+</p>
+
+<ul class="usa-list">
+<% @events.each do |event| %>
+<li>
+  <div class="">
+    <span class="user-email">
+      <%= event.user.email %>
+    </span>
+    <span class="action">
+    <% if event.name == "collection_created" %>
+      created
+    <% elsif event.name == "collection_copied" %>
+      copied
+    <% elsif event.name == "collection_updated" %>
+      updated
+    <% elsif event.name == "collection_published" %>
+      published
+    <% elsif event.name == "collection_submitted" %>
+      submitted
+    <% elsif event.name == "collection_change_requested" %>
+      requested changes on
+    <% elsif event.name == "collection_deleted" %>
+      deleted
+    <% end %>
+    </span>
+    <span class="target-object">
+      <%= link_to @collection.name, admin_collection_path(@collection) %>
+    </span>
+    at
+    <span class="datetime">
+      <%= event.created_at %>
+    </span>
+  </div>
+  </li>
+<% end %>
+</ul>
+<br>

@@ -2,7 +2,8 @@ class Admin::WebsitesController < AdminController
   before_action :set_website, only: [
     :show, :costs, :statuscard, :edit, :update, :destroy, :collection_request,
     :approve,
-    :deny
+    :deny,
+    :events
   ]
 
   def index
@@ -92,6 +93,7 @@ class Admin::WebsitesController < AdminController
     ensure_website_admin(website: @website, user: current_user)
     @website.approve
     if @website.save
+      Event.log_event(Event.names[:website_approved], "Website", @website.id, "Website #{@website.domain} approved at #{DateTime.now}", current_user.id)
       redirect_to admin_website_url(@website), notice: "Website #{@website.domain} was approved."
     else
       render :edit
@@ -102,6 +104,7 @@ class Admin::WebsitesController < AdminController
     ensure_website_admin(website: @website, user: current_user)
     @website.deny
     if @website.save
+      Event.log_event(Event.names[:website_denied], "Website", @website.id, "Website #{@website.domain} denied at #{DateTime.now}", current_user.id)
       redirect_to admin_website_url(@website), notice: "Website #{@website.domain} was denied."
     else
       render :edit
@@ -114,6 +117,10 @@ class Admin::WebsitesController < AdminController
     @website.destroy
     Event.log_event(Event.names[:website_deleted], "Website", @website.id, "Website #{@website.domain} deleted at #{DateTime.now}", current_user.id)
     redirect_to admin_websites_url, notice: 'Website was successfully destroyed.'
+  end
+
+  def events
+    @events = Event.where(object_type: "Website", object_id: @website.id).order(:created_at)
   end
 
   private

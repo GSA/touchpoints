@@ -55,6 +55,7 @@ Rails.application.routes.draw do
         post "copy", to: "collections#copy", as: :copy
         post "submit", to: "collections#submit", as: :submit
         post "publish", to: "collections#publish", as: :publish
+        get "events", to: "collections#events", as: :events
       end
     end
     resources :omb_cx_reporting_collections
@@ -74,6 +75,7 @@ Rails.application.routes.draw do
         get "collection_request", to: "websites@collection_request", as: :collection_request
         post "approve", to: "websites#approve", as: :approve
         post "deny", to: "websites#deny", as: :deny
+        get "events", to: "websites#events", as: :events
       end
     end
 
@@ -106,6 +108,7 @@ Rails.application.routes.draw do
         patch "update_display_logo", to: "forms#update_display_logo", as: :update_display_logo
         patch "update_admin_options", to: "forms#update_admin_options", as: :update_admin_options
         patch "update_form_manager_options", to: "forms#update_form_manager_options", as: :update_form_manager_options
+        get "events", to: "forms#events", as: :events
       end
       collection do
         post "copy", to: "forms#copy", as: :copy_id
