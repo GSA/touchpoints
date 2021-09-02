@@ -60,7 +60,7 @@
       <% if @website.persisted? %>
       <div class="field">
         <%= form.label :production_status, class: "usa-label" %>
-        <%= form.select :production_status, options_for_select(Website::PRODUCTION_STATUSES.collect { |k,v| [v, k]}), { include_blank: true }, { class: "usa-select" } %>
+        <%= form.select :production_status, options_for_select(Website::PRODUCTION_STATUSES.collect { |k,v| [v, k] }, selected: @website.production_status), { include_blank: true }, { class: "usa-select" } %>
       </div>
       <% end %>
       <div class="field">

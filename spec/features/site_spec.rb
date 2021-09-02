@@ -32,7 +32,6 @@ feature "general site navigation", js: true do
           expect(page.current_path).to eq(admin_websites_path)
           expect(page).to have_content("Websites")
           expect(page).to have_content("New Website")
-          expect(page).to have_content("All websites are viewable by Touchpoints users.")
         end
       end
 

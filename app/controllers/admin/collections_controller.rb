@@ -1,7 +1,8 @@
 class Admin::CollectionsController < AdminController
   before_action :set_collection, only: [:show, :edit, :copy,
     :submit, :publish,
-    :update, :destroy
+    :update, :destroy,
+    :events
   ]
 
   def index
@@ -98,6 +99,10 @@ class Admin::CollectionsController < AdminController
     @collection.destroy
     Event.log_event(Event.names[:collection_deleted], "Collection", @collection.id, "Collection #{@collection.name} deleted at #{DateTime.now}", current_user.id)
     redirect_to admin_collections_url, notice: 'Collection was successfully destroyed.'
+  end
+
+  def events
+    @events = Event.where(object_type: "Collection", object_id: @collection.id).order(:created_at)
   end
 
   private

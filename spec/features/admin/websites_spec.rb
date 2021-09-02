@@ -17,8 +17,8 @@ feature "Managing Websites", js: true do
     end
 
     it "load the Websites#index page" do
-      expect(page).to have_content("Websites")
-      expect(page).to have_content("Website inventory is an experimental feature.")
+      expect(page).to have_content("Find Websites")
+      expect(page.current_path).to eq(admin_websites_path)
       expect(page).to have_content("New Website")
     end
 
@@ -45,8 +45,8 @@ feature "Managing Websites", js: true do
     end
 
     it "load the Websites#index page" do
-      expect(page).to have_content("Websites")
-      expect(page).to have_content("Website inventory is an experimental feature.")
+      expect(page).to have_content("Find Websites")
+      expect(page.current_path).to eq(admin_websites_path)
     end
 
     describe "create a new Website" do
@@ -73,8 +73,8 @@ feature "Managing Websites", js: true do
     end
 
     it "load the Websites#index page" do
-      expect(page).to have_content("Websites")
-      expect(page).to have_content("Website inventory is an experimental feature.")
+      expect(page).to have_content("Find Websites")
+      expect(page.current_path).to eq(admin_websites_path)
 
       click_on "New Website"
       expect(page).to have_content("New Website")
