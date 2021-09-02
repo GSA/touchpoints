@@ -1,5 +1,11 @@
-<div id="fba-modal-dialog" class="fba-modal-dialog">
+<style>
+  <%= render(partial: "components/widget/widget", formats: :css, locals: { form: form }) %>
+</style>
+<%= stylesheet_link_tag 'uswds', media: 'all', integrity: true %>
+<div class="usa-modal__content" >
   <%= render "components/widget/no_modal", form: form do %>
     <%= render partial: 'components/forms/footer', locals: { form: form } %>
   <% end %>
 </div>
+
+

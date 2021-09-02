@@ -1,7 +1,7 @@
-<div class="touchpoints-form-wrapper" data-touchpoints-form-id="<%= form.short_uuid %>">
-  <div class="wrapper">
+<div data-touchpoints-form-id="<%= form.short_uuid %>">
+  <div class="usa-modal__main">
     <% if form.title? %>
-      <h3 id="fba-modal-title">
+      <h3 id="usa-modal__heading">
         <%= form.title || "Form Title" %>
       </h3>
     <% end %>

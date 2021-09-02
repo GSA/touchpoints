@@ -83,11 +83,10 @@ function FBAform(d, N) {
 		<%# inject the form interface for modal and custom-button-modal %>
 		<% if form.delivery_method == "modal" || form.delivery_method == "custom-button-modal" %>
 			this.dialogEl = document.createElement('div');
-			this.dialogEl.setAttribute("hidden", true);
-			this.dialogEl.setAttribute('class', 'fba-modal');
-			this.dialogEl.setAttribute('role', 'dialog');
-			this.dialogEl.setAttribute('aria-modal', 'true');
-
+			this.dialogEl.setAttribute('id', 'fba-modal-dialog-1');
+			this.dialogEl.setAttribute('class', 'usa-modal');
+			this.dialogEl.setAttribute('aria-labelled-by', 'Touchpoints');
+			this.dialogEl.setAttribute('aria-described-by', 'Touchpoints');
 			this.dialogEl.innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
 			d.body.appendChild(this.dialogEl);
 
@@ -315,9 +314,11 @@ function FBAform(d, N) {
 		{
 			// Add the fixed, floating tab button
 			this.buttonEl = document.createElement('a');
-			this.buttonEl.setAttribute('id', 'fba-button');
 			this.buttonEl.setAttribute('class', 'fixed-tab-button usa-button');
-			this.buttonEl.setAttribute('href', '#');
+			this.buttonEl.setAttribute('href', '#fba-modal-dialog-1');
+			this.buttonEl.setAttribute('aria-controls', 'fba-modal-dialog-1');
+			this.buttonEl.setAttribute('data-open-modal','');
+
 			this.buttonEl.setAttribute('aria-haspopup', 'dialog');
 			this.buttonEl.addEventListener('click', this.handleButtonClick.bind(this), false);
 			this.buttonEl.innerHTML = this.options.modalButtonText;
