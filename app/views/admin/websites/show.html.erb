@@ -29,7 +29,7 @@
 <br>
 <% end %>
 
-<% if @website.production_status == "newly_requested" %>
+<% if admin_permissions? && @website.production_status == "newly_requested" %>
 <div class="usa-section well">
   <p>
     This website <%= @website.domain %>

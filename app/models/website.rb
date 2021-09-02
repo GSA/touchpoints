@@ -3,6 +3,7 @@ class Website < ApplicationRecord
 
   validates :domain, presence: true
   validates :domain, uniqueness: true
+  validate :validate_domain_format
   validates :type_of_site, presence: true
 
   belongs_to :organization, optional: true
@@ -86,6 +87,12 @@ class Website < ApplicationRecord
 
   def requiresDataCollection?
     blankFields.size > 0
+  end
+
+  def validate_domain_format
+    if self.domain.present? && !self.domain.include?(".")
+      errors.add(:domain, "domain must have a suffix, like .gov or .mil")
+    end
   end
 
   def self.to_csv
