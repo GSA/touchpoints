@@ -105,11 +105,11 @@
       </div>
       <div class="field">
         <%= form.label :type_of_site, class: "usa-label" %>
-        <%= form.select :type_of_site, Website::TYPE_OF_SITES, { include_blank: true }, { class: "usa-select" } %>
+        <%= form.select :type_of_site, options_for_select(Website::TYPE_OF_SITES.collect { |k, v| ["#{k} - #{v}", k] }, selected: website.type_of_site), { include_blank: true }, { class: "usa-select" } %>
       </div>
       <div class="field">
         <%= form.label :digital_brand_category, class: "usa-label" %>
-        <%= form.select :digital_brand_category, Website::DIGITAL_BRAND_CATEGORIES, { include_blank: true }, class: "usa-select" %>
+        <%= form.select :digital_brand_category, options_for_select(Website::DIGITAL_BRAND_CATEGORIES.collect { |k, v| ["#{k} - #{v}", k] }, selected: website.digital_brand_category), { include_blank: true }, { class: "usa-select" } %>
       </div>
     </div>
     <div class="grid-col-6">
@@ -118,31 +118,33 @@
       </h3>
       <div class="field">
         <%= form.label :hosting_platform, class: "usa-label" %>
-        <%= form.text_field :hosting_platform, class: "usa-input", placeholder: "Cloud.gov or AWS" %>
+        <%= form.text_field :hosting_platform, class: "usa-input", placeholder: "Cloud.gov, AWS" %>
       </div>
       <div class="field">
         <%= form.label :cms_platform, "Content Management platorm", class: "usa-label" %>
-        <%= form.text_field :cms_platform, class: "usa-input", placeholder: "Cloud.gov pages or Drupal" %>
+        <%= form.text_field :cms_platform, class: "usa-input", placeholder: "Cloud.gov Pages, Drupal, Wordpress" %>
       </div>
+      <% if admin_permissions? %>
+      <div class="field">
+        <%= form.label :uswds_version, class: "usa-label" %>
+        <%= form.text_field :uswds_version, class: "usa-input", placeholder: "Updated by Site Scanner" %>
+      </div>
+      <% end %>
       <div class="field">
         <%= form.label :dap_gtm_code, "DAP GTM Code", class: "usa-label" %>
-        <%= form.text_field :dap_gtm_code, class: "usa-input" %>
+        <%= form.text_field :dap_gtm_code, class: "usa-input", placeholder:  "UA-12345678" %>
       </div>
       <div class="field">
         <%= form.label :analytics_url, class: "usa-label" %>
-        <%= form.text_field :analytics_url, class: "usa-input" %>
+        <%= form.text_field :analytics_url, class: "usa-input", placeholder: "https://anaytics.usa.gov/..." %>
       </div>
       <div class="field">
         <%= form.label :authentication_tool, class: "usa-label" %>
-        <%= form.text_field :authentication_tool, class: "usa-input" %>
+        <%= form.text_field :authentication_tool, class: "usa-input", placeholder: "Login.gov, SecureAuth, Okta" %>
       </div>
       <div class="field">
         <%= form.label :feedback_tool, class: "usa-label" %>
-        <%= form.text_field :feedback_tool, class: "usa-input" %>
-      </div>
-      <div class="field">
-        <%= form.label :current_uswds_score, class: "usa-label" %>
-        <%= form.number_field :current_uswds_score, class: "usa-input" %>
+        <%= form.text_field :feedback_tool, class: "usa-input", placeholder: "Touchpoints, Qualtrics, Google Forms" %>
       </div>
       <br>
       <fieldset class="usa-fieldset">

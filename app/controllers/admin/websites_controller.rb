@@ -26,7 +26,7 @@ class Admin::WebsitesController < AdminController
     search_text = params[:search]
     if search_text.present?
       search_text = "%" + search_text + "%"
-      @websites = Website.where(" domain like ? or office like ? or sub_office like ? or production_status like ? or site_owner_email like ? ", search_text, search_text, search_text, search_text, search_text)
+      @websites = Website.where(" domain ilike ? or office ilike ? or sub_office ilike ? or production_status ilike ? or site_owner_email ilike ? ", search_text, search_text, search_text, search_text, search_text)
     else
       @websites = Website.all
     end
@@ -142,7 +142,10 @@ class Admin::WebsitesController < AdminController
       :modernization_cost_2021,
       :modernization_cost_2022,
       :modernization_cost_2023,
-      :analytics_url, :current_uswds_score, :uses_feedback, :feedback_tool, :sitemap_url, :mobile_friendly, :has_search, :uses_tracking_cookies,
+      :analytics_url,
+      :current_uswds_score,
+      :uswds_version,
+      :uses_feedback, :feedback_tool, :sitemap_url, :mobile_friendly, :has_search, :uses_tracking_cookies,
       :hosting_platform,
       :has_authenticated_experience,
       :authentication_tool,
