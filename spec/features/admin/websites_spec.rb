@@ -27,7 +27,7 @@ feature "Managing Websites", js: true do
         click_on "New Website"
         expect(page).to have_content("New Website")
         fill_in :website_domain, with: new_website.domain
-        select("Application", from: "website_type_of_site")
+        select("Application - Transactional", from: "website_type_of_site")
         click_on "Create Website"
       end
 
@@ -54,7 +54,7 @@ feature "Managing Websites", js: true do
         click_on "New Website"
         expect(page).to have_content("New Website")
         fill_in :website_domain, with: new_website.domain
-        select("Application", from: "website_type_of_site")
+        select("Application - Transactional", from: "website_type_of_site")
         click_on "Create Website"
       end
 
@@ -85,7 +85,7 @@ feature "Managing Websites", js: true do
         visit new_admin_website_path
         expect(page).to have_content("New Website")
         fill_in :website_domain, with: new_website.domain
-        select("Application", from: "website_type_of_site")
+        select("Application - Transactional", from: "website_type_of_site")
         click_on "Create Website"
       end
 
