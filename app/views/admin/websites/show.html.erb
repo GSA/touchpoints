@@ -112,6 +112,16 @@
         </p>
         <p>
           <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+            USWDS version
+          </label>
+          <%= @website.uswds_version || "---" %>
+          <br>
+          <small>
+            <%= link_to "See latest version", "https://designsystem.digital.gov/about/releases/", target: "_blank", rel: "noopener" %>
+          </small>
+        </p>
+        <p>
+          <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
             Redirects to
           </label>
           <%= @website.redirects_to || "---" %>
@@ -172,7 +182,7 @@
       </label>
       <p>
         <ul class="usa-list usa-list--unstyled">
-        <% Website::TYPE_OF_SITES.each do |category| %>
+        <% Website::TYPE_OF_SITES.each_pair do |category, description| %>
           <li>
             <span class="usa-tag bg-primary-light <%= "bg-primary" if category.downcase == @website.type_of_site.downcase %>"><%= category %></span>
           </li>
@@ -186,7 +196,7 @@
       </label>
       <p>
         <ul class="usa-list usa-list--unstyled">
-          <% Website::DIGITAL_BRAND_CATEGORIES.each do |category| %>
+          <% Website::DIGITAL_BRAND_CATEGORIES.each_pair do |category, description| %>
           <li>
             <span class="usa-tag bg-primary-light <%= "bg-primary" if @website.digital_brand_category? && category.downcase == @website.digital_brand_category.downcase %>"><%= category %></span>
           </li>
@@ -207,7 +217,7 @@
     </p>
     <p>
       <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-        CMS platform
+        Content management platform
       </label>
       <%= @website.cms_platform || "---" %>
     </p>
@@ -231,33 +241,15 @@
     </p>
     <p>
       <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-        Uses feedback
-      </label>
-      <%= @website.uses_feedback || "---" %>
-    </p>
-    <p>
-      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-        Feedback tool
+        Customer feedback tool
       </label>
       <%= @website.feedback_tool || "---" %>
-    </p>
-    <p>
-      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-        USWDS score
-      </label>
-      <%= @website.current_uswds_score || "---" %>
     </p>
     <p>
       <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
         Uses tracking cookies
       </label>
       <%= @website.uses_tracking_cookies || "---" %>
-    </p>
-    <p>
-      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-        Has authenticated experience
-      </label>
-      <%= @website.has_authenticated_experience || "---" %>
     </p>
     <p>
       <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
