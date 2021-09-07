@@ -1,29 +1,43 @@
-<div id="fba-modal" class="hide usa-prose">
-  <div id="fba-modal-dialog" class="fba-modal-dialog">
-    <h3 id="fba-modal-title"></h3>
-    <a type="button" class="close-button fba-modal-close" href="#">×</a>
-    <p class="fba-instructions">
-      <h4>
-        This is a U.S. government service.
-      </h4>
-      <p>
-        Touchpoints is a U.S. General Services Administration federal government service,
-        for official use by U.S. government employees and contractors working on U.S. government digital services.
-        All use of Touchpoints may be monitored, recorded, and subject to audit,
-        by Touchpoints operations staff and other federal government authorities.
-        There is no expectation of privacy for users of this system.
-        By continuing to use this system, you consent to your use being monitored and recorded.
-        Unauthorized use is prohibited, and individuals found performing unauthorized activities are subject to disciplinary action including criminal prosecution.
-        Acceptable uses of Touchpoints include providing feedback regarding government digital services,
-        making and trying test services to learn about how Touchpoints works,
-        and activities contributing to the development of Touchpoints itself.
-        We describe these intended uses (along with guidelines and policies) in more detail in the Touchpoints documentation.
-        If you have questions about these conditions, please email <a href="mailto:feedback-analytics@gsa.gov">feedback-analytics@gsa.gov</a>.
-      </p>
-
-      <p class="text-right">
-        <button type="button" name="button" class="usa-button close-button">Hide details</button>
-      </p>
-    </p>
+<div class="margin-y-3">
+  <div
+    class="usa-modal"
+    id="read-more-details"
+    aria-labelledby="modal-1-heading"
+    aria-describedby="modal-1-description"
+  >
+    <div class="usa-modal__content">
+      <div class="usa-modal__main">
+        <h2 class="usa-modal__heading" id="modal-1-heading">
+          This is a U.S. government service.
+        </h2>
+        <div class="usa-prose">
+          <p id="modal-1-description">
+            Touchpoints is a U.S. General Services Administration federal government service,
+            for official use by U.S. government employees and contractors working on U.S. government digital services.
+            All use of Touchpoints may be monitored, recorded, and subject to audit,
+            by Touchpoints operations staff and other federal government authorities.
+            There is no expectation of privacy for users of this system.
+            By continuing to use this system, you consent to your use being monitored and recorded.
+            Unauthorized use is prohibited, and individuals found performing unauthorized activities are subject to disciplinary action including criminal prosecution.
+          </p>
+          <p>
+            Acceptable uses of Touchpoints include providing feedback regarding government digital services,
+            making and trying test services to learn about how Touchpoints works,
+            and activities contributing to the development of Touchpoints itself.
+            We describe these intended uses (along with guidelines and policies) in more detail in the Touchpoints documentation.
+            If you have questions about these conditions, please email <a href="mailto:feedback-analytics@gsa.gov">feedback-analytics@gsa.gov</a>.
+          </p>
+        </div>
+      </div>
+      <button
+        class="usa-button usa-modal__close"
+        aria-label="Close this window"
+        data-close-modal
+      >
+        <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+          <use xlink:href="<%= asset_path("sprite.svg#close") %>"></use>
+        </svg>
+      </button>
+    </div>
   </div>
 </div>
