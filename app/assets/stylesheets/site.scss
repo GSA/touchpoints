@@ -521,3 +521,30 @@ table .no-wrap {
 .form-builder .usa-checkbox {
   background: none;
 }
+
+
+// Custom styles from Login.gov
+// for the Login.gov button
+.sign-in-logo.usa-button {
+    color: #1b1b1b;
+    font-weight: bold;
+    margin: 0;
+    background-color: #fff;
+    display: inline-block;
+    white-space: nowrap;
+    padding: 0.85rem;
+    padding: 0.75rem 0.5rem;
+    -webkit-box-shadow: inset 0 0 0 1px #bbb;
+    box-shadow: inset 0 0 0 1px #bbb;
+}
+
+.sign-in-logo.usa-button span {
+    color: transparent;
+    background: asset-url("login_sign_in.svg") no-repeat;
+    background-size: contain;
+    display: inline-block;
+    width: 6rem;
+    position: relative;
+    top: 0.125rem;
+    margin-left: 0.25rem;
+}
