@@ -43,8 +43,29 @@ Issues and ideas are also noted in GitHub [Issues](https://github.com/gsa/touchp
 
 See [LICENSE](LICENSE.md)
 
-## Docker develepment
+## Docker development
 
 To build a development environment
+
+1. docker-compose build
+2. docker-compose up 
+3. docker-compose run webapp rake db:create
+4. docker-compose run webapp rake db:migrate
+5. docker-compose down
+6. docker-compose up
+7. Navigate to http://lvh.me:3003/admin
+
+To start/stop after building
+1. docker-compose up
+2. docker-compose down
+
+To run tests
+1. docker-compose up
+2. docker-compose run webapp rspec
+
+Notes:
++  Application is accessable at lvm.me port 3003
++  Postgres db container is accessible at localhost port 6432
++  Docker solution can be run concurrently with app and db running locally on host os
 
 
