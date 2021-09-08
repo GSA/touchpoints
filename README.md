@@ -45,6 +45,12 @@ See [LICENSE](LICENSE.md)
 
 ## Docker development
 
+Setup
+
+1. install Docker
+2. clone repo
+3. copy env.docker-development .env and update vars
+
 To build a development environment
 
 1. docker-compose build
