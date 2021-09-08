@@ -23,10 +23,8 @@ default: &default
 
 development:
   <<: *default
-  # Uncomment host and username if running docker containers ( docker-compose )
-  #host: postgres
-  #username: postgres
   database: touchpoints_development
+  url: <%= ENV['DATABASE_URL'] %>
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -62,7 +60,7 @@ test:
   <<: *default
   # Uncomment host and username if running docker containers ( docker-compose )
   #host: postgres
-  #username: postgres  
+  #username: postgres
   database: touchpoints_test
 
 # As with config/secrets.yml, you never want to store sensitive information,

@@ -2,31 +2,43 @@ version: '2'
 
 services:
   postgres:
+    container_name: 'postgres'
     image: 'postgres:10.3-alpine'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD:
     ports: 
-      - '5432:5432'
+      - '6432:5432'
     volumes:
       - 'postgres:/var/lib/postgresql/data'
-    env_file:
-      - '.env'
 
   redis:
     image: 'redis:4.0-alpine'
-    command: redis-server --requirepass yourpassword
+    command: redis-server
+    ports:
+      - '6379:6379'
     volumes:
       - 'redis:/data'
 
-  website:
+  webapp:
+    container_name: 'webapp'
+    environment:
+      DATABASE_URL: 'postgres://postgres:@postgres:5432/touchpoints_development?pool=5&encoding=utf-8'
+      RAILS_ENV: 'development'
+      REDIS_URL_CACHING: 'redis://redis:6379/0'
     depends_on:
       - 'postgres'
       - 'redis'
+    links:
+      - 'postgres'
     build: .
     ports:
-      - '3000:3000'
+      - '3003:3002'
     volumes:
-      - '.:/touchpoints'
+      - './:/touchpoints'
     env_file:
       - '.env'
+    tty: true
 
 volumes:
   redis:

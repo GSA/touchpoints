@@ -35,6 +35,7 @@ gem 'aasm', '~> 4.12'
 # gem 'webpacker', '~> 5.0'
 gem 'whenever', require: false
 gem 'logstop'
+gem 'aws-eventstream'
 
 
 group :development, :test do
