@@ -11,7 +11,9 @@
       Your account will be automatically created the first time you sign in.
     </p>
     <p>
-      <%= link_to "Sign up with Login.gov", user_login_dot_gov_omniauth_authorize_path, class: "usa-button usa-button--outline" %>
+      <%= link_to user_login_dot_gov_omniauth_authorize_path, id: "agree-button", class: "usa-button sign-in-logo", "aria-label" => "Login.gov" do %>
+        <span>Login.gov</span>
+      <% end %>
     </p>
     <% end %>
   </div>
@@ -25,7 +27,10 @@
       Once you authenticate with Login.gov, you will be signed in and redirected back to Touchpoints.
     </p>
     <p>
-      <%= link_to "Sign in with Login.gov", user_login_dot_gov_omniauth_authorize_path, class: "usa-button" %>
+      <%= link_to user_login_dot_gov_omniauth_authorize_path, id: "agree-button", class: "usa-button sign-in-logo", "aria-label" => "Login.gov" do %>
+        Sign in with
+        <span>Login.gov</span>
+      <% end %>
     </p>
     <% end %>
     <% if ENV['GITHUB_CLIENT_ID'].present? %>
