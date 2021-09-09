@@ -39,13 +39,11 @@
     <br>
   <% ServiceProvider.active.includes(:organization).order("organizations.name", :name).each do |service_provider| %>
     <% service_provider.services.includes(:organization).order("organizations.name", :name).each do |service| %>
-      <% service.collections.each do |collection| %>
-        <% collection.omb_cx_reporting_collections.includes(:collection).order("collections.year", "collections.quarter").each do |omb_cx_reporting_collection| %>
-          <%# WRITE A LINE FOR EACH OF THE 7 STANDARD QUESTIONS %>
-          <% (1..7).each do |question_number| %>
-            <%= render 'admin/collections/csv_detail_row', omb_cx_reporting_collection: omb_cx_reporting_collection, question_number: question_number %>
-            <br>
-          <% end %>
+      <% service.omb_cx_reporting_collections.includes(:service, :collection).order("collections.year", "collections.quarter", "services.name").each do |omb_cx_reporting_collection| %>
+        <%# WRITE A LINE FOR EACH OF THE 7 STANDARD QUESTIONS %>
+        <% (1..7).each do |question_number| %>
+          <%= render 'admin/collections/csv_detail_row', omb_cx_reporting_collection: omb_cx_reporting_collection, question_number: question_number %>
+          <br>
         <% end %>
       <% end %>
     <% end %>
