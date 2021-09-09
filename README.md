@@ -66,8 +66,7 @@ To start/stop after building
 2. docker-compose down
 
 To run tests
-1. docker-compose up
-2. docker-compose run webapp rspec
+1. docker-compose run webapp "RAILS_ENV=test bundle exec rspec"
 
 Notes:
 +  Application is accessable at lvm.me port 3003
