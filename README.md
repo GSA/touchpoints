@@ -57,9 +57,10 @@ To build a development environment
 2. docker-compose up 
 3. docker-compose run webapp rake db:create
 4. docker-compose run webapp rake db:migrate
-5. docker-compose down
-6. docker-compose up
-7. Navigate to http://lvh.me:3003/admin
+5. docker-compose run webapp rake db:seed
+6. docker-compose down
+7. docker-compose up
+8. Navigate to http://lvh.me:3003/admin
 
 To start/stop after building
 1. docker-compose up
