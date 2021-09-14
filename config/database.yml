@@ -59,7 +59,7 @@ development:
 test:
   <<: *default
   database: touchpoints_test
-  url: postgres://postgres:@localhost/touchpoints_test?pool=5&encoding=utf-8 # running tests outside container
+  url: postgres://localhost/touchpoints_test?pool=5&encoding=utf-8 # running tests outside container
   #url: postgres://postgres:@postgres/touchpoints_test?pool=5&encoding=utf-8 # running tests inside docker container
 
 # As with config/secrets.yml, you never want to store sensitive information,
