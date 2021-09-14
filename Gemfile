@@ -57,10 +57,10 @@ group :test do
   gem 'factory_bot_rails', '>= 6.1.0'
   gem 'rails-controller-testing'
   gem 'rspec-rails', '>= 4.0.2'
+  # Keep your Selenium WebDrivers updated automatically
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
-  # gem 'chromedriver-helper'
-  gem 'webdrivers'
+  gem 'chromedriver-helper'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

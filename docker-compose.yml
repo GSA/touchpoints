@@ -8,9 +8,13 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD:
     ports: 
-      - '6432:5432'
+      - '5432:5432'
     volumes:
       - 'postgres:/var/lib/postgresql/data'
+    networks:
+      rails-network:
+        aliases:
+          - touchpoints-db.com
 
   redis:
     image: 'redis:4.0-alpine'
@@ -24,7 +28,7 @@ services:
     container_name: 'webapp'
     environment:
       DATABASE_URL: 'postgres://postgres:@postgres:5432/touchpoints_development?pool=5&encoding=utf-8'
-      RAILS_ENV: 'development'
+      TEST_DATABASE_URL: 'postgres://postgres:@postgres:5432/touchpoints_test?pool=5&encoding=utf-8'
       REDIS_URL_CACHING: 'redis://redis:6379/0'
     depends_on:
       - 'postgres'
@@ -33,12 +37,35 @@ services:
       - 'postgres'
     build: .
     ports:
-      - '3003:3002'
+      - '3002:3002'
     volumes:
       - './:/touchpoints'
     env_file:
       - '.env'
     tty: true
+    networks:
+      rails-network:
+        aliases:
+          - webapp.com
+
+  chrome:
+    image: selenium/standalone-chrome-debug:3.9.1-actinium
+    ports:
+      - "4444:4444"
+      - "5900:5900"
+    depends_on:
+      - webapp
+    environment:
+      - JAVA_OPTS=-Dwebdriver.chrome.whitelistedIps=
+    volumes:
+      - /dev/shm:/dev/shm
+    networks:
+      rails-network:
+        aliases:
+          - chrome.com
+
+networks:
+  rails-network:
 
 volumes:
   redis:

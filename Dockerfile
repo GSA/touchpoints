@@ -2,9 +2,16 @@
 FROM ruby:2.7.4
 
 # install rails dependencies
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs postgresql-client && apt-get install -y git
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs postgresql-client libnss3-dev && apt-get install -y git
 
-# create a folder /FlexUOMConverter in the docker container and go into that folder
+# Install the newest version of NodeJS
+# RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -
+# RUN apt-get install -y nodejs
+# Install google-chrome for debian
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN dpkg -i google-chrome*.deb || apt update && apt-get install -f -y
+
+# create a folder /touchpoints in the docker container and go into that folder
 RUN mkdir /touchpoints
 WORKDIR /touchpoints
 
@@ -26,6 +33,9 @@ RUN apt-get update && apt-get install -y yarn
 
 # Run yarn install to install JavaScript dependencies.
 RUN yarn install --check-files
+
+# We need wget to set up the PPA and xvfb to have a virtual screen and unzip to install the Chromedriver
+RUN apt-get install -y wget xvfb unzip
 
 # Expose port 3002 to the Docker host, so we can access it
 # from the outside.

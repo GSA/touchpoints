@@ -7,6 +7,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'rspec/rails'
 require 'capybara/rails'
 require 'capybara/rspec'
+require 'selenium/webdriver'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -33,14 +34,46 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 
-# for Capybara
-Capybara.register_driver :selenium do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome)
+if ENV["LAUNCH_BROWSER"]
+  # To test with browser opened in VNC screen sharing window
+  Capybara.configure do |config|
+    config.server_host = "webapp.com"
+    config.javascript_driver = :selenium_chrome
+  end
+
+  Capybara.register_driver :selenium_chrome do |app|
+    Capybara::Selenium::Driver.new(
+      app,
+      browser: :remote,
+      desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(
+        chromeOptions: {
+          args: [
+            "window-size=1024,768"
+          ]
+        }
+      ),
+      url: "http://chrome:4444/wd/hub"
+    )
+  end
+else
+  # To test with headless browser inside web container
+  Capybara.server = :puma, { Silent: true }
+
+  Capybara.register_driver :chrome_headless do |app|
+    options = ::Selenium::WebDriver::Chrome::Options.new
+
+    options.add_argument('--headless')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--window-size=1400,1400')
+
+    Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+  end
+
+  Capybara.javascript_driver = :chrome_headless
 end
-# Capybara.javascript_driver = :selenium                 # Run feature specs with Firefox
-# Capybara.javascript_driver = :selenium_chrome          # Run feature specs with Chrome
-Capybara.javascript_driver = :selenium_chrome_headless   # Run feature specs with headless Chrome
-Capybara.default_max_wait_time = 3
+
+Capybara.default_max_wait_time = 5
 Capybara.raise_server_errors = true
 
 TEST_API_KEY = "1234567890123456789012345678901234567890"
