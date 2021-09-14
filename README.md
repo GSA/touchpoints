@@ -43,8 +43,44 @@ Issues and ideas are also noted in GitHub [Issues](https://github.com/gsa/touchp
 
 See [LICENSE](LICENSE.md)
 
-## Docker develepment
+## Docker development
+
+Setup
+
+1. install Docker
+2. clone repo
+3. copy env.docker-development .env and update vars
 
 To build a development environment
+
+1. docker-compose build
+2. docker-compose up
+3. docker-compose run webapp rake db:create
+4. docker-compose run webapp rake db:migrate
+5. docker-compose run webapp rake db:seed
+6. docker-compose down
+7. docker-compose up
+8. Navigate to http://lvh.me:3003/admin
+
+To start/stop after building
+1. docker-compose up
+2. docker-compose down
+
+To run tests
+
+With headless Chrome inside web container:
+1.docker-compose exec webapp rspec
+
+With GUI Chrome browser inside chrome container:
+1. open vnc://localhost:5900 # To open screen sharing window. Input "secret" if asked for password.
+2. docker-compose exec -e LAUNCH_BROWSER=true webapp rspec
+
+Outside of the container  ( this is currently the only method that will pass all test cases )
+1. update config/database.yml and set the test_db host to localhost
+2. rspec
+
+Notes:
++  Application is accessable at lvm.me port 3002
++  Postgres db container is accessible at localhost port 5432 ( stop your local postgres service, if running )
 
 
