@@ -18,16 +18,16 @@
       </h3>
       <div class="field">
         <%= form.label :domain, class: "usa-label" %>
-        <%= form.text_field :domain, class: "usa-input", placeholder: "touchpoints.digital.gov" %>
+        <%= form.text_field :domain, class: "usa-input" %>
       </div>
       <div class="field">
         <%= form.label :parent_domain, class: "usa-label" %>
-        <%= form.text_field :parent_domain, class: "usa-input", placeholder: "digital.gov" %>
+        <%= form.text_field :parent_domain, class: "usa-input" %>
       </div>
 
       <div class="field">
         <%= form.label :office, class: "usa-label" %>
-        <%= form.text_field :office, class: "usa-input", placeholder: "TTS" %>
+        <%= form.text_field :office, class: "usa-input" %>
       </div>
 
       <div class="field" hidden>
@@ -37,7 +37,7 @@
 
       <div class="field">
         <%= form.label :sub_office, class: "usa-label" %>
-        <%= form.text_field :sub_office, class: "usa-input", placeholder: "Data Portfolio" %>
+        <%= form.text_field :sub_office, class: "usa-input" %>
       </div>
 
       <div class="field" hidden>
@@ -97,7 +97,7 @@
       </h3>
       <div class="field">
         <%= form.label :repository_url, class: "usa-label" %>
-        <%= form.text_field :repository_url, class: "usa-input", placeholder: "https://github.com/gsa/touchpoints/" %>
+        <%= form.text_field :repository_url, class: "usa-input" %>
       </div>
       <div class="field">
         <%= form.label :required_by_law_or_policy, class: "usa-label" %>
@@ -118,33 +118,33 @@
       </h3>
       <div class="field">
         <%= form.label :hosting_platform, class: "usa-label" %>
-        <%= form.text_field :hosting_platform, class: "usa-input", placeholder: "Cloud.gov, AWS" %>
+        <%= form.text_field :hosting_platform, class: "usa-input" %>
       </div>
       <div class="field">
         <%= form.label :cms_platform, "Content Management platorm", class: "usa-label" %>
-        <%= form.text_field :cms_platform, class: "usa-input", placeholder: "Cloud.gov Pages, Drupal, Wordpress" %>
+        <%= form.text_field :cms_platform, class: "usa-input" %>
       </div>
       <% if admin_permissions? %>
       <div class="field">
         <%= form.label :uswds_version, class: "usa-label" %>
-        <%= form.text_field :uswds_version, class: "usa-input", placeholder: "Updated by Site Scanner" %>
+        <%= form.text_field :uswds_version, class: "usa-input" %>
       </div>
       <% end %>
       <div class="field">
         <%= form.label :dap_gtm_code, "DAP GTM Code", class: "usa-label" %>
-        <%= form.text_field :dap_gtm_code, class: "usa-input", placeholder:  "UA-12345678" %>
+        <%= form.text_field :dap_gtm_code, class: "usa-input" %>
       </div>
       <div class="field">
         <%= form.label :analytics_url, class: "usa-label" %>
-        <%= form.text_field :analytics_url, class: "usa-input", placeholder: "https://anaytics.usa.gov/..." %>
+        <%= form.text_field :analytics_url, class: "usa-input" %>
       </div>
       <div class="field">
         <%= form.label :authentication_tool, class: "usa-label" %>
-        <%= form.text_field :authentication_tool, class: "usa-input", placeholder: "Login.gov, SecureAuth, Okta" %>
+        <%= form.text_field :authentication_tool, class: "usa-input" %>
       </div>
       <div class="field">
         <%= form.label :feedback_tool, class: "usa-label" %>
-        <%= form.text_field :feedback_tool, class: "usa-input", placeholder: "Touchpoints, Qualtrics, Google Forms" %>
+        <%= form.text_field :feedback_tool, class: "usa-input" %>
       </div>
       <br>
       <fieldset class="usa-fieldset">
