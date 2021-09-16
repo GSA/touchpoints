@@ -8,7 +8,29 @@
   <% end %>
 </p>
 
-<table class="usa-table" style="overflow-x: scroll;">
+<div
+  class="usa-summary-box"
+  role="region"
+  aria-labelledby="summary-box-key-information"
+>
+  <div class="usa-summary-box__body">
+    <h3 class="usa-summary-box__heading" id="summary-box-key-information">
+      Website reporting
+    </h3>
+    <div class="usa-summary-box__text">
+      <ul class="usa-list">
+        <li>
+          Website reports are in early development.
+        </li>
+        <li>
+          The target audience is currently GSA EDX team and the GSA Digital Council.
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<table class="usa-table" style="overflow-x: scroll;" hidden>
   <thead>
     <tr>
       <th>View</th>
@@ -60,3 +82,78 @@
     </tr>
   </tbody>
 </table>
+
+<% websites_without_https = @websites.where("https IS NULL OR https = false") %>
+<div class="well">
+  <h3>
+    <%= websites_without_https.count %>
+    Websites that don't have https
+  </h3>
+  <ul class="usa-list">
+    <% websites_without_https.each do |website| %>
+    <li>
+      <%= link_to website.domain, admin_website_path(website) %>
+    </li>
+    <% end %>
+  </ul>
+</div>
+
+<% websites_without_dap = @websites.where("has_dap IS NULL OR has_dap = false") %>
+<div class="well">
+  <h3>
+    <%= websites_without_dap.count %>
+    Websites that don't have DAP
+  </h3>
+  <ul class="usa-list">
+    <% websites_without_dap.each do |website| %>
+    <li>
+      <%= link_to website.domain, admin_website_path(website) %>
+    </li>
+    <% end %>
+  </ul>
+</div>
+
+<% websites_with_old_uswds_versions = @websites.where("uswds_version IS NOT NULL") %>
+<div class="well">
+  <h3>
+    Websites that don't have USWDS > 2.0
+  </h3>
+  <ul class="usa-list">
+    <% websites_with_old_uswds_versions.each do |website| %>
+    <%# only show sites with USWDS > 2.0 %>
+      <% if website.uswds_version.to_f && website.uswds_version.to_f > 2.0 %>
+      <li>
+        <%= link_to website.domain, admin_website_path(website) %> - <%= website.uswds_version %>
+      </li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>
+
+<% updated_since = params[:last_updated] ? params[:last_updated] : Date.today - 2.weeks %>
+<% websites_not_updated_since = @websites.where("updated_at < ?", updated_since) %>
+<div class="well">
+  <h3>
+    <%= websites_not_updated_since.count %>
+    Websites that haven't been updated since
+    <%= updated_since %>
+  </h3>
+  <p>
+    <small>
+      The `last_updated` date defaults to 2 weeks ago.
+    </small>
+  </p>
+  <ul class="usa-list">
+    <% websites_not_updated_since.each do |website| %>
+    <li>
+      <%= link_to website.domain, admin_website_path(website) %> - <%= link_to(time_ago_in_words(website.updated_at), events_admin_website_path(website)) %> ago
+    </li>
+    <% end %>
+  </ul>
+  <p>
+    <small>
+      <%= link_to "Use a custom date", gsa_admin_websites_url(last_updated: Date.today - 2.weeks)%>
+      using a `last_updated` date the following format YYYY-MM-DD.
+    </small>
+  </p>
+</div>
