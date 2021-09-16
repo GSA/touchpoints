@@ -74,6 +74,12 @@
       <br>
       <fieldset class="usa-fieldset">
         <div class="usa-checkbox">
+          <%= form.check_box :https, class: "usa-checkbox__input" %>
+          <%= form.label :https, "Uses https?", class: "usa-checkbox__label" %>
+        </div>
+      </fieldset>
+      <fieldset class="usa-fieldset">
+        <div class="usa-checkbox">
           <%= form.check_box :mobile_friendly, class: "usa-checkbox__input" %>
           <%= form.label :mobile_friendly, class: "usa-checkbox__label" %>
         </div>
@@ -121,7 +127,7 @@
         <%= form.text_field :hosting_platform, class: "usa-input" %>
       </div>
       <div class="field">
-        <%= form.label :cms_platform, "Content Management platorm", class: "usa-label" %>
+        <%= form.label :cms_platform, "Content Management platform", class: "usa-label" %>
         <%= form.text_field :cms_platform, class: "usa-input" %>
       </div>
       <% if admin_permissions? %>
@@ -146,13 +152,6 @@
         <%= form.label :feedback_tool, class: "usa-label" %>
         <%= form.text_field :feedback_tool, class: "usa-input" %>
       </div>
-      <br>
-      <fieldset class="usa-fieldset">
-        <div class="usa-checkbox">
-          <%= form.check_box :uses_tracking_cookies, class: "usa-checkbox__input" %>
-          <%= form.label :uses_tracking_cookies, class: "usa-checkbox__label" %>
-        </div>
-      </fieldset>
     </div>
   </div>
   <br>

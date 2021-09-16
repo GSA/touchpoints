@@ -33,7 +33,7 @@ class Admin::WebsitesController < AdminController
   end
 
   def gsa
-    @websites = Website.all
+    @websites = Website.active
   end
 
   def show
@@ -143,6 +143,7 @@ class Admin::WebsitesController < AdminController
       :modernization_cost_2022,
       :modernization_cost_2023,
       :analytics_url,
+      :https,
       :current_uswds_score,
       :uswds_version,
       :uses_feedback, :feedback_tool, :sitemap_url, :mobile_friendly, :has_search, :uses_tracking_cookies,
