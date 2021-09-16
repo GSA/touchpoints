@@ -13,6 +13,22 @@
       <p>
         This .csv data is used to populate the individual Services of each HISP on performance.gov.
       </p>
+      <p>
+        Filter by Quarter:
+        <%= link_to "Q1", admin_collections_path(quarter: 1) %>
+        <%= link_to "Q2", admin_collections_path(quarter: 2) %>
+        <%= link_to "Q3", admin_collections_path(quarter: 3) %>
+        <%= link_to "Q4", admin_collections_path(quarter: 4) %>
+        <br>
+        Filter by Question:
+        <%= link_to "Question 1", admin_collections_path(question: 1) %>
+        <%= link_to "Question 2", admin_collections_path(question: 2) %>
+        <%= link_to "Question 3", admin_collections_path(question: 3) %>
+        <%= link_to "Question 4", admin_collections_path(question: 4) %>
+        <%= link_to "Question 5", admin_collections_path(question: 5) %>
+        <%= link_to "Question 6", admin_collections_path(question: 6) %>
+        <%= link_to "Question 7", admin_collections_path(question: 7) %>
+      </p>
     </div>
     <% header_fields = [
         :service_provider_id,
@@ -39,11 +55,19 @@
     <br>
   <% ServiceProvider.active.includes(:organization).order("organizations.name", :name).each do |service_provider| %>
     <% service_provider.services.includes(:organization).order("organizations.name", :name).each do |service| %>
-      <% service.omb_cx_reporting_collections.includes(:service, :collection).order("collections.year", "collections.quarter", "services.name").each do |omb_cx_reporting_collection| %>
-        <%# WRITE A LINE FOR EACH OF THE 7 STANDARD QUESTIONS %>
-        <% (1..7).each do |question_number| %>
-          <%= render 'admin/collections/csv_detail_row', omb_cx_reporting_collection: omb_cx_reporting_collection, question_number: question_number %>
-          <br>
+      <% if params[:quarter] %>
+        <% @collections = service.collections.where(quarter: params[:quarter]) %>
+      <% else %>
+        <% @collections = service.collections %>
+      <% end %>
+      <% @collections.each do |collection| %>
+        <% collection.omb_cx_reporting_collections.includes(:collection).order("collections.year", "collections.quarter").each do |omb_cx_reporting_collection| %>
+          <%# WRITE A CSV LINE FOR EACH OF THE 7 STANDARD QUESTIONS %>
+          <% (1..7).each do |question_number| %>
+            <% next if params[:question] && (question_number.to_s != params[:question]) %>
+            <%= render 'admin/collections/csv_detail_row', omb_cx_reporting_collection: omb_cx_reporting_collection, question_number: question_number %>
+            <br>
+          <% end %>
         <% end %>
       <% end %>
     <% end %>
