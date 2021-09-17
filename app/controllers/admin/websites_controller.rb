@@ -16,7 +16,7 @@ class Admin::WebsitesController < AdminController
 
   def export_csv
     @websites = Website.all
-    send_data @websites.to_csv
+    send_data @websites.to_csv, filename: "touchpoints-websites-#{Date.today}.csv"
   end
 
   def statuscard
