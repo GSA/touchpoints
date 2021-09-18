@@ -12,13 +12,13 @@
 <table class="usa-table">
   <thead>
     <tr>
-      <th>Organization</th>
-      <th>Service Provider (HISP)</th>
-      <th>Collection name</th>
-      <th>Year</th>
-      <th>Quarter</th>
-      <th>Status</th>
-      <th>Rating</th>
+      <th data-sortable scope="col" role="columnheader">Organization</th>
+      <th data-sortable scope="col" role="columnheader">Service Provider (HISP)</th>
+      <th data-sortable scope="col" role="columnheader">Collection name</th>
+      <th data-sortable scope="col" role="columnheader">Year</th>
+      <th data-sortable scope="col" role="columnheader">Quarter</th>
+      <th data-sortable scope="col" role="columnheader">Status</th>
+      <th data-sortable scope="col" role="columnheader">Rating</th>
     </tr>
   </thead>
 
@@ -33,7 +33,7 @@
         <td>
           <%= render 'components/collection_status_tag', collection: collection %>
         </td>
-        <td>
+        <td data-sort-value="<%= collection_rating_sort_values[collection.rating] %>">
           <%= collection_rating_label(rating: collection.rating) %>
         </td>
       </tr>
