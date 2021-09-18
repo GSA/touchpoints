@@ -13,42 +13,54 @@
   <% end %>
 </p>
 
-<div class="well usa-prose">
-  <p>
-    <strong>
+<div
+  class="usa-summary-box"
+  role="region"
+  aria-labelledby="summary-box-key-information"
+>
+  <div class="usa-summary-box__body">
+    <h3 class="usa-summary-box__heading" id="summary-box-key-information">
       Inventorying Digital Assets
-    </strong>
-  </p>
-  <p>
-    Websites are digital assets.
-    Any Touchpoints user can view website information.
-    Use the search bar to find your website(s). Click the View button to see website details. If you are the website’s manager or point of contact, you can edit the website’s details.
-  </p>
-  <p>
-    For more information regarding managing Website records,
-    see the
-    <%= link_to "Touchpoints wiki", "https://github.com/GSA/touchpoints/wiki/Websites", target: "_blank", rel: "noopener" %>.
-  </p>
-  <%= link_to "https://touchpoints.app.cloud.gov/touchpoints/1fc9c962/", class: "usa-button usa-button--outline", target: "_blank" do %>
-    <i class="fa fa-info-circle"></i>
-    Get help
-  <% end %>
+    </h3>
+    <div class="usa-summary-box__text">
+      <p>
+        Websites are digital assets.
+        Any Touchpoints user can view website information.
+        Use the search bar to find your website(s). Click the View button to see website details. If you are the website’s manager or point of contact, you can edit the website’s details.
+      </p>
+      <p>
+        For more information regarding managing Website records,
+        see the
+        <%= link_to "Touchpoints wiki", "https://github.com/GSA/touchpoints/wiki/Websites", target: "_blank", rel: "noopener" %>.
+      </p>
+      <%= link_to "https://touchpoints.app.cloud.gov/touchpoints/1fc9c962/", class: "usa-button usa-button--inverse", target: "_blank" do %>
+        <i class="fa fa-info-circle"></i>
+        Ask a question or provide feedback
+      <% end %>
+    </div>
+  </div>
 </div>
 
 <br/>
 
-<div class="field">
-<%= label_tag :search_text, "Find Websites: " %>
-<%= text_field_tag :search_text, nil, class: "usa-input", placeholder: "Search by domain, email, office, or sub-office" %>
+<div class="well">
+  <div class="field">
+    <%= label_tag :search_text, "Search websites by domain, email, office, or sub-office", class: "usa-label" %>
+    <%= text_field_tag :search_text, nil, class: "usa-input" %>
+  </div>
 </div>
 
+<br>
 <div class="search-results">
   <%= render 'results' %>
 </div>
 
 <p>
-  <%= link_to 'Export all websites to CSV', export_csv_admin_websites_path, class: "usa-button usa-button--outline" %>
-  <% if admin_permissions? %>
+  <%= link_to export_csv_admin_websites_path, class: "usa-button usa-button--outline" do %>
+    <i class="fa fa-download"></i>
+    Export all websites to CSV
+  <% end %>
+  <% if organizational_website_manager_permissions?(user: current_user) %>
     <%= link_to 'Preview Website Data Collection', collection_preview_admin_websites_path, class: "usa-button usa-button--outline" %>
   <% end %>
 </p>
