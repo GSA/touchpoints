@@ -23,19 +23,19 @@
           <th>View</th>
           <th>Flag</th>
           <th>Archive</th>
-          <th>Status</th>
-          <th>
+          <th data-sortable scope="col" role="columnheader">Status</th>
+          <th data-sortable scope="col" role="columnheader">
             Created At
           </th>
         <% form.questions.each do |question| %>
           <% next if question.question_type == "text_display" %>
-          <th><%= question.text %></th>
+          <th data-sortable scope="col" role="columnheader"><%= question.text %></th>
         <% end %>
         <% if form.kind == "yes_no" %>
-          <th>
+          <th data-sortable scope="col" role="columnheader">
             Page
           </th>
-          <th>
+          <th data-sortable scope="col" role="columnheader">
             Referer
           </th>
         <% end %>

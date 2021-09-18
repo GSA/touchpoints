@@ -1,4 +1,9 @@
 class Admin::WebsitesController < AdminController
+  before_action :ensure_organizational_website_manager, only: [
+    :collection_preview,
+    :collection_request
+  ]
+
   before_action :set_website, only: [
     :show, :costs, :statuscard, :edit, :update, :destroy, :collection_request,
     :approve,
