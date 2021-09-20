@@ -6,12 +6,12 @@
     <thead>
       <tr>
       <% if current_user.admin? %>
-        <th>Admin</th>
+        <th data-sortable scope="col" role="columnheader">Admin</th>
       <% end %>
-        <th>Email</th>
-        <th>Organization Name</th>
+        <th data-sortable scope="col" role="columnheader">Email</th>
+        <th data-sortable scope="col" role="columnheader">Organization Name</th>
       <% if current_user.admin? %>
-        <th>Last signed in</th>
+        <th data-sortable scope="col" role="columnheader">Last signed in</th>
       <% end %>
       </tr>
     </thead>

@@ -113,15 +113,14 @@
   </ul>
 </div>
 
-<% websites_with_old_uswds_versions = @websites.where("uswds_version IS NOT NULL") %>
 <div class="well">
   <h3>
     Websites that don't have USWDS > 2.0
   </h3>
   <ul class="usa-list">
-    <% websites_with_old_uswds_versions.each do |website| %>
+    <% @websites.each do |website| %>
     <%# only show sites with USWDS > 2.0 %>
-      <% if website.uswds_version.to_f && website.uswds_version.to_f > 2.0 %>
+      <% if !website.uswds_version.present? || (website.uswds_version.to_f && website.uswds_version.to_f < 2.0) %>
       <li>
         <%= link_to website.domain, admin_website_path(website) %> - <%= website.uswds_version %>
       </li>

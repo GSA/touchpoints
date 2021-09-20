@@ -38,36 +38,35 @@ class ApplicationController < ActionController::Base
   end
 
   def ensure_admin
-    redirect_to(index_path, notice: "Authorization is Required") unless admin_permissions?
+    return true if admin_permissions?
+
+    redirect_to(index_path, notice: "Authorization is Required")
   end
 
-
-  helper_method :ensure_collection_owner
   def ensure_collection_owner(collection:)
     return false unless collection.present?
     return true if admin_permissions?
+    return true if collection_permissions?(collection: collection)
 
-    redirect_to(index_path, notice: "Authorization is Required") unless collection_permissions?(collection: collection)
+    redirect_to(index_path, notice: "Authorization is Required")
   end
 
-  helper_method :ensure_form_manager
   def ensure_form_manager(form:)
     return false unless form.present?
-    return true if admin_permissions?
+    return true if form_permissions?(form: form)
 
-    redirect_to(index_path, notice: "Authorization is Required") unless form_permissions?(form: form)
+    redirect_to(index_path, notice: "Authorization is Required")
   end
 
-  helper_method :ensure_response_viewer
   def ensure_response_viewer(form:)
     return false unless form.present?
     return true if admin_permissions?
     return true if form_permissions?(form: form)
+    return true if response_viewer_permissions?(form: form)
 
-    redirect_to(index_path, notice: "Authorization is Required") unless response_viewer_permissions?(form: form)
+    redirect_to(index_path, notice: "Authorization is Required")
   end
 
-  helper_method :ensure_website_admin
   def ensure_website_admin(website:, user:)
     return false unless user.present?
     return true if website.admin?(user: user)
@@ -75,10 +74,25 @@ class ApplicationController < ActionController::Base
     redirect_to(admin_websites_path, notice: "Authorization is Required")
   end
 
+  def ensure_organizational_website_manager
+    return false unless current_user.present?
+    return true if organizational_website_manager_permissions?(user: current_user)
+
+    redirect_to(admin_root_path, notice: "Authorization is Required")
+  end
+
+
   # Define Permissions
   helper_method :admin_permissions?
   def admin_permissions?
     current_user && current_user.admin?
+  end
+
+  helper_method :organizational_website_manager_permissions?
+  def organizational_website_manager_permissions?(user:)
+    return false unless user.present?
+    return true if admin_permissions?
+    user.organizational_website_manager?
   end
 
   helper_method :collection_permissions?
@@ -90,6 +104,7 @@ class ApplicationController < ActionController::Base
   helper_method :form_permissions?
   def form_permissions?(form:)
     return false unless form.present?
+    return true if admin_permissions?
 
     (form.user_role?(user: current_user) == UserRole::Role::FormManager)
   end

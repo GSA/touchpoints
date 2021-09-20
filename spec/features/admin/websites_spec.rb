@@ -17,7 +17,7 @@ feature "Managing Websites", js: true do
     end
 
     it "load the Websites#index page" do
-      expect(page).to have_content("Find Websites")
+      expect(page).to have_content("Inventorying Digital Assets")
       expect(page.current_path).to eq(admin_websites_path)
       expect(page).to have_content("New Website")
     end
@@ -45,7 +45,7 @@ feature "Managing Websites", js: true do
     end
 
     it "load the Websites#index page" do
-      expect(page).to have_content("Find Websites")
+      expect(page).to have_content("Inventorying Digital Assets")
       expect(page.current_path).to eq(admin_websites_path)
     end
 
@@ -73,7 +73,7 @@ feature "Managing Websites", js: true do
     end
 
     it "load the Websites#index page" do
-      expect(page).to have_content("Find Websites")
+      expect(page).to have_content("Inventorying Digital Assets")
       expect(page.current_path).to eq(admin_websites_path)
 
       click_on "New Website"

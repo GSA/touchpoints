@@ -1,4 +1,9 @@
 class Admin::WebsitesController < AdminController
+  before_action :ensure_organizational_website_manager, only: [
+    :collection_preview,
+    :collection_request
+  ]
+
   before_action :set_website, only: [
     :show, :costs, :statuscard, :edit, :update, :destroy, :collection_request,
     :approve,
@@ -16,7 +21,7 @@ class Admin::WebsitesController < AdminController
 
   def export_csv
     @websites = Website.all
-    send_data @websites.to_csv
+    send_data @websites.to_csv, filename: "touchpoints-websites-#{Date.today}.csv"
   end
 
   def statuscard
