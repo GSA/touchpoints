@@ -102,7 +102,7 @@ class Website < ApplicationRecord
       url = "https://api.gsa.gov/technology/site-scanning/v1/websites/#{self.domain}?api_key=#{ENV.fetch("API_DATA_GOV_KEY")}&limit=10"
       text = URI.open(url).read
     rescue => e
-      "Error during Site Scanner API request for #{self.domain}"
+      "Error during Site Scanner API request for #{self.domain}.\n\n#{e}"
     end
   end
 

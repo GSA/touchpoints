@@ -130,12 +130,10 @@
         <%= form.label :cms_platform, "Content Management platform", class: "usa-label" %>
         <%= form.text_field :cms_platform, class: "usa-input" %>
       </div>
-      <% if admin_permissions? %>
       <div class="field">
         <%= form.label :uswds_version, class: "usa-label" %>
         <%= form.text_field :uswds_version, class: "usa-input" %>
       </div>
-      <% end %>
       <div class="field">
         <%= form.label :dap_gtm_code, "DAP GTM Code", class: "usa-label" %>
         <%= form.text_field :dap_gtm_code, class: "usa-input" %>
