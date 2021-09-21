@@ -1,12 +1,10 @@
 <% begin %>
-<% url = "https://api.gsa.gov/technology/site-scanning/v1/websites/#{@website.domain}?api_key=#{ENV.fetch("API_DATA_GOV_KEY")}&limit=10" %>
-<% require 'open-uri' %>
-<% text = URI.open(url).read %>
+<% text = @website.site_scanner_json_request %>
 <% hash = JSON.parse(text) %>
 
-<h3>
+<h2>
   Site Scanner results
-</h3>
+</h2>
 
 <div class="grid-row">
   <div class="grid-col-6">
@@ -154,3 +152,14 @@
   </div>
 </div>
 <% end %>
+
+<div class="usa-accordion usa-accordion--bordered" aria-multiselectable="true">
+  <h4 class="usa-accordion__heading">
+    <button id="example-button0" class="usa-accordion__button navy" aria-expanded="false" aria-controls="json-response">
+      Site Scanner .json
+    </button>
+  </h4>
+  <div id="json-response" class="usa-accordion__content usa-prose navy" hidden="">
+<pre><%= pp text %></pre>
+  </div>
+</div>

@@ -86,9 +86,23 @@
       </div>
       <div class="grid-col-6">
         <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
-          Site Manager email
+          Webite Manager email
         </label>
         <%= @website.site_owner_email %>
+      </div>
+    </div>
+    <div class="grid-row">
+      <div class="grid-col-12">
+        <label class="usa-label text-uppercase font-body-3xs" for="contact_email">
+          Last Updated
+        </label>
+        <p>
+          <%= link_to(@website.updated_at.strftime('%Y-%m-%d'), events_admin_website_path(@website))%>
+          <small>
+            -
+            <%= time_ago_in_words(@website.updated_at) %> ago
+          </small>
+        </p>
       </div>
     </div>
   </div>
@@ -273,5 +287,11 @@
   <%= link_to "https://touchpoints.app.cloud.gov/touchpoints/1fc9c962/", class: "usa-button usa-button--outline", target: "_blank" do %>
     <i class="fa fa-info-circle"></i>
     Get help
+  <% end %>
+  <% if organizational_website_manager_permissions?(user: current_user) %>
+    <%= link_to statuscard_admin_website_path(@website), class: "usa-button usa-button--outline", target: "_blank" do %>
+      <i class="fa fa-check"></i>
+      Status card
+    <% end %>
   <% end %>
 </p>
