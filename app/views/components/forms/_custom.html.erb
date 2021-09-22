@@ -15,13 +15,16 @@
           <% end %>
         <% end %>
 
-        <% if section.title.present? -%>
         <div class="section-header">
           <h4 class="section-title-view">
-            <%= section.title %>  ( page <%= index + 1 %> of <%= form.form_sections.size %> )
+            <% if section.title.present? -%>
+              <%= section.title %> -
+            <% end %>
+            <small>
+              page <%= index + 1 %> of <%= form.form_sections.size %>
+            </small>
           </h4>
         </div>
-        <% end %>
 
         <div class="questions">
           <% section.questions.each_with_index do |question, index| %>

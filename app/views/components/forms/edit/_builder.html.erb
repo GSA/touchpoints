@@ -29,8 +29,8 @@
 <br>
 <div class="sorting-div">
   <% multi_section_question_number = 0 %>
-  <% form.form_sections.each do |section| %>
-    <%= render 'admin/form_sections/view', { form: form, section: section, multi_section_question_number: multi_section_question_number, tabindex: @tabindex } %>
+  <% form.form_sections.each_with_index do |section, i| %>
+    <%= render 'admin/form_sections/view', { form: form, section: section, multi_section_question_number: multi_section_question_number, i: i, tabindex: @tabindex } %>
   <% end %>
 </div>
 <%= link_to new_admin_form_form_section_path(form), class: "usa-button form-add-section" do %>
