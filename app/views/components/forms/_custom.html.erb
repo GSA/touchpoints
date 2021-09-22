@@ -15,6 +15,7 @@
           <% end %>
         <% end %>
 
+        <% if form.form_sections.size > 1 %>
         <div class="section-header">
           <h4 class="section-title-view">
             <% if section.title.present? -%>
@@ -25,6 +26,7 @@
             </small>
           </h4>
         </div>
+        <% end %>
 
         <div class="questions">
           <% section.questions.each_with_index do |question, index| %>
