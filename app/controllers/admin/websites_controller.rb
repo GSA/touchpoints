@@ -38,7 +38,7 @@ class Admin::WebsitesController < AdminController
   end
 
   def gsa
-    @websites = Website.active
+    @websites = Website.active.order(:domain)
   end
 
   def show

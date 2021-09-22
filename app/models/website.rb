@@ -1,3 +1,5 @@
+require 'open-uri'
+
 class Website < ApplicationRecord
   include AASM
 
@@ -92,6 +94,15 @@ class Website < ApplicationRecord
   def validate_domain_format
     if self.domain.present? && !self.domain.include?(".")
       errors.add(:domain, "domain must have a suffix, like .gov or .mil")
+    end
+  end
+
+  def site_scanner_json_request
+    begin
+      url = "https://api.gsa.gov/technology/site-scanning/v1/websites/#{self.domain}?api_key=#{ENV.fetch("API_DATA_GOV_KEY")}&limit=10"
+      text = URI.open(url).read
+    rescue => e
+      "Error during Site Scanner API request for #{self.domain}.\n\n#{e}"
     end
   end
 
