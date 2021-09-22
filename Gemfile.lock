@@ -13,7 +13,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    aasm (4.12.3)
+    aasm (5.2.0)
       concurrent-ruby (~> 1.0)
     actioncable (6.1.4.1)
       actionpack (= 6.1.4.1)
@@ -409,7 +409,7 @@ PLATFORMS
   x86_64-darwin-19
 
 DEPENDENCIES
-  aasm (~> 4.12)
+  aasm (~> 5.2.0)
   active_model_serializers (>= 0.10.12)
   acts-as-list
   aws-sdk-rails (>= 3.6.0)

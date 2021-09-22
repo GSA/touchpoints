@@ -142,13 +142,21 @@
       The `last_updated` date defaults to 2 weeks ago.
     </small>
   </p>
-  <ul class="usa-list">
+  <table class="usa-table">
     <% websites_not_updated_since.each do |website| %>
-    <li>
-      <%= link_to website.domain, admin_website_path(website) %> - <%= link_to(time_ago_in_words(website.updated_at), events_admin_website_path(website)) %> ago
-    </li>
+    <tr>
+      <td>
+        <%= link_to website.domain, admin_website_path(website) %>
+      </td>
+      <td>
+        <%= website.site_owner_email %>
+      </td>
+      <td>
+        <%= link_to(time_ago_in_words(website.updated_at), events_admin_website_path(website)) %> ago
+      </td>
+    </tr>
     <% end %>
-  </ul>
+  </table>
   <p>
     <small>
       <%= link_to "Use a custom date", gsa_admin_websites_url(last_updated: Date.today - 2.weeks)%>

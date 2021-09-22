@@ -6,7 +6,7 @@ class Admin::CollectionsController < AdminController
   ]
 
   def index
-    @quarter = params[:quarter].present? ? params[:quarter].to_i : 3
+    @quarter = params[:quarter].present? ? params[:quarter].to_i : nil
     @year = params[:year].present? ? params[:year].to_i : 2021
 
     if admin_permissions?
