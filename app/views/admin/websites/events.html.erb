@@ -8,6 +8,7 @@
   <% end %>
 </p>
 
+<% if @events.present? %>
 <ul class="usa-list">
 <% @events.each do |event| %>
 <li>
@@ -41,4 +42,13 @@
   </li>
 <% end %>
 </ul>
+<% else %>
+<div class="usa-alert usa-alert--info" >
+  <div class="usa-alert__body">
+    <p class="usa-alert__text">
+      No logged events exist yet for this website.
+    </p>
+  </div>
+</div>
+<% end %>
 <br>

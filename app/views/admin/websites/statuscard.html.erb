@@ -8,10 +8,6 @@ Website Statuscard for <%= @website.domain %>
   <% end %>
 </p>
 
-<div class="well">
-  <%= render 'components/site_scanner_results' %>
-</div>
-
 <div class="usa-summary-box" role="complementary">
   <div class="usa-summary-box__body">
     <h4 class="usa-summary-box__heading"></h4>
@@ -21,7 +17,7 @@ Website Statuscard for <%= @website.domain %>
           <p class="usa-alert__text">
             This website statuscard is exploring how to automate
             the identification and testing of objective GSA and federal website guidelines.
-            A full listing of all requirements can be found at
+            A full listing of all requirements can be found
             <a href="https://digital.gov/resources/21st-century-integrated-digital-experience-act/">here</a>.
           </p>
         </div>
@@ -29,6 +25,20 @@ Website Statuscard for <%= @website.domain %>
     </div>
   </div>
 </div>
+
+<br>
+
+<div>
+  <%= render 'components/site_scanner_results' %>
+</div>
+
+<br>
+<br>
+
+<h2>
+  Status card
+</h2>
+
 <div class="grid-row grid-gap">
   <div class="tablet:grid-col-3">
     <nav aria-label="Secondary navigation" class="margin-top-4">
