@@ -171,106 +171,106 @@
   </div>
 </div>
 
-<hr>
-
-<div class="grid-row grid-gap-md">
-  <div class="grid-col-6">
-    <h3>
-      Organizational readiness
-    </h3>
-    <p>
-      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-        Repository url
-      </label>
-      <%= link_to @website.repository_url, @website.repository_url, target: "_blank", rel: "noopener" %>
-    </p>
-    <p>
-      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-        Required by law or policy
-      </label>
-      <%= @website.required_by_law_or_policy || "---" %>
-    </p>
-    <p>
-      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-        Type of site
-      </label>
+<div class="well">
+  <div class="grid-row grid-gap-md">
+    <div class="grid-col-6">
+      <h3>
+        Organizational readiness
+      </h3>
       <p>
-        <ul class="usa-list usa-list--unstyled">
-        <% Website::TYPE_OF_SITES.each_pair do |category, description| %>
-          <li>
-            <span class="usa-tag bg-primary-light <%= "bg-primary" if category.downcase == @website.type_of_site.downcase %>"><%= category %></span>
-          </li>
-        <% end %>
-        </ul>
+        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+          Required by law or policy
+        </label>
+        <%= @website.required_by_law_or_policy || "---" %>
       </p>
-    </p>
-    <p>
-      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-        Digital brand category
-      </label>
       <p>
-        <ul class="usa-list usa-list--unstyled">
-          <% Website::DIGITAL_BRAND_CATEGORIES.each_pair do |category, description| %>
-          <li>
-            <span class="usa-tag bg-primary-light <%= "bg-primary" if @website.digital_brand_category? && category.downcase == @website.digital_brand_category.downcase %>"><%= category %></span>
-          </li>
-        <% end %>
-        </ul>
+        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+          Type of site
+        </label>
+        <p>
+          <ul class="usa-list usa-list--unstyled">
+            <% Website::TYPE_OF_SITES.each_pair do |category, description| %>
+            <li>
+              <span class="usa-tag bg-primary-light <%= "bg-primary" if category.downcase == @website.type_of_site.downcase %>"><%= category %></span>
+            </li>
+            <% end %>
+          </ul>
+        </p>
       </p>
-    </p>
-  </div>
-  <div class="grid-col-6">
-    <h3>
-      Platform choices
-    </h3>
-    <p>
-      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-        Hosting platform
-      </label>
-      <%= @website.hosting_platform || "---" %>
-    </p>
-    <p>
-      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-        Content management platform
-      </label>
-      <%= @website.cms_platform || "---" %>
-    </p>
-    <p>
-      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-        Has DAP?
-      </label>
-      <%= @website.has_dap || "---" %>
-    </p>
-    <p>
-      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-        DAP GTM code
-      </label>
-      <%= @website.dap_gtm_code || "---" %>
-    </p>
-    <p>
-      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-        Analytics url
-      </label>
-      <%= @website.analytics_url || "---" %>
-    </p>
-    <p>
-      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-        Customer feedback tool
-      </label>
-      <%= @website.feedback_tool || "---" %>
-    </p>
-    <p>
-      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-        Uses tracking cookies
-      </label>
-      <%= @website.uses_tracking_cookies || "---" %>
-    </p>
-    <p>
-      <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-        Authentication tool
-      </label>
-      <%= @website.authentication_tool || "---" %>
-    </p>
+      <p>
+        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+          Digital brand category
+        </label>
+        <p>
+          <ul class="usa-list usa-list--unstyled">
+            <% Website::DIGITAL_BRAND_CATEGORIES.each_pair do |category, description| %>
+            <li>
+              <span class="usa-tag bg-primary-light <%= "bg-primary" if @website.digital_brand_category? && category.downcase == @website.digital_brand_category.downcase %>"><%= category %></span>
+            </li>
+            <% end %>
+          </ul>
+        </p>
+      </p>
+    </div>
+    <div class="grid-col-6">
+      <h3>
+        Platform choices
+      </h3>
+      <p>
+        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+          Repository url
+        </label>
+        <%= link_to @website.repository_url, @website.repository_url, target: "_blank", rel: "noopener" %>
+      </p>
+      <p>
+        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+          Hosting platform
+        </label>
+        <%= @website.hosting_platform || "---" %>
+      </p>
+      <p>
+        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+          Content management platform
+        </label>
+        <%= @website.cms_platform || "---" %>
+      </p>
+      <p>
+        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+          Has DAP?
+        </label>
+        <%= @website.has_dap || "---" %>
+      </p>
+      <p>
+        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+          DAP GTM code
+        </label>
+        <%= @website.dap_gtm_code || "---" %>
+      </p>
+      <p>
+        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+          Analytics url
+        </label>
+        <%= @website.analytics_url || "---" %>
+      </p>
+      <p>
+        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+          Customer feedback tool
+        </label>
+        <%= @website.feedback_tool || "---" %>
+      </p>
+      <p>
+        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+          Uses tracking cookies
+        </label>
+        <%= @website.uses_tracking_cookies || "---" %>
+      </p>
+      <p>
+        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
+          Authentication tool
+        </label>
+        <%= @website.authentication_tool || "---" %>
+      </p>
+    </div>
   </div>
 </div>
 
@@ -284,9 +284,9 @@
 </div>
 
 <p>
-  <%= link_to "https://touchpoints.app.cloud.gov/touchpoints/1fc9c962/", class: "usa-button usa-button--outline", target: "_blank" do %>
+  <%= link_to "https://touchpoints.app.cloud.gov/touchpoints/1fc9c962/", class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" do %>
     <i class="fa fa-info-circle"></i>
-    Get help
+    Ask a question or provide feedback
   <% end %>
   <% if organizational_website_manager_permissions?(user: current_user) %>
     <%= link_to statuscard_admin_website_path(@website), class: "usa-button usa-button--outline", target: "_blank" do %>

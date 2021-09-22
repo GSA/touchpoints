@@ -548,3 +548,7 @@ table .no-wrap {
     top: 0.125rem;
     margin-left: 0.25rem;
 }
+
+.usa-input[disabled] {
+  background-color: #E5E5E5;
+}

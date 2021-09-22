@@ -21,28 +21,12 @@
         <%= form.text_field :domain, class: "usa-input" %>
       </div>
       <div class="field">
-        <%= form.label :parent_domain, class: "usa-label" %>
-        <%= form.text_field :parent_domain, class: "usa-input" %>
-      </div>
-
-      <div class="field">
         <%= form.label :office, class: "usa-label" %>
         <%= form.text_field :office, class: "usa-input" %>
       </div>
-
-      <div class="field" hidden>
-        <%= form.label :office_id, class: "usa-label" %>
-        <%= form.number_field :office_id %>
-      </div>
-
       <div class="field">
         <%= form.label :sub_office, class: "usa-label" %>
         <%= form.text_field :sub_office, class: "usa-input" %>
-      </div>
-
-      <div class="field" hidden>
-        <%= form.label :suboffice_id, class: "usa-label" %>
-        <%= form.number_field :suboffice_id %>
       </div>
       <div class="field">
         <%= form.label :contact_email, class: "usa-label" %>
@@ -65,7 +49,7 @@
       <% end %>
       <div class="field">
         <%= form.label :redirects_to, class: "usa-label" %>
-        <%= form.text_field :redirects_to, class: "usa-input" %>
+        <%= form.text_field :redirects_to, class: "usa-input", disabled: (@website.production_status == "redirect" ? false : true) %>
       </div>
       <div class="field">
         <%= form.label :sitemap_url, class: "usa-label" %>
@@ -102,10 +86,6 @@
         Organizational readiness
       </h3>
       <div class="field">
-        <%= form.label :repository_url, class: "usa-label" %>
-        <%= form.text_field :repository_url, class: "usa-input" %>
-      </div>
-      <div class="field">
         <%= form.label :required_by_law_or_policy, class: "usa-label" %>
         <%= form.text_field :required_by_law_or_policy, class: "usa-input" %>
       </div>
@@ -122,6 +102,10 @@
       <h3>
         Platform choices
       </h3>
+      <div class="field">
+        <%= form.label :repository_url, class: "usa-label" %>
+        <%= form.text_field :repository_url, class: "usa-input" %>
+      </div>
       <div class="field">
         <%= form.label :hosting_platform, class: "usa-label" %>
         <%= form.text_field :hosting_platform, class: "usa-input" %>
@@ -165,3 +149,17 @@
     <%= form.submit class: "usa-button" %>
   </p>
 <% end %>
+
+<script>
+  $(function() {
+    // Toggle the redirect text input field
+    // based on the Production Status dropdown
+    $("#website_production_status").on("change", function(e, f) {
+      if (this.value === "redirect") {
+        $("#website_redirects_to").removeAttr("disabled");
+      } else {
+        $("#website_redirects_to").attr("disabled", true);
+      }
+    })
+  });
+</script>
