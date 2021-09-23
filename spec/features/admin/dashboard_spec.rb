@@ -60,13 +60,27 @@ feature "Admin Dashboard", js: true do
           answer_01: "yes",
           created_at: Time.now - 5.days
         })
+        User.create({
+          email: 'tester1@example.com',
+          created_at: Time.now - 10.days
+        })
+        User.create({
+          email: 'tester2@example.com',
+          created_at: Time.now - 5.days
+        })
+        User.create({
+          email: 'tester3@example.com',
+          created_at: Time.now - 5.days
+        })
         visit admin_dashboard_path
       end
 
       it "display weekly metrics" do
         expect(page).to have_css("#daily-responses")
-        expect(page).to have_css("canvas")
+        expect(page).to have_css("#daily-new-users")
+        expect(find_all("canvas").size).to eq(2)
       end
+
     end
 
     describe "#a11" do

@@ -2,6 +2,7 @@ class Admin::SiteController < AdminController
   def index
     @forms = Form.non_templates
     @response_groups = Submission.group("date(created_at)").size.sort.last(45)
+    @user_groups = User.group("date(created_at)").size.sort.last(45)
 
     @days_since = params[:recent] && params[:recent].to_i <= 30 ? params[:recent].to_i : 3
     todays_submissions = Submission.where("created_at > ?", Time.now - @days_since.days)
