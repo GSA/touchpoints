@@ -2,7 +2,7 @@
   <h3>
     New Users per day
   </h3>
-
+  <p>Total user accounts created over period: <%= user_groups.sum { | n | n[1] } %> </p>
   <div style="width:100%;">
     <canvas id="userChart"></canvas>
   </div>
