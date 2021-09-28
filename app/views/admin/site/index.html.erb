@@ -125,6 +125,7 @@
         </p>
       </div>
       <%= render 'components/weekly_metrics', forms: @forms %>
+      <%= render 'components/agency_summary', forms: @forms, agencies: @agencies %>
       <div class="well">
         <h3>
           Data collected over past <%= @days_since %> days

@@ -1,6 +1,7 @@
 class Admin::SiteController < AdminController
   def index
     @forms = Form.non_templates
+    @agencies = Organization.all.order(:name)
 
     @days_since = params[:recent] && params[:recent].to_i <= 90 ? params[:recent].to_i : 3
     @dates = (@days_since.days.ago.to_date..Date.today).map{ |date| date }
