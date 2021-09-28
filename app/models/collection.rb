@@ -50,6 +50,7 @@ class Collection < ApplicationRecord
     new_collection.name = "Copy of #{self.name}"
     new_collection.start_date = nil
     new_collection.end_date = nil
+    new_collection.reflection_text = nil
     new_collection.rating = nil
     new_collection.aasm_state = :draft
     new_collection.save
