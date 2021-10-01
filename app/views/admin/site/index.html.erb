@@ -125,6 +125,7 @@
         </p>
       </div>
       <%= render 'components/weekly_metrics', forms: @forms %>
+      <%= render 'components/agency_summary', forms: @forms, agencies: @agencies %>
       <div class="well">
         <h3>
           Data collected over past <%= @days_since %> days
@@ -149,6 +150,14 @@
           &middot;
           <a href="?recent=90">
             90 days
+          </a>
+          &middot;
+          <a href="?recent=180">
+            180 days
+          </a>
+          &middot;
+          <a href="?recent=365">
+            365 days
           </a>
         </p>
         <%= render 'components/admin/recent_responses', forms: @recent_forms, days_since: @days_since %>

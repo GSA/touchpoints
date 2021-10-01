@@ -1,0 +1,33 @@
+<h3>
+  Agency Summary
+</h3>
+<table class="usa-table" style="width: 100%;">
+  <thead>
+    <tr>
+      <th>
+        Agency
+      </th>
+      <th>
+        All Forms
+      </th>
+      <th>
+        Active Forms
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% agencies.each do | agency | %>
+    <tr class="agency_tr<%= agency.id %>">
+      <td class="reportable-agencies">
+        <%= agency.name %>
+      </td>
+      <td class="reportable-total-forms">
+        <%= forms.select { | form | form.organization_id == agency.id }.count %>
+      </td>
+      <td class="reportable-active-forms">
+        <%= forms.select { | form | (form.organization_id == agency.id) && form.live? }.count %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
