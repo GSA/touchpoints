@@ -1,7 +1,4 @@
 <div id="recent-responses">
-  <h3>
-    Recent Responses (last <%= days_since %> days)
-  </h3>
   <% if forms.present?  %>
     <table class="usa-table">
       <thead>
@@ -42,18 +39,4 @@
       </div>
     </div>
   <% end %>
-  <p>
-    See the last:
-    <a href="?recent=7">
-      7 days
-    </a>
-    &middot;
-    <a href="?recent=14">
-      14 days
-    </a>
-    &middot;
-    <a href="?recent=30">
-      30 days
-    </a>
-  </p>
 </div>

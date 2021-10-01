@@ -40,6 +40,29 @@ feature "Admin Dashboard", js: true do
       end
     end
 
+    describe "agency summary" do
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin) }
+      let!(:form2) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin) }
+      let!(:form_template) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, template: true) }
+
+      before do
+        form2.archive!
+        visit admin_dashboard_path
+      end
+
+      it "display agency summary" do
+        expect(page).to have_content("Agency Summary")
+        expect(page).to have_content("Agency")
+        expect(page).to have_content("All Forms")
+        expect(page).to have_content("Active Forms")
+        within(".agency_tr" + organization.id.to_s) do
+          expect(find(".reportable-agencies")).to have_content(organization.name)
+          expect(find(".reportable-total-forms")).to have_content("2")
+          expect(find(".reportable-active-forms")).to have_content("1")
+        end
+      end
+    end
+
     describe "daily totals" do
       let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin) }
       let!(:form_template) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, template: true) }
@@ -60,13 +83,27 @@ feature "Admin Dashboard", js: true do
           answer_01: "yes",
           created_at: Time.now - 5.days
         })
+        User.create({
+          email: 'tester1@example.com',
+          created_at: Time.now - 10.days
+        })
+        User.create({
+          email: 'tester2@example.com',
+          created_at: Time.now - 5.days
+        })
+        User.create({
+          email: 'tester3@example.com',
+          created_at: Time.now - 5.days
+        })
         visit admin_dashboard_path
       end
 
       it "display weekly metrics" do
         expect(page).to have_css("#daily-responses")
-        expect(page).to have_css("canvas")
+        expect(page).to have_css("#daily-new-users")
+        expect(find_all("canvas").size).to eq(2)
       end
+
     end
 
     describe "#a11" do
