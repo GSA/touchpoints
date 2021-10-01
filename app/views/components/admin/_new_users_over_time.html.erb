@@ -1,28 +1,28 @@
-<div id="daily-responses">
+<div id="daily-new-users">
   <h3>
-    Responses per day
+    New Users per day
   </h3>
-  <p>Total submissions received over period: <%= response_groups.sum { | n | n[1] } %> </p>
+  <p>Total user accounts created over period: <%= user_groups.sum { | n | n[1] } %> </p>
   <div style="width:100%;">
-    <canvas id="myChart"></canvas>
+    <canvas id="userChart"></canvas>
   </div>
 </div>
 
 <script>
 $(function() {
-  var ctx = document.getElementById('myChart').getContext('2d');
+  var ctx = document.getElementById('userChart').getContext('2d');
   var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: [
-      <% response_groups.each do |key, value| %>
+      <% user_groups.each do |key, value| %>
         '<%= key.strftime("%m-%d") %>',
       <% end %>
       ],
       datasets: [{
-        label: '# of Responses',
+        label: '# of Users',
         data: [
-        <% response_groups.each do |key, value| %>
+        <% user_groups.each do |key, value| %>
           <%= value %>,
         <% end %>
         ],

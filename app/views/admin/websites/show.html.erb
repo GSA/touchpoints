@@ -79,22 +79,22 @@
     </div>
     <div class="grid-row">
       <div class="grid-col-6">
+        <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
+          Website Manager email
+        </label>
+        <%= @website.site_owner_email %>
+      </div>
+      <div class="grid-col-6">
         <label class="usa-label text-uppercase font-body-3xs" for="contact_email">
           Contact email
         </label>
         <%= @website.contact_email %>
       </div>
-      <div class="grid-col-6">
-        <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
-          Webite Manager email
-        </label>
-        <%= @website.site_owner_email %>
-      </div>
     </div>
     <div class="grid-row">
       <div class="grid-col-12">
         <label class="usa-label text-uppercase font-body-3xs" for="contact_email">
-          Last Updated
+          Last updated at
         </label>
         <p>
           <%= link_to(@website.updated_at.strftime('%Y-%m-%d'), events_admin_website_path(@website))%>
