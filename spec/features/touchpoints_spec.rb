@@ -213,7 +213,7 @@ feature "Touchpoints", js: true do
         visit touchpoint_path(date_select_form)
       end
 
-      it "allows numeric input and a maximum of 10 numbers" do
+      it "allows a valid date string" do
         fill_in "answer_04", with: "10/04/2021"
         click_on "Submit"
         expect(page).not_to have_content("Please enter a valid value")
