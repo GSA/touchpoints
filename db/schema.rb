@@ -107,8 +107,8 @@ ActiveRecord::Schema.define(version: 2021_09_16_005026) do
     t.integer "response_count", default: 0
     t.datetime "last_response_created_at"
     t.boolean "ui_truncate_text_responses", default: true
-    t.string "notification_frequency", default: "instant"
     t.string "success_text_heading"
+    t.string "notification_frequency", default: "instant"
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["uuid"], name: "index_forms_on_uuid"
@@ -286,7 +286,8 @@ ActiveRecord::Schema.define(version: 2021_09_16_005026) do
     t.integer "service_id"
     t.text "notes"
     t.integer "time"
-    t.integer "total_eligble_population"
+    t.integer "total_eligible_population"
+    t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
