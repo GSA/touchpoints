@@ -99,6 +99,37 @@ feature "Admin Dashboard", js: true do
         end
       end
     end
+
+    describe "#lifespan" do
+      let!(:form) { FactoryBot.create(:form, kind: "a11", organization: organization, user: admin) }
+
+      before do
+        Submission.create({
+          form_id: form.id,
+          answer_01: "yes",
+          created_at: Time.now - 10.days
+        })
+        Submission.create({
+          form_id: form.id,
+          answer_01: "yes",
+          created_at: Time.now - 5.days
+        })
+        Submission.create({
+          form_id: form.id,
+          answer_01: "yes",
+          created_at: Time.now - 5.days
+        })
+        visit admin_lifespan_path
+      end
+
+      it "displays Agency lifespan summary" do
+        expect(page).to have_content("Survey Lifespan by Agency")
+        within ".agency-survey-lifespan-rerport" do
+          expect(page).to have_content form.organization.name
+          expect(page).to have_content form.name
+        end
+      end
+    end
   end
 
   # Note:
