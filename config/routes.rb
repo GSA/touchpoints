@@ -34,11 +34,13 @@ Rails.application.routes.draw do
     end
     namespace :v1 do
       resources :forms, only: [:index, :show]
+      resources :websites, only: [:index]
     end
   end
 
   namespace :admin do
     get "/reporting/hisps", to: "reporting#hisps", as: :hisps
+    get "/reporting/lifespan", to: "reporting#lifespan", as: :lifespan
 
     get "a11", to: "site#a11", as: :a11
     resources :service_providers
@@ -66,6 +68,8 @@ Rails.application.routes.draw do
       collection do
         get "search", to: "websites#search"
         get "gsa", to: "websites#gsa"
+        get "dendrogram", to: "websites#dendrogram"
+        get "dendrogram_json", to: "websites#dendrogram_json"
         get "export_csv", to: "websites#export_csv", as: :export_csv
         get "collection_preview", to: "websites@collection_preview", as: :collection_preview
       end

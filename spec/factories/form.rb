@@ -128,6 +128,20 @@ FactoryBot.define do
       end
     end
 
+    trait :date_select do
+      name { "Open-ended Test form with Date Select" }
+      kind { "custom" }
+      after(:create) do |f, evaluator|
+        FactoryBot.create(:question,
+          form: f,
+          question_type: "date_select",
+          form_section: f.form_sections.first,
+          answer_field: :answer_04,
+          text: "Body"
+        )
+      end
+    end
+
     trait :kitchen_sink do
       name { "Kitchen Sink Form 🧼" }
       kind { "custom" }
