@@ -28,5 +28,7 @@
 <% @form_component_path = 'components/forms/question_types/yes_no_buttons' %>
 <% elsif question.question_type == "text_display" %>
 <% @form_component_path = 'components/forms/question_types/text_display' %>
+<% elsif question.question_type == "date_select" %>
+<% @form_component_path = 'components/forms/question_types/date_select' %>
 <% end %>
 <%= render @form_component_path, form: form, question: question, question_number: question.position %>

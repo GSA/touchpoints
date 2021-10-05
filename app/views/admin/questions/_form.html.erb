@@ -41,7 +41,7 @@
           <%= f.text_field :help_text, class: "usa-input" %>
         </div>
         <% end %>
-        <% if ["text_field", "textarea", "text_email_field","text_phone_field","hidden_field"].include?(question.question_type) %>
+        <% if ["text_field", "textarea", "text_email_field","text_phone_field","hidden_field","date_select"].include?(question.question_type) %>
         <div class="field placeholder-text">
           <%= f.label :placeholder_text, "Placeholder text", class: "usa-label" %>
           <%= f.text_field :placeholder_text, class: "usa-input" %>
@@ -53,7 +53,6 @@
           <%= f.number_field :character_limit, class: "usa-input", max: "100000" %>
         </div>
         <% end %>
-
         <br>
         <fieldset class="usa-fieldset">
           <legend class="usa-sr-only">Is this question required?</legend>
