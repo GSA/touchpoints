@@ -34,6 +34,7 @@ Rails.application.routes.draw do
     end
     namespace :v1 do
       resources :forms, only: [:index, :show]
+      resources :websites, only: [:index]
     end
   end
 
@@ -66,6 +67,8 @@ Rails.application.routes.draw do
       collection do
         get "search", to: "websites#search"
         get "gsa", to: "websites#gsa"
+        get "dendrogram", to: "websites#dendrogram"
+        get "dendrogram_json", to: "websites#dendrogram_json"
         get "export_csv", to: "websites#export_csv", as: :export_csv
         get "collection_preview", to: "websites@collection_preview", as: :collection_preview
       end
