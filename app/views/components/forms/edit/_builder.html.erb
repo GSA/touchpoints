@@ -92,7 +92,6 @@ $(function() {
     $("#disclaimer_text").on("focus", function(event) {
       event.preventDefault();
       $(this).text($(this).attr("data-html-value"));
-      textCounter(this,500);
     });
 
     $(".fba-instructions .instructions").on("blur", function(event) {
@@ -133,7 +132,6 @@ $(function() {
       event.preventDefault();
       textCounter(this,500);
     });
-
 
   $('.form-add-section').on("click", function(event) {
     event.preventDefault();
