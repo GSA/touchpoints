@@ -29,4 +29,36 @@ RSpec.describe Website, type: :model do
       expect(new_website.errors.full_messages).to eq(["Domain has already been taken"])
     end
   end
+
+  describe "#tld?" do
+    let!(:existing_website) { FactoryBot.create(:website) }
+
+    before do
+      existing_website.tld?
+    end
+
+    it "a domain of 3 parts is not TLD" do
+      expect(existing_website.tld?).to eq false
+    end
+
+    context "2 part domain" do
+      before do
+        existing_website.update(domain: "example.gov")
+      end
+
+      it "a domain of 2 parts is a TLD" do
+        expect(existing_website.tld?).to eq true
+      end
+    end
+
+    context "4 part domain" do
+      before do
+        existing_website.update(domain: "dos.uno.example.gov")
+      end
+
+      it "a domain of 4 parts is a TLD" do
+        expect(existing_website.tld?).to eq false
+      end
+    end
+  end
 end
