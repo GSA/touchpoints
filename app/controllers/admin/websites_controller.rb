@@ -8,7 +8,8 @@ class Admin::WebsitesController < AdminController
     :show, :costs, :statuscard, :edit, :update, :destroy, :collection_request,
     :approve,
     :deny,
-    :events
+    :events,
+    :dendrogram
   ]
 
   def index
@@ -16,6 +17,40 @@ class Admin::WebsitesController < AdminController
       @websites = Website.all.order(:production_status, :domain)
     else
       @websites = Website.active.order(:production_status, :domain)
+    end
+  end
+
+  def dendrogram_json
+    @websites = []
+
+    # loop all sites and build a list of top-level domains
+    @active_websites = Website.active
+    @active_websites.each do |website|
+      if website.tld?
+        @websites << {
+          name: website.domain,
+          children: [
+          ]
+        }
+      end
+    end
+
+    @active_websites.each do |website|
+      selected_website = @websites.select { |w| w[:name] == website[:domain] || w[:name] == website[:parent_domain] }.first
+      next unless selected_website.present?
+
+      if !website.tld?
+        selected_website[:children] << {
+          name: website.domain || "N/A",
+          value: 1
+        }
+      end
+    end
+
+    respond_to do |format|
+      format.json {
+        render "dendrogram_json.js"
+      }
     end
   end
 
