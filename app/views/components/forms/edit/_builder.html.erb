@@ -17,6 +17,9 @@
     Instructions
   </label>
   <textarea class="usa-textarea instructions" name="instructions" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>"><%= form.instructions %></textarea>
+  <span class="counter-msg usa-hint usa-character-count__message  aria-live="polite">
+    500 characters allowed
+  </span>
   <span class="usa-hint save-notice survey-instructions">
     <i class="fa fa-check-circle" aria-hidden="true"></i> saved
   </span>
@@ -48,9 +51,12 @@
       </label>
       <small id="fba-dialog-privacy">
         <p class="fba-disclaimer-text">
-          <textarea id="disclaimer_text" class="usa-textarea" name="disclaimer-text" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>"><%= form.disclaimer_text %></textarea>
+          <textarea id="disclaimer_text" class="usa-textarea" name="disclaimer-text" tabindex="<%= @tabindex += 1 %>"data-url="<%= admin_form_path(form) %>"><%= form.disclaimer_text %></textarea>
           <span class="usa-hint save-notice survey-disclaimer">
             <i class="fa fa-check-circle" aria-hidden="true"></i> saved
+          </span>
+          <span class="counter-msg usa-hint usa-character-count__message  aria-live="polite">
+            500 characters allowed
           </span>
           <div id="disclaimer_text-show" tabindex="<%= @tabindex += 1 %>"><%= form.disclaimer_text.present? ? sanitize(form.disclaimer_text) : 'Survey Disclaimer Text' %></div>
         </p>
@@ -85,6 +91,7 @@ $(function() {
     $("#disclaimer_text").on("focus", function(event) {
       event.preventDefault();
       $(this).text($(this).attr("data-html-value"));
+      textCounter(this,500);
     });
 
     $(".fba-instructions .instructions").on("blur", function(event) {
@@ -116,6 +123,12 @@ $(function() {
         $('.usa-hint.save-notice.survey-disclaimer').fadeOut(2000);
       });
     });
+
+    $("#disclaimer_text").on("keyup", function(event) {
+      event.preventDefault();
+      textCounter(this,500);
+    });
+
 
   $('.form-add-section').on("click", function(event) {
     event.preventDefault();
@@ -312,4 +325,14 @@ $(function() {
   });
 <% end %>
 });
+function textCounter(field,maxlimit) {
+   var countfield = field.parentNode.querySelector(".counter-msg");
+   if ( field.value.length > maxlimit ) {
+    field.value = field.value.substring( 0, maxlimit );
+    countfield.innerText = '0 characters left';
+    return false;
+   } else {
+    countfield.innerText = "" + (maxlimit - field.value.length) + " characters left";
+   }
+}
 </script>

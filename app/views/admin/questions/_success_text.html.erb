@@ -13,6 +13,9 @@
           </em>
         </div>
         <%= f.text_area :success_text, class: "usa-textarea success_text", data_url:  admin_form_path(form)  %>
+        <span class="counter-msg usa-hint usa-character-count__message  aria-live="polite">
+          500 characters allowed
+        </span>
       </div>
     </div>
     <div class="grid-col-6 flash-preview">
