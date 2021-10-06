@@ -23,21 +23,28 @@ class Admin::WebsitesController < AdminController
   def dendrogram_json
     @websites = []
 
-    Website.active.each do |website|
-      @websites << {
-        name: website.domain,
-        children: [
-        ]
-      }
+    # loop all sites and build a list of top-level domains
+    @active_websites = Website.active
+    @active_websites.each do |website|
+      if website.tld?
+        @websites << {
+          name: website.domain,
+          children: [
+          ]
+        }
+      end
     end
 
-    Website.active.each do |website|
-      selected_website = @websites.select { |w| w[:name] == website[:domain] }.first
+    @active_websites.each do |website|
+      selected_website = @websites.select { |w| w[:name] == website[:domain] || w[:name] == website[:parent_domain] }.first
+      next unless selected_website.present?
 
-      selected_website[:children] << {
-        name: website.parent_domain || "N/A",
-        value: 1
-      }
+      if !website.tld?
+        selected_website[:children] << {
+          name: website.domain || "N/A",
+          value: 1
+        }
+      end
     end
 
     respond_to do |format|

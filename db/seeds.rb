@@ -442,18 +442,34 @@ ServiceStageBarrier.create({
 
 Website.create!({
   domain: "gsa.gov",
+  parent_domain: "gsa.gov",
   type_of_site: "Informational",
   production_status: "production"
 })
 
 Website.create!({
   domain: "digital.gov",
+  parent_domain: "digital.gov",
   type_of_site: "Informational",
   production_status: "production"
 })
 
 Website.create!({
   domain: "touchpoints.digital.gov",
+  parent_domain: "digital.gov",
+  type_of_site: "Application",
+  production_status: "production"
+})
+
+Website.create!({
+  domain: "subdomain.digital.gov",
+  parent_domain: "digital.gov",
+  type_of_site: "Application",
+  production_status: "production"
+})
+Website.create!({
+  domain: "subdomain.gsa.gov",
+  parent_domain: "gsa.gov",
   type_of_site: "Application",
   production_status: "production"
 })
