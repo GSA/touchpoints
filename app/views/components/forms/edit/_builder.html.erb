@@ -16,12 +16,13 @@
   <label class="usa-label text-uppercase font-body-3xs" for="instructions">
     Instructions
   </label>
-  <textarea class="usa-textarea instructions" name="instructions" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>"><%= form.instructions %></textarea>
-  <span class="counter-msg usa-hint usa-character-count__message  aria-live="polite">
-    500 characters allowed
-  </span>
+  <textarea class="usa-textarea instructions countable" name="instructions" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>"><%= form.instructions %></textarea>
+  <br/>
   <span class="usa-hint save-notice survey-instructions">
     <i class="fa fa-check-circle" aria-hidden="true"></i> saved
+  </span>
+  <span class="counter-msg usa-hint usa-character-count__message  aria-live="polite">
+    500 characters allowed
   </span>
   <br>
   <span class="display-inline instructions-show">
@@ -51,7 +52,7 @@
       </label>
       <small id="fba-dialog-privacy">
         <p class="fba-disclaimer-text">
-          <textarea id="disclaimer_text" class="usa-textarea" name="disclaimer-text" tabindex="<%= @tabindex += 1 %>"data-url="<%= admin_form_path(form) %>"><%= form.disclaimer_text %></textarea>
+          <textarea id="disclaimer_text" class="usa-textarea countable" name="disclaimer-text" tabindex="<%= @tabindex += 1 %>"data-url="<%= admin_form_path(form) %>"><%= form.disclaimer_text %></textarea>
           <span class="usa-hint save-notice survey-disclaimer">
             <i class="fa fa-check-circle" aria-hidden="true"></i> saved
           </span>
@@ -124,7 +125,11 @@ $(function() {
       });
     });
 
-    $("#disclaimer_text").on("keyup", function(event) {
+    $(".countable").on("focus", function(event) {
+      event.preventDefault();
+      textCounter(this,500);
+    });
+    $(".countable").on("keyup", function(event) {
       event.preventDefault();
       textCounter(this,500);
     });
