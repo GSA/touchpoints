@@ -106,11 +106,16 @@ class Website < ApplicationRecord
     end
   end
 
+  # has a domain name and suffix
+  def tld?
+    self.domain.split(".").size == 2
+  end
+
   def self.to_csv
     websites = Website.all
     header_attributes = websites.first.attributes.keys || []
 
-    CSV.generate(headers: true) do |csv|
+    CSV.generate(headers: true, force_quotes: true) do |csv|
       csv << header_attributes
 
       websites.each do |website|
