@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/18f/omniauth_login_dot_gov.git
-  revision: 91824d60a40e4d4017ff5e31c813fe71ae5b50be
+  revision: 83847184486144038d40a03ce47363bf52dc5256
   branch: main
   specs:
     omniauth_login_dot_gov (0.1.1)
@@ -212,7 +212,7 @@ GEM
       aes_key_wrap
       bindata
     jsonapi-renderer (0.2.2)
-    jwt (2.2.3)
+    jwt (2.3.0)
     kaminari (1.2.1)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.1)
@@ -430,6 +430,7 @@ DEPENDENCIES
   mail
   mini_magick
   newrelic_rpm
+  omniauth
   omniauth-github
   omniauth_login_dot_gov!
   pg (~> 1.1)
