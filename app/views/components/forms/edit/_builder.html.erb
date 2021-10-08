@@ -1,3 +1,5 @@
+<% @instruction_text_limit = 1500 %>
+<% @disclaimer_text_limit = 500 %>
 <% @tabindex = 0 %>
 <%= render 'admin/forms/logo_display', { form: form } %>
 <br>
@@ -16,13 +18,13 @@
   <label class="usa-label text-uppercase font-body-3xs" for="instructions">
     Instructions
   </label>
-  <textarea class="usa-textarea instructions countable" name="instructions" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>"><%= form.instructions %></textarea>
+  <textarea id="instruction_text" class="usa-textarea instructions countable" name="instructions" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>"><%= form.instructions %></textarea>
   <br/>
   <span class="usa-hint save-notice survey-instructions">
     <i class="fa fa-check-circle" aria-hidden="true"></i> saved
   </span>
-  <span class="counter-msg usa-hint usa-character-count__message  aria-live="polite">
-    500 characters allowed
+  <span class="counter-msg usa-hint usa-character-count__message aria-live="polite">
+    <%= @instruction_text_limit %> characters allowed
   </span>
   <br>
   <span class="display-inline instructions-show">
@@ -57,7 +59,7 @@
             <i class="fa fa-check-circle" aria-hidden="true"></i> saved
           </span>
           <span class="counter-msg usa-hint usa-character-count__message  aria-live="polite">
-            500 characters allowed
+            <%= @instruction_text_limit %> characters allowed
           </span>
           <div id="disclaimer_text-show" tabindex="<%= @tabindex += 1 %>"><%= form.disclaimer_text.present? ? sanitize(form.disclaimer_text) : 'Survey Disclaimer Text' %></div>
         </p>
@@ -124,13 +126,22 @@ $(function() {
       });
     });
 
-    $(".countable").on("focus", function(event) {
+    $("#instruction_text.countable").on("focus", function(event) {
       event.preventDefault();
-      textCounter(this,500);
+      textCounter(this, <%= @instruction_text_limit %>);
     });
-    $(".countable").on("keyup", function(event) {
+    $("#instruction_text.countable").on("keyup", function(event) {
       event.preventDefault();
-      textCounter(this,500);
+      textCounter(this, <%= @instruction_text_limit %>);
+    });
+
+    $("#disclaimer_text.countable").on("focus", function(event) {
+      event.preventDefault();
+      textCounter(this, <%= @disclaimer_text_limit %>);
+    });
+    $("#disclaimer_text.countable").on("keyup", function(event) {
+      event.preventDefault();
+      textCounter(this, <%= @disclaimer_text_limit %>);
     });
 
   $('.form-add-section').on("click", function(event) {
