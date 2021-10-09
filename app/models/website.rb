@@ -18,6 +18,7 @@ class Website < ApplicationRecord
     "request_denied" => "Request denied",
     "in_development" => "In development",
     "production" => "Production",
+    "being_decommissioned" => "Being decommissioned",
     "redirect" => "Redirect",
     "archived" => "Archived",
     "decommissioned" => "Decommissioned",

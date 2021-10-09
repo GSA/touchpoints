@@ -1,3 +1,5 @@
+<% @instruction_text_limit = 1500 %>
+<% @disclaimer_text_limit = 500 %>
 <% @tabindex = 0 %>
 <%= render 'admin/forms/logo_display', { form: form } %>
 <br>
@@ -16,9 +18,13 @@
   <label class="usa-label text-uppercase font-body-3xs" for="instructions">
     Instructions
   </label>
-  <textarea class="usa-textarea instructions" name="instructions" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>"><%= form.instructions %></textarea>
+  <textarea id="instruction_text" class="usa-textarea instructions countable" name="instructions" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>"><%= form.instructions %></textarea>
+  <br/>
   <span class="usa-hint save-notice survey-instructions">
     <i class="fa fa-check-circle" aria-hidden="true"></i> saved
+  </span>
+  <span class="counter-msg usa-hint usa-character-count__message aria-live="polite">
+    <%= @instruction_text_limit %> characters allowed
   </span>
   <br>
   <span class="display-inline instructions-show">
@@ -48,9 +54,12 @@
       </label>
       <small id="fba-dialog-privacy">
         <p class="fba-disclaimer-text">
-          <textarea id="disclaimer_text" class="usa-textarea" name="disclaimer-text" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>"><%= form.disclaimer_text %></textarea>
+          <textarea id="disclaimer_text" class="usa-textarea countable" name="disclaimer-text" tabindex="<%= @tabindex += 1 %>"data-url="<%= admin_form_path(form) %>"><%= form.disclaimer_text %></textarea>
           <span class="usa-hint save-notice survey-disclaimer">
             <i class="fa fa-check-circle" aria-hidden="true"></i> saved
+          </span>
+          <span class="counter-msg usa-hint usa-character-count__message  aria-live="polite">
+            <%= @instruction_text_limit %> characters allowed
           </span>
           <div id="disclaimer_text-show" tabindex="<%= @tabindex += 1 %>"><%= form.disclaimer_text.present? ? sanitize(form.disclaimer_text) : 'Survey Disclaimer Text' %></div>
         </p>
@@ -115,6 +124,24 @@ $(function() {
         $('.usa-hint.save-notice.survey-disclaimer').show();
         $('.usa-hint.save-notice.survey-disclaimer').fadeOut(2000);
       });
+    });
+
+    $("#instruction_text.countable").on("focus", function(event) {
+      event.preventDefault();
+      textCounter(this, <%= @instruction_text_limit %>);
+    });
+    $("#instruction_text.countable").on("keyup", function(event) {
+      event.preventDefault();
+      textCounter(this, <%= @instruction_text_limit %>);
+    });
+
+    $("#disclaimer_text.countable").on("focus", function(event) {
+      event.preventDefault();
+      textCounter(this, <%= @disclaimer_text_limit %>);
+    });
+    $("#disclaimer_text.countable").on("keyup", function(event) {
+      event.preventDefault();
+      textCounter(this, <%= @disclaimer_text_limit %>);
     });
 
   $('.form-add-section').on("click", function(event) {
@@ -312,4 +339,14 @@ $(function() {
   });
 <% end %>
 });
+function textCounter(field,maxlimit) {
+   var countfield = field.parentNode.querySelector(".counter-msg");
+   if ( field.value.length > maxlimit ) {
+    field.value = field.value.substring( 0, maxlimit );
+    countfield.innerText = '0 characters left';
+    return false;
+   } else {
+    countfield.innerText = "" + (maxlimit - field.value.length) + " characters left";
+   }
+}
 </script>

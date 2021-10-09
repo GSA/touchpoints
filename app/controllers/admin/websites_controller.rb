@@ -20,7 +20,26 @@ class Admin::WebsitesController < AdminController
     end
   end
 
+  def dendrogram
+  end
+
   def dendrogram_json
+
+    if params["office"] == "true"
+       dendrogram_json_by_office
+    else
+      # default
+      dendrogram_json_by_domain
+    end
+
+    respond_to do |format|
+      format.json {
+        render "dendrogram_json.js"
+      }
+    end
+  end
+
+  def dendrogram_json_by_domain
     @websites = []
 
     # loop all sites and build a list of top-level domains
@@ -46,12 +65,32 @@ class Admin::WebsitesController < AdminController
         }
       end
     end
+    return @websites
+  end
 
-    respond_to do |format|
-      format.json {
-        render "dendrogram_json.js"
+  def dendrogram_json_by_office
+    @websites = []
+
+    # loop all sites and build a list of top-level domains
+    @active_websites = Website.active
+    @active_websites.collect(&:office).uniq.each do |office|
+      @websites << {
+        name: office,
+        office: office,
+        children: []
       }
     end
+
+    @active_websites.each do |website|
+      selected_website = @websites.select { |w| w[:office] == website[:office] || w[:sub_office] == website[:sub_office] }.first
+      next unless selected_website.present?
+
+      selected_website[:children] << {
+        name: website.domain || "N/A",
+        value: 1
+      }
+    end
+    return @websites
   end
 
   def export_csv

@@ -13,18 +13,13 @@
           </em>
         </div>
         <%= f.text_area :success_text, class: "usa-textarea success_text", data_url:  admin_form_path(form)  %>
+        <span class="usa-hint save-notice survey-success-text">
+          <i class="fa fa-check-circle" aria-hidden="true"></i> saved
+        </span>
       </div>
     </div>
-    <div class="grid-col-6 flash-preview">
-      <br>
-      <br>
-      <br>
-      <%= render 'components/forms/flash', form: form %>
-    </div>
+
     <script>
-      $(function() {
-        $(".flash-preview .usa-alert--success").removeAttr("hidden");
-      });
       $(".success_text").on("blur", function(event) {
         event.preventDefault();
         $.ajax({
@@ -36,7 +31,9 @@
           }
         }).done(function(data) {
           $("#success_text_div").html(data);
-        });
+          $('.usa-hint.save-notice.survey-success-text').show();
+          $('.usa-hint.save-notice.survey-success-text').fadeOut(2000);
+          });
       });
     </script>
   </div>
