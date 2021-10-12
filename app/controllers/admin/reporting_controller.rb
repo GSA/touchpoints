@@ -32,7 +32,7 @@ class Admin::ReportingController < AdminController
 
   def lifespan
     @form_lifespans = Submission.select("form_id,count(*) as num_submissions,(max(submissions.created_at) - min(submissions.created_at)) as lifespan").group(:form_id)
-    @forms = Form.select(:id,:name,:organization_id).joins(:submissions).order(:organization_id).uniq
+    @forms = Form.select(:id,:name,:organization_id).where(" exists ( select id from submissions where submissions.form_id = forms.id )")
     @orgs = Organization.all.order(:name)
     @org_summary = []
     @orgs.each do | org |
