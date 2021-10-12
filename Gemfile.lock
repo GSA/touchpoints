@@ -1,14 +1,12 @@
-GIT
-  remote: https://github.com/18f/omniauth_login_dot_gov.git
-  revision: 83847184486144038d40a03ce47363bf52dc5256
-  branch: main
+PATH
+  remote: /Users/allentaylor/projects/omniauth_login_dot_gov
   specs:
     omniauth_login_dot_gov (0.1.1)
       faraday (~> 0.17)
       json-jwt (~> 1.11)
       jwt (~> 2.2)
       multi_json (~> 1.14)
-      omniauth (~> 1.8.1)
+      omniauth (~> 2.0.4)
 
 GEM
   remote: https://rubygems.org/
@@ -193,7 +191,7 @@ GEM
     formatador (0.3.0)
     globalid (0.5.2)
       activesupport (>= 5.0)
-    hashie (3.5.7)
+    hashie (4.1.0)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     image_processing (1.12.1)
@@ -260,15 +258,16 @@ GEM
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
-    omniauth (1.8.1)
-      hashie (>= 3.4.6, < 3.6.0)
+    omniauth (2.0.4)
+      hashie (>= 3.4.6)
       rack (>= 1.6.2, < 3)
-    omniauth-github (1.4.0)
-      omniauth (~> 1.5)
-      omniauth-oauth2 (>= 1.4.0, < 2.0)
-    omniauth-oauth2 (1.5.0)
-      oauth2 (~> 1.1)
-      omniauth (~> 1.2)
+      rack-protection
+    omniauth-github (2.0.0)
+      omniauth (~> 2.0)
+      omniauth-oauth2 (~> 1.7.1)
+    omniauth-oauth2 (1.7.1)
+      oauth2 (~> 1.4)
+      omniauth (>= 1.9, < 3)
     orm_adapter (0.5.0)
     pg (1.2.3)
     pry (0.14.1)
@@ -281,6 +280,8 @@ GEM
     rack (2.2.3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
+    rack-protection (2.1.0)
+      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (6.1.4.1)
