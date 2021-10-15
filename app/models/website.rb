@@ -1,6 +1,7 @@
 require 'open-uri'
 
 class Website < ApplicationRecord
+  acts_as_taggable_on :tags
   include AASM
 
   validates :domain, presence: true

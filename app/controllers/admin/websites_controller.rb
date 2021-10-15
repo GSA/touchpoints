@@ -9,7 +9,9 @@ class Admin::WebsitesController < AdminController
     :approve,
     :deny,
     :events,
-    :dendrogram
+    :dendrogram,
+    :add_tag,
+    :remove_tag
   ]
 
   def index
@@ -116,6 +118,10 @@ class Admin::WebsitesController < AdminController
   end
 
   def show
+    @tags = Website.tag_counts_on(:tags).collect { | tag | [tag.name, tag.count] }
+    @cloud = MagicCloud::Cloud.new(@tags, rotate: :free)
+    @img = @cloud.draw(200,100)
+    @img.write('public/cloud.png')
   end
 
   def collection_preview
@@ -202,6 +208,16 @@ class Admin::WebsitesController < AdminController
     @events = Event.where(object_type: "Website", object_id: @website.id).order(:created_at)
   end
 
+  def add_tag
+    @website.tag_list.add(admin_website_params[:tag_list].split(","))
+    @website.save
+  end
+
+  def remove_tag
+    @website.tag_list.remove(admin_website_params[:tag_list].split(","))
+    @website.save
+  end
+
   private
 
     def log_update(current_state)
@@ -230,6 +246,7 @@ class Admin::WebsitesController < AdminController
       :has_authenticated_experience,
       :authentication_tool,
       :repository_url,
-      :notes)
+      :notes,
+      :tag_list)
     end
 end

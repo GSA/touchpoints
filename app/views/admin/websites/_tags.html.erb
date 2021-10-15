@@ -1,0 +1,40 @@
+<%= form_with(model: website, url: admin_website_path(website), local: true) do |f| %>
+	<div class="grid-row">
+	  <div class="grid-col-6">
+	  	<h3>Website Tags</h3>
+	  	<p class="tag-list">
+		  	<% website.tag_list.each do | tag | %>
+		  		<span class="tag-span"><%= tag %> <a href="#" class="remove-tag-link" data-value="<%= tag %>">x</a></span>
+		  	<% end %>
+	  	<p>
+	    <%= f.text_field :tag_list, placeholder: "Enter tag(s)", value: nil, class: "usa-input tag-input" %>
+	  </div>
+	</div>
+<% end %>
+<img src="/cloud.png" >
+<script>
+$(".tag-input").blur(function(event) {
+	event.preventDefault();
+    var thisForm = $(this).closest("form");
+    $.ajax({
+		url: thisForm.attr("action") + "/add_tag",
+		type: 'post',
+		data: "website[tag_list]=" + $(".tag-input").val()
+    });
+});
+$(".tag-input").keypress(function (e) {
+	if (e.which == 13) {
+		document.activeElement.blur();
+		return false;
+	}
+});
+$(".remove-tag-link").click(function(e) {
+	event.preventDefault();
+	var thisForm = $(this).closest("form");
+	$.ajax({
+	  url: thisForm.attr("action") + "/remove_tag",
+	  type: 'post',
+	  data: "website[tag_list]=" + $(this).attr("data-value")
+	});
+})
+</script>
