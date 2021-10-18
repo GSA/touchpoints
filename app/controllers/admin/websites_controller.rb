@@ -20,6 +20,7 @@ class Admin::WebsitesController < AdminController
     else
       @websites = Website.active.order(:production_status, :domain)
     end
+    @tags = Website.tag_counts_on(:tags)
   end
 
   def dendrogram
@@ -105,9 +106,12 @@ class Admin::WebsitesController < AdminController
 
   def search
     search_text = params[:search]
+    tag_name = params[:tag]
     if search_text.present?
       search_text = "%" + search_text + "%"
       @websites = Website.where(" domain ilike ? or office ilike ? or sub_office ilike ? or production_status ilike ? or site_owner_email ilike ? ", search_text, search_text, search_text, search_text, search_text)
+    elsif tag_name.present?
+      @websites = Website.tagged_with(tag_name)
     else
       @websites = Website.all
     end
@@ -118,10 +122,6 @@ class Admin::WebsitesController < AdminController
   end
 
   def show
-    @tags = Website.tag_counts_on(:tags).collect { | tag | [tag.name, tag.count] }
-    @cloud = MagicCloud::Cloud.new(@tags, rotate: :free)
-    @img = @cloud.draw(200,100)
-    @img.write('public/cloud.png')
   end
 
   def collection_preview

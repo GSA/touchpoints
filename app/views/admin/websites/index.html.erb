@@ -47,9 +47,18 @@
   <div class="field">
     <%= label_tag :search_text, "Search websites by domain, email, office, or sub-office", class: "usa-label" %>
     <%= text_field_tag :search_text, nil, class: "usa-input" %>
+    <% if @tags.size > 0 %>
+      <p>
+        or, use tag filters
+      </p>
+      <p class="tag-list">
+        <% @tags.each do | tag | %>
+          <a href="#" class="search-tag-link" data-name="<%= tag.name%>"><span class="tag-span"><%= tag.name %> (<%= tag.taggings_count %>)</span></a>
+        <% end %>
+      <p>
+    <% end %>
   </div>
 </div>
-
 <br>
 <div class="search-results">
   <%= render 'results' %>
@@ -74,6 +83,15 @@
         url: '/admin/websites/search',
         data: {
           search: $(this).val()
+        }
+      });
+    });
+    $(".search-tag-link").click(function() {
+      $("#search_text").val("");
+      $.ajax({
+        url: '/admin/websites/search',
+        data: {
+          tag: $(this).attr("data-name")
         }
       });
     });
