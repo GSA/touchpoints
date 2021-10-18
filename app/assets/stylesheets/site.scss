@@ -69,6 +69,23 @@ footer {
   max-height: 32px;
 }
 
+.tag-span {
+  border: 1px solid #d6d7d9;
+  border-radius: 4px;
+  padding: 2px;
+  padding-bottom: 4px;
+  padding-left: 4px;
+  background-color: #FFFFE0;
+}
+.remove-tag-link {
+  border-left: 1px solid #d6d7d9;
+  text-decoration: none;
+  padding: 2px;
+  padding-bottom: 4px;
+  padding-left: 4px;
+  background-color: #FFFFE0;
+}
+
 .delivery-options-preview {
   border: 1px solid;
   border-radius: 4px;
