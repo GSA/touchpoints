@@ -69,23 +69,10 @@ footer {
   max-height: 32px;
 }
 
-.tag-span {
-  border: 1px solid #d6d7d9;
-  border-radius: 4px;
-  padding: 2px;
-  padding-left: 4px;
-  padding-bottom: 4px;
-  line-height: 2em;
-  background-color: #ebf3fa;
-  white-space: nowrap;
-}
 .remove-tag-link {
-  border-left: 1px solid #d6d7d9;
-  text-decoration: none;
-  padding: 2px;
-  padding-left: 4px;
-  padding-bottom: 4px;
-  background-color: #ebf3fa;
+  margin-left: 5px;
+  color: #999;
+
 }
 .search-tag-link {
   text-decoration: none;

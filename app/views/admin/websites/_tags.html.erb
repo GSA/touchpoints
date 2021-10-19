@@ -1,13 +1,22 @@
 <%= form_with(model: website, url: admin_website_path(website), local: true) do |f| %>
 	<div class="grid-row">
 	  <div class="grid-col-6">
-	  	<h3>Website Tags</h3>
+	  	<h3>Tags</h3>
 	  	<p class="tag-list">
-		  	<% website.tag_list.each do | tag | %>
-		  		<span class="tag-span"><%= tag %> <a href="#" class="remove-tag-link" data-value="<%= tag %>">x</a></span>
-		  	<% end %>
+				<ul class="usa-list usa-list--unstyled">
+					<% website.tag_list.sort.each do |tag| %>
+					<li  style="margin-bottom: 3px;">
+						<span class="usa-tag">
+							<%= tag %>
+						</span>
+						<a href="javascript:void(0);" class="remove-tag-link" data-value="<%= tag %>">
+							<span class="fa fa-trash"></span>
+						</a>
+					</li>
+		  		<% end %>
+				</ul>
 	  	<p>
-	    <%= f.text_field :tag_list, placeholder: "Enter tag(s)", value: nil, class: "usa-input tag-input" %>
+	    <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
 	  </div>
 	</div>
 <% end %>

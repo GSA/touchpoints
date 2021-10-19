@@ -45,15 +45,17 @@
 
 <div class="well">
   <div class="field">
-    <%= label_tag :search_text, "Search websites by domain, email, office, or sub-office", class: "usa-label" %>
+    <%= label_tag :search_text, "Search by domain, email, office, sub-office, Website Manager email, or Website Contact email", class: "usa-label" %>
     <%= text_field_tag :search_text, nil, class: "usa-input" %>
     <% if @tags.size > 0 %>
       <p>
-        or, use tag filters
+        Search by tag
       </p>
       <p class="tag-list">
-        <% @tags.each do | tag | %>
-          <a href="#" class="search-tag-link" data-name="<%= tag.name%>"><span class="tag-span"><%= tag.name %> (<%= tag.taggings_count %>)</span></a>
+        <% @tags.order(:name).each do | tag | %>
+          <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
+            <span class="tag-spa2n usa-tag"><%= tag.name %> (<%= tag.taggings_count %>)</span>
+          </a>
         <% end %>
       <p>
     <% end %>
