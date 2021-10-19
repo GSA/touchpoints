@@ -10,7 +10,9 @@ class Admin::WebsitesController < AdminController
     :approve,
     :deny,
     :events,
-    :dendrogram
+    :dendrogram,
+    :add_tag,
+    :remove_tag
   ]
 
   def index
@@ -19,6 +21,7 @@ class Admin::WebsitesController < AdminController
     else
       @websites = Website.active.order(:production_status, :domain)
     end
+    @tags = Website.tag_counts_on(:tags)
   end
 
   def dendrogram
@@ -104,9 +107,12 @@ class Admin::WebsitesController < AdminController
 
   def search
     search_text = params[:search]
+    tag_name = params[:tag]
     if search_text.present?
       search_text = "%" + search_text + "%"
       @websites = Website.where(" domain ilike ? or office ilike ? or sub_office ilike ? or production_status ilike ? or site_owner_email ilike ? ", search_text, search_text, search_text, search_text, search_text)
+    elsif tag_name.present?
+      @websites = Website.tagged_with(tag_name)
     else
       @websites = Website.all
     end
@@ -203,6 +209,16 @@ class Admin::WebsitesController < AdminController
     @events = Event.where(object_type: "Website", object_id: @website.id).order(:created_at)
   end
 
+  def add_tag
+    @website.tag_list.add(admin_website_params[:tag_list].split(","))
+    @website.save
+  end
+
+  def remove_tag
+    @website.tag_list.remove(admin_website_params[:tag_list].split(","))
+    @website.save
+  end
+
   private
 
     def log_update(current_state)
@@ -231,6 +247,7 @@ class Admin::WebsitesController < AdminController
       :has_authenticated_experience,
       :authentication_tool,
       :repository_url,
-      :notes)
+      :notes,
+      :tag_list)
     end
 end
