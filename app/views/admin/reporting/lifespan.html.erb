@@ -6,27 +6,24 @@
 	<h3 class=".usa-accordion__heading"><%= org[:name] %></h3>
 	<div class="well">
 		<span class="usa-label">
-			Total Submissions: <%= org[:submissions] %>,
+			Total Submissions: <%= org[:submissions] %>
+      <br>
 			Average Lifespan: <%= number_with_precision(org[:avg_lifespan] / (3600 * 24),:precision => 2) %> days
 		</span>
 		<% if org[:forms].size > 0 %>
 			<table class="usa-table">
 			  <thead>
 			  <tr>
-			    <th>ID</th>
 			    <th>Name</th>
-			    <th># of Submissions</th>
-			    <th>Lifespan ( Days )</th>
+			    <th>Submissions</th>
+			    <th>Lifespan (Days)</th>
 			  </tr>
 			  </thead>
 			  <tbody>
-			  	<%  org[:forms].each do | form| %>
+			  	<% org[:forms].each do |form| %>
 				<tr>
 					<td>
-						<%= form[:id] %>
-					</td>
-					<td>
-						<%= form[:name] %>
+						<%= link_to form[:name], admin_form_path(form) %>
 					</td>
 					<td>
 						<%= form[:counts].num_submissions %>
