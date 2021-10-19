@@ -27,12 +27,11 @@ class Admin::ReportingController < AdminController
     end
 
     render plain: row.join("\n")
-
   end
 
   def lifespan
-    @form_lifespans = Submission.select("form_id,count(*) as num_submissions,(max(submissions.created_at) - min(submissions.created_at)) as lifespan").group(:form_id)
-    @forms = Form.select(:id,:name,:organization_id).joins(:submissions).order(:organization_id).uniq
+    @form_lifespans = Submission.select("form_id, count(*) as num_submissions, (max(submissions.created_at) - min(submissions.created_at)) as lifespan").group(:form_id)
+    @forms = Form.select(:id,:name,:organization_id).where("exists (select id from submissions where submissions.form_id = forms.id)")
     @orgs = Organization.all.order(:name)
     @org_summary = []
     @orgs.each do | org |
@@ -41,13 +40,13 @@ class Admin::ReportingController < AdminController
       org_row[:forms] = []
       total_lifespan = 0
       total_submissions = 0
-      @forms.select { | form | form.organization_id == org.id }.each do | org_form |
+      @forms.select { |form| form.organization_id == org.id }.each do |org_form|
         form_summary = {}
         form_summary[:id] = org_form.id
         form_summary[:name] = org_form.name
-        form_summary[:counts] = @form_lifespans.select { | row | row.form_id == org_form.id }.first
-        total_lifespan +=  form_summary[:counts].lifespan if form_summary[:counts].present?
-        total_submissions +=  form_summary[:counts].num_submissions if form_summary[:counts].present?
+        form_summary[:counts] = @form_lifespans.select { |row| row.form_id == org_form.id }.first
+        total_lifespan += form_summary[:counts].lifespan if form_summary[:counts].present?
+        total_submissions += form_summary[:counts].num_submissions if form_summary[:counts].present?
         org_row[:forms] << form_summary
       end
       org_row[:submissions] = total_submissions

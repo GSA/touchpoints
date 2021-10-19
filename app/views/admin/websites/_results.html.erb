@@ -29,6 +29,7 @@
           >Domain</th>
         <th data-sortable scope="col" role="columnheader">Website Manager</th>
         <th data-sortable scope="col" role="columnheader">Website Contact</th>
+        <th>Tags</th>
       </tr>
     </thead>
     <tbody>
@@ -41,6 +42,7 @@
           <td><%= website.domain %></td>
           <td><%= website.site_owner_email %></td>
           <td><%= website.contact_email %></td>
+          <td><%= website.tag_list %></td>
         </tr>
       <% end %>
     </tbody>

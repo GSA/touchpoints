@@ -24,3 +24,4 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     redirect_uri: ENV.fetch("LOGIN_GOV_REDIRECT_URI")
   }
 end
+OmniAuth.config.allowed_request_methods = %i[get]

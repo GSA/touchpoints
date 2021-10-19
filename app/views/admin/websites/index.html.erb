@@ -45,11 +45,24 @@
 
 <div class="well">
   <div class="field">
-    <%= label_tag :search_text, "Search websites by domain, email, office, or sub-office", class: "usa-label" %>
+    <%= label_tag :search_text, "Search by domain, email, office, sub-office, Website Manager email, or Website Contact email", class: "usa-label" %>
     <%= text_field_tag :search_text, nil, class: "usa-input" %>
+    <% if @tags.size > 0 %>
+      <p>
+        Search by tag
+      </p>
+      <p class="tag-list">
+        <% @tags.order(:name).each do | tag | %>
+          <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
+            <span class="usa-tag">
+              <%= tag.name %> (<%= tag.taggings_count %>)
+            </span>
+          </a>
+        <% end %>
+      <p>
+    <% end %>
   </div>
 </div>
-
 <br>
 <div class="search-results">
   <%= render 'results' %>
@@ -74,6 +87,15 @@
         url: '/admin/websites/search',
         data: {
           search: $(this).val()
+        }
+      });
+    });
+    $(".search-tag-link").click(function() {
+      $("#search_text").val("");
+      $.ajax({
+        url: '/admin/websites/search',
+        data: {
+          tag: $(this).attr("data-name")
         }
       });
     });
