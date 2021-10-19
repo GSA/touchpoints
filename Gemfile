@@ -35,6 +35,7 @@ gem 'aasm', '~> 5.2.0'
 # gem 'webpacker', '~> 5.0'
 gem 'whenever', require: false
 gem 'logstop'
+gem 'acts-as-taggable-on', '~> 8.0'
 
 
 group :development, :test do

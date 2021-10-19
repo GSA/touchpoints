@@ -80,6 +80,8 @@ GEM
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
     acts-as-list (0.1.2)
+    acts-as-taggable-on (8.1.0)
+      activerecord (>= 5.0, < 6.2)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     aes_key_wrap (1.1.0)
@@ -412,6 +414,7 @@ DEPENDENCIES
   aasm (~> 5.2.0)
   active_model_serializers (>= 0.10.12)
   acts-as-list
+  acts-as-taggable-on (~> 8.0)
   aws-sdk-rails (>= 3.6.1)
   capybara (>= 3.35.3)
   caracal (>= 1.4.1)
