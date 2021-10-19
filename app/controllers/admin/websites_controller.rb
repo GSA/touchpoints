@@ -3,6 +3,7 @@ class Admin::WebsitesController < AdminController
     :collection_preview,
     :collection_request
   ]
+  before_action :set_paper_trail_whodunnit
 
   before_action :set_website, only: [
     :show, :costs, :statuscard, :edit, :update, :destroy, :collection_request,

@@ -35,6 +35,7 @@ gem 'aasm', '~> 5.2.0'
 # gem 'webpacker', '~> 5.0'
 gem 'whenever', require: false
 gem 'logstop'
+gem 'paper_trail'
 
 
 group :development, :test do

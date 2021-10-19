@@ -242,12 +242,16 @@ GEM
     mime-types-data (3.2021.0901)
     mini_magick (4.11.0)
     mini_mime (1.1.2)
+    mini_portile2 (2.6.1)
     minitest (5.14.4)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     newrelic_rpm (8.0.0)
     nio4r (2.5.8)
+    nokogiri (1.12.5)
+      mini_portile2 (~> 2.6.1)
+      racc (~> 1.4)
     nokogiri (1.12.5-x86_64-darwin)
       racc (~> 1.4)
     oauth2 (1.4.7)
@@ -267,6 +271,9 @@ GEM
       oauth2 (~> 1.4)
       omniauth (>= 1.9, < 3)
     orm_adapter (0.5.0)
+    paper_trail (12.1.0)
+      activerecord (>= 5.2)
+      request_store (~> 1.1)
     pg (1.2.3)
     pry (0.14.1)
       coderay (~> 1.1)
@@ -320,6 +327,8 @@ GEM
     redis-namespace (1.8.1)
       redis (>= 3.0.4)
     regexp_parser (2.1.1)
+    request_store (1.5.0)
+      rack (>= 1.4)
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -406,6 +415,7 @@ GEM
     zeitwerk (2.4.2)
 
 PLATFORMS
+  ruby
   x86_64-darwin-19
 
 DEPENDENCIES
@@ -432,6 +442,7 @@ DEPENDENCIES
   newrelic_rpm
   omniauth-github
   omniauth_login_dot_gov!
+  paper_trail
   pg (~> 1.1)
   pry
   puma (~> 5.0)

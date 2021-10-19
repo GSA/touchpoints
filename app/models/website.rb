@@ -2,6 +2,7 @@ require 'open-uri'
 
 class Website < ApplicationRecord
   include AASM
+  has_paper_trail
 
   validates :domain, presence: true
   validates :domain, uniqueness: true
