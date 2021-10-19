@@ -17,7 +17,7 @@ gem 'mail'
 gem 'mini_magick'
 gem 'newrelic_rpm'
 gem 'omniauth-github'
-gem 'omniauth_login_dot_gov', git: 'https://github.com/18f/omniauth_login_dot_gov.git', branch: 'main'
+gem 'omniauth_login_dot_gov', git: 'https://github.com/18F/omniauth_login_dot_gov.git', branch: 'main'
 gem 'rails', '>= 6.1.4.1'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
@@ -35,6 +35,7 @@ gem 'aasm', '~> 5.2.0'
 # gem 'webpacker', '~> 5.0'
 gem 'whenever', require: false
 gem 'logstop'
+gem 'acts-as-taggable-on', '~> 8.0'
 
 
 group :development, :test do

@@ -80,6 +80,8 @@ Rails.application.routes.draw do
         post "approve", to: "websites#approve", as: :approve
         post "deny", to: "websites#deny", as: :deny
         get "events", to: "websites#events", as: :events
+        post "add_tag", to: "websites#add_tag", as: :add_tag
+        post "remove_tag", to: "websites#remove_tag", as: :remove_tag
       end
     end
 
