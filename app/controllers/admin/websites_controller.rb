@@ -207,6 +207,7 @@ class Admin::WebsitesController < AdminController
   def events
     @events = Event.where(object_type: "Website", object_id: @website.id).order(:created_at)
   end
+
   def add_tag
     @website.tag_list.add(admin_website_params[:tag_list].split(","))
     @website.save
