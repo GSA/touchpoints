@@ -140,6 +140,8 @@ Rails.application.routes.draw do
           post "unflag", to: "submissions#unflag", as: :unflag
           post "archive", to: "submissions#archive", as: :archive
           post "unarchive", to: "submissions#unarchive", as: :unarchive
+          post "add_tag", to: "submissions#add_tag", as: :add_tag
+          post "remove_tag", to: "submissions#remove_tag", as: :remove_tag
         end
       end
     end
