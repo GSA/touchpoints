@@ -285,9 +285,19 @@ function FBAform(d, N) {
 			return true;
 		},
 		showValidationError: function(question,error) {
+
 			var questionDiv = question.closest(".question");
 			var label = questionDiv.querySelector("label");
 			var questionNum = label.innerText;
+
+			// show page with validation error
+			var errorPage = question.closest(".section");
+			if (!errorPage.classList.contains("visible")) {
+				var visiblePage = document.getElementsByClassName("section visible")[0];
+				visiblePage.classList.remove("visible");
+				errorPage.classList.add("visible");
+			}
+
 			questionDiv.setAttribute('class', 'usa-form-group usa-form-group--error');
 			var span = document.createElement('span');
 			span.setAttribute('id', 'input-error-message');
