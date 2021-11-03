@@ -12,7 +12,9 @@ class Admin::WebsitesController < AdminController
     :events,
     :dendrogram,
     :add_tag,
-    :remove_tag
+    :remove_tag,
+    :versions,
+    :export_versions
   ]
 
   def index
@@ -22,6 +24,15 @@ class Admin::WebsitesController < AdminController
       @websites = Website.active.order(:production_status, :domain)
     end
     @tags = Website.tag_counts_on(:tags)
+  end
+
+  def versions
+    @versions = @website.versions.limit(500).order("created_at DESC").page params[:page]
+  end
+
+  def export_versions
+    ExportWebsiteVersionsJob.perform_later(params[:uuid], @website.id)
+    render json: { result: :ok }
   end
 
   def dendrogram

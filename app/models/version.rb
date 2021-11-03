@@ -1,0 +1,16 @@
+require 'csv'
+
+class Version
+  def	self.to_csv(model)
+    users = User.all
+    user_email_map = {}
+    users.map { |user| user_email_map[user.id] = user.email }
+    CSV.generate(headers: true) do |csv|
+      csv << ['Event','Created At','Whodunnit Id','Whodunnit Email','Object state']
+
+      model.versions.each do |version|
+        csv << [version.event, version.created_at, version.whodunnit, user_email_map[version.whodunnit.to_i], version.object]
+      end
+    end
+  end
+end

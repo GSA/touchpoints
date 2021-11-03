@@ -82,6 +82,8 @@ Rails.application.routes.draw do
         get "events", to: "websites#events", as: :events
         post "add_tag", to: "websites#add_tag", as: :add_tag
         post "remove_tag", to: "websites#remove_tag", as: :remove_tag
+        get "versions", to: "websites#versions", as: :versions
+        get "versions_export", to: "websites#export_versions", as: :export_versions
       end
     end
 

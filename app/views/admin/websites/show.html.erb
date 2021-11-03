@@ -108,6 +108,9 @@
     <div class="tags-div">
       <%= render 'admin/websites/tags', website: @website %>
     </div>
+    <p>
+      <%= link_to "version history", versions_admin_website_path(@website) %>
+    </p>
   </div>
   <div class="grid-col-6">
     <h3>
