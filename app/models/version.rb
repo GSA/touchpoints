@@ -6,10 +6,10 @@ class Version
     user_email_map = {}
     users.map { |user| user_email_map[user.id] = user.email }
     CSV.generate(headers: true) do |csv|
-      csv << ['Event','Created At','Whodunnit Id','Whodunnit Email','Object state']
+      csv << ['Event','Created At','Whodunnit Id','Whodunnit Email','Changeset','Object state']
 
-      model.versions.each do |version|
-        csv << [version.event, version.created_at, version.whodunnit, user_email_map[version.whodunnit.to_i], version.object]
+      model.versions.reverse.each do |version|
+        csv << [version.event, version.created_at, version.whodunnit, user_email_map[version.whodunnit.to_i], version.changeset, version.object]
       end
     end
   end
