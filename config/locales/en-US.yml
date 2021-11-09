@@ -54,6 +54,7 @@ en-US:
     - :day
   touchpoint: "Touchpoint"
   touchpoints: "Touchpoints"
+  official_form: "An official form of the United States government."
   provided_by: "Provided by"
   omb_approval: "OMB Approval #1234 Exp. Date 12/01/2019"
   beta: "beta"
@@ -65,7 +66,15 @@ en-US:
   error: "Error"
   "yes": "yes"
   "no": "no"
+  page: "page"
+  of: "of"
   the_feedback_and_analytics_team: " the Feedback and Analytics Team"
+  home:
+    sign_up: Sign up
+    sign_in: Sign in
+    sign_up_text: Any federal employee with a .gov or .mil email address can use Touchpoints. Your account will be automatically created the first time you sign in.
+    sign_in_text: Touchpoints uses Login.gov to handle user accounts. Once you authenticate with Login.gov, you will be signed in and redirected back to Touchpoints.
+    sign_in_with: Sign in with
   form:
     submit: "Submit"
     submit_thankyou: "Thank you. Your feedback has been received."
