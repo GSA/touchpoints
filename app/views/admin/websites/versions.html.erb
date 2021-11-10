@@ -31,10 +31,14 @@
   </tbody>
 </table>
 <%= paginate @versions %>
+<% if admin_permissions? %>
 <p>
-  <%= link_to "Export Versions to CSV", export_versions_admin_website_url(@website,format: "csv"), class: "usa-button export-btn", target: "_blank", rel: "noopener" %>
+  <%= link_to export_versions_admin_website_url(@website,format: "csv"), class: "usa-button export-btn", target: "_blank", rel: "noopener" do %>
+    <i class="fa fa-download"></i>
+    Export Versions to CSV
+  <% end %>
 </p>
-
+<% end %>
 <script>
   $(function() {
     $('.export-btn').click(function(e) {

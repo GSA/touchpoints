@@ -1,7 +1,8 @@
 class Admin::WebsitesController < AdminController
   before_action :ensure_organizational_website_manager, only: [
     :collection_preview,
-    :collection_request
+    :collection_request,
+    :export_versions
   ]
   before_action :set_paper_trail_whodunnit
 
@@ -13,8 +14,7 @@ class Admin::WebsitesController < AdminController
     :dendrogram,
     :add_tag,
     :remove_tag,
-    :versions,
-    :export_versions
+    :versions
   ]
 
   def index
@@ -31,6 +31,7 @@ class Admin::WebsitesController < AdminController
   end
 
   def export_versions
+    ensure_admin
     ExportWebsiteVersionsJob.perform_later(params[:uuid], @website.id)
     render json: { result: :ok }
   end
