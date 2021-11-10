@@ -35,6 +35,29 @@ feature "Managing Websites", js: true do
         expect(page).to have_content("Website was successfully created.")
         expect(page).to have_content(new_website.domain)
       end
+
+      it "creates a version with user info after create" do
+        website.reload
+        expect(website.versions.size).to eq(1)
+        expect(website.versions.last.event).to eq("create")
+      end
+    end
+
+    describe "track versions after edit" do
+      before  do
+        visit edit_admin_website_path(website)
+        fill_in :website_office, with: 'Test Office'
+        select("Application - Transactional", from: "website_type_of_site")
+        click_on "Update Website"
+      end
+
+      it "creates a version with user info after update" do
+        expect(page).to have_content("Test Office")
+        website.reload
+        expect(website.versions.size).to eq(2)
+        expect(website.versions.last.event).to eq("update")
+        expect(website.versions.last.whodunnit).to eq(admin.id.to_s)
+      end
     end
   end
 

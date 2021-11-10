@@ -1,8 +1,10 @@
 class Admin::WebsitesController < AdminController
   before_action :ensure_organizational_website_manager, only: [
     :collection_preview,
-    :collection_request
+    :collection_request,
+    :export_versions
   ]
+  before_action :set_paper_trail_whodunnit
 
   before_action :set_website, only: [
     :show, :costs, :statuscard, :edit, :update, :destroy, :collection_request,
@@ -11,7 +13,8 @@ class Admin::WebsitesController < AdminController
     :events,
     :dendrogram,
     :add_tag,
-    :remove_tag
+    :remove_tag,
+    :versions
   ]
 
   def index
@@ -21,6 +24,16 @@ class Admin::WebsitesController < AdminController
       @websites = Website.active.order(:production_status, :domain)
     end
     @tags = Website.tag_counts_on(:tags)
+  end
+
+  def versions
+    @versions = @website.versions.limit(500).order("created_at DESC").page params[:page]
+  end
+
+  def export_versions
+    ensure_admin
+    ExportWebsiteVersionsJob.perform_later(params[:uuid], @website.id)
+    render json: { result: :ok }
   end
 
   def dendrogram
