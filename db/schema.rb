@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_14_151945) do
+ActiveRecord::Schema.define(version: 2021_11_02_215351) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -417,7 +417,6 @@ ActiveRecord::Schema.define(version: 2021_10_14_151945) do
 
   create_table "websites", force: :cascade do |t|
     t.string "domain"
-    t.string "parent_domain"
     t.string "office"
     t.integer "office_id"
     t.string "sub_office"
@@ -438,7 +437,6 @@ ActiveRecord::Schema.define(version: 2021_10_14_151945) do
     t.float "annual_baseline_cost"
     t.float "modernization_cost"
     t.string "analytics_url"
-    t.integer "current_uswds_score"
     t.boolean "uses_feedback"
     t.string "feedback_tool"
     t.string "sitemap_url"

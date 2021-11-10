@@ -108,6 +108,12 @@ class Website < ApplicationRecord
     end
   end
 
+  def parent_domain
+    return nil unless self.domain?
+
+    self.domain.split(".")[-2..-1].join(".")
+  end
+
   # has a domain name and suffix
   def tld?
     self.domain.split(".").size == 2
