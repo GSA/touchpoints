@@ -1,7 +1,12 @@
 <%= form_with(model: submission, url: admin_form_submission_path(submission.form, submission), local: true) do |f| %>
 	<div class="grid-row">
-	  <div class="grid-col-6">
-	  	<h3>Tags</h3>
+	  <div class="grid-col-12">
+	  	<h3>
+				Tags
+				<%= link_to "https://github.com/gsa/touchpoints/wiki/tagging-responses", target: "_blank", rel: "noopener" do %>
+					<span class="fa fa-info-circle"></span>
+				<% end %>
+			</h3>
 	  	<p class="tag-list">
 				<ul class="usa-list usa-list--unstyled">
 					<% submission.tag_list.sort.each do |tag| %>
