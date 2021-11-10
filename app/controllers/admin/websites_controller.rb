@@ -1,8 +1,10 @@
 class Admin::WebsitesController < AdminController
   before_action :ensure_organizational_website_manager, only: [
     :collection_preview,
-    :collection_request
+    :collection_request,
+    :export_versions
   ]
+  before_action :set_paper_trail_whodunnit
 
   before_action :set_website, only: [
     :show, :costs, :statuscard, :edit, :update, :destroy, :collection_request,
@@ -11,7 +13,8 @@ class Admin::WebsitesController < AdminController
     :events,
     :dendrogram,
     :add_tag,
-    :remove_tag
+    :remove_tag,
+    :versions
   ]
 
   def index
@@ -21,6 +24,16 @@ class Admin::WebsitesController < AdminController
       @websites = Website.active.order(:production_status, :domain)
     end
     @tags = Website.tag_counts_on(:tags)
+  end
+
+  def versions
+    @versions = @website.versions.limit(500).order("created_at DESC").page params[:page]
+  end
+
+  def export_versions
+    ensure_admin
+    ExportWebsiteVersionsJob.perform_later(params[:uuid], @website.id)
+    render json: { result: :ok }
   end
 
   def dendrogram
@@ -141,6 +154,8 @@ class Admin::WebsitesController < AdminController
 
   def new
     @website = Website.new
+    @website.site_owner_email = current_user.email
+    @website.contact_email = current_user.email
   end
 
   def edit
@@ -232,14 +247,13 @@ class Admin::WebsitesController < AdminController
     end
 
     def admin_website_params
-      params.require(:website).permit(:domain, :parent_domain, :office, :office_id, :sub_office, :suboffice_id, :contact_email, :site_owner_email, :production_status, :type_of_site, :digital_brand_category, :redirects_to, :status_code, :cms_platform, :required_by_law_or_policy, :has_dap, :dap_gtm_code, :cost_estimator_url, :modernization_plan_url, :annual_baseline_cost,
+      params.require(:website).permit(:domain, :office, :office_id, :sub_office, :suboffice_id, :contact_email, :site_owner_email, :production_status, :type_of_site, :digital_brand_category, :redirects_to, :status_code, :cms_platform, :required_by_law_or_policy, :has_dap, :dap_gtm_code, :cost_estimator_url, :modernization_plan_url, :annual_baseline_cost,
       :modernization_cost,
       :modernization_cost_2021,
       :modernization_cost_2022,
       :modernization_cost_2023,
       :analytics_url,
       :https,
-      :current_uswds_score,
       :uswds_version,
       :uses_feedback, :feedback_tool, :sitemap_url, :mobile_friendly, :has_search, :uses_tracking_cookies,
       :hosting_platform,

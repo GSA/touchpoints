@@ -54,6 +54,47 @@ feature "Submissions", js: true do
           end
         end
 
+        describe "tag a Response" do
+          context "with one Response" do
+            let!(:submission) { FactoryBot.create(:submission, form: form) }
+
+            describe "click View link in responses table" do
+              before do
+                visit responses_admin_form_path(form)
+                within("table.submissions") do
+                  click_on "View"
+                end
+              end
+
+              it "view tags" do
+                expect(page).to have_content("Tags")
+              end
+
+              it "adds a tag" do
+                fill_in "submission_tag_list", with: "tag1"
+                find("#submission_tag_list").native.send_key :tab
+                expect(page).to have_content("TAG1")
+              end
+
+              it "adds multiple tags" do
+                fill_in "submission_tag_list", with: "tag1, tag2"
+                find("#submission_tag_list").native.send_key :tab
+                expect(page).to have_content("TAG1")
+                expect(page).to have_content("TAG2")
+              end
+
+              it "removes a tag" do
+                fill_in "submission_tag_list", with: "tag1, tag2"
+                find("#submission_tag_list").native.send_key :tab
+                expect(page).to have_content("TAG1")
+                expect(page).to have_content("TAG2")
+                find_all(".remove-tag-link").first.click
+                expect(page).not_to have_content("TAG1")
+              end
+            end
+          end
+        end
+
         describe "view many Responses" do
           context "with more than 1 page worth of Responses" do
             let!(:submission) { FactoryBot.create_list(:submission, 120, form: form) }

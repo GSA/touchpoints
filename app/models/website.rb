@@ -3,6 +3,7 @@ require 'open-uri'
 class Website < ApplicationRecord
   acts_as_taggable_on :tags
   include AASM
+  has_paper_trail
 
   validates :domain, presence: true
   validates :domain, uniqueness: true
@@ -106,6 +107,12 @@ class Website < ApplicationRecord
     rescue => e
       "Error during Site Scanner API request for #{self.domain}.\n\n#{e}"
     end
+  end
+
+  def parent_domain
+    return nil unless self.domain?
+
+    self.domain.split(".")[-2..-1].join(".")
   end
 
   # has a domain name and suffix

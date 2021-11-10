@@ -22,7 +22,6 @@ class WebsiteSerializer < ActiveModel::Serializer
     # :annual_baseline_cost,
     # :modernization_cost,
     :analytics_url,
-    :current_uswds_score,
     :uses_feedback,
     :feedback_tool,
     :sitemap_url,
