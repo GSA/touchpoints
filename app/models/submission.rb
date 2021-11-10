@@ -1,4 +1,5 @@
 class Submission < ApplicationRecord
+  acts_as_taggable_on :tags
   include AASM
 
   belongs_to :form, counter_cache: :response_count
