@@ -21,6 +21,7 @@ zh-CN:
   20: "二十"
   touchpoint: "接触点"
   touchpoints: "接触点"
+  official_form: "美国政府的一种正式形式。"
   provided_by: "由...提供"
   omb_approval: "OMB批准＃1234 Exp。日期12/01/2019"
   beta: "贝塔"
@@ -32,7 +33,16 @@ zh-CN:
   error: "错误"
   "yes": "是的"
   "no": "不"
+  page: "页"
+  of: "的"
   the_feedback_and_analytics_team: " 反馈和分析团队"
+  home:
+    sign_up: 注册
+    sign_in: 登入
+    sign_up_text: 任何拥有 .gov 或 .mil 电子邮件地址的联邦雇员都可以使用 Touchpoints。您的帐户将在您首次登录时自动创建。
+    sign_in_text: Touchpoints 使用 Login.gov 来处理用户帐户。使用 Login.gov 进行身份验证后，您将登录并重定向回 Touchpoints。
+    sign_in_with: 登陆使用
+    if_github: 如果您有 GitHub 帐户，
   form:
     submit: "提交"
     submit_thankyou: "谢谢. 已收到您的反馈."
