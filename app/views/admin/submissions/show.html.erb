@@ -36,9 +36,6 @@
         </div>
       </div>
     </div>
-    <div class="tags-div">
-      <%= render 'admin/submissions/tags', submission: @submission %>
-    </div>
     <br>
     <br>
     <div class="responses">
@@ -150,6 +147,10 @@
           <% end %>
         </p>
       </div>
+    </div>
+    <br>
+    <div class="tags-div well">
+      <%= render 'admin/submissions/tags', submission: @submission %>
     </div>
   </div>
 </div>
