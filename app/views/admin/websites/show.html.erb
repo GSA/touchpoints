@@ -36,257 +36,237 @@
     was created for approval about
     <%= time_ago_in_words(@website.created_at) %> ago.
   </p>
-  <%= link_to "Approve", approve_admin_website_path(@website), class: "usa-button usa-button--success bg-mint", method: :post %>
-  <%= link_to "Deny", deny_admin_website_path(@website), class: "usa-button usa-button--secondary", method: :post %>
+  <%= link_to "Approve", approve_admin_website_path(@website), class: "usa-button usa-button--success bg-mint", method: :post, data: { confirm: "Are you sure?" } %>
+  <%= link_to "Deny", deny_admin_website_path(@website), class: "usa-button usa-button--secondary", method: :post, data: { confirm: "Are you sure?" } %>
 </div>
 <% end %>
 
 <%= render 'admin/websites/step_indicator', website: @website %>
 
 <div class="grid-row grid-gap-md">
-
-  <div class="grid-col-6">
+  <div class="grid-col-12">
     <h3>
-      Domain and organization
+      Inventory information
     </h3>
+    <p>
+      <small>
+        Last updated
+        <%= link_to(@website.updated_at.strftime('%Y-%m-%d'), events_admin_website_path(@website))%>
+        &middot;
+        <%= time_ago_in_words(@website.updated_at) %> ago
+      </small>
+    </p>
     <div class="grid-row">
       <div class="grid-col-6">
-        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-          Parent domain
-        </label>
-        <%= @website.domain.split(".")[-2..-1].join(".") %>
-      </div>
-      <div class="grid-col-6">
-        <label class="usa-label text-uppercase font-body-3xs" for="domain">
+        <label class="usa-label" for="domain">
           Domain
         </label>
         <%= link_to @website.domain, "https://#{@website.domain}", target: "_blank", rel: "noopener" %>
       </div>
+      <div class="grid-col-6">
+        <label class="usa-label" for="site_owner_email">
+          Redirects to
+        </label>
+        <%= @website.redirects_to %>
+      </div>
     </div>
     <div class="grid-row">
       <div class="grid-col-6">
-        <label class="usa-label text-uppercase font-body-3xs" for="office">
+        <label class="usa-label" for="site_owner_email">
+          Website manager email
+        </label>
+        <%= @website.site_owner_email %>
+        &nbsp;
+      </div>
+      <div class="grid-col-6">
+        <label class="usa-label" for="office">
           Office
         </label>
         <%= @website.office %>
+        &nbsp;
+      </div>
+    </div>
+    <div class="grid-row">
+      <div class="grid-col-6">
+        <label class="usa-label" for="site_owner_email">
+          Contact manager email
+        </label>
+        <%= @website.contact_email %>
       </div>
       <div class="grid-col-6">
-        <label class="usa-label text-uppercase font-body-3xs" for="suboffice">
+        <label class="usa-label" for="office">
           Sub-office
         </label>
         <%= @website.sub_office %>
       </div>
     </div>
-    <div class="grid-row">
-      <div class="grid-col-6">
-        <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
-          Website Manager email
-        </label>
-        <%= @website.site_owner_email %>
-      </div>
-      <div class="grid-col-6">
-        <label class="usa-label text-uppercase font-body-3xs" for="contact_email">
-          Contact email
-        </label>
-        <%= @website.contact_email %>
-      </div>
-    </div>
-    <div class="grid-row">
-      <div class="grid-col-12">
-        <label class="usa-label text-uppercase font-body-3xs" for="contact_email">
-          Last updated at
-        </label>
-        <p>
-          <%= link_to(@website.updated_at.strftime('%Y-%m-%d'), events_admin_website_path(@website))%>
-          <small>
-            -
-            <%= time_ago_in_words(@website.updated_at) %> ago
-          </small>
-        </p>
-      </div>
-    </div>
-    <div class="tags-div">
-      <%= render 'admin/websites/tags', website: @website %>
-    </div>
-    <p>
-      <%= link_to "version history", versions_admin_website_path(@website) %>
-    </p>
   </div>
-  <div class="grid-col-6">
-    <h3>
-      Website status and links
-    </h3>
-    <div class="grid-row">
-      <div class="grid-col-12">
-        <p>
-          <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-            Status
-          </label>
-          <ul class="usa-list usa-list--unstyled">
-            <% Website::PRODUCTION_STATUSES.each_pair do |key, value| %>
-            <li>
-              <span class="usa-tag bg-primary-light <%= "bg-primary" if @website.production_status == key %>"><%= value %></span>
-            </li>
+</div>
+
+<div class="usa-section">
+  <h3>
+    Organizational readiness
+  </h3>
+
+  <div class="grid-row">
+    <div class="grid-col-6">
+      <label class="usa-label" for="type_of_site">
+        Type of site
+      </label>
+      <p>
+        <ul class="usa-list usa-list--unstyled">
+          <% Website::TYPE_OF_SITES.each_pair do |category, description| %>
+          <li>
+            <span class="usa-tag bg-primary-light <%= "bg-primary" if category.downcase == @website.type_of_site.downcase %>"><%= category %></span>
+          </li>
           <% end %>
-          </ul>
-        </p>
-        <p>
-          <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-            USWDS version
-          </label>
-          <%= @website.uswds_version || "---" %>
-          <br>
-          <small>
-            <%= link_to "See latest version", "https://designsystem.digital.gov/about/releases/", target: "_blank", rel: "noopener" %>
-          </small>
-        </p>
-        <p>
-          <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-            Redirects to
-          </label>
-          <%= @website.redirects_to || "---" %>
-        </p>
-        <p>
-          <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-            Sitemap url
-          </label>
-          <%= @website.sitemap_url || "---" %>
-        </p>
-        <p>
-          <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-            Mobile friendly
-          </label>
-          <%= @website.mobile_friendly || "---" %>
-        </p>
-        <p>
-          <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-            Has Search?
-          </label>
-          <%= @website.has_search || "---" %>
-        </p>
-        <p>
-          <small>
-            Provided by
-            <a href="https://digital.gov/site-scanning/" target="_blank">
-              Site Scanner
-            </a>
-          </small>
-        </p>
+        </ul>
+      </p>
+    </div>
+    <div class="grid-col-6">
+      <label class="usa-label" for="parent_domain">
+        Digital brand category
+      </label>
+      <p>
+        <ul class="usa-list usa-list--unstyled">
+          <% Website::DIGITAL_BRAND_CATEGORIES.each_pair do |category, description| %>
+          <li>
+            <span class="usa-tag bg-primary-light <%= "bg-primary" if @website.digital_brand_category? && category.downcase == @website.digital_brand_category.downcase %>"><%= category %></span>
+          </li>
+          <% end %>
+        </ul>
+      </p>
+    </div>
+  </div>
+  <div class="grid-row">
+    <div class="grid-col-6">
+      <label class="usa-label" for="parent_domain">
+        Required by law or policy
+      </label>
+      <%= @website.required_by_law_or_policy || "no answer" %>
+    </div>
+    <div class="grid-col-6">
+      <label class="usa-label" for="parent_domain">
+        Notes
+      </label>
+      <%= @website.notes %>
+    </div>
+  </div>
+  <div class="grid-row">
+    <div class="grid-col-6">
+    </div>
+    <div class="grid-col-6">
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="grid-row">
+    <div class="grid-col-12">
+      <div class="tags-div">
+        <%= render 'admin/websites/tags', website: @website %>
       </div>
     </div>
   </div>
 </div>
 
-<div class="well">
-  <div class="grid-row grid-gap-md">
-    <div class="grid-col-6">
+<div class="usa-section">
+  <div class="grid-row">
+    <div class="grid-col-12">
       <h3>
-        Organizational readiness
+        Technical information
       </h3>
-      <p>
-        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-          Required by law or policy
-        </label>
-        <%= @website.required_by_law_or_policy || "---" %>
-      </p>
-      <p>
-        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-          Type of site
-        </label>
-        <p>
-          <ul class="usa-list usa-list--unstyled">
-            <% Website::TYPE_OF_SITES.each_pair do |category, description| %>
-            <li>
-              <span class="usa-tag bg-primary-light <%= "bg-primary" if category.downcase == @website.type_of_site.downcase %>"><%= category %></span>
-            </li>
-            <% end %>
-          </ul>
-        </p>
-      </p>
-      <p>
-        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-          Digital brand category
-        </label>
-        <p>
-          <ul class="usa-list usa-list--unstyled">
-            <% Website::DIGITAL_BRAND_CATEGORIES.each_pair do |category, description| %>
-            <li>
-              <span class="usa-tag bg-primary-light <%= "bg-primary" if @website.digital_brand_category? && category.downcase == @website.digital_brand_category.downcase %>"><%= category %></span>
-            </li>
-            <% end %>
-          </ul>
-        </p>
-      </p>
     </div>
     <div class="grid-col-6">
-      <h3>
-        Platform choices
-      </h3>
-      <p>
-        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-          Repository url
-        </label>
-        <%= link_to @website.repository_url, @website.repository_url, target: "_blank", rel: "noopener" %>
-      </p>
-      <p>
-        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-          Hosting platform
-        </label>
-        <%= @website.hosting_platform || "---" %>
-      </p>
-      <p>
-        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-          Content management platform
-        </label>
-        <%= @website.cms_platform || "---" %>
-      </p>
-      <p>
-        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-          Has DAP?
-        </label>
-        <%= @website.has_dap || "---" %>
-      </p>
-      <p>
-        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-          DAP GTM code
-        </label>
-        <%= @website.dap_gtm_code || "---" %>
-      </p>
-      <p>
-        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-          Analytics url
-        </label>
-        <%= @website.analytics_url || "---" %>
-      </p>
-      <p>
-        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-          Customer feedback tool
-        </label>
-        <%= @website.feedback_tool || "---" %>
-      </p>
-      <p>
-        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-          Uses tracking cookies
-        </label>
-        <%= @website.uses_tracking_cookies || "---" %>
-      </p>
-      <p>
-        <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-          Authentication tool
-        </label>
-        <%= @website.authentication_tool || "---" %>
-      </p>
+      <label class="usa-label" for="parent_domain">
+        USWDS version
+      </label>
+      <%= @website.uswds_version || "no answer" %>
+      &nbsp;
+      <br>
+      <small>
+        (<%= link_to "latest version", "https://designsystem.digital.gov/about/releases/", target: "_blank", rel: "noopener" %>)
+      </small>
+    </div>
+    <div class="grid-col-6">
+      <label class="usa-label" for="parent_domain">
+        Customer feedback tool
+      </label>
+      <%= @website.feedback_tool %>
+    </div>
+  </div>
+  <div class="grid-row">
+    <div class="grid-col-6">
+      <label class="usa-label" for="parent_domain">
+        Authentication tool
+      </label>
+      <%= @website.authentication_tool || "---" %>
+    </div>
+    <div class="grid-col-6">
+      <label class="usa-label" for="parent_domain">
+        Uses tracking cookies
+      </label>
+      <%= @website.uses_tracking_cookies || "---" %>
+    </div>
+  </div>
+  <div class="grid-row">
+    <div class="grid-col-6">
+      <label class="usa-label" for="parent_domain">
+        Has Search?
+      </label>
+      <%= @website.has_search? %>
+    </div>
+    <div class="grid-col-6">
+      <label class="usa-label" for="parent_domain">
+        Sitemap url
+      </label>
+      <%= @website.sitemap_url || "---" %>
+    </div>
+  </div>
+  <div class="grid-row">
+    <div class="grid-col-6">
+      <label class="usa-label" for="parent_domain">
+        Repository url
+      </label>
+      <%= link_to @website.repository_url, @website.repository_url, target: "_blank", rel: "noopener" %>
+    </div>
+    <div class="grid-col-6">
+    </div>
+  </div>
+  <div class="grid-row">
+    <div class="grid-col-6">
+      <label class="usa-label" for="parent_domain">
+        Hosting platform
+      </label>
+      <%= @website.hosting_platform || "---" %>
+    </div>
+    <div class="grid-col-6">
+      <label class="usa-label" for="parent_domain">
+        Content management platform
+      </label>
+      <%= @website.cms_platform || "---" %>
+    </div>
+  </div>
+  <div class="grid-row">
+    <div class="grid-col-6">
+      <label class="usa-label" for="parent_domain">
+        Uses Digital Analytics Program (DAP)?
+      </label>
+      <%= @website.has_dap? %>
+    </div>
+    <div class="grid-col-6">
+      <label class="usa-label" for="parent_domain">
+        Analytics url
+      </label>
+      <%= @website.analytics_url || "---" %>
     </div>
   </div>
 </div>
 
-<div class="well">
-  <p>
-    <label class="usa-label text-uppercase font-body-3xs" for="parent_domain">
-      Notes
-    </label>
-    <%= @website.notes || "---" %>
-  </p>
+  <div class="grid-col-12">
+    <p>
+
+    </p>
 </div>
 
 <p>

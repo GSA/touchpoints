@@ -34,6 +34,16 @@ class Admin::SubmissionsController < AdminController
     @submission.update(flagged: false)
   end
 
+  def add_tag
+    @submission.tag_list.add(admin_submission_params[:tag_list].split(","))
+    @submission.save
+  end
+
+  def remove_tag
+    @submission.tag_list.remove(admin_submission_params[:tag_list].split(","))
+    @submission.save
+  end
+
   def archive
     ensure_form_manager(form: @form)
 
@@ -134,5 +144,8 @@ class Admin::SubmissionsController < AdminController
 
     def status_params
     	params.require(:submission).permit(:aasm_state)
+    end
+    def admin_submission_params
+      params.require(:submission).permit(:tag_list)
     end
 end

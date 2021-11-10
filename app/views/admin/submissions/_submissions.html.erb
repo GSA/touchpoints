@@ -1,10 +1,31 @@
+<div class="well">
+  <div class="field">
+    <%  @tags = all_submissions.tag_counts_on(:tags) %>
+    <% if @tags.size > 0 %>
+      <p>
+        Filter by tag
+      </p>
+      <p class="tag-list">
+        <% @tags.order(:name).each do | tag | %>
+          <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
+            <span class="usa-tag">
+              <%= tag.name %> (<%= tag.taggings_count %>)
+            </span>
+          </a>
+        <% end %>
+      <p>
+    <% end %>
+  </div>
+</div>
 <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
   Responses by status
 </label>
 <%= render 'components/responses_by_status', submissions: all_submissions %>
-
 <h2>
   <%= page_entries_info submissions, entry_name: 'Responses' %>
+  <% if params[:tag] %>
+    <span>tagged with <%= params[:tag] %></span>
+  <% end %>
   <button id="button-toggle-table-display-options" type="button">
     <i class="fa fa-cog"></i>
   </button>
@@ -106,3 +127,13 @@
 <p>
   <%= paginate submissions, remote: true %>
 </p>
+<script>
+  $(".search-tag-link").click(function() {
+    <% if params[:archived] %>
+      var url = '/admin/forms/<%= form.short_uuid %>/responses?archived=1&tag=' + $(this).attr("data-name");
+    <% else %>
+      var url = '/admin/forms/<%= form.short_uuid %>/responses?tag=' + $(this).attr("data-name");
+    <% end %>
+    window.location = url;
+  });
+</script>

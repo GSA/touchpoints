@@ -428,7 +428,6 @@ ActiveRecord::Schema.define(version: 2021_11_04_191430) do
 
   create_table "websites", force: :cascade do |t|
     t.string "domain"
-    t.string "parent_domain"
     t.string "office"
     t.integer "office_id"
     t.string "sub_office"
@@ -449,7 +448,6 @@ ActiveRecord::Schema.define(version: 2021_11_04_191430) do
     t.float "annual_baseline_cost"
     t.float "modernization_cost"
     t.string "analytics_url"
-    t.integer "current_uswds_score"
     t.boolean "uses_feedback"
     t.string "feedback_tool"
     t.string "sitemap_url"
