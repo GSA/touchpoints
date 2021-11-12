@@ -1,7 +1,7 @@
 class Admin::SubmissionsController < AdminController
   before_action :ensure_admin, only: [:feed, :export_feed]
   before_action :set_form, except: [:feed, :export_feed]
-  before_action :set_submission, except: [:feed, :export_feed]
+  before_action :set_submission, except: [:feed, :export_feed, :search]
 
   def show
   end
@@ -24,6 +24,18 @@ class Admin::SubmissionsController < AdminController
     end
   end
 
+  def search
+    @all_submissions = @form.submissions
+    if params[:tag]
+      @all_submissions =  @all_submissions.tagged_with(params[:tag])
+    end
+    if params[:archived]
+      @submissions = @all_submissions.order("submissions.created_at DESC").page params[:page]
+    else
+      @submissions = @all_submissions.non_archived.order("submissions.created_at DESC").page params[:page]
+    end
+  end
+
   def flag
     Event.log_event(Event.names[:response_flagged], "Submission", @submission.id, "Submission #{@submission.id} flagged at #{DateTime.now}", current_user.id)
     @submission.update(flagged: true)
@@ -36,12 +48,12 @@ class Admin::SubmissionsController < AdminController
 
   def add_tag
     @submission.tag_list.add(admin_submission_params[:tag_list].split(","))
-    @submission.save
+    @submission.save!
   end
 
   def remove_tag
     @submission.tag_list.remove(admin_submission_params[:tag_list].split(","))
-    @submission.save
+    @submission.save!
   end
 
   def archive

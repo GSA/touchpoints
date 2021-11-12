@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   namespace :admin do
     get "/reporting/hisps", to: "reporting#hisps", as: :hisps
     get "/reporting/lifespan", to: "reporting#lifespan", as: :lifespan
+    get "/submissions/search", to: "submissions#search", as: :search_submissions
 
     get "a11", to: "site#a11", as: :a11
     resources :service_providers

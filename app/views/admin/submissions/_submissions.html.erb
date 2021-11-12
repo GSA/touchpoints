@@ -129,11 +129,15 @@
 </p>
 <script>
   $(".search-tag-link").click(function() {
+    event.preventDefault();
     <% if params[:archived] %>
-      var url = '/admin/forms/<%= form.short_uuid %>/responses?archived=1&tag=' + $(this).attr("data-name");
+      var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>&archived=1&tag=' + $(this).attr("data-name");
     <% else %>
-      var url = '/admin/forms/<%= form.short_uuid %>/responses?tag=' + $(this).attr("data-name");
+      var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>&tag=' + $(this).attr("data-name");
     <% end %>
-    window.location = url;
+    $.ajax({
+      url: url,
+      type: 'get'
+    });
   });
 </script>

@@ -16,7 +16,7 @@
 <%= render 'components/a11_analysis', { form: @form } if admin_permissions? %>
 <%= render 'components/admin/a11_chart', form: @form if @form.kind == "a11" %>
 <%= render 'components/admin/responses_per_day', response_groups: @response_groups %>
-<div>
+<div class="submissions-div">
   <%= render template: "admin/submissions/index", locals: { form: @form, submissions: @submissions, all_submissions: @all_submissions } %>
 </div>
 <br>
