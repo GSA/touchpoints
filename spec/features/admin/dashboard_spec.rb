@@ -27,6 +27,7 @@ feature "Admin Dashboard", js: true do
 
       it "display weekly metrics" do
         expect(page).to have_content("Weekly Product Metrics")
+        expect(page).to have_content("Users")
         expect(page).to have_content("Agencies")
         expect(page).to have_content("Forms")
         expect(page).to have_content("Responses")
@@ -34,6 +35,7 @@ feature "Admin Dashboard", js: true do
         expect(page).to have_content("Websites")
         expect(page).to have_content("Data Collections")
         expect(page).to have_content("Service details")
+        expect(find(".reportable-users")).to have_content("1")
         expect(find(".reportable-organizations")).to have_content("1")
         expect(find(".reportable-forms")).to have_content("1")
         expect(find(".reportable-submissions")).to have_content("0")
