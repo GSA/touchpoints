@@ -130,7 +130,6 @@
         </p>
       </div>
       <%= render 'components/weekly_metrics', forms: @forms %>
-      <%= render 'components/agency_summary', forms: @forms, agencies: @agencies %>
       <div class="well">
         <h3>
           Data collected over past <%= @days_since %> days
@@ -166,7 +165,11 @@
           </a>
         </p>
         <%= render 'components/admin/recent_responses', forms: @recent_forms, days_since: @days_since %>
+      </div>
+      <div class="well">
         <%= render 'components/admin/responses_per_day', response_groups: @response_groups %>
+      </div>
+      <div class="well">
         <%= render 'components/admin/new_users_over_time', user_groups: @user_groups %>
       </div>
       <% else %>
