@@ -54,7 +54,7 @@
       <p>
         <%= render 'components/reporting/cx_summary_data_header_row' %>
         <br>
-        <% collection.omb_cx_reporting_collections.each do |reporting_collection| %>
+        <% collection.omb_cx_reporting_collections.order(:service_provided, :channel).each do |reporting_collection| %>
         <%= render "components/reporting/cx_summary_data_detail_row", omb_cx_reporting_collection: reporting_collection %>
         <br>
         <% end %>

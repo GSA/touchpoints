@@ -126,7 +126,7 @@
     </div>
   </div>
   <ul class="usa-list">
-  <% OmbCxReportingCollection.where(collection_id: @collection.id).each do |cx_collection| %>
+  <% @collection.omb_cx_reporting_collections.order(:service_provided, :channel).each do |cx_collection| %>
     <li>
       <%= link_to ("#{cx_collection.try(:service).try(:name)} - #{cx_collection.service_provided}"), admin_omb_cx_reporting_collection_path(cx_collection)  %>
     </li>
