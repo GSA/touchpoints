@@ -24,15 +24,21 @@
 <br>
 <br>
 <script>
-$( document ).ready(function() {
+$(function() {
+  <% if admin_permissions? %>
   $.ajax({
     url: "/admin/submissions/a11_analysis?form_id=<%= @form.short_uuid %>",
     type: 'get'
   });
+  <% end %>
+
+  <% if @form.kind == "a11" %>
   $.ajax({
     url: "/admin/submissions/a11_chart?form_id=<%= @form.short_uuid %>",
     type: 'get'
   });
+  <% end %>
+
   $.ajax({
     url: "/admin/submissions/responses_per_day?form_id=<%= @form.short_uuid %>",
     type: 'get'

@@ -1,22 +1,22 @@
+<%  @tags = all_submissions.tag_counts_on(:tags) %>
+<% if @tags.size > 0 %>
 <div class="well">
   <div class="field">
-    <%  @tags = all_submissions.tag_counts_on(:tags) %>
-    <% if @tags.size > 0 %>
-      <p>
-        Filter by tag
-      </p>
-      <p class="tag-list">
-        <% @tags.order(:name).each do | tag | %>
-          <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
-            <span class="usa-tag">
-              <%= tag.name %> (<%= tag.taggings_count %>)
-            </span>
-          </a>
-        <% end %>
-      <p>
-    <% end %>
+    <p>
+      Filter by tag
+    </p>
+    <p class="tag-list">
+      <% @tags.order(:name).each do | tag | %>
+        <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
+          <span class="usa-tag">
+            <%= tag.name %> (<%= tag.taggings_count %>)
+          </span>
+        </a>
+      <% end %>
+    <p>
   </div>
 </div>
+<% end %>
 <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
   Responses by status
 </label>
