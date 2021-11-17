@@ -49,7 +49,7 @@ feature "Admin Dashboard", js: true do
 
       before do
         form2.archive!
-        visit admin_dashboard_path
+        visit admin_management_path
       end
 
       it "display agency summary" do

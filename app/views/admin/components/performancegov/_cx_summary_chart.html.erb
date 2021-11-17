@@ -102,7 +102,7 @@ Channel,
 Respondents
 <br>
 <% @collections.each do |collection| %>
-  <% collection.omb_cx_reporting_collections.each do |omb| %>
+  <% collection.omb_cx_reporting_collections.order(:service_provided, :channel).each do |omb| %>
     <%= collection.organization.name %>,
     <%= omb.channel %>,
     <%= collection.totals[:volume_of_respondents] %>
