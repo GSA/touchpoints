@@ -17,10 +17,6 @@
   </div>
 </div>
 <% end %>
-<label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
-  Responses by status
-</label>
-<%= render 'components/responses_by_status', submissions: all_submissions %>
 <h2>
   <%= page_entries_info submissions, entry_name: 'Responses' %>
   <% if params[:tag] %>
