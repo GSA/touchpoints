@@ -18,23 +18,23 @@
       <td><%= form.response_count %></td>
       <td><%= form.survey_form_activations %></td>
       <td><%= form.completion_rate %></td>
-      <td class="auto-shade"><%= form.average_answer(:answer_01)[:average] %></td>
-      <td class="auto-shade"><%= form.average_answer(:answer_02)[:average] %></td>
-      <td class="auto-shade"><%= form.average_answer(:answer_03)[:average] %></td>
-      <td class="auto-shade"><%= form.average_answer(:answer_04)[:average] %></td>
-      <td class="auto-shade"><%= form.average_answer(:answer_05)[:average] %></td>
-      <td class="auto-shade"><%= form.average_answer(:answer_06)[:average] %></td>
-      <td class="auto-shade"><%= form.average_answer(:answer_07)[:average] %></td>
+      <td class="auto-shade"><%= @report[:answer_01][:average] %></td>
+      <td class="auto-shade"><%= @report[:answer_02][:average] %></td>
+      <td class="auto-shade"><%= @report[:answer_03][:average] %></td>
+      <td class="auto-shade"><%= @report[:answer_04][:average] %></td>
+      <td class="auto-shade"><%= @report[:answer_05][:average] %></td>
+      <td class="auto-shade"><%= @report[:answer_06][:average] %></td>
+      <td class="auto-shade"><%= @report[:answer_07][:average] %></td>
     </tr>
     <tr>
       <td colspan="3">TOTAL RESPONSES PER QUESTION</td>
-      <td><%= form.average_answer(:answer_01)[:response_count] %></td>
-      <td><%= form.average_answer(:answer_02)[:response_count] %></td>
-      <td><%= form.average_answer(:answer_03)[:response_count] %></td>
-      <td><%= form.average_answer(:answer_04)[:response_count] %></td>
-      <td><%= form.average_answer(:answer_05)[:response_count] %></td>
-      <td><%= form.average_answer(:answer_06)[:response_count] %></td>
-      <td><%= form.average_answer(:answer_07)[:response_count] %></td>
+      <td><%= @report[:answer_01][:response_count] %></td>
+      <td><%= @report[:answer_02][:response_count] %></td>
+      <td><%= @report[:answer_03][:response_count] %></td>
+      <td><%= @report[:answer_04][:response_count] %></td>
+      <td><%= @report[:answer_05][:response_count] %></td>
+      <td><%= @report[:answer_06][:response_count] %></td>
+      <td><%= @report[:answer_07][:response_count] %></td>
     </tr>
   </tbody>
 </table>
