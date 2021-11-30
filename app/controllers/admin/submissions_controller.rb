@@ -57,9 +57,11 @@ class Admin::SubmissionsController < AdminController
   end
 
   def a11_analysis
+    @report = FormCache.fetch_all_analysis(@form.short_uuid)
   end
 
   def a11_chart
+    @report = FormCache.fetch_all_analysis(@form.short_uuid)
   end
 
   def responses_per_day
