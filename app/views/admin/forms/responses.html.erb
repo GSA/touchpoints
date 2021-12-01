@@ -19,8 +19,12 @@
 <% if @form.kind == "a11" %>
   <div class="a11-chart-widget well"><span class="usa-label">Loading A11 Chart...</span></div>
 <% end %>
+<div class="responses-by-status-widget well"><span class="usa-label">Loading Responses by Status...</span></div>
 <div class="responses-per-day-widget well"><span class="usa-label">Loading Responses per Day...</span></div>
 <div class="submissions-table-widget well"><span class="usa-label">Loading Response Detail...</span></div>
+<% if @form.kind == "a11" %>
+  <div class="performance-gov-widget well"><span class="usa-label">Loading Performance.gov report...</span></div>
+<% end %>
 <br>
 <br>
 <script>
@@ -37,10 +41,18 @@ $(function() {
     url: "/admin/submissions/a11_chart?form_id=<%= @form.short_uuid %>",
     type: 'get'
   });
+  $.ajax({
+    url: "/admin/submissions/performance_gov?form_id=<%= @form.short_uuid %>",
+    type: 'get'
+  });
   <% end %>
 
   $.ajax({
     url: "/admin/submissions/responses_per_day?form_id=<%= @form.short_uuid %>",
+    type: 'get'
+  });
+  $.ajax({
+    url: "/admin/submissions/responses_by_status?form_id=<%= @form.short_uuid %>",
     type: 'get'
   });
   $.ajax({
