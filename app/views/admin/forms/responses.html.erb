@@ -23,7 +23,7 @@
 <div class="responses-per-day-widget well"><span class="usa-label">Loading Responses per Day...</span></div>
 <div class="submissions-table-widget well"><span class="usa-label">Loading Response Detail...</span></div>
 <% if @form.kind == "a11" %>
-  <div class="perf-gov-widget well"><span class="usa-label">Loading Performance.gov report...</span></div>
+  <div class="performance-gov-widget well"><span class="usa-label">Loading Performance.gov report...</span></div>
 <% end %>
 <br>
 <br>
@@ -42,7 +42,7 @@ $(function() {
     type: 'get'
   });
   $.ajax({
-    url: "/admin/submissions/perf_gov?form_id=<%= @form.short_uuid %>",
+    url: "/admin/submissions/performance_gov?form_id=<%= @form.short_uuid %>",
     type: 'get'
   });
   <% end %>

@@ -1,7 +1,7 @@
 class Admin::SubmissionsController < AdminController
   before_action :ensure_admin, only: [:feed, :export_feed]
   before_action :set_form, except: [:feed, :export_feed]
-  before_action :set_submission, except: [:feed, :export_feed, :search, :a11_chart, :a11_analysis, :responses_per_day, :responses_by_status, :perf_gov, :submissions_table]
+  before_action :set_submission, except: [:feed, :export_feed, :search, :a11_chart, :a11_analysis, :responses_per_day, :responses_by_status, :performance_gov, :submissions_table]
 
   def show
   end
@@ -67,11 +67,9 @@ class Admin::SubmissionsController < AdminController
   end
 
   def responses_by_status
-
   end
 
-  def perf_gov
-
+  def performance_gov
   end
 
   def submissions_table
