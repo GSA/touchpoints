@@ -57,11 +57,11 @@ class Admin::SubmissionsController < AdminController
   end
 
   def a11_analysis
-    @report = FormCache.fetch_all_analysis(@form.short_uuid)
+    @report = FormCache.fetch_a11_analysis(@form.short_uuid)
   end
 
   def a11_chart
-    @report = FormCache.fetch_all_analysis(@form.short_uuid)
+    @report = FormCache.fetch_a11_analysis(@form.short_uuid)
   end
 
   def responses_per_day
@@ -72,6 +72,7 @@ class Admin::SubmissionsController < AdminController
   end
 
   def performance_gov
+    @report = FormCache.fetch_performance_gov_analysis(@form.short_uuid)
   end
 
   def submissions_table
