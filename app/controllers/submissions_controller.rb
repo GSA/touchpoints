@@ -10,7 +10,7 @@ class SubmissionsController < ApplicationController
     elsif !@form.deployable_form? && !current_user
       redirect_to index_path, alert: 'Form is not currently deployed.'
     end
-    @form.increment!(:survey_form_activations) unless current_user
+    @form.increment!(:survey_form_activations) #unless current_user
     @submission = Submission.new
     # set location code in the form based on `?location_code=`
     @submission.location_code = params[:location_code]
