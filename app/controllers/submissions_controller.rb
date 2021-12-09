@@ -10,7 +10,7 @@ class SubmissionsController < ApplicationController
     elsif !@form.deployable_form? && !current_user
       redirect_to index_path, alert: 'Form is not currently deployed.'
     end
-    @form.increment!(:survey_form_activations) #unless current_user
+    @form.increment!(:survey_form_activations) unless current_user
     @submission = Submission.new
     # set location code in the form based on `?location_code=`
     @submission.location_code = params[:location_code]
@@ -68,7 +68,9 @@ class SubmissionsController < ApplicationController
 
     def create_in_local_database(submission)
       respond_to do |format|
-        if submission.save
+        # Return success if the form is in preview state ( not deployable) or the form saves successfully
+        # If the form is not deployable ( live ) we should not persist the submission
+        if (!submission.form.deployable_form? || submission.save)
           format.html do
             redirect_to submit_touchpoint_path(submission.form),
                         notice: 'Thank You. Response was submitted successfully.'

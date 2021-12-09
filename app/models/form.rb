@@ -437,8 +437,6 @@ class Form < ApplicationRecord
   def completion_rate
     if self.survey_form_activations == 0
       "N/A"
-    elsif (self.survey_form_activations <= self.response_count)
-      "100%"
     else
       "#{((self.response_count / self.survey_form_activations.to_f) * 100).round(0)}%"
     end
