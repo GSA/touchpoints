@@ -91,6 +91,7 @@ Rails.application.routes.draw do
         get "versions_export", to: "websites#export_versions", as: :export_versions
       end
     end
+    get :registry, to: "site#registry", as: :registry
     resources :digital_service_accounts
     resources :digital_products
 
@@ -175,6 +176,8 @@ Rails.application.routes.draw do
     get "export_feed", to: "submissions#export_feed", as: :export_feed
   end
 
+  get :registry, to: "site#registry"
+  get "registry/guidance", to: "site#registry_guidance"
   get "agencies", to: "site#agencies", as: :agencies
   get "profile", to: "profile#show", as: :profile
   patch "profile", to: "profile#update", as: :profile_update

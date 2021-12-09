@@ -24,7 +24,7 @@
       <% if admin_permissions? %>
       <div class="well">
         <div class="grid-row">
-          <div class="grid-col-4">
+          <div class="grid-col-3">
             <ul class="usa-list">
               <li>
                 <a href="/admin/organizations">
@@ -37,8 +37,8 @@
                 </a>
               </li>
               <li>
-                <a href="/admin/sidekiq">
-                  <span>Manage Sidekiq</span>
+                <a href="/admin/management">
+                  <span>Client Management</span>
                 </a>
               </li>
               <li>
@@ -47,19 +47,43 @@
                 </a>
               </li>
               <li>
-                <a href="/admin/management">
-                  <span>Client Management</span>
+                <a href="/admin/sidekiq">
+                  <span>Manage Sidekiq</span>
                 </a>
               </li>
             </ul>
           </div>
-          <div class="grid-col-4">
+          <div class="grid-col-3">
             <ul class="usa-list">
+              <li>
+                <%= link_to admin_service_providers_path do %>
+                Service Providers
+                <% end %>
+              </li>
               <li>
                 <%= link_to admin_services_path do %>
                 <span>Services</span>
                 <% end %>
               </li>
+              <li>
+                <%= link_to admin_goals_path do %>
+                <span>Goals</span>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to admin_milestones_path do %>
+                <span>Milestones</span>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to admin_barriers_path do %>
+                  Barriers
+                <% end %>
+              </li>
+            </ul>
+          </div>
+          <div class="grid-col-3">
+            <ul class="usa-list">
               <li>
                 <a href="/admin/websites">
                   <span>Websites</span>
@@ -70,29 +94,19 @@
                 </a>
               </li>
               <li>
-                <a href="/admin/digital_service_accounts">
-                  <span>Social Media Accounts</span>
-                </a>
+                <%= link_to admin_digital_products_path do %>
+                  Digital Products
+                <% end %>
               </li>
               <li>
-                <a href="/admin/digital_products">
-                  <span>Digital Products</span>
-                </a>
-              </li>
-              <li>
-                <%= link_to admin_barriers_path do %>
-                <span>Barriers</span>
+                <%= link_to admin_digital_service_accounts_path do %>
+                  Social Media Accounts
                 <% end %>
               </li>
             </ul>
           </div>
-          <div class="grid-col-4">
+          <div class="grid-col-3">
             <ul class="usa-list">
-              <li>
-                <%= link_to admin_service_providers_path do %>
-                Service Providers
-                <% end %>
-              </li>
               <li>
                 <%= link_to admin_collections_path do %>
                 <span>Data Collections</span>
@@ -122,16 +136,6 @@
                     <% end %>
                   </li>
                 </ul>
-              </li>
-              <li>
-                <%= link_to admin_goals_path do %>
-                <span>Goals</span>
-                <% end %>
-              </li>
-              <li>
-                <%= link_to admin_milestones_path do %>
-                <span>Milestones</span>
-                <% end %>
               </li>
             </ul>
           </div>

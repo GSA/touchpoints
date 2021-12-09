@@ -1,0 +1,24 @@
+<% content_for :navigation_title do %>
+  Social Media Accounts
+  <%= link_to new_admin_digital_service_account_path, class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-plus-circle"></i>
+    New Account
+  <% end %>
+<% end %>
+
+Bulk Social Media Account Upload
+Create CSV File
+Your csv file must contain the following headers exactly as they are shown with their corresponding data: account_platform, account_url, account_name, short_description, language, agencies, contacts
+
+
+Agency and Contact Format
+If you have more than one agency or contact that needs to be associated with a single account, delineate each item with a "|" between them
+
+Example: "contact1@contact.com|contact2@contact.com" or
+"Department of First|Department of Second"
+
+Download Sample CSV
+
+Choose file
+
+Submit

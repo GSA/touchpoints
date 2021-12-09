@@ -1,10 +1,16 @@
 <% content_for :navigation_title do %>
-  Digital Service (Social Media) Accounts
+  Social Media Accounts
   <%= link_to new_admin_digital_service_account_path, class: "usa-button usa-button-inverted float-right" do %>
     <i class="fa fa-plus-circle"></i>
     New Account
   <% end %>
 <% end %>
+<p>
+  <%= link_to admin_registry_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Registry home
+  <% end %>
+</p>
 
 <p class="usa-prose">
   Search for social media accounts using the filters below.
