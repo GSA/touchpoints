@@ -6,6 +6,8 @@ class Event < ApplicationRecord
     # `1` is used as an id for Generic events
   end
 
+  belongs_to :user, optional: true
+
   # Extend this list with all First Class event types to be logged TP-
   @@names = {
     organization_manager_changed: 'organization_manager_changed', # Legacy event
@@ -21,10 +23,11 @@ class Event < ApplicationRecord
     touchpoint_form_submitted: 'touchpoint_form_submitted',
     touchpoint_published: 'touchpoint_published',
 
-    form_archived: 'form_archived',
+    form_created: 'form_created',
+    form_copied: 'form_copied',
     form_submitted: 'form_submitted',
     form_published: 'form_published',
-    form_copied: 'form_copied',
+    form_archived: 'form_archived',
     form_deleted: 'form_deleted',
 
     collection_created: 'collection_created',
@@ -46,6 +49,8 @@ class Event < ApplicationRecord
     website_updated: 'website_updated',
     website_deleted: 'website_deleted',
     website_state_changed: 'website_state_changed',
+    website_approved: 'website_approved',
+    website_denied: 'website_denied',
   }
 
   def self.log_event(ename, otype, oid, desc, uid = nil)

@@ -6,16 +6,26 @@
   <% end %>
 <% end %>
 
+<p>
+  Filter by Quarter
+</p>
+<p>
+  <%= link_to "Q1", admin_collections_path(quarter: 1), class: "usa-button #{params[:quarter] == "1" ? nil : 'usa-button--outline'}" %>
+  <%= link_to "Q2", admin_collections_path(quarter: 2), class: "usa-button #{params[:quarter] == "2" ? nil : 'usa-button--outline'}" %>
+  <%= link_to "Q3", admin_collections_path(quarter: 3), class: "usa-button #{params[:quarter] == "3" ? nil : 'usa-button--outline'}" %>
+  <%= link_to "Q4", admin_collections_path(quarter: 4), class: "usa-button #{params[:quarter] == "4" ? nil : 'usa-button--outline'}" %>
+</p>
+
 <table class="usa-table">
   <thead>
     <tr>
-      <th>Organization</th>
-      <th>Service Provider (HISP)</th>
-      <th>Collection name</th>
-      <th>Year</th>
-      <th>Quarter</th>
-      <th>Status</th>
-      <th>Rating</th>
+      <th data-sortable scope="col" role="columnheader">Organization</th>
+      <th data-sortable scope="col" role="columnheader">Service Provider (HISP)</th>
+      <th data-sortable scope="col" role="columnheader">Collection name</th>
+      <th data-sortable scope="col" role="columnheader">Year</th>
+      <th data-sortable scope="col" role="columnheader">Quarter</th>
+      <th data-sortable scope="col" role="columnheader">Status</th>
+      <th data-sortable scope="col" role="columnheader">Rating</th>
     </tr>
   </thead>
 
@@ -30,7 +40,7 @@
         <td>
           <%= render 'components/collection_status_tag', collection: collection %>
         </td>
-        <td>
+        <td data-sort-value="<%= collection_rating_sort_values[collection.rating] %>">
           <%= collection_rating_label(rating: collection.rating) %>
         </td>
       </tr>
@@ -38,6 +48,9 @@
   </tbody>
 </table>
 
-<%= render 'admin/collections/hisps_csv_data' if admin_permissions? %>
-<%= render 'admin/collections/hisps_csv_details' if admin_permissions? %>
-<%= render 'admin/collections/hisps_cx_summary_data' if admin_permissions? %>
+<% if admin_permissions? %>
+  <%= render 'admin/collections/hisps_csv_data' %>
+  <%= render 'admin/collections/hisps_csv_details' %>
+  <%= render 'admin/collections/hisps_cx_summary_data' %>
+  <%= render 'admin/components/performancegov/cx_summary_chart' %>
+<% end %>

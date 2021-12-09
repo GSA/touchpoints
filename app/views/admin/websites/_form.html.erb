@@ -16,62 +16,64 @@
       <h3>
         Organization and domain
       </h3>
+
+      <%# only show when creating a website %>
+      <% if !@website.persisted? %>
+      <div class="field">
+        <%= form.label :type_of_site, class: "usa-label" %>
+        <%= form.select :type_of_site, options_for_select(Website::TYPE_OF_SITES.collect { |k, v| ["#{k} - #{v}", k] }, selected: website.type_of_site), { include_blank: true }, { class: "usa-select" } %>
+      </div>
+      <div class="field">
+        <%= form.label :notes, class: "usa-label" %>
+        <%= form.text_area :notes, class: "usa-textarea" %>
+      </div>
+      <% end %>
+
       <div class="field">
         <%= form.label :domain, class: "usa-label" %>
-        <%= form.text_field :domain, class: "usa-input", placeholder: "touchpoints.digital.gov" %>
+        <%= form.text_field :domain, class: "usa-input" %>
       </div>
-      <div class="field">
-        <%= form.label :parent_domain, class: "usa-label" %>
-        <%= form.text_field :parent_domain, class: "usa-input", placeholder: "digital.gov" %>
-      </div>
-
       <div class="field">
         <%= form.label :office, class: "usa-label" %>
-        <%= form.text_field :office, class: "usa-input", placeholder: "TTS" %>
-      </div>
-
-      <div class="field" hidden>
-        <%= form.label :office_id, class: "usa-label" %>
-        <%= form.number_field :office_id %>
-      </div>
-
-      <div class="field">
-        <%= form.label :sub_office, class: "usa-label" %>
-        <%= form.text_field :sub_office, class: "usa-input", placeholder: "Data Portfolio" %>
-      </div>
-
-      <div class="field" hidden>
-        <%= form.label :suboffice_id, class: "usa-label" %>
-        <%= form.number_field :suboffice_id %>
+        <%= form.text_field :office, class: "usa-input" %>
       </div>
       <div class="field">
-        <%= form.label :contact_email, class: "usa-label" %>
-        <%= form.text_field :contact_email, class: "usa-input" %>
+        <%= form.label :sub_office, "Sub-office", class: "usa-label" %>
+        <%= form.text_field :sub_office, class: "usa-input" %>
       </div>
       <div class="field">
         <%= form.label :site_owner_email, "Website Manager email", class: "usa-label" %>
         <%= form.text_field :site_owner_email, class: "usa-input" %>
       </div>
+      <div class="field">
+        <%= form.label :contact_email, class: "usa-label" %>
+        <%= form.text_field :contact_email, class: "usa-input" %>
+      </div>
     </div>
     <div class="grid-col-6">
+      <% if @website.persisted? %>
       <h3>
         Website status and links
       </h3>
-      <% if @website.persisted? %>
       <div class="field">
         <%= form.label :production_status, class: "usa-label" %>
-        <%= form.select :production_status, options_for_select(Website::PRODUCTION_STATUSES.collect { |k,v| [v, k]}), { include_blank: true }, { class: "usa-select" } %>
+        <%= form.select :production_status, options_for_select(Website::PRODUCTION_STATUSES.collect { |k,v| [v, k] }, selected: @website.production_status), { include_blank: true }, { class: "usa-select" } %>
       </div>
-      <% end %>
       <div class="field">
         <%= form.label :redirects_to, class: "usa-label" %>
-        <%= form.text_field :redirects_to, class: "usa-input" %>
+        <%= form.text_field :redirects_to, class: "usa-input", disabled: (@website.production_status == "redirect" ? false : true) %>
       </div>
       <div class="field">
         <%= form.label :sitemap_url, class: "usa-label" %>
         <%= form.text_field :sitemap_url, class: "usa-input" %>
       </div>
       <br>
+      <fieldset class="usa-fieldset">
+        <div class="usa-checkbox">
+          <%= form.check_box :https, class: "usa-checkbox__input" %>
+          <%= form.label :https, "Uses https?", class: "usa-checkbox__label" %>
+        </div>
+      </fieldset>
       <fieldset class="usa-fieldset">
         <div class="usa-checkbox">
           <%= form.check_box :mobile_friendly, class: "usa-checkbox__input" %>
@@ -84,6 +86,7 @@
           <%= form.label :has_search, class: "usa-checkbox__label" %>
         </div>
       </fieldset>
+      <% end %>
     </div>
   </div>
 
@@ -91,38 +94,45 @@
   <br>
 
   <div class="grid-row grid-gap">
+    <% if @website.persisted? %>
     <div class="grid-col-6">
       <h3>
         Organizational readiness
       </h3>
-      <div class="field">
-        <%= form.label :repository_url, class: "usa-label" %>
-        <%= form.text_field :repository_url, class: "usa-input", placeholder: "https://github.com/gsa/touchpoints/" %>
-      </div>
       <div class="field">
         <%= form.label :required_by_law_or_policy, class: "usa-label" %>
         <%= form.text_field :required_by_law_or_policy, class: "usa-input" %>
       </div>
       <div class="field">
         <%= form.label :type_of_site, class: "usa-label" %>
-        <%= form.select :type_of_site, Website::TYPE_OF_SITES, { include_blank: true }, { class: "usa-select" } %>
+        <%= form.select :type_of_site, options_for_select(Website::TYPE_OF_SITES.collect { |k, v| ["#{k} - #{v}", k] }, selected: website.type_of_site), { include_blank: true }, { class: "usa-select" } %>
       </div>
       <div class="field">
         <%= form.label :digital_brand_category, class: "usa-label" %>
-        <%= form.select :digital_brand_category, Website::DIGITAL_BRAND_CATEGORIES, { include_blank: true }, class: "usa-select" %>
+        <%= form.select :digital_brand_category, options_for_select(Website::DIGITAL_BRAND_CATEGORIES.collect { |k, v| ["#{k} - #{v}", k] }, selected: website.digital_brand_category), { include_blank: true }, { class: "usa-select" } %>
       </div>
     </div>
+    <% end %>
+    <% if @website.persisted? %>
     <div class="grid-col-6">
       <h3>
         Platform choices
       </h3>
       <div class="field">
-        <%= form.label :hosting_platform, class: "usa-label" %>
-        <%= form.text_field :hosting_platform, class: "usa-input", placeholder: "Cloud.gov or AWS" %>
+        <%= form.label :repository_url, class: "usa-label" %>
+        <%= form.text_field :repository_url, class: "usa-input" %>
       </div>
       <div class="field">
-        <%= form.label :cms_platform, "Content Management platorm", class: "usa-label" %>
-        <%= form.text_field :cms_platform, class: "usa-input", placeholder: "Cloud.gov pages or Drupal" %>
+        <%= form.label :hosting_platform, class: "usa-label" %>
+        <%= form.text_field :hosting_platform, class: "usa-input" %>
+      </div>
+      <div class="field">
+        <%= form.label :cms_platform, "Content Management platform", class: "usa-label" %>
+        <%= form.text_field :cms_platform, class: "usa-input" %>
+      </div>
+      <div class="field">
+        <%= form.label :uswds_version, class: "usa-label" %>
+        <%= form.text_field :uswds_version, class: "usa-input" %>
       </div>
       <div class="field">
         <%= form.label :dap_gtm_code, "DAP GTM Code", class: "usa-label" %>
@@ -140,19 +150,10 @@
         <%= form.label :feedback_tool, class: "usa-label" %>
         <%= form.text_field :feedback_tool, class: "usa-input" %>
       </div>
-      <div class="field">
-        <%= form.label :current_uswds_score, class: "usa-label" %>
-        <%= form.number_field :current_uswds_score, class: "usa-input" %>
-      </div>
-      <br>
-      <fieldset class="usa-fieldset">
-        <div class="usa-checkbox">
-          <%= form.check_box :uses_tracking_cookies, class: "usa-checkbox__input" %>
-          <%= form.label :uses_tracking_cookies, class: "usa-checkbox__label" %>
-        </div>
-      </fieldset>
     </div>
+    <% end %>
   </div>
+  <% if @website.persisted? %>
   <br>
   <br>
   <div class="well">
@@ -161,8 +162,23 @@
       <%= form.text_area :notes, class: "usa-textarea" %>
     </div>
   </div>
+  <% end %>
 
   <p>
-    <%= form.submit class: "usa-button" %>
+    <%= form.submit class: "usa-button full-width" %>
   </p>
 <% end %>
+
+<script>
+  $(function() {
+    // Toggle the redirect text input field
+    // based on the Production Status dropdown
+    $("#website_production_status").on("change", function(e, f) {
+      if (this.value === "redirect") {
+        $("#website_redirects_to").removeAttr("disabled");
+      } else {
+        $("#website_redirects_to").attr("disabled", true);
+      }
+    })
+  });
+</script>

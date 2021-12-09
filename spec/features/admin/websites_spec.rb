@@ -17,8 +17,8 @@ feature "Managing Websites", js: true do
     end
 
     it "load the Websites#index page" do
-      expect(page).to have_content("Websites")
-      expect(page).to have_content("Website inventory is an experimental feature.")
+      expect(page).to have_content("Inventorying Digital Assets")
+      expect(page.current_path).to eq(admin_websites_path)
       expect(page).to have_content("New Website")
     end
 
@@ -27,13 +27,36 @@ feature "Managing Websites", js: true do
         click_on "New Website"
         expect(page).to have_content("New Website")
         fill_in :website_domain, with: new_website.domain
-        select("Application", from: "website_type_of_site")
+        select("Application - Transactional", from: "website_type_of_site")
         click_on "Create Website"
       end
 
       it "create Website successfully" do
         expect(page).to have_content("Website was successfully created.")
         expect(page).to have_content(new_website.domain)
+      end
+
+      it "creates a version with user info after create" do
+        website.reload
+        expect(website.versions.size).to eq(1)
+        expect(website.versions.last.event).to eq("create")
+      end
+    end
+
+    describe "track versions after edit" do
+      before  do
+        visit edit_admin_website_path(website)
+        fill_in :website_office, with: 'Test Office'
+        select("Application - Transactional", from: "website_type_of_site")
+        click_on "Update Website"
+      end
+
+      it "creates a version with user info after update" do
+        expect(page).to have_content("Test Office")
+        website.reload
+        expect(website.versions.size).to eq(2)
+        expect(website.versions.last.event).to eq("update")
+        expect(website.versions.last.whodunnit).to eq(admin.id.to_s)
       end
     end
   end
@@ -45,8 +68,8 @@ feature "Managing Websites", js: true do
     end
 
     it "load the Websites#index page" do
-      expect(page).to have_content("Websites")
-      expect(page).to have_content("Website inventory is an experimental feature.")
+      expect(page).to have_content("Inventorying Digital Assets")
+      expect(page.current_path).to eq(admin_websites_path)
     end
 
     describe "create a new Website" do
@@ -54,7 +77,7 @@ feature "Managing Websites", js: true do
         click_on "New Website"
         expect(page).to have_content("New Website")
         fill_in :website_domain, with: new_website.domain
-        select("Application", from: "website_type_of_site")
+        select("Application - Transactional", from: "website_type_of_site")
         click_on "Create Website"
       end
 
@@ -73,8 +96,8 @@ feature "Managing Websites", js: true do
     end
 
     it "load the Websites#index page" do
-      expect(page).to have_content("Websites")
-      expect(page).to have_content("Website inventory is an experimental feature.")
+      expect(page).to have_content("Inventorying Digital Assets")
+      expect(page.current_path).to eq(admin_websites_path)
 
       click_on "New Website"
       expect(page).to have_content("New Website")
@@ -85,7 +108,7 @@ feature "Managing Websites", js: true do
         visit new_admin_website_path
         expect(page).to have_content("New Website")
         fill_in :website_domain, with: new_website.domain
-        select("Application", from: "website_type_of_site")
+        select("Application - Transactional", from: "website_type_of_site")
         click_on "Create Website"
       end
 
@@ -98,7 +121,7 @@ feature "Managing Websites", js: true do
     describe "editing another's Website" do
       before do
         visit admin_websites_path
-        click_on website.domain
+        click_on "View"
       end
 
       it "can view successfully but not see an edit button" do

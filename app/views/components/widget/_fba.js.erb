@@ -197,7 +197,7 @@ function FBAform(d, N) {
 		},
 		validateForm: function(form) {
 			this.hideValidationError(form);
-			var valid = this.checkRequired(form) && this.checkEmail(form) && this.checkPhone(form);
+			var valid = this.checkRequired(form) && this.checkEmail(form) && this.checkPhone(form)  && this.checkDate(form);
 			return valid;
 		},
 		checkRequired: function(form) {
@@ -223,6 +223,25 @@ function FBAform(d, N) {
 			});
 			for (var key in questions) {
 				this.showValidationError(questions[key],'<%= I18n.t 'form.field_is_required' %>');
+				return false;
+			}
+			return true;
+		},
+		checkDate: function(form) {
+			var dateItems = form.querySelectorAll('.date-select');
+			var questions = {};
+			// Build a dictionary of questions which require an answer
+			Array.prototype.forEach.call(dateItems, function(item) { questions[item.name] = item });
+			Array.prototype.forEach.call(dateItems, function(item) {
+			  if (item.value.length == 0) {
+			  	delete(questions[item.name]);
+			  } else {
+				var isValidDate = Date.parse(item.value);
+			    if (!isNaN(isValidDate)) delete(questions[item.name]);
+			  }
+			});
+			for (var key in questions) {
+				this.showValidationError(questions[key],'<%= I18n.t 'form.field_is_invalid' %>');
 				return false;
 			}
 			return true;
@@ -481,6 +500,7 @@ function FBAform(d, N) {
 			params["referer"] = d.referrer;
 			params["page"] = window.location.pathname;
 			params["location_code"] = form.querySelector("#fba_location_code") ? form.querySelector("#fba_location_code").value : null;
+			params["fba_directive"] = form.querySelector("#fba_directive") ? form.querySelector("#fba_directive").value : null;
 			params["language"] = "en";
 
 			// Submit Feedback with a POST

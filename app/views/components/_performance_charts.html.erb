@@ -32,7 +32,7 @@
         "employee",
       ],
       datasets: [
-        <% collection.omb_cx_reporting_collections.each_with_index do |omb_cx_reporting_collection, i| %>
+        <% collection.omb_cx_reporting_collections.order(:service_provided, :channel).each_with_index do |omb_cx_reporting_collection, i| %>
           {
             label: '<%= omb_cx_reporting_collection.service_provided %>',
             data: [

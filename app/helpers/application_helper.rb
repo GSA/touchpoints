@@ -32,11 +32,21 @@ module ApplicationHelper
     end
   end
 
+  def collection_rating_sort_values
+    {
+      "FALSE"   => "1",
+      "PARTIAL" => "2",
+      "TRUE"    => "3"
+    }
+  end
+
   # Returns javascript to capture form input for one Form Question
   def question_type_javascript_params(question)
     if question.question_type == "text_field"
       "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
     elsif question.question_type == "hidden_field"
+      "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
+    elsif question.question_type == "date_select"
       "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
     elsif question.question_type == "text_email_field"
       "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"

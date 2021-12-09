@@ -1,8 +1,20 @@
 class Admin::WebsitesController < AdminController
+  before_action :ensure_organizational_website_manager, only: [
+    :collection_preview,
+    :collection_request,
+    :export_versions
+  ]
+  before_action :set_paper_trail_whodunnit
+
   before_action :set_website, only: [
     :show, :costs, :statuscard, :edit, :update, :destroy, :collection_request,
     :approve,
-    :deny
+    :deny,
+    :events,
+    :dendrogram,
+    :add_tag,
+    :remove_tag,
+    :versions
   ]
 
   def index
@@ -11,11 +23,95 @@ class Admin::WebsitesController < AdminController
     else
       @websites = Website.active.order(:production_status, :domain)
     end
+    @tags = Website.tag_counts_on(:tags)
+  end
+
+  def versions
+    @versions = @website.versions.limit(500).order("created_at DESC").page params[:page]
+  end
+
+  def export_versions
+    ensure_admin
+    ExportWebsiteVersionsJob.perform_later(params[:uuid], @website.id)
+    render json: { result: :ok }
+  end
+
+  def dendrogram
+  end
+
+  def dendrogram_json
+
+    if params["office"] == "true"
+       dendrogram_json_by_office
+    else
+      # default
+      dendrogram_json_by_domain
+    end
+
+    respond_to do |format|
+      format.json {
+        render "dendrogram_json.js"
+      }
+    end
+  end
+
+  def dendrogram_json_by_domain
+    @websites = []
+
+    # loop all sites and build a list of top-level domains
+    @active_websites = Website.active
+    @active_websites.each do |website|
+      if website.tld?
+        @websites << {
+          name: website.domain,
+          children: [
+          ]
+        }
+      end
+    end
+
+    @active_websites.each do |website|
+      selected_website = @websites.select { |w| w[:name] == website[:domain] || w[:name] == website[:parent_domain] }.first
+      next unless selected_website.present?
+
+      if !website.tld?
+        selected_website[:children] << {
+          name: website.domain || "N/A",
+          value: 1
+        }
+      end
+    end
+    return @websites
+  end
+
+  def dendrogram_json_by_office
+    @websites = []
+
+    # loop all sites and build a list of top-level domains
+    @active_websites = Website.active
+    @active_websites.collect(&:office).uniq.each do |office|
+      @websites << {
+        name: office,
+        office: office,
+        children: []
+      }
+    end
+
+    @active_websites.each do |website|
+      selected_website = @websites.select { |w| w[:office] == website[:office] || w[:sub_office] == website[:sub_office] }.first
+      next unless selected_website.present?
+
+      selected_website[:children] << {
+        name: website.domain || "N/A",
+        value: 1
+      }
+    end
+    return @websites
   end
 
   def export_csv
     @websites = Website.all
-    send_data @websites.to_csv
+    send_data @websites.to_csv, filename: "touchpoints-websites-#{Date.today}.csv"
   end
 
   def statuscard
@@ -23,16 +119,19 @@ class Admin::WebsitesController < AdminController
 
   def search
     search_text = params[:search]
+    tag_name = params[:tag]
     if search_text.present?
       search_text = "%" + search_text + "%"
-      @websites = Website.where(" domain like ? or office like ? or sub_office like ? or production_status like ? or site_owner_email like ? ", search_text, search_text, search_text, search_text, search_text)
+      @websites = Website.where(" domain ilike ? or office ilike ? or sub_office ilike ? or production_status ilike ? or site_owner_email ilike ? ", search_text, search_text, search_text, search_text, search_text)
+    elsif tag_name.present?
+      @websites = Website.tagged_with(tag_name)
     else
       @websites = Website.all
     end
   end
 
   def gsa
-    @websites = Website.all
+    @websites = Website.active.order(:domain)
   end
 
   def show
@@ -55,6 +154,8 @@ class Admin::WebsitesController < AdminController
 
   def new
     @website = Website.new
+    @website.site_owner_email = current_user.email
+    @website.contact_email = current_user.email
   end
 
   def edit
@@ -92,6 +193,7 @@ class Admin::WebsitesController < AdminController
     ensure_website_admin(website: @website, user: current_user)
     @website.approve
     if @website.save
+      Event.log_event(Event.names[:website_approved], "Website", @website.id, "Website #{@website.domain} approved at #{DateTime.now}", current_user.id)
       redirect_to admin_website_url(@website), notice: "Website #{@website.domain} was approved."
     else
       render :edit
@@ -102,6 +204,7 @@ class Admin::WebsitesController < AdminController
     ensure_website_admin(website: @website, user: current_user)
     @website.deny
     if @website.save
+      Event.log_event(Event.names[:website_denied], "Website", @website.id, "Website #{@website.domain} denied at #{DateTime.now}", current_user.id)
       redirect_to admin_website_url(@website), notice: "Website #{@website.domain} was denied."
     else
       render :edit
@@ -114,6 +217,20 @@ class Admin::WebsitesController < AdminController
     @website.destroy
     Event.log_event(Event.names[:website_deleted], "Website", @website.id, "Website #{@website.domain} deleted at #{DateTime.now}", current_user.id)
     redirect_to admin_websites_url, notice: 'Website was successfully destroyed.'
+  end
+
+  def events
+    @events = Event.where(object_type: "Website", object_id: @website.id).order(:created_at)
+  end
+
+  def add_tag
+    @website.tag_list.add(admin_website_params[:tag_list].split(","))
+    @website.save
+  end
+
+  def remove_tag
+    @website.tag_list.remove(admin_website_params[:tag_list].split(","))
+    @website.save
   end
 
   private
@@ -130,16 +247,20 @@ class Admin::WebsitesController < AdminController
     end
 
     def admin_website_params
-      params.require(:website).permit(:domain, :parent_domain, :office, :office_id, :sub_office, :suboffice_id, :contact_email, :site_owner_email, :production_status, :type_of_site, :digital_brand_category, :redirects_to, :status_code, :cms_platform, :required_by_law_or_policy, :has_dap, :dap_gtm_code, :cost_estimator_url, :modernization_plan_url, :annual_baseline_cost,
+      params.require(:website).permit(:domain, :office, :office_id, :sub_office, :suboffice_id, :contact_email, :site_owner_email, :production_status, :type_of_site, :digital_brand_category, :redirects_to, :status_code, :cms_platform, :required_by_law_or_policy, :has_dap, :dap_gtm_code, :cost_estimator_url, :modernization_plan_url, :annual_baseline_cost,
       :modernization_cost,
       :modernization_cost_2021,
       :modernization_cost_2022,
       :modernization_cost_2023,
-      :analytics_url, :current_uswds_score, :uses_feedback, :feedback_tool, :sitemap_url, :mobile_friendly, :has_search, :uses_tracking_cookies,
+      :analytics_url,
+      :https,
+      :uswds_version,
+      :uses_feedback, :feedback_tool, :sitemap_url, :mobile_friendly, :has_search, :uses_tracking_cookies,
       :hosting_platform,
       :has_authenticated_experience,
       :authentication_tool,
       :repository_url,
-      :notes)
+      :notes,
+      :tag_list)
     end
 end

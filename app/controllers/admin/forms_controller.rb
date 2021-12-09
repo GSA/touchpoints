@@ -25,6 +25,7 @@ class Admin::FormsController < AdminController
     :update_title, :update_instructions, :update_disclaimer_text,
     :update_success_text, :update_display_logo,
     :update_admin_options, :update_form_manager_options,
+    :events
   ]
 
   def index
@@ -141,14 +142,6 @@ class Admin::FormsController < AdminController
 
   def responses
     ensure_response_viewer(form: @form) unless @form.template?
-    @response_groups = @form.submissions.group("date(created_at)").size.sort.last(45)
-    @show_archived = true if params[:archived]
-    @all_submissions = @form.submissions
-    if params[:archived]
-      @submissions = @all_submissions.order("created_at DESC").page params[:page]
-    else
-      @submissions = @all_submissions.non_archived.order("created_at DESC").page params[:page]
-    end
   end
 
   def delivery_method
@@ -393,6 +386,10 @@ class Admin::FormsController < AdminController
         send_data @form.to_a11_submissions_csv(start_date: start_date, end_date: end_date), filename: "A-11-Responses-#{timestamp_string}.csv"
       }
     end
+  end
+
+  def events
+    @events = Event.where(object_type: "Form", object_id: @form.uuid).order(:created_at)
   end
 
 

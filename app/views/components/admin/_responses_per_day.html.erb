@@ -2,7 +2,7 @@
   <h3>
     Responses per day
   </h3>
-
+  <p>Total submissions received over period: <%= response_groups.sum { | n | n[1] } %> </p>
   <div style="width:100%;">
     <canvas id="myChart"></canvas>
   </div>

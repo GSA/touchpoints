@@ -1,6 +1,4 @@
-<div class="email-header">
-  <%= image_tag(attachments['logo.png'].url, alt: "Touchpoints logo") %>
-</div>
+<%= render 'user_mailer/components/header' %>
 <h3>You have been invited to Touchpoints</h3>
 <p>
   <%= @user.email %>

@@ -1,6 +1,4 @@
-<div class="email-header">
-  <%= image_tag(attachments['logo.png'].url, alt: "Touchpoints logo") %>
-</div>
+<%= render 'user_mailer/components/header' %>
 <h1>
   Website Data Collection Request
 </h1>
@@ -20,9 +18,10 @@
   </ul>
 </p>
 <p>
-  Log into Touchpoints to update your website records.
+  Please <a href="https://touchpoints.app.cloud.gov/admin/websites">log into Touchpoints</a> to validate and/or update your website records.
 </p>
 <p>
-  For questions, contact the EDX (Enterprise Digital Experience) team or
-  <%= ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",").to_sentence %>.
+  For questions, contact the
+  <%= link_to "https://touchpoints.app.cloud.gov/touchpoints/1fc9c962/", target: "_blank" do %>
+    EDX (Enterprise Digital Experience)<% end %> team.
 </p>

@@ -1,3 +1,50 @@
+<h3>
+  Status:
+  <%= website.production_status %>
+  <a
+    href="#website-production-status-modal"
+    aria-controls="website-production-status-modal"
+    data-open-modal
+    ><i class="fa fa-info-circle"></i></a>
+</h3>
+<div
+  class="usa-modal usa-modal--lg"
+  id="website-production-status-modal"
+  aria-labelledby="modal-2-heading"
+  aria-describedby="modal-2-description"
+>
+  <div class="usa-modal__content">
+    <div class="usa-modal__main">
+      <h2 class="usa-modal__heading" id="modal-2-heading">
+        The lifecycle of a website
+      </h2>
+      <div class="usa-prose">
+        <p>
+          Each website is a digital asset and has a lifecycle.
+          The "production_status" states a website may have are below.
+        </p>
+        <br>
+        <ul class="usa-list usa-list--unstyled">
+          <% Website::PRODUCTION_STATUSES.each_pair do |key, value| %>
+          <li>
+            <span class="usa-tag bg-primary-light <%= "bg-primary" if @website.production_status == key %>"><%= value %></span>
+          </li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+    <button
+      class="usa-button usa-modal__close"
+      aria-label="Close this window"
+      data-close-modal
+    >
+      <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+        <use xlink:href="<%= asset_path "sprite.svg#close"%>"></use>
+      </svg>
+    </button>
+  </div>
+</div>
+
 <div class="usa-step-indicator" aria-label="progress">
   <ol class="usa-step-indicator__segments">
     <li class="usa-step-indicator__segment usa-step-indicator__segment--complete">
@@ -10,7 +57,7 @@
     </li>
     <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if website.in_development? || website.production? || website.redirect? || website.archived? || website.decommissioned? %> <%= "usa-step-indicator__segment--current" if website.newly_requested? %>">
       <span class="usa-step-indicator__segment-label">
-        Approval
+        Approved
         <span class="usa-sr-only">completed</span>
       </span>
     </li>
@@ -21,7 +68,7 @@
       <span class="usa-step-indicator__segment-label">Production</span>
     </li>
     <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--current" if website.archived? || website.decommissioned? %>"  aria-current="true">
-      <span class="usa-step-indicator__segment-label">Archived</span>
+      <span class="usa-step-indicator__segment-label">Decommissioned</span>
     </li>
   </ol>
 </div>

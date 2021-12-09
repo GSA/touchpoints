@@ -1,0 +1,41 @@
+<% content_for :navigation_title do %>
+  Survey Lifespan by Agency
+<% end %>
+<div class="agency-survey-lifespan-rerport">
+	<% @org_summary.each do | org | %>
+	<h3 class=".usa-accordion__heading"><%= org[:name] %></h3>
+	<div class="well">
+		<span class="usa-label">
+			Total Submissions: <%= org[:submissions] %>
+      <br>
+			Average Lifespan: <%= number_with_precision(org[:avg_lifespan] / (3600 * 24),:precision => 2) %> days
+		</span>
+		<% if org[:forms].size > 0 %>
+			<table class="usa-table">
+			  <thead>
+			  <tr>
+			    <th>Name</th>
+			    <th>Submissions</th>
+			    <th>Lifespan (Days)</th>
+			  </tr>
+			  </thead>
+			  <tbody>
+			  	<% org[:forms].each do |form| %>
+				<tr>
+					<td>
+						<%= link_to form[:name], admin_form_path(form) %>
+					</td>
+					<td>
+						<%= form[:counts].num_submissions %>
+					</td>
+					<td>
+						<%= number_with_precision(form[:counts].lifespan / (3600 * 24),:precision => 2)  %>
+					</td>
+				</tr>
+				<% end %>
+			  </tbody>
+			</table>
+		<% end %>
+	</div>
+	<% end %>
+</div>

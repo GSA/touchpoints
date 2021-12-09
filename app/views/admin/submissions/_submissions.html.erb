@@ -1,10 +1,31 @@
+<%  @tags = all_submissions.tag_counts_on(:tags) %>
+<% if @tags.size > 0 %>
+<div class="well">
+  <div class="field">
+    <p>
+      Filter by tag
+    </p>
+    <p class="tag-list">
+      <% @tags.order(:name).each do | tag | %>
+        <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
+          <span class="usa-tag">
+            <%= tag.name %> (<%= tag.taggings_count %>)
+          </span>
+        </a>
+      <% end %>
+    <p>
+  </div>
+</div>
+<% end %>
 <label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
   Responses by status
 </label>
 <%= render 'components/responses_by_status', submissions: all_submissions %>
-
 <h2>
   <%= page_entries_info submissions, entry_name: 'Responses' %>
+  <% if params[:tag] %>
+    <span>tagged with <%= params[:tag] %></span>
+  <% end %>
   <button id="button-toggle-table-display-options" type="button">
     <i class="fa fa-cog"></i>
   </button>
@@ -23,19 +44,19 @@
           <th>View</th>
           <th>Flag</th>
           <th>Archive</th>
-          <th>Status</th>
-          <th>
+          <th data-sortable scope="col" role="columnheader">Status</th>
+          <th data-sortable scope="col" role="columnheader">
             Created At
           </th>
         <% form.questions.each do |question| %>
           <% next if question.question_type == "text_display" %>
-          <th><%= question.text %></th>
+          <th data-sortable scope="col" role="columnheader"><%= question.text %></th>
         <% end %>
         <% if form.kind == "yes_no" %>
-          <th>
+          <th data-sortable scope="col" role="columnheader">
             Page
           </th>
-          <th>
+          <th data-sortable scope="col" role="columnheader">
             Referer
           </th>
         <% end %>
@@ -106,3 +127,17 @@
 <p>
   <%= paginate submissions, remote: true %>
 </p>
+<script>
+  $(".search-tag-link").click(function() {
+    event.preventDefault();
+    <% if params[:archived] %>
+      var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>&archived=1&tag=' + $(this).attr("data-name");
+    <% else %>
+      var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>&tag=' + $(this).attr("data-name");
+    <% end %>
+    $.ajax({
+      url: url,
+      type: 'get'
+    });
+  });
+</script>

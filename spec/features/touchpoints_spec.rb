@@ -26,6 +26,20 @@ feature "Touchpoints", js: true do
         end
       end
 
+      context "SPAMBOT" do
+        before do
+          visit touchpoint_path(form)
+          page.execute_script("$('#fba_directive').val('SPAM Text')")
+          click_button "Submit"
+        end
+
+        it "fails the submission" do
+          expect(page).to have_content("this submission was not successful")
+          expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit") # stays on
+        end
+
+      end
+
       context "custom success text" do
         before do
           form.update(success_text: "Much success. \n With a second line.")
@@ -189,6 +203,26 @@ feature "Touchpoints", js: true do
       it "disallows text input" do
         fill_in "answer_03", with: "abc"
         expect(find("#answer_03").value).to eq("")
+      end
+    end
+
+    describe "date select question" do
+      let!(:date_select_form) { FactoryBot.create(:form, :date_select, organization: organization, user: user) }
+
+      before do
+        visit touchpoint_path(date_select_form)
+      end
+
+      it "allows a valid date string" do
+        fill_in "answer_04", with: "10/04/2021"
+        click_on "Submit"
+        expect(page).not_to have_content("Please enter a valid value")
+      end
+
+      it "disallows non date input" do
+        fill_in "answer_04", with: "abc"
+        click_on "Submit"
+        expect(page).to have_content("Please enter a valid value")
       end
     end
 

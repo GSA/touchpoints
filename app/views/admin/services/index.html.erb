@@ -13,15 +13,49 @@
   <% end %>
 </p>
 
+<div
+  class="usa-summary-box"
+  role="region"
+  aria-labelledby="summary-box-key-information"
+>
+  <div class="usa-summary-box__body">
+    <h3 class="usa-summary-box__heading" id="summary-box-key-information">
+      Managing Services in Touchpoints
+    </h3>
+    <div class="usa-summary-box__text">
+      <p>
+        Touchpoints is designed to support continuous improvement in how public services are designed, delivery, measured.
+        Services are delivered internally within an agency, between agencies, and to the public.
+        Services consist of people or systems performing work in a sequence of (sometimes conditional) steps
+        to deliver value for other people.
+        Services can be modeled, to gain more insight during design and measurement of a service.
+        Consider using
+         <%= link_to "human-centered design methods", "https://methods.18f.gov/", target: "_blank" %>
+        to ensure products and services deliver value to users.
+      </p>
+      <ul class="usa-list">
+        <li>
+          The first Services tracked here a primarily services provided by
+          <%= link_to "HISPs", "https://www.performance.gov/cx/", target: "_blank" %>,
+          and these services can access OMB Quarterly CX Data Reporting.
+        </li>
+        <li>
+          But any Service can be created and tracked here to support a Service Inventory or Catalog.
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 <table class="usa-table">
   <thead>
     <tr>
     <% if admin_permissions? %>
-      <th>Organization</th>
+      <th data-sortable scope="col" role="columnheader">Organization</th>
     <% end %>
-      <th>Name</th>
-      <th># of Stages</th>
-      <th>HISP Service</th>
+      <th data-sortable scope="col" role="columnheader">Name</th>
+      <th data-sortable scope="col" role="columnheader"># of Stages</th>
+      <th data-sortable scope="col" role="columnheader">HISP Service</th>
     </tr>
   </thead>
 

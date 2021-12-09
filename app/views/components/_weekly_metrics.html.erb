@@ -5,6 +5,9 @@
   <thead>
     <tr>
       <th>
+        Users
+      </th>
+      <th>
         Agencies
       </th>
       <th>
@@ -29,6 +32,9 @@
   </thead>
   <tbody>
     <tr>
+      <td class="reportable-users">
+        <%= User.count %>
+      </td>
       <td class="reportable-organizations">
         <%= Organization.count %>
       </td>

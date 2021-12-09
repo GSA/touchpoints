@@ -27,6 +27,7 @@ feature "Admin Dashboard", js: true do
 
       it "display weekly metrics" do
         expect(page).to have_content("Weekly Product Metrics")
+        expect(page).to have_content("Users")
         expect(page).to have_content("Agencies")
         expect(page).to have_content("Forms")
         expect(page).to have_content("Responses")
@@ -34,9 +35,33 @@ feature "Admin Dashboard", js: true do
         expect(page).to have_content("Websites")
         expect(page).to have_content("Data Collections")
         expect(page).to have_content("Service details")
+        expect(find(".reportable-users")).to have_content("1")
         expect(find(".reportable-organizations")).to have_content("1")
         expect(find(".reportable-forms")).to have_content("1")
         expect(find(".reportable-submissions")).to have_content("0")
+      end
+    end
+
+    describe "agency summary" do
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin) }
+      let!(:form2) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin) }
+      let!(:form_template) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, template: true) }
+
+      before do
+        form2.archive!
+        visit admin_management_path
+      end
+
+      it "display agency summary" do
+        expect(page).to have_content("Agency Summary")
+        expect(page).to have_content("Agency")
+        expect(page).to have_content("All Forms")
+        expect(page).to have_content("Active Forms")
+        within(".agency_tr" + organization.id.to_s) do
+          expect(find(".reportable-agencies")).to have_content(organization.name)
+          expect(find(".reportable-total-forms")).to have_content("2")
+          expect(find(".reportable-active-forms")).to have_content("1")
+        end
       end
     end
 
@@ -60,13 +85,27 @@ feature "Admin Dashboard", js: true do
           answer_01: "yes",
           created_at: Time.now - 5.days
         })
+        User.create({
+          email: 'tester1@example.com',
+          created_at: Time.now - 10.days
+        })
+        User.create({
+          email: 'tester2@example.com',
+          created_at: Time.now - 5.days
+        })
+        User.create({
+          email: 'tester3@example.com',
+          created_at: Time.now - 5.days
+        })
         visit admin_dashboard_path
       end
 
       it "display weekly metrics" do
         expect(page).to have_css("#daily-responses")
-        expect(page).to have_css("canvas")
+        expect(page).to have_css("#daily-new-users")
+        expect(find_all("canvas").size).to eq(2)
       end
+
     end
 
     describe "#a11" do
@@ -80,6 +119,37 @@ feature "Admin Dashboard", js: true do
         expect(page).to have_css("#customer-feedback-summary")
         within "#customer-feedback-summary" do
           expect(find_all("tbody tr").size).to eq(1)
+          expect(page).to have_content form.organization.name
+          expect(page).to have_content form.name
+        end
+      end
+    end
+
+    describe "#lifespan" do
+      let!(:form) { FactoryBot.create(:form, kind: "a11", organization: organization, user: admin) }
+
+      before do
+        Submission.create({
+          form_id: form.id,
+          answer_01: "yes",
+          created_at: Time.now - 10.days
+        })
+        Submission.create({
+          form_id: form.id,
+          answer_01: "yes",
+          created_at: Time.now - 5.days
+        })
+        Submission.create({
+          form_id: form.id,
+          answer_01: "yes",
+          created_at: Time.now - 5.days
+        })
+        visit admin_lifespan_path
+      end
+
+      it "displays Agency lifespan summary" do
+        expect(page).to have_content("Survey Lifespan by Agency")
+        within ".agency-survey-lifespan-rerport" do
           expect(page).to have_content form.organization.name
           expect(page).to have_content form.name
         end

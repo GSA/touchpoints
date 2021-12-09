@@ -3,8 +3,8 @@
 <form action="<%= root_url %>touchpoints/<%= form.present? ? form.short_uuid : nil %>/submissions.json" method="POST">
   <div class="touchpoints-form-body">
     <%= hidden_field_tag :fba_location_code, params[:location_code] %>
-
-    <% form.form_sections.each do |section| %>
+    <input type="text" name="fba_directive" id="fba_directive" style="display:none !important" tabindex="-1" autocomplete="off">
+    <% form.form_sections.each_with_index do |section, index| %>
       <div class="section <%= 'visible' if section == form.form_sections.first  -%>">
         <% if (section != form.form_sections.first) || (section != form.form_sections.last) %>
           <% if section != form.form_sections.first %>
@@ -15,10 +15,15 @@
           <% end %>
         <% end %>
 
-        <% if section.title.present? -%>
+        <% if form.form_sections.size > 1 %>
         <div class="section-header">
           <h4 class="section-title-view">
-            <%= section.title %>
+            <% if section.title.present? -%>
+              <%= section.title %> -
+            <% end %>
+            <small>
+              <%= t :page %> <%= index + 1 %> <%= t :of %> <%= form.form_sections.size %>
+            </small>
           </h4>
         </div>
         <% end %>
@@ -58,6 +63,8 @@
               <%= render 'components/forms/question_types/text_area', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "text_display" %>
               <%= render 'components/forms/question_types/text_display', form: form, question: question, question_number: multi_section_question_number %>
+            <% elsif question.question_type == "date_select" %>
+              <%= render 'components/forms/question_types/date_select', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "custom_text_display" %>
               <%= render 'components/forms/question_types/custom_text_display', form: form, question: question, question_number: multi_section_question_number %>
             <% end %>

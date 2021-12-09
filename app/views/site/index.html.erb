@@ -3,37 +3,40 @@
 <div class="grid-row grid-gap-md usa-prose">
   <div class="grid-col-6">
     <h2>
-      Sign up
+      <%= t 'home.sign_up' %>
     </h2>
     <% if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
     <p>
-      Any federal employee with a .gov or .mil email address can use Touchpoints.
-      Your account will be automatically created the first time you sign in.
+     <%= t 'home.sign_up_text' %>
     </p>
     <p>
-      <%= link_to "Sign up with Login.gov", user_login_dot_gov_omniauth_authorize_path, class: "usa-button usa-button--outline" %>
+      <%= link_to user_login_dot_gov_omniauth_authorize_path, id: "agree-button", class: "usa-button sign-in-logo", "aria-label" => "Login.gov" do %>
+        <span>Login.gov</span>
+      <% end %>
     </p>
     <% end %>
   </div>
   <div class="grid-col-6">
     <h2>
-      Sign in
+       <%= t 'home.sign_in' %>
     </h2>
     <% if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
     <p>
-      Touchpoints uses Login.gov to handle user accounts.
-      Once you authenticate with Login.gov, you will be signed in and redirected back to Touchpoints.
+      <%= t 'home.sign_in_text' %>
     </p>
     <p>
-      <%= link_to "Sign in with Login.gov", user_login_dot_gov_omniauth_authorize_path, class: "usa-button" %>
+      <%= link_to user_login_dot_gov_omniauth_authorize_path, id: "agree-button", class: "usa-button sign-in-logo", "aria-label" => "Login.gov" do %>
+        <%= t 'home.sign_in_with' %>
+        <span>Login.gov</span>
+      <% end %>
     </p>
     <% end %>
     <% if ENV['GITHUB_CLIENT_ID'].present? %>
     <p>
-      If you have a GitHub account,
+      <%= t 'home.if_github' %>
       <br>
       <br>
-      <%= link_to "Sign in with GitHub", user_github_omniauth_authorize_path, class: "usa-button usa-button" %>
+      <%= link_to "#{t 'home.sign_in_with' } GitHub", user_github_omniauth_authorize_path, class: "usa-button usa-button" %>
     </p>
     <% end %>
     <br>

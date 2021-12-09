@@ -31,6 +31,14 @@
     <br>
     <%= @user.organization ? link_to(@user.organization.name, admin_organization_path(@user.organization)) : "Undefined" %>
   </p>
+  <p>
+    <label>Last logged in</label>
+    <br>
+    <% if @user.last_sign_in_at %>
+      <%= format_time(@user.last_sign_in_at, current_user.time_zone) %> -
+      <%= time_ago_in_words(@user.last_sign_in_at) %> ago
+    <% end %>
+  </p>
 </div>
 <div class="well">
   <h4>
@@ -49,6 +57,28 @@
     <div class="usa-alert__body">
       <p class="usa-alert__text">
         No Forms at this time
+      </p>
+    </div>
+  </div>
+  <% end %>
+</div>
+<div class="well">
+  <h4>
+    Websites managed
+  </h4>
+  <% if @websites.present? %>
+    <ul class="usa-list">
+    <% @websites.each do |website| %>
+      <li>
+        <%= link_to website.domain, admin_website_path(website) %><br>
+      </li>
+    <% end %>
+    </ul>
+  <% else %>
+  <div class="usa-alert usa-alert--info" >
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        No Websites at this time
       </p>
     </div>
   </div>

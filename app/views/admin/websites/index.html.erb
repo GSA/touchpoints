@@ -13,48 +13,67 @@
   <% end %>
 </p>
 
-<div class="usa-alert usa-alert--info" >
-  <div class="usa-alert__body">
-    <h3 class="usa-alert__heading">
-      Website inventory is an experimental feature.
+<div
+  class="usa-summary-box"
+  role="region"
+  aria-labelledby="summary-box-key-information"
+>
+  <div class="usa-summary-box__body">
+    <h3 class="usa-summary-box__heading" id="summary-box-key-information">
+      Inventorying Digital Assets
     </h3>
-    <p class="usa-alert__text">
-      The GSA EDX team is current exploring ways to improve governance
-      of shared data assets.
-    </p>
-    <p class="usa-alert__text">
-      A shared governance model is being developed to support the maintenance
-      of this inventory of GSA websites.
-    </p>
+    <div class="usa-summary-box__text">
+      <p>
+        Websites are digital assets.
+        Any Touchpoints user can view website information.
+        Use the search bar to find your website(s). Click the View button to see website details. If you are the website’s manager or point of contact, you can edit the website’s details.
+      </p>
+      <p>
+        For more information regarding managing Website records,
+        see the
+        <%= link_to "Touchpoints wiki", "https://github.com/GSA/touchpoints/wiki/Websites", target: "_blank", rel: "noopener" %>.
+      </p>
+      <%= link_to "https://touchpoints.app.cloud.gov/touchpoints/1fc9c962/", class: "usa-button usa-button--inverse", target: "_blank", rel: "noopener" do %>
+        <i class="fa fa-info-circle"></i>
+        Ask a question or provide feedback
+      <% end %>
+    </div>
   </div>
-</div>
-
-<div class="well usa-prose">
-  <p>
-    All websites are viewable by Touchpoints users.
-  </p>
-  <p>
-    Website editing permissions are assigned to users who have an email
-    that matches the
-    Website Contact or Website Manager emails
-    for a Website.
-  </p>
 </div>
 
 <br/>
 
-<div class="field">
-<%= label_tag :search_text, "Find Websites: " %>
-<%= text_field_tag :search_text, nil, class: "usa-input", placeholder: "Search by domain, email, office, or sub-office" %>
+<div class="well">
+  <div class="field">
+    <%= label_tag :search_text, "Search by domain, email, office, sub-office, Website Manager email, or Website Contact email" %>
+    <%= text_field_tag :search_text, nil, class: "usa-input" %>
+    <% if @tags.size > 0 %>
+      <p>
+        Search by tag
+      </p>
+      <p class="tag-list">
+        <% @tags.order(:name).each do | tag | %>
+          <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
+            <span class="usa-tag">
+              <%= tag.name %> (<%= tag.taggings_count %>)
+            </span>
+          </a>
+        <% end %>
+      <p>
+    <% end %>
+  </div>
 </div>
-
+<br>
 <div class="search-results">
   <%= render 'results' %>
 </div>
 
 <p>
-  <%= link_to 'Export all websites to CSV', export_csv_admin_websites_path, class: "usa-button usa-button--outline" %>
-  <% if admin_permissions? %>
+  <%= link_to export_csv_admin_websites_path, class: "usa-button usa-button--outline" do %>
+    <i class="fa fa-download"></i>
+    Export all websites to CSV
+  <% end %>
+  <% if organizational_website_manager_permissions?(user: current_user) %>
     <%= link_to 'Preview Website Data Collection', collection_preview_admin_websites_path, class: "usa-button usa-button--outline" %>
   <% end %>
 </p>
@@ -68,6 +87,15 @@
         url: '/admin/websites/search',
         data: {
           search: $(this).val()
+        }
+      });
+    });
+    $(".search-tag-link").click(function() {
+      $("#search_text").val("");
+      $.ajax({
+        url: '/admin/websites/search',
+        data: {
+          tag: $(this).attr("data-name")
         }
       });
     });

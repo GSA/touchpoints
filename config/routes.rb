@@ -34,11 +34,18 @@ Rails.application.routes.draw do
     end
     namespace :v1 do
       resources :forms, only: [:index, :show]
+      resources :websites, only: [:index]
     end
   end
 
   namespace :admin do
     get "/reporting/hisps", to: "reporting#hisps", as: :hisps
+    get "/reporting/lifespan", to: "reporting#lifespan", as: :lifespan
+    get "/submissions/search", to: "submissions#search", as: :search_submissions
+    get "/submissions/a11_analysis", to: "submissions#a11_analysis", as: :a11_analysis
+    get "/submissions/a11_chart", to: "submissions#a11_chart", as: :a11_chart
+    get "/submissions/responses_per_day", to: "submissions#responses_per_day", as: :responses_per_day
+    get "/submissions/submissions_table", to: "submissions#submissions_table", as: :submissions_table
 
     get "a11", to: "site#a11", as: :a11
     resources :service_providers
@@ -55,6 +62,7 @@ Rails.application.routes.draw do
         post "copy", to: "collections#copy", as: :copy
         post "submit", to: "collections#submit", as: :submit
         post "publish", to: "collections#publish", as: :publish
+        get "events", to: "collections#events", as: :events
       end
     end
     resources :omb_cx_reporting_collections
@@ -65,6 +73,8 @@ Rails.application.routes.draw do
       collection do
         get "search", to: "websites#search"
         get "gsa", to: "websites#gsa"
+        get "dendrogram", to: "websites#dendrogram"
+        get "dendrogram_json", to: "websites#dendrogram_json"
         get "export_csv", to: "websites#export_csv", as: :export_csv
         get "collection_preview", to: "websites@collection_preview", as: :collection_preview
       end
@@ -74,6 +84,11 @@ Rails.application.routes.draw do
         get "collection_request", to: "websites@collection_request", as: :collection_request
         post "approve", to: "websites#approve", as: :approve
         post "deny", to: "websites#deny", as: :deny
+        get "events", to: "websites#events", as: :events
+        post "add_tag", to: "websites#add_tag", as: :add_tag
+        post "remove_tag", to: "websites#remove_tag", as: :remove_tag
+        get "versions", to: "websites#versions", as: :versions
+        get "versions_export", to: "websites#export_versions", as: :export_versions
       end
     end
     resources :digital_service_accounts
@@ -108,6 +123,7 @@ Rails.application.routes.draw do
         patch "update_display_logo", to: "forms#update_display_logo", as: :update_display_logo
         patch "update_admin_options", to: "forms#update_admin_options", as: :update_admin_options
         patch "update_form_manager_options", to: "forms#update_form_manager_options", as: :update_form_manager_options
+        get "events", to: "forms#events", as: :events
       end
       collection do
         post "copy", to: "forms#copy", as: :copy_id
@@ -133,6 +149,8 @@ Rails.application.routes.draw do
           post "unflag", to: "submissions#unflag", as: :unflag
           post "archive", to: "submissions#archive", as: :archive
           post "unarchive", to: "submissions#unarchive", as: :unarchive
+          post "add_tag", to: "submissions#add_tag", as: :add_tag
+          post "remove_tag", to: "submissions#remove_tag", as: :remove_tag
         end
       end
     end

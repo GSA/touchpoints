@@ -5,11 +5,11 @@ ruby '2.7.4'
 
 gem 'active_model_serializers', '>= 0.10.12'
 gem 'acts-as-list'
-gem 'aws-sdk-rails', '>= 3.6.0'
-gem 'caracal'
+gem 'aws-sdk-rails', '>= 3.6.1'
+gem 'caracal', '>= 1.4.1'
 gem 'carrierwave', '>= 2.2.1'
-gem 'devise', '>= 4.7.3'
-gem 'fog-aws'
+gem 'devise', '>= 4.8.0'
+gem 'fog-aws', '>= 3.12.0'
 gem 'jquery-rails', '>= 4.4.0'
 gem 'jquery-ui-rails', '>= 6.0.1'
 gem 'kaminari', '>= 1.2.1'
@@ -17,8 +17,8 @@ gem 'mail'
 gem 'mini_magick'
 gem 'newrelic_rpm'
 gem 'omniauth-github'
-gem 'omniauth_login_dot_gov', git: 'https://github.com/18f/omniauth_login_dot_gov.git', branch: 'main'
-gem 'rails', '>= 6.1.3.2'
+gem 'omniauth_login_dot_gov', git: 'https://github.com/18F/omniauth_login_dot_gov.git', branch: 'main'
+gem 'rails', '>= 6.1.4.1'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'rack-cors', '>= 1.1.1', require: 'rack/cors'
@@ -31,11 +31,12 @@ gem 'redis'
 gem 'redis-namespace'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-gem 'aasm', '~> 4.12'
+gem 'aasm', '~> 5.2.0'
 # gem 'webpacker', '~> 5.0'
 gem 'whenever', require: false
 gem 'logstop'
-
+gem 'paper_trail'
+gem 'acts-as-taggable-on', '~> 8.0'
 
 group :development, :test do
   gem 'dotenv-rails', '>= 2.7.6'
@@ -53,13 +54,13 @@ group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 3.35.3'
   gem 'database_cleaner'
-  gem 'factory_bot_rails', '>= 6.1.0'
-  gem 'rails-controller-testing'
-  gem 'rspec-rails', '>= 4.0.2'
+  gem 'factory_bot_rails', '>= 6.2.0'
+  gem 'rails-controller-testing', '>= 1.0.5'
+  gem 'rspec-rails', '>= 5.0.2'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
   # gem 'chromedriver-helper'
-  gem 'webdrivers'
+  gem 'webdrivers', '>= 4.6.1'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

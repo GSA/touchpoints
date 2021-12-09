@@ -1,0 +1,44 @@
+<% content_for :navigation_title do %>
+  Event Log for <%= @form.name %>
+<% end %>
+<p>
+  <%= link_to admin_form_path(@form) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Survey
+  <% end %>
+</p>
+
+<ul class="usa-list">
+<% @events.each do |event| %>
+<li>
+  <div class="">
+    <span class="user-email">
+      <%= event.user.email %>
+    </span>
+    <span class="action">
+    <% if event.name == "form_created" %>
+      created
+    <% elsif event.name == "form_copied" %>
+      copied
+    <% elsif event.name == "form_submitted" %>
+      submitted
+    <% elsif event.name == "form_published" %>
+      published
+    <% elsif event.name == "form_archived" %>
+      archived
+    <% elsif event.name == "form_deleted" %>
+      deleted
+    <% end %>
+    </span>
+    <span class="target-object">
+      <%= link_to @form.name, admin_form_path(@form) %>
+    </span>
+    at
+    <span class="datetime">
+      <%= event.created_at %>
+    </span>
+  </div>
+  </li>
+<% end %>
+</ul>
+<br>

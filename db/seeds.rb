@@ -458,6 +458,17 @@ Website.create!({
   production_status: "production"
 })
 
+Website.create!({
+  domain: "subdomain.digital.gov",
+  type_of_site: "Application",
+  production_status: "production"
+})
+Website.create!({
+  domain: "subdomain.gsa.gov",
+  type_of_site: "Application",
+  production_status: "production"
+})
+
 data_collection = Collection.create!({
   organization: Organization.first,
   service_provider: service_provider_1,
