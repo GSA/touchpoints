@@ -47,4 +47,9 @@ class FormCache
     Rails.cache.delete(NAMESPACE + short_uuid.to_s)
   end
 
+  def self.invalidate_reports(short_uuid)
+    Rails.cache.delete(NAMESPACE + '-performance-gov-analysis-' + short_uuid.to_s)
+    Rails.cache.delete(NAMESPACE + '-a11-analysis-' + short_uuid.to_s)
+  end
+
 end
