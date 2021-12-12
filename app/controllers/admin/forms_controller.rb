@@ -141,6 +141,7 @@ class Admin::FormsController < AdminController
   end
 
   def responses
+    FormCache.invalidate_reports(@form.short_uuid) if params["use_cache"].present? && params["use_cache"] == "false"
     ensure_response_viewer(form: @form) unless @form.template?
   end
 

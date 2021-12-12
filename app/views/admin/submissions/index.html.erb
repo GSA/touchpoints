@@ -1,4 +1,4 @@
-<% if all_submissions.present? %>
+<% if submissions.size > 0 %>
   <div id="submissions_table">
     <%= render 'admin/submissions/submissions', submissions: submissions, all_submissions: all_submissions, form: form %>
   </div>
