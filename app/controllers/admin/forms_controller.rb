@@ -141,18 +141,8 @@ class Admin::FormsController < AdminController
   end
 
   def responses
+    FormCache.invalidate_reports(@form.short_uuid) if params["use_cache"].present? && params["use_cache"] == "false"
     ensure_response_viewer(form: @form) unless @form.template?
-    @response_groups = @form.submissions.group("date(created_at)").size.sort.last(45)
-    @show_archived = true if params[:archived]
-    @all_submissions = @form.submissions
-    if params[:tag]
-      @all_submissions =  @all_submissions.tagged_with(params[:tag])
-    end
-    if params[:archived]
-      @submissions = @all_submissions.order("submissions.created_at DESC").page params[:page]
-    else
-      @submissions = @all_submissions.non_archived.order("submissions.created_at DESC").page params[:page]
-    end
   end
 
   def delivery_method

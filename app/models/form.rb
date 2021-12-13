@@ -443,8 +443,7 @@ class Form < ApplicationRecord
   end
 
   def average_answer(answer)
-    responses = self.submissions.collect(&answer)
-    responses = responses.reject { |string| !string.present? }
+    responses = self.submissions.select(answer).where("#{answer} is not null").collect(&answer)
     responses = responses.map { |string| string.to_i }
     response_total = responses.sum
 

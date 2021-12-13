@@ -36,5 +36,9 @@ class Admin::SiteController < AdminController
 
   def management
     ensure_admin
+    @organizations = Organization.all.order(:name)
+    @forms = Form.non_templates
+    @unmanaged_forms = @forms.order(:name)
+    @agencies = Organization.all.order(:name)
   end
 end

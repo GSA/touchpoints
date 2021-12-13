@@ -15,7 +15,7 @@ feature "Forms", js: true do
 
     describe "/admin/forms" do
 
-    context "within builder page" do
+      context "within builder page" do
       let!(:form) { FactoryBot.create(:form, organization: organization, user: admin)}
 
       before do
@@ -189,7 +189,7 @@ feature "Forms", js: true do
         end
 
         context "for :in_development touchpoint" do
-          describe "Publishing" do
+          describe "Publish a form" do
             before do
               form.update(aasm_state: :in_development)
               visit admin_form_path(form)
@@ -323,6 +323,27 @@ feature "Forms", js: true do
                 expect(page).to have_content(submission.answer_01)
               end
               expect(page).to have_link("Export All Responses to CSV")
+            end
+          end
+        end
+
+        describe "reports" do
+          context "for A-11 forms" do
+            let!(:a11_form) { FactoryBot.create(:form, :a11, organization: organization, user: form_manager)}
+            let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form: a11_form) }
+            let!(:submission) { FactoryBot.create(:submission, form: a11_form)}
+
+            before do
+              visit responses_admin_form_path(a11_form)
+            end
+
+            it "display table list of Responses and Export CSV button link" do
+              expect(page).to have_content("Customer Feedback Analysis")
+              expect(page).to have_content("RESPONSES BY STATUS")
+              expect(page).to have_content("Responses per day")
+              expect(page).to have_content("Total submissions received over period")
+              expect(page).to have_link("Export All Responses to CSV")
+              expect(page).to have_content("Performance.gov Reporting")
             end
           end
         end
@@ -1023,7 +1044,7 @@ feature "Forms", js: true do
     end
   end
 
- context "Form owner with Form Manager permissions Delete Action" do
+  context "Form owner with Form Manager permissions Delete Action" do
     let!(:form) { FactoryBot.create(:form, :custom, organization: organization, user: admin) }
     let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
 
@@ -1066,7 +1087,6 @@ feature "Forms", js: true do
       end
     end
   end
-
 
   context "form owner with Form Manager permissions" do
     let(:user) { FactoryBot.create(:user, organization: organization) }

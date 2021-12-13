@@ -1,26 +1,22 @@
+<%  @tags = all_submissions.tag_counts_on(:tags) %>
+<% if @tags.size > 0 %>
 <div class="well">
   <div class="field">
-    <%  @tags = all_submissions.tag_counts_on(:tags) %>
-    <% if @tags.size > 0 %>
-      <p>
-        Filter by tag
-      </p>
-      <p class="tag-list">
-        <% @tags.order(:name).each do | tag | %>
-          <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
-            <span class="usa-tag">
-              <%= tag.name %> (<%= tag.taggings_count %>)
-            </span>
-          </a>
-        <% end %>
-      <p>
-    <% end %>
+    <p>
+      Filter by tag
+    </p>
+    <p class="tag-list">
+      <% @tags.order(:name).each do | tag | %>
+        <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
+          <span class="usa-tag">
+            <%= tag.name %> (<%= tag.taggings_count %>)
+          </span>
+        </a>
+      <% end %>
+    <p>
   </div>
 </div>
-<label class="usa-label text-uppercase font-body-3xs" for="site_owner_email">
-  Responses by status
-</label>
-<%= render 'components/responses_by_status', submissions: all_submissions %>
+<% end %>
 <h2>
   <%= page_entries_info submissions, entry_name: 'Responses' %>
   <% if params[:tag] %>
@@ -43,7 +39,9 @@
         <tr>
           <th>View</th>
           <th>Flag</th>
+          <% if form_permissions?(form: form) %>
           <th>Archive</th>
+          <% end %>
           <th data-sortable scope="col" role="columnheader">Status</th>
           <th data-sortable scope="col" role="columnheader">
             Created At
@@ -70,10 +68,8 @@
         <% end %>
         <tr class="response" title="Response ID <%= submission.id %>" data-id="<%= submission.uuid %>">
           <td>
-            <% if form_permissions?(form: form) %>
-              <%= link_to admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--outline" do %>
-                View
-              <% end %>
+            <%= link_to admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--outline" do %>
+              View
             <% end %>
           </td>
           <td class="flagged">
@@ -83,15 +79,15 @@
               <%= render "admin/submissions/unflag", { submission: submission } %>
             <% end %>
           </td>
+          <% if form_permissions?(form: form) %>
           <td class="archived">
-            <% if form_permissions?(form: form) %>
             <% if submission.archived? %>
               <%= render "admin/submissions/archive", { submission: submission } %>
             <% else %>
               <%= render "admin/submissions/unarchive", { submission: submission } %>
             <% end %>
-            <% end %>
           </td>
+          <% end %>
           <td>
             <%= submission.aasm_state %>
           </td>
@@ -129,11 +125,15 @@
 </p>
 <script>
   $(".search-tag-link").click(function() {
+    event.preventDefault();
     <% if params[:archived] %>
-      var url = '/admin/forms/<%= form.short_uuid %>/responses?archived=1&tag=' + $(this).attr("data-name");
+      var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>&archived=1&tag=' + $(this).attr("data-name");
     <% else %>
-      var url = '/admin/forms/<%= form.short_uuid %>/responses?tag=' + $(this).attr("data-name");
+      var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>&tag=' + $(this).attr("data-name");
     <% end %>
-    window.location = url;
+    $.ajax({
+      url: url,
+      type: 'get'
+    });
   });
 </script>

@@ -35,12 +35,20 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :forms, only: [:index, :show]
       resources :websites, only: [:index]
+      resources :service_providers, only: [:index]
     end
   end
 
   namespace :admin do
     get "/reporting/hisps", to: "reporting#hisps", as: :hisps
     get "/reporting/lifespan", to: "reporting#lifespan", as: :lifespan
+    get "/submissions/search", to: "submissions#search", as: :search_submissions
+    get "/submissions/a11_analysis", to: "submissions#a11_analysis", as: :a11_analysis
+    get "/submissions/a11_chart", to: "submissions#a11_chart", as: :a11_chart
+    get "/submissions/responses_per_day", to: "submissions#responses_per_day", as: :responses_per_day
+    get "/submissions/responses_by_status", to: "submissions#responses_by_status", as: :responses_by_status
+    get "/submissions/submissions_table", to: "submissions#submissions_table", as: :submissions_table
+    get "/submissions/performance_gov", to: "submissions#performance_gov", as: :performance_gov
 
     get "a11", to: "site#a11", as: :a11
     resources :service_providers

@@ -16,10 +16,10 @@
     </tr>
   </thead>
   <tbody>
-    <% agencies.each do | agency | %>
+    <% agencies.each do |agency| %>
     <tr class="agency_tr<%= agency.id %>">
       <td class="reportable-agencies">
-        <%= agency.name %>
+        <%= link_to agency.name, admin_organization_path(agency) %>
       </td>
       <td class="reportable-total-forms">
         <%= forms.select { | form | form.organization_id == agency.id }.count %>

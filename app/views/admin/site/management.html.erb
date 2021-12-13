@@ -3,32 +3,54 @@
 <% end %>
 <div class="grid-row grid-gap-md">
   <div class="grid-col-12">
-    <h3>
-      Organizations without active Forms
-    </h3>
+    <br>
+    <div
+      class="usa-summary-box"
+      role="region"
+      aria-labelledby="summary-box-key-information"
+    >
+      <div class="usa-summary-box__body">
+        <h3 class="usa-summary-box__heading" id="summary-box-key-information">
+          How can we support client's Customer Experience efforts?
+        </h3>
+        <div class="usa-summary-box__text">
+          <p>
+            This page includes tools used by Touchpoints Admins to assess product usage,
+            and inform communication with customers.
+          </p>
+        </div>
+      </div>
+    </div>
 
-    <% Organization.all.order(:name).each do |organization| %>
+    <div class="usa-section">
+      <%= render 'components/agency_summary', forms: @forms, agencies: @agencies %>
+    </div>
+
+    <div class="well">
+      <h3>
+        Organizations without active Forms
+      </h3>
+
+      <% @organizations.each do |organization| %>
       <% next unless organization.forms.empty? %>
       <%= link_to organization.name, admin_organization_path(organization) %>
       <br>
-    <% end %>
-
-    <br>
-    <hr>
-
-    <h3>
-      Forms without a Form Manager
-    </h3>
-
-    <% @unmanaged_forms = Form.all.order(:name) %>
-    <% if @unmanaged_forms.present? %>
-      <% @unmanaged_forms.each do |form| %>
-        <% manager_roles = form.user_roles.select { |user_role| user_role.role == "form_manager" } %>
-        <% next unless manager_roles.empty? %>
-        <%= link_to form.name, admin_form_path(form) %>
-        <br>
       <% end %>
-    <% else %>
+    </div>
+
+    <div class="well">
+      <h3>
+        Forms without a Form Manager
+      </h3>
+
+      <% if @unmanaged_forms.present? %>
+      <% @unmanaged_forms.each do |form| %>
+      <% manager_roles = form.user_roles.select { |user_role| user_role.role == "form_manager" } %>
+      <% next unless manager_roles.empty? %>
+      <%= link_to form.name, admin_form_path(form) %>
+      <br>
+      <% end %>
+      <% else %>
       <div class="usa-alert usa-alert--success" >
         <div class="usa-alert__body">
           <p class="usa-alert__text">
@@ -36,10 +58,9 @@
           </p>
         </div>
       </div>
-    <% end %>
+      <% end %>
+    </div>
 
-    <br>
-    <br>
     <div class="well">
       <h3>
         Forms with Notifications
