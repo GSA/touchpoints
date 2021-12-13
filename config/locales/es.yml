@@ -155,6 +155,7 @@ es:
       year: Año
   errors:
     format: "%{attribute} %{message}"
+    form_is_archived: "Operación no permitida en encuesta archivada"
     request:
       unauthorized_host: "solicitud realizada desde un host no autorizado"
     messages:
