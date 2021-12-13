@@ -54,6 +54,14 @@ class SubmissionsController < ApplicationController
       }, status: :unprocessable_entity and return
     end
 
+    # Prevent the submission for archived forms
+    if @form && @form.archived?
+      render json: {
+        status: :unprocessable_entity,
+        messages: { submission: [t('errors.form_is_archived')] }
+      }, status: :unprocessable_entity and return
+    end
+
     @submission = Submission.new(submission_params)
     @submission.form = @form
     @submission.user_agent = request.user_agent

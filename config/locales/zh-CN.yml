@@ -151,6 +151,7 @@ zh-CN:
       year: 年
   errors:
     format: "%{attribute}%{message}"
+    form_is_archived: "不允许对存档的调查进行操作"
     request:
       unauthorized_host: "来自非授权主机的请求"
     messages:

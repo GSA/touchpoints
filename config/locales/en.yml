@@ -1,6 +1,7 @@
 en-US:
   errors:
     format: "%{attribute} %{message}"
+    form_is_archived: "Operation not permitted on archived survey"
     request:
       unauthorized_host: "request made from non-authorized host"
     messages:

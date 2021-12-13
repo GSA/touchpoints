@@ -157,6 +157,19 @@ RSpec.describe SubmissionsController, type: :controller do
         expect(JSON.parse(response.body)["status"]).to eq("unprocessable_entity")
       end
     end
+
+    context "with archived form" do
+      before do
+        form.update(aasm_state: :archived)
+        post :create, params: { submission: { answer_01: "more than 5 characters" }, touchpoint_id: form.short_uuid }, session: valid_session, format: :json
+      end
+
+      it "returns an error response indicating character limit has been exceeded" do
+        expect(response.status).to eq(422)
+        expect(JSON.parse(response.body)["messages"]).to eq({ "submission" => ["Operation not permitted on archived survey"] })
+        expect(JSON.parse(response.body)["status"]).to eq("unprocessable_entity")
+      end
+    end
   end
 
 end
