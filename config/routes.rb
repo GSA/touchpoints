@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :forms, only: [:index, :show]
       resources :websites, only: [:index]
+      resources :service_providers, only: [:index]
     end
   end
 

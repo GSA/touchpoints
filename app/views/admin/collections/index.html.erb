@@ -6,15 +6,65 @@
   <% end %>
 <% end %>
 
-<p>
-  Filter by Quarter
-</p>
-<p>
-  <%= link_to "Q1", admin_collections_path(quarter: 1), class: "usa-button #{params[:quarter] == "1" ? nil : 'usa-button--outline'}" %>
-  <%= link_to "Q2", admin_collections_path(quarter: 2), class: "usa-button #{params[:quarter] == "2" ? nil : 'usa-button--outline'}" %>
-  <%= link_to "Q3", admin_collections_path(quarter: 3), class: "usa-button #{params[:quarter] == "3" ? nil : 'usa-button--outline'}" %>
-  <%= link_to "Q4", admin_collections_path(quarter: 4), class: "usa-button #{params[:quarter] == "4" ? nil : 'usa-button--outline'}" %>
-</p>
+<br>
+
+<div
+  class="usa-summary-box"
+  role="region"
+  aria-labelledby="summary-box-key-information"
+>
+  <div class="usa-summary-box__body">
+    <h3 class="usa-summary-box__heading" id="summary-box-key-information">
+      Managing Data Collections in Touchpoints
+    </h3>
+    <div class="usa-summary-box__text">
+      <p>
+        Data Collections are a common user experience in federal government.
+        These Data Collections feature were created for
+        1. staff who create Data Collections and
+        2. staff who respond to Data Collections.
+        Requesting updates for specific data, by creating a Data Collection, should be easy.
+        Responding to Data Collections should also be easy.
+        The lifecycle of the data should be transparent and valuable as well.
+      </p>
+      <p>
+        Touchpoints currently facilitates 2
+        Data Collections:
+      </p>
+      <ul class="usa-list">
+        <li>
+          OMB CX Data Collection (quarterly)
+        </li>
+        <li>
+          GSA Website Data Collection (annually)
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="well">
+  <div class="grid-row">
+    <div class="grid-col-12">
+      Filter by fiscal year and quarter
+      <h4>
+        2022
+      </h4>
+      <div>
+        <%= link_to "Q1", admin_collections_path(quarter: 1, year: 2022), class: "usa-button #{params[:quarter] == "1" && params[:year] == "2022" ? nil : 'usa-button--outline'}" %>
+      </div>
+      <h4>
+        2021
+      </h4>
+      <div>
+        <%= link_to "Q1", admin_collections_path(quarter: 1, year: 2021), class: "usa-button #{params[:quarter] == "1" && params[:year] == "2021" ? nil : 'usa-button--outline'}" %>
+        <%= link_to "Q2", admin_collections_path(quarter: 2, year: 2021), class: "usa-button #{params[:quarter] == "2" && params[:year] == "2021" ? nil : 'usa-button--outline'}" %>
+        <%= link_to "Q3", admin_collections_path(quarter: 3, year: 2021), class: "usa-button #{params[:quarter] == "3" && params[:year] == "2021" ? nil : 'usa-button--outline'}" %>
+        <%= link_to "Q4", admin_collections_path(quarter: 4, year: 2021), class: "usa-button #{params[:quarter] == "4" && params[:year] == "2021" ? nil : 'usa-button--outline'}" %>
+      </div>
+    </div>
+  </div>
+</div>
 
 <table class="usa-table">
   <thead>
