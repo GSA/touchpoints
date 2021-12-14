@@ -1,4 +1,4 @@
- require 'rails_helper'
+require 'rails_helper'
 
 feature "Data Collections", js: true do
   let(:organization) { FactoryBot.create(:organization) }
@@ -17,6 +17,10 @@ feature "Data Collections", js: true do
     end
 
     describe "GET /index" do
+      let!(:collection_1) { FactoryBot.create(:collection, organization: organization, user: admin, service_provider: service_provider, year: 2021, quarter: 2) }
+      let!(:collection_2) { FactoryBot.create(:collection, organization: organization, user: admin, service_provider: service_provider, year: 2022, quarter: 1) }
+      let!(:collection_3) { FactoryBot.create(:collection, organization: organization, user: admin, service_provider: service_provider, year: 2022, quarter: 1) }
+
       before do
         visit admin_collections_path
       end
@@ -25,6 +29,40 @@ feature "Data Collections", js: true do
         expect(page).to have_content("Data Collections")
         expect(page).to have_css("table.usa-table")
       end
+
+      it "can filter Collections by year" do
+        expect(page).to have_content("Filter by fiscal year and quarter")
+        expect(page).to have_content("Q1")
+        expect(page).to have_content("Q2")
+        expect(page).to have_content("Q3")
+        expect(page).to have_content("Q4")
+      end
+
+      describe "filter for this year" do
+        before do
+          within(".year[data-id='2021']") do
+            click_link("Q2")
+          end
+        end
+
+        it "find the two (2) 2021 Q2 collections" do
+          expect(find_all("table.collections tbody tr").size).to eq(3)
+        end
+      end
+
+      describe "filter for next year" do
+        before do
+          within(".year[data-id='2022']") do
+            click_link("Q1")
+          end
+        end
+
+        it "find the one (1) 2022 Q1 collection" do
+          expect(find_all("table.collections tbody tr").size).to eq(2)
+        end
+      end
+
+
     end
 
     describe "GET /show" do
