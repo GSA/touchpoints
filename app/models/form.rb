@@ -180,8 +180,8 @@ class Form < ApplicationRecord
 
   def check_expired
     if !self.archived? and self.expiration_date.present? and self.expiration_date <= Date.today
-      self.id ? self.archive! : self.archive
-      Event.log_event(Event.names[:form_archived], "Touchpoint",self.id, "Touchpoint #{self.name} archived on #{Date.today}") if self.id
+      self.archive!
+      Event.log_event(Event.names[:form_archived], "Touchpoint",self.id, "Touchpoint #{self.name} archived on #{Date.today}")
     end
   end
 

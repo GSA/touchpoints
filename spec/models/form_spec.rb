@@ -201,13 +201,11 @@ RSpec.describe Form, type: :model do
 
     context "expired form" do
       before do
-        form.update(aasm_state: :archived)
+        form.update(expiration_date: Date.today - 1)
       end
 
       it "archives expired form" do
-        form.publish!
         expect(form.live?).to eq(true)
-        form.expiration_date = Date.today - 1
         form.check_expired
         expect(form.live?).to eq(false)
         expect(form.archived?).to eq(true)
