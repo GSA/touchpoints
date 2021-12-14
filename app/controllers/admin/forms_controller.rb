@@ -504,9 +504,6 @@ class Admin::FormsController < AdminController
 
     # Add rules for AASM state transitions here
     def transition_state
-      if params["form"]["omb_approval_number"].present? and !@form.omb_approval_number.present?
-        params["form"]["aasm_state"] = "PRA_approved"
-      end
       if params["form"]["aasm_state"] == "live" and !@form.live?
         Event.log_event(Event.names[:form_published], "Form", @form.uuid, "Form #{@form.name} published at #{DateTime.now}", current_user.id)
       end
