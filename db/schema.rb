@@ -39,6 +39,41 @@ ActiveRecord::Schema.define(version: 2021_11_04_191430) do
     t.integer "service_provider_id"
   end
 
+  create_table "digital_products", force: :cascade do |t|
+    t.integer "organization_id"
+    t.integer "user_id"
+    t.string "service"
+    t.string "url"
+    t.string "code_repository_url"
+    t.string "language"
+    t.string "status"
+    t.string "aasm_status"
+    t.string "short_description"
+    t.text "long_description"
+    t.text "notes"
+    t.string "tags"
+    t.datetime "certified_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "digital_service_accounts", force: :cascade do |t|
+    t.integer "organization_id"
+    t.integer "user_id"
+    t.string "service"
+    t.string "service_url"
+    t.string "account"
+    t.string "language"
+    t.string "status"
+    t.string "short_description"
+    t.text "long_description"
+    t.text "notes"
+    t.string "tags"
+    t.datetime "certified_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "events", force: :cascade do |t|
     t.string "name", null: false
     t.string "object_type"

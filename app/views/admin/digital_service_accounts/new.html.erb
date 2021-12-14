@@ -1,0 +1,11 @@
+<% content_for :navigation_title do %>
+  New Social Media Account
+<% end %>
+<p>
+  <%= link_to admin_digital_service_accounts_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Social Media Accounts
+  <% end %>
+</p>
+
+<%= render 'form', digital_service_account: @digital_service_account %>

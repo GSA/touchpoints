@@ -1,0 +1,50 @@
+<% @accounts = CSV.open("cached_accounts.csv", headers: true).read %>
+<% @accounts.sort_by { |a| a["organization"] }.group_by { |a| a["organization"] }.each do |group| %>
+  <% name = group.first %>
+  <% accounts = group.last %>
+
+  <h4>
+    <%= name %>
+  </h4>
+  <% accounts.each do |account| %>
+    <%= account["agencies"] %>
+    <div class="" data-id="<%= account["id"] %>" style="font-size: 2em;">
+      <%= link_to account["service_url"] do %>
+        <% if account["service_display_name"] == "Instagram" %>
+        <span class="fab fa-instagram"></span>
+        <% elsif account["service_display_name"] == "Twitter" %>
+        <span class="fab fa-twitter"></span>
+        <% elsif account["service_display_name"] == "Facebook" %>
+        <span class="fab fa-facebook"></span>
+        <% elsif account["service_display_name"] == "YouTube" %>
+        <span class="fab fa-youtube"></span>
+        <% elsif account["service_display_name"] == "LinkedIn" %>
+        <span class="fab fa-linkedin"></span>
+        <% elsif account["service_display_name"] == "Flickr" %>
+        <span class="fab fa-flickr"></span>
+        <% elsif account["service_display_name"] == "Medium" %>
+        <span class="fab fa-medium"></span>
+        <% elsif account["service_display_name"] == "Tumblr" %>
+        <span class="fab fa-medium"></span>
+        <% elsif account["service_display_name"] == "GitHub" %>
+        <span class="fab fa-github"></span>
+        <% else %>
+          <%= account["service_display_name"] %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+<hr>
+<% end %>
+
+<hr>
+
+<% @accounts = CSV.open("social_media_export.csv", headers: true).read %>
+
+<% @accounts.each do |account| %>
+<% fields = ["id","created_at","updated_at","service_url","organization","account","language","service","status","short_description","long_description","agencies","contacts","tags"].each do |field| %>
+  <%= field %>: <%= account[field] %>
+  <br>
+<% end %>
+<hr>
+<% end %>

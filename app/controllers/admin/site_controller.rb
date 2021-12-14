@@ -41,4 +41,7 @@ class Admin::SiteController < AdminController
     @unmanaged_forms = @forms.order(:name)
     @agencies = Organization.all.order(:name)
   end
+
+  def registry
+  end
 end
