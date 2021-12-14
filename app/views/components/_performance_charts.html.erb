@@ -6,7 +6,7 @@
   }
 </style>
 
-<% @slug = collection.try(:service).try(:service_slug) || "FIXME" %>
+<% @slug = collection.try(:service).try(:service_slug) %>
 
 <a id="cx-charts-<%= @slug %>"></a>
 
@@ -17,6 +17,32 @@
     </div>
   </div>
 </div>
+
+  <h6>
+    Service details
+  </h6>
+
+  <% collection.omb_cx_reporting_collections.each do |report| %>
+  <div class="grid-row">
+    <div class="grid-col-12 font-sans-3xs">
+      Transaction point:
+      <%= report.transaction_point %>
+      <br>
+      Channel:
+      <%= report.channel %>
+      <br>
+      People served:
+      <%= report.volume_of_customers %>
+      <br>
+      Surveys offered:
+      <%= report.volume_of_customers_provided_survey_opportunity %>
+      <br>
+      Responses:
+      <%= report.volume_of_respondents %>
+    </div>
+  </div>
+  <br>
+  <% end %>
 
 <script>
   chartConfigs["q<%= collection.quarter %>-<%= @slug %>"] = {

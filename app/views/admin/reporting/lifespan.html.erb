@@ -3,13 +3,11 @@
 <% end %>
 <div class="agency-survey-lifespan-rerport">
 	<% @org_summary.each do | org | %>
-	<h3 class=".usa-accordion__heading"><%= org[:name] %></h3>
 	<div class="well">
-		<span class="usa-label">
-			Total Submissions: <%= org[:submissions] %>
-      <br>
-			Average Lifespan: <%= number_with_precision(org[:avg_lifespan] / (3600 * 24),:precision => 2) %> days
-		</span>
+    <h3>
+      <%= org[:name] %>
+    </h3>
+
 		<% if org[:forms].size > 0 %>
 			<table class="usa-table">
 			  <thead>
@@ -23,16 +21,31 @@
 			  	<% org[:forms].each do |form| %>
 				<tr>
 					<td>
-						<%= link_to form[:name], admin_form_path(form) %>
+						<%= link_to form[:name], admin_form_path(form[:short_uuid]) %>
 					</td>
 					<td>
 						<%= form[:counts].num_submissions %>
 					</td>
 					<td>
-						<%= number_with_precision(form[:counts].lifespan / (3600 * 24),:precision => 2)  %>
+						<%= number_with_precision(form[:counts].lifespan / (3600 * 24), precision: 2)  %>
 					</td>
 				</tr>
 				<% end %>
+          <tfoot>
+            <tr>
+              <td>
+                Total Submissions
+              </td>
+              <td>
+                <%= org[:submissions] %>
+              </td>
+              <td>
+                average:
+                <%= number_with_precision(org[:avg_lifespan] / (3600 * 24), precision: 2) %>
+                days
+              </td>
+            </tr>
+          </tfoot>
 			  </tbody>
 			</table>
 		<% end %>

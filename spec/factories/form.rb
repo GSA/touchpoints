@@ -307,6 +307,10 @@ FactoryBot.define do
       end
     end
 
+    trait :a11 do
+      kind { "a11" }
+    end
+
     trait :a11_v2 do
       name { "Version 2 of the A11 form" }
       kind { "custom" }

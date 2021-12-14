@@ -8,9 +8,10 @@
 <% end %>
 
 <p>
-  <%= link_to admin_omb_cx_reporting_collections_path do %>
+  <%= link_to admin_collection_path(@omb_cx_reporting_collection.collection) do %>
     <i class="fa fa-arrow-circle-left"></i>
-    Back to OMB CX Reporting Collections
+    Back to
+    <%= @omb_cx_reporting_collection.collection.name %>
   <% end %>
 </p>
 
@@ -34,7 +35,7 @@
             Organization
           </strong>
           <br>
-          <%= @omb_cx_reporting_collection.collection.organization.name %>
+          <%= link_to @omb_cx_reporting_collection.collection.organization.name, admin_organization_path(@omb_cx_reporting_collection.collection.organization) %>
         </div>
       </p>
       <p>

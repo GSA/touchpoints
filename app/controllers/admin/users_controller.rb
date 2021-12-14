@@ -25,6 +25,7 @@ class Admin::UsersController < AdminController
   def show
     @forms = @user.forms
     @websites = Website.where(site_owner_email: @user.email)
+    @collections = @user.collections
   end
 
   def new
