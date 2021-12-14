@@ -41,7 +41,7 @@
 <% end %>
 <script>
   $(function() {
-    $('.export-btn').click(function(e) {
+    $('.export-btn').on("click", function(e) {
       e.preventDefault();
 
       if ($(this).text() == "Exporting...") {
