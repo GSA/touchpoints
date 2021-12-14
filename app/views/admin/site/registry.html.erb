@@ -66,7 +66,7 @@
           Created last 30 days
         </td>
         <td>
-          9
+          <%= Website.where("created_at >= ?", Time.now - 30.days).size %>
         </td>
       </tr>
       <tr>
@@ -74,7 +74,7 @@
           Created last 90 days
         </td>
         <td>
-          9
+          <%= Website.where("created_at >= ?", Time.now - 90.days).size %>
         </td>
       </tr>
       <tr>
@@ -82,7 +82,7 @@
           Created last 180 days
         </td>
         <td>
-          9
+          <%= Website.where("created_at >= ?", Time.now - 180.days).size %>
         </td>
       </tr>
       <tr>
@@ -90,7 +90,7 @@
           Updated last 30 days
         </td>
         <td>
-          9
+          <%= Website.where("updated_at >= ?", Time.now - 30.days).size %>
         </td>
       </tr>
       <tr>
@@ -98,7 +98,7 @@
           Updated last 90 days
         </td>
         <td>
-          9
+          <%= Website.where("updated_at >= ?", Time.now - 30.days).size %>
         </td>
       </tr>
       <tr>
@@ -106,7 +106,7 @@
           Updated last 180 days
         </td>
         <td>
-          9
+          <%= Website.where("updated_at >= ?", Time.now - 30.days).size %>
         </td>
       </tr>
     </table>
@@ -129,7 +129,7 @@
           Created last 30 days
         </td>
         <td>
-          9
+          <%= DigitalProduct.where("created_at >= ?", Time.now - 30.days).size %>
         </td>
       </tr>
       <tr>
@@ -137,7 +137,7 @@
           Created last 90 days
         </td>
         <td>
-          9
+          <%= DigitalProduct.where("created_at >= ?", Time.now - 30.days).size %>
         </td>
       </tr>
       <tr>
@@ -145,7 +145,7 @@
           Created last 180 days
         </td>
         <td>
-          9
+          <%= DigitalProduct.where("created_at >= ?", Time.now - 30.days).size %>
         </td>
       </tr>
       <tr>
@@ -153,7 +153,7 @@
           Updated last 30 days
         </td>
         <td>
-          9
+          <%= DigitalProduct.where("updated_at >= ?", Time.now - 30.days).size %>
         </td>
       </tr>
       <tr>
@@ -161,7 +161,7 @@
           Updated last 90 days
         </td>
         <td>
-          9
+          <%= DigitalProduct.where("updated_at >= ?", Time.now - 30.days).size %>
         </td>
       </tr>
       <tr>
@@ -169,7 +169,7 @@
           Updated last 180 days
         </td>
         <td>
-          9
+          <%= DigitalProduct.where("updated_at >= ?", Time.now - 30.days).size %>
         </td>
       </tr>
     </table>
@@ -192,7 +192,7 @@
           Created last 30 days
         </td>
         <td>
-          9
+          <%= DigitalServiceAccount.where("created_at >= ?", Time.now - 30.days).size %>
         </td>
       </tr>
       <tr>
@@ -200,7 +200,7 @@
           Created last 90 days
         </td>
         <td>
-          9
+          <%= DigitalServiceAccount.where("created_at >= ?", Time.now - 30.days).size %>
         </td>
       </tr>
       <tr>
@@ -208,7 +208,7 @@
           Created last 180 days
         </td>
         <td>
-          9
+          <%= DigitalServiceAccount.where("created_at >= ?", Time.now - 30.days).size %>
         </td>
       </tr>
       <tr>
@@ -216,7 +216,7 @@
           Updated last 30 days
         </td>
         <td>
-          9
+          <%= DigitalServiceAccount.where("updated_at >= ?", Time.now - 30.days).size %>
         </td>
       </tr>
       <tr>
@@ -224,7 +224,7 @@
           Updated last 90 days
         </td>
         <td>
-          9
+          <%= DigitalServiceAccount.where("updated_at >= ?", Time.now - 30.days).size %>
         </td>
       </tr>
       <tr>
@@ -232,7 +232,7 @@
           Updated last 180 days
         </td>
         <td>
-          9
+          <%= DigitalServiceAccount.where("updated_at >= ?", Time.now - 30.days).size %>
         </td>
       </tr>
     </table>
