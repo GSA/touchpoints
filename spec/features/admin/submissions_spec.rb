@@ -372,6 +372,21 @@ feature "Submissions", js: true do
           end
         end
 
+        describe "view a Submission" do
+          context "with one Response" do
+            before do
+              within("table.submissions tbody tr:first-child") do
+                click_on "View"
+              end
+            end
+
+            it "can view a Submission" do
+              expect(page.current_path).to eq(admin_form_submission_path(form, submission2))
+              expect(page).to_not have_content("Delete")
+            end
+          end
+        end
+
         describe "flag a Submission" do
           context "with one Response" do
             before do

@@ -13,11 +13,10 @@ class FormCache
     end
   end
 
-  def self.fetch_all_analysis(short_uuid)
+  def self.fetch_a11_analysis(short_uuid)
     return false unless short_uuid.present?
 
     Rails.cache.fetch(NAMESPACE + '-a11-analysis-' + short_uuid.to_s, expires_in: 1.day) do
-      Rails.logger.debug("Adding a11 analysis to cache at #{Time.now}")
       form = Form.find_by_short_uuid(short_uuid)
       report = {}
       report[:answer_01] = form.average_answer(:answer_01)
@@ -31,8 +30,26 @@ class FormCache
     end
   end
 
+  def self.fetch_performance_gov_analysis(short_uuid)
+    return false unless short_uuid.present?
+
+    Rails.cache.fetch(NAMESPACE + '-performance-gov-analysis-' + short_uuid.to_s, expires_in: 1.day) do
+      form = Form.find_by_short_uuid(short_uuid)
+      report = {}
+      report[:quarterly_submissions] = form.submissions.order(:created_at).entries.map { |e| e.attributes.merge(quarter: e.created_at.beginning_of_quarter.to_date, end_of_quarter: e.created_at.end_of_quarter ) }
+      report[:quarters] = report[:quarterly_submissions].collect { |e| e[:quarter] }.uniq
+      report
+    end
+
+  end
+
   def self.invalidate(short_uuid)
     Rails.cache.delete(NAMESPACE + short_uuid.to_s)
+  end
+
+  def self.invalidate_reports(short_uuid)
+    Rails.cache.delete(NAMESPACE + '-performance-gov-analysis-' + short_uuid.to_s)
+    Rails.cache.delete(NAMESPACE + '-a11-analysis-' + short_uuid.to_s)
   end
 
 end

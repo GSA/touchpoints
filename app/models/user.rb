@@ -94,7 +94,7 @@ class User < ApplicationRecord
   # For Devise
   # This is the flash message shown to a user when inactive
   def inactive_message
-    "User account is inactive"
+    "User account #{self.email} is inactive. Please contact #{ENV.fetch("TOUCHPOINTS_SUPPORT")}."
   end
 
   def deactivate

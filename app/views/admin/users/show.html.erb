@@ -62,6 +62,7 @@
   </div>
   <% end %>
 </div>
+
 <div class="well">
   <h4>
     Websites managed
@@ -79,6 +80,29 @@
     <div class="usa-alert__body">
       <p class="usa-alert__text">
         No Websites at this time
+      </p>
+    </div>
+  </div>
+  <% end %>
+</div>
+
+<div class="well">
+  <h4>
+    Data Collections
+  </h4>
+  <% if @collections.present? %>
+    <ul class="usa-list">
+    <% @collections.each do |collection| %>
+      <li>
+        <%= link_to collection.name, admin_collection_path(collection) %><br>
+      </li>
+    <% end %>
+    </ul>
+  <% else %>
+  <div class="usa-alert usa-alert--info" >
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        No Collections at this time
       </p>
     </div>
   </div>
