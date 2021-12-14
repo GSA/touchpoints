@@ -39,9 +39,7 @@
         <tr>
           <th>View</th>
           <th>Flag</th>
-          <% if form_permissions?(form: form) %>
           <th>Archive</th>
-          <% end %>
           <th data-sortable scope="col" role="columnheader">Status</th>
           <th data-sortable scope="col" role="columnheader">
             Created At
@@ -79,7 +77,6 @@
               <%= render "admin/submissions/unflag", { submission: submission } %>
             <% end %>
           </td>
-          <% if form_permissions?(form: form) %>
           <td class="archived">
             <% if submission.archived? %>
               <%= render "admin/submissions/archive", { submission: submission } %>
@@ -87,7 +84,6 @@
               <%= render "admin/submissions/unarchive", { submission: submission } %>
             <% end %>
           </td>
-          <% end %>
           <td>
             <%= submission.aasm_state %>
           </td>

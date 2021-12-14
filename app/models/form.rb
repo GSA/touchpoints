@@ -112,33 +112,17 @@ class Form < ApplicationRecord
 
   aasm do
     state :in_development, initial: true
-    state :ready_to_submit_to_PRA # manual
-    state :submitted_to_PRA # manual
-    state :PRA_approved # manual - adding OMB Numbers
-    state :PRA_denied # manual
     state :live # manual
     state :archived # after End Date, or manual
 
     event :develop do
-      transitions from: [:ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :in_development
-    end
-    event :ready_to_submit do
-      transitions from: [:in_development, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :ready_to_submit_to_PRA
-    end
-    event :submit do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :PRA_approved, :PRA_denied, :live, :archived], to: :submitted_to_PRA
-    end
-    event :approve do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_denied, :live, :archived], to: :PRA_approved
-    end
-    event :deny do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :live, :archived], to: :PRA_denied
+      transitions from: [:live, :archived], to: :in_development
     end
     event :publish do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :archived], to: :live
+      transitions from: [:in_development], to: :live
     end
     event :archive do
-      transitions from: [:in_development, :ready_to_submit_to_PRA, :submitted_to_PRA, :PRA_approved, :PRA_denied, :live], to: :archived
+      transitions from: [:in_development, :live], to: :archived
     end
   end
 
@@ -196,8 +180,8 @@ class Form < ApplicationRecord
 
   def check_expired
     if !self.archived? and self.expiration_date.present? and self.expiration_date <= Date.today
-      self.id ? self.archive! : self.archive
-      Event.log_event(Event.names[:form_archived], "Touchpoint",self.id, "Touchpoint #{self.name} archived on #{Date.today}") if self.id
+      self.archive!
+      Event.log_event(Event.names[:form_archived], "Touchpoint",self.id, "Touchpoint #{self.name} archived on #{Date.today}")
     end
   end
 
