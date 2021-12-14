@@ -1,0 +1,103 @@
+<% content_for :navigation_title do %>
+  Digital Service Account: <%= @digital_service_account.service %>
+  <%= link_to edit_admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-pencil-alt"></i>
+    Edit
+  <% end %>
+<% end %>
+<p>
+  <%= link_to admin_digital_service_accounts_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Digital Service Accounts
+  <% end %>
+</p>
+
+<p>
+  <strong>Service</strong>
+  <br>
+  <%= @digital_service_account.service %>
+</p>
+
+<p>
+  <strong>Organization</strong>
+  <br>
+  <%= @digital_service_account.organization.name %>
+</p>
+
+<p>
+  <strong>User</strong>
+  <br>
+  <%= @digital_service_account.user.email %>
+</p>
+
+
+<p>
+  <strong>Service url</strong>
+  <br>
+  <%= @digital_service_account.service_url %>
+</p>
+
+<p>
+  <strong>Account</strong>
+  <br>
+  <%= @digital_service_account.account %>
+</p>
+
+
+
+<p>
+  <strong>Status</strong>
+  <br>
+  <%= @digital_service_account.status %>
+</p>
+
+<p>
+  <strong>Short description</strong>
+  <br>
+  <%= @digital_service_account.short_description %>
+</p>
+
+<p>
+  <strong>Long description</strong>
+  <br>
+  <%= @digital_service_account.long_description %>
+</p>
+
+<p>
+  <strong>Language</strong>
+  <br>
+  <%= @digital_service_account.language %>
+</p>
+
+<p>
+  <strong>Tags</strong>
+  <br>
+  <%= @digital_service_account.tags %>
+</p>
+
+<p>
+  <strong>Updated at</strong>
+  <br>
+  <%= @digital_service_account.updated_at %>
+</p>
+
+<p>
+  <strong>API link</strong>
+  <br>
+  <%= link_to admin_digital_service_account_url(@digital_service_account, format: :json) %>
+</p>
+
+<div class="well">
+  <%= link_to 'Publish', admin_digital_service_accounts_path, class: "usa-button" %>
+  <%= link_to 'Archive', admin_digital_service_accounts_path, class: "usa-button usa-button--secondary" %>
+
+  <br>
+  <br>
+  <div class="usa-alert usa-alert--info" >
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        Note: Archive accounts only after your agency is no longer using the account and it has already been removed from the third-party social media platform.
+      </p>
+    </div>
+  </div>
+</div>

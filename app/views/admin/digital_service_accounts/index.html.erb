@@ -1,0 +1,97 @@
+<% content_for :navigation_title do %>
+  Social Media Accounts
+  <%= link_to new_admin_digital_service_account_path, class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-plus-circle"></i>
+    New Account
+  <% end %>
+<% end %>
+<p>
+  <%= link_to admin_registry_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Registry home
+  <% end %>
+</p>
+
+<p class="usa-prose">
+  Search for social media accounts using the filters below.
+  Agency names are based found using keywords from their title, for example "Census" for "Bureau of the Census" to find their exact name in the system. Agencies only appear once they have an account published in the system. The search box below is best used for short terms from the entry in the table, for example "GSA" or an email address.
+</p>
+
+<div class="grid-row grid-gap-md">
+  <div class="grid-col-6">
+    <%= label_tag "Search by Agency", nil, class: "usa-label" %>
+    <%= select_tag :organization_id, options_for_select(organization_dropdown_options), { prompt: "All", class: "usa-select" } %>
+  </div>
+  <div class="grid-col-6">
+    <%= label_tag "Search by keywords", nil, class: "usa-label" %>
+    <%= text_field_tag :tags, nil, class: "usa-input" %>
+  </div>
+</div>
+<div class="grid-row grid-gap-md">
+  <div class="grid-col-6">
+    <%= label_tag "Account platform", nil, class: "usa-label" %>
+    <%= select_tag :service, options_for_select([
+    "All",
+    "Disqus",
+    "Eventbrite",
+    "Facebook",
+    "Flickr",
+    "Foursquare",
+    "Giphy",
+    "Github",
+    "Google plus",
+    "Ideascale",
+    "Instagram",
+    "Linkedin",
+    "Livestream",
+    "Medium",
+    "Myspace",
+    "Pinterest",
+    "Reddit",
+    "Scribd",
+    "Slideshare",
+    "Socrata",
+    "Storify",
+    "Tumblr",
+    "Twitter",
+    "Uservoice",
+    "Ustream",
+    "Vimeo",
+    "Yelp",
+    "Youtube"]), class: "usa-select" %>
+  </div>
+  <div class="grid-col-6">
+    <%= label_tag "Status selector", nil, class: "usa-label" %>
+    <%= select_tag :hi, options_for_select(["All", "Published", "Archive"]), class: "usa-select" %>
+  </div>
+</div>
+
+<p>
+  <%= link_to "Export results to .csv", admin_digital_service_accounts_path(format: :csv), class: "usa-button" %>
+</p>
+
+<table class="usa-table">
+  <thead>
+    <tr>
+      <th>Organization</th>
+      <th>Platform</th>
+      <th>Account name</th>
+      <th>Status</th>
+      <th>User</th>
+      <th>Updated at</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @digital_service_accounts.each do |digital_service_account| %>
+      <tr>
+        <td><%= digital_service_account.organization.name %></td>
+        <td><%= digital_service_account.service %></td>
+        <td><%= link_to digital_service_account.account, admin_digital_service_account_path(digital_service_account) %></td>
+        <td><%= digital_service_account.updated_at %></td>
+        <td><%= digital_service_account.user.email %></td>
+        <td><%= digital_service_account.status %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

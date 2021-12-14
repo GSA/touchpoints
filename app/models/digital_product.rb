@@ -1,0 +1,2 @@
+class DigitalProduct < ApplicationRecord
+end
