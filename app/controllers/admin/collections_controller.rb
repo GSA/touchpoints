@@ -7,16 +7,20 @@ class Admin::CollectionsController < AdminController
 
   def index
     @quarter = params[:quarter].present? ? params[:quarter].to_i : nil
-    @year = params[:year].present? ? params[:year].to_i : 2021
+    @year = params[:year].present? ? params[:year].to_i : nil
 
     if admin_permissions?
-      if @quarter
+      if @quarter && @year
+        @collections = Collection.where(quarter: @quarter, year: @year).order('organizations.name', :year, :quarter).includes(:organization)
+      elsif @quarter
         @collections = Collection.where(quarter: @quarter).order('organizations.name', :year, :quarter).includes(:organization)
       else
         @collections = Collection.all.order('organizations.name', :year, :quarter).includes(:organization)
       end
     else
-      if @quarter
+      if @quarter && @year
+        @collections = current_user.collections.where(quarter: @quarter, year: @year).order('organizations.name', :year, :quarter).includes(:organization)
+      elsif @quarter
         @collections = current_user.collections.where(quarter: @quarter).order('organizations.name', :year, :quarter).includes(:organization)
       else
         @collections = current_user.organization.collections.order('organizations.name', :year, :quarter).includes(:organization)
