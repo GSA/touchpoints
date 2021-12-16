@@ -1,5 +1,6 @@
 class Admin::ServiceProvidersController < AdminController
   before_action :set_service_provider, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_admin, except: [:show]
 
   def index
     @service_providers = ServiceProvider.all.includes(:organization).order("organizations.name", "service_providers.name")
