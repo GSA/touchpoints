@@ -11,18 +11,17 @@
 <% end %>
 <div class="grid-row grid-gap-lg">
   <div class="grid-col-6">
-    <% if admin_permissions? %>
+    <% if admin_permissions? && service.persisted? %>
     <div class="field">
       <%= form.label :organization_id, class: "usa-label" %>
-      <%= form.select :organization_id, options_for_select(organization_dropdown_options, service.organization_id), { prompt: "Which Organization?", include_blank: true }, { class: "usa-select" } %>
+      <%= form.select :organization_id, options_for_select(organization_dropdown_options, service.organization_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
     </div>
+    <% end %>
+
     <div class="field">
       <%= form.label :service_provider_id, class: "usa-label" %>
-      <%= form.select :service_provider_id, options_for_select(ServiceProvider.all.map { |p| [p.name, p.id] }, service.service_provider_id), { prompt: "Which Organization?", include_blank: true }, { class: "usa-select" } %>
+      <%= form.select :service_provider_id, options_for_select(ServiceProvider.all.includes(:organization).order("organizations.abbreviation", "service_providers.name").map { |p| ["#{p.organization.abbreviation} - #{p.name}", p.id] }, service.service_provider_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
     </div>
-    <% else %>
-    <%= form.hidden_field :organization_id, value: current_user.organization_id %>
-    <% end %>
 
     <div class="field">
       <%= form.label :name, class: "usa-label" %>

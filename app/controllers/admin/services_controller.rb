@@ -22,6 +22,7 @@ class Admin::ServicesController < AdminController
 
   def create
     @service = Service.new(service_params)
+    @service.organization = @service.service_provider.organization
 
     if @service.save
       redirect_to admin_service_path(@service), notice: 'Service was successfully created.'

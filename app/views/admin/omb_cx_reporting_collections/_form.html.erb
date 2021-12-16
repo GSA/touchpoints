@@ -18,7 +18,11 @@
   </div>
   <div class="field">
     <%= form.label :service_id, class: "usa-label" %>
-    <%= form.select :service_id, Service.all.includes(:organization).order("organizations.name", :name).map { |h| ["#{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, class: "usa-select" %>
+    <% if @collection %>
+      <%= form.select :service_id, @collection.organization.services.includes(:organization).order("organizations.name", :name).map { |h| ["#{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, class: "usa-select" %>
+    <% else %>
+      <%= form.select :service_id, Service.all.includes(:organization).order("organizations.name", :name).map { |h| ["#{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, class: "usa-select" %>
+    <% end %>
   </div>
   <div class="field">
     <%= form.label :service_provided, class: "usa-label" %>
