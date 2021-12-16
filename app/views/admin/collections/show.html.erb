@@ -67,7 +67,7 @@
       <p>
         <strong>Service Provider</strong>
         <br>
-        <%= @collection.service_provider.name %>
+        <%= link_to  @collection.service_provider.name, admin_service_provider_path( @collection.service_provider) %>
       </p>
       <p>
         <strong>User</strong>
