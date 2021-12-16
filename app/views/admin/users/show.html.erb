@@ -94,6 +94,9 @@
     <ul class="usa-list">
     <% @collections.each do |collection| %>
       <li>
+        Q<%= collection.quarter %>
+        FY<%= collection.year %>
+        &middot;
         <%= link_to collection.name, admin_collection_path(collection) %><br>
       </li>
     <% end %>
