@@ -18,7 +18,7 @@ gem 'mini_magick'
 gem 'newrelic_rpm'
 gem 'omniauth-github'
 gem 'omniauth_login_dot_gov', git: 'https://github.com/18F/omniauth_login_dot_gov.git', branch: 'main'
-gem 'rails', '>= 6.1.4.1'
+gem 'rails', '>= 6.1.4.2'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'rack-cors', '>= 1.1.1', require: 'rack/cors'
@@ -46,7 +46,7 @@ end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'web-console', '>= 4.1.0'
+  gem 'web-console', '>= 4.2.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
 end
 
