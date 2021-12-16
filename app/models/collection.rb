@@ -4,7 +4,7 @@ class Collection < ApplicationRecord
   belongs_to :organization
   belongs_to :service_provider
   belongs_to :user
-  has_many :omb_cx_reporting_collections
+  has_many :omb_cx_reporting_collections, dependent: :delete_all
 
   validates :year, presence: true
   validates :quarter, presence: true

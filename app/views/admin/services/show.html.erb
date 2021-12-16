@@ -97,11 +97,42 @@
 <hr>
 
 <div class="well">
+  <h4>
+    Data Collections
+  </h4>
+  <div>
+    <% @collections = @service.collections.order(:year, :quarter) %>
+    <% if @collections.present? %>
+    <ul>
+      <% @collections.each do |c| %>
+      <li>
+        <%= link_to admin_collection_path(c) do %>
+          <%= c.year %>
+          <%= c.quarter %>
+          <%= c.name %>
+        <% end %>
+      </li>
+      <% end %>
+    </ul>
+    <% else %>
+      <div class="usa-alert usa-alert--info">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            No Data Collections exist for this Service.
+            <%= link_to "Learn more", admin_collections_path %>
+          </p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="well">
   <div class="grid-row grid-gap-md">
     <div class="grid-col-9">
-      <h2>
+      <h4>
         Service Stages
-      </h2>
+      </h4>
       <p class="usa-prose">
         Each Service is can be decomposed into multiple Stages.
         Delineating each step is useful for calculating
@@ -178,9 +209,9 @@
 </div>
 
 <div class="well">
-  <h3>
+  <h4>
     Supplemental service information
-  </h3>
+  </h4>
   <p>
     <%= link_to equity_assessment_admin_service_path(@service), class: "usa-button usa-button--outline" do %>
       <i class="fa fa-pencil-alt"></i>
@@ -191,34 +222,4 @@
       OMB Quarterly Reporting
     <% end %>
   </p>
-
-  <div>
-    <h4>
-      Data Collections
-    </h4>
-
-    <% @collections = @service.collections.order(:year, :quarter) %>
-    <% if @collections.present? %>
-    <ul>
-      <% @collections.each do |c| %>
-      <li>
-        <%= link_to admin_collection_path(c) do %>
-          <%= c.year %>
-          <%= c.quarter %>
-          <%= c.name %>
-        <% end %>
-      </li>
-      <% end %>
-    </ul>
-    <% else %>
-      <div class="usa-alert usa-alert--info">
-        <div class="usa-alert__body">
-          <p class="usa-alert__text">
-            No Data Collections exist for this Service.
-            <%= link_to "Learn more", admin_collections_path %>
-          </p>
-        </div>
-      </div>
-    <% end %>
-  </div>
 </div>

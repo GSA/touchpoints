@@ -74,13 +74,22 @@
 </div>
 <div class="service-providers well">
   <h3>
-    <%= @organization.service_providers.size %> Service Providers
+    <%= pluralize(@organization.service_providers.size, "Service Providers") %>
+    and
+    <%= pluralize(@organization.services.size, "Service") %>
   </h3>
 
   <ul class="usa-list">
-  <% @organization.service_providers.order(:name).each do |service| %>
+  <% @organization.service_providers.order(:name).each do |service_provider| %>
     <li>
-      <%= link_to service.name, admin_service_provider_path(service) %>
+      <%= link_to service_provider.name, admin_service_provider_path(service_provider) %>
+      <ul class="usa-list">
+      <% service_provider.services.order(:name).each do |service| %>
+        <li>
+          <%= link_to service.name, admin_service_path(service) %>
+        </li>
+      <% end %>
+      </ul>
     </li>
   <% end %>
   </ul>
