@@ -51,11 +51,18 @@ Rails.application.routes.draw do
     get "/submissions/performance_gov", to: "submissions#performance_gov", as: :performance_gov
 
     get "a11", to: "site#a11", as: :a11
-    resources :service_providers
+    resources :service_providers do |*args|
+      member do
+        post "add_tag", to: "service_providers#add_tag", as: :add_tag
+        post "remove_tag", to: "service_providers#remove_tag", as: :remove_tag
+      end
+    end
     resources :services do
       member do
         get "equity-assessment", to: "services#equity_assessment", as: :equity_assessment
         get "cx-reporting", to: "services#omb_cx_reporting", as: :omb_cx_reporting
+        post "add_tag", to: "services#add_tag", as: :add_tag
+        post "remove_tag", to: "services#remove_tag", as: :remove_tag
       end
       resources :service_stages
     end

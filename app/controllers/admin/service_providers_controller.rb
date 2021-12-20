@@ -1,5 +1,5 @@
 class Admin::ServiceProvidersController < AdminController
-  before_action :set_service_provider, only: [:show, :edit, :update, :destroy]
+  before_action :set_service_provider, only: [:show, :edit, :update, :destroy, :add_tag, :remove_tag]
   before_action :ensure_admin, except: [:show]
 
   def index
@@ -39,6 +39,16 @@ class Admin::ServiceProvidersController < AdminController
     redirect_to admin_service_providers_url, notice: 'Service provider was successfully destroyed.'
   end
 
+  def add_tag
+    @service_provider.tag_list.add(service_provider_params[:tag_list].split(","))
+    @service_provider.save
+  end
+
+  def remove_tag
+    @service_provider.tag_list.remove(service_provider_params[:tag_list].split(","))
+    @service_provider.save
+  end
+
   private
     def set_service_provider
       @service_provider = ServiceProvider.find(params[:id])
@@ -57,6 +67,7 @@ class Admin::ServiceProvidersController < AdminController
         :bureau_abbreviation,
         :inactive,
         :new,
+        :tag_list,
       )
     end
 end

@@ -4,6 +4,8 @@ class Admin::ServicesController < AdminController
     :show, :edit, :update, :destroy,
     :equity_assessment,
     :omb_cx_reporting,
+    :add_tag,
+    :remove_tag,
   ]
 
   def index
@@ -44,6 +46,16 @@ class Admin::ServicesController < AdminController
     redirect_to admin_services_url, notice: 'Service was successfully destroyed.'
   end
 
+  def add_tag
+    @service.tag_list.add(service_params[:tag_list].split(","))
+    @service.save
+  end
+
+  def remove_tag
+    @service.tag_list.remove(service_params[:tag_list].split(","))
+    @service.save
+  end
+
   def equity_assessment
   end
 
@@ -69,6 +81,7 @@ class Admin::ServicesController < AdminController
         :service_abbreviation,
         :service_slug,
         :url,
+        :tag_list,
       )
     end
 end
