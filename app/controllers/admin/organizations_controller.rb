@@ -52,7 +52,7 @@ class Admin::OrganizationsController < AdminController
 
   private
     def set_organization
-      @organization = Organization.find(params[:id])
+      @organization = Organization.find_by_id(params[:id]) || Organization.find_by_abbreviation(params[:id].upcase)
     end
 
     def organization_params
@@ -66,6 +66,7 @@ class Admin::OrganizationsController < AdminController
         :external_id,
         :enable_ip_address,
         :digital_analytics_path,
+        :mission_statement
       )
     end
 end

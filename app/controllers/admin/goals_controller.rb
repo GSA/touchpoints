@@ -44,6 +44,15 @@ class Admin::GoalsController < AdminController
     end
 
     def goal_params
-      params.require(:goal).permit(:organization_id, :name, :description, :tags, :users)
+      params.require(:goal).permit(
+        :organization_id,
+        :name,
+        :description, 
+        :tags,
+        :users,
+        :four_year_goal,
+        :two_year_goal,
+        :parent_id,
+      )
     end
 end

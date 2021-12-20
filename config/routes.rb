@@ -71,6 +71,7 @@ Rails.application.routes.draw do
     resources :omb_cx_reporting_collections
     resources :goals
     resources :milestones
+    resources :objectives
 
     resources :websites do
       collection do
@@ -171,6 +172,7 @@ Rails.application.routes.draw do
     resources :service_stage_barriers
 
     get "dashboard", to: "site#index", as: :dashboard
+    get "performance", to: "performance#index", as: :performance
     get "management", to: "site#management", as: :management
     get "events", to: "site#events", as: :events
     get "events/export", to: "site#events_export", as: :export_events

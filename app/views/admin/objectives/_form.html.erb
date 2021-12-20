@@ -1,0 +1,52 @@
+<%= form_with(model: objective, url: objective.persisted? ? admin_objective_path(objective) : admin_objectives_path) do |form| %>
+  <% if objective.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(objective.errors.count, "error") %> prohibited this objective from being saved:</h2>
+
+      <ul>
+        <% objective.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :organization_id %>
+    <%= form.select :organization_id, options_for_select(Organization.all.order("abbreviation").map { |organization| ["#{organization.abbreviation} - #{organization.name}", organization.id] }, objective.organization_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
+  </div>
+
+  <div class="field">
+    <%= form.label :goal_id %>
+    <%= form.number_field :goal_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :milestone_id %>
+    <%= form.select :milestone_id, options_for_select(Milestone.all.map { |milestone| ["#{milestone.name}", milestone.id] }, objective.milestone_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
+  </div>
+
+  <div class="field">
+    <%= form.label :tags %>
+    <%= form.text_field :tags %>
+  </div>
+
+  <div class="field">
+    <%= form.label :users %>
+    <%= form.text_field :users %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
