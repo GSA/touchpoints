@@ -52,12 +52,18 @@ Rails.application.routes.draw do
 
     get "a11", to: "site#a11", as: :a11
     resources :service_providers do |*args|
+      collection do
+        get "search", to: "service_providers#search"
+      end
       member do
         post "add_tag", to: "service_providers#add_tag", as: :add_tag
         post "remove_tag", to: "service_providers#remove_tag", as: :remove_tag
       end
     end
     resources :services do
+      collection do
+        get "search", to: "services#search"
+      end
       member do
         get "equity-assessment", to: "services#equity_assessment", as: :equity_assessment
         get "cx-reporting", to: "services#omb_cx_reporting", as: :omb_cx_reporting

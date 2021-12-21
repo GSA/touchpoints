@@ -4,6 +4,7 @@ class Admin::ServiceProvidersController < AdminController
 
   def index
     @service_providers = ServiceProvider.all.includes(:organization).order("organizations.name", "service_providers.name")
+    @tags = ServiceProvider.tag_counts_on(:tags)
   end
 
   def show
@@ -37,6 +38,19 @@ class Admin::ServiceProvidersController < AdminController
   def destroy
     @service_provider.destroy
     redirect_to admin_service_providers_url, notice: 'Service provider was successfully destroyed.'
+  end
+
+  def search
+    search_text = params[:search]
+    tag_name = params[:tag]
+    if search_text.present?
+      search_text = "%" + search_text + "%"
+      @service_providers = ServiceProvider.joins(:organization).where(" service_providers.name ilike ? or organizations.name ilike ?  ", search_text, search_text)
+    elsif tag_name.present?
+      @service_providers = ServiceProvider.tagged_with(tag_name)
+    else
+      @service_providers = ServiceProvider.all
+    end
   end
 
   def add_tag
