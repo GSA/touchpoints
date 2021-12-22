@@ -47,32 +47,48 @@
   </div>
 </div>
 
-<table class="usa-table">
-  <thead>
-    <tr>
-    <% if admin_permissions? %>
-      <th data-sortable scope="col" role="columnheader">Organization</th>
+<div class="well">
+  <div class="field">
+    <%= label_tag :search_text, "Search by organization or name" %>
+    <%= text_field_tag :search_text, nil, class: "usa-input" %>
+    <% if @tags.size > 0 %>
+      <p>
+        Search by tag
+      </p>
+      <p class="tag-list">
+        <% @tags.order(:name).each do | tag | %>
+          <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
+            <span class="usa-tag">
+              <%= tag.name %> (<%= tag.taggings_count %>)
+            </span>
+          </a>
+        <% end %>
+      <p>
     <% end %>
-      <th data-sortable scope="col" role="columnheader">Name</th>
-      <th data-sortable scope="col" role="columnheader"># of Stages</th>
-      <th data-sortable scope="col" role="columnheader">HISP Service</th>
-    </tr>
-  </thead>
+  </div>
+</div>
+<div class="search-results">
+  <%= render 'results' %>
+</div>
 
-  <tbody>
-    <% @services.each do |service| %>
-      <tr>
-      <% if admin_permissions? %>
-        <td><%= service.organization.name %></td>
-      <% end %>
-        <td><%= link_to service.name, admin_service_path(service) %></td>
-        <td><%= link_to service.service_stages.count, admin_service_service_stages_path(service) %></td>
-        <td>
-          <% if service.service_provider %>
-            <span class="usa-tag bg-cyan">HISP</span>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<script>
+  $(function() {
+    $("#search_text").keyup(function() {
+      $.ajax({
+        url: '/admin/services/search',
+        data: {
+          search: $(this).val()
+        }
+      });
+    });
+    $(".search-tag-link").click(function() {
+      $("#search_text").val("");
+      $.ajax({
+        url: '/admin/services/search',
+        data: {
+          tag: $(this).attr("data-name")
+        }
+      });
+    });
+  });
+</script>

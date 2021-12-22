@@ -51,11 +51,24 @@ Rails.application.routes.draw do
     get "/submissions/performance_gov", to: "submissions#performance_gov", as: :performance_gov
 
     get "a11", to: "site#a11", as: :a11
-    resources :service_providers
+    resources :service_providers do |*args|
+      collection do
+        get "search", to: "service_providers#search"
+      end
+      member do
+        post "add_tag", to: "service_providers#add_tag", as: :add_tag
+        post "remove_tag", to: "service_providers#remove_tag", as: :remove_tag
+      end
+    end
     resources :services do
+      collection do
+        get "search", to: "services#search"
+      end
       member do
         get "equity-assessment", to: "services#equity_assessment", as: :equity_assessment
         get "cx-reporting", to: "services#omb_cx_reporting", as: :omb_cx_reporting
+        post "add_tag", to: "services#add_tag", as: :add_tag
+        post "remove_tag", to: "services#remove_tag", as: :remove_tag
       end
       resources :service_stages
     end
@@ -71,6 +84,7 @@ Rails.application.routes.draw do
     resources :omb_cx_reporting_collections
     resources :goals
     resources :milestones
+    resources :objectives
 
     resources :websites do
       collection do
@@ -165,12 +179,19 @@ Rails.application.routes.draw do
         get "active", to: "users#active", as: :active
       end
     end
-    resources :organizations
+    resources :organizations do
+      member do
+        get "performance", to: "organizations#performance", as: :performance
+        get "performance/edit", to: "performance#edit", as: :performance_edit
+        get "performance/apg/:apg", to: "performance#apg", as: :apg
+      end
+    end
     resources :service_stages
     resources :barriers
     resources :service_stage_barriers
 
     get "dashboard", to: "site#index", as: :dashboard
+    get "performance", to: "performance#index", as: :performance
     get "management", to: "site#management", as: :management
     get "events", to: "site#events", as: :events
     get "events/export", to: "site#events_export", as: :export_events

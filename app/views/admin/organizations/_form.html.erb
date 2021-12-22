@@ -61,6 +61,10 @@
     </div>
   </fieldset>
   <div class="field">
+    <%= form.label :mission_statement, class: "usa-label" %>
+    <%= form.text_area :mission_statement, class: "usa-textarea", placeholder: "Organization's mission statement" %>
+  </div>
+  <div class="field">
     <%= form.label :notes, class: "usa-label" %>
     <%= form.text_area :notes, class: "usa-textarea", placeholder: "CX & Service Design notes about this Org" %>
   </div>

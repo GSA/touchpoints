@@ -1,0 +1,12 @@
+<% content_for :navigation_title do %>
+  Editing Organization
+<% end %>
+<p>
+  <%= link_to performance_admin_organization_path(@organization.slug) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to APG Report
+  <% end %>
+</p>
+<div class="well">
+  <%= render 'form', organization: @organization %>
+</div>

@@ -1,6 +1,12 @@
 class Admin::OrganizationsController < AdminController
   before_action :ensure_admin
-  before_action :set_organization, only: [:show, :edit, :update, :destroy]
+  before_action :set_organization, only: [
+    :show,
+    :performance,
+    :edit,
+    :update,
+    :destroy
+  ]
 
   def index
     @organizations = Organization.all.order(:name)
@@ -14,6 +20,9 @@ class Admin::OrganizationsController < AdminController
   end
 
   def edit
+  end
+
+  def performance
   end
 
   def create
@@ -52,7 +61,7 @@ class Admin::OrganizationsController < AdminController
 
   private
     def set_organization
-      @organization = Organization.find(params[:id])
+      @organization = Organization.find_by_id(params[:id]) || Organization.find_by_abbreviation(params[:id].upcase)
     end
 
     def organization_params
@@ -66,6 +75,7 @@ class Admin::OrganizationsController < AdminController
         :external_id,
         :enable_ip_address,
         :digital_analytics_path,
+        :mission_statement
       )
     end
 end
