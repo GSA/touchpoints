@@ -1,53 +1,53 @@
 <%= form_with(model: service_provider, url: admin_service_provider_path(service_provider), local: true) do |f| %>
-	<div class="grid-row">
-	  <div class="grid-col-12">
-	  	<h3>
-				Tags
-				<%= link_to "https://github.com/gsa/touchpoints/wiki/tagging-responses", target: "_blank", rel: "noopener" do %>
-					<span class="fa fa-info-circle"></span>
-				<% end %>
-			</h3>
-	  	<p class="tag-list">
-				<ul class="usa-list usa-list--unstyled">
-					<% service_provider.tag_list.sort.each do |tag| %>
-					<li  style="margin-bottom: 3px;">
-						<span class="usa-tag">
-							<%= tag %>
-						</span>
-						<a href="javascript:void(0);" class="remove-tag-link" data-value="<%= tag %>">
-							<span class="fa fa-trash"></span>
-						</a>
-					</li>
-		  			<% end %>
-				</ul>
-	  	<p>
-	    <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
-	  </div>
+<div class="grid-row">
+	<div class="grid-col-12">
+		<h3>
+			Tags
+			<%= link_to "https://github.com/gsa/touchpoints/wiki/tagging-responses", target: "_blank", rel: "noopener" do %>
+			<span class="fa fa-info-circle"></span>
+		<% end %>
+	</h3>
+	<p class="tag-list">
+		<ul class="usa-list usa-list--unstyled">
+			<% service_provider.tag_list.sort.each do |tag| %>
+				<li style="margin-bottom: 3px;">
+					<span class="usa-tag">
+						<%= tag %>
+					</span>
+					<a href="javascript:void(0);" class="remove-tag-link" data-value="<%= tag %>">
+						<span class="fa fa-trash"></span>
+					</a>
+				</li>
+			<% end %>
+		</ul>
+		<p>
+			<%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
+		</div>
 	</div>
 <% end %>
 <script>
-$(".tag-input").blur(function(event) {
-	event.preventDefault();
-    var thisForm = $(this).closest("form");
-    $.ajax({
-		url: thisForm.attr("action") + "/add_tag",
-		type: 'post',
-		data: "service_provider[tag_list]=" + $(".tag-input").val()
-    });
-});
-$(".tag-input").keypress(function (e) {
-	if (e.which == 13) {
-		document.activeElement.blur();
-		return false;
-	}
-});
-$(".remove-tag-link").click(function(e) {
-	event.preventDefault();
-	var thisForm = $(this).closest("form");
-	$.ajax({
-	  url: thisForm.attr("action") + "/remove_tag",
-	  type: 'post',
-	  data: "service_provider[tag_list]=" + $(this).attr("data-value")
+	$(".tag-input").blur(function (event) {
+		event.preventDefault();
+		var thisForm = $(this).closest("form");
+		$.ajax({
+			url: thisForm.attr("action") + "/add_tag",
+			type: 'post',
+			data: "service_provider[tag_list]=" + $(".tag-input").val()
+		});
 	});
-})
+	$(".tag-input").keypress(function (e) {
+		if (e.which == 13) {
+			document.activeElement.blur();
+			return false;
+		}
+	});
+	$(".remove-tag-link").click(function (e) {
+		event.preventDefault();
+		var thisForm = $(this).closest("form");
+		$.ajax({
+			url: thisForm.attr("action") + "/remove_tag",
+			type: 'post',
+			data: "service_provider[tag_list]=" + $(this).attr("data-value")
+		});
+	})
 </script>
