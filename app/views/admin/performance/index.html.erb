@@ -2,8 +2,11 @@
   Performance reporting
 <% end %>
 
-<br>
-<button type="button" name="button" class="usa-button">Begin Annual Reporting</button>
+<% Organization.all.order(:name).each do |organization| %>
+  <p>
+    <%= link_to organization.name, performance_admin_organization_path(organization) %>
+  </p>
+<% end %>
 
 <hr>
 
@@ -16,14 +19,3 @@
 <p>
   <%= link_to "Objectives", admin_objectives_path, class: "usa-button" %>
 </p>
-
-<hr>
-
-<h4>
-  Organization's performance reports
-</h4>
-<% Organization.all.order(:name).each do |organization| %>
-  <p>
-    <%= link_to organization.name, performance_admin_organization_path(organization) %>
-  </p>
-<% end %>

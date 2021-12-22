@@ -7,6 +7,12 @@
 <% end %>
 
 <p>
+  <%= link_to performance_admin_organization_path(@goal.organization) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Performance Report
+  <% end %>
+</p>
+<p>
   <%= link_to admin_goals_path do %>
     <i class="fa fa-arrow-circle-left"></i>
     Back to Goals
