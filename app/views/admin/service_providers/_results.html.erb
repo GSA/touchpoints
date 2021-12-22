@@ -1,0 +1,21 @@
+<table class="usa-table">
+  <thead>
+    <tr>
+      <th>Organization</th>
+      <th>Name</th>
+      <th># of services</th>
+      <th>Tags</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @service_providers.each do |service_provider| %>
+      <tr>
+        <td><%= service_provider.organization.name %></td>
+        <td><%= link_to service_provider.name, admin_service_provider_path(service_provider) %></td>
+        <td><%= service_provider.services.size %></td>
+        <td><%= service_provider.tag_list %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,30 @@
+<table class="usa-table">
+  <thead>
+    <tr>
+    <% if admin_permissions? %>
+      <th data-sortable scope="col" role="columnheader">Organization</th>
+    <% end %>
+      <th data-sortable scope="col" role="columnheader">Name</th>
+      <th data-sortable scope="col" role="columnheader"># of Stages</th>
+      <th data-sortable scope="col" role="columnheader">HISP Service</th>
+      <th data-sortable scope="col" role="columnheader">Tags</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @services.each do |service| %>
+      <tr>
+      <% if admin_permissions? %>
+        <td><%= service.organization.name %></td>
+      <% end %>
+        <td><%= link_to service.name, admin_service_path(service) %></td>
+        <td><%= link_to service.service_stages.count, admin_service_service_stages_path(service) %></td>
+        <td>
+          <% if service.service_provider %>
+            <span class="usa-tag bg-cyan">HISP</span>
+          <% end %>
+        </td>
+        <td><%= service.tag_list %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
