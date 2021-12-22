@@ -5,6 +5,8 @@
 <br>
 <button type="button" name="button" class="usa-button">Begin Annual Reporting</button>
 
+<hr>
+
 <p>
   <%= link_to "Goals", admin_goals_path, class: "usa-button" %>
 </p>
@@ -15,83 +17,13 @@
   <%= link_to "Objectives", admin_objectives_path, class: "usa-button" %>
 </p>
 
-<div>
-  <h2>
-    <%= current_user.organization.name %>
-  </h2>
-  <div class="grid-row">
-    <div class="grid-col-12 usa-prose">
-      <p>
-        <strong>
-          <%= current_user.organization.abbreviation %>
-        </strong>
-      </p>
-      <p>
-        <%= current_user.organization.mission_statement %>
-      </p>
-
-      <hr>
-
-      <div class="font-sans-lg">
-        <p>
-          <a href="#">Strategic plan</a>
-        </p>
-        <p>
-          <a href="#">Performance report</a>
-        </p>
-        <p>
-          <a href="#">Learning agenda</a>
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-
 <hr>
 
 <h4>
-  4-year goals
+  Organization's performance reports
 </h4>
-<% current_user.organization.goals.where(four_year_goal: true, parent_id: nil).all.each do |goal| %>
-<section class="usa-section">
-  <div>
-    <div class="font-sans-lg">
-      <%= goal.name %>
-    </div>
-    <br>
-
-    <% goal.subgoals.each do |g| %>
-    <div class="grid-row">
-      <div class="grid-col-2">
-      </div>
-      <div class="grid-col-5">
-        <div class="font-sans-md">
-          <%= g.name %>
-        </div>
-      </div>
-      <div class="grid-col-5">
-        <%= g.description %>
-      </div>
-    </div>
-    <br>
-    <br>
-    <% end %>
-
-  </div>
-</section>
+<% Organization.all.order(:name).each do |organization| %>
+  <p>
+    <%= link_to organization.name, performance_admin_organization_path(organization) %>
+  </p>
 <% end %>
-
-<hr>
-
-<h4>
-  2-year goals
-</h4>
-<% current_user.organization.goals.where(two_year_goal: true).all.each do |goal| %>
-<section class="usa-section">
-  <div class="font-sans-lg">
-    <%= goal.description %>
-  </div>
-</section>
-<% end %>
-
-<hr>

@@ -10,6 +10,8 @@ class Admin::GoalsController < AdminController
 
   def new
     @goal = Goal.new
+    @goal.organization_id = params[:organization_id]
+    @goal.four_year_goal = params[:four_year_goal]
   end
 
   def edit
@@ -47,11 +49,10 @@ class Admin::GoalsController < AdminController
       params.require(:goal).permit(
         :organization_id,
         :name,
-        :description, 
+        :description,
         :tags,
         :users,
         :four_year_goal,
-        :two_year_goal,
         :parent_id,
       )
     end

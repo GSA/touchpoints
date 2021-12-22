@@ -166,7 +166,13 @@ Rails.application.routes.draw do
         get "active", to: "users#active", as: :active
       end
     end
-    resources :organizations
+    resources :organizations do
+      member do
+        get "performance", to: "organizations#performance", as: :performance
+        get "performance/edit", to: "performance#edit", as: :performance_edit
+        get "performance/apg/:apg", to: "performance#apg", as: :apg
+      end
+    end
     resources :service_stages
     resources :barriers
     resources :service_stage_barriers

@@ -157,8 +157,7 @@ ActiveRecord::Schema.define(version: 2021_12_18_013458) do
     t.integer "users", array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "four_year_goal"
-    t.boolean "two_year_goal"
+    t.boolean "four_year_goal", default: false
     t.integer "parent_id"
     t.integer "position"
     t.index ["tags"], name: "index_goals_on_tags", using: :gin

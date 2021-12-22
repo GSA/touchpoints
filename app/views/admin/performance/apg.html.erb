@@ -1,0 +1,68 @@
+<% content_for :navigation_title do %>
+  View APG
+<% end %>
+<p>
+  <%= link_to admin_organization_path(@organization.slug) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Organization
+  <% end %>
+</p>
+
+<div>
+  <h2>
+    <%= current_user.organization.name %>
+  </h2>
+  <div class="grid-row">
+    <div class="grid-col-12 usa-prose">
+      <p>
+        <strong>
+          <%= current_user.organization.abbreviation %>
+        </strong>
+      </p>
+      <p>
+        <%= current_user.organization.mission_statement %>
+      </p>
+
+      <hr>
+
+      <div class="grid-row font-sans-lg">
+        <div class="grid-col-12">
+          <div class="font-sans-sm">
+            Planning
+          </div>
+          <p>
+            Strategic plan
+            &nbsp;
+            <a href="#" class="font-sans-xs">PDF</a>
+            &nbsp;
+            <i class="fa fa-external-link-alt font-sans-xs"></i>
+          </p>
+          <p>
+            Performance report (next year)
+            &nbsp;
+            <a href="#" class="font-sans-xs">PDF</a>
+            &nbsp;
+            <i class="fa fa-external-link-alt font-sans-xs"></i>
+          </p>
+          <p>
+            Learning agenda
+            &nbsp;
+            <a href="#" class="font-sans-xs">Link to evaluation.gov</a>
+            &nbsp;
+            <i class="fa fa-external-link-alt font-sans-xs"></i>
+          </p>
+          <div class="font-sans-sm">
+            Reporting
+          </div>
+          <p>
+            Performance report (last year)
+            &nbsp;
+            <a href="#" class="font-sans-xs">PDF</a>
+            &nbsp;
+            <i class="fa fa-external-link-alt font-sans-xs"></i>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

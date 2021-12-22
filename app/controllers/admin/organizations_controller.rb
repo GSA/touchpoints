@@ -1,6 +1,12 @@
 class Admin::OrganizationsController < AdminController
   before_action :ensure_admin
-  before_action :set_organization, only: [:show, :edit, :update, :destroy]
+  before_action :set_organization, only: [
+    :show,
+    :performance,
+    :edit,
+    :update,
+    :destroy
+  ]
 
   def index
     @organizations = Organization.all.order(:name)
@@ -14,6 +20,9 @@ class Admin::OrganizationsController < AdminController
   end
 
   def edit
+  end
+
+  def performance
   end
 
   def create

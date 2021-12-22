@@ -7,8 +7,7 @@ class PerformanceFields < ActiveRecord::Migration[6.1]
 
     add_column :services, :service_owner_id, :integer
 
-    add_column :goals, :four_year_goal, :boolean
-    add_column :goals, :two_year_goal, :boolean
+    add_column :goals, :four_year_goal, :boolean, default: false
     add_column :goals, :parent_id, :integer
     add_column :goals, :position, :integer
   end

@@ -4,7 +4,8 @@ def production_suitable_seeds
     abbreviation: "GSA",
     domain: "gsa.gov",
     url: "https://gsa.gov",
-    digital_analytics_path: "general-services-administration"
+    digital_analytics_path: "general-services-administration",
+    mission_statement: "Declaring the purpose of an organization and how it serves customers"
   })
   puts "Created Organization: #{@gsa.name}"
 end
@@ -594,6 +595,7 @@ goal_1 = Goal.create!({
   organization: @gsa,
   name: "Example Goal 1",
   tags: ["this", "that", "other"],
+  four_year_goal: true,
   users: [1]
 })
 
@@ -601,12 +603,38 @@ goal_2 = Goal.create!({
   organization: @gsa,
   name: "Example Goal 2",
   tags: ["this", "that", "other", "unique"],
+  four_year_goal: true,
   users: []
 })
 
 goal_3 = Goal.create!({
   organization: example_gov,
   name: "Example Goal 2",
+  tags: ["this", "that"],
+  four_year_goal: true,
+  users: []
+})
+
+apg_goal_1 = Goal.create!({
+  organization: @gsa,
+  name: "Example APG 1",
+  description: "Example APG Description 1",
+  tags: ["this", "that", "other"],
+  users: [1]
+})
+
+apg_goal_2 = Goal.create!({
+  organization: @gsa,
+  name: "Example APG 2",
+  description: "Example APG Description 2",
+  tags: ["this", "that", "other", "unique"],
+  users: []
+})
+
+apg_goal_3 = Goal.create!({
+  organization: @gsa,
+  name: "Example APG 2",
+  description: "Example APG Description 3",
   tags: ["this", "that"],
   users: []
 })
@@ -633,4 +661,39 @@ milestone_4 = Milestone.create!({
   organization: @gsa,
   goal: nil,
   name: "Milestone not attached to a Goal"
+})
+
+objective_1 = Objective.create({
+  name: "Objective 1",
+  description: "Objective 1 description",
+  goal_id: goal_1.id,
+  tags: ["this", "that", "other"]
+})
+
+objective_1 = Objective.create({
+  name: "Objective 2",
+  description: "Objective 2 description",
+  goal_id: goal_1.id,
+  tags: ["this", "public", "another"]
+})
+
+objective_3 = Objective.create({
+  name: "Objective 3",
+  description: "Objective 3 description",
+  goal_id: goal_1.id,
+  tags: ["service", "that", "other"]
+})
+
+objective_4 = Objective.create({
+  name: "Objective 4",
+  description: "Objective 4 description",
+  goal_id: goal_2.id,
+  tags: ["this", "service", "other"]
+})
+
+objective_5 = Objective.create({
+  name: "Objective 5",
+  description: "Objective 5 description",
+  goal_id: goal_2.id,
+  tags: ["this", "that", "anoother"]
 })
