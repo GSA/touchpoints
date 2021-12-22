@@ -1,0 +1,21 @@
+<% content_for :navigation_title do %>
+  Performance reporting
+<% end %>
+
+<% Organization.all.order(:name).each do |organization| %>
+  <p>
+    <%= link_to organization.name, performance_admin_organization_path(organization) %>
+  </p>
+<% end %>
+
+<hr>
+
+<p>
+  <%= link_to "Goals", admin_goals_path, class: "usa-button" %>
+</p>
+<p>
+  <%= link_to "Milestones", admin_milestones_path, class: "usa-button" %>
+</p>
+<p>
+  <%= link_to "Objectives", admin_objectives_path, class: "usa-button" %>
+</p>

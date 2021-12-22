@@ -1,0 +1,43 @@
+<%= form_with(model: organization, url: (organization.persisted? ? admin_organization_path(organization) : admin_organizations_path), local: true) do |form| %>
+  <% if organization.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(organization.errors.count, "error") %> prohibited this organization from being saved:
+      </h2>
+      <ul class="usa-list">
+      <% organization.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <div class="field">
+    <%= form.label :mission_statement, class: "usa-label" %>
+    <%= form.text_area :mission_statement, class: "usa-textarea", placeholder: "Organization's mission statement" %>
+  </div>
+  <div class="field">
+    <%= form.label :mission_statement_url, class: "usa-label" %>
+    <%= form.text_field :mission_statement_url, class: "usa-input", placeholder: "gsa.gov" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :strategic_plan_url, class: "usa-label" %>
+    <%= form.text_field :strategic_plan_url, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :performance_plan_url, class: "usa-label" %>
+    <%= form.text_field :performance_plan_url, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :learning_agenda_url, class: "usa-label" %>
+    <%= form.text_field :learning_agenda_url, class: "usa-input" %>
+  </div>
+
+  <p>
+    <%= form.submit class: "usa-button" %>
+  </p>
+<% end %>

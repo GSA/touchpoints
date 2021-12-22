@@ -216,7 +216,7 @@ feature "Forms", js: true do
 
             it "display 'Archived' flash message" do
               expect(page).to have_content("Archived")
-              expect(page).to have_content('Publish to make it "live."')
+              expect(page).to have_content("Survey is not published")
             end
           end
         end
