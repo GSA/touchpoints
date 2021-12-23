@@ -69,7 +69,9 @@ Rails.application.routes.draw do
       end
     end
     resources :omb_cx_reporting_collections
-    resources :goals
+    resources :goals do
+      resources :goal_targets
+    end
     resources :milestones
     resources :objectives
 

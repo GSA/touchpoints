@@ -63,3 +63,19 @@
     </ul>
   </p>
 </div>
+
+<div class="well">
+  <h3>
+    Goal Targets
+  </h3>
+  <p>
+    <ul class="usa-list">
+    <% @goal.goal_targets.each do |target| %>
+      <li>
+        <%= link_to target.name, goal_target_admin_goal_path(@goal) %>
+      </li>
+    <% end %>
+    <%= link_to "New Goal Target", new_admin_goal_goal_target_path(@goal)%>
+    </ul>
+  </p>
+</div>

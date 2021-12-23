@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_18_013458) do
+ActiveRecord::Schema.define(version: 2021_12_23_000023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -149,6 +149,18 @@ ActiveRecord::Schema.define(version: 2021_12_18_013458) do
     t.index ["uuid"], name: "index_forms_on_uuid"
   end
 
+  create_table "goal_targets", force: :cascade do |t|
+    t.integer "goal_id"
+    t.datetime "target_date_at"
+    t.text "assertion"
+    t.string "kpi"
+    t.integer "starting_value"
+    t.integer "target_value"
+    t.integer "current_value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "goals", force: :cascade do |t|
     t.integer "organization_id"
     t.string "name"
@@ -160,6 +172,10 @@ ActiveRecord::Schema.define(version: 2021_12_18_013458) do
     t.boolean "four_year_goal", default: false
     t.integer "parent_id"
     t.integer "position"
+    t.text "goal_statement"
+    t.text "challenge"
+    t.text "opportunity"
+    t.text "notes"
     t.index ["tags"], name: "index_goals_on_tags", using: :gin
     t.index ["users"], name: "index_goals_on_users", using: :gin
   end
