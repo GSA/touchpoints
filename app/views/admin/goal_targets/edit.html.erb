@@ -2,5 +2,5 @@
 
 <%= render 'form', goal_target: @goal_target %>
 
-<%= link_to 'Show', @goal_target %> |
-<%= link_to 'Back', goal_targets_path %>
+<%= link_to 'Show', admin_goal_goal_target_path(@goal, @goal_target) %> |
+<%= link_to 'Back', admin_goal_goal_targets_path(@goal) %>

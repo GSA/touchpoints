@@ -12,22 +12,42 @@
 # of tools you can use to make these specs even more expressive, but we're
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
-RSpec.describe "/goal_targets", type: :request do
-  
+RSpec.describe Admin::GoalTargetsController, type: :controller do
+
+  let(:admin) { FactoryBot.create(:user, :admin)}
+
+  let(:organization) {
+    admin.organization
+  }
+
+  let!(:goal) {
+    FactoryBot.create(:goal, organization: organization)
+  }
+
   # GoalTarget. As you add validations to GoalTarget, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+      goal_id: goal.id,
+      assertion: "assertion text"
+    }
   }
+
 
   let(:invalid_attributes) {
     skip("Add a hash of attributes invalid for your model")
   }
 
+  let(:valid_session) { {} }
+
+  before do
+    sign_in(admin)
+  end
+
   describe "GET /index" do
     it "renders a successful response" do
       GoalTarget.create! valid_attributes
-      get goal_targets_url
+      get :index, params: { goal_id: goal.id }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -35,14 +55,14 @@ RSpec.describe "/goal_targets", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       goal_target = GoalTarget.create! valid_attributes
-      get goal_target_url(goal_target)
+      get :show, params: { goal_id: goal.id, id: goal_target.id }
       expect(response).to be_successful
     end
   end
 
   describe "GET /new" do
     it "renders a successful response" do
-      get new_goal_target_url
+      get :new, params: { goal_id: goal.id }
       expect(response).to be_successful
     end
   end
@@ -50,7 +70,7 @@ RSpec.describe "/goal_targets", type: :request do
   describe "GET /edit" do
     it "render a successful response" do
       goal_target = GoalTarget.create! valid_attributes
-      get edit_goal_target_url(goal_target)
+      get :edit, params: { goal_id: goal.id, id: goal_target.id }
       expect(response).to be_successful
     end
   end
@@ -59,55 +79,40 @@ RSpec.describe "/goal_targets", type: :request do
     context "with valid parameters" do
       it "creates a new GoalTarget" do
         expect {
-          post goal_targets_url, params: { goal_target: valid_attributes }
+          post :create, params: { goal_id: goal.id, goal_target: valid_attributes }
         }.to change(GoalTarget, :count).by(1)
-      end
-
-      it "redirects to the created goal_target" do
-        post goal_targets_url, params: { goal_target: valid_attributes }
-        expect(response).to redirect_to(goal_target_url(GoalTarget.last))
       end
     end
 
     context "with invalid parameters" do
       it "does not create a new GoalTarget" do
         expect {
-          post goal_targets_url, params: { goal_target: invalid_attributes }
+          post :create, params: { goal_target: invalid_attributes }
         }.to change(GoalTarget, :count).by(0)
-      end
-
-      it "renders a successful response (i.e. to display the 'new' template)" do
-        post goal_targets_url, params: { goal_target: invalid_attributes }
-        expect(response).to be_successful
       end
     end
   end
 
   describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+    let(:new_attributes) {
+      {
+        name: "Updated name"
       }
+    }
 
-      it "updates the requested goal_target" do
-        goal_target = GoalTarget.create! valid_attributes
-        patch goal_target_url(goal_target), params: { goal_target: new_attributes }
-        goal_target.reload
-        skip("Add assertions for updated state")
-      end
+    context "with valid parameters" do
 
-      it "redirects to the goal_target" do
+      it "updates the goal_target" do
         goal_target = GoalTarget.create! valid_attributes
-        patch goal_target_url(goal_target), params: { goal_target: new_attributes }
-        goal_target.reload
-        expect(response).to redirect_to(goal_target_url(goal_target))
+        put :update, params: { goal_id: goal.id, id: goal_target.to_param, goal_target: new_attributes }, session: valid_session
+        expect(response).to redirect_to(admin_goal_goal_target_path(goal, goal_target))
       end
     end
 
     context "with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
         goal_target = GoalTarget.create! valid_attributes
-        patch goal_target_url(goal_target), params: { goal_target: invalid_attributes }
+        put :update, params: { goal_id: goal.id, id: goal_target.id, goal_target: { assertion: nil } }
         expect(response).to be_successful
       end
     end
@@ -117,14 +122,14 @@ RSpec.describe "/goal_targets", type: :request do
     it "destroys the requested goal_target" do
       goal_target = GoalTarget.create! valid_attributes
       expect {
-        delete goal_target_url(goal_target)
+        delete :destroy, params: { goal_id: goal.id, id: goal_target.id }
       }.to change(GoalTarget, :count).by(-1)
     end
 
     it "redirects to the goal_targets list" do
       goal_target = GoalTarget.create! valid_attributes
-      delete goal_target_url(goal_target)
-      expect(response).to redirect_to(goal_targets_url)
+      delete :destroy, params: { goal_id: goal.id, id: goal_target.id }
+      expect(response).to redirect_to(admin_goal_goal_targets_url(goal))
     end
   end
 end

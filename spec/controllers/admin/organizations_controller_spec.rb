@@ -109,17 +109,12 @@ RSpec.describe Admin::OrganizationsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {
+          abbreviation: "Updated"
+        }
       }
 
       it "updates the requested organization" do
-        organization = Organization.create! valid_attributes
-        put :update, params: {id: organization.to_param, organization: new_attributes}, session: valid_session
-        organization.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "redirects to the organization" do
         organization = Organization.create! valid_attributes
         put :update, params: {id: organization.to_param, organization: valid_attributes}, session: valid_session
         expect(response).to redirect_to(admin_organization_path(organization))

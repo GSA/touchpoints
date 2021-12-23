@@ -1,7 +1,7 @@
 <% unless current_user %>
 <br>
 <div class="grid-row grid-gap-md usa-prose">
-  <div class="tablet:grid-offset-3 tablet:grid-col-6">
+  <div class="tablet:grid-col-6">
     <h2>
        <%= t 'home.sign_in' %>
     </h2>
@@ -23,7 +23,11 @@
       <% end %>
     </p>
     <% end %>
-    <br>
+  </div>
+  <div class="tablet:grid-col-6">
+    <p class="text-center">
+      <img src="https://touchpoints.digital.gov/assets/img/done.svg" alt="Illustration of a form document">
+    </p>
   </div>
 </div>
 <% end %>

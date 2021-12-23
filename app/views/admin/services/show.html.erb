@@ -94,39 +94,6 @@
   </h2>
 </div>
 
-<hr>
-
-<div class="well">
-  <h4>
-    Data Collections
-  </h4>
-  <div>
-    <% @collections = @service.collections.order(:year, :quarter) %>
-    <% if @collections.present? %>
-    <ul>
-      <% @collections.each do |c| %>
-      <li>
-        <%= link_to admin_collection_path(c) do %>
-          <%= c.year %>
-          <%= c.quarter %>
-          <%= c.name %>
-        <% end %>
-      </li>
-      <% end %>
-    </ul>
-    <% else %>
-      <div class="usa-alert usa-alert--info">
-        <div class="usa-alert__body">
-          <p class="usa-alert__text">
-            No Data Collections exist for this Service.
-            <%= link_to "Learn more", admin_collections_path %>
-          </p>
-        </div>
-      </div>
-    <% end %>
-  </div>
-</div>
-
 <div class="well">
   <div class="grid-row grid-gap-md">
     <div class="grid-col-9">
@@ -206,6 +173,37 @@
     Add Stage
     <% end %>
   </p>
+</div>
+
+<div class="well">
+  <h4>
+    Data Collections
+  </h4>
+  <div>
+    <% @collections = @service.collections.order(:year, :quarter) %>
+    <% if @collections.present? %>
+    <ul>
+      <% @collections.each do |c| %>
+      <li>
+        <%= link_to admin_collection_path(c) do %>
+          <%= c.year %>
+          <%= c.quarter %>
+          <%= c.name %>
+        <% end %>
+      </li>
+      <% end %>
+    </ul>
+    <% else %>
+      <div class="usa-alert usa-alert--info">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            No Data Collections exist for this Service.
+            <%= link_to "Learn more", admin_collections_path %>
+          </p>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>
 
 <div class="well">

@@ -79,6 +79,8 @@
     <%= @organization.notes %>
   </p>
 </div>
+
+<% if admin_permissions? || current_user.organization == @organization %>
 <div class="service-providers well">
   <h3>
     <%= pluralize(@organization.service_providers.size, "Service Providers") %>
@@ -153,3 +155,4 @@
   <% end %>
   </ul>
 </div>
+<% end %>

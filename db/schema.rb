@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_23_000023) do
+ActiveRecord::Schema.define(version: 2021_12_23_184803) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -379,6 +379,9 @@ ActiveRecord::Schema.define(version: 2021_12_23_000023) do
     t.string "url", default: ""
     t.integer "service_provider_id"
     t.integer "service_owner_id"
+    t.text "justification_text"
+    t.text "where_customers_interact"
+    t.string "kind"
   end
 
   create_table "submissions", force: :cascade do |t|
