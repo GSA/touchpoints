@@ -13,6 +13,26 @@
   </div>
 <% end %>
 
+<br>
+
+<div
+  class="usa-summary-box"
+  role="region"
+  aria-labelledby="summary-box-key-information"
+>
+  <div class="usa-summary-box__body">
+    <h3 class="usa-summary-box__heading" id="summary-box-key-information">
+      Performance reporting in Touchpoints
+    </h3>
+    <div class="usa-summary-box__text">
+      <p>
+        Select your Organization below,
+        to create or update your Performance Report.
+      </p>
+    </div>
+  </div>
+</div>
+
 <% Organization.all.order(:name).each do |organization| %>
   <p>
     <%= link_to organization.name, performance_admin_organization_path(organization) %>

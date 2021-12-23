@@ -1,5 +1,8 @@
 <% content_for :navigation_title do %>
-  <%= link_to 'Edit', edit_admin_objective_path(@objective), class: "usa-button usa-button-inverted float-right" %>
+  <%= link_to edit_admin_objective_path(@objective), class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-pencil-alt"></i>
+    Edit
+  <% end %>
   Viewing Objective: <%= @objective.name %>
 <% end %>
 <p>
@@ -34,16 +37,6 @@
 <p hidden>
   <strong>Milestone:</strong>
   <%= @objective.milestone_id %>
-</p>
-
-<p>
-  <strong>Tags:</strong>
-  <%= @objective.tags %>
-</p>
-
-<p>
-  <strong>Users:</strong>
-  <%= @objective.users %>
 </p>
 
 <p>
