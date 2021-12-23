@@ -1,0 +1,36 @@
+<table class="usa-table" style="width: 100%;">
+  <thead>
+    <tr>
+      <th data-sortable scope="col" role="columnheader">Abbreviation</th>
+      <th data-sortable scope="col" role="columnheader">Name</th>
+      <th data-sortable scope="col" role="columnheader">URL</th>
+      <th data-sortable scope="col" role="columnheader">Forms</th>
+      <th data-sortable scope="col" role="columnheader">Services</th>
+      <th data-sortable scope="col" role="columnheader">Collections</th>
+      <th data-sortable scope="col" role="columnheader">Tags</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @organizations.each do |organization| %>
+      <tr>
+        <td><%= organization.abbreviation %></td>
+        <td><%= link_to organization.name, admin_organization_path(organization) %></td>
+        <td>
+          <%= link_to organization.url, organization.url, target: "_blank", rel: "noopener" %>
+        </td>
+        <td>
+          <%= organization.forms.count %>
+        </td>
+        <td>
+          <%= organization.services.count %>
+        </td>
+        <td>
+          <%= organization.collections.count %>
+        </td>
+        <td>
+          <%= organization.tag_list %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

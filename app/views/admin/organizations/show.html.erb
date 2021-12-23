@@ -79,6 +79,17 @@
     <%= @organization.notes %>
   </p>
 </div>
+
+<div>
+  <div class="grid-row">
+    <div class="grid-col-12">
+      <div class="tags-div">
+        <%= render 'admin/organizations/tags', website: @organization %>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="service-providers well">
   <h3>
     <%= pluralize(@organization.service_providers.size, "Service Providers") %>
