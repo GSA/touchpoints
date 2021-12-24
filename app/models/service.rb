@@ -4,6 +4,7 @@ class Service < ApplicationRecord
   has_many :service_stages
   has_many :omb_cx_reporting_collections
   has_many :collections, through: :omb_cx_reporting_collections
+  acts_as_taggable_on :tags
 
   validates :name, presence: true
 
