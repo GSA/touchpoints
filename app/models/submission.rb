@@ -90,6 +90,10 @@ class Submission < ApplicationRecord
     end
   end
 
+  def self.tag_counts
+    ActsAsTaggableOn::Tag.joins(:taggings).select('tags.id, tags.name, COUNT(taggings.id) as taggings_count').group('tags.id, tags.name').where("taggings.taggable_type = ? and taggings.context = ? ",'Submission','tags')
+  end
+
   def update_form
     form.update(last_response_created_at: created_at)
   end
