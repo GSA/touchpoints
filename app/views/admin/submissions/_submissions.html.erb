@@ -1,5 +1,5 @@
-<%  @tags = all_submissions.tag_counts_on(:tags) %>
-<% if @tags.size > 0 %>
+<% @tags = tag_counts('Submission','tags') %>
+<% if @tags.first %>
 <div class="well">
   <div class="field">
     <p>

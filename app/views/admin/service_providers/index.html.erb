@@ -46,7 +46,7 @@
   <div class="field">
     <%= label_tag :search_text, "Search by organization or name" %>
     <%= text_field_tag :search_text, nil, class: "usa-input" %>
-    <% if @tags.size > 0 %>
+    <% if @tags.first %>
       <p>
         Search by tag
       </p>
