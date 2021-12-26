@@ -13,10 +13,6 @@ class ApplicationController < ActionController::Base
     (date - 3.months).year
   end
 
-  def tag_counts(model,context)
-    ActsAsTaggableOn::Tag.joins(:taggings).select('tags.id, tags.name, COUNT(taggings.id) as taggings_count').group('tags.id, tags.name').where("taggings.taggable_type = ? and taggings.context = ? ",model,context)
-  end
-
   def fiscal_quarter(date)
     if [10, 11, 12].include?(date.month)
       1

@@ -4,7 +4,7 @@ class Admin::ServiceProvidersController < AdminController
 
   def index
     @service_providers = ServiceProvider.all.includes(:organization).order("organizations.name", "service_providers.name")
-    @tags = tag_counts('ServiceProvider','tags')
+    @tags = ServiceProvider.tag_counts_by_name
   end
 
   def show

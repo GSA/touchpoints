@@ -12,7 +12,7 @@ class Admin::OrganizationsController < AdminController
 
   def index
     @organizations = Organization.all.order(:name)
-    @tags = tag_counts('Organization','tags')
+    @tags = Organization.tag_counts_by_name
   end
 
   def show
