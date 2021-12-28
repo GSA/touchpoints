@@ -30,6 +30,22 @@ RSpec.describe Website, type: :model do
     end
   end
 
+  describe "tags" do
+    it "does not include other models in tag_counts" do
+      tag_name = 'tag1'
+      website = FactoryBot.create(:website)
+      website.tag_list.add(tag_name)
+      website.save!
+      organization = FactoryBot.create(:organization)
+      organization.tag_list.add(tag_name)
+      organization.save!
+      expect(Website.tag_counts_by_name.first.name).to eq(tag_name)
+      expect(Website.tag_counts_by_name.first.taggings_count).to eq(1)
+      expect(Organization.tag_counts_by_name.first.name).to eq(tag_name)
+      expect(Organization.tag_counts_by_name.first.taggings_count).to eq(1)
+    end
+  end
+
   describe "#tld?" do
     let!(:existing_website) { FactoryBot.create(:website) }
 
