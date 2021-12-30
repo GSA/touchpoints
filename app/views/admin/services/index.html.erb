@@ -57,7 +57,7 @@
       </p>
       <p class="tag-list">
         <% @tags.order(:name).each do | tag | %>
-          <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
+          <a href="/admin/services/?tag=<%= tag.name %>" class="search-tag-link" data-name="<%= tag.name %>">
             <span class="usa-tag">
               <%= tag.name %> (<%= tag.taggings_count %>)
             </span>
