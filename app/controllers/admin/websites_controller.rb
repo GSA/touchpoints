@@ -23,7 +23,7 @@ class Admin::WebsitesController < AdminController
     else
       @websites = Website.active.order(:production_status, :domain)
     end
-    @tags = Website.tag_counts_on(:tags)
+    @tags = Website.tag_counts_by_name
   end
 
   def versions

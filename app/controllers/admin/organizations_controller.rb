@@ -5,11 +5,14 @@ class Admin::OrganizationsController < AdminController
     :performance,
     :edit,
     :update,
-    :destroy
+    :destroy,
+    :add_tag,
+    :remove_tag,
   ]
 
   def index
     @organizations = Organization.all.order(:name)
+    @tags = Organization.tag_counts_by_name
   end
 
   def show
@@ -59,6 +62,29 @@ class Admin::OrganizationsController < AdminController
     end
   end
 
+  def search
+    search_text = params[:search]
+    tag_name = params[:tag]
+    if search_text.present?
+      search_text = "%" + search_text + "%"
+      @organizations = Organization.where(" domain ilike ? or name ilike ? or abbreviation ilike ? or url ilike ?  ", search_text, search_text, search_text, search_text)
+    elsif tag_name.present?
+      @organizations = Organization.tagged_with(tag_name)
+    else
+      @organizations = Organization.all
+    end
+  end
+
+  def add_tag
+    @organization.tag_list.add(organization_params[:tag_list].split(","))
+    @organization.save
+  end
+
+  def remove_tag
+    @organization.tag_list.remove(organization_params[:tag_list].split(","))
+    @organization.save
+  end
+
   private
     def set_organization
       @organization = Organization.find_by_id(params[:id]) || Organization.find_by_abbreviation(params[:id].upcase)
@@ -75,7 +101,8 @@ class Admin::OrganizationsController < AdminController
         :external_id,
         :enable_ip_address,
         :digital_analytics_path,
-        :mission_statement
+        :mission_statement,
+        :tag_list
       )
     end
 end

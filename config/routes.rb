@@ -82,7 +82,9 @@ Rails.application.routes.draw do
       end
     end
     resources :omb_cx_reporting_collections
-    resources :goals
+    resources :goals do
+      resources :goal_targets
+    end
     resources :milestones
     resources :objectives
 
@@ -180,10 +182,15 @@ Rails.application.routes.draw do
       end
     end
     resources :organizations do
+      collection do
+        get "search", to: "organizations#search"
+      end
       member do
         get "performance", to: "organizations#performance", as: :performance
         get "performance/edit", to: "performance#edit", as: :performance_edit
         get "performance/apg/:apg", to: "performance#apg", as: :apg
+        post "add_tag", to: "organizations#add_tag", as: :add_tag
+        post "remove_tag", to: "organizations#remove_tag", as: :remove_tag
       end
     end
     resources :service_stages
@@ -200,7 +207,7 @@ Rails.application.routes.draw do
     get "export_feed", to: "submissions#export_feed", as: :export_feed
   end
 
-  get :registry, to: "site#registry"
+  get "registry", to: "site#registry", as: :registry
   get "registry/guidance", to: "site#registry_guidance"
   get "agencies", to: "site#agencies", as: :agencies
   get "profile", to: "profile#show", as: :profile

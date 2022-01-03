@@ -1,22 +1,12 @@
 <% unless current_user %>
 <br>
-<div class="grid-row grid-gap-md usa-prose">
-  <div class="grid-col-6">
-    <h2>
-      <%= t 'home.sign_up' %>
-    </h2>
-    <% if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
-    <p>
-     <%= t 'home.sign_up_text' %>
+<div class="grid-row grid-gap-lg usa-prose">
+  <div class="tablet:grid-col-6">
+    <p class="text-center">
+      <img src="https://touchpoints.digital.gov/assets/img/done.svg" alt="Illustration of a form document">
     </p>
-    <p>
-      <%= link_to user_login_dot_gov_omniauth_authorize_path, id: "agree-button", class: "usa-button sign-in-logo", "aria-label" => "Login.gov" do %>
-        <span>Login.gov</span>
-      <% end %>
-    </p>
-    <% end %>
   </div>
-  <div class="grid-col-6">
+  <div class="tablet:grid-col-6">
     <h2>
        <%= t 'home.sign_in' %>
     </h2>
@@ -33,13 +23,11 @@
     <% end %>
     <% if ENV['GITHUB_CLIENT_ID'].present? %>
     <p>
-      <%= t 'home.if_github' %>
-      <br>
-      <br>
-      <%= link_to "#{t 'home.sign_in_with' } GitHub", user_github_omniauth_authorize_path, class: "usa-button usa-button" %>
+      <%= link_to user_github_omniauth_authorize_path, class: "usa-button",  "aria-label" => "GitHub" do %>
+        <%= "#{t 'home.sign_in_with' } GitHub" %>
+      <% end %>
     </p>
     <% end %>
-    <br>
   </div>
 </div>
 <% end %>

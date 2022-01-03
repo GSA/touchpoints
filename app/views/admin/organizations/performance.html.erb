@@ -61,10 +61,10 @@
 
 <hr>
 
-<h4>
-  Strategic goals (4-year)
-</h4>
-<section class="usa-section">
+<section>
+  <h4>
+    Strategic goals (4-year)
+  </h4>
 <% @organization.goals.where(four_year_goal: true, parent_id: nil).all.each do |goal| %>
   <div>
     <div class="font-sans-lg">
@@ -88,17 +88,17 @@
     <br>
     <br>
     <% end %>
-    <%= link_to "Create Objective", new_admin_objective_path(goal_id: goal.id, organization_id: @organization.id), class: "usa-button usa-button--outline" %>
+    <%= link_to "Create Objective", new_admin_objective_path(goal_id: goal.id), class: "usa-button usa-button--outline" %>
   </div>
   <br>
   <br>
 <% end %>
-<%= link_to "Create Strategic Goal", new_admin_goal_path(four_year_goal: true, organization_id: @organization.id), class: "usa-button" %>
+<%= link_to "Create 4-yr strategic goal", new_admin_goal_path(four_year_goal: true, organization_id: @organization.id), class: "usa-button" %>
 </section>
-
+<br>
 <hr>
 
-<section class="usa-section">
+<section>
   <h4>
     Annual Performance Goals (APG) (2-year)
   </h4>
@@ -112,6 +112,6 @@
   <% end %>
 
   <p>
-    <%= link_to "Create APG", new_admin_goal_path(four_year_goal: false, organization_id: @organization.id), class: "usa-button" %>
+    <%= link_to "Create 2-year APG", new_admin_goal_path(four_year_goal: false, organization_id: @organization.id), class: "usa-button" %>
   </p>
 </section>

@@ -1,0 +1,45 @@
+<% content_for :navigation_title do %>
+  Goal Targets
+<% end %>
+<p>
+  <%= link_to admin_goals_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Goals
+  <% end %>
+</p>
+
+<table class="usa-table">
+  <thead>
+    <tr>
+      <th>By...</th>
+      <th>We will...</th>
+      <th>KPI</th>
+      <th>Starting value</th>
+      <th>Target value</th>
+      <th>Current value</th>
+      <th>Goal</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @goal_targets.each do |goal_target| %>
+      <tr>
+        <td><%= goal_target.target_date_at %></td>
+        <td><%= goal_target.assertion %></td>
+        <td><%= goal_target.kpi %></td>
+        <td><%= goal_target.starting_value %></td>
+        <td><%= goal_target.target_value %></td>
+        <td><%= goal_target.current_value %></td>
+        <td><%= goal_target.goal %></td>
+        <td><%= link_to 'Show', goal_target %></td>
+        <td><%= link_to 'Edit', edit_goal_target_path(goal_target) %></td>
+        <td><%= link_to 'Destroy', goal_target, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p>
+  <%= link_to 'New Goal Target', new_admin_goal_goal_target_path(@goal), class: "usa-button" %>
+</p>

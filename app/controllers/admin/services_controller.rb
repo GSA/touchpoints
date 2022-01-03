@@ -9,7 +9,21 @@ class Admin::ServicesController < AdminController
   ]
 
   def index
-    @services = Service.all.includes(:organization).order("organizations.name", :name)
+    tag_name = params[:tag]
+
+    if admin_permissions?
+      if tag_name.present?
+        @services = Service.tagged_with(tag_name).includes(:organization).order("organizations.name", :name)
+      else
+        @services = Service.all.includes(:organization).order("organizations.name", :name)
+      end
+    else
+      if tag_name.present?
+        @services = current_user.organization.services.tagged_with(tag_name).includes(:organization).order("organizations.name", :name)
+      else
+        @services = current_user.organization.services.includes(:organization).order("organizations.name", :name)
+      end
+    end
     @tags = Service.tag_counts_on(:tags)
   end
 

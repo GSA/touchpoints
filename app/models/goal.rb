@@ -2,6 +2,7 @@ class Goal < ApplicationRecord
   belongs_to :organization
   has_many :milestones
   has_many :objectives
+  has_many :goal_targets
 
   validates :name, presence: true
 

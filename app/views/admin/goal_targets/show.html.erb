@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Goal:</strong>
+  <%= @goal_target.goal.name %>
+</p>
+
+<p>
+  <strong>Target date at:</strong>
+  <%= @goal_target.target_date_at %>
+</p>
+
+<p>
+  <strong>Assertion:</strong>
+  <%= @goal_target.assertion %>
+</p>
+
+<p>
+  <strong>Kpi:</strong>
+  <%= @goal_target.kpi %>
+</p>
+
+<p>
+  <strong>Starting value:</strong>
+  <%= @goal_target.starting_value %>
+</p>
+
+<p>
+  <strong>Target value:</strong>
+  <%= @goal_target.target_value %>
+</p>
+
+<p>
+  <strong>Current value:</strong>
+  <%= @goal_target.current_value %>
+</p>
+
+<%= link_to 'Edit', edit_admin_goal_goal_target_path(@goal, @goal_target) %> |
+<%= link_to 'Back', admin_goal_goal_targets_path(@goal) %>

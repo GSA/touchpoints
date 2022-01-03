@@ -51,17 +51,17 @@
   <div class="field">
     <%= label_tag :search_text, "Search by organization or name" %>
     <%= text_field_tag :search_text, nil, class: "usa-input" %>
-    <% if @tags.size > 0 %>
+    <% if @tags.first %>
       <p>
         Search by tag
       </p>
       <p class="tag-list">
-        <% @tags.order(:name).each do | tag | %>
-          <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
+        <% @tags.order(:name).each do |tag| %>
+          <%= link_to admin_services_path(tag: tag.name), class: "search-tag-link",  "data-name" => tag.name do %>
             <span class="usa-tag">
               <%= tag.name %> (<%= tag.taggings_count %>)
             </span>
-          </a>
+          <% end %>
         <% end %>
       <p>
     <% end %>

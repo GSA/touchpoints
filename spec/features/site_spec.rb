@@ -35,17 +35,29 @@ feature "general site navigation", js: true do
         end
       end
 
-      describe "/admin/collections" do
+      describe "/admin/reporting" do
         before do
-          click_on "Collections"
+          click_on "Performance"
         end
 
         it 'renders successfully' do
-          expect(page.current_path).to eq(admin_collections_path)
-          expect(page).to have_content("Data Collections")
-          expect(page).to have_content("New Data Collection")
+          expect(page.current_path).to eq(admin_performance_path)
+          expect(page).to have_content("Performance reporting")
+        end
+
+        describe "/admin/collections" do
+          before do
+            click_on "Manage Data Collections"
+          end
+
+          it 'renders successfully' do
+            expect(page.current_path).to eq(admin_collections_path)
+            expect(page).to have_content("Data Collections")
+            expect(page).to have_content("New Data Collection")
+          end
         end
       end
+
     end
 
   end

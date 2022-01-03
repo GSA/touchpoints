@@ -47,7 +47,7 @@
   <div class="field">
     <%= label_tag :search_text, "Search by domain, email, office, sub-office, Website Manager email, or Website Contact email" %>
     <%= text_field_tag :search_text, nil, class: "usa-input" %>
-    <% if @tags.size > 0 %>
+    <% if @tags.first %>
       <p>
         Search by tag
       </p>
