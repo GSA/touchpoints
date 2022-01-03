@@ -24,28 +24,28 @@
   </div>
 
   <div class="field">
-    <%= form.label :position, "Position (to sort stages in order)", class: "usa-label" %>
-    <%= form.number_field :position, class: "usa-input" %>
-  </div>
-
-  <div class="field">
     <%= form.label :description, class: "usa-label" %>
     <%= form.text_area :description, class: "usa-textarea" %>
   </div>
 
-  <div class="field">
+  <div class="field" hidden>
     <%= form.label :notes, class: "usa-label" %>
     <%= form.text_area :notes, class: "usa-textarea" %>
   </div>
 
-  <div class="field">
+  <div class="field" hidden>
     <%= form.label :time, class: "usa-label" %>
     <%= form.number_field :time, class: "usa-input", placeholder: "Estimated average time, in minutes" %>
   </div>
 
-  <div class="field">
+  <div class="field" hidden>
     <%= form.label :total_eligible_population, class: "usa-label" %>
     <%= form.number_field :total_eligible_population, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :position, "Position (to sort stages in order)", class: "usa-label" %>
+    <%= form.number_field :position, class: "usa-input" %>
   </div>
 
   <div class="field" hidden>

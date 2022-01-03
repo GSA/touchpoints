@@ -127,47 +127,9 @@
         <%= link_to stage.name, admin_service_service_stage_path(@service, stage) %>
       </h4>
       <p>
-        <div class="text-uppercase">
-          <small>
-            Time
-          </small>
-        </div>
-        <i>
-          <%= stage.time || "?" %> minutes
-        </i>
-      </p>
-      <p>
-        <div class="text-uppercase">
-          <small>
-            Takeup
-          </small>
-        </div>
-        <%= number_with_delimiter stage.total_eligible_population %>
-      </p>
-      <p style="color: blue;">
-        <div class="text-uppercase">
-          <small>
-            Description
-          </small>
-        </div>
-        <%= stage.description %>
+        <%= stage.description || "Description goes here" %>
         &nbsp;
       </p>
-
-      <div class="text-uppercase">
-        <small>
-          Barriers
-        </small>
-      </div>
-      <% @barriers = stage.barriers %>
-      <% if @barriers.present? %>
-        <% @barriers.each do |barrier| %>
-          <%= barrier.name %>
-          <br>
-        <% end %>
-      <% else %>
-        No barriers.
-      <% end %>
     </td>
     <% end %>
   </tr>
