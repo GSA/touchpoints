@@ -9,22 +9,22 @@
 <table class="usa-table">
   <thead>
     <tr>
+      <% if admin_permissions? %>
       <th data-sortable scope="col" role="columnheader">Organization</th>
+      <% end %>
       <th data-sortable scope="col" role="columnheader">Name</th>
       <th data-sortable scope="col" role="columnheader">Description</th>
-      <th>Tags</th>
-      <th>Users</th>
     </tr>
   </thead>
 
   <tbody>
     <% @goals.each do |goal| %>
       <tr>
+        <% if admin_permissions? %>
         <td><%= goal.organization.name %></td>
+        <% end %>
         <td><%= link_to goal.name, admin_goal_path(goal) %></td>
         <td><%= goal.description %></td>
-        <td><%= goal.tags %></td>
-        <td><%= goal.users %></td>
       </tr>
     <% end %>
   </tbody>

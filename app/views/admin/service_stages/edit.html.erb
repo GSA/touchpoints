@@ -10,8 +10,13 @@
 
 <%= render 'form', service: @service, service_stage: @service_stage %>
 
+<hr>
+
 <p>
-  <%= link_to 'Destroy', admin_service_service_stage_path(@service), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" %>
+  <%= link_to admin_service_service_stage_path(@service), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" do %>
+    <i class="fa fa-trash"></i>
+    Delete
+  <% end %>
   <div style="clear:both"></div>
   <br>
 </p>

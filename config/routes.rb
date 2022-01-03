@@ -82,7 +82,9 @@ Rails.application.routes.draw do
       end
     end
     resources :omb_cx_reporting_collections
-    resources :goals
+    resources :goals do
+      resources :goal_targets
+    end
     resources :milestones
     resources :objectives
 
@@ -205,7 +207,7 @@ Rails.application.routes.draw do
     get "export_feed", to: "submissions#export_feed", as: :export_feed
   end
 
-  get :registry, to: "site#registry"
+  get "registry", to: "site#registry", as: :registry
   get "registry/guidance", to: "site#registry_guidance"
   get "agencies", to: "site#agencies", as: :agencies
   get "profile", to: "profile#show", as: :profile

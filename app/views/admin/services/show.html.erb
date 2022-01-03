@@ -94,12 +94,53 @@
   </h2>
 </div>
 
-<hr>
-
 <div class="well">
   <div class="tags-div">
     <%= render 'admin/services/tags', service: @service %>
   </div>
+</div>
+
+<div class="well">
+  <div class="grid-row grid-gap-md">
+    <div class="grid-col-9">
+      <h4>
+        Service Stages
+      </h4>
+      <p class="usa-prose">
+        Each Service is can be decomposed into multiple Stages.
+        Delineating each step is useful for calculating
+        <a href="https://pra.digital.gov/burden/" target="_blank" rel="noopener">Burden</a>.
+        Learn more about how
+        <a href="https://www.performance.gov/cx/blog/journey-mapping/" target="_blank" rel="noopener">
+          service blueprints and journey maps
+        </a>
+        are used to design, manage, and improve services.
+      </p>
+    </div>
+  </div>
+
+  <table border="1" style="width: 100%;">
+  <tr>
+    <% @service.service_stages.each do |stage| %>
+    <td style="padding: 0 10px 20px 10px; width: <%= 98.0 / @service.service_stages.length %>%; vertical-align: top;">
+      <h4>
+        <%= link_to stage.name, admin_service_service_stage_path(@service, stage) %>
+      </h4>
+      <p>
+        <%= stage.description || "Description goes here" %>
+        &nbsp;
+      </p>
+    </td>
+    <% end %>
+  </tr>
+  </table>
+
+  <p>
+    <%= link_to new_admin_service_service_stage_path(@service), class: "usa-button usa-button--outline" do %>
+    <i class="fa fa-plus"></i>
+    Add Stage
+    <% end %>
+  </p>
 </div>
 
 <div class="well">
@@ -131,87 +172,6 @@
       </div>
     <% end %>
   </div>
-</div>
-
-<div class="well">
-  <div class="grid-row grid-gap-md">
-    <div class="grid-col-9">
-      <h4>
-        Service Stages
-      </h4>
-      <p class="usa-prose">
-        Each Service is can be decomposed into multiple Stages.
-        Delineating each step is useful for calculating
-        <a href="https://pra.digital.gov/burden/" target="_blank" rel="noopener">Burden</a>.
-        Learn more about how
-        <a href="https://www.performance.gov/cx/blog/journey-mapping/" target="_blank" rel="noopener">
-          service blueprints and journey maps
-        </a>
-        are used to design, manage, and improve services.
-      </p>
-    </div>
-  </div>
-
-  <table border="1" style="width: 100%;">
-  <tr>
-    <% @service.service_stages.each do |stage| %>
-    <td style="padding: 0 10px 20px 10px; width: <%= 98.0 / @service.service_stages.length %>%; vertical-align: top;">
-      <h4>
-        <%= link_to stage.name, admin_service_service_stage_path(@service, stage) %>
-      </h4>
-      <p>
-        <div class="text-uppercase">
-          <small>
-            Time
-          </small>
-        </div>
-        <i>
-          <%= stage.time || "?" %> minutes
-        </i>
-      </p>
-      <p>
-        <div class="text-uppercase">
-          <small>
-            Takeup
-          </small>
-        </div>
-        <%= number_with_delimiter stage.total_eligible_population %>
-      </p>
-      <p style="color: blue;">
-        <div class="text-uppercase">
-          <small>
-            Description
-          </small>
-        </div>
-        <%= stage.description %>
-        &nbsp;
-      </p>
-
-      <div class="text-uppercase">
-        <small>
-          Barriers
-        </small>
-      </div>
-      <% @barriers = stage.barriers %>
-      <% if @barriers.present? %>
-        <% @barriers.each do |barrier| %>
-          <%= barrier.name %>
-          <br>
-        <% end %>
-      <% else %>
-        No barriers.
-      <% end %>
-    </td>
-    <% end %>
-  </tr>
-  </table>
-
-  <p>
-    <%= link_to new_admin_service_service_stage_path(@service), class: "usa-button usa-button--outline" do %>
-    <i class="fa fa-plus"></i>
-    Add Stage
-    <% end %>
-  </p>
 </div>
 
 <div class="well">

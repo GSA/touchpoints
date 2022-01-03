@@ -1,4 +1,13 @@
-<h1>Editing Objective</h1>
+<% content_for :navigation_title do %>
+  Editing Objective
+<% end %>
+<p>
+  <%= link_to admin_objective_path(@objective) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Objective
+  <% end %>
+</p>
+
 
 <%= render 'form', objective: @objective %>
 

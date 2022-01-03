@@ -80,16 +80,7 @@
   </p>
 </div>
 
-<div>
-  <div class="grid-row">
-    <div class="grid-col-12">
-      <div class="tags-div">
-        <%= render 'admin/organizations/tags', website: @organization %>
-      </div>
-    </div>
-  </div>
-</div>
-
+<% if admin_permissions? || current_user.organization == @organization %>
 <div class="service-providers well">
   <h3>
     <%= pluralize(@organization.service_providers.size, "Service Providers") %>
@@ -164,3 +155,4 @@
   <% end %>
   </ul>
 </div>
+<% end %>
