@@ -33,15 +33,19 @@ RSpec.describe Website, type: :model do
   describe "tags" do
     it "does not include other models in tag_counts" do
       tag_name = 'tag1'
+      tag_name_2 = 'tag2'
       website = FactoryBot.create(:website)
       website.tag_list.add(tag_name)
       website.save!
       organization = FactoryBot.create(:organization)
       organization.tag_list.add(tag_name)
+      organization.tag_list.add(tag_name_2)
       organization.save!
       expect(Website.tag_counts_by_name.first.name).to eq(tag_name)
       expect(Website.tag_counts_by_name.first.taggings_count).to eq(1)
+      expect(Organization.tag_counts_by_name.length).to eq(2)
       expect(Organization.tag_counts_by_name.first.name).to eq(tag_name)
+      expect(Organization.tag_counts_by_name.last.name).to eq(tag_name_2)
       expect(Organization.tag_counts_by_name.first.taggings_count).to eq(1)
     end
   end
