@@ -18,8 +18,21 @@
     <span class="usa-tag bg-secondary-vivid">
       Admin User
     </span>
-    <br>
-    <br>
+  <% end %>
+  <% if @user.performance_manager? %>
+    <span class="usa-tag bg-blue">
+      Performance manager
+    </span>
+  <% end %>
+  <% if @user.registry_manager? %>
+    <span class="usa-tag bg-indigo">
+      Registry manager
+    </span>
+  <% end %>
+  <% if @user.organizational_website_manager? %>
+    <span class="usa-tag bg-cyan">
+      Website manager
+    </span>
   <% end %>
   <p>
     <label>Email</label>

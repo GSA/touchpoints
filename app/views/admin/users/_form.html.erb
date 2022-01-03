@@ -15,28 +15,53 @@
   </div>
   <% if admin_permissions? %>
   <div class="well">
-    <p>
-      A Touchpoints Admin manages everything.
-    </p>
     <fieldset class="usa-fieldset">
       <legend class="usa-sr-only">Administrative User</legend>
       <div class="usa-checkbox">
         <%= form.check_box :admin, class: "usa-checkbox__input" %>
-        <%= form.label :admin, class: "usa-checkbox__label" %>
+        <%= form.label :admin, "Touchpoints Admin", class: "usa-checkbox__label" %>
       </div>
     </fieldset>
+    <p>
+      Admin manages everything for this app (super-admin)
+    </p>
   </div>
   <div class="well">
-    <p>
-      Organizational Website Manager
-    </p>
     <fieldset class="usa-fieldset">
-      <legend class="usa-sr-only">Inactive User</legend>
+      <legend class="usa-sr-only">Organizational website manager</legend>
       <div class="usa-checkbox">
         <%= form.check_box :organizational_website_manager, class: "usa-checkbox__input" %>
         <%= form.label :organizational_website_manager, class: "usa-checkbox__label" %>
       </div>
     </fieldset>
+    <p>
+      Can approve/deny websites request under
+      <%= link_to "/admin/websites", admin_websites_path %>
+    </p>
+  </div>
+  <div class="well">
+    <fieldset class="usa-fieldset">
+      <legend class="usa-sr-only">Performance manager</legend>
+      <div class="usa-checkbox">
+        <%= form.check_box :performance_manager, class: "usa-checkbox__input" %>
+        <%= form.label :performance_manager, class: "usa-checkbox__label" %>
+      </div>
+    </fieldset>
+    <p>
+      Manages <%= link_to "/admin/performance", admin_performance_path %>
+    </p>
+  </div>
+  <div class="well">
+    <fieldset class="usa-fieldset">
+      <legend class="usa-sr-only">Digital Registry manager</legend>
+      <div class="usa-checkbox">
+        <%= form.check_box :registry_manager, class: "usa-checkbox__input" %>
+        <%= form.label :registry_manager, class: "usa-checkbox__label" %>
+      </div>
+    </fieldset>
+    <p>
+      Manages <%= link_to "/admin/registry", admin_registry_path %>
+    </p>
   </div>
   <div class="well">
     <p>

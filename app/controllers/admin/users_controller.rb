@@ -120,6 +120,8 @@ class Admin::UsersController < AdminController
         :admin,
         :organization_id,
         :organizational_website_manager,
+        :performance_manager,
+        :registry_manager,
         :email,
         :inactive,
       )
