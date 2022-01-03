@@ -9,7 +9,7 @@ class Admin::ServicesController < AdminController
   ]
 
   def index
-    if !admin_permissions?
+    if admin_permissions?
       @services = Service.all.includes(:organization).order("organizations.name", :name)
     else
       @services = current_user.organization.services.includes(:organization).order("organizations.name", :name)
