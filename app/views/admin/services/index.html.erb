@@ -24,7 +24,7 @@
     </h3>
     <div class="usa-summary-box__text">
       <p>
-        Touchpoints is designed to support continuous improvement in how public services are designed, delivery, measured.
+        Touchpoints is designed to support continuous improvement in how public services are designed, delivered, and measured.
         Services are delivered internally within an agency, between agencies, and to the public.
         Services consist of people or systems performing work in a sequence of (sometimes conditional) steps
         to deliver value for other people.
@@ -33,16 +33,15 @@
          <%= link_to "human-centered design methods", "https://methods.18f.gov/", target: "_blank" %>
         to ensure products and services deliver value to users.
       </p>
-      <ul class="usa-list">
-        <li>
-          The first Services tracked here a primarily services provided by
-          high-impact <%= link_to "Service Providers", admin_service_providers_path %> (HISPs),
-          and these services can access OMB Quarterly CX Data Reporting.
-        </li>
-        <li>
-          But any Service can be created and tracked here to support a Service Inventory or Catalog.
-        </li>
-      </ul>
+      <p>
+        The first Services tracked here are services provided by designated
+        high-impact <%= link_to "Service Providers", admin_service_providers_path %> (HISPs).
+        These services can access <%= link_to "OMB Quarterly CX Data Reporting", admin_collections_path %>.
+      </p>
+      <p>
+        Any non-sensitive federal Service (internal or external) can be
+        created and tracked here to support a Service Inventory or catalog.
+      </p>
     </div>
   </div>
 </div>

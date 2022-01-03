@@ -121,7 +121,7 @@
 
   <table border="1" style="width: 100%;">
   <tr>
-    <% @service.service_stages.each do |stage| %>
+    <% @service.service_stages.order(:position).each do |stage| %>
     <td style="padding: 0 10px 20px 10px; width: <%= 98.0 / @service.service_stages.length %>%; vertical-align: top;">
       <h4>
         <%= link_to stage.name, admin_service_service_stage_path(@service, stage) %>
