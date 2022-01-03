@@ -9,6 +9,8 @@ class Admin::ServicesController < AdminController
   ]
 
   def index
+    tag_name = params[:tag]
+    
     if admin_permissions?
       if tag_name.present?
         @services = Service.tagged_with(tag_name).includes(:organization).order("organizations.name", :name)
