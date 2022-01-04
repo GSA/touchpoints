@@ -1,10 +1,13 @@
 <% content_for :navigation_title do %>
+  <% if service_permissions?(service: @service) %>
   <div class="float-right">
     <%= link_to edit_admin_service_path(@service), class: "usa-button usa-button-inverted" do %>
     <i class="fa fa-pencil-alt"></i>
     Edit
     <% end %>
   </div>
+  <% end %>
+
   Service: <%= @service.name %>
 <% end %>
 
@@ -44,36 +47,43 @@
     </p>
   </div>
   <div class="grid-col-6">
-    <p>
-      <strong>Department</strong>
-      <br>
-      <%= @service.department %>
-    </p>
-    <p>
-      <strong>Bureau</strong>
-      <br>
-      <%= @service.bureau %>
-    </p>
-    <p>
-      <strong>Bureau abbreviation</strong>
-      <br>
-      <%= @service.bureau_abbreviation %>
-    </p>
-    <p>
-      <strong>Service abbreviation</strong>
-      <br>
-      <%= @service.service_abbreviation %>
-    </p>
-    <p>
-      <strong>Service slug</strong>
-      <br>
-      <%= @service.service_slug %>
-    </p>
-    <p>
-      <strong>Url</strong>
-      <br>
-      <%= link_to @service.url, @service.url %>
-    </p>
+    <div class="well">
+      <div class="font-sans-2xs">
+        This information is for
+        <a href="https://www.performance.gov/cx/" target="_blank" rel="noopener">performance.gov</a> 
+        reporting purposes.
+      </div>
+      <p>
+        <strong>Department</strong>
+        <br>
+        <%= @service.department %>
+      </p>
+      <p>
+        <strong>Bureau</strong>
+        <br>
+        <%= @service.bureau %>
+      </p>
+      <p>
+        <strong>Bureau abbreviation</strong>
+        <br>
+        <%= @service.bureau_abbreviation %>
+      </p>
+      <p>
+        <strong>Service abbreviation</strong>
+        <br>
+        <%= @service.service_abbreviation %>
+      </p>
+      <p>
+        <strong>Service slug</strong>
+        <br>
+        <%= @service.service_slug %>
+      </p>
+      <p>
+        <strong>Url</strong>
+        <br>
+        <%= link_to @service.url, @service.url %>
+      </p>
+    </div>
   </div>
 </div>
 
@@ -94,11 +104,13 @@
   </h2>
 </div>
 
+<% if service_permissions?(service: @service) %>
 <div class="well">
   <div class="tags-div">
     <%= render 'admin/services/tags', service: @service %>
   </div>
 </div>
+<% end %>
 
 <div class="well">
   <div class="grid-row grid-gap-md">
@@ -135,12 +147,15 @@
   </tr>
   </table>
 
+  <% if service_permissions?(service: @service) %>
   <p>
     <%= link_to new_admin_service_service_stage_path(@service), class: "usa-button usa-button--outline" do %>
     <i class="fa fa-plus"></i>
     Add Stage
     <% end %>
   </p>
+  <% end %>
+
 </div>
 
 <div class="well">
@@ -174,6 +189,7 @@
   </div>
 </div>
 
+<% if admin_permissions? %>
 <div class="well">
   <h4>
     Supplemental service information
@@ -189,3 +205,4 @@
     <% end %>
   </p>
 </div>
+<% end %>

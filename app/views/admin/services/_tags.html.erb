@@ -3,14 +3,16 @@
 	  <div class="grid-col-12">
 	  	<h3>
 				Tags
-				<%= link_to "https://github.com/gsa/touchpoints/wiki/tagging-responses", target: "_blank", rel: "noopener" do %>
-					<span class="fa fa-info-circle"></span>
-				<% end %>
 			</h3>
+			<small>
+				Use tags in a way you see fit.
+				<br>
+				As more agencies use tags, we can observe and shape the taxonomy that emerges around Services.
+			</small>
 	  	<p class="tag-list">
 				<ul class="usa-list usa-list--unstyled">
 					<% service.tag_list.sort.each do |tag| %>
-					<li  style="margin-bottom: 3px;">
+					<li style="margin-bottom: 3px;">
 						<span class="usa-tag">
 							<%= tag %>
 						</span>
