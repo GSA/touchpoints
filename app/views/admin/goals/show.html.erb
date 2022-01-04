@@ -7,6 +7,12 @@
 <% end %>
 
 <p>
+  <%= link_to performance_admin_organization_path(@goal.organization) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Performance Report
+  <% end %>
+</p>
+<p>
   <%= link_to admin_goals_path do %>
     <i class="fa fa-arrow-circle-left"></i>
     Back to Goals
@@ -55,5 +61,30 @@
       </li>
     <% end %>
     </ul>
+  </p>
+</div>
+
+<div class="well">
+  <h3>
+    Goal Targets
+  </h3>
+  <p>
+    <% if @goal.goal_targets.present? %>
+    <ul class="usa-list">
+    <% @goal.goal_targets.each do |target| %>
+      <li>
+        <%= link_to target.name, goal_target_admin_goal_path(@goal) %>
+      </li>
+    <% end %>
+    </ul>
+    <% else %>
+      <p>
+        No Goal Targets exist.
+      </p>
+    <% end %>
+    <%= link_to new_admin_goal_goal_target_path(@goal), class: "usa-button" do %>
+      <i class="fa fa-plus"></i>
+      New Goal Target
+    <% end %>
   </p>
 </div>

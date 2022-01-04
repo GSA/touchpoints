@@ -1,9 +1,10 @@
 class Admin::ServiceProvidersController < AdminController
-  before_action :set_service_provider, only: [:show, :edit, :update, :destroy]
+  before_action :set_service_provider, only: [:show, :edit, :update, :destroy, :add_tag, :remove_tag]
   before_action :ensure_admin, except: [:show]
 
   def index
     @service_providers = ServiceProvider.all.includes(:organization).order("organizations.name", "service_providers.name")
+    @tags = ServiceProvider.tag_counts_by_name
   end
 
   def show
@@ -39,6 +40,29 @@ class Admin::ServiceProvidersController < AdminController
     redirect_to admin_service_providers_url, notice: 'Service provider was successfully destroyed.'
   end
 
+  def search
+    search_text = params[:search]
+    tag_name = params[:tag]
+    if search_text.present?
+      search_text = "%" + search_text + "%"
+      @service_providers = ServiceProvider.joins(:organization).where(" service_providers.name ilike ? or organizations.name ilike ?  ", search_text, search_text)
+    elsif tag_name.present?
+      @service_providers = ServiceProvider.tagged_with(tag_name)
+    else
+      @service_providers = ServiceProvider.all
+    end
+  end
+
+  def add_tag
+    @service_provider.tag_list.add(service_provider_params[:tag_list].split(","))
+    @service_provider.save
+  end
+
+  def remove_tag
+    @service_provider.tag_list.remove(service_provider_params[:tag_list].split(","))
+    @service_provider.save
+  end
+
   private
     def set_service_provider
       @service_provider = ServiceProvider.find(params[:id])
@@ -57,6 +81,7 @@ class Admin::ServiceProvidersController < AdminController
         :bureau_abbreviation,
         :inactive,
         :new,
+        :tag_list,
       )
     end
 end

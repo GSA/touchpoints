@@ -32,6 +32,13 @@
     <br>
     <%= @organization.abbreviation %>
   </p>
+  <div class="usa-prose">
+    <p>
+      <strong>Mission statement:</strong>
+      <br>
+      <%= @organization.mission_statement %>
+    </p>
+  </div>
   <% if @organization.logo %>
   <p>
     <strong>Logo:</strong>
@@ -72,6 +79,8 @@
     <%= @organization.notes %>
   </p>
 </div>
+
+<% if admin_permissions? || current_user.organization == @organization %>
 <div class="service-providers well">
   <h3>
     <%= pluralize(@organization.service_providers.size, "Service Providers") %>
@@ -146,3 +155,4 @@
   <% end %>
   </ul>
 </div>
+<% end %>

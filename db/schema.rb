@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_04_191430) do
+ActiveRecord::Schema.define(version: 2021_12_23_223113) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -149,6 +149,18 @@ ActiveRecord::Schema.define(version: 2021_11_04_191430) do
     t.index ["uuid"], name: "index_forms_on_uuid"
   end
 
+  create_table "goal_targets", force: :cascade do |t|
+    t.integer "goal_id"
+    t.datetime "target_date_at"
+    t.text "assertion"
+    t.string "kpi"
+    t.integer "starting_value"
+    t.integer "target_value"
+    t.integer "current_value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "goals", force: :cascade do |t|
     t.integer "organization_id"
     t.string "name"
@@ -157,6 +169,13 @@ ActiveRecord::Schema.define(version: 2021_11_04_191430) do
     t.integer "users", array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "four_year_goal", default: false
+    t.integer "parent_id"
+    t.integer "position"
+    t.text "goal_statement"
+    t.text "challenge"
+    t.text "opportunity"
+    t.text "notes"
     t.index ["tags"], name: "index_goals_on_tags", using: :gin
     t.index ["users"], name: "index_goals_on_users", using: :gin
   end
@@ -171,6 +190,20 @@ ActiveRecord::Schema.define(version: 2021_11_04_191430) do
     t.text "notes"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "objectives", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "organization_id"
+    t.integer "goal_id"
+    t.integer "milestone_id"
+    t.string "tags", array: true
+    t.integer "users", array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tags"], name: "index_objectives_on_tags", using: :gin
+    t.index ["users"], name: "index_objectives_on_users", using: :gin
   end
 
   create_table "omb_cx_reporting_collections", force: :cascade do |t|
@@ -266,6 +299,8 @@ ActiveRecord::Schema.define(version: 2021_11_04_191430) do
     t.string "logo"
     t.boolean "enable_ip_address", default: true
     t.string "digital_analytics_path"
+    t.text "mission_statement"
+    t.string "mission_statement_url"
   end
 
   create_table "question_options", force: :cascade do |t|
@@ -306,6 +341,7 @@ ActiveRecord::Schema.define(version: 2021_11_04_191430) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "new"
     t.boolean "inactive"
+    t.string "url"
   end
 
   create_table "service_stage_barriers", force: :cascade do |t|
@@ -342,6 +378,10 @@ ActiveRecord::Schema.define(version: 2021_11_04_191430) do
     t.string "service_slug", default: ""
     t.string "url", default: ""
     t.integer "service_provider_id"
+    t.integer "service_owner_id"
+    t.text "justification_text"
+    t.text "where_customers_interact"
+    t.string "kind"
   end
 
   create_table "submissions", force: :cascade do |t|
@@ -445,6 +485,8 @@ ActiveRecord::Schema.define(version: 2021_11_04_191430) do
     t.string "api_key"
     t.datetime "api_key_updated_at"
     t.boolean "organizational_website_manager", default: false
+    t.boolean "performance_manager", default: false
+    t.boolean "registry_manager", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

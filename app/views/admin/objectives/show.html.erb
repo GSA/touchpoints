@@ -1,0 +1,44 @@
+<% content_for :navigation_title do %>
+  <%= link_to edit_admin_objective_path(@objective), class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-pencil-alt"></i>
+    Edit
+  <% end %>
+  Viewing Objective: <%= @objective.name %>
+<% end %>
+<p>
+  <%= link_to performance_admin_organization_path(@objective.goal.organization) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Performance Report
+  <% end %>
+</p>
+
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @objective.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @objective.description %>
+</p>
+
+<p>
+  <strong>Organization:</strong>
+  <%= link_to @objective.goal.organization.name, admin_organization_path(@objective.goal.organization) %>
+</p>
+
+<p>
+  <strong>Goal:</strong>
+  <%= link_to @objective.goal.name, admin_goal_path(@objective.goal) %>
+</p>
+
+<p hidden>
+  <strong>Milestone:</strong>
+  <%= @objective.milestone_id %>
+</p>
+
+<p>
+  <%= link_to 'Back to Objectives', admin_objectives_path %>
+</p>

@@ -1,0 +1,62 @@
+<% content_for :navigation_title do %>
+  Performance reporting
+  <div class="float-right">
+    <%= link_to admin_goals_path, class: "usa-button usa-button-inverted" do %>
+      Goals & targets
+    <% end %>
+    <%= link_to admin_objectives_path, class: "usa-button usa-button-inverted" do %>
+      Objectives
+    <% end %>
+    <%= link_to admin_milestones_path, class: "usa-button usa-button-inverted" do %>
+      Milestones
+    <% end %>
+  </div>
+<% end %>
+
+<br>
+
+<div class="grid-row">
+  <div class="grid-col-12">
+    <div
+      class="usa-summary-box"
+      role="region"
+      aria-labelledby="summary-box-key-information"
+    >
+      <div class="usa-summary-box__body">
+        <h3 class="usa-summary-box__heading" id="summary-box-key-information">
+          Performance reporting in Touchpoints
+        </h3>
+        <div class="usa-summary-box__text">
+          <p>
+            Select your Organization below,
+            to create, view, or update your Performance Report.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="grid-row grid-gap-lg">
+  <div class="grid-col-8">
+    <ul class="usa-list">
+    <% Organization.all.order(:name).each do |organization| %>
+      <li>
+        <%= link_to organization.name, performance_admin_organization_path(organization) %>
+      </li>
+    <% end %>
+    </ul>
+  </div>
+  <div class="grid-col-4">
+    <h3>
+      Data Collections
+    </h3>
+
+    <p>
+      <%= link_to admin_collections_path, class: "usa-button" do %>
+      Manage Data Collections
+      <% end %>
+    </p>
+  </div>
+</div>
+<br>

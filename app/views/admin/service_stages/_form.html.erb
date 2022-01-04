@@ -11,6 +11,13 @@
     </div>
   <% end %>
 
+  <% if admin_permissions? %>
+  <div class="field">
+    <%= form.label :service_id, class: "usa-label" %>
+    <%= form.select :service_id, options_for_select(Service.all.includes(:organization).order("organizations.name", :name).map { |s| ["#{s.organization.name} - #{s.name}", s.id] }, service_stage.service_id), {}, { class: "usa-select" } %>
+  </div>
+  <% end %>
+
   <div class="field">
     <%= form.label :name, class: "usa-label" %>
     <%= form.text_field :name, class: "usa-input" %>
@@ -21,32 +28,27 @@
     <%= form.text_area :description, class: "usa-textarea" %>
   </div>
 
-  <div class="field">
-    <%= form.label :service_id, class: "usa-label" %>
-    <%= form.select :service_id, options_for_select(Service.all.includes(:organization).order("organizations.name", :name).map { |s| ["#{s.organization.name} - #{s.name}", s.id] }), {}, { class: "usa-select" } %>
-  </div>
-
-  <div class="field">
+  <div class="field" hidden>
     <%= form.label :notes, class: "usa-label" %>
     <%= form.text_area :notes, class: "usa-textarea" %>
   </div>
 
-  <div class="field">
+  <div class="field" hidden>
     <%= form.label :time, class: "usa-label" %>
-    <%= form.number_field :time, class: "usa-input" %>
+    <%= form.number_field :time, class: "usa-input", placeholder: "Estimated average time, in minutes" %>
   </div>
 
-  <div class="field">
+  <div class="field" hidden>
     <%= form.label :total_eligible_population, class: "usa-label" %>
     <%= form.number_field :total_eligible_population, class: "usa-input" %>
   </div>
 
   <div class="field">
-    <%= form.label :position, class: "usa-label" %>
+    <%= form.label :position, "Position (to sort stages in order)", class: "usa-label" %>
     <%= form.number_field :position, class: "usa-input" %>
   </div>
 
-  <div class="field">
+  <div class="field" hidden>
     <%= form.label :barrier_id, class: "usa-label" %>
     <%= form.select :barrier_id, options_for_select(Barrier.all.map { |s| [s.name, s.id] }), {}, { class: "usa-select" } %>
     <br>

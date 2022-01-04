@@ -98,8 +98,7 @@ class User < ApplicationRecord
   end
 
   def deactivate
-    self.inactive = true
-    self.save
+    self.update!(inactive: true)
     UserMailer.account_deactivated_notification(self).deliver_later
     Event.log_event(Event.names[:user_deactivated], "User", self.id, "User account #{self.email} deactivated on #{Date.today}")
   end

@@ -42,24 +42,51 @@
   </div>
 </div>
 
-<table class="usa-table">
-  <thead>
-    <tr>
-      <th>Organization</th>
-      <th>Name</th>
-      <th># of services</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @service_providers.each do |service_provider| %>
-      <tr>
-        <td><%= service_provider.organization.name %></td>
-        <td><%= link_to service_provider.name, admin_service_provider_path(service_provider) %></td>
-        <td><%= service_provider.services.size %></td>
-      </tr>
+<div class="well">
+  <div class="field">
+    <%= label_tag :search_text, "Search by organization or name" %>
+    <%= text_field_tag :search_text, nil, class: "usa-input" %>
+    <% if @tags.first %>
+      <p>
+        Search by tag
+      </p>
+      <p class="tag-list">
+        <% @tags.order(:name).each do | tag | %>
+          <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
+            <span class="usa-tag">
+              <%= tag.name %> (<%= tag.taggings_count %>)
+            </span>
+          </a>
+        <% end %>
+      <p>
     <% end %>
-  </tbody>
-</table>
+  </div>
+</div>
+<div class="search-results">
+  <%= render 'results' %>
+</div>
 
 <%= render 'admin/service_providers/csv_data' if admin_permissions? %>
+
+<script>
+  $(function() {
+    $("#search_text").keyup(function() {
+      $.ajax({
+        url: '/admin/service_providers/search',
+        data: {
+          search: $(this).val()
+        }
+      });
+    });
+    $(".search-tag-link").click(function() {
+      $("#search_text").val("");
+      $.ajax({
+        url: '/admin/service_providers/search',
+        data: {
+          tag: $(this).attr("data-name")
+        }
+      });
+    });
+  });
+</script>
+

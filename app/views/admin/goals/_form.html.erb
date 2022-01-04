@@ -13,13 +13,31 @@
 
   <div class="field">
     <%= form.label :organization_id, class: "usa-label" %>
-    <%= form.select :organization_id, options_for_select(organization_dropdown_options, goal.organization_id), { prompt: "Which Organization?", include_blank: true }, { class: "usa-select" } %>
+    <%= form.select :organization_id, options_for_select(organization_dropdown_options, goal.organization_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
   </div>
 
   <div class="field">
     <%= form.label :name, class: "usa-label" %>
     <%= form.text_field :name, class: "usa-input" %>
   </div>
+
+  <div class="field">
+    <%= form.label :parent_id, "Parent goal", class: "usa-label" %>
+    <%= form.select :parent_id, options_for_select((Goal.all.order(:name) - [goal]).map { |z| [z.name, z.id]}, goal.parent_id), { prompt: "Parent goal?" }, { class: "usa-select" } %>
+  </div>
+
+  <br>
+
+  <fieldset class="usa-fieldset">
+    <legend class="usa-legend usa-sr-only">2 or 4-year goal?</legend>
+    <div class="usa-checkbox">
+      <%= form.check_box :four_year_goal, class: "usa-checkbox__input" %>
+      <%= form.label :four_year_goal, "4-year strategic goal", class: "usa-checkbox__label" %>
+      <small>
+        Otherwise, a 2-year APG
+      </small>
+    </div>
+  </fieldset>
 
   <div class="field">
     <%= form.label :description, class: "usa-label" %>

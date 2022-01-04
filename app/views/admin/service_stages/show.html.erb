@@ -1,5 +1,9 @@
 <% content_for :navigation_title do %>
   Service Stage for: <%= @service.name %>
+  <%= link_to edit_admin_service_service_stage_path(@service, @service_stage), class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-pencil-alt"></i>
+    Edit
+  <% end %>
 <% end %>
 <p>
   <%= link_to admin_service_path(@service) do %>
@@ -26,22 +30,22 @@
   <%= @service_stage.description %>
 </p>
 
-
-<p>
+<p hidden>
   <strong>Notes:</strong>
   <%= @service_stage.notes %>
 </p>
 
-<p>
+<p hidden>
   <strong>Time:</strong>
   <%= @service_stage.time %> minutes
 </p>
 
 <p>
-  <strong>Total eligible population:</strong>
-  <%= number_with_delimiter @service_stage.total_eligible_population %>
+  <strong>Position (sort order):</strong>
+  <%= @service_stage.position %>
 </p>
 
-<p>
-  <%= link_to 'Edit', edit_admin_service_service_stage_path(@service, @service_stage), class: "usa-button" %>
+<p hidden>
+  <strong>Total eligible population:</strong>
+  <%= number_with_delimiter @service_stage.total_eligible_population %>
 </p>

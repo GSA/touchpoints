@@ -24,7 +24,7 @@
     </h3>
     <div class="usa-summary-box__text">
       <p>
-        Touchpoints is designed to support continuous improvement in how public services are designed, delivery, measured.
+        Touchpoints is designed to support continuous improvement in how public services are designed, delivered, and measured.
         Services are delivered internally within an agency, between agencies, and to the public.
         Services consist of people or systems performing work in a sequence of (sometimes conditional) steps
         to deliver value for other people.
@@ -33,46 +33,61 @@
          <%= link_to "human-centered design methods", "https://methods.18f.gov/", target: "_blank" %>
         to ensure products and services deliver value to users.
       </p>
-      <ul class="usa-list">
-        <li>
-          The first Services tracked here a primarily services provided by
-          high-impact <%= link_to "Service Providers", admin_service_providers_path %> (HISPs),
-          and these services can access OMB Quarterly CX Data Reporting.
-        </li>
-        <li>
-          But any Service can be created and tracked here to support a Service Inventory or Catalog.
-        </li>
-      </ul>
+      <p>
+        The first Services tracked here are services provided by designated
+        high-impact <%= link_to "Service Providers", admin_service_providers_path %> (HISPs).
+        These services can access <%= link_to "OMB Quarterly CX Data Reporting", admin_collections_path %>.
+      </p>
+      <p>
+        Any non-sensitive federal Service (internal or external) can be
+        created and tracked here to support a Service Inventory or catalog.
+      </p>
     </div>
   </div>
 </div>
 
-<table class="usa-table">
-  <thead>
-    <tr>
-    <% if admin_permissions? %>
-      <th data-sortable scope="col" role="columnheader">Organization</th>
-    <% end %>
-      <th data-sortable scope="col" role="columnheader">Name</th>
-      <th data-sortable scope="col" role="columnheader"># of Stages</th>
-      <th data-sortable scope="col" role="columnheader">HISP Service</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @services.each do |service| %>
-      <tr>
-      <% if admin_permissions? %>
-        <td><%= service.organization.name %></td>
-      <% end %>
-        <td><%= link_to service.name, admin_service_path(service) %></td>
-        <td><%= link_to service.service_stages.count, admin_service_service_stages_path(service) %></td>
-        <td>
-          <% if service.service_provider %>
-            <span class="usa-tag bg-cyan">HISP</span>
+<div class="well">
+  <div class="field">
+    <%= label_tag :search_text, "Search by organization or name" %>
+    <%= text_field_tag :search_text, nil, class: "usa-input" %>
+    <% if @tags.first %>
+      <p>
+        Search by tag
+      </p>
+      <p class="tag-list">
+        <% @tags.order(:name).each do |tag| %>
+          <%= link_to admin_services_path(tag: tag.name), class: "search-tag-link",  "data-name" => tag.name do %>
+            <span class="usa-tag">
+              <%= tag.name %> (<%= tag.taggings_count %>)
+            </span>
           <% end %>
-        </td>
-      </tr>
+        <% end %>
+      <p>
     <% end %>
-  </tbody>
-</table>
+  </div>
+</div>
+<div class="search-results">
+  <%= render 'results' %>
+</div>
+
+<script>
+  $(function() {
+    $("#search_text").keyup(function() {
+      $.ajax({
+        url: '/admin/services/search',
+        data: {
+          search: $(this).val()
+        }
+      });
+    });
+    $(".search-tag-link").click(function() {
+      $("#search_text").val("");
+      $.ajax({
+        url: '/admin/services/search',
+        data: {
+          tag: $(this).attr("data-name")
+        }
+      });
+    });
+  });
+</script>
