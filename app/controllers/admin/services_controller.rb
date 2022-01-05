@@ -30,7 +30,6 @@ class Admin::ServicesController < AdminController
   end
 
   def show
-    # ensure_service_owner(service: @service, user: current_user)
   end
 
   def new

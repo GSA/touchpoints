@@ -43,8 +43,11 @@ class Admin::ServiceStagesController < AdminController
   end
 
   def destroy
-    @service_stage.destroy
-    redirect_to admin_service_service_stages_url(@service), notice: 'Service stage was successfully destroyed.'
+    ensure_service_owner(service: @service, user: current_user)
+
+    if @service_stage.destroy
+      redirect_to admin_service_service_stages_url(@service), notice: 'Service stage was successfully destroyed.'
+    end
   end
 
   private
