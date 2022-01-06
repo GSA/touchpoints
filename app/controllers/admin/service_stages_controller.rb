@@ -1,23 +1,28 @@
 class Admin::ServiceStagesController < AdminController
-  before_action :ensure_admin
   before_action :set_service
   before_action :set_service_stage, only: [:show, :edit, :update, :destroy]
 
   def index
+    ensure_service_owner(service: @service, user: current_user)
     @service_stages = @service.service_stages
   end
 
   def show
+    ensure_service_owner(service: @service, user: current_user)
   end
 
   def new
+    ensure_service_owner(service: @service, user: current_user)
     @service_stage = ServiceStage.new
   end
 
   def edit
+    ensure_service_owner(service: @service, user: current_user)
   end
 
   def create
+    ensure_service_owner(service: @service, user: current_user)
+
     @service_stage = ServiceStage.new(service_stage_params)
 
     if @service_stage.save
@@ -28,6 +33,8 @@ class Admin::ServiceStagesController < AdminController
   end
 
   def update
+    ensure_service_owner(service: @service, user: current_user)
+
     if @service_stage.update(service_stage_params)
       redirect_to admin_service_service_stage_path(@service, @service_stage), notice: 'Service stage was successfully updated.'
     else
@@ -36,8 +43,11 @@ class Admin::ServiceStagesController < AdminController
   end
 
   def destroy
-    @service_stage.destroy
-    redirect_to admin_service_service_stages_url(@service), notice: 'Service stage was successfully destroyed.'
+    ensure_service_owner(service: @service, user: current_user)
+
+    if @service_stage.destroy
+      redirect_to admin_service_service_stages_url(@service), notice: 'Service stage was successfully destroyed.'
+    end
   end
 
   private

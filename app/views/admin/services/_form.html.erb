@@ -1,3 +1,14 @@
+<% @service_kinds = [
+  "Administrative",
+  "Benefits",
+  "Compliance",
+  "Recreation",
+  "Informational",
+  "Data and Research",
+  "Regulatory",
+]
+%>
+
 <%= form_with(model: service, url: service.persisted? ? admin_service_path(service) : admin_services_path, local: true) do |form| %>
 <% if service.errors.any? %>
 <div id="error_explanation">
@@ -20,7 +31,10 @@
 
     <div class="field">
       <%= form.label :service_provider_id, class: "usa-label" %>
-      <%= form.select :service_provider_id, options_for_select(ServiceProvider.all.includes(:organization).order("organizations.abbreviation", "service_providers.name").map { |p| ["#{p.organization.abbreviation} - #{p.name}", p.id] }, service.service_provider_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
+      <small>
+        Which High Impact Service Provider?
+      </small>
+      <%= form.select :service_provider_id, options_for_select(@service_providers.map { |p| ["#{p.organization.abbreviation} - #{p.name}", p.id] }, service.service_provider_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
     </div>
 
     <div class="field">
@@ -30,27 +44,25 @@
 
     <div class="field">
       <%= form.label :name, class: "usa-label" %>
+      <small>
+        Include a verb (an action the customer takes) in the context of the service offering (the thing the customer is trying to accomplish).
+      </small>
       <%= form.text_field :name, class: "usa-input", placeholder: "What is the name of this Service?" %>
+    </div>
+    
+    <div class="field">
+      <%= form.label :kind, "Service type", class: "usa-label" %>
+      <%= form.select :kind, options_for_select(@service_kinds, service.organization_id), { prompt: "Which kind of Service?" }, { class: "usa-select" } %>
     </div>
 
     <div class="field">
       <%= form.label :justification_text, "Why did you select this service for priority designation?", class: "usa-label" %>
-      <%= form.text_area :justification_text, class: "usa-textarea", placeholder: "What is the scale of the service? (e.g., annual program cost or customer volume)? What is the scale of the impact of the service (e.g., the importance of the service on individual lives)?" %>
-    </div>
-
-    <% @service_kinds = [
-      "Administrative",
-      "Benefits",
-      "Compliance",
-      "Recreation",
-      "Informational",
-      "Data and Research",
-      "Regulatory",
-    ]
-    %>
-    <div class="field">
-      <%= form.label :kind, "Service type", class: "usa-label" %>
-      <%= form.select :kind, options_for_select(@service_kinds, service.organization_id), { prompt: "Which kind of Service?" }, { class: "usa-select" } %>
+      <small>
+        What is the scale of the service? (e.g., annual program cost or customer volume)?
+        <br>
+        What is the scale of the impact of the service (e.g., the importance of the service on individual lives)?
+      </small>
+      <%= form.text_area :justification_text, class: "usa-textarea" %>
     </div>
 
     <div class="field">
@@ -60,7 +72,11 @@
 
     <div class="field">
       <%= form.label :where_customers_interact, "Service channels", class: "usa-label" %>
-      <%= form.text_area :where_customers_interact, class: "usa-textarea", placeholder: "What are the channels (“the places”) by which customers interact with this service? Are there digital channels? If yes, please list them. If not, please briefly describe why and what ideas or efforts are underway to utilize digital channels?" %>
+      <small>
+        What are the channels (“the places”) by which customers interact with this service? Are there digital channels?
+        If yes, please list them. If not, please briefly describe why and what ideas or efforts are underway to utilize digital channels?
+      </small>
+      <%= form.text_area :where_customers_interact, class: "usa-textarea" %>
     </div>
 
     <div class="field">
