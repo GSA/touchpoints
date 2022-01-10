@@ -39,7 +39,7 @@
 
     <div class="field">
       <%= form.label :service_owner_id, class: "usa-label" %>
-      <%= form.select :service_owner_id, options_for_select(current_user.organization.users.order("email").map { |u| [u.email, u.id] }, service.service_owner_id), { prompt: "Which User?" }, { class: "usa-select" } %>
+      <%= form.select :service_owner_id, options_for_select(@service_owner_options.order("email").map { |u| [u.email, u.id] }, service.service_owner_id), { prompt: "Which User?" }, { class: "usa-select" } %>
     </div>
 
     <div class="field">
