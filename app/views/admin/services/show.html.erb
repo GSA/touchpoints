@@ -45,12 +45,17 @@
       <br>
       <%= @service.notes %>
     </p>
+    <p>
+      <strong>Service owner</strong>
+      <br>
+      <%= @service.service_owner.try(:email) %>
+    </p>
   </div>
   <div class="grid-col-6">
     <div class="well">
       <div class="font-sans-2xs">
         This information is for
-        <a href="https://www.performance.gov/cx/" target="_blank" rel="noopener">performance.gov</a> 
+        <a href="https://www.performance.gov/cx/" target="_blank" rel="noopener">performance.gov</a>
         reporting purposes.
       </div>
       <p>
