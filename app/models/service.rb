@@ -17,4 +17,10 @@ class Service < ApplicationRecord
     self.service_stages.create(position: 20, name: :process)
     self.service_stages.create(position: 100, name: :end)
   end
+
+  def owner?(user:)
+    return false unless user
+    
+    user.admin? || self.service_owner_id == user.id
+  end
 end

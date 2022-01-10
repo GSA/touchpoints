@@ -1,5 +1,4 @@
 class Admin::ServicesController < AdminController
-  before_action :ensure_admin
   before_action :set_service, only: [
     :show, :edit, :update, :destroy,
     :equity_assessment,
@@ -7,11 +6,16 @@ class Admin::ServicesController < AdminController
     :add_tag,
     :remove_tag,
   ]
+
   before_action :set_service_owner_options, only: [
     :new,
     :create,
     :edit,
     :update
+  ]
+
+  before_action :set_service_providers, only: [
+    :new, :create, :edit
   ]
 
   def index
@@ -38,9 +42,12 @@ class Admin::ServicesController < AdminController
 
   def new
     @service = Service.new
+    @service.service_owner_id = current_user.id
   end
 
   def edit
+    ensure_service_owner(service: @service, user: current_user)
+    
     if admin_permissions?
       @service_owner_options = User.all
     else
@@ -60,6 +67,8 @@ class Admin::ServicesController < AdminController
   end
 
   def update
+    ensure_service_owner(service: @service, user: current_user)
+
     if @service.update(service_params)
       redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
     else
@@ -68,8 +77,11 @@ class Admin::ServicesController < AdminController
   end
 
   def destroy
-    @service.destroy
-    redirect_to admin_services_url, notice: 'Service was successfully destroyed.'
+    ensure_service_owner(service: @service, user: current_user)
+
+    if @service.destroy
+      redirect_to admin_services_url, notice: 'Service was successfully destroyed.'
+    end
   end
 
   def search
@@ -106,21 +118,32 @@ class Admin::ServicesController < AdminController
       @service = Service.find(params[:id])
     end
 
+    def set_service_providers
+      if current_user.admin?
+        @service_providers = ServiceProvider.all.includes(:organization).order("organizations.abbreviation", "service_providers.name")
+      else
+        @service_providers = current_user.organization.service_providers.includes(:organization).order("organizations.abbreviation", "service_providers.name")
+      end
+    end
+
     def service_params
       params.require(:service).permit(
         :organization_id,
+        :service_owner_id,
         :service_provider_id,
         :bureau,
         :bureau_abbreviation,
         :department,
         :description,
         :hisp,
+        :justification_text,
         :name,
         :notes,
         :service_abbreviation,
         :service_slug,
         :url,
         :tag_list,
+        :where_customers_interact,
       )
     end
 end
