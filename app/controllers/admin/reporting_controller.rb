@@ -55,4 +55,23 @@ class Admin::ReportingController < AdminController
       @org_summary << org_row
     end
   end
+
+  def no_submissions
+    @forms = Form.live.select(:id,:name,:organization_id,:uuid).where("not exists (select id, uuid from submissions where submissions.form_id = forms.id and submissions.created_at > current_date - interval '30' day)").order(:organization_id)
+    @orgs = Organization.all.order(:name)
+    @org_summary = []
+    @orgs.each do | org |
+      org_row = {}
+      org_row[:name] = org.name
+      org_row[:forms] = []
+      @forms.select { |form| form.organization_id == org.id }.each do |org_form|
+        form_summary = {}
+        form_summary[:id] = org_form.id
+        form_summary[:name] = org_form.name
+        form_summary[:short_uuid] = org_form.short_uuid
+        org_row[:forms] << form_summary
+      end
+      @org_summary << org_row
+    end
+  end
 end
