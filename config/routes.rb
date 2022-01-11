@@ -70,7 +70,7 @@ Rails.application.routes.draw do
         post "add_tag", to: "services#add_tag", as: :add_tag
         post "remove_tag", to: "services#remove_tag", as: :remove_tag
       end
-      resources :service_stages
+      resources :service_stages, except: [:index]
     end
 
     resources :collections do
