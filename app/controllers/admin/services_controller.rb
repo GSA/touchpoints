@@ -6,6 +6,14 @@ class Admin::ServicesController < AdminController
     :add_tag,
     :remove_tag,
   ]
+
+  before_action :set_service_owner_options, only: [
+    :new,
+    :create,
+    :edit,
+    :update
+  ]
+
   before_action :set_service_providers, only: [
     :new, :create, :edit
   ]
@@ -105,12 +113,23 @@ class Admin::ServicesController < AdminController
     end
 
     def set_service_providers
-      if current_user.admin?
+      if admin_permissions?
         @service_providers = ServiceProvider.all.includes(:organization).order("organizations.abbreviation", "service_providers.name")
       else
         @service_providers = current_user.organization.service_providers.includes(:organization).order("organizations.abbreviation", "service_providers.name")
       end
     end
+
+
+    def set_service_owner_options
+      if admin_permissions?
+        @service_owner_options = User.all
+      else
+        @service_owner_options = current_user.organization.users
+      end
+    end
+
+
 
     def service_params
       params.require(:service).permit(

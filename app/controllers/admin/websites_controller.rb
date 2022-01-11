@@ -122,16 +122,16 @@ class Admin::WebsitesController < AdminController
     tag_name = params[:tag]
     if search_text.present?
       search_text = "%" + search_text + "%"
-      @websites = Website.where(" domain ilike ? or office ilike ? or sub_office ilike ? or production_status ilike ? or site_owner_email ilike ? ", search_text, search_text, search_text, search_text, search_text)
+      @websites = Website.where(" domain ilike ? or office ilike ? or sub_office ilike ? or production_status ilike ? or site_owner_email ilike ? ", search_text, search_text, search_text, search_text, search_text).order(:production_status, :domain)
     elsif tag_name.present?
-      @websites = Website.tagged_with(tag_name)
+      @websites = Website.tagged_with(tag_name).order(:production_status, :domain)
     else
-      @websites = Website.all
+      @websites = Website.all.order(:production_status, :domain)
     end
   end
 
   def gsa
-    @websites = Website.active.order(:domain)
+    @websites = Website.active.order(:production_status, :domain)
   end
 
   def show

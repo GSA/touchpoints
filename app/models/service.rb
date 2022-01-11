@@ -20,7 +20,13 @@ class Service < ApplicationRecord
 
   def owner?(user:)
     return false unless user
-    
+
     user.admin? || self.service_owner_id == user.id
+  end
+
+  def service_owner
+    return false unless self.service_owner_id
+
+    User.find_by_id(self.service_owner_id)
   end
 end
