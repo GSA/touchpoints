@@ -24,6 +24,7 @@ class Admin::ServiceStagesController < AdminController
     ensure_service_owner(service: @service, user: current_user)
 
     @service_stage = ServiceStage.new(service_stage_params)
+    @service_stage.service = @service
 
     if @service_stage.save
       redirect_to admin_service_service_stage_path(@service, @service_stage), notice: 'Service stage was successfully created.'

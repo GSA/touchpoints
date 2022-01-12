@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   namespace :admin do
     get "/reporting/hisps", to: "reporting#hisps", as: :hisps
     get "/reporting/lifespan", to: "reporting#lifespan", as: :lifespan
+    get "/reporting/no_submissions", to: "reporting#no_submissions", as: :no_submissions
     get "/submissions/search", to: "submissions#search", as: :search_submissions
     get "/submissions/a11_analysis", to: "submissions#a11_analysis", as: :a11_analysis
     get "/submissions/a11_chart", to: "submissions#a11_chart", as: :a11_chart
@@ -70,7 +71,7 @@ Rails.application.routes.draw do
         post "add_tag", to: "services#add_tag", as: :add_tag
         post "remove_tag", to: "services#remove_tag", as: :remove_tag
       end
-      resources :service_stages
+      resources :service_stages, except: [:index]
     end
 
     resources :collections do
