@@ -29,6 +29,62 @@ class Admin::ReportingController < AdminController
     render plain: row.join("\n")
   end
 
+  def hisp_services
+    row = []
+    header_fields = [
+        :service_provider_id,
+        :service_id,
+        :year,
+        :quarter,
+        :service_provided,
+        :transaction_point,
+        :channel,
+        :customer_count,
+        :surveys_offered_count,
+        :response_count,
+        :satisfied,
+        :trust,
+        :effective,
+        :easy,
+        :efficient,
+        :transparent,
+        :employee
+      ]
+
+    row << header_fields.join(",")
+
+    ServiceProvider.all.includes(:organization).order("organizations.name", :name).each do |service_provider|
+      service_provider.services.order(:name).each do |service|
+        service.omb_cx_reporting_collections.includes(:service, :collection).order("collections.year", "collections.quarter", "services.name").each do |omb_cx_reporting_collection|
+
+          row_fields = [
+            omb_cx_reporting_collection.collection.service_provider.slug,
+            omb_cx_reporting_collection.service.service_slug,
+            omb_cx_reporting_collection.collection.year,
+            omb_cx_reporting_collection.collection.quarter,
+            "\"#{omb_cx_reporting_collection.service_provided}\"",
+            "\"#{omb_cx_reporting_collection.transaction_point}\"",
+            "\"#{omb_cx_reporting_collection.channel}\"",
+            omb_cx_reporting_collection.volume_of_customers,
+            omb_cx_reporting_collection.volume_of_customers_provided_survey_opportunity,
+            omb_cx_reporting_collection.volume_of_respondents,
+            omb_cx_reporting_collection.q1_point_scale,
+            omb_cx_reporting_collection.q2_point_scale,
+            omb_cx_reporting_collection.q3_point_scale,
+            omb_cx_reporting_collection.q4_point_scale,
+            omb_cx_reporting_collection.q5_point_scale,
+            omb_cx_reporting_collection.q6_point_scale,
+            omb_cx_reporting_collection.q7_point_scale
+          ]
+          row << row_fields.join(",")
+
+        end
+      end
+    end
+
+    render plain: row.join("\n")
+  end
+
   def lifespan
     @form_lifespans = Submission.select("form_id, count(*) as num_submissions, (max(submissions.created_at) - min(submissions.created_at)) as lifespan").group(:form_id)
     @forms = Form.select(:id,:name,:organization_id,:uuid).where("exists (select id, uuid from submissions where submissions.form_id = forms.id)")
