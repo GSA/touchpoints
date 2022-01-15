@@ -40,7 +40,9 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    get "/reporting/hisps", to: "reporting#hisps", as: :hisps
+    get "/reporting/hisps/hisps", to: "reporting#hisps", as: :hisps
+    get "/reporting/hisps/hisp_services", to: "reporting#hisp_services", as: :hisp_services
+
     get "/reporting/lifespan", to: "reporting#lifespan", as: :lifespan
     get "/reporting/no_submissions", to: "reporting#no_submissions", as: :no_submissions
     get "/submissions/search", to: "submissions#search", as: :search_submissions
@@ -199,6 +201,7 @@ Rails.application.routes.draw do
     resources :service_stage_barriers
 
     get "dashboard", to: "site#index", as: :dashboard
+    get "integrations", to: "site#integrations", as: :integrations
     get "performance", to: "performance#index", as: :performance
     get "management", to: "site#management", as: :management
     get "events", to: "site#events", as: :events
