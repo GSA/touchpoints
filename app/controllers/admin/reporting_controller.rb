@@ -42,13 +42,13 @@ class Admin::ReportingController < AdminController
         :customer_count,
         :surveys_offered_count,
         :response_count,
-        :satisfied,
+        :satisfaction,
         :trust,
-        :effective,
-        :easy,
-        :efficient,
-        :transparent,
-        :employee
+        :quality,
+        :ease,
+        :efficiency,
+        :transparency,
+        :helpfulness
       ]
 
     row << header_fields.join(",")
