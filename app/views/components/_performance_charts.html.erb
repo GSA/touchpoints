@@ -25,6 +25,9 @@
   <% collection.omb_cx_reporting_collections.each do |report| %>
   <div class="grid-row">
     <div class="grid-col-12 font-sans-3xs">
+      Service provided:
+      <%= report.service_provided %>
+      <br>
       Transaction point:
       <%= report.transaction_point %>
       <br>
