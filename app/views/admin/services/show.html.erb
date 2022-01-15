@@ -23,7 +23,7 @@
     <p>
       <strong>Organization</strong>
       <br>
-      <%= @service.organization.name %>
+      <%= link_to @service.organization.name, admin_organization_path(@service.organization) %>
     </p>
     <p>
       <strong>Service Provider</strong>
