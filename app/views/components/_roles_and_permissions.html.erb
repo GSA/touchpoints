@@ -33,7 +33,8 @@
         <% end %>
 
         <div>
-          <% if form.users.present? %>
+          <% @users = form.users.active.order(:email) %>
+          <% if @users.present? %>
           <table class="usa-table" style="width: 100%;">
             <thead>
               <tr>
@@ -48,7 +49,7 @@
               </tr>
             </thead>
             <tbody>
-              <% form.users.order(:email).each do |user| %>
+              <% @users.each do |user| %>
               <tr data-user-id="<%= user.id %>">
                 <td>
                   <% friendly_roles = {
