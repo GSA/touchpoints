@@ -498,7 +498,9 @@ class Admin::FormsController < AdminController
         :notes,
         :status,
         :title,
-        :load_css
+        :load_css,
+        :omb_approval_number,
+        :expiration_date,
       )
     end
 
