@@ -205,6 +205,7 @@ Rails.application.routes.draw do
     get "dashboard", to: "site#index", as: :dashboard
     get "integrations", to: "site#integrations", as: :integrations
     get "performance", to: "performance#index", as: :performance
+    get "performance/apg", to: "performance#apgs", as: :apgs
     get "management", to: "site#management", as: :management
     get "events", to: "site#events", as: :events
     get "events/export", to: "site#events_export", as: :export_events

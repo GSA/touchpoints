@@ -11,6 +11,10 @@ class Admin::PerformanceController < AdminController
     @apg = Objective.find(params[:apg])
   end
 
+  def apgs
+    @organizations = Organization.all.order(:name)
+  end
+
   private
 
   def set_organization
