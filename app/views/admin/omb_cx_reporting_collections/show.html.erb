@@ -41,10 +41,28 @@
       <p>
         <div class="field">
           <strong>
-            Service Provided
+            Service Provider
           </strong>
           <br>
-          <%= link_to(@omb_cx_reporting_collection.service.name, admin_service_path(@omb_cx_reporting_collection.service)) %>
+          <%= link_to @omb_cx_reporting_collection.collection.service_provider.name, admin_service_provider_path(@omb_cx_reporting_collection.collection.service_provider) %>
+        </div>
+      </p>
+      <p>
+        <div class="field">
+          <strong>
+            Service
+          </strong>
+          <br>
+          <%= link_to @omb_cx_reporting_collection.service.name, admin_service_path(@omb_cx_reporting_collection.service) %>
+        </div>
+      </p>
+      <p>
+        <div class="field">
+          <strong>
+            Service provided
+          </strong>
+          <br>
+          <%= @omb_cx_reporting_collection.service_provided %>
         </div>
       </p>
     </div>
