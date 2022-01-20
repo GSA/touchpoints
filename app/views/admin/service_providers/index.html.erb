@@ -66,7 +66,12 @@
   <%= render 'results' %>
 </div>
 
-<%= render 'admin/service_providers/csv_data' if admin_permissions? %>
+<p>
+  <%= link_to admin_hisps_path(format: :csv), class: "usa-button usa-button--outline" do %>
+    <i class="fa fa-download"></i>
+    Download as hisps.csv
+  <% end %> - used on <a href="https://performance.gov/cx/" target="_blank" rel="noopener">performance.gov/cx</a>
+</p>
 
 <script>
   $(function() {
@@ -89,4 +94,3 @@
     });
   });
 </script>
-
