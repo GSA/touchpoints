@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_23_223113) do
+ActiveRecord::Schema.define(version: 2022_01_20_022824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -301,6 +301,17 @@ ActiveRecord::Schema.define(version: 2021_12_23_223113) do
     t.string "digital_analytics_path"
     t.text "mission_statement"
     t.string "mission_statement_url"
+  end
+
+  create_table "personas", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "tags", array: true
+    t.integer "user_id"
+    t.text "notes"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tags"], name: "index_personas_on_tags", using: :gin
   end
 
   create_table "question_options", force: :cascade do |t|

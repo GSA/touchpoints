@@ -53,6 +53,8 @@ Rails.application.routes.draw do
     get "/submissions/submissions_table", to: "submissions#submissions_table", as: :submissions_table
     get "/submissions/performance_gov", to: "submissions#performance_gov", as: :performance_gov
 
+    resources :personas
+
     get "a11", to: "site#a11", as: :a11
     resources :service_providers do |*args|
       collection do
