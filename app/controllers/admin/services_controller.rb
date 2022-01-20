@@ -116,14 +116,14 @@ class Admin::ServicesController < AdminController
       if admin_permissions?
         @service_providers = ServiceProvider.all.includes(:organization).order("organizations.abbreviation", "service_providers.name")
       else
-        @service_providers = current_user.organization.service_providers.includes(:organization).order("organizations.abbreviation", "service_providers.name")
+        @service_providers = @service.organization.service_providers.includes(:organization).order("organizations.abbreviation", "service_providers.name")
       end
     end
 
 
     def set_service_owner_options
       if admin_permissions?
-        @service_owner_options = User.all
+        @service_owner_options = User.active
       else
         @service_owner_options = current_user.organization.users
       end
