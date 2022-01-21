@@ -497,6 +497,22 @@ feature "Forms", js: true do
           end
         end
 
+        describe "editing a Form pra info" do
+          before do
+            fill_in "form_omb_approval_number", with: 'OAN-1234'
+            fill_in "form_expiration_date", with: '01/30/2022'
+            click_on "Update Survey Options"
+            expect(page).to have_content("Form Manager forms options updated successfully")
+          end
+
+          it "can edit existing Form" do
+            visit admin_form_path(form)
+            expect(page.current_path).to eq(admin_form_path(form))
+            expect(find('#form_omb_approval_number').value).to match('OAN-1234')
+            expect(find('#form_expiration_date').value).to eq('01/30/2022')
+          end
+        end
+
         describe "modifying Form Sections" do
           it "cannot delete the only remaining form section" do
             expect(page).to_not have_content("Delete Form Section")

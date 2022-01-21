@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_23_223113) do
+ActiveRecord::Schema.define(version: 2022_01_21_023153) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -303,6 +303,17 @@ ActiveRecord::Schema.define(version: 2021_12_23_223113) do
     t.string "mission_statement_url"
   end
 
+  create_table "personas", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "tags", array: true
+    t.integer "user_id"
+    t.text "notes"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tags"], name: "index_personas_on_tags", using: :gin
+  end
+
   create_table "question_options", force: :cascade do |t|
     t.integer "question_id"
     t.string "text"
@@ -382,6 +393,7 @@ ActiveRecord::Schema.define(version: 2021_12_23_223113) do
     t.text "justification_text"
     t.text "where_customers_interact"
     t.string "kind"
+    t.string "aasm_state", default: "created"
   end
 
   create_table "submissions", force: :cascade do |t|
@@ -487,6 +499,7 @@ ActiveRecord::Schema.define(version: 2021_12_23_223113) do
     t.boolean "organizational_website_manager", default: false
     t.boolean "performance_manager", default: false
     t.boolean "registry_manager", default: false
+    t.boolean "service_manager", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

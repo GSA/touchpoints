@@ -1,0 +1,14 @@
+<%= render 'user_mailer/components/header' %>
+<h3>
+  Event Notification
+  <br>
+  <%= @subject %>
+</h3>
+<p>
+  <%= @body %>
+</p>
+<% if @link.present? %>
+<p>
+  <%= link_to @link, @link %>
+</p>
+<% end %>

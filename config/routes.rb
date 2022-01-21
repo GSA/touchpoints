@@ -53,6 +53,8 @@ Rails.application.routes.draw do
     get "/submissions/submissions_table", to: "submissions#submissions_table", as: :submissions_table
     get "/submissions/performance_gov", to: "submissions#performance_gov", as: :performance_gov
 
+    resources :personas
+
     get "a11", to: "site#a11", as: :a11
     resources :service_providers do |*args|
       collection do
@@ -72,7 +74,14 @@ Rails.application.routes.draw do
         get "cx-reporting", to: "services#omb_cx_reporting", as: :omb_cx_reporting
         post "add_tag", to: "services#add_tag", as: :add_tag
         post "remove_tag", to: "services#remove_tag", as: :remove_tag
+
+        post "submit", to: "services#submit", as: :submit
+        post "approve", to: "services#approve", as: :approve
+        post "activate", to: "services#activate", as: :activate
+        post "archive", to: "services#archive", as: :archive
+        post "reset", to: "services#reset", as: :reset
       end
+
       resources :service_stages, except: [:index]
     end
 
@@ -212,6 +221,7 @@ Rails.application.routes.draw do
     get "dashboard", to: "site#index", as: :dashboard
     get "integrations", to: "site#integrations", as: :integrations
     get "performance", to: "performance#index", as: :performance
+    get "performance/apg", to: "performance#apgs", as: :apgs
     get "management", to: "site#management", as: :management
     get "events", to: "site#events", as: :events
     get "events/export", to: "site#events_export", as: :export_events

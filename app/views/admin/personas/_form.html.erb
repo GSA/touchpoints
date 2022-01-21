@@ -1,0 +1,42 @@
+<%= form_with(model: persona, url: persona.persisted? ? admin_persona_path(persona) : admin_personas_path) do |form| %>
+  <% if persona.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(persona.errors.count, "error") %> prohibited this persona from being saved:</h2>
+
+      <ul>
+        <% persona.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name, class: "usa-label" %>
+    <%= form.text_field :name, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description, class: "usa-label" %>
+    <%= form.text_area :description, class: "usa-textarea" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :tags, class: "usa-label" %>
+    <%= form.text_field :tags, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :notes, class: "usa-label" %>
+    <%= form.text_area :notes, class: "usa-textarea" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :user_id, class: "usa-label" %>
+    <%= form.select :user_id, options_for_select(User.active.order("email").map { |u| [u.email, u.id] }, persona.user_id), { prompt: "Which User?" }, { class: "usa-select" } %>
+  </div>
+
+  <p>
+    <%= form.submit class: "usa-button" %>
+  </p>
+<% end %>

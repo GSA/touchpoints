@@ -17,7 +17,7 @@
   <div class="usa-alert">
     <div class="usa-alert__body">
       <%= @organization.name %> has
-      <%= link_to(pluralize(@organization.users.length, "User"), admin_users_path) %>
+      <%= link_to(pluralize(@organization.users.active.length, "User"), admin_users_path) %>
       managing
       <%= link_to(pluralize(@organization.forms.length, "Form"), admin_forms_path) %>.
     </div>

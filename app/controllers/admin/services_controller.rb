@@ -1,6 +1,9 @@
 class Admin::ServicesController < AdminController
   before_action :set_service, only: [
-    :show, :edit, :update, :destroy,
+    :show, :edit,
+    :update,
+    :submit, :approve, :activate, :archive, :reset,
+    :destroy,
     :equity_assessment,
     :omb_cx_reporting,
     :add_tag,
@@ -70,6 +73,49 @@ class Admin::ServicesController < AdminController
     end
   end
 
+  def submit
+    ensure_service_owner(service: @service, user: current_user)
+    @service.submit
+    if @service.save
+      UserMailer.event_notification(subject: "Data Collection submitted", body: @service.id, link: admin_service_url(@service)).deliver_later
+      redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
+    end
+  end
+
+  def approve
+    ensure_service_owner(service: @service, user: current_user)
+    @service.approve
+    if @service.save
+      redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
+    end
+  end
+
+  def activate
+    ensure_service_owner(service: @service, user: current_user)
+    @service.activate
+    if @service.save
+      UserMailer.event_notification(subject: "Data Collection activated", body: @service.id, link: admin_service_url(@service)).deliver_later
+      redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
+    end
+  end
+
+  def archive
+    ensure_service_owner(service: @service, user: current_user)
+    @service.archive
+    if @service.save
+      UserMailer.event_notification(subject: "Data Collection archived", body: @service.id, link: admin_service_url(@service)).deliver_later
+      redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
+    end
+  end
+
+  def reset
+    ensure_service_owner(service: @service, user: current_user)
+    @service.reset
+    if @service.save
+      redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
+    end
+  end
+
   def destroy
     ensure_service_owner(service: @service, user: current_user)
 
@@ -123,7 +169,7 @@ class Admin::ServicesController < AdminController
 
     def set_service_owner_options
       if admin_permissions?
-        @service_owner_options = User.all
+        @service_owner_options = User.active
       else
         @service_owner_options = current_user.organization.users
       end

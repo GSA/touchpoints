@@ -38,24 +38,16 @@
   </div>
 </div>
 <div class="grid-row grid-gap-lg">
-  <div class="grid-col-8">
-    <ul class="usa-list">
-    <% Organization.all.order(:name).each do |organization| %>
-      <li>
-        <%= link_to organization.name, performance_admin_organization_path(organization) %>
-      </li>
-    <% end %>
-    </ul>
-  </div>
-  <div class="grid-col-4">
-    <h3>
-      Data Collections
-    </h3>
-
+  <div class="grid-col-6">
+    <p>
+      <%= link_to admin_apgs_path, class: "usa-button" do %>
+      Manage APGs
+      <% end %> - Annual Data Collection
+    </p>
     <p>
       <%= link_to admin_collections_path, class: "usa-button" do %>
       Manage Data Collections
-      <% end %>
+      <% end %> - Quarterly CX Data Collections
     </p>
   </div>
 </div>

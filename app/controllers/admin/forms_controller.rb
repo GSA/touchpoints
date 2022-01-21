@@ -131,7 +131,7 @@ class Admin::FormsController < AdminController
     if admin_permissions?
       @available_members = User.all.order(:email) - @form.users
     else
-      @available_members = @form.organization.users.order(:email) - @form.users
+      @available_members = @form.organization.users.active.order(:email) - @form.users
     end
   end
 
@@ -498,7 +498,9 @@ class Admin::FormsController < AdminController
         :notes,
         :status,
         :title,
-        :load_css
+        :load_css,
+        :omb_approval_number,
+        :expiration_date,
       )
     end
 
