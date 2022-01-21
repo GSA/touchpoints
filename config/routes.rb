@@ -86,6 +86,15 @@ Rails.application.routes.draw do
     end
     resources :omb_cx_reporting_collections
     resources :goals do
+      member do
+        patch "update_organization_id", to: "goals#update_organization_id", as: :update_organization_id
+        patch "update_name", to: "goals#update_name", as: :update_name
+        patch "update_description", to: "goals#update_description", as: :update_description
+        patch "update_tags", to: "goals#update_tags", as: :update_tags
+        patch "update_users", to: "goals#update_users", as: :update_users
+        patch "update_four_year_goal", to: "goals#update_four_year_goal", as: :update_four_year_goal
+        patch "update_parent_id", to: "goals#update_parent_id", as: :update_parent_id
+      end
       resources :goal_targets
     end
     resources :milestones
