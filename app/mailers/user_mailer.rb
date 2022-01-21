@@ -13,6 +13,15 @@ class UserMailer < ApplicationMailer
       to: emails
   end
 
+  def event_notification(subject:, body:, link: "")
+    set_logo
+    @subject = subject
+    @body = body
+    @link = link
+    mail subject: "Event notification: #{subject}",
+      to: (ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",") + User.where(service_manager: true).collect(&:email)).uniq
+  end
+
   def collection_notification(collection_id:)
     set_logo
     @collection = Collection.find(collection_id)
