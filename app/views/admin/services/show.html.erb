@@ -18,6 +18,26 @@
   <% end %>
 </p>
 
+<%= render 'admin/services/step_indicator', service: @service %>
+
+<% if admin_permissions? && !@service.created? && @service.submitted? && !@service.approved? %>
+<p>
+  <%= link_to "Approve this form", approve_admin_service_path(@service), class: "usa-button full-width", method: :post %>
+</p>
+<% end %>
+
+<% if admin_permissions? && !@service.created? && !@service.submitted? && @service.approved? %>
+<p>
+  <%= link_to "Make this form live", activate_admin_service_path(@service), class: "usa-button full-width", method: :post %>
+</p>
+<% end %>
+
+<% if admin_permissions? && !@service.created? && !@service.submitted? && !@service.approved? && @service.live? %>
+<p>
+  <%= link_to "Archive this form", archive_admin_service_path(@service), class: "usa-button full-width", method: :post %>
+</p>
+<% end %>
+
 <div class="grid-row grid-gap-lg">
   <div class="grid-col-6">
     <p>
@@ -136,31 +156,41 @@
     </div>
   </div>
 
-  <table border="1" style="width: 100%;">
-  <tr>
-    <% @service.service_stages.order(:position).each do |stage| %>
-    <td style="padding: 0 10px 20px 10px; width: <%= 98.0 / @service.service_stages.length %>%; vertical-align: top;">
-      <h4>
-        <%= link_to stage.name, admin_service_service_stage_path(@service, stage) %>
-      </h4>
-      <p>
-        <%= stage.description || "Description goes here" %>
-        &nbsp;
+  <% if @service.service_stages %>
+  <div class="grid-row grid-gap-md">
+  <% @service.service_stages.order(:position).each do |stage| %>
+    <div class="grid-col-4">
+      <div class="well light-bg form-templates add-box-shadow">
+        <h4>
+          <%= link_to stage.name, admin_service_service_stage_path(@service, stage) %>
+        </h4>
+        <p>
+          <%= stage.description || "Description goes here" %>
+          &nbsp;
+        </p>
+      </div>
+    </div>
+  <% end %>
+
+  </div>
+  <% else %>
+  <div class="usa-alert usa-alert--info" >
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        No Service Stages defined yet.
+        Service Owner can updated stages.
       </p>
-    </td>
-    <% end %>
-  </tr>
-  </table>
+    </div>
+  </div>
+  <% end %>
 
   <% if service_permissions?(service: @service) %>
-  <p>
-    <%= link_to new_admin_service_service_stage_path(@service), class: "usa-button usa-button--outline" do %>
+    <br>
+    <%= link_to new_admin_service_service_stage_path(@service), class: "usa-button usa-button--outline full-width" do %>
     <i class="fa fa-plus"></i>
     Add Stage
     <% end %>
-  </p>
   <% end %>
-
 </div>
 
 <div class="well">
@@ -210,4 +240,16 @@
     <% end %>
   </p>
 </div>
+<% end %>
+
+<% if @service.created? && !@service.submitted? && !@service.approved? %>
+<p>
+  <%= link_to "Submit this Service for OMB review", submit_admin_service_path(@service), class: "usa-button full-width", method: :post %>
+</p>
+<% end %>
+
+<% if admin_permissions? %>
+<p>
+  <%= link_to "Reset this form", reset_admin_service_path(@service), class: "usa-button full-width", method: :post %>
+</p>
 <% end %>

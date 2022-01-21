@@ -1,0 +1,21 @@
+<% content_for :navigation_title do %>
+Editing Persona
+<% end %>
+<p>
+  <%= link_to admin_persona_path(@persona) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Persona
+  <% end %>
+</p>
+
+<%= render 'form', persona: @persona %>
+
+<p>
+  <%= link_to admin_persona_path(@persona), class: "usa-button usa-button--secondary float-right", method: :delete, data: { confirm: 'Are you sure?' } do %>
+  <i class="fa fa-trash"></i>
+  Destroy
+  <% end %>
+</p>
+<div style="clear: both;">
+</div>
+<br>
