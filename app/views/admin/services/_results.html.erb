@@ -7,6 +7,7 @@
       <th data-sortable scope="col" role="columnheader">Name</th>
       <th data-sortable scope="col" role="columnheader"># of Stages</th>
       <th data-sortable scope="col" role="columnheader">HISP Service</th>
+      <th data-sortable scope="col" role="columnheader">Status</th>
       <th data-sortable scope="col" role="columnheader">Tags</th>
     </tr>
   </thead>
@@ -22,6 +23,11 @@
           <% if service.service_provider %>
             <span class="usa-tag bg-cyan">HISP</span>
           <% end %>
+        </td>
+        <td>
+          <span class="usa-tag">
+            <%= service.aasm_state %>
+          </span>
         </td>
         <td><%= service.tag_list %></td>
       </tr>

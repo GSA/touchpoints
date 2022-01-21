@@ -1,5 +1,5 @@
 class Admin::OrganizationsController < AdminController
-  before_action :ensure_admin
+  before_action :ensure_admin, except: [:index, :show]
   before_action :set_organization, only: [
     :show,
     :performance,

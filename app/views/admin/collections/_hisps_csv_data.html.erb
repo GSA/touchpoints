@@ -37,38 +37,38 @@
         <% end %>
         <%= header_fields.join(",") %>
         <br>
-        <% ServiceProvider.active.includes(:organization).order("organizations.name", :name).each do |hisp| %>
-          <% hisp.services.hisp.order(:name).each do |service| %>
-            <% row_fields = [
-                service.organization.name,
-                service.organization.abbreviation.downcase,
-                service.bureau,
-                service.bureau_abbreviation,
-                service.service_provider.slug,
-                service.name,
-                service.service_abbreviation,
-                service.service_slug,
-                service.url,
-                "\"#{service.notes}\"",
-                "\"#{service.description}\"",
-                service.organization.digital_analytics_path
-              ]
-            %>
-            <% [2020, 2021].each do |year| %>
-              <% [1, 2, 3, 4].each do |quarter| %>
-                <% collection = service.collections.where(quarter: quarter, year: year).first %>
-                <% if collection.present? %>
-                  <% row_fields << collection.rating %>
-                  <% row_fields << "q#{ quarter }_notes" %>
-                <% else %>
-                  <% row_fields << "" %>
-                  <% row_fields << "" %>
-                <% end %>
+        <% Service.hisp.order("organizations.name", :name).includes(:organization, :service_provider).each do |service| %>
+          <% next if service.service_provider.inactive? %>
+
+          <% row_fields = [
+              service.organization.name,
+              service.organization.abbreviation.downcase,
+              service.bureau,
+              service.bureau_abbreviation,
+              service.service_provider.slug,
+              service.name,
+              service.service_abbreviation,
+              service.service_slug,
+              service.url,
+              "\"#{service.notes}\"",
+              "\"#{service.description}\"",
+              service.organization.digital_analytics_path
+            ]
+          %>
+          <% [2020, 2021].each do |year| %>
+            <% [1, 2, 3, 4].each do |quarter| %>
+              <% collection = service.collections.where(quarter: quarter, year: year).first %>
+              <% if collection.present? %>
+                <% row_fields << collection.rating %>
+                <% row_fields << "q#{ quarter }_notes" %>
+              <% else %>
+                <% row_fields << "" %>
+                <% row_fields << "" %>
               <% end %>
             <% end %>
-            <%= row_fields.join(",") %>
-            <br>
           <% end %>
+          <%= row_fields.join(",") %>
+          <br>
         <% end %>
       </p>
     </div>
