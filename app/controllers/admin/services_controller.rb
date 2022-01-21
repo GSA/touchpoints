@@ -2,7 +2,7 @@ class Admin::ServicesController < AdminController
   before_action :set_service, only: [
     :show, :edit,
     :update,
-    :submit, :approve, :activate, :archive, :reset,
+    :submit, :approve, :verify, :archive, :reset,
     :destroy,
     :equity_assessment,
     :omb_cx_reporting,
@@ -90,9 +90,9 @@ class Admin::ServicesController < AdminController
     end
   end
 
-  def activate
+  def verify
     ensure_service_owner(service: @service, user: current_user)
-    @service.activate
+    @service.verify
     if @service.save
       UserMailer.event_notification(subject: "Data Collection activated", body: @service.id, link: admin_service_url(@service)).deliver_later
       redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'

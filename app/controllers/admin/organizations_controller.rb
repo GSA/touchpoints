@@ -16,6 +16,9 @@ class Admin::OrganizationsController < AdminController
   end
 
   def show
+    @forms = @organization.forms
+    @collections = @organization.collections
+    @users = @organization.users.active.order(:email)
   end
 
   def new

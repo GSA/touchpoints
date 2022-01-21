@@ -38,7 +38,7 @@
         <%= header_fields.join(",") %>
         <br>
         <% Service.hisp.order("organizations.name", :name).includes(:organization, :service_provider).each do |service| %>
-          <% next if service.service_provider.inactive? %>
+          <% next if service.service_provider && service.service_provider.inactive? %>
 
           <% row_fields = [
               service.organization.name,

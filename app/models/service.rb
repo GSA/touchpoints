@@ -19,7 +19,7 @@ class Service < ApplicationRecord
     state :created, initial: true
     state :submitted
     state :approved
-    state :live
+    state :verified
     state :archived
 
     event :submit do
@@ -28,11 +28,11 @@ class Service < ApplicationRecord
     event :approve do
       transitions from: [:submitted], to: :approved
     end
-    event :activate do
-      transitions from: [:approved], to: :live
+    event :verify do
+      transitions from: [:approved], to: :verified
     end
     event :archive do
-      transitions from: [:live], to: :archived
+      transitions from: [:verified], to: :archived
     end
     event :reset do
       transitions to: :created
@@ -59,5 +59,9 @@ class Service < ApplicationRecord
 
   def organization_name
     self.organization ? self.organization.name : nil
+  end
+
+  def service_provider_name
+    self.service_provider ? self.service_provider.name : nil
   end
 end
