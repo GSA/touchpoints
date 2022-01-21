@@ -159,7 +159,7 @@ class Admin::ServicesController < AdminController
       if admin_permissions?
         @service_providers = ServiceProvider.all.includes(:organization).order("organizations.abbreviation", "service_providers.name")
       else
-        @service_providers = @service.organization.service_providers.includes(:organization).order("organizations.abbreviation", "service_providers.name")
+        @service_providers = current_user.organization.service_providers.includes(:organization).order("organizations.abbreviation", "service_providers.name")
       end
     end
 
