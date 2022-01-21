@@ -7,7 +7,7 @@ class Admin::UsersController < AdminController
       @users = User.all.includes(:organization).order("inactive DESC", :organization_id, :email)
     else
       organization = current_user.organization
-      @users = organization.users.includes(:organization).order(:organization_id, :email)
+      @users = organization.users.active.includes(:organization).order(:organization_id, :email)
     end
   end
 
@@ -121,6 +121,7 @@ class Admin::UsersController < AdminController
         :organization_id,
         :organizational_website_manager,
         :performance_manager,
+        :service_manager,
         :registry_manager,
         :email,
         :inactive,

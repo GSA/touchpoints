@@ -53,6 +53,20 @@
   </div>
   <div class="well">
     <fieldset class="usa-fieldset">
+      <legend class="usa-sr-only">Service manager</legend>
+      <div class="usa-checkbox">
+        <%= form.check_box :service_manager, class: "usa-checkbox__input" %>
+        <%= form.label :service_manager, class: "usa-checkbox__label" %>
+      </div>
+    </fieldset>
+    <p>
+      Manages
+      <%= link_to "/admin/service_providers", admin_service_providers_path %> and
+      <%= link_to "/admin/services", admin_services_path %>
+    </p>
+  </div>
+  <div class="well">
+    <fieldset class="usa-fieldset">
       <legend class="usa-sr-only">Digital Registry manager</legend>
       <div class="usa-checkbox">
         <%= form.check_box :registry_manager, class: "usa-checkbox__input" %>

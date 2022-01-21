@@ -1,0 +1,19 @@
+<% content_for :navigation_title do %>
+  Annual Performance Goals
+<% end %>
+<p>
+  <%= link_to admin_performance_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Performance
+  <% end %>
+</p>
+
+<ul class="usa-list">
+  <% @organizations.each do |organization| %>
+  <li>
+    <%= link_to organization.name, performance_admin_organization_path(organization) %>
+  </li>
+  <% end %>
+</ul>
+
+<br>

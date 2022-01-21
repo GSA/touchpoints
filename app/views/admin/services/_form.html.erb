@@ -34,6 +34,12 @@
       <small>
         Which High Impact Service Provider?
       </small>
+      <br>
+      <small>
+        Service Providers are available based on the organization associated with the email domain for <%= current_user.email %>.
+        Contact
+        <a href="mailto:feedback-analytics@gsa.gov">support</a> for assistance.
+      </small>
       <%= form.select :service_provider_id, options_for_select(@service_providers.map { |p| ["#{p.organization.abbreviation} - #{p.name}", p.id] }, service.service_provider_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
     </div>
 
@@ -49,7 +55,7 @@
       </small>
       <%= form.text_field :name, class: "usa-input", placeholder: "What is the name of this Service?" %>
     </div>
-    
+
     <div class="field">
       <%= form.label :kind, "Service type", class: "usa-label" %>
       <%= form.select :kind, options_for_select(@service_kinds, service.organization_id), { prompt: "Which kind of Service?" }, { class: "usa-select" } %>

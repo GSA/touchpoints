@@ -1,0 +1,36 @@
+<% content_for :navigation_title do %>
+<div class="float-right">
+  <%= link_to edit_admin_persona_path(@persona), class: "usa-button usa-button-inverted" do %>
+  <i class="fa fa-pencil-alt"></i>
+  Edit
+  <% end %>
+</div>
+
+Persona
+<% end %>
+<p>
+  <%= link_to admin_personas_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Personas
+  <% end %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @persona.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @persona.description %>
+</p>
+
+<p>
+  <strong>Tags:</strong>
+  <%= @persona.tags %>
+</p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @persona.notes %>
+</p>

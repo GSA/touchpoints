@@ -24,8 +24,13 @@
       Performance manager
     </span>
   <% end %>
-  <% if @user.registry_manager? %>
+  <% if @user.service_manager? %>
     <span class="usa-tag bg-indigo">
+      Service manager
+    </span>
+  <% end %>
+  <% if @user.registry_manager? %>
+    <span class="usa-tag bg-violet">
       Registry manager
     </span>
   <% end %>
