@@ -121,6 +121,7 @@ class Admin::UsersController < AdminController
         :organization_id,
         :organizational_website_manager,
         :performance_manager,
+        :service_manager,
         :registry_manager,
         :email,
         :inactive,

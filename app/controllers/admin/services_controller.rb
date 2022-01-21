@@ -77,6 +77,7 @@ class Admin::ServicesController < AdminController
     ensure_service_owner(service: @service, user: current_user)
     @service.submit
     if @service.save
+      UserMailer.event_notification(subject: "Data Collection submitted", body: @service.id, link: admin_service_url(@service)).deliver_later
       redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
     end
   end
@@ -93,6 +94,7 @@ class Admin::ServicesController < AdminController
     ensure_service_owner(service: @service, user: current_user)
     @service.activate
     if @service.save
+      UserMailer.event_notification(subject: "Data Collection activated", body: @service.id, link: admin_service_url(@service)).deliver_later
       redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
     end
   end
@@ -101,6 +103,7 @@ class Admin::ServicesController < AdminController
     ensure_service_owner(service: @service, user: current_user)
     @service.archive
     if @service.save
+      UserMailer.event_notification(subject: "Data Collection archived", body: @service.id, link: admin_service_url(@service)).deliver_later
       redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
     end
   end
@@ -159,7 +162,7 @@ class Admin::ServicesController < AdminController
       if admin_permissions?
         @service_providers = ServiceProvider.all.includes(:organization).order("organizations.abbreviation", "service_providers.name")
       else
-        @service_providers = @service.organization.service_providers.includes(:organization).order("organizations.abbreviation", "service_providers.name")
+        @service_providers = current_user.organization.service_providers.includes(:organization).order("organizations.abbreviation", "service_providers.name")
       end
     end
 
