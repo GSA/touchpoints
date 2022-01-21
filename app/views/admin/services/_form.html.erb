@@ -58,7 +58,7 @@
 
     <div class="field">
       <%= form.label :kind, "Service type", class: "usa-label" %>
-      <%= form.select :kind, options_for_select(@service_kinds, service.organization_id), { prompt: "Which kind of Service?" }, { class: "usa-select" } %>
+      <%= form.select :kind, options_for_select(@service_kinds, service.kind), { prompt: "Which kind of Service?" }, { class: "usa-select" } %>
     </div>
 
     <div class="field">

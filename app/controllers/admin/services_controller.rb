@@ -188,6 +188,7 @@ class Admin::ServicesController < AdminController
         :description,
         :hisp,
         :justification_text,
+        :kind,
         :name,
         :notes,
         :service_abbreviation,

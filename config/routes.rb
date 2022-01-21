@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       resources :forms, only: [:index, :show]
       resources :websites, only: [:index]
       resources :service_providers, only: [:index]
+      resources :services, only: [:index]
     end
   end
 

@@ -56,19 +56,34 @@
       <%= @service.name %>
     </p>
     <p>
+      <strong>Service owner</strong>
+      <br>
+      <%= @service.service_owner.try(:email) %>
+    </p>
+    <p>
+      <strong>Service type</strong>
+      <br>
+      <%= @service.kind %>
+    </p>
+    <p>
+      <strong>Why did you select this service for priority designation?</strong>
+      <br>
+      <%= @service.justification_text %>
+    </p>
+    <p>
       <strong>Description</strong>
       <br>
       <%= @service.description %>
     </p>
     <p>
+      <strong>Where customers interact (Channels)</strong>
+      <br>
+      <%= @service.where_customers_interact %>
+    </p>
+    <p>
       <strong>Notes</strong>
       <br>
       <%= @service.notes %>
-    </p>
-    <p>
-      <strong>Service owner</strong>
-      <br>
-      <%= @service.service_owner.try(:email) %>
     </p>
   </div>
   <div class="grid-col-6">
