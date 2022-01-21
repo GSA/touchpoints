@@ -26,13 +26,13 @@
 </p>
 <% end %>
 
-<% if admin_permissions? && !@service.created? && !@service.submitted? && @service.approved? %>
+<% if service_permissions?(service: @service) && !@service.created? && !@service.submitted? && @service.approved? %>
 <p>
   <%= link_to "Make this form live", activate_admin_service_path(@service), class: "usa-button full-width", method: :post %>
 </p>
 <% end %>
 
-<% if admin_permissions? && !@service.created? && !@service.submitted? && !@service.approved? && @service.live? %>
+<% if service_permissions?(service: @service) && !@service.created? && !@service.submitted? && !@service.approved? && @service.live? %>
 <p>
   <%= link_to "Archive this form", archive_admin_service_path(@service), class: "usa-button full-width", method: :post %>
 </p>
