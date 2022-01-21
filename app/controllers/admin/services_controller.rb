@@ -1,6 +1,9 @@
 class Admin::ServicesController < AdminController
   before_action :set_service, only: [
-    :show, :edit, :update, :destroy,
+    :show, :edit,
+    :update,
+    :submit, :approve, :activate, :archive, :reset,
+    :destroy,
     :equity_assessment,
     :omb_cx_reporting,
     :add_tag,
@@ -67,6 +70,46 @@ class Admin::ServicesController < AdminController
       redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
     else
       render :edit
+    end
+  end
+
+  def submit
+    ensure_service_owner(service: @service, user: current_user)
+    @service.submit
+    if @service.save
+      redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
+    end
+  end
+
+  def approve
+    ensure_service_owner(service: @service, user: current_user)
+    @service.approve
+    if @service.save
+      redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
+    end
+  end
+
+  def activate
+    ensure_service_owner(service: @service, user: current_user)
+    @service.activate
+    if @service.save
+      redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
+    end
+  end
+
+  def archive
+    ensure_service_owner(service: @service, user: current_user)
+    @service.archive
+    if @service.save
+      redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
+    end
+  end
+
+  def reset
+    ensure_service_owner(service: @service, user: current_user)
+    @service.reset
+    if @service.save
+      redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
     end
   end
 

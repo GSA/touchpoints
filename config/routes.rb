@@ -74,7 +74,14 @@ Rails.application.routes.draw do
         get "cx-reporting", to: "services#omb_cx_reporting", as: :omb_cx_reporting
         post "add_tag", to: "services#add_tag", as: :add_tag
         post "remove_tag", to: "services#remove_tag", as: :remove_tag
+
+        post "submit", to: "services#submit", as: :submit
+        post "approve", to: "services#approve", as: :approve
+        post "activate", to: "services#activate", as: :activate
+        post "archive", to: "services#archive", as: :archive
+        post "reset", to: "services#reset", as: :reset
       end
+
       resources :service_stages, except: [:index]
     end
 
