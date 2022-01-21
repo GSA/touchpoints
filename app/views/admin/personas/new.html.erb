@@ -1,0 +1,11 @@
+<% content_for :navigation_title do %>
+  New Persona
+<% end %>
+<p>
+  <%= link_to admin_personas_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Personas
+  <% end %>
+</p>
+
+<%= render 'form', persona: @persona %>

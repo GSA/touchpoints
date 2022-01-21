@@ -1,4 +1,7 @@
 class Service < ApplicationRecord
+  include AASM
+  has_paper_trail
+
   belongs_to :organization
   belongs_to :service_provider
   has_many :service_stages
@@ -11,6 +14,30 @@ class Service < ApplicationRecord
   scope :hisp, -> { where(hisp: true) }
 
   after_create :create_default_service_stages
+
+  aasm do
+    state :created, initial: true
+    state :submitted
+    state :approved
+    state :live
+    state :archived
+
+    event :submit do
+      transitions from: [:created], to: :submitted
+    end
+    event :approve do
+      transitions from: [:submitted], to: :approved
+    end
+    event :activate do
+      transitions from: [:approved], to: :live
+    end
+    event :archive do
+      transitions from: [:live], to: :archived
+    end
+    event :reset do
+      transitions to: :created
+    end
+  end
 
   def create_default_service_stages
     self.service_stages.create(position: 10, name: :start)

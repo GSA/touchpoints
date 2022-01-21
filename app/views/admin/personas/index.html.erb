@@ -1,0 +1,27 @@
+<% content_for :navigation_title do %>
+  Personas
+<% end %>
+
+<table class="usa-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Tags</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @personas.each do |persona| %>
+      <tr>
+        <td><%= link_to persona.name, admin_persona_path(persona) %></td>
+        <td><%= persona.description %></td>
+        <td><%= persona.tags %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p>
+  <%= link_to 'New Persona', new_admin_persona_path, class: "usa-button" %>
+</p>
