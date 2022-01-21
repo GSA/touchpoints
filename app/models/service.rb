@@ -56,4 +56,8 @@ class Service < ApplicationRecord
 
     User.find_by_id(self.service_owner_id)
   end
+
+  def organization_name
+    self.organization ? self.organization.name : nil
+  end
 end
