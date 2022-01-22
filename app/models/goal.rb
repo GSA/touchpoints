@@ -12,4 +12,8 @@ class Goal < ApplicationRecord
   def subgoals
     Goal.where(parent_id: self.id)
   end
+
+  def organization_name
+    self.organization.name
+  end
 end
