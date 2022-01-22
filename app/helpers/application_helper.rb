@@ -32,11 +32,25 @@ module ApplicationHelper
     end
   end
 
+  # key = a Collection.rating
+  # value = sort order
   def collection_rating_sort_values
     {
       "FALSE"   => "1",
       "PARTIAL" => "2",
       "TRUE"    => "3"
+    }
+  end
+
+  # key = a Service.aasm_state
+  # value = sort order
+  def service_status_sort_values
+    {
+      "created"   => "1",
+      "submitted" => "2",
+      "approved"  => "3",
+      "verified"  => "4",
+      "archived"  => "5"
     }
   end
 

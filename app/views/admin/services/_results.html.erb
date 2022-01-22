@@ -6,8 +6,8 @@
     <% end %>
       <th data-sortable scope="col" role="columnheader">Name</th>
       <th data-sortable scope="col" role="columnheader"># of Stages</th>
+      <th data-sortable scope="col" role="columnheader">Status</th>
       <th data-sortable scope="col" role="columnheader">HISP Service</th>
-      <th data-sortable scope="col" role="columnheader">Tags</th>
     </tr>
   </thead>
   <tbody>
@@ -18,12 +18,14 @@
       <% end %>
         <td><%= link_to service.name, admin_service_path(service) %></td>
         <td><%= link_to service.service_stages.size, admin_service_service_stages_path(service) %></td>
+        <td data-sort-value="<%= service_status_sort_values[service.aasm_state] %>">
+          <%= render 'components/service_status_tag', service: service %>
+        </td>
         <td>
           <% if service.service_provider %>
             <span class="usa-tag bg-cyan">HISP</span>
           <% end %>
         </td>
-        <td><%= service.tag_list %></td>
       </tr>
     <% end %>
   </tbody>

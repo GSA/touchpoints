@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe "/omb_cx_reporting_collections", js: true do
 
   let(:organization) { FactoryBot.create(:organization) }
-  let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization) }
-  let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider) }
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
   let(:user) { FactoryBot.create(:user, organization: organization) }
+  let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization) }
+  let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: user.id) }
   let!(:collection) { FactoryBot.create(:collection, organization: organization, user: user, service_provider: service_provider) }
   let(:omb_cx_reporting_collection) { FactoryBot.create(:omb_cx_reporting_collection, collection: collection, service: service) }
 

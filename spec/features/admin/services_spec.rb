@@ -7,8 +7,8 @@ feature "Managing Services", js: true do
   let(:user) { FactoryBot.create(:user, organization: organization) }
 
   let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization ) }
-  let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider ) }
-  let!(:service2) { FactoryBot.create(:service, organization: organization, service_provider: service_provider) }
+  let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: user.id) }
+  let!(:service2) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: admin.id) }
 
   before do
     service2.tag_list.add("feature-request")
