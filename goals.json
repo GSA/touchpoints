@@ -1,0 +1,1070 @@
+{
+  "data": [{
+    "id": "1",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2098,
+      "organization_name": "Department of Agriculture",
+      "name": "Agriculture Research Utilization",
+      "description": "Increase the utilization of Departmental research results into real world technology improvements to USDA customers, producers, and industry. ",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "2",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2098,
+      "organization_name": "Department of Agriculture",
+      "name": "Improve Customer Experience and Operational Efficiency",
+      "description": "Enhance the customer experience for farmers, ranchers, and foresters through operational efficiencies and expansion of service delivery channels.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "3",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2098,
+      "organization_name": "Department of Agriculture",
+      "name": "Reduce Animal Disease",
+      "description": "To effectively control the spread of animal diseases, USDA supports animal health professionals and other agency partners who use identification technology to quickly trace potentially diseased animals.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "4",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2098,
+      "organization_name": "Department of Agriculture",
+      "name": "Reduce Consumer Risk from Regulated Products through Modernization",
+      "description": "The Food Safety and Inspection Service (FSIS) will reduce consumer risk from FSIS-regulated products by systematically controlling and preventing hazards through the use of modernized systems, policies, and scientific approaches.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "5",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2098,
+      "organization_name": "Department of Agriculture",
+      "name": "Rural Connectivity",
+      "description": "Create and implement innovative solutions to rural connectivity by expanding broadband infrastructure and services.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "6",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2138,
+      "organization_name": "Department of Commerce",
+      "name": "Conduct a Complete and Accurate 2020 Decennial Census",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "7",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2138,
+      "organization_name": "Department of Commerce",
+      "name": "Increase the Economic Impact of U.S. Trade",
+      "description": "The Department of Commerce International Trade Administration (ITA) supports jobs for American workers and strengthens U.S. economic and national security by facilitating U.S. exports and inward investment. ",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "8",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2138,
+      "organization_name": "Department of Commerce",
+      "name": "Mitigate Flood Impacts by Demonstrating Improved Decision Support Services to Emergency Managers",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "9",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2138,
+      "organization_name": "Department of Commerce",
+      "name": "Rural Wireless Broadband for Public Safety",
+      "description": "The Department of Commerce will increase the public’s safety by providing first responders with access to a nationwide wireless broadband network.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "10",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2138,
+      "organization_name": "Department of Commerce",
+      "name": "Space Situational Awareness",
+      "description": "The increasing number of objects and participants in space present new threats that inhibit the growth of space commerce. To better track objects in orbit and predict where they will be at any given time, the Department of Commerce, as directed by the President per Space Policy Directive 3 and in partnership with the Department of Defense and the commercial industry, will coordinate the development and implementation of a modern space situational awareness (SSA) capability.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "11",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2127,
+      "organization_name": "Department of Defense",
+      "name": "DoD Reform Savings",
+      "description": "The Department will drive transformational improvements of business processes, systems, and policies to increase effectiveness and performance while aligning and reprioritizing savings to support the National Defense Strategy (NDS).",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "12",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2127,
+      "organization_name": "Department of Defense",
+      "name": "Financial Management\n",
+      "description": "Continue annual audits and use the resulting recommendations as feedback on implemented corrective actions and other improvement opportunities toward a positive/clean/unmodified audit opinion for the entire DoD.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "13",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2127,
+      "organization_name": "Department of Defense",
+      "name": "Reduce Regulatory Burden",
+      "description": "Reduce Regulatory Burden by eliminating unnecessary Federal Rules through continued implementation of Executive Order 13771.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "14",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2111,
+      "organization_name": "Department of Education",
+      "name": "Education Freedom",
+      "description": "Improve awareness of and access to high-quality K-12 education opportunities for students and families.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "15",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2111,
+      "organization_name": "Department of Education",
+      "name": "Multiple Pathways to Success",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "16",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2111,
+      "organization_name": "Department of Education",
+      "name": "Federal Student Aid Customer Service",
+      "description": "Leverage the Next Generation Financial Services Environment (Next Gen FSA) to improve and personalize customers’ experience with Federal Student Aid (FSA).",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "17",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2111,
+      "organization_name": "Department of Education",
+      "name": "Student Privacy and Cybersecurity",
+      "description": "Improve student privacy and cybersecurity at institutions of higher education (IHEs) through outreach and compliance efforts.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "18",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2111,
+      "organization_name": "Department of Education",
+      "name": "Regulatory Reform",
+      "description": "Provide regulatory relief to education stakeholders as necessary and appropriate.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "19",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2110,
+      "organization_name": "Department of Energy",
+      "name": "Commercial Adoption of Energy Technologies",
+      "description": "Enable increased commercial adoption and use of the broad suite of technologies and facilities developed and maintained by the Department of Energy through enhanced public-private and public-public partnerships.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "20",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2110,
+      "organization_name": "Department of Energy",
+      "name": "Department of Energy (DOE) Enterprise Cybersecurity",
+      "description": "Assess all Department high value assets/systems and implement mitigation strategies consistent with the risk to national security interests and the success of the DOE mission essential functions.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "21",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2110,
+      "organization_name": "Department of Energy",
+      "name": "Energy Sector Cybersecurity",
+      "description": "Identify, contain, and defeat cyber threats to our Nation’s energy delivery systems through a shared understanding between industry and government of adversarial techniques to mitigate energy sector cyber-attacks. DOE will have dramatically improved our National energy sector’s ability to identify, contain, and defeat cybersecurity threats.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "22",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2110,
+      "organization_name": "Department of Energy",
+      "name": "Environmental Management",
+      "description": "Achieve significant progress in cleaning up the radioactive and chemical contamination left behind by six decades of weapons production and energy research during the Manhattan Project and the Cold War. By September 30, 2021, advance treatment and disposition of waste and excess facilities.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "23",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2110,
+      "organization_name": "Department of Energy",
+      "name": "High Performance Computing (Exascale/Artificial Intelligence)",
+      "description": "To meet Administration priorities and sustain U.S. preeminence in the strategic area of high performance computing (HPC), which underpins national and economic security, develop and deliver the next generation of integrated HPC capability by engaging in research and development to create a capable exascale computing ecosystem that integrates hardware and software capability delivering at least 100 times the performance of current 10 petaflop (1015 floating point operations per second) systems across a range of applications representing government needs and societal priorities such as Artificial Intelligence (AI) technologies.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "24",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2110,
+      "organization_name": "Department of Energy",
+      "name": "Nuclear Stockpile Annual Assessment",
+      "description": "Provide to the President of the United States the annual status of the U.S. nuclear weapons stockpile safety, security, reliability, and effectiveness to meet our nation’s goals of deterring adversaries and underpinning the Nation’s security.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "25",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2119,
+      "organization_name": "Department of Health \u0026 Human Services",
+      "name": "Ending the HIV Epidemic",
+      "description": "End the HIV epidemic by reducing new HIV infections through 1) linking people to HIV medical care as quickly as possible so that treatment can be initiated; and 2) preventing HIV through prescribing pre-exposure prophylaxis (PrEP) to those who have indications for PrEP.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "26",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2119,
+      "organization_name": "Department of Health \u0026 Human Services",
+      "name": "Kidney Care",
+      "description": "Reduce morbidity and mortality associated with end-stage renal disease and increase patient choice by improving access to alternatives to center-based dialysis.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "27",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2119,
+      "organization_name": "Department of Health \u0026 Human Services",
+      "name": "Reducing Opioid Morbidity and Mortality",
+      "description": "Reduce opioid-related morbidity and mortality through: 1) improving access to prevention, treatment and recovery support services; 2) targeting the availability and distribution of overdose-reversing drugs; 3) strengthening public health data and reporting; 4) supporting cutting-edge research; and 5) advancing the practice of pain management.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "28",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2139,
+      "organization_name": "Department of Homeland Security",
+      "name": "Enhance Border Security",
+      "description": "Improve security along the U.S. borders between ports of entry with emphasis on the southwest border.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "29",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2139,
+      "organization_name": "Department of Homeland Security",
+      "name": "Strengthen Federal Cybersecurity",
+      "description": "Protect federal networks by defending against threats and assisting agencies in managing risk.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "30",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2096,
+      "organization_name": "Department of Housing and Urban Development",
+      "name": "Enhance Rental Assistance",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "31",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2096,
+      "organization_name": "Department of Housing and Urban Development",
+      "name": "Promote Economic Opportunity for HUD-Assisted Residents",
+      "description": "Promote economic opportunity for HUD-assisted residents by encouraging self-sufficiency and financial stability",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "32",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2096,
+      "organization_name": "Department of Housing and Urban Development",
+      "name": "Protect Families from Lead-Based Paint and Other Health Hazards",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "33",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2096,
+      "organization_name": "Department of Housing and Urban Development",
+      "name": "Reduce the Average Length of Homelessness",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "34",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2135,
+      "organization_name": "Department of the Interior",
+      "name": "Fulfill Indian Affairs Executive Order",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "35",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2135,
+      "organization_name": "Department of the Interior",
+      "name": "Water Conservation and Supply Enhancement",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "36",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2135,
+      "organization_name": "Department of the Interior",
+      "name": "Conduct Facility-Based Risk Inspections and Performance-Based Risk Inspections",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "37",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2135,
+      "organization_name": "Department of the Interior",
+      "name": "Undertake Fuels Management Projects To Reduce Wildfires",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "38",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2135,
+      "organization_name": "Department of the Interior",
+      "name": "Expand Hunting and Fishing Opportunities",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "39",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2135,
+      "organization_name": "Department of the Interior",
+      "name": "Improve Processing of Drilling Applications",
+      "description": "Extracting oil and gas resources on public lands improves our energy security, drives economic growth, and provides revenues collected on behalf of the American public.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "40",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2109,
+      "organization_name": "United States Department of Justice",
+      "name": "Combat Cyber-Enabled Threats and Attacks",
+      "description": "Cybercrime is one of the greatest threats facing our country, and has enormous implications for our national security, economic prosperity, and public safety. The range of threats and challenges cybercrime presents for law enforcement expands just as rapidly as technology evolves.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "41",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2109,
+      "organization_name": "United States Department of Justice",
+      "name": "Combat the Opioid Crisis",
+      "description": "The opioid epidemic affects a broad cross-section of the United States population without regard for age, gender, race, ethnicity, or economic status. Communities across the United States, including those in rural, suburban, and urban jurisdictions, have been hit by the opioid epidemic.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "42",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2109,
+      "organization_name": "United States Department of Justice",
+      "name": "Prevent and Disrupt Transnational Elder Fraud",
+      "description": "Reduce the impact of transnational fraud schemes on older Americans. Through increased disruption and coordination among government and private stakeholders, and outreach to older Americans, the Department of Justice and its law enforcement partners will reduce the devastating effects of transnational elder fraud schemes.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "43",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2109,
+      "organization_name": "United States Department of Justice",
+      "name": "Reduce Violent Crime, Specifically Gun Violence",
+      "description": "Strengthen and recommit our efforts to reduce gun violence through the launch of Project Guardian.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "44",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2082,
+      "organization_name": "Department of Labor",
+      "name": "Administration - Implement an Enterprise-Wide Shared Services Model",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "45",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2082,
+      "organization_name": "Department of Labor",
+      "name": "Decrease Unemployment Insurance Improper Payments",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "46",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2082,
+      "organization_name": "Department of Labor",
+      "name": "Job Creation - Apprenticeship Expansion",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "47",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2082,
+      "organization_name": "Department of Labor",
+      "name": "Worker Safety - Reduce Miner Injuries",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "48",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2082,
+      "organization_name": "Department of Labor",
+      "name": "Worker Safety - Reduce Trenching and Excavation Hazards",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "49",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2130,
+      "organization_name": "Department of State",
+      "name": "IT Modernization",
+      "description": "Enhance the effectiveness of the Department’s IT portfolio through increased productivity, usability, security, and transparency; ensuring that all IT services and solutions are aligned to the mission of the Department.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "50",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2130,
+      "organization_name": "Department of State",
+      "name": "Category Management",
+      "description": "Leverage common contracts to maximize cost-efficiency and standardization.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "51",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2130,
+      "organization_name": "Department of State",
+      "name": "Data Informed Diplomacy",
+      "description": "Advancing an enterprise data and analytics capability that enables cross-functional continuous insights, timely and transparent reporting, and evidence-based decision making at the Department of State.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "52",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2130,
+      "organization_name": "Department of State",
+      "name": "Enhancing Security Monitoring Solutions",
+      "description": "Update technical security countermeasures for the Department of State (DOS) facilities worldwide by enhancing security monitoring solutions paramount to securing Department of State personnel, information, and facilities.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "53",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2130,
+      "organization_name": "Department of State",
+      "name": "HIV/AIDS",
+      "description": "Achieve control of the HIV epidemic in focus countries.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "54",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2148,
+      "organization_name": "United States Agency for International Development",
+      "name": "Effective Partnering and Procurement Reform",
+      "description": "Empower development partners through collaborative and co-creative practices in acquisition and assistance. ",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "55",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2148,
+      "organization_name": "United States Agency for International Development",
+      "name": "Maternal and Child Health",
+      "description": "Advance the global effort to prevent child and maternal deaths. ",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "56",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2148,
+      "organization_name": "United States Agency for International Development",
+      "name": "Private-Sector Engagement",
+      "description": "Expand engagement with the private sector to achieve greater development outcomes.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "57",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2148,
+      "organization_name": "United States Agency for International Development",
+      "name": "Resilience and Food Security",
+      "description": "Increase long-term resilience and food security to reduce hunger and the need for emergency humanitarian assistance.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "58",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2144,
+      "organization_name": "Department of Transportation",
+      "name": "Enhance Commercial Space Innovation",
+      "description": "Develop and implement Time-Based Launch/Reentry Procedures (TBLP) and Dynamic Launch/Reentry Windows (DLRW) for integrating Cape Canaveral Air Force Station/Kennedy Space Center (CCAFS/KSC) launch complex commercial space launch and reentry operations into the National Airspace System (NAS).",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "59",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2144,
+      "organization_name": "Department of Transportation",
+      "name": "Improve America’s Transportation-Related Infrastructure",
+      "description": "Improve the conditions of the Federally-funded portions of the Nation’s transportation systems.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "60",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2144,
+      "organization_name": "Department of Transportation",
+      "name": "Increase Aviation Safety",
+      "description": "Increase aviation safety for the flying public.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "61",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2144,
+      "organization_name": "Department of Transportation",
+      "name": "Reduce Surface Transportation-Related Fatalities",
+      "description": "Reduce overall surface transportation-related fatalities.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "62",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2122,
+      "organization_name": "Department of the Treasury",
+      "name": "Implementation of the Foreign Investment Risk Review Modernization Act of 2018 (FIRRMA)",
+      "description": "Successful implementation of the Foreign Investment Risk Review Modernization Act of 2018 (FIRRMA) will ensure that identified national security risks arising from certain foreign investments—including from some types of investments and transactions that previously fell outside of Committee on Foreign Investment in the United States’ (CFIUS) jurisdiction—are addressed in an effective manner. By September 30, 2021, the Department of the Treasury, as Chair of the CFIUS program, will implement key elements of FIRRMA.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "63",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2122,
+      "organization_name": "Department of the Treasury",
+      "name": "Fraud Prevention",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "64",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2122,
+      "organization_name": "Department of the Treasury",
+      "name": "Paper Check Reduction",
+      "description": "Create a modern, seamless, and cost-effective Federal payment experience for Americans",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "65",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2129,
+      "organization_name": "Department of Veterans Affairs",
+      "name": "Decision Reviews and Appeals",
+      "description": "Provide claimants who disagree with VA’s decisions on benefits claims and appeals with timely reviews under the new, streamlined process authorized by the Veterans Appeals Improvement and Modernization Act of 2017.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "66",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2129,
+      "organization_name": "Department of Veterans Affairs",
+      "name": "Suicide Prevention",
+      "description": "Through Clinical and Community strategies, VHA will proactively identify and provide interventions for at-risk Veterans, both those using VHA care and those using other care systems, to prevent suicide and overdose death.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "67",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2129,
+      "organization_name": "Department of Veterans Affairs",
+      "name": "Telehealth/Connected Care",
+      "description": " Improve Veterans' access to quality healthcare using digital care delivery methods.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "68",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2129,
+      "organization_name": "Department of Veterans Affairs",
+      "name": "Veteran’s Experience with VA.gov",
+      "description": "VA will measure and improve Veteran Experience with VA.gov using the government-wide drivers identified for measuring customer experience (CX) with the Federal Government.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "69",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2095,
+      "organization_name": "Environmental Protection Agency",
+      "name": "Accelerate permitting-related decisions",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "70",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2095,
+      "organization_name": "Environmental Protection Agency",
+      "name": "Accelerate the pace of cleanups and return sites to beneficial use in their communities",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "71",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2095,
+      "organization_name": "Environmental Protection Agency",
+      "name": "Empower communities to leverage EPA water infrastructure investments",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "72",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2095,
+      "organization_name": "Environmental Protection Agency",
+      "name": "Improve air quality by reducing the number of areas not meeting air quality standards",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "73",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2095,
+      "organization_name": "Environmental Protection Agency",
+      "name": "Reduce childhood lead exposures and associated health impacts",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "74",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2095,
+      "organization_name": "Environmental Protection Agency",
+      "name": "Reduce per- and polyfluoroalkyl substances (PFAS) risks to the public",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "75",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 1,
+      "organization_name": "General Services Administration",
+      "name": "Leased Building Operations",
+      "description": "GSA will achieve savings for the taxpayer by negotiating leases below average market rates by engaging in longer lease terms, when they allow GSA to obtain more favorable rates and conditions; increasing the use of the force multiplier tools, both the Automated Advanced Acquisition Program (AAAP) and the GSA Leasing Support (GLS) services contract; and, timely replacement of expiring leases.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "76",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 1,
+      "organization_name": "General Services Administration",
+      "name": "Multiple Award Schedule Reform - Schedules Consolidation",
+      "description": "As part of GSA’s Federal Marketplace strategy to make the Government buying and selling experience easy, efficient, and modern.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "77",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2145,
+      "organization_name": "NASA",
+      "name": "Commercial Low Earth Orbit Economy",
+      "description": "Enable a robust commercial low Earth orbit economy in which transportation, habitation, and on-orbit services are available for purchase by NASA and other customers.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "78",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2145,
+      "organization_name": "NASA",
+      "name": "Artemis 2024 Lunar Landing",
+      "description": "Advance America’s goal to land the first woman and the next man on the Moon by 2024 and pursue a sustainable program of exploration by demonstrating capabilities that advance lunar exploration.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "79",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2145,
+      "organization_name": "NASA",
+      "name": "Enable Sustainable Surface Capabilities for the Moon in preparation for Mars",
+      "description": "Commence lunar surface science investigations, technology, and exploration demonstrations to enable a sustainable lunar surface exploration strategy.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "80",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2145,
+      "organization_name": "NASA",
+      "name": "James Webb Space Telescope",
+      "description": "Revolutionize humankind's understanding of the cosmos and humanity’s place in it. The James Webb Space Telescope will study every phase in the history of our universe, ranging from the first luminous glows after the Big Bang, to the formation of other stellar systems capable of supporting life on planets like Earth, to the evolution of our own solar system. ",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "81",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2147,
+      "organization_name": "National Science Foundation",
+      "name": "Developing an Agency-Wide Partnerships Strategy",
+      "description": "Strategically engage in public and private partnerships to enhance the impact of NSF’s investments and contribute to American economic competitiveness and security.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "82",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2106,
+      "organization_name": "Office of Personnel Management ",
+      "name": "Federal Strategic Human Capital Management Tools, Flexibilities, and Authorities and Strategic Skill Gaps Mitigation",
+      "description": "Enable agencies to effectively address current and projected workforce needs to meet mission objectives. ",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "83",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2106,
+      "organization_name": "Office of Personnel Management ",
+      "name": "Establish an FEHB Master Enrollment Index",
+      "description": " Establish an FEHB Master Enrollment Index. ",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "84",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2133,
+      "organization_name": "Small Business Administration",
+      "name": "Increase Access to Capital for Small Businesses through Enhancements in Web-Based Technology",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "85",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2133,
+      "organization_name": "Small Business Administration",
+      "name": "Increase US Small Business Export Sales",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "86",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2133,
+      "organization_name": "Small Business Administration",
+      "name": "Maximize Small Business Participation in Government Contracting",
+      "description": null,
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "87",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2131,
+      "organization_name": "Social Security Administration",
+      "name": "Improve Hearings Pending",
+      "description": "Improve customer service in the hearings process by prioritizing those individuals who have waited the longest for a hearing decision.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "88",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2131,
+      "organization_name": "Social Security Administration",
+      "name": "Improve Supplemental Security Income Payment Accuracy",
+      "description": "Improve the integrity of the Supplemental Security Income (SSI) program by focusing our efforts on reducing overpayments (Annual Targets Only).",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "89",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2131,
+      "organization_name": "Social Security Administration",
+      "name": "Improve the National 800 Number Service",
+      "description": "Improve the customer experience by reducing the Average Speed of Answer on the National 800 Number.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "90",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2148,
+      "organization_name": "United States Agency for International Development",
+      "name": "Category management",
+      "description": "Leverage common contracts to maximize cost-efficiency and standardization.",
+      "tags": null,
+      "users": null
+    }
+  }, {
+    "id": "91",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2111,
+      "organization_name": "Department of Education",
+      "name": "Goal name",
+      "description": "",
+      "tags": ["ag4", " tag3", " tag2"],
+      "users": []
+    }
+  }, {
+    "id": "92",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2111,
+      "organization_name": "Department of Education",
+      "name": "goal ",
+      "description": "",
+      "tags": [],
+      "users": []
+    }
+  }, {
+    "id": "93",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2145,
+      "organization_name": "NASA",
+      "name": "Expand human knowledge through new scientific discoveries",
+      "description": "",
+      "tags": [],
+      "users": []
+    }
+  }, {
+    "id": "94",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2145,
+      "organization_name": "NASA",
+      "name": "Extend human presence deeper into space and to the moon for sustainable long-term exploration and utilization",
+      "description": "",
+      "tags": ["pace"],
+      "users": []
+    }
+  }, {
+    "id": "95",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2145,
+      "organization_name": "NASA",
+      "name": "Extend human presence deeper into space and to the moon for sustainable long-term exploration and utilization",
+      "description": "",
+      "tags": [],
+      "users": []
+    }
+  }, {
+    "id": "96",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2145,
+      "organization_name": "NASA",
+      "name": "Address national challenges and catalyze economic growth",
+      "description": "",
+      "tags": [],
+      "users": []
+    }
+  }, {
+    "id": "97",
+    "type": "goals",
+    "attributes": {
+      "organization_id": 2145,
+      "organization_name": "NASA",
+      "name": "Optimize capabilities and operations",
+      "description": "",
+      "tags": [],
+      "users": []
+    }
+  }]
+}
