@@ -78,7 +78,7 @@ Rails.application.routes.draw do
 
         post "submit", to: "services#submit", as: :submit
         post "approve", to: "services#approve", as: :approve
-        post "activate", to: "services#activate", as: :activate
+        post "verify", to: "services#verify", as: :verify
         post "archive", to: "services#archive", as: :archive
         post "reset", to: "services#reset", as: :reset
       end
