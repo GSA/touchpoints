@@ -10,6 +10,7 @@ class Service < ApplicationRecord
   acts_as_taggable_on :tags
 
   validates :name, presence: true
+  validates :service_owner_id, presence: true
 
   scope :hisp, -> { where(hisp: true) }
 

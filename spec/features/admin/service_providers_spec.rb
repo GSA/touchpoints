@@ -7,7 +7,7 @@ feature "Service Provider", js: true do
   let(:user) { FactoryBot.create(:user, organization: organization) }
 
   let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization ) }
-  let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider ) }
+  let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: user.id) }
 
   context "as Admin" do
     before do

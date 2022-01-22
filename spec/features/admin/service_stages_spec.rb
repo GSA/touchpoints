@@ -8,7 +8,7 @@ feature "Service Stages", js: true do
 
   let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization ) }
   let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: service_owner.id ) }
-  let!(:service2) { FactoryBot.create(:service, organization: organization, service_provider: service_provider) }
+  let!(:service2) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: admin.id) }
 
   before do
     service2.tag_list.add("feature-request")
