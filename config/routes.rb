@@ -37,6 +37,8 @@ Rails.application.routes.draw do
       resources :websites, only: [:index]
       resources :service_providers, only: [:index]
       resources :services, only: [:index]
+      resources :goals, only: [:index]
+      resources :objectives, only: [:index]
     end
   end
 
@@ -78,7 +80,7 @@ Rails.application.routes.draw do
 
         post "submit", to: "services#submit", as: :submit
         post "approve", to: "services#approve", as: :approve
-        post "activate", to: "services#activate", as: :activate
+        post "verify", to: "services#verify", as: :verify
         post "archive", to: "services#archive", as: :archive
         post "reset", to: "services#reset", as: :reset
       end
@@ -105,7 +107,7 @@ Rails.application.routes.draw do
       collection do
         get "search", to: "websites#search"
         get "gsa", to: "websites#gsa"
-        get "dendrogram", to: "websites#dendrogram"
+        get "dendrogram", to: "websites#dendrogram", as: :dendrogram
         get "dendrogram_json", to: "websites#dendrogram_json"
         get "export_csv", to: "websites#export_csv", as: :export_csv
         get "collection_preview", to: "websites@collection_preview", as: :collection_preview

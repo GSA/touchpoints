@@ -2,12 +2,12 @@ require 'rails_helper'
 
 feature "Data Collections", js: true do
   let(:organization) { FactoryBot.create(:organization) }
-  let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization) }
-  let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, hisp: true) }
   let(:another_organization) { FactoryBot.create(:organization, :another) }
   let!(:another_service_provider) { FactoryBot.create(:service_provider, organization: another_organization, name: "Another HISP") }
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
   let(:user) { FactoryBot.create(:user, organization: another_organization) }
+  let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization) }
+  let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, hisp: true,     service_owner_id: user.id) }
   let!(:collection) { FactoryBot.create(:collection, organization: another_organization, user: user, service_provider: another_service_provider) }
   let!(:admin_collection) { FactoryBot.create(:collection, organization: organization, user: admin, service_provider: service_provider) }
 

@@ -16,14 +16,14 @@
         <% end %>
       </span>
     </li>
-    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if service.approved? || service.live? || service.archived? %> <%= "usa-step-indicator__segment--current" if service.approved? %>">
+    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if service.approved? || service.verified? || service.archived? %> <%= "usa-step-indicator__segment--current" if service.approved? %>">
       <span class="usa-step-indicator__segment-label">
         Approved
         <span class="usa-sr-only">completed</span>
       </span>
     </li>
-    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if service.live? || service.archived? %> <%= "usa-step-indicator__segment--current" if service.live? %>"  aria-current="true">
-      <span class="usa-step-indicator__segment-label">Live</span>
+    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if service.verified? || service.archived? %> <%= "usa-step-indicator__segment--current" if service.verified? %>"  aria-current="true">
+      <span class="usa-step-indicator__segment-label">Verified</span>
     </li>
     <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if service.archived? %> <%= "usa-step-indicator__segment--current" if service.archived? %>"  aria-current="true">
       <span class="usa-step-indicator__segment-label">Archived</span>
