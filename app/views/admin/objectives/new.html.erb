@@ -1,5 +1,13 @@
-<% content_for :navigation_title do %>
-  New Objective
-<% end %>
-
 <%= render 'form', objective: @objective %>
+
+<%= link_to 'Cancel', admin_goal_path(@goal), class: "usa-button cancel-goal-objective" %>
+
+<script>
+  $('.cancel-goal-objective').on("click", function(event) {
+    event.preventDefault();
+    $.ajax({
+      type: "GET",
+      url: $(this).attr("href") + "/goal_objectives"
+    });
+  });
+</script>

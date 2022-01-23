@@ -1,6 +1,13 @@
-<h1>Editing Goal Target</h1>
-
 <%= render 'form', goal_target: @goal_target %>
 
-<%= link_to 'Show', admin_goal_goal_target_path(@goal, @goal_target) %> |
-<%= link_to 'Back', admin_goal_goal_targets_path(@goal) %>
+<%= link_to 'Cancel', admin_goal_path(@goal), class: "usa-button cancel-goal-target" %>
+
+<script>
+  $('.cancel-goal-target').on("click", function(event) {
+    event.preventDefault();
+    $.ajax({
+      type: "GET",
+      url: $(this).attr("href") + "/goal_targets"
+    });
+  });
+</script>

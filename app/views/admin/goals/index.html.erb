@@ -2,7 +2,7 @@
   Goals
   <%= link_to new_admin_goal_path, class: "usa-button usa-button-inverted float-right" do %>
   <i class="fa fa-plus-circle"></i>
-    New Goal
+    New Strategic Goal
   <% end %>
 <% end %>
 
@@ -12,8 +12,7 @@
       <% if admin_permissions? %>
       <th data-sortable scope="col" role="columnheader">Organization</th>
       <% end %>
-      <th data-sortable scope="col" role="columnheader">Name</th>
-      <th data-sortable scope="col" role="columnheader">Description</th>
+      <th data-sortable scope="col" role="columnheader">Strategic Goal Title</th>
     </tr>
   </thead>
 
@@ -24,7 +23,6 @@
         <td><%= goal.organization.name %></td>
         <% end %>
         <td><%= link_to goal.name, admin_goal_path(goal) %></td>
-        <td><%= goal.description %></td>
       </tr>
     <% end %>
   </tbody>

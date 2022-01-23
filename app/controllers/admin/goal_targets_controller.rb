@@ -7,36 +7,29 @@ class Admin::GoalTargetsController < AdminController
   end
 
   def show
+
   end
 
   def new
     @goal_target = GoalTarget.new
+    render :layout => false
   end
 
   def edit
+    render :layout => false
   end
 
   def create
     @goal_target = GoalTarget.new(goal_target_params)
-
-    if @goal_target.save
-      redirect_to admin_goal_goal_target_path(@goal, @goal_target), notice: 'Goal target was successfully created.'
-    else
-      render :new
-    end
+    @goal_target.save
   end
 
   def update
-    if @goal_target.update(goal_target_params)
-      redirect_to admin_goal_goal_target_path(@goal, @goal_target), notice: 'Goal target was successfully updated.'
-    else
-      render :edit
-    end
+    @goal_target.update(goal_target_params)
   end
 
   def destroy
     @goal_target.destroy
-    redirect_to admin_goal_goal_targets_url(@goal), notice: 'Goal target was successfully destroyed.'
   end
 
   private

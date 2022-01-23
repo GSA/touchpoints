@@ -106,8 +106,11 @@ Rails.application.routes.draw do
         patch "update_users", to: "goals#update_users", as: :update_users
         patch "update_four_year_goal", to: "goals#update_four_year_goal", as: :update_four_year_goal
         patch "update_parent_id", to: "goals#update_parent_id", as: :update_parent_id
+        get "goal_targets", to: "goals#goal_targets", as: :goal_targets
+        get "goal_objectives", to: "goals#goal_objectives", as: :goal_objectives
       end
       resources :goal_targets
+      resources :objectives
     end
     resources :milestones
     resources :objectives

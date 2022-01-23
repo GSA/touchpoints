@@ -9,7 +9,9 @@ class Admin::GoalsController < AdminController
        update_tags
        update_users
        update_four_year_goal
-       update_parent_id
+       update_parent_id,
+       goal_targets,
+       goal_objectives,
        destroy]
 
   def index
@@ -61,28 +63,36 @@ class Admin::GoalsController < AdminController
   end
 
   def update_tags
-    @goal.update!(update_tags: params[:tags])
+    @goal.update!(tags: params[:tags].split(" "))
     render json: @goal
   end
 
   def update_users
-    @goal.update!(update_users: params[:users])
+    @goal.update!(users: [params[:users].to_i])
     render json: @goal
   end
 
   def update_four_year_goal
-    @goal.update!(update_four_year_goal: params[:four_year_goal])
+    @goal.update!(four_year_goal: params[:four_year_goal])
     render json: @goal
   end
 
   def update_parent_id
-    @goal.update!(update_parent_id: params[:parent_id])
+    @goal.update!(parent_id: params[:parent_id])
     render json: @goal
   end
 
   def destroy
     @goal.destroy
     redirect_to admin_goals_url, notice: 'Goal was successfully destroyed.'
+  end
+
+  def goal_targets
+    @goal = Goal.find(params[:id])
+  end
+
+  def goal_objectives
+    @goal = Goal.find(params[:id])
   end
 
   private
