@@ -25,7 +25,13 @@
     <br>
     <%= @goal.organization.name %>
   </p>
-
+  <p>
+    <% if @goal.four_year_goal %>
+      <span class="usa-label">Four Year Strategic Goal</span>
+    <% else %>
+      <span class="usa-label">Two Year APG</span>
+    <% end %>
+  </p>
   <div class="field">
     <%= form.label 'Goal Title', class: "usa-label" %>
     <%= form.text_field :name, class: "usa-input goal-name" %>
