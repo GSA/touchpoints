@@ -48,7 +48,7 @@ RSpec.describe "/goal_targets", js: true do
       end
 
       it "renders the new page" do
-        expect(page).to have_content("New Goal Target")
+        expect(page).to have_content("Target date")
       end
     end
   end
@@ -60,7 +60,7 @@ RSpec.describe "/goal_targets", js: true do
 
     describe "try to create an invalid Goal Target" do
       it "renders the new page" do
-        expect(page).to have_content("New Goal Target")
+        expect(page).to have_content("Target date")
         click_on("Create Goal target")
         expect(page).to have_content("Assertion can't be blank")
       end
