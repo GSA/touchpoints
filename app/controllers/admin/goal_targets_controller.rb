@@ -21,15 +21,40 @@ class Admin::GoalTargetsController < AdminController
 
   def create
     @goal_target = GoalTarget.new(goal_target_params)
-    @goal_target.save
+    respond_to do |format|
+      if @goal_target.save
+        format.html { redirect_to admin_goal_goal_target_path(@goal, @goal_target), notice: 'Goal target was successfully created.'}
+        format.json { render :create, status: :created, goal: @goal }
+        format.js
+      else
+        format.html { render :new }
+        format.json { render json: @goal_target.errors, status: :unprocessable_entity }
+        format.js
+      end
+    end
   end
 
   def update
-    @goal_target.update(goal_target_params)
+    respond_to do |format|
+      if @goal_target.update(goal_target_params)
+        format.html { redirect_to admin_goal_goal_target_path(@goal, @goal_target), notice: 'Goal target was successfully updated.'}
+        format.json { render :update, status: :updated, goal: @goal }
+        format.js
+      else
+        format.html { render :edit }
+        format.json { render json: @goal_target.errors, status: :unprocessable_entity }
+        format.js
+      end
+    end
   end
 
   def destroy
     @goal_target.destroy
+    respond_to do |format|
+      format.html { redirect_to admin_goal_goal_targets_url(@goal), notice: 'Goal target was successfully destroyed.'}
+      format.json { render :destroy, status: :deleted, goal: @goal }
+      format.js
+    end
   end
 
   private
