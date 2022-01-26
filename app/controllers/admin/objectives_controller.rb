@@ -22,6 +22,7 @@ class Admin::ObjectivesController < AdminController
   # POST /objectives
   def create
     @objective = Objective.new(objective_params)
+    @objective.organization_id = current_user.organization_id
 
     if @objective.save
       redirect_to admin_objective_path(@objective), notice: 'Objective was successfully created.'
