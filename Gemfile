@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.4'
 
-gem 'active_model_serializers', '>= 0.10.12'
+gem 'active_model_serializers', '>= 0.10.13'
 gem 'acts-as-list'
 gem 'aws-sdk-rails', '>= 3.6.1'
 gem 'caracal', '>= 1.4.1'
@@ -12,14 +12,14 @@ gem 'devise', '>= 4.8.0'
 gem 'fog-aws', '>= 3.12.0'
 gem 'jquery-rails', '>= 4.4.0'
 gem 'jquery-ui-rails', '>= 6.0.1'
-gem 'kaminari', '>= 1.2.1'
+gem 'kaminari', '>= 1.2.2'
 gem 'mail'
 gem 'mini_magick'
 gem 'newrelic_rpm'
 gem 'omniauth-github'
 gem 'omniauth_login_dot_gov', git: 'https://github.com/18F/omniauth_login_dot_gov.git', branch: 'main'
 gem 'rails', '>= 6.1.4.4'
-gem 'pg', '~> 1.1'
+gem 'pg', '~> 1.3.0'
 gem 'puma', '~> 5.0'
 gem 'rack-cors', '>= 1.1.1', require: 'rack/cors'
 gem 'sass-rails', '>= 6.0.0'
@@ -60,7 +60,7 @@ group :test do
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
   # gem 'chromedriver-helper'
-  gem 'webdrivers', '>= 4.6.1'
+  gem 'webdrivers', '>= 5.0.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
