@@ -3,6 +3,7 @@
     <tr>
     <% if admin_permissions? %>
       <th data-sortable scope="col" role="columnheader">Organization</th>
+      <th data-sortable scope="col" role="columnheader">Service Provider</th>
     <% end %>
       <th data-sortable scope="col" role="columnheader">Name</th>
       <th data-sortable scope="col" role="columnheader"># of Stages</th>
@@ -14,7 +15,8 @@
     <% @services.each do |service| %>
       <tr>
       <% if admin_permissions? %>
-        <td><%= service.organization.name %></td>
+        <td><%= service.organization.try(:name) %></td>
+        <td><%= service.service_provider.try(:name) %></td>
       <% end %>
         <td><%= link_to service.name, admin_service_path(service) %></td>
         <td><%= link_to service.service_stages.size, admin_service_service_stages_path(service) %></td>
