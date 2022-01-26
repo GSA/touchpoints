@@ -105,7 +105,11 @@ class Admin::OrganizationsController < AdminController
         :enable_ip_address,
         :digital_analytics_path,
         :mission_statement,
-        :tag_list
+        :mission_statement_url,
+        :tag_list,
+        :performance_url,
+        :strategic_plan_url,
+        :learning_agenda_url,
       )
     end
 end

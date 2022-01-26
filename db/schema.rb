@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_21_023153) do
+ActiveRecord::Schema.define(version: 2022_01_26_175750) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -301,6 +301,9 @@ ActiveRecord::Schema.define(version: 2022_01_21_023153) do
     t.string "digital_analytics_path"
     t.text "mission_statement"
     t.string "mission_statement_url"
+    t.string "performance_url"
+    t.string "strategic_plan_url"
+    t.string "learning_agenda_url"
   end
 
   create_table "personas", force: :cascade do |t|
