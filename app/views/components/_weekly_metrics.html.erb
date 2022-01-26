@@ -1,6 +1,13 @@
 <h3>
   Weekly Product Metrics
 </h3>
+<div class="usa-alert usa-alert--info" >
+  <div class="usa-alert__body">
+    <p class="usa-alert__text">
+      These metrics are reported up to the GSA TTS Data Portfolio on a weekly basis.
+    </p>
+  </div>
+</div>
 <table class="usa-table" style="width: 100%;">
   <thead>
     <tr>
@@ -15,24 +22,6 @@
       </th>
       <th>
         Responses
-      </th>
-      <th>
-        Websites
-      </th>
-      <th>
-        Services
-      </th>
-      <th>
-        Data Collections
-      </th>
-      <th>
-        Service details
-      </th>
-      <th>
-        Digital products
-      </th>
-      <th>
-        Social media accounts
       </th>
     </tr>
   </thead>
@@ -50,8 +39,40 @@
       <td class="reportable-submissions">
         <%= Submission.count %>
       </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="usa-table" style="width: 100%;">
+  <thead>
+    <tr>
+      <th>
+        Service Providers
+      </th>
+      <th>
+        Services
+      </th>
+      <th>
+        Data Collections
+      </th>
+      <th>
+        Service details
+      </th>
+      <th>
+        Websites
+      </th>
+      <th>
+        Digital products
+      </th>
+      <th>
+        Social media accounts
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
       <td>
-        <%= Website.count %>
+        <%= ServiceProvider.count %>
       </td>
       <td>
         <%= Service.count %>
@@ -61,6 +82,9 @@
       </td>
       <td>
         <%= OmbCxReportingCollection.count %>
+      </td>
+      <td>
+        <%= Website.count %>
       </td>
       <td>
         <%= DigitalProduct.count %>
