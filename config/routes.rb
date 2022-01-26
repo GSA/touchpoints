@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       resources :forms, only: [:index, :show]
     end
     namespace :v1 do
+      resources :organizations, only: [:index]
       resources :forms, only: [:index, :show]
       resources :websites, only: [:index]
       resources :service_providers, only: [:index]
