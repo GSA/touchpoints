@@ -1,4 +1,4 @@
-<%= form_with(model: organization, url: (organization.persisted? ? admin_organization_path(organization) : admin_organizations_path), local: true) do |form| %>
+<%= form_with(model: organization, url: performance_update_admin_organization_path(organization), local: true) do |form| %>
   <% if organization.errors.any? %>
     <div id="error_explanation">
       <h2>

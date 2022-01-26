@@ -5,6 +5,7 @@ class Admin::OrganizationsController < AdminController
     :performance,
     :edit,
     :update,
+    :performance_update,
     :destroy,
     :add_tag,
     :remove_tag,
@@ -49,6 +50,18 @@ class Admin::OrganizationsController < AdminController
     respond_to do |format|
       if @organization.update(organization_params)
         format.html { redirect_to admin_organization_path(@organization), notice: 'Organization was successfully updated.' }
+        format.json { render :show, status: :ok, location: @organization }
+      else
+        format.html { render :edit }
+        format.json { render json: @organization.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def performance_update
+    respond_to do |format|
+      if @organization.update(organization_params)
+        format.html { redirect_to performance_admin_organization_path(@organization), notice: 'Organization was successfully updated.' }
         format.json { render :show, status: :ok, location: @organization }
       else
         format.html { render :edit }
