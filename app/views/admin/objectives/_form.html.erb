@@ -12,6 +12,11 @@
   <% end %>
 
   <div class="field">
+    <%= form.label :organization_id, class: "usa-label" %>
+    <%= form.select :organization_id, options_for_select(organization_dropdown_options, objective.organization_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
+  </div>
+
+  <div class="field">
     <%= form.label :goal_id, class: "usa-label" %>
     <%= form.select :goal_id, options_for_select(Goal.all.map { |goal| ["#{goal.name}", goal.id] }, objective.goal_id || params[:goal_id]), { prompt: "Which Goal?" }, { class: "usa-select" } %>
   </div>
