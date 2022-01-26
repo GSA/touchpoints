@@ -35,21 +35,21 @@
           <p>
             Strategic plan
             &nbsp;
-            <a href="#" class="font-sans-xs">PDF</a>
+            <%= link_to "PDF", @organization.strategic_plan_url, class: "font-sans-xs" %>
             &nbsp;
             <i class="fa fa-external-link-alt font-sans-xs"></i>
           </p>
           <p>
             Performance plan (next year)
             &nbsp;
-            <a href="#" class="font-sans-xs">PDF</a>
+            <%= link_to "PDF", @organization.performance_url, class: "font-sans-xs" %>
             &nbsp;
             <i class="fa fa-external-link-alt font-sans-xs"></i>
           </p>
           <p>
             Learning agenda
             &nbsp;
-            <a href="#" class="font-sans-xs">Link to evaluation.gov</a>
+            <%= link_to "Link to evaluation.gov", @organization.learning_agenda_url, class: "font-sans-xs" %>
             &nbsp;
             <i class="fa fa-external-link-alt font-sans-xs"></i>
           </p>
