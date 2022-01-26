@@ -202,6 +202,7 @@ Rails.application.routes.draw do
         get "search", to: "organizations#search"
       end
       member do
+        patch "performance_update", to: "organizations#performance_update", as: :performance_update
         get "performance", to: "organizations#performance", as: :performance
         get "performance/edit", to: "performance#edit", as: :performance_edit
         get "performance/apg/:apg", to: "performance#apg", as: :apg
