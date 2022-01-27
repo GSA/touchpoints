@@ -1,7 +1,7 @@
 <h4>
   Strategic goals (4-year)
 </h4>
-<div class="goals-div">
+<div>
   <% @organization.goals.where(four_year_goal: true, parent_id: nil).all.each do |goal| %>
     <div class="well">
       <div class="delete-float-right">

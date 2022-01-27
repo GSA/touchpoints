@@ -12,12 +12,15 @@ class Admin::GoalTargetsController < AdminController
 
   def new
     @goal_target = GoalTarget.new
-    @goal_target.assertion = 'New assertion'
-    render :layout => false
+    @goal_target.assertion = 'New goal target'
+    @goal_target.starting_value = 0
+    @goal_target.target_value = 0
+    @goal_target.current_value = 0
+    render layout: false
   end
 
   def edit
-    render :layout => false
+    render layout: false
   end
 
   def create
