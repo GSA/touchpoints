@@ -9,6 +9,10 @@ class Admin::OrganizationsController < AdminController
     :destroy,
     :add_tag,
     :remove_tag,
+    :create_two_year_goal,
+    :create_four_year_goal,
+    :delete_two_year_goal,
+    :delete_four_year_goal,
   ]
 
   def index
@@ -44,6 +48,30 @@ class Admin::OrganizationsController < AdminController
         format.json { render json: @organization.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def create_four_year_goal
+    @goal = Goal.new
+    @goal.organization_id = @organization.id
+    @goal.four_year_goal = true
+    @goal.name = "New Strategic Goal"
+    @goal.save
+  end
+
+  def create_two_year_goal
+    @goal = Goal.new
+    @goal.organization_id = @organization.id
+    @goal.four_year_goal = false
+    @goal.name = "New 2 Year APG"
+    @goal.save
+  end
+
+  def delete_two_year_goal
+    Goal.find(params[:goal_id]).destroy
+  end
+
+  def delete_four_year_goal
+    Goal.find(params[:goal_id]).destroy
   end
 
   def update
