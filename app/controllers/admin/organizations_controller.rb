@@ -11,6 +11,8 @@ class Admin::OrganizationsController < AdminController
     :remove_tag,
     :create_two_year_goal,
     :create_four_year_goal,
+    :delete_two_year_goal,
+    :delete_four_year_goal,
   ]
 
   def index
@@ -62,6 +64,14 @@ class Admin::OrganizationsController < AdminController
     @goal.four_year_goal = false
     @goal.name = "New 2 Year APG"
     @goal.save
+  end
+
+  def delete_two_year_goal
+    Goal.find(params[:goal_id]).destroy
+  end
+
+  def delete_four_year_goal
+    Goal.find(params[:goal_id]).destroy
   end
 
   def update

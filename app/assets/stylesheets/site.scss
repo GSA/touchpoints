@@ -566,3 +566,15 @@ table .no-wrap {
 .goals-div {
   padding-left: 20px;
 }
+.delete-float-right {
+  float: right;
+  position: relative;
+  top: 10px;
+  right: 10px;
+}
+.delete-float-right a {
+  color: red;
+}
+.delete-goal-objective, .delete-goal-target {
+  color: red;
+}

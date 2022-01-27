@@ -9,9 +9,9 @@ class Admin::GoalsController < AdminController
        update_tags
        update_users
        update_four_year_goal
-       update_parent_id,
-       goal_targets,
-       goal_objectives,
+       update_parent_id
+       goal_targets
+       goal_objectives
        destroy]
 
   def index
@@ -88,11 +88,9 @@ class Admin::GoalsController < AdminController
   end
 
   def goal_targets
-    @goal = Goal.find(params[:id])
   end
 
   def goal_objectives
-    @goal = Goal.find(params[:id])
   end
 
   private

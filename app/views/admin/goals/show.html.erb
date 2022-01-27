@@ -41,6 +41,14 @@
   </div>
 
   <div class="field">
+    <%= form.label :parent_id, "Parent goal", class: "usa-label" %>
+    <%= form.select :parent_id, options_for_select((Goal.all.order(:name) - [@goal]).map { |z| [z.name, z.id]}, @goal.parent_id), { prompt: "Parent goal?" }, { class: "usa-select goal-parent-id" } %>
+    <span class="usa-hint goal-parent-id" aria-hidden="true">
+      <i class="fa fa-check-circle" aria-hidden="true"></i> goal parent saved
+    </span>
+  </div>
+
+  <div class="field">
     <%= form.label :tags, class: "usa-label" %>
     <%= form.text_field :tags, class: "usa-input goal-tags" %>
     <span class="usa-hint goal-tags" aria-hidden="true">

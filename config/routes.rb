@@ -222,6 +222,8 @@ Rails.application.routes.draw do
         post "remove_tag", to: "organizations#remove_tag", as: :remove_tag
         get "create_two_year_goal", to: "organizations#create_two_year_goal", as: :create_two_year_goal
         get "create_four_year_goal", to: "organizations#create_four_year_goal", as: :create_four_year_goal
+        delete "delete_two_year_goal", to: "organizations#delete_two_year_goal", as: :delete_two_year_goal
+        delete "delete_four_year_goal", to: "organizations#delete_four_year_goal", as: :delete_four_year_goal
       end
     end
     resources :service_stages

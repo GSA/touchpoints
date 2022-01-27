@@ -12,6 +12,7 @@ class Admin::GoalTargetsController < AdminController
 
   def new
     @goal_target = GoalTarget.new
+    @goal_target.assertion = 'New assertion'
     render :layout => false
   end
 
