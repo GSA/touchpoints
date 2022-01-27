@@ -13,10 +13,12 @@
 
   <%= form.hidden_field :goal_id, value: @goal.id %>
 
+  <% if admin_permissions? %>
   <div class="field">
     <%= form.label :organization_id, class: "usa-label" %>
     <%= form.select :organization_id, options_for_select(organization_dropdown_options, objective.organization_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
   </div>
+  <% end %>
 
   <div class="field">
     <%= form.label :goal_id, class: "usa-label" %>
@@ -37,6 +39,7 @@
     <%= form.label :organization_id, class: "usa-label" %>
     <%= form.select :organization_id, options_for_select(Organization.all.order("abbreviation").map { |organization| ["#{organization.abbreviation} - #{organization.name}", organization.id] }, objective.organization_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
   </div>
+
   <%= form.hidden_field :organization_id, value: current_user.organization.id %>
 
   <div class="field" hidden>

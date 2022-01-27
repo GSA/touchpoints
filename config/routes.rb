@@ -214,11 +214,14 @@ Rails.application.routes.draw do
         get "search", to: "organizations#search"
       end
       member do
+        patch "performance_update", to: "organizations#performance_update", as: :performance_update
         get "performance", to: "organizations#performance", as: :performance
         get "performance/edit", to: "performance#edit", as: :performance_edit
         get "performance/apg/:apg", to: "performance#apg", as: :apg
         post "add_tag", to: "organizations#add_tag", as: :add_tag
         post "remove_tag", to: "organizations#remove_tag", as: :remove_tag
+        get "create_two_year_goal", to: "organizations#create_two_year_goal", as: :create_two_year_goal
+        get "create_four_year_goal", to: "organizations#create_four_year_goal", as: :create_four_year_goal
       end
     end
     resources :service_stages

@@ -15,6 +15,8 @@ class Admin::ObjectivesController < AdminController
   def new
     @objective = Objective.new
     @objective.goal_id = @goal.id
+    @objective.organization_id = @goal.organization_id
+    @objective.name = 'New Objective'
     render :layout => false
   end
 
@@ -26,9 +28,8 @@ class Admin::ObjectivesController < AdminController
   # POST /objectives
   def create
     @objective = Objective.new(objective_params)
-    @objective.goal_id = @goal.id
     respond_to do |format|
-      if @objective.save
+      if @objective.save!
         format.html { redirect_to admin_objective_path(@objective), notice: 'Objective was successfully created.'}
         format.json { render :create, status: :created, goal: @goal }
         format.js

@@ -1,4 +1,4 @@
-<%= form_with(model: organization, url: (organization.persisted? ? admin_organization_path(organization) : admin_organizations_path), local: true) do |form| %>
+<%= form_with(model: organization, url: performance_update_admin_organization_path(organization), local: true) do |form| %>
   <% if organization.errors.any? %>
     <div id="error_explanation">
       <h2>
@@ -28,8 +28,8 @@
   </div>
 
   <div class="field">
-    <%= form.label :performance_plan_url, class: "usa-label" %>
-    <%= form.text_field :performance_plan_url, class: "usa-input" %>
+    <%= form.label :performance_url, class: "usa-label" %>
+    <%= form.text_field :performance_url, class: "usa-input" %>
   </div>
 
   <div class="field">
