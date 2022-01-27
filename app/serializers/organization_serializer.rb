@@ -10,6 +10,6 @@ class OrganizationSerializer < ActiveModel::Serializer
     :mission_statement_url,
     :performance_url,
     :strategic_plan_url,
-    :learning_agenda_url,
+    :learning_agenda_url
 
 end
