@@ -29,6 +29,14 @@ class Admin::SiteController < AdminController
   def a11
   end
 
+  def heartbeat
+    session[:timestamp] = Time.now.to_i
+    render json: {
+      status: :success,
+      timestamp: session[:timestamp]
+    }
+  end
+
   def events_export
     ExportEventsJob.perform_later(params[:uuid])
     render json: { result: :ok }

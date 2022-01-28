@@ -109,3 +109,8 @@
     <%= f.submit class: "usa-button" %>
   </p>
 <% end %>
+<script>
+  $('input,textarea,select,radio').on('blur',function(e){
+      console.log("Blur");
+  });
+</script>
