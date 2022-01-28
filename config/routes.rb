@@ -100,7 +100,19 @@ Rails.application.routes.draw do
     end
     resources :omb_cx_reporting_collections
     resources :goals do
+      member do
+        patch "update_organization_id", to: "goals#update_organization_id", as: :update_organization_id
+        patch "update_name", to: "goals#update_name", as: :update_name
+        patch "update_description", to: "goals#update_description", as: :update_description
+        patch "update_tags", to: "goals#update_tags", as: :update_tags
+        patch "update_users", to: "goals#update_users", as: :update_users
+        patch "update_four_year_goal", to: "goals#update_four_year_goal", as: :update_four_year_goal
+        patch "update_parent_id", to: "goals#update_parent_id", as: :update_parent_id
+        get "targets", to: "goals#goal_targets", as: :targets
+        get "goal_objectives", to: "goals#goal_objectives", as: :goal_objectives
+      end
       resources :goal_targets
+      resources :objectives
     end
     resources :milestones
     resources :objectives
@@ -209,6 +221,10 @@ Rails.application.routes.draw do
         get "performance/apg/:apg", to: "performance#apg", as: :apg
         post "add_tag", to: "organizations#add_tag", as: :add_tag
         post "remove_tag", to: "organizations#remove_tag", as: :remove_tag
+        get "create_two_year_goal", to: "organizations#create_two_year_goal", as: :create_two_year_goal
+        get "create_four_year_goal", to: "organizations#create_four_year_goal", as: :create_four_year_goal
+        delete "delete_two_year_goal", to: "organizations#delete_two_year_goal", as: :delete_two_year_goal
+        delete "delete_four_year_goal", to: "organizations#delete_four_year_goal", as: :delete_four_year_goal
       end
     end
     resources :service_stages

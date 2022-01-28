@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_26_175750) do
+ActiveRecord::Schema.define(version: 2022_01_27_233108) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 2022_01_26_175750) do
     t.string "aasm_state"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "reflection"
+    t.text "reflection"
     t.string "rating"
     t.integer "service_provider_id"
   end
