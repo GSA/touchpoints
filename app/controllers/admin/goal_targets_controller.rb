@@ -7,36 +7,58 @@ class Admin::GoalTargetsController < AdminController
   end
 
   def show
+
   end
 
   def new
     @goal_target = GoalTarget.new
+    @goal_target.assertion = 'New goal target'
+    @goal_target.starting_value = 0
+    @goal_target.target_value = 0
+    @goal_target.current_value = 0
+    render layout: false
   end
 
   def edit
+    render layout: false
   end
 
   def create
     @goal_target = GoalTarget.new(goal_target_params)
-
-    if @goal_target.save
-      redirect_to admin_goal_goal_target_path(@goal, @goal_target), notice: 'Goal target was successfully created.'
-    else
-      render :new
+    respond_to do |format|
+      if @goal_target.save
+        format.html { redirect_to admin_goal_goal_target_path(@goal, @goal_target), notice: 'Goal target was successfully created.'}
+        format.json { render :create, status: :created, goal: @goal }
+        format.js
+      else
+        format.html { render :new }
+        format.json { render json: @goal_target.errors, status: :unprocessable_entity }
+        format.js
+      end
     end
   end
 
   def update
-    if @goal_target.update(goal_target_params)
-      redirect_to admin_goal_goal_target_path(@goal, @goal_target), notice: 'Goal target was successfully updated.'
-    else
-      render :edit
+    respond_to do |format|
+      if @goal_target.update(goal_target_params)
+        format.html { redirect_to admin_goal_goal_target_path(@goal, @goal_target), notice: 'Goal target was successfully updated.'}
+        format.json { render :update, status: :updated, goal: @goal }
+        format.js
+      else
+        format.html { render :edit }
+        format.json { render json: @goal_target.errors, status: :unprocessable_entity }
+        format.js
+      end
     end
   end
 
   def destroy
     @goal_target.destroy
-    redirect_to admin_goal_goal_targets_url(@goal), notice: 'Goal target was successfully destroyed.'
+    respond_to do |format|
+      format.html { redirect_to admin_goal_goal_targets_url(@goal), notice: 'Goal target was successfully destroyed.'}
+      format.json { render :destroy, status: :deleted, goal: @goal }
+      format.js
+    end
   end
 
   private
