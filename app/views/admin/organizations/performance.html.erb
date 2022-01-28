@@ -58,60 +58,15 @@
     </div>
   </div>
 </div>
-
 <hr>
-
-<section>
-  <h4>
-    Strategic goals (4-year)
-  </h4>
-<% @organization.goals.where(four_year_goal: true, parent_id: nil).all.each do |goal| %>
-  <div>
-    <div class="font-sans-lg">
-      <%= goal.name %>
-    </div>
-    <br>
-
-    <% goal.objectives.each do |g| %>
-    <div class="grid-row">
-      <div class="grid-col-2">
-      </div>
-      <div class="grid-col-5">
-        <div class="font-sans-md">
-          <%= link_to g.name, admin_objective_path(g) %>
-        </div>
-      </div>
-      <div class="grid-col-5">
-        <%= g.description %>
-      </div>
-    </div>
-    <br>
-    <br>
-    <% end %>
-    <%= link_to "Create Objective", new_admin_objective_path(goal_id: goal.id), class: "usa-button usa-button--outline" %>
-  </div>
-  <br>
-  <br>
-<% end %>
-<%= link_to "Create 4-yr strategic goal", new_admin_goal_path(four_year_goal: true, organization_id: @organization.id), class: "usa-button" %>
+<section class="four-year-goals">
+  <%= render partial: 'admin/organizations/four_year_goals', locals: { organization: @organization } %>
 </section>
 <br>
 <hr>
-
-<section>
-  <h4>
-    Annual Performance Goals (APG) (2-year)
-  </h4>
-
-  <% @organization.goals.annual_performance_goals.each do |goal| %>
-  <div class="font-sans-lg">
-    <%= link_to goal.name, apg_admin_organization_path(@organization, goal) %>
-  </div>
-  <br>
-  <br>
-  <% end %>
-
-  <p>
-    <%= link_to "Create 2-year APG", new_admin_goal_path(four_year_goal: false, organization_id: @organization.id), class: "usa-button" %>
-  </p>
+<section class="two-year-goals">
+  <%= render partial: 'admin/organizations/two_year_goals', locals: { organization: @organization } %>
 </section>
+</br>
+</br>
+

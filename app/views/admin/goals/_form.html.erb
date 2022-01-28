@@ -11,19 +11,34 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :organization_id, class: "usa-label" %>
-    <%= form.select :organization_id, options_for_select(organization_dropdown_options, goal.organization_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
-  </div>
+  <p>
+    <strong>Organization:</strong>
+    <br>
+    <%= @goal.organization.name %>
+  </p>
+
+  <p>
+    <% if @goal.four_year_goal %>
+      <span class="usa-label">Four Year Strategic Goal</span>
+    <% else %>
+      <span class="usa-label">Two Year APG</span>
+    <% end %>
+  </p>
 
   <div class="field">
-    <%= form.label :name, class: "usa-label" %>
-    <%= form.text_field :name, class: "usa-input" %>
+    <%= form.label 'Goal Title', class: "usa-label" %>
+    <%= form.text_field :name, class: "usa-input goal-name" %>
+    <span class="usa-hint goal-name" aria-hidden="true">
+      <i class="fa fa-check-circle" aria-hidden="true"></i> goal name saved
+    </span>
   </div>
 
   <div class="field">
     <%= form.label :parent_id, "Parent goal", class: "usa-label" %>
-    <%= form.select :parent_id, options_for_select((Goal.all.order(:name) - [goal]).map { |z| [z.name, z.id]}, goal.parent_id), { prompt: "Parent goal?" }, { class: "usa-select" } %>
+    <%= form.select :parent_id, options_for_select((Goal.all.order(:name) - [goal]).map { |z| [z.name, z.id]}, goal.parent_id), { prompt: "Parent goal?" }, { class: "usa-select goal-parent-id" } %>
+    <span class="usa-hint goal-parent-id" aria-hidden="true">
+      <i class="fa fa-check-circle" aria-hidden="true"></i> goal parent saved
+    </span>
   </div>
 
   <br>
@@ -31,30 +46,101 @@
   <fieldset class="usa-fieldset">
     <legend class="usa-legend usa-sr-only">2 or 4-year goal?</legend>
     <div class="usa-checkbox">
-      <%= form.check_box :four_year_goal, class: "usa-checkbox__input" %>
+      <%= form.check_box :four_year_goal, class: "usa-checkbox__input four-year-goal" %>
       <%= form.label :four_year_goal, "4-year strategic goal", class: "usa-checkbox__label" %>
       <small>
         Otherwise, a 2-year APG
       </small>
     </div>
+    <span class="usa-hint four-year-goal" aria-hidden="true">
+      <i class="fa fa-check-circle" aria-hidden="true"></i> four year goal saved
+    </span>
   </fieldset>
 
   <div class="field">
-    <%= form.label :description, class: "usa-label" %>
-    <%= form.text_area :description, class: "usa-textarea" %>
-  </div>
-
-  <div class="field">
     <%= form.label :tags, class: "usa-label" %>
-    <%= form.text_field :tags %>
+    <%= form.text_field :tags, class: "usa-input goal-tags" %>
+    <span class="usa-hint goal-tags" aria-hidden="true">
+      <i class="fa fa-check-circle" aria-hidden="true"></i> goal tags saved
+    </span>
   </div>
 
   <div class="field">
     <%= form.label :users, class: "usa-label" %>
-    <%= form.number_field :users %>
+    <%= form.number_field :users, class: "usa-input goal-users" %>
+    <span class="usa-hint goal-users" aria-hidden="true">
+      <i class="fa fa-check-circle" aria-hidden="true"></i> goal users saved
+    </span>
   </div>
 
-  <p>
-    <%= form.submit class: "usa-button" %>
-  </p>
 <% end %>
+
+<script>
+  $('.usa-hint').hide();
+
+  $('.goal-name').on("blur", function(event) {
+    event.preventDefault();
+    $('.usa-hint.goal-name').show();
+    $('.usa-hint.goal-name').fadeOut(2000);
+    $.ajax({
+      type: "PATCH",
+      url: "<%= admin_goal_path(goal) %>/update_name",
+      data: {name: $(this).val()}
+    });
+  });
+
+  $('.goal-description').on("blur", function(event) {
+    event.preventDefault();
+    $('.usa-hint.goal-description').show();
+    $('.usa-hint.goal-description').fadeOut(2000);
+    $.ajax({
+      type: "PATCH",
+      url: "<%= admin_goal_path(goal) %>/update_description",
+      data: {description: $(this).val()}
+    });
+  });
+
+  $('.goal-tags').on("blur", function(event) {
+    event.preventDefault();
+    $('.usa-hint.goal-tags').show();
+    $('.usa-hint.goal-tags').fadeOut(2000);
+    $.ajax({
+      type: "PATCH",
+      url: "<%= admin_goal_path(goal) %>/update_tags",
+      data: {tags: $(this).val()}
+    });
+  });
+
+  $('.goal-users').on("blur", function(event) {
+    event.preventDefault();
+    $('.usa-hint.goal-users').show();
+    $('.usa-hint.goal-users').fadeOut(2000);
+    $.ajax({
+      type: "PATCH",
+      url: "<%= admin_goal_path(goal) %>/update_users",
+      data: {users: $(this).val()}
+    });
+  });
+
+  $('.goal-parent-id').on("change", function(event) {
+    event.preventDefault();
+    $('.usa-hint.goal-parent-id').show();
+    $('.usa-hint.goal-parent-id').fadeOut(2000);
+    $.ajax({
+      type: "PATCH",
+      url: "<%= admin_goal_path(goal) %>/update_parent_id",
+      data: {parent_id: $(this).val()}
+    });
+  });
+
+  $('.four-year-goal').on("change", function(event) {
+    event.preventDefault();
+    $('.usa-hint.four-year-goal').show();
+    $('.usa-hint.four-year-goal').fadeOut(2000);
+    $.ajax({
+      type: "PATCH",
+      url: "<%= admin_goal_path(goal) %>/four_year_goal",
+      data: {four_year_goal: $(this).val()}
+    });
+  });
+</script>

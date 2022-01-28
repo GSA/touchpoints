@@ -1,15 +1,13 @@
-<% content_for :navigation_title do %>
-  Editing Objective
-<% end %>
-<p>
-  <%= link_to admin_objective_path(@objective) do %>
-    <i class="fa fa-arrow-circle-left"></i>
-    Back to Objective
-  <% end %>
-</p>
-
-
 <%= render 'form', objective: @objective %>
 
-<%= link_to 'Show', admin_objective_path(@objective) %> |
-<%= link_to 'Back', admin_objectives_path %>
+<%= link_to 'Cancel', admin_goal_path(@goal), class: "usa-button cancel-goal-objective" %>
+
+<script>
+  $('.cancel-goal-objective').on("click", function(event) {
+    event.preventDefault();
+    $.ajax({
+      type: "GET",
+      url: $(this).attr("href") + "/goal_objectives"
+    });
+  });
+</script>
