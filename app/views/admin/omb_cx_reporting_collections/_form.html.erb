@@ -354,3 +354,6 @@
   <%= form.submit "Update CX Service Detail Report", class: "usa-button", style: "width: 100%;" %>
 </p>
 <% end %>
+<script>
+  window.sendHeartbeat("<%= admin_heartbeat_path() %>");
+</script>

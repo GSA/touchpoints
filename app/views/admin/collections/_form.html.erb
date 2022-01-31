@@ -109,3 +109,6 @@
     <%= f.submit class: "usa-button" %>
   </p>
 <% end %>
+<script>
+  window.sendHeartbeat("<%= admin_heartbeat_path() %>");
+</script>
