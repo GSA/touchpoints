@@ -344,14 +344,5 @@
 </p>
 <% end %>
 <script>
-  $('input,textarea,select,radio').on('blur',function(e){
-      $.ajax({
-        type: "GET",
-        url: "<%= admin_root_path() %>/heartbeat.json",
-        success: function (data) {
-          //console.log(data);
-        }
-      });
-
-  });
+  window.sendHeartbeat("<%= admin_root_path() %>/heartbeat.json");
 </script>
