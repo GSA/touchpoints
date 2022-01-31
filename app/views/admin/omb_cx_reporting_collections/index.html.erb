@@ -26,10 +26,10 @@
     <% @omb_cx_reporting_collections.each do |omb_cx_reporting_collection| %>
       <tr>
         <td>
-          <%= omb_cx_reporting_collection.service.service_provider.name %>
+          <%= omb_cx_reporting_collection&.service&.service_provider&.name %>
         </td>
         <td>
-          <%= omb_cx_reporting_collection.service.name %>
+          <%= omb_cx_reporting_collection&.service&.name %>
         </td>
         <td>
           <%= link_to omb_cx_reporting_collection.collection.name, admin_omb_cx_reporting_collection_path(omb_cx_reporting_collection) %>

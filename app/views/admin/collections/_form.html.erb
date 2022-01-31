@@ -111,6 +111,13 @@
 <% end %>
 <script>
   $('input,textarea,select,radio').on('blur',function(e){
-      console.log("Blur");
+      $.ajax({
+        type: "GET",
+        url: "<%= admin_root_path() %>/heartbeat.json",
+        success: function (data) {
+          //console.log(data);
+        }
+      });
+
   });
 </script>

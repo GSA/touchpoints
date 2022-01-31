@@ -30,10 +30,9 @@ class Admin::SiteController < AdminController
   end
 
   def heartbeat
-    session[:timestamp] = Time.now.to_i
     render json: {
       status: :success,
-      timestamp: session[:timestamp]
+      last_request_at: user_session["last_request_at"].presence || 0
     }
   end
 

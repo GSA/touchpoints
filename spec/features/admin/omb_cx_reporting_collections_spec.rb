@@ -57,6 +57,20 @@ RSpec.describe "/omb_cx_reporting_collections", js: true do
         expect(page).to have_content("Omb cx reporting collection was successfully created.")
       end
     end
+
+    describe "heartbeat" do
+      xit "display successful flash message after more than 15 mins on page" do
+        # Pause 10 mins in between each UI interaction
+        select(collection.name, from: "omb_cx_reporting_collection_collection_id")
+        sleep 10 * 60
+        select(service.name, from: "omb_cx_reporting_collection_service_id")
+        sleep 10 * 60
+        fill_in :omb_cx_reporting_collection_service_provided, with: "Description of your service"
+        sleep 10 * 60
+        click_on "Update CX Service Detail Report"
+        expect(page).to have_content("Omb cx reporting collection was successfully created.")
+      end
+    end
   end
 
   describe "GET /edit" do
