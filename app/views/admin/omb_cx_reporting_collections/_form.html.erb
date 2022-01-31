@@ -354,15 +354,3 @@
   <%= form.submit "Update CX Service Detail Report", class: "usa-button", style: "width: 100%;" %>
 </p>
 <% end %>
-<script>
-  $('input,textarea,select,radio').on('blur',function(e){
-      $.ajax({
-        type: "GET",
-        url: "<%= admin_root_path() %>/heartbeat.json",
-        success: function (data) {
-          //console.log(data);
-        }
-      });
-
-  });
-</script>
