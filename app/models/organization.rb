@@ -19,4 +19,8 @@ class Organization < ApplicationRecord
   def slug
     self.abbreviation.downcase
   end
+
+  def to_param
+    slug
+  end
 end
