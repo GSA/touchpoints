@@ -24,7 +24,7 @@ class Collection < ApplicationRecord
     state :archived
 
     event :submit do
-     transitions from: :draft, to: :submitted
+      transitions from: [:draft, :change_requested], to: :submitted
     end
 
     event :publish do
