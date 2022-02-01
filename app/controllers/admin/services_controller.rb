@@ -40,6 +40,13 @@ class Admin::ServicesController < AdminController
     @tags = Service.tag_counts_on(:tags)
   end
 
+  def export_csv
+    ensure_service_manager_permissions
+
+    @services = Service.all
+    send_data @services.to_csv, filename: "touchpoints-services-#{Date.today}.csv"
+  end
+
   def show
   end
 

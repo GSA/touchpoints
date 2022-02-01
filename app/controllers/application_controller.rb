@@ -67,6 +67,14 @@ class ApplicationController < ActionController::Base
     redirect_to(index_path, notice: "Authorization is Required")
   end
 
+  def ensure_service_manager_permissions
+    return false unless current_user.present?
+    return true if current_user.service_manager?
+    return true if admin_permissions?
+
+    redirect_to(admin_services_path, notice: "Authorization is Required")
+  end
+
   def ensure_service_owner(service:, user:)
     return false unless user.present?
     return true if service_permissions?(service: service)

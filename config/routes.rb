@@ -73,6 +73,7 @@ Rails.application.routes.draw do
     resources :services do
       collection do
         get "search", to: "services#search"
+        get "export_csv", to: "services#export_csv", as: :export_csv
       end
       member do
         get "equity-assessment", to: "services#equity_assessment", as: :equity_assessment

@@ -1,3 +1,5 @@
+require 'csv'
+
 class Service < ApplicationRecord
   include AASM
   has_paper_trail
@@ -64,5 +66,20 @@ class Service < ApplicationRecord
 
   def service_provider_name
     self.service_provider ? self.service_provider.name : nil
+  end
+
+  def self.to_csv
+    services = Service.order("organizations.name").includes(:organization)
+
+    example_service_attributes = Service.new.attributes
+    attributes = example_service_attributes.keys
+
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+
+      services.each do |service|
+        csv << attributes.map { |attr| service.send(attr) }
+      end
+    end
   end
 end
