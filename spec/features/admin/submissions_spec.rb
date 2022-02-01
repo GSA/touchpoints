@@ -381,7 +381,7 @@ feature "Submissions", js: true do
             end
 
             it "can view a Submission" do
-              expect(page.current_path).to eq(admin_form_submission_path(form, submission2))
+              expect(page.current_path).to eq(admin_form_submission_path(form, submission))
               expect(page).to_not have_content("Delete")
             end
           end

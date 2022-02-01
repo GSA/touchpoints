@@ -24,7 +24,7 @@ class Admin::ServicesController < AdminController
   def index
     tag_name = params[:tag]
 
-    if admin_permissions?
+    if service_manager_permissions?
       if tag_name.present?
         @services = Service.tagged_with(tag_name).includes(:organization).order("organizations.name", :name)
       else
@@ -38,6 +38,13 @@ class Admin::ServicesController < AdminController
       end
     end
     @tags = Service.tag_counts_on(:tags)
+  end
+
+  def export_csv
+    ensure_service_manager_permissions
+
+    @services = Service.all
+    send_data @services.to_csv, filename: "touchpoints-services-#{Date.today}.csv"
   end
 
   def show
@@ -160,7 +167,7 @@ class Admin::ServicesController < AdminController
     end
 
     def set_service_providers
-      if admin_permissions?
+      if service_manager_permissions?
         @service_providers = ServiceProvider.all.includes(:organization).order("organizations.abbreviation", "service_providers.name")
       else
         @service_providers = current_user.organization.service_providers.includes(:organization).order("organizations.abbreviation", "service_providers.name")
@@ -169,7 +176,7 @@ class Admin::ServicesController < AdminController
 
 
     def set_service_owner_options
-      if admin_permissions?
+      if service_manager_permissions?
         @service_owner_options = User.active
       else
         @service_owner_options = current_user.organization.users

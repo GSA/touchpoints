@@ -70,6 +70,15 @@
   <%= render 'results' %>
 </div>
 
+<% if service_manager_permissions? %>
+<p>
+  <%= link_to export_csv_admin_services_path, class: "usa-button usa-button--outline" do %>
+    <i class="fa fa-download"></i>
+    Export all services to CSV
+  <% end %>
+</p>
+<% end %>
+
 <script>
   $(function() {
     $("#search_text").keyup(function() {

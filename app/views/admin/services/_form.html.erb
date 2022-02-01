@@ -22,7 +22,7 @@
 <% end %>
 <div class="grid-row grid-gap-lg">
   <div class="grid-col-6">
-    <% if admin_permissions? && service.persisted? %>
+    <% if service_manager_permissions? && service.persisted? %>
     <div class="field">
       <%= form.label :organization_id, class: "usa-label" %>
       <%= form.select :organization_id, options_for_select(organization_dropdown_options, service.organization_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>

@@ -1,6 +1,11 @@
 <% content_for :navigation_title do %>
   Users
 <% end %>
+<p>
+  <%= link_to "All Users", admin_users_path %>
+  &middot;
+  <%= link_to "Inactive Users", inactive_admin_users_path %>
+</p>
 <div class="users">
   <table class="usa-table" style="width: 100%;">
     <thead>
@@ -30,7 +35,9 @@
           </td>
           <td><%= user.organization ? user.organization.name : nil %></td>
         <% if current_user.admin? %>
-          <td><%= time_ago_in_words(user.last_sign_in_at) if user.last_sign_in_at %></td>
+          <td data-sort-value="<%= user.last_sign_in_at.to_i %>">
+            <%= time_ago_in_words(user.last_sign_in_at) if user.last_sign_in_at %>
+          </td>
         <% end %>
         </tr>
       <% end %>
