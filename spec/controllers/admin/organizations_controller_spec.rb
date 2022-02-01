@@ -30,9 +30,9 @@ RSpec.describe Admin::OrganizationsController, type: :controller do
   # adjust the attributes here as well.
   let(:valid_attributes) {
     {
-      name: "Example Gov",
-      domain: "example.gov",
-      abbreviation: "EX"
+      name: "Sample.gov",
+      domain: "sample.gov",
+      abbreviation: "SAMPLE"
     }
   }
 
@@ -47,7 +47,7 @@ RSpec.describe Admin::OrganizationsController, type: :controller do
   # OrganizationsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  let(:admin) { FactoryBot.create(:user, :admin)}
+  let(:admin) { FactoryBot.create(:user, :admin) }
 
   before do
     sign_in(admin)
@@ -62,8 +62,9 @@ RSpec.describe Admin::OrganizationsController, type: :controller do
   end
 
   describe "GET #show" do
+    let(:organization) { Organization.create! valid_attributes }
+
     it "returns a success response" do
-      organization = Organization.create! valid_attributes
       get :show, params: {id: organization.to_param}, session: valid_session
       expect(response).to be_successful
     end
@@ -77,8 +78,9 @@ RSpec.describe Admin::OrganizationsController, type: :controller do
   end
 
   describe "GET #edit" do
+    let(:organization) { Organization.create! valid_attributes }
+
     it "returns a success response" do
-      organization = Organization.create! valid_attributes
       get :edit, params: {id: organization.to_param}, session: valid_session
       expect(response).to be_successful
     end
@@ -107,23 +109,23 @@ RSpec.describe Admin::OrganizationsController, type: :controller do
   end
 
   describe "PUT #update" do
+    let(:organization) { Organization.create! valid_attributes }
+
     context "with valid params" do
       let(:new_attributes) {
         {
-          abbreviation: "Updated"
+          name: "Updated name"
         }
       }
 
       it "updates the requested organization" do
-        organization = Organization.create! valid_attributes
-        put :update, params: {id: organization.to_param, organization: valid_attributes}, session: valid_session
+        put :update, params: { id: organization.to_param, organization: new_attributes }, session: valid_session
         expect(response).to redirect_to(admin_organization_path(organization))
       end
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
-        organization = Organization.create! valid_attributes
         put :update, params: {id: organization.to_param, organization: invalid_attributes}, session: valid_session
         expect(response).to be_successful
       end
@@ -131,15 +133,17 @@ RSpec.describe Admin::OrganizationsController, type: :controller do
   end
 
   describe "DELETE #destroy" do
+    let!(:organization) { Organization.create! valid_attributes }
+
     it "destroys the requested organization" do
-      organization = Organization.create! valid_attributes
+      expect(Organization.count).to eq(2)
+      
       expect {
-        delete :destroy, params: {id: organization.to_param}, session: valid_session
+        delete :destroy, params: { id: organization }, session: valid_session
       }.to change(Organization, :count).by(-1)
     end
 
     it "redirects to the organizations list" do
-      organization = Organization.create! valid_attributes
       delete :destroy, params: {id: organization.to_param}, session: valid_session
       expect(response).to redirect_to(admin_organizations_url)
     end

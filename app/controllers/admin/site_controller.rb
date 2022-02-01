@@ -29,6 +29,13 @@ class Admin::SiteController < AdminController
   def a11
   end
 
+  def heartbeat
+    render json: {
+      status: :success,
+      last_request_at: user_session["last_request_at"].presence || 0
+    }
+  end
+
   def events_export
     ExportEventsJob.perform_later(params[:uuid])
     render json: { result: :ok }

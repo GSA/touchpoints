@@ -16,6 +16,7 @@
 //= require jquery-ui
 //= require rails-ujs
 //= require uswds-init
+//= require heartbeat
 
 function generateUUID() {
   var S4 = function() {

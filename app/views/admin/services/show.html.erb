@@ -20,7 +20,7 @@
 
 <%= render 'admin/services/step_indicator', service: @service %>
 
-<% if admin_permissions? && !@service.created? && @service.submitted? && !@service.approved? %>
+<% if service_manager_permissions? && !@service.created? && @service.submitted? && !@service.approved? %>
 <p>
   <%= link_to "Approve this form", approve_admin_service_path(@service), class: "usa-button full-width", method: :post %>
 </p>
@@ -48,7 +48,7 @@
     <p>
       <strong>Service Provider</strong>
       <br>
-      <%= @service.service_provider ? link_to_if(admin_permissions?, @service.service_provider.name, admin_service_provider_path(@service.service_provider), target: "_blank", rel: "noopener") : nil %>
+      <%= @service.service_provider ? link_to_if(service_manager_permissions?, @service.service_provider.name, admin_service_provider_path(@service.service_provider), target: "_blank", rel: "noopener") : nil %>
     </p>
     <p>
       <strong>Name</strong>
@@ -263,7 +263,7 @@
 </p>
 <% end %>
 
-<% if admin_permissions? %>
+<% if service_manager_permissions? %>
 <p>
   <%= link_to "Reset this form", reset_admin_service_path(@service), class: "usa-button full-width", method: :post %>
 </p>

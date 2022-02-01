@@ -59,6 +59,7 @@ Rails.application.routes.draw do
 
     resources :personas
 
+    get "/heartbeat", to: "site#heartbeat", as: :heartbeat
     get "a11", to: "site#a11", as: :a11
     resources :service_providers do |*args|
       collection do
@@ -72,6 +73,7 @@ Rails.application.routes.draw do
     resources :services do
       collection do
         get "search", to: "services#search"
+        get "export_csv", to: "services#export_csv", as: :export_csv
       end
       member do
         get "equity-assessment", to: "services#equity_assessment", as: :equity_assessment
@@ -204,7 +206,7 @@ Rails.application.routes.draw do
     end
     resources :users, except: [:new] do
       collection do
-        get "inactive", to: "users#inactive"
+        get "inactive", to: "users#inactive", as: :inactive
         get "deactivate", to: "users#deactivate"
         get "active", to: "users#active", as: :active
       end
