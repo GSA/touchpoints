@@ -205,7 +205,7 @@ Rails.application.routes.draw do
     end
     resources :users, except: [:new] do
       collection do
-        get "inactive", to: "users#inactive"
+        get "inactive", to: "users#inactive", as: :inactive
         get "deactivate", to: "users#deactivate"
         get "active", to: "users#active", as: :active
       end
