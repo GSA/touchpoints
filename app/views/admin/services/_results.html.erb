@@ -1,7 +1,7 @@
 <table class="usa-table">
   <thead>
     <tr>
-    <% if admin_permissions? %>
+    <% if service_manager_permissions? %>
       <th data-sortable scope="col" role="columnheader">Organization</th>
       <th data-sortable scope="col" role="columnheader">Service Provider</th>
     <% end %>
@@ -14,7 +14,7 @@
   <tbody>
     <% @services.each do |service| %>
       <tr>
-      <% if admin_permissions? %>
+      <% if service_manager_permissions? %>
         <td><%= service.organization.try(:name) %></td>
         <td><%= service.service_provider.try(:name) %></td>
       <% end %>
