@@ -8,4 +8,5 @@ class ServiceProvider < ApplicationRecord
   validates :slug, presence: true
 
   scope :active, -> { where("inactive ISNULL or inactive = false") }
+
 end

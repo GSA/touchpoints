@@ -49,6 +49,14 @@
     </div>
 
     <div class="field">
+      <div class="well">
+        <div class="service-managers-div">
+          <%= render 'admin/services/service_managers', service: @service %>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
       <%= form.label :name, class: "usa-label" %>
       <small>
         Include a verb (an action the customer takes) in the context of the service offering (the thing the customer is trying to accomplish).

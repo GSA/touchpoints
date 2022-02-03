@@ -66,6 +66,10 @@ class Service < ApplicationRecord
     User.find_by_id(self.service_owner_id)
   end
 
+  def service_managers
+    User.with_role(:service_manager, self)
+  end
+
   def organization_name
     self.organization ? self.organization.name : nil
   end
