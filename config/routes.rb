@@ -68,6 +68,8 @@ Rails.application.routes.draw do
       member do
         post "add_tag", to: "service_providers#add_tag", as: :add_tag
         post "remove_tag", to: "service_providers#remove_tag", as: :remove_tag
+        post "add_service_provider_manager", to: "service_providers#add_service_provider_manager", as: :add_service_provider_manager
+        post "remove_service_provider_manager", to: "service_providers#remove_service_provider_manager", as: :remove_service_provider_manager
       end
     end
     resources :services do

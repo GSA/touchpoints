@@ -9,4 +9,7 @@ class ServiceProvider < ApplicationRecord
 
   scope :active, -> { where("inactive ISNULL or inactive = false") }
 
+  def service_provider_managers
+    User.with_role(:service_provider_manager, self)
+  end
 end

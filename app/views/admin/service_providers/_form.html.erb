@@ -29,6 +29,14 @@
       </div>
 
       <div class="field">
+        <div class="well">
+          <div class="service-provider-managers-div">
+            <%= render 'admin/service_providers/service_provider_managers', service: @service_provider %>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
         <%= form.label :notes, class: "usa-label" %>
         <%= form.text_area :notes, class: "usa-textarea" %>
       </div>
