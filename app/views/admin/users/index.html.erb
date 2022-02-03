@@ -50,4 +50,8 @@
     <i class="fa fa-download"></i>
     Export Active Users
   <% end %>
+  <%= link_to inactivate_admin_users_path(format: :csv), class: "usa-button usa-button--secondary float-right", method: :post do %>
+    <i class="fa fa-exclamation"></i>
+    Inactivate users
+  <% end %>
 </p>
