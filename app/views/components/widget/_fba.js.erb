@@ -152,6 +152,7 @@ function FBAform(d, N) {
 		},
 		handleButtonClick: function(e) {
 			e.preventDefault();
+			// store a reference to the button ID so we can set focus back here when modal closes
 			this.loadDialog();
 		},
 		handleDialogClose: function(e) {
@@ -374,6 +375,7 @@ function FBAform(d, N) {
 		loadDialog: function()
 		{
 			d.querySelector('.fba-modal').removeAttribute("hidden");
+			d.getElementById("touchpoints-form-<%= form.short_uuid %>").focus();
 			this.dialogOpen = true;
 		},
 		closeDialog: function()
