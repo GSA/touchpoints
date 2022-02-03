@@ -38,7 +38,7 @@ feature "Managing Services", js: true do
         click_on "Create Service"
       end
 
-      it "create Website successfully" do
+      it "create Service successfully" do
         expect(page).to have_content("Service was successfully created")
         expect(page).to have_content("New Service Name")
       end

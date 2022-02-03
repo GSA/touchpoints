@@ -27,14 +27,15 @@
         <%= form.label :description, class: "usa-label" %>
         <%= form.text_area :description, class: "usa-textarea" %>
       </div>
-
-      <div class="field">
-        <div class="well">
-          <div class="service-provider-managers-div">
-            <%= render 'admin/service_providers/service_provider_managers', service: @service_provider %>
+      <% if @service_provider.persisted? %>
+        <div class="field">
+          <div class="well">
+            <div class="service-provider-managers-div">
+              <%= render 'admin/service_providers/service_provider_managers', service: @service_provider %>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
 
       <div class="field">
         <%= form.label :notes, class: "usa-label" %>
