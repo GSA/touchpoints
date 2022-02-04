@@ -16,6 +16,11 @@ class Admin::UsersController < AdminController
     render :index
   end
 
+  def inactivate!
+    User.deactivate_inactive_accounts
+    redirect_to admin_users_path, notice: 'Users inactivated successfully.'
+  end
+
   def active
     respond_to do |format|
       format.csv { send_data User.active.to_csv, filename: "users-#{Date.today}.csv" }
