@@ -141,4 +141,12 @@ class Collection < ApplicationRecord
       volume_of_respondents: @volume_of_respondents
     }
   end
+
+  def organization_name
+    self.organization.name
+  end
+
+  def service_provider_name
+    self.service_provider.name
+  end
 end
