@@ -55,9 +55,13 @@ class Service < ApplicationRecord
   end
 
   def service_owner
-    return false unless self.service_owner_id
+    return nil unless self.service_owner_id
 
     User.find_by_id(self.service_owner_id)
+  end
+
+  def service_owner_email
+    service_owner && service_owner.try(:email)
   end
 
   def organization_name

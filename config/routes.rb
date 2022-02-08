@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       resources :forms, only: [:index, :show]
     end
     namespace :v1 do
+      resources :collections, only: [:index]
       resources :organizations, only: [:index]
       resources :forms, only: [:index, :show]
       resources :websites, only: [:index]
@@ -46,6 +47,7 @@ Rails.application.routes.draw do
   namespace :admin do
     get "/reporting/hisps/hisps", to: "reporting#hisps", as: :hisps
     get "/reporting/hisps/hisp_services", to: "reporting#hisp_services", as: :hisp_services
+    get "/reporting/hisps/hisp_service_cx_data_collections", to: "reporting#hisp_service_cx_data_collections", as: :hisp_service_cx_data_collections
 
     get "/reporting/lifespan", to: "reporting#lifespan", as: :lifespan
     get "/reporting/no_submissions", to: "reporting#no_submissions", as: :no_submissions
