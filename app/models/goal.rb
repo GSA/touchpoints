@@ -3,6 +3,7 @@ class Goal < ApplicationRecord
   has_many :milestones
   has_many :objectives
   has_many :goal_targets
+  acts_as_taggable_on :tags
 
   validates :name, presence: true
 

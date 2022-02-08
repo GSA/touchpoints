@@ -12,7 +12,11 @@ class Admin::GoalsController < AdminController
        update_parent_id
        goal_targets
        goal_objectives
-       destroy]
+       destroy
+       add_tag
+       remove_tag]
+
+  before_action :set_goal_tags, only: [:show, :add_tag, :remove_tag]
 
   def index
     @goals = Goal.all
@@ -45,6 +49,16 @@ class Admin::GoalsController < AdminController
     else
       render :edit
     end
+  end
+
+  def add_tag
+    @goal.tag_list.add(goal_params[:tag_list].split(","))
+    @goal.save
+  end
+
+  def remove_tag
+    @goal.tag_list.remove(goal_params[:tag_list].split(","))
+    @goal.save
   end
 
   def update_organization_id
@@ -99,6 +113,11 @@ class Admin::GoalsController < AdminController
     @goal = Goal.find(params[:id])
   end
 
+  def set_goal_tags
+    @goal_tags_for_select = ['Administration of justice','Agriculture','Artificial Intelligence R&D','Quantum information science R&D','Climate change','Commerce & trade','Cybersecurity','Domestic health','Economic development','Economic security & policy','Education','Energy','Environmental justice','Equity','General government & management']
+    @goal_tags_for_select += ['General science, space, and technology','Global health','Housing','Income security','Internal affairs','Medicare','National security','Native American & tribal communities','Pandemic response','Social security','Social services','Transportation infrastructure','Veterens benefits & services','Workforce benefits & services','Worrkforce development & employment']
+  end
+
   def goal_params
     params.require(:goal).permit(
       :organization_id,
@@ -107,7 +126,8 @@ class Admin::GoalsController < AdminController
       :tags,
       :users,
       :four_year_goal,
-      :parent_id
+      :parent_id,
+      :tag_list,
     )
   end
 end
