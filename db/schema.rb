@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_27_233108) do
+ActiveRecord::Schema.define(version: 2022_02_08_214750) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,9 @@ ActiveRecord::Schema.define(version: 2022_01_27_233108) do
     t.text "reflection"
     t.string "rating"
     t.integer "service_provider_id"
+    t.index ["organization_id"], name: "index_collections_on_organization_id"
+    t.index ["service_provider_id"], name: "index_collections_on_service_provider_id"
+    t.index ["user_id"], name: "index_collections_on_user_id"
   end
 
   create_table "digital_products", force: :cascade do |t|
@@ -146,6 +149,8 @@ ActiveRecord::Schema.define(version: 2022_01_27_233108) do
     t.string "notification_frequency", default: "instant"
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
+    t.index ["organization_id"], name: "index_forms_on_organization_id"
+    t.index ["user_id"], name: "index_forms_on_user_id"
     t.index ["uuid"], name: "index_forms_on_uuid"
   end
 
@@ -287,6 +292,7 @@ ActiveRecord::Schema.define(version: 2022_01_27_233108) do
     t.text "operational_metrics"
     t.integer "service_id"
     t.index ["collection_id"], name: "index_omb_cx_reporting_collections_on_collection_id"
+    t.index ["service_id"], name: "index_omb_cx_reporting_collections_on_service_id"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -339,6 +345,7 @@ ActiveRecord::Schema.define(version: 2022_01_27_233108) do
     t.integer "character_limit"
     t.string "placeholder_text"
     t.string "help_text"
+    t.index ["form_id"], name: "index_questions_on_form_id"
   end
 
   create_table "service_providers", force: :cascade do |t|
@@ -434,6 +441,7 @@ ActiveRecord::Schema.define(version: 2022_01_27_233108) do
     t.string "uuid"
     t.string "aasm_state", default: "received"
     t.boolean "archived", default: false
+    t.index ["form_id"], name: "index_submissions_on_form_id"
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
   end
 
@@ -559,6 +567,8 @@ ActiveRecord::Schema.define(version: 2022_01_27_233108) do
     t.float "modernization_cost_2023"
     t.string "uswds_version"
     t.boolean "https"
+    t.integer "service_id"
+    t.index ["service_id"], name: "index_websites_on_service_id"
   end
 
   add_foreign_key "taggings", "tags"
