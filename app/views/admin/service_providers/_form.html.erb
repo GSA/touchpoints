@@ -15,12 +15,12 @@
     <div class="grid-col-6">
       <div class="field">
         <%= form.label :organization_id, class: "usa-label" %>
-        <%= form.select :organization_id, options_for_select(organization_dropdown_options, service_provider.organization_id), { prompt: "Which Organization?", include_blank: true }, { class: "usa-select" } %>
+        <%= form.select :organization_id, options_for_select(organization_dropdown_options, service_provider.organization_id), { prompt: "Which Organization?" }, { class: "usa-select", required: true } %>
       </div>
 
       <div class="field">
         <%= form.label :name, class: "usa-label" %>
-        <%= form.text_field :name, class: "usa-input" %>
+        <%= form.text_field :name, class: "usa-input", required: true %>
       </div>
 
       <div class="field">
@@ -65,7 +65,7 @@
 
       <div class="field">
         <%= form.label :slug, class: "usa-label" %>
-        <%= form.text_field :slug, class: "usa-input" %>
+        <%= form.text_field :slug, class: "usa-input", required: true %>
       </div>
 
       <fieldset class="usa-fieldset">
