@@ -12,4 +12,8 @@ class ServiceProvider < ApplicationRecord
   def service_provider_managers
     User.with_role(:service_provider_manager, self)
   end
+  
+  def organization_name
+    self.organization ? self.organization.name : nil
+  end
 end

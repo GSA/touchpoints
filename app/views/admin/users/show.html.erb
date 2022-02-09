@@ -13,6 +13,15 @@
     Back to Users
   <% end %>
 </p>
+<% if @user.inactive? %>
+<div class="usa-alert usa-alert--warning" >
+  <div class="usa-alert__body">
+    <p class="usa-alert__text">
+      This user is inactive
+    </p>
+  </div>
+</div>
+<% end %>
 <div class="well">
   <% if @user.admin? %>
     <span class="usa-tag bg-secondary-vivid">

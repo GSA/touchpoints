@@ -13,6 +13,7 @@ function FBAform(d, N) {
 		formElement: function() {
 			return this.formComponent().querySelector("form");
 		},
+		activatedButton: null, // tracks a reference to the button that was clicked to open the modal
 
 		// enable Javascript experience
 		javscriptIsEnabled: function() {
@@ -152,6 +153,7 @@ function FBAform(d, N) {
 		},
 		handleButtonClick: function(e) {
 			e.preventDefault();
+			this.activatedButton = e.target;
 			this.loadDialog();
 		},
 		handleDialogClose: function(e) {
@@ -345,6 +347,7 @@ function FBAform(d, N) {
 			// Add the fixed, floating tab button
 			this.buttonEl = document.createElement('a');
 			this.buttonEl.setAttribute('id', 'fba-button');
+			this.buttonEl.setAttribute('data-id', '<%= form.short_uuid %>');
 			this.buttonEl.setAttribute('class', 'fixed-tab-button usa-button');
 			this.buttonEl.setAttribute('href', '#');
 			this.buttonEl.setAttribute('aria-haspopup', 'dialog');
@@ -374,12 +377,14 @@ function FBAform(d, N) {
 		loadDialog: function()
 		{
 			d.querySelector('.fba-modal').removeAttribute("hidden");
+			d.getElementById("touchpoints-form-<%= form.short_uuid %>").focus();
 			this.dialogOpen = true;
 		},
 		closeDialog: function()
 		{
 			d.querySelector('.fba-modal').setAttribute("hidden", true);
 			this.resetFormDisplay();
+			this.activatedButton.focus();
 			this.dialogOpen = false;
 		},
 		sendFeedback: function()
