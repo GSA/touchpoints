@@ -36,6 +36,12 @@ class User < ApplicationRecord
 
   scope :active, -> { where("inactive ISNULL or inactive = false") }
 
+  scope :admins, -> { where(admin: true) }
+  scope :performance_managers, -> { where(performance_manager: true) }
+  scope :registry_managers, -> { where(registry_manager: true) }
+  scope :service_managers, -> { where(service_manager: true) }
+  scope :organizational_website_managers, -> { where(organizational_website_manager: true) }
+
   def self.admins
     User.where(admin: true)
   end
