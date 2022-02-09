@@ -373,7 +373,7 @@ feature "Submissions", js: true do
         end
 
         describe "view a Submission" do
-          context "with one Response" do
+          context "with at least one Response" do
             before do
               within("table.submissions tbody tr:first-child") do
                 click_on "View"
@@ -381,7 +381,7 @@ feature "Submissions", js: true do
             end
 
             it "can view a Submission" do
-              expect(page.current_path).to eq(admin_form_submission_path(form, submission))
+              expect(page).to_not content("Viewing a response")
               expect(page).to_not have_content("Delete")
             end
           end
