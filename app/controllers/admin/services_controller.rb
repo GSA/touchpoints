@@ -8,13 +8,16 @@ class Admin::ServicesController < AdminController
     :omb_cx_reporting,
     :add_tag,
     :remove_tag,
+    :versions,
+    :export_versions
   ]
-
+  before_action :set_paper_trail_whodunnit
   before_action :set_service_owner_options, only: [
     :new,
     :create,
     :edit,
-    :update
+    :update,
+    :export_verions
   ]
 
   before_action :set_service_providers, only: [
@@ -38,6 +41,16 @@ class Admin::ServicesController < AdminController
       end
     end
     @tags = Service.tag_counts_on(:tags)
+  end
+
+  def versions
+    @versions = @service.versions.limit(500).order("created_at DESC").page params[:page]
+  end
+
+  def export_versions
+    ensure_admin
+    ExportVersionsJob.perform_later(params[:uuid], @service,'touchpoints-service-versions.csv')
+    render json: { result: :ok }
   end
 
   def export_csv

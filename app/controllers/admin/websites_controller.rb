@@ -14,7 +14,8 @@ class Admin::WebsitesController < AdminController
     :dendrogram,
     :add_tag,
     :remove_tag,
-    :versions
+    :versions,
+    :export_versions
   ]
 
   def index
@@ -32,7 +33,7 @@ class Admin::WebsitesController < AdminController
 
   def export_versions
     ensure_admin
-    ExportWebsiteVersionsJob.perform_later(params[:uuid], @website.id)
+    ExportVersionsJob.perform_later(params[:uuid], @website, 'touchpoints-website-versions.csv')
     render json: { result: :ok }
   end
 

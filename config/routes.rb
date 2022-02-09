@@ -88,6 +88,8 @@ Rails.application.routes.draw do
         post "verify", to: "services#verify", as: :verify
         post "archive", to: "services#archive", as: :archive
         post "reset", to: "services#reset", as: :reset
+        get "versions", to: "services#versions", as: :versions
+        get "versions_export", to: "services#export_versions", as: :export_versions
       end
 
       resources :service_stages, except: [:index]
