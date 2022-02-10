@@ -50,7 +50,13 @@
       <strong>Description:</strong>
       <%= @service_provider.description %>
     </p>
-
+    <p>
+      <strong>Service provider managers</strong>
+      <br>
+      <% @service_provider.service_provider_managers.each do | manager | %>
+        <%= manager.try(:email) %>&nbsp;&nbsp;
+      <% end %>
+    </p>
     <p>
       <strong>Notes:</strong>
       <%= @service_provider.notes %>
