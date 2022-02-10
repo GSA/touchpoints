@@ -134,9 +134,24 @@
                     <% end %>
                   </li>
                   <li>
-                    <%= link_to admin_hisps_path do %>
-                    <span>hisps.csv for Performance.gov/cx/</span>
-                    <% end %>
+                      CSV files for performance.gov/cx
+                    <ul>
+                      <li>
+                        <%= link_to admin_hisps_path(format: :csv) do %>
+                        <span>hisps.csv</span>
+                        <% end %>
+                      </li>
+                      <li>
+                        <%= link_to admin_hisp_services_path(format: :csv) do %>
+                        <span>hisp_services.csv</span>
+                        <% end %>
+                      </li>
+                      <li>
+                        <%= link_to admin_hisp_service_cx_data_collections_path(format: :csv) do %>
+                        <span>hisp_service_cx_data_collections.csv</span>
+                        <% end %>
+                      </li>
+                    </ul>
                   </li>
                   <li>
                     <%= link_to admin_lifespan_path do %>

@@ -159,4 +159,12 @@ class OmbCxReportingCollection < ApplicationRecord
   def volume_total
     self.q1_total + self.q2_total + self.q3_total + self.q4_total + self.q5_total + self.q6_total + self.q7_total + self.q8_total + self.q9_total + self.q10_total + self.q11_total
   end
+
+  def collection_name
+    self.collection.name
+  end
+
+  def service_name
+    self.service.name
+  end
 end

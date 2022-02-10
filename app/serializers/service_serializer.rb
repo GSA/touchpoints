@@ -2,7 +2,19 @@ class ServiceSerializer < ActiveModel::Serializer
   attributes :id,
     :name,
     :description,
+    :organization_id,
     :organization_name,
+    :service_provider_id,
     :service_provider_name,
-    :notes
+    :justification_text,
+    :kind,
+    :notes,
+    :hisp,
+    :department,
+    :bureau,
+    :bureau_abbreviation,
+    :service_abbreviation,
+    :service_slug,
+    :service_owner_email,
+    :url
 end

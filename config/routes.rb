@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       resources :forms, only: [:index, :show]
     end
     namespace :v1 do
+      resources :collections, only: [:index]
       resources :organizations, only: [:index]
       resources :forms, only: [:index, :show]
       resources :websites, only: [:index]
@@ -46,6 +47,7 @@ Rails.application.routes.draw do
   namespace :admin do
     get "/reporting/hisps/hisps", to: "reporting#hisps", as: :hisps
     get "/reporting/hisps/hisp_services", to: "reporting#hisp_services", as: :hisp_services
+    get "/reporting/hisps/hisp_service_cx_data_collections", to: "reporting#hisp_service_cx_data_collections", as: :hisp_service_cx_data_collections
 
     get "/reporting/lifespan", to: "reporting#lifespan", as: :lifespan
     get "/reporting/no_submissions", to: "reporting#no_submissions", as: :no_submissions
@@ -68,6 +70,8 @@ Rails.application.routes.draw do
       member do
         post "add_tag", to: "service_providers#add_tag", as: :add_tag
         post "remove_tag", to: "service_providers#remove_tag", as: :remove_tag
+        post "add_service_provider_manager", to: "service_providers#add_service_provider_manager", as: :add_service_provider_manager
+        post "remove_service_provider_manager", to: "service_providers#remove_service_provider_manager", as: :remove_service_provider_manager
       end
     end
     resources :services do
@@ -80,6 +84,9 @@ Rails.application.routes.draw do
         get "cx-reporting", to: "services#omb_cx_reporting", as: :omb_cx_reporting
         post "add_tag", to: "services#add_tag", as: :add_tag
         post "remove_tag", to: "services#remove_tag", as: :remove_tag
+        post "add_service_manager", to: "services#add_service_manager", as: :add_service_manager
+        post "remove_service_manager", to: "services#remove_service_manager", as: :remove_service_manager
+
 
         post "submit", to: "services#submit", as: :submit
         post "approve", to: "services#approve", as: :approve
