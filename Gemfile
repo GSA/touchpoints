@@ -37,6 +37,7 @@ gem 'whenever', require: false
 gem 'logstop'
 gem 'paper_trail'
 gem 'acts-as-taggable-on', '~> 8.0'
+gem "rolify"
 
 group :development, :test do
   gem 'dotenv-rails', '>= 2.7.6'

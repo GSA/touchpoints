@@ -61,6 +61,13 @@
       <%= @service.service_owner.try(:email) %>
     </p>
     <p>
+      <strong>Service managers</strong>
+      <br>
+      <% @service.service_managers.each do | manager | %>
+        <%= manager.try(:email) %>&nbsp;&nbsp;
+      <% end %>
+    </p>
+    <p>
       <strong>Service type</strong>
       <br>
       <%= @service.kind %>

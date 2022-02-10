@@ -8,6 +8,8 @@ class Admin::ServicesController < AdminController
     :omb_cx_reporting,
     :add_tag,
     :remove_tag,
+    :add_service_manager,
+    :remove_service_manager,
     :versions,
     :export_versions
   ]
@@ -17,6 +19,8 @@ class Admin::ServicesController < AdminController
     :create,
     :edit,
     :update,
+    :add_service_manager,
+    :remove_service_manager,
     :export_verions
   ]
 
@@ -168,6 +172,16 @@ class Admin::ServicesController < AdminController
     @service.save
   end
 
+  def add_service_manager
+    @manager = User.find(params[:user_id])
+    @manager.add_role :service_manager, @service unless @manager.has_role?(:service_manager, @service)
+  end
+
+  def remove_service_manager
+    @manager = User.find(params[:user_id])
+    @manager.remove_role :service_manager, @service
+  end
+
   def equity_assessment
   end
 
@@ -190,13 +204,15 @@ class Admin::ServicesController < AdminController
 
     def set_service_owner_options
       if service_manager_permissions?
-        @service_owner_options = User.active
+        @service_owner_options = User.active.order("email")
       else
-        @service_owner_options = current_user.organization.users
+        @service_owner_options = current_user.organization.users.active.order("email")
+      end
+
+      if @service
+        @service_owner_options = @service_owner_options - @service.service_managers
       end
     end
-
-
 
     def service_params
       params.require(:service).permit(

@@ -70,6 +70,8 @@ Rails.application.routes.draw do
       member do
         post "add_tag", to: "service_providers#add_tag", as: :add_tag
         post "remove_tag", to: "service_providers#remove_tag", as: :remove_tag
+        post "add_service_provider_manager", to: "service_providers#add_service_provider_manager", as: :add_service_provider_manager
+        post "remove_service_provider_manager", to: "service_providers#remove_service_provider_manager", as: :remove_service_provider_manager
       end
     end
     resources :services do
@@ -82,6 +84,9 @@ Rails.application.routes.draw do
         get "cx-reporting", to: "services#omb_cx_reporting", as: :omb_cx_reporting
         post "add_tag", to: "services#add_tag", as: :add_tag
         post "remove_tag", to: "services#remove_tag", as: :remove_tag
+        post "add_service_manager", to: "services#add_service_manager", as: :add_service_manager
+        post "remove_service_manager", to: "services#remove_service_manager", as: :remove_service_manager
+
 
         post "submit", to: "services#submit", as: :submit
         post "approve", to: "services#approve", as: :approve

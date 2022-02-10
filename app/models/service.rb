@@ -1,6 +1,7 @@
 require 'csv'
 
 class Service < ApplicationRecord
+  resourcify
   include AASM
   has_paper_trail
 
@@ -17,6 +18,7 @@ class Service < ApplicationRecord
   scope :hisp, -> { where(hisp: true) }
 
   after_create :create_default_service_stages
+  after_create :create_roles
 
   aasm do
     state :created, initial: true
@@ -48,6 +50,10 @@ class Service < ApplicationRecord
     self.service_stages.create(position: 100, name: :end)
   end
 
+  def create_roles
+    service_owner.add_role :service_manager, self
+  end
+
   def owner?(user:)
     return false unless user
 
@@ -58,6 +64,10 @@ class Service < ApplicationRecord
     return nil unless self.service_owner_id
 
     User.find_by_id(self.service_owner_id)
+  end
+
+  def service_managers
+    User.with_role(:service_manager, self)
   end
 
   def service_owner_email
