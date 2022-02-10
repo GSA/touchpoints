@@ -119,6 +119,7 @@ class ApplicationController < ActionController::Base
   helper_method :service_permissions?
   def service_permissions?(service:)
     return false unless service.present?
+    return true if current_user.has_role?(:service_manager, service)
     return true if service_manager_permissions?
     return true if admin_permissions?
 
@@ -137,7 +138,7 @@ class ApplicationController < ActionController::Base
   def form_permissions?(form:)
     return false unless form.present?
     return true if admin_permissions?
-
+    return true if current_user.has_role?(:form_manager, form)
     (form.user_role?(user: current_user) == UserRole::Role::FormManager)
   end
 

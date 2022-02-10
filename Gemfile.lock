@@ -337,6 +337,7 @@ GEM
       actionpack (>= 5.0)
       railties (>= 5.0)
     rexml (3.2.5)
+    rolify (6.0.0)
     rspec-core (3.10.1)
       rspec-support (~> 3.10.0)
     rspec-expectations (3.10.1)
@@ -457,6 +458,7 @@ DEPENDENCIES
   rails-controller-testing (>= 1.0.5)
   redis
   redis-namespace
+  rolify
   rspec-rails (>= 5.0.2)
   rspec_junit_formatter
   sass-rails (>= 6.0.0)

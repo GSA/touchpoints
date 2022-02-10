@@ -40,16 +40,26 @@
         Contact
         <a href="mailto:feedback-analytics@gsa.gov">support</a> for assistance.
       </small>
-      <%= form.select :service_provider_id, options_for_select(@service_providers.map { |p| ["#{p.organization.abbreviation} - #{p.name}", p.id] }, service.service_provider_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
+      <%= form.select :service_provider_id, options_for_select(@service_providers.map { |p| ["#{p.organization.abbreviation} - #{p.name}", p.id] }, service.service_provider_id), { prompt: "Which Organization?" }, { class: "usa-select", required: true } %>
     </div>
 
     <div class="field">
       <%= form.label :service_owner_id, class: "usa-label" %>
-      <%= form.select :service_owner_id, options_for_select(@service_owner_options.order("email").map { |u| [u.email, u.id] }, service.service_owner_id), { prompt: "Which User?" }, { class: "usa-select" } %>
+      <%= form.select :service_owner_id, options_for_select(@service_owner_options.map { |u| [u.email, u.id] }, service.service_owner_id), { prompt: "Which User?" }, { class: "usa-select" } %>
     </div>
 
+    <% if service_manager_permissions? && service.persisted? %>
+      <div class="field">
+        <div class="well">
+          <div class="service-managers-div">
+            <%= render 'admin/services/service_managers', service: @service, service_owner_options: @service_owner_options %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
     <div class="field">
-      <%= form.label :name, class: "usa-label" %>
+      <%= form.label :name, class: "usa-label", required: true %>
       <small>
         Include a verb (an action the customer takes) in the context of the service offering (the thing the customer is trying to accomplish).
       </small>

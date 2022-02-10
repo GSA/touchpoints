@@ -21,17 +21,13 @@
       <% if !@website.persisted? %>
       <div class="field">
         <%= form.label :type_of_site, class: "usa-label" %>
-        <%= form.select :type_of_site, options_for_select(Website::TYPE_OF_SITES.collect { |k, v| ["#{k} - #{v}", k] }, selected: website.type_of_site), { include_blank: true }, { class: "usa-select" } %>
-      </div>
-      <div class="field">
-        <%= form.label :notes, class: "usa-label" %>
-        <%= form.text_area :notes, class: "usa-textarea" %>
+        <%= form.select :type_of_site, options_for_select(Website::TYPE_OF_SITES.collect { |k, v| ["#{k} - #{v}", k] }, selected: website.type_of_site), { include_blank: true }, { class: "usa-select", required: true } %>
       </div>
       <% end %>
 
       <div class="field">
         <%= form.label :domain, class: "usa-label" %>
-        <%= form.text_field :domain, class: "usa-input" %>
+        <%= form.text_field :domain, class: "usa-input", required: true %>
       </div>
       <div class="field">
         <%= form.label :office, class: "usa-label" %>
@@ -49,6 +45,12 @@
         <%= form.label :contact_email, class: "usa-label" %>
         <%= form.text_field :contact_email, class: "usa-input" %>
       </div>
+      <% if !@website.persisted? %>
+      <div class="field">
+        <%= form.label :notes, class: "usa-label" %>
+        <%= form.text_area :notes, class: "usa-textarea" %>
+      </div>
+      <% end %>
     </div>
     <div class="grid-col-6">
       <% if @website.persisted? %>
@@ -71,19 +73,19 @@
       <fieldset class="usa-fieldset">
         <div class="usa-checkbox">
           <%= form.check_box :https, class: "usa-checkbox__input" %>
-          <%= form.label :https, "Uses https?", class: "usa-checkbox__label" %>
+          <%= form.label :https, "Site uses https", class: "usa-checkbox__label" %>
         </div>
       </fieldset>
       <fieldset class="usa-fieldset">
         <div class="usa-checkbox">
           <%= form.check_box :mobile_friendly, class: "usa-checkbox__input" %>
-          <%= form.label :mobile_friendly, class: "usa-checkbox__label" %>
+          <%= form.label :mobile_friendly, "Site is mobile-friendly", class: "usa-checkbox__label" %>
         </div>
       </fieldset>
       <fieldset class="usa-fieldset">
         <div class="usa-checkbox">
           <%= form.check_box :has_search, class: "usa-checkbox__input" %>
-          <%= form.label :has_search, class: "usa-checkbox__label" %>
+          <%= form.label :has_search, "Site has 'search' as a feature", class: "usa-checkbox__label" %>
         </div>
       </fieldset>
       <% end %>
@@ -102,6 +104,13 @@
       <div class="field">
         <%= form.label :required_by_law_or_policy, class: "usa-label" %>
         <%= form.text_field :required_by_law_or_policy, class: "usa-input" %>
+      </div>
+      <div class="field">
+        <%= form.label :service_id, "Service", class: "usa-label" %>
+        <small>
+          Associate this website with a <%= link_to "Service", admin_services_path %>.
+        </small>
+        <%= form.select :service_id, options_for_select(Service.all.includes(:organization).order("organizations.name").collect { |service| "#{service.organization.name} - #{service.name}" }, selected: website.type_of_site), { include_blank: true }, { class: "usa-select" } %>
       </div>
       <div class="field">
         <%= form.label :type_of_site, class: "usa-label" %>

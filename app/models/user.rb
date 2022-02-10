@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  rolify
   # Include default devise modules. Others available are:
   # :lockable
   # :rememberable
@@ -35,6 +36,12 @@ class User < ApplicationRecord
   validates :email, presence: true, if: :tld_check
 
   scope :active, -> { where("inactive ISNULL or inactive = false") }
+
+  scope :admins, -> { where(admin: true) }
+  scope :performance_managers, -> { where(performance_manager: true) }
+  scope :registry_managers, -> { where(registry_manager: true) }
+  scope :service_managers, -> { where(service_manager: true) }
+  scope :organizational_website_managers, -> { where(organizational_website_manager: true) }
 
   def self.admins
     User.where(admin: true)

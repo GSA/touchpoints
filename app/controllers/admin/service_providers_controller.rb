@@ -1,6 +1,15 @@
 class Admin::ServiceProvidersController < AdminController
-  before_action :set_service_provider, only: [:show, :edit, :update, :destroy, :add_tag, :remove_tag]
+  before_action :set_service_provider, only: [:show, :edit, :update, :destroy, :add_tag, :remove_tag, :add_service_provider_manager,:remove_service_provider_manager,]
   before_action :ensure_admin, except: [:show]
+
+  before_action :set_service_provider_manager_options, only: [
+    :new,
+    :create,
+    :edit,
+    :update,
+    :add_service_provider_manager,
+    :remove_service_provider_manager,
+  ]
 
   def index
     @service_providers = ServiceProvider.all.includes(:organization).order("organizations.name", "service_providers.name")
@@ -63,9 +72,31 @@ class Admin::ServiceProvidersController < AdminController
     @service_provider.save
   end
 
+  def add_service_provider_manager
+    @manager = User.find(params[:user_id])
+    @manager.add_role :service_provider_manager, @service unless @manager.has_role?(:service_provider_manager, @service)
+  end
+
+  def remove_service_provider_manager
+    @manager = User.find(params[:user_id])
+    @manager.remove_role :service_provider_manager, @service
+  end
+
   private
     def set_service_provider
       @service_provider = ServiceProvider.find(params[:id])
+    end
+
+    def set_service_provider_manager_options
+      if service_manager_permissions?
+        @service_provider_manager_options = User.active.order("email")
+      else
+        @service_provider_manager_options = current_user.organization.users.active.order("email")
+      end
+
+      if @service_provider_manager_options
+        @service_provider_manager_options = @service_provider_manager_options - @service_provider.service_provider_managers
+      end
     end
 
     def service_provider_params

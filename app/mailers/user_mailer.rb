@@ -77,7 +77,7 @@ class UserMailer < ApplicationMailer
 
     set_logo
     @website = website
-    @emails = ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
+    @emails = (ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",") + User.organizational_website_managers.collect(&:email)).uniq
     mail subject: "Touchpoints notification: Website created", to: @emails
   end
 
