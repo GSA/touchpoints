@@ -19,7 +19,7 @@
 	  	<p>
 	  </div>
 	</div>
-  <%= f.select :service_manager_id, options_for_select(@service_owner_options.order("email").map { |u| [u.email, u.id] }), { prompt: "Choose a Manager?" }, { class: "usa-select add-service-manager" } %>
+  <%= f.select :service_manager_id, options_for_select(service_owner_options.map { |u| [u.email, u.id] }), { prompt: "Choose a Manager?" }, { class: "usa-select add-service-manager" } %>
 <% end %>
 <script>
   $(".add-service-manager").change(function(e) {

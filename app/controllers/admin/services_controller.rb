@@ -191,9 +191,13 @@ class Admin::ServicesController < AdminController
 
     def set_service_owner_options
       if service_manager_permissions?
-        @service_owner_options = User.active
+        @service_owner_options = User.active.order("email")
       else
-        @service_owner_options = current_user.organization.users
+        @service_owner_options = current_user.organization.users.active.order("email")
+      end
+
+      if @service
+        @service_owner_options = @service_owner_options - @service.service_managers
       end
     end
 
