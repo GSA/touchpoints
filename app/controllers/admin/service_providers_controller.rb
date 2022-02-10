@@ -89,9 +89,13 @@ class Admin::ServiceProvidersController < AdminController
 
     def set_service_provider_manager_options
       if service_manager_permissions?
-        @service_provider_manager_options = User.active
+        @service_provider_manager_options = User.active.order("email")
       else
-        @service_provider_manager_options = current_user.organization.users
+        @service_provider_manager_options = current_user.organization.users.active.order("email")
+      end
+
+      if @service_provider_manager_options
+        @service_provider_manager_options = @service_provider_manager_options - @service_provider.service_provider_managers
       end
     end
 
