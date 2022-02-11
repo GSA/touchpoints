@@ -118,6 +118,8 @@ Rails.application.routes.draw do
         patch "update_parent_id", to: "goals#update_parent_id", as: :update_parent_id
         get "targets", to: "goals#goal_targets", as: :targets
         get "goal_objectives", to: "goals#goal_objectives", as: :goal_objectives
+        post "add_tag", to: "goals#add_tag", as: :add_tag
+        post "remove_tag", to: "goals#remove_tag", as: :remove_tag
       end
       resources :goal_targets
       resources :objectives
