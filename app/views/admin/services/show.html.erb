@@ -131,9 +131,9 @@
         <%= link_to @service.url, @service.url %>
       </p>
     </div>
+    <%= link_to "View update history", versions_admin_service_path(@service) %>
   </div>
 </div>
-
 
 <% all_stages = @service.service_stages %>
 <% first_stage = all_stages.first %>
