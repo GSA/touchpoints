@@ -68,7 +68,9 @@ RSpec.describe "/omb_cx_reporting_collections", js: true do
         fill_in :omb_cx_reporting_collection_service_provided, with: "Description of your service"
         travel 10.minutes
         click_on "Update CX Service Detail Report"
-        expect(page).to have_content("Omb cx reporting collection was successfully created.")
+        expect(page).to have_content(collection.name)
+        expect(page).to have_content(service.name)
+        expect(page).to have_content("Description of your service")
       end
     end
   end
