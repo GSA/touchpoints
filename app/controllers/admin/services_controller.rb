@@ -48,6 +48,7 @@ class Admin::ServicesController < AdminController
   end
 
   def versions
+    ensure_service_manager_permissions
     @versions = @service.versions.limit(500).order("created_at DESC").page params[:page]
   end
 
@@ -58,8 +59,6 @@ class Admin::ServicesController < AdminController
   end
 
   def export_csv
-    ensure_service_manager_permissions
-
     @services = Service.all
     send_data @services.to_csv, filename: "touchpoints-services-#{Date.today}.csv"
   end

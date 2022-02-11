@@ -131,7 +131,9 @@
         <%= link_to @service.url, @service.url %>
       </p>
     </div>
-    <%= link_to "View update history", versions_admin_service_path(@service) %>
+    <% if service_manager_permissions? %>
+      <%= link_to "View update history", versions_admin_service_path(@service) %>
+    <% end %>
   </div>
 </div>
 
