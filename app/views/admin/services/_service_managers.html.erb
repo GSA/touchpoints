@@ -21,23 +21,29 @@
 	</div>
   <%= f.select :service_manager_id, options_for_select(service_owner_options.map { |u| [u.email, u.id] }), { prompt: "Choose a Manager?" }, { class: "usa-select add-service-manager" } %>
 <% end %>
+
 <script>
-  $(".add-service-manager").change(function(e) {
-  	event.preventDefault();
-  	var thisForm = $(this).closest("form");
-  	$.ajax({
-  	  url: thisForm.attr("action") + "/add_service_manager",
-  	  type: 'post',
-  	  data: "user_id=" + $(this).val()
-  	});
-  });
-  $(".remove-manager-link").click(function(e) {
-    event.preventDefault();
-    var thisForm = $(this).closest("form");
-    $.ajax({
-      url: thisForm.attr("action") + "/remove_service_manager",
-      type: 'post',
-      data: "user_id=" + $(this).attr("data-value")
-    });
-  });
+	$(function() {
+		$(".add-service-manager").on("change", function(e) {
+			e.preventDefault();
+
+			var thisForm = $(this).closest("form");
+			$.ajax({
+				url: thisForm.attr("action") + "/add_service_manager",
+				type: 'post',
+				data: "user_id=" + $(this).val()
+			});
+		});
+
+		$(".remove-manager-link").on("click", function(e) {
+			e.preventDefault();
+
+			var thisForm = $(this).closest("form");
+			$.ajax({
+				url: thisForm.attr("action") + "/remove_service_manager",
+				type: 'post',
+				data: "user_id=" + $(this).attr("data-value")
+			});
+		});
+	});
 </script>
