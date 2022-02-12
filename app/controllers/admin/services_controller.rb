@@ -10,8 +10,10 @@ class Admin::ServicesController < AdminController
     :remove_tag,
     :add_service_manager,
     :remove_service_manager,
+    :versions,
+    :export_versions
   ]
-
+  before_action :set_paper_trail_whodunnit
   before_action :set_service_owner_options, only: [
     :new,
     :create,
@@ -19,6 +21,7 @@ class Admin::ServicesController < AdminController
     :update,
     :add_service_manager,
     :remove_service_manager,
+    :export_verions
   ]
 
   before_action :set_service_providers, only: [
@@ -44,9 +47,18 @@ class Admin::ServicesController < AdminController
     @tags = Service.tag_counts_on(:tags)
   end
 
-  def export_csv
+  def versions
     ensure_service_manager_permissions
+    @versions = @service.versions.limit(500).order("created_at DESC").page params[:page]
+  end
 
+  def export_versions
+    ensure_admin
+    ExportVersionsJob.perform_later(params[:uuid], @service,'touchpoints-service-versions.csv')
+    render json: { result: :ok }
+  end
+
+  def export_csv
     @services = Service.all
     send_data @services.to_csv, filename: "touchpoints-services-#{Date.today}.csv"
   end
