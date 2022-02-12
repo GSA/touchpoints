@@ -20,7 +20,7 @@ function sendActiveSignal(url) {
   return $.ajax({
     type: "GET",
     url: url
-  }).success(function() {
+  }).done(function() {
     console.log("💗 web server acknowledges Touchpoints ActiveSignal")
   });
 }
