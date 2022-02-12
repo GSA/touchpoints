@@ -46,7 +46,7 @@ RSpec.describe "/omb_cx_reporting_collections", js: true do
       expect(page).to have_content("New Omb Cx Reporting Collection")
     end
 
-    describe "" do
+    describe "update an omb cx reporting collection" do
       before do
         select(collection.name, from: "omb_cx_reporting_collection_collection_id")
         select(service.name, from: "omb_cx_reporting_collection_service_id")
@@ -60,13 +60,18 @@ RSpec.describe "/omb_cx_reporting_collections", js: true do
     end
 
     describe "heartbeat" do
-      it "display successful flash message after more than 15 mins on page" do
-        # Pause 10 mins in between each UI interaction
-        travel 10.minutes
+      it "form blurs send an ActiveSignal to keep the user's session active" do
         select(collection.name, from: "omb_cx_reporting_collection_collection_id")
         select(service.name, from: "omb_cx_reporting_collection_service_id")
         fill_in :omb_cx_reporting_collection_service_provided, with: "Description of your service"
+        # Pause 10 mins in between a UI interaction
         travel 10.minutes
+        # trigger a blur
+        execute_script("$('#omb_cx_reporting_collection_transaction_point').blur()")
+        # wait for a response, because there is no UI indicator to assert for
+        sleep 1.0
+
+        travel 14.minutes
         click_on "Update CX Service Detail Report"
         expect(page).to have_content("Omb cx reporting collection was successfully created.")
       end

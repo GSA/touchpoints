@@ -61,7 +61,7 @@ Rails.application.routes.draw do
 
     resources :personas
 
-    get "/heartbeat", to: "site#heartbeat", as: :heartbeat
+    get "heartbeat", to: "site#heartbeat", as: :heartbeat
     get "a11", to: "site#a11", as: :a11
     resources :service_providers do |*args|
       collection do
@@ -93,6 +93,8 @@ Rails.application.routes.draw do
         post "verify", to: "services#verify", as: :verify
         post "archive", to: "services#archive", as: :archive
         post "reset", to: "services#reset", as: :reset
+        get "versions", to: "services#versions", as: :versions
+        get "versions_export", to: "services#export_versions", as: :export_versions
       end
 
       resources :service_stages, except: [:index]
@@ -118,6 +120,8 @@ Rails.application.routes.draw do
         patch "update_parent_id", to: "goals#update_parent_id", as: :update_parent_id
         get "targets", to: "goals#goal_targets", as: :targets
         get "goal_objectives", to: "goals#goal_objectives", as: :goal_objectives
+        post "add_tag", to: "goals#add_tag", as: :add_tag
+        post "remove_tag", to: "goals#remove_tag", as: :remove_tag
       end
       resources :goal_targets
       resources :objectives

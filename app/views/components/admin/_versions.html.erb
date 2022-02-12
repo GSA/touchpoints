@@ -1,0 +1,63 @@
+<% content_for :navigation_title do %>
+  <%= title %>
+<% end %>
+<p>
+<%= link_to return_path do %>
+  <i class="fa fa-arrow-circle-left"></i>
+  Back
+<% end %>
+</p>
+<table class="usa-table">
+  <thead>
+  <tr>
+    <th>Event</th>
+    <th>Created at</th>
+    <th>User email</th>
+    <th>Changeset</th>
+  </tr>
+  </thead>
+  <tbody>
+    <% @users = User.all %>
+    <% @user_email_map = {} %>
+    <% @users.map { |user| @user_email_map[user.id] = user.email } %>
+    <% @versions.reverse.each do |version| %>
+    <tr>
+      <td><%= version.event %></td>
+      <td><%= version.created_at %></td>
+      <td><%= @user_email_map[version.whodunnit.to_i] %></td>
+      <td><%= version.changeset %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate @versions %>
+<% if admin_permissions? %>
+<p>
+  <%= link_to export_path, class: "usa-button export-btn", target: "_blank", rel: "noopener" do %>
+    <i class="fa fa-download"></i>
+    Export Versions to CSV
+  <% end %>
+</p>
+<% end %>
+<script>
+  $(function() {
+    $('.export-btn').on("click", function(e) {
+      e.preventDefault();
+
+      if ($(this).text() == "Exporting...") {
+        console.log("Click disabled while exporting");
+        return false;
+      }
+
+      var uuid = generateUUID();
+      $(this).html('Exporting...').addClass('cursor-not-allowed');
+
+      var url = $(this).attr('href') + '?uuid=' + uuid + '';
+      subscribeExportChannel(uuid, function() {
+        $.get(url);
+      });
+
+      return false;
+    });
+  });
+</script>
