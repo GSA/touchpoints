@@ -344,5 +344,7 @@
 </p>
 <% end %>
 <script>
-  window.sendHeartbeat("<%= admin_heartbeat_path() %>");
+  $(function() {
+    setHeartbeat("<%= admin_heartbeat_path %>");
+  });
 </script>

@@ -61,7 +61,7 @@ Rails.application.routes.draw do
 
     resources :personas
 
-    get "/heartbeat", to: "site#heartbeat", as: :heartbeat
+    get "heartbeat", to: "site#heartbeat", as: :heartbeat
     get "a11", to: "site#a11", as: :a11
     resources :service_providers do |*args|
       collection do
