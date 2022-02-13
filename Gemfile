@@ -8,7 +8,7 @@ gem 'acts-as-list'
 gem 'aws-sdk-rails', '>= 3.6.1'
 gem 'caracal', '>= 1.4.1'
 gem 'carrierwave', '>= 2.2.1'
-gem 'devise', '>= 4.8.0'
+gem 'devise', '>= 4.8.1'
 gem 'fog-aws', '>= 3.12.0'
 gem 'jquery-rails', '>= 4.4.0'
 gem 'jquery-ui-rails', '>= 6.0.1'
@@ -18,7 +18,7 @@ gem 'mini_magick'
 gem 'newrelic_rpm'
 gem 'omniauth-github'
 gem 'omniauth_login_dot_gov', git: 'https://github.com/18F/omniauth_login_dot_gov.git', branch: 'main'
-gem 'rails', '>= 6.1.4.4'
+gem 'rails', '>= 6.1.4.6'
 gem 'pg', '~> 1.3.1'
 gem 'puma', '~> 5.6.2'
 gem 'rack-cors', '>= 1.1.1', require: 'rack/cors'
@@ -47,7 +47,7 @@ end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'web-console', '>= 4.1.0'
+  gem 'web-console', '>= 4.2.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
 end
 
@@ -57,7 +57,7 @@ group :test do
   gem 'database_cleaner'
   gem 'factory_bot_rails', '>= 6.2.0'
   gem 'rails-controller-testing', '>= 1.0.5'
-  gem 'rspec-rails', '>= 5.0.2'
+  gem 'rspec-rails', '>= 5.1.0'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
   # gem 'chromedriver-helper'
