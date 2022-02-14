@@ -73,9 +73,11 @@
     <div class="grid-row">
       <div class="grid-col-6">
         <label class="usa-label" for="site_owner_email">
-          Website manager email
+          Website managers emails
         </label>
-        <%= @website.site_owner_email %>
+        <% @website.website_managers.each do | manager | %>
+          <%= manager.try(:email) %>&nbsp;&nbsp;
+        <% end %>
         &nbsp;
       </div>
       <div class="grid-col-6">
