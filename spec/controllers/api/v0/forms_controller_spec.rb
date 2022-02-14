@@ -25,7 +25,7 @@ describe Api::V0::FormsController, type: :controller do
       end
     end
 
-    describe "passing an invalid API_KEY" do
+    describe "passing an invalid API_KEY by parameter" do
       before do
         request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch("API_HTTP_USERNAME"), ENV.fetch("API_HTTP_PASSWORD"))
         get :index, format: :json, params: { "API_KEY" => "INVALID_KEY" }
@@ -38,8 +38,49 @@ describe Api::V0::FormsController, type: :controller do
       end
     end
 
+    describe "overloading keys" do
+      context "passing an invalid API_KEY by header and valid api key by parameter" do
+        let!(:user) { FactoryBot.create(:user) }
+        let(:form) { FactoryBot.create(:form, :with_responses, user: user, organization: user.organization) }
+        let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: user, form: form) }
+
+        before do
+          user.update(api_key: TEST_API_KEY)
+          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch("API_HTTP_USERNAME"), ENV.fetch("API_HTTP_PASSWORD"))
+          request.headers["HTTP_X_API_KEY"] = 'INVALID_KEY'
+          get :index, format: :json, params: { "API_KEY" => user.api_key }
+        end
+
+        it "get access denied due to HTTP Basic Auth" do
+          parsed_response = JSON.parse(response.body)
+          expect(response.status).to eq(401)
+          expect(parsed_response["error"]["message"]).to eq("The API_KEY INVALID_KEY is not valid.")
+        end
+      end
+    end
+
     describe "#index" do
-      context "passing a valid API_KEY" do
+      context "passing a valid API_KEY header" do
+        let!(:user) { FactoryBot.create(:user) }
+        let(:form) { FactoryBot.create(:form, :with_responses, user: user, organization: user.organization) }
+        let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: user, form: form) }
+
+        before do
+          user.update(api_key: TEST_API_KEY)
+          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch("API_HTTP_USERNAME"), ENV.fetch("API_HTTP_PASSWORD"))
+          request.headers["HTTP_X_API_KEY"] = user.api_key
+          get :index, format: :json
+        end
+
+        it "return an array of forms" do
+          parsed_response = JSON.parse(response.body)
+          expect(response.status).to eq(200)
+          expect(parsed_response["forms"].class).to be(Array)
+          expect(parsed_response["forms"].size).to eq(1)
+        end
+      end
+
+      context "passing a valid API_KEY param" do
         let!(:user) { FactoryBot.create(:user) }
         let(:form) { FactoryBot.create(:form, :with_responses, user: user, organization: user.organization) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: user, form: form) }
