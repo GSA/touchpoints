@@ -47,7 +47,7 @@ describe Api::V0::FormsController, type: :controller do
         before do
           user.update(api_key: TEST_API_KEY)
           request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch("API_HTTP_USERNAME"), ENV.fetch("API_HTTP_PASSWORD"))
-          request.headers["HTTP_X_API_KEY"] = 'INVALID_KEY'
+          request.headers["X-Api-Key"] = 'INVALID_KEY'
           get :index, format: :json, params: { "API_KEY" => user.api_key }
         end
 
@@ -68,7 +68,7 @@ describe Api::V0::FormsController, type: :controller do
         before do
           user.update(api_key: TEST_API_KEY)
           request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch("API_HTTP_USERNAME"), ENV.fetch("API_HTTP_PASSWORD"))
-          request.headers["HTTP_X_API_KEY"] = user.api_key
+          request.headers["X-Api-Key"] = user.api_key
           get :index, format: :json
         end
 
