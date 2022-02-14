@@ -36,7 +36,11 @@
       <% @websites.order(:production_status).each do |website| %>
         <tr>
           <td><%= link_to("View", admin_website_path(website), class: "usa-button usa-button--outline") %></td>
-          <td><%= website.production_status %></td>
+          <td data-sort-value="<%= website_status_sort_values[website.production_status] %>">
+            <span class="usa-tag <%= website_status_label_tags(website.production_status) %>">
+              <%= website.production_status %>
+            </span>
+          </td>
           <td><%= website.office %></td>
           <td><%= website.sub_office %></td>
           <td><%= website.domain %></td>
