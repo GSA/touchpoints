@@ -1,35 +1,35 @@
 <%= form_with(model: @website, url: admin_website_path(@website), local: true) do |f| %>
-	<div class="grid-row">
-	  <div class="grid-col-12">
-	  	<h3>Website Managers</h3>
-	  	<p class="website-manager-list">
-			<ul class="usa-list usa-list--unstyled">
-				<% @website.website_managers.each do |manager| %>
-				<li style="margin-bottom: 3px;">
-					<span class="usa-tag">
-					   <%= manager.email %>
-					</span>
+  <div class="grid-row">
+    <div class="grid-col-12">
+      <h3>Website Managers</h3>
+      <p class="website-manager-list">
+      <ul class="usa-list usa-list--unstyled">
+        <% @website.website_managers.each do |manager| %>
+        <li style="margin-bottom: 3px;">
+          <span class="usa-tag">
+             <%= manager.email %>
+          </span>
           &nbsp;
-					<a href="javascript:void(0);" class="remove-manager-link" data-value="<%= manager.id %>">
-						<span class="fa fa-trash"></span>
-					</a>
-				</li>
-	  			<% end %>
-			</ul>
-	  	<p>
-	  </div>
-	</div>
+          <a href="javascript:void(0);" class="remove-manager-link" data-value="<%= manager.id %>">
+            <span class="fa fa-trash"></span>
+          </a>
+        </li>
+          <% end %>
+      </ul>
+      <p>
+    </div>
+  </div>
   <%= f.select :website_manager_id, options_for_select(@website_manager_options.map { |u| [u.email, u.id] }), { prompt: "Choose a Manager?" }, { class: "usa-select add-website-manager" } %>
 <% end %>
 <script>
   $(".add-website-manager").change(function(e) {
-  	event.preventDefault();
-  	var thisForm = $(this).closest("form");
-  	$.ajax({
-  	  url: thisForm.attr("action") + "/add_website_manager",
-  	  type: 'post',
-  	  data: "user_id=" + $(this).val()
-  	});
+    event.preventDefault();
+    var thisForm = $(this).closest("form");
+    $.ajax({
+      url: thisForm.attr("action") + "/add_website_manager",
+      type: 'post',
+      data: "user_id=" + $(this).val()
+    });
   });
   $(".remove-manager-link").click(function(e) {
     event.preventDefault();
