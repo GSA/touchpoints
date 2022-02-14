@@ -24,7 +24,7 @@
     <%= render 'components/header' %>
     <% unless content_for?(:full_layout) %>
     <main id="main-content">
-      <div class="grid-container">
+      <div class="grid-container-widescreen">
         <%= render('components/flash', flash: flash) unless suppress_main_layout_flash? %>
         <%= yield %>
       </div>

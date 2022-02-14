@@ -18,15 +18,14 @@
   <table class="usa-table" style="overflow-x: scroll;">
     <thead>
       <tr>
-        <th>View</th>
-        <th data-sortable scope="col" role="columnheader">Status</th>
-        <th data-sortable scope="col" role="columnheader">Office</th>
-        <th data-sortable scope="col" role="columnheader">Sub-office</th>
         <th
             data-sortable
             scope="col"
             role="columnheader"
           >Domain</th>
+        <th data-sortable scope="col" role="columnheader">Status</th>
+        <th data-sortable scope="col" role="columnheader">Office</th>
+        <th data-sortable scope="col" role="columnheader">Sub-office</th>
         <th data-sortable scope="col" role="columnheader">Website Manager</th>
         <th data-sortable scope="col" role="columnheader">Website Contact</th>
         <th>Tags</th>
@@ -35,11 +34,14 @@
     <tbody>
       <% @websites.order(:production_status).each do |website| %>
         <tr>
-          <td><%= link_to("View", admin_website_path(website), class: "usa-button usa-button--outline") %></td>
-          <td><%= website.production_status %></td>
+          <td><%= link_to(website.domain, admin_website_path(website)) %></td>
+          <td data-sort-value="<%= website_status_sort_values[website.production_status] %>">
+            <span class="usa-tag <%= website_status_label_tags(website.production_status) %>">
+              <%= website.production_status %>
+            </span>
+          </td>
           <td><%= website.office %></td>
           <td><%= website.sub_office %></td>
-          <td><%= website.domain %></td>
           <td><%= website.site_owner_email %></td>
           <td><%= website.contact_email %></td>
           <td><%= website.tag_list %></td>

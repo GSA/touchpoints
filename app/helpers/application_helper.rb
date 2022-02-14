@@ -54,6 +54,36 @@ module ApplicationHelper
     }
   end
 
+  # key = a Website.production_status
+  # value = sort order
+  def website_status_sort_values
+    {
+      "newly_requested"      => "1",
+      "request_approved"     => "2",
+      "request_denied"       => "3",
+      "in_development"       => "4",
+      "production"           => "5",
+      "being_decommissioned" => "6",
+      "redirect"             => "7",
+      "archived"             => "8",
+      "decommissioned"       => "9",
+    }
+  end
+
+  def website_status_label_tags(status)
+    {
+      "newly_requested"      => "bg-primary-light",
+      "request_approved"     => "bg-primary",
+      "request_denied"       => "bg-red",
+      "in_development"       => "bg-blue",
+      "production"           => "bg-mint",
+      "being_decommissioned" => "bg-accent-warm-dark",
+      "redirect"             => "bg-accent-warm-light",
+      "archived"             => "bg-gray-30",
+      "decommissioned"       => "bg-black",
+    }[status]
+  end
+
   # Returns javascript to capture form input for one Form Question
   def question_type_javascript_params(question)
     if question.question_type == "text_field"
