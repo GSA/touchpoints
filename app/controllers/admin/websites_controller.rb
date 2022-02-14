@@ -261,11 +261,15 @@ class Admin::WebsitesController < AdminController
     def set_website_manager_options
       if admin_permissions?
         @website_manager_options = User.active.order("email")
-      else
+      elsif @website && @website.organization
         @website_manager_options = @website.organization.users.active.order("email")
+      elsif current_user.organization
+        @website_manager_options = current_user.organization.users.active.order("email")
+      else
+        []
       end
 
-      if @website_manager_options
+      if @website_manager_options && @website
         @website_manager_options = @website_manager_options - @website.website_managers
       end
     end
