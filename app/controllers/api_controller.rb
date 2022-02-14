@@ -3,12 +3,13 @@ class ApiController < ::ApplicationController
   before_action :set_current_user
 
   def set_current_user
-    unless params["API_KEY"]
+    api_key = request.headers["X-Api-Key"].present? ? request.headers["X-Api-Key"] : params["API_KEY"]
+    unless api_key.present?
       render json: { error: { message: "Invalid request. No ?API_KEY= was passed in." } }, status: 400
     else
-      @current_user = User.find_by_api_key(api_params)
+      @current_user = User.find_by_api_key(api_key)
       unless @current_user
-        render json: { error: { message: "The API_KEY #{params['API_KEY']} is not valid." } }, status: 401
+        render json: { error: { message: "The API_KEY #{api_key} is not valid." } }, status: 401
       end
     end
   end
