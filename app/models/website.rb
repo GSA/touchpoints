@@ -13,7 +13,7 @@ class Website < ApplicationRecord
 
   belongs_to :organization, optional: true
 
-  scope :active, -> { where("production_status = 'production' OR production_status = 'newly_requested'") }
+  scope :active, -> { where("production_status = 'production' OR production_status = 'newly_requested' OR production_status = 'request_approved'") }
 
   PRODUCTION_STATUSES = {
     "newly_requested" => "Newly requested",

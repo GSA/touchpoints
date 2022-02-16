@@ -1,0 +1,28 @@
+<table class="usa-table" style="width: 100%;">
+  <thead>
+    <tr>
+      <th style="max-width: 150px;">
+        Field
+      </th>
+      <th>
+        Before
+      </th>
+      <th>
+        After
+      </th>
+    </tr>
+  </thead>
+<% changeset.sort.to_h.each_pair do |key, value| %>
+  <tr>
+    <td>
+      <%= key %>
+    </td>
+    <td>
+      <%= value[0] %>
+    </td>
+    <td>
+      <%= value[1] %>
+    </td>
+  </tr>
+<% end %>
+</table>

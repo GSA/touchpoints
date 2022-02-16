@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 feature "Managing Organizations", js: true do
-  let!(:new_organization) { FactoryBot.build(:organization, name: "New Org") }
+  let!(:new_organization) { FactoryBot.build(:organization, name: "New Org", abbreviation: "NEWORG") }
 
   let!(:organization) { FactoryBot.create(:organization) }
-  let!(:organization2) { FactoryBot.create(:organization, name: "Organization 2", domain: "test.gov") }
+  let!(:organization2) { FactoryBot.create(:organization, name: "Organization 2", domain: "test.gov", abbreviation: "ORG2") }
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
 
   context "as Admin" do
