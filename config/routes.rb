@@ -149,6 +149,8 @@ Rails.application.routes.draw do
         post "remove_tag", to: "websites#remove_tag", as: :remove_tag
         get "versions", to: "websites#versions", as: :versions
         get "versions_export", to: "websites#export_versions", as: :export_versions
+        post "add_website_manager", to: "websites#add_website_manager", as: :add_website_manager
+        post "remove_website_manager", to: "websites#remove_website_manager", as: :remove_website_manager
       end
     end
     get :registry, to: "site#registry", as: :registry

@@ -1,6 +1,7 @@
 require 'open-uri'
 
 class Website < ApplicationRecord
+  resourcify
   acts_as_taggable_on :tags
   include AASM
   has_paper_trail
@@ -78,6 +79,10 @@ class Website < ApplicationRecord
     event :decommission do
       transitions from: [:decommissioned], to: :newly_requested
     end
+  end
+
+  def website_managers
+    User.with_role(:website_manager, self)
   end
 
   def admin?(user:)
