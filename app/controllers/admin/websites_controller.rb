@@ -15,7 +15,18 @@ class Admin::WebsitesController < AdminController
     :add_tag,
     :remove_tag,
     :versions,
-    :export_versions
+    :export_versions,
+    :add_website_manager,
+    :remove_website_manager,
+  ]
+
+  before_action :set_website_manager_options, only: [
+    :new,
+    :create,
+    :edit,
+    :update,
+    :add_website_manager,
+    :remove_website_manager,
   ]
 
   def index
@@ -236,7 +247,32 @@ class Admin::WebsitesController < AdminController
     @website.save
   end
 
+  def add_website_manager
+    @manager = User.find(params[:user_id])
+    @manager.add_role :website_manager, @website unless @manager.has_role?(:website_manager, @website)
+  end
+
+  def remove_website_manager
+    @manager = User.find(params[:user_id])
+    @manager.remove_role :website_manager, @website
+  end
+
   private
+    def set_website_manager_options
+      if admin_permissions?
+        @website_manager_options = User.active.order("email")
+      elsif @website && @website.organization
+        @website_manager_options = @website.organization.users.active.order("email")
+      elsif current_user.organization
+        @website_manager_options = current_user.organization.users.active.order("email")
+      else
+        []
+      end
+
+      if @website_manager_options && @website
+        @website_manager_options = @website_manager_options - @website.website_managers
+      end
+    end
 
     def log_update(current_state)
       Event.log_event(Event.names[:website_updated], "Website", @website.id, "Website #{@website.domain} updated at #{DateTime.now}", current_user.id)

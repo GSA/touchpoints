@@ -15,6 +15,7 @@ class Organization < ApplicationRecord
   validates :name, uniqueness: true
   validates :domain, presence: true
   validates :abbreviation, presence: true
+  validates :abbreviation, uniqueness: true
 
   def slug
     self.abbreviation.downcase
