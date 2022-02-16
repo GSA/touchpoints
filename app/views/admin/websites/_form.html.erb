@@ -37,15 +37,6 @@
         <%= form.label :sub_office, "Sub-office", class: "usa-label" %>
         <%= form.text_field :sub_office, class: "usa-input" %>
       </div>
-      <% if @website.persisted? %>
-        <div class="field">
-          <div class="well">
-            <div class="website-managers-div">
-              <%= render 'admin/websites/website_managers', website: @website, website_manager_options: @website_manager_options %>
-            </div>
-          </div>
-        </div>
-      <% end %>
       <div class="field">
         <%= form.label :contact_email, class: "usa-label" %>
         <%= form.text_field :contact_email, class: "usa-input" %>
@@ -181,6 +172,16 @@
   <p>
     <%= form.submit class: "usa-button full-width" %>
   </p>
+<% end %>
+
+<% if @website.persisted? %>
+  <div class="field">
+    <div class="well">
+      <div class="website-managers-div">
+        <%= render 'admin/websites/website_managers', website: @website, website_manager_options: @website_manager_options %>
+      </div>
+    </div>
+  </div>
 <% end %>
 
 <script>
