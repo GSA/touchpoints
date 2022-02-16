@@ -94,7 +94,7 @@ class Admin::ServiceProvidersController < AdminController
         @service_provider_manager_options = current_user.organization.users.active.order("email")
       end
 
-      if @service_provider_manager_options
+      if @service_provider_manager_options && @service_provider
         @service_provider_manager_options = @service_provider_manager_options - @service_provider.service_provider_managers
       end
     end

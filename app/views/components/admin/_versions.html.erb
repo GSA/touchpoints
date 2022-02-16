@@ -25,7 +25,7 @@
       <td><%= version.event %></td>
       <td><%= version.created_at %></td>
       <td><%= @user_email_map[version.whodunnit.to_i] %></td>
-      <td><%= version.changeset %></td>
+      <td><%= render "components/changeset", { changeset: version.changeset } %></td>
     </tr>
     <% end %>
   </tbody>
