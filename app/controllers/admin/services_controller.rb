@@ -101,7 +101,7 @@ class Admin::ServicesController < AdminController
     @service.submit
     if @service.save
       body = "The Service, #{@service.name}, owned by #{@service.service_owner.try(:email)} was created in Touchpoints"
-      UserMailer.event_notification(subject: "Service was submitted", body: body, link: admin_service_url(@service)).deliver_now
+      UserMailer.service_event_notification(subject: "Service was submitted", body: body, link: admin_service_url(@service)).deliver_later
       redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
     end
   end
@@ -118,7 +118,7 @@ class Admin::ServicesController < AdminController
     ensure_service_owner(service: @service, user: current_user)
     @service.verify
     if @service.save
-      UserMailer.event_notification(subject: "Service was activated", body: @service.id, link: admin_service_url(@service)).deliver_later
+      UserMailer.service_event_notification(subject: "Service was activated", body: @service.id, link: admin_service_url(@service)).deliver_later
       redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
     end
   end
@@ -127,7 +127,7 @@ class Admin::ServicesController < AdminController
     ensure_service_owner(service: @service, user: current_user)
     @service.archive
     if @service.save
-      UserMailer.event_notification(subject: "Service was archived", body: @service.id, link: admin_service_url(@service)).deliver_later
+      UserMailer.service_event_notification(subject: "Service was archived", body: @service.id, link: admin_service_url(@service)).deliver_later
       redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
     end
   end
