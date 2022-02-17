@@ -54,6 +54,7 @@ RSpec.describe Form, type: :model do
       it "returns a hash of questions, location_code, and 'standard' attributes" do
         expect(form.hashed_fields_for_export.class).to eq(Hash)
         expect(form.hashed_fields_for_export.keys).to eq([
+          :uuid,
           # question fields
           "answer_01",
           "answer_02",
