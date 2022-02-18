@@ -379,8 +379,11 @@ class Form < ApplicationRecord
   end
 
   # TODO: Move to /models/submission.rb
+  # a map of { Submission field names (to access the data) => the Header (to display) }
   def hashed_fields_for_export
-    hash = {}
+    hash = {
+      uuid: "UUID"
+    }
 
     self.ordered_questions.map { |q| hash[q.answer_field] = q.text }
 
