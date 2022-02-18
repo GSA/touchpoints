@@ -11,19 +11,31 @@ class Admin::CollectionsController < AdminController
 
     if admin_permissions?
       if @quarter && @year
-        @collections = Collection.where(quarter: @quarter, year: @year).order('organizations.name', :year, :quarter, 'service_providers.name').includes(:organization, :service_provider)
+        @collections = Collection.where(quarter: @quarter, year: @year)
+          .order('organizations.name', :year, :quarter, 'service_providers.name')
+          .includes(:organization, :service_provider)
       elsif @quarter
-        @collections = Collection.where(quarter: @quarter).order('organizations.name', :year, :quarter, 'service_providers.name').includes(:organization, :service_provider)
+        @collections = Collection.where(quarter: @quarter)
+          .order('organizations.name', :year, :quarter, 'service_providers.name')
+          .includes(:organization, :service_provider)
       else
-        @collections = Collection.all.order('organizations.name', :year, :quarter, 'service_providers.name').includes(:organization, :service_provider)
+        @collections = Collection.all
+          .order('organizations.name', :year, :quarter, 'service_providers.name')
+          .includes(:organization, :service_provider)
       end
     else
       if @quarter && @year
-        @collections = current_user.collections.where(quarter: @quarter, year: @year).order('organizations.name', :year, :quarter, 'service_providers.name').includes(:organization, :service_provider)
+        @collections = current_user.collections.where(quarter: @quarter, year: @year)
+          .order('organizations.name', :year, :quarter, 'service_providers.name')
+          .includes(:organization, :service_provider)
       elsif @quarter
-        @collections = current_user.collections.where(quarter: @quarter).order('organizations.name', :year, :quarter, 'service_providers.name').includes(:organization, :service_provider)
+        @collections = current_user.collections.where(quarter: @quarter)
+          .order('organizations.name', :year, :quarter, 'service_providers.name')
+          .includes(:organization, :service_provider)
       else
-        @collections = current_user.organization.collections.order('organizations.name', :year, :quarter, 'service_providers.name').includes(:organization, :service_provider)
+        @collections = current_user.collections
+          .order('organizations.name', :year, :quarter, 'service_providers.name')
+          .includes(:organization, :service_provider)
       end
     end
   end
