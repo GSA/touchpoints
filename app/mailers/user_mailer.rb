@@ -13,20 +13,20 @@ class UserMailer < ApplicationMailer
       to: emails
   end
 
-  def event_notification(subject:, body:, link: "")
+  def service_event_notification(subject:, body:, link: "")
     set_logo
     @subject = subject
     @body = body
     @link = link
     mail subject: "Event notification: #{subject}",
-      to: (ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",") + User.where(service_manager: true).collect(&:email)).uniq
+      to: (ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",") + User.service_managers.collect(&:email)).uniq
   end
 
   def collection_notification(collection_id:)
     set_logo
     @collection = Collection.find(collection_id)
     mail subject: "Data Collection notification to #{@collection.name}",
-      to: ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
+      to: (ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",") + User.performance_managers.collect(&:email)).uniq
   end
 
   def submissions_digest(form_id, begin_day)
