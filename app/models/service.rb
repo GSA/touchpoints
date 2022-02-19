@@ -75,7 +75,11 @@ class Service < ApplicationRecord
   end
 
   def organization_name
-    self.organization ? self.organization.name : nil
+    self.organization.name
+  end
+
+  def organization_abbreviation
+    self.organization.abbreviation
   end
 
   def service_provider_name
