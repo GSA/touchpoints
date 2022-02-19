@@ -19,30 +19,36 @@ feature "Managing Services", js: true do
   context "as Admin" do
     before do
       login_as admin
-      visit admin_services_path
     end
 
-    it "load the Services#index page" do
-      expect(page).to have_content("Managing Services in Touchpoints")
-      expect(page.current_path).to eq(admin_services_path)
-      expect(page).to have_link("New Service")
-      expect(page).to have_css("tbody tr", count: 2)
-    end
-
-    describe "create a new Service" do
-      before "fill-in the form" do
-        click_on "New Service"
-        expect(page).to have_content("New Service")
-        select(service_provider.name, from: "service[service_provider_id]")
-        fill_in :service_name, with: "New Service Name"
-        click_on "Create Service"
+    describe "#index" do
+      before do
+        visit admin_services_path
       end
 
-      it "create Service successfully" do
-        expect(page).to have_content("Service was successfully created")
-        expect(page).to have_content("New Service Name")
+      it "load the Services#index page" do
+        expect(page).to have_content("Managing Services in Touchpoints")
+        expect(page.current_path).to eq(admin_services_path)
+        expect(page).to have_link("New Service")
+        expect(page).to have_css("tbody tr", count: 2)
+      end
+
+      describe "create a new Service" do
+        before "fill-in the form" do
+          click_on "New Service"
+          expect(page).to have_content("New Service")
+          select(service_provider.name, from: "service[service_provider_id]")
+          fill_in :service_name, with: "New Service Name"
+          click_on "Create Service"
+        end
+
+        it "create Service successfully" do
+          expect(page).to have_content("Service was successfully created")
+          expect(page).to have_content("New Service Name")
+        end
       end
     end
+
 
     describe "add a tag to a Service" do
       before "add the tag" do
@@ -56,15 +62,26 @@ feature "Managing Services", js: true do
       end
     end
 
-
     describe "search by Tag" do
       before do
+        visit admin_services_path
         find(".usa-tag", text: "FEATURE-REQUEST").click # to create the tag
       end
 
       it "newly created tag is displayed on the page" do
         expect(page.current_url).to include("tag=feature-request")
         expect(page).to have_css("tbody tr", count: 1)
+      end
+    end
+
+    describe "Service Managers" do
+      before do
+        visit edit_admin_service_path(service)
+        select(admin.email, from: "service_manager_id")
+      end
+
+      it "display new service manager's email as a tag" do        
+        expect(page).to have_css(".usa-tag", text: admin.email.upcase)
       end
     end
 

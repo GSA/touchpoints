@@ -48,6 +48,16 @@
       <%= form.select :service_owner_id, options_for_select(@service_owner_options.map { |u| [u.email, u.id] }, service.service_owner_id), { prompt: "Which User?" }, { class: "usa-select" } %>
     </div>
 
+    <% if service_manager_permissions? && service.persisted? %>
+      <div class="field">
+        <div class="well">
+          <div class="service-managers-div">
+            <%= render 'admin/services/service_managers', service: @service, service_owner_options: @service_owner_options %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
     <div class="field">
       <%= form.label :name, class: "usa-label" %>
       <small>
@@ -138,14 +148,4 @@
       <%= form.submit class: "usa-button" %>
     </div>
   </p>
-<% end %>
-
-<% if service_manager_permissions? && service.persisted? %>
-  <div class="field">
-    <div class="well">
-      <div class="service-managers-div">
-        <%= render 'admin/services/service_managers', service: @service, service_owner_options: @service_owner_options %>
-      </div>
-    </div>
-  </div>
 <% end %>
