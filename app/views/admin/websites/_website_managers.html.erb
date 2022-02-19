@@ -1,5 +1,5 @@
-<%= form_with(model: @website, url: admin_website_path(@website), local: true) do |f| %>
-  <div class="grid-row">
+
+  <div id="website-managers-div" class="grid-row" data-value="<%= admin_website_path(@website) %>">
     <div class="grid-col-12">
       <h3>Website Managers</h3>
       <p class="website-manager-list">
@@ -19,23 +19,22 @@
       <p>
     </div>
   </div>
-  <%= f.select :website_manager_id, options_for_select(@website_manager_options.map { |u| [u.email, u.id] }), { prompt: "Choose a Manager?" }, { class: "usa-select add-website-manager" } %>
-<% end %>
+  <%= select_tag :website_manager_id, options_for_select(@website_manager_options.map { |u| [u.email, u.id] }), prompt: "Choose a Manager?", class: "usa-select add-website-manager" %>
 <script>
   $(".add-website-manager").change(function(e) {
     event.preventDefault();
-    var thisForm = $(this).closest("form");
+    var container = $('#website-managers-div');
     $.ajax({
-      url: thisForm.attr("action") + "/add_website_manager",
+      url: container.attr("data-value") + "/add_website_manager",
       type: 'post',
       data: "user_id=" + $(this).val()
     });
   });
   $(".remove-manager-link").click(function(e) {
     event.preventDefault();
-    var thisForm = $(this).closest("form");
+    var container = $('#website-managers-div');
     $.ajax({
-      url: thisForm.attr("action") + "/remove_website_manager",
+      url: container.attr("data-value") + "/remove_website_manager",
       type: 'post',
       data: "user_id=" + $(this).attr("data-value")
     });

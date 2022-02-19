@@ -38,10 +38,21 @@
         <%= form.text_field :sub_office, class: "usa-input" %>
       </div>
       <div class="field">
+        <%= form.label :site_owner_email, class: "usa-label" %>
+        <%= form.text_field :site_owner_email, class: "usa-input" %>
+      </div>
+      <div class="field">
         <%= form.label :contact_email, class: "usa-label" %>
         <%= form.text_field :contact_email, class: "usa-input" %>
       </div>
-      <% if !@website.persisted? %>
+      <% if @website.persisted? %>
+        <div class="field">
+          <div class="well">
+            <div class="website-managers-div">
+              <%= render 'admin/websites/website_managers', website: @website, website_manager_options: @website_manager_options %>
+            </div>
+          </div>
+        </div>
       <div class="field">
         <%= form.label :notes, class: "usa-label" %>
         <%= form.text_area :notes, class: "usa-textarea" %>
@@ -172,16 +183,6 @@
   <p>
     <%= form.submit class: "usa-button full-width" %>
   </p>
-<% end %>
-
-<% if @website.persisted? %>
-  <div class="field">
-    <div class="well">
-      <div class="website-managers-div">
-        <%= render 'admin/websites/website_managers', website: @website, website_manager_options: @website_manager_options %>
-      </div>
-    </div>
-  </div>
 <% end %>
 
 <script>

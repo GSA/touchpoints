@@ -1,6 +1,7 @@
 class ServiceProviderSerializer < ActiveModel::Serializer
   attributes :id,
     :organization_id,
+    :organization_abbreviation,
     :organization_name,
     :name,
     :slug,

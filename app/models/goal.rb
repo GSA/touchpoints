@@ -17,4 +17,8 @@ class Goal < ApplicationRecord
   def organization_name
     self.organization.name
   end
+
+  def organization_abbreviation
+    self.organization.organization_abbreviation
+  end
 end

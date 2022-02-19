@@ -58,6 +58,7 @@
     <br>
     <%= @user.organization ? link_to(@user.organization.name, admin_organization_path(@user.organization)) : "Undefined" %>
   </p>
+  <% if current_user == @user || admin_permissions? %>
   <p>
     <label>Last logged in</label>
     <br>
@@ -66,7 +67,10 @@
       <%= time_ago_in_words(@user.last_sign_in_at) %> ago
     <% end %>
   </p>
+  <% end %>
 </div>
+
+<% if current_user == @user || admin_permissions? %>
 <div class="well">
   <h4>
     Forms
@@ -138,3 +142,4 @@
   </div>
   <% end %>
 </div>
+<% end %>
