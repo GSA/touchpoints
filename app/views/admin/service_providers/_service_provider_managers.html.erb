@@ -1,4 +1,4 @@
-<%= form_with(model: @service_provider, url: admin_service_provider_path(@service_provider), local: true) do |f| %>
+<div id="service_provider_selector" data-url="<%= admin_service_provider_path(@service_provider) %>">
 	<div class="grid-row">
 	  <div class="grid-col-12">
 	  	<h3>Service Provider Managers</h3>
@@ -19,25 +19,37 @@
 	  	<p>
 	  </div>
 	</div>
-  <%= f.select :service_manager_id, options_for_select(service_provider_manager_options.map { |u| [u.email, u.id] }), { prompt: "Choose a Manager?" }, { class: "usa-select add-service-manager" } %>
-<% end %>
+  <%= select_tag :service_manager_id, options_for_select(@service_provider_manager_options.map { |u| [u.email, u.id] }), { prompt: "Choose a Manager?", class: "usa-select add-service-manager" } %>
+</div>
+
 <script>
-  $(".add-service-manager").change(function(e) {
-  	event.preventDefault();
-  	var thisForm = $(this).closest("form");
-  	$.ajax({
-  	  url: thisForm.attr("action") + "/add_service_provider_manager",
-  	  type: 'post',
-  	  data: "user_id=" + $(this).val()
-  	});
-  });
-  $(".remove-manager-link").click(function(e) {
-    event.preventDefault();
-    var thisForm = $(this).closest("form");
-    $.ajax({
-      url: thisForm.attr("action") + "/remove_service_provider_manager",
-      type: 'post',
-      data: "user_id=" + $(this).attr("data-value")
-    });
-  });
+	$(function() {
+		$(".add-service-manager").on("change", function(e) {
+			event.preventDefault();
+			var thisForm = $("#service_provider_selector");
+			$(this).attr('disabled', true);
+
+			$.ajax({
+				url: thisForm.attr("data-url") + "/add_service_provider_manager",
+				type: 'POST',
+				datatype: "json",
+				data: {
+					user_id: $(this).val()
+				}
+			});
+		});
+
+		$(".remove-manager-link").on("click", function(e) {
+			event.preventDefault();
+			var thisForm = $("#service_provider_selector");
+			$.ajax({
+				url: thisForm.attr("data-url") + "/remove_service_provider_manager",
+				type: 'POST',
+				datatype: "json",
+				data: {
+					user_id: $(this).attr("data-value")
+				}
+			});
+		});
+	})
 </script>
