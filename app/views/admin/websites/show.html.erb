@@ -70,15 +70,31 @@
         <%= @website.redirects_to %>
       </div>
     </div>
-    <div class="grid-row">
+    <div class="grid-row grid-gap-lg">
       <div class="grid-col-6">
+        <label class="usa-label" for="site_owner_email">
+          Website owner emails
+        </label>
+        <%= @website.site_owner_email %>
+
+        <br>
         <label class="usa-label" for="site_owner_email">
           Website managers emails
         </label>
+
+        <% if @website.website_managers.present? %>
         <% @website.website_managers.each do | manager | %>
           <%= manager.try(:email) %>&nbsp;&nbsp;
         <% end %>
-        &nbsp;
+        <% else %>
+        <div class="usa-alert usa-alert--info">
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">
+              No website managers have been defined.
+            </p>
+          </div>
+        </div>
+        <% end %>
       </div>
       <div class="grid-col-6">
         <label class="usa-label" for="office">
@@ -91,7 +107,7 @@
     <div class="grid-row">
       <div class="grid-col-6">
         <label class="usa-label" for="site_owner_email">
-          Contact manager email
+          Contact email
         </label>
         <%= @website.contact_email %>
       </div>

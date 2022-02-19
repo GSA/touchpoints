@@ -17,4 +17,8 @@ class ServiceProvider < ApplicationRecord
   def organization_name
     self.organization ? self.organization.name : nil
   end
+
+  def organization_abbreviation
+    self.organization ? self.organization.abbreviation : nil
+  end
 end

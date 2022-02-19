@@ -3,6 +3,7 @@ class ServiceSerializer < ActiveModel::Serializer
     :name,
     :description,
     :organization_id,
+    :organization_abbreviation,
     :organization_name,
     :service_provider_id,
     :service_provider_name,
