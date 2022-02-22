@@ -12,14 +12,30 @@ feature "Service Provider", js: true do
   context "as Admin" do
     before do
       login_as admin
-      visit admin_service_providers_path
     end
 
-    it "load the ServiceProviders#index page" do
-      expect(page).to have_content("Service Providers")
-      expect(page.current_path).to eq(admin_service_providers_path)
-      expect(page).to have_content(service_provider.name)
-      expect(page).to have_content("Download as hisps.csv")
+    describe "#index" do
+      before do
+        visit admin_service_providers_path
+      end
+
+      it "load the ServiceProviders#index page" do
+        expect(page).to have_content("Service Providers")
+        expect(page.current_path).to eq(admin_service_providers_path)
+        expect(page).to have_content(service_provider.name)
+        expect(page).to have_content("Download as hisps.csv")
+      end
+      end
+
+    describe "#edit" do
+      before do
+        visit edit_admin_service_provider_path(service_provider)
+      end
+
+      it "load the ServiceProviders#index page" do
+        click_on "Update Service provider"
+        expect(page).to have_content("Service provider was successfully updated.")
+      end
     end
   end
 

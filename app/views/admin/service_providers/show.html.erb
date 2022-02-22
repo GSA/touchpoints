@@ -53,8 +53,15 @@
     <p>
       <strong>Service provider managers</strong>
       <br>
-      <% @service_provider.service_provider_managers.each do | manager | %>
-        <%= manager.try(:email) %>&nbsp;&nbsp;
+      <% if @service_provider.service_provider_managers.present? %>
+        <ul class="usa-list">
+        <% @service_provider.service_provider_managers.order(:email).each do | manager | %>
+          <li>
+            <%= link_to manager.try(:email), admin_user_path(manager) %>&nbsp;&nbsp;
+          </li>
+        <% end %>
+        </ul>
+      <% else %>
       <% end %>
     </p>
     <p>

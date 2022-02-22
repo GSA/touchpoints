@@ -1,48 +1,54 @@
-<%= form_with(model: service, url: admin_service_path(service), local: true) do |f| %>
+<div id="service_manager_selector" data-url="<%= admin_service_path(service) %>">
 	<div class="grid-row">
 	  <div class="grid-col-12">
 	  	<h3>Service Managers</h3>
 	  	<p class="service-manager-list">
-			<ul class="usa-list usa-list--unstyled">
-				<% service.service_managers.each do |manager| %>
-				<li style="margin-bottom: 3px;">
-					<span class="usa-tag">
-					   <%= manager.email %>
-					</span>
-          &nbsp;
-					<a href="javascript:void(0);" class="remove-manager-link" data-value="<%= manager.id %>">
-						<span class="fa fa-trash"></span>
-					</a>
-				</li>
-	  			<% end %>
-			</ul>
-	  	<p>
+				<ul class="usa-list usa-list--unstyled">
+					<% service.service_managers.each do |manager| %>
+					<li style="margin-bottom: 3px;">
+						<span class="usa-tag">
+						   <%= manager.email %>
+						</span>
+	          &nbsp;
+						<a href="javascript:void(0);" class="remove-manager-link" data-value="<%= manager.id %>">
+							<span class="fa fa-trash"></span>
+						</a>
+					</li>
+		  			<% end %>
+				</ul>
+	  	</p>
 	  </div>
 	</div>
-  <%= f.select :service_manager_id, options_for_select(service_owner_options.map { |u| [u.email, u.id] }), { prompt: "Choose a Manager?" }, { class: "usa-select add-service-manager" } %>
-<% end %>
+  <%= select_tag :service_manager_id, options_for_select(@service_owner_options.map { |u| [u.email, u.id] }), { prompt: "Select a Service Manager", class: "usa-select add-service-manager" } %>
+</div>
 
 <script>
 	$(function() {
 		$(".add-service-manager").on("change", function(e) {
 			e.preventDefault();
 
-			var thisForm = $(this).closest("form");
+			var thisForm = $("#service_manager_selector");
 			$.ajax({
-				url: thisForm.attr("action") + "/add_service_manager",
-				type: 'post',
-				data: "user_id=" + $(this).val()
+				url: thisForm.attr("data-url") + "/add_service_manager",
+				type: 'POST',
+				datatype: 'json',
+				data: {
+					user_id: $(this).val()
+				}
 			});
 		});
 
 		$(".remove-manager-link").on("click", function(e) {
 			e.preventDefault();
 
-			var thisForm = $(this).closest("form");
+			var thisForm = $("#service_manager_selector");
 			$.ajax({
-				url: thisForm.attr("action") + "/remove_service_manager",
-				type: 'post',
-				data: "user_id=" + $(this).attr("data-value")
+				url: thisForm.attr("data-url") + "/remove_service_manager",
+				type: 'POST',
+				datatype: 'json',
+				data: {
+					user_id: $(this).attr("data-value")
+				}
 			});
 		});
 	});

@@ -1,6 +1,7 @@
 class GoalSerializer < ActiveModel::Serializer
   attributes :id,
     :organization_id,
+    :organization_abbreviation,
     :organization_name,
     :name,
     :description,
@@ -9,5 +10,5 @@ class GoalSerializer < ActiveModel::Serializer
     :four_year_goal,
     :position,
     :notes
-    
+
 end
