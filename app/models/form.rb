@@ -124,6 +124,9 @@ class Form < ApplicationRecord
     event :archive do
       transitions from: [:in_development, :live], to: :archived
     end
+    event :reset do
+      transitions to: :in_development
+    end
   end
 
   def transitionable_states

@@ -32,11 +32,11 @@ class Collection < ApplicationRecord
     end
 
     event :request_change do
-      transitions to: :change_requested
+      transitions from: [:submitted], to: :change_requested
     end
 
     event :archive do
-      transitions to: :archived
+      transitions from: [:published], to: :archived
     end
 
     event :reset do

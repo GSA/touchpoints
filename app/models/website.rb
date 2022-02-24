@@ -74,10 +74,13 @@ class Website < ApplicationRecord
       transitions from: [:production], to: :redirect
     end
     event :archive do
-      transitions from: [:production, :archived], to: :decommissioned
+      transitions from: [:production], to: :archived
     end
     event :decommission do
-      transitions from: [:decommissioned], to: :newly_requested
+      transitions from: [:production, :archived, :redirect], to: :decommissioned
+    end
+    event :reset do
+      transitions to: :newly_requested
     end
   end
 
