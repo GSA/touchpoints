@@ -18,7 +18,7 @@ gem 'mini_magick'
 gem 'newrelic_rpm'
 gem 'omniauth-github'
 gem 'omniauth_login_dot_gov', git: 'https://github.com/18F/omniauth_login_dot_gov.git', branch: 'main'
-gem 'rails', '>= 6.1.4.4'
+gem 'rails', '~> 7.0.0'
 gem 'pg', '~> 1.3.1'
 gem 'puma', '~> 5.6.2'
 gem 'rack-cors', '>= 1.1.1', require: 'rack/cors'
@@ -36,7 +36,7 @@ gem 'aasm', '~> 5.2.0'
 gem 'whenever', require: false
 gem 'logstop'
 gem 'paper_trail'
-gem 'acts-as-taggable-on', '~> 8.0'
+gem 'acts-as-taggable-on'
 gem "rolify"
 
 group :development, :test do
