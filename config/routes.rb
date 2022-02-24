@@ -41,6 +41,7 @@ Rails.application.routes.draw do
       resources :services, only: [:index]
       resources :goals, only: [:index]
       resources :objectives, only: [:index]
+      resources :users, only: [:index]
     end
   end
 
