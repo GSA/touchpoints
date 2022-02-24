@@ -8,19 +8,23 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  # Turn false under Spring and add config.action_view.cache_template_loading = true.
   config.cache_classes = true
 
-  # Eager loading loads your whole application. When running a single test locally,
-  # this probably isn't necessary. It's a good idea to do in a continuous integration
-  # system, or in some way before deploying your code.
-  config.eager_load = ENV["CI"].present?
+  # Do not eager load code on boot. This avoids loading your whole application
+  # just for the purpose of running a single test. If you are using a tool that
+  # preloads Rails for running tests, you may have to set it to true.
+  config.eager_load = false
 
   # Configure public file server for tests with Cache-Control for performance.
   config.public_file_server.enabled = true
   config.public_file_server.headers = {
-    "Cache-Control" => "public, max-age=#{1.hour.to_i}"
+    'Cache-Control' => "public, max-age=#{1.hour.to_i}"
   }
+
+  config.action_mailer.perform_deliveries = false
+  # Don't care if the mailer can't send.
+  config.action_mailer.raise_delivery_errors = false
+  config.active_job.queue_adapter = :test
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
@@ -33,7 +37,7 @@ Rails.application.configure do
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
 
-  # Store uploaded files on the local file system in a temporary directory.
+  # Store uploaded files on the local file system in a temporary directory
   config.active_storage.service = :test
 
   config.action_mailer.perform_caching = false
@@ -55,6 +59,9 @@ Rails.application.configure do
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
+  # For Devise
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
 end
