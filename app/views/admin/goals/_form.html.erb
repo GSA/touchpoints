@@ -33,14 +33,6 @@
     </span>
   </div>
 
-  <div class="field">
-    <%= form.label :parent_id, "Parent goal", class: "usa-label" %>
-    <%= form.select :parent_id, options_for_select((Goal.all.order(:name) - [goal]).map { |z| [z.name, z.id]}, goal.parent_id), { prompt: "Parent goal?" }, { class: "usa-select goal-parent-id" } %>
-    <span class="usa-hint goal-parent-id" aria-hidden="true">
-      <i class="fa fa-check-circle" aria-hidden="true"></i> goal parent saved
-    </span>
-  </div>
-
   <br>
 
   <fieldset class="usa-fieldset">
@@ -56,15 +48,7 @@
       <i class="fa fa-check-circle" aria-hidden="true"></i> four year goal saved
     </span>
   </fieldset>
-
-  <div class="field">
-    <%= form.label :users, class: "usa-label" %>
-    <%= form.number_field :users, class: "usa-input goal-users" %>
-    <span class="usa-hint goal-users" aria-hidden="true">
-      <i class="fa fa-check-circle" aria-hidden="true"></i> goal users saved
-    </span>
-  </div>
-
+  
 <% end %>
 
 <script>
