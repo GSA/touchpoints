@@ -5,6 +5,7 @@ class Admin::GoalsController < AdminController
        update
        update_organization_id
        update_name
+       update_statement
        update_description
        update_tags
        update_users
@@ -71,6 +72,11 @@ class Admin::GoalsController < AdminController
     render json: @goal
   end
 
+  def update_statement
+    @goal.update!(goal_statement: params[:goal_statement])
+    render json: @goal
+  end
+
   def update_description
     @goal.update!(description: params[:description])
     render json: @goal
@@ -123,6 +129,7 @@ class Admin::GoalsController < AdminController
       :organization_id,
       :name,
       :description,
+      :statement,
       :tags,
       :users,
       :four_year_goal,
