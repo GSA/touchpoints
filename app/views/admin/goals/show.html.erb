@@ -41,13 +41,15 @@
   </div>
 
   <div class="field">
-    <%= form.label :parent_id, "Parent goal", class: "usa-label" %>
-    <%= form.select :parent_id, options_for_select((Goal.all.order(:name) - [@goal]).map { |z| [z.name, z.id]}, @goal.parent_id), { prompt: "Parent goal?" }, { class: "usa-select goal-parent-id" } %>
-    <span class="usa-hint goal-parent-id" aria-hidden="true">
-      <i class="fa fa-check-circle" aria-hidden="true"></i> goal parent saved
+    <%= form.label 'Goal Statement', class: "usa-label" %>
+    <%= form.text_area :goal_statement, class: "usa-textarea goal-statement" %>
+    <span class="usa-hint goal-statement" aria-hidden="true">
+      <i class="fa fa-check-circle" aria-hidden="true"></i> goal statement saved
     </span>
   </div>
 
+  <% if @goal.four_year_goal %>
+  <% else %>
   <div class="field">
     <%= form.label :users, class: "usa-label" %>
     <%= form.number_field :users, class: "usa-input goal-users" %>
@@ -55,23 +57,9 @@
       <i class="fa fa-check-circle" aria-hidden="true"></i> goal users saved
     </span>
   </div>
+  <% end %>
 
 <% end %>
-
-<div class="well">
-  <h3>
-    Milestones
-  </h3>
-  <p>
-    <ul class="usa-list">
-    <% @goal.milestones.each do |milestone| %>
-      <li>
-        <%= link_to milestone.name, admin_milestone_path(milestone) %>
-      </li>
-    <% end %>
-    </ul>
-  </p>
-</div>
 
 <% if @goal.four_year_goal %>
 <div class="well">
@@ -109,6 +97,19 @@
       type: "PATCH",
       url: "<%= admin_goal_path(@goal) %>/update_name",
       data: {name: $(this).val()}
+    });
+  });
+
+  $('.goal-statement').on("blur", function(event) {
+    event.preventDefault();
+    $('.usa-hint.goal-statement').show();
+    $('.usa-hint.goal-statement').fadeOut(2000);
+    $.ajax({
+      type: "PATCH",
+      url: "<%= update_statement_admin_goal_path(@goal) %>",
+      data: {
+        goal_statement: $(this).val()
+      }
     });
   });
 
