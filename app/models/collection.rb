@@ -146,6 +146,10 @@ class Collection < ApplicationRecord
     self.organization.name
   end
 
+  def organization_abbreviation
+    self.organization.abbreviation
+  end
+
   def service_provider_name
     self.service_provider.name
   end
