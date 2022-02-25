@@ -33,8 +33,9 @@ Rails.application.routes.draw do
       resources :forms, only: [:index, :show]
     end
     namespace :v1 do
-      resources :collections, only: [:index]
       resources :organizations, only: [:index]
+      resources :collections, only: [:index]
+      resources :omb_cx_reporting_collections, only: [:index]
       resources :forms, only: [:index, :show]
       resources :websites, only: [:index]
       resources :service_providers, only: [:index]
