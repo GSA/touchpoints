@@ -75,17 +75,17 @@
     <p>
       <strong>Why did you select this service for priority designation?</strong>
       <br>
-      <%= @service.justification_text %>
+      <%= to_markdown(@service.justification_text) %>
     </p>
     <p>
       <strong>Description</strong>
       <br>
-      <%= @service.description %>
+      <%= to_markdown(@service.description) %>
     </p>
     <p>
       <strong>Where customers interact (Channels)</strong>
       <br>
-      <%= @service.where_customers_interact %>
+      <%= to_markdown(@service.where_customers_interact) %>
     </p>
     <p>
       <strong>Notes</strong>
