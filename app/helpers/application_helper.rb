@@ -9,6 +9,7 @@ module ApplicationHelper
   end
 
   def to_markdown(text)
+    return nil unless text.present?
     raw(sanitize(Kramdown::Document.new(text).to_html))
   end
 
