@@ -74,15 +74,35 @@ class Website < ApplicationRecord
       transitions from: [:production], to: :redirect
     end
     event :archive do
-      transitions from: [:production, :archived], to: :decommissioned
+      transitions from: [:production], to: :archived
     end
     event :decommission do
-      transitions from: [:decommissioned], to: :newly_requested
+      transitions from: [:production, :archived, :redirect], to: :decommissioned
+    end
+    event :reset do
+      transitions to: :newly_requested
     end
   end
 
   def website_managers
     User.with_role(:website_manager, self)
+  end
+
+  def website_manager_emails
+    website_managers.collect{ | mgr | mgr.email }.join(", ")
+  end
+
+  # return all website_ids managed by users with email matching search string
+  def self.ids_by_manager_search(search_text)
+    sql = %q(
+      select w.id from websites w, users_roles ur, roles r, users u
+      where u.email ilike :search_text
+        and u.id = ur.user_id
+        and ur.role_id = r.id
+        and r.resource_type = 'Website'
+        and r.resource_id = w.id
+        and r.name = 'website_manager').gsub("\n","")
+    self.find_by_sql([sql,search_text: search_text]).collect{ | ws | ws.id }
   end
 
   def admin?(user:)

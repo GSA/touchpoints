@@ -135,8 +135,11 @@ class Admin::WebsitesController < AdminController
     search_text = params[:search]
     tag_name = params[:tag]
     if search_text.present?
-      search_text = "%" + search_text + "%"
-      @websites = Website.where(" domain ilike ? or office ilike ? or sub_office ilike ? or production_status ilike ? or site_owner_email ilike ? ", search_text, search_text, search_text, search_text, search_text).order(:production_status, :domain)
+      search_text = '%' + search_text + '%'
+      managed_sites = Website.where(id: Website.ids_by_manager_search(search_text))
+      @websites = Website.where(' domain ilike ? or office ilike ? or sub_office ilike ? or production_status ilike ? or site_owner_email ilike ? ', search_text, search_text, search_text, search_text, search_text).or(managed_sites).order(
+        :production_status, :domain
+      )
     elsif tag_name.present?
       @websites = Website.tagged_with(tag_name).order(:production_status, :domain)
     else

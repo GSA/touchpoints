@@ -129,6 +129,10 @@ class Admin::UsersController < AdminController
         :service_manager,
         :registry_manager,
         :email,
+        :first_name,
+        :last_name,
+        :position_title,
+        :profile_photo,
         :inactive,
       )
     end

@@ -1,9 +1,16 @@
+require 'kramdown'
+
 module ApplicationHelper
 
   def suppress_main_layout_flash?
     if flash && ["User successfully added", "User successfully removed"].include?(flash.notice)
       return true
     end
+  end
+
+  def to_markdown(text)
+    return nil unless text.present?
+    raw(sanitize(Kramdown::Document.new(text).to_html))
   end
 
   def organization_dropdown_options

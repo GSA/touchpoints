@@ -548,6 +548,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_24_144260) do
     t.boolean "performance_manager", default: false
     t.boolean "registry_manager", default: false
     t.boolean "service_manager", default: false
+    t.string "first_name"
+    t.string "last_name"
+    t.string "position_title"
+    t.string "profile_photo"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

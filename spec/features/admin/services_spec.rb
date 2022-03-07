@@ -39,12 +39,17 @@ feature "Managing Services", js: true do
           expect(page).to have_content("New Service")
           select(service_provider.name, from: "service[service_provider_id]")
           fill_in :service_name, with: "New Service Name"
+          fill_in :service_description, with: "Lots of text\n\n#### Heading\n\n* 1\n* 2\n* 3"
           click_on "Create Service"
         end
 
         it "create Service successfully" do
           expect(page).to have_content("Service was successfully created")
           expect(page).to have_content("New Service Name")
+
+          # renders markdown
+          expect(page).to have_css("h4", text: "Heading")
+          expect(page).to have_css("ul li", text: "2")
         end
       end
     end
@@ -80,7 +85,7 @@ feature "Managing Services", js: true do
         select(admin.email, from: "service_manager_id")
       end
 
-      it "display new service manager's email as a tag" do        
+      it "display new service manager's email as a tag" do
         expect(page).to have_css(".usa-tag", text: admin.email.upcase)
       end
     end
