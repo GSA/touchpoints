@@ -6,7 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-       - image: cimg/ruby:3.1.1-node-browsers
+       - image: cimg/ruby:3.1.1-browsers
          environment:
             RAILS_ENV: test
             PGHOST: 127.0.0.1
@@ -40,7 +40,8 @@ jobs:
       # Database setup
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
-      - run: bin/rails db:migrate RAILS_ENV=test
+
+      # Install chrome driver
 
       # run tests!
       - run:
