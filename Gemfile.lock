@@ -91,17 +91,18 @@ GEM
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     aes_key_wrap (1.1.0)
+    ast (2.4.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.558.0)
+    aws-partitions (1.563.0)
     aws-record (2.7.0)
       aws-sdk-dynamodb (~> 1.18)
-    aws-sdk-core (3.126.2)
+    aws-sdk-core (3.128.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
-    aws-sdk-dynamodb (1.73.0)
-      aws-sdk-core (~> 3, >= 3.126.0)
+    aws-sdk-dynamodb (1.74.0)
+      aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-rails (3.6.1)
       aws-record (~> 2)
@@ -110,11 +111,11 @@ GEM
       aws-sessionstore-dynamodb (~> 2)
       concurrent-ruby (~> 1)
       railties (>= 5.2.0)
-    aws-sdk-ses (1.46.0)
-      aws-sdk-core (~> 3, >= 3.126.0)
+    aws-sdk-ses (1.47.0)
+      aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-sqs (1.50.0)
-      aws-sdk-core (~> 3, >= 3.126.0)
+    aws-sdk-sqs (1.51.0)
+      aws-sdk-core (~> 3, >= 3.127.0)
       aws-sigv4 (~> 1.1)
     aws-sessionstore-dynamodb (2.0.1)
       aws-sdk-dynamodb (~> 1)
@@ -124,7 +125,13 @@ GEM
     bcrypt (3.1.16)
     bindata (2.4.10)
     bindex (0.8.1)
+    bootsnap (1.10.3)
+      msgpack (~> 1.2)
+    brakeman (5.2.1)
     builder (3.2.4)
+    bundler-audit (0.9.0.1)
+      bundler (>= 1.2.0, < 3)
+      thor (~> 1.0)
     capybara (3.36.0)
       addressable
       matrix
@@ -205,10 +212,16 @@ GEM
     hashie (5.0.0)
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
-    image_processing (1.12.1)
+    image_processing (1.12.2)
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
+    importmap-rails (1.0.3)
+      actionpack (>= 6.0.0)
+      railties (>= 6.0.0)
     io-wait (0.2.1)
+    jbuilder (2.11.5)
+      actionview (>= 5.0.0)
+      activesupport (>= 5.0.0)
     jmespath (1.6.0)
     jquery-rails (4.4.0)
       rails-dom-testing (>= 1, < 3)
@@ -234,10 +247,9 @@ GEM
       activerecord
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
-    listen (3.1.5)
+    listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
-      ruby_dep (~> 1.2)
     logstop (0.2.8)
     loofah (2.14.0)
       crass (~> 1.0.2)
@@ -253,6 +265,7 @@ GEM
     mini_magick (4.11.0)
     mini_mime (1.1.2)
     minitest (5.15.0)
+    msgpack (1.4.5)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
@@ -271,9 +284,11 @@ GEM
       digest
       net-protocol
       timeout
-    newrelic_rpm (8.4.0)
+    newrelic_rpm (8.5.0)
     nio4r (2.5.8)
     nokogiri (1.13.3-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.13.3-x86_64-linux)
       racc (~> 1.4)
     oauth2 (1.4.9)
       faraday (>= 0.17.3, < 3.0)
@@ -295,6 +310,9 @@ GEM
     paper_trail (12.2.0)
       activerecord (>= 5.2)
       request_store (~> 1.1)
+    parallel (1.21.0)
+    parser (3.1.1.0)
+      ast (~> 2.4.1)
     pg (1.3.3)
     pry (0.14.1)
       coderay (~> 1.1)
@@ -340,6 +358,7 @@ GEM
       rake (>= 12.2)
       thor (~> 1.0)
       zeitwerk (~> 2.5)
+    rainbow (3.1.1)
     rake (13.0.6)
     rb-fsevent (0.11.1)
     rb-inotify (0.10.1)
@@ -374,9 +393,24 @@ GEM
     rspec-support (3.11.0)
     rspec_junit_formatter (0.5.1)
       rspec-core (>= 2, < 4, != 2.12.0)
+    rubocop (1.25.1)
+      parallel (~> 1.10)
+      parser (>= 3.1.0.0)
+      rainbow (>= 2.2.2, < 4.0)
+      regexp_parser (>= 1.8, < 3.0)
+      rexml
+      rubocop-ast (>= 1.15.1, < 2.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 1.4.0, < 3.0)
+    rubocop-ast (1.16.0)
+      parser (>= 3.1.1.0)
+    rubocop-rails (2.13.2)
+      activesupport (>= 4.2.0)
+      rack (>= 1.1)
+      rubocop (>= 1.7.0, < 2.0)
+    ruby-progressbar (1.11.0)
     ruby-vips (2.1.4)
       ffi (~> 1.12)
-    ruby_dep (1.5.0)
     rubyzip (1.3.0)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
@@ -402,7 +436,7 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.4)
-    sprockets (4.0.2)
+    sprockets (4.0.3)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-rails (3.4.2)
@@ -410,14 +444,20 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     ssrf_filter (1.0.7)
+    stimulus-rails (1.0.4)
+      railties (>= 6.0.0)
     strscan (3.0.1)
     thor (1.2.1)
     tilt (2.0.10)
     timeout (0.2.0)
+    turbo-rails (1.0.1)
+      actionpack (>= 6.0.0)
+      railties (>= 6.0.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
+    unicode-display_width (2.1.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.0)
@@ -440,6 +480,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-20
+  x86_64-linux
 
 DEPENDENCIES
   aasm (~> 5.2.0)
@@ -447,6 +488,9 @@ DEPENDENCIES
   acts-as-list
   acts-as-taggable-on
   aws-sdk-rails (>= 3.6.1)
+  bootsnap
+  brakeman
+  bundler-audit
   capybara (>= 3.35.3)
   caracal (>= 1.4.1)
   carrierwave (>= 2.2.1)
@@ -455,6 +499,9 @@ DEPENDENCIES
   dotenv-rails (>= 2.7.6)
   factory_bot_rails (>= 6.2.0)
   fog-aws (>= 3.12.0)
+  image_processing (~> 1.12)
+  importmap-rails
+  jbuilder
   jquery-rails (>= 4.4.0)
   jquery-ui-rails (>= 6.0.1)
   json-jwt
@@ -467,21 +514,25 @@ DEPENDENCIES
   omniauth-github
   omniauth_login_dot_gov!
   paper_trail
-  pg (~> 1.3.1)
+  pg (~> 1.3)
   pry
-  puma (~> 5.6.2)
+  puma (~> 5.6)
   rack-cors (>= 1.1.1)
-  rails (~> 7.0.0)
+  rails (~> 7.0.2, >= 7.0.2.2)
   rails-controller-testing (>= 1.0.5)
-  redis
+  redis (~> 4.6)
   redis-namespace
   rolify
   rspec-rails (>= 5.0.2)
   rspec_junit_formatter
+  rubocop-rails
   sass-rails (>= 6.0.0)
   selenium-webdriver
   sidekiq
   simplecov
+  sprockets-rails
+  stimulus-rails
+  turbo-rails
   tzinfo-data
   uglifier
   web-console (>= 4.1.0)
@@ -489,7 +540,7 @@ DEPENDENCIES
   whenever
 
 RUBY VERSION
-   ruby 2.7.4p191
+   ruby 3.1.1p18
 
 BUNDLED WITH
-   2.2.24
+   2.3.8

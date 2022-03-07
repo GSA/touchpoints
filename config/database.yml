@@ -23,9 +23,6 @@ default: &default
 
 development:
   <<: *default
-  # Uncomment host and username if running docker containers ( docker-compose )
-  #host: postgres
-  #username: postgres
   database: touchpoints_development
 
   # The specified database role being used to connect to postgres.
