@@ -6,7 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-       - image: circleci/ruby:2.7.4-node-browsers
+       - image: circleci/ruby:3.1.1-node-browsers
          environment:
             RAILS_ENV: test
             PGHOST: 127.0.0.1
