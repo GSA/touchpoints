@@ -42,7 +42,11 @@ jobs:
       - run: bundle exec rake db:schema:load
 
       # Install chrome driver
-      - run: npm install chromium
+      - run:
+          name: Setup Chrome
+          command: |
+            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            sudo apt install ./google-chrome-stable_current_amd64.deb
 
       # run tests!
       - run:
