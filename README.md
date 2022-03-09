@@ -39,6 +39,29 @@ The Touchpoints team tracks work in a [backlog](https://en.wikipedia.org/wiki/Ka
 
 Issues and ideas are also noted in GitHub [Issues](https://github.com/gsa/touchpoints/issues).
 
+## Docker development
+
+Setup
+
+1. install Docker
+2. clone repo
+3. copy .env.sample .env and update vars
+
+To build a development environment
+
+1. docker-compose build
+2. docker-compose run webapp rails db:create
+3. docker-compose run webapp rails db:setup
+4. docker-compose up
+5. Navigate to http://lvh.me:3002/admin
+
+To start/stop after building
+1. docker-compose up
+2. docker-compose down
+
+To run tests (TBD -- this currently does not work with selenium web driver)
+1. docker-compose run webapp rspec
+
 ## License
 
 See [LICENSE](LICENSE.md)

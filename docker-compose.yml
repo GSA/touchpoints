@@ -10,9 +10,13 @@ services:
     env_file:
       - .env
     environment:
+      - PGHOST=db
+      - PGUSER=postgres
+      - PGPASSWORD=changeme
       - HISTFILE=/usr/src/app/log/.bash_history
     depends_on:
       - redis
+      - db
   db:
     container_name: 'db'
     image: postgres:13
