@@ -167,4 +167,8 @@ class OmbCxReportingCollection < ApplicationRecord
   def service_name
     self.service.name
   end
+
+  def service_slug
+    self.service.service_slug
+  end
 end

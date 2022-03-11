@@ -80,5 +80,6 @@ class OmbCxReportingCollectionSerializer < ActiveModel::Serializer
     :updated_at,
     :operational_metrics,
     :service_id,
-    :service_name
+    :service_name,
+    :service_slug
 end

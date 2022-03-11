@@ -32,8 +32,7 @@ class Admin::ReportingController < AdminController
   def hisp_services
     row = []
     header_fields = [
-      :service_provider_id,
-      :service_id,
+      :service_provider_slug,
       :year,
       :quarter,
       :service_provided,
