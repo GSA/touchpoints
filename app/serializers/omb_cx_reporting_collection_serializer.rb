@@ -1,5 +1,8 @@
 class OmbCxReportingCollectionSerializer < ActiveModel::Serializer
   attributes :id,
+    :organization_id,
+    :organization_name,
+    :organization_abbreviation,
     :collection_id,
     :collection_name,
     :service_provided,
@@ -80,5 +83,6 @@ class OmbCxReportingCollectionSerializer < ActiveModel::Serializer
     :updated_at,
     :operational_metrics,
     :service_id,
-    :service_name
+    :service_name,
+    :service_slug
 end

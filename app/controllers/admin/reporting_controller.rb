@@ -32,8 +32,7 @@ class Admin::ReportingController < AdminController
   def hisp_services
     row = []
     header_fields = [
-      :service_provider_id,
-      :service_id,
+      :service_provider_slug,
       :year,
       :quarter,
       :service_provided,
@@ -155,6 +154,88 @@ class Admin::ReportingController < AdminController
         end
       end
     end
+
+    render plain: rows.join("\n")
+  end
+
+  def hisp_service_question_details
+    rows = []
+    header_fields = [
+      :organization_abbreviation,
+      :organization_name,
+      :organization_id,
+      :service_provider_id,
+      :service_id,
+      :year,
+      :quarter,
+      :service_provided,
+      :transaction_point,
+      :channel,
+      :standardized_question_number,
+      :standardized_question_identifier,
+      :customized_question_text,
+      :likert_scale_1,
+      :likert_scale_2,
+      :likert_scale_3,
+      :likert_scale_4,
+      :likert_scale_5,
+      :point_scale,
+      :response_volume,
+      :notes,
+      :question_total,
+      :start_date,
+      :end_date
+    ]
+
+    header_fields.join(",")
+
+    rows << header_fields.join(",")
+
+    ServiceProvider.active.includes(:organization).order("organizations.name", :name).each do |service_provider|
+      service_provider.services.includes(:organization).order("organizations.name", :name).each do |service|
+        if params[:quarter]
+          @collections = service.collections.where(quarter: params[:quarter])
+        else
+          @collections = service.collections
+        end
+
+        @collections.each do |collection|
+          collection.omb_cx_reporting_collections.includes(:collection).order("collections.year", "collections.quarter", "omb_cx_reporting_collections.service_provided", "omb_cx_reporting_collections.channel").each do |omb_cx_reporting_collection|
+             # WRITE A CSV LINE FOR EACH OF THE 7 STANDARD QUESTIONS
+            (1..7).each do |question_number|
+              next if params[:question] && (question_number.to_s != params[:question])
+
+              row_fields = [
+                omb_cx_reporting_collection.organization_abbreviation,
+                "\"#{omb_cx_reporting_collection.organization_name}\"",
+                omb_cx_reporting_collection.organization_id,
+                omb_cx_reporting_collection.collection.service_provider.slug,
+                omb_cx_reporting_collection.service.service_slug,
+                omb_cx_reporting_collection.collection.year,
+                omb_cx_reporting_collection.collection.quarter,
+                "\"#{omb_cx_reporting_collection.service_provided}\"",
+                omb_cx_reporting_collection.transaction_point,
+                omb_cx_reporting_collection.channel,
+                question_number,
+                hisp_questions_key[question_number.to_s],
+                "\"#{omb_cx_reporting_collection.send("q#{question_number}_text")}\"",
+                omb_cx_reporting_collection.send("q#{question_number}_1"),
+                omb_cx_reporting_collection.send("q#{question_number}_2"),
+                omb_cx_reporting_collection.send("q#{question_number}_3"),
+                omb_cx_reporting_collection.send("q#{question_number}_4"),
+                omb_cx_reporting_collection.send("q#{question_number}_5"),
+                omb_cx_reporting_collection.send("q#{question_number}_point_scale"),
+                omb_cx_reporting_collection.question_total(question: "q#{question_number}"),
+                omb_cx_reporting_collection.collection.start_date,
+                omb_cx_reporting_collection.collection.end_date,
+              ]
+
+               rows << row_fields.join(",")
+            end # 1..7
+          end # omb_cx_reporting_collection
+        end # collection
+      end # service
+    end # service_provider
 
     render plain: rows.join("\n")
   end

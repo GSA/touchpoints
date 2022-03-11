@@ -50,6 +50,7 @@ Rails.application.routes.draw do
     get "/reporting/hisps/hisps", to: "reporting#hisps", as: :hisps
     get "/reporting/hisps/hisp_services", to: "reporting#hisp_services", as: :hisp_services
     get "/reporting/hisps/hisp_service_cx_data_collections", to: "reporting#hisp_service_cx_data_collections", as: :hisp_service_cx_data_collections
+    get "/reporting/hisps/hisp_service_question_details", to: "reporting#hisp_service_question_details", as: :hisp_service_question_details
 
     get "/reporting/lifespan", to: "reporting#lifespan", as: :lifespan
     get "/reporting/no_submissions", to: "reporting#no_submissions", as: :no_submissions

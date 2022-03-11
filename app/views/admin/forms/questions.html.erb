@@ -11,6 +11,20 @@
 <br>
 <div class="grid-row">
   <div class="grid-col">
+    <% if @form.questions.size > 12 %>
+    <div class="usa-alert usa-alert--warning" >
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
+          Touchpoints supports a maximum of 20 questions.
+          There are currently
+          <%= @form.questions.size %> questions.
+          <br>
+          Fewer questions tend to get better engagement.
+        </p>
+      </div>
+    </div>
+    <br>
+    <% end %>
     <div class="touchpoint-form form-builder">
       <div class="inner-wrapper">
         <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
