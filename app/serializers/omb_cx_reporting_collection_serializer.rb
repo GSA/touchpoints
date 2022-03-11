@@ -1,5 +1,8 @@
 class OmbCxReportingCollectionSerializer < ActiveModel::Serializer
   attributes :id,
+    :organization_id,
+    :organization_name,
+    :organization_abbreviation,
     :collection_id,
     :collection_name,
     :service_provided,

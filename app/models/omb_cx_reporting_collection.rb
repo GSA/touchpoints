@@ -160,6 +160,22 @@ class OmbCxReportingCollection < ApplicationRecord
     self.q1_total + self.q2_total + self.q3_total + self.q4_total + self.q5_total + self.q6_total + self.q7_total + self.q8_total + self.q9_total + self.q10_total + self.q11_total
   end
 
+  def organization
+    self.collection.organization
+  end
+
+  def organization_id
+    organization.id
+  end
+
+  def organization_name
+    organization.name
+  end
+
+  def organization_abbreviation
+    organization.abbreviation
+  end
+
   def collection_name
     self.collection.name
   end
@@ -171,4 +187,6 @@ class OmbCxReportingCollection < ApplicationRecord
   def service_slug
     self.service.service_slug
   end
+
+
 end
