@@ -218,7 +218,7 @@ class Admin::ReportingController < AdminController
                 omb_cx_reporting_collection.channel,
                 question_number,
                 hisp_questions_key[question_number.to_s],
-                omb_cx_reporting_collection.send("q#{question_number}_text"),
+                "\"#{omb_cx_reporting_collection.send("q#{question_number}_text")}\"",
                 omb_cx_reporting_collection.send("q#{question_number}_1"),
                 omb_cx_reporting_collection.send("q#{question_number}_2"),
                 omb_cx_reporting_collection.send("q#{question_number}_3"),
@@ -231,12 +231,11 @@ class Admin::ReportingController < AdminController
               ]
 
                rows << row_fields.join(",")
-
-            end
-          end
-        end
-      end
-    end
+            end # 1..7
+          end # omb_cx_reporting_collection
+        end # collection
+      end # service
+    end # service_provider
 
     render plain: rows.join("\n")
   end
