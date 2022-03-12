@@ -32,6 +32,10 @@ class Admin::ReportingController < AdminController
   def hisp_services
     row = []
     header_fields = [
+      :organization_name,
+      :organization_abbreviation,
+      :organization_id,
+      :service_provider_name,
       :service_provider_slug,
       :year,
       :quarter,
@@ -57,6 +61,10 @@ class Admin::ReportingController < AdminController
         service.omb_cx_reporting_collections.includes(:service, :collection).order("collections.year", "collections.quarter", "services.name").each do |omb_cx_reporting_collection|
 
           row_fields = [
+            omb_cx_reporting_collection.organization_abbreviation,
+            "\"#{omb_cx_reporting_collection.organization_name}\"",
+            omb_cx_reporting_collection.organization_id,
+            "\"#{omb_cx_reporting_collection.collection.service_provider.name}\"",
             omb_cx_reporting_collection.collection.service_provider.slug,
             omb_cx_reporting_collection.collection.year,
             omb_cx_reporting_collection.collection.quarter,
@@ -86,6 +94,10 @@ class Admin::ReportingController < AdminController
   def hisp_service_cx_data_collections
     rows = []
     header_fields = [
+      :organization_abbreviation,
+      :organization_name,
+      :organization_id,
+      :service_provider_name,
       :service_provider_id,
       :service_id,
       :year,
@@ -126,6 +138,10 @@ class Admin::ReportingController < AdminController
               next if params[:question] && (question_number.to_s != params[:question])
 
               row_fields = [
+                omb_cx_reporting_collection.organization_abbreviation,
+                "\"#{omb_cx_reporting_collection.organization_name}\"",
+                omb_cx_reporting_collection.organization_id,
+                "\"#{omb_cx_reporting_collection.collection.service_provider.name}\"",
                 omb_cx_reporting_collection.collection.service_provider.slug,
                 omb_cx_reporting_collection.service.service_slug,
                 omb_cx_reporting_collection.collection.year,
@@ -164,7 +180,9 @@ class Admin::ReportingController < AdminController
       :organization_abbreviation,
       :organization_name,
       :organization_id,
+      :service_provider_name,
       :service_provider_id,
+      :service_name,
       :service_id,
       :year,
       :quarter,
@@ -209,7 +227,9 @@ class Admin::ReportingController < AdminController
                 omb_cx_reporting_collection.organization_abbreviation,
                 "\"#{omb_cx_reporting_collection.organization_name}\"",
                 omb_cx_reporting_collection.organization_id,
+                "\"#{omb_cx_reporting_collection.collection.service_provider.name}\"",
                 omb_cx_reporting_collection.collection.service_provider.slug,
+                omb_cx_reporting_collection.service.name,
                 omb_cx_reporting_collection.service.service_slug,
                 omb_cx_reporting_collection.collection.year,
                 omb_cx_reporting_collection.collection.quarter,
