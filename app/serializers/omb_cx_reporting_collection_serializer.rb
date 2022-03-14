@@ -5,6 +5,8 @@ class OmbCxReportingCollectionSerializer < ActiveModel::Serializer
     :organization_abbreviation,
     :collection_id,
     :collection_name,
+    :collection_year,
+    :collection_quarter,
     :service_provided,
     :transaction_point,
     :channel,
