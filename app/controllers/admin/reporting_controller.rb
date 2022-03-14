@@ -97,6 +97,84 @@ class Admin::ReportingController < AdminController
       :organization_abbreviation,
       :organization_name,
       :organization_id,
+      :collection_name,
+      :collection_id,
+      :year,
+      :quarter,
+      :service_provider_name,
+      :service_provider_slug,
+      :service_provider_id,
+      :service_name,
+      :service_slug,
+      :service_id,
+      :service_provided,
+      :transaction_point,
+      :channel,
+      :volume_of_customers,
+      :volume_of_customers_provided_survey_opportunity,
+      :volume_of_customers,
+      :volume_of_respondents,
+      :omb_control_number,
+      :federal_register_url,
+      :operational_metrics,
+      :start_date,
+      :end_date
+    ]
+
+    rows << header_fields.join(",")
+
+    ServiceProvider.active.includes(:organization).order("organizations.name", :name).each do |service_provider|
+      service_provider.services.includes(:organization).order("organizations.name", :name).each do |service|
+        if params[:quarter]
+          @collections = service.collections.where(quarter: params[:quarter])
+        else
+          @collections = service.collections
+        end
+
+        @collections.each do |collection|
+          collection.omb_cx_reporting_collections.includes(:collection).order("collections.year", "collections.quarter", "omb_cx_reporting_collections.service_provided", "omb_cx_reporting_collections.channel").each do |omb_cx_reporting_collection|
+            row_fields = [
+              omb_cx_reporting_collection.organization_abbreviation,
+              "\"#{omb_cx_reporting_collection.organization_name}\"",
+              omb_cx_reporting_collection.organization_id,
+              "\"#{omb_cx_reporting_collection.collection.name}\"",
+              omb_cx_reporting_collection.collection.id,
+              omb_cx_reporting_collection.collection.year,
+              omb_cx_reporting_collection.collection.quarter,
+              "\"#{omb_cx_reporting_collection.collection.service_provider.name}\"",
+              omb_cx_reporting_collection.collection.service_provider.slug,
+              omb_cx_reporting_collection.collection.service_provider.id,
+              omb_cx_reporting_collection.service.name,
+              omb_cx_reporting_collection.service.service_slug,
+              omb_cx_reporting_collection.service.id,
+              "\"#{omb_cx_reporting_collection.service_provided}\"",
+              "\"#{omb_cx_reporting_collection.transaction_point}\"",
+              "\"#{omb_cx_reporting_collection.channel}\"",
+              omb_cx_reporting_collection.volume_of_customers,
+              omb_cx_reporting_collection.volume_of_customers_provided_survey_opportunity,
+              omb_cx_reporting_collection.volume_of_customers,
+              omb_cx_reporting_collection.volume_of_respondents,
+              omb_cx_reporting_collection.omb_control_number,
+              omb_cx_reporting_collection.federal_register_url,
+              omb_cx_reporting_collection.operational_metrics,
+              omb_cx_reporting_collection.collection.start_date,
+              omb_cx_reporting_collection.collection.end_date
+            ]
+            rows << row_fields.join(",")
+          end
+        end
+      end
+    end
+
+    render plain: rows.join("\n")
+  end
+
+  def hisp_service_cx_data_collections_summary
+    rows = []
+    header_fields = [
+      :organization_abbreviation,
+      :organization_name,
+      :organization_id,
       :service_provider_name,
       :service_provider_id,
       :service_id,
@@ -174,7 +252,7 @@ class Admin::ReportingController < AdminController
     render plain: rows.join("\n")
   end
 
-  def hisp_service_question_details
+  def hisp_service_questions
     rows = []
     header_fields = [
       :organization_abbreviation,
