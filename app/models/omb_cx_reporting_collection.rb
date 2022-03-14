@@ -180,6 +180,14 @@ class OmbCxReportingCollection < ApplicationRecord
     self.collection.name
   end
 
+  def collection_year
+    self.collection.year
+  end
+  
+  def collection_quarter
+    self.collection.quarter
+  end
+
   def service_name
     self.service.name
   end
