@@ -1,4 +1,4 @@
-<div class="radios" role="group" aria-labelledby="<%= question.answer_field %>">
+<div role="group">
   <%= render 'components/question_title', question: question %>
   <div class="radio-button">
     <%= select_tag(question.answer_field.to_sym, options_for_select(question.question_options.each_with_index.map { |option, index| [option.text, option.value] }), { prompt: (t 'form.select_one'), class: "usa-select", required: question.is_required  }) %>
