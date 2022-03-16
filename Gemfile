@@ -39,6 +39,9 @@ gem 'logstop'
 gem 'paper_trail'
 gem 'acts-as-taggable-on', '~> 8.0'
 gem "rolify"
+gem 'turbolinks', '~> 5'
+gem 'webpacker', '~> 4.x'
+gem 'ffi'
 
 group :development, :test do
   gem 'dotenv-rails', '>= 2.7.6'
