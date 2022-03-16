@@ -2,7 +2,7 @@
   Strategic goals (4-year)
 </h4>
 <div>
-  <% @organization.goals.where(four_year_goal: true, parent_id: nil).all.each_with_index do |goal, i| %>
+  <% @organization.goals.where(four_year_goal: true, parent_id: nil).order(:position).each_with_index do |goal, i| %>
     <div class="well">
       <div class="delete-float-right">
         <%= link_to delete_four_year_goal_admin_organization_path(@organization) + "?goal_id=#{goal.id}", method: :delete, data: { confirm: 'Are you sure?' }, :remote => true do %>

@@ -1,4 +1,4 @@
-<div class="radios" role="group" aria-labelledby="<%= question.answer_field %>">
+<div role="group">
   <%= render 'components/question_title', question: question %>
   <%= text_field_tag question.answer_field.to_sym, nil, type: :email, class: "usa-input", required: question.is_required %>
 </div>
