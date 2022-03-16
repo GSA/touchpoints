@@ -1,12 +1,14 @@
-<link rel="stylesheet" href="https://federalist-d5e7c07c-6ffa-4b8e-935f-49a7df24a505.app.cloud.gov/preview/uswds/uswds-sandbox/dw-alert-banner/assets/uswds/css/styles.css">
-
-<section class="usa-alert-banner" role="banner" aria-label="Announcement">
-  <figure class="usa-alert-banner__image" alt="">
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 266 266" role="img" alt=""><title>Arrow</title><g fill="none" fill-rule="evenodd"><path fill="#1B1B1B" d="M139.146 47.794l85.56 85.56-84.852 84.852-16.971-16.97L179.118 145H45v-24h133.412l-56.236-56.236 16.97-16.97z"></path><circle cx="133" cy="133" r="121" stroke="#1B1B1B" stroke-width="24"></circle></g></svg>
-  </figure>
-  <p class="usa-alert-banner__text">
-    <strong>
-    <%= sanitize(question.text) %>
-    </strong>
-  </p>
+<section class="usa-site-alert usa-site-alert--info" aria-label="Site alert">
+  <div class="usa-alert">
+    <div class="usa-alert__body">
+      <h3 class="usa-alert__heading">
+        <%= sanitize(question.text) %>
+      </h3>
+      <% if question.help_text %>
+      <p class="usa-alert__text">
+        <%= sanitize(question.help_text) %>
+      </p>
+      <% end %>
+    </div>
+  </div>
 </section>

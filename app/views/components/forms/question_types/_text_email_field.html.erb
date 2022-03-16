@@ -1,5 +1,5 @@
 <div role="group">
-  <%= render 'components/question_title', question: question %>
+  <%= render 'components/question_title_label', question: question %>
   <%= text_field_tag question.answer_field.to_sym, nil, type: :email, class: "usa-input", required: question.is_required %>
 </div>
 <script>

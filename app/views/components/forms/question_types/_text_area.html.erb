@@ -1,5 +1,5 @@
 <div role="group">
-  <%= render 'components/question_title', question: question %>
+  <%= render 'components/question_title_label', question: question %>
   <% if question.character_limit && question.character_limit > 0 %>
     <%= text_area_tag question.answer_field.to_sym, nil, class: "usa-textarea", required: question.is_required, maxlength: question.max_length, onkeyup: "touchpointForm#{form.short_uuid}.textCounter(this,#{question.max_length});" %>
 	<span class="counter-msg usa-hint usa-character-count__message  aria-live="polite">
