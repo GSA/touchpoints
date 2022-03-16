@@ -1,5 +1,5 @@
 <div role="group">
-  <%= render 'components/question_title', question: question %>
+  <%= render 'components/question_title_label', question: question %>
   <%= telephone_field_tag question.answer_field.to_sym, nil, class: "usa-input", required: question.is_required, maxlength: 10 %>
 </div>
 <script>
