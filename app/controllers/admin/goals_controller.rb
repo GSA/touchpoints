@@ -7,6 +7,7 @@ class Admin::GoalsController < AdminController
        update_name
        update_statement
        update_description
+       update_position
        update_tags
        update_users
        update_four_year_goal
@@ -79,6 +80,11 @@ class Admin::GoalsController < AdminController
 
   def update_description
     @goal.update!(description: params[:description])
+    render json: @goal
+  end
+
+  def update_position
+    @goal.update!(position: params[:position])
     render json: @goal
   end
 

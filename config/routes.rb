@@ -119,6 +119,7 @@ Rails.application.routes.draw do
         patch "update_name", to: "goals#update_name", as: :update_name
         patch "update_statement", to: "goals#update_statement", as: :update_statement
         patch "update_description", to: "goals#update_description", as: :update_description
+        patch "update_position", to: "goals#update_position", as: :update_position
         patch "update_tags", to: "goals#update_tags", as: :update_tags
         patch "update_users", to: "goals#update_users", as: :update_users
         patch "update_four_year_goal", to: "goals#update_four_year_goal", as: :update_four_year_goal
