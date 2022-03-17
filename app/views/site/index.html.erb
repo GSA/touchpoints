@@ -23,7 +23,7 @@
     <% end %>
     <% if ENV['GITHUB_CLIENT_ID'].present? %>
     <p>
-      <%= link_to user_github_omniauth_authorize_path, class: "usa-button",  "aria-label" => "GitHub" do %>
+      <%= link_to user_github_omniauth_authorize_path, method: :post, class: "usa-button",  "aria-label" => "GitHub" do %>
         <%= "#{t 'home.sign_in_with' } GitHub" %>
       <% end %>
     </p>

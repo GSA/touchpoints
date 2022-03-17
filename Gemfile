@@ -85,6 +85,8 @@ gem 'paper_trail'
 gem 'acts-as-taggable-on'
 gem "rolify"
 
+gem 'omniauth-rails_csrf_protection'
+
 group :development, :test do
   gem 'dotenv-rails', '>= 2.7.6'
   gem 'pry'
