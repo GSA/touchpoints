@@ -113,7 +113,8 @@ function FBAform(d, N) {
 			var submitButtons = formElement.querySelectorAll("[type='submit']");
 			var that = this;
 
-			var yesNoForm = d.querySelector('.touchpoints-yes-no-buttons');
+			var yesNoForm = formElement.querySelector('.touchpoints-yes-no-buttons');
+
 			if (yesNoForm) { // only for yes/no questions
 				Array.prototype.forEach.call(submitButtons, function(submitButton) {
 					submitButton.addEventListener('click', that.handleYesNoSubmitClick.bind(that), false);
