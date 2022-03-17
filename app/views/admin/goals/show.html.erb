@@ -39,7 +39,9 @@
       <i class="fa fa-check-circle" aria-hidden="true"></i> goal name saved
     </span>
   </div>
-
+  
+  <% if @goal.four_year_goal %>
+  <% else %>
   <div class="field">
     <%= form.label 'Goal Statement', class: "usa-label" %>
     <%= form.text_area :goal_statement, class: "usa-textarea goal-statement" %>
@@ -48,8 +50,6 @@
     </span>
   </div>
 
-  <% if @goal.four_year_goal %>
-  <% else %>
   <div class="field">
     <%= form.label :users, class: "usa-label" %>
     <%= form.number_field :users, class: "usa-input goal-users" %>

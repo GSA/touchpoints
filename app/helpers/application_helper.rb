@@ -23,7 +23,7 @@ module ApplicationHelper
       "2" => "trust",
       "3" => "effectiveness",
       "4" => "ease",
-      "5" => "effiency",
+      "5" => "efficiency",
       "6" => "transparency",
       "7" => "employee",
     }

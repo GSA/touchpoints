@@ -62,10 +62,13 @@
     </p>
     <p>
       <strong>Service managers</strong>
-      <br>
-      <% @service.service_managers.each do | manager | %>
-        <%= manager.try(:email) %>&nbsp;&nbsp;
-      <% end %>
+      <ul class="usa-list">
+        <% @service.service_managers.each do | manager | %>
+        <li>
+          <%= link_to manager.try(:email), admin_user_path(manager) %>
+        </li>
+        <% end %>
+      </ul>
     </p>
     <p>
       <strong>Service type</strong>
@@ -90,7 +93,7 @@
     <p>
       <strong>Notes</strong>
       <br>
-      <%= @service.notes %>
+      <%= to_markdown(@service.notes) %>
     </p>
   </div>
   <div class="grid-col-6">
@@ -189,7 +192,7 @@
           <%= link_to stage.name, admin_service_service_stage_path(@service, stage) %>
         </h4>
         <p>
-          <%= stage.description || "Description goes here" %>
+          <%= to_markdown(stage.description) || "Description goes here" %>
           &nbsp;
         </p>
       </div>

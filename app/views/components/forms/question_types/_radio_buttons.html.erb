@@ -1,7 +1,7 @@
-<fieldset class="usa-fieldset radios" role="group" aria-labelledby="<%= question.answer_field %>">
+<fieldset class="usa-fieldset radios" role="group">
   <legend class="usa-sr-only"><%= question.text %></legend>
   <%= render 'components/question_title', question: question %>
-  <div class="question-options">
+  <div class="question-options" id="<%= question.answer_field.to_sym %>">
   <% question.question_options.each_with_index do |option, index| %>
     <div class="radio-button usa-radio" id="<%= dom_id(option) %>" data-id="<%= option.id %>">
       <% @option_id = "#{question.answer_field}_#{(index + 1).to_s}" %>

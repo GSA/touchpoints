@@ -50,6 +50,8 @@ Rails.application.routes.draw do
     get "/reporting/hisps/hisps", to: "reporting#hisps", as: :hisps
     get "/reporting/hisps/hisp_services", to: "reporting#hisp_services", as: :hisp_services
     get "/reporting/hisps/hisp_service_cx_data_collections", to: "reporting#hisp_service_cx_data_collections", as: :hisp_service_cx_data_collections
+    get "/reporting/hisps/hisp_service_cx_data_collections_summary", to: "reporting#hisp_service_cx_data_collections_summary", as: :hisp_service_cx_data_collections_summary
+    get "/reporting/hisps/hisp_service_questions", to: "reporting#hisp_service_questions", as: :hisp_service_questions
 
     get "/reporting/lifespan", to: "reporting#lifespan", as: :lifespan
     get "/reporting/no_submissions", to: "reporting#no_submissions", as: :no_submissions
@@ -117,6 +119,7 @@ Rails.application.routes.draw do
         patch "update_name", to: "goals#update_name", as: :update_name
         patch "update_statement", to: "goals#update_statement", as: :update_statement
         patch "update_description", to: "goals#update_description", as: :update_description
+        patch "update_position", to: "goals#update_position", as: :update_position
         patch "update_tags", to: "goals#update_tags", as: :update_tags
         patch "update_users", to: "goals#update_users", as: :update_users
         patch "update_four_year_goal", to: "goals#update_four_year_goal", as: :update_four_year_goal

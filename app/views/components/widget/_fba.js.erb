@@ -289,7 +289,7 @@ function FBAform(d, N) {
 		showValidationError: function(question,error) {
 
 			var questionDiv = question.closest(".question");
-			var label = questionDiv.querySelector("label");
+			var label = questionDiv.querySelector(".usa-label");
 			var questionNum = label.innerText;
 
 			// show page with validation error

@@ -39,8 +39,6 @@
 }
 
 #fba-modal-title {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
   margin-right: 20px;
   margin-top: 0;
   word-wrap: break-word;
@@ -62,6 +60,7 @@
   line-height: 1;
   text-decoration: none;
   width: auto;
+  z-index: 10;
 }
 
 /* Form Sections */
@@ -3924,13 +3923,13 @@ img{
   }
 }
 
-#star_rating svg {
+.star_rating svg {
 	width: 1em;
 	height: 1em;
 	fill: currentColor;
 	stroke: currentColor;
 }
-#star_rating label, #star_rating output {
+.star_rating label, .star_rating output {
 	display: block;
 	float: left;
 	font-size: 2em;
@@ -3942,37 +3941,34 @@ img{
 		 on :hover/:focus */
 	border-bottom: 2px solid transparent;
 }
-#star_rating output {
+.star_rating output {
 	font-size: 1.5em;
 	padding: 0 1em;
 }
-#star_rating input:checked ~ label {
+.star_rating input:checked ~ label {
 	color: #999;
 }
-#star_rating input:checked + label {
+.star_rating input:checked + label {
 	color: #036;
 	border-bottom-color: #036;
 }
-#star_rating input:focus + label {
+.star_rating input:focus + label {
 	border-bottom-style: dotted;
 }
-#star_rating:hover input + label {
+.star_rating:hover input + label {
 	color: #036;
 }
-#star_rating input:hover ~ label,
-#star_rating input:focus ~ label,
-#star_rating input[id="star0"] + label {
+.star_rating input:hover ~ label,
+.star_rating input:focus ~ label,
+.star_rating input[id="star0"] + label {
 	color: #999;
 }
-#star_rating input:hover + label,
-#star_rating input:focus + label {
+.star_rating input:hover + label,
+.star_rating input:focus + label {
 	color: #036;
 }
-#star_rating input[id="star0"]:checked + label {
+.star_rating input[id="star0"]:checked + label {
 	color: #ff2d21;
-}
-#star_rating .visuallyhidden {
-	display: none;
 }
 <% end %>
 

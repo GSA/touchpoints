@@ -10,7 +10,7 @@ class OmbCxReportingCollection < ApplicationRecord
     end
   end
 
-  def answer_points(question: :q1)
+  def answer_points(question:)
     self.send("#{question}_1") * 1.0 +
     self.send("#{question}_2") * 2.0 +
     self.send("#{question}_3") * 3.0 +
@@ -103,7 +103,6 @@ class OmbCxReportingCollection < ApplicationRecord
     ).round(2)
   end
 
-
   def question_total(question: nil)
     self.send("#{question}_1") +
     self.send("#{question}_2") +
@@ -160,11 +159,41 @@ class OmbCxReportingCollection < ApplicationRecord
     self.q1_total + self.q2_total + self.q3_total + self.q4_total + self.q5_total + self.q6_total + self.q7_total + self.q8_total + self.q9_total + self.q10_total + self.q11_total
   end
 
+  def organization
+    self.collection.organization
+  end
+
+  def organization_id
+    organization.id
+  end
+
+  def organization_name
+    organization.name
+  end
+
+  def organization_abbreviation
+    organization.abbreviation
+  end
+
   def collection_name
     self.collection.name
+  end
+
+  def collection_year
+    self.collection.year
+  end
+
+  def collection_quarter
+    self.collection.quarter
   end
 
   def service_name
     self.service.name
   end
+
+  def service_slug
+    self.service.service_slug
+  end
+
+
 end

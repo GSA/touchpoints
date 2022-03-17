@@ -1,5 +1,3 @@
-<div class="radios" aria-labelledby="<%= question.answer_field %>">
-  <label class="usa-label" for="<%= question.answer_field.to_sym %>">
-    <%= sanitize(question.text) %>
-  </label>
+<div class="touchpoints-form-text-display" id="<%= question.answer_field.to_sym %>">
+  <%= sanitize(question.text) %>
 </div>
