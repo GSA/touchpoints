@@ -57,7 +57,7 @@ class Submission < ApplicationRecord
     # Run Custom Validations
     questions.each do |question|
       if question.is_required && !answered_questions[question.answer_field]
-        errors.messages[question.answer_field] << "is required"
+        errors.add(question.answer_field.to_sym, :blank, message: "is required")
       end
 
       if question.character_limit.present? && answered_questions[question.answer_field] && answered_questions[question.answer_field].length > question.character_limit
