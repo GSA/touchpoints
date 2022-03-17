@@ -3,6 +3,7 @@ class UserRole < ApplicationRecord
   belongs_to :form
 
   validates :role, presence: true
+  validates_uniqueness_of :user_id, scope: :form_id
 
   module Role
     FormManager = "form_manager"
