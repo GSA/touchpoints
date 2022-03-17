@@ -71,7 +71,6 @@ gem 'omniauth_login_dot_gov', git: 'https://github.com/18F/omniauth_login_dot_go
 gem 'rack-cors', '>= 1.1.1', require: 'rack/cors'
 gem 'sass-rails', '>= 6.0.0'
 gem 'sidekiq'
-gem 'uglifier'
 gem 'json-jwt'
 # Use Redis to cache Touchpoints in all envs
 gem 'redis-namespace'
