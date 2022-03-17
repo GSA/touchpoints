@@ -41,7 +41,9 @@
       }).done(function(response) {
         location.reload();
       }).fail(function(response) {
-        alert(response);
+        if (response.status == 422) {
+          alert("This User Role could not be added.");
+        }
       });
     });
 
