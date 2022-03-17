@@ -122,8 +122,6 @@ class Admin::WebsitesController < AdminController
   end
 
   def export_csv
-    ensure_service_manager_permissions
-
     @websites = Website.all
     send_data @websites.to_csv, filename: "touchpoints-websites-#{Date.today}.csv"
   end
