@@ -15,7 +15,7 @@
       <%= t 'home.sign_in_text' %>
     </p>
     <p>
-      <%= link_to user_login_dot_gov_omniauth_authorize_path, id: "agree-button", class: "usa-button sign-in-logo", "aria-label" => "Login.gov" do %>
+      <%= link_to user_login_dot_gov_omniauth_authorize_path, method: :post, id: "agree-button", class: "usa-button sign-in-logo", "aria-label" => "Login.gov" do %>
         <%= t 'home.sign_in_with' %>
         <span>Login.gov</span>
       <% end %>

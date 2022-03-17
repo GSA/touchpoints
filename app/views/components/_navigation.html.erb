@@ -18,7 +18,7 @@
         <% unless current_user %>
           <% if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
           <li class="usa-nav__secondary-item">
-            <%= link_to user_login_dot_gov_omniauth_authorize_path, class: "admin" do %>
+            <%= link_to user_login_dot_gov_omniauth_authorize_path, method: :post, class: "admin" do %>
               <%= t 'home.sign_in_with' %> Login.gov
             <% end %>
           </li>
