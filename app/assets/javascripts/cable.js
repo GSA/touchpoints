@@ -1,5 +1,5 @@
 // app/assets/javascripts/cable.js
-//= require action_cable
+//= require actioncable
 //= require_self
 //= require_tree ./channels
 
