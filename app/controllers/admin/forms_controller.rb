@@ -88,35 +88,42 @@ class Admin::FormsController < AdminController
   end
 
   def update_title
+    ensure_form_manager(form: @form)
     @form.update!(title: params[:title])
     render json: @form
   end
 
   def update_instructions
+    ensure_form_manager(form: @form)
     @form.update!(instructions: params[:instructions])
     render json: @form
   end
 
   def update_disclaimer_text
+    ensure_form_manager(form: @form)
     @form.update!(disclaimer_text: params[:disclaimer_text])
     render json: @form
   end
 
   def update_success_text
+    ensure_form_manager(form: @form)
     @form.update!(success_text: params[:success_text], success_text_heading: params[:success_text_heading])
     render(partial: "admin/questions/success_text", locals: { form: @form })
   end
 
   def update_display_logo
+    ensure_form_manager(form: @form)
     @form.update(form_logo_params)
   end
 
   def update_admin_options
+    ensure_form_manager(form: @form)
     @form.update(form_admin_options_params)
     flash.now[:notice] = "Admin form options updated successfully"
   end
 
   def update_form_manager_options
+    ensure_form_manager(form: @form)
     @form.update(form_admin_options_params)
     flash.now[:notice] = "Form Manager forms options updated successfully"
   end
