@@ -8,6 +8,7 @@ class Admin::SiteController < AdminController
 
     @response_groups = Submission.group("date(created_at)").count.sort.last(@days_since.days)
     @user_groups = User.group("date(created_at)").count.sort.last(@days_since.days)
+    @inactive_user_groups = User.where(inactive: true).group("date(updated_at)").count.sort.last(@days_since.days)
     todays_submissions = Submission.where("created_at > ?", Time.now - @days_since.days)
 
     # Add in 0 count days to fetched analytics

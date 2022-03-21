@@ -225,6 +225,7 @@ Rails.application.routes.draw do
     end
     resources :users, except: [:new] do
       collection do
+        get "admins", to: "users#admins", as: :admins
         get "inactive", to: "users#inactive", as: :inactive
         post "inactivate", to: "users#inactivate!", as: :inactivate
         get "deactivate", to: "users#deactivate"
