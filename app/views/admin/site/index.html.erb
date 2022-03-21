@@ -222,7 +222,7 @@
         <%= render 'components/admin/responses_per_day', response_groups: @response_groups %>
       </div>
       <div class="well">
-        <%= render 'components/admin/new_users_over_time', user_groups: @user_groups %>
+        <%= render 'components/admin/new_users_over_time', user_groups: @user_groups, inactive_user_groups: @inactive_user_groups %>
       </div>
       <% else %>
         <h4>
