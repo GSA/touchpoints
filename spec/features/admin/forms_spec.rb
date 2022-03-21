@@ -1104,7 +1104,7 @@ feature "Forms", js: true do
     end
   end
 
-  context "form owner with Form Manager permissions" do
+  context "Form owner with Form Manager permissions" do
     let(:user) { FactoryBot.create(:user, organization: organization) }
     let(:form) { FactoryBot.create(:form, :custom, organization: organization, user: user) }
 
@@ -1136,14 +1136,16 @@ feature "Forms", js: true do
     let!(:form) { FactoryBot.create(:form, :custom, organization: organization, user: user2) }
 
     describe "cannot edit the form" do
-      before do
-        login_as(user)
-        visit edit_admin_form_path(form)
-      end
+      context "/admin/forms/:id/edit" do
+        before do
+          login_as(user)
+          visit edit_admin_form_path(form)
+        end
 
-      it "redirects to /admin" do
-        expect(page.current_path).to eq(admin_root_path)
-        expect(page).to have_content("Authorization is Required")
+        it "redirects to /admin" do
+          expect(page.current_path).to eq(admin_root_path)
+          expect(page).to have_content("Authorization is Required")
+        end
       end
     end
   end
@@ -1357,6 +1359,11 @@ feature "Forms", js: true do
       describe "unavailable UI features" do
         it "does not display 'Publish' component" do
           expect(page).not_to have_content("Publish your form")
+        end
+
+        it "does not Form Manager options" do
+          expect(page).not_to have_content("Form Manager options")
+          expect(page).not_to have_content("Update Survey")
         end
 
         it "does not display 'Roles and Permissions' component" do

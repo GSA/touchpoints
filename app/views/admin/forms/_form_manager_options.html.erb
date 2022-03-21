@@ -18,10 +18,12 @@
       <% end %>
     </div>
   <% end %>
+  <% if is_at_least_form_manager?(user: current_user, form: @form) %>
   <div class="well">
     <h4>
       Form Manager options
     </h4>
+
     <div class="grid-row grid-gap-md">
       <div class="grid-col-12">
         <div class="field">
@@ -63,4 +65,5 @@
       <%= f.submit "Update Survey Options", class: "usa-button" %>
     </p>
   </div>
+  <% end %>
 <% end %>

@@ -20,14 +20,24 @@ $(function() {
       <% end %>
       ],
       datasets: [{
-        label: '# of Users',
+        label: '# of Active Users',
         data: [
         <% user_groups.each do |key, value| %>
           <%= value %>,
         <% end %>
         ],
-        backgroundColor: "#E1F3F8"
-      }]
+        backgroundColor: "#57B63A"
+      },
+      {
+        label: '# of Inactive Users',
+        data: [
+        <% inactive_user_groups.each do |key, value| %>
+          <%= value %>,
+        <% end %>
+        ],
+        backgroundColor: "#AEBCA9"
+      }
+      ]
     },
     options: {
       responsive: true,
@@ -35,11 +45,17 @@ $(function() {
         position: 'bottom',
       },
       scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }]
+      x: {
+        stacked: true,
+      },
+      y: {
+        stacked: true
+      },
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
       }
     }
   });

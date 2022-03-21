@@ -11,6 +11,15 @@ class Admin::UsersController < AdminController
     end
   end
 
+  def admins
+    @users = User.all
+    @admins = @users.select { |u| u.admin? }
+    @service_managers = @users.select { |u| u.service_manager? }
+    @performance_managers = @users.select { |u| u.performance_manager? }
+    @registry_managers = @users.select { |u| u.registry_manager? }
+    @website_managers = @users.select { |u| u.organizational_website_manager? }
+  end
+
   def inactive
     @users = User.all.includes(:organization).where("last_sign_in_at < ? OR last_sign_in_at ISNULL", Time.now - 90.days).order(:organization_id, :email)
     render :index
