@@ -247,6 +247,7 @@ Rails.application.routes.draw do
         get "create_four_year_goal", to: "organizations#create_four_year_goal", as: :create_four_year_goal
         delete "delete_two_year_goal", to: "organizations#delete_two_year_goal", as: :delete_two_year_goal
         delete "delete_four_year_goal", to: "organizations#delete_four_year_goal", as: :delete_four_year_goal
+        patch "sort_goals", to: "organizations#sort_goals", as: :sort_goals
       end
     end
     resources :service_stages

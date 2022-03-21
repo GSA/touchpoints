@@ -9,7 +9,7 @@ require 'capybara/rails'
 require 'capybara/rspec'
 require 'selenium/webdriver'
 # Add additional requires below this line. Rails is not loaded until this point!
-
+require_relative 'support/wait_for_ajax'
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -39,8 +39,8 @@ Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
 # Capybara.javascript_driver = :selenium                 # Run feature specs with Firefox
-# Capybara.javascript_driver = :selenium_chrome          # Run feature specs with Chrome
-Capybara.javascript_driver = :selenium_chrome_headless   # Run feature specs with headless Chrome
+Capybara.javascript_driver = :selenium_chrome          # Run feature specs with Chrome
+# Capybara.javascript_driver = :selenium_chrome_headless   # Run feature specs with headless Chrome
 Capybara.default_max_wait_time = 3
 Capybara.raise_server_errors = true
 
