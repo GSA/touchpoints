@@ -14,9 +14,11 @@ class Admin::SiteController < AdminController
     # Add in 0 count days to fetched analytics
     @dates.each do | date |
       @user_groups << [date, 0] unless @user_groups.detect{ | row | row[0].strftime("%m %d %Y") == date.strftime("%m %d %Y")}
+      @inactive_user_groups << [date, 0] unless @inactive_user_groups.detect{ | row | row[0].strftime("%m %d %Y") == date.strftime("%m %d %Y")}
       @response_groups << [date, 0] unless @response_groups.detect{ | row | row[0].strftime("%m %d %Y") == date.strftime("%m %d %Y")}
     end
     @user_groups = @user_groups.sort
+    @inactive_user_groups = @inactive_user_groups.sort
     @response_groups = @response_groups.sort
 
     form_ids = todays_submissions.collect(&:form_id).uniq
