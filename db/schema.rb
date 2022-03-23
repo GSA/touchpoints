@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_17_170633) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_23_151052) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -234,6 +234,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_17_170633) do
     t.integer "users", array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "position", default: 0
     t.index ["tags"], name: "index_objectives_on_tags", using: :gin
     t.index ["users"], name: "index_objectives_on_users", using: :gin
   end

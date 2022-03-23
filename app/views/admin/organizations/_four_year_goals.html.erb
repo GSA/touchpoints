@@ -17,14 +17,14 @@
         <% if goal.objectives.size > 0 %>
           Objectives:
         <% end %>
-        <ul>
-          <% goal.objectives.each_with_index do |obj, j| %>
-            <li>
-              <%= i + 1 %>.<%= j + 1 %>.
+        <div class="sorting-div-objectives">
+          <% goal.objectives.order(:position).each_with_index do |obj, j| %>
+            <p  class="well" id="<%= dom_id(obj) %>" data-id="<%= obj.id %>" data-url="<%= sort_objectives_admin_organization_path(goal.organization) %>">
+              <%= j + 1 %>.
               <%= obj.name %>
-            </li>
+            </p>
           <% end %>
-        </ul>
+        </div>
       </p>
     </div>
   <% end %>
@@ -32,6 +32,17 @@
 <%= link_to "Create 4-yr strategic goal", create_four_year_goal_admin_organization_path(@organization), class: "usa-button", remote: true %>
 <script>
   $(".sorting-div-4").sortable({
+    distance: 20,
+    update: function(e, ui) {
+      var url = ui.item.data("url");
+      $.ajax({
+        url: url,
+        type: "PATCH",
+        data: $(this).sortable('serialize')
+      });
+    }
+  });
+  $(".sorting-div-objectives").sortable({
     distance: 20,
     update: function(e, ui) {
       var url = ui.item.data("url");

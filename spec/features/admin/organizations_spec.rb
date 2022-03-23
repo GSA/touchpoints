@@ -51,5 +51,22 @@ feature "Managing Organizations", js: true do
         expect(goal_list[2].reload.position).to eq(1)
       end
     end
+
+    describe "sort objectives" do
+      let!(:goal) { FactoryBot.create(:goal, organization: organization, four_year_goal: true) }
+      let!(:objective_list) { FactoryBot.create_list(:objective, 3, goal: goal, organization: organization) }
+
+      it "successfully re-orders objectivs for a goal" do
+        visit performance_admin_organization_path(organization)
+        objective_list.each do | obj |
+          expect(obj.position).to eq(0)
+        end
+        find("#objective_3").drag_to(find("#objective_1"))
+        wait_for_ajax
+        expect(objective_list[0].reload.position).to eq(2)
+        expect(objective_list[1].reload.position).to eq(3)
+        expect(objective_list[2].reload.position).to eq(1)
+      end
+    end
   end
 end
