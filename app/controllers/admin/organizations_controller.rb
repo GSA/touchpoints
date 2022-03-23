@@ -13,7 +13,8 @@ class Admin::OrganizationsController < AdminController
     :create_four_year_goal,
     :delete_two_year_goal,
     :delete_four_year_goal,
-    :sort_goals
+    :sort_goals,
+    :sort_objectives
   ]
 
   def index
@@ -70,6 +71,14 @@ class Admin::OrganizationsController < AdminController
   def sort_goals
     params[:goal].each_with_index do |id, index|
       Goal.where(id: id).update_all(position: index + 1)
+    end
+
+    head :ok
+  end
+
+  def sort_objectives
+    params[:objective].each_with_index do |id, index|
+      Objective.where(id: id).update_all(position: index + 1)
     end
 
     head :ok
