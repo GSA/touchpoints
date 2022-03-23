@@ -248,6 +248,7 @@ Rails.application.routes.draw do
         delete "delete_two_year_goal", to: "organizations#delete_two_year_goal", as: :delete_two_year_goal
         delete "delete_four_year_goal", to: "organizations#delete_four_year_goal", as: :delete_four_year_goal
         patch "sort_goals", to: "organizations#sort_goals", as: :sort_goals
+        patch "sort_objectives", to: "organizations#sort_objectives", as: :sort_objectives
       end
     end
     resources :service_stages
