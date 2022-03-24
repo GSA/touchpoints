@@ -29,7 +29,8 @@ class Question < ApplicationRecord
     "thumbs_up_down_buttons",
     "yes_no_buttons",
     "hidden_field",
-    "date_select"
+    "date_select",
+    "combo"
   ]
 
   validates :answer_field, presence: true
