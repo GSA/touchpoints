@@ -166,7 +166,8 @@ feature "Touchpoints", js: true do
 
       before do
         visit touchpoint_path(dropdown_form)
-        select("CA", from: "answer_03")
+        find(".combo-dropdown").click
+        find('li', text: 'CA - California').click
         click_on "Submit"
       end
 
@@ -179,6 +180,34 @@ feature "Touchpoints", js: true do
         before do
           dropdown_form.questions.first.update(is_required: true)
           visit touchpoint_path(dropdown_form)
+        end
+
+        it "display flash message" do
+          click_on "Submit"
+          expect(page).to have_content("You must respond to question:")
+        end
+      end
+    end
+
+    describe "combo question" do
+      let!(:combo_form) { FactoryBot.create(:form, :combo_form, organization: organization, user: user) }
+
+      before do
+        visit touchpoint_path(combo_form)
+        find(".combo-dropdown").click
+        find('li', text: 'Two').click
+        click_on "Submit"
+      end
+
+      it "persists question values to db" do
+        expect(page).to have_content("Thank you. Your feedback has been received.")
+        expect(Submission.last.answer_03).to eq "Two"
+      end
+
+      context "when required" do
+        before do
+          combo_form.questions.first.update(is_required: true)
+          visit touchpoint_path(combo_form)
         end
 
         it "display flash message" do

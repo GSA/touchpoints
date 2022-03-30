@@ -32,6 +32,54 @@ footer {
   line-height: 1.25rem;
 }
 
+// combo-box
+.combo-filter {
+  display: inline-block;
+  margin-right: 0px;
+  padding-right: 0px;
+}
+.combo-dropdown {
+  display: inline-block;
+  position: relative;
+  top: 6px;
+  left: -40px;
+  padding: 3px;
+  padding-left: 6px;
+  border: 0px;
+  margin-left: 0px;
+  margin-top:  0.5rem;
+  border-left: 1px solid rgba(211, 211, 211, .3);
+}
+.combo-select {
+  display: none;
+}
+.combo-list {
+  position: absolute;
+  margin-top: 0px;
+  padding-left: 0px;
+  display: none;
+  list-style-type: none;
+  border: 1px solid black;
+  background-color: white;
+  width: 30rem;
+  max-width: 30rem;
+  overflow-y: scroll;
+  max-height: 250px;
+}
+.combo-list li {
+  border-bottom: 1px solid rgba(211, 211, 211, .3);
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 20px;
+  line-spacing: 1.2em;
+}
+.usa-combo-box__toggle-list {
+    background-image: url(../img/usa-icons/expand_more.svg),linear-gradient(transparent,transparent);
+    background-repeat: no-repeat;
+    background-size: auto 2rem;
+    right: 1px;
+}
+
 // For the extra-wide Responses table
 .table-scroll {
 	position:relative;

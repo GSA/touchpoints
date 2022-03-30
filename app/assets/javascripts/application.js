@@ -17,6 +17,8 @@
 //= require rails-ujs
 //= require uswds-init
 //= require heartbeat
+//= require combo
+
 
 function generateUUID() {
   var S4 = function() {

@@ -1,4 +1,14 @@
 <div class="radios" role="group" aria-labelledby="<%= question.answer_field %>" data-url="<%= admin_form_question_question_options_path(question.form, question) %>">
   <%= render 'components/question_title', question: question, form_builder: true %>
-  <%= select_tag(question.answer_field.to_sym, options_for_select(UsState.dropdown_options), { prompt: (t 'form.select_one'), class: "usa-select", required: question.is_required  }) %>
+  <input id="combo-filter-<%= question.id %>" type="text" autocomplete="off" class="usa-input combo-filter" placeholder="Choose state..." data-combo-id="<%= question.id %>">
+  <span id="combo-dropdown-<%= question.id %>" class="combo-dropdown" data-combo-id="<%= question.id %>"> <i class="fa fa-caret-down fa-2x"></i></span>
+  <ul id="combo-list-<%= question.id %>" class="combo-list" data-combo-id="<%= question.id %>">
+    <% UsState.dropdown_options.each do | option | %>
+      <li data-combo-id="<%= question.id %>" data-key="<%= option[1] %>"><%= option[0] %></li>
+    <% end %>
+  </ul>
+  <%= select_tag(question.answer_field.to_sym, options_for_select(UsState.dropdown_options), { prompt: (t 'form.select_one'), class: "usa-select combo-select", required: question.is_required  }) %>
 </div>
+<script>
+  initCombo(<%= question.id %>);
+</script>

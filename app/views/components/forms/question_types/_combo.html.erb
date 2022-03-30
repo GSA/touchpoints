@@ -1,6 +1,16 @@
 <div role="group">
   <%= render 'components/question_title_label', question: question %>
   <div class="radio-button">
-    <%= select_tag(question.answer_field.to_sym, options_for_select(question.question_options.each_with_index.map { |option, index| [option.text, option.value] }), { prompt: (t 'form.select_one'), class: "usa-select", required: question.is_required  }) %>
+    <input id="combo-filter-<%= question.id %>" type="text" autocomplete="off" class="usa-input combo-filter" placeholder="Choose..." data-combo-id="<%= question.id %>">
+    <span id="combo-dropdown-<%= question.id %>" class="combo-dropdown" data-combo-id="<%= question.id %>"> <i class="fa fa-caret-down fa-2x"></i></span>
+    <ul id="combo-list-<%= question.id %>" class="combo-list" data-combo-id="<%= question.id %>" data-combo-for="<%= question.answer_field %>">
+      <% question.question_options.each do | option | %>
+        <li data-combo-id="<%= question.id %>" data-key="<%= option.value %>"><%= option.text %></li>
+      <% end %>
+    </ul>
+    <%= select_tag(question.answer_field.to_sym, options_for_select(question.question_options.each_with_index.map { |option, index| [option.text, option.value] }), { prompt: (t 'form.select_one'), class: "usa-select combo-select", required: question.is_required  }) %>
   </div>
 </div>
+<script>
+  initCombo(<%= question.id %>);
+</script>

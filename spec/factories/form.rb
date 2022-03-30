@@ -284,6 +284,35 @@ FactoryBot.define do
           position: 3
         })
 
+        combo_question = Question.create!({
+          form: f,
+          form_section: option_elements_section,
+          text: "Custom Question Dropdown",
+          question_type: "combo",
+          help_text: "This is help text for a combo.",
+          position: 5,
+          answer_field: :answer_08,
+          is_required: false,
+        })
+        QuestionOption.create!({
+          question: combo_question,
+          text: "Option 1",
+          value: 1,
+          position: 1
+        })
+        QuestionOption.create!({
+          question: combo_question,
+          text: "Option 2",
+          value: 2,
+          position: 2
+        })
+        QuestionOption.create!({
+          question: combo_question,
+          text: "Option 3",
+          value: 3,
+          position: 3
+        })
+
         custom_elements_section = f.form_sections.create(title: "Custom elements", position: 3)
         Question.create!({
           form: f,
@@ -398,6 +427,21 @@ FactoryBot.define do
       after(:create) do |f, evaluator|
         FactoryBot.create(:question,
           :states_dropdown,
+          form: f,
+          answer_field: :answer_03,
+          form_section: f.form_sections.first,
+          text: "Name"
+        )
+      end
+    end
+
+    trait :combo_form do
+      name { "Combo form" }
+      kind { "custom" }
+      after(:create) do |f, evaluator|
+        FactoryBot.create(:question,
+          :with_combo_options,
+          :combo,
           form: f,
           answer_field: :answer_03,
           form_section: f.form_sections.first,

@@ -20,6 +20,10 @@ FactoryBot.define do
       question_type { "states_dropdown" }
     end
 
+    trait :combo do
+      question_type { "combo" }
+    end
+
     trait :with_radio_buttons do
       text { "Test Radio Buttons Question" }
       question_type { "radio_buttons" }
@@ -51,6 +55,17 @@ FactoryBot.define do
         FactoryBot.create(:question_option, question: dropdown_question, position: 2, text: 'Two')
         FactoryBot.create(:question_option, question: dropdown_question, position: 3, text: 'Three')
         FactoryBot.create(:question_option, question: dropdown_question, position: 4, text: 'Four')
+      end
+    end
+
+    trait :with_combo_options do
+      text { "Test Combo Question" }
+      question_type { "combo" }
+      after(:create) do |combo_question, evaluator|
+        FactoryBot.create(:question_option, question: combo_question, position: 1, text: 'One')
+        FactoryBot.create(:question_option, question: combo_question, position: 2, text: 'Two')
+        FactoryBot.create(:question_option, question: combo_question, position: 3, text: 'Three')
+        FactoryBot.create(:question_option, question: combo_question, position: 4, text: 'Four')
       end
     end
   end
