@@ -10,7 +10,6 @@ class ServiceProviderSerializer < ActiveModel::Serializer
     :department,
     :department_abbreviation,
     :bureau,
-    :bureau_abbreviation,
     :inactive,
     :url,
     :new

@@ -219,7 +219,6 @@ class Admin::ServicesController < AdminController
         :service_owner_id,
         :service_provider_id,
         :bureau,
-        :bureau_abbreviation,
         :department,
         :description,
         :hisp,
