@@ -293,6 +293,11 @@ $(function() {
     });
   });
 
+  $('.form-builder').on("click", '.form-add-other-question-option', function(event) {
+    event.preventDefault();
+    $(this).closest('div.new-question-options-div').find('.form-add-other-question-option').hide();
+  });
+
   $('.question').on("click", ".edit.button", function(event) {
     event.preventDefault();
     var contentDiv =  $(this).closest('.question-option');
