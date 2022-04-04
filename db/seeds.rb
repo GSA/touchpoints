@@ -334,7 +334,6 @@ service_provider_1 = ServiceProvider.create({
   department: 'Example Department',
   department_abbreviation: 'dept',
   bureau: 'Example Bureau',
-  bureau_abbreviation: 'bureau',
   slug: 'example-service1',
   new: false,
 })
@@ -347,7 +346,6 @@ service_provider_2 = ServiceProvider.create({
   department: 'Example',
   department_abbreviation: 'ex',
   bureau: 'CX Labs',
-  bureau_abbreviation: 'labs',
   slug: 'example-service2',
   new: false,
 })
@@ -360,7 +358,6 @@ service_provider_3 = ServiceProvider.create({
   department: 'General Services Administration',
   department_abbreviation: 'gsa',
   bureau: 'Technology Transformation Services',
-  bureau_abbreviation: 'tts',
   slug: 'gsa-usagov',
   new: true,
 })
@@ -375,7 +372,6 @@ service_1 = Service.create({
   description: 'A blurb describing this service. A few hundred words...',
   department: 'Department of Commerce',
   bureau: 'Patents and Trademarks',
-  bureau_abbreviation: 'trademarks',
   service_abbreviation: 'uspto',
   service_slug: 'doc-trademarks',
   url: 'https://uspto.gov/trademarks',
@@ -590,4 +586,3 @@ OmbCxReportingCollection.create!({
   q7_4: rand(1000),
   q7_5: rand(1000),
 })
-

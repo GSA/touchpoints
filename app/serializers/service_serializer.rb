@@ -13,7 +13,6 @@ class ServiceSerializer < ActiveModel::Serializer
     :hisp,
     :department,
     :bureau,
-    :bureau_abbreviation,
     :service_abbreviation,
     :service_slug,
     :service_owner_email,
