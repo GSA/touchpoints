@@ -507,6 +507,7 @@ function FBAform(d, N) {
 			var params = {
 			<%# Dynamically write the Form parameters for Custom Forms %>
 			<% form.questions.each do |question| %>
+			    <% next unless question_type_javascript_params(question).present? %>
 				<%= question.answer_field %>:
 				<%= raw question_type_javascript_params(question) %>,
 			<% end %>
