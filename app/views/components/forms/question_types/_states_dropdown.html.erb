@@ -1,8 +1,10 @@
 <div role="group">
   <%= render 'components/question_title', question: question %>
-  <div>
+  <div style="overflow:hidden;white-space:nowrap">
     <input id="combo-filter-<%= question.id %>" type="text" autocomplete="off" class="usa-input combo-filter" placeholder="Choose state..." data-combo-id="<%= question.id %>">
-    <span id="combo-dropdown-<%= question.id %>" class="combo-dropdown" data-combo-id="<%= question.id %>"> <i class="fa fa-caret-down fa-2x"></i></span>
+    <span id="combo-dropdown-<%= question.id %>" class="combo-dropdown" data-combo-id="<%= question.id %>">
+      <%= image_tag "usa-icons/expand_more.svg", alt: "toggle dropdown" %>
+    </span>
   </div>
   <ul id="combo-list-<%= question.id %>" class="combo-list" data-combo-id="<%= question.id %>" data-combo-for="<%= question.answer_field %>">
     <% UsState.dropdown_options.each do | option | %>
