@@ -109,7 +109,6 @@ class Admin::ServiceProvidersController < AdminController
         :department,
         :department_abbreviation,
         :bureau,
-        :bureau_abbreviation,
         :inactive,
         :new,
         :tag_list,
