@@ -18,23 +18,25 @@
         </span>
       </div>
     </div>
-
-    <script>
-      $(".success_text").on("blur", function(event) {
-        event.preventDefault();
-        $.ajax({
-          type: "PATCH",
-          url: $(this).attr("data_url") + "/update_success_text",
-          data: {
-            success_text: $(form_success_text).val(),
-            success_text_heading: $(form_success_text_heading).val()
-          }
-        }).done(function(data) {
-          $("#success_text_div").html(data);
-          $('.usa-hint.save-notice.survey-success-text').show();
-          $('.usa-hint.save-notice.survey-success-text').fadeOut(2000);
-          });
-      });
-    </script>
   </div>
 <% end %>
+
+<script>
+  $(function() {
+    $(".success_text").on("blur", function(event) {
+      event.preventDefault();
+      $.ajax({
+        type: "PATCH",
+        url: "<%= update_success_text_admin_form_path(form) %>",
+        data: {
+          success_text: $(form_success_text).val(),
+          success_text_heading: $(form_success_text_heading).val()
+        }
+      }).done(function(data) {
+        $("#success_text_div").html(data);
+        $('.usa-hint.save-notice.survey-success-text').show();
+        $('.usa-hint.save-notice.survey-success-text').fadeOut(2000);
+      });
+    });
+  })
+</script>
