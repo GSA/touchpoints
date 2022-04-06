@@ -3,5 +3,6 @@ class ExportChannel < ApplicationCable::Channel
     stream_from "exports_channel_#{params[:uuid]}"
   end
 
-  def unsubscribed; end
+  def unsubscribed
+  end
 end

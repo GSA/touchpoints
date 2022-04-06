@@ -128,7 +128,9 @@
         Q<%= collection.quarter %>
         FY<%= collection.year %>
         &middot;
-        <%= link_to collection.name, admin_collection_path(collection) %><br>
+        <%= link_to collection.name, admin_collection_path(collection) %>
+        &middot;
+        <%= link_to collection.service_provider.name, admin_service_provider_path(service_provider) %>        
       </li>
     <% end %>
     </ul>
