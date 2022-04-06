@@ -397,7 +397,7 @@ function FBAform(d, N) {
 			return "<%= escape_javascript(form.success_text_heading) %>";
 		},
 		successText: function() {
-			return "<%= escape_javascript(form.success_text) %>";
+			return "<%= escape_javascript(sanitize(form.success_text)) %>";
 		},
 		showFormSuccess: function(e)
 		{
