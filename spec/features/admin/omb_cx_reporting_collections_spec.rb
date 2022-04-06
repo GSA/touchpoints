@@ -85,7 +85,7 @@ RSpec.describe "/omb_cx_reporting_collections", js: true do
     end
 
     it "render a successful response" do
-      expect(page).to have_content("Omb cx reporting collection was successfully updated.")
+      expect(find(".usa-alert__text")).to have_content("Omb cx reporting collection was successfully updated.")
     end
   end
 end
