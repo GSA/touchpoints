@@ -8,7 +8,7 @@ class CreateDigitalProductVersions < ActiveRecord::Migration[7.0]
       t.date :publish_date
       t.string :description
       t.string :whats_new
-      t.string :screen_shot_url
+      t.string :screenshot_url
       t.string :device
       t.string :language
       t.string :average_rating

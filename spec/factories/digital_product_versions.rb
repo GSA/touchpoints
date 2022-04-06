@@ -7,7 +7,7 @@ FactoryBot.define do
     publish_date { Date.today }
     description { 'Test description' }
     whats_new { 'things' }
-    screen_shot_url { 'https://something.com/image' }
+    screenshot_url { 'https://something.com/image' }
     device { 'tablet' }
     language { 'ObjectiveC' }
     average_rating { '4.5' }
