@@ -59,6 +59,26 @@ feature "Touchpoints", js: true do
           end
         end
       end
+
+      context "custom HTML success text" do
+        before do
+          form.update(success_text: "Much success. \n With a <a href='#'>Link</a>.")
+          form.reload
+          visit touchpoint_path(form)
+          expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
+          fill_in("answer_01", with: "User feedback")
+          click_button "Submit"
+        end
+
+        describe "display custom HTML success text" do
+          it "renders success flash message" do
+            expect(page).to have_text("Much success. With a Link.")
+            expect(page).to have_link("Link")
+            expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit") # stays on same page
+          end
+        end
+      end
+
     end
 
     describe "checkbox question" do
