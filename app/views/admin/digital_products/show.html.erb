@@ -1,64 +1,74 @@
 <p id="notice"><%= notice %></p>
+<div class="grid-row grid-gap-md">
+  <div class="grid-col-6">
 
-<p>
-  <strong>Organization:</strong>
-  <%= @digital_product.organization.name %>
-</p>
+    <p>
+      <strong>Organization:</strong>
+      <%= @digital_product.organization.name %>
+    </p>
 
-<p>
-  <strong>User:</strong>
-  <%= @digital_product.user_id %>
-</p>
+    <p>
+      <strong>User:</strong>
+      <%= @digital_product.user_id %>
+    </p>
 
-<p>
-  <strong>Service:</strong>
-  <%= @digital_product.service %>
-</p>
+    <p>
+      <strong>Service:</strong>
+      <%= @digital_product.service %>
+    </p>
 
-<p>
-  <strong>Url:</strong>
-  <%= @digital_product.url %>
-</p>
+    <p>
+      <strong>Url:</strong>
+      <%= @digital_product.url %>
+    </p>
 
-<p>
-  <strong>Code repository url:</strong>
-  <%= @digital_product.code_repository_url %>
-</p>
+    <p>
+      <strong>Code repository url:</strong>
+      <%= @digital_product.code_repository_url %>
+    </p>
 
-<p>
-  <strong>Language:</strong>
-  <%= @digital_product.language %>
-</p>
+    <p>
+      <strong>Language:</strong>
+      <%= @digital_product.language %>
+    </p>
 
-<p>
-  <strong>Status:</strong>
-  <%= @digital_product.status %>
-</p>
+    <p>
+      <strong>Status:</strong>
+      <%= @digital_product.status %>
+    </p>
 
-<p>
-  <strong>Aasm status:</strong>
-  <%= @digital_product.aasm_status %>
-</p>
+    <p>
+      <strong>Aasm status:</strong>
+      <%= @digital_product.aasm_status %>
+    </p>
 
-<p>
-  <strong>Short description:</strong>
-  <%= @digital_product.short_description %>
-</p>
+    <p>
+      <strong>Short description:</strong>
+      <%= @digital_product.short_description %>
+    </p>
 
-<p>
-  <strong>Long description:</strong>
-  <%= @digital_product.long_description %>
-</p>
+    <p>
+      <strong>Long description:</strong>
+      <%= @digital_product.long_description %>
+    </p>
 
-<p>
-  <strong>Tags:</strong>
-  <%= @digital_product.tags %>
-</p>
+    <p>
+      <strong>Tags:</strong>
+      <%= @digital_product.tags %>
+    </p>
 
-<p>
-  <strong>Certified at:</strong>
-  <%= @digital_product.certified_at %>
-</p>
-
+    <p>
+      <strong>Certified at:</strong>
+      <%= @digital_product.certified_at %>
+    </p>
+  </div>
+  <div class="grid-col-6 well">
+   <h3>Digital Platforms</h3>
+     <div data-controller="digital_product_versions">
+      <button class="usa-button" data-action="click->digital_product_versions#new">New Platform</button>
+      <div data-digital_product_versions-target="digital_product_versions-list"
+    </div>
+  </div>
+</div>
 <%= link_to 'Edit', edit_admin_digital_product_path(@digital_product) %> |
 <%= link_to 'Back', admin_digital_products_path %>

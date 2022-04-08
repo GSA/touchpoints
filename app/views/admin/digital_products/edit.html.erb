@@ -2,6 +2,6 @@
 
 <%= render 'form', digital_product: @digital_product %>
 
-<%= link_to 'Show', @digital_product %> |
-<%= link_to 'Back', digital_products_path %>
+<%= link_to 'Show', admin_digital_product_path(@digital_product) %> |
+<%= link_to 'Back', admin_digital_products_path %>
 <%#= link_to 'Destroy', digital_product, method: :delete, data: { confirm: 'Are you sure?' } %>
