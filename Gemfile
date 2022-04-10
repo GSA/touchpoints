@@ -77,7 +77,7 @@ gem 'redis-namespace'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem 'aasm', '~> 5.2.0'
-# gem 'webpacker', '~> 5.0'
+gem 'webpacker'
 gem 'whenever', require: false
 gem 'logstop'
 gem 'paper_trail'

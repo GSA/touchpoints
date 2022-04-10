@@ -3,6 +3,8 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
+  get "hello_stimulus", to: "site#hello_stimulus", as: :hello_stimulus
+
   authenticate :user, lambda { |u| u.admin? } do
     mount Sidekiq::Web => '/admin/sidekiq'
   end
