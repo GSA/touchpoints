@@ -24,12 +24,6 @@ gem "turbo-rails"
 # Hotwire"s modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
 
-# Build JSON APIs with ease [https://github.com/rails/jbuilder]
-gem "jbuilder"
-
-# Use Redis adapter to run Action Cable in production
-gem "redis", "~> 4.6"
-
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
@@ -59,6 +53,7 @@ gem 'caracal', '>= 1.4.1'
 gem 'carrierwave', '>= 2.2.1'
 gem 'devise', '>= 4.8.0'
 gem 'fog-aws', '>= 3.12.0'
+gem "jbuilder" # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jquery-rails', '>= 4.4.0'
 gem 'jquery-ui-rails', '>= 6.0.1'
 gem 'kaminari', '>= 1.2.2'
@@ -69,13 +64,12 @@ gem 'newrelic_rpm'
 gem 'omniauth-github'
 gem 'omniauth_login_dot_gov', git: 'https://github.com/18F/omniauth_login_dot_gov.git', branch: 'main'
 gem 'rack-cors', '>= 1.1.1', require: 'rack/cors'
+# Use Redis to cache Touchpoints in all envs
+gem "redis", "~> 4.6"
+gem 'redis-namespace'
 gem 'sass-rails', '>= 6.0.0'
 gem 'sidekiq'
 gem 'json-jwt'
-# Use Redis to cache Touchpoints in all envs
-gem 'redis-namespace'
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
 gem 'aasm', '~> 5.2.0'
 gem 'webpacker'
 gem 'whenever', require: false
