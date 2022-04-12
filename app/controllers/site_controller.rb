@@ -19,4 +19,8 @@ class SiteController < ApplicationController
       }
     }
   end
+
+  def hello_stimulus
+    render :layout => "stimulus_application"
+  end
 end

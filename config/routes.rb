@@ -7,6 +7,10 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/admin/sidekiq'
   end
 
+  if Rails.env.development?
+    get "hello_stimulus", to: "site#hello_stimulus", as: :hello_stimulus
+  end
+
   unless Rails.env.development?
     match "/404", :to => "errors#not_found", :via => :all
     match "/500", :to => "errors#internal_server_error", :via => :all
