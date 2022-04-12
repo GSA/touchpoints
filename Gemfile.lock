@@ -502,14 +502,14 @@ DEPENDENCIES
   bootsnap
   brakeman
   bundler-audit
-  capybara (>= 3.35.3)
+  capybara (>= 3.36.0)
   caracal (>= 1.4.1)
   carrierwave (>= 2.2.1)
   database_cleaner
-  devise (>= 4.8.0)
+  devise (>= 4.8.1)
   dotenv-rails (>= 2.7.6)
   factory_bot_rails (>= 6.2.0)
-  fog-aws (>= 3.12.0)
+  fog-aws (>= 3.13.0)
   image_processing (~> 1.12)
   importmap-rails
   jbuilder
@@ -530,12 +530,12 @@ DEPENDENCIES
   pry
   puma (~> 5.6)
   rack-cors (>= 1.1.1)
-  rails (~> 7.0.2, >= 7.0.2.2)
+  rails (~> 7.0.2, >= 7.0.2.3)
   rails-controller-testing (>= 1.0.5)
   redis (~> 4.6)
   redis-namespace
   rolify
-  rspec-rails (>= 5.0.2)
+  rspec-rails (>= 5.1.1)
   rspec_junit_formatter
   rubocop-rails
   sass-rails (>= 6.0.0)
@@ -546,7 +546,7 @@ DEPENDENCIES
   stimulus-rails
   turbo-rails
   tzinfo-data
-  web-console (>= 4.1.0)
+  web-console (>= 4.2.0)
   webdrivers (>= 5.0.0)
   webpacker (~> 6.0.0.rc.6)
   whenever
