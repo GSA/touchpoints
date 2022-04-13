@@ -31,6 +31,8 @@ jobs:
           - v1-bundle-{{ checksum "Gemfile.lock" }}
 
       - run: bundle install
+      - run: bundle exec rails webpacker:install
+      - run: bundle exec rails webpacker:compile
 
       - save_cache:
           paths:
