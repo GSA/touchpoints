@@ -4,10 +4,14 @@
   "dependencies": {
     "@rails/actioncable": "^7.0.2",
     "@rails/activestorage": "^7.0.2",
-    "@rails/ujs": "^7.0.2"
+    "@rails/ujs": "^7.0.2",
+    "@rails/webpacker": "5.4.3",
+    "stimulus": "^3.0.1",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2"
   },
   "version": "0.1.0",
   "devDependencies": {
-    "webpack-dev-server": "^4.7.4"
+    "webpack-dev-server": "^4.8.1"
   }
 }
