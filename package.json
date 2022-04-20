@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@hotwired/stimulus": "^3.0.1",
+    "@rails/webpacker": "5.4.3",
+    "webpack": "^4.46.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3"
+  }
+}
