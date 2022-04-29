@@ -31,7 +31,6 @@ jobs:
           - v1-bundle-{{ checksum "Gemfile.lock" }}
 
       - run: bundle install
-      - run: rails stimulus:install
 
       - save_cache:
           paths:
