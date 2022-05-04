@@ -6,6 +6,6 @@ const application = Application.start()
 application.debug = false
 window.Stimulus   = application
 
-console.log("Stimlus app controller");
+console.log("Stimulus app controller");
 
 export { application }
