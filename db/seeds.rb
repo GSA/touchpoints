@@ -364,7 +364,7 @@ service_provider_3 = ServiceProvider.create({
 
 ## Services
 
-service_1 = Service.create({
+service_1 = Service.create!({
   name: 'USPTO Trademarks',
   organization: Organization.first,
   hisp: true,
@@ -375,29 +375,34 @@ service_1 = Service.create({
   service_abbreviation: 'uspto',
   service_slug: 'doc-trademarks',
   url: 'https://uspto.gov/trademarks',
+  service_owner_id: admin_user.id,
   service_provider: service_provider_1,
 })
-service_2 = Service.create({
+service_2 = Service.create!({
   organization: service_provider_2.organization,
   service_provider: service_provider_2,
   name: 'Example',
+  service_owner_id: admin_user.id,
   hisp: true,
 })
-service_3 = Service.create({
+service_3 = Service.create!({
   organization: Organization.first,
   service_provider: service_provider_2,
+  service_owner_id: webmaster.id,
   name: 'HUD',
   hisp: true,
 })
-service_4 = Service.create({
+service_4 = Service.create!({
   organization: Organization.first,
   service_provider: service_provider_3,
+  service_owner_id: webmaster.id,
   name: 'IRS',
   hisp: true,
   })
-service_5 = Service.create({
+service_5 = Service.create!({
   organization: Organization.first,
-  service_provider: nil,
+  service_provider: service_provider_1,
+  service_owner_id: admin_user.id,
   name: 'Touchpoints',
   hisp: false,
 })
