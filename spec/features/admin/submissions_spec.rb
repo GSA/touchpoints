@@ -114,6 +114,26 @@ feature "Submissions", js: true do
           end
         end
 
+        describe "can view archived Responses" do
+          context "with more than 1 page worth of Responses" do
+            let!(:submissions) { FactoryBot.create_list(:submission, 45, form: form) }
+            let!(:archived_submissions) { FactoryBot.create_list(:submission, 70, archived: true, form: form) }
+
+            describe "click View link in responses table" do
+              before do
+                visit responses_admin_form_path(form, archived: 1)
+                within(find_all(".usa-pagination").first) do
+                  click_link "2"
+                end
+              end
+
+              it "view the 2nd page of responses" do
+                expect(page).to have_content("Displaying Responses 101 - 115 of 115")
+              end
+            end
+          end
+        end
+
         describe "archive a Submission" do
           context "with one Submission" do
             let!(:submission) { FactoryBot.create(:submission, form: form) }

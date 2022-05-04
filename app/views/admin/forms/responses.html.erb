@@ -56,7 +56,11 @@ $(function() {
     type: 'get'
   });
   $.ajax({
-    url: "/admin/submissions/submissions_table?form_id=<%= @form.short_uuid %>",
+    <% if params["archived"].present? && params["archived"] == "1" %>
+      url: "/admin/submissions/submissions_table?form_id=<%= @form.short_uuid %>&archived=1",
+    <% else %>
+      url: "/admin/submissions/submissions_table?form_id=<%= @form.short_uuid %>",
+    <% end %>
     type: 'get'
   });
 });
