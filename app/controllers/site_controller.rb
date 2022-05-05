@@ -19,4 +19,7 @@ class SiteController < ApplicationController
       }
     }
   end
+
+  def hello_stimulus
+  end
 end

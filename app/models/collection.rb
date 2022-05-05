@@ -10,7 +10,7 @@ class Collection < ApplicationRecord
   validates :quarter, presence: true
 
   validates :name, presence: true
-  validates :reflection, length: { maximum: 1000 }
+  validates :reflection, length: { maximum: 5000 }
 
   def omb_control_number
     "omb_control_number"

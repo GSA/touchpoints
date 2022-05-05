@@ -1,13 +1,5 @@
 {
-  "name": "touchpoints",
-  "private": true,
   "dependencies": {
-    "@rails/actioncable": "^7.0.2",
-    "@rails/activestorage": "^7.0.2",
-    "@rails/ujs": "^7.0.2"
-  },
-  "version": "0.1.0",
-  "devDependencies": {
-    "webpack-dev-server": "^4.7.4"
+    "@hotwired/stimulus": "^3.0.1"
   }
 }

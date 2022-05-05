@@ -487,15 +487,10 @@ span.usa-hint.save-notice {
 }
 
 // The public page
-.usa-width-full {
-  .touchpoint-form {
-    margin-top: 10px;
-    margin-bottom: 40px;
-  }
-}
-
 .touchpoint-form {
   background-color: #F1F1F1;
+  border-top: 1px solid #E5E5E5;
+  border-bottom: 1px solid #E5E5E5;
 
   .inner-wrapper {
     padding: 20px 20px 0 20px;
