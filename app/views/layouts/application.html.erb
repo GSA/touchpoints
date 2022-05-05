@@ -16,8 +16,9 @@
     <%= csp_meta_tag %>
     <%= favicon_link_tag asset_path('favicon.ico') %>
     <%= stylesheet_link_tag 'application', media: 'all', integrity: true %>
-    <%= javascript_include_tag 'application', integrity: true %>
+    <%= javascript_include_tag 'app', integrity: true %>
     <%= render 'components/analytics/script_header' %>
+    <%= javascript_importmap_tags %>
   </head>
   <body>
     <%= render 'components/analytics/script_body' %>

@@ -73,6 +73,7 @@ RSpec.describe "/omb_cx_reporting_collections", js: true do
 
         travel 14.minutes
         click_on "Update CX Service Detail Report"
+        wait_for_ajax
         expect(find(".usa-alert__text")).to have_content("Omb cx reporting collection was successfully created.")
       end
     end
