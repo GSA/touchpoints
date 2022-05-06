@@ -55,7 +55,6 @@ gem 'devise', '>= 4.8.1'
 gem 'fog-aws', '>= 3.13.0'
 gem "jbuilder" # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jquery-rails', '>= 4.4.0'
-gem 'jquery-ui-rails', '>= 6.0.1'
 gem 'kaminari', '>= 1.2.2'
 gem 'kramdown'
 gem 'mail'
