@@ -1,6 +1,22 @@
+<<<<<<< HEAD
 <p id="notice"><%= notice %></p>
 <div class="grid-row grid-gap-md">
   <div class="grid-col-6">
+=======
+<% content_for :navigation_title do %>
+  Viewing Digital Product: <%= @digital_product.id %>
+  <%= link_to edit_admin_digital_product_path(@digital_product), class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-pencil-alt"></i>
+    Edit
+  <% end %>
+<% end %>
+
+<p>
+  <%= link_to admin_digital_products_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Digital Products
+  <% end %>
+</p>
 
     <p>
       <strong>Organization:</strong>
@@ -9,7 +25,7 @@
 
     <p>
       <strong>User:</strong>
-      <%= @digital_product.user_id %>
+      <%= link_to(@digital_product.user.email, admin_user_path(@digital_product.user)) %>
     </p>
 
     <p>
@@ -72,3 +88,4 @@
 </div>
 <%= link_to 'Edit', edit_admin_digital_product_path(@digital_product) %> |
 <%= link_to 'Back', admin_digital_products_path %>
+
