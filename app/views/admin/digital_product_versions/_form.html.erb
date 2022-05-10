@@ -1,0 +1,71 @@
+<div class="digital-product-version-card">
+  <%= form_with(model: @digital_product_version, url: @digital_product_version.persisted? ? admin_digital_product_digital_product_version_path(@digital_product, @digital_product_version) : admin_digital_product_digital_product_versions_path(@digital_product)) do |form| %>
+    <% if digital_product_version.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(digital_product_version.errors.count, "error") %> prohibited this digital_product_version from being saved:</h2>
+
+        <ul>
+          <% digital_product_version.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form.hidden_field(:digital_product_id, value: @digital_product.id) %>
+
+    <div class="field">
+      <%= form.label :store_url, "Store URL", class: "usa-label" %>
+      <%= form.text_field :store_url, class: "usa-input" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :platform, class: "usa-label" %>
+      <%= form.text_field :platform, class: "usa-input" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :version_number, class: "usa-label" %>
+      <%= form.text_field :version_number, class: "usa-input" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :publish_date, class: "usa-label" %>
+      <%= form.datetime_select :publish_date, class: "usa-input" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :whats_new, class: "usa-label" %>
+      <%= form.text_area :whats_new, class: "usa-textarea" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :screenshot_url, class: "usa-label" %>
+      <%= form.text_field :screenshot_url, class: "usa-input" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :device, class: "usa-label" %>
+      <%= form.text_field :device, class: "usa-input" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :language, class: "usa-label" %>
+      <%= form.text_field :language, class: "usa-input" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :average_rating, class: "usa-label" %>
+      <%= form.text_field :average_rating, class: "usa-input" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :number_of_ratings, class: "usa-label" %>
+      <%= form.text_field :number_of_ratings, class: "usa-input" %>
+    </div>
+
+    <p>
+      <%= form.submit class: "usa-button" %>
+    </p>
+  <% end %>
+</div>

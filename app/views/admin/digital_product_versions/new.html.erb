@@ -1,2 +1,5 @@
-<h1>Admin::DigitalProductVersions#new</h1>
-<p>Find me in app/views/admin/digital_product_versions/new.html.erb</p>
+<h1>New digital product version</h1>
+
+<%= turbo_frame_tag @digital_product_version do %>
+  <%= render "form", digital_product_version: @digital_product_version %>
+<% end %>

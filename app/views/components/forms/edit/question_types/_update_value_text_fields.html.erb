@@ -6,7 +6,7 @@
   <input type="text" name="question_option_text" value="<%= option.text %>" class="usa-input display-inline" data-href="<%= admin_form_question_question_option_path(option.question.form, option.question, option) %>" />&nbsp;&nbsp;
   <input type="text" name="question_option_value" value="<%= option.value %>" class="usa-input display-inline"/>&nbsp;&nbsp;
   <%= link_to admin_form_question_question_option_path(question.form, question, option), class: "button form-save-question-option"  do %>
-    <i class="fas fa-save" title="Save question option text and value" style="display:inherit; color: blue;"></i>
+    <i class="fa fa-pencil-alt"></i>
   <% end %>
 </span>
 <span class="float-right">

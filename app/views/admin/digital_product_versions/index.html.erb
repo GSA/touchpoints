@@ -1,2 +1,14 @@
-<h1>Admin::DigitalProductVersions#index</h1>
-<p>Find me in app/views/admin/digital_product_versions/index.html.erb</p>
+<div class="well">
+  <div class="digital-product-versions-header">
+    <h3>Digital Product Versions</h3>
+    <span><%= link_to "New digital product version", new_admin_digital_product_digital_product_version_path(@digital_product), class: "usa-button", data: { turbo_frame: "new_digital_product_version" } %></span>
+  </div>
+  <br/>
+  <div>
+    <%= turbo_frame_tag "new_digital_product_version", target: "_top" %>
+
+    <div id="digital_product_versions">
+      <%= render @digital_product_versions %>
+    </div>
+  </div>
+</div>

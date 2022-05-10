@@ -71,6 +71,7 @@ Rails.application.routes.draw do
     resources :personas
     resources :digital_products do
       resources :digital_product_versions
+      resources :digital_product_platforms
     end
 
     get "heartbeat", to: "site#heartbeat", as: :heartbeat

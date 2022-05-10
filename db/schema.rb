@@ -77,7 +77,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_05_005734) do
     t.date "publish_date"
     t.string "description"
     t.string "whats_new"
-    t.string "screen_shot_url"
+    t.string "screenshot_url"
     t.string "device"
     t.string "language"
     t.string "average_rating"
