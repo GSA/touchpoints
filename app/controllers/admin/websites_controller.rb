@@ -269,10 +269,6 @@ class Admin::WebsitesController < AdminController
       else
         []
       end
-
-      if @website_manager_options && @website
-        @website_manager_options = @website_manager_options - @website.website_managers
-      end
     end
 
     def log_update(current_state)
