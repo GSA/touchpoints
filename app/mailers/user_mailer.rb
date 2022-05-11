@@ -13,12 +13,13 @@ class UserMailer < ApplicationMailer
       to: emails
   end
 
-  def service_event_notification(subject:, body:, link: "")
+  def service_event_notification(subject:, service:, event:, link: "")
     set_logo
     @subject = subject
-    @body = body
+    @service = service
+    @event = event
     @link = link
-    mail subject: "Event notification: #{subject}",
+    mail subject: "Touchpoints event notification: #{subject}",
       to: (ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",") + User.service_managers.collect(&:email)).uniq
   end
 

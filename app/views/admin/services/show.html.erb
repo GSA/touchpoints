@@ -22,7 +22,7 @@
 
 <% if service_manager_permissions? && !@service.created? && @service.submitted? && !@service.approved? %>
 <p>
-  <%= link_to "Approve this form", approve_admin_service_path(@service), class: "usa-button full-width", method: :post %>
+  <%= link_to "Approve this service", approve_admin_service_path(@service), class: "usa-button full-width", method: :post %>
 </p>
 <% end %>
 
