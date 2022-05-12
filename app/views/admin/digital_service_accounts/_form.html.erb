@@ -12,72 +12,45 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :organization_id, class: "usa-label" %>
-    <%= form.select :organization_id, options_for_select(organization_dropdown_options, digital_service_account.organization_id), { prompt: "Which Organization?", include_blank: true }, { class: "usa-select" } %>
+    <%= form.label :name, class: "usa-label" %>
+    <%= form.text_field :name, class: "usa-input" %>
   </div>
 
   <div class="field">
-    <%= form.label :service, class: "usa-label" %>
-    <%= select_tag :service, options_for_select([
-    "Disqus",
-    "Eventbrite",
-    "Facebook",
-    "Flickr",
-    "Foursquare",
-    "Giphy",
-    "Github",
-    "Google plus",
-    "Ideascale",
-    "Instagram",
-    "Linkedin",
-    "Livestream",
-    "Medium",
-    "Myspace",
-    "Pinterest",
-    "Reddit",
-    "Scribd",
-    "Slideshare",
-    "Socrata",
-    "Storify",
-    "Tumblr",
-    "Twitter",
-    "Uservoice",
-    "Ustream",
-    "Vimeo",
-    "Yelp",
-    "Youtube"]), prompt: "Select", class: "usa-select" %>
+    <%= form.label :organization_id, class: "usa-label" %>
+    <%= form.select :organization_id, options_for_select(organization_dropdown_options, digital_service_account.organization_id), { prompt: "Select Organization" }, { class: "usa-select" } %>
   </div>
 
   <div class="field">
     <%= form.label :account, "Account platform", class: "usa-label" %>
-    <%= select_tag :service, options_for_select([
-    "Disqus",
-    "Eventbrite",
-    "Facebook",
-    "Flickr",
-    "Foursquare",
-    "Giphy",
-    "Github",
-    "Google plus",
-    "Ideascale",
-    "Instagram",
-    "Linkedin",
-    "Livestream",
-    "Medium",
-    "Myspace",
-    "Pinterest",
-    "Reddit",
-    "Scribd",
-    "Slideshare",
-    "Socrata",
-    "Storify",
-    "Tumblr",
-    "Twitter",
-    "Uservoice",
-    "Ustream",
-    "Vimeo",
-    "Yelp",
-    "Youtube"]), prompt: "Select", class: "usa-select" %>
+    <%= form.select :account, options_for_select([
+      "Disqus",
+      "Eventbrite",
+      "Facebook",
+      "Flickr",
+      "Foursquare",
+      "Giphy",
+      "Github",
+      "Google plus",
+      "Ideascale",
+      "Instagram",
+      "Linkedin",
+      "Livestream",
+      "Medium",
+      "Myspace",
+      "Pinterest",
+      "Reddit",
+      "Scribd",
+      "Slideshare",
+      "Socrata",
+      "Storify",
+      "Tumblr",
+      "Twitter",
+      "Uservoice",
+      "Ustream",
+      "Vimeo",
+      "Yelp",
+      "Youtube"]), { prompt: "Select" }, class: "usa-select" %>
   </div>
 
 
@@ -172,11 +145,6 @@
   <div class="field">
     <%= form.label :tags, class: "usa-label" %>
     <%= form.text_field :tags, class: "usa-input" %>
-  </div>
-
-  <div class="field">
-    <%= form.label :status, class: "usa-label" %>
-    <%= form.text_field :status, class: "usa-input" %>
   </div>
 
   <p>

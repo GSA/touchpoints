@@ -54,6 +54,17 @@ class Admin::DigitalServiceAccountsController < AdminController
 
     # Only allow a list of trusted parameters through.
     def digital_service_account_params
-      params.require(:digital_service_account).permit(:organization_id, :user_id, :service, :service_url, :account, :language, :status, :short_description, :long_description, :tags)
+      params.require(:digital_service_account).permit(
+        :name,
+        :organization_id,
+        :user_id,
+        :service,
+        :service_url,
+        :account,
+        :language,
+        :status,
+        :short_description,
+        :long_description,
+        :tags)
     end
 end
