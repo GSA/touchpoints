@@ -1220,6 +1220,7 @@ feature "Forms", js: true do
     end
 
     describe "create a form" do
+
       before do
         visit new_admin_form_path
         fill_in "form_name", with: "New test form name"
@@ -1235,7 +1236,7 @@ feature "Forms", js: true do
 
       context "notification settings" do
         before "notification_email is blank by default" do
-          visit notifications_admin_form_path(Form.first)
+          click_on "Notifications"
           within ".usa-nav__secondary .user-name" do
             expect(page).to have_content(touchpoints_manager.email)
           end
@@ -1247,7 +1248,7 @@ feature "Forms", js: true do
           click_on "Update Survey"
           expect(page).to have_content("Survey was successfully updated.")
 
-          visit notifications_admin_form_path(Form.first)
+          click_on "Notifications"
           expect(find_field('form_notification_emails').value).to eq("user@example.gov")
         end
       end
