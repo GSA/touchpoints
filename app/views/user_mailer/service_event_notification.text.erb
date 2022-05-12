@@ -1,7 +1,11 @@
 Touchpoints.gov Event Notification:
 <%= @subject %>
 
-<%= @body %>
+The Service,
+<%= @service.name %>
+was <%= @event %> by
+<%= @service.service_owner.email %> at
+<%= @service.organization.name %>.
 
 <% if @link.present? %>
 <p>
