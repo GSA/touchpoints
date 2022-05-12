@@ -209,7 +209,7 @@ class Admin::FormsController < AdminController
         format.html { redirect_to questions_admin_form_path(@form), notice: 'Survey was successfully created.' }
         format.json { render :show, status: :created, location: @form }
       else
-        format.html { render :new }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @form.errors, status: :unprocessable_entity }
       end
     end
@@ -231,7 +231,7 @@ class Admin::FormsController < AdminController
         format.html { redirect_to admin_form_path(new_form), notice: 'Survey was successfully copied.' }
         format.json { render :show, status: :created, location: new_form }
       else
-        format.html { render :new }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: new_form.errors, status: :unprocessable_entity }
       end
     end
@@ -265,7 +265,7 @@ class Admin::FormsController < AdminController
         }
         format.json { render :show, status: :ok, location: @form }
       else
-        format.html { render (params[:form][:delivery_method].present? ? :delivery_method : :edit) }
+        format.html { render (params[:form][:delivery_method].present? ? :delivery_method : :edit), status: :unprocessable_entity }
         format.json { render json: @form.errors, status: :unprocessable_entity }
       end
     end
