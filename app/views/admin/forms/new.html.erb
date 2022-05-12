@@ -16,7 +16,7 @@
   </p>
 </div>
 <div class="grid-row grid-gap-md">
-  <div class="grid-col-4">
+  <div class="tablet:grid-col-4">
     <div class="well light-bg form-templates add-box-shadow">
       <div class="font-heading-lg">
         <i class="far fa-list-alt" aria-hidden="true"></i>
@@ -24,44 +24,41 @@
       </div>
       <p class="usa-prose">
         Here are some common surveys you can use to get started.
-        Select the template you want to use,
-        then edit the copy to suit your needs.
+        Preview the templates,
+        then copy a template that you can modify to meet your needs.
       </p>
 
     <% if @templates.present? %>
+    <ul class="usa-card-group">
       <% @templates.each do |form| %>
-      <div class="grid-row grid-gap-md">
-          <% next unless form.template? %>
-          <div class="grid-col-12">
-            <div class="well white-bg">
-              <strong class="font-family-serif">
-                <%= form.name %>
-              </strong>
-              <p>
-                <%= form.notes %>
-                &nbsp;
-              </p>
-              <br>
-              <div class="grid-row grid-gap-md">
-                <div class="grid-col-12">
-                  <%= link_to example_admin_form_path(form), class: "usa-button usa-button--unstyled", target: "_blank", rel: "noopener" do %>
-                    <i class="fa fa-eye" aria-hidden="true"></i>
-                    Preview
-                  <% end %>
-                  <%= link_to copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--unstyled" do %>
-                    <i class="fa fa-copy" aria-hidden="true"></i>
-                    Use
-                  <% end %>
-                </div>
-              </div>
-            </div>
+      <li class="usa-card desktop:grid-col-12">
+        <div class="usa-card__container">
+          <div class="usa-card__header">
+            <h2 class="usa-card__heading">
+              <%= form.name %>
+            </h2>
           </div>
-      </div>
+          <div class="usa-card__body">
+            <%= to_markdown(form.notes) %>
+          </div>
+          <div class="usa-card__footer">
+            <%= link_to example_admin_form_path(form), class: "usa-button usa-button--unstyled", target: "_blank", rel: "noopener" do %>
+            <i class="fa fa-eye" aria-hidden="true"></i>
+            Preview
+            <% end %>
+            <%= link_to copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline" do %>
+            <i class="fa fa-copy" aria-hidden="true"></i>
+            Copy
+            <% end %>
+          </div>
+        </div>
+      </li>
       <% end %>
+    </ul>
     <% end %>
     </div>
   </div>
-  <div class="grid-col-4">
+  <div class="tablet:grid-col-4">
     <div class="well light-bg add-box-shadow">
       <div class="font-heading-lg">
         <i class="far fa-flag" aria-hidden="true"></i>
@@ -73,7 +70,7 @@
       <%= render 'form', form: @form %>
     </div>
   </div>
-  <div class="grid-col-4">
+  <div class="tablet:grid-col-4">
     <div class="well light-bg add-box-shadow">
       <div class="font-heading-lg">
         <i class="far fa-copy" aria-hidden="true"></i>

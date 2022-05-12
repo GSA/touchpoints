@@ -86,7 +86,7 @@ feature "Forms", js: true do
           within(".form-templates") do
             expect(page).to have_content(form.name)
             expect(page).to have_link("Preview")
-            expect(page).to have_link("Use")
+            expect(page).to have_link("Copy")
           end
         end
 

@@ -100,8 +100,7 @@ class Admin::ServicesController < AdminController
     ensure_service_owner(service: @service, user: current_user)
     @service.submit
     if @service.save
-      body = "The Service, #{@service.name}, owned by #{@service.service_owner.try(:email)} was created in Touchpoints"
-      UserMailer.service_event_notification(subject: "Service was submitted", body: body, link: admin_service_url(@service)).deliver_later
+      UserMailer.service_event_notification(subject: "Service was submitted", service: @service, event: :submitted, link: admin_service_url(@service)).deliver_later
       redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
     end
   end
@@ -110,6 +109,7 @@ class Admin::ServicesController < AdminController
     ensure_service_owner(service: @service, user: current_user)
     @service.approve
     if @service.save
+      UserMailer.service_event_notification(subject: "Service was approved", service: @service, event: :approved, link: admin_service_url(@service)).deliver_later
       redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
     end
   end
@@ -118,7 +118,7 @@ class Admin::ServicesController < AdminController
     ensure_service_owner(service: @service, user: current_user)
     @service.verify
     if @service.save
-      UserMailer.service_event_notification(subject: "Service was activated", body: @service.id, link: admin_service_url(@service)).deliver_later
+      UserMailer.service_event_notification(subject: "Service was activated", service: @service, event: :activated, link: admin_service_url(@service)).deliver_later
       redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
     end
   end
@@ -127,7 +127,7 @@ class Admin::ServicesController < AdminController
     ensure_service_owner(service: @service, user: current_user)
     @service.archive
     if @service.save
-      UserMailer.service_event_notification(subject: "Service was archived", body: @service.id, link: admin_service_url(@service)).deliver_later
+      UserMailer.service_event_notification(subject: "Service was archived", service: @service, event: :archived, link: admin_service_url(@service)).deliver_later
       redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
     end
   end
