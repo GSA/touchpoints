@@ -39,8 +39,11 @@ class Admin::DigitalProductVersionsController < ApplicationController
   end
 
   def destroy
-    DigitalProductVersion.destroy(params[:id])
-    redirect_to admin_digital_product_digital_product_versions_path(@digital_product)
+    digital_product_version = DigitalProductVersion.destroy(params[:id])
+    respond_to do | format |
+      format.turbo_stream
+      format.html { redirect_to admin_digital_product_digital_product_versions_path(@digital_product) }
+    end
   end
 
   private

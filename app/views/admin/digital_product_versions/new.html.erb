@@ -1,5 +1,4 @@
-<h1>New digital product version</h1>
-
-<%= turbo_frame_tag @digital_product_version do %>
+<turbo-frame id="digital_product_versions_container">
+  <h3>New digital product version</h3>
   <%= render "form", digital_product_version: @digital_product_version %>
-<% end %>
+</turbo-frame>

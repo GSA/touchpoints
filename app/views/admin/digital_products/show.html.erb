@@ -79,10 +79,9 @@
     <%= link_to 'Edit', edit_admin_digital_product_path(@digital_product) %> |
     <%= link_to 'Back', admin_digital_products_path %>
   </div>
-  <div class="grid-col-6 well">
-    <h3>Digital Platforms</h3>
-    <%= turbo_frame_tag id="digital_product_versions" do %>
-      <%= link_to 'Digital Product Versions', admin_digital_product_digital_product_versions_path(@digital_product), data: { turbo_frame: "digital_product_versions" } %>
+  <div class="grid-col-6">
+    <%= turbo_frame_tag id="digital_product_versions_container", src: admin_digital_product_digital_product_versions_path(@digital_product) do %>
+      Please wait...
     <% end %>
   </div>
 </div>

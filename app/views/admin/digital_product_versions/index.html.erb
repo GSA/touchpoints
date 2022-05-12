@@ -1,14 +1,22 @@
-<div class="well">
-  <div class="digital-product-versions-header">
-    <h3>Digital Product Versions</h3>
-    <span><%= link_to "New digital product version", new_admin_digital_product_digital_product_version_path(@digital_product), class: "usa-button", data: { turbo_frame: "new_digital_product_version" } %></span>
-  </div>
-  <br/>
-  <div>
-    <%= turbo_frame_tag "new_digital_product_version", target: "_top" %>
-
-    <div id="digital_product_versions">
-      <%= render @digital_product_versions %>
-    </div>
-  </div>
-</div>
+<turbo-frame id="digital_product_versions_container">
+  <h3>Digital Product Versions</h3>
+  <span><%= link_to "New digital product version", new_admin_digital_product_digital_product_version_path(@digital_product), class: "usa-button" %></span>
+  <table class="usa-table">
+    <tr><th>Platform</th><th>Version</th><th>Language</th><th>Actions</th></tr>
+    <% @digital_product_versions.each do | version | %>
+      <tr id="<%= version.id %>">
+        <td><%= version.platform %></td>
+        <td><%= version.version_number %></th>
+        <td><%= version.language %></td>
+        <td>
+          <%= link_to edit_admin_digital_product_digital_product_version_path(@digital_product, version), class: "icon-link" do %>
+            <i class="fa fa-pencil-alt" title="Update digital product version"></i>
+          <% end %>
+          <%= link_to admin_digital_product_digital_product_version_path(@digital_product, version), method: :delete, class: "icon-link", data: { turbo_frame: "digital_product_versions_container", :confirm => 'Are you sure?' }  do %>
+            <i class="fas fa-trash-alt" title="Delete digital product version"></i>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</turbo-frame>
