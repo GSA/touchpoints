@@ -1,5 +1,3 @@
-
-<p id="notice"><%= notice %></p>
 <div class="grid-row grid-gap-md">
   <div class="grid-col-6">
     <% content_for :navigation_title do %>
@@ -76,8 +74,6 @@
       <strong>Certified at:</strong>
       <%= @digital_product.certified_at %>
     </p>
-    <%= link_to 'Edit', edit_admin_digital_product_path(@digital_product) %> |
-    <%= link_to 'Back', admin_digital_products_path %>
   </div>
   <div class="grid-col-6">
     <%= turbo_frame_tag id="digital_product_versions_container", src: admin_digital_product_digital_product_versions_path(@digital_product) do %>
@@ -85,5 +81,3 @@
     <% end %>
   </div>
 </div>
-
-
