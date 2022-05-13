@@ -42,6 +42,8 @@ feature "Data Collections", js: true do
         before do
           within(".year[data-id='2021']") do
             click_link("Q2")
+            # Wait for page to reload and have the selected button (no outline)
+            expect(page).not_to have_selector("a.usa-button--outline", text: "Q2")
           end
         end
 
@@ -54,6 +56,8 @@ feature "Data Collections", js: true do
         before do
           within(".year[data-id='2022']") do
             click_link("Q1")
+            # Wait for page to reload and have the selected button (no outline)
+            expect(page).not_to have_selector("a.usa-button--outline", text: "Q1")
           end
         end
 
@@ -95,7 +99,9 @@ feature "Data Collections", js: true do
         end
 
         it "creates a new Collection" do
-          expect(page).to have_content("Collection was successfully created.")
+          within(find_all(".usa-alert--info").first) do
+            expect(page).to have_content("Collection was successfully created.")
+          end
         end
       end
     end
@@ -109,9 +115,6 @@ feature "Data Collections", js: true do
 
         it "update the requested collection" do
           expect(page).to have_content("Collection was successfully updated.")
-        end
-
-        it "redirect to /admin/collections/:id/" do
           expect(page.current_path).to eq(admin_collection_path(collection))
         end
       end
