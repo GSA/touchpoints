@@ -1,6 +1,5 @@
 class DigitalServiceAccountSerializer < ActiveModel::Serializer
-  attributes
-    :id,
+  attributes :id,
     :name,
     :organization_id,
     :organization_name,
