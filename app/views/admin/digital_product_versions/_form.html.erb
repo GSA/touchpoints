@@ -1,0 +1,82 @@
+<div class="digital-product-version-card">
+  <%= form_with(model: @digital_product_version, url: @digital_product_version.persisted? ? admin_digital_product_digital_product_version_path(@digital_product, @digital_product_version) : admin_digital_product_digital_product_versions_path(@digital_product)) do |form| %>
+    <% if digital_product_version.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(digital_product_version.errors.count, "error") %> prohibited this digital_product_version from being saved:</h2>
+
+        <ul>
+          <% digital_product_version.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form.hidden_field(:digital_product_id, value: @digital_product.id) %>
+
+    <div class="field">
+      <%= form.label :store_url, "Store URL", class: "usa-label" %>
+      <%= form.text_field :store_url, class: "usa-input" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :platform, class: "usa-label" %>
+      <%= form.select :platform, options_for_select(
+              [["Android","Android"],
+              ["Blackberry","Blackberry"],
+              ["iOS","iOS"],
+              ["Mobile Web","Mobile Web"],
+              ["Windows","Windows"]],form.object.platform),
+              {include_blank: "Select"},
+              {:class => "usa-input"} %>
+    </div>
+
+    <div class="field">
+      <%= form.label :version_number, class: "usa-label" %>
+      <%= form.text_field :version_number, class: "usa-input" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :publish_date, class: "usa-label" %>
+      <%= form.datetime_select :publish_date, class: "usa-input" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :whats_new, class: "usa-label" %>
+      <%= form.text_area :whats_new, class: "usa-textarea" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :screenshot_url, class: "usa-label" %>
+      <%= form.text_field :screenshot_url, class: "usa-input" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :device, class: "usa-label" %>
+      <%= form.select :device, options_for_select([
+          ["Web","Web"],
+          ["App - Phone/Tablet","App - Phone/Tablet"],
+          ["App - Tablet Only","App - Tablet Only"] ],form.object.device),
+          {include_blank: "Select"}, {:class => "usa-input"} %>
+    </div>
+
+    <div class="field">
+      <%= form.label :language, class: "usa-label" %>
+      <%= form.select :language, options_for_select([["English","English"],["Spanish","Spanish"]],form.object.language),{include_blank: "Select"}, {:class => "form-control formwidth usa-input"} %>
+    </div>
+
+    <div class="field">
+      <%= form.label :average_rating, class: "usa-label" %>
+      <%= form.text_field :average_rating, class: "usa-input" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :number_of_ratings, class: "usa-label" %>
+      <%= form.text_field :number_of_ratings, class: "usa-input" %>
+    </div>
+
+    <p>
+      <%= form.submit class: "usa-button" %>
+    </p>
+  <% end %>
+</div>

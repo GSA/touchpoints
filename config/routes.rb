@@ -1,6 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
   authenticate :user, lambda { |u| u.admin? } do
@@ -68,6 +69,10 @@ Rails.application.routes.draw do
     get "/submissions/performance_gov", to: "submissions#performance_gov", as: :performance_gov
 
     resources :personas
+    resources :digital_products do
+      resources :digital_product_versions
+      resources :digital_product_platforms
+    end
 
     get "heartbeat", to: "site#heartbeat", as: :heartbeat
     get "a11", to: "site#a11", as: :a11
