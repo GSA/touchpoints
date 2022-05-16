@@ -25,6 +25,7 @@ class Admin::DigitalServiceAccountsController < AdminController
     @digital_service_account.user = current_user
 
     if @digital_service_account.save
+      Event.log_event(Event.names[:digital_service_account_created], "DigitalServiceAccount", @digital_service_account.id, "created by #{current_user.email} on #{Date.today}", current_user.id)
       redirect_to admin_digital_service_account_path(@digital_service_account), notice: 'Digital service account was successfully created.'
     else
       render :new
@@ -34,6 +35,7 @@ class Admin::DigitalServiceAccountsController < AdminController
   # PATCH/PUT /digital_service_accounts/1
   def update
     if @digital_service_account.update(digital_service_account_params)
+      Event.log_event(Event.names[:digital_service_account_created], "DigitalServiceAccount", @digital_service_account.id, "updated by #{current_user.email} on #{Date.today}", current_user.id)
       redirect_to admin_digital_service_account_path(@digital_service_account), notice: 'Digital service account was successfully updated.'
     else
       render :edit

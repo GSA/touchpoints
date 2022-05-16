@@ -11,80 +11,96 @@
     Back to Digital Service Accounts
   <% end %>
 </p>
+<div class="grid-row">
+  <div class="grid-col-12">
+    <p>
+      <strong>Name</strong>
+      <br>
+      <%= @digital_service_account.name %>
+    </p>
 
-<p>
-  <strong>Name</strong>
-  <br>
-  <%= @digital_service_account.name %>
-</p>
+    <p>
+      <strong>Organization</strong>
+      <br>
+      <%= @digital_service_account.organization.name %>
+    </p>
 
-<p>
-  <strong>Organization</strong>
-  <br>
-  <%= @digital_service_account.organization.name %>
-</p>
-
-<p>
-  <strong>User</strong>
-  <br>
-  <%= @digital_service_account.user.email %>
-</p>
-
+    <p>
+      <strong>User</strong>
+      <br>
+      <%= @digital_service_account.user.email %>
+    </p>
+  </div>
+</div>
 <hr>
+<div class="grid-row">
+  <div class="grid-col-6">
+    <p>
+      <strong>Account</strong>
+      <br>
+      <%= @digital_service_account.account %>
+    </p>
 
-<p>
-  <strong>Account</strong>
-  <br>
-  <%= @digital_service_account.account %>
-</p>
+    <p>
+      <strong>Service url</strong>
+      <br>
+      <%= @digital_service_account.service_url %>
+    </p>
 
-<p>
-  <strong>Service url</strong>
-  <br>
-  <%= @digital_service_account.service_url %>
-</p>
+    <p>
+      <strong>Status</strong>
+      <br>
+      <%= @digital_service_account.status %>
+    </p>
 
-<p>
-  <strong>Status</strong>
-  <br>
-  <%= @digital_service_account.status %>
-</p>
+    <p>
+      <strong>Short description</strong>
+      <br>
+      <%= @digital_service_account.short_description %>
+    </p>
 
-<p>
-  <strong>Short description</strong>
-  <br>
-  <%= @digital_service_account.short_description %>
-</p>
+    <p>
+      <strong>Long description</strong>
+      <br>
+      <%= @digital_service_account.long_description %>
+    </p>
 
-<p>
-  <strong>Long description</strong>
-  <br>
-  <%= @digital_service_account.long_description %>
-</p>
+    <p>
+      <strong>Language</strong>
+      <br>
+      <%= @digital_service_account.language %>
+    </p>
 
-<p>
-  <strong>Language</strong>
-  <br>
-  <%= @digital_service_account.language %>
-</p>
+    <p>
+      <strong>Tags</strong>
+      <br>
+      <%= @digital_service_account.tags %>
+    </p>
 
-<p>
-  <strong>Tags</strong>
-  <br>
-  <%= @digital_service_account.tags %>
-</p>
+    <p>
+      <strong>Updated at</strong>
+      <br>
+      <%= @digital_service_account.updated_at %>
+    </p>
 
-<p>
-  <strong>Updated at</strong>
-  <br>
-  <%= @digital_service_account.updated_at %>
-</p>
-
-<p>
-  <strong>API link</strong>
-  <br>
-  <%= link_to admin_digital_service_account_url(@digital_service_account, format: :json) %>
-</p>
+    <p>
+      <strong>API link</strong>
+      <br>
+      <%= link_to admin_digital_service_account_url(@digital_service_account, format: :json) %>
+    </p>
+  </div>
+  <div class="grid-col-6 well">
+    <h3>Recent Changes</h3>
+    <span class="usa-label">When changes have been made to this account</span>
+    <div class="recent-changes">
+      <ul class="usa-list">
+        <% Event.where(object_type: "DigitalServiceAccount", object_id: @digital_service_account.id).order(" created_at desc ").each do | event | %>
+          <li class="usa-listitem"><%= event.description %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
 
 <div class="well">
   <%= link_to 'Publish', admin_digital_service_accounts_path, class: "usa-button" %>
