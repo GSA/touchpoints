@@ -100,7 +100,7 @@ feature "Data Collections", js: true do
 
         it "creates a new Collection" do
           expect(page).to have_content("ABOUT THIS DATA COLLECTION")
-          within(find_all(".usa-alert--info").first) do
+          within(first(".usa-alert--info")) do
             expect(page).to have_content("Collection was successfully created.")
           end
         end
