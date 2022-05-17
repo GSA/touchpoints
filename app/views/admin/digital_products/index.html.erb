@@ -81,15 +81,15 @@
       <th>Status</th>
       <th>Aasm status</th>
       <th>Tags</th>
-      <th colspan="2"></th>
+      <th></th>
     </tr>
   </thead>
 
   <tbody>
     <% @digital_products.each do |digital_product| %>
       <tr>
-        <td><%= digital_product.organization_id %></td>
-        <td><%= digital_product.user_id %></td>
+        <td><%= digital_product.organization.name %></td>
+        <td><%= digital_product.user.email %></td>
         <td><%= digital_product.service %></td>
         <td><%= digital_product.url %></td>
         <td><%= digital_product.language %></td>
@@ -97,7 +97,6 @@
         <td><%= digital_product.aasm_status %></td>
         <td><%= digital_product.tags %></td>
         <td><%= link_to 'Show', admin_digital_product_path(digital_product) %></td>
-        <td><%= link_to 'Edit', edit_admin_digital_product_path(digital_product) %></td>
       </tr>
     <% end %>
   </tbody>

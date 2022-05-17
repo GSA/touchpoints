@@ -162,12 +162,12 @@ class Admin::ServicesController < AdminController
   end
 
   def add_tag
-    @service.tag_list.add(service_params[:tag_list].split(","))
+    @service.tag_list.add(service_params[:tag_list].split(','))
     @service.save
   end
 
   def remove_tag
-    @service.tag_list.remove(service_params[:tag_list].split(","))
+    @service.tag_list.remove(service_params[:tag_list].split(','))
     @service.save
   end
 
