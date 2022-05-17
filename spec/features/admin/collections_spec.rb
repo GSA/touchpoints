@@ -92,9 +92,12 @@ feature "Data Collections", js: true do
       end
 
       context "with valid parameters" do
+        let(:current_year) {  Time.now.strftime("%Y") }
+
         before do
           select(organization.name, from: "collection_organization_id")
           select(service_provider.name, from: "collection_service_provider_id")
+          fill_in("collection_year", with: current_year)
           click_on "Create Collection"
         end
 
