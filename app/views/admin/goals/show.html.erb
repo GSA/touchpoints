@@ -39,7 +39,7 @@
       <i class="fa fa-check-circle" aria-hidden="true"></i> goal name saved
     </span>
   </div>
-  
+
   <% if @goal.four_year_goal %>
   <% else %>
   <div class="field">
@@ -81,11 +81,15 @@
   </div>
 </div>
 
+<%# 4 year goals do not have tags %>
+<% if !@goal.four_year_goal %>
 <div class="well">
   <div class="tags-div">
     <%= render 'admin/goals/tags', service: @goal %>
   </div>
 </div>
+<% end %>
+
 <script>
   $('.usa-hint').hide();
 

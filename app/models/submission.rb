@@ -70,7 +70,7 @@ class Submission < ApplicationRecord
     Event.log_event(Event.names[:touchpoint_form_submitted], 'Submission', self.id, "Submission received for organization '#{self.organization_name}' form '#{self.form.name}' ")
     return unless ENV["ENABLE_EMAIL_NOTIFICATIONS"] == "true"
     return unless self.form.send_notifications?
-    emails_to_notify = self.form.notification_emails.split(",")
+    emails_to_notify = self.form.notification_emails.split(',')
     if form.notification_frequency == "instant"
       UserMailer.submission_notification(submission_id: self.id, emails: emails_to_notify.uniq).deliver_later
     end
