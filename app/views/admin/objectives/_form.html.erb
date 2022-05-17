@@ -53,11 +53,3 @@
     <%= form.submit class: "usa-button" %>
   </p>
 <% end %>
-
-<% if objective.persisted? %>
-<div class="well">
-  <div class="tags-div">
-    <%= render 'admin/objectives/tags', objective: objective %>
-  </div>
-</div>
-<% end %>
