@@ -5,7 +5,7 @@
     <%= link_to objective.name, edit_admin_goal_objective_path(@goal, objective), class: "edit-goal-objective" %>
     &nbsp;&nbsp;
     <%= link_to admin_goal_objective_path(@goal, objective), method: :delete, data: { confirm: 'Are you sure?' }, :remote => true, class: "delete-goal-objective" do %>
-        <i class="fa fa-trash" title="Delete goal objective"></i>
+      <i class="fa fa-trash" title="Delete goal objective"></i>
     <% end %>
   </li>
 <% end %>
@@ -22,6 +22,7 @@
 <script>
   $('.new-goal-objective').on("click", function(event) {
     event.preventDefault();
+
     $.ajax({
       type: "GET",
       url: $(this).attr("href"),
@@ -30,8 +31,10 @@
       }
     });
   });
+  
   $('.edit-goal-objective').on("click", function(event) {
     event.preventDefault();
+
     $.ajax({
       type: "GET",
       url: $(this).attr("href"),

@@ -139,7 +139,12 @@ Rails.application.routes.draw do
         post "remove_tag", to: "goals#remove_tag", as: :remove_tag
       end
       resources :goal_targets
-      resources :objectives
+      resources :objectives do
+        member do
+          post "add_tag", to: "objectives#add_tag", as: :add_tag
+          post "remove_tag", to: "objectives#remove_tag", as: :remove_tag
+        end
+      end
     end
     resources :milestones
     resources :objectives

@@ -239,12 +239,12 @@ class Admin::WebsitesController < AdminController
   end
 
   def add_tag
-    @website.tag_list.add(admin_website_params[:tag_list].split(","))
+    @website.tag_list.add(admin_website_params[:tag_list].split(','))
     @website.save
   end
 
   def remove_tag
-    @website.tag_list.remove(admin_website_params[:tag_list].split(","))
+    @website.tag_list.remove(admin_website_params[:tag_list].split(','))
     @website.save
   end
 

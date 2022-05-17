@@ -1,19 +1,19 @@
 <div class="grid-row">
   <div class="grid-col-12">
-  <h3>Goal Tags</h3>
+  <h3>Objective tags</h3>
   <small>
-    Help people find your goal and see how it relates to other priorities.
+    Help people find your objective and see how it relates to other priorities.
     <br/>
-    These tags will be used to organize your goal into common policy areas.
+    These tags will be used to organize your objective into common policy areas.
   </small>
   </div>
 </div>
-<%= form_with(model: @goal, url: admin_goal_path(@goal), local: true) do |f| %>
+<%= form_with(model: @objective, url: admin_goal_objective_path(@objective.goal, @objective), local: true) do |f| %>
   <div class="grid-row">
     <div class="grid-col-6">
       <p class="tag-list">
         <ul class="usa-list usa-list--unstyled">
-          <% @goal.tag_list.sort.each do |tag| %>
+          <% @objective.tag_list.sort.each do |tag| %>
           <li style="margin-bottom: 3px;">
             <span class="usa-tag">
               <%= tag %>
@@ -27,7 +27,7 @@
       </p>
     </div>
     <div class="grid-col-6">
-      <%= f.select :tag_list, @goal_tags_for_select, {}, { multiple: true, class: "usa-select tags-select" } %>
+      <%= f.select :tag_list, @objective_tags_for_select, {}, { multiple: true, class: "usa-select tags-select" } %>
     </div>
   </div>
 <% end %>
@@ -40,7 +40,7 @@
       $.ajax({
         url: thisForm.attr("action") + "/add_tag",
         type: 'post',
-        data: "goal[tag_list]=" + encodeURIComponent($(this).val())
+        data: "objective[tag_list]=" + encodeURIComponent($(this).val())
       });
     });
 
@@ -50,9 +50,9 @@
       $.ajax({
         url: thisForm.attr("action") + "/remove_tag",
         type: 'post',
-        data: "goal[tag_list]=" + encodeURIComponent($(this).attr("data-value"))
+        data: "objective[tag_list]=" + encodeURIComponent($(this).attr("data-value"))
       });
-    })
-  });
+    });
 
+  })
 </script>
