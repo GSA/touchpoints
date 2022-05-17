@@ -86,7 +86,7 @@ feature "Data Collections", js: true do
         visit new_admin_collection_path
       end
 
-      it "renders a successful response" do
+      it "renders page" do
         expect(page).to have_content("New Data Collection")
         expect(page).to have_button("Create Collection")
       end
@@ -98,7 +98,9 @@ feature "Data Collections", js: true do
           select(organization.name, from: "collection_organization_id")
           select(service_provider.name, from: "collection_service_provider_id")
           fill_in("collection_year", with: current_year)
+          fill_in("collection_reflection", with: "What we learned...")
           click_on "Create Collection"
+          wait_for_ajax
         end
 
         it "creates a new Collection" do
