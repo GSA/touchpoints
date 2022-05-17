@@ -44,11 +44,6 @@
 
   <% if objective.persisted? %>
   <div class="field">
-    <%= form.label :tags, class: "usa-label" %>
-    <%= form.text_field :tags, class: "usa-input" %>
-  </div>
-
-  <div class="field">
     <%= form.label :users, class: "usa-label" %>
     <%= form.number_field :users, class: "usa-input" %>
   </div>
@@ -57,4 +52,12 @@
   <p>
     <%= form.submit class: "usa-button" %>
   </p>
+<% end %>
+
+<% if objective.persisted? %>
+<div class="well">
+  <div class="tags-div">
+    <%= render 'admin/objectives/tags', objective: objective %>
+  </div>
+</div>
 <% end %>

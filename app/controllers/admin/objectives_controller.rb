@@ -1,6 +1,7 @@
 class Admin::ObjectivesController < AdminController
   before_action :set_goal
-  before_action :set_objective, only: [:show, :edit, :update, :destroy]
+  before_action :set_objective, only: [:show, :edit, :update, :destroy, :add_tag, :remove_tag]
+  before_action :set_objective_tags, only: [:edit, :add_tag, :remove_tag]
 
   # GET /objectives
   def index
@@ -69,6 +70,16 @@ class Admin::ObjectivesController < AdminController
     end
   end
 
+  def add_tag
+    @objective.tag_list.add(objective_params[:tag_list].split(","))
+    @objective.save
+  end
+
+  def remove_tag
+    @objective.tag_list.remove(objective_params[:tag_list].split(","))
+    @objective.save
+  end
+
   private
     def set_goal
       @goal = Goal.find(params[:goal_id])
@@ -79,8 +90,21 @@ class Admin::ObjectivesController < AdminController
       @objective = Objective.find(params[:id])
     end
 
+    def set_objective_tags
+      @objective_tags_for_select = Goal::TAGS
+    end
+
     # Only allow a list of trusted parameters through.
     def objective_params
-      params.require(:objective).permit(:name, :description, :organization_id, :goal_id, :milestone_id, :tags, :users)
+      params.require(:objective).permit(
+        :name,
+        :description,
+        :organization_id,
+        :goal_id,
+        :milestone_id,
+        :tags,
+        :users,
+        :tag_list
+      )
     end
 end
