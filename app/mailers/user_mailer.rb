@@ -20,14 +20,14 @@ class UserMailer < ApplicationMailer
     @event = event
     @link = link
     mail subject: "Touchpoints event notification: #{subject}",
-      to: (ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",") + User.service_managers.collect(&:email)).uniq
+      to: (ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(',') + User.service_managers.collect(&:email)).uniq
   end
 
   def collection_notification(collection_id:)
     set_logo
     @collection = Collection.find(collection_id)
     mail subject: "Data Collection notification to #{@collection.name}",
-      to: (ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",") + User.performance_managers.collect(&:email)).uniq
+      to: (ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(',') + User.performance_managers.collect(&:email)).uniq
   end
 
   def submissions_digest(form_id, begin_day)
@@ -37,7 +37,7 @@ class UserMailer < ApplicationMailer
     return unless @form.send_notifications?
     set_logo
     @submissions = Submission.where(id: form_id).where("created_at > ?",@begin_day).order("created_at desc")
-    emails = @form.notification_emails.split(",")
+    emails = @form.notification_emails.split(',')
     mail subject: "New Submissions to #{@form.name} since #{@begin_day}", to: emails
   end
 
@@ -58,7 +58,7 @@ class UserMailer < ApplicationMailer
     set_logo
     @greeting = "Hi, admin_summary"
 
-    mail to: ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
+    mail to: ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(',')
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -70,7 +70,7 @@ class UserMailer < ApplicationMailer
     set_logo
     @greeting = "Hi, webmaster_summary"
 
-    mail to: ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
+    mail to: ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(',')
   end
 
   def website_created(website:)
@@ -78,7 +78,7 @@ class UserMailer < ApplicationMailer
 
     set_logo
     @website = website
-    @emails = (ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",") + User.organizational_website_managers.collect(&:email)).uniq
+    @emails = (ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(',') + User.organizational_website_managers.collect(&:email)).uniq
     mail subject: "Touchpoints notification: Website created", to: @emails
   end
 
@@ -103,7 +103,7 @@ class UserMailer < ApplicationMailer
     set_logo
     @form = form
     mail subject: "Form #{@form.name} expiring on #{@form.expiration_date}",
-      to: ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(",")
+      to: ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(',')
   end
 
   def org_user_notification(user, org_admin)

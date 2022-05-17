@@ -54,12 +54,12 @@ class Admin::GoalsController < AdminController
   end
 
   def add_tag
-    @goal.tag_list.add(goal_params[:tag_list].split(","))
+    @goal.tag_list.add(goal_params[:tag_list].split(','))
     @goal.save
   end
 
   def remove_tag
-    @goal.tag_list.remove(goal_params[:tag_list].split(","))
+    @goal.tag_list.remove(goal_params[:tag_list].split(','))
     @goal.save
   end
 

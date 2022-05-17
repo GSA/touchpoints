@@ -71,12 +71,12 @@ class Admin::ObjectivesController < AdminController
   end
 
   def add_tag
-    @objective.tag_list.add(objective_params[:tag_list].split(","))
+    @objective.tag_list.add(objective_params[:tag_list].split(','))
     @objective.save
   end
 
   def remove_tag
-    @objective.tag_list.remove(objective_params[:tag_list].split(","))
+    @objective.tag_list.remove(objective_params[:tag_list].split(','))
     @objective.save
   end
 
