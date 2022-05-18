@@ -15,9 +15,42 @@
       <% end %>
     </p>
 
+    <div class="well">
+      <div class="usa-button">
+        Certify
+      </div>
+      <div class="usa-button">
+        Archive
+      </div>
+      <p>
+        Note:
+        Archiving removes accounts from public visibility
+      </p>
+    </div>
+
     <p>
       <strong>Organization:</strong>
       <%= @digital_product.organization.name %>
+    </p>
+
+    <p>
+      <strong>Name:</strong>
+      <%= @digital_product.name %>
+    </p>
+
+    <p>
+      <strong>Short description:</strong>
+      <%= @digital_product.short_description %>
+    </p>
+
+    <p>
+      <strong>Long description:</strong>
+      <%= @digital_product.long_description %>
+    </p>
+
+    <p>
+      <strong>Url:</strong>
+      <%= @digital_product.url %>
     </p>
 
     <p>
@@ -28,16 +61,6 @@
     <p>
       <strong>Service:</strong>
       <%= @digital_product.service %>
-    </p>
-
-    <p>
-      <strong>Url:</strong>
-      <%= @digital_product.url %>
-    </p>
-
-    <p>
-      <strong>Code repository url:</strong>
-      <%= @digital_product.code_repository_url %>
     </p>
 
     <p>
@@ -56,13 +79,8 @@
     </p>
 
     <p>
-      <strong>Short description:</strong>
-      <%= @digital_product.short_description %>
-    </p>
-
-    <p>
-      <strong>Long description:</strong>
-      <%= @digital_product.long_description %>
+      <strong>Code repository url:</strong>
+      <%= @digital_product.code_repository_url %>
     </p>
 
     <p>
