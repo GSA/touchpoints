@@ -38,6 +38,15 @@ class Admin::WebsitesController < AdminController
     @tags = Website.tag_counts_by_name
   end
 
+  def review
+    if params[:all]
+      @websites = Website.all.order(:production_status, :domain)
+    else
+      @websites = Website.active.order(:production_status, :domain)
+    end
+    @tags = Website.tag_counts_by_name
+  end
+
   def versions
     @versions = @website.versions.limit(500).order("created_at DESC").page params[:page]
   end
