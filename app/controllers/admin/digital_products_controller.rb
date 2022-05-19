@@ -3,7 +3,7 @@ class Admin::DigitalProductsController < AdminController
 
   # GET /digital_products
   def index
-    @digital_products = DigitalProduct.all
+    @digital_products = DigitalProduct.order(:name, :service).page(params[:page])
   end
 
   # GET /digital_products/1

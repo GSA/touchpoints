@@ -3,7 +3,7 @@ class Admin::DigitalServiceAccountsController < AdminController
 
   # GET /digital_service_accounts
   def index
-    @digital_service_accounts = DigitalServiceAccount.all
+    @digital_service_accounts = DigitalServiceAccount.order(:organization_id, :name).page(params[:page])
   end
 
   # GET /digital_service_accounts/1

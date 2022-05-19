@@ -73,11 +73,11 @@
 <table class="usa-table">
   <thead>
     <tr>
-      <th>Organization</th>
-      <th>User</th>
-      <th>Name</th>
-      <th>Updated at</th>
-      <th>Status</th>
+       <th data-sortable scope="col" role="columnheader">Organization</th>
+       <th data-sortable scope="col" role="columnheader">User</th>
+       <th data-sortable scope="col" role="columnheader">Name</th>
+       <th data-sortable scope="col" role="columnheader">Updated at</th>
+       <th data-sortable scope="col" role="columnheader">Status</th>
     </tr>
   </thead>
 
@@ -93,3 +93,5 @@
     <% end %>
   </tbody>
 </table>
+
+<%= paginate @digital_products %>
