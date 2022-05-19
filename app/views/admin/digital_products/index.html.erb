@@ -75,13 +75,9 @@
     <tr>
       <th>Organization</th>
       <th>User</th>
-      <th>Service</th>
-      <th>Url</th>
-      <th>Language</th>
+      <th>Name</th>
+      <th>Updated at</th>
       <th>Status</th>
-      <th>Aasm status</th>
-      <th>Tags</th>
-      <th></th>
     </tr>
   </thead>
 
@@ -90,13 +86,9 @@
       <tr>
         <td><%= digital_product.organization.name %></td>
         <td><%= digital_product.user.email %></td>
-        <td><%= digital_product.service %></td>
-        <td><%= digital_product.url %></td>
-        <td><%= digital_product.language %></td>
+        <td><%= link_to digital_product.name, admin_digital_product_path(digital_product) %></td>
+        <td><%= digital_product.updated_at %></td>
         <td><%= digital_product.status %></td>
-        <td><%= digital_product.aasm_status %></td>
-        <td><%= digital_product.tags %></td>
-        <td><%= link_to 'Show', admin_digital_product_path(digital_product) %></td>
       </tr>
     <% end %>
   </tbody>

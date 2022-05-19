@@ -225,6 +225,7 @@ class Admin::ServicesController < AdminController
         :justification_text,
         :kind,
         :name,
+        :non_digital_explanation,
         :notes,
         :service_abbreviation,
         :service_slug,
