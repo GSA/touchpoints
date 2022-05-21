@@ -95,7 +95,7 @@ group :test do
   gem 'database_cleaner'
   gem 'factory_bot_rails', '>= 6.2.0'
   gem 'rails-controller-testing', '>= 1.0.5'
-  gem 'rspec-rails', '>= 5.1.1'
+  gem 'rspec-rails', '>= 5.1.2'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
   # gem 'chromedriver-helper'
