@@ -39,11 +39,7 @@ class Admin::WebsitesController < AdminController
   end
 
   def review
-    if params[:all]
-      @websites = Website.all.order(:production_status, :domain)
-    else
-      @websites = Website.active.order(:production_status, :domain)
-    end
+    @websites = Website.where(production_status: "newly_requested").order(:production_status, :domain)
     @tags = Website.tag_counts_by_name
   end
 

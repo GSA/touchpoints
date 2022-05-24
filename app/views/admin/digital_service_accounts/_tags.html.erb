@@ -1,0 +1,48 @@
+<%= form_with(model: digital_service_account, url: admin_digital_service_account_path(digital_service_account), local: true) do |f| %>
+	<div class="grid-row">
+	  <div class="grid-col-6">
+	  	<h3>Tags</h3>
+	  	<p class="tag-list">
+				<ul class="usa-list usa-list--unstyled">
+					<% digital_service_account.tag_list.sort.each do |tag| %>
+					<li  style="margin-bottom: 3px;">
+						<span class="usa-tag">
+							<%= tag %>
+						</span>
+						<a href="javascript:void(0);" class="remove-tag-link" data-value="<%= tag %>">
+							<span class="fa fa-trash"></span>
+						</a>
+					</li>
+		  		<% end %>
+				</ul>
+	  	<p>
+	    <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
+	  </div>
+	</div>
+<% end %>
+<script>
+$(".tag-input").blur(function(event) {
+	event.preventDefault();
+    var thisForm = $(this).closest("form");
+    $.ajax({
+		url: thisForm.attr("action") + "/add_tag",
+		type: 'post',
+		data: "digital_service_account[tag_list]=" + $(".tag-input").val()
+    });
+});
+$(".tag-input").keypress(function (e) {
+	if (e.which == 13) {
+		document.activeElement.blur();
+		return false;
+	}
+});
+$(".remove-tag-link").click(function(e) {
+	event.preventDefault();
+	var thisForm = $(this).closest("form");
+	$.ajax({
+	  url: thisForm.attr("action") + "/remove_tag",
+	  type: 'post',
+	  data: "digital_service_account[tag_list]=" + $(this).attr("data-value")
+	});
+})
+</script>

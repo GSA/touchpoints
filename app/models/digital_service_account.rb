@@ -5,6 +5,29 @@ class DigitalServiceAccount < ApplicationRecord
   belongs_to :organization
   belongs_to :user
 
+  include AASM
+  acts_as_taggable_on :tags
+
+  aasm do
+    state :created, initial: true
+    state :certified
+    state :published
+    state :archived
+
+    event :certify do
+      transitions from: [:created], to: :certified
+    end
+    event :publish do
+      transitions from: [:certified], to: :published
+    end
+    event :archive do
+      transitions from: [:created, :published], to: :archived
+    end
+    event :reset do
+      transitions to: :created
+    end
+  end
+
   def organization_name
     self.organization.name
   end
@@ -27,6 +50,7 @@ class DigitalServiceAccount < ApplicationRecord
     accounts.each do |account|
       hash = {
 
+        name: account["name"],
         short_description: account["short_description"],
         long_description: account["long_description"],
         service_url: account["service_url"],

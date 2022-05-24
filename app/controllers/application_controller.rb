@@ -94,6 +94,13 @@ class ApplicationController < ActionController::Base
     redirect_to(admin_root_path, notice: "Authorization is Required")
   end
 
+  def ensure_registry_manager
+    return false unless current_user.present?
+    return true if registry_manager_permissions?(user: current_user)
+
+    redirect_to(admin_root_path, notice: "Authorization is Required")
+  end
+
 
   # Define Permissions
   helper_method :admin_permissions?
@@ -106,6 +113,13 @@ class ApplicationController < ActionController::Base
     return false unless user.present?
     return true if admin_permissions?
     user.organizational_website_manager?
+  end
+
+  helper_method :registry_manager_permissions?
+  def registry_manager_permissions?(user:)
+    return false unless user.present?
+    return true if admin_permissions?
+    user.registry_manager?
   end
 
   helper_method :collection_permissions?
@@ -151,6 +165,23 @@ class ApplicationController < ActionController::Base
   # Helpers
   def timestamp_string
     Time.now.strftime('%Y-%m-%d_%H-%M-%S')
+  end
+
+  def paginate(scope, default_per_page = 20)
+    collection = scope.page(params[:page]).per((params[:per_page] || default_per_page).to_i)
+
+    current, total, per_page = collection.current_page, collection.num_pages, collection.limit_value
+
+    return [{
+      pagination: {
+        current:  current,
+        previous: (current > 1 ? (current - 1) : nil),
+        next:     (current == total ? nil : (current + 1)),
+        per_page: per_page,
+        pages:    total,
+        count:    collection.total_count
+      }
+    }, collection]
   end
 
 

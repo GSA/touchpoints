@@ -3,7 +3,7 @@
   <% if admin_permissions? %>
   <%= link_to edit_admin_user_path(@user), class: "usa-button usa-button-inverted float-right" do %>
     <span class="fa fa-pencil-alt"></span>
-    Edit user
+    Edit
   <% end %>
   <% end %>
 <% end %>
@@ -49,18 +49,18 @@
     </span>
   <% end %>
   <p>
-    <label>Email</label>
+    <label class="usa-label">Email</label>
     <br>
     <%= link_to @user.email, "mailto:#{@user.email}" %>
   </p>
   <p>
-    <label>Organization</label>
+    <label class="usa-label">Organization</label>
     <br>
     <%= @user.organization ? link_to(@user.organization.name, admin_organization_path(@user.organization)) : "Undefined" %>
   </p>
   <% if current_user == @user || admin_permissions? %>
   <p>
-    <label>Last logged in</label>
+    <label class="usa-label">Last logged in</label>
     <br>
     <% if @user.last_sign_in_at %>
       <%= format_time(@user.last_sign_in_at, current_user.time_zone) %> -
@@ -122,31 +122,35 @@
     Data Collections
   </h4>
   <% if @collections.present? %>
-    <table class="usa-table">
-      <thead>
-        <tr>
-          <th>Reporting period</th>
-          <th>Collection name</th>
-          <th>Service provider name</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @collections.each do |collection| %>
-        <tr>
-          <td>
-            Q<%= collection.quarter %>
-            FY<%= collection.year %>
-          </td>
-          <td>
-            <%= link_to collection.name, admin_collection_path(collection) %>
-          </td>
-          <td>
-            <%= link_to collection.service_provider.name, admin_service_provider_path(collection.service_provider) %>
-          </td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
+  <table class="usa-table">
+    <thead>
+      <tr>
+        <th>Reporting period</th>
+        <th>Collection name</th>
+        <th>Service provider name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @collections.each do |collection| %>
+      <tr>
+        <td>
+          Q<%= collection.quarter %>
+          FY<%= collection.year %>
+        </td>
+        <td>
+          <%= link_to collection.name, admin_collection_path(collection) %>
+        </td>
+        <td>
+          <%= link_to collection.service_provider.name, admin_service_provider_path(collection.service_provider) %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<div class="well">
+  <%= render 'components/users/events', events: @user_events %>
+</div>
   <% else %>
   <div class="usa-alert usa-alert--info" >
     <div class="usa-alert__body">

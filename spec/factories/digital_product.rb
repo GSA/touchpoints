@@ -6,9 +6,9 @@ FactoryBot.define do
     url { 'test Url' }
     code_repository_url { 'Test code_repository_url' }
     language { 'Ruby' }
-    aasm_status { 'published' }
+    aasm_state { 'published' }
     short_description { 'test product' }
-    long_description { ' adsfasdfadsfadfasdfasfasdfasdf' }
+    long_description { 'a much loooooo oooooooo oooooooo oooooooo oooooooo oooooooo onger description' }
     notes { 'Test notes' }
     tags { 'red green blue' }
     certified_at { Time.now }

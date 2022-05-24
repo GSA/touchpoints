@@ -12,51 +12,23 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :name, class: "usa-label" %>
-    <%= form.text_field :name, class: "usa-input" %>
-  </div>
-
-  <div class="field">
     <%= form.label :organization_id, class: "usa-label" %>
     <%= form.select :organization_id, options_for_select(organization_dropdown_options, digital_service_account.organization_id), { prompt: "Select Organization" }, { class: "usa-select" } %>
   </div>
 
   <div class="field">
     <%= form.label :account, "Account platform", class: "usa-label" %>
-    <%= form.select :account, options_for_select([
-      "Disqus",
-      "Eventbrite",
-      "Facebook",
-      "Flickr",
-      "Foursquare",
-      "Giphy",
-      "Github",
-      "Google plus",
-      "Ideascale",
-      "Instagram",
-      "Linkedin",
-      "Livestream",
-      "Medium",
-      "Myspace",
-      "Pinterest",
-      "Reddit",
-      "Scribd",
-      "Slideshare",
-      "Socrata",
-      "Storify",
-      "Tumblr",
-      "Twitter",
-      "Uservoice",
-      "Ustream",
-      "Vimeo",
-      "Yelp",
-      "Youtube"]), { prompt: "Select" }, class: "usa-select" %>
+    <%= form.select :account, options_for_select(SocialMediaAccount.list), { prompt: "Select" }, class: "usa-select" %>
   </div>
-
 
   <div class="field">
     <%= form.label :service_url, class: "usa-label" %>
     <%= form.text_field :service_url, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :name, class: "usa-label" %>
+    <%= form.text_field :name, class: "usa-input" %>
   </div>
 
   <div class="field">
@@ -74,81 +46,81 @@
 
   <div class="field">
     <%= form.label :language, class: "usa-label" %>
-    <%= form.text_field :language, class: "usa-input" %>
-
-    <select class="usa-input" name="outlet[language]" id="outlet_language"><option value="">Select</option>
-<option selected="selected" value="English">English</option>
-<option value="Afrikaans">Afrikaans</option>
-<option value="Amharic">Amharic</option>
-<option value="Arabic">Arabic</option>
-<option value="Azerbaijani">Azerbaijani</option>
-<option value="Bangla">Bangla</option>
-<option value="Basque">Basque</option>
-<option value="Bengali">Bengali</option>
-<option value="Bulgarian">Bulgarian</option>
-<option value="Catalan">Catalan</option>
-<option value="Chinese(Simplified)">Chinese  (Simplified)</option>
-<option value="Chinese(Traditional)">Chinese  (Traditional)</option>
-<option value="Croatian">Croatian</option>
-<option value="Czech">Czech</option>
-<option value="Danish">Danish</option>
-<option value="Dutch">Dutch</option>
-<option value="English(UK)">English (UK)</option>
-<option value="Estonian">Estonian</option>
-<option value="Filipino">Filipino</option>
-<option value="Finnish">Finnish</option>
-<option value="French">French</option>
-<option value="French(Canada)">French (Canada)</option>
-<option value="Galician">Galician</option>
-<option value="German">German</option>
-<option value="Greek">Greek</option>
-<option value="Gujarati">Gujarati</option>
-<option value="Hebrew">Hebrew</option>
-<option value="Hindi">Hindi</option>
-<option value="Hungarian">Hungarian</option>
-<option value="Icelandic">Icelandic</option>
-<option value="Indonesian">Indonesian</option>
-<option value="Italian">Italian</option>
-<option value="Japanese">Japanese</option>
-<option value="Kannada">Kannada</option>
-<option value="Korean">Korean</option>
-<option value="Latvian">Latvian</option>
-<option value="Lithuanian">Lithuanian</option>
-<option value="Malay">Malay</option>
-<option value="Malayalam">Malayalam</option>
-<option value="Marathi">Marathi</option>
-<option value="Norwegian">Norwegian</option>
-<option value="Persian">Persian</option>
-<option value="Polish">Polish</option>
-<option value="Portuguese(Brazil)">Portuguese  (Brazil)</option>
-<option value="Portuguese(Portugal)">Portuguese  (Portugal)</option>
-<option value="Punjabi">Punjabi</option>
-<option value="Romanian">Romanian</option>
-<option value="Russian">Russian</option>
-<option value="Serbian">Serbian</option>
-<option value="Slovak">Slovak</option>
-<option value="Slovenian">Slovenian</option>
-<option value="Spanish">Spanish</option>
-<option value="Swahili">Swahili</option>
-<option value="Swedish">Swedish</option>
-<option value="Tamil">Tamil</option>
-<option value="Telugu">Telugu</option>
-<option value="Thai">Thai</option>
-<option value="Turkish">Turkish</option>
-<option value="Ukrainian">Ukrainian</option>
-<option value="Urdu">Urdu</option>
-<option value="Vietnamese">Vietnamese</option>
-<option value="Zulu">Zulu</option></select>
+    <select class="usa-input" name="outlet[language]" id="outlet_language">
+      <option value="">Select</option>
+      <option selected="selected" value="English">English</option>
+      <option value="Afrikaans">Afrikaans</option>
+      <option value="Amharic">Amharic</option>
+      <option value="Arabic">Arabic</option>
+      <option value="Azerbaijani">Azerbaijani</option>
+      <option value="Bangla">Bangla</option>
+      <option value="Basque">Basque</option>
+      <option value="Bengali">Bengali</option>
+      <option value="Bulgarian">Bulgarian</option>
+      <option value="Catalan">Catalan</option>
+      <option value="Chinese(Simplified)">Chinese  (Simplified)</option>
+      <option value="Chinese(Traditional)">Chinese  (Traditional)</option>
+      <option value="Croatian">Croatian</option>
+      <option value="Czech">Czech</option>
+      <option value="Danish">Danish</option>
+      <option value="Dutch">Dutch</option>
+      <option value="English(UK)">English (UK)</option>
+      <option value="Estonian">Estonian</option>
+      <option value="Filipino">Filipino</option>
+      <option value="Finnish">Finnish</option>
+      <option value="French">French</option>
+      <option value="French(Canada)">French (Canada)</option>
+      <option value="Galician">Galician</option>
+      <option value="German">German</option>
+      <option value="Greek">Greek</option>
+      <option value="Gujarati">Gujarati</option>
+      <option value="Hebrew">Hebrew</option>
+      <option value="Hindi">Hindi</option>
+      <option value="Hungarian">Hungarian</option>
+      <option value="Icelandic">Icelandic</option>
+      <option value="Indonesian">Indonesian</option>
+      <option value="Italian">Italian</option>
+      <option value="Japanese">Japanese</option>
+      <option value="Kannada">Kannada</option>
+      <option value="Korean">Korean</option>
+      <option value="Latvian">Latvian</option>
+      <option value="Lithuanian">Lithuanian</option>
+      <option value="Malay">Malay</option>
+      <option value="Malayalam">Malayalam</option>
+      <option value="Marathi">Marathi</option>
+      <option value="Norwegian">Norwegian</option>
+      <option value="Persian">Persian</option>
+      <option value="Polish">Polish</option>
+      <option value="Portuguese(Brazil)">Portuguese  (Brazil)</option>
+      <option value="Portuguese(Portugal)">Portuguese  (Portugal)</option>
+      <option value="Punjabi">Punjabi</option>
+      <option value="Romanian">Romanian</option>
+      <option value="Russian">Russian</option>
+      <option value="Serbian">Serbian</option>
+      <option value="Slovak">Slovak</option>
+      <option value="Slovenian">Slovenian</option>
+      <option value="Spanish">Spanish</option>
+      <option value="Swahili">Swahili</option>
+      <option value="Swedish">Swedish</option>
+      <option value="Tamil">Tamil</option>
+      <option value="Telugu">Telugu</option>
+      <option value="Thai">Thai</option>
+      <option value="Turkish">Turkish</option>
+      <option value="Ukrainian">Ukrainian</option>
+      <option value="Urdu">Urdu</option>
+      <option value="Vietnamese">Vietnamese</option>
+      <option value="Zulu">Zulu</option>
+</select>
 
   </div>
 
   <div class="field">
-    <%= form.label :tags, class: "usa-label" %>
-    <%= form.text_field :tags, class: "usa-input" %>
+    <%= form.label :notes, class: "usa-label" %>
+    <%= form.text_area :notes, class: "usa-textarea" %>
   </div>
 
   <p>
     <%= form.submit class: "usa-button" %>
-    <%= link_to "Cancel", admin_digital_service_accounts_path, class: "usa-button usa-button--base" %>
+    <%= link_to "Cancel", admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button--base" %>
   </p>
 <% end %>

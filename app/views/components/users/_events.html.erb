@@ -1,0 +1,41 @@
+<div class="">
+  <h4>
+    User Events
+  </h4>
+  <table class="usa-table">
+    <thead>
+      <tr>
+        <th>
+          ID
+        </th>
+        <th>
+          Name
+        </th>
+        <th>
+          Created at
+        </th>
+        <th>
+          Time ago
+        </th>
+      </tr>
+    </thead>
+    <% events.each do |event| %>
+    <tbody>
+      <tr>
+        <td>
+          <%= event.id %>
+        </td>
+        <td>
+          <%= event.name %>
+        </td>
+        <td>
+          <%= event.created_at %>
+        </td>
+        <td>
+          <%= time_ago_in_words(event.created_at) %>
+        </td>
+      </tr>
+    </tbody>
+    <% end %>
+  </table>
+</div>

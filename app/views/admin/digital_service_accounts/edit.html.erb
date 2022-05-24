@@ -1,5 +1,26 @@
-<h1>Editing Digital Service Account</h1>
+<% content_for :navigation_title do %>
+  Editing Social Media Account
+<% end %>
+<div class="grid-row">
+  <div class="grid-col">
+    <p>
+      <%= link_to admin_digital_service_account_path(@digital_service_account) do %>
+        <i class="fa fa-arrow-circle-left"></i>
+        Back to Social Media Account
+      <% end %>
+    </p>
+  </div>
+</div>
 
 <%= render 'form', digital_service_account: @digital_service_account %>
 
-<%= link_to 'Destroy', admin_digital_service_account_path(@digital_service_account), method: :delete, data: { confirm: 'Are you sure?' } %>
+<div class="grid-row">
+  <div class="grid-col-12">
+    <%= link_to admin_digital_service_account_path(@digital_service_account), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" do %>
+    <span class="fa fa-trash"></span>
+    Delete
+    <% end %>
+  </div>
+</div>
+
+<br>
