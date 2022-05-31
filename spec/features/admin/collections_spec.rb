@@ -100,12 +100,12 @@ feature "Data Collections", js: true do
           fill_in("collection_year", with: current_year)
           fill_in("collection_reflection", with: "What we learned...")
           click_on "Create Collection"
-          wait_for_ajax
         end
 
         it "creates a new Collection" do
           expect(page).to have_content("ABOUT THIS DATA COLLECTION")
-          within(first(".usa-alert--info")) do
+          expect(page).to have_content("CX Quarterly Reporting")
+          within(first(".grid-container-widescreen .usa-alert--info")) do
             expect(page).to have_content("Collection was successfully created.")
           end
         end
