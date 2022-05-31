@@ -6,7 +6,7 @@ class Admin::DigitalProductsController < AdminController
   end
 
   def review
-    @digital_products = DigitalProduct.order(:name, :service).page(params[:page])
+    @digital_products = DigitalProduct.where("aasm_state = 'created' OR aasm_state = 'edited'").order(:name, :service).page(params[:page])
   end
 
   def show

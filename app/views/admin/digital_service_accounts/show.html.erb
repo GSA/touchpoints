@@ -1,5 +1,5 @@
 <% content_for :navigation_title do %>
-  Digital Service Account: <%= @digital_service_account.service %>
+  Social Media Account: <%= @digital_service_account.service %>
   <%= link_to edit_admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button-inverted float-right" do %>
     <i class="fa fa-pencil-alt"></i>
     Edit
@@ -8,7 +8,7 @@
 <p>
   <%= link_to admin_digital_service_accounts_path do %>
     <i class="fa fa-arrow-circle-left"></i>
-    Back to Digital Service Accounts
+    Back to Social Media Accounts
   <% end %>
 </p>
 
@@ -157,5 +157,6 @@
         <% end %>
       </div>
     </div>
+    
   </div>
 </div>

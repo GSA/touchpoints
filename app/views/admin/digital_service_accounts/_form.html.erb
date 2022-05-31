@@ -22,12 +22,12 @@
   </div>
 
   <div class="field">
-    <%= form.label :service_url, class: "usa-label" %>
+    <%= form.label :service_url, "Account URL", class: "usa-label" %>
     <%= form.text_field :service_url, class: "usa-input" %>
   </div>
 
   <div class="field">
-    <%= form.label :name, class: "usa-label" %>
+    <%= form.label :name, "Account name", class: "usa-label" %>
     <%= form.text_field :name, class: "usa-input" %>
   </div>
 
@@ -110,7 +110,7 @@
       <option value="Urdu">Urdu</option>
       <option value="Vietnamese">Vietnamese</option>
       <option value="Zulu">Zulu</option>
-</select>
+    </select>
 
   </div>
 
@@ -121,6 +121,8 @@
 
   <p>
     <%= form.submit class: "usa-button" %>
-    <%= link_to "Cancel", admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button--base" %>
+    <% if digital_service_account.persisted? %>
+      <%= link_to "Cancel", admin_digital_service_account_path(digital_service_account), class: "usa-button usa-button--base" %>
+    <% end %>
   </p>
 <% end %>

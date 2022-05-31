@@ -85,8 +85,9 @@ end
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'aasm-diagram'
-  gem 'web-console', '>= 4.2.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'rails-erd'
+  gem 'web-console', '>= 4.2.0'
 end
 
 group :test do

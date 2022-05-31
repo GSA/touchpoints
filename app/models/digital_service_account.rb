@@ -50,7 +50,7 @@ class DigitalServiceAccount < ApplicationRecord
     accounts.each do |account|
       hash = {
 
-        name: account["name"],
+        name: account["service_display_name"],
         short_description: account["short_description"],
         long_description: account["long_description"],
         service_url: account["service_url"],
