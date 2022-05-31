@@ -60,7 +60,7 @@ class Admin::DigitalServiceAccountsController < AdminController
   end
 
   def certify
-    # ensure_digital_service_account_admin(website: @website, user: current_user)
+    ensure_digital_service_account_admin(website: @website, user: current_user)
     @digital_service_account.certify!
     if @digital_service_account.save
       Event.log_event(Event.names[:digital_service_account_certified], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} certified at #{DateTime.now}", current_user.id)
@@ -71,7 +71,7 @@ class Admin::DigitalServiceAccountsController < AdminController
   end
 
   def publish
-    # ensure_digital_service_account_admin(website: @website, user: current_user)
+    ensure_digital_service_account_admin(website: @website, user: current_user)
     @digital_service_account.publish!
     if @digital_service_account.save
       Event.log_event(Event.names[:digital_service_account_published], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} published at #{DateTime.now}", current_user.id)
@@ -82,7 +82,7 @@ class Admin::DigitalServiceAccountsController < AdminController
   end
 
   def archive
-    # ensure_digital_service_account_admin(website: @website, user: current_user)
+    ensure_digital_service_account_admin(website: @website, user: current_user)
     @digital_service_account.archive!
     if @digital_service_account.save
       Event.log_event(Event.names[:digital_service_account_archived], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} archived at #{DateTime.now}", current_user.id)
@@ -93,7 +93,7 @@ class Admin::DigitalServiceAccountsController < AdminController
   end
 
   def reset
-    # ensure_digital_service_account_admin(website: @website, user: current_user)
+    ensure_digital_service_account_admin(website: @website, user: current_user)
     @digital_service_account.reset!
     if @digital_service_account.save
       Event.log_event(Event.names[:digital_service_account_reset], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} reset at #{DateTime.now}", current_user.id)
