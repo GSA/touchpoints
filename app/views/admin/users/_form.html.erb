@@ -15,79 +15,142 @@
   </div>
   <% if admin_permissions? %>
   <div class="well">
-    <fieldset class="usa-fieldset">
-      <legend class="usa-sr-only">Administrative User</legend>
-      <div class="usa-checkbox">
-        <%= form.check_box :admin, class: "usa-checkbox__input" %>
-        <%= form.label :admin, "Touchpoints Admin", class: "usa-checkbox__label" %>
+    <div class="grid-row">
+      <div class="tablet:grid-col-6">
+        <fieldset class="usa-fieldset">
+          <legend class="usa-sr-only">Administrative User</legend>
+          <div class="usa-checkbox">
+            <%= form.check_box :admin, class: "usa-checkbox__input" %>
+            <%= form.label :admin, class: "usa-checkbox__label" do %>
+              <span class="usa-tag bg-red">
+                Touchpoints Admin
+              </span>
+            <% end %>
+          </div>
+        </fieldset>
       </div>
-    </fieldset>
-    <p>
-      Admin manages everything for this app (super-admin)
-    </p>
+      <div class="tablet:grid-col-6">
+        <p>
+          Admin manages everything for this app. (Super-admin)
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="well">
+    <div class="grid-row">
+      <div class="tablet:grid-col-6">
+        <fieldset class="usa-fieldset">
+          <legend class="usa-sr-only">Digital Registry manager</legend>
+          <div class="usa-checkbox">
+            <%= form.check_box :registry_manager, class: "usa-checkbox__input" %>
+            <%= form.label :registry_manager, class: "usa-checkbox__label" do %>
+            <span class="usa-tag bg-violet">
+              Registry manager
+            </span>
+            <% end %>
+          </div>
+        </fieldset>
+      </div>
+      <div class="tablet:grid-col-6">
+        <p>
+          Manages <%= link_to "/admin/registry", admin_registry_path %>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="well">
+    <div class="grid-row">
+      <div class="tablet:grid-col-6">
+        <fieldset class="usa-fieldset">
+          <legend class="usa-sr-only">Organizational website manager</legend>
+          <div class="usa-checkbox">
+            <%= form.check_box :organizational_website_manager, class: "usa-checkbox__input" %>
+            <%= form.label :organizational_website_manager, class: "usa-checkbox__label"  do %>
+              <span class="usa-tag bg-cyan">
+                Organizational Website Manager
+              </span>
+            <% end %>
+          </div>
+        </fieldset>
+      </div>
+      <div class="tablet:grid-col-6">
+        <p>
+          Can approve/deny websites request under
+          <%= link_to "/admin/websites", admin_websites_path %>.
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="well">
+    <div class="grid-row">
+      <div class="tablet:grid-col-6">
+        <fieldset class="usa-fieldset">
+          <legend class="usa-sr-only">Performance manager</legend>
+          <div class="usa-checkbox">
+            <%= form.check_box :performance_manager, class: "usa-checkbox__input" %>
+            <%= form.label :performance_manager, class: "usa-checkbox__label" do %>
+            <span class="usa-tag bg-blue">
+              Performance manager
+            </span>
+            <% end %>
+          </div>
+        </fieldset>
+      </div>
+      <div class="tablet:grid-col-6">
+        <p>
+          Manages <%= link_to "/admin/performance", admin_performance_path %>.
+        </p>
+      </div>
+    </div>
   </div>
   <div class="well">
-    <fieldset class="usa-fieldset">
-      <legend class="usa-sr-only">Organizational website manager</legend>
-      <div class="usa-checkbox">
-        <%= form.check_box :organizational_website_manager, class: "usa-checkbox__input" %>
-        <%= form.label :organizational_website_manager, class: "usa-checkbox__label" %>
+    <div class="grid-row">
+      <div class="tablet:grid-col-6">
+        <fieldset class="usa-fieldset">
+          <legend class="usa-sr-only">Service manager</legend>
+          <div class="usa-checkbox">
+            <%= form.check_box :service_manager, class: "usa-checkbox__input" %>
+            <%= form.label :service_manager, class: "usa-checkbox__label" do %>
+            <span class="usa-tag bg-indigo">
+              Service manager
+            </span>
+            <% end %>
+          </div>
+        </fieldset>
       </div>
-    </fieldset>
-    <p>
-      Can approve/deny websites request under
-      <%= link_to "/admin/websites", admin_websites_path %>
-    </p>
+      <div class="tablet:grid-col-6">
+        <p>
+          Manages
+          <%= link_to "/admin/service_providers", admin_service_providers_path %> and
+          <%= link_to "/admin/services", admin_services_path %>.
+        </p>
+      </div>
+    </div>
   </div>
   <div class="well">
-    <fieldset class="usa-fieldset">
-      <legend class="usa-sr-only">Performance manager</legend>
-      <div class="usa-checkbox">
-        <%= form.check_box :performance_manager, class: "usa-checkbox__input" %>
-        <%= form.label :performance_manager, class: "usa-checkbox__label" %>
+    <div class="grid-row">
+      <div class="tablet:grid-col-6">
+        <fieldset class="usa-fieldset">
+          <legend class="usa-sr-only">Inactive User</legend>
+          <div class="usa-checkbox">
+            <%= form.check_box :inactive, class: "usa-checkbox__input" %>
+            <%= form.label :inactive, class: "usa-checkbox__label" do %>
+            <span class="usa-tag">
+              Inactive
+            </span>
+            <% end %>
+          </div>
+        </fieldset>
       </div>
-    </fieldset>
-    <p>
-      Manages <%= link_to "/admin/performance", admin_performance_path %>
-    </p>
-  </div>
-  <div class="well">
-    <fieldset class="usa-fieldset">
-      <legend class="usa-sr-only">Service manager</legend>
-      <div class="usa-checkbox">
-        <%= form.check_box :service_manager, class: "usa-checkbox__input" %>
-        <%= form.label :service_manager, class: "usa-checkbox__label" %>
+      <div class="tablet:grid-col-6">
+        <p>
+          De-activate user account.
+        </p>
       </div>
-    </fieldset>
-    <p>
-      Manages
-      <%= link_to "/admin/service_providers", admin_service_providers_path %> and
-      <%= link_to "/admin/services", admin_services_path %>
-    </p>
-  </div>
-  <div class="well">
-    <fieldset class="usa-fieldset">
-      <legend class="usa-sr-only">Digital Registry manager</legend>
-      <div class="usa-checkbox">
-        <%= form.check_box :registry_manager, class: "usa-checkbox__input" %>
-        <%= form.label :registry_manager, class: "usa-checkbox__label" %>
-      </div>
-    </fieldset>
-    <p>
-      Manages <%= link_to "/admin/registry", admin_registry_path %>
-    </p>
-  </div>
-  <div class="well">
-    <p>
-      De-activate user account.
-    </p>
-    <fieldset class="usa-fieldset">
-      <legend class="usa-sr-only">Inactive User</legend>
-      <div class="usa-checkbox">
-        <%= form.check_box :inactive, class: "usa-checkbox__input" %>
-        <%= form.label :inactive, class: "usa-checkbox__label" %>
-      </div>
-    </fieldset>
+    </div>
   </div>
   <% end %>
   <div class="actions">

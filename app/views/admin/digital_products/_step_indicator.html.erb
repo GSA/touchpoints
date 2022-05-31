@@ -1,0 +1,21 @@
+<div class="usa-step-indicator" aria-label="progress">
+  <ol class="usa-step-indicator__segments">
+    <li class="usa-step-indicator__segment usa-step-indicator__segment--complete <%= "usa-step-indicator__segment--current" if collection.draft? %>"">
+      <span class="usa-step-indicator__segment-label">
+        Drafted
+        <% if collection.draft? %>
+          <span class="usa-sr-only">completed</span>
+        <% end %>
+      </span>
+    </li>
+    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if collection.published? %> <%= "usa-step-indicator__segment--current" if collection.submitted? %>">
+      <span class="usa-step-indicator__segment-label">
+        Submitted
+        <span class="usa-sr-only">completed</span>
+      </span>
+    </li>
+    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if collection.published? %> <%= "usa-step-indicator__segment--current" if collection.published? %>"  aria-current="true">
+      <span class="usa-step-indicator__segment-label">Published</span>
+    </li>
+  </ol>
+</div>

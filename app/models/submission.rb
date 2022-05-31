@@ -22,18 +22,22 @@ class Submission < ApplicationRecord
     state :acknowledged
     state :dispatched
     state :responded
+    state :archived
 
-    event :receive do
-      transitions from: [:responded], to: :received
-    end
     event :acknowledge do
       transitions from: [:received], to: :acknowledged
     end
     event :dispatch do
       transitions from: [:acknowledged], to: :dispatched
     end
-    event :responded do
+    event :respond do
       transitions from: [:dispatched, :archived], to: :responded
+    end
+    event :archive do
+      transitions to: :archived
+    end
+    event :reset do
+      transitions to: :received
     end
   end
 

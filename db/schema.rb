@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_18_213336) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_19_224706) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -95,7 +95,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_18_213336) do
     t.string "code_repository_url"
     t.string "language"
     t.string "status"
-    t.string "aasm_status"
+    t.string "aasm_state"
     t.string "short_description"
     t.text "long_description"
     t.text "notes"
@@ -122,6 +122,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_18_213336) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
+    t.string "aasm_state"
   end
 
   create_table "events", force: :cascade do |t|

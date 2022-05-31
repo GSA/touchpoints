@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  let!(:organization) { FactoryBot.create(:organization, domain: "example.gov") }
+
   before do
     @user = User.new
   end
@@ -29,12 +31,12 @@ RSpec.describe User, type: :model do
 
     context "with a valid .gov email address for an Organization that has not been created" do
       before do
-        @user.email = "user@example.gov"
+        @user.email = "user@new_example.gov"
         @user.save
       end
 
       it "fails organization check" do
-        expect(@user.errors.messages[:organization].first).to include("'example.gov' has not yet been configured for Touchpoints")
+        expect(@user.errors.messages[:organization].first).to include("'new_example.gov' has not yet been configured for Touchpoints")
       end
     end
 

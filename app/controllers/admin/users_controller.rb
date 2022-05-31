@@ -40,6 +40,7 @@ class Admin::UsersController < AdminController
     @forms = @user.forms
     @websites = Website.where(site_owner_email: @user.email)
     @collections = @user.collections.order(:year, :quarter)
+    @user_events = Event.limit(100).where(user_id: @user.id).order("created_at DESC")
   end
 
   def new
