@@ -68,12 +68,6 @@ Rails.application.routes.draw do
     get "/submissions/submissions_table", to: "submissions#submissions_table", as: :submissions_table
     get "/submissions/performance_gov", to: "submissions#performance_gov", as: :performance_gov
 
-    resources :personas
-    resources :digital_products do
-      resources :digital_product_versions
-      resources :digital_product_platforms
-    end
-
     get "heartbeat", to: "site#heartbeat", as: :heartbeat
     get "a11", to: "site#a11", as: :a11
     resources :service_providers do |*args|
@@ -151,6 +145,7 @@ Rails.application.routes.draw do
 
     resources :websites do
       collection do
+        get :review, to: "websites#review"
         get "search", to: "websites#search"
         get "gsa", to: "websites#gsa"
         get "dendrogram", to: "websites#dendrogram", as: :dendrogram
@@ -174,8 +169,22 @@ Rails.application.routes.draw do
       end
     end
     get :registry, to: "site#registry", as: :registry
-    resources :digital_service_accounts
-    resources :digital_products
+
+    resources :digital_service_accounts do
+      collection do
+        get :review, to: "digital_service_accounts#review"
+      end
+    end
+
+    resources :digital_products do
+      collection do
+        get "review", to: "digital_products#review"
+      end
+      resources :digital_product_versions
+      resources :digital_product_platforms
+    end
+
+    resources :personas
 
     resources :forms do
       member do
