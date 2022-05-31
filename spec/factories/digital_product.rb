@@ -10,7 +10,7 @@ FactoryBot.define do
     short_description { 'test product' }
     long_description { 'a much loooooo oooooooo oooooooo oooooooo oooooooo oooooooo onger description' }
     notes { 'Test notes' }
-    tags { 'red green blue' }
+    tag_list { ['red', 'green', 'blue'] }
     certified_at { Time.now }
   end
 end
