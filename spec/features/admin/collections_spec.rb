@@ -105,9 +105,7 @@ feature "Data Collections", js: true do
         it "creates a new Collection" do
           expect(page).to have_content("ABOUT THIS DATA COLLECTION")
           expect(page).to have_content("CX Quarterly Reporting")
-          within(first(".grid-container-widescreen .usa-alert--info")) do
-            expect(page).to have_content("Collection was successfully created.")
-          end
+          expect(page).to have_content("Collection was successfully created.")
         end
       end
     end
