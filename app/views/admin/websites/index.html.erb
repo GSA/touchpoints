@@ -82,14 +82,17 @@
   $(function() {
     $("#main-content").css("overflow-x", "scroll");
 
-    $("#search_text").keyup(function() {
+    $("#search_text").keyup(debounce(function() {
+      var searchValue = $("#search_text").val();
+
       $.ajax({
         url: '/admin/websites/search',
         data: {
-          search: $(this).val()
+          search: searchValue
         }
       });
-    });
+    }, 400));
+
     $(".search-tag-link").click(function() {
       $("#search_text").val("");
       $.ajax({
