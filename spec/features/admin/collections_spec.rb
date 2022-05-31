@@ -103,6 +103,8 @@ feature "Data Collections", js: true do
         end
 
         it "creates a new Collection" do
+          expect(page).to have_content("ABOUT THIS DATA COLLECTION")
+          expect(page).to have_content("CX Quarterly Reporting")
           expect(page).to have_content("Collection was successfully created.")
         end
       end
