@@ -52,10 +52,21 @@ class Event < ApplicationRecord
     website_approved: 'website_approved',
     website_denied: 'website_denied',
 
+    digital_product_created: 'digital_product_created',
+    digital_product_updated: 'digital_product_updated',
+    digital_product_certified: 'digital_product_certified',
+    digital_product_published: 'digital_product_published',
+    digital_product_archived: 'digital_product_archived',
+    digital_product_reset: 'digital_product_reset',
+    digital_product_deleted: 'digital_product_deleted',
+
     digital_service_account_created: 'digital_service_account_created',
     digital_service_account_updated: 'digital_service_account_updated',
+    digital_service_account_certified: 'digital_service_account_certified',
     digital_service_account_published: 'digital_service_account_published',
     digital_service_account_archived: 'digital_service_account_archived',
+    digital_service_account_reset: 'digital_service_account_reset',
+    digital_service_account_deleted: 'digital_service_account_deleted',
   }
 
   def self.log_event(ename, otype, oid, desc, uid = nil)

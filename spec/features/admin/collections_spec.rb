@@ -86,15 +86,19 @@ feature "Data Collections", js: true do
         visit new_admin_collection_path
       end
 
-      it "renders a successful response" do
+      it "renders page" do
         expect(page).to have_content("New Data Collection")
         expect(page).to have_button("Create Collection")
       end
 
       context "with valid parameters" do
+        let(:current_year) {  Time.now.strftime("%Y") }
+
         before do
           select(organization.name, from: "collection_organization_id")
           select(service_provider.name, from: "collection_service_provider_id")
+          fill_in("collection_year", with: current_year)
+          fill_in("collection_reflection", with: "What we learned...")
           click_on "Create Collection"
         end
 

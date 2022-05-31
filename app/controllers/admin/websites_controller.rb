@@ -38,6 +38,11 @@ class Admin::WebsitesController < AdminController
     @tags = Website.tag_counts_by_name
   end
 
+  def review
+    @websites = Website.where(production_status: "newly_requested").order(:production_status, :domain)
+    @tags = Website.tag_counts_by_name
+  end
+
   def versions
     @versions = @website.versions.limit(500).order("created_at DESC").page params[:page]
   end
@@ -239,12 +244,12 @@ class Admin::WebsitesController < AdminController
   end
 
   def add_tag
-    @website.tag_list.add(admin_website_params[:tag_list].split(","))
+    @website.tag_list.add(admin_website_params[:tag_list].split(','))
     @website.save
   end
 
   def remove_tag
-    @website.tag_list.remove(admin_website_params[:tag_list].split(","))
+    @website.tag_list.remove(admin_website_params[:tag_list].split(','))
     @website.save
   end
 

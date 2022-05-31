@@ -2,6 +2,7 @@
 <html lang="en-US">
   <head>
     <meta charset='utf-8' />
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <title>
       Touchpoints Example
     </title>
@@ -21,12 +22,8 @@
     }
     </style>
     <!-- End demo content styles -->
-    <%= favicon_link_tag asset_path('favicon.ico') %>
-    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
-    <!-- Load recruiter locally for dev -->
-    <!-- <script src='https://rawgit.com/GSA/recruiter/master/recruiter.js'></script> -->
-    <!-- <script src='recruiter.js'></script> -->
+    <%= favicon_link_tag asset_path('favicon.ico') %>
   </head>
   <body>
     <!-- Demo content -->
@@ -53,27 +50,27 @@
     <% else %>
     <div class="grid-container demo-grid">
       <div class="grid-row grid-gap-md">
+        <div class="grid-col-12 demo-content">
+        </div>
+      </div>
+    </div>
+    <div class="grid-container demo-grid">
+      <div class="grid-row grid-gap-md">
+        <div class="grid-col-12 demo-content">
+          <div style="text-align: center; font-size: 3em; opacity: 0.1; padding: 1rem;">
+            Example page content
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-container demo-grid">
+      <div class="grid-row grid-gap-md">
         <div class="grid-col-12 demo-content"></div>
       </div>
     </div>
     <div class="grid-container demo-grid">
       <div class="grid-row grid-gap-md">
-        <div class="grid-col-8 demo-content"></div>
-        <div class="grid-col-4 demo-content"></div>
-      </div>
-    </div>
-    <div class="grid-container demo-grid">
-      <div class="grid-row grid-gap-md">
-        <div class="grid-col-3 demo-content"></div>
-        <div class="grid-col-3 demo-content"></div>
-        <div class="grid-col-3 demo-content"></div>
-        <div class="grid-col-3 demo-content"></div>
-      </div>
-    </div>
-    <div class="grid-container demo-grid">
-      <div class="grid-row grid-gap-md">
-        <div class="grid-col-8 demo-content"></div>
-        <div class="grid-col-4 demo-content"></div>
+        <div class="grid-col-12 demo-content"></div>
       </div>
     </div>
     <% end %>

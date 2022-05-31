@@ -162,12 +162,12 @@ class Admin::ServicesController < AdminController
   end
 
   def add_tag
-    @service.tag_list.add(service_params[:tag_list].split(","))
+    @service.tag_list.add(service_params[:tag_list].split(','))
     @service.save
   end
 
   def remove_tag
-    @service.tag_list.remove(service_params[:tag_list].split(","))
+    @service.tag_list.remove(service_params[:tag_list].split(','))
     @service.save
   end
 
@@ -225,6 +225,7 @@ class Admin::ServicesController < AdminController
         :justification_text,
         :kind,
         :name,
+        :non_digital_explanation,
         :notes,
         :service_abbreviation,
         :service_slug,

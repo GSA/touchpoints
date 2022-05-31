@@ -25,7 +25,7 @@ feature "Managing Users", js: true do
       expect(page).to have_content("Viewing User")
       expect(page.current_path).to eq(admin_user_path(admin))
 
-      click_on("Edit user")
+      click_on("Edit")
       expect(page).to have_content("Editing User")
     end
 

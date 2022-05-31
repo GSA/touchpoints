@@ -48,7 +48,9 @@ RSpec.describe Admin::UsersController, type: :controller do
   # UsersController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  let(:admin) { FactoryBot.create(:user, :admin) }
+  let!(:example_organization) { FactoryBot.create(:organization, domain: "example.gov") }
+  let(:organization) { FactoryBot.create(:organization) }
+  let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
 
   before do
     sign_in(admin)

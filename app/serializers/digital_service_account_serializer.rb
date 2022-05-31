@@ -1,4 +1,19 @@
 class DigitalServiceAccountSerializer < ActiveModel::Serializer
+  attributes :page, :size, :links
+
+  def page
+    @instance_options[:page]
+  end
+
+  def size
+    @instance_options[:size]
+  end
+
+  def links
+    @instance_options[:links]
+  end
+
+
   attributes :id,
     :name,
     :organization_id,

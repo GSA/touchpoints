@@ -71,7 +71,7 @@ RSpec.describe UserMailer, type: :mailer do
 
     it "renders the headers" do
       expect(mail.subject).to eq("Admin summary")
-      expect(mail.to).to eq(ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(","))
+      expect(mail.to).to eq(ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(','))
       expect(mail.from).to eq([ENV.fetch("TOUCHPOINTS_EMAIL_SENDER")])
     end
 
@@ -85,7 +85,7 @@ RSpec.describe UserMailer, type: :mailer do
 
     it "renders the headers" do
       expect(mail.subject).to eq("Webmaster summary")
-      expect(mail.to).to eq(ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(","))
+      expect(mail.to).to eq(ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(','))
       expect(mail.from).to eq([ENV.fetch("TOUCHPOINTS_EMAIL_SENDER")])
     end
 

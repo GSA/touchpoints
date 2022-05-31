@@ -1,20 +1,32 @@
-<h1>
+<% content_for :navigation_title do %>
   U.S. Digital Registry
-</h1>
-
+<% end %>
+<br>
 <div class="grid-row grid-gap-lg">
   <div class="grid-col-4">
     <h3>
       Websites
     </h3>
     <p>
-      <%= link_to "View All Websites", admin_websites_path, class: "usa-button full-width" %>
+      <%= link_to admin_websites_path, class: "usa-button full-width" do %>
+        <span class="fa fa-eye"></span>
+        &nbsp;
+        View Websites
+      <% end %>
     </p>
     <p>
-      <%= link_to "Add a Website", new_admin_website_path, class: "usa-button full-width" %>
+      <%= link_to new_admin_website_path, class: "usa-button full-width" do %>
+        <span class="fa fa-plus"></span>
+        &nbsp;
+        Add a Website
+      <% end %>
     </p>
     <p>
-      <%= link_to "Update My Websites", new_admin_website_path, class: "usa-button full-width" %>
+      <%= link_to review_admin_websites_path, class: "usa-button full-width" do %>
+        <span class="fa fa-list"></span>
+        &nbsp;
+        Review Websites
+      <% end %>
     </p>
   </div>
   <div class="grid-col-4">
@@ -22,13 +34,25 @@
       Mobile Products
     </h3>
     <p>
-      <%= link_to "View All Mobile Products", admin_digital_products_path, class: "usa-button full-width" %>
+      <%= link_to admin_digital_products_path, class: "usa-button full-width" do %>
+        <span class="fa fa-eye"></span>
+        &nbsp;
+        View Mobile Products
+      <% end %>
     </p>
     <p>
-      <%= link_to "Add a Mobile Product", new_admin_digital_product_path, class: "usa-button full-width" %>
+      <%= link_to new_admin_digital_product_path, class: "usa-button full-width" do %>
+        <span class="fa fa-plus"></span>
+        &nbsp;
+        Add a Mobile Product
+      <% end %>
     </p>
     <p>
-      <%= link_to "Update My Mobile Products", new_admin_digital_product_path, class: "usa-button full-width" %>
+      <%= link_to review_admin_digital_products_path, class: "usa-button full-width"  do %>
+        <span class="fa fa-list"></span>
+        &nbsp;
+        Review Mobile Products
+      <% end %>
     </p>
   </div>
   <div class="grid-col-4">
@@ -36,13 +60,25 @@
       Social Media Accounts
     </h3>
     <p>
-      <%= link_to "View All Social Media Accounts", admin_digital_service_accounts_path, class: "usa-button full-width" %>
+      <%= link_to admin_digital_service_accounts_path, class: "usa-button full-width" do %>
+        <span class="fa fa-eye"></span>
+        &nbsp;
+        View Social Media Accounts
+      <% end %>
     </p>
     <p>
-      <%= link_to "Add a Social Media Account", new_admin_digital_service_account_path, class: "usa-button full-width" %>
+      <%= link_to new_admin_digital_service_account_path, class: "usa-button full-width" do %>
+        <span class="fa fa-plus"></span>
+        &nbsp;
+        Add a Social Media Account
+      <% end %>
     </p>
     <p>
-      <%= link_to "Update My Social Media Accounts", new_admin_digital_service_account_path, class: "usa-button full-width" %>
+      <%= link_to review_admin_digital_service_accounts_path, class: "usa-button full-width" do %>
+        <span class="fa fa-list"></span>
+        &nbsp;
+        Review Social Media Accounts
+      <% end %>
     </p>
   </div>
 </div>

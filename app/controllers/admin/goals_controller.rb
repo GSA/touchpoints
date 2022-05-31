@@ -54,12 +54,12 @@ class Admin::GoalsController < AdminController
   end
 
   def add_tag
-    @goal.tag_list.add(goal_params[:tag_list].split(","))
+    @goal.tag_list.add(goal_params[:tag_list].split(','))
     @goal.save
   end
 
   def remove_tag
-    @goal.tag_list.remove(goal_params[:tag_list].split(","))
+    @goal.tag_list.remove(goal_params[:tag_list].split(','))
     @goal.save
   end
 
@@ -126,8 +126,7 @@ class Admin::GoalsController < AdminController
   end
 
   def set_goal_tags
-    @goal_tags_for_select = ['Administration of justice','Agriculture','Artificial Intelligence R&D','Quantum information science R&D','Climate change','Commerce & trade','Cybersecurity','Domestic health','Economic development','Economic security & policy','Education','Energy','Environmental justice','Equity','General government & management']
-    @goal_tags_for_select += ['General science, space, and technology','Global health','Housing','Income security','Internal affairs','Medicare','National security','Native American & tribal communities','Pandemic response','Social security','Social services','Transportation infrastructure','Veterens benefits & services','Workforce benefits & services','Worrkforce development & employment']
+    @goal_tags_for_select = Goal::TAGS
   end
 
   def goal_params

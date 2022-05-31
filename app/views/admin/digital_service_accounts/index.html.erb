@@ -74,12 +74,12 @@
 <table class="usa-table">
   <thead>
     <tr>
-      <th>Organization</th>
-      <th>Platform</th>
-      <th>Account name</th>
-      <th>Status</th>
-      <th>User</th>
-      <th>Updated at</th>
+      <th data-sortable scope="col" role="columnheader">Organization</th>
+      <th data-sortable scope="col" role="columnheader">Platform</th>
+      <th data-sortable scope="col" role="columnheader">Account name</th>
+      <th data-sortable scope="col" role="columnheader">Status</th>
+      <th data-sortable scope="col" role="columnheader">User</th>
+      <th data-sortable scope="col" role="columnheader">Updated at</th>
     </tr>
   </thead>
 
@@ -88,11 +88,15 @@
       <tr>
         <td><%= digital_service_account.organization.name %></td>
         <td><%= digital_service_account.service %></td>
-        <td><%= link_to digital_service_account.account, admin_digital_service_account_path(digital_service_account) %></td>
-        <td><%= digital_service_account.updated_at %></td>
-        <td><%= digital_service_account.user.email %></td>
+        <td>
+          <%= link_to digital_service_account.name, admin_digital_service_account_path(digital_service_account) %>
+        </td>
         <td><%= digital_service_account.status %></td>
+        <td><%= digital_service_account.user.email %></td>
+        <td><%= digital_service_account.updated_at %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+<%= paginate @digital_service_accounts %>

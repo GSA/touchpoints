@@ -32,12 +32,6 @@
 </p>
 <% end %>
 
-<% if service_permissions?(service: @service) && !@service.created? && !@service.submitted? && !@service.approved? && @service.verified? %>
-<p>
-  <%= link_to "Archive this form", archive_admin_service_path(@service), class: "usa-button full-width", method: :post %>
-</p>
-<% end %>
-
 <div class="grid-row grid-gap-lg">
   <div class="desktop:grid-col-6">
     <p>
@@ -270,8 +264,19 @@
 </p>
 <% end %>
 
+<% if service_permissions?(service: @service) && !@service.created? && !@service.submitted? && !@service.approved? && @service.verified? %>
+<p>
+  <%= link_to archive_admin_service_path(@service), class: "usa-button full-width", method: :post do %>
+    <i class="fa fa-archive"></i>
+    &nbsp;
+    Archive this form
+  <% end %>
+</p>
+<% end %>
+
 <% if service_manager_permissions? %>
 <p>
-  <%= link_to "Reset this form", reset_admin_service_path(@service), class: "usa-button full-width", method: :post %>
+  <i class="fa fa-arrow-left-long-to-line"></i>
+  <%= link_to "Reset this form", reset_admin_service_path(@service), class: "usa-button usa-button--base full-width", method: :post %>
 </p>
 <% end %>

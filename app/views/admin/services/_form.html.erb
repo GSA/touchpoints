@@ -96,6 +96,11 @@
     </div>
 
     <div class="field">
+      <%= form.label :non_digital_explanation, "If this service is not available digitally, why?", class: "usa-label" %>
+      <%= form.text_area :non_digital_explanation, class: "usa-textarea" %>
+    </div>
+
+    <div class="field">
       <%= form.label :notes, class: "usa-label" %>
       <%= form.text_area :notes, class: "usa-textarea", placeholder: "Additional notes about the service" %>
     </div>

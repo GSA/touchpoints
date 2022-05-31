@@ -48,6 +48,8 @@ Rails.application.routes.draw do
       resources :goals, only: [:index]
       resources :objectives, only: [:index]
       resources :users, only: [:index]
+      resources :digital_products, only: [:index, :show]
+      resources :digital_service_accounts, only: [:index, :show]
     end
   end
 
@@ -67,12 +69,6 @@ Rails.application.routes.draw do
     get "/submissions/responses_by_status", to: "submissions#responses_by_status", as: :responses_by_status
     get "/submissions/submissions_table", to: "submissions#submissions_table", as: :submissions_table
     get "/submissions/performance_gov", to: "submissions#performance_gov", as: :performance_gov
-
-    resources :personas
-    resources :digital_products do
-      resources :digital_product_versions
-      resources :digital_product_platforms
-    end
 
     get "heartbeat", to: "site#heartbeat", as: :heartbeat
     get "a11", to: "site#a11", as: :a11
@@ -139,13 +135,19 @@ Rails.application.routes.draw do
         post "remove_tag", to: "goals#remove_tag", as: :remove_tag
       end
       resources :goal_targets
-      resources :objectives
+      resources :objectives do
+        member do
+          post "add_tag", to: "objectives#add_tag", as: :add_tag
+          post "remove_tag", to: "objectives#remove_tag", as: :remove_tag
+        end
+      end
     end
     resources :milestones
     resources :objectives
 
     resources :websites do
       collection do
+        get :review, to: "websites#review"
         get "search", to: "websites#search"
         get "gsa", to: "websites#gsa"
         get "dendrogram", to: "websites#dendrogram", as: :dendrogram
@@ -169,8 +171,38 @@ Rails.application.routes.draw do
       end
     end
     get :registry, to: "site#registry", as: :registry
-    resources :digital_service_accounts
-    resources :digital_products
+
+    resources :digital_service_accounts do
+      collection do
+        get :review, to: "digital_service_accounts#review"
+      end
+      member do
+        post "certify", to: "digital_service_accounts#certify", as: :certify
+        post "publish", to: "digital_service_accounts#publish", as: :publish
+        post "archive", to: "digital_service_accounts#archive", as: :archive
+        post "reset", to: "digital_service_accounts#reset", as: :reset
+        post "add_tag", to: "digital_service_accounts#add_tag", as: :add_tag
+        post "remove_tag", to: "digital_service_accounts#remove_tag", as: :remove_tag
+      end
+    end
+
+    resources :digital_products do
+      collection do
+        get "review", to: "digital_products#review"
+      end
+      member do
+        post "certify", to: "digital_products#certify", as: :certify
+        post "publish", to: "digital_products#publish", as: :publish
+        post "archive", to: "digital_products#archive", as: :archive
+        post "reset", to: "digital_products#reset", as: :reset
+        post "add_tag", to: "digital_products#add_tag", as: :add_tag
+        post "remove_tag", to: "digital_products#remove_tag", as: :remove_tag
+      end
+      resources :digital_product_versions
+      resources :digital_product_platforms
+    end
+
+    resources :personas
 
     resources :forms do
       member do
