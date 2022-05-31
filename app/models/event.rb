@@ -55,9 +55,9 @@ class Event < ApplicationRecord
     digital_product_created: 'digital_product_created',
     digital_product_updated: 'digital_product_updated',
     digital_product_certified: 'digital_product_certified',
-    digital_product_account_published: 'digital_product_account_published',
+    digital_product_published: 'digital_product_published',
     digital_product_archived: 'digital_product_archived',
-    digital_product_account_reset: 'digital_product_account_reset',
+    digital_product_reset: 'digital_product_reset',
     digital_product_deleted: 'digital_product_deleted',
 
     digital_service_account_created: 'digital_service_account_created',

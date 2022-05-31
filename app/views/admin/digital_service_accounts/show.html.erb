@@ -24,7 +24,7 @@
 <% end %>
 
 <div class="grid-row">
-  <div class="tablet:grid-col-8">
+  <div class="tablet:grid-col-6">
     <p>
       <strong>Organization</strong>
       <br>
@@ -102,41 +102,66 @@
       <%= link_to api_url, api_url %>
     </p>
   </div>
-  <div class="grid-col-4">
+  <div class="grid-col-6">
+  <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
+
     <div class="well">
-      <%= link_to certify_admin_digital_service_account_path(@digital_service_account), class: "usa-button bg-green", method: :post do %>
+      <span class="usa-tag bg-violet">
+        for Registry Managers
+      </span>
+
+      <br>
+      <br>
+
+    <% if @digital_service_account.created? %>
+      <%= link_to certify_admin_digital_service_account_path(@digital_service_account), class: "usa-button bg-green full-width", method: :post do %>
         <span class="fa fa-check"></span>
         &nbsp;
         Certify
       <% end %>
-      <%= link_to publish_admin_digital_service_account_path(@digital_service_account), class: "usa-button", method: :post do %>
+      <br>
+      <br>
+    <% end %>
+
+    <% if @digital_service_account.certified? %>
+      <%= link_to publish_admin_digital_service_account_path(@digital_service_account), class: "usa-button full-width", method: :post do %>
         <span class="fa fa-pen"></span>
         &nbsp;
         Publish
       <% end %>
+      <br>
+      <br>
+    <% end %>
 
-      <p>
-        <%= link_to archive_admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button--base full-width", method: :post do %>
-          <span class="fa fa-archive"></span>
-          &nbsp;
-          Archive
-        <% end %>
-      </p>
+    <% if !@digital_service_account.archived? %>
+      <%= link_to archive_admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button--base full-width", method: :post do %>
+        <span class="fa fa-archive"></span>
+        &nbsp;
+        Archive
+      <% end %>
+      <br>
+      <br>
       <div class="usa-alert usa-alert--info" >
         <div class="usa-alert__body">
           <p class="usa-alert__text">
-            Note: Archive accounts only after your agency is no longer using the account and it has already been removed from the third-party social media platform.
+            Only "Archive" an Account after your Organization
+            is no longer using the account and it has already been removed
+            from the third-party platform.
+            Archiving removes accounts from the public registry view and API.
           </p>
         </div>
       </div>
-      <p>
-        <%= link_to reset_admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button--secondary full-width", method: :post do %>
-          <span class="fa fa-left"></span>
-          &nbsp;
-          Reset
-        <% end %>
-      </p>
+      <br>
+    <% end %>
+
+      <%= link_to reset_admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button--secondary full-width", method: :post do %>
+        <span class="fa fa-left"></span>
+        &nbsp;
+        Reset
+      <% end %>
     </div>
+  <% end %>
+
 
     <div class="well">
       <h4>
@@ -157,6 +182,6 @@
         <% end %>
       </div>
     </div>
-    
+
   </div>
 </div>

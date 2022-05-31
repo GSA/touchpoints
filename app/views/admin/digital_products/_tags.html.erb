@@ -9,17 +9,23 @@
 						<span class="usa-tag">
 							<%= tag %>
 						</span>
+						<% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
 						<a href="javascript:void(0);" class="remove-tag-link" data-value="<%= tag %>">
 							<span class="fa fa-trash"></span>
 						</a>
+						<% end %>
 					</li>
 		  		<% end %>
 				</ul>
 	  	<p>
+			<% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
 	    <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
+			<% end %>
 	  </div>
 	</div>
 <% end %>
+
+<% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
 <script>
 $(".tag-input").blur(function(event) {
 	event.preventDefault();
@@ -36,13 +42,14 @@ $(".tag-input").keypress(function (e) {
 		return false;
 	}
 });
-$(".remove-tag-link").click(function(e) {
+$(".remove-tag-link").on("click", function(e) {
 	event.preventDefault();
 	var thisForm = $(this).closest("form");
 	$.ajax({
-	  url: thisForm.attr("action") + "/remove_tag",
-	  type: 'post',
-	  data: "digital_product[tag_list]=" + $(this).attr("data-value")
+		url: thisForm.attr("action") + "/remove_tag",
+		type: 'post',
+		data: "digital_product[tag_list]=" + $(this).attr("data-value")
 	});
 })
 </script>
+<% end %>

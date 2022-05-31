@@ -1,5 +1,8 @@
 class Admin::DigitalProductsController < AdminController
-  before_action :set_digital_product, only: [:show, :edit, :update, :destroy, :add_tag, :remove_tag, :certify, :archive]
+  before_action :set_digital_product, only: [
+    :show, :edit, :update, :destroy,
+    :add_tag, :remove_tag,
+    :certify, :publish, :archive, :reset]
 
   def index
     @digital_products = DigitalProduct.order(:name, :service).page(params[:page])
@@ -56,12 +59,47 @@ class Admin::DigitalProductsController < AdminController
 
   def certify
     @digital_product.certify
-    redirect_to admin_digital_product_url(@digital_product), notice: 'Digital product was successfully certified.'
+    if @digital_product.save
+      Event.log_event(Event.names[:digital_product_certified], "Digital Product", @digital_product.id, "Digital Product #{@digital_product.name} certified at #{DateTime.now}", current_user.id)
+      redirect_to admin_digital_product_path(@digital_product), notice: 'Digital product was successfully certified.'
+    else
+      render :edit
+    end
+  end
+
+  def publish
+    ensure_digital_product_permissions(digital_product: @digital_product)
+
+    @digital_product.publish
+    if @digital_product.save
+      Event.log_event(Event.names[:digital_product_published], "Digital Product", @digital_product.id, "Digital Product #{@digital_product.name} published at #{DateTime.now}", current_user.id)
+      redirect_to admin_digital_product_path(@digital_product), notice: "Digital Product #{@digital_product.name} was published."
+    else
+      render :edit
+    end
   end
 
   def archive
+    ensure_digital_product_permissions(digital_product: @digital_product)
+
     @digital_product.archive
-    redirect_to admin_digital_product_url(@digital_product), notice: 'Digital product was successfully archiv ed.'
+    if @digital_product.save
+      Event.log_event(Event.names[:digital_product_archived], "Digital Product", @digital_product.id, "Digital Product #{@digital_product.name} archived at #{DateTime.now}", current_user.id)
+      redirect_to admin_digital_product_path(@digital_product), notice: "Digital Product #{@digital_product.name} was archived."
+    else
+      render :edit
+    end
+  end
+
+  def reset
+    ensure_digital_product_permissions(digital_product: @digital_product)
+    @digital_product.reset
+    if @digital_product.save
+      Event.log_event(Event.names[:digital_product_reset], "Digital Service Account", @digital_product.id, "Digital Service Account #{@digital_product.name} reset at #{DateTime.now}", current_user.id)
+      redirect_to admin_digital_product_path(@digital_product), notice: "Digital Service Account #{@digital_product.name} was reset."
+    else
+      render :edit
+    end
   end
 
   private
