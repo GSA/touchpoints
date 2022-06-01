@@ -34,6 +34,10 @@
   </div>
   <div class="field">
     <%= form.label :domain, class: "usa-label" %>
+    <div class="font-sans-xs">
+      Allows users from
+      <code>@<%= organization.domain %></code> email addresses to login.
+    </div>
     <%= form.text_field :domain, class: "usa-input", placeholder: "gsa.gov" %>
   </div>
   <div class="field">

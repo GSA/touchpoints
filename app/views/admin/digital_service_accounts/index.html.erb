@@ -89,11 +89,7 @@
         <td><%= digital_service_account.organization.name %></td>
         <td><%= digital_service_account.service %></td>
         <td>
-          <% if digital_service_account.account? %>
-          <%= link_to digital_service_account.account, admin_digital_service_account_path(digital_service_account) %>
-          <% else %>
-          <%= link_to "** unnamed account **", admin_digital_service_account_path(digital_service_account) %>
-          <% end %>
+          <%= link_to digital_service_account.name, admin_digital_service_account_path(digital_service_account) %>
         </td>
         <td><%= digital_service_account.status %></td>
         <td><%= digital_service_account.user.email %></td>

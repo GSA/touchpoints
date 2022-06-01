@@ -15,19 +15,6 @@
       <% end %>
     </p>
 
-    <div class="well">
-      <div class="usa-button">
-        Certify
-      </div>
-      <div class="usa-button">
-        Archive
-      </div>
-      <p>
-        Note:
-        Archiving removes accounts from public visibility
-      </p>
-    </div>
-
     <p>
       <strong>Organization:</strong>
       <%= @digital_product.organization.name %>
@@ -45,7 +32,10 @@
 
     <p>
       <strong>Long description:</strong>
-      <%= @digital_product.long_description %>
+      <p>
+        <%= render 'components/markdown-content-supported' %>
+      </p>
+      <%= to_markdown(@digital_product.long_description) %>
     </p>
 
     <p>
@@ -74,28 +64,110 @@
     </p>
 
     <p>
-      <strong>Aasm status:</strong>
-      <%= @digital_product.aasm_status %>
-    </p>
-
-    <p>
       <strong>Code repository url:</strong>
       <%= @digital_product.code_repository_url %>
     </p>
 
     <p>
-      <strong>Tags:</strong>
-      <%= @digital_product.tags %>
+      <strong>Aasm state:</strong>
+      <%= @digital_product.aasm_state %>
     </p>
 
     <p>
       <strong>Certified at:</strong>
       <%= @digital_product.certified_at %>
     </p>
+
+    <div>
+      <div class="grid-row">
+        <div class="grid-col-12">
+          <div class="tags-div">
+            <%= render 'admin/digital_products/tags', digital_product: @digital_product %>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="grid-col-6">
+    <% if registry_manager_permissions?(user: current_user) %>
+    <div class="well">
+      <p>
+        <span class="usa-tag bg-violet">
+          for Registry Managers
+        </span>
+      </p>
+
+      <% if @digital_product.created? %>
+      <p>
+        <%= link_to certify_admin_digital_product_path(@digital_product), class: "usa-button width-full", method: :post do %>
+          <span class="fa fa-check"></span>
+          &nbsp;
+          Certify
+        <% end %>
+      </p>
+      <% end %>
+
+      <% if @digital_product.certified? %>
+        <%= link_to publish_admin_digital_product_path(@digital_product), class: "usa-button full-width", method: :post do %>
+          <span class="fa fa-pen"></span>
+          &nbsp;
+          Publish
+        <% end %>
+        <br>
+        <br>
+      <% end %>
+
+    <% if !@digital_product.archived? %>
+      <%= link_to archive_admin_digital_product_path(@digital_product), class: "usa-button usa-button--base width-full", method: :post do %>
+        <span class="fa fa-archive"></span>
+        &nbsp;
+        Archive
+      <% end %>
+      <br>
+      <br>
+      <div class="usa-alert usa-alert--info" >
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            Only "Archive" a Product after your Organization
+            is no longer using the product and no longer published for use.
+            Archiving removes products from the public registry view and API.
+          </p>
+        </div>
+      </div>
+      <br>
+    <% end %>
+
+
+    <%= link_to reset_admin_digital_product_path(@digital_product), class: "usa-button usa-button--secondary full-width", method: :post do %>
+      <span class="fa fa-left"></span>
+      &nbsp;
+      Reset
+    <% end %>
+    </div>
+    <% end %>
+
     <%= turbo_frame_tag id="digital_product_versions_container", src: admin_digital_product_digital_product_versions_path(@digital_product) do %>
       Please wait...
     <% end %>
+
+    <div class="well">
+      <h4>
+        Event log
+      </h4>
+      <div class="events">
+        <% events = Event.where(object_type: "Digital Product", object_id: @digital_product.id.to_s ).order("created_at DESC") %>
+        <% events.each do |event| %>
+          <div class="padding-bottom-2">
+          <%= event.name %>
+          by
+          <%= link_to event.user.email, admin_user_path(event.user) %>
+          <br>
+          <%= time_ago_in_words(event.created_at) %> ago
+          at
+          <%= event.created_at %>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>
