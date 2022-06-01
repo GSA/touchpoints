@@ -99,6 +99,7 @@ feature "Data Collections", js: true do
           select(service_provider.name, from: "collection_service_provider_id")
           fill_in("collection_year", with: current_year)
           fill_in("collection_reflection", with: "What we learned...")
+          wait_for_ajax
           click_on "Create Collection"
         end
 
