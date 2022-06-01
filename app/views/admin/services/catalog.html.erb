@@ -1,0 +1,70 @@
+<% content_for :navigation_title do %>
+  Public Services Catalog UI Demo
+  <%= link_to new_admin_service_path, class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-plus-circle"></i>
+    New Service
+  <% end %>
+<% end %>
+
+<p>
+  <%= link_to admin_services_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Services
+  <% end %>
+</p>
+
+<div class="well">
+  <div class="field">
+    <%= label_tag :search_text, "Search by organization or name" %>
+    <%= text_field_tag :search_text, nil, class: "usa-input" %>
+
+    <% if @tags.first %>
+      <p>
+        Search by tag
+      </p>
+      <p class="tag-list">
+        <% @tags.order(:name).each do |tag| %>
+          <%= link_to catalog_admin_services_path(tag: tag.name), class: "search-tag-link",  "data-name" => tag.name do %>
+            <span class="usa-tag">
+              <%= tag.name %> (<%= tag.taggings_count %>)
+            </span>
+          <% end %>
+        <% end %>
+      <p>
+    <% end %>
+  </div>
+</div>
+<div class="search-results">
+  <%= render 'card_results' %>
+</div>
+
+<% if service_manager_permissions? %>
+<p>
+  <%= link_to export_csv_admin_services_path, class: "usa-button usa-button--outline" do %>
+    <i class="fa fa-download"></i>
+    Export all services to CSV
+  <% end %>
+</p>
+<% end %>
+
+<script>
+  $(function() {
+    $("#search_text").keyup(function() {
+      $.ajax({
+        url: '/admin/services/search?view=catalog',
+        data: {
+          search: $(this).val()
+        }
+      });
+    });
+    $(".search-tag-link").click(function() {
+      $("#search_text").val("");
+      $.ajax({
+        url: '/admin/services/search',
+        data: {
+          tag: $(this).attr("data-name")
+        }
+      });
+    });
+  });
+</script>

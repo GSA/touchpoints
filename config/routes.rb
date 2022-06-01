@@ -85,6 +85,7 @@ Rails.application.routes.draw do
     end
     resources :services do
       collection do
+        get "catalog", to: "services#catalog"
         get "search", to: "services#search"
         get "export_csv", to: "services#export_csv", as: :export_csv
       end
