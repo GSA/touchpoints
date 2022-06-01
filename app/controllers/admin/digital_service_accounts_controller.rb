@@ -1,4 +1,8 @@
-class Admin::DigitalServiceAccountsController < AdminController
+# frozen_string_literal: true
+
+module Admin
+  class DigitalServiceAccountsController < AdminController
+
   before_action :set_digital_service_account, only: [
     :show, :edit, :update, :destroy,
     :add_tag, :remove_tag,
@@ -38,7 +42,10 @@ class Admin::DigitalServiceAccountsController < AdminController
 
   def update
     if @digital_service_account.update(digital_service_account_params)
-      redirect_to admin_digital_service_account_path(@digital_service_account), notice: 'Digital service account was successfully updated.'
+      Event.log_event(Event.names[:digital_service_account_updated], 'DigitalServiceAccount',
+        @digital_service_account.id, "updated by #{current_user.email} on #{Date.today}", current_user.id)
+      redirect_to admin_digital_service_account_path(@digital_service_account),
+                  notice: 'Digital service account was successfully updated.'
     else
       render :edit
     end
@@ -46,7 +53,9 @@ class Admin::DigitalServiceAccountsController < AdminController
 
   def destroy
     @digital_service_account.destroy
-    redirect_to admin_digital_service_accounts_url, notice: 'Digital service account was successfully destroyed.'
+    Event.log_event(Event.names[:digital_service_account_deleted], 'DigitalServiceAccount',
+      @digital_service_account.id, "deleted by #{current_user.email} on #{Date.today}", current_user.id)
+    redirect_to admin_digital_service_accounts_url, notice: 'Digital service account was deleted.'
   end
 
   def add_tag
@@ -124,4 +133,5 @@ class Admin::DigitalServiceAccountsController < AdminController
         :tags,
         :tag_list)
     end
+  end
 end
