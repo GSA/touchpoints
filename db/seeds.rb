@@ -315,7 +315,8 @@ end
 
 digital_gov_user = User.new({
   email: 'user@digital.gov',
-  password: 'password'
+  password: 'password',
+  last_sign_in_at: Time.now,
 })
 digital_gov_user.save!
 puts 'Created Test User in Secondary Organization: #{digital_gov_user.email}'

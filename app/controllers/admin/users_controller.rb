@@ -13,6 +13,11 @@ class Admin::UsersController < AdminController
       organization = current_user.organization
       @users = organization.users.active.includes(:organization).order(:organization_id, :email)
     end
+
+    respond_to do |format|
+      format.csv { send_data @users.to_csv, filename: "users-#{Date.today}.csv" }
+      format.html { render :index }
+    end
   end
 
   def admins
@@ -27,12 +32,6 @@ class Admin::UsersController < AdminController
   def inactivate!
     User.deactivate_inactive_accounts!
     redirect_to admin_users_path, notice: 'Users inactivated successfully.'
-  end
-
-  def active
-    respond_to do |format|
-      format.csv { send_data User.active.to_csv, filename: "users-#{Date.today}.csv" }
-    end
   end
 
   def show

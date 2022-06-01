@@ -129,7 +129,7 @@ RSpec.describe User, type: :model do
         @user.last_sign_in_at = 91.days.ago
         @user.inactive = false
         @user.save
-        User.deactivate_inactive_accounts
+        User.deactivate_inactive_accounts!
         @user.reload
         expect(@user.inactive).to be_truthy
       end
@@ -139,7 +139,7 @@ RSpec.describe User, type: :model do
         @user.created_at = 91.days.ago
         @user.inactive = false
         @user.save
-        User.deactivate_inactive_accounts
+        User.deactivate_inactive_accounts!
         @user.reload
         expect(@user.inactive).to be_truthy
       end
