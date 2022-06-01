@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Digital Services", js: true do
+feature "Digital Service Accounts", js: true do
   let!(:organization) { FactoryBot.create(:organization) }
 
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
@@ -55,6 +55,26 @@ feature "Digital Services", js: true do
           expect(page).to have_content("Service Account 1")
         end
 
+      end
+    end
+
+    describe 'create and update' do
+      before 'fill-in the form' do
+        visit admin_digital_service_accounts_path
+        click_on 'New Account'
+        expect(page).to have_content('New Social Media Account')
+        fill_in :digital_service_account_name, with: 'Test Name'
+        select(organization.name, from: 'digital_service_account[organization_id]')
+        select('Facebook', from: 'digital_service_account[account]')
+        click_on 'Create Digital service account'
+      end
+
+      it 'creates Digital Service Account successfully' do
+        expect(page).to have_content('Digital service account was successfully created')
+        expect(page).to have_content('Event log')
+        within('.events') do
+          expect(page).to have_content('digital_service_account_created by admin@example.gov')
+        end
       end
     end
   end
