@@ -40,7 +40,6 @@ module Admin
     end
   end
 
-  # PATCH/PUT /digital_service_accounts/1
   def update
     if @digital_service_account.update(digital_service_account_params)
       Event.log_event(Event.names[:digital_service_account_created], 'DigitalServiceAccount',
