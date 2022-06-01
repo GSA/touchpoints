@@ -79,12 +79,15 @@
         <label class="usa-label" for="site_owner_email">
           Website managers emails
         </label>
-        <br>
 
         <% if @website.website_managers.present? %>
-        <% @website.website_managers.each do | manager | %>
-          <%= manager.try(:email) %>&nbsp;&nbsp;
+        <ul class="usa-list">
+        <% @website.website_managers.each do |manager| %>
+          <li>
+            <%= link_to manager.email, admin_user_path(manager) %>
+          </li>
         <% end %>
+        </ul>
         <% else %>
         <div class="usa-alert usa-alert--info">
           <div class="usa-alert__body">

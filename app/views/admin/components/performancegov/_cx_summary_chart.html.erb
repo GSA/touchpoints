@@ -1,5 +1,6 @@
 <%= javascript_include_tag "chartjs-2.9.3.bundle.js" %>
 <%= javascript_include_tag "performance-charts.js" %>
+
 <a name="cx-summary-dashboard"></a>
 
 <section class="usa-section" style="background-color:white;">
@@ -28,8 +29,8 @@
     <% end %>
   <% end %>
   <div class="usa-grid">
-    <div class="usa-width-one-whole usa-serif">
-      <div class="usa-width-one-third">
+    <div class="grid-row">
+      <div class="col-grid-4">
         <div class="usa-width-one-whole">
           <span style="font-size: 2.25em;">
             <%= @collections.size %>
@@ -59,7 +60,7 @@
           </span>
         </div>
       </div>
-      <div class="usa-width-two-thirds">
+      <div class="grid-col-8">
         <div class="grid-col-6">
           <h4 style="text-align: center;">
             Responses by agency
@@ -80,37 +81,6 @@
     </div>
   </div>
 </section>
-
-
-<h3>
-  Responses by Agency
-</h3>
-Organization name,
-Respondents
-<br>
-<% @collections.each do |collection| %>
-  <%= collection.organization.name %>,
-  <%= collection.totals[:volume_of_respondents] %>
-  <br>
-<% end %>
-
-<h3>
-  Responses by channel
-</h3>
-Organization name,
-Channel,
-Respondents
-<br>
-<% @collections.each do |collection| %>
-  <% collection.omb_cx_reporting_collections.order(:service_provided, :channel).each do |omb| %>
-    <%= collection.organization.name %>,
-    <%= omb.channel %>,
-    <%= collection.totals[:volume_of_respondents] %>
-  <% end %>
-  <br>
-<% end %>
-
-<br>
 
 <script>
   var doughnutData = {

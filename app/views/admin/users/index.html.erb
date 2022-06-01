@@ -1,11 +1,29 @@
 <% content_for :navigation_title do %>
   Users
 <% end %>
+
+<% @all_user_count = User.count %>
+<% @active_user_count = User.active.count %>
 <p>
-  <%= link_to "All Users", admin_users_path %>
+  <%= link_to "All Users (#{@all_user_count})", all_admin_users_path %>
+  <br>
+  <%= link_to "#{@active_user_count} Active Users", admin_users_path %>
   &middot;
-  <%= link_to "Inactive Users", inactive_admin_users_path %>
+  <%= link_to "#{@all_user_count - @active_user_count} Inactive Users", inactive_admin_users_path %>
 </p>
+
+<% if params[:scope] == :inactive %>
+<div class="usa-alert usa-alert--info usa-alert--slim" >
+  <div class="usa-alert__body">
+    <p class="usa-alert__text">
+      These "Inactive" users have not logged in within 90 days.
+      <br>
+      The "! Inactive Users" button will set each User's account to "inactive."
+    </p>
+  </div>
+</div>
+<% end %>
+
 <div class="users">
   <table class="usa-table" style="width: 100%;">
     <thead>
@@ -46,12 +64,13 @@
 </div>
 
 <p>
-  <%= link_to active_admin_users_path(format: :csv), class: "usa-button usa-button--outline" do %>
+  <%= link_to current_path + ".csv", class: "usa-button usa-button--outline" do %>
     <i class="fa fa-download"></i>
-    Export Active Users
+    Export Users to .csv
   <% end %>
   <%= link_to inactivate_admin_users_path(format: :csv), class: "usa-button usa-button--secondary float-right", method: :post do %>
     <i class="fa fa-exclamation"></i>
+    &nbsp;
     Inactivate users
   <% end %>
 </p>

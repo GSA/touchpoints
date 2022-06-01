@@ -48,6 +48,8 @@ Rails.application.routes.draw do
       resources :goals, only: [:index]
       resources :objectives, only: [:index]
       resources :users, only: [:index]
+      resources :digital_products, only: [:index, :show]
+      resources :digital_service_accounts, only: [:index, :show]
     end
   end
 
@@ -174,11 +176,27 @@ Rails.application.routes.draw do
       collection do
         get :review, to: "digital_service_accounts#review"
       end
+      member do
+        post "certify", to: "digital_service_accounts#certify", as: :certify
+        post "publish", to: "digital_service_accounts#publish", as: :publish
+        post "archive", to: "digital_service_accounts#archive", as: :archive
+        post "reset", to: "digital_service_accounts#reset", as: :reset
+        post "add_tag", to: "digital_service_accounts#add_tag", as: :add_tag
+        post "remove_tag", to: "digital_service_accounts#remove_tag", as: :remove_tag
+      end
     end
 
     resources :digital_products do
       collection do
         get "review", to: "digital_products#review"
+      end
+      member do
+        post "certify", to: "digital_products#certify", as: :certify
+        post "publish", to: "digital_products#publish", as: :publish
+        post "archive", to: "digital_products#archive", as: :archive
+        post "reset", to: "digital_products#reset", as: :reset
+        post "add_tag", to: "digital_products#add_tag", as: :add_tag
+        post "remove_tag", to: "digital_products#remove_tag", as: :remove_tag
       end
       resources :digital_product_versions
       resources :digital_product_platforms
@@ -251,11 +269,11 @@ Rails.application.routes.draw do
     end
     resources :users, except: [:new] do
       collection do
+        get "all", to: "users#index", as: :all, scope: :all
+        get "inactive", to: "users#index", as: :inactive, scope: :inactive
         get "admins", to: "users#admins", as: :admins
-        get "inactive", to: "users#inactive", as: :inactive
         post "inactivate", to: "users#inactivate!", as: :inactivate
         get "deactivate", to: "users#deactivate"
-        get "active", to: "users#active", as: :active
       end
     end
     resources :organizations do
