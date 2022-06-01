@@ -3,8 +3,12 @@ class Admin::UsersController < AdminController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
-    if current_user.admin?
+    if current_user.admin? && params[:scope] == :all
       @users = User.all.includes(:organization).order("inactive DESC", :organization_id, :email)
+    elsif current_user.admin? && params[:scope] == :inactive
+      @users = User.all.includes(:organization).where("last_sign_in_at < ? OR last_sign_in_at ISNULL", Time.now - 90.days).order(:organization_id, :email)
+    elsif current_user.admin?
+      @users = User.active.includes(:organization).order("inactive DESC", :organization_id, :email)
     else
       organization = current_user.organization
       @users = organization.users.active.includes(:organization).order(:organization_id, :email)
@@ -20,13 +24,8 @@ class Admin::UsersController < AdminController
     @website_managers = @users.select { |u| u.organizational_website_manager? }
   end
 
-  def inactive
-    @users = User.all.includes(:organization).where("last_sign_in_at < ? OR last_sign_in_at ISNULL", Time.now - 90.days).order(:organization_id, :email)
-    render :index
-  end
-
   def inactivate!
-    User.deactivate_inactive_accounts
+    User.deactivate_inactive_accounts!
     redirect_to admin_users_path, notice: 'Users inactivated successfully.'
   end
 

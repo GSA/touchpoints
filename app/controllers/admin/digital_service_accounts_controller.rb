@@ -42,7 +42,7 @@ module Admin
 
   def update
     if @digital_service_account.update(digital_service_account_params)
-      Event.log_event(Event.names[:digital_service_account_created], 'DigitalServiceAccount',
+      Event.log_event(Event.names[:digital_service_account_updated], 'DigitalServiceAccount',
         @digital_service_account.id, "updated by #{current_user.email} on #{Date.today}", current_user.id)
       redirect_to admin_digital_service_account_path(@digital_service_account),
                   notice: 'Digital service account was successfully updated.'

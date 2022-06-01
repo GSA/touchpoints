@@ -269,11 +269,12 @@ Rails.application.routes.draw do
     end
     resources :users, except: [:new] do
       collection do
+        get "all", to: "users#index", as: :all, scope: :all
+        get "active", to: "users#active", as: :active
+        get "inactive", to: "users#index", as: :inactive, scope: :inactive
         get "admins", to: "users#admins", as: :admins
-        get "inactive", to: "users#inactive", as: :inactive
         post "inactivate", to: "users#inactivate!", as: :inactivate
         get "deactivate", to: "users#deactivate"
-        get "active", to: "users#active", as: :active
       end
     end
     resources :organizations do
