@@ -148,7 +148,7 @@
   <br>
   <%= raw(@collection.reflection? ? simple_format(@collection.reflection) : "Please #{link_to 'edit', edit_admin_collection_path(@collection)} this Reflection text prior to submitting.") %>
 </p>
-<p hidden>
+<p hidden="true">
   <strong>Integrity hash</strong>
   <br>
   <%= @collection.integrity_hash || "not yet published" %>
