@@ -92,7 +92,7 @@ class Admin::UsersController < AdminController
     render json: { "errors": "Request must come from valid login.gov source", "status": 403} and return if !uuid
     user = User.where(uid: uuid).first
     # Do we care if the user account deleted from login.gov was not found in touchpoints?
-    user.deactivate if user
+    user.deactivate! if user
     Event.log_event(Event.names[:user_deactivated], "User", user.id, "User #{user.email} was deactivated on #{Date.today}")
     render json: { "msg": "User successfully deactivated." }
   end
