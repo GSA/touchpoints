@@ -211,6 +211,35 @@
 
 <div class="well">
   <h4>
+    Forms
+  </h4>
+  <div>
+    <% @forms = @service.forms.order(:name) %>
+    <% if @forms.present? %>
+    <ul>
+      <% @forms.each do |f| %>
+      <li>
+        <%= link_to admin_form_path(f) do %>
+          <%= f.name %>
+        <% end %>
+      </li>
+      <% end %>
+    </ul>
+    <% else %>
+      <div class="usa-alert usa-alert--info">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            No Forms exist for this Service.
+            <%= link_to "Learn more", admin_forms_path %>
+          </p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="well">
+  <h4>
     Data Collections
   </h4>
   <div>
