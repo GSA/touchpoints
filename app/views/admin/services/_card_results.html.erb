@@ -1,0 +1,30 @@
+<ul class="usa-card-group">
+  <% @services.each do |service| %>
+  <li class="usa-card tablet:grid-col-6">
+    <div class="usa-card__container">
+      <div class="usa-card__header">
+        <h2 class="usa-card__heading">
+          <%= service.name %>
+        </h2>
+      </div>
+      <div class="usa-card__body">
+        <%= link_to service.organization.name, admin_organization_path(service.organization) %>
+        &middot;
+        <%= (service.service_provider.name) %>
+        <br>
+        <% service.tags.each do |tag| %>
+        <span class="usa-tag">
+          <%= tag %>
+        </span>
+        <% end %>
+        <%= to_markdown(service.description) %>
+      </div>
+      <div class="usa-card__footer">
+        <%= link_to admin_service_path(service), class: "usa-button" do %>
+          Find out more
+        <% end %>
+      </div>
+    </div>
+  </li>
+  <% end %>
+</ul>

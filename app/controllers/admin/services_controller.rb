@@ -47,6 +47,25 @@ class Admin::ServicesController < AdminController
     @tags = Service.tag_counts_on(:tags)
   end
 
+  def catalog
+    tag_name = params[:tag]
+
+    if service_manager_permissions?
+      if tag_name.present?
+        @services = Service.tagged_with(tag_name).includes(:organization).order("organizations.name", :name)
+      else
+        @services = Service.all.includes(:organization).order("organizations.name", :name)
+      end
+    else
+      if tag_name.present?
+        @services = current_user.organization.services.tagged_with(tag_name).includes(:organization).order("organizations.name", :name)
+      else
+        @services = current_user.organization.services.includes(:organization).order("organizations.name", :name)
+      end
+    end
+    @tags = Service.tag_counts_on(:tags)
+  end
+
   def versions
     ensure_service_manager_permissions
     @versions = @service.versions.limit(500).order("created_at DESC").page params[:page]

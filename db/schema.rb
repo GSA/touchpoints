@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_19_224706) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_02_003745) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -195,9 +195,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_19_224706) do
     t.boolean "ui_truncate_text_responses", default: true
     t.string "success_text_heading"
     t.string "notification_frequency", default: "instant"
+    t.integer "service_id"
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["organization_id"], name: "index_forms_on_organization_id"
+    t.index ["service_id"], name: "index_forms_on_service_id"
     t.index ["user_id"], name: "index_forms_on_user_id"
     t.index ["uuid"], name: "index_forms_on_uuid"
   end

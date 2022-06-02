@@ -113,7 +113,134 @@ submission_viewer = User.new({
 submission_viewer.save!
 puts 'Created #{submission_viewer.email}'
 
+
+#
+# Service Providers
+#
+
+service_provider_1 = ServiceProvider.create({
+  organization: example_gov,
+  name: 'Example HISP',
+  description: 'Description for an example HISP',
+  notes: 'notes for example HISP',
+  department: 'Example Department',
+  department_abbreviation: 'dept',
+  bureau: 'Example Bureau',
+  slug: 'example-service1',
+  new: false,
+})
+
+service_provider_2 = ServiceProvider.create({
+  organization: example_gov,
+  name: 'Example High Impact Service Provider - example.gov',
+  description: 'A Description of the Example HISP',
+  notes: 'notes on the example.gov HISP',
+  department: 'Example',
+  department_abbreviation: 'ex',
+  bureau: 'CX Labs',
+  slug: 'example-service2',
+  new: false,
+})
+
+service_provider_3 = ServiceProvider.create({
+  organization: Organization.first,
+  name: 'GSA High Impact Service Provider - USA.gov',
+  description: 'A Description of the USA.gov HISP',
+  notes: 'notes on the usa.gov HISP',
+  department: 'General Services Administration',
+  department_abbreviation: 'gsa',
+  bureau: 'Technology Transformation Services',
+  slug: 'gsa-usagov',
+  new: true,
+})
+
+
+#
+# Services
+#
+
+service_1 = Service.create!({
+  name: 'USPTO Trademarks',
+  organization: Organization.first,
+  hisp: true,
+  notes: 'Headline notes about the service',
+  description: 'A blurb describing this service. A few hundred words...',
+  department: 'Department of Commerce',
+  bureau: 'Patents and Trademarks',
+  service_abbreviation: 'uspto',
+  service_slug: 'doc-trademarks',
+  url: 'https://uspto.gov/trademarks',
+  service_owner_id: admin_user.id,
+  service_provider: service_provider_1,
+})
+service_2 = Service.create!({
+  organization: service_provider_2.organization,
+  service_provider: service_provider_2,
+  name: 'Example',
+  service_owner_id: admin_user.id,
+  hisp: true,
+})
+service_3 = Service.create!({
+  organization: Organization.first,
+  service_provider: service_provider_2,
+  service_owner_id: webmaster.id,
+  name: 'HUD',
+  hisp: true,
+})
+service_4 = Service.create!({
+  organization: Organization.first,
+  service_provider: service_provider_3,
+  service_owner_id: webmaster.id,
+  name: 'IRS',
+  hisp: true,
+  })
+service_5 = Service.create!({
+  organization: Organization.first,
+  service_provider: service_provider_1,
+  service_owner_id: admin_user.id,
+  name: 'Touchpoints',
+  hisp: false,
+})
+
+stage_before = ServiceStage.create({
+  name: 'Before',
+  service: service_1
+})
+stage_during = ServiceStage.create({
+  name: 'During',
+  service: service_1
+})
+stage_after = ServiceStage.create({
+  name: 'After',
+  service: service_1
+})
+
+barrier_1 = Barrier.create({
+  name: 'technical'
+})
+barrier_2 = Barrier.create({
+  name: 'policy'
+})
+barrier_3 = Barrier.create({
+  name: 'location'
+})
+ServiceStageBarrier.create({
+  service_stage: stage_before,
+  barrier: barrier_1
+})
+ServiceStageBarrier.create({
+  service_stage: stage_during,
+  barrier: barrier_2
+})
+ServiceStageBarrier.create({
+  service_stage: stage_after,
+  barrier: barrier_3
+})
+
+
+#
 # Forms
+#
 
 ## Create the Open-ended Form
 open_ended_form = Form.create!({
@@ -193,7 +320,8 @@ open_ended_form_with_contact_information = Form.create({
   instructions: '',
   disclaimer_text: 'Disclaimer Text Goes Here',
   delivery_method: 'modal',
-  modal_button_text: 'Click here to leave feedback'
+  modal_button_text: 'Click here to leave feedback',
+  service: service_1,
 })
 Question.create!({
   form: open_ended_form_with_contact_information,
@@ -332,121 +460,9 @@ admin_emails.each do |email|
 end
 
 
-service_provider_1 = ServiceProvider.create({
-  organization: example_gov,
-  name: 'Example HISP',
-  description: 'Description for an example HISP',
-  notes: 'notes for example HISP',
-  department: 'Example Department',
-  department_abbreviation: 'dept',
-  bureau: 'Example Bureau',
-  slug: 'example-service1',
-  new: false,
-})
-
-service_provider_2 = ServiceProvider.create({
-  organization: example_gov,
-  name: 'Example High Impact Service Provider - example.gov',
-  description: 'A Description of the Example HISP',
-  notes: 'notes on the example.gov HISP',
-  department: 'Example',
-  department_abbreviation: 'ex',
-  bureau: 'CX Labs',
-  slug: 'example-service2',
-  new: false,
-})
-
-service_provider_3 = ServiceProvider.create({
-  organization: Organization.first,
-  name: 'GSA High Impact Service Provider - USA.gov',
-  description: 'A Description of the USA.gov HISP',
-  notes: 'notes on the usa.gov HISP',
-  department: 'General Services Administration',
-  department_abbreviation: 'gsa',
-  bureau: 'Technology Transformation Services',
-  slug: 'gsa-usagov',
-  new: true,
-})
-
-## Services
-
-service_1 = Service.create!({
-  name: 'USPTO Trademarks',
-  organization: Organization.first,
-  hisp: true,
-  notes: 'Headline notes about the service',
-  description: 'A blurb describing this service. A few hundred words...',
-  department: 'Department of Commerce',
-  bureau: 'Patents and Trademarks',
-  service_abbreviation: 'uspto',
-  service_slug: 'doc-trademarks',
-  url: 'https://uspto.gov/trademarks',
-  service_owner_id: admin_user.id,
-  service_provider: service_provider_1,
-})
-service_2 = Service.create!({
-  organization: service_provider_2.organization,
-  service_provider: service_provider_2,
-  name: 'Example',
-  service_owner_id: admin_user.id,
-  hisp: true,
-})
-service_3 = Service.create!({
-  organization: Organization.first,
-  service_provider: service_provider_2,
-  service_owner_id: webmaster.id,
-  name: 'HUD',
-  hisp: true,
-})
-service_4 = Service.create!({
-  organization: Organization.first,
-  service_provider: service_provider_3,
-  service_owner_id: webmaster.id,
-  name: 'IRS',
-  hisp: true,
-  })
-service_5 = Service.create!({
-  organization: Organization.first,
-  service_provider: service_provider_1,
-  service_owner_id: admin_user.id,
-  name: 'Touchpoints',
-  hisp: false,
-})
-
-stage_before = ServiceStage.create({
-  name: 'Before',
-  service: service_1
-})
-stage_during = ServiceStage.create({
-  name: 'During',
-  service: service_1
-})
-stage_after = ServiceStage.create({
-  name: 'After',
-  service: service_1
-})
-
-barrier_1 = Barrier.create({
-  name: 'technical'
-})
-barrier_2 = Barrier.create({
-  name: 'policy'
-})
-barrier_3 = Barrier.create({
-  name: 'location'
-})
-ServiceStageBarrier.create({
-  service_stage: stage_before,
-  barrier: barrier_1
-})
-ServiceStageBarrier.create({
-  service_stage: stage_during,
-  barrier: barrier_2
-})
-ServiceStageBarrier.create({
-  service_stage: stage_after,
-  barrier: barrier_3
-})
+#
+# Websites
+#
 
 Website.create!({
   domain: 'gsa.gov',
