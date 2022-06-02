@@ -78,12 +78,26 @@
       <%= @digital_product.certified_at %>
     </p>
 
-    <div>
-      <div class="grid-row">
-        <div class="grid-col-12">
-          <div class="tags-div">
-            <%= render 'admin/digital_products/tags', digital_product: @digital_product %>
-          </div>
+    <div class="grid-row">
+      <div class="grid-col-12">
+        <div class="tags-div">
+          <%= render 'admin/digital_products/tags', digital_product: @digital_product %>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-row">
+      <div class="grid-col-12">
+        <div class="tags-div">
+          <%= render 'admin/digital_products/organizations', digital_product: @digital_product %>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-row">
+      <div class="grid-col-12">
+        <div class="tags-div">
+          <%= render 'admin/digital_products/users', digital_product: @digital_product %>
         </div>
       </div>
     </div>

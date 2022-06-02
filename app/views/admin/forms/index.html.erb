@@ -11,7 +11,10 @@
   <thead class="font-sans-3xs">
     <tr>
       <th>#</th>
-      <th data-type="name" style="min-width: 260px;">Name</th>
+      <th data-sortable scope="col" role="columnheader"
+        data-type="name">
+        Name
+      </th>
       <th data-sortable scope="col" role="columnheader">
         Questions
       </th>
@@ -24,12 +27,15 @@
       <th data-sortable scope="col" role="columnheader">
         Completion Rate
       </th>
-      <th data-type="status" data-sortable scope="col" role="columnheader">Status</th>
+      <th data-sortable scope="col" role="columnheader"
+        data-type="status">
+        Status
+      </th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
-    <% @forms.select { |f| !f.template }.each_with_index do |form, index| %>
+    <% @forms.non_templates.each_with_index do |form, index| %>
     <tr>
       <td class="text-center">
         <%= index + 1 %>
