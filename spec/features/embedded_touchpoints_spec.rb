@@ -31,7 +31,7 @@ feature "Touchpoints", js: true do
           click_on "Next"
 
           expect(page).to have_content("Option elements")
-          find("#question_option_4 label").click
+          find("#question_option_4 .usa-radio__label").click
           fill_in("answer_04_other", with: "otro 2")
 
           all('.usa-checkbox__label').each do |z|; z.click; end

@@ -29,7 +29,7 @@ feature "Touchpoints", js: true do
       context "SPAMBOT" do
         before do
           visit touchpoint_path(form)
-          page.execute_script("$('#fba_directive').val('SPAM Text')")
+          page.execute_script("document.getElementById('fba_directive').value = 'SPAM Text'")
           click_button "Submit"
         end
 
@@ -59,6 +59,26 @@ feature "Touchpoints", js: true do
           end
         end
       end
+
+      context "custom HTML success text" do
+        before do
+          form.update(success_text: "Much success. \n With a <a href='#'>Link</a>.")
+          form.reload
+          visit touchpoint_path(form)
+          expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
+          fill_in("answer_01", with: "User feedback")
+          click_button "Submit"
+        end
+
+        describe "display custom HTML success text" do
+          it "renders success flash message" do
+            expect(page).to have_text("Much success. With a Link.")
+            expect(page).to have_link("Link")
+            expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit") # stays on same page
+          end
+        end
+      end
+
     end
 
     describe "checkbox question" do
@@ -103,7 +123,6 @@ feature "Touchpoints", js: true do
             all('.usa-checkbox__label').each do |checkbox_label|
               checkbox_label.click
             end
-
             inputs = find_all("input")
             inputs.first.set("hi")
             inputs.last.set("bye")
@@ -308,14 +327,14 @@ feature "Touchpoints", js: true do
 
       it "allows valid email address" do
         fill_in "answer_03", with: "test@test.com"
-        find("#answer_03").native.send_key :tab
-        expect(find("#answer_03").value).to eq("test@test.com")
+        click_button "Submit"
+        expect(page).to have_content("Thank you. Your feedback has been received.")
       end
 
       it "disallows invalid text input" do
         fill_in "answer_03", with: "test@testcom"
-        find("#answer_03").native.send_key :tab
-        expect(page).to have_content("Please enter a valid email")
+        click_button "Submit"
+        expect(page).to have_content("Please enter a valid value: Email")
       end
     end
 

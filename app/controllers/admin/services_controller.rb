@@ -47,6 +47,25 @@ class Admin::ServicesController < AdminController
     @tags = Service.tag_counts_on(:tags)
   end
 
+  def catalog
+    tag_name = params[:tag]
+
+    if service_manager_permissions?
+      if tag_name.present?
+        @services = Service.tagged_with(tag_name).includes(:organization).order("organizations.name", :name)
+      else
+        @services = Service.all.includes(:organization).order("organizations.name", :name)
+      end
+    else
+      if tag_name.present?
+        @services = current_user.organization.services.tagged_with(tag_name).includes(:organization).order("organizations.name", :name)
+      else
+        @services = current_user.organization.services.includes(:organization).order("organizations.name", :name)
+      end
+    end
+    @tags = Service.tag_counts_on(:tags)
+  end
+
   def versions
     ensure_service_manager_permissions
     @versions = @service.versions.limit(500).order("created_at DESC").page params[:page]
@@ -100,8 +119,7 @@ class Admin::ServicesController < AdminController
     ensure_service_owner(service: @service, user: current_user)
     @service.submit
     if @service.save
-      body = "The Service, #{@service.name}, owned by #{@service.service_owner.try(:email)} was created in Touchpoints"
-      UserMailer.service_event_notification(subject: "Service was submitted", body: body, link: admin_service_url(@service)).deliver_later
+      UserMailer.service_event_notification(subject: "Service was submitted", service: @service, event: :submitted, link: admin_service_url(@service)).deliver_later
       redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
     end
   end
@@ -110,6 +128,7 @@ class Admin::ServicesController < AdminController
     ensure_service_owner(service: @service, user: current_user)
     @service.approve
     if @service.save
+      UserMailer.service_event_notification(subject: "Service was approved", service: @service, event: :approved, link: admin_service_url(@service)).deliver_later
       redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
     end
   end
@@ -118,7 +137,7 @@ class Admin::ServicesController < AdminController
     ensure_service_owner(service: @service, user: current_user)
     @service.verify
     if @service.save
-      UserMailer.service_event_notification(subject: "Service was activated", body: @service.id, link: admin_service_url(@service)).deliver_later
+      UserMailer.service_event_notification(subject: "Service was activated", service: @service, event: :activated, link: admin_service_url(@service)).deliver_later
       redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
     end
   end
@@ -127,7 +146,7 @@ class Admin::ServicesController < AdminController
     ensure_service_owner(service: @service, user: current_user)
     @service.archive
     if @service.save
-      UserMailer.service_event_notification(subject: "Service was archived", body: @service.id, link: admin_service_url(@service)).deliver_later
+      UserMailer.service_event_notification(subject: "Service was archived", service: @service, event: :archived, link: admin_service_url(@service)).deliver_later
       redirect_to admin_service_path(@service), notice: 'Service was successfully updated.'
     end
   end
@@ -162,12 +181,12 @@ class Admin::ServicesController < AdminController
   end
 
   def add_tag
-    @service.tag_list.add(service_params[:tag_list].split(","))
+    @service.tag_list.add(service_params[:tag_list].split(','))
     @service.save
   end
 
   def remove_tag
-    @service.tag_list.remove(service_params[:tag_list].split(","))
+    @service.tag_list.remove(service_params[:tag_list].split(','))
     @service.save
   end
 
@@ -219,13 +238,13 @@ class Admin::ServicesController < AdminController
         :service_owner_id,
         :service_provider_id,
         :bureau,
-        :bureau_abbreviation,
         :department,
         :description,
         :hisp,
         :justification_text,
         :kind,
         :name,
+        :non_digital_explanation,
         :notes,
         :service_abbreviation,
         :service_slug,

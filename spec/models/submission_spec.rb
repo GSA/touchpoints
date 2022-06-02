@@ -18,7 +18,7 @@ RSpec.describe Submission, type: :model do
     end
 
     it "to Form.notification_emails" do
-      expect(submission.send_notifications.arguments[3][:args].first[:emails]).to eq(form.notification_emails.split(","))
+      expect(submission.send_notifications.arguments[3][:args].first[:emails]).to eq(form.notification_emails.split(','))
       expect(submission.send_notifications.arguments[3][:args].first[:emails]).to_not include(user2.email)
     end
   end

@@ -1,5 +1,5 @@
 <% content_for :navigation_title do %>
-  Digital Service Account: <%= @digital_service_account.service %>
+  Social Media Account: <%= @digital_service_account.service %>
   <%= link_to edit_admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button-inverted float-right" do %>
     <i class="fa fa-pencil-alt"></i>
     Edit
@@ -8,96 +8,180 @@
 <p>
   <%= link_to admin_digital_service_accounts_path do %>
     <i class="fa fa-arrow-circle-left"></i>
-    Back to Digital Service Accounts
+    Back to Social Media Accounts
   <% end %>
 </p>
 
-<p>
-  <strong>Service</strong>
-  <br>
-  <%= @digital_service_account.service %>
-</p>
-
-<p>
-  <strong>Organization</strong>
-  <br>
-  <%= @digital_service_account.organization.name %>
-</p>
-
-<p>
-  <strong>User</strong>
-  <br>
-  <%= @digital_service_account.user.email %>
-</p>
-
-
-<p>
-  <strong>Service url</strong>
-  <br>
-  <%= @digital_service_account.service_url %>
-</p>
-
-<p>
-  <strong>Account</strong>
-  <br>
-  <%= @digital_service_account.account %>
-</p>
-
-
-
-<p>
-  <strong>Status</strong>
-  <br>
-  <%= @digital_service_account.status %>
-</p>
-
-<p>
-  <strong>Short description</strong>
-  <br>
-  <%= @digital_service_account.short_description %>
-</p>
-
-<p>
-  <strong>Long description</strong>
-  <br>
-  <%= @digital_service_account.long_description %>
-</p>
-
-<p>
-  <strong>Language</strong>
-  <br>
-  <%= @digital_service_account.language %>
-</p>
-
-<p>
-  <strong>Tags</strong>
-  <br>
-  <%= @digital_service_account.tags %>
-</p>
-
-<p>
-  <strong>Updated at</strong>
-  <br>
-  <%= @digital_service_account.updated_at %>
-</p>
-
-<p>
-  <strong>API link</strong>
-  <br>
-  <%= link_to admin_digital_service_account_url(@digital_service_account, format: :json) %>
-</p>
-
-<div class="well">
-  <%= link_to 'Publish', admin_digital_service_accounts_path, class: "usa-button" %>
-  <%= link_to 'Archive', admin_digital_service_accounts_path, class: "usa-button usa-button--secondary" %>
-
-  <br>
-  <br>
-  <div class="usa-alert usa-alert--info" >
+<% if @digital_service_account.archived? %>
+  <div class="usa-alert usa-alert--warning" >
     <div class="usa-alert__body">
       <p class="usa-alert__text">
-        Note: Archive accounts only after your agency is no longer using the account and it has already been removed from the third-party social media platform.
+        This social media account has been archived.
       </p>
     </div>
+  </div>
+  <br>
+<% end %>
+
+<div class="grid-row">
+  <div class="tablet:grid-col-6">
+    <p>
+      <strong>Organization</strong>
+      <br>
+      <%= @digital_service_account.organization.name %>
+    </p>
+
+    <p>
+      <strong>Name</strong>
+      <br>
+      <%= @digital_service_account.name %>
+    </p>
+
+    <p>
+      <strong>User</strong>
+      <br>
+      <%= @digital_service_account.user.email %>
+    </p>
+
+    <p>
+      <strong>Account</strong>
+      <br>
+      <%= @digital_service_account.account %>
+    </p>
+
+    <p>
+      <strong>Service url</strong>
+      <br>
+      <%= @digital_service_account.service_url %>
+    </p>
+
+    <p>
+      <strong>Status</strong>
+      <br>
+      <%= @digital_service_account.status %>
+    </p>
+
+    <p>
+      <strong>Short description</strong>
+      <br>
+      <%= @digital_service_account.short_description %>
+    </p>
+
+    <p>
+      <strong>Long description</strong>
+      <br>
+      <%= @digital_service_account.long_description %>
+    </p>
+
+    <p>
+      <strong>Language</strong>
+      <br>
+      <%= @digital_service_account.language %>
+    </p>
+
+    <p>
+      <strong>Updated at</strong>
+      <br>
+      <%= @digital_service_account.updated_at %>
+    </p>
+
+    <div>
+      <div class="grid-row">
+        <div class="grid-col-12">
+          <div class="tags-div">
+            <%= render 'admin/digital_service_accounts/tags', digital_service_account: @digital_service_account %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p>
+      <strong>API path</strong>
+      <br>
+      <% api_url = "https://api.gsa.gov/analytics/touchpoints/v1/digital_service_accounts/#{@digital_service_account.id}.json" %>
+      <%= link_to api_url, api_url %>
+    </p>
+  </div>
+  <div class="grid-col-6">
+  <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
+
+    <div class="well">
+      <span class="usa-tag bg-violet">
+        for Registry Managers
+      </span>
+
+      <br>
+      <br>
+
+    <% if @digital_service_account.created? %>
+      <%= link_to certify_admin_digital_service_account_path(@digital_service_account), class: "usa-button bg-green full-width", method: :post do %>
+        <span class="fa fa-check"></span>
+        &nbsp;
+        Certify
+      <% end %>
+      <br>
+      <br>
+    <% end %>
+
+    <% if @digital_service_account.certified? %>
+      <%= link_to publish_admin_digital_service_account_path(@digital_service_account), class: "usa-button full-width", method: :post do %>
+        <span class="fa fa-pen"></span>
+        &nbsp;
+        Publish
+      <% end %>
+      <br>
+      <br>
+    <% end %>
+
+    <% if !@digital_service_account.archived? %>
+      <%= link_to archive_admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button--base full-width", method: :post do %>
+        <span class="fa fa-archive"></span>
+        &nbsp;
+        Archive
+      <% end %>
+      <br>
+      <br>
+      <div class="usa-alert usa-alert--info" >
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            Only "Archive" an Account after your Organization
+            is no longer using the account and it has already been removed
+            from the third-party platform.
+            Archiving removes accounts from the public registry view and API.
+          </p>
+        </div>
+      </div>
+      <br>
+    <% end %>
+
+      <%= link_to reset_admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button--secondary full-width", method: :post do %>
+        <span class="fa fa-left"></span>
+        &nbsp;
+        Reset
+      <% end %>
+    </div>
+  <% end %>
+
+
+    <div class="well">
+      <h4>
+        Event log
+      </h4>
+      <div class="events">
+        <% events = Event.where(object_type: "Digital Service Account", object_id: @digital_service_account.id.to_s ).order("created_at DESC") %>
+        <% events.each do |event| %>
+          <div class="padding-bottom-2">
+          <%= event.name %>
+          by
+          <%= link_to event.user.email, admin_user_path(event.user) %>
+          <br>
+          <%= time_ago_in_words(event.created_at) %> ago
+          at
+          <%= event.created_at %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
   </div>
 </div>

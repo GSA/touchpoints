@@ -1,5 +1,5 @@
 class Admin::QuestionOptionsController < AdminController
-  before_action :set_question, only: [:new, :create, :show, :edit, :update, :destroy]
+  before_action :set_question, only: [:new, :create, :create_other, :show, :edit, :update, :destroy]
   before_action :set_question_option, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -41,6 +41,10 @@ class Admin::QuestionOptionsController < AdminController
 
     if text_array.length > 0
       text_array.each do | txt |
+        if (txt.upcase == 'OTHER' || txt.upcase == 'OTRO')
+          @errors << "Use add #{txt} button"
+          next
+        end
         question_option = QuestionOption.where(question_id: params[:question_id], text: txt).first
         if question_option
           @errors << "Question option already exists for text #{txt}"
@@ -69,6 +73,18 @@ class Admin::QuestionOptionsController < AdminController
       end
     end
    render :create, format: :js
+  end
+
+  def create_other
+    @errors = []
+    question_option = QuestionOption.new()
+    question_option.position = @question.question_options.size + 1
+    question_option.question_id = @question.id
+    question_option.text = "Other"
+    question_option.value = "OTHER"
+    question_option.save!
+    @question_options = [ question_option ]
+    render :create, format: :js
   end
 
   def update

@@ -26,13 +26,11 @@
   <body>
     <%= render 'components/analytics/script_body' %>
     <%= render 'components/slim_header' %>
-    <div class="grid-container">
+    <div class="tablet:grid-container">
       <div class="grid-row">
         <div class="grid-col-12">
-          <div class="usa-width-full">
-            <%= render 'components/flash', flash: flash %>
-            <%= yield %>
-          </div>
+          <%= render 'components/flash', flash: flash %>
+          <%= yield %>
         </div>
       </div>
     </div>

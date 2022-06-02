@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_23_151052) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_19_224706) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -69,6 +69,24 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_23_151052) do
     t.index ["user_id"], name: "index_collections_on_user_id"
   end
 
+  create_table "digital_product_versions", force: :cascade do |t|
+    t.bigint "digital_product_id"
+    t.string "store_url"
+    t.string "platform"
+    t.string "version_number"
+    t.date "publish_date"
+    t.string "description"
+    t.string "whats_new"
+    t.string "screenshot_url"
+    t.string "device"
+    t.string "language"
+    t.string "average_rating"
+    t.integer "number_of_ratings"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["digital_product_id"], name: "index_digital_product_versions_on_digital_product_id"
+  end
+
   create_table "digital_products", force: :cascade do |t|
     t.integer "organization_id"
     t.integer "user_id"
@@ -77,7 +95,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_23_151052) do
     t.string "code_repository_url"
     t.string "language"
     t.string "status"
-    t.string "aasm_status"
+    t.string "aasm_state"
     t.string "short_description"
     t.text "long_description"
     t.text "notes"
@@ -85,6 +103,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_23_151052) do
     t.datetime "certified_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
   end
 
   create_table "digital_service_accounts", force: :cascade do |t|
@@ -102,6 +121,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_23_151052) do
     t.datetime "certified_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
+    t.string "aasm_state"
   end
 
   create_table "events", force: :cascade do |t|
@@ -442,6 +463,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_23_151052) do
     t.text "where_customers_interact"
     t.string "kind"
     t.string "aasm_state", default: "created"
+    t.text "non_digital_explanation"
   end
 
   create_table "submissions", force: :cascade do |t|

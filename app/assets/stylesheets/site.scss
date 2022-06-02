@@ -529,15 +529,10 @@ span.usa-hint.save-notice {
 }
 
 // The public page
-.usa-width-full {
-  .touchpoint-form {
-    margin-top: 10px;
-    margin-bottom: 40px;
-  }
-}
-
 .touchpoint-form {
   background-color: #F1F1F1;
+  border-top: 1px solid #E5E5E5;
+  border-bottom: 1px solid #E5E5E5;
 
   .inner-wrapper {
     padding: 20px 20px 0 20px;
@@ -614,11 +609,15 @@ table .no-wrap {
 .delete-goal-objective, .delete-goal-target {
   color: #999999;
 }
-.goal-tags-select {
+.tags-select {
   height: 250px;
 }
 
 .tag-list .usa-tag {
   display: inline-block;
   margin-bottom: 7px;
+}
+.icon-link {
+  text-decoration: none;
+  padding-left: 10px;
 }

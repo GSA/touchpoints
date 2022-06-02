@@ -25,7 +25,7 @@ feature "Managing Users", js: true do
       expect(page).to have_content("Viewing User")
       expect(page.current_path).to eq(admin_user_path(admin))
 
-      click_on("Edit user")
+      click_on("Edit")
       expect(page).to have_content("Editing User")
     end
 
@@ -36,6 +36,10 @@ feature "Managing Users", js: true do
     end
 
     describe "view a User" do
+      let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization) }
+      let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, hisp: true, service_owner_id: user.id) }
+      let!(:collection) { FactoryBot.create(:collection, organization: organization, user: user, service_provider: service_provider) }
+
       before do
         visit admin_user_path(user)
       end

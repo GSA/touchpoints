@@ -22,7 +22,7 @@
 
 <% if service_manager_permissions? && !@service.created? && @service.submitted? && !@service.approved? %>
 <p>
-  <%= link_to "Approve this form", approve_admin_service_path(@service), class: "usa-button full-width", method: :post %>
+  <%= link_to "Approve this service", approve_admin_service_path(@service), class: "usa-button full-width", method: :post %>
 </p>
 <% end %>
 
@@ -32,14 +32,8 @@
 </p>
 <% end %>
 
-<% if service_permissions?(service: @service) && !@service.created? && !@service.submitted? && !@service.approved? && @service.verified? %>
-<p>
-  <%= link_to "Archive this form", archive_admin_service_path(@service), class: "usa-button full-width", method: :post %>
-</p>
-<% end %>
-
 <div class="grid-row grid-gap-lg">
-  <div class="grid-col-6">
+  <div class="desktop:grid-col-6">
     <p>
       <strong>Organization</strong>
       <br>
@@ -96,7 +90,7 @@
       <%= to_markdown(@service.notes) %>
     </p>
   </div>
-  <div class="grid-col-6">
+  <div class="desktop:grid-col-6">
     <div class="well">
       <div class="font-sans-2xs">
         This information is for
@@ -112,11 +106,6 @@
         <strong>Bureau</strong>
         <br>
         <%= @service.bureau %>
-      </p>
-      <p>
-        <strong>Bureau abbreviation</strong>
-        <br>
-        <%= @service.bureau_abbreviation %>
       </p>
       <p>
         <strong>Service abbreviation</strong>
@@ -275,8 +264,19 @@
 </p>
 <% end %>
 
+<% if service_permissions?(service: @service) && !@service.created? && !@service.submitted? && !@service.approved? && @service.verified? %>
+<p>
+  <%= link_to archive_admin_service_path(@service), class: "usa-button full-width", method: :post do %>
+    <i class="fa fa-archive"></i>
+    &nbsp;
+    Archive this form
+  <% end %>
+</p>
+<% end %>
+
 <% if service_manager_permissions? %>
 <p>
-  <%= link_to "Reset this form", reset_admin_service_path(@service), class: "usa-button full-width", method: :post %>
+  <i class="fa fa-arrow-left-long-to-line"></i>
+  <%= link_to "Reset this form", reset_admin_service_path(@service), class: "usa-button usa-button--base full-width", method: :post %>
 </p>
 <% end %>

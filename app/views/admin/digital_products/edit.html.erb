@@ -1,7 +1,22 @@
-<h1>Editing Digital Product</h1>
+<% content_for :navigation_title do %>
+  Editing Digital Product
+<% end %>
+
+<p>
+  <%= link_to admin_digital_product_path(@digital_product) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Digital Product
+  <% end %>
+</p>
 
 <%= render 'form', digital_product: @digital_product %>
 
-<%= link_to 'Show', @digital_product %> |
-<%= link_to 'Back', digital_products_path %>
-<%#= link_to 'Destroy', digital_product, method: :delete, data: { confirm: 'Are you sure?' } %>
+<div class="grid-row">
+  <div class="grid-col-12">
+    <%= link_to admin_digital_product_path(@digital_product), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" do %>
+      <span class="fa fa-trash"></span>
+      Delete
+    <% end %>
+  </div>
+</div>
+<br>

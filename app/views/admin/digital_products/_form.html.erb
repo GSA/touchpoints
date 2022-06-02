@@ -17,8 +17,13 @@
   </div>
 
   <div class="field">
-    <%= form.label :service, "Name of the product", class: "usa-label" %>
+    <%= form.label :service, class: "usa-label" %>
     <%= form.text_field :service, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :name, "Name of the product", class: "usa-label" %>
+    <%= form.text_field :name, class: "usa-input" %>
   </div>
 
   <div class="field">
@@ -47,21 +52,6 @@
   <div class="field">
     <%= form.label :language, class: "usa-label" %>
     <%= form.text_field :language, class: "usa-input" %>
-  </div>
-
-  <div class="field">
-    <%= form.label :status, class: "usa-label" %>
-    <%= form.text_field :status, class: "usa-input" %>
-  </div>
-
-  <div class="field">
-    <%= form.label :aasm_status, class: "usa-label" %>
-    <%= form.text_field :aasm_status, class: "usa-input" %>
-  </div>
-
-  <div class="field">
-    <%= form.label :tags, class: "usa-label" %>
-    <%= form.text_field :tags, class: "usa-input" %>
   </div>
 
   <div class="field">

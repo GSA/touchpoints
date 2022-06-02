@@ -138,12 +138,12 @@ class Admin::OrganizationsController < AdminController
   end
 
   def add_tag
-    @organization.tag_list.add(organization_params[:tag_list].split(","))
+    @organization.tag_list.add(organization_params[:tag_list].split(','))
     @organization.save
   end
 
   def remove_tag
-    @organization.tag_list.remove(organization_params[:tag_list].split(","))
+    @organization.tag_list.remove(organization_params[:tag_list].split(','))
     @organization.save
   end
 

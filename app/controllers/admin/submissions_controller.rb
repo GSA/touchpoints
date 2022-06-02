@@ -47,12 +47,12 @@ class Admin::SubmissionsController < AdminController
   end
 
   def add_tag
-    @submission.tag_list.add(admin_submission_params[:tag_list].split(","))
+    @submission.tag_list.add(admin_submission_params[:tag_list].split(','))
     @submission.save!
   end
 
   def remove_tag
-    @submission.tag_list.remove(admin_submission_params[:tag_list].split(","))
+    @submission.tag_list.remove(admin_submission_params[:tag_list].split(','))
     @submission.save!
   end
 

@@ -28,7 +28,6 @@ function FBAform(d, N) {
 		},
 		init: function(options) {
 			this.javscriptIsEnabled();
-
 			this.options = options;
 			<% if form.load_css %>
 			this.loadCss();
@@ -95,12 +94,15 @@ function FBAform(d, N) {
 			d.body.appendChild(this.dialogEl);
 
 			d.querySelector('.fba-modal-close').addEventListener('click', this.handleDialogClose.bind(this), false);
-			var otherElements = d.querySelectorAll(".usa-input.other-option");
-			for (var i = 0; i < otherElements.length; i++) {
-			    otherElements[i].addEventListener('keyup', this.handleOtherOption.bind(this), false);
-			}
 		<% end %>
-
+		var otherElements = d.querySelectorAll(".usa-input.other-option");
+		for (var i = 0; i < otherElements.length; i++) {
+		    otherElements[i].addEventListener('keyup', this.handleOtherOption.bind(this), false);
+		}
+		var phoneElements = d.querySelectorAll("input[type='tel']");
+		for (var i = 0; i < phoneElements.length; i++) {
+		    phoneElements[i].addEventListener('keyup', this.handlePhoneInput.bind(this), false);
+		}
 		<%# add button behaviors for custom-button-modal %>
 		<% if form.delivery_method == "custom-button-modal" %>
 			<% if form.element_selector? %>
@@ -170,6 +172,29 @@ function FBAform(d, N) {
 			var option = this.formElement().querySelector(selectorId);
 			option.checked = true;
 			option.value = other_val;
+		},
+		handlePhoneInput: function(e) {
+		    var number = e.srcElement.value.replace(/[^\d]/g, '');
+		    if (number.length == 7) {
+		      number = number.replace(/(\d{3})(\d{4})/, "$1-$2");
+		    } else if (number.length == 10) {
+		      number = number.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
+		    }
+		    e.srcElement.value = number;
+		},
+		handleEmailInput: function(e) {
+			var EmailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+			var email = e.srcElement.value.trim();
+			if (email.length == 0) {
+				return;
+			}
+			result = EmailRegex.test(email);
+			if (!result) {
+				showWarning($(this),"Please enter a valid email address");
+			} else {
+				showValid($(this));
+	    	}
+		    e.srcElement.value = number;
 		},
 		handleSubmitClick: function(e) {
 			e.preventDefault();
@@ -454,7 +479,7 @@ function FBAform(d, N) {
 			return "<%= escape_javascript(form.success_text_heading) %>";
 		},
 		successText: function() {
-			return "<%= escape_javascript(form.success_text) %>";
+			return "<%= escape_javascript(sanitize(form.success_text)) %>";
 		},
 		showFormSuccess: function(e)
 		{
@@ -550,7 +575,6 @@ function FBAform(d, N) {
 					  }
 						alertErrorElement.removeAttribute("hidden");
 				} else { // SERVER ERROR
-					console.log('failed');
 					alertErrorElement.removeAttribute("hidden");
 					alertErrorElementBody.innerHTML += "Server error. We're sorry, but this submission was not successful. The Product Team has been notified.";
 				}
@@ -564,6 +588,7 @@ function FBAform(d, N) {
 			var params = {
 			<%# Dynamically write the Form parameters for Custom Forms %>
 			<% form.questions.each do |question| %>
+			    <% next unless question_type_javascript_params(question).present? %>
 				<%= question.answer_field %>:
 				<%= raw question_type_javascript_params(question) %>,
 			<% end %>

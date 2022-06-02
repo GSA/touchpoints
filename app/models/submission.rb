@@ -22,18 +22,22 @@ class Submission < ApplicationRecord
     state :acknowledged
     state :dispatched
     state :responded
+    state :archived
 
-    event :receive do
-      transitions from: [:responded], to: :received
-    end
     event :acknowledge do
       transitions from: [:received], to: :acknowledged
     end
     event :dispatch do
       transitions from: [:acknowledged], to: :dispatched
     end
-    event :responded do
+    event :respond do
       transitions from: [:dispatched, :archived], to: :responded
+    end
+    event :archive do
+      transitions to: :archived
+    end
+    event :reset do
+      transitions to: :received
     end
   end
 
@@ -70,7 +74,7 @@ class Submission < ApplicationRecord
     Event.log_event(Event.names[:touchpoint_form_submitted], 'Submission', self.id, "Submission received for organization '#{self.organization_name}' form '#{self.form.name}' ")
     return unless ENV["ENABLE_EMAIL_NOTIFICATIONS"] == "true"
     return unless self.form.send_notifications?
-    emails_to_notify = self.form.notification_emails.split(",")
+    emails_to_notify = self.form.notification_emails.split(',')
     if form.notification_frequency == "instant"
       UserMailer.submission_notification(submission_id: self.id, emails: emails_to_notify.uniq).deliver_later
     end

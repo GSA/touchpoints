@@ -104,7 +104,7 @@ class User < ApplicationRecord
     "User account #{self.email} is inactive. Please contact #{ENV.fetch("TOUCHPOINTS_SUPPORT")}."
   end
 
-  def deactivate
+  def deactivate!
     self.update!(inactive: true)
     UserMailer.account_deactivated_notification(self).deliver_later
     Event.log_event(Event.names[:user_deactivated], "User", self.id, "User account #{self.email} deactivated on #{Date.today}")
@@ -123,11 +123,11 @@ class User < ApplicationRecord
     User.active.where("(last_sign_in_at ISNULL AND created_at BETWEEN ? AND ?) OR (last_sign_in_at BETWEEN ? AND ?)", min_time, max_time, min_time, max_time)
   end
 
-  def self.deactivate_inactive_accounts
+  def self.deactivate_inactive_accounts!
     # Find all accounts scheduled to be deactivated in 14 days
     users = User.active.where("(last_sign_in_at ISNULL AND created_at <= ?) OR (last_sign_in_at <= ?)", 90.days.ago, 90.days.ago)
     users.each do | user |
-      user.deactivate
+      user.deactivate!
     end
   end
 

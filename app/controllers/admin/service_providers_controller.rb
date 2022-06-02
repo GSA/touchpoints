@@ -63,12 +63,12 @@ class Admin::ServiceProvidersController < AdminController
   end
 
   def add_tag
-    @service_provider.tag_list.add(service_provider_params[:tag_list].split(","))
+    @service_provider.tag_list.add(service_provider_params[:tag_list].split(','))
     @service_provider.save
   end
 
   def remove_tag
-    @service_provider.tag_list.remove(service_provider_params[:tag_list].split(","))
+    @service_provider.tag_list.remove(service_provider_params[:tag_list].split(','))
     @service_provider.save
   end
 
@@ -109,7 +109,6 @@ class Admin::ServiceProvidersController < AdminController
         :department,
         :department_abbreviation,
         :bureau,
-        :bureau_abbreviation,
         :inactive,
         :new,
         :tag_list,

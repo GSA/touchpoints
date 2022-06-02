@@ -56,22 +56,20 @@
         <%= time_ago_in_words(@website.updated_at) %> ago
       </small>
     </p>
-    <div class="grid-row">
-      <div class="grid-col-6">
+    <div class="grid-row grid-gap-lg">
+      <div class="tablet:grid-col-6">
         <label class="usa-label" for="domain">
           Domain
         </label>
         <%= link_to @website.domain, "https://#{@website.domain}", target: "_blank", rel: "noopener" %>
       </div>
-      <div class="grid-col-6">
-        <label class="usa-label" for="site_owner_email">
+      <div class="tablet:grid-col-6">
+        <label class="usa-label" for="redirects_to">
           Redirects to
         </label>
         <%= @website.redirects_to %>
       </div>
-    </div>
-    <div class="grid-row grid-gap-lg">
-      <div class="grid-col-6">
+      <div class="tablet:grid-col-6">
         <label class="usa-label" for="site_owner_email">
           Website owner emails
         </label>
@@ -83,9 +81,13 @@
         </label>
 
         <% if @website.website_managers.present? %>
-        <% @website.website_managers.each do | manager | %>
-          <%= manager.try(:email) %>&nbsp;&nbsp;
+        <ul class="usa-list">
+        <% @website.website_managers.each do |manager| %>
+          <li>
+            <%= link_to manager.email, admin_user_path(manager) %>
+          </li>
         <% end %>
+        </ul>
         <% else %>
         <div class="usa-alert usa-alert--info">
           <div class="usa-alert__body">
@@ -96,22 +98,21 @@
         </div>
         <% end %>
       </div>
-      <div class="grid-col-6">
+      <div class="tablet:grid-col-6">
         <label class="usa-label" for="office">
           Office
         </label>
         <%= @website.office %>
         &nbsp;
       </div>
-    </div>
-    <div class="grid-row">
-      <div class="grid-col-6">
+
+      <div class="tablet:grid-col-6">
         <label class="usa-label" for="site_owner_email">
           Contact email
         </label>
         <%= @website.contact_email %>
       </div>
-      <div class="grid-col-6">
+      <div class="tablet:grid-col-6">
         <label class="usa-label" for="office">
           Sub-office
         </label>
@@ -142,7 +143,7 @@
       </p>
     </div>
     <div class="grid-col-6">
-      <label class="usa-label" for="parent_domain">
+      <label class="usa-label" for="digital_brand_category">
         Digital brand category
       </label>
       <p>
@@ -158,13 +159,13 @@
   </div>
   <div class="grid-row">
     <div class="grid-col-6">
-      <label class="usa-label" for="parent_domain">
+      <label class="usa-label" for="required_by_law_or_policy">
         Required by law or policy
       </label>
       <%= @website.required_by_law_or_policy || "no answer" %>
     </div>
     <div class="grid-col-6">
-      <label class="usa-label" for="parent_domain">
+      <label class="usa-label" for="notes">
         Notes
       </label>
       <%= @website.notes %>

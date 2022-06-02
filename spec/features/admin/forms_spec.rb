@@ -86,7 +86,7 @@ feature "Forms", js: true do
           within(".form-templates") do
             expect(page).to have_content(form.name)
             expect(page).to have_link("Preview")
-            expect(page).to have_link("Use")
+            expect(page).to have_link("Copy")
           end
         end
 
@@ -276,6 +276,7 @@ feature "Forms", js: true do
             it "has inline editable success text heading that can be updated and saved" do
               find_field(id: 'form_success_text_heading').set('"Sucesssss Header!"')
               find_field(id: "form_success_text_heading").native.send_key :tab
+              wait_for_ajax
               expect(find_field(id: "form_success_text_heading").value).to have_content("Sucesssss Header!")
               wait_for_ajax
               # and persists after refresh
@@ -864,6 +865,7 @@ feature "Forms", js: true do
                   # Update the option
                   within(".question-options") do
                     find_all(".question-option .question-option-view").first.click
+                    wait_for_ajax
                     fill_in "question_option_text", with: "Edited Question Option Text"
                     fill_in "question_option_value", with: "100"
                     find(".fa-save").click
@@ -879,6 +881,7 @@ feature "Forms", js: true do
 
                 it "can cancel a Dropdown Question option" do
                   click_on "Cancel"
+                  wait_for_ajax
                   expect(page.current_path).to eq(admin_form_questions_path(form))
                   expect(page).not_to have_content("New Question Option")
                 end
@@ -1217,6 +1220,7 @@ feature "Forms", js: true do
     end
 
     describe "create a form" do
+
       before do
         visit new_admin_form_path
         fill_in "form_name", with: "New test form name"
@@ -1224,12 +1228,15 @@ feature "Forms", js: true do
       end
 
       it "arrives at /admin/forms/:uuid/questions" do
-        expect(page.current_path).to eq questions_admin_form_path(Form.first)
+        within(".usa-alert__body") do
+          expect(page).to have_content("Survey was successfully created")
+        end
+        expect(page).to have_content("Editing Questions for:")
       end
 
       context "notification settings" do
         before "notification_email is blank by default" do
-          visit notifications_admin_form_path(Form.first)
+          click_on "Notifications"
           within ".usa-nav__secondary .user-name" do
             expect(page).to have_content(touchpoints_manager.email)
           end
@@ -1241,7 +1248,7 @@ feature "Forms", js: true do
           click_on "Update Survey"
           expect(page).to have_content("Survey was successfully updated.")
 
-          visit notifications_admin_form_path(Form.first)
+          click_on "Notifications"
           expect(find_field('form_notification_emails').value).to eq("user@example.gov")
         end
       end

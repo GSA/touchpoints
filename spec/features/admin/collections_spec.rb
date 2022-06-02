@@ -42,6 +42,8 @@ feature "Data Collections", js: true do
         before do
           within(".year[data-id='2021']") do
             click_link("Q2")
+            # Wait for page to reload and have the selected button (no outline)
+            expect(page).not_to have_selector("a.usa-button--outline", text: "Q2")
           end
         end
 
@@ -54,6 +56,8 @@ feature "Data Collections", js: true do
         before do
           within(".year[data-id='2022']") do
             click_link("Q1")
+            # Wait for page to reload and have the selected button (no outline)
+            expect(page).not_to have_selector("a.usa-button--outline", text: "Q1")
           end
         end
 
@@ -82,19 +86,28 @@ feature "Data Collections", js: true do
         visit new_admin_collection_path
       end
 
-      it "renders a successful response" do
+      it "renders page" do
         expect(page).to have_content("New Data Collection")
         expect(page).to have_button("Create Collection")
       end
 
       context "with valid parameters" do
+        let(:current_year) {  Time.now.strftime("%Y") }
+
         before do
           select(organization.name, from: "collection_organization_id")
           select(service_provider.name, from: "collection_service_provider_id")
+          fill_in("collection_year", with: current_year)
+          fill_in("collection_reflection", with: "What we learned...")
+          wait_for_ajax
           click_on "Create Collection"
         end
 
         it "creates a new Collection" do
+          expect(page).to have_content("ABOUT THIS DATA COLLECTION")
+          expect(page).to have_content("CX Quarterly Reporting")
+          expect(page.current_path).to eq(admin_collection_path(Collection.last))
+          expect(page).to have_link("Add a Service to report on")
           expect(page).to have_content("Collection was successfully created.")
         end
       end
@@ -109,9 +122,6 @@ feature "Data Collections", js: true do
 
         it "update the requested collection" do
           expect(page).to have_content("Collection was successfully updated.")
-        end
-
-        it "redirect to /admin/collections/:id/" do
           expect(page.current_path).to eq(admin_collection_path(collection))
         end
       end

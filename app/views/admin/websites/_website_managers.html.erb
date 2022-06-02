@@ -19,7 +19,7 @@
       <p>
     </div>
   </div>
-  <%= select_tag :website_manager_id, options_for_select(@website_manager_options.map { |u| [u.email, u.id] }), prompt: "Choose a Manager?", class: "usa-select add-website-manager" %>
+  <%= select_tag :website_manager_id, options_for_select(@website_manager_options.map { |u| [u.email, u.id] }), prompt: "Choose a Manager", class: "usa-select add-website-manager" %>
 <script>
   $(".add-website-manager").change(function(e) {
     event.preventDefault();

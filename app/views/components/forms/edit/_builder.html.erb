@@ -59,7 +59,7 @@
             <i class="fa fa-check-circle" aria-hidden="true"></i> saved
           </span>
           <span class="counter-msg usa-hint usa-character-count__message  aria-live="polite">
-            <%= @instruction_text_limit %> characters allowed
+            <%= @disclaimer_text_limit %> characters allowed
           </span>
           <div id="disclaimer_text-show" tabindex="<%= @tabindex += 1 %>"><%= form.disclaimer_text.present? ? sanitize(form.disclaimer_text) : 'Survey Disclaimer Text' %></div>
         </p>
@@ -291,6 +291,11 @@ $(function() {
         editDiv.find("#question_option_text").focus();
       }
     });
+  });
+
+  $('.form-builder').on("click", '.form-add-other-question-option', function(event) {
+    event.preventDefault();
+    $(this).closest('div.new-question-options-div').find('.form-add-other-question-option').hide();
   });
 
   $('.question').on("click", ".edit.button", function(event) {

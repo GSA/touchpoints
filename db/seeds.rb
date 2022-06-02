@@ -39,7 +39,8 @@ if ENV['DEVELOPER_EMAIL_ADDRESS'].present?
     organization: developer_organization,
     email: ENV['DEVELOPER_EMAIL_ADDRESS'],
     password: 'password',
-    admin: true
+    admin: true,
+    last_sign_in_at: Time.now,
   })
   developer_user.save!
   puts 'Created Developer User: #{developer_user.email}'
@@ -57,7 +58,8 @@ admin_user = User.new({
   organization: example_gov,
   email: 'ryan.wold+staging@gsa.gov',
   password: 'password',
-  admin: true
+  admin: true,
+  last_sign_in_at: Time.now,
 })
 admin_user.save!
 puts 'Created Admin User: #{admin_user.email}'
@@ -87,7 +89,8 @@ org_3 = Organization.create!({
 webmaster = User.new({
   email: 'webmaster@example.gov',
   password: 'password',
-  organization: example_gov
+  organization: example_gov,
+  last_sign_in_at: Time.now,
 })
 webmaster.save!
 puts 'Created #{webmaster.email}'
@@ -95,7 +98,8 @@ puts 'Created #{webmaster.email}'
 touchpoint_manager = User.new({
   email: 'touchpoint_manager@example.gov',
   password: 'password',
-  organization: example_gov
+  organization: example_gov,
+  last_sign_in_at: Time.now,
 })
 touchpoint_manager.save!
 puts 'Created #{touchpoint_manager.email}'
@@ -103,7 +107,8 @@ puts 'Created #{touchpoint_manager.email}'
 submission_viewer = User.new({
   email: 'viewer@example.gov',
   password: 'password',
-  organization: example_gov
+  organization: example_gov,
+  last_sign_in_at: Time.now - 100.days,
 })
 submission_viewer.save!
 puts 'Created #{submission_viewer.email}'
@@ -310,7 +315,8 @@ end
 
 digital_gov_user = User.new({
   email: 'user@digital.gov',
-  password: 'password'
+  password: 'password',
+  last_sign_in_at: Time.now,
 })
 digital_gov_user.save!
 puts 'Created Test User in Secondary Organization: #{digital_gov_user.email}'
@@ -334,7 +340,6 @@ service_provider_1 = ServiceProvider.create({
   department: 'Example Department',
   department_abbreviation: 'dept',
   bureau: 'Example Bureau',
-  bureau_abbreviation: 'bureau',
   slug: 'example-service1',
   new: false,
 })
@@ -347,7 +352,6 @@ service_provider_2 = ServiceProvider.create({
   department: 'Example',
   department_abbreviation: 'ex',
   bureau: 'CX Labs',
-  bureau_abbreviation: 'labs',
   slug: 'example-service2',
   new: false,
 })
@@ -360,14 +364,13 @@ service_provider_3 = ServiceProvider.create({
   department: 'General Services Administration',
   department_abbreviation: 'gsa',
   bureau: 'Technology Transformation Services',
-  bureau_abbreviation: 'tts',
   slug: 'gsa-usagov',
   new: true,
 })
 
 ## Services
 
-service_1 = Service.create({
+service_1 = Service.create!({
   name: 'USPTO Trademarks',
   organization: Organization.first,
   hisp: true,
@@ -375,33 +378,37 @@ service_1 = Service.create({
   description: 'A blurb describing this service. A few hundred words...',
   department: 'Department of Commerce',
   bureau: 'Patents and Trademarks',
-  bureau_abbreviation: 'trademarks',
   service_abbreviation: 'uspto',
   service_slug: 'doc-trademarks',
   url: 'https://uspto.gov/trademarks',
+  service_owner_id: admin_user.id,
   service_provider: service_provider_1,
 })
-service_2 = Service.create({
+service_2 = Service.create!({
   organization: service_provider_2.organization,
   service_provider: service_provider_2,
   name: 'Example',
+  service_owner_id: admin_user.id,
   hisp: true,
 })
-service_3 = Service.create({
+service_3 = Service.create!({
   organization: Organization.first,
   service_provider: service_provider_2,
+  service_owner_id: webmaster.id,
   name: 'HUD',
   hisp: true,
 })
-service_4 = Service.create({
+service_4 = Service.create!({
   organization: Organization.first,
   service_provider: service_provider_3,
+  service_owner_id: webmaster.id,
   name: 'IRS',
   hisp: true,
   })
-service_5 = Service.create({
+service_5 = Service.create!({
   organization: Organization.first,
-  service_provider: nil,
+  service_provider: service_provider_1,
+  service_owner_id: admin_user.id,
   name: 'Touchpoints',
   hisp: false,
 })
@@ -590,4 +597,3 @@ OmbCxReportingCollection.create!({
   q7_4: rand(1000),
   q7_5: rand(1000),
 })
-

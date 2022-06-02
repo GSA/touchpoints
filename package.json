@@ -1,6 +1,4 @@
 {
-  "name": "touchpoints",
-  "private": true,
   "dependencies": {
     "@hotwired/stimulus": "^3.0.1",
     "@rails/actioncable": "^7.0.2",

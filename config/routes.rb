@@ -1,10 +1,15 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
   authenticate :user, lambda { |u| u.admin? } do
     mount Sidekiq::Web => '/admin/sidekiq'
+  end
+
+  if Rails.env.development?
+    get "hello_stimulus", to: "site#hello_stimulus", as: :hello_stimulus
   end
 
   unless Rails.env.development?
@@ -43,6 +48,8 @@ Rails.application.routes.draw do
       resources :goals, only: [:index]
       resources :objectives, only: [:index]
       resources :users, only: [:index]
+      resources :digital_products, only: [:index, :show]
+      resources :digital_service_accounts, only: [:index, :show]
     end
   end
 
@@ -63,8 +70,6 @@ Rails.application.routes.draw do
     get "/submissions/submissions_table", to: "submissions#submissions_table", as: :submissions_table
     get "/submissions/performance_gov", to: "submissions#performance_gov", as: :performance_gov
 
-    resources :personas
-
     get "heartbeat", to: "site#heartbeat", as: :heartbeat
     get "a11", to: "site#a11", as: :a11
     resources :service_providers do |*args|
@@ -80,6 +85,7 @@ Rails.application.routes.draw do
     end
     resources :services do
       collection do
+        get "catalog", to: "services#catalog"
         get "search", to: "services#search"
         get "export_csv", to: "services#export_csv", as: :export_csv
       end
@@ -130,13 +136,19 @@ Rails.application.routes.draw do
         post "remove_tag", to: "goals#remove_tag", as: :remove_tag
       end
       resources :goal_targets
-      resources :objectives
+      resources :objectives do
+        member do
+          post "add_tag", to: "objectives#add_tag", as: :add_tag
+          post "remove_tag", to: "objectives#remove_tag", as: :remove_tag
+        end
+      end
     end
     resources :milestones
     resources :objectives
 
     resources :websites do
       collection do
+        get :review, to: "websites#review"
         get "search", to: "websites#search"
         get "gsa", to: "websites#gsa"
         get "dendrogram", to: "websites#dendrogram", as: :dendrogram
@@ -160,8 +172,38 @@ Rails.application.routes.draw do
       end
     end
     get :registry, to: "site#registry", as: :registry
-    resources :digital_service_accounts
-    resources :digital_products
+
+    resources :digital_service_accounts do
+      collection do
+        get :review, to: "digital_service_accounts#review"
+      end
+      member do
+        post "certify", to: "digital_service_accounts#certify", as: :certify
+        post "publish", to: "digital_service_accounts#publish", as: :publish
+        post "archive", to: "digital_service_accounts#archive", as: :archive
+        post "reset", to: "digital_service_accounts#reset", as: :reset
+        post "add_tag", to: "digital_service_accounts#add_tag", as: :add_tag
+        post "remove_tag", to: "digital_service_accounts#remove_tag", as: :remove_tag
+      end
+    end
+
+    resources :digital_products do
+      collection do
+        get "review", to: "digital_products#review"
+      end
+      member do
+        post "certify", to: "digital_products#certify", as: :certify
+        post "publish", to: "digital_products#publish", as: :publish
+        post "archive", to: "digital_products#archive", as: :archive
+        post "reset", to: "digital_products#reset", as: :reset
+        post "add_tag", to: "digital_products#add_tag", as: :add_tag
+        post "remove_tag", to: "digital_products#remove_tag", as: :remove_tag
+      end
+      resources :digital_product_versions
+      resources :digital_product_platforms
+    end
+
+    resources :personas
 
     resources :forms do
       member do
@@ -207,6 +249,9 @@ Rails.application.routes.draw do
         end
         resources :question_options, except: [:index, :show] do
           patch "update_title", to: "question_options#update_title", as: :inline_update
+          collection do
+            post "create_other", to: "question_options#create_other", as: :create_other
+          end
         end
         collection do
           patch "sort", to: "questions#sort", as: :sort_questions
@@ -225,11 +270,11 @@ Rails.application.routes.draw do
     end
     resources :users, except: [:new] do
       collection do
+        get "all", to: "users#index", as: :all, scope: :all
+        get "inactive", to: "users#index", as: :inactive, scope: :inactive
         get "admins", to: "users#admins", as: :admins
-        get "inactive", to: "users#inactive", as: :inactive
         post "inactivate", to: "users#inactivate!", as: :inactivate
         get "deactivate", to: "users#deactivate"
-        get "active", to: "users#active", as: :active
       end
     end
     resources :organizations do

@@ -8,7 +8,10 @@
   <% end %>
 </p>
 <div class="well">
-  Email: <%= link_to @user.email, admin_user_path %>
+  <label class="usa-label">
+    Email
+  </label>
+  <%= link_to @user.email, admin_user_path %>
   <br>
   <%= render 'form', user: @user %>
 </div>

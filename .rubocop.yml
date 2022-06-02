@@ -1,0 +1,7 @@
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'lib/generators/**/*'
+    - 'db/seeds.rb'
+
+require: rubocop-rails
