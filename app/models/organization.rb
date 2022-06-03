@@ -22,8 +22,6 @@ class Organization < ApplicationRecord
   #  Digital Service Accounts
   rolify
 
-  resourcify
-
   def slug
     self.abbreviation.downcase
   end

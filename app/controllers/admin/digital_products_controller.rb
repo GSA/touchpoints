@@ -64,7 +64,6 @@ class Admin::DigitalProductsController < AdminController
     @organization = Organization.find_by_id(params[:organization][:id])
 
     if @organization
-      binding.pry
       @organization.add_role(:sponsor, @digital_product)
     end
   end

@@ -8,6 +8,7 @@ class DigitalProduct < ApplicationRecord
 
   validates :name, presence: true
 
+  has_paper_trail
   resourcify
 
   include AASM

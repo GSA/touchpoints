@@ -4,7 +4,7 @@
 	  	<h3>
 				Contacts
 			</h3>
-	  	<p>
+	  	<p class="users-list">
 				<ul class="usa-list usa-list--unstyled">
 					<% digital_product.roles.sort.each do |role| %>
 					<% role.users.sort_by { |u| u.email }.each do |user| %>
@@ -37,16 +37,20 @@
 			event.preventDefault();
 
 			var thisForm = $(this).closest("form");
+			var email = $("#digital_product_user_email_address").val();
 
-			$.ajax({
-				url: thisForm.attr("action") + "/add_user",
-				type: 'post',
-				data: "user[email]=" + $("#digital_product_user_email_address").val()
-			});
+			if (email != '') {
+				$.ajax({
+					url: thisForm.attr("action") + "/add_user",
+					type: 'post',
+					data: "user[email]=" + $("#digital_product_user_email_address").val()
+				});
+			}
 		});
 
-		$(".remove-tag-link").on("click", function(e) {
+		$(".users-list .remove-tag-link").on("click", function(e) {
 			event.preventDefault();
+			
 			var thisForm = $(this).closest("form");
 			$.ajax({
 				url: thisForm.attr("action") + "/remove_user",

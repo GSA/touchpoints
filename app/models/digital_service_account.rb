@@ -8,6 +8,9 @@ class DigitalServiceAccount < ApplicationRecord
   include AASM
   acts_as_taggable_on :tags
 
+  has_paper_trail
+  resourcify
+
   aasm do
     state :created, initial: true
     state :certified
