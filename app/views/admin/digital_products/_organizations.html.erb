@@ -4,19 +4,21 @@
 	  	<h3>
 				Sponsoring Agencies
 			</h3>
-	  	<p class="tag-list">
+	  	<p class="organization-list">
 				<ul class="usa-list usa-list--unstyled">
-					<% digital_product.organizations.sort.each do |org| %>
+					<% digital_product.roles.sort.each do |role| %>
+					<% role.users.sort_by { |u| u.email }.each do |user| %>
 					<li  style="margin-bottom: 3px;">
 						<span class="usa-tag">
-							<%= org.name %>
+							<%= user.email %>
 						</span>
 						<% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
-						<a href="javascript:void(0);" class="remove-tag-link" data-value="<%= org.id %>">
+						<a href="javascript:void(0);" class="remove-tag-link" data-value="<%#= org.id %>">
 							<span class="fa fa-trash"></span>
 						</a>
 						<% end %>
 					</li>
+		  		<% end %>
 		  		<% end %>
 				</ul>
 	  	<p>
@@ -29,29 +31,27 @@
 
 <% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
 <script>
-$(".tag-input").blur(function(event) {
-	event.preventDefault();
-    var thisForm = $(this).closest("form");
-    $.ajax({
-		url: thisForm.attr("action") + "/add_tag",
-		type: 'post',
-		data: "digital_product[tag_list]=" + $(".tag-input").val()
-    });
-});
-$(".tag-input").keypress(function (e) {
-	if (e.which == 13) {
-		document.activeElement.blur();
-		return false;
-	}
-});
-$(".remove-tag-link").on("click", function(e) {
-	event.preventDefault();
-	var thisForm = $(this).closest("form");
-	$.ajax({
-		url: thisForm.attr("action") + "/remove_tag",
-		type: 'post',
-		data: "digital_product[tag_list]=" + $(this).attr("data-value")
-	});
-})
+	$(function() {
+		$("#digital_product_organization_id").on("change", function(event) {
+			event.preventDefault();
+
+			var thisForm = $(this).closest("form");
+			$.ajax({
+				url: thisForm.attr("action") + "/add_organization",
+				type: 'post',
+				data: "organization[id]=" + $("#digital_product_organization_id").val()
+			});
+		});
+		$
+		$(".remove-org-link").on("click", function(e) {
+			event.preventDefault();
+			var thisForm = $(this).closest("form");
+			$.ajax({
+				url: thisForm.attr("action") + "/remove_organization",
+				type: 'post',
+				data: "organization[id]=" + $(this).attr("data-value")
+			});
+		})
+	})
 </script>
 <% end %>

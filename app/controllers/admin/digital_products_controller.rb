@@ -2,6 +2,8 @@ class Admin::DigitalProductsController < AdminController
   before_action :set_digital_product, only: [
     :show, :edit, :update, :destroy,
     :add_tag, :remove_tag,
+    :add_organization, :remove_organization,
+    :add_user, :remove_user,
     :certify, :publish, :archive, :reset]
 
   def index
@@ -28,6 +30,7 @@ class Admin::DigitalProductsController < AdminController
     @digital_product.user = current_user
 
     if @digital_product.save
+      @digital_product.user.add_role(:contact, @digital_product)
       redirect_to admin_digital_product_path(@digital_product), notice: 'Digital product was successfully created.'
     else
       render :new
@@ -55,6 +58,38 @@ class Admin::DigitalProductsController < AdminController
   def remove_tag
     @digital_product.tag_list.remove(digital_product_params[:tag_list].split(','))
     @digital_product.save
+  end
+
+  def add_organization
+    @organization = Organization.find_by_id(params[:organization][:id])
+
+    if @organization
+      binding.pry
+      @organization.add_role(:sponsor, @digital_product)
+    end
+  end
+
+  def remove_organization
+    @organization = Organization.find_by_id(params[:organization][:id])
+
+    if @organization
+      @organization.remove_role(:sponsor, @digital_product)
+    end
+  end
+
+  def add_user
+    @user = User.find_by_email(params[:user][:email])
+
+    if @user
+      @user.add_role(:contact, @digital_product)
+    end
+  end
+
+  def remove_user
+    @user = User.find_by_id(params[:user][:id])
+    if @user
+      @user.remove_role(:contact, @digital_product)
+    end
   end
 
   def certify
@@ -111,6 +146,7 @@ class Admin::DigitalProductsController < AdminController
       params.require(:digital_product).permit(
         :organization_id,
         :user_id,
+        :name,
         :service,
         :url,
         :code_repository_url,

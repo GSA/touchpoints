@@ -4,24 +4,26 @@
 	  	<h3>
 				Contacts
 			</h3>
-	  	<p class="tag-list">
+	  	<p>
 				<ul class="usa-list usa-list--unstyled">
-					<% digital_product.users.sort.each do |user| %>
+					<% digital_product.roles.sort.each do |role| %>
+					<% role.users.sort_by { |u| u.email }.each do |user| %>
 					<li  style="margin-bottom: 3px;">
 						<span class="usa-tag">
 							<%= user.email %>
 						</span>
 						<% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
-						<a href="javascript:void(0);" class="remove-tag-link" data-value="<%= user.id %>">
+						<a href="javascript:void(0);" class="remove-tag-link" data-id="<%= user.id %>">
 							<span class="fa fa-trash"></span>
 						</a>
 						<% end %>
 					</li>
 		  		<% end %>
+		  		<% end %>
 				</ul>
 	  	<p>
 			<% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
-	    <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
+	    <%= f.text_field :user_email_address, placeholder: "email address", value: nil, class: "usa-input tag-input" %>
 			<% end %>
 	  </div>
 	</div>
@@ -29,29 +31,29 @@
 
 <% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
 <script>
-$(".tag-input").blur(function(event) {
-	event.preventDefault();
-    var thisForm = $(this).closest("form");
-    $.ajax({
-		url: thisForm.attr("action") + "/add_tag",
-		type: 'post',
-		data: "digital_product[tag_list]=" + $(".tag-input").val()
-    });
-});
-$(".tag-input").keypress(function (e) {
-	if (e.which == 13) {
-		document.activeElement.blur();
-		return false;
-	}
-});
-$(".remove-tag-link").on("click", function(e) {
-	event.preventDefault();
-	var thisForm = $(this).closest("form");
-	$.ajax({
-		url: thisForm.attr("action") + "/remove_tag",
-		type: 'post',
-		data: "digital_product[tag_list]=" + $(this).attr("data-value")
+
+	$(function() {
+		$("#digital_product_user_email_address").on("blur", function(event) {
+			event.preventDefault();
+
+			var thisForm = $(this).closest("form");
+
+			$.ajax({
+				url: thisForm.attr("action") + "/add_user",
+				type: 'post',
+				data: "user[email]=" + $("#digital_product_user_email_address").val()
+			});
+		});
+
+		$(".remove-tag-link").on("click", function(e) {
+			event.preventDefault();
+			var thisForm = $(this).closest("form");
+			$.ajax({
+				url: thisForm.attr("action") + "/remove_user",
+				type: 'post',
+				data: "user[id]=" + $(this).data("id")
+			});
+		});
 	});
-})
 </script>
 <% end %>

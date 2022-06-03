@@ -5,8 +5,10 @@ class DigitalProduct < ApplicationRecord
   belongs_to :user
   belongs_to :organization
   has_many :digital_product_versions
-  has_many :organizations
-  has_many :users
+
+  validates :name, presence: true
+
+  resourcify
 
   include AASM
   acts_as_taggable_on :tags
@@ -29,14 +31,6 @@ class DigitalProduct < ApplicationRecord
     event :reset do
       transitions to: :created
     end
-  end
-
-  def organizations
-    Organization.all.entries
-  end
-
-  def users
-    User.all.entries
   end
 
   def self.load_digital_products

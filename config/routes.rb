@@ -184,6 +184,12 @@ Rails.application.routes.draw do
         post "reset", to: "digital_service_accounts#reset", as: :reset
         post "add_tag", to: "digital_service_accounts#add_tag", as: :add_tag
         post "remove_tag", to: "digital_service_accounts#remove_tag", as: :remove_tag
+
+        post "add_organization", to: "digital_service_accounts#add_organization", as: :add_organization
+        post "remove_organization", to: "digital_service_accounts#remove_organization", as: :remove_organization
+
+        post "add_user", to: "digital_service_accounts#add_user", as: :add_user
+        post "remove_user", to: "digital_service_accounts#remove_user", as: :remove_user
       end
     end
 
@@ -196,8 +202,15 @@ Rails.application.routes.draw do
         post "publish", to: "digital_products#publish", as: :publish
         post "archive", to: "digital_products#archive", as: :archive
         post "reset", to: "digital_products#reset", as: :reset
+
         post "add_tag", to: "digital_products#add_tag", as: :add_tag
         post "remove_tag", to: "digital_products#remove_tag", as: :remove_tag
+
+        post "add_organization", to: "digital_products#add_organization", as: :add_organization
+        post "remove_organization", to: "digital_products#remove_organization", as: :remove_organization
+
+        post "add_user", to: "digital_products#add_user", as: :add_user
+        post "remove_user", to: "digital_products#remove_user", as: :remove_user
       end
       resources :digital_product_versions
       resources :digital_product_platforms
