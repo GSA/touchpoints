@@ -134,6 +134,46 @@ feature "Forms", js: true do
           @form = Form.last
           expect(page.current_path).to eq(questions_admin_form_path(@form))
         end
+
+        it "can upload and display a logo" do
+          within('.usa-file-input') do
+            attach_file('form_logo','spec/test_assets/test_logo.jpeg')
+          end
+          find('label', text: 'Display Square (80px wide by 80px tall) Organization logo before the title in the Form header?').click
+          click_on "Update logo"
+          click_on "Delivery method"
+          find('label', text: 'Hosted only on the touchpoints site').click
+          click_on 'Update Survey'
+          expect(page).to have_content('Survey was successfully updated.')
+          visit example_admin_form_path(Form.last)
+          expect(page).to have_css(".form-header-logo-square")
+        end
+      end
+
+      describe "new modal form" do
+        before do
+          visit new_admin_form_path
+          expect(page.current_path).to eq(new_admin_form_path)
+          fill_in "form_name", with: new_form.name
+          click_on "Create Survey"
+        end
+
+        it "can upload and display a logo" do
+          within('.usa-file-input') do
+            attach_file('form_logo','spec/test_assets/test_logo.jpeg')
+          end
+          find('label', text: 'Display Square (80px wide by 80px tall) Organization logo before the title in the Form header?').click
+          click_on "Update logo"
+          click_on "Delivery method"
+          find('label', text: 'Embedded inline on your site').click
+          fill_in("form_element_selector", with: "test_selector")
+          click_on 'Update Survey'
+          expect(page).to have_content('Survey was successfully updated.')
+          visit example_admin_form_path(Form.last)
+          within(".fba-modal-dialog") do
+            expect(page).to have_css('.form-header-logo-square')
+          end
+        end
       end
 
       describe "Form model validations" do
