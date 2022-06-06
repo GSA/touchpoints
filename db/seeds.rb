@@ -64,6 +64,21 @@ admin_user = User.new({
 admin_user.save!
 puts 'Created Admin User: #{admin_user.email}'
 
+Persona.create!({
+  name: 'Public User',
+  user_id: admin_user.id
+})
+Persona.create!({
+  name: 'Federal Staff User',
+  user_id: admin_user.id
+})
+Persona.create!({
+  name: 'Example Persona 3',
+  user_id: admin_user.id
+})
+
+puts 'Created Admin User Pesonas: #{admin_user.email}'
+
 digital_gov = Organization.create!({
   name: 'Digital.gov',
   domain: 'digital.gov',

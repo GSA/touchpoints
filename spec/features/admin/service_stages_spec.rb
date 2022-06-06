@@ -29,11 +29,13 @@ feature "Service Stages", js: true do
         fill_in "service_stage_name", with: "New Stage"
         fill_in "service_stage_description", with: "New Stage Description"
         fill_in "service_stage_position", with: "1000"
+        select "Federal Staff User", from: "service_stage_persona_id"
         click_on "Create Service stage"
       end
 
       it "newly created tag is displayed on the page" do
         expect(page).to have_content("Service stage was successfully created.")
+        expect(page).to have_content("Persona: Federal Staff User")
       end
     end
   end

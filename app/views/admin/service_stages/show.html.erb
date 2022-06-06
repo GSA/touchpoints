@@ -45,6 +45,13 @@
   <%= @service_stage.position %>
 </p>
 
+<% if @service_stage.persona.present? %>
+  <p>
+    <strong>Persona:</strong>
+    <%= @service_stage.persona.name %>
+  </p>
+<% end %>
+
 <p hidden>
   <strong>Total eligible population:</strong>
   <%= number_with_delimiter @service_stage.total_eligible_population %>

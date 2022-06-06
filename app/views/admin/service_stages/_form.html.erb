@@ -48,6 +48,13 @@
     <%= form.number_field :position, class: "usa-input" %>
   </div>
 
+  <% if current_user.personas.size > 0 %>
+    <div class="field">
+      <%= form.label :persona_id, "Persona", class: "usa-label" %>
+      <%= form.select :persona_id, options_for_select(current_user.personas.map { |p| [p.name, p.id] }, selected: service_stage.persona_id), {}, { class: "usa-select" } %>
+    </div>
+  <% end %>
+
   <div class="field" hidden>
     <%= form.label :barrier_id, class: "usa-label" %>
     <%= form.select :barrier_id, options_for_select(Barrier.all.map { |s| [s.name, s.id] }), {}, { class: "usa-select" } %>
