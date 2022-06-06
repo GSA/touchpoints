@@ -26,21 +26,9 @@
 <div class="grid-row">
   <div class="tablet:grid-col-6">
     <p>
-      <strong>Organization</strong>
-      <br>
-      <%= @digital_service_account.organization.name %>
-    </p>
-
-    <p>
       <strong>Name</strong>
       <br>
       <%= @digital_service_account.name %>
-    </p>
-
-    <p>
-      <strong>User</strong>
-      <br>
-      <%= @digital_service_account.user.email %>
     </p>
 
     <p>
@@ -94,6 +82,27 @@
         </div>
       </div>
     </div>
+
+    <div class="grid-row">
+      <div class="grid-col-12">
+        <div class="organizations">
+          <%= render 'admin/digital_service_accounts/organizations', digital_service_account: @digital_service_account %>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+
+    <div class="grid-row">
+      <div class="grid-row">
+        <div class="grid-col-12">
+          <div class="users">
+            <%= render 'admin/digital_service_accounts/users', digital_service_account: @digital_service_account %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
 
     <p>
       <strong>API path</strong>

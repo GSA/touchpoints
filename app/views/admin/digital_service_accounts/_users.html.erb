@@ -1,16 +1,16 @@
-<%= form_with(model: digital_product, url: admin_digital_product_path(digital_product), local: true) do |f| %>
+<%= form_with(model: digital_service_account, url: admin_digital_service_account_path(digital_service_account), local: true) do |f| %>
 	<h3>
 		Contacts
 	</h3>
 	<div class="users-list">
 		<ul class="usa-list usa-list--unstyled">
-			<% digital_product.roles.sort.each do |role| %>
+			<% digital_service_account.roles.sort.each do |role| %>
 			<% role.users.sort_by { |u| u.email }.each do |user| %>
 			<li  style="margin-bottom: 3px;">
 				<span class="usa-tag">
 					<%= user.email %>
 				</span>
-				<% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
+				<% if digital_service_account_permissions?(digital_service_account: digital_service_account, user: current_user) %>
 				<a href="javascript:void(0);" class="remove-tag-link" data-id="<%= user.id %>">
 					<span class="fa fa-trash"></span>
 				</a>
@@ -20,26 +20,26 @@
   		<% end %>
 		</ul>
 	</div>
-	<% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
+	<% if digital_service_account_permissions?(digital_service_account: digital_service_account, user: current_user) %>
   <%= f.text_field :user_email_address, placeholder: "email address", value: nil, class: "usa-input tag-input" %>
 	<% end %>
 <% end %>
 
-<% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
+<% if digital_service_account_permissions?(digital_service_account: digital_service_account, user: current_user) %>
 <script>
 	$(function() {
-		$("#digital_product_user_email_address").on("blur", function(event) {
+		$("#digital_service_account_user_email_address").on("blur", function(event) {
 			event.preventDefault();
 
 			var thisForm = $(this).closest("form");
-			var email = $("#digital_product_user_email_address").val();
+			var email = $("#digital_service_account_user_email_address").val();
 
 			// Don't submit if no email
 			if (email != '') {
 				$.ajax({
 					url: thisForm.attr("action") + "/add_user",
 					type: 'post',
-					data: "user[email]=" + $("#digital_product_user_email_address").val()
+					data: "user[email]=" + $("#digital_service_account_user_email_address").val()
 				});
 			}
 		});

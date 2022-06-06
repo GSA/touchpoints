@@ -85,6 +85,8 @@
         </div>
       </div>
     </div>
+    <br>
+    <br>
 
     <div class="grid-row">
       <div class="grid-col-12">
@@ -93,14 +95,20 @@
         </div>
       </div>
     </div>
+    <br>
+    <br>
 
     <div class="grid-row">
-      <div class="grid-col-12">
-        <div class="users">
-          <%= render 'admin/digital_products/users', digital_product: @digital_product %>
+      <div class="grid-row">
+        <div class="grid-col-12">
+          <div class="users">
+            <%= render 'admin/digital_products/users', digital_product: @digital_product %>
+          </div>
         </div>
       </div>
     </div>
+    <br>
+
   </div>
   <div class="grid-col-6">
     <% if registry_manager_permissions?(user: current_user) %>

@@ -2,9 +2,6 @@ require 'json'
 require 'open-uri'
 
 class DigitalServiceAccount < ApplicationRecord
-  belongs_to :organization
-  belongs_to :user
-
   include AASM
   acts_as_taggable_on :tags
 

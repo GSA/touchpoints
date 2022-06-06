@@ -6,6 +6,8 @@ module Admin
   before_action :set_digital_service_account, only: [
     :show, :edit, :update, :destroy,
     :add_tag, :remove_tag,
+    :add_user, :remove_user,
+    :add_organization, :remove_organization,
     :certify, :publish, :archive, :reset
   ]
 
@@ -68,9 +70,42 @@ module Admin
     @digital_service_account.save
   end
 
+  def add_organization
+    @organization = Organization.find_by_id(params[:organization][:id])
+
+    if @organization
+      @organization.add_role(:sponsor, @digital_service_account)
+    end
+  end
+
+  def remove_organization
+    @organization = Organization.find_by_id(params[:organization][:id])
+
+    if @organization
+      @organization.remove_role(:sponsor, @digital_service_account)
+    end
+  end
+
+  def add_user
+    @user = User.find_by_email(params[:user][:email])
+
+    if @user
+      @user.add_role(:contact, @digital_service_account)
+    end
+  end
+
+  def remove_user
+    @user = User.find_by_id(params[:user][:id])
+
+    if @user
+      @user.remove_role(:contact, @digital_service_account)
+    end
+  end
+
   def certify
     ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
     @digital_service_account.certify!
+
     if @digital_service_account.save
       Event.log_event(Event.names[:digital_service_account_certified], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} certified at #{DateTime.now}", current_user.id)
       redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was certified."
@@ -82,6 +117,7 @@ module Admin
   def publish
     ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
     @digital_service_account.publish!
+
     if @digital_service_account.save
       Event.log_event(Event.names[:digital_service_account_published], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} published at #{DateTime.now}", current_user.id)
       redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was published."
@@ -93,6 +129,7 @@ module Admin
   def archive
     ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
     @digital_service_account.archive!
+
     if @digital_service_account.save
       Event.log_event(Event.names[:digital_service_account_archived], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} archived at #{DateTime.now}", current_user.id)
       redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was archived."

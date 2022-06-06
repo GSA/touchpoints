@@ -6,7 +6,6 @@ feature "Digital Service Accounts", js: true do
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
   let(:user) { FactoryBot.create(:user, organization: organization) }
 
-
   context "as Admin" do
     before do
       login_as admin
@@ -58,7 +57,7 @@ feature "Digital Service Accounts", js: true do
       end
     end
 
-    describe 'create and update' do
+    describe 'create' do
       before 'fill-in the form' do
         visit admin_digital_service_accounts_path
         click_on 'New Account'
@@ -76,6 +75,39 @@ feature "Digital Service Accounts", js: true do
           expect(page).to have_content('digital_service_account_created by admin@example.gov')
         end
       end
+
     end
+
+    describe 'add tag' do
+      let(:digital_service_account) { FactoryBot.create(:digital_service_account) }
+
+      before 'fill-in the form' do
+        visit admin_digital_service_account_path(digital_service_account)
+
+        fill_in("digital_service_account_tag_list", with: "tag123")
+        find(".organizations").click # just to lose focus
+      end
+
+      it 'creates a tag' do
+        expect(page).to have_css(".usa-tag", text: "tag123".upcase)
+      end
+    end
+
+    describe 'remove tag' do
+      let(:tag_text) { "a brand new tag" }
+      let(:digital_service_account) { FactoryBot.create(:digital_service_account, tag_list: [tag_text]) }
+
+      before 'fill-in the form' do
+        visit admin_digital_service_account_path(digital_service_account)
+
+        find(".tag-list .remove-tag-link").click
+
+      end
+
+      it 'removes the tag' do
+        expect(page).to_not have_content(tag_text)
+      end
+    end
+
   end
 end
