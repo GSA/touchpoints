@@ -64,21 +64,6 @@ admin_user = User.new({
 admin_user.save!
 puts 'Created Admin User: #{admin_user.email}'
 
-Persona.create!({
-  name: 'Public User',
-  user_id: admin_user.id
-})
-Persona.create!({
-  name: 'Federal Staff User',
-  user_id: admin_user.id
-})
-Persona.create!({
-  name: 'Example Persona 3',
-  user_id: admin_user.id
-})
-
-puts 'Created Admin User Pesonas: #{admin_user.email}'
-
 digital_gov = Organization.create!({
   name: 'Digital.gov',
   domain: 'digital.gov',
@@ -628,3 +613,16 @@ OmbCxReportingCollection.create!({
   q7_4: rand(1000),
   q7_5: rand(1000),
 })
+
+
+Persona.create!({
+  name: 'Public User',
+})
+Persona.create!({
+  name: 'Federal Staff User'
+})
+Persona.create!({
+  name: 'Example Persona 3'
+})
+
+puts 'Created Admin User Pesonas: #{admin_user.email}'

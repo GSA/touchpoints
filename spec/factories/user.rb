@@ -7,20 +7,6 @@ FactoryBot.define do
     trait :admin do
       email { "admin@example.gov" }
       admin { true }
-      after(:create) do |u, evaluator|
-        FactoryBot.create(:persona,
-          user: u,
-          name: "Public User"
-        )
-        FactoryBot.create(:persona,
-          user: u,
-          name: "Federal Staff User"
-        )
-        FactoryBot.create(:persona,
-          user: u,
-          name: "Example Persona 3"
-        )
-      end
     end
   end
 end

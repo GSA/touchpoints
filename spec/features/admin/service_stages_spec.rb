@@ -9,6 +9,7 @@ feature "Service Stages", js: true do
   let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization ) }
   let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: service_owner.id ) }
   let!(:service2) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: admin.id) }
+  let!(:persona) { FactoryBot.create(:persona, name: 'Federal Staff User') }
 
   before do
     service2.tag_list.add("feature-request")
@@ -20,6 +21,7 @@ feature "Service Stages", js: true do
     before do
       login_as admin
       visit admin_service_path(service2)
+
     end
 
     describe "add Service Stage" do
@@ -29,13 +31,13 @@ feature "Service Stages", js: true do
         fill_in "service_stage_name", with: "New Stage"
         fill_in "service_stage_description", with: "New Stage Description"
         fill_in "service_stage_position", with: "1000"
-        select "Federal Staff User", from: "service_stage_persona_id"
+        select persona.name, from: "service_stage_persona_id"
         click_on "Create Service stage"
       end
 
       it "newly created tag is displayed on the page" do
         expect(page).to have_content("Service stage was successfully created.")
-        expect(page).to have_content("Persona: Federal Staff User")
+        expect(page).to have_content("Persona: #{persona.name}")
       end
     end
   end

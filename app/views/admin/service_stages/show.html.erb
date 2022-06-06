@@ -45,12 +45,10 @@
   <%= @service_stage.position %>
 </p>
 
-<% if @service_stage.persona.present? %>
-  <p>
-    <strong>Persona:</strong>
-    <%= @service_stage.persona.name %>
-  </p>
-<% end %>
+<p>
+  <strong>Persona:</strong>
+  <%= @service_stage.persona.name %>
+</p>
 
 <p hidden>
   <strong>Total eligible population:</strong>
