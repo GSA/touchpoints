@@ -24,7 +24,6 @@ module Admin
 
   def new
     @digital_service_account = DigitalServiceAccount.new
-    @digital_service_account.organization = current_user.organization
   end
 
   def edit
@@ -32,9 +31,11 @@ module Admin
 
   def create
     @digital_service_account = DigitalServiceAccount.new(digital_service_account_params)
-    @digital_service_account.user = current_user
 
     if @digital_service_account.save
+      current_user.add_role(:contact, @digital_service_account)
+      current_user.organization.add_role(:sponsor, @digital_service_account)
+
       Event.log_event(Event.names[:digital_service_account_created], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} created at #{DateTime.now}", current_user.id)
       redirect_to admin_digital_service_account_path(@digital_service_account), notice: 'Digital service account was successfully created.'
     else

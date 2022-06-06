@@ -2,6 +2,7 @@ FactoryBot.define do
   factory :digital_product do
     organization
     user
+    name { 'ExampleGov Mobile App' }
     service { 'Test Service' }
     url { 'test Url' }
     code_repository_url { 'Test code_repository_url' }

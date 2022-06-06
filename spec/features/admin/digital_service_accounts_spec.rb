@@ -25,11 +25,9 @@ feature "Digital Service Accounts", js: true do
           expect(page).to have_link("Export results to .csv")
 
           within(".usa-table") do
-            expect(page).to have_content("Organization")
             expect(page).to have_content("Platform")
             expect(page).to have_content("Account name")
             expect(page).to have_content("Status")
-            expect(page).to have_content("User")
             expect(page).to have_content("Updated at")
           end
         end
@@ -39,7 +37,7 @@ feature "Digital Service Accounts", js: true do
     context "with records" do
       let!(:organizations) { FactoryBot.create_list(:organization, 7) }
       let(:users) { FactoryBot.create_list(:user, 5, organization: organizations.sample) }
-      let!(:digital_service_accounts) { FactoryBot.create_list(:digital_service_account, 10, organization: organizations.sample, user: users.sample) }
+      let!(:digital_service_accounts) { FactoryBot.create_list(:digital_service_account, 10) }
 
       describe "#index" do
         before do
