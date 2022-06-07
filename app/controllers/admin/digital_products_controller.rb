@@ -4,7 +4,8 @@ class Admin::DigitalProductsController < AdminController
     :add_tag, :remove_tag,
     :add_organization, :remove_organization,
     :add_user, :remove_user,
-    :certify, :publish, :archive, :reset]
+    :certify, :publish, :archive, :reset
+  ]
 
   def index
     @digital_products = DigitalProduct.order(:name, :service).page(params[:page])
@@ -93,7 +94,9 @@ class Admin::DigitalProductsController < AdminController
 
   def certify
     @digital_product.certify
-    if @digital_product.save
+    @digital_product.certified_at = Time.now
+
+    if @digital_product.save!
       Event.log_event(Event.names[:digital_product_certified], "Digital Product", @digital_product.id, "Digital Product #{@digital_product.name} certified at #{DateTime.now}", current_user.id)
       redirect_to admin_digital_product_path(@digital_product), notice: 'Digital product was successfully certified.'
     else
@@ -117,7 +120,8 @@ class Admin::DigitalProductsController < AdminController
     ensure_digital_product_permissions(digital_product: @digital_product)
 
     @digital_product.archive
-    if @digital_product.save
+
+    if @digital_product.save!
       Event.log_event(Event.names[:digital_product_archived], "Digital Product", @digital_product.id, "Digital Product #{@digital_product.name} archived at #{DateTime.now}", current_user.id)
       redirect_to admin_digital_product_path(@digital_product), notice: "Digital Product #{@digital_product.name} was archived."
     else
@@ -128,8 +132,9 @@ class Admin::DigitalProductsController < AdminController
   def reset
     ensure_digital_product_permissions(digital_product: @digital_product)
     @digital_product.reset
-    if @digital_product.save
-      Event.log_event(Event.names[:digital_product_reset], "Digital Service Account", @digital_product.id, "Digital Service Account #{@digital_product.name} reset at #{DateTime.now}", current_user.id)
+
+    if @digital_product.save!
+      Event.log_event(Event.names[:digital_product_reset], "Digital Service Account", @digital_product.id, "Digital Product #{@digital_product.name} reset at #{DateTime.now}", current_user.id)
       redirect_to admin_digital_product_path(@digital_product), notice: "Digital Service Account #{@digital_product.name} was reset."
     else
       render :edit

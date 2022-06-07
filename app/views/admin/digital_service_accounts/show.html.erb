@@ -23,7 +23,7 @@
   <br>
 <% end %>
 
-<div class="grid-row">
+<div class="grid-row grid-gap-lg">
   <div class="tablet:grid-col-6">
     <p>
       <strong>Name</strong>
@@ -122,7 +122,7 @@
       <br>
       <br>
 
-    <% if @digital_service_account.created? %>
+    <% if @digital_service_account.created? || @digital_service_account.updated? %>
       <%= link_to certify_admin_digital_service_account_path(@digital_service_account), class: "usa-button bg-green full-width", method: :post do %>
         <span class="fa fa-check"></span>
         &nbsp;
@@ -142,7 +142,7 @@
       <br>
     <% end %>
 
-    <% if !@digital_service_account.archived? %>
+    <% if @digital_service_account.published? %>
       <%= link_to archive_admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button--base full-width", method: :post do %>
         <span class="fa fa-archive"></span>
         &nbsp;

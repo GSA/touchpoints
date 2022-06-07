@@ -126,7 +126,11 @@
 
   <div class="field">
     <%= form.label :service, class: "usa-label" %>
-    <%= form.text_field :service, class: "usa-input" %>
+    <small>
+      This optional field is a reference to
+      <%= link_to "Services", admin_services_path, class: "usa-link", target: "_blank" %>.
+    </small>
+    <%= form.select :service_id, options_for_select(Service.all.map { |s| [s.name, s.id] }), { prompt: "Which Service?" }, { class: "usa-select" } %>
   </div>
 
   <p>
