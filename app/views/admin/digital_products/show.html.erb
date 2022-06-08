@@ -16,11 +16,6 @@
     </p>
 
     <p>
-      <strong>Organization:</strong>
-      <%= @digital_product.organization.name %>
-    </p>
-
-    <p>
       <strong>Name:</strong>
       <%= @digital_product.name %>
     </p>
@@ -41,11 +36,6 @@
     <p>
       <strong>Url:</strong>
       <%= @digital_product.url %>
-    </p>
-
-    <p>
-      <strong>User:</strong>
-      <%= link_to(@digital_product.user.email, admin_user_path(@digital_product.user)) %>
     </p>
 
     <p>

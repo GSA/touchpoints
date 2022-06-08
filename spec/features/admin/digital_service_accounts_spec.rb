@@ -98,11 +98,91 @@ feature "Digital Service Accounts", js: true do
         visit admin_digital_service_account_path(digital_service_account)
 
         find(".tag-list .remove-tag-link").click
-
       end
 
       it 'removes the tag' do
         expect(page).to_not have_content(tag_text)
+      end
+    end
+
+    describe 'add organization' do
+      let(:digital_service_account) { FactoryBot.create(:digital_service_account) }
+
+      before 'fill-in the form' do
+        visit admin_digital_service_account_path(digital_service_account)
+
+        select(organization.name, from: "digital_service_account_organization_id")
+        find(".organizations").click # just to lose focus
+      end
+
+      it 'creates an organization' do
+        expect(page).to have_css(".usa-tag", text: organization.name.upcase)
+      end
+    end
+
+    describe 'remove organization' do
+      let(:digital_service_account) { FactoryBot.create(:digital_service_account) }
+      let!(:role) { organization.add_role(:sponsor, digital_service_account) }
+
+      before 'fill-in the form' do
+        visit admin_digital_service_account_path(digital_service_account)
+        binding.pry
+        expect(page).to have_content(organization.name.upcase)
+        find(".organizations-list .remove-tag-link").click
+
+      end
+
+      it 'removes the organization' do
+        expect(page).to_not have_content(organization.name.upcase)
+      end
+    end
+
+    describe 'add a valid user contact' do
+      let(:digital_service_account) { FactoryBot.create(:digital_service_account) }
+
+      before do
+        visit admin_digital_service_account_path(digital_service_account)
+
+        fill_in("digital_service_account_user_email_address", with: User.first.email)
+        find(".organizations").click # just to lose focus
+      end
+
+      it 'creates and displays the tag' do
+        expect(page).to have_css(".usa-tag", text: User.first.email.upcase)
+      end
+    end
+
+    describe 'try to add an invalid user contact' do
+      let(:digital_service_account) { FactoryBot.create(:digital_service_account) }
+
+      before do
+        visit admin_digital_service_account_path(digital_service_account)
+
+        fill_in("digital_service_account_user_email_address", with: "nonexistent-email@example.gov")
+        find(".users").click # just to lose focus
+        find(".organizations").click # just to lose focus
+      end
+
+      it 'displays an error message as an alert' do
+        sleep 0.3
+        expect(page.driver.browser.switch_to.alert).to be_truthy
+        alert_text = page.driver.browser.switch_to.alert.text
+        expect(alert_text).to eq("User nonexistent-email@example.gov does not exist.")
+      end
+    end
+
+    describe 'remove user contact' do
+      let(:digital_service_account) { FactoryBot.create(:digital_service_account) }
+      let!(:role) { user.add_role(:contact, digital_service_account) }
+
+      before 'fill-in the form' do
+        visit admin_digital_service_account_path(digital_service_account)
+        expect(page).to have_content(user.email.upcase)
+        find(".users-list .remove-tag-link").click
+      end
+
+      it 'removes the user' do
+        expect(page).to_not have_content(user.email.upcase)
       end
     end
 

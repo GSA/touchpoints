@@ -24,7 +24,12 @@
 	  	</div>
 
 			<% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
-				<% @unselected_organizations = Organization.all.select { |org| !digital_product.roles.last.organizations.collect(&:id).include? org.id } %>
+				<% if digital_product.roles.present? %>
+					<% @unselected_organizations = Organization.all.select { |org| !digital_product.roles.last.organizations.collect(&:id).include?(org.id) }  %>
+				<% else %>
+					<% @unselected_organizations = Organization.all  %>
+				<% end %>
+
 				<% if @unselected_organizations.present? %>
 		    	<%= f.select :organization_id, options_for_select(@unselected_organizations.sort_by(&:abbreviation).map { |organization| ["#{organization.abbreviation} - #{organization.name}", organization.id] }), { prompt: "Which Organization?", include_blank: true }, { class: "usa-select" } %>
 				<% end %>

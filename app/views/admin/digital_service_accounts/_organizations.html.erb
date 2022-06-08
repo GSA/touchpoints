@@ -24,9 +24,14 @@
 	  	</div>
 
 			<% if digital_service_account_permissions?(digital_service_account: digital_service_account, user: current_user) %>
-				<% @unselected_organizations = digital_service_account.roles.present? ? Organization.all.select { |org| !digital_service_account.roles.last.organizations.collect(&:id).include?(org.id) } : nil %>
+				<% if digital_service_account.roles.present? %>
+					<% @unselected_organizations = Organization.all.select { |org| !digital_service_account.roles.last.organizations.collect(&:id).include?(org.id) }  %>
+				<% else %>
+					<% @unselected_organizations = Organization.all  %>
+				<% end %>
+
 				<% if @unselected_organizations.present? %>
-		    	<%= f.select :organization_id, options_for_select(@unselected_organizations.sort_by(&:abbreviation).map { |organization| ["#{organization.abbreviation} - #{organization.name}", organization.id] }), { prompt: "Which Organization?", include_blank: true }, { class: "usa-select" } %>
+		    	<%= f.select :organization_id, options_for_select(@unselected_organizations.sort_by(&:abbreviation).map { |organization| ["#{organization.abbreviation} - #{organization.name}", organization.id] }), { prompt: "Which Organization?" }, { class: "usa-select" } %>
 				<% end %>
 			<% end %>
 

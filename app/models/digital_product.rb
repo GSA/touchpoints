@@ -2,8 +2,6 @@ require 'json'
 require 'open-uri'
 
 class DigitalProduct < ApplicationRecord
-  belongs_to :user
-  belongs_to :organization
   has_many :digital_product_versions
 
   validates :name, presence: true
