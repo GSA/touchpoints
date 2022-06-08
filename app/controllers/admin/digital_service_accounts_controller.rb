@@ -34,6 +34,7 @@ module Admin
 
     if @digital_service_account.save
       Event.log_event(Event.names[:digital_service_account_created], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} created at #{DateTime.now}", current_user.id)
+      UserMailer.social_media_account_created_notification(digital_service_account: @digital_service_account, link: admin_digital_service_account_path(@digital_service_account)).deliver_later
       redirect_to admin_digital_service_account_path(@digital_service_account), notice: 'Digital service account was successfully created.'
     else
       render :new
