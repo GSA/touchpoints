@@ -11,18 +11,18 @@ class DigitalServiceAccount < ApplicationRecord
   aasm do
     state :created, initial: true
     state :updated
-    state :certified
+    state :submitted
     state :published
     state :archived
 
-    event :certify do
-      transitions from: [:created, :updated], to: :certified
+    event :submit do
+      transitions from: [:created, :updated], to: :submitted
     end
     event :publish do
-      transitions from: [:certified], to: :published
+      transitions from: [:submitted], to: :published
     end
     event :archive do
-      transitions from: [:created, :updated, :published], to: :archived
+      transitions to: :archived
     end
     event :update_state do
       transitions to: :updated

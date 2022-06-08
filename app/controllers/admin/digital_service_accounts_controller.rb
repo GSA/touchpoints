@@ -8,7 +8,7 @@ module Admin
     :add_tag, :remove_tag,
     :add_user, :remove_user,
     :add_organization, :remove_organization,
-    :certify, :publish, :archive, :reset
+    :submit, :publish, :archive, :reset
   ]
 
   def index
@@ -104,13 +104,13 @@ module Admin
     end
   end
 
-  def certify
+  def submit
     ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
-    @digital_service_account.certify!
+    @digital_service_account.submit!
 
     if @digital_service_account.save
-      Event.log_event(Event.names[:digital_service_account_certified], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} certified at #{DateTime.now}", current_user.id)
-      redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was certified."
+      Event.log_event(Event.names[:digital_service_account_submitted], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} submitted at #{DateTime.now}", current_user.id)
+      redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was submitted."
     else
       render :edit
     end

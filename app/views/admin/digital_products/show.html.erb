@@ -111,15 +111,16 @@
 
       <% if @digital_product.created? %>
       <p>
-        <%= link_to certify_admin_digital_product_path(@digital_product), class: "usa-button width-full", method: :post do %>
+
+        <%= link_to submit_admin_digital_product_path(@digital_product), class: "usa-button width-full", method: :post do %>
           <span class="fa fa-check"></span>
           &nbsp;
-          Certify
+          Submit
         <% end %>
       </p>
       <% end %>
 
-      <% if @digital_product.certified? %>
+      <% if @digital_product.submitted? %>
         <%= link_to publish_admin_digital_product_path(@digital_product), class: "usa-button full-width", method: :post do %>
           <span class="fa fa-pen"></span>
           &nbsp;

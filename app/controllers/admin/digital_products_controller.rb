@@ -4,7 +4,7 @@ class Admin::DigitalProductsController < AdminController
     :add_tag, :remove_tag,
     :add_organization, :remove_organization,
     :add_user, :remove_user,
-    :certify, :publish, :archive, :reset
+    :submit, :publish, :archive, :reset
   ]
 
   def index
@@ -20,7 +20,6 @@ class Admin::DigitalProductsController < AdminController
 
   def new
     @digital_product = DigitalProduct.new
-    @digital_product.organization_id = current_user.organization_id
   end
 
   def edit
@@ -28,10 +27,10 @@ class Admin::DigitalProductsController < AdminController
 
   def create
     @digital_product = DigitalProduct.new(digital_product_params)
-    @digital_product.user = current_user
 
     if @digital_product.save
-      @digital_product.user.add_role(:contact, @digital_product)
+      current_user.add_role(:contact, @digital_product)
+      current_user.organization.add_role(:sponsor, @digital_product)
       redirect_to admin_digital_product_path(@digital_product), notice: 'Digital product was successfully created.'
     else
       render :new
@@ -92,13 +91,12 @@ class Admin::DigitalProductsController < AdminController
     end
   end
 
-  def certify
-    @digital_product.certify
-    @digital_product.certified_at = Time.now
+  def submit
+    @digital_product.submit
 
     if @digital_product.save!
-      Event.log_event(Event.names[:digital_product_certified], "Digital Product", @digital_product.id, "Digital Product #{@digital_product.name} certified at #{DateTime.now}", current_user.id)
-      redirect_to admin_digital_product_path(@digital_product), notice: 'Digital product was successfully certified.'
+      Event.log_event(Event.names[:digital_product_submitted], "Digital Product", @digital_product.id, "Digital Product #{@digital_product.name} submitted at #{DateTime.now}", current_user.id)
+      redirect_to admin_digital_product_path(@digital_product), notice: 'Digital product was successfully submitted.'
     else
       render :edit
     end

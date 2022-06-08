@@ -14,18 +14,18 @@ class DigitalProduct < ApplicationRecord
 
   aasm do
     state :created, initial: true
-    state :certified
+    state :submitted
     state :published
     state :archived
 
-    event :certify do
-      transitions from: [:created], to: :certified
+    event :submit do
+      transitions from: [:created], to: :submitted
     end
     event :publish do
-      transitions from: [:certified], to: :published
+      transitions from: [:submitted], to: :published
     end
     event :archive do
-      transitions from: [:created, :published], to: :archived
+      transitions to: :archived
     end
     event :reset do
       transitions to: :created

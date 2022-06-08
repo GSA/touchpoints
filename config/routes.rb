@@ -178,7 +178,7 @@ Rails.application.routes.draw do
         get :review, to: "digital_service_accounts#review"
       end
       member do
-        post "certify", to: "digital_service_accounts#certify", as: :certify
+        post "submit", to: "digital_service_accounts#submit", as: :submit
         post "publish", to: "digital_service_accounts#publish", as: :publish
         post "archive", to: "digital_service_accounts#archive", as: :archive
         post "reset", to: "digital_service_accounts#reset", as: :reset
@@ -198,7 +198,7 @@ Rails.application.routes.draw do
         get "review", to: "digital_products#review"
       end
       member do
-        post "certify", to: "digital_products#certify", as: :certify
+        post "submit", to: "digital_products#submit", as: :submit
         post "publish", to: "digital_products#publish", as: :publish
         post "archive", to: "digital_products#archive", as: :archive
         post "reset", to: "digital_products#reset", as: :reset

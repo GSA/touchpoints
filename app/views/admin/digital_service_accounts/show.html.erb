@@ -123,16 +123,16 @@
       <br>
 
     <% if @digital_service_account.created? || @digital_service_account.updated? %>
-      <%= link_to certify_admin_digital_service_account_path(@digital_service_account), class: "usa-button bg-green full-width", method: :post do %>
+      <%= link_to submit_admin_digital_service_account_path(@digital_service_account), class: "usa-button bg-green full-width", method: :post do %>
         <span class="fa fa-check"></span>
         &nbsp;
-        Certify
+        Submit
       <% end %>
       <br>
       <br>
     <% end %>
 
-    <% if @digital_service_account.certified? %>
+    <% if @digital_service_account.submitted? %>
       <%= link_to publish_admin_digital_service_account_path(@digital_service_account), class: "usa-button full-width", method: :post do %>
         <span class="fa fa-pen"></span>
         &nbsp;
