@@ -1,5 +1,6 @@
 class Organization < ApplicationRecord
   acts_as_taggable_on :tags
+  
   has_many :users
   has_many :services
   has_many :forms
@@ -16,6 +17,11 @@ class Organization < ApplicationRecord
   validates :domain, presence: true
   validates :abbreviation, presence: true
   validates :abbreviation, uniqueness: true
+
+  # an Organization can be assigned to the following objects:
+  #  Digital Products
+  #  Digital Service Accounts
+  rolify
 
   def slug
     self.abbreviation.downcase

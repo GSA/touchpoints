@@ -12,11 +12,6 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :organization_id, class: "usa-label" %>
-    <%= form.select :organization_id, options_for_select(organization_dropdown_options, digital_service_account.organization_id), { prompt: "Select Organization" }, { class: "usa-select" } %>
-  </div>
-
-  <div class="field">
     <%= form.label :account, "Account platform", class: "usa-label" %>
     <%= form.select :account, options_for_select(SocialMediaAccount.list), { prompt: "Select" }, class: "usa-select" %>
   </div>
@@ -113,6 +108,13 @@
     </select>
 
   </div>
+
+  <% if !digital_service_account.persisted? %>
+    <small>
+      Tags, Agencies, and Staff contacts can be associated with this
+      Digital Service Account, after creation.
+    </small>
+  <% end %>
 
   <div class="field">
     <%= form.label :notes, class: "usa-label" %>

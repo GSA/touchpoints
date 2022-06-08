@@ -2,27 +2,32 @@ require 'json'
 require 'open-uri'
 
 class DigitalProduct < ApplicationRecord
-  belongs_to :user
-  belongs_to :organization
   has_many :digital_product_versions
+
+  validates :name, presence: true
+
+  has_paper_trail
+  resourcify
 
   include AASM
   acts_as_taggable_on :tags
 
+  scope :active, -> { where(aasm_state: :published) }
+
   aasm do
     state :created, initial: true
-    state :certified
+    state :submitted
     state :published
     state :archived
 
-    event :certify do
-      transitions from: [:created], to: :certified
+    event :submit do
+      transitions from: [:created], to: :submitted
     end
     event :publish do
-      transitions from: [:certified], to: :published
+      transitions from: [:submitted], to: :published
     end
     event :archive do
-      transitions from: [:created, :published], to: :archived
+      transitions to: :archived
     end
     event :reset do
       transitions to: :created

@@ -363,6 +363,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_06_125556) do
     t.string "learning_agenda_url"
   end
 
+  create_table "organizations_roles", id: false, force: :cascade do |t|
+    t.bigint "organization_id"
+    t.bigint "role_id"
+    t.index ["organization_id", "role_id"], name: "index_organizations_roles_on_organization_id_and_role_id"
+    t.index ["organization_id"], name: "index_organizations_roles_on_organization_id"
+    t.index ["role_id"], name: "index_organizations_roles_on_role_id"
+  end
+
   create_table "personas", force: :cascade do |t|
     t.string "name"
     t.text "description"

@@ -30,24 +30,38 @@
   <%= render 'results' %>
 </div>
 
+$("#search_text").keyup(debounce(function() {
+  var searchValue = $("#search_text").val();
+
+  $.ajax({
+    url: '/admin/websites/search',
+    data: {
+      search: searchValue
+    }
+  });
+}, 400));
+
 <script>
   $(function() {
-    $("#search_text").keyup(function() {
+    $("#search_text").keyup(debounce(function() {
       $.ajax({
         url: '/admin/organizations/search',
         data: {
           search: $(this).val()
         }
       });
-    });
-    $(".search-tag-link").click(function() {
+    }, 400));
+
+    $(".search-tag-link").on("click", function() {
       $("#search_text").val("");
+
       $.ajax({
         url: '/admin/organizations/search',
         data: {
           tag: $(this).attr("data-name")
         }
       });
+
     });
   });
 </script>
