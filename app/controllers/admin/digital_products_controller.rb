@@ -139,6 +139,20 @@ class Admin::DigitalProductsController < AdminController
     end
   end
 
+  def search
+    search_text = params[:search]
+    organization_id = params[:organization_id]
+
+    if search_text && search_text.length >= 3
+      @digital_products = DigitalProduct.where("name ilike '%#{search_text}%'")
+    elsif organization_id
+      @digital_products = DigitalProduct.where("organization_id = ?", organization_id)
+    else
+      @digital_products = DigitalProduct.all
+    end
+  end
+
+
   private
     def set_digital_product
       @digital_product = DigitalProduct.find(params[:id])

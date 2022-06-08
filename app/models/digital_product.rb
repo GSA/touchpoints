@@ -12,6 +12,8 @@ class DigitalProduct < ApplicationRecord
   include AASM
   acts_as_taggable_on :tags
 
+  scope :active, -> { where(aasm_state: :published) }
+
   aasm do
     state :created, initial: true
     state :submitted

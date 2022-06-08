@@ -175,6 +175,7 @@ Rails.application.routes.draw do
 
     resources :digital_service_accounts do
       collection do
+        get :search, to: "digital_service_accounts#search"
         get :review, to: "digital_service_accounts#review"
       end
       member do
@@ -195,6 +196,7 @@ Rails.application.routes.draw do
 
     resources :digital_products do
       collection do
+        get "search", to: "digital_products#search"
         get "review", to: "digital_products#review"
       end
       member do

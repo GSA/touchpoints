@@ -152,6 +152,23 @@ module Admin
     end
   end
 
+  def search
+    search_text = params[:search]
+    organization_id = params[:organization_id]
+    service_text = params[:service]
+
+    if search_text && search_text.length >= 3
+      @digital_products = DigitalServiceAccount.where("name ilike '%#{search_text}%'")
+    elsif organization_id
+      @digital_products = DigitalServiceAccount.where("organization_id = ?", organization_id)
+    elsif service_text
+      @digital_products = DigitalServiceAccount.where("service ilike '%#{search_text}%'")
+    else
+      @digital_products = DigitalServiceAccount.all
+    end
+  end
+
+
   private
 
     def set_digital_service_account

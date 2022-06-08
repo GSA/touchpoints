@@ -78,28 +78,58 @@
   <%= link_to "Export results to .csv", admin_digital_service_accounts_path(format: :csv), class: "usa-button" %>
 </p>
 
-<table class="usa-table">
-  <thead>
-    <tr>
-       <th data-sortable scope="col" role="columnheader">Name</th>
-       <th data-sortable scope="col" role="columnheader">Updated at</th>
-       <th data-sortable scope="col" role="columnheader">Status</th>
-    </tr>
-  </thead>
+<div class="search-results">
+  <%= render 'results', digital_products: @digital_products %>
+  <%= paginate @digital_products %>
+</div>
 
-  <tbody>
-    <% @digital_products.each do |digital_product| %>
-      <tr>
-        <td><%= link_to digital_product.name, admin_digital_product_path(digital_product) %></td>
-        <td><%= digital_product.updated_at %></td>
-        <td>
-          <span class="usa-tag">
-            <%= digital_product.aasm_state %>
-          </span>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<script>
+  $(function() {
+    $("#tags").keyup(debounce(function() {
+      var searchValue = $("#tags").val();
 
-<%= paginate @digital_products %>
+      $.ajax({
+        url: '/admin/digital_products/search',
+        data: {
+          search: searchValue
+        }
+      });
+    }, 400));
+
+    $(".search-tag-link").click(function() {
+      $("#search_text").val("");
+      $.ajax({
+        url: '/admin/digital_products/search',
+        data: {
+          tag: $(this).attr("data-name")
+        }
+      });
+    });
+
+    $('#organization_id').on("change", function(event) {
+      event.preventDefault();
+
+      // $('.usa-hint.goal-parent-id').show();
+      // $('.usa-hint.goal-parent-id').fadeOut(2000);
+      debugger
+      $.ajax({
+        url: '/admin/digital_products/search',
+        data: {
+          organization_id: event.target.value
+        }
+      });
+    });
+
+    $('#service').on("change", function(event) {
+      event.preventDefault();
+
+      $.ajax({
+        url: '/admin/digital_products/search',
+        data: {
+          service: event.target.value
+        }
+      });
+    });
+
+  });
+</script>

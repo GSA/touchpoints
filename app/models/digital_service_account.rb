@@ -8,6 +8,8 @@ class DigitalServiceAccount < ApplicationRecord
   has_paper_trail
   resourcify
 
+  scope :active, -> { where(aasm_state: :published) }
+
   aasm do
     state :created, initial: true
     state :updated
