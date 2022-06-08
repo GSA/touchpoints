@@ -643,3 +643,15 @@ OmbCxReportingCollection.create!({
 
   goal_statement: "GSA will increase adoption of Login.gov, a simple, secure, and equitable shared service at the forefront of the public’s digital identity..."
 })
+
+Persona.create!({
+  name: 'Public User',
+})
+Persona.create!({
+  name: 'Federal Staff User'
+})
+Persona.create!({
+  name: 'Example Persona 3'
+})
+
+puts 'Created Admin User Pesonas: #{admin_user.email}'

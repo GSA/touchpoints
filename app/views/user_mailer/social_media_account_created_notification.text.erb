@@ -1,0 +1,27 @@
+Social Media Account has been created
+
+Change made by: <%= @digital_service_account.user.email %>
+
+See this social media account here: <%= @digital_service_account.service_url %>
+
+If you are having trouble with this link, follow this url: <%= @link %>
+
+Social Media Account Details
+
+Social Media Account Name: <%=@digital_service_account.name %>
+
+Agencies: <%= @digital_service_account.organization.name %>
+
+Account Type: <%= @digital_service_account.account %>
+
+Account URL: <%= @digital_service_account.service_url %>
+
+Short Description: <%= @digital_service_account.short_description %>
+
+Long Description: <%= @digital_service_account.long_description %>
+
+Tags: <%= @digital_service_account.tags.to_s %>
+
+Created at: <%= @digital_service_account.created_at.to_s %>
+
+Status: Created
