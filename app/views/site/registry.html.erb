@@ -26,45 +26,68 @@
   </div>
 </div>
 
+<br>
+<br>
+
 <div class="grid-row">
   <div class="grid-col-12">
     <h2 class="text-center">
       Search the registry
     </h2>
-    TODO: Search form
   </div>
 </div>
-<div class="grid-row">
-  <div class="grid-col-12">
-    <h3>
-      Websites
-    </h3>
-    TODO: Search form
+
+<section class="usa-section">
+  <div class="grid-row grid-gap-md">
+    <div class="grid-col-6">
+      <%= label_tag "Search by Agency", nil, class: "usa-label" %>
+      <%= select_tag :organization_id, options_for_select(organization_dropdown_options), { prompt: "All", class: "usa-select" } %>
+    </div>
+    <div class="grid-col-6">
+      <%= label_tag "Search by keywords", nil, class: "usa-label" %>
+      <%= text_field_tag :tags, nil, class: "usa-input" %>
+    </div>
   </div>
-</div>
-<div class="grid-row">
-  <div class="grid-col-12">
-    <h3>
-      Mobile Applications
-    </h3>
-    TODO: Search form
+  <div class="grid-row grid-gap-md">
+    <div class="grid-col-6">
+      <%= label_tag "Account platform", nil, class: "usa-label" %>
+      <%= select_tag :service, options_for_select([
+      "All",
+      "Disqus",
+      "Eventbrite",
+      "Facebook",
+      "Flickr",
+      "Foursquare",
+      "Giphy",
+      "Github",
+      "Google plus",
+      "Ideascale",
+      "Instagram",
+      "Linkedin",
+      "Livestream",
+      "Medium",
+      "Myspace",
+      "Pinterest",
+      "Reddit",
+      "Scribd",
+      "Slideshare",
+      "Socrata",
+      "Storify",
+      "Tumblr",
+      "Twitter",
+      "Uservoice",
+      "Ustream",
+      "Vimeo",
+      "Yelp",
+      "Youtube"]), class: "usa-select" %>
+    </div>
+    <div class="grid-col-6">
+      <%= label_tag "Status selector", nil, class: "usa-label" %>
+      <%= select_tag :hi, options_for_select(["All", "Published", "Archive"]), class: "usa-select" %>
+    </div>
   </div>
-</div>
-<div class="grid-row">
-  <div class="grid-col-12">
-    <h3>
-      Social Media Accounts
-    </h3>
-    TODO: Search form
-  </div>
-</div>
-<div class="grid-row">
-  <div class="grid-col-12">
-    <h3>
-      Non-Government Domain Lookup
-    </h3>
-  </div>
-</div>
+</section>
+
 <div class="grid-row grid-gap-lg well">
   <div class="grid-offset-2 grid-col-4">
     <h3>

@@ -126,7 +126,6 @@ feature "Digital Service Accounts", js: true do
 
       before 'fill-in the form' do
         visit admin_digital_service_account_path(digital_service_account)
-        binding.pry
         expect(page).to have_content(organization.name.upcase)
         find(".organizations-list .remove-tag-link").click
 
