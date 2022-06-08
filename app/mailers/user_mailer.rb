@@ -13,6 +13,14 @@ class UserMailer < ApplicationMailer
       to: emails
   end
 
+  def social_media_account_created_notification(digital_service_account:, link: )
+    set_logo
+    @digital_service_account = digital_service_account
+    @link = link
+    mail subject: "Touchpoints social media account has been created",
+      to: UserMailer.registry_manager_emails
+  end
+
   def service_event_notification(subject:, service:, event:, link: "")
     set_logo
     @subject = subject
@@ -138,6 +146,10 @@ class UserMailer < ApplicationMailer
   end
 
   private
+
+  def self.registry_manager_emails
+    User.registry_managers.collect { |u| u.email }.join(",")
+  end
 
   def self.touchpoints_team
     ENV.fetch('TOUCHPOINTS_TEAM') { 'feedback-analytics@gsa.gov' }

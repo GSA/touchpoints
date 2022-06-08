@@ -1,0 +1,17 @@
+<%= render 'user_mailer/components/header' %>
+<h3>
+  Social Media Account has been created
+</h3>
+<p>Change made by: <%= @digital_service_account.user.email %></p>
+<p><a href="<%= @digital_service_account.service_url %>">See this social media account here</a></p>
+<p>If you are having trouble with this link, follow this url <a href="<%= @link %>"></a></p>
+<h2>Social Media Account Details</h2>
+<p><em>Social Media Account Name:</em> <%=@digital_service_account.name %></p>
+<p><em>Agencies:</em> <%= @digital_service_account.organization.name %></p>
+<p><em>Account Type:</em> <%= @digital_service_account.account %></p>
+<p><em>Account URL:</em> <%= @digital_service_account.service_url %></p>
+<p><em>Short Description:</em> <%= @digital_service_account.short_description %></p>
+<p><em>Long Description:</em> <%= @digital_service_account.long_description %></p>
+<p><em>Tags:</em> <%= @digital_service_account.tags.to_s %></p>
+<p><em>Created at: <%= @digital_service_account.created_at.to_s %></em> </p>
+<p><em>Status:</em> Created</p>
