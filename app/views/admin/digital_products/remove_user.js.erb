@@ -1,0 +1,5 @@
+<% if @user %>
+$(".users").html("<%= escape_javascript render(partial: 'admin/digital_products/users', locals: { digital_product: @digital_product }) %>");
+<% else %>
+alert("User <%= params[:user][:email] %> does not exist.")
+<% end %>

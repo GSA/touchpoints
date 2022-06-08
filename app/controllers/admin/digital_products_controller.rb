@@ -2,7 +2,10 @@ class Admin::DigitalProductsController < AdminController
   before_action :set_digital_product, only: [
     :show, :edit, :update, :destroy,
     :add_tag, :remove_tag,
-    :certify, :publish, :archive, :reset]
+    :add_organization, :remove_organization,
+    :add_user, :remove_user,
+    :submit, :publish, :archive, :reset
+  ]
 
   def index
     @digital_products = DigitalProduct.order(:name, :service).page(params[:page])
@@ -17,7 +20,6 @@ class Admin::DigitalProductsController < AdminController
 
   def new
     @digital_product = DigitalProduct.new
-    @digital_product.organization_id = current_user.organization_id
   end
 
   def edit
@@ -25,9 +27,10 @@ class Admin::DigitalProductsController < AdminController
 
   def create
     @digital_product = DigitalProduct.new(digital_product_params)
-    @digital_product.user = current_user
 
     if @digital_product.save
+      current_user.add_role(:contact, @digital_product)
+      current_user.organization.add_role(:sponsor, @digital_product)
       redirect_to admin_digital_product_path(@digital_product), notice: 'Digital product was successfully created.'
     else
       render :new
@@ -57,11 +60,43 @@ class Admin::DigitalProductsController < AdminController
     @digital_product.save
   end
 
-  def certify
-    @digital_product.certify
-    if @digital_product.save
-      Event.log_event(Event.names[:digital_product_certified], "Digital Product", @digital_product.id, "Digital Product #{@digital_product.name} certified at #{DateTime.now}", current_user.id)
-      redirect_to admin_digital_product_path(@digital_product), notice: 'Digital product was successfully certified.'
+  def add_organization
+    @organization = Organization.find_by_id(params[:organization][:id])
+
+    if @organization
+      @organization.add_role(:sponsor, @digital_product)
+    end
+  end
+
+  def remove_organization
+    @organization = Organization.find_by_id(params[:organization][:id])
+
+    if @organization
+      @organization.remove_role(:sponsor, @digital_product)
+    end
+  end
+
+  def add_user
+    @user = User.find_by_email(params[:user][:email])
+
+    if @user
+      @user.add_role(:contact, @digital_product)
+    end
+  end
+
+  def remove_user
+    @user = User.find_by_id(params[:user][:id])
+    if @user
+      @user.remove_role(:contact, @digital_product)
+    end
+  end
+
+  def submit
+    @digital_product.submit
+
+    if @digital_product.save!
+      Event.log_event(Event.names[:digital_product_submitted], "Digital Product", @digital_product.id, "Digital Product #{@digital_product.name} submitted at #{DateTime.now}", current_user.id)
+      redirect_to admin_digital_product_path(@digital_product), notice: 'Digital product was successfully submitted.'
     else
       render :edit
     end
@@ -83,7 +118,8 @@ class Admin::DigitalProductsController < AdminController
     ensure_digital_product_permissions(digital_product: @digital_product)
 
     @digital_product.archive
-    if @digital_product.save
+
+    if @digital_product.save!
       Event.log_event(Event.names[:digital_product_archived], "Digital Product", @digital_product.id, "Digital Product #{@digital_product.name} archived at #{DateTime.now}", current_user.id)
       redirect_to admin_digital_product_path(@digital_product), notice: "Digital Product #{@digital_product.name} was archived."
     else
@@ -94,13 +130,28 @@ class Admin::DigitalProductsController < AdminController
   def reset
     ensure_digital_product_permissions(digital_product: @digital_product)
     @digital_product.reset
-    if @digital_product.save
-      Event.log_event(Event.names[:digital_product_reset], "Digital Service Account", @digital_product.id, "Digital Service Account #{@digital_product.name} reset at #{DateTime.now}", current_user.id)
+
+    if @digital_product.save!
+      Event.log_event(Event.names[:digital_product_reset], "Digital Service Account", @digital_product.id, "Digital Product #{@digital_product.name} reset at #{DateTime.now}", current_user.id)
       redirect_to admin_digital_product_path(@digital_product), notice: "Digital Service Account #{@digital_product.name} was reset."
     else
       render :edit
     end
   end
+
+  def search
+    search_text = params[:search]
+    organization_id = params[:organization_id]
+
+    if search_text && search_text.length >= 3
+      @digital_products = DigitalProduct.where("name ilike '%#{search_text}%'")
+    elsif organization_id
+      @digital_products = DigitalProduct.where("organization_id = ?", organization_id)
+    else
+      @digital_products = DigitalProduct.all
+    end
+  end
+
 
   private
     def set_digital_product
@@ -111,6 +162,7 @@ class Admin::DigitalProductsController < AdminController
       params.require(:digital_product).permit(
         :organization_id,
         :user_id,
+        :name,
         :service,
         :url,
         :code_repository_url,

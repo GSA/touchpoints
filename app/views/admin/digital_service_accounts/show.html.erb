@@ -23,24 +23,12 @@
   <br>
 <% end %>
 
-<div class="grid-row">
+<div class="grid-row grid-gap-lg">
   <div class="tablet:grid-col-6">
-    <p>
-      <strong>Organization</strong>
-      <br>
-      <%= @digital_service_account.organization.name %>
-    </p>
-
     <p>
       <strong>Name</strong>
       <br>
       <%= @digital_service_account.name %>
-    </p>
-
-    <p>
-      <strong>User</strong>
-      <br>
-      <%= @digital_service_account.user.email %>
     </p>
 
     <p>
@@ -95,6 +83,27 @@
       </div>
     </div>
 
+    <div class="grid-row">
+      <div class="grid-col-12">
+        <div class="organizations">
+          <%= render 'admin/digital_service_accounts/organizations', digital_service_account: @digital_service_account %>
+        </div>
+      </div>
+    </div>
+    <br>
+    <br>
+
+    <div class="grid-row">
+      <div class="grid-row">
+        <div class="grid-col-12">
+          <div class="users">
+            <%= render 'admin/digital_service_accounts/users', digital_service_account: @digital_service_account %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+
     <p>
       <strong>API path</strong>
       <br>
@@ -113,17 +122,17 @@
       <br>
       <br>
 
-    <% if @digital_service_account.created? %>
-      <%= link_to certify_admin_digital_service_account_path(@digital_service_account), class: "usa-button bg-green full-width", method: :post do %>
+    <% if @digital_service_account.created? || @digital_service_account.updated? %>
+      <%= link_to submit_admin_digital_service_account_path(@digital_service_account), class: "usa-button bg-green full-width", method: :post do %>
         <span class="fa fa-check"></span>
         &nbsp;
-        Certify
+        Submit
       <% end %>
       <br>
       <br>
     <% end %>
 
-    <% if @digital_service_account.certified? %>
+    <% if @digital_service_account.submitted? %>
       <%= link_to publish_admin_digital_service_account_path(@digital_service_account), class: "usa-button full-width", method: :post do %>
         <span class="fa fa-pen"></span>
         &nbsp;
@@ -133,7 +142,7 @@
       <br>
     <% end %>
 
-    <% if !@digital_service_account.archived? %>
+    <% if @digital_service_account.published? %>
       <%= link_to archive_admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button--base full-width", method: :post do %>
         <span class="fa fa-archive"></span>
         &nbsp;

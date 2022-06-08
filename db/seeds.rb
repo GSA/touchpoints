@@ -613,3 +613,45 @@ OmbCxReportingCollection.create!({
   q7_4: rand(1000),
   q7_5: rand(1000),
 })
+
+
+#
+# Goals
+#
+# four_year_goal: true = Strategic Goal
+# four_year_goal: false = APG = Annual Performance Goal
+#
+
+@strategic_goal_1 = Goal.create!({
+  organization: @gsa,
+  name: "Real Estate Solutions: Financially and environmentally sustainable, accessible, and responsive workspace solutions that enable a productive Federal workforce",
+  four_year_goal: true
+})
+
+@apg_goal_1 = Goal.create!({
+  organization: @gsa,
+  name: "Right-Size GSA's Real Estate Portfolio",
+  four_year_goal: false,
+  tag_list: ["Pandemic response", "General government & management"]
+})
+
+@apg_goal_2 = Goal.create!({
+  organization: @gsa,
+  name: "Increase Adoption of GSA-Sponsored Identity Solutions",
+  four_year_goal: false,
+  tag_list: ["Shared Services"],
+
+  goal_statement: "GSA will increase adoption of Login.gov, a simple, secure, and equitable shared service at the forefront of the public’s digital identity..."
+})
+
+Persona.create!({
+  name: 'Public User',
+})
+Persona.create!({
+  name: 'Federal Staff User'
+})
+Persona.create!({
+  name: 'Example Persona 3'
+})
+
+puts 'Created Admin User Pesonas: #{admin_user.email}'

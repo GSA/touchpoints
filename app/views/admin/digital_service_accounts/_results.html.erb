@@ -1,0 +1,29 @@
+<table class="usa-table">
+  <thead>
+    <tr>
+      <th data-sortable scope="col" role="columnheader">Platform</th>
+      <th data-sortable scope="col" role="columnheader">Account name</th>
+      <th data-sortable scope="col" role="columnheader">Status</th>
+      <th data-sortable scope="col" role="columnheader">Updated at</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% digital_service_accounts.each do |digital_service_account| %>
+      <tr>
+        <td><%= digital_service_account.service %></td>
+        <td>
+          <%= link_to digital_service_account.name, admin_digital_service_account_path(digital_service_account) %>
+        </td>
+        <td>
+          <span class="usa-tag">
+            <%= digital_service_account.aasm_state %>
+          </span>
+        </td>
+        <td><%= digital_service_account.updated_at %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate digital_service_accounts %>
