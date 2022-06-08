@@ -15,6 +15,15 @@
     <%= form.hidden_field(:digital_product_id, value: @digital_product.id) %>
 
     <div class="field">
+      <%= form.label :device, "Product Type", class: "usa-label" %>
+      <%= form.select :device, options_for_select([
+          ["Web","Web"],
+          ["App - Phone/Tablet","App - Phone/Tablet"],
+          ["App - Tablet Only","App - Tablet Only"] ],form.object.device),
+          {include_blank: "Select"}, {:class => "usa-input"} %>
+    </div>
+
+    <div class="field">
       <%= form.label :store_url, "Store URL", class: "usa-label" %>
       <%= form.text_field :store_url, class: "usa-input" %>
     </div>
@@ -38,11 +47,11 @@
 
     <div class="field">
       <%= form.label :publish_date, class: "usa-label" %>
-      <%= form.datetime_select :publish_date, class: "usa-input" %>
+      <%= form.date_select :publish_date, class: "usa-input" %>
     </div>
 
-    <div class="field">
-      <%= form.label :whats_new, class: "usa-label" %>
+    <div class="field" hidden>
+      <%= form.label :whats_new, "What's new?", class: "usa-label" %>
       <%= form.text_area :whats_new, class: "usa-textarea" %>
     </div>
 
@@ -51,16 +60,7 @@
       <%= form.text_field :screenshot_url, class: "usa-input" %>
     </div>
 
-    <div class="field">
-      <%= form.label :device, class: "usa-label" %>
-      <%= form.select :device, options_for_select([
-          ["Web","Web"],
-          ["App - Phone/Tablet","App - Phone/Tablet"],
-          ["App - Tablet Only","App - Tablet Only"] ],form.object.device),
-          {include_blank: "Select"}, {:class => "usa-input"} %>
-    </div>
-
-    <div class="field">
+    <div class="field" hidden>
       <%= form.label :language, class: "usa-label" %>
       <%= form.select :language, options_for_select([["English","English"],["Spanish","Spanish"]],form.object.language),{include_blank: "Select"}, {:class => "form-control formwidth usa-input"} %>
     </div>

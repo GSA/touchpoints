@@ -6,7 +6,9 @@ module Admin
   before_action :set_digital_service_account, only: [
     :show, :edit, :update, :destroy,
     :add_tag, :remove_tag,
-    :certify, :publish, :archive, :reset
+    :add_user, :remove_user,
+    :add_organization, :remove_organization,
+    :submit, :publish, :archive, :reset
   ]
 
   def index
@@ -22,7 +24,6 @@ module Admin
 
   def new
     @digital_service_account = DigitalServiceAccount.new
-    @digital_service_account.organization = current_user.organization
   end
 
   def edit
@@ -30,10 +31,13 @@ module Admin
 
   def create
     @digital_service_account = DigitalServiceAccount.new(digital_service_account_params)
-    @digital_service_account.user = current_user
 
     if @digital_service_account.save
+      current_user.add_role(:contact, @digital_service_account)
+      current_user.organization.add_role(:sponsor, @digital_service_account)
+
       Event.log_event(Event.names[:digital_service_account_created], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} created at #{DateTime.now}", current_user.id)
+      UserMailer.social_media_account_created_notification(digital_service_account: @digital_service_account, link: admin_digital_service_account_path(@digital_service_account)).deliver_later
       redirect_to admin_digital_service_account_path(@digital_service_account), notice: 'Digital service account was successfully created.'
     else
       render :new
@@ -44,6 +48,7 @@ module Admin
     if @digital_service_account.update(digital_service_account_params)
       Event.log_event(Event.names[:digital_service_account_updated], 'DigitalServiceAccount',
         @digital_service_account.id, "updated by #{current_user.email} on #{Date.today}", current_user.id)
+      @digital_service_account.update_state!
       redirect_to admin_digital_service_account_path(@digital_service_account),
                   notice: 'Digital service account was successfully updated.'
     else
@@ -68,12 +73,45 @@ module Admin
     @digital_service_account.save
   end
 
-  def certify
+  def add_organization
+    @organization = Organization.find_by_id(params[:organization][:id])
+
+    if @organization
+      @organization.add_role(:sponsor, @digital_service_account)
+    end
+  end
+
+  def remove_organization
+    @organization = Organization.find_by_id(params[:organization][:id])
+
+    if @organization
+      @organization.remove_role(:sponsor, @digital_service_account)
+    end
+  end
+
+  def add_user
+    @user = User.find_by_email(params[:user][:email])
+
+    if @user
+      @user.add_role(:contact, @digital_service_account)
+    end
+  end
+
+  def remove_user
+    @user = User.find_by_id(params[:user][:id])
+
+    if @user
+      @user.remove_role(:contact, @digital_service_account)
+    end
+  end
+
+  def submit
     ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
-    @digital_service_account.certify!
+    @digital_service_account.submit!
+
     if @digital_service_account.save
-      Event.log_event(Event.names[:digital_service_account_certified], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} certified at #{DateTime.now}", current_user.id)
-      redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was certified."
+      Event.log_event(Event.names[:digital_service_account_submitted], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} submitted at #{DateTime.now}", current_user.id)
+      redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was submitted."
     else
       render :edit
     end
@@ -82,6 +120,7 @@ module Admin
   def publish
     ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
     @digital_service_account.publish!
+
     if @digital_service_account.save
       Event.log_event(Event.names[:digital_service_account_published], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} published at #{DateTime.now}", current_user.id)
       redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was published."
@@ -93,6 +132,7 @@ module Admin
   def archive
     ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
     @digital_service_account.archive!
+
     if @digital_service_account.save
       Event.log_event(Event.names[:digital_service_account_archived], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} archived at #{DateTime.now}", current_user.id)
       redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was archived."
@@ -111,6 +151,23 @@ module Admin
       render :edit
     end
   end
+
+  def search
+    search_text = params[:search]
+    organization_id = params[:organization_id]
+    service_text = params[:service]
+
+    if search_text && search_text.length >= 3
+      @digital_products = DigitalServiceAccount.where("name ilike '%#{search_text}%'")
+    elsif organization_id
+      @digital_products = DigitalServiceAccount.where("organization_id = ?", organization_id)
+    elsif service_text
+      @digital_products = DigitalServiceAccount.where("service ilike '%#{search_text}%'")
+    else
+      @digital_products = DigitalServiceAccount.all
+    end
+  end
+
 
   private
 
