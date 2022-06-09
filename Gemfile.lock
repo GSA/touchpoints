@@ -96,7 +96,7 @@ GEM
     aes_key_wrap (1.1.0)
     ast (2.4.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.594.0)
+    aws-partitions (1.598.0)
     aws-record (2.7.0)
       aws-sdk-dynamodb (~> 1.18)
     aws-sdk-core (3.131.1)
@@ -234,7 +234,7 @@ GEM
       aes_key_wrap
       bindata
     jsonapi-renderer (0.2.2)
-    jwt (2.3.0)
+    jwt (2.4.1)
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.2)
@@ -270,7 +270,7 @@ GEM
     msgpack (1.5.2)
     multi_json (1.15.0)
     multi_xml (0.6.0)
-    multipart-post (2.1.1)
+    multipart-post (2.2.2)
     net-imap (0.2.3)
       digest
       net-protocol
@@ -397,7 +397,7 @@ GEM
     rspec-support (3.11.0)
     rspec_junit_formatter (0.5.1)
       rspec-core (>= 2, < 4, != 2.12.0)
-    rubocop (1.30.0)
+    rubocop (1.30.1)
       parallel (~> 1.10)
       parser (>= 3.1.0.0)
       rainbow (>= 2.2.2, < 4.0)
@@ -428,12 +428,12 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    selenium-webdriver (4.2.0)
+    selenium-webdriver (4.2.1)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sidekiq (6.4.2)
+    sidekiq (6.5.0)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
@@ -548,7 +548,7 @@ DEPENDENCIES
   whenever
 
 RUBY VERSION
-   ruby 3.1.0p0
+   ruby 3.1.1p18
 
 BUNDLED WITH
    2.3.12
