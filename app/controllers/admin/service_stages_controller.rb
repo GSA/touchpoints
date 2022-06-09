@@ -22,7 +22,6 @@ class Admin::ServiceStagesController < AdminController
 
   def create
     ensure_service_owner(service: @service, user: current_user)
-
     @service_stage = ServiceStage.new(service_stage_params)
     @service_stage.service = @service
 
@@ -35,7 +34,6 @@ class Admin::ServiceStagesController < AdminController
 
   def update
     ensure_service_owner(service: @service, user: current_user)
-
     if @service_stage.update(service_stage_params)
       redirect_to admin_service_service_stage_path(@service, @service_stage), notice: 'Service stage was successfully updated.'
     else
@@ -64,6 +62,7 @@ class Admin::ServiceStagesController < AdminController
     def service_stage_params
       params.require(:service_stage).permit(:name, :description, :service_id, :notes, :time,
         :position,
+        :persona_id,
         :total_eligible_population)
     end
 end

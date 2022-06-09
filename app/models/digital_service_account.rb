@@ -2,29 +2,35 @@ require 'json'
 require 'open-uri'
 
 class DigitalServiceAccount < ApplicationRecord
-  belongs_to :organization
-  belongs_to :user
-
   include AASM
   acts_as_taggable_on :tags
 
+  has_paper_trail
+  resourcify
+
+  scope :active, -> { where(aasm_state: :published) }
+
   aasm do
     state :created, initial: true
-    state :certified
+    state :updated
+    state :submitted
     state :published
     state :archived
 
-    event :certify do
-      transitions from: [:created], to: :certified
+    event :submit do
+      transitions from: [:created, :updated], to: :submitted
     end
     event :publish do
-      transitions from: [:certified], to: :published
+      transitions from: [:submitted], to: :published
     end
     event :archive do
-      transitions from: [:created, :published], to: :archived
+      transitions to: :archived
+    end
+    event :update_state do
+      transitions to: :updated
     end
     event :reset do
-      transitions to: :created
+      transitions to: :updated
     end
   end
 

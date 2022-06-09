@@ -2,7 +2,7 @@
 	<div class="grid-row">
 	  <div class="grid-col-6">
 	  	<h3>Tags</h3>
-	  	<p class="tag-list">
+	  	<div class="tag-list">
 				<ul class="usa-list usa-list--unstyled">
 					<% digital_service_account.tag_list.sort.each do |tag| %>
 					<li  style="margin-bottom: 3px;">
@@ -15,7 +15,7 @@
 					</li>
 		  		<% end %>
 				</ul>
-	  	<p>
+	  	</div>
 	    <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
 	  </div>
 	</div>

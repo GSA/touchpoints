@@ -48,4 +48,5 @@ class FormSerializer < ActiveModel::Serializer
     :last_response_created_at
 
   has_many :questions
+  belongs_to :service
 end

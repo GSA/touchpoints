@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_19_224706) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_06_125556) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -195,9 +195,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_19_224706) do
     t.boolean "ui_truncate_text_responses", default: true
     t.string "success_text_heading"
     t.string "notification_frequency", default: "instant"
+    t.integer "service_id"
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["organization_id"], name: "index_forms_on_organization_id"
+    t.index ["service_id"], name: "index_forms_on_service_id"
     t.index ["user_id"], name: "index_forms_on_user_id"
     t.index ["uuid"], name: "index_forms_on_uuid"
   end
@@ -361,6 +363,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_19_224706) do
     t.string "learning_agenda_url"
   end
 
+  create_table "organizations_roles", id: false, force: :cascade do |t|
+    t.bigint "organization_id"
+    t.bigint "role_id"
+    t.index ["organization_id", "role_id"], name: "index_organizations_roles_on_organization_id_and_role_id"
+    t.index ["organization_id"], name: "index_organizations_roles_on_organization_id"
+    t.index ["role_id"], name: "index_organizations_roles_on_role_id"
+  end
+
   create_table "personas", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -441,6 +451,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_19_224706) do
     t.integer "position"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.integer "persona_id"
   end
 
   create_table "services", force: :cascade do |t|

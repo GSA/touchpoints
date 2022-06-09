@@ -74,12 +74,12 @@ class Admin::ServiceProvidersController < AdminController
 
   def add_service_provider_manager
     @manager = User.find(params[:user_id])
-    @manager.add_role :service_provider_manager, @service unless @manager.has_role?(:service_provider_manager, @service)
+    @manager.add_role(:service_provider_manager, @service) unless @manager.has_role?(:service_provider_manager, @service)
   end
 
   def remove_service_provider_manager
     @manager = User.find(params[:user_id])
-    @manager.remove_role :service_provider_manager, @service
+    @manager.remove_role(:service_provider_manager, @service)
   end
 
   private

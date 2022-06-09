@@ -9,8 +9,8 @@ feature "Digital Products", js: true do
   let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization ) }
   let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: admin.id) }
 
-  let!(:digital_product) { FactoryBot.create(:digital_product, organization: organization) }
-  let!(:digital_product_2) { FactoryBot.create(:digital_product, organization: organization) }
+  let!(:digital_product) { FactoryBot.create(:digital_product) }
+  let!(:digital_product_2) { FactoryBot.create(:digital_product) }
 
   context "as Admin" do
     before do

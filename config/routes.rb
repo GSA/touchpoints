@@ -85,6 +85,7 @@ Rails.application.routes.draw do
     end
     resources :services do
       collection do
+        get "catalog", to: "services#catalog"
         get "search", to: "services#search"
         get "export_csv", to: "services#export_csv", as: :export_csv
       end
@@ -174,29 +175,44 @@ Rails.application.routes.draw do
 
     resources :digital_service_accounts do
       collection do
+        get :search, to: "digital_service_accounts#search"
         get :review, to: "digital_service_accounts#review"
       end
       member do
-        post "certify", to: "digital_service_accounts#certify", as: :certify
+        post "submit", to: "digital_service_accounts#submit", as: :submit
         post "publish", to: "digital_service_accounts#publish", as: :publish
         post "archive", to: "digital_service_accounts#archive", as: :archive
         post "reset", to: "digital_service_accounts#reset", as: :reset
         post "add_tag", to: "digital_service_accounts#add_tag", as: :add_tag
         post "remove_tag", to: "digital_service_accounts#remove_tag", as: :remove_tag
+
+        post "add_organization", to: "digital_service_accounts#add_organization", as: :add_organization
+        post "remove_organization", to: "digital_service_accounts#remove_organization", as: :remove_organization
+
+        post "add_user", to: "digital_service_accounts#add_user", as: :add_user
+        post "remove_user", to: "digital_service_accounts#remove_user", as: :remove_user
       end
     end
 
     resources :digital_products do
       collection do
+        get "search", to: "digital_products#search"
         get "review", to: "digital_products#review"
       end
       member do
-        post "certify", to: "digital_products#certify", as: :certify
+        post "submit", to: "digital_products#submit", as: :submit
         post "publish", to: "digital_products#publish", as: :publish
         post "archive", to: "digital_products#archive", as: :archive
         post "reset", to: "digital_products#reset", as: :reset
+
         post "add_tag", to: "digital_products#add_tag", as: :add_tag
         post "remove_tag", to: "digital_products#remove_tag", as: :remove_tag
+
+        post "add_organization", to: "digital_products#add_organization", as: :add_organization
+        post "remove_organization", to: "digital_products#remove_organization", as: :remove_organization
+
+        post "add_user", to: "digital_products#add_user", as: :add_user
+        post "remove_user", to: "digital_products#remove_user", as: :remove_user
       end
       resources :digital_product_versions
       resources :digital_product_platforms

@@ -32,6 +32,14 @@
         </div>
       </div>
     </div>
+    <div class="grid-row grid-gap-md">
+      <div class="grid-col-12">
+        <div class="field">
+          <%= f.label :service, "Service name", class: "usa-label" %>
+          <%= f.select :service_id, current_user.organization.services.includes(:organization).order("organizations.name", :name).map { |h| ["#{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, class: "usa-select" %>
+        </div>
+      </div>
+    </div>
     <div class="grid-col-12">
       <div class="field">
         <%= f.label :time_zone, "Survey time zone", class: "usa-label" %>

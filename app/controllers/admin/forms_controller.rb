@@ -441,6 +441,7 @@ class Admin::FormsController < AdminController
         :disclaimer_text,
         :success_text,
         :success_text_heading,
+        :service_id,
 
         # PRA Info
         :omb_approval_number,
@@ -508,6 +509,7 @@ class Admin::FormsController < AdminController
         :load_css,
         :omb_approval_number,
         :expiration_date,
+        :service_id,
       )
     end
 

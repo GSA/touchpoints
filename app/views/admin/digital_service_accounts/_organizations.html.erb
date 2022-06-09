@@ -1,0 +1,68 @@
+<%= form_with(model: digital_service_account, url: admin_digital_service_account_path(digital_service_account), local: true) do |f| %>
+	<div class="grid-row">
+	  <div class="grid-col-12">
+	  	<h3>
+				Sponsoring Agencies
+			</h3>
+	  	<div class="organizations-list">
+				<ul class="usa-list usa-list--unstyled">
+				<% digital_service_account.roles.sort.each do |role| %>
+					<% role.organizations.sort_by { |u| u.name }.each do |org| %>
+					<li style="margin-bottom: 3px;">
+						<span class="usa-tag">
+							<%= org.name %>
+						</span>
+						<% if digital_service_account_permissions?(digital_service_account: digital_service_account, user: current_user) %>
+						<a href="javascript:void(0);" class="remove-tag-link" data-id="<%= org.id %>">
+							<span class="fa fa-trash"></span>
+						</a>
+						<% end %>
+					</li>
+		  		<% end %>
+	  		<% end %>
+				</ul>
+	  	</div>
+
+			<% if digital_service_account_permissions?(digital_service_account: digital_service_account, user: current_user) %>
+				<% if digital_service_account.roles.present? %>
+					<% @unselected_organizations = Organization.all.select { |org| !digital_service_account.roles.last.organizations.collect(&:id).include?(org.id) }  %>
+				<% else %>
+					<% @unselected_organizations = Organization.all  %>
+				<% end %>
+
+				<% if @unselected_organizations.present? %>
+		    	<%= f.select :organization_id, options_for_select(@unselected_organizations.sort_by(&:abbreviation).map { |organization| ["#{organization.abbreviation} - #{organization.name}", organization.id] }), { prompt: "Which Organization?" }, { class: "usa-select" } %>
+				<% end %>
+			<% end %>
+
+	  </div>
+	</div>
+<% end %>
+
+<% if digital_service_account_permissions?(digital_service_account: digital_service_account, user: current_user) %>
+<script>
+	$(function() {
+		$("#digital_service_account_organization_id").on("change", function(event) {
+			event.preventDefault();
+
+			var thisForm = $(this).closest("form");
+			$.ajax({
+				url: thisForm.attr("action") + "/add_organization",
+				type: 'post',
+				data: "organization[id]=" + $("#digital_service_account_organization_id").val()
+			});
+		});
+		$
+		$(".organizations-list .remove-tag-link").on("click", function(e) {
+			event.preventDefault();
+
+			var thisForm = $(this).closest("form");
+			$.ajax({
+				url: thisForm.attr("action") + "/remove_organization",
+				type: 'post',
+				data: "organization[id]=" + $(this).attr("data-id")
+			});
+		})
+	})
+</script>
+<% end %>
