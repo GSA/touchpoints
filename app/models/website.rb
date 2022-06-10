@@ -2,7 +2,7 @@ require 'open-uri'
 
 class Website < ApplicationRecord
   resourcify
-  acts_as_taggable_on :tags
+  acts_as_taggable_on :tags, :personas
   include AASM
   has_paper_trail
 
@@ -86,6 +86,10 @@ class Website < ApplicationRecord
 
   def website_managers
     User.with_role(:website_manager, self)
+  end
+
+  def website_personas
+    Persona.where(id: self.persona_list)
   end
 
   def website_manager_emails

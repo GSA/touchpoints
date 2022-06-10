@@ -1,0 +1,49 @@
+
+  <div id="website-personas-div" class="grid-row" data-value="<%= admin_website_path(@website) %>">
+    <div class="grid-col-12">
+      <h3>Website Personas</h3>
+      <p class="website-persona-list">
+      <ul class="usa-list usa-list--unstyled">
+        <% @website.website_personas.each do |persona| %>
+        <li style="margin-bottom: 3px;">
+          <span class="usa-tag">
+             <%= persona.name %>
+          </span>
+          &nbsp;
+          <a href="javascript:void(0);" class="remove-persona-link" data-value="<%= persona.id %>">
+            <span class="fa fa-trash"></span>
+          </a>
+        </li>
+          <% end %>
+      </ul>
+      <p>
+    </div>
+  </div>
+  <%= select_tag :website_persona_id, options_for_select(@website_persona_options.map { |p| [p.name, p.id] }), prompt: "Choose a Persona", class: "usa-select add-website-persona" %>
+<script>
+  $(function() {
+
+    $(".add-website-persona").on("change", function(e) {
+      event.preventDefault();
+      
+      var container = $('#website-personas-div');
+      $.ajax({
+        url: container.attr("data-value") + "/add_website_persona",
+        type: 'post',
+        data: "persona_id=" + $(this).val()
+      });
+    });
+
+    $(".remove-persona-link").on("click", function(e) {
+      event.preventDefault();
+
+      var container = $('#website-personas-div');
+      $.ajax({
+        url: container.attr("data-value") + "/remove_website_persona",
+        type: 'post',
+        data: "persona_id=" + $(this).attr("data-value")
+      });
+    });
+
+  })
+</script>
