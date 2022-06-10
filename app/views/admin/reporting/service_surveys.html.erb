@@ -1,27 +1,28 @@
 <% content_for :navigation_title do %>
-  Service Surveys by Agency
+Service Surveys by Agency
 <% end %>
-<div class="agency-service-survey-rerport">
-	<table class="usa-table">
-		<thead>
-	    <tr>
-	      <th>Agency</th>
-	      <th>Service</th>
-	      <th>Surveys</th>
-	    </tr>
-	  </thead>
-		<% @services.each do | service | %>
-		  <tr>
-        <td><%= service.organization.name %></td>
-        <td><%= service.name %></td>
-        <td>
-      		<ul>
-      			<% service.forms.each do |f| %>
-      			 <li><%= f.name %></li>
-      			<% end %>
-      		</ul>
-        </td>
+
+<div class="agency-service-survey-report">
+  <table class="usa-table">
+    <thead>
+      <tr>
+        <th>Agency</th>
+        <th>Service</th>
+        <th>Surveys</th>
       </tr>
-		<% end %>
-	</table>
+    </thead>
+    <% @services.each do | service | %>
+    <tr>
+      <td><%= service.organization.name %></td>
+      <td><%= service.name %></td>
+      <td>
+        <ul>
+          <% service.forms.each do |f| %>
+          <li><%= f.name %></li>
+          <% end %>
+        </ul>
+      </td>
+    </tr>
+    <% end %>
+  </table>
 </div>
