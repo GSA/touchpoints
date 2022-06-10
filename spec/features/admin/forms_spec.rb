@@ -137,7 +137,7 @@ feature "Forms", js: true do
 
         it "can upload and display a logo" do
           within('.usa-file-input') do
-            attach_file('form_logo','spec/test_assets/test_logo.jpeg')
+            attach_file('form_logo','spec/fixtures/touchpoints-logo.png')
           end
           find('label', text: 'Display Square (80px wide by 80px tall) Organization logo before the title in the Form header?').click
           click_on "Update logo"
@@ -160,7 +160,7 @@ feature "Forms", js: true do
 
         it "can upload and display a logo" do
           within('.usa-file-input') do
-            attach_file('form_logo','spec/test_assets/test_logo.jpeg')
+            attach_file('form_logo','spec/fixtures/touchpoints-logo.png')
           end
           find('label', text: 'Display Square (80px wide by 80px tall) Organization logo before the title in the Form header?').click
           click_on "Update logo"
