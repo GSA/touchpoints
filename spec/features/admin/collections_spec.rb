@@ -108,7 +108,7 @@ feature "Data Collections", js: true do
           expect(page).to have_content("CX Quarterly Reporting")
           expect(page.current_path).to eq(admin_collection_path(Collection.last))
           expect(page).to have_link("Add a Service to report on")
-          expect(page).to have_content("Collection was successfully created.")
+          expect(page).to have_content("Collection was successfully created.", wait: 4)
         end
       end
     end

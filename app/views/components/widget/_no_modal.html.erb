@@ -1,10 +1,15 @@
 <div class="touchpoints-form-wrapper" id="touchpoints-form-<%= form.short_uuid %>" data-touchpoints-form-id="<%= form.short_uuid %>" tabindex="-1">
   <div class="wrapper">
-    <% if form.title? %>
-      <h1 id="fba-modal-title">
-        <%= form.title || "Form Title" %>
-      </h1>
-    <% end %>
+    <h2 class="justify-vertical word-break fba-modal-title">
+      <% if form.display_header_logo && form.logo.present? %>
+        <%= image_tag(form.logo.tag.url, alt: "Organization logo", class: "form-header-logo") %>
+      <% end %>
+      <% if form.display_header_square_logo && form.logo.present? %>
+        <%= image_tag(form.logo.logo_square.url, alt: "Organization logo", class: "form-header-logo-square") %>
+      <% end %>
+      <%= form.title || "Form Title" %>
+    </h2>
+
     <% unless form.delivery_method == "inline" %>
       <a class="fba-modal-close" type="button" href="#">×</a>
     <% end %>
