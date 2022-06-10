@@ -21,22 +21,29 @@
   </div>
   <%= select_tag :website_persona_id, options_for_select(@website_persona_options.map { |p| [p.name, p.id] }), prompt: "Choose a Persona", class: "usa-select add-website-persona" %>
 <script>
-  $(".add-website-persona").change(function(e) {
-    event.preventDefault();
-    var container = $('#website-personas-div');
-    $.ajax({
-      url: container.attr("data-value") + "/add_website_persona",
-      type: 'post',
-      data: "persona_id=" + $(this).val()
+  $(function() {
+
+    $(".add-website-persona").on("change", function(e) {
+      event.preventDefault();
+      
+      var container = $('#website-personas-div');
+      $.ajax({
+        url: container.attr("data-value") + "/add_website_persona",
+        type: 'post',
+        data: "persona_id=" + $(this).val()
+      });
     });
-  });
-  $(".remove-persona-link").click(function(e) {
-    event.preventDefault();
-    var container = $('#website-personas-div');
-    $.ajax({
-      url: container.attr("data-value") + "/remove_website_persona",
-      type: 'post',
-      data: "persona_id=" + $(this).attr("data-value")
+
+    $(".remove-persona-link").on("click", function(e) {
+      event.preventDefault();
+
+      var container = $('#website-personas-div');
+      $.ajax({
+        url: container.attr("data-value") + "/remove_website_persona",
+        type: 'post',
+        data: "persona_id=" + $(this).attr("data-value")
+      });
     });
-  });
+
+  })
 </script>
