@@ -92,10 +92,16 @@ class Admin::DigitalProductsController < AdminController
   end
 
   def submit
-    @digital_product.submit
-
-    if @digital_product.save!
+    if @digital_product.submit!
       Event.log_event(Event.names[:digital_product_submitted], "Digital Product", @digital_product.id, "Digital Product #{@digital_product.name} submitted at #{DateTime.now}", current_user.id)
+
+      UserMailer.notification(
+        title: "Digital Product has been submitted",
+        body: "Digital Product #{@digital_product.name} submitted at #{DateTime.now} by #{current_user.email}",
+        path: admin_digital_product_url(@digital_product),
+        emails: User.registry_managers.collect(&:email)
+      ).deliver
+
       redirect_to admin_digital_product_path(@digital_product), notice: 'Digital product was successfully submitted.'
     else
       render :edit
@@ -105,15 +111,14 @@ class Admin::DigitalProductsController < AdminController
   def publish
     ensure_digital_product_permissions(digital_product: @digital_product)
 
-    @digital_product.publish
-    if @digital_product.save
+    if @digital_product.publish!
       Event.log_event(Event.names[:digital_product_published], "Digital Product", @digital_product.id, "Digital Product #{@digital_product.name} published at #{DateTime.now}", current_user.id)
 
       UserMailer.notification(
         title: "Digital Product has been published",
         body: "Digital Product #{@digital_product.name} published at #{DateTime.now} by #{current_user.email}",
         path: admin_digital_product_url(@digital_product),
-        emails: User.registry_managers.collect(&:email)
+        emails: User.registry_managers.collect(&:email) # + @digital_product.contact_emails
       ).deliver
 
       redirect_to admin_digital_product_path(@digital_product), notice: "Digital Product #{@digital_product.name} was published."
@@ -125,9 +130,7 @@ class Admin::DigitalProductsController < AdminController
   def archive
     ensure_digital_product_permissions(digital_product: @digital_product)
 
-    @digital_product.archive
-
-    if @digital_product.save!
+    if @digital_product.archive!
       Event.log_event(Event.names[:digital_product_archived], "Digital Product", @digital_product.id, "Digital Product #{@digital_product.name} archived at #{DateTime.now}", current_user.id)
       redirect_to admin_digital_product_path(@digital_product), notice: "Digital Product #{@digital_product.name} was archived."
     else
@@ -137,9 +140,8 @@ class Admin::DigitalProductsController < AdminController
 
   def reset
     ensure_digital_product_permissions(digital_product: @digital_product)
-    @digital_product.reset
 
-    if @digital_product.save!
+    if @digital_product.reset!
       Event.log_event(Event.names[:digital_product_reset], "Digital Service Account", @digital_product.id, "Digital Product #{@digital_product.name} reset at #{DateTime.now}", current_user.id)
       redirect_to admin_digital_product_path(@digital_product), notice: "Digital Service Account #{@digital_product.name} was reset."
     else
