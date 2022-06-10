@@ -62,6 +62,7 @@ Rails.application.routes.draw do
 
     get "/reporting/lifespan", to: "reporting#lifespan", as: :lifespan
     get "/reporting/no_submissions", to: "reporting#no_submissions", as: :no_submissions
+    get "/reporting/service_surveys", to: "reporting#service_surveys", as: :service_surveys
     get "/submissions/search", to: "submissions#search", as: :search_submissions
     get "/submissions/a11_analysis", to: "submissions#a11_analysis", as: :a11_analysis
     get "/submissions/a11_chart", to: "submissions#a11_chart", as: :a11_chart
