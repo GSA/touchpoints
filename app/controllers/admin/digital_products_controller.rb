@@ -100,7 +100,7 @@ class Admin::DigitalProductsController < AdminController
         body: "Digital Product #{@digital_product.name} submitted at #{DateTime.now} by #{current_user.email}",
         path: admin_digital_product_url(@digital_product),
         emails: User.registry_managers.collect(&:email)
-      ).deliver
+      ).deliver_later
 
       redirect_to admin_digital_product_path(@digital_product), notice: 'Digital product was successfully submitted.'
     else
@@ -119,7 +119,7 @@ class Admin::DigitalProductsController < AdminController
         body: "Digital Product #{@digital_product.name} published at #{DateTime.now} by #{current_user.email}",
         path: admin_digital_product_url(@digital_product),
         emails: User.registry_managers.collect(&:email) # + @digital_product.contact_emails
-      ).deliver
+      ).deliver_later
 
       redirect_to admin_digital_product_path(@digital_product), notice: "Digital Product #{@digital_product.name} was published."
     else

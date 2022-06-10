@@ -118,7 +118,7 @@ module Admin
         body: "Digital Service Account #{@digital_service_account.name} submitted at #{DateTime.now} by #{current_user.email}",
         path: admin_digital_service_account_url(@digital_service_account),
         emails: User.registry_managers.collect(&:email) # + @digital_product.contact_emails
-      ).deliver
+      ).deliver_later
 
       redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was submitted."
     else
@@ -137,7 +137,7 @@ module Admin
         body: "Digital Service Account #{@digital_service_account.name} published at #{DateTime.now} by #{current_user.email}",
         path: admin_digital_service_account_url(@digital_service_account),
         emails: User.registry_managers.collect(&:email) # + @digital_product.contact_emails
-      ).deliver
+      ).deliver_later
 
       redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was published."
     else

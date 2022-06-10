@@ -34,3 +34,17 @@ Persona
   <strong>Notes:</strong>
   <%= @persona.notes %>
 </p>
+
+<div class="websites well">
+  <h3>
+    <%= pluralize(@persona.websites.size, "Website") %>
+  </h3>
+
+  <ul class="usa-list">
+  <% @persona.websites.order(:domain).each do |website| %>
+    <li>
+      <%= link_to website.domain, admin_website_path(website) %>
+    </li>
+  <% end %>
+  </ul>
+</div>
