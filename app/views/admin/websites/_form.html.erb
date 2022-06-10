@@ -53,10 +53,17 @@
             </div>
           </div>
         </div>
-      <div class="field">
-        <%= form.label :notes, class: "usa-label" %>
-        <%= form.text_area :notes, class: "usa-textarea" %>
-      </div>
+        <div class="field">
+          <div class="well">
+            <div class="website-personas-div">
+              <%= render 'admin/websites/website_personas', website: @website, website_persona_options: @website_persona_options %>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <%= form.label :notes, class: "usa-label" %>
+          <%= form.text_area :notes, class: "usa-textarea" %>
+        </div>
       <% end %>
     </div>
     <div class="grid-col-6">

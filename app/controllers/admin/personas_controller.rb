@@ -2,7 +2,7 @@ class Admin::PersonasController < AdminController
   before_action :set_persona, only: [:show, :edit, :update, :destroy]
 
   def index
-    @personas = Persona.all
+    @personas = Persona.all.order(:name)
   end
 
   def show
@@ -17,10 +17,8 @@ class Admin::PersonasController < AdminController
 
   def create
     @persona = Persona.new(persona_params)
-    @persona.user = current_user
 
-
-    if @persona.save
+    if @persona.save!
       redirect_to admin_persona_path(@persona), notice: 'Persona was successfully created.'
     else
       render :new
