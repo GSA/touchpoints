@@ -5,6 +5,16 @@ class UserMailer < ApplicationMailer
   #
   #   en.user_mailer.submission_notification.subject
   #
+  def notification(title: "", body: "", path: "", emails: [])
+    set_logo
+
+    @body = body
+    @path = path
+
+    mail subject: "Touchpoints notification: #{title}",
+      to: emails
+  end
+
   def submission_notification(submission_id:, emails: [])
     set_logo
     @submission = Submission.find(submission_id)

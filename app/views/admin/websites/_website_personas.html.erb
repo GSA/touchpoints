@@ -1,13 +1,18 @@
-
-  <div id="website-personas-div" class="grid-row" data-value="<%= admin_website_path(@website) %>">
-    <div class="grid-col-12">
-      <h3>Website Personas</h3>
-      <p class="website-persona-list">
+<div id="website-personas-div" class="grid-row" data-value="<%= admin_website_path(@website) %>">
+  <div class="grid-col-12">
+    <h3>
+      Personas
+    </h3>
+    <small>
+      Optionally, this website may be associated with one or more
+      <%= link_to "Personas", admin_personas_path %>.
+    </small>
+    <p class="website-persona-list">
       <ul class="usa-list usa-list--unstyled">
         <% @website.website_personas.each do |persona| %>
         <li style="margin-bottom: 3px;">
           <span class="usa-tag">
-             <%= persona.name %>
+            <%= persona.name %>
           </span>
           &nbsp;
           <a href="javascript:void(0);" class="remove-persona-link" data-value="<%= persona.id %>">
@@ -16,16 +21,18 @@
         </li>
           <% end %>
       </ul>
-      <p>
-    </div>
+    </p>
   </div>
-  <%= select_tag :website_persona_id, options_for_select(@website_persona_options.map { |p| [p.name, p.id] }), prompt: "Choose a Persona", class: "usa-select add-website-persona" %>
+</div>
+
+<%= select_tag :website_persona_id, options_for_select(@website_persona_options.map { |p| [p.name, p.id] }), prompt: "Choose a Persona", class: "usa-select add-website-persona" %>
+
 <script>
   $(function() {
 
     $(".add-website-persona").on("change", function(e) {
       event.preventDefault();
-      
+
       var container = $('#website-personas-div');
       $.ajax({
         url: container.attr("data-value") + "/add_website_persona",
