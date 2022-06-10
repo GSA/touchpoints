@@ -18,6 +18,8 @@ class Admin::WebsitesController < AdminController
     :export_versions,
     :add_website_manager,
     :remove_website_manager,
+    :add_website_persona,
+    :remove_website_persona,
   ]
 
   before_action :set_website_manager_options, only: [
@@ -27,6 +29,13 @@ class Admin::WebsitesController < AdminController
     :update,
     :add_website_manager,
     :remove_website_manager,
+  ]
+
+  before_action :set_website_persona_options, only: [
+    :new,
+    :create,
+    :edit,
+    :update,
   ]
 
   def index
@@ -263,6 +272,18 @@ class Admin::WebsitesController < AdminController
     @manager.remove_role :website_manager, @website
   end
 
+  def add_website_persona
+    @website.persona_list.add(params[:persona_id])
+    @website.save
+    set_website_persona_options
+  end
+
+  def remove_website_persona
+    @website.persona_list.remove(params[:persona_id])
+    @website.save
+    set_website_persona_options
+  end
+
   private
     def set_website_manager_options
       if admin_permissions?
@@ -277,6 +298,13 @@ class Admin::WebsitesController < AdminController
 
       if @website_manager_options && @website
         @website_manager_options = @website_manager_options - @website.website_managers
+      end
+    end
+
+    def set_website_persona_options
+      @website_persona_options = Persona.all.order(:name)
+      if @website_persona_options && @website
+        @website_persona_options = @website_persona_options - @website.website_personas
       end
     end
 

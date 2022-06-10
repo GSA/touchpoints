@@ -59,6 +59,7 @@ admin_user = User.new({
   email: 'ryan.wold+staging@gsa.gov',
   password: 'password',
   admin: true,
+  registry_manager: true,
   last_sign_in_at: Time.now,
 })
 admin_user.save!

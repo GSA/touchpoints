@@ -37,7 +37,9 @@ module Admin
       current_user.organization.add_role(:sponsor, @digital_service_account)
 
       Event.log_event(Event.names[:digital_service_account_created], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} created at #{DateTime.now}", current_user.id)
+
       UserMailer.social_media_account_created_notification(digital_service_account: @digital_service_account, link: admin_digital_service_account_path(@digital_service_account)).deliver_later
+
       redirect_to admin_digital_service_account_path(@digital_service_account), notice: 'Digital service account was successfully created.'
     else
       render :new
@@ -107,10 +109,17 @@ module Admin
 
   def submit
     ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
-    @digital_service_account.submit!
 
-    if @digital_service_account.save
+    if @digital_service_account.submit!
       Event.log_event(Event.names[:digital_service_account_submitted], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} submitted at #{DateTime.now}", current_user.id)
+
+      UserMailer.notification(
+        title: "Digital Service Account was submitted",
+        body: "Digital Service Account #{@digital_service_account.name} submitted at #{DateTime.now} by #{current_user.email}",
+        path: admin_digital_service_account_url(@digital_service_account),
+        emails: User.registry_managers.collect(&:email) # + @digital_product.contact_emails
+      ).deliver_later
+
       redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was submitted."
     else
       render :edit
@@ -119,10 +128,17 @@ module Admin
 
   def publish
     ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
-    @digital_service_account.publish!
 
-    if @digital_service_account.save
+    if @digital_service_account.publish
       Event.log_event(Event.names[:digital_service_account_published], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} published at #{DateTime.now}", current_user.id)
+
+      UserMailer.notification(
+        title: "Digital Service Account was published",
+        body: "Digital Service Account #{@digital_service_account.name} published at #{DateTime.now} by #{current_user.email}",
+        path: admin_digital_service_account_url(@digital_service_account),
+        emails: User.registry_managers.collect(&:email) # + @digital_product.contact_emails
+      ).deliver_later
+
       redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was published."
     else
       render :edit
@@ -131,9 +147,8 @@ module Admin
 
   def archive
     ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
-    @digital_service_account.archive!
 
-    if @digital_service_account.save
+    if @digital_service_account.archive!
       Event.log_event(Event.names[:digital_service_account_archived], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} archived at #{DateTime.now}", current_user.id)
       redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was archived."
     else
@@ -143,8 +158,8 @@ module Admin
 
   def reset
     ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
-    @digital_service_account.reset!
-    if @digital_service_account.save
+
+    if @digital_service_account.reset!
       Event.log_event(Event.names[:digital_service_account_reset], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} reset at #{DateTime.now}", current_user.id)
       redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was reset."
     else

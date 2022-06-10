@@ -62,6 +62,7 @@ Rails.application.routes.draw do
 
     get "/reporting/lifespan", to: "reporting#lifespan", as: :lifespan
     get "/reporting/no_submissions", to: "reporting#no_submissions", as: :no_submissions
+    get "/reporting/service_surveys", to: "reporting#service_surveys", as: :service_surveys
     get "/submissions/search", to: "submissions#search", as: :search_submissions
     get "/submissions/a11_analysis", to: "submissions#a11_analysis", as: :a11_analysis
     get "/submissions/a11_chart", to: "submissions#a11_chart", as: :a11_chart
@@ -169,6 +170,8 @@ Rails.application.routes.draw do
         get "versions_export", to: "websites#export_versions", as: :export_versions
         post "add_website_manager", to: "websites#add_website_manager", as: :add_website_manager
         post "remove_website_manager", to: "websites#remove_website_manager", as: :remove_website_manager
+        post "add_website_persona", to: "websites#add_website_persona", as: :add_website_persona
+        post "remove_website_persona", to: "websites#remove_website_persona", as: :remove_website_persona
       end
     end
     get :registry, to: "site#registry", as: :registry
