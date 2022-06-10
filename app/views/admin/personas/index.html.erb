@@ -1,13 +1,44 @@
 <% content_for :navigation_title do %>
   Personas
+  <%= link_to new_admin_persona_path, class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-plus-circle"></i>
+    New Persona
+  <% end %>
 <% end %>
+
+<br>
+<div
+  class="usa-summary-box"
+  role="region"
+  aria-labelledby="summary-box-key-information"
+>
+  <div class="usa-summary-box__body">
+    <div class="usa-summary-box__text">
+      A Persona, in user-centered design,
+      is a fictional characterization (placeholder) created to
+      represent a set of user behaviors related to a website, product, or agency.
+      It is important to give consideration to various types of users who use our products and services.
+
+      <p>
+        Starting Summer 2022,
+        <%= link_to "we", "mailto: feedback-analytics@gsa.gov" %> are beginning to experiment with Personas,
+        and link data between Websites and Services,
+        to develop a higher-resolution understanding of
+        Service offerings.
+      </p>
+    </div>
+  </div>
+</div>
 
 <table class="usa-table">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Tags</th>
+      <th data-sortable scope="col" role="columnheader">
+        Name
+      </th>
+      <th data-sortable scope="col" role="columnheader">
+        Description
+      </th>
     </tr>
   </thead>
 
@@ -16,12 +47,7 @@
       <tr>
         <td><%= link_to persona.name, admin_persona_path(persona) %></td>
         <td><%= persona.description %></td>
-        <td><%= persona.tags %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<p>
-  <%= link_to 'New Persona', new_admin_persona_path, class: "usa-button" %>
-</p>

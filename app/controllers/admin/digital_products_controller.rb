@@ -108,6 +108,14 @@ class Admin::DigitalProductsController < AdminController
     @digital_product.publish
     if @digital_product.save
       Event.log_event(Event.names[:digital_product_published], "Digital Product", @digital_product.id, "Digital Product #{@digital_product.name} published at #{DateTime.now}", current_user.id)
+
+      UserMailer.notification(
+        title: "Digital Product has been published",
+        body: "Digital Product #{@digital_product.name} published at #{DateTime.now} by #{current_user.email}",
+        path: admin_digital_product_url(@digital_product),
+        emails: User.registry_managers.collect(&:email)
+      ).deliver
+
       redirect_to admin_digital_product_path(@digital_product), notice: "Digital Product #{@digital_product.name} was published."
     else
       render :edit
