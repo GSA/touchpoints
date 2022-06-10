@@ -385,6 +385,6 @@ class Admin::ReportingController < AdminController
   end
 
   def service_surveys
-    @services = Service.includes(:organization, :forms).all.order(" organizations.name, services.name ")
+    @services = Service.includes(:organization, :forms).all.order("organizations.name, services.name")
   end
 end
