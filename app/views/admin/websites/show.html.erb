@@ -14,9 +14,7 @@
   <% end %>
 </p>
 
-<br>
-
-<% if @website.production_status ==  "Archived" %>
+<% if @website.production_status == "archived" %>
 <div class="usa-alert usa-alert--warning" >
   <div class="usa-alert__body">
     <p class="usa-alert__text">
@@ -30,37 +28,63 @@
 <% end %>
 
 <% if admin_permissions? && @website.production_status == "newly_requested" %>
-<div class="usa-section well">
-  <p>
-    This website <%= @website.domain %>
-    was created for approval about
-    <%= time_ago_in_words(@website.created_at) %> ago.
-  </p>
-  <%= link_to "Approve", approve_admin_website_path(@website), class: "usa-button usa-button--success bg-mint", method: :post, data: { confirm: "Are you sure?" } %>
-  <%= link_to "Deny", deny_admin_website_path(@website), class: "usa-button usa-button--secondary", method: :post, data: { confirm: "Are you sure?" } %>
+<div class="usa-section bg-base-lightest padding-2">
+  <div class="grid-row grid-gap-lg">
+    <div class="tablet:grid-col-6">
+      <div class="">
+        <span class="usa-tag">
+          task
+        </span>
+        for
+        <span class="usa-tag bg-violet">
+          Digital registry managers
+        </span>
+      </div>
+    </div>
+    <div class="tablet:grid-col-6 text-right">
+      <small>
+        For more information on business processes related to Websites,
+        see the
+        <a href="https://github.com/GSA/touchpoints/wiki/Websites" class="usa-link" target="_blank">Touchpoints wiki</a>.
+      </small>
+    </div>
+  </div>
+  <div class="padding-10">
+    <p>
+      This website <%= @website.domain %>
+      was created for approval about
+      <%= time_ago_in_words(@website.created_at) %> ago
+      by <%= @website.site_owner_email %>.
+    </p>
+
+    <div>
+      <%= link_to "Approve", approve_admin_website_path(@website), class: "usa-button usa-button--success bg-mint", method: :post, data: { confirm: "Are you sure?" } %>
+      <%= link_to "Deny", deny_admin_website_path(@website), class: "usa-button usa-button--secondary", method: :post, data: { confirm: "Are you sure?" } %>
+    </div>
+  </div>
 </div>
+<br>
 <% end %>
 
 <%= render 'admin/websites/step_indicator', website: @website %>
 
 <div class="grid-row grid-gap-md">
   <div class="grid-col-12">
-    <h3>
-      Inventory information
-    </h3>
-    <p>
-      <small>
-        Last updated
-        <%= link_to(@website.updated_at.strftime('%Y-%m-%d'), events_admin_website_path(@website))%>
-        &middot;
-        <%= time_ago_in_words(@website.updated_at) %> ago
-      </small>
-    </p>
+    <small>
+      Last updated
+      <%= link_to(@website.updated_at.strftime('%Y-%m-%d'), events_admin_website_path(@website))%>
+      &middot;
+      <%= time_ago_in_words(@website.updated_at) %> ago
+    </small>
     <div class="grid-row grid-gap-lg">
       <div class="tablet:grid-col-6">
         <label class="usa-label" for="domain">
           Domain
         </label>
+        <small>
+          The domain of the website, excluding http(s).
+        </small>
+        <br>
         <%= link_to @website.domain, "https://#{@website.domain}", target: "_blank", rel: "noopener" %>
       </div>
       <div class="tablet:grid-col-6">
@@ -77,8 +101,15 @@
 
         <br>
         <label class="usa-label" for="site_owner_email">
-          Website managers emails
+          Website managers
         </label>
+        <small>
+          List the staff responsible for the website.
+          <br>
+          See Touchpoints-related responsibilities of a Website Manager
+          <%= link_to "here", "https://github.com/GSA/touchpoints/wiki/Personas#website-manager" %>.
+        </small>
+        <br>
 
         <% if @website.website_managers.present? %>
         <ul class="usa-list">
@@ -89,10 +120,33 @@
         <% end %>
         </ul>
         <% else %>
+        <br>
         <div class="usa-alert usa-alert--info">
           <div class="usa-alert__body">
             <p class="usa-alert__text">
               No website managers have been defined.
+            </p>
+          </div>
+        </div>
+        <% end %>
+
+        <label class="usa-label" for="site_owner_email">
+          Personas
+        </label>
+
+        <% if @website.personas.present? %>
+        <ul class="usa-list">
+        <% @website.website_personas.each do |persona| %>
+          <li>
+            <%= link_to persona.name, admin_persona_path(persona) %>
+          </li>
+        <% end %>
+        </ul>
+        <% else %>
+        <div class="usa-alert usa-alert--info">
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">
+              No personas have been associated.
             </p>
           </div>
         </div>
