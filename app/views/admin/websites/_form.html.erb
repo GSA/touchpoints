@@ -73,7 +73,12 @@
       </h3>
       <div class="field">
         <%= form.label :production_status, class: "usa-label" %>
-        <%= form.select :production_status, options_for_select(Website::PRODUCTION_STATUSES.collect { |k,v| [v, k] }, selected: @website.production_status), { include_blank: true }, { class: "usa-select" } %>
+        <small>
+          See the
+          <%= link_to "Touchpoints wiki", "https://github.com/GSA/touchpoints/wiki/Websites-Production-status/", target: "_blank" %>
+          for more information.
+        </small>
+        <%= form.select :production_status, options_for_select(Website::PRODUCTION_STATUSES.collect { |k,v| [v, k] }, selected: @website.production_status), { prompt: "What is the status of this website?", include_blank: true }, { class: "usa-select" } %>
       </div>
       <div class="field">
         <%= form.label :redirects_to, class: "usa-label" %>
@@ -176,16 +181,6 @@
     </div>
     <% end %>
   </div>
-  <% if @website.persisted? %>
-  <br>
-  <br>
-  <div class="well">
-    <div class="field">
-      <%= form.label :notes, class: "usa-label" %>
-      <%= form.text_area :notes, class: "usa-textarea" %>
-    </div>
-  </div>
-  <% end %>
 
   <p>
     <%= form.submit class: "usa-button full-width" %>
