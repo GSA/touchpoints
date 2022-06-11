@@ -11,7 +11,7 @@
 <%= form_with(model: @goal, url: admin_goal_path(@goal), local: true) do |f| %>
   <div class="grid-row">
     <div class="grid-col-6">
-      <p class="tag-list">
+      <div class="tag-list">
         <ul class="usa-list usa-list--unstyled">
           <% @goal.tag_list.sort.each do |tag| %>
           <li style="margin-bottom: 3px;">
@@ -24,7 +24,7 @@
           </li>
           <% end %>
         </ul>
-      </p>
+      </div>
     </div>
     <div class="grid-col-6">
       <%= f.select :tag_list, @goal_tags_for_select, {}, { multiple: true, class: "usa-select tags-select" } %>

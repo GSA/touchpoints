@@ -22,7 +22,7 @@
       <p>
         Search by tag
       </p>
-      <p class="tag-list">
+      <div class="tag-list">
         <% @tags.order(:name).each do |tag| %>
           <%= link_to catalog_admin_services_path(tag: tag.name), class: "search-tag-link",  "data-name" => tag.name do %>
             <span class="usa-tag">
@@ -30,7 +30,7 @@
             </span>
           <% end %>
         <% end %>
-      <p>
+      </div>
     <% end %>
   </div>
 </div>

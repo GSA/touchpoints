@@ -27,29 +27,35 @@
 
 <% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
 <script>
-$(".tag-input").blur(function(event) {
-	event.preventDefault();
-    var thisForm = $(this).closest("form");
-    $.ajax({
-		url: thisForm.attr("action") + "/add_tag",
-		type: 'post',
-		data: "digital_product[tag_list]=" + $(".tag-input").val()
-    });
-});
-$(".tag-input").keypress(function (e) {
-	if (e.which == 13) {
-		document.activeElement.blur();
-		return false;
-	}
-});
-$(".tag-list .remove-tag-link").on("click", function(e) {
-	event.preventDefault();
-	var thisForm = $(this).closest("form");
-	$.ajax({
-		url: thisForm.attr("action") + "/remove_tag",
-		type: 'post',
-		data: "digital_product[tag_list]=" + $(this).attr("data-value")
+	$(function() {
+
+		$(".tag-input").on("blur", function(event) {
+			event.preventDefault();
+			var thisForm = $(this).closest("form");
+			$.ajax({
+				url: thisForm.attr("action") + "/add_tag",
+				type: 'post',
+				data: "digital_product[tag_list]=" + $(".tag-input").val()
+			});
+		});
+
+		$(".tag-input").on("keypress", function (e) {
+			if (e.which == 13) {
+				document.activeElement.blur();
+				return false;
+			}
+		});
+
+		$(".tag-list .remove-tag-link").on("click", function(e) {
+			event.preventDefault();
+			var thisForm = $(this).closest("form");
+			$.ajax({
+				url: thisForm.attr("action") + "/remove_tag",
+				type: 'post',
+				data: "digital_product[tag_list]=" + $(this).attr("data-value")
+			});
+		});
+
 	});
-})
 </script>
 <% end %>
