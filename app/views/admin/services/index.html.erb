@@ -54,15 +54,15 @@
       <p>
         Search by tag
       </p>
-      <p class="tag-list">
-        <% @tags.order(:name).each do |tag| %>
-          <%= link_to admin_services_path(tag: tag.name), class: "search-tag-link",  "data-name" => tag.name do %>
-            <span class="usa-tag">
-              <%= tag.name %> (<%= tag.taggings_count %>)
-            </span>
-          <% end %>
+      <div class="tag-list">
+      <% @tags.order(:name).each do |tag| %>
+        <%= link_to admin_services_path(tag: tag.name), class: "search-tag-link",  "data-name" => tag.name do %>
+          <span class="usa-tag">
+            <%= tag.name %> (<%= tag.taggings_count %>)
+          </span>
         <% end %>
-      <p>
+      <% end %>
+      </div>
     <% end %>
   </div>
 </div>

@@ -50,7 +50,7 @@
       <p>
         Search by tag
       </p>
-      <p class="tag-list">
+      <div class="tag-list">
         <% @tags.order(:name).each do | tag | %>
           <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
             <span class="usa-tag">
@@ -58,7 +58,7 @@
             </span>
           </a>
         <% end %>
-      <p>
+      </div>
     <% end %>
   </div>
 </div>
