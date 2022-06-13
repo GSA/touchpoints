@@ -3,7 +3,7 @@
 
 <% content_for :navigation_title do %>
   Data Collection
-  <% if @collection.draft? || admin_permissions? %>
+  <% if @collection.draft? || performance_manager_permissions? %>
     <%= link_to edit_admin_collection_path(@collection), class: "usa-button usa-button-inverted float-right" do %>
       <i class="fa fa-pencil-alt"></i>
       Edit
@@ -72,7 +72,7 @@
       <p>
         <strong>User</strong>
         <br>
-        <%= link_to_if admin_permissions?, @collection.user.email, admin_user_path(@collection.user) %>
+        <%= link_to_if performance_manager_permissions?, @collection.user.email, admin_user_path(@collection.user) %>
       </p>
     </div>
     <div class="grid-col-4">
@@ -172,7 +172,7 @@
     <%= link_to submit_admin_collection_path(@collection), class: "usa-button full-width", method: "post", data: { confirm: 'Are you sure?' } do %>
       Submit this Data Collection
     <% end %>
-  <% elsif !@collection.published? && admin_permissions? %>
+  <% elsif !@collection.published? && performance_manager_permissions? %>
     <%= link_to publish_admin_collection_path(@collection), class: "usa-button", method: "post" do %>
       Publish this Data Collection
     <% end %>

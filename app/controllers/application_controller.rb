@@ -125,6 +125,21 @@ class ApplicationController < ActionController::Base
     current_user && current_user.admin?
   end
 
+  helper_method :performance_manager_permissions?
+  def performance_manager_permissions?
+    return false unless current_user.present?
+    return true if admin_permissions?
+    current_user.performance_manager?
+  end
+
+  helper_method :collection_permissions?
+  def collection_permissions?(collection:)
+    return false unless collection.present?
+    return true if performance_manager_permissions?
+    collection.organization == current_user.organization
+  end
+
+
   helper_method :organizational_website_manager_permissions?
   def organizational_website_manager_permissions?(user:)
     return false unless user.present?
@@ -153,12 +168,6 @@ class ApplicationController < ActionController::Base
     return true if registry_manager_permissions?(user: current_user)
 
     digital_product.user == user
-  end
-
-  helper_method :collection_permissions?
-  def collection_permissions?(collection:)
-    return false unless collection.present?
-    collection.organization == current_user.organization
   end
 
   helper_method :service_permissions?
