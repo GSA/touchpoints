@@ -3,9 +3,10 @@ require 'open-uri'
 
 class DigitalServiceAccount < ApplicationRecord
   include AASM
-  acts_as_taggable_on :tags
+  acts_as_taggable_on :tags, :organizations
 
   has_paper_trail
+
   resourcify
 
   scope :active, -> { where(aasm_state: :published) }
@@ -40,6 +41,10 @@ class DigitalServiceAccount < ApplicationRecord
 
   def organization_abbreviation
     self.organization.abbreviation
+  end
+
+  def sponsoring_agencies
+    Organization.where(id: self.organization_list)
   end
 
   def self.load_service_accounts

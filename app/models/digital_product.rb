@@ -7,10 +7,11 @@ class DigitalProduct < ApplicationRecord
   validates :name, presence: true
 
   has_paper_trail
+
   resourcify
 
   include AASM
-  acts_as_taggable_on :tags
+  acts_as_taggable_on :tags, :organizations
 
   scope :active, -> { where(aasm_state: :published) }
 
@@ -75,5 +76,9 @@ class DigitalProduct < ApplicationRecord
     end
 
     puts "Loaded DigitalServiceAccounts"
+  end
+
+  def sponsoring_agencies
+    Organization.where(id: self.organization_list)
   end
 end
