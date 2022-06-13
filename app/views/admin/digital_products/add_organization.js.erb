@@ -1,5 +1,1 @@
-<% if @organization %>
-$(".organizations").html("<%= escape_javascript render(partial: 'admin/digital_products/organizations', locals: { digital_product: @digital_product }) %>");
-<% else %>
-alert("Organization <%= params[:organization][:name] %> does not exist.")
-<% end %>
+$("#sponsoring-agencies-div").html("<%= escape_javascript render(partial: 'admin/digital_products/organizations', locals: { digital_product: @digital_product }) %>");
