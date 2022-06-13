@@ -109,7 +109,7 @@ feature "Data Collections", js: true do
           expect(page.current_path).to eq(admin_collection_path(Collection.last))
           expect(page).to have_link("Add a Service to report on")
           # TODO:  Sometimes content in the notice area isn't visible
-          #expect(page).to have_content("Collection was successfully created.")
+          # expect(page).to have_content("Collection was successfully created.")
         end
       end
     end
