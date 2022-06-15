@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'json'
 require 'open-uri'
 
@@ -19,7 +21,7 @@ class DigitalServiceAccount < ApplicationRecord
     state :archived
 
     event :submit do
-      transitions from: [:created, :updated], to: :submitted
+      transitions from: %i[created updated], to: :submitted
     end
     event :publish do
       transitions from: [:submitted], to: :published
@@ -35,16 +37,12 @@ class DigitalServiceAccount < ApplicationRecord
     end
   end
 
-  def organization_name
-    self.organization.name
-  end
+  delegate :name, to: :organization, prefix: true
 
-  def organization_abbreviation
-    self.organization.abbreviation
-  end
+  delegate :abbreviation, to: :organization, prefix: true
 
   def sponsoring_agencies
-    Organization.where(id: self.organization_list)
+    Organization.where(id: organization_list)
   end
 
   def contacts
@@ -54,27 +52,27 @@ class DigitalServiceAccount < ApplicationRecord
   def self.load_service_accounts
     DigitalServiceAccount.delete_all
 
-    url = "https://usdigitalregistry.digitalgov.gov/digital-registry/v1/social_media?page_size=10000"
+    url = 'https://usdigitalregistry.digitalgov.gov/digital-registry/v1/social_media?page_size=10000'
 
     response = URI.open(url).read
     json = JSON.parse(response)
 
-    accounts = json["results"]
-    puts "Found #{accounts.size} Accounts"
+    accounts = json['results']
+    Rails.logger.debug { "Found #{accounts.size} Accounts" }
 
     accounts.each do |account|
       hash = {
 
-        name: account["service_display_name"],
-        short_description: account["short_description"],
-        long_description: account["long_description"],
-        service_url: account["service_url"],
-        language: account["language"],
-        account: account["account"],
-        service: account["service_key"],
+        name: account['service_display_name'],
+        short_description: account['short_description'],
+        long_description: account['long_description'],
+        service_url: account['service_url'],
+        language: account['language'],
+        account: account['account'],
+        service: account['service_key'],
 
         organization: Organization.first,
-        user: User.first,
+        user: User.first
 
         # TODO:
         # tags = []
@@ -86,6 +84,6 @@ class DigitalServiceAccount < ApplicationRecord
       DigitalServiceAccount.create!(hash)
     end
 
-    puts "Loaded DigitalServiceAccount"
+    Rails.logger.debug 'Loaded DigitalServiceAccount'
   end
 end

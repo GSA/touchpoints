@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateServiceProviders < ActiveRecord::Migration[6.1]
   def change
     create_table :service_providers do |t|
@@ -20,15 +22,15 @@ class CreateServiceProviders < ActiveRecord::Migration[6.1]
 
     Service.all.each do |service|
       new_service_provider = ServiceProvider.create!({
-        organization_id: service.organization_id,
-        name: service.name,
-        department: service.department,
-        department_abbreviation: service.organization.abbreviation.downcase,
-        bureau: service.bureau,
-        bureau_abbreviation: service.bureau_abbreviation,
-        description: service.description,
-        notes: service.notes
-      })
+                                                       organization_id: service.organization_id,
+                                                       name: service.name,
+                                                       department: service.department,
+                                                       department_abbreviation: service.organization.abbreviation.downcase,
+                                                       bureau: service.bureau,
+                                                       bureau_abbreviation: service.bureau_abbreviation,
+                                                       description: service.description,
+                                                       notes: service.notes
+                                                     })
 
       service.update(service_provider_id: new_service_provider.id)
     end

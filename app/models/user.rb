@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   rolify
   # Include default devise modules. Others available are:
@@ -11,31 +13,27 @@ class User < ApplicationRecord
 
   belongs_to :organization, optional: true
   has_many :user_roles, dependent: :destroy
-  has_many :forms, through: :user_roles, primary_key: "form_id"
+  has_many :forms, through: :user_roles, primary_key: 'form_id'
   has_many :collections, through: :organization
 
   validate :api_key_format
   before_save :update_api_key_updated_at
 
   def update_api_key_updated_at
-    if self.api_key_changed?
-      self.api_key_updated_at = Time.now
-    end
+    self.api_key_updated_at = Time.zone.now if api_key_changed?
   end
 
   def api_key_format
-    if self.api_key.present? && self.api_key.length != 40
-      errors.add(:api_key, "is not 40 characters, as expected from api.data.gov.")
-    end
+    errors.add(:api_key, 'is not 40 characters, as expected from api.data.gov.') if api_key.present? && api_key.length != 40
   end
 
   after_create :send_new_user_notification
 
-  APPROVED_DOMAINS = [".gov", ".mil"]
+  APPROVED_DOMAINS = ['.gov', '.mil'].freeze
 
   validates :email, presence: true, if: :tld_check
 
-  scope :active, -> { where("inactive ISNULL or inactive = false") }
+  scope :active, -> { where('inactive ISNULL or inactive = false') }
 
   scope :admins, -> { where(admin: true) }
   scope :performance_managers, -> { where(performance_manager: true) }
@@ -50,8 +48,8 @@ class User < ApplicationRecord
   def self.from_omniauth(auth)
     # Set login_dot_gov as Provider for legacy TP Devise accounts
     # TODO: Remove once all accounts are migrated/have `provider` and `uid` set
-    @existing_user = User.find_by_email(auth.info.email)
-    if @existing_user && !@existing_user.provider.present?
+    @existing_user = User.find_by(email: auth.info.email)
+    if @existing_user && @existing_user.provider.blank?
       @existing_user.provider = auth.provider
       @existing_user.uid = auth.uid
       @existing_user.save
@@ -60,12 +58,12 @@ class User < ApplicationRecord
     # For login.gov native accounts
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
-      user.password = Devise.friendly_token[0,24]
+      user.password = Devise.friendly_token[0, 24]
     end
   end
 
   def tld_check
-    unless ENV['GITHUB_CLIENT_ID'].present? or APPROVED_DOMAINS.any? { |word| email.end_with?(word) }
+    unless ENV['GITHUB_CLIENT_ID'].present? || APPROVED_DOMAINS.any? { |word| email.end_with?(word) }
       errors.add(:email, "is not from a valid TLD - #{APPROVED_DOMAINS.to_sentence} domains only")
       return false
     end
@@ -80,39 +78,40 @@ class User < ApplicationRecord
     if organization.present?
       organization.name
     elsif admin?
-      "Admin"
+      'Admin'
     end
   end
 
   def role
-    if self.admin?
-      "Admin"
+    if admin?
+      'Admin'
     else
-      "User"
+      'User'
     end
   end
 
   # For Devise
   # This determines whether a user is inactive or not
   def active_for_authentication?
-    self && !self.inactive?
+    self && !inactive?
   end
 
   # For Devise
   # This is the flash message shown to a user when inactive
   def inactive_message
-    "User account #{self.email} is inactive. Please contact #{ENV.fetch("TOUCHPOINTS_SUPPORT")}."
+    "User account #{email} is inactive. Please contact #{ENV.fetch('TOUCHPOINTS_SUPPORT')}."
   end
 
   def deactivate!
-    self.update!(inactive: true)
+    update!(inactive: true)
     UserMailer.account_deactivated_notification(self).deliver_later
-    Event.log_event(Event.names[:user_deactivated], "User", self.id, "User account #{self.email} deactivated on #{Date.today}")
+    Event.log_event(Event.names[:user_deactivated], 'User', id,
+                    "User account #{email} deactivated on #{Date.today}")
   end
 
   def self.send_account_deactivation_notifications(expire_days)
     users = User.deactivation_pending(expire_days)
-    users.each do | user |
+    users.each do |user|
       UserMailer.account_deactivation_scheduled_notification(user.email, expire_days).deliver_later
     end
   end
@@ -120,27 +119,29 @@ class User < ApplicationRecord
   def self.deactivation_pending(expire_days)
     min_time = ((90 - expire_days) + 1).days.ago
     max_time = (90 - expire_days).days.ago
-    User.active.where("(last_sign_in_at ISNULL AND created_at BETWEEN ? AND ?) OR (last_sign_in_at BETWEEN ? AND ?)", min_time, max_time, min_time, max_time)
+    User.active.where('(last_sign_in_at ISNULL AND created_at BETWEEN ? AND ?) OR (last_sign_in_at BETWEEN ? AND ?)',
+                      min_time, max_time, min_time, max_time)
   end
 
   def self.deactivate_inactive_accounts!
     # Find all accounts scheduled to be deactivated in 14 days
-    users = User.active.where("(last_sign_in_at ISNULL AND created_at <= ?) OR (last_sign_in_at <= ?)", 90.days.ago, 90.days.ago)
-    users.each do | user |
-      user.deactivate!
-    end
+    users = User.active.where('(last_sign_in_at ISNULL AND created_at <= ?) OR (last_sign_in_at <= ?)', 90.days.ago,
+                              90.days.ago)
+    users.each(&:deactivate!)
   end
 
   def self.to_csv
-    active_users = self.order("email")
-    return nil unless active_users.present?
+    active_users = order('email')
+    return nil if active_users.blank?
 
-    header_attributes = ["organization_name", "email", "last_sign_in_at"]
-    attributes = active_users.map { |u| {
-      organization_name: u.organization.name,
-      email: u.email,
-      last_sign_in_at: u.last_sign_in_at
-    }}
+    header_attributes = %w[organization_name email last_sign_in_at]
+    attributes = active_users.map do |u|
+      {
+        organization_name: u.organization.name,
+        email: u.email,
+        last_sign_in_at: u.last_sign_in_at
+      }
+    end
 
     CSV.generate(headers: true) do |csv|
       csv << header_attributes
@@ -151,7 +152,7 @@ class User < ApplicationRecord
   end
 
   def set_api_key
-    update(api_key: ApiKey.generator, api_key_updated_at: Time.now)
+    update(api_key: ApiKey.generator, api_key_updated_at: Time.zone.now)
   end
 
   def unset_api_key
@@ -160,35 +161,37 @@ class User < ApplicationRecord
 
   private
 
-    def parse_host_from_domain(string)
-      fragments = string.split(".")
-      if fragments.size == 2
-        return string
-      elsif fragments.size == 3
-        fragments.shift
-        return fragments.join(".")
-      elsif fragments.size == 4
-        fragments.shift
-        fragments.shift
-        return fragments.join(".")
-      end
+  def parse_host_from_domain(string)
+    fragments = string.split('.')
+    case fragments.size
+    when 2
+      string
+    when 3
+      fragments.shift
+      fragments.join('.')
+    when 4
+      fragments.shift
+      fragments.shift
+      fragments.join('.')
     end
+  end
 
-    def ensure_organization
-      return if organization_id.present?
+  def ensure_organization
+    return if organization_id.present?
 
-      email_address_domain = Mail::Address.new(self.email).domain
-      parsed_domain = parse_host_from_domain(email_address_domain)
+    email_address_domain = Mail::Address.new(email).domain
+    parsed_domain = parse_host_from_domain(email_address_domain)
 
-      if org = Organization.find_by_domain(parsed_domain)
-        self.organization_id = org.id
-      else
-        UserMailer.no_org_notification(self).deliver_later if self.id
-        errors.add(:organization, "'#{email_address_domain}' has not yet been configured for Touchpoints - Please contact the Feedback Analytics Team for assistance.")
-      end
+    if org = Organization.find_by(domain: parsed_domain)
+      self.organization_id = org.id
+    else
+      UserMailer.no_org_notification(self).deliver_later if id
+      errors.add(:organization,
+                 "'#{email_address_domain}' has not yet been configured for Touchpoints - Please contact the Feedback Analytics Team for assistance.")
     end
+  end
 
-    def send_new_user_notification
-      UserMailer.new_user_notification(self).deliver_later
-    end
+  def send_new_user_notification
+    UserMailer.new_user_notification(self).deliver_later
+  end
 end

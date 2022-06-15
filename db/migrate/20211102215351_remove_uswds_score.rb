@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveUswdsScore < ActiveRecord::Migration[6.1]
   def change
     remove_column :websites, :current_uswds_score, :integer

@@ -1,15 +1,13 @@
+# frozen_string_literal: true
+
 class SiteController < ApplicationController
   def index
-    if current_user
-      redirect_to admin_root_path
-    end
+    redirect_to admin_root_path if current_user
   end
 
-  def agencies
-  end
+  def agencies; end
 
-  def registry
-  end
+  def registry; end
 
   def status
     render json: {
@@ -20,6 +18,5 @@ class SiteController < ApplicationController
     }
   end
 
-  def hello_stimulus
-  end
+  def hello_stimulus; end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :scheduled_jobs do
   task send_daily_notifications: :environment do
     Submission.send_daily_notifications

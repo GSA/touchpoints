@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Goal < ApplicationRecord
   belongs_to :organization
   has_many :milestones
@@ -41,17 +43,13 @@ class Goal < ApplicationRecord
     'Veterens benefits & services',
     'Workforce benefits & services',
     'Workforce development & employment'
-  ]
+  ].freeze
 
   def subgoals
-    Goal.where(parent_id: self.id)
+    Goal.where(parent_id: id)
   end
 
-  def organization_name
-    self.organization.name
-  end
+  delegate :name, to: :organization, prefix: true
 
-  def organization_abbreviation
-    self.organization.abbreviation
-  end
+  delegate :abbreviation, to: :organization, prefix: true
 end

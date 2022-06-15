@@ -1,9 +1,11 @@
-require "active_support/core_ext/integer/time"
+# frozen_string_literal: true
+
+require 'active_support/core_ext/integer/time'
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  config.hosts << "lvh.me"
+  config.hosts << 'lvh.me'
 
   # In the development environment your application's code is reloaded any time
   # it changes. This slows down response time but is perfect for development
@@ -26,9 +28,9 @@ Rails.application.configure do
     config.public_file_server.headers = {
       'Cache-Control' => "public, max-age=#{2.days.to_i}"
     }
-  elsif ENV["REDIS_URL"]
+  elsif ENV['REDIS_URL']
     config.action_controller.perform_caching = true
-    config.cache_store = :redis_cache_store, { url: ENV["REDIS_URL"] }
+    config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }
   else
     config.action_controller.perform_caching = false
     config.cache_store = :null_store
@@ -80,7 +82,7 @@ Rails.application.configure do
 
   # For Mailcatcher
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = { address: "localhost", port: 1025 }
+  config.action_mailer.smtp_settings = { address: 'localhost', port: 1025 }
 
   # For Devise
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }

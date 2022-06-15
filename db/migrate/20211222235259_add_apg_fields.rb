@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddApgFields < ActiveRecord::Migration[6.1]
   def change
     add_column :goals, :goal_statement, :text

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :usdr do
   task load: :environment do
     DigitalServiceAccount.load_service_accounts

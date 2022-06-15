@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddServiceDefinitionFields < ActiveRecord::Migration[6.1]
   def change
     add_column :services, :justification_text, :text

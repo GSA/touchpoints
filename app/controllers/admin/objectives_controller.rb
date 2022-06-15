@@ -1,89 +1,90 @@
-class Admin::ObjectivesController < AdminController
-  before_action :set_goal
-  before_action :set_objective, only: [:show, :edit, :update, :destroy, :add_tag, :remove_tag]
-  before_action :set_objective_tags, only: [:edit, :add_tag, :remove_tag]
+# frozen_string_literal: true
 
-  def index
-    @objectives = @goal.objectives
-  end
+module Admin
+  class ObjectivesController < AdminController
+    before_action :set_goal
+    before_action :set_objective, only: %i[show edit update destroy add_tag remove_tag]
+    before_action :set_objective_tags, only: %i[edit add_tag remove_tag]
 
-  def show
-  end
+    def index
+      @objectives = @goal.objectives
+    end
 
-  def new
-    ensure_performance_manager_permissions
+    def show; end
 
-    @objective = Objective.new
-    @objective.goal_id = @goal.id
-    @objective.organization_id = @goal.organization_id
-    @objective.name = 'New Objective'
-    render :layout => false
-  end
+    def new
+      ensure_performance_manager_permissions
 
-  def edit
-    ensure_performance_manager_permissions
+      @objective = Objective.new
+      @objective.goal_id = @goal.id
+      @objective.organization_id = @goal.organization_id
+      @objective.name = 'New Objective'
+      render layout: false
+    end
 
-    render layout: false
-  end
+    def edit
+      ensure_performance_manager_permissions
 
-  def create
-    ensure_performance_manager_permissions
+      render layout: false
+    end
 
-    @objective = Objective.new(objective_params)
-    respond_to do |format|
-      if @objective.save!
-        format.html { redirect_to admin_objective_path(@objective), notice: 'Objective was successfully created.'}
-        format.json { render :create, status: :created, goal: @goal }
-        format.js
-      else
-        format.html { render :new }
-        format.json { render json: @objective.errors, status: :unprocessable_entity }
+    def create
+      ensure_performance_manager_permissions
+
+      @objective = Objective.new(objective_params)
+      respond_to do |format|
+        if @objective.save!
+          format.html { redirect_to admin_objective_path(@objective), notice: 'Objective was successfully created.' }
+          format.json { render :create, status: :created, goal: @goal }
+        else
+          format.html { render :new }
+          format.json { render json: @objective.errors, status: :unprocessable_entity }
+        end
         format.js
       end
     end
-  end
 
-  def update
-    ensure_performance_manager_permissions
-    
-    @objective.update(objective_params)
-    @objective.tags = objective_params[:tags].split(" ")
-    @objective.users = [objective_params[:users].to_i] if objective_params[:users].present?
-    respond_to do |format|
-      if @objective.save
-        format.html { redirect_to admin_objective_path(@objective), notice: 'Objective was successfully updated.'}
-        format.json { render :update, status: :updated, goal: @goal }
-        format.js
-      else
-        format.html { render :edit }
-        format.json { render json: @objective.errors, status: :unprocessable_entity }
+    def update
+      ensure_performance_manager_permissions
+
+      @objective.update(objective_params)
+      @objective.tags = objective_params[:tags].split
+      @objective.users = [objective_params[:users].to_i] if objective_params[:users].present?
+      respond_to do |format|
+        if @objective.save
+          format.html { redirect_to admin_objective_path(@objective), notice: 'Objective was successfully updated.' }
+          format.json { render :update, status: :updated, goal: @goal }
+        else
+          format.html { render :edit }
+          format.json { render json: @objective.errors, status: :unprocessable_entity }
+        end
         format.js
       end
     end
-  end
 
-  def destroy
-    ensure_performance_manager_permissions
+    def destroy
+      ensure_performance_manager_permissions
 
-    @objective.destroy
-    respond_to do |format|
-      format.html { redirect_to admin_objectives_url, notice: 'Objective was successfully destroyed.'}
-      format.json { render :destroy, status: :deleted, goal: @goal }
-      format.js
+      @objective.destroy
+      respond_to do |format|
+        format.html { redirect_to admin_objectives_url, notice: 'Objective was successfully destroyed.' }
+        format.json { render :destroy, status: :deleted, goal: @goal }
+        format.js
+      end
     end
-  end
 
-  def add_tag
-    @objective.tag_list.add(objective_params[:tag_list].split(','))
-    @objective.save
-  end
+    def add_tag
+      @objective.tag_list.add(objective_params[:tag_list].split(','))
+      @objective.save
+    end
 
-  def remove_tag
-    @objective.tag_list.remove(objective_params[:tag_list].split(','))
-    @objective.save
-  end
+    def remove_tag
+      @objective.tag_list.remove(objective_params[:tag_list].split(','))
+      @objective.save
+    end
 
-  private
+    private
+
     def set_goal
       @goal = Goal.find(params[:goal_id])
     end
@@ -108,4 +109,5 @@ class Admin::ObjectivesController < AdminController
         :tag_list
       )
     end
+  end
 end
