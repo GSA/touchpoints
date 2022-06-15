@@ -101,4 +101,5 @@ group :test do
   gem 'simplecov', require: false
   # gem 'chromedriver-helper'
   gem 'webdrivers', '>= 5.0.0'
+  gem 'rubocop-rspec'
 end
