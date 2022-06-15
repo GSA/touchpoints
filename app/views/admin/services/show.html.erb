@@ -306,6 +306,6 @@
 <% if service_manager_permissions? %>
 <p>
   <i class="fa fa-arrow-left-long-to-line"></i>
-  <%= link_to "Reset this form", reset_admin_service_path(@service), class: "usa-button usa-button--base full-width", method: :post %>
+  <%= link_to "Reset", reset_admin_service_path(@service), class: "usa-button usa-button--secondary full-width", method: :post %>
 </p>
 <% end %>

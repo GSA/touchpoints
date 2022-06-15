@@ -47,7 +47,7 @@
 
 <p>
   <strong>Persona:</strong>
-  <%= @service_stage.persona.name %>
+  <%= @service_stage.try(:persona).try(:name) %>
 </p>
 
 <p hidden>

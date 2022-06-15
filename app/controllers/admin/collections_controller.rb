@@ -9,7 +9,7 @@ class Admin::CollectionsController < AdminController
     @quarter = params[:quarter].present? ? params[:quarter].to_i : nil
     @year = params[:year].present? ? params[:year].to_i : nil
 
-    if admin_permissions?
+    if performance_manager_permissions?
       if @quarter && @year
         @collections = Collection.where(quarter: @quarter, year: @year)
           .order('organizations.name', :year, :quarter, 'service_providers.name')
@@ -124,7 +124,7 @@ class Admin::CollectionsController < AdminController
 
   private
     def set_collection
-      if admin_permissions?
+      if performance_manager_permissions?
         @collection = Collection.find(params[:id])
       else
         @collection = current_user.collections.find(params[:id])

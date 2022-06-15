@@ -250,7 +250,7 @@ feature "Forms", js: true do
             before do
               form.update(aasm_state: :in_development)
               visit admin_form_path(form)
-              click_on "Archive this survey"
+              click_on "Archive this form"
               page.driver.browser.switch_to.alert.accept
             end
 
@@ -258,6 +258,20 @@ feature "Forms", js: true do
               expect(page).to have_content("Archived")
               expect(page).to have_content("Survey is not published")
             end
+          end
+        end
+
+        describe "reset" do
+          before do
+            form.update(aasm_state: :live)
+            visit admin_form_path(form)
+            click_on "Reset"
+            page.driver.browser.switch_to.alert.accept
+          end
+
+          it "display 'Reset' flash message" do
+            expect(page).to have_content("Form has been reset")
+            expect(page).to have_content("Survey is not published")
           end
         end
 
