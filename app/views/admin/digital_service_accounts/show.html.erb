@@ -26,7 +26,7 @@
 <div class="grid-row grid-gap-lg">
   <div class="tablet:grid-col-6">
     <p>
-      <%= label_tag "Name", nil, class: "usa-label" %>
+      <%= label_tag "Account name", nil, class: "usa-label" %>
       <br>
       <%= @digital_service_account.name %>
     </p>
@@ -141,6 +141,7 @@
       <br>
       <br>
     <% end %>
+
     <% if @digital_service_account.published? %>
       <%= link_to archive_admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button--base full-width", method: :post do %>
         <span class="fa fa-archive"></span>

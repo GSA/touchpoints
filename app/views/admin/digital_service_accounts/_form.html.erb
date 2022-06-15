@@ -12,6 +12,11 @@
   <% end %>
 
   <div class="field">
+    <%= form.label :name, "Account name", class: "usa-label" %>
+    <%= form.text_field :name, class: "usa-input" %>
+  </div>
+
+  <div class="field">
     <%= form.label :account, "Account platform", class: "usa-label" %>
     <%= form.select :account, options_for_select(SocialMediaAccount.list), { prompt: "Select" }, class: "usa-select" %>
   </div>
@@ -19,11 +24,6 @@
   <div class="field">
     <%= form.label :service_url, "Account URL", class: "usa-label" %>
     <%= form.text_field :service_url, class: "usa-input" %>
-  </div>
-
-  <div class="field">
-    <%= form.label :name, "Account name", class: "usa-label" %>
-    <%= form.text_field :name, class: "usa-input" %>
   </div>
 
   <div class="field">

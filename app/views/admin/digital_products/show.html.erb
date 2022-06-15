@@ -1,7 +1,7 @@
 <div class="grid-row grid-gap-lg">
   <div class="desktop:grid-col-6">
     <% content_for :navigation_title do %>
-      Viewing Digital Product: <%= @digital_product.id %>
+      Viewing Digital Product: <%= @digital_product.name %>
       <%= link_to edit_admin_digital_product_path(@digital_product), class: "usa-button usa-button-inverted float-right" do %>
         <i class="fa fa-pencil-alt"></i>
         Edit
@@ -18,6 +18,11 @@
     <p>
       <%= label_tag "Name", nil, class: "usa-label" %>
       <%= @digital_product.name %>
+    </p>
+
+    <p>
+      <%= label_tag "Status", nil, class: "usa-label" %>
+      <%= @digital_product.aasm_state %>
     </p>
 
     <p>
@@ -45,9 +50,17 @@
         can be associated with a
         <%= link_to "Service", admin_services_path, target: "_blank" %>.
       </small>
-      <br>
-      <br>
-      <%= @digital_product.service || "no service assigned" %>
+      <% if @digital_product.service? %>
+        <%= @digital_product.service %>
+      <% else %>
+        <div class="usa-alert">
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">
+              Not assigned to a Service.
+            </p>
+          </div>
+        </div>
+      <% end %>
     </p>
 
     <p>
@@ -56,18 +69,8 @@
     </p>
 
     <p>
-      <%= label_tag "Status", nil, class: "usa-label" %>
-      <%= @digital_product.status %>
-    </p>
-
-    <p>
       <%= label_tag "Code repository URL", nil, class: "usa-label" %>
       <%= @digital_product.code_repository_url %>
-    </p>
-
-    <p>
-      <%= label_tag "Status", nil, class: "usa-label" %>
-      <%= @digital_product.aasm_state %>
     </p>
 
     <p>
@@ -127,6 +130,7 @@
       </p>
       <% end %>
 
+    <% if admin_permissions? %>
       <% if @digital_product.submitted? %>
         <%= link_to publish_admin_digital_product_path(@digital_product), class: "usa-button full-width", method: :post do %>
           <span class="fa fa-pen"></span>
@@ -136,6 +140,7 @@
         <br>
         <br>
       <% end %>
+    <% end %>
 
     <% if !@digital_product.archived? %>
       <%= link_to archive_admin_digital_product_path(@digital_product), class: "usa-button usa-button--base width-full", method: :post do %>
