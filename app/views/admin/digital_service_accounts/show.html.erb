@@ -26,49 +26,49 @@
 <div class="grid-row grid-gap-lg">
   <div class="tablet:grid-col-6">
     <p>
-      <strong>Name</strong>
+      <%= label_tag "Name", nil, class: "usa-label" %>
       <br>
       <%= @digital_service_account.name %>
     </p>
 
     <p>
-      <strong>Account</strong>
+      <%= label_tag "Account type", nil, class: "usa-label" %>
       <br>
       <%= @digital_service_account.account %>
     </p>
 
     <p>
-      <strong>Service url</strong>
+      <%= label_tag "Service URL", nil, class: "usa-label" %>
       <br>
       <%= @digital_service_account.service_url %>
     </p>
 
     <p>
-      <strong>Status</strong>
+      <%= label_tag "Status", nil, class: "usa-label" %>
       <br>
-      <%= @digital_service_account.status %>
+      <%= @digital_service_account.aasm_state %>
     </p>
 
     <p>
-      <strong>Short description</strong>
+      <%= label_tag "Short description", nil, class: "usa-label" %>
       <br>
       <%= @digital_service_account.short_description %>
     </p>
 
     <p>
-      <strong>Long description</strong>
+      <%= label_tag "Long description", nil, class: "usa-label" %>
       <br>
       <%= @digital_service_account.long_description %>
     </p>
 
     <p>
-      <strong>Language</strong>
+      <%= label_tag "Language", nil, class: "usa-label" %>
       <br>
       <%= @digital_service_account.language %>
     </p>
 
     <p>
-      <strong>Updated at</strong>
+      <%= label_tag "Updated at", nil, class: "usa-label" %>
       <br>
       <%= @digital_service_account.updated_at %>
     </p>
@@ -105,7 +105,7 @@
     <br>
 
     <p>
-      <strong>API path</strong>
+      <%= label_tag "API path", nil, class: "usa-label" %>
       <br>
       <% api_url = "https://api.gsa.gov/analytics/touchpoints/v1/digital_service_accounts/#{@digital_service_account.id}.json" %>
       <%= link_to api_url, api_url %>
@@ -141,7 +141,6 @@
       <br>
       <br>
     <% end %>
-
     <% if @digital_service_account.published? %>
       <%= link_to archive_admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button--base full-width", method: :post do %>
         <span class="fa fa-archive"></span>
@@ -171,26 +170,6 @@
     </div>
   <% end %>
 
-
-    <div class="well">
-      <h4>
-        Event log
-      </h4>
-      <div class="events">
-        <% events = Event.where(object_type: "Digital Service Account", object_id: @digital_service_account.id.to_s ).order("created_at DESC") %>
-        <% events.each do |event| %>
-          <div class="padding-bottom-2">
-          <%= event.name %>
-          by
-          <%= link_to event.user.email, admin_user_path(event.user) %>
-          <br>
-          <%= time_ago_in_words(event.created_at) %> ago
-          at
-          <%= event.created_at %>
-          </div>
-        <% end %>
-      </div>
-    </div>
-
+    <%= render 'components/event_log', events: Event.where(object_type: "Digital Service Account", object_id: @digital_service_account.id.to_s ).order("created_at DESC") %>
   </div>
 </div>

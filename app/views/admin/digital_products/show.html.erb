@@ -16,17 +16,17 @@
     </p>
 
     <p>
-      <strong>Name:</strong>
+      <%= label_tag "Name", nil, class: "usa-label" %>
       <%= @digital_product.name %>
     </p>
 
     <p>
-      <strong>Short description:</strong>
+      <%= label_tag "Short description", nil, class: "usa-label" %>
       <%= @digital_product.short_description %>
     </p>
 
     <p>
-      <strong>Long description:</strong>
+      <%= label_tag "Long description", nil, class: "usa-label" %>
       <p>
         <%= render 'components/markdown-content-supported' %>
       </p>
@@ -34,37 +34,44 @@
     </p>
 
     <p>
-      <strong>Url:</strong>
+      <%= label_tag "URL", nil, class: "usa-label" %>
       <%= @digital_product.url %>
     </p>
 
     <p>
-      <strong>Service:</strong>
-      <%= @digital_product.service %>
+      <%= label_tag "Service", nil, class: "usa-label" %>
+      <small>
+        Optionally, this Digital Product
+        can be associated with a
+        <%= link_to "Service", admin_services_path, target: "_blank" %>.
+      </small>
+      <br>
+      <br>
+      <%= @digital_product.service || "no service assigned" %>
     </p>
 
     <p>
-      <strong>Language:</strong>
+      <%= label_tag "Language", nil, class: "usa-label" %>
       <%= @digital_product.language %>
     </p>
 
     <p>
-      <strong>Status:</strong>
+      <%= label_tag "Status", nil, class: "usa-label" %>
       <%= @digital_product.status %>
     </p>
 
     <p>
-      <strong>Code repository url:</strong>
+      <%= label_tag "Code repository URL", nil, class: "usa-label" %>
       <%= @digital_product.code_repository_url %>
     </p>
 
     <p>
-      <strong>Aasm state:</strong>
+      <%= label_tag "Status", nil, class: "usa-label" %>
       <%= @digital_product.aasm_state %>
     </p>
 
     <p>
-      <strong>Certified at:</strong>
+      <%= label_tag "Certified at", nil, class: "usa-label" %>
       <%= @digital_product.certified_at %>
     </p>
 
@@ -163,24 +170,7 @@
       Please wait...
     <% end %>
 
-    <div class="well">
-      <h4>
-        Event log
-      </h4>
-      <div class="events">
-        <% events = Event.where(object_type: "Digital Product", object_id: @digital_product.id.to_s ).order("created_at DESC") %>
-        <% events.each do |event| %>
-          <div class="padding-bottom-2">
-          <%= event.name %>
-          by
-          <%= link_to event.user.email, admin_user_path(event.user) %>
-          <br>
-          <%= time_ago_in_words(event.created_at) %> ago
-          at
-          <%= event.created_at %>
-          </div>
-        <% end %>
-      </div>
-    </div>
+    <%= render 'components/event_log', events: Event.where(object_type: "Digital Product", object_id: @digital_product.id.to_s ).order("created_at DESC") %>
+
   </div>
 </div>

@@ -579,3 +579,10 @@ table .no-wrap {
   text-decoration: none;
   padding-left: 10px;
 }
+
+// Override default USWDS label styles
+.usa-label {
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  color: #919191;
+}
