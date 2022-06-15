@@ -34,7 +34,7 @@ module Admin
 
     if @digital_service_account.save
       current_user.add_role(:contact, @digital_service_account)
-      current_user.organization.add_role(:sponsor, @digital_service_account)
+      @digital_service_account.organization_list.add(current_user.organization.id)
 
       Event.log_event(Event.names[:digital_service_account_created], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} created at #{DateTime.now}", current_user.id)
 
@@ -76,19 +76,15 @@ module Admin
   end
 
   def add_organization
-    @organization = Organization.find_by_id(params[:organization][:id])
-
-    if @organization
-      @organization.add_role(:sponsor, @digital_service_account)
-    end
+    @digital_service_account.organization_list.add(params[:organization_id])
+    @digital_service_account.save
+    set_sponsoring_agency_options
   end
 
   def remove_organization
-    @organization = Organization.find_by_id(params[:organization][:id])
-
-    if @organization
-      @organization.remove_role(:sponsor, @digital_service_account)
-    end
+    @digital_service_account.organization_list.remove(params[:organization_id])
+    @digital_service_account.save
+    set_sponsoring_agency_options
   end
 
   def add_user
@@ -188,6 +184,14 @@ module Admin
 
     def set_digital_service_account
       @digital_service_account = DigitalServiceAccount.find(params[:id])
+      set_sponsoring_agency_options
+    end
+
+    def set_sponsoring_agency_options
+      @sponsoring_agency_options = Organization.all.order(:name)
+      if @sponsoring_agency_options && @digital_service_account
+        @sponsoring_agency_options = @sponsoring_agency_options - @digital_service_account.sponsoring_agencies
+      end
     end
 
     def digital_service_account_params
@@ -203,7 +207,8 @@ module Admin
         :short_description,
         :long_description,
         :tags,
-        :tag_list)
+        :tag_list,
+        :organization_list)
     end
   end
 end
