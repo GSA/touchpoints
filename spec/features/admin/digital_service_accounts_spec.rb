@@ -67,7 +67,7 @@ feature "Digital Service Accounts", js: true do
 
       it 'creates Digital Service Account successfully' do
         expect(page).to have_content('Digital service account was successfully created')
-        expect(page).to have_content('Event log')
+        expect(page).to have_content('Event log'.upcase)
         within('.events') do
           expect(page).to have_content('digital_service_account_created by admin@example.gov')
         end
