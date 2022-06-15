@@ -27,6 +27,8 @@ class Admin::GoalsController < AdminController
   def show; end
 
   def new
+    ensure_performance_manager_permissions
+    
     @goal = Goal.new
     @goal.organization_id = current_user.organization_id
     @goal.name = 'New Goal'
