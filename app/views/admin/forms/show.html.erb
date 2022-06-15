@@ -1,14 +1,18 @@
 <% content_for :navigation_title do %>
   Viewing Survey: <%= @form.name %>
 <% end %>
+
 <p>
   <%= link_to admin_forms_path do %>
     <i class="fa fa-arrow-circle-left"></i>
     Back to My Surveys
   <% end %>
 </p>
+
 <%= render 'admin/forms/nav', form: @form %>
+
 <br>
+
 <% if is_at_least_form_manager?(user: current_user, form: @form) %>
 <div class="grid-row grid-gap-md">
   <div class="tablet:grid-col-6">
@@ -95,7 +99,7 @@
               <input class="usa-checkbox__input" type="checkbox" value="1" name="form[integrity-hashed-url]" id="integrity-hashed-url-checkbox">
               <label class="usa-checkbox__label" for="integrity-hashed-url-checkbox">with integrity hash</label>
             </div>
-            <div id="integrity-hashed-url" hidden="true">
+            <div id="integrity-hashed-url" hidden>
               <div class="usa-alert usa-alert--warning" >
                 <div class="usa-alert__body">
                   <p class="usa-alert__text">
@@ -130,7 +134,7 @@
             <% end %>
             <% if @form.delivery_method == "modal" %>
             <h4>
-              Preview your survey:
+              Preview your form:
             </h4>
             <p>
               Delivery method: <%= @form.delivery_method %>
@@ -180,7 +184,15 @@
     <% unless @form.archived? %>
       <p>
         <%= link_to archive_admin_form_path(@form), class: "usa-button usa-button--accent-cool width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
-          Archive this survey
+          <span class="fa fa-archive"></span>
+          Archive this form
+        <% end %>
+      </p>
+    <% end %>
+    <% unless @form.in_development? %>
+      <p>
+        <%= link_to reset_admin_form_path(@form), class: "usa-button usa-button--base width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
+          Reset form
         <% end %>
       </p>
     <% end %>

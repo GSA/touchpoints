@@ -31,11 +31,6 @@
     <%= form.text_area :notes, class: "usa-textarea" %>
   </div>
 
-  <div class="field">
-    <%= form.label :user_id, class: "usa-label" %>
-    <%= form.select :user_id, options_for_select(User.active.order("email").map { |u| [u.email, u.id] }, persona.user_id), { prompt: "Which User?" }, { class: "usa-select" } %>
-  </div>
-
   <p>
     <%= form.submit class: "usa-button" %>
   </p>

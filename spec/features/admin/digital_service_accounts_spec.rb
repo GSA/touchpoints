@@ -111,7 +111,7 @@ feature "Digital Service Accounts", js: true do
       before 'fill-in the form' do
         visit admin_digital_service_account_path(digital_service_account)
 
-        select(organization.name, from: "digital_service_account_organization_id")
+        select(organization.name, from: "organization_id")
         find(".organizations").click # just to lose focus
       end
 
@@ -122,13 +122,13 @@ feature "Digital Service Accounts", js: true do
 
     describe 'remove organization' do
       let(:digital_service_account) { FactoryBot.create(:digital_service_account) }
-      let!(:role) { organization.add_role(:sponsor, digital_service_account) }
 
       before 'fill-in the form' do
+        digital_service_account.organization_list.add(organization.id)
         visit admin_digital_service_account_path(digital_service_account)
+        select(organization.name, from: "organization_id")
         expect(page).to have_content(organization.name.upcase)
-        find(".organizations-list .remove-tag-link").click
-
+        find(".remove-agency-link").click
       end
 
       it 'removes the organization' do

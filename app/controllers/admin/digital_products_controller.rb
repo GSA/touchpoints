@@ -61,19 +61,15 @@ class Admin::DigitalProductsController < AdminController
   end
 
   def add_organization
-    @organization = Organization.find_by_id(params[:organization][:id])
-
-    if @organization
-      @organization.add_role(:sponsor, @digital_product)
-    end
+    @digital_product.organization_list.add(params[:organization_id])
+    @digital_product.save
+    set_sponsoring_agency_options
   end
 
   def remove_organization
-    @organization = Organization.find_by_id(params[:organization][:id])
-
-    if @organization
-      @organization.remove_role(:sponsor, @digital_product)
-    end
+    @digital_product.organization_list.remove(params[:organization_id])
+    @digital_product.save
+    set_sponsoring_agency_options
   end
 
   def add_user
@@ -164,8 +160,17 @@ class Admin::DigitalProductsController < AdminController
 
 
   private
+
     def set_digital_product
       @digital_product = DigitalProduct.find(params[:id])
+      set_sponsoring_agency_options
+    end
+
+    def set_sponsoring_agency_options
+      @sponsoring_agency_options = Organization.all.order(:name)
+      if @sponsoring_agency_options && @digital_product
+        @sponsoring_agency_options = @sponsoring_agency_options - @digital_product.sponsoring_agencies
+      end
     end
 
     def digital_product_params
@@ -182,7 +187,8 @@ class Admin::DigitalProductsController < AdminController
         :short_description,
         :long_description,
         :certified_at,
-        :tag_list
+        :tag_list,
+        :organization_list
       )
     end
 end
