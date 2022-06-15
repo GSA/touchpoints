@@ -23,6 +23,25 @@ RSpec.describe "/milestones", js: true do
     end
   end
 
+  context "logged in as a non-permissioned user" do
+    let(:user) { FactoryBot.create(:user, organization: organization) }
+
+    before do
+      login_as(user)
+    end
+
+    describe "tries to visit a path requiring performance manager permissions" do
+      before do
+        visit new_admin_milestone_path
+      end
+
+      it "redirects to default admin path due to lack of permissions" do
+        expect(page).to have_content("Authorization is Required")
+        expect(page.current_path).to eq(admin_root_path)
+      end
+    end
+  end
+
   context "not logged in" do
     describe "GET /index" do
       before do
