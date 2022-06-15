@@ -18,11 +18,6 @@ class Organization < ApplicationRecord
   validates :abbreviation, presence: true
   validates :abbreviation, uniqueness: true
 
-  # an Organization can be assigned to the following objects:
-  #  Digital Products
-  #  Digital Service Accounts
-  rolify
-
   def slug
     self.abbreviation.downcase
   end

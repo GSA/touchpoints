@@ -50,7 +50,12 @@
 
   <div class="field">
     <%= form.label :persona_id, "Persona", class: "usa-label" %>
-    <%= form.select :persona_id, options_for_select(Persona.all.map { |p| [p.name, p.id] }, selected: service_stage.persona_id), {}, { class: "usa-select" } %>
+    <small>
+      Optionally, a
+      <%=link_to "Persona", admin_personas_path %>
+      can be associated with this Step.
+    </small>
+    <%= form.select :persona_id, options_for_select(Persona.all.map { |p| [p.name, p.id] }, selected: service_stage.persona_id), { prompt: "Select a Persona..." }, { class: "usa-select" } %>
   </div>
 
   <div class="field" hidden>

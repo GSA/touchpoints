@@ -36,7 +36,9 @@
       </small>
       <br>
       <small>
-        Service Providers are available based on the organization associated with the email domain for <%= current_user.email %>.
+        <%= link_to "Service Providers", admin_service_providers_path %>
+        are available based on the organization associated with the email domain for
+        <%= current_user.email %>.
         Contact
         <a href="mailto:feedback-analytics@gsa.gov">support</a> for assistance.
       </small>

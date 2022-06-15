@@ -11,9 +11,13 @@
 <% end %>
 </ul>
 <% else %>
-  <p>
-    No Goal Objectives exist.
-  </p>
+  <div class="usa-alert margin-bottom-2">
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        No Goal Objectives exist.
+      </p>
+    </div>
+  </div>
 <% end %>
 <%= link_to new_admin_goal_objective_path(@goal), class: "usa-button new-goal-objective" do %>
   <i class="fa fa-plus"></i>
@@ -31,7 +35,7 @@
       }
     });
   });
-  
+
   $('.edit-goal-objective').on("click", function(event) {
     event.preventDefault();
 
