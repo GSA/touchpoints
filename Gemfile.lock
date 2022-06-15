@@ -412,6 +412,8 @@ GEM
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.7.0, < 2.0)
+    rubocop-rspec (2.11.1)
+      rubocop (~> 1.19)
     ruby-graphviz (1.2.5)
       rexml
     ruby-progressbar (1.11.0)
@@ -535,6 +537,7 @@ DEPENDENCIES
   rspec-rails (>= 5.1.1)
   rspec_junit_formatter
   rubocop-rails
+  rubocop-rspec
   sass-rails (>= 6.0.0)
   selenium-webdriver
   sidekiq
