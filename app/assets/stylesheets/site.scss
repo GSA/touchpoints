@@ -581,8 +581,11 @@ table .no-wrap {
 }
 
 // Override default USWDS label styles
-.usa-label {
-  text-transform: uppercase;
-  font-size: 0.875rem;
-  color: #919191;
+body.show,
+body.edit {
+  .usa-label {
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    color: #919191;
+  }
 }
