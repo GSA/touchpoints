@@ -1,0 +1,25 @@
+<% content_for :navigation_title do %>
+  Viewing Offering: <%= @offering.name %>
+  <%= link_to edit_admin_offering_path(@offering), class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-pencil-alt"></i>
+    Edit
+  <% end %>
+<% end %>
+<p>
+  <%= link_to admin_offerings_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Offerings
+  <% end %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @offering.name %>
+</p>
+
+<% if @offering.service %>
+  <p>
+    <strong>Service:</strong>
+    <%= @offering.service.name %>
+  </p>
+<% end %>
