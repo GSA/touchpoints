@@ -254,7 +254,7 @@ feature "Submissions", js: true do
             it "successfully deletes a Submission" do
               expect(page).to have_content("Viewing Responses for")
               expect(page.current_path).to eq(responses_admin_form_path(form))
-              expect(page.find_all(".responses table tbody tr").size).to eq(1)
+              expect(page.find_all("#submissions_table table tbody tr").size).to eq(1)
             end
           end
         end
@@ -272,6 +272,7 @@ feature "Submissions", js: true do
 
             it "does not display text_display question title" do
               within ".responses .table-scroll" do
+
                 expect(page).to have_content("An input field")
                 expect(page).to_not have_content("Some custom")
                 expect(page).to_not have_content("<a>")
