@@ -24,7 +24,10 @@ class Admin::GoalTargetsController < AdminController
   end
 
   def create
+    ensure_performance_manager_permissions
+
     @goal_target = GoalTarget.new(goal_target_params)
+
     respond_to do |format|
       if @goal_target.save
         format.html { redirect_to admin_goal_goal_target_path(@goal, @goal_target), notice: 'Goal target was successfully created.'}
@@ -39,6 +42,8 @@ class Admin::GoalTargetsController < AdminController
   end
 
   def update
+    ensure_performance_manager_permissions
+
     respond_to do |format|
       if @goal_target.update(goal_target_params)
         format.html { redirect_to admin_goal_goal_target_path(@goal, @goal_target), notice: 'Goal target was successfully updated.'}
@@ -53,7 +58,9 @@ class Admin::GoalTargetsController < AdminController
   end
 
   def destroy
+    ensure_performance_manager_permissions
     @goal_target.destroy
+
     respond_to do |format|
       format.html { redirect_to admin_goal_goal_targets_url(@goal), notice: 'Goal target was successfully destroyed.'}
       format.json { render :destroy, status: :deleted, goal: @goal }

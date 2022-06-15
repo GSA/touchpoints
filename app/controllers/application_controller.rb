@@ -46,6 +46,12 @@ class ApplicationController < ActionController::Base
     redirect_to(index_path, notice: "Authorization is Required")
   end
 
+  def ensure_performance_manager_permissions
+    return true if performance_manager_permissions?
+
+    redirect_to(index_path, notice: "Authorization is Required")
+  end
+
   def ensure_collection_owner(collection:)
     return false unless collection.present?
     return true if admin_permissions?
@@ -138,7 +144,6 @@ class ApplicationController < ActionController::Base
     return true if performance_manager_permissions?
     collection.organization == current_user.organization
   end
-
 
   helper_method :organizational_website_manager_permissions?
   def organizational_website_manager_permissions?(user:)

@@ -33,9 +33,13 @@ class Admin::GoalsController < AdminController
     @goal.save!
   end
 
-  def edit; end
+  def edit
+    ensure_performance_manager_permissions
+  end
 
   def create
+    ensure_performance_manager_permissions
+
     @goal = Goal.new(goal_params)
 
     if @goal.save
@@ -46,6 +50,8 @@ class Admin::GoalsController < AdminController
   end
 
   def update
+    ensure_performance_manager_permissions
+
     if @goal.update(goal_params)
       redirect_to admin_goal_path(@goal), notice: 'Goal was successfully updated.'
     else
@@ -89,7 +95,7 @@ class Admin::GoalsController < AdminController
   end
 
   def update_tags
-    @goal.update!(tags: params[:tags].split(" "))
+    @goal.update!(tags: params[:tags].split(' '))
     render json: @goal
   end
 
@@ -109,15 +115,16 @@ class Admin::GoalsController < AdminController
   end
 
   def destroy
+    ensure_performance_manager_permissions
+
     @goal.destroy
     redirect_to admin_goals_url, notice: 'Goal was successfully destroyed.'
   end
 
-  def goal_targets
-  end
+  def goal_targets; end
 
-  def goal_objectives
-  end
+  def goal_objectives; end
+
 
   private
 
@@ -139,7 +146,7 @@ class Admin::GoalsController < AdminController
       :users,
       :four_year_goal,
       :parent_id,
-      :tag_list,
+      :tag_list
     )
   end
 end
