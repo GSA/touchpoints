@@ -62,7 +62,7 @@ feature "Digital Service Accounts", js: true do
         expect(page).to have_content('New Social Media Account')
         fill_in :digital_service_account_name, with: 'Test Name'
         select('Facebook', from: 'digital_service_account[account]')
-        click_on 'Create Digital service account'
+        click_on 'Create social media account'
       end
 
       it 'creates Digital Service Account successfully' do

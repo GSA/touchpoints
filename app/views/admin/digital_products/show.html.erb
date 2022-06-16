@@ -45,26 +45,6 @@
     </p>
 
     <p>
-      <%= label_tag "Service", nil, class: "usa-label" %>
-      <small>
-        Optionally, this Digital Product
-        can be associated with a
-        <%= link_to "Service", admin_services_path, target: "_blank" %>.
-      </small>
-      <% if @digital_product.service? %>
-        <%= @digital_product.service %>
-      <% else %>
-        <div class="usa-alert">
-          <div class="usa-alert__body">
-            <p class="usa-alert__text">
-              Not assigned to a Service.
-            </p>
-          </div>
-        </div>
-      <% end %>
-    </p>
-
-    <p>
       <%= label_tag "Language", nil, class: "usa-label" %>
       <%= @digital_product.language %>
     </p>
@@ -108,7 +88,26 @@
         </div>
       </div>
     </div>
-    <br>
+
+    <div>
+      <%= label_tag "Service", nil, class: "usa-label" %>
+      <small>
+        Optionally, this Digital Product
+        can be associated with a
+        <%= link_to "Service", admin_services_path, target: "_blank" %>.
+      </small>
+      <% if @digital_product.service? %>
+        <%= @digital_product.service %>
+      <% else %>
+        <div class="usa-alert">
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">
+              Not assigned to a Service.
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div>
 
   </div>
   <div class="desktop:grid-col-4">
@@ -153,7 +152,7 @@
 
     <% end %>
 
-    <% if registry_manager_permissions? %>
+    <% if registry_manager_permissions?(user: current_user) %>
     <div class="well">
       <p>
         <span class="usa-tag bg-violet">

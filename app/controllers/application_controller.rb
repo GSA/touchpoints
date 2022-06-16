@@ -156,7 +156,7 @@ class ApplicationController < ActionController::Base
   def registry_manager_permissions?(user:)
     return false unless user.present?
     return true if admin_permissions?
-    user.registry_manager?
+    user.registry_manager?(user: user)
   end
 
   helper_method :digital_service_account_permissions?
