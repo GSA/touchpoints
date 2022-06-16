@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 feature "Offerings", js: true do
+  let(:organization) { FactoryBot.create(:organization) }
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
   let(:user) { FactoryBot.create(:user, organization: organization) }
 

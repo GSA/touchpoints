@@ -1,4 +1,4 @@
-<div id="offering-personas-div" class="grid-row" data-value="<%= admin_offering_path(@offering) %>">
+<div id="offering-personas-div" class="grid-row" data-value="<%= admin_offering_path(offering) %>">
   <div class="grid-col-12">
     <h3>
       Personas
@@ -9,7 +9,7 @@
     </small>
     <p class="website-persona-list">
       <ul class="usa-list usa-list--unstyled">
-        <% @offering.offering_personas.each do |persona| %>
+        <% offering.offering_personas.each do |persona| %>
         <li style="margin-bottom: 3px;">
           <span class="usa-tag">
             <%= persona.name %>
@@ -25,7 +25,7 @@
   </div>
 </div>
 
-<%= select_tag :offering_persona_id, options_for_select(@offering_persona_options.map { |p| [p.name, p.id] }), prompt: "Choose a Persona", class: "usa-select add-offering-persona" %>
+<%= select_tag :offering_persona_id, options_for_select(offering_persona_options.map { |p| [p.name, p.id] }), prompt: "Choose a Persona", class: "usa-select add-offering-persona" %>
 
 <script>
   $(function() {

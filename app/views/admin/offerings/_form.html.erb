@@ -17,15 +17,19 @@
   </div>
   <div class="field">
     <%= form.label :service_id, "Service", class: "usa-label" %>
-    <%= form.select :service_id, options_for_select(Service.all.map { |s| [s.name, s.id] }, offering.service.id), { prompt: "Which Service?" }, { class: "usa-select" } %>
+    <%= form.select :service_id, options_for_select(Service.all.map { |s| [s.name, s.id] }, offering.try(:service_id) ), { prompt: "Which Service?" }, { class: "usa-select" } %>
   </div>
+
+  <% if offering.persisted? %>
   <div class="field">
     <div class="well">
       <div class="offering-personas-div">
-        <%= render 'admin/offerings/offering_personas', offering: @offering, offering_persona_options: @offering_persona_options %>
+        <%= render 'admin/offerings/offering_personas', offering: offering, offering_persona_options: offering_persona_options %>
       </div>
     </div>
   </div>
+  <% end %>
+  
   <p>
     <%= form.submit class: "usa-button" %>
   </p>

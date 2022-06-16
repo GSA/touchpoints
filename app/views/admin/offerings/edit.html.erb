@@ -8,7 +8,7 @@
   <% end %>
 </p>
 
-<%= render 'form', offering: @offering %>
+<%= render 'form', offering: @offering, offering_persona_options: @offering_persona_options %>
 
 <p>
   <%= link_to admin_offering_path(@offering), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>

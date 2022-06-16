@@ -20,6 +20,6 @@
 <% if @offering.service %>
   <p>
     <strong>Service:</strong>
-    <%= @offering.service.name %>
+    <%= link_to @offering.service.name, admin_service_path(@offering.service) if @offering.service %>
   </p>
 <% end %>
