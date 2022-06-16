@@ -73,7 +73,7 @@ class Admin::ServicesController < AdminController
 
   def export_versions
     ensure_admin
-    ExportVersionsJob.perform_later(params[:uuid], @service,'touchpoints-service-versions.csv')
+    ExportVersionsJob.perform_later(params[:uuid], @service, 'touchpoints-service-versions.csv')
     render json: { result: :ok }
   end
 
@@ -207,50 +207,50 @@ class Admin::ServicesController < AdminController
   end
 
   private
-    def set_service
-      @service = Service.find(params[:id])
+
+  def set_service
+    @service = Service.find(params[:id])
+  end
+
+  def set_service_providers
+    if service_manager_permissions?
+      @service_providers = ServiceProvider.all.includes(:organization).order("organizations.abbreviation", "service_providers.name")
+    else
+      @service_providers = current_user.organization.service_providers.includes(:organization).order("organizations.abbreviation", "service_providers.name")
+    end
+  end
+
+  def set_service_owner_options
+    if service_manager_permissions?
+      @service_owner_options = User.active.order("email")
+    else
+      @service_owner_options = current_user.organization.users.active.order("email")
     end
 
-    def set_service_providers
-      if service_manager_permissions?
-        @service_providers = ServiceProvider.all.includes(:organization).order("organizations.abbreviation", "service_providers.name")
-      else
-        @service_providers = current_user.organization.service_providers.includes(:organization).order("organizations.abbreviation", "service_providers.name")
-      end
+    if @service
+      @service_owner_options = @service_owner_options - @service.service_managers
     end
+  end
 
-
-    def set_service_owner_options
-      if service_manager_permissions?
-        @service_owner_options = User.active.order("email")
-      else
-        @service_owner_options = current_user.organization.users.active.order("email")
-      end
-
-      if @service
-        @service_owner_options = @service_owner_options - @service.service_managers
-      end
-    end
-
-    def service_params
-      params.require(:service).permit(
-        :organization_id,
-        :service_owner_id,
-        :service_provider_id,
-        :bureau,
-        :department,
-        :description,
-        :hisp,
-        :justification_text,
-        :kind,
-        :name,
-        :non_digital_explanation,
-        :notes,
-        :service_abbreviation,
-        :service_slug,
-        :url,
-        :tag_list,
-        :where_customers_interact,
-      )
-    end
+  def service_params
+    params.require(:service).permit(
+      :organization_id,
+      :service_owner_id,
+      :service_provider_id,
+      :bureau,
+      :department,
+      :description,
+      :hisp,
+      :justification_text,
+      :kind,
+      :name,
+      :non_digital_explanation,
+      :notes,
+      :service_abbreviation,
+      :service_slug,
+      :url,
+      :tag_list,
+      :where_customers_interact,
+    )
+  end
 end

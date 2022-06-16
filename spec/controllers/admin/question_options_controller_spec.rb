@@ -24,7 +24,6 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe Admin::QuestionOptionsController, type: :controller do
-
   let(:organization) { FactoryBot.create(:organization) }
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
 
@@ -59,7 +58,7 @@ RSpec.describe Admin::QuestionOptionsController, type: :controller do
   describe "GET #show" do
     it "returns a success response" do
       question_option = QuestionOption.create! valid_attributes
-      get :show, params: {id: question_option.to_param}, session: valid_session
+      get :show, params: { id: question_option.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -78,7 +77,7 @@ RSpec.describe Admin::QuestionOptionsController, type: :controller do
   describe "GET #edit" do
     it "returns a success response" do
       question_option = QuestionOption.create! valid_attributes
-      get :edit, params: {id: question_option.to_param}, session: valid_session
+      get :edit, params: { id: question_option.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -87,7 +86,7 @@ RSpec.describe Admin::QuestionOptionsController, type: :controller do
     context "with valid params" do
       it "creates a new QuestionOption" do
         expect {
-          post :create, params: {question_option: valid_attributes}, session: valid_session
+          post :create, params: { question_option: valid_attributes }, session: valid_session
         }.to change(QuestionOption, :count).by(1)
       end
 
@@ -95,19 +94,19 @@ RSpec.describe Admin::QuestionOptionsController, type: :controller do
         multiple_value_attributes = valid_attributes.clone
         multiple_value_attributes["text"] = "a, b, c"
         expect {
-          post :create, params: {question_option: multiple_value_attributes}, session: valid_session
+          post :create, params: { question_option: multiple_value_attributes }, session: valid_session
         }.to change(QuestionOption, :count).by(3)
       end
 
       it "redirects to the created question_option" do
-        post :create, params: {question_option: valid_attributes}, session: valid_session
+        post :create, params: { question_option: valid_attributes }, session: valid_session
         expect(response).to redirect_to(QuestionOption.last)
       end
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: {question_option: invalid_attributes}, session: valid_session
+        post :create, params: { question_option: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -121,14 +120,14 @@ RSpec.describe Admin::QuestionOptionsController, type: :controller do
 
       it "updates the requested question_option" do
         question_option = QuestionOption.create! valid_attributes
-        put :update, params: {id: question_option.to_param, question_option: new_attributes}, session: valid_session
+        put :update, params: { id: question_option.to_param, question_option: new_attributes }, session: valid_session
         question_option.reload
         skip("Add assertions for updated state")
       end
 
       it "redirects to the question_option" do
         question_option = QuestionOption.create! valid_attributes
-        put :update, params: {id: question_option.to_param, question_option: valid_attributes}, session: valid_session
+        put :update, params: { id: question_option.to_param, question_option: valid_attributes }, session: valid_session
         expect(response).to redirect_to(question_option)
       end
     end
@@ -136,7 +135,7 @@ RSpec.describe Admin::QuestionOptionsController, type: :controller do
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
         question_option = QuestionOption.create! valid_attributes
-        put :update, params: {id: question_option.to_param, question_option: invalid_attributes}, session: valid_session
+        put :update, params: { id: question_option.to_param, question_option: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -146,15 +145,14 @@ RSpec.describe Admin::QuestionOptionsController, type: :controller do
     it "destroys the requested question_option" do
       question_option = QuestionOption.create! valid_attributes
       expect {
-        delete :destroy, params: {id: question_option.to_param}, session: valid_session
+        delete :destroy, params: { id: question_option.to_param }, session: valid_session
       }.to change(QuestionOption, :count).by(-1)
     end
 
     it "redirects to the question_options list" do
       question_option = QuestionOption.create! valid_attributes
-      delete :destroy, params: {id: question_option.to_param}, session: valid_session
+      delete :destroy, params: { id: question_option.to_param }, session: valid_session
       expect(response).to redirect_to(question_options_url)
     end
   end
-
 end

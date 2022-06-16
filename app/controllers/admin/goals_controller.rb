@@ -28,7 +28,7 @@ class Admin::GoalsController < AdminController
 
   def new
     ensure_performance_manager_permissions
-    
+
     @goal = Goal.new
     @goal.organization_id = current_user.organization_id
     @goal.name = 'New Goal'
@@ -126,7 +126,6 @@ class Admin::GoalsController < AdminController
   def goal_targets; end
 
   def goal_objectives; end
-
 
   private
 

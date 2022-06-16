@@ -2,7 +2,6 @@ require 'rails_helper'
 include ActiveSupport::Testing::TimeHelpers
 
 RSpec.describe "/omb_cx_reporting_collections", js: true do
-
   let(:organization) { FactoryBot.create(:organization) }
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
   let(:user) { FactoryBot.create(:user, organization: organization) }

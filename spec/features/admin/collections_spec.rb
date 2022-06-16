@@ -65,8 +65,6 @@ feature "Data Collections", js: true do
           expect(find_all("table.collections tbody tr").size).to eq(2)
         end
       end
-
-
     end
 
     describe "GET /show" do
@@ -92,7 +90,7 @@ feature "Data Collections", js: true do
       end
 
       context "with valid parameters" do
-        let(:current_year) {  Time.now.strftime("%Y") }
+        let(:current_year) { Time.now.strftime("%Y") }
 
         before do
           select(organization.name, from: "collection_organization_id")
@@ -199,8 +197,6 @@ feature "Data Collections", js: true do
           expect(page).to have_content("Copy of #{collection.name}")
         end
       end
-
     end
   end
-
 end

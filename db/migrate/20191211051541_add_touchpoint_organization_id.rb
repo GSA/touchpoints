@@ -4,6 +4,7 @@ class AddTouchpointOrganizationId < ActiveRecord::Migration[5.2]
 
     Touchpoint.all.each do |touchpoint|
       next unless touchpoint.service.present?
+
       puts "Updating Touchpoint organization_id #{touchpoint.id}"
       touchpoint.update_attribute(:organization_id, touchpoint.service.organization_id)
     end

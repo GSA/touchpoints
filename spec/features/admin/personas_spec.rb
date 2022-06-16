@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "Personas", js: true do
-
   let!(:new_organization) { FactoryBot.build(:organization, name: "New Org") }
 
   let!(:organization) { FactoryBot.create(:organization) }
@@ -37,7 +36,5 @@ RSpec.describe "Personas", js: true do
         expect(page).to have_content("Persona was successfully created.")
       end
     end
-
   end
-
 end

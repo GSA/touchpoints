@@ -62,7 +62,7 @@ feature "Managing Users", js: true do
 
       context "with submissions" do
         let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: user) }
-        let!(:user_role) { FactoryBot.create(:user_role, user: user, form:form, role: UserRole::Role::FormManager) }
+        let!(:user_role) { FactoryBot.create(:user_role, user: user, form: form, role: UserRole::Role::FormManager) }
 
         before do
           visit admin_user_path(user)
@@ -132,5 +132,4 @@ feature "Managing Users", js: true do
       end
     end
   end
-
 end

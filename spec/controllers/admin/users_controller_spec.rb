@@ -24,7 +24,6 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe Admin::UsersController, type: :controller do
-
   # This should return the minimal set of attributes required to create a valid
   # User. As you add validations to User, be sure to
   # adjust the attributes here as well.
@@ -67,7 +66,7 @@ RSpec.describe Admin::UsersController, type: :controller do
   describe "GET #show" do
     it "returns a success response" do
       user = User.create! valid_attributes
-      get :show, params: {id: user.to_param}, session: valid_session
+      get :show, params: { id: user.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -75,7 +74,7 @@ RSpec.describe Admin::UsersController, type: :controller do
   describe "GET #edit" do
     it "returns a success response" do
       user = User.create! valid_attributes
-      get :edit, params: {id: user.to_param}, session: valid_session
+      get :edit, params: { id: user.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -96,7 +95,7 @@ RSpec.describe Admin::UsersController, type: :controller do
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: {user: invalid_attributes}, session: valid_session
+        post :create, params: { user: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -110,14 +109,14 @@ RSpec.describe Admin::UsersController, type: :controller do
 
       it "updates the requested user" do
         user = User.create! valid_attributes
-        put :update, params: {id: user.to_param, user: new_attributes}, session: valid_session
+        put :update, params: { id: user.to_param, user: new_attributes }, session: valid_session
         user.reload
         skip("Add assertions for updated state")
       end
 
       it "redirects to the user" do
         user = User.create! valid_attributes
-        put :update, params: {id: user.to_param, user: valid_attributes}, session: valid_session
+        put :update, params: { id: user.to_param, user: valid_attributes }, session: valid_session
         expect(response).to redirect_to(admin_user_path)
       end
     end
@@ -125,7 +124,7 @@ RSpec.describe Admin::UsersController, type: :controller do
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
         user = User.create! valid_attributes
-        put :update, params: {id: user.to_param, user: invalid_attributes}, session: valid_session
+        put :update, params: { id: user.to_param, user: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -135,13 +134,13 @@ RSpec.describe Admin::UsersController, type: :controller do
     it "destroys the requested user" do
       user = User.create! valid_attributes
       expect {
-        delete :destroy, params: {id: user.to_param}, session: valid_session
+        delete :destroy, params: { id: user.to_param }, session: valid_session
       }.to change(User, :count).by(-1)
     end
 
     it "redirects to the users list" do
       user = User.create! valid_attributes
-      delete :destroy, params: {id: user.to_param}, session: valid_session
+      delete :destroy, params: { id: user.to_param }, session: valid_session
       expect(response).to redirect_to(admin_users_url)
     end
   end
@@ -153,8 +152,7 @@ RSpec.describe Admin::UsersController, type: :controller do
     end
 
     it "returns a success response" do
-
-      u = User.new({email: 'testdeactivate@example.gov',uid: '127608c1-55ff-476d-8b5a-8e3cab524bdc'})
+      u = User.new({ email: 'testdeactivate@example.gov', uid: '127608c1-55ff-476d-8b5a-8e3cab524bdc' })
       u.save
       rsa_private = OpenSSL::PKey::RSA.generate 2048
       ENV["LOGIN_GOV_PUBLIC_KEY"] = rsa_private.public_key.to_s
@@ -164,11 +162,11 @@ RSpec.describe Admin::UsersController, type: :controller do
         nbf: Time.now,
         "events": {
           "https://schemas.openid.net/secevent/risc/event-type/account-purged": {
-              "subject": {
-                "subject-type": "iss-sub",
-                "iss": "issuer",
-                "sub": "127608c1-55ff-476d-8b5a-8e3cab524bdc"
-              }
+            "subject": {
+              "subject-type": "iss-sub",
+              "iss": "issuer",
+              "sub": "127608c1-55ff-476d-8b5a-8e3cab524bdc"
+            }
           }
         }
       }
@@ -185,5 +183,4 @@ RSpec.describe Admin::UsersController, type: :controller do
       u.destroy
     end
   end
-
 end

@@ -12,10 +12,10 @@ class OmbCxReportingCollection < ApplicationRecord
 
   def answer_points(question:)
     self.send("#{question}_1") * 1.0 +
-    self.send("#{question}_2") * 2.0 +
-    self.send("#{question}_3") * 3.0 +
-    self.send("#{question}_4") * 4.0 +
-    self.send("#{question}_5") * 5.0
+      self.send("#{question}_2") * 2.0 +
+      self.send("#{question}_3") * 3.0 +
+      self.send("#{question}_4") * 4.0 +
+      self.send("#{question}_5") * 5.0
   end
 
   def omb_control_number
@@ -105,10 +105,10 @@ class OmbCxReportingCollection < ApplicationRecord
 
   def question_total(question: nil)
     self.send("#{question}_1") +
-    self.send("#{question}_2") +
-    self.send("#{question}_3") +
-    self.send("#{question}_4") +
-    self.send("#{question}_5")
+      self.send("#{question}_2") +
+      self.send("#{question}_3") +
+      self.send("#{question}_4") +
+      self.send("#{question}_5")
   end
 
   def q1_total
@@ -194,6 +194,4 @@ class OmbCxReportingCollection < ApplicationRecord
   def service_slug
     self.service.service_slug
   end
-
-
 end

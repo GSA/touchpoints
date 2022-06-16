@@ -1,9 +1,8 @@
 class Admin::CollectionsController < AdminController
   before_action :set_collection, only: [:show, :edit, :copy,
-    :submit, :publish,
-    :update, :destroy,
-    :events
-  ]
+                                        :submit, :publish,
+                                        :update, :destroy,
+                                        :events]
 
   def index
     @quarter = params[:quarter].present? ? params[:quarter].to_i : nil
@@ -12,30 +11,30 @@ class Admin::CollectionsController < AdminController
     if performance_manager_permissions?
       if @quarter && @year
         @collections = Collection.where(quarter: @quarter, year: @year)
-          .order('organizations.name', :year, :quarter, 'service_providers.name')
-          .includes(:organization, :service_provider)
+                                 .order('organizations.name', :year, :quarter, 'service_providers.name')
+                                 .includes(:organization, :service_provider)
       elsif @quarter
         @collections = Collection.where(quarter: @quarter)
-          .order('organizations.name', :year, :quarter, 'service_providers.name')
-          .includes(:organization, :service_provider)
+                                 .order('organizations.name', :year, :quarter, 'service_providers.name')
+                                 .includes(:organization, :service_provider)
       else
         @collections = Collection.all
-          .order('organizations.name', :year, :quarter, 'service_providers.name')
-          .includes(:organization, :service_provider)
+                                 .order('organizations.name', :year, :quarter, 'service_providers.name')
+                                 .includes(:organization, :service_provider)
       end
     else
       if @quarter && @year
         @collections = current_user.collections.where(quarter: @quarter, year: @year)
-          .order('organizations.name', :year, :quarter, 'service_providers.name')
-          .includes(:organization, :service_provider)
+                                   .order('organizations.name', :year, :quarter, 'service_providers.name')
+                                   .includes(:organization, :service_provider)
       elsif @quarter
         @collections = current_user.collections.where(quarter: @quarter)
-          .order('organizations.name', :year, :quarter, 'service_providers.name')
-          .includes(:organization, :service_provider)
+                                   .order('organizations.name', :year, :quarter, 'service_providers.name')
+                                   .includes(:organization, :service_provider)
       else
         @collections = current_user.collections
-          .order('organizations.name', :year, :quarter, 'service_providers.name')
-          .includes(:organization, :service_provider)
+                                   .order('organizations.name', :year, :quarter, 'service_providers.name')
+                                   .includes(:organization, :service_provider)
       end
     end
   end
@@ -123,28 +122,29 @@ class Admin::CollectionsController < AdminController
   end
 
   private
-    def set_collection
-      if performance_manager_permissions?
-        @collection = Collection.find(params[:id])
-      else
-        @collection = current_user.collections.find(params[:id])
-      end
-    end
 
-    def collection_params
-      params.require(:collection).permit(
-        :name,
-        :start_date,
-        :end_date,
-        :organization_id,
-        :service_provider_id,
-        :year,
-        :quarter,
-        :user_id,
-        :reflection,
-        :integrity_hash,
-        :aasm_state,
-        :rating,
-      )
+  def set_collection
+    if performance_manager_permissions?
+      @collection = Collection.find(params[:id])
+    else
+      @collection = current_user.collections.find(params[:id])
     end
+  end
+
+  def collection_params
+    params.require(:collection).permit(
+      :name,
+      :start_date,
+      :end_date,
+      :organization_id,
+      :service_provider_id,
+      :year,
+      :quarter,
+      :user_id,
+      :reflection,
+      :integrity_hash,
+      :aasm_state,
+      :rating,
+    )
+  end
 end

@@ -40,11 +40,12 @@ class Admin::ServiceStageBarriersController < AdminController
   end
 
   private
-    def set_service_stage_barrier
-      @service_stage_barrier = ServiceStageBarrier.find(params[:id])
-    end
 
-    def service_stage_barrier_params
-      params.require(:service_stage_barrier).permit(:service_stage_id, :barrier_id)
-    end
+  def set_service_stage_barrier
+    @service_stage_barrier = ServiceStageBarrier.find(params[:id])
+  end
+
+  def service_stage_barrier_params
+    params.require(:service_stage_barrier).permit(:service_stage_id, :barrier_id)
+  end
 end

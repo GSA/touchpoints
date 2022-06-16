@@ -6,7 +6,7 @@ RSpec.describe Submission, type: :model do
   let(:user2) { FactoryBot.create(:user, organization: organization) }
   let(:form) { FactoryBot.build(:form, :custom, organization: organization, user: admin, notification_emails: "#{admin.email}, second@example.gov") }
   let!(:user_role2) { FactoryBot.create(:user_role, :form_manager, user: user2, form: form) }
-  let(:submission) { FactoryBot.create(:submission, form: form)}
+  let(:submission) { FactoryBot.create(:submission, form: form) }
 
   describe "#send_notifications" do
     before do
@@ -30,7 +30,7 @@ RSpec.describe Submission, type: :model do
     end
 
     describe "uniqueness" do
-      let(:submission2) { FactoryBot.create(:submission, form: form)}
+      let(:submission2) { FactoryBot.create(:submission, form: form) }
 
       before do
         submission.uuid = submission2.uuid
@@ -38,7 +38,7 @@ RSpec.describe Submission, type: :model do
       end
 
       it "throws error when trying to duplicate UUID" do
-        expect(submission.errors.messages).to eq({:uuid=>["has already been taken"]})
+        expect(submission.errors.messages).to eq({ :uuid => ["has already been taken"] })
       end
     end
   end

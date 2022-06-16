@@ -28,7 +28,7 @@ class Collection < ApplicationRecord
     end
 
     event :publish do
-     transitions from: :submitted, to: :published
+      transitions from: :submitted, to: :published
     end
 
     event :request_change do
@@ -42,7 +42,6 @@ class Collection < ApplicationRecord
     event :reset do
       transitions to: :draft
     end
-
   end
 
   def duplicate!(new_user:)

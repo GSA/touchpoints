@@ -57,6 +57,5 @@ feature "Touchpoints", js: true do
         end
       end
     end
-
   end
 end

@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-
   LEGACY_TOUCHPOINTS_URL_MAP = LegacyTouchpointUrlMap.map
 
   around_action :switch_locale
@@ -124,7 +123,6 @@ class ApplicationController < ActionController::Base
     redirect_to(admin_root_path, notice: "Authorization is Required")
   end
 
-
   # Define Permissions
   helper_method :admin_permissions?
   def admin_permissions?
@@ -135,6 +133,7 @@ class ApplicationController < ActionController::Base
   def performance_manager_permissions?
     return false unless current_user.present?
     return true if admin_permissions?
+
     current_user.performance_manager?
   end
 
@@ -142,6 +141,7 @@ class ApplicationController < ActionController::Base
   def collection_permissions?(collection:)
     return false unless collection.present?
     return true if performance_manager_permissions?
+
     collection.organization == current_user.organization
   end
 
@@ -149,6 +149,7 @@ class ApplicationController < ActionController::Base
   def organizational_website_manager_permissions?(user:)
     return false unless user.present?
     return true if admin_permissions?
+
     user.organizational_website_manager?
   end
 
@@ -156,6 +157,7 @@ class ApplicationController < ActionController::Base
   def registry_manager_permissions?(user:)
     return false unless user.present?
     return true if admin_permissions?
+
     user.registry_manager?
   end
 
@@ -190,6 +192,7 @@ class ApplicationController < ActionController::Base
     return false unless current_user.present?
     return true if current_user.service_manager?
     return true if admin_permissions?
+
     return false
   end
 
@@ -198,6 +201,7 @@ class ApplicationController < ActionController::Base
     return false unless form.present?
     return true if admin_permissions?
     return true if current_user.has_role?(:form_manager, form)
+
     (form.user_role?(user: current_user) == UserRole::Role::FormManager)
   end
 
@@ -207,7 +211,6 @@ class ApplicationController < ActionController::Base
 
     (form.user_role?(user: current_user) == UserRole::Role::ResponseViewer) || form_permissions?(form: form)
   end
-
 
   # Helpers
   def timestamp_string
@@ -221,16 +224,15 @@ class ApplicationController < ActionController::Base
 
     return [{
       pagination: {
-        current:  current,
+        current: current,
         previous: (current > 1 ? (current - 1) : nil),
-        next:     (current == total ? nil : (current + 1)),
+        next: (current == total ? nil : (current + 1)),
         per_page: per_page,
-        pages:    total,
-        count:    collection.total_count
+        pages: total,
+        count: collection.total_count
       }
     }, collection]
   end
-
 
   private
 

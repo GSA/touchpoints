@@ -7,7 +7,6 @@ class Admin::GoalTargetsController < AdminController
   end
 
   def show
-
   end
 
   def new
@@ -30,7 +29,7 @@ class Admin::GoalTargetsController < AdminController
 
     respond_to do |format|
       if @goal_target.save
-        format.html { redirect_to admin_goal_goal_target_path(@goal, @goal_target), notice: 'Goal target was successfully created.'}
+        format.html { redirect_to admin_goal_goal_target_path(@goal, @goal_target), notice: 'Goal target was successfully created.' }
         format.json { render :create, status: :created, goal: @goal }
         format.js
       else
@@ -46,7 +45,7 @@ class Admin::GoalTargetsController < AdminController
 
     respond_to do |format|
       if @goal_target.update(goal_target_params)
-        format.html { redirect_to admin_goal_goal_target_path(@goal, @goal_target), notice: 'Goal target was successfully updated.'}
+        format.html { redirect_to admin_goal_goal_target_path(@goal, @goal_target), notice: 'Goal target was successfully updated.' }
         format.json { render :update, status: :updated, goal: @goal }
         format.js
       else
@@ -62,22 +61,23 @@ class Admin::GoalTargetsController < AdminController
     @goal_target.destroy
 
     respond_to do |format|
-      format.html { redirect_to admin_goal_goal_targets_url(@goal), notice: 'Goal target was successfully destroyed.'}
+      format.html { redirect_to admin_goal_goal_targets_url(@goal), notice: 'Goal target was successfully destroyed.' }
       format.json { render :destroy, status: :deleted, goal: @goal }
       format.js
     end
   end
 
   private
-    def set_goal
-      @goal = Goal.find(params[:goal_id])
-    end
 
-    def set_goal_target
-      @goal_target = GoalTarget.find(params[:id])
-    end
+  def set_goal
+    @goal = Goal.find(params[:goal_id])
+  end
 
-    def goal_target_params
-      params.require(:goal_target).permit(:goal_id, :target_date_at, :assertion, :kpi, :starting_value, :target_value, :current_value)
-    end
+  def set_goal_target
+    @goal_target = GoalTarget.find(params[:id])
+  end
+
+  def goal_target_params
+    params.require(:goal_target).permit(:goal_id, :target_date_at, :assertion, :kpi, :starting_value, :target_value, :current_value)
+  end
 end

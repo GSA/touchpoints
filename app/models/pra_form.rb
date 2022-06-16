@@ -23,7 +23,7 @@ class PraForm
       end
 
       docx.style do
-        id              'indented-p'  # sets the internal identifier for the style.
+        id              'indented-p' # sets the internal identifier for the style.
         name            'heading 1' # sets the friendly name of the style.
         type            'paragraph' # sets the style type. accepts `paragraph` or `character`
         # font            'Palantino' # sets the font family.
@@ -31,7 +31,7 @@ class PraForm
         # size            28          # sets the font size. units in half points.
         # bold            false       # sets the font weight.
         # italic          false       # sets the font style.
-        underline       true       # sets whether or not to underline the text.
+        underline       true # sets whether or not to underline the text.
         # caps            false       # sets whether or not text should be rendered in all capital letters.
         # align           :left       # sets the alignment. accepts :left, :center, :right, and :both.
         # line            360         # sets the line height. units in twips.

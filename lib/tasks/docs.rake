@@ -1,5 +1,4 @@
 namespace :docs do
-
   task :generate do
     Rake::Task["docs:draw_erd"].invoke
     Rake::Task["docs:draw_state_diagrams"].invoke

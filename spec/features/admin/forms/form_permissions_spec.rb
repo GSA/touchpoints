@@ -6,7 +6,7 @@ feature "Forms", js: true do
   }
   let(:organization) { FactoryBot.create(:organization) }
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
-  let!(:form) { FactoryBot.create(:form, organization: organization, user: admin)}
+  let!(:form) { FactoryBot.create(:form, organization: organization, user: admin) }
   let!(:user) { FactoryBot.create(:user, organization: organization) }
 
   context "as Admin" do
@@ -15,7 +15,6 @@ feature "Forms", js: true do
     end
 
     describe "/admin/forms/:id/permissions" do
-
       context "normal scenario" do
         before do
           visit permissions_admin_form_path(form)
@@ -41,7 +40,6 @@ feature "Forms", js: true do
       end
 
       context "with a permission added in another session" do
-
         before do
           visit permissions_admin_form_path(form)
           # Then create a UserRole, as if somebody else did this in another session
@@ -63,9 +61,7 @@ feature "Forms", js: true do
             expect(alert_text).to eq("This User Role could not be added.")
           end
         end
-
       end
-
     end
   end
 end

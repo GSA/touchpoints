@@ -148,27 +148,28 @@ class Admin::OrganizationsController < AdminController
   end
 
   private
-    def set_organization
-      @organization = Organization.find_by_id(params[:id]) || Organization.find_by_abbreviation(params[:id].upcase)
-    end
 
-    def organization_params
-      params.require(:organization).permit(
-        :name,
-        :domain,
-        :logo,
-        :url,
-        :abbreviation,
-        :notes,
-        :external_id,
-        :enable_ip_address,
-        :digital_analytics_path,
-        :mission_statement,
-        :mission_statement_url,
-        :tag_list,
-        :performance_url,
-        :strategic_plan_url,
-        :learning_agenda_url,
-      )
-    end
+  def set_organization
+    @organization = Organization.find_by_id(params[:id]) || Organization.find_by_abbreviation(params[:id].upcase)
+  end
+
+  def organization_params
+    params.require(:organization).permit(
+      :name,
+      :domain,
+      :logo,
+      :url,
+      :abbreviation,
+      :notes,
+      :external_id,
+      :enable_ip_address,
+      :digital_analytics_path,
+      :mission_statement,
+      :mission_statement_url,
+      :tag_list,
+      :performance_url,
+      :strategic_plan_url,
+      :learning_agenda_url,
+    )
+  end
 end

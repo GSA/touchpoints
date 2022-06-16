@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Admin::WebsitesController, type: :controller do
-
   let(:valid_session) { {} }
 
   let(:admin) { FactoryBot.create(:user, :admin) }
@@ -24,7 +23,6 @@ RSpec.describe Admin::WebsitesController, type: :controller do
   end
 
   context "logged in" do
-
     before do
       sign_in(admin)
     end
@@ -37,15 +35,15 @@ RSpec.describe Admin::WebsitesController, type: :controller do
     end
 
     describe "GET #show" do
-     it "returns a success response" do
-        get :show, params: {id: website.to_param}, session: valid_session
+      it "returns a success response" do
+        get :show, params: { id: website.to_param }, session: valid_session
         expect(response).to be_successful
       end
     end
 
     describe "GET #versions" do
       it "returns http success" do
-        get :versions, params: {id: website.to_param}, session: valid_session
+        get :versions, params: { id: website.to_param }, session: valid_session
         expect(response).to be_successful
       end
     end

@@ -40,8 +40,9 @@ class Question < ApplicationRecord
   end
 
   def max_length
-  	return character_limit if character_limit.present?
-  	MAX_CHARACTERS
+    return character_limit if character_limit.present?
+
+    MAX_CHARACTERS
   end
 
   def validate_question_types

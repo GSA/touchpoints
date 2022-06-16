@@ -160,8 +160,6 @@ RSpec.describe User, type: :model do
         users = User.deactivation_pending(7)
         expect(users.count).to eq(1)
       end
-
     end
   end
-
 end

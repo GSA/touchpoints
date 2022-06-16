@@ -158,37 +158,36 @@ class Admin::DigitalProductsController < AdminController
     end
   end
 
-
   private
 
-    def set_digital_product
-      @digital_product = DigitalProduct.find(params[:id])
-      set_sponsoring_agency_options
-    end
+  def set_digital_product
+    @digital_product = DigitalProduct.find(params[:id])
+    set_sponsoring_agency_options
+  end
 
-    def set_sponsoring_agency_options
-      @sponsoring_agency_options = Organization.all.order(:name)
-      if @sponsoring_agency_options && @digital_product
-        @sponsoring_agency_options = @sponsoring_agency_options - @digital_product.sponsoring_agencies
-      end
+  def set_sponsoring_agency_options
+    @sponsoring_agency_options = Organization.all.order(:name)
+    if @sponsoring_agency_options && @digital_product
+      @sponsoring_agency_options = @sponsoring_agency_options - @digital_product.sponsoring_agencies
     end
+  end
 
-    def digital_product_params
-      params.require(:digital_product).permit(
-        :organization_id,
-        :user_id,
-        :name,
-        :service,
-        :url,
-        :code_repository_url,
-        :language,
-        :status,
-        :aasm_state,
-        :short_description,
-        :long_description,
-        :certified_at,
-        :tag_list,
-        :organization_list
-      )
-    end
+  def digital_product_params
+    params.require(:digital_product).permit(
+      :organization_id,
+      :user_id,
+      :name,
+      :service,
+      :url,
+      :code_repository_url,
+      :language,
+      :status,
+      :aasm_state,
+      :short_description,
+      :long_description,
+      :certified_at,
+      :tag_list,
+      :organization_list
+    )
+  end
 end

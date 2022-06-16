@@ -51,7 +51,6 @@ feature "Digital Service Accounts", js: true do
           expect(page).to have_content("Social Media Account")
           expect(page).to have_content("Service Account 1")
         end
-
       end
     end
 
@@ -72,7 +71,6 @@ feature "Digital Service Accounts", js: true do
           expect(page).to have_content('digital_service_account_created by admin@example.gov')
         end
       end
-
     end
 
     describe 'add tag' do
@@ -184,6 +182,5 @@ feature "Digital Service Accounts", js: true do
         expect(page).to_not have_content(user.email.upcase)
       end
     end
-
   end
 end

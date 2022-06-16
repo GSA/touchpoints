@@ -62,52 +62,52 @@ class Admin::QuestionsController < AdminController
 
     @question.destroy
     respond_to do |format|
-      format.js { }
+      format.js {}
       format.html { redirect_to questions_admin_form_url(@form), notice: 'Question was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    def set_form
-      @form = Form.find_by_short_uuid(params[:form_id])
-    end
 
-    def set_question
-      @question = @form.questions.find(params[:id])
-    end
+  def set_form
+    @form = Form.find_by_short_uuid(params[:form_id])
+  end
 
-    def set_defaults
-      @question.form_id = @form.id
-      @question.form_section_id = params[:form_section_id]
-      @question.text = "New Question"
-      @question.question_type = "text_field"
-      @question.answer_field = first_unused_answer_field
-      @question.save!
-    end
+  def set_question
+    @question = @form.questions.find(params[:id])
+  end
 
-    def question_params
-      params.require(:question).permit(
-        :form_id,
-        :form_section_id,
-        :question_type,
-        :text,
-        :placeholder_text,
-        :help_text,
-        :answer_field,
-        :position,
-        :is_required,
-        :character_limit
-      )
-    end
+  def set_defaults
+    @question.form_id = @form.id
+    @question.form_section_id = params[:form_section_id]
+    @question.text = "New Question"
+    @question.question_type = "text_field"
+    @question.answer_field = first_unused_answer_field
+    @question.save!
+  end
 
-    def first_unused_answer_field
-      answer_fields = Question.where(form_id: @form.id).collect { | q | q.answer_field }
-      (1..20).each do | ind |
-        af = "answer_#{ind.to_s.rjust(2,"0")}"
-        return af unless answer_fields.include?(af)
-      end
-      "answer_01"
-    end
+  def question_params
+    params.require(:question).permit(
+      :form_id,
+      :form_section_id,
+      :question_type,
+      :text,
+      :placeholder_text,
+      :help_text,
+      :answer_field,
+      :position,
+      :is_required,
+      :character_limit
+    )
+  end
 
+  def first_unused_answer_field
+    answer_fields = Question.where(form_id: @form.id).collect { |q| q.answer_field }
+    (1..20).each do |ind|
+      af = "answer_#{ind.to_s.rjust(2, "0")}"
+      return af unless answer_fields.include?(af)
+    end
+    "answer_01"
+  end
 end

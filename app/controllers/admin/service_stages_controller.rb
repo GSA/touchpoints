@@ -51,18 +51,18 @@ class Admin::ServiceStagesController < AdminController
 
   private
 
-    def set_service
-      @service = Service.find(params[:service_id])
-    end
+  def set_service
+    @service = Service.find(params[:service_id])
+  end
 
-    def set_service_stage
-      @service_stage = ServiceStage.find(params[:id])
-    end
+  def set_service_stage
+    @service_stage = ServiceStage.find(params[:id])
+  end
 
-    def service_stage_params
-      params.require(:service_stage).permit(:name, :description, :service_id, :notes, :time,
-        :position,
-        :persona_id,
-        :total_eligible_population)
-    end
+  def service_stage_params
+    params.require(:service_stage).permit(:name, :description, :service_id, :notes, :time,
+                                          :position,
+                                          :persona_id,
+                                          :total_eligible_population)
+  end
 end

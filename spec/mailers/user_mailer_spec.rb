@@ -4,7 +4,7 @@ RSpec.describe UserMailer, type: :mailer do
   describe "submission_notification" do
     let!(:organization) { FactoryBot.create(:organization) }
     let(:user) { FactoryBot.create(:user, organization: organization) }
-    let(:form) { FactoryBot.create(:form, organization: organization, user: user)}
+    let(:form) { FactoryBot.create(:form, organization: organization, user: user) }
     let!(:submission) { FactoryBot.create(:submission, form: form) }
     let(:mail) { UserMailer.submission_notification(submission_id: submission.id, emails: [user.email]) }
 
@@ -23,7 +23,7 @@ RSpec.describe UserMailer, type: :mailer do
   describe "submission_digest" do
     let!(:organization) { FactoryBot.create(:organization) }
     let(:user) { FactoryBot.create(:user, organization: organization) }
-    let(:form) { FactoryBot.create(:form, organization: organization, user: user)}
+    let(:form) { FactoryBot.create(:form, organization: organization, user: user) }
     let!(:submission) { FactoryBot.create(:submission, form: form) }
     let(:begin_day) { 1.day.ago }
     let(:mail) { UserMailer.submissions_digest(form.id, begin_day) }
@@ -39,8 +39,8 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it "renders the body" do
-      expect(mail.body.encoded).to match("Notification of feedback received since #{ @begin_day }")
-      expect(mail.body.encoded).to match("1 feedback responses have been submitted to your form, #{ form.name }, since #{begin_day}")
+      expect(mail.body.encoded).to match("Notification of feedback received since #{@begin_day}")
+      expect(mail.body.encoded).to match("1 feedback responses have been submitted to your form, #{form.name}, since #{begin_day}")
     end
   end
 
@@ -61,8 +61,8 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it "renders the body" do
-      expect(mail.body.encoded).to match("Account deactivation scheduled in #{ active_days } days.")
-      expect(mail.body.encoded).to match("Your account is scheduled to be deactivated in #{ active_days } days due to inactivity.")
+      expect(mail.body.encoded).to match("Account deactivation scheduled in #{active_days} days.")
+      expect(mail.body.encoded).to match("Your account is scheduled to be deactivated in #{active_days} days due to inactivity.")
     end
   end
 
@@ -107,12 +107,11 @@ RSpec.describe UserMailer, type: :mailer do
     it "renders the body" do
       expect(mail.body.encoded).to match("New user account created")
     end
-
   end
 
   describe "social_media_account_created_notification" do
     let!(:user) { FactoryBot.create(:user, registry_manager: true) }
-    let(:digital_service_account) { FactoryBot.create(:digital_service_account)}
+    let(:digital_service_account) { FactoryBot.create(:digital_service_account) }
     let(:mail) { UserMailer.social_media_account_created_notification(digital_service_account: digital_service_account, link: admin_digital_service_account_path(digital_service_account)) }
 
     it "renders the headers" do
@@ -124,12 +123,11 @@ RSpec.describe UserMailer, type: :mailer do
     it "renders the body" do
       expect(mail.body.encoded).to match("Social Media Account has been created")
     end
-
   end
 
   describe "org_user_notification" do
     let(:user) { FactoryBot.create(:user) }
-    let(:mail) { UserMailer.org_user_notification(user,user) }
+    let(:mail) { UserMailer.org_user_notification(user, user) }
 
     it "renders the headers" do
       expect(mail.subject).to eq("New user added to organization")
@@ -140,7 +138,6 @@ RSpec.describe UserMailer, type: :mailer do
     it "renders the body" do
       expect(mail.body.encoded).to match("New user added to organization")
     end
-
   end
 
   describe "no_org_notification" do
@@ -156,7 +153,5 @@ RSpec.describe UserMailer, type: :mailer do
     it "renders the body" do
       expect(mail.body.encoded).to match("New user account creation failed")
     end
-
   end
-
 end

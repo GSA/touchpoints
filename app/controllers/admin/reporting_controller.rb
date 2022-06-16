@@ -2,19 +2,19 @@ class Admin::ReportingController < AdminController
   def hisps
     row = []
     header_fields = [
-        :department,
-        :department_abbreviation,
-        :service_provider_id,
-        :name,
-        :description,
-        :notes,
-        :new_hisp
-      ]
+      :department,
+      :department_abbreviation,
+      :service_provider_id,
+      :name,
+      :description,
+      :notes,
+      :new_hisp
+    ]
 
     row << header_fields.join(",")
 
     ServiceProvider.active.includes(:organization).order("organizations.name", :name).each do |hisp|
-    row_fields = [
+      row_fields = [
         hisp.organization.name,
         hisp.organization.abbreviation.downcase,
         hisp.slug,
@@ -59,7 +59,6 @@ class Admin::ReportingController < AdminController
     ServiceProvider.all.includes(:organization).order("organizations.name", :name).each do |service_provider|
       service_provider.services.order(:name).each do |service|
         service.omb_cx_reporting_collections.includes(:service, :collection).order("collections.year", "collections.quarter", "services.name").each do |omb_cx_reporting_collection|
-
           row_fields = [
             omb_cx_reporting_collection.organization_abbreviation,
             "\"#{omb_cx_reporting_collection.organization_name}\"",
@@ -83,7 +82,6 @@ class Admin::ReportingController < AdminController
             omb_cx_reporting_collection.q7_point_scale
           ]
           row << row_fields.join(",")
-
         end
       end
     end
@@ -242,7 +240,6 @@ class Admin::ReportingController < AdminController
                 omb_cx_reporting_collection.collection.end_date
               ]
               rows << row_fields.join(",")
-
             end
           end
         end
@@ -297,7 +294,7 @@ class Admin::ReportingController < AdminController
 
         @collections.each do |collection|
           collection.omb_cx_reporting_collections.includes(:collection).order("collections.year", "collections.quarter", "omb_cx_reporting_collections.service_provided", "omb_cx_reporting_collections.channel").each do |omb_cx_reporting_collection|
-             # WRITE A CSV LINE FOR EACH OF THE 7 STANDARD QUESTIONS
+            # WRITE A CSV LINE FOR EACH OF THE 7 STANDARD QUESTIONS
             (1..7).each do |question_number|
               next if params[:question] && (question_number.to_s != params[:question])
 
@@ -328,7 +325,7 @@ class Admin::ReportingController < AdminController
                 omb_cx_reporting_collection.collection.end_date,
               ]
 
-               rows << row_fields.join(",")
+              rows << row_fields.join(",")
             end # 1..7
           end # omb_cx_reporting_collection
         end # collection
@@ -340,10 +337,10 @@ class Admin::ReportingController < AdminController
 
   def lifespan
     @form_lifespans = Submission.select("form_id, count(*) as num_submissions, (max(submissions.created_at) - min(submissions.created_at)) as lifespan").group(:form_id)
-    @forms = Form.select(:id,:name,:organization_id,:uuid).where("exists (select id, uuid from submissions where submissions.form_id = forms.id)")
+    @forms = Form.select(:id, :name, :organization_id, :uuid).where("exists (select id, uuid from submissions where submissions.form_id = forms.id)")
     @orgs = Organization.all.order(:name)
     @org_summary = []
-    @orgs.each do | org |
+    @orgs.each do |org|
       org_row = {}
       org_row[:name] = org.name
       org_row[:forms] = []
@@ -366,10 +363,10 @@ class Admin::ReportingController < AdminController
   end
 
   def no_submissions
-    @forms = Form.live.select(:id,:name,:organization_id,:uuid).where("not exists (select id, uuid from submissions where submissions.form_id = forms.id and submissions.created_at > current_date - interval '30' day)").order(:organization_id)
+    @forms = Form.live.select(:id, :name, :organization_id, :uuid).where("not exists (select id, uuid from submissions where submissions.form_id = forms.id and submissions.created_at > current_date - interval '30' day)").order(:organization_id)
     @orgs = Organization.all.order(:name)
     @org_summary = []
-    @orgs.each do | org |
+    @orgs.each do |org|
       org_row = {}
       org_row[:name] = org.name
       org_row[:forms] = []

@@ -60,7 +60,7 @@ class User < ApplicationRecord
     # For login.gov native accounts
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
-      user.password = Devise.friendly_token[0,24]
+      user.password = Devise.friendly_token[0, 24]
     end
   end
 
@@ -112,7 +112,7 @@ class User < ApplicationRecord
 
   def self.send_account_deactivation_notifications(expire_days)
     users = User.deactivation_pending(expire_days)
-    users.each do | user |
+    users.each do |user|
       UserMailer.account_deactivation_scheduled_notification(user.email, expire_days).deliver_later
     end
   end
@@ -126,7 +126,7 @@ class User < ApplicationRecord
   def self.deactivate_inactive_accounts!
     # Find all accounts scheduled to be deactivated in 14 days
     users = User.active.where("(last_sign_in_at ISNULL AND created_at <= ?) OR (last_sign_in_at <= ?)", 90.days.ago, 90.days.ago)
-    users.each do | user |
+    users.each do |user|
       user.deactivate!
     end
   end
@@ -136,11 +136,13 @@ class User < ApplicationRecord
     return nil unless active_users.present?
 
     header_attributes = ["organization_name", "email", "last_sign_in_at"]
-    attributes = active_users.map { |u| {
-      organization_name: u.organization.name,
-      email: u.email,
-      last_sign_in_at: u.last_sign_in_at
-    }}
+    attributes = active_users.map { |u|
+      {
+        organization_name: u.organization.name,
+        email: u.email,
+        last_sign_in_at: u.last_sign_in_at
+      }
+    }
 
     CSV.generate(headers: true) do |csv|
       csv << header_attributes
@@ -160,35 +162,35 @@ class User < ApplicationRecord
 
   private
 
-    def parse_host_from_domain(string)
-      fragments = string.split(".")
-      if fragments.size == 2
-        return string
-      elsif fragments.size == 3
-        fragments.shift
-        return fragments.join(".")
-      elsif fragments.size == 4
-        fragments.shift
-        fragments.shift
-        return fragments.join(".")
-      end
+  def parse_host_from_domain(string)
+    fragments = string.split(".")
+    if fragments.size == 2
+      return string
+    elsif fragments.size == 3
+      fragments.shift
+      return fragments.join(".")
+    elsif fragments.size == 4
+      fragments.shift
+      fragments.shift
+      return fragments.join(".")
     end
+  end
 
-    def ensure_organization
-      return if organization_id.present?
+  def ensure_organization
+    return if organization_id.present?
 
-      email_address_domain = Mail::Address.new(self.email).domain
-      parsed_domain = parse_host_from_domain(email_address_domain)
+    email_address_domain = Mail::Address.new(self.email).domain
+    parsed_domain = parse_host_from_domain(email_address_domain)
 
-      if org = Organization.find_by_domain(parsed_domain)
-        self.organization_id = org.id
-      else
-        UserMailer.no_org_notification(self).deliver_later if self.id
-        errors.add(:organization, "'#{email_address_domain}' has not yet been configured for Touchpoints - Please contact the Feedback Analytics Team for assistance.")
-      end
+    if org = Organization.find_by_domain(parsed_domain)
+      self.organization_id = org.id
+    else
+      UserMailer.no_org_notification(self).deliver_later if self.id
+      errors.add(:organization, "'#{email_address_domain}' has not yet been configured for Touchpoints - Please contact the Feedback Analytics Team for assistance.")
     end
+  end
 
-    def send_new_user_notification
-      UserMailer.new_user_notification(self).deliver_later
-    end
+  def send_new_user_notification
+    UserMailer.new_user_notification(self).deliver_later
+  end
 end

@@ -1,7 +1,6 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
   authenticate :user, lambda { |u| u.admin? } do
@@ -97,7 +96,6 @@ Rails.application.routes.draw do
         post "remove_tag", to: "services#remove_tag", as: :remove_tag
         post "add_service_manager", to: "services#add_service_manager", as: :add_service_manager
         post "remove_service_manager", to: "services#remove_service_manager", as: :remove_service_manager
-
 
         post "submit", to: "services#submit", as: :submit
         post "approve", to: "services#approve", as: :approve

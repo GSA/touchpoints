@@ -4,6 +4,7 @@ class AddHispServiceToTouchpoint < ActiveRecord::Migration[5.2]
 
     Touchpoint.all.each do |touchpoint|
       next unless touchpoint.service
+
       touchpoint.update_attribute(:hisp, touchpoint.service.hisp)
     end
   end

@@ -1,7 +1,5 @@
 class CreatePraRecords < ActiveRecord::Migration[5.2]
-
   def change
-
     add_column :forms, :uuid, :string
     add_index :forms, :uuid
 
@@ -40,6 +38,7 @@ class CreatePraRecords < ActiveRecord::Migration[5.2]
     # Update Organization -> Form
     Touchpoint.all.each do |touchpoint|
       next unless touchpoint.form.present?
+
       # Migrate Touchpoint data to the Form
       form = touchpoint.form
       # Use the existing Form's name

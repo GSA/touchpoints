@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "/milestones", js: true do
-
   let(:organization) { FactoryBot.create(:organization) }
   let!(:milestones) { FactoryBot.create_list(:milestone, 3, organization: organization) }
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }

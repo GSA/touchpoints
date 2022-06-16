@@ -54,18 +54,18 @@ RSpec.describe Form, type: :model do
       it "returns a hash of questions, location_code, and 'standard' attributes" do
         expect(form.hashed_fields_for_export.class).to eq(Hash)
         expect(form.hashed_fields_for_export.keys).to eq([
-          :uuid,
-          # question fields
-          "answer_01",
-          "answer_02",
-          "answer_03",
-          "answer_10",
-          "answer_04",
-          # custom location code
-          :location_code,
-          # standard fields
-          :user_agent, :page, :referer, :created_at, :ip_address
-        ])
+                                                           :uuid,
+                                                           # question fields
+                                                           "answer_01",
+                                                           "answer_02",
+                                                           "answer_03",
+                                                           "answer_10",
+                                                           "answer_04",
+                                                           # custom location code
+                                                           :location_code,
+                                                           # standard fields
+                                                           :user_agent, :page, :referer, :created_at, :ip_address
+                                                         ])
       end
     end
   end
@@ -88,7 +88,7 @@ RSpec.describe Form, type: :model do
     end
 
     context "with user_role" do
-      let!(:user_role) { FactoryBot.create(:user_role, user: user, form: form, role: UserRole::Role::FormManager)}
+      let!(:user_role) { FactoryBot.create(:user_role, user: user, form: form, role: UserRole::Role::FormManager) }
 
       it "returns the role as a string" do
         expect(form.user_role?(user: user)).to eq("form_manager")
@@ -96,7 +96,7 @@ RSpec.describe Form, type: :model do
     end
 
     context "with user_role" do
-      let!(:user_role) { FactoryBot.create(:user_role, user: user, form: form, role: UserRole::Role::ResponseViewer)}
+      let!(:user_role) { FactoryBot.create(:user_role, user: user, form: form, role: UserRole::Role::ResponseViewer) }
 
       it "returns the role as a string" do
         expect(form.user_role?(user: user)).to eq("response_viewer")
@@ -164,7 +164,7 @@ RSpec.describe Form, type: :model do
   end
 
   describe "#user_roles" do
-    let!(:user_role) { FactoryBot.create(:user_role, user: user, form: form, role: UserRole::Role::FormManager)}
+    let!(:user_role) { FactoryBot.create(:user_role, user: user, form: form, role: UserRole::Role::FormManager) }
 
     before do
       form.submissions.destroy_all # manually remove the Form's seeded submission
@@ -180,7 +180,7 @@ RSpec.describe Form, type: :model do
 
   describe "validate state transitions" do
     let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
-    let(:form) { FactoryBot.create(:form, organization: organization, user: admin)}
+    let(:form) { FactoryBot.create(:form, organization: organization, user: admin) }
 
     context "initial state" do
       it "sets initial state" do
@@ -239,7 +239,7 @@ RSpec.describe Form, type: :model do
 
   describe "dependent data relations" do
     let(:form_without_responses) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: user) }
-    let!(:user_role) { FactoryBot.create(:user_role, user: user, form: form_without_responses, role: UserRole::Role::FormManager)}
+    let!(:user_role) { FactoryBot.create(:user_role, user: user, form: form_without_responses, role: UserRole::Role::FormManager) }
 
     describe "delete the Form's Form Sections" do
       before do

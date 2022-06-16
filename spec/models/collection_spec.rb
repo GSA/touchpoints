@@ -36,7 +36,6 @@ RSpec.describe Collection, type: :model do
         expect(@collection.errors.messages).to have_key(:quarter)
         expect(@collection.errors.messages[:quarter]).to eq(["can't be blank"])
       end
-
     end
   end
 
@@ -65,8 +64,6 @@ RSpec.describe Collection, type: :model do
         expect(@collection.valid?).to eq(false)
         expect(@collection.errors.messages[:reflection].first).to eq("is too long (maximum is 5000 characters)")
       end
-
     end
   end
-
 end

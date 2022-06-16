@@ -1,5 +1,4 @@
 class LegacyTouchpointUrlMap
-
   ## Create a hash map of legacy Touchpoint id and short_uuid routes to new Form.short_uuid
   def self.map
     legacy_map = {}

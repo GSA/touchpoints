@@ -74,6 +74,7 @@ class Submission < ApplicationRecord
     Event.log_event(Event.names[:touchpoint_form_submitted], 'Submission', self.id, "Submission received for organization '#{self.organization_name}' form '#{self.form.name}' ")
     return unless ENV["ENABLE_EMAIL_NOTIFICATIONS"] == "true"
     return unless self.form.send_notifications?
+
     emails_to_notify = self.form.notification_emails.split(',')
     if form.notification_frequency == "instant"
       UserMailer.submission_notification(submission_id: self.id, emails: emails_to_notify.uniq).deliver_later
@@ -82,14 +83,14 @@ class Submission < ApplicationRecord
 
   def self.send_daily_notifications
     form_ids = Submission.where("created_at > ?", 1.day.ago).pluck(:form_id).uniq
-    form_ids.each do | form_id |
+    form_ids.each do |form_id|
       UserMailer.submissions_digest(form_id, 1.day.ago).deliver_later
     end
   end
 
   def self.send_weekly_notifications
     form_ids = Submission.where("created_at > ?", 7.days.ago).pluck(:form_id).uniq
-    form_ids.each do | form_id |
+    form_ids.each do |form_id|
       UserMailer.submissions_digest(form_id, 7.days.ago).deliver_later
     end
   end

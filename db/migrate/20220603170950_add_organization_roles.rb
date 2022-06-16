@@ -5,6 +5,6 @@ class AddOrganizationRoles < ActiveRecord::Migration[7.0]
       t.references :role
     end
 
-    add_index(:organizations_roles, [ :organization_id, :role_id ])
+    add_index(:organizations_roles, [:organization_id, :role_id])
   end
 end

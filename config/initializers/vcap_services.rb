@@ -13,7 +13,6 @@ def set_s3!(vcap_services_json)
     raise Exception.new("s3 credentials could not be derived from Cloud Foundry VCAP_SERVICES")
   end
 
-
   # Set ENV variables based on Cloud Foundry's VCAP_SERVICES object
   # Note: this is done this way to allow Touchpoints to use ENV variables
   # on other platforms as well.
@@ -37,7 +36,6 @@ def set_redis!(vcap_services_json)
   ENV["REDIS_URL"] = redis_credentials["uri"].gsub("redis:", "rediss:")
   puts "Set REDIS_URL ENV variable via vcap_services.rb"
 end
-
 
 if vcap_services.present?
   vcap_services_json = JSON.parse(vcap_services)

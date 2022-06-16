@@ -1,5 +1,4 @@
 class UsState
-
   STATES = [
     { name: "Alabama", abbreviation: "AL" },
     { name: "Alaska", abbreviation: "AK" },

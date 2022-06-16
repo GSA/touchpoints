@@ -30,15 +30,15 @@ class SubmissionsController < ApplicationController
 
     # Prevent the Submission if this is a published Form and if:
     if @form &&
-      request.referer &&
-      # is not from the Form's whitelist URL
-      (@form.whitelist_url.present? ? !request.referer.start_with?(@form.whitelist_url) : true) &&
-      # is not from the Form's test whitelist URL
-      (@form.whitelist_test_url.present? ? !request.referer.start_with?(@form.whitelist_test_url) : true) &&
-      # is not from the Touchpoints app
-      !request.referer.start_with?(root_url) &&
-      # is not from the Organization URL
-      !request.referer.start_with?(@form.organization.url)
+       request.referer &&
+       # is not from the Form's whitelist URL
+       (@form.whitelist_url.present? ? !request.referer.start_with?(@form.whitelist_url) : true) &&
+       # is not from the Form's test whitelist URL
+       (@form.whitelist_test_url.present? ? !request.referer.start_with?(@form.whitelist_test_url) : true) &&
+       # is not from the Touchpoints app
+       !request.referer.start_with?(root_url) &&
+       # is not from the Organization URL
+       !request.referer.start_with?(@form.organization.url)
 
       error_options = {
         custom_params: {
@@ -66,67 +66,67 @@ class SubmissionsController < ApplicationController
 
   private
 
-    def create_in_local_database(submission)
-      respond_to do |format|
-        if submission.save
-          format.html do
-            redirect_to submit_touchpoint_path(submission.form),
-                        notice: 'Thank You. Response was submitted successfully.'
-          end
-          format.json do
-            render json: {
-              submission: {
-                id: submission.id,
-                first_name: submission.answer_01,
-                last_name: submission.answer_02,
-                email: submission.answer_03,
-                phone_number: submission.answer_04,
-                form: {
-                  id: submission.form.uuid,
-                  name: submission.form.name,
-                  organization_name: submission.organization_name
-                }
+  def create_in_local_database(submission)
+    respond_to do |format|
+      if submission.save
+        format.html do
+          redirect_to submit_touchpoint_path(submission.form),
+                      notice: 'Thank You. Response was submitted successfully.'
+        end
+        format.json do
+          render json: {
+            submission: {
+              id: submission.id,
+              first_name: submission.answer_01,
+              last_name: submission.answer_02,
+              email: submission.answer_03,
+              phone_number: submission.answer_04,
+              form: {
+                id: submission.form.uuid,
+                name: submission.form.name,
+                organization_name: submission.organization_name
               }
-            },
-                   status: :created
-          end
-        else
-          format.html do
-          end
-          format.json do
-            render json: {
-              status: :unprocessable_entity,
-              messages: submission.errors
-            }, status: :unprocessable_entity
-          end
+            }
+          },
+                 status: :created
+        end
+      else
+        format.html do
+        end
+        format.json do
+          render json: {
+            status: :unprocessable_entity,
+            messages: submission.errors
+          }, status: :unprocessable_entity
         end
       end
     end
+  end
 
-    def set_form
-      if params[:form]
-        @short_uuid = params[:id].to_s
-        if LEGACY_TOUCHPOINTS_URL_MAP.has_key?(params[:id].to_s)
-          @short_uuid = LEGACY_TOUCHPOINTS_URL_MAP[params[:id].to_s]
-        end
-      elsif params[:form_id]
-        @short_uuid = params[:form_id].to_s
-        if LEGACY_TOUCHPOINTS_URL_MAP.has_key?(params[:form_id].to_s)
-          @short_uuid = LEGACY_TOUCHPOINTS_URL_MAP[params[:form_id].to_s]
-        end
-      elsif params[:touchpoint_id]
-        @short_uuid = params[:touchpoint_id].to_s
-        if LEGACY_TOUCHPOINTS_URL_MAP.has_key?(params[:touchpoint_id].to_s)
-          @short_uuid = LEGACY_TOUCHPOINTS_URL_MAP[params[:touchpoint_id].to_s]
-        end
+  def set_form
+    if params[:form]
+      @short_uuid = params[:id].to_s
+      if LEGACY_TOUCHPOINTS_URL_MAP.has_key?(params[:id].to_s)
+        @short_uuid = LEGACY_TOUCHPOINTS_URL_MAP[params[:id].to_s]
       end
-      @form = FormCache.fetch(@short_uuid)
-      raise ActiveRecord::RecordNotFound, "no form with ID of #{@short_uuid}" unless @form.present?
+    elsif params[:form_id]
+      @short_uuid = params[:form_id].to_s
+      if LEGACY_TOUCHPOINTS_URL_MAP.has_key?(params[:form_id].to_s)
+        @short_uuid = LEGACY_TOUCHPOINTS_URL_MAP[params[:form_id].to_s]
+      end
+    elsif params[:touchpoint_id]
+      @short_uuid = params[:touchpoint_id].to_s
+      if LEGACY_TOUCHPOINTS_URL_MAP.has_key?(params[:touchpoint_id].to_s)
+        @short_uuid = LEGACY_TOUCHPOINTS_URL_MAP[params[:touchpoint_id].to_s]
+      end
     end
+    @form = FormCache.fetch(@short_uuid)
+    raise ActiveRecord::RecordNotFound, "no form with ID of #{@short_uuid}" unless @form.present?
+  end
 
-    def submission_params
-      permitted_fields = @form.questions.collect(&:answer_field)
-      permitted_fields << %i[language location_code referer page fba_directive]
-      params.require(:submission).permit(permitted_fields)
-    end
+  def submission_params
+    permitted_fields = @form.questions.collect(&:answer_field)
+    permitted_fields << %i[language location_code referer page fba_directive]
+    params.require(:submission).permit(permitted_fields)
+  end
 end

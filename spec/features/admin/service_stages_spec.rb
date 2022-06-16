@@ -6,8 +6,8 @@ feature "Service Stages", js: true do
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
   let(:service_owner) { FactoryBot.create(:user, organization: organization) }
 
-  let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization ) }
-  let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: service_owner.id ) }
+  let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization) }
+  let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: service_owner.id) }
   let!(:service2) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: admin.id) }
   let!(:persona) { FactoryBot.create(:persona, name: 'Federal Staff User') }
 
@@ -21,7 +21,6 @@ feature "Service Stages", js: true do
     before do
       login_as admin
       visit admin_service_path(service2)
-
     end
 
     describe "add Service Stage" do

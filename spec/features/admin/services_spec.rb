@@ -6,7 +6,7 @@ feature "Managing Services", js: true do
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
   let(:user) { FactoryBot.create(:user, organization: organization) }
 
-  let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization ) }
+  let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization) }
   let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: user.id) }
   let!(:service2) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: admin.id) }
 
@@ -54,7 +54,6 @@ feature "Managing Services", js: true do
       end
     end
 
-
     describe "add a tag to a Service" do
       before "add the tag" do
         visit admin_service_path(service2)
@@ -89,6 +88,5 @@ feature "Managing Services", js: true do
         expect(page).to have_css(".usa-tag", text: admin.email.upcase)
       end
     end
-
   end
 end

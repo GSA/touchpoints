@@ -18,13 +18,13 @@ class TouchpointsController < ApplicationController
     render(partial: "components/widget/fba", formats: :js, locals: { form: @form })
   end
 
-
   private
-    def set_touchpoint
-      @form = (params[:id].to_s.length == 8) ? # if short_uuid
-        (Form.find_by_legacy_touchpoints_uuid(params[:id]) || Form.find_by_short_uuid(params[:id])) :
-        (Form.find_by_legacy_touchpoints_id(params[:id]))
 
-      raise ActiveRecord::RecordNotFound, "no form with ID of #{params[:id]}" unless @form.present?
-    end
+  def set_touchpoint
+    @form = (params[:id].to_s.length == 8) ? # if short_uuid
+      (Form.find_by_legacy_touchpoints_uuid(params[:id]) || Form.find_by_short_uuid(params[:id])) :
+      (Form.find_by_legacy_touchpoints_id(params[:id]))
+
+    raise ActiveRecord::RecordNotFound, "no form with ID of #{params[:id]}" unless @form.present?
+  end
 end

@@ -100,7 +100,6 @@ describe Api::V0::FormsController, type: :controller do
       end
     end
 
-
     describe "#show" do
       context "passing a valid API_KEY" do
         let!(:user) { FactoryBot.create(:user) }

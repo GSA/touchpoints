@@ -1,7 +1,6 @@
 require 'kramdown'
 
 module ApplicationHelper
-
   def suppress_main_layout_flash?
     if flash && ["User successfully added", "User successfully removed"].include?(flash.notice)
       return true
@@ -10,6 +9,7 @@ module ApplicationHelper
 
   def to_markdown(text)
     return nil unless text.present?
+
     raw(sanitize(Kramdown::Document.new(text).to_html))
   end
 
@@ -43,9 +43,9 @@ module ApplicationHelper
   # value = sort order
   def collection_rating_sort_values
     {
-      "FALSE"   => "1",
+      "FALSE" => "1",
       "PARTIAL" => "2",
-      "TRUE"    => "3"
+      "TRUE" => "3"
     }
   end
 
@@ -53,11 +53,11 @@ module ApplicationHelper
   # value = sort order
   def service_status_sort_values
     {
-      "created"   => "1",
+      "created" => "1",
       "submitted" => "2",
-      "approved"  => "3",
-      "verified"  => "4",
-      "archived"  => "5"
+      "approved" => "3",
+      "verified" => "4",
+      "archived" => "5"
     }
   end
 
@@ -65,29 +65,29 @@ module ApplicationHelper
   # value = sort order
   def website_status_sort_values
     {
-      "newly_requested"      => "1",
-      "request_approved"     => "2",
-      "request_denied"       => "3",
-      "in_development"       => "4",
-      "production"           => "5",
+      "newly_requested" => "1",
+      "request_approved" => "2",
+      "request_denied" => "3",
+      "in_development" => "4",
+      "production" => "5",
       "being_decommissioned" => "6",
-      "redirect"             => "7",
-      "archived"             => "8",
-      "decommissioned"       => "9",
+      "redirect" => "7",
+      "archived" => "8",
+      "decommissioned" => "9",
     }
   end
 
   def website_status_label_tags(status)
     {
-      "newly_requested"      => "bg-primary-light",
-      "request_approved"     => "bg-primary",
-      "request_denied"       => "bg-red",
-      "in_development"       => "bg-blue",
-      "production"           => "bg-mint",
+      "newly_requested" => "bg-primary-light",
+      "request_approved" => "bg-primary",
+      "request_denied" => "bg-red",
+      "in_development" => "bg-blue",
+      "production" => "bg-mint",
       "being_decommissioned" => "bg-accent-warm-dark",
-      "redirect"             => "bg-accent-warm-light",
-      "archived"             => "bg-gray-30",
-      "decommissioned"       => "bg-black",
+      "redirect" => "bg-accent-warm-light",
+      "archived" => "bg-gray-30",
+      "decommissioned" => "bg-black",
     }[status]
   end
 

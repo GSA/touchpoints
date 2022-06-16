@@ -27,7 +27,7 @@ class Admin::SubmissionsController < AdminController
   def search
     @all_submissions = @form.submissions
     if params[:tag]
-      @all_submissions =  @all_submissions.tagged_with(params[:tag])
+      @all_submissions = @all_submissions.tagged_with(params[:tag])
     end
     if params[:archived]
       @submissions = @all_submissions.order("submissions.created_at DESC").page params[:page]
@@ -65,11 +65,11 @@ class Admin::SubmissionsController < AdminController
   end
 
   def responses_per_day
-    @dates = (45.days.ago.to_date..Date.today).map{ |date| date }
+    @dates = (45.days.ago.to_date..Date.today).map { |date| date }
     @response_groups = @form.submissions.group("date(created_at)").size.sort.last(45)
     # Add in 0 count days to fetched analytics
-    @dates.each do | date |
-      @response_groups << [date, 0] unless @response_groups.detect{ | row | row[0].strftime("%m %d %Y") == date.strftime("%m %d %Y")}
+    @dates.each do |date|
+      @response_groups << [date, 0] unless @response_groups.detect { |row| row[0].strftime("%m %d %Y") == date.strftime("%m %d %Y") }
     end
     @response_groups = @response_groups.sort
   end
@@ -140,7 +140,7 @@ class Admin::SubmissionsController < AdminController
   def to_csv(hash_rows)
     CSV.generate(headers: true) do |csv|
       csv << hash_rows.first.keys
-      hash_rows.each do | hash_row |
+      hash_rows.each do |hash_row|
         csv << hash_row.values
       end
     end
@@ -151,7 +151,7 @@ class Admin::SubmissionsController < AdminController
 
     Form.all.each do |form|
       submissions = form.submissions
-      submissions = submissions.where("created_at >= ?",days_limit.days.ago) if days_limit > 0
+      submissions = submissions.where("created_at >= ?", days_limit.days.ago) if days_limit > 0
       submissions.each do |submission|
         form.questions.each do |question|
           question_text = question.text.to_s
@@ -179,23 +179,24 @@ class Admin::SubmissionsController < AdminController
 
   private
 
-    def set_form
-      if admin_permissions?
-        @form = Form.find_by_short_uuid(params[:form_id])
-      else
-        @form = current_user.forms.find_by_short_uuid(params[:form_id])
-      end
-      raise ActiveRecord::RecordNotFound, "no form with ID of #{params[:form_id]}" unless @form
+  def set_form
+    if admin_permissions?
+      @form = Form.find_by_short_uuid(params[:form_id])
+    else
+      @form = current_user.forms.find_by_short_uuid(params[:form_id])
     end
+    raise ActiveRecord::RecordNotFound, "no form with ID of #{params[:form_id]}" unless @form
+  end
 
-    def set_submission
-      @submission = @form.submissions.find(params[:id])
-    end
+  def set_submission
+    @submission = @form.submissions.find(params[:id])
+  end
 
-    def status_params
-    	params.require(:submission).permit(:aasm_state)
-    end
-    def admin_submission_params
-      params.require(:submission).permit(:tag_list)
-    end
+  def status_params
+    params.require(:submission).permit(:aasm_state)
+  end
+
+  def admin_submission_params
+    params.require(:submission).permit(:tag_list)
+  end
 end

@@ -24,7 +24,6 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe Admin::OrganizationsController, type: :controller do
-
   # This should return the minimal set of attributes required to create a valid
   # Organization. As you add validations to Organization, be sure to
   # adjust the attributes here as well.
@@ -65,7 +64,7 @@ RSpec.describe Admin::OrganizationsController, type: :controller do
     let(:organization) { Organization.create! valid_attributes }
 
     it "returns a success response" do
-      get :show, params: {id: organization.to_param}, session: valid_session
+      get :show, params: { id: organization.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -81,7 +80,7 @@ RSpec.describe Admin::OrganizationsController, type: :controller do
     let(:organization) { Organization.create! valid_attributes }
 
     it "returns a success response" do
-      get :edit, params: {id: organization.to_param}, session: valid_session
+      get :edit, params: { id: organization.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -90,19 +89,19 @@ RSpec.describe Admin::OrganizationsController, type: :controller do
     context "with valid params" do
       it "creates a new Organization" do
         expect {
-          post :create, params: {organization: valid_attributes}, session: valid_session
+          post :create, params: { organization: valid_attributes }, session: valid_session
         }.to change(Organization, :count).by(1)
       end
 
       it "redirects to the created organization" do
-        post :create, params: {organization: valid_attributes}, session: valid_session
+        post :create, params: { organization: valid_attributes }, session: valid_session
         expect(response).to redirect_to(admin_organization_path(Organization.last))
       end
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: {organization: invalid_attributes}, session: valid_session
+        post :create, params: { organization: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -126,7 +125,7 @@ RSpec.describe Admin::OrganizationsController, type: :controller do
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
-        put :update, params: {id: organization.to_param, organization: invalid_attributes}, session: valid_session
+        put :update, params: { id: organization.to_param, organization: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -137,16 +136,15 @@ RSpec.describe Admin::OrganizationsController, type: :controller do
 
     it "destroys the requested organization" do
       expect(Organization.count).to eq(2)
-      
+
       expect {
         delete :destroy, params: { id: organization }, session: valid_session
       }.to change(Organization, :count).by(-1)
     end
 
     it "redirects to the organizations list" do
-      delete :destroy, params: {id: organization.to_param}, session: valid_session
+      delete :destroy, params: { id: organization.to_param }, session: valid_session
       expect(response).to redirect_to(admin_organizations_url)
     end
   end
-
 end

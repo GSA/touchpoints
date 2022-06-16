@@ -60,16 +60,16 @@ class DigitalProduct < ApplicationRecord
         # agencies = []
         # tags = []
         # versions = []
-          # {
-          #   "store_url": "http://itunes.apple.com/us/app/...,
-          #   "platform": "iOS",
-          #   "version_number": "",
-          #   "publish_date": "2012-10-04T00:00:00.000Z",
-          #   "screenshot": "",
-          #   "device": "App - Phone/Tablet",
-          #   "average_rating": "4.5",
-          #   "number_of_ratings": 21
-          # }
+        # {
+        #   "store_url": "http://itunes.apple.com/us/app/...,
+        #   "platform": "iOS",
+        #   "version_number": "",
+        #   "publish_date": "2012-10-04T00:00:00.000Z",
+        #   "screenshot": "",
+        #   "device": "App - Phone/Tablet",
+        #   "average_rating": "4.5",
+        #   "number_of_ratings": 21
+        # }
         # icon_url
       }
       DigitalProduct.create!(hash)

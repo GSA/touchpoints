@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature "Example Website Integration", js: true do
-  let(:organization) { FactoryBot.create(:organization)}
+  let(:organization) { FactoryBot.create(:organization) }
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
   let(:open_ended_form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin) }
   let(:recruiter_form) { FactoryBot.create(:form, :recruiter, organization: organization, user: admin) }
@@ -123,6 +123,5 @@ feature "Example Website Integration", js: true do
         end
       end
     end
-
   end
 end

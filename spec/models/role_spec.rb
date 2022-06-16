@@ -4,7 +4,7 @@ RSpec.describe Role, type: :model do
   let(:organization) { FactoryBot.create(:organization) }
   let(:user) { FactoryBot.create(:user, organization: organization) }
   let(:user2) { FactoryBot.create(:user, organization: organization) }
-  let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization ) }
+  let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization) }
   let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: user.id) }
 
   it 'sets service owner to a manager of the service on create' do

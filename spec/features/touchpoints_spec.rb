@@ -37,7 +37,6 @@ feature "Touchpoints", js: true do
           expect(page).to have_content("this submission was not successful")
           expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit") # stays on
         end
-
       end
 
       context "custom success text" do
@@ -78,7 +77,6 @@ feature "Touchpoints", js: true do
           end
         end
       end
-
     end
 
     describe "checkbox question" do
@@ -135,12 +133,11 @@ feature "Touchpoints", js: true do
           end
         end
       end
-
     end
 
     describe "radio buttons question" do
       let!(:radio_button_form) { FactoryBot.create(:form, :radio_button_form, organization: organization, user: user) }
-      let!(:last_radio_option) {radio_button_form.questions.first.question_options.create!(text: 'other', value: 'other', position: 6)}
+      let!(:last_radio_option) { radio_button_form.questions.first.question_options.create!(text: 'other', value: 'other', position: 6) }
 
       before do
         visit touchpoint_path(radio_button_form)
@@ -263,7 +260,6 @@ feature "Touchpoints", js: true do
     end
 
     describe "hidden_field question" do
-
       let!(:hidden_field_form) { FactoryBot.create(:form, :hidden_field_form, organization: organization, user: user) }
 
       context "render" do

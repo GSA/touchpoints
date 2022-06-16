@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Admin::SiteController, type: :controller do
-
   context "not logged in" do
     describe "GET #index" do
       it "redirects to homepage" do
@@ -12,7 +11,7 @@ RSpec.describe Admin::SiteController, type: :controller do
   end
 
   context "logged in" do
-    let(:admin) { FactoryBot.create(:user, :admin)}
+    let(:admin) { FactoryBot.create(:user, :admin) }
 
     before do
       sign_in(admin)

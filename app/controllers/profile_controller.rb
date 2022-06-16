@@ -12,9 +12,9 @@ class ProfileController < ApplicationController
     end
   end
 
-private
+  private
 
   def user_params
-  	params.require(:user).permit(:time_zone, :api_key)
+    params.require(:user).permit(:time_zone, :api_key)
   end
 end

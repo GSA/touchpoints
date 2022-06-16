@@ -40,11 +40,12 @@ class Admin::BarriersController < AdminController
   end
 
   private
-    def set_barrier
-      @barrier = Barrier.find(params[:id])
-    end
 
-    def barrier_params
-      params.require(:barrier).permit(:name, :description)
-    end
+  def set_barrier
+    @barrier = Barrier.find(params[:id])
+  end
+
+  def barrier_params
+    params.require(:barrier).permit(:name, :description)
+  end
 end

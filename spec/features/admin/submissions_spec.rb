@@ -205,7 +205,6 @@ feature "Submissions", js: true do
           end
         end
       end
-
     end
   end
 
@@ -337,9 +336,7 @@ feature "Submissions", js: true do
         end
 
         describe "truncate text in the table displayed" do
-
           context "ui_truncate_text_responses is ON" do
-
             it "is on by default" do
               expect(page).to have_css("#button-toggle-table-display-options", visible: true)
               expect(page).to have_css("#table-display-options", visible: false)
@@ -433,11 +430,8 @@ feature "Submissions", js: true do
             end
           end
         end
-
       end
-
     end
-
   end
 
   context "non-privileged User" do
@@ -484,5 +478,4 @@ feature "Submissions", js: true do
       end
     end
   end
-
 end

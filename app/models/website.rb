@@ -33,19 +33,19 @@ class Website < ApplicationRecord
   ]
 
   TYPE_OF_SITES = {
-    "API"                     => "Application Programming Interface",
-    "Application"             => "Transactional site (web app/back-end system) with some front-end web content",
-    "Application Login"       => "Login page to a back-end system",
+    "API" => "Application Programming Interface",
+    "Application" => "Transactional site (web app/back-end system) with some front-end web content",
+    "Application Login" => "Login page to a back-end system",
     "Critical infrastructure" => "Required to support a GSA or shared service",
-    "GitHub repo"             => "Site decommissioned; URL redirects to a GitHub repo (status is redirect)",
-    "Google form"             => "Site redirects to a Google form (status is redirect)",
-    "Informational"           => "Informational (not transactional) site"
+    "GitHub repo" => "Site decommissioned; URL redirects to a GitHub repo (status is redirect)",
+    "Google form" => "Site redirects to a Google form (status is redirect)",
+    "Informational" => "Informational (not transactional) site"
   }
 
   DIGITAL_BRAND_CATEGORIES = {
     "GSA Business" => "About a GSA program, product, or service",
-    "Hybrid"       => "Managed by GSA in partnership with another agency or business partner; gov-wide or collaborative",
-    "External"     => "Managed by GSA on behalf of another agency or business partner; not related to GSA business"
+    "Hybrid" => "Managed by GSA in partnership with another agency or business partner; gov-wide or collaborative",
+    "External" => "Managed by GSA on behalf of another agency or business partner; not related to GSA business"
   }
 
   aasm :production_status do
@@ -93,7 +93,7 @@ class Website < ApplicationRecord
   end
 
   def website_manager_emails
-    website_managers.collect{ | mgr | mgr.email }.join(", ")
+    website_managers.collect { |mgr| mgr.email }.join(", ")
   end
 
   # return all website_ids managed by users with email matching search string
@@ -105,8 +105,8 @@ class Website < ApplicationRecord
         and ur.role_id = r.id
         and r.resource_type = 'Website'
         and r.resource_id = w.id
-        and r.name = 'website_manager').gsub("\n","")
-    self.find_by_sql([sql,search_text: search_text]).collect{ | ws | ws.id }
+        and r.name = 'website_manager').gsub("\n", "")
+    self.find_by_sql([sql, search_text: search_text]).collect { |ws| ws.id }
   end
 
   def admin?(user:)
@@ -116,7 +116,7 @@ class Website < ApplicationRecord
   end
 
   def blankFields
-    Website.column_names.select { | cn | self.send(cn).blank? }
+    Website.column_names.select { |cn| self.send(cn).blank? }
   end
 
   def requiresDataCollection?

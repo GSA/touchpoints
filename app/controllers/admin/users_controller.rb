@@ -91,7 +91,8 @@ class Admin::UsersController < AdminController
 
   def deactivate
     uuid = get_uuid_from_request
-    render json: { "errors": "Request must come from valid login.gov source", "status": 403} and return if !uuid
+    render json: { "errors": "Request must come from valid login.gov source", "status": 403 } and return if !uuid
+
     user = User.where(uid: uuid).first
     # Do we care if the user account deleted from login.gov was not found in touchpoints?
     user.deactivate! if user
@@ -100,50 +101,53 @@ class Admin::UsersController < AdminController
   end
 
   private
-    def get_uuid_from_request
-      return nil if !request.headers["HTTP_AUTHORIZATION"].present?
-      begin
-        decoded = JWT.decode http_token, login_gov_public_key, true, { algorithm: "RS256" }
-        payload = decoded.first
-        uuid = payload["events"]["https://schemas.openid.net/secevent/risc/event-type/account-purged"]["subject"]["sub"]
-      rescue
-        nil
-      end
-    end
 
-    def login_gov_public_key
-      return OpenSSL::PKey::RSA.new(ENV["LOGIN_GOV_PUBLIC_KEY"]) if ENV["LOGIN_GOV_PUBLIC_KEY"].present?
-      jwks_raw = Net::HTTP.get URI(ENV["LOGIN_GOV_OPENID_CERT_URL"])
-      jwks_key = JSON.parse(jwks_raw)["keys"].first
-      jwks_key["alg": "RS256"]
-      jwk = JSON::JWK.new(jwks_key)
-      public_key = jwk.to_key
-    end
+  def get_uuid_from_request
+    return nil if !request.headers["HTTP_AUTHORIZATION"].present?
 
-    def http_token
-      if request.headers['HTTP_AUTHORIZATION'].present?
-        request.headers['HTTP_AUTHORIZATION'].split(' ').last
-      end
+    begin
+      decoded = JWT.decode http_token, login_gov_public_key, true, { algorithm: "RS256" }
+      payload = decoded.first
+      uuid = payload["events"]["https://schemas.openid.net/secevent/risc/event-type/account-purged"]["subject"]["sub"]
+    rescue
+      nil
     end
+  end
 
-    def set_user
-      @user = User.find(params[:id])
-    end
+  def login_gov_public_key
+    return OpenSSL::PKey::RSA.new(ENV["LOGIN_GOV_PUBLIC_KEY"]) if ENV["LOGIN_GOV_PUBLIC_KEY"].present?
 
-    def user_params
-      params.require(:user).permit(
-        :admin,
-        :organization_id,
-        :organizational_website_manager,
-        :performance_manager,
-        :service_manager,
-        :registry_manager,
-        :email,
-        :first_name,
-        :last_name,
-        :position_title,
-        :profile_photo,
-        :inactive,
-      )
+    jwks_raw = Net::HTTP.get URI(ENV["LOGIN_GOV_OPENID_CERT_URL"])
+    jwks_key = JSON.parse(jwks_raw)["keys"].first
+    jwks_key["alg": "RS256"]
+    jwk = JSON::JWK.new(jwks_key)
+    public_key = jwk.to_key
+  end
+
+  def http_token
+    if request.headers['HTTP_AUTHORIZATION'].present?
+      request.headers['HTTP_AUTHORIZATION'].split(' ').last
     end
+  end
+
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  def user_params
+    params.require(:user).permit(
+      :admin,
+      :organization_id,
+      :organizational_website_manager,
+      :performance_manager,
+      :service_manager,
+      :registry_manager,
+      :email,
+      :first_name,
+      :last_name,
+      :position_title,
+      :profile_photo,
+      :inactive,
+    )
+  end
 end

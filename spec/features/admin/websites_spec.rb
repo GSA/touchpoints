@@ -7,8 +7,8 @@ feature "Managing Websites", js: true do
   let!(:website_manager) { FactoryBot.create(:user, organization: organization) }
   let(:user) { FactoryBot.create(:user, organization: organization) }
 
-  let!(:website) { FactoryBot.create(:website, site_owner_email: website_manager.email ) }
-  let!(:new_website) { FactoryBot.build(:website, site_owner_email: website_manager.email ) }
+  let!(:website) { FactoryBot.create(:website, site_owner_email: website_manager.email) }
+  let!(:new_website) { FactoryBot.build(:website, site_owner_email: website_manager.email) }
 
   context "as Admin" do
     before do
@@ -89,7 +89,6 @@ feature "Managing Websites", js: true do
   end
 
   context "as a user who does not own a Website and is not a Website Admin" do
-
     before do
       login_as user
       visit admin_websites_path
@@ -140,6 +139,5 @@ feature "Managing Websites", js: true do
         expect(page.current_path).to eq(admin_websites_path)
       end
     end
-
   end
 end

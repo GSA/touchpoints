@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ScheduledTask, type: :model do
-
   describe "validate helper " do
     it "determines next business day from Monday is Tuesday" do
       dt = ScheduledTask.skip_weekends(Date.parse('13-01-2020'))
@@ -20,5 +19,4 @@ RSpec.describe ScheduledTask, type: :model do
       expect(forms.size).to be >= 0
     end
   end
-
 end

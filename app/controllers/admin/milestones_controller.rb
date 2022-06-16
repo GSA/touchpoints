@@ -16,7 +16,6 @@ class Admin::MilestonesController < AdminController
 
   def edit
     ensure_performance_manager_permissions
-
   end
 
   def create
@@ -43,25 +42,26 @@ class Admin::MilestonesController < AdminController
 
   def destroy
     ensure_performance_manager_permissions
-    
+
     @milestone.destroy
     redirect_to admin_milestones_url, notice: 'Milestone was successfully destroyed.'
   end
 
   private
-    def set_milestone
-      @milestone = Milestone.find(params[:id])
-    end
 
-    def milestone_params
-      params.require(:milestone).permit(
-        :organization_id,
-        :goal_id,
-        :name,
-        :description,
-        :due_date,
-        :status,
-        :notes,
-      )
-    end
+  def set_milestone
+    @milestone = Milestone.find(params[:id])
+  end
+
+  def milestone_params
+    params.require(:milestone).permit(
+      :organization_id,
+      :goal_id,
+      :name,
+      :description,
+      :due_date,
+      :status,
+      :notes,
+    )
+  end
 end

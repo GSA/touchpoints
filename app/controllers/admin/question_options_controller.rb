@@ -40,7 +40,7 @@ class Admin::QuestionOptionsController < AdminController
     result = false
 
     if text_array.length > 0
-      text_array.each do | txt |
+      text_array.each do |txt|
         if (txt.upcase == 'OTHER' || txt.upcase == 'OTRO')
           @errors << "Use add #{txt} button"
           next
@@ -72,7 +72,7 @@ class Admin::QuestionOptionsController < AdminController
         end
       end
     end
-   render :create, format: :js
+    render :create, format: :js
   end
 
   def create_other
@@ -83,7 +83,7 @@ class Admin::QuestionOptionsController < AdminController
     question_option.text = "Other"
     question_option.value = "OTHER"
     question_option.save!
-    @question_options = [ question_option ]
+    @question_options = [question_option]
     render :create, format: :js
   end
 
@@ -98,20 +98,21 @@ class Admin::QuestionOptionsController < AdminController
   end
 
   private
-    def set_question_option
-      @question_option = QuestionOption.find(params[:id])
-    end
 
-    def set_question
-      @question = Question.find(params[:question_id])
-    end
+  def set_question_option
+    @question_option = QuestionOption.find(params[:id])
+  end
 
-    def question_option_params
-      params.require(:question_option).permit(
-        :question_id,
-        :text,
-        :position,
-        :value
-      )
-    end
+  def set_question
+    @question = Question.find(params[:question_id])
+  end
+
+  def question_option_params
+    params.require(:question_option).permit(
+      :question_id,
+      :text,
+      :position,
+      :value
+    )
+  end
 end

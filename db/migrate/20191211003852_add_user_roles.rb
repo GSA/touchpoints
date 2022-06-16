@@ -29,10 +29,10 @@ class AddUserRoles < ActiveRecord::Migration[5.2]
           end
 
           UserRole.create!({
-            user_id: user_service.user_id,
-            touchpoint_id: touchpoint.id,
-            role: @translated_role
-          })
+                             user_id: user_service.user_id,
+                             touchpoint_id: touchpoint.id,
+                             role: @translated_role
+                           })
         end
       end
     end

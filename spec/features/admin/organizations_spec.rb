@@ -41,7 +41,7 @@ feature "Managing Organizations", js: true do
 
       it "successfully re-orders goals for an organization" do
         visit performance_admin_organization_path(organization)
-        goal_list.each do | goal |
+        goal_list.each do |goal|
           expect(goal.position).to be_nil
         end
         find("#goal_3").drag_to(find("#goal_1"))
@@ -58,7 +58,7 @@ feature "Managing Organizations", js: true do
 
       it "successfully re-orders objectivs for a goal" do
         visit performance_admin_organization_path(organization)
-        objective_list.each do | obj |
+        objective_list.each do |obj|
           expect(obj.position).to eq(0)
         end
         find("#objective_3").drag_to(find("#objective_1"))

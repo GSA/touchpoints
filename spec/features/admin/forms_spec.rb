@@ -14,15 +14,14 @@ feature "Forms", js: true do
     end
 
     describe "/admin/forms" do
-
       context "within builder page" do
-      let!(:form) { FactoryBot.create(:form, organization: organization, user: admin)}
+        let!(:form) { FactoryBot.create(:form, organization: organization, user: admin) }
 
-      before do
-        visit questions_admin_form_path(form)
-      end
+        before do
+          visit questions_admin_form_path(form)
+        end
 
-      describe "can preview a form" do
+        describe "can preview a form" do
           before do
             click_on "Preview"
           end
@@ -36,10 +35,10 @@ feature "Forms", js: true do
       end
 
       context "with multiple (3) forms" do
-        let!(:form) { FactoryBot.create(:form, organization: organization, user: admin)}
-        let!(:form2) { FactoryBot.create(:form, organization: organization, user: admin)}
-        let!(:form3) { FactoryBot.create(:form, organization: organization, user: admin)}
-        let!(:form_template) { FactoryBot.create(:form, organization: organization, user: user, template: true, aasm_state: :in_development)}
+        let!(:form) { FactoryBot.create(:form, organization: organization, user: admin) }
+        let!(:form2) { FactoryBot.create(:form, organization: organization, user: admin) }
+        let!(:form3) { FactoryBot.create(:form, organization: organization, user: admin) }
+        let!(:form_template) { FactoryBot.create(:form, organization: organization, user: user, template: true, aasm_state: :in_development) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
         let!(:user_role2) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form2) }
         let!(:user_role3) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form3) }
@@ -137,7 +136,7 @@ feature "Forms", js: true do
 
         it "can upload and display a logo" do
           within('.usa-file-input') do
-            attach_file('form_logo','spec/fixtures/touchpoints-logo.png')
+            attach_file('form_logo', 'spec/fixtures/touchpoints-logo.png')
           end
           find('label', text: 'Display Square (80px wide by 80px tall) Organization logo before the title in the Form header?').click
           click_on "Update logo"
@@ -160,7 +159,7 @@ feature "Forms", js: true do
 
         it "can upload and display a logo" do
           within('.usa-file-input') do
-            attach_file('form_logo','spec/fixtures/touchpoints-logo.png')
+            attach_file('form_logo', 'spec/fixtures/touchpoints-logo.png')
           end
           find('label', text: 'Display Square (80px wide by 80px tall) Organization logo before the title in the Form header?').click
           click_on "Update logo"
@@ -177,7 +176,7 @@ feature "Forms", js: true do
       end
 
       describe "Form model validations" do
-        let(:existing_form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, omb_approval_number: nil, expiration_date: nil)}
+        let(:existing_form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin, omb_approval_number: nil, expiration_date: nil) }
 
         describe "missing OMB Approval Number" do
           before "user tries to update a Touchpoint" do
@@ -220,7 +219,7 @@ feature "Forms", js: true do
     context "as a Form Manager" do
       describe "/admin/forms/:uuid" do
         let(:form_manager) { FactoryBot.create(:user, organization: organization) }
-        let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: user)}
+        let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: user) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form: form) }
 
         before do
@@ -367,7 +366,7 @@ feature "Forms", js: true do
           end
 
           context "when Submissions exist" do
-            let!(:submission) { FactoryBot.create(:submission, form: form)}
+            let!(:submission) { FactoryBot.create(:submission, form: form) }
 
             before do
               visit responses_admin_form_path(form)
@@ -384,9 +383,9 @@ feature "Forms", js: true do
 
         describe "reports" do
           context "for A-11 forms" do
-            let!(:a11_form) { FactoryBot.create(:form, :a11, organization: organization, user: form_manager)}
+            let!(:a11_form) { FactoryBot.create(:form, :a11, organization: organization, user: form_manager) }
             let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form: a11_form) }
-            let!(:submission) { FactoryBot.create(:submission, form: a11_form)}
+            let!(:submission) { FactoryBot.create(:submission, form: a11_form) }
 
             before do
               visit responses_admin_form_path(a11_form)
@@ -405,7 +404,7 @@ feature "Forms", js: true do
 
         describe "/admin/forms/:uuid/example" do
           describe "Form with `inline` delivery_method" do
-            let(:form2) { FactoryBot.create(:form, :open_ended_form, :inline, organization: organization, user: user)}
+            let(:form2) { FactoryBot.create(:form, :open_ended_form, :inline, organization: organization, user: user) }
 
             before "/admin/forms/:uuid/example" do
               visit example_admin_form_path(form2)
@@ -421,7 +420,7 @@ feature "Forms", js: true do
           end
 
           context "With load_css" do
-            let(:form3) { FactoryBot.create(:form, :open_ended_form, :inline, organization: organization, user: user, load_css: true)}
+            let(:form3) { FactoryBot.create(:form, :open_ended_form, :inline, organization: organization, user: user, load_css: true) }
 
             before "/admin/forms/:uuid/example" do
               visit example_admin_form_path(form3)
@@ -439,7 +438,7 @@ feature "Forms", js: true do
       end
 
       describe "/admin/forms/:uuid/notifications" do
-        let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin)}
+        let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form) }
 
         before do
@@ -513,7 +512,7 @@ feature "Forms", js: true do
           end
 
           context "with responses" do
-            let!(:submission) { FactoryBot.create(:submission, form: form)}
+            let!(:submission) { FactoryBot.create(:submission, form: form) }
 
             before do
               click_on "Delete Survey"
@@ -597,7 +596,6 @@ feature "Forms", js: true do
             end
 
             describe "FormSection.title" do
-
               it "displays editable input that can be updated and saved" do
                 expect(find(".section-title").value).to eq("Page 1")
                 find(".section-title").fill_in with: "New Form Section Title"
@@ -800,7 +798,7 @@ feature "Forms", js: true do
             before do
               visit questions_admin_form_path(form)
               page.execute_script "$('.question-menu-action').trigger('mouseover')"
-              expect(page).to have_selector('.dropdown-content',visible: true)
+              expect(page).to have_selector('.dropdown-content', visible: true)
               click_on "Edit"
               expect(page.current_path).to eq(questions_admin_form_path(form))
               expect(page).to have_content("Cancel")
@@ -825,7 +823,6 @@ feature "Forms", js: true do
           end
 
           describe "chaining add edit question operations" do
-
             before do
               visit questions_admin_form_path(form)
             end
@@ -880,7 +877,7 @@ feature "Forms", js: true do
                 before do
                   visit questions_admin_form_path(form)
                   page.execute_script "$('.question-menu-action').trigger('mouseover')"
-                  expect(page).to have_selector('.dropdown-content',visible: true)
+                  expect(page).to have_selector('.dropdown-content', visible: true)
                   click_on "Edit"
                   expect(page.current_path).to eq(questions_admin_form_path(form))
                   expect(find_field('question_text').value).to eq 'New dropdown field'
@@ -967,7 +964,7 @@ feature "Forms", js: true do
                 before do
                   visit questions_admin_form_path(form)
                   page.execute_script "$('.question-menu-action').trigger('mouseover')"
-                  expect(page).to have_selector('.dropdown-content',visible: true)
+                  expect(page).to have_selector('.dropdown-content', visible: true)
                   click_on "Edit"
                   expect(page.current_path).to eq(questions_admin_form_path(form))
                   expect(find_field('question_text').value).to eq 'New dropdown field'
@@ -1004,7 +1001,6 @@ feature "Forms", js: true do
               end
             end
           end
-
         end
 
         describe "deleting Questions" do
@@ -1017,7 +1013,7 @@ feature "Forms", js: true do
             before do
               visit questions_admin_form_path(form2)
               page.execute_script "$('.question-menu-action').trigger('mouseover')"
-              expect(page).to have_selector('.dropdown-content',visible: true)
+              expect(page).to have_selector('.dropdown-content', visible: true)
             end
 
             it "display the Delete Question button" do
@@ -1110,9 +1106,7 @@ feature "Forms", js: true do
               expect(find_all(".question-option-view").first).to have_content("Edited Question Option Text (100)")
             end
           end
-
         end
-
       end
     end
   end
@@ -1147,7 +1141,7 @@ feature "Forms", js: true do
       end
 
       context "with responses" do
-        let!(:submission) { FactoryBot.create(:submission, form: form)}
+        let!(:submission) { FactoryBot.create(:submission, form: form) }
 
         before do
           click_on "Delete Survey"
@@ -1184,7 +1178,6 @@ feature "Forms", js: true do
       expect(page).to have_content("Organization")
       expect(page).to have_content("Example.gov")
     end
-
   end
 
   context "user without Form Manager permissions" do
@@ -1274,7 +1267,6 @@ feature "Forms", js: true do
     end
 
     describe "create a form" do
-
       before do
         visit new_admin_form_path
         fill_in "form_name", with: "New test form name"
@@ -1342,7 +1334,7 @@ feature "Forms", js: true do
         before do
           visit questions_admin_form_path(form2)
           page.execute_script "$('.question-menu-action').trigger('mouseover')"
-          expect(page).to have_selector('.dropdown-content',visible: true)
+          expect(page).to have_selector('.dropdown-content', visible: true)
         end
 
         it "see the delete button, click it, and delete the question" do
@@ -1389,7 +1381,7 @@ feature "Forms", js: true do
 
     describe "#export" do
       let(:form_manager) { FactoryBot.create(:user, organization: organization) }
-      let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: form_manager)}
+      let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: form_manager) }
       let!(:radio_button_question) { FactoryBot.create(:question, :with_radio_buttons, form: form, form_section: form.form_sections.first, answer_field: :answer_02) }
       let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form: form) }
 
@@ -1409,7 +1401,7 @@ feature "Forms", js: true do
     # as a Response Viewer
     describe "/admin/forms/:uuid" do
       let(:response_viewer) { FactoryBot.create(:user, organization: organization) }
-      let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: response_viewer)}
+      let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: response_viewer) }
       let!(:user_role) { FactoryBot.create(:user_role, :response_viewer, user: response_viewer, form: form) }
 
       before do
@@ -1433,13 +1425,13 @@ feature "Forms", js: true do
       end
 
       describe "Submission Export button" do
-        let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin)}
+        let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin) }
 
         context "when no Submissions exist" do
         end
 
         context "when Submissions exist" do
-          let!(:submission) { FactoryBot.create(:submission, form: form)}
+          let!(:submission) { FactoryBot.create(:submission, form: form) }
 
           before do
             visit responses_admin_form_path(form)
@@ -1455,9 +1447,8 @@ feature "Forms", js: true do
       end
     end
 
-
     context "user for another Form" do
-      let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin)}
+      let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin) }
 
       before do
         login_as(user)
@@ -1488,7 +1479,7 @@ feature "Forms", js: true do
 
     describe "/admin/forms/:uuid/example" do
       describe "Form with `inline` delivery_method" do
-        let(:form2) { FactoryBot.create(:form, :open_ended_form, :inline, organization: organization, user: admin)}
+        let(:form2) { FactoryBot.create(:form, :open_ended_form, :inline, organization: organization, user: admin) }
 
         before "/admin/forms/:uiid/example" do
           login_as(admin)
@@ -1532,7 +1523,7 @@ feature "Forms", js: true do
   end
 
   describe "/invite" do
-    let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin)}
+    let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin) }
 
     before do
       login_as(admin)

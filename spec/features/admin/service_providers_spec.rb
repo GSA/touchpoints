@@ -6,7 +6,7 @@ feature "Service Provider", js: true do
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
   let(:user) { FactoryBot.create(:user, organization: organization) }
 
-  let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization ) }
+  let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization) }
   let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: user.id) }
 
   context "as Admin" do
@@ -25,7 +25,7 @@ feature "Service Provider", js: true do
         expect(page).to have_content(service_provider.name)
         expect(page).to have_content("Download as hisps.csv")
       end
-      end
+    end
 
     describe "#edit" do
       before do
@@ -38,5 +38,4 @@ feature "Service Provider", js: true do
       end
     end
   end
-
 end

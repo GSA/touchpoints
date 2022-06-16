@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "/goals", js: true do
-
   let(:organization) { FactoryBot.create(:organization) }
   let!(:goals) { FactoryBot.create_list(:goal, 3, organization: organization) }
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }

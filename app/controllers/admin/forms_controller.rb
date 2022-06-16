@@ -75,21 +75,21 @@ class Admin::FormsController < AdminController
   end
 
   def publish
-    Event.log_event(Event.names[:form_published], "Form", @form.uuid,"Form #{@form.name} published at #{DateTime.now}", current_user.id)
+    Event.log_event(Event.names[:form_published], "Form", @form.uuid, "Form #{@form.name} published at #{DateTime.now}", current_user.id)
 
     @form.publish!
     redirect_to admin_form_path(@form), notice: "Published"
   end
 
   def archive
-    Event.log_event(Event.names[:form_archived], "Form", @form.uuid,"Form #{@form.name} archived at #{DateTime.now}", current_user.id)
+    Event.log_event(Event.names[:form_archived], "Form", @form.uuid, "Form #{@form.name} archived at #{DateTime.now}", current_user.id)
 
     @form.archive!
     redirect_to admin_form_path(@form), notice: "Archived"
   end
 
   def reset
-    Event.log_event(Event.names[:form_reset], "Form", @form.uuid,"Form #{@form.name} reset at #{DateTime.now}", current_user.id)
+    Event.log_event(Event.names[:form_reset], "Form", @form.uuid, "Form #{@form.name} reset at #{DateTime.now}", current_user.id)
 
     @form.reset!
     redirect_to admin_form_path(@form), notice: "Form has been reset"
@@ -209,10 +209,10 @@ class Admin::FormsController < AdminController
     respond_to do |format|
       if @form.save
         UserRole.create!({
-          user: current_user,
-          form: @form,
-          role: UserRole::Role::FormManager
-        })
+                           user: current_user,
+                           form: @form,
+                           role: UserRole::Role::FormManager
+                         })
 
         format.html { redirect_to questions_admin_form_path(@form), notice: 'Survey was successfully created.' }
         format.json { render :show, status: :created, location: @form }
@@ -229,10 +229,10 @@ class Admin::FormsController < AdminController
 
       if new_form.valid?
         @role = UserRole.create!({
-          user: current_user,
-          form: new_form,
-          role: UserRole::Role::FormManager
-        })
+                                   user: current_user,
+                                   form: new_form,
+                                   role: UserRole::Role::FormManager
+                                 })
 
         Event.log_event(Event.names[:form_copied], "Form", @form.uuid, "Form #{@form.name} copied at #{DateTime.now}", current_user.id)
 
@@ -294,7 +294,7 @@ class Admin::FormsController < AdminController
     respond_to do |format|
       format.html {
         if @form.destroy
-          Event.log_event(Event.names[:form_deleted], "Form", @form.uuid,"Form #{@form.name} deleted at #{DateTime.now}", current_user.id)
+          Event.log_event(Event.names[:form_deleted], "Form", @form.uuid, "Form #{@form.name} deleted at #{DateTime.now}", current_user.id)
           redirect_to admin_forms_url, notice: 'Survey was successfully destroyed.'
         else
           redirect_to edit_admin_form_url(@form), notice: @form.errors.full_messages.to_sentence
@@ -304,7 +304,6 @@ class Admin::FormsController < AdminController
     end
   end
 
-
   # Roles and Permissions
   #
   # Associate a user with a Form
@@ -313,18 +312,18 @@ class Admin::FormsController < AdminController
     raise ArgumentException unless UserRole::ROLES.include?(params[:role])
 
     @role = UserRole.new({
-      user: @user,
-      form: @form,
-      role: params[:role],
-    })
+                           user: @user,
+                           form: @form,
+                           role: params[:role],
+                         })
 
     if @role.save
       flash[:notice] = "User Role successfully added to Form"
 
       render json: {
-          email: @user.email,
-          form: @form.short_uuid
-        }
+        email: @user.email,
+        form: @form.short_uuid
+      }
     else
       render json: @role.errors, status: :unprocessable_entity
     end
@@ -345,7 +344,6 @@ class Admin::FormsController < AdminController
       render json: @role.errors, status: :unprocessable_entity
     end
   end
-
 
   # Data reporting
   #
@@ -408,130 +406,126 @@ class Admin::FormsController < AdminController
     @events = Event.where(object_type: "Form", object_id: @form.uuid).order(:created_at)
   end
 
-
   private
-    def set_form
-      @form = Form.find_by_short_uuid(params[:id])
-      redirect_to admin_forms_path, notice: "no survey with ID of #{params[:id]}" unless @form
+
+  def set_form
+    @form = Form.find_by_short_uuid(params[:id])
+    redirect_to admin_forms_path, notice: "no survey with ID of #{params[:id]}" unless @form
+  end
+
+  def set_user
+    @user = User.find(params[:user_id])
+  end
+
+  def form_params
+    params.require(:form).permit(
+      :name,
+      :aasm_state,
+      :organization_id,
+      :user_id,
+      :hisp,
+      :template,
+      :kind,
+      :early_submission,
+      :notes,
+      :status,
+      :title,
+      :time_zone,
+      :delivery_method,
+      :element_selector,
+      :notification_emails,
+      :notification_frequency,
+      :logo,
+      :modal_button_text,
+      :success_text_heading,
+      :success_text,
+      :instructions,
+      :display_header_logo,
+      :display_header_square_logo,
+      :whitelist_url,
+      :whitelist_test_url,
+      :disclaimer_text,
+      :success_text,
+      :success_text_heading,
+      :service_id,
+      # PRA Info
+      :omb_approval_number,
+      :expiration_date,
+      :medium,
+      :occasion,
+      :federal_register_url,
+      :anticipated_delivery_count,
+      :service_name,
+      :data_submission_comment,
+      :survey_instrument_reference,
+      :agency_poc_email,
+      :agency_poc_name,
+      :department,
+      :bureau,
+      :load_css,
+      :ui_truncate_text_responses,
+      :question_text_01,
+      :question_text_02,
+      :question_text_03,
+      :question_text_04,
+      :question_text_05,
+      :question_text_06,
+      :question_text_07,
+      :question_text_08,
+      :question_text_09,
+      :question_text_10,
+      :question_text_11,
+      :question_text_12,
+      :question_text_13,
+      :question_text_14,
+      :question_text_15,
+      :question_text_16,
+      :question_text_17,
+      :question_text_18,
+      :question_text_19,
+      :question_text_20
+    )
+  end
+
+  def form_logo_params
+    params.require(:form).permit(
+      :logo,
+      :display_header_logo,
+      :display_header_square_logo,
+    )
+  end
+
+  def form_admin_options_params
+    params.require(:form).permit(
+      :name,
+      :time_zone,
+      :organization_id,
+      :user_id,
+      :template,
+      :kind,
+      :aasm_state,
+      :early_submission,
+      :notes,
+      :status,
+      :title,
+      :load_css,
+      :omb_approval_number,
+      :expiration_date,
+      :service_id,
+    )
+  end
+
+  # Add rules for AASM state transitions here
+  def transition_state
+    if params["form"]["aasm_state"] == "live" and !@form.live?
+      Event.log_event(Event.names[:form_published], "Form", @form.uuid, "Form #{@form.name} published at #{DateTime.now}", current_user.id)
     end
-
-    def set_user
-      @user = User.find(params[:user_id])
+    if params["form"]["aasm_state"] == "archived" and !@form.archived?
+      Event.log_event(Event.names[:form_archived], "Form", @form.uuid, "Form #{@form.name} archived at #{DateTime.now}", current_user.id)
     end
+  end
 
-    def form_params
-      params.require(:form).permit(
-        :name,
-        :aasm_state,
-        :organization_id,
-        :user_id,
-        :hisp,
-        :template,
-        :kind,
-        :early_submission,
-        :notes,
-        :status,
-        :title,
-        :time_zone,
-        :delivery_method,
-        :element_selector,
-        :notification_emails,
-        :notification_frequency,
-        :logo,
-        :modal_button_text,
-        :success_text_heading,
-        :success_text,
-        :instructions,
-        :display_header_logo,
-        :display_header_square_logo,
-        :whitelist_url,
-        :whitelist_test_url,
-        :disclaimer_text,
-        :success_text,
-        :success_text_heading,
-        :service_id,
-
-        # PRA Info
-        :omb_approval_number,
-        :expiration_date,
-        :medium,
-        :occasion,
-        :federal_register_url,
-        :anticipated_delivery_count,
-        :service_name,
-        :data_submission_comment,
-        :survey_instrument_reference,
-        :agency_poc_email,
-        :agency_poc_name,
-        :department,
-        :bureau,
-
-        :load_css,
-
-        :ui_truncate_text_responses,
-
-        :question_text_01,
-        :question_text_02,
-        :question_text_03,
-        :question_text_04,
-        :question_text_05,
-        :question_text_06,
-        :question_text_07,
-        :question_text_08,
-        :question_text_09,
-        :question_text_10,
-        :question_text_11,
-        :question_text_12,
-        :question_text_13,
-        :question_text_14,
-        :question_text_15,
-        :question_text_16,
-        :question_text_17,
-        :question_text_18,
-        :question_text_19,
-        :question_text_20
-      )
-    end
-
-    def form_logo_params
-      params.require(:form).permit(
-        :logo,
-        :display_header_logo,
-        :display_header_square_logo,
-      )
-    end
-
-    def form_admin_options_params
-      params.require(:form).permit(
-        :name,
-        :time_zone,
-        :organization_id,
-        :user_id,
-        :template,
-        :kind,
-        :aasm_state,
-        :early_submission,
-        :notes,
-        :status,
-        :title,
-        :load_css,
-        :omb_approval_number,
-        :expiration_date,
-        :service_id,
-      )
-    end
-
-    # Add rules for AASM state transitions here
-    def transition_state
-      if params["form"]["aasm_state"] == "live" and !@form.live?
-        Event.log_event(Event.names[:form_published], "Form", @form.uuid, "Form #{@form.name} published at #{DateTime.now}", current_user.id)
-      end
-      if params["form"]["aasm_state"] == "archived" and !@form.archived?
-        Event.log_event(Event.names[:form_archived], "Form", @form.uuid, "Form #{@form.name} archived at #{DateTime.now}", current_user.id)
-      end
-    end
-
-    def invite_params
-    	params.require(:user).permit(:refer_user)
-    end
+  def invite_params
+    params.require(:user).permit(:refer_user)
+  end
 end

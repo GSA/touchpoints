@@ -1,9 +1,8 @@
 require 'rails_helper'
 
 feature "Admin Dashboard", js: true do
-
   describe "Admin" do
-    let(:organization) { FactoryBot.create(:organization)}
+    let(:organization) { FactoryBot.create(:organization) }
     let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
 
     before do
@@ -71,32 +70,32 @@ feature "Admin Dashboard", js: true do
 
       before do
         Submission.create({
-          form_id: form.id,
-          answer_01: "yes",
-          created_at: Time.now - 10.days
-        })
+                            form_id: form.id,
+                            answer_01: "yes",
+                            created_at: Time.now - 10.days
+                          })
         Submission.create({
-          form_id: form.id,
-          answer_01: "yes",
-          created_at: Time.now - 5.days
-        })
+                            form_id: form.id,
+                            answer_01: "yes",
+                            created_at: Time.now - 5.days
+                          })
         Submission.create({
-          form_id: form.id,
-          answer_01: "yes",
-          created_at: Time.now - 5.days
-        })
+                            form_id: form.id,
+                            answer_01: "yes",
+                            created_at: Time.now - 5.days
+                          })
         User.create({
-          email: 'tester1@example.com',
-          created_at: Time.now - 10.days
-        })
+                      email: 'tester1@example.com',
+                      created_at: Time.now - 10.days
+                    })
         User.create({
-          email: 'tester2@example.com',
-          created_at: Time.now - 5.days
-        })
+                      email: 'tester2@example.com',
+                      created_at: Time.now - 5.days
+                    })
         User.create({
-          email: 'tester3@example.com',
-          created_at: Time.now - 5.days
-        })
+                      email: 'tester3@example.com',
+                      created_at: Time.now - 5.days
+                    })
         visit admin_dashboard_path
       end
 
@@ -105,7 +104,6 @@ feature "Admin Dashboard", js: true do
         expect(page).to have_css("#daily-new-users")
         expect(find_all("canvas").size).to eq(2)
       end
-
     end
 
     describe "#a11" do
@@ -130,20 +128,20 @@ feature "Admin Dashboard", js: true do
 
       before do
         Submission.create({
-          form_id: form.id,
-          answer_01: "yes",
-          created_at: Time.now - 10.days
-        })
+                            form_id: form.id,
+                            answer_01: "yes",
+                            created_at: Time.now - 10.days
+                          })
         Submission.create({
-          form_id: form.id,
-          answer_01: "yes",
-          created_at: Time.now - 5.days
-        })
+                            form_id: form.id,
+                            answer_01: "yes",
+                            created_at: Time.now - 5.days
+                          })
         Submission.create({
-          form_id: form.id,
-          answer_01: "yes",
-          created_at: Time.now - 5.days
-        })
+                            form_id: form.id,
+                            answer_01: "yes",
+                            created_at: Time.now - 5.days
+                          })
         visit admin_lifespan_path
       end
 

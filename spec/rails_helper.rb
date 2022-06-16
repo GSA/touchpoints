@@ -40,7 +40,7 @@ Capybara.register_driver :selenium do |app|
 end
 # Capybara.javascript_driver = :selenium                 # Run feature specs with Firefox
 # Capybara.javascript_driver = :selenium_chrome          # Run feature specs with Chrome
-Capybara.javascript_driver = :selenium_chrome_headless   # Run feature specs with headless Chrome
+Capybara.javascript_driver = :selenium_chrome_headless # Run feature specs with headless Chrome
 Capybara.default_max_wait_time = 3
 Capybara.raise_server_errors = true
 
@@ -57,7 +57,7 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Warden::Test::Helpers
 
- # for Database Cleaner
+  # for Database Cleaner
   config.use_transactional_fixtures = false
 
   config.before(:suite) do

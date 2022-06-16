@@ -66,23 +66,25 @@ class Form < ApplicationRecord
     ["inline", "Embedded inline on your site"]
   ]
 
-
   def suppress_submit_button
     self.questions.collect(&:question_type).include?("yes_no_buttons") || self.questions.collect(&:question_type).include?("custom_text_display")
   end
 
   def self.find_by_short_uuid(short_uuid)
     return nil unless short_uuid && short_uuid.length == 8
+
     where("uuid LIKE ?", "#{short_uuid}%").first
   end
 
   def self.find_by_legacy_touchpoints_id(id)
     return nil unless id && id.length < 4
+
     where(legacy_touchpoint_id: id).first
   end
 
   def self.find_by_legacy_touchpoints_uuid(short_uuid)
     return nil unless short_uuid && short_uuid.length == 8
+
     where("legacy_touchpoint_uuid LIKE ?", "#{short_uuid}%").first
   end
 
@@ -109,7 +111,6 @@ class Form < ApplicationRecord
   def short_uuid
     uuid[0..7]
   end
-
 
   aasm do
     state :in_development, initial: true
@@ -185,12 +186,12 @@ class Form < ApplicationRecord
   def check_expired
     if !self.archived? and self.expiration_date.present? and self.expiration_date <= Date.today
       self.archive!
-      Event.log_event(Event.names[:form_archived], "Touchpoint",self.id, "Touchpoint #{self.name} archived on #{Date.today}")
+      Event.log_event(Event.names[:form_archived], "Touchpoint", self.id, "Touchpoint #{self.name} archived on #{Date.today}")
     end
   end
 
   def set_uuid
-    self.uuid = SecureRandom.uuid  if !self.uuid.present?
+    self.uuid = SecureRandom.uuid if !self.uuid.present?
   end
 
   def deployable_form?
@@ -374,7 +375,6 @@ class Form < ApplicationRecord
           end_date
         ]
       end
-
     end
   end
 
@@ -392,17 +392,17 @@ class Form < ApplicationRecord
     self.ordered_questions.map { |q| hash[q.answer_field] = q.text }
 
     hash.merge!({
-      location_code: "Location Code",
-      user_agent: "User Agent",
-      page: "Page",
-      referer: "Referrer",
-      created_at: "Created At"
-    })
+                  location_code: "Location Code",
+                  user_agent: "User Agent",
+                  page: "Page",
+                  referer: "Referrer",
+                  created_at: "Created At"
+                })
 
     if self.organization.enable_ip_address?
       hash.merge!({
-        ip_address: "IP Address"
-      })
+                    ip_address: "IP Address"
+                  })
     end
 
     hash
@@ -446,5 +446,4 @@ class Form < ApplicationRecord
       average: average.round(2)
     }
   end
-
 end

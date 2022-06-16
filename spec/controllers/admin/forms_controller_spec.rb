@@ -24,7 +24,6 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe Admin::FormsController, type: :controller do
-
   # This should return the minimal set of attributes required to create a valid
   # Form. As you add validations to Form, be sure to
   # adjust the attributes here as well.
@@ -52,7 +51,7 @@ RSpec.describe Admin::FormsController, type: :controller do
   describe "GET #show" do
     it "returns a success response" do
       form = Form.create! valid_attributes
-      get :show, params: {id: form.to_param}, session: valid_session
+      get :show, params: { id: form.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -60,7 +59,7 @@ RSpec.describe Admin::FormsController, type: :controller do
   describe "GET #notifications" do
     it "returns a success response" do
       form = Form.create! valid_attributes
-      get :show, params: {id: form.to_param}, session: valid_session
+      get :show, params: { id: form.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -94,7 +93,7 @@ RSpec.describe Admin::FormsController, type: :controller do
   describe "GET #edit" do
     it "returns a success response" do
       form = Form.create! valid_attributes
-      get :edit, params: {id: form.to_param}, session: valid_session
+      get :edit, params: { id: form.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -103,19 +102,19 @@ RSpec.describe Admin::FormsController, type: :controller do
     context "with valid params" do
       it "creates a new Form" do
         expect {
-          post :create, params: {form: valid_attributes}, session: valid_session
+          post :create, params: { form: valid_attributes }, session: valid_session
         }.to change(Form, :count).by(1)
       end
 
       it "redirects to the created form" do
-        post :create, params: {form: valid_attributes}, session: valid_session
+        post :create, params: { form: valid_attributes }, session: valid_session
         expect(response).to redirect_to(Form.last)
       end
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: {form: invalid_attributes}, session: valid_session
+        post :create, params: { form: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -129,14 +128,14 @@ RSpec.describe Admin::FormsController, type: :controller do
 
       it "updates the requested form" do
         form = Form.create! valid_attributes
-        put :update, params: {id: form.to_param, form: new_attributes}, session: valid_session
+        put :update, params: { id: form.to_param, form: new_attributes }, session: valid_session
         form.reload
         skip("Add assertions for updated state")
       end
 
       it "redirects to the form" do
         form = Form.create! valid_attributes
-        put :update, params: {id: form.to_param, form: valid_attributes}, session: valid_session
+        put :update, params: { id: form.to_param, form: valid_attributes }, session: valid_session
         expect(response).to redirect_to(form)
       end
     end
@@ -144,7 +143,7 @@ RSpec.describe Admin::FormsController, type: :controller do
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
         form = Form.create! valid_attributes
-        put :update, params: {id: form.to_param, form: invalid_attributes}, session: valid_session
+        put :update, params: { id: form.to_param, form: invalid_attributes }, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -154,15 +153,14 @@ RSpec.describe Admin::FormsController, type: :controller do
     it "destroys the requested form" do
       form = Form.create! valid_attributes
       expect {
-        delete :destroy, params: {id: form.to_param}, session: valid_session
+        delete :destroy, params: { id: form.to_param }, session: valid_session
       }.to change(Form, :count).by(-1)
     end
 
     it "redirects to the forms list" do
       form = Form.create! valid_attributes
-      delete :destroy, params: {id: form.to_param}, session: valid_session
+      delete :destroy, params: { id: form.to_param }, session: valid_session
       expect(response).to redirect_to(forms_url)
     end
   end
-
 end

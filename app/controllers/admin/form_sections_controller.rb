@@ -25,7 +25,6 @@ class Admin::FormSectionsController < AdminController
     head :ok
   end
 
-
   def update_title
     section = FormSection.where(id: params[:form_section_id]).first
     section.update!(title: params[:title])
@@ -63,15 +62,16 @@ class Admin::FormSectionsController < AdminController
   end
 
   private
-    def set_form_section
-      @form_section = @form.form_sections.find(params[:id])
-    end
 
-    def set_form
-      @form = Form.find_by_short_uuid(params[:form_id])
-    end
+  def set_form_section
+    @form_section = @form.form_sections.find(params[:id])
+  end
 
-    def form_section_params
-      params.require(:form_section).permit(:title, :position, :next_section_id)
-    end
+  def set_form
+    @form = Form.find_by_short_uuid(params[:form_id])
+  end
+
+  def form_section_params
+    params.require(:form_section).permit(:title, :position, :next_section_id)
+  end
 end

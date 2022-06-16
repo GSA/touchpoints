@@ -1,5 +1,4 @@
 class UserMailer < ApplicationMailer
-
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -12,7 +11,7 @@ class UserMailer < ApplicationMailer
     @path = path
 
     mail subject: "Touchpoints notification: #{title}",
-      to: emails
+         to: emails
   end
 
   def submission_notification(submission_id:, emails: [])
@@ -20,15 +19,15 @@ class UserMailer < ApplicationMailer
     @submission = Submission.find(submission_id)
     @form = @submission.form
     mail subject: "New Submission to #{@form.name}",
-      to: emails
+         to: emails
   end
 
-  def social_media_account_created_notification(digital_service_account:, link: )
+  def social_media_account_created_notification(digital_service_account:, link:)
     set_logo
     @digital_service_account = digital_service_account
     @link = link
     mail subject: "Touchpoints social media account has been created",
-      to: UserMailer.registry_manager_emails
+         to: UserMailer.registry_manager_emails
   end
 
   def service_event_notification(subject:, service:, event:, link: "")
@@ -38,29 +37,32 @@ class UserMailer < ApplicationMailer
     @event = event
     @link = link
     mail subject: "Touchpoints event notification: #{subject}",
-      to: (ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(',') + User.service_managers.collect(&:email)).uniq
+         to: (ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(',') + User.service_managers.collect(&:email)).uniq
   end
 
   def collection_notification(collection_id:)
     set_logo
     @collection = Collection.find(collection_id)
     mail subject: "Data Collection notification to #{@collection.name}",
-      to: (ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(',') + User.performance_managers.collect(&:email)).uniq
+         to: (ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(',') + User.performance_managers.collect(&:email)).uniq
   end
 
   def submissions_digest(form_id, begin_day)
     return unless ENV["ENABLE_EMAIL_NOTIFICATIONS"] == "true"
+
     @begin_day = begin_day
     @form = Form.find(form_id)
     return unless @form.send_notifications?
+
     set_logo
-    @submissions = Submission.where(id: form_id).where("created_at > ?",@begin_day).order("created_at desc")
+    @submissions = Submission.where(id: form_id).where("created_at > ?", @begin_day).order("created_at desc")
     emails = @form.notification_emails.split(',')
     mail subject: "New Submissions to #{@form.name} since #{@begin_day}", to: emails
   end
 
   def account_deactivation_scheduled_notification(email, active_days)
     return unless ENV["ENABLE_EMAIL_NOTIFICATIONS"] == "true"
+
     @active_days = active_days
     set_logo
 
@@ -114,14 +116,14 @@ class UserMailer < ApplicationMailer
     set_logo
     @user = user
     mail subject: "New user account created",
-      to: UserMailer.touchpoints_team
+         to: UserMailer.touchpoints_team
   end
 
   def form_expiring_notification(form)
     set_logo
     @form = form
     mail subject: "Form #{@form.name} expiring on #{@form.expiration_date}",
-      to: ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(',')
+         to: ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(',')
   end
 
   def org_user_notification(user, org_admin)
@@ -129,21 +131,21 @@ class UserMailer < ApplicationMailer
     @user = user
     @org_admin = org_admin
     mail subject: "New user added to organization",
-      to: org_admin.email
+         to: org_admin.email
   end
 
   def no_org_notification(user)
     set_logo
     @user = user
     mail subject: "New user account creation failed",
-      to: UserMailer.touchpoints_support
+         to: UserMailer.touchpoints_support
   end
 
   def account_deactivated_notification(user)
     set_logo
     @user = user
     mail subject: "User account deactivated",
-      to: UserMailer.touchpoints_team
+         to: UserMailer.touchpoints_team
   end
 
   def invite(user, invitee)

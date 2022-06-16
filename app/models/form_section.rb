@@ -4,8 +4,7 @@ class FormSection < ApplicationRecord
 
   validates :position, presence: true
 
-
-  after_commit do | form_section |
+  after_commit do |form_section|
     FormCache.invalidate(form_section.form.short_uuid) if form_section.form.present?
   end
 
@@ -19,5 +18,4 @@ class FormSection < ApplicationRecord
       throw(:abort)
     end
   end
-
 end

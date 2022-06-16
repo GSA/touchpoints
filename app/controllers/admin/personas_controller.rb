@@ -39,11 +39,12 @@ class Admin::PersonasController < AdminController
   end
 
   private
-    def set_persona
-      @persona = Persona.find(params[:id])
-    end
 
-    def persona_params
-      params.require(:persona).permit(:name, :description, :tags, :notes, :user_id)
-    end
+  def set_persona
+    @persona = Persona.find(params[:id])
+  end
+
+  def persona_params
+    params.require(:persona).permit(:name, :description, :tags, :notes, :user_id)
+  end
 end

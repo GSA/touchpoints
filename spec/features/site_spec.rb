@@ -57,8 +57,6 @@ feature "general site navigation", js: true do
           end
         end
       end
-
     end
-
   end
 end

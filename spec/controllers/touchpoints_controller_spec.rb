@@ -24,7 +24,6 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 describe TouchpointsController, type: :controller do
-
   # This should return the minimal set of attributes required to create a valid
   # Touchpoint. As you add validations to Touchpoint, be sure to
   # adjust the attributes here as well.

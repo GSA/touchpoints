@@ -1,10 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Admin::SubmissionsController, type: :controller do
-
-  let(:organization) { FactoryBot.create(:organization)}
+  let(:organization) { FactoryBot.create(:organization) }
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
-  let(:form) { FactoryBot.create(:form, organization: organization, user: admin)}
+  let(:form) { FactoryBot.create(:form, organization: organization, user: admin) }
   let!(:user_role) { FactoryBot.create(:user_role, user: admin, form: form, role: UserRole::Role::FormManager) }
 
   let(:valid_attributes) {
@@ -42,7 +41,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
 
     it "redirects to the submissions list" do
       submission = Submission.create! valid_attributes
-      delete :destroy, params: {id: submission.to_param, form_id: form.short_uuid }, session: valid_session, format: :js
+      delete :destroy, params: { id: submission.to_param, form_id: form.short_uuid }, session: valid_session, format: :js
       expect(response).to render_template(:destroy)
     end
   end
@@ -50,7 +49,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
   describe "POST #flag" do
     before do
       @submission = Submission.create! valid_attributes
-      post :flag, format: :js, params: {id: @submission.to_param, form_id: form.short_uuid }, session: valid_session
+      post :flag, format: :js, params: { id: @submission.to_param, form_id: form.short_uuid }, session: valid_session
       @submission.reload
     end
 

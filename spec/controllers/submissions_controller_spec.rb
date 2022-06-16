@@ -24,14 +24,13 @@ require 'rails_helper'
 # `rails-controller-testing` gem.
 
 RSpec.describe SubmissionsController, type: :controller do
-
   # This should return the minimal set of attributes required to create a valid
   # Submission. As you add validations to Submission, be sure to
   # adjust the attributes here as well.
 
-  let(:organization) { FactoryBot.create(:organization)}
+  let(:organization) { FactoryBot.create(:organization) }
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
-  let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin)}
+  let(:form) { FactoryBot.create(:form, :open_ended_form, organization: organization, user: admin) }
 
   let(:valid_attributes) {
     {
@@ -57,7 +56,6 @@ RSpec.describe SubmissionsController, type: :controller do
   # SubmissionsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-
   before do
     sign_in(admin)
   end
@@ -81,7 +79,6 @@ RSpec.describe SubmissionsController, type: :controller do
   end
 
   describe "POST #create" do
-
     context "SPAMBOT" do
       it "won't create a submission if SPAMBOT detected" do
         spam_attributes = {
@@ -93,21 +90,20 @@ RSpec.describe SubmissionsController, type: :controller do
           fba_directive: 'SPAM text'
         }
         expect {
-          post :create, params: {submission: spam_attributes, form_id: form.short_uuid}, session: valid_session
+          post :create, params: { submission: spam_attributes, form_id: form.short_uuid }, session: valid_session
         }.to change(Submission, :count).by(0)
       end
-
     end
 
     context "with valid params and an ID" do
       it "creates a new Submission" do
         expect {
-          post :create, params: {submission: valid_attributes, form_id: form.short_uuid }, session: valid_session
+          post :create, params: { submission: valid_attributes, form_id: form.short_uuid }, session: valid_session
         }.to change(Submission, :count).by(1)
       end
 
       it "updates the form response_count and last_response_created_at" do
-        post :create, params: {submission: valid_attributes, form_id: form.short_uuid }, session: valid_session
+        post :create, params: { submission: valid_attributes, form_id: form.short_uuid }, session: valid_session
         form.reload
         expect(form.response_count).to be > 0
         expect(form.last_response_created_at).not_to be nil
@@ -122,7 +118,7 @@ RSpec.describe SubmissionsController, type: :controller do
     context "with valid param and a UUID" do
       it "creates a new Submission" do
         expect {
-          post :create, params: {submission: valid_attributes, form_id: form.short_uuid }, session: valid_session
+          post :create, params: { submission: valid_attributes, form_id: form.short_uuid }, session: valid_session
         }.to change(Submission, :count).by(1)
       end
 
@@ -158,5 +154,4 @@ RSpec.describe SubmissionsController, type: :controller do
       end
     end
   end
-
 end

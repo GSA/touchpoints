@@ -66,9 +66,8 @@ class Admin::WebsitesController < AdminController
   end
 
   def dendrogram_json
-
     if params["office"] == "true"
-       dendrogram_json_by_office
+      dendrogram_json_by_office
     else
       # default
       dendrogram_json_by_domain
@@ -90,8 +89,7 @@ class Admin::WebsitesController < AdminController
       if website.tld?
         @websites << {
           name: website.domain,
-          children: [
-          ]
+          children: []
         }
       end
     end
@@ -175,7 +173,7 @@ class Admin::WebsitesController < AdminController
     # fetch all websites for site owner
     @websites = Website.active.where(site_owner_email: @website.site_owner_email)
     # only include websites which are missing data
-    @websites = @websites.select { | ws | ws.requiresDataCollection? }
+    @websites = @websites.select { |ws| ws.requiresDataCollection? }
     UserMailer.website_data_collection(@website.site_owner_email, @websites).deliver_later if @website.site_owner_email.present?
     UserMailer.website_data_collection(current_user.email, @websites).deliver_later
     redirect_to admin_websites_url, notice: "Website data collection request was successfully sent for #{@website.domain}"
@@ -285,55 +283,56 @@ class Admin::WebsitesController < AdminController
   end
 
   private
-    def set_website_manager_options
-      if admin_permissions?
-        @website_manager_options = User.active.order("email")
-      elsif @website && @website.organization
-        @website_manager_options = @website.organization.users.active.order("email")
-      elsif current_user.organization
-        @website_manager_options = current_user.organization.users.active.order("email")
-      else
-        []
-      end
 
-      if @website_manager_options && @website
-        @website_manager_options = @website_manager_options - @website.website_managers
-      end
+  def set_website_manager_options
+    if admin_permissions?
+      @website_manager_options = User.active.order("email")
+    elsif @website && @website.organization
+      @website_manager_options = @website.organization.users.active.order("email")
+    elsif current_user.organization
+      @website_manager_options = current_user.organization.users.active.order("email")
+    else
+      []
     end
 
-    def set_website_persona_options
-      @website_persona_options = Persona.all.order(:name)
-      if @website_persona_options && @website
-        @website_persona_options = @website_persona_options - @website.website_personas
-      end
+    if @website_manager_options && @website
+      @website_manager_options = @website_manager_options - @website.website_managers
     end
+  end
 
-    def log_update(current_state)
-      Event.log_event(Event.names[:website_updated], "Website", @website.id, "Website #{@website.domain} updated at #{DateTime.now}", current_user.id)
-      if admin_website_params[:production_status] != current_state
-        Event.log_event(Event.names[:website_state_changed], "Website", @website.id, "Website #{@website.domain} state changed to #{admin_website_params[:production_status]} at #{DateTime.now}", current_user.id)
-      end
+  def set_website_persona_options
+    @website_persona_options = Persona.all.order(:name)
+    if @website_persona_options && @website
+      @website_persona_options = @website_persona_options - @website.website_personas
     end
+  end
 
-    def set_website
-      @website = Website.find_by_id(params[:id])
+  def log_update(current_state)
+    Event.log_event(Event.names[:website_updated], "Website", @website.id, "Website #{@website.domain} updated at #{DateTime.now}", current_user.id)
+    if admin_website_params[:production_status] != current_state
+      Event.log_event(Event.names[:website_state_changed], "Website", @website.id, "Website #{@website.domain} state changed to #{admin_website_params[:production_status]} at #{DateTime.now}", current_user.id)
     end
+  end
 
-    def admin_website_params
-      params.require(:website).permit(:domain, :office, :office_id, :sub_office, :suboffice_id, :contact_email, :site_owner_email, :production_status, :type_of_site, :digital_brand_category, :redirects_to, :status_code, :cms_platform, :required_by_law_or_policy, :has_dap, :dap_gtm_code, :cost_estimator_url, :modernization_plan_url, :annual_baseline_cost,
-      :modernization_cost,
-      :modernization_cost_2021,
-      :modernization_cost_2022,
-      :modernization_cost_2023,
-      :analytics_url,
-      :https,
-      :uswds_version,
-      :uses_feedback, :feedback_tool, :sitemap_url, :mobile_friendly, :has_search, :uses_tracking_cookies,
-      :hosting_platform,
-      :has_authenticated_experience,
-      :authentication_tool,
-      :repository_url,
-      :notes,
-      :tag_list)
-    end
+  def set_website
+    @website = Website.find_by_id(params[:id])
+  end
+
+  def admin_website_params
+    params.require(:website).permit(:domain, :office, :office_id, :sub_office, :suboffice_id, :contact_email, :site_owner_email, :production_status, :type_of_site, :digital_brand_category, :redirects_to, :status_code, :cms_platform, :required_by_law_or_policy, :has_dap, :dap_gtm_code, :cost_estimator_url, :modernization_plan_url, :annual_baseline_cost,
+                                    :modernization_cost,
+                                    :modernization_cost_2021,
+                                    :modernization_cost_2022,
+                                    :modernization_cost_2023,
+                                    :analytics_url,
+                                    :https,
+                                    :uswds_version,
+                                    :uses_feedback, :feedback_tool, :sitemap_url, :mobile_friendly, :has_search, :uses_tracking_cookies,
+                                    :hosting_platform,
+                                    :has_authenticated_experience,
+                                    :authentication_tool,
+                                    :repository_url,
+                                    :notes,
+                                    :tag_list)
+  end
 end
