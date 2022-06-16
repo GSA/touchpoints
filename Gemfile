@@ -75,6 +75,7 @@ gem 'logstop'
 gem 'paper_trail'
 gem 'acts-as-taggable-on'
 gem "rolify"
+gem 'erb_lint', require: false
 
 group :development, :test do
   gem 'dotenv-rails', '>= 2.7.6'

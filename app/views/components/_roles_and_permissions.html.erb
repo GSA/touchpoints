@@ -55,8 +55,7 @@
                   <% friendly_roles = {
                     "response_viewer" => "Response Viewer",
                     "form_manager" => "Form Manager"
-                  }
-                  %>
+                  } %>
                   <%= friendly_roles[form.user_role?(user: user)] %>
                 </td>
                 <td>
@@ -75,7 +74,7 @@
             </tbody>
           </table>
           <% else %>
-          <div class="usa-alert usa-alert--info" >
+          <div class="usa-alert usa-alert--info">
             <div class="usa-alert__body">
               <p class="usa-alert__text">
                 No users at this time
@@ -142,9 +141,9 @@
           </div>
         </div>
         <div class="field">
-          <br/>
+          <br>
           <%= f.submit "Invite User", class: "usa-button" %>
-          <br/><br/>
+          <br><br>
         </div>
       <% end %>
     </div>
