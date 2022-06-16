@@ -16,9 +16,11 @@ Service Surveys by Agency
       <td><%= service.organization.name %></td>
       <td><%= service.name %></td>
       <td>
-        <ul>
+        <ul class="usa-list">
           <% service.forms.each do |f| %>
-          <li><%= f.name %></li>
+          <li>
+            <%= f.name %>
+          </li>
           <% end %>
         </ul>
       </td>

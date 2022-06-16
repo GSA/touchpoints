@@ -24,7 +24,7 @@
 <% end %>
 
 <div class="grid-row grid-gap-lg">
-  <div class="tablet:grid-col-6">
+  <div class="tablet:grid-col-8">
     <p>
       <%= label_tag "Account name", nil, class: "usa-label" %>
       <br>
@@ -111,32 +111,21 @@
       <%= link_to api_url, api_url %>
     </p>
   </div>
-  <div class="grid-col-6">
-  <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
-
+  <div class="grid-col-4">
+    <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) && (@digital_service_account.created? || @digital_service_account.updated? || @digital_service_account.published?) %>
     <div class="well">
-      <span class="usa-tag bg-violet">
-        for Registry Managers
+      <span class="usa-tag bg-blue">
+        for Contacts
       </span>
 
       <br>
       <br>
 
     <% if @digital_service_account.created? || @digital_service_account.updated? %>
-      <%= link_to submit_admin_digital_service_account_path(@digital_service_account), class: "usa-button bg-green full-width", method: :post do %>
+      <%= link_to submit_admin_digital_service_account_path(@digital_service_account), class: "usa-button full-width", method: :post do %>
         <span class="fa fa-check"></span>
         &nbsp;
         Submit
-      <% end %>
-      <br>
-      <br>
-    <% end %>
-
-    <% if @digital_service_account.submitted? %>
-      <%= link_to publish_admin_digital_service_account_path(@digital_service_account), class: "usa-button full-width", method: :post do %>
-        <span class="fa fa-pen"></span>
-        &nbsp;
-        Publish
       <% end %>
       <br>
       <br>
@@ -163,8 +152,31 @@
       <br>
     <% end %>
 
+    </div>
+    <% end %>
+
+  <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
+
+    <div class="well">
+      <span class="usa-tag bg-violet">
+        for Registry Managers
+      </span>
+
+      <br>
+      <br>
+
+    <% if @digital_service_account.submitted? %>
+      <%= link_to publish_admin_digital_service_account_path(@digital_service_account), class: "usa-button full-width", method: :post do %>
+        <span class="fa fa-pen"></span>
+        &nbsp;
+        Publish
+      <% end %>
+      <br>
+      <br>
+    <% end %>
+
       <%= link_to reset_admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button--secondary full-width", method: :post do %>
-        <span class="fa fa-left"></span>
+        <span class="fa fa-backward"></span>
         &nbsp;
         Reset
       <% end %>

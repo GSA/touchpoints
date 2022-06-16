@@ -1,5 +1,5 @@
 <div class="grid-row grid-gap-lg">
-  <div class="desktop:grid-col-6">
+  <div class="grid-col-12">
     <% content_for :navigation_title do %>
       Viewing Digital Product: <%= @digital_product.name %>
       <%= link_to edit_admin_digital_product_path(@digital_product), class: "usa-button usa-button-inverted float-right" do %>
@@ -14,7 +14,8 @@
         Back to Digital Products
       <% end %>
     </p>
-
+  </div>
+  <div class="desktop:grid-col-8">
     <p>
       <%= label_tag "Name", nil, class: "usa-label" %>
       <%= @digital_product.name %>
@@ -110,12 +111,12 @@
     <br>
 
   </div>
-  <div class="desktop:grid-col-6">
-    <% if registry_manager_permissions?(user: current_user) %>
+  <div class="desktop:grid-col-4">
+    <% if digital_product_permissions?(digital_product: @digital_product, user: current_user) && @digital_product.created? || !@digital_product.archived? %>
     <div class="well">
       <p>
-        <span class="usa-tag bg-violet">
-          for Registry Managers
+        <span class="usa-tag bg-blue">
+          for Contact Users
         </span>
       </p>
 
@@ -129,18 +130,6 @@
         <% end %>
       </p>
       <% end %>
-
-    <% if admin_permissions? %>
-      <% if @digital_product.submitted? %>
-        <%= link_to publish_admin_digital_product_path(@digital_product), class: "usa-button full-width", method: :post do %>
-          <span class="fa fa-pen"></span>
-          &nbsp;
-          Publish
-        <% end %>
-        <br>
-        <br>
-      <% end %>
-    <% end %>
 
     <% if !@digital_product.archived? %>
       <%= link_to archive_admin_digital_product_path(@digital_product), class: "usa-button usa-button--base width-full", method: :post do %>
@@ -159,21 +148,42 @@
           </p>
         </div>
       </div>
+    <% end %>
+    </div>
+
+    <% end %>
+
+    <% if registry_manager_permissions? %>
+    <div class="well">
+      <p>
+        <span class="usa-tag bg-violet">
+          for Registry Managers
+        </span>
+      </p>
+
+    <% if @digital_product.submitted? %>
+      <%= link_to publish_admin_digital_product_path(@digital_product), class: "usa-button full-width", method: :post do %>
+        <span class="fa fa-pen"></span>
+        &nbsp;
+        Publish
+      <% end %>
+      <br>
       <br>
     <% end %>
 
-
-    <%= link_to reset_admin_digital_product_path(@digital_product), class: "usa-button usa-button--secondary full-width", method: :post do %>
-      <span class="fa fa-left"></span>
-      &nbsp;
-      Reset
-    <% end %>
+      <%= link_to reset_admin_digital_product_path(@digital_product), class: "usa-button usa-button--secondary full-width", method: :post do %>
+        <span class="fa fa-backward"></span>
+        &nbsp;
+        Reset
+      <% end %>
     </div>
     <% end %>
 
-    <%= turbo_frame_tag id="digital_product_versions_container", src: admin_digital_product_digital_product_versions_path(@digital_product) do %>
+    <div class="well">
+      <%= turbo_frame_tag id="digital_product_versions_container", src: admin_digital_product_digital_product_versions_path(@digital_product) do %>
       Please wait...
-    <% end %>
+      <% end %>
+    </div>
 
     <%= render 'components/event_log', events: Event.where(object_type: "Digital Product", object_id: @digital_product.id.to_s ).order("created_at DESC") %>
 

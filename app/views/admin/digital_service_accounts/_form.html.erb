@@ -28,7 +28,7 @@
 
   <div class="field">
     <%= form.label :short_description, class: "usa-label" %>
-    <div class="text-small">
+    <div class="font-sans-2xs">
       200 character limit
     </div>
     <%= form.text_field :short_description, class: "usa-input", maxlength: "200" %>
@@ -109,20 +109,25 @@
 
   </div>
 
-  <% if !digital_service_account.persisted? %>
-    <small>
-      Tags, Agencies, and Staff contacts can be associated with this
-      Digital Service Account, after creation.
-    </small>
-  <% end %>
-
   <div class="field">
     <%= form.label :notes, class: "usa-label" %>
     <%= form.text_area :notes, class: "usa-textarea" %>
   </div>
 
+  <% if !digital_service_account.persisted? %>
+    <br>
+    <div class="usa-alert usa-alert--info" >
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
+          Tags, Agencies, and Contacts can be associated with this
+          record, after creation.
+        </p>
+      </div>
+    </div>
+  <% end %>
+
   <p>
-    <%= form.submit class: "usa-button" %>
+    <%= form.submit (digital_service_account.persisted? ? "Update social media account" : "Create social media account"), class: "usa-button" %>
     <% if digital_service_account.persisted? %>
       <%= link_to "Cancel", admin_digital_service_account_path(digital_service_account), class: "usa-button usa-button--base" %>
     <% end %>
