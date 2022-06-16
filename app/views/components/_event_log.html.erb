@@ -1,0 +1,24 @@
+<div class="well">
+  <%= label_tag "Event log", nil, class: "usa-label" %>
+
+  <div class="events">
+    <ol class="usa-process-list" reversed>
+    <% events.each do |event| %>
+      <li class="usa-process-list__item">
+        <h4 class="usa-process-list__heading font-sans-sm">
+          <%= event.name %>
+        </h4>
+        <p class="font-sans-2xs margin-top-05">
+          <%= event.name %>
+          by
+          <%= link_to event.user.email, admin_user_path(event.user) %>
+          <br>
+          <%= time_ago_in_words(event.created_at) %> ago
+          at
+          <%= event.created_at %>
+        </p>
+      </li>
+    <% end %>
+    </ol>
+  </div>
+</div>

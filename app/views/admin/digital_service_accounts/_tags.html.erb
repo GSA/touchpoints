@@ -1,7 +1,9 @@
 <%= form_with(model: digital_service_account, url: admin_digital_service_account_path(digital_service_account), local: true) do |f| %>
 	<div class="grid-row">
 	  <div class="grid-col-6">
-	  	<h3>Tags</h3>
+			<%= label_tag "Tags", nil, class: "usa-label" %>
+			<br>
+
 	  	<div class="tag-list">
 				<ul class="usa-list usa-list--unstyled">
 					<% digital_service_account.tag_list.sort.each do |tag| %>

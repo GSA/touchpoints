@@ -1,7 +1,10 @@
 <%= form_with(model: digital_service_account, url: admin_digital_service_account_path(digital_service_account), local: true) do |f| %>
-	<h3>
-		Contacts
-	</h3>
+	<%= label_tag "Contacts", nil, class: "usa-label" %>
+	<small>
+		Associate one or more users with this record.
+	</small>
+	<br>
+	<br>
 	<div class="users-list">
 		<ul class="usa-list usa-list--unstyled">
 			<% digital_service_account.roles.sort.each do |role| %>

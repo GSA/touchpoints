@@ -20,7 +20,7 @@
     <%= render 'components/analytics/script_header' %>
     <%= javascript_importmap_tags %>
   </head>
-  <body>
+  <body class="<%= action_name %>">
     <%= render 'components/analytics/script_body' %>
     <%= render 'components/header' %>
     <% unless content_for?(:full_layout) %>

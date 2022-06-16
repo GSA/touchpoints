@@ -156,7 +156,7 @@ class ApplicationController < ActionController::Base
   def registry_manager_permissions?(user:)
     return false unless user.present?
     return true if admin_permissions?
-    user.registry_manager?
+    user.registry_manager?(user: user)
   end
 
   helper_method :digital_service_account_permissions?
@@ -164,15 +164,15 @@ class ApplicationController < ActionController::Base
     return false unless user.present?
     return true if registry_manager_permissions?(user: current_user)
 
-    digital_service_account.user == user
+    user.has_role?(:contact, digital_service_account)
   end
 
   helper_method :digital_product_permissions?
   def digital_product_permissions?(digital_product:, user:)
     return false unless user.present?
-    return true if registry_manager_permissions?(user: current_user)
+    return true if registry_manager_permissions?(user: user)
 
-    digital_product.user == user
+    user.has_role?(:contact, digital_product)
   end
 
   helper_method :service_permissions?

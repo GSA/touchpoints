@@ -31,10 +31,10 @@ module Admin
 
   def create
     @digital_service_account = DigitalServiceAccount.new(digital_service_account_params)
+    @digital_service_account.organization_list.add(current_user.organization_id)
 
     if @digital_service_account.save
       current_user.add_role(:contact, @digital_service_account)
-      @digital_service_account.organization_list.add(current_user.organization.id)
 
       Event.log_event(Event.names[:digital_service_account_created], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} created at #{DateTime.now}", current_user.id)
 
@@ -125,7 +125,7 @@ module Admin
   def publish
     ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
 
-    if @digital_service_account.publish
+    if @digital_service_account.publish!
       Event.log_event(Event.names[:digital_service_account_published], "Digital Service Account", @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} published at #{DateTime.now}", current_user.id)
 
       UserMailer.notification(
