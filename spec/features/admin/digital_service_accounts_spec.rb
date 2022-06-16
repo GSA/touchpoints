@@ -62,12 +62,12 @@ feature "Digital Service Accounts", js: true do
         expect(page).to have_content('New Social Media Account')
         fill_in :digital_service_account_name, with: 'Test Name'
         select('Facebook', from: 'digital_service_account[account]')
-        click_on 'Create Digital service account'
+        click_on 'Create social media account'
       end
 
       it 'creates Digital Service Account successfully' do
         expect(page).to have_content('Digital service account was successfully created')
-        expect(page).to have_content('Event log')
+        expect(page).to have_content('Event log'.upcase)
         within('.events') do
           expect(page).to have_content('digital_service_account_created by admin@example.gov')
         end
