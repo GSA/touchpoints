@@ -1,0 +1,25 @@
+<% content_for :navigation_title do %>
+  Offerings
+  <%= link_to new_admin_offering_path, class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-plus-circle"></i>
+    New Offering
+  <% end %>
+<% end %>
+
+<table class="usa-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Service</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @offerings.each do |offering| %>
+      <tr>
+        <td><%= link_to offering.name, admin_offering_path(offering) %></td>
+        <td><%= offering.service.name if offering.service.present? %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

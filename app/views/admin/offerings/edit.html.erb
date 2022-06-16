@@ -1,0 +1,18 @@
+<% content_for :navigation_title do %>
+  Editing Offering
+<% end %>
+<p>
+  <%= link_to admin_offering_path(@offering) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Offering
+  <% end %>
+</p>
+
+<%= render 'form', offering: @offering, offering_persona_options: @offering_persona_options %>
+
+<p>
+  <%= link_to admin_offering_path(@offering), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
+  <i class="fa fa-trash"></i>
+  Delete
+  <% end %>
+</p>

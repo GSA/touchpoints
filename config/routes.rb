@@ -73,6 +73,12 @@ Rails.application.routes.draw do
 
     get "heartbeat", to: "site#heartbeat", as: :heartbeat
     get "a11", to: "site#a11", as: :a11
+    resources :offerings do
+      member do
+        post "add_offering_persona", to: "offerings#add_offering_persona", as: :add_offering_persona
+        post "remove_offering_persona", to: "offerings#remove_offering_persona", as: :remove_offering_persona
+      end
+    end
     resources :service_providers do |*args|
       collection do
         get "search", to: "service_providers#search"

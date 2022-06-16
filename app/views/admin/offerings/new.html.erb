@@ -1,0 +1,11 @@
+<% content_for :navigation_title do %>
+  New Offering
+<% end %>
+<p>
+  <%= link_to admin_offerings_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Offerings
+  <% end %>
+</p>
+
+<%= render 'form', offering: @offering, offering_persona_options: @offering_persona_options %>
