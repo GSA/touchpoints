@@ -9,13 +9,19 @@ class Admin::MilestonesController < AdminController
   end
 
   def new
+    ensure_performance_manager_permissions
+
     @milestone = Milestone.new
   end
 
   def edit
+    ensure_performance_manager_permissions
+
   end
 
   def create
+    ensure_performance_manager_permissions
+
     @milestone = Milestone.new(milestone_params)
 
     if @milestone.save
@@ -26,6 +32,8 @@ class Admin::MilestonesController < AdminController
   end
 
   def update
+    ensure_performance_manager_permissions
+
     if @milestone.update(milestone_params)
       redirect_to admin_milestone_path(@milestone), notice: 'Milestone was successfully updated.'
     else
@@ -34,6 +42,8 @@ class Admin::MilestonesController < AdminController
   end
 
   def destroy
+    ensure_performance_manager_permissions
+    
     @milestone.destroy
     redirect_to admin_milestones_url, notice: 'Milestone was successfully destroyed.'
   end

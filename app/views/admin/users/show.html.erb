@@ -96,6 +96,52 @@
 
 <div class="well">
   <h4>
+    Digital Products
+  </h4>
+  <% if @digital_products.present? %>
+    <ul class="usa-list">
+    <% @digital_products.each do |digital_product| %>
+      <li>
+        <%= link_to digital_product.name, admin_digital_product_path(digital_product) %><br>
+      </li>
+    <% end %>
+    </ul>
+  <% else %>
+  <div class="usa-alert usa-alert--info" >
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        No Digital Products at this time
+      </p>
+    </div>
+  </div>
+  <% end %>
+</div>
+
+<div class="well">
+  <h4>
+    Digital Service Accounts
+  </h4>
+  <% if @digital_service_accounts.present? %>
+    <ul class="usa-list">
+    <% @digital_service_accounts.each do |digital_service_account| %>
+      <li>
+        <%= link_to digital_service_account.name, admin_digital_service_account_path(digital_service_account) %><br>
+      </li>
+    <% end %>
+    </ul>
+  <% else %>
+  <div class="usa-alert usa-alert--info" >
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        No Digital Service Accounts at this time
+      </p>
+    </div>
+  </div>
+  <% end %>
+</div>
+
+<div class="well">
+  <h4>
     Websites managed
   </h4>
   <% if @websites.present? %>

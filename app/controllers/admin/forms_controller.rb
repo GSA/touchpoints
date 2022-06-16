@@ -21,6 +21,7 @@ class Admin::FormsController < AdminController
     :add_user, :remove_user,
     :publish,
     :archive,
+    :reset,
     :update_ui_truncation,
     :update_title, :update_instructions, :update_disclaimer_text,
     :update_success_text, :update_display_logo,
@@ -85,6 +86,13 @@ class Admin::FormsController < AdminController
 
     @form.archive!
     redirect_to admin_form_path(@form), notice: "Archived"
+  end
+
+  def reset
+    Event.log_event(Event.names[:form_reset], "Form", @form.uuid,"Form #{@form.name} reset at #{DateTime.now}", current_user.id)
+
+    @form.reset!
+    redirect_to admin_form_path(@form), notice: "Form has been reset"
   end
 
   def update_title

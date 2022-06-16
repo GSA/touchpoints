@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-  <% if admin_permissions? %>
+  <% if performance_manager_permissions? %>
   <div class="field">
     <%= f.label :user_id, class: "usa-label" %>
     <%= f.select :user_id, options_for_select(User.all.collect { |u| [u.email, u.id] }, collection.user_id), { prompt: "Which User?", include_blank: true }, { class: "usa-select" } %>
@@ -20,7 +20,7 @@
   <%= f.hidden_field :user_id, value: current_user.id %>
   <% end %>
 
-  <% if admin_permissions? %>
+  <% if performance_manager_permissions? %>
   <div class="field">
     <%= f.label :organization_id, class: "usa-label" %>
     <%= f.select :organization_id, options_for_select(organization_dropdown_options, collection.organization_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
@@ -39,7 +39,7 @@
     <%= f.select :name, ["CX Quarterly Reporting"], {}, class: "usa-select" %>
   </div>
 
-  <% if admin_permissions? && collection.persisted? %>
+  <% if performance_manager_permissions? && collection.persisted? %>
   <div class="field">
     <%= f.label :aasm_state, class: "usa-label" %>
     <%= f.select :aasm_state, [:draft, :submitted, :published, :change_requested], {}, class: "usa-select" %>
@@ -48,7 +48,7 @@
     <%= f.hidden_field :aasm_state, value: :draft %>
   <% end %>
 
-  <% if admin_permissions? && collection.persisted? %>
+  <% if performance_manager_permissions? && collection.persisted? %>
   <% rating_options = [
       ["🟢 Reporting within A-11 guidelines", "TRUE"],
       ["🔴 Not submitting data", "FALSE"],

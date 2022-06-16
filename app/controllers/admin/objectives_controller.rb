@@ -3,17 +3,16 @@ class Admin::ObjectivesController < AdminController
   before_action :set_objective, only: [:show, :edit, :update, :destroy, :add_tag, :remove_tag]
   before_action :set_objective_tags, only: [:edit, :add_tag, :remove_tag]
 
-  # GET /objectives
   def index
     @objectives = @goal.objectives
   end
 
-  # GET /objectives/1
   def show
   end
 
-  # GET /objectives/new
   def new
+    ensure_performance_manager_permissions
+
     @objective = Objective.new
     @objective.goal_id = @goal.id
     @objective.organization_id = @goal.organization_id
@@ -21,13 +20,15 @@ class Admin::ObjectivesController < AdminController
     render :layout => false
   end
 
-  # GET /objectives/1/edit
   def edit
-    render :layout => false
+    ensure_performance_manager_permissions
+
+    render layout: false
   end
 
-  # POST /objectives
   def create
+    ensure_performance_manager_permissions
+
     @objective = Objective.new(objective_params)
     respond_to do |format|
       if @objective.save!
@@ -42,8 +43,9 @@ class Admin::ObjectivesController < AdminController
     end
   end
 
-  # PATCH/PUT /objectives/1
   def update
+    ensure_performance_manager_permissions
+    
     @objective.update(objective_params)
     @objective.tags = objective_params[:tags].split(" ")
     @objective.users = [objective_params[:users].to_i] if objective_params[:users].present?
@@ -60,8 +62,9 @@ class Admin::ObjectivesController < AdminController
     end
   end
 
-  # DELETE /objectives/1
   def destroy
+    ensure_performance_manager_permissions
+
     @objective.destroy
     respond_to do |format|
       format.html { redirect_to admin_objectives_url, notice: 'Objective was successfully destroyed.'}
@@ -85,7 +88,6 @@ class Admin::ObjectivesController < AdminController
       @goal = Goal.find(params[:goal_id])
     end
 
-    # Use callbacks to share common setup or constraints between actions.
     def set_objective
       @objective = Objective.find(params[:id])
     end
@@ -94,7 +96,6 @@ class Admin::ObjectivesController < AdminController
       @objective_tags_for_select = Goal::TAGS
     end
 
-    # Only allow a list of trusted parameters through.
     def objective_params
       params.require(:objective).permit(
         :name,

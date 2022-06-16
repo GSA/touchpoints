@@ -11,9 +11,13 @@
 <% end %>
 </ul>
 <% else %>
-  <p>
-    No Goal Targets exist.
-  </p>
+  <div class="usa-alert margin-bottom-2">
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        No Goal Targets exist.
+      </p>
+    </div>
+  </div>
 <% end %>
 <%= link_to new_admin_goal_goal_target_path(@goal), class: "usa-button new-goal-target" do %>
   <i class="fa fa-plus"></i>

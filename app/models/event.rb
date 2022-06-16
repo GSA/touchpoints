@@ -29,6 +29,7 @@ class Event < ApplicationRecord
     form_published: 'form_published',
     form_archived: 'form_archived',
     form_deleted: 'form_deleted',
+    form_reset: 'form_reset',
 
     collection_created: 'collection_created',
     collection_updated: 'collection_updated',

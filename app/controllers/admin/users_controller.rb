@@ -39,6 +39,8 @@ class Admin::UsersController < AdminController
     @websites = Website.where(site_owner_email: @user.email)
     @collections = @user.collections.order(:year, :quarter)
     @user_events = Event.limit(100).where(user_id: @user.id).order("created_at DESC")
+    @digital_products = DigitalProduct.with_role(:contact, @user)
+    @digital_service_accounts = DigitalServiceAccount.with_role(:contact, @user)
   end
 
   def new

@@ -28,10 +28,17 @@
       <%= form.text_field :name, class: "usa-input" %>
     </div>
 
-    <br>
-    <div class="field">
+    <div class="usa-form-group">
       <%= form.label :due_date, class: "usa-label" %>
-      <%= form.date_select :due_date %>
+      <div class="usa-date-picker">
+        <%= form.text_field :due_date,
+          class: "usa-input",
+          id: "appointment-date",
+          name: "appointment-date",
+          "aria-labelledby" => "appointment-date-label",
+          "aria-describedby" => "appointment-date-hint"
+        %>
+      </div>
     </div>
     <br>
 
