@@ -1,5 +1,5 @@
 class Admin::OrganizationsController < AdminController
-  before_action :ensure_admin, except: [:index, :show]
+
   before_action :set_organization, only: [
     :show,
     :performance,
@@ -29,16 +29,22 @@ class Admin::OrganizationsController < AdminController
   end
 
   def new
+    ensure_admin
+
     @organization = Organization.new
   end
 
   def edit
+    ensure_admin
   end
 
   def performance
+    ensure_performance_manager_permissions
   end
 
   def create
+    ensure_admin
+
     @organization = Organization.new(organization_params)
 
     respond_to do |format|
@@ -53,6 +59,8 @@ class Admin::OrganizationsController < AdminController
   end
 
   def create_four_year_goal
+    ensure_performance_manager_permissions
+
     @goal = Goal.new
     @goal.organization_id = @organization.id
     @goal.four_year_goal = true
@@ -61,6 +69,8 @@ class Admin::OrganizationsController < AdminController
   end
 
   def create_two_year_goal
+    ensure_performance_manager_permissions
+
     @goal = Goal.new
     @goal.organization_id = @organization.id
     @goal.four_year_goal = false
@@ -69,6 +79,8 @@ class Admin::OrganizationsController < AdminController
   end
 
   def sort_goals
+    ensure_performance_manager_permissions
+
     params[:goal].each_with_index do |id, index|
       Goal.where(id: id).update_all(position: index + 1)
     end
@@ -77,6 +89,8 @@ class Admin::OrganizationsController < AdminController
   end
 
   def sort_objectives
+    ensure_performance_manager_permissions
+
     params[:objective].each_with_index do |id, index|
       Objective.where(id: id).update_all(position: index + 1)
     end
@@ -85,14 +99,20 @@ class Admin::OrganizationsController < AdminController
   end
 
   def delete_two_year_goal
+    ensure_performance_manager_permissions
+
     Goal.find(params[:goal_id]).destroy
   end
 
   def delete_four_year_goal
+    ensure_performance_manager_permissions
+
     Goal.find(params[:goal_id]).destroy
   end
 
   def update
+    ensure_admin
+
     respond_to do |format|
       if @organization.update(organization_params)
         format.html { redirect_to admin_organization_path(@organization), notice: 'Organization was successfully updated.' }
@@ -105,6 +125,8 @@ class Admin::OrganizationsController < AdminController
   end
 
   def performance_update
+    ensure_performance_manager_permissions
+
     respond_to do |format|
       if @organization.update(organization_params)
         format.html { redirect_to performance_admin_organization_path(@organization), notice: 'Organization was successfully updated.' }
@@ -117,6 +139,8 @@ class Admin::OrganizationsController < AdminController
   end
 
   def destroy
+    ensure_admin
+
     @organization.destroy
     respond_to do |format|
       format.html { redirect_to admin_organizations_url, notice: 'Organization was successfully destroyed.' }
@@ -138,11 +162,15 @@ class Admin::OrganizationsController < AdminController
   end
 
   def add_tag
+    ensure_admin
+
     @organization.tag_list.add(organization_params[:tag_list].split(','))
     @organization.save
   end
 
   def remove_tag
+    ensure_admin
+    
     @organization.tag_list.remove(organization_params[:tag_list].split(','))
     @organization.save
   end
