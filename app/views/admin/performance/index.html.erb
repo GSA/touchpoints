@@ -17,35 +17,78 @@
     <div
       class="usa-summary-box"
       role="region"
-      aria-labelledby="summary-box-key-information"
-    >
+      aria-labelledby="summary-box-key-information">
       <div class="usa-summary-box__body">
-        <h3 class="usa-summary-box__heading" id="summary-box-key-information">
-          Performance reporting in Touchpoints
-        </h3>
         <div class="usa-summary-box__text">
-          <p>
-            Select your Organization below,
-            to create, view, or update your Performance Report.
-          </p>
+          <div class="grid-row">
+          <div class="grid-col-6">
+            <p>
+              Touchpoints currently supports 3 Data Collections.
+            </p>
+            <ul>
+              <li>
+                CX Quarterly Data Collections
+              </li>
+              <li>
+                Annual Performance Goals
+              </li>
+              <li>
+                Annual GSA Website Inventory
+              </li>
+            </ul>
+          </div>
+          <div class="grid-col-6">
+            <p>
+              The data is used for:
+            </p>
+            <ul>
+              <li>
+                <a href="https://www.performance.gov/cx/" target="_blank">Performance.gov/cx</a>
+              </li>
+              <li>
+                <a href="https://www.performance.gov/agencies/" target="_blank">Performance.gov/agencies</a>
+              </li>
+              <li>
+                Annual reporting and 21st Century IDEA compliance
+              </li>
+            </ul>
+          </div>
+          </div>
         </div>
       </div>
     </div>
 
   </div>
 </div>
-<div class="grid-row grid-gap-lg">
-  <div class="grid-col-6">
-    <p>
-      <%= link_to admin_apgs_path, class: "usa-button" do %>
-      Manage APGs
-      <% end %> - Annual Data Collection
-    </p>
-    <p>
-      <%= link_to admin_collections_path, class: "usa-button" do %>
-      Manage Data Collections
-      <% end %> - Quarterly CX Data Collections
-    </p>
+
+<section class="usa-section">
+  <div class="grid-row grid-gap-md">
+    <div class="grid-col-4">
+      <h3>
+        Quarterly
+      </h3>
+      <p>
+        <%= link_to admin_collections_path, class: "usa-button usa-button--outline" do %>
+        CX Quarterly Data Collections
+        <% end %>
+      </p>
+    </div>
+    <div class="grid-col-4">
+      <h3>
+        Annually
+      </h3>
+      <p>
+        <%= link_to admin_apgs_path, class: "usa-button usa-button--outline" do %>
+        Performance Goal Reporting (APGs)
+        <% end %>
+      </p>
+    </div>
+    <div class="grid-col-4" hidden>
+      <h3>
+        Ad-hoc
+      </h3>
+      <p>
+      </p>
+    </div>
   </div>
-</div>
-<br>
+</section>
