@@ -47,6 +47,10 @@ class DigitalServiceAccount < ApplicationRecord
     Organization.where(id: self.organization_list)
   end
 
+  def contacts
+    User.with_role(:contact, self)
+  end
+
   def self.load_service_accounts
     DigitalServiceAccount.delete_all
 

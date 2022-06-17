@@ -1,10 +1,8 @@
 <div id="sponsoring-agencies-div" class="grid-row" data-value="<%= admin_digital_product_path(@digital_product) %>">
   <div class="grid-col-12">
-    <h3>
-      Sponsoring Agencies
-    </h3>
+    <%= label_tag "Sponsoring agencies", nil, class: "usa-label" %>
     <small>
-      Optionally, this digital product may be associated with one or more
+      Optionally, this record may be associated with one or more
       <%= link_to "Agencies", admin_organizations_path %>.
     </small>
     <p class="sponsoring-agencies-list">

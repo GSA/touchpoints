@@ -39,13 +39,25 @@ feature "Managing Users", js: true do
       let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization) }
       let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, hisp: true, service_owner_id: user.id) }
       let!(:collection) { FactoryBot.create(:collection, organization: organization, user: user, service_provider: service_provider) }
+      let!(:digital_product) { FactoryBot.create(:digital_product) }
+      let!(:digital_service_account) { FactoryBot.create(:digital_service_account) }
 
       before do
+        user.add_role(:contact, digital_product)
+        user.add_role(:contact, digital_service_account)
         visit admin_user_path(user)
       end
 
       it "shows no forms message" do
         expect(page).to have_content("No Forms at this time")
+      end
+
+      it "shows digital products" do
+        expect(page).to have_content(digital_product.name)
+      end
+
+      it "shows digital service accounts" do
+        expect(page).to have_content(digital_service_account.name)
       end
 
       context "with submissions" do

@@ -1,7 +1,7 @@
 <div class="grid-row grid-gap-lg">
-  <div class="desktop:grid-col-6">
+  <div class="grid-col-12">
     <% content_for :navigation_title do %>
-      Viewing Digital Product: <%= @digital_product.id %>
+      Viewing Digital Product: <%= @digital_product.name %>
       <%= link_to edit_admin_digital_product_path(@digital_product), class: "usa-button usa-button-inverted float-right" do %>
         <i class="fa fa-pencil-alt"></i>
         Edit
@@ -14,19 +14,25 @@
         Back to Digital Products
       <% end %>
     </p>
-
+  </div>
+  <div class="desktop:grid-col-8">
     <p>
-      <strong>Name:</strong>
+      <%= label_tag "Name", nil, class: "usa-label" %>
       <%= @digital_product.name %>
     </p>
 
     <p>
-      <strong>Short description:</strong>
+      <%= label_tag "Status", nil, class: "usa-label" %>
+      <%= @digital_product.aasm_state %>
+    </p>
+
+    <p>
+      <%= label_tag "Short description", nil, class: "usa-label" %>
       <%= @digital_product.short_description %>
     </p>
 
     <p>
-      <strong>Long description:</strong>
+      <%= label_tag "Long description", nil, class: "usa-label" %>
       <p>
         <%= render 'components/markdown-content-supported' %>
       </p>
@@ -34,37 +40,22 @@
     </p>
 
     <p>
-      <strong>Url:</strong>
+      <%= label_tag "URL", nil, class: "usa-label" %>
       <%= @digital_product.url %>
     </p>
 
     <p>
-      <strong>Service:</strong>
-      <%= @digital_product.service %>
-    </p>
-
-    <p>
-      <strong>Language:</strong>
+      <%= label_tag "Language", nil, class: "usa-label" %>
       <%= @digital_product.language %>
     </p>
 
     <p>
-      <strong>Status:</strong>
-      <%= @digital_product.status %>
-    </p>
-
-    <p>
-      <strong>Code repository url:</strong>
+      <%= label_tag "Code repository URL", nil, class: "usa-label" %>
       <%= @digital_product.code_repository_url %>
     </p>
 
     <p>
-      <strong>Aasm state:</strong>
-      <%= @digital_product.aasm_state %>
-    </p>
-
-    <p>
-      <strong>Certified at:</strong>
+      <%= label_tag "Certified at", nil, class: "usa-label" %>
       <%= @digital_product.certified_at %>
     </p>
 
@@ -97,15 +88,34 @@
         </div>
       </div>
     </div>
-    <br>
+
+    <div>
+      <%= label_tag "Service", nil, class: "usa-label" %>
+      <small>
+        Optionally, this Digital Product
+        can be associated with a
+        <%= link_to "Service", admin_services_path, target: "_blank" %>.
+      </small>
+      <% if @digital_product.service? %>
+        <%= @digital_product.service %>
+      <% else %>
+        <div class="usa-alert">
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">
+              Not assigned to a Service.
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div>
 
   </div>
-  <div class="desktop:grid-col-6">
-    <% if registry_manager_permissions?(user: current_user) %>
+  <div class="desktop:grid-col-4">
+    <% if digital_product_permissions?(digital_product: @digital_product, user: current_user) && @digital_product.created? || !@digital_product.archived? %>
     <div class="well">
       <p>
-        <span class="usa-tag bg-violet">
-          for Registry Managers
+        <span class="usa-tag bg-blue">
+          for Contact Users
         </span>
       </p>
 
@@ -118,16 +128,6 @@
           Submit
         <% end %>
       </p>
-      <% end %>
-
-      <% if @digital_product.submitted? %>
-        <%= link_to publish_admin_digital_product_path(@digital_product), class: "usa-button full-width", method: :post do %>
-          <span class="fa fa-pen"></span>
-          &nbsp;
-          Publish
-        <% end %>
-        <br>
-        <br>
       <% end %>
 
     <% if !@digital_product.archived? %>
@@ -147,40 +147,44 @@
           </p>
         </div>
       </div>
+    <% end %>
+    </div>
+
+    <% end %>
+
+    <% if registry_manager_permissions?(user: current_user) %>
+    <div class="well">
+      <p>
+        <span class="usa-tag bg-violet">
+          for Registry Managers
+        </span>
+      </p>
+
+    <% if @digital_product.submitted? %>
+      <%= link_to publish_admin_digital_product_path(@digital_product), class: "usa-button full-width", method: :post do %>
+        <span class="fa fa-pen"></span>
+        &nbsp;
+        Publish
+      <% end %>
+      <br>
       <br>
     <% end %>
 
-
-    <%= link_to reset_admin_digital_product_path(@digital_product), class: "usa-button usa-button--secondary full-width", method: :post do %>
-      <span class="fa fa-left"></span>
-      &nbsp;
-      Reset
-    <% end %>
+      <%= link_to reset_admin_digital_product_path(@digital_product), class: "usa-button usa-button--secondary full-width", method: :post do %>
+        <span class="fa fa-backward"></span>
+        &nbsp;
+        Reset
+      <% end %>
     </div>
-    <% end %>
-
-    <%= turbo_frame_tag id="digital_product_versions_container", src: admin_digital_product_digital_product_versions_path(@digital_product) do %>
-      Please wait...
     <% end %>
 
     <div class="well">
-      <h4>
-        Event log
-      </h4>
-      <div class="events">
-        <% events = Event.where(object_type: "Digital Product", object_id: @digital_product.id.to_s ).order("created_at DESC") %>
-        <% events.each do |event| %>
-          <div class="padding-bottom-2">
-          <%= event.name %>
-          by
-          <%= link_to event.user.email, admin_user_path(event.user) %>
-          <br>
-          <%= time_ago_in_words(event.created_at) %> ago
-          at
-          <%= event.created_at %>
-          </div>
-        <% end %>
-      </div>
+      <%= turbo_frame_tag id="digital_product_versions_container", src: admin_digital_product_digital_product_versions_path(@digital_product) do %>
+      Please wait...
+      <% end %>
     </div>
+
+    <%= render 'components/event_log', events: Event.where(object_type: "Digital Product", object_id: @digital_product.id.to_s ).order("created_at DESC") %>
+
   </div>
 </div>

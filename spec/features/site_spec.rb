@@ -47,7 +47,7 @@ feature "general site navigation", js: true do
 
         describe "/admin/collections" do
           before do
-            click_on "Manage Data Collections"
+            click_on "CX Data Collection"
           end
 
           it 'renders successfully' do
