@@ -184,6 +184,29 @@ feature "Digital Service Accounts", js: true do
         expect(page).to_not have_content(user.email.upcase)
       end
     end
+  end
 
+  context "as Contact" do
+    let(:digital_service_account) { FactoryBot.create(:digital_service_account) }
+
+    before do
+      user.add_role(:contact, digital_service_account)
+      login_as user
+      visit admin_digital_service_account_path(digital_service_account)
+    end
+
+    it 'contact can edit digital service account' do
+      click_on "Edit"
+      expect(page).to have_content("Editing Social Media Account")
+    end
+
+    it 'contact can delete digital service account' do
+      click_on "Edit"
+      expect(page).to have_content("Editing Social Media Account")
+      accept_confirm do
+        click_link "Delete"
+      end
+      expect(page).to have_content("Digital service account was deleted.")
+    end
   end
 end

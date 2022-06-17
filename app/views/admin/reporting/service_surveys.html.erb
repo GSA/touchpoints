@@ -1,6 +1,13 @@
 <% content_for :navigation_title do %>
-Service Surveys by Agency
+Forms by Service
 <% end %>
+
+<p>
+  <%= link_to admin_dashboard_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Admin Dashboard
+  <% end %>
+</p>
 
 <div class="agency-service-survey-report">
   <table class="usa-table">
@@ -8,7 +15,7 @@ Service Surveys by Agency
       <tr>
         <th>Agency</th>
         <th>Service</th>
-        <th>Surveys</th>
+        <th>Forms</th>
       </tr>
     </thead>
     <% @services.each do | service | %>

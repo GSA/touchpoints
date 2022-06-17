@@ -1,6 +1,14 @@
 <% content_for :navigation_title do %>
   Survey Lifespan by Agency
 <% end %>
+
+<p>
+  <%= link_to admin_dashboard_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Admin Dashboard
+  <% end %>
+</p>
+
 <div class="agency-survey-lifespan-rerport">
 	<% @org_summary.each do | org | %>
 	<div class="well">

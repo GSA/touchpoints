@@ -12,6 +12,7 @@
     Back to Organizations
   <% end %>
 </p>
+
 <div class="well">
   <%= link_to 'Edit organization', edit_admin_organization_path(@organization), class: "usa-button float-right" %>
   <div class="usa-alert">
@@ -22,26 +23,45 @@
       <%= link_to(pluralize(@forms.length, "Form"), admin_forms_path) %>.
     </div>
   </div>
-  <p>
-    <strong>Name</strong>
-    <br>
-    <%= @organization.name %>
-  </p>
-  <p>
-    <strong>Abbreviation</strong>
-    <br>
-    <%= @organization.abbreviation %>
-  </p>
+
+  <div class="grid-row">
+    <div class="grid-col-4">
+      <p>
+        <%= label_tag "Name", nil, class: "usa-label" %>
+        <br>
+        <%= @organization.name %>
+      </p>
+    </div>
+    <div class="grid-col-4">
+      <p>
+        <%= label_tag "Abbreviation", nil, class: "usa-label" %>
+        <br>
+        <%= @organization.abbreviation %>
+      </p>
+    </div>
+    <div class="grid-col-4">
+      <div>
+        <%= label_tag "Organization Domain", nil, class: "usa-label" %>
+        <small>
+          used for the Allowlist of users email addresses
+        </small>
+        <br>
+        <br>
+        <%= @organization.domain %>
+      </div>
+    </div>
+  </div>
+
   <div class="usa-prose">
     <p>
-      <strong>Mission statement</strong>
+      <%= label_tag "Mission statement", nil, class: "usa-label" %>
       <br>
       <%= @organization.mission_statement %>
     </p>
   </div>
   <% if @organization.logo %>
   <p>
-    <strong>Logo</strong>
+    <%= label_tag "Logo", nil, class: "usa-label" %>
     <br>
     <% if @organization.logo_url.present? %>
     (displaying Thumbnail version)
@@ -58,24 +78,19 @@
   </p>
   <% end %>
   <p>
-    <strong>Organization Domain</strong>
-    <br>
-    <%= @organization.domain %>
-  </p>
-  <p>
-    <strong>Website Url</strong>
+    <%= label_tag "Website URL", nil, class: "usa-label" %>
     <br>
     <%= link_to(@organization.url, @organization.url, target: "_blank", rel: "noopener") %>
   </p>
   <p>
-    <strong>Digital Analytics URL</strong>
+    <%= label_tag "Digital Analytics URL", nil, class: "usa-label" %>
     <br>
     <% if @organization.digital_analytics_path? %>
       <%= link_to("https://analytics.usa.gov/#{@organization.digital_analytics_path}", "https://analytics.usa.gov/#{@organization.digital_analytics_path}", target: "_blank", rel: "noopener") %>
     <% end %>
   </p>
   <p>
-    <strong>Notes</strong>
+    <%= label_tag "Notes", nil, class: "usa-label" %>
     <%= @organization.notes %>
   </p>
 </div>
