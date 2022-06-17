@@ -46,6 +46,14 @@ class ApplicationController < ActionController::Base
     redirect_to(index_path, notice: "Authorization is Required")
   end
 
+  def ensure_admin_or_contact(obj)
+    return true if admin_permissions?
+    if current_user.present?
+      return true if current_user.has_role?(:contact, obj)
+    end
+    redirect_to(index_path, notice: "Authorization is Required")
+  end
+
   def ensure_performance_manager_permissions
     return true if performance_manager_permissions?
 
@@ -156,7 +164,7 @@ class ApplicationController < ActionController::Base
   def registry_manager_permissions?(user:)
     return false unless user.present?
     return true if admin_permissions?
-    user.registry_manager?(user: user)
+    user.registry_manager?
   end
 
   helper_method :digital_service_account_permissions?
