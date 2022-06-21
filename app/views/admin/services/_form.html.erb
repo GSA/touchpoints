@@ -6,8 +6,7 @@
   "Informational",
   "Data and Research",
   "Regulatory",
-]
-%>
+] %>
 
 <%= form_with(model: service, url: service.persisted? ? admin_service_path(service) : admin_services_path, local: true) do |form| %>
 <% if service.errors.any? %>

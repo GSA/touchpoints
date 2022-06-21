@@ -1,55 +1,55 @@
 <div id="service_provider_selector" data-url="<%= admin_service_provider_path(@service_provider) %>">
-	<div class="grid-row">
-	  <div class="grid-col-12">
-	  	<h3>Service Provider Managers</h3>
-	  	<p class="service-manager-list">
-			<ul class="usa-list usa-list--unstyled">
-				<% @service_provider.service_provider_managers.each do |manager| %>
-				<li style="margin-bottom: 3px;">
-					<span class="usa-tag">
-					   <%= manager.email %>
-					</span>
+  <div class="grid-row">
+    <div class="grid-col-12">
+      <h3>Service Provider Managers</h3>
+      <p class="service-manager-list">
+      <ul class="usa-list usa-list--unstyled">
+        <% @service_provider.service_provider_managers.each do |manager| %>
+        <li style="margin-bottom: 3px;">
+          <span class="usa-tag">
+             <%= manager.email %>
+          </span>
           &nbsp;
-					<a href="javascript:void(0);" class="remove-manager-link" data-value="<%= manager.id %>">
-						<span class="fa fa-trash"></span>
-					</a>
-				</li>
-	  			<% end %>
-			</ul>
-	  	<p>
-	  </div>
-	</div>
+          <a href="javascript:void(0);" class="remove-manager-link" data-value="<%= manager.id %>">
+            <span class="fa fa-trash"></span>
+          </a>
+        </li>
+          <% end %>
+      </ul>
+      <p>
+    </div>
+  </div>
   <%= select_tag :service_manager_id, options_for_select(@service_provider_manager_options.map { |u| [u.email, u.id] }), { prompt: "Choose a Manager", class: "usa-select add-service-manager" } %>
 </div>
 
 <script>
-	$(function() {
-		$(".add-service-manager").on("change", function(e) {
-			event.preventDefault();
-			var thisForm = $("#service_provider_selector");
-			$(this).attr('disabled', true);
+  $(function() {
+    $(".add-service-manager").on("change", function(e) {
+      event.preventDefault();
+      var thisForm = $("#service_provider_selector");
+      $(this).attr('disabled', true);
 
-			$.ajax({
-				url: thisForm.attr("data-url") + "/add_service_provider_manager",
-				type: 'POST',
-				datatype: "json",
-				data: {
-					user_id: $(this).val()
-				}
-			});
-		});
+      $.ajax({
+        url: thisForm.attr("data-url") + "/add_service_provider_manager",
+        type: 'POST',
+        datatype: "json",
+        data: {
+          user_id: $(this).val()
+        }
+      });
+    });
 
-		$(".remove-manager-link").on("click", function(e) {
-			event.preventDefault();
-			var thisForm = $("#service_provider_selector");
-			$.ajax({
-				url: thisForm.attr("data-url") + "/remove_service_provider_manager",
-				type: 'POST',
-				datatype: "json",
-				data: {
-					user_id: $(this).attr("data-value")
-				}
-			});
-		});
-	})
+    $(".remove-manager-link").on("click", function(e) {
+      event.preventDefault();
+      var thisForm = $("#service_provider_selector");
+      $.ajax({
+        url: thisForm.attr("data-url") + "/remove_service_provider_manager",
+        type: 'POST',
+        datatype: "json",
+        data: {
+          user_id: $(this).attr("data-value")
+        }
+      });
+    });
+  })
 </script>

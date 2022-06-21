@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'csv'
 
 class Event < ApplicationRecord
@@ -71,7 +73,7 @@ class Event < ApplicationRecord
   }
 
   def self.log_event(ename, otype, oid, desc, uid = nil)
-    e = self.new
+    e = new
     e.name = ename
     e.object_type = otype
     e.object_id = oid
@@ -89,20 +91,20 @@ class Event < ApplicationRecord
   end
 
   def self.to_csv
-    attributes = [
-      :name,
-      :object_type,
-      :object_id,
-      :description,
-      :user_id,
-      :created_at,
-      :updated_at
+    attributes = %i[
+      name
+      object_type
+      object_id
+      description
+      user_id
+      created_at
+      updated_at
     ]
 
     CSV.generate(headers: true) do |csv|
       csv << attributes
 
-      Event.all.each do |event|
+      Event.all.find_each do |event|
         csv << attributes.map { |attr| event.send(attr) }
       end
     end

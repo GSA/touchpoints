@@ -5,7 +5,7 @@
         <label class="usa-label text-uppercase font-body-3xs" style="margin-top: 0;" for="instructions">
           Section title
         </label>
-        <input class="usa-input section-title" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_form_section_path(form, section) %>" value="<%= section.title %>" />
+        <input class="usa-input section-title" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_form_section_path(form, section) %>" value="<%= section.title %>">
         &nbsp;&nbsp;
         <span class="usa-hint save-notice" id="section-<%= section.id %>">
           <i class="fa fa-check-circle" aria-hidden="true"></i> section title saved
@@ -27,7 +27,7 @@
     </div>
     <%= render 'admin/forms/add_question', form: form %>
     <br>
-    <% unless section.questions.present? || form.form_sections.count == 1  %>
+    <% unless section.questions.present? || form.form_sections.count == 1 %>
       <br>
       <%= link_to admin_form_form_section_path(form, section), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
         <span class="fas fa-trash"></span>

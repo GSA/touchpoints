@@ -1,57 +1,58 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature "Digital Service Accounts", js: true do
+feature 'Digital Service Accounts', js: true do
   let!(:organization) { FactoryBot.create(:organization) }
 
-  let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
-  let(:user) { FactoryBot.create(:user, organization: organization) }
+  let(:admin) { FactoryBot.create(:user, :admin, organization:) }
+  let(:user) { FactoryBot.create(:user, organization:) }
 
-  context "as Admin" do
+  context 'as Admin' do
     before do
       login_as admin
     end
 
-    context "with no records" do
-      describe "#index" do
+    context 'with no records' do
+      describe '#index' do
         before do
           visit admin_digital_service_accounts_path
         end
 
-        it "load the Services#index page" do
-          expect(page).to have_content("Social Media Accounts")
+        it 'load the Services#index page' do
+          expect(page).to have_content('Social Media Accounts')
 
-          expect(page).to have_link("Back to Digital Registry")
-          expect(page).to have_link("New Account")
-          expect(page).to have_link("Export results to .csv")
+          expect(page).to have_link('Back to Digital Registry')
+          expect(page).to have_link('New Account')
+          expect(page).to have_link('Export results to .csv')
 
-          within(".usa-table") do
-            expect(page).to have_content("Platform")
-            expect(page).to have_content("Account name")
-            expect(page).to have_content("Status")
-            expect(page).to have_content("Updated at")
+          within('.usa-table') do
+            expect(page).to have_content('Platform')
+            expect(page).to have_content('Account name')
+            expect(page).to have_content('Status')
+            expect(page).to have_content('Updated at')
           end
         end
       end
     end
 
-    context "with records" do
+    context 'with records' do
       let!(:organizations) { FactoryBot.create_list(:organization, 7) }
       let(:users) { FactoryBot.create_list(:user, 5, organization: organizations.sample) }
       let!(:digital_service_accounts) { FactoryBot.create_list(:digital_service_account, 10) }
 
-      describe "#index" do
+      describe '#index' do
         before do
           visit admin_digital_service_accounts_path
-          within(".usa-table tbody tr:first-child") do
-            click_on("Service Account 1")
+          within('.usa-table tbody tr:first-child') do
+            click_on('Service Account 1')
           end
         end
 
-        it "load the DigitalServiceAccount#index page" do
-          expect(page).to have_content("Social Media Account")
-          expect(page).to have_content("Service Account 1")
+        it 'load the DigitalServiceAccount#index page' do
+          expect(page).to have_content('Social Media Account')
+          expect(page).to have_content('Service Account 1')
         end
-
       end
     end
 
@@ -72,7 +73,6 @@ feature "Digital Service Accounts", js: true do
           expect(page).to have_content('digital_service_account_created by admin@example.gov')
         end
       end
-
     end
 
     describe 'add tag' do
@@ -81,23 +81,23 @@ feature "Digital Service Accounts", js: true do
       before 'fill-in the form' do
         visit admin_digital_service_account_path(digital_service_account)
 
-        fill_in("digital_service_account_tag_list", with: "tag123")
-        find(".organizations").click # just to lose focus
+        fill_in('digital_service_account_tag_list', with: 'tag123')
+        find('.organizations').click # just to lose focus
       end
 
       it 'creates a tag' do
-        expect(page).to have_css(".usa-tag", text: "tag123".upcase)
+        expect(page).to have_css('.usa-tag', text: 'tag123'.upcase)
       end
     end
 
     describe 'remove tag' do
-      let(:tag_text) { "a brand new tag" }
+      let(:tag_text) { 'a brand new tag' }
       let(:digital_service_account) { FactoryBot.create(:digital_service_account, tag_list: [tag_text]) }
 
       before 'fill-in the form' do
         visit admin_digital_service_account_path(digital_service_account)
 
-        find(".tag-list .remove-tag-link").click
+        find('.tag-list .remove-tag-link').click
       end
 
       it 'removes the tag' do
@@ -111,12 +111,12 @@ feature "Digital Service Accounts", js: true do
       before 'fill-in the form' do
         visit admin_digital_service_account_path(digital_service_account)
 
-        select(organization.name, from: "organization_id")
-        find(".organizations").click # just to lose focus
+        select(organization.name, from: 'organization_id')
+        find('.organizations').click # just to lose focus
       end
 
       it 'creates an organization' do
-        expect(page).to have_css(".usa-tag", text: organization.name.upcase)
+        expect(page).to have_css('.usa-tag', text: organization.name.upcase)
       end
     end
 
@@ -126,9 +126,9 @@ feature "Digital Service Accounts", js: true do
       before 'fill-in the form' do
         digital_service_account.organization_list.add(organization.id)
         visit admin_digital_service_account_path(digital_service_account)
-        select(organization.name, from: "organization_id")
+        select(organization.name, from: 'organization_id')
         expect(page).to have_content(organization.name.upcase)
-        find(".remove-agency-link").click
+        find('.remove-agency-link').click
       end
 
       it 'removes the organization' do
@@ -142,12 +142,12 @@ feature "Digital Service Accounts", js: true do
       before do
         visit admin_digital_service_account_path(digital_service_account)
 
-        fill_in("digital_service_account_user_email_address", with: User.first.email)
-        find(".organizations").click # just to lose focus
+        fill_in('digital_service_account_user_email_address', with: User.first.email)
+        find('.organizations').click # just to lose focus
       end
 
       it 'creates and displays the tag' do
-        expect(page).to have_css(".usa-tag", text: User.first.email.upcase)
+        expect(page).to have_css('.usa-tag', text: User.first.email.upcase)
       end
     end
 
@@ -157,16 +157,16 @@ feature "Digital Service Accounts", js: true do
       before do
         visit admin_digital_service_account_path(digital_service_account)
 
-        fill_in("digital_service_account_user_email_address", with: "nonexistent-email@example.gov")
-        find(".users").click # just to lose focus
-        find(".organizations").click # just to lose focus
+        fill_in('digital_service_account_user_email_address', with: 'nonexistent-email@example.gov')
+        find('.users').click # just to lose focus
+        find('.organizations').click # just to lose focus
       end
 
       it 'displays an error message as an alert' do
         sleep 0.3
         expect(page.driver.browser.switch_to.alert).to be_truthy
         alert_text = page.driver.browser.switch_to.alert.text
-        expect(alert_text).to eq("User nonexistent-email@example.gov does not exist.")
+        expect(alert_text).to eq('User nonexistent-email@example.gov does not exist.')
       end
     end
 
@@ -177,7 +177,7 @@ feature "Digital Service Accounts", js: true do
       before 'fill-in the form' do
         visit admin_digital_service_account_path(digital_service_account)
         expect(page).to have_content(user.email.upcase)
-        find(".users-list .remove-tag-link").click
+        find('.users-list .remove-tag-link').click
       end
 
       it 'removes the user' do
@@ -186,7 +186,7 @@ feature "Digital Service Accounts", js: true do
     end
   end
 
-  context "as Contact" do
+  context 'as Contact' do
     let(:digital_service_account) { FactoryBot.create(:digital_service_account) }
 
     before do
@@ -196,17 +196,17 @@ feature "Digital Service Accounts", js: true do
     end
 
     it 'contact can edit digital service account' do
-      click_on "Edit"
-      expect(page).to have_content("Editing Social Media Account")
+      click_on 'Edit'
+      expect(page).to have_content('Editing Social Media Account')
     end
 
     it 'contact can delete digital service account' do
-      click_on "Edit"
-      expect(page).to have_content("Editing Social Media Account")
+      click_on 'Edit'
+      expect(page).to have_content('Editing Social Media Account')
       accept_confirm do
-        click_link "Delete"
+        click_link 'Delete'
       end
-      expect(page).to have_content("Digital service account was deleted.")
+      expect(page).to have_content('Digital service account was deleted.')
     end
   end
 end

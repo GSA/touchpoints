@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # lib/api_key.rb
 
 module ApiKey

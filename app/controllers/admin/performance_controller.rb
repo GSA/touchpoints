@@ -1,23 +1,25 @@
-class Admin::PerformanceController < AdminController
-  before_action :set_organization, only: [:edit, :apg]
+# frozen_string_literal: true
 
-  def index
-  end
+module Admin
+  class PerformanceController < AdminController
+    before_action :set_organization, only: %i[edit apg]
 
-  def edit
-  end
+    def index; end
 
-  def apg
-    @apg = Objective.find(params[:apg])
-  end
+    def edit; end
 
-  def apgs
-    @organizations = Organization.all.order(:name)
-  end
+    def apg
+      @apg = Objective.find(params[:apg])
+    end
 
-  private
+    def apgs
+      @organizations = Organization.all.order(:name)
+    end
 
-  def set_organization
-    @organization = Organization.find_by_id(params[:id]) || Organization.find_by_abbreviation(params[:id].upcase)
+    private
+
+    def set_organization
+      @organization = Organization.find_by(id: params[:id]) || Organization.find_by(abbreviation: params[:id].upcase)
+    end
   end
 end

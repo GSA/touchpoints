@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Website, type: :model do
@@ -5,18 +7,18 @@ RSpec.describe Website, type: :model do
     @website = Website.new
   end
 
-  describe "try to create a new website" do
+  describe 'try to create a new website' do
     before do
       @website.save
     end
 
-    it "does not save and adds an error indicating domain is required" do
+    it 'does not save and adds an error indicating domain is required' do
       expect(@website.valid?).to eq(false)
       expect(@website.errors.full_messages).to eq(["Domain can't be blank", "Type of site can't be blank"])
     end
   end
 
-  describe "try to create a new website" do
+  describe 'try to create a new website' do
     let!(:existing_website) { FactoryBot.create(:website) }
     let(:new_website) { FactoryBot.build(:website, domain: existing_website.domain) }
 
@@ -24,14 +26,14 @@ RSpec.describe Website, type: :model do
       new_website
     end
 
-    it "does not save and adds an error indicating type_of_site is required" do
+    it 'does not save and adds an error indicating type_of_site is required' do
       expect(new_website.valid?).to eq(false)
-      expect(new_website.errors.full_messages).to eq(["Domain has already been taken"])
+      expect(new_website.errors.full_messages).to eq(['Domain has already been taken'])
     end
   end
 
-  describe "tags" do
-    it "does not include other models in tag_counts" do
+  describe 'tags' do
+    it 'does not include other models in tag_counts' do
       tag_name = 'tag1'
       tag_name_2 = 'tag2'
       website = FactoryBot.create(:website)
@@ -50,33 +52,33 @@ RSpec.describe Website, type: :model do
     end
   end
 
-  describe "#tld?" do
+  describe '#tld?' do
     let!(:existing_website) { FactoryBot.create(:website) }
 
     before do
       existing_website.tld?
     end
 
-    it "a domain of 3 parts is not TLD" do
+    it 'a domain of 3 parts is not TLD' do
       expect(existing_website.tld?).to eq false
     end
 
-    context "2 part domain" do
+    context '2 part domain' do
       before do
-        existing_website.update(domain: "example.gov")
+        existing_website.update(domain: 'example.gov')
       end
 
-      it "a domain of 2 parts is a TLD" do
+      it 'a domain of 2 parts is a TLD' do
         expect(existing_website.tld?).to eq true
       end
     end
 
-    context "4 part domain" do
+    context '4 part domain' do
       before do
-        existing_website.update(domain: "dos.uno.example.gov")
+        existing_website.update(domain: 'dos.uno.example.gov')
       end
 
-      it "a domain of 4 parts is a TLD" do
+      it 'a domain of 4 parts is a TLD' do
         expect(existing_website.tld?).to eq false
       end
     end
