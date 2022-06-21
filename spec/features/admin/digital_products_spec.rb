@@ -9,8 +9,8 @@ feature "Digital Products", js: true do
   let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization ) }
   let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: admin.id) }
 
-  let!(:digital_product) { FactoryBot.create(:digital_product) }
-  let!(:digital_product_2) { FactoryBot.create(:digital_product) }
+  let!(:digital_product) { FactoryBot.create(:digital_product, name: "Test1", service: "Facebook", organization_id: organization.id, aasm_state: 'published') }
+  let!(:digital_product_2) { FactoryBot.create(:digital_product, aasm_state: "created") }
 
   context "as Admin" do
     before do
@@ -28,8 +28,34 @@ feature "Digital Products", js: true do
         expect(page.current_path).to eq(admin_digital_products_path)
         expect(page).to have_css("tbody tr", count: 2)
       end
-
     end
 
+    describe "#search" do
+      before do
+        visit admin_digital_products_path
+      end
+
+      it "can search by keyword" do
+        fill_in :tags, with: digital_product.name
+        find("#tags").native.send_key :tab
+        expect(page).to have_css("tbody tr", count: 1)
+      end
+
+      it "can search by organization" do
+
+        select(organization.name, from: 'organization_id')
+        expect(page).to have_css("tbody tr", count: 1)
+      end
+
+      it "can search by service" do
+        select("Facebook", from: 'service')
+        expect(page).to have_css("tbody tr", count: 1)
+      end
+
+      it "can search by aasm_state" do
+        select('Published', from: 'aasm_state')
+        expect(page).to have_css("tbody tr", count: 1)
+      end
+    end
   end
 end
