@@ -76,7 +76,7 @@ class Admin::WebsitesController < AdminController
 
     respond_to do |format|
       format.json {
-        render "dendrogram_json.js"
+        render "dendrogram_json"
       }
     end
   end
