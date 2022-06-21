@@ -29,9 +29,9 @@ feature "Managing Users", js: true do
       expect(page).to have_content("Editing User")
     end
 
-    it "display Last signed in" do
+    it "display Latest login" do
       within("table") do
-        expect(page).to have_content("Last signed in")
+        expect(page).to have_content("Latest login")
       end
     end
 
