@@ -149,13 +149,12 @@ class Admin::DigitalProductsController < AdminController
     search_text = params[:search]
     organization_id = params[:organization_id]
 
-    if search_text && search_text.length >= 3
-      @digital_products = DigitalProduct.where("name ilike '%#{search_text}%'")
-    elsif organization_id
-      @digital_products = DigitalProduct.where("organization_id = ?", organization_id)
-    else
-      @digital_products = DigitalProduct.all
-    end
+    @digital_products = DigitalProduct.all
+    @digital_products = @digital_products.where("name ilike '%#{search_text}%'") if search_text && search_text.length >= 3
+    @digital_products = @digital_products.where("organization_id = ?", organization_id) if organization_id.present? && organization_id != ''
+    @digital_products = @digital_products.where("service = ?", params[:service]) if params[:service].present? && params[:service] != 'All'
+    @digital_products = @digital_products.where("aasm_state = ?", params[:aasm_state].downcase) if params[:aasm_state].present? && params[:aasm_state] != 'All'
+    @digital_producs
   end
 
 
