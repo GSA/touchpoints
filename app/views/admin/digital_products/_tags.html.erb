@@ -1,61 +1,61 @@
 <%= form_with(model: digital_product, url: admin_digital_product_path(digital_product), local: true) do |f| %>
-	<div class="grid-row">
-	  <div class="grid-col-6">
-	  	<%= label_tag :tags, nil, class: "usa-label" %>
-	  	<div class="tag-list">
-				<ul class="usa-list usa-list--unstyled">
-					<% digital_product.tag_list.sort.each do |tag| %>
-					<li  style="margin-bottom: 3px;">
-						<span class="usa-tag">
-							<%= tag %>
-						</span>
-						<% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
-						<a href="javascript:void(0);" class="remove-tag-link" data-value="<%= tag %>">
-							<span class="fa fa-trash"></span>
-						</a>
-						<% end %>
-					</li>
-		  		<% end %>
-				</ul>
-	  	</div>
-			<% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
-	    <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
-			<% end %>
-	  </div>
-	</div>
+  <div class="grid-row">
+    <div class="grid-col-6">
+      <%= label_tag :tags, nil, class: "usa-label" %>
+      <div class="tag-list">
+        <ul class="usa-list usa-list--unstyled">
+          <% digital_product.tag_list.sort.each do |tag| %>
+          <li style="margin-bottom: 3px;">
+            <span class="usa-tag">
+              <%= tag %>
+            </span>
+            <% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
+            <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= tag %>">
+              <span class="fa fa-trash"></span>
+            </a>
+            <% end %>
+          </li>
+          <% end %>
+        </ul>
+      </div>
+      <% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
+      <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
+      <% end %>
+    </div>
+  </div>
 <% end %>
 
 <% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
 <script>
-	$(function() {
+  $(function() {
 
-		$(".tag-input").on("blur", function(event) {
-			event.preventDefault();
-			var thisForm = $(this).closest("form");
-			$.ajax({
-				url: thisForm.attr("action") + "/add_tag",
-				type: 'post',
-				data: "digital_product[tag_list]=" + $(".tag-input").val()
-			});
-		});
+    $(".tag-input").on("blur", function(event) {
+      event.preventDefault();
+      var thisForm = $(this).closest("form");
+      $.ajax({
+        url: thisForm.attr("action") + "/add_tag",
+        type: 'post',
+        data: "digital_product[tag_list]=" + $(".tag-input").val()
+      });
+    });
 
-		$(".tag-input").on("keypress", function (e) {
-			if (e.which == 13) {
-				document.activeElement.blur();
-				return false;
-			}
-		});
+    $(".tag-input").on("keypress", function (e) {
+      if (e.which == 13) {
+        document.activeElement.blur();
+        return false;
+      }
+    });
 
-		$(".tag-list .remove-tag-link").on("click", function(e) {
-			event.preventDefault();
-			var thisForm = $(this).closest("form");
-			$.ajax({
-				url: thisForm.attr("action") + "/remove_tag",
-				type: 'post',
-				data: "digital_product[tag_list]=" + $(this).attr("data-value")
-			});
-		});
+    $(".tag-list .remove-tag-link").on("click", function(e) {
+      event.preventDefault();
+      var thisForm = $(this).closest("form");
+      $.ajax({
+        url: thisForm.attr("action") + "/remove_tag",
+        type: 'post',
+        data: "digital_product[tag_list]=" + $(this).attr("data-value")
+      });
+    });
 
-	});
+  });
 </script>
 <% end %>

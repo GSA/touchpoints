@@ -3,7 +3,7 @@
 </h4>
 <div class="sorting-div-2">
   <% @organization.goals.annual_performance_goals.order(:position).each_with_index do |goal, i| %>
-    <div class="well"  id="<%= dom_id(goal) %>" data-id="<%= goal.id %>" data-url="<%= sort_goals_admin_organization_path(goal.organization) %>">
+    <div class="well" id="<%= dom_id(goal) %>" data-id="<%= goal.id %>" data-url="<%= sort_goals_admin_organization_path(goal.organization) %>">
       <div class="delete-float-right">
         <%= link_to delete_two_year_goal_admin_organization_path(@organization) + "?goal_id=#{goal.id}", method: :delete, data: { confirm: 'Are you sure?' }, :remote => true do %>
             <i class="fa fa-trash" title="Delete goal"></i>

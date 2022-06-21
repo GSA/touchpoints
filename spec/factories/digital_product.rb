@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :digital_product do
     name { 'ExampleGov Mobile App' }
@@ -9,7 +11,7 @@ FactoryBot.define do
     short_description { 'test product' }
     long_description { 'a much loooooo oooooooo oooooooo oooooooo oooooooo oooooooo onger description' }
     notes { 'Test notes' }
-    tag_list { ['red', 'green', 'blue'] }
-    certified_at { Time.now }
+    tag_list { %w[red green blue] }
+    certified_at { Time.zone.now }
   end
 end

@@ -1,12 +1,13 @@
-class ApplicationController < ActionController::Base
+# frozen_string_literal: true
 
+class ApplicationController < ActionController::Base
   LEGACY_TOUCHPOINTS_URL_MAP = LegacyTouchpointUrlMap.map
 
   around_action :switch_locale
 
-  def switch_locale(&action)
+  def switch_locale(&)
     locale = params[:locale] || I18n.default_locale
-    I18n.with_locale(locale, &action)
+    I18n.with_locale(locale, &)
   end
 
   def fiscal_year(date)
@@ -25,7 +26,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def after_sign_in_path_for(resource)
+  def after_sign_in_path_for(_resource)
     admin_root_path
   end
 
@@ -34,142 +35,145 @@ class ApplicationController < ActionController::Base
   # `ensure_` methods are responsible for checking permissions and redirecting if necessary
   #
   def ensure_user
-    if !current_user
+    unless current_user
       store_location_for(:user, request.fullpath)
-      redirect_to(index_path, notice: "Authorization is Required")
+      redirect_to(index_path, notice: 'Authorization is Required')
     end
   end
 
   def ensure_admin
     return true if admin_permissions?
 
-    redirect_to(index_path, notice: "Authorization is Required")
+    redirect_to(index_path, notice: 'Authorization is Required')
   end
 
   def ensure_admin_or_contact(obj)
     return true if admin_permissions?
-    if current_user.present?
-      return true if current_user.has_role?(:contact, obj)
-    end
-    redirect_to(index_path, notice: "Authorization is Required")
+
+    return true if current_user.present? && current_user.has_role?(:contact, obj)
+
+    redirect_to(index_path, notice: 'Authorization is Required')
   end
 
   def ensure_performance_manager_permissions
     return true if performance_manager_permissions?
 
-    redirect_to(index_path, notice: "Authorization is Required")
+    redirect_to(index_path, notice: 'Authorization is Required')
   end
 
   def ensure_collection_owner(collection:)
-    return false unless collection.present?
+    return false if collection.blank?
     return true if admin_permissions?
-    return true if collection_permissions?(collection: collection)
+    return true if collection_permissions?(collection:)
 
-    redirect_to(index_path, notice: "Authorization is Required")
+    redirect_to(index_path, notice: 'Authorization is Required')
   end
 
   def ensure_form_manager(form:)
-    return false unless form.present?
-    return true if form_permissions?(form: form)
+    return false if form.blank?
+    return true if form_permissions?(form:)
 
-    redirect_to(index_path, notice: "Authorization is Required")
+    redirect_to(index_path, notice: 'Authorization is Required')
   end
 
   def ensure_response_viewer(form:)
-    return false unless form.present?
+    return false if form.blank?
     return true if admin_permissions?
-    return true if form_permissions?(form: form)
-    return true if response_viewer_permissions?(form: form)
+    return true if form_permissions?(form:)
+    return true if response_viewer_permissions?(form:)
 
-    redirect_to(index_path, notice: "Authorization is Required")
+    redirect_to(index_path, notice: 'Authorization is Required')
   end
 
   def ensure_service_manager_permissions
     return true if service_manager_permissions?
 
-    redirect_to(admin_services_path, notice: "Authorization is Required")
+    redirect_to(admin_services_path, notice: 'Authorization is Required')
   end
 
   def ensure_service_owner(service:, user:)
-    return false unless user.present?
-    return true if service_permissions?(service: service)
+    return false if user.blank?
+    return true if service_permissions?(service:)
 
-    redirect_to(admin_services_path, notice: "Authorization is Required")
+    redirect_to(admin_services_path, notice: 'Authorization is Required')
   end
 
   def ensure_website_admin(website:, user:)
-    return false unless user.present?
-    return true if website.admin?(user: user)
+    return false if user.blank?
+    return true if website.admin?(user:)
 
-    redirect_to(admin_websites_path, notice: "Authorization is Required")
+    redirect_to(admin_websites_path, notice: 'Authorization is Required')
   end
 
   def ensure_organizational_website_manager
-    return false unless current_user.present?
+    return false if current_user.blank?
     return true if organizational_website_manager_permissions?(user: current_user)
 
-    redirect_to(admin_root_path, notice: "Authorization is Required")
+    redirect_to(admin_root_path, notice: 'Authorization is Required')
   end
 
   def ensure_registry_manager
-    return false unless current_user.present?
+    return false if current_user.blank?
     return true if registry_manager_permissions?(user: current_user)
 
-    redirect_to(admin_root_path, notice: "Authorization is Required")
+    redirect_to(admin_root_path, notice: 'Authorization is Required')
   end
 
   def ensure_digital_service_account_permissions(digital_service_account:)
-    return false unless current_user.present?
-    return true if digital_service_account_permissions?(digital_service_account: digital_service_account, user: current_user)
+    return false if current_user.blank?
+    return true if digital_service_account_permissions?(digital_service_account:, user: current_user)
 
-    redirect_to(admin_root_path, notice: "Authorization is Required")
+    redirect_to(admin_root_path, notice: 'Authorization is Required')
   end
 
   def ensure_digital_product_permissions(digital_product:)
-    return false unless current_user.present?
-    return true if digital_product_permissions?(digital_product: digital_product, user: current_user)
+    return false if current_user.blank?
+    return true if digital_product_permissions?(digital_product:, user: current_user)
 
-    redirect_to(admin_root_path, notice: "Authorization is Required")
+    redirect_to(admin_root_path, notice: 'Authorization is Required')
   end
-
 
   # Define Permissions
   helper_method :admin_permissions?
   def admin_permissions?
-    current_user && current_user.admin?
+    current_user&.admin?
   end
 
   helper_method :performance_manager_permissions?
   def performance_manager_permissions?
-    return false unless current_user.present?
+    return false if current_user.blank?
     return true if admin_permissions?
+
     current_user.performance_manager?
   end
 
   helper_method :collection_permissions?
   def collection_permissions?(collection:)
-    return false unless collection.present?
+    return false if collection.blank?
     return true if performance_manager_permissions?
+
     collection.organization == current_user.organization
   end
 
   helper_method :organizational_website_manager_permissions?
   def organizational_website_manager_permissions?(user:)
-    return false unless user.present?
+    return false if user.blank?
     return true if admin_permissions?
+
     user.organizational_website_manager?
   end
 
   helper_method :registry_manager_permissions?
   def registry_manager_permissions?(user:)
-    return false unless user.present?
+    return false if user.blank?
     return true if admin_permissions?
+
     user.registry_manager?
   end
 
   helper_method :digital_service_account_permissions?
   def digital_service_account_permissions?(digital_service_account:, user:)
-    return false unless user.present?
+    return false if user.blank?
     return true if registry_manager_permissions?(user: current_user)
 
     user.has_role?(:contact, digital_service_account)
@@ -177,15 +181,15 @@ class ApplicationController < ActionController::Base
 
   helper_method :digital_product_permissions?
   def digital_product_permissions?(digital_product:, user:)
-    return false unless user.present?
-    return true if registry_manager_permissions?(user: user)
+    return false if user.blank?
+    return true if registry_manager_permissions?(user:)
 
     user.has_role?(:contact, digital_product)
   end
 
   helper_method :service_permissions?
   def service_permissions?(service:)
-    return false unless service.present?
+    return false if service.blank?
     return true if current_user.has_role?(:service_manager, service)
     return true if service_manager_permissions?
     return true if admin_permissions?
@@ -195,55 +199,57 @@ class ApplicationController < ActionController::Base
 
   helper_method :service_manager_permissions?
   def service_manager_permissions?
-    return false unless current_user.present?
+    return false if current_user.blank?
     return true if current_user.service_manager?
     return true if admin_permissions?
-    return false
+
+    false
   end
 
   helper_method :form_permissions?
   def form_permissions?(form:)
-    return false unless form.present?
+    return false if form.blank?
     return true if admin_permissions?
     return true if current_user.has_role?(:form_manager, form)
+
     (form.user_role?(user: current_user) == UserRole::Role::FormManager)
   end
 
   helper_method :response_viewer_permissions?
   def response_viewer_permissions?(form:)
-    return false unless form.present?
+    return false if form.blank?
 
-    (form.user_role?(user: current_user) == UserRole::Role::ResponseViewer) || form_permissions?(form: form)
+    (form.user_role?(user: current_user) == UserRole::Role::ResponseViewer) || form_permissions?(form:)
   end
-
 
   # Helpers
   def timestamp_string
-    Time.now.strftime('%Y-%m-%d_%H-%M-%S')
+    Time.zone.now.strftime('%Y-%m-%d_%H-%M-%S')
   end
 
   def paginate(scope, default_per_page = 20)
     collection = scope.page(params[:page]).per((params[:per_page] || default_per_page).to_i)
 
-    current, total, per_page = collection.current_page, collection.num_pages, collection.limit_value
+    current = collection.current_page
+    total = collection.num_pages
+    per_page = collection.limit_value
 
-    return [{
+    [{
       pagination: {
-        current:  current,
+        current:,
         previous: (current > 1 ? (current - 1) : nil),
-        next:     (current == total ? nil : (current + 1)),
-        per_page: per_page,
-        pages:    total,
-        count:    collection.total_count
-      }
+        next: (current == total ? nil : (current + 1)),
+        per_page:,
+        pages: total,
+        count: collection.total_count,
+      },
     }, collection]
   end
-
 
   private
 
   # For Devise
-  def after_sign_out_path_for(resource_or_scope)
+  def after_sign_out_path_for(_resource_or_scope)
     index_path
   end
 

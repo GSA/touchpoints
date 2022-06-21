@@ -15,7 +15,7 @@
       <h2><%= pluralize(@form.errors.count, "error") %> prohibited this form from being saved:</h2>
 
       <% @form.errors.full_messages.each do |message| %>
-        <div class="usa-alert usa-alert--error" >
+        <div class="usa-alert usa-alert--error">
           <div class="usa-alert__body">
             <h3 class="usa-alert__heading">Error</h3>
             <p class="usa-alert__text">
@@ -70,7 +70,7 @@
           <legend class="usa-sr-only">Delivery methods</legend>
           <% Form::DELIVERY_METHODS.each_with_index do |delivery_method, index| %>
             <div class="usa-checkbox">
-              <%= f.radio_button :delivery_method, delivery_method[0], class: "usa-radio__input"  %>
+              <%= f.radio_button :delivery_method, delivery_method[0], class: "usa-radio__input" %>
               <%= f.label delivery_method[1], class: "usa-radio__label", for: "form_delivery_method_#{delivery_method[0]}" %>
             </div>
           <% end %>

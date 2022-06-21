@@ -5,7 +5,7 @@
     <%= hidden_field_tag :fba_location_code, params[:location_code] %>
     <input type="text" name="fba_directive" id="fba_directive" title="this field can be skipped" style="display:none !important" tabindex="-1" autocomplete="off">
     <% form.form_sections.each_with_index do |section, index| %>
-      <div class="section <%= 'visible' if section == form.form_sections.first  -%>">
+      <div class="section <%= 'visible' if section == form.form_sections.first -%>">
         <% if (section != form.form_sections.first) || (section != form.form_sections.last) %>
           <% if section != form.form_sections.first %>
           <div class="pagination-buttons">

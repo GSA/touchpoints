@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PraForm
   def self.part_a(form:)
     organization = form.organization
@@ -23,7 +25,7 @@ class PraForm
       end
 
       docx.style do
-        id              'indented-p'  # sets the internal identifier for the style.
+        id              'indented-p' # sets the internal identifier for the style.
         name            'heading 1' # sets the friendly name of the style.
         type            'paragraph' # sets the style type. accepts `paragraph` or `character`
         # font            'Palantino' # sets the font family.
@@ -31,7 +33,7 @@ class PraForm
         # size            28          # sets the font size. units in half points.
         # bold            false       # sets the font weight.
         # italic          false       # sets the font style.
-        underline       true       # sets whether or not to underline the text.
+        underline       true # sets whether or not to underline the text.
         # caps            false       # sets whether or not text should be rendered in all capital letters.
         # align           :left       # sets the alignment. accepts :left, :center, :right, and :both.
         # line            360         # sets the line height. units in twips.
@@ -58,8 +60,8 @@ class PraForm
         text 'FOR PAPERWORK REDUCTION ACT SUBMISSION'
       end
       docx.p do
-        text "Clearance for Customer Experience Feedback Survey in Support of OMB Circular A-11 Section 280: Centralized Feedback Survey Administered by the General Services Administration on behalf of "
-        text organization.name, underline: true, highlight_color: "yellow"
+        text 'Clearance for Customer Experience Feedback Survey in Support of OMB Circular A-11 Section 280: Centralized Feedback Survey Administered by the General Services Administration on behalf of '
+        text organization.name, underline: true, highlight_color: 'yellow'
         br
       end
 
@@ -79,11 +81,11 @@ class PraForm
         text 'In March 2018, the Administration of President Trump launched the President’s Management Agenda (PMA) and established new Cross-Agency Priority (CAP) Goals. Excellent service was established as a core component of the mission, service, stewardship model that frames the entire PMA, embedding a customer-focused approach in all of the PMA’s initiatives.  This model was also included in the 2018 update of the Federal Performance Framework in Circular A-11, ensuring ‘excellent service’ as a focus in future agency strategic planning efforts. The PMA included a CAP Goal on Improving Customer Experience with Federal Services, with a primary strategy to drive improvements within 25 of the nation’s highest impact programs.  This effort is supported by an interagency team and guidance in Circular A-11 requiring the collection of customer feedback data and increasing the use of industry best practices to conduct customer research.'
         br
         br
-        text "These Presidential actions and requirements establish an ongoing process of collecting customer insights and using them to improve services. This new request will enable "
-        text organization.name, underline: true, highlight_color: "yellow"
-        text " (hereafter “the Agency”) to act in accordance with OMB Circular A-11 Section 280 to ultimately transform the experience of its customers to improve both efficiency and mission delivery, and increase accountability by communicating about these efforts with the public. These collections allow for ongoing, collaborative and actionable communications between "
-        text organization.name, underline: true, highlight_color: "yellow"
-        text " and its customers and stakeholders. it will also allow feedback to contribute directly to the improvement of program management."
+        text 'These Presidential actions and requirements establish an ongoing process of collecting customer insights and using them to improve services. This new request will enable '
+        text organization.name, underline: true, highlight_color: 'yellow'
+        text ' (hereafter “the Agency”) to act in accordance with OMB Circular A-11 Section 280 to ultimately transform the experience of its customers to improve both efficiency and mission delivery, and increase accountability by communicating about these efforts with the public. These collections allow for ongoing, collaborative and actionable communications between '
+        text organization.name, underline: true, highlight_color: 'yellow'
+        text ' and its customers and stakeholders. it will also allow feedback to contribute directly to the improvement of program management.'
         br
       end
 
