@@ -9,7 +9,7 @@ feature "Digital Products", js: true do
   let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization ) }
   let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: admin.id) }
 
-  let!(:digital_product) { FactoryBot.create(:digital_product, name: "Test1", service: "Facebook", organization_id: organization.id, aasm_state: 'published') }
+  let!(:digital_product) { FactoryBot.create(:digital_product, name: "Test1", service: "Facebook", aasm_state: 'published') }
   let!(:digital_product_2) { FactoryBot.create(:digital_product, aasm_state: "created") }
 
   context "as Admin" do
@@ -42,7 +42,8 @@ feature "Digital Products", js: true do
       end
 
       it "can search by organization" do
-
+        digital_product.organization_list.add(organization.id)
+        digital_product.save
         select(organization.name, from: 'organization_id')
         expect(page).to have_css("tbody tr", count: 1)
       end
