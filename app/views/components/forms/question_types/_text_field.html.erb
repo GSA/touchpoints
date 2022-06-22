@@ -1,11 +1,27 @@
+<%
+form_options = {
+  class: "usa-input",
+  required: question.is_required,
+  maxlength: question.max_length,
+}
+
+if question.character_limit && question.character_limit > 0
+form_options.merge!({
+  :onkeyup => "touchpointForm#{form.short_uuid}.textCounter(this,#{question.max_length});",
+})
+end
+
+if question.help_text.present?
+form_options.merge!({
+  "aria-describedby" => "question-id-#{question.id}-help-text"
+})
+end
+%>
+
 <div role="group">
   <%= render 'components/question_title_label', question: question %>
-  <% if question.character_limit && question.character_limit > 0 %>
-    <%= text_field_tag question.answer_field.to_sym, nil, class: "usa-input", required: question.is_required, maxlength: question.max_length, onkeyup: "touchpointForm#{form.short_uuid}.textCounter(this,#{question.max_length});" %>
+  <%= text_field_tag question.answer_field.to_sym, nil, form_options %>
 	<span class="counter-msg usa-hint usa-character-count__message  aria-live="polite">
 		<%= question.max_length %> characters allowed
 	</span>
-  <% else %>
-    <%= text_field_tag question.answer_field.to_sym, nil, class: "usa-input", required: question.is_required, maxlength: question.max_length, placeholder: question.placeholder_text %>
-  <% end %>
 </div>
