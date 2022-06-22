@@ -216,7 +216,7 @@ feature 'Digital Service Accounts', js: true do
       end
     end
 
-    describe "#review" do
+    describe '#review' do
       let!(:digital_service_account) { FactoryBot.create(:digital_service_account, name: 'Test1', service: 'Facebook', aasm_state: 'published') }
       let!(:digital_service_account_2) { FactoryBot.create(:digital_service_account, aasm_state: 'created') }
 
@@ -224,12 +224,11 @@ feature 'Digital Service Accounts', js: true do
         visit review_admin_digital_service_accounts_path
       end
 
-      it "shows a table with 1 filtered result" do
-        expect(page).to have_content("Reviewing Social Media Accounts")
-        expect(page).to have_link("New Account")
+      it 'shows a table with 1 filtered result' do
+        expect(page).to have_content('Reviewing Social Media Accounts')
+        expect(page).to have_link('New Account')
         expect(page).to have_css('.usa-table tbody tr', count: 1)
       end
-
     end
   end
 
