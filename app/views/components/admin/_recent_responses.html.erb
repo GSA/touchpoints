@@ -1,5 +1,5 @@
 <div id="recent-responses">
-  <% if forms.present?  %>
+  <% if forms.present? %>
     <table class="usa-table">
       <thead>
         <tr>
@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        <% forms.each do |form|  %>
+        <% forms.each do |form| %>
         <tr>
           <td>
             <%= link_to form.organization.name, admin_organization_path(form.organization) %>

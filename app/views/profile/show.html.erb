@@ -33,7 +33,7 @@
         <%= f.text_field :api_key, class: "usa-input", placeholder: "40 character api.data.gov API Key" %>
         <% if current_user.api_key? %>
           <% if  @api_key_warning %>
-            <div class="usa-alert usa-alert--warning" >
+            <div class="usa-alert usa-alert--warning">
               <div class="usa-alert__body">
                 <p class="usa-alert__text">
                   Your API Key was last updated more than six months ago!  Please remove then re-generate your API Key.
@@ -46,7 +46,7 @@
         <% end %>
           <br>
           <br>
-          <div class="usa-alert usa-alert--info" >
+          <div class="usa-alert usa-alert--info">
             <div class="usa-alert__body">
               <h3 class="usa-alert__heading">API Documentation</h3>
               <p class="usa-alert__text">
@@ -59,9 +59,9 @@
         <br>
       </div>
       <div class="field">
-        <br/>
+        <br>
         <%= f.submit class: "usa-button" %>
-        <br/><br/>
+        <br><br>
       </div>
     </div>
   </div>
