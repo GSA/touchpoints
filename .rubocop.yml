@@ -145,5 +145,8 @@ Rails/OutputSafety:
 Rails/LexicallyScopedActionFilter:
   Enabled: false
 
+Rails/DynamicFindBy:
+  Enabled: false
+
 Security/Open:
   Enabled: false
