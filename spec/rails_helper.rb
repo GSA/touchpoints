@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../../config/environment', __FILE__)
+require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
 require 'capybara/rails'
 require 'capybara/rspec'
@@ -40,11 +42,11 @@ Capybara.register_driver :selenium do |app|
 end
 # Capybara.javascript_driver = :selenium                 # Run feature specs with Firefox
 # Capybara.javascript_driver = :selenium_chrome          # Run feature specs with Chrome
-Capybara.javascript_driver = :selenium_chrome_headless   # Run feature specs with headless Chrome
+Capybara.javascript_driver = :selenium_chrome_headless # Run feature specs with headless Chrome
 Capybara.default_max_wait_time = 3
 Capybara.raise_server_errors = true
 
-TEST_API_KEY = "1234567890123456789012345678901234567890"
+TEST_API_KEY = '1234567890123456789012345678901234567890'
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -57,7 +59,7 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Warden::Test::Helpers
 
- # for Database Cleaner
+  # for Database Cleaner
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
@@ -76,7 +78,7 @@ RSpec.configure do |config|
 
     page.driver.browser.manage.window.resize_to(1200, 800)
 
-    if !driver_shares_db_connection_with_specs
+    unless driver_shares_db_connection_with_specs
       # Driver is probably for an external browser with an app
       # under test that does *not* share a database connection with the
       # specs, so use truncation strategy.

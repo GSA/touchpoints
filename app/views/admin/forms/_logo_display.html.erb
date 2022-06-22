@@ -1,7 +1,7 @@
 <div id="display-logo-div">
   <% if form.errors.any? %>
   <div id="error_explanation">
-    <div class="usa-alert usa-alert--error" >
+    <div class="usa-alert usa-alert--error">
       <div class="usa-alert__body">
         <h3 class="usa-alert__heading">Error</h3>
         <p class="usa-alert__text">
@@ -41,7 +41,7 @@
     </div>
     <br>
     <%= f.submit "Update logo", class: "usa-button usa-button-outline" %>
-    <br/>
+    <br>
     <% if form.logo.present? %>
       <% if form.display_header_logo %>
         <p>
@@ -56,4 +56,3 @@
     <% end %>
   <% end %>
 </div>
-

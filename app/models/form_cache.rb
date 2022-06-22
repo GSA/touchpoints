@@ -1,23 +1,24 @@
-class FormCache
+# frozen_string_literal: true
 
-  NAMESPACE = "namespace:form-"
+class FormCache
+  NAMESPACE = 'namespace:form-'
 
   # Cache Store fetch will return the cached item
   # or run the block if the cached item does not exist
   def self.fetch(short_uuid)
-    return false unless short_uuid.present?
+    return false if short_uuid.blank?
 
     Rails.cache.fetch(NAMESPACE + short_uuid.to_s, expires_in: 1.day) do
       # Pull in all objects required to build a touchpoint
-      Form.includes([:questions, form_sections: [questions: [:question_options]]], :organization).find_by_short_uuid(short_uuid)
+      Form.includes([:questions, { form_sections: [questions: [:question_options]] }], :organization).find_by(short_uuid:)
     end
   end
 
   def self.fetch_a11_analysis(short_uuid)
-    return false unless short_uuid.present?
+    return false if short_uuid.blank?
 
-    Rails.cache.fetch(NAMESPACE + '-a11-analysis-' + short_uuid.to_s, expires_in: 1.day) do
-      form = Form.find_by_short_uuid(short_uuid)
+    Rails.cache.fetch("#{NAMESPACE}-a11-analysis-#{short_uuid}", expires_in: 1.day) do
+      form = Form.find_by(short_uuid:)
       report = {}
       report[:answer_01] = form.average_answer(:answer_01)
       report[:answer_02] = form.average_answer(:answer_02)
@@ -31,16 +32,15 @@ class FormCache
   end
 
   def self.fetch_performance_gov_analysis(short_uuid)
-    return false unless short_uuid.present?
+    return false if short_uuid.blank?
 
-    Rails.cache.fetch(NAMESPACE + '-performance-gov-analysis-' + short_uuid.to_s, expires_in: 1.day) do
-      form = Form.find_by_short_uuid(short_uuid)
+    Rails.cache.fetch("#{NAMESPACE}-performance-gov-analysis-#{short_uuid}", expires_in: 1.day) do
+      form = Form.find_by(short_uuid:)
       report = {}
-      report[:quarterly_submissions] = form.submissions.order(:created_at).entries.map { |e| e.attributes.merge(quarter: e.created_at.beginning_of_quarter.to_date, end_of_quarter: e.created_at.end_of_quarter ) }
-      report[:quarters] = report[:quarterly_submissions].collect { |e| e[:quarter] }.uniq
+      report[:quarterly_submissions] = form.submissions.order(:created_at).entries.map { |e| e.attributes.merge(quarter: e.created_at.beginning_of_quarter.to_date, end_of_quarter: e.created_at.end_of_quarter) }
+      report[:quarters] = report[:quarterly_submissions].pluck(:quarter).uniq
       report
     end
-
   end
 
   def self.invalidate(short_uuid)
@@ -48,8 +48,7 @@ class FormCache
   end
 
   def self.invalidate_reports(short_uuid)
-    Rails.cache.delete(NAMESPACE + '-performance-gov-analysis-' + short_uuid.to_s)
-    Rails.cache.delete(NAMESPACE + '-a11-analysis-' + short_uuid.to_s)
+    Rails.cache.delete("#{NAMESPACE}-performance-gov-analysis-#{short_uuid}")
+    Rails.cache.delete("#{NAMESPACE}-a11-analysis-#{short_uuid}")
   end
-
 end

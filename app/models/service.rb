@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'csv'
 
 class Service < ApplicationRecord
@@ -11,7 +13,7 @@ class Service < ApplicationRecord
   has_many :omb_cx_reporting_collections
   has_many :collections, through: :omb_cx_reporting_collections
   has_many :forms
-  
+
   acts_as_taggable_on :tags
 
   validates :name, presence: true
@@ -47,9 +49,9 @@ class Service < ApplicationRecord
   end
 
   def create_default_service_stages
-    self.service_stages.create(position: 10, name: :start)
-    self.service_stages.create(position: 20, name: :process)
-    self.service_stages.create(position: 100, name: :end)
+    service_stages.create(position: 10, name: :start)
+    service_stages.create(position: 20, name: :process)
+    service_stages.create(position: 100, name: :end)
   end
 
   def create_roles
@@ -59,13 +61,13 @@ class Service < ApplicationRecord
   def owner?(user:)
     return false unless user
 
-    user.admin? || self.service_owner_id == user.id
+    user.admin? || service_owner_id == user.id
   end
 
   def service_owner
-    return nil unless self.service_owner_id
+    return nil unless service_owner_id
 
-    User.find_by_id(self.service_owner_id)
+    User.find_by(id: service_owner_id)
   end
 
   def service_managers
@@ -73,23 +75,19 @@ class Service < ApplicationRecord
   end
 
   def service_owner_email
-    service_owner && service_owner.try(:email)
+    service_owner&.try(:email)
   end
 
-  def organization_name
-    self.organization.name
-  end
+  delegate :name, to: :organization, prefix: true
 
-  def organization_abbreviation
-    self.organization.abbreviation
-  end
+  delegate :abbreviation, to: :organization, prefix: true
 
   def service_provider_name
-    self.service_provider ? self.service_provider.name : nil
+    service_provider ? service_provider.name : nil
   end
 
   def self.to_csv
-    services = Service.order("organizations.name").includes(:organization)
+    services = Service.order('organizations.name').includes(:organization)
 
     example_service_attributes = Service.new.attributes
     attributes = example_service_attributes.keys

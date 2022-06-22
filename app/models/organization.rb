@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class Organization < ApplicationRecord
   acts_as_taggable_on :tags
-  
+
   has_many :users
   has_many :services
   has_many :forms
@@ -19,7 +21,7 @@ class Organization < ApplicationRecord
   validates :abbreviation, uniqueness: true
 
   def slug
-    self.abbreviation.downcase
+    abbreviation.downcase
   end
 
   def to_param

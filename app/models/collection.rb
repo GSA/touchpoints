@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Collection < ApplicationRecord
   include AASM
 
@@ -13,7 +15,7 @@ class Collection < ApplicationRecord
   validates :reflection, length: { maximum: 5000 }
 
   def omb_control_number
-    "omb_control_number"
+    'omb_control_number'
   end
 
   aasm do
@@ -24,11 +26,11 @@ class Collection < ApplicationRecord
     state :archived
 
     event :submit do
-      transitions from: [:draft, :change_requested], to: :submitted
+      transitions from: %i[draft change_requested], to: :submitted
     end
 
     event :publish do
-     transitions from: :submitted, to: :published
+      transitions from: :submitted, to: :published
     end
 
     event :request_change do
@@ -42,13 +44,12 @@ class Collection < ApplicationRecord
     event :reset do
       transitions to: :draft
     end
-
   end
 
   def duplicate!(new_user:)
-    new_collection = self.dup
+    new_collection = dup
     new_collection.user = new_user
-    new_collection.name = "Copy of #{self.name}"
+    new_collection.name = "Copy of #{name}"
     new_collection.start_date = nil
     new_collection.end_date = nil
     new_collection.reflection = nil
@@ -57,7 +58,7 @@ class Collection < ApplicationRecord
     new_collection.save
 
     # Loop OMB CX Reporting Collections to create them for new_collection
-    self.omb_cx_reporting_collections.each do |omb_cx_reporting_collection|
+    omb_cx_reporting_collections.each do |omb_cx_reporting_collection|
       new_omb_cx_reporting_collection = omb_cx_reporting_collection.dup
       new_omb_cx_reporting_collection.collection = new_collection
       new_omb_cx_reporting_collection.volume_of_customers = 0
@@ -121,7 +122,7 @@ class Collection < ApplicationRecord
       new_omb_cx_reporting_collection.save!
     end
 
-    return new_collection
+    new_collection
   end
 
   def totals
@@ -129,7 +130,7 @@ class Collection < ApplicationRecord
     @volume_of_customers_provided_survey_opportunity = 0
     @volume_of_respondents = 0
 
-    self.omb_cx_reporting_collections.each do |omb_cx_reporting_collection|
+    omb_cx_reporting_collections.each do |omb_cx_reporting_collection|
       @volume_of_customers += omb_cx_reporting_collection.volume_of_customers.to_i
       @volume_of_customers_provided_survey_opportunity += omb_cx_reporting_collection.volume_of_customers_provided_survey_opportunity.to_i
       @volume_of_respondents += omb_cx_reporting_collection.volume_of_respondents.to_i
@@ -138,19 +139,13 @@ class Collection < ApplicationRecord
     {
       volume_of_customers: @volume_of_customers,
       volume_of_customers_provided_survey_opportunity: @volume_of_customers_provided_survey_opportunity,
-      volume_of_respondents: @volume_of_respondents
+      volume_of_respondents: @volume_of_respondents,
     }
   end
 
-  def organization_name
-    self.organization.name
-  end
+  delegate :name, to: :organization, prefix: true
 
-  def organization_abbreviation
-    self.organization.abbreviation
-  end
+  delegate :abbreviation, to: :organization, prefix: true
 
-  def service_provider_name
-    self.service_provider.name
-  end
+  delegate :name, to: :service_provider, prefix: true
 end
