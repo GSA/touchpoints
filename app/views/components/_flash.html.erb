@@ -1,6 +1,6 @@
 <% unless flash.empty? %>
   <% if flash[:success] %>
-  <div class="usa-alert usa-alert--success">
+  <div class="usa-alert usa-alert--success" >
     <div class="usa-alert__body">
       <p class="usa-alert__text">
         <%= flash[:success] %>
@@ -9,7 +9,7 @@
   </div>
   <% end %>
   <% if flash[:notice] %>
-  <div class="usa-alert usa-alert--info">
+  <div class="usa-alert usa-alert--info" >
     <div class="usa-alert__body">
       <p class="usa-alert__text">
         <%= flash[:notice] %>
@@ -18,7 +18,7 @@
   </div>
   <% end %>
   <% if flash[:alert] %>
-  <div class="usa-alert usa-alert--warning">
+  <div class="usa-alert usa-alert--warning" >
     <div class="usa-alert__body">
       <p class="usa-alert__text">
         <%= flash[:alert] %>
@@ -27,7 +27,7 @@
   </div>
   <% end %>
   <% if flash[:error] %>
-  <div class="usa-alert usa-alert--error">
+  <div class="usa-alert usa-alert--error" >
     <div class="usa-alert__body">
       <p class="usa-alert__text">
         <%= flash[:error] %>

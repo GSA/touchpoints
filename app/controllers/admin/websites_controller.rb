@@ -309,7 +309,7 @@ module Admin
     end
 
     def set_website
-      @website = Website.find_by(id: params[:id])
+      @website = Website.find_by_id(params[:id])
     end
 
     def admin_website_params

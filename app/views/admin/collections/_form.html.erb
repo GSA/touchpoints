@@ -53,7 +53,8 @@
       ["🟢 Reporting within A-11 guidelines", "TRUE"],
       ["🔴 Not submitting data", "FALSE"],
       ["🟡 Reporting partially within A-11 guidelines", "PARTIAL"]
-    ] %>
+    ]
+   %>
   <div class="field">
     <%= f.label :rating, class: "usa-label" %>
     <%= f.select :rating, rating_options, { include_blank: true }, { class: "usa-select" } %>

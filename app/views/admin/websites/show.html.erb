@@ -15,7 +15,7 @@
 </p>
 
 <% if @website.production_status == "archived" %>
-<div class="usa-alert usa-alert--warning">
+<div class="usa-alert usa-alert--warning" >
   <div class="usa-alert__body">
     <p class="usa-alert__text">
       The website
@@ -72,7 +72,7 @@
   <div class="grid-col-12">
     <small>
       Last updated
-      <%= link_to(@website.updated_at.strftime('%Y-%m-%d'), events_admin_website_path(@website)) %>
+      <%= link_to(@website.updated_at.strftime('%Y-%m-%d'), events_admin_website_path(@website))%>
       &middot;
       <%= time_ago_in_words(@website.updated_at) %> ago
     </small>

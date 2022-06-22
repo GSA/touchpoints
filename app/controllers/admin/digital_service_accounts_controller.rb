@@ -99,14 +99,14 @@ module Admin
 
     def add_user
       ensure_admin_or_contact(@digital_service_account)
-      @user = User.find_by(email: params[:user][:email])
+      @user = User.find_by_email(params[:user][:email])
 
       @user&.add_role(:contact, @digital_service_account)
     end
 
     def remove_user
       ensure_admin_or_contact(@digital_service_account)
-      @user = User.find_by(id: params[:user][:id])
+      @user = User.find_by_id(params[:user][:id])
 
       @user&.remove_role(:contact, @digital_service_account)
     end

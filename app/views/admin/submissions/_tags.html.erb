@@ -1,63 +1,63 @@
 <%= form_with(model: submission, url: admin_form_submission_path(submission.form, submission), local: true) do |f| %>
-  <div class="grid-row">
-    <div class="grid-col-12">
-      <h3>
-        Tags
-        <%= link_to "https://github.com/gsa/touchpoints/wiki/tagging-responses", target: "_blank", rel: "noopener" do %>
-          <span class="fa fa-info-circle"></span>
-        <% end %>
-      </h3>
-      <div class="tag-list">
-        <ul class="usa-list usa-list--unstyled">
-          <% submission.tag_list.sort.each do |tag| %>
-          <li style="margin-bottom: 3px;">
-            <span class="usa-tag">
-              <%= tag %>
-            </span>
-            <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= tag %>">
-              <span class="fa fa-trash"></span>
-            </a>
-          </li>
-            <% end %>
-        </ul>
-      </div>
+	<div class="grid-row">
+	  <div class="grid-col-12">
+	  	<h3>
+				Tags
+				<%= link_to "https://github.com/gsa/touchpoints/wiki/tagging-responses", target: "_blank", rel: "noopener" do %>
+					<span class="fa fa-info-circle"></span>
+				<% end %>
+			</h3>
+	  	<div class="tag-list">
+				<ul class="usa-list usa-list--unstyled">
+					<% submission.tag_list.sort.each do |tag| %>
+					<li  style="margin-bottom: 3px;">
+						<span class="usa-tag">
+							<%= tag %>
+						</span>
+						<a href="javascript:void(0);" class="remove-tag-link" data-value="<%= tag %>">
+							<span class="fa fa-trash"></span>
+						</a>
+					</li>
+		  			<% end %>
+				</ul>
+	  	</div>
 
-      <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
-    </div>
-  </div>
+	    <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
+	  </div>
+	</div>
 <% end %>
 
 <script>
-  $(function() {
+	$(function() {
 
-    $(".tag-input").on("blur", function(event) {
-      event.preventDefault();
+		$(".tag-input").on("blur", function(event) {
+			event.preventDefault();
+			
+			var thisForm = $(this).closest("form");
+			$.ajax({
+				url: thisForm.attr("action") + "/add_tag",
+				type: 'post',
+				data: "submission[tag_list]=" + $(".tag-input").val()
+			});
+		});
 
-      var thisForm = $(this).closest("form");
-      $.ajax({
-        url: thisForm.attr("action") + "/add_tag",
-        type: 'post',
-        data: "submission[tag_list]=" + $(".tag-input").val()
-      });
-    });
+		$(".tag-input").on("keypress", function (e) {
+			if (e.which == 13) {
+				document.activeElement.blur();
+				return false;
+			}
+		});
 
-    $(".tag-input").on("keypress", function (e) {
-      if (e.which == 13) {
-        document.activeElement.blur();
-        return false;
-      }
-    });
+		$(".remove-tag-link").on("click", function(e) {
+			event.preventDefault();
 
-    $(".remove-tag-link").on("click", function(e) {
-      event.preventDefault();
+			var thisForm = $(this).closest("form");
+			$.ajax({
+				url: thisForm.attr("action") + "/remove_tag",
+				type: 'post',
+				data: "submission[tag_list]=" + $(this).attr("data-value")
+			});
+		});
 
-      var thisForm = $(this).closest("form");
-      $.ajax({
-        url: thisForm.attr("action") + "/remove_tag",
-        type: 'post',
-        data: "submission[tag_list]=" + $(this).attr("data-value")
-      });
-    });
-
-  });
+	});
 </script>

@@ -7,7 +7,7 @@ class ApiController < ::ApplicationController
   def set_current_user
     api_key = request.headers['X-Api-Key'].presence || params['API_KEY']
     if api_key.present?
-      @current_user = User.find_by(api_key:)
+      @current_user = User.find_by_api_key(api_key)
       render json: { error: { message: "The API_KEY #{api_key} is not valid." } }, status: :unauthorized unless @current_user
     else
       render json: { error: { message: 'Invalid request. No ?API_KEY= was passed in.' } }, status: :bad_request

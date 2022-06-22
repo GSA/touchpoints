@@ -214,7 +214,7 @@ class Form < ApplicationRecord
   end
 
   def user_role?(user:)
-    role = user_roles.find_by(user_id: user.id)
+    role = user_roles.find_by_user_id(user.id)
     role.present? ? role.role : nil
   end
 

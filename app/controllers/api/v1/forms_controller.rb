@@ -12,7 +12,7 @@ module Api
       end
 
       def show
-        form = current_user.forms.find_by(short_uuid: params[:id])
+        form = current_user.forms.find_by_short_uuid(params[:id])
         page = (params[:page].present? ? params[:page].to_i : 0)
         size = (params[:size].present? ? params[:size].to_i : 500)
         size = 5000 if size > 5000

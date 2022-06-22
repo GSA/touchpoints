@@ -8,17 +8,17 @@ Website Data Collection Preview
   <% end %>
 </p>
 <table class="usa-table">
-  <thead>
-    <th>Owner</th><th>Domain</th><th>Missing fields</th><th></th>
-  </thead>
-  <tbody>
-    <% @websites.each do | website | %>
-      <tr>
-        <td><%= website.site_owner_email %></td>
-        <td><%= website.domain %></td>
-        <td><%= website.blankFields %></td>
-        <td><%= link_to 'Send Website Data Collection Request', "/admin/websites/#{website.id}/collection_request/", data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline" %>
-      </tr>
-    <% end %>
-  </tbody>
+	<thead>
+		<th>Owner</th><th>Domain</th><th>Missing fields</th><th></th>
+	</thead>
+	<tbody>
+		<% @websites.each do | website | %>
+			<tr>
+				<td><%= website.site_owner_email %></td>
+				<td><%= website.domain %></td>
+				<td><%= website.blankFields %></td>
+				<td><%= link_to 'Send Website Data Collection Request', "/admin/websites/#{website.id}/collection_request/", data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--outline" %>
+			</tr>
+		<% end %>
+	</tbody>
 </table>

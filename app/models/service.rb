@@ -67,7 +67,7 @@ class Service < ApplicationRecord
   def service_owner
     return nil unless service_owner_id
 
-    User.find_by(id: service_owner_id)
+    User.find_by_id(service_owner_id)
   end
 
   def service_managers

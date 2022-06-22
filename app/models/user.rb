@@ -48,7 +48,7 @@ class User < ApplicationRecord
   def self.from_omniauth(auth)
     # Set login_dot_gov as Provider for legacy TP Devise accounts
     # TODO: Remove once all accounts are migrated/have `provider` and `uid` set
-    @existing_user = User.find_by(email: auth.info.email)
+    @existing_user = User.find_by_email(auth.info.email)
     if @existing_user && @existing_user.provider.blank?
       @existing_user.provider = auth.provider
       @existing_user.uid = auth.uid
@@ -179,7 +179,7 @@ class User < ApplicationRecord
     email_address_domain = Mail::Address.new(email).domain
     parsed_domain = parse_host_from_domain(email_address_domain)
 
-    if org = Organization.find_by(domain: parsed_domain)
+    if org = Organization.find_by_domain(parsed_domain)
       self.organization_id = org.id
     else
       UserMailer.no_org_notification(self).deliver_later if id

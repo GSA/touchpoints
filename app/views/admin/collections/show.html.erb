@@ -25,7 +25,7 @@
 <% if !@collection.submitted? && !@collection.published? %>
 <% elsif !@collection.published? %>
 <% else %>
-  <div class="usa-alert usa-alert--warning">
+  <div class="usa-alert usa-alert--warning" >
     <div class="usa-alert__body">
       <p class="usa-alert__text">
         This data collection has been published.
@@ -128,7 +128,7 @@
   <ul class="usa-list">
   <% @collection.omb_cx_reporting_collections.order(:service_provided, :channel).each do |cx_collection| %>
     <li>
-      <%= link_to ("#{cx_collection.try(:service).try(:name)} - #{cx_collection.service_provided}"), admin_omb_cx_reporting_collection_path(cx_collection) %>
+      <%= link_to ("#{cx_collection.try(:service).try(:name)} - #{cx_collection.service_provided}"), admin_omb_cx_reporting_collection_path(cx_collection)  %>
     </li>
   <% end %>
   </ul>
@@ -156,7 +156,7 @@
 
 <p>
   <% if !@collection.submitted? && !@collection.published? %>
-    <div class="usa-alert usa-alert--info">
+    <div class="usa-alert usa-alert--info" >
       <div class="usa-alert__body">
         <p class="usa-alert__text">
           Submitting this Data Collection will send an email

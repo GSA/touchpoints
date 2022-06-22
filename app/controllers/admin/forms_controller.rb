@@ -330,7 +330,7 @@ module Admin
 
     # Disassociate a user with a Form
     def remove_user
-      @role = @form.user_roles.find_by(user_id: params[:user_id])
+      @role = @form.user_roles.find_by_user_id(params[:user_id])
 
       if @role.destroy
         flash[:notice] = 'User Role successfully removed from Form'
@@ -365,7 +365,7 @@ module Admin
 
       respond_to do |format|
         format.csv do
-          csv_content = Form.find_by(short_uuid: @form.short_uuid).to_csv(start_date:, end_date:)
+          csv_content = Form.find_by_short_uuid(@form.short_uuid).to_csv(start_date:, end_date:)
           send_data csv_content
         end
         format.json do
@@ -408,7 +408,7 @@ module Admin
     private
 
     def set_form
-      @form = Form.find_by(short_uuid: params[:id])
+      @form = Form.find_by_short_uuid(params[:id])
       redirect_to admin_forms_path, notice: "no survey with ID of #{params[:id]}" unless @form
     end
 

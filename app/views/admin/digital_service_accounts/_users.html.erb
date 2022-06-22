@@ -1,62 +1,62 @@
 <%= form_with(model: digital_service_account, url: admin_digital_service_account_path(digital_service_account), local: true) do |f| %>
-  <%= label_tag "Contacts", nil, class: "usa-label" %>
-  <small>
-    Associate one or more users with this record.
-  </small>
-  <br>
-  <br>
-  <div class="users-list">
-    <ul class="usa-list usa-list--unstyled">
-      <% digital_service_account.roles.sort.each do |role| %>
-      <% role.users.sort_by { |u| u.email }.each do |user| %>
-      <li style="margin-bottom: 3px;">
-        <span class="usa-tag">
-          <%= user.email %>
-        </span>
-        <% if digital_service_account_permissions?(digital_service_account: digital_service_account, user: current_user) %>
-        <a href="javascript:void(0);" class="remove-tag-link" data-id="<%= user.id %>">
-          <span class="fa fa-trash"></span>
-        </a>
-        <% end %>
-      </li>
-      <% end %>
-      <% end %>
-    </ul>
-  </div>
-  <% if digital_service_account_permissions?(digital_service_account: digital_service_account, user: current_user) %>
+	<%= label_tag "Contacts", nil, class: "usa-label" %>
+	<small>
+		Associate one or more users with this record.
+	</small>
+	<br>
+	<br>
+	<div class="users-list">
+		<ul class="usa-list usa-list--unstyled">
+			<% digital_service_account.roles.sort.each do |role| %>
+			<% role.users.sort_by { |u| u.email }.each do |user| %>
+			<li  style="margin-bottom: 3px;">
+				<span class="usa-tag">
+					<%= user.email %>
+				</span>
+				<% if digital_service_account_permissions?(digital_service_account: digital_service_account, user: current_user) %>
+				<a href="javascript:void(0);" class="remove-tag-link" data-id="<%= user.id %>">
+					<span class="fa fa-trash"></span>
+				</a>
+				<% end %>
+			</li>
+  		<% end %>
+  		<% end %>
+		</ul>
+	</div>
+	<% if digital_service_account_permissions?(digital_service_account: digital_service_account, user: current_user) %>
   <%= f.text_field :user_email_address, placeholder: "email address", value: nil, class: "usa-input tag-input" %>
-  <% end %>
+	<% end %>
 <% end %>
 
 <% if digital_service_account_permissions?(digital_service_account: digital_service_account, user: current_user) %>
 <script>
-  $(function() {
-    $("#digital_service_account_user_email_address").on("blur", function(event) {
-      event.preventDefault();
+	$(function() {
+		$("#digital_service_account_user_email_address").on("blur", function(event) {
+			event.preventDefault();
 
-      var thisForm = $(this).closest("form");
-      var email = $("#digital_service_account_user_email_address").val();
+			var thisForm = $(this).closest("form");
+			var email = $("#digital_service_account_user_email_address").val();
 
-      // Don't submit if no email
-      if (email != '') {
-        $.ajax({
-          url: thisForm.attr("action") + "/add_user",
-          type: 'post',
-          data: "user[email]=" + $("#digital_service_account_user_email_address").val()
-        });
-      }
-    });
+			// Don't submit if no email
+			if (email != '') {
+				$.ajax({
+					url: thisForm.attr("action") + "/add_user",
+					type: 'post',
+					data: "user[email]=" + $("#digital_service_account_user_email_address").val()
+				});
+			}
+		});
 
-    $(".users-list .remove-tag-link").on("click", function(e) {
-      event.preventDefault();
+		$(".users-list .remove-tag-link").on("click", function(e) {
+			event.preventDefault();
 
-      var thisForm = $(this).closest("form");
-      $.ajax({
-        url: thisForm.attr("action") + "/remove_user",
-        type: 'post',
-        data: "user[id]=" + $(this).data("id")
-      });
-    });
-  });
+			var thisForm = $(this).closest("form");
+			$.ajax({
+				url: thisForm.attr("action") + "/remove_user",
+				type: 'post',
+				data: "user[id]=" + $(this).data("id")
+			});
+		});
+	});
 </script>
 <% end %>

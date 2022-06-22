@@ -74,13 +74,13 @@ module Admin
     end
 
     def add_user
-      @user = User.find_by(email: params[:user][:email])
+      @user = User.find_by_email(params[:user][:email])
 
       @user&.add_role(:contact, @digital_product)
     end
 
     def remove_user
-      @user = User.find_by(id: params[:user][:id])
+      @user = User.find_by_id(params[:user][:id])
       @user&.remove_role(:contact, @digital_product)
     end
 

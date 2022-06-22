@@ -19,7 +19,7 @@ module Admin
     private
 
     def set_organization
-      @organization = Organization.find_by(id: params[:id]) || Organization.find_by(abbreviation: params[:id].upcase)
+      @organization = Organization.find_by_id(params[:id]) || Organization.find_by_abbreviation(params[:id].upcase)
     end
   end
 end

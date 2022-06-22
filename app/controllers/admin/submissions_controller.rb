@@ -178,9 +178,9 @@ module Admin
 
     def set_form
       if admin_permissions?
-        @form = Form.find_by(short_uuid: params[:form_id])
+        @form = Form.find_by_short_uuid(params[:form_id])
       else
-        @form = current_user.forms.find_by(short_uuid: params[:form_id])
+        @form = current_user.forms.find_by_short_uuid(params[:form_id])
       end
       raise ActiveRecord::RecordNotFound, "no form with ID of #{params[:form_id]}" unless @form
     end
