@@ -1,52 +1,50 @@
-class Admin::OmbCxReportingCollectionsController < AdminController
-  before_action :set_omb_cx_reporting_collection, only: [:show, :edit, :update, :destroy]
-  before_action :set_collections, only: [:new, :create, :edit, :update]
+# frozen_string_literal: true
 
-  def index
-    ensure_admin
-    @omb_cx_reporting_collections = OmbCxReportingCollection.all
-  end
+module Admin
+  class OmbCxReportingCollectionsController < AdminController
+    before_action :set_omb_cx_reporting_collection, only: %i[show edit update destroy]
+    before_action :set_collections, only: %i[new create edit update]
 
-  def show
-  end
+    def index
+      ensure_admin
+      @omb_cx_reporting_collections = OmbCxReportingCollection.all
+    end
 
-  def new
-    @omb_cx_reporting_collection = OmbCxReportingCollection.new
+    def show; end
 
-    if params[:collection_id]
-      if @collection = Collection.find(params[:collection_id])
-        @omb_cx_reporting_collection.collection_id = params[:collection_id]
+    def new
+      @omb_cx_reporting_collection = OmbCxReportingCollection.new
+
+      @omb_cx_reporting_collection.collection_id = params[:collection_id] if params[:collection_id] && @collection = Collection.find(params[:collection_id])
+    end
+
+    def edit; end
+
+    def create
+      @omb_cx_reporting_collection = OmbCxReportingCollection.new(omb_cx_reporting_collection_params)
+
+      if @omb_cx_reporting_collection.save
+        redirect_to admin_omb_cx_reporting_collection_path(@omb_cx_reporting_collection), notice: 'Omb cx reporting collection was successfully created.'
+      else
+        render :new
       end
     end
-  end
 
-  def edit
-  end
-
-  def create
-    @omb_cx_reporting_collection = OmbCxReportingCollection.new(omb_cx_reporting_collection_params)
-
-    if @omb_cx_reporting_collection.save
-      redirect_to admin_omb_cx_reporting_collection_path(@omb_cx_reporting_collection), notice: 'Omb cx reporting collection was successfully created.'
-    else
-      render :new
+    def update
+      if @omb_cx_reporting_collection.update(omb_cx_reporting_collection_params)
+        redirect_to admin_omb_cx_reporting_collection_path(@omb_cx_reporting_collection), notice: 'Omb cx reporting collection was successfully updated.'
+      else
+        render :edit
+      end
     end
-  end
 
-  def update
-    if @omb_cx_reporting_collection.update(omb_cx_reporting_collection_params)
-      redirect_to admin_omb_cx_reporting_collection_path(@omb_cx_reporting_collection), notice: 'Omb cx reporting collection was successfully updated.'
-    else
-      render :edit
+    def destroy
+      @omb_cx_reporting_collection.destroy
+      redirect_to admin_collection_url(@omb_cx_reporting_collection.collection), notice: 'Omb cx reporting collection was successfully destroyed.'
     end
-  end
 
-  def destroy
-    @omb_cx_reporting_collection.destroy
-    redirect_to admin_collection_url(@omb_cx_reporting_collection.collection), notice: 'Omb cx reporting collection was successfully destroyed.'
-  end
+    private
 
-  private
     def set_omb_cx_reporting_collection
       @omb_cx_reporting_collection = OmbCxReportingCollection.find(params[:id])
     end
@@ -137,7 +135,8 @@ class Admin::OmbCxReportingCollectionsController < AdminController
         :q11_2,
         :q11_3,
         :q11_4,
-        :q11_5
+        :q11_5,
       )
     end
+  end
 end

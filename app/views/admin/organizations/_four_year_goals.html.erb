@@ -19,7 +19,7 @@
         <% end %>
         <div class="sorting-div-objectives">
           <% goal.objectives.order(:position).each_with_index do |obj, j| %>
-            <p  class="well" id="<%= dom_id(obj) %>" data-id="<%= obj.id %>" data-url="<%= sort_objectives_admin_organization_path(goal.organization) %>">
+            <p class="well" id="<%= dom_id(obj) %>" data-id="<%= obj.id %>" data-url="<%= sort_objectives_admin_organization_path(goal.organization) %>">
               <%= j + 1 %>.
               <%= obj.name %>
             </p>

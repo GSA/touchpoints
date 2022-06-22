@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'open-uri'
 
 class Website < ApplicationRecord
@@ -16,37 +18,37 @@ class Website < ApplicationRecord
   scope :active, -> { where("production_status = 'production' OR production_status = 'newly_requested' OR production_status = 'request_approved'") }
 
   PRODUCTION_STATUSES = {
-    "newly_requested" => "Newly requested",
-    "request_approved" => "Request approved",
-    "request_denied" => "Request denied",
-    "in_development" => "In development",
-    "production" => "Production",
-    "being_decommissioned" => "Being decommissioned",
-    "redirect" => "Redirect",
-    "archived" => "Archived",
-    "decommissioned" => "Decommissioned",
-  }
+    'newly_requested' => 'Newly requested',
+    'request_approved' => 'Request approved',
+    'request_denied' => 'Request denied',
+    'in_development' => 'In development',
+    'production' => 'Production',
+    'being_decommissioned' => 'Being decommissioned',
+    'redirect' => 'Redirect',
+    'archived' => 'Archived',
+    'decommissioned' => 'Decommissioned',
+  }.freeze
 
-  ACTIVE_PRODUCTION_STATUSES = [
-    "Production",
-    "Staging"
-  ]
+  ACTIVE_PRODUCTION_STATUSES = %w[
+    Production
+    Staging
+  ].freeze
 
   TYPE_OF_SITES = {
-    "API"                     => "Application Programming Interface",
-    "Application"             => "Transactional site (web app/back-end system) with some front-end web content",
-    "Application Login"       => "Login page to a back-end system",
-    "Critical infrastructure" => "Required to support a GSA or shared service",
-    "GitHub repo"             => "Site decommissioned; URL redirects to a GitHub repo (status is redirect)",
-    "Google form"             => "Site redirects to a Google form (status is redirect)",
-    "Informational"           => "Informational (not transactional) site"
-  }
+    'API' => 'Application Programming Interface',
+    'Application' => 'Transactional site (web app/back-end system) with some front-end web content',
+    'Application Login' => 'Login page to a back-end system',
+    'Critical infrastructure' => 'Required to support a GSA or shared service',
+    'GitHub repo' => 'Site decommissioned; URL redirects to a GitHub repo (status is redirect)',
+    'Google form' => 'Site redirects to a Google form (status is redirect)',
+    'Informational' => 'Informational (not transactional) site',
+  }.freeze
 
   DIGITAL_BRAND_CATEGORIES = {
-    "GSA Business" => "About a GSA program, product, or service",
-    "Hybrid"       => "Managed by GSA in partnership with another agency or business partner; gov-wide or collaborative",
-    "External"     => "Managed by GSA on behalf of another agency or business partner; not related to GSA business"
-  }
+    'GSA Business' => 'About a GSA program, product, or service',
+    'Hybrid' => 'Managed by GSA in partnership with another agency or business partner; gov-wide or collaborative',
+    'External' => 'Managed by GSA on behalf of another agency or business partner; not related to GSA business',
+  }.freeze
 
   aasm :production_status do
     state :newly_requested, initial: true
@@ -77,7 +79,7 @@ class Website < ApplicationRecord
       transitions from: [:production], to: :archived
     end
     event :decommission do
-      transitions from: [:production, :archived, :redirect], to: :decommissioned
+      transitions from: %i[production archived redirect], to: :decommissioned
     end
     event :reset do
       transitions to: :newly_requested
@@ -89,64 +91,60 @@ class Website < ApplicationRecord
   end
 
   def website_personas
-    Persona.where(id: self.persona_list)
+    Persona.where(id: persona_list)
   end
 
   def website_manager_emails
-    website_managers.collect{ | mgr | mgr.email }.join(", ")
+    website_managers.collect(&:email).join(', ')
   end
 
   # return all website_ids managed by users with email matching search string
   def self.ids_by_manager_search(search_text)
-    sql = %q(
+    sql = "
       select w.id from websites w, users_roles ur, roles r, users u
       where u.email ilike :search_text
         and u.id = ur.user_id
         and ur.role_id = r.id
         and r.resource_type = 'Website'
         and r.resource_id = w.id
-        and r.name = 'website_manager').gsub("\n","")
-    self.find_by_sql([sql,search_text: search_text]).collect{ | ws | ws.id }
+        and r.name = 'website_manager'".gsub("\n", '')
+    find_by_sql([sql, { search_text: }]).collect(&:id)
   end
 
   def admin?(user:)
-    raise ArgumentException unless user.class == User
+    raise ArgumentException unless user.instance_of?(User)
 
-    user.admin? || user.organizational_website_manager || self.contact_email == user.email || self.site_owner_email == user.email
+    user.admin? || user.organizational_website_manager || contact_email == user.email || site_owner_email == user.email
   end
 
   def blankFields
-    Website.column_names.select { | cn | self.send(cn).blank? }
+    Website.column_names.select { |cn| send(cn).blank? }
   end
 
   def requiresDataCollection?
-    blankFields.size > 0
+    blankFields.size.positive?
   end
 
   def validate_domain_format
-    if self.domain.present? && !self.domain.include?(".")
-      errors.add(:domain, "domain must have a suffix, like .gov or .mil")
-    end
+    errors.add(:domain, 'domain must have a suffix, like .gov or .mil') if domain.present? && domain.exclude?('.')
   end
 
   def site_scanner_json_request
-    begin
-      url = "https://api.gsa.gov/technology/site-scanning/v1/websites/#{self.domain}?api_key=#{ENV.fetch("API_DATA_GOV_KEY")}&limit=10"
-      text = URI.open(url).read
-    rescue => e
-      "Error during Site Scanner API request for #{self.domain}.\n\n#{e}"
-    end
+    url = "https://api.gsa.gov/technology/site-scanning/v1/websites/#{domain}?api_key=#{ENV.fetch('API_DATA_GOV_KEY')}&limit=10"
+    text = URI.open(url).read
+  rescue StandardError => e
+    "Error during Site Scanner API request for #{domain}.\n\n#{e}"
   end
 
   def parent_domain
-    return nil unless self.domain?
+    return nil unless domain?
 
-    self.domain.split(".")[-2..-1].join(".")
+    domain.split('.')[-2..].join('.')
   end
 
   # has a domain name and suffix
   def tld?
-    self.domain.split(".").size == 2
+    domain.split('.').size == 2
   end
 
   def self.to_csv
