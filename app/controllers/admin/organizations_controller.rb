@@ -1,181 +1,184 @@
-class Admin::OrganizationsController < AdminController
+# frozen_string_literal: true
 
-  before_action :set_organization, only: [
-    :show,
-    :performance,
-    :edit,
-    :update,
-    :performance_update,
-    :destroy,
-    :add_tag,
-    :remove_tag,
-    :create_two_year_goal,
-    :create_four_year_goal,
-    :delete_two_year_goal,
-    :delete_four_year_goal,
-    :sort_goals,
-    :sort_objectives
-  ]
+module Admin
+  class OrganizationsController < AdminController
+    before_action :set_organization, only: %i[
+      show
+      performance
+      edit
+      update
+      performance_update
+      destroy
+      add_tag
+      remove_tag
+      create_two_year_goal
+      create_four_year_goal
+      delete_two_year_goal
+      delete_four_year_goal
+      sort_goals
+      sort_objectives
+    ]
 
-  def index
-    @organizations = Organization.all.order(:name)
-    @tags = Organization.tag_counts_by_name
-  end
+    def index
+      @organizations = Organization.all.order(:name)
+      @tags = Organization.tag_counts_by_name
+    end
 
-  def show
-    @forms = @organization.forms
-    @collections = @organization.collections
-    @users = @organization.users.active.order(:email)
-  end
+    def show
+      @forms = @organization.forms
+      @collections = @organization.collections
+      @users = @organization.users.active.order(:email)
+    end
 
-  def new
-    ensure_admin
+    def new
+      ensure_admin
 
-    @organization = Organization.new
-  end
+      @organization = Organization.new
+    end
 
-  def edit
-    ensure_admin
-  end
+    def edit
+      ensure_admin
+    end
 
-  def performance
-    ensure_performance_manager_permissions
-  end
+    def performance
+      ensure_performance_manager_permissions
+    end
 
-  def create
-    ensure_admin
+    def create
+      ensure_admin
 
-    @organization = Organization.new(organization_params)
+      @organization = Organization.new(organization_params)
 
-    respond_to do |format|
-      if @organization.save
-        format.html { redirect_to admin_organization_path(@organization), notice: 'Organization was successfully created.' }
-        format.json { render :show, status: :created, location: @organization }
-      else
-        format.html { render :new }
-        format.json { render json: @organization.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @organization.save
+          format.html { redirect_to admin_organization_path(@organization), notice: 'Organization was successfully created.' }
+          format.json { render :show, status: :created, location: @organization }
+        else
+          format.html { render :new }
+          format.json { render json: @organization.errors, status: :unprocessable_entity }
+        end
       end
     end
-  end
 
-  def create_four_year_goal
-    ensure_performance_manager_permissions
+    def create_four_year_goal
+      ensure_performance_manager_permissions
 
-    @goal = Goal.new
-    @goal.organization_id = @organization.id
-    @goal.four_year_goal = true
-    @goal.name = "New Strategic Goal"
-    @goal.save
-  end
-
-  def create_two_year_goal
-    ensure_performance_manager_permissions
-
-    @goal = Goal.new
-    @goal.organization_id = @organization.id
-    @goal.four_year_goal = false
-    @goal.name = "New 2 Year APG"
-    @goal.save
-  end
-
-  def sort_goals
-    ensure_performance_manager_permissions
-
-    params[:goal].each_with_index do |id, index|
-      Goal.where(id: id).update_all(position: index + 1)
+      @goal = Goal.new
+      @goal.organization_id = @organization.id
+      @goal.four_year_goal = true
+      @goal.name = 'New Strategic Goal'
+      @goal.save
     end
 
-    head :ok
-  end
+    def create_two_year_goal
+      ensure_performance_manager_permissions
 
-  def sort_objectives
-    ensure_performance_manager_permissions
-
-    params[:objective].each_with_index do |id, index|
-      Objective.where(id: id).update_all(position: index + 1)
+      @goal = Goal.new
+      @goal.organization_id = @organization.id
+      @goal.four_year_goal = false
+      @goal.name = 'New 2 Year APG'
+      @goal.save
     end
 
-    head :ok
-  end
+    def sort_goals
+      ensure_performance_manager_permissions
 
-  def delete_two_year_goal
-    ensure_performance_manager_permissions
+      params[:goal].each_with_index do |id, index|
+        Goal.where(id:).update_all(position: index + 1)
+      end
 
-    Goal.find(params[:goal_id]).destroy
-  end
+      head :ok
+    end
 
-  def delete_four_year_goal
-    ensure_performance_manager_permissions
+    def sort_objectives
+      ensure_performance_manager_permissions
 
-    Goal.find(params[:goal_id]).destroy
-  end
+      params[:objective].each_with_index do |id, index|
+        Objective.where(id:).update_all(position: index + 1)
+      end
 
-  def update
-    ensure_admin
+      head :ok
+    end
 
-    respond_to do |format|
-      if @organization.update(organization_params)
-        format.html { redirect_to admin_organization_path(@organization), notice: 'Organization was successfully updated.' }
-        format.json { render :show, status: :ok, location: @organization }
-      else
-        format.html { render :edit }
-        format.json { render json: @organization.errors, status: :unprocessable_entity }
+    def delete_two_year_goal
+      ensure_performance_manager_permissions
+
+      Goal.find(params[:goal_id]).destroy
+    end
+
+    def delete_four_year_goal
+      ensure_performance_manager_permissions
+
+      Goal.find(params[:goal_id]).destroy
+    end
+
+    def update
+      ensure_admin
+
+      respond_to do |format|
+        if @organization.update(organization_params)
+          format.html { redirect_to admin_organization_path(@organization), notice: 'Organization was successfully updated.' }
+          format.json { render :show, status: :ok, location: @organization }
+        else
+          format.html { render :edit }
+          format.json { render json: @organization.errors, status: :unprocessable_entity }
+        end
       end
     end
-  end
 
-  def performance_update
-    ensure_performance_manager_permissions
+    def performance_update
+      ensure_performance_manager_permissions
 
-    respond_to do |format|
-      if @organization.update(organization_params)
-        format.html { redirect_to performance_admin_organization_path(@organization), notice: 'Organization was successfully updated.' }
-        format.json { render :show, status: :ok, location: @organization }
-      else
-        format.html { render :edit }
-        format.json { render json: @organization.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @organization.update(organization_params)
+          format.html { redirect_to performance_admin_organization_path(@organization), notice: 'Organization was successfully updated.' }
+          format.json { render :show, status: :ok, location: @organization }
+        else
+          format.html { render :edit }
+          format.json { render json: @organization.errors, status: :unprocessable_entity }
+        end
       end
     end
-  end
 
-  def destroy
-    ensure_admin
+    def destroy
+      ensure_admin
 
-    @organization.destroy
-    respond_to do |format|
-      format.html { redirect_to admin_organizations_url, notice: 'Organization was successfully destroyed.' }
-      format.json { head :no_content }
+      @organization.destroy
+      respond_to do |format|
+        format.html { redirect_to admin_organizations_url, notice: 'Organization was successfully destroyed.' }
+        format.json { head :no_content }
+      end
     end
-  end
 
-  def search
-    search_text = params[:search]
-    tag_name = params[:tag]
-    if search_text.present?
-      search_text = "%" + search_text + "%"
-      @organizations = Organization.where(" domain ilike ? or name ilike ? or abbreviation ilike ? or url ilike ?  ", search_text, search_text, search_text, search_text)
-    elsif tag_name.present?
-      @organizations = Organization.tagged_with(tag_name)
-    else
-      @organizations = Organization.all
+    def search
+      search_text = params[:search]
+      tag_name = params[:tag]
+      if search_text.present?
+        search_text = "%#{search_text}%"
+        @organizations = Organization.where(' domain ilike ? or name ilike ? or abbreviation ilike ? or url ilike ?  ', search_text, search_text, search_text, search_text)
+      elsif tag_name.present?
+        @organizations = Organization.tagged_with(tag_name)
+      else
+        @organizations = Organization.all
+      end
     end
-  end
 
-  def add_tag
-    ensure_admin
+    def add_tag
+      ensure_admin
 
-    @organization.tag_list.add(organization_params[:tag_list].split(','))
-    @organization.save
-  end
+      @organization.tag_list.add(organization_params[:tag_list].split(','))
+      @organization.save
+    end
 
-  def remove_tag
-    ensure_admin
-    
-    @organization.tag_list.remove(organization_params[:tag_list].split(','))
-    @organization.save
-  end
+    def remove_tag
+      ensure_admin
 
-  private
+      @organization.tag_list.remove(organization_params[:tag_list].split(','))
+      @organization.save
+    end
+
+    private
+
     def set_organization
       @organization = Organization.find_by_id(params[:id]) || Organization.find_by_abbreviation(params[:id].upcase)
     end
@@ -199,4 +202,5 @@ class Admin::OrganizationsController < AdminController
         :learning_agenda_url,
       )
     end
+  end
 end

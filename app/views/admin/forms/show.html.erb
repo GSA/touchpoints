@@ -100,7 +100,7 @@
               <label class="usa-checkbox__label" for="integrity-hashed-url-checkbox">with integrity hash</label>
             </div>
             <div id="integrity-hashed-url" hidden>
-              <div class="usa-alert usa-alert--warning" >
+              <div class="usa-alert usa-alert--warning">
                 <div class="usa-alert__body">
                   <p class="usa-alert__text">
                     This alternative version of embed script includes an integrity attribute.
@@ -155,7 +155,7 @@
           </p>
         <% end %>
       <% else %>
-        <div class="usa-alert usa-alert--error" >
+        <div class="usa-alert usa-alert--error">
           <div class="usa-alert__body">
             <h3 class="usa-alert__heading">Survey is not published</h3>
             <p>
@@ -296,8 +296,7 @@
 </div>
 <script type="text/javascript">
   $(function() {
-    $("#integrity-hashed-url-checkbox").on("click", function(i, b) {
-      debugger
+    $("#integrity-hashed-url-checkbox").on("click", function() {
       if ($(this).is(':checked')) {
         $("#integrity-hashed-url").show();
       } else {

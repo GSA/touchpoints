@@ -1,64 +1,64 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature "general site navigation", js: true do
-  context "as Admin" do
+feature 'general site navigation', js: true do
+  context 'as Admin' do
     let(:organization) { FactoryBot.create(:organization) }
-    let!(:user) { FactoryBot.create(:user, :admin, organization: organization) }
+    let!(:user) { FactoryBot.create(:user, :admin, organization:) }
 
     before do
       login_as(user)
       visit root_path
     end
 
-    context "logged in" do
-      describe "/admin/services" do
+    context 'logged in' do
+      describe '/admin/services' do
         before do
-          click_on "Services"
+          click_on 'Services'
         end
 
         it 'renders successfully' do
           expect(page.current_path).to eq(admin_services_path)
-          expect(page).to have_content("Services")
-          expect(page).to have_content("New Service")
+          expect(page).to have_content('Services')
+          expect(page).to have_content('New Service')
         end
       end
 
-      describe "/admin/websites" do
+      describe '/admin/websites' do
         before do
-          click_on "Websites"
+          click_on 'Websites'
         end
 
         it 'renders successfully' do
           expect(page.current_path).to eq(admin_websites_path)
-          expect(page).to have_content("Websites")
-          expect(page).to have_content("New Website")
+          expect(page).to have_content('Websites')
+          expect(page).to have_content('New Website')
         end
       end
 
-      describe "/admin/reporting" do
+      describe '/admin/reporting' do
         before do
-          click_on "Performance"
+          click_on 'Performance'
         end
 
         it 'renders successfully' do
           expect(page.current_path).to eq(admin_performance_path)
-          expect(page).to have_content("Performance reporting")
+          expect(page).to have_content('Performance reporting')
         end
 
-        describe "/admin/collections" do
+        describe '/admin/collections' do
           before do
-            click_on "CX Data Collection"
+            click_on 'CX Data Collection'
           end
 
           it 'renders successfully' do
             expect(page.current_path).to eq(admin_collections_path)
-            expect(page).to have_content("Data Collections")
-            expect(page).to have_content("New Data Collection")
+            expect(page).to have_content('Data Collections')
+            expect(page).to have_content('New Data Collection')
           end
         end
       end
-
     end
-
   end
 end

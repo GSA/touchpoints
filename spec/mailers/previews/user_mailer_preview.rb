@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 # Preview all emails at http://localhost:3000/rails/mailers/user_mailer
 class UserMailerPreview < ActionMailer::Preview
-
   # Preview this email at http://localhost:3000/rails/mailers/user_mailer/submission_notification
   def submission_notification
     UserMailerMailer.submission_notification
@@ -15,5 +16,4 @@ class UserMailerPreview < ActionMailer::Preview
   def webmaster_summary
     UserMailerMailer.webmaster_summary
   end
-
 end

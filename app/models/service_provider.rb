@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ServiceProvider < ApplicationRecord
   resourcify
   belongs_to :organization
@@ -8,17 +10,17 @@ class ServiceProvider < ApplicationRecord
   validates :name, presence: true
   validates :slug, presence: true
 
-  scope :active, -> { where("inactive ISNULL or inactive = false") }
+  scope :active, -> { where('inactive ISNULL or inactive = false') }
 
   def service_provider_managers
     User.with_role(:service_provider_manager, self)
   end
 
   def organization_name
-    self.organization ? self.organization.name : nil
+    organization ? organization.name : nil
   end
 
   def organization_abbreviation
-    self.organization ? self.organization.abbreviation : nil
+    organization ? organization.abbreviation : nil
   end
 end

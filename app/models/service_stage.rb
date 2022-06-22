@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ServiceStage < ApplicationRecord
   belongs_to :service
   belongs_to :persona, optional: true

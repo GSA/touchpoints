@@ -3,8 +3,7 @@
     <button
       class="usa-accordion__button"
       aria-expanded="false"
-      aria-controls="csv-data-2"
-    >
+      aria-controls="csv-data-2">
       hisp_services_question_details.csv
     </button>
   </h4>
@@ -46,8 +45,7 @@
         :question_total,
         :start_date,
         :end_date
-      ]
-    %>
+      ] %>
     <%= header_fields.join(",") %>
     <br>
   <% ServiceProvider.active.includes(:organization).order("organizations.name", :name).each do |service_provider| %>

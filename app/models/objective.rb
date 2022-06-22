@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Objective < ApplicationRecord
   belongs_to :organization
   belongs_to :goal
@@ -7,6 +9,6 @@ class Objective < ApplicationRecord
   validates :name, presence: true
 
   def organization_name
-    self.organization ? self.organization.name : nil
+    organization ? organization.name : nil
   end
 end
