@@ -184,6 +184,38 @@ feature "Digital Service Accounts", js: true do
         expect(page).to_not have_content(user.email.upcase)
       end
     end
+
+    describe "#search" do
+      let!(:digital_service_account) { FactoryBot.create(:digital_service_account, name: "Test1", service: "Facebook", aasm_state: 'published') }
+      let!(:digital_service_account_2) { FactoryBot.create(:digital_service_account, aasm_state: "created") }
+
+      before do
+        visit admin_digital_service_accounts_path
+      end
+
+      it "can search by keyword" do
+        fill_in :tags, with: digital_service_account.name
+        find("#tags").native.send_key :tab
+        expect(page).to have_css("tbody tr", count: 1)
+      end
+
+      it "can search by organization" do
+        digital_service_account.organization_list.add(organization.id)
+        digital_service_account.save
+        select(organization.name, from: 'organization_id')
+        expect(page).to have_css("tbody tr", count: 1)
+      end
+
+      it "can search by service" do
+        select("Facebook", from: 'service')
+        expect(page).to have_css("tbody tr", count: 1)
+      end
+
+      it "can search by aasm_state" do
+        select('Published', from: 'aasm_state')
+        expect(page).to have_css("tbody tr", count: 1)
+      end
+    end
   end
 
   context "as Contact" do

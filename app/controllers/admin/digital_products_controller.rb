@@ -154,7 +154,7 @@ class Admin::DigitalProductsController < AdminController
     @digital_products = @digital_products.tagged_with(organization_id, context: "organizations") if organization_id.present? && organization_id != ''
     @digital_products = @digital_products.where("service = ?", params[:service]) if params[:service].present? && params[:service] != 'All'
     @digital_products = @digital_products.where("aasm_state = ?", params[:aasm_state].downcase) if params[:aasm_state].present? && params[:aasm_state] != 'All'
-    @digital_producs
+    @digital_products
   end
 
 

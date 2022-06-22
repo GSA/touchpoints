@@ -35,14 +35,6 @@ class DigitalServiceAccount < ApplicationRecord
     end
   end
 
-  def organization_name
-    self.organization.name
-  end
-
-  def organization_abbreviation
-    self.organization.abbreviation
-  end
-
   def sponsoring_agencies
     Organization.where(id: self.organization_list)
   end

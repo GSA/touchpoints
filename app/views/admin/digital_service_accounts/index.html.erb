@@ -71,7 +71,7 @@
   </div>
   <div class="grid-col-6">
     <%= label_tag "Status selector", nil, class: "usa-label" %>
-    <%= select_tag :hi, options_for_select(["All", "Published", "Archive"]), class: "usa-select" %>
+    <%= select_tag :aasm_state, options_for_select(["All", "Published", "Archive"]), class: "usa-select" %>
   </div>
 </div>
 
@@ -128,6 +128,17 @@
         url: '/admin/digital_service_accounts/search',
         data: {
           service: event.target.value
+        }
+      });
+    });
+
+    $('#aasm_state').on("change", function(event) {
+      event.preventDefault();
+
+      $.ajax({
+        url: '/admin/digital_service_accounts/search',
+        data: {
+          aasm_state: event.target.value
         }
       });
     });
