@@ -70,7 +70,7 @@
   </div>
   <div class="grid-col-6">
     <%= label_tag "Status selector", nil, class: "usa-label" %>
-    <%= select_tag :hi, options_for_select(["All", "Published", "Archive"]), class: "usa-select" %>
+    <%= select_tag :aasm_state, options_for_select(["All", "Published", "Archive"]), class: "usa-select" %>
   </div>
 </div>
 
@@ -109,9 +109,6 @@
     $('#organization_id').on("change", function(event) {
       event.preventDefault();
 
-      // $('.usa-hint.goal-parent-id').show();
-      // $('.usa-hint.goal-parent-id').fadeOut(2000);
-      debugger
       $.ajax({
         url: '/admin/digital_products/search',
         data: {
@@ -119,6 +116,18 @@
         }
       });
     });
+
+    $('#aasm_state').on("change", function(event) {
+      event.preventDefault();
+
+      $.ajax({
+        url: '/admin/digital_products/search',
+        data: {
+          aasm_state: event.target.value
+        }
+      });
+    });
+
 
     $('#service').on("change", function(event) {
       event.preventDefault();
