@@ -11,7 +11,7 @@ module Admin
     ]
 
     def index
-      @digital_service_accounts = DigitalServiceAccount.order(:organization_id, :name).page(params[:page])
+      @digital_service_accounts = DigitalServiceAccount.order(:name).page(params[:page])
     end
 
     def review
