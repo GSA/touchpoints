@@ -1,44 +1,46 @@
-class Admin::PersonasController < AdminController
-  before_action :set_persona, only: [:show, :edit, :update, :destroy]
+# frozen_string_literal: true
 
-  def index
-    @personas = Persona.all.order(:name)
-  end
+module Admin
+  class PersonasController < AdminController
+    before_action :set_persona, only: %i[show edit update destroy]
 
-  def show
-  end
-
-  def new
-    @persona = Persona.new
-  end
-
-  def edit
-  end
-
-  def create
-    @persona = Persona.new(persona_params)
-
-    if @persona.save!
-      redirect_to admin_persona_path(@persona), notice: 'Persona was successfully created.'
-    else
-      render :new
+    def index
+      @personas = Persona.all.order(:name)
     end
-  end
 
-  def update
-    if @persona.update(persona_params)
-      redirect_to admin_persona_path(@persona), notice: 'Persona was successfully updated.'
-    else
-      render :edit
+    def show; end
+
+    def new
+      @persona = Persona.new
     end
-  end
 
-  def destroy
-    @persona.destroy
-    redirect_to admin_personas_url, notice: 'Persona was successfully destroyed.'
-  end
+    def edit; end
 
-  private
+    def create
+      @persona = Persona.new(persona_params)
+
+      if @persona.save!
+        redirect_to admin_persona_path(@persona), notice: 'Persona was successfully created.'
+      else
+        render :new
+      end
+    end
+
+    def update
+      if @persona.update(persona_params)
+        redirect_to admin_persona_path(@persona), notice: 'Persona was successfully updated.'
+      else
+        render :edit
+      end
+    end
+
+    def destroy
+      @persona.destroy
+      redirect_to admin_personas_url, notice: 'Persona was successfully destroyed.'
+    end
+
+    private
+
     def set_persona
       @persona = Persona.find(params[:id])
     end
@@ -46,4 +48,5 @@ class Admin::PersonasController < AdminController
     def persona_params
       params.require(:persona).permit(:name, :description, :tags, :notes, :user_id)
     end
+  end
 end

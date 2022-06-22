@@ -1,19 +1,25 @@
-class Api::V1::DigitalProductsController < ::UnauthenticatedApiController
-  def index
-    respond_to do |format|
-      format.json {
-        render json: DigitalProduct.all.order(:id), each_serializer: DigitalProductSerializer
-      }
-    end
-  end
+# frozen_string_literal: true
 
-  def show
-    @digital_product = DigitalProduct.find(params[:id])
+module Api
+  module V1
+    class DigitalProductsController < ::UnauthenticatedApiController
+      def index
+        respond_to do |format|
+          format.json do
+            render json: DigitalProduct.all.order(:id), each_serializer: DigitalProductSerializer
+          end
+        end
+      end
 
-    respond_to do |format|
-      format.json {
-        render json: @digital_product, serializer: DigitalProductSerializer
-      }
+      def show
+        @digital_product = DigitalProduct.find(params[:id])
+
+        respond_to do |format|
+          format.json do
+            render json: @digital_product, serializer: DigitalProductSerializer
+          end
+        end
+      end
     end
   end
 end

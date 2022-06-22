@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OmbCxReportingCollection < ApplicationRecord
   belongs_to :collection
   belongs_to :service
@@ -11,19 +13,19 @@ class OmbCxReportingCollection < ApplicationRecord
   end
 
   def answer_points(question:)
-    self.send("#{question}_1") * 1.0 +
-    self.send("#{question}_2") * 2.0 +
-    self.send("#{question}_3") * 3.0 +
-    self.send("#{question}_4") * 4.0 +
-    self.send("#{question}_5") * 5.0
+    (send("#{question}_1") * 1.0) +
+      (send("#{question}_2") * 2.0) +
+      (send("#{question}_3") * 3.0) +
+      (send("#{question}_4") * 4.0) +
+      (send("#{question}_5") * 5.0)
   end
 
   def omb_control_number
-    super || "OMB Control Number"
+    super || 'OMB Control Number'
   end
 
   def federal_register_url
-    super || "Federal Register URL"
+    super || 'Federal Register URL'
   end
 
   def q1_point_scale
@@ -104,11 +106,11 @@ class OmbCxReportingCollection < ApplicationRecord
   end
 
   def question_total(question: nil)
-    self.send("#{question}_1") +
-    self.send("#{question}_2") +
-    self.send("#{question}_3") +
-    self.send("#{question}_4") +
-    self.send("#{question}_5")
+    send("#{question}_1") +
+      send("#{question}_2") +
+      send("#{question}_3") +
+      send("#{question}_4") +
+      send("#{question}_5")
   end
 
   def q1_total
@@ -156,44 +158,24 @@ class OmbCxReportingCollection < ApplicationRecord
   end
 
   def volume_total
-    self.q1_total + self.q2_total + self.q3_total + self.q4_total + self.q5_total + self.q6_total + self.q7_total + self.q8_total + self.q9_total + self.q10_total + self.q11_total
+    q1_total + q2_total + q3_total + q4_total + q5_total + q6_total + q7_total + q8_total + q9_total + q10_total + q11_total
   end
 
-  def organization
-    self.collection.organization
-  end
+  delegate :organization, to: :collection
 
-  def organization_id
-    organization.id
-  end
+  delegate :id, to: :organization, prefix: true
 
-  def organization_name
-    organization.name
-  end
+  delegate :name, to: :organization, prefix: true
 
-  def organization_abbreviation
-    organization.abbreviation
-  end
+  delegate :abbreviation, to: :organization, prefix: true
 
-  def collection_name
-    self.collection.name
-  end
+  delegate :name, to: :collection, prefix: true
 
-  def collection_year
-    self.collection.year
-  end
+  delegate :year, to: :collection, prefix: true
 
-  def collection_quarter
-    self.collection.quarter
-  end
+  delegate :quarter, to: :collection, prefix: true
 
-  def service_name
-    self.service.name
-  end
+  delegate :name, to: :service, prefix: true
 
-  def service_slug
-    self.service.service_slug
-  end
-
-
+  delegate :service_slug, to: :service
 end

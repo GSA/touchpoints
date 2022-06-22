@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class QuestionOption < ApplicationRecord
   belongs_to :question
 
@@ -7,9 +9,7 @@ class QuestionOption < ApplicationRecord
   validates :position, presence: true
 
   def set_default_value_from_text
-    unless self.value?
-      self.value = self.text
-    end
+    self.value = text unless value?
   end
 
   after_commit do |question_option|
