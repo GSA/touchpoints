@@ -16,7 +16,7 @@ module Admin
 
     def review
       ensure_admin_or_contact(@digital_service_account)
-      @digital_service_accounts = DigitalServiceAccount.where("aasm_state = 'created' OR aasm_state = 'edited'").order(:organization_id, :name).page(params[:page])
+      @digital_service_accounts = DigitalServiceAccount.where("aasm_state = 'created' OR aasm_state = 'edited'").order(:name).page(params[:page])
     end
 
     def show
