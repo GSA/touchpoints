@@ -120,12 +120,12 @@ class User < ApplicationRecord
   def self.deactivation_pending(expire_days)
     min_time = ((90 - expire_days) + 1).days.ago
     max_time = (90 - expire_days).days.ago
-    User.active.where("(last_sign_in_at ISNULL AND created_at BETWEEN ? AND ?) OR (last_sign_in_at BETWEEN ? AND ?)", min_time, max_time, min_time, max_time)
+    User.active.where("(current_sign_in_at ISNULL AND created_at BETWEEN ? AND ?) OR (current_sign_in_at BETWEEN ? AND ?)", min_time, max_time, min_time, max_time)
   end
 
   def self.deactivate_inactive_accounts!
     # Find all accounts scheduled to be deactivated in 14 days
-    users = User.active.where("(last_sign_in_at ISNULL AND created_at <= ?) OR (last_sign_in_at <= ?)", 90.days.ago, 90.days.ago)
+    users = User.active.where("(current_sign_in_at ISNULL AND created_at <= ?) OR (current_sign_in_at <= ?)", 90.days.ago, 90.days.ago)
     users.each do | user |
       user.deactivate!
     end
@@ -135,11 +135,11 @@ class User < ApplicationRecord
     active_users = self.order("email")
     return nil unless active_users.present?
 
-    header_attributes = ["organization_name", "email", "last_sign_in_at"]
+    header_attributes = ["organization_name", "email", "current_sign_in_at"]
     attributes = active_users.map { |u| {
       organization_name: u.organization.name,
       email: u.email,
-      last_sign_in_at: u.last_sign_in_at
+      current_sign_in_at: u.current_sign_in_at,
     }}
 
     CSV.generate(headers: true) do |csv|

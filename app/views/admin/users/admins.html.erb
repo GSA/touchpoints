@@ -37,8 +37,8 @@
           </td>
           <td><%= user.organization ? user.organization.name : nil %></td>
         <% if current_user.admin? %>
-          <td data-sort-value="<%= user.last_sign_in_at.to_i %>">
-            <%= time_ago_in_words(user.last_sign_in_at) if user.last_sign_in_at %>
+          <td data-sort-value="<%= user.current_sign_in_at.to_i %>">
+            <%= time_ago_in_words(user.current_sign_in_at) if user.current_sign_in_at %>
           </td>
         <% end %>
         </tr>
@@ -62,8 +62,8 @@
           </td>
           <td><%= user.organization ? user.organization.name : nil %></td>
         <% if current_user.admin? %>
-          <td data-sort-value="<%= user.last_sign_in_at.to_i %>">
-            <%= time_ago_in_words(user.last_sign_in_at) if user.last_sign_in_at %>
+          <td data-sort-value="<%= user.current_sign_in_at.to_i %>">
+            <%= time_ago_in_words(user.current_sign_in_at) if user.current_sign_in_at %>
           </td>
         <% end %>
         </tr>
@@ -87,8 +87,8 @@
           </td>
           <td><%= user.organization ? user.organization.name : nil %></td>
         <% if current_user.admin? %>
-          <td data-sort-value="<%= user.last_sign_in_at.to_i %>">
-            <%= time_ago_in_words(user.last_sign_in_at) if user.last_sign_in_at %>
+          <td data-sort-value="<%= user.current_sign_in_at.to_i %>">
+            <%= time_ago_in_words(user.current_sign_in_at) if user.current_sign_in_at %>
           </td>
         <% end %>
         </tr>
@@ -112,8 +112,8 @@
           </td>
           <td><%= user.organization ? user.organization.name : nil %></td>
         <% if current_user.admin? %>
-          <td data-sort-value="<%= user.last_sign_in_at.to_i %>">
-            <%= time_ago_in_words(user.last_sign_in_at) if user.last_sign_in_at %>
+          <td data-sort-value="<%= user.current_sign_in_at.to_i %>">
+            <%= time_ago_in_words(user.current_sign_in_at) if user.current_sign_in_at %>
           </td>
         <% end %>
         </tr>
@@ -137,8 +137,8 @@
           </td>
           <td><%= user.organization ? user.organization.name : nil %></td>
         <% if current_user.admin? %>
-          <td data-sort-value="<%= user.last_sign_in_at.to_i %>">
-            <%= time_ago_in_words(user.last_sign_in_at) if user.last_sign_in_at %>
+          <td data-sort-value="<%= user.current_sign_in_at.to_i %>">
+            <%= time_ago_in_words(user.current_sign_in_at) if user.current_sign_in_at %>
           </td>
         <% end %>
         </tr>

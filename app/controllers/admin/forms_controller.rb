@@ -208,6 +208,8 @@ class Admin::FormsController < AdminController
 
     respond_to do |format|
       if @form.save
+        Event.log_event(Event.names[:form_created], "Form", @form.uuid,"Form #{@form.name} created at #{DateTime.now}", current_user.id)
+
         UserRole.create!({
           user: current_user,
           form: @form,
