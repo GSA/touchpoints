@@ -26,10 +26,10 @@
 <script type="module">
   export default function define(runtime, observer) {
     const main = runtime.module();
-    const fileAttachments = new Map([["flare.json",new URL("/admin/websites/dendrogram_json/<%= '?office=true' if params["office"] == "true" %>",import.meta.url)]]);
+    const fileAttachments = new Map([["flare.json", new URL("/admin/websites/dendrogram_json.json/<%= '?office=true' if params["office"] == "true"  %>", import.meta.url)]]);
     main.builtin("FileAttachment", runtime.fileAttachments(name => fileAttachments.get(name)));
 
-    main.variable(observer("chart")).define("chart", ["tree","d3","data","autoBox"], function(tree,d3,data,autoBox)
+    main.variable(observer("chart")).define("chart", ["tree", "d3", "data", "autoBox"], function(tree,d3,data,autoBox)
   {
     const root = tree(d3.hierarchy(data)
         .sort((a, b) => d3.ascending(a.data.name, b.data.name)));

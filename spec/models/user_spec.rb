@@ -127,8 +127,8 @@ RSpec.describe User, type: :model do
         @user.save
       end
 
-      it 'expires user last_sign_in <= 90 days ago' do
-        @user.last_sign_in_at = 91.days.ago
+      it "expires user current_sign_in_at <= 90 days ago" do
+        @user.current_sign_in_at = 91.days.ago
         @user.inactive = false
         @user.save
         User.deactivate_inactive_accounts!
@@ -136,8 +136,8 @@ RSpec.describe User, type: :model do
         expect(@user.inactive).to be_truthy
       end
 
-      it 'expires user never signed in and created_at <= 90 days ago' do
-        @user.last_sign_in_at = nil
+      it "expires user never signed in and created_at <= 90 days ago" do
+        @user.current_sign_in_at = nil
         @user.created_at = 91.days.ago
         @user.inactive = false
         @user.save
@@ -146,8 +146,8 @@ RSpec.describe User, type: :model do
         expect(@user.inactive).to be_truthy
       end
 
-      it 'finds users who have signed in and are scheduled to deactivate in 1 week' do
-        @user.last_sign_in_at = 83.days.ago
+      it "finds users who have signed in and are scheduled to deactivate in 1 week" do
+        @user.current_sign_in_at = 83.days.ago
         @user.inactive = false
         @user.save
         users = User.deactivation_pending(7)
@@ -156,7 +156,7 @@ RSpec.describe User, type: :model do
 
       it 'finds users who have never signed in and are scheduled to deactivate in 1 week' do
         @user.created_at = 83.days.ago
-        @user.last_sign_in_at = nil
+        @user.current_sign_in_at = nil
         @user.inactive = false
         @user.save
         users = User.deactivation_pending(7)

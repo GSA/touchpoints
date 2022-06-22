@@ -77,7 +77,7 @@ module Admin
 
       respond_to do |format|
         format.json do
-          render 'dendrogram_json.js'
+          render 'dendrogram_json'
         end
       end
     end

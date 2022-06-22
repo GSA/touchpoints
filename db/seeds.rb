@@ -40,7 +40,7 @@ if ENV['DEVELOPER_EMAIL_ADDRESS'].present?
     email: ENV['DEVELOPER_EMAIL_ADDRESS'],
     password: 'password',
     admin: true,
-    last_sign_in_at: Time.now,
+    current_sign_in_at: Time.now,
   })
   developer_user.save!
   puts 'Created Developer User: #{developer_user.email}'
@@ -60,7 +60,7 @@ admin_user = User.new({
   password: 'password',
   admin: true,
   registry_manager: true,
-  last_sign_in_at: Time.now,
+  current_sign_in_at: Time.now,
 })
 admin_user.save!
 puts 'Created Admin User: #{admin_user.email}'
@@ -91,7 +91,7 @@ webmaster = User.new({
   email: 'webmaster@example.gov',
   password: 'password',
   organization: example_gov,
-  last_sign_in_at: Time.now,
+  current_sign_in_at: Time.now,
 })
 webmaster.save!
 puts 'Created #{webmaster.email}'
@@ -100,7 +100,7 @@ touchpoint_manager = User.new({
   email: 'touchpoint_manager@example.gov',
   password: 'password',
   organization: example_gov,
-  last_sign_in_at: Time.now,
+  current_sign_in_at: Time.now,
 })
 touchpoint_manager.save!
 puts 'Created #{touchpoint_manager.email}'
@@ -109,7 +109,7 @@ submission_viewer = User.new({
   email: 'viewer@example.gov',
   password: 'password',
   organization: example_gov,
-  last_sign_in_at: Time.now - 100.days,
+  current_sign_in_at: Time.now - 100.days,
 })
 submission_viewer.save!
 puts 'Created #{submission_viewer.email}'
@@ -445,7 +445,7 @@ end
 digital_gov_user = User.new({
   email: 'user@digital.gov',
   password: 'password',
-  last_sign_in_at: Time.now,
+  current_sign_in_at: Time.now,
 })
 digital_gov_user.save!
 puts 'Created Test User in Secondary Organization: #{digital_gov_user.email}'

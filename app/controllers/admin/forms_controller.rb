@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require 'csv'
 
 module Admin
@@ -190,35 +189,38 @@ module Admin
       ensure_form_manager(form: @form)
     end
 
-    def create
-      ensure_form_manager(form: @form)
+  def create
+    ensure_form_manager(form: @form)
 
-      @form = Form.new(form_params)
+    @form = Form.new(form_params)
 
-      @form.organization_id = current_user.organization_id
-      @form.user_id = current_user.id
-      @form.title = @form.name
-      @form.modal_button_text = t('form.help_improve')
-      @form.success_text_heading = t('success')
-      @form.success_text = t('form.submit_thankyou')
-      @form.delivery_method = 'touchpoints-hosted-only'
-      @form.load_css = true
-      @form.user = current_user unless @form.user
+    @form.organization_id = current_user.organization_id
+    @form.user_id = current_user.id
+    @form.title = @form.name
+    @form.modal_button_text = t('form.help_improve')
+    @form.success_text_heading = t('success')
+    @form.success_text = t('form.submit_thankyou')
+    @form.delivery_method = "touchpoints-hosted-only"
+    @form.load_css = true
+    unless @form.user
+      @form.user = current_user
+    end
 
-      respond_to do |format|
-        if @form.save
-          UserRole.create!({
-                             user: current_user,
-                             form: @form,
-                             role: UserRole::Role::FormManager,
-                           })
+    respond_to do |format|
+      if @form.save
+        Event.log_event(Event.names[:form_created], "Form", @form.uuid,"Form #{@form.name} created at #{DateTime.now}", current_user.id)
 
-          format.html { redirect_to questions_admin_form_path(@form), notice: 'Survey was successfully created.' }
-          format.json { render :show, status: :created, location: @form }
-        else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @form.errors, status: :unprocessable_entity }
-        end
+        UserRole.create!({
+          user: current_user,
+          form: @form,
+          role: UserRole::Role::FormManager
+        })
+
+        format.html { redirect_to questions_admin_form_path(@form), notice: 'Survey was successfully created.' }
+        format.json { render :show, status: :created, location: @form }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @form.errors, status: :unprocessable_entity }
       end
     end
 

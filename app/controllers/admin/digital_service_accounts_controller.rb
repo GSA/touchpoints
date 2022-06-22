@@ -174,17 +174,13 @@ module Admin
     def search
       search_text = params[:search]
       organization_id = params[:organization_id]
-      service_text = params[:service]
 
-      if search_text && search_text.length >= 3
-        @digital_products = DigitalServiceAccount.where("name ilike '%#{search_text}%'")
-      elsif organization_id
-        @digital_products = DigitalServiceAccount.where(organization_id:)
-      elsif service_text
-        @digital_products = DigitalServiceAccount.where("service ilike '%#{search_text}%'")
-      else
-        @digital_products = DigitalServiceAccount.all
-      end
+      @digital_service_accounts = DigitalServiceAccount.all
+      @digital_service_accounts = @digital_service_accounts.where("name ilike '%#{search_text}%'") if search_text && search_text.length >= 3
+      @digital_service_accounts = @digital_service_accounts.tagged_with(organization_id, context: "organizations") if organization_id.present? && organization_id != ''
+      @digital_service_accounts = @digital_service_accounts.where("service = ?", params[:service]) if params[:service].present? && params[:service] != 'All'
+      @digital_service_accounts = @digital_service_accounts.where("aasm_state = ?", params[:aasm_state].downcase) if params[:aasm_state].present? && params[:aasm_state] != 'All'
+      @digital_service_accounts
     end
 
     private

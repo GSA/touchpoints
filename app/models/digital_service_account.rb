@@ -37,10 +37,6 @@ class DigitalServiceAccount < ApplicationRecord
     end
   end
 
-  delegate :name, to: :organization, prefix: true
-
-  delegate :abbreviation, to: :organization, prefix: true
-
   def sponsoring_agencies
     Organization.where(id: organization_list)
   end
