@@ -7,7 +7,7 @@ form_options = {
 
 if question.character_limit && question.character_limit > 0
 form_options.merge!({
-  :onkeyup => "touchpointForm#{form.short_uuid}.textCounter(this,#{question.max_length});",
+  :onkeyup => "touchpointForm#{form.short_uuid}.textCounter(this, #{question.max_length});",
 })
 end
 
