@@ -6,17 +6,12 @@ AllCops:
 
 require: rubocop-rails
 
-
-
 Layout/SpaceAroundOperators:
   AllowForAlignment: false
   EnforcedStyleForExponentOperator: no_space
 
-Layout/ArrayAlignment:
-  Enabled: false
-
-Layout/MultilineMethodCallIndentation:
-  Enabled: false
+Layout/DotPosition:
+  EnforcedStyle: leading
 
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: comma
@@ -27,8 +22,14 @@ Style/TrailingCommaInArrayLiteral:
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: comma
 
-Layout/DotPosition:
-  EnforcedStyle: leading
+Layout/ArrayAlignment:
+  Enabled: false
+
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+
+Style/ConditionalAssignment:
+  Enabled: false
 
 Style/Documentation:
   Enabled: false
