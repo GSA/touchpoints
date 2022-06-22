@@ -109,9 +109,6 @@
     $('#organization_id').on("change", function(event) {
       event.preventDefault();
 
-      // $('.usa-hint.goal-parent-id').show();
-      // $('.usa-hint.goal-parent-id').fadeOut(2000);
-      debugger
       $.ajax({
         url: '/admin/digital_products/search',
         data: {
