@@ -1,6 +1,8 @@
-require_relative "boot"
+# frozen_string_literal: true
 
-require "rails/all"
+require_relative 'boot'
+
+require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -22,14 +24,13 @@ module Touchpoints
 
     # Set list here instead of relying on backend reading translation files in case any file is incomplete
     # and we don't want to include it.
-    config.i18n.available_locales = ['en-US', 'zh-CN', 'es']
+    config.i18n.available_locales = %w[en-US zh-CN es]
 
     # Configure where to look for yml-based i18n files
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
     # Fallback language if translation missing in selected culture
     config.i18n.fallbacks = [I18n.default_locale]
-
 
     config.generators do |g|
       g.test_framework :rspec
@@ -41,7 +42,7 @@ module Touchpoints
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'
-        resource '*', headers: :any, methods: [:get, :post, :options]
+        resource '*', headers: :any, methods: %i[get post options]
       end
     end
 

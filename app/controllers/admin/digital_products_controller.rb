@@ -149,8 +149,8 @@ module Admin
       @digital_products = DigitalProduct.all
       @digital_products = @digital_products.where("name ilike '%#{search_text}%'") if search_text && search_text.length >= 3
       @digital_products = @digital_products.tagged_with(organization_id, context: 'organizations') if organization_id.present? && organization_id != ''
-      @digital_products = @digital_products.where('service = ?', params[:service]) if params[:service].present? && params[:service] != 'All'
-      @digital_products = @digital_products.where('aasm_state = ?', params[:aasm_state].downcase) if params[:aasm_state].present? && params[:aasm_state] != 'All'
+      @digital_products = @digital_products.where(service: params[:service]) if params[:service].present? && params[:service] != 'All'
+      @digital_products = @digital_products.where(aasm_state: params[:aasm_state].downcase) if params[:aasm_state].present? && params[:aasm_state] != 'All'
       @digital_products
     end
 
