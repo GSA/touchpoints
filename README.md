@@ -63,8 +63,11 @@ To run tests (TBD -- this currently does not work with selenium web driver)
 1. docker-compose run webapp rspec
 
 ## Code linting
-- Run script ./rubocop_autocorrect.sh to fix all layout, style and code to confirm to project standars
+- Run script ./rubocop_autocorrect.sh to fix all layout, style and code to confirm to project standards
+
 - copy file ./pre-commit to your .git/hooks/ folder within the project to enforce any changed files adhere to project standards prior to allowing a commit.
+- to get your commit through without running that pre-commit hook, use the --no-verify option
+
 
 ## License
 
