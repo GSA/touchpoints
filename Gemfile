@@ -88,6 +88,7 @@ group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'rails-erd'
   gem 'web-console', '>= 4.2.0'
+  gem 'bullet'
 end
 
 group :test do
