@@ -1,7 +1,9 @@
 <%= form_with(model: website, url: admin_website_path(website), local: true) do |f| %>
   <div class="grid-row">
     <div class="grid-col-6">
-      <h3>Tags</h3>
+      <label class="usa-label" for="tags">
+        Tags
+      </label>
       <div class="tag-list">
         <ul class="usa-list usa-list--unstyled">
           <% website.tag_list.sort.each do |tag| %>

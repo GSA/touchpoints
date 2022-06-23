@@ -71,116 +71,170 @@
 <div class="grid-row grid-gap-md">
   <div class="grid-col-12">
     <small>
+      <span class="fa fa-clock"></span>
       Last updated
       <%= link_to(@website.updated_at.strftime('%Y-%m-%d'), events_admin_website_path(@website)) %>
       &middot;
       <%= time_ago_in_words(@website.updated_at) %> ago
     </small>
-    <div class="grid-row grid-gap-lg">
-      <div class="tablet:grid-col-6">
-        <label class="usa-label" for="domain">
-          Domain
-        </label>
-        <small>
-          The domain of the website, excluding http(s).
-        </small>
-        <br>
-        <%= link_to @website.domain, "https://#{@website.domain}", target: "_blank", rel: "noopener" %>
-      </div>
-      <div class="tablet:grid-col-6">
-        <label class="usa-label" for="redirects_to">
-          Redirects to
-        </label>
-        <%= @website.redirects_to %>
-      </div>
-      <div class="tablet:grid-col-6">
-        <label class="usa-label" for="site_owner_email">
-          Website owner emails
-        </label>
-        <%= @website.site_owner_email %>
+  </div>
+</div>
 
-        <br>
-        <label class="usa-label" for="site_owner_email">
-          Website managers
-        </label>
-        <small>
-          List the staff responsible for the website.
-          <br>
-          See Touchpoints-related responsibilities of a Website Manager
-          <%= link_to "here", "https://github.com/GSA/touchpoints/wiki/Personas#website-manager" %>.
-        </small>
-        <br>
-
-        <% if @website.website_managers.present? %>
-        <ul class="usa-list">
-        <% @website.website_managers.each do |manager| %>
-          <li>
-            <%= link_to manager.email, admin_user_path(manager) %>
-          </li>
-        <% end %>
-        </ul>
-        <% else %>
-        <br>
-        <div class="usa-alert usa-alert--info">
-          <div class="usa-alert__body">
-            <p class="usa-alert__text">
-              No website managers have been defined.
-            </p>
-          </div>
-        </div>
-        <% end %>
-
-        <label class="usa-label" for="site_owner_email">
-          Personas
-        </label>
-
-        <% if @website.personas.present? %>
-        <ul class="usa-list">
-        <% @website.website_personas.each do |persona| %>
-          <li>
-            <%= link_to persona.name, admin_persona_path(persona) %>
-          </li>
-        <% end %>
-        </ul>
-        <% else %>
-        <div class="usa-alert usa-alert--info">
-          <div class="usa-alert__body">
-            <p class="usa-alert__text">
-              No personas have been associated.
-            </p>
-          </div>
-        </div>
-        <% end %>
+<div class="grid-row grid-gap-lg">
+  <div class="tablet:grid-col-6">
+    <label class="usa-label" for="domain">
+      Domain
+    </label>
+    <small>
+      The domain of the website, excluding http(s).
+    </small>
+    <br>
+    <%= link_to @website.domain, "https://#{@website.domain}", target: "_blank", rel: "noopener" %>
+  </div>
+  <div class="tablet:grid-col-6">
+    <label class="usa-label" for="redirects_to">
+      Redirects to
+    </label>
+    <% if @website.redirects_to %>
+    <%= @website.redirects_to %>
+    <% else %>
+    <div class="usa-alert usa-alert--info">
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
+          Not currently redirecting
+        </p>
       </div>
-      <div class="tablet:grid-col-6">
-        <label class="usa-label" for="office">
-          Office
-        </label>
-        <%= @website.office %>
-        &nbsp;
-      </div>
+    </div>
+    <% end %>
+  </div>
+</div>
 
-      <div class="tablet:grid-col-6">
-        <label class="usa-label" for="site_owner_email">
-          Contact email
-        </label>
-        <%= @website.contact_email %>
+<section class="usa-section">
+  <div class="grid-row">
+    <div class="grid-col-12">
+      <h3>
+        Website contact information
+      </h3>
+    </div>
+  </div>
+
+  <div class="grid-row grid-gap-lg">
+    <div class="tablet:grid-col-3">
+      <label class="usa-label" for="office">
+        Office
+      </label>
+      <%= @website.office %>
+      &nbsp;
+    </div>
+    <div class="tablet:grid-col-3">
+      <label class="usa-label" for="office">
+        Sub-office
+      </label>
+      <%= @website.sub_office %>
+    </div>
+  </div>
+</section>
+
+
+<div class="grid-row grid-gap-lg">
+  <div class="grid-col-12">
+    <label class="usa-label" for="site_owner_email">
+      Website owner emails
+    </label>
+    <%= @website.site_owner_email %>
+  </div>
+  <div class="grid-col-12">
+    <label class="usa-label" for="site_owner_email">
+      Website managers
+    </label>
+    <small>
+      List the staff responsible for the website.
+      <br>
+      See Touchpoints-related responsibilities of a Website Manager
+      <%= link_to "here", "https://github.com/GSA/touchpoints/wiki/Personas#website-manager" %>.
+    </small>
+    <br>
+
+    <% if @website.website_managers.present? %>
+    <ul class="usa-list">
+    <% @website.website_managers.each do |manager| %>
+      <li>
+        <%= link_to manager.email, admin_user_path(manager) %>
+      </li>
+    <% end %>
+    </ul>
+    <% else %>
+    <br>
+    <div class="usa-alert usa-alert--info">
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
+          No website managers have been defined.
+        </p>
       </div>
-      <div class="tablet:grid-col-6">
-        <label class="usa-label" for="office">
-          Sub-office
-        </label>
-        <%= @website.sub_office %>
-      </div>
+    </div>
+    <% end %>
+
+    <div class="tablet:grid-col-6">
+      <label class="usa-label" for="site_owner_email">
+        Contact email
+      </label>
+      <%= @website.contact_email %>
     </div>
   </div>
 </div>
 
 <div class="usa-section">
   <h3>
-    Organizational readiness
+    Organizational context
   </h3>
 
+  <div class="grid-row">
+    <div class="grid-col-6">
+      <label class="usa-label" for="required_by_law_or_policy">
+        Service
+      </label>
+      <span class="font-sans-3xs">
+        Optionally, this Website can be associated with a
+        <%= link_to "Service", admin_services_path %>.
+      </span>
+      <% if @website.service %>
+        <p>
+          <%= link_to @website.service.name, admin_service_path(@website.service) %>
+        </p>
+      <% else %>
+      <div class="usa-alert">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            This Website is not associated with a Service.
+          </p>
+        </div>
+      </div>
+      <% end %>
+    </div>
+    <div class="grid-col-6">
+      <label class="usa-label" for="site_owner_email">
+        Personas
+      </label>
+
+      <% if @website.personas.present? %>
+      <ul class="usa-list">
+      <% @website.website_personas.each do |persona| %>
+        <li>
+          <%= link_to persona.name, admin_persona_path(persona) %>
+        </li>
+      <% end %>
+      </ul>
+      <% else %>
+      <div class="usa-alert usa-alert--info">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            No personas have been associated.
+          </p>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
   <div class="grid-row">
     <div class="grid-col-6">
       <label class="usa-label" for="type_of_site">
@@ -257,9 +311,9 @@
       <%= @website.uswds_version || "no answer" %>
       &nbsp;
       <br>
-      <small>
-        (<%= link_to "latest version", "https://designsystem.digital.gov/about/releases/", target: "_blank", rel: "noopener" %>)
-      </small>
+      <span class="font-sans-3xs">
+        <%= link_to "See latest version", "https://designsystem.digital.gov/about/releases/", target: "_blank", rel: "noopener" %>
+      </span>
     </div>
     <div class="grid-col-6">
       <label class="usa-label" for="parent_domain">
