@@ -1,6 +1,22 @@
+<%
+form_options = {
+  prompt: t('form.select_one'),
+  class: "usa-select",
+  required: question.is_required,
+}
+
+if question.help_text.present?
+form_options.merge!({
+  "aria-describedby" => "question-id-#{question.id}-help-text"
+})
+end
+%>
 <div role="group">
   <%= render 'components/question_title_label', question: question %>
   <div class="radio-button">
-    <%= select_tag(question.answer_field.to_sym, options_for_select(question.question_options.each_with_index.map { |option, index| [option.text, option.value] }), { prompt: (t 'form.select_one'), class: "usa-select", required: question.is_required  }) %>
+    <%= select_tag(question.answer_field.to_sym,
+      options_for_select(question.question_options.each_with_index.map { |option, index| [option.text, option.value] }),
+      form_options)
+    %>
   </div>
 </div>
