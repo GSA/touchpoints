@@ -66,6 +66,40 @@ FactoryBot.define do
       end
     end
 
+    trait :star_ratings do
+      name { 'Star Ratings' }
+      kind { 'custom' }
+      after(:create) do |f, _evaluator|
+        Question.create!({
+                           form: f,
+                           form_section: f.form_sections.first,
+                           text: 'Star radio button 1',
+                           question_type: 'star_radio_buttons',
+                           position: 1,
+                           answer_field: :answer_01,
+                           is_required: false,
+                         })
+        Question.create!({
+                           form: f,
+                           form_section: f.form_sections.first,
+                           text: 'Star radio button 2',
+                           question_type: 'star_radio_buttons',
+                           position: 2,
+                           answer_field: :answer_02,
+                           is_required: false,
+                         })
+        Question.create!({
+                           form: f,
+                           form_section: f.form_sections.first,
+                           text: 'Star radio button 3',
+                           question_type: 'star_radio_buttons',
+                           position: 3,
+                           answer_field: :answer_03,
+                           is_required: false,
+                         })
+      end
+    end
+
     trait :custom do
       name { 'Custom Test form' }
       kind { 'custom' }
