@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'csv'
 
 module Admin
@@ -200,21 +201,19 @@ module Admin
       @form.modal_button_text = t('form.help_improve')
       @form.success_text_heading = t('success')
       @form.success_text = t('form.submit_thankyou')
-      @form.delivery_method = "touchpoints-hosted-only"
+      @form.delivery_method = 'touchpoints-hosted-only'
       @form.load_css = true
-      unless @form.user
-        @form.user = current_user
-      end
+      @form.user = current_user unless @form.user
 
       respond_to do |format|
         if @form.save
-          Event.log_event(Event.names[:form_created], "Form", @form.uuid,"Form #{@form.name} created at #{DateTime.now}", current_user.id)
+          Event.log_event(Event.names[:form_created], 'Form', @form.uuid, "Form #{@form.name} created at #{DateTime.now}", current_user.id)
 
           UserRole.create!({
-            user: current_user,
-            form: @form,
-            role: UserRole::Role::FormManager
-          })
+                             user: current_user,
+                             form: @form,
+                             role: UserRole::Role::FormManager,
+                           })
 
           format.html { redirect_to questions_admin_form_path(@form), notice: 'Survey was successfully created.' }
           format.json { render :show, status: :created, location: @form }
