@@ -62,6 +62,10 @@ To start/stop after building
 To run tests (TBD -- this currently does not work with selenium web driver)
 1. docker-compose run webapp rspec
 
+## Code linting
+- Run script ./rubocop_autocorrect.sh to fix all layout, style and code to confirm to project standars
+- copy file ./pre-commit to your .git/hooks/ folder within the project to enforce any changed files adhere to project standards prior to allowing a commit.
+
 ## License
 
 See [LICENSE](LICENSE.md)
