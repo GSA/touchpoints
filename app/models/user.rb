@@ -124,14 +124,12 @@ class User < ApplicationRecord
   def self.deactivate_inactive_accounts!
     # Find all accounts scheduled to be deactivated in 14 days
     users = User.active.where('(current_sign_in_at ISNULL AND created_at <= ?) OR (current_sign_in_at <= ?)', 90.days.ago, 90.days.ago)
-    users.each do |user|
-      user.deactivate!
-    end
+    users.each(&:deactivate!)
   end
 
   def self.to_csv
     active_users = order('email')
-    return nil unless active_users.present?
+    return nil if active_users.blank?
 
     header_attributes = %w[organization_name email current_sign_in_at]
     attributes = active_users.map do |u|

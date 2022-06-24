@@ -99,6 +99,8 @@
       <% if @digital_product.service? %>
         <%= @digital_product.service %>
       <% else %>
+        <br>
+        <br>
         <div class="usa-alert">
           <div class="usa-alert__body">
             <p class="usa-alert__text">
@@ -108,7 +110,7 @@
         </div>
       <% end %>
     </div>
-
+    <br>
   </div>
   <div class="desktop:grid-col-4">
     <% if digital_product_permissions?(digital_product: @digital_product, user: current_user) && @digital_product.created? || !@digital_product.archived? %>
