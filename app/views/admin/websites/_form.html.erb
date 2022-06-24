@@ -114,7 +114,7 @@
   <br>
   <br>
 
-  <div class="grid-row grid-gap">
+  <div class="grid-row grid-gap-lg">
     <% if @website.persisted? %>
     <div class="grid-col-6">
       <h3>
@@ -129,7 +129,7 @@
         <small>
           Associate this website with a <%= link_to "Service", admin_services_path %>.
         </small>
-        <%= form.select :service_id, options_for_select(Service.all.includes(:organization).order("organizations.name").collect { |service| "#{service.organization.name} - #{service.name}" }, selected: website.type_of_site), { include_blank: true }, { class: "usa-select" } %>
+        <%= form.select :service_id, options_for_select(Service.all.includes(:organization).order("organizations.name").collect { |service| ["#{service.organization.name} - #{service.name}", service.id] }, selected: website.service_id), { include_blank: true }, { class: "usa-select" } %>
       </div>
       <div class="field">
         <%= form.label :type_of_site, class: "usa-label" %>

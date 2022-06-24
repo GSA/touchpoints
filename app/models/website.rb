@@ -14,6 +14,7 @@ class Website < ApplicationRecord
   validates :type_of_site, presence: true
 
   belongs_to :organization, optional: true
+  belongs_to :service, optional: true
 
   scope :active, -> { where("production_status = 'production' OR production_status = 'newly_requested' OR production_status = 'request_approved'") }
 
