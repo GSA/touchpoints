@@ -1,4 +1,18 @@
+<%
+form_options = {
+  type: :email,
+  class: "usa-input",
+  required: question.is_required,
+}
+
+if question.help_text.present?
+form_options.merge!({
+  "aria-describedby" => "question-id-#{question.id}-help-text"
+})
+end
+%>
+
 <div role="group">
   <%= render 'components/question_title_label', question: question %>
-  <%= text_field_tag question.answer_field.to_sym, nil, type: :email, class: "usa-input", required: question.is_required %>
+  <%= text_field_tag question.answer_field.to_sym, nil, form_options %>
 </div>

@@ -1,7 +1,7 @@
 <div class="usa-label">
   <%= question.text %>
   <% if question.help_text? %>
-  <p>
+  <p id="question-id-#{question.id}-help-text">
     <small>
       <%= question.help_text %>
     </small>

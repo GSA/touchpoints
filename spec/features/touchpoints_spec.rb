@@ -361,8 +361,7 @@ feature 'Touchpoints', js: true do
 
       before do
         visit submit_touchpoint_path(custom_form)
-        find("label[for='star4']").click
-        # fill_in("answer_02", with: "User feedback")
+        find("label[for='answer_01_star4']").click
         fill_in('answer_03', with: 'User feedback')
         click_button 'Submit'
       end
@@ -376,6 +375,29 @@ feature 'Touchpoints', js: true do
         expect(last_submission.answer_01).to eq '4'
         # expect(last_submission.answer_02).to eq "TEST_LOCATION_CODE"
         expect(last_submission.answer_03).to eq 'User feedback'
+      end
+    end
+
+    describe 'Multiple Star Ratings Form' do
+      let!(:custom_form) { FactoryBot.create(:form, :star_ratings, organization:, user:) }
+
+      before do
+        visit submit_touchpoint_path(custom_form)
+        find("label[for='answer_01_star1']").click
+        find("label[for='answer_02_star2']").click
+        find("label[for='answer_03_star3']").click
+        click_button 'Submit'
+      end
+
+      it 'can save form values for each star rating question' do
+        expect(page).to have_content('Thank you. Your feedback has been received.')
+
+        # Asserting against the database/model directly here isn't ideal.
+        # An alternative is to send location_code back to the client and assert against it
+        last_submission = Submission.last
+        expect(last_submission.answer_01).to eq '1'
+        expect(last_submission.answer_02).to eq '2'
+        expect(last_submission.answer_03).to eq '3'
       end
     end
   end
