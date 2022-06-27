@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class UpdateOmbQuestionTypes < ActiveRecord::Migration[6.1]
   def change
     (1..11).each do |i|

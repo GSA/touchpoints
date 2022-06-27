@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class AddPerformanceManagerFlag < ActiveRecord::Migration[6.1]
   def change
     add_column :users, :performance_manager, :boolean, default: false

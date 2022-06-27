@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class AddEarlySubmissionToForms < ActiveRecord::Migration[5.2]
   def change
     add_column :forms, :early_submission, :boolean, default: false

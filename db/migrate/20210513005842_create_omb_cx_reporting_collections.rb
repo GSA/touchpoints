@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CreateOmbCxReportingCollections < ActiveRecord::Migration[6.1]
   def change
     create_table :omb_cx_reporting_collections do |t|

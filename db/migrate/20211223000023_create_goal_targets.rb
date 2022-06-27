@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CreateGoalTargets < ActiveRecord::Migration[6.1]
   def change
     create_table :goal_targets do |t|

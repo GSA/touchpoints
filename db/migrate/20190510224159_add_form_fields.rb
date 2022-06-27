@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class AddFormFields < ActiveRecord::Migration[5.2]
   def change
     add_column :forms, :question_text_01, :text

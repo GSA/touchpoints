@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class AddServiceToWebsite < ActiveRecord::Migration[6.1]
   def change
     add_column :websites, :service_id, :integer

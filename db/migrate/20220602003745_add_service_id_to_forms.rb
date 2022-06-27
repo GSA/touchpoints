@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class AddServiceIdToForms < ActiveRecord::Migration[7.0]
   def change
     add_column :forms, :service_id, :integer

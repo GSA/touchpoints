@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CreateDigitalServiceAccounts < ActiveRecord::Migration[6.1]
   def change
     create_table :digital_service_accounts do |t|

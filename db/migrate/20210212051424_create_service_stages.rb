@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CreateServiceStages < ActiveRecord::Migration[5.2]
   def change
     create_table :service_stages do |t|

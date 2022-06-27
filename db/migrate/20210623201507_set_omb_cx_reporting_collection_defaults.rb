@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class SetOmbCxReportingCollectionDefaults < ActiveRecord::Migration[6.1]
   def change
     change_column_default :omb_cx_reporting_collections, :volume_of_customers, 0

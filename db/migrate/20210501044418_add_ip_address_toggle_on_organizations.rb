@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class AddIpAddressToggleOnOrganizations < ActiveRecord::Migration[6.1]
   def change
     add_column :organizations, :enable_ip_address, :boolean, default: true

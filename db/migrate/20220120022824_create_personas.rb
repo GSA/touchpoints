@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CreatePersonas < ActiveRecord::Migration[6.1]
   def change
     create_table :personas do |t|

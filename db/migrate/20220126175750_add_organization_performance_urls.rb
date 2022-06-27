@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class AddOrganizationPerformanceUrls < ActiveRecord::Migration[6.1]
   def change
     add_column :organizations, :performance_url, :string
