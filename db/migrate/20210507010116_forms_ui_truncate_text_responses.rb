@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FormsUiTruncateTextResponses < ActiveRecord::Migration[6.1]
   def change
     add_column :forms, :ui_truncate_text_responses, :boolean, default: true

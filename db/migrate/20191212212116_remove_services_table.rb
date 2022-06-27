@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveServicesTable < ActiveRecord::Migration[5.2]
   def change
     remove_column :touchpoints, :service_id

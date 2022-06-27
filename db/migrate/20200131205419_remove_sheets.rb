@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveSheets < ActiveRecord::Migration[5.2]
   def change
     remove_column :touchpoints, :enable_google_sheets

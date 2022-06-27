@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateFormSections < ActiveRecord::Migration[5.2]
   def change
     create_table :form_sections do |t|

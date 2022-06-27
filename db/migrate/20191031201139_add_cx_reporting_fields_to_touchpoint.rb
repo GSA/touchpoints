@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCxReportingFieldsToTouchpoint < ActiveRecord::Migration[5.2]
   def change
     add_column :touchpoints, :medium, :string

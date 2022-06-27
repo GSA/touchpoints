@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class AddUrlToService < ActiveRecord::Migration[6.1]
   def change
-    add_column :services, :url, :string, default: ""
+    add_column :services, :url, :string, default: ''
   end
 end

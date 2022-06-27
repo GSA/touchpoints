@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddLoadCssToForms < ActiveRecord::Migration[5.2]
   def change
     add_column :forms, :load_css, :boolean, default: false

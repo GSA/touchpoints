@@ -1,7 +1,7 @@
+# frozen_string_literal: true
+
 class CreatePraRecords < ActiveRecord::Migration[5.2]
-
   def change
-
     add_column :forms, :uuid, :string
     add_index :forms, :uuid
 
@@ -39,7 +39,8 @@ class CreatePraRecords < ActiveRecord::Migration[5.2]
     # Update Touchpoint -> Form
     # Update Organization -> Form
     Touchpoint.all.each do |touchpoint|
-      next unless touchpoint.form.present?
+      next if touchpoint.form.blank?
+
       # Migrate Touchpoint data to the Form
       form = touchpoint.form
       # Use the existing Form's name
@@ -75,7 +76,7 @@ class CreatePraRecords < ActiveRecord::Migration[5.2]
 
     # Update Submission -> Form
     Touchpoint.all.each do |touchpoint|
-      next unless touchpoint.form.present?
+      next if touchpoint.form.blank?
 
       touchpoint.submissions.update_all(form_id: touchpoint.form.id)
     end
@@ -85,9 +86,7 @@ class CreatePraRecords < ActiveRecord::Migration[5.2]
       next unless role.touchpoint && role.touchpoint.form.present?
 
       role.form_id = role.touchpoint.form_id
-      if role.role == UserRole::Role::TouchpointManager
-        role.role = UserRole::Role::FormManager
-      end
+      role.role = UserRole::Role::FormManager if role.role == UserRole::Role::TouchpointManager
       role.save!
     end
   end

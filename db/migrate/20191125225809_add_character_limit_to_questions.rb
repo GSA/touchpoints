@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCharacterLimitToQuestions < ActiveRecord::Migration[5.2]
   def change
     add_column :questions, :character_limit, :integer

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCharacterLimitToForms < ActiveRecord::Migration[5.2]
   def change
     add_column :forms, :character_limit, :integer, default: 0

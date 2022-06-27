@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveFormQuestionTexts < ActiveRecord::Migration[5.2]
   def change
     remove_column :forms, :question_text_01

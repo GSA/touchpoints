@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This migration comes from acts_as_taggable_on_engine (originally 6)
 if ActiveRecord.gem_version >= Gem::Version.new('5.0')
   class AddMissingIndexesOnTaggings < ActiveRecord::Migration[4.2]; end
@@ -12,12 +14,8 @@ AddMissingIndexesOnTaggings.class_eval do
     add_index ActsAsTaggableOn.taggings_table, :tagger_id unless index_exists? ActsAsTaggableOn.taggings_table, :tagger_id
     add_index ActsAsTaggableOn.taggings_table, :context unless index_exists? ActsAsTaggableOn.taggings_table, :context
 
-    unless index_exists? ActsAsTaggableOn.taggings_table, [:tagger_id, :tagger_type]
-      add_index ActsAsTaggableOn.taggings_table, [:tagger_id, :tagger_type]
-    end
+    add_index ActsAsTaggableOn.taggings_table, %i[tagger_id tagger_type] unless index_exists? ActsAsTaggableOn.taggings_table, %i[tagger_id tagger_type]
 
-    unless index_exists? ActsAsTaggableOn.taggings_table, [:taggable_id, :taggable_type, :tagger_id, :context], name: 'taggings_idy'
-      add_index ActsAsTaggableOn.taggings_table, [:taggable_id, :taggable_type, :tagger_id, :context], name: 'taggings_idy'
-    end
+    add_index ActsAsTaggableOn.taggings_table, %i[taggable_id taggable_type tagger_id context], name: 'taggings_idy' unless index_exists? ActsAsTaggableOn.taggings_table, %i[taggable_id taggable_type tagger_id context], name: 'taggings_idy'
   end
 end

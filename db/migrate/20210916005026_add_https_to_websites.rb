@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddHttpsToWebsites < ActiveRecord::Migration[6.1]
   def change
     add_column :websites, :https, :boolean

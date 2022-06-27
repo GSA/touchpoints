@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveCustomA11Fields < ActiveRecord::Migration[5.2]
   def change
     remove_column :submissions, :first_name
