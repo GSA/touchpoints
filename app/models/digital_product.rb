@@ -44,6 +44,7 @@ class DigitalProduct < ApplicationRecord
     products = products["mobile_apps"]
     products.each do |product|
       hash = {
+        id: product['id'],
         name: product['name'],
         short_description: product['short_description'],
         long_description: product['long_description'],

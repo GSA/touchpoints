@@ -658,4 +658,5 @@ Persona.create!({
 puts 'Created Admin User Pesonas: #{admin_user.email}'
 
 DigitalProduct.import
+DigitalProductVersion.import
 DigitalServiceAccount.import
