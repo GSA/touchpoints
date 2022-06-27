@@ -45,6 +45,29 @@ class DigitalServiceAccount < ApplicationRecord
     User.with_role(:contact, self)
   end
 
+  def self.import
+    DigitalServiceAccount.delete_all
+    file = File.read("#{Rails.root}/db/seeds/json/outlets.json")
+    accounts = JSON.parse(file)
+    Rails.logger.debug { "Found #{accounts.size} Accounts" }
+
+    accounts.each do |account|
+      hash = {
+        name: account['service_display_name'],
+        short_description: account['short_description'],
+        long_description: account['long_description'],
+        service_url: account['service_url'],
+        language: account['language'],
+        account: account['account'],
+        service: account['service_key'],
+        organization: Organization.first,
+        user: User.first,
+      }
+      DigitalServiceAccount.create!(hash)
+    end
+    Rails.logger.debug 'Loaded DigitalServiceAccount'
+  end
+
   def self.load_service_accounts
     DigitalServiceAccount.delete_all
 
