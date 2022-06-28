@@ -55,13 +55,13 @@ class DigitalServiceAccount < ApplicationRecord
     accounts.each do |account|
       hash = {
         id: account['id'],
-        name: account['service_display_name'],
+        name: account['account'].present? ? account['account'] : account['service'],
         short_description: account['short_description'],
         long_description: account['long_description'],
         service_url: account['service_url'],
         language: account['language'],
         account: account['account'],
-        service: account['service_key']
+        service: account['service']
       }
       DigitalServiceAccount.create!(hash)
     end
