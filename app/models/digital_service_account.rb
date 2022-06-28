@@ -49,19 +49,19 @@ class DigitalServiceAccount < ApplicationRecord
     DigitalServiceAccount.delete_all
     file = File.read("#{Rails.root}/db/seeds/json/outlets.json")
     accounts = JSON.parse(file)
-    accounts = accounts["outlets"]
+    accounts = accounts['outlets']
     Rails.logger.debug { "Found #{accounts.size} Accounts" }
 
     accounts.each do |account|
       hash = {
         id: account['id'],
-        name: account['account'].present? ? account['account'] : account['service'],
+        name: account['account'].presence || account['service'],
         short_description: account['short_description'],
         long_description: account['long_description'],
         service_url: account['service_url'],
         language: account['language'],
         account: account['account'],
-        service: account['service']
+        service: account['service'],
       }
       DigitalServiceAccount.create!(hash)
     end
