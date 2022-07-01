@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Admin
-  class DigitalProductVersionsController < ApplicationController
+  class DigitalProductVersionsController < AdminController
     before_action :set_digital_product
     before_action :set_digital_product_version, only: %i[show edit update destroy]
 

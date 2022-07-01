@@ -13,13 +13,23 @@
 </p>
 
 <p>
-  <strong>Name:</strong>
+  <strong>Name</strong>
+  <br>
   <%= @offering.name %>
 </p>
 
-<% if @offering.service %>
   <p>
-    <strong>Service:</strong>
-    <%= link_to @offering.service.name, admin_service_path(@offering.service) if @offering.service %>
+    <strong>Service</strong>
+    <br>
+    <% if @offering.service %>
+      <%= link_to @offering.service.name, admin_service_path(@offering.service) if @offering.service %>
+    <% else %>
+    <div class="usa-alert usa-alert--warning">
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
+          This Offering is not currently associated with a Service.
+        </p>
+      </div>
+    </div>
+    <% end %>
   </p>
-<% end %>
