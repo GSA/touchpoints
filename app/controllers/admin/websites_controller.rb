@@ -43,11 +43,11 @@ module Admin
 
     def index
       if params[:all]
-        @websites = Website.all.order(:production_status, :domain)
+        @websites = Website.all.includes(:taggings).order(:production_status, :domain)
       else
-        @websites = Website.active.order(:production_status, :domain)
+        @websites = Website.active.includes(:taggings).order(:production_status, :domain)
       end
-      @tags = Website.tag_counts_by_name
+      @tags = Website.includes(:taggings).tag_counts_by_name
     end
 
     def review
@@ -327,7 +327,8 @@ module Admin
                                       :authentication_tool,
                                       :repository_url,
                                       :notes,
-                                      :tag_list)
+                                      :tag_list,
+                                      :service_id)
     end
   end
 end
