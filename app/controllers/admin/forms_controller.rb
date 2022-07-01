@@ -410,7 +410,7 @@ module Admin
     private
 
     def set_form
-      @form = Form.find_by_short_uuid(params[:id])
+      @form = Form.includes(:organization).find_by_short_uuid(params[:id])
       redirect_to admin_forms_path, notice: "no survey with ID of #{params[:id]}" unless @form
     end
 
