@@ -23,7 +23,7 @@ class DigitalProductVersion < ApplicationRecord
         whats_new: version['whats_new'],
         screenshot_url: version['screenshot'],
         device: version['device'],
-        language: version['languag'],
+        language: version['language'],
         average_rating: version['average_rating'],
         number_of_ratings: version['number_of_ratings'],
       }
