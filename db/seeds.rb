@@ -655,8 +655,10 @@ Persona.create!({
   name: 'Example Persona 3'
 })
 
-puts 'Created Admin User Pesonas: #{admin_user.email}'
+puts 'Created User Personas: #{admin_user.email}'
 
 DigitalProduct.import
 DigitalProductVersion.import
 DigitalServiceAccount.import
+
+puts 'Loaded Digital Products, Digital Product Versions, and Digital Service Accounts'
