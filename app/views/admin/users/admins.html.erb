@@ -43,9 +43,7 @@
         <% end %>
         </tr>
       <% end %>
-    </tbody>
 
-    <tbody>
       <% @service_managers.each do |user| %>
         <tr class="user" data-id="<%= user.id %>">
         <% if current_user.admin? %>
@@ -68,9 +66,7 @@
         <% end %>
         </tr>
       <% end %>
-    </tbody>
 
-    <tbody>
       <% @performance_managers.each do |user| %>
         <tr class="user" data-id="<%= user.id %>">
         <% if current_user.admin? %>
@@ -93,9 +89,7 @@
         <% end %>
         </tr>
       <% end %>
-    </tbody>
 
-    <tbody>
       <% @registry_managers.each do |user| %>
         <tr class="user" data-id="<%= user.id %>">
         <% if current_user.admin? %>
@@ -118,9 +112,7 @@
         <% end %>
         </tr>
       <% end %>
-    </tbody>
 
-    <tbody>
       <% @website_managers.each do |user| %>
         <tr class="user" data-id="<%= user.id %>">
         <% if current_user.admin? %>
