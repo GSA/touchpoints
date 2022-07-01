@@ -51,6 +51,7 @@ module Admin
 
       respond_to do |format|
         if @organization.save
+          Event.log_event(Event.names[:organization_created], 'Organization', @organization.id, "Organization #{@organization.name} created at #{DateTime.now}", current_user.id)
           format.html { redirect_to admin_organization_path(@organization), notice: 'Organization was successfully created.' }
           format.json { render :show, status: :created, location: @organization }
         else
@@ -117,6 +118,7 @@ module Admin
 
       respond_to do |format|
         if @organization.update(organization_params)
+          Event.log_event(Event.names[:organization_updated], 'Organization', @organization.id, "Organization #{@organization.name} updated at #{DateTime.now}", current_user.id)
           format.html { redirect_to admin_organization_path(@organization), notice: 'Organization was successfully updated.' }
           format.json { render :show, status: :ok, location: @organization }
         else
@@ -144,6 +146,8 @@ module Admin
       ensure_admin
 
       @organization.destroy
+      Event.log_event(Event.names[:organization_deleted], 'Organization', @organization.id, "Organization #{@organization.name} deleted at #{DateTime.now}", current_user.id)
+
       respond_to do |format|
         format.html { redirect_to admin_organizations_url, notice: 'Organization was successfully destroyed.' }
         format.json { head :no_content }

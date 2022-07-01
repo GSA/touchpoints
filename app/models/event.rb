@@ -70,6 +70,10 @@ class Event < ApplicationRecord
     digital_service_account_archived: 'digital_service_account_archived',
     digital_service_account_reset: 'digital_service_account_reset',
     digital_service_account_deleted: 'digital_service_account_deleted',
+
+    organization_created: 'organization_created',
+    organization_updated: 'organization_updated',
+    organization_deleted: 'organization_deleted',
   }
 
   def self.log_event(ename, otype, oid, desc, uid = nil)

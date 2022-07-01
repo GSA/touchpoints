@@ -49,7 +49,7 @@
     <%= header_fields.join(",") %>
     <br>
   <% ServiceProvider.active.includes(:organization).order("organizations.name", :name).each do |service_provider| %>
-    <% service_provider.services.includes(:organization).order("organizations.name", :name).each do |service| %>
+    <% service_provider.services.includes(:organization, :omb_cx_reporting_collections).order("organizations.name", :name).each do |service| %>
       <% if params[:quarter] %>
         <% @collections = service.collections.where(quarter: params[:quarter]) %>
       <% else %>

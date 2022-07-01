@@ -17,7 +17,7 @@
   </div>
   <div class="field">
     <%= form.label :service_id, "Service", class: "usa-label" %>
-    <%= form.select :service_id, options_for_select(Service.all.map { |s| [s.name, s.id] }, offering.try(:service_id) ), { prompt: "Which Service?" }, { class: "usa-select" } %>
+    <%= form.select :service_id, options_for_select(Service.all.includes(:organization).order("organizations.name", "services.name").map { |s| ["#{s.organization.name} - #{s.name}", s.id] }, offering.try(:service_id) ), { prompt: "Which Service?" }, { class: "usa-select" } %>
   </div>
 
   <% if offering.persisted? %>
