@@ -109,6 +109,20 @@ FactoryBot.define do
       name { 'Open-ended Test form' }
       kind { 'custom' }
       after(:create) do |f, _evaluator|
+
+        FactoryBot.create(:question,
+                          form: f,
+                          answer_field: :answer_01,
+                          question_type: 'textarea',
+                          form_section: f.form_sections.first,
+                          text: 'Test Open Area')
+      end
+    end
+
+    trait :two_question_open_ended_form do
+      name { 'Open-ended Test form' }
+      kind { 'custom' }
+      after(:create) do |f, _evaluator|
         FactoryBot.create(:question,
                           form: f,
                           answer_field: :answer_01,
