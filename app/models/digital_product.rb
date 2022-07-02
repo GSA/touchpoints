@@ -37,6 +37,23 @@ class DigitalProduct < ApplicationRecord
     end
   end
 
+  def self.import
+    DigitalProduct.delete_all
+    file = File.read("#{Rails.root}/db/seeds/json/mobile_apps.json")
+    products = JSON.parse(file)
+    products = products['mobile_apps']
+    products.each do |product|
+      hash = {
+        id: product['id'],
+        name: product['name'],
+        short_description: product['short_description'],
+        long_description: product['long_description'],
+        language: product['language'],
+      }
+      DigitalProduct.create!(hash)
+    end
+  end
+
   def self.load_digital_products
     DigitalProduct.delete_all
 
