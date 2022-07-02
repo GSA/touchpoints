@@ -309,7 +309,7 @@ feature 'Touchpoints', js: true do
       end
 
       it 'regression: does not display invisible error message inputs' do
-        expect(page).to have_no_css('input', visible: true)
+        expect(page).to have_no_css('input#fba_directive', visible: true)
       end
 
       it 'can successfully submit after completing the required question' do
@@ -319,23 +319,35 @@ feature 'Touchpoints', js: true do
       end
     end
 
-    describe 'character_limit' do
-      before do
-        question = form.questions.first
-        question.update(character_limit: 150)
-        visit touchpoint_path(form)
-        expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
-        expect(page).to have_content("OMB Approval ##{form.omb_approval_number}")
-        expect(page).to have_content("Expiration Date #{form.expiration_date.strftime('%m/%d/%Y')}")
-        fill_in('answer_01', with: 'T' * 145)
+    context 'character_limit' do
+      describe 'without character_limit' do
+        before do
+          question = form.questions.first
+          visit touchpoint_path(form)
+        end
+
+        it 'does not display character count messaging' do
+          expect(page).to_not have_content("characters")
+          expect(page).to_not have_content("allowed")
+        end
       end
 
-      describe 'character counter' do
+      describe 'with character_limit' do
+        before do
+          question = form.questions.first
+          question.update(character_limit: 150)
+          visit touchpoint_path(form)
+          expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
+          expect(page).to have_content("OMB Approval ##{form.omb_approval_number}")
+          expect(page).to have_content("Expiration Date #{form.expiration_date.strftime('%m/%d/%Y')}")
+          fill_in('answer_01', with: 'T' * 145)
+        end
+
         it 'updates character count' do
           expect(page).to have_content('5 characters left')
         end
       end
-    end
+    end # context
 
     describe '/touchpoints?location_code=' do
       before do
