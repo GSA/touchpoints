@@ -139,22 +139,24 @@
 <div class="grid-row grid-gap-lg">
   <div class="grid-col-12">
     <label class="usa-label" for="site_owner_email">
-      Website owner emails
+      Primary website contact
+      <span class="fa fa-info-circle usa-tooltip"
+        data-position="right"
+        title="Typically, the Product Owner or Program Manager of a web property.">
+      </span>
     </label>
-    <%= @website.site_owner_email %>
+    <p>
+      <%= @website.site_owner_email %>
+    </p>
   </div>
   <div class="grid-col-12">
     <label class="usa-label" for="site_owner_email">
-      Website managers
+      Additional website contacts
+      <span class="fa fa-info-circle usa-tooltip"
+        data-position="right"
+        title="A list of additional staff responsible for the website.">
+      </span>
     </label>
-    <small>
-      List the staff responsible for the website.
-      <br>
-      See Touchpoints-related responsibilities of a Website Manager
-      <%= link_to "here", "https://github.com/GSA/touchpoints/wiki/Personas#website-manager" %>.
-    </small>
-    <br>
-
     <% if @website.website_managers.present? %>
     <ul class="usa-list">
     <% @website.website_managers.each do |manager| %>
@@ -168,7 +170,7 @@
     <div class="usa-alert usa-alert--info">
       <div class="usa-alert__body">
         <p class="usa-alert__text">
-          No website managers have been defined.
+          No additional website contacts.
         </p>
       </div>
     </div>
@@ -176,9 +178,15 @@
 
     <div class="tablet:grid-col-6">
       <label class="usa-label" for="site_owner_email">
-        Contact email
+        Public website email
+        <span class="fa fa-info-circle usa-tooltip"
+          data-position="right"
+          title="The email address the public would use to contact for help.">
+        </span>
       </label>
-      <%= @website.contact_email %>
+      <p>
+        <%= @website.contact_email %>
+      </p>
     </div>
   </div>
 </div>

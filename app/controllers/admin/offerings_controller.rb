@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Admin
-  class OfferingsController < ApplicationController
+  class OfferingsController < AdminController
     before_action :set_offering, only: %i[show edit update destroy add_offering_persona remove_offering_persona]
 
     before_action :set_offering_persona_options, only: %i[
