@@ -7,8 +7,9 @@
   <% @users.map { |user| @user_email_map[user.id] = user.email } %>
   <thead>
   <tr>
+    <th>Event ID</th>
     <th>Object Type</th>
-    <th>ID</th>
+    <th>Object ID</th>
     <th>Description</th>
     <th>User</th>
     <th>Created at</th>
@@ -17,7 +18,8 @@
   </thead>
   <tbody>
     <% @events.reverse.each do |event| %>
-    <tr>
+    <tr data-id="<%= event.id %>">
+      <td><%= event.id %></td>
       <td><%= event.object_type %></td>
       <td><%= event.object_id %></td>
       <td><%= event.description %></td>
