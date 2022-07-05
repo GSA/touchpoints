@@ -1,0 +1,20 @@
+<% content_for :navigation_title do %>
+Event
+<% end %>
+
+<div class="code">
+  <table class="usa-table">
+    <tbody>
+      <% @event.attributes.each_pair do |k,v| %>
+      <tr>
+        <td>
+          <%= k %>
+        </td>
+        <td>
+          <%= v %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

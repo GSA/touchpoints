@@ -328,7 +328,8 @@ Rails.application.routes.draw do
     get 'performance', to: 'performance#index', as: :performance
     get 'performance/apg', to: 'performance#apgs', as: :apgs
     get 'management', to: 'site#management', as: :management
-    get 'events', to: 'site#events', as: :events
+    get 'events', to: 'events#index', as: :events
+    get 'events/:id', to: 'events#show', as: :event
     get 'events/export', to: 'site#events_export', as: :export_events
     root to: 'forms#index'
     get 'feed', to: 'submissions#feed', as: :feed

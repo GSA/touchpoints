@@ -135,7 +135,6 @@
   </div>
 </section>
 
-
 <div class="grid-row grid-gap-lg">
   <div class="grid-col-12">
     <label class="usa-label" for="site_owner_email">
@@ -145,10 +144,25 @@
         title="Typically, the Product Owner or Program Manager of a web property.">
       </span>
     </label>
+
     <p>
+    <% if @website.site_owner_email %>
       <%= @website.site_owner_email %>
+    <% else %>
+      <div class="usa-alert usa-alert--warning">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            A primary contact is not identified.
+            Please assign a primary contact.
+          </p>
+        </div>
+      </div>
+    <% end %>
     </p>
   </div>
+</div>
+
+<div class="grid-row">
   <div class="grid-col-12">
     <label class="usa-label" for="site_owner_email">
       Additional website contacts
@@ -157,6 +171,7 @@
         title="A list of additional staff responsible for the website.">
       </span>
     </label>
+
     <% if @website.website_managers.present? %>
     <ul class="usa-list">
     <% @website.website_managers.each do |manager| %>
@@ -166,7 +181,6 @@
     <% end %>
     </ul>
     <% else %>
-    <br>
     <div class="usa-alert usa-alert--info">
       <div class="usa-alert__body">
         <p class="usa-alert__text">
@@ -175,19 +189,30 @@
       </div>
     </div>
     <% end %>
+  </div>
 
-    <div class="tablet:grid-col-6">
-      <label class="usa-label" for="site_owner_email">
-        Public website email
-        <span class="fa fa-info-circle usa-tooltip"
-          data-position="right"
-          title="The email address the public would use to contact for help.">
-        </span>
-      </label>
-      <p>
-        <%= @website.contact_email %>
-      </p>
-    </div>
+  <div class="grid-col-12">
+    <label class="usa-label" for="site_owner_email">
+      Public website email
+      <span class="fa fa-info-circle usa-tooltip"
+        data-position="right"
+        title="The email address the public would use to contact for help.">
+      </span>
+    </label>
+    <p>
+    <% if @website.contact_email %>
+      <%= @website.contact_email %>
+    <% else %>
+      <div class="usa-alert usa-alert--warning">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            A public website email is not specified.
+            Please update the public website email address.
+          </p>
+        </div>
+      </div>
+    <% end %>
+    </p>
   </div>
 </div>
 
@@ -196,7 +221,7 @@
     Organizational context
   </h3>
 
-  <div class="grid-row">
+  <div class="grid-row grid-gap-lg">
     <div class="grid-col-6">
       <label class="usa-label" for="required_by_law_or_policy">
         Service
