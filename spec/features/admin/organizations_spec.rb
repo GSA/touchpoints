@@ -44,7 +44,7 @@ feature 'Managing Organizations', js: true do
       it 'successfully re-orders goals for an organization' do
         visit performance_admin_organization_path(organization)
         goal_list.each do |goal|
-          expect(goal.position).to be_nil
+          expect(goal.position).to eq(0)
         end
         find('#goal_3').drag_to(find('#goal_1'))
         wait_for_ajax
