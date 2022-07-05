@@ -26,11 +26,7 @@ module Admin
 
       form_ids = todays_submissions.collect(&:form_id).uniq
       @recent_forms = Form.find(form_ids)
-    end
-
-    def events
-      @events = Event.limit(500).order('created_at DESC').page params[:page]
-    end
+    end  
 
     def a11; end
 
