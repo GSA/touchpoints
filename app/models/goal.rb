@@ -7,6 +7,8 @@ class Goal < ApplicationRecord
   has_many :goal_targets
   acts_as_taggable_on :tags
 
+  before_save :set_position
+
   validates :name, presence: true
 
   scope :strategic_goals, -> { where(four_year_goal: true) }
@@ -52,4 +54,13 @@ class Goal < ApplicationRecord
   delegate :name, to: :organization, prefix: true
 
   delegate :abbreviation, to: :organization, prefix: true
+
+  private
+
+  # default a new goals position to the max position + 1 for the organization
+  def set_position
+    return if position.present?
+
+    self.position = Goal.where(organization:).maximum(:position) + 1
+  end
 end
