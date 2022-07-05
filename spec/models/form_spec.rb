@@ -206,6 +206,13 @@ RSpec.describe Form, type: :model do
         expect(form.in_development?).to eq(false)
         expect(form.live?).to eq(true)
       end
+
+      it 'transitions from Archived to Live state' do
+        form.archive!
+        expect(form.archived?).to eq(true)
+        form.publish!
+        expect(form.live?).to eq(true)
+      end
     end
 
     context 'expired form' do
