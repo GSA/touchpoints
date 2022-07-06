@@ -100,6 +100,9 @@ Rails.application.routes.draw do
         get 'cx-reporting', to: 'services#omb_cx_reporting', as: :omb_cx_reporting
         post 'add_tag', to: 'services#add_tag', as: :add_tag
         post 'remove_tag', to: 'services#remove_tag', as: :remove_tag
+        post 'add_channel', to: 'services#add_channel', as: :add_channel
+        post 'remove_channel', to: 'services#remove_channel', as: :remove_channel
+
         post 'add_service_manager', to: 'services#add_service_manager', as: :add_service_manager
         post 'remove_service_manager', to: 'services#remove_service_manager', as: :remove_service_manager
 

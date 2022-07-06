@@ -327,8 +327,8 @@ feature 'Touchpoints', js: true do
         end
 
         it 'does not display character count messaging' do
-          expect(page).to_not have_content("characters")
-          expect(page).to_not have_content("allowed")
+          expect(page).to_not have_content('characters')
+          expect(page).to_not have_content('allowed')
         end
       end
 
@@ -347,7 +347,7 @@ feature 'Touchpoints', js: true do
           expect(page).to have_content('5 characters left')
         end
       end
-    end # context
+    end
 
     describe '/touchpoints?location_code=' do
       before do

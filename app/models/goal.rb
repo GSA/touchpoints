@@ -60,6 +60,7 @@ class Goal < ApplicationRecord
   # default a new goals position to the max position + 1 for the organization
   def set_position
     return if position.present?
+
     self.position = Goal.where(organization:).maximum(:position) + 1
   end
 end
