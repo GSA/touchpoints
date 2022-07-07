@@ -90,5 +90,16 @@ feature 'Managing Services', js: true do
         expect(page).to have_css('.usa-tag', text: admin.email.upcase)
       end
     end
+
+    describe 'Channels' do
+      before do
+        visit edit_admin_service_path(service)
+        select(Service.channels.first, from: 'channel_id')
+      end
+
+      it 'displays new channel as a tag' do
+        expect(page).to have_css('.usa-tag', text: Service.channels.first.to_s.upcase)
+      end
+    end
   end
 end

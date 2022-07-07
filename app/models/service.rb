@@ -14,7 +14,7 @@ class Service < ApplicationRecord
   has_many :collections, through: :omb_cx_reporting_collections
   has_many :forms
 
-  acts_as_taggable_on :tags
+  acts_as_taggable_on :tags, :channels
 
   validates :name, presence: true
   validates :service_owner_id, presence: true
@@ -84,6 +84,10 @@ class Service < ApplicationRecord
 
   def service_provider_name
     service_provider ? service_provider.name : nil
+  end
+
+  def self.channels
+    %i[computer mobile email phone automated_phone in_person paper mixed]
   end
 
   def self.to_csv
