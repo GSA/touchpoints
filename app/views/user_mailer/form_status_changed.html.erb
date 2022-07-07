@@ -1,0 +1,11 @@
+<%= render 'user_mailer/components/header' %>
+<h3>
+  Form status changed.
+</h3>
+<p>
+  Form <%= link_to @form.name, admin_form_url(@form) %>
+  status changed to <%= @action %>.
+</p>
+<p>
+  Visit <%= link_to admin_form_url(@form), admin_form_url(@form) %> to view.
+</p>

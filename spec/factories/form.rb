@@ -109,7 +109,6 @@ FactoryBot.define do
       name { 'Open-ended Test form' }
       kind { 'custom' }
       after(:create) do |f, _evaluator|
-
         FactoryBot.create(:question,
                           form: f,
                           answer_field: :answer_01,
