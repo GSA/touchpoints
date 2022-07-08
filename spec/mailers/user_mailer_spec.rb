@@ -46,6 +46,28 @@ RSpec.describe UserMailer, type: :mailer do
     end
   end
 
+  describe 'form_status_changed' do
+    let!(:organization) { FactoryBot.create(:organization) }
+    let(:user) { FactoryBot.create(:user, organization:) }
+    let(:form) { FactoryBot.create(:form, organization:, user:) }
+    let(:mail) { UserMailer.form_status_changed(form:, action: 'published') }
+
+    before do
+      ENV['ENABLE_EMAIL_NOTIFICATIONS'] = 'true'
+    end
+
+    it 'renders the headers' do
+      expect(mail.subject).to eq("Touchpoints form #{form.name} published")
+      expect(mail.to).to eq(ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(','))
+      expect(mail.from).to eq([ENV.fetch('TOUCHPOINTS_EMAIL_SENDER')])
+    end
+
+    it 'renders the body' do
+      expect(mail.body.encoded).to match('Form status changed')
+      expect(mail.body.encoded).to match('status changed to published')
+    end
+  end
+
   describe 'account_deactivation_scheduled_notification' do
     let!(:organization) { FactoryBot.create(:organization) }
     let(:user) { FactoryBot.create(:user, organization:) }

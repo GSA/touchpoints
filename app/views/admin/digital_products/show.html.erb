@@ -18,16 +18,19 @@
   <div class="desktop:grid-col-8">
     <p>
       <%= label_tag "Name", nil, class: "usa-label" %>
+      <br>
       <%= @digital_product.name %>
     </p>
 
     <p>
       <%= label_tag "Status", nil, class: "usa-label" %>
+      <br>
       <%= @digital_product.aasm_state %>
     </p>
 
     <p>
       <%= label_tag "Short description", nil, class: "usa-label" %>
+      <br>
       <%= @digital_product.short_description %>
     </p>
 
@@ -46,6 +49,7 @@
 
     <p>
       <%= label_tag "Language", nil, class: "usa-label" %>
+      <br>
       <%= @digital_product.language %>
     </p>
 

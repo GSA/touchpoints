@@ -24,6 +24,14 @@ class UserMailer < ApplicationMailer
          to: emails
   end
 
+  def form_status_changed(form:, action:)
+    set_logo
+    @form = form
+    @action = action
+    mail subject: "Touchpoints form #{@form.name} #{@action}",
+         to: ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')
+  end
+
   def social_media_account_created_notification(digital_service_account:, link:)
     set_logo
     @digital_service_account = digital_service_account

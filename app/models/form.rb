@@ -114,7 +114,7 @@ class Form < ApplicationRecord
       transitions from: %i[live archived], to: :in_development
     end
     event :publish do
-      transitions from: [:in_development], to: :live
+      transitions from: %i[in_development archived], to: :live
     end
     event :archive do
       transitions from: %i[in_development live], to: :archived

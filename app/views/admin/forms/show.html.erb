@@ -13,6 +13,18 @@
 
 <br>
 
+<% if @form.aasm_state == "archived" %>
+<div class="usa-alert usa-alert--warning">
+  <div class="usa-alert__body">
+    <p class="usa-alert__text">
+      The form
+      is currently archived.
+    </p>
+  </div>
+</div>
+<br>
+<% end %>
+
 <% if is_at_least_form_manager?(user: current_user, form: @form) %>
 <div class="grid-row grid-gap-md">
   <div class="tablet:grid-col-6">
