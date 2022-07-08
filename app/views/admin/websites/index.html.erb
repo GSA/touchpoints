@@ -27,7 +27,7 @@
         Websites are digital assets.
         Any Touchpoints user can view website information.
         Use the search bar to find your website(s). Click the domain to see the site details.
-        If you are a website’s point of contact, you can edit the site’s details.
+      If you are a website’s point of contact, you can edit the site’s details.
       </p>
       <p>
         For more information regarding managing Website records,
@@ -44,10 +44,11 @@
 <div class="well">
   <div class="field">
     <h3>
-      Search
+      <span class="fa fa-search"></span>
+      Search websites
     </h3>
-    <%= label_tag :search_text, "by domain, email, office, sub-office, Website Manager emails, or Website Contact email", class: "font-sans-2xs" %>
-    <%= text_field_tag :search_text, nil, class: "usa-input" %>
+    <%= label_tag :search_text, "by domain, email, office, sub-office, or contact emails", class: "font-sans-2xs" %>
+    <%= text_field_tag :search_text, nil, class: "usa-input", autofocus: true %>
     <% if @tags.first %>
       <p>
         Search by tag
