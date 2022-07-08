@@ -2,17 +2,28 @@
 
 module Admin
   class WebsitesController < AdminController
+    before_action :set_paper_trail_whodunnit
+
     before_action :ensure_organizational_website_manager, only: %i[
+      approve
+      deny
+      reset
       collection_preview
       collection_request
       export_versions
     ]
-    before_action :set_paper_trail_whodunnit
 
     before_action :set_website, only: %i[
       show costs statuscard edit update destroy collection_request
       approve
       deny
+      develop
+      stage
+      launch
+      redirect
+      archive
+      decommission
+      reset
       events
       dendrogram
       add_tag
@@ -23,6 +34,19 @@ module Admin
       remove_website_manager
       add_website_persona
       remove_website_persona
+    ]
+
+    before_action -> {
+      ensure_website_admin(website: @website)
+    }, only: %i[
+      edit
+      update
+      develop
+      stage
+      launch
+      redirect
+      archive
+      decommission
     ]
 
     before_action :set_website_manager_options, only: %i[
@@ -51,7 +75,7 @@ module Admin
     end
 
     def review
-      @websites = Website.where(production_status: 'newly_requested').order(:production_status, :domain)
+      @websites = Website.where(production_status: 'newly_requested').includes(:taggings).order(:production_status, :domain)
       @tags = Website.tag_counts_by_name
     end
 
@@ -162,7 +186,11 @@ module Admin
       @websites = Website.active.order(:production_status, :domain)
     end
 
-    def show; end
+    def show
+      @events = Event.where(object_type: "Website", object_id: @website.id.to_s )
+        .includes(:user)
+        .order("created_at DESC")
+    end
 
     def collection_preview
       ensure_admin
@@ -185,13 +213,9 @@ module Admin
       @website.contact_email = current_user.email
     end
 
-    def edit
-      ensure_website_admin(website: @website, user: current_user)
-    end
+    def edit; end
 
-    def costs
-      ensure_website_admin(website: @website, user: current_user)
-    end
+    def costs; end
 
     def create
       @website = Website.new(admin_website_params)
@@ -206,7 +230,6 @@ module Admin
     end
 
     def update
-      ensure_website_admin(website: @website, user: current_user)
       current_state = @website.production_status
       if @website.update(admin_website_params)
         log_update(current_state)
@@ -217,9 +240,7 @@ module Admin
     end
 
     def approve
-      ensure_website_admin(website: @website, user: current_user)
-      @website.approve
-      if @website.save
+      if @website.approve!
         Event.log_event(Event.names[:website_approved], 'Website', @website.id, "Website #{@website.domain} approved at #{DateTime.now}", current_user.id)
         redirect_to admin_website_url(@website), notice: "Website #{@website.domain} was approved."
       else
@@ -228,11 +249,72 @@ module Admin
     end
 
     def deny
-      ensure_website_admin(website: @website, user: current_user)
-      @website.deny
-      if @website.save
+      if @website.deny!
         Event.log_event(Event.names[:website_denied], 'Website', @website.id, "Website #{@website.domain} denied at #{DateTime.now}", current_user.id)
         redirect_to admin_website_url(@website), notice: "Website #{@website.domain} was denied."
+      else
+        render :edit
+      end
+    end
+
+    def develop
+      if @website.start_development!
+        Event.log_event(Event.names[:website_start_development], 'Website', @website.id, "Website #{@website.domain} begins development at #{DateTime.now}", current_user.id)
+        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} in now in development."
+      else
+        render :edit
+      end
+    end
+
+    def stage
+      if @website.stage!
+        Event.log_event(Event.names[:website_staged], 'Website', @website.id, "Website #{@website.domain} was updated to Staging at #{DateTime.now}", current_user.id)
+        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} has been staged."
+      else
+        render :edit
+      end
+    end
+
+    def launch
+      if @website.launch!
+        Event.log_event(Event.names[:website_launched], 'Website', @website.id, "Website #{@website.domain} was launched at #{DateTime.now}", current_user.id)
+        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} has been launched."
+      else
+        render :edit
+      end
+    end
+
+    def redirect
+      if @website.redirect!
+        Event.log_event(Event.names[:website_redirected], 'Website', @website.id, "Website #{@website.domain} was redirected at #{DateTime.now}", current_user.id)
+        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} has been redirected."
+      else
+        render :edit
+      end
+    end
+
+    def archive
+      if @website.archive!
+        Event.log_event(Event.names[:website_archived], 'Website', @website.id, "Website #{@website.domain} was archived at #{DateTime.now}", current_user.id)
+        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} has been archived."
+      else
+        render :edit
+      end
+    end
+
+    def decommission
+      if @website.decommission!
+        Event.log_event(Event.names[:website_decommissioned], 'Website', @website.id, "Website #{@website.domain} was decommissioned at #{DateTime.now}", current_user.id)
+        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} has been decommissioned."
+      else
+        render :edit
+      end
+    end
+
+    def reset
+      if @website.reset!
+        Event.log_event(Event.names[:website_reset], 'Website', @website.id, "Website #{@website.domain} was reset at #{DateTime.now}", current_user.id)
+        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} has been reset to newly_requested status."
       else
         render :edit
       end

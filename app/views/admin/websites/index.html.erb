@@ -42,7 +42,10 @@
 
 <div class="well">
   <div class="field">
-    <%= label_tag :search_text, "Search by domain, email, office, sub-office, Website Manager emails, or Website Contact email" %>
+    <h3>
+      Search
+    </h3>
+    <%= label_tag :search_text, "by domain, email, office, sub-office, Website Manager emails, or Website Contact email", class: "font-sans-2xs" %>
     <%= text_field_tag :search_text, nil, class: "usa-input" %>
     <% if @tags.first %>
       <p>

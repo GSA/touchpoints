@@ -1,0 +1,17 @@
+<% if website.decommissioned? %>
+  <div class="usa-alert usa-alert--error">
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        This site has been decommissioned.
+      </p>
+    </div>
+  </div>
+<% else %>
+<div class="grid-col-12">
+  <%= link_to decommission_admin_website_path(website), class: "usa-button bg-base-light full-width", method: :post do %>
+  <span class="fa fa-archive"></span>
+  &nbsp;
+  Decommission
+  <% end %>
+</div>
+<% end %>
