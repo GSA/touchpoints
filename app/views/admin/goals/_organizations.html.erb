@@ -1,0 +1,54 @@
+<div id="sponsoring-agencies-div" class="grid-row" data-value="<%= admin_goal_path(@goal) %>">
+  <div class="grid-col-12">
+    <%= label_tag "Sponsoring agencies", nil, class: "usa-label" %>
+    <small>
+      Optionally, this record may be associated with one or more
+      <%= link_to "Agencies", admin_organizations_path %>.
+    </small>
+    <p class="sponsoring-agencies-list">
+      <ul class="usa-list usa-list--unstyled">
+        <% @goal.sponsoring_agencies.each do |agency| %>
+        <li style="margin-bottom: 3px;">
+          <span class="usa-tag">
+            <%= agency.name %>
+          </span>
+          &nbsp;
+          <a href="javascript:void(0);" class="remove-agency-link" data-value="<%= agency.id %>">
+            <span class="fa fa-trash"></span>
+          </a>
+        </li>
+          <% end %>
+      </ul>
+    </p>
+  </div>
+  <%= select_tag :organization_id, options_for_select(@sponsoring_agency_options.map { |p| [p.name, p.id] }), prompt: "Choose an Agency", class: "usa-select add-agency" %>
+</div>
+
+<script>
+  $(function() {
+
+    $(".add-agency").on("change", function(e) {
+
+      event.preventDefault();
+
+      var container = $('#sponsoring-agencies-div');
+      $.ajax({
+        url: container.attr("data-value") + "/add_organization",
+        type: 'post',
+        data: "organization_id=" + $(this).val()
+      });
+    });
+
+    $(".remove-agency-link").on("click", function(e) {
+      event.preventDefault();
+
+      var container = $('#sponsoring-agencies-div');
+      $.ajax({
+        url: container.attr("data-value") + "/remove_organization",
+        type: 'post',
+        data: "organization_id=" + $(this).attr("data-value")
+      });
+    });
+
+  })
+</script>

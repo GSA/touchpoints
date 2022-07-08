@@ -19,7 +19,9 @@ module Admin
          goal_objectives
          destroy
          add_tag
-         remove_tag]
+         remove_tag
+         add_organization
+         remove_organization]
 
     before_action :set_goal_tags, only: %i[show add_tag remove_tag]
 
@@ -72,6 +74,18 @@ module Admin
     def remove_tag
       @goal.tag_list.remove(goal_params[:tag_list].split(','))
       @goal.save
+    end
+
+    def add_organization
+      @goal.organization_list.add(params[:organization_id])
+      @goal.save
+      set_sponsoring_agency_options
+    end
+
+    def remove_organization
+      @goal.organization_list.remove(params[:organization_id])
+      @goal.save
+      set_sponsoring_agency_options
     end
 
     def update_organization_id
@@ -134,6 +148,12 @@ module Admin
 
     def set_goal
       @goal = Goal.find(params[:id])
+      set_sponsoring_agency_options
+    end
+
+    def set_sponsoring_agency_options
+      @sponsoring_agency_options = Organization.all.order(:name)
+      @sponsoring_agency_options -= @goal.sponsoring_agencies if @sponsoring_agency_options && @goal
     end
 
     def set_goal_tags
