@@ -42,27 +42,34 @@
 <br/>
 
 <div class="well">
-  <div class="field">
-    <h3>
-      <span class="fa fa-search"></span>
-      Search websites
-    </h3>
-    <%= label_tag :search_text, "by domain, email, office, sub-office, or contact emails", class: "font-sans-2xs" %>
-    <%= text_field_tag :search_text, nil, class: "usa-input", autofocus: true %>
-    <% if @tags.first %>
-      <p>
-        Search by tag
-      </p>
-      <div class="tag-list">
-        <% @tags.order(:name).each do | tag | %>
-          <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
-            <span class="usa-tag">
-              <%= tag.name %> (<%= tag.taggings_count %>)
-            </span>
-          </a>
-        <% end %>
+  <div class="grid-row">
+    <div class="tablet:grid-col-6">
+      <div class="field">
+        <h3>
+          <span class="fa fa-search"></span>
+          Search websites
+        </h3>
+        <%= label_tag :search_text, "by domain, email, office, sub-office, or contact emails", class: "font-sans-2xs" %>
+        <%= text_field_tag :search_text, nil, class: "usa-input", autofocus: true %>
       </div>
-    <% end %>
+    </div>
+    <div class="tablet:grid-col-6">
+      <% if @tags.first %>
+        <h3>
+          <span class="fa fa-filter"></span>
+          Filter by tag
+        </h3>
+        <div class="tag-list">
+          <% @tags.order(:name).each do | tag | %>
+            <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
+              <span class="usa-tag">
+                <%= tag.name %> (<%= tag.taggings_count %>)
+              </span>
+            </a>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
 <br>
