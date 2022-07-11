@@ -18,4 +18,8 @@ namespace :scheduled_jobs do
   task send_two_weeks_until_inactivation_warning: :environment do
     User.send_account_deactivation_notifications(14)
   end
+
+  task archive_surveys: :environment do
+    Form.archive_expired
+  end
 end
