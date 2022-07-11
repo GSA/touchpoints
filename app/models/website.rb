@@ -23,6 +23,7 @@ class Website < ApplicationRecord
     'request_approved' => 'Request approved',
     'request_denied' => 'Request denied',
     'in_development' => 'In development',
+    'staging' => 'Staging',
     'production' => 'Production',
     'being_decommissioned' => 'Being decommissioned',
     'redirect' => 'Redirect',
@@ -56,6 +57,7 @@ class Website < ApplicationRecord
     state :request_approved
     state :request_denied
     state :in_development
+    state :staging
     state :production
     state :redirect
     state :archived
@@ -70,21 +72,28 @@ class Website < ApplicationRecord
     event :start_development do
       transitions from: [:request_approved], to: :in_development
     end
+    event :stage do
+      transitions from: %i[in_development request_approved], to: :staging
+    end
     event :launch do
-      transitions from: [:in_development], to: :production
+      transitions from: %i[in_development staging], to: :production
     end
     event :redirect do
       transitions from: [:production], to: :redirect
     end
     event :archive do
-      transitions from: [:production], to: :archived
+      transitions from: %i[staging production], to: :archived
     end
     event :decommission do
-      transitions from: %i[production archived redirect], to: :decommissioned
+      transitions from: %i[staging production archived redirect], to: :decommissioned
     end
     event :reset do
       transitions to: :newly_requested
     end
+  end
+
+  def transitionable_states
+    aasm(:production_status).states(permitted: true)
   end
 
   def website_managers
@@ -115,7 +124,10 @@ class Website < ApplicationRecord
   def admin?(user:)
     raise ArgumentException unless user.instance_of?(User)
 
-    user.admin? || user.organizational_website_manager || contact_email == user.email || site_owner_email == user.email
+    user.admin? ||
+      user.organizational_website_manager ||
+      contact_email == user.email ||
+      site_owner_email == user.email
   end
 
   def blankFields

@@ -30,7 +30,7 @@ module Admin
       @digital_product = DigitalProduct.new(digital_product_params)
       @digital_product.organization_list.add(current_user.organization_id)
 
-      if @digital_product.save
+      if @digital_product.save!
         current_user.add_role(:contact, @digital_product)
         redirect_to admin_digital_product_path(@digital_product), notice: 'Digital product was successfully created.'
       else

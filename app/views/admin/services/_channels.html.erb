@@ -1,0 +1,55 @@
+<div id="channel_selector" data-url="<%= admin_service_path(service) %>">
+  <div class="grid-row">
+    <div class="grid-col-12">
+      <h3>Channels</h3>
+      <p class="channel-list">
+        <ul class="usa-list usa-list--unstyled">
+          <% service.channel_list.each do |channel| %>
+          <li style="margin-bottom: 3px;">
+            <span class="usa-tag">
+               <%= channel %>
+            </span>
+            &nbsp;
+            <a href="javascript:void(0);" class="remove-channel-link" data-value="<%= channel %>">
+              <span class="fa fa-trash"></span>
+            </a>
+          </li>
+            <% end %>
+        </ul>
+      </p>
+    </div>
+  </div>
+  <%= select_tag :channel_id, options_for_select(@channel_options.map { |c| [c, c] }), { prompt: "Select a Channel", class: "usa-select add-channel" } %>
+</div>
+
+<script>
+  $(function() {
+    $(".add-channel").on("change", function(e) {
+      e.preventDefault();
+
+      var thisForm = $("#channel_selector");
+      $.ajax({
+        url: thisForm.attr("data-url") + "/add_channel",
+        type: 'POST',
+        datatype: 'json',
+        data: {
+          channel: $(this).val()
+        }
+      });
+    });
+
+    $(".remove-channel-link").on("click", function(e) {
+      e.preventDefault();
+
+      var thisForm = $("#channel_selector");
+      $.ajax({
+        url: thisForm.attr("data-url") + "/remove_channel",
+        type: 'POST',
+        datatype: 'json',
+        data: {
+          channel: $(this).attr("data-value")
+        }
+      });
+    });
+  });
+</script>

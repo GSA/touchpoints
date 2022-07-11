@@ -5,7 +5,7 @@ class Goal < ApplicationRecord
   has_many :milestones
   has_many :objectives
   has_many :goal_targets
-  acts_as_taggable_on :tags
+  acts_as_taggable_on :tags, :organizations
 
   before_save :set_position
 
@@ -51,6 +51,10 @@ class Goal < ApplicationRecord
     Goal.where(parent_id: id)
   end
 
+  def sponsoring_agencies
+    Organization.where(id: organization_list)
+  end
+
   delegate :name, to: :organization, prefix: true
 
   delegate :abbreviation, to: :organization, prefix: true
@@ -60,6 +64,7 @@ class Goal < ApplicationRecord
   # default a new goals position to the max position + 1 for the organization
   def set_position
     return if position.present?
+
     self.position = Goal.where(organization:).maximum(:position) + 1
   end
 end

@@ -15,6 +15,8 @@ module Admin
       remove_service_manager
       versions
       export_versions
+      add_channel
+      remove_channel
     ]
     before_action :set_paper_trail_whodunnit
     before_action :set_service_owner_options, only: %i[
@@ -184,6 +186,18 @@ module Admin
       @service.save
     end
 
+    def add_channel
+      @service.channel_list.add(params[:channel])
+      @service.save
+      set_channel_options
+    end
+
+    def remove_channel
+      @service.channel_list.remove(params[:channel])
+      @service.save
+      set_channel_options
+    end
+
     def add_service_manager
       @manager = User.find(params[:user_id])
       @manager.add_role :service_manager, @service unless @manager.has_role?(:service_manager, @service)
@@ -202,6 +216,7 @@ module Admin
 
     def set_service
       @service = Service.find(params[:id])
+      set_channel_options
     end
 
     def set_service_providers
@@ -222,6 +237,11 @@ module Admin
       @service_owner_options -= @service.service_managers if @service
     end
 
+    def set_channel_options
+      @channel_options = Service.channels
+      @channel_options -= @service.channel_list.map(&:to_sym) if @channel_options && @service
+    end
+
     def service_params
       params.require(:service).permit(
         :organization_id,
@@ -240,6 +260,7 @@ module Admin
         :service_slug,
         :url,
         :tag_list,
+        :channel_list,
         :where_customers_interact,
       )
     end

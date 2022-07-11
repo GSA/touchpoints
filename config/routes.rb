@@ -100,6 +100,9 @@ Rails.application.routes.draw do
         get 'cx-reporting', to: 'services#omb_cx_reporting', as: :omb_cx_reporting
         post 'add_tag', to: 'services#add_tag', as: :add_tag
         post 'remove_tag', to: 'services#remove_tag', as: :remove_tag
+        post 'add_channel', to: 'services#add_channel', as: :add_channel
+        post 'remove_channel', to: 'services#remove_channel', as: :remove_channel
+
         post 'add_service_manager', to: 'services#add_service_manager', as: :add_service_manager
         post 'remove_service_manager', to: 'services#remove_service_manager', as: :remove_service_manager
 
@@ -139,6 +142,8 @@ Rails.application.routes.draw do
         get 'goal_objectives', to: 'goals#goal_objectives', as: :goal_objectives
         post 'add_tag', to: 'goals#add_tag', as: :add_tag
         post 'remove_tag', to: 'goals#remove_tag', as: :remove_tag
+        post 'add_organization', to: 'goals#add_organization', as: :add_organization
+        post 'remove_organization', to: 'goals#remove_organization', as: :remove_organization
       end
       resources :goal_targets
       resources :objectives do
@@ -167,6 +172,13 @@ Rails.application.routes.draw do
         get 'collection_request', to: 'websites@collection_request', as: :collection_request
         post 'approve', to: 'websites#approve', as: :approve
         post 'deny', to: 'websites#deny', as: :deny
+        post 'develop', to: 'websites#develop', as: :develop
+        post 'stage', to: 'websites#stage', as: :stage
+        post 'launch', to: 'websites#launch', as: :launch
+        post 'redirect', to: 'websites#redirect', as: :redirect
+        post 'archive', to: 'websites#archive', as: :archive
+        post 'decommission', to: 'websites#decommission', as: :decommission
+        post 'reset', to: 'websites#reset', as: :reset
         get 'events', to: 'websites#events', as: :events
         post 'add_tag', to: 'websites#add_tag', as: :add_tag
         post 'remove_tag', to: 'websites#remove_tag', as: :remove_tag
