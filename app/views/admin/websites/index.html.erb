@@ -42,7 +42,7 @@
 <br/>
 
 <div class="well">
-  <div class="grid-row">
+  <div class="grid-row grid-gap-lg">
     <div class="tablet:grid-col-6">
       <div class="field">
         <h3>
@@ -59,6 +59,7 @@
           <span class="fa fa-filter"></span>
           Filter by tag
         </h3>
+        <br>
         <div class="tag-list">
           <% @tags.order(:name).each do | tag | %>
             <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
