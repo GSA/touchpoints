@@ -73,16 +73,16 @@ class Website < ApplicationRecord
       transitions from: [:request_approved], to: :in_development
     end
     event :stage do
-      transitions from: [:in_development, :request_approved], to: :staging
+      transitions from: %i[in_development request_approved], to: :staging
     end
     event :launch do
-      transitions from: [:in_development, :staging], to: :production
+      transitions from: %i[in_development staging], to: :production
     end
     event :redirect do
       transitions from: [:production], to: :redirect
     end
     event :archive do
-      transitions from: [:staging, :production], to: :archived
+      transitions from: %i[staging production], to: :archived
     end
     event :decommission do
       transitions from: %i[staging production archived redirect], to: :decommissioned

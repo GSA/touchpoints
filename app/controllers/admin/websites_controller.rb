@@ -36,7 +36,7 @@ module Admin
       remove_website_persona
     ]
 
-    before_action -> {
+    before_action lambda {
       ensure_website_admin(website: @website)
     }, only: %i[
       edit
@@ -187,9 +187,9 @@ module Admin
     end
 
     def show
-      @events = Event.where(object_type: "Website", object_id: @website.id.to_s )
+      @events = Event.where(object_type: 'Website', object_id: @website.id.to_s)
         .includes(:user)
-        .order("created_at DESC")
+        .order('created_at DESC')
     end
 
     def collection_preview
