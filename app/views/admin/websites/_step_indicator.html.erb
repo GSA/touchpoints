@@ -44,27 +44,36 @@
 
 <div class="usa-step-indicator" aria-label="progress">
   <ol class="usa-step-indicator__segments">
-    <li class="usa-step-indicator__segment usa-step-indicator__segment--complete">
+    <li class="usa-step-indicator__segment
+      <%= "usa-step-indicator__segment--complete" if website.request_approved? || website.in_development? || website.production? || website.redirect? || website.archived? || website.decommissioned? %>
+      <%= "usa-step-indicator__segment--current" if website.newly_requested? %>">
       <span class="usa-step-indicator__segment-label">
         Created
-        <% if website.request_approved? %>
+        <% if website.newly_requested? %>
           <span class="usa-sr-only">completed</span>
         <% end %>
       </span>
     </li>
-    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if website.request_approved? || website.in_development? || website.production? || website.redirect? || website.archived? || website.decommissioned? %> <%= "usa-step-indicator__segment--current" if website.newly_requested? %>">
+    <li class="usa-step-indicator__segment
+      <%= "usa-step-indicator__segment--complete" if website.in_development? || website.production? || website.redirect? || website.archived? || website.decommissioned? %>
+      <%= "usa-step-indicator__segment--current" if website.request_approved? %>">
       <span class="usa-step-indicator__segment-label">
         Approved
         <span class="usa-sr-only">completed</span>
       </span>
     </li>
-    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if website.production? || website.redirect? || website.archived? || website.decommissioned? %> <%= "usa-step-indicator__segment--current" if website.request_approved? %>" aria-current="true">
+    <li class="usa-step-indicator__segment
+      <%= "usa-step-indicator__segment--complete" if website.production? || website.redirect? || website.archived? || website.decommissioned? %>
+      <%= "usa-step-indicator__segment--current" if website.in_development? %>"
+      aria-current="true">
       <span class="usa-step-indicator__segment-label">In development</span>
     </li>
     <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if website.redirect? || website.archived? || website.decommissioned? %> <%= "usa-step-indicator__segment--current" if website.production? %>" aria-current="true">
       <span class="usa-step-indicator__segment-label">Production</span>
     </li>
-    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--current" if website.archived? || website.decommissioned? %>" aria-current="true">
+    <li class="usa-step-indicator__segment
+      <%= "usa-step-indicator__segment--complete" if website.decommissioned? %>
+      <%= "usa-step-indicator__segment--current" if website.archived? %>" aria-current="true">
       <span class="usa-step-indicator__segment-label">Decommissioned</span>
     </li>
   </ol>

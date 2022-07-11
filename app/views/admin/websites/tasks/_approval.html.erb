@@ -1,0 +1,53 @@
+<div class="grid-row grid-gap-lg margin-bottom-2">
+  <div class="grid-col-12 margin-bottom-2">
+    <div class="">
+      This
+      <span class="usa-tag">
+        <i class="fa fa-cog"></i>
+        task
+      </span>
+      is for
+      <span class="usa-tag bg-violet">
+        Digital registry managers
+      </span>
+    </div>
+  </div>
+  <div class="grid-col-12">
+    <small class="text-base">
+      For more information on business processes related to Websites,
+      see the
+      <a href="https://github.com/GSA/touchpoints/wiki/Websites" class="usa-link" target="_blank">Touchpoints wiki</a>.
+    </small>
+  </div>
+</div>
+
+<div class="bg-base-lightest padding-2">
+  <div>
+    <div class="font-sans-md usa-prose margin-bottom-10">
+      A Website record for
+      <strong>
+        <%= website.domain %>
+      </strong>
+      was created
+      <%= time_ago_in_words(website.created_at) %> ago
+      by <%= website.site_owner_email %>.
+    </div>
+
+    <div class="grid-row grid-gap-lg">
+      <div class="grid-col-6">
+        <%= link_to approve_admin_website_path(website), class: "usa-button usa-button--success bg-green width-full", method: :post, data: { confirm: "Are you sure?" } do %>
+          <span class="fa fa-thumbs-up"></span>
+          &nbsp;
+          Approve
+        <% end %>
+      </div>
+      <div class="grid-col-6">
+        <%= link_to deny_admin_website_path(website), class: "usa-button usa-button--secondary width-full", method: :post, data: { confirm: "Are you sure?" } do %>
+          <span class="fa fa-thumbs-down"></span>
+          &nbsp;
+          Deny
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

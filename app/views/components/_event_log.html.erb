@@ -9,13 +9,12 @@
           <%= event.name %>
         </h4>
         <p class="font-sans-2xs margin-top-05">
-          <%= event.name %>
           by
           <%= link_to event.user.email, admin_user_path(event.user) %>
           <br>
           <%= time_ago_in_words(event.created_at) %> ago
-          at
-          <%= event.created_at %>
+          &middot;
+          <%= format_time(event.created_at, current_user.time_zone) %>
         </p>
       </li>
     <% end %>

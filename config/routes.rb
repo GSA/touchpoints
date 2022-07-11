@@ -170,6 +170,13 @@ Rails.application.routes.draw do
         get 'collection_request', to: 'websites@collection_request', as: :collection_request
         post 'approve', to: 'websites#approve', as: :approve
         post 'deny', to: 'websites#deny', as: :deny
+        post 'develop', to: 'websites#develop', as: :develop
+        post 'stage', to: 'websites#stage', as: :stage
+        post 'launch', to: 'websites#launch', as: :launch
+        post 'redirect', to: 'websites#redirect', as: :redirect
+        post 'archive', to: 'websites#archive', as: :archive
+        post 'decommission', to: 'websites#decommission', as: :decommission
+        post 'reset', to: 'websites#reset', as: :reset
         get 'events', to: 'websites#events', as: :events
         post 'add_tag', to: 'websites#add_tag', as: :add_tag
         post 'remove_tag', to: 'websites#remove_tag', as: :remove_tag
