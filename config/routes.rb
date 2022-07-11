@@ -142,6 +142,8 @@ Rails.application.routes.draw do
         get 'goal_objectives', to: 'goals#goal_objectives', as: :goal_objectives
         post 'add_tag', to: 'goals#add_tag', as: :add_tag
         post 'remove_tag', to: 'goals#remove_tag', as: :remove_tag
+        post 'add_organization', to: 'goals#add_organization', as: :add_organization
+        post 'remove_organization', to: 'goals#remove_organization', as: :remove_organization
       end
       resources :goal_targets
       resources :objectives do

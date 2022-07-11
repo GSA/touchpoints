@@ -22,6 +22,37 @@ RSpec.describe '/goals', js: true do
         expect(page).to have_link('New Strategic Goal')
       end
     end
+
+    describe 'add organization' do
+      let(:goal) { FactoryBot.create(:goal) }
+
+      before 'fill-in the form' do
+        visit admin_goal_path(goal)
+
+        select(organization.name, from: 'organization_id')
+        find('.organizations').click # just to lose focus
+      end
+
+      it 'creates an organization' do
+        expect(page).to have_css('.usa-tag', text: organization.name.upcase)
+      end
+    end
+
+    describe 'remove organization' do
+      let(:goal) { FactoryBot.create(:goal) }
+
+      before 'fill-in the form' do
+        goal.organization_list.add(organization.id)
+        visit admin_goal_path(goal)
+        select(organization.name, from: 'organization_id')
+        expect(page).to have_content(organization.name.upcase)
+        find('.remove-agency-link').click
+      end
+
+      it 'removes the organization' do
+        expect(page).to_not have_content(organization.name.upcase)
+      end
+    end
   end
 
   context 'logged in as a non-permissioned user' do
