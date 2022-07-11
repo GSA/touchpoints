@@ -21,13 +21,13 @@
       <% if !@website.persisted? %>
       <div class="field">
         <%= form.label :type_of_site, class: "usa-label" %>
-        <%= form.select :type_of_site, options_for_select(Website::TYPE_OF_SITES.collect { |k, v| ["#{k} - #{v}", k] }, selected: website.type_of_site), { include_blank: true }, { class: "usa-select", required: true } %>
+        <%= form.select :type_of_site, options_for_select(Website::TYPE_OF_SITES.collect { |k, v| ["#{k} - #{v}", k] }, selected: website.type_of_site), { prompt: "What Type of web property is this?" }, { class: "usa-select", required: true } %>
       </div>
       <% end %>
 
       <div class="field">
-        <%= form.label :domain, class: "usa-label" %>
-        <%= form.text_field :domain, class: "usa-input", required: true %>
+        <%= form.label :domain, "What is the domain?", class: "usa-label" %>
+        <%= form.text_field :domain, class: "usa-input", placeholder: "usa.gov", required: true %>
       </div>
       <div class="field">
         <%= form.label :office, class: "usa-label" %>
@@ -38,14 +38,14 @@
         <%= form.text_field :sub_office, class: "usa-input" %>
       </div>
       <div class="field">
-        <%= form.label :site_owner_email, class: "usa-label" %>
+        <%= form.label :site_owner_email, "Primary website contact email", class: "usa-label" %>
         <%= form.text_field :site_owner_email, class: "usa-input" %>
       </div>
-      <div class="field">
-        <%= form.label :contact_email, class: "usa-label" %>
-        <%= form.text_field :contact_email, class: "usa-input" %>
-      </div>
       <% if @website.persisted? %>
+        <div class="field">
+          <%= form.label :contact_email, "Public website email", class: "usa-label" %>
+          <%= form.text_field :contact_email, class: "usa-input" %>
+        </div>
         <div class="field">
           <div class="well">
             <div class="website-managers-div">
@@ -63,6 +63,28 @@
         <div class="field">
           <%= form.label :notes, class: "usa-label" %>
           <%= form.text_area :notes, class: "usa-textarea" %>
+        </div>
+      <% end %>
+      <% unless @website.persisted? %>
+        <br>
+        <br>
+        <div class="usa-alert usa-alert--info">
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">
+              Next steps:
+              <br>
+
+              <ul>
+                <li>
+                  A member of the GSA EDX team will contact you.
+                </li>
+                <li>
+                  The website request will be forwarded to GSA Digital Council members,
+                  for approval.
+                </li>
+              </ul>
+            </p>
+          </div>
         </div>
       <% end %>
     </div>

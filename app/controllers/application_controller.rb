@@ -98,10 +98,10 @@ class ApplicationController < ActionController::Base
     redirect_to(admin_services_path, notice: 'Authorization is Required')
   end
 
-  def ensure_website_admin(website:, user:)
-    return false if user.blank?
-    return true if website.admin?(user:)
-
+  def ensure_website_admin(website:)
+    return false if current_user.blank?
+    return true if website_permissions?(website: website, user: current_user)
+    
     redirect_to(admin_websites_path, notice: 'Authorization is Required')
   end
 
@@ -153,6 +153,14 @@ class ApplicationController < ActionController::Base
     return true if performance_manager_permissions?
 
     collection.organization == current_user.organization
+  end
+
+  helper_method :website_permissions?
+  def website_permissions?(website:, user:)
+    return false if website.blank?
+    return false if user.blank?
+
+    website.admin?(user: user)
   end
 
   helper_method :organizational_website_manager_permissions?

@@ -26,7 +26,7 @@ module Admin
 
       form_ids = todays_submissions.collect(&:form_id).uniq
       @recent_forms = Form.find(form_ids)
-    end  
+    end
 
     def a11; end
 
