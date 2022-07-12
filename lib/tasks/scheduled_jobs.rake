@@ -20,6 +20,6 @@ namespace :scheduled_jobs do
   end
 
   task archive_surveys: :environment do
-    Form.archive_expired
+    Form.archive_expired!
   end
 end
