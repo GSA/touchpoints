@@ -16,15 +16,6 @@ module Admin
     before_action :set_website, only: %i[
       show costs statuscard edit update destroy collection_request
       transition_state
-      approve
-      deny
-      develop
-      stage
-      launch
-      redirect
-      archive
-      decommission
-      reset
       events
       dendrogram
       add_tag
