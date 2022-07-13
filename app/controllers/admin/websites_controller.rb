@@ -15,6 +15,7 @@ module Admin
 
     before_action :set_website, only: %i[
       show costs statuscard edit update destroy collection_request
+      transition_state
       approve
       deny
       develop
@@ -239,82 +240,12 @@ module Admin
       end
     end
 
-    def approve
-      if @website.approve!
-        Event.log_event(Event.names[:website_approved], 'Website', @website.id, "Website #{@website.domain} approved at #{DateTime.now}", current_user.id)
-        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} was approved."
-      else
-        render :edit
-      end
-    end
-
-    def deny
-      if @website.deny!
-        Event.log_event(Event.names[:website_denied], 'Website', @website.id, "Website #{@website.domain} denied at #{DateTime.now}", current_user.id)
-        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} was denied."
-      else
-        render :edit
-      end
-    end
-
-    def develop
-      if @website.start_development!
-        Event.log_event(Event.names[:website_start_development], 'Website', @website.id, "Website #{@website.domain} begins development at #{DateTime.now}", current_user.id)
-        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} in now in development."
-      else
-        render :edit
-      end
-    end
-
-    def stage
-      if @website.stage!
-        Event.log_event(Event.names[:website_staged], 'Website', @website.id, "Website #{@website.domain} was updated to Staging at #{DateTime.now}", current_user.id)
-        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} has been staged."
-      else
-        render :edit
-      end
-    end
-
-    def launch
-      if @website.launch!
-        Event.log_event(Event.names[:website_launched], 'Website', @website.id, "Website #{@website.domain} was launched at #{DateTime.now}", current_user.id)
-        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} has been launched."
-      else
-        render :edit
-      end
-    end
-
-    def redirect
-      if @website.redirect!
-        Event.log_event(Event.names[:website_redirected], 'Website', @website.id, "Website #{@website.domain} was redirected at #{DateTime.now}", current_user.id)
-        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} has been redirected."
-      else
-        render :edit
-      end
-    end
-
-    def archive
-      if @website.archive!
-        Event.log_event(Event.names[:website_archived], 'Website', @website.id, "Website #{@website.domain} was archived at #{DateTime.now}", current_user.id)
-        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} has been archived."
-      else
-        render :edit
-      end
-    end
-
-    def decommission
-      if @website.decommission!
-        Event.log_event(Event.names[:website_decommissioned], 'Website', @website.id, "Website #{@website.domain} was decommissioned at #{DateTime.now}", current_user.id)
-        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} has been decommissioned."
-      else
-        render :edit
-      end
-    end
-
-    def reset
-      if @website.reset!
-        Event.log_event(Event.names[:website_reset], 'Website', @website.id, "Website #{@website.domain} was reset at #{DateTime.now}", current_user.id)
-        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} has been reset to newly_requested status."
+    def transition_state
+      action = params[:state]
+      event = params[:event]
+      if @website.send("#{action}!")
+        Event.log_event(Event.names[event.to_sym], 'Website', @website.id, "Website #{@website.domain} transitioned to #{event} at #{DateTime.now}", current_user.id)
+        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} transistioned to #{event}."
       else
         render :edit
       end

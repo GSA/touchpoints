@@ -35,14 +35,14 @@
 
     <div class="grid-row grid-gap-lg">
       <div class="grid-col-6">
-        <%= link_to approve_admin_website_path(website), class: "usa-button usa-button--success bg-green width-full", method: :post, data: { confirm: "Are you sure?" } do %>
+        <%= link_to transition_state_admin_website_path(website, state: 'approve', event: 'website_approved'), class: "usa-button usa-button--success bg-green width-full", method: :post, data: { confirm: "Are you sure?" } do %>
           <span class="fa fa-thumbs-up"></span>
           &nbsp;
           Approve
         <% end %>
       </div>
       <div class="grid-col-6">
-        <%= link_to deny_admin_website_path(website), class: "usa-button usa-button--secondary width-full", method: :post, data: { confirm: "Are you sure?" } do %>
+        <%= link_to transition_state_admin_website_path(website, state: 'deny', event: 'website_denied'), class: "usa-button usa-button--secondary width-full", method: :post, data: { confirm: "Are you sure?" } do %>
           <span class="fa fa-thumbs-down"></span>
           &nbsp;
           Deny
