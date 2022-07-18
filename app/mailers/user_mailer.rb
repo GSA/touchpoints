@@ -57,6 +57,13 @@ class UserMailer < ApplicationMailer
          to: (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',') + User.performance_managers.collect(&:email)).uniq
   end
 
+  def quarterly_performance_notification(collection_id:)
+    set_logo
+    @collection = Collection.find(collection_id)
+    mail subject: "Quarterly Performance Data Collection Ready: #{@collection.name}",
+         to: @collection.user.email, cc: User.performance_managers.collect(&:email).uniq
+  end
+
   def submissions_digest(form_id, begin_day)
     return unless ENV['ENABLE_EMAIL_NOTIFICATIONS'] == 'true'
 

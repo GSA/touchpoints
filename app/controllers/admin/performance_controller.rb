@@ -16,6 +16,13 @@ module Admin
       @organizations = Organization.all.order(:name)
     end
 
+    def quarterly_performance_notification
+      Collection.where(aasm_state: 'published').each do |collection|
+        UserMailer.quarterly_performance_notification(collection_id: collection.id).deliver_later
+      end
+      redirect_to admin_performance_path, notice: 'Quarterly performance email notication sent successfully.'
+    end
+
     private
 
     def set_organization

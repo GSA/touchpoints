@@ -68,6 +68,27 @@ RSpec.describe UserMailer, type: :mailer do
     end
   end
 
+  describe 'quarterly_performance_update' do
+    let!(:organization) { FactoryBot.create(:organization) }
+    let!(:user) { FactoryBot.create(:user, organization:) }
+    let!(:collection) { FactoryBot.create(:collection, user:) }
+    let(:mail) { UserMailer.quarterly_performance_notification(collection_id: collection.id) }
+
+    before do
+      ENV['ENABLE_EMAIL_NOTIFICATIONS'] = 'true'
+    end
+
+    it 'renders the headers' do
+      expect(mail.subject).to eq("Quarterly Performance Data Collection Ready: #{collection.name}")
+      expect(mail.to).to eq([collection.user.email])
+      expect(mail.from).to eq([ENV.fetch('TOUCHPOINTS_EMAIL_SENDER')])
+    end
+
+    it 'renders the body' do
+      expect(mail.body.encoded).to match('Quarterly Performance Notification')
+    end
+  end
+
   describe 'account_deactivation_scheduled_notification' do
     let!(:organization) { FactoryBot.create(:organization) }
     let(:user) { FactoryBot.create(:user, organization:) }

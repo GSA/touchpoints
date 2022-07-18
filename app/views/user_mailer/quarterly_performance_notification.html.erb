@@ -1,0 +1,17 @@
+<%= render 'user_mailer/components/header' %>
+<h3>
+  Quarterly Performance Notification
+</h3>
+<p>
+  Hi <%= @collection.user.first_name %>,
+
+  I wanted to let you know that your CX Data Collection is available in Touchpoints.
+
+  <a href="<%= admin_collection_url(@collection) %>">
+    <%= admin_collection_url(@collection) %>
+  </a>
+
+  It is based on the previous quarter, and can be modified from there.
+
+  Any questions, please let us know at feedback-analytics@gsa.gov .
+</p>
