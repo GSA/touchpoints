@@ -27,8 +27,7 @@
 <script>
   $(function() {
 
-    $(".add-agency").on("change", function(e) {
-
+    $(".add-agency").on("change", function(event) {
       event.preventDefault();
 
       var container = $('#sponsoring-agencies-div');
@@ -39,7 +38,7 @@
       });
     });
 
-    $(".remove-agency-link").on("click", function(e) {
+    $(".remove-agency-link").on("click", function(event) {
       event.preventDefault();
 
       var container = $('#sponsoring-agencies-div');
@@ -50,5 +49,5 @@
       });
     });
 
-  })
+  });
 </script>

@@ -2,6 +2,7 @@
   <div class="grid-row">
     <div class="grid-col-6">
       <%= label_tag :tags, nil, class: "usa-label" %>
+      <br>
       <div class="tag-list">
         <ul class="usa-list usa-list--unstyled">
           <% digital_product.tag_list.sort.each do |tag| %>
@@ -31,6 +32,7 @@
 
     $(".tag-input").on("blur", function(event) {
       event.preventDefault();
+
       var thisForm = $(this).closest("form");
       $.ajax({
         url: thisForm.attr("action") + "/add_tag",
@@ -39,15 +41,17 @@
       });
     });
 
-    $(".tag-input").on("keypress", function (e) {
-      if (e.which == 13) {
+    // return on Enter
+    $(".tag-input").on("keypress", function (event) {
+      if (event.which == 13) {
         document.activeElement.blur();
         return false;
       }
     });
 
-    $(".tag-list .remove-tag-link").on("click", function(e) {
+    $(".tag-list .remove-tag-link").on("click", function(event) {
       event.preventDefault();
+
       var thisForm = $(this).closest("form");
       $.ajax({
         url: thisForm.attr("action") + "/remove_tag",

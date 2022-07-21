@@ -1,6 +1,7 @@
 <table class="usa-table">
   <thead>
     <tr>
+      <th data-sortable scope="col" role="columnheader">HISP Service</th>
     <% if service_manager_permissions? %>
       <th data-sortable scope="col" role="columnheader">Organization</th>
       <th data-sortable scope="col" role="columnheader">Service Provider</th>
@@ -9,12 +10,16 @@
       <th data-sortable scope="col" role="columnheader"># of Stages</th>
       <th data-sortable scope="col" role="columnheader"># of Collections</th>
       <th data-sortable scope="col" role="columnheader">Status</th>
-      <th data-sortable scope="col" role="columnheader">HISP Service</th>
     </tr>
   </thead>
   <tbody>
     <% @services.each do |service| %>
       <tr>
+        <td>
+        <% if service.hisp? %>
+          <span class="usa-tag bg-cyan">HISP</span>
+        <% end %>
+        </td>
       <% if service_manager_permissions? %>
         <td><%= service.organization.try(:name) %></td>
         <td><%= service.service_provider.try(:name) %></td>
@@ -24,11 +29,6 @@
         <td><%= link_to_if service.collections.size > 0, service.collections.size, admin_collections_path %></td>
         <td data-sort-value="<%= service_status_sort_values[service.aasm_state] %>">
           <%= render 'components/service_status_tag', service: service %>
-        </td>
-        <td>
-        <% if service.hisp? %>
-          <span class="usa-tag bg-cyan">HISP</span>
-        <% end %>
         </td>
       </tr>
     <% end %>

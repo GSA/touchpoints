@@ -19,9 +19,17 @@
   </ul>
 </div>
 <% end %>
-<div class="grid-row grid-gap-lg">
-  <div class="grid-col-6">
-    <% if service_manager_permissions? && service.persisted? %>
+<div class="grid-row">
+  <div class="grid-col-12">
+    <div class="field">
+      <%= form.label :name, class: "usa-label" %>
+      <small>
+        Include a verb (an action the customer takes) in the context of the service offering (the thing the customer is trying to accomplish).
+      </small>
+      <%= form.text_field :name, class: "usa-input", placeholder: "What is the name of this Service?", required: true %>
+    </div>
+
+    <% if service_manager_permissions? %>
     <div class="field">
       <%= form.label :organization_id, class: "usa-label" %>
       <%= form.select :organization_id, options_for_select(organization_dropdown_options, service.organization_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
@@ -31,17 +39,23 @@
     <div class="field">
       <%= form.label :service_provider_id, class: "usa-label" %>
       <small>
-        Which High Impact Service Provider?
-      </small>
-      <br>
-      <small>
         <%= link_to "Service Providers", admin_service_providers_path %>
         are available based on the organization associated with the email domain for
         <%= current_user.email %>.
         Contact
         <a href="mailto:feedback-analytics@gsa.gov">support</a> for assistance.
       </small>
-      <%= form.select :service_provider_id, options_for_select(@service_providers.map { |p| ["#{p.organization.abbreviation} - #{p.name}", p.id] }, service.service_provider_id), { prompt: "Which Organization?" }, { class: "usa-select", required: true } %>
+      <%= form.select :service_provider_id, options_for_select(@service_providers.map { |p| ["#{p.organization.abbreviation} - #{p.name}", p.id] }, service.service_provider_id), { prompt: "Which Service Provider?" }, { class: "usa-select" } %>
+    </div>
+
+    <div class="field hisp-specific">
+      <%= form.label :justification_text, "Why did you select this service for priority designation?", class: "usa-label" %>
+      <small>
+        What is the scale of the service? (e.g., annual program cost or customer volume)?
+        <br>
+        What is the scale of the impact of the service (e.g., the importance of the service on individual lives)?
+      </small>
+      <%= form.text_area :justification_text, class: "usa-textarea", disabled: true %>
     </div>
 
     <div class="field">
@@ -68,26 +82,8 @@
     <% end %>
 
     <div class="field">
-      <%= form.label :name, class: "usa-label" %>
-      <small>
-        Include a verb (an action the customer takes) in the context of the service offering (the thing the customer is trying to accomplish).
-      </small>
-      <%= form.text_field :name, class: "usa-input", placeholder: "What is the name of this Service?", required: true %>
-    </div>
-
-    <div class="field">
       <%= form.label :kind, "Service type", class: "usa-label" %>
       <%= form.select :kind, options_for_select(@service_kinds, service.kind), { prompt: "Which kind of Service?" }, { class: "usa-select" } %>
-    </div>
-
-    <div class="field">
-      <%= form.label :justification_text, "Why did you select this service for priority designation?", class: "usa-label" %>
-      <small>
-        What is the scale of the service? (e.g., annual program cost or customer volume)?
-        <br>
-        What is the scale of the impact of the service (e.g., the importance of the service on individual lives)?
-      </small>
-      <%= form.text_area :justification_text, class: "usa-textarea" %>
     </div>
 
     <div class="field">
@@ -114,7 +110,8 @@
       <%= form.text_area :notes, class: "usa-textarea", placeholder: "Additional notes about the service" %>
     </div>
   </div>
-  <% if service.persisted? %>
+
+  <% if service.persisted? && admin_permissions? %>
   <div class="grid-col-6">
     <div class="field">
       <%= form.label :department, class: "usa-label" %>
@@ -136,11 +133,6 @@
       <%= form.text_field :service_slug, class: "usa-input", placeholder: "service-slug" %>
     </div>
 
-    <div class="field">
-      <%= form.label :url, class: "usa-label" %>
-      <%= form.text_field :url, class: "usa-input", placeholder: "https://example.gov/service-name" %>
-    </div>
-
     <fieldset class="usa-fieldset">
       <legend class="usa-sr-only">HISP Service?</legend>
       <div class="usa-checkbox">
@@ -150,11 +142,28 @@
     </fieldset>
   </div>
   <% end %>
+  <div class="grid-col-6">
+    <div class="field">
+      <%= form.label :url, class: "usa-label" %>
+      <%= form.text_field :url, class: "usa-input", placeholder: "https://example.gov/service-name" %>
+    </div>
+  </div>
 </div>
 
-  <p>
-    <div class="actions">
-      <%= form.submit class: "usa-button" %>
-    </div>
-  </p>
+<div class="actions margin-top-5 margin-bottom-5">
+  <%= form.submit class: "usa-button width-full" %>
+</div>
 <% end %>
+
+<script type="text/javascript">
+  $(function() {
+    // only allow Justification text for Services assigned to HISPs
+    $("#service_service_provider_id").on("change", function(event) {
+      if (event.target.value) {
+        $("#service_justification_text").attr("disabled", false);
+      } else {
+        $("#service_justification_text").attr("disabled", true);
+      }
+    });
+  })
+</script>

@@ -47,23 +47,38 @@
 </div>
 
 <div class="well">
-  <div class="field">
-    <%= label_tag :search_text, "Search by organization or name" %>
-    <%= text_field_tag :search_text, nil, class: "usa-input" %>
-    <% if @tags.first %>
-      <p>
-        Search by tag
-      </p>
-      <div class="tag-list">
-      <% @tags.order(:name).each do |tag| %>
-        <%= link_to admin_services_path(tag: tag.name), class: "search-tag-link",  "data-name" => tag.name do %>
-          <span class="usa-tag">
-            <%= tag.name %> (<%= tag.taggings_count %>)
-          </span>
-        <% end %>
-      <% end %>
+  <div class="grid-row grid-gap-lg">
+    <div class="tablet:grid-col-6">
+      <div class="field">
+        <h3>
+          <span class="fa fa-search"></span>
+          Search services
+        </h3>
+        <%= label_tag :search_text, "by organization or name", class: "font-sans-2xs" %>
+        <%= text_field_tag :search_text, nil, class: "usa-input" %>
       </div>
-    <% end %>
+    </div>
+    <div class="tablet:grid-col-6">
+      <% if @tags.first %>
+      <h3>
+        <span class="fa fa-filter"></span>
+        Filter by tag
+      </h3>
+      <br>
+      <div class="tag-list">
+        <% @tags.order(:name).each do |tag| %>
+        <%= link_to admin_services_path(tag: tag.name), class: "search-tag-link",  "data-name" => tag.name do %>
+        <span class="usa-tag">
+          <span class="fa fa-tag"></span>
+          &nbsp;
+          <%= tag.name %>
+          (<%= tag.taggings_count %>)
+        </span>
+        <% end %>
+        <% end %>
+      </div>
+      <% end %>
+    </div>
   </div>
 </div>
 <div class="search-results">
