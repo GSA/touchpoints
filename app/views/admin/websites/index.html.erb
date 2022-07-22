@@ -64,9 +64,8 @@
           <% @tags.order(:name).each do | tag | %>
             <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
               <span class="usa-tag">
-                <span class="fa fa-tag"></span>
-                &nbsp;
-                <%= tag.name %> (<%= tag.taggings_count %>)
+                <%= tag.name %>
+                (<%= tag.taggings_count %>)
               </span>
             </a>
           <% end %>
@@ -107,7 +106,7 @@
 
     $(".search-tag-link").on("click", function(e) {
       e.preventDefault();
-      
+
       $("#search_text").val("");
       $.ajax({
         url: '/admin/websites/search',

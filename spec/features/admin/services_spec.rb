@@ -39,6 +39,7 @@ feature 'Managing Services', js: true do
         before 'fill-in the form' do
           click_on 'New Service'
           expect(page).to have_content('New Service')
+          select(organization.name, from: 'service[organization_id]')
           select(service_provider.name, from: 'service[service_provider_id]')
           fill_in :service_name, with: 'New Service Name'
           fill_in :service_description, with: "Lots of text\n\n#### Heading\n\n* 1\n* 2\n* 3"

@@ -38,7 +38,10 @@
         url: thisForm.attr("action") + "/add_tag",
         type: 'post',
         data: "digital_product[tag_list]=" + $(".tag-input").val()
+      }).done(function(data) {
+        event.target.focus();
       });
+
     });
 
     // return on Enter

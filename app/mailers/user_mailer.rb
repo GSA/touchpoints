@@ -32,14 +32,6 @@ class UserMailer < ApplicationMailer
          to: ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')
   end
 
-  def social_media_account_created_notification(digital_service_account:, link:)
-    set_logo
-    @digital_service_account = digital_service_account
-    @link = link
-    mail subject: 'Touchpoints social media account has been created',
-         to: UserMailer.registry_manager_emails
-  end
-
   def service_event_notification(subject:, service:, event:, link: '')
     set_logo
     @subject = subject

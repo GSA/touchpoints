@@ -6,5 +6,9 @@
   New feedback has been submitted to your form, <%= @form.name %>.
 </p>
 <p>
-  Visit <a href="<%= response_admin_form_url(@form) %>"><%= response_admin_form_url(@form) %></a> to view.
+  Visit
+  <a href="<%= responses_admin_form_url(@form) %>">
+    <%= responses_admin_form_url(@form) %>
+  </a>
+  to view.
 </p>

@@ -59,23 +59,29 @@
       </div>
     </div>
     <div class="tablet:grid-col-6">
-      <% if @tags.first %>
       <h3>
         <span class="fa fa-filter"></span>
         Filter by tag
       </h3>
       <br>
+      <% if @tags.first %>
       <div class="tag-list">
         <% @tags.order(:name).each do |tag| %>
         <%= link_to admin_services_path(tag: tag.name), class: "search-tag-link",  "data-name" => tag.name do %>
         <span class="usa-tag">
-          <span class="fa fa-tag"></span>
-          &nbsp;
           <%= tag.name %>
           (<%= tag.taggings_count %>)
         </span>
         <% end %>
         <% end %>
+      </div>
+      <% else %>
+      <div class="usa-alert">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            No tags have been applied to Services yet.
+          </p>
+        </div>
       </div>
       <% end %>
     </div>
@@ -96,7 +102,7 @@
 
 <script>
   $(function() {
-    $("#search_text").keyup(function() {
+    $("#search_text").on("keyup", function() {
       $.ajax({
         url: '/admin/services/search',
         data: {
@@ -104,7 +110,8 @@
         }
       });
     });
-    $(".search-tag-link").click(function() {
+
+    $(".search-tag-link").on("click", function() {
       $("#search_text").val("");
       $.ajax({
         url: '/admin/services/search',
