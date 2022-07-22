@@ -62,9 +62,11 @@
 </div>
 <div class="grid-row">
   <div class="grid-col-6">
+    <% if admin_permissions? %>
     <p>
-      <%= link_to "Send quarterly email", admin_quarterly_performance_notification_path %>
+      <%= link_to "Send quarterly email to all Users for Draft Collections", admin_quarterly_performance_notification_path(year: 2022, quarter: 4), method: :post %>
     </p>
+    <% end %>
   </div>
 </div>
 <section class="usa-section">

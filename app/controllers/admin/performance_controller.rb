@@ -17,10 +17,15 @@ module Admin
     end
 
     def quarterly_performance_notification
-      Collection.where(aasm_state: 'published').each do |collection|
+      year = params[:year]
+      quarter = params[:quarter]
+      
+      Collection.where(aasm_state: 'draft', year: year, quarter: quarter).each do |collection|
         UserMailer.quarterly_performance_notification(collection_id: collection.id).deliver_later
       end
-      redirect_to admin_performance_path, notice: 'Quarterly performance email notication sent successfully.'
+
+      redirect_to admin_performance_path,
+        notice: 'Quarterly performance email notication sent successfully.'
     end
 
     private
