@@ -133,19 +133,24 @@ RSpec.describe UserMailer, type: :mailer do
     end
   end
 
-  describe 'social_media_account_created_notification' do
+  describe 'notification' do
     let!(:user) { FactoryBot.create(:user, registry_manager: true) }
-    let(:digital_service_account) { FactoryBot.create(:digital_service_account) }
-    let(:mail) { UserMailer.social_media_account_created_notification(digital_service_account:, link: admin_digital_service_account_path(digital_service_account)) }
+    let(:digital_product) { FactoryBot.create(:digital_product) }
+    let(:mail) { UserMailer.notification(
+      title: 'Digital Product has been created',
+      body: "Digital Product #{digital_product.name} created at #{DateTime.now} by #{user.email}",
+      path: admin_digital_product_url(digital_product),
+      emails: (User.admins.collect(&:email) + User.registry_managers.collect(&:email)).uniq,
+    ) }
 
     it 'renders the headers' do
-      expect(mail.subject).to eq('Touchpoints social media account has been created')
+      expect(mail.subject).to eq('Touchpoints notification: Digital Product has been created')
       expect(mail.to).to eq([user.email])
       expect(mail.from).to eq([ENV.fetch('TOUCHPOINTS_EMAIL_SENDER')])
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match('Social Media Account has been created')
+      expect(mail.body.encoded).to include('Digital Product ExampleGov Mobile App created')
     end
   end
 

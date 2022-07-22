@@ -103,16 +103,9 @@
       </div>
     </div>
     <br>
-
-    <p>
-      <%= label_tag "API path", nil, class: "usa-label" %>
-      <br>
-      <% api_url = "https://api.gsa.gov/analytics/touchpoints/v1/digital_service_accounts/#{@digital_service_account.id}.json" %>
-      <%= link_to api_url, api_url %>
-    </p>
   </div>
   <div class="grid-col-4">
-    <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) && (@digital_service_account.created? || @digital_service_account.updated? || @digital_service_account.published?) %>
+    <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) && (@digital_service_account.created? || @digital_service_account.updated? || @digital_service_account.submitted? || @digital_service_account.published?) %>
     <div class="well">
       <span class="usa-tag bg-blue">
         for Contacts
@@ -131,7 +124,7 @@
       <br>
     <% end %>
 
-    <% if @digital_service_account.published? %>
+    <% if @digital_service_account.submitted? || @digital_service_account.published? %>
       <%= link_to archive_admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button--base full-width", method: :post do %>
         <span class="fa fa-archive"></span>
         &nbsp;
@@ -155,8 +148,7 @@
     </div>
     <% end %>
 
-  <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
-
+  <% if registry_manager_permissions?(user: current_user) %>
     <div class="well">
       <span class="usa-tag bg-violet">
         for Registry Managers

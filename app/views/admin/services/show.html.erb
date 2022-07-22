@@ -33,7 +33,18 @@
 <% end %>
 
 <div class="grid-row grid-gap-lg">
-  <div class="desktop:grid-col-6">
+  <div class="desktop:grid-col-8">
+
+    <% if @service.hisp? %>
+    <div class="usa-alert usa-alert--info">
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
+          This service is designated as a HISP service.
+        </p>
+      </div>
+    </div>
+    <% end %>
+
     <p>
       <strong>Organization</strong>
       <br>
@@ -95,12 +106,63 @@
       <%= to_markdown(@service.where_customers_interact) %>
     </p>
     <p>
+      <strong>Url</strong>
+      <br>
+      <%= link_to @service.url, @service.url %>
+    </p>
+    <p>
       <strong>Notes</strong>
       <br>
       <%= to_markdown(@service.notes) %>
     </p>
   </div>
-  <div class="desktop:grid-col-6">
+  <div class="desktop:grid-col-4">
+
+    <% if @service.created? && !@service.submitted? && !@service.approved? %>
+    <div class="">
+      <%= link_to "Submit this Service for OMB review", submit_admin_service_path(@service), class: "usa-button full-width", method: :post %>
+    </div>
+    <% end %>
+
+    <% if service_permissions?(service: @service) && !@service.created? && !@service.submitted? && !@service.approved? && @service.verified? %>
+    <div class="margin-top-2">
+      <%= link_to archive_admin_service_path(@service), class: "usa-button full-width", method: :post do %>
+        <i class="fa fa-archive"></i>
+        &nbsp;
+        Archive this form
+      <% end %>
+    </div>
+    <% end %>
+
+    <% if service_manager_permissions? %>
+    <div class="margin-top-2">
+      <%= link_to reset_admin_service_path(@service), class: "usa-button usa-button--secondary full-width", method: :post do %>
+        <span class="fa fa-backward"></span>
+        &nbsp;
+        Reset
+      <% end %>
+    </div>
+    <% end %>
+
+    <% if admin_permissions? %>
+    <div class="margin-top-2">
+      <%= link_to omb_cx_reporting_admin_service_path(@service), class: "usa-button usa-button--outline width-full" do %>
+        <i class="fa fa-pencil-alt"></i>
+        OMB Quarterly Reporting
+      <% end %>
+    </div>
+    <% end %>
+
+    <% if service_manager_permissions? %>
+    <div class="margin-top-2">
+      <%= link_to versions_admin_service_path(@service), class: "usa-button usa-button--outline width-full" do %>
+        <span class="fa fa-list"></span>
+        &nbsp;
+        View update history
+      <% end %>
+    </div>
+    <% end %>
+
     <div class="well">
       <div class="font-sans-2xs">
         This information is for
@@ -127,15 +189,16 @@
         <br>
         <%= @service.service_slug %>
       </p>
-      <p>
-        <strong>Url</strong>
-        <br>
-        <%= link_to @service.url, @service.url %>
-      </p>
     </div>
-    <% if service_manager_permissions? %>
-      <%= link_to "View update history", versions_admin_service_path(@service) %>
+
+    <% if service_permissions?(service: @service) %>
+    <div class="well">
+      <div class="tags-div">
+        <%= render 'admin/services/tags', service: @service %>
+      </div>
+    </div>
     <% end %>
+
   </div>
 </div>
 
@@ -154,14 +217,6 @@
   <% end %>
   </h2>
 </div>
-
-<% if service_permissions?(service: @service) %>
-<div class="well">
-  <div class="tags-div">
-    <%= render 'admin/services/tags', service: @service %>
-  </div>
-</div>
-<% end %>
 
 <div class="well">
   <div class="grid-row grid-gap-md">
@@ -278,44 +333,3 @@
     <% end %>
   </div>
 </div>
-
-<% if admin_permissions? %>
-<div class="well">
-  <h4>
-    Supplemental service information
-  </h4>
-  <p>
-    <%= link_to equity_assessment_admin_service_path(@service), class: "usa-button usa-button--outline" do %>
-      <i class="fa fa-pencil-alt"></i>
-      Equity Assessment
-    <% end %>
-    <%= link_to omb_cx_reporting_admin_service_path(@service), class: "usa-button usa-button--outline" do %>
-      <i class="fa fa-pencil-alt"></i>
-      OMB Quarterly Reporting
-    <% end %>
-  </p>
-</div>
-<% end %>
-
-<% if @service.created? && !@service.submitted? && !@service.approved? %>
-<p>
-  <%= link_to "Submit this Service for OMB review", submit_admin_service_path(@service), class: "usa-button full-width", method: :post %>
-</p>
-<% end %>
-
-<% if service_permissions?(service: @service) && !@service.created? && !@service.submitted? && !@service.approved? && @service.verified? %>
-<p>
-  <%= link_to archive_admin_service_path(@service), class: "usa-button full-width", method: :post do %>
-    <i class="fa fa-archive"></i>
-    &nbsp;
-    Archive this form
-  <% end %>
-</p>
-<% end %>
-
-<% if service_manager_permissions? %>
-<p>
-  <i class="fa fa-arrow-left-long-to-line"></i>
-  <%= link_to "Reset", reset_admin_service_path(@service), class: "usa-button usa-button--secondary full-width", method: :post %>
-</p>
-<% end %>

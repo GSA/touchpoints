@@ -11,7 +11,7 @@
   <tbody>
     <% digital_service_accounts.each do |digital_service_account| %>
       <tr>
-        <td><%= digital_service_account.service %></td>
+        <td><%= digital_service_account.account %></td>
         <td>
           <%= link_to digital_service_account.name, admin_digital_service_account_path(digital_service_account) %>
         </td>
@@ -20,7 +20,9 @@
             <%= digital_service_account.aasm_state %>
           </span>
         </td>
-        <td><%= digital_service_account.updated_at %></td>
+        <td data-sort-value="<%= digital_service_account.updated_at.to_i %>">
+          <%= digital_service_account.updated_at %>
+        </td>
       </tr>
     <% end %>
   </tbody>
