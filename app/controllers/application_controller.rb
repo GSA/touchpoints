@@ -100,8 +100,8 @@ class ApplicationController < ActionController::Base
 
   def ensure_website_admin(website:)
     return false if current_user.blank?
-    return true if website_permissions?(website: website, user: current_user)
-    
+    return true if website_permissions?(website:, user: current_user)
+
     redirect_to(admin_websites_path, notice: 'Authorization is Required')
   end
 
@@ -160,7 +160,7 @@ class ApplicationController < ActionController::Base
     return false if website.blank?
     return false if user.blank?
 
-    website.admin?(user: user)
+    website.admin?(user:)
   end
 
   helper_method :organizational_website_manager_permissions?
