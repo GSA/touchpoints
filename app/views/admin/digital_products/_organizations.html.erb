@@ -12,23 +12,28 @@
           <span class="usa-tag">
             <%= agency.name %>
           </span>
+
+          <% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
           &nbsp;
           <a href="javascript:void(0);" class="remove-agency-link" data-value="<%= agency.id %>">
             <span class="fa fa-trash"></span>
           </a>
+          <% end %>
         </li>
           <% end %>
       </ul>
     </p>
   </div>
-  <%= select_tag :organization_id, options_for_select(@sponsoring_agency_options.map { |p| [p.name, p.id] }), prompt: "Choose an Agency", class: "usa-select add-agency" %>
+  <% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
+    <%= select_tag :organization_id, options_for_select(@sponsoring_agency_options.map { |p| [p.name, p.id] }), prompt: "Choose an Agency", class: "usa-select add-agency" %>
+  <% end %>
 </div>
 
+<% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
 <script>
   $(function() {
 
-    $(".add-agency").on("change", function(e) {
-
+    $(".add-agency").on("change", function(event) {
       event.preventDefault();
 
       var container = $('#sponsoring-agencies-div');
@@ -39,7 +44,7 @@
       });
     });
 
-    $(".remove-agency-link").on("click", function(e) {
+    $(".remove-agency-link").on("click", function(event) {
       event.preventDefault();
 
       var container = $('#sponsoring-agencies-div');
@@ -50,5 +55,6 @@
       });
     });
 
-  })
+  });
 </script>
+<% end %>

@@ -1,8 +1,8 @@
 <% content_for :navigation_title do %>
-  Mobile Applications
+  Mobile Products
   <%= link_to new_admin_digital_product_path, class: "usa-button usa-button-inverted float-right" do %>
     <i class="fa fa-plus-circle"></i>
-    New Mobile App
+    New Mobile Product
   <% end %>
 <% end %>
 
@@ -20,7 +20,7 @@
 >
   <div class="usa-summary-box__body">
     <div class="usa-summary-box__text">
-      Search for mobile apps using the filters below. Agency names are based found using keywords from their title, for example "Census" for "Bureau of the Census" to find their exact name in the system. Agencies only appear once they have an account published in the system. The search box below is best used for short terms from the entry in the table, for example "GSA" or an email address.
+      Search for mobile products using the filters below. Agency names are based found using keywords from their title, for example "Census" for "Bureau of the Census" to find their exact name in the system. Agencies only appear once they have an account published in the system. The search box below is best used for short terms from the entry in the table, for example "GSA" or an email address.
     </div>
   </div>
 </div>
@@ -70,7 +70,7 @@
   </div>
   <div class="grid-col-6">
     <%= label_tag "Status selector", nil, class: "usa-label" %>
-    <%= select_tag :aasm_state, options_for_select(["All", "Published", "Archive"]), class: "usa-select" %>
+    <%= select_tag :aasm_state, options_for_select(["All", "Created", "Published", "Archived"]), class: "usa-select" %>
   </div>
 </div>
 

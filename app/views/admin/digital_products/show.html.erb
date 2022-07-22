@@ -14,7 +14,19 @@
         Back to Mobile Apps
       <% end %>
     </p>
+
+    <% if @digital_product.archived? %>
+    <div class="usa-alert usa-alert--warning">
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
+          This digital product has been archived.
+        </p>
+      </div>
+    </div>
+    <br>
+    <% end %>
   </div>
+
   <div class="desktop:grid-col-8">
     <p>
       <%= label_tag "Name", nil, class: "usa-label" %>
@@ -35,16 +47,29 @@
     </p>
 
     <p>
-      <%= label_tag "Long description", nil, class: "usa-label" %>
-      <p>
-        <%= render 'components/markdown-content-supported' %>
-      </p>
+      <label class="usa-label" for="long_description">
+        Long description
+        <span class="fa fa-info-circle usa-tooltip"
+          data-position="right"
+          title="Supports Markdown">
+        </span>
+      </label>
       <%= to_markdown(@digital_product.long_description) %>
     </p>
 
     <p>
       <%= label_tag "URL", nil, class: "usa-label" %>
-      <%= @digital_product.url %>
+      <% if @digital_product.url.present? %>
+        <%= @digital_product.url %>
+      <% else %>
+      <div class="usa-alert">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            No URL specified.
+          </p>
+        </div>
+      </div>
+      <% end %>
     </p>
 
     <p>
@@ -117,11 +142,11 @@
     <br>
   </div>
   <div class="desktop:grid-col-4">
-    <% if digital_product_permissions?(digital_product: @digital_product, user: current_user) && @digital_product.created? || !@digital_product.archived? %>
+    <% if digital_product_permissions?(digital_product: @digital_product, user: current_user) && (@digital_product.created? || !@digital_product.archived?) %>
     <div class="well">
       <p>
         <span class="usa-tag bg-blue">
-          for Contact Users
+          for Contacts
         </span>
       </p>
 
@@ -146,7 +171,7 @@
       <br>
       <div class="usa-alert usa-alert--info">
         <div class="usa-alert__body">
-          <p class="usa-alert__text">
+          <p class="usa-alert__text font-sans-3xs">
             Only "Archive" a Product after your Organization
             is no longer using the product and no longer published for use.
             Archiving removes products from the public registry view and API.
