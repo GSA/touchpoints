@@ -25,8 +25,8 @@ feature 'Digital Products', js: true do
       end
 
       it 'load the DigitalProducts#index page' do
-        expect(page).to have_content('Mobile Applications')
-        expect(page).to have_link('New Mobile App')
+        expect(page).to have_content('Mobile Products')
+        expect(page).to have_link('New Mobile Product')
         expect(page.current_path).to eq(admin_digital_products_path)
         expect(page).to have_css('tbody tr', count: 2)
       end
