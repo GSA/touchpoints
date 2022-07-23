@@ -203,6 +203,21 @@ service_5 = Service.create!({
   hisp: false,
 })
 
+form_that_belongs_to_a_service = Form.create!({
+  organization: example_gov,
+  template: true,
+  kind: 'open ended',
+  notes: "An open-ended Feedback Form related to #{service_5.name}",
+  user: admin_user,
+  name: 'Open-ended Feedback',
+  title: "An open-ended Feedback Form related to #{service_5.name}",
+  instructions: 'Share',
+  disclaimer_text: '',
+  delivery_method: 'modal',
+  modal_button_text: 'Click here to leave feedback',
+  service: service_5,
+})
+
 stage_before = ServiceStage.create({
   name: 'Before',
   service: service_1
@@ -255,8 +270,7 @@ open_ended_form = Form.create!({
   instructions: 'Share feedback about the new example.gov website and recommend additional features.',
   disclaimer_text: 'Disclaimer Text Goes Here',
   delivery_method: 'modal',
-  modal_button_text: 'Click here to leave feedback'
-
+  modal_button_text: 'Click here to leave feedback',
 })
 Question.create!({
   form: open_ended_form,

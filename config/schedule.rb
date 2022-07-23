@@ -32,3 +32,7 @@ end
 every 1.day, at: '10:30pm' do
   rake 'scheduled_jobs:send_two_weeks_until_inactivation_warning'
 end
+
+every 1.day, at: '11:00pm' do
+  rake 'scheduled_jobs:archive_surveys'
+end

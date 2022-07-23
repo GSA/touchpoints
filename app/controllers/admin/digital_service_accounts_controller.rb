@@ -16,7 +16,7 @@ module Admin
 
     def review
       ensure_admin_or_contact(@digital_service_account)
-      @digital_service_accounts = DigitalServiceAccount.where("aasm_state = 'created' OR aasm_state = 'edited'").order(:name).page(params[:page])
+      @digital_service_accounts = DigitalServiceAccount.where("aasm_state = 'created' OR aasm_state = 'edited' OR aasm_state = 'submitted'").order(:name).page(params[:page])
     end
 
     def show
@@ -24,7 +24,6 @@ module Admin
     end
 
     def new
-      ensure_admin
       @digital_service_account = DigitalServiceAccount.new
     end
 
@@ -33,7 +32,6 @@ module Admin
     end
 
     def create
-      ensure_admin
       @digital_service_account = DigitalServiceAccount.new(digital_service_account_params)
       @digital_service_account.organization_list.add(current_user.organization_id)
 
@@ -42,7 +40,12 @@ module Admin
 
         Event.log_event(Event.names[:digital_service_account_created], 'Digital Service Account', @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} created at #{DateTime.now}", current_user.id)
 
-        UserMailer.social_media_account_created_notification(digital_service_account: @digital_service_account, link: admin_digital_service_account_path(@digital_service_account)).deliver_later
+        UserMailer.notification(
+          title: 'Digital Service Account was created',
+          body: "Digital Service Account #{@digital_service_account.name} created at #{DateTime.now} by #{current_user.email}",
+          path: admin_digital_service_account_url(@digital_service_account),
+          emails: (User.admins.collect(&:email) + User.registry_managers.collect(&:email)).uniq,
+        ).deliver_later
 
         redirect_to admin_digital_service_account_path(@digital_service_account), notice: 'Digital service account was successfully created.'
       else
@@ -121,7 +124,7 @@ module Admin
           title: 'Digital Service Account was submitted',
           body: "Digital Service Account #{@digital_service_account.name} submitted at #{DateTime.now} by #{current_user.email}",
           path: admin_digital_service_account_url(@digital_service_account),
-          emails: User.registry_managers.collect(&:email), # + @digital_product.contact_emails
+          emails: (User.admins.collect(&:email) + User.registry_managers.collect(&:email)).uniq,
         ).deliver_later
 
         redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was submitted."
@@ -140,7 +143,7 @@ module Admin
           title: 'Digital Service Account was published',
           body: "Digital Service Account #{@digital_service_account.name} published at #{DateTime.now} by #{current_user.email}",
           path: admin_digital_service_account_url(@digital_service_account),
-          emails: User.registry_managers.collect(&:email), # + @digital_product.contact_emails
+          emails: (User.admins.collect(&:email) + User.registry_managers.collect(&:email) + @digital_service_account.roles.first.users.collect(&:email)).uniq
         ).deliver_later
 
         redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was published."
@@ -154,6 +157,14 @@ module Admin
 
       if @digital_service_account.archive!
         Event.log_event(Event.names[:digital_service_account_archived], 'Digital Service Account', @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} archived at #{DateTime.now}", current_user.id)
+
+        UserMailer.notification(
+          title: 'Digital Service Account was archived',
+          body: "Digital Service Account #{@digital_service_account.name} archived at #{DateTime.now} by #{current_user.email}",
+          path: admin_digital_service_account_url(@digital_service_account),
+          emails: (User.admins.collect(&:email) + User.registry_managers.collect(&:email)).uniq,
+        ).deliver_later
+
         redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was archived."
       else
         render :edit

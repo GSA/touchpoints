@@ -47,23 +47,44 @@
 </div>
 
 <div class="well">
-  <div class="field">
-    <%= label_tag :search_text, "Search by organization or name" %>
-    <%= text_field_tag :search_text, nil, class: "usa-input" %>
-    <% if @tags.first %>
-      <p>
-        Search by tag
-      </p>
-      <div class="tag-list">
-      <% @tags.order(:name).each do |tag| %>
-        <%= link_to admin_services_path(tag: tag.name), class: "search-tag-link",  "data-name" => tag.name do %>
-          <span class="usa-tag">
-            <%= tag.name %> (<%= tag.taggings_count %>)
-          </span>
-        <% end %>
-      <% end %>
+  <div class="grid-row grid-gap-lg">
+    <div class="tablet:grid-col-6">
+      <div class="field">
+        <h3>
+          <span class="fa fa-search"></span>
+          Search services
+        </h3>
+        <%= label_tag :search_text, "by organization or name", class: "font-sans-2xs" %>
+        <%= text_field_tag :search_text, nil, class: "usa-input" %>
       </div>
-    <% end %>
+    </div>
+    <div class="tablet:grid-col-6">
+      <h3>
+        <span class="fa fa-filter"></span>
+        Filter by tag
+      </h3>
+      <br>
+      <% if @tags.first %>
+      <div class="tag-list">
+        <% @tags.order(:name).each do |tag| %>
+        <%= link_to admin_services_path(tag: tag.name), class: "search-tag-link",  "data-name" => tag.name do %>
+        <span class="usa-tag">
+          <%= tag.name %>
+          (<%= tag.taggings_count %>)
+        </span>
+        <% end %>
+        <% end %>
+      </div>
+      <% else %>
+      <div class="usa-alert">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            No tags have been applied to Services yet.
+          </p>
+        </div>
+      </div>
+      <% end %>
+    </div>
   </div>
 </div>
 <div class="search-results">
@@ -81,7 +102,7 @@
 
 <script>
   $(function() {
-    $("#search_text").keyup(function() {
+    $("#search_text").on("keyup", function() {
       $.ajax({
         url: '/admin/services/search',
         data: {
@@ -89,7 +110,8 @@
         }
       });
     });
-    $(".search-tag-link").click(function() {
+
+    $(".search-tag-link").on("click", function() {
       $("#search_text").val("");
       $.ajax({
         url: '/admin/services/search',

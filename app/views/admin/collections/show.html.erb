@@ -88,14 +88,28 @@
       </p>
     </div>
     <div class="grid-col-4">
-      <p>
-        <%= label_tag :collection_status, nil, class: "usa-label" %>
-        <%= render 'components/collection_status_tag', collection: @collection %>
-      </p>
       <%= render 'components/step_indicator', collection: @collection %>
       <p>
+        <%= label_tag :collection_status, nil, class: "usa-label" %>
+        <br>
+        <%= render 'components/collection_status_tag', collection: @collection %>
+      </p>
+      <p>
         <%= label_tag :rating, nil, class: "usa-label" %>
-        <%= collection_rating_label(rating: @collection.rating) %>
+        <% if @collection.rating.present? %>
+          <%= collection_rating_label(rating: @collection.rating) %>
+        <% else %>
+        <div class="usa-alert">
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">
+              This Collection will receive a
+              <a href="https://github.com/GSA/touchpoints/wiki/Data-Collection-Rating" class="usa-link" target="_blank" rel="noopener">rating</a>
+              after
+              Submission.
+            </p>
+          </div>
+        </div>
+        <% end %>
       </p>
     </div>
   </div>

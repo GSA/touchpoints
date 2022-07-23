@@ -194,13 +194,6 @@
       </h3>
 
       <div class="grid-row">
-        <div class="grid-col-12">
-          <div class="tags-div">
-            <%= render 'admin/websites/tags', website: @website %>
-          </div>
-        </div>
-      </div>
-      <div class="grid-row">
         <div class="grid-col-6">
           <label class="usa-label" for="type_of_site">
             Type of site
@@ -348,31 +341,30 @@
       </div>
     </div>
 
-      <div class="grid-col-12">
-        <p>
-
-        </p>
-    </div>
-
-    <p>
-      <%= link_to "https://touchpoints.app.cloud.gov/touchpoints/1fc9c962/", class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" do %>
-        <i class="fa fa-info-circle"></i>
-        &nbsp;
-        Ask a question or provide feedback
-      <% end %>
-      <% if organizational_website_manager_permissions?(user: current_user) %>
-        <%= link_to statuscard_admin_website_path(@website), class: "usa-button usa-button--outline", target: "_blank" do %>
-          <i class="fa fa-check"></i>
-          Status card
-        <% end %>
-      <% end %>
-    </p>
-
   </div>
   <div class="desktop:grid-col-4">
     <% if website_permissions?(website: @website, user: current_user) %>
       <%= render 'admin/websites/tasks/bar', website: @website %>
     <% end %>
+
+    <div>
+    <% if organizational_website_manager_permissions?(user: current_user) %>
+      <%= link_to statuscard_admin_website_path(@website), class: "usa-button usa-button--outline width-full", target: "_blank" do %>
+        <i class="fa fa-check"></i>
+        Status card
+      <% end %>
+    <% end %>
+
+    <%= link_to "https://touchpoints.app.cloud.gov/touchpoints/1fc9c962/", class: "usa-button usa-button--outline width-full margin-top-2", target: "_blank", rel: "noopener" do %>
+      <i class="fa fa-info-circle"></i>
+      &nbsp;
+      Ask a question or provide feedback
+    <% end %>
+    </div>
+
+    <div class="tags-div well">
+      <%= render 'admin/websites/tags', website: @website %>
+    </div>
 
     <%= render 'components/event_log', events: @events %>
   </div>

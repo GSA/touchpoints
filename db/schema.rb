@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_05_002816) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_20_213646) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -194,6 +194,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_05_002816) do
     t.string "success_text_heading"
     t.string "notification_frequency", default: "instant"
     t.integer "service_id"
+    t.integer "questions_count", default: 0
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["organization_id"], name: "index_forms_on_organization_id"
@@ -480,7 +481,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_05_002816) do
     t.string "kind"
     t.string "aasm_state", default: "created"
     t.text "non_digital_explanation"
-    t.integer "service_stage_count", default: 0
+    t.integer "service_stages_count", default: 0
   end
 
   create_table "submissions", force: :cascade do |t|

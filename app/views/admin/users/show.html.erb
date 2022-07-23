@@ -73,6 +73,52 @@
 <% if current_user == @user || admin_permissions? %>
 <div class="well">
   <h4>
+    Service Providers
+  </h4>
+  <% if @service_providers.present? %>
+    <ul class="usa-list">
+    <% @service_providers.each do |service_provider| %>
+      <li>
+        <%= link_to service_provider.name, admin_service_provider_path(service_provider) %><br>
+      </li>
+    <% end %>
+    </ul>
+  <% else %>
+  <div class="usa-alert usa-alert--info">
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        No Services Providers at this time
+      </p>
+    </div>
+  </div>
+  <% end %>
+</div>
+
+<div class="well">
+  <h4>
+    Services
+  </h4>
+  <% if @services.present? %>
+    <ul class="usa-list">
+    <% @services.each do |service| %>
+      <li>
+        <%= link_to service.name, admin_service_path(service) %><br>
+      </li>
+    <% end %>
+    </ul>
+  <% else %>
+  <div class="usa-alert usa-alert--info">
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        No Services at this time
+      </p>
+    </div>
+  </div>
+  <% end %>
+</div>
+
+<div class="well">
+  <h4>
     Forms
   </h4>
   <% if @forms.present? %>
@@ -142,7 +188,7 @@
 
 <div class="well">
   <h4>
-    Websites managed
+    Websites
   </h4>
   <% if @websites.present? %>
     <ul class="usa-list">

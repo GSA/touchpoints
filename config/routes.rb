@@ -338,6 +338,7 @@ Rails.application.routes.draw do
     get 'dashboard', to: 'site#index', as: :dashboard
     get 'integrations', to: 'site#integrations', as: :integrations
     get 'performance', to: 'performance#index', as: :performance
+    post 'quarterly_peformance_notification', to: 'performance#quarterly_performance_notification', as: 'quarterly_performance_notification'
     get 'performance/apg', to: 'performance#apgs', as: :apgs
     get 'management', to: 'site#management', as: :management
     get 'events', to: 'events#index', as: :events

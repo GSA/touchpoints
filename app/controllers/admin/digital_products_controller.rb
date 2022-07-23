@@ -11,11 +11,16 @@ module Admin
     ]
 
     def index
-      @digital_products = DigitalProduct.order(:name, :service).page(params[:page])
+      @digital_products = DigitalProduct
+        .order(:name, :service)
+        .page(params[:page])
     end
 
     def review
-      @digital_products = DigitalProduct.where("aasm_state = 'created' OR aasm_state = 'edited'").order(:name, :service).page(params[:page])
+      @digital_products = DigitalProduct
+        .where("aasm_state = 'created' OR aasm_state = 'edited' OR aasm_state = 'submitted'")
+        .order(:name, :service)
+        .page(params[:page])
     end
 
     def show; end
@@ -30,7 +35,16 @@ module Admin
       @digital_product = DigitalProduct.new(digital_product_params)
       @digital_product.organization_list.add(current_user.organization_id)
 
-      if @digital_product.save!
+      if @digital_product.save
+        Event.log_event(Event.names[:digital_product_created], 'Digital Product', @digital_product.id, "Digital Product #{@digital_product.name} created at #{DateTime.now}", current_user.id)
+
+        UserMailer.notification(
+          title: 'Digital Product has been created',
+          body: "Digital Product #{@digital_product.name} created at #{DateTime.now} by #{current_user.email}",
+          path: admin_digital_product_url(@digital_product),
+          emails: (User.admins.collect(&:email) + User.registry_managers.collect(&:email)).uniq,
+        ).deliver_later
+
         current_user.add_role(:contact, @digital_product)
         redirect_to admin_digital_product_path(@digital_product), notice: 'Digital product was successfully created.'
       else
@@ -40,6 +54,8 @@ module Admin
 
     def update
       if @digital_product.update(digital_product_params)
+        Event.log_event(Event.names[:digital_product_updated], 'Digital Product', @digital_product.id, "Digital Product #{@digital_product.name} updated at #{DateTime.now}", current_user.id)
+
         redirect_to admin_digital_product_path(@digital_product), notice: 'Digital product was successfully updated.'
       else
         render :edit
@@ -48,6 +64,7 @@ module Admin
 
     def destroy
       @digital_product.destroy
+      Event.log_event(Event.names[:digital_product_deleted], 'Digital Product', @digital_product.id, "Digital Product #{@digital_product.name} deleted at #{DateTime.now}", current_user.id)
       redirect_to admin_digital_products_url, notice: 'Digital product was successfully destroyed.'
     end
 
@@ -92,7 +109,7 @@ module Admin
           title: 'Digital Product has been submitted',
           body: "Digital Product #{@digital_product.name} submitted at #{DateTime.now} by #{current_user.email}",
           path: admin_digital_product_url(@digital_product),
-          emails: User.registry_managers.collect(&:email),
+          emails: (User.admins.collect(&:email) + User.registry_managers.collect(&:email)).uniq,
         ).deliver_later
 
         redirect_to admin_digital_product_path(@digital_product), notice: 'Digital product was successfully submitted.'
@@ -111,7 +128,7 @@ module Admin
           title: 'Digital Product has been published',
           body: "Digital Product #{@digital_product.name} published at #{DateTime.now} by #{current_user.email}",
           path: admin_digital_product_url(@digital_product),
-          emails: User.registry_managers.collect(&:email), # + @digital_product.contact_emails
+          emails: (User.admins.collect(&:email) + User.registry_managers.collect(&:email) + @digital_product.roles.first.users.collect(&:email)).uniq,
         ).deliver_later
 
         redirect_to admin_digital_product_path(@digital_product), notice: "Digital Product #{@digital_product.name} was published."
@@ -125,6 +142,14 @@ module Admin
 
       if @digital_product.archive!
         Event.log_event(Event.names[:digital_product_archived], 'Digital Product', @digital_product.id, "Digital Product #{@digital_product.name} archived at #{DateTime.now}", current_user.id)
+
+        UserMailer.notification(
+          title: 'Digital Product has been archived',
+          body: "Digital Product #{@digital_product.name} archived at #{DateTime.now} by #{current_user.email}",
+          path: admin_digital_product_url(@digital_product),
+          emails: (User.admins.collect(&:email) + User.registry_managers.collect(&:email)).uniq,
+        ).deliver_later
+
         redirect_to admin_digital_product_path(@digital_product), notice: "Digital Product #{@digital_product.name} was archived."
       else
         render :edit
@@ -135,8 +160,8 @@ module Admin
       ensure_digital_product_permissions(digital_product: @digital_product)
 
       if @digital_product.reset!
-        Event.log_event(Event.names[:digital_product_reset], 'Digital Service Account', @digital_product.id, "Digital Product #{@digital_product.name} reset at #{DateTime.now}", current_user.id)
-        redirect_to admin_digital_product_path(@digital_product), notice: "Digital Service Account #{@digital_product.name} was reset."
+        Event.log_event(Event.names[:digital_product_reset], 'Digital Product', @digital_product.id, "Digital Product #{@digital_product.name} reset at #{DateTime.now}", current_user.id)
+        redirect_to admin_digital_product_path(@digital_product), notice: "Digital Product #{@digital_product.name} was reset."
       else
         render :edit
       end

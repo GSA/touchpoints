@@ -96,7 +96,7 @@ module Admin
 
     def create
       @service = Service.new(service_params)
-      @service.organization = @service.service_provider.organization
+      @service.hisp = @service.service_provider.present?
 
       if @service.save
         redirect_to admin_service_path(@service), notice: 'Service was successfully created.'

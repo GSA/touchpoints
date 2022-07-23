@@ -83,163 +83,167 @@
 </section>
 
 <script>
-  var doughnutData = {
-    datasets: [{
-      data: [
-        320979, 306854, 113803, 107528, 149706, 107528, 74600, 40868
-      ],
-      backgroundColor: [
-        "#00BDE3",
-        "#0071bc",
-        "#6D7375",
-        "#285C7E",
-        "#A89AE0",
-        "#94C7E9",
-        "#173D4D",
-        "#B3B6B7",
-        "#372D5F",
-      ],
-      label: 'Responses by Agency'
-    }],
+  $(function() {
+    
+    var doughnutData = {
+      datasets: [{
+        data: [
+          320979, 306854, 113803, 107528, 149706, 107528, 74600, 40868
+        ],
+        backgroundColor: [
+          "#00BDE3",
+          "#0071bc",
+          "#6D7375",
+          "#285C7E",
+          "#A89AE0",
+          "#94C7E9",
+          "#173D4D",
+          "#B3B6B7",
+          "#372D5F",
+        ],
+        label: 'Responses by Agency'
+      }],
 
-    // These labels appear in the legend and in the tooltips when hovering different arcs
-    labels: [
-      'VHA (email)',
-      'Medicare (phone)',
-      'Healthcare.gov (phone)',
-      'SSA (web)',
-      'IRS (web)',
-      'Medicare (web)',
-      'OPM Retirement (web)',
-      'Others'
-    ]
-  };
+      // These labels appear in the legend and in the tooltips when hovering different arcs
+      labels: [
+        'VHA (email)',
+        'Medicare (phone)',
+        'Healthcare.gov (phone)',
+        'SSA (web)',
+        'IRS (web)',
+        'Medicare (web)',
+        'OPM Retirement (web)',
+        'Others'
+      ]
+    };
 
-  var doughnutConfig = {
-    type: 'doughnut',
-    data: doughnutData,
-    options: {
-      responsive: true,
-      legend: {
-        align: 'start',
-        position: 'bottom',
-      },
-      title: {
-        display: false,
-        // text: 'Doughnut Chart'
-      },
-      animation: {
-        animateScale: true,
-        animateRotate: true
-      }
-    }
-  };
-
-  //
-
-  var doughnutDataResponsesByChannel = {
-    datasets: [{
-      data: [
-        307086, 428220, 512882
-      ],
-      backgroundColor: [
-        "#00BDE3",
-        "#0071bc",
-        "#6D7375",
-        "#285C7E",
-        "#94C7E9",
-        "#173D4D",
-        "#B3B6B7",
-        "#372D5F",
-      ],
-      label: 'Responses by Agency'
-    }],
-
-    // These labels appear in the legend and in the tooltips when hovering different arcs
-    labels: [
-      'Email',
-      'Phone',
-      'Web'
-    ]
-  };
-
-  var doughnutConfigResponsesByChannel = {
-    type: 'doughnut',
-    data: doughnutDataResponsesByChannel,
-    options: {
-      responsive: true,
-      legend: {
-        align: 'start',
-        position: 'bottom',
-      },
-      title: {
-        display: false,
-        // text: 'Doughnut Chart'
-      },
-      animation: {
-        animateScale: true,
-        animateRotate: true
-      }
-    }
-  };
-
-  window.addEventListener("load", function() {
-    var ctx = document.getElementById('cx-doughnut-chart-canvas').getContext("2d");
-    window.myDoughnut = new Chart(ctx, doughnutConfig);
-
-    var ctx2 = document.getElementById("cx-doughnut-chart-responses-by-channel");
-    var myChart = new Chart(ctx2, {
-      type: 'bar',
-      data: {
-        labels: ["FY2021 Q2"],
-        datasets: [{
-            label: 'Email',
-            data: [307086],
-            backgroundColor: [
-              '#0071bc'
-            ]
-          },
-          {
-            label: 'Phone',
-            data: [428220],
-            backgroundColor: [
-              '#285C7E'
-            ]
-          },
-          {
-            label: 'Web',
-            data: [512882],
-            backgroundColor: [
-              '#94C7E9'
-            ]
-          }
-        ]
-      },
+    var doughnutConfig = {
+      type: 'doughnut',
+      data: doughnutData,
       options: {
         responsive: true,
         legend: {
           align: 'start',
           position: 'bottom',
         },
-        scales: {
-          yAxes: [{
-            stacked: true,
-            ticks: {
-              beginAtZero: true,
-              userCallback: function(value, index, values) {
-                return value.toLocaleString();
-              }
-            }
-          }],
-          xAxes: [{
-            stacked: true,
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-
+        title: {
+          display: false,
+          // text: 'Doughnut Chart'
+        },
+        animation: {
+          animateScale: true,
+          animateRotate: true
         }
       }
+    };
+
+    //
+
+    var doughnutDataResponsesByChannel = {
+      datasets: [{
+        data: [
+          307086, 428220, 512882
+        ],
+        backgroundColor: [
+          "#00BDE3",
+          "#0071bc",
+          "#6D7375",
+          "#285C7E",
+          "#94C7E9",
+          "#173D4D",
+          "#B3B6B7",
+          "#372D5F",
+        ],
+        label: 'Responses by Agency'
+      }],
+
+      // These labels appear in the legend and in the tooltips when hovering different arcs
+      labels: [
+        'Email',
+        'Phone',
+        'Web'
+      ]
+    };
+
+    var doughnutConfigResponsesByChannel = {
+      type: 'doughnut',
+      data: doughnutDataResponsesByChannel,
+      options: {
+        responsive: true,
+        legend: {
+          align: 'start',
+          position: 'bottom',
+        },
+        title: {
+          display: false,
+          // text: 'Doughnut Chart'
+        },
+        animation: {
+          animateScale: true,
+          animateRotate: true
+        }
+      }
+    };
+
+    window.addEventListener("load", function() {
+      var ctx = document.getElementById('cx-doughnut-chart-canvas').getContext("2d");
+      window.myDoughnut = new Chart(ctx, doughnutConfig);
+
+      var ctx2 = document.getElementById("cx-doughnut-chart-responses-by-channel");
+      var myChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+          labels: ["FY2021 Q2"],
+          datasets: [{
+              label: 'Email',
+              data: [307086],
+              backgroundColor: [
+                '#0071bc'
+              ]
+            },
+            {
+              label: 'Phone',
+              data: [428220],
+              backgroundColor: [
+                '#285C7E'
+              ]
+            },
+            {
+              label: 'Web',
+              data: [512882],
+              backgroundColor: [
+                '#94C7E9'
+              ]
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          legend: {
+            align: 'start',
+            position: 'bottom',
+          },
+          scales: {
+            yAxes: [{
+              stacked: true,
+              ticks: {
+                beginAtZero: true,
+                userCallback: function(value, index, values) {
+                  return value.toLocaleString();
+                }
+              }
+            }],
+            xAxes: [{
+              stacked: true,
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+
+          }
+        }
+      });
     });
+
   });
 </script>

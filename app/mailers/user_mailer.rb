@@ -32,14 +32,6 @@ class UserMailer < ApplicationMailer
          to: ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')
   end
 
-  def social_media_account_created_notification(digital_service_account:, link:)
-    set_logo
-    @digital_service_account = digital_service_account
-    @link = link
-    mail subject: 'Touchpoints social media account has been created',
-         to: UserMailer.registry_manager_emails
-  end
-
   def service_event_notification(subject:, service:, event:, link: '')
     set_logo
     @subject = subject
@@ -55,6 +47,13 @@ class UserMailer < ApplicationMailer
     @collection = Collection.find(collection_id)
     mail subject: "Data Collection notification to #{@collection.name}",
          to: (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',') + User.performance_managers.collect(&:email)).uniq
+  end
+
+  def quarterly_performance_notification(collection_id:)
+    set_logo
+    @collection = Collection.find(collection_id)
+    mail subject: "Quarterly Performance Data Collection Ready: #{@collection.name}",
+         to: @collection.user.email, cc: User.performance_managers.collect(&:email).uniq
   end
 
   def submissions_digest(form_id, begin_day)
