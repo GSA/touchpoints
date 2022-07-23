@@ -166,9 +166,10 @@ module Admin
     def search
       search_text = params[:search]
       tag_name = params[:tag]
+
       if search_text.present?
         search_text = "%#{search_text}%"
-        @services = Service.joins(:organization).where(' services.name ilike ? or organizations.name ilike ?  ', search_text, search_text)
+        @services = Service.joins(:organization, :service_provider).where('services.name ilike ? or organizations.name ilike ? OR service_providers.name ilike ?', search_text, search_text, search_text)
       elsif tag_name.present?
         @services = Service.tagged_with(tag_name)
       else

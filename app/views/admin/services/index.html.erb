@@ -62,6 +62,11 @@
       <h3>
         <span class="fa fa-filter"></span>
         Filter by tag
+        <% if params[:tag].present? %>
+        <small>
+          <%= link_to "Clear filters", admin_services_path, class: "font-sans-3xs" %>
+        </small>
+        <% end %>
       </h3>
       <br>
       <% if @tags.first %>
@@ -102,17 +107,20 @@
 
 <script>
   $(function() {
-    $("#search_text").on("keyup", function() {
+    $("#search_text").on("keyup", debounce(function() {
+      var searchValue = $("#search_text").val();
+
       $.ajax({
         url: '/admin/services/search',
         data: {
-          search: $(this).val()
+          search: searchValue
         }
       });
-    });
+    }, 400));
 
     $(".search-tag-link").on("click", function() {
       $("#search_text").val("");
+
       $.ajax({
         url: '/admin/services/search',
         data: {

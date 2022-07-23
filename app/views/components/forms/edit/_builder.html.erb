@@ -164,9 +164,10 @@ $(function() {
     titleEdit.find("input").focus();
   });
 
-  $(".question-option-edit input").keyup(function(event) {
+  $(".question-option-edit input").on("keyup", function(event) {
     if (event.keyCode == 13) {
       $(this).closest('div.question-option').find('.question-option-view').html($(this).val());
+
       $.ajax({
         type: "PATCH",
         url: $(this).attr("data-href") + "/update_title",

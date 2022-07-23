@@ -86,7 +86,7 @@
 
 <script>
   $(function() {
-    $("#tags").keyup(debounce(function() {
+    $("#tags").on("keyup", debounce(function() {
       var searchValue = $("#tags").val();
 
       $.ajax({
