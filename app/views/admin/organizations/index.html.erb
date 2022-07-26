@@ -30,17 +30,6 @@
   <%= render 'results' %>
 </div>
 
-$("#search_text").keyup(debounce(function() {
-  var searchValue = $("#search_text").val();
-
-  $.ajax({
-    url: '/admin/websites/search',
-    data: {
-      search: searchValue
-    }
-  });
-}, 400));
-
 <script>
   $(function() {
     $("#search_text").keyup(debounce(function() {

@@ -96,6 +96,7 @@
       </p>
       <p>
         <%= label_tag :rating, nil, class: "usa-label" %>
+        <br>
         <% if @collection.rating.present? %>
           <%= collection_rating_label(rating: @collection.rating) %>
         <% else %>
