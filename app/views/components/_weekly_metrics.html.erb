@@ -65,10 +65,10 @@
           Services
         </th>
         <th>
-          Data Collections
+          Service stages
         </th>
         <th>
-          Service details
+          Personas
         </th>
       </tr>
     </thead>
@@ -80,6 +80,29 @@
         <td>
           <%= Service.count %>
         </td>
+        <td>
+          <%= ServiceStage.count %>
+        </td>
+        <td>
+          <%= Persona.count %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="usa-table" style="width: 100%;">
+    <thead>
+      <tr>
+        <th>
+          Data Collections
+        </th>
+        <th>
+          Service details
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
         <td>
           <%= Collection.count %>
         </td>
@@ -98,6 +121,9 @@
         <th>
           Objectives
         </th>
+        <th>
+          Milestones
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -107,6 +133,9 @@
         </td>
         <td>
           <%= Objective.count %>
+        </td>
+        <td>
+          <%= Milestone.count %>
         </td>
       </tr>
     </tbody>
@@ -135,6 +164,23 @@
         </td>
         <td>
           <%= DigitalServiceAccount.count %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="usa-table" style="width: 100%;">
+    <thead>
+      <tr>
+        <th>
+          Events
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <%= Event.count %>
         </td>
       </tr>
     </tbody>

@@ -1,0 +1,78 @@
+<% content_for :navigation_title do %>
+  Admin Reporting
+<% end %>
+
+<p>
+  <%= link_to admin_dashboard_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Admin Dashboard
+  <% end %>
+</p>
+
+<ul class="usa-list">
+  <li>
+    <%= link_to admin_collections_path do %>
+    <span>Data Collections</span>
+    <% end %>
+  </li>
+  <li>
+    <%= link_to admin_omb_cx_reporting_collections_path do %>
+    <span>OMB CX Reporting Collections</span>
+    <% end %>
+  </li>
+  <li>
+    Reporting
+    <ul>
+      <li>
+        <%= link_to admin_a11_path do %>
+        <span>A-11 Data Analysis</span>
+        <% end %>
+      </li>
+      <li>
+          CSV files for performance.gov/cx
+        <ul>
+          <li>
+            <%= link_to admin_hisps_path(format: :csv) do %>
+            <span>hisps.csv</span>
+            <% end %>
+          </li>
+          <li>
+            <%= link_to admin_hisp_services_path(format: :csv) do %>
+            <span>hisp_services.csv</span>
+            <% end %>
+          </li>
+          <li>
+            <%= link_to admin_hisp_service_cx_data_collections_path(format: :csv) do %>
+            <span>hisp_service_cx_data_collections.csv</span>
+            <% end %>
+          </li>
+          <li>
+            <%= link_to admin_hisp_service_cx_data_collections_summary_path(format: :csv) do %>
+              <span>hisp_service_cx_data_collections_summary.csv</span>
+            <% end %>
+          </li>
+          <li>
+            <%= link_to admin_hisp_service_questions_path(format: :csv) do %>
+              <span>hisp_services_questions.csv</span>
+            <% end %>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <%= link_to admin_lifespan_path do %>
+        <span>Survey lifespan by Agency</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to admin_no_submissions_path do %>
+        <span>Surveys Without Submissions ( for 3 months ) by Agency</span>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to admin_service_surveys_path do %>
+        <span>Service Surveys by Agency</span>
+        <% end %>
+      </li>
+    </ul>
+  </li>
+</ul>

@@ -75,16 +75,19 @@
 
 <script>
   $(function() {
-    $("#search_text").keyup(function() {
+    $("#search_text").on("keyup", debounce(function() {
+      var searchValue = $("#search_text").val();
       $.ajax({
         url: '/admin/service_providers/search',
         data: {
-          search: $(this).val()
+          search: searchValue
         }
       });
-    });
-    $(".search-tag-link").click(function() {
+    }, 400));
+
+    $(".search-tag-link").on("click", function() {
       $("#search_text").val("");
+
       $.ajax({
         url: '/admin/service_providers/search',
         data: {
