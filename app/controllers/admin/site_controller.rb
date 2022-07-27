@@ -25,7 +25,7 @@ module Admin
       @response_groups = @response_groups.sort
 
       form_ids = todays_submissions.collect(&:form_id).uniq
-      @recent_forms = Form.find(form_ids)
+      @recent_forms = Form.includes(:organization).find(form_ids)
     end
 
     def a11; end

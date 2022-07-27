@@ -2,6 +2,9 @@
 
 module Admin
   class ReportingController < AdminController
+    def index
+    end
+
     def hisps
       row = []
       header_fields = %i[

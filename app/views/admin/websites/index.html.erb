@@ -93,7 +93,7 @@
   $(function() {
     $("#main-content").css("overflow-x", "scroll");
 
-    $("#search_text").keyup(debounce(function() {
+    $("#search_text").on("keyup", debounce(function() {
       var searchValue = $("#search_text").val();
 
       $.ajax({
