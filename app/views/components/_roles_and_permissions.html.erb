@@ -8,122 +8,126 @@
   </div>
 </div>
 <div class="grid-row grid-gap-lg">
-  <div class="grid-col-8">
-    <div>
-      <div class="roles-and-permissions">
-        <p>
-          Manage permissions for users in your organization.
-        </p>
-        <p>
-          <strong>
-            Form Manager
-          </strong>
-          <br>
-          Can create, edit, and activate a survey + Response Viewer permissions.
-        </p>
-        <p>
-          <strong>
-            Response Viewer
-          </strong>
-          <br>
-          Can view and export responses.
-        </p>
-        <% if flash && ["User successfully added", "User successfully removed"].include?(flash.notice) %>
-        <%= render 'components/flash', flash: flash %>
-        <% end %>
+  <div class="tablet:grid-col-8">
+    <div class="roles-and-permissions">
+      <p>
+        Manage permissions for users in your organization.
+      </p>
+      <p>
+        <strong>
+          Form Manager
+        </strong>
+        <br>
+        Can create, edit, and activate a survey + Response Viewer permissions.
+      </p>
+      <p>
+        <strong>
+          Response Viewer
+        </strong>
+        <br>
+        Can view and export responses.
+      </p>
+      <% if flash && ["User successfully added", "User successfully removed"].include?(flash.notice) %>
+      <%= render 'components/flash', flash: flash %>
+      <% end %>
 
-        <div>
-          <% @users = form.users.active.order(:email) %>
-          <% if @users.present? %>
-          <table class="usa-table" style="width: 100%;">
-            <thead>
-              <tr>
-                <th>
-                  Role
-                </th>
-                <th>
-                  Email
-                </th>
-                <th>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @users.each do |user| %>
-              <tr data-user-id="<%= user.id %>">
-                <td>
-                  <% friendly_roles = {
-                    "response_viewer" => "Response Viewer",
-                    "form_manager" => "Form Manager"
-                  } %>
-                  <%= friendly_roles[form.user_role?(user: user)] %>
-                </td>
-                <td>
-                  <%= user.email %>
-                </td>
-                <td>
-                  <% if user != current_user && is_at_least_form_manager?(user: current_user, form: @form) %>
-                  <a href="javascript:void(0)" class="remove-user usa-button usa-button--secondary" data-id="<%= user.id %>">
-                    <i class="fas fa-trash"></i>
-                    Delete
-                  </a>
-                  <% end %>
-                </td>
-              </tr>
-              <% end %>
-            </tbody>
-          </table>
-          <% else %>
-          <div class="usa-alert usa-alert--info">
-            <div class="usa-alert__body">
-              <p class="usa-alert__text">
-                No users at this time
-              </p>
-            </div>
+      <div>
+        <% if users.present? %>
+        <table class="usa-table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th>
+                Role
+              </th>
+              <th>
+                Email
+              </th>
+              <th>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.each do |user| %>
+            <tr data-user-id="<%= user.id %>">
+              <td>
+                <% friendly_roles = {
+                  "response_viewer" => "Response Viewer",
+                  "form_manager" => "Form Manager"
+                } %>
+                <%= friendly_roles[form.user_role?(user: user)] %>
+              </td>
+              <td>
+                <%= user.email %>
+                <% if user.inactive? %>
+                  <span class="usa-tag float-right">
+                    inactive
+                  </span>
+                <% end %>
+              </td>
+              <td>
+                <% if user != current_user && is_at_least_form_manager?(user: current_user, form: form) %>
+                <a href="javascript:void(0)" class="remove-user usa-button usa-button--secondary float-right" data-id="<%= user.id %>">
+                  <i class="fas fa-trash"></i>
+                  Delete
+                </a>
+                <% end %>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <% else %>
+        <div class="usa-alert usa-alert--info">
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">
+              No users at this time
+            </p>
           </div>
-          <% end %>
         </div>
+        <% end %>
       </div>
     </div>
   </div>
-  <div class="grid-col-4 bg-accent-cool-lighter">
-    <div class="padding-1">
-      <h3>
-        Add new user
-      </h3>
+  <div class="tablet:grid-col-4">
+    <div class=" bg-accent-cool-lighter">
+      <div class="padding-2">
+        <h3>
+          Add new user
+        </h3>
 
-      <p>
-        <small>
-          Users in the dropdown are limited to users with a
-          @<%= form.organization.domain %> address. Contact
-          <a href="mailto:feedback-analytics@gsa.gov">support</a>
-          to add a user from another organization.
-        </small>
-      </p>
-
-      <% if available_members.present? %>
-      <div>
-        <strong>
-          User
-        </strong>
-        <br>
-        <%= select_tag :add_user_id, options_for_select(available_members.map { |user| [user.email, user.id] }), prompt: "Select user by email", id: "add-user-id", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
-        <br>
-        <br>
-        <strong>
-          Role
-        </strong>
-        <br>
-        <%= select_tag :role, options_for_select([ ["Form Manager", "form_manager"], ["Response Viewer", "response_viewer"] ]), prompt: "Select a Role", id: "add-user-role", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
-        <br>
-        <br>
-        <button type="button" class="usa-button" name="button" id="add-user-button">Add User</button>
-      </div>
-      <% else %>
-        <p class="usa-prose">
-          There are no additional members to add at this time.
+        <p>
+          <small>
+            Users in the dropdown are limited to users with a
+            @<%= form.organization.domain %> address. Contact
+            <a href="mailto:feedback-analytics@gsa.gov">support</a>
+            to add a user from another organization.
+          </small>
         </p>
-      <% end %>
+
+        <% if available_members.present? %>
+        <div>
+          <strong>
+            User
+          </strong>
+          <br>
+          <%= select_tag :add_user_id, options_for_select(available_members.map { |user| [user.email, user.id] }), prompt: "Select user by email", id: "add-user-id", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
+          <br>
+          <br>
+          <strong>
+            Role
+          </strong>
+          <br>
+          <%= select_tag :role, options_for_select([ ["Form Manager", "form_manager"], ["Response Viewer", "response_viewer"] ]), prompt: "Select a Role", id: "add-user-role", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
+          <br>
+          <br>
+          <button type="button" class="usa-button" name="button" id="add-user-button">Add User</button>
+        </div>
+        <% else %>
+          <p class="usa-prose">
+            There are no additional members to add at this time.
+          </p>
+        <% end %>
+      </div>
     </div>
 
     <div class="well">
@@ -143,7 +147,7 @@
         <div class="field">
           <br>
           <%= f.submit "Invite User", class: "usa-button" %>
-          <br><br>
+          <br>
         </div>
       <% end %>
     </div>
