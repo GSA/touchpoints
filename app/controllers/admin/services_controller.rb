@@ -96,6 +96,7 @@ module Admin
 
     def create
       @service = Service.new(service_params)
+      @service.service_owner_id = current_user.id
       @service.hisp = @service.service_provider.present?
 
       if @service.save

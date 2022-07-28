@@ -33,10 +33,12 @@
 <script>
   $(function() {
     $("#search_text").keyup(debounce(function() {
+      var searchValue = $("#search_text").val();
+
       $.ajax({
         url: '/admin/organizations/search',
         data: {
-          search: $(this).val()
+          search: searchValue
         }
       });
     }, 400));

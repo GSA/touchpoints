@@ -61,11 +61,6 @@
       <%= @service.name %>
     </p>
     <p>
-      <strong>Service owner</strong>
-      <br>
-      <%= @service.service_owner.try(:email) %>
-    </p>
-    <p>
       <strong>Service managers</strong>
       <% if @service.service_managers.present? %>
       <ul class="usa-list">
@@ -90,11 +85,23 @@
       <br>
       <%= @service.kind %>
     </p>
-    <p>
-      <strong>Why did you select this service for priority designation?</strong>
-      <br>
-      <%= to_markdown(@service.justification_text) %>
-    </p>
+
+    <div class="well">
+      <span class="usa-tag">
+        for HISP-designated Services
+      </span>
+
+      <p>
+        <strong>Why did you select this service for priority designation?</strong>
+        <br>
+        <% if @service.justification_text.present? %>
+          <%= to_markdown(@service.justification_text) %>
+        <% else %>
+          No text
+        <% end %>
+      </p>
+    </div>
+
     <p>
       <strong>Description</strong>
       <br>
