@@ -1,5 +1,5 @@
 <% content_for :navigation_title do %>
-  Websites
+  Review Websites
   <%= link_to new_admin_website_path, class: "usa-button usa-button-inverted float-right" do %>
     <i class="fa fa-plus-circle"></i>
     New Website
@@ -7,9 +7,9 @@
 <% end %>
 
 <p>
-  <%= link_to admin_dashboard_path do %>
+  <%= link_to admin_websites_path do %>
     <i class="fa fa-arrow-circle-left"></i>
-    Back to Admin
+    Back to Websites
   <% end %>
 </p>
 
@@ -22,29 +22,6 @@
 </div>
 
 <div class="search-results">
+  <br>
   <%= render 'results' %>
 </div>
-
-<script>
-  $(function() {
-    $("#main-content").css("overflow-x", "scroll");
-
-    $("#search_text").keyup(function() {
-      $.ajax({
-        url: '/admin/websites/search',
-        data: {
-          search: $(this).val()
-        }
-      });
-    });
-    $(".search-tag-link").click(function() {
-      $("#search_text").val("");
-      $.ajax({
-        url: '/admin/websites/search',
-        data: {
-          tag: $(this).attr("data-name")
-        }
-      });
-    });
-  });
-</script>

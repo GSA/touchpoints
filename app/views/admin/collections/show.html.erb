@@ -53,134 +53,139 @@
   </div>
 </div>
 
-<div class="well">
-  <div class="text-uppercase font-body-3xs">
-    General information
-  </div>
-  <div class="grid-row">
-    <div class="grid-col-4">
-      <p>
-        <%= label_tag :organization, nil, class: "usa-label" %>
-        <%= link_to @collection.organization.name, admin_organization_path(@collection.organization) %>
-      </p>
-      <p>
-        <%= label_tag :service_provider, "Service Provider", class: "usa-label" %>
-        <%= link_to  @collection.service_provider.name, admin_service_provider_path( @collection.service_provider) %>
-      </p>
-      <p>
-        <%= label_tag :user, nil, class: "usa-label" %>
-        <%= link_to_if performance_manager_permissions?, @collection.user.email, admin_user_path(@collection.user) %>
-      </p>
+<div class="grid-row grid-gap-lg">
+  <div class="tablet:grid-col-8 padding-top-2">
+    <div class="text-uppercase font-body-3xs">
+      General information
     </div>
-    <div class="grid-col-4">
-      <p>
-        <%= label_tag :quarter_year, "Quarter and Fiscal year", class: "usa-label" %>
-        Q<%= @collection.quarter %>
-        FY<%= @collection.year %>
-      </p>
+    <div class="grid-row">
+      <div class="grid-col-6">
+        <p>
+          <%= label_tag :organization, nil, class: "usa-label" %>
+          <%= link_to @collection.organization.name, admin_organization_path(@collection.organization) %>
+        </p>
+        <p>
+          <%= label_tag :service_provider, "Service Provider", class: "usa-label" %>
+          <%= link_to  @collection.service_provider.name, admin_service_provider_path( @collection.service_provider) %>
+        </p>
+        <p>
+          <%= label_tag :user, nil, class: "usa-label" %>
+          <%= link_to_if performance_manager_permissions?, @collection.user.email, admin_user_path(@collection.user) %>
+        </p>
+      </div>
+      <div class="grid-col-6">
+        <p>
+          <%= label_tag :quarter_year, "Quarter and Fiscal year", class: "usa-label" %>
+          Q<%= @collection.quarter %>
+          FY<%= @collection.year %>
+        </p>
 
-      <p>
-        <%= label_tag :date_range, "Date range", class: "usa-label" %>
-        <span><%= @collection.start_date %></span>
-        to
-        <br>
-        <span><%= @collection.end_date %></span>
-      </p>
-    </div>
-    <div class="grid-col-4">
-      <%= render 'components/step_indicator', collection: @collection %>
-      <p>
-        <%= label_tag :collection_status, nil, class: "usa-label" %>
-        <br>
-        <%= render 'components/collection_status_tag', collection: @collection %>
-      </p>
-      <p>
-        <%= label_tag :rating, nil, class: "usa-label" %>
-        <br>
-        <% if @collection.rating.present? %>
-          <%= collection_rating_label(rating: @collection.rating) %>
-        <% else %>
-        <div class="usa-alert">
-          <div class="usa-alert__body">
-            <p class="usa-alert__text">
-              This Collection will receive a
-              <a href="https://github.com/GSA/touchpoints/wiki/Data-Collection-Rating" class="usa-link" target="_blank" rel="noopener">rating</a>
-              after
-              Submission.
-            </p>
-          </div>
-        </div>
-        <% end %>
-      </p>
-    </div>
-  </div>
-</div>
-
-<div class="well services">
-  <h2>
-    Services
-    <small>
-      (<%= @collection.omb_cx_reporting_collections.size %>)
-    </small>
-  </h2>
-  <div class="usa-alert usa-alert--info">
-    <div class="usa-alert__body">
-      <p class="usa-alert__text">
-        Add a Service detail reporting page for each touchpoint available within a HISP service.
-      </p>
-    </div>
-  </div>
-  <ul class="usa-list">
-  <% @collection.omb_cx_reporting_collections.order(:service_provided, :channel).each do |cx_collection| %>
-    <li>
-      <%= link_to ("#{cx_collection.try(:service).try(:name)} - #{cx_collection.service_provided}"), admin_omb_cx_reporting_collection_path(cx_collection) %>
-    </li>
-  <% end %>
-  </ul>
-  <% if @collection.draft? %>
-  <p>
-    <%= link_to new_admin_omb_cx_reporting_collection_path(collection_id: @collection.id), class: "usa-button usa-button--outline" do %>
-      <i class="fa fa-plus"></i>
-      Add a Service to report on
-    <% end %>
-  </p>
-  <% end %>
-  <%= render 'components/performance_charts', collection: @collection if @collection.omb_cx_reporting_collections.present? %>
-</div>
-
-<div class="usa-prose">
-  <strong>Reflection text</strong>
-  <br>
-  <%= raw(@collection.reflection? ? simple_format(@collection.reflection) : "Please #{link_to 'edit', edit_admin_collection_path(@collection)} this Reflection text prior to submitting.") %>
-</div>
-<p hidden>
-  <strong>Integrity hash</strong>
-  <br>
-  <%= @collection.integrity_hash || "not yet published" %>
-</p>
-
-<p>
-  <% if !@collection.submitted? && !@collection.published? %>
-    <div class="usa-alert usa-alert--info">
-      <div class="usa-alert__body">
-        <p class="usa-alert__text">
-          Submitting this Data Collection will send an email
-          to <%= ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(',').to_sentence %>
-          who will
-          1. review the data, then
-          2. contact you via email
-          prior to publishing data on performance.gov.
+        <p>
+          <%= label_tag :date_range, "Date range", class: "usa-label" %>
+          <span><%= @collection.start_date %></span>
+          to
+          <br>
+          <span><%= @collection.end_date %></span>
         </p>
       </div>
     </div>
+
+    <div class="well services">
+      <h2>
+        Services
+        <small>
+          (<%= @collection.omb_cx_reporting_collections.size %>)
+        </small>
+      </h2>
+      <div class="usa-alert usa-alert--info">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            Add a Service detail reporting page for each touchpoint available within a HISP service.
+          </p>
+        </div>
+      </div>
+      <ul class="usa-list">
+      <% @collection.omb_cx_reporting_collections.order(:service_provided, :channel).each do |cx_collection| %>
+        <li>
+          <%= link_to ("#{cx_collection.try(:service).try(:name)} - #{cx_collection.service_provided}"), admin_omb_cx_reporting_collection_path(cx_collection) %>
+        </li>
+      <% end %>
+      </ul>
+      <% if @collection.draft? %>
+      <p>
+        <%= link_to new_admin_omb_cx_reporting_collection_path(collection_id: @collection.id), class: "usa-button usa-button--outline" do %>
+          <i class="fa fa-plus"></i>
+          Add a Service to report on
+        <% end %>
+      </p>
+      <% end %>
+      <%= render 'components/performance_charts', collection: @collection if @collection.omb_cx_reporting_collections.present? %>
+    </div>
+
+    <div class="usa-prose">
+      <strong>Reflection text</strong>
+      <br>
+      <%= raw(@collection.reflection? ? simple_format(@collection.reflection) : "Please #{link_to 'edit', edit_admin_collection_path(@collection)} this Reflection text prior to submitting.") %>
+    </div>
+    <p hidden>
+      <strong>Integrity hash</strong>
+      <br>
+      <%= @collection.integrity_hash || "not yet published" %>
+    </p>
+
     <br>
-    <%= link_to submit_admin_collection_path(@collection), class: "usa-button full-width", method: "post", data: { confirm: 'Are you sure?' } do %>
-      Submit this Data Collection
-    <% end %>
-  <% elsif !@collection.published? && performance_manager_permissions? %>
-    <%= link_to publish_admin_collection_path(@collection), class: "usa-button", method: "post" do %>
-      Publish this Data Collection
-    <% end %>
-  <% end %>
-</p>
-<br>
+
+  </div>
+  <div class="grid-col-4 well">
+    <br>
+    <%= render 'components/step_indicator', collection: @collection %>
+    <p>
+      <%= label_tag :collection_status, nil, class: "usa-label" %>
+      <br>
+      <%= render 'components/collection_status_tag', collection: @collection %>
+    </p>
+    <p>
+      <%= label_tag :rating, nil, class: "usa-label" %>
+      <br>
+      <% if @collection.rating.present? %>
+      <%= collection_rating_label(rating: @collection.rating) %>
+      <% else %>
+      <div class="usa-alert">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            This Collection will receive a
+            <a href="https://github.com/GSA/touchpoints/wiki/Data-Collection-Rating" class="usa-link" target="_blank" rel="noopener">rating</a>
+            after
+            Submission.
+          </p>
+        </div>
+      </div>
+      <% end %>
+    </p>
+
+    <p>
+      <% if !@collection.submitted? && !@collection.published? %>
+        <div class="usa-alert usa-alert--info">
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">
+              Submitting this Data Collection will send an email
+              to <%= ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(',').to_sentence %>
+              who will
+              1. review the data, then
+              2. contact you via email
+              prior to publishing data on performance.gov.
+            </p>
+          </div>
+        </div>
+        <br>
+        <%= link_to submit_admin_collection_path(@collection), class: "usa-button full-width", method: "post", data: { confirm: 'Are you sure?' } do %>
+          Submit this Data Collection
+        <% end %>
+      <% elsif !@collection.published? && performance_manager_permissions? %>
+        <%= link_to publish_admin_collection_path(@collection), class: "usa-button", method: "post" do %>
+          Publish this Data Collection
+        <% end %>
+      <% end %>
+    </p>
+  </div>
+</div>
