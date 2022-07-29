@@ -9,8 +9,8 @@ class Form < ApplicationRecord
   belongs_to :organization
   belongs_to :service, optional: true
 
-  has_many :form_sections, dependent: :delete_all
-  has_many :questions, dependent: :destroy
+  has_many :form_sections, dependent: :destroy
+  has_many :questions, dependent: :destroy, counter_cache: true
   has_many :submissions
 
   has_many :user_roles, dependent: :destroy

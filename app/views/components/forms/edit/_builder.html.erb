@@ -1,7 +1,9 @@
 <% @instruction_text_limit = 1500 %>
 <% @disclaimer_text_limit = 500 %>
 <% @tabindex = 0 %>
-<%= render 'admin/forms/logo_display', { form: form } %>
+<div class="well">
+  <%= render 'admin/forms/logo_display', { form: form } %>
+</div>
 <br>
 <div class="form-title-edit">
   <div class="text-uppercase font-body-3xs">
@@ -35,7 +37,7 @@
 <br>
 <div class="sorting-div">
   <% multi_section_question_number = 0 %>
-  <% form.form_sections.each_with_index do |section, i| %>
+  <% form.form_sections.includes(:questions).each_with_index do |section, i| %>
     <%= render 'admin/form_sections/view', { form: form, section: section, multi_section_question_number: multi_section_question_number, form_section_page: i + 1, tabindex: @tabindex } %>
   <% end %>
 </div>

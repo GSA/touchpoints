@@ -113,7 +113,7 @@ feature 'Forms', js: true do
         end
 
         it 'redirect to /form/:uuid/questions with a success flash message' do
-          expect(find('.usa-alert.usa-alert--info')).to have_content('Survey was successfully created.')
+          expect(find('.usa-alert.usa-alert--info')).to have_content('Form was successfully created.')
           @form = Form.last
           expect(page).to have_content('Editing Questions for')
           expect(page).to have_content(@form.name)
@@ -131,7 +131,7 @@ feature 'Forms', js: true do
         end
 
         it 'redirect to /form/:uuid/questions with a success flash message' do
-          expect(find('.usa-alert.usa-alert--info')).to have_content('Survey was successfully created.')
+          expect(find('.usa-alert.usa-alert--info')).to have_content('Form was successfully created.')
           @form = Form.last
           expect(page.current_path).to eq(questions_admin_form_path(@form))
         end
@@ -140,7 +140,7 @@ feature 'Forms', js: true do
           within('.usa-file-input') do
             attach_file('form_logo', 'spec/fixtures/touchpoints-logo.png')
           end
-          find('label', text: 'Display Square (80px wide by 80px tall) Organization logo before the title in the Form header?').click
+          find('label', text: 'Display square (80px wide by 80px tall) logo?').click
           click_on 'Update logo'
           click_on 'Delivery method'
           find('label', text: 'Hosted only on the touchpoints site').click
@@ -163,7 +163,7 @@ feature 'Forms', js: true do
           within('.usa-file-input') do
             attach_file('form_logo', 'spec/fixtures/touchpoints-logo.png')
           end
-          find('label', text: 'Display Square (80px wide by 80px tall) Organization logo before the title in the Form header?').click
+          find('label', text: 'Display Square (80px wide by 80px tall) Organization logo?').click
           click_on 'Update logo'
           click_on 'Delivery method'
           find('label', text: 'Embedded inline on your site').click
@@ -1277,7 +1277,7 @@ feature 'Forms', js: true do
 
       it 'arrives at /admin/forms/:uuid/questions' do
         within('.usa-alert__body') do
-          expect(page).to have_content('Survey was successfully created')
+          expect(page).to have_content('Form was successfully created')
         end
         expect(page).to have_content('Editing Questions for:')
       end

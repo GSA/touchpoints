@@ -26,6 +26,7 @@
       <% end %>
     </div>
   <% end %>
+
   <div class="grid-row">
     <div class="grid-col">
       <div>
@@ -92,46 +93,49 @@
         <p>
           <%= f.submit (@form.persisted? ? "Update Survey" : "Create Survey"), class: "usa-button" %>
         </p>
-        </div>
-        <div class="grid-row">
-          <div class="grid-col">
-            <div class="well">
-              <div class="usa-alert usa-alert--info">
-                  <div class="usa-alert__body">
-                    <p class="usa-alert__text">
-                      After the delivery method has been saved you can preview this survey.
-                    </p>
-                  </div>
+      </div>
+      <div class="grid-row">
+        <div class="grid-col">
+
+          <div class="well">
+            <div class="usa-alert usa-alert--info">
+              <div class="usa-alert__body">
+                <p class="usa-alert__text">
+                  After the delivery method has been saved you can preview this survey.
+                </p>
               </div>
-              <br>
-              <%= link_to example_admin_form_path(@form), class: "usa-button usa-button--outline full-width", target: "_blank", rel: "noopener" do %>
-                <i class="fa fa-eye"></i>
-                Preview
-              <% end %>
             </div>
+            <br>
+            <%= link_to example_admin_form_path(@form), class: "usa-button usa-button--outline full-width", target: "_blank", rel: "noopener" do %>
+              <i class="fa fa-eye"></i>
+              Preview
+            <% end %>
           </div>
+
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 <% end %>
 
 <script>
   $(function() {
-    $("#form_delivery_method_touchpoints-hosted-only").click(function() {
+    $("#form_delivery_method_touchpoints-hosted-only").on("click", function() {
       $('#delivery-method-text').hide();
       $('#delivery-method-html-id').hide();
       $('#allowlist-options').hide();
     });
-    $("#form_delivery_method_modal").click(function() {
+    $("#form_delivery_method_modal").on("click", function() {
       $('#delivery-method-text').show();
       $('#delivery-method-html-id').hide();
       $('#allowlist-options').show();
     });
-    $("#form_delivery_method_custom-button-modal").click(function() {
+    $("#form_delivery_method_custom-button-modal").on("click", function() {
       $('#delivery-method-text').hide();
       $('#delivery-method-html-id').show();
       $('#allowlist-options').show();
     });
-    $("#form_delivery_method_inline").click(function() {
+    $("#form_delivery_method_inline").on("click", function() {
       $('#delivery-method-text').hide();
       $('#delivery-method-html-id').show();
       $('#allowlist-options').show();

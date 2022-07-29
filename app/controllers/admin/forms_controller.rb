@@ -217,7 +217,7 @@ module Admin
                              role: UserRole::Role::FormManager,
                            })
 
-          format.html { redirect_to questions_admin_form_path(@form), notice: 'Survey was successfully created.' }
+          format.html { redirect_to questions_admin_form_path(@form), notice: 'Form was successfully created.' }
           format.json { render :show, status: :created, location: @form }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -239,7 +239,7 @@ module Admin
 
           Event.log_event(Event.names[:form_copied], 'Form', @form.uuid, "Form #{@form.name} copied at #{DateTime.now}", current_user.id)
 
-          format.html { redirect_to admin_form_path(new_form), notice: 'Survey was successfully copied.' }
+          format.html { redirect_to admin_form_path(new_form), notice: 'Form was successfully copied.' }
           format.json { render :show, status: :created, location: new_form }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -272,7 +272,7 @@ module Admin
       respond_to do |format|
         if @form.update(form_params)
           format.html do
-            redirect_to get_edit_path(@form), notice: 'Survey was successfully updated.'
+            redirect_to get_edit_path(@form), notice: 'Form was successfully updated.'
           end
           format.json { render :show, status: :ok, location: @form }
         else
@@ -298,7 +298,7 @@ module Admin
         format.html do
           if @form.destroy
             Event.log_event(Event.names[:form_deleted], 'Form', @form.uuid, "Form #{@form.name} deleted at #{DateTime.now}", current_user.id)
-            redirect_to admin_forms_url, notice: 'Survey was successfully destroyed.'
+            redirect_to admin_forms_url, notice: 'Form was successfully destroyed.'
           else
             redirect_to edit_admin_form_url(@form), notice: @form.errors.full_messages.to_sentence
           end
@@ -412,8 +412,8 @@ module Admin
     private
 
     def set_form
-      @form = Form.includes(:organization).find_by_short_uuid(params[:id])
-      redirect_to admin_forms_path, notice: "no survey with ID of #{params[:id]}" unless @form
+      @form = Form.find_by_short_uuid(params[:id])
+      redirect_to admin_forms_path, notice: "no form with ID of #{params[:id]}" unless @form
     end
 
     def set_user
