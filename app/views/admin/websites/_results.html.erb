@@ -1,17 +1,19 @@
 <h3>
-  Displaying <%= @websites.size %> Websites
+  Displaying <%= pluralize(@websites.size, "Website") %>
 </h3>
 <p>
-  <% if params[:all] %>
-    <%= link_to "View Active sites", "?active=1" %>
-    <small>
-      (<%= Website::ACTIVE_PRODUCTION_STATUSES.to_sentence %>)
-    </small>
-  <% else %>
-    <%= link_to "View All sites", "?all=1" %>
-    <small>
-      (also includes <%= (Website::PRODUCTION_STATUSES.keys - Website::ACTIVE_PRODUCTION_STATUSES).to_sentence %>)
-    </small>
+  <% unless params[:action] == "review" %>
+    <% if params[:all] %>
+      <%= link_to "View Active sites", "?active=1" %>
+      <small>
+        (<%= Website::ACTIVE_PRODUCTION_STATUSES.to_sentence %>)
+      </small>
+    <% else %>
+      <%= link_to "View All sites", "?all=1" %>
+      <small>
+        (also includes <%= (Website::PRODUCTION_STATUSES.keys - Website::ACTIVE_PRODUCTION_STATUSES).to_sentence %>)
+      </small>
+    <% end %>
   <% end %>
 </p>
 <div class="usa-table-container--scrollable">

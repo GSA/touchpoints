@@ -60,15 +60,20 @@
 
   </div>
 </div>
-<div class="grid-row">
+<% if admin_permissions? %>
+<div class="grid-row margin-top-2 well">
   <div class="grid-col-6">
-    <% if admin_permissions? %>
+    <span class="usa-tag">
+      for Admins
+    </span>
     <p>
-      <%= link_to "Send quarterly email to all Users for Draft Collections", admin_quarterly_performance_notification_path(year: 2022, quarter: 4), method: :post %>
+      <%= link_to "Send quarterly email to all Users for Draft Collections", admin_quarterly_performance_notification_path(year: 2022, quarter: 4), method: :post, class:
+      "usa-button usa-button--outline" %>
     </p>
-    <% end %>
   </div>
 </div>
+<% end %>
+
 <section class="usa-section">
   <div class="grid-row grid-gap-md">
     <div class="grid-col-4">
