@@ -227,7 +227,7 @@ feature 'Digital Service Accounts', js: true do
       end
 
       it 'shows a table with 1 filtered result' do
-        expect(page).to have_content('Reviewing Social Media Accounts')
+        expect(page).to have_content('Review Social Media Accounts')
         expect(page).to have_link('New Account')
         expect(page).to have_css('.usa-table tbody tr', count: 1)
       end
