@@ -10,7 +10,7 @@ class Form < ApplicationRecord
   belongs_to :service, optional: true
 
   has_many :form_sections, dependent: :destroy
-  has_many :questions, dependent: :destroy, counter_cache: true
+  has_many :questions, dependent: :destroy, counter_cache: :questions_count
   has_many :submissions
 
   has_many :user_roles, dependent: :destroy
@@ -140,6 +140,7 @@ class Form < ApplicationRecord
     new_form.title = new_form.name
     new_form.survey_form_activations = 0
     new_form.response_count = 0
+    new_form.questions_count = 0
     new_form.last_response_created_at = nil
     new_form.aasm_state = :in_development
     new_form.uuid = nil
