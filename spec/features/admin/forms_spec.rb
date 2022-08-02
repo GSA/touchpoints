@@ -145,7 +145,7 @@ feature 'Forms', js: true do
           click_on 'Delivery method'
           find('label', text: 'Hosted only on the touchpoints site').click
           click_on 'Update Survey'
-          expect(page).to have_content('Survey was successfully updated.')
+          expect(page).to have_content('Form was successfully updated.')
           visit example_admin_form_path(Form.last)
           expect(page).to have_css('.form-header-logo-square')
         end
@@ -169,7 +169,7 @@ feature 'Forms', js: true do
           find('label', text: 'Embedded inline on your site').click
           fill_in('form_element_selector', with: 'test_selector')
           click_on 'Update Survey'
-          expect(page).to have_content('Survey was successfully updated.')
+          expect(page).to have_content('Form was successfully updated.')
           visit example_admin_form_path(Form.last)
           within('.fba-modal-dialog') do
             expect(page).to have_css('.form-header-logo-square')
@@ -280,7 +280,7 @@ feature 'Forms', js: true do
           it 'can copy a form' do
             click_on 'Copy'
             page.driver.browser.switch_to.alert.accept
-            expect(page).to have_content('Survey was successfully copied')
+            expect(page).to have_content('Form was successfully copied')
           end
         end
 
@@ -451,7 +451,7 @@ feature 'Forms', js: true do
         end
 
         it 'updates successfully' do
-          expect(page).to have_content('Survey was successfully updated.')
+          expect(page).to have_content('Form was successfully updated.')
           visit notifications_admin_form_path(form)
           expect(find("input[type='text']").value).to eq('new@email.gov')
         end
@@ -463,7 +463,7 @@ feature 'Forms', js: true do
 
         before do
           login_as(admin)
-          visit delivery_method_admin_form_path(form)
+          visit delivery_admin_form_path(form)
         end
 
         describe 'editing the whitelist url' do
@@ -473,8 +473,8 @@ feature 'Forms', js: true do
           end
 
           it 'can edit existing Form' do
-            expect(page).to have_content('Survey was successfully updated.')
-            expect(page.current_path).to eq(delivery_method_admin_form_path(form))
+            expect(page).to have_content('Form was successfully updated.')
+            expect(page.current_path).to eq(delivery_admin_form_path(form))
             expect(find('#form_whitelist_url').value).to eq('example.com')
           end
         end
@@ -509,7 +509,7 @@ feature 'Forms', js: true do
             end
 
             it 'can delete existing Form' do
-              expect(page).to have_content('Survey was successfully destroyed.')
+              expect(page).to have_content('Form was successfully destroyed.')
             end
           end
 
@@ -1138,7 +1138,7 @@ feature 'Forms', js: true do
         end
 
         it 'can delete existing Form' do
-          expect(page).to have_content('Survey was successfully destroyed.')
+          expect(page).to have_content('Form was successfully destroyed.')
         end
       end
 
@@ -1294,7 +1294,7 @@ feature 'Forms', js: true do
         it 'can be updated' do
           fill_in 'form_notification_emails', with: 'user@example.gov'
           click_on 'Update Survey'
-          expect(page).to have_content('Survey was successfully updated.')
+          expect(page).to have_content('Form was successfully updated.')
 
           click_on 'Notifications'
           expect(find_field('form_notification_emails').value).to eq('user@example.gov')
@@ -1316,8 +1316,8 @@ feature 'Forms', js: true do
         page.driver.browser.switch_to.alert.accept
       end
 
-      it 'conveys the survey was successfully copied' do
-        expect(page).to have_content('Survey was successfully copied.')
+      it 'conveys the form was successfully copied' do
+        expect(page).to have_content('Form was successfully copied.')
         expect(page.current_path).to eq(admin_form_path(Form.last.short_uuid))
         expect(page).to have_content('Viewing Survey')
         expect(page).to have_content("Copy of #{form.name}")
@@ -1568,9 +1568,9 @@ feature 'Forms', js: true do
           ENV['GITHUB_CLIENT_ID'] = 'something'
         end
 
-        it 'shows an HTML valiation user alert when the email address is not valid' do
+        it 'shows an HTML validation user alert when the email address is not valid' do
           expect(page).to have_content('Invite a colleague')
-          fill_in('user[refer_user]', with: 'test')
+          fill_in('user[refer_user]', with: 'testing')
           click_on 'Invite User'
           message = page.find('#user_refer_user').native.attribute('validationMessage')
           expect(message).to have_content "Please include an '@' in the email address."

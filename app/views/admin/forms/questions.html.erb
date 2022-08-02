@@ -9,8 +9,8 @@
 </p>
 <%= render 'admin/forms/nav', form: @form %>
 <br>
-<div class="grid-row">
-  <div class="grid-col">
+<div class="grid-row grid-gap-lg">
+  <div class="desktop:grid-col-8">
     <% if @form.questions.size > 12 %>
     <div class="usa-alert usa-alert--warning">
       <div class="usa-alert__body">
@@ -33,5 +33,8 @@
     </div>
 
     <%= render "admin/forms/preview", { form: @form } %>
+  </div>
+  <div class="desktop:grid-col-4 ">
+    <%= render 'admin/forms/task_bar', form: @form %>
   </div>
 </div>

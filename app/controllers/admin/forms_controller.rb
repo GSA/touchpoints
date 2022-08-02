@@ -11,7 +11,7 @@ module Admin
     before_action :set_form, only: %i[
       show edit update destroy
       compliance
-      permissions questions responses delivery_method
+      permissions questions responses delivery
       copy copy_by_id
       invite
       notifications
@@ -34,9 +34,17 @@ module Admin
 
     def index
       if admin_permissions?
-        @forms = Form.non_templates.order('organization_id ASC').order('name ASC')
+        if params[:all]
+          @forms = Form.non_templates.order('organization_id ASC').order('name ASC')
+        else
+          @forms = Form.non_archived.non_templates.order('organization_id ASC').order('name ASC')
+        end
       else
-        @forms = current_user.forms.non_templates.order('organization_id ASC').order('name ASC').entries
+        if params[:all]
+          @forms = current_user.forms.non_templates.order('organization_id ASC').order('name ASC').entries
+        else
+          @forms = current_user.forms.non_archived.non_templates.order('organization_id ASC').order('name ASC').entries
+        end
       end
     end
 
@@ -163,7 +171,7 @@ module Admin
       ensure_response_viewer(form: @form) unless @form.template?
     end
 
-    def delivery_method
+    def delivery
       ensure_form_manager(form: @form)
     end
 
@@ -276,7 +284,7 @@ module Admin
           end
           format.json { render :show, status: :ok, location: @form }
         else
-          format.html { render (params[:form][:delivery_method].present? ? :delivery_method : :edit), status: :unprocessable_entity }
+          format.html { render (params[:form][:delivery_method].present? ? :delivery : :edit), status: :unprocessable_entity }
           format.json { render json: @form.errors, status: :unprocessable_entity }
         end
       end
@@ -285,7 +293,7 @@ module Admin
     # Start building our wizard workflow
     def get_edit_path(form)
       if params[:form][:delivery_method].present?
-        delivery_method_admin_form_path(form)
+        delivery_admin_form_path(form)
       else
         admin_form_path(form)
       end

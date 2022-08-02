@@ -1,0 +1,173 @@
+<%= render 'admin/forms/step_indicator', form: form %>
+
+    <div class="well">
+      <% if !form.deployable_form? %>
+        <h2>
+          <i class="far fa-check-circle"></i>
+          Publish your form
+        </h2>
+      <% end %>
+
+      <% if form.deployable_form? %>
+        <strong>
+         Touchpoints-hosted URL
+        </strong>
+        <br>
+        <p>
+          This form can be publicly accessed from the following URL.
+        </p>
+        <p>
+          <%= link_to submit_touchpoint_uuid_url(form), submit_touchpoint_uuid_url(form), target: "_blank" %>
+        </p>
+        <% if form.delivery_method == "modal" || form.delivery_method == "inline" || form.delivery_method == "custom-button-modal" %>
+          <strong>
+            Javascript embed code
+          </strong>
+          <br>
+          <p>
+            <% if form.deployable_form? %>
+              <% if form.delivery_method == "custom-button-modal" %>
+              <p>
+                Add the following markup to your site
+                as a place to display the Touchpoint
+                <i>inline</i>.
+              </p>
+
+              <p>
+                <span class="code">
+                  <%= h("<a id=\"#{form.element_selector}\"></a>") %>
+                </span>
+              </p>
+              <% end %>
+              <% if form.delivery_method == "inline" %>
+              <p>
+                Add the following markup to your site
+                as a place to display the Touchpoint
+                <i>inline</i>.
+              </p>
+              <p>
+                <span class="code">
+                  <%= h("<div id=\"#{form.element_selector}\"></div>") %>
+                </span>
+              </p>
+              <% end %>
+            <p>
+              Add the following script to your site to embed your form.
+            </p>
+            <div>
+              <div class="code minh-10 bg-base-lighter">
+                <%= h("<script src=\"#{touchpoint_url(form.short_uuid, format: :js)}\" async></script>") %>
+              </div>
+            </div>
+            <br>
+            <div class="usa-checkbox">
+              <input class="usa-checkbox__input" type="checkbox" value="1" name="form[integrity-hashed-url]" id="integrity-hashed-url-checkbox">
+              <label class="usa-checkbox__label" for="integrity-hashed-url-checkbox">with integrity hash</label>
+            </div>
+            <div id="integrity-hashed-url" hidden>
+              <div class="usa-alert usa-alert--warning">
+                <div class="usa-alert__body">
+                  <p class="usa-alert__text">
+                    This alternative version of embed script includes an integrity attribute.
+                    Using this version offers more security.
+                    Changing any aspect of the Form's display will change this checksum,
+                    and if deployed, could become invalid.
+                  </p>
+                </div>
+              </div>
+              <br>
+              <div class="code minh-10 bg-base-lighter">
+                <%= h("<script src=\"#{touchpoint_url(form.short_uuid, format: :js)}\" integrity=\"sha256-#{form_integrity_checksum(form: form)}\" async></script>") %>
+              </div>
+            </div>
+            <% end %>
+            <% if form.delivery_method == "inline" %>
+            <h4>
+              Preview an example:
+            </h4>
+            <p>
+              <%= link_to 'Inline', example_admin_form_path(form), class: "usa-button", target: "_blank", rel: "noopener" %>
+            </p>
+            <% end %>
+            <% if form.delivery_method == "custom-button-modal" %>
+            <h4>
+              Preview an example:
+            </h4>
+            <p>
+              <%= link_to 'Custom button modal', example_admin_form_path(form), class: "usa-button", target: "_blank", rel: "noopener" %>
+            </p>
+            <% end %>
+            <% if form.delivery_method == "modal" %>
+            <h4>
+              Preview your form:
+            </h4>
+            <p>
+              Delivery method: <%= form.delivery_method %>
+            </p>
+            <p>
+              <%= link_to example_admin_form_path(form), class: "usa-button usa-button--outline width-full", target: "_blank", rel: "noopener" do %>
+                <i class="fa fa-eye"></i>
+                Preview
+              <% end %>
+            </p>
+            <p>
+              <%= link_to copy_admin_form_path(form), class: "usa-button usa-button--outline width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
+                <i class="fa fa-copy"></i>
+                Copy
+              <% end %>
+            </p>
+            <% end %>
+          </p>
+        <% end %>
+      <% else %>
+        <div class="usa-alert usa-alert--error">
+          <div class="usa-alert__body">
+            <h3 class="usa-alert__heading">Survey is not published</h3>
+            <p>
+              <%= link_to example_admin_form_path(form), class: "usa-button usa-button--outline", target: "_blank", rel: "noopener" do %>
+                <i class="fa fa-eye"></i>
+                Preview
+              <% end %>
+              <%= link_to copy_admin_form_path(form), class: "usa-button usa-button--outline", method: :post, data: { confirm: 'Are you sure?' } do %>
+                <i class="fa fa-copy"></i>
+                Copy
+              <% end %>
+            </p>
+            <p class="usa-alert__text">
+              Publish to make it "live."
+            </p>
+          </div>
+        </div>
+        <p>
+          <%= link_to publish_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button width-full" do %>
+            <i class="far fa-check-circle"></i>
+            Publish
+          <% end %>
+        </p>
+      <% end %>
+
+    <% unless form.archived? %>
+      <p>
+        <%= link_to archive_admin_form_path(form), class: "usa-button usa-button--accent-cool width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
+          <span class="fa fa-archive"></span>
+          Archive this form
+        <% end %>
+      </p>
+    <% end %>
+    <% unless form.in_development? %>
+      <p>
+        <%= link_to reset_admin_form_path(form), class: "usa-button usa-button--secondary width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
+          <span class="fa fa-backward"></span>
+          Reset form
+        <% end %>
+      </p>
+    <% end %>
+    <% if form.archived? || !form.deployable_form? %>
+      <% if form.persisted? %>
+        <%= link_to admin_form_path(form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary width-full" do %>
+          <i class="fas fa-trash"></i>
+          Delete Survey
+        <% end %>
+      <% end %>
+    <% end %>
+    </div>

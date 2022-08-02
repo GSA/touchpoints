@@ -255,7 +255,7 @@ Rails.application.routes.draw do
         get 'compliance', to: 'forms#compliance', as: :compliance
         get 'questions', to: 'forms#questions', as: :questions
         get 'responses', to: 'forms#responses', as: :responses
-        get 'delivery_method', to: 'forms#delivery_method', as: :delivery_method
+        get 'delivery', to: 'forms#delivery', as: :delivery
         post 'add_user', to: 'forms#add_user', as: :add_user
         post 'copy', to: 'forms#copy', as: :copy
         post 'publish', to: 'forms#publish', as: :publish
@@ -273,6 +273,7 @@ Rails.application.routes.draw do
         get 'events', to: 'forms#events', as: :events
       end
       collection do
+        get 'all', to: 'forms#index', as: :all, all: true
         post 'copy', to: 'forms#copy', as: :copy_id
       end
       resources :form_sections, except: %i[index show edit] do

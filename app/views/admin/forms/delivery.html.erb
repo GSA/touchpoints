@@ -27,8 +27,8 @@
     </div>
   <% end %>
 
-  <div class="grid-row">
-    <div class="grid-col">
+  <div class="grid-row grid-gap-lg">
+    <div class="desktop:grid-col-8">
       <div>
         <div class="usa-alert usa-alert--info">
           <div class="usa-alert__body">
@@ -115,6 +115,10 @@
         </div>
       </div>
     </div>
+    <div class="desktop:grid-col-4">
+      <%= render 'admin/forms/task_bar', form: @form %>
+    </div>
+
   </div>
 <% end %>
 

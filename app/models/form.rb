@@ -31,6 +31,8 @@ class Form < ApplicationRecord
   scope :non_templates, -> { where(template: false) }
   scope :templates, -> { where(template: true) }
 
+  scope :non_archived, -> { where("aasm_state != 'archived'") }
+
   mount_uploader :logo, LogoUploader
 
   def target_for_delivery_method
