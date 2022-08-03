@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Question < ApplicationRecord
-  belongs_to :form, optional: false, counter_cache: true
-  belongs_to :form_section, optional: false
+  belongs_to :form, counter_cache: true
+  belongs_to :form_section
   has_many :question_options, dependent: :destroy
 
   validates :question_type, presence: true
@@ -38,7 +38,7 @@ class Question < ApplicationRecord
   validates :character_limit, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: MAX_CHARACTERS, allow_nil: true }
 
   after_commit do |question|
-    FormCache.invalidate(question.form.short_uuid)
+    FormCache.invalidate(question.form.short_uuid) if question.persisted?
   end
 
   def max_length
