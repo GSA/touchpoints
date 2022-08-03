@@ -408,6 +408,10 @@ class Form < ApplicationRecord
                   })
     end
 
+    hash.merge!({
+                  tag_list: 'Tags',
+                })
+
     hash
   end
 

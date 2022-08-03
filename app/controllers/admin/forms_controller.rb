@@ -39,12 +39,10 @@ module Admin
         else
           @forms = Form.non_archived.non_templates.order('organization_id ASC').order('name ASC')
         end
+      elsif params[:all]
+        @forms = current_user.forms.non_templates.order('organization_id ASC').order('name ASC').entries
       else
-        if params[:all]
-          @forms = current_user.forms.non_templates.order('organization_id ASC').order('name ASC').entries
-        else
-          @forms = current_user.forms.non_archived.non_templates.order('organization_id ASC').order('name ASC').entries
-        end
+        @forms = current_user.forms.non_archived.non_templates.order('organization_id ASC').order('name ASC').entries
       end
     end
 

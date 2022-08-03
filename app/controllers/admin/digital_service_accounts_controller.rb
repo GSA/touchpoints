@@ -143,7 +143,7 @@ module Admin
           title: 'Digital Service Account was published',
           body: "Digital Service Account #{@digital_service_account.name} published at #{DateTime.now} by #{current_user.email}",
           path: admin_digital_service_account_url(@digital_service_account),
-          emails: (User.admins.collect(&:email) + User.registry_managers.collect(&:email) + @digital_service_account.roles.first.users.collect(&:email)).uniq
+          emails: (User.admins.collect(&:email) + User.registry_managers.collect(&:email) + @digital_service_account.roles.first.users.collect(&:email)).uniq,
         ).deliver_later
 
         redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was published."
