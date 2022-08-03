@@ -1556,8 +1556,7 @@ feature 'Forms', js: true do
         expect(find("#invite-button").disabled?).to be(true)
 
         # add more than 6 characters, to activate the submit button
-        fill_in('user[refer_user]', with: 'some@address.com')
-        find('body').click
+        find('#user_refer_user').send_keys('some@address.com')
         expect(find("#invite-button").disabled?).to be(false)
         click_on 'Invite User'
         expect(page).to have_content('Please enter a valid .gov or .mil email address')
