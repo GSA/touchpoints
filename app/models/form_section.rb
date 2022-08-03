@@ -2,7 +2,7 @@
 
 class FormSection < ApplicationRecord
   belongs_to :form
-  has_many :questions, dependent: :destroy
+  has_many :questions
 
   validates :position, presence: true
 
