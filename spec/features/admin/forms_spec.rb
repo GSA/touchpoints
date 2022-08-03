@@ -142,7 +142,7 @@ feature 'Forms', js: true do
           end
           find('label', text: 'Display square (80px wide by 80px tall) logo?').click
           click_on 'Update logo'
-          click_on 'Delivery method'
+          click_on 'Delivery'
           find('label', text: 'Hosted only on the touchpoints site').click
           click_on 'Update Survey'
           expect(page).to have_content('Form was successfully updated.')
@@ -165,7 +165,7 @@ feature 'Forms', js: true do
           end
           find('label', text: 'Display square (80px wide by 80px tall) logo?').click
           click_on 'Update logo'
-          click_on 'Delivery method'
+          click_on 'Delivery'
           find('label', text: 'Embedded inline on your site').click
           fill_in('form_element_selector', with: 'test_selector')
           click_on 'Update Survey'
@@ -251,13 +251,13 @@ feature 'Forms', js: true do
             before do
               form.update(aasm_state: :in_development)
               visit admin_form_path(form)
-              click_on 'Archive this form'
+              click_on 'Archive'
               page.driver.browser.switch_to.alert.accept
             end
 
             it "display 'Archived' flash message" do
               expect(page).to have_content('Archived')
-              expect(page).to have_content('Survey is not published')
+              expect(page).to have_content('Form is not published')
             end
           end
         end
@@ -272,7 +272,7 @@ feature 'Forms', js: true do
 
           it "display 'Reset' flash message" do
             expect(page).to have_content('Form has been reset')
-            expect(page).to have_content('Survey is not published')
+            expect(page).to have_content('Form is not published')
           end
         end
 
