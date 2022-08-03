@@ -95,9 +95,8 @@
   <% else %>
     <div class="usa-alert usa-alert--error">
       <div class="usa-alert__body">
-        <h3 class="usa-alert__heading">Form is not published</h3>
         <p class="usa-alert__text">
-          Publish to make it "live."
+          Form is not published
         </p>
       </div>
     </div>
@@ -150,7 +149,7 @@
     <% if form.persisted? %>
       <%= link_to admin_form_path(form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary width-full" do %>
         <i class="fas fa-trash"></i>
-        Delete Survey
+        Delete
       <% end %>
     <% end %>
   <% end %>

@@ -504,7 +504,7 @@ feature 'Forms', js: true do
         describe 'delete a Form' do
           context 'with no responses' do
             before do
-              click_on 'Delete Survey'
+              click_on 'Delete'
               page.driver.browser.switch_to.alert.accept
             end
 
@@ -517,7 +517,7 @@ feature 'Forms', js: true do
             let!(:submission) { FactoryBot.create(:submission, form:) }
 
             before do
-              click_on 'Delete Survey'
+              click_on 'Delete'
               page.driver.browser.switch_to.alert.accept
             end
 
@@ -1133,7 +1133,7 @@ feature 'Forms', js: true do
     describe 'can delete a Form' do
       context 'with no responses' do
         before do
-          click_on 'Delete Survey'
+          click_on 'Delete'
           page.driver.browser.switch_to.alert.accept
         end
 
@@ -1146,7 +1146,7 @@ feature 'Forms', js: true do
         let!(:submission) { FactoryBot.create(:submission, form:) }
 
         before do
-          click_on 'Delete Survey'
+          click_on 'Delete'
           page.driver.browser.switch_to.alert.accept
         end
 
@@ -1280,7 +1280,11 @@ feature 'Forms', js: true do
           expect(page).to have_content('Form was successfully created')
         end
         expect(page).to have_content('Editing Questions for:')
-        expect(page).to have_content('Publish your form')
+        expect(page).to have_content('Form is not published')
+        expect(page).to have_link('Publish')
+        expect(page).to have_link('Copy')
+        expect(page).to have_link('Archive')
+        expect(page).to have_link('Delete')
       end
 
       context 'notification settings' do
