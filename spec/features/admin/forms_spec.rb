@@ -163,7 +163,7 @@ feature 'Forms', js: true do
           within('.usa-file-input') do
             attach_file('form_logo', 'spec/fixtures/touchpoints-logo.png')
           end
-          find('label', text: 'Display Square (80px wide by 80px tall) Organization logo?').click
+          find('label', text: 'Display square (80px wide by 80px tall) logo?').click
           click_on 'Update logo'
           click_on 'Delivery method'
           find('label', text: 'Embedded inline on your site').click
@@ -1276,10 +1276,11 @@ feature 'Forms', js: true do
       end
 
       it 'arrives at /admin/forms/:uuid/questions' do
-        within('.usa-alert__body') do
+        within('.usa-alert--info .usa-alert__body') do
           expect(page).to have_content('Form was successfully created')
         end
         expect(page).to have_content('Editing Questions for:')
+        expect(page).to have_content('Publish your form')
       end
 
       context 'notification settings' do
@@ -1549,8 +1550,15 @@ feature 'Forms', js: true do
         visit permissions_admin_form_path(form)
       end
 
-      it 'shows an alert when the email address is not provided' do
-        fill_in('user[refer_user]', with: '')
+      it 'initially disabled button shows an alert when at least 6 characters of an invalid email address is provided' do
+        expect(find("#invite-button").disabled?).to be(true)
+        fill_in('user[refer_user]', with: 'some')
+        expect(find("#invite-button").disabled?).to be(true)
+
+        # add more than 6 characters, to activate the submit button
+        fill_in('user[refer_user]', with: 'some@address.com')
+        find('body').click
+        expect(find("#invite-button").disabled?).to be(false)
         click_on 'Invite User'
         expect(page).to have_content('Please enter a valid .gov or .mil email address')
         expect(page.current_path).to eq(permissions_admin_form_path(form))
