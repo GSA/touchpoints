@@ -7,6 +7,22 @@
 <% end %>
 
 <% if @forms.present? %>
+  <p class="font-sans-3xs">
+  <% if !params[:all] %>
+    <%= link_to all_admin_forms_path do %>
+      Also show archived forms
+    <% end %>
+  <% end %>
+
+  <% if params[:all] %>
+    <%= link_to admin_forms_path do %>
+      Show active forms only
+    <% end %>
+  <% end %>
+  </p>
+<% end %>
+
+<% if @forms.present? %>
 <table class="usa-table">
   <thead class="font-sans-3xs">
     <tr>
@@ -44,7 +60,7 @@
         <%= link_to form.name, admin_form_path(form) %>
       </td>
       <td>
-        <%= form.questions.size %>
+        <%= form.questions_count %>
       </td>
       <td>
         <%= form.survey_form_activations %>

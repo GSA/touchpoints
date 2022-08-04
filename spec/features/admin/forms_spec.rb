@@ -113,7 +113,7 @@ feature 'Forms', js: true do
         end
 
         it 'redirect to /form/:uuid/questions with a success flash message' do
-          expect(find('.usa-alert.usa-alert--info')).to have_content('Survey was successfully created.')
+          expect(find('.usa-alert.usa-alert--info')).to have_content('Form was successfully created.')
           @form = Form.last
           expect(page).to have_content('Editing Questions for')
           expect(page).to have_content(@form.name)
@@ -131,7 +131,7 @@ feature 'Forms', js: true do
         end
 
         it 'redirect to /form/:uuid/questions with a success flash message' do
-          expect(find('.usa-alert.usa-alert--info')).to have_content('Survey was successfully created.')
+          expect(find('.usa-alert.usa-alert--info')).to have_content('Form was successfully created.')
           @form = Form.last
           expect(page.current_path).to eq(questions_admin_form_path(@form))
         end
@@ -140,12 +140,12 @@ feature 'Forms', js: true do
           within('.usa-file-input') do
             attach_file('form_logo', 'spec/fixtures/touchpoints-logo.png')
           end
-          find('label', text: 'Display Square (80px wide by 80px tall) Organization logo before the title in the Form header?').click
+          find('label', text: 'Display square (80px wide by 80px tall) logo?').click
           click_on 'Update logo'
-          click_on 'Delivery method'
+          click_on 'Delivery'
           find('label', text: 'Hosted only on the touchpoints site').click
           click_on 'Update Survey'
-          expect(page).to have_content('Survey was successfully updated.')
+          expect(page).to have_content('Form was successfully updated.')
           visit example_admin_form_path(Form.last)
           expect(page).to have_css('.form-header-logo-square')
         end
@@ -163,13 +163,13 @@ feature 'Forms', js: true do
           within('.usa-file-input') do
             attach_file('form_logo', 'spec/fixtures/touchpoints-logo.png')
           end
-          find('label', text: 'Display Square (80px wide by 80px tall) Organization logo before the title in the Form header?').click
+          find('label', text: 'Display square (80px wide by 80px tall) logo?').click
           click_on 'Update logo'
-          click_on 'Delivery method'
+          click_on 'Delivery'
           find('label', text: 'Embedded inline on your site').click
           fill_in('form_element_selector', with: 'test_selector')
           click_on 'Update Survey'
-          expect(page).to have_content('Survey was successfully updated.')
+          expect(page).to have_content('Form was successfully updated.')
           visit example_admin_form_path(Form.last)
           within('.fba-modal-dialog') do
             expect(page).to have_css('.form-header-logo-square')
@@ -251,13 +251,13 @@ feature 'Forms', js: true do
             before do
               form.update(aasm_state: :in_development)
               visit admin_form_path(form)
-              click_on 'Archive this form'
+              click_on 'Archive'
               page.driver.browser.switch_to.alert.accept
             end
 
             it "display 'Archived' flash message" do
               expect(page).to have_content('Archived')
-              expect(page).to have_content('Survey is not published')
+              expect(page).to have_content('Form is not published')
             end
           end
         end
@@ -272,7 +272,7 @@ feature 'Forms', js: true do
 
           it "display 'Reset' flash message" do
             expect(page).to have_content('Form has been reset')
-            expect(page).to have_content('Survey is not published')
+            expect(page).to have_content('Form is not published')
           end
         end
 
@@ -280,7 +280,7 @@ feature 'Forms', js: true do
           it 'can copy a form' do
             click_on 'Copy'
             page.driver.browser.switch_to.alert.accept
-            expect(page).to have_content('Survey was successfully copied')
+            expect(page).to have_content('Form was successfully copied')
           end
         end
 
@@ -451,7 +451,7 @@ feature 'Forms', js: true do
         end
 
         it 'updates successfully' do
-          expect(page).to have_content('Survey was successfully updated.')
+          expect(page).to have_content('Form was successfully updated.')
           visit notifications_admin_form_path(form)
           expect(find("input[type='text']").value).to eq('new@email.gov')
         end
@@ -463,7 +463,7 @@ feature 'Forms', js: true do
 
         before do
           login_as(admin)
-          visit delivery_method_admin_form_path(form)
+          visit delivery_admin_form_path(form)
         end
 
         describe 'editing the whitelist url' do
@@ -473,8 +473,8 @@ feature 'Forms', js: true do
           end
 
           it 'can edit existing Form' do
-            expect(page).to have_content('Survey was successfully updated.')
-            expect(page.current_path).to eq(delivery_method_admin_form_path(form))
+            expect(page).to have_content('Form was successfully updated.')
+            expect(page.current_path).to eq(delivery_admin_form_path(form))
             expect(find('#form_whitelist_url').value).to eq('example.com')
           end
         end
@@ -504,12 +504,12 @@ feature 'Forms', js: true do
         describe 'delete a Form' do
           context 'with no responses' do
             before do
-              click_on 'Delete Survey'
+              click_on 'Delete'
               page.driver.browser.switch_to.alert.accept
             end
 
             it 'can delete existing Form' do
-              expect(page).to have_content('Survey was successfully destroyed.')
+              expect(page).to have_content('Form was successfully destroyed.')
             end
           end
 
@@ -517,7 +517,7 @@ feature 'Forms', js: true do
             let!(:submission) { FactoryBot.create(:submission, form:) }
 
             before do
-              click_on 'Delete Survey'
+              click_on 'Delete'
               page.driver.browser.switch_to.alert.accept
             end
 
@@ -1133,12 +1133,12 @@ feature 'Forms', js: true do
     describe 'can delete a Form' do
       context 'with no responses' do
         before do
-          click_on 'Delete Survey'
+          click_on 'Delete'
           page.driver.browser.switch_to.alert.accept
         end
 
         it 'can delete existing Form' do
-          expect(page).to have_content('Survey was successfully destroyed.')
+          expect(page).to have_content('Form was successfully destroyed.')
         end
       end
 
@@ -1146,7 +1146,7 @@ feature 'Forms', js: true do
         let!(:submission) { FactoryBot.create(:submission, form:) }
 
         before do
-          click_on 'Delete Survey'
+          click_on 'Delete'
           page.driver.browser.switch_to.alert.accept
         end
 
@@ -1276,10 +1276,15 @@ feature 'Forms', js: true do
       end
 
       it 'arrives at /admin/forms/:uuid/questions' do
-        within('.usa-alert__body') do
-          expect(page).to have_content('Survey was successfully created')
+        within('.usa-alert--info .usa-alert__body') do
+          expect(page).to have_content('Form was successfully created')
         end
         expect(page).to have_content('Editing Questions for:')
+        expect(page).to have_content('Form is not published')
+        expect(page).to have_link('Publish')
+        expect(page).to have_link('Copy')
+        expect(page).to have_link('Archive')
+        expect(page).to have_link('Delete')
       end
 
       context 'notification settings' do
@@ -1294,7 +1299,7 @@ feature 'Forms', js: true do
         it 'can be updated' do
           fill_in 'form_notification_emails', with: 'user@example.gov'
           click_on 'Update Survey'
-          expect(page).to have_content('Survey was successfully updated.')
+          expect(page).to have_content('Form was successfully updated.')
 
           click_on 'Notifications'
           expect(find_field('form_notification_emails').value).to eq('user@example.gov')
@@ -1316,8 +1321,8 @@ feature 'Forms', js: true do
         page.driver.browser.switch_to.alert.accept
       end
 
-      it 'conveys the survey was successfully copied' do
-        expect(page).to have_content('Survey was successfully copied.')
+      it 'conveys the form was successfully copied' do
+        expect(page).to have_content('Form was successfully copied.')
         expect(page.current_path).to eq(admin_form_path(Form.last.short_uuid))
         expect(page).to have_content('Viewing Survey')
         expect(page).to have_content("Copy of #{form.name}")
@@ -1549,8 +1554,14 @@ feature 'Forms', js: true do
         visit permissions_admin_form_path(form)
       end
 
-      it 'shows an alert when the email address is not provided' do
-        fill_in('user[refer_user]', with: '')
+      it 'initially disabled button shows an alert when at least 6 characters of an invalid email address is provided' do
+        expect(find("#invite-button").disabled?).to be(true)
+        fill_in('user[refer_user]', with: 'some')
+        expect(find("#invite-button").disabled?).to be(true)
+
+        # add more than 6 characters, to activate the submit button
+        find('#user_refer_user').send_keys('some@address.com')
+        expect(find("#invite-button").disabled?).to be(false)
         click_on 'Invite User'
         expect(page).to have_content('Please enter a valid .gov or .mil email address')
         expect(page.current_path).to eq(permissions_admin_form_path(form))
@@ -1568,9 +1579,9 @@ feature 'Forms', js: true do
           ENV['GITHUB_CLIENT_ID'] = 'something'
         end
 
-        it 'shows an HTML valiation user alert when the email address is not valid' do
+        it 'shows an HTML validation user alert when the email address is not valid' do
           expect(page).to have_content('Invite a colleague')
-          fill_in('user[refer_user]', with: 'test')
+          fill_in('user[refer_user]', with: 'testing')
           click_on 'Invite User'
           message = page.find('#user_refer_user').native.attribute('validationMessage')
           expect(message).to have_content "Please include an '@' in the email address."
