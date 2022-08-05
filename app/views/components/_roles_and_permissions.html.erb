@@ -135,7 +135,7 @@
         <div class="grid-row grid-gap-md">
           <div class="tablet:grid-col-12">
             <p>
-              Don't see a user to add in a dropdown?
+              Don't see a user in the dropdown?
             </p>
 
             <div class="field">
@@ -146,10 +146,22 @@
         </div>
         <div class="field">
           <br>
-          <%= f.submit "Invite User", class: "usa-button" %>
+          <%= f.submit "Invite User", class: "usa-button", id: "invite-button", disabled: true %>
           <br>
         </div>
       <% end %>
     </div>
   </div>
 </div>
+
+<script>
+  $(function(){
+    $("#user_refer_user").on("keyup", function(event) {
+      if(event.target.value != '' && event.target.value.length > 5) {
+        $("#invite-button").attr('disabled', false);
+      } else {
+        $("#invite-button").attr('disabled', true);
+      }
+    });
+  });
+</script>
