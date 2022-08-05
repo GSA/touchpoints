@@ -74,7 +74,7 @@ feature 'Forms', js: true do
 
             it 'can edit a form template' do
               expect(page.current_path).to eq(admin_form_path(form_template))
-              expect(page).to have_content('Admin options')
+              expect(page).to have_content('for Admins'.upcase)
               expect(form_template.template).to eq(true)
               fill_in('form_notes', with: 'Updated notes text')
               click_on 'Update Survey Admin Options'
@@ -241,7 +241,7 @@ feature 'Forms', js: true do
             it "display 'Published' flash message" do
               expect(page).to have_content('Published')
               expect(page).to have_content("Viewing Survey: #{form.name}")
-              expect(page).to have_content('Survey Information'.upcase)
+              expect(page).to have_content('Form Information'.upcase)
             end
           end
         end
@@ -1422,7 +1422,7 @@ feature 'Forms', js: true do
         end
 
         it 'does not Form Manager options' do
-          expect(page).not_to have_content('Form Manager options')
+          expect(page).not_to have_content('form Form Managers'.upcase)
           expect(page).not_to have_content('Update Survey')
         end
 

@@ -2,7 +2,7 @@
 
 module Admin
   class PersonasController < AdminController
-    before_action :set_persona, only: %i[show edit update destroy]
+    before_action :set_persona, only: %i[show edit update destroy add_tag remove_tag]
 
     def index
       @personas = Persona.all.order(:name)
@@ -39,6 +39,16 @@ module Admin
       redirect_to admin_personas_url, notice: 'Persona was successfully destroyed.'
     end
 
+    def add_tag
+      @persona.tag_list.add(persona_params[:tag_list].split(','))
+      @persona.save
+    end
+
+    def remove_tag
+      @persona.tag_list.remove(persona_params[:tag_list].split(','))
+      @persona.save
+    end
+
     private
 
     def set_persona
@@ -46,7 +56,13 @@ module Admin
     end
 
     def persona_params
-      params.require(:persona).permit(:name, :description, :tags, :notes, :user_id)
+      params.require(:persona).permit(
+        :name,
+        :description,
+        :notes,
+        :user_id,
+        :tag_list
+      )
     end
   end
 end

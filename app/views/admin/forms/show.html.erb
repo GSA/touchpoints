@@ -30,20 +30,75 @@
   <div class="desktop:grid-col-8">
     <p>
       <strong class="font-sans-3xl">
-        <%= @form.response_count %> responses
+        <%= pluralize @form.response_count, "response" %>
       </strong>
       <br>
       <% if @form.last_response_created_at.present? %>
       <small>
         Latest response:
-        <%= time_ago_in_words(@form.last_response_created_at) %> ago
         <br>
+        <%= time_ago_in_words(@form.last_response_created_at) %> ago
         at <span class="form-created-at">
           <%= format_time(@form.last_response_created_at, current_user.time_zone) %>
         </span>
       </small>
       <% end %>
     <p>
+
+    <div class="well">
+      <div class="grid-row grid-gap-md">
+        <div class="tablet:grid-col-6">
+          <div class="text-uppercase font-body-3xs">
+            Form information
+          </div>
+        </div>
+      </div>
+      <div class="grid-row grid-gap-md">
+        <div class="tablet:grid-col-6">
+          <p>
+            <%= label_tag "Organization", nil, class: "usa-label" %>
+            <%= link_to_if(admin_permissions?, @form.organization.name, admin_organization_path(@form.organization)) %>
+          </p>
+          <p>
+            <%= label_tag "Form owner", nil, class: "usa-label" %>
+            <%= @form.user.email if @form.user %>
+          </p>
+        </div>
+        <div class="tablet:grid-col-3">
+          <div>
+            <p>
+              <%= label_tag "Created at", nil, class: "usa-label" %>
+              <%= @form.created_at.to_date %>
+              <small>
+                (<%= time_ago_in_words(@form.created_at) %> ago)
+              </small>
+            </p>
+            <p>
+              <%= label_tag "Timezone", nil, class: "usa-label" %>
+              <%= @form.time_zone %>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <% if @form.template %>
+        <strong>Form Template:</strong>
+        <span class="usa-tag bg-accent-warm">
+          <%= @form.kind %>
+        </span>
+        <p>
+          <strong>Notes:</strong>
+          <%= @form.notes %>
+        </p>
+        <% end %>
+      </div>
+    </div>
+    <div class="admin-options">
+      <%= render 'admin/forms/admin_options', form: @form %>
+    </div>
+    <div class="form-manager-options">
+      <%= render 'admin/forms/form_manager_options', form: @form %>
+    </div>
   </div>
   <div class="desktop:grid-col-4 ">
     <%= render 'admin/forms/task_bar', form: @form %>
@@ -51,88 +106,3 @@
 </div>
 <br>
 <% end %>
-<div class="well">
-  <div class="grid-row grid-gap-md">
-    <div class="tablet:grid-col-6">
-      <div class="text-uppercase font-body-3xs">
-        Survey information
-      </div>
-    </div>
-  </div>
-  <div class="grid-row grid-gap-md">
-    <div class="tablet:grid-col-6">
-      <p>
-        <strong>Organization</strong>
-        <br>
-        <%= link_to_if(admin_permissions?, @form.organization.name, admin_organization_path(@form.organization)) %>
-      </p>
-      <p>
-        <strong>Timezone</strong>
-        <br>
-        <%= @form.time_zone %>
-      </p>
-    </div>
-    <div class="tablet:grid-col-3">
-      <div>
-        <p>
-          <strong>Survey owner</strong>
-          <br>
-          <%= @form.user.email if @form.user %>
-        </p>
-        <% if @form.delivery_method == "touchpoints-hosted-only" || @form.delivery_method == "modal" %>
-        <% else %>
-        <p>
-          <strong>Element selector</strong>
-          <br>
-          <%= @form.element_selector %>
-        </p>
-        <% end %>
-        <p>
-          <strong>Created at</strong>
-          <br>
-          <%= @form.created_at.to_date %>
-          <small>
-            (<%= time_ago_in_words(@form.created_at) %> ago)
-          </small>
-        </p>
-      </div>
-    </div>
-    <div class="tablet:grid-col-3">
-      <div>
-        <p>
-          <strong>Delivery method</strong>
-          <br>
-          <span class="usa-tag">
-            <%= @form.delivery_method %>
-          </span>
-        </p>
-        <% if @form.delivery_method == "touchpoints-hosted-only" || @form.delivery_method == "modal" %>
-        <% else %>
-        <p>
-          <strong>Element selector</strong>
-          <br>
-          <%= @form.element_selector %>
-        </p>
-        <% end %>
-      </div>
-    </div>
-  </div>
-  <div>
-    <% if @form.template %>
-    <strong>Form Template:</strong>
-    <span class="usa-tag bg-accent-warm">
-      <%= @form.kind %>
-    </span>
-    <p>
-      <strong>Notes:</strong>
-      <%= @form.notes %>
-    </p>
-    <% end %>
-  </div>
-</div>
-<div class="admin-options">
-  <%= render 'admin/forms/admin_options', form: @form %>
-</div>
-<div class="form-manager-options">
-  <%= render 'admin/forms/form_manager_options', form: @form %>
-</div>
