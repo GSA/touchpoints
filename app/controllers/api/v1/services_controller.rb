@@ -10,6 +10,14 @@ module Api
           end
         end
       end
+
+      def show
+        respond_to do |format|
+          format.json do
+            render json: Service.find(params[:id]), serializer: ServiceSerializer
+          end
+        end
+      end
     end
   end
 end

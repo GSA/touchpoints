@@ -43,7 +43,7 @@ Rails.application.routes.draw do
       resources :forms, only: %i[index show]
       resources :websites, only: [:index]
       resources :service_providers, only: [:index]
-      resources :services, only: [:index]
+      resources :services, only: %i[index show]
       resources :goals, only: [:index]
       resources :objectives, only: [:index]
       resources :users, only: [:index]
