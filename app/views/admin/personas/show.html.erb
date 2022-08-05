@@ -6,7 +6,7 @@
   <% end %>
 </div>
 
-Persona
+Viewing a Persona
 <% end %>
 <p>
   <%= link_to admin_personas_path do %>
@@ -26,14 +26,13 @@ Persona
 </p>
 
 <p>
-  <strong>Tags:</strong>
-  <%= @persona.tags %>
-</p>
-
-<p>
   <strong>Notes:</strong>
   <%= @persona.notes %>
 </p>
+
+<div class="tags-div well">
+  <%= render 'admin/personas/tags', persona: @persona %>
+</div>
 
 <div class="websites well">
   <h3>

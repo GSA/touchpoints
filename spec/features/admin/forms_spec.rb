@@ -74,7 +74,7 @@ feature 'Forms', js: true do
 
             it 'can edit a form template' do
               expect(page.current_path).to eq(admin_form_path(form_template))
-              expect(page).to have_content('form Admins'.upcase)
+              expect(page).to have_content('for Admins'.upcase)
               expect(form_template.template).to eq(true)
               fill_in('form_notes', with: 'Updated notes text')
               click_on 'Update Survey Admin Options'
