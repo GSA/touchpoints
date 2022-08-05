@@ -59,7 +59,6 @@ module Admin
       params.require(:persona).permit(
         :name,
         :description,
-        # :tags,
         :notes,
         :user_id,
         :tag_list
