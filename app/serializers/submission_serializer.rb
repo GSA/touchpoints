@@ -34,5 +34,6 @@ class SubmissionSerializer < ActiveModel::Serializer
              :archived,
              :aasm_state,
              :language,
-             :uuid
+             :uuid,
+             :tag_list,
 end
