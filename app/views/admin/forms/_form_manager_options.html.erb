@@ -20,14 +20,14 @@
   <% end %>
   <% if is_at_least_form_manager?(user: current_user, form: @form) %>
   <div class="well">
-    <h4>
-      Form Manager options
-    </h4>
+    <span class="usa-tag">
+      for Form Managers
+    </span>
 
     <div class="grid-row grid-gap-md">
       <div class="grid-col-12">
         <div class="field">
-          <%= f.label :name, "Survey name", class: "usa-label" %>
+          <%= f.label :name, "Form name", class: "usa-label" %>
           <%= f.text_field :name, class: "usa-input" %>
         </div>
       </div>
@@ -35,14 +35,19 @@
     <div class="grid-row grid-gap-md">
       <div class="grid-col-12">
         <div class="field">
-          <%= f.label :service, "Service name", class: "usa-label" %>
+          <%= f.label :service, "Service", class: "usa-label" %>
+          <small>
+            Optionally, this Form
+            can be associated with a
+            <%= link_to "Service", admin_services_path, target: "_blank" %>.
+          </small>
           <%= f.select :service_id, current_user.organization.services.includes(:organization).order("organizations.name", :name).map { |h| ["#{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, class: "usa-select" %>
         </div>
       </div>
     </div>
     <div class="grid-col-12">
       <div class="field">
-        <%= f.label :time_zone, "Survey time zone", class: "usa-label" %>
+        <%= f.label :time_zone, "Time zone", class: "usa-label" %>
         <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone::MAPPING.keys.sort, selected: @form.time_zone), { prompt: "Select a time zone" }, { class: "usa-select" } %>
       </div>
     </div>

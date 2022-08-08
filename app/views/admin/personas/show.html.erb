@@ -6,7 +6,7 @@
   <% end %>
 </div>
 
-Persona
+Viewing a Persona
 <% end %>
 <p>
   <%= link_to admin_personas_path do %>
@@ -15,36 +15,46 @@ Persona
   <% end %>
 </p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @persona.name %>
-</p>
+<div class="grid-row grid-gap-lg">
+  <div class="grid-col-8">
+    <p>
+      <strong>Name:</strong>
+      <%= @persona.name %>
+    </p>
 
-<p>
-  <strong>Description:</strong>
-  <%= @persona.description %>
-</p>
+    <p>
+      <strong>Description:</strong>
+      <%= @persona.description %>
+    </p>
 
-<p>
-  <strong>Tags:</strong>
-  <%= @persona.tags %>
-</p>
+    <p>
+      <strong>Notes:</strong>
+      <%= @persona.notes %>
+    </p>
 
-<p>
-  <strong>Notes:</strong>
-  <%= @persona.notes %>
-</p>
 
-<div class="websites well">
-  <h3>
-    <%= pluralize(@persona.websites.size, "Website") %>
-  </h3>
+    <div class="websites well">
+      <h3>
+        <%= pluralize(@persona.websites.size, "Website") %>
+      </h3>
 
-  <ul class="usa-list">
-  <% @persona.websites.order(:domain).each do |website| %>
-    <li>
-      <%= link_to website.domain, admin_website_path(website) %>
-    </li>
-  <% end %>
-  </ul>
+      <small>
+        Optionally, this Persona may be associated with one or more
+        <%= link_to "Websites", admin_websites_path %>.
+      </small>
+
+      <ul class="usa-list">
+      <% @persona.websites.order(:domain).each do |website| %>
+        <li>
+          <%= link_to website.domain, admin_website_path(website) %>
+        </li>
+      <% end %>
+      </ul>
+    </div>
+  </div>
+  <div class="grid-col-4">
+    <div class="tags-div well">
+      <%= render 'admin/personas/tags', persona: @persona %>
+    </div>
+  </div>
 </div>

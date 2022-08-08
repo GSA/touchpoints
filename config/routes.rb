@@ -43,7 +43,8 @@ Rails.application.routes.draw do
       resources :forms, only: %i[index show]
       resources :websites, only: [:index]
       resources :service_providers, only: [:index]
-      resources :services, only: [:index]
+      resources :services, only: %i[index show]
+      resources :personas, only: [:index]
       resources :goals, only: [:index]
       resources :objectives, only: [:index]
       resources :users, only: [:index]
@@ -238,7 +239,12 @@ Rails.application.routes.draw do
       resources :digital_product_platforms
     end
 
-    resources :personas
+    resources :personas do
+      member do
+        post 'add_tag', to: 'personas#add_tag', as: :add_tag
+        post 'remove_tag', to: 'personas#remove_tag', as: :remove_tag
+      end
+    end
 
     resources :forms do
       member do
