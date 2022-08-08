@@ -18,5 +18,8 @@ class ServiceSerializer < ActiveModel::Serializer
              :service_abbreviation,
              :service_slug,
              :service_owner_email,
-             :url
+             :url,
+             :service_managers,
+             :channels,
+             :tags
 end

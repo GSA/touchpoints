@@ -13,163 +13,231 @@
   <% end %>
 </p>
 
-<div class="well">
-  <%= link_to 'Edit organization', edit_admin_organization_path(@organization), class: "usa-button float-right" %>
-  <div class="usa-alert">
-    <div class="usa-alert__body">
-      <%= @organization.name %> has
-      <%= link_to(pluralize(@users.length, "User"), admin_users_path) %>
-      managing
-      <%= link_to(pluralize(@forms.length, "Form"), admin_forms_path) %>.
-    </div>
-  </div>
-
-  <div class="grid-row">
-    <div class="grid-col-4">
-      <p>
-        <%= label_tag "Name", nil, class: "usa-label" %>
-        <br>
-        <%= @organization.name %>
-      </p>
-    </div>
-    <div class="grid-col-4">
-      <p>
-        <%= label_tag "Abbreviation", nil, class: "usa-label" %>
-        <br>
-        <%= @organization.abbreviation %>
-      </p>
-    </div>
-    <div class="grid-col-4">
-      <div>
-        <%= label_tag "Organization Domain", nil, class: "usa-label" %>
-        <small>
-          used for the Allowlist of users email addresses
-        </small>
-        <br>
-        <br>
-        <%= @organization.domain %>
+<div class="grid-row">
+  <div class="grid-col-8">
+    <div>
+      <div class="grid-row">
+        <div class="grid-col-12">
+          <%= label_tag "Name", nil, class: "usa-label" %>
+          <%= @organization.name %>
+        </div>
+        <div class="grid-col-12">
+          <%= label_tag "Abbreviation", nil, class: "usa-label" %>
+          <%= @organization.abbreviation %>
+        </div>
+        <div class="grid-col-12">
+          <div>
+            <%= label_tag "Organization Domain", nil, class: "usa-label" %>
+            <small>
+              used for the Allowlist of users email addresses
+            </small>
+            <br>
+            <br>
+            <%= @organization.domain %>
+          </div>
+        </div>
+        <div class="grid-col-12">
+          <%= label_tag "Website URL", nil, class: "usa-label" %>
+          <br>
+          <%= link_to(@organization.url, @organization.url, target: "_blank", rel: "noopener") %>
+        </div>
       </div>
+
+
+      <div class="usa-prose">
+        <%= label_tag "Mission statement", nil, class: "usa-label" %>
+        <br>
+        <% if @organization.mission_statement.present? %>
+          <%= @organization.mission_statement %>
+        <% else %>
+        <div class="usa-alert usa-alert--info">
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">
+              Mission statement has not been entered
+            </p>
+          </div>
+        </div>
+        <% end %>
+      </div>
+      <% if @organization.logo %>
+      <p>
+        <%= label_tag "Logo", nil, class: "usa-label" %>
+        <br>
+        <% if @organization.logo_url.present? %>
+        (displaying Thumbnail version)
+        <br>
+        <br>
+        <%= image_tag(@organization.logo.thumb.url) %>
+        <br>
+        <%= link_to "Full Size", @organization.logo.url, target: "_blank", rel: "noopener" %><br>
+        <%= link_to "Thumbnail Size", @organization.logo.thumb.url, target: "_blank", rel: "noopener" %><br>
+        <%= link_to "Card Size", @organization.logo.card.url, target: "_blank", rel: "noopener" %><br>
+        <% else %>
+          A logo has not yet been uploaded
+        <% end %>
+      </p>
+      <% end %>
+      <p>
+        <%= label_tag "Digital Analytics URL", nil, class: "usa-label" %>
+        <% if @organization.digital_analytics_path? %>
+          <%= link_to("https://analytics.usa.gov/#{@organization.digital_analytics_path}", "https://analytics.usa.gov/#{@organization.digital_analytics_path}", target: "_blank", rel: "noopener") %>
+          <% else %>
+          <div class="usa-alert usa-alert--info">
+            <div class="usa-alert__body">
+              <p class="usa-alert__text">
+                DAP path has not been entered
+              </p>
+            </div>
+          </div>
+          <% end %>
+      </p>
+      <p>
+        <%= label_tag "Notes", nil, class: "usa-label" %>
+        <% if @organization.notes.present? %>
+          <%= @organization.notes %>
+        <% else %>
+        <div class="usa-alert usa-alert--info">
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">
+              Notes have not been entered
+            </p>
+          </div>
+        </div>
+        <% end %>
+      </p>
     </div>
-  </div>
 
-  <div class="usa-prose">
-    <p>
-      <%= label_tag "Mission statement", nil, class: "usa-label" %>
-      <br>
-      <%= @organization.mission_statement %>
-    </p>
-  </div>
-  <% if @organization.logo %>
-  <p>
-    <%= label_tag "Logo", nil, class: "usa-label" %>
-    <br>
-    <% if @organization.logo_url.present? %>
-    (displaying Thumbnail version)
-    <br>
-    <br>
-    <%= image_tag(@organization.logo.thumb.url) %>
-    <br>
-    <%= link_to "Full Size", @organization.logo.url, target: "_blank", rel: "noopener" %><br>
-    <%= link_to "Thumbnail Size", @organization.logo.thumb.url, target: "_blank", rel: "noopener" %><br>
-    <%= link_to "Card Size", @organization.logo.card.url, target: "_blank", rel: "noopener" %><br>
-    <% else %>
-      A logo has not yet been uploaded
-    <% end %>
-  </p>
-  <% end %>
-  <p>
-    <%= label_tag "Website URL", nil, class: "usa-label" %>
-    <br>
-    <%= link_to(@organization.url, @organization.url, target: "_blank", rel: "noopener") %>
-  </p>
-  <p>
-    <%= label_tag "Digital Analytics URL", nil, class: "usa-label" %>
-    <br>
-    <% if @organization.digital_analytics_path? %>
-      <%= link_to("https://analytics.usa.gov/#{@organization.digital_analytics_path}", "https://analytics.usa.gov/#{@organization.digital_analytics_path}", target: "_blank", rel: "noopener") %>
-    <% end %>
-  </p>
-  <p>
-    <%= label_tag "Notes", nil, class: "usa-label" %>
-    <%= @organization.notes %>
-  </p>
-</div>
+    <% if admin_permissions? || current_user.organization == @organization %>
+    <div class="service-providers well">
+      <h3>
+        <%= pluralize(@organization.service_providers.size, "Service Providers") %>
+      </h3>
 
-<% if admin_permissions? || current_user.organization == @organization %>
-<div class="service-providers well">
-  <h3>
-    <%= pluralize(@organization.service_providers.size, "Service Providers") %>
-    and
-    <%= pluralize(@organization.services.size, "Service") %>
-  </h3>
-
-  <ul class="usa-list">
-  <% @organization.service_providers.order(:name).each do |service_provider| %>
-    <li>
-      <%= link_to service_provider.name, admin_service_provider_path(service_provider) %>
+      <% if @organization.service_providers.present? %>
       <ul class="usa-list">
-      <% service_provider.services.order(:name).each do |service| %>
+      <% @organization.service_providers.order(:name).each do |service_provider| %>
         <li>
-          <%= link_to service.name, admin_service_path(service) %>
+          <%= link_to service_provider.name, admin_service_provider_path(service_provider) %>
         </li>
       <% end %>
       </ul>
-    </li>
-  <% end %>
-  </ul>
-</div>
-<div class="touchpoints well">
-  <h3>
-    <%= @forms.size %> Forms
-  </h3>
-
-  <ul class="usa-list">
-  <% @forms.each do |form| %>
-    <li>
-      <%= link_to form.name, admin_form_path(form) %>
-    </li>
-  <% end %>
-  </ul>
-</div>
-<div class="collections well">
-  <h3>
-    <%= @collections.size %> Collections
-  </h3>
-
-  <% if @collections.present? %>
-    <ul class="usa-list">
-    <% @collections.each do |collection| %>
-      <li>
-        Q<%= collection.quarter %>
-        FY<%= collection.year %>
-        &middot;
-        <%= link_to collection.name, admin_collection_path(collection) %><br>
-      </li>
-    <% end %>
-    </ul>
-  <% else %>
-  <div class="usa-alert usa-alert--info">
-    <div class="usa-alert__body">
-      <p class="usa-alert__text">
-        No Collections at this time
-      </p>
+      <% else %>
+      <div class="usa-alert usa-alert--info">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            No Service Providers at this time
+          </p>
+        </div>
+      </div>
+      <% end %>
     </div>
+    <div class="service-providers well">
+      <h3>
+        <%= pluralize(@organization.services.size, "Service") %>
+      </h3>
+
+      <% if @organization.services.present? %>
+      <ul class="usa-list">
+      <% @organization.services.order(:name).each do |service| %>
+        <li>
+          <%= link_to service.name, admin_service_path(service) %>
+          <% if service.service_provider %>
+            - provided by
+            <%= link_to service.service_provider.name, admin_service_path(service) %>
+          <% end %>
+        </li>
+      <% end %>
+      </ul>
+      <% else %>
+      <div class="usa-alert usa-alert--info">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            No Service Providers at this time
+          </p>
+        </div>
+      </div>
+      <% end %>
+    </div>
+    <div class="touchpoints well">
+      <h3>
+        <%= @forms.size %> Forms
+      </h3>
+
+      <% if @forms.present? %>
+      <ul class="usa-list">
+      <% @forms.each do |form| %>
+        <li>
+          <%= link_to form.name, admin_form_path(form) %>
+        </li>
+      <% end %>
+      </ul>
+      <% else %>
+      <div class="usa-alert usa-alert--info">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            No Forms at this time
+          </p>
+        </div>
+      </div>
+      <% end %>
+
+    </div>
+    <div class="collections well">
+      <h3>
+        <%= @collections.size %> Collections
+      </h3>
+
+      <% if @collections.present? %>
+        <ul class="usa-list">
+        <% @collections.order(:year, :quarter).each do |collection| %>
+          <li>
+            <%= collection.year %>
+            Q<%= collection.quarter %>
+            &middot;
+            <%= link_to collection.name, admin_collection_path(collection) %><br>
+          </li>
+        <% end %>
+        </ul>
+      <% else %>
+      <div class="usa-alert usa-alert--info">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            No Collections at this time
+          </p>
+        </div>
+      </div>
+      <% end %>
+      <h3>
+
+    </div>
+    <div class="users well">
+      <h3>
+        <%= @users.size %> Users
+      </h3>
+
+      <% if @users.present? %>
+      <ul class="usa-list">
+      <% @users.order(:email).each do |user| %>
+        <li>
+          <%= link_to user.email, admin_user_path(user) %>
+        </li>
+      <% end %>
+      </ul>
+      <% else %>
+      <div class="usa-alert usa-alert--info">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            No Users at this time
+          </p>
+        </div>
+      </div>
+      <% end %>
+
+    </div>
+    <% end %>
+
   </div>
-  <% end %>
-  <h3>
+  <div class="grid-col-4">
 
+  </div>
 </div>
-<div class="users well">
-  <h3>
-    <%= @users.size %> Users
-  </h3>
-
-  <ul class="usa-list">
-  <% @users.order(:email).each do |user| %>
-    <li>
-      <%= link_to user.email, admin_user_path(user) %>
-    </li>
-  <% end %>
-  </ul>
-</div>
-<% end %>
