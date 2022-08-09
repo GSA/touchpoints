@@ -20,18 +20,6 @@
 
 <%= render 'admin/services/step_indicator', service: @service %>
 
-<% if service_manager_permissions? && !@service.created? && @service.submitted? && !@service.approved? %>
-<p>
-  <%= link_to "Approve this service", approve_admin_service_path(@service), class: "usa-button full-width", method: :post %>
-</p>
-<% end %>
-
-<% if service_permissions?(service: @service) && !@service.created? && !@service.submitted? && @service.approved? %>
-<p>
-  <%= link_to "Verify this service can be published", verify_admin_service_path(@service), class: "usa-button full-width", method: :post %>
-</p>
-<% end %>
-
 <div class="grid-row grid-gap-lg">
   <div class="desktop:grid-col-8">
 
@@ -124,7 +112,18 @@
     </p>
   </div>
   <div class="desktop:grid-col-4">
+    <% if service_manager_permissions? && !@service.created? && @service.submitted? && !@service.approved? %>
+    <p>
+      <%= link_to "Approve this service", approve_admin_service_path(@service), class: "usa-button full-width", method: :post %>
+    </p>
+    <% end %>
 
+    <% if service_permissions?(service: @service) && !@service.created? && !@service.submitted? && @service.approved? %>
+    <p>
+      <%= link_to "Verify this service can be published", verify_admin_service_path(@service), class: "usa-button full-width", method: :post %>
+    </p>
+    <% end %>
+    
     <% if @service.created? && !@service.submitted? && !@service.approved? %>
     <div class="">
       <%= link_to "Submit this Service for OMB review", submit_admin_service_path(@service), class: "usa-button full-width", method: :post %>

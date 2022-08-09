@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_20_213646) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_09_192831) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -482,6 +482,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_20_213646) do
     t.string "aasm_state", default: "created"
     t.text "non_digital_explanation"
     t.integer "service_stages_count", default: 0
+    t.string "homepage_url"
+    t.string "budget_code"
+    t.string "uii_code"
   end
 
   create_table "submissions", force: :cascade do |t|

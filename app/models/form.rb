@@ -32,6 +32,7 @@ class Form < ApplicationRecord
   scope :templates, -> { where(template: true) }
 
   scope :non_archived, -> { where("aasm_state != 'archived'") }
+  scope :archived, -> { where("aasm_state = 'archived'") }
 
   mount_uploader :logo, LogoUploader
 

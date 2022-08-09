@@ -261,9 +261,12 @@ module Admin
         :service_abbreviation,
         :service_slug,
         :url,
+        :homepage_url,
         :tag_list,
         :channel_list,
         :where_customers_interact,
+        :budget_code,
+        :uii_code,
       )
     end
   end
