@@ -14,5 +14,10 @@ class ServiceProviderSerializer < ActiveModel::Serializer
              :bureau,
              :inactive,
              :url,
-             :new
+             :new,
+             :service_provider_managers
+
+   def service_provider_managers
+     ActiveModel::Serializer::ArraySerializer.new(object.service_provider_managers, each_serializer: UserSerializer)
+   end
 end

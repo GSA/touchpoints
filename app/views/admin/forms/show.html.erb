@@ -61,7 +61,7 @@
           </p>
           <p>
             <%= label_tag "Form owner", nil, class: "usa-label" %>
-            <%= @form.user.email if @form.user %>
+            <%= link_to @form.user.email, admin_user_path(@form.user) %>
           </p>
         </div>
         <div class="tablet:grid-col-3">

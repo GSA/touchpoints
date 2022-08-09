@@ -18,8 +18,12 @@ class ServiceSerializer < ActiveModel::Serializer
              :service_abbreviation,
              :service_slug,
              :service_owner_email,
-             :url,
              :service_managers,
+             :url,
              :channels,
              :tags
+
+  def service_managers
+    ActiveModel::Serializer::ArraySerializer.new(object.service_managers, each_serializer: UserSerializer)
+  end
 end
