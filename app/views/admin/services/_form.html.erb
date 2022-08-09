@@ -128,6 +128,16 @@
       <%= form.text_field :service_slug, class: "usa-input", placeholder: "service-slug" %>
     </div>
 
+    <div class="field">
+      <%= form.label :uii_code, class: "usa-label" %>
+      <%= form.text_field :uii_code, class: "usa-input", placeholder: "" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :budget_code, class: "usa-label" %>
+      <%= form.text_field :budget_code, class: "usa-input", placeholder: "" %>
+    </div>
+
     <fieldset class="usa-fieldset">
       <legend class="usa-sr-only">HISP Service?</legend>
       <div class="usa-checkbox">
@@ -139,8 +149,12 @@
   <% end %>
   <div class="grid-col-6">
     <div class="field">
-      <%= form.label :url, class: "usa-label" %>
+      <%= form.label :url, "Service URL", class: "usa-label" %>
       <%= form.text_field :url, class: "usa-input", placeholder: "https://example.gov/service-name" %>
+    </div>
+    <div class="field">
+      <%= form.label :homepage_url, "Service homepage URL", class: "usa-label" %>
+      <%= form.text_field :homepage_url, class: "usa-input", placeholder: "https://www.example.gov/" %>
     </div>
   </div>
 </div>
