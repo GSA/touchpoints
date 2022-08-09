@@ -38,8 +38,13 @@ class WebsiteSerializer < ActiveModel::Serializer
              # :modernization_cost_2021,
              # :modernization_cost_2022,
              # :modernization_cost_2023,
+             :website_contacts,
              :uswds_version,
              :https,
              :created_at,
              :updated_at
+
+   def website_contacts
+     ActiveModel::Serializer::ArraySerializer.new(object.website_managers, each_serializer: UserSerializer)
+   end
 end
