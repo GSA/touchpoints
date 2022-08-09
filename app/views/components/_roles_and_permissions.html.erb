@@ -57,7 +57,7 @@
                 <%= friendly_roles[form.user_role?(user: user)] %>
               </td>
               <td>
-                <%= user.email %>
+                <%= link_to user.email, admin_user_path(user) %>
                 <% if user.inactive? %>
                   <span class="usa-tag float-right">
                     inactive
