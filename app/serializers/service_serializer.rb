@@ -21,9 +21,24 @@ class ServiceSerializer < ActiveModel::Serializer
              :service_managers,
              :url,
              :channels,
-             :tags
+             :tags,
+             :available_in_person,
+             :available_digitally,
+             :available_via_phone,
 
   def service_managers
     ActiveModel::Serializer::ArraySerializer.new(object.service_managers, each_serializer: UserSerializer)
+  end
+
+  def available_in_person
+    object.available_in_person?
+  end
+
+  def available_digitally
+    object.available_digitally?
+  end
+
+  def available_via_phone
+    object.available_via_phone?
   end
 end

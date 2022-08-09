@@ -86,9 +86,31 @@ class Service < ApplicationRecord
     service_provider ? service_provider.name : nil
   end
 
+  #
+  # Channels
+  # How a service is delivered to an end-user.
+  #
   def self.channels
-    %i[computer mobile email phone automated_phone in_person paper mixed]
+    %i[computer mobile email chatbot phone automated_phone in_person paper]
   end
+
+  def available_in_person?
+    channel_list.include?("in_person") ||
+      channel_list.include?("paper")
+  end
+
+  def available_digitally?
+    channel_list.include?("computer") ||
+      channel_list.include?("mobile") ||
+      channel_list.include?("email") ||
+      channel_list.include?("chatbot")
+  end
+
+  def available_via_phone?
+    channel_list.include?("phone") ||
+      channel_list.include?("automated_phone")
+  end
+
 
   def self.to_csv
     services = Service.order('organizations.name').includes(:organization)
