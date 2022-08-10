@@ -94,6 +94,18 @@ class Service < ApplicationRecord
     %i[computer mobile email chatbot phone automated_phone in_person paper]
   end
 
+  def self.kinds
+    [
+      "Administrative",
+      "Benefits",
+      "Compliance",
+      "Recreation",
+      "Informational",
+      "Data and Research",
+      "Regulatory",
+    ]
+  end
+
   def available_in_person?
     channel_list.include?("in_person") ||
       channel_list.include?("paper")

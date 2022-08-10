@@ -1,13 +1,3 @@
-<% @service_kinds = [
-  "Administrative",
-  "Benefits",
-  "Compliance",
-  "Recreation",
-  "Informational",
-  "Data and Research",
-  "Regulatory",
-] %>
-
 <%= form_with(model: service, url: service.persisted? ? admin_service_path(service) : admin_services_path, local: true) do |form| %>
 <% if service.errors.any? %>
 <div id="error_explanation">
@@ -78,8 +68,16 @@
 
     <div class="field">
       <%= form.label :kind, "Service type", class: "usa-label" %>
-      <%= form.select :kind, options_for_select(@service_kinds, service.kind), { prompt: "Which kind of Service?" }, { class: "usa-select" } %>
+      <%= form.select :kind, options_for_select(Service.kinds, service.kind), { prompt: "Which kind of Service?" }, { class: "usa-select" } %>
     </div>
+
+    <fieldset class="usa-fieldset">
+      <legend class="usa-sr-only">Transactional Service?</legend>
+      <div class="usa-checkbox">
+        <%= form.check_box :transactional, class: "usa-checkbox__input" %>
+        <%= form.label :transactional, "Transactional Service?", class: "usa-checkbox__label" %>
+      </div>
+    </fieldset>
 
     <div class="field">
       <%= form.label :description, class: "usa-label" %>

@@ -267,6 +267,7 @@ module Admin
         :where_customers_interact,
         :budget_code,
         :uii_code,
+        :transactional,
       )
     end
   end

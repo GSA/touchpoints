@@ -485,6 +485,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_09_192831) do
     t.string "homepage_url"
     t.string "budget_code"
     t.string "uii_code"
+    t.boolean "transactional", default: false
   end
 
   create_table "submissions", force: :cascade do |t|

@@ -11,6 +11,7 @@ class ServiceSerializer < ActiveModel::Serializer
              :service_provider_name,
              :justification_text,
              :kind,
+             :transactional,
              :notes,
              :hisp,
              :department,
@@ -24,7 +25,7 @@ class ServiceSerializer < ActiveModel::Serializer
              :tags,
              :available_in_person,
              :available_digitally,
-             :available_via_phone,
+             :available_via_phone
 
   def service_managers
     ActiveModel::Serializer::ArraySerializer.new(object.service_managers, each_serializer: UserSerializer)

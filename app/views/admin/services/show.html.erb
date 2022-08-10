@@ -73,6 +73,11 @@
       <br>
       <%= @service.kind %>
     </p>
+    <p>
+      <strong>Transactional service?</strong>
+      <br>
+      <%= @service.transactional? ? "✅" : "❌" %>
+    </p>
 
     <div class="well">
       <span class="usa-tag">
@@ -123,7 +128,7 @@
       <%= link_to "Verify this service can be published", verify_admin_service_path(@service), class: "usa-button full-width", method: :post %>
     </p>
     <% end %>
-    
+
     <% if @service.created? && !@service.submitted? && !@service.approved? %>
     <div class="">
       <%= link_to "Submit this Service for OMB review", submit_admin_service_path(@service), class: "usa-button full-width", method: :post %>
