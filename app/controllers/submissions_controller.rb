@@ -93,7 +93,6 @@ class SubmissionsController < ApplicationController
                      answer_12: submission.answer_12,
                      answer_13: submission.answer_13,
                      answer_14: submission.answer_14,
-                     answer_14: submission.answer_14,
                      answer_15: submission.answer_15,
                      answer_16: submission.answer_16,
                      answer_17: submission.answer_17,
