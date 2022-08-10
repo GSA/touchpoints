@@ -1,13 +1,3 @@
-<% @service_kinds = [
-  "Administrative",
-  "Benefits",
-  "Compliance",
-  "Recreation",
-  "Informational",
-  "Data and Research",
-  "Regulatory",
-] %>
-
 <%= form_with(model: service, url: service.persisted? ? admin_service_path(service) : admin_services_path, local: true) do |form| %>
 <% if service.errors.any? %>
 <div id="error_explanation">
@@ -78,8 +68,16 @@
 
     <div class="field">
       <%= form.label :kind, "Service type", class: "usa-label" %>
-      <%= form.select :kind, options_for_select(@service_kinds, service.kind), { prompt: "Which kind of Service?" }, { class: "usa-select" } %>
+      <%= form.select :kind, options_for_select(Service.kinds, service.kind), { prompt: "Which kind of Service?" }, { class: "usa-select" } %>
     </div>
+
+    <fieldset class="usa-fieldset">
+      <legend class="usa-sr-only">Transactional Service?</legend>
+      <div class="usa-checkbox">
+        <%= form.check_box :transactional, class: "usa-checkbox__input" %>
+        <%= form.label :transactional, "Transactional Service?", class: "usa-checkbox__label" %>
+      </div>
+    </fieldset>
 
     <div class="field">
       <%= form.label :description, class: "usa-label" %>
@@ -128,6 +126,16 @@
       <%= form.text_field :service_slug, class: "usa-input", placeholder: "service-slug" %>
     </div>
 
+    <div class="field">
+      <%= form.label :uii_code, class: "usa-label" %>
+      <%= form.text_field :uii_code, class: "usa-input", placeholder: "" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :budget_code, class: "usa-label" %>
+      <%= form.text_field :budget_code, class: "usa-input", placeholder: "" %>
+    </div>
+
     <fieldset class="usa-fieldset">
       <legend class="usa-sr-only">HISP Service?</legend>
       <div class="usa-checkbox">
@@ -139,8 +147,12 @@
   <% end %>
   <div class="grid-col-6">
     <div class="field">
-      <%= form.label :url, class: "usa-label" %>
+      <%= form.label :url, "Service URL", class: "usa-label" %>
       <%= form.text_field :url, class: "usa-input", placeholder: "https://example.gov/service-name" %>
+    </div>
+    <div class="field">
+      <%= form.label :homepage_url, "Service homepage URL", class: "usa-label" %>
+      <%= form.text_field :homepage_url, class: "usa-input", placeholder: "https://www.example.gov/" %>
     </div>
   </div>
 </div>

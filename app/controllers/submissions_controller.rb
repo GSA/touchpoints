@@ -77,19 +77,35 @@ class SubmissionsController < ApplicationController
         end
         format.json do
           render json: {
-            submission: {
-              id: submission.id,
-              first_name: submission.answer_01,
-              last_name: submission.answer_02,
-              email: submission.answer_03,
-              phone_number: submission.answer_04,
-              form: {
-                id: submission.form.uuid,
-                name: submission.form.name,
-                organization_name: submission.organization_name,
-              },
-            },
-          },
+                   submission: {
+                     id: submission.uuid,
+                     answer_01: submission.answer_01,
+                     answer_02: submission.answer_02,
+                     answer_03: submission.answer_03,
+                     answer_04: submission.answer_04,
+                     answer_05: submission.answer_05,
+                     answer_06: submission.answer_06,
+                     answer_07: submission.answer_07,
+                     answer_08: submission.answer_08,
+                     answer_09: submission.answer_09,
+                     answer_10: submission.answer_10,
+                     answer_11: submission.answer_11,
+                     answer_12: submission.answer_12,
+                     answer_13: submission.answer_13,
+                     answer_14: submission.answer_14,
+                     answer_15: submission.answer_15,
+                     answer_16: submission.answer_16,
+                     answer_17: submission.answer_17,
+                     answer_18: submission.answer_18,
+                     answer_19: submission.answer_19,
+                     answer_20: submission.answer_20,
+                     form: {
+                       id: submission.form.uuid,
+                       name: submission.form.name,
+                       organization_name: submission.organization_name,
+                     },
+                   },
+                 },
                  status: :created
         end
       else

@@ -6,7 +6,7 @@
   <% end %>
 <% end %>
 
-<% if @forms.present? %>
+<% if @forms.present? || @archived_forms.present? %>
   <p class="font-sans-3xs">
   <% if !params[:all] %>
     <%= link_to all_admin_forms_path do %>

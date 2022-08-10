@@ -7,7 +7,7 @@ class FormSection < ApplicationRecord
   validates :position, presence: true
 
   after_commit do |form_section|
-    FormCache.invalidate(form_section.form.short_uuid) if form_section.form.present?
+    FormCache.invalidate(form_section.form.short_uuid) if form_section.persisted?
   end
 
   before_destroy :ensure_no_questions
