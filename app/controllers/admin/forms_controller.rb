@@ -38,11 +38,13 @@ module Admin
           @forms = Form.non_templates.order('organization_id ASC').order('name ASC')
         else
           @forms = Form.non_archived.non_templates.order('organization_id ASC').order('name ASC')
+          @archived_forms = Form.archived.order('organization_id ASC').order('name ASC')
         end
       elsif params[:all]
         @forms = current_user.forms.non_templates.order('organization_id ASC').order('name ASC').entries
       else
         @forms = current_user.forms.non_archived.non_templates.order('organization_id ASC').order('name ASC').entries
+        @archived_forms = current_user.forms.archived.order('organization_id ASC').order('name ASC')
       end
     end
 

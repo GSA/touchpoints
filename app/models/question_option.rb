@@ -13,7 +13,7 @@ class QuestionOption < ApplicationRecord
   end
 
   after_commit do |question_option|
-    FormCache.invalidate(question_option.question.form.short_uuid)
+    FormCache.invalidate(question_option.question.form.short_uuid) if question_option.persisted?
   end
 
   default_scope { order(position: :asc) }
