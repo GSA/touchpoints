@@ -1,0 +1,12 @@
+<ul class="usa-button-group usa-button-group--segmented">
+  <li class="usa-button-group__item">
+    <%= link_to admin_service_path(service), class: "usa-button #{current_path == admin_service_path(service) ? nil : 'usa-button--outline'}" do %>
+      Overview
+    <% end %>
+  </li>
+  <li class="usa-button-group__item">
+    <%= link_to admin_service_service_stages_path(service), class: "usa-button #{current_path == admin_service_service_stages_path(service) ? nil : 'usa-button--outline'}" do %>
+    Service stages
+    <% end %>
+  </li>
+</ul>

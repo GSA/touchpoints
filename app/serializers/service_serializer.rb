@@ -21,11 +21,14 @@ class ServiceSerializer < ActiveModel::Serializer
              :service_owner_email,
              :service_managers,
              :url,
+             :homepage_url,
              :channels,
              :tags,
              :available_in_person,
              :available_digitally,
-             :available_via_phone
+             :available_via_phone,
+             :budget_code,
+             :uii_code
 
   def service_managers
     ActiveModel::Serializer::ArraySerializer.new(object.service_managers, each_serializer: UserSerializer)
