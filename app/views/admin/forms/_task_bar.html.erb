@@ -31,7 +31,7 @@
       <br>
 
       <% if form.deployable_form? %>
-        <% if form.delivery_method == "inline" || "custom-button-modal" %>
+        <% if form.delivery_method == "inline" || form.delivery_method == "custom-button-modal" %>
         <p>
           Add the following markup to your site
           as a place to display the Touchpoint

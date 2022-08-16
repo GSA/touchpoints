@@ -77,7 +77,7 @@ feature 'Forms', js: true do
               expect(page).to have_content('for Admins'.upcase)
               expect(form_template.template).to eq(true)
               fill_in('form_notes', with: 'Updated notes text')
-              click_on 'Update Survey Admin Options'
+              click_on 'Update Form Admin Options'
               expect(page.current_path).to eq(admin_form_path(form_template))
             end
           end
@@ -91,12 +91,12 @@ feature 'Forms', js: true do
           end
         end
 
-        it "display 'create survey' button" do
-          expect(page).to have_button('Create Survey', disabled: true)
+        it "display 'create form' button" do
+          expect(page).to have_button('Create Form', disabled: true)
         end
 
-        it "display 'copy survey' button" do
-          expect(page).to have_button('Copy Survey', disabled: true)
+        it "display 'copy form' button" do
+          expect(page).to have_button('Copy Form', disabled: true)
         end
       end
     end
@@ -109,7 +109,7 @@ feature 'Forms', js: true do
           visit new_admin_form_path
           expect(page.current_path).to eq(new_admin_form_path)
           fill_in 'form_name', with: new_form.name
-          click_on 'Create Survey'
+          click_on 'Create Form'
         end
 
         it 'redirect to /form/:uuid/questions with a success flash message' do
@@ -127,7 +127,7 @@ feature 'Forms', js: true do
           visit new_admin_form_path
           expect(page.current_path).to eq(new_admin_form_path)
           fill_in 'form_name', with: new_form.name
-          click_on 'Create Survey'
+          click_on 'Create Form'
         end
 
         it 'redirect to /form/:uuid/questions with a success flash message' do
@@ -144,7 +144,7 @@ feature 'Forms', js: true do
           click_on 'Update logo'
           click_on 'Delivery'
           find('label', text: 'Hosted only on the touchpoints site').click
-          click_on 'Update Survey'
+          click_on 'Update Form'
           expect(page).to have_content('Form was successfully updated.')
           visit example_admin_form_path(Form.last)
           expect(page).to have_css('.form-header-logo-square')
@@ -156,7 +156,7 @@ feature 'Forms', js: true do
           visit new_admin_form_path
           expect(page.current_path).to eq(new_admin_form_path)
           fill_in 'form_name', with: new_form.name
-          click_on 'Create Survey'
+          click_on 'Create Form'
         end
 
         it 'can upload and display a logo' do
@@ -168,7 +168,7 @@ feature 'Forms', js: true do
           click_on 'Delivery'
           find('label', text: 'Embedded inline on your site').click
           fill_in('form_element_selector', with: 'test_selector')
-          click_on 'Update Survey'
+          click_on 'Update Form'
           expect(page).to have_content('Form was successfully updated.')
           visit example_admin_form_path(Form.last)
           within('.fba-modal-dialog') do
@@ -191,7 +191,7 @@ feature 'Forms', js: true do
               find_all('tr')[2].find_all('td')[2].click
             end
 
-            click_button 'Update Survey'
+            click_button 'Update Form'
           end
 
           it 'display a flash message about missing OMB Approval Number' do
@@ -206,7 +206,7 @@ feature 'Forms', js: true do
             visit compliance_admin_form_path(existing_form)
 
             fill_in('form[omb_approval_number]', with: 1234)
-            click_button 'Update Survey'
+            click_button 'Update Form'
           end
 
           it 'display a flash message about missing Expiration Date' do
@@ -240,7 +240,7 @@ feature 'Forms', js: true do
 
             it "display 'Published' flash message" do
               expect(page).to have_content('Published')
-              expect(page).to have_content("Viewing Survey: #{form.name}")
+              expect(page).to have_content("Viewing Form: #{form.name}")
               expect(page).to have_content('Form Information'.upcase)
             end
           end
@@ -293,7 +293,7 @@ feature 'Forms', js: true do
             it 'has inline editable title that can be updated and saved' do
               find('.survey-title-input').set('Updated Form Title')
               find('.survey-title-input').native.send_key :tab
-              expect(page).to have_content('survey title saved')
+              expect(page).to have_content('form title saved')
               # and persists after refresh
               visit questions_admin_form_path(form)
               expect(find('.survey-title-input').value).to eq('Updated Form Title')
@@ -447,7 +447,7 @@ feature 'Forms', js: true do
           visit notifications_admin_form_path(form)
           expect(find_field('form_notification_emails').value).to eq(form.notification_emails)
           fill_in('form_notification_emails', with: 'new@email.gov')
-          click_on 'Update Survey'
+          click_on 'Update Form'
         end
 
         it 'updates successfully' do
@@ -469,7 +469,7 @@ feature 'Forms', js: true do
         describe 'editing the whitelist url' do
           before do
             fill_in 'form_whitelist_url', with: 'example.com'
-            click_on 'Update Survey'
+            click_on 'Update Form'
           end
 
           it 'can edit existing Form' do
@@ -482,7 +482,7 @@ feature 'Forms', js: true do
         describe 'editing the delivery method' do
           before do
             find('label', text: 'Custom button & modal').click
-            click_on 'Update Survey'
+            click_on 'Update Form'
           end
 
           it 'fails without specifying the selector' do
@@ -541,7 +541,7 @@ feature 'Forms', js: true do
           before do
             fill_in 'form_name', with: 'Updated Form Name'
             fill_in 'form_notes', with: 'Updated form notes'
-            click_on 'Update Survey Options'
+            click_on 'Update Form Options'
             expect(page).to have_content('Form Manager forms options updated successfully')
           end
 
@@ -557,7 +557,7 @@ feature 'Forms', js: true do
           before do
             fill_in 'form_omb_approval_number', with: 'OAN-1234'
             fill_in 'form_expiration_date', with: '01/30/2022'
-            click_on 'Update Survey Options'
+            click_on 'Update Form Options'
             expect(page).to have_content('Form Manager forms options updated successfully')
           end
 
@@ -1172,11 +1172,11 @@ feature 'Forms', js: true do
 
     it 'can edit form' do
       expect(page.current_path).to eq(edit_admin_form_path(form))
-      expect(page).to have_content('Editing Survey')
+      expect(page).to have_content('Editing Form')
     end
 
     it "regression: edit does not set the Organization to the user's org" do
-      click_on 'Update Survey'
+      click_on 'Update Form'
       expect(page).to have_content('Organization')
       expect(page).to have_content('Example.gov')
     end
@@ -1255,15 +1255,15 @@ feature 'Forms', js: true do
         visit new_admin_form_path
       end
 
-      describe 'create a survey feature' do
+      describe 'create a form feature' do
         it 'Create button is disabled by default' do
-          expect(find("input[value='Create Survey']").disabled?).to be(true)
+          expect(find("input[value='Create Form']").disabled?).to be(true)
         end
       end
 
-      describe 'copy a survey feature' do
+      describe 'copy a form feature' do
         it 'Copy button is disabled by default' do
-          expect(find("input[value='Copy Survey']").disabled?).to be(true)
+          expect(find("input[value='Copy Form']").disabled?).to be(true)
         end
       end
     end
@@ -1272,7 +1272,7 @@ feature 'Forms', js: true do
       before do
         visit new_admin_form_path
         fill_in 'form_name', with: 'New test form name'
-        click_on 'Create Survey'
+        click_on 'Create Form'
       end
 
       it 'arrives at /admin/forms/:uuid/questions' do
@@ -1298,7 +1298,7 @@ feature 'Forms', js: true do
 
         it 'can be updated' do
           fill_in 'form_notification_emails', with: 'user@example.gov'
-          click_on 'Update Survey'
+          click_on 'Update Form'
           expect(page).to have_content('Form was successfully updated.')
 
           click_on 'Notifications'
@@ -1324,7 +1324,7 @@ feature 'Forms', js: true do
       it 'conveys the form was successfully copied' do
         expect(page).to have_content('Form was successfully copied.')
         expect(page.current_path).to eq(admin_form_path(Form.last.short_uuid))
-        expect(page).to have_content('Viewing Survey')
+        expect(page).to have_content('Viewing Form')
         expect(page).to have_content("Copy of #{form.name}")
         expect(page).to have_content('0 responses')
       end
@@ -1423,7 +1423,7 @@ feature 'Forms', js: true do
 
         it 'does not Form Manager options' do
           expect(page).not_to have_content('form Form Managers'.upcase)
-          expect(page).not_to have_content('Update Survey')
+          expect(page).not_to have_content('Update Form')
         end
 
         it "does not display 'Roles and Permissions' component" do

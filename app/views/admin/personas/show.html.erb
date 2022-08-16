@@ -51,6 +51,27 @@ Viewing a Persona
       <% end %>
       </ul>
     </div>
+
+    <div class="websites well">
+      <h3>
+        <%= pluralize(@persona.service_stages.size, "Service Stage") %>
+      </h3>
+
+      <small>
+        Optionally, this Persona may be associated with one or more
+        Service Stages of one or more <%= link_to "Services", admin_service_path %>.
+      </small>
+
+      <ul class="usa-list">
+      <% @persona.service_stages.order(:position).each do |stage| %>
+        <li>
+          <%= link_to stage.name, admin_website_path(stage) %>,
+          in the Service
+          <%= link_to stage.service.name, admin_service_path(stage.service) %>
+        </li>
+      <% end %>
+      </ul>
+    </div>
   </div>
   <div class="grid-col-4">
     <div class="tags-div well">

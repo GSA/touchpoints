@@ -1,7 +1,7 @@
 <div class="usa-step-indicator" aria-label="progress">
   <ol class="usa-step-indicator__segments">
     <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--current" if ["in_development"].include?(form.aasm_state) -%> <%= "usa-step-indicator__segment--complete" if ["live", "archived"].include?(form.aasm_state) -%>">
-      <span class="usa-step-indicator__segment-label">In development
+      <span class="usa-step-indicator__segment-label">Draft
         <% if ["live", "archived"].include?(form.aasm_state) -%>
           <span class="usa-sr-only">completed</span>
         <% else %>
