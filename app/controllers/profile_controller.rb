@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ProfileController < ApplicationController
+class ProfileController < AdminController
   before_action :ensure_user
 
   def show; end

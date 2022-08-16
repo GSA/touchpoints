@@ -4,7 +4,7 @@
 <p>
   <%= link_to admin_forms_path do %>
     <i class="fa fa-arrow-circle-left"></i>
-    Back to Surveys
+    Back to Forms
   <% end %>
 </p>
 <%= render 'admin/forms/nav', form: @form %>
@@ -91,7 +91,7 @@
         <br>
         <%= render 'components/whitelist_options', f: f %>
         <p>
-          <%= f.submit (@form.persisted? ? "Update Survey" : "Create Survey"), class: "usa-button" %>
+          <%= f.submit (@form.persisted? ? "Update Form" : "Create Form"), class: "usa-button" %>
         </p>
       </div>
     </div>

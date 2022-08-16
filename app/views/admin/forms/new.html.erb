@@ -1,12 +1,12 @@
 <% content_for :navigation_title do %>
-  New Survey
+  New Form
 <% end %>
 
 <div class="grid-col-12">
   <p>
     <a href="/admin/forms">
       <span class="fa fa-arrow-circle-left"></span>
-      Back to My Surveys
+      Back to Forms
     </a>
   </p>
   <p class="font-sans-lg">
@@ -84,14 +84,14 @@
         <%= form_tag(copy_id_admin_forms_path) do %>
           <%= select_tag "id", options_from_collection_for_select(@surveys, "short_uuid", "name"), { prompt: "Select a survey", class: "usa-select" } %>
           <p>
-            <%= submit_tag "Copy Survey", class: "usa-button", disabled: true %>
+            <%= submit_tag "Copy Form", class: "usa-button", disabled: true %>
           </p>
         <% end %>
       <% else %>
         <%= form_tag(copy_id_admin_forms_path) do %>
-          <%= select_tag "id", options_from_collection_for_select(@surveys, "short_uuid", "name"), { prompt: "Select a survey", class: "usa-select" } %>
+          <%= select_tag "id", options_from_collection_for_select(@surveys, "short_uuid", "name"), { prompt: "Select a form", class: "usa-select" } %>
           <p>
-            <%= submit_tag "Copy Survey", class: "usa-button", disabled: true %>
+            <%= submit_tag "Copy Form", class: "usa-button", disabled: true %>
           </p>
         <% end %>
       <% end %>
@@ -104,9 +104,9 @@
   $("select#id").on("change", function() {
     var contents = $(this).val();
     if(contents == "") {
-      $("input[type='submit'][value='Copy Survey']").prop("disabled", true)
+      $("input[type='submit'][value='Copy Form']").prop("disabled", true)
     } else {
-      $("input[type='submit'][value='Copy Survey']").prop("disabled", false)
+      $("input[type='submit'][value='Copy Form']").prop("disabled", false)
     }
   })
 </script>

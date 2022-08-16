@@ -1,10 +1,11 @@
 <% content_for :navigation_title do %>
-  Viewing Survey: <%= @form.name %>
+  Viewing Permissions for:
+  <%= @form.name %>
 <% end %>
 <p>
   <%= link_to admin_forms_path do %>
     <i class="fa fa-arrow-circle-left"></i>
-    Back to Surveys
+    Back to Forms
   <% end %>
 </p>
 <%= render 'admin/forms/nav', form: @form %>

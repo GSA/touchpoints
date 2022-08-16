@@ -18,28 +18,28 @@
   <div class="grid-row grid-gap-md">
     <div class="grid-col-12">
       <div class="field">
-        <%= f.label :name, "Survey name", class: "usa-label" %>
+        <%= f.label :name, "Form name", class: "usa-label" %>
         <%= f.text_field :name, class: "usa-input" %>
       </div>
     </div>
   </div>
   <p>
-    <%= f.submit (form.persisted? ? "Update Survey" : "Create Survey"), class: "usa-button" %>
+    <%= f.submit (form.persisted? ? "Update Form" : "Create Form"), class: "usa-button" %>
   </p>
 <% end %>
 
 <% if !form.persisted? %>
 <script>
   // Disable create button by default
-  $("input[type='submit'][value='Create Survey']").prop("disabled", true);
+  $("input[type='submit'][value='Create Form']").prop("disabled", true);
 
   // Enable create button if a form name is specified
   $("#form_name").on("keyup", function() {
     var contents = $(this).val();
     if(contents.length >= 3) {
-      $("input[type='submit'][value='Create Survey']").prop("disabled", false);
+      $("input[type='submit'][value='Create Form']").prop("disabled", false);
     } else {
-      $("input[type='submit'][value='Create Survey']").prop("disabled", true);
+      $("input[type='submit'][value='Create Form']").prop("disabled", true);
     }
   })
 </script>

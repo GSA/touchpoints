@@ -117,7 +117,7 @@ Rails.application.routes.draw do
         get 'versions_export', to: 'services#export_versions', as: :export_versions
       end
 
-      resources :service_stages, except: [:index]
+      resources :service_stages
     end
 
     resources :collections do

@@ -9,11 +9,15 @@
   <% end %>
 </p>
 
+<%= render 'admin/services/nav', service: @service %>
+
 <%= render 'form', service: @service %>
 
-<p>
-  <%= link_to admin_service_path(@service), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
+<div class="grid-row margin-bottom-3">
+  <div class="grid-col-12">
+    <%= link_to admin_service_path(@service), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" do %>
     <i class="fa fa-trash"></i>
     Destroy
-  <% end %>
-</p>
+    <% end %>
+  </div>
+</div>

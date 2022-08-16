@@ -1,0 +1,75 @@
+<% content_for :navigation_title do %>
+  Service Stages for: <%= @service.name %>
+<% end %>
+<p>
+  <%= link_to admin_services_path(@service) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Services
+  <% end %>
+</p>
+
+<%= render 'admin/services/nav', service: @service %>
+
+<br>
+
+<div class="margin-bottom-3">
+  <div class="grid-row grid-gap-md">
+    <div class="grid-col-9">
+      <h4>
+        Service Stages
+      </h4>
+      <p class="usa-prose">
+        Each Service is can be decomposed into multiple Stages.
+        Delineating each step is useful for calculating
+        <a href="https://pra.digital.gov/burden/" target="_blank" rel="noopener">Burden</a>.
+        Learn more about how
+        <a href="https://www.performance.gov/cx/blog/journey-mapping/" target="_blank" rel="noopener">
+          service blueprints and journey maps
+        </a>
+        are used to design, manage, and improve services.
+      </p>
+    </div>
+  </div>
+
+  <% if @service.service_stages %>
+  <div class="grid-row grid-gap-lg">
+  <% @service.service_stages.order(:position).each do |stage| %>
+    <div class="grid-col-4">
+      <div class="well bg-base-lightest add-box-shadow">
+        <h4>
+          <%= link_to stage.name, admin_service_service_stage_path(@service, stage) %>
+        </h4>
+        <% if stage.persona %>
+        <small>
+          by
+          <%= link_to stage.persona.name, admin_persona_path(stage.persona) %>
+        </small>
+        <% end %>
+        <p>
+          <%= to_markdown(stage.description) || "Description goes here" %>
+          &nbsp;
+        </p>
+      </div>
+    </div>
+  <% end %>
+
+  </div>
+  <% else %>
+  <div class="usa-alert usa-alert--info">
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        No Service Stages defined yet.
+        Service Owner can updated stages.
+      </p>
+    </div>
+  </div>
+  <% end %>
+
+  <% if service_permissions?(service: @service) %>
+    <br>
+    <%= link_to new_admin_service_service_stage_path(@service), class: "usa-button usa-button--outline full-width" do %>
+    <i class="fa fa-plus"></i>
+    Add Stage
+    <% end %>
+  <% end %>
+</div>
