@@ -3,9 +3,9 @@
   Editing Notification Settings: <%= @form.name %>
 <% end %>
 <p>
-  <%= link_to admin_form_path(@form) do %>
+  <%= link_to admin_forms_path do %>
     <i class="fa fa-arrow-circle-left"></i>
-    Back to Survey
+    Back to Forms
   <% end %>
 </p>
 <%= render 'admin/forms/nav', form: @form %>

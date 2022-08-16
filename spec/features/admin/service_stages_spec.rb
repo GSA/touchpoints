@@ -22,7 +22,7 @@ feature 'Service Stages', js: true do
   context 'as Admin' do
     before do
       login_as admin
-      visit admin_service_path(service2)
+      visit admin_service_service_stages_path(service2)
     end
 
     describe 'add Service Stage' do
@@ -46,7 +46,7 @@ feature 'Service Stages', js: true do
   context 'as Service Owner' do
     before do
       login_as service_owner
-      visit admin_service_path(service)
+      visit admin_service_service_stages_path(service)
     end
 
     describe 'add Service Stage' do

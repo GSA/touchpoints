@@ -18,16 +18,21 @@
   <% end %>
 </p>
 
-<%= render 'admin/services/step_indicator', service: @service %>
+<%= render 'admin/services/nav', service: @service %>
+
+<br>
 
 <div class="grid-row grid-gap-lg">
   <div class="desktop:grid-col-8">
+
+    <%= render 'admin/services/step_indicator', service: @service %>
 
     <% if @service.hisp? %>
     <div class="usa-alert usa-alert--info">
       <div class="usa-alert__body">
         <p class="usa-alert__text">
-          This service is designated as a HISP service.
+          This service is designated as a
+          <a href="https://www.performance.gov/cx/agencies/" target="_blank" rel="noopener">HISP service</a>.
         </p>
       </div>
     </div>
@@ -73,25 +78,10 @@
       <br>
       <%= @service.kind %>
     </p>
-    <p>
+    <div>
       <strong>Transactional service?</strong>
-      <br>
-      <%= @service.transactional? ? "✅" : "❌" %>
-    </p>
-
-    <div class="well">
-      <span class="usa-tag">
-        for HISP-designated Services
-      </span>
-
       <p>
-        <strong>Why did you select this service for priority designation?</strong>
-        <br>
-        <% if @service.justification_text.present? %>
-          <%= to_markdown(@service.justification_text) %>
-        <% else %>
-          No text
-        <% end %>
+        <%= @service.transactional? ? "✅" : "❌" %>
       </p>
     </div>
 
@@ -113,8 +103,25 @@
     <p>
       <strong>Notes</strong>
       <br>
-      <%= to_markdown(@service.notes) %>
+      <%= to_markdown(@service.notes) || "No notes" %>
     </p>
+
+    <div class="well">
+      <span class="usa-tag">
+        for HISP-designated Services
+      </span>
+
+      <p>
+        <strong>Why did you select this service for priority designation?</strong>
+        <br>
+        <% if @service.justification_text.present? %>
+          <%= to_markdown(@service.justification_text) %>
+        <% else %>
+          No text
+        <% end %>
+      </p>
+    </div>
+
   </div>
   <div class="desktop:grid-col-4">
     <% if service_manager_permissions? && !@service.created? && @service.submitted? && !@service.approved? %>
@@ -227,62 +234,6 @@
     <%= takeup_percentage = ((last_stage.total_eligible_population.to_f / first_stage.total_eligible_population.to_f) * 100).round(2) %>%
   <% end %>
   </h2>
-</div>
-
-<div class="well">
-  <div class="grid-row grid-gap-md">
-    <div class="grid-col-9">
-      <h4>
-        Service Stages
-      </h4>
-      <p class="usa-prose">
-        Each Service is can be decomposed into multiple Stages.
-        Delineating each step is useful for calculating
-        <a href="https://pra.digital.gov/burden/" target="_blank" rel="noopener">Burden</a>.
-        Learn more about how
-        <a href="https://www.performance.gov/cx/blog/journey-mapping/" target="_blank" rel="noopener">
-          service blueprints and journey maps
-        </a>
-        are used to design, manage, and improve services.
-      </p>
-    </div>
-  </div>
-
-  <% if @service.service_stages %>
-  <div class="grid-row grid-gap-md">
-  <% @service.service_stages.order(:position).each do |stage| %>
-    <div class="grid-col-4">
-      <div class="well light-bg form-templates add-box-shadow">
-        <h4>
-          <%= link_to stage.name, admin_service_service_stage_path(@service, stage) %>
-        </h4>
-        <p>
-          <%= to_markdown(stage.description) || "Description goes here" %>
-          &nbsp;
-        </p>
-      </div>
-    </div>
-  <% end %>
-
-  </div>
-  <% else %>
-  <div class="usa-alert usa-alert--info">
-    <div class="usa-alert__body">
-      <p class="usa-alert__text">
-        No Service Stages defined yet.
-        Service Owner can updated stages.
-      </p>
-    </div>
-  </div>
-  <% end %>
-
-  <% if service_permissions?(service: @service) %>
-    <br>
-    <%= link_to new_admin_service_service_stage_path(@service), class: "usa-button usa-button--outline full-width" do %>
-    <i class="fa fa-plus"></i>
-    Add Stage
-    <% end %>
-  <% end %>
 </div>
 
 <div class="well">

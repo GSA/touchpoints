@@ -6,11 +6,15 @@
   <% end %>
 <% end %>
 <p>
-  <%= link_to admin_service_path(@service) do %>
+  <%= link_to admin_service_service_stages_path(@service) do %>
     <i class="fa fa-arrow-circle-left"></i>
-    Back to Service
+    Back to Service stages
   <% end %>
 </p>
+
+<%= render 'admin/services/nav', service: @service %>
+
+<br>
 
 <p>
   <strong>Service:</strong>
