@@ -434,7 +434,7 @@ function FBAform(d, N) {
 
 			// Display success Message
 			alertElementHeading.innerHTML += this.successHeadingText();
-			alertElementBody.innerHTML += this.successText();
+			alertElementBody.innerHTML = this.successText();
 			alertElement.removeAttribute("hidden");
 
 			// Hide Form Elements
@@ -564,7 +564,13 @@ function FBAform(d, N) {
 					if (!this.validateForm(currentPage)) return false;
 					currentPage.classList.remove("visible");
 					currentPage.previousElementSibling.classList.add("visible");
-					window.scrollTo(0, 0);
+					
+					// if in a modal, scroll to the top of the modal on previous button click
+					if(document.getElementsByClassName("fba-modal")[0]) {
+						document.getElementsByClassName("fba-modal")[0].scrollTo(0,0);
+					} else {
+						window.scrollTo(0, 0);
+					}
 				}.bind(self));
 			}
 
@@ -576,6 +582,13 @@ function FBAform(d, N) {
 					currentPage.classList.remove("visible");
 					currentPage.nextElementSibling.classList.add("visible");
 					window.scrollTo(0, 0);
+
+					// if in a modal, scroll to the top of the modal on next button click
+					if(document.getElementsByClassName("fba-modal")[0]) {
+						document.getElementsByClassName("fba-modal")[0].scrollTo(0,0);
+					} else {
+						window.scrollTo(0, 0);
+					}
 				}.bind(self))
 			}
 		}
