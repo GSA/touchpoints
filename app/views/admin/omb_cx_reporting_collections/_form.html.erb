@@ -38,7 +38,7 @@
   </div>
   <div class="field">
     <%= form.label :channel, class: "usa-label" %>
-    <%= form.select :channel, [:computer, :mobile, :email, :phone, :automated_phone, :in_person, :paper, :mixed], { prompt: "What type of response channel?" }, class: "usa-select" %>
+    <%= form.select :channel, Service.channels, { prompt: "What type of response channel?" }, class: "usa-select" %>
   </div>
   <div class="field">
     <%= form.label :volume_of_customers, class: "usa-label" %>
