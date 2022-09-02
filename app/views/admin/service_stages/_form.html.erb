@@ -49,13 +49,15 @@
   </div>
 
   <div class="field">
-    <%= form.label :persona_id, "Persona", class: "usa-label" %>
+    <%= form.label :persona_id, "Customer type", class: "usa-label" %>
     <small>
       Optionally, a
-      <%= link_to "Persona", admin_personas_path %>
-      can be associated with this Step.
+      <%= link_to "Customer type", admin_personas_path %>
+      can be associated with this Service Stage.
     </small>
-    <%= form.select :persona_id, options_for_select(Persona.all.map { |p| [p.name, p.id] }, selected: service_stage.persona_id), { prompt: "Select a Persona..." }, { class: "usa-select" } %>
+    <%= form.select :persona_id, options_for_select(Persona.all.map { |p| [p.name, p.id] }, selected: service_stage.persona_id),
+       { prompt: "Select a Customer type..." }, 
+       { class: "usa-select" } %>
   </div>
 
   <div class="field" hidden>
