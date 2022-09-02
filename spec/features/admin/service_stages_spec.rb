@@ -38,7 +38,7 @@ feature 'Service Stages', js: true do
 
       it 'newly created tag is displayed on the page' do
         expect(page).to have_content('Service stage was successfully created.')
-        expect(page).to have_content("Persona: #{persona.name}")
+        expect(page).to have_content("Customer type: #{persona.name}")
       end
     end
   end
