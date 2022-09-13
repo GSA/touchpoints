@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_29_215428) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_12_211044) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -438,6 +438,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_29_215428) do
     t.boolean "new"
     t.boolean "inactive"
     t.string "url"
+    t.integer "cx_maturity_mapping_value", default: 0
+    t.integer "services_count", default: 0
   end
 
   create_table "service_stage_barriers", force: :cascade do |t|

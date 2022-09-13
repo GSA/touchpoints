@@ -29,14 +29,13 @@
 <br>
 <script>
 $(function() {
-  <% if admin_permissions? %>
+  <% if @form.kind == "a11" %>
+    
   $.ajax({
     url: "/admin/submissions/a11_analysis?form_id=<%= @form.short_uuid %>",
     type: 'get'
   });
-  <% end %>
 
-  <% if @form.kind == "a11" %>
   $.ajax({
     url: "/admin/submissions/a11_chart?form_id=<%= @form.short_uuid %>",
     type: 'get'
