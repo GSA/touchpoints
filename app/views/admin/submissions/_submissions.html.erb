@@ -1,4 +1,13 @@
-<% @tags = Submission.tag_counts_by_name %>
+<% @tags = @form.submissions.collect(&:tags).flatten.sort_by { |i| i.name } %>
+
+<button id="button-toggle-table-display-options" type="button" class="font-sans-2xs">
+  <i class="fa fa-cog"></i>
+  Toggle display options
+</button>
+<div id="table-display-options" class="well hide">
+  <%= render 'admin/forms/ui_form', form: form %>
+</div>
+
 <% if @tags.first %>
 <div class="well">
   <div class="field">
@@ -6,10 +15,10 @@
       Filter by tag
     </p>
     <div class="tag-list">
-      <% @tags.order(:name).each do | tag | %>
+      <% @tags.each do | tag | %>
         <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
           <span class="usa-tag">
-            <%= tag.name %> (<%= tag.taggings_count %>)
+            <%= tag.name %>
           </span>
         </a>
       <% end %>
@@ -20,15 +29,9 @@
 <h2>
   <%= page_entries_info submissions, entry_name: 'Responses' %>
   <% if params[:tag] %>
-    <span>tagged with <%= params[:tag] %></span>
+    <span class="font-sans-3xs">tagged with <span class="code"><%= params[:tag] %></span></span>
   <% end %>
-  <button id="button-toggle-table-display-options" type="button">
-    <i class="fa fa-cog"></i>
-  </button>
 </h2>
-<div id="table-display-options" class="well hide">
-  <%= render 'admin/forms/ui_form', form: form %>
-</div>
 <p>
   <%= paginate submissions, remote: true %>
 </p>

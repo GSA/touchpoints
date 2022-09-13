@@ -8,7 +8,7 @@ class Service < ApplicationRecord
   has_paper_trail
 
   belongs_to :organization
-  belongs_to :service_provider, optional: true
+  belongs_to :service_provider, optional: true, counter_cache: true
   has_many :service_stages, dependent: :delete_all
   has_many :omb_cx_reporting_collections
   has_many :collections, through: :omb_cx_reporting_collections

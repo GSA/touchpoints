@@ -82,7 +82,8 @@ Rails.application.routes.draw do
     end
     resources :service_providers do |*_args|
       collection do
-        get 'search', to: 'service_providers#search'
+        get 'quadrants', to: 'service_providers#quadrants', as: :quadrants
+        get 'search', to: 'service_providers#search', as: :search
       end
       member do
         post 'add_tag', to: 'service_providers#add_tag', as: :add_tag
@@ -93,8 +94,8 @@ Rails.application.routes.draw do
     end
     resources :services do
       collection do
-        get 'catalog', to: 'services#catalog'
-        get 'search', to: 'services#search'
+        get 'catalog', to: 'services#catalog', as: :catalog
+        get 'search', to: 'services#search', as: :search
         get 'export_csv', to: 'services#export_csv', as: :export_csv
       end
       member do
