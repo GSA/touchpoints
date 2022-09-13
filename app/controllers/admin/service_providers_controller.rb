@@ -19,6 +19,10 @@ module Admin
       @tags = ServiceProvider.tag_counts_by_name
     end
 
+    def quadrants
+      @service_providers = ServiceProvider.all.includes(:organization).order('organizations.name', 'service_providers.name')
+    end
+
     def show; end
 
     def new
@@ -112,6 +116,7 @@ module Admin
         :inactive,
         :new,
         :tag_list,
+        :cx_maturity_mapping_value,
       )
     end
   end
