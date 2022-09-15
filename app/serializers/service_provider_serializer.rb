@@ -20,6 +20,7 @@ class ServiceProviderSerializer < ActiveModel::Serializer
              :services_count
 
     attribute :cx_maturity_mapping_value, if: :service_manager_permissions?
+    attribute :impact_mapping_value, if: :service_manager_permissions?
 
     # TODO: use #service_manager_permissions? in ApplicationController instead
     def service_manager_permissions?

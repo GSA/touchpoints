@@ -2,7 +2,7 @@
 
 class Objective < ApplicationRecord
   belongs_to :organization
-  belongs_to :goal
+  belongs_to :goal, counter_cache: true
 
   acts_as_taggable_on :tags
 
