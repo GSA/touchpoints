@@ -117,6 +117,7 @@ module Admin
         :new,
         :tag_list,
         :cx_maturity_mapping_value,
+        :impact_mapping_value,
       )
     end
   end

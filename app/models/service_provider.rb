@@ -23,10 +23,4 @@ class ServiceProvider < ApplicationRecord
   def organization_abbreviation
     organization ? organization.abbreviation : nil
   end
-
-  # latest quarterly reporting totals
-  def impact
-    -100 + rand(200)
-    # collections.where(year: 2022, quarter: 3)
-  end
 end
