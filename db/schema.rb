@@ -490,6 +490,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_15_195902) do
     t.string "budget_code"
     t.string "uii_code"
     t.boolean "transactional", default: false
+    t.string "potential_solutions_for_digitization"
   end
 
   create_table "submissions", force: :cascade do |t|
