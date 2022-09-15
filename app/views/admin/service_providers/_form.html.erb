@@ -50,11 +50,11 @@
         </span>
         <div class="field">
           <%= form.label :cx_impact_mapping_value, class: "usa-label" %>
-          <%= form.number_field :cx_impact_mapping_value, class: "usa-input", min: 1, max: 100 %>
+          <%= form.number_field :cx_impact_mapping_value, class: "usa-input", min: 1, max: 100, placeholder: "1-100" %>
         </div>
         <div class="field">
           <%= form.label :cx_maturity_mapping_value, class: "usa-label" %>
-          <%= form.number_field :cx_maturity_mapping_value, class: "usa-input", min: 1, max: 100 %>
+          <%= form.number_field :cx_maturity_mapping_value, class: "usa-input", min: 1, max: 10, placeholder: "1-10" %>
         </div>      
       </div>      
       <% end %>
