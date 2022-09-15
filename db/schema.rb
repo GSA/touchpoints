@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_12_211044) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_15_195902) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -230,6 +230,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_12_211044) do
     t.text "challenge"
     t.text "opportunity"
     t.text "notes"
+    t.integer "objectives_count", default: 0
     t.index ["tags"], name: "index_goals_on_tags", using: :gin
     t.index ["users"], name: "index_goals_on_users", using: :gin
   end
@@ -440,6 +441,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_12_211044) do
     t.string "url"
     t.integer "cx_maturity_mapping_value", default: 0
     t.integer "services_count", default: 0
+    t.integer "impact_mapping_value", default: 0
   end
 
   create_table "service_stage_barriers", force: :cascade do |t|
