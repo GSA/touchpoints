@@ -60,84 +60,102 @@
 <% end %>
 
 <script>
-  $('.usa-hint').hide();
+  $(function() {
 
-  $('.goal-name').on("blur", function(event) {
-    event.preventDefault();
-    $('.usa-hint.goal-name').show();
-    $('.usa-hint.goal-name').fadeOut(2000);
-    $.ajax({
-      type: "PATCH",
-      url: "<%= admin_goal_path(goal) %>/update_name",
-      data: {name: $(this).val()}
-    });
-  });
+    $('.usa-hint').hide();
+  
+    $('.goal-name').on("blur", function(event) {
+      event.preventDefault();
 
-  $('.goal-description').on("blur", function(event) {
-    event.preventDefault();
-    $('.usa-hint.goal-description').show();
-    $('.usa-hint.goal-description').fadeOut(2000);
-    $.ajax({
-      type: "PATCH",
-      url: "<%= admin_goal_path(goal) %>/update_description",
-      data: {description: $(this).val()}
-    });
-  });
+      $('.usa-hint.goal-name').show();
+      $('.usa-hint.goal-name').fadeOut(2000);
 
-  $('.goal-position').on("blur", function(event) {
-    event.preventDefault();
-    $('.usa-hint.goal-position').show();
-    $('.usa-hint.goal-position').fadeOut(2000);
-    $.ajax({
-      type: "PATCH",
-      url: "<%= admin_goal_path(goal) %>/update_position",
-      data: {
-        position: $(this).val()
-      }
+      $.ajax({
+        type: "PATCH",
+        url: "<%= admin_goal_path(goal) %>/update_name",
+        data: {name: $(this).val()}
+      });
     });
-  });
+  
+    $('.goal-description').on("blur", function(event) {
+      event.preventDefault();
 
-  $('.goal-tags').on("blur", function(event) {
-    event.preventDefault();
-    $('.usa-hint.goal-tags').show();
-    $('.usa-hint.goal-tags').fadeOut(2000);
-    $.ajax({
-      type: "PATCH",
-      url: "<%= admin_goal_path(goal) %>/update_tags",
-      data: {tags: $(this).val()}
-    });
-  });
+      $('.usa-hint.goal-description').show();
+      $('.usa-hint.goal-description').fadeOut(2000);
 
-  $('.goal-users').on("blur", function(event) {
-    event.preventDefault();
-    $('.usa-hint.goal-users').show();
-    $('.usa-hint.goal-users').fadeOut(2000);
-    $.ajax({
-      type: "PATCH",
-      url: "<%= admin_goal_path(goal) %>/update_users",
-      data: {users: $(this).val()}
+      $.ajax({
+        type: "PATCH",
+        url: "<%= admin_goal_path(goal) %>/update_description",
+        data: {description: $(this).val()}
+      });
     });
-  });
+  
+    $('.goal-position').on("blur", function(event) {
+      event.preventDefault();
 
-  $('.goal-parent-id').on("change", function(event) {
-    event.preventDefault();
-    $('.usa-hint.goal-parent-id').show();
-    $('.usa-hint.goal-parent-id').fadeOut(2000);
-    $.ajax({
-      type: "PATCH",
-      url: "<%= admin_goal_path(goal) %>/update_parent_id",
-      data: {parent_id: $(this).val()}
-    });
-  });
+      $('.usa-hint.goal-position').show();
+      $('.usa-hint.goal-position').fadeOut(2000);
 
-  $('.four-year-goal').on("change", function(event) {
-    event.preventDefault();
-    $('.usa-hint.four-year-goal').show();
-    $('.usa-hint.four-year-goal').fadeOut(2000);
-    $.ajax({
-      type: "PATCH",
-      url: "<%= admin_goal_path(goal) %>/four_year_goal",
-      data: {four_year_goal: $(this).val()}
+      $.ajax({
+        type: "PATCH",
+        url: "<%= admin_goal_path(goal) %>/update_position",
+        data: {
+          position: $(this).val()
+        }
+      });
     });
+  
+    $('.goal-tags').on("blur", function(event) {
+      event.preventDefault();
+
+      $('.usa-hint.goal-tags').show();
+      $('.usa-hint.goal-tags').fadeOut(2000);
+
+      $.ajax({
+        type: "PATCH",
+        url: "<%= admin_goal_path(goal) %>/update_tags",
+        data: {tags: $(this).val()}
+      });
+    });
+  
+    $('.goal-users').on("blur", function(event) {
+      event.preventDefault();
+
+      $('.usa-hint.goal-users').show();
+      $('.usa-hint.goal-users').fadeOut(2000);
+
+      $.ajax({
+        type: "PATCH",
+        url: "<%= admin_goal_path(goal) %>/update_users",
+        data: { users: $(this).val() }
+      });
+    });
+  
+    $('.goal-parent-id').on("change", function(event) {
+      event.preventDefault();
+
+      $('.usa-hint.goal-parent-id').show();
+      $('.usa-hint.goal-parent-id').fadeOut(2000);
+
+      $.ajax({
+        type: "PATCH",
+        url: "<%= admin_goal_path(goal) %>/update_parent_id",
+        data: { parent_id: $(this).val() }
+      });
+    });
+  
+    $('.four-year-goal').on("change", function(event) {
+      event.preventDefault();
+      
+      $('.usa-hint.four-year-goal').show();
+      $('.usa-hint.four-year-goal').fadeOut(2000);
+
+      $.ajax({
+        type: "PATCH",
+        url: "<%= admin_goal_path(goal) %>/four_year_goal",
+        data: { four_year_goal: $(this).val() }
+      });
+    });
+
   });
 </script>

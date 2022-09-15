@@ -48,7 +48,6 @@ module Admin
       ensure_performance_manager_permissions
 
       @objective.update(objective_params)
-      @objective.tags = objective_params[:tags].split
       @objective.users = [objective_params[:users].to_i] if objective_params[:users].present?
       respond_to do |format|
         if @objective.save
