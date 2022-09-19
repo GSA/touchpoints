@@ -46,9 +46,9 @@ const myChart = new Chart(ctx, {
     datasets: [
       {
         label: 'Service Providers',
-        data: <%= raw ServiceProvider.all.map { |provider| {
-          x: -10 + (provider.cx_maturity_mapping_value * 2), 
-          y: provider.impact_mapping_value,
+        data: <%= raw ServiceProvider.hisp.map { |provider| {
+          x: -5 + (provider.cx_maturity_mapping_value), 
+          y: -50 + (provider.impact_mapping_value),
           text: provider.organization.name + " - " + provider.name  
         } }.to_json %>,
         borderColor: "blue",
