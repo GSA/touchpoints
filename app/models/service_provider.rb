@@ -10,7 +10,7 @@ class ServiceProvider < ApplicationRecord
   validates :name, presence: true
   validates :slug, presence: true
 
-  scope :active, -> { where('inactive ISNULL or inactive = false') }
+  scope :active, -> { where('inactive = false') }
 
   def service_provider_managers
     User.with_role(:service_provider_manager, self)

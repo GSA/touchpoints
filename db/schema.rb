@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_15_195902) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_19_233730) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -437,7 +437,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_15_195902) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "new"
-    t.boolean "inactive"
+    t.boolean "inactive", default: true
     t.string "url"
     t.integer "cx_maturity_mapping_value", default: 0
     t.integer "services_count", default: 0
@@ -591,7 +591,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_15_195902) do
     t.boolean "admin", default: false
     t.string "provider"
     t.string "uid"
-    t.boolean "inactive"
+    t.boolean "inactive", default: false
     t.string "time_zone", default: "Eastern Time (US & Canada)"
     t.string "api_key"
     t.datetime "api_key_updated_at", precision: nil
