@@ -3,7 +3,7 @@
 module Admin
   class ServiceProvidersController < AdminController
     before_action :set_service_provider, only: %i[show edit update destroy add_tag remove_tag add_service_provider_manager remove_service_provider_manager]
-    before_action :ensure_admin, except: [:show]
+    before_action :ensure_service_manager_permissions, except: [:show]
 
     before_action :set_service_provider_manager_options, only: %i[
       new
