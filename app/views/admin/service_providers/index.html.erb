@@ -1,7 +1,7 @@
 <% content_for :navigation_title do %>
   <%= @service_providers.size %>
   Service Providers
-  <% if admin_permissions? %>
+  <% if service_manager_permissions? %>
     <%= link_to new_admin_service_provider_path, class: "usa-button usa-button-inverted float-right" do %>
       <i class="fa fa-plus-circle"></i>
       New Service Provider
