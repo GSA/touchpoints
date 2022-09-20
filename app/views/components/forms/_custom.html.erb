@@ -3,7 +3,12 @@
 <form action="<%= root_url %>touchpoints/<%= form.present? ? form.short_uuid : nil %>/submissions.json" method="POST">
   <div class="touchpoints-form-body">
     <%= hidden_field_tag :fba_location_code, params[:location_code] %>
-    <input type="text" name="fba_directive" id="fba_directive" title="this field can be skipped" style="display:none !important" tabindex="-1" autocomplete="off">
+    <input type="text" name="fba_directive" id="fba_directive" 
+      title="this field can be skipped" 
+      aria-hidden="true"
+      style="display:none !important" 
+      tabindex="-1" 
+      autocomplete="off">
     <% form.form_sections.each_with_index do |section, index| %>
       <div class="section <%= 'visible' if section == form.form_sections.first -%>">
         <% if (section != form.form_sections.first) || (section != form.form_sections.last) %>
