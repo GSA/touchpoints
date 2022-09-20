@@ -437,7 +437,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_19_233730) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "new"
-    t.boolean "inactive", default: true
+    t.boolean "inactive", default: true, null: false
     t.string "url"
     t.integer "cx_maturity_mapping_value", default: 0
     t.integer "services_count", default: 0
@@ -591,7 +591,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_19_233730) do
     t.boolean "admin", default: false
     t.string "provider"
     t.string "uid"
-    t.boolean "inactive", default: false
+    t.boolean "inactive", default: false, null: false
     t.string "time_zone", default: "Eastern Time (US & Canada)"
     t.string "api_key"
     t.datetime "api_key_updated_at", precision: nil
