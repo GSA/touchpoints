@@ -38,7 +38,7 @@
 
     <p>
       <strong>Organization:</strong>
-      <%= link_to_if admin_permissions?, @service_provider.organization.name, admin_organization_path(@service_provider.organization) %>
+      <%= link_to_if service_manager_permissions?, @service_provider.organization.name, admin_organization_path(@service_provider.organization) %>
     </p>
 
     <p>
