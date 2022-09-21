@@ -33,7 +33,7 @@ class User < ApplicationRecord
 
   validates :email, presence: true, if: :tld_check
 
-  scope :active, -> { where('inactive = false') }
+  scope :active, -> { where(inactive: false) }
 
   scope :admins, -> { where(admin: true) }
   scope :performance_managers, -> { where(performance_manager: true) }
