@@ -5,6 +5,8 @@ class OmbCxReportingCollectionSerializer < ActiveModel::Serializer
              :organization_id,
              :organization_name,
              :organization_abbreviation,
+             :service_provider_id,
+             :service_provider_name,
              :collection_id,
              :collection_name,
              :collection_year,
@@ -100,4 +102,15 @@ class OmbCxReportingCollectionSerializer < ActiveModel::Serializer
              :service_id,
              :service_name,
              :service_slug
+
+
+  def service_provider_id
+    object.collection.service_provider_id
+  end             
+  
+  def service_provider_name
+    if object.collection.service_provider
+      object.collection.service_provider.name
+    end
+  end             
 end
