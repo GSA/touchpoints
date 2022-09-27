@@ -12,9 +12,8 @@
         <% if (section != form.form_sections.first) || (section != form.form_sections.last) %>
           <% if section != form.form_sections.first %>
           <div class="pagination-buttons">
-            <%= link_to (t 'form.back'), "#previous-page", class: "usa-button usa-button--outline previous-section", 'data-form-section-target' => "" %>
+            <%= link_to (t 'form.back'), "#previous-page", class: "usa-button usa-button--outline width-full previous-section", 'data-form-section-target' => "" %>
           </div>
-          <br>
           <% end %>
         <% end %>
 
@@ -86,7 +85,7 @@
               </h4>
               <ul class="usa-button-group">
                 <li class="usa-button-group__item">
-                  <%= link_to (t 'form.yes_keep_going'), "#next-page", class: "usa-button usa-button--outline next-section", 'data-form-section-target' => "" %>
+                  <%= link_to (t 'form.yes_keep_going'), "#next-page", class: "usa-button next-section", 'data-form-section-target' => "" %>
                 </li>
                 <li class="usa-button-group__item">
                   <button type="submit" id="fba-early-submit" class="usa-button usa-button--base"><%= t 'form.no_submit' %></button>

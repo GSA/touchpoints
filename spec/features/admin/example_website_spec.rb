@@ -36,7 +36,7 @@ feature 'Example Website Integration', js: true do
           end
 
           it 'close the modal' do
-            find('.fba-modal-close').click
+            find('.usa-modal__close').click
             expect(page).to_not have_css('.fba-modal')
           end
         end
