@@ -1,5 +1,10 @@
-<div id="fba-modal-dialog" class="fba-modal-dialog" role="dialog" aria-modal="true">
-  <%= render "components/widget/no_modal", form: form do %>
-    <%= render partial: 'components/forms/footer', locals: { form: form } %>
-  <% end %>
+<div id="fba-modal-dialog" 
+  class="fba-modal-dialog usa-modal usa-modal--lg" 
+  role="dialog" 
+  aria-modal="true"
+  aria-labelledby="touchpoints-modal-heading"
+  aria-describedby="touchpoints-modal-description"
+  >
+  <%= render partial: 'components/forms/footer', locals: { form: form } %>
+  <%= render "components/widget/no_modal", form: form %>
 </div>

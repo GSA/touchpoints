@@ -1,20 +1,10 @@
 // Form components are namespaced under 'fba' = 'Feedback Analytics'
 'use strict';
 
+<%= raw File.open("#{Rails.root}/app/assets/javascripts/uswds-modal-include.js").read %>
+
 function FBAform(d, N) {
 	return {
-		<% if form.load_css %>
-		css: '<%= escape_javascript(render partial: "components/widget/widget", formats: :css, locals: { form: form }) %>',
-		<% end %>
-		formId: "<%= form.short_uuid %>",
-		formComponent: function() {
-			return document.querySelector("[data-touchpoints-form-id='" + this.formId + "']")
-		},
-		formElement: function() {
-			return this.formComponent().querySelector("form");
-		},
-		activatedButton: null, // tracks a reference to the button that was clicked to open the modal
-
 		// enable Javascript experience
 		javscriptIsEnabled: function() {
 			var javascriptDisabledMessage = document.getElementsByClassName("javascript-disabled-message")[0];
@@ -26,6 +16,16 @@ function FBAform(d, N) {
 				touchpointForm.classList.remove("hide");
 			}
 		},
+		formId: '<%= form.short_uuid %>',
+		formComponent: function() {
+			return document.querySelector("[data-touchpoints-form-id='" + this.formId + "']")
+		},
+		formElement: function() {
+			return this.formComponent().querySelector("form");
+		},
+		<% if form.load_css %>
+		css: '<%= escape_javascript(render partial: "components/widget/widget", formats: :css, locals: { form: form }) %>',
+		<% end %>
 		init: function(options) {
 			this.javscriptIsEnabled();
 			this.options = options;
@@ -38,28 +38,16 @@ function FBAform(d, N) {
 					this.loadButton();
 				<% end %>
 			<% end %>
-			this.bindEventListeners();
-			this.dialogOpen = false; // initially false
+			
 			this.successState = false; // initially false
 			this.pagination();
 			return this;
-		},
-		bindEventListeners: function() {
-			var self = this;
-			d.addEventListener('keyup', function (event) {
-				var x = event.keyCode;
-				if( x == 27 && self.dialogOpen == true) {
-					self.closeDialog();
-				}
-			});
-			d.addEventListener('click', function (event) {
-				self.handleClick(event);
-			});
 		},
 		<% if form.load_css %>
 		loadCss: function()
 		{
 			d.head.innerHTML += '<style>' + this.css + '</style>';
+			this.css = null; // to free memory
 		},
 		<% end %>
 		loadHtml: function()
@@ -83,13 +71,8 @@ function FBAform(d, N) {
 		<%# inject the form interface for modal and custom-button-modal %>
 		<% if form.delivery_method == "modal" || form.delivery_method == "custom-button-modal" %>
 			this.dialogEl = document.createElement('div');
-			this.dialogEl.setAttribute("hidden", true);
-			this.dialogEl.setAttribute('class', 'fba-modal');
-
 			this.dialogEl.innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
 			d.body.appendChild(this.dialogEl);
-
-			d.querySelector('.fba-modal-close').addEventListener('click', this.handleDialogClose.bind(this), false);
 		<% end %>
 		var otherElements = d.querySelectorAll(".usa-input.other-option");
 		for (var i = 0; i < otherElements.length; i++) {
@@ -141,25 +124,8 @@ function FBAform(d, N) {
 			alertErrorElement.setAttribute("hidden", true);
 			alertErrorElementBody.innerHTML = "";
 		},
-		handleClick: function(e) {
-		<% if form.delivery_method == "modal" %>
-			if (this.dialogOpen && !e.target.closest('#fba-button') && !e.target.closest('.fba-modal-dialog')) {
-				this.closeDialog();
-			}
-		<% elsif form.delivery_method == "custom-button-modal" %>
-			if (this.dialogOpen && !e.target.closest('#' + '<%= form.element_selector %>') && !e.target.closest('.fba-modal-dialog')) {
-				this.closeDialog();
-			}
-		<% end %>
-		},
 		handleButtonClick: function(e) {
 			e.preventDefault();
-			this.activatedButton = e.target;
-			this.loadDialog();
-		},
-		handleDialogClose: function(e) {
-			e.preventDefault();
-			this.closeDialog();
 		},
 		handleOtherOption: function(e) {
 			var selectorId =  "#" + e.srcElement.getAttribute("data-option-id");
@@ -374,7 +340,9 @@ function FBAform(d, N) {
 			this.buttonEl.setAttribute('data-id', '<%= form.short_uuid %>');
 			this.buttonEl.setAttribute('class', 'fixed-tab-button usa-button');
 			this.buttonEl.setAttribute('href', '#');
+			this.buttonEl.setAttribute('aria-controls', 'fba-modal-dialog');
 			this.buttonEl.setAttribute('aria-haspopup', 'dialog');
+			this.buttonEl.setAttribute('data-open-modal', true);
 			this.buttonEl.addEventListener('click', this.handleButtonClick.bind(this), false);
 			this.buttonEl.innerHTML = this.options.modalButtonText;
 			d.body.appendChild(this.buttonEl);
@@ -397,20 +365,7 @@ function FBAform(d, N) {
 				d.body.prepend(this.skipLink);
 			}
 		},
-		// Used when in a modal
-		loadDialog: function()
-		{
-			d.querySelector('.fba-modal').removeAttribute("hidden");
-			d.getElementById("touchpoints-form-<%= form.short_uuid %>").focus();
-			this.dialogOpen = true;
-		},
-		closeDialog: function()
-		{
-			d.querySelector('.fba-modal').setAttribute("hidden", true);
-			this.resetFormDisplay();
-			this.activatedButton.focus();
-			this.dialogOpen = false;
-		},
+
 		sendFeedback: function()
 		{
 			var form = this.formElement();
@@ -564,8 +519,8 @@ function FBAform(d, N) {
 					currentPage.previousElementSibling.classList.add("visible");
 					
 					// if in a modal, scroll to the top of the modal on previous button click
-					if(document.getElementsByClassName("fba-modal")[0]) {
-						document.getElementsByClassName("fba-modal")[0].scrollTo(0,0);
+					if(document.getElementsByClassName("usa-modal-overlay")[0]) {
+						document.getElementsByClassName("usa-modal-overlay")[0].scrollTo(0,0);
 					} else {
 						window.scrollTo(0, 0);
 					}
@@ -582,8 +537,8 @@ function FBAform(d, N) {
 					window.scrollTo(0, 0);
 
 					// if in a modal, scroll to the top of the modal on next button click
-					if(document.getElementsByClassName("fba-modal")[0]) {
-						document.getElementsByClassName("fba-modal")[0].scrollTo(0,0);
+					if(document.getElementsByClassName("usa-modal-overlay")[0]) {
+						document.getElementsByClassName("usa-modal-overlay")[0].scrollTo(0,0);
 					} else {
 						window.scrollTo(0, 0);
 					}

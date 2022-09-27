@@ -1,18 +1,1 @@
-<% if form && form.disclaimer_text? %>
-<div class="touchpoints-form-disclaimer">
-  <hr style="border: none; border-top: 1px solid #E5E5E5;">
-  <div class="grid-container">
-    <div class="grid-row">
-      <div class="grid-col-12">
-        <% if form.disclaimer_text? %>
-          <small id="fba-dialog-privacy">
-            <%= form.disclaimer_text.html_safe %>
-          </small>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div>
-<% end %>
-
 <%= render "components/forms/footer_banner", form: form %>

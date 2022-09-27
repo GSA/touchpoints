@@ -79,26 +79,34 @@
         </div>
 
         <% if (section != form.form_sections.first) || (section != form.form_sections.last) %>
-          <div class="pagination-buttons">
-            <% if (section == form.form_sections.first) && form.early_submission? %>
-              <div>
-                <h4>
-                  <%= t 'form.answer_more_questions' %>
-                </h4>
-                <%= link_to (t 'form.yes_keep_going'), "#next-page", class: "usa-button next-section", 'data-form-section-target' => "" %>
-                <button type="submit" id="fba-early-submit" class="usa-button usa-button--base"><%= t 'form.no_submit' %></button>
-              </div>
+          <div class="pagination-buttons">            
+            <% if (section == form.form_sections.first) && form.early_submission? %>           
+              <h4>
+                <%= t 'form.answer_more_questions' %>
+              </h4>
+              <ul class="usa-button-group">
+                <li class="usa-button-group__item">
+                  <%= link_to (t 'form.yes_keep_going'), "#next-page", class: "usa-button next-section", 'data-form-section-target' => "" %>
+                </li>
+                <li class="usa-button-group__item">
+                  <button type="submit" id="fba-early-submit" class="usa-button usa-button--base"><%= t 'form.no_submit' %></button>
+                </li>
+              </ul>
             <% elsif section != form.form_sections.last %>
-              <p>
-                <%= link_to (t 'form.next'), "#next-page", class: "usa-button next-section", 'data-form-section-target' => "" %>
-              </p>
+              <ul class="usa-button-group">
+                <li class="usa-button-group__item">
+                  <%= link_to (t 'form.next'), "#next-page", class: "usa-button next-section", 'data-form-section-target' => "" %>
+                </li>
+              </ul>
             <% end %>
           </div>
         <% end %>
         <% if section == form.form_sections.last && !form.suppress_submit_button %>
-          <p class="submit-button">
-            <button type="submit" class="usa-button submit_form_button"><%= t 'form.submit' %></button>
-          </p>
+          <ul class="usa-button-group">
+            <li class="usa-button-group__item">
+              <button type="submit" class="usa-button submit_form_button"><%= t 'form.submit' %></button>
+            </li>
+          </ul>
         <% end %>
       </div>
     <% end %>
