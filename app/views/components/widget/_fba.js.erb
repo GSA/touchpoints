@@ -1,7 +1,9 @@
 // Form components are namespaced under 'fba' = 'Feedback Analytics'
 'use strict';
 
+<% unless form.delivery_method == 'touchpoints-hosted-only' %>
 <%= raw File.open("#{Rails.root}/app/assets/javascripts/uswds-modal-include.js").read %>
+<% end %>
 
 function FBAform(d, N) {
 	return {
@@ -57,7 +59,10 @@ function FBAform(d, N) {
 			<% if form.element_selector? %>
 			if(d.getElementById('<%= form.element_selector %>') != null) {
 				d.getElementById('<%= form.element_selector %>').innerHTML = "<%= escape_javascript render(partial: 'components/widget/no_modal', locals: { form: form }) %>";
-				d.getElementById("fba-modal-dialog").classList.remove("is-hidden")
+				
+				if(d.getElementById("fba-modal-dialog")) {
+					d.getElementById("fba-modal-dialog").classList.remove("is-hidden")
+				}
 			}
 			<% end %>
 		<%# inject the form interface for inline with the modal wrapper %>
@@ -67,7 +72,10 @@ function FBAform(d, N) {
 				d.getElementById('<%= form.element_selector %>').innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
 				setTimeout(function() {
 					d.getElementsByClassName("usa-modal-overlay")[0].classList.remove("usa-modal-overlay")
-					d.getElementById("fba-modal-dialog").classList.remove("is-hidden")
+					
+					if(d.getElementById("fba-modal-dialog")) {
+						d.getElementById("fba-modal-dialog").classList.remove("is-hidden")
+					}
 				}, 250)
 			}
 			<% end %>
@@ -102,7 +110,6 @@ function FBAform(d, N) {
 			var that = this;
 
 			var yesNoForm = formElement.querySelector('.touchpoints-yes-no-buttons');
-
 			if (yesNoForm) { // only for yes/no questions
 				Array.prototype.forEach.call(submitButtons, function(submitButton) {
 					submitButton.addEventListener('click', that.handleYesNoSubmitClick.bind(that), false);
