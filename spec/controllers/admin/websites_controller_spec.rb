@@ -8,13 +8,6 @@ RSpec.describe Admin::WebsitesController, type: :controller do
   let(:admin) { FactoryBot.create(:user, :admin) }
   let(:website) { FactoryBot.create(:website) }
 
-  let(:valid_attributes) do
-    # skip("Add a hash of attributes valid for your model")
-    {
-      domain: 'website.org',
-    }
-  end
-
   context 'not logged in' do
     describe 'GET #index' do
       it 'redirects to homepage' do
