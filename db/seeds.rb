@@ -324,7 +324,7 @@ Question.create!({
   is_required: false,
 })
 
-open_ended_form_with_contact_information = Form.create({
+open_ended_form_with_contact_information = Form.create!({
   organization: example_gov,
   template: true,
   kind: 'open ended with contact information',
@@ -352,7 +352,7 @@ Question.create!({
   form_section: open_ended_form_with_contact_information.form_sections.first,
   text: 'Name',
   question_type: 'text_field',
-  position: 1,
+  position: 2,
   answer_field: :answer_02,
   is_required: false,
 })
@@ -361,7 +361,7 @@ Question.create!({
   form_section: open_ended_form_with_contact_information.form_sections.first,
   text: 'Email',
   question_type: 'text_field',
-  position: 2,
+  position: 3,
   answer_field: :answer_03,
   is_required: false,
 })

@@ -1,0 +1,1 @@
+APPROVED_DOMAINS = ['.gov', '.mil'].freeze
