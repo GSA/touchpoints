@@ -11,6 +11,7 @@ class Website < ApplicationRecord
   validates :domain, presence: true
   validates :domain, uniqueness: true
   validate :validate_domain_format
+  validate :validate_domain_suffix
   validates :type_of_site, presence: true
 
   belongs_to :organization, optional: true
@@ -139,7 +140,11 @@ class Website < ApplicationRecord
   end
 
   def validate_domain_format
-    errors.add(:domain, 'domain must have a suffix, like .gov or .mil') if domain.present? && domain.exclude?('.')
+    errors.add(:domain, 'must be formatted as a domain') unless domain.present? && domain.split(".").size >= 2
+  end
+  
+  def validate_domain_suffix
+    errors.add(:domain, 'domain must have a valid suffix, like .gov or .mil') unless domain.present? && APPROVED_DOMAINS.any?{ |word| domain.end_with?(word) } 
   end
 
   def site_scanner_json_request

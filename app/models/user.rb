@@ -29,8 +29,6 @@ class User < ApplicationRecord
 
   after_create :send_new_user_notification
 
-  APPROVED_DOMAINS = ['.gov', '.mil'].freeze
-
   validates :email, presence: true, if: :tld_check
 
   scope :active, -> { where(inactive: false) }
