@@ -69,7 +69,7 @@ module Admin
     def invite
       invitee = invite_params[:refer_user]
 
-      if invitee.present? && invitee =~ URI::MailTo::EMAIL_REGEXP && (ENV['GITHUB_CLIENT_ID'].present? ? true : User::APPROVED_DOMAINS.any? { |word| invitee.end_with?(word) })
+      if invitee.present? && invitee =~ URI::MailTo::EMAIL_REGEXP && (ENV['GITHUB_CLIENT_ID'].present? ? true : APPROVED_DOMAINS.any? { |word| invitee.end_with?(word) })
         if User.exists?(email: invitee)
           redirect_to permissions_admin_form_path(@form), alert: "User with email #{invitee} already exists"
         else
