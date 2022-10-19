@@ -4,16 +4,14 @@ require 'json'
 require 'open-uri'
 
 class DigitalProduct < ApplicationRecord
+  include AASM
+  has_paper_trail
+  resourcify
+  acts_as_taggable_on :tags, :organizations
+  
   has_many :digital_product_versions
 
   validates :name, presence: true
-
-  has_paper_trail
-
-  resourcify
-
-  include AASM
-  acts_as_taggable_on :tags, :organizations
 
   scope :active, -> { where(aasm_state: :published) }
 

@@ -28,7 +28,7 @@
           <%= link_to edit_admin_digital_product_digital_product_version_path(@digital_product, version), class: "icon-link" do %>
             <i class="fa fa-pencil-alt" title="Update digital product version"></i>
           <% end %>
-          <%= link_to admin_digital_product_digital_product_version_path(@digital_product, version), method: :delete, class: "icon-link", data: { turbo_frame: "digital_product_versions_container", :confirm => 'Are you sure?' }  do %>
+          <%= link_to admin_digital_product_digital_product_version_path(@digital_product, version), method: :delete, class: "icon-link", data: { turbo_frame: "digital_product_versions_container", confirm: 'Are you sure?' }  do %>
             <i class="fas fa-trash-alt" title="Delete digital product version"></i>
           <% end %>
         </td>

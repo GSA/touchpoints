@@ -265,8 +265,6 @@ module Admin
         :tag_list,
         :channel_list,
         :where_customers_interact,
-        :budget_code,
-        :uii_code,
         :transactional,
       )
     end
