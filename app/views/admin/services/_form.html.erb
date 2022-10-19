@@ -142,9 +142,6 @@
         <%= form.text_area :potential_solutions_for_digitization, class: "usa-textarea" %>
       </div>
 
-      <br>
-      <br>
-
       <div class="field">
         <%= form.label :homepage_url, "Service homepage URL", class: "usa-label" %>
         <%= form.text_field :homepage_url, class: "usa-input", placeholder: "https://www.example.gov/" %>
@@ -155,11 +152,8 @@
         <%= form.text_field :url, class: "usa-input", placeholder: "https://example.gov/service-name" %>
       </div>
 
-      <br>
-      <br>
-
-      <fieldset class="usa-fieldset">
-        <legend class="usa-legend">What is the estimated annual customer volume for this service</legend>
+      <fieldset class="usa-fieldset margin-top-5">
+        <legend class="usa-legend">What is the estimated annual customer volume for this service?</legend>
         <div class="usa-radio">
           <%= form.radio_button(:estimated_annual_volume_of_customers, "Less than 1000", class: "usa-radio__input usa-radio__input--tile") %>
           <%= form.label("Less than 1000", class: "usa-radio__label") %>
