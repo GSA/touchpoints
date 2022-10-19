@@ -1488,7 +1488,7 @@ feature 'Forms', js: true do
       describe 'Form with `inline` delivery_method' do
         let(:form2) { FactoryBot.create(:form, :open_ended_form, :inline, organization:, user: admin) }
 
-        before '/admin/forms/:uiid/example' do
+        before '/admin/forms/:uuid/example' do
           login_as(admin)
           visit example_admin_form_path(form2)
         end

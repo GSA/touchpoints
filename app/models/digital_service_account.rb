@@ -5,11 +5,11 @@ require 'open-uri'
 
 class DigitalServiceAccount < ApplicationRecord
   include AASM
+  has_paper_trail
+  resourcify
   acts_as_taggable_on :tags, :organizations
 
-  has_paper_trail
-
-  resourcify
+  validates :name, presence: true
 
   scope :active, -> { where(aasm_state: :published) }
 
