@@ -1,4 +1,4 @@
-<%= form_with(model: website, url: website.persisted? ? admin_website_path(website) : admin_websites_path) do |form| %>
+<%= form_with(model: website, url: (website.persisted? ? admin_website_path(website) : admin_websites_path), data: { turbo: false }) do |form| %>
   <% if website.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(website.errors.count, "error") %> prohibited this website from being saved:</h2>

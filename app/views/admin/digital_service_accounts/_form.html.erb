@@ -1,4 +1,4 @@
-<%= form_with(model: digital_service_account, url: (digital_service_account.persisted? ? admin_digital_service_account_path(digital_service_account) : admin_digital_service_accounts_path)) do |form| %>
+<%= form_with(model: digital_service_account, url: (digital_service_account.persisted? ? admin_digital_service_account_path(digital_service_account) : admin_digital_service_accounts_path), data: { turbo: false }) do |form| %>
   <% if digital_service_account.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(digital_service_account.errors.count, "error") %> prohibited this digital_service_account from being saved:</h2>

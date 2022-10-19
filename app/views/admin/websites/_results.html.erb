@@ -27,8 +27,8 @@
         <th data-sortable scope="col" role="columnheader">Status</th>
         <th data-sortable scope="col" role="columnheader">Office</th>
         <th data-sortable scope="col" role="columnheader">Sub-office</th>
-        <th data-sortable scope="col" role="columnheader">Website Managers</th>
-        <th data-sortable scope="col" role="columnheader">Website Contact</th>
+        <th data-sortable scope="col" role="columnheader">Primary Contact</th>
+        <th data-sortable scope="col" role="columnheader">Public Email</th>
         <th>Tags</th>
       </tr>
     </thead>
@@ -43,7 +43,7 @@
           </td>
           <td><%= website.office %></td>
           <td><%= website.sub_office %></td>
-          <td><%= website.website_manager_emails %></td>
+          <td><%= website.site_owner_email %></td>
           <td><%= website.contact_email %></td>
           <td><%= website.tag_list %></td>
         </tr>
