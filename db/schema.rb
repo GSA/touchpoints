@@ -492,7 +492,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_11_171518) do
     t.boolean "transactional", default: false
     t.string "potential_solutions_for_digitization"
     t.boolean "digital_service", default: false
-    t.integer "estimated_annual_volume_of_customers", default: 0
+    t.string "estimated_annual_volume_of_customers", default: ""
   end
 
   create_table "submissions", force: :cascade do |t|

@@ -34,7 +34,7 @@
     <div class="field">
       <%= form.label :kind, "Primary Service type", class: "usa-label" %>
       <p class="font-sans-3xs">
-        See 
+        See
         <a href="https://www.performance.gov/cx/assets/files/2022-OMB-Circular-A11-Section-280.pdf" target="_blank" rel="noopener">OMB A-11 Section 280</a>
         for more information about Service Types.
       </p>
@@ -156,39 +156,31 @@
         <legend class="usa-legend">What is the estimated annual customer volume for this service?</legend>
         <div class="usa-radio">
           <%= form.radio_button(:estimated_annual_volume_of_customers, "Less than 1000", class: "usa-radio__input usa-radio__input--tile") %>
-          <%= form.label("Less than 1000", class: "usa-radio__label") %>
+          <%= form.label(:estimated_annual_volume_of_customers, class: "usa-radio__label", value: "Less than 1000") %>
         </div>
         <div class="usa-radio">
-          <%= form.radio_button(:estimated_annual_volume_of_customers, "1,000 – 49,000", { class: "usa-radio__input usa-radio__input--tile"  }) %>
-          <%= form.label("1,000 – 49,000", class: "usa-radio__label", for: "1,000 – 49,000") do %>
-            1,000 – 49,000
-          <% end %>
+          <%= form.radio_button(:estimated_annual_volume_of_customers, "1,000 – 49,000", { class: "usa-radio__input usa-radio__input--tile" }) %>
+          <%= form.label(:estimated_annual_volume_of_customers, class: "usa-radio__label", value: "1,000 – 49,000") %>
         </div>
         <div class="usa-radio">
-          <%= form.radio_button(:estimated_annual_volume_of_customers, "50,000 – 999,999", { class: "usa-radio__input usa-radio__input--tile"  }) %>
-          <%= form.label("50,000 – 999,999", class: "usa-radio__label") %>
+          <%= form.radio_button(:estimated_annual_volume_of_customers, "50,000 – 999,999", { class: "usa-radio__input usa-radio__input--tile" }) %>
+          <%= form.label(:estimated_annual_volume_of_customers, class: "usa-radio__label", value: "50,000 – 999,999") %>
         </div>
         <div class="usa-radio">
-          <%= form.radio_button(:estimated_annual_volume_of_customers, "1,000,000 – 4,999,999", { class: "usa-radio__input usa-radio__input--tile"  }) %>
-          <%= form.label("1,000,000 – 4,999,999", class: "usa-radio__label") %>
+          <%= form.radio_button(:estimated_annual_volume_of_customers, "1,000,000 – 4,999,999", { class: "usa-radio__input usa-radio__input--tile" }) %>
+          <%= form.label(:estimated_annual_volume_of_customers, class: "usa-radio__label", value: "1,000,000 – 4,999,999") %>
         </div>
         <div class="usa-radio">
-          <%= form.radio_button(:estimated_annual_volume_of_customers, "5,000,000 – 9,999,999", { class: "usa-radio__input usa-radio__input--tile"  }) %>
-          <%= form.label("5,000,000 – 9,999,999", class: "usa-radio__label") do %>
-            5,000,000 – 9,999,999
-          <% end %>
+          <%= form.radio_button(:estimated_annual_volume_of_customers, "5,000,000 – 9,999,999", { class: "usa-radio__input usa-radio__input--tile" }) %>
+          <%= form.label(:estimated_annual_volume_of_customers, class: "usa-radio__label", value: "5,000,000 – 9,999,999") %>
         </div>
         <div class="usa-radio">
-          <%= form.radio_button(:estimated_annual_volume_of_customers, "More than 10 million", { class: "usa-radio__input usa-radio__input--tile"  }) %>
-          <%= form.label("More than 10 million", class: "usa-radio__label") do %>
-            More than 10 million
-          <% end %>
+          <%= form.radio_button(:estimated_annual_volume_of_customers, "More than 10 million", { class: "usa-radio__input usa-radio__input--tile" }) %>
+          <%= form.label(:estimated_annual_volume_of_customers, class: "usa-radio__label", value: "More than 10 million") %>
         </div>
         <div class="usa-radio">
-          <%= form.radio_button(:estimated_annual_volume_of_customers, "Unknown", { class: "usa-radio__input usa-radio__input--tile"  }) %>
-          <%= form.label("Unknown", class: "usa-radio__label") do %>
-            Unknown
-          <% end %>
+          <%= form.radio_button(:estimated_annual_volume_of_customers, "unknown", { class: "usa-radio__input usa-radio__input--tile" }) %>
+          <%= form.label(:estimated_annual_volume_of_customers, "Unknown", class: "usa-radio__label", value: "unknown") %>
         </div>
       </fieldset>
 
