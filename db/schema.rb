@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_19_233730) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_11_171518) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -491,6 +491,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_19_233730) do
     t.string "uii_code"
     t.boolean "transactional", default: false
     t.string "potential_solutions_for_digitization"
+    t.boolean "digital_service", default: false
+    t.integer "estimated_annual_volume_of_customers", default: 0
   end
 
   create_table "submissions", force: :cascade do |t|

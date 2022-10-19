@@ -252,6 +252,8 @@ module Admin
         :bureau,
         :department,
         :description,
+        :digital_service,
+        :estimated_annual_volume_of_customers,
         :hisp,
         :justification_text,
         :kind,

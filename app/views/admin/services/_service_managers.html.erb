@@ -1,7 +1,7 @@
 <div id="service_manager_selector" data-url="<%= admin_service_path(service) %>">
   <div class="grid-row">
     <div class="grid-col-12">
-      <h3>Service Managers</h3>
+      <h3>Service Contacts</h3>
       <p class="service-manager-list">
         <ul class="usa-list usa-list--unstyled">
           <% service.service_managers.each do |manager| %>
@@ -19,7 +19,7 @@
       </p>
     </div>
   </div>
-  <%= select_tag :service_manager_id, options_for_select(@service_owner_options.map { |u| [u.email, u.id] }), { prompt: "Select a Service Manager", class: "usa-select add-service-manager" } %>
+  <%= select_tag :service_manager_id, options_for_select(@service_owner_options.map { |u| [u.email, u.id] }), { prompt: "Select Service Contacts", class: "usa-select add-service-manager" } %>
 </div>
 
 <script>

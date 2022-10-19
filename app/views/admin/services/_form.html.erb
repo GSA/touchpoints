@@ -1,4 +1,4 @@
-<%= form_with(model: service, url: service.persisted? ? admin_service_path(service) : admin_services_path, local: true) do |form| %>
+<%= form_with(model: service, url: (service.persisted? ? admin_service_path(service) : admin_services_path), local: true, data: { turbo: false }) do |form| %>
 <% if service.errors.any? %>
 <div id="error_explanation">
   <h2><%= pluralize(service.errors.count, "error") %> prohibited this service from being saved:</h2>
@@ -11,6 +11,13 @@
 <% end %>
 <div class="grid-row">
   <div class="grid-col-12">
+   <% if service_manager_permissions? %>
+    <div class="field">
+      <%= form.label :organization_id, class: "usa-label" %>
+      <%= form.select :organization_id, options_for_select(organization_dropdown_options, service.organization_id), { prompt: "Which Organization?" }, { class: "usa-select", required: true } %>
+    </div>
+    <% end %>
+
     <div class="field">
       <%= form.label :name, class: "usa-label" %>
       <small>
@@ -19,88 +26,197 @@
       <%= form.text_field :name, class: "usa-input", placeholder: "What is the name of this Service?", required: true %>
     </div>
 
-    <% if service_manager_permissions? %>
-    <div class="field">
-      <%= form.label :organization_id, class: "usa-label" %>
-      <%= form.select :organization_id, options_for_select(organization_dropdown_options, service.organization_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
-    </div>
-    <% end %>
-
-    <div class="field">
-      <%= form.label :service_provider_id, class: "usa-label" %>
-      <small>
-        <%= link_to "Service Providers", admin_service_providers_path %>
-        are available based on the organization associated with the email domain for
-        <%= current_user.email %>.
-        Contact
-        <a href="mailto:feedback-analytics@gsa.gov">support</a> for assistance.
-      </small>
-      <%= form.select :service_provider_id, options_for_select(@service_providers.map { |p| ["#{p.organization.abbreviation} - #{p.name}", p.id] }, service.service_provider_id), { prompt: "Which Service Provider?" }, { class: "usa-select" } %>
-    </div>
-
-    <div class="field hisp-specific">
-      <%= form.label :justification_text, "Why did you select this service for priority designation?", class: "usa-label" %>
-      <small>
-        What is the scale of the service? (e.g., annual program cost or customer volume)?
-        <br>
-        What is the scale of the impact of the service (e.g., the importance of the service on individual lives)?
-      </small>
-      <%= form.text_area :justification_text, class: "usa-textarea", disabled: true %>
-    </div>
-
-    <% if service_manager_permissions? && service.persisted? %>
-      <div class="field">
-        <div class="well">
-          <div class="service-managers-div">
-            <%= render 'admin/services/service_managers', service: @service, service_owner_options: @service_owner_options %>
-          </div>
-        </div>
-      </div>
-
-      <div class="field">
-        <div class="well">
-          <div class="channels-div">
-            <%= render 'admin/services/channels', service: @service, channel_options: @channel_options %>
-          </div>
-        </div>
-      </div>
-    <% end %>
-
-    <div class="field">
-      <%= form.label :kind, "Service type", class: "usa-label" %>
-      <%= form.select :kind, options_for_select(Service.kinds, service.kind), { prompt: "Which kind of Service?" }, { class: "usa-select" } %>
-    </div>
-
-    <fieldset class="usa-fieldset">
-      <legend class="usa-sr-only">Transactional Service?</legend>
-      <div class="usa-checkbox">
-        <%= form.check_box :transactional, class: "usa-checkbox__input" %>
-        <%= form.label :transactional, "Transactional Service?", class: "usa-checkbox__label" %>
-      </div>
-    </fieldset>
-
     <div class="field">
       <%= form.label :description, class: "usa-label" %>
       <%= form.text_area :description, class: "usa-textarea", placeholder: "Describe who this service is for and what the service entails." %>
     </div>
 
     <div class="field">
+      <%= form.label :kind, "Primary Service type", class: "usa-label" %>
+      <p class="font-sans-3xs">
+        See 
+        <a href="https://www.performance.gov/cx/assets/files/2022-OMB-Circular-A11-Section-280.pdf" target="_blank" rel="noopener">OMB A-11 Section 280</a>
+        for more information about Service Types.
+      </p>
+      <%= form.select :kind, options_for_select(Service.kinds, service.kind), { prompt: "Which kind of Service?" }, { class: "usa-select" } %>
+    </div>
+
+    <fieldset class="usa-fieldset margin-top-3">
+      <legend class="usa-sr-only">HISP Service?</legend>
+      <div class="usa-checkbox">
+        <%= form.check_box :hisp, class: "usa-checkbox__input" %>
+        <%= form.label :hisp, "Is this Service a designated High-impact Service?", class: "usa-checkbox__label" %>
+        <p class="font-sans-3xs">
+          See 
+          <a href="https://www.performance.gov/cx/assets/files/2022-OMB-Circular-A11-Section-280.pdf" target="_blank" rel="noopener">OMB A-11 Section 280</a>
+          for more information about High-impact Service Providers.
+        </p>
+      </div>
+    </fieldset>
+    
+    <div id="hisp-specific-options" class="well">
+      <h4>
+        HISP-specific attributes
+      </h4>
+
+      <div class="field">
+        <%= form.label :service_provider_id, class: "usa-label" %>
+        <small>
+          <%= link_to "Service Providers", admin_service_providers_path, target: "_blank", rel: "noopener" %>
+          are available based on the organization associated with the email domain for
+          <%= current_user.email %>.
+          Contact
+          <a href="mailto:feedback-analytics@gsa.gov">support</a> for assistance.
+        </small>
+        <%= form.select :service_provider_id, options_for_select(@service_providers.map { |p| ["#{p.organization.abbreviation} - #{p.name}", p.id] }, service.service_provider_id), { prompt: "Which Service Provider?" }, { class: "usa-select" } %>
+      </div>
+
+       <fieldset class="usa-fieldset margin-top-2 margin-bottom-3">
+        <legend class="usa-sr-only">Transactional Service?</legend>
+        <div class="usa-checkbox">
+          <%= form.check_box :transactional, class: "usa-checkbox__input" %>
+          <%= form.label :transactional, "Transactional Service?", class: "usa-checkbox__label" %>
+        </div>
+      </fieldset>
+
+    <% if service_manager_permissions? && service.persisted? %>
+      <div class="field well">
+        <div class="service-managers-div">
+          <%= render 'admin/services/service_managers', service: @service, service_owner_options: @service_owner_options %>
+        </div>
+      </div>
+    <% end %>
+
+      <div class="field">
+        <%= form.label :justification_text, "Why did you select this service for priority designation?", class: "usa-label" %>
+        <small>
+          What is the scale of the service? (e.g., annual program cost or customer volume)?
+          <br>
+          What is the scale of the impact of the service (e.g., the importance of the service on individual lives)?
+        </small>
+        <%= form.text_area :justification_text, class: "usa-textarea" %>
+      </div>
+    
+      <% if service.persisted? && admin_permissions? %>
+      <div class="field">
+        <%= form.label :department, class: "usa-label" %>
+        <%= form.text_field :department, class: "usa-input", placeholder: "Department" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :bureau, class: "usa-label" %>
+        <%= form.text_field :bureau, class: "usa-input", placeholder: "Bureau" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :service_abbreviation, class: "usa-label" %>
+        <%= form.text_field :service_abbreviation, class: "usa-input", placeholder: "service_abbreviation" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :service_slug, class: "usa-label" %>
+        <%= form.text_field :service_slug, class: "usa-input", placeholder: "service-slug" %>
+      </div>
+      <% end %>
+    </div>
+
+    <div class="margin-top-3">
+      <fieldset class="usa-fieldset">
+        <legend class="usa-legend usa-sr-only">Digital Service?</legend>
+        <div class="usa-checkbox">
+          <%= form.check_box :digital_service?, class: "usa-checkbox__input" %>
+          <%= form.label :digital_service?, "Is this service offered digitally?", class: "usa-checkbox__label" %>
+        </div>
+        <p class="font-sans-3xs">
+          A digital service is a service in which there is an option to fully complete a transaction or received information online via a website or mobile application without any interactions that require in-person activities or paper-based processes.
+        </p>
+      </fieldset>
+
+      <div class="field">
+        <%= form.label :non_digital_explanation, "Describe why this service is not offered digitally, and summarize any challenges or barriers (e.g., cost, existing technology, law or regulations)", class: "usa-label" %>
+        <%= form.text_area :non_digital_explanation, class: "usa-textarea", maxlength: 250 %>
+      </div>
+
+      <div class="field">
+        <%= form.label :potential_solutions_for_digitization, class: "usa-label" %>
+        <%= form.text_area :potential_solutions_for_digitization, class: "usa-textarea" %>
+      </div>
+
+      <br>
+      <br>
+
+      <div class="field">
+        <%= form.label :homepage_url, "Service homepage URL", class: "usa-label" %>
+        <%= form.text_field :homepage_url, class: "usa-input", placeholder: "https://www.example.gov/" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :url, "Service URL", class: "usa-label" %>
+        <%= form.text_field :url, class: "usa-input", placeholder: "https://example.gov/service-name" %>
+      </div>
+
+      <br>
+      <br>
+
+      <fieldset class="usa-fieldset">
+        <legend class="usa-legend">What is the estimated annual customer volume for this service</legend>
+        <div class="usa-radio">
+          <%= form.radio_button(:estimated_annual_volume_of_customers, "Less than 1000", class: "usa-radio__input usa-radio__input--tile") %>
+          <%= form.label("Less than 1000", class: "usa-radio__label") %>
+        </div>
+        <div class="usa-radio">
+          <%= form.radio_button(:estimated_annual_volume_of_customers, "1,000 – 49,000", { class: "usa-radio__input usa-radio__input--tile"  }) %>
+          <%= form.label("1,000 – 49,000", class: "usa-radio__label", for: "1,000 – 49,000") do %>
+            1,000 – 49,000
+          <% end %>
+        </div>
+        <div class="usa-radio">
+          <%= form.radio_button(:estimated_annual_volume_of_customers, "50,000 – 999,999", { class: "usa-radio__input usa-radio__input--tile"  }) %>
+          <%= form.label("50,000 – 999,999", class: "usa-radio__label") %>
+        </div>
+        <div class="usa-radio">
+          <%= form.radio_button(:estimated_annual_volume_of_customers, "1,000,000 – 4,999,999", { class: "usa-radio__input usa-radio__input--tile"  }) %>
+          <%= form.label("1,000,000 – 4,999,999", class: "usa-radio__label") %>
+        </div>
+        <div class="usa-radio">
+          <%= form.radio_button(:estimated_annual_volume_of_customers, "5,000,000 – 9,999,999", { class: "usa-radio__input usa-radio__input--tile"  }) %>
+          <%= form.label("5,000,000 – 9,999,999", class: "usa-radio__label") do %>
+            5,000,000 – 9,999,999
+          <% end %>
+        </div>
+        <div class="usa-radio">
+          <%= form.radio_button(:estimated_annual_volume_of_customers, "More than 10 million", { class: "usa-radio__input usa-radio__input--tile"  }) %>
+          <%= form.label("More than 10 million", class: "usa-radio__label") do %>
+            More than 10 million
+          <% end %>
+        </div>
+        <div class="usa-radio">
+          <%= form.radio_button(:estimated_annual_volume_of_customers, "Unknown", { class: "usa-radio__input usa-radio__input--tile"  }) %>
+          <%= form.label("Unknown", class: "usa-radio__label") do %>
+            Unknown
+          <% end %>
+        </div>
+      </fieldset>
+
+    </div>
+
+    <% if service_manager_permissions? && service.persisted? %>
+    <div class="field">
+      <div class="well">
+        <div class="channels-div">
+          <%= render 'admin/services/channels', service: @service, channel_options: @channel_options %>
+        </div>
+      </div>
+    </div>
+    <% end %>
+
+    <div class="field" hidden>
       <%= form.label :where_customers_interact, "Service channels", class: "usa-label" %>
       <small>
         What are the channels (“the places”) by which customers interact with this service? Are there digital channels?
-        If yes, please list them. If not, please briefly describe why and what ideas or efforts are underway to utilize digital channels?
+        If yes, list them. If not, briefly describe why and what ideas or efforts are underway to utilize digital channels?
       </small>
       <%= form.text_area :where_customers_interact, class: "usa-textarea" %>
-    </div>
-
-    <div class="field">
-      <%= form.label :non_digital_explanation, "If this service is not available digitally, why?", class: "usa-label" %>
-      <%= form.text_area :non_digital_explanation, class: "usa-textarea" %>
-    </div>
-    
-    <div class="field">
-      <%= form.label :potential_solutions_for_digitization, class: "usa-label" %>
-      <%= form.text_area :potential_solutions_for_digitization, class: "usa-textarea" %>
     </div>
 
     <div class="field">
@@ -108,47 +224,9 @@
       <%= form.text_area :notes, class: "usa-textarea", placeholder: "Additional notes about the service" %>
     </div>
   </div>
-
-  <% if service.persisted? && admin_permissions? %>
+  
   <div class="grid-col-6">
-    <div class="field">
-      <%= form.label :department, class: "usa-label" %>
-      <%= form.text_field :department, class: "usa-input", placeholder: "Department" %>
-    </div>
-
-    <div class="field">
-      <%= form.label :bureau, class: "usa-label" %>
-      <%= form.text_field :bureau, class: "usa-input", placeholder: "Bureau" %>
-    </div>
-
-    <div class="field">
-      <%= form.label :service_abbreviation, class: "usa-label" %>
-      <%= form.text_field :service_abbreviation, class: "usa-input", placeholder: "service_abbreviation" %>
-    </div>
-
-    <div class="field">
-      <%= form.label :service_slug, class: "usa-label" %>
-      <%= form.text_field :service_slug, class: "usa-input", placeholder: "service-slug" %>
-    </div>
-
-    <fieldset class="usa-fieldset">
-      <legend class="usa-sr-only">HISP Service?</legend>
-      <div class="usa-checkbox">
-        <%= form.check_box :hisp, class: "usa-checkbox__input" %>
-        <%= form.label :hisp, "HISP Service?", class: "usa-checkbox__label" %>
-      </div>
-    </fieldset>
-  </div>
-  <% end %>
-  <div class="grid-col-6">
-    <div class="field">
-      <%= form.label :url, "Service URL", class: "usa-label" %>
-      <%= form.text_field :url, class: "usa-input", placeholder: "https://example.gov/service-name" %>
-    </div>
-    <div class="field">
-      <%= form.label :homepage_url, "Service homepage URL", class: "usa-label" %>
-      <%= form.text_field :homepage_url, class: "usa-input", placeholder: "https://www.example.gov/" %>
-    </div>
+   
   </div>
 </div>
 
@@ -159,6 +237,21 @@
 
 <script type="text/javascript">
   $(function() {
+    function showHispOptions() {
+      $("#hisp-specific-options").show();
+    }
+    
+    function hideHispOptions() {
+      $("#hisp-specific-options").hide();
+    }
+
+    // show/hide hisp-specific options on page load
+    if ($("#service_hisp").is(':checked')) {
+      showHispOptions();
+    } else {
+      hideHispOptions();
+    }
+
     // only allow Justification text for Services assigned to HISPs
     $("#service_service_provider_id").on("change", function(event) {
       if (event.target.value) {
@@ -167,5 +260,13 @@
         $("#service_justification_text").attr("disabled", true);
       }
     });
+
+    $("label[for='service_hisp']").on("click", function() {
+      if (!$("#service_hisp").is(':checked')) {
+        showHispOptions();
+      } else {
+        hideHispOptions();
+      }
+    })
   })
 </script>
