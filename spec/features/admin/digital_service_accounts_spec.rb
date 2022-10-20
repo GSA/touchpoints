@@ -129,7 +129,7 @@ feature 'Digital Service Accounts', js: true do
         visit admin_digital_service_account_path(digital_service_account)
         select(organization.name, from: 'organization_id')
         expect(page).to have_content(organization.name.upcase)
-        find('.remove-agency-link').click
+        find('.remove-tag-link').click
       end
 
       it 'removes the organization' do

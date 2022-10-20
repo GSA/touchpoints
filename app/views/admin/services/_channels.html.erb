@@ -2,6 +2,9 @@
   <div class="grid-row">
     <div class="grid-col-12">
       <h3>Channels</h3>
+      <p class="font-sans-3xs">
+        Select all applicable channels
+      </p>
       <p class="channel-list">
         <ul class="usa-list usa-list--unstyled">
           <% service.channel_list.each do |channel| %>
@@ -10,7 +13,7 @@
                <%= channel %>
             </span>
             &nbsp;
-            <a href="javascript:void(0);" class="remove-channel-link" data-value="<%= channel %>">
+            <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= channel %>">
               <span class="fa fa-trash"></span>
             </a>
           </li>
@@ -38,7 +41,7 @@
       });
     });
 
-    $(".remove-channel-link").on("click", function(e) {
+    $(".remove-tag-link").on("click", function(e) {
       e.preventDefault();
 
       var thisForm = $("#channel_selector");
