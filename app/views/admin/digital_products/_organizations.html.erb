@@ -15,7 +15,7 @@
 
           <% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
           &nbsp;
-          <a href="javascript:void(0);" class="remove-agency-link" data-value="<%= agency.id %>">
+          <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= agency.id %>">
             <span class="fa fa-trash"></span>
           </a>
           <% end %>
@@ -44,7 +44,7 @@
       });
     });
 
-    $(".remove-agency-link").on("click", function(event) {
+    $(".remove-tag-link").on("click", function(event) {
       event.preventDefault();
 
       var container = $('#sponsoring-agencies-div');

@@ -46,7 +46,7 @@ RSpec.describe '/goals', js: true do
         visit admin_goal_path(goal)
         select(organization.name, from: 'organization_id')
         expect(page).to have_content(organization.name.upcase)
-        find('.remove-agency-link').click
+        find('.remove-tag-link').click
       end
 
       it 'removes the organization' do

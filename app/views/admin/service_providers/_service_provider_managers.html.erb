@@ -10,7 +10,7 @@
              <%= manager.email %>
           </span>
           &nbsp;
-          <a href="javascript:void(0);" class="remove-manager-link" data-value="<%= manager.id %>">
+          <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= manager.id %>">
             <span class="fa fa-trash"></span>
           </a>
         </li>
@@ -39,7 +39,7 @@
       });
     });
 
-    $(".remove-manager-link").on("click", function(e) {
+    $(".remove-tag-link").on("click", function(e) {
       event.preventDefault();
       var thisForm = $("#service_provider_selector");
       $.ajax({
