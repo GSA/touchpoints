@@ -40,9 +40,11 @@ feature 'Managing Services', js: true do
           click_on 'New Service'
           expect(page).to have_content('New Service')
           select(organization.name, from: 'service[organization_id]')
-          select(service_provider.name, from: 'service[service_provider_id]')
           fill_in :service_name, with: 'New Service Name'
           fill_in :service_description, with: "Lots of text\n\n#### Heading\n\n* 1\n* 2\n* 3"
+          
+          find("label[for='service_hisp']").click
+          select(service_provider.name, from: 'service[service_provider_id]')
           click_on 'Create Service'
         end
 
@@ -84,6 +86,7 @@ feature 'Managing Services', js: true do
     describe 'Service Managers' do
       before do
         visit edit_admin_service_path(service)
+        find("label[for='service_hisp']").click
         select(admin.email, from: 'service_manager_id')
       end
 

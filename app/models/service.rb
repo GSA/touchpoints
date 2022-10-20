@@ -18,6 +18,7 @@ class Service < ApplicationRecord
 
   validates :name, presence: true
   validates :service_owner_id, presence: true
+  validates_length_of :non_digital_explanation, maximum: 250
 
   scope :hisp, -> { where(hisp: true) }
 
@@ -91,7 +92,27 @@ class Service < ApplicationRecord
   # How a service is delivered to an end-user.
   #
   def self.channels
-    %i[computer mobile email chatbot phone automated_phone in_person paper]
+    %i[
+      computer 
+      mobile 
+      email 
+      chatbot 
+      phone 
+      automated_phone 
+      in_person 
+      paper
+      
+      postal_mail
+      fax
+      self_service_kiosk
+      other_non_digital
+      website
+      mobile_app
+      live_chat
+      sms_text_messages
+      social_media
+      other_digital
+    ]
   end
 
   def self.kinds
@@ -103,6 +124,7 @@ class Service < ApplicationRecord
       "Informational",
       "Data and Research",
       "Regulatory",
+      "Other"
     ]
   end
 

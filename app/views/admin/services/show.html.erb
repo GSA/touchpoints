@@ -54,73 +54,109 @@
       <%= @service.name %>
     </p>
     <p>
-      <strong>Service managers</strong>
-      <% if @service.service_managers.present? %>
-      <ul class="usa-list">
-        <% @service.service_managers.each do | manager | %>
-        <li>
-          <%= link_to manager.try(:email), admin_user_path(manager) %>
-        </li>
-        <% end %>
-      </ul>
-      <% else %>
-      <div class="usa-alert usa-alert--warning">
-        <div class="usa-alert__body">
-          <p class="usa-alert__text">
-            No Service Managers have been defined.
-          </p>
-        </div>
-      </div>
-      <% end %>
+      <strong>Description</strong>
+      <br>
+      <%= @service.description? ? to_markdown(@service.description) : "empty" %>
     </p>
+    
     <p>
       <strong>Service type</strong>
       <br>
       <%= @service.kind %>
     </p>
-    <div>
-      <strong>Transactional service?</strong>
-      <p>
-        <%= @service.transactional? ? "✅" : "❌" %>
-      </p>
-    </div>
-
-    <p>
-      <strong>Description</strong>
-      <br>
-      <%= to_markdown(@service.description) %>
-    </p>
-    <p>
-      <strong>Where customers interact (Channels)</strong>
-      <br>
-      <%= to_markdown(@service.where_customers_interact) %>
-    </p>
-    <p>
-      <strong>Url</strong>
-      <br>
-      <%= link_to @service.url, @service.url %>
-    </p>
-    <p>
-      <strong>Notes</strong>
-      <br>
-      <%= to_markdown(@service.notes) || "No notes" %>
-    </p>
 
     <div class="well">
+      <p>
+        <strong>Is this a designated High-impact Service?</strong>
+        <br>
+        <br>
+        <%= @service.hisp? ? "✅" : "❌" %>
+      </p>
+      <div>
+        <strong>Transactional service?</strong>
+        <p>
+          <%= @service.transactional? ? "✅" : "❌" %>
+        </p>
+      </div>
+      <p>
+        <strong>Service contacts</strong>
+        <% if @service.service_managers.present? %>
+          <ul class="usa-list">
+            <% @service.service_managers.each do | manager | %>
+              <li>
+                <%= link_to manager.try(:email), admin_user_path(manager) %>
+              </li>
+              <% end %>
+          </ul>
+        <% else %>
+          <div class="usa-alert usa-alert--warning">
+            <div class="usa-alert__body">
+              <p class="usa-alert__text">
+                No Service contacts have been defined.
+              </p>
+            </div>
+          </div>
+        <% end %>
+      </p>
+
       <span class="usa-tag">
         for HISP-designated Services
       </span>
-
+    
       <p>
         <strong>Why did you select this service for priority designation?</strong>
         <br>
         <% if @service.justification_text.present? %>
           <%= to_markdown(@service.justification_text) %>
-        <% else %>
-          No text
-        <% end %>
+            <% else %>
+              No text
+              <% end %>
       </p>
     </div>
+
+    <p>
+      <strong>Is this a Digital Service?</strong>
+      <br>
+      <br>
+      <%= @service.digital_service? ? "✅" : "❌" %>
+    </p>
+    <p>
+      <strong>Where customers interact (Channels)</strong>
+      <br>
+      <%= to_markdown(@service.where_customers_interact) %>
+        <%= @service.channel_list %>
+    </p>
+    <p>
+      <strong>Why this service is not offered digitally</strong>
+      <br>
+      <%= @service.non_digital_explanation? ? @service.non_digital_explanation : "empty" %>
+    </p>
+    <p>
+      <strong>Potential Solutions for Digitization</strong>
+      <br>
+      <%= @service.potential_solutions_for_digitization? ? @service.potential_solutions_for_digitization : "empty" %>
+    </p>
+
+    <p>
+      <strong>Service Homepage URL</strong>
+      <br>
+      <%= link_to @service.homepage_url, @service.homepage_url %>
+    </p>
+    <p>
+      <strong>Service URL</strong>
+      <br>
+      <%= link_to @service.url, @service.url %>
+    </p>
+    <p>
+      <strong>What is the estimated annual customer volume?</strong>
+      <br>
+      <%= @service.estimated_annual_volume_of_customers %>
+    </p>
+    <p>
+      <strong>Notes</strong>
+      <br>
+      <%= to_markdown(@service.notes) || "empty" %>
+    </p>
 
   </div>
   <div class="desktop:grid-col-4">
