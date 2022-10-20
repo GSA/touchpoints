@@ -13,7 +13,7 @@
                <%= channel %>
             </span>
             &nbsp;
-            <a href="javascript:void(0);" class="remove-channel-link" data-value="<%= channel %>">
+            <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= channel %>">
               <span class="fa fa-trash"></span>
             </a>
           </li>
@@ -41,7 +41,7 @@
       });
     });
 
-    $(".remove-channel-link").on("click", function(e) {
+    $(".remove-tag-link").on("click", function(e) {
       e.preventDefault();
 
       var thisForm = $("#channel_selector");

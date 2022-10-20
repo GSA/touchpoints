@@ -132,6 +132,27 @@
         </p>
       </fieldset>
 
+    <% if service_manager_permissions? && service.persisted? %>
+      <div class="field">
+        <div class="well">
+          <div class="channels-div">
+            <%= render 'admin/services/channels' , service: @service, channel_options: @channel_options %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    
+      <div class="field" hidden>
+        <%= form.label :where_customers_interact, "Service channels" , class: "usa-label" %>
+          <small>
+            What are the channels (“the places”) by which customers interact with this service? Are there digital
+            channels?
+            If yes, list them. If not, briefly describe why and what ideas or efforts are underway to utilize digital
+            channels?
+          </small>
+          <%= form.text_area :where_customers_interact, class: "usa-textarea" %>
+      </div>
+
       <div class="field">
         <%= form.label :non_digital_explanation, "Describe why this service is not offered digitally, and summarize any challenges or barriers (e.g., cost, existing technology, law or regulations)", class: "usa-label" %>
         <%= form.text_area :non_digital_explanation, class: "usa-textarea", maxlength: 250 %>
@@ -184,25 +205,6 @@
         </div>
       </fieldset>
 
-    </div>
-
-    <% if service_manager_permissions? && service.persisted? %>
-    <div class="field">
-      <div class="well">
-        <div class="channels-div">
-          <%= render 'admin/services/channels', service: @service, channel_options: @channel_options %>
-        </div>
-      </div>
-    </div>
-    <% end %>
-
-    <div class="field" hidden>
-      <%= form.label :where_customers_interact, "Service channels", class: "usa-label" %>
-      <small>
-        What are the channels (“the places”) by which customers interact with this service? Are there digital channels?
-        If yes, list them. If not, briefly describe why and what ideas or efforts are underway to utilize digital channels?
-      </small>
-      <%= form.text_area :where_customers_interact, class: "usa-textarea" %>
     </div>
 
     <div class="field">

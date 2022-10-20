@@ -120,7 +120,12 @@
       <br>
       <%= @service.digital_service? ? "✅" : "❌" %>
     </p>
-
+    <p>
+      <strong>Where customers interact (Channels)</strong>
+      <br>
+      <%= to_markdown(@service.where_customers_interact) %>
+        <%= @service.channel_list %>
+    </p>
     <p>
       <strong>Why this service is not offered digitally</strong>
       <br>
@@ -141,12 +146,6 @@
       <strong>Service URL</strong>
       <br>
       <%= link_to @service.url, @service.url %>
-    </p>
-    <p>
-      <strong>Where customers interact (Channels)</strong>
-      <br>
-      <%= to_markdown(@service.where_customers_interact) %>
-        <%= @service.channel_list %>
     </p>
     <p>
       <strong>What is the estimated annual customer volume?</strong>
