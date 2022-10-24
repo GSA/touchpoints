@@ -6,7 +6,11 @@ module Api
       def index
         respond_to do |format|
           format.json do
-            render json: OmbCxReportingCollection.all.order(:id), each_serializer: OmbCxReportingCollectionSerializer
+            if params[:all]
+              render json: OmbCxReportingCollection.all.order(:id), each_serializer: OmbCxReportingCollectionSerializer
+            else
+              render json: OmbCxReportingCollection.published.order(:id), each_serializer: OmbCxReportingCollectionSerializer
+            end
           end
         end
       end
