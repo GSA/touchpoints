@@ -6,6 +6,11 @@ class OmbCxReportingCollection < ApplicationRecord
 
   validates :service_provided, presence: true
 
+  scope :published, -> { 
+    joins(:collection).where("collections.aasm_state = 'published'") 
+  }
+  
+  
   (1..11).each do |q|
     (1..5).each do |a|
       validates_numericality_of "q#{q}_#{a}".to_sym
