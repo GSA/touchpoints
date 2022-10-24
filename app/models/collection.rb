@@ -14,6 +14,8 @@ class Collection < ApplicationRecord
   validates :name, presence: true
   validates :reflection, length: { maximum: 5000 }
 
+  scope :published, -> { where(aasm_state: "published") }
+
   def omb_control_number
     'omb_control_number'
   end
