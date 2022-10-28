@@ -67,7 +67,7 @@ gem 'rack-cors', '>= 1.1.1', require: 'rack/cors'
 gem "redis", "~> 4.6"
 gem 'redis-namespace'
 gem 'sass-rails', '>= 6.0.0'
-gem 'sidekiq'
+gem 'sidekiq', '>= 7.0.0'
 gem 'json-jwt'
 gem 'aasm', '~> 5.2.0'
 gem 'whenever', require: false
