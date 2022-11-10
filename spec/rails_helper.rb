@@ -45,6 +45,7 @@ end
 Capybara.javascript_driver = :selenium_chrome_headless # Run feature specs with headless Chrome
 Capybara.default_max_wait_time = 3
 Capybara.raise_server_errors = true
+Capybara.server = :puma
 
 TEST_API_KEY = '1234567890123456789012345678901234567890'
 

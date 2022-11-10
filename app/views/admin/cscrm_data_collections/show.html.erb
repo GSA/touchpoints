@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @cscrm_data_collection %>
+
+<div>
+  <%= link_to "Edit this cscrm data collection", edit_admin_cscrm_data_collection_path(@cscrm_data_collection) %> |
+  <%= link_to "Back to cscrm data collections", admin_cscrm_data_collections_path %>
+
+  <%= button_to "Destroy this cscrm data collection", admin_cscrm_data_collection_path(@cscrm_data_collection), method: :delete %>
+</div>

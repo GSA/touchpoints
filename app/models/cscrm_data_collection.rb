@@ -1,0 +1,2 @@
+class CscrmDataCollection < ApplicationRecord
+end

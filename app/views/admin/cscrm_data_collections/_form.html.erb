@@ -1,0 +1,220 @@
+<%= form_with(model: cscrm_data_collection, url: (cscrm_data_collection.persisted? ? admin_cscrm_data_collection_path(barrier) : admin_cscrm_data_collections_path)) do |form| %>
+  <% if cscrm_data_collection.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(cscrm_data_collection.errors.count, "error") %> prohibited this cscrm_data_collection from being saved:</h2>
+
+      <ul>
+        <% cscrm_data_collection.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :leadership_roles,
+      "1. Senior leadership roles, responsibilities and accountability for C-SCRM are defined",
+      class: "usa-label" %>
+    <%= form.select :leadership_roles, ["Not defined", "Partially defined", "Defined", "Defined and designated"], { include_blank: true }, class: "usa-select" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :stakeholder_champion_identified,
+      "2. A CSCRM Champion has been identified for your Agency", class: "usa-label" %>
+
+    <%= form.select :stakeholder_champion_identified, [
+        "Not identified",
+        "A C-SCRM “Champion” (or, C-SCRM Executive Sponsor, C-SCRM Lead Official, etc.) is identified",
+        "C-SCRM PMO is identified to provide leadership",
+        "C-SCRM Team (e.g, Council, Committee (etc.) is identified to provide leadership",
+        "Not applicable (implementation complete)",
+        "Other"
+      ],
+      { include_blank: true },
+      class: "usa-select" %>
+      <%#= form.text_field :stakeholder_champion_identified, class: "usa-input" %>
+    </div>
+
+  <div class="field">
+    <%= form.label :pmo_established, "Establishment of CSCRM PMO or equivalent", class: "usa-label" %>
+    <%= form.select :pmo_established, [
+        "No",
+        "Plan Developed",
+        "Partial/In-process",
+        "Yes",
+        "Comments: if not yes explain",
+      ],
+      { include_blank: true },
+      class: "usa-select",
+      required: true
+    %>
+  </div>
+
+  <div class="field">
+    <%= form.label :interdisciplinary_team_established,
+      "4. Establishment of an interdisciplinary enterprise-wide Department or Agency team including SMEs from IT, Logistics, Procurement, Cybersecurity, Mission, Legal, ERM and CFO officials to manage and mitigate risk in the C-SCRM supply chain",
+      class: "usa-label" %>
+    <%= form.select :interdisciplinary_team_established, [
+        "No",
+        "Plan Developed",
+        "Partial/In-process",
+        "Yes",
+        "Comments: if not yes explain",
+      ],
+      { include_blank: true },
+      class: "usa-select",
+      required: true
+    %>
+
+  </div>
+
+  <div class="field">
+    <%= form.label :enterprise_risk_management_function_established,
+      "5. Governance structure has been established that integrates with the Enterprise Risk Management Function",
+      class: "usa-label" %>
+    <%= form.select :enterprise_risk_management_function_established, [
+        "Not established",
+        "Executive Board evaluates risks across enterprise",
+        "CSCRM program requirements are defined and managed",
+        "analysis of the likelihood and impact of potential supply chain cybersecurity threats"
+      ],
+      { include_blank: true },
+      class: "usa-select",
+      required: true
+    %>
+  </div>
+
+  <div class="field">
+    <%= form.label :enterprise_wide_scrm_policy_established,
+      "6. Established Enterprise-wide SCRM policy",
+      class: "usa-label" %>
+    <%= form.select :enterprise_wide_scrm_policy_established, [
+        "No",
+        "Plan Developed",
+        "Partial/In-process",
+        "Yes",
+        "Comments: if not yes explain [required]"
+      ],
+      { include_blank: true },
+      class: "usa-select",
+      required: true
+    %>
+  </div>
+
+
+  <div class="field">
+    <%= form.label :agency_wide_scrm_strategy_and_implementation_plan_established,
+      "7. Established agency-wide SCRM strategy and implementation plan",
+      class: "usa-label" %>
+    <%= form.select :agency_wide_scrm_strategy_and_implementation_plan_established, [
+        "No",
+        "Plan Developed",
+        "Partial/In-process",
+        "Yes",
+        "Comments: if not yes explain [required]"
+      ],
+      { include_blank: true },
+      class: "usa-select",
+      required: true
+    %>
+  </div>
+
+  <div class="field">
+    <%= form.label :funding_for_initial_operating_capability,
+      "8.	Identified or secured funding for CSCRM program functions for Initial Operating Capability",
+      class: "usa-label" %>
+    <%= form.select :funding_for_initial_operating_capability, [
+        "Not Identified or secured",
+        "Identified by not secured",
+        "Partially secured",
+        "Fully identified and secured",
+        "if not identified or secured explain [required]"
+      ],
+      { include_blank: true },
+      class: "usa-select",
+      required: true
+    %>
+  </div>
+
+  <div class="field">
+    <%= form.label :staffing,
+      "9.	Staffing identified and secured to perform C-SCRM functions",
+      class: "usa-label" %>
+    <%= form.select :staffing, [
+        "Not Identified or secured",
+        "Identified by not secured",
+        "Partially secured",
+        "Fully identified and secured",
+        "if not identified or secured explain [required]"
+      ],
+      { include_blank: true },
+      class: "usa-select",
+      required: true
+    %>
+  </div>
+
+  <div class="field">
+    <%= form.label :roles_and_responsibilities,
+      "10. C-SCRM roles and functional responsibilities clearly defined for key C-SCRM personnel (minimally, PMO, acquisition workforce and IT/Information Security personnel)",
+      class: "usa-label" %>
+    <%= form.select :roles_and_responsibilities, [
+        "Not defined",
+        "Partially defined for PMO",
+        "Fully defined for PMO",
+        "Partially defined for Acquisition Workforce Personnel",
+        "Partially defined for IT/Information Security Personnel",
+        "Fully defined for Acquisition Workforce Personnel",
+        "Fully defined for IT/Information Security Personnel",
+        "Partially or Fully Defined for Other Personnel",
+        "(Comments: Required for “not defined”; optional for other selections)",
+      ],
+      { include_blank: true },
+      class: "usa-select",
+      required: true
+    %>
+  </div>
+
+  <div class="field">
+    <%= form.label :missions_identified, class: "usa-label" %>
+    <%= form.text_area :missions_identified, class: "usa-textarea" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :missions_identified_why_not, class: "usa-label" %>
+    <%= form.text_area :missions_identified_why_not, class: "usa-textarea" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :prioritization_process, class: "usa-label" %>
+    <%= form.text_area :prioritization_process, class: "usa-textarea" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :considerations_in_procurement_processes, class: "usa-label" %>
+    <%= form.text_field :considerations_in_procurement_processes, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :conducts_scra_for_prioritized_products_and_services, class: "usa-label" %>
+    <%= form.text_field :conducts_scra_for_prioritized_products_and_services, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :personnel_required_to_complete_training, class: "usa-label" %>
+    <%= form.text_field :personnel_required_to_complete_training, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :established_process_information_sharing_with_fasc, class: "usa-label" %>
+    <%= form.text_field :established_process_information_sharing_with_fasc, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :cybersecurity_supply_chain_risk_considerations, class: "usa-label" %>
+    <%= form.text_field :cybersecurity_supply_chain_risk_considerations, class: "usa-input" %>
+  </div>
+
+  <p>
+    <%= form.submit class: "usa-button" %>
+  </p>
+<% end %>

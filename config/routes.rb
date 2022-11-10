@@ -130,6 +130,7 @@ Rails.application.routes.draw do
       end
     end
     resources :omb_cx_reporting_collections
+    resources :cscrm_data_collections
     resources :goals do
       member do
         patch 'update_organization_id', to: 'goals#update_organization_id', as: :update_organization_id
