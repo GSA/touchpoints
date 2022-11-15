@@ -122,6 +122,10 @@ Rails.application.routes.draw do
     end
 
     resources :collections do
+      collection do
+        get 'export_csv', to: 'collections#export_csv', as: :export_csv
+        get 'export_omb_cx_reporting_collections_csv', to: 'collections#export_omb_cx_reporting_collections_csv', as: :export_omb_cx_reporting_collections_csv
+      end
       member do
         post 'copy', to: 'collections#copy', as: :copy
         post 'submit', to: 'collections#submit', as: :submit

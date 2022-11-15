@@ -145,6 +145,56 @@ class Collection < ApplicationRecord
     }
   end
 
+  def self.to_csv
+    collections = Collection.all.order(:year, :quarter, 'organizations.name').includes(:organization)
+
+    attributes = [
+      :id,
+      :name,
+      :start_date,
+      :end_date,
+      :service_provider_id,
+      :service_provider_name,
+      :organization_id,
+      :organization_name,
+      :user_email,
+      :year,
+      :quarter,
+      :reflection,
+      :created_at,
+      :updated_at,
+      :rating,
+      :aasm_state,
+      :integrity_hash,
+    ]
+
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+
+      collections.each do |collection|
+        csv << attributes = [
+          collection.id,
+          collection.name,
+          collection.start_date,
+          collection.end_date,
+          collection.service_provider_id,
+          collection.service_provider.name,
+          collection.organization_id,
+          collection.organization.name,
+          collection.user.email,
+          collection.year,
+          collection.quarter,
+          collection.reflection,
+          collection.created_at,
+          collection.updated_at,
+          collection.rating,
+          collection.aasm_state,
+          collection.integrity_hash
+        ]
+      end
+    end
+  end
+
   delegate :name, to: :organization, prefix: true
 
   delegate :abbreviation, to: :organization, prefix: true

@@ -117,6 +117,15 @@
 </table>
 
 <% if performance_manager_permissions? %>
+  <p>
+    <%= link_to "Download Collections as .csv", export_csv_admin_collections_path, class: "usa-button" %>
+  </p>
+  <p>
+    <%= link_to "Download OMB CX Data Reporting Collections as .csv", export_omb_cx_reporting_collections_csv_admin_collections_path, class: "usa-button" %>
+  </p>
+<% end %>
+
+<% if admin_permissions? %>
   <%= render 'admin/collections/hisps_csv_details' %>
   <%= render 'admin/components/performancegov/cx_summary_chart' %>
 <% end %>
