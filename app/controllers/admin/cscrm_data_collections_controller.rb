@@ -2,25 +2,20 @@ module Admin
   class CscrmDataCollectionsController < AdminController
     before_action :set_cscrm_data_collection, only: %i[ show edit update destroy ]
 
-    # GET /cscrm_data_collections or /cscrm_data_collections.json
     def index
       @cscrm_data_collections = CscrmDataCollection.all
     end
 
-    # GET /cscrm_data_collections/1 or /cscrm_data_collections/1.json
     def show
     end
 
-    # GET /cscrm_data_collections/new
     def new
       @cscrm_data_collection = CscrmDataCollection.new
     end
 
-    # GET /cscrm_data_collections/1/edit
     def edit
     end
 
-    # POST /cscrm_data_collections or /cscrm_data_collections.json
     def create
       @cscrm_data_collection = CscrmDataCollection.new(cscrm_data_collection_params)
 
@@ -35,7 +30,6 @@ module Admin
       end
     end
 
-    # PATCH/PUT /cscrm_data_collections/1 or /cscrm_data_collections/1.json
     def update
       respond_to do |format|
         if @cscrm_data_collection.update(cscrm_data_collection_params)
@@ -48,7 +42,6 @@ module Admin
       end
     end
 
-    # DELETE /cscrm_data_collections/1 or /cscrm_data_collections/1.json
     def destroy
       @cscrm_data_collection.destroy
 
@@ -59,14 +52,16 @@ module Admin
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
       def set_cscrm_data_collection
         @cscrm_data_collection = CscrmDataCollection.find(params[:id])
       end
 
-      # Only allow a list of trusted parameters through.
       def cscrm_data_collection_params
         params.require(:cscrm_data_collection).permit(
+          :user_id,
+          :organization_id,
+          :year,
+          :quarter,
           :leadership_roles,
           :stakeholder_champion_identified,
           :pmo_established,
@@ -76,15 +71,18 @@ module Admin
           :agency_wide_scrm_strategy_and_implementation_plan_established,
           :funding_for_initial_operating_capability,
           :staffing,
-          :roles_and_responsibilities,
-          :missions_identified,
           :missions_identified_why_not,
           :prioritization_process,
-          :considerations_in_procurement_processes,
-          :conducts_scra_for_prioritized_products_and_services,
-          :personnel_required_to_complete_training,
           :established_process_information_sharing_with_fasc,
-          :cybersecurity_supply_chain_risk_considerations)
+          :rating,
+          roles_and_responsibilities: [],
+          missions_identified: [],
+          considerations_in_procurement_processes: [],
+          conducts_scra_for_prioritized_products_and_services: [],
+          personnel_required_to_complete_training: [],
+          cybersecurity_supply_chain_risk_considerations: [],
+      )
       end
   end
 end
+

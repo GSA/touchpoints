@@ -1,7 +1,4 @@
 <div class="well border-primary">
-  <%= label_tag "Task bar", nil, class: "usa-label" %>
-  <br>
-
   <% if organizational_website_manager_permissions?(user: current_user) &&
       website.newly_requested? %>
     <%= render 'admin/websites/tasks/approval', website: website %>

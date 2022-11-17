@@ -29,12 +29,12 @@
     <thead>
       <tr>
       <% if current_user.admin? %>
-        <th data-sortable scope="col" role="columnheader">Admin</th>
+        <th data-sortable scope="col">Admin</th>
       <% end %>
-        <th data-sortable scope="col" role="columnheader">Email</th>
-        <th data-sortable scope="col" role="columnheader">Organization Name</th>
+        <th data-sortable scope="col">Email</th>
+        <th data-sortable scope="col">Organization Name</th>
       <% if current_user.admin? %>
-        <th data-sortable scope="col" role="columnheader">Latest login</th>
+        <th data-sortable scope="col">Latest login</th>
       <% end %>
       </tr>
     </thead>

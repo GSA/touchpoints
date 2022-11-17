@@ -1,6 +1,6 @@
-<%= form_with(model: cscrm_data_collection, url: (cscrm_data_collection.persisted? ? admin_cscrm_data_collection_path(barrier) : admin_cscrm_data_collections_path)) do |form| %>
+<%= form_with(model: cscrm_data_collection, url: (cscrm_data_collection.persisted? ? admin_cscrm_data_collection_path(cscrm_data_collection) : admin_cscrm_data_collections_path), data: { turbo: false }) do |form| %>
   <% if cscrm_data_collection.errors.any? %>
-    <div style="color: red">
+    <div class="" style="color: red">
       <h2><%= pluralize(cscrm_data_collection.errors.count, "error") %> prohibited this cscrm_data_collection from being saved:</h2>
 
       <ul>
@@ -10,6 +10,23 @@
       </ul>
     </div>
   <% end %>
+
+  <div class="field">
+    <%= form.label :organization_id,
+      "Organization" %>
+    <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, cscrm_data_collection.organization_id), {
+      prompt: "Which Organization?" }, { class: "usa-select" } %>
+  </div>
+
+  <div class="field">
+    <%= form.label :year, class: "usa-label" %>
+    <%= form.text_field :year, class: "usa-input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :quarter, class: "usa-label" %>
+    <%= form.text_field :quarter, class: "usa-input" %>
+  </div>
 
   <div class="field">
     <%= form.label :leadership_roles,
@@ -36,7 +53,7 @@
     </div>
 
   <div class="field">
-    <%= form.label :pmo_established, "Establishment of CSCRM PMO or equivalent", class: "usa-label" %>
+    <%= form.label :pmo_established, "3. Establishment of CSCRM PMO or equivalent", class: "usa-label" %>
     <%= form.select :pmo_established, [
         "No",
         "Plan Developed",
@@ -93,14 +110,13 @@
         "Plan Developed",
         "Partial/In-process",
         "Yes",
-        "Comments: if not yes explain [required]"
+        "Comments: if not yes explain"
       ],
       { include_blank: true },
       class: "usa-select",
       required: true
     %>
   </div>
-
 
   <div class="field">
     <%= form.label :agency_wide_scrm_strategy_and_implementation_plan_established,
@@ -111,7 +127,7 @@
         "Plan Developed",
         "Partial/In-process",
         "Yes",
-        "Comments: if not yes explain [required]"
+        "Comments: if not yes explain"
       ],
       { include_blank: true },
       class: "usa-select",
@@ -128,7 +144,7 @@
         "Identified by not secured",
         "Partially secured",
         "Fully identified and secured",
-        "if not identified or secured explain [required]"
+        "if not identified or secured explain"
       ],
       { include_blank: true },
       class: "usa-select",
@@ -145,7 +161,7 @@
         "Identified by not secured",
         "Partially secured",
         "Fully identified and secured",
-        "if not identified or secured explain [required]"
+        "if not identified or secured explain"
       ],
       { include_blank: true },
       class: "usa-select",
@@ -153,31 +169,72 @@
     %>
   </div>
 
-  <div class="field">
-    <%= form.label :roles_and_responsibilities,
-      "10. C-SCRM roles and functional responsibilities clearly defined for key C-SCRM personnel (minimally, PMO, acquisition workforce and IT/Information Security personnel)",
-      class: "usa-label" %>
-    <%= form.select :roles_and_responsibilities, [
-        "Not defined",
-        "Partially defined for PMO",
-        "Fully defined for PMO",
-        "Partially defined for Acquisition Workforce Personnel",
-        "Partially defined for IT/Information Security Personnel",
-        "Fully defined for Acquisition Workforce Personnel",
-        "Fully defined for IT/Information Security Personnel",
-        "Partially or Fully Defined for Other Personnel",
-        "(Comments: Required for “not defined”; optional for other selections)",
-      ],
-      { include_blank: true },
-      class: "usa-select",
-      required: true
-    %>
-  </div>
+  <% question_10_options = [
+      "Not defined",
+      "Partially defined for PMO",
+      "Fully defined for PMO",
+      "Partially defined for Acquisition Workforce Personnel",
+      "Partially defined for IT/Information Security Personnel",
+      "Fully defined for Acquisition Workforce Personnel",
+      "Fully defined for IT/Information Security Personnel",
+      "Partially or Fully Defined for Other Personnel"
+    ]
+  %>
 
-  <div class="field">
-    <%= form.label :missions_identified, class: "usa-label" %>
-    <%= form.text_area :missions_identified, class: "usa-textarea" %>
-  </div>
+  <fieldset class="usa-fieldset" role="group">
+    <legend class="usa-sr-only">10. C-SCRM roles and functional responsibilities clearly defined for key C-SCRM personnel (minimally, PMO, acquisition
+    workforce and IT/Information Security personnel)</legend>
+    <%= form.label :staffing, "10. C-SCRM roles and functional responsibilities clearly defined for key C-SCRM personnel (minimally, PMO, acquisition
+    workforce and IT/Information Security personnel)", class: "usa-label" %>
+
+    <br>
+    <% question_10_options.each_with_index do |option, i| %>
+      <div class="margin-bottom-1">
+        <%= form.check_box(:roles_and_responsibilities, {
+          multiple: true,
+          checked: form.object.roles_and_responsibilities&.include?(option),
+          class: "usa-checkbox__input2 usa-checkbox__input--tile2"
+        }, option) %>
+        &nbsp;
+        &nbsp;
+        <%= form.label(option, {}, class: "usa-checkbox__label2") %>
+      </div>
+    <% end %>
+  </fieldset>
+
+  <% question_11_options = [
+      'Not identified (all)',
+      'Mission Functions Identified',
+      'Existing Asset Inventory',
+      'Existing Systems Inventory',
+      'Existing Supplier Inventory/List',
+      'Critical Mission Functions identified',
+      'Critical Assets Identified',
+      'Critical Systems Identified',
+      'Critical Suppliers Identified'
+    ]
+  %>
+
+  <fieldset class="usa-fieldset">
+    <legend class="usa-sr-only">11. Identified missions, assets, systems, processes, data and suppliers (e.g., HVAs, critical suppliers,
+    mission-essential functions)</legend>
+    <%= form.label :staffing, "11. Identified missions, assets, systems, processes, data and suppliers (e.g., HVAs, critical suppliers,
+    mission-essential functions)" , class: "usa-label" %>
+
+    <br>
+    <% question_11_options.each_with_index do |option, i| %>
+      <div class="margin-bottom-1">
+        <%= form.check_box(:missions_identified, {
+          multiple: true,
+          checked: form.object.missions_identified&.include?(option),
+          class: "usa-checkbox__input2 usa-checkbox__input--tile2"
+        }, option) %>
+        &nbsp;
+        &nbsp;
+        <%= form.label(option, {}, class: "usa-checkbox__label2") %>
+      </div>
+    <% end %>
+  </fieldset>
 
   <div class="field">
     <%= form.label :missions_identified_why_not, class: "usa-label" %>
@@ -185,34 +242,144 @@
   </div>
 
   <div class="field">
-    <%= form.label :prioritization_process, class: "usa-label" %>
-    <%= form.text_area :prioritization_process, class: "usa-textarea" %>
+    <%= form.label :prioritization_process, "12. Established process to prioritize by criticality", class: "usa-label" %>
+    <%= form.select :prioritization_process, [
+        "No",
+        "Plan Developed",
+        "Partial/In-process",
+        "Yes"
+      ],
+      { include_blank: true },
+      class: "usa-select",
+      required: true
+    %>
   </div>
 
-  <div class="field">
-    <%= form.label :considerations_in_procurement_processes, class: "usa-label" %>
-    <%= form.text_field :considerations_in_procurement_processes, class: "usa-input" %>
-  </div>
+  <% question_13_options = [
+    'Not considered',
+    'Acquisition strategy',
+    'Acquisition plan',
+    'Requirements language',
+    'Source Selection evaluation factors',
+    'Quality Assurance Surveillance Plan (QASP)',
+    'Supplier (vendor) risk assessment)',
+    'Compliance clauses',
+    'Other (Describe)'
+  ]
+  %>
+
+  <fieldset class="usa-fieldset">
+    <legend class="usa-sr-only">13. C-SCRM considerations in procurement processes and actions</legend>
+    <%= form.label :staffing, "13.	C-SCRM considerations in procurement processes and actions" , class: "usa-label" %>
+
+    <br>
+    <% question_13_options.each_with_index do |option, i| %>
+      <div class="margin-bottom-1">
+        <%= form.check_box(:considerations_in_procurement_processes, {
+          multiple: true,
+          checked: form.object.considerations_in_procurement_processes&.include?(option),
+          class: "usa-checkbox__input2 usa-checkbox__input--tile2"
+        }, option) %>
+        &nbsp;
+        &nbsp;
+        <%= form.label(option, {}, class: "usa-checkbox__label2") %>
+      </div>
+    <% end %>
+  </fieldset>
+
+
+  <% question_14_options = [
+    'Not conducted',
+    'Conducted for some prioritized products',
+    'Conducted for some prioritized services',
+    'Conducted for all prioritized products',
+    'Conducted for all prioritized services'
+  ]
+  %>
+
+  <fieldset class="usa-fieldset">
+    <legend class="usa-sr-only">14. Conducts Supply Chain Risk Assessments (SCRA) for prioritized products and services</legend>
+    <%= form.label :staffing, "14.	Conducts Supply Chain Risk Assessments (SCRA) for prioritized products and services" , class: "usa-label" %>
+
+    <br>
+    <% question_14_options.each_with_index do |option, i| %>
+      <div class="margin-bottom-1">
+        <%= form.check_box(:conducts_scra_for_prioritized_products_and_services, {
+          multiple: true,
+          checked: form.object.conducts_scra_for_prioritized_products_and_services&.include?(option),
+          class: "usa-checkbox__input2 usa-checkbox__input--tile2"
+        }, option) %>
+        &nbsp;
+        &nbsp;
+        <%= form.label(option, {}, class: "usa-checkbox__label2") %>
+      </div>
+    <% end %>
+  </fieldset>
+
+
+  <% question_15_options = [
+    'Not identified',
+    'Partially identified',
+    'Identified for “General”',
+    'Identified for “Role-based”',
+    'General training currently  available',
+    'Role-based training currently available'
+  ]
+  %>
+
+  <fieldset class="usa-fieldset">
+    <legend class="usa-sr-only">15. Personnel required to complete general or role-based SCRM training requirements</legend>
+    <%= form.label :staffing, "15.	Personnel required to complete general or role-based SCRM training requirements" , class: "usa-label" %>
+
+    <br>
+    <% question_15_options.each_with_index do |option, i| %>
+      <div class="margin-bottom-1">
+        <%= form.check_box(:personnel_required_to_complete_training, {
+          multiple: true,
+          checked: form.object.personnel_required_to_complete_training&.include?(option),
+          class: "usa-checkbox__input2 usa-checkbox__input--tile2"
+        }, option) %>
+        &nbsp;
+        &nbsp;
+        <%= form.label(option, {}, class: "usa-checkbox__label2") %>
+      </div>
+    <% end %>
+  </fieldset>
 
   <div class="field">
-    <%= form.label :conducts_scra_for_prioritized_products_and_services, class: "usa-label" %>
-    <%= form.text_field :conducts_scra_for_prioritized_products_and_services, class: "usa-input" %>
-  </div>
-
-  <div class="field">
-    <%= form.label :personnel_required_to_complete_training, class: "usa-label" %>
-    <%= form.text_field :personnel_required_to_complete_training, class: "usa-input" %>
-  </div>
-
-  <div class="field">
-    <%= form.label :established_process_information_sharing_with_fasc, class: "usa-label" %>
+    <%= form.label :established_process_information_sharing_with_fasc, "16.	Established process for internal and exchanging information sharing with the Federal Acquisition Security Council (FASC)", class: "usa-label" %>
     <%= form.text_field :established_process_information_sharing_with_fasc, class: "usa-input" %>
   </div>
 
-  <div class="field">
-    <%= form.label :cybersecurity_supply_chain_risk_considerations, class: "usa-label" %>
-    <%= form.text_field :cybersecurity_supply_chain_risk_considerations, class: "usa-input" %>
-  </div>
+
+  <% question_17_options = [
+      'Not considered',
+      'Critical Suppliers are identified in COOP and Recovery plans',
+      'Business Impact Analysis considers supplier and product dependency risks and resiliency requirements',
+      'SCRAs are conducted for critical suppliers',
+      'Mitigations to improve resilience/address assessed risks  associated with critical suppliers are identified and implemented'
+  ]
+  %>
+
+  <fieldset class="usa-fieldset">
+    <legend class="usa-sr-only">17. Cybersecurity supply chain risk and resiliency considerations are incorporated into organizational COOP and Recovery
+    Plans</legend>
+    <%= form.label :staffing, "17. Cybersecurity supply chain risk and resiliency considerations are incorporated into organizational COOP and Recovery Plans" , class: "usa-label" %>
+
+    <br>
+    <% question_17_options.each_with_index do |option, i| %>
+      <div class="margin-bottom-1">
+        <%= form.check_box(:cybersecurity_supply_chain_risk_considerations, {
+          multiple: true,
+          checked: form.object.cybersecurity_supply_chain_risk_considerations&.include?(option),
+          class: "usa-checkbox__input2 usa-checkbox__input--tile2"
+        }, option) %>
+        &nbsp;
+        &nbsp;
+        <%= form.label(option, {}, class: "usa-checkbox__label2") %>
+      </div>
+    <% end %>
+  </fieldset>
 
   <p>
     <%= form.submit class: "usa-button" %>

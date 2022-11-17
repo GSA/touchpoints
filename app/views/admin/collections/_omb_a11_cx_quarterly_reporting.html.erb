@@ -1,5 +1,5 @@
 
-<%= form_with(model: Form.collection, url: (collection.persisted? ? admin_collection_path(collection) : admin_organizations_path), local: true) do |form| %>
+<%= form_with(model: Form.collection, url: (collection.persisted? ? admin_collection_path(collection) : admin_organizations_path), local: true, data: { turbo: false }) do |form| %>
   <% if collection.errors.any? %>
     <div id="error_explanation">
       <h2>

@@ -43,19 +43,19 @@
           <th>View</th>
           <th>Flag</th>
           <th>Archive</th>
-          <th data-sortable scope="col" role="columnheader">Status</th>
-          <th data-sortable scope="col" role="columnheader">
+          <th data-sortable scope="col">Status</th>
+          <th data-sortable scope="col">
             Created At
           </th>
         <% form.questions.each do |question| %>
           <% next if question.question_type == "text_display" %>
-          <th data-sortable scope="col" role="columnheader"><%= question.text %></th>
+          <th data-sortable scope="col"><%= question.text %></th>
         <% end %>
         <% if form.kind == "yes_no" %>
-          <th data-sortable scope="col" role="columnheader">
+          <th data-sortable scope="col">
             Page
           </th>
-          <th data-sortable scope="col" role="columnheader">
+          <th data-sortable scope="col">
             Referer
           </th>
         <% end %>
