@@ -1,0 +1,119 @@
+<% content_for :navigation_title do %>
+  CSCRM Data Collections
+  <%= link_to new_admin_cscrm_data_collection_path, class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-pencil-alt"></i>
+    New Data Collection
+  <% end %>
+<% end %>
+
+<div class="usa-summary-box margin-top-3" role="region" aria-labelledby="summary-box-key-information">
+  <div class="usa-summary-box__body">
+    <h3 class="usa-summary-box__heading" id="summary-box-key-information">
+      Cybersecurity Supply Chain Risk Management (C-SCRM) Program Capability and Maturity: Self-Assessment
+    </h3>
+    <div class="usa-summary-box__text">
+      <p>
+        The Office of Management and Budget (OMB) requires all executive branch agencies to report on the status of their
+        implementation of C-SCRM foundational elements and practices by completing and submitting this C-SCRM self-assessment,
+        in accordance with statutory requirements noted below
+      </p>
+
+      <p>
+        Pursuant to the Federal Acquisition Supply Chain Security Act of 2018, Title II of Strengthening and Enhancing
+        Cyber-capabilities by Utilizing Risk Exposure (SECURE) Technology Act (P.L.115–390, December 21, 2018) (PUBL390.PS
+        (congress.gov) executive branch agencies are responsible for assessing and managing their cybersecurity supply chain
+        risks, consistent with NIST standards, guidelines, and practices. In addition, the statute requires agencies to report
+        on C-SCRM progress and effectiveness.
+      </p>
+
+      <p>
+        This initial reporting requirement is scoped and structured to limit the reporting burden while ensuring agencies
+        provide information OMB needs to gain a baseline understanding of agencies’ current status in establishing a C-SCRM
+        program capability. Information submitted will enable OMB to gain actionable insights into agency-specific and
+        systemic
+        challenges that may be hindering progress and inform the plans, actions, and decisions needed to resolve these
+        challenges. Establishing and maturing a C-SCRM capability requires a transition away from a compliance-mindset and
+        towards establishing, sustaining, and maturing an effective enterprise-wide C-SCRM capability that is sufficiently
+        resourced, risk-based, and outcome-oriented.
+      </p>
+
+      <p>
+        This integrated data collection (IDC) instruction provides the criteria, format, and mechanisms for Federal executive
+        agencies to submit their bi-annual information collection submissions. The initial collection in February 2023, will
+        serve as a baseline, upon which to expand in subsequent reporting cycles.
+      </p>
+
+      <p>
+        To aid in the completion of their C-SCRM capability self-assessment, agencies should refer to FAQs maintained at
+        [link].
+      </p>
+
+      <p>
+        If there are additional agency questions, please submit to <a
+          href="mailto:MBX.OMB.FASC@omb.eop.gov">MBX.OMB.FASC@omb.eop.gov</a>.
+      </p>
+    </div>
+  </div>
+</div>
+
+<p>
+  Direction:
+  To determine the self-assessment responses for the measurement of foundational enterprise-wide C-SCRM capabilities,
+  agencies shall:
+</p>
+
+<p>
+  <ol class="usa-list">
+    <li>
+      Take steps to ensure responses submitted reflect an appropriate level of and span of internally coordinated input;
+    </li>
+    <li>
+      Assess the status of their implementation and application of the foundational practices as described in National
+      Institute of Standards and Technology SP 800-161 Rev. 1 Cybersecurity Supply Chain Risk Management for Systems and
+      Organizations, May 2022 (SP 800-161 Rev. 1, C-SCRM Practices for Systems and Organizations | CSRC (nist.gov);
+    </li>
+    <li>
+      Reference foundational practices and recommendations described in Information Technology: Federal Agencies Need to
+      Take Urgent Action to Manage Supply Chain Risks, GAO-21-171, December 2020 (Information Technology: Federal Agencies
+      Need to Take Urgent Action to Manage Supply Chain Risks | U.S. GAO); and
+    </li>
+    <li>
+      Report self-assessment data semi-annually through GSA’s Touchpoints application, (HERE).
+      OMB may change the vehicle for collecting this information, if changes are made, announcements will be communicated to
+      the Agency C-SCRM Program Manager.
+    </li>
+  </ol>
+</p>
+
+<div id="cscrm_data_collections">
+  <table class="usa-table collections">
+    <thead>
+      <tr>
+        <th></th>
+        <th data-sortable scope="col">Organization</th>
+        <th data-sortable scope="col">Year</th>
+        <th data-sortable scope="col">Quarter</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @cscrm_data_collections.each do |cscrm_data_collection| %>
+      <tr>
+        <td>
+          <%= link_to "View" , admin_cscrm_data_collection_path(cscrm_data_collection) %>
+        </td>
+        <td>
+          <%= cscrm_data_collection.organization.name %>
+        </td>
+        <td>
+          <%= cscrm_data_collection.year %>
+        </td>
+        <td>
+          <%= cscrm_data_collection.quarter %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+

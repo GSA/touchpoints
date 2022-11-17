@@ -103,14 +103,13 @@ class OmbCxReportingCollectionSerializer < ActiveModel::Serializer
              :service_name,
              :service_slug
 
-
   def service_provider_id
     object.collection.service_provider_id
-  end             
-  
+  end
+
   def service_provider_name
     if object.collection.service_provider
       object.collection.service_provider.name
     end
-  end             
+  end
 end

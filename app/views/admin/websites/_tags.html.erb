@@ -1,14 +1,14 @@
 <%= form_with(model: website, url: admin_website_path(website), local: true) do |f| %>
   <div class="grid-row">
     <div class="grid-col-12">
-      <label class="usa-label" for="tags">
+      <label class="usa-label margin-top-0" for="tags">
         Tags
       </label>
-      <br>
-      <div class="tag-list">
+      <%= f.text_field :tag_list, placeholder: "Add a tag" , value: nil, class: "usa-input tag-input" %>
+      <div class="tag-list margin-top-2">
         <ul class="usa-list usa-list--unstyled">
           <% website.tag_list.sort.each do |tag| %>
-          <li style="margin-bottom: 3px;">
+          <li class="margin-bottom-2">
             <span class="usa-tag">
               <%= tag %>
             </span>
@@ -19,15 +19,12 @@
           <% end %>
         </ul>
       </div>
-
-      <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
     </div>
   </div>
 <% end %>
 
 <script>
   $(function() {
-
     $(".tag-input").on("blur", function(event) {
       event.preventDefault();
       var thisForm = $(this).closest("form");
@@ -54,6 +51,5 @@
         data: "website[tag_list]=" + $(this).attr("data-value")
       });
     });
-
   });
 </script>

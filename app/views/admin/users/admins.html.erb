@@ -9,13 +9,13 @@
     <thead>
       <tr>
       <% if current_user.admin? %>
-        <th data-sortable scope="col" role="columnheader">Admin</th>
+        <th data-sortable scope="col">Admin</th>
       <% end %>
-        <th data-sortable scope="col" role="columnheader">Role</th>
-        <th data-sortable scope="col" role="columnheader">Email</th>
-        <th data-sortable scope="col" role="columnheader">Organization Name</th>
+        <th data-sortable scope="col">Role</th>
+        <th data-sortable scope="col">Email</th>
+        <th data-sortable scope="col">Organization Name</th>
       <% if current_user.admin? %>
-        <th data-sortable scope="col" role="columnheader">Last signed in</th>
+        <th data-sortable scope="col">Last signed in</th>
       <% end %>
       </tr>
     </thead>

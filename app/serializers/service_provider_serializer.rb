@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class ServiceProviderSerializer < ActiveModel::Serializer
-
   attributes :id,
              :organization_id,
              :organization_abbreviation,
@@ -19,16 +18,16 @@ class ServiceProviderSerializer < ActiveModel::Serializer
              :service_provider_managers,
              :services_count
 
-    attribute :cx_maturity_mapping_value, if: :service_manager_permissions?
-    attribute :impact_mapping_value, if: :service_manager_permissions?
+  attribute :cx_maturity_mapping_value, if: :service_manager_permissions?
+  attribute :impact_mapping_value, if: :service_manager_permissions?
 
-    # TODO: use #service_manager_permissions? in ApplicationController instead
-    def service_manager_permissions?
-      current_user.service_manager? || 
+  # TODO: use #service_manager_permissions? in ApplicationController instead
+  def service_manager_permissions?
+    current_user.service_manager? ||
       current_user.admin?
-    end
+  end
 
-   def service_provider_managers
-     ActiveModel::Serializer::ArraySerializer.new(object.service_provider_managers, each_serializer: UserSerializer)
-   end
+  def service_provider_managers
+    ActiveModel::Serializer::ArraySerializer.new(object.service_provider_managers, each_serializer: UserSerializer)
+  end
 end

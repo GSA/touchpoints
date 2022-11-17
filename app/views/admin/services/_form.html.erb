@@ -47,13 +47,13 @@
         <%= form.check_box :hisp, class: "usa-checkbox__input" %>
         <%= form.label :hisp, "Is this Service a designated High-impact Service?", class: "usa-checkbox__label" %>
         <p class="font-sans-3xs">
-          See 
+          See
           <a href="https://www.performance.gov/cx/assets/files/2022-OMB-Circular-A11-Section-280.pdf" target="_blank" rel="noopener">OMB A-11 Section 280</a>
           for more information about High-impact Service Providers.
         </p>
       </div>
     </fieldset>
-    
+
     <div id="hisp-specific-options" class="well">
       <h4>
         HISP-specific attributes
@@ -96,7 +96,7 @@
         </small>
         <%= form.text_area :justification_text, class: "usa-textarea" %>
       </div>
-    
+
       <% if service.persisted? && admin_permissions? %>
       <div class="field">
         <%= form.label :department, class: "usa-label" %>
@@ -141,7 +141,7 @@
         </div>
       </div>
     <% end %>
-    
+
       <div class="field" hidden>
         <%= form.label :where_customers_interact, "Service channels" , class: "usa-label" %>
           <small>
@@ -212,9 +212,9 @@
       <%= form.text_area :notes, class: "usa-textarea", placeholder: "Additional notes about the service" %>
     </div>
   </div>
-  
+
   <div class="grid-col-6">
-   
+
   </div>
 </div>
 
@@ -223,12 +223,12 @@
 </div>
 <% end %>
 
-<script type="text/javascript">
+<script>
   $(function() {
     function showHispOptions() {
       $("#hisp-specific-options").show();
     }
-    
+
     function hideHispOptions() {
       $("#hisp-specific-options").hide();
     }
