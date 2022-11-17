@@ -8,7 +8,7 @@ class DigitalProduct < ApplicationRecord
   has_paper_trail
   resourcify
   acts_as_taggable_on :tags, :organizations
-  
+
   has_many :digital_product_versions
 
   validates :name, presence: true

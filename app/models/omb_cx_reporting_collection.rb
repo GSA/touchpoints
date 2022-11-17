@@ -6,10 +6,9 @@ class OmbCxReportingCollection < ApplicationRecord
 
   validates :service_provided, presence: true
 
-  scope :published, -> {
+  scope :published, lambda {
     joins(:collection).where("collections.aasm_state = 'published'")
   }
-
 
   (1..11).each do |q|
     (1..5).each do |a|
@@ -169,91 +168,91 @@ class OmbCxReportingCollection < ApplicationRecord
   def self.to_csv
     omb_cx_reporting_collections = OmbCxReportingCollection.all
 
-    attributes = [
-      :id,
-      :collection_id,
-      :collection_name,
-      :collection_organization_id,
-      :collection_organization_name,
-      :service_provided,
-      :service_id,
-      :service_name,
-      :transaction_point,
-      :channel,
-      :volume_of_customers,
-      :volume_of_customers_provided_survey_opportunity,
-      :volume_of_respondents,
-      :omb_control_number,
-      :federal_register_url,
-      :q1_text,
-      :q1_1,
-      :q1_2,
-      :q1_3,
-      :q1_4,
-      :q1_5,
-      :q2_text,
-      :q2_1,
-      :q2_2,
-      :q2_3,
-      :q2_4,
-      :q2_5,
-      :q3_text,
-      :q3_1,
-      :q3_2,
-      :q3_3,
-      :q3_4,
-      :q3_5,
-      :q4_text,
-      :q4_1,
-      :q4_2,
-      :q4_3,
-      :q4_4,
-      :q4_5,
-      :q5_text,
-      :q5_1,
-      :q5_2,
-      :q5_3,
-      :q5_4,
-      :q5_5,
-      :q6_text,
-      :q6_1,
-      :q6_2,
-      :q6_3,
-      :q6_4,
-      :q6_5,
-      :q7_text,
-      :q7_1,
-      :q7_2,
-      :q7_3,
-      :q7_4,
-      :q7_5,
-      :q8_text,
-      :q8_1,
-      :q8_2,
-      :q8_3,
-      :q8_4,
-      :q8_5,
-      :q9_text,
-      :q9_1,
-      :q9_2,
-      :q9_3,
-      :q9_4,
-      :q9_5,
-      :q10_text,
-      :q10_1,
-      :q10_2,
-      :q10_3,
-      :q10_4,
-      :q10_5,
-      :q11_text,
-      :q11_1,
-      :q11_2,
-      :q11_3,
-      :q11_4,
-      :q11_5,
-      :created_at,
-      :updated_at,
-      :operational_metrics
+    attributes = %i[
+      id
+      collection_id
+      collection_name
+      collection_organization_id
+      collection_organization_name
+      service_provided
+      service_id
+      service_name
+      transaction_point
+      channel
+      volume_of_customers
+      volume_of_customers_provided_survey_opportunity
+      volume_of_respondents
+      omb_control_number
+      federal_register_url
+      q1_text
+      q1_1
+      q1_2
+      q1_3
+      q1_4
+      q1_5
+      q2_text
+      q2_1
+      q2_2
+      q2_3
+      q2_4
+      q2_5
+      q3_text
+      q3_1
+      q3_2
+      q3_3
+      q3_4
+      q3_5
+      q4_text
+      q4_1
+      q4_2
+      q4_3
+      q4_4
+      q4_5
+      q5_text
+      q5_1
+      q5_2
+      q5_3
+      q5_4
+      q5_5
+      q6_text
+      q6_1
+      q6_2
+      q6_3
+      q6_4
+      q6_5
+      q7_text
+      q7_1
+      q7_2
+      q7_3
+      q7_4
+      q7_5
+      q8_text
+      q8_1
+      q8_2
+      q8_3
+      q8_4
+      q8_5
+      q9_text
+      q9_1
+      q9_2
+      q9_3
+      q9_4
+      q9_5
+      q10_text
+      q10_1
+      q10_2
+      q10_3
+      q10_4
+      q10_5
+      q11_text
+      q11_1
+      q11_2
+      q11_3
+      q11_4
+      q11_5
+      created_at
+      updated_at
+      operational_metrics
     ]
 
     CSV.generate(headers: true) do |csv|
@@ -344,7 +343,7 @@ class OmbCxReportingCollection < ApplicationRecord
           omb_cx_reporting_collection.q11_5,
           omb_cx_reporting_collection.created_at,
           omb_cx_reporting_collection.updated_at,
-          omb_cx_reporting_collection.operational_metrics
+          omb_cx_reporting_collection.operational_metrics,
         ]
       end
     end

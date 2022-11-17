@@ -14,7 +14,7 @@ class Collection < ApplicationRecord
   validates :name, presence: true
   validates :reflection, length: { maximum: 5000 }
 
-  scope :published, -> { where(aasm_state: "published") }
+  scope :published, -> { where(aasm_state: 'published') }
 
   def omb_control_number
     'omb_control_number'
@@ -148,24 +148,24 @@ class Collection < ApplicationRecord
   def self.to_csv
     collections = Collection.all.order(:year, :quarter, 'organizations.name').includes(:organization)
 
-    attributes = [
-      :id,
-      :name,
-      :start_date,
-      :end_date,
-      :service_provider_id,
-      :service_provider_name,
-      :organization_id,
-      :organization_name,
-      :user_email,
-      :year,
-      :quarter,
-      :reflection,
-      :created_at,
-      :updated_at,
-      :rating,
-      :aasm_state,
-      :integrity_hash,
+    attributes = %i[
+      id
+      name
+      start_date
+      end_date
+      service_provider_id
+      service_provider_name
+      organization_id
+      organization_name
+      user_email
+      year
+      quarter
+      reflection
+      created_at
+      updated_at
+      rating
+      aasm_state
+      integrity_hash
     ]
 
     CSV.generate(headers: true) do |csv|
@@ -189,7 +189,7 @@ class Collection < ApplicationRecord
           collection.updated_at,
           collection.rating,
           collection.aasm_state,
-          collection.integrity_hash
+          collection.integrity_hash,
         ]
       end
     end
