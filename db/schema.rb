@@ -228,7 +228,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_17_050419) do
     t.string "notification_frequency", default: "instant"
     t.integer "service_id"
     t.integer "questions_count", default: 0
-    t.boolean "load_uswds_js", default: true
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["organization_id"], name: "index_forms_on_organization_id"

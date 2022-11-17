@@ -314,17 +314,17 @@
           <label class="usa-label margin-bottom-1" for="parent_domain">
             Repository url
           </label>
-        <% if @website.repository_url? %>
-          <%= link_to @website.repository_url, @website.repository_url, target: "_blank", rel: "noopener" %>
-        <% else %>
-        <div class="usa-alert usa-alert--error usa-alert--slim">
-          <div class="usa-alert__body">
-            <p class="usa-alert__text">
-              Repository URL not specified
-            </p>
+          <% if @website.repository_url? %>
+            <%= link_to @website.repository_url, @website.repository_url, target: "_blank", rel: "noopener" %>
+          <% else %>
+          <div class="usa-alert usa-alert--error usa-alert--slim">
+            <div class="usa-alert__body">
+              <p class="usa-alert__text">
+                Repository URL not specified
+              </p>
+            </div>
           </div>
-          </div>
-        <% end %>
+          <% end %>
         </div>
         <div class="grid-col-6">
         </div>
