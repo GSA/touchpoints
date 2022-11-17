@@ -122,6 +122,20 @@ module Admin
       @events = Event.where(object_type: 'Collection', object_id: @collection.id).order(:created_at)
     end
 
+    def export_csv
+      ensure_performance_manager_permissions
+
+      @collections = current_user.collections
+      send_data @collections.to_csv, filename: "touchpoints-data-collections-#{Date.today}.csv"
+    end
+
+    def export_omb_cx_reporting_collections_csv
+      ensure_performance_manager_permissions
+
+      @omb_cx_reporting_collections = OmbCxReportingCollection.to_csv
+      send_data @omb_cx_reporting_collections, filename: "touchpoints-omb-cx-reporting-data-collections-#{Date.today}.csv"
+    end
+
     private
 
     def set_collection

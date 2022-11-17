@@ -11,6 +11,14 @@ module Admin
 
     def show; end
 
+    def new
+      @digital_product_version = DigitalProductVersion.new
+    end
+
+    def edit
+      @digital_product_version = DigitalProductVersion.find(params[:id])
+    end
+
     def create
       @digital_product_version = DigitalProductVersion.new(digital_product_version_params)
 
@@ -29,14 +37,6 @@ module Admin
       else
         render :edit, status: :unprocessable_entity
       end
-    end
-
-    def edit
-      @digital_product_version = DigitalProductVersion.find(params[:id])
-    end
-
-    def new
-      @digital_product_version = DigitalProductVersion.new
     end
 
     def destroy

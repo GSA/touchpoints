@@ -61,7 +61,7 @@ module Admin
         :description,
         :notes,
         :user_id,
-        :tag_list
+        :tag_list,
       )
     end
   end

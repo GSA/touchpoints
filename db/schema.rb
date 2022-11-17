@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_11_171518) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_17_050419) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -67,6 +67,39 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_11_171518) do
     t.index ["organization_id"], name: "index_collections_on_organization_id"
     t.index ["service_provider_id"], name: "index_collections_on_service_provider_id"
     t.index ["user_id"], name: "index_collections_on_user_id"
+  end
+
+  create_table "cscrm_data_collections", force: :cascade do |t|
+    t.string "leadership_roles"
+    t.string "stakeholder_champion_identified"
+    t.string "pmo_established"
+    t.string "interdisciplinary_team_established"
+    t.string "enterprise_risk_management_function_established"
+    t.string "enterprise_wide_scrm_policy_established"
+    t.string "agency_wide_scrm_strategy_and_implementation_plan_established"
+    t.string "funding_for_initial_operating_capability"
+    t.string "staffing"
+    t.string "roles_and_responsibilities"
+    t.text "missions_identified"
+    t.text "missions_identified_why_not"
+    t.text "prioritization_process"
+    t.string "considerations_in_procurement_processes"
+    t.string "conducts_scra_for_prioritized_products_and_services"
+    t.string "personnel_required_to_complete_training"
+    t.string "established_process_information_sharing_with_fasc"
+    t.string "cybersecurity_supply_chain_risk_considerations"
+    t.integer "organization_id"
+    t.string "year"
+    t.string "quarter"
+    t.integer "user_id"
+    t.string "integrity_hash"
+    t.string "aasm_state"
+    t.text "reflection"
+    t.string "rating"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_cscrm_data_collections_on_organization_id"
+    t.index ["user_id"], name: "index_cscrm_data_collections_on_user_id"
   end
 
   create_table "digital_product_versions", force: :cascade do |t|
@@ -670,6 +703,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_11_171518) do
     t.string "uswds_version"
     t.boolean "https"
     t.integer "service_id"
+    t.integer "organization_id"
+    t.index ["organization_id"], name: "index_websites_on_organization_id"
     t.index ["service_id"], name: "index_websites_on_service_id"
   end
 

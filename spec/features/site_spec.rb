@@ -19,9 +19,9 @@ feature 'general site navigation', js: true do
         end
 
         it 'renders successfully' do
-          expect(page.current_path).to eq(admin_services_path)
           expect(page).to have_content('Services')
           expect(page).to have_content('New Service')
+          expect(page.current_path).to eq(admin_services_path)
         end
       end
 
@@ -31,9 +31,9 @@ feature 'general site navigation', js: true do
         end
 
         it 'renders successfully' do
-          expect(page.current_path).to eq(admin_websites_path)
           expect(page).to have_content('Websites')
           expect(page).to have_content('New Website')
+          expect(page.current_path).to eq(admin_websites_path)
         end
       end
 
@@ -43,22 +43,23 @@ feature 'general site navigation', js: true do
         end
 
         it 'renders successfully' do
-          expect(page.current_path).to eq(admin_performance_path)
           expect(page).to have_content('Performance reporting')
+          expect(page.current_path).to eq(admin_performance_path)
         end
+      end
 
-        describe '/admin/collections' do
+      describe '/admin/collections' do
           before do
+            visit admin_performance_path
             click_on 'CX Data Collection'
           end
 
           it 'renders successfully' do
-            expect(page.current_path).to eq(admin_collections_path)
             expect(page).to have_content('Data Collections')
             expect(page).to have_content('New Data Collection')
+            expect(page.current_path).to eq(admin_collections_path)
           end
         end
-      end
     end
   end
 end

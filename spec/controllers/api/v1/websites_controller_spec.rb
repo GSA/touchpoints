@@ -43,9 +43,9 @@ describe Api::V1::WebsitesController, type: :controller do
     describe '#index' do
       context 'passing a valid API_KEY' do
         let!(:user) { FactoryBot.create(:user) }
-        let!(:website) { FactoryBot.create(:website) }
-        let!(:website_2) { FactoryBot.create(:website) }
-        let!(:website_3) { FactoryBot.create(:website) }
+        let!(:website) { FactoryBot.create(:website, organization: user.organization) }
+        let!(:website_2) { FactoryBot.create(:website, organization: user.organization) }
+        let!(:website_3) { FactoryBot.create(:website, organization: user.organization) }
 
         before do
           user.update(api_key: TEST_API_KEY)
