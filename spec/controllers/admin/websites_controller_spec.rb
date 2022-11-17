@@ -6,7 +6,7 @@ RSpec.describe Admin::WebsitesController, type: :controller do
   let(:valid_session) { {} }
 
   let(:admin) { FactoryBot.create(:user, :admin) }
-  let(:website) { FactoryBot.create(:website) }
+  let(:website) { FactoryBot.create(:website, organization: admin.organization) }
 
   context 'not logged in' do
     describe 'GET #index' do

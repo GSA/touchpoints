@@ -85,14 +85,14 @@
 <table class="usa-table collections">
   <thead>
     <tr>
-      <th data-sortable scope="col" role="columnheader">Organization</th>
-      <th data-sortable scope="col" role="columnheader">Service Provider (HISP)</th>
-      <th data-sortable scope="col" role="columnheader">Collection name</th>
-      <th data-sortable scope="col" role="columnheader">Detail report count</th>
-      <th data-sortable scope="col" role="columnheader">Year</th>
-      <th data-sortable scope="col" role="columnheader">Quarter</th>
-      <th data-sortable scope="col" role="columnheader">Status</th>
-      <th data-sortable scope="col" role="columnheader">Rating</th>
+      <th data-sortable scope="col">Organization</th>
+      <th data-sortable scope="col">Service Provider (HISP)</th>
+      <th data-sortable scope="col">Collection name</th>
+      <th data-sortable scope="col">Detail report count</th>
+      <th data-sortable scope="col">Year</th>
+      <th data-sortable scope="col">Quarter</th>
+      <th data-sortable scope="col">Status</th>
+      <th data-sortable scope="col">Rating</th>
     </tr>
   </thead>
 
@@ -117,6 +117,15 @@
 </table>
 
 <% if performance_manager_permissions? %>
+  <p>
+    <%= link_to "Download Collections as .csv", export_csv_admin_collections_path, class: "usa-button" %>
+  </p>
+  <p>
+    <%= link_to "Download OMB CX Data Reporting Collections as .csv", export_omb_cx_reporting_collections_csv_admin_collections_path, class: "usa-button" %>
+  </p>
+<% end %>
+
+<% if admin_permissions? %>
   <%= render 'admin/collections/hisps_csv_details' %>
   <%= render 'admin/components/performancegov/cx_summary_chart' %>
 <% end %>

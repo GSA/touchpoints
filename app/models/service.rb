@@ -18,7 +18,7 @@ class Service < ApplicationRecord
 
   validates :name, presence: true
   validates :service_owner_id, presence: true
-  validates_length_of :non_digital_explanation, maximum: 250
+  validates :non_digital_explanation, length: { maximum: 250 }
 
   scope :hisp, -> { where(hisp: true) }
 
@@ -93,15 +93,15 @@ class Service < ApplicationRecord
   #
   def self.channels
     %i[
-      computer 
-      mobile 
-      email 
-      chatbot 
-      phone 
-      automated_phone 
-      in_person 
+      computer
+      mobile
+      email
+      chatbot
+      phone
+      automated_phone
+      in_person
       paper
-      
+
       postal_mail
       fax
       self_service_kiosk
@@ -117,34 +117,33 @@ class Service < ApplicationRecord
 
   def self.kinds
     [
-      "Administrative",
-      "Benefits",
-      "Compliance",
-      "Recreation",
-      "Informational",
-      "Data and Research",
-      "Regulatory",
-      "Other"
+      'Administrative',
+      'Benefits',
+      'Compliance',
+      'Recreation',
+      'Informational',
+      'Data and Research',
+      'Regulatory',
+      'Other',
     ]
   end
 
   def available_in_person?
-    channel_list.include?("in_person") ||
-      channel_list.include?("paper")
+    channel_list.include?('in_person') ||
+      channel_list.include?('paper')
   end
 
   def available_digitally?
-    channel_list.include?("computer") ||
-      channel_list.include?("mobile") ||
-      channel_list.include?("email") ||
-      channel_list.include?("chatbot")
+    channel_list.include?('computer') ||
+      channel_list.include?('mobile') ||
+      channel_list.include?('email') ||
+      channel_list.include?('chatbot')
   end
 
   def available_via_phone?
-    channel_list.include?("phone") ||
-      channel_list.include?("automated_phone")
+    channel_list.include?('phone') ||
+      channel_list.include?('automated_phone')
   end
-
 
   def self.to_csv
     services = Service.order('organizations.name').includes(:organization)

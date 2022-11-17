@@ -410,7 +410,8 @@ module Admin
                                       :repository_url,
                                       :notes,
                                       :tag_list,
-                                      :service_id)
+                                      :service_id,
+                                      :organization_id)
     end
   end
 end

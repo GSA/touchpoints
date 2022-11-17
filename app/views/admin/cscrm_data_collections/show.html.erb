@@ -1,0 +1,19 @@
+<% content_for :navigation_title do %>
+  CSCRM Data Collection
+  <%= link_to edit_admin_cscrm_data_collection_path(@cscrm_data_collection), class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-pencil-alt"></i>
+    Edit
+  <% end %>
+<% end %>
+
+<p>
+  <%= link_to admin_cscrm_data_collections_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to CSCRM Data Collections
+    <% end %>
+</p>
+
+<p style="color: green"><%= notice %></p>
+
+<%= render @cscrm_data_collection %>
+

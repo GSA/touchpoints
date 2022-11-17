@@ -14,7 +14,7 @@ class Website < ApplicationRecord
   validate :validate_domain_suffix
   validates :type_of_site, presence: true
 
-  belongs_to :organization, optional: true
+  belongs_to :organization
   belongs_to :service, optional: true
 
   scope :active, -> { where("production_status = 'production' OR production_status = 'newly_requested' OR production_status = 'request_approved'") }
@@ -44,7 +44,35 @@ class Website < ApplicationRecord
     'Critical infrastructure' => 'Required to support a GSA or shared service',
     'GitHub repo' => 'Site decommissioned; URL redirects to a GitHub repo (status is redirect)',
     'Google form' => 'Site redirects to a Google form (status is redirect)',
-    'Informational' => 'Informational (not transactional) site',
+    'Custom' => 'Informational (not transactional) site',
+    'Other' => 'Informational (not transactional) site',
+  }.freeze
+
+  AUTHENTICATION_TOOLS = {
+    'Drupal' => 'Drupal',
+    'Google oAuth' => 'Google oAuth',
+    'GSA Secure Auth' => 'GSA Secure Auth',
+    'Jira' => 'Jira',
+    'Login.gov' => 'Login.gov',
+    'LDAP' => 'LDAP',
+    'Max.gov' => 'Max.gov',
+    'Okta' => 'Okta',
+    'Salesforce' => 'Salesforce',
+    'Custom/Other' => 'Custom/Other',
+    'None' => 'None',
+  }.freeze
+
+  FEEDBACK_TOOLS = {
+    'Drupal' => 'Drupal',
+    'Email' => 'Email',
+    'GitHub' => 'GitHub',
+    'Google Forms' => 'Google Forms',
+    'Qualtrics' => 'Qualtrics',
+    'Medallia' => 'Medallia',
+    'SurveyMonkey' => 'SurveyMonkey',
+    'Touchpoints' => 'Touchpoints',
+    'Custom/Other' => 'Custom/Other',
+    'None' => 'None',
   }.freeze
 
   DIGITAL_BRAND_CATEGORIES = {
@@ -140,11 +168,11 @@ class Website < ApplicationRecord
   end
 
   def validate_domain_format
-    errors.add(:domain, 'must be formatted as a domain') unless domain.present? && domain.split(".").size >= 2
+    errors.add(:domain, 'must be formatted as a domain') unless domain.present? && domain.split('.').size >= 2
   end
-  
+
   def validate_domain_suffix
-    errors.add(:domain, 'domain must have a valid suffix, like .gov or .mil') unless domain.present? && APPROVED_DOMAINS.any?{ |word| domain.end_with?(word) } 
+    errors.add(:domain, 'domain must have a valid suffix, like .gov or .mil') unless domain.present? && APPROVED_DOMAINS.any? { |word| domain.end_with?(word) }
   end
 
   def site_scanner_json_request

@@ -42,7 +42,7 @@ feature 'Managing Services', js: true do
           select(organization.name, from: 'service[organization_id]')
           fill_in :service_name, with: 'New Service Name'
           fill_in :service_description, with: "Lots of text\n\n#### Heading\n\n* 1\n* 2\n* 3"
-          
+
           find("label[for='service_hisp']").click
           select(service_provider.name, from: 'service[service_provider_id]')
           click_on 'Create Service'
@@ -74,12 +74,12 @@ feature 'Managing Services', js: true do
     describe 'search by Tag' do
       before do
         visit admin_services_path
-        find('.usa-tag', text: 'FEATURE-REQUEST').click # to create the tag
+        find('.usa-tag', text: 'FEATURE-REQUEST').click # to select the services with the tag
       end
 
       it 'newly created tag is displayed on the page' do
-        expect(page.current_url).to include('tag=feature-request')
         expect(page).to have_css('tbody tr', count: 1)
+        expect(page.current_url).to include('tag=feature-request')
       end
     end
 

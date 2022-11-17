@@ -76,32 +76,50 @@
 
 <section class="usa-section">
   <div class="grid-row grid-gap-md">
-    <div class="grid-col-4">
-      <h3>
-        Quarterly
-      </h3>
-      <p>
-        <%= link_to admin_collections_path(year: 2022, quarter: 4), class: "usa-button usa-button--outline width-full" do %>
-        CX Data Collection
-        <% end %>
-      </p>
-    </div>
-    <div class="grid-col-4">
-      <h3>
-        Annually
-      </h3>
-      <p>
-        <%= link_to admin_apgs_path, class: "usa-button usa-button--outline width-full" do %>
-        Performance Goal Reporting (APG)
-        <% end %>
-      </p>
-    </div>
-    <div class="grid-col-4" hidden>
-      <h3>
-        Ad-hoc
-      </h3>
-      <p>
-      </p>
+    <div class="tablet:grid-col-12">
+
+      <div class="grid-row grid-gap-md">
+        <div class="grid-col-4">
+          <h3>
+            Quarterly - every 3 months
+          </h3>
+          <p>
+            <%= link_to admin_collections_path(year: 2022, quarter: 4), class: "usa-button usa-button--outline width-full" do
+              %>
+              CX Data Collection
+              <% end %>
+          </p>
+        </div>
+        <div class="grid-col-4">
+          <h3>
+            Bi-annually - every 6 months
+          </h3>
+          <p>
+            <%= link_to admin_cscrm_data_collections_path, class: "usa-button usa-button--outline width-full" do %>
+              Cybersecurity Supply-chain (C-SCRM)
+              <% end %>
+          </p>
+        </div>
+        <div class="grid-col-4">
+          <h3>
+            Annually - every 12 months
+          </h3>
+          <p>
+            <%= link_to admin_apgs_path, class: "usa-button usa-button--outline width-full" do %>
+              Performance Goal Reporting (APG)
+              <% end %>
+          </p>
+        </div>
+        <div class="grid-col-4" hidden>
+          <h3>
+            Ad-hoc
+          </h3>
+          <p>
+          </p>
+        </div>
+      </div>
+
     </div>
   </div>
+
 </section>
