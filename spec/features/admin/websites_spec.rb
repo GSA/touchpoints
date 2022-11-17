@@ -9,7 +9,7 @@ feature 'Managing Websites', js: true do
   let!(:website_manager) { FactoryBot.create(:user, organization:) }
   let(:user) { FactoryBot.create(:user, organization:) }
 
-  let!(:website) { FactoryBot.create(:website, site_owner_email: website_manager.email) }
+  let!(:website) { FactoryBot.create(:website, organization: organization, site_owner_email: website_manager.email) }
   let!(:new_website) { FactoryBot.build(:website, site_owner_email: website_manager.email) }
 
   context 'as Admin' do
@@ -29,6 +29,7 @@ feature 'Managing Websites', js: true do
         click_on 'New Website'
         expect(page).to have_content('New Website')
         fill_in :website_domain, with: new_website.domain
+        select(organization.abbreviation, from: 'website_organization_id')
         select('Application - Transactional', from: 'website_type_of_site')
         click_on 'Create Website'
       end
@@ -80,6 +81,7 @@ feature 'Managing Websites', js: true do
       before 'user fill-in the form' do
         click_on 'New Website'
         expect(page).to have_content('New Website')
+        select(organization.abbreviation, from: 'website_organization_id')
         fill_in :website_domain, with: new_website.domain
         select('Application - Transactional', from: 'website_type_of_site')
         click_on 'Create Website'
@@ -111,6 +113,7 @@ feature 'Managing Websites', js: true do
         visit new_admin_website_path
         expect(page).to have_content('New Website')
         fill_in :website_domain, with: new_website.domain
+        select(organization.abbreviation, from: 'website_organization_id')
         select('Application - Transactional', from: 'website_type_of_site')
         click_on 'Create Website'
       end
