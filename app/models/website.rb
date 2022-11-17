@@ -69,6 +69,8 @@ class Website < ApplicationRecord
     'Drupal' => 'Drupal',
     'Medallia' => 'Medallia',
     'SurveyMonkey' => 'SurveyMonkey',
+    'GitHub' => 'GitHub',
+    'Email' => 'Email',
     'Custom/Other' => 'Custom/Other',
     'None' => 'None',
   }.freeze
