@@ -194,11 +194,14 @@
       </div>
       <div class="field">
         <%= form.label :authentication_tool, class: "usa-label" %>
-        <%= form.text_field :authentication_tool, class: "usa-input" %>
+        <%= form.select :authentication_tool, options_for_select(Website::AUTHENTICATION_TOOLS.collect { |k, v| [k, k] },
+          selected: website.type_of_site), { prompt: "Select an auth tool" }, { class: "usa-select", required:
+          true } %>
       </div>
       <div class="field">
         <%= form.label :feedback_tool, class: "usa-label" %>
-        <%= form.text_field :feedback_tool, class: "usa-input" %>
+        <%= form.select :feedback_tool, options_for_select(Website::FEEDBACK_TOOLS.collect { |k, v| [k, k] },
+          selected: website.type_of_site), { prompt: "Select a feedback tool" }, { class: "usa-select" , required: true } %>
       </div>
     </div>
     <% end %>
