@@ -14,7 +14,7 @@ class Website < ApplicationRecord
   validate :validate_domain_suffix
   validates :type_of_site, presence: true
 
-  belongs_to :organization, optional: true
+  belongs_to :organization
   belongs_to :service, optional: true
 
   scope :active, -> { where("production_status = 'production' OR production_status = 'newly_requested' OR production_status = 'request_approved'") }
@@ -63,14 +63,14 @@ class Website < ApplicationRecord
   }.freeze
 
   FEEDBACK_TOOLS = {
-    'Qualtrics' => 'Qualtrics',
-    'Touchpoints' => 'Touchpoints',
-    'Google Forms' => 'Google Forms',
     'Drupal' => 'Drupal',
+    'Email' => 'Email',
+    'GitHub' => 'GitHub',
+    'Google Forms' => 'Google Forms',
+    'Qualtrics' => 'Qualtrics',
     'Medallia' => 'Medallia',
     'SurveyMonkey' => 'SurveyMonkey',
-    'GitHub' => 'GitHub',
-    'Email' => 'Email',
+    'Touchpoints' => 'Touchpoints',
     'Custom/Other' => 'Custom/Other',
     'None' => 'None',
   }.freeze

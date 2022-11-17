@@ -17,6 +17,11 @@
         Organization and domain
       </h3>
 
+      <div class="field">
+        <%= form.label :organization_id, class: "usa-label" %>
+        <%= form.select :organization_id, options_for_select(organization_dropdown_options, website.organization_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
+      </div>
+
       <%# only show when creating a website %>
       <% if !@website.persisted? %>
       <div class="field">
@@ -155,7 +160,7 @@
       </div>
       <div class="field">
         <%= form.label :type_of_site, class: "usa-label" %>
-        <%= form.select :type_of_site, options_for_select(Website::TYPE_OF_SITES.collect { |k, v| ["#{k} - #{v}", k] }, selected: website.type_of_site), { include_blank: true }, { class: "usa-select" } %>
+        <%= form.select :type_of_site, options_for_select(Website::TYPE_OF_SITES.collect { |k, v| ["#{k} - #{v}", k] }, selected: website.type_of_site), { prompt: "What Type of web property is this?" }, { class: "usa-select", required: true } %>
       </div>
       <div class="field">
         <%= form.label :digital_brand_category, class: "usa-label" %>
@@ -177,6 +182,12 @@
         <%= form.text_field :hosting_platform, class: "usa-input" %>
       </div>
       <div class="field">
+        <%= form.label :authentication_tool, class: "usa-label" %>
+        <%= form.select :authentication_tool, options_for_select(Website::AUTHENTICATION_TOOLS.collect { |k, v| [k, k] },
+          selected: website.authentication_tool), { prompt: "Select an auth tool" }, { class: "usa-select", required:
+          true } %>
+      </div>
+      <div class="field">
         <%= form.label :cms_platform, "Content Management platform", class: "usa-label" %>
         <%= form.text_field :cms_platform, class: "usa-input" %>
       </div>
@@ -193,15 +204,9 @@
         <%= form.text_field :analytics_url, class: "usa-input" %>
       </div>
       <div class="field">
-        <%= form.label :authentication_tool, class: "usa-label" %>
-        <%= form.select :authentication_tool, options_for_select(Website::AUTHENTICATION_TOOLS.collect { |k, v| [k, k] },
-          selected: website.type_of_site), { prompt: "Select an auth tool" }, { class: "usa-select", required:
-          true } %>
-      </div>
-      <div class="field">
         <%= form.label :feedback_tool, class: "usa-label" %>
         <%= form.select :feedback_tool, options_for_select(Website::FEEDBACK_TOOLS.collect { |k, v| [k, k] },
-          selected: website.type_of_site), { prompt: "Select a feedback tool" }, { class: "usa-select" , required: true } %>
+          selected: website.feedback_tool), { prompt: "Select a feedback tool" }, { class: "usa-select" , required: true } %>
       </div>
     </div>
     <% end %>

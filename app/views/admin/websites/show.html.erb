@@ -18,111 +18,119 @@
 
 <div class="grid-row grid-gap-lg">
   <div class="desktop:grid-col-8">
-    <label class="usa-label" for="domain">
-      Domain
-      <span class="fa fa-info-circle usa-tooltip"
-        data-position="right"
-        title="The domain of the website, excluding http(s).">
-      </span>
-    </label>
-    <br>
-    <%= link_to @website.domain, "https://#{@website.domain}", target: "_blank", rel: "noopener" %>
-
-    <% if @website.redirects_to %>
-      <label class="usa-label" for="redirects_to">
-        Redirects to
+    <div class="usa-section">
+      <h3>
+        Organizational information
+      </h3>
+      <label class="usa-label margin-bottom-1" for="organization">
+        Organization/agency
+        <span class="fa fa-info-circle usa-tooltip"
+          data-position="right"
+          title="The Federal Agency this website belongs to">
+        </span>
       </label>
-      <br>
-      <%= link_to @website.redirects_to, @website.redirects_to %>
-    <% end %>
-
-    <section class="usa-section">
-      <div class="grid-row">
-        <div class="grid-col-12">
-          <h3>
-            Website contact information
-          </h3>
-        </div>
-      </div>
+      <%= link_to @website.organization.name, admin_organization_path(@website.organization) %>
 
       <div class="grid-row">
         <div class="grid-col-12">
           <label class="usa-label" for="office">
             Office &middot; Sub-office
           </label>
-          <%= @website.office %>
+          <%= @website.office? ? @website.office : 'no office specified' %>
           &middot;
-          <%= @website.sub_office %>
+          <%= @website.sub_office? ? @website.sub_office : 'no sub-office specified' %>
         </div>
       </div>
+
+      <label class="usa-label margin-bottom-1" for="domain">
+        Domain
+        <span class="fa fa-info-circle usa-tooltip"
+          data-position="right"
+          title="The domain of the website, excluding http(s).">
+        </span>
+      </label>
+      <%= link_to @website.domain, "https://#{@website.domain}", target: "_blank", rel: "noopener" %>
+
+      <% if @website.redirects_to %>
+        <label class="usa-label" for="redirects_to">
+          Redirects to
+        </label>
+        <br>
+        <%= link_to @website.redirects_to, @website.redirects_to %>
+      <% end %>
+    </div>
+
+    <div class="usa-section border-top border-base-lighter">
+      <h3>
+        Website contact information
+      </h3>
+
       <div class="grid-row grid-gap-lg">
         <div class="grid-col-12">
-          <label class="usa-label" for="site_owner_email">
+          <label class="usa-label margin-bottom-1" for="site_owner_email">
             Primary website contact
             <span class="fa fa-info-circle usa-tooltip"
             data-position="right"
             title="Typically, the Product Owner or Program Manager of a web property.">
           </span>
         </label>
-        <p>
-          <%= @website.site_owner_email %>
-        </p>
+        <%= @website.site_owner_email %>
+        </div>
       </div>
       <div class="grid-col-12">
         <label class="usa-label" for="site_owner_email">
           Additional website contacts
           <span class="fa fa-info-circle usa-tooltip"
-          data-position="right"
-          title="A list of additional staff responsible for the website.">
-        </span>
-      </label>
-      <% if @website.website_managers.present? %>
-      <ul class="usa-list">
-        <% @website.website_managers.each do |manager| %>
-        <li>
-          <%= link_to manager.email, admin_user_path(manager) %>
-        </li>
-        <% end %>
-      </ul>
-      <% else %>
-      <br>
-      <div class="usa-alert usa-alert--warning">
-        <div class="usa-alert__body">
-          <p class="usa-alert__text">
-            No additional website contacts have been assigned.
-          </p>
+            data-position="right"
+            title="A list of additional staff responsible for the website.">
+          </span>
+        </label>
+        <% if @website.website_managers.present? %>
+        <ul class="usa-list">
+          <% @website.website_managers.each do |manager| %>
+          <li>
+            <%= link_to manager.email, admin_user_path(manager) %>
+          </li>
+          <% end %>
+        </ul>
+        <% else %>
+        <br>
+        <div class="usa-alert usa-alert--warning usa-alert--slim">
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">
+              No additional website contacts have been assigned.
+            </p>
+          </div>
         </div>
+        <% end %>
       </div>
-      <% end %>
 
       <div class="grid-col-12">
         <label class="usa-label" for="site_owner_email">
           Public website email
           <span class="fa fa-info-circle usa-tooltip"
-          data-position="right"
-          title="The email address the public would use to contact for help.">
-        </span>
-      </label>
-      <% if @website.contact_email.present? %>
-      <p>
-        <%= @website.contact_email %>
-      </p>
-      <% else %>
-        <br>
-        <div class="usa-alert usa-alert--warning">
-          <div class="usa-alert__body">
-            <p class="usa-alert__text">
-              A public contact email has not been specified.
-            </p>
+            data-position="right"
+            title="The email address the public would use to contact for help.">
+          </span>
+        </label>
+        <% if @website.contact_email.present? %>
+        <p>
+          <%= @website.contact_email %>
+        </p>
+        <% else %>
+          <br>
+          <div class="usa-alert usa-alert--warning usa-alert--slim">
+            <div class="usa-alert__body">
+              <p class="usa-alert__text">
+                A public contact email has not been specified.
+              </p>
+            </div>
           </div>
-        </div>
-      <% end %>
-    </div>
-  </div>
+        <% end %>
       </div>
-    </section>
+    </div>
 
-    <div class="usa-section">
+    <div class="usa-section border-top border-base-lighter">
       <h3>
         Customer experience
       </h3>
@@ -147,7 +155,7 @@
           <% else %>
           <br>
           <br>
-          <div class="usa-alert">
+          <div class="usa-alert usa-alert--info usa-alert--slim">
             <div class="usa-alert__body">
               <p class="usa-alert__text">
                 This Website is not associated with a Service.
@@ -176,10 +184,10 @@
           <% else %>
           <br>
           <br>
-          <div class="usa-alert usa-alert--info">
+          <div class="usa-alert usa-alert--info usa-alert--slim">
             <div class="usa-alert__body">
               <p class="usa-alert__text">
-                No personas have been associated.
+                No Personas have been associated.
               </p>
             </div>
           </div>
@@ -188,7 +196,7 @@
       </div>
     </div>
 
-    <div class="usa-section">
+    <div class="usa-section border-top border-base-lighter">
       <h3>
         Organizational reporting
       </h3>
@@ -248,8 +256,8 @@
       </div>
     </div>
 
-    <div class="usa-section">
-      <div class="grid-row">
+    <div class="usa-section border-top border-base-lighter">
+      <div class="grid-row grid-gap-lg">
         <div class="grid-col-12">
           <h3>
             Technical information
@@ -273,7 +281,7 @@
           <%= @website.feedback_tool %>
         </div>
       </div>
-      <div class="grid-row">
+      <div class="grid-row grid-gap-lg">
         <div class="grid-col-6">
           <label class="usa-label" for="parent_domain">
             Authentication tool
@@ -287,7 +295,7 @@
           <%= @website.uses_tracking_cookies || "---" %>
         </div>
       </div>
-      <div class="grid-row">
+      <div class="grid-row grid-gap-lg">
         <div class="grid-col-6">
           <label class="usa-label" for="parent_domain">
             Has Search?
@@ -301,33 +309,63 @@
           <%= @website.sitemap_url || "---" %>
         </div>
       </div>
-      <div class="grid-row">
+      <div class="grid-row grid-gap-lg">
         <div class="grid-col-6">
-          <label class="usa-label" for="parent_domain">
+          <label class="usa-label margin-bottom-1" for="parent_domain">
             Repository url
           </label>
+        <% if @website.repository_url? %>
           <%= link_to @website.repository_url, @website.repository_url, target: "_blank", rel: "noopener" %>
+        <% else %>
+        <div class="usa-alert usa-alert--error usa-alert--slim">
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">
+              Repository URL not specified
+            </p>
+          </div>
+          </div>
+        <% end %>
         </div>
         <div class="grid-col-6">
         </div>
       </div>
-      <div class="grid-row">
+      <div class="grid-row grid-gap-lg">
         <div class="grid-col-6">
-          <label class="usa-label" for="parent_domain">
+          <label class="usa-label margin-bottom-1" for="hosting_platform">
             Hosting platform
           </label>
-          <%= @website.hosting_platform || "---" %>
+          <% if @website.hosting_platform? %>
+            <%= @website.hosting_platform %>
+          <% else %>
+            <div class="usa-alert usa-alert--error usa-alert--slim">
+              <div class="usa-alert__body">
+                <p class="usa-alert__text">
+                  Hosting platform not specified
+                </p>
+              </div>
+            </div>
+          <% end %>
         </div>
         <div class="grid-col-6">
-          <label class="usa-label" for="parent_domain">
+          <label class="usa-label margin-bottom-1" for="cms_platform">
             Content management platform
           </label>
-          <%= @website.cms_platform || "---" %>
+        <% if @website.cms_platform? %>
+          <%= @website.cms_platform %>
+        <% else %>
+          <div class="usa-alert usa-alert--error usa-alert--slim">
+            <div class="usa-alert__body">
+              <p class="usa-alert__text">
+                Content management platform not specified
+              </p>
+            </div>
+          </div>
+        <% end %>
         </div>
       </div>
-      <div class="grid-row">
+      <div class="grid-row grid-gap-lg">
         <div class="grid-col-6">
-          <label class="usa-label" for="parent_domain">
+          <label class="usa-label" for="has_dap">
             Uses Digital Analytics Program (DAP)?
           </label>
           <%= @website.has_dap? %>
@@ -347,20 +385,20 @@
       <%= render 'admin/websites/tasks/bar', website: @website %>
     <% end %>
 
-    <div>
-    <% if organizational_website_manager_permissions?(user: current_user) %>
-      <%= link_to statuscard_admin_website_path(@website), class: "usa-button usa-button--outline width-full", target: "_blank" do %>
-        <i class="fa fa-check"></i>
-        Status card
-      <% end %>
-    <% end %>
-
-    <%= link_to "https://touchpoints.app.cloud.gov/touchpoints/1fc9c962/", class: "usa-button usa-button--outline width-full margin-top-2", target: "_blank", rel: "noopener" do %>
-      <i class="fa fa-info-circle"></i>
+  <% if @website.organization.abbreviation == "GSA" %>
+    <%= link_to "https://touchpoints.app.cloud.gov/touchpoints/1fc9c962/", class: "usa-button usa-button--outline width-full", target: "_blank", rel: "noopener" do %>
+      <i class="fa fa-comment"></i>
       &nbsp;
-      Ask a question or provide feedback
+      Contact the GSA EDX team
     <% end %>
-    </div>
+  <% end %>
+
+  <% if organizational_website_manager_permissions?(user: current_user) %>
+    <%= link_to statuscard_admin_website_path(@website), class: "usa-button usa-button--outline width-full margin-top-2", target: "_blank" do %>
+      <i class="fa fa-check"></i>
+      Status card
+    <% end %>
+  <% end %>
 
     <div class="tags-div well">
       <%= render 'admin/websites/tags', website: @website %>

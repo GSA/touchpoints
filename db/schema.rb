@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_07_191145) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_17_050419) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -704,6 +704,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_07_191145) do
     t.string "uswds_version"
     t.boolean "https"
     t.integer "service_id"
+    t.integer "organization_id"
+    t.index ["organization_id"], name: "index_websites_on_organization_id"
     t.index ["service_id"], name: "index_websites_on_service_id"
   end
 

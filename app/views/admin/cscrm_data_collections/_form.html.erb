@@ -14,8 +14,7 @@
   <div class="field">
     <%= form.label :organization_id,
       "Organization" %>
-    <%= form.select :organization_id, options_for_select(Organization.all.map { |org| [org.name, org.id] }, cscrm_data_collection.organization_id), {
-      prompt: "Which Organization?" }, { class: "usa-select" } %>
+    <%= f.select :organization_id, options_for_select(organization_dropdown_options, cscrm_data_collection.organization_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
   </div>
 
   <div class="field">
