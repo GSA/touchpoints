@@ -365,6 +365,8 @@ Rails.application.routes.draw do
 
   get 'registry', to: 'site#registry', as: :registry
   get 'registry/guidance', to: 'site#registry_guidance'
+  post 'registry/search', to: 'site#registry_search', as: :registry_search
+
   get 'agencies', to: 'site#agencies', as: :agencies
   get 'profile', to: 'profile#show', as: :profile
   patch 'profile', to: 'profile#update', as: :profile_update

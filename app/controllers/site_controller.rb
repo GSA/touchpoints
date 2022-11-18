@@ -9,6 +9,11 @@ class SiteController < ApplicationController
 
   def registry; end
 
+  def registry_search
+    account = params[:account]
+    DigitalServiceAccount.find_by_account(account)
+  end
+
   def status
     render json: {
       status: :success,
