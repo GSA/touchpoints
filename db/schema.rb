@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_17_050419) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_18_020341) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -117,6 +117,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_17_050419) do
     t.integer "number_of_ratings"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "legacy_id"
+    t.text "legacy_notes"
     t.index ["digital_product_id"], name: "index_digital_product_versions_on_digital_product_id"
   end
 
@@ -136,6 +138,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_17_050419) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
+    t.integer "legacy_id"
+    t.text "legacy_notes"
   end
 
   create_table "digital_service_accounts", force: :cascade do |t|
@@ -154,6 +158,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_17_050419) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.string "aasm_state"
+    t.integer "legacy_id"
+    t.text "legacy_notes"
   end
 
   create_table "events", force: :cascade do |t|
