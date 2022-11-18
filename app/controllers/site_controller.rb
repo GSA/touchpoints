@@ -11,7 +11,8 @@ class SiteController < ApplicationController
 
   def registry_search
     account = params[:account]
-    DigitalServiceAccount.find_by_account(account)
+    # DigitalServiceAccount.find_by_account(account)
+    @results = DigitalServiceAccount.published.limit(100)
   end
 
   def status

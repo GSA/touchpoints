@@ -1,5 +1,5 @@
-<h1>
-  U.S. Digital Registry
+<h1 class="font-sans-xl">
+  <%= image_tag "usdr-logo.png", alt: "U.S. Digital Registry" %>
 </h1>
 
 <div
@@ -8,20 +8,15 @@
   aria-labelledby="summary-box-key-information"
 >
   <div class="usa-summary-box__body">
-    <h3 class="usa-summary-box__heading" id="summary-box-key-information">
-      Managing Services in Touchpoints
-    </h3>
     <div class="usa-summary-box__text">
-      <p>
-        Verify the official status of social media accounts and mobile apps
-        managed by U.S. government agencies, organizations, or programs.
-      </p>
+      Verify the official status of social media accounts and mobile apps
+      managed by U.S. government agencies, organizations, or programs.
       <p>
         Accounts are managed by federal agency staff.
         For customer service on accounts, please contact their programs directly.
       </p>
-      <p>
-        For assistance with the Registry, please email
+      <p class="margin-bottom-0">
+        For assistance with the Registry, email
         <a href="mailto:feedback-analytics@gsa.gov">feedback-analytics@gsa.gov</a> for support.
       </p>
     </div>
@@ -41,23 +36,22 @@
 </div>
 
 <section class="margin-bottom-5">
-  <div class="grid-row grid-gap-md">
-    <div class="grid-col-6">
-      <%= label_tag "Search by Agency", nil, class: "usa-label" %>
-      <%= select_tag :organization_id, options_for_select(organization_dropdown_options), { prompt: "All", class: "usa-select" } %>
+  <%= form_with(url: "/registry" , data: { turbo: false }) do |form| %>
+    <div class="grid-row grid-gap-md">
+      <div class="grid-col-6">
+        <%= label_tag "Search by Agency", nil, class: "usa-label" %>
+        <%= form.select :organization_id, options_for_select(organization_dropdown_options), { prompt: "All" }, { class: "usa-select" } %>
+      </div>
+      <div class="grid-col-6">
+        <%= label_tag "Search by keywords", nil, class: "usa-label" %>
+        <%= text_field_tag :tags, nil, class: "usa-input" %>
+      </div>
     </div>
-    <div class="grid-col-6">
-      <%= label_tag "Search by keywords", nil, class: "usa-label" %>
-      <%= text_field_tag :tags, nil, class: "usa-input" %>
-    </div>
-  </div>
-  <%= form_with(url: "/registry/search", data: { turbo:
-    false }) do |form| %>
 
     <div class="grid-row grid-gap-md">
       <div class="grid-col-6">
         <%= label_tag "Account platform", nil, class: "usa-label" %>
-        <%= select_tag :service, options_for_select(["All"] + DigitalServiceAccount.list), class: "usa-select" %>
+        <%= form.select :service, options_for_select(["All"] + DigitalServiceAccount.list), {}, class: "usa-select" %>
       </div>
       <div class="grid-col-6">
         <%= label_tag "Status selector", nil, class: "usa-label" %>
