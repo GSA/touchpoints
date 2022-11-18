@@ -61,6 +61,7 @@ class DigitalServiceAccount < ApplicationRecord
       'Instagram',
       'Linkedin',
       'Livestream',
+      'Mastodon',
       'Medium',
       'Myspace',
       'Pinterest',
