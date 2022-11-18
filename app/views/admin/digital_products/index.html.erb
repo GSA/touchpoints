@@ -38,35 +38,7 @@
 <div class="grid-row grid-gap-md">
   <div class="grid-col-6">
     <%= label_tag "Account platform", nil, class: "usa-label" %>
-    <%= select_tag :service, options_for_select([
-    "All",
-    "Disqus",
-    "Eventbrite",
-    "Facebook",
-    "Flickr",
-    "Foursquare",
-    "Giphy",
-    "Github",
-    "Google plus",
-    "Ideascale",
-    "Instagram",
-    "Linkedin",
-    "Livestream",
-    "Medium",
-    "Myspace",
-    "Pinterest",
-    "Reddit",
-    "Scribd",
-    "Slideshare",
-    "Socrata",
-    "Storify",
-    "Tumblr",
-    "Twitter",
-    "Uservoice",
-    "Ustream",
-    "Vimeo",
-    "Yelp",
-    "Youtube"]), class: "usa-select" %>
+    <%= select_tag :service, options_for_select(DigitalServiceAccount.list), class: "usa-select" %>
   </div>
   <div class="grid-col-6">
     <%= label_tag "Status selector", nil, class: "usa-label" %>

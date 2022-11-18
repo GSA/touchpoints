@@ -62,10 +62,10 @@
       <% if @digital_product.url.present? %>
         <%= @digital_product.url %>
       <% else %>
-      <div class="usa-alert">
+      <div class="usa-alert usa-alert--warning usa-alert--slim">
         <div class="usa-alert__body">
           <p class="usa-alert__text">
-            No URL specified.
+            No URL specified
           </p>
         </div>
       </div>
@@ -80,7 +80,18 @@
 
     <p>
       <%= label_tag "Code repository URL", nil, class: "usa-label" %>
-      <%= @digital_product.code_repository_url %>
+
+      <% if @digital_product.code_repository_url.present? %>
+        <%= @digital_product.code_repository_url %>
+      <% else %>
+        <div class="usa-alert usa-alert--warning usa-alert--slim">
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">
+              No Code Repository URL specified
+            </p>
+          </div>
+        </div>
+      <% end %>
     </p>
 
     <p>
@@ -130,10 +141,10 @@
       <% else %>
         <br>
         <br>
-        <div class="usa-alert">
+        <div class="usa-alert usa-alert--info usa-alert--slim">
           <div class="usa-alert__body">
             <p class="usa-alert__text">
-              Not assigned to a Service.
+              Not assigned to a Service
             </p>
           </div>
         </div>
@@ -144,15 +155,13 @@
   <div class="desktop:grid-col-4">
     <% if digital_product_permissions?(digital_product: @digital_product, user: current_user) && (@digital_product.created? || !@digital_product.archived?) %>
     <div class="well">
-      <p>
-        <span class="usa-tag bg-blue">
-          for Contacts
-        </span>
-      </p>
+
+      <span class="usa-tag bg-blue">
+        for Contacts
+      </span>
 
       <% if @digital_product.created? %>
       <p>
-
         <%= link_to submit_admin_digital_product_path(@digital_product), class: "usa-button width-full", method: :post do %>
           <span class="fa fa-check"></span>
           &nbsp;
@@ -185,11 +194,11 @@
 
     <% if registry_manager_permissions?(user: current_user) %>
     <div class="well">
-      <p>
+      <div class="margin-bottom-2">
         <span class="usa-tag bg-violet">
           for Registry Managers
         </span>
-      </p>
+      </div>
 
     <% if @digital_product.submitted? %>
       <%= link_to publish_admin_digital_product_path(@digital_product), class: "usa-button full-width", method: :post do %>

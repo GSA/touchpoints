@@ -45,6 +45,39 @@ class DigitalServiceAccount < ApplicationRecord
     User.with_role(:contact, self)
   end
 
+  def self.list
+    [
+      'Disqus',
+      'Eventbrite',
+      'Facebook',
+      'Flickr',
+      'Foursquare',
+      'Giphy',
+      'Github',
+      'Google plus',
+      'Ideascale',
+      'Instagram',
+      'Linkedin',
+      'Livestream',
+      'Medium',
+      'Myspace',
+      'Pinterest',
+      'Reddit',
+      'Scribd',
+      'Slideshare',
+      'Socrata',
+      'Storify',
+      'Tumblr',
+      'Twitter',
+      'Uservoice',
+      'Ustream',
+      'Vimeo',
+      'Yelp',
+      'Youtube',
+      'Other'
+    ]
+  end
+
   def self.import
     DigitalServiceAccount.delete_all
     file = File.read("#{Rails.root}/db/seeds/json/outlets.json")
