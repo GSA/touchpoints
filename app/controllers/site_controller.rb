@@ -7,12 +7,25 @@ class SiteController < ApplicationController
 
   def agencies; end
 
-  def registry; end
+  def registry
+    @results = nil
+  end
 
   def registry_search
-    account = params[:account]
-    # DigitalServiceAccount.find_by_account(account)
-    @results = DigitalServiceAccount.published.limit(100)
+    organization_id = search_params[:organization_id]
+    tags = search_params[:tags]
+    service = search_params[:service]
+    aasm_state = search_params[:status]
+
+    if aasm_state == "published"
+      @results = DigitalServiceAccount.published.limit(100)
+    elsif aasm_state == "archived"
+      @results = DigitalServiceAccount.archived.limit(100)
+    else #all
+      @results = DigitalServiceAccount.limit(100)
+    end
+
+    render :registry
   end
 
   def status
@@ -25,4 +38,13 @@ class SiteController < ApplicationController
   end
 
   def hello_stimulus; end
+
+  def search_params
+      params.require(:search).permit(
+        :organization_id,
+        :tags,
+        :service,
+        :status,
+      )
+    end
 end

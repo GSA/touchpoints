@@ -1,9 +1,6 @@
-<%= params.inspect %>
-
 <table class="usa-table">
   <thead>
     <tr>
-      <th></th>
       <th>Agency</th>
       <th>Platform</th>
       <th>Account name</th>
@@ -16,10 +13,7 @@
       <% @results.each do |result| %>
         <tr data-id="<%= result.id %>">
           <td>
-            <%= raw pp(result.attributes) %>
-          </td>
-          <td>
-            <%= result.organization %>
+            <%= result.name %>
           </td>
           <td>
             <%= result.service %>

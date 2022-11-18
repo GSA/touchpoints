@@ -1,24 +1,29 @@
-<h1 class="font-sans-xl">
-  <%= image_tag "usdr-logo.png", alt: "U.S. Digital Registry" %>
-</h1>
-
-<div
-  class="usa-summary-box"
-  role="region"
-  aria-labelledby="summary-box-key-information"
->
-  <div class="usa-summary-box__body">
-    <div class="usa-summary-box__text">
-      Verify the official status of social media accounts and mobile apps
-      managed by U.S. government agencies, organizations, or programs.
-      <p>
-        Accounts are managed by federal agency staff.
-        For customer service on accounts, please contact their programs directly.
-      </p>
-      <p class="margin-bottom-0">
-        For assistance with the Registry, email
-        <a href="mailto:feedback-analytics@gsa.gov">feedback-analytics@gsa.gov</a> for support.
-      </p>
+<div class="grid-row">
+  <div class="desktop:grid-col-4 tablet:grid-col-12">
+    <h1 class="font-sans-xl">
+      <%= image_tag "usdr-logo.png" , alt: "U.S. Digital Registry" %>
+    </h1>
+  </div>
+  <div class="desktop:grid-col-8 tablet:grid-col-12 desktop:margin-top-3">
+    <div
+      class="usa-summary-box"
+      role="region"
+      aria-labelledby="summary-box-key-information"
+    >
+      <div class="usa-summary-box__body">
+        <div class="usa-summary-box__text">
+          Verify the official status of social media accounts and mobile apps
+          managed by U.S. government agencies, organizations, or programs.
+          <p>
+            Accounts are managed by federal agency staff.
+            For customer service on accounts, please contact their programs directly.
+          </p>
+          <p class="margin-bottom-0">
+            For assistance with the Registry, email
+            <a href="mailto:feedback-analytics@gsa.gov">feedback-analytics@gsa.gov</a> for support.
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -26,17 +31,19 @@
 <br>
 <br>
 
-<div class="grid-row">
-  <div class="grid-col-12">
-    <h2 class="text-center">
-      <span class="fa fa-search"></span>
-      Search the Registry
-    </h2>
+<div class="usa-sectsion border-top border-base-lighter">
+  <div class="grid-row margin-top-3">
+    <div class="grid-col-12">
+      <h2 class="text-center">
+        <span class="fa fa-search"></span>
+        Search the Registry
+      </h2>
+    </div>
   </div>
 </div>
 
 <section class="margin-bottom-5">
-  <%= form_with(url: "/registry" , data: { turbo: false }) do |form| %>
+  <%= form_for("search", url: "/registry" , data: { turbo: false }) do |form| %>
     <div class="grid-row grid-gap-md">
       <div class="grid-col-6">
         <%= label_tag "Search by Agency", nil, class: "usa-label" %>
@@ -44,7 +51,7 @@
       </div>
       <div class="grid-col-6">
         <%= label_tag "Search by keywords", nil, class: "usa-label" %>
-        <%= text_field_tag :tags, nil, class: "usa-input" %>
+        <%= form.text_field :tags, class: "usa-input" %>
       </div>
     </div>
 
@@ -55,7 +62,7 @@
       </div>
       <div class="grid-col-6">
         <%= label_tag "Status selector", nil, class: "usa-label" %>
-        <%= select_tag :hi, options_for_select(["All", "Published", "Archive"]), class: "usa-select" %>
+        <%= form.select :status, options_for_select([ ["All", ""], ["Published", 'published'], ["Archive", 'archived'] ]), {}, class: "usa-select" %>
       </div>
     </div>
 
@@ -67,6 +74,40 @@
   <% end %>
 </section>
 
+<% if @results %>
+<table class="usa-table">
+  <thead>
+    <tr>
+      <th>Agency</th>
+      <th>Platform</th>
+      <th>Account name</th>
+      <th>Description</th>
+      <th class="minw-15">Last updated</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @results.each do |result| %>
+      <tr data-id="<%= result.id %>">
+        <td>
+          <%= result.name %>
+        </td>
+        <td>
+          <%= result.service %>
+        </td>
+        <td>
+          <%= link_to(result.account, result.service_url) %>
+        </td>
+        <td>
+          <%= result.short_description %>
+        </td>
+        <td>
+          <%= result.updated_at.to_date %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% else %>
 <div class="grid-row grid-gap-lg usa-prose border-top border-base-lighter padding-3">
   <div class="grid-offset-2 grid-col-4">
     <h3>
@@ -96,3 +137,4 @@
     </p>
   </div>
 </div>
+<% end %>
