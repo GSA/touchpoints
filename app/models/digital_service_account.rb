@@ -9,7 +9,9 @@ class DigitalServiceAccount < ApplicationRecord
   resourcify
   acts_as_taggable_on :tags, :organizations
 
-  validates :name, presence: true
+  belongs_to :organization, optional: true
+
+  # validates :name, presence: true
 
   scope :active, -> { where(aasm_state: :published) }
 
@@ -80,62 +82,25 @@ class DigitalServiceAccount < ApplicationRecord
 
   def self.import
     DigitalServiceAccount.delete_all
-    file = File.read("#{Rails.root}/db/seeds/json/outlets.json")
+    file = File.read("#{Rails.root}/tmp/outlets.json")
     accounts = JSON.parse(file)
-    accounts = accounts['outlets']
     Rails.logger.debug { "Found #{accounts.size} Accounts" }
 
     accounts.each do |account|
       hash = {
         id: account['id'],
-        name: account['account'].presence || account['service'],
-        short_description: account['short_description'],
-        long_description: account['long_description'],
-        service_url: account['service_url'],
-        language: account['language'],
-        account: account['account'],
         service: account['service'],
-      }
-      DigitalServiceAccount.create!(hash)
-    end
-    Rails.logger.debug 'Loaded DigitalServiceAccount'
-  end
-
-  def self.load_service_accounts
-    DigitalServiceAccount.delete_all
-
-    url = 'https://usdigitalregistry.digitalgov.gov/digital-registry/v1/social_media?page_size=10000'
-
-    response = URI.open(url).read
-    json = JSON.parse(response)
-
-    accounts = json['results']
-    Rails.logger.debug { "Found #{accounts.size} Accounts" }
-
-    accounts.each do |account|
-      hash = {
-        legacy_id: account['id'],
-        name: account['service_display_name'],
+        name: account['organization'].presence || account['service'],
+        account: account['account'],
         short_description: account['short_description'],
         long_description: account['long_description'],
         service_url: account['service_url'],
         language: account['language'],
-        account: account['account'],
-        service: account['service_key'],
-
-        organization: Organization.first,
-        user: User.first,
-
-        # TODO:
-        # tags = []
-        # agencies = []
-        # legacy_id
-        # organization
-        # service_display_name
+        aasm_state: account['status'],
       }
       DigitalServiceAccount.create!(hash)
     end
-
     Rails.logger.debug 'Loaded DigitalServiceAccount'
   end
+
 end

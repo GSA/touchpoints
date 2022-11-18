@@ -8,11 +8,8 @@ class DigitalProductVersion < ApplicationRecord
 
   def self.import
     DigitalProductVersion.delete_all
-    file = File.read("#{Rails.root}/db/seeds/json/mobile_app_versions.json")
+    file = File.read("#{Rails.root}/tmp/mobile_app_versions.json")
     versions = JSON.parse(file)
-    versions = versions['mobile_app_versions']
-
-    mobile_apps = File.read("#{Rails.root}/db/seeds/json/mobile_apps.json")
 
     versions.each do |version|
       # look up app_version against app's Legacy ID
