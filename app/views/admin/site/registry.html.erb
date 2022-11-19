@@ -1,5 +1,5 @@
 <% content_for :navigation_title do %>
-  U.S. Digital Registry
+  US Digital Registry
 <% end %>
 <br>
 <div class="grid-row grid-gap-lg">
@@ -83,7 +83,7 @@
   </div>
 </div>
 
-<div class="grid-row grid-gap-lg">
+<div class="grid-row grid-gap-lg" style="display:none;">
   <div class="grid-col-4">
     <h3>
       Website Activity
@@ -274,3 +274,12 @@
     </table>
   </div>
 </div>
+
+<% if admin_permissions? %>
+  <p>
+    How many Registry searches have users performed?
+  </p>
+  <p>
+    <span class="usa-tag"><%= RegistrySearch.count %></span>
+  </p>
+<% end %>
