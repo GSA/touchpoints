@@ -675,9 +675,3 @@ Persona.create!({
 })
 
 puts 'Created User Personas: #{admin_user.email}'
-
-DigitalProduct.import
-DigitalProductVersion.import
-DigitalServiceAccount.import
-
-puts 'Loaded Digital Products, Digital Product Versions, and Digital Service Accounts'
