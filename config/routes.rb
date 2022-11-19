@@ -365,8 +365,8 @@ Rails.application.routes.draw do
 
   get 'registry', to: 'site#registry', as: :registry
   get 'registry/guidance', to: 'site#registry_guidance'
-  post 'registry/search', to: 'site#registry_search'
-  post 'registry', to: 'site#registry_search', as: :search_registry
+  post 'registry', to: 'site#registry_search_post', as: :search_registry
+  # get 'registry.csv', to: 'site#registry_export', as: :registry_export, format: :csv
 
   get 'agencies', to: 'site#agencies', as: :agencies
   get 'profile', to: 'profile#show', as: :profile

@@ -38,7 +38,7 @@
 </div>
 
 <section class="margin-bottom-5">
-  <%= form_for("search", url: "/registry" , data: { turbo: false }) do |form| %>
+  <%= form_for("search", url: "/registry", data: { turbo: false }) do |form| %>
     <div class="grid-row grid-gap-md">
       <div class="grid-col-6">
         <%= label_tag "Search by Agency", nil, class: "usa-label" %>
@@ -53,11 +53,11 @@
     <div class="grid-row grid-gap-md">
       <div class="grid-col-6">
         <%= label_tag "Account platform", nil, class: "usa-label" %>
-        <%= form.select :service, options_for_select(["All"] + DigitalServiceAccount.list), {}, class: "usa-select" %>
+        <%= form.select :platform, options_for_select([["All", 'all']] + DigitalServiceAccount.list, @search_params && @search_params[:platform]), {}, class: "usa-select" %>
       </div>
       <div class="grid-col-6">
-        <%= label_tag "Status selector", nil, class: "usa-label" %>
-        <%= form.select :status, options_for_select([ ["All", ""], ["Published", 'published'], ["Archive", 'archived'] ]), {}, class: "usa-select" %>
+        <%= label_tag "Publish status", nil, class: "usa-label" %>
+        <%= form.select :status, options_for_select([ ["All", "all"], ["Published", 'published'], ["Archive", 'archived'] ], @search_params && @search_params[:status]), {}, class: "usa-select" %>
       </div>
     </div>
 
@@ -70,14 +70,29 @@
 </section>
 
 <% if @results %>
+<% if @max_results || @results.size == 500 %>
 <p>
-  Returning <%= @results.size %> results
-  for
-  <%=  params["tags"] %>
+  Queries have a default limit of 500 records.
+  <br>
+  Please scope your query with additional parameters.
+</p>
+<% end %>
+
+<p>
+  Returning <%= @results.size %> results for:
 </p>
 
 <p>
-  <a href="/export.csv" class="usa-button usa-button--outline">Exports results to .csv</a>
+<% @search_params.each_pair do |k,v|  %>
+  <% if v.present? %>
+  <%= k %> = <%= v %>
+  <br>
+  <% end %>
+<% end %>
+</p>
+
+<p hidden>
+  <%#= link_to "Exports results to .csv", registry_export_path(@search_params), class: "usa-button usa-button--outline", method: :post %>
 </p>
 
 <table class="usa-table">
@@ -85,7 +100,7 @@
     <tr>
       <th>Agency</th>
       <th>Platform</th>
-      <th>Account name</th>
+      <th style="max-width: 400px;">Account name</th>
       <th>Description</th>
       <th class="minw-15">Last updated</th>
     </tr>
