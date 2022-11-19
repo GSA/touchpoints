@@ -98,6 +98,7 @@ class DigitalServiceAccount < ApplicationRecord
         service_url: account['service_url'],
         language: account['language'],
         aasm_state: account['status'],
+        tag_list: account['tag_list']
       }
       DigitalServiceAccount.create!(hash)
     end
