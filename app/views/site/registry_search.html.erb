@@ -1,0 +1,36 @@
+<table class="usa-table">
+  <thead>
+    <tr>
+      <th>Agency</th>
+      <th>Platform</th>
+      <th>Account name</th>
+      <th>Description</th>
+      <th class="minw-15">Last updated</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @results %>
+      <% @results.each do |result| %>
+        <tr data-id="<%= result.id %>">
+          <td>
+            <%= result.name %>
+          </td>
+          <td>
+            <%= result.service %>
+          </td>
+          <td>
+            <%= link_to(result.account, result.service_url) %>
+          </td>
+          <td>
+            <%= result.short_description %>
+          </td>
+          <td>
+            <%= result.updated_at.to_date %>
+          </td>
+        </tr>
+        <% end %>
+    <% else %>
+      No Results
+    <% end %>
+  </tbody>
+</table>

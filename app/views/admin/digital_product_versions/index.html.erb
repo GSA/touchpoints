@@ -23,7 +23,7 @@
     <% @digital_product_versions.each do | version | %>
       <tr id="<%= version.id %>">
         <td><%= version.platform %></td>
-        <td><%= version.version_number %></th>
+        <td><%= version.version_number %></td>
         <td>
           <%= link_to edit_admin_digital_product_digital_product_version_path(@digital_product, version), class: "icon-link" do %>
             <i class="fa fa-pencil-alt" title="Update digital product version"></i>

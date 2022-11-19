@@ -18,7 +18,7 @@
 
   <div class="field">
     <%= form.label :account, "Account platform", class: "usa-label" %>
-    <%= form.select :account, options_for_select(SocialMediaAccount.list), { prompt: "Select" }, class: "usa-select" %>
+    <%= form.select :account, options_for_select(DigitalServiceAccount.list, form.object.account), { prompt: "Select" }, class: "usa-select" %>
   </div>
 
   <div class="field">
