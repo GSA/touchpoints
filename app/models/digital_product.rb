@@ -26,7 +26,7 @@ class DigitalProduct < ApplicationRecord
       transitions from: [:created], to: :submitted
     end
     event :publish do
-      transitions from: [:submitted], to: :published
+      transitions from: [:submitted, :under_review], to: :published
     end
     event :archive do
       transitions to: :archived
