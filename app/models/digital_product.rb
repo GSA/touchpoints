@@ -49,6 +49,7 @@ class DigitalProduct < ApplicationRecord
         long_description: product['long_description'],
         language: product['language'],
         aasm_state: product['status'],
+        tag_list: product['tag_list'],
       }
       DigitalProduct.create!(hash)
     end
