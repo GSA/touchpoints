@@ -89,7 +89,7 @@ class DigitalServiceAccount < ApplicationRecord
 
     accounts.each do |account|
       hash = {
-        id: account['id'],
+        legacy_id: account['id'],
         service: account['service'],
         name: account['organization'].presence || account['service'],
         account: account['account'],
