@@ -13,17 +13,17 @@
 
   <div class="field">
     <%= form.label :name, "Account name", class: "usa-label" %>
-    <%= form.text_field :name, class: "usa-input" %>
+    <%= form.text_field :name, class: "usa-input", required: true %>
   </div>
 
   <div class="field">
     <%= form.label :account, "Account platform", class: "usa-label" %>
-    <%= form.select :account, options_for_select(DigitalServiceAccount.list, form.object.account), { prompt: "Select" }, class: "usa-select" %>
+    <%= form.select :account, options_for_select(DigitalServiceAccount.list, form.object.account), { prompt: "Select" }, class: "usa-select", required: true %>
   </div>
 
   <div class="field">
     <%= form.label :service_url, "Account URL", class: "usa-label" %>
-    <%= form.text_field :service_url, class: "usa-input" %>
+    <%= form.text_field :service_url, class: "usa-input", required: true %>
   </div>
 
   <div class="field">
@@ -119,8 +119,7 @@
     <div class="usa-alert usa-alert--info">
       <div class="usa-alert__body">
         <p class="usa-alert__text">
-          Tags, Agencies, and Contacts can be associated with this
-          record, after creation.
+          Agencies, Contacts, and Tags can be added to this record, after creation.
         </p>
       </div>
     </div>
