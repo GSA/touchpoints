@@ -1,14 +1,15 @@
-<h1 class="font-sans-xl">
-  <%= image_tag "usdr-logo.png" , alt: "US Digital Registry" %>
-</h1>
 <div class="grid-row margin-bottom-2">
   <div class="desktop:grid-col-6 tablet:grid-col-12">
     <div
-      class="usa-summary-box"
+      class="usa-summary-box margin-top-2"
       role="region"
       aria-labelledby="summary-box-key-information"
     >
       <div class="usa-summary-box__body">
+        <h1 class="margin-top-0 margin-bottom-0">
+          <%= image_tag "usdr-logo.png" , alt: "US Digital Registry" %>
+        </h1>
+
         <div class="usa-summary-box__text font-sans-xs">
           Verify the official status of social media accounts and mobile apps
           managed by U.S. government agencies, organizations, or programs.
@@ -26,14 +27,12 @@
   </div>
 </div>
 
-<div class="border-top border-base-lighter">
-  <div class="grid-row margin-top-3">
-    <div class="grid-col-12">
-      <h2 class="text-center">
-        <span class="fa fa-search"></span>
-        Search Social Media Accounts
-      </h2>
-    </div>
+<div class="grid-row margin-top-3">
+  <div class="grid-col-12">
+    <h2 class="text-centeSr">
+      <span class="fa fa-search"></span>
+      Search Social Media Accounts
+    </h2>
   </div>
 </div>
 
@@ -128,32 +127,32 @@
   </tbody>
 </table>
 <% else %>
-<div class="grid-row grid-gap-lg usa-prose border-top border-base-lighter padding-3">
-  <div class="grid-offset-2 grid-col-4">
+<div class="grid-row grid-gap-6 usa-prose border-top border-base-lighter padding-3">
+  <div class="desktop:grid-offset-2 desktop:grid-col-4">
     <h3>
       For Federal Agencies
     </h3>
-    <a href="/registry/guidance/" class="usa-button">
-      Register and manage accounts
+    <a href="/registry/guidance/" class="usa-button usa-button--outline">
+      Create and manage records
     </a>
     <p>
-      Help prevent exploitation from unofficial sources,
-      phishing scams, or malicious entities.
+      Manage an inventory of digital assets
+      to certify ownership and help prevent misuse by unofficial sources.
     </p>
   </div>
-  <div class="grid-col-4">
+  <div class="desktop:grid-col-4">
     <h3>
       For Developers
     </h3>
-    <a href="https://github.com/gsa/touchpoints/wiki/API/" class="usa-button">
-      Use and improve the API
+    <a href="https://github.com/gsa/touchpoints/wiki/API/" class="usa-button usa-button--outline">
+      Use the API and improve the application
     </a>
     <p>
       Access Registry data via the Touchpoints
-      <a href="https://open.gsa.gov/api/" target="_blank" rel="noopener">API</a>
-      or its
+      <a href="https://open.gsa.gov/api/" target="_blank" rel="noopener">API</a>,
+      or visit the
       <a href="https://github.com/gsa/touchpoints/">GitHub repository</a>
-      to explore, use, and improve it.
+      to provide feedback and contribute.
     </p>
   </div>
 </div>
