@@ -123,9 +123,11 @@ module Admin
     end
 
     def export_csv
-      ensure_performance_manager_permissions
-
-      @collections = current_user.collections
+      if performance_manager_permissions?
+        @collections = Collection.all
+      else
+        @collections = current_user.collections
+      end
       send_data @collections.to_csv, filename: "touchpoints-data-collections-#{Date.today}.csv"
     end
 

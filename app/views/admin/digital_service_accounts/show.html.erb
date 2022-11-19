@@ -107,12 +107,11 @@
   <div class="grid-col-4">
     <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) && (@digital_service_account.created? || @digital_service_account.updated? || @digital_service_account.submitted? || @digital_service_account.published?) %>
     <div class="well">
-      <span class="usa-tag bg-blue">
-        for Contacts
-      </span>
-
-      <br>
-      <br>
+      <div class="margin-bottom-2">
+        <span class="usa-tag bg-blue">
+          for Contacts
+        </span>
+      </div>
 
     <% if @digital_service_account.created? || @digital_service_account.updated? %>
       <%= link_to submit_admin_digital_service_account_path(@digital_service_account), class: "usa-button full-width", method: :post do %>
@@ -120,8 +119,6 @@
         &nbsp;
         Submit
       <% end %>
-      <br>
-      <br>
     <% end %>
 
     <% if @digital_service_account.submitted? || @digital_service_account.published? %>
@@ -150,12 +147,11 @@
 
   <% if registry_manager_permissions?(user: current_user) %>
     <div class="well">
-      <span class="usa-tag bg-violet">
-        for Registry Managers
-      </span>
-
-      <br>
-      <br>
+      <div class="margin-bottom-2">
+        <span class="usa-tag bg-violet">
+          for Registry Managers
+        </span>
+      </div>
 
     <% if @digital_service_account.submitted? %>
       <%= link_to publish_admin_digital_service_account_path(@digital_service_account), class: "usa-button full-width", method: :post do %>

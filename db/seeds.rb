@@ -480,29 +480,34 @@ end
 #
 
 Website.create!({
+  organization: @gsa,
   domain: 'gsa.gov',
   type_of_site: 'Informational',
   production_status: 'production'
 })
 
 Website.create!({
+  organization: @gsa,
   domain: 'digital.gov',
   type_of_site: 'Informational',
   production_status: 'production'
 })
 
 Website.create!({
+  organization: @gsa,
   domain: 'touchpoints.digital.gov',
   type_of_site: 'Application',
   production_status: 'production'
 })
 
 Website.create!({
+  organization: @gsa,
   domain: 'subdomain.digital.gov',
   type_of_site: 'Application',
   production_status: 'production'
 })
 Website.create!({
+  organization: @gsa,
   domain: 'subdomain.gsa.gov',
   type_of_site: 'Application',
   production_status: 'production'
@@ -670,9 +675,3 @@ Persona.create!({
 })
 
 puts 'Created User Personas: #{admin_user.email}'
-
-DigitalProduct.import
-DigitalProductVersion.import
-DigitalServiceAccount.import
-
-puts 'Loaded Digital Products, Digital Product Versions, and Digital Service Accounts'

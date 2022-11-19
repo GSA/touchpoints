@@ -45,6 +45,6 @@ class WebsiteSerializer < ActiveModel::Serializer
              :updated_at
 
   def website_contacts
-    ActiveModel::Serializer::ArraySerializer.new(object.website_managers, each_serializer: UserSerializer)
+    ActiveModel::Serializer::CollectionSerializer.new(object.website_managers, each_serializer: UserSerializer)
   end
 end

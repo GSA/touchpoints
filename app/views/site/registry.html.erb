@@ -1,119 +1,159 @@
-<h1>
-  U.S. Digital Registry
-</h1>
+<div class="grid-row margin-bottom-2">
+  <div class="desktop:grid-col-6 tablet:grid-col-12">
+    <div
+      class="usa-summary-box margin-top-2"
+      role="region"
+      aria-labelledby="summary-box-key-information"
+    >
+      <div class="usa-summary-box__body">
+        <h1 class="margin-top-0 margin-bottom-0">
+          <%= image_tag "usdr-logo.png" , alt: "US Digital Registry" %>
+        </h1>
 
-<div
-  class="usa-summary-box"
-  role="region"
-  aria-labelledby="summary-box-key-information"
->
-  <div class="usa-summary-box__body">
-    <h3 class="usa-summary-box__heading" id="summary-box-key-information">
-      Managing Services in Touchpoints
-    </h3>
-    <div class="usa-summary-box__text">
-      <p>
-        Verify the official status of social media and public-facing collaboration accounts, mobile apps, and mobile websites that represent U.S. government agencies, organizations, or programs.
-      </p>
-      <p>
-        Accounts are managed by federal agencies, heads of agencies, or members of the President’s Cabinet. For customer service on accounts, please contact their programs directly.
-      </p>
-      <p>
-        Need help? Email the registry at
-        <a href="mailto:usdigitalregistry@gsa.gov">usdigitalregistry@gsa.gov</a>
-      </p>
+        <div class="usa-summary-box__text font-sans-xs">
+          Verify the official status of social media accounts and mobile apps
+          managed by U.S. government agencies, organizations, or programs.
+          <p>
+            Accounts are managed by federal agency staff.
+            For customer service on accounts, please contact their programs directly.
+          </p>
+          <p class="margin-bottom-0">
+            For assistance with the Registry, email
+            <a href="mailto:feedback-analytics@gsa.gov">feedback-analytics@gsa.gov</a> for support.
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<br>
-<br>
-
-<div class="grid-row">
+<div class="grid-row margin-top-3">
   <div class="grid-col-12">
-    <h2 class="text-center">
-      Search the registry
+    <h2 class="text-centeSr">
+      <span class="fa fa-search"></span>
+      Search Social Media Accounts
     </h2>
   </div>
 </div>
 
-<section class="usa-section">
-  <div class="grid-row grid-gap-md">
-    <div class="grid-col-6">
-      <%= label_tag "Search by Agency", nil, class: "usa-label" %>
-      <%= select_tag :organization_id, options_for_select(organization_dropdown_options), { prompt: "All", class: "usa-select" } %>
+<section class="margin-bottom-5">
+  <%= form_for("search", url: "/registry", data: { turbo: false }) do |form| %>
+    <div class="grid-row grid-gap-md">
+      <div class="grid-col-6">
+        <%= label_tag "Search by Agency", nil, class: "usa-label" %>
+        <%= form.select :organization_id, options_for_select(organization_dropdown_options), { prompt: "All" }, { class: "usa-select" } %>
+      </div>
+      <div class="grid-col-6">
+        <%= label_tag "Search by keywords", nil, class: "usa-label" %>
+        <%= form.text_field :tags, class: "usa-input" %>
+      </div>
     </div>
-    <div class="grid-col-6">
-      <%= label_tag "Search by keywords", nil, class: "usa-label" %>
-      <%= text_field_tag :tags, nil, class: "usa-input" %>
+
+    <div class="grid-row grid-gap-md">
+      <div class="grid-col-6">
+        <%= label_tag "Account platform", nil, class: "usa-label" %>
+        <%= form.select :platform, options_for_select([["All", 'all']] + DigitalServiceAccount.list, @search_params && @search_params[:platform]), {}, class: "usa-select" %>
+      </div>
+      <div class="grid-col-6">
+        <%= label_tag "Publish status", nil, class: "usa-label" %>
+        <%= form.select :status, options_for_select([ ["All", "all"], ["Published", 'published'], ["Archive", 'archived'] ], @search_params && @search_params[:status]), {}, class: "usa-select" %>
+      </div>
     </div>
-  </div>
-  <div class="grid-row grid-gap-md">
-    <div class="grid-col-6">
-      <%= label_tag "Account platform", nil, class: "usa-label" %>
-      <%= select_tag :service, options_for_select([
-      "All",
-      "Disqus",
-      "Eventbrite",
-      "Facebook",
-      "Flickr",
-      "Foursquare",
-      "Giphy",
-      "Github",
-      "Google plus",
-      "Ideascale",
-      "Instagram",
-      "Linkedin",
-      "Livestream",
-      "Medium",
-      "Myspace",
-      "Pinterest",
-      "Reddit",
-      "Scribd",
-      "Slideshare",
-      "Socrata",
-      "Storify",
-      "Tumblr",
-      "Twitter",
-      "Uservoice",
-      "Ustream",
-      "Vimeo",
-      "Yelp",
-      "Youtube"]), class: "usa-select" %>
+
+    <div class="grid-row margin-top-3">
+      <div class="grid-col-12">
+        <button type="submit" class="usa-button width-full">Search</button>
+      </div>
     </div>
-    <div class="grid-col-6">
-      <%= label_tag "Status selector", nil, class: "usa-label" %>
-      <%= select_tag :hi, options_for_select(["All", "Published", "Archive"]), class: "usa-select" %>
-    </div>
-  </div>
+  <% end %>
 </section>
 
-<div class="grid-row grid-gap-lg well">
-  <div class="grid-offset-2 grid-col-4">
+<% if @results %>
+<% if @max_results || @results.size == 500 %>
+<p>
+  Queries have a default limit of 500 records.
+  <br>
+  Please scope your query with additional parameters.
+</p>
+<% end %>
+
+<p>
+  Returning <%= @results.size %> results for:
+</p>
+
+<p>
+<% @search_params.each_pair do |k,v|  %>
+  <% if v.present? %>
+  <%= k %> = <%= v %>
+  <br>
+  <% end %>
+<% end %>
+</p>
+
+<p hidden>
+  <%#= link_to "Exports results to .csv", registry_export_path(@search_params), class: "usa-button usa-button--outline", method: :post %>
+</p>
+
+<table class="usa-table">
+  <thead>
+    <tr>
+      <th>Agency</th>
+      <th>Platform</th>
+      <th style="max-width: 400px;">Account name</th>
+      <th>Description</th>
+      <th class="minw-15">Last updated</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @results.each do |result| %>
+      <tr data-id="<%= result.id %>">
+        <td>
+          <%= result.name %>
+        </td>
+        <td>
+          <%= result.service %>
+        </td>
+        <td>
+          <%= link_to(result.account, result.service_url) %>
+        </td>
+        <td>
+          <%= result.short_description %>
+        </td>
+        <td>
+          <%= result.updated_at.to_date %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% else %>
+<div class="grid-row grid-gap-6 usa-prose border-top border-base-lighter padding-3">
+  <div class="desktop:grid-offset-2 desktop:grid-col-4">
     <h3>
-      Federal Agencies
+      For Federal Agencies
     </h3>
-    <a href="/registry/guidance/" class="usa-button">
-      Register and manage accounts
+    <a href="/registry/guidance/" class="usa-button usa-button--outline">
+      Create and manage records
     </a>
     <p>
-      Help prevent exploitation from unofficial sources,
-      phishing scams, or malicious entities.
+      Manage an inventory of digital assets
+      to certify ownership and help prevent misuse by unofficial sources.
     </p>
   </div>
-  <div class="grid-col-4">
+  <div class="desktop:grid-col-4">
     <h3>
-      Developers
+      For Developers
     </h3>
-    <a href="https://github.com/gsa/touchpoints/wiki/API/" class="usa-button">
-      Use and improve the API
+    <a href="https://github.com/gsa/touchpoints/wiki/API/" class="usa-button usa-button--outline">
+      Use the API and improve the application
     </a>
     <p>
-      Access the
-      <a href="https://open.gsa.gov/api/digital-registry/" target="_blank" rel="noopener">U.S. Digital Registry API</a>
-      or its
-      <a href="https://github.com/gsa/touchpoints/">GitHub repo</a>
-      to test, evaluate, improve and use it.
+      Access Registry data via the Touchpoints
+      <a href="https://open.gsa.gov/api/" target="_blank" rel="noopener">API</a>,
+      or visit the
+      <a href="https://github.com/gsa/touchpoints/">GitHub repository</a>
+      to provide feedback and contribute.
     </p>
   </div>
 </div>
+<% end %>
