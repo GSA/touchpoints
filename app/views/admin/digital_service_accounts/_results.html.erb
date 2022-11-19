@@ -1,8 +1,9 @@
-<table class="usa-table">
+<table class="usa-table width-full">
   <thead>
     <tr>
       <th data-sortable scope="col">Platform</th>
       <th data-sortable scope="col">Account name</th>
+      <th data-sortable scope="col">Name</th>
       <th data-sortable scope="col">Status</th>
       <th data-sortable scope="col">Updated at</th>
     </tr>
@@ -11,14 +12,25 @@
   <tbody>
     <% digital_service_accounts.each do |digital_service_account| %>
       <tr>
+        <td><%= digital_service_account.service %></td>
         <td><%= digital_service_account.account %></td>
         <td>
           <%= link_to digital_service_account.name, admin_digital_service_account_path(digital_service_account) %>
         </td>
         <td>
-          <span class="usa-tag">
-            <%= digital_service_account.aasm_state %>
-          </span>
+          <% if digital_service_account.aasm_state == "published" %>
+            <span class="usa-tag bg-success">
+              <%= digital_service_account.aasm_state %>
+            </span>
+          <% elsif digital_service_account.aasm_state == "archived" %>
+            <span class="usa-tag bg-base-lighter">
+              <%= digital_service_account.aasm_state %>
+            </span>
+          <% else %>
+            <span class="usa-tag">
+              <%= digital_service_account.aasm_state %>
+            </span>
+          <% end %>
         </td>
         <td data-sort-value="<%= digital_service_account.updated_at.to_i %>">
           <%= digital_service_account.updated_at %>

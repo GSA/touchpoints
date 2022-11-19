@@ -4,8 +4,10 @@
       <th data-sortable scope="col">Abbreviation</th>
       <th data-sortable scope="col">Name</th>
       <th data-sortable scope="col">URL</th>
+      <th data-sortable scope="col">Users</th>
       <th data-sortable scope="col">Forms</th>
       <th data-sortable scope="col">Services</th>
+      <th data-sortable scope="col">Websites</th>
       <th data-sortable scope="col">Collections</th>
       <th data-sortable scope="col">Tags</th>
     </tr>
@@ -19,10 +21,16 @@
           <%= link_to organization.url, organization.url, target: "_blank", rel: "noopener" %>
         </td>
         <td>
+          <%= organization.users.count %>
+        </td>
+        <td>
           <%= organization.forms.count %>
         </td>
         <td>
           <%= organization.services.count %>
+        </td>
+        <td>
+          <%= organization.websites.count %>
         </td>
         <td>
           <%= organization.collections.count %>

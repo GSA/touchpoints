@@ -17,13 +17,14 @@ class DigitalProduct < ApplicationRecord
 
   aasm do
     state :created, initial: true
+    state :updated
     state :submitted
     state :under_review # TODO: CLEANUP, by consolidating to "submitted"
     state :published
     state :archived
 
     event :submit do
-      transitions from: [:created], to: :submitted
+      transitions from: [:created, :updated], to: :submitted
     end
     event :publish do
       transitions from: [:submitted, :under_review], to: :published
@@ -31,27 +32,11 @@ class DigitalProduct < ApplicationRecord
     event :archive do
       transitions to: :archived
     end
+    event :update_state do
+      transitions to: :updated
+    end
     event :reset do
       transitions to: :created
-    end
-  end
-
-  def self.import
-    DigitalProduct.delete_all
-    file = File.read("#{Rails.root}/tmp/mobile_apps.json")
-    products = JSON.parse(file)
-
-    products.each do |product|
-      hash = {
-        legacy_id: product['id'],
-        name: product['name'],
-        short_description: product['short_description'],
-        long_description: product['long_description'],
-        language: product['language'],
-        aasm_state: product['status'],
-        tag_list: product['tag_list'],
-      }
-      DigitalProduct.create!(hash)
     end
   end
 

@@ -50,11 +50,6 @@ feature 'Digital Products', js: true do
         expect(page).to have_css('tbody tr', count: 1)
       end
 
-      it 'can search by service' do
-        select('Facebook', from: 'service')
-        expect(page).to have_css('tbody tr', count: 1)
-      end
-
       it 'can search by aasm_state' do
         select('Published', from: 'aasm_state')
         expect(page).to have_css('tbody tr', count: 1)
