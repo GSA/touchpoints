@@ -24,7 +24,7 @@ feature 'Digital Service Accounts', js: true do
 
           expect(page).to have_link('Back to Digital Registry')
           expect(page).to have_link('New Account')
-          expect(page).to have_link('Export results to .csv')
+          #expect(page).to have_link('Export results to .csv')
 
           within('.usa-table') do
             expect(page).to have_content('Platform')
@@ -63,6 +63,7 @@ feature 'Digital Service Accounts', js: true do
         expect(page).to have_content('New Social Media Account')
         fill_in :digital_service_account_name, with: 'Test Name'
         select('Facebook', from: 'digital_service_account[account]')
+        fill_in :digital_service_account_service_url, with: 'https://twitter.com/government'
         click_on 'Create social media account'
       end
 
