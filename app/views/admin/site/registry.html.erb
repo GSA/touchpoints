@@ -274,3 +274,12 @@
     </table>
   </div>
 </div>
+
+<% if admin_permissions? %>
+  <p>
+    How many Registry searches have users performed?
+  </p>
+  <p>
+    <span class="usa-tag"><%= RegistrySearch.count %></span>
+  </p>
+<% end %>
