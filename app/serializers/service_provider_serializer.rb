@@ -28,6 +28,6 @@ class ServiceProviderSerializer < ActiveModel::Serializer
   end
 
   def service_provider_managers
-    ActiveModel::Serializer::ArraySerializer.new(object.service_provider_managers, each_serializer: UserSerializer)
+    ActiveModel::Serializer::CollectionSerializer.new(object.service_provider_managers, each_serializer: UserSerializer)
   end
 end

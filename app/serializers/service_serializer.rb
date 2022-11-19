@@ -29,7 +29,7 @@ class ServiceSerializer < ActiveModel::Serializer
              :available_via_phone
 
   def service_managers
-    ActiveModel::Serializer::ArraySerializer.new(object.service_managers, each_serializer: UserSerializer)
+    ActiveModel::Serializer::CollectionSerializer.new(object.service_managers, each_serializer: UserSerializer)
   end
 
   def available_in_person
