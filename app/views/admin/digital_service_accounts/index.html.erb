@@ -9,7 +9,7 @@
 <p>
   <%= link_to admin_registry_path do %>
     <i class="fa fa-arrow-circle-left"></i>
-    Back to Digital Registry
+    Back to the Digital Registry
   <% end %>
 </p>
 
@@ -23,6 +23,10 @@
       <div class="usa-summary-box__body">
         <div class="usa-summary-box__text">
           Search Social Media Accounts using the filters below.
+
+          <div class="margin-top-2">
+            <%= render 'components/feedback-button' %>
+          </div>
         </div>
       </div>
     </div>

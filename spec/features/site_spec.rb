@@ -25,13 +25,24 @@ feature 'general site navigation', js: true do
         end
       end
 
-      describe '/admin/websites' do
+      describe '/admin/registry' do
         before do
-          click_on 'Websites'
+          click_on 'Digital Registry'
         end
 
         it 'renders successfully' do
-          expect(page).to have_content('Websites')
+          expect(page).to have_content('US Digital Registry')
+        end
+      end
+
+      describe '/admin/websites' do
+        before do
+          click_on 'Digital Registry'
+        end
+
+        it 'renders successfully' do
+          expect(page).to have_content('US Digital Registry')
+          click_on 'View Websites'
           expect(page).to have_content('New Website')
           expect(page.current_path).to eq(admin_websites_path)
         end

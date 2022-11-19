@@ -22,7 +22,7 @@ feature 'Digital Service Accounts', js: true do
         it 'load the Services#index page' do
           expect(page).to have_content('Social Media Accounts')
 
-          expect(page).to have_link('Back to Digital Registry')
+          expect(page).to have_link('Back to the Digital Registry')
           expect(page).to have_link('New Account')
           #expect(page).to have_link('Export results to .csv')
 
