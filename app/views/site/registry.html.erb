@@ -3,11 +3,11 @@
     <div
       class="usa-summary-box margin-top-2"
       role="region"
-      aria-labelledby="summary-box-key-information"
+      aria-labelledby="registry-introductory-text"
     >
       <div class="usa-summary-box__body">
         <h1 class="margin-top-0 margin-bottom-0">
-          <%= image_tag "usdr-logo.png" , alt: "US Digital Registry" %>
+          <%= image_tag "usdr-logo.png" , alt: "US Digital Registry", id: "registry-introductory-text" %>
         </h1>
 
         <div class="usa-summary-box__text font-sans-xs">
@@ -29,7 +29,7 @@
 
 <div class="grid-row margin-top-3">
   <div class="grid-col-12">
-    <h2 class="text-centeSr">
+    <h2>
       <span class="fa fa-search"></span>
       Search Social Media Accounts
     </h2>
@@ -40,22 +40,22 @@
   <%= form_for("search", url: "/registry", data: { turbo: false }) do |form| %>
     <div class="grid-row grid-gap-md">
       <div class="grid-col-6">
-        <%= label_tag "Search by Agency", nil, class: "usa-label" %>
-        <%= form.select :organization_id, options_for_select(organization_dropdown_options), { prompt: "All" }, { class: "usa-select" } %>
+        <%= label_tag "Search by Agency", nil, class: "usa-label", for: "search_organization_id" %>
+        <%= form.select :organization_id, options_for_select([]), { prompt: "All" }, { class: "usa-select" } %>
       </div>
       <div class="grid-col-6">
-        <%= label_tag "Search by keywords", nil, class: "usa-label" %>
+        <%= label_tag "Search by keywords", nil, class: "usa-label", for: "search_tags" %>
         <%= form.text_field :tags, class: "usa-input" %>
       </div>
     </div>
 
     <div class="grid-row grid-gap-md">
       <div class="grid-col-6">
-        <%= label_tag "Account platform", nil, class: "usa-label" %>
+        <%= label_tag "Account platform", nil, class: "usa-label", for: "search_platform" %>
         <%= form.select :platform, options_for_select([["All", 'all']] + DigitalServiceAccount.list, @search_params && @search_params[:platform]), {}, class: "usa-select" %>
       </div>
       <div class="grid-col-6">
-        <%= label_tag "Publish status", nil, class: "usa-label" %>
+        <%= label_tag "Publish status", nil, class: "usa-label", for: "search_status" %>
         <%= form.select :status, options_for_select([ ["All", "all"], ["Published", 'published'], ["Archive", 'archived'] ], @search_params && @search_params[:status]), {}, class: "usa-select" %>
       </div>
     </div>
