@@ -81,28 +81,4 @@ class DigitalServiceAccount < ApplicationRecord
     ]
   end
 
-  def self.import
-    DigitalServiceAccount.delete_all
-    file = File.read("#{Rails.root}/tmp/outlets.json")
-    accounts = JSON.parse(file)
-    Rails.logger.debug { "Found #{accounts.size} Accounts" }
-
-    accounts.each do |account|
-      hash = {
-        legacy_id: account['id'],
-        service: account['service'],
-        name: account['organization'].presence || account['service'],
-        account: account['account'],
-        short_description: account['short_description'],
-        long_description: account['long_description'],
-        service_url: account['service_url'],
-        language: account['language'],
-        aasm_state: account['status'],
-        tag_list: account['tag_list']
-      }
-      DigitalServiceAccount.create!(hash)
-    end
-    Rails.logger.debug 'Loaded DigitalServiceAccount'
-  end
-
 end
