@@ -20,7 +20,7 @@
           ["Web","Web"],
           ["App - Phone/Tablet","App - Phone/Tablet"],
           ["App - Tablet Only","App - Tablet Only"] ],form.object.device),
-          {include_blank: "Select"}, {:class => "usa-input"} %>
+          { include_blank: "Which Type of Product?" }, { class: "usa-input" } %>
     </div>
 
     <div class="field">
@@ -36,13 +36,13 @@
               ["iOS","iOS"],
               ["Mobile Web","Mobile Web"],
               ["Windows","Windows"]],form.object.platform),
-              {include_blank: "Select"},
-              {:class => "usa-input"} %>
+              { include_blank: "Which Platform?" },
+              { class: "usa-input", required: true } %>
     </div>
 
     <div class="field">
       <%= form.label :version_number, class: "usa-label" %>
-      <%= form.text_field :version_number, class: "usa-input" %>
+      <%= form.text_field :version_number, class: "usa-input", required: true %>
     </div>
 
     <div class="field">
@@ -62,7 +62,7 @@
 
     <div class="field" hidden>
       <%= form.label :language, class: "usa-label" %>
-      <%= form.select :language, options_for_select([["English","English"],["Spanish","Spanish"]],form.object.language),{include_blank: "Select"}, {:class => "form-control formwidth usa-input"} %>
+      <%= form.select :language, options_for_select([["English","English"], ["Spanish","Spanish"]], form.object.language), { include_blank: "Select" }, { class: "form-control formwidth usa-input" } %>
     </div>
 
     <div class="field">

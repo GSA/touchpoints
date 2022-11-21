@@ -52,7 +52,7 @@ feature 'Managing Websites', js: true do
         fill_in :website_office, with: 'Test Office'
         select('Application - Transactional', from: 'website_type_of_site')
         select('Login.gov', from: 'website_authentication_tool')
-        select('Custom/Other', from: 'website_feedback_tool')
+        select('Other', from: 'website_feedback_tool')
         click_on 'Update Website'
       end
 

@@ -11,6 +11,8 @@ class DigitalServiceAccount < ApplicationRecord
 
   belongs_to :organization, optional: true
 
+  validates :name, uniqueness: { scope: :account }
+
   # validates :name, presence: true
 
   scope :active, -> { where(aasm_state: :published) }
