@@ -11,12 +11,28 @@ module Admin
     ]
 
     def index
-      @digital_service_accounts = DigitalServiceAccount.order(:name).page(params[:page])
+      if admin_permissions?
+        @digital_service_accounts = DigitalServiceAccount.all
+      else
+        @digital_service_accounts = DigitalServiceAccount.with_role(:contact, current_user)
+      end
+
+      @digital_service_accounts = @digital_service_accounts
+        .order(:name)
+        .page(params[:page])
     end
 
     def review
-      ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
-      @digital_service_accounts = DigitalServiceAccount.where("aasm_state = 'created' OR aasm_state = 'edited' OR aasm_state = 'submitted'").order(:name).page(params[:page])
+      if admin_permissions?
+        @digital_service_accounts = DigitalServiceAccount.all
+      else
+        @digital_service_accounts = DigitalServiceAccount.with_role(:contact, current_user)
+      end
+
+      @digital_service_accounts = @digital_service_accounts
+        .where("aasm_state = 'created' OR aasm_state = 'edited' OR aasm_state = 'submitted'")
+        .order(:name)
+        .page(params[:page])
     end
 
     def show; end

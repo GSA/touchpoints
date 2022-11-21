@@ -11,13 +11,25 @@ module Admin
     ]
 
     def index
-      @digital_products = DigitalProduct
+      if admin_permissions?
+        @digital_products = DigitalProduct.all
+      else
+        @digital_products = DigitalProduct.with_role(:contact, current_user)
+      end
+
+      @digital_products = @digital_products
         .order(:name, :service)
         .page(params[:page])
     end
 
     def review
-      @digital_products = DigitalProduct
+      if admin_permissions?
+        @digital_products = DigitalProduct.all
+      else
+        @digital_products = DigitalProduct.with_role(:contact, current_user)
+      end
+
+      @digital_products = @digital_products
         .where("aasm_state = 'created' OR aasm_state = 'edited' OR aasm_state = 'submitted'")
         .order(:name, :service)
         .page(params[:page])
