@@ -35,9 +35,8 @@ class SiteController < ApplicationController
       @results = DigitalServiceAccount
     end
 
-    if !platform.empty? && platform != "all"
-      @results = @results.where(service: platform.downcase)
-    end
+    @results = @results.where(service: platform.downcase) if platform.present? && platform != ""
+    @results = @results.tagged_with(organization_id, context: 'organizations') if organization_id.present? && organization_id != ''
 
     # Make params available to show the user
     @search_params = search_params

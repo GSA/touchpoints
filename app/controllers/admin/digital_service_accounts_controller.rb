@@ -11,24 +11,38 @@ module Admin
     ]
 
     def index
-      @digital_service_accounts = DigitalServiceAccount.order(:name).page(params[:page])
+      if admin_permissions?
+        @digital_service_accounts = DigitalServiceAccount.all
+      else
+        @digital_service_accounts = DigitalServiceAccount.with_role(:contact, current_user)
+      end
+
+      @digital_service_accounts = @digital_service_accounts
+        .order(:name)
+        .page(params[:page])
     end
 
     def review
-      ensure_admin_or_contact(@digital_service_account)
-      @digital_service_accounts = DigitalServiceAccount.where("aasm_state = 'created' OR aasm_state = 'edited' OR aasm_state = 'submitted'").order(:name).page(params[:page])
+      if admin_permissions?
+        @digital_service_accounts = DigitalServiceAccount.all
+      else
+        @digital_service_accounts = DigitalServiceAccount.with_role(:contact, current_user)
+      end
+
+      @digital_service_accounts = @digital_service_accounts
+        .where("aasm_state = 'created' OR aasm_state = 'edited' OR aasm_state = 'submitted'")
+        .order(:name)
+        .page(params[:page])
     end
 
-    def show
-      ensure_admin_or_contact(@digital_service_account)
-    end
+    def show; end
 
     def new
       @digital_service_account = DigitalServiceAccount.new
     end
 
     def edit
-      ensure_admin_or_contact(@digital_service_account)
+      ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
     end
 
     def create
@@ -54,7 +68,7 @@ module Admin
     end
 
     def update
-      ensure_admin_or_contact(@digital_service_account)
+      ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
       if @digital_service_account.update(digital_service_account_params)
         Event.log_event(Event.names[:digital_service_account_updated], 'DigitalServiceAccount',
                         @digital_service_account.id, "updated by #{current_user.email} on #{Date.today}", current_user.id)
@@ -67,7 +81,7 @@ module Admin
     end
 
     def destroy
-      ensure_admin_or_contact(@digital_service_account)
+      ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
       @digital_service_account.destroy
       Event.log_event(Event.names[:digital_service_account_deleted], 'DigitalServiceAccount',
                       @digital_service_account.id, "deleted by #{current_user.email} on #{Date.today}", current_user.id)
@@ -75,40 +89,40 @@ module Admin
     end
 
     def add_tag
-      ensure_admin_or_contact(@digital_service_account)
+      ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
       @digital_service_account.tag_list.add(digital_service_account_params[:tag_list].split(','))
       @digital_service_account.save
     end
 
     def remove_tag
-      ensure_admin_or_contact(@digital_service_account)
+      ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
       @digital_service_account.tag_list.remove(digital_service_account_params[:tag_list].split(','))
       @digital_service_account.save
     end
 
     def add_organization
-      ensure_admin_or_contact(@digital_service_account)
+      ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
       @digital_service_account.organization_list.add(params[:organization_id])
       @digital_service_account.save
       set_sponsoring_agency_options
     end
 
     def remove_organization
-      ensure_admin_or_contact(@digital_service_account)
+      ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
       @digital_service_account.organization_list.remove(params[:organization_id])
       @digital_service_account.save
       set_sponsoring_agency_options
     end
 
     def add_user
-      ensure_admin_or_contact(@digital_service_account)
+      ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
       @user = User.find_by_email(params[:user][:email])
 
       @user&.add_role(:contact, @digital_service_account)
     end
 
     def remove_user
-      ensure_admin_or_contact(@digital_service_account)
+      ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
       @user = User.find_by_id(params[:user][:id])
 
       @user&.remove_role(:contact, @digital_service_account)

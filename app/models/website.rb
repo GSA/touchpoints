@@ -41,11 +41,11 @@ class Website < ApplicationRecord
     'API' => 'Application Programming Interface',
     'Application' => 'Transactional site (web app/back-end system) with some front-end web content',
     'Application Login' => 'Login page to a back-end system',
-    'Critical infrastructure' => 'Required to support a GSA or shared service',
+    'Critical infrastructure' => 'Required to support an active service',
     'GitHub repo' => 'Site decommissioned; URL redirects to a GitHub repo (status is redirect)',
     'Google form' => 'Site redirects to a Google form (status is redirect)',
-    'Custom' => 'Informational (not transactional) site',
-    'Other' => 'Informational (not transactional) site',
+    'Informational' => 'Informational (not transactional) site',
+    'Other' => 'Other',
   }.freeze
 
   AUTHENTICATION_TOOLS = {
@@ -58,7 +58,8 @@ class Website < ApplicationRecord
     'Max.gov' => 'Max.gov',
     'Okta' => 'Okta',
     'Salesforce' => 'Salesforce',
-    'Custom/Other' => 'Custom/Other',
+    'Custom' => 'Custom',
+    'Other' => 'Other',
     'None' => 'None',
   }.freeze
 
@@ -71,7 +72,8 @@ class Website < ApplicationRecord
     'Medallia' => 'Medallia',
     'SurveyMonkey' => 'SurveyMonkey',
     'Touchpoints' => 'Touchpoints',
-    'Custom/Other' => 'Custom/Other',
+    'Custom' => 'Custom',
+    'Other' => 'Other',
     'None' => 'None',
   }.freeze
 
