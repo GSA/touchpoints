@@ -1,8 +1,11 @@
 <% content_for :navigation_title do %>
   Social Media Account: <%= @digital_service_account.service %>
-  <%= link_to edit_admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button-inverted float-right" do %>
-    <i class="fa fa-pencil-alt"></i>
-    Edit
+
+  <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
+    <%= link_to edit_admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button-inverted float-right" do %>
+      <i class="fa fa-pencil-alt"></i>
+      Edit
+    <% end %>
   <% end %>
 <% end %>
 <p>
@@ -171,6 +174,8 @@
     </div>
   <% end %>
 
+  <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
     <%= render 'components/event_log', events: Event.where(object_type: "Digital Service Account", object_id: @digital_service_account.id.to_s ).order("created_at DESC") %>
+  <% end %>
   </div>
 </div>

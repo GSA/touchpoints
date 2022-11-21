@@ -29,7 +29,9 @@ module Admin
       @digital_product = DigitalProduct.new
     end
 
-    def edit; end
+    def edit
+      ensure_digital_product_permissions(digital_product: @digital_product)
+    end
 
     def create
       @digital_product = DigitalProduct.new(digital_product_params)
@@ -63,45 +65,52 @@ module Admin
     end
 
     def destroy
+      ensure_digital_product_permissions(digital_product: @digital_product)
       @digital_product.destroy
       Event.log_event(Event.names[:digital_product_deleted], 'Digital Product', @digital_product.id, "Digital Product #{@digital_product.name} deleted at #{DateTime.now}", current_user.id)
       redirect_to admin_digital_products_url, notice: 'Digital product was successfully destroyed.'
     end
 
     def add_tag
+      ensure_digital_product_permissions(digital_product: @digital_product)
       @digital_product.tag_list.add(digital_product_params[:tag_list].split(','))
       @digital_product.save
     end
 
     def remove_tag
+      ensure_digital_product_permissions(digital_product: @digital_product)
       @digital_product.tag_list.remove(digital_product_params[:tag_list].split(','))
       @digital_product.save
     end
 
     def add_organization
+      ensure_digital_product_permissions(digital_product: @digital_product)
       @digital_product.organization_list.add(params[:organization_id])
       @digital_product.save
       set_sponsoring_agency_options
     end
 
     def remove_organization
+      ensure_digital_product_permissions(digital_product: @digital_product)
       @digital_product.organization_list.remove(params[:organization_id])
       @digital_product.save
       set_sponsoring_agency_options
     end
 
     def add_user
+      ensure_digital_product_permissions(digital_product: @digital_product)
       @user = User.find_by_email(params[:user][:email])
-
       @user&.add_role(:contact, @digital_product)
     end
 
     def remove_user
+      ensure_digital_product_permissions(digital_product: @digital_product)
       @user = User.find_by_id(params[:user][:id])
       @user&.remove_role(:contact, @digital_product)
     end
 
     def submit
+      ensure_digital_product_permissions(digital_product: @digital_product)
       if @digital_product.submit!
         Event.log_event(Event.names[:digital_product_submitted], 'Digital Product', @digital_product.id, "Digital Product #{@digital_product.name} submitted at #{DateTime.now}", current_user.id)
 
