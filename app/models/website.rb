@@ -44,8 +44,8 @@ class Website < ApplicationRecord
     'Critical infrastructure' => 'Required to support a GSA or shared service',
     'GitHub repo' => 'Site decommissioned; URL redirects to a GitHub repo (status is redirect)',
     'Google form' => 'Site redirects to a Google form (status is redirect)',
-    'Custom' => 'Informational (not transactional) site',
-    'Other' => 'Informational (not transactional) site',
+    'Informational' => 'Informational (not transactional) site',
+    'Other' => 'Other',
   }.freeze
 
   AUTHENTICATION_TOOLS = {
