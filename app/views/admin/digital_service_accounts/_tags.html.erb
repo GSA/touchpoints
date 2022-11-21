@@ -11,20 +11,27 @@
             <span class="usa-tag">
               <%= tag %>
             </span>
+
+            <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
             <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= tag %>">
               <span class="fa fa-trash"></span>
             </a>
+            <% end %>
           </li>
           <% end %>
         </ul>
       </div>
-      <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
+
+      <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
+        <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
+      <% end %>
     </div>
   </div>
 <% end %>
+
+<% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
 <script>
   $(function() {
-
     $(".tag-input").on("blur", function(event) {
       event.preventDefault();
       var thisForm = $(this).closest("form");
@@ -54,3 +61,4 @@
 
   });
 </script>
+<% end %>

@@ -2,9 +2,12 @@
   <div class="grid-col-12">
     <% content_for :navigation_title do %>
       Viewing Mobile App: <%= @digital_product.name %>
-      <%= link_to edit_admin_digital_product_path(@digital_product), class: "usa-button usa-button-inverted float-right" do %>
-        <i class="fa fa-pencil-alt"></i>
-        Edit
+
+      <% if digital_product_permissions?(digital_product: @digital_product, user: current_user) %>
+        <%= link_to edit_admin_digital_product_path(@digital_product), class: "usa-button usa-button-inverted float-right" do %>
+          <i class="fa fa-pencil-alt"></i>
+          Edit
+        <% end %>
       <% end %>
     <% end %>
 
@@ -223,7 +226,9 @@
       <% end %>
     </div>
 
-    <%= render 'components/event_log', events: Event.where(object_type: "Digital Product", object_id: @digital_product.id.to_s ).order("created_at DESC") %>
+    <% if digital_product_permissions?(digital_product: @digital_product, user: current_user) %>
+      <%= render 'components/event_log', events: Event.where(object_type: "Digital Product", object_id: @digital_product.id.to_s ).order("created_at DESC") %>
+    <% end %>
 
   </div>
 </div>

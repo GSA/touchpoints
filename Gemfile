@@ -69,7 +69,7 @@ gem 'redis-namespace'
 gem 'sass-rails', '>= 6.0.0'
 gem 'sidekiq'
 gem 'json-jwt'
-gem 'aasm', '~> 5.2.0'
+gem 'aasm'
 gem 'whenever', require: false
 gem 'logstop'
 gem 'paper_trail'
