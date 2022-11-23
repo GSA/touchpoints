@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_18_235123) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_22_182330) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -128,7 +128,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_18_235123) do
     t.string "url"
     t.string "code_repository_url"
     t.string "language"
-    t.string "status"
     t.string "aasm_state"
     t.string "short_description"
     t.text "long_description"
@@ -140,6 +139,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_18_235123) do
     t.string "name"
     t.integer "legacy_id"
     t.text "legacy_notes"
+    t.index ["aasm_state"], name: "index_digital_products_on_aasm_state"
   end
 
   create_table "digital_service_accounts", force: :cascade do |t|
@@ -148,7 +148,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_18_235123) do
     t.string "service_url"
     t.string "account"
     t.string "language"
-    t.string "status"
     t.string "short_description"
     t.text "long_description"
     t.text "notes"
@@ -160,6 +159,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_18_235123) do
     t.string "aasm_state"
     t.integer "legacy_id"
     t.text "legacy_notes"
+    t.index ["aasm_state"], name: "index_digital_service_accounts_on_aasm_state"
   end
 
   create_table "events", force: :cascade do |t|
