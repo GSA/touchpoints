@@ -167,29 +167,28 @@
   </div>
   <div class="desktop:grid-col-4">
     <% if digital_product_permissions?(digital_product: @digital_product, user: current_user) && (@digital_product.created? || !@digital_product.archived?) %>
-    <div class="well">
-      <span class="usa-tag bg-blue">
-        for Contacts
-      </span>
+    <div class="border border-base-lighter padding-2 padding-bottom-1 margin-bottom-1">
+      <div class="margin-bottom-2">
+        <span class="usa-tag bg-blue">
+          for Contacts
+        </span>
+      </div>
 
       <% if @digital_product.created? %>
-      <p>
-        <%= link_to submit_admin_digital_product_path(@digital_product), class: "usa-button width-full", method: :post do %>
+        <%= link_to submit_admin_digital_product_path(@digital_product), class: "usa-button width-full margin-bottom-2", method: :post do %>
           <span class="fa fa-check"></span>
           &nbsp;
           Submit
         <% end %>
-      </p>
       <% end %>
 
       <% if !@digital_product.archived? %>
-      <p>
-        <%= link_to archive_admin_digital_product_path(@digital_product), class: "usa-button usa-button--base width-full", method: :post do %>
-          <span class="fa fa-archive"></span>
-          &nbsp;
-          Archive
-        <% end %>
-      </p>
+
+      <%= link_to archive_admin_digital_product_path(@digital_product), class: "usa-button usa-button--base width-full margin-bottom-2", method: :post do %>
+        <span class="fa fa-archive"></span>
+        &nbsp;
+        Archive
+      <% end %>
 
       <div class="usa-alert usa-alert--info">
         <div class="usa-alert__body">
@@ -205,7 +204,7 @@
     <% end %>
 
     <% if registry_manager_permissions?(user: current_user) %>
-    <div class="well">
+    <div class="border border-base-lighter padding-2 padding-bottom-1 margin-bottom-1">
       <div class="margin-bottom-2">
         <span class="usa-tag bg-violet">
           for Registry Managers
@@ -230,7 +229,7 @@
     </div>
     <% end %>
 
-    <div class="well">
+    <div class="well2 border border-base-lighter padding-top-1 padding-right-2 padding-left-2">
       <%= turbo_frame_tag id="digital_product_versions_container", src: admin_digital_product_digital_product_versions_path(@digital_product) do %>
       Please wait...
       <% end %>

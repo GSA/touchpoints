@@ -2,13 +2,17 @@
   <h3>
     Digital Product Versions
   </h3>
-  <p class="usa-prose font-sans-2xs">
-    A Digital Product may have one or more versions (1.0, 1.1, 2.0, etc.)
-    and be available on one or more platforms.
-  </p>
+  <div class="usa-alert margin-bottom-2">
+    <div class="usa-alert__body">
+      <p class="usa-alert__text font-sans-2xs">
+        A Digital Product may have one or more versions (1.0, 1.1, 2.0, etc.)
+        and be available on one or more platforms.
+      </p>
+    </div>
+  </div>
 
   <% if digital_product_permissions?(digital_product: @digital_product, user: current_user) %>
-  <span><%= link_to "New digital product version", new_admin_digital_product_digital_product_version_path(@digital_product), class: "usa-button" %></span>
+  <%= link_to "New digital product version", new_admin_digital_product_digital_product_version_path(@digital_product), class: "usa-button" %>
   <% end %>
 
   <table class="usa-table width-full">
