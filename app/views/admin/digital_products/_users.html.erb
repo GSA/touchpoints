@@ -1,15 +1,18 @@
 <%= form_with(model: digital_product, url: admin_digital_product_path(digital_product), local: true) do |f| %>
   <%= label_tag "Contacts", nil, class: "usa-label" %>
   <small>
-    Associate one or more users with this record.
+    Associate one or more existing Touchpoints users with this record.
   </small>
-  <br>
-  <br>
-  <div class="users-list">
-    <ul class="usa-list usa-list--unstyled">
+
+  <% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
+    <%= f.text_field :user_email_address, placeholder: "email address" , value: nil, class: "usa-input tag-input" %>
+  <% end %>
+
+  <div class="users-list margin-top-1">
+    <ul class="usa-list usa-list--unstyled margin-top-1 tag-list">
       <% digital_product.roles.sort.each do |role| %>
       <% role.users.sort_by { |u| u.email }.each do |user| %>
-      <li style="margin-bottom: 3px;">
+      <li>
         <span class="usa-tag">
           <%= user.email %>
         </span>
@@ -23,9 +26,6 @@
       <% end %>
     </ul>
   </div>
-  <% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
-    <%= f.text_field :user_email_address, placeholder: "email address", value: nil, class: "usa-input tag-input" %>
-  <% end %>
 <% end %>
 
 <% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
