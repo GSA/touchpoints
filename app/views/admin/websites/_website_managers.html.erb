@@ -1,23 +1,21 @@
 <div id="website-managers-div" class="grid-row" data-value="<%= admin_website_path(@website) %>">
   <div class="grid-col-12">
-    <h3>
-      Additional website contacts
-    </h3>
-    <p class="website-manager-list">
-    <ul class="usa-list usa-list--unstyled">
-      <% @website.website_managers.each do |manager| %>
-      <li>
-        <span class="usa-tag">
-           <%= manager.email %>
-        </span>
-        &nbsp;
-        <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= manager.id %>">
-          <span class="fa fa-trash"></span>
-        </a>
-      </li>
-        <% end %>
-    </ul>
-    <p>
+    <%= label_tag "Additional website contacts", nil, class: "usa-label" %>
+    <div class="website-manager-list">
+      <ul class="usa-list usa-list--unstyled">
+        <% @website.website_managers.each do |manager| %>
+        <li>
+          <span class="usa-tag">
+            <%= manager.email %>
+          </span>
+          &nbsp;
+          <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= manager.id %>">
+            <span class="fa fa-trash"></span>
+          </a>
+        </li>
+          <% end %>
+      </ul>
+    </div>
   </div>
 </div>
 
