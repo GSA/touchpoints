@@ -23,17 +23,17 @@
 
   <div class="field">
     <%= form.label :long_description, class: "usa-label" %>
-    <small>
+    <div class="usa-hint font-sans-2xs">
       Should be the same or similar to your app store description
-    </small>
+    </div>
     <%= form.text_area :long_description, class: "usa-textarea" %>
   </div>
 
   <div class="field">
     <%= form.label :screenshot_url, "Icon URL", class: "usa-label" %>
-    <small>
+    <div class="usa-hint font-sans-2xs">
       Please provide the URL of the app or website’s icon
-    </small>
+    </div>
     <%= form.text_field :screenshot_url, class: "usa-input" %>
   </div>
 
@@ -113,19 +113,19 @@
 
   <div class="field">
     <%= form.label :notes, class: "usa-label" %>
-    <small>
+    <div class="usa-hint font-sans-2xs">
       Do not include PII content in this field.
-    </small>
+    </div>
     <%= form.text_area :notes, class: "usa-textarea", placeholder: "Consider including contact information" %>
   </div>
 
   <div class="field">
     <%= form.label :service, class: "usa-label" %>
-    <small>
+    <div class="usa-hint font-sans-2xs">
       Optionally, this Digital Product
       can be associated with a
       <%= link_to "Service", admin_services_path, target: "_blank" %>.
-    </small>
+    </div>
     <%= form.select :service_id, options_for_select(Service.all.map { |s| [s.name, s.id] }), { prompt: "Which Service?" }, { class: "usa-select" } %>
   </div>
 

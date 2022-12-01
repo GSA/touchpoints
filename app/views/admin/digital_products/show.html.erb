@@ -46,7 +46,7 @@
     <p>
       <%= label_tag "Short description", nil, class: "usa-label" %>
       <br>
-      <%= @digital_product.short_description %>
+      <%= to_markdown(@digital_product.short_description) %>
     </p>
 
     <p>

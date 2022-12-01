@@ -54,13 +54,13 @@
     <p>
       <%= label_tag "Short description", nil, class: "usa-label" %>
       <br>
-      <%= @digital_service_account.short_description %>
+      <%= to_markdown(@digital_service_account.short_description) %>
     </p>
 
     <p>
       <%= label_tag "Long description", nil, class: "usa-label" %>
       <br>
-      <%= @digital_service_account.long_description %>
+      <%= to_markdown(@digital_service_account.long_description) %>
     </p>
 
     <p>
