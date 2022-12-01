@@ -1,14 +1,14 @@
 <div id="channel_selector" data-url="<%= admin_service_path(service) %>">
   <div class="grid-row">
     <div class="grid-col-12">
-      <h3>Channels</h3>
-      <p class="font-sans-3xs">
+      <%= label_tag "Service channels", nil, class: "usa-label" %>
+      <div class="usa-hint font-sans-2xs">
         Select all applicable channels
-      </p>
+      </div>
       <p class="channel-list">
         <ul class="usa-list usa-list--unstyled">
           <% service.channel_list.each do |channel| %>
-          <li style="margin-bottom: 3px;">
+          <li>
             <span class="usa-tag">
                <%= channel %>
             </span>
