@@ -1,0 +1,47 @@
+<% content_for :navigation_title do %>
+  IVN Components
+  <%= link_to new_admin_ivn_component_path, class: "usa-button usa-button-inverted float-right" do %>
+  <i class="fa fa-plus-circle"></i>
+  New IVN Component
+  <% end %>
+<% end %>
+
+<p>
+  <%= link_to admin_root_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Admin
+  <% end %>
+</p>
+
+<div id="ivn_components">
+  <table class="usa-table">
+    <thead>
+      <tr>
+        <th>
+          Name
+        </th>
+        <th>
+          URL
+        </th>
+        <th>
+          Description
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+  <% @ivn_components.each do |ivn_component| %>
+      <tr>
+        <td>
+          <%= link_to(ivn_component.name, admin_ivn_component_path(ivn_component)) %>
+        </td>
+        <td>
+          <%= ivn_component.url %>
+        </td>
+        <td>
+          <%= ivn_component.description %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

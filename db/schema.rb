@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_22_182330) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_29_214736) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -274,6 +274,37 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_22_182330) do
     t.index ["users"], name: "index_goals_on_users", using: :gin
   end
 
+  create_table "ivn_component_links", force: :cascade do |t|
+    t.integer "from_id"
+    t.integer "to_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "ivn_components", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "ivn_source_component_links", force: :cascade do |t|
+    t.integer "from_id"
+    t.integer "to_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "ivn_sources", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "url"
+    t.integer "organization_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "milestones", force: :cascade do |t|
     t.integer "organization_id"
     t.integer "goal_id"
@@ -531,7 +562,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_22_182330) do
     t.integer "service_owner_id"
     t.text "justification_text"
     t.text "where_customers_interact"
-    t.string "kind"
+    t.string "kind", array: true
     t.string "aasm_state", default: "created"
     t.text "non_digital_explanation"
     t.integer "service_stages_count", default: 0
@@ -539,9 +570,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_22_182330) do
     t.string "budget_code"
     t.string "uii_code"
     t.boolean "transactional", default: false
-    t.string "potential_solutions_for_digitization"
     t.boolean "digital_service", default: false
     t.string "estimated_annual_volume_of_customers", default: ""
+    t.string "channels", array: true
+    t.boolean "fully_digital_service", default: false
+    t.text "barriers_to_fully_digital_service"
+    t.boolean "multi_agency_service", default: false
+    t.text "multi_agency_explanation"
+    t.string "other_service_type"
+    t.string "customer_volume_explanation"
+    t.text "resources_needed_to_provide_digital_service"
+    t.integer "bureau_id"
+    t.string "office"
+    t.boolean "designated_for_improvement_a11_280", default: false
   end
 
   create_table "submissions", force: :cascade do |t|

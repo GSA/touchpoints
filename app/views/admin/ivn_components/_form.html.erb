@@ -1,0 +1,32 @@
+<%= form_with(model: ivn_component, url: (ivn_component.persisted? ? admin_ivn_component_path(ivn_component) : admin_ivn_components_path), data: { turbo: false }) do |form| %>
+  <% if ivn_component.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(ivn_component.errors.count, "error") %> prohibited this ivn_component from being saved:</h2>
+
+      <ul>
+        <% ivn_component.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, class: "usa-label" %>
+    <%= form.text_field :name, class: "usa-input" %>
+  </div>
+
+  <div>
+    <%= form.label :url, class: "usa-label" %>
+    <%= form.text_field :url, class: "usa-input" %>
+  </div>
+
+  <div>
+    <%= form.label :description, class: "usa-label" %>
+    <%= form.text_area :description, class: "usa-textarea" %>
+  </div>
+
+  <p>
+    <%= form.submit class: "usa-button" %>
+  </p>
+<% end %>
