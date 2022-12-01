@@ -58,7 +58,7 @@
       <br>
       <%= @service.description? ? to_markdown(@service.description) : "empty" %>
     </p>
-    
+
     <p>
       <strong>Service type</strong>
       <br>
@@ -102,7 +102,7 @@
       <span class="usa-tag">
         for HISP-designated Services
       </span>
-    
+
       <p>
         <strong>Why did you select this service for priority designation?</strong>
         <br>
@@ -130,11 +130,6 @@
       <strong>Why this service is not offered digitally</strong>
       <br>
       <%= @service.non_digital_explanation? ? @service.non_digital_explanation : "empty" %>
-    </p>
-    <p>
-      <strong>Potential Solutions for Digitization</strong>
-      <br>
-      <%= @service.potential_solutions_for_digitization? ? @service.potential_solutions_for_digitization : "empty" %>
     </p>
 
     <p>

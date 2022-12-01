@@ -11,47 +11,153 @@
 <% end %>
 <div class="grid-row">
   <div class="grid-col-12">
-   <% if service_manager_permissions? %>
+    <% if service_manager_permissions? %>
     <div class="field">
-      <%= form.label :organization_id, class: "usa-label" %>
+      <%= form.label :organization_id, "Agency/Department", class: "usa-label" %>
       <%= form.select :organization_id, options_for_select(organization_dropdown_options, service.organization_id), { prompt: "Which Organization?" }, { class: "usa-select", required: true } %>
+    </div>
+
+    <div class="field">
+      <%= form.label :organization_id, "Subcomponent/Bureau", class: "usa-label" %>
+      <%= form.select :organization_id, options_for_select(organization_dropdown_options, service.organization_id), { prompt: "Which Organization?" }, { class: "usa-select", required: true } %>
+    </div>
+
+    <div class="field">
+      <%= form.label :organization_id, "Office" , class: "usa-label" %>
+      <%= form.text_field :organization_id, class: "usa-input" %>
     </div>
     <% end %>
 
     <div class="field">
-      <%= form.label :name, class: "usa-label" %>
-      <small>
-        Include a verb (an action the customer takes) in the context of the service offering (the thing the customer is trying to accomplish).
-      </small>
-      <%= form.text_field :name, class: "usa-input", placeholder: "What is the name of this Service?", required: true %>
+      <%= form.label :name, "What is the name of this service?", class: "usa-label" %>
+      <span class="usa-hint font-sans-2xs">
+        For example, “Applying for a replacement Social Security card”, “Visiting a National Wildlife Refuge”, or “Utilizing
+        in-person primary care”
+      </span>
+      <%= form.text_field :name, class: "usa-input", required: true %>
     </div>
 
     <div class="field">
-      <%= form.label :description, class: "usa-label" %>
-      <%= form.text_area :description, class: "usa-textarea", placeholder: "Describe who this service is for and what the service entails." %>
+      <%= form.label :description, "Describe who this service is for and what the service entails", class: "usa-label" %>
+      <%= form.text_area :description, class: "usa-textarea" %>
     </div>
 
-    <div class="field">
-      <%= form.label :kind, "Service type", class: "usa-label" %>
-      <p class="font-sans-3xs">
-        See
-        <a href="https://www.performance.gov/cx/assets/files/2022-OMB-Circular-A11-Section-280.pdf" target="_blank" rel="noopener">OMB A-11 Section 280</a>
-        for more information about Service Types.
-      </p>
-      <%= form.select :kind, options_for_select(Service.kinds, service.kind), { prompt: "Which kind of Service?" }, { class: "usa-select" } %>
-    </div>
-
-    <fieldset class="usa-fieldset margin-top-3">
-      <legend class="usa-sr-only">HISP Service?</legend>
-      <div class="usa-checkbox">
-        <%= form.check_box :hisp, class: "usa-checkbox__input" %>
-        <%= form.label :hisp, "Is this Service a designated High-impact Service?", class: "usa-checkbox__label" %>
-        <p class="font-sans-3xs">
-          See
-          <a href="https://www.performance.gov/cx/assets/files/2022-OMB-Circular-A11-Section-280.pdf" target="_blank" rel="noopener">OMB A-11 Section 280</a>
-          for more information about High-impact Service Providers.
-        </p>
+    <fieldset class="usa-fieldset">
+      <%= form.label :multi_agency_service, "Does the public have to perform steps or tasks with multiple agencies for this service?", class: "usa-label" %>
+      <legend class="usa-legend sr-only">Does the public have to perform steps or tasks with multiple agencies for this service?</legend>
+      <div class="usa-radio">
+        <%= form.radio_button(:multi_agency_service, "Yes", { class: "usa-radio__input usa-radio__input--tile", checked: service.multi_agency_service }) %>
+        <%= form.label(:multi_agency_service, class: "usa-radio__label", value: "Yes") %>
       </div>
+      <div class="usa-radio">
+        <%= form.radio_button(:multi_agency_service, "No", { class: "usa-radio__input usa-radio__input--tile", checked: !service.multi_agency_service }) %>
+        <%= form.label(:multi_agency_service, class: "usa-radio__label", value: "No") %>
+      </div>
+    </fieldset>
+
+    <div class="field hide" id="multi_agency_explanation_option">
+      <%= form.label :multi_agency_explanation, "What other agencies? ", class: "usa-label" %>
+      <span class="usa-hint font-sans-2xs">
+        Because "Yes" was selected regarding multiple agencies, please list the other agency or agencies.
+      </span>
+      <%= form.text_area :multi_agency_explanation, class: "usa-textarea" %>
+    </div>
+
+    <fieldset class="usa-fieldset">
+      <legend class="usa-legend sr-only">Service type</legend>
+      <%= form.label :kind, "Service type", class: "usa-label" %>
+      <div class="usa-hint font-sans-3xs margin-bottom-1">
+        See
+        <a href="https://www.performance.gov/cx/assets/files/2022-OMB-Circular-A11-Section-280.pdf" target="_blank"
+          rel="noopener">OMB A-11 Section 280</a>,
+        280.4
+        for more information about Service Types.
+      </div>
+
+      <% Service.kinds.each_with_index do |option, i| %>
+        <div class="margin-bottom-1">
+          <%= form.check_box(:kind, {
+            multiple: true,
+            checked: form.object.kind&.include?(option),
+            class: "usa-checkbox__input2 usa-checkbox__input--tile2"
+          }, option) %>
+          &nbsp;
+          &nbsp;
+          <%= form.label(option, {}, class: "usa-checkbox__label2") %>
+        </div>
+      <% end %>
+    </fieldset>
+
+    <div class="field">
+      <%= form.label :other_service_type, "Other service type" , class: "usa-label" %>
+        <span class="usa-hint font-sans-2xs">
+          Because "Other" was selected for Service Type,
+          please describe what type of service this is.
+        </span>
+        <%= form.text_field :other_service_type, class: "usa-input" %>
+    </div>
+
+    <% volume_options = [
+      "Less than 1,000",
+      "1,000 – 49,000",
+      "50,000 – 999,999",
+      "1,000,000 – 4,999,999",
+      "5,000,000 – 9,999,999",
+      "More than 10 million",
+      "Unknown"
+    ]
+    %>
+    <div class="field">
+      <%= form.label :estimated_annual_volume_of_customers, "What is the estimated annual customer volume for this service?", class: "usa-label" %>
+      <%= form.select :estimated_annual_volume_of_customers, options_for_select(volume_options, service.service_provider_id), { prompt: "Select Volume of Customers" }, { class: "usa-select" } %>
+    </div>
+
+    <div class="field">
+      <%= form.label :customer_volume_explanation, "Other service type" , class: "usa-label" %>
+        <span class="usa-hint font-sans-2xs">
+          Because "Unknown" was selected for Customer Volume,
+          please explain why customer volume cannot currently be estimated.
+        </span>
+        <%= form.text_field :customer_volume_explanation, class: "usa-input" , required: true %>
+    </div>
+
+    <fieldset class="usa-fieldset">
+      <%= form.label :hisp, "Is this service delivered by a High-Impact Service Provider as defined by Circular A-11 Section 280?" , class: "usa-label" %>
+      <legend class="usa-legend sr-only">
+        Is this service delivered by a High-Impact Service Provider as defined by Circular A-11 Section 280?
+      </legend>
+      <div class="usa-hint font-sans-2xs margin-bottom-1">
+        See
+        <a href="https://www.performance.gov/cx/assets/files/2022-OMB-Circular-A11-Section-280.pdf" target="_blank"
+          rel="noopener">OMB A-11 Section 280</a>,
+        280.13
+        for more information.
+      </div>
+      <div class="usa-radio">
+        <%= form.radio_button(:hisp, "Yes", { class: "usa-radio__input usa-radio__input--tile", checked: service.hisp }) %>
+        <%= form.label(:hisp, class: "usa-radio__label" , value: "Yes" ) %>
+      </div>
+      <div class="usa-radio">
+        <%= form.radio_button(:hisp, "No", { class: "usa-radio__input usa-radio__input--tile", checked: !service.hisp }) %>
+        <%= form.label(:hisp, class: "usa-radio__label" , value: "No" ) %>
+      </div>
+    </fieldset>
+
+    <fieldset id="designated_for_improvement_a11_280_option" class="usa-fieldset">
+      <%= form.label :designated_for_improvement_a11_280, "Is this service designated for improvement as required by Circular A-11 Section 280?" ,
+        class: "usa-label" %>
+        <legend class="usa-legend sr-only">
+          Is this service designated for improvement as required by Circular A-11 Section 280?
+        </legend>
+        <div class="usa-radio">
+          <%= form.radio_button(:designated_for_improvement_a11_280, "Yes" , class: "usa-radio__input usa-radio__input--tile" , checked: service.designated_for_improvement_a11_280 ) %>
+          <%= form.label(:designated_for_improvement_a11_280, class: "usa-radio__label" , value: "Yes" ) %>
+        </div>
+        <div class="usa-radio">
+          <%= form.radio_button(:designated_for_improvement_a11_280, "No" , { class: "usa-radio__input usa-radio__input--tile" , checked: !service.designated_for_improvement_a11_280 })
+            %>
+          <%= form.label(:designated_for_improvement_a11_280, class: "usa-radio__label" , value: "No" ) %>
+        </div>
     </fieldset>
 
     <div id="hisp-specific-options" class="well">
@@ -71,7 +177,7 @@
         <%= form.select :service_provider_id, options_for_select(@service_providers.map { |p| ["#{p.organization.abbreviation} - #{p.name}", p.id] }, service.service_provider_id), { prompt: "Which Service Provider?" }, { class: "usa-select" } %>
       </div>
 
-       <fieldset class="usa-fieldset margin-top-2 margin-bottom-3">
+       <fieldset class="usa-fieldset margin-bottom-3">
         <legend class="usa-sr-only">Transactional Service?</legend>
         <div class="usa-checkbox">
           <%= form.check_box :transactional, class: "usa-checkbox__input" %>
@@ -120,96 +226,92 @@
       <% end %>
     </div>
 
-    <div class="margin-top-3">
+    <div>
+      <%= form.label :digital_service, "Does this service have non-digital, paper-based, or in-person steps or tasks for the public that could be offered digitally?",
+        class: "usa-label" %>
       <fieldset class="usa-fieldset">
-        <legend class="usa-legend usa-sr-only">Digital Service?</legend>
-        <div class="usa-checkbox">
-          <%= form.check_box :digital_service?, class: "usa-checkbox__input" %>
-          <%= form.label :digital_service?, "Is this a Digital Service?", class: "usa-checkbox__label" %>
+        <legend class="usa-legend sr-only">
+          Does this service have non-digital, paper-based, or in-person steps or tasks for the public that could be offered digitally?
+        </legend>
+        <div class="usa-radio">
+          <%= form.radio_button(:digital_service, "Yes", { class: "usa-radio__input usa-radio__input--tile", checked: service.digital_service }) %>
+          <%= form.label(:digital_service, class: "usa-radio__label", value: "Yes" ) %>
         </div>
-        <p class="font-sans-3xs">
-          A digital service is a service in which there is an option to fully complete a transaction or received information online via a website or mobile application without any interactions that require in-person activities or paper-based processes.
-        </p>
+        <div class="usa-radio">
+          <%= form.radio_button(:digital_service, "No" , { class: "usa-radio__input usa-radio__input--tile", checked: !service.digital_service }) %>
+          <%= form.label(:digital_service, class: "usa-radio__label", value: "No" ) %>
+        </div>
       </fieldset>
+
+      <div id="resources_needed_to_provide_digital_service_option" class="field">
+        <%= form.label :resources_needed_to_provide_digital_service, "What resources would be needed to provide a digital option for these steps or tasks?" , class: "usa-label" %>
+        <%= form.text_area :resources_needed_to_provide_digital_service, class: "usa-textarea" %>
+      </div>
+
+
+      <fieldset class="usa-fieldset">
+        <%= form.label :fully_digital_service, "Does this service offer a fully digital option?" , class: "usa-label" %>
+        <legend class="usa-legend sr-only">
+          Does this service offer a fully digital option?
+        </legend>
+        <div class="usa-radio">
+          <%= form.radio_button(:fully_digital_service, "Yes" , class: "usa-radio__input usa-radio__input--tile" ) %>
+          <%= form.label(:fully_digital_service, class: "usa-radio__label" , value: "Yes" ) %>
+        </div>
+        <div class="usa-radio">
+          <%= form.radio_button(:fully_digital_service, "No" , { class: "usa-radio__input usa-radio__input--tile" }) %>
+          <%= form.label(:fully_digital_service, class: "usa-radio__label" , value: "No" ) %>
+        </div>
+      </fieldset>
+
+      <div class="field">
+        <%= form.label :barriers_to_fully_digital_service,
+            "What are the barriers to make this service fully digital? (e.g. existing technologies, procedural changes, regulatory changes, legislative changes)?",
+            class: "usa-label" %>
+        <%= form.text_area :barriers_to_fully_digital_service, class: "usa-textarea" %>
+      </div>
 
     <% if service_manager_permissions? && service.persisted? %>
       <div class="field">
-        <div class="well">
-          <div class="channels-div">
-            <%= render 'admin/services/channels' , service: @service, channel_options: @channel_options %>
-          </div>
+        <div class="channels-div">
+          <%= render 'admin/services/channels' , service: @service, channel_options: @channel_options %>
         </div>
       </div>
     <% end %>
 
       <div class="field" hidden>
         <%= form.label :where_customers_interact, "Service channels" , class: "usa-label" %>
-          <small>
-            What are the channels (“the places”) by which customers interact with this service? Are there digital
-            channels?
-            If yes, list them. If not, briefly describe why and what ideas or efforts are underway to utilize digital
-            channels?
-          </small>
-          <%= form.text_area :where_customers_interact, class: "usa-textarea" %>
+        <small>
+          What are the channels (“the places”) by which customers interact with this service? Are there digital
+          channels?
+          If yes, list them. If not, briefly describe why and what ideas or efforts are underway to utilize digital
+          channels?
+        </small>
+        <%= form.text_area :where_customers_interact, class: "usa-textarea" %>
       </div>
 
-      <div class="field">
-        <%= form.label :non_digital_explanation, "Describe why this service is not offered digitally, and summarize any challenges or barriers (e.g., cost, existing technology, law or regulations)", class: "usa-label" %>
+      <div class="field" hidden>
+        <%= form.label :non_digital_explanation, "Describe why this service is not offered digitally, and summarize any challenges or barriers", class: "usa-label" %>
+        <span class="usa-hint font-sans-2xs">
+          e.g., cost, existing technology, law or regulations
+        </span>
         <%= form.text_area :non_digital_explanation, class: "usa-textarea", maxlength: 250 %>
       </div>
 
       <div class="field">
-        <%= form.label :potential_solutions_for_digitization, class: "usa-label" %>
-        <%= form.text_area :potential_solutions_for_digitization, class: "usa-textarea" %>
+        <%= form.label :homepage_url, "URL where the public can learn about the service", class: "usa-label" %>
+        <%= form.text_field :homepage_url, class: "usa-input" %>
       </div>
 
       <div class="field">
-        <%= form.label :homepage_url, "Service homepage URL", class: "usa-label" %>
-        <%= form.text_field :homepage_url, class: "usa-input", placeholder: "https://www.example.gov/" %>
+        <%= form.label :url, "URL where the public can complete steps or tasks", class: "usa-label" %>
+        <%= form.text_field :url, class: "usa-input" %>
       </div>
-
-      <div class="field">
-        <%= form.label :url, "Service URL", class: "usa-label" %>
-        <%= form.text_field :url, class: "usa-input", placeholder: "https://example.gov/service-name" %>
-      </div>
-
-      <fieldset class="usa-fieldset margin-top-5">
-        <legend class="usa-legend">What is the estimated annual customer volume for this service?</legend>
-        <div class="usa-radio">
-          <%= form.radio_button(:estimated_annual_volume_of_customers, "Less than 1000", class: "usa-radio__input usa-radio__input--tile") %>
-          <%= form.label(:estimated_annual_volume_of_customers, class: "usa-radio__label", value: "Less than 1000") %>
-        </div>
-        <div class="usa-radio">
-          <%= form.radio_button(:estimated_annual_volume_of_customers, "1,000 – 49,000", { class: "usa-radio__input usa-radio__input--tile" }) %>
-          <%= form.label(:estimated_annual_volume_of_customers, class: "usa-radio__label", value: "1,000 – 49,000") %>
-        </div>
-        <div class="usa-radio">
-          <%= form.radio_button(:estimated_annual_volume_of_customers, "50,000 – 999,999", { class: "usa-radio__input usa-radio__input--tile" }) %>
-          <%= form.label(:estimated_annual_volume_of_customers, class: "usa-radio__label", value: "50,000 – 999,999") %>
-        </div>
-        <div class="usa-radio">
-          <%= form.radio_button(:estimated_annual_volume_of_customers, "1,000,000 – 4,999,999", { class: "usa-radio__input usa-radio__input--tile" }) %>
-          <%= form.label(:estimated_annual_volume_of_customers, class: "usa-radio__label", value: "1,000,000 – 4,999,999") %>
-        </div>
-        <div class="usa-radio">
-          <%= form.radio_button(:estimated_annual_volume_of_customers, "5,000,000 – 9,999,999", { class: "usa-radio__input usa-radio__input--tile" }) %>
-          <%= form.label(:estimated_annual_volume_of_customers, class: "usa-radio__label", value: "5,000,000 – 9,999,999") %>
-        </div>
-        <div class="usa-radio">
-          <%= form.radio_button(:estimated_annual_volume_of_customers, "More than 10 million", { class: "usa-radio__input usa-radio__input--tile" }) %>
-          <%= form.label(:estimated_annual_volume_of_customers, class: "usa-radio__label", value: "More than 10 million") %>
-        </div>
-        <div class="usa-radio">
-          <%= form.radio_button(:estimated_annual_volume_of_customers, "unknown", { class: "usa-radio__input usa-radio__input--tile" }) %>
-          <%= form.label(:estimated_annual_volume_of_customers, "Unknown", class: "usa-radio__label", value: "unknown") %>
-        </div>
-      </fieldset>
-
     </div>
 
     <div class="field">
-      <%= form.label :notes, class: "usa-label" %>
-      <%= form.text_area :notes, class: "usa-textarea", placeholder: "Additional notes about the service" %>
+      <%= form.label :notes, "Additional information about this service", class: "usa-label" %>
+      <%= form.text_area :notes, class: "usa-textarea" %>
     </div>
   </div>
 
@@ -256,5 +358,60 @@
         hideHispOptions();
       }
     })
+
+
+    // handle the conditions for form elements on change events
+    // 2 ifs for each applicable form component
+    $("#service_hisp_yes").on('click', function() {
+      alert('hi')
+      $("#service_designated_for_improvement_a11_280").attr('required', true);
+      $("#designated_for_improvement_a11_280_option").show();
+    })
+    $("#service_hisp_no").on('click', function() {
+      alert('bye')
+      $("#service_designated_for_improvement_a11_280").attr('required', false);
+      $("#designated_for_improvement_a11_280_option").hide();
+    })
+
+    $("#service_digital_service_yes").on('click', function() {
+      alert('hi')
+      $("#service_designated_for_improvement_a11_280").attr('required', true);
+      $("#resources_needed_to_provide_digital_service_option").show();
+    })
+    $("#service_digital_service_no").on('click', function() {
+      alert('bye')
+      $("#service_designated_for_improvement_a11_280").attr('required', false);
+      $("#resources_needed_to_provide_digital_service_option").hide();
+    })
+
+    $("#service_multi_agency_service_yes").on('click', function() {
+      alert('hi')
+      $("#service_multi_agency_explanation").attr('required', true);
+      $("#multi_agency_explanation_option").show();
+    })
+    $("#service_multi_agency_service_no").on('click', function() {
+      alert('bye')
+      $("#service_multi_agency_explanation").attr('required', false);
+      $("#multi_agency_explanation_option").hide();
+    })
+
+    // handle selected items on page load
+    // 1 if for each applicable form component
+    if ($("#service_hisp_yes").prop('checked', true) ) {
+
+      $("#service_designated_for_improvement_a11_280").attr('required', true);
+      $("#designated_for_improvement_a11_280_option").show();
+    }
+    if ($("#service_digital_service_yes").prop('checked', true) ) {
+
+      $("#service_multi_agency_explanation").attr('required', true);
+      $("#multi_agency_explanation_option").show();
+    }
+    if ($("#service_multi_agency_service_yes").prop('checked', true) ) {
+
+      $("#service_multi_agency_explanation").attr('required', true);
+      $("#multi_agency_explanation_option").show();
+    }
+
   })
 </script>

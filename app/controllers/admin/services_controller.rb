@@ -256,7 +256,7 @@ module Admin
         :estimated_annual_volume_of_customers,
         :hisp,
         :justification_text,
-        :kind,
+
         :name,
         :non_digital_explanation,
         :notes,
@@ -268,6 +268,17 @@ module Admin
         :channel_list,
         :where_customers_interact,
         :transactional,
+        :channels,
+        :fully_digital_service,
+        :barriers_to_fully_digital_service,
+        :multi_agency_service,
+        :multi_agency_explanation,
+        :other_service_type,
+        :customer_volume_explanation,
+        :resources_needed_to_provide_digital_service,
+        :designated_for_improvement_a11_280,
+        kind: []
+
       )
     end
   end
