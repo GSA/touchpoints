@@ -53,6 +53,12 @@
 
   <div class="field">
     <%= form.label :pmo_established, "3. Establishment of CSCRM PMO or equivalent", class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      Section 2.3.5 “C-SCRM PMO”
+
+      Numerous references to the role of a C-SCRM PMO throughout the publication, to include Appendix A” C-SCRM Security
+      Controls (search on “PMO”)
+    </div>
     <%= form.select :pmo_established, [
         "No",
         "Plan Developed",
@@ -70,6 +76,12 @@
     <%= form.label :interdisciplinary_team_established,
       "4. Establishment of an interdisciplinary enterprise-wide Department or Agency team including SMEs from IT, Logistics, Procurement, Cybersecurity, Mission, Legal, ERM and CFO officials to manage and mitigate risk in the C-SCRM supply chain",
       class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      Section 2 “Integration of C-SCRM into Enterprise-wide Risk Management”
+      Guidance is also provided in Section 2.3 about multi-level risk management roles and responsibilities.
+
+      Appendix G: “C-SCRM Activities in the Risk Management Process”
+    </div>
     <%= form.select :interdisciplinary_team_established, [
         "No",
         "Plan Developed",
@@ -88,6 +100,11 @@
     <%= form.label :enterprise_risk_management_function_established,
       "5. Governance structure has been established that integrates with the Enterprise Risk Management Function",
       class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      Section 2.3.2 “Level 1 – Enterprise”
+
+      Appendix G: Appendix G: “C-SCRM Activities in the Risk Management Process”: FRAME inputs and conditions
+    </div>
     <%= form.select :enterprise_risk_management_function_established, [
         "Not established",
         "Executive Board evaluates risks across enterprise",
@@ -104,6 +121,16 @@
     <%= form.label :enterprise_wide_scrm_policy_established,
       "6. Established Enterprise-wide SCRM policy",
       class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      SR-1 “Policy and Procedures.”
+
+      Refer also to C-SCRM security control supplemental guidance for policy and procedures in other control families (e.g.,
+      AC-1, CP-1, SA-1, etc.)
+      <br>
+      Appendix D.2: “C-SCRM Templates” “C-SCRM Policy”
+      <br>
+      Appendix G: Appendix G: “C-SCRM Activities in the Risk Management Process”: FRAME inputs and conditions
+    </div>
     <%= form.select :enterprise_wide_scrm_policy_established, [
         "No",
         "Plan Developed",
@@ -121,6 +148,12 @@
     <%= form.label :agency_wide_scrm_strategy_and_implementation_plan_established,
       "7. Established agency-wide SCRM strategy and implementation plan",
       class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      Section 2.3 “Multi-level Risk Management”
+
+      PM-30 Supply Chain Risk Management Strategy
+      Appendix D.1: “C-SCRM Strategy and Implementation Plan" guidance and template
+    </div>
     <%= form.select :agency_wide_scrm_strategy_and_implementation_plan_established, [
         "No",
         "Plan Developed",
@@ -138,6 +171,9 @@
     <%= form.label :funding_for_initial_operating_capability,
       "8. Identified or secured funding for CSCRM program functions for Initial Operating Capability",
       class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      “Critical Success Factors” Section 3.6 “Dedicated Resources”
+    </div>
     <%= form.select :funding_for_initial_operating_capability, [
         "Not Identified or secured",
         "Identified by not secured",
@@ -155,6 +191,13 @@
     <%= form.label :staffing,
       "9. Staffing identified and secured to perform C-SCRM functions",
       class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      Section 2.3.1-5 “Roles and Responsibilities Across the Three Levels”
+
+      Section 3.3 “C-SCRM Training and Awareness”
+
+      Section 3.6 “Dedicated Resources”
+    </div>
     <%= form.select :staffing, [
         "Not Identified or secured",
         "Identified by not secured",
@@ -185,7 +228,13 @@
     workforce and IT/Information Security personnel)</legend>
     <%= form.label :staffing, "10. C-SCRM roles and functional responsibilities clearly defined for key C-SCRM personnel (minimally, PMO, acquisition
     workforce and IT/Information Security personnel)", class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      Section 2.3.1-5 “Roles and Responsibilities Across the Three Levels”
 
+      Section 3.1 “C-SCRM in Acquisition”
+
+      Appendix D.1 and D.2 “C-SCRM Strategy and Implementation Plan” and “C-SCRM Policy”
+    </div>
     <br>
     <% question_10_options.each_with_index do |option, i| %>
       <div class="margin-bottom-1">
@@ -219,7 +268,24 @@
     mission-essential functions)</legend>
     <%= form.label :staffing, "11. Identified missions, assets, systems, processes, data and suppliers (e.g., HVAs, critical suppliers,
     mission-essential functions)" , class: "usa-label" %>
-
+    <div class="usa-hint font-sans-2xs">
+      Section 3.1.1. Acquisition in the C-SCRM Strategy and Implementation Plan
+      <br>
+      Appendix E: :FASCSA”
+      Table E-1 “Baseline Risk Factors”
+      <br>
+      Appendix G: Appendix G: “C-SCRM Activities in the Risk Management Process”: Task 1-1; Task 2-0
+      <br>
+      RA-9 Criticality Analysis
+      CM-8 System Component Inventory
+      PM-5 System Inventory
+      SR-13 Supplier Inventory
+      <br>
+      See also:
+      NISTIR 8179: “Criticality Analysis Process Model: Prioritizing Systems and Components”
+      <br>
+      FIPS 199 “Standards for Security Categorization of Federal Information and Information
+    </div>
     <br>
     <% question_11_options.each_with_index do |option, i| %>
       <div class="margin-bottom-1">
@@ -242,6 +308,27 @@
 
   <div class="field">
     <%= form.label :prioritization_process, "12. Established process to prioritize by criticality", class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      Section 3.1.1. Acquisition in the C-SCRM Strategy and Implementation Plan
+      <br>
+      Appendix E: :FASCSA”
+      Table E-1 “Baseline Risk Factors”
+      <br>
+      Appendix G: Appendix G: “C-SCRM Activities in the Risk Management Process”: Task 1-1; Task 2-0
+      <br>
+      RA-9 Criticality Analysis
+      <br>
+      CM-8 System Component Inventory
+      <br>
+      PM-5 System Inventory
+      <br>
+      SR-13 Supplier Inventory
+      <br>
+      See also:
+      NISTIR 8179: “Criticality Analysis Process Model: Prioritizing Systems and Components”
+      <br>
+      FIPS 199 “Standards for Security Categorization of Federal Information and Information Systems”
+    </div>
     <%= form.select :prioritization_process, [
         "No",
         "Plan Developed",
@@ -270,7 +357,15 @@
   <fieldset class="usa-fieldset">
     <legend class="usa-sr-only">13. C-SCRM considerations in procurement processes and actions</legend>
     <%= form.label :staffing, "13. C-SCRM considerations in procurement processes and actions" , class: "usa-label" %>
-
+    <div class="usa-hint font-sans-2xs">
+      Section 3.1. C-SCRM in Acquisition
+      <br>
+      SA Security Control Family
+      <br>
+      SR-5 Acquisition Strategies, Tools, and Methods
+      <br>
+      SR-6 Supplier Assessments and Reviews
+    </div>
     <br>
     <% question_13_options.each_with_index do |option, i| %>
       <div class="margin-bottom-1">
@@ -299,6 +394,15 @@
   <fieldset class="usa-fieldset">
     <legend class="usa-sr-only">14. Conducts Supply Chain Risk Assessments (SCRA) for prioritized products and services</legend>
     <%= form.label :staffing, "14. Conducts Supply Chain Risk Assessments (SCRA) for prioritized products and services" , class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      SR-6 “Supplier Assessments and Reviews”
+      <br>
+      Appendix D.4 ”Cybersecurity Supply Chain Risk Assessment Template”
+      <br>
+      Appendix E: “FASCSA”
+      <br>
+      Appendix G: ASSESS
+    </div>
 
     <br>
     <% question_14_options.each_with_index do |option, i| %>
@@ -329,7 +433,13 @@
   <fieldset class="usa-fieldset">
     <legend class="usa-sr-only">15. Personnel required to complete general or role-based SCRM training requirements</legend>
     <%= form.label :staffing, "15. Personnel required to complete general or role-based SCRM training requirements" , class: "usa-label" %>
-
+    <div class="usa-hint font-sans-2xs">
+      Section 3.3 “Training and Awareness”
+      <br>
+      Awareness and Training Security Controls (AT-1 through AT-4)
+      <br>
+      Various miscellaneous references to training throughout the publication (search on “training”)
+    </div>
     <br>
     <% question_15_options.each_with_index do |option, i| %>
       <div class="margin-bottom-1">
@@ -347,9 +457,21 @@
 
   <div class="field">
     <%= form.label :established_process_information_sharing_with_fasc, "16. Established process for internal and exchanging information sharing with the Federal Acquisition Security Council (FASC)", class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      Section 1: “Introduction”
+      <br>
+      Section 2.3.5 “C-SCRM PMO”
+      <br>
+      Section 3.2 “Supply Chain Information Sharing”
+      <br>
+      Appendix E: “FASCSA”
+      <br>
+      AC-21 “Information Sharing”
+      <br>
+      Note: Information sharing is referenced in various additional security controls (search on “information sharing”)
+    </div>
     <%= form.text_field :established_process_information_sharing_with_fasc, class: "usa-input" %>
   </div>
-
 
   <% question_17_options = [
       'Not considered',
@@ -364,7 +486,9 @@
     <legend class="usa-sr-only">17. Cybersecurity supply chain risk and resiliency considerations are incorporated into organizational COOP and Recovery
     Plans</legend>
     <%= form.label :staffing, "17. Cybersecurity supply chain risk and resiliency considerations are incorporated into organizational COOP and Recovery Plans" , class: "usa-label" %>
-
+    <div class="usa-hint font-sans-2xs">
+      Contingency Planning Security Control Family
+    </div>
     <br>
     <% question_17_options.each_with_index do |option, i| %>
       <div class="margin-bottom-1">

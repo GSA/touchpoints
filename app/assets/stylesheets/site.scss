@@ -580,12 +580,3 @@ table .no-wrap {
   text-decoration: none;
   padding-left: 10px;
 }
-
-// Override default USWDS label styles
-body.show,
-body.edit {
-  .usa-label {
-    font-size: 0.875rem;
-    color: #919191;
-  }
-}
