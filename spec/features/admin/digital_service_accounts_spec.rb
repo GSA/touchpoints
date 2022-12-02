@@ -115,7 +115,7 @@ feature 'Digital Service Accounts', js: true do
         visit admin_digital_service_account_path(digital_service_account)
 
         select(organization.name, from: 'organization_id')
-        page.find('#organization_id').native.send_keys :tab
+        page.find('#digital_service_account_tag_list').native.send_keys :tab # to lose focus
       end
 
       it 'creates an organization' do
