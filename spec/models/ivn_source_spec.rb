@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-RSpec.describe Admin::IvnComponent, type: :model do
+RSpec.describe IvnSource, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end
