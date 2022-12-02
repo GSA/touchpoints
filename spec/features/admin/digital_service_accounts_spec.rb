@@ -27,8 +27,8 @@ feature 'Digital Service Accounts', js: true do
           #expect(page).to have_link('Export results to .csv')
 
           within('.usa-table') do
-            expect(page).to have_content('Platform')
-            expect(page).to have_content('Account name')
+            expect(page).to have_content('Account type (platform)')
+            expect(page).to have_content('Name (handle)')
             expect(page).to have_content('Status')
             expect(page).to have_content('Updated at')
           end
@@ -222,6 +222,7 @@ feature 'Digital Service Accounts', js: true do
     describe '#review' do
       let!(:digital_service_account) { FactoryBot.create(:digital_service_account, name: 'Test1', service: 'Facebook', aasm_state: 'published') }
       let!(:digital_service_account_2) { FactoryBot.create(:digital_service_account, aasm_state: 'created') }
+      let!(:digital_service_account_3) { FactoryBot.create(:digital_service_account, aasm_state: 'updated') }
 
       before do
         visit review_admin_digital_service_accounts_path
@@ -230,7 +231,7 @@ feature 'Digital Service Accounts', js: true do
       it 'shows a table with 1 filtered result' do
         expect(page).to have_content('Review Social Media Accounts')
         expect(page).to have_link('New Account')
-        expect(page).to have_css('.usa-table tbody tr', count: 1)
+        expect(page).to have_css('.usa-table tbody tr', count: 2)
       end
     end
   end

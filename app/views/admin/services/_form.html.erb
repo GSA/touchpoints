@@ -14,17 +14,17 @@
     <% if service_manager_permissions? %>
     <div class="field">
       <%= form.label :organization_id, "Agency/Department", class: "usa-label" %>
-      <%= form.select :organization_id, options_for_select(organization_dropdown_options, service.organization_id), { prompt: "Which Organization?" }, { class: "usa-select", required: true } %>
+      <%= form.select :organization_id, options_for_select(organization_dropdown_options, service.organization_id), { prompt: "Which Agency?" }, { class: "usa-select", required: true } %>
     </div>
 
     <div class="field">
-      <%= form.label :organization_id, "Subcomponent/Bureau", class: "usa-label" %>
-      <%= form.select :organization_id, options_for_select(organization_dropdown_options, service.organization_id), { prompt: "Which Organization?" }, { class: "usa-select", required: true } %>
+      <%= form.label :bureau_id, "Subcomponent/Bureau", class: "usa-label" %>
+      <%= form.select :bureau_id, options_for_select(organization_dropdown_options, service.organization_id), { prompt: "Which Bureau?" }, { class: "usa-select", required: true } %>
     </div>
 
     <div class="field">
-      <%= form.label :organization_id, "Office" , class: "usa-label" %>
-      <%= form.text_field :organization_id, class: "usa-input" %>
+      <%= form.label :office, "Office" , class: "usa-label" %>
+      <%= form.text_field :office, class: "usa-input" %>
     </div>
     <% end %>
 
@@ -46,11 +46,11 @@
       <%= form.label :multi_agency_service, "Does the public have to perform steps or tasks with multiple agencies for this service?", class: "usa-label" %>
       <legend class="usa-legend sr-only">Does the public have to perform steps or tasks with multiple agencies for this service?</legend>
       <div class="usa-radio">
-        <%= form.radio_button(:multi_agency_service, "Yes", { class: "usa-radio__input usa-radio__input--tile", checked: service.multi_agency_service }) %>
+        <%= form.radio_button(:multi_agency_service, "Yes", { class: "usa-radio__input usa-radio__input--tile", checked: service.persisted? && service.multi_agency_service? }) %>
         <%= form.label(:multi_agency_service, class: "usa-radio__label", value: "Yes") %>
       </div>
       <div class="usa-radio">
-        <%= form.radio_button(:multi_agency_service, "No", { class: "usa-radio__input usa-radio__input--tile", checked: !service.multi_agency_service }) %>
+        <%= form.radio_button(:multi_agency_service, "No", { class: "usa-radio__input usa-radio__input--tile", checked: service.persisted? && !service.multi_agency_service? }) %>
         <%= form.label(:multi_agency_service, class: "usa-radio__label", value: "No") %>
       </div>
     </fieldset>
@@ -88,13 +88,13 @@
       <% end %>
     </fieldset>
 
-    <div class="field">
-      <%= form.label :other_service_type, "Other service type" , class: "usa-label" %>
-        <span class="usa-hint font-sans-2xs">
-          Because "Other" was selected for Service Type,
-          please describe what type of service this is.
-        </span>
-        <%= form.text_field :other_service_type, class: "usa-input" %>
+    <div id="kind_option" class="field" style="1display: none;">
+      <%= form.label :other_service_type, "Other service type", class: "usa-label" %>
+      <span class="usa-hint font-sans-2xs">
+        Because "Other" was selected for Service Type,
+        please describe what type of service this is.
+      </span>
+      <%= form.text_field :other_service_type, class: "usa-input" %>
     </div>
 
     <% volume_options = [
@@ -112,13 +112,13 @@
       <%= form.select :estimated_annual_volume_of_customers, options_for_select(volume_options, service.service_provider_id), { prompt: "Select Volume of Customers" }, { class: "usa-select" } %>
     </div>
 
-    <div class="field">
+    <div id="estimated_annual_volume_of_customers_option" class="field" style="display: none;">
       <%= form.label :customer_volume_explanation, "Other service type" , class: "usa-label" %>
-        <span class="usa-hint font-sans-2xs">
-          Because "Unknown" was selected for Customer Volume,
-          please explain why customer volume cannot currently be estimated.
-        </span>
-        <%= form.text_field :customer_volume_explanation, class: "usa-input" , required: true %>
+      <span class="usa-hint font-sans-2xs">
+        Because "Unknown" was selected for Customer Volume,
+        please explain why customer volume cannot currently be estimated.
+      </span>
+      <%= form.text_field :customer_volume_explanation, class: "usa-input" %>
     </div>
 
     <fieldset class="usa-fieldset">
@@ -134,11 +134,11 @@
         for more information.
       </div>
       <div class="usa-radio">
-        <%= form.radio_button(:hisp, "Yes", { class: "usa-radio__input usa-radio__input--tile", checked: service.hisp }) %>
+        <%= form.radio_button(:hisp, "Yes", { class: "usa-radio__input usa-radio__input--tile", checked: service.persisted? && service.hisp? }) %>
         <%= form.label(:hisp, class: "usa-radio__label" , value: "Yes" ) %>
       </div>
       <div class="usa-radio">
-        <%= form.radio_button(:hisp, "No", { class: "usa-radio__input usa-radio__input--tile", checked: !service.hisp }) %>
+        <%= form.radio_button(:hisp, "No", { class: "usa-radio__input usa-radio__input--tile", checked: service.persisted? && !service.hisp }) %>
         <%= form.label(:hisp, class: "usa-radio__label" , value: "No" ) %>
       </div>
     </fieldset>
@@ -150,13 +150,13 @@
           Is this service designated for improvement as required by Circular A-11 Section 280?
         </legend>
         <div class="usa-radio">
-          <%= form.radio_button(:designated_for_improvement_a11_280, "Yes" , class: "usa-radio__input usa-radio__input--tile" , checked: service.designated_for_improvement_a11_280 ) %>
-          <%= form.label(:designated_for_improvement_a11_280, class: "usa-radio__label" , value: "Yes" ) %>
+          <%= form.radio_button(:designated_for_improvement_a11_280, "Yes", class: "usa-radio__input usa-radio__input--tile", checked: service.persisted? && service.designated_for_improvement_a11_280 ) %>
+          <%= form.label(:designated_for_improvement_a11_280, class: "usa-radio__label", value: "Yes" ) %>
         </div>
         <div class="usa-radio">
-          <%= form.radio_button(:designated_for_improvement_a11_280, "No" , { class: "usa-radio__input usa-radio__input--tile" , checked: !service.designated_for_improvement_a11_280 })
+          <%= form.radio_button(:designated_for_improvement_a11_280, "No", { class: "usa-radio__input usa-radio__input--tile", checked: service.persisted? && !service.designated_for_improvement_a11_280 })
             %>
-          <%= form.label(:designated_for_improvement_a11_280, class: "usa-radio__label" , value: "No" ) %>
+          <%= form.label(:designated_for_improvement_a11_280, class: "usa-radio__label", value: "No" ) %>
         </div>
     </fieldset>
 
@@ -234,11 +234,11 @@
           Does this service have non-digital, paper-based, or in-person steps or tasks for the public that could be offered digitally?
         </legend>
         <div class="usa-radio">
-          <%= form.radio_button(:digital_service, "Yes", { class: "usa-radio__input usa-radio__input--tile", checked: service.digital_service }) %>
+          <%= form.radio_button(:digital_service, "Yes", { class: "usa-radio__input usa-radio__input--tile", checked: service.persisted? && service.digital_service }) %>
           <%= form.label(:digital_service, class: "usa-radio__label", value: "Yes" ) %>
         </div>
         <div class="usa-radio">
-          <%= form.radio_button(:digital_service, "No" , { class: "usa-radio__input usa-radio__input--tile", checked: !service.digital_service }) %>
+          <%= form.radio_button(:digital_service, "No" , { class: "usa-radio__input usa-radio__input--tile", checked: service.persisted? && !service.digital_service }) %>
           <%= form.label(:digital_service, class: "usa-radio__label", value: "No" ) %>
         </div>
       </fieldset>
@@ -395,6 +395,21 @@
       $("#multi_agency_explanation_option").hide();
     })
 
+    // if "Unknown" is selected
+    $("#service_estimated_annual_volume_of_customers").on('change', function(e) {
+      if (e.target.value == 'Unknown') {
+        $("#service_customer_volume_explanation").attr('required', true);
+        $("#estimated_annual_volume_of_customers_option").show();
+        $("#service_customer_volume_explanation").focus();
+      } else {
+        $("#service_customer_volume_explanation").attr('required', false);
+        $("#estimated_annual_volume_of_customers_option").hide();
+      }
+    })
+
+
+    <%# Don't try to set existing values when creating a new record %>
+    <% unless new_admin_service_path %>
     // handle selected items on page load
     // 1 if for each applicable form component
     if ($("#service_hisp_yes").prop('checked', true) ) {
@@ -412,6 +427,7 @@
       $("#service_multi_agency_explanation").attr('required', true);
       $("#multi_agency_explanation_option").show();
     }
+    <% end %>
 
   })
 </script>
