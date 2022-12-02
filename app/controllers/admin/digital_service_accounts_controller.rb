@@ -30,7 +30,7 @@ module Admin
       end
 
       @digital_service_accounts = @digital_service_accounts
-        .where("aasm_state = 'created' OR aasm_state = 'edited' OR aasm_state = 'submitted'")
+        .where("aasm_state = 'created' OR aasm_state = 'updated' OR aasm_state = 'submitted'")
         .order(:name)
         .page(params[:page])
     end
