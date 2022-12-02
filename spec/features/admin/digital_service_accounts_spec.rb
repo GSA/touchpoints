@@ -88,6 +88,7 @@ feature 'Digital Service Accounts', js: true do
       end
 
       it 'creates a tag' do
+        expect(page).to have_content('TAG123')
         expect(page).to have_css('.usa-tag', text: 'tag123'.upcase)
       end
     end
@@ -144,12 +145,13 @@ feature 'Digital Service Accounts', js: true do
       before do
         visit admin_digital_service_account_path(digital_service_account)
 
-        fill_in('digital_service_account_user_email_address', with: User.first.email)
+        fill_in('digital_service_account_user_email_address', with: user.email)
         find('.organizations').click # just to lose focus
       end
 
       it 'creates and displays the tag' do
-        expect(page).to have_css('.usa-tag', text: User.first.email.upcase)
+        expect(page).to have_content(user.email.upcase)
+        expect(page).to have_css('.usa-tag', text: user.email.upcase)
       end
     end
 
