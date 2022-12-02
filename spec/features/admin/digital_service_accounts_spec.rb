@@ -84,7 +84,7 @@ feature 'Digital Service Accounts', js: true do
         visit admin_digital_service_account_path(digital_service_account)
 
         fill_in('digital_service_account_tag_list', with: 'tag123')
-        find('.organizations').click # just to lose focus
+        page.find('#digital_service_account_tag_list').native.send_keys :tab
       end
 
       it 'creates a tag' do
@@ -115,7 +115,7 @@ feature 'Digital Service Accounts', js: true do
         visit admin_digital_service_account_path(digital_service_account)
 
         select(organization.name, from: 'organization_id')
-        find('.organizations').click # just to lose focus
+        page.find('#organization_id').native.send_keys :tab
       end
 
       it 'creates an organization' do
@@ -146,11 +146,10 @@ feature 'Digital Service Accounts', js: true do
         visit admin_digital_service_account_path(digital_service_account)
 
         fill_in('digital_service_account_user_email_address', with: user.email)
-        find('.organizations').click # just to lose focus
+        page.find('#digital_service_account_user_email_address').native.send_keys :tab
       end
 
       it 'creates and displays the tag' do
-        expect(page).to have_content(user.email.upcase)
         expect(page).to have_css('.usa-tag', text: user.email.upcase)
       end
     end
@@ -162,8 +161,7 @@ feature 'Digital Service Accounts', js: true do
         visit admin_digital_service_account_path(digital_service_account)
 
         fill_in('digital_service_account_user_email_address', with: 'nonexistent-email@example.gov')
-        find('.users').click # just to lose focus
-        find('.organizations').click # just to lose focus
+        page.find('#digital_service_account_user_email_address').native.send_keys :tab
       end
 
       it 'displays an error message as an alert' do
