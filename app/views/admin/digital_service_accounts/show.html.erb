@@ -41,8 +41,7 @@
 
     <p>
       <%= label_tag "Service URL", nil, class: "usa-label" %>
-      <br>
-      <%= @digital_service_account.service_url %>
+      <%= @digital_service_account.service_url? ? link_to(@digital_service_account.service_url, @digital_service_account.service_url, target: "_blank", rel: "noopener") : '' %>
     </p>
 
     <p>
