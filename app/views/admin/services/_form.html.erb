@@ -19,7 +19,7 @@
 
     <div class="field">
       <%= form.label :bureau_id, "Subcomponent/Bureau", class: "usa-label" %>
-      <%= form.select :bureau_id, options_for_select(organization_dropdown_options, service.organization_id), { prompt: "Which Bureau?" }, { class: "usa-select", required: true } %>
+      <%= form.select :bureau_id, options_for_select(organization_dropdown_options, service.bureau_id), { prompt: "Which Bureau?" }, { class: "usa-select", required: true } %>
     </div>
 
     <div class="field">
@@ -80,7 +80,7 @@
             multiple: true,
             checked: form.object.kind&.include?(option),
             class: "usa-checkbox__input2 usa-checkbox__input--tile2"
-          }, option) %>
+          }, option, nil) %>
           &nbsp;
           &nbsp;
           <%= form.label(option, {}, class: "usa-checkbox__label2") %>
@@ -113,7 +113,7 @@
     </div>
 
     <div id="estimated_annual_volume_of_customers_option" class="field" style="display: none;">
-      <%= form.label :customer_volume_explanation, "Other service type" , class: "usa-label" %>
+      <%= form.label :customer_volume_explanation, "Unknown customer volume" , class: "usa-label" %>
       <span class="usa-hint font-sans-2xs">
         Because "Unknown" was selected for Customer Volume,
         please explain why customer volume cannot currently be estimated.
