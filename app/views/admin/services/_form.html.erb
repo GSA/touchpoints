@@ -13,11 +13,11 @@
   <div class="grid-col-12">
     <% if service_manager_permissions? %>
     <div class="field">
-      <%= form.label :organization_id, "Agency/Department", class: "usa-label" %>
+      <%= form.label :organization_id, "Agency", class: "usa-label" %>
       <%= form.select :organization_id, options_for_select(organization_dropdown_options, service.organization_id), { prompt: "Which Agency?" }, { class: "usa-select", required: true } %>
     </div>
 
-    <div class="field">
+    <div class="field" hidden>
       <%= form.label :bureau_id, "Subcomponent/Bureau", class: "usa-label" %>
       <%= form.select :bureau_id, options_for_select(organization_dropdown_options, service.bureau_id), { prompt: "Which Bureau?" }, { class: "usa-select", required: true } %>
     </div>
