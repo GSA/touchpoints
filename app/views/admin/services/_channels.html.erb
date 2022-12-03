@@ -5,6 +5,7 @@
       <div class="usa-hint font-sans-2xs">
         Select all applicable channels
       </div>
+      <%= select_tag :channel_id, options_for_select(@channel_options.map { |c| [c, c] }), { prompt: "Select a Channel", class: "usa-select add-channel" } %>
       <p class="channel-list">
         <ul class="usa-list usa-list--unstyled">
           <% service.channel_list.each do |channel| %>
@@ -22,7 +23,7 @@
       </p>
     </div>
   </div>
-  <%= select_tag :channel_id, options_for_select(@channel_options.map { |c| [c, c] }), { prompt: "Select a Channel", class: "usa-select add-channel" } %>
+
 </div>
 
 <script>
