@@ -71,5 +71,20 @@ feature 'Digital Products', js: true do
         expect(page).to have_css('.usa-table tbody tr', count: 2)
       end
     end
+
+    describe '#delete' do
+      before do
+        visit admin_digital_product_path(digital_product)
+      end
+
+      it 'can delete digital product record' do
+        click_on 'Edit'
+        expect(page).to have_content('Editing Digital Product')
+        accept_confirm do
+          click_link 'Delete'
+        end
+        expect(page).to have_content('Digital product was deleted.')
+      end
+    end
   end
 end
