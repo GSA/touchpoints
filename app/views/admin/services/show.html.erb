@@ -44,6 +44,16 @@
       <%= link_to @service.organization.name, admin_organization_path(@service.organization) %>
     </p>
     <p>
+      <strong>Bureau</strong>
+      <br>
+      <%= @service.bureau_id %>
+    </p>
+    <p>
+      <strong>Office</strong>
+      <br>
+      <%= @service.office %>
+    </p>
+    <p>
       <strong>Service Provider</strong>
       <br>
       <%= @service.service_provider ? link_to_if(service_manager_permissions?, @service.service_provider.name, admin_service_provider_path(@service.service_provider), target: "_blank", rel: "noopener") : nil %>

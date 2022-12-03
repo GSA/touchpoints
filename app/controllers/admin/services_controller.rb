@@ -249,6 +249,8 @@ module Admin
         :organization_id,
         :service_owner_id,
         :service_provider_id,
+        :bureau_id,
+        :office,
         :bureau,
         :department,
         :description,
@@ -278,7 +280,6 @@ module Admin
         :resources_needed_to_provide_digital_service,
         :designated_for_improvement_a11_280,
         kind: []
-
       )
     end
   end
