@@ -117,7 +117,7 @@
           <%= link_to(result.account, result.service_url) %>
         </td>
         <td>
-          <%= result.short_description %>
+          <%= to_markdown(result.short_description) %>
         </td>
         <td>
           <%= result.updated_at.to_date %>

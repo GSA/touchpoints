@@ -41,9 +41,9 @@
 <div class="usa-alert">
   <div class="usa-alert__body">
     <p class="usa-alert__text">
-      CX Customer Experience reporting is rooted in
-      <a href="https://www.performance.gov/cx/assets/files/a11-280.pdf" target="_blank" rel="noopener">A-11 Section 280</a>
-      guidance.
+      CX Customer Experience reporting is described in
+      <a href="https://www.performance.gov/cx/assets/files/2022-OMB-Circular-A11-Section-280.pdf"
+        target="_blank" rel="noopener">OMB Circular A-11, Section 280</a>.
     </p>
     <p class="usa-alert__text">
       Each quarter, OMB coordinates this data collection from all HISPs.
@@ -90,14 +90,14 @@
       </div>
     </div>
 
-    <div class="well services">
+    <div class="services border border-base-lighter padding-2 padding-top-0 padding-bottom-0 margin-top-3">
       <h2>
         Services
         <small>
           (<%= @collection.omb_cx_reporting_collections.size %>)
         </small>
       </h2>
-      <div class="usa-alert usa-alert--info">
+      <div class="usa-alert">
         <div class="usa-alert__body">
           <p class="usa-alert__text">
             Add a Service detail reporting page for each touchpoint available within a HISP service.
@@ -122,10 +122,21 @@
       <%= render 'components/performance_charts', collection: @collection if @collection.omb_cx_reporting_collections.present? %>
     </div>
 
-    <div class="usa-prose">
+    <div class="usa-prose margin-top-3">
       <strong>Reflection text</strong>
-      <br>
-      <%= @collection.reflection? ? to_markdown(@collection.reflection) : "Please #{link_to 'edit', edit_admin_collection_path(@collection)} this Reflection text prior to submitting." %>
+      <p>
+        <% if @collection.reflection? %>
+          <%= to_markdown(@collection.reflection) %>
+        <% else %>
+        <div class="usa-alert usa-alert--warning usa-alert--slim">
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">
+              <%= raw("Please add Reflection Text describing  #{link_to 'edit', edit_admin_collection_path(@collection)} this Reflection text prior to submitting.") %>
+            </p>
+          </div>
+        </div>
+        <% end %>
+      </p>
     </div>
     <p hidden>
       <strong>Integrity hash</strong>
@@ -165,7 +176,7 @@
 
     <p>
       <% if !@collection.submitted? && !@collection.published? %>
-        <div class="usa-alert usa-alert--info">
+        <div class="usa-alert usa-alert--info usa-alert--slim">
           <div class="usa-alert__body">
             <p class="usa-alert__text">
               Submitting this Data Collection will send an email

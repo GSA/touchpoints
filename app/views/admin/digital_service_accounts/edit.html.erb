@@ -14,7 +14,8 @@
 
 <%= render 'form', digital_service_account: @digital_service_account %>
 
-<div class="grid-row">
+<% if admin_permissions? %>
+<div class="grid-row margin-bottom-3">
   <div class="grid-col-12">
     <%= link_to admin_digital_service_account_path(@digital_service_account), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" do %>
     <span class="fa fa-trash"></span>
@@ -22,5 +23,4 @@
     <% end %>
   </div>
 </div>
-
-<br>
+<% end %>

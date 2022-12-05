@@ -27,7 +27,12 @@ module Api
         respond_to do |format|
           format.json do
             if form
-              render json: form, include: %i[questions submissions], serializer: FullFormSerializer, links: links(form, page, size), page: page, size: size, start_date: start_date, end_date: end_date
+              render json: form, include: %i[questions submissions], serializer: FullFormSerializer,
+                links: links(form, page, size),
+                page: page,
+                size: size,
+                start_date: start_date,
+                end_date: end_date
             else
               render json: { error: { message: "no form with Short UUID of #{params[:id]}", status: 404 } }, status: :not_found
             end

@@ -30,7 +30,9 @@ module Api
             if form
               render json: {
                 form:,
-                responses: form.submissions.where('created_at BETWEEN ? AND ?', start_date, end_date).limit(size).offset(size * page),
+                responses: form.submissions.where('created_at BETWEEN ? AND ?', start_date, end_date)
+                  .limit(size)
+                  .offset(size * page),
                 links: links(form, page, size),
               }
             else

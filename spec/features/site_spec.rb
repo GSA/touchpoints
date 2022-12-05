@@ -54,7 +54,7 @@ feature 'general site navigation', js: true do
         end
 
         it 'renders successfully' do
-          expect(page).to have_content('Performance reporting')
+          expect(page).to have_content('Performance management')
           expect(page.current_path).to eq(admin_performance_path)
         end
       end

@@ -1,18 +1,20 @@
 <%= form_with(model: service, url: admin_service_path(service), local: true) do |f| %>
   <div class="grid-row">
     <div class="grid-col-12">
-      <h3>
+      <label class="usa-label margin-top-0" for="tags">
         Tags
-      </h3>
+      </label>
       <p class="font-sans-3xs">
         Use tags in a way you see fit.
         <br>
         As more agencies use tags, we can observe and shape the taxonomy that emerges.
       </p>
-      <div class="tag-list">
+      <%= f.text_field :tag_list, placeholder: "Add a tag" , value: nil, class: "usa-input tag-input" %>
+
+      <div class="tag-list margin-top-1">
         <ul class="usa-list usa-list--unstyled">
           <% service.tag_list.sort.each do |tag| %>
-          <li style="margin-bottom: 3px;">
+          <li>
             <span class="usa-tag">
               <%= tag %>
             </span>
@@ -23,7 +25,6 @@
             <% end %>
         </ul>
       </div>
-      <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
     </div>
   </div>
 <% end %>

@@ -1,16 +1,14 @@
 <div id="website-personas-div" class="grid-row" data-value="<%= admin_website_path(@website) %>">
   <div class="grid-col-12">
-    <h3>
-      Personas
-    </h3>
-    <small>
+    <%= label_tag "Personas", nil, class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
       Optionally, this website may be associated with one or more
       <%= link_to "Personas", admin_personas_path %>.
-    </small>
-    <p class="website-persona-list">
+    </div>
+    <div class="website-persona-list">
       <ul class="usa-list usa-list--unstyled">
         <% @website.website_personas.each do |persona| %>
-        <li style="margin-bottom: 3px;">
+        <li>
           <span class="usa-tag">
             <%= persona.name %>
           </span>
@@ -21,7 +19,7 @@
         </li>
           <% end %>
       </ul>
-    </p>
+    </div>
   </div>
 </div>
 

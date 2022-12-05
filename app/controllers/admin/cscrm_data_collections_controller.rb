@@ -5,7 +5,16 @@ module Admin
     before_action :set_cscrm_data_collection, only: %i[show edit update destroy]
 
     def index
-      @cscrm_data_collections = CscrmDataCollection.all
+      respond_to do |format|
+        format.html {
+          @cscrm_data_collections = CscrmDataCollection.all
+        }
+        format.csv {
+          ensure_admin
+          csv_content = CscrmDataCollection.to_csv
+          send_data csv_content
+        }
+      end
     end
 
     def show; end

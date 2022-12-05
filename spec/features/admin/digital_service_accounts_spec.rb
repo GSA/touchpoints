@@ -27,8 +27,8 @@ feature 'Digital Service Accounts', js: true do
           #expect(page).to have_link('Export results to .csv')
 
           within('.usa-table') do
-            expect(page).to have_content('Platform')
-            expect(page).to have_content('Account name')
+            expect(page).to have_content('Account type (platform)')
+            expect(page).to have_content('Name (handle)')
             expect(page).to have_content('Status')
             expect(page).to have_content('Updated at')
           end
@@ -84,10 +84,11 @@ feature 'Digital Service Accounts', js: true do
         visit admin_digital_service_account_path(digital_service_account)
 
         fill_in('digital_service_account_tag_list', with: 'tag123')
-        find('.organizations').click # just to lose focus
+        page.find('#digital_service_account_tag_list').native.send_keys :tab
       end
 
       it 'creates a tag' do
+        expect(page).to have_content('TAG123')
         expect(page).to have_css('.usa-tag', text: 'tag123'.upcase)
       end
     end
@@ -114,7 +115,7 @@ feature 'Digital Service Accounts', js: true do
         visit admin_digital_service_account_path(digital_service_account)
 
         select(organization.name, from: 'organization_id')
-        find('.organizations').click # just to lose focus
+        page.find('#digital_service_account_tag_list').native.send_keys :tab # to lose focus
       end
 
       it 'creates an organization' do
@@ -144,12 +145,12 @@ feature 'Digital Service Accounts', js: true do
       before do
         visit admin_digital_service_account_path(digital_service_account)
 
-        fill_in('digital_service_account_user_email_address', with: User.first.email)
-        find('.organizations').click # just to lose focus
+        fill_in('digital_service_account_user_email_address', with: user.email)
+        page.find('#digital_service_account_user_email_address').native.send_keys :tab
       end
 
       it 'creates and displays the tag' do
-        expect(page).to have_css('.usa-tag', text: User.first.email.upcase)
+        expect(page).to have_css('.usa-tag', text: user.email.upcase)
       end
     end
 
@@ -160,8 +161,7 @@ feature 'Digital Service Accounts', js: true do
         visit admin_digital_service_account_path(digital_service_account)
 
         fill_in('digital_service_account_user_email_address', with: 'nonexistent-email@example.gov')
-        find('.users').click # just to lose focus
-        find('.organizations').click # just to lose focus
+        page.find('#digital_service_account_user_email_address').native.send_keys :tab
       end
 
       it 'displays an error message as an alert' do
@@ -222,6 +222,7 @@ feature 'Digital Service Accounts', js: true do
     describe '#review' do
       let!(:digital_service_account) { FactoryBot.create(:digital_service_account, name: 'Test1', service: 'Facebook', aasm_state: 'published') }
       let!(:digital_service_account_2) { FactoryBot.create(:digital_service_account, aasm_state: 'created') }
+      let!(:digital_service_account_3) { FactoryBot.create(:digital_service_account, aasm_state: 'updated') }
 
       before do
         visit review_admin_digital_service_accounts_path
@@ -230,7 +231,24 @@ feature 'Digital Service Accounts', js: true do
       it 'shows a table with 1 filtered result' do
         expect(page).to have_content('Review Social Media Accounts')
         expect(page).to have_link('New Account')
-        expect(page).to have_css('.usa-table tbody tr', count: 1)
+        expect(page).to have_css('.usa-table tbody tr', count: 2)
+      end
+    end
+
+    describe '#delete' do
+      let(:digital_service_account) { FactoryBot.create(:digital_service_account) }
+
+      before do
+        visit admin_digital_service_account_path(digital_service_account)
+      end
+
+      it 'can delete digital service account' do
+        click_on 'Edit'
+        expect(page).to have_content('Editing Social Media Account')
+        accept_confirm do
+          click_link 'Delete'
+        end
+        expect(page).to have_content('Digital service account was deleted.')
       end
     end
   end
@@ -247,15 +265,6 @@ feature 'Digital Service Accounts', js: true do
     it 'contact can edit digital service account' do
       click_on 'Edit'
       expect(page).to have_content('Editing Social Media Account')
-    end
-
-    it 'contact can delete digital service account' do
-      click_on 'Edit'
-      expect(page).to have_content('Editing Social Media Account')
-      accept_confirm do
-        click_link 'Delete'
-      end
-      expect(page).to have_content('Digital service account was deleted.')
     end
   end
 end
