@@ -2,11 +2,15 @@
   <div class="grid-row">
     <div class="grid-col-6">
       <%= label_tag :tags, nil, class: "usa-label" %>
-      <br>
+
+      <% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
+        <%= f.text_field :tag_list, placeholder: "Add a tag" , value: nil, class: "usa-input tag-input" %>
+      <% end %>
+
       <div class="tag-list">
-        <ul class="usa-list usa-list--unstyled">
+        <ul class="usa-list usa-list--unstyled margin-top-1">
           <% digital_product.tag_list.sort.each do |tag| %>
-          <li style="margin-bottom: 3px;">
+          <li>
             <span class="usa-tag">
               <%= tag %>
             </span>
@@ -19,9 +23,7 @@
           <% end %>
         </ul>
       </div>
-      <% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
-      <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
-      <% end %>
+
     </div>
   </div>
 <% end %>

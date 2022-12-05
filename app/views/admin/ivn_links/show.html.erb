@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @ivn_link %>
+
+<div>
+  <%= link_to "Edit this ivn link", edit_admin_ivn_link_path(@ivn_link) %> |
+  <%= link_to "Back to ivn links", admin_ivn_links_path %>
+
+  <%= button_to "Destroy this ivn link", [:admin, @ivn_link], method: :delete %>
+</div>

@@ -43,4 +43,8 @@ class DigitalProduct < ApplicationRecord
   def sponsoring_agencies
     Organization.where(id: organization_list)
   end
+
+  def contacts
+    User.with_role(:contact, self)
+  end
 end

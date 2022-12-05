@@ -10,11 +10,21 @@ module Api
 
         respond_to do |format|
           format.json do
-            render json: DigitalServiceAccount.limit(100).order(:id),
-                   each_serializer: DigitalServiceAccountSerializer,
-                   links: links(form, page, size),
-                   page:,
-                   size:
+            @total_count = DigitalServiceAccount.active.count
+
+            @digital_service_accounts = DigitalServiceAccount.active
+              .limit(size)
+              .offset(size * page)
+              .order(:id)
+
+            render json: @digital_service_accounts,
+              meta: {
+                size: size,
+                page: page,
+                totalPages: (DigitalProduct.count / size).floor
+              },
+              links: links(page, size),
+              each_serializer: DigitalServiceAccountSerializer
           end
         end
       end
@@ -25,22 +35,22 @@ module Api
         respond_to do |format|
           format.json do
             render json: @digital_service_account,
-                   serializer: DigitalServiceAccountSerializer
+              serializer: DigitalServiceAccountSerializer
           end
         end
       end
 
-      def links(form, page, size)
+      def links(page, size)
         ret = {}
         if params[:page].present?
           ret['first'] = request.original_url.gsub(/page=[0-9]+/i, 'page=0')
-          ret['next'] = request.original_url.gsub(/page=[0-9]+/i, "page=#{page + 1}") if form.submissions.size > ((page + 1) * size)
+          ret['next'] = request.original_url.gsub(/page=[0-9]+/i, "page=#{page + 1}") if @digital_service_accounts.size > ((page + 1) * size)
           ret['prev'] = request.original_url.gsub(/page=[0-9]+/i, "page=#{page - 1}") if page.positive?
-          ret['last'] = request.original_url.gsub(/page=[0-9]+/i, "page=#{(form.submissions.size / size).floor}")
+          ret['last'] = request.original_url.gsub(/page=[0-9]+/i, "page=#{(@digital_service_accounts.size / size).floor}")
         else
           ret['first'] = "#{request.original_url}&page=0"
-          ret['next'] = "#{request.original_url}&page=1" if form.submissions.size > size
-          ret['last'] = "#{request.original_url}&page=#{(form.submissions.size / size).floor}"
+          ret['next'] = "#{request.original_url}&page=1" if @digital_service_accounts.size > size
+          ret['last'] = "#{request.original_url}&page=#{(@digital_service_accounts.size / size).floor}"
         end
         ret
       end

@@ -1,0 +1,47 @@
+<% content_for :navigation_title do %>
+  IVN Sources
+  <%= link_to new_admin_ivn_source_path, class: "usa-button usa-button-inverted float-right" do %>
+  <i class="fa fa-plus-circle"></i>
+  New IVN Source
+  <% end %>
+<% end %>
+
+<p>
+  <%= link_to admin_root_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Admin
+  <% end %>
+</p>
+
+<div id="ivn_sources">
+  <table class="usa-table">
+    <thead>
+      <tr>
+        <th>
+          Name
+        </th>
+        <th>
+          URL
+        </th>
+        <th>
+          Description
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+  <% @ivn_sources.each do |ivn_source| %>
+      <tr>
+        <td>
+          <%= link_to(ivn_source.name, admin_ivn_source_path(ivn_source)) %>
+        </td>
+        <td>
+          <%= ivn_source.url %>
+        </td>
+        <td>
+          <%= ivn_source.description %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

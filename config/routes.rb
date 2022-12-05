@@ -3,6 +3,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  resources :ivn_components
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
   authenticate :user, ->(u) { u.admin? } do
@@ -54,7 +55,11 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    get '/reporting/', to: 'reporting#index', as: :reporting
+    resources :ivn_source_component_links
+    resources :ivn_links
+    resources :ivn_sources
+    resources :ivn_components
+      get '/reporting/', to: 'reporting#index', as: :reporting
     get '/reporting/hisps/hisps', to: 'reporting#hisps', as: :hisps
     get '/reporting/hisps/hisp_services', to: 'reporting#hisp_services', as: :hisp_services
     get '/reporting/hisps/hisp_service_cx_data_collections', to: 'reporting#hisp_service_cx_data_collections', as: :hisp_service_cx_data_collections

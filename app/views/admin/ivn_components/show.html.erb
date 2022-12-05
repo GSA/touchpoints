@@ -1,0 +1,33 @@
+<% content_for :navigation_title do %>
+  IVN Components
+  <%= link_to edit_admin_ivn_component_path(@ivn_component), class: "usa-button usa-button-inverted float-right" do %>
+    <i class="fa fa-pencil-alt"></i>
+    Edit IVN Component
+  <% end %>
+<% end %>
+
+<p>
+  <%= link_to admin_ivn_components_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to IVN Components
+  <% end %>
+</p>
+
+<%= render @ivn_component %>
+
+
+
+<h3 class="margin-top-5">
+  Related components
+</h3>
+
+<div>
+  <% @ivn_component.ivn_components.each do |ivn_component| %>
+    <%= link_to ivn_component.name, admin_ivn_component_path(ivn_component) %>
+    <br>
+    <%= ivn_component.url %>
+    <br>
+    <%= ivn_component.description %>
+    <hr>
+  <% end %>
+</div>

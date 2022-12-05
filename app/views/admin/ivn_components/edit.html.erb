@@ -1,0 +1,11 @@
+<h1>Editing ivn component</h1>
+
+<%= render "form", ivn_component: @ivn_component %>
+
+<br>
+
+<div>
+  <%= link_to "Show this ivn component", [:admin, @ivn_component] %> |
+  <%= link_to "Back to ivn components", admin_ivn_components_path %>
+  <%= button_to "Destroy this ivn component" , [:admin, @ivn_component], method: :delete %>
+</div>

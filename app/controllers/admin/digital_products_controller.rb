@@ -30,7 +30,7 @@ module Admin
       end
 
       @digital_products = @digital_products
-        .where("aasm_state = 'created' OR aasm_state = 'edited' OR aasm_state = 'submitted'")
+        .where("aasm_state = 'created' OR aasm_state = 'updated' OR aasm_state = 'submitted'")
         .order(:name, :service)
         .page(params[:page])
     end
@@ -80,7 +80,7 @@ module Admin
       ensure_digital_product_permissions(digital_product: @digital_product)
       @digital_product.destroy
       Event.log_event(Event.names[:digital_product_deleted], 'Digital Product', @digital_product.id, "Digital Product #{@digital_product.name} deleted at #{DateTime.now}", current_user.id)
-      redirect_to admin_digital_products_url, notice: 'Digital product was successfully destroyed.'
+      redirect_to admin_digital_products_url, notice: 'Digital product was deleted.'
     end
 
     def add_tag

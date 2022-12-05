@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @ivn_source %>
+
+<div>
+  <%= link_to "Edit this ivn source", edit_admin_ivn_source_path(@ivn_source) %> |
+  <%= link_to "Back to ivn sources", admin_ivn_sources_path %>
+
+  <%= button_to "Destroy this ivn source", [:admin, @ivn_source], method: :delete %>
+</div>
