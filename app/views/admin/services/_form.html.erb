@@ -19,7 +19,7 @@
 
     <div class="field" hidden>
       <%= form.label :bureau_id, "Subcomponent/Bureau", class: "usa-label" %>
-      <%= form.select :bureau_id, options_for_select(organization_dropdown_options, service.bureau_id), { prompt: "Which Bureau?" }, { class: "usa-select", required: true } %>
+      <%= form.select :bureau_id, options_for_select(organization_dropdown_options, service.bureau_id), { prompt: "Which Bureau?" }, { class: "usa-select" } %>
     </div>
 
     <div class="field">
