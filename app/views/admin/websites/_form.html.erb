@@ -52,17 +52,13 @@
           <%= form.text_field :contact_email, class: "usa-input" %>
         </div>
         <div class="field">
-          <div class="well">
-            <div class="website-managers-div">
-              <%= render 'admin/websites/website_managers', website: @website, website_manager_options: @website_manager_options %>
-            </div>
+          <div class="website-managers-div">
+            <%= render 'admin/websites/website_managers', website: @website, website_manager_options: @website_manager_options %>
           </div>
         </div>
         <div class="field">
-          <div class="well">
-            <div class="website-personas-div">
-              <%= render 'admin/websites/website_personas', website: @website, website_persona_options: @website_persona_options %>
-            </div>
+          <div class="website-personas-div">
+            <%= render 'admin/websites/website_personas', website: @website, website_persona_options: @website_persona_options %>
           </div>
         </div>
         <div class="field">
@@ -100,11 +96,11 @@
       </h3>
       <div class="field">
         <%= form.label :production_status, class: "usa-label" %>
-        <small>
+        <div class="usa-hint font-sans-2xs">
           See the
           <%= link_to "Touchpoints wiki", "https://github.com/GSA/touchpoints/wiki/Websites-Production-status/", target: "_blank" %>
           for more information.
-        </small>
+        </div>
         <%= form.select :production_status, options_for_select(Website::PRODUCTION_STATUSES.collect { |k,v| [v, k] }, selected: @website.production_status), { prompt: "What is the status of this website?", include_blank: true }, { class: "usa-select" } %>
       </div>
       <div class="field">
@@ -153,9 +149,9 @@
       </div>
       <div class="field">
         <%= form.label :service_id, "Service", class: "usa-label" %>
-        <small>
+        <div class="usa-hint font-sans-2xs">
           Associate this website with a <%= link_to "Service", admin_services_path %>.
-        </small>
+        </div>
         <%= form.select :service_id, options_for_select(Service.all.includes(:organization).order("organizations.name").collect { |service| ["#{service.organization.name} - #{service.name}", service.id] }, selected: website.service_id), { include_blank: true }, { class: "usa-select" } %>
       </div>
       <div class="field">

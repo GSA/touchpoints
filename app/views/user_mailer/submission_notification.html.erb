@@ -3,12 +3,11 @@
   Response Notification
 </h3>
 <p>
-  New feedback has been submitted to your form, <%= @form.name %>.
+  New feedback has been submitted to your form,
+  <%= link_to @form.name, responses_admin_form_url(@form) %>.
 </p>
 <p>
   Visit
-  <a href="<%= responses_admin_form_url(@form) %>">
-    <%= responses_admin_form_url(@form) %>
-  </a>
-  to view.
+  <%= link_to admin_form_submission_url(@form, @submission), admin_form_submission_url(@form, @submission) %>
+  to view the response.
 </p>

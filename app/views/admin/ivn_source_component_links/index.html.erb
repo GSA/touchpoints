@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Ivn source component links</h1>
+
+<div id="ivn_source_component_links">
+  <% @ivn_source_component_links.each do |ivn_source_component_link| %>
+    <%= render ivn_source_component_link %>
+    <p>
+      <%= link_to "Show this ivn source component link", [:admin, ivn_source_component_link] %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New ivn source component link", new_admin_ivn_source_component_link_path %>

@@ -1,0 +1,12 @@
+<% content_for :navigation_title do %>
+  Creating new IVN Component
+<% end %>
+
+<p>
+  <%= link_to admin_ivn_components_path do %>
+  <i class="fa fa-arrow-circle-left"></i>
+  Back to IVN Components
+  <% end %>
+</p>
+
+<%= render "form", ivn_component: @ivn_component %>

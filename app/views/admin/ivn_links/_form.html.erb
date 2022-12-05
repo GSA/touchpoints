@@ -1,0 +1,27 @@
+<%= form_with(model: [:admin, ivn_link]) do |form| %>
+  <% if ivn_link.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(ivn_link.errors.count, "error") %> prohibited this ivn_link from being saved:</h2>
+
+      <ul>
+        <% ivn_link.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :from_id, style: "display: block" %>
+    <%= form.number_field :from_id %>
+  </div>
+
+  <div>
+    <%= form.label :to_id, style: "display: block" %>
+    <%= form.number_field :to_id %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

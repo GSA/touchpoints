@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Ivn links</h1>
+
+<div id="ivn_links">
+  <% @ivn_links.each do |ivn_link| %>
+    <%= render ivn_link %>
+    <p>
+      <%= link_to "Show this ivn link", [:admin, ivn_link] %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New ivn link", new_admin_ivn_link_path %>
