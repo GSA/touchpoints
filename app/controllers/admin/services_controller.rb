@@ -88,6 +88,7 @@ module Admin
     def new
       @service = Service.new
       @service.service_owner_id = current_user.id
+      set_channel_options
     end
 
     def edit
