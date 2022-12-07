@@ -21,7 +21,7 @@ module Api
               meta: {
                 size: size,
                 page: page,
-                totalPages: (DigitalProduct.count / size).floor
+                totalPages: (@total_count / size).floor
               },
               links: links(page, size),
               each_serializer: DigitalServiceAccountSerializer

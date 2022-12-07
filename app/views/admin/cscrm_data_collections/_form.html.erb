@@ -14,17 +14,24 @@
   <div class="field">
     <%= form.label :organization_id,
       "Organization" %>
-    <%= form.select :organization_id, options_for_select(organization_dropdown_options, cscrm_data_collection.organization_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
+    <%= form.select :organization_id, options_for_select(organization_dropdown_options, cscrm_data_collection.organization_id), { prompt: "Which Organization?" }, { class: "usa-select", required: true } %>
+  </div>
+  <br>
+
+  <div class="field">
+    <%= form.label :bureau_id,
+      "Bureau" %>
+    <%= form.select :bureau_id, options_for_select(organization_dropdown_options, cscrm_data_collection.bureau_id), { prompt: "Which Bureau?" }, { class: "usa-select" } %>
   </div>
 
   <div class="field">
     <%= form.label :year, class: "usa-label" %>
-    <%= form.text_field :year, class: "usa-input" %>
+    <%= form.text_field :year, class: "usa-input", required: true %>
   </div>
 
   <div class="field">
     <%= form.label :quarter, class: "usa-label" %>
-    <%= form.text_field :quarter, class: "usa-input" %>
+    <%= form.text_field :quarter, class: "usa-input", required: true %>
   </div>
 
   <div class="field">
@@ -505,6 +512,6 @@
   </fieldset>
 
   <p>
-    <%= form.submit class: "usa-button" %>
+    <%= form.submit (cscrm_data_collection.persisted? ? "Update CSCRM Data Collection" : "Create CSCRM Data Collection"), class: "usa-button" %>
   </p>
 <% end %>

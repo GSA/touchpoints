@@ -17,7 +17,7 @@
       <%= form.select :organization_id, options_for_select(organization_dropdown_options, service.organization_id), { prompt: "Which Agency?" }, { class: "usa-select", required: true } %>
     </div>
 
-    <div class="field" hidden>
+    <div class="field">
       <%= form.label :bureau_id, "Subcomponent/Bureau", class: "usa-label" %>
       <%= form.select :bureau_id, options_for_select(organization_dropdown_options, service.bureau_id), { prompt: "Which Bureau?" }, { class: "usa-select" } %>
     </div>
@@ -55,7 +55,7 @@
       </div>
     </fieldset>
 
-    <div class="field hide" id="multi_agency_explanation_option">
+    <div class="field hide margin-left-5" id="multi_agency_explanation_option">
       <%= form.label :multi_agency_explanation, "What other agencies? ", class: "usa-label" %>
       <span class="usa-hint font-sans-2xs">
         Because "Yes" was selected regarding multiple agencies, please list the other agency or agencies.
@@ -88,7 +88,7 @@
       <% end %>
     </fieldset>
 
-    <div id="kind_option" class="field" style="1display: none;">
+    <div id="kind_option" class="field margin-left-5 hide">
       <%= form.label :other_service_type, "Other service type", class: "usa-label" %>
       <span class="usa-hint font-sans-2xs">
         Because "Other" was selected for Service Type,
@@ -112,8 +112,8 @@
       <%= form.select :estimated_annual_volume_of_customers, options_for_select(volume_options, service.service_provider_id), { prompt: "Select Volume of Customers" }, { class: "usa-select" } %>
     </div>
 
-    <div id="estimated_annual_volume_of_customers_option" class="field" style="display: none;">
-      <%= form.label :customer_volume_explanation, "Unknown customer volume" , class: "usa-label" %>
+    <div id="estimated_annual_volume_of_customers_option" class="field margin-left-5 hide">
+      <%= form.label :customer_volume_explanation, "Unknown customer volume", class: "usa-label" %>
       <span class="usa-hint font-sans-2xs">
         Because "Unknown" was selected for Customer Volume,
         please explain why customer volume cannot currently be estimated.
@@ -143,7 +143,7 @@
       </div>
     </fieldset>
 
-    <fieldset id="designated_for_improvement_a11_280_option" class="usa-fieldset">
+    <fieldset id="designated_for_improvement_a11_280_option" class="usa-fieldset margin-left-5 hide">
       <%= form.label :designated_for_improvement_a11_280, "Is this service designated for improvement as required by Circular A-11 Section 280?" ,
         class: "usa-label" %>
         <legend class="usa-legend sr-only">
@@ -249,26 +249,28 @@
       </div>
 
 
-      <fieldset class="usa-fieldset">
-        <%= form.label :fully_digital_service, "Does this service offer a fully digital option?" , class: "usa-label" %>
+      <fieldset class="usa-fieldset margin-left-5">
+        <%= form.label :fully_digital_service, "Does this service offer a fully digital option?", class: "usa-label" %>
         <legend class="usa-legend sr-only">
           Does this service offer a fully digital option?
         </legend>
         <div class="usa-radio">
-          <%= form.radio_button(:fully_digital_service, "Yes" , class: "usa-radio__input usa-radio__input--tile" ) %>
+          <%= form.radio_button(:fully_digital_service, "Yes" , class: "usa-radio__input usa-radio__input--tile", checked: service.persisted? && service.fully_digital_service ) %>
           <%= form.label(:fully_digital_service, class: "usa-radio__label" , value: "Yes" ) %>
         </div>
         <div class="usa-radio">
-          <%= form.radio_button(:fully_digital_service, "No" , { class: "usa-radio__input usa-radio__input--tile" }) %>
+          <%= form.radio_button(:fully_digital_service, "No" , { class: "usa-radio__input usa-radio__input--tile", checked: service.persisted? && !service.fully_digital_service }) %>
           <%= form.label(:fully_digital_service, class: "usa-radio__label" , value: "No" ) %>
         </div>
       </fieldset>
 
-      <div class="field">
-        <%= form.label :barriers_to_fully_digital_service,
-            "What are the barriers to make this service fully digital? (e.g. existing technologies, procedural changes, regulatory changes, legislative changes)?",
-            class: "usa-label" %>
-        <%= form.text_area :barriers_to_fully_digital_service, class: "usa-textarea" %>
+      <div id="barriers_to_fully_digital_service_option" class="margin-left-5 hide">
+        <div class="margin-left-5">
+          <%= form.label :barriers_to_fully_digital_service,
+              "What are the barriers to make this service fully digital? (e.g. existing technologies, procedural changes, regulatory changes, legislative changes)?",
+              class: "usa-label" %>
+          <%= form.text_area :barriers_to_fully_digital_service, class: "usa-textarea" %>
+        </div>
       </div>
 
     <% if service_manager_permissions? && service.persisted? %>
@@ -363,36 +365,39 @@
     // handle the conditions for form elements on change events
     // 2 ifs for each applicable form component
     $("#service_hisp_yes").on('click', function() {
-      alert('hi')
       $("#service_designated_for_improvement_a11_280").attr('required', true);
       $("#designated_for_improvement_a11_280_option").show();
     })
     $("#service_hisp_no").on('click', function() {
-      alert('bye')
       $("#service_designated_for_improvement_a11_280").attr('required', false);
       $("#designated_for_improvement_a11_280_option").hide();
     })
 
     $("#service_digital_service_yes").on('click', function() {
-      alert('hi')
       $("#service_designated_for_improvement_a11_280").attr('required', true);
       $("#resources_needed_to_provide_digital_service_option").show();
     })
     $("#service_digital_service_no").on('click', function() {
-      alert('bye')
       $("#service_designated_for_improvement_a11_280").attr('required', false);
       $("#resources_needed_to_provide_digital_service_option").hide();
     })
 
     $("#service_multi_agency_service_yes").on('click', function() {
-      alert('hi')
       $("#service_multi_agency_explanation").attr('required', true);
       $("#multi_agency_explanation_option").show();
     })
     $("#service_multi_agency_service_no").on('click', function() {
-      alert('bye')
       $("#service_multi_agency_explanation").attr('required', false);
       $("#multi_agency_explanation_option").hide();
+    })
+
+    $("#service_fully_digital_service_yes").on('click', function() {
+      $("#barriers_to_fully_digital_service_option textarea").attr('required', true);
+      $("#barriers_to_fully_digital_service_option").show();
+    })
+    $("#service_fully_digital_service_no").on('click', function() {
+      $("#barriers_to_fully_digital_service_option textarea").attr('required', false);
+      $("#barriers_to_fully_digital_service_option").hide();
     })
 
     // if "Unknown" is selected
@@ -407,9 +412,19 @@
       }
     })
 
+    $("#service_kind_other").on("click", function(event) {
+      if (event.target.checked) {
+        $("#kind_option").show();
+        $("#kind_option input").attr("required", true)
+      } else {
+        $("#kind_option").hide();
+        $("#kind_option input").attr("required", false)
+      }
+    })
+
 
     <%# Don't try to set existing values when creating a new record %>
-    <% unless new_admin_service_path %>
+    <% unless current_page?(new_admin_service_path) %>
     // handle selected items on page load
     // 1 if for each applicable form component
     if ($("#service_hisp_yes").prop('checked', true) ) {
@@ -417,16 +432,20 @@
       $("#service_designated_for_improvement_a11_280").attr('required', true);
       $("#designated_for_improvement_a11_280_option").show();
     }
-    if ($("#service_digital_service_yes").prop('checked', true) ) {
-
+    if ($("#service_digital_service_yes:checked") ) {
       $("#service_multi_agency_explanation").attr('required', true);
       $("#multi_agency_explanation_option").show();
     }
-    if ($("#service_multi_agency_service_yes").prop('checked', true) ) {
-
+    if ($("#service_multi_agency_service_yes:checked")) {
       $("#service_multi_agency_explanation").attr('required', true);
       $("#multi_agency_explanation_option").show();
     }
+
+    if ($("#service_fully_digital_service_yes:checked")) {
+      $("#barriers_to_fully_digital_service_option").show();
+      $("#barriers_to_fully_digital_service_option textarea").attr('required', true);
+    }
+
     <% end %>
 
   })
