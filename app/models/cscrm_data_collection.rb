@@ -4,6 +4,9 @@ require 'csv'
 class CscrmDataCollection < ApplicationRecord
   belongs_to :organization
 
+  validates :year, presence: true
+  validates :quarter, presence: true
+
   def self.to_csv
     collections = CscrmDataCollection.order('year, quarter')
 

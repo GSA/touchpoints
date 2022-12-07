@@ -31,7 +31,7 @@ feature 'general site navigation', js: true do
         end
 
         it 'renders successfully' do
-          expect(page).to have_content('US Digital Registry')
+          expect(page).to have_content('U.S. Digital Registry')
         end
       end
 
@@ -41,7 +41,7 @@ feature 'general site navigation', js: true do
         end
 
         it 'renders successfully' do
-          expect(page).to have_content('US Digital Registry')
+          expect(page).to have_content('U.S. Digital Registry')
           click_on 'View Websites'
           expect(page).to have_content('New Website')
           expect(page.current_path).to eq(admin_websites_path)
