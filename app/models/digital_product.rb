@@ -47,4 +47,47 @@ class DigitalProduct < ApplicationRecord
   def contacts
     User.with_role(:contact, self)
   end
+
+  def contact_emails
+    contacts.collect(&:email).join(", ")
+  end
+
+  def organization_names
+    Organization.find(self.organization_list).collect(&:name).join(", ")
+  end
+
+  def self.to_csv
+    attributes = DigitalProduct.first.attributes.keys
+
+    digital_products = DigitalProduct.all
+
+    attributes = [
+      :id,
+      :name,
+      :contact_emails,
+      :organization_names,
+      :url,
+      :code_repository_url,
+      :language,
+      :tag_list,
+      :service,
+      :short_description,
+      :long_description,
+      :notes,
+      :certified_at,
+      :created_at,
+      :updated_at,
+      :aasm_state,
+      :legacy_id,
+      :legacy_notes,
+    ]
+
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+
+      digital_products.each do |digital_service_account|
+        csv << attributes.map { |attr| digital_service_account.send(attr) }
+      end
+    end
+  end
 end

@@ -2,15 +2,16 @@
 
 <form action="<%= root_url %>touchpoints/<%= form.present? ? form.short_uuid : nil %>/submissions.json" method="POST">
   <div class="touchpoints-form-body">
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token if form.verify_csrf? -%>
     <%= hidden_field_tag :fba_location_code, params[:location_code] %>
     <input type="text" name="fba_directive" id="fba_directive"
-      style="display:none !important" 
-      tabindex="-1" 
+      style="display:none !important"
+      tabindex="-1"
       autocomplete="off">
     <% form.form_sections.each_with_index do |section, index| %>
       <div class="section <%= 'visible' if section == form.form_sections.first -%>">
-        <% if (section != form.form_sections.first) || (section != form.form_sections.last) %>
-          <% if section != form.form_sections.first %>
+        <%- if (section != form.form_sections.first) || (section != form.form_sections.last) %>
+          <%- if section != form.form_sections.first %>
           <div class="pagination-buttons">
             <%= link_to (t 'form.back'), "#previous-page", class: "usa-button previous-section", 'data-form-section-target' => "" %>
           </div>
@@ -18,10 +19,10 @@
           <% end %>
         <% end %>
 
-        <% if form.form_sections.size > 1 %>
+        <%- if form.form_sections.size > 1 %>
         <div class="section-header">
           <h4 class="section-title-view">
-            <% if section.title.present? -%>
+            <%- if section.title.present? -%>
               <%= section.title %> -
             <% end %>
             <small>
@@ -40,9 +41,9 @@
             end
           %>
 
-        <% if question.question_type != "hidden_field" %>
+        <%- if question.question_type != "hidden_field" %>
           <div class="question white-bg">
-            <% if question.question_type == "text_field" %>
+            <%- if question.question_type == "text_field" %>
               <%= render 'components/forms/question_types/text_field', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "text_email_field" %>
               <%= render 'components/forms/question_types/text_email_field', form: form, question: question, question_number: multi_section_question_number %>
@@ -78,9 +79,9 @@
         <% end %>
         </div>
 
-        <% if (section != form.form_sections.first) || (section != form.form_sections.last) %>
+        <%- if (section != form.form_sections.first) || (section != form.form_sections.last) %>
           <div class="pagination-buttons">
-            <% if (section == form.form_sections.first) && form.early_submission? %>
+            <%- if (section == form.form_sections.first) && form.early_submission? %>
               <div>
                 <h4>
                   <%= t 'form.answer_more_questions' %>
@@ -95,7 +96,7 @@
             <% end %>
           </div>
         <% end %>
-        <% if section == form.form_sections.last && !form.suppress_submit_button %>
+        <%- if section == form.form_sections.last && !form.suppress_submit_button %>
           <p class="submit-button">
             <button type="submit" class="usa-button submit_form_button"><%= t 'form.submit' %></button>
           </p>

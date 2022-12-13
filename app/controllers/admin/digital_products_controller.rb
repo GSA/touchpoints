@@ -11,15 +11,25 @@ module Admin
     ]
 
     def index
-      if admin_permissions?
-        @digital_products = DigitalProduct.all
-      else
-        @digital_products = DigitalProduct.with_role(:contact, current_user)
-      end
 
-      @digital_products = @digital_products
-        .order(:name, :service)
-        .page(params[:page])
+      respond_to do |format|
+        format.html do
+          if admin_permissions?
+            @digital_products = DigitalProduct.all
+          else
+            @digital_products = DigitalProduct.with_role(:contact, current_user)
+          end
+
+          @digital_products = @digital_products
+            .order(:name, :service)
+            .page(params[:page])
+        end
+
+        format.csv do
+          csv_content = DigitalProduct.to_csv
+          send_data csv_content
+        end
+      end
     end
 
     def review

@@ -90,6 +90,14 @@
         </div>
         <br>
         <%= render 'components/whitelist_options', f: f %>
+        <div class="grid-row">
+          <div class="grid-col-6">
+            <div class="field">
+              <%= f.label :verify_csrf, class: "usa-label" %>
+              <%= f.check_box :verify_csrf, class: "usa-checkbox" %>
+            </div>
+          </div>
+        </div>
         <p>
           <%= f.submit (@form.persisted? ? "Update Form" : "Create Form"), class: "usa-button" %>
         </p>
