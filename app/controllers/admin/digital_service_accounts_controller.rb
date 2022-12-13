@@ -11,15 +11,24 @@ module Admin
     ]
 
     def index
-      if admin_permissions?
-        @digital_service_accounts = DigitalServiceAccount.all
-      else
-        @digital_service_accounts = DigitalServiceAccount.with_role(:contact, current_user)
-      end
+      respond_to do |format|
+        if admin_permissions?
+          @digital_service_accounts = DigitalServiceAccount.all
+        else
+          @digital_service_accounts = DigitalServiceAccount.with_role(:contact, current_user)
+        end
 
-      @digital_service_accounts = @digital_service_accounts
-        .order(:name)
-        .page(params[:page])
+        @digital_service_accounts = @digital_service_accounts
+          .order(:name)
+          .page(params[:page])
+
+        format.html {}
+
+        format.csv do
+          csv_content = DigitalServiceAccount.to_csv
+          send_data csv_content
+        end
+      end
     end
 
     def review

@@ -474,6 +474,7 @@ module Admin
         :department,
         :bureau,
         :load_css,
+        :verify_csrf,
         :ui_truncate_text_responses,
         :question_text_01,
         :question_text_02,

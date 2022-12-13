@@ -41,6 +41,54 @@ feature 'Touchpoints', js: true do
         end
       end
 
+      context 'form.verify_csrf=true, but with invalid authenticity_token' do
+         before do
+          expect(form.verify_csrf).to be true
+          visit touchpoint_path(form)
+          page.execute_script("document.getElementById('authenticity_token').value = 'an invalid csrf token'")
+          click_button 'Submit'
+        end
+
+        it 'fails the submission' do
+          expect(page).to have_content('Error')
+          expect(page).to have_content('submission invalid CSRF authenticity token')
+          expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit") # stays on same page
+        end
+      end
+
+      context 'form.verify_csrf=true, but without authenticity_token' do
+         before do
+          expect(form.verify_csrf).to be true
+          visit touchpoint_path(form)
+          page.execute_script("document.getElementById('authenticity_token').remove()")
+          expect(page).to_not have_css("#authenticity_token", visible: false)
+          click_button 'Submit'
+        end
+
+        it 'fails the submission' do
+          expect(page).to have_content('Error')
+          expect(page).to have_content('submission invalid CSRF authenticity token')
+          expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit") # stays on same page
+        end
+      end
+
+      context 'form.verify_csrf=false' do
+         before do
+          form.update!(verify_csrf: false)
+          expect(form.verify_csrf).to be false
+
+          visit touchpoint_path(form)
+          expect(page).to_not have_css("#authenticity_token", visible: false)
+          click_button 'Submit'
+        end
+
+        it 'successful submission' do
+          expect(page).to have_content('Success')
+          expect(page).to have_content('Thank you. Your feedback has been received.')
+          expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit") # stays on same page
+        end
+      end
+
       context 'custom success text' do
         before do
           form.update(success_text: "Much success. \n With a second line.")
