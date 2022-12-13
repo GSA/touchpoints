@@ -254,6 +254,12 @@ class ApplicationController < ActionController::Base
     }, collection]
   end
 
+  # customized response for `#verify_authenticity_token`
+  def handle_unverified_request
+    render json: { messages: { submission: ["invalid CSRF authenticity token"] } }, status: :unprocessable_entity
+  end
+
+
   private
 
   # For Devise
