@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_07_055927) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_13_041152) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -235,6 +235,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_07_055927) do
     t.string "notification_frequency", default: "instant"
     t.integer "service_id"
     t.integer "questions_count", default: 0
+    t.boolean "verify_csrf", default: true
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["organization_id"], name: "index_forms_on_organization_id"

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class SubmissionsController < ApplicationController
-  protect_from_forgery only: []
   before_action :set_form, only: %i[new create]
+  append_before_action :verify_authenticity_token, if: :form_requires_verification
 
   layout 'public', only: :new
 
@@ -140,5 +140,9 @@ class SubmissionsController < ApplicationController
     permitted_fields = @form.questions.collect(&:answer_field)
     permitted_fields << %i[language location_code referer page fba_directive]
     params.require(:submission).permit(permitted_fields)
+  end
+
+  def form_requires_verification
+    @form.verify_csrf?
   end
 end
