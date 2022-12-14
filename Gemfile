@@ -48,13 +48,13 @@ gem "rubocop-rails"
 gem "rubocop-rspec"
 gem 'active_model_serializers', '>= 0.10.13'
 gem 'acts-as-list'
-gem 'aws-sdk-rails', '>= 3.6.3'
+gem 'aws-sdk-rails', '>= 3.6.4'
 gem 'caracal', '>= 1.4.1'
 gem 'carrierwave', '>= 2.2.1'
 gem 'devise', '>= 4.8.1'
 gem 'fog-aws', '>= 3.15.0'
 gem "jbuilder" # Build JSON APIs with ease [https://github.com/rails/jbuilder]
-gem 'jquery-rails', '>= 4.5.0'
+gem 'jquery-rails', '>= 4.5.1'
 gem 'kaminari', '>= 1.2.2'
 gem 'kramdown'
 gem 'mail'
