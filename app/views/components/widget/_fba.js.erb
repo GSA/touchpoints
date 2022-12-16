@@ -546,7 +546,6 @@ function FBAform(d, N) {
 			xhr.open("POST", url);
 			xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8;");
 	    xhr.onload = callback.bind(this);
-			debugger
 	    xhr.send(JSON.stringify({
 				"submission": params,
 				<%- if @form.verify_csrf? %>
