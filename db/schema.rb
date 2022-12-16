@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_13_041152) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_16_202049) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -81,7 +81,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_13_041152) do
     t.string "staffing"
     t.string "roles_and_responsibilities"
     t.text "missions_identified"
-    t.text "missions_identified_why_not"
     t.text "prioritization_process"
     t.string "considerations_in_procurement_processes"
     t.string "conducts_scra_for_prioritized_products_and_services"
@@ -99,6 +98,23 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_13_041152) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "bureau_id"
+    t.string "agency_roles"
+    t.text "agency_roles_comments"
+    t.text "stakeholder_champion_identified_comments"
+    t.text "interdisciplinary_team_established_comments"
+    t.text "pmo_established_comments"
+    t.text "agency_wide_scrm_strategy_and_implementation_plan_comments"
+    t.text "enterprise_risk_management_function_established_comments"
+    t.text "roles_and_responsibilities_comments"
+    t.text "enterprise_wide_scrm_policy_established_comments"
+    t.text "funding_for_initial_operating_capability_comments"
+    t.text "staffing_comments"
+    t.text "missions_identified_comments"
+    t.text "prioritization_process_comments"
+    t.text "considerations_in_procurement_processes_comments"
+    t.text "conducts_scra_for_prioritized_products_and_services_comments"
+    t.text "established_process_information_sharing_with_fasc_comments"
+    t.text "general_comments"
     t.index ["organization_id"], name: "index_cscrm_data_collections_on_organization_id"
     t.index ["user_id"], name: "index_cscrm_data_collections_on_user_id"
   end
