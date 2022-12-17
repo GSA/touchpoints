@@ -13,7 +13,7 @@ Dotenv::Railtie.load if Rails.env.development? || Rails.env.test?
 module Touchpoints
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.1
+    config.load_defaults 7.0
 
     # Initialize an array of Omniauth providers
     config.x.omniauth.providers = []
