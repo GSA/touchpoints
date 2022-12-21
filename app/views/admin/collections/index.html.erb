@@ -53,6 +53,15 @@
           </small>
         <% end %>
 
+        <div class="year" data-id="2023">
+          <h4>
+            2023
+          </h4>
+          <div>
+            <%= link_to "Q1", admin_collections_path(quarter: 1, year: 2023), class: "usa-button #{params[:quarter] == "1" && params[:year] == "2023" ? nil : 'usa-button--outline'}" %>
+          </div>
+        </div>
+
         <div class="year" data-id="2022">
           <h4>
             2022
