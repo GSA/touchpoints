@@ -35,5 +35,6 @@ class CscrmDataCollectionSerializer < ActiveModel::Serializer
     :considerations_in_procurement_processes_comments,
     :conducts_scra_for_prioritized_products_and_services_comments,
     :established_process_information_sharing_with_fasc_comments,
-    :general_comments,
+    :general_comments
+
 end

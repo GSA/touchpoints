@@ -47,7 +47,7 @@
     <p>
       <%= label_tag "Status", nil, class: "usa-label" %>
       <br>
-      <%= @digital_service_account.aasm_state %>
+      <span class="usa-tag"><%= @digital_service_account.aasm_state %></span>
     </p>
 
     <p>
@@ -132,7 +132,7 @@
       <br>
       <div class="usa-alert usa-alert--info">
         <div class="usa-alert__body">
-          <p class="usa-alert__text">
+          <p class="usa-alert__text font-sans-3xs">
             Only "Archive" an Account after your Organization
             is no longer using the account and it has already been removed
             from the third-party platform.
@@ -140,7 +140,6 @@
           </p>
         </div>
       </div>
-      <br>
     <% end %>
 
     </div>
