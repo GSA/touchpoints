@@ -40,7 +40,9 @@
     <p>
       <%= label_tag "Status", nil, class: "usa-label" %>
       <br>
-      <%= @digital_product.aasm_state %>
+      <span class="usa-tag">
+        <%= @digital_product.aasm_state %>
+      </span>
     </p>
 
     <p>
