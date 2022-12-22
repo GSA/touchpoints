@@ -166,6 +166,7 @@ class Collection < ApplicationRecord
       rating
       aasm_state
       integrity_hash
+      omb_cx_reporting_collections_count
     ]
 
     CSV.generate(headers: true) do |csv|
@@ -190,6 +191,7 @@ class Collection < ApplicationRecord
           collection.rating,
           collection.aasm_state,
           collection.integrity_hash,
+          collection.omb_cx_reporting_collections.size,
         ]
       end
     end
