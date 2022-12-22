@@ -106,6 +106,7 @@ module Admin
     def service_provider_params
       params.require(:service_provider).permit(
         :organization_id,
+        :portfolio_manager_email,
         :name,
         :description,
         :notes,
