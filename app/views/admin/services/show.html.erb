@@ -118,9 +118,15 @@
         <br>
         <% if @service.justification_text.present? %>
           <%= to_markdown(@service.justification_text) %>
-            <% else %>
-              No text
-              <% end %>
+        <% else %>
+          <div class="usa-alert usa-alert--info usa-alert--slim">
+            <div class="usa-alert__body">
+              <p class="usa-alert__text">
+                No justification text has been provided.
+              </p>
+            </div>
+          </div>
+        <% end %>
       </p>
     </div>
 
@@ -294,7 +300,7 @@
       <% end %>
     </ul>
     <% else %>
-      <div class="usa-alert usa-alert--info">
+      <div class="usa-alert usa-alert--info usa-alert--slim">
         <div class="usa-alert__body">
           <p class="usa-alert__text">
             No Forms exist for this Service.

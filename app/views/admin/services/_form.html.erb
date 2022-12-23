@@ -122,7 +122,7 @@
     </div>
 
     <fieldset class="usa-fieldset">
-      <%= form.label :hisp, "Is this service delivered by a High-Impact Service Provider as defined by Circular A-11 Section 280?" , class: "usa-label" %>
+      <%= form.label :hisp, "Is this service delivered by a High-Impact Service Provider (HISP) as defined by Circular A-11 Section 280?" , class: "usa-label" %>
       <legend class="usa-legend sr-only">
         Is this service delivered by a High-Impact Service Provider as defined by Circular A-11 Section 280?
       </legend>
@@ -160,70 +160,72 @@
         </div>
     </fieldset>
 
-    <div id="hisp-specific-options" class="well">
-      <h4>
-        HISP-specific attributes
-      </h4>
+    <div class="margin-left-5">
+      <div id="hisp-specific-options" class="well">
+        <h4>
+          HISP-specific attributes
+        </h4>
 
-      <div class="field">
-        <%= form.label :service_provider_id, class: "usa-label" %>
-        <small>
-          <%= link_to "Service Providers", admin_service_providers_path, target: "_blank", rel: "noopener" %>
-          are available based on the organization associated with the email domain for
-          <%= current_user.email %>.
-          Contact
-          <a href="mailto:feedback-analytics@gsa.gov">support</a> for assistance.
-        </small>
-        <%= form.select :service_provider_id, options_for_select(@service_providers.map { |p| ["#{p.organization.abbreviation} - #{p.name}", p.id] }, service.service_provider_id), { prompt: "Which Service Provider?" }, { class: "usa-select" } %>
-      </div>
-
-       <fieldset class="usa-fieldset margin-bottom-3">
-        <legend class="usa-sr-only">Transactional Service?</legend>
-        <div class="usa-checkbox">
-          <%= form.check_box :transactional, class: "usa-checkbox__input" %>
-          <%= form.label :transactional, "Transactional Service?", class: "usa-checkbox__label" %>
+        <div class="field">
+          <%= form.label :service_provider_id, class: "usa-label" %>
+          <small>
+            <%= link_to "Service Providers", admin_service_providers_path, target: "_blank", rel: "noopener" %>
+            are available based on the organization associated with the email domain for
+            <%= current_user.email %>.
+            Contact
+            <a href="mailto:feedback-analytics@gsa.gov">support</a> for assistance.
+          </small>
+          <%= form.select :service_provider_id, options_for_select(@service_providers.map { |p| ["#{p.organization.abbreviation} - #{p.name}", p.id] }, service.service_provider_id), { prompt: "Which Service Provider?" }, { class: "usa-select" } %>
         </div>
-      </fieldset>
 
-    <% if service_manager_permissions? && service.persisted? %>
-      <div class="field well">
-        <div class="service-managers-div">
-          <%= render 'admin/services/service_managers', service: @service, service_owner_options: @service_owner_options %>
+        <fieldset class="usa-fieldset margin-bottom-3">
+          <legend class="usa-sr-only">Transactional Service?</legend>
+          <div class="usa-checkbox">
+            <%= form.check_box :transactional, class: "usa-checkbox__input" %>
+            <%= form.label :transactional, "Transactional Service?", class: "usa-checkbox__label" %>
+          </div>
+        </fieldset>
+
+      <% if service_manager_permissions? && service.persisted? %>
+        <div class="field well">
+          <div class="service-managers-div">
+            <%= render 'admin/services/service_managers', service: @service, service_owner_options: @service_owner_options %>
+          </div>
         </div>
-      </div>
-    <% end %>
-
-      <div class="field">
-        <%= form.label :justification_text, "Why did you select this service for priority designation?", class: "usa-label" %>
-        <small>
-          What is the scale of the service? (e.g., annual program cost or customer volume)?
-          <br>
-          What is the scale of the impact of the service (e.g., the importance of the service on individual lives)?
-        </small>
-        <%= form.text_area :justification_text, class: "usa-textarea" %>
-      </div>
-
-      <% if service.persisted? && admin_permissions? %>
-      <div class="field">
-        <%= form.label :department, class: "usa-label" %>
-        <%= form.text_field :department, class: "usa-input", placeholder: "Department" %>
-      </div>
-
-      <div class="field">
-        <%= form.label :bureau, class: "usa-label" %>
-        <%= form.text_field :bureau, class: "usa-input", placeholder: "Bureau" %>
-      </div>
-
-      <div class="field">
-        <%= form.label :service_abbreviation, class: "usa-label" %>
-        <%= form.text_field :service_abbreviation, class: "usa-input", placeholder: "service_abbreviation" %>
-      </div>
-
-      <div class="field">
-        <%= form.label :service_slug, class: "usa-label" %>
-        <%= form.text_field :service_slug, class: "usa-input", placeholder: "service-slug" %>
-      </div>
       <% end %>
+
+        <div class="field">
+          <%= form.label :justification_text, "Why did you select this service for priority designation?", class: "usa-label" %>
+          <small>
+            What is the scale of the service? (e.g., annual program cost or customer volume)?
+            <br>
+            What is the scale of the impact of the service (e.g., the importance of the service on individual lives)?
+          </small>
+          <%= form.text_area :justification_text, class: "usa-textarea" %>
+        </div>
+
+        <% if service.persisted? && admin_permissions? %>
+        <div class="field">
+          <%= form.label :department, class: "usa-label" %>
+          <%= form.text_field :department, class: "usa-input", placeholder: "Department" %>
+        </div>
+
+        <div class="field">
+          <%= form.label :bureau, class: "usa-label" %>
+          <%= form.text_field :bureau, class: "usa-input", placeholder: "Bureau" %>
+        </div>
+
+        <div class="field">
+          <%= form.label :service_abbreviation, class: "usa-label" %>
+          <%= form.text_field :service_abbreviation, class: "usa-input", placeholder: "service_abbreviation" %>
+        </div>
+
+        <div class="field">
+          <%= form.label :service_slug, class: "usa-label" %>
+          <%= form.text_field :service_slug, class: "usa-input", placeholder: "service-slug" %>
+        </div>
+        <% end %>
+      </div>
     </div>
 
     <div>
@@ -243,7 +245,7 @@
         </div>
       </fieldset>
 
-      <div id="resources_needed_to_provide_digital_service_option" class="field">
+      <div id="resources_needed_to_provide_digital_service_option" class="field margin-left-5" hidden>
         <%= form.label :resources_needed_to_provide_digital_service, "What resources would be needed to provide a digital option for these steps or tasks?" , class: "usa-label" %>
         <%= form.text_area :resources_needed_to_provide_digital_service, class: "usa-textarea" %>
       </div>
@@ -367,10 +369,12 @@
     $("#service_hisp_yes").on('click', function() {
       $("#service_designated_for_improvement_a11_280").attr('required', true);
       $("#designated_for_improvement_a11_280_option").show();
+      showHispOptions();
     })
     $("#service_hisp_no").on('click', function() {
       $("#service_designated_for_improvement_a11_280").attr('required', false);
       $("#designated_for_improvement_a11_280_option").hide();
+      hideHispOptions();
     })
 
     $("#service_digital_service_yes").on('click', function() {
@@ -392,12 +396,12 @@
     })
 
     $("#service_fully_digital_service_yes").on('click', function() {
-      $("#barriers_to_fully_digital_service_option textarea").attr('required', true);
-      $("#barriers_to_fully_digital_service_option").show();
-    })
-    $("#service_fully_digital_service_no").on('click', function() {
       $("#barriers_to_fully_digital_service_option textarea").attr('required', false);
       $("#barriers_to_fully_digital_service_option").hide();
+    })
+    $("#service_fully_digital_service_no").on('click', function() {
+      $("#barriers_to_fully_digital_service_option textarea").attr('required', true);
+      $("#barriers_to_fully_digital_service_option").show();
     })
 
     // if "Unknown" is selected
@@ -431,10 +435,11 @@
 
       $("#service_designated_for_improvement_a11_280").attr('required', true);
       $("#designated_for_improvement_a11_280_option").show();
+      showHispOptions();
     }
     if ($("#service_digital_service_yes:checked") ) {
-      $("#service_multi_agency_explanation").attr('required', true);
-      $("#multi_agency_explanation_option").show();
+      $("#resources_needed_to_provide_digital_service_option textarea").attr('required', true);
+      $("#resources_needed_to_provide_digital_service_option").show();
     }
     if ($("#service_multi_agency_service_yes:checked")) {
       $("#service_multi_agency_explanation").attr('required', true);
