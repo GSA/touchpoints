@@ -38,42 +38,46 @@
     <%= form.label :agency_roles,
       "1. The Agency’s role in SCRM is identified and communicated",
       class: "usa-label" %>
-    <%= form.select :agency_roles, ["No", "Plan Developed", "Partial/In-process", "Yes"], { include_blank: true }, class: "usa-select" %>
+    <%= form.select :agency_roles,
+      CscrmDataCollection.agency_roles_options,
+      { include_blank: true },
+      class: "usa-select" %>
   </div>
 
   <div class="field margin-left-5">
     <%= form.label :agency_roles_comments,
       "Comments",
       class: "usa-label" %>
-    <%= form.text_area :agency_roles_comments, class: "usa-textarea" %>
+    <%= form.text_area :agency_roles_comments,
+      class: "usa-textarea" %>
   </div>
 
   <div class="field">
     <%= form.label :leadership_roles,
       "2. Senior leadership roles, responsibilities and accountability for C-SCRM are defined",
       class: "usa-label" %>
-    <%= form.select :leadership_roles, ["Not defined", "Partially defined", "Defined", "Defined and designated"], { include_blank: true }, class: "usa-select" %>
+    <%= form.select :leadership_roles,
+      CscrmDataCollection.leadership_roles_options,
+      { include_blank: true },
+      class: "usa-select" %>
   </div>
 
   <div class="field">
     <%= form.label :stakeholder_champion_identified,
-      "3. A CSCRM Champion has been identified for your Agency", class: "usa-label" %>
-
-    <%= form.select :stakeholder_champion_identified, [
-        "Not identified",
-        "A C-SCRM “Champion” (or, C-SCRM Executive Sponsor, C-SCRM Lead Official, etc.) is identified",
-        "C-SCRM PMO is identified to provide leadership",
-        "C-SCRM Team (e.g, Council, Committee (etc.) is identified to provide leadership",
-        "Not applicable (implementation complete)",
-        "Other"
-      ],
+      "3. A CSCRM Champion has been identified for your Agency",
+      class: "usa-label" %>
+    <%= form.select :stakeholder_champion_identified,
+      CscrmDataCollection.stakeholder_champion_identified_options,
       { include_blank: true },
       class: "usa-select" %>
   </div>
 
   <div class="field margin-left-5">
-    <%= form.label :stakeholder_champion_identified_comments, "Comments" , class: "usa-label" %>
-    <%= form.text_area :stakeholder_champion_identified_comments, class: "usa-textarea" %>
+    <%= form.label :stakeholder_champion_identified_comments,
+      "Comments",
+      class: "usa-label" %>
+    <%= form.text_area :stakeholder_champion_identified_comments,
+      class: "usa-textarea" %>
   </div>
 
   <div class="field">
@@ -83,16 +87,10 @@
     <div class="usa-hint font-sans-2xs">
       Section 2 “Integration of C-SCRM into Enterprise-wide Risk Management”
       Guidance is also provided in Section 2.3 about multi-level risk management roles and responsibilities.
-
       Appendix G: “C-SCRM Activities in the Risk Management Process”
     </div>
-    <%= form.select :interdisciplinary_team_established, [
-        "No",
-        "Plan Developed",
-        "Partial/In-process",
-        "Yes",
-        "Comments: if not yes explain",
-      ],
+    <%= form.select :interdisciplinary_team_established,
+      CscrmDataCollection.interdisciplinary_team_established_options,
       { include_blank: true },
       class: "usa-select",
       required: true
@@ -100,8 +98,11 @@
   </div>
 
   <div class="field margin-left-5">
-    <%= form.label :interdisciplinary_team_established_comments, "Comments" , class: "usa-label" %>
-    <%= form.text_area :interdisciplinary_team_established_comments, class: "usa-textarea" %>
+    <%= form.label :interdisciplinary_team_established_comments,
+      "Comments",
+      class: "usa-label" %>
+    <%= form.text_area :interdisciplinary_team_established_comments,
+      class: "usa-textarea" %>
   </div>
 
   <div class="field">
@@ -112,13 +113,8 @@
       Numerous references to the role of a C-SCRM PMO throughout the publication, to include Appendix A” C-SCRM Security
       Controls (search on “PMO”)
     </div>
-    <%= form.select :pmo_established, [
-        "No",
-        "Plan Developed",
-        "Partial/In-process",
-        "Yes",
-        "Comments: if not yes explain",
-      ],
+    <%= form.select :pmo_established,
+      CscrmDataCollection.pmo_established_options,
       { include_blank: true },
       class: "usa-select",
       required: true
@@ -126,8 +122,11 @@
   </div>
 
   <div class="field margin-left-5">
-    <%= form.label :pmo_established_comments, "Comments" , class: "usa-label" %>
-    <%= form.text_area :pmo_established_comments, class: "usa-textarea" %>
+    <%= form.label :pmo_established_comments,
+      "Comments",
+      class: "usa-label" %>
+    <%= form.text_area :pmo_established_comments,
+      class: "usa-textarea" %>
   </div>
 
   <div class="field">
@@ -144,13 +143,8 @@
       <br>
       Appendix G: Appendix G: “C-SCRM Activities in the Risk Management Process”: FRAME inputs and conditions
     </div>
-    <%= form.select :enterprise_wide_scrm_policy_established, [
-        "No",
-        "Plan Developed",
-        "Partial/In-process",
-        "Yes",
-        "Comments: if not yes explain"
-      ],
+    <%= form.select :enterprise_wide_scrm_policy_established,
+      CscrmDataCollection.enterprise_wide_scrm_policy_established_options,
       { include_blank: true },
       class: "usa-select",
       required: true
@@ -158,8 +152,11 @@
   </div>
 
   <div class="field margin-left-5">
-    <%= form.label :enterprise_wide_scrm_policy_established_comments, "Comments" , class: "usa-label" %>
-    <%= form.text_area :enterprise_wide_scrm_policy_established_comments, class: "usa-textarea" %>
+    <%= form.label :enterprise_wide_scrm_policy_established_comments,
+      "Comments",
+      class: "usa-label" %>
+    <%= form.text_area :enterprise_wide_scrm_policy_established_comments,
+      class: "usa-textarea" %>
   </div>
 
   <div class="field">
@@ -169,13 +166,8 @@
     <div class="usa-hint font-sans-2xs">
       “Critical Success Factors” Section 3.6 “Dedicated Resources”
     </div>
-    <%= form.select :funding_for_initial_operating_capability, [
-        "Not Identified or secured",
-        "Identified by not secured",
-        "Partially secured",
-        "Fully identified and secured",
-        "if not identified or secured explain"
-      ],
+    <%= form.select :funding_for_initial_operating_capability,
+      CscrmDataCollection.funding_for_initial_operating_capability_options,
       { include_blank: true },
       class: "usa-select",
       required: true
@@ -183,8 +175,11 @@
   </div>
 
   <div class="field margin-left-5">
-    <%= form.label :funding_for_initial_operating_capability_comments, "Comments" , class: "usa-label" %>
-    <%= form.text_area :funding_for_initial_operating_capability_comments, class: "usa-textarea" %>
+    <%= form.label :funding_for_initial_operating_capability_comments,
+      "Comments",
+      class: "usa-label" %>
+    <%= form.text_area :funding_for_initial_operating_capability_comments,
+      class: "usa-textarea" %>
   </div>
 
   <div class="field">
@@ -198,13 +193,8 @@
 
       Section 3.6 “Dedicated Resources”
     </div>
-    <%= form.select :staffing, [
-        "Not Identified or secured",
-        "Identified by not secured",
-        "Partially secured",
-        "Fully identified and secured",
-        "if not identified or secured explain"
-      ],
+    <%= form.select :staffing,
+      CscrmDataCollection.staffing_options,
       { include_blank: true },
       class: "usa-select",
       required: true
@@ -212,8 +202,11 @@
   </div>
 
   <div class="field margin-left-5">
-    <%= form.label :staffing_comments, "Comments" , class: "usa-label" %>
-    <%= form.text_area :staffing_comments, class: "usa-textarea" %>
+    <%= form.label :staffing_comments,
+      "Comments",
+      class: "usa-label" %>
+    <%= form.text_area :staffing_comments,
+      class: "usa-textarea" %>
   </div>
 
   <div class="field">
@@ -226,16 +219,11 @@
       PM-30 Supply Chain Risk Management Strategy
       Appendix D.1: “C-SCRM Strategy and Implementation Plan" guidance and template
     </div>
-    <%= form.select :agency_wide_scrm_strategy_and_implementation_plan_established, [
-        "No",
-        "Plan Developed",
-        "Partial/In-process",
-        "Yes",
-        "Comments: if not yes explain"
-      ],
-      { include_blank: true },
-      class: "usa-select",
-      required: true
+    <%= form.select :agency_wide_scrm_strategy_and_implementation_plan_established,
+        CscrmDataCollection.agency_wide_scrm_strategy_and_implementation_plan_options,
+        { include_blank: true },
+        class: "usa-select",
+        required: true
     %>
   </div>
 
@@ -253,12 +241,8 @@
 
       Appendix G: Appendix G: “C-SCRM Activities in the Risk Management Process”: FRAME inputs and conditions
     </div>
-    <%= form.select :enterprise_risk_management_function_established, [
-        "Not established",
-        "Executive Board evaluates risks across enterprise",
-        "CSCRM program requirements are defined and managed",
-        "analysis of the likelihood and impact of potential supply chain cybersecurity threats"
-      ],
+    <%= form.select :enterprise_risk_management_function_established,
+        CscrmDataCollection.enterprise_risk_management_function_established_options,
       { include_blank: true },
       class: "usa-select",
       required: true
@@ -269,18 +253,6 @@
     <%= form.label :enterprise_risk_management_function_established_comments, "Comments" , class: "usa-label" %>
     <%= form.text_area :enterprise_risk_management_function_established_comments, class: "usa-textarea" %>
   </div>
-
-  <% question_11_options = [
-      "Not defined",
-      "Partially defined for PMO",
-      "Fully defined for PMO",
-      "Partially defined for Acquisition Workforce Personnel",
-      "Partially defined for IT/Information Security Personnel",
-      "Fully defined for Acquisition Workforce Personnel",
-      "Fully defined for IT/Information Security Personnel",
-      "Partially or Fully Defined for Other Personnel"
-    ]
-  %>
 
   <fieldset class="usa-fieldset" role="group">
     <legend class="usa-sr-only">11. C-SCRM roles and functional responsibilities clearly defined for key C-SCRM personnel (minimally, PMO, acquisition
@@ -295,7 +267,7 @@
       Appendix D.1 and D.2 “C-SCRM Strategy and Implementation Plan” and “C-SCRM Policy”
     </div>
     <br>
-    <% question_11_options.each_with_index do |option, i| %>
+    <% CscrmDataCollection.roles_and_responsibilities_options.each_with_index do |option, i| %>
       <div class="margin-bottom-1">
         <%= form.check_box(:roles_and_responsibilities, {
           multiple: true,
@@ -314,23 +286,10 @@
     <%= form.text_area :roles_and_responsibilities_comments, class: "usa-textarea" %>
   </div>
 
-  <% question_12_options = [
-      'Not identified (all)',
-      'Mission Functions Identified',
-      'Existing Asset Inventory',
-      'Existing Systems Inventory',
-      'Existing Supplier Inventory/List',
-      'Critical Mission Functions identified',
-      'Critical Assets Identified',
-      'Critical Systems Identified',
-      'Critical Suppliers Identified'
-    ]
-  %>
-
   <fieldset class="usa-fieldset">
     <legend class="usa-sr-only">12. Identified missions, assets, systems, processes, data and suppliers (e.g., HVAs, critical suppliers,
     mission-essential functions)</legend>
-    <%= form.label :staffing, "12. Identified missions, assets, systems, processes, data and suppliers (e.g., HVAs, critical suppliers,
+    <%= form.label :missions_identified, "12. Identified missions, assets, systems, processes, data and suppliers (e.g., HVAs, critical suppliers,
     mission-essential functions)" , class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       Section 3.1.1. Acquisition in the C-SCRM Strategy and Implementation Plan
@@ -351,7 +310,7 @@
       FIPS 199 “Standards for Security Categorization of Federal Information and Information
     </div>
     <br>
-    <% question_12_options.each_with_index do |option, i| %>
+    <% CscrmDataCollection.missions_identified_options.each_with_index do |option, i| %>
       <div class="margin-bottom-1">
         <%= form.check_box(:missions_identified, {
           multiple: true,
@@ -393,12 +352,8 @@
       <br>
       FIPS 199 “Standards for Security Categorization of Federal Information and Information Systems”
     </div>
-    <%= form.select :prioritization_process, [
-        "No",
-        "Plan Developed",
-        "Partial/In-process",
-        "Yes"
-      ],
+    <%= form.select :prioritization_process,
+      CscrmDataCollection.prioritization_process_options,
       { include_blank: true },
       class: "usa-select",
       required: true
@@ -411,22 +366,9 @@
     <%= form.text_area :prioritization_process_comments, class: "usa-textarea" %>
   </div>
 
-  <% question_14_options = [
-    'Not considered',
-    'Acquisition strategy',
-    'Acquisition plan',
-    'Requirements language',
-    'Source Selection evaluation factors',
-    'Quality Assurance Surveillance Plan (QASP)',
-    'Supplier (vendor) risk assessment)',
-    'Compliance clauses',
-    'Other (Describe)'
-  ]
-  %>
-
   <fieldset class="usa-fieldset">
     <legend class="usa-sr-only">14. C-SCRM considerations in procurement processes and actions</legend>
-    <%= form.label :staffing, "14. C-SCRM considerations in procurement processes and actions" , class: "usa-label" %>
+    <%= form.label :considerations_in_procurement_processes, "14. C-SCRM considerations in procurement processes and actions" , class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       Section 3.1. C-SCRM in Acquisition
       <br>
@@ -437,7 +379,7 @@
       SR-6 Supplier Assessments and Reviews
     </div>
     <br>
-    <% question_14_options.each_with_index do |option, i| %>
+    <% CscrmDataCollection.considerations_in_procurement_processes_options.each_with_index do |option, i| %>
       <div class="margin-bottom-1">
         <%= form.check_box(:considerations_in_procurement_processes, {
           multiple: true,
@@ -456,19 +398,9 @@
     <%= form.text_area :considerations_in_procurement_processes_comments, class: "usa-textarea" %>
   </div>
 
-
-  <% question_15_options = [
-    'Not conducted',
-    'Conducted for some prioritized products',
-    'Conducted for some prioritized services',
-    'Conducted for all prioritized products',
-    'Conducted for all prioritized services'
-  ]
-  %>
-
   <fieldset class="usa-fieldset">
     <legend class="usa-sr-only">15. Conducts Supply Chain Risk Assessments (SCRA) for prioritized products and services</legend>
-    <%= form.label :staffing, "15. Conducts Supply Chain Risk Assessments (SCRA) for prioritized products and services" , class: "usa-label" %>
+    <%= form.label :conducts_scra_for_prioritized_products_and_services, "15. Conducts Supply Chain Risk Assessments (SCRA) for prioritized products and services" , class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       SR-6 “Supplier Assessments and Reviews”
       <br>
@@ -480,7 +412,7 @@
     </div>
 
     <br>
-    <% question_15_options.each_with_index do |option, i| %>
+    <% CscrmDataCollection.conducts_scra_for_prioritized_products_and_services_options.each_with_index do |option, i| %>
       <div class="margin-bottom-1">
         <%= form.check_box(:conducts_scra_for_prioritized_products_and_services, {
           multiple: true,
@@ -499,19 +431,9 @@
     <%= form.text_area :conducts_scra_for_prioritized_products_and_services_comments, class: "usa-textarea" %>
   </div>
 
-  <% question_16_options = [
-    'Not identified',
-    'Partially identified',
-    'Identified for “General”',
-    'Identified for “Role-based”',
-    'General training currently  available',
-    'Role-based training currently available'
-  ]
-  %>
-
   <fieldset class="usa-fieldset">
     <legend class="usa-sr-only">16. Personnel required to complete general or role-based SCRM training requirements</legend>
-    <%= form.label :staffing, "16. Personnel required to complete general or role-based SCRM training requirements" , class: "usa-label" %>
+    <%= form.label :personnel_required_to_complete_training, "16. Personnel required to complete general or role-based SCRM training requirements" , class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       Section 3.3 “Training and Awareness”
       <br>
@@ -520,7 +442,7 @@
       Various miscellaneous references to training throughout the publication (search on “training”)
     </div>
     <br>
-    <% question_16_options.each_with_index do |option, i| %>
+    <% CscrmDataCollection.personnel_required_to_complete_training_options.each_with_index do |option, i| %>
       <div class="margin-bottom-1">
         <%= form.check_box(:personnel_required_to_complete_training, {
           multiple: true,
@@ -552,14 +474,8 @@
     </div>
 
     <%= form.select :established_process_information_sharing_with_fasc,
-    [
-      "Not established",
-      "Internal process partially developed/In process",
-      "Internal process (only) established",
-      "Internal process established",
-      "FASC information sharing process planned or in process",
-      "Internal and FASC information sharing processes established"
-    ], { include_blank: true },
+      CscrmDataCollection.established_process_information_sharing_options,
+      { include_blank: true },
       class: "usa-select" %>
   </div>
 
@@ -568,24 +484,15 @@
     <%= form.text_area :established_process_information_sharing_with_fasc_comments, class: "usa-textarea" %>
   </div>
 
-  <% question_18_options = [
-      'Not considered',
-      'Critical Suppliers are identified in COOP and Recovery plans',
-      'Business Impact Analysis considers supplier and product dependency risks and resiliency requirements',
-      'SCRAs are conducted for critical suppliers',
-      'Mitigations to improve resilience/address assessed risks  associated with critical suppliers are identified and implemented'
-  ]
-  %>
-
   <fieldset class="usa-fieldset">
     <legend class="usa-sr-only">18. Cybersecurity supply chain risk and resiliency considerations are incorporated into organizational COOP and Recovery
     Plans</legend>
-    <%= form.label :staffing, "18. Cybersecurity supply chain risk and resiliency considerations are incorporated into organizational COOP and Recovery Plans", class: "usa-label" %>
+    <%= form.label :cybersecurity_supply_chain_risk_considerations, "18. Cybersecurity supply chain risk and resiliency considerations are incorporated into organizational COOP and Recovery Plans", class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       Contingency Planning Security Control Family
     </div>
     <br>
-    <% question_18_options.each_with_index do |option, i| %>
+    <% CscrmDataCollection.cybersecurity_supply_chain_risk_considerations_options.each_with_index do |option, i| %>
       <div class="margin-bottom-1">
         <%= form.check_box(:cybersecurity_supply_chain_risk_considerations, {
           multiple: true,

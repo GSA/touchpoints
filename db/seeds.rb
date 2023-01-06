@@ -664,6 +664,8 @@ OmbCxReportingCollection.create!({
   goal_statement: "GSA will increase adoption of Login.gov, a simple, secure, and equitable shared service at the forefront of the public’s digital identity..."
 })
 
+puts 'Creating User Personas...'
+
 Persona.create!({
   name: 'Public User',
 })
@@ -674,6 +676,8 @@ Persona.create!({
   name: 'Example Persona 3'
 })
 
+
+puts 'Creating IVN Sources, Components, and Links...'
 @organizations = Organization.all
 
 for i in (1..20) do
@@ -716,4 +720,53 @@ for i in (1..50) do
   })
 end
 
-puts 'Created User Personas: #{admin_user.email}'
+puts 'Creating CSCRM Data Collections...'
+def random_words
+  list = %w(Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum)
+
+  list.sample(15).join(" ")
+end
+
+for i in (1..40) do
+  CscrmDataCollection.create!({
+    organization: @organizations.all.sample,
+    bureau_id: "",
+    year: [2022, 2023, 2024].sample,
+    quarter: [1, 2, 3, 4].sample,
+    agency_roles: CscrmDataCollection.agency_roles_options.sample,
+    agency_roles_comments: random_words,
+    leadership_roles: CscrmDataCollection.leadership_roles_options.sample,
+    stakeholder_champion_identified: CscrmDataCollection.stakeholder_champion_identified_options.sample,
+    stakeholder_champion_identified_comments: random_words,
+    interdisciplinary_team_established: CscrmDataCollection.interdisciplinary_team_established_options.sample,
+    interdisciplinary_team_established_comments: random_words,
+    pmo_established: CscrmDataCollection.pmo_established_options.sample,
+    pmo_established_comments: random_words,
+    enterprise_wide_scrm_policy_established: CscrmDataCollection.enterprise_wide_scrm_policy_established_options.sample,
+    enterprise_wide_scrm_policy_established_comments: random_words,
+    funding_for_initial_operating_capability: CscrmDataCollection.funding_for_initial_operating_capability_options.sample,
+    funding_for_initial_operating_capability_comments: random_words,
+    staffing: CscrmDataCollection.staffing_options.sample,
+    staffing_comments: random_words,
+    agency_wide_scrm_strategy_and_implementation_plan_established: CscrmDataCollection.agency_wide_scrm_strategy_and_implementation_plan_options.sample,
+    agency_wide_scrm_strategy_and_implementation_plan_comments: random_words,
+    enterprise_risk_management_function_established: CscrmDataCollection.enterprise_risk_management_function_established_options.sample,
+    enterprise_risk_management_function_established_comments: random_words,
+    roles_and_responsibilities: CscrmDataCollection.roles_and_responsibilities_options.sample,
+    roles_and_responsibilities_comments: random_words,
+    missions_identified: CscrmDataCollection.missions_identified_options,
+    missions_identified_comments: random_words,
+    prioritization_process: CscrmDataCollection.prioritization_process_options.sample,
+    prioritization_process_comments: random_words,
+    considerations_in_procurement_processes: CscrmDataCollection.considerations_in_procurement_processes_options.sample,
+    considerations_in_procurement_processes_comments: random_words,
+    conducts_scra_for_prioritized_products_and_services: CscrmDataCollection.conducts_scra_for_prioritized_products_and_services_options.sample,
+    conducts_scra_for_prioritized_products_and_services_comments: random_words,
+    personnel_required_to_complete_training: CscrmDataCollection.personnel_required_to_complete_training_options.sample,
+    established_process_information_sharing_with_fasc: CscrmDataCollection.established_process_information_sharing_options.sample,
+    established_process_information_sharing_with_fasc_comments: random_words,
+    cybersecurity_supply_chain_risk_considerations: CscrmDataCollection.cybersecurity_supply_chain_risk_considerations_options.sample,
+    general_comments: random_words
+  })
+end
+
