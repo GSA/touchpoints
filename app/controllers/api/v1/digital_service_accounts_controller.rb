@@ -6,7 +6,7 @@ module Api
       def index
         page = (params[:page].present? ? params[:page].to_i : 0)
         size = (params[:size].present? ? params[:size].to_i : 100)
-        size = 100 if size > 100
+        size = 500 if size > 500
 
         respond_to do |format|
           format.json do
