@@ -325,7 +325,6 @@ class Form < ApplicationRecord
       csv << header_attributes
 
       @hash.each_pair do |key, values|
-        @question_text = '123'
         case key
         when :answer_01
           question = questions.where(answer_field: key).first
@@ -354,11 +353,13 @@ class Form < ApplicationRecord
           standardized_question_number = 5
         when :answer_06
           question = questions.where(answer_field: key).first
+          next unless question.present?
           response_volume = values.values.collect(&:to_i).sum
           @question_text = question.text
           standardized_question_number = 6
         when :answer_07
           question = questions.where(answer_field: key).first
+          next unless question.present?
           response_volume = values.values.collect(&:to_i).sum
           @question_text = question.text
           standardized_question_number = 7

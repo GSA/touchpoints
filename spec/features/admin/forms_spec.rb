@@ -387,7 +387,7 @@ feature 'Forms', js: true do
           context 'for A-11 forms' do
             let!(:a11_form) { FactoryBot.create(:form, :a11, organization:, user: form_manager) }
             let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form: a11_form) }
-            let!(:submission) { FactoryBot.create(:submission, form: a11_form) }
+            let!(:submission) { FactoryBot.create(:submission, :a11, form: a11_form) }
 
             before do
               visit responses_admin_form_path(a11_form)
@@ -400,6 +400,20 @@ feature 'Forms', js: true do
               expect(page).to have_content('Total submissions received over period')
               expect(page).to have_link('Export All Responses to CSV')
               expect(page).to have_content('Performance.gov Reporting')
+              expect(page).to have_content('Responses Summary')
+            end
+
+            it 'downloads Response summary successfully' do
+              click_on("Responses Summary")
+              expect(page).to_not have_content("error")
+            end
+
+            it 'downloads Response summary successfully, even without question 7' do
+              # Delete Question 7, as many agencies tend to do
+              a11_form.questions.select { |q| q.answer_field == "answer_07" }.first.destroy
+
+              click_on("Responses Summary")
+              expect(page).to_not have_content("error")
             end
           end
         end
