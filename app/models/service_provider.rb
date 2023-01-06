@@ -23,4 +23,40 @@ class ServiceProvider < ApplicationRecord
   def organization_abbreviation
     organization ? organization.abbreviation : nil
   end
+
+  def self.to_csv
+     CSV.generate(headers: true) do |csv|
+      csv << %i[
+        department
+        department_abbreviation
+        service_provider_id
+        name
+        description
+        notes
+        new_hisp
+        inactive
+        url
+        services_count
+        portfolio_manager_email
+      ]
+
+      ServiceProvider.active
+        .includes(:organization)
+        .order('organizations.name', :name).each do |provider|
+        csv << [
+          provider.organization.name,
+          provider.organization.abbreviation.downcase,
+          provider.slug,
+          provider.name,
+          provider.description,
+          provider.notes,
+          provider.new,
+          provider.inactive,
+          provider.url,
+          provider.services_count,
+          provider.portfolio_manager_email
+        ]
+      end
+    end
+  end
 end
