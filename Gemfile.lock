@@ -565,7 +565,7 @@ DEPENDENCIES
   whenever
 
 RUBY VERSION
-   ruby 3.1.1p18
+   ruby 3.1.3p185
 
 BUNDLED WITH
    2.3.12
