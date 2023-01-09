@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.1.1'
+ruby '3.1.3'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4"
@@ -85,14 +85,13 @@ end
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'aasm-diagram'
+  gem 'bullet'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'rails-erd'
   gem 'web-console', '>= 4.2.0'
-  gem 'bullet'
 end
 
 group :test do
-  # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 3.37.1'
   gem 'database_cleaner'
   gem 'factory_bot_rails', '>= 6.2.0'
@@ -100,6 +99,5 @@ group :test do
   gem 'rspec-rails'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
-  # gem 'chromedriver-helper'
   gem 'webdrivers', '>= 5.1.0'
 end

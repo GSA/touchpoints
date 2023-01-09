@@ -171,6 +171,8 @@ class OmbCxReportingCollection < ApplicationRecord
     attributes = %i[
       id
       collection_id
+      collection_year
+      collection_quarter
       collection_name
       collection_organization_id
       collection_organization_name
@@ -262,6 +264,8 @@ class OmbCxReportingCollection < ApplicationRecord
         csv << attributes = [
           omb_cx_reporting_collection.id,
           omb_cx_reporting_collection.collection_id,
+          omb_cx_reporting_collection.collection.year,
+          omb_cx_reporting_collection.collection.quarter,
           omb_cx_reporting_collection.collection.name,
           omb_cx_reporting_collection.collection.organization_id,
           omb_cx_reporting_collection.collection.organization.name,
