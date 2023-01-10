@@ -176,6 +176,8 @@ class OmbCxReportingCollection < ApplicationRecord
       collection_name
       collection_organization_id
       collection_organization_name
+      service_provider_id
+      service_provider_name
       service_provided
       service_id
       service_name
@@ -269,6 +271,8 @@ class OmbCxReportingCollection < ApplicationRecord
           omb_cx_reporting_collection.collection.name,
           omb_cx_reporting_collection.collection.organization_id,
           omb_cx_reporting_collection.collection.organization.name,
+          omb_cx_reporting_collection.collection.service_provider_id,
+          omb_cx_reporting_collection.collection.service_provider.name,
           omb_cx_reporting_collection.service_provided,
           omb_cx_reporting_collection.service_id,
           omb_cx_reporting_collection.service.name,
