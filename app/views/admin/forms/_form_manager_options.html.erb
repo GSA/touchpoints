@@ -2,7 +2,7 @@
 <%= render 'components/flash' %>
 <% end %>
 
-<%= form_with(model: form, url: update_form_manager_options_admin_form_url(@form, format: :js), local: false) do |f| %>
+<%= form_with(model: form, url: update_form_manager_options_admin_form_url(form, format: :js), local: false) do |f| %>
   <% if form.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(form.errors.count, "error") %> prohibited this form from being saved:</h2>
@@ -18,7 +18,7 @@
       <% end %>
     </div>
   <% end %>
-  <% if is_at_least_form_manager?(user: current_user, form: @form) %>
+  <% if is_at_least_form_manager?(user: current_user, form: form) %>
   <div class="well">
     <span class="usa-tag">
       for Form Managers
@@ -41,14 +41,14 @@
             can be associated with a
             <%= link_to "Service", admin_services_path, target: "_blank" %>.
           </small>
-          <%= f.select :service_id, current_user.organization.services.includes(:organization).order("organizations.name", :name).map { |h| ["#{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, class: "usa-select" %>
+          <%= f.select :service_id, form.organization.services.includes(:organization).order("organizations.name", :name).map { |h| ["#{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, class: "usa-select" %>
         </div>
       </div>
     </div>
     <div class="grid-col-12">
       <div class="field">
         <%= f.label :time_zone, "Time zone", class: "usa-label" %>
-        <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone::MAPPING.keys.sort, selected: @form.time_zone), { prompt: "Select a time zone" }, { class: "usa-select" } %>
+        <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone::MAPPING.keys.sort, selected: form.time_zone), { prompt: "Select a time zone" }, { class: "usa-select" } %>
       </div>
     </div>
 
@@ -69,7 +69,7 @@
     <div class="grid-col-6">
       <div class="field usa-form-group">
         <%= f.label :expiration_date, class: "usa-label", id: "expiration-date-label" %>
-        <div class="usa-date-picker" data-default-value="<%= @form.expiration_date %>">
+        <div class="usa-date-picker" data-default-value="<%= form.expiration_date %>">
           <input type="text" name="form[expiration_date]" id="form_expiration_date" placeholder="mm/dd/yyyy" class="usa-input" aria-described-by="expiration-date-label" />
         </div>
       </div>

@@ -11,9 +11,12 @@ class DigitalServiceAccount < ApplicationRecord
 
   belongs_to :organization, optional: true
 
+  validates :name, presence: true
   validates :name, uniqueness: { scope: :account }
-
-  # validates :name, presence: true
+  validates :account, presence: true
+  validate :validate_account_types
+  validates :service_url, presence: true
+  validates :service_url, uniqueness: true
 
   scope :active, -> { where(aasm_state: :published) }
 
@@ -81,6 +84,10 @@ class DigitalServiceAccount < ApplicationRecord
       'Youtube',
       'Other'
     ]
+  end
+
+  def validate_account_types
+    errors.add(:account, "Invalid account platform '#{account}'") unless DigitalServiceAccount.list.include?(account)
   end
 
   def user_email

@@ -5,6 +5,7 @@ class ServiceProvider < ApplicationRecord
   belongs_to :organization
   has_many :services
   has_many :collections, through: :services
+  has_many :omb_cx_reporting_collections, through: :collections
   acts_as_taggable_on :tags
 
   validates :name, presence: true

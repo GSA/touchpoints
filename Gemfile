@@ -54,8 +54,8 @@ gem 'carrierwave', '>= 2.2.1'
 gem 'devise', '>= 4.8.1'
 gem 'fog-aws', '>= 3.15.0'
 gem "jbuilder" # Build JSON APIs with ease [https://github.com/rails/jbuilder]
-gem 'jquery-rails', '>= 4.5.0'
-gem 'kaminari', '>= 1.2.2'
+gem 'jquery-rails'
+gem 'kaminari'
 gem 'kramdown'
 gem 'mail'
 gem 'mini_magick'
@@ -77,7 +77,7 @@ gem 'acts-as-taggable-on'
 gem "rolify"
 
 group :development, :test do
-  gem 'dotenv-rails', '>= 2.8.1'
+  gem 'dotenv-rails'
   gem 'pry'
   gem 'rspec_junit_formatter'
 end
@@ -86,16 +86,16 @@ group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'aasm-diagram'
   gem 'bullet'
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'listen'
   gem 'rails-erd'
-  gem 'web-console', '>= 4.2.0'
+  gem 'web-console'
 end
 
 group :test do
   gem 'capybara', '>= 3.37.1'
   gem 'database_cleaner'
-  gem 'factory_bot_rails', '>= 6.2.0'
-  gem 'rails-controller-testing', '>= 1.0.5'
+  gem 'factory_bot_rails'
+  gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false

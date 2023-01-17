@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/18F/omniauth_login_dot_gov.git
-  revision: 756300d4a3e0c234d5596f16671f36851d409c54
+  revision: 73843e3742dbd595b2d081e33c04a65eb89d9cde
   branch: main
   specs:
-    omniauth_login_dot_gov (0.1.2)
+    omniauth_login_dot_gov (1.0.0)
       faraday (~> 0.17)
       json-jwt (~> 1.11)
       jwt (~> 2.2)
@@ -96,7 +96,7 @@ GEM
     aes_key_wrap (1.1.0)
     ast (2.4.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.683.0)
+    aws-partitions (1.691.0)
     aws-record (2.9.0)
       aws-sdk-dynamodb (~> 1.18)
     aws-sdk-core (3.168.4)
@@ -132,7 +132,7 @@ GEM
       msgpack (~> 1.2)
     brakeman (5.4.0)
     builder (3.2.4)
-    bullet (7.0.4)
+    bullet (7.0.7)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     bundler-audit (0.9.1)
@@ -187,7 +187,7 @@ GEM
       dotenv (= 2.8.1)
       railties (>= 3.2)
     erubi (1.12.0)
-    excon (0.95.0)
+    excon (0.97.1)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
@@ -254,9 +254,9 @@ GEM
     kaminari-core (1.2.2)
     kramdown (2.4.0)
       rexml
-    listen (3.0.8)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
+    listen (3.8.0)
+      rb-fsevent (~> 0.10, >= 0.10.3)
+      rb-inotify (~> 0.9, >= 0.9.10)
     logstop (0.3.0)
     loofah (2.19.1)
       crass (~> 1.0.2)
@@ -274,8 +274,8 @@ GEM
     mime-types-data (3.2022.0105)
     mini_magick (4.12.0)
     mini_mime (1.1.2)
-    mini_portile2 (2.8.0)
-    minitest (5.16.3)
+    mini_portile2 (2.8.1)
+    minitest (5.17.0)
     msgpack (1.6.0)
     multi_json (1.15.0)
     multi_xml (0.6.0)
@@ -289,7 +289,7 @@ GEM
       timeout
     net-smtp (0.3.3)
       net-protocol
-    newrelic_rpm (8.14.0)
+    newrelic_rpm (8.15.0)
     nio4r (2.5.8)
     nokogiri (1.13.10)
       mini_portile2 (~> 2.8.0)
@@ -318,17 +318,17 @@ GEM
       activerecord (>= 5.2)
       request_store (~> 1.1)
     parallel (1.22.1)
-    parser (3.1.3.0)
+    parser (3.2.0.0)
       ast (~> 2.4.1)
     pg (1.4.5)
-    pry (0.14.1)
+    pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
     public_suffix (5.0.1)
     puma (5.6.5)
       nio4r (~> 2.0)
     racc (1.6.2)
-    rack (2.2.4)
+    rack (2.2.5)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
     rack-protection (3.0.5)
@@ -386,14 +386,14 @@ GEM
       railties (>= 5.0)
     rexml (3.2.5)
     rolify (6.0.0)
-    rspec-core (3.11.0)
-      rspec-support (~> 3.11.0)
-    rspec-expectations (3.11.1)
+    rspec-core (3.12.0)
+      rspec-support (~> 3.12.0)
+    rspec-expectations (3.12.2)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.11.0)
-    rspec-mocks (3.11.1)
+      rspec-support (~> 3.12.0)
+    rspec-mocks (3.12.2)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.11.0)
+      rspec-support (~> 3.12.0)
     rspec-rails (6.0.1)
       actionpack (>= 6.1)
       activesupport (>= 6.1)
@@ -402,20 +402,20 @@ GEM
       rspec-expectations (~> 3.11)
       rspec-mocks (~> 3.11)
       rspec-support (~> 3.11)
-    rspec-support (3.11.1)
+    rspec-support (3.12.0)
     rspec_junit_formatter (0.6.0)
       rspec-core (>= 2, < 4, != 2.12.0)
-    rubocop (1.41.1)
+    rubocop (1.43.0)
       json (~> 2.3)
       parallel (~> 1.10)
-      parser (>= 3.1.2.1)
+      parser (>= 3.2.0.0)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml (>= 3.2.5, < 4.0)
-      rubocop-ast (>= 1.23.0, < 2.0)
+      rubocop-ast (>= 1.24.1, < 2.0)
       ruby-progressbar (~> 1.7)
-      unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.24.0)
+      unicode-display_width (>= 2.4.0, < 3.0)
+    rubocop-ast (1.24.1)
       parser (>= 3.1.1.0)
     rubocop-rails (2.17.3)
       activesupport (>= 4.2.0)
@@ -447,7 +447,7 @@ GEM
       connection_pool (>= 2.2.5, < 3)
       rack (~> 2.0)
       redis (>= 4.5.0, < 5)
-    simplecov (0.21.2)
+    simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
@@ -475,7 +475,7 @@ GEM
       railties (>= 6.0.0)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
-    unicode-display_width (2.3.0)
+    unicode-display_width (2.4.2)
     uniform_notifier (1.16.0)
     version_gem (1.1.1)
     warden (1.2.9)
@@ -520,17 +520,17 @@ DEPENDENCIES
   carrierwave (>= 2.2.1)
   database_cleaner
   devise (>= 4.8.1)
-  dotenv-rails (>= 2.8.1)
-  factory_bot_rails (>= 6.2.0)
+  dotenv-rails
+  factory_bot_rails
   fog-aws (>= 3.15.0)
   image_processing (~> 1.12)
   importmap-rails
   jbuilder
-  jquery-rails (>= 4.5.0)
+  jquery-rails
   json-jwt
-  kaminari (>= 1.2.2)
+  kaminari
   kramdown
-  listen (>= 3.0.5, < 3.2)
+  listen
   logstop
   mail
   mini_magick
@@ -543,7 +543,7 @@ DEPENDENCIES
   puma (~> 5.6)
   rack-cors (>= 1.1.1)
   rails (~> 7.0.4)
-  rails-controller-testing (>= 1.0.5)
+  rails-controller-testing
   rails-erd
   redis (~> 4.6)
   redis-namespace
@@ -560,7 +560,7 @@ DEPENDENCIES
   stimulus-rails
   turbo-rails
   tzinfo-data
-  web-console (>= 4.2.0)
+  web-console
   webdrivers (>= 5.1.0)
   whenever
 
