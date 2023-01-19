@@ -210,7 +210,11 @@ class Form < ApplicationRecord
   end
 
   def to_csv(start_date: nil, end_date: nil)
-    non_flagged_submissions = submissions.non_flagged.where('created_at >= ?', start_date).where('created_at <= ?', end_date).order('created_at')
+    non_flagged_submissions = submissions
+      .non_flagged
+      .where('created_at >= ?', start_date)
+      .where('created_at <= ?', end_date)
+      .order('created_at')
     return nil if non_flagged_submissions.blank?
 
     header_attributes = hashed_fields_for_export.values
@@ -391,28 +395,29 @@ class Form < ApplicationRecord
   # a map of { Submission field names (to access the data) => the Header (to display) }
   def hashed_fields_for_export
     hash = {
+      id: 'ID',
       uuid: 'UUID',
     }
 
     ordered_questions.map { |q| hash[q.answer_field] = q.text }
 
     hash.merge!({
-                  location_code: 'Location Code',
-                  user_agent: 'User Agent',
-                  page: 'Page',
-                  referer: 'Referrer',
-                  created_at: 'Created At',
-                })
+      location_code: 'Location Code',
+      user_agent: 'User Agent',
+      page: 'Page',
+      referer: 'Referrer',
+      created_at: 'Created At',
+    })
 
     if organization.enable_ip_address?
       hash.merge!({
-                    ip_address: 'IP Address',
-                  })
+        ip_address: 'IP Address',
+      })
     end
 
     hash.merge!({
-                  tag_list: 'Tags',
-                })
+      tag_list: 'Tags',
+    })
 
     hash
   end
