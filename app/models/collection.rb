@@ -155,6 +155,8 @@ class Collection < ApplicationRecord
       end_date
       service_provider_id
       service_provider_name
+      service_provider_organization_id
+      service_provider_organization_name
       organization_id
       organization_name
       user_email
@@ -180,6 +182,8 @@ class Collection < ApplicationRecord
           collection.end_date,
           collection.service_provider_id,
           collection.service_provider.name,
+          collection.service_provider.organization_id,
+          collection.service_provider.organization_name,
           collection.organization_id,
           collection.organization.name,
           collection.user.email,

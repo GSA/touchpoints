@@ -18,11 +18,11 @@ class ServiceProvider < ApplicationRecord
   end
 
   def organization_name
-    organization ? organization.name : nil
+    organization.name
   end
 
   def organization_abbreviation
-    organization ? organization.abbreviation : nil
+    organization.abbreviation
   end
 
   def self.to_csv
