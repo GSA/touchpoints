@@ -70,11 +70,13 @@ module Admin
       params.require(:cscrm_data_collection).permit(
         :user_id,
         :organization_id,
+        :bureau,
         :year,
         :quarter,
         :agency_roles,
         :agency_roles_comments,
         :leadership_roles,
+        :leadership_roles_comments,
         :stakeholder_champion_identified,
         :stakeholder_champion_identified_comments,
         :pmo_established,
@@ -91,6 +93,8 @@ module Admin
         :funding_for_initial_operating_capability_comments,
         :staffing,
         :staffing_comments,
+        :personnel_required_comments,
+        :cybersecurity_supply_chain_risk_comments,
 
         :prioritization_process,
         :prioritization_process_comments,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_22_205717) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_21_005921) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -115,6 +115,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_22_205717) do
     t.text "conducts_scra_for_prioritized_products_and_services_comments"
     t.text "established_process_information_sharing_with_fasc_comments"
     t.text "general_comments"
+    t.string "bureau"
+    t.text "leadership_roles_comments"
+    t.text "personnel_required_comments"
+    t.text "cybersecurity_supply_chain_risk_comments"
     t.index ["organization_id"], name: "index_cscrm_data_collections_on_organization_id"
     t.index ["user_id"], name: "index_cscrm_data_collections_on_user_id"
   end
