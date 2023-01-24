@@ -404,6 +404,8 @@ class Form < ApplicationRecord
     hash.merge!({
       location_code: 'Location Code',
       user_agent: 'User Agent',
+      archived: 'Archived',
+      flagged: 'Flagged',
       page: 'Page',
       referer: 'Referrer',
       created_at: 'Created At',
