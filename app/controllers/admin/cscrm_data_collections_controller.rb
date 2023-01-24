@@ -27,6 +27,7 @@ module Admin
 
     def create
       @cscrm_data_collection = CscrmDataCollection.new(cscrm_data_collection_params)
+      @cscrm_data_collection.user = current_user unless @cscrm_data_collection.user?
 
       respond_to do |format|
         if @cscrm_data_collection.save
@@ -40,6 +41,8 @@ module Admin
     end
 
     def update
+      @cscrm_data_collection.user = current_user unless @cscrm_data_collection.user?
+
       respond_to do |format|
         if @cscrm_data_collection.update(cscrm_data_collection_params)
           format.html { redirect_to admin_cscrm_data_collection_url(@cscrm_data_collection), notice: 'Cscrm data collection was successfully updated.' }
@@ -70,11 +73,13 @@ module Admin
       params.require(:cscrm_data_collection).permit(
         :user_id,
         :organization_id,
+        :bureau,
         :year,
         :quarter,
         :agency_roles,
         :agency_roles_comments,
         :leadership_roles,
+        :leadership_roles_comments,
         :stakeholder_champion_identified,
         :stakeholder_champion_identified_comments,
         :pmo_established,
@@ -91,6 +96,8 @@ module Admin
         :funding_for_initial_operating_capability_comments,
         :staffing,
         :staffing_comments,
+        :personnel_required_comments,
+        :cybersecurity_supply_chain_risk_comments,
 
         :prioritization_process,
         :prioritization_process_comments,

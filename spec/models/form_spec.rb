@@ -70,6 +70,8 @@ RSpec.describe Form, type: :model do
           :location_code,
           # standard fields
           :user_agent,
+          :archived,
+          :flagged,
           :page,
           :referer,
           :created_at,
