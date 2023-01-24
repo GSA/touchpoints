@@ -27,6 +27,7 @@ module Admin
 
     def create
       @cscrm_data_collection = CscrmDataCollection.new(cscrm_data_collection_params)
+      @cscrm_data_collection.user = current_user unless @cscrm_data_collection.user?
 
       respond_to do |format|
         if @cscrm_data_collection.save
@@ -40,6 +41,8 @@ module Admin
     end
 
     def update
+      @cscrm_data_collection.user = current_user unless @cscrm_data_collection.user?
+
       respond_to do |format|
         if @cscrm_data_collection.update(cscrm_data_collection_params)
           format.html { redirect_to admin_cscrm_data_collection_url(@cscrm_data_collection), notice: 'Cscrm data collection was successfully updated.' }

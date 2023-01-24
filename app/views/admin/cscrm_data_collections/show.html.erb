@@ -15,5 +15,69 @@
 
 <p style="color: green"><%= notice %></p>
 
-<%= render @cscrm_data_collection %>
+<p>
+  <strong>
+    User:
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.user.email %>
+</p>
+
+<p>
+  <strong>
+    Organization name:
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.organization.name %>
+</p>
+
+<p>
+  <strong>
+    Bureau:
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.bureau %>
+</p>
+
+<p>
+  <strong>
+    Year:
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.year %>
+</p>
+
+<p>
+  <strong>
+    Quarter:
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.quarter %>
+</p>
+
+<hr>
+
+<% (1..18).each do |i| %>
+<p>
+  <strong>
+    <%= CscrmDataCollection.send("question_#{i}")[:number] %>.
+    <%= CscrmDataCollection.send("question_#{i}")[:text] %>:
+  </strong>
+  <br>
+  <% field = CscrmDataCollection.send("question_#{i}")[:field] %>
+  <% value = YAML.load(@cscrm_data_collection.send(field)) %>
+
+  <% if value.class == String %>
+    <%= value %>
+  <% elsif value.class == Array %>
+    <ul>
+      <% value.each do |v| %>
+      <li>
+        <%= v %>
+      </li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
+<% end %>
 
