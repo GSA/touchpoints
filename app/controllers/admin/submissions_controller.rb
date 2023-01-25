@@ -95,14 +95,14 @@ module Admin
       ensure_form_manager(form: @form)
 
       Event.log_event(Event.names[:response_archived], 'Submission', @submission.id, "Submission #{@submission.id} archived at #{DateTime.now}", current_user.id)
-      @submission.update(archived: true)
+      @submission.archive!
     end
 
     def unarchive
       ensure_form_manager(form: @form)
 
       Event.log_event(Event.names[:response_unarchived], 'Submission', @submission.id, "Submission #{@submission.id} unarchived at #{DateTime.now}", current_user.id)
-      @submission.update(archived: false)
+      @submission.reset!
     end
 
     def destroy
