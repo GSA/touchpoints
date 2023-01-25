@@ -53,7 +53,7 @@ gem 'caracal', '>= 1.4.1'
 gem 'carrierwave', '>= 2.2.1'
 gem 'devise', '>= 4.8.1'
 gem 'fog-aws', '>= 3.15.0'
-gem "jbuilder" # Build JSON APIs with ease [https://github.com/rails/jbuilder]
+gem "jbuilder"
 gem 'jquery-rails'
 gem 'kaminari'
 gem 'kramdown'

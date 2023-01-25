@@ -21,7 +21,11 @@
   <div class="field">
     <%= form.label :bureau_id,
       "Bureau" %>
-    <%= form.select :bureau_id, options_for_select(organization_dropdown_options, cscrm_data_collection.bureau_id), { prompt: "Which Bureau?" }, { class: "usa-select" } %>
+    <%#= form.select :bureau_id,
+      options_for_select(organization_dropdown_options, cscrm_data_collection.bureau_id),
+      { prompt: "Which Bureau?" },
+      { class: "usa-select" } %>
+    <%= form.text_field :bureau, class: "usa-input", required: true %>
   </div>
 
   <div class="field">
@@ -60,6 +64,11 @@
       CscrmDataCollection.leadership_roles_options,
       { include_blank: true },
       class: "usa-select" %>
+  </div>
+
+  <div class="field margin-left-5">
+    <%= form.label :leadership_roles_comments, "Comments" , class: "usa-label" %>
+    <%= form.text_area :leadership_roles_comments, class: "usa-textarea" %>
   </div>
 
   <div class="field">
@@ -456,6 +465,11 @@
     <% end %>
   </fieldset>
 
+  <div class="field margin-left-5">
+    <%= form.label :personnel_required_comments, "Comments" , class: "usa-label" %>
+    <%= form.text_area :personnel_required_comments, class: "usa-textarea" %>
+  </div>
+
   <div class="field">
     <%= form.label :established_process_information_sharing_with_fasc,
       "17. Established process for internal and exchanging information sharing with the Federal Acquisition Security Council (FASC)", class: "usa-label" %>
@@ -505,6 +519,11 @@
       </div>
     <% end %>
   </fieldset>
+
+  <div class="field margin-left-5">
+    <%= form.label :cybersecurity_supply_chain_risk_comments, "Comments" , class: "usa-label" %>
+    <%= form.text_area :cybersecurity_supply_chain_risk_comments, class: "usa-textarea" %>
+  </div>
 
   <div class="field">
     <%= form.label :general_comments,
