@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_21_005921) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_25_175141) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -642,7 +642,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_21_005921) do
     t.integer "form_id"
     t.string "uuid"
     t.string "aasm_state", default: "received"
-    t.boolean "archived", default: false
     t.index ["form_id"], name: "index_submissions_on_form_id"
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
   end

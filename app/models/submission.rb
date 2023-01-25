@@ -14,8 +14,8 @@ class Submission < ApplicationRecord
   after_create :update_form
   after_commit :send_notifications, on: :create
 
-  scope :archived, -> { where(archived: true) }
-  scope :non_archived, -> { where(archived: false) }
+  scope :archived, -> { where(aasm_state: :archived) }
+  scope :non_archived, -> { where("aasm_state != 'archived'") }
   scope :non_flagged, -> { where(flagged: false) }
 
   aasm do
@@ -40,6 +40,10 @@ class Submission < ApplicationRecord
     event :reset do
       transitions to: :received
     end
+  end
+
+  def archived
+    self.archived?
   end
 
   def validate_custom_form
