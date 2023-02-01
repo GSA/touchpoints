@@ -25,7 +25,7 @@
       options_for_select(organization_dropdown_options, cscrm_data_collection.bureau_id),
       { prompt: "Which Bureau?" },
       { class: "usa-select" } %>
-    <%= form.text_field :bureau, class: "usa-input", required: true %>
+    <%= form.text_field :bureau, class: "usa-input" %>
   </div>
 
   <div class="field">
@@ -40,7 +40,7 @@
 
   <div class="field">
     <%= form.label :agency_roles,
-      "1. The Agency’s role in SCRM is identified and communicated",
+      "#{CscrmDataCollection.question_1[:number]}. #{CscrmDataCollection.question_1[:text]}",
       class: "usa-label" %>
     <%= form.select :agency_roles,
       CscrmDataCollection.agency_roles_options,
@@ -58,7 +58,7 @@
 
   <div class="field">
     <%= form.label :leadership_roles,
-      "2. Senior leadership roles, responsibilities and accountability for C-SCRM are defined",
+      "#{CscrmDataCollection.question_2[:number]}. #{CscrmDataCollection.question_2[:text]}",
       class: "usa-label" %>
     <%= form.select :leadership_roles,
       CscrmDataCollection.leadership_roles_options,
@@ -73,7 +73,7 @@
 
   <div class="field">
     <%= form.label :stakeholder_champion_identified,
-      "3. A CSCRM Champion has been identified for your Agency",
+      "#{CscrmDataCollection.question_3[:number]}. #{CscrmDataCollection.question_3[:text]}",
       class: "usa-label" %>
     <%= form.select :stakeholder_champion_identified,
       CscrmDataCollection.stakeholder_champion_identified_options,
@@ -91,7 +91,7 @@
 
   <div class="field">
     <%= form.label :interdisciplinary_team_established,
-      "4. Establishment of an interdisciplinary enterprise-wide Department or Agency team including SMEs from IT, Logistics, Procurement, Cybersecurity, Mission, Legal, ERM and CFO officials to manage and mitigate risk in the C-SCRM supply chain",
+      "#{CscrmDataCollection.question_4[:number]}. #{CscrmDataCollection.question_4[:text]}",
       class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       Section 2 “Integration of C-SCRM into Enterprise-wide Risk Management”
@@ -115,7 +115,9 @@
   </div>
 
   <div class="field">
-    <%= form.label :pmo_established, "5. Establishment of CSCRM PMO or equivalent", class: "usa-label" %>
+    <%= form.label :pmo_established,
+    "#{CscrmDataCollection.question_5[:number]}. #{CscrmDataCollection.question_5[:text]}",
+    class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       Section 2.3.5 “C-SCRM PMO”
 
@@ -140,7 +142,7 @@
 
   <div class="field">
     <%= form.label :enterprise_wide_scrm_policy_established,
-      "6. Established Enterprise-wide SCRM policy",
+      "#{CscrmDataCollection.question_6[:number]}. #{CscrmDataCollection.question_6[:text]}",
       class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       SR-1 “Policy and Procedures.”
@@ -170,7 +172,7 @@
 
   <div class="field">
     <%= form.label :funding_for_initial_operating_capability,
-      "7. Identified or secured funding for CSCRM program functions for Initial Operating Capability",
+      "#{CscrmDataCollection.question_7[:number]}. #{CscrmDataCollection.question_7[:text]}",
       class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       “Critical Success Factors” Section 3.6 “Dedicated Resources”
@@ -193,7 +195,7 @@
 
   <div class="field">
     <%= form.label :staffing,
-      "8.	Identified and available staff",
+      "#{CscrmDataCollection.question_8[:number]}. #{CscrmDataCollection.question_8[:text]}",
       class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       Section 2.3.1-5 “Roles and Responsibilities Across the Three Levels”
@@ -220,7 +222,7 @@
 
   <div class="field">
     <%= form.label :agency_wide_scrm_strategy_and_implementation_plan_established,
-      "9. Established agency-wide SCRM strategy and implementation plan for providing the organizational context in which risk-based decisions will be made",
+      "#{CscrmDataCollection.question_9[:number]}. #{CscrmDataCollection.question_9[:text]}",
       class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       Section 2.3 “Multi-level Risk Management”
@@ -243,7 +245,7 @@
 
   <div class="field">
     <%= form.label :enterprise_risk_management_function_established,
-      "10. Governance structure has been established that integrates with the Enterprise Risk Management Function",
+      "#{CscrmDataCollection.question_10[:number]}. #{CscrmDataCollection.question_10[:text]}",
       class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       Section 2.3.2 “Level 1 – Enterprise”
@@ -264,10 +266,10 @@
   </div>
 
   <fieldset class="usa-fieldset" role="group">
-    <legend class="usa-sr-only">11. C-SCRM roles and functional responsibilities clearly defined for key C-SCRM personnel (minimally, PMO, acquisition
-    workforce and IT/Information Security personnel)</legend>
-    <%= form.label :staffing, "11. C-SCRM roles and functional responsibilities clearly defined for key C-SCRM personnel (minimally, PMO, acquisition
-    workforce and IT/Information Security personnel)", class: "usa-label" %>
+    <legend class="usa-sr-only"><%= "#{CscrmDataCollection.question_11[:number]}. #{CscrmDataCollection.question_11[:text]}" %></legend>
+    <%= form.label :roles_and_responsibilities,
+    "#{CscrmDataCollection.question_11[:number]}. #{CscrmDataCollection.question_11[:text]}",
+    class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       Section 2.3.1-5 “Roles and Responsibilities Across the Three Levels”
 
@@ -296,10 +298,10 @@
   </div>
 
   <fieldset class="usa-fieldset">
-    <legend class="usa-sr-only">12. Identified missions, assets, systems, processes, data and suppliers (e.g., HVAs, critical suppliers,
-    mission-essential functions)</legend>
-    <%= form.label :missions_identified, "12. Identified missions, assets, systems, processes, data and suppliers (e.g., HVAs, critical suppliers,
-    mission-essential functions)" , class: "usa-label" %>
+    <legend class="usa-sr-only"><%= "#{CscrmDataCollection.question_8[:number]}. #{CscrmDataCollection.question_8[:text]}" %></legend>
+    <%= form.label :missions_identified,
+    "#{CscrmDataCollection.question_12[:number]}. #{CscrmDataCollection.question_12[:text]}",
+    class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       Section 3.1.1. Acquisition in the C-SCRM Strategy and Implementation Plan
       <br>
@@ -339,7 +341,9 @@
   </div>
 
   <div class="field">
-    <%= form.label :prioritization_process, "13. Established process to prioritize by criticality", class: "usa-label" %>
+    <%= form.label :prioritization_process,
+    "#{CscrmDataCollection.question_13[:number]}. #{CscrmDataCollection.question_13[:text]}",
+    class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       Section 3.1.1. Acquisition in the C-SCRM Strategy and Implementation Plan
       <br>
@@ -376,8 +380,10 @@
   </div>
 
   <fieldset class="usa-fieldset">
-    <legend class="usa-sr-only">14. C-SCRM considerations in procurement processes and actions</legend>
-    <%= form.label :considerations_in_procurement_processes, "14. C-SCRM considerations in procurement processes and actions" , class: "usa-label" %>
+    <legend class="usa-sr-only"><%= "#{CscrmDataCollection.question_14[:number]}. #{CscrmDataCollection.question_14[:text]}" %></legend>
+    <%= form.label :considerations_in_procurement_processes,
+    "#{CscrmDataCollection.question_14[:number]}. #{CscrmDataCollection.question_14[:text]}",
+    class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       Section 3.1. C-SCRM in Acquisition
       <br>
@@ -403,13 +409,14 @@
   </fieldset>
 
   <div class="field margin-left-5">
-    <%= form.label :considerations_in_procurement_processes_comments, "Comments" , class: "usa-label" %>
+    <%= form.label :considerations_in_procurement_processes_comments, "Comments", class: "usa-label" %>
     <%= form.text_area :considerations_in_procurement_processes_comments, class: "usa-textarea" %>
   </div>
 
   <fieldset class="usa-fieldset">
-    <legend class="usa-sr-only">15. Conducts Supply Chain Risk Assessments (SCRA) for prioritized products and services</legend>
-    <%= form.label :conducts_scra_for_prioritized_products_and_services, "15. Conducts Supply Chain Risk Assessments (SCRA) for prioritized products and services" , class: "usa-label" %>
+    <legend class="usa-sr-only"><%= "#{CscrmDataCollection.question_15[:number]}. #{CscrmDataCollection.question_15[:text]}" %></legend>
+    <%= form.label :conducts_scra_for_prioritized_products_and_services, "#{CscrmDataCollection.question_15[:number]}. #{CscrmDataCollection.question_15[:text]}",
+    class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       SR-6 “Supplier Assessments and Reviews”
       <br>
@@ -441,8 +448,10 @@
   </div>
 
   <fieldset class="usa-fieldset">
-    <legend class="usa-sr-only">16. Personnel required to complete general or role-based SCRM training requirements</legend>
-    <%= form.label :personnel_required_to_complete_training, "16. Personnel required to complete general or role-based SCRM training requirements" , class: "usa-label" %>
+    <legend class="usa-sr-only"><%= "#{CscrmDataCollection.question_16[:number]}. #{CscrmDataCollection.question_16[:text]}" %></legend>
+    <%= form.label :personnel_required_to_complete_training,
+    "#{CscrmDataCollection.question_16[:number]}. #{CscrmDataCollection.question_16[:text]}",
+    class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       Section 3.3 “Training and Awareness”
       <br>
@@ -466,13 +475,13 @@
   </fieldset>
 
   <div class="field margin-left-5">
-    <%= form.label :personnel_required_comments, "Comments" , class: "usa-label" %>
+    <%= form.label :personnel_required_comments, "Comments", class: "usa-label" %>
     <%= form.text_area :personnel_required_comments, class: "usa-textarea" %>
   </div>
 
   <div class="field">
     <%= form.label :established_process_information_sharing_with_fasc,
-      "17. Established process for internal and exchanging information sharing with the Federal Acquisition Security Council (FASC)", class: "usa-label" %>
+     "#{CscrmDataCollection.question_17[:number]}. #{CscrmDataCollection.question_17[:text]}",class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       Section 1: “Introduction”
       <br>
@@ -499,9 +508,10 @@
   </div>
 
   <fieldset class="usa-fieldset">
-    <legend class="usa-sr-only">18. Cybersecurity supply chain risk and resiliency considerations are incorporated into organizational COOP and Recovery
-    Plans</legend>
-    <%= form.label :cybersecurity_supply_chain_risk_considerations, "18. Cybersecurity supply chain risk and resiliency considerations are incorporated into organizational COOP and Recovery Plans", class: "usa-label" %>
+    <legend class="usa-sr-only"><%= "#{CscrmDataCollection.question_18[:number]}. #{CscrmDataCollection.question_18[:text]}" %></legend>
+    <%= form.label :cybersecurity_supply_chain_risk_considerations,
+    "#{CscrmDataCollection.question_18[:number]}. #{CscrmDataCollection.question_18[:text]}",
+    class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       Contingency Planning Security Control Family
     </div>
