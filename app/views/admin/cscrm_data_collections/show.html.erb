@@ -65,7 +65,7 @@
   </strong>
   <br>
   <% field = CscrmDataCollection.send("question_#{i}")[:field] %>
-  <% value = YAML.load(@cscrm_data_collection.send(field)) %>
+  <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
   <% if value.class == String %>
     <%= value %>
