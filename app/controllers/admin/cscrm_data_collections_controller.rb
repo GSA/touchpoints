@@ -73,7 +73,7 @@ module Admin
       if admin_permissions?
         @cscrm_data_collection = CscrmDataCollection.find(params[:id])
       else
-        @cscrm_data_collection = current_user.cscrm_data_collections.find(params[:id])
+        @cscrm_data_collection = current_user.organization.cscrm_data_collections.find(params[:id])
       end
     end
 
