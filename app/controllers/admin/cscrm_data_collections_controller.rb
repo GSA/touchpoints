@@ -7,7 +7,11 @@ module Admin
     def index
       respond_to do |format|
         format.html {
-          @cscrm_data_collections = CscrmDataCollection.all
+          if admin_permissions?
+            @cscrm_data_collections = CscrmDataCollection.all
+          else
+            @cscrm_data_collections = current_user.organization.cscrm_data_collections.all
+          end
         }
         format.csv {
           ensure_admin
@@ -66,7 +70,11 @@ module Admin
     private
 
     def set_cscrm_data_collection
-      @cscrm_data_collection = CscrmDataCollection.find(params[:id])
+      if admin_permissions?
+        @cscrm_data_collection = CscrmDataCollection.find(params[:id])
+      else
+        @cscrm_data_collection = current_user.cscrm_data_collections.find(params[:id])
+      end
     end
 
     def cscrm_data_collection_params

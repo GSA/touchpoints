@@ -8,6 +8,7 @@ class Organization < ApplicationRecord
   has_many :services
   has_many :websites
   has_many :collections
+  has_many :cscrm_data_collections
   has_many :goals
   has_many :milestones, through: :goals
   has_many :objectives, through: :milestones
