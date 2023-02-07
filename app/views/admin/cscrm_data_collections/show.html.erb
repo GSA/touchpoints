@@ -57,14 +57,13 @@
 
 <hr>
 
-<% (1..18).each do |i| %>
 <p>
   <strong>
-    <%= CscrmDataCollection.send("question_#{i}")[:number] %>.
-    <%= CscrmDataCollection.send("question_#{i}")[:text] %>:
+    <%= CscrmDataCollection.send("question_1")[:number] %>.
+    <%= CscrmDataCollection.send("question_1")[:text] %>:
   </strong>
   <br>
-  <% field = CscrmDataCollection.send("question_#{i}")[:field] %>
+  <% field = CscrmDataCollection.send("question_1")[:field] %>
   <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
   <% if value.class == String %>
@@ -79,5 +78,529 @@
     </ul>
   <% end %>
 </p>
-<% end %>
 
+<p>
+  <strong>
+    Comments
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.agency_roles_comments %>
+</p>
+
+<p>
+  <strong>
+    <%= CscrmDataCollection.send("question_2")[:number] %>.
+    <%= CscrmDataCollection.send("question_2")[:text] %>:
+  </strong>
+  <br>
+  <% field = CscrmDataCollection.send("question_2")[:field] %>
+  <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
+
+  <% if value.class == String %>
+    <%= value %>
+  <% elsif value.class == Array %>
+    <ul>
+      <% value.each do |v| %>
+      <li>
+        <%= v %>
+      </li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
+
+<p>
+  <strong>
+    Comments
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.leadership_roles_comments %>
+</p>
+
+<p>
+  <strong>
+    <%= CscrmDataCollection.send("question_3")[:number] %>.
+    <%= CscrmDataCollection.send("question_3")[:text] %>:
+  </strong>
+  <br>
+  <% field = CscrmDataCollection.send("question_3")[:field] %>
+  <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
+
+  <% if value.class == String %>
+    <%= value %>
+  <% elsif value.class == Array %>
+    <ul>
+      <% value.each do |v| %>
+      <li>
+        <%= v %>
+      </li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
+
+<p>
+  <strong>
+    Comments
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.stakeholder_champion_identified_comments %>
+</p>
+
+<p>
+  <strong>
+    <%= CscrmDataCollection.send("question_4")[:number] %>.
+    <%= CscrmDataCollection.send("question_4")[:text] %>:
+  </strong>
+  <br>
+  <% field = CscrmDataCollection.send("question_4")[:field] %>
+  <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
+
+  <% if value.class == String %>
+    <%= value %>
+  <% elsif value.class == Array %>
+    <ul>
+      <% value.each do |v| %>
+      <li>
+        <%= v %>
+      </li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
+
+<p>
+  <strong>
+    Comments
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.interdisciplinary_team_established_comments %>
+</p>
+
+<p>
+  <strong>
+    <%= CscrmDataCollection.send("question_5")[:number] %>.
+    <%= CscrmDataCollection.send("question_5")[:text] %>:
+  </strong>
+  <br>
+  <% field = CscrmDataCollection.send("question_5")[:field] %>
+  <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
+
+  <% if value.class == String %>
+    <%= value %>
+  <% elsif value.class == Array %>
+    <ul>
+      <% value.each do |v| %>
+      <li>
+        <%= v %>
+      </li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
+
+<p>
+  <strong>
+    Comments
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.pmo_established_comments %>
+</p>
+
+<p>
+  <strong>
+    <%= CscrmDataCollection.send("question_6")[:number] %>.
+    <%= CscrmDataCollection.send("question_6")[:text] %>:
+  </strong>
+  <br>
+  <% field = CscrmDataCollection.send("question_6")[:field] %>
+  <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
+
+  <% if value.class == String %>
+    <%= value %>
+  <% elsif value.class == Array %>
+    <ul>
+      <% value.each do |v| %>
+      <li>
+        <%= v %>
+      </li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
+
+<p>
+  <strong>
+    Comments
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.enterprise_wide_scrm_policy_established_comments %>
+</p>
+
+<p>
+  <strong>
+    <%= CscrmDataCollection.send("question_7")[:number] %>.
+    <%= CscrmDataCollection.send("question_7")[:text] %>:
+  </strong>
+  <br>
+  <% field = CscrmDataCollection.send("question_7")[:field] %>
+  <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
+
+  <% if value.class == String %>
+    <%= value %>
+  <% elsif value.class == Array %>
+    <ul>
+      <% value.each do |v| %>
+      <li>
+        <%= v %>
+      </li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
+
+<p>
+  <strong>
+    Comments
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.funding_for_initial_operating_capability_comments %>
+</p>
+
+<p>
+  <strong>
+    <%= CscrmDataCollection.send("question_8")[:number] %>.
+    <%= CscrmDataCollection.send("question_8")[:text] %>:
+  </strong>
+  <br>
+  <% field = CscrmDataCollection.send("question_8")[:field] %>
+  <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
+
+  <% if value.class == String %>
+    <%= value %>
+  <% elsif value.class == Array %>
+    <ul>
+      <% value.each do |v| %>
+      <li>
+        <%= v %>
+      </li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
+
+<p>
+  <strong>
+    Comments
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.staffing_comments %>
+</p>
+
+<p>
+  <strong>
+    <%= CscrmDataCollection.send("question_9")[:number] %>.
+    <%= CscrmDataCollection.send("question_9")[:text] %>:
+  </strong>
+  <br>
+  <% field = CscrmDataCollection.send("question_9")[:field] %>
+  <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
+
+  <% if value.class == String %>
+    <%= value %>
+  <% elsif value.class == Array %>
+    <ul>
+      <% value.each do |v| %>
+      <li>
+        <%= v %>
+      </li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
+
+<p>
+  <strong>
+    Comments
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.agency_wide_scrm_strategy_and_implementation_plan_comments %>
+</p>
+
+<p>
+  <strong>
+    <%= CscrmDataCollection.send("question_10")[:number] %>.
+    <%= CscrmDataCollection.send("question_10")[:text] %>:
+  </strong>
+  <br>
+  <% field = CscrmDataCollection.send("question_10")[:field] %>
+  <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
+
+  <% if value.class == String %>
+    <%= value %>
+  <% elsif value.class == Array %>
+    <ul>
+      <% value.each do |v| %>
+      <li>
+        <%= v %>
+      </li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
+
+<p>
+  <strong>
+    Comments
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.enterprise_risk_management_function_established_comments %>
+</p>
+
+<p>
+  <strong>
+    <%= CscrmDataCollection.send("question_11")[:number] %>.
+    <%= CscrmDataCollection.send("question_11")[:text] %>:
+  </strong>
+  <br>
+  <% field = CscrmDataCollection.send("question_11")[:field] %>
+  <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
+
+  <% if value.class == String %>
+    <%= value %>
+  <% elsif value.class == Array %>
+    <ul>
+      <% value.each do |v| %>
+      <li>
+        <%= v %>
+      </li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
+
+<p>
+  <strong>
+    Comments
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.roles_and_responsibilities_comments %>
+</p>
+
+<p>
+  <strong>
+    <%= CscrmDataCollection.send("question_12")[:number] %>.
+    <%= CscrmDataCollection.send("question_12")[:text] %>:
+  </strong>
+  <br>
+  <% field = CscrmDataCollection.send("question_12")[:field] %>
+  <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
+
+  <% if value.class == String %>
+    <%= value %>
+  <% elsif value.class == Array %>
+    <ul>
+      <% value.each do |v| %>
+      <li>
+        <%= v %>
+      </li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
+
+<p>
+  <strong>
+    Comments
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.missions_identified_comments %>
+</p>
+
+<p>
+  <strong>
+    <%= CscrmDataCollection.send("question_13")[:number] %>.
+    <%= CscrmDataCollection.send("question_13")[:text] %>:
+  </strong>
+  <br>
+  <% field = CscrmDataCollection.send("question_13")[:field] %>
+  <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
+
+  <% if value.class == String %>
+    <%= value %>
+  <% elsif value.class == Array %>
+    <ul>
+      <% value.each do |v| %>
+      <li>
+        <%= v %>
+      </li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
+
+<p>
+  <strong>
+    Comments
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.prioritization_process_comments %>
+</p>
+
+<p>
+  <strong>
+    <%= CscrmDataCollection.send("question_14")[:number] %>.
+    <%= CscrmDataCollection.send("question_14")[:text] %>:
+  </strong>
+  <br>
+  <% field = CscrmDataCollection.send("question_14")[:field] %>
+  <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
+
+  <% if value.class == String %>
+    <%= value %>
+  <% elsif value.class == Array %>
+    <ul>
+      <% value.each do |v| %>
+      <li>
+        <%= v %>
+      </li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
+
+<p>
+  <strong>
+    Comments
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.considerations_in_procurement_processes_comments %>
+</p>
+
+<p>
+  <strong>
+    <%= CscrmDataCollection.send("question_15")[:number] %>.
+    <%= CscrmDataCollection.send("question_15")[:text] %>:
+  </strong>
+  <br>
+  <% field = CscrmDataCollection.send("question_15")[:field] %>
+  <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
+
+  <% if value.class == String %>
+    <%= value %>
+  <% elsif value.class == Array %>
+    <ul>
+      <% value.each do |v| %>
+      <li>
+        <%= v %>
+      </li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
+
+<p>
+  <strong>
+    Comments
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.conducts_scra_for_prioritized_products_and_services_comments %>
+</p>
+
+<p>
+  <strong>
+    <%= CscrmDataCollection.send("question_16")[:number] %>.
+    <%= CscrmDataCollection.send("question_16")[:text] %>:
+  </strong>
+  <br>
+  <% field = CscrmDataCollection.send("question_16")[:field] %>
+  <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
+
+  <% if value.class == String %>
+    <%= value %>
+  <% elsif value.class == Array %>
+    <ul>
+      <% value.each do |v| %>
+      <li>
+        <%= v %>
+      </li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
+
+<p>
+  <strong>
+    Comments
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.personnel_required_comments %>
+</p>
+
+<p>
+  <strong>
+    <%= CscrmDataCollection.send("question_17")[:number] %>.
+    <%= CscrmDataCollection.send("question_17")[:text] %>:
+  </strong>
+  <br>
+  <% field = CscrmDataCollection.send("question_17")[:field] %>
+  <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
+
+  <% if value.class == String %>
+    <%= value %>
+  <% elsif value.class == Array %>
+    <ul>
+      <% value.each do |v| %>
+      <li>
+        <%= v %>
+      </li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
+
+<p>
+  <strong>
+    Comments
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.established_process_information_sharing_with_fasc_comments %>
+</p>
+
+<p>
+  <strong>
+    <%= CscrmDataCollection.send("question_18")[:number] %>.
+    <%= CscrmDataCollection.send("question_18")[:text] %>:
+  </strong>
+  <br>
+  <% field = CscrmDataCollection.send("question_18")[:field] %>
+  <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
+
+  <% if value.class == String %>
+    <%= value %>
+  <% elsif value.class == Array %>
+    <ul>
+      <% value.each do |v| %>
+      <li>
+        <%= v %>
+      </li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
+
+<p>
+  <strong>
+    Comments
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.cybersecurity_supply_chain_risk_comments %>
+</p>
+
+<p>
+  <strong>
+    19. General Comments
+  </strong>
+  <br>
+  <%= @cscrm_data_collection.general_comments %>
+</p>

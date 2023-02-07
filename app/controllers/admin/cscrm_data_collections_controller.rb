@@ -7,7 +7,7 @@ module Admin
     def index
       respond_to do |format|
         format.html {
-          if admin_permissions?
+          if cscrm_manager_permissions?
             @cscrm_data_collections = CscrmDataCollection.all
           else
             @cscrm_data_collections = current_user.organization.cscrm_data_collections.all
@@ -70,7 +70,7 @@ module Admin
     private
 
     def set_cscrm_data_collection
-      if admin_permissions?
+      if cscrm_manager_permissions?
         @cscrm_data_collection = CscrmDataCollection.find(params[:id])
       else
         @cscrm_data_collection = current_user.organization.cscrm_data_collections.find(params[:id])
