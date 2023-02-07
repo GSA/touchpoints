@@ -11,6 +11,14 @@
     </div>
   <% end %>
 
+  <% if admin_permissions? %>
+  <div class="field">
+    <%= form.label :user_id, "User ID" %>
+    <%= form.text_field :user_id, class: "usa-input" , value: cscrm_data_collection.user_id || current_user.id %>
+  </div>
+  <br>
+  <% end %>
+
   <div class="field">
     <%= form.label :organization_id,
       "Organization" %>
@@ -548,3 +556,8 @@
     <%= form.submit (cscrm_data_collection.persisted? ? "Update CSCRM Data Collection" : "Create CSCRM Data Collection"), class: "usa-button" %>
   </p>
 <% end %>
+<script>
+  $(function () {
+    setHeartbeat("<%= admin_heartbeat_path %>");
+  });
+</script>

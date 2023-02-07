@@ -84,6 +84,7 @@ RSpec.describe '/omb_cx_reporting_collections', js: true do
   describe 'GET /edit' do
     before do
       visit edit_admin_omb_cx_reporting_collection_path(omb_cx_reporting_collection)
+      expect(page).to have_content("enter the number of respondents for each of the likert scale options")
       click_on 'Update CX Service Detail Report'
     end
 
