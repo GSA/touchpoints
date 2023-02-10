@@ -98,4 +98,49 @@ RSpec.describe Website, type: :model do
       end
     end
   end
+ 
+  describe '#login_supported' do
+    let!(:existing_website) { FactoryBot.create(:website, organization: organization) }
+
+    context "with no auth tool defined" do
+      before do
+        # default existing_website
+      end
+
+      it 'returns false' do
+        expect(existing_website.authentication_tool).to eq nil
+        expect(existing_website.login_supported).to eq false
+      end
+    end
+    
+    context "with auth tool defined as ``" do
+      before do
+        existing_website.update(authentication_tool: "")
+      end
+
+      it 'returns false' do
+        expect(existing_website.login_supported).to eq false
+      end
+    end
+    
+    context "with auth tool defined as `None`" do
+      before do
+        existing_website.update(authentication_tool: "None")
+      end
+
+      it 'returns false' do
+        expect(existing_website.login_supported).to eq false
+      end
+    end
+    
+    context "with an auth tool defined" do
+      before do
+        existing_website.update(authentication_tool: "Login.gov")
+      end
+
+      it 'returns false' do
+        expect(existing_website.login_supported).to eq true
+      end
+    end   
+  end
 end

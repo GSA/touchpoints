@@ -195,15 +195,23 @@ class Website < ApplicationRecord
     domain.split('.').size == 2
   end
 
+  def login_supported
+    return false if self.authentication_tool == nil
+    return false if self.authentication_tool == ""
+    return false if self.authentication_tool == "None"
+    return true
+  end
+
+
   def self.to_csv
     websites = Website.all
-    header_attributes = websites.first.attributes.keys || []
+    header_attributes = websites.first.attributes.keys + ["login_supported"]
 
     CSV.generate(headers: true, force_quotes: true) do |csv|
       csv << header_attributes
 
       websites.each do |website|
-        csv << website.attributes.values
+        csv << website.attributes.values + [website.login_supported]
       end
     end
   end

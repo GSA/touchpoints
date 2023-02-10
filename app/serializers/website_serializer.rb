@@ -32,6 +32,7 @@ class WebsiteSerializer < ActiveModel::Serializer
              :uses_tracking_cookies,
              :has_authenticated_experience,
              :authentication_tool,
+             :login_supported,
              :notes,
              :repository_url,
              :hosting_platform,

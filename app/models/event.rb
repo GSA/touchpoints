@@ -40,6 +40,12 @@ class Event < ApplicationRecord
     collection_published: 'collection_published',
     collection_change_requested: 'collection_change_requested',
     collection_deleted: 'collection_deleted',
+    
+    cscrm_data_collection_collection_created: 'cscrm_data_collection_collection_created',
+    cscrm_data_collection_collection_updated: 'cscrm_data_collection_collection_updated',
+    cscrm_data_collection_collection_submitted: 'cscrm_data_collection_collection_submitted',
+    cscrm_data_collection_collection_published: 'cscrm_data_collection_collection_published',
+    cscrm_data_collection_collection_deleted: 'cscrm_data_collection_collection_deleted',
 
     response_flagged: 'response_flagged',
     response_unflagged: 'response_unflagged',
