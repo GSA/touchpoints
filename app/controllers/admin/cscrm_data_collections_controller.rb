@@ -19,8 +19,11 @@ module Admin
           end
         }
         format.csv {
-          ensure_admin
-          csv_content = CscrmDataCollection.to_csv
+          if cscrm_manager_permissions?
+            csv_content = CscrmDataCollection.to_csv
+          else
+            []
+          end
           send_data csv_content
         }
       end

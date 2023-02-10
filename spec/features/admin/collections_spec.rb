@@ -118,6 +118,7 @@ feature 'Data Collections', js: true do
       context 'with valid parameters' do
         before do
           visit edit_admin_collection_path(collection)
+          expect(page).to have_content('Editing Data Collection')
           click_on 'Update Collection'
         end
 

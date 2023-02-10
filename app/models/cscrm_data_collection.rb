@@ -367,16 +367,119 @@ class CscrmDataCollection < ApplicationRecord
   def self.to_csv
     collections = CscrmDataCollection.order('year, quarter')
 
-    example_attributes = CscrmDataCollection.new.attributes
-    attributes = example_attributes.keys
+    attributes = [
+      "id",
+      "organization_id",
+      "organization_name",
+      "bureau_id",
+      "year",
+      "quarter",
+      "user_id",
+      "user_email",
+      "aasm_state",
+      "leadership_roles",
+      "stakeholder_champion_identified",
+      "pmo_established",
+      "interdisciplinary_team_established",
+      "enterprise_risk_management_function_established",
+      "enterprise_wide_scrm_policy_established",
+      "agency_wide_scrm_strategy_and_implementation_plan_established",
+      "funding_for_initial_operating_capability",
+      "staffing",
+      "roles_and_responsibilities",
+      "missions_identified",
+      "prioritization_process",
+      "considerations_in_procurement_processes",
+      "conducts_scra_for_prioritized_products_and_services",
+      "personnel_required_to_complete_training",
+      "established_process_information_sharing_with_fasc",
+      "cybersecurity_supply_chain_risk_considerations",
+      "integrity_hash",
+      "reflection",
+      "rating",
+      "agency_roles",
+      "agency_roles_comments",
+      "stakeholder_champion_identified_comments",
+      "interdisciplinary_team_established_comments",
+      "pmo_established_comments",
+      "agency_wide_scrm_strategy_and_implementation_plan_comments",
+      "enterprise_risk_management_function_established_comments",
+      "roles_and_responsibilities_comments",
+      "enterprise_wide_scrm_policy_established_comments",
+      "funding_for_initial_operating_capability_comments",
+      "staffing_comments",
+      "missions_identified_comments",
+      "prioritization_process_comments",
+      "considerations_in_procurement_processes_comments",
+      "conducts_scra_for_prioritized_products_and_services_comments",
+      "established_process_information_sharing_with_fasc_comments",
+      "general_comments",
+      "bureau",
+      "leadership_roles_comments",
+      "personnel_required_comments",
+      "cybersecurity_supply_chain_risk_comments",
+      "created_at",
+      "updated_at"
+    ]
 
     CSV.generate(headers: true) do |csv|
-      csv << attributes + ["Organization name"]
-
+      csv << attributes
+      
       collections.each do |collection|
-        csv << attributes.map {
-          |attr| collection.send(attr)
-        } + [collection.organization.name]
+        csv << [
+          collection.id,
+          collection.organization_id,
+          collection.organization.name,
+          collection.bureau_id,
+          collection.year,
+          collection.quarter,
+          collection.user_id,
+          collection.user.email,
+          collection.aasm_state,
+          collection.leadership_roles,
+          collection.stakeholder_champion_identified,
+          collection.pmo_established,
+          collection.interdisciplinary_team_established,
+          collection.enterprise_risk_management_function_established,
+          collection.enterprise_wide_scrm_policy_established,
+          collection.agency_wide_scrm_strategy_and_implementation_plan_established,
+          collection.funding_for_initial_operating_capability,
+          collection.staffing,
+          collection.roles_and_responsibilities,
+          collection.missions_identified,
+          collection.prioritization_process,
+          collection.considerations_in_procurement_processes,
+          collection.conducts_scra_for_prioritized_products_and_services,
+          collection.personnel_required_to_complete_training,
+          collection.established_process_information_sharing_with_fasc,
+          collection.cybersecurity_supply_chain_risk_considerations,
+          collection.integrity_hash,
+          collection.reflection,
+          collection.rating,
+          collection.agency_roles,
+          collection.agency_roles_comments,
+          collection.stakeholder_champion_identified_comments,
+          collection.interdisciplinary_team_established_comments,
+          collection.pmo_established_comments,
+          collection.agency_wide_scrm_strategy_and_implementation_plan_comments,
+          collection.enterprise_risk_management_function_established_comments,
+          collection.roles_and_responsibilities_comments,
+          collection.enterprise_wide_scrm_policy_established_comments,
+          collection.funding_for_initial_operating_capability_comments,
+          collection.staffing_comments,
+          collection.missions_identified_comments,
+          collection.prioritization_process_comments,
+          collection.considerations_in_procurement_processes_comments,
+          collection.conducts_scra_for_prioritized_products_and_services_comments,
+          collection.established_process_information_sharing_with_fasc_comments,
+          collection.general_comments,
+          collection.bureau,
+          collection.leadership_roles_comments,
+          collection.personnel_required_comments,
+          collection.cybersecurity_supply_chain_risk_comments,
+          collection.created_at,
+          collection.updated_at
+        ]        
       end
     end
   end
