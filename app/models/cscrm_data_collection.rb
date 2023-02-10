@@ -2,12 +2,36 @@
 require 'csv'
 
 class CscrmDataCollection < ApplicationRecord
+  include AASM
+  
   belongs_to :user
   belongs_to :organization
 
   validates :year, presence: true
   validates :quarter, presence: true
 
+  aasm do
+    state :draft, initial: true
+    state :submitted
+    state :published
+    state :archived
+
+    event :submit do
+      transitions from: %i[draft], to: :submitted
+    end
+
+    event :publish do
+      transitions from: :submitted, to: :published
+    end
+
+    event :archive do
+      transitions from: [:published], to: :archived
+    end
+
+    event :reset do
+      transitions to: :draft
+    end
+  end
 
   def self.question_1
     {
