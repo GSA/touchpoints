@@ -115,5 +115,11 @@
       <% end %>
     </tbody>
   </table>
+
+  <% if cscrm_manager_permissions? %>
+  <p>
+    <%= link_to "Download .csv", admin_cscrm_data_collections_path(format: :csv), class: "usa-button" %>
+  </p>
+  <% end %>
 </div>
 
