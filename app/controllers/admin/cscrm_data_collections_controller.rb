@@ -2,7 +2,12 @@
 
 module Admin
   class CscrmDataCollectionsController < AdminController
-    before_action :set_cscrm_data_collection, only: %i[show edit update destroy]
+    before_action :set_cscrm_data_collection, only: %i[
+      show 
+      edit update 
+      submit publish
+      destroy
+    ]
 
     def index
       respond_to do |format|
@@ -35,6 +40,7 @@ module Admin
 
       respond_to do |format|
         if @cscrm_data_collection.save
+          Event.log_event(Event.names[:cscrm_data_collection_collection_created], 'CSRCM Data Collection', @cscrm_data_collection.id, "CSRCM Data Collection #{@cscrm_data_collection.id} created at #{DateTime.now}", current_user.id)
           format.html { redirect_to admin_cscrm_data_collection_url(@cscrm_data_collection), notice: 'Cscrm data collection was successfully created.' }
           format.json { render :show, status: :created, location: @cscrm_data_collection }
         else
@@ -49,6 +55,7 @@ module Admin
 
       respond_to do |format|
         if @cscrm_data_collection.update(cscrm_data_collection_params)
+          Event.log_event(Event.names[:cscrm_data_collection_collection_updated], 'CSRCM Data Collection', @cscrm_data_collection.id, "CSRCM Data Collection #{@cscrm_data_collection.id} updated at #{DateTime.now}", current_user.id)
           format.html { redirect_to admin_cscrm_data_collection_url(@cscrm_data_collection), notice: 'Cscrm data collection was successfully updated.' }
           format.json { render :show, status: :ok, location: @cscrm_data_collection }
         else
@@ -58,11 +65,25 @@ module Admin
       end
     end
 
+    def submit
+      @cscrm_data_collection.submit!
+      Event.log_event(Event.names[:cscrm_data_collection_collection_submitted], 'CSRCM Data Collection', @cscrm_data_collection.id, "CSRCM Data Collection #{@cscrm_data_collection.id} submitted at #{DateTime.now}", current_user.id)
+      UserMailer.collection_notification(collection_id: @cscrm_data_collection.id).deliver_later
+      redirect_to admin_cscrm_data_collection_path(@cscrm_data_collection), notice: 'CSRCM Data Collection has been submitted successfully.'
+    end
+
+    def publish
+      @cscrm_data_collection.publish!
+      Event.log_event(Event.names[:cscrm_data_collection_collection_published], 'CSRCM Data Collection', @cscrm_data_collection.id, "CSRCM Data Collection #{@cscrm_data_collection.id} published at #{DateTime.now}", current_user.id)
+      redirect_to admin_cscrm_data_collection_path(@cscrm_data_collection), notice: 'CSRCM Data Collection has been published successfully.'
+    end
+
     def destroy
       @cscrm_data_collection.destroy
+      Event.log_event(Event.names[:cscrm_data_collection_collection_deleted], 'CSRCM Data Collection', @cscrm_data_collection.id, "CSRCM Data Collection #{@cscrm_data_collection.id} deleted at #{DateTime.now}", current_user.id)
 
       respond_to do |format|
-        format.html { redirect_to cscrm_data_collections_url, notice: 'Cscrm data collection was successfully destroyed.' }
+        format.html { redirect_to admin_cscrm_data_collections_url, notice: 'Cscrm data collection was successfully destroyed.' }
         format.json { head :no_content }
       end
     end

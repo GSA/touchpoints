@@ -139,7 +139,12 @@ Rails.application.routes.draw do
       end
     end
     resources :omb_cx_reporting_collections
-    resources :cscrm_data_collections
+    resources :cscrm_data_collections do
+      member do
+        post 'submit', to: 'cscrm_data_collections#submit', as: :submit
+        post 'publish', to: 'cscrm_data_collections#publish', as: :publish
+      end
+    end
     resources :goals do
       member do
         patch 'update_organization_id', to: 'goals#update_organization_id', as: :update_organization_id
