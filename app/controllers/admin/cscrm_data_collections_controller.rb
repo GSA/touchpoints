@@ -71,7 +71,7 @@ module Admin
     def submit
       @cscrm_data_collection.submit!
       Event.log_event(Event.names[:cscrm_data_collection_collection_submitted], 'CSRCM Data Collection', @cscrm_data_collection.id, "CSRCM Data Collection #{@cscrm_data_collection.id} submitted at #{DateTime.now}", current_user.id)
-      UserMailer.collection_notification(collection_id: @cscrm_data_collection.id).deliver_later
+      UserMailer.cscrm_data_collection_notification(collection_id: @cscrm_data_collection.id).deliver_later
       redirect_to admin_cscrm_data_collection_path(@cscrm_data_collection), notice: 'CSRCM Data Collection has been submitted successfully.'
     end
 
