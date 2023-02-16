@@ -52,7 +52,7 @@ class UserMailer < ApplicationMailer
   def cscrm_data_collection_notification(collection_id:)
     set_logo
     @collection = CscrmDataCollection.find(collection_id)
-    mail subject: "CSCRM Data Collection notification to #{@collection.name}",
+    mail subject: "CSCRM Data Collection notification to #{@collection.id}",
       to: (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',') + User.where(cscrm_data_collection_manager: true).collect(&:email)).uniq
   end
 
