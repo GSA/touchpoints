@@ -93,6 +93,7 @@
         <th data-sortable scope="col">Organization</th>
         <th data-sortable scope="col">Year</th>
         <th data-sortable scope="col">Quarter</th>
+        <th data-sortable scope="col">Status</th>
       </tr>
     </thead>
 
@@ -110,6 +111,9 @@
         </td>
         <td>
           <%= cscrm_data_collection.quarter %>
+        </td>
+        <td>
+          <%= cscrm_data_collection.aasm_state %>
         </td>
       </tr>
       <% end %>
