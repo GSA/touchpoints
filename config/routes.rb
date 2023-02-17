@@ -143,6 +143,7 @@ Rails.application.routes.draw do
       member do
         post 'submit', to: 'cscrm_data_collections#submit', as: :submit
         post 'publish', to: 'cscrm_data_collections#publish', as: :publish
+        post 'reset', to: 'cscrm_data_collections#reset', as: :reset
       end
     end
     resources :goals do

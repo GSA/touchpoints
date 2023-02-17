@@ -5,7 +5,7 @@ module Admin
     before_action :set_cscrm_data_collection, only: %i[
       show 
       edit update 
-      submit publish
+      submit publish reset
       destroy
     ]
 
@@ -79,6 +79,14 @@ module Admin
       @cscrm_data_collection.publish!
       Event.log_event(Event.names[:cscrm_data_collection_collection_published], 'CSRCM Data Collection', @cscrm_data_collection.id, "CSRCM Data Collection #{@cscrm_data_collection.id} published at #{DateTime.now}", current_user.id)
       redirect_to admin_cscrm_data_collection_path(@cscrm_data_collection), notice: 'CSRCM Data Collection has been published successfully.'
+    end
+    
+    def reset
+      if cscrm_manager_permissions?
+        @cscrm_data_collection.reset!
+        Event.log_event(Event.names[:cscrm_data_collection_collection_reset], 'CSRCM Data Collection', @cscrm_data_collection.id, "CSRCM Data Collection #{@cscrm_data_collection.id} reset at #{DateTime.now}", current_user.id)
+        redirect_to admin_cscrm_data_collection_path(@cscrm_data_collection), notice: 'CSRCM Data Collection has been reset.'
+      end
     end
 
     def destroy

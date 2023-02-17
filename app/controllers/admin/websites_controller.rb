@@ -66,10 +66,18 @@ module Admin
     ]
 
     def index
-      if params[:all]
-        @websites = Website.all.includes(:taggings).order(:production_status, :domain)
+      if admin_permissions?
+        if params[:all]
+          @websites = Website.all.includes(:taggings).order(:production_status, :domain)
+        else
+          @websites = Website.active.includes(:taggings).order(:production_status, :domain)
+        end
       else
-        @websites = Website.active.includes(:taggings).order(:production_status, :domain)
+        if params[:all]
+          @websites = current_user.organization.websites.includes(:taggings).order(:production_status, :domain)
+        else
+          @websites = current_user.organization.websites.active.includes(:taggings).order(:production_status, :domain)
+        end
       end
       @tags = Website.includes(:taggings).tag_counts_by_name
     end
@@ -160,7 +168,11 @@ module Admin
     end
 
     def export_csv
-      @websites = Website.all
+      if admin_permissions?
+        @websites = Website.all
+      else
+        @websites = current_user.organization.websites
+      end
       send_data @websites.to_csv, filename: "touchpoints-websites-#{Date.today}.csv"
     end
 
@@ -169,16 +181,35 @@ module Admin
     def search
       search_text = params[:search]
       tag_name = params[:tag]
-      if search_text.present?
-        search_text = "%#{search_text}%"
-        managed_sites = Website.where(id: Website.ids_by_manager_search(search_text))
-        @websites = Website.where(' domain ilike ? or office ilike ? or sub_office ilike ? or production_status ilike ? or site_owner_email ilike ? ', search_text, search_text, search_text, search_text, search_text).or(managed_sites).order(
-          :production_status, :domain
-        )
-      elsif tag_name.present?
-        @websites = Website.tagged_with(tag_name).order(:production_status, :domain)
+
+      if admin_permissions?
+        
+        if search_text.present?
+          search_text = "%#{search_text}%"
+          managed_sites = Website.where(id: Website.ids_by_manager_search(search_text))
+          @websites = Website.where(' domain ilike ? or office ilike ? or sub_office ilike ? or production_status ilike ? or site_owner_email ilike ? ', search_text, search_text, search_text, search_text, search_text).or(managed_sites).order(
+            :production_status, :domain
+          )
+        elsif tag_name.present?
+          @websites = Website.tagged_with(tag_name).order(:production_status, :domain)
+        else
+          @websites = Website.all.order(:production_status, :domain)
+        end
+
       else
-        @websites = Website.all.order(:production_status, :domain)
+
+        if search_text.present?
+          search_text = "%#{search_text}%"
+          managed_sites = Website.where(id: Website.ids_by_manager_search(search_text))
+          @websites = current_user.organization.websites.where(' domain ilike ? or office ilike ? or sub_office ilike ? or production_status ilike ? or site_owner_email ilike ? ', search_text, search_text, search_text, search_text, search_text).or(managed_sites).order(
+            :production_status, :domain
+          )
+        elsif tag_name.present?
+          @websites = current_user.organization.websites.tagged_with(tag_name).order(:production_status, :domain)
+        else
+          @websites = current_user.organization.websites.order(:production_status, :domain)
+        end
+
       end
     end
 
@@ -391,7 +422,11 @@ module Admin
     end
 
     def set_website
-      @website = Website.find_by_id(params[:id])
+      if admin_permissions?
+        @website = Website.find_by_id(params[:id])
+      else
+        @website = current_user.organization.websites.find_by_id(params[:id])
+      end
     end
 
     def admin_website_params
