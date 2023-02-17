@@ -78,7 +78,7 @@
       <% field = CscrmDataCollection.send("question_1")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if value.class == String %>
+      <% if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -108,7 +108,7 @@
       <% field = CscrmDataCollection.send("question_2")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if value.class == String %>
+      <% if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -138,7 +138,7 @@
       <% field = CscrmDataCollection.send("question_3")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if value.class == String %>
+      <% if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -168,7 +168,7 @@
       <% field = CscrmDataCollection.send("question_4")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if value.class == String %>
+      <% if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -198,7 +198,7 @@
       <% field = CscrmDataCollection.send("question_5")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if value.class == String %>
+      <% if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -228,7 +228,7 @@
       <% field = CscrmDataCollection.send("question_6")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if value.class == String %>
+      <% if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -258,7 +258,7 @@
       <% field = CscrmDataCollection.send("question_7")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if value.class == String %>
+      <% if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -288,7 +288,7 @@
       <% field = CscrmDataCollection.send("question_8")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if value.class == String %>
+      <% if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -318,7 +318,7 @@
       <% field = CscrmDataCollection.send("question_9")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if value.class == String %>
+      <% if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -348,7 +348,7 @@
       <% field = CscrmDataCollection.send("question_10")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if value.class == String %>
+      <% if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -378,7 +378,7 @@
       <% field = CscrmDataCollection.send("question_11")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if value.class == String %>
+      <% if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -408,7 +408,7 @@
       <% field = CscrmDataCollection.send("question_12")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if value.class == String %>
+      <% if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -438,7 +438,7 @@
       <% field = CscrmDataCollection.send("question_13")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if value.class == String %>
+      <% if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -468,7 +468,7 @@
       <% field = CscrmDataCollection.send("question_14")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if value.class == String %>
+      <% if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -498,7 +498,7 @@
       <% field = CscrmDataCollection.send("question_15")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if value.class == String %>
+      <% if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -528,7 +528,7 @@
       <% field = CscrmDataCollection.send("question_16")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if value.class == String %>
+      <% if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -558,7 +558,7 @@
       <% field = CscrmDataCollection.send("question_17")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if value.class == String %>
+      <% if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -588,7 +588,7 @@
       <% field = CscrmDataCollection.send("question_18")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if value.class == String %>
+      <% if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -641,6 +641,10 @@
         <% elsif !@cscrm_data_collection.published? && cscrm_manager_permissions? %>
           <%= link_to publish_admin_cscrm_data_collection_path(@cscrm_data_collection), class: "usa-button", method: "post" do %>
             Publish this Data Collection
+          <% end %>
+        <% elsif @cscrm_data_collection.published? && cscrm_manager_permissions? %>
+          <%= link_to reset_admin_cscrm_data_collection_path(@cscrm_data_collection), class: "usa-button usa-button--secondary", method: "post" do %>
+            Reset this Data Collection
           <% end %>
         <% end %>
       </p>
