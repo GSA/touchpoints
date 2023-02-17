@@ -19,7 +19,7 @@
 
       <div class="field">
         <%= form.label :organization_id, class: "usa-label" %>
-        <%= form.select :organization_id, options_for_select(organization_dropdown_options, website.organization_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
+        <%= form.select :organization_id, options_for_select(organization_dropdown_options, website.organization_id || current_user.organization_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
       </div>
 
       <%# only show when creating a website %>
