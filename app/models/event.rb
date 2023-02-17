@@ -45,6 +45,7 @@ class Event < ApplicationRecord
     cscrm_data_collection_collection_updated: 'cscrm_data_collection_collection_updated',
     cscrm_data_collection_collection_submitted: 'cscrm_data_collection_collection_submitted',
     cscrm_data_collection_collection_published: 'cscrm_data_collection_collection_published',
+    cscrm_data_collection_collection_reset: 'cscrm_data_collection_collection_reset',
     cscrm_data_collection_collection_deleted: 'cscrm_data_collection_collection_deleted',
 
     response_flagged: 'response_flagged',
