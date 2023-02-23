@@ -25,8 +25,16 @@ module Admin
         format.html {}
 
         format.csv do
-          csv_content = DigitalServiceAccount.to_csv
-          send_data csv_content
+          if admin_permissions?
+            if params[:all]
+              @csv_content = DigitalServiceAccount.to_csv
+            else
+              @csv_content = DigitalServiceAccount.active.to_csv
+            end
+          else
+            @csv_content = @digital_service_accounts.to_csv
+          end
+          send_data @csv_content
         end
       end
     end
@@ -61,7 +69,10 @@ module Admin
       if @digital_service_account.save
         current_user.add_role(:contact, @digital_service_account)
 
-        Event.log_event(Event.names[:digital_service_account_created], 'Digital Service Account', @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} created at #{DateTime.now}", current_user.id)
+        Event.log_event(Event.names[:digital_service_account_created],
+          'Digital Service Account',
+          @digital_service_account.id,
+          "Digital Service Account #{@digital_service_account.name} created at #{DateTime.now}", current_user.id)
 
         UserMailer.notification(
           title: 'Digital Service Account was created',
@@ -79,8 +90,10 @@ module Admin
     def update
       ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
       if @digital_service_account.update(digital_service_account_params)
-        Event.log_event(Event.names[:digital_service_account_updated], 'DigitalServiceAccount',
-                        @digital_service_account.id, "updated by #{current_user.email} on #{Date.today}", current_user.id)
+        Event.log_event(Event.names[:digital_service_account_updated],
+          'DigitalServiceAccount',
+          @digital_service_account.id,
+          "updated by #{current_user.email} on #{Date.today}", current_user.id)
         @digital_service_account.update_state!
         redirect_to admin_digital_service_account_path(@digital_service_account),
                     notice: 'Digital service account was successfully updated.'
@@ -92,8 +105,10 @@ module Admin
     def destroy
       ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
       @digital_service_account.destroy
-      Event.log_event(Event.names[:digital_service_account_deleted], 'DigitalServiceAccount',
-                      @digital_service_account.id, "deleted by #{current_user.email} on #{Date.today}", current_user.id)
+      Event.log_event(Event.names[:digital_service_account_deleted],
+        'DigitalServiceAccount',
+        @digital_service_account.id,
+        "deleted by #{current_user.email} on #{Date.today}", current_user.id)
       redirect_to admin_digital_service_accounts_url, notice: 'Digital service account was deleted.'
     end
 
@@ -141,7 +156,10 @@ module Admin
       ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
 
       if @digital_service_account.submit!
-        Event.log_event(Event.names[:digital_service_account_submitted], 'Digital Service Account', @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} submitted at #{DateTime.now}", current_user.id)
+        Event.log_event(Event.names[:digital_service_account_submitted],
+          'Digital Service Account',
+          @digital_service_account.id,
+          "Digital Service Account #{@digital_service_account.name} submitted at #{DateTime.now}", current_user.id)
 
         UserMailer.notification(
           title: 'Digital Service Account was submitted',
@@ -160,7 +178,10 @@ module Admin
       ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
 
       if @digital_service_account.publish!
-        Event.log_event(Event.names[:digital_service_account_published], 'Digital Service Account', @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} published at #{DateTime.now}", current_user.id)
+        Event.log_event(Event.names[:digital_service_account_published],
+          'Digital Service Account',
+          @digital_service_account.id,
+          "Digital Service Account #{@digital_service_account.name} published at #{DateTime.now}", current_user.id)
 
         UserMailer.notification(
           title: 'Digital Service Account was published',
@@ -179,7 +200,10 @@ module Admin
       ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
 
       if @digital_service_account.archive!
-        Event.log_event(Event.names[:digital_service_account_archived], 'Digital Service Account', @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} archived at #{DateTime.now}", current_user.id)
+        Event.log_event(Event.names[:digital_service_account_archived],
+          'Digital Service Account',
+          @digital_service_account.id,
+          "Digital Service Account #{@digital_service_account.name} archived at #{DateTime.now}", current_user.id)
 
         UserMailer.notification(
           title: 'Digital Service Account was archived',
@@ -198,7 +222,10 @@ module Admin
       ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
 
       if @digital_service_account.reset!
-        Event.log_event(Event.names[:digital_service_account_reset], 'Digital Service Account', @digital_service_account.id, "Digital Service Account #{@digital_service_account.name} reset at #{DateTime.now}", current_user.id)
+        Event.log_event(Event.names[:digital_service_account_reset],
+          'Digital Service Account',
+          @digital_service_account.id,
+          "Digital Service Account #{@digital_service_account.name} reset at #{DateTime.now}", current_user.id)
         redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was reset."
       else
         render :edit
@@ -210,7 +237,7 @@ module Admin
       organization_id = params[:organization_id]
 
       @digital_service_accounts = DigitalServiceAccount.all
-      @digital_service_accounts = @digital_service_accounts.where("name ilike '%#{search_text}%' OR account ilike '%#{search_text}%' OR short_description ilike '%#{search_text}%'") if search_text && search_text.length >= 3
+      @digital_service_accounts = @digital_service_accounts.where("name ilike '%#{search_text}%' OR account ilike '%#{search_text}%' OR short_description ilike '%#{search_text}%' OR service_url ilike '%#{search_text}%'") if search_text && search_text.length >= 3
       @digital_service_accounts = @digital_service_accounts.tagged_with(organization_id, context: 'organizations') if organization_id.present? && organization_id != ''
       @digital_service_accounts = @digital_service_accounts.where(service: params[:service].downcase) if params[:service].present? && params[:service] != 'All'
       @digital_service_accounts = @digital_service_accounts.where(aasm_state: params[:aasm_state].downcase) if params[:aasm_state].present? && params[:aasm_state] != 'All'
