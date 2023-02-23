@@ -728,8 +728,12 @@ def random_words
 end
 
 for i in (1..40) do
+  org = @organizations.all.sample
+  user = org.users.sample || User.all.sample
+
   CscrmDataCollection.create!({
-    organization: @organizations.all.sample,
+    user: user,
+    organization: user.organization,
     bureau_id: "",
     year: [2022, 2023, 2024].sample,
     quarter: [1, 2, 3, 4].sample,
