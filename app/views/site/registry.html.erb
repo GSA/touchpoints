@@ -48,10 +48,9 @@
         <%= form.text_field :tags, class: "usa-input" %>
       </div>
     </div>
-
     <div class="grid-row grid-gap-lg">
       <div class="grid-col-6">
-        <%= label_tag "Account platform", nil, class: "usa-label", for: "search_platform" %>
+        <%= label_tag "Service platform", nil, class: "usa-label", for: "search_platform" %>
         <%= form.select :platform, options_for_select([["All", '']] + DigitalServiceAccount.list, @search_params && @search_params[:platform]), {}, class: "usa-select" %>
       </div>
       <div class="grid-col-6">
@@ -98,9 +97,9 @@
   <thead>
     <tr>
       <th>Agency</th>
-      <th>Platform</th>
+      <th>Service</th>
       <th style="max-width: 400px;">Account name</th>
-      <th>Description</th>
+      <th>Short description</th>
       <th class="minw-15">Last updated</th>
     </tr>
   </thead>
@@ -108,13 +107,16 @@
     <% @results.each do |result| %>
       <tr data-id="<%= result.id %>">
         <td>
-          <%= result.name %>
+           <% result.sponsoring_agencies.order(:name).each do |agency| %>
+            <%= agency.name %>
+            <br>
+          <% end %>
         </td>
         <td>
-          <%= result.service %>
+          <%= result.account %>
         </td>
         <td>
-          <%= link_to(result.account, result.service_url) %>
+          <%= link_to(result.name, result.service_url) %>
         </td>
         <td>
           <%= to_markdown(result.short_description) %>
