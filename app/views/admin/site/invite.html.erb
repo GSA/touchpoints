@@ -1,0 +1,31 @@
+<% content_for :navigation_title do %>
+  Invite a colleague to Touchpoints
+<% end %>
+
+<div class="usa-section">
+  <%= form_with(model: current_user, url: "/admin/invite", local: true) do |f| %>
+    <div class="grid-row grid-gap-md">
+      <div class="tablet:grid-col-12">
+        <div class="field">
+          <%= label_tag :refer_user, "Email address", class: "usa-label" %>
+          <%= f.email_field :refer_user, class: "usa-input", placeholder: "user@example.gov" %>
+        </div>
+      </div>
+    </div>
+    <p>
+      <%= f.submit "Invite User", class: "usa-button", id: "invite-button", disabled: true %>
+    </p>
+  <% end %>
+</div>
+
+<script>
+  $(function(){
+    $("#user_refer_user").on("keyup", function(event) {
+      if(event.target.value != '' && event.target.value.length > 5) {
+        $("#invite-button").attr('disabled', false);
+      } else {
+        $("#invite-button").attr('disabled', true);
+      }
+    });
+  });
+</script>
