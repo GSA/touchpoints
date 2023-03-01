@@ -1,6 +1,14 @@
 <div id="website-managers-div" class="grid-row" data-value="<%= admin_website_path(@website) %>">
   <div class="grid-col-12">
     <%= label_tag "Additional website contacts", nil, class: "usa-label" %>
+
+    <div class="font-sans-3xs text-base usa-prose">
+      Users in this dropdown are limited to existing Touchpoints users with a
+      @<%= @website.organization.domain %> address.
+      <br>
+      <%= link_to "Invite a user", admin_invite_path, target: "_blank", class: "usa-link usa-link--external" %> to Touchpoints.
+    </div>
+
     <div class="website-manager-list">
       <ul class="usa-list usa-list--unstyled">
         <% @website.website_managers.each do |manager| %>
@@ -19,7 +27,10 @@
   </div>
 </div>
 
-<%= select_tag :website_manager_id, options_for_select(@website_manager_options.map { |u| [u.email, u.id] }), prompt: "Choose a Manager", class: "usa-select add-website-manager" %>
+<%= select_tag :website_manager_id, 
+  options_for_select(@website_manager_options.map { |u| [u.email, u.id] }), 
+  prompt: "Select a User", 
+  class: "usa-select add-website-manager" %>
 
 <script>
   $(function() {

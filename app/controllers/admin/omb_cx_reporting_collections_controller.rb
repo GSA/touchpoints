@@ -50,7 +50,7 @@ module Admin
     end
 
     def set_collections
-      if admin_permissions?
+      if performance_manager_permissions?
         @collections = Collection.all
       else
         @collections = current_user.collections

@@ -1,0 +1,29 @@
+<% content_for :navigation_title do %>
+  Users who need accounts
+<% end %>
+
+<p>
+  <%= link_to admin_reporting_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Admin Reporting
+  <% end %>
+</p>
+
+<p>
+  These users are assigned to Websites, but do not yet have Touchpoints accounts.
+</p>
+
+<div class="agency-service-survey-report">
+  <table class="usa-table">
+    <thead>
+      <tr>
+        <th data-sortable scope="col">Email address</th>
+      </tr>
+    </thead>
+    <% @users_who_need_accounts.each do |user| %>
+    <tr>
+      <td><%= user %></td>
+    </tr>
+    <% end %>
+  </table>
+</div>

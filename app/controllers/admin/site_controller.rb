@@ -37,6 +37,27 @@ module Admin
       }
     end
 
+    def invite
+      # /views/admin/site/invite.html.erb
+    end
+    
+    def invite_post
+      invitee = invite_params[:refer_user]
+
+      if invitee.present? && invitee =~ URI::MailTo::EMAIL_REGEXP && (ENV['GITHUB_CLIENT_ID'].present? ? true : APPROVED_DOMAINS.any? { |word| invitee.end_with?(word) })
+        if User.exists?(email: invitee)
+          redirect_to admin_invite_path, alert: "User with email #{invitee} already exists"
+        else
+          UserMailer.invite(current_user, invitee).deliver_later
+          redirect_to admin_invite_path, notice: "Invite sent to #{invitee}"
+        end
+      elsif ENV['GITHUB_CLIENT_ID'].present?
+        redirect_to admin_invite_path, alert: 'Please enter a valid email address'
+      else
+        redirect_to admin_invite_path, alert: 'Please enter a valid .gov or .mil email address'
+      end
+    end
+
     def events_export
       ExportEventsJob.perform_later(params[:uuid])
       render json: { result: :ok }
@@ -51,5 +72,9 @@ module Admin
     end
 
     def registry; end
+
+    def invite_params
+      params.require(:user).permit(:refer_user)
+    end
   end
 end

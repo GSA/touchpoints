@@ -19,7 +19,9 @@
       <p>
     </div>
   </div>
-  <%= select_tag :service_manager_id, options_for_select(@service_provider_manager_options.map { |u| [u.email, u.id] }), { prompt: "Choose a Manager", class: "usa-select add-service-manager" } %>
+  <%= select_tag :service_manager_id, 
+    options_for_select(@service_provider_manager_options.map { |u| [u.email, u.id] }), 
+    { prompt: "Select a Manager", class: "usa-select add-service-manager" } %>
 </div>
 
 <script>
@@ -51,5 +53,6 @@
         }
       });
     });
-  })
+    
+  });
 </script>
