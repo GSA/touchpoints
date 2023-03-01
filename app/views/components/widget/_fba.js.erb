@@ -59,7 +59,9 @@ function FBAform(d, N) {
 		<%- if form.load_css %>
 		loadCss: function()
 		{
-			d.head.innerHTML += '<style>' + this.css + '</style>';
+			var style = document.createElement('style');
+			style.innerHTML = this.css;
+			d.head.appendChild(style);
 		},
 		<% end %>
 		loadHtml: function()

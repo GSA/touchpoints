@@ -363,5 +363,27 @@ module Admin
     def service_surveys
       @services = Service.includes(:organization, :forms).all.order('organizations.name, services.name')
     end
+    
+    def users
+      @users_who_need_accounts = []
+      Website.where("site_owner_email IS NOT NULL OR contact_email IS NOT NULL").all.each do |website|
+        
+        if website.site_owner_email.present?
+          user = User.find_by_email(website.site_owner_email)
+          if user.nil?
+            @users_who_need_accounts << website.site_owner_email
+          end
+        end
+        
+        if website.contact_email.present?
+          user2 = User.find_by_email(website.contact_email)
+          if user2.nil?
+            @users_who_need_accounts << website.contact_email
+          end
+        end
+
+      end
+    end
+    
   end
 end
