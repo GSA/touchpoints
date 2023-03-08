@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.1.3'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.0.4"
+gem "rails", "~> 7.0.4", ">= 7.0.4.1"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
@@ -48,10 +48,10 @@ gem "rubocop-rails"
 gem "rubocop-rspec"
 gem 'active_model_serializers', '>= 0.10.13'
 gem 'acts-as-list'
-gem 'aws-sdk-rails', '>= 3.6.3'
+gem 'aws-sdk-rails', '>= 3.7.0'
 gem 'caracal', '>= 1.4.1'
 gem 'carrierwave', '>= 2.2.1'
-gem 'devise', '>= 4.8.1'
+gem 'devise', '>= 4.9.0'
 gem 'fog-aws', '>= 3.15.0'
 gem "jbuilder"
 gem 'jquery-rails'
@@ -92,7 +92,7 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '>= 3.37.1'
+  gem 'capybara', '>= 3.38.0'
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'rails-controller-testing'
