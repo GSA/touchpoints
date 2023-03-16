@@ -173,7 +173,7 @@
         <%= form.label :backlog_tool, class: "usa-label" %>
         <%= form.select :backlog_tool, options_for_select(Website::BACKLOG_TOOLS.collect { |k, v| [k, k] },
           selected: website.backlog_tool), { prompt: "Select a Backlog tool" }, { class: "usa-select", required:
-          true } %>
+          false } %>
       </div>
       <div class="field">
         <%= form.label :backlog_url, class: "usa-label" %>
