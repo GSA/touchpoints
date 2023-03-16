@@ -6,6 +6,7 @@ class QuestionOption < ApplicationRecord
   before_save :set_default_value_from_text
 
   validates :text, presence: true
+  validates :value, presence: true
   validates :position, presence: true
 
   def set_default_value_from_text
