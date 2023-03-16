@@ -3,7 +3,7 @@
 class QuestionOption < ApplicationRecord
   belongs_to :question
 
-  before_save :set_default_value_from_text
+  before_validation :set_default_value_from_text
 
   validates :text, presence: true
   validates :value, presence: true
