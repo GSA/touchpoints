@@ -312,6 +312,40 @@
       <div class="grid-row grid-gap-lg">
         <div class="grid-col-6">
           <label class="usa-label margin-bottom-1" for="parent_domain">
+            Backlog Tool
+          </label>
+          <% if @website.backlog_tool? %>
+            <%= @website.backlog_tool %>
+          <% else %>
+          <div class="usa-alert usa-alert--error usa-alert--slim">
+            <div class="usa-alert__body">
+              <p class="usa-alert__text">
+                Backlog tool not specified
+              </p>
+            </div>
+          </div>
+          <% end %>
+        </div>
+        <div class="grid-col-6">
+          <label class="usa-label margin-bottom-1" for="parent_domain">
+            Backlog url
+          </label>
+          <% if @website.backlog_url? %>
+            <%= link_to @website.backlog_url, @website.backlog_url, target: "_blank", rel: "noopener" %>
+          <% else %>
+          <div class="usa-alert usa-alert--error usa-alert--slim">
+            <div class="usa-alert__body">
+              <p class="usa-alert__text">
+                Backlog URL not specified
+              </p>
+            </div>
+          </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="grid-row grid-gap-lg">
+        <div class="grid-col-6">
+          <label class="usa-label margin-bottom-1" for="parent_domain">
             Repository url
           </label>
           <% if @website.repository_url? %>
