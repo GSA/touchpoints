@@ -3,5 +3,6 @@
 FactoryBot.define do
   factory :question_option do
     text { 'Test Question Option' }
+    value { 'Test Question Option' }
   end
 end
