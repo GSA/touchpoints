@@ -1,0 +1,29 @@
+<%= render 'user_mailer/components/header' %>
+<h1>
+  Website Data Collection Request
+</h1>
+<p>
+  Hi <%= @email %>,
+</p>
+<p>
+  You are receiving this email because you are identified as a website manager for one or more GSA websites:
+</p>
+<p>
+  <ul>
+    <% @websites.each do | website | %>
+    <li>
+      <%= link_to website.domain, admin_website_url(website) %>
+    </li>
+    <% end %>
+  </ul>
+</p>
+<p>
+  Please <a href="https://touchpoints.app.cloud.gov/admin/websites">log into Touchpoints</a> to validate and/or update your website records.
+</p>
+<p>
+  Please update the 1. Backlog Tool and 2. Backlog URL for each of these websites.
+</p>
+<p>
+  For questions, contact <a href="mailto:ryan.wold@gsa.gov">Ryan Wold</a>,
+  <a href="https://github.com/GSA/wg-web-modernization/">GSA Web Modernization Team</a> - Technical Working Group.
+</p>
