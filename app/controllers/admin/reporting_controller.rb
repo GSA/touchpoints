@@ -382,8 +382,9 @@ module Admin
           end
         end
 
+        @users_who_need_accounts.uniq!
       end
     end
-    
+
   end
 end
