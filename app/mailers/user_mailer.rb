@@ -131,6 +131,16 @@ class UserMailer < ApplicationMailer
     @websites = websites
     mail subject: 'Website Data Collection Request', to: email
   end
+  
+  def website_backlog_data_collection(email, websites)
+    return unless email
+
+    set_logo
+    @greeting = "Hi, #{email}"
+    @email = email
+    @websites = websites
+    mail subject: 'Update Website record', to: email
+  end
 
   def new_user_notification(user)
     set_logo

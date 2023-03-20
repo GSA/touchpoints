@@ -23,12 +23,24 @@ RSpec.describe QuestionOption, type: :model do
   end
 
   context 'with question' do
-    before do
-      @question_option = QuestionOption.create(text: 'Option 1', question: option_question, position: 1)
-    end
+    context 'no value set' do
+      before do
+        @question_option = QuestionOption.create(text: 'Option 1', question: option_question, position: 1)
+      end
 
-    it 'assign the value as text by default' do
-      expect(@question_option.value).to eq(@question_option.text)
+      it 'assign the value as text by default' do
+        expect(@question_option.value).to eq(@question_option.text)
+      end
+    end
+    
+    context 'with value set' do
+      before do
+        @question_option = QuestionOption.create(text: 'Option 1', question: option_question, position: 1, value: "123")
+      end
+
+      it 'assign the value as text by default' do
+        expect(@question_option.value).to eq("123")
+      end
     end
   end
 end

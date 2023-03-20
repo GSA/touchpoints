@@ -82,6 +82,15 @@ class Website < ApplicationRecord
     'Hybrid' => 'Managed by GSA in partnership with another agency or business partner; gov-wide or collaborative',
     'External' => 'Managed by GSA on behalf of another agency or business partner; not related to GSA business',
   }.freeze
+  
+  BACKLOG_TOOLS = {
+    'Document' => 'Document',
+    'GitHub' => 'GitHub',
+    'Jira' => 'Jira',
+    'Trello' => 'Trello',
+    'Other' => 'Other',
+    'None' => 'None',
+  }.freeze
 
   aasm :production_status do
     state :newly_requested, initial: true
@@ -215,4 +224,21 @@ class Website < ApplicationRecord
       end
     end
   end
+
+  def self.backlog_collection_request
+      # fetch all GSA websites
+      organization = Organization.find_by_abbreviation("GSA").first
+      @websites = @organization.websites
+
+      # create a list of email addresses for website owners
+      unique_user_emails = @websites.collect(&:site_owner_email).uniq.sort
+      
+      # send each website owner an email with their list of websites, for action
+      unique_user_emails.each do |email|
+        user_websites = Website.where(site_owner_email: email)
+        UserMailer.website_data_collection(email, user_websites).deliver_later
+      end
+
+      return true
+    end
 end

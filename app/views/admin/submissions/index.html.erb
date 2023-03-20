@@ -1,6 +1,6 @@
 <% if submissions.size > 0 %>
   <div id="submissions_table">
-    <%= render 'admin/submissions/submissions', submissions: submissions, all_submissions: all_submissions, form: form %>
+    <%= render 'admin/submissions/submissions', submissions: submissions, form: form %>
   </div>
   <br>
   <%= link_to "Export All Responses to CSV", export_submissions_admin_form_url(form, start_date: "2019-10-01", format: "json"), class: "usa-button export-btn" %>
