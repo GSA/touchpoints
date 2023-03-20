@@ -383,7 +383,6 @@ Rails.application.routes.draw do
   post 'registry', to: 'site#registry_search_post', as: :search_registry
   # get 'registry.csv', to: 'site#registry_export', as: :registry_export, format: :csv
 
-  get 'agencies', to: 'site#agencies', as: :agencies
   get 'profile', to: 'profile#show', as: :profile
   patch 'profile', to: 'profile#update', as: :profile_update
   get 'status', to: 'site#status', as: :status

@@ -1,0 +1,17 @@
+Website Data Collection Request
+
+Hi <%= @email %>,
+
+You are receiving this email because you are identified as a website manager for one or more GSA websites:
+
+<% @websites.each do | website | %>
+  <%= admin_website_url(website) %>
+<% end %>
+
+Please log into Touchpoints to validate and/or update your website records.
+
+https://touchpoints.app.cloud.gov/admin/websites
+
+For questions, contact the EDX (Enterprise Digital Experience) team.
+
+https://touchpoints.app.cloud.gov/touchpoints/1fc9c962/

@@ -78,6 +78,7 @@ feature 'Managing Services', js: true do
       end
 
       it 'newly created tag is displayed on the page' do
+        expect(page).to have_link("Clear filters")
         expect(page).to have_css('tbody tr', count: 1)
         expect(page.current_url).to include('tag=feature-request')
       end
