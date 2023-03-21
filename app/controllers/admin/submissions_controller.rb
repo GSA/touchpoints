@@ -54,12 +54,12 @@ module Admin
 
     def flag
       Event.log_event(Event.names[:response_flagged], 'Submission', @submission.id, "Submission #{@submission.id} flagged at #{DateTime.now}", current_user.id)
-      @submission.update(flagged: true)
+      @submission.update_attribute(:flagged, true)
     end
 
     def unflag
       Event.log_event(Event.names[:response_unflagged], 'Submission', @submission.id, "Submission #{@submission.id} unflagged at #{DateTime.now}", current_user.id)
-      @submission.update(flagged: false)
+      @submission.update_attribute(:flagged, false)
     end
 
     def add_tag
@@ -111,14 +111,14 @@ module Admin
       ensure_form_manager(form: @form)
 
       Event.log_event(Event.names[:response_archived], 'Submission', @submission.id, "Submission #{@submission.id} archived at #{DateTime.now}", current_user.id)
-      @submission.archive!
+      @submission.archive_without_validation!
     end
 
     def unarchive
       ensure_form_manager(form: @form)
 
       Event.log_event(Event.names[:response_unarchived], 'Submission', @submission.id, "Submission #{@submission.id} unarchived at #{DateTime.now}", current_user.id)
-      @submission.reset!
+      @submission.reset_without_validation!
     end
 
     def destroy
