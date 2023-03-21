@@ -22,6 +22,10 @@ class Organization < ApplicationRecord
   validates :abbreviation, presence: true
   validates :abbreviation, uniqueness: true
 
+  def parent
+    parent_id ? Organization.find(parent_id) : nil
+  end
+
   def slug
     abbreviation.downcase
   end

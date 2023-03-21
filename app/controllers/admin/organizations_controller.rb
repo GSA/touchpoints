@@ -189,6 +189,7 @@ module Admin
 
     def organization_params
       params.require(:organization).permit(
+        :parent_id,
         :name,
         :domain,
         :logo,
@@ -204,6 +205,7 @@ module Admin
         :performance_url,
         :strategic_plan_url,
         :learning_agenda_url,
+        :cfo_act_agency,
       )
     end
   end

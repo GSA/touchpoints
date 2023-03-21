@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_20_233507) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_21_170414) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -464,6 +464,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_20_233507) do
     t.string "performance_url"
     t.string "strategic_plan_url"
     t.string "learning_agenda_url"
+    t.boolean "cfo_act_agency", default: false
+    t.integer "parent_id"
   end
 
   create_table "organizations_roles", id: false, force: :cascade do |t|

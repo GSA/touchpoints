@@ -17,10 +17,24 @@
   <div class="grid-col-8">
     <div>
       <div class="grid-row">
+        <% if @organization.cfo_act_agency? %>
+        <div class="grid-col-12">
+          <span class="usa-tag bg-success">
+            CFO Act Agency
+          </span>
+        </div>
+        <% end -%>
+
         <div class="grid-col-12">
           <%= label_tag "Name", nil, class: "usa-label" %>
           <%= @organization.name %>
         </div>
+        <% if @organization.parent %>
+        <div class="grid-col-12">
+          <%= label_tag "Parent Organization name", nil, class: "usa-label" %>
+          <%= @organization.parent.name %>
+        </div>
+        <% end %>
         <div class="grid-col-12">
           <%= label_tag "Abbreviation", nil, class: "usa-label" %>
           <%= @organization.abbreviation %>
@@ -57,7 +71,7 @@
             </p>
           </div>
         </div>
-        <% end %>
+        <% end -%>
       </div>
       <% if @organization.logo %>
       <p>
@@ -76,20 +90,20 @@
           A logo has not yet been uploaded
         <% end %>
       </p>
-      <% end %>
+      <% end -%>
       <p>
         <%= label_tag "Digital Analytics URL", nil, class: "usa-label" %>
         <% if @organization.digital_analytics_path? %>
           <%= link_to("https://analytics.usa.gov/#{@organization.digital_analytics_path}", "https://analytics.usa.gov/#{@organization.digital_analytics_path}", target: "_blank", rel: "noopener") %>
-          <% else %>
-          <div class="usa-alert usa-alert--info">
-            <div class="usa-alert__body">
-              <p class="usa-alert__text">
-                DAP path has not been entered
-              </p>
-            </div>
+        <% else %>
+        <div class="usa-alert usa-alert--info">
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">
+              DAP path has not been entered
+            </p>
           </div>
-          <% end %>
+        </div>
+        <% end -%>
       </p>
       <p>
         <%= label_tag "Notes", nil, class: "usa-label" %>
@@ -103,7 +117,7 @@
             </p>
           </div>
         </div>
-        <% end %>
+        <% end -%>
       </p>
     </div>
 

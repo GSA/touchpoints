@@ -12,6 +12,14 @@
     </div>
   <% end %>
   <div class="field">
+    <%= form.label :parent, "Parent organization", class: "usa-label" %>
+    <%= form.select :parent_id, 
+      options_for_select(organization_dropdown_options, 
+      selected: (organization ? organization.parent_id : nil)), 
+      { prompt: "Select a Parent Organization" }, 
+      { class: "usa-select" } %>
+  </div>
+  <div class="field">
     <%= form.label :name, class: "usa-label" %>
     <%= form.text_field :name, class: "usa-input", placeholder: "General Services Administration" %>
   </div>
@@ -52,6 +60,19 @@
     <%= form.label :abbreviation, class: "usa-label" %>
     <%= form.text_field :abbreviation, class: "usa-input", placeholder: "GSA" %>
   </div>
+  <br>
+  <fieldset class="usa-fieldset">
+    <div class="usa-checkbox">
+      <%= form.check_box :cfo_act_agency, class: "usa-checkbox__input" %>
+      <%= form.label :cfo_act_agency, "CFO Act Agency?", class: "usa-checkbox__label" %>
+      <p>
+        <small>
+          What is a
+          <a href="https://www.cio.gov/handbook/it-laws/cfo-act/" target="_blank">CFO Act Agency</a>?
+        </small>
+      </p>
+    </div>
+  </fieldset>
   <br>
   <fieldset class="usa-fieldset">
     <div class="usa-checkbox">
