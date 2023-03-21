@@ -1383,10 +1383,10 @@ feature 'Forms', js: true do
             click_on 'Update Question'
             # Wait for Add Question to appear
             expect(page).to have_content("ANSWER_03")
-            page.has_css?('.form_add_question')
+            expect(page).to have_css('.form_add_question')
             visit questions_admin_form_path(form_section2.form.reload)
             # Wait for 2nd form section to render
-            page.has_css?('#form_section_2')
+            expect(page).to have_css('#form_section_2')
           end
 
           it 'creates the question in the correct Form Section' do
