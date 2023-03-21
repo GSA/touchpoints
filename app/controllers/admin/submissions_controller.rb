@@ -2,9 +2,25 @@
 
 module Admin
   class SubmissionsController < AdminController
-    before_action :ensure_admin, only: %i[feed export_feed]
-    before_action :set_form, except: %i[feed export_feed]
-    before_action :set_submission, except: %i[feed export_feed search a11_chart a11_analysis responses_per_day responses_by_status performance_gov submissions_table]
+    before_action :ensure_admin, only: %i[
+      feed 
+      export_feed
+    ]
+    before_action :set_form, except: %i[
+      feed 
+      export_feed
+    ]
+    before_action :set_submission, except: %i[
+      feed 
+      export_feed 
+      search 
+      a11_chart 
+      a11_analysis 
+      responses_per_day 
+      responses_by_status 
+      performance_gov 
+      submissions_table
+    ]
 
     def show; end
 
@@ -66,7 +82,7 @@ module Admin
 
     def responses_per_day
       @dates = (45.days.ago.to_date..Date.today).map { |date| date }
-      @response_groups = @form.submissions.group('date(created_at)').size.sort.last(45)
+      @response_groups = @form.submissions.where("created_at >= ?", 45.days.ago).group('date(created_at)').size.sort.last(45)
       # Add in 0 count days to fetched analytics
       @dates.each do |date|
         @response_groups << [date, 0] unless @response_groups.detect { |row| row[0].strftime('%m %d %Y') == date.strftime('%m %d %Y') }
