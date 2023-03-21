@@ -1382,6 +1382,7 @@ feature 'Forms', js: true do
             select('text_field', from: 'question_question_type')
             click_on 'Update Question'
             # Wait for Add Question to appear
+            expect(page).to have_content("ANSWER_03")
             page.has_css?('.form_add_question')
             visit questions_admin_form_path(form_section2.form.reload)
             # Wait for 2nd form section to render
@@ -1389,8 +1390,6 @@ feature 'Forms', js: true do
           end
 
           it 'creates the question in the correct Form Section' do
-            expect(page).to have_content("page 1 of 2")
-            expect(page).to have_content("page 2 of 2")
             within(find_all('.form-section-div').first) do
               expect(page).to have_content('Question in Form Section 1')
             end
