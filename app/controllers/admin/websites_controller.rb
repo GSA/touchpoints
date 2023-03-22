@@ -83,7 +83,7 @@ module Admin
     end
 
     def review
-      @websites = Website.where(production_status: 'newly_requested').includes(:taggings).order(:production_status, :domain)
+      @websites = Website.where(aasm_state: 'created').includes(:taggings).order(:aasm_state, :domain)
       @tags = Website.tag_counts_by_name
     end
 
@@ -345,7 +345,7 @@ module Admin
     def reset
       if @website.reset!
         Event.log_event(Event.names[:website_reset], 'Website', @website.id, "Website #{@website.domain} was reset at #{DateTime.now}", current_user.id)
-        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} has been reset to newly_requested status."
+        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} has been reset to created status."
       else
         render :edit
       end

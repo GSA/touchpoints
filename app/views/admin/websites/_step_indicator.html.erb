@@ -47,21 +47,13 @@
   <div class="usa-step-indicator" aria-label="progress">
     <ol class="usa-step-indicator__segments">
       <li class="usa-step-indicator__segment
-        <%= "usa-step-indicator__segment--complete" if website.request_approved? || website.in_development? || website.production? || website.redirect? || website.archived? || website.decommissioned? %>
-        <%= "usa-step-indicator__segment--current" if website.newly_requested? %>">
+        <%= "usa-step-indicator__segment--complete" if website.created? || website.production? || website.redirect? || website.archived? || website.decommissioned? %>
+        <%= "usa-step-indicator__segment--current" if website.created? %>">
         <span class="usa-step-indicator__segment-label">
           Created
-          <% if website.newly_requested? %>
+          <% if website.created? %>
             <span class="usa-sr-only">completed</span>
           <% end %>
-        </span>
-      </li>
-      <li class="usa-step-indicator__segment
-        <%= "usa-step-indicator__segment--complete" if website.in_development? || website.production? || website.redirect? || website.archived? || website.decommissioned? %>
-        <%= "usa-step-indicator__segment--current" if website.request_approved? %>">
-        <span class="usa-step-indicator__segment-label">
-          Approved
-          <span class="usa-sr-only">completed</span>
         </span>
       </li>
       <li class="usa-step-indicator__segment

@@ -10,7 +10,6 @@ class Question < ApplicationRecord
   validates :answer_field, uniqueness: { scope: :form_id }
 
   default_scope { order(position: :asc) }
-  scope :ordered, -> { order(position: :asc) }
 
   MAX_CHARACTERS = 100_000
 

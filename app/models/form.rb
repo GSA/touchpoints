@@ -394,14 +394,15 @@ class Form < ApplicationRecord
   # TODO: Move to /models/submission.rb
   # a map of { Submission field names (to access the data) => the Header (to display) }
   def hashed_fields_for_export
-    hash = {
+    ordered_hash = ActiveSupport::OrderedHash.new
+    ordered_hash.merge!({
       id: 'ID',
       uuid: 'UUID',
-    }
+    })
 
-    ordered_questions.map { |q| hash[q.answer_field] = q.text }
+    ordered_questions.map { |q| ordered_hash[q.answer_field] = q.text }
 
-    hash.merge!({
+    ordered_hash.merge!({
       location_code: 'Location Code',
       user_agent: 'User Agent',
       archived: 'Archived',
@@ -412,22 +413,22 @@ class Form < ApplicationRecord
     })
 
     if organization.enable_ip_address?
-      hash.merge!({
+      ordered_hash.merge!({
         ip_address: 'IP Address',
       })
     end
 
-    hash.merge!({
+    ordered_hash.merge!({
       tag_list: 'Tags',
     })
 
-    hash
+    ordered_hash
   end
 
   def ordered_questions
     array = []
     form_sections.each do |section|
-      array.concat(section.questions.ordered.entries)
+      array.concat(section.questions.entries)
     end
     array
   end

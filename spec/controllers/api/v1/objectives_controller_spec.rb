@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Api::V1::WebsitesController, type: :controller do
+describe Api::V1::ObjectivesController, type: :controller do
   describe 'unauthenticated request' do
     before do
       get :index
@@ -43,9 +43,10 @@ describe Api::V1::WebsitesController, type: :controller do
     describe '#index' do
       context 'passing a valid API_KEY' do
         let!(:user) { FactoryBot.create(:user) }
-        let!(:website) { FactoryBot.create(:website, organization: user.organization, aasm_state: :published) }
-        let!(:website2) { FactoryBot.create(:website, organization: user.organization, aasm_state: :published) }
-        let!(:website3) { FactoryBot.create(:website, organization: user.organization) }
+        let!(:organization1) { FactoryBot.create(:organization) }
+        let!(:goal1) { FactoryBot.create(:goal, organization: organization1) }
+        let!(:goal2) { FactoryBot.create(:goal, organization: organization1) }
+        let!(:objective1) { FactoryBot.create(:objective, goal: goal1) }
 
         before do
           user.update(api_key: TEST_API_KEY)
@@ -54,12 +55,13 @@ describe Api::V1::WebsitesController, type: :controller do
           @parsed_response = JSON.parse(response.body)
         end
 
-        it 'return an array of published service providers' do
+        it 'return an array of goals' do
           expect(response.status).to eq(200)
           expect(@parsed_response['data'].class).to be(Array)
-          expect(@parsed_response['data'].size).to eq(2)
+          expect(@parsed_response['data'].size).to eq(1)
           expect(@parsed_response['data'].first.class).to be(Hash)
-          expect(@parsed_response['data'].first['type']).to eq("websites")
+          expect(@parsed_response['data'].first["type"]).to eq("objectives")
+          expect(@parsed_response['data'].first['id']).to eq(objective1.id.to_s)
         end
       end
     end

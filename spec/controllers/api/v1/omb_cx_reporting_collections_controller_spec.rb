@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Api::V1::WebsitesController, type: :controller do
+describe Api::V1::OmbCxReportingCollectionsController, type: :controller do
   describe 'unauthenticated request' do
     before do
       get :index
@@ -43,9 +43,10 @@ describe Api::V1::WebsitesController, type: :controller do
     describe '#index' do
       context 'passing a valid API_KEY' do
         let!(:user) { FactoryBot.create(:user) }
-        let!(:website) { FactoryBot.create(:website, organization: user.organization, aasm_state: :published) }
-        let!(:website2) { FactoryBot.create(:website, organization: user.organization, aasm_state: :published) }
-        let!(:website3) { FactoryBot.create(:website, organization: user.organization) }
+        let!(:service) { FactoryBot.create(:service, organization: user.organization, service_owner_id: user.id) }
+        let!(:collection) { FactoryBot.create(:collection, organization: user.organization, aasm_state: :published) }
+        let!(:omb_cx_reporting_collection1) { FactoryBot.create(:omb_cx_reporting_collection, collection: collection, service: service) }
+        let!(:omb_cx_reporting_collection2) { FactoryBot.create(:omb_cx_reporting_collection, collection: collection, service: service) }
 
         before do
           user.update(api_key: TEST_API_KEY)
@@ -59,7 +60,8 @@ describe Api::V1::WebsitesController, type: :controller do
           expect(@parsed_response['data'].class).to be(Array)
           expect(@parsed_response['data'].size).to eq(2)
           expect(@parsed_response['data'].first.class).to be(Hash)
-          expect(@parsed_response['data'].first['type']).to eq("websites")
+          expect(@parsed_response['data'].first["type"]).to eq("omb_cx_reporting_collections")
+          expect(@parsed_response['data'].first['id']).to eq(omb_cx_reporting_collection1.id.to_s)
         end
       end
     end
