@@ -62,7 +62,8 @@ Rails.application.routes.draw do
     resources :ivn_links
     resources :ivn_sources
     resources :ivn_components
-      get '/reporting/', to: 'reporting#index', as: :reporting
+    
+    get '/reporting/', to: 'reporting#index', as: :reporting
     get '/reporting/hisps/hisps', to: 'reporting#hisps', as: :hisps
     get '/reporting/hisps/hisp_services', to: 'reporting#hisp_services', as: :hisp_services
     get '/reporting/hisps/hisp_service_cx_data_collections', to: 'reporting#hisp_service_cx_data_collections', as: :hisp_service_cx_data_collections
