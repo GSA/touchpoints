@@ -52,6 +52,7 @@ RSpec.describe Form, type: :model do
         q2 = form.questions.create!(answer_field: 'answer_05', text: '05', form_section_id: form.form_sections.first.id, question_type: 'text_field', position: 3)
         q4 = form.questions.create!(answer_field: 'answer_10', text: '10', form_section_id: second_form_section.id, question_type: 'text_field', position: 5)
         q5 = form.questions.create!(answer_field: 'answer_04', text: '04', form_section_id: second_form_section.id, question_type: 'text_field', position: 6)
+        form.reload
       end
 
       it "returns a hash of questions, location_code, and 'standard' attributes" do
@@ -77,7 +78,7 @@ RSpec.describe Form, type: :model do
           :created_at,
           :ip_address,
           :tag_list
-                                                         ])
+        ])
       end
     end
   end

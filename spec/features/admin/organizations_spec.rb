@@ -43,9 +43,7 @@ feature 'Managing Organizations', js: true do
 
       it 'successfully re-orders goals for an organization' do
         visit performance_admin_organization_path(organization)
-        goal_list.each do |goal|
-          expect(goal.position).to eq(0)
-        end
+        expect(goal_list.collect(&:position)).to eq([1,2,3])
         find('#goal_3').drag_to(find('#goal_1'))
         wait_for_ajax
         expect(goal_list[0].reload.position).to eq(2)
@@ -60,9 +58,7 @@ feature 'Managing Organizations', js: true do
 
       it 'successfully re-orders objectivs for a goal' do
         visit performance_admin_organization_path(organization)
-        objective_list.each do |obj|
-          expect(obj.position).to eq(0)
-        end
+        expect(objective_list.collect(&:position)).to eq([1,2,3])
         find('#objective_3').drag_to(find('#objective_1'))
         wait_for_ajax
         expect(objective_list[0].reload.position).to eq(2)
