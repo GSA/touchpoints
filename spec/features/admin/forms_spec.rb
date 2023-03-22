@@ -643,10 +643,8 @@ feature 'Forms', js: true do
 
               it 'display successful flash message' do
                 expect(find_all('.section').size).to eq(2)
-                within(first('.section')) do
-                  click_on 'Delete Section'
-                  page.driver.browser.switch_to.alert.accept
-                end
+                first('.section').click_on 'Delete Section'
+                page.driver.browser.switch_to.alert.accept
                 expect(page.current_path).to eq(questions_admin_form_path(form))
                 expect(page).to have_content('Form section was successfully deleted.')
                 expect(find_all('.section').size).to eq(1)
@@ -1379,6 +1377,7 @@ feature 'Forms', js: true do
             click_on 'Update Question'
             # Select the Add Question button in the 2nd Form Section
             visit questions_admin_form_path(form_section2.form)
+            expect(find_all('.form-add-question').size).to eq(2)
             find_all('.form-add-question').last.click
             fill_in 'question_text', with: 'Question in Form Section 2'
             select('text_field', from: 'question_question_type')
@@ -1392,7 +1391,7 @@ feature 'Forms', js: true do
           end
 
           it 'creates the question in the correct Form Section' do
-            within(find_all('.form-section-div').first) do
+            within(first('.form-section-div')) do
               expect(page).to have_content('Question in Form Section 1')
             end
             within('#form_section_2') do

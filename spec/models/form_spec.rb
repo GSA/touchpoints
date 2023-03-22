@@ -47,6 +47,7 @@ RSpec.describe Form, type: :model do
     describe '#hashed_fields_for_export' do
       before do
         second_form_section = form.form_sections.create(title: 'Section 2', position: 2)
+        form.form_sections.reload
         # questions are sorted by Form Section, then Position
         q3 = form.questions.create!(answer_field: 'answer_03', text: '03', form_section_id: form.form_sections.first.id, question_type: 'text_field', position: 4)
         q2 = form.questions.create!(answer_field: 'answer_05', text: '05', form_section_id: form.form_sections.first.id, question_type: 'text_field', position: 3)
