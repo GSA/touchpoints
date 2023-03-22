@@ -104,9 +104,7 @@ feature 'Submissions', js: true do
             describe 'click View link in responses table' do
               before do
                 visit responses_admin_form_path(form)
-                within(find_all('.usa-pagination').first) do
-                  click_link '2'
-                end
+                first('.usa-pagination').click_link '2'
               end
 
               it 'view the 2nd page of responses' do

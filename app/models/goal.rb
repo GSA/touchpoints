@@ -7,7 +7,7 @@ class Goal < ApplicationRecord
   has_many :goal_targets
   acts_as_taggable_on :tags, :organizations
 
-  before_save :set_position
+  before_create :set_position
 
   validates :name, presence: true
 
@@ -61,10 +61,12 @@ class Goal < ApplicationRecord
 
   private
 
-  # default a new goals position to the max position + 1 for the organization
-  def set_position
-    return if position.present?
-
-    self.position = Goal.where(organization:).maximum(:position) + 1
+  # default a new goal's position to the max position + 1 for the organization
+  def set_position   
+    if organization.goals.reload.present?
+      self.position = organization.goals.maximum(:position) + 1
+    else
+      self.position = 1
+    end
   end
 end

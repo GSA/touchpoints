@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_03_200710) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_21_170414) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -200,6 +200,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_03_200710) do
     t.integer "next_section_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.index ["form_id"], name: "index_form_sections_on_form_id"
   end
 
   create_table "forms", force: :cascade do |t|
@@ -292,6 +293,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_03_200710) do
     t.text "opportunity"
     t.text "notes"
     t.integer "objectives_count", default: 0
+    t.index ["organization_id"], name: "index_goals_on_organization_id"
     t.index ["tags"], name: "index_goals_on_tags", using: :gin
     t.index ["users"], name: "index_goals_on_users", using: :gin
   end
@@ -350,6 +352,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_03_200710) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "position", default: 0
+    t.index ["goal_id"], name: "index_objectives_on_goal_id"
+    t.index ["organization_id"], name: "index_objectives_on_organization_id"
     t.index ["tags"], name: "index_objectives_on_tags", using: :gin
     t.index ["users"], name: "index_objectives_on_users", using: :gin
   end
@@ -460,6 +464,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_03_200710) do
     t.string "performance_url"
     t.string "strategic_plan_url"
     t.string "learning_agenda_url"
+    t.boolean "cfo_act_agency", default: false
+    t.integer "parent_id"
   end
 
   create_table "organizations_roles", id: false, force: :cascade do |t|
@@ -488,6 +494,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_03_200710) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "value"
+    t.index ["question_id"], name: "index_question_options_on_question_id"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -504,6 +511,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_03_200710) do
     t.string "placeholder_text"
     t.string "help_text"
     t.index ["form_id"], name: "index_questions_on_form_id"
+    t.index ["form_section_id"], name: "index_questions_on_form_section_id"
   end
 
   create_table "registry_searches", force: :cascade do |t|
@@ -545,6 +553,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_03_200710) do
     t.integer "services_count", default: 0
     t.integer "impact_mapping_value", default: 0
     t.string "portfolio_manager_email"
+    t.index ["organization_id"], name: "index_service_providers_on_organization_id"
   end
 
   create_table "service_stage_barriers", force: :cascade do |t|
@@ -565,6 +574,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_03_200710) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.integer "persona_id"
+    t.index ["service_id"], name: "index_service_stages_on_service_id"
   end
 
   create_table "services", force: :cascade do |t|
@@ -606,6 +616,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_03_200710) do
     t.integer "bureau_id"
     t.string "office"
     t.boolean "designated_for_improvement_a11_280", default: false
+    t.index ["organization_id"], name: "index_services_on_organization_id"
   end
 
   create_table "submissions", force: :cascade do |t|
@@ -642,6 +653,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_03_200710) do
     t.integer "form_id"
     t.string "uuid"
     t.string "aasm_state", default: "received"
+    t.index ["flagged"], name: "index_submissions_on_flagged"
     t.index ["form_id"], name: "index_submissions_on_form_id"
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
   end
