@@ -1382,7 +1382,7 @@ feature 'Forms', js: true do
             select('text_field', from: 'question_question_type')
             click_on 'Update Question'
             # Wait for Add Question to appear
-            expect(page).to have_css('.form_add_question')
+            expect(page).to have_css('.form-add-question')
             expect(page).to have_content("ANSWER_03")
             visit questions_admin_form_path(form_section2.form.reload)
             # Wait for 2nd form section to render
