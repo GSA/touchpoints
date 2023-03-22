@@ -13,5 +13,5 @@ class OrganizationSerializer < ActiveModel::Serializer
              :performance_url,
              :strategic_plan_url,
              :learning_agenda_url,
-             :cfo_act_agency,
+             :cfo_act_agency
 end
