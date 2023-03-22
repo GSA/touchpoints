@@ -1376,7 +1376,8 @@ feature 'Forms', js: true do
             select('text_field', from: 'question_question_type')
             click_on 'Update Question'
             # Select the Add Question button in the 2nd Form Section
-            visit questions_admin_form_path(form_section2.form)
+            form2.reload
+            visit questions_admin_form_path(form2)
             expect(find_all('.form-add-question').size).to eq(2)
             find_all('.form-add-question').last.click
             fill_in 'question_text', with: 'Question in Form Section 2'
@@ -1385,7 +1386,8 @@ feature 'Forms', js: true do
             # Wait for Add Question to appear
             expect(page).to have_css('.form-add-question')
             expect(page).to have_content("ANSWER_03")
-            visit questions_admin_form_path(form_section2.form.reload)
+            form2.reload
+            visit questions_admin_form_path(form2)
             # Wait for 2nd form section to render
             expect(page).to have_css('#form_section_2')
           end
