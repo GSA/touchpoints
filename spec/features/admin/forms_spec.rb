@@ -1371,6 +1371,8 @@ feature 'Forms', js: true do
 
           before do
             visit questions_admin_form_path(form_section2.form)
+            expect(find_all('.form-add-question').size).to eq(2)
+
             find_all('.form-add-question').first.click
             fill_in 'question_text', with: 'Question in Form Section 1'
             select('text_field', from: 'question_question_type')
@@ -1393,7 +1395,7 @@ feature 'Forms', js: true do
             within(find_all('.form-section-div').first) do
               expect(page).to have_content('Question in Form Section 1')
             end
-            within(find('#form_section_2')) do
+            within('#form_section_2') do
               expect(page).to have_content('Question in Form Section 2')
             end
           end
