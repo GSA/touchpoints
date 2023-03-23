@@ -94,14 +94,25 @@
       <h3>
         Website status and links
       </h3>
+      <% if admin_permissions? %>
       <div class="field">
-        <%= form.label :production_status, class: "usa-label" %>
+        <%= form.label :aasm_state, "Publication status", class: "usa-label" %>
         <div class="usa-hint font-sans-2xs">
           See the
           <%= link_to "Touchpoints wiki", "https://github.com/GSA/touchpoints/wiki/Websites-Production-status/", target: "_blank" %>
           for more information.
         </div>
-        <%= form.select :production_status, options_for_select(Website::PRODUCTION_STATUSES.collect { |k,v| [v, k] }, selected: @website.production_status), { prompt: "What is the status of this website?", include_blank: true }, { class: "usa-select" } %>
+        <%= form.select :aasm_state, options_for_select({ "Created" => "created", "Submitted" => "submitted", "Published" => "published", "Archived" => "archived" }.collect { |k,v| [k, v] }, selected: @website.aasm_state), { prompt: "What is the publication status of this website?", include_blank: true }, { class: "usa-select" } %>
+      </div>
+      <% end %>
+      <div class="field">
+        <%= form.label :production_status, "Lifecycle status", class: "usa-label" %>
+        <div class="usa-hint font-sans-2xs">
+          See the
+          <%= link_to "Touchpoints wiki", "https://github.com/GSA/touchpoints/wiki/Websites-Production-status/", target: "_blank" %>
+          for more information.
+        </div>
+        <%= form.select :production_status, options_for_select(Website::PRODUCTION_STATUSES.collect { |k,v| [v, k] }, selected: @website.production_status), { prompt: "What is the lifecycle status of this website?", include_blank: true }, { class: "usa-select" } %>
       </div>
       <div class="field">
         <%= form.label :redirects_to, class: "usa-label" %>

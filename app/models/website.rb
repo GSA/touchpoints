@@ -20,6 +20,7 @@ class Website < ApplicationRecord
   scope :active, -> { where("production_status = 'production' OR aasm_state = 'created'") }
 
   PRODUCTION_STATUSES = {
+    'in_development' => 'In development',
     'staging' => 'Staging',
     'production' => 'Production',
     'being_decommissioned' => 'Being decommissioned',
@@ -107,7 +108,7 @@ class Website < ApplicationRecord
       transitions to: :updated
     end
     event :reset do
-      transitions to: :updated
+      transitions to: :created
     end
   end
 
@@ -118,11 +119,8 @@ class Website < ApplicationRecord
     state :redirect
     state :decommissioned
 
-    event :start_development do
-      transitions from: [:request_approved], to: :in_development
-    end
     event :stage do
-      transitions from: %i[in_development request_approved], to: :staging
+      transitions from: %i[in_development], to: :staging
     end
     event :launch do
       transitions from: %i[in_development staging], to: :production

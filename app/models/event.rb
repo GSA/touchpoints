@@ -56,10 +56,10 @@ class Event < ApplicationRecord
     response_status_changed: 'response_status_changed',
 
     website_created: 'website_created',
-    website_approved: 'website_approved',
-    website_denied: 'website_denied',
+    website_submitted: 'website_submitted',
+    website_published: 'website_published',
+
     website_staged: 'website_staged',
-    website_start_development: 'website_start_development',
     website_launched: 'website_launched',
     website_redirected: 'website_redirected',
     website_archived: 'website_archived',

@@ -194,9 +194,9 @@ Rails.application.routes.draw do
         get 'costs', to: 'websites#costs', as: :costs
         get 'statuscard', to: 'websites#statuscard', as: :statuscard
         get 'collection_request', to: 'websites@collection_request', as: :collection_request
-        post 'approve', to: 'websites#approve', as: :approve
-        post 'deny', to: 'websites#deny', as: :deny
-        post 'develop', to: 'websites#develop', as: :develop
+        post 'submit', to: 'websites#submit', as: :submit
+        post 'publish', to: 'websites#publish', as: :publish
+
         post 'stage', to: 'websites#stage', as: :stage
         post 'launch', to: 'websites#launch', as: :launch
         post 'redirect', to: 'websites#redirect', as: :redirect

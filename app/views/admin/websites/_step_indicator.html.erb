@@ -1,7 +1,76 @@
 <div class="border border-base-lighter padding-2 margin-bottom-2">
 
   <div class="font-sans-sm margin-bottom-1">
-    Status:
+    Publication status:
+    <%= website.aasm_state %>
+    <a
+      href="#website-status-modal"
+      aria-controls="website-status-modal"
+      data-open-modal><i class="fa fa-info-circle"></i></a>
+  </div>
+  <div
+    class="usa-modal usa-modal--lg"
+    id="website-status-modal"
+    aria-labelledby="modal-2-heading"
+    aria-describedby="modal-2-description">
+    <div class="usa-modal__content">
+      <div class="usa-modal__main">
+        <h2 class="usa-modal__heading" id="modal-2-heading">
+          The publishing status of a website
+        </h2>
+        <div class="usa-prose">
+          <p>
+            Each website is a digital asset and has a publishing flow.
+            The "aasm_state" states a website may have are below.
+          </p>
+          <br>
+          <ul class="usa-list usa-list--unstyled">
+            <% { "created" => "Created", "submitted" => "Submitted", "Published" => "published"}.each_pair do |key, value| %>
+            <li>
+              <span class="usa-tag bg-primary-light <%= "bg-primary" if @website.aasm_state == key %>"><%= value %></span>
+            </li>
+          <% end %>
+          </ul>
+        </div>
+      </div>
+      <button
+        class="usa-button usa-modal__close"
+        aria-label="Close this window"
+        data-close-modal>
+        <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+          <use xlink:href="<%= asset_path "sprite.svg#close" %>"></use>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="usa-step-indicator" aria-label="progress">
+    <ol class="usa-step-indicator__segments">
+      <li class="usa-step-indicator__segment
+        <%= "usa-step-indicator__segment--complete" if website.submitted? || website.published? %>
+        <%= "usa-step-indicator__segment--current" if website.created? %>"
+        aria-current="true">
+        <span class="usa-step-indicator__segment-label">Created</span>
+      </li>
+      <li class="usa-step-indicator__segment 
+        <%= "usa-step-indicator__segment--complete" if website.published? %> 
+        <%= "usa-step-indicator__segment--current" if website.submitted? %>" aria-current="true">
+        <span class="usa-step-indicator__segment-label">Submitted</span>
+      </li>
+      <li class="usa-step-indicator__segment 
+        <%= "usa-step-indicator__segment--complete" if website.published? %> 
+        <%= "usa-step-indicator__segment--current" if website.published? %>" aria-current="true">
+        <span class="usa-step-indicator__segment-label">Published</span>
+      </li>
+    </ol>
+  </div>
+</div>
+
+
+<div class="border border-base-lighter padding-2 margin-bottom-2">
+
+  <div class="font-sans-sm margin-bottom-1">
+    Website lifecycle status:
     <%= website.production_status %>
     <a
       href="#website-production-status-modal"
@@ -47,27 +116,19 @@
   <div class="usa-step-indicator" aria-label="progress">
     <ol class="usa-step-indicator__segments">
       <li class="usa-step-indicator__segment
-        <%= "usa-step-indicator__segment--complete" if website.created? || website.production? || website.redirect? || website.archived? || website.decommissioned? %>
-        <%= "usa-step-indicator__segment--current" if website.created? %>">
-        <span class="usa-step-indicator__segment-label">
-          Created
-          <% if website.created? %>
-            <span class="usa-sr-only">completed</span>
-          <% end %>
-        </span>
-      </li>
-      <li class="usa-step-indicator__segment
-        <%= "usa-step-indicator__segment--complete" if website.production? || website.redirect? || website.archived? || website.decommissioned? %>
+        <%= "usa-step-indicator__segment--complete" if website.staging? || website.production? || website.redirect? || website.archived? || website.decommissioned? %>
         <%= "usa-step-indicator__segment--current" if website.in_development? %>"
         aria-current="true">
         <span class="usa-step-indicator__segment-label">In development</span>
+      </li>
+      <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if website.production? || website.decommissioned? %> <%= "usa-step-indicator__segment--current" if website.staging? %>" aria-current="true">
+        <span class="usa-step-indicator__segment-label">Staging</span>
       </li>
       <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if website.redirect? || website.archived? || website.decommissioned? %> <%= "usa-step-indicator__segment--current" if website.production? %>" aria-current="true">
         <span class="usa-step-indicator__segment-label">Production</span>
       </li>
       <li class="usa-step-indicator__segment
-        <%= "usa-step-indicator__segment--complete" if website.decommissioned? %>
-        <%= "usa-step-indicator__segment--current" if website.archived? %>" aria-current="true">
+        <%= "usa-step-indicator__segment--current" if website.archived? || website.decommissioned? %>" aria-current="true">
         <span class="usa-step-indicator__segment-label">Decommissioned</span>
       </li>
     </ol>
