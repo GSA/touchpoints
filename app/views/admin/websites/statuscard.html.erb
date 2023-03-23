@@ -19,6 +19,13 @@ Website Status card for <%= @website.domain %>
             the identification and testing of objective GSA and federal website guidelines.
             A more comprehensive list of 21st Century IDEA requirements is published on
             <a href="https://digital.gov/resources/21st-century-integrated-digital-experience-act/">digital.gov</a>.
+            <br>
+            <br>
+            Results on this page are provided by passing the domain
+            <code><%= @website.domain %></code>
+            as an argument to the 
+            <a href="https://digital.gov/guides/site-scanning/" target="_blank">TTS Site Scanning</a>
+            API.
           </p>
         </div>
       </div>

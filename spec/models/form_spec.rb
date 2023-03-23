@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Form, type: :model do
   let(:organization) { FactoryBot.create(:organization) }
   let(:user) { FactoryBot.create(:user, organization:) }
-  let(:form) { FactoryBot.create(:form, :two_question_open_ended_form, organization:, user:) }
+  let!(:form) { FactoryBot.create(:form, :two_question_open_ended_form, organization:, user:) }
   let!(:submission) { FactoryBot.create(:submission, form:) }
 
   describe 'required attributes' do
@@ -46,17 +46,18 @@ RSpec.describe Form, type: :model do
 
     describe '#hashed_fields_for_export' do
       before do
-        second_form_section = form.form_sections.create(title: 'Section 2', position: 2)
         # questions are sorted by Form Section, then Position
-        q3 = form.questions.create!(answer_field: 'answer_03', text: '03', form_section_id: form.form_sections.first.id, question_type: 'text_field', position: 4)
-        q2 = form.questions.create!(answer_field: 'answer_05', text: '05', form_section_id: form.form_sections.first.id, question_type: 'text_field', position: 3)
-        q4 = form.questions.create!(answer_field: 'answer_10', text: '10', form_section_id: second_form_section.id, question_type: 'text_field', position: 5)
-        q5 = form.questions.create!(answer_field: 'answer_04', text: '04', form_section_id: second_form_section.id, question_type: 'text_field', position: 6)
+        q4 = form.form_sections.first.questions.create!(form: form, answer_field: 'answer_03', text: '03', question_type: 'text_field', position: 4)
+        q3 = form.form_sections.first.questions.create!(form: form, answer_field: 'answer_05', text: '05', question_type: 'text_field', position: 3)
+        
+        second_form_section = form.form_sections.create(title: 'Section 2', position: 2)
+        q5 = second_form_section.questions.create!(form: form, answer_field: 'answer_10', text: '10', question_type: 'text_field', position: 5)
+        q6 = second_form_section.questions.create!(form: form, answer_field: 'answer_04', text: '04', question_type: 'text_field', position: 6)
         form.reload
       end
 
       it "returns a hash of questions, location_code, and 'standard' attributes" do
-        expect(form.hashed_fields_for_export.class).to eq(Hash)
+        expect(form.hashed_fields_for_export.class).to eq(ActiveSupport::OrderedHash)
         expect(form.hashed_fields_for_export.keys).to eq([
           :id,
           :uuid,

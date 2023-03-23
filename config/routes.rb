@@ -62,7 +62,8 @@ Rails.application.routes.draw do
     resources :ivn_links
     resources :ivn_sources
     resources :ivn_components
-      get '/reporting/', to: 'reporting#index', as: :reporting
+    
+    get '/reporting/', to: 'reporting#index', as: :reporting
     get '/reporting/hisps/hisps', to: 'reporting#hisps', as: :hisps
     get '/reporting/hisps/hisp_services', to: 'reporting#hisp_services', as: :hisp_services
     get '/reporting/hisps/hisp_service_cx_data_collections', to: 'reporting#hisp_service_cx_data_collections', as: :hisp_service_cx_data_collections
@@ -193,9 +194,9 @@ Rails.application.routes.draw do
         get 'costs', to: 'websites#costs', as: :costs
         get 'statuscard', to: 'websites#statuscard', as: :statuscard
         get 'collection_request', to: 'websites@collection_request', as: :collection_request
-        post 'approve', to: 'websites#approve', as: :approve
-        post 'deny', to: 'websites#deny', as: :deny
-        post 'develop', to: 'websites#develop', as: :develop
+        post 'submit', to: 'websites#submit', as: :submit
+        post 'publish', to: 'websites#publish', as: :publish
+
         post 'stage', to: 'websites#stage', as: :stage
         post 'launch', to: 'websites#launch', as: :launch
         post 'redirect', to: 'websites#redirect', as: :redirect

@@ -6,7 +6,7 @@ module Api
       def index
         respond_to do |format|
           format.json do
-            render json: Website.active, each_serializer: WebsiteSerializer
+            render json: Website.published, each_serializer: WebsiteSerializer
           end
         end
       end

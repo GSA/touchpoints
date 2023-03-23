@@ -417,6 +417,7 @@
   <div class="desktop:grid-col-4">
     <% if website_permissions?(website: @website, user: current_user) %>
       <%= render 'admin/websites/tasks/bar', website: @website %>
+      <%= render 'admin/websites/tasks/status_bar', website: @website %>
     <% end %>
 
   <% if @website.organization.abbreviation == "GSA" %>
@@ -428,9 +429,9 @@
   <% end %>
 
   <% if organizational_website_manager_permissions?(user: current_user) %>
-    <%= link_to statuscard_admin_website_path(@website), class: "usa-button usa-button--outline width-full margin-top-2", target: "_blank" do %>
+    <%= link_to statuscard_admin_website_path(@website), class: "usa-button usa-button--outline width-full margin-top-2 margin-bottom-2", target: "_blank" do %>
       <i class="fa fa-check"></i>
-      Status card
+      Site Scanner
     <% end %>
   <% end %>
 

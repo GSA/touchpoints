@@ -5,8 +5,8 @@ module Admin
     before_action :set_paper_trail_whodunnit
 
     before_action :ensure_organizational_website_manager, only: %i[
-      approve
-      deny
+      submit
+      archive
       reset
       collection_preview
       collection_request
@@ -15,9 +15,8 @@ module Admin
 
     before_action :set_website, only: %i[
       show costs statuscard edit update destroy collection_request
-      approve
-      deny
-      develop
+      submit
+      publish
       stage
       launch
       redirect
@@ -41,7 +40,7 @@ module Admin
     }, only: %i[
       edit
       update
-      develop
+      publish
       stage
       launch
       redirect
@@ -83,7 +82,7 @@ module Admin
     end
 
     def review
-      @websites = Website.where(production_status: 'newly_requested').includes(:taggings).order(:production_status, :domain)
+      @websites = Website.where(aasm_state: 'created').includes(:taggings).order(:aasm_state, :domain)
       @tags = Website.tag_counts_by_name
     end
 
@@ -270,28 +269,63 @@ module Admin
       end
     end
 
-    def approve
-      if @website.approve!
-        Event.log_event(Event.names[:website_approved], 'Website', @website.id, "Website #{@website.domain} approved at #{DateTime.now}", current_user.id)
-        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} was approved."
+    def submit
+      if @website.submit!
+        Event.log_event(Event.names[:website_submitted],
+          'Website',
+          @website.id,
+          "Website #{@website.domain} submitted at #{DateTime.now}", current_user.id)
+
+        UserMailer.notification(
+          title: 'Website was submitted',
+          body: "Website #{@website.domain} submitted at #{DateTime.now} by #{current_user.email}",
+          path: admin_website_url(@website),
+          emails: (User.admins.collect(&:email) + User.registry_managers.collect(&:email)).uniq,
+        ).deliver_later
+
+        redirect_to admin_website_path(@website), notice: "Website #{@website.domain} was submitted."
       else
         render :edit
       end
     end
 
-    def deny
-      if @website.deny!
-        Event.log_event(Event.names[:website_denied], 'Website', @website.id, "Website #{@website.domain} denied at #{DateTime.now}", current_user.id)
-        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} was denied."
+    def publish
+      if @website.publish!
+        Event.log_event(Event.names[:website_published],
+          'Website',
+          @website.id,
+          "Website #{@website.domain} published at #{DateTime.now}", current_user.id)
+
+        UserMailer.notification(
+          title: 'Website was published',
+          body: "Website #{@website.domain} published at #{DateTime.now} by #{current_user.email}",
+          path: admin_website_url(@website),
+          emails: (User.admins.collect(&:email) + User.registry_managers.collect(&:email) + @website.website_managers.collect(&:email)).uniq,
+        ).deliver_later
+
+        redirect_to admin_website_path(@website), notice: "Website #{@website.domain} was published."
       else
         render :edit
       end
     end
 
-    def develop
-      if @website.start_development!
-        Event.log_event(Event.names[:website_start_development], 'Website', @website.id, "Website #{@website.domain} begins development at #{DateTime.now}", current_user.id)
-        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} in now in development."
+    def archive
+      ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
+
+      if @digital_service_account.archive!
+        Event.log_event(Event.names[:digital_service_account_archived],
+          'Digital Service Account',
+          @digital_service_account.id,
+          "Digital Service Account #{@digital_service_account.name} archived at #{DateTime.now}", current_user.id)
+
+        UserMailer.notification(
+          title: 'Digital Service Account was archived',
+          body: "Digital Service Account #{@digital_service_account.name} archived at #{DateTime.now} by #{current_user.email}",
+          path: admin_digital_service_account_url(@digital_service_account),
+          emails: (User.admins.collect(&:email) + User.registry_managers.collect(&:email)).uniq,
+        ).deliver_later
+
+        redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was archived."
       else
         render :edit
       end
@@ -345,7 +379,7 @@ module Admin
     def reset
       if @website.reset!
         Event.log_event(Event.names[:website_reset], 'Website', @website.id, "Website #{@website.domain} was reset at #{DateTime.now}", current_user.id)
-        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} has been reset to newly_requested status."
+        redirect_to admin_website_url(@website), notice: "Website #{@website.domain} has been reset to created status."
       else
         render :edit
       end

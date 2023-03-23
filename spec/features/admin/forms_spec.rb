@@ -1343,8 +1343,8 @@ feature 'Forms', js: true do
     end
 
     describe 'deleting Questions' do
-      let(:form2) { FactoryBot.create(:form, :custom, organization:, user: touchpoints_manager) }
-      let(:form_section2) { FactoryBot.create(:form_section, form: form2) }
+      let!(:form2) { FactoryBot.create(:form, :custom, organization:, user: touchpoints_manager) }
+      let!(:form_section2) { FactoryBot.create(:form_section, form: form2) }
       let!(:question) { FactoryBot.create(:question, form: form2, form_section: form_section2) }
 
       context 'with Form Manager permissions' do
@@ -1368,7 +1368,8 @@ feature 'Forms', js: true do
           let(:new_title) { 'New Form Section Title' }
 
           before do
-            visit questions_admin_form_path(form_section2.form)
+            form2.reload
+            visit questions_admin_form_path(form2)
             expect(find_all('.form-add-question').size).to eq(2)
 
             find_all('.form-add-question').first.click
@@ -1376,27 +1377,22 @@ feature 'Forms', js: true do
             select('text_field', from: 'question_question_type')
             click_on 'Update Question'
             # Select the Add Question button in the 2nd Form Section
-            form2.reload
             visit questions_admin_form_path(form2)
             expect(find_all('.form-add-question').size).to eq(2)
-            find_all('.form-add-question').last.click
+            find("#form_section_2").find('.form-add-question').click
             fill_in 'question_text', with: 'Question in Form Section 2'
             select('text_field', from: 'question_question_type')
             click_on 'Update Question'
-            # Wait for Add Question to appear
-            expect(page).to have_css('.form-add-question')
-            expect(page).to have_content("ANSWER_03")
-            form2.reload
-            visit questions_admin_form_path(form2)
-            # Wait for 2nd form section to render
-            expect(page).to have_css('#form_section_2')
+            # Wait for Add Question to re-appear
+            expect(page).to have_selector('.form-add-question', count: 2)
           end
-
+          
           it 'creates the question in the correct Form Section' do
-            within(first('.form-section-div')) do
+            within(('#form_section_1')) do
               expect(page).to have_content('Question in Form Section 1')
             end
             within('#form_section_2') do
+              expect(page).to have_content("ANSWER_03")
               expect(page).to have_content('Question in Form Section 2')
             end
           end

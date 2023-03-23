@@ -66,23 +66,17 @@ module ApplicationHelper
   # value = sort order
   def website_status_sort_values
     {
-      'newly_requested' => '1',
-      'request_approved' => '2',
-      'request_denied' => '3',
-      'in_development' => '4',
-      'production' => '5',
-      'being_decommissioned' => '6',
-      'redirect' => '7',
-      'archived' => '8',
-      'decommissioned' => '9',
+      'in_development' => '1',
+      'production' => '2',
+      'being_decommissioned' => '3',
+      'redirect' => '4',
+      'archived' => '5',
+      'decommissioned' => '6',
     }
   end
 
   def website_status_label_tags(status)
     {
-      'newly_requested' => 'bg-primary-light',
-      'request_approved' => 'bg-primary',
-      'request_denied' => 'bg-red',
       'in_development' => 'bg-blue',
       'production' => 'bg-mint',
       'being_decommissioned' => 'bg-accent-warm-dark',

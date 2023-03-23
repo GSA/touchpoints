@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_21_170414) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_23_222925) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -257,6 +257,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_21_170414) do
     t.integer "service_id"
     t.integer "questions_count", default: 0
     t.boolean "verify_csrf", default: true
+    t.string "submissions_tags", array: true
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["organization_id"], name: "index_forms_on_organization_id"
@@ -653,6 +654,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_21_170414) do
     t.integer "form_id"
     t.string "uuid"
     t.string "aasm_state", default: "received"
+    t.index ["created_at"], name: "index_submissions_on_created_at"
     t.index ["flagged"], name: "index_submissions_on_flagged"
     t.index ["form_id"], name: "index_submissions_on_form_id"
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
@@ -798,6 +800,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_21_170414) do
     t.integer "organization_id"
     t.string "backlog_tool", default: ""
     t.string "backlog_url", default: ""
+    t.string "aasm_state"
+    t.index ["aasm_state"], name: "index_websites_on_aasm_state"
     t.index ["organization_id"], name: "index_websites_on_organization_id"
     t.index ["service_id"], name: "index_websites_on_service_id"
   end
