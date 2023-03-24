@@ -119,6 +119,7 @@ feature 'Data Collections', js: true do
         before do
           visit edit_admin_collection_path(collection)
           expect(page).to have_content('Editing Data Collection')
+          expect(page).to have_selector("div.radio-button", count: 4)
           click_on 'Update Collection'
         end
 

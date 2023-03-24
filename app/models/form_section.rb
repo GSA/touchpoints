@@ -5,6 +5,7 @@ class FormSection < ApplicationRecord
   has_many :questions
 
   validates :position, presence: true
+  validates :position, uniqueness: { scope: :form_id }
 
   after_commit do |form_section|
     FormCache.invalidate(form_section.form.short_uuid) if form_section.persisted?

@@ -53,7 +53,6 @@ RSpec.describe Form, type: :model do
         second_form_section = form.form_sections.create(title: 'Section 2', position: 2)
         q5 = second_form_section.questions.create!(form: form, answer_field: 'answer_10', text: '10', question_type: 'text_field', position: 5)
         q6 = second_form_section.questions.create!(form: form, answer_field: 'answer_04', text: '04', question_type: 'text_field', position: 6)
-        form.reload
       end
 
       it "returns a hash of questions, location_code, and 'standard' attributes" do

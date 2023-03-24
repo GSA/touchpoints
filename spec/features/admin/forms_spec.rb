@@ -635,7 +635,7 @@ feature 'Forms', js: true do
             end
 
             describe 'with at least 2 Sections' do
-              let!(:form_section2) { FactoryBot.create(:form_section, form:) }
+              let!(:form_section2) { FactoryBot.create(:form_section, form:, position: 2) }
 
               before do
                 visit questions_admin_form_path(form)
@@ -1019,7 +1019,7 @@ feature 'Forms', js: true do
 
         describe 'deleting Questions' do
           let(:form2) { FactoryBot.create(:form, :custom, organization:, user: admin) }
-          let(:form_section2) { FactoryBot.create(:form_section, form: form2) }
+          let(:form_section2) { FactoryBot.create(:form_section, form: form2, position: 2) }
           let!(:question) { FactoryBot.create(:question, form: form2, form_section: form_section2) }
           let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form2) }
 
@@ -1344,7 +1344,7 @@ feature 'Forms', js: true do
 
     describe 'deleting Questions' do
       let!(:form2) { FactoryBot.create(:form, :custom, organization:, user: touchpoints_manager) }
-      let!(:form_section2) { FactoryBot.create(:form_section, form: form2) }
+      let!(:form_section2) { FactoryBot.create(:form_section, form: form2, position: 2) }
       let!(:question) { FactoryBot.create(:question, form: form2, form_section: form_section2) }
 
       context 'with Form Manager permissions' do
@@ -1368,9 +1368,8 @@ feature 'Forms', js: true do
           let(:new_title) { 'New Form Section Title' }
 
           before do
-            form2.reload
             visit questions_admin_form_path(form2)
-            expect(find_all('.form-add-question').size).to eq(2)
+            expect(page).to have_selector('.form-add-question', count: 2)
 
             find_all('.form-add-question').first.click
             fill_in 'question_text', with: 'Question in Form Section 1'
@@ -1388,7 +1387,7 @@ feature 'Forms', js: true do
           end
           
           it 'creates the question in the correct Form Section' do
-            within(('#form_section_1')) do
+            within('#form_section_1') do
               expect(page).to have_content('Question in Form Section 1')
             end
             within('#form_section_2') do

@@ -125,6 +125,7 @@ FactoryBot.define do
         FactoryBot.create(:question,
                           form: f,
                           answer_field: :answer_01,
+                          position: 1,
                           question_type: 'text_field',
                           form_section: f.form_sections.first,
                           text: 'Test Text Field')
@@ -132,6 +133,7 @@ FactoryBot.define do
         FactoryBot.create(:question,
                           form: f,
                           answer_field: :answer_02,
+                          position: 2,
                           question_type: 'textarea',
                           form_section: f.form_sections.first,
                           text: 'Test Open Area')
