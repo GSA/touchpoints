@@ -67,10 +67,9 @@ RSpec.describe Admin::QuestionsController, type: :controller do
 
   describe 'GET #new' do
     let(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin) }
-    let(:form_section) { FactoryBot.create(:form_section, form:, position: 1, title: 'Section1') }
 
     it 'returns a success response' do
-      get :new, params: { form_id: form.short_uuid, form_section_id: form_section.id }, session: valid_session
+      get :new, params: { form_id: form.short_uuid, form_section_id: form.form_sections.first.id }, session: valid_session
       expect(response).to be_successful
     end
   end

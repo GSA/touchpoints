@@ -133,7 +133,7 @@ RSpec.describe Admin::FormSectionsController, type: :controller do
 
   describe 'DELETE #destroy' do
     let(:form) { FactoryBot.create(:form, organization:, user: admin) }
-    let!(:form_section) { FactoryBot.create(:form_section, form:) }
+    let!(:form_section) { form.form_sections.first }
 
     before do
       sign_in(admin)

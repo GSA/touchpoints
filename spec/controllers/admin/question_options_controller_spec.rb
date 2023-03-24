@@ -67,8 +67,7 @@ RSpec.describe Admin::QuestionOptionsController, type: :controller do
 
   describe 'GET #new' do
     let(:form) { FactoryBot.create(:form, organization:, user: admin) }
-    let!(:form_section) { FactoryBot.create(:form_section, form:) }
-    let(:question) { FactoryBot.create(:question, :with_radio_buttons, form:, form_section:) }
+    let(:question) { FactoryBot.create(:question, :with_radio_buttons, form:, form_section: form.form_sections.first) }
 
     it 'returns a success response' do
       get :new, params: { form_id: form.id, question_id: question.id }, session: valid_session
