@@ -23,8 +23,10 @@
       updated
     <% elsif event.name == "website_state_changed" %>
       changed the website state
-    <% elsif event.name == "website_approved" %>
-      approved
+    <% elsif event.name == "website_submitted" %>
+      submitted
+    <% elsif event.name == "website_published" %>
+      published
     <% elsif event.name == "website_denied" %>
       denied
     <% elsif event.name == "website_deleted" %>

@@ -17,18 +17,14 @@ class Website < ApplicationRecord
   belongs_to :organization
   belongs_to :service, optional: true
 
-  scope :active, -> { where("production_status = 'production' OR production_status = 'newly_requested' OR production_status = 'request_approved'") }
+  scope :active, -> { where("production_status = 'production' OR aasm_state = 'created'") }
 
   PRODUCTION_STATUSES = {
-    'newly_requested' => 'Newly requested',
-    'request_approved' => 'Request approved',
-    'request_denied' => 'Request denied',
     'in_development' => 'In development',
     'staging' => 'Staging',
     'production' => 'Production',
     'being_decommissioned' => 'Being decommissioned',
     'redirect' => 'Redirect',
-    'archived' => 'Archived',
     'decommissioned' => 'Decommissioned',
   }.freeze
 
@@ -92,28 +88,39 @@ class Website < ApplicationRecord
     'None' => 'None',
   }.freeze
 
+  aasm do
+    state :created, initial: true
+    state :updated
+    state :submitted
+    state :published
+    state :archived
+
+    event :submit do
+      transitions from: %i[created updated], to: :submitted
+    end
+    event :publish do
+      transitions from: [:submitted], to: :published
+    end
+    event :archive do
+      transitions to: :archived
+    end
+    event :update_state do
+      transitions to: :updated
+    end
+    event :reset do
+      transitions to: :created
+    end
+  end
+
   aasm :production_status do
-    state :newly_requested, initial: true
-    state :request_approved
-    state :request_denied
-    state :in_development
+    state :in_development, initial: true
     state :staging
     state :production
     state :redirect
-    state :archived
     state :decommissioned
 
-    event :approve do
-      transitions from: [:newly_requested], to: :request_approved
-    end
-    event :deny do
-      transitions from: [:newly_requested], to: :request_denied
-    end
-    event :start_development do
-      transitions from: [:request_approved], to: :in_development
-    end
     event :stage do
-      transitions from: %i[in_development request_approved], to: :staging
+      transitions from: %i[in_development], to: :staging
     end
     event :launch do
       transitions from: %i[in_development staging], to: :production
@@ -121,14 +128,8 @@ class Website < ApplicationRecord
     event :redirect do
       transitions from: [:production], to: :redirect
     end
-    event :archive do
-      transitions from: %i[staging production], to: :archived
-    end
     event :decommission do
-      transitions from: %i[staging production archived redirect], to: :decommissioned
-    end
-    event :reset do
-      transitions to: :newly_requested
+      transitions from: %i[staging production redirect], to: :decommissioned
     end
   end
 
