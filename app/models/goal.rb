@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 class Goal < ApplicationRecord
+  resourcify
+
   belongs_to :organization
+  belongs_to :user, optional: true
   has_many :milestones
   has_many :objectives
   has_many :goal_targets
@@ -13,6 +16,9 @@ class Goal < ApplicationRecord
 
   scope :strategic_goals, -> { where(four_year_goal: true) }
   scope :annual_performance_goals, -> { where(four_year_goal: false) }
+
+  delegate :name, to: :organization, prefix: true
+  delegate :abbreviation, to: :organization, prefix: true
 
   TAGS = [
     'Administration of justice',
@@ -54,10 +60,15 @@ class Goal < ApplicationRecord
   def sponsoring_agencies
     Organization.where(id: organization_list)
   end
+  
+  def sponsoring_users
+    User.with_role(:sponsor, self)
+  end
 
-  delegate :name, to: :organization, prefix: true
 
-  delegate :abbreviation, to: :organization, prefix: true
+  def create_roles
+    service_owner.add_role :service_manager, self
+  end
 
   private
 

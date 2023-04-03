@@ -53,6 +53,42 @@ RSpec.describe '/goals', js: true do
         expect(page).to_not have_content(organization.name.upcase)
       end
     end
+
+    context "with one non-admin user" do
+      let!(:user) { FactoryBot.create(:user, organization:) }
+      
+      describe 'add user' do
+        let(:goal) { FactoryBot.create(:goal) }
+  
+        before 'fill-in the form' do
+          visit admin_goal_path(goal)
+  
+          select(user.email, from: 'sponsor_id')
+          find('body').click
+        end
+  
+        it 'creates a sponsor' do
+          expect(page).to have_css('.usa-tag', text: user.email.upcase)
+        end
+      end
+  
+      describe 'remove user' do
+        let(:goal) { FactoryBot.create(:goal) }
+  
+        before 'fill-in the form' do
+          user.add_role(:sponsor, goal)
+          visit admin_goal_path(goal)
+          expect(page).to have_css('.usa-tag', text: user.email.upcase)
+          find('.sponsors .remove-tag-link').click
+        end
+  
+        it 'removes the user' do
+          expect(page).to_not have_css('.usa-tag', text: user.email.upcase)
+          expect(page).to have_css('#sponsor_id option', text: user.email)
+        end
+      end
+    end
+
   end
 
   context 'logged in as a non-permissioned user' do

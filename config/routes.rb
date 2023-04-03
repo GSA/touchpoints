@@ -168,6 +168,8 @@ Rails.application.routes.draw do
         post 'remove_tag', to: 'goals#remove_tag', as: :remove_tag
         post 'add_organization', to: 'goals#add_organization', as: :add_organization
         post 'remove_organization', to: 'goals#remove_organization', as: :remove_organization
+        post 'add_sponsor', to: 'goals#add_sponsor', as: :add_sponsor
+        post 'remove_sponsor', to: 'goals#remove_sponsor', as: :remove_sponsor
       end
       resources :goal_targets
       resources :objectives do
