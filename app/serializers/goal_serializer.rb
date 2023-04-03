@@ -8,11 +8,15 @@ class GoalSerializer < ActiveModel::Serializer
              :name,
              :description,
              :tags,
-             :users,
              :four_year_goal,
              :position,
              :goal_statement,
              :challenge,
              :opportunity,
-             :notes
+             :notes,
+             :sponsoring_users      
+
+  def sponsoring_users
+    ActiveModel::Serializer::CollectionSerializer.new(object.sponsoring_users, serializer: UserSerializer)
+  end       
 end

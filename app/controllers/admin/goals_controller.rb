@@ -21,7 +21,10 @@ module Admin
          add_tag
          remove_tag
          add_organization
-         remove_organization]
+         remove_organization
+         add_sponsor
+         remove_sponsor
+        ]
 
     before_action :set_goal_tags, only: %i[show add_tag remove_tag]
 
@@ -86,6 +89,16 @@ module Admin
       @goal.organization_list.remove(params[:organization_id])
       @goal.save
       set_sponsoring_agency_options
+    end
+
+    def add_sponsor
+      @sponsor = User.find(params[:user_id])
+      @sponsor.add_role :sponsor, @goal unless @sponsor.has_role?(:sponsor, @goal)
+    end
+
+    def remove_sponsor
+      @sponsor = User.find(params[:user_id])
+      @sponsor.remove_role :sponsor, @goal
     end
 
     def update_organization_id
@@ -163,6 +176,7 @@ module Admin
     def goal_params
       params.require(:goal).permit(
         :organization_id,
+        :user_id,
         :name,
         :description,
         :statement,

@@ -30,6 +30,13 @@
       <%= render 'admin/goals/organizations', goal: @goal %>
     </div>
   </p>
+  <% unless @goal.four_year_goal %>
+  <p>
+    <div class="sponsors">
+      <%= render 'admin/goals/sponsors', goal: @goal %>
+    </div>
+  </p>
+  <% end %>
   <p>
     <% if @goal.four_year_goal %>
       <span class="usa-label font-sans-lg">Four Year Strategic Goal</span>
