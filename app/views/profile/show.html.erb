@@ -28,6 +28,26 @@
         <%= f.label :time_zone, class: "usa-label" %>
         <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone::MAPPING.keys.sort, selected: current_user.time_zone), { prompt: "Select a time zone" }, { class: "usa-select" } %>
       </div>
+      
+      <div class="grid-row grid-gap-6">
+        <div class="tablet:grid-col-6">
+          <div class="field">
+            <%= label_tag :first_name, nil, class: "usa-label" %>
+            <%= f.text_field :first_name, class: "usa-input" %>
+          </div>
+        </div>
+        <div class="tablet:grid-col-6">
+          <div class="field">
+            <%= label_tag :last_name, nil, class: "usa-label" %>
+            <%= f.text_field :last_name, class: "usa-input" %>
+          </div>
+        </div>
+      </div>
+      
+      <div class="field">
+        <%= label_tag :position_title, "Position title", class: "usa-label" %>
+        <%= f.text_field :position_title, class: "usa-input" %>
+      </div>
       <div class="field">
         <%= label_tag :api_key, "API Key", class: "usa-label" %>
         <%= f.text_field :api_key, class: "usa-input", placeholder: "40 character api.data.gov API Key" %>
