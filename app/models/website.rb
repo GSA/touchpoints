@@ -205,6 +205,10 @@ class Website < ApplicationRecord
     domain.split('.').size == 2
   end
 
+  def organization_name
+    organization ? organization.name : nil
+  end
+
   def login_supported
     return false if self.authentication_tool == nil
     return false if self.authentication_tool == ""
