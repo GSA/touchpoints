@@ -3,6 +3,8 @@
 class WebsiteSerializer < ActiveModel::Serializer
   attributes :id,
              :domain,
+             :organization_id,
+             :organization_name,
              :parent_domain,
              :office,
              # :office_id,
@@ -27,6 +29,8 @@ class WebsiteSerializer < ActiveModel::Serializer
              :uses_feedback,
              :feedback_tool,
              :sitemap_url,
+             :backlog_tool,
+             :backlog_url,
              :mobile_friendly,
              :has_search,
              :uses_tracking_cookies,

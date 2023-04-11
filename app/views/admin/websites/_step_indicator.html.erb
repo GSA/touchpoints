@@ -1,4 +1,4 @@
-<div class="border border-base-lighter padding-2 margin-bottom-2">
+<div class="border border-base-lighter padding-2 padding-bottom-0 margin-bottom-2">
 
   <div class="font-sans-sm margin-bottom-1">
     Publication status:
@@ -47,27 +47,32 @@
   <div class="usa-step-indicator" aria-label="progress">
     <ol class="usa-step-indicator__segments">
       <li class="usa-step-indicator__segment
-        <%= "usa-step-indicator__segment--complete" if website.submitted? || website.published? %>
+        <%= "usa-step-indicator__segment--complete" if website.submitted? || website.published? || website.archived? %>
         <%= "usa-step-indicator__segment--current" if website.created? %>"
         aria-current="true">
         <span class="usa-step-indicator__segment-label">Created</span>
       </li>
       <li class="usa-step-indicator__segment 
-        <%= "usa-step-indicator__segment--complete" if website.published? %> 
+        <%= "usa-step-indicator__segment--complete" if website.published? || website.archived? %> 
         <%= "usa-step-indicator__segment--current" if website.submitted? %>" aria-current="true">
         <span class="usa-step-indicator__segment-label">Submitted</span>
       </li>
       <li class="usa-step-indicator__segment 
-        <%= "usa-step-indicator__segment--complete" if website.published? %> 
+        <%= "usa-step-indicator__segment--complete" if website.published? || website.archived? %> 
         <%= "usa-step-indicator__segment--current" if website.published? %>" aria-current="true">
         <span class="usa-step-indicator__segment-label">Published</span>
+      </li>
+      <li class="usa-step-indicator__segment 
+        <%= "usa-step-indicator__segment--complete" if website.archived? %> 
+        <%= "usa-step-indicator__segment--current" if website.archived? %>" aria-current="true">
+        <span class="usa-step-indicator__segment-label">Archived</span>
       </li>
     </ol>
   </div>
 </div>
 
 
-<div class="border border-base-lighter padding-2 margin-bottom-2">
+<div class="border border-base-lighter padding-2 padding-bottom-0 margin-bottom-2">
 
   <div class="font-sans-sm margin-bottom-1">
     Website lifecycle status:
@@ -116,19 +121,28 @@
   <div class="usa-step-indicator" aria-label="progress">
     <ol class="usa-step-indicator__segments">
       <li class="usa-step-indicator__segment
-        <%= "usa-step-indicator__segment--complete" if website.staging? || website.production? || website.redirect? || website.archived? || website.decommissioned? %>
+        <%= "usa-step-indicator__segment--complete" if website.staging? || website.production? || website.redirect? || website.decommissioned? %>
         <%= "usa-step-indicator__segment--current" if website.in_development? %>"
         aria-current="true">
         <span class="usa-step-indicator__segment-label">In development</span>
       </li>
-      <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if website.production? || website.decommissioned? %> <%= "usa-step-indicator__segment--current" if website.staging? %>" aria-current="true">
+      <li class="usa-step-indicator__segment 
+        <%= "usa-step-indicator__segment--complete" if website.production? || website.decommissioned? || website.redirect? %> 
+        <%= "usa-step-indicator__segment--current" if website.staging? %>" aria-current="true">
         <span class="usa-step-indicator__segment-label">Staging</span>
       </li>
-      <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--complete" if website.redirect? || website.archived? || website.decommissioned? %> <%= "usa-step-indicator__segment--current" if website.production? %>" aria-current="true">
+      <li class="usa-step-indicator__segment 
+        <%= "usa-step-indicator__segment--complete" if website.redirect? || website.decommissioned? %> 
+        <%= "usa-step-indicator__segment--current" if website.production? %>" aria-current="true">
         <span class="usa-step-indicator__segment-label">Production</span>
       </li>
       <li class="usa-step-indicator__segment
-        <%= "usa-step-indicator__segment--current" if website.archived? || website.decommissioned? %>" aria-current="true">
+        <%= "usa-step-indicator__segment--complete" if website.redirect? || website.decommissioned? %> 
+        <%= "usa-step-indicator__segment--current" if website.redirect? %>" aria-current="true">
+        <span class="usa-step-indicator__segment-label">Redirect</span>
+      </li>
+      <li class="usa-step-indicator__segment
+        <%= "usa-step-indicator__segment--current" if website.decommissioned? %>" aria-current="true">
         <span class="usa-step-indicator__segment-label">Decommissioned</span>
       </li>
     </ol>
