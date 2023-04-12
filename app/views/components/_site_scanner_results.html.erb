@@ -1,29 +1,26 @@
 <% begin %>
 <% text = @website.site_scanner_json_request %>
-<% hash = JSON.parse(text) %>
+<% hash = JSON.parse(text)["items"].select { |item| item["final_url"] == "https://#{website.domain}/" }.first %>
 
 <h2>
   Site Scanner results
 </h2>
 
-<div class="grid-row">
-  <div class="grid-col-6">
-  </div>
-  <div class="grid-col-6">
-  </div>
-</div>
-
-<div class="grid-row">
-  <div class="grid-col-6">
-
-  </div>
-  <div class="grid-col-6">
-  </div>
-</div>
-
 <div class="well">
   <div class="grid-row">
     <div class="grid-col-6">
+      <div class="text-uppercase font-body-3xs">
+        Target URL Domain
+      </div>
+      <%= hash["target_url_domain"] %>
+      <br>
+      <br>
+      <div class="text-uppercase font-body-3xs">
+        Scan date
+      </div>
+      <%= hash["scan_date"] %>
+      <br>
+      <br>
       <div class="text-uppercase font-body-3xs">
         Web Domain
       </div>
@@ -121,7 +118,7 @@
         Latest Version
       </div>
       <!-- TODO: Automate. For now: Update by hand -->
-      2.11.2
+      3.4.1
     </div>
   </div>
 </div>

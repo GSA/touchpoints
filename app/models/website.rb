@@ -188,7 +188,7 @@ class Website < ApplicationRecord
   end
 
   def site_scanner_json_request
-    url = "https://api.gsa.gov/technology/site-scanning/v1/websites/#{domain}?api_key=#{ENV.fetch('API_DATA_GOV_KEY')}&limit=10"
+    url = "https://api.gsa.gov/technology/site-scanning/v1/websites?target_url_domain=#{domain}&api_key=#{ENV.fetch('API_DATA_GOV_KEY')}&limit=10"
     text = URI.open(url).read
   rescue StandardError => e
     "Error during Site Scanner API request for #{domain}.\n\n#{e}"

@@ -30,15 +30,21 @@
   </div>
   <div class="field">
     <%= form.label :service_provided, class: "usa-label" %>
+    <p class="font-sans-2xs text-muted">
+      Describe the service that is being measured.
+    </p>
     <%= form.text_field :service_provided, class: "usa-input", placeholder: "Description of the service provided", required: true %>
-  </div>
-  <div class="field">
-    <%= form.label :transaction_point, class: "usa-label" %>
-    <%= form.text_field :transaction_point, class: "usa-input", placeholder: "Transaction point at which survey is provided" %>
   </div>
   <div class="field">
     <%= form.label :channel, class: "usa-label" %>
     <%= form.select :channel, Service.channels, { prompt: "What type of response channel?" }, class: "usa-select" %>
+  </div>
+  <div class="field">
+    <%= form.label :transaction_point, class: "usa-label" %>
+    <p class="font-sans-2xs">
+      Describe at what point in the user journey is the user prompted to complete the survey.
+    </p>
+    <%= form.text_field :transaction_point, class: "usa-input" %>
   </div>
   <div class="field">
     <%= form.label :volume_of_customers, class: "usa-label" %>
@@ -58,7 +64,10 @@
   </div>
   <div class="field">
     <%= form.label :federal_register_url, class: "usa-label" %>
-    <%= form.text_field :federal_register_url, class: "usa-input", placeholder: "https://federalregister.gov/..." %>
+    <p class="font-sans-2xs text-muted">
+      Enter the <a href="https://www.reginfo.gov/" target="_blank">reginfo.gov</a> URL for the survey form.
+    </p>
+    <%= form.text_field :federal_register_url, class: "usa-input", placeholder: "https://www.reginfo.gov/...", required: true %>
   </div>
   <div class="field">
     <%= form.label :operational_metrics, class: "usa-label" %>
