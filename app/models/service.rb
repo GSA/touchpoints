@@ -149,7 +149,7 @@ class Service < ApplicationRecord
     services = Service.order('organizations.name').includes(:organization)
 
     example_service_attributes = Service.new.attributes
-    attributes = example_service_attributes.keys
+    attributes = example_service_attributes.keys + [:organization_name]
 
     CSV.generate(headers: true) do |csv|
       csv << attributes
