@@ -14,7 +14,7 @@
 <div>
   <div class="field">
     <%= form.label :collection_id, class: "usa-label" %>
-    <%= form.select :collection_id, options_for_select(@collections.map { |c| ["#{c.organization.name} - FY#{c.year}-Q#{c.quarter} #{c.name}", c.id]}, omb_cx_reporting_collection.collection_id), { include_blank: true }, class: "usa-select" %>
+    <%= form.select :collection_id, options_for_select(@collections.map { |c| ["#{c.organization.abbreviation} - #{c.organization.name} - FY#{c.year}-Q#{c.quarter} #{c.name}", c.id]}, omb_cx_reporting_collection.collection_id), { include_blank: true }, class: "usa-select" %>
   </div>
   <div class="field">
     <%= form.label :service_id, class: "usa-label" %>
@@ -23,9 +23,9 @@
       <%= link_to "here", admin_services_path, target: "_blank", rel: "noopener" %>.
     </p>
     <% if @collection %>
-      <%= form.select :service_id, @collection.organization.services.includes(:organization).order("organizations.name", :name).map { |h| ["#{h.organization.name} - #{h.name}", h.id] }, { prompt: "For which Service?" }, class: "usa-select" %>
+      <%= form.select :service_id, @collection.organization.services.includes(:organization).order("organizations.name", :name).map { |h| ["#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", h.id] }, { prompt: "For which Service?" }, class: "usa-select" %>
     <% else %>
-      <%= form.select :service_id, Service.all.includes(:organization).order("organizations.name", :name).map { |h| ["#{h.organization.name} - #{h.name}", h.id] }, { prompt: "For which Service?" }, class: "usa-select" %>
+      <%= form.select :service_id, Service.all.includes(:organization).order("organizations.name", :name).map { |h| ["#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", h.id] }, { prompt: "For which Service?" }, class: "usa-select" %>
     <% end %>
   </div>
   <div class="field">
