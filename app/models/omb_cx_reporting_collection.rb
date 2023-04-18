@@ -29,7 +29,7 @@ class OmbCxReportingCollection < ApplicationRecord
   end
 
   def federal_register_url
-    super || 'Federal Register URL'
+    super || 'https:///www.reginfo.gov/...'
   end
 
   def q1_point_scale
