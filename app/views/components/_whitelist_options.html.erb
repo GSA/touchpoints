@@ -15,13 +15,13 @@
     <div class="grid-col-12">
       <div class="field">
         <%= f.label :whitelist_url, "URL where survey will display on your website", class: "usa-label" %>
-        <%= f.text_field :whitelist_url, class: "usa-input", placeholder: "https://example.gov" %>
+        <%= f.url_field :whitelist_url, class: "usa-input", placeholder: "https://example.gov" %>
       </div>
     </div>
     <div class="grid-col-12">
       <div class="field">
         <%= f.label :whitelist_test_url, "URL for staging or testing site where survey will display", class: "usa-label" %>
-        <%= f.text_field :whitelist_test_url, class: "usa-input", placeholder: "https://staging.example.gov" %>
+        <%= f.url_field :whitelist_test_url, class: "usa-input", placeholder: "https://staging.example.gov" %>
       </div>
     </div>
   </div>

@@ -45,7 +45,11 @@ module Admin
         .page(params[:page])
     end
 
-    def show; end
+    def show
+      @events = Event.where(object_type: "Digital Product", object_id: @digital_product.id.to_s)
+        .includes(:user)
+        .order("created_at DESC")
+    end
 
     def new
       @digital_product = DigitalProduct.new
