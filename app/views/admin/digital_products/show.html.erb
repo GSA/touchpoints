@@ -42,14 +42,6 @@
     </p>
 
     <p>
-      <%= label_tag "Status", nil, class: "usa-label" %>
-      <br>
-      <span class="usa-tag">
-        <%= @digital_product.aasm_state %>
-      </span>
-    </p>
-
-    <p>
       <%= label_tag "Short description", nil, class: "usa-label" %>
       <br>
       <%= to_markdown(@digital_product.short_description) %>

@@ -10,7 +10,7 @@
         <% end %>
       <% end %>
     <% end %>
-    
+
     <p>
       <%= link_to admin_digital_service_accounts_path do %>
         <i class="fa fa-arrow-circle-left"></i>
@@ -49,12 +49,6 @@
     <p>
       <%= label_tag "Service URL", nil, class: "usa-label" %>
       <%= @digital_service_account.service_url? ? link_to(@digital_service_account.service_url, @digital_service_account.service_url, target: "_blank", rel: "noopener") : '' %>
-    </p>
-
-    <p>
-      <%= label_tag "Status", nil, class: "usa-label" %>
-      <br>
-      <span class="usa-tag"><%= @digital_service_account.aasm_state %></span>
     </p>
 
     <p>
