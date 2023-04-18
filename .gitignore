@@ -28,6 +28,7 @@
 # Don't check in these things
 .env.development
 .manifest.yml
+.csv
 
 # For Macs
 .DS_Store

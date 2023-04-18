@@ -1,29 +1,36 @@
-<% content_for :navigation_title do %>
-  Social Media Account: <%= @digital_service_account.service %>
+<div class="grid-row grid-gap-lg">
+  <div class="grid-col-12">
+    <% content_for :navigation_title do %>
+      Social Media Account: <%= @digital_service_account.service %>
 
-  <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
-    <%= link_to edit_admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button-inverted float-right" do %>
-      <i class="fa fa-pencil-alt"></i>
-      Edit
+      <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
+        <%= link_to edit_admin_digital_service_account_path(@digital_service_account), class: "usa-button usa-button-inverted float-right" do %>
+          <i class="fa fa-pencil-alt"></i>
+          Edit
+        <% end %>
+      <% end %>
     <% end %>
-  <% end %>
-<% end %>
-<p>
-  <%= link_to admin_digital_service_accounts_path do %>
-    <i class="fa fa-arrow-circle-left"></i>
-    Back to Social Media Accounts
-  <% end %>
-</p>
 
-<% if @digital_service_account.archived? %>
-  <div class="usa-alert usa-alert--warning margin-bottom-2">
-    <div class="usa-alert__body">
-      <p class="usa-alert__text">
-        This social media account has been archived.
-      </p>
-    </div>
+    <p>
+      <%= link_to admin_digital_service_accounts_path do %>
+        <i class="fa fa-arrow-circle-left"></i>
+        Back to Social Media Accounts
+      <% end %>
+    </p>
+
+    <% if @digital_service_account.archived? %>
+      <div class="usa-alert usa-alert--warning margin-bottom-2">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            This social media account has been archived.
+          </p>
+        </div>
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>
+
+<%= render 'admin/digital_service_accounts/step_indicator', account: @digital_service_account %>
 
 <div class="grid-row grid-gap-lg">
   <div class="tablet:grid-col-8">
@@ -42,12 +49,6 @@
     <p>
       <%= label_tag "Service URL", nil, class: "usa-label" %>
       <%= @digital_service_account.service_url? ? link_to(@digital_service_account.service_url, @digital_service_account.service_url, target: "_blank", rel: "noopener") : '' %>
-    </p>
-
-    <p>
-      <%= label_tag "Status", nil, class: "usa-label" %>
-      <br>
-      <span class="usa-tag"><%= @digital_service_account.aasm_state %></span>
     </p>
 
     <p>
@@ -172,7 +173,7 @@
   <% end %>
 
   <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
-    <%= render 'components/event_log', events: Event.where(object_type: "Digital Service Account", object_id: @digital_service_account.id.to_s ).order("created_at DESC") %>
+    <%= render 'components/event_log', events: @events %>
   <% end %>
   </div>
 </div>

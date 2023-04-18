@@ -52,7 +52,12 @@ module Admin
         .page(params[:page])
     end
 
-    def show; end
+    def show
+      @events = Event
+        .where(object_type: "Digital Service Account", object_id: @digital_service_account.id.to_s)
+        .includes(:user)
+        .order("created_at DESC")
+    end
 
     def new
       @digital_service_account = DigitalServiceAccount.new
