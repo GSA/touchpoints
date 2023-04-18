@@ -482,14 +482,14 @@ feature 'Forms', js: true do
 
         describe 'editing the whitelist url' do
           before do
-            fill_in 'form_whitelist_url', with: 'example.com'
+            fill_in 'form_whitelist_url', with: 'https://example.com'
             click_on 'Update Form'
           end
 
           it 'can edit existing Form' do
             expect(page).to have_content('Form was successfully updated.')
             expect(page.current_path).to eq(delivery_admin_form_path(form))
-            expect(find('#form_whitelist_url').value).to eq('example.com')
+            expect(find('#form_whitelist_url').value).to eq('https://example.com')
           end
         end
 

@@ -31,7 +31,7 @@
 
   <div class="field">
     <%= f.label :service_provider_id, "HISP Service Provider", class: "usa-label" %>
-    <%= f.select :service_provider_id, ServiceProvider.all.map { |h| ["#{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, class: "usa-select" %>
+    <%= f.select :service_provider_id, ServiceProvider.all.map { |h| ["#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, class: "usa-select" %>
   </div>
 
   <div class="field">
