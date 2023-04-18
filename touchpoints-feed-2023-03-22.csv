@@ -1,2 +1,0 @@
-organization_id,organization_name,form_id,form_name,submission_id,question_id,user_id,question_text,response_text,question_with_response_text,created_at
-1,Example.gov 379,1,Open-ended Test form,1,1,,Test Open Area,submission response body text,Test Open Area: submission response body text,2023-03-23 04:19:24 UTC
