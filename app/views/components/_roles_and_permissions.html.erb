@@ -129,37 +129,20 @@
     </div>
 
     <div class="well">
-      <%= form_with(model: current_user, url: "invite", local: true) do |f| %>
-        <div class="grid-row grid-gap-md">
-          <div class="tablet:grid-col-12">
-            <p>
-              Don't see a user in the dropdown?
-            </p>
+      <div class="grid-row grid-gap-md">
+        <div class="tablet:grid-col-12 usa-prose">
+          <p class="text-bold">
+            Don't see a user in the User dropdown?
+          </p>
 
-            <div class="field">
-              <%= label_tag :refer_user, "Invite a colleague to Touchpoints", class: "usa-label" %>
-              <%= f.email_field :refer_user, class: "usa-input", placeholder: "user@example.gov" %>
-            </div>
-          </div>
+          <%= link_to "Invite a User to Touchpoints", admin_invite_path, class: "usa-button usa-button--outline full-width" %>
+
+          <p>
+            After the user signs into Touchpoints, they will be available to select in the user dropdown.
+          </p>
         </div>
-        <div class="field">
-          <br>
-          <%= f.submit "Invite User", class: "usa-button", id: "invite-button", disabled: true %>
-          <br>
-        </div>
-      <% end %>
+      </div>
     </div>
+
   </div>
 </div>
-
-<script>
-  $(function(){
-    $("#user_refer_user").on("keyup", function(event) {
-      if(event.target.value != '' && event.target.value.length > 5) {
-        $("#invite-button").attr('disabled', false);
-      } else {
-        $("#invite-button").attr('disabled', true);
-      }
-    });
-  });
-</script>

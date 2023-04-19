@@ -56,7 +56,7 @@ class Form < ApplicationRecord
   end
 
   DELIVERY_METHODS = [
-    ['touchpoints-hosted-only', 'Hosted on the Touchpoints site'],
+    ['touchpoints-hosted-only', 'Hosted on Touchpoints'],
     ['modal', 'Blue button & modal on your website'],
     ['custom-button-modal', 'Custom button & modal on your website'],
     ['inline', 'Embedded inline on your website'],
