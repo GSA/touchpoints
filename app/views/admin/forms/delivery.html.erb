@@ -70,8 +70,8 @@
           <br>
           <legend class="usa-sr-only">Delivery methods</legend>
           <% Form::DELIVERY_METHODS.each_with_index do |delivery_method, index| %>
-            <div class="usa-checkbox">
-              <%= f.radio_button :delivery_method, delivery_method[0], class: "usa-radio__input" %>
+            <div class="usa-radio">
+              <%= f.radio_button :delivery_method, delivery_method[0], class: "usa-radio__input usa-radio__input--tile" %>
               <%= f.label delivery_method[1], class: "usa-radio__label", for: "form_delivery_method_#{delivery_method[0]}" %>
             </div>
           <% end %>
