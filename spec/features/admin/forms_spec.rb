@@ -143,7 +143,7 @@ feature 'Forms', js: true do
           find('label', text: 'Display square (80px wide by 80px tall) logo?').click
           click_on 'Update logo'
           click_on 'Delivery'
-          find('label', text: 'Hosted only on the touchpoints site').click
+          find('label', text: 'Hosted on touchpoints').click
           click_on 'Update Form'
           expect(page).to have_content('Form was successfully updated.')
           visit example_admin_form_path(Form.last)
@@ -166,7 +166,7 @@ feature 'Forms', js: true do
           find('label', text: 'Display square (80px wide by 80px tall) logo?').click
           click_on 'Update logo'
           click_on 'Delivery'
-          find('label', text: 'Embedded inline on your site').click
+          find('label', text: 'Embedded inline on your website').click
           fill_in('form_element_selector', with: 'test_selector')
           click_on 'Update Form'
           expect(page).to have_content('Form was successfully updated.')
@@ -1551,20 +1551,20 @@ feature 'Forms', js: true do
 
     context 'with a valid email' do
       before do
-        visit permissions_admin_form_path(form)
+        visit admin_invite_path(form)
       end
 
       it 'sends an invite to the designated user' do
         fill_in('user[refer_user]', with: 'newuser@domain.gov')
         click_on 'Invite User'
         expect(page).to have_content('Invite sent to newuser@domain.gov')
-        expect(page.current_path).to eq(permissions_admin_form_path(form))
+        expect(page.current_path).to eq(admin_invite_path)
       end
     end
 
     context 'with an invalid email' do
       before do
-        visit permissions_admin_form_path(form)
+        visit admin_invite_path
       end
 
       it 'initially disabled button shows an alert when at least 6 characters of an invalid email address is provided' do
@@ -1577,14 +1577,14 @@ feature 'Forms', js: true do
         expect(find("#invite-button").disabled?).to be(false)
         click_on 'Invite User'
         expect(page).to have_content('Please enter a valid .gov or .mil email address')
-        expect(page.current_path).to eq(permissions_admin_form_path(form))
+        expect(page.current_path).to eq(admin_invite_path)
       end
 
       it 'shows a gov-specific user alert when the email address is not a valid email' do
         fill_in('user[refer_user]', with: 'test@example.com')
         click_on 'Invite User'
         expect(page).to have_content('Please enter a valid .gov or .mil email address')
-        expect(page.current_path).to eq(permissions_admin_form_path(form))
+        expect(page.current_path).to eq(admin_invite_path)
       end
 
       context 'when using GitHub for oAuth' do
@@ -1609,7 +1609,7 @@ feature 'Forms', js: true do
         fill_in('user[refer_user]', with: user.email)
         click_on 'Invite User'
         expect(page).to have_content("User with email #{user.email} already exists")
-        expect(page.current_path).to eq(permissions_admin_form_path(form))
+        expect(page.current_path).to eq(admin_invite_path)
       end
     end
   end
