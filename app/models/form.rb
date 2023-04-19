@@ -56,10 +56,10 @@ class Form < ApplicationRecord
   end
 
   DELIVERY_METHODS = [
-    ['touchpoints-hosted-only', 'Hosted only on the Touchpoints site'],
-    ['modal', 'Tab button & modal'],
-    ['custom-button-modal', 'Custom button & modal'],
-    ['inline', 'Embedded inline on your site'],
+    ['touchpoints-hosted-only', 'Hosted on Touchpoints'],
+    ['modal', 'Blue button & modal on your website'],
+    ['custom-button-modal', 'Custom button & modal on your website'],
+    ['inline', 'Embedded inline on your website'],
   ].freeze
 
   def suppress_submit_button
