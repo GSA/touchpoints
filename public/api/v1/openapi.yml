@@ -297,3 +297,8 @@
             type: "string"
           cfo_act_agency: 
             type: "boolean"
+      PublicUser:
+        type: object
+        properties: 
+          email: 
+            type: "string"
