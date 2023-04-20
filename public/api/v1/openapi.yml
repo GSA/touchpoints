@@ -236,3 +236,64 @@
         type: array
         items:
           $ref: '#/components/schemas/Submission'
+      Organization:
+        type: object
+        required:
+          - id
+          - name
+          - abbreviation
+          - domain
+        properties: 
+          id: 
+            type: "number"
+          name: 
+            type: "string"
+          url: 
+            type: "string"
+          abbreviation: 
+            type: "string"
+          domain: 
+            type: "string"
+          logo: 
+            required: 
+              - "url"
+              - "thumb"
+              - "card"
+              - "tag"
+              - "logo_square"
+            properties: 
+              thumb: 
+                required: 
+                  - "url"
+                properties: {}
+                type: "object"
+              card: 
+                required: 
+                  - "url"
+                properties: {}
+                type: "object"
+              tag: 
+                required: 
+                  - "url"
+                properties: {}
+                type: "object"
+              logo_square: 
+                required: 
+                  - "url"
+                properties: {}
+                type: "object"
+            type: "object"
+          digital_analytics_path: 
+            type: "string"
+          mission_statement: 
+            type: "string"
+          mission_statement_url: 
+            type: "string"
+          performance_url: 
+            type: "string"
+          strategic_plan_url: 
+            type: "string"
+          learning_agenda_url: 
+            type: "string"
+          cfo_act_agency: 
+            type: "boolean"
