@@ -69,6 +69,42 @@
                         attributes:
                           type: object
                           $ref: '#/components/schemas/Form'
+    /digital_products:
+      get:
+        summary: List published digital products (Mobile Apps)
+        operationId: digital_products
+        tags:
+          - digital_products
+        responses:
+          '200':
+            description: Returns an array of digital_products
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/DigitalProduct'                          
+    /digital_service_accounts:
+      get:
+        summary: List published digital service accounts (Social Media Accounts)
+        operationId: digital_service_accounts
+        tags:
+          - digital_service_accounts
+        responses:
+          '200':
+            description: Returns an array of digital_service_accounts
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/DigitalServiceAccount'                          
   components:
     securitySchemes:
       ApiKeyAuth:
@@ -282,7 +318,7 @@
                   - "url"
                 properties: {}
                 type: "object"
-            type: "object"
+            type: object
           digital_analytics_path: 
             type: "string"
           mission_statement: 
@@ -302,3 +338,39 @@
         properties: 
           email: 
             type: "string"
+      DigitalProduct:
+        type: object
+      DigitalProducts:
+        type: array
+        items:
+      DigitalServiceAccount:
+        type: object
+        properties: 
+          name: 
+            type: "string"
+          account: 
+            type: "string"
+          status: 
+            type: "string"
+          agencies:
+            type: array
+            items:
+              $ref: '#/components/schemas/Organization'
+          contacts: 
+            type: "array"
+            items:
+              $ref: '#/components/schemas/PublicUser'
+          service_url: 
+            type: "string"
+          short_description: 
+            type: "string"
+          long_description: 
+            type: "string"
+          tags: 
+            type: "array"
+            items: 
+              type: "string"
+      DigitalServiceAccounts:
+        type: array
+        items:
+          $ref: '#/components/schemas/DigitalServiceAccount'
