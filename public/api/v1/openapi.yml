@@ -69,6 +69,49 @@
                         attributes:
                           type: object
                           $ref: '#/components/schemas/Form'
+    /websites:
+      get:
+        summary: List published websites
+        operationId: websites
+        tags:
+          - websites
+        responses:
+          '200':
+            description: Returns an array of websites
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Website'                          
+    '/websites/{id}/':
+      summary: returns one website record
+      description: returns one website record
+      get:
+        operationId: websites#show
+        tags:
+          - websites
+        parameters:
+          - in: path
+            name: id
+            description: ID of the website
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Returns one form
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: object
+                      $ref: '#/components/schemas/Website'                                             
     /digital_products:
       get:
         summary: List published digital products (Mobile Apps)
@@ -338,11 +381,58 @@
         properties: 
           email: 
             type: "string"
+      Website:
+        type: object
+      Websites:
+        type: array
+        items:
+          $ref: '#/components/schemas/Website'
       DigitalProduct:
         type: object
+        required: 
+          - "data"
+        properties: 
+          type: "object"
+          data: 
+            required: 
+              - "id"
+              - "type"
+              - "attributes"
+            properties: 
+              type: "object"
+              id: 
+                type: "string"
+              type: 
+                type: "string"
+              attributes: 
+                required: 
+                  - "service"
+                  - "status"
+                properties: 
+                  agencies: 
+                    type: "array"
+                    items: 
+                      $ref: '#/components/schemas/Organization'
+                  contacts: 
+                    type: "array"
+                    items: 
+                      $ref: '#/components/schemas/PublicUser'
+                  language: 
+                    type: "string"
+                  status: 
+                    type: "string"
+                  short_description: 
+                    type: "string"
+                  long_description: 
+                    type: "string"
+                  tags: 
+                    type: "array"
+                    items: 
+                      type: "string"
       DigitalProducts:
         type: array
         items:
+          $ref: '#/components/schemas/DigitalProduct'
       DigitalServiceAccount:
         type: object
         properties: 
@@ -371,6 +461,9 @@
             items: 
               type: "string"
       DigitalServiceAccounts:
-        type: array
-        items:
-          $ref: '#/components/schemas/DigitalServiceAccount'
+        type: object
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/DigitalServiceAccount'
