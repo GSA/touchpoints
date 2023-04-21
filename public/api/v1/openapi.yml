@@ -392,17 +392,14 @@
         required: 
           - "data"
         properties: 
-          type: "object"
           data: 
+            type: object
             required: 
               - "id"
               - "type"
               - "attributes"
             properties: 
-              type: "object"
               id: 
-                type: "string"
-              type: 
                 type: "string"
               attributes: 
                 required: 
