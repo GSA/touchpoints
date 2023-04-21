@@ -19,7 +19,7 @@
     - name: TP
       description: Touchpoints
   paths:
-    /forms:
+    /forms.json:
       get:
         summary: List available data sets
         operationId: forms
@@ -37,7 +37,7 @@
                       type: array
                       items:
                         $ref: '#/components/schemas/Form'
-    '/forms/{id}/':
+    '/forms/{id}.json':
       summary: Provides the general information about the API and the list of fields that can be used to query the dataset.
       description: This GET API returns the list of all the searchable field names that are in the oa_citations. Please see the 'fields' attribute which returns an array of field names. Each field or a combination of fields can be searched using the syntax options shown below.
       get:
@@ -69,7 +69,7 @@
                         attributes:
                           type: object
                           $ref: '#/components/schemas/Form'
-    /websites:
+    /websites.json:
       get:
         summary: List published websites
         operationId: websites
@@ -87,7 +87,7 @@
                       type: array
                       items:
                         $ref: '#/components/schemas/Website'                          
-    '/websites/{id}/':
+    '/websites/{id}.json':
       summary: returns one website record
       description: returns one website record
       get:
@@ -112,7 +112,7 @@
                     data:
                       type: object
                       $ref: '#/components/schemas/Website'                                             
-    /digital_products:
+    /digital_products.json:
       get:
         summary: List published digital products (Mobile Apps)
         operationId: digital_products
@@ -130,7 +130,32 @@
                       type: array
                       items:
                         $ref: '#/components/schemas/DigitalProduct'                          
-    /digital_service_accounts:
+    '/digital_products/{id}.json':
+      summary: returns one digital product record
+      description: returns one digital product record
+      get:
+        operationId: digital_products#show
+        tags:
+          - digital_products
+        parameters:
+          - in: path
+            name: id
+            description: ID of the digital product
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Returns one digital product
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: object
+                      $ref: '#/components/schemas/DigitalProduct'         
+    /digital_service_accounts.json:
       get:
         summary: List published digital service accounts (Social Media Accounts)
         operationId: digital_service_accounts
@@ -148,6 +173,31 @@
                       type: array
                       items:
                         $ref: '#/components/schemas/DigitalServiceAccount'                          
+    '/digital_service_accounts/{id}.json':
+      summary: returns one digital service account record
+      description: returns one digital service account record
+      get:
+        operationId: digital_service_accounts#show
+        tags:
+          - digital_service_accounts
+        parameters:
+          - in: path
+            name: id
+            description: ID of the digital service account
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Returns one digital service account
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      type: object
+                      $ref: '#/components/schemas/DigitalServiceAccount'
   components:
     securitySchemes:
       ApiKeyAuth:
