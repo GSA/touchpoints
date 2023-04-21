@@ -1,11 +1,11 @@
   openapi: 3.0.1
   info:
-    description: The Touchpoints API allows agencys users to programatically read Forms and Responses.
+    description: The Touchpoints API allows users to programatically read Forms and Responses.
     version: 1.0.0
     title: Touchpoints API
     contact:
       name: Touchpoints
-      url: 'https://touchpoints.digital.gov'
+      url: 'https://touchpoints.digital.gov/'
       email: feedback-analytics@gsa.gov
   servers:
     - url: 'https://api.gsa.gov/analytics/touchpoints/v1/'
