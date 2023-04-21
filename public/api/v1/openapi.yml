@@ -8,7 +8,7 @@
       url: 'https://touchpoints.digital.gov'
       email: feedback-analytics@gsa.gov
   servers:
-    - url: 'https://api.data.gov/analytics/touchpoints/v1/'
+    - url: 'https://api.gsa.gov/analytics/touchpoints/v1/'
       variables:
         scheme:
           description: API responses are available via https only
