@@ -72,7 +72,10 @@
     <p>
       <strong>Service type</strong>
       <br>
-      <%= @service.kind %>
+      <% @service.kind.each do |i| %>
+        <%= i %>
+        <br>          
+      <% end %>
     </p>
 
     <div class="well">
