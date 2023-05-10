@@ -1,6 +1,6 @@
   openapi: 3.0.1
   info:
-    description: The Touchpoints API allows users to programatically read Forms and Responses.
+    description: The Touchpoints API enables users to read Forms, Responses, and other Customer Experience data.
     version: 1.0.0
     title: Touchpoints API
     contact:
@@ -57,18 +57,9 @@
             content:
               application/json:
                 schema:
-                  type: object
-                  properties:
-                    data:
-                      type: object
-                      properties:
-                        id:
-                          type: string
-                        type:
-                          type: string
-                        attributes:
-                          type: object
-                          $ref: '#/components/schemas/Form'
+                  type: array
+                  items: 
+                    $ref: '#/components/schemas/Form'
     /websites.json:
       get:
         summary: List published websites
@@ -205,89 +196,236 @@
         in: header
         name: X-API-KEY
     schemas:
+      Channel:
+        required: 
+          - "id"
+          - "name"
+          - "created_at"
+          - "updated_at"
+        properties: 
+          id: 
+            type: "number"
+            example: 39
+          name: 
+            type: "string"
+            example: "website"
+          created_at: 
+            type: "string"
+            example: "2022-01-20T20:44:35.603Z"
+          updated_at: 
+            type: "string"
+            example: "2022-01-20T20:44:35.603Z"
       Form:
         type: object
         required:
           - id
           - name
-        properties:
-          id:
-            type: integer
-            format: int32
-          type:
-            type: string
-          attributes:
-            type: object
-            properties:
-              uuid:
-                type: string
-                format: uuid
-              organization_id:
-                type: integer
-                format: int32
-              name:
-                type: string
-              instructions:
-                type: string
-              kind:
-                type: string
-              notes:
-                type: string
-              status:
-                type: string
-              created_at:
-                type: string
-              updated_at:
-                type: string
-              element_selector:
-                type: string
-              whitelist_url:
-                type: string
-              whitelist_test_url:
-                type: string
-              display_header_logo:
-                type: boolean
-              display_header_square_logo:
-                type: boolean
-              early_submission:
-                type: boolean
-              template:
-                type: boolean
-              load_css:
-                type: boolean
-              logo:
-                type: object
-              success_text:
-                type: string
-              modal_button_text:
-                type: string
-              omb_approval_number:
-                type: string
-              expiration_date:
-                type: string
-              federal_register_url:
-                type: string
-              service_name:
-                type: string
-              survey_instrument_reference:
-                type: string
-              survey_form_activations:
-                type: integer
-                format: int32
-              anticipated_delivery_count:
-                type: integer
-                format: int32
-              relationships:
-                type: object
-                properties:
-                  submissions:
-                    type: object
-                    properties:
-                      data:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/Submission'
-
+        properties: 
+            id: 
+              type: "string"
+            type: 
+              type: "string"
+            attributes: 
+              required: 
+                - "page"
+                - "size"
+                - "start_date"
+                - "end_date"
+                - "name"
+                - "title"
+                - "instructions"
+                - "disclaimer_text"
+                - "kind"
+                - "notes"
+                - "status"
+                - "created_at"
+                - "updated_at"
+                - "whitelist_url"
+                - "whitelist_test_url"
+                - "display_header_logo"
+                - "success_text_heading"
+                - "success_text"
+                - "modal_button_text"
+                - "display_header_square_logo"
+                - "early_submission"
+                - "user_id"
+                - "template"
+                - "uuid"
+                - "short_uuid"
+                - "organization_id"
+                - "omb_approval_number"
+                - "expiration_date"
+                - "medium"
+                - "federal_register_url"
+                - "anticipated_delivery_count"
+                - "service_name"
+                - "data_submission_comment"
+                - "survey_instrument_reference"
+                - "agency_poc_email"
+                - "agency_poc_name"
+                - "department"
+                - "bureau"
+                - "notification_emails"
+                - "aasm_state"
+                - "delivery_method"
+                - "element_selector"
+                - "survey_form_activations"
+                - "load_css"
+                - "logo"
+                - "time_zone"
+                - "response_count"
+                - "last_response_created_at"
+              properties: 
+                page: 
+                  type: "number"
+                size: 
+                  type: "number"
+                start_date: 
+                  type: "string"
+                end_date: 
+                  type: "string"
+                name: 
+                  type: "string"
+                title: 
+                  type: "string"
+                instructions: 
+                  type: "string"
+                disclaimer_text: 
+                  type: "string"
+                kind: 
+                  type: "string"
+                notes: 
+                  type: "string"
+                created_at: 
+                  type: "string"
+                updated_at: 
+                  type: "string"
+                whitelist_url: 
+                  type: "string"
+                whitelist_test_url: 
+                  type: "string"
+                display_header_logo: 
+                  type: "boolean"
+                success_text_heading: 
+                  type: "string"
+                success_text: 
+                  type: "string"
+                modal_button_text: 
+                  type: "string"
+                display_header_square_logo: 
+                  type: "boolean"
+                early_submission: 
+                  type: "boolean"
+                user_id: 
+                  type: "number"
+                template: 
+                  type: "boolean"
+                uuid: 
+                  type: "string"
+                short_uuid: 
+                  type: "string"
+                organization_id: 
+                  type: "number"
+                omb_approval_number: 
+                  type: "string"
+                medium: 
+                  type: "string"
+                federal_register_url: 
+                  type: "string"
+                service_name: 
+                  type: "string"
+                survey_instrument_reference: 
+                  type: "string"
+                agency_poc_email: 
+                  type: "string"
+                agency_poc_name: 
+                  type: "string"
+                department: 
+                  type: "string"
+                bureau: 
+                  type: "string"
+                notification_emails: 
+                  type: "string"
+                aasm_state: 
+                  type: "string"
+                delivery_method: 
+                  type: "string"
+                element_selector: 
+                  type: "string"
+                survey_form_activations: 
+                  type: "number"
+                load_css: 
+                  type: "boolean"
+                logo: 
+                  required: 
+                    - "url"
+                    - "thumb"
+                    - "card"
+                    - "tag"
+                    - "logo_square"
+                  properties: 
+                    url: 
+                      type: "string"
+                    thumb: 
+                      required: 
+                        - "url"
+                      properties: 
+                        url: 
+                          type: "string"
+                      type: "object"
+                    card: 
+                      required: 
+                        - "url"
+                      properties: 
+                        url: 
+                          type: "string"
+                      type: "object"
+                    tag: 
+                      required: 
+                        - "url"
+                      properties: 
+                        url: 
+                          type: "string"
+                      type: "object"
+                    logo_square: 
+                      required: 
+                        - "url"
+                      properties: 
+                        url: 
+                          type: "string"
+                      type: "object"
+                  type: "object"
+                time_zone: 
+                  type: "string"
+                response_count: 
+                  type: "number"
+                last_response_created_at: 
+                  type: "string"
+              type: "object"
+            relationships: 
+              type: "object"
+              required: 
+                - "questions"
+                - "submissions"
+              properties: 
+                questions: 
+                  type: "object"
+                  required: 
+                    - "data"
+                  properties: 
+                    data: 
+                      type: "array"
+                      items: 
+                        $ref: '#/components/schemas/Question'
+                submissions: 
+                  type: "object"
+                  required: 
+                    - "data"
+                  properties: 
+                    data: 
+                      type: "array"
+                      items: 
+                        $ref: '#/components/schemas/Submission'
       Forms:
         type: array
         items:
@@ -361,6 +499,36 @@
             type: boolean
           language:
             type: string
+      Question:
+        type: object
+        required: 
+          - "data"
+        properties: 
+          data: 
+            type: "array"
+            items: 
+              type: "object"
+              properties: 
+                id: 
+                  type: "number"
+                form_id: 
+                  type: "number"
+                text: 
+                  type: "string"
+                question_type: 
+                  type: "string"
+                answer_field: 
+                  type: "string"
+                position: 
+                  type: "number"
+                is_required: 
+                  type: "boolean"
+                created_at: 
+                  type: "string"
+                updated_at: 
+                  type: "string"
+                form_section_id: 
+                  type: "number"
       Submissions:
         type: array
         items:
@@ -431,6 +599,138 @@
         properties: 
           email: 
             type: "string"
+      Service:
+        required: 
+          - "data"
+        properties: 
+          data: 
+            type: "array"
+            items: 
+              type: "object"
+              properties: 
+                id: 
+                  type: "string"
+                type: 
+                  type: "string"
+                attributes: 
+                  required: 
+                    - "name"
+                    - "description"
+                    - "organization_id"
+                    - "organization_abbreviation"
+                    - "organization_name"
+                    - "service_provider_id"
+                    - "service_provider_name"
+                    - "justification_text"
+                    - "kind"
+                    - "transactional"
+                    - "notes"
+                    - "hisp"
+                    - "department"
+                    - "bureau"
+                    - "service_abbreviation"
+                    - "service_slug"
+                    - "service_owner_email"
+                    - "service_managers"
+                    - "url"
+                    - "homepage_url"
+                    - "channels"
+                    - "tags"
+                    - "available_in_person"
+                    - "available_digitally"
+                    - "available_via_phone"
+                  properties: 
+                    name: 
+                      type: "string"
+                    description: 
+                      type: "string"
+                    organization_id: 
+                      type: "number"
+                    organization_abbreviation: 
+                      type: "string"
+                    organization_name: 
+                      type: "string"
+                    service_provider_id: 
+                      type: "number"
+                    service_provider_name: 
+                      type: "string"
+                    justification_text: 
+                      type: "string"
+                    kind: 
+                      type: "array"
+                      items: 
+                        type: "string"
+                    transactional: 
+                      type: "boolean"
+                    notes: 
+                      type: "string"
+                    hisp: 
+                      type: "boolean"
+                    department: 
+                      type: "string"
+                    bureau: 
+                      type: "string"
+                    service_abbreviation: 
+                      type: "string"
+                    service_slug: 
+                      type: "string"
+                    service_owner_email: 
+                      type: "string"
+                    service_managers: 
+                      type: "array"
+                      items: 
+                        type: "object"
+                        properties: 
+                          email: 
+                            type: "string"
+                    url: 
+                      type: "string"
+                    homepage_url: 
+                      type: "string"
+                    channels: 
+                      type: "array"
+                      items: 
+                        type: "object"
+                        properties: 
+                          id: 
+                            type: "number"
+                          name: 
+                            type: "string"
+                          created_at: 
+                            type: "string"
+                          updated_at: 
+                            type: "string"
+                          taggings_count: 
+                            type: "number"
+                    tags: 
+                      type: "array"
+                      items: 
+                        $ref: '#/components/schemas/Tag'
+                    available_in_person: 
+                      type: "boolean"
+                    available_digitally: 
+                      type: "boolean"
+                    available_via_phone: 
+                      type: "boolean"
+      Tag:
+        required: 
+          - "id"
+          - "name"
+          - "created_at"
+          - "updated_at"
+        properties: 
+          id: 
+            type: "number"
+            example: 1776
+          name: 
+            type: "string"
+            example: "customer-experience"
+          created_at: 
+            type: "string"
+            example: "2022-01-12T17:43:09.569Z"
+          updated_at: 
+            type: "string"
+            example: "2022-01-12T17:43:09.569Z"        
       Website:
         type: object
       Websites:
@@ -438,44 +738,92 @@
         items:
           $ref: '#/components/schemas/Website'
       DigitalProduct:
-        type: object
         required: 
           - "data"
+          - "links"
+          - "meta"
         properties: 
           data: 
-            type: object
-            required: 
-              - "id"
-              - "type"
-              - "attributes"
-            properties: 
-              id: 
-                type: "string"
-              attributes: 
-                required: 
-                  - "service"
-                  - "status"
-                properties: 
-                  agencies: 
-                    type: "array"
-                    items: 
-                      $ref: '#/components/schemas/Organization'
-                  contacts: 
-                    type: "array"
-                    items: 
-                      $ref: '#/components/schemas/PublicUser'
-                  language: 
-                    type: "string"
-                  status: 
-                    type: "string"
-                  short_description: 
-                    type: "string"
-                  long_description: 
-                    type: "string"
-                  tags: 
-                    type: "array"
-                    items: 
+            type: "array"
+            items: 
+              type: "object"
+              properties: 
+                id: 
+                  type: "string"
+                  example: "8"
+                type: 
+                  type: "string"
+                  example: "digital_products"
+                attributes: 
+                  type: object
+                  required: 
+                    - "agencies"
+                    - "contacts"
+                    - "service"
+                    - "url"
+                    - "code_repository_url"
+                    - "language"
+                    - "status"
+                    - "short_description"
+                    - "long_description"
+                    - "tags"
+                  properties: 
+                    agencies: 
+                      type: "array"
+                      items: 
+                        $ref: '#/components/schemas/Organization'
+                      example: []
+                    contacts: 
+                      type: "array"
+                      items: 
+                        $ref: '#/components/schemas/PublicUser'
+                      example: []
+                    language: 
                       type: "string"
+                      example: "English"
+                    status: 
+                      type: "string"
+                      example: "published"
+                    short_description: 
+                      type: "string"
+                      example: "Explore many of the most cherished cultural and historical sites on the National Mall."
+                    long_description: 
+                      type: "string"
+                      example: "<p>This is the official National Park Service app for the National Mall and Memorial Parks. On your next visit to Washington, D.C., use it to explore many of the most cherished cultural and historical sites in the United States—from the Lincoln Memorial to the White House. The app includes a total of 70 sites.</p><p><strong>Features:</strong></p><p><strong>Map</strong> – Official National Park Service map of the central tourist area in Washington, D.C. Easy to use while outdoors, the map features large font sizes, walkways that are easily distinguishable from roads, and three zoom levels. By tapping the “Locate me” icon you will always know where you are.</p><p><strong>Park Lens</strong> – Find out what is around you with augmented reality. Just hold up your device and look through the camera. Labels will appear identifying all sites on the National Mall.</p><p><strong>Walking directions</strong> – Get from one place to another by following a line on the map or a list of directions. Estimated walking times are given.</p><p><strong>Sites</strong> – Learn more about points of interest with lively text, professional photographs, and engaging podcasts under the “Album” button. The “Info” button includes the site’s location, hours of operation, nearest Metro station, and other essential information.</p><p><strong>Tours</strong> – Follow a recommended tour depending on how much time you have or your special interest—from memorials to presidents to military monuments to destinations off the beaten path. You can even create personal tours with the “My Tour” feature—just tap the “+” at the bottom right of a site page. The app maps the route for you.</p><p><strong>Events and News</strong> – Get up-to-date information from the National Park Service about what is happening at the National Mall and Memorial Parks.</p><p><strong>Postcard</strong> – Send a digital postcard to friends and family from the National Mall with the tap of a button.</p><p><strong>Accessibility</strong> – Audio described images combined with the built-in iOS accessibility features will let all people enjoy the National Mall and Memorial Parks.</p><p><strong>Park Partner</strong> – The Trust for the National Mall strives to make the National Mall the best park in the world. Learn more about the essential assistance this organization provides.</p><p><strong>Small size</strong> – Weighing in at 13.7MB, the app will download relatively quickly via a 3G cellular connection or the free Wi-Fi available on the east end the National Mall.</p>"
+                    tags: 
+                      type: "array"
+                      items: 
+                        $ref: '#/components/schemas/Tag'
+                      example: []
+          links: 
+            required: 
+              - "first"
+              - "last"
+            properties: 
+              first: 
+                type: "string"
+                example: "https://touchpoints.app.cloud.gov/api/v1/digital_products.json?API_KEY=1234&page=1"
+              last: 
+                type: "string"
+                example: "https://touchpoints.app.cloud.gov/api/v1/digital_products.json?API_KEY=1234&page=9"
+            type: "object"
+          meta: 
+            required: 
+              - "size"
+              - "page"
+              - "totalPages"
+            properties: 
+              size: 
+                type: "number"
+                example: 100
+              page: 
+                type: "number"
+                example: 0
+              totalPages: 
+                type: "number"
+                example: 1
+            type: "object"
+
       DigitalProducts:
         type: array
         items:
