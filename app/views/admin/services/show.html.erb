@@ -75,7 +75,7 @@
       <% @service.kind.each do |i| %>
         <%= i %>
         <br>          
-      <% end %>
+      <% end if @service.kind.present? %>
     </p>
 
     <div class="well">
