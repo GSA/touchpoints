@@ -65,6 +65,7 @@ class DigitalServiceAccount < ApplicationRecord
       'Ideascale',
       'Instagram',
       'Linkedin',
+      'Linktree',
       'Livestream',
       'Mastodon',
       'Medium',
