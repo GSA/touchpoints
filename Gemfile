@@ -97,7 +97,7 @@ group :test do
   gem 'factory_bot_rails'
   gem 'rails-controller-testing'
   gem 'rspec-rails'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', "4.8.6"
   gem 'simplecov', require: false
   gem 'webdrivers', '>= 5.1.0'
 end
