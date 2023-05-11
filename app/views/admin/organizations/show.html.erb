@@ -15,110 +15,132 @@
 
 <div class="grid-row">
   <div class="grid-col-8">
-    <div>
-      <div class="grid-row">
-        <% if @organization.cfo_act_agency? %>
-        <div class="grid-col-12">
-          <span class="usa-tag bg-success">
-            CFO Act Agency
-          </span>
-        </div>
-        <% end -%>
-
-        <div class="grid-col-12">
-          <%= label_tag "Name", nil, class: "usa-label" %>
-          <%= @organization.name %>
-        </div>
-        <% if @organization.parent %>
-        <div class="grid-col-12">
-          <%= label_tag "Parent Organization name", nil, class: "usa-label" %>
-          <%= @organization.parent.name %>
-        </div>
-        <% end %>
-        <div class="grid-col-12">
-          <%= label_tag "Abbreviation", nil, class: "usa-label" %>
-          <%= @organization.abbreviation %>
-        </div>
-        <div class="grid-col-12">
-          <div>
-            <%= label_tag "Organization Domain", nil, class: "usa-label" %>
-            <small>
-              used for the Allowlist of users email addresses
-            </small>
-            <br>
-            <br>
-            <%= @organization.domain %>
-          </div>
-        </div>
-        <div class="grid-col-12">
-          <%= label_tag "Website URL", nil, class: "usa-label" %>
-          <br>
-          <%= link_to(@organization.url, @organization.url, target: "_blank", rel: "noopener") %>
-        </div>
+    <div class="grid-row">
+      <% if @organization.cfo_act_agency? %>
+      <div class="grid-col-12">
+        <span class="usa-tag bg-success">
+          CFO Act Agency
+        </span>
       </div>
-
-
-      <div class="usa-prose">
-        <%= label_tag "Mission statement", nil, class: "usa-label" %>
-        <br>
-        <% if @organization.mission_statement.present? %>
-          <%= @organization.mission_statement %>
-        <% else %>
-        <div class="usa-alert usa-alert--info">
-          <div class="usa-alert__body">
-            <p class="usa-alert__text">
-              Mission statement has not been entered
-            </p>
-          </div>
-        </div>
-        <% end -%>
-      </div>
-      <% if @organization.logo %>
-      <p>
-        <%= label_tag "Logo", nil, class: "usa-label" %>
-        <br>
-        <% if @organization.logo_url.present? %>
-        (displaying Thumbnail version)
-        <br>
-        <br>
-        <%= image_tag(@organization.logo.thumb.url) %>
-        <br>
-        <%= link_to "Full Size", @organization.logo.url, target: "_blank", rel: "noopener" %><br>
-        <%= link_to "Thumbnail Size", @organization.logo.thumb.url, target: "_blank", rel: "noopener" %><br>
-        <%= link_to "Card Size", @organization.logo.card.url, target: "_blank", rel: "noopener" %><br>
-        <% else %>
-          A logo has not yet been uploaded
-        <% end %>
-      </p>
       <% end -%>
-      <p>
-        <%= label_tag "Digital Analytics URL", nil, class: "usa-label" %>
-        <% if @organization.digital_analytics_path? %>
-          <%= link_to("https://analytics.usa.gov/#{@organization.digital_analytics_path}", "https://analytics.usa.gov/#{@organization.digital_analytics_path}", target: "_blank", rel: "noopener") %>
-        <% else %>
-        <div class="usa-alert usa-alert--info">
-          <div class="usa-alert__body">
-            <p class="usa-alert__text">
-              DAP path has not been entered
-            </p>
-          </div>
+
+      <% if @organization.parent %>
+      <div class="grid-col-12">
+        <%= label_tag "Parent Organization name", nil, class: "usa-label" %>
+        <%= link_to @organization.parent.name, admin_organization_path(@organization.parent) %>
+      </div>
+      <% end -%>
+      
+      <div class="grid-col-12">
+        <%= label_tag "Name", nil, class: "usa-label" %>
+        <%= @organization.name %>
+      </div>
+      <div class="grid-col-12">
+        <%= label_tag "Abbreviation", nil, class: "usa-label" %>
+        <%= @organization.abbreviation %>
+      </div>
+      <div class="grid-col-12">
+        <div>
+          <%= label_tag "Organization Domain", nil, class: "usa-label" %>
+          <small>
+            used for the Allowlist of users email addresses
+          </small>
+          <br>
+          <br>
+          <%= @organization.domain %>
         </div>
-        <% end -%>
-      </p>
-      <p>
-        <%= label_tag "Notes", nil, class: "usa-label" %>
-        <% if @organization.notes.present? %>
-          <%= @organization.notes %>
-        <% else %>
-        <div class="usa-alert usa-alert--info">
-          <div class="usa-alert__body">
-            <p class="usa-alert__text">
-              Notes have not been entered
-            </p>
-          </div>
+      </div>
+      <div class="grid-col-12">
+        <%= label_tag "Website URL", nil, class: "usa-label" %>
+        <br>
+        <%= link_to(@organization.url, @organization.url, target: "_blank", rel: "noopener") %>
+      </div>
+    </div>
+
+    <div class="usa-prose">
+      <%= label_tag "Mission statement", nil, class: "usa-label" %>
+      <br>
+      <% if @organization.mission_statement.present? %>
+        <%= @organization.mission_statement %>
+      <% else %>
+      <div class="usa-alert usa-alert--info">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            Mission statement has not been entered
+          </p>
         </div>
-        <% end -%>
-      </p>
+      </div>
+      <% end -%>
+    </div>
+    <% if @organization.logo %>
+    <p>
+      <%= label_tag "Logo", nil, class: "usa-label" %>
+      <br>
+      <% if @organization.logo_url.present? %>
+      (displaying Thumbnail version)
+      <br>
+      <br>
+      <%= image_tag(@organization.logo.thumb.url) %>
+      <br>
+      <%= link_to "Full Size", @organization.logo.url, target: "_blank", rel: "noopener" %><br>
+      <%= link_to "Thumbnail Size", @organization.logo.thumb.url, target: "_blank", rel: "noopener" %><br>
+      <%= link_to "Card Size", @organization.logo.card.url, target: "_blank", rel: "noopener" %><br>
+      <% else %>
+        A logo has not yet been uploaded
+      <% end %>
+    </p>
+    <% end -%>
+    <p>
+      <%= label_tag "Digital Analytics URL", nil, class: "usa-label" %>
+      <% if @organization.digital_analytics_path? %>
+        <%= link_to("https://analytics.usa.gov/#{@organization.digital_analytics_path}", "https://analytics.usa.gov/#{@organization.digital_analytics_path}", target: "_blank", rel: "noopener") %>
+      <% else %>
+      <div class="usa-alert usa-alert--info">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            DAP path has not been entered
+          </p>
+        </div>
+      </div>
+      <% end -%>
+    </p>
+    <p>
+      <%= label_tag "Notes", nil, class: "usa-label" %>
+      <% if @organization.notes.present? %>
+        <%= @organization.notes %>
+      <% else %>
+      <div class="usa-alert usa-alert--info">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            Notes have not been entered
+          </p>
+        </div>
+      </div>
+      <% end -%>
+    </p>
+
+    <div class="sub-organizations well">
+      <h3>
+        <%= pluralize(@organization.children.size, "Sub-agency") %>
+      </h3>
+
+      <% if @organization.children.present? %>
+      <ul class="usa-list">
+      <% @organization.children.order(:name).each do |organization| %>
+        <li>
+          <%= link_to organization.name, admin_organization_path(organization) %>
+        </li>
+      <% end %>
+      </ul>
+      <% else %>
+      <div class="usa-alert usa-alert--info">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            No Sub-agencies at this time
+          </p>
+        </div>
+      </div>
+      <% end %>
     </div>
 
     <% if admin_permissions? || current_user.organization == @organization %>

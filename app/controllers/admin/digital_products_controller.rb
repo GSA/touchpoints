@@ -61,7 +61,9 @@ module Admin
 
     def create
       @digital_product = DigitalProduct.new(digital_product_params)
-      @digital_product.organization_list.add(current_user.organization_id)
+      organization = current_user.organization
+      @digital_product.organization_list.add(organization.id)
+      @digital_product.organization_list.add(organization.parent.id) if organization.parent
 
       if @digital_product.save
         Event.log_event(Event.names[:digital_product_created], 'Digital Product', @digital_product.id, "Digital Product #{@digital_product.name} created at #{DateTime.now}", current_user.id)
@@ -111,7 +113,9 @@ module Admin
 
     def add_organization
       ensure_digital_product_permissions(digital_product: @digital_product)
-      @digital_product.organization_list.add(params[:organization_id])
+      organization = Organization.find(params[:organization_id])
+      @digital_product.organization_list.add(organization.id)
+      @digital_product.organization_list.add(organization.parent.id) if organization.parent
       @digital_product.save
       set_sponsoring_agency_options
     end

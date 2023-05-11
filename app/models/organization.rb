@@ -25,6 +25,10 @@ class Organization < ApplicationRecord
   def parent
     parent_id ? Organization.find(parent_id) : nil
   end
+  
+  def children
+    Organization.where(parent_id: self.id)
+  end
 
   def slug
     abbreviation.downcase

@@ -69,7 +69,9 @@ module Admin
 
     def create
       @digital_service_account = DigitalServiceAccount.new(digital_service_account_params)
-      @digital_service_account.organization_list.add(current_user.organization_id)
+      organization = Organization.find(current_user.organization_id)
+      @digital_service_account.organization_list.add(organization.id)
+      @digital_service_account.organization_list.add(organization.parent.id) if organization.parent
 
       if @digital_service_account.save
         current_user.add_role(:contact, @digital_service_account)
@@ -131,7 +133,9 @@ module Admin
 
     def add_organization
       ensure_digital_service_account_permissions(digital_service_account: @digital_service_account)
-      @digital_service_account.organization_list.add(params[:organization_id])
+      organization = Organization.find(params[:organization_id])
+      @digital_service_account.organization_list.add(organization.id)
+      @digital_service_account.organization_list.add(organization.parent.id) if organization.parent
       @digital_service_account.save
       set_sponsoring_agency_options
     end
