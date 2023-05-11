@@ -84,7 +84,7 @@ feature 'Digital Service Accounts', js: true do
         visit admin_digital_service_account_path(digital_service_account)
 
         fill_in('digital_service_account_tag_list', with: 'tag123')
-        page.find('#digital_service_account_tag_list').native.send_keys :tab
+        page.find("#tag_list_add_button").click
       end
 
       it 'creates a tag' do

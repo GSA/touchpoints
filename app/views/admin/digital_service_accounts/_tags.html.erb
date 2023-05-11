@@ -3,8 +3,17 @@
     <div class="grid-col-6">
       <%= label_tag "Tags", nil, class: "usa-label" %>
 
-      <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
-        <%= f.text_field :tag_list, placeholder: "Add a tag" , value: nil, class: "usa-input tag-input" %>
+      <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>        
+        <ul class="usa-button-group">
+          <li class="usa-button-group__item">
+           <%= f.text_field :tag_list, placeholder: "Add a tag" , value: nil, class: "usa-input tag-input margin-top-0" %>
+          </li>
+          <li class="usa-button-group__item">
+            <%= f.button id: "tag_list_add_button", class: "usa-button", style: "display: inline;", "aria-label" => "Add tag" do %>
+              <span class="fa fa-plus"></span>
+            <% end %>
+          </li>
+        </ul>
       <% end %>
 
       <div class="tag-list margin-top-1">
@@ -31,7 +40,7 @@
 <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
 <script>
   $(function() {
-    $(".tag-input").on("blur", function(event) {
+    $("#tag_list_add_button").on("click", function(event) {
       event.preventDefault();
       var thisForm = $(this).closest("form");
       $.ajax({
@@ -41,6 +50,7 @@
       });
     });
 
+    // return on Enter
     $(".tag-input").on("keypress", function (e) {
       if (e.which == 13) {
         document.activeElement.blur();
@@ -48,7 +58,7 @@
       }
     });
 
-    $(".remove-tag-link").on("click", function(e) {
+    $(".tag-list .remove-tag-link").on("click", function(e) {
       event.preventDefault();
       var thisForm = $(this).closest("form");
       $.ajax({

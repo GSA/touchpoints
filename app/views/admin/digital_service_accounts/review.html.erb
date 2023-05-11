@@ -26,6 +26,7 @@
     <tr>
       <th data-sortable scope="col">Platform</th>
       <th data-sortable scope="col">Account name</th>
+      <th data-sortable scope="col">Contacts</th>
       <th data-sortable scope="col">Status</th>
     </tr>
   </thead>
@@ -41,6 +42,7 @@
         <% end %>
       </td>
       <td><%= digital_service_account.name %></td>
+      <td><%= digital_service_account.contacts.collect(&:email).join(", ") %></td>
       <td><%= digital_service_account.aasm_state %></td>
     </tr>
     <% end %>
