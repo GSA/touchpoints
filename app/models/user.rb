@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  encrypts :api_key
+
   rolify
   # Include default devise modules. Others available are:
   # :lockable
