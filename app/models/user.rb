@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  encrypts :api_key
+  encrypts :api_key, deterministic: true
 
   rolify
   # Include default devise modules. Others available are:
