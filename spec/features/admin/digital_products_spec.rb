@@ -72,6 +72,20 @@ feature 'Digital Products', js: true do
       end
     end
 
+    describe '#publish' do
+      let!(:submitted_digital_product) { FactoryBot.create(:digital_product, name: 'Test1', service: 'Gov Mobile App', aasm_state: 'submitted') }
+
+      before do
+        visit admin_digital_product_path(submitted_digital_product)
+      end
+
+      it 'can publish digital product record' do
+        expect(page).to have_content('Mobile App')
+        click_on("Publish")
+        expect(page).to have_content("Digital Product #{digital_product.name} was published.")
+      end
+    end
+    
     describe '#delete' do
       before do
         visit admin_digital_product_path(digital_product)

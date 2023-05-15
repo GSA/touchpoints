@@ -163,11 +163,16 @@ module Admin
       if @digital_product.publish!
         Event.log_event(Event.names[:digital_product_published], 'Digital Product', @digital_product.id, "Digital Product #{@digital_product.name} published at #{DateTime.now}", current_user.id)
 
+        @account_contacts = []
+        if @digital_product.roles.first
+          @account_contacts = @digital_product.roles.first.users.collect(&:email)
+        end
+
         UserMailer.notification(
           title: 'Digital Product has been published',
           body: "Digital Product #{@digital_product.name} published at #{DateTime.now} by #{current_user.email}",
           path: admin_digital_product_url(@digital_product),
-          emails: (User.admins.collect(&:email) + User.registry_managers.collect(&:email) + @digital_product.roles.first.users.collect(&:email)).uniq,
+          emails: (User.admins.collect(&:email) + User.registry_managers.collect(&:email) + @account_contacts).uniq,
         ).deliver_later
 
         redirect_to admin_digital_product_path(@digital_product), notice: "Digital Product #{@digital_product.name} was published."
