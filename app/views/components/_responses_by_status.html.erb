@@ -1,70 +1,55 @@
+<label class="usa-label text-uppercase font-body-3xs">
+  Responses by status
+</label>
 <table class="usa-table">
-  <tr>
-    <td>
-    </td>
-    <td>
-      Total
-    </td>
-    <td>
-      Received
-    </td>
-    <td>
-      Acknowledged
-    </td>
-    <td>
-      Dispatched
-    </td>
-    <td>
-      Responded
-    </td>
-    <td>
-      Flagged
-    </td>
-  </tr>
-  <tr>
-    <td>
-      Active
-    </td>
-    <td>
-      <%= submissions.non_archived.size %>
-    </td>
-    <td>
-      <%= submissions.non_archived.where(aasm_state: "received").size %>
-    </td>
-    <td>
-      <%= submissions.non_archived.where(aasm_state: "acknowledged").size %>
-    </td>
-    <td>
-      <%= submissions.non_archived.where(aasm_state: "dispatched").size %>
-    </td>
-    <td>
-      <%= submissions.non_archived.where(aasm_state: "responded").size %>
-    </td>
-    <td>
-      <%= submissions.non_archived.where(flagged: true).size %>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      Archived
-    </td>
-    <td>
-      <%= submissions.archived.size %>
-    </td>
-    <td>
-      <%= submissions.archived.where(aasm_state: "received").size %>
-    </td>
-    <td>
-      <%= submissions.archived.where(aasm_state: "acknowledged").size %>
-    </td>
-    <td>
-      <%= submissions.archived.where(aasm_state: "dispatched").size %>
-    </td>
-    <td>
-      <%= submissions.archived.where(aasm_state: "responded").size %>
-    </td>
-    <td>
-      <%= submissions.archived.where(flagged: true).size %>
-    </td>
-  </tr>
+  <thead>
+    <tr>
+      <th>
+        Received
+      </th>
+      <th>
+        Acknowledged
+      </th>
+      <th>
+        Dispatched
+      </th>
+      <th>
+        Responded
+      </th>
+      <th>
+        Archived
+      </th>
+      <th>
+        Flagged
+      </th>
+      <th>
+        Total
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <%= submissions.select { |s| s.aasm_state == "received" }.size %>
+      </td>
+      <td>
+        <%= submissions.select { |s| s.acknowledged? }.size %>
+      </td>
+      <td>
+        <%= submissions.select { |s| s.dispatched? }.size %>
+      </td>
+      <td>
+        <%= submissions.select { |s| s.responded? }.size %>
+      </td>
+      <td>
+        <%= submissions.archived.size %>
+      </td>
+      <td>
+        <%= submissions.where(flagged: true).size %>
+      </td>
+      <td>
+        <%= submissions.size %>
+      </td>
+    </tr>
+  </tbody>
 </table>

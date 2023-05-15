@@ -191,12 +191,17 @@ module Admin
           'Digital Service Account',
           @digital_service_account.id,
           "Digital Service Account #{@digital_service_account.name} published at #{DateTime.now}", current_user.id)
-
+        
+        @account_contacts = []
+        if @digital_service_account.roles.first
+          @account_contacts = @digital_service_account.roles.first.users.collect(&:email)
+        end
+        
         UserMailer.notification(
           title: 'Digital Service Account was published',
           body: "Digital Service Account #{@digital_service_account.name} published at #{DateTime.now} by #{current_user.email}",
           path: admin_digital_service_account_url(@digital_service_account),
-          emails: (User.admins.collect(&:email) + User.registry_managers.collect(&:email) + @digital_service_account.roles.first.users.collect(&:email)).uniq,
+          emails: (User.admins.collect(&:email) + User.registry_managers.collect(&:email) + @account_contacts).uniq
         ).deliver_later
 
         redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was published."
