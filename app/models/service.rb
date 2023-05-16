@@ -87,6 +87,10 @@ class Service < ApplicationRecord
     service_provider ? service_provider.name : nil
   end
 
+  def service_provider_slug
+    service_provider ? service_provider.slug : nil
+  end
+
   #
   # Channels
   # How a service is delivered to an end-user.
@@ -146,10 +150,11 @@ class Service < ApplicationRecord
   end
 
   def self.to_csv
-    services = Service.order('organizations.name').includes(:organization)
+    services = Service.order('organizations.name').includes([:organization, :service_provider, :taggings])
 
     example_service_attributes = Service.new.attributes
-    attributes = example_service_attributes.keys + [:organization_name]
+    attributes = example_service_attributes.keys +
+      [:organization_name, :organization_abbreviation, :service_provider_name, :service_provider_slug] - ["channels"]
 
     CSV.generate(headers: true) do |csv|
       csv << attributes
