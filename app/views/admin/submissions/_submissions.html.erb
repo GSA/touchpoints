@@ -15,7 +15,7 @@
       Filter by tag
     </p>
     <div class="tag-list">
-      <% @tags.each do | tag | %>
+      <% @tags.uniq.each do | tag | %>
         <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
           <span class="usa-tag">
             <%= tag.name %>

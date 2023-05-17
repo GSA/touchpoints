@@ -9,6 +9,7 @@ class ServiceSerializer < ActiveModel::Serializer
              :organization_name,
              :service_provider_id,
              :service_provider_name,
+             :service_provider_slug,
              :justification_text,
              :kind,
              :transactional,

@@ -236,6 +236,20 @@ feature 'Digital Service Accounts', js: true do
       end
     end
 
+    describe '#publish' do
+      let(:digital_service_account) { FactoryBot.create(:digital_service_account, aasm_state: :submitted) }
+
+      before do
+        visit admin_digital_service_account_path(digital_service_account)
+      end
+
+      it 'can publish digital service account' do
+        expect(page).to have_content('Social Media Account')
+        click_on("Publish")
+        expect(page).to have_content("Digital Service Account #{digital_service_account.name} was published.")
+      end
+    end
+    
     describe '#delete' do
       let(:digital_service_account) { FactoryBot.create(:digital_service_account) }
 
