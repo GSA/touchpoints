@@ -55,7 +55,7 @@
       </div>
       <div class="grid-col-6">
         <%= label_tag "Publish status", nil, class: "usa-label", for: "search_status" %>
-        <%= form.select :status, options_for_select([ ["All", "all"], ["Published", 'published'], ["Archive", 'archived'] ], @search_params && @search_params[:status]), {}, class: "usa-select" %>
+        <%= form.select :status, options_for_select([ ["Published", 'published'], ["Archive", 'archived'] ], @search_params && @search_params[:status]), {}, class: "usa-select" %>
       </div>
     </div>
 
