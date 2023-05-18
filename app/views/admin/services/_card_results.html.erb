@@ -1,5 +1,5 @@
 <ul class="usa-card-group">
-  <% @services.each do |service| %>
+  <% services.each do |service| %>
   <li class="usa-card tablet:grid-col-6">
     <div class="usa-card__container">
       <div class="usa-card__header">
@@ -9,8 +9,10 @@
       </div>
       <div class="usa-card__body">
         <%= link_to service.organization.name, admin_organization_path(service.organization) %>
+        <% if service.service_provider %>
         &middot;
         <%= (service.service_provider.name) %>
+        <% end -%>
         <br>
         <% service.tag_list.each do |tag| %>
         <span class="usa-tag">
