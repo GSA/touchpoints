@@ -157,8 +157,10 @@ class Collection < ApplicationRecord
       service_provider_name
       service_provider_organization_id
       service_provider_organization_name
+      service_provider_organization_abbreviation
       organization_id
       organization_name
+      organization_abbreviation
       user_email
       year
       quarter
@@ -184,8 +186,10 @@ class Collection < ApplicationRecord
           collection.service_provider.name,
           collection.service_provider.organization_id,
           collection.service_provider.organization_name,
+          collection.service_provider.organization_abbreviation,
           collection.organization_id,
           collection.organization.name,
+          collection.organization.abbreviation,
           collection.user.email,
           collection.year,
           collection.quarter,

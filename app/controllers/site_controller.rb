@@ -57,8 +57,6 @@ class SiteController < ApplicationController
       @results = DigitalServiceAccount.published
     elsif status == "archived"
       @results = DigitalServiceAccount.archived
-    else #all
-      @results = DigitalServiceAccount
     end
 
     @results = @results.limit(100)
