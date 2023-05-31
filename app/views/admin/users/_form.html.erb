@@ -41,6 +41,29 @@
     <div class="grid-row">
       <div class="tablet:grid-col-6">
         <fieldset class="usa-fieldset">
+          <legend class="usa-sr-only">Organization Admin</legend>
+          <div class="usa-checkbox">
+            <%= form.check_box :organizational_admin, class: "usa-checkbox__input" %>
+            <%= form.label :organizational_admin, class: "usa-checkbox__label" do %>
+              <span class="usa-tag bg-orange">
+                Organizational Data Admin
+              </span>
+            <% end %>
+          </div>
+        </fieldset>
+      </div>
+      <div class="tablet:grid-col-6">
+        <p>
+          Has API access to all form responses (eg: CDO/CTO/CIOs, for FOIA purposes)
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="well">
+    <div class="grid-row">
+      <div class="tablet:grid-col-6">
+        <fieldset class="usa-fieldset">
           <legend class="usa-sr-only">Digital Registry manager</legend>
           <div class="usa-checkbox">
             <%= form.check_box :registry_manager, class: "usa-checkbox__input" %>

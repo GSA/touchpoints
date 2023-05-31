@@ -6,7 +6,11 @@ module Api
       def index
         respond_to do |format|
           format.json do
-            render json: current_user.forms.limit(100), each_serializer: FormSerializer
+            if current_user.organizational_admin?
+              render json: current_user.organization.forms.limit(100), each_serializer: FormSerializer
+            else
+              render json: current_user.forms.limit(100), each_serializer: FormSerializer
+            end
           end
         end
       end
