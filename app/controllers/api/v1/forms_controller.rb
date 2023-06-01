@@ -16,7 +16,12 @@ module Api
       end
 
       def show
-        form = current_user.forms.find_by_short_uuid(params[:id])
+        if current_user.organizational_admin?
+          form = current_user.organization.forms.find_by_short_uuid(params[:id])
+        else
+          form = current_user.forms.find_by_short_uuid(params[:id])
+        end
+
         page = (params[:page].present? ? params[:page].to_i : 0)
         size = (params[:size].present? ? params[:size].to_i : 500)
         size = 5000 if size > 5000
