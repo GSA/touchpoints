@@ -1,7 +1,19 @@
 # frozen_string_literal: true
 
 module Admin
+
   class OrganizationsController < AdminController
+    before_action :ensure_admin, except: [
+      :performance,
+      :performance_update,
+      :create_two_year_goal,
+      :create_four_year_goal,
+      :delete_two_year_goal,
+      :delete_four_year_goal,
+      :sort_goals,
+      :sort_objectives
+    ]
+
     before_action :set_organization, only: %i[
       show
       performance

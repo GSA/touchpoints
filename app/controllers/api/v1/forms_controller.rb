@@ -6,13 +6,22 @@ module Api
       def index
         respond_to do |format|
           format.json do
-            render json: current_user.forms.limit(100), each_serializer: FormSerializer
+            if current_user.organizational_admin?
+              render json: current_user.organization.forms.limit(100), each_serializer: FormSerializer
+            else
+              render json: current_user.forms.limit(100), each_serializer: FormSerializer
+            end
           end
         end
       end
 
       def show
-        form = current_user.forms.find_by_short_uuid(params[:id])
+        if current_user.organizational_admin?
+          form = current_user.organization.forms.find_by_short_uuid(params[:id])
+        else
+          form = current_user.forms.find_by_short_uuid(params[:id])
+        end
+
         page = (params[:page].present? ? params[:page].to_i : 0)
         size = (params[:size].present? ? params[:size].to_i : 500)
         size = 5000 if size > 5000

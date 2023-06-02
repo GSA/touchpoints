@@ -78,7 +78,6 @@
 
 <script>
 $(function() {
-  $(".dropdown-content").hide();
   $(".question-option-edit").hide();
 
   <% if form_permissions?(form: form) %>
@@ -269,15 +268,6 @@ $(function() {
         data: $(this).sortable('serialize')
       });
     }
-  });
-
-  $(".form-builder").on("mouseover", ".question-menu-action", function(event) {
-    $(".dropdown-content").hide();
-    $(event.target).parent().find(".dropdown-content").show();
-  });
-
-  $(".form-builder").on("click", ".question-menu-action", function(event) {
-    $(event.target).parent().find(".dropdown-content").toggle();
   });
 
   $('.form-builder').on("click", '.form-add-question-option', function(event) {

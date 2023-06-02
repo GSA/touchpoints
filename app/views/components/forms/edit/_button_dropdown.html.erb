@@ -1,18 +1,8 @@
-<div class="question-menu-div">
-  <div class="question-menu-action">
-    <i class="fas fa-ellipsis-v ma-dropdown"></i>
-  </div>
-  <div class="dropdown-content">
-    <p>
-      <%= link_to edit_admin_form_question_path(form, question), class: "form-edit-question", data: { id: question.id } do %>
-        <i class="fa fa-pencil-alt"></i>
-        Edit
-      <% end %>
-      <br>
-      <%= link_to admin_form_question_path(form, question), method: :delete, data: { confirm: 'Are you sure?', remote: true }, class: "form-delete-question" do %>
-        <i class="fa fa-trash"></i>
-        Delete
-      <% end %>
-    </p>
-  </div>
+<div class="question-menu-action">
+  <%= link_to edit_admin_form_question_path(form, question),
+    class: "usa-button usa-button--base margin-right-0 form-edit-question",
+    data: { id: question.id },
+    "aria-label" => "Edit" do %>
+    <i class="fa fa-pencil-alt"></i>
+  <% end %>
 </div>

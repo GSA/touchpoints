@@ -41,36 +41,76 @@ describe Api::V1::FormsController, type: :controller do
     end
 
     describe '#index' do
-      context 'passing a valid API_KEY' do
-        let!(:user) { FactoryBot.create(:user) }
-        let(:form) { FactoryBot.create(:form, :with_responses, user:, organization: user.organization) }
-        let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user:, form:) }
+      let!(:organization) { FactoryBot.create(:organization) }
+      let!(:user) { FactoryBot.create(:user, organization: organization) }
+      let!(:user2) { FactoryBot.create(:user, organization: organization) }
+      let(:form) { FactoryBot.create(:form, :with_responses, user:, organization: user.organization) }
+      let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user:, form:) }
 
-        before do
-          user.update(api_key: TEST_API_KEY)
-          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch('API_HTTP_USERNAME'), ENV.fetch('API_HTTP_PASSWORD'))
-          get :index, format: :json, params: { 'API_KEY' => user.api_key }
-          @parsed_response = JSON.parse(response.body)
-        end
+      let!(:another_form) { FactoryBot.create(:form, :with_responses, user: user2, organization: user2.organization) }
+      let!(:organizational_admin_user) { FactoryBot.create(:user, organization: organization, organizational_admin: true) }
 
-        it 'return an array of forms' do
-          expect(response.status).to eq(200)
-          expect(@parsed_response['data'].class).to be(Array)
-          expect(@parsed_response['data'].size).to eq(1)
-          expect(@parsed_response['data'].first.class).to be(Hash)
-          expect(@parsed_response['data'].first['id']).to eq(form.id.to_s)
-        end
+      context "Organizational Admin user" do
+        context 'passing a valid API_KEY' do
+          before do
+            organizational_admin_user.update(api_key: TEST_API_KEY)
+            request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch('API_HTTP_USERNAME'), ENV.fetch('API_HTTP_PASSWORD'))
+            get :index, format: :json, params: { 'API_KEY' => organizational_admin_user.api_key }
+            @parsed_response = JSON.parse(response.body)
+          end
 
-        it "return a form's questions" do
-          relationships = @parsed_response['data'].first['relationships']
-          expect(relationships.keys).to include('questions')
-        end
+          it 'return an array of all Organization forms' do
+            expect(response.status).to eq(200)
+            expect(@parsed_response['data'].class).to be(Array)
+            expect(@parsed_response['data'].size).to eq(2)
+            expect(@parsed_response['data'].first.class).to be(Hash)
+            expect(@parsed_response['data'].collect { |i| i["id"] }).to include(form.id.to_s)
+            expect(@parsed_response['data'].collect { |i| i["id"] }).to include(another_form.id.to_s)
+          end
 
-        it "return a form's submissions" do
-          relationships = @parsed_response['data'].first['relationships']
-          expect(relationships.keys).to_not include('submissions')
+          it "return a form's questions" do
+            relationships = @parsed_response['data'].first['relationships']
+            expect(relationships.keys).to include('questions')
+          end
+
+          it "return a form's submissions" do
+            relationships = @parsed_response['data'].first['relationships']
+            expect(relationships.keys).to_not include('submissions')
+          end
         end
       end
+
+      context "user" do
+        context 'passing a valid API_KEY' do
+          before do
+            user.update(api_key: TEST_API_KEY)
+            request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch('API_HTTP_USERNAME'), ENV.fetch('API_HTTP_PASSWORD'))
+            get :index, format: :json, params: { 'API_KEY' => user.api_key }
+            @parsed_response = JSON.parse(response.body)
+          end
+
+          it "return an array of the user's forms" do
+            expect(response.status).to eq(200)
+            expect(@parsed_response['data'].class).to be(Array)
+            expect(@parsed_response['data'].size).to eq(1)
+            expect(@parsed_response['data'].first.class).to be(Hash)
+            expect(@parsed_response['data'].first['id']).to eq(form.id.to_s)
+            expect(@parsed_response['data'].collect { |i| i["id"] }).to include(form.id.to_s)
+            expect(@parsed_response['data'].collect { |i| i["id"] }).to_not include(another_form.id.to_s)
+          end
+
+          it "return a form's questions" do
+            relationships = @parsed_response['data'].first['relationships']
+            expect(relationships.keys).to include('questions')
+          end
+
+          it "return a form's submissions" do
+            relationships = @parsed_response['data'].first['relationships']
+            expect(relationships.keys).to_not include('submissions')
+          end
+        end
+      end
+
     end
 
     describe '#show' do

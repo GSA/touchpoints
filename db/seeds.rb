@@ -65,6 +65,16 @@ admin_user = User.new({
 admin_user.save!
 puts 'Created Admin User: #{admin_user.email}'
 
+organizational_admin_user = User.new({
+  organization: example_gov,
+  email: 'organizational_admin@gsa.gov',
+  password: 'password',
+  organizational_admin: true,
+  current_sign_in_at: Time.now,
+})
+organizational_admin_user.save!
+puts 'Created Organizational Admin User: #{organizational_admin_user.email}'
+
 digital_gov = Organization.create!({
   name: 'Digital.gov',
   domain: 'digital.gov',
@@ -773,4 +783,3 @@ for i in (1..40) do
     general_comments: random_words
   })
 end
-
