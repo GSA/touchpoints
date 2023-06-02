@@ -25,7 +25,12 @@
 <div class="well">
   <% if @user.admin? %>
     <span class="usa-tag bg-secondary-vivid">
-      Admin User
+      Admin
+    </span>
+  <% end %>
+  <% if @user.organizational_admin? %>
+    <span class="usa-tag bg-orange">
+      Organizational Admin
     </span>
   <% end %>
   <% if @user.performance_manager? %>
@@ -156,7 +161,7 @@
     <% @digital_products.each do |digital_product| %>
       <li>
         <%= link_to digital_product.name, admin_digital_product_path(digital_product) %>
-        &middot; 
+        &middot;
         <%= digital_product.aasm_state %>
       </li>
     <% end %>
@@ -181,7 +186,7 @@
     <% @digital_service_accounts.each do |digital_service_account| %>
       <li>
         <%= link_to digital_service_account.name, admin_digital_service_account_path(digital_service_account) %>
-        &middot; 
+        &middot;
         <%= digital_service_account.aasm_state %>
       </li>
     <% end %>
@@ -239,7 +244,7 @@
       </tr>
     </thead>
     <tbody>
-      <% @collections.each do |collection| %>
+      <% @collections.includes(:service_provider).each do |collection| %>
       <tr>
         <td>
           <%= collection.year %>

@@ -107,7 +107,7 @@ feature 'Managing Users', js: true do
         expect(page.find("input[name='user[admin]'][type='hidden']", visible: false).value).to eq('0')
         page.find("label[for='user_admin']").click
         click_button('Update User')
-        expect(page.find('.usa-tag')).to have_content('Admin User'.upcase)
+        expect(page.find('.usa-tag')).to have_content('Admin'.upcase)
       end
     end
   end
