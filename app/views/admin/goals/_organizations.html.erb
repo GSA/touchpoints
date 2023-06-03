@@ -7,7 +7,7 @@
     </small>
     <p class="sponsoring-agencies-list">
       <ul class="usa-list usa-list--unstyled">
-        <% @goal.sponsoring_agencies.each do |agency| %>
+        <% @goal.sponsoring_agencies.order(:name).each do |agency| %>
         <li>
           <span class="usa-tag">
             <%= agency.name %>

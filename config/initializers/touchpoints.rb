@@ -1,1 +1,1 @@
-APPROVED_DOMAINS = ['.gov', '.mil'].freeze
+APPROVED_DOMAINS = ['.gov', '.mil', '.edu'].freeze

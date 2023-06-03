@@ -55,16 +55,16 @@ module Admin
 
       if service_manager_permissions?
         if tag_name.present?
-          @services = Service.includes(:organization).order('organizations.name', :name).tagged_with(tag_name)
+          @services = Service.includes(:organization, :service_provider, :taggings).order('organizations.name', :name).tagged_with(tag_name)
         else
-          @services = Service.all.includes(:organization).order('organizations.name', :name)
+          @services = Service.includes(:organization, :service_provider, :taggings).order('organizations.name', :name)
         end
       elsif tag_name.present?
-        @services = current_user.organization.services.includes(:organization).order('organizations.name', :name).tagged_with(tag_name)
+        @services = current_user.organization.services.includes(:organization, :service_provider, :taggings).order('organizations.name', :name).tagged_with(tag_name)
       else
-        @services = current_user.organization.services.includes(:organization).order('organizations.name', :name)
+        @services = current_user.organization.services.includes(:organization, :service_provider, :taggings).order('organizations.name', :name)
       end
-      @tags = Service.tag_counts_on(:tags)
+      @tags = Service.includes(:taggings).tag_counts_on(:tags)
     end
 
     def versions

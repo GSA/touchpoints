@@ -811,11 +811,12 @@ feature 'Forms', js: true do
 
             before do
               visit questions_admin_form_path(form)
-              page.execute_script "$('.question-menu-action').trigger('mouseover')"
-              expect(page).to have_selector('.dropdown-content', visible: true)
-              click_on 'Edit'
               expect(page.current_path).to eq(questions_admin_form_path(form))
-              expect(page).to have_content('Cancel')
+              expect(page).to have_content('Test Question')
+              find(".form-edit-question").click
+              expect(page).to have_button('Update Question')
+              expect(page).to have_link('Cancel')
+              expect(page).to have_link('Delete Question')
             end
 
             it 'removes the edit form on cancel' do
@@ -890,10 +891,9 @@ feature 'Forms', js: true do
               describe '#edit' do
                 before do
                   visit questions_admin_form_path(form)
-                  page.execute_script "$('.question-menu-action').trigger('mouseover')"
-                  expect(page).to have_selector('.dropdown-content', visible: true)
-                  click_on 'Edit'
                   expect(page.current_path).to eq(questions_admin_form_path(form))
+                  expect(page).to have_content('New dropdown field')
+                  find(".form-edit-question").click
                   expect(find_field('question_text').value).to eq 'New dropdown field'
                 end
 
@@ -977,10 +977,8 @@ feature 'Forms', js: true do
               describe '#edit' do
                 before do
                   visit questions_admin_form_path(form)
-                  page.execute_script "$('.question-menu-action').trigger('mouseover')"
-                  expect(page).to have_selector('.dropdown-content', visible: true)
-                  click_on 'Edit'
                   expect(page.current_path).to eq(questions_admin_form_path(form))
+                  find(".form-edit-question").click
                   expect(find_field('question_text').value).to eq 'New dropdown field'
                 end
 
@@ -1026,8 +1024,7 @@ feature 'Forms', js: true do
           context 'with Form Manager permissions' do
             before do
               visit questions_admin_form_path(form2)
-              page.execute_script "$('.question-menu-action').trigger('mouseover')"
-              expect(page).to have_selector('.dropdown-content', visible: true)
+              find(".form-edit-question").click
             end
 
             it 'display the Delete Question button' do
@@ -1352,14 +1349,13 @@ feature 'Forms', js: true do
 
         before do
           visit questions_admin_form_path(form2)
-          page.execute_script "$('.question-menu-action').trigger('mouseover')"
-          expect(page).to have_selector('.dropdown-content', visible: true)
+          find(".form-edit-question").click
         end
 
         it 'see the delete button, click it, and delete the question' do
           expect(page).to have_css(".question#question_#{form2.id}")
-          expect(page).to have_link('Delete')
-          click_on('Delete')
+          expect(page).to have_link('Delete Question')
+          click_on('Delete Question')
           page.driver.browser.switch_to.alert.accept
           expect(page).to_not have_css(".question#question_#{form2.id}")
         end
@@ -1385,7 +1381,7 @@ feature 'Forms', js: true do
             # Wait for Add Question to re-appear
             expect(page).to have_selector('.form-add-question', count: 2)
           end
-          
+
           it 'creates the question in the correct Form Section' do
             within('#form_section_1') do
               expect(page).to have_content('Question in Form Section 1')

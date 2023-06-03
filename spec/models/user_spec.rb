@@ -16,7 +16,7 @@ RSpec.describe User, type: :model do
       end
 
       it 'fails tld_check' do
-        expect(@user.errors.messages[:email].first).to eq('is not from a valid TLD - .gov and .mil domains only')
+        expect(@user.errors.messages[:email].first).to eq('is not from a valid TLD - .gov, .mil, and .edu domains only')
       end
     end
 
@@ -27,7 +27,7 @@ RSpec.describe User, type: :model do
       end
 
       it 'fails tld_check' do
-        expect(@user.errors.messages[:email].first).to eq('is not from a valid TLD - .gov and .mil domains only')
+        expect(@user.errors.messages[:email].first).to eq('is not from a valid TLD - .gov, .mil, and .edu domains only')
       end
     end
 

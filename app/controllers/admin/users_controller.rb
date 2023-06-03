@@ -140,6 +140,7 @@ module Admin
       params.require(:user).permit(
         :admin,
         :organization_id,
+        :organizational_admin,
         :organizational_website_manager,
         :performance_manager,
         :service_manager,

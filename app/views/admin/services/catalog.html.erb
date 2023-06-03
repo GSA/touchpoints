@@ -35,7 +35,7 @@
   </div>
 </div>
 <div class="search-results">
-  <%= render 'card_results' %>
+  <%= render 'card_results', services: @services %>
 </div>
 
 <% if service_manager_permissions? %>
