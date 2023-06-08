@@ -91,25 +91,31 @@
         <label class="usa-label">
           Location code
         </label>
-        <%= @submission.location_code? ? @submission.location_code : "none" %>
+        <%= @submission.location_code? ? sanitize(@submission.location_code) : "none" %>
       </p>
       <p>
         <label class="usa-label">
           User agent
         </label>
-        <%= @submission.user_agent %>
+        <%= sanitize(@submission.user_agent) %>
       </p>
       <p>
         <label class="usa-label">
-          Page submitted from
+          Submitted from hostname
         </label>
-        <%= @submission.page %>
+        <%= sanitize(@submission.hostname) %>
+      </p>
+      <p>
+        <label class="usa-label">
+          Submitted from page
+        </label>
+        <%= sanitize(@submission.page) %>
       </p>
       <p>
         <label class="usa-label">
           Referer
         </label>
-        <%= @submission.referer %>
+        <%= sanitize(@submission.referer) %>
       </p>
       <p>
         <label class="usa-label">
