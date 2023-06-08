@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_31_225454) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_08_193911) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -258,6 +258,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_31_225454) do
     t.integer "questions_count", default: 0
     t.boolean "verify_csrf", default: true
     t.string "submissions_tags", array: true
+    t.string "whitelist_url_1"
+    t.string "whitelist_url_2"
+    t.string "whitelist_url_3"
+    t.string "whitelist_url_4"
+    t.string "whitelist_url_5"
+    t.string "whitelist_url_6"
+    t.string "whitelist_url_7"
+    t.string "whitelist_url_8"
+    t.string "whitelist_url_9"
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["organization_id"], name: "index_forms_on_organization_id"
