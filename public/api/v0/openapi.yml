@@ -113,6 +113,24 @@ components:
           type: string
         whitelist_url:
           type: string
+        whitelist_url_1:
+          type: string
+        whitelist_url_2:
+          type: string
+        whitelist_url_3:
+          type: string
+        whitelist_url_4:
+          type: string
+        whitelist_url_5:
+          type: string
+        whitelist_url_6:
+          type: string
+        whitelist_url_7:
+          type: string
+        whitelist_url_8:
+          type: string
+        whitelist_url_9:
+          type: string
         whitelist_test_url:
           type: string
         display_header_logo:

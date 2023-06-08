@@ -30,11 +30,20 @@ class SubmissionsController < ApplicationController
       head :ok and return
     end
 
-    # Prevent the Submission if this is a published Form and if:
+    # Prevent the Submission if this is a published Form and if the form:
     if @form &&
        request.referer &&
-       # is not from the Form's whitelist URL
+       # is not from the Form's whitelist URLs
        (@form.whitelist_url.present? ? !request.referer.start_with?(@form.whitelist_url) : true) &&
+       (@form.whitelist_url_1.present? ? !request.referer.start_with?(@form.whitelist_url_1) : true) &&
+       (@form.whitelist_url_2.present? ? !request.referer.start_with?(@form.whitelist_url_2) : true) &&
+       (@form.whitelist_url_3.present? ? !request.referer.start_with?(@form.whitelist_url_3) : true) &&
+       (@form.whitelist_url_4.present? ? !request.referer.start_with?(@form.whitelist_url_4) : true) &&
+       (@form.whitelist_url_5.present? ? !request.referer.start_with?(@form.whitelist_url_5) : true) &&
+       (@form.whitelist_url_6.present? ? !request.referer.start_with?(@form.whitelist_url_6) : true) &&
+       (@form.whitelist_url_7.present? ? !request.referer.start_with?(@form.whitelist_url_7) : true) &&
+       (@form.whitelist_url_8.present? ? !request.referer.start_with?(@form.whitelist_url_8) : true) &&
+       (@form.whitelist_url_9.present? ? !request.referer.start_with?(@form.whitelist_url_9) : true) &&
        # is not from the Form's test whitelist URL
        (@form.whitelist_test_url.present? ? !request.referer.start_with?(@form.whitelist_test_url) : true) &&
        # is not from the Touchpoints app
