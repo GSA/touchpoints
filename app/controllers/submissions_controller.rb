@@ -147,7 +147,7 @@ class SubmissionsController < ApplicationController
 
   def submission_params
     permitted_fields = @form.questions.collect(&:answer_field)
-    permitted_fields << %i[language location_code referer page fba_directive]
+    permitted_fields << %i[language location_code referer hostname page fba_directive]
     params.require(:submission).permit(permitted_fields)
   end
 
