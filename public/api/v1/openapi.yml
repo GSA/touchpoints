@@ -58,7 +58,7 @@
               application/json:
                 schema:
                   type: array
-                  items: 
+                  items:
                     $ref: '#/components/schemas/Form'
     /websites.json:
       get:
@@ -77,7 +77,7 @@
                     data:
                       type: array
                       items:
-                        $ref: '#/components/schemas/Website'                          
+                        $ref: '#/components/schemas/Website'
     '/websites/{id}.json':
       summary: returns one website record
       description: returns one website record
@@ -102,7 +102,7 @@
                   properties:
                     data:
                       type: object
-                      $ref: '#/components/schemas/Website'                                             
+                      $ref: '#/components/schemas/Website'
     /digital_products.json:
       get:
         summary: List published digital products (Mobile Apps)
@@ -120,7 +120,7 @@
                     data:
                       type: array
                       items:
-                        $ref: '#/components/schemas/DigitalProduct'                          
+                        $ref: '#/components/schemas/DigitalProduct'
     '/digital_products/{id}.json':
       summary: returns one digital product record
       description: returns one digital product record
@@ -145,7 +145,7 @@
                   properties:
                     data:
                       type: object
-                      $ref: '#/components/schemas/DigitalProduct'         
+                      $ref: '#/components/schemas/DigitalProduct'
     /digital_service_accounts.json:
       get:
         summary: List published digital service accounts (Social Media Accounts)
@@ -163,7 +163,7 @@
                     data:
                       type: array
                       items:
-                        $ref: '#/components/schemas/DigitalServiceAccount'                          
+                        $ref: '#/components/schemas/DigitalServiceAccount'
     '/digital_service_accounts/{id}.json':
       summary: returns one digital service account record
       description: returns one digital service account record
@@ -197,22 +197,22 @@
         name: X-API-KEY
     schemas:
       Channel:
-        required: 
+        required:
           - "id"
           - "name"
           - "created_at"
           - "updated_at"
-        properties: 
-          id: 
+        properties:
+          id:
             type: "number"
             example: 39
-          name: 
+          name:
             type: "string"
             example: "website"
-          created_at: 
+          created_at:
             type: "string"
             example: "2022-01-20T20:44:35.603Z"
-          updated_at: 
+          updated_at:
             type: "string"
             example: "2022-01-20T20:44:35.603Z"
       Form:
@@ -220,13 +220,13 @@
         required:
           - id
           - name
-        properties: 
-            id: 
+        properties:
+            id:
               type: "string"
-            type: 
+            type:
               type: "string"
-            attributes: 
-              required: 
+            attributes:
+              required:
                 - "page"
                 - "size"
                 - "start_date"
@@ -241,6 +241,15 @@
                 - "created_at"
                 - "updated_at"
                 - "whitelist_url"
+                - "whitelist_url_1"
+                - "whitelist_url_2"
+                - "whitelist_url_3"
+                - "whitelist_url_4"
+                - "whitelist_url_5"
+                - "whitelist_url_6"
+                - "whitelist_url_7"
+                - "whitelist_url_8"
+                - "whitelist_url_9"
                 - "whitelist_test_url"
                 - "display_header_logo"
                 - "success_text_heading"
@@ -275,156 +284,156 @@
                 - "time_zone"
                 - "response_count"
                 - "last_response_created_at"
-              properties: 
-                page: 
+              properties:
+                page:
                   type: "number"
-                size: 
+                size:
                   type: "number"
-                start_date: 
+                start_date:
                   type: "string"
-                end_date: 
+                end_date:
                   type: "string"
-                name: 
+                name:
                   type: "string"
-                title: 
+                title:
                   type: "string"
-                instructions: 
+                instructions:
                   type: "string"
-                disclaimer_text: 
+                disclaimer_text:
                   type: "string"
-                kind: 
+                kind:
                   type: "string"
-                notes: 
+                notes:
                   type: "string"
-                created_at: 
+                created_at:
                   type: "string"
-                updated_at: 
+                updated_at:
                   type: "string"
-                whitelist_url: 
+                whitelist_url:
                   type: "string"
-                whitelist_test_url: 
+                whitelist_test_url:
                   type: "string"
-                display_header_logo: 
+                display_header_logo:
                   type: "boolean"
-                success_text_heading: 
+                success_text_heading:
                   type: "string"
-                success_text: 
+                success_text:
                   type: "string"
-                modal_button_text: 
+                modal_button_text:
                   type: "string"
-                display_header_square_logo: 
+                display_header_square_logo:
                   type: "boolean"
-                early_submission: 
+                early_submission:
                   type: "boolean"
-                user_id: 
+                user_id:
                   type: "number"
-                template: 
+                template:
                   type: "boolean"
-                uuid: 
+                uuid:
                   type: "string"
-                short_uuid: 
+                short_uuid:
                   type: "string"
-                organization_id: 
+                organization_id:
                   type: "number"
-                omb_approval_number: 
+                omb_approval_number:
                   type: "string"
-                medium: 
+                medium:
                   type: "string"
-                federal_register_url: 
+                federal_register_url:
                   type: "string"
-                service_name: 
+                service_name:
                   type: "string"
-                survey_instrument_reference: 
+                survey_instrument_reference:
                   type: "string"
-                agency_poc_email: 
+                agency_poc_email:
                   type: "string"
-                agency_poc_name: 
+                agency_poc_name:
                   type: "string"
-                department: 
+                department:
                   type: "string"
-                bureau: 
+                bureau:
                   type: "string"
-                notification_emails: 
+                notification_emails:
                   type: "string"
-                aasm_state: 
+                aasm_state:
                   type: "string"
-                delivery_method: 
+                delivery_method:
                   type: "string"
-                element_selector: 
+                element_selector:
                   type: "string"
-                survey_form_activations: 
+                survey_form_activations:
                   type: "number"
-                load_css: 
+                load_css:
                   type: "boolean"
-                logo: 
-                  required: 
+                logo:
+                  required:
                     - "url"
                     - "thumb"
                     - "card"
                     - "tag"
                     - "logo_square"
-                  properties: 
-                    url: 
+                  properties:
+                    url:
                       type: "string"
-                    thumb: 
-                      required: 
+                    thumb:
+                      required:
                         - "url"
-                      properties: 
-                        url: 
+                      properties:
+                        url:
                           type: "string"
                       type: "object"
-                    card: 
-                      required: 
+                    card:
+                      required:
                         - "url"
-                      properties: 
-                        url: 
+                      properties:
+                        url:
                           type: "string"
                       type: "object"
-                    tag: 
-                      required: 
+                    tag:
+                      required:
                         - "url"
-                      properties: 
-                        url: 
+                      properties:
+                        url:
                           type: "string"
                       type: "object"
-                    logo_square: 
-                      required: 
+                    logo_square:
+                      required:
                         - "url"
-                      properties: 
-                        url: 
+                      properties:
+                        url:
                           type: "string"
                       type: "object"
                   type: "object"
-                time_zone: 
+                time_zone:
                   type: "string"
-                response_count: 
+                response_count:
                   type: "number"
-                last_response_created_at: 
+                last_response_created_at:
                   type: "string"
               type: "object"
-            relationships: 
+            relationships:
               type: "object"
-              required: 
+              required:
                 - "questions"
                 - "submissions"
-              properties: 
-                questions: 
+              properties:
+                questions:
                   type: "object"
-                  required: 
+                  required:
                     - "data"
-                  properties: 
-                    data: 
+                  properties:
+                    data:
                       type: "array"
-                      items: 
+                      items:
                         $ref: '#/components/schemas/Question'
-                submissions: 
+                submissions:
                   type: "object"
-                  required: 
+                  required:
                     - "data"
-                  properties: 
-                    data: 
+                  properties:
+                    data:
                       type: "array"
-                      items: 
+                      items:
                         $ref: '#/components/schemas/Submission'
       Forms:
         type: array
@@ -501,33 +510,33 @@
             type: string
       Question:
         type: object
-        required: 
+        required:
           - "data"
-        properties: 
-          data: 
+        properties:
+          data:
             type: "array"
-            items: 
+            items:
               type: "object"
-              properties: 
-                id: 
+              properties:
+                id:
                   type: "number"
-                form_id: 
+                form_id:
                   type: "number"
-                text: 
+                text:
                   type: "string"
-                question_type: 
+                question_type:
                   type: "string"
-                answer_field: 
+                answer_field:
                   type: "string"
-                position: 
+                position:
                   type: "number"
-                is_required: 
+                is_required:
                   type: "boolean"
-                created_at: 
+                created_at:
                   type: "string"
-                updated_at: 
+                updated_at:
                   type: "string"
-                form_section_id: 
+                form_section_id:
                   type: "number"
       Submissions:
         type: array
@@ -540,80 +549,80 @@
           - name
           - abbreviation
           - domain
-        properties: 
-          id: 
+        properties:
+          id:
             type: "number"
-          name: 
+          name:
             type: "string"
-          url: 
+          url:
             type: "string"
-          abbreviation: 
+          abbreviation:
             type: "string"
-          domain: 
+          domain:
             type: "string"
-          logo: 
-            required: 
+          logo:
+            required:
               - "url"
               - "thumb"
               - "card"
               - "tag"
               - "logo_square"
-            properties: 
-              thumb: 
-                required: 
+            properties:
+              thumb:
+                required:
                   - "url"
                 properties: {}
                 type: "object"
-              card: 
-                required: 
+              card:
+                required:
                   - "url"
                 properties: {}
                 type: "object"
-              tag: 
-                required: 
+              tag:
+                required:
                   - "url"
                 properties: {}
                 type: "object"
-              logo_square: 
-                required: 
+              logo_square:
+                required:
                   - "url"
                 properties: {}
                 type: "object"
             type: object
-          digital_analytics_path: 
+          digital_analytics_path:
             type: "string"
-          mission_statement: 
+          mission_statement:
             type: "string"
-          mission_statement_url: 
+          mission_statement_url:
             type: "string"
-          performance_url: 
+          performance_url:
             type: "string"
-          strategic_plan_url: 
+          strategic_plan_url:
             type: "string"
-          learning_agenda_url: 
+          learning_agenda_url:
             type: "string"
-          cfo_act_agency: 
+          cfo_act_agency:
             type: "boolean"
       PublicUser:
         type: object
-        properties: 
-          email: 
+        properties:
+          email:
             type: "string"
       Service:
-        required: 
+        required:
           - "data"
-        properties: 
-          data: 
+        properties:
+          data:
             type: "array"
-            items: 
+            items:
               type: "object"
-              properties: 
-                id: 
+              properties:
+                id:
                   type: "string"
-                type: 
+                type:
                   type: "string"
-                attributes: 
-                  required: 
+                attributes:
+                  required:
                     - "name"
                     - "description"
                     - "organization_id"
@@ -639,98 +648,98 @@
                     - "available_in_person"
                     - "available_digitally"
                     - "available_via_phone"
-                  properties: 
-                    name: 
+                  properties:
+                    name:
                       type: "string"
-                    description: 
+                    description:
                       type: "string"
-                    organization_id: 
+                    organization_id:
                       type: "number"
-                    organization_abbreviation: 
+                    organization_abbreviation:
                       type: "string"
-                    organization_name: 
+                    organization_name:
                       type: "string"
-                    service_provider_id: 
+                    service_provider_id:
                       type: "number"
-                    service_provider_name: 
+                    service_provider_name:
                       type: "string"
-                    justification_text: 
+                    justification_text:
                       type: "string"
-                    kind: 
+                    kind:
                       type: "array"
-                      items: 
+                      items:
                         type: "string"
-                    transactional: 
+                    transactional:
                       type: "boolean"
-                    notes: 
+                    notes:
                       type: "string"
-                    hisp: 
+                    hisp:
                       type: "boolean"
-                    department: 
+                    department:
                       type: "string"
-                    bureau: 
+                    bureau:
                       type: "string"
-                    service_abbreviation: 
+                    service_abbreviation:
                       type: "string"
-                    service_slug: 
+                    service_slug:
                       type: "string"
-                    service_owner_email: 
+                    service_owner_email:
                       type: "string"
-                    service_managers: 
+                    service_managers:
                       type: "array"
-                      items: 
+                      items:
                         type: "object"
-                        properties: 
-                          email: 
+                        properties:
+                          email:
                             type: "string"
-                    url: 
+                    url:
                       type: "string"
-                    homepage_url: 
+                    homepage_url:
                       type: "string"
-                    channels: 
+                    channels:
                       type: "array"
-                      items: 
+                      items:
                         type: "object"
-                        properties: 
-                          id: 
+                        properties:
+                          id:
                             type: "number"
-                          name: 
+                          name:
                             type: "string"
-                          created_at: 
+                          created_at:
                             type: "string"
-                          updated_at: 
+                          updated_at:
                             type: "string"
-                          taggings_count: 
+                          taggings_count:
                             type: "number"
-                    tags: 
+                    tags:
                       type: "array"
-                      items: 
+                      items:
                         $ref: '#/components/schemas/Tag'
-                    available_in_person: 
+                    available_in_person:
                       type: "boolean"
-                    available_digitally: 
+                    available_digitally:
                       type: "boolean"
-                    available_via_phone: 
+                    available_via_phone:
                       type: "boolean"
       Tag:
-        required: 
+        required:
           - "id"
           - "name"
           - "created_at"
           - "updated_at"
-        properties: 
-          id: 
+        properties:
+          id:
             type: "number"
             example: 1776
-          name: 
+          name:
             type: "string"
             example: "customer-experience"
-          created_at: 
+          created_at:
             type: "string"
             example: "2022-01-12T17:43:09.569Z"
-          updated_at: 
+          updated_at:
             type: "string"
-            example: "2022-01-12T17:43:09.569Z"        
+            example: "2022-01-12T17:43:09.569Z"
       Website:
         type: object
       Websites:
@@ -738,25 +747,25 @@
         items:
           $ref: '#/components/schemas/Website'
       DigitalProduct:
-        required: 
+        required:
           - "data"
           - "links"
           - "meta"
-        properties: 
-          data: 
+        properties:
+          data:
             type: "array"
-            items: 
+            items:
               type: "object"
-              properties: 
-                id: 
+              properties:
+                id:
                   type: "string"
                   example: "8"
-                type: 
+                type:
                   type: "string"
                   example: "digital_products"
-                attributes: 
+                attributes:
                   type: object
-                  required: 
+                  required:
                     - "agencies"
                     - "contacts"
                     - "service"
@@ -767,59 +776,59 @@
                     - "short_description"
                     - "long_description"
                     - "tags"
-                  properties: 
-                    agencies: 
+                  properties:
+                    agencies:
                       type: "array"
-                      items: 
+                      items:
                         $ref: '#/components/schemas/Organization'
                       example: []
-                    contacts: 
+                    contacts:
                       type: "array"
-                      items: 
+                      items:
                         $ref: '#/components/schemas/PublicUser'
                       example: []
-                    language: 
+                    language:
                       type: "string"
                       example: "English"
-                    status: 
+                    status:
                       type: "string"
                       example: "published"
-                    short_description: 
+                    short_description:
                       type: "string"
                       example: "Explore many of the most cherished cultural and historical sites on the National Mall."
-                    long_description: 
+                    long_description:
                       type: "string"
                       example: "<p>This is the official National Park Service app for the National Mall and Memorial Parks. On your next visit to Washington, D.C., use it to explore many of the most cherished cultural and historical sites in the United States—from the Lincoln Memorial to the White House. The app includes a total of 70 sites.</p><p><strong>Features:</strong></p><p><strong>Map</strong> – Official National Park Service map of the central tourist area in Washington, D.C. Easy to use while outdoors, the map features large font sizes, walkways that are easily distinguishable from roads, and three zoom levels. By tapping the “Locate me” icon you will always know where you are.</p><p><strong>Park Lens</strong> – Find out what is around you with augmented reality. Just hold up your device and look through the camera. Labels will appear identifying all sites on the National Mall.</p><p><strong>Walking directions</strong> – Get from one place to another by following a line on the map or a list of directions. Estimated walking times are given.</p><p><strong>Sites</strong> – Learn more about points of interest with lively text, professional photographs, and engaging podcasts under the “Album” button. The “Info” button includes the site’s location, hours of operation, nearest Metro station, and other essential information.</p><p><strong>Tours</strong> – Follow a recommended tour depending on how much time you have or your special interest—from memorials to presidents to military monuments to destinations off the beaten path. You can even create personal tours with the “My Tour” feature—just tap the “+” at the bottom right of a site page. The app maps the route for you.</p><p><strong>Events and News</strong> – Get up-to-date information from the National Park Service about what is happening at the National Mall and Memorial Parks.</p><p><strong>Postcard</strong> – Send a digital postcard to friends and family from the National Mall with the tap of a button.</p><p><strong>Accessibility</strong> – Audio described images combined with the built-in iOS accessibility features will let all people enjoy the National Mall and Memorial Parks.</p><p><strong>Park Partner</strong> – The Trust for the National Mall strives to make the National Mall the best park in the world. Learn more about the essential assistance this organization provides.</p><p><strong>Small size</strong> – Weighing in at 13.7MB, the app will download relatively quickly via a 3G cellular connection or the free Wi-Fi available on the east end the National Mall.</p>"
-                    tags: 
+                    tags:
                       type: "array"
-                      items: 
+                      items:
                         $ref: '#/components/schemas/Tag'
                       example: []
-          links: 
-            required: 
+          links:
+            required:
               - "first"
               - "last"
-            properties: 
-              first: 
+            properties:
+              first:
                 type: "string"
                 example: "https://touchpoints.app.cloud.gov/api/v1/digital_products.json?API_KEY=1234&page=1"
-              last: 
+              last:
                 type: "string"
                 example: "https://touchpoints.app.cloud.gov/api/v1/digital_products.json?API_KEY=1234&page=9"
             type: "object"
-          meta: 
-            required: 
+          meta:
+            required:
               - "size"
               - "page"
               - "totalPages"
-            properties: 
-              size: 
+            properties:
+              size:
                 type: "number"
                 example: 100
-              page: 
+              page:
                 type: "number"
                 example: 0
-              totalPages: 
+              totalPages:
                 type: "number"
                 example: 1
             type: "object"
@@ -830,30 +839,30 @@
           $ref: '#/components/schemas/DigitalProduct'
       DigitalServiceAccount:
         type: object
-        properties: 
-          name: 
+        properties:
+          name:
             type: "string"
-          account: 
+          account:
             type: "string"
-          status: 
+          status:
             type: "string"
           agencies:
             type: array
             items:
               $ref: '#/components/schemas/Organization'
-          contacts: 
+          contacts:
             type: "array"
             items:
               $ref: '#/components/schemas/PublicUser'
-          service_url: 
+          service_url:
             type: "string"
-          short_description: 
+          short_description:
             type: "string"
-          long_description: 
+          long_description:
             type: "string"
-          tags: 
+          tags:
             type: "array"
-            items: 
+            items:
               type: "string"
       DigitalServiceAccounts:
         type: object
@@ -863,16 +872,16 @@
             items:
               $ref: '#/components/schemas/DigitalServiceAccount'
       Error:
-        required: 
+        required:
           - "error"
-        properties: 
-          error: 
-            required: 
+        properties:
+          error:
+            required:
               - "code"
               - "message"
-            properties: 
-              code: 
+            properties:
+              code:
                 type: "string"
-              message: 
+              message:
                 type: "string"
             type: "object"
