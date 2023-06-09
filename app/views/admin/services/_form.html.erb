@@ -19,7 +19,7 @@
 
     <div class="field">
       <%= form.label :bureau_id, "Subcomponent/Bureau", class: "usa-label" %>
-      <%= form.select :bureau_id, options_for_select(organization_dropdown_options, service.bureau_id), { prompt: "Which Bureau?" }, { class: "usa-select" } %>
+      <%= form.select :bureau_id, options_for_select(organization_dropdown_options, service.bureau_id), { prompt: "Which Bureau?", include_blank: true }, { class: "usa-select" } %>
     </div>
 
     <div class="field">
@@ -379,13 +379,17 @@
 
     $("#service_digital_service_yes").on('click', function() {
       $("#service_designated_for_improvement_a11_280").attr('required', true);
-      $("#resources_needed_to_provide_digital_service_option").show();
+      $("#service_resources_needed_to_provide_digital_service").show();
     })
     $("#service_digital_service_no").on('click', function() {
       $("#service_designated_for_improvement_a11_280").attr('required', false);
-      $("#resources_needed_to_provide_digital_service_option").hide();
+      $("#service_resources_needed_to_provide_digital_service").hide();
     })
 
+    $("#service_multi_agency_service_yes").on('click', function() {
+      $("#service_multi_agency_explanation").attr('required', true);
+      $("#multi_agency_explanation_option").show();
+    })
     $("#service_multi_agency_service_yes").on('click', function() {
       $("#service_multi_agency_explanation").attr('required', true);
       $("#multi_agency_explanation_option").show();
@@ -444,6 +448,10 @@
     if ($("#service_multi_agency_service_yes:checked")) {
       $("#service_multi_agency_explanation").attr('required', true);
       $("#multi_agency_explanation_option").show();
+    }
+    if ($("#service_multi_agency_service_no:checked")) {
+      $("#service_multi_agency_explanation").attr('required', false);
+      $("#multi_agency_explanation_option").hide();
     }
 
     if ($("#service_fully_digital_service_yes:checked")) {
