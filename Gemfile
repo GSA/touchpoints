@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.1.3'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.0.4"
+gem "rails", "~> 7.0.5", ">= 7.0.5.1"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
@@ -16,7 +16,7 @@ gem "pg", "~> 1.3"
 gem "puma", "~> 5.6"
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-gem "importmap-rails"
+gem "importmap-rails", ">= 1.2.0"
 
 # Hotwire"s SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
@@ -48,13 +48,13 @@ gem "rubocop-rails"
 gem "rubocop-rspec"
 gem 'active_model_serializers', '>= 0.10.13'
 gem 'acts-as-list'
-gem 'aws-sdk-rails', '>= 3.6.3'
+gem 'aws-sdk-rails', '>= 3.8.0'
 gem 'caracal', '>= 1.4.1'
 gem 'carrierwave', '>= 2.2.1'
 gem 'devise', '>= 4.8.1'
 gem 'fog-aws', '>= 3.15.0'
 gem "jbuilder"
-gem 'jquery-rails'
+gem 'jquery-rails', '>= 4.6.0'
 gem 'kaminari'
 gem 'kramdown'
 gem 'mail'
@@ -96,7 +96,7 @@ group :test do
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'rails-controller-testing'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '>= 6.0.3'
   gem 'selenium-webdriver', "4.8.6"
   gem 'simplecov', require: false
   gem 'webdrivers', '>= 5.1.0'
