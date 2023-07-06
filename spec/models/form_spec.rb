@@ -49,7 +49,7 @@ RSpec.describe Form, type: :model do
         # questions are sorted by Form Section, then Position
         q4 = form.form_sections.first.questions.create!(form: form, answer_field: 'answer_03', text: '03', question_type: 'text_field', position: 4)
         q3 = form.form_sections.first.questions.create!(form: form, answer_field: 'answer_05', text: '05', question_type: 'text_field', position: 3)
-        
+
         second_form_section = form.form_sections.create(title: 'Section 2', position: 2)
         q5 = second_form_section.questions.create!(form: form, answer_field: 'answer_10', text: '10', question_type: 'text_field', position: 5)
         q6 = second_form_section.questions.create!(form: form, answer_field: 'answer_04', text: '04', question_type: 'text_field', position: 6)
@@ -71,9 +71,11 @@ RSpec.describe Form, type: :model do
           :location_code,
           # standard fields
           :user_agent,
+          :aasm_state,
           :archived,
           :flagged,
           :page,
+          :hostname,
           :referer,
           :created_at,
           :ip_address,
