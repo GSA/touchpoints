@@ -60,6 +60,7 @@
           <div>
             <%= link_to "Q1", admin_collections_path(quarter: 1, year: 2023), class: "usa-button #{params[:quarter] == "1" && params[:year] == "2023" ? nil : 'usa-button--outline'}" %>
             <%= link_to "Q2", admin_collections_path(quarter: 2, year: 2023), class: "usa-button #{params[:quarter] == "2" && params[:year] == "2023" ? nil : 'usa-button--outline'}" %>
+            <%= link_to "Q3", admin_collections_path(quarter: 3, year: 2023), class: "usa-button #{params[:quarter] == "3" && params[:year] == "2023" ? nil : 'usa-button--outline'}" %>
           </div>
         </div>
 

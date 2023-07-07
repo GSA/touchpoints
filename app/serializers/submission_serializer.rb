@@ -6,6 +6,7 @@ class SubmissionSerializer < ActiveModel::Serializer
              :created_at,
              :updated_at,
              :referer,
+             :hostname,
              :page,
              :user_agent,
              :answer_01,
