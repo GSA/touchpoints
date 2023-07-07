@@ -392,7 +392,8 @@ class Form < ApplicationRecord
   end
 
   # TODO: Move to /models/submission.rb
-  # a map of { Submission field names (to access the data) => the Header (to display) }
+  # a hash/map of Submission field names and CSV Header text
+  # { field_name: 'Header Text' }
   def hashed_fields_for_export
     ordered_hash = ActiveSupport::OrderedHash.new
     ordered_hash.merge!({
@@ -405,9 +406,11 @@ class Form < ApplicationRecord
     ordered_hash.merge!({
       location_code: 'Location Code',
       user_agent: 'User Agent',
+      aasm_state: 'Status',
       archived: 'Archived',
       flagged: 'Flagged',
       page: 'Page',
+      hostname: 'Hostname',
       referer: 'Referrer',
       created_at: 'Created At',
     })
