@@ -525,7 +525,7 @@ DEPENDENCIES
   active_model_serializers (>= 0.10.13)
   acts-as-list
   acts-as-taggable-on
-  aws-sdk-rails (>= 3.6.3)
+  aws-sdk-rails (>= 3.8.0)
   bootsnap
   brakeman
   bullet
@@ -539,9 +539,9 @@ DEPENDENCIES
   factory_bot_rails
   fog-aws (>= 3.15.0)
   image_processing (~> 1.12)
-  importmap-rails
+  importmap-rails (>= 1.2.0)
   jbuilder
-  jquery-rails
+  jquery-rails (>= 4.6.0)
   json-jwt
   kaminari
   kramdown
@@ -557,13 +557,13 @@ DEPENDENCIES
   pry
   puma (~> 5.6)
   rack-cors (>= 1.1.1)
-  rails (~> 7.0.4)
+  rails (~> 7.0.6)
   rails-controller-testing
   rails-erd
   redis (~> 4.6)
   redis-namespace
   rolify
-  rspec-rails
+  rspec-rails (>= 6.0.3)
   rspec_junit_formatter
   rubocop-rails
   rubocop-rspec
