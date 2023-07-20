@@ -234,6 +234,7 @@ $(function() {
   $(".questions").sortable({
     items: '.question',
     connectWith: ".questions",
+    handle: ".drag-handle",
     distance: 20,
     update: function(e, ui) {
       var section_id = $(this).closest(".form-section-div").attr('data-id');
@@ -260,6 +261,7 @@ $(function() {
 
   $(".sorting-div").sortable({
     distance: 20,
+    handle: ".drag-handle",
     update: function(e, ui) {
       var url = ui.item.data("url");
       $.ajax({

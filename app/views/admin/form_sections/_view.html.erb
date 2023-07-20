@@ -2,6 +2,13 @@
   <div class="section">
     <div class="section-header">
       <div class="section-title-view">
+        <%= link_to "javascript:void(0)",
+          class: "usa-button usa-button--base bg-base-light drag-handle float-right margin-right-1",
+          data: { id: section.id },
+          "aria-label" => "Form section order" do %>
+          <i class="fa fa-solid fa-sort"></i>
+        <% end %>
+
         <label class="usa-label text-uppercase font-body-3xs" style="margin-top: 0;" for="instructions">
           Section title
         </label>

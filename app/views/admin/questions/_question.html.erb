@@ -1,5 +1,14 @@
 <%= render 'components/forms/edit/button_dropdown', { form: form, question: question } if form_permissions?(form: form) %>
 
+<div class="question-menu-action margin-right-1">
+  <%= link_to "javascript:void(0)",
+    class: "usa-button usa-button--base bg-base-light margin-right-0 float-right drag-handle",
+    data: { id: question.id },
+    "aria-label" => "Question order" do %>
+    <i class="fa fa-solid fa-sort"></i>
+  <% end %>
+</div>
+
 <% if question.question_type == "text_field" %>
 <% @form_component_path = 'components/forms/edit/question_types/text_field' %>
 <% elsif question.question_type == "text_email_field" %>
