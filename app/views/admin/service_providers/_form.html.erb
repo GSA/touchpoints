@@ -62,7 +62,11 @@
     <div class="grid-col-6">
       <div class="field">
         <%= form.label :portfolio_manager_email, "Portfolio Manager (Service Manager permissions)", class: "usa-label" %>
-        <%= select_tag :portfolio_manager_email, options_for_select(User.service_managers.order(:email).map { |user| [user.email, user.email] }), prompt: "Select a user", id: "add-user-id", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
+        <%= form.select :portfolio_manager_email,
+          options_for_select(User.service_managers.order(:email).map { |user| [user.email, user.email] }, selected: service_provider.portfolio_manager_email ),
+          { prompt: "Select a user" },
+          style: "display: inline-block; margin-right: 1em;",
+          class: "usa-select" %>
       </div>
 
       <div class="field">
