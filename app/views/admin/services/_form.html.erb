@@ -42,6 +42,15 @@
       <%= form.text_area :description, class: "usa-textarea" %>
     </div>
 
+    <br>
+    <fieldset class="usa-fieldset margin-bottom-3">
+      <legend class="usa-sr-only">Contact Center?</legend>
+      <div class="usa-checkbox">
+        <%= form.check_box :contact_center, class: "usa-checkbox__input" %>
+        <%= form.label :contact_center, "Contact Center?", class: "usa-checkbox__label" %>
+      </div>
+    </fieldset>
+
     <fieldset class="usa-fieldset">
       <%= form.label :multi_agency_service, "Does the public have to perform steps or tasks with multiple agencies for this service?", class: "usa-label" %>
       <legend class="usa-legend sr-only">Does the public have to perform steps or tasks with multiple agencies for this service?</legend>

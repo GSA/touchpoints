@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_08_231430) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_26_162206) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -626,6 +626,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_231430) do
     t.integer "bureau_id"
     t.string "office"
     t.boolean "designated_for_improvement_a11_280", default: false
+    t.boolean "contact_center", default: false
     t.index ["organization_id"], name: "index_services_on_organization_id"
   end
 
