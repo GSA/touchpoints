@@ -259,6 +259,7 @@ module Admin
         :estimated_annual_volume_of_customers,
         :hisp,
         :justification_text,
+        :contact_center,
 
         :name,
         :non_digital_explanation,

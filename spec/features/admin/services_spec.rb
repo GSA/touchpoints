@@ -42,6 +42,7 @@ feature 'Managing Services', js: true do
           select(organization.name, from: 'service[organization_id]')
           fill_in :service_name, with: 'New Service Name'
           fill_in :service_description, with: "Lots of text\n\n#### Heading\n\n* 1\n* 2\n* 3"
+          find("[for=service_contact_center]").click
 
           find("label[for='service_hisp']").click
           select(service_provider.name, from: 'service[service_provider_id]')
@@ -55,6 +56,7 @@ feature 'Managing Services', js: true do
           # renders markdown
           expect(page).to have_css('h4', text: 'Heading')
           expect(page).to have_css('ul li', text: '2')
+          expect(find(".contact-center")).to have_content('✅')
         end
       end
     end

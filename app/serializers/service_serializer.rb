@@ -11,6 +11,7 @@ class ServiceSerializer < ActiveModel::Serializer
              :service_provider_name,
              :service_provider_slug,
              :justification_text,
+             :contact_center,
              :kind,
              :transactional,
              :notes,

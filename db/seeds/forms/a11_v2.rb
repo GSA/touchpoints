@@ -21,12 +21,21 @@ module Seeds
       question_01 = Question.create!({
         form: a11_v2_form,
         form_section: (a11_v2_form.form_sections.first),
-        text: "Please rate your experience",
-        question_type: "star_radio_buttons",
+        text: "Based on my experience Example Agency's Service, I trust Example Agency to deliver on their mission for the American public.",
+        question_type: "radio_buttons",
         position: 1,
         answer_field: :answer_01,
         is_required: true
       })
+      [["👍", 1], ["👎", 0]].each_with_index do |value, i|
+        QuestionOption.create!({
+          question: question_01,
+          text: value[0],
+          value: value[1],
+          position: i + 1
+        })
+      end
+
       question_02 = Question.create!({
         form: a11_v2_form,
         form_section: (a11_v2_form.form_sections.first),
@@ -47,10 +56,27 @@ module Seeds
       question_03 = Question.create!({
         form: a11_v2_form,
         form_section: (a11_v2_form.form_sections.first),
-        text: "Additional Comments",
-        question_type: "textarea",
+        text: "What went well?",
+        question_type: "checkbox",
         position: 3,
         answer_field: :answer_03,
+        is_required: true
+      })
+      ["1 down", "2 down", "3 down", "4 down"].each_with_index do |value, i|
+        QuestionOption.create!({
+          question: question_03,
+          text: value.to_s,
+          value: value,
+          position: i + 1
+        })
+      end
+      question_03 = Question.create!({
+        form: a11_v2_form,
+        form_section: (a11_v2_form.form_sections.first),
+        text: "Additional Comments",
+        question_type: "textarea",
+        position: 4,
+        answer_field: :answer_04,
       })
 
       a11_v2_form
