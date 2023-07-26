@@ -51,7 +51,7 @@
     <p>
       <strong>Office</strong>
       <br>
-      <%= @service.office %>
+      <%= @service.office.present? ? @service.office : "---" %>
     </p>
     <p>
       <strong>Service Provider</strong>
@@ -66,16 +66,20 @@
     <p>
       <strong>Description</strong>
       <br>
-      <%= @service.description? ? to_markdown(@service.description) : "empty" %>
+      <%= @service.description? ? to_markdown(@service.description) : "---" %>
     </p>
 
     <p>
       <strong>Service type</strong>
       <br>
+      <% if @service.kind %>
       <% @service.kind.each do |i| %>
         <%= i %>
-        <br>          
+        <br>
       <% end if @service.kind.present? %>
+      <% else %>
+        ---
+      <% end %>
     </p>
 
     <div class="well">
@@ -85,6 +89,12 @@
         <br>
         <%= @service.hisp? ? "✅" : "❌" %>
       </p>
+      <div class="contact-center">
+        <strong>Contact center?</strong>
+        <p>
+          <%= @service.contact_center? ? "✅" : "❌" %>
+        </p>
+      </div>
       <div>
         <strong>Transactional service?</strong>
         <p>
