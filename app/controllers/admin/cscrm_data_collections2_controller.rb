@@ -137,14 +137,16 @@ module Admin
         :strategy_plan_comments,
         :governance_structure,
         :governance_structure_comments,
-        :clearly_defined_roles,
+        # clearly_defined_roles: [],
         :clearly_defined_roles_comments,
         # Question 10
-        :identified_assets_and_essential_functions,
+        # identified_assets_and_essential_functions: [],
+
         :identified_assets_and_essential_functions_comments,
         :prioritization_process,
         :prioritization_process_comments,
-        :considerations_in_procurement_processes,
+        # considerations_in_procurement_processes: [],
+
         :considerations_in_procurement_processes_comments,
         :documented_methodology,
         :documented_methodology_comments,
@@ -156,14 +158,19 @@ module Admin
         :personnel_required_to_complete_training_comments,
         :established_process_information_sharing_with_fasc,
         :established_process_information_sharing_with_fasc_comments,
-        :cybersecurity_supply_chain_risk_considerations,
+        # cybersecurity_supply_chain_risk_considerations,
         :cybersecurity_supply_chain_risk_considerations_comments,
         :process_for_product_authenticity,
         :process_for_product_authenticity_comments,
+        :cscrm_controls_incorporated_into_ssp,
         :cscrm_controls_incorporated_into_ssp_comments,
         :comments,
 
-        cscrm_controls_incorporated_into_ssp: []
+
+        clearly_defined_roles: [],
+        identified_assets_and_essential_functions: [],
+        considerations_in_procurement_processes: [],
+        cybersecurity_supply_chain_risk_considerations: [],
 
         # :roles_and_responsibilities_comments,
         # :missions_identified_comments,

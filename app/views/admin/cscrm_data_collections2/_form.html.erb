@@ -14,7 +14,14 @@
   <% if admin_permissions? %>
   <div class="field">
     <%= form.label :user_id, "User ID" %>
-    <%= form.text_field :user_id, class: "usa-input" , value: cscrm_data_collection.user_id || current_user.id %>
+    <%= form.select :user_id,
+        options_for_select(User.all.order(:email).map { |user| [user.email, user.id] }, selected: cscrm_data_collection.user_id ),
+        {
+          prompt: "Select a user",
+          include_blank: true,
+        },
+        style: "display: inline-block; margin-right: 1em;",
+        class: "usa-select" %>
   </div>
   <br>
   <% end %>
@@ -201,12 +208,19 @@
     <%= form.label :clearly_defined_roles,
       "#{CscrmDataCollection2.question_9[:number]}. #{CscrmDataCollection2.question_9[:text]}",
       class: "usa-label" %>
-    <%= form.select :clearly_defined_roles,
-        CscrmDataCollection2.question_9[:options],
-        { include_blank: true },
-        class: "usa-select",
-        required: true
-    %>
+
+    <% CscrmDataCollection2.question_9[:options].each_with_index do |option, i| %>
+      <div class="margin-bottom-1">
+        <%= form.check_box(:clearly_defined_roles, {
+          multiple: true,
+          checked: form.object.clearly_defined_roles&.include?(option[0]),
+          class: "usa-checkbox__input2 usa-checkbox__input--tile2"
+        }, option[0], nil) %>
+        &nbsp;
+        &nbsp;
+        <%= form.label(option[0], class: "usa-checkbox__label2") %>
+      </div>
+    <% end %>
   </div>
 
   <div class="field margin-left-5">
@@ -218,12 +232,18 @@
     <%= form.label :identified_assets_and_essential_functions,
       "#{CscrmDataCollection2.question_10[:number]}. #{CscrmDataCollection2.question_10[:text]}",
       class: "usa-label" %>
-    <%= form.select :identified_assets_and_essential_functions,
-        CscrmDataCollection2.question_10[:options],
-        { include_blank: true },
-        class: "usa-select",
-        required: true
-    %>
+    <% CscrmDataCollection2.question_10[:options].each_with_index do |option, i| %>
+      <div class="margin-bottom-1">
+        <%= form.check_box(:identified_assets_and_essential_functions, {
+          multiple: true,
+          checked: form.object.identified_assets_and_essential_functions&.include?(option[0]),
+          class: "usa-checkbox__input2 usa-checkbox__input--tile2"
+        }, option[0], nil) %>
+        &nbsp;
+        &nbsp;
+        <%= form.label(option[0], class: "usa-checkbox__label2") %>
+      </div>
+    <% end %>
   </div>
 
   <div class="field margin-left-5">
@@ -231,29 +251,21 @@
     <%= form.text_area :identified_assets_and_essential_functions_comments, class: "usa-textarea" %>
   </div>
 
-  <fieldset class="usa-fieldset" role="group">
-    <legend class="usa-sr-only"><%= "#{CscrmDataCollection2.question_11[:number]}. #{CscrmDataCollection2.question_11[:text]}" %></legend>
+  <div class="field">
     <%= form.label :prioritization_process,
-    "#{CscrmDataCollection2.question_11[:number]}. #{CscrmDataCollection2.question_11[:text]}",
-    class: "usa-label" %>
-    <br>
-    <% CscrmDataCollection2.roles_and_responsibilities_options.each_with_index do |option, i| %>
-      <div class="margin-bottom-1">
-        <%= form.check_box(:prioritization_process, {
-          multiple: true,
-          checked: form.object.prioritization_process&.include?(option),
-          class: "usa-checkbox__input2 usa-checkbox__input--tile2"
-        }, option, nil) %>
-        &nbsp;
-        &nbsp;
-        <%= form.label(option, option, class: "usa-checkbox__label2") %>
-      </div>
-    <% end %>
-  </fieldset>
+      "#{CscrmDataCollection2.question_11[:number]}. #{CscrmDataCollection2.question_11[:text]}",
+      class: "usa-label" %>
+    <%= form.select :prioritization_process,
+      CscrmDataCollection2.question_11[:options],
+      { include_blank: true },
+      class: "usa-select",
+      required: true
+    %>
+  </div>
 
   <div class="field margin-left-5">
     <%= form.label :prioritization_process_comments, "Comments" , class: "usa-label" %>
-    <%= form.text_area :has_prioritization_process_comments, class: "usa-textarea" %>
+    <%= form.text_area :prioritization_process_comments, class: "usa-textarea" %>
   </div>
 
   <fieldset class="usa-fieldset">
@@ -261,35 +273,17 @@
     <%= form.label :considerations_in_procurement_processes,
     "#{CscrmDataCollection2.question_12[:number]}. #{CscrmDataCollection2.question_12[:text]}",
     class: "usa-label" %>
-    <div class="usa-hint font-sans-2xs">
-      Section 3.1.1. Acquisition in the C-SCRM Strategy and Implementation Plan
-      <br>
-      Appendix E: :FASCSA”
-      Table E-1 “Baseline Risk Factors”
-      <br>
-      Appendix G: Appendix G: “C-SCRM Activities in the Risk Management Process”: Task 1-1; Task 2-0
-      <br>
-      RA-9 Criticality Analysis
-      CM-8 System Component Inventory
-      PM-5 System Inventory
-      SR-13 Supplier Inventory
-      <br>
-      See also:
-      NISTIR 8179: “Criticality Analysis Process Model: Prioritizing Systems and Components”
-      <br>
-      FIPS 199 “Standards for Security Categorization of Federal Information and Information
-    </div>
     <br>
     <% CscrmDataCollection2.missions_identified_options.each_with_index do |option, i| %>
       <div class="margin-bottom-1">
         <%= form.check_box(:considerations_in_procurement_processes, {
           multiple: true,
-          checked: form.object.considerations_in_procurement_processes&.include?(option),
+          checked: form.object.considerations_in_procurement_processes&.include?(option[0]),
           class: "usa-checkbox__input2 usa-checkbox__input--tile2"
-        }, option, nil) %>
+        }, option[0], nil) %>
         &nbsp;
         &nbsp;
-        <%= form.label(option, option, class: "usa-checkbox__label2") %>
+        <%= form.label(option[0], class: "usa-checkbox__label2") %>
       </div>
     <% end %>
   </fieldset>
@@ -303,27 +297,6 @@
     <%= form.label :documented_methodology,
     "#{CscrmDataCollection2.question_13[:number]}. #{CscrmDataCollection2.question_13[:text]}",
     class: "usa-label" %>
-    <div class="usa-hint font-sans-2xs">
-      Section 3.1.1. Acquisition in the C-SCRM Strategy and Implementation Plan
-      <br>
-      Appendix E: :FASCSA”
-      Table E-1 “Baseline Risk Factors”
-      <br>
-      Appendix G: Appendix G: “C-SCRM Activities in the Risk Management Process”: Task 1-1; Task 2-0
-      <br>
-      RA-9 Criticality Analysis
-      <br>
-      CM-8 System Component Inventory
-      <br>
-      PM-5 System Inventory
-      <br>
-      SR-13 Supplier Inventory
-      <br>
-      See also:
-      NISTIR 8179: “Criticality Analysis Process Model: Prioritizing Systems and Components”
-      <br>
-      FIPS 199 “Standards for Security Categorization of Federal Information and Information Systems”
-    </div>
     <%= form.select :documented_methodology,
       CscrmDataCollection2.prioritization_process_options,
       { include_blank: true },
@@ -363,68 +336,30 @@
     <%= form.text_area :conducts_scra_for_prioritized_products_and_services_comments, class: "usa-textarea" %>
   </div>
 
-  <fieldset class="usa-fieldset">
-    <legend class="usa-sr-only"><%= "#{CscrmDataCollection2.question_15[:number]}. #{CscrmDataCollection2.question_15[:text]}" %></legend>
+   <div class="field">
     <%= form.label :personnel_required_to_complete_training,
-    "#{CscrmDataCollection2.question_15[:number]}. #{CscrmDataCollection2.question_15[:text]}",
-    class: "usa-label" %>
-    <div class="usa-hint font-sans-2xs">
-      Section 3.1. C-SCRM in Acquisition
-      <br>
-      SA Security Control Family
-      <br>
-      SR-5 Acquisition Strategies, Tools, and Methods
-      <br>
-      SR-6 Supplier Assessments and Reviews
-    </div>
-    <br>
-    <% CscrmDataCollection2.personnel_required_to_complete_training_options.each_with_index do |option, i| %>
-      <div class="margin-bottom-1">
-        <%= form.check_box(:considerations_in_procurement_processes, {
-          multiple: true,
-          checked: form.object.considerations_in_procurement_processes&.include?(option),
-          class: "usa-checkbox__input2 usa-checkbox__input--tile2"
-        }, option, nil) %>
-        &nbsp;
-        &nbsp;
-        <%= form.label(option, option, class: "usa-checkbox__label2") %>
-      </div>
-    <% end %>
-  </fieldset>
+      "#{CscrmDataCollection2.question_15[:number]}. #{CscrmDataCollection2.question_15[:text]}",
+      class: "usa-label" %>
+    <%= form.select :personnel_required_to_complete_training,
+      CscrmDataCollection2.question_15[:options],
+      { include_blank: true },
+      class: "usa-select" %>
+  </div>
 
   <div class="field margin-left-5">
     <%= form.label :personnel_required_to_complete_training_comments, "Comments", class: "usa-label" %>
     <%= form.text_area :personnel_required_to_complete_training_comments, class: "usa-textarea" %>
   </div>
 
-  <fieldset class="usa-fieldset">
-    <legend class="usa-sr-only"><%= "#{CscrmDataCollection2.question_16[:number]}. #{CscrmDataCollection2.question_16[:text]}" %></legend>
-    <%= form.label :established_process_information_sharing_with_fasc, "#{CscrmDataCollection2.question_16[:number]}. #{CscrmDataCollection2.question_16[:text]}",
-    class: "usa-label" %>
-    <div class="usa-hint font-sans-2xs">
-      SR-6 “Supplier Assessments and Reviews”
-      <br>
-      Appendix D.4 ”Cybersecurity Supply Chain Risk Assessment Template”
-      <br>
-      Appendix E: “FASCSA”
-      <br>
-      Appendix G: ASSESS
-    </div>
-
-    <br>
-    <% CscrmDataCollection2.conducts_scra_for_prioritized_products_and_services_options.each_with_index do |option, i| %>
-      <div class="margin-bottom-1">
-        <%= form.check_box(:established_process_information_sharing_with_fasc, {
-          multiple: true,
-          checked: form.object.conducts_scra_for_prioritized_products_and_services&.include?(option),
-          class: "usa-checkbox__input2 usa-checkbox__input--tile2"
-        }, option, nil) %>
-        &nbsp;
-        &nbsp;
-        <%= form.label(option, option, class: "usa-checkbox__label2") %>
-      </div>
-    <% end %>
-  </fieldset>
+  <div class="field">
+    <%= form.label :established_process_information_sharing_with_fasc,
+      "#{CscrmDataCollection2.question_16[:number]}. #{CscrmDataCollection2.question_16[:text]}",
+      class: "usa-label" %>
+    <%= form.select :established_process_information_sharing_with_fasc,
+      CscrmDataCollection2.question_16[:options],
+      { include_blank: true },
+      class: "usa-select" %>
+  </div>
 
   <div class="field margin-left-5">
     <%= form.label :established_process_information_sharing_with_fasc_comments, "Comments" , class: "usa-label" %>
@@ -437,44 +372,30 @@
     "#{CscrmDataCollection2.question_17[:number]}. #{CscrmDataCollection2.question_17[:text]}",
     class: "usa-label" %>
     <br>
-    <% CscrmDataCollection2.personnel_required_to_complete_training_options.each_with_index do |option, i| %>
+    <% CscrmDataCollection2.question_17[:options].each_with_index do |option, i| %>
       <div class="margin-bottom-1">
         <%= form.check_box(:cybersecurity_supply_chain_risk_considerations, {
           multiple: true,
-          checked: form.object.personnel_required_to_complete_training&.include?(option),
+          checked: form.object.cybersecurity_supply_chain_risk_considerations&.include?(option[0]),
           class: "usa-checkbox__input2 usa-checkbox__input--tile2"
-        }, option, nil) %>
+        }, option[0], nil) %>
         &nbsp;
         &nbsp;
-        <%= form.label(option, option, class: "usa-checkbox__label2") %>
+        <%= form.label(option[0], class: "usa-checkbox__label2") %>
       </div>
     <% end %>
   </fieldset>
 
   <div class="field margin-left-5">
-    <%= form.label :personnel_required_comments, "Comments", class: "usa-label" %>
-    <%= form.text_area :personnel_required_comments, class: "usa-textarea" %>
+    <%= form.label :cybersecurity_supply_chain_risk_considerations_comments, "Comments", class: "usa-label" %>
+    <%= form.text_area :cybersecurity_supply_chain_risk_considerations_comments, class: "usa-textarea" %>
   </div>
 
   <div class="field">
     <%= form.label :process_for_product_authenticity,
-     "#{CscrmDataCollection2.question_18[:number]}. #{CscrmDataCollection2.question_18[:text]}",class: "usa-label" %>
-    <div class="usa-hint font-sans-2xs">
-      Section 1: “Introduction”
-      <br>
-      Section 2.3.5 “C-SCRM PMO”
-      <br>
-      Section 3.2 “Supply Chain Information Sharing”
-      <br>
-      Appendix E: “FASCSA”
-      <br>
-      AC-21 “Information Sharing”
-      <br>
-      Note: Information sharing is referenced in various additional security controls (search on “information sharing”)
-    </div>
-
+     "#{CscrmDataCollection2.question_18[:number]}. #{CscrmDataCollection2.question_18[:text]}", class: "usa-label" %>
     <%= form.select :process_for_product_authenticity,
-      CscrmDataCollection2.established_process_information_sharing_options,
+      CscrmDataCollection2.question_18[:options],
       { include_blank: true },
       class: "usa-select" %>
   </div>
@@ -485,25 +406,14 @@
   </div>
 
 
-  <fieldset class="usa-fieldset">
-    <legend class="usa-sr-only"><%= "#{CscrmDataCollection2.question_19[:number]}. #{CscrmDataCollection2.question_19[:text]}" %></legend>
+  <div class="field">
     <%= form.label :cscrm_controls_incorporated_into_ssp,
-    "#{CscrmDataCollection2.question_19[:number]}. #{CscrmDataCollection2.question_19[:text]}",
-    class: "usa-label" %>
-    <br>
-    <% CscrmDataCollection2.cybersecurity_supply_chain_risk_considerations_options.each_with_index do |option, i| %>
-      <div class="margin-bottom-1">
-        <%= form.check_box(:cscrm_controls_incorporated_into_ssp, {
-          multiple: true,
-          checked: form.object.cybersecurity_supply_chain_risk_considerations&.include?(option),
-          class: "usa-checkbox__input2 usa-checkbox__input--tile2"
-        }, option, nil) %>
-        &nbsp;
-        &nbsp;
-        <%= form.label(option, option, class: "usa-checkbox__label2") %>
-      </div>
-    <% end %>
-  </fieldset>
+     "#{CscrmDataCollection2.question_19[:number]}. #{CscrmDataCollection2.question_19[:text]}", class: "usa-label" %>
+    <%= form.select :cscrm_controls_incorporated_into_ssp,
+      CscrmDataCollection2.question_19[:options],
+      { include_blank: true },
+      class: "usa-select" %>
+  </div>
 
   <div class="field margin-left-5">
     <%= form.label :cscrm_controls_incorporated_into_ssp_comments, "Comments" , class: "usa-label" %>

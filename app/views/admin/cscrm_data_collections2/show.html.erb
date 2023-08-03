@@ -295,18 +295,8 @@
       <br>
       <% field = CscrmDataCollection2.send("question_11")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
-
-      <% if [String, TrueClass, FalseClass].include?(value.class) %>
-        <%= value %>
-      <% elsif value.class == Array %>
-        <ul>
-          <% value.each do |v| %>
-          <li>
-            <%= v %>
-          </li>
-          <% end %>
-        </ul>
-      <% end %>
+      <%= CscrmDataCollection2.send("question_8")[:options].key(value) %>
+      (<%= value %>)
     </p>
 
     <p>
@@ -415,18 +405,8 @@
       <br>
       <% field = CscrmDataCollection2.send("question_15")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
-
-      <% if [String, TrueClass, FalseClass].include?(value.class) %>
-        <%= value %>
-      <% elsif value.class == Array %>
-        <ul>
-          <% value.each do |v| %>
-          <li>
-            <%= v %>
-          </li>
-          <% end %>
-        </ul>
-      <% end %>
+      <%= CscrmDataCollection2.send("question_8")[:options].key(value) %>
+      (<%= value %>)
     </p>
 
     <p>
@@ -445,18 +425,8 @@
       <br>
       <% field = CscrmDataCollection2.send("question_16")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
-
-      <% if [String, TrueClass, FalseClass].include?(value.class) %>
-        <%= value %>
-      <% elsif value.class == Array %>
-        <ul>
-          <% value.each do |v| %>
-          <li>
-            <%= v %>
-          </li>
-          <% end %>
-        </ul>
-      <% end %>
+      <%= CscrmDataCollection2.send("question_16")[:options].key(value) %>
+      (<%= value %>)
     </p>
 
     <p>
@@ -505,18 +475,8 @@
       <br>
       <% field = CscrmDataCollection2.send("question_18")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
-
-      <% if [String, TrueClass, FalseClass].include?(value.class) %>
-        <%= value %>
-      <% elsif value.class == Array %>
-        <ul>
-          <% value.each do |v| %>
-          <li>
-            <%= v %>
-          </li>
-          <% end %>
-        </ul>
-      <% end %>
+      <%= CscrmDataCollection2.send("question_18")[:options].key(value) %>
+      (<%= value %>)
     </p>
 
     <p>
@@ -535,18 +495,8 @@
       <br>
       <% field = CscrmDataCollection2.send("question_19")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
-
-      <% if [String, TrueClass, FalseClass].include?(value.class) %>
-        <%= value %>
-      <% elsif value.class == Array %>
-        <ul>
-          <% value.each do |v| %>
-          <li>
-            <%= v %>
-          </li>
-          <% end %>
-        </ul>
-      <% end %>
+      <%= CscrmDataCollection2.send("question_19")[:options].key(value) %>
+      (<%= value %>)
     </p>
 
     <p>
@@ -559,7 +509,7 @@
 
     <p>
       <strong>
-        20. General Comments
+        20. Comments
       </strong>
       <br>
       <%= @cscrm_data_collection.comments %>

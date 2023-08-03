@@ -184,7 +184,7 @@ criticality",
       text: "Established process for internal and exchanging information sharing with the Federal Acquisition Security Council (FASC)",
       number: 16,
       field: :established_process_information_sharing_with_fasc,
-      options: implementation_status_options,
+      options: established_process_information_sharing_options,
     }
   end
 
@@ -210,7 +210,7 @@ criticality",
       text: "C-SCRM security controls are selected, tailored as appropriate, and implements and distinctly and clearly incorporated into system security plans.",
       number: 19,
       field: :cscrm_controls_incorporated_into_ssp,
-      options: implementation_status_options,
+      options: cscrm_controls_incorporated_into_ssp_options,
     }
   end
 
@@ -230,11 +230,20 @@ criticality",
     }
   end
 
+  def self.cscrm_controls_incorporated_into_ssp_options
+    {
+      "No" => 0,
+      "Selection In-process" => 1,
+      "Partially implemented" => 2,
+      "Yes" => 3
+    }
+  end
+
   def self.interdisciplinary_team_established_options
     {
       "No" => 0,
-      "Partial/In-process" => 1,
-      "Plan Developed" => 2,
+      "Procedures are being developed" => 1,
+      "Procedures are in place that partially meet this benchmark" => 2,
       "Yes" => 3,
     }
   end
@@ -410,24 +419,24 @@ criticality",
   end
 
   def self.established_process_information_sharing_options
-    [
-      "Not established",
-      "Internal process partially developed/In process",
-      "Internal process (only) established",
-      "Internal process established",
-      "FASC information sharing process planned or in process",
-      "Internal and FASC information sharing processes established"
-    ]
+    {
+      "Not established" => 0,
+      "Internal process partially developed/In process" => 1,
+      "Internal process (only) established" => 2,
+      "Internal process established" => 3,
+      "FASC information sharing process planned or in process" => 4,
+      "Internal and FASC information sharing processes established" => 5
+    }
   end
 
   def self.cybersecurity_supply_chain_risk_considerations_options
-    [
-      'Not considered',
-      'Critical Suppliers are identified in COOP and Recovery plans',
-      'Business Impact Analysis considers supplier and product dependency risks and resiliency requirements',
-      'SCRAs are conducted for critical suppliers',
-      'Mitigations to improve resilience/address assessed risks  associated with critical suppliers are identified and implemented'
-    ]
+    {
+      'Not considered' => 0,
+      'Critical Suppliers are identified in COOP and Recovery plans' => 1,
+      'Business Impact Analysis considers supplier and product dependency risks and resiliency requirements' => 2,
+      'SCRAs are conducted for critical suppliers' => 3,
+      'Mitigations to improve resilience/address assessed risks  associated with critical suppliers are identified and implemented' => 4
+    }
   end
 
   def self.to_csv
