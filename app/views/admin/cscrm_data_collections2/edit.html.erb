@@ -1,0 +1,22 @@
+<% content_for :navigation_title do %>
+  Editing CSCRM Data Collection
+<% end %>
+
+<p>
+  <%= link_to admin_cscrm_data_collection_path(@cscrm_data_collection) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to CSCRM Data Collection
+  <% end %>
+</p>
+
+<div class="grid-row margin-bottom-3">
+  <div class="desktop:grid-col-6">
+  <%= render "form", cscrm_data_collection: @cscrm_data_collection %>
+
+  <% if @cscrm_data_collection.persisted? %>
+    <%= button_to "Destroy", admin_cscrm_data_collection_path(@cscrm_data_collection),
+        class: "usa-button usa-button--secondary float-right",
+        method: :delete %>
+  <% end %>
+  </div>
+</div>

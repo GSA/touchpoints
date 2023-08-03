@@ -9,6 +9,7 @@ class Organization < ApplicationRecord
   has_many :websites
   has_many :collections
   has_many :cscrm_data_collections
+  has_many :cscrm_data_collections2
   has_many :goals
   has_many :milestones, through: :goals
   has_many :objectives, through: :milestones
@@ -25,7 +26,7 @@ class Organization < ApplicationRecord
   def parent
     parent_id ? Organization.find(parent_id) : nil
   end
-  
+
   def children
     Organization.where(parent_id: self.id)
   end
