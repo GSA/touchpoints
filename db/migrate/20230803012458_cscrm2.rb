@@ -47,7 +47,6 @@ class Cscrm2 < ActiveRecord::Migration[7.0]
       t.text :conducts_scra_for_prioritized_products_and_services_comments
 
       # Question 15
-
       t.string :personnel_required_to_complete_training
       t.text :personnel_required_to_complete_training_comments
 
@@ -64,29 +63,6 @@ class Cscrm2 < ActiveRecord::Migration[7.0]
       t.text :cscrm_controls_incorporated_into_ssp_comments
 
       t.text :comments
-
-
-      ## These fields were incorporated into the new model:
-      # # t.string :pmo_established
-      # # t.text :prioritization_process
-      # # t.string :considerations_in_procurement_processes
-      # # t.string :conducts_scra_for_prioritized_products_and_services
-      # # t.string :personnel_required_to_complete_training
-      # # t.string :established_process_information_sharing_with_fasc
-      # # t.string :cybersecurity_supply_chain_risk_considerations
-
-      # These fields were not:
-      # t.string :leadership_roles
-      # t.string :stakeholder_champion_identified
-      # t.string :interdisciplinary_team_established
-      # t.string :enterprise_risk_management_function_established
-      # t.string :enterprise_wide_scrm_policy_established
-      # t.string :agency_wide_scrm_strategy_and_implementation_plan_established
-      # t.string :funding_for_initial_operating_capability
-      # t.string :staffing
-      # t.string :roles_and_responsibilities
-      # t.text :missions_identified
-      # t.text :missions_identified_why_not
 
       t.integer :organization_id
       t.integer :bureau_id
