@@ -37,7 +37,9 @@ feature 'CSCRM Collections 2', js: true do
       end
 
       it 'creates a Collection successfully' do
+        expect(page).to have_content('CSCRM Data Collection 2')
         expect(page).to have_content('Cscrm data collection was successfully created.')
+        expect(page).to have_content('20. Comments')
       end
     end
   end
