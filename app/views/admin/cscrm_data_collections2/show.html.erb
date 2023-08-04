@@ -345,18 +345,8 @@
       <br>
       <% field = CscrmDataCollection2.send("question_13")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
-
-      <% if [String, TrueClass, FalseClass].include?(value.class) %>
-        <%= value %>
-      <% elsif value.class == Array %>
-        <ul>
-          <% value.each do |v| %>
-          <li>
-            <%= v %>
-          </li>
-          <% end %>
-        </ul>
-      <% end %>
+      <%= CscrmDataCollection2.send("question_13")[:options].key(value) %>
+      (<%= value %>)
     </p>
 
     <p>

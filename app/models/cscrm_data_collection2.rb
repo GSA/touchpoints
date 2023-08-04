@@ -129,7 +129,7 @@ meetings and deliverables demonstrating team contributions.",
 processes, data and suppliers (e.g., HVAs, critical suppliers, mission- essential functions)",
       number: 10,
       field: :identified_assets_and_essential_functions,
-      options: implementation_status_options,
+      options: missions_identified_options,
     }
   end
 
@@ -157,7 +157,7 @@ criticality",
       text: "A methodology for conducting Supply Chain Risk Assessment is documented.",
       number: 13,
       field: :documented_methodology,
-      options: implementation_status_options,
+      options: yes_no_in_development,
     }
   end
 
@@ -166,7 +166,7 @@ criticality",
       text: "Conducts Supply Chain Risk Assessments (SCRA) for prioritized products and services",
       number: 14,
       field: :conducts_scra_for_prioritized_products_and_services,
-      options: implementation_status_options,
+      options: conducts_scra_for_prioritized_products_and_services_options,
     }
   end
 
@@ -384,27 +384,35 @@ criticality",
   end
 
   def self.considerations_in_procurement_processes_options
-    [
-      'Not considered',
-      'Acquisition Strategy',
-      'Acquisition Plan',
-      'Requirements language',
-      'Source Selection evaluation factors',
-      'Quality Assurance Surveillance Plan (QASP)',
-      'Supplier (vendor) Risk Assessment',
-      'Compliance clauses',
-      'Other'
-    ]
+    {
+      'Not considered' => 1,
+      'Acquisition Strategy' => 2,
+      'Acquisition Plan' => 3,
+      'Requirements language' => 4,
+      'Source Selection evaluation factors' => 5,
+      'Quality Assurance Surveillance Plan (QASP)' => 6,
+      'Supplier (vendor) Risk Assessment' => 7,
+      'Compliance clauses' => 8,
+      'Other' => 9
+    }
+  end
+
+  def self.yes_no_in_development
+    {
+      'No' => 0,
+      'In development' => 2,
+      'Yes' => 1,
+    }
   end
 
   def self.conducts_scra_for_prioritized_products_and_services_options
-    [
-      'Not conducted',
-      'Conducted for some prioritized products',
-      'Conducted for some prioritized services',
-      'Conducted for all prioritized products',
-      'Conducted for all prioritized services'
-    ]
+    {
+      'Not conducted' => 0,
+      'Conducted for some prioritized products' => 1,
+      'Conducted for some prioritized services' => 2,
+      'Conducted for all prioritized products' => 3,
+      'Conducted for all prioritized services' => 4
+    }
   end
 
   def self.personnel_required_to_complete_training_options

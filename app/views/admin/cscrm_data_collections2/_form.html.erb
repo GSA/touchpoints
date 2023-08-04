@@ -13,7 +13,8 @@
 
   <% if admin_permissions? %>
   <div class="field">
-    <%= form.label :user_id, "User ID" %>
+    <%= form.label :user_id, "User" %>
+    <br>
     <%= form.select :user_id,
         options_for_select(User.all.order(:email).map { |user| [user.email, user.id] }, selected: cscrm_data_collection.user_id ),
         {
@@ -298,7 +299,7 @@
     "#{CscrmDataCollection2.question_13[:number]}. #{CscrmDataCollection2.question_13[:text]}",
     class: "usa-label" %>
     <%= form.select :documented_methodology,
-      CscrmDataCollection2.prioritization_process_options,
+      CscrmDataCollection2.question_13[:options],
       { include_blank: true },
       class: "usa-select",
       required: true
@@ -317,16 +318,16 @@
     "#{CscrmDataCollection2.question_14[:number]}. #{CscrmDataCollection2.question_14[:text]}",
     class: "usa-label" %>
     <br>
-    <% CscrmDataCollection2.personnel_required_to_complete_training_options.each_with_index do |option, i| %>
+    <% CscrmDataCollection2.question_14[:options].each_with_index do |option, i| %>
       <div class="margin-bottom-1">
         <%= form.check_box(:conducts_scra_for_prioritized_products_and_services, {
           multiple: true,
-          checked: form.object.conducts_scra_for_prioritized_products_and_services&.include?(option),
+          checked: form.object.conducts_scra_for_prioritized_products_and_services&.include?(option[0]),
           class: "usa-checkbox__input2 usa-checkbox__input--tile2"
-        }, option, nil) %>
+        }, option[0], nil) %>
         &nbsp;
         &nbsp;
-        <%= form.label(option, option, class: "usa-checkbox__label2") %>
+        <%= form.label(option[0], class: "usa-checkbox__label2") %>
       </div>
     <% end %>
   </fieldset>

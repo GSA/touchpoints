@@ -150,7 +150,7 @@ module Admin
         :considerations_in_procurement_processes_comments,
         :documented_methodology,
         :documented_methodology_comments,
-        :conducts_scra_for_prioritized_products_and_services,
+        # :conducts_scra_for_prioritized_products_and_services,
         :conducts_scra_for_prioritized_products_and_services_comments,
         # Question 15
 
@@ -171,6 +171,7 @@ module Admin
         identified_assets_and_essential_functions: [],
         considerations_in_procurement_processes: [],
         cybersecurity_supply_chain_risk_considerations: [],
+        conducts_scra_for_prioritized_products_and_services: [],
 
         # :roles_and_responsibilities_comments,
         # :missions_identified_comments,
