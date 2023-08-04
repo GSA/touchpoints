@@ -62,7 +62,7 @@ Rails.application.routes.draw do
     resources :ivn_links
     resources :ivn_sources
     resources :ivn_components
-    
+
     get '/reporting/', to: 'reporting#index', as: :reporting
     get '/reporting/hisps/hisps', to: 'reporting#hisps', as: :hisps
     get '/reporting/hisps/hisp_services', to: 'reporting#hisp_services', as: :hisp_services
@@ -151,6 +151,15 @@ Rails.application.routes.draw do
         post 'reset', to: 'cscrm_data_collections#reset', as: :reset
       end
     end
+    resources :cscrm_data_collections2 do
+      member do
+        post 'submit', to: 'cscrm_data_collections2#submit', as: :submit
+        post 'publish', to: 'cscrm_data_collections2#publish', as: :publish
+        post 'reset', to: 'cscrm_data_collections2#reset', as: :reset
+      end
+    end
+
+    # Performance.gov uses these goals for /agencies/:id pages
     resources :goals do
       member do
         patch 'update_organization_id', to: 'goals#update_organization_id', as: :update_organization_id
@@ -277,6 +286,7 @@ Rails.application.routes.draw do
         get 'export', to: 'forms#export', as: :export
         get 'export_pra_document', as: :export_pra_document
         get 'export_submissions', to: 'forms#export_submissions', as: :export_submissions
+        get 'export_a11_v2_submissions', to: 'forms#export_a11_v2_submissions', as: :export_a11_v2_submissions
         get 'export_a11_header', to: 'forms#export_a11_header', as: :export_a11_header
         get 'export_a11_submissions', to: 'forms#export_a11_submissions', as: :export_a11_submissions
         get 'js', to: 'forms#js', as: :js
