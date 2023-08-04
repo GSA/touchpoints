@@ -18,6 +18,7 @@ module Admin
       export
       export_pra_document
       export_submissions
+      export_a11_v2_submissions
       export_a11_header
       export_a11_submissions
       example js trigger
@@ -365,6 +366,22 @@ module Admin
         end
         format.json do
           ExportJob.perform_later(params[:uuid], @form.short_uuid, start_date.to_s, end_date.to_s, "touchpoints-form-responses-#{timestamp_string}.csv")
+          render json: { result: :ok }
+        end
+      end
+    end
+
+    def export_a11_v2_submissions
+      start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Time.zone.now.beginning_of_quarter
+      end_date = params[:end_date] ? Date.parse(params[:end_date]).to_date : Time.zone.now.end_of_quarter
+
+      respond_to do |format|
+        format.csv do
+          csv_content = Form.find_by_short_uuid(@form.short_uuid).to_a11_v2_csv(start_date:, end_date:)
+          send_data csv_content
+        end
+        format.json do
+          ExportA11V2Job.perform_now(params[:uuid], @form.short_uuid, start_date.to_s, end_date.to_s, "touchpoints-a11-v2-form-responses-#{timestamp_string}.csv")
           render json: { result: :ok }
         end
       end
