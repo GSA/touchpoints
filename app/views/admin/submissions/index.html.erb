@@ -5,6 +5,10 @@
   <br>
   <%= link_to "Export All Responses to CSV", export_submissions_admin_form_url(form, start_date: "2019-10-01", format: "json"), class: "usa-button export-btn" %>
   <br>
+  <% if @form.kind == "a11_v2" %>
+    <%= link_to "Export A11-v2 Responses to CSV", export_a11_v2_submissions_admin_form_url(form, start_date: "2019-10-01", format: "json"), class: "usa-button export-btn" %>
+    <br>
+  <% end %>
   <p>
     <%= link_to "Export FY2020", export_submissions_admin_form_url(form, start_date: "2019-10-01", end_date: "2020-09-30", format: "json"), class: "usa-button usa-button--outline export-btn" %>
     <%= link_to "Export FY2021", export_submissions_admin_form_url(form, start_date: "2020-10-01", end_date: "2021-09-30", format: "json"), class: "usa-button usa-button--outline export-btn" %>
