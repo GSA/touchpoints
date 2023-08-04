@@ -118,7 +118,6 @@ module Admin
         :quarter,
         :rating,
 
-
         # Question 1
         :interdisciplinary_team,
         :interdisciplinary_team_comments,
@@ -137,28 +136,25 @@ module Admin
         :strategy_plan_comments,
         :governance_structure,
         :governance_structure_comments,
-        # clearly_defined_roles: [],
+        # clearly_defined_roles,
         :clearly_defined_roles_comments,
         # Question 10
-        # identified_assets_and_essential_functions: [],
-
+        # :identified_assets_and_essential_functions,
         :identified_assets_and_essential_functions_comments,
         :prioritization_process,
         :prioritization_process_comments,
-        # considerations_in_procurement_processes: [],
-
+        # :considerations_in_procurement_processes,
         :considerations_in_procurement_processes_comments,
         :documented_methodology,
         :documented_methodology_comments,
         # :conducts_scra_for_prioritized_products_and_services,
         :conducts_scra_for_prioritized_products_and_services_comments,
         # Question 15
-
         :personnel_required_to_complete_training,
         :personnel_required_to_complete_training_comments,
         :established_process_information_sharing_with_fasc,
         :established_process_information_sharing_with_fasc_comments,
-        # cybersecurity_supply_chain_risk_considerations,
+        # :cybersecurity_supply_chain_risk_considerations,
         :cybersecurity_supply_chain_risk_considerations_comments,
         :process_for_product_authenticity,
         :process_for_product_authenticity_comments,
@@ -166,23 +162,11 @@ module Admin
         :cscrm_controls_incorporated_into_ssp_comments,
         :comments,
 
-
         clearly_defined_roles: [],
         identified_assets_and_essential_functions: [],
         considerations_in_procurement_processes: [],
         cybersecurity_supply_chain_risk_considerations: [],
         conducts_scra_for_prioritized_products_and_services: [],
-
-        # :roles_and_responsibilities_comments,
-        # :missions_identified_comments,
-        # :considerations_in_procurement_processes_comments,
-        # :conducts_scra_for_prioritized_products_and_services_comments,
-        # roles_and_responsibilities: [],
-        # missions_identified: [],
-        # considerations_in_procurement_processes: [],
-        # conducts_scra_for_prioritized_products_and_services: [],
-        # personnel_required_to_complete_training: [],
-        # cybersecurity_supply_chain_risk_considerations: [],
       )
     end
   end

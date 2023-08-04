@@ -338,33 +338,6 @@ criticality",
     }
   end
 
-  def self.enterprise_wide_scrm_policy_established_options
-    [
-      "No",
-      "Partial/In-process",
-      "Plan Developed",
-      "Yes",
-    ]
-  end
-
-  def self.staffing_options
-    [
-      "Not Identified or secured",
-      "Identified but not secured",
-      "Partially secured",
-      "Fully identified and secured",
-    ]
-  end
-
-  def self.agency_wide_scrm_strategy_and_implementation_plan_options
-    [
-      "No",
-      "Partial/In-process",
-      "Plan Developed",
-      "Yes",
-    ]
-  end
-
   def self.enterprise_risk_management_function_established_options
     {
       "Not established" => 0,
@@ -372,15 +345,6 @@ criticality",
       "CSCRM program requirements are defined and managed" => 2,
       "Analysis of the likelihood and impact of potential supply chain cybersecurity threats" => 3
     }
-  end
-
-  def self.prioritization_process_options
-    [
-      "No",
-      "Partial/In-process",
-      "Plan Developed",
-      "Yes"
-    ]
   end
 
   def self.considerations_in_procurement_processes_options
@@ -415,17 +379,6 @@ criticality",
     }
   end
 
-  def self.personnel_required_to_complete_training_options
-    [
-      'Not identified',
-      'Partially identified',
-      'Identified for “General”',
-      'Identified for “Role-based”',
-      'General training currently  available',
-      'Role-based training currently available'
-    ]
-  end
-
   def self.established_process_information_sharing_options
     {
       "Not established" => 0,
@@ -434,16 +387,6 @@ criticality",
       "Internal process established" => 3,
       "FASC information sharing process planned or in process" => 4,
       "Internal and FASC information sharing processes established" => 5
-    }
-  end
-
-  def self.cybersecurity_supply_chain_risk_considerations_options
-    {
-      'Not considered' => 0,
-      'Critical Suppliers are identified in COOP and Recovery plans' => 1,
-      'Business Impact Analysis considers supplier and product dependency risks and resiliency requirements' => 2,
-      'SCRAs are conducted for critical suppliers' => 3,
-      'Mitigations to improve resilience/address assessed risks  associated with critical suppliers are identified and implemented' => 4
     }
   end
 
