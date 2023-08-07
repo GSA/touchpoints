@@ -22,7 +22,7 @@ gem "importmap-rails", ">= 1.2.0"
 gem "turbo-rails"
 
 # Hotwire"s modest JavaScript framework [https://stimulus.hotwired.dev]
-gem "stimulus-rails"
+gem "stimulus-rails", ">= 1.2.2"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
