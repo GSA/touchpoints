@@ -148,7 +148,7 @@ criticality",
       text: " C-SCRM considerations in procurement processes and actions",
       number: 12,
       field: :considerations_in_procurement_processes,
-      options: implementation_status_options,
+      options: considerations_in_procurement_processes_options,
     }
   end
 
@@ -190,10 +190,10 @@ criticality",
 
   def self.question_17
     {
-      text: "Cybersecurity supply chain risk and resiliency considerations are incorporated into organizational COOP and Recovery Plans",
+      text: "Conducts SCRA of key suppliers of ICT systems and services identified in organizational COOP and Recovery Plans to include mitigations to improve resiliency/address accessed risk in these plans",
       number: 17,
       field: :cybersecurity_supply_chain_risk_considerations,
-      options: implementation_status_options,
+      options: cybersecurity_supply_chain_risk_considerations_options,
     }
   end
   def self.question_18
@@ -281,6 +281,25 @@ criticality",
       "Fully defined for Acquisition Workforce Personnel" => 5,
       "Fully defined for IT/Information Security Personnel" => 6,
       "Partially or Fully Defined for Other Personnel" => 7
+    }
+  end
+
+  def self.cybersecurity_supply_chain_risk_considerations_options
+    {
+      'Not considered' => 0,
+      'Critical Suppliers are identified in COOP and Recovery plans' => 1,
+      'Business Impact Analysis considers supplier and product dependency risks and resiliency requirements' => 2,
+      'SCRAs are conducted for critical suppliers' => 3,
+      'Mitigations to improve resilience/address assessed risks  associated with critical suppliers are identified and implemented' => 4
+    }
+  end
+
+  def self.cybersecurity_supply_chain_risk_considerations_options
+    {
+      'No' => 0,
+      'No, training not available' => 2,
+      'Partial' => 3,
+      'Yes' => 1
     }
   end
 

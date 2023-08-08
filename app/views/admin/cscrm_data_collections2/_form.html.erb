@@ -25,6 +25,8 @@
         class: "usa-select" %>
   </div>
   <br>
+  <% else %>
+  <%= form.hidden_field :user_id, value: cscrm_data_collection.user_id %>
   <% end %>
 
   <div class="field">
@@ -233,6 +235,7 @@
     <%= form.label :identified_assets_and_essential_functions,
       "#{CscrmDataCollection2.question_10[:number]}. #{CscrmDataCollection2.question_10[:text]}",
       class: "usa-label" %>
+    <br>
     <% CscrmDataCollection2.question_10[:options].each_with_index do |option, i| %>
       <div class="margin-bottom-1">
         <%= form.check_box(:identified_assets_and_essential_functions, {
@@ -275,7 +278,7 @@
     "#{CscrmDataCollection2.question_12[:number]}. #{CscrmDataCollection2.question_12[:text]}",
     class: "usa-label" %>
     <br>
-    <% CscrmDataCollection2.missions_identified_options.each_with_index do |option, i| %>
+    <% CscrmDataCollection2.considerations_in_procurement_processes_options.each_with_index do |option, i| %>
       <div class="margin-bottom-1">
         <%= form.check_box(:considerations_in_procurement_processes, {
           multiple: true,
