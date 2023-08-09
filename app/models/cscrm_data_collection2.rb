@@ -175,7 +175,7 @@ criticality",
       text: "Personnel required to complete general or role-based SCRM training requirements",
       number: 15,
       field: :personnel_required_to_complete_training,
-      options: implementation_status_options,
+      options: training_options,
     }
   end
 
@@ -294,15 +294,6 @@ criticality",
     }
   end
 
-  def self.cybersecurity_supply_chain_risk_considerations_options
-    {
-      'No' => 0,
-      'No, training not available' => 2,
-      'Partial' => 3,
-      'Yes' => 1
-    }
-  end
-
 
 
   # def self.implementation_status_options
@@ -324,6 +315,15 @@ criticality",
       "Partial/In-process" => 1,
       "Plan Developed" => 2,
       "Yes" => 3
+    }
+  end
+
+  def self.training_options
+    {
+      "No" => 0,
+      "No, Training not available" => 2,
+      "Partial" => 3,
+      "Yes" => 1
     }
   end
 
