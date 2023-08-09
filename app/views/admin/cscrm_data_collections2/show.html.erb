@@ -295,7 +295,7 @@
       <br>
       <% field = CscrmDataCollection2.send("question_11")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
-      <%= CscrmDataCollection2.send("question_8")[:options].key(value) %>
+      <%= CscrmDataCollection2.send("question_11")[:options].key(value) %>
       (<%= value %>)
     </p>
 
@@ -395,7 +395,7 @@
       <br>
       <% field = CscrmDataCollection2.send("question_15")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
-      <%= CscrmDataCollection2.send("question_8")[:options].key(value) %>
+      <%= CscrmDataCollection2.send("question_15")[:options].key(value) %>
       (<%= value %>)
     </p>
 

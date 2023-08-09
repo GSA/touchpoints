@@ -278,7 +278,7 @@
     "#{CscrmDataCollection2.question_12[:number]}. #{CscrmDataCollection2.question_12[:text]}",
     class: "usa-label" %>
     <br>
-    <% CscrmDataCollection2.considerations_in_procurement_processes_options.each_with_index do |option, i| %>
+    <% CscrmDataCollection2.question_12[:options].each_with_index do |option, i| %>
       <div class="margin-bottom-1">
         <%= form.check_box(:considerations_in_procurement_processes, {
           multiple: true,
