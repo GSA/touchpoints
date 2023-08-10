@@ -172,7 +172,7 @@ criticality",
 
   def self.question_15
     {
-      text: "Personnel required to complete general or role-based SCRM training requirements",
+      text: "Personnel with roles and responsibilities for SCRM have completed general (basic) SCRM training or will complete training by the end of this Fiscal Year",
       number: 15,
       field: :personnel_required_to_complete_training,
       options: training_options,
