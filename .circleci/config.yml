@@ -50,7 +50,7 @@ jobs:
       - run:
           name: Setup Chrome
           command: |
-            wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_116.0.5845.96-1_amd64.deb
+            wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.198-1_amd64.deb
             sudo apt install ./google-chrome-stable_current_amd64.deb
 
       # run tests!
