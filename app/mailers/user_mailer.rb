@@ -48,11 +48,18 @@ class UserMailer < ApplicationMailer
     mail subject: "Data Collection notification to #{@collection.name}",
          to: (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',') + User.performance_managers.collect(&:email)).uniq
   end
-  
+
   def cscrm_data_collection_notification(collection_id:)
     set_logo
     @collection = CscrmDataCollection.find(collection_id)
     mail subject: "CSCRM Data Collection notification to #{@collection.id}",
+      to: (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',') + User.where(cscrm_data_collection_manager: true).collect(&:email)).uniq
+  end
+
+  def cscrm_data_collection2_notification(collection_id:)
+    set_logo
+    @collection = CscrmDataCollection2.find(collection_id)
+    mail subject: "CSCRM Data Collection 2 notification to #{@collection.id}",
       to: (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',') + User.where(cscrm_data_collection_manager: true).collect(&:email)).uniq
   end
 
@@ -131,7 +138,7 @@ class UserMailer < ApplicationMailer
     @websites = websites
     mail subject: 'Website Data Collection Request', to: email
   end
-  
+
   def website_backlog_data_collection(email, websites)
     return unless email
 
