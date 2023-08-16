@@ -88,7 +88,7 @@ RSpec.describe UserMailer, type: :mailer do
       expect(mail.body.encoded).to match('Quarterly Performance Notification')
     end
   end
-  
+
   describe 'CSCRM Data Collection' do
     let!(:organization) { FactoryBot.create(:organization) }
     let!(:user) { FactoryBot.create(:user, organization:) }
@@ -108,6 +108,28 @@ RSpec.describe UserMailer, type: :mailer do
 
     it 'renders the body' do
       expect(mail.body.encoded).to match('CSCRM Data Collection Notification')
+    end
+  end
+
+  describe 'CSCRM Data Collection 2' do
+    let!(:organization) { FactoryBot.create(:organization) }
+    let!(:user) { FactoryBot.create(:user, organization:) }
+    let!(:cscrm_data_manager) { FactoryBot.create(:user, organization:, cscrm_data_collection_manager: true) }
+    let!(:cscrm_data_collection2) { FactoryBot.create(:cscrm_data_collection2, organization:, user:) }
+    let(:mail) { UserMailer.cscrm_data_collection2_notification(collection_id: cscrm_data_collection2.id) }
+
+    before do
+      ENV['ENABLE_EMAIL_NOTIFICATIONS'] = 'true'
+    end
+
+    it 'renders the headers' do
+      expect(mail.subject).to eq("CSCRM Data Collection 2 notification to #{cscrm_data_collection2.id}")
+      expect(mail.to).to eq([ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS'), cscrm_data_manager.email])
+      expect(mail.from).to eq([ENV.fetch('TOUCHPOINTS_EMAIL_SENDER')])
+    end
+
+    it 'renders the body' do
+      expect(mail.body.encoded).to match('CSCRM Data Collection 2 Notification')
     end
   end
 
