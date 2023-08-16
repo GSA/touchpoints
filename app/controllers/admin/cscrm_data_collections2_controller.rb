@@ -15,7 +15,7 @@ module Admin
           if cscrm_manager_permissions?
             @cscrm_data_collections = CscrmDataCollection2.all.includes(:organization)
           else
-            @cscrm_data_collections = current_user.organization.cscrm_data_collections.all.includes(:organization)
+            @cscrm_data_collections = current_user.organization.cscrm_data_collections2.all.includes(:organization)
           end
         }
         format.csv {
@@ -71,7 +71,7 @@ module Admin
     def submit
       @cscrm_data_collection.submit!
       Event.log_event(Event.names[:cscrm_data_collection_collection_submitted], 'CSRCM Data Collection', @cscrm_data_collection.id, "CSRCM Data Collection #{@cscrm_data_collection.id} submitted at #{DateTime.now}", current_user.id)
-      UserMailer.cscrm_data_collection_notification(collection_id: @cscrm_data_collection.id).deliver_later
+      UserMailer.cscrm_data_collection2_notification(collection_id: @cscrm_data_collection.id).deliver_later
       redirect_to admin_cscrm_data_collections2_path(@cscrm_data_collection), notice: 'CSRCM Data Collection has been submitted successfully.'
     end
 
@@ -94,7 +94,7 @@ module Admin
       Event.log_event(Event.names[:cscrm_data_collection_collection_deleted], 'CSRCM Data Collection', @cscrm_data_collection.id, "CSRCM Data Collection #{@cscrm_data_collection.id} deleted at #{DateTime.now}", current_user.id)
 
       respond_to do |format|
-        format.html { redirect_to admin_cscrm_data_collections_url, notice: 'Cscrm data collection was successfully destroyed.' }
+        format.html { redirect_to admin_cscrm_data_collections2_index_url, notice: 'Cscrm data collection was successfully destroyed.' }
         format.json { head :no_content }
       end
     end
