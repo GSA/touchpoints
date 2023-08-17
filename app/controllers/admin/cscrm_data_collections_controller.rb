@@ -3,8 +3,8 @@
 module Admin
   class CscrmDataCollectionsController < AdminController
     before_action :set_cscrm_data_collection, only: %i[
-      show 
-      edit update 
+      show
+      edit update
       submit publish reset
       destroy
     ]
@@ -13,9 +13,10 @@ module Admin
       respond_to do |format|
         format.html {
           if cscrm_manager_permissions?
-            @cscrm_data_collections = CscrmDataCollection.all
+            @cscrm_data_collections = CscrmDataCollection.all.includes(:organization)
           else
-            @cscrm_data_collections = current_user.organization.cscrm_data_collections.all
+            # Redirect non-admin users to CSCRM2
+            redirect_to admin_cscrm_data_collections2_index_path
           end
         }
         format.csv {
@@ -80,7 +81,7 @@ module Admin
       Event.log_event(Event.names[:cscrm_data_collection_collection_published], 'CSRCM Data Collection', @cscrm_data_collection.id, "CSRCM Data Collection #{@cscrm_data_collection.id} published at #{DateTime.now}", current_user.id)
       redirect_to admin_cscrm_data_collection_path(@cscrm_data_collection), notice: 'CSRCM Data Collection has been published successfully.'
     end
-    
+
     def reset
       if cscrm_manager_permissions?
         @cscrm_data_collection.reset!
