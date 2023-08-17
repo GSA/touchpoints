@@ -28,6 +28,7 @@ class Question < ApplicationRecord
     'states_dropdown',
     'star_radio_buttons',
     'thumbs_up_down_buttons',
+    'big_thumbs_up_down_buttons',
     'yes_no_buttons',
     'hidden_field',
     'date_select',

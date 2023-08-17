@@ -19,6 +19,8 @@
 <% @form_component_path = 'components/forms/edit/question_types/radio_buttons' %>
 <% elsif question.question_type == "thumbs_up_down_buttons" %>
 <% @form_component_path = 'components/forms/question_types/thumbs_up_down_buttons' %>
+<% elsif question.question_type == "big_thumbs_up_down_buttons" %>
+<% @form_component_path = 'components/forms/question_types/big_thumbs_up_down_buttons' %>
 <% elsif question.question_type == "dropdown" %>
 <% @form_component_path = 'components/forms/edit/question_types/dropdown' %>
 <% elsif question.question_type == "states_dropdown" %>

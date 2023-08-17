@@ -229,6 +229,66 @@ class Form < ApplicationRecord
     end
   end
 
+  def to_a11_v2_csv(start_date: nil, end_date: nil)
+    non_flagged_submissions = submissions
+      .non_flagged
+      .where('created_at >= ?', start_date)
+      .where('created_at <= ?', end_date)
+      .order('created_at')
+    return nil if non_flagged_submissions.blank?
+
+    header_attributes = hashed_fields_for_export.values
+    header_attributes = [
+      :id,
+      :q1,
+      :positive_effectiveness,
+      :positive_ease,
+      :positive_efficiency,
+      :positive_transparency,
+      :positive_humanity,
+      :positive_employee,
+      :positive_other,
+      :negative_effectiveness,
+      :negative_ease,
+      :negative_efficiency,
+      :negative_transparency,
+      :negative_humanity,
+      :negative_employee,
+      :negative_other,
+      :q4
+    ]
+
+    attributes = fields_for_export
+
+    CSV.generate(headers: true) do |csv|
+      csv << header_attributes
+
+      non_flagged_submissions.each do |submission|
+        csv << [
+          submission.id,
+          submission.answer_01,
+          submission.answer_02 && submission.answer_02.split(",").include?("effectiveness") ? 1 : 0,
+          submission.answer_02 && submission.answer_02.split(",").include?("ease") ? 1 : 0,
+          submission.answer_02 && submission.answer_02.split(",").include?("efficiency") ? 1 : 0,
+          submission.answer_02 && submission.answer_02.split(",").include?("transparency") ? 1 : 0,
+          submission.answer_02 && submission.answer_02.split(",").include?("humanity") ? 1 : 0,
+          submission.answer_02 && submission.answer_02.split(",").include?("employee") ? 1 : 0,
+          submission.answer_02 && submission.answer_02.split(",").include?("other") ? 1 : 0,
+
+          submission.answer_03 && submission.answer_03.split(",").include?("effectiveness") ? 1 : 0,
+          submission.answer_03 && submission.answer_03.split(",").include?("ease") ? 1 : 0,
+          submission.answer_03 && submission.answer_03.split(",").include?("efficiency") ? 1 : 0,
+          submission.answer_03 && submission.answer_03.split(",").include?("transparency") ? 1 : 0,
+          submission.answer_03 && submission.answer_03.split(",").include?("humanity") ? 1 : 0,
+          submission.answer_03 && submission.answer_03.split(",").include?("employee") ? 1 : 0,
+          submission.answer_03 && submission.answer_03.split(",").include?("other") ? 1 : 0,
+
+          submission.answer_04
+        ]
+      end
+    end
+  end
+
   def user_role?(user:)
     role = user_roles.find_by_user_id(user.id)
     role.present? ? role.role : nil
