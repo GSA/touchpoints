@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.1.4'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.0.6"
+gem "rails", "~> 7.0.7", ">= 7.0.7.1"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
@@ -50,7 +50,7 @@ gem 'active_model_serializers', '>= 0.10.13'
 gem 'acts-as-list'
 gem 'aws-sdk-rails', '>= 3.8.0'
 gem 'caracal', '>= 1.4.1'
-gem 'carrierwave', '>= 2.2.1'
+gem 'carrierwave', '>= 2.2.4'
 gem 'devise', '>= 4.8.1'
 gem 'fog-aws', '>= 3.15.0'
 gem "jbuilder"
@@ -68,11 +68,11 @@ gem "redis", "~> 4.6"
 gem 'redis-namespace'
 gem 'sass-rails', '>= 6.0.0'
 gem 'sidekiq'
-gem 'json-jwt'
+gem 'json-jwt', '>= 1.16.0'
 gem 'aasm'
 gem 'whenever', require: false
 gem 'logstop'
-gem 'paper_trail'
+gem 'paper_trail', '>= 13.0.0'
 gem 'acts-as-taggable-on'
 gem "rolify"
 
