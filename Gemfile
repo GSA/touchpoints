@@ -88,7 +88,7 @@ group :development do
   gem 'bullet'
   gem 'listen'
   gem 'rails-erd'
-  gem 'web-console'
+  gem 'web-console', '>= 4.2.1'
 end
 
 group :test do
