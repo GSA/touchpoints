@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_03_012458) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_05_201752) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,7 +49,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_012458) do
     t.datetime "updated_at", precision: nil, null: false
   end
 
-  create_table "collections", force: :cascade do |t|
+  create_table "collections", comment: "Quarterly CX Data Collection", force: :cascade do |t|
     t.string "name"
     t.date "start_date"
     t.date "end_date"
@@ -69,7 +69,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_012458) do
     t.index ["user_id"], name: "index_collections_on_user_id"
   end
 
-  create_table "cscrm_data_collections", force: :cascade do |t|
+  create_table "cscrm_data_collections", comment: "Data Collection for C-SCRM in Q2 of FY 2023", force: :cascade do |t|
     t.string "leadership_roles"
     t.string "stakeholder_champion_identified"
     t.string "pmo_established"
@@ -123,7 +123,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_012458) do
     t.index ["user_id"], name: "index_cscrm_data_collections_on_user_id"
   end
 
-  create_table "cscrm_data_collections2", force: :cascade do |t|
+  create_table "cscrm_data_collections2", comment: "Data Collection for C-SCRM in Q4 of FY 2023", force: :cascade do |t|
     t.string "interdisciplinary_team"
     t.text "interdisciplinary_team_comments"
     t.string "pmo_established"
@@ -430,7 +430,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_012458) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "omb_cx_reporting_collections", force: :cascade do |t|
+  create_table "omb_cx_reporting_collections", comment: "A detailed record belonging to a Collection; a quarterly CX Data Collection", force: :cascade do |t|
     t.integer "collection_id"
     t.string "service_provided"
     t.text "transaction_point"
@@ -599,7 +599,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_012458) do
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
   end
 
-  create_table "service_providers", force: :cascade do |t|
+  create_table "service_providers", comment: "A Service Provider, or HISP, as defined in OMB Circular A-11 Section 280", force: :cascade do |t|
     t.integer "organization_id"
     t.string "name"
     t.text "description"
@@ -628,7 +628,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_012458) do
     t.datetime "updated_at", precision: nil, null: false
   end
 
-  create_table "service_stages", force: :cascade do |t|
+  create_table "service_stages", comment: "A step or stage within a Service, as used in a Business Process Model. eg: start, middle, end", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.integer "service_id"
@@ -642,46 +642,46 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_03_012458) do
     t.index ["service_id"], name: "index_service_stages_on_service_id"
   end
 
-  create_table "services", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.integer "organization_id"
-    t.text "notes"
+  create_table "services", id: { comment: "Unique identifier for a Service" }, comment: "Services provided by an Agency, often by a Service Provider within an Agency", force: :cascade do |t|
+    t.string "name", comment: "Name of the service"
+    t.text "description", comment: "Description of the designated service"
+    t.integer "organization_id", comment: "Unique number for each department. A department may contain several HISPs"
+    t.text "notes", comment: "Field for HISP to provide additional notes"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.boolean "hisp", default: false
-    t.string "department", default: ""
-    t.string "bureau", default: ""
-    t.string "bureau_abbreviation", default: ""
-    t.string "service_abbreviation", default: ""
-    t.string "service_slug", default: ""
-    t.string "url", default: ""
-    t.integer "service_provider_id"
-    t.integer "service_owner_id"
-    t.text "justification_text"
-    t.text "where_customers_interact"
-    t.string "kind", array: true
-    t.string "aasm_state", default: "created"
-    t.text "non_digital_explanation"
-    t.integer "service_stages_count", default: 0
-    t.string "homepage_url"
-    t.string "budget_code"
-    t.string "uii_code"
-    t.boolean "transactional", default: false
-    t.boolean "digital_service", default: false
-    t.string "estimated_annual_volume_of_customers", default: ""
-    t.string "channels", array: true
-    t.boolean "fully_digital_service", default: false
-    t.text "barriers_to_fully_digital_service"
-    t.boolean "multi_agency_service", default: false
-    t.text "multi_agency_explanation"
+    t.boolean "hisp", default: false, comment: "True or False - Is this Service considered a HISP service?"
+    t.string "department", default: "", comment: "Abbreviation of department name"
+    t.string "bureau", default: "", comment: "Name of the Bureau to which a service belongs"
+    t.string "bureau_abbreviation", default: "", comment: "Abbreviatioon of the Bureau to which a service belongs"
+    t.string "service_abbreviation", default: "", comment: "a unique text string to identify the service"
+    t.string "service_slug", default: "", comment: "a unique text string to identify the service"
+    t.string "url", default: "", comment: "A website link to their service"
+    t.integer "service_provider_id", comment: "Unique number for each Service Provider"
+    t.integer "service_owner_id", comment: "ID of the User record for which a Service is owned or managed by"
+    t.text "justification_text", comment: "HISP provides a description for why this service was selected for priority designation"
+    t.text "where_customers_interact", comment: "Where customers interact"
+    t.string "kind", comment: "Identifies the category of service: compliance, administrative, benefits, recreation, informational, data and research, and regulatory", array: true
+    t.string "aasm_state", default: "created", comment: "State/status that a Service is in. eg: created, submitted, approved, verified, archived"
+    t.text "non_digital_explanation", comment: "If applicable, explain why a service is not available via a digital channel"
+    t.integer "service_stages_count", default: 0, comment: "Helper field that counts how many Service Stages this Service has"
+    t.string "homepage_url", comment: "A primary website link to the service"
+    t.string "budget_code", comment: "The budget code for this service"
+    t.string "uii_code", comment: "The UII code for this service"
+    t.boolean "transactional", default: false, comment: "True or False for whether the service is transactional"
+    t.boolean "digital_service", default: false, comment: "Is this a digital service or not?"
+    t.string "estimated_annual_volume_of_customers", default: "", comment: "Estimated volume of customers on an annual basis"
+    t.string "channels", comment: "One or more channels where the service is delivered", array: true
+    t.boolean "fully_digital_service", default: false, comment: "Is this a fully digital service or not?"
+    t.text "barriers_to_fully_digital_service", comment: "If applicable, describe the barriers preventing this service from being a fully digital service"
+    t.boolean "multi_agency_service", default: false, comment: "Do multiple agencies collaborate to provide this service?"
+    t.text "multi_agency_explanation", comment: "If applicable, describe how multiple agencies collaborate to provide this service"
     t.string "other_service_type"
     t.string "customer_volume_explanation"
-    t.text "resources_needed_to_provide_digital_service"
-    t.integer "bureau_id"
-    t.string "office"
-    t.boolean "designated_for_improvement_a11_280", default: false
-    t.boolean "contact_center", default: false
+    t.text "resources_needed_to_provide_digital_service", comment: "If applicable, what resources are needed to provide this service digitally?"
+    t.integer "bureau_id", comment: "Reference to the Organization ID that is the Bureau for this Service"
+    t.string "office", comment: "Text description for the office (below a Bureau)"
+    t.boolean "designated_for_improvement_a11_280", default: false, comment: "Is this Service designated, per the OMB Circular A-11 Section 280"
+    t.boolean "contact_center", default: false, comment: "True or False for whether the service involves a contact center and/or an interaction with a contact center"
     t.index ["organization_id"], name: "index_services_on_organization_id"
   end
 
