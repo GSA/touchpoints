@@ -26,7 +26,8 @@
     <i class="fa fa-check-circle" aria-hidden="true"></i> saved
   </span>
   <span class="counter-msg usa-hint usa-character-count__message" aria-live="polite">
-    <%= @instruction_text_limit %> characters allowed
+    <%= @instruction_text_limit %>
+    <%= t :characters_allowed %>
   </span>
   <br>
   <span class="display-inline instructions-show">
@@ -61,7 +62,8 @@
             <i class="fa fa-check-circle" aria-hidden="true"></i> saved
           </span>
           <span class="counter-msg usa-hint usa-character-count__message" aria-live="polite">
-            <%= @disclaimer_text_limit %> characters allowed
+            <%= @disclaimer_text_limit %>
+            <%= t :characters_allowed %>
           </span>
           <div id="disclaimer_text-show" tabindex="<%= @tabindex += 1 %>"><%= form.disclaimer_text.present? ? sanitize(form.disclaimer_text) : 'Survey Disclaimer Text' %></div>
         </p>
@@ -343,10 +345,10 @@ function textCounter(field,maxlimit) {
    var countfield = field.parentNode.querySelector(".counter-msg");
    if ( field.value.length > maxlimit ) {
     field.value = field.value.substring( 0, maxlimit );
-    countfield.innerText = '0 characters left';
+    countfield.innerText = '0 <%= t :characters_left %>';
     return false;
    } else {
-    countfield.innerText = "" + (maxlimit - field.value.length) + " characters left";
+    countfield.innerText = "" + (maxlimit - field.value.length) + " <%= t :characters_left %>";
    }
 }
 </script>
