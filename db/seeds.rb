@@ -830,3 +830,19 @@ for i in (1..40) do
     comments: random_words,
   })
 end
+
+for i in (1..20) do
+  DigitalServiceAccount.create!({
+    organization_list: [@gsa.id],
+    name: "Social Media Account #{i}",
+    account: DigitalServiceAccount.list.sample,
+    aasm_state: DigitalServiceAccount.aasm.states.map(&:name).sample,
+    service_url: "https://example.lvh.me/account#{i}"
+  })
+
+  DigitalProduct.create({
+    organization_list: [@gsa.id],
+    name: "Digital Product #{i}",
+    aasm_state: DigitalProduct.aasm.states.map(&:name).sample
+  })
+end
