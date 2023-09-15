@@ -1,5 +1,7 @@
 <% if @question.question_type == "radio_buttons" %>
   <% @form_component_path = "components/forms/edit/question_types/radio_button_option" %>
+<% elsif @question.question_type == "icon_checkboxes" %>
+  <% @form_component_path = "components/forms/edit/question_types/radio_button_option" %>
 <% elsif @question.question_type == "thumbs_up_down_buttons" %>
   <% @form_component_path = 'components/forms/question_types/thumbs_up_down_buttons' %>
 <% elsif @question.question_type == "dropdown" %>

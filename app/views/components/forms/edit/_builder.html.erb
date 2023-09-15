@@ -21,7 +21,7 @@
     Instructions
   </label>
   <textarea id="instruction_text" class="usa-textarea instructions countable" name="instructions" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>"><%= form.instructions %></textarea>
-  <br/>
+  <br>
   <span class="usa-hint save-notice survey-instructions">
     <i class="fa fa-check-circle" aria-hidden="true"></i> saved
   </span>
@@ -46,8 +46,8 @@
   <span class="fa fa-plus"></span>
   Add Section
 <% end %>
-<br/>
-<br/>
+<br>
+<br>
 <hr style="border: none; border-top: 1px solid #E5E5E5;">
 <div class="grid-row">
   <div class="grid-col-12">
@@ -71,7 +71,7 @@
     </div>
   </div>
 </div>
-<br/>
+<br>
 <hr style="border: none; border-top: 1px solid #E5E5E5;">
 <div id="success_text_div">
   <%= render "admin/questions/success_text", {form: form} %>
