@@ -43,6 +43,8 @@ zh-CN:
     sign_in_text: Touchpoints 使用 Login.gov 来处理用户帐户。使用 Login.gov 进行身份验证后，您将登录并重定向回 Touchpoints。
     sign_in_with: 登陆使用
     if_github: 如果您有 GitHub 帐户，
+  characters_allowed: "允许的字符"
+  characters_left: "剩余字符数"
   form:
     submit: "提交"
     submit_thankyou: "谢谢. 已收到您的反馈."

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   end
 
   get 'hello_stimulus', to: 'site#hello_stimulus', as: :hello_stimulus if Rails.env.development?
+  get 'docs', to: 'site#docs', as: :docs if Rails.env.development?
 
   unless Rails.env.development?
     match '/404', to: 'errors#not_found', via: :all

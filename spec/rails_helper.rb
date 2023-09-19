@@ -36,7 +36,7 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 
-Webdrivers::Chromedriver.required_version = "114.0.5735.90"
+Webdrivers::Chromedriver.required_version = "116.0.5845.96"
 
 # for Capybara
 Capybara.register_driver :selenium do |app|

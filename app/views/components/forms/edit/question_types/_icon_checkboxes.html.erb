@@ -1,0 +1,22 @@
+<fieldset class="usa-fieldset radios" role="group" aria-labelledby="<%= question.answer_field %>" data-url="<%= admin_form_question_question_options_path(question.form, question) %>">
+  <legend class="usa-sr-only"><%= question.text %></legend>
+  <%= render 'components/question_title', question: question, form_builder: true %>
+  <div class="question-options">
+  <% question.question_options.each_with_index do |option, index| %>
+    <%= render "components/forms/edit/question_types/checkbox_option", question: question, option: option, index: index %>
+  <% end %>
+  </div>
+</fieldset>
+<div class="new-question-options-div margin-top-2">
+  <div class="question-option-form"></div>
+  <%= link_to new_admin_form_question_question_option_path(question.form, question), class: "usa-button usa-button--outline form-add-question-option" do %>
+    <i class="fa fa-plus"></i>
+    Add Checkbox Option
+  <% end %>
+  <% if !question.question_options.detect{ | option | option.value.upcase == 'OTHER' || option.value.upcase == 'OTRO'} %>
+    <%= link_to create_other_admin_form_question_question_options_path(question.form, question),method: :post, remote: true, class: "usa-button usa-button--outline form-add-other-question-option" do %>
+      <i class="fa fa-plus"></i>
+      Add Other Option
+    <% end %>
+  <% end %>
+</div>

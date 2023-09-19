@@ -362,10 +362,10 @@ function FBAform(d, N) {
 			 var countfield = field.parentNode.querySelector(".counter-msg");
 			 if ( field.value.length > maxlimit ) {
 			  field.value = field.value.substring( 0, maxlimit );
-			  countfield.innerText = '0 characters left';
+			  countfield.innerText = '0 <%= t :characters_left %>';
 			  return false;
 			 } else {
-			  countfield.innerText = "" + (maxlimit - field.value.length) + " characters left";
+			  countfield.innerText = "" + (maxlimit - field.value.length) + " <%= t :characters_left %>";
 			 }
 		},
 		loadButton: function()

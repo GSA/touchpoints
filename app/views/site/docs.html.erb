@@ -1,0 +1,58 @@
+<h2>
+  Touchpoints Data Documentation
+</h2>
+
+<hr>
+
+<h3>
+  Database tables
+</h3>
+
+<p>
+  Here is a list of the PostgreSQL database tables used by the Touchpoints application,
+  which is a Ruby on Rails application, hosted in cloud.gov.
+</p>
+
+<p>
+  The tables, field names, field data types, and field comments are retrieved dynamically from the database.
+</p>
+
+<% @tables.each do |table| %>
+  <%= link_to table, "##{table}"%>
+  <br>
+<% end %>
+
+<hr>
+
+<h5 id="services">
+  Services
+</h5>
+
+<table class="usa-table">
+  <thead>
+  <tr>
+      <th>
+        Name
+      </th>
+      <th>
+        Column Type
+      </th>
+      <th>
+        Comment
+      </th>
+    </tr>
+  </thead>
+<% Service.columns.sort_by(&:name).each do |column| %>
+  <tr>
+    <td>
+      <%= column.name %>
+    </td>
+    <td>
+      <%= column.type %>
+    </td>
+    <td>
+      <%= column.comment %>
+    </td>
+  </tr>
+<% end %>
+</table>
