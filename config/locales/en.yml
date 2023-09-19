@@ -135,6 +135,8 @@ en-US:
   "yes": "yes"
   "no": "no"
   the_feedback_and_analytics_team: " the Feedback and Analytics Team"
+  characters_allowed: "characters allowed"
+  characters_left: "characters left"
   form:
     submit: "Submit"
     submit_thankyou: "Thank you. Your feedback has been received."

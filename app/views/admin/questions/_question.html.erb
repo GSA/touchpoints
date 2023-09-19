@@ -33,6 +33,8 @@
 <% @form_component_path = 'components/forms/edit/question_types/hidden_field' %>
 <% elsif question.question_type == "custom_text_display" %>
 <% @form_component_path = 'components/forms/question_types/custom_text_display' %>
+<% elsif question.question_type == "icon_checkboxes" %>
+<% @form_component_path = 'components/forms/edit/question_types/icon_checkboxes' %>
 <% elsif question.question_type == "star_radio_buttons" %>
 <% @form_component_path = 'components/forms/question_types/star_radio_buttons' %>
 <% elsif question.question_type == "yes_no_buttons" %>

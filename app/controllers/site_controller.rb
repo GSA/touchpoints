@@ -7,6 +7,18 @@ class SiteController < ApplicationController
 
   def agencies; end
 
+  def docs
+    tables = ActiveRecord::Base.connection.tables
+    tables_specific_to_rails = [
+      "active_storage_variant_records",
+      "active_storage_blobs",
+      "active_storage_attachments",
+      "schema_migrations",
+      "ar_internal_metadata"
+    ]
+    @tables = tables - tables_specific_to_rails
+  end
+
   def registry
     @results = nil
   end
