@@ -499,7 +499,10 @@ span.usa-hint.save-notice {
     left: 48%;
     margin-left: -10px;
   }
-
+  .question-options.icons .usa-checkbox__label {
+    text-align: center;
+  }
+  // end A-11 V2 customizations
 }
 
 .usa-button.full-width {
