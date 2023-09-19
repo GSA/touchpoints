@@ -23,6 +23,8 @@ es:
     sign_in_text: Touchpoints usa Login.gov para manejar cuentas de usuario. Una vez que se autentique con Login.gov, se iniciará sesión y se le redirigirá a Touchpoints.
     sign_in_with: Inicia sesión con
     if_github: Si tiene una cuenta de GitHub,
+  characters_allowed: "caracteres permitidos"
+  characters_left: "caracteres restantes"
   form:
     submit: "Enviar"
     submit_thankyou: "Gracias. Su comentario ha sido recibido."

@@ -21,12 +21,13 @@
     Instructions
   </label>
   <textarea id="instruction_text" class="usa-textarea instructions countable" name="instructions" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>"><%= form.instructions %></textarea>
-  <br/>
+  <br>
   <span class="usa-hint save-notice survey-instructions">
     <i class="fa fa-check-circle" aria-hidden="true"></i> saved
   </span>
   <span class="counter-msg usa-hint usa-character-count__message" aria-live="polite">
-    <%= @instruction_text_limit %> characters allowed
+    <%= @instruction_text_limit %>
+    <%= t :characters_allowed %>
   </span>
   <br>
   <span class="display-inline instructions-show">
@@ -45,8 +46,8 @@
   <span class="fa fa-plus"></span>
   Add Section
 <% end %>
-<br/>
-<br/>
+<br>
+<br>
 <hr style="border: none; border-top: 1px solid #E5E5E5;">
 <div class="grid-row">
   <div class="grid-col-12">
@@ -54,14 +55,15 @@
       <label class="usa-label text-uppercase font-body-3xs" for="disclaimer-text">
         Disclaimer text
       </label>
-      <small id="fba-dialog-privacy">
+      <small class="fba-dialog-privacy">
         <p class="fba-disclaimer-text">
           <textarea id="disclaimer_text" class="usa-textarea countable" name="disclaimer-text" tabindex="<%= @tabindex += 1 %>"data-url="<%= admin_form_path(form) %>"><%= form.disclaimer_text %></textarea>
           <span class="usa-hint save-notice survey-disclaimer">
             <i class="fa fa-check-circle" aria-hidden="true"></i> saved
           </span>
           <span class="counter-msg usa-hint usa-character-count__message" aria-live="polite">
-            <%= @disclaimer_text_limit %> characters allowed
+            <%= @disclaimer_text_limit %>
+            <%= t :characters_allowed %>
           </span>
           <div id="disclaimer_text-show" tabindex="<%= @tabindex += 1 %>"><%= form.disclaimer_text.present? ? sanitize(form.disclaimer_text) : 'Survey Disclaimer Text' %></div>
         </p>
@@ -69,7 +71,7 @@
     </div>
   </div>
 </div>
-<br/>
+<br>
 <hr style="border: none; border-top: 1px solid #E5E5E5;">
 <div id="success_text_div">
   <%= render "admin/questions/success_text", {form: form} %>
@@ -343,10 +345,10 @@ function textCounter(field,maxlimit) {
    var countfield = field.parentNode.querySelector(".counter-msg");
    if ( field.value.length > maxlimit ) {
     field.value = field.value.substring( 0, maxlimit );
-    countfield.innerText = '0 characters left';
+    countfield.innerText = '0 <%= t :characters_left %>';
     return false;
    } else {
-    countfield.innerText = "" + (maxlimit - field.value.length) + " characters left";
+    countfield.innerText = "" + (maxlimit - field.value.length) + " <%= t :characters_left %>";
    }
 }
 </script>

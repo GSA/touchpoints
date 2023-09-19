@@ -5,14 +5,14 @@
     <div class="grid-row">
       <div class="grid-col-12">
         <% if form.disclaimer_text? %>
-          <small id="fba-dialog-privacy">
-            <%= form.disclaimer_text.html_safe %>
-          </small>
-        <% end %>
+        <small class="fba-dialog-privacy">
+          <%= form.disclaimer_text.html_safe %>
+        </small>
+        <% end -%>
       </div>
     </div>
   </div>
 </div>
-<% end %>
+<% end -%>
 
 <%= render "components/forms/footer_banner", form: form %>

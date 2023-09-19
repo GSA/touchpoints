@@ -482,10 +482,27 @@ span.usa-hint.save-notice {
     padding-bottom: 20px;
     padding-left: 20px;
     padding-top: 1px;
+    padding-right: 1rem;
   }
   .word-break {
     word-wrap: break-word;
   }
+
+  // A-11 V2 customizations
+  .question-options.icons .usa-checkbox__input--tile+.usa-checkbox__label,
+  .question-options.icons .usa-radio__input--tile+.usa-radio__label {
+    padding: 0;
+  }
+  .question-options.icons .usa-checkbox__input--tile+[class*=__label]:before {
+    margin-top: 20px;
+    bottom: 10px;
+    left: 48%;
+    margin-left: -10px;
+  }
+  .question-options.icons .usa-checkbox__label {
+    text-align: center;
+  }
+  // end A-11 V2 customizations
 }
 
 .usa-button.full-width {
