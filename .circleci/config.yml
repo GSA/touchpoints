@@ -26,7 +26,9 @@ jobs:
     working_directory: ~/repo
 
     steps:
-      - browser-tools/install-browser-tools
+      - run: sudo apt-get update
+      - browser-tools/install-chrome: # required for selenium used by tachometer benchmark smoke tests
+          chrome-version: 116.0.5845.96
 
       - checkout
 
@@ -45,13 +47,6 @@ jobs:
       # Database setup
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
-
-      # Install chrome driver
-      - run:
-          name: Setup Chrome
-          command: |
-            wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.198-1_amd64.deb
-            sudo apt install ./google-chrome-stable_114.0.5735.198-1_amd64.deb
 
       # run tests!
       - run:
