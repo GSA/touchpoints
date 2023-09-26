@@ -15,6 +15,9 @@
           <%= sanitize(form.instructions) %>
         </p>
       <% end %>
+      <p>
+        A red asterisk (<abbr title="required" class="usa-hint--required">*</abbr>) indicates a required field.
+      </p>
       <%= render 'components/forms/flash', form: form %>
       <%= render partial: "components/forms/custom", locals: { form: form, questions: form.questions } %>
     </div>
