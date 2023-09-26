@@ -255,6 +255,8 @@ module Admin
         :bureau,
         :department,
         :description,
+        :short_description,
+        :year_designated,
         :digital_service,
         :estimated_annual_volume_of_customers,
         :hisp,

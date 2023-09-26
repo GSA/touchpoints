@@ -174,8 +174,10 @@ service_1 = Service.create!({
   name: 'USPTO Trademarks',
   organization: Organization.first,
   hisp: true,
+  year_designated: 2023,
   notes: 'Headline notes about the service',
   description: 'A blurb describing this service. A few hundred words...',
+  short_description: 'A short description of this service.',
   department: 'Department of Commerce',
   bureau: 'Patents and Trademarks',
   service_abbreviation: 'uspto',
@@ -187,6 +189,8 @@ service_1 = Service.create!({
 service_2 = Service.create!({
   organization: service_provider_2.organization,
   service_provider: service_provider_2,
+  year_designated: 2022,
+  short_description: 'A short description of this service.',
   name: 'Example',
   service_owner_id: admin_user.id,
   hisp: true,
@@ -194,6 +198,7 @@ service_2 = Service.create!({
 service_3 = Service.create!({
   organization: Organization.first,
   service_provider: service_provider_2,
+  year_designated: 2021,
   service_owner_id: webmaster.id,
   name: 'HUD',
   hisp: true,
@@ -204,7 +209,7 @@ service_4 = Service.create!({
   service_owner_id: webmaster.id,
   name: 'IRS',
   hisp: true,
-  })
+})
 service_5 = Service.create!({
   organization: Organization.first,
   service_provider: service_provider_1,
