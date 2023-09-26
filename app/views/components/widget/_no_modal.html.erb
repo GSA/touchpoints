@@ -12,7 +12,10 @@
     </h2>
 
     <% unless form.delivery_method == "inline" %>
-      <a class="fba-modal-close" type="button" href="#">×</a>
+      <a class="fba-modal-close"
+        type="button"
+        href="#"
+        aria-label="Close this window">×</a>
     <% end %>
 
     <% if form.instructions? %>
@@ -25,7 +28,6 @@
         A red asterisk (<abbr title="required" class="usa-hint--required">*</abbr>) indicates a required field.
       </small>
     </p>
-    <hr>
     <%= render 'components/forms/flash', form: form %>
     <%= render partial: "components/forms/custom", locals: { form: form, questions: form.questions } %>
   </div>
