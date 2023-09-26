@@ -3,8 +3,8 @@
   <% if option.text != option.value %>(<%= option.value %>)<% end %>
 </span>
 <span class="question-option-edit">
-  <input type="text" name="question_option_text" value="<%= option.text %>" class="usa-input display-inline" data-href="<%= admin_form_question_question_option_path(option.question.form, option.question, option) %>" />&nbsp;&nbsp;
-  <input type="text" name="question_option_value" value="<%= option.value %>" class="usa-input display-inline"/>&nbsp;&nbsp;
+  <input type="text" name="question_option_text" value="<%= option.text %>" class="usa-input display-inline margin-top-0" data-href="<%= admin_form_question_question_option_path(option.question.form, option.question, option) %>" />&nbsp;&nbsp;
+  <input type="text" name="question_option_value" value="<%= option.value %>" class="usa-input display-inline margin-top-0" />&nbsp;&nbsp;
   <%= link_to admin_form_question_question_option_path(question.form, question, option), class: "button form-save-question-option"  do %>
     <i class="fa fa-save"></i>
   <% end %>

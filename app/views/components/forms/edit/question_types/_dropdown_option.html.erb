@@ -1,5 +1,7 @@
-<div class="question-option" id="<%= dom_id(option) %>" data-id="<%= option.id %>">
-  <%= label_tag(nil, for: "#{question.answer_field}_#{(index + 1).to_s}") do %>
+<div class="usa-radio question-option" id="<%= dom_id(option) %>" data-id="<%= option.id %>">
+  <% @option_id = "#{question.answer_field}_#{(index + 1).to_s}" %>
+  <%= radio_button_tag(@option_id, index + 1, nil, { name: question.answer_field, value: option.value, class: "usa-radio__input usa-radio__input--tile", required: question.is_required  }) %>
+  <%= label_tag(nil, for: @option_id, class: "usa-radio__label") do %>
     <%= render 'components/forms/edit/question_types/update_value_text_fields', { question: question, option: option } %>
   <% end %>
 </div>

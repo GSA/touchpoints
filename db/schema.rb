@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_05_201752) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_26_183233) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -682,6 +682,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_05_201752) do
     t.string "office", comment: "Text description for the office (below a Bureau)"
     t.boolean "designated_for_improvement_a11_280", default: false, comment: "Is this Service designated, per the OMB Circular A-11 Section 280"
     t.boolean "contact_center", default: false, comment: "True or False for whether the service involves a contact center and/or an interaction with a contact center"
+    t.integer "year_designated"
+    t.text "short_description"
     t.index ["organization_id"], name: "index_services_on_organization_id"
   end
 

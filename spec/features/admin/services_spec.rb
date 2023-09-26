@@ -42,6 +42,8 @@ feature 'Managing Services', js: true do
           select(organization.name, from: 'service[organization_id]')
           fill_in :service_name, with: 'New Service Name'
           fill_in :service_description, with: "Lots of text\n\n#### Heading\n\n* 1\n* 2\n* 3"
+          fill_in :service_year_designated, with: "2040"
+          fill_in :service_short_description, with: "Abbreviated text"
           find("[for=service_contact_center]").click
 
           find("label[for='service_hisp']").click
@@ -52,6 +54,8 @@ feature 'Managing Services', js: true do
         it 'create Service successfully' do
           expect(page).to have_content('Service was successfully created')
           expect(page).to have_content('New Service Name')
+          expect(page).to have_content('2040')
+          expect(page).to have_content('Abbreviated text')
 
           # renders markdown
           expect(page).to have_css('h4', text: 'Heading')
