@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Cx action plans</h1>
+
+<div id="cx_action_plans">
+  <% @cx_action_plans.each do |cx_action_plan| %>
+    <%= render cx_action_plan %>
+    <p>
+      <%= link_to "Show this cx action plan", cx_action_plan %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New cx action plan", new_cx_action_plan_path %>

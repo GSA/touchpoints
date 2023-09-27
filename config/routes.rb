@@ -3,6 +3,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  resources :cx_action_plans
   resources :ivn_components
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @cx_action_plan %>
+
+<div>
+  <%= link_to "Edit this cx action plan", edit_cx_action_plan_path(@cx_action_plan) %> |
+  <%= link_to "Back to cx action plans", cx_action_plans_path %>
+
+  <%= button_to "Destroy this cx action plan", @cx_action_plan, method: :delete %>
+</div>
