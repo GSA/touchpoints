@@ -1,4 +1,4 @@
-class CxActionPlansController < ApplicationController
+class Admin::CxActionPlansController < AdminController
   before_action :set_cx_action_plan, only: %i[ show edit update destroy ]
 
   # GET /cx_action_plans or /cx_action_plans.json
@@ -12,11 +12,13 @@ class CxActionPlansController < ApplicationController
 
   # GET /cx_action_plans/new
   def new
+    @service_providers = ServiceProvider.all.includes(:organization).order('organizations.name', 'service_providers.name')
     @cx_action_plan = CxActionPlan.new
   end
 
   # GET /cx_action_plans/1/edit
   def edit
+    @service_providers = ServiceProvider.all.includes(:organization).order('organizations.name', 'service_providers.name')
   end
 
   # POST /cx_action_plans or /cx_action_plans.json
@@ -25,7 +27,7 @@ class CxActionPlansController < ApplicationController
 
     respond_to do |format|
       if @cx_action_plan.save
-        format.html { redirect_to cx_action_plan_url(@cx_action_plan), notice: "Cx action plan was successfully created." }
+        format.html { redirect_to admin_cx_action_plan_url(@cx_action_plan), notice: "Cx action plan was successfully created." }
         format.json { render :show, status: :created, location: @cx_action_plan }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +40,7 @@ class CxActionPlansController < ApplicationController
   def update
     respond_to do |format|
       if @cx_action_plan.update(cx_action_plan_params)
-        format.html { redirect_to cx_action_plan_url(@cx_action_plan), notice: "Cx action plan was successfully updated." }
+        format.html { redirect_to admin_cx_action_plan_url(@cx_action_plan), notice: "Cx action plan was successfully updated." }
         format.json { render :show, status: :ok, location: @cx_action_plan }
       else
         format.html { render :edit, status: :unprocessable_entity }

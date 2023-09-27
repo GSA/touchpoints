@@ -3,7 +3,6 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  resources :cx_action_plans
   resources :ivn_components
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
 
@@ -104,6 +103,7 @@ Rails.application.routes.draw do
         post 'remove_service_provider_manager', to: 'service_providers#remove_service_provider_manager', as: :remove_service_provider_manager
       end
     end
+    resources :cx_action_plans
     resources :services do
       collection do
         get 'catalog', to: 'services#catalog', as: :catalog
@@ -145,6 +145,7 @@ Rails.application.routes.draw do
         get 'events', to: 'collections#events', as: :events
       end
     end
+
     resources :omb_cx_reporting_collections
     resources :cscrm_data_collections do
       member do
