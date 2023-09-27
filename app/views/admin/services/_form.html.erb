@@ -26,11 +26,16 @@
       <%= form.label :office, "Office" , class: "usa-label" %>
       <%= form.text_field :office, class: "usa-input" %>
     </div>
+
+    <div class="field">
+      <%= form.label :year_designated, "Year designated", class: "usa-label" %>
+      <%= form.text_field :year_designated, class: "usa-input", placeholder: 2023 %>
+    </div>
     <% end %>
 
     <div class="field">
       <%= form.label :name, "What is the name of this service?", class: "usa-label" %>
-      <span class="usa-hint font-sans-2xs">
+      <span class="usa-hint font-sans-3xs">
         For example, “Applying for a replacement Social Security card”, “Visiting a National Wildlife Refuge”, or “Utilizing
         in-person primary care”
       </span>
@@ -40,6 +45,14 @@
     <div class="field">
       <%= form.label :description, "Describe who this service is for and what the service entails", class: "usa-label" %>
       <%= form.text_area :description, class: "usa-textarea" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :short_description, "Provide a short description for this Service", class: "usa-label" %>
+      <span class="usa-hint font-sans-3xs">
+        This text will be displayed on Performance.gov.
+      </span>
+      <%= form.text_area :short_description, class: "usa-textarea" %>
     </div>
 
     <br>
