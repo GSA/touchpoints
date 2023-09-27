@@ -16,7 +16,7 @@
         </p>
       <% end %>
       <p>
-        A red asterisk (<abbr title="required" class="usa-hint--required">*</abbr>) indicates a required field.
+        <%= t :required_text_html %>
       </p>
       <%= render 'components/forms/flash', form: form %>
       <%= render partial: "components/forms/custom", locals: { form: form, questions: form.questions } %>

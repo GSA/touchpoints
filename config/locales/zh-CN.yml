@@ -46,6 +46,7 @@ zh-CN:
   characters_allowed: "允许的字符"
   characters_left: "剩余字符数"
   form:
+    required_field_html: '红色星号 (<abbr title="required" class="usa-hint--required">*</abbr>) 表示必填字段。'
     submit: "提交"
     submit_thankyou: "谢谢. 已收到您的反馈."
     help_improve: "帮助改善这个网站"

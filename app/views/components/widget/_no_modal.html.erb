@@ -22,10 +22,10 @@
     <p class="fba-instructions">
       <%= sanitize(form.instructions) %>
     </p>
-    <% end %>
+    <% end -%>
     <p>
       <small>
-        A red asterisk (<abbr title="required" class="usa-hint--required">*</abbr>) indicates a required field.
+        <%= t :required_field_html %>
       </small>
     </p>
     <%= render 'components/forms/flash', form: form %>
