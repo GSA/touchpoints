@@ -1,27 +1,22 @@
 class Admin::CxActionPlansController < AdminController
   before_action :set_cx_action_plan, only: %i[ show edit update destroy ]
 
-  # GET /cx_action_plans or /cx_action_plans.json
   def index
     @cx_action_plans = CxActionPlan.all
   end
 
-  # GET /cx_action_plans/1 or /cx_action_plans/1.json
   def show
   end
 
-  # GET /cx_action_plans/new
   def new
     @service_providers = ServiceProvider.all.includes(:organization).order('organizations.name', 'service_providers.name')
     @cx_action_plan = CxActionPlan.new
   end
 
-  # GET /cx_action_plans/1/edit
   def edit
     @service_providers = ServiceProvider.all.includes(:organization).order('organizations.name', 'service_providers.name')
   end
 
-  # POST /cx_action_plans or /cx_action_plans.json
   def create
     @cx_action_plan = CxActionPlan.new(cx_action_plan_params)
 
@@ -36,7 +31,6 @@ class Admin::CxActionPlansController < AdminController
     end
   end
 
-  # PATCH/PUT /cx_action_plans/1 or /cx_action_plans/1.json
   def update
     respond_to do |format|
       if @cx_action_plan.update(cx_action_plan_params)
@@ -49,7 +43,6 @@ class Admin::CxActionPlansController < AdminController
     end
   end
 
-  # DELETE /cx_action_plans/1 or /cx_action_plans/1.json
   def destroy
     @cx_action_plan.destroy
 
@@ -60,12 +53,10 @@ class Admin::CxActionPlansController < AdminController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_cx_action_plan
       @cx_action_plan = CxActionPlan.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def cx_action_plan_params
       params.require(:cx_action_plan).permit(:service_provider_id, :year, :delivered_current_year, :to_deliver_next_year)
     end
