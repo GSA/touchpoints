@@ -418,7 +418,7 @@ criticality",
   #
 
   def self.export_conversion_question_10(field)
-    return nil if field.length == 1
+    return nil if !field || field.length == 1
 
     # 0 = Not Identified
     # 1 = 1 or 2 identified
@@ -445,7 +445,7 @@ criticality",
   end
 
   def self.export_conversion_question_12(field)
-    return nil if field.length == 1
+    return nil if !field || field.length == 1
 
     # 0 = Not Considered
     # 1 = up to 2 selections
@@ -470,7 +470,7 @@ criticality",
   end
 
   def self.export_conversion_question_14(field)
-    return nil if field.length == 1
+    return nil if !field || field.length == 1
 
     # 0 = Not Considered
     # 1 = Some Products and/or Services
@@ -520,7 +520,7 @@ criticality",
   end
 
   def self.export_conversion_question_17(field)
-    return nil if field.length == 1
+    return nil if !field || field.length == 1
 
     # 0 = Not Considered;
     # 1 = Response option(s), other than SCRAs;
