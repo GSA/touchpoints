@@ -409,6 +409,147 @@ criticality",
     }
   end
 
+
+  #
+  #
+  # Custom logic applied to fields for data export
+  # example: 8 checkbox values being consolidated into a value between 1-3
+  #
+  #
+
+  def self.export_conversion_question_10(field)
+    return nil if field.length == 1
+
+    # 0 = Not Identified
+    # 1 = 1 or 2 identified
+    # 2 = All but suppliers identified
+    # 3 = All identified
+    # Note: Critical item selections not scored, for info only; however,
+    # If critical items were selected, assumption was that items had been identified
+
+    question_option_selections = YAML.load(field) # parse the string encoded as an array, to an array
+    question_option_selections_without_not_identified = question_option_selections - ["Not identified"] # remove Not Identified option
+    question_option_selections_without_suppliers = question_option_selections_without_not_identified - ["Critical Suppliers Identified"] # remove Not Identified and Suppliers option
+
+    if question_option_selections_without_not_identified.size == 8 # if all are selected
+      3
+    elsif question_option_selections_without_suppliers.size == 7
+      2
+    elsif (1..2).include?(question_option_selections_without_not_identified.size)
+      1
+    elsif question_option_selections.include?("Not identified")
+      0
+    else
+      "not scored"
+    end
+  end
+
+  def self.export_conversion_question_12(field)
+    return nil if field.length == 1
+
+    # 0 = Not Considered
+    # 1 = up to 2 selections
+    # 2 = 3 to 6 selections
+    # 3 = All
+
+    question_option_selections = YAML.load(field)
+    question_option_selections_without_not_considered = question_option_selections - ["Not considered"]
+    question_option_selections_without_other = question_option_selections_without_not_considered - ["Other"]
+
+    if question_option_selections_without_other.size == 7 # if all are selected
+      3
+    elsif (3..6).include?(question_option_selections_without_other.size)
+      2
+    elsif (1..2).include?(question_option_selections_without_other.size)
+      1
+    elsif question_option_selections.include?("Not considered")
+      0
+    else
+      "not scored"
+    end
+  end
+
+  def self.export_conversion_question_14(field)
+    return nil if field.length == 1
+
+    # 0 = Not Considered
+    # 1 = Some Products and/or Services
+    # 2 = Some Products/All Services or All
+    # Products/Some Services
+    # 3 = All Product and Services
+    # Note: If 1 “all” option selected score = 2
+
+    question_option_selections = YAML.load(field)
+    question_option_selections_without_not_conducted = question_option_selections - ["Not conducted"]
+
+    if question_option_selections_without_not_conducted.include?("Conducted for all prioritized products") &&
+        question_option_selections_without_not_conducted.include?("Conducted for all prioritized services")
+      3
+    elsif question_option_selections_without_not_conducted.include?("Conducted for all prioritized products") ||
+        question_option_selections_without_not_conducted.include?("Conducted for all prioritized services")
+      2
+    elsif question_option_selections_without_not_conducted.include?("Conducted for some prioritized products") ||
+      question_option_selections_without_not_conducted.include?("Conducted for some prioritized services")
+      1
+    elsif question_option_selections.include?("Not conducted")
+      0
+    else
+      "not scored"
+    end
+  end
+
+  def self.export_conversion_question_16(field)
+    # 0 = Not established
+    # 1 = Partial/in-Process Internal process
+    # 2 = Internal Process established and/or FASC process planned/in-process
+    # 3 = Internal and FASC process established
+
+    if field == "5"
+      3
+    elsif field == "2" ||
+      field == "3" ||
+      field == "4"
+      2
+    elsif field == "1"
+      1
+    elsif field == "0"
+      0
+    else
+      "not scored"
+    end
+  end
+
+  def self.export_conversion_question_17(field)
+    return nil if field.length == 1
+
+    # 0 = Not Considered;
+    # 1 = Response option(s), other than SCRAs;
+    # 2 = Response options includes “SCRAs” but not “mitigations”
+    # 3 = ”SCRAs” and “Mitigations” options selected
+
+    question_option_selections = YAML.load(field)
+
+    if question_option_selections.include?("SCRAs are conducted for critical suppliers") &&
+      question_option_selections.include?("Mitigations to improve resilience/address assessed risks  associated with critical suppliers are identified and implemented")
+      3
+    elsif question_option_selections.include?("SCRAs are conducted for critical suppliers") &&
+      !question_option_selections.include?("Mitigations to improve resilience/address assessed risks  associated with critical suppliers are identified and implemented")
+      2
+    elsif question_option_selections.include?("Critical Suppliers are identified in COOP and Recovery plans") ||
+      question_option_selections.include?("Business Impact Analysis considers supplier and product dependency risks and resiliency requirements")
+      1
+    elsif question_option_selections.include?("Not considered")
+      0
+    else
+      "not scored"
+    end
+  end
+
+  #
+  # end custom export logic
+  #
+
+
   def self.to_csv
     collections = CscrmDataCollection2.order('year, quarter')
 
@@ -453,29 +594,33 @@ criticality",
       "clearly_defined_roles_value",
       "clearly_defined_roles",
       "clearly_defined_roles_comments",
-      "identified_assets_and_essential_functions_value",
       "identified_assets_and_essential_functions",
+      "identified_assets_and_essential_functions_value",
+      "identified_assets_and_essential_functions_translated_value",
       "identified_assets_and_essential_functions_comments",
       "prioritization_process_value",
       "prioritization_process",
       "prioritization_process_comments",
-      "considerations_in_procurement_processes_value",
       "considerations_in_procurement_processes",
+      "considerations_in_procurement_processes_value",
+      "considerations_in_procurement_processes_translated_value",
       "considerations_in_procurement_processes_comments",
       "documented_methodology_value",
       "documented_methodology",
       "documented_methodology_comments",
-      "conducts_scra_for_prioritized_products_and_services_value",
       "conducts_scra_for_prioritized_products_and_services",
+      "conducts_scra_for_prioritized_products_and_services_translated_value",
       "conducts_scra_for_prioritized_products_and_services_comments",
       "personnel_required_to_complete_training_value",
       "personnel_required_to_complete_training",
       "personnel_required_to_complete_training_comments",
-      "established_process_information_sharing_with_fasc_value",
       "established_process_information_sharing_with_fasc",
+      "established_process_information_sharing_with_fasc_value",
+      "established_process_information_sharing_with_fasc_translated_value",
       "established_process_information_sharing_with_fasc_comments",
-      "cybersecurity_supply_chain_risk_considerations_value",
       "cybersecurity_supply_chain_risk_considerations",
+      "cybersecurity_supply_chain_risk_considerations_value",
+      "cybersecurity_supply_chain_risk_considerations_translated_value",
       "cybersecurity_supply_chain_risk_considerations_comments",
       "process_for_product_authenticity_value",
       "process_for_product_authenticity",
@@ -534,30 +679,44 @@ criticality",
           CscrmDataCollection2.question_9[:options].key(collection.clearly_defined_roles.to_i),
           collection.clearly_defined_roles,
           collection.clearly_defined_roles_comments,
+
           CscrmDataCollection2.question_10[:options].key(collection.identified_assets_and_essential_functions.to_i),
           collection.identified_assets_and_essential_functions,
+          export_conversion_question_10(collection.identified_assets_and_essential_functions),
           collection.identified_assets_and_essential_functions_comments,
+
           CscrmDataCollection2.question_11[:options].key(collection.prioritization_process.to_i),
           collection.prioritization_process,
           collection.prioritization_process_comments,
+
           CscrmDataCollection2.question_12[:options].key(collection.considerations_in_procurement_processes.to_i),
           collection.considerations_in_procurement_processes,
+          export_conversion_question_12(collection.considerations_in_procurement_processes),
           collection.considerations_in_procurement_processes_comments,
+
           CscrmDataCollection2.question_13[:options].key(collection.documented_methodology.to_i),
           collection.documented_methodology,
           collection.documented_methodology_comments,
+
           CscrmDataCollection2.question_14[:options].key(collection.conducts_scra_for_prioritized_products_and_services.to_i),
           collection.conducts_scra_for_prioritized_products_and_services,
+          export_conversion_question_14(collection.conducts_scra_for_prioritized_products_and_services),
           collection.conducts_scra_for_prioritized_products_and_services_comments,
+
           CscrmDataCollection2.question_15[:options].key(collection.personnel_required_to_complete_training.to_i),
           collection.personnel_required_to_complete_training,
           collection.personnel_required_to_complete_training_comments,
+
           CscrmDataCollection2.question_16[:options].key(collection.established_process_information_sharing_with_fasc.to_i),
           collection.established_process_information_sharing_with_fasc,
+          export_conversion_question_16(collection.established_process_information_sharing_with_fasc),
           collection.established_process_information_sharing_with_fasc_comments,
+
           CscrmDataCollection2.question_17[:options].key(collection.cybersecurity_supply_chain_risk_considerations.to_i),
           collection.cybersecurity_supply_chain_risk_considerations,
+          export_conversion_question_17(collection.cybersecurity_supply_chain_risk_considerations),
           collection.cybersecurity_supply_chain_risk_considerations_comments,
+
           CscrmDataCollection2.question_18[:options].key(collection.process_for_product_authenticity.to_i),
           collection.process_for_product_authenticity,
           collection.process_for_product_authenticity_comments,
