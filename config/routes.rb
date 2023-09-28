@@ -45,6 +45,7 @@ Rails.application.routes.draw do
       resources :forms, only: %i[index show]
       resources :websites, only: [:index]
       resources :service_providers, only: [:index]
+      resources :cx_action_plans, only: %i[index show]
       resources :services, only: %i[index show]
       resources :personas, only: [:index]
       resources :goals, only: [:index]
@@ -103,6 +104,7 @@ Rails.application.routes.draw do
         post 'remove_service_provider_manager', to: 'service_providers#remove_service_provider_manager', as: :remove_service_provider_manager
       end
     end
+    resources :cx_action_plans
     resources :services do
       collection do
         get 'catalog', to: 'services#catalog', as: :catalog
@@ -144,6 +146,7 @@ Rails.application.routes.draw do
         get 'events', to: 'collections#events', as: :events
       end
     end
+
     resources :omb_cx_reporting_collections
     resources :cscrm_data_collections do
       member do
