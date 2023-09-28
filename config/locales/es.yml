@@ -26,6 +26,7 @@ es:
   characters_allowed: "caracteres permitidos"
   characters_left: "caracteres restantes"
   form:
+    required_field_html: 'Un asterisco rojo (<abbr title="required" class="usa-hint--required">*</abbr>) indica un campo obligatorio.'
     submit: "Enviar"
     submit_thankyou: "Gracias. Su comentario ha sido recibido."
     help_improve: "Ayuda a mejorar este sitio"
