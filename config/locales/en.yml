@@ -138,6 +138,7 @@ en-US:
   characters_allowed: "characters allowed"
   characters_left: "characters left"
   form:
+    required_field_html: 'A red asterisk (<abbr title="required" class="usa-hint--required">*</abbr>) indicates a required field.'
     submit: "Submit"
     submit_thankyou: "Thank you. Your feedback has been received."
     help_improve: "Help improve this site"
