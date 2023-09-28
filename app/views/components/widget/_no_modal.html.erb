@@ -16,7 +16,7 @@
         type="button"
         href="#"
         aria-label="Close this window">×</a>
-    <% end %>
+    <% end -%>
 
     <% if form.instructions? %>
     <p class="fba-instructions">
@@ -25,7 +25,7 @@
     <% end -%>
     <p>
       <small>
-        <%= t :required_field_html %>
+        <%= t('form.required_field_html') %>
       </small>
     </p>
     <%= render 'components/forms/flash', form: form %>
