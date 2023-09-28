@@ -1,7 +1,6 @@
 <% multi_section_question_number = 0 %>
 
 <form
-  class="usa-form"
   action="<%= root_url %>touchpoints/<%= form.present? ? form.short_uuid : nil %>/submissions.json"
   method="POST">
   <div class="touchpoints-form-body">
