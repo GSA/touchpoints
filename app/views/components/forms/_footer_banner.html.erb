@@ -1,5 +1,5 @@
 <div class="usa-banner">
-  <header class="usa-banner__header touchpoints-footer-banner">
+  <footer class="usa-banner__header touchpoints-footer-banner">
     <div class="usa-banner__inner">
       <div class="grid-col-auto">
         <img class="usa-banner__header-flag" src="<%= image_url("us_flag_small.png") %>" alt="U.S. flag">
@@ -8,7 +8,7 @@
         <p class="usa-banner__header-text">
           <%= t :official_form %>
           <%= t :provided_by %>
-          <a href="https://touchpoints.digital.gov" target="_blank" rel="noopener"><%= t 'touchpoints' %></a>
+          <a href="https://touchpoints.digital.gov" target="_blank" rel="noopener" class="usa-link--external"><%= t 'touchpoints' %></a>
           <br>
           <% if form.present? %>
             <% if form.omb_approval_number.present? %>
@@ -23,5 +23,5 @@
         </p>
       </div>
     </div>
-  </header>
+  </footer>
 </div>
