@@ -96,18 +96,18 @@ GEM
     aes_key_wrap (1.1.0)
     ast (2.4.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.828.0)
-    aws-record (2.11.0)
+    aws-partitions (1.830.0)
+    aws-record (2.12.0)
       aws-sdk-dynamodb (~> 1, >= 1.85.0)
-    aws-sdk-core (3.183.1)
+    aws-sdk-core (3.184.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-dynamodb (1.93.1)
-      aws-sdk-core (~> 3, >= 3.177.0)
+    aws-sdk-dynamodb (1.95.0)
+      aws-sdk-core (~> 3, >= 3.184.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-rails (3.8.0)
+    aws-sdk-rails (3.9.0)
       aws-record (~> 2)
       aws-sdk-ses (~> 1, >= 1.50.0)
       aws-sdk-sesv2 (~> 1, >= 1.34.0)
@@ -115,14 +115,14 @@ GEM
       aws-sessionstore-dynamodb (~> 2)
       concurrent-ruby (~> 1)
       railties (>= 5.2.0)
-    aws-sdk-ses (1.55.0)
-      aws-sdk-core (~> 3, >= 3.177.0)
+    aws-sdk-ses (1.56.0)
+      aws-sdk-core (~> 3, >= 3.184.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-sesv2 (1.39.0)
-      aws-sdk-core (~> 3, >= 3.177.0)
+    aws-sdk-sesv2 (1.40.0)
+      aws-sdk-core (~> 3, >= 3.184.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-sqs (1.62.0)
-      aws-sdk-core (~> 3, >= 3.177.0)
+    aws-sdk-sqs (1.63.0)
+      aws-sdk-core (~> 3, >= 3.184.0)
       aws-sigv4 (~> 1.1)
     aws-sessionstore-dynamodb (2.1.0)
       aws-sdk-dynamodb (~> 1, >= 1.85.0)
@@ -526,7 +526,7 @@ DEPENDENCIES
   active_model_serializers (>= 0.10.13)
   acts-as-list
   acts-as-taggable-on
-  aws-sdk-rails (>= 3.8.0)
+  aws-sdk-rails (>= 3.9.0)
   bootsnap
   brakeman
   bullet
@@ -584,4 +584,4 @@ RUBY VERSION
    ruby 3.1.4p223
 
 BUNDLED WITH
-   2.3.12
+   2.3.26
