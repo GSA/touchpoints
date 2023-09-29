@@ -49,7 +49,7 @@
   font-size: 100%
 }
 
-.fba-modal-close {
+.fba-modal-dialog .fba-modal-close {
   position: absolute;
   top: 0;
   right: 0;
@@ -1469,34 +1469,38 @@
 }
 
 .fba-modal-dialog .usa-link--external::after{
-  background:url(<%= asset_path "external-link.svg" %>) no-repeat 0 0;
-  background-size:100%;
-  content:'';
-  display:inline-block;
-  height:0.65em;
-  margin-bottom:-1px;
-  margin-left:0.25rem;
-  width:0.65em;
-}
-
-.fba-modal-dialog .usa-link--external:hover::after{
-  background-image:url(<%= asset_path "external-link-hover.svg" %>), linear-gradient(transparent, transparent);
-  background-repeat:no-repeat;
-}
-
-.fba-modal-dialog .usa-link--external.fba-modal-dialog .usa-link--alt::after{
-  background-image:url(<%= asset_path "external-link-alt.svg" %>);
-  background-position:50% 60%;
+  background-image:url(<%= asset_path "usa-icons-bg/launch--blue-60v.svg" %>);
   background-repeat:no-repeat;
   background-size:100%;
   content:"";
+  height:1.75ex;
+  margin-left:2px;
+  background-position:center;
   display:inline;
-  margin-left:0.25rem;
-  padding-left:0.65em;
+  padding-left:1.75ex;
+  vertical-align:middle;
 }
 
-.fba-modal-dialog .usa-link--external.fba-modal-dialog .usa-link--alt:hover::after{
-  background-image:url(<%= asset_path "external-link-alt-hover.svg" %>), linear-gradient(transparent, transparent);
+.fba-modal-dialog .usa-link--external:hover::after{
+  background-image:url(<%= asset_path "usa-icons-bg/launch--blue-70v.svg" %>), linear-gradient(transparent, transparent);
+  background-repeat:no-repeat;
+}
+
+.fba-modal-dialog .usa-link--external.usa-link--alt::after{
+  background-image:url(<%= asset_path "usa-icons-bg/launch--gray-5.svg" %>);
+  background-repeat:no-repeat;
+  background-size:100%;
+  content:"";
+  height:1.75ex;
+  margin-left:2px;
+  background-position:center;
+  display:inline;
+  padding-left:1.75ex;
+  vertical-align:middle;
+}
+
+.fba-modal-dialog .usa-link--external.usa-link--alt:hover::after{
+  background-image:url(<%= asset_path "usa-icons-bg/launch--white.svg" %>), linear-gradient(transparent, transparent);
   background-repeat:no-repeat;
 }
 
@@ -4054,6 +4058,10 @@
   text-indent: 0;
 }
 
+.fba-modal-dialog abbr[title=required]{
+  text-decoration:none;
+}
+
 /* Override */
 .fba-modal-dialog .usa-form {
   max-width: inherit;
@@ -4066,4 +4074,8 @@
 
 .usa-banner__header.touchpoints-footer-banner {
   min-height: 0;
+}
+
+.fba-modal-dialog .question-options.big-thumbs .usa-radio__label::before {
+  display: none;
 }

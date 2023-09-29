@@ -502,6 +502,10 @@ span.usa-hint.save-notice {
   .question-options.icons .usa-checkbox__label {
     text-align: center;
   }
+
+  .question-options.big-thumbs .usa-radio__label::before {
+    display: none;
+  }
   // end A-11 V2 customizations
 }
 
