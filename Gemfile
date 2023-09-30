@@ -44,7 +44,7 @@ gem "image_processing", "~> 1.12"
 
 gem "brakeman"
 gem "bundler-audit"
-gem "rubocop-rails"
+gem "rubocop-rails", ">= 2.21.2"
 gem "rubocop-rspec"
 gem 'active_model_serializers', '>= 0.10.13'
 gem 'acts-as-list'
