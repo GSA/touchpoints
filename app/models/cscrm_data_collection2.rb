@@ -435,7 +435,7 @@ criticality",
       3
     elsif question_option_selections_without_suppliers.size == 7
       2
-    elsif (1..2).include?(question_option_selections_without_not_identified.size)
+    elsif (1..6).include?(question_option_selections_without_suppliers.size)
       1
     elsif question_option_selections.include?("Not identified")
       0
@@ -448,7 +448,7 @@ criticality",
     return nil if !field || field.length == 1
 
     # 0 = Not Considered
-    # 1 = up to 2 selections
+    # 1 = up to 2 selections OR Other
     # 2 = 3 to 6 selections
     # 3 = All
 
@@ -461,6 +461,8 @@ criticality",
     elsif (3..6).include?(question_option_selections_without_other.size)
       2
     elsif (1..2).include?(question_option_selections_without_other.size)
+      1
+    elsif question_option_selections == ["Other"]
       1
     elsif question_option_selections.include?("Not considered")
       0
@@ -536,7 +538,8 @@ criticality",
       !question_option_selections.include?("Mitigations to improve resilience/address assessed risks  associated with critical suppliers are identified and implemented")
       2
     elsif question_option_selections.include?("Critical Suppliers are identified in COOP and Recovery plans") ||
-      question_option_selections.include?("Business Impact Analysis considers supplier and product dependency risks and resiliency requirements")
+      question_option_selections.include?("Business Impact Analysis considers supplier and product dependency risks and resiliency requirements") ||
+      question_option_selections.include?("Mitigations to improve resilience/address assessed risks  associated with critical suppliers are identified and implemented")
       1
     elsif question_option_selections.include?("Not considered")
       0
