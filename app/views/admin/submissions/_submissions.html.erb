@@ -1,4 +1,4 @@
-<% @tags = @form.submissions.collect(&:tags).flatten.sort_by { |i| i.name } %>
+<% @tags = form.submission_tags %>
 
 <button id="button-toggle-table-display-options" type="button" class="font-sans-2xs">
   <i class="fa fa-cog"></i>
@@ -15,10 +15,12 @@
       Filter by tag
     </p>
     <div class="tag-list">
-      <% @tags.uniq.each do | tag | %>
-        <a href="#" class="search-tag-link" data-name="<%= tag.name %>">
+      <% @tags.uniq.each do |tag| %>
+        <a href="javascript:void(0)"
+          class="search-tag-link"
+          data-name="<%= tag %>">
           <span class="usa-tag">
-            <%= tag.name %>
+            <%= tag %>
           </span>
         </a>
       <% end %>

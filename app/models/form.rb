@@ -108,6 +108,11 @@ class Form < ApplicationRecord
     uuid[0..7]
   end
 
+  def set_submission_tags!
+    submission_tags = submissions.collect(&:tags).flatten.sort_by { |i| i.name }
+    self.update!(submission_tags: submission_tags)
+  end
+
   aasm do
     state :in_development, initial: true
     state :live # manual
