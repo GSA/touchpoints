@@ -277,6 +277,9 @@ class Form < ApplicationRecord
 
     attributes = fields_for_export
 
+    answer_02_options = self.questions.where(answer_field: "answer_02").first.question_options.collect(&:value)
+    answer_03_options = self.questions.where(answer_field: "answer_03").first.question_options.collect(&:value)
+
     CSV.generate(headers: true) do |csv|
       csv << header_attributes
 
@@ -284,21 +287,21 @@ class Form < ApplicationRecord
         csv << [
           submission.id,
           submission.answer_01,
-          submission.answer_02 && submission.answer_02.split(",").include?("effectiveness") ? 1 : 0,
-          submission.answer_02 && submission.answer_02.split(",").include?("ease") ? 1 : 0,
-          submission.answer_02 && submission.answer_02.split(",").include?("efficiency") ? 1 : 0,
-          submission.answer_02 && submission.answer_02.split(",").include?("transparency") ? 1 : 0,
-          submission.answer_02 && submission.answer_02.split(",").include?("humanity") ? 1 : 0,
-          submission.answer_02 && submission.answer_02.split(",").include?("employee") ? 1 : 0,
-          submission.answer_02 && submission.answer_02.split(",").include?("other") ? 1 : 0,
+          submission.answer_02 && submission.answer_02.split(",").include?("effectiveness") ? 1 :(answer_02_options.include?("effectiveness") ? 0 : 'null'),
+          submission.answer_02 && submission.answer_02.split(",").include?("ease") ? 1 : (answer_02_options.include?("ease") ? 0 : 'null'),
+          submission.answer_02 && submission.answer_02.split(",").include?("efficiency") ? 1 : (answer_02_options.include?("efficiency") ? 0 : 'null'),
+          submission.answer_02 && submission.answer_02.split(",").include?("transparency") ? 1 : (answer_02_options.include?("transparency") ? 0 : 'null'),
+          submission.answer_02 && submission.answer_02.split(",").include?("humanity") ? 1 : (answer_02_options.include?("humanity") ? 0 : 'null'),
+          submission.answer_02 && submission.answer_02.split(",").include?("employee") ? 1 : (answer_02_options.include?("employee") ? 0 : 'null'),
+          submission.answer_02 && submission.answer_02.split(",").include?("other") ? 1 : (answer_02_options.include?("other") ? 0 : 'null'),
 
-          submission.answer_03 && submission.answer_03.split(",").include?("effectiveness") ? 1 : 0,
-          submission.answer_03 && submission.answer_03.split(",").include?("ease") ? 1 : 0,
-          submission.answer_03 && submission.answer_03.split(",").include?("efficiency") ? 1 : 0,
-          submission.answer_03 && submission.answer_03.split(",").include?("transparency") ? 1 : 0,
-          submission.answer_03 && submission.answer_03.split(",").include?("humanity") ? 1 : 0,
-          submission.answer_03 && submission.answer_03.split(",").include?("employee") ? 1 : 0,
-          submission.answer_03 && submission.answer_03.split(",").include?("other") ? 1 : 0,
+          submission.answer_03 && submission.answer_03.split(",").include?("effectiveness") ? 1 : (answer_03_options.include?("effectiveness") ? 0 : 'null'),
+          submission.answer_03 && submission.answer_03.split(",").include?("ease") ? 1 : (answer_03_options.include?("ease") ? 0 : 'null'),
+          submission.answer_03 && submission.answer_03.split(",").include?("efficiency") ? 1 : (answer_03_options.include?("efficiency") ? 0 : 'null'),
+          submission.answer_03 && submission.answer_03.split(",").include?("transparency") ? 1 : (answer_03_options.include?("transparency") ? 0 : 'null'),
+          submission.answer_03 && submission.answer_03.split(",").include?("humanity") ? 1 : (answer_03_options.include?("humanity") ? 0 : 'null'),
+          submission.answer_03 && submission.answer_03.split(",").include?("employee") ? 1 : (answer_03_options.include?("employee") ? 0 : 'null'),
+          submission.answer_03 && submission.answer_03.split(",").include?("other") ? 1 : (answer_03_options.include?("other") ? 0 : 'null'),
 
           submission.answer_04
         ]
