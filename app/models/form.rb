@@ -108,9 +108,21 @@ class Form < ApplicationRecord
     uuid[0..7]
   end
 
+  # used to initially set tags (or reset them, if necessary)
   def set_submission_tags!
     submission_tags = submissions.collect(&:tags).flatten.sort_by { |i| i.name }
     self.update!(submission_tags: submission_tags)
+  end
+
+  # called when a tag is added to a submission
+  def update_submission_tags!(tag_list)
+    submission_tags = (self.submission_tags + tag_list).flatten.sort
+    self.update!(submission_tags: submission_tags)
+  end
+
+  # lazily called from a view when a tag is used to search, but returns 0 results
+  def remove_submission_tag!(tag)
+    self.update!(submission_tags: submission_tags - [tag])
   end
 
   aasm do

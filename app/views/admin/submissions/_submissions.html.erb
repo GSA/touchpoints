@@ -8,7 +8,7 @@
   <%= render 'admin/forms/ui_form', form: form %>
 </div>
 
-<% if @tags.first %>
+<% if @tags && @tags.first %>
 <div class="well">
   <div class="field">
     <p>
@@ -31,6 +31,9 @@
 <h2>
   <%= page_entries_info submissions, entry_name: 'Responses' %>
   <% if params[:tag] %>
+    <% if params[:tag] && submissions.size == 0 %>
+      <% form.remove_submission_tag!(params[:tag])%>
+    <% end %>
     <span class="font-sans-3xs">tagged with <span class="code"><%= params[:tag] %></span></span>
   <% end %>
 </h2>

@@ -65,6 +65,7 @@ module Admin
     def add_tag
       @submission.tag_list.add(admin_submission_params[:tag_list].split(','))
       @submission.save!
+      @submission.form.update_submission_tags!(@submission.tag_list)
     end
 
     def remove_tag
