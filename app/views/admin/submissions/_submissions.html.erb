@@ -8,7 +8,7 @@
   <%= render 'admin/forms/ui_form', form: form %>
 </div>
 
-<% if @tags && @tags.first %>
+<% if @tags.any? %>
 <div class="well">
   <div class="field">
     <p>

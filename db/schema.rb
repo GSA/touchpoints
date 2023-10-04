@@ -331,7 +331,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_03_181018) do
     t.string "whitelist_url_7"
     t.string "whitelist_url_8"
     t.string "whitelist_url_9"
-    t.string "submission_tags", comment: "cache the form's submissions tags for reporting", array: true
+    t.string "submission_tags", default: [], comment: "cache the form's submissions tags for reporting", array: true
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["organization_id"], name: "index_forms_on_organization_id"
