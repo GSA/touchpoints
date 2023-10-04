@@ -147,6 +147,8 @@ Rails.application.routes.draw do
       end
     end
 
+    get '/a11_v2_collections', to: 'site#a11_v2_collections'
+
     resources :omb_cx_reporting_collections
     resources :cscrm_data_collections do
       member do
