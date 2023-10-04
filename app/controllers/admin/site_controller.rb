@@ -30,6 +30,9 @@ module Admin
 
     def a11; end
 
+    def a11_v2_collections
+    end
+
     def heartbeat
       render json: {
         status: :success,
@@ -40,7 +43,7 @@ module Admin
     def invite
       # /views/admin/site/invite.html.erb
     end
-    
+
     def invite_post
       invitee = invite_params[:refer_user]
 
