@@ -3,22 +3,22 @@
 module Admin
   class SubmissionsController < AdminController
     before_action :ensure_admin, only: %i[
-      feed 
+      feed
       export_feed
     ]
     before_action :set_form, except: %i[
-      feed 
+      feed
       export_feed
     ]
     before_action :set_submission, except: %i[
-      feed 
-      export_feed 
-      search 
-      a11_chart 
-      a11_analysis 
-      responses_per_day 
-      responses_by_status 
-      performance_gov 
+      feed
+      export_feed
+      search
+      a11_chart
+      a11_analysis
+      responses_per_day
+      responses_by_status
+      performance_gov
       submissions_table
     ]
 
@@ -65,6 +65,7 @@ module Admin
     def add_tag
       @submission.tag_list.add(admin_submission_params[:tag_list].split(','))
       @submission.save!
+      @submission.form.update_submission_tags!(@submission.tag_list)
     end
 
     def remove_tag
@@ -98,12 +99,12 @@ module Admin
 
     def submissions_table
       @show_archived = true if params[:archived]
-      @all_submissions = @form.submissions
-      @all_submissions = @all_submissions.tagged_with(params[:tag]) if params[:tag]
+      all_submissions = @form.submissions
+      all_submissions = all_submissions.tagged_with(params[:tag]) if params[:tag]
       if params[:archived]
-        @submissions = @all_submissions.order('submissions.created_at DESC').page params[:page]
+        @submissions = all_submissions.order('submissions.created_at DESC').page params[:page]
       else
-        @submissions = @all_submissions.non_archived.order('submissions.created_at DESC').page params[:page]
+        @submissions = all_submissions.non_archived.order('submissions.created_at DESC').page params[:page]
       end
     end
 
