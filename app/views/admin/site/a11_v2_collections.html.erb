@@ -1,0 +1,82 @@
+
+<form>
+    <label class="usa-label" for="input-type-text">Department name</label>
+    <input class="usa-input" id="input-type-text" name="input-type-text" />
+
+    <label class="usa-label" for="input-type-text">HISP name</label>
+    <input class="usa-input" id="input-type-text" name="input-type-text" />
+
+    <label class="usa-label" for="input-type-text">Service name</label>
+    <input class="usa-input" id="input-type-text" name="input-type-text" />
+
+    <label class="usa-label" for="input-type-text">Service type</label>
+    <input class="usa-input" id="input-type-text" name="input-type-text" />
+
+    <label class="usa-label" for="input-type-text">Digital service or Contact center?</label>
+    <input class="usa-input" id="input-type-text" name="input-type-text" />
+
+    <label class="usa-label" for="input-type-text">URL?</label>
+    <input class="usa-input" id="input-type-text" name="input-type-text" />
+
+    <label class="usa-label" for="input-type-text">Fiscal Year</label>
+    <input class="usa-input" id="input-type-text" name="input-type-text" />
+
+    <label class="usa-label" for="input-type-text">Quarter</label>
+    <input class="usa-input" id="input-type-text" name="input-type-text" />
+
+    <label class="usa-label" for="input-type-text">Transaction point - at what point in a journey?</label>
+    <input class="usa-input" id="input-type-text" name="input-type-text" />
+
+    <label class="usa-label" for="input-type-text">Channel of survey</label>
+    <input class="usa-input" id="input-type-text" name="input-type-text" />
+
+    <label class="usa-label" for="input-type-text">Survey Title</label>
+    <input class="usa-input" id="input-type-text" name="input-type-text" />
+
+    <label class="usa-label" for="input-type-text">Text of the trust question</label>
+    <input class="usa-input" id="input-type-text" name="input-type-text" />
+
+    <label class="usa-label" for="input-type-text">Likert of Thumb question?</label>
+    <input class="usa-input" id="input-type-text" name="input-type-text" />
+
+    <label class="usa-label" for="input-type-text"># of interactions</label>
+    <input class="usa-input" id="input-type-text" name="input-type-text" />
+
+    <label class="usa-label" for="input-type-text"># of people offered the survey</label>
+    <input class="usa-input" id="input-type-text" name="input-type-text" />
+
+    <label class="usa-label" for="input-type-textarea">Reflection Text</label>
+    <textarea
+        class="usa-textarea"
+        id="input-type-textarea"
+        name="input-type-textarea"></textarea>
+
+    <br>
+    <br>
+    <br>
+
+    <h3>
+        Step 2 - File upload
+    </h3>
+
+    <div class="field">
+        <%#= form.label :logo, class: "usa-label" %>
+        <div class="usa-alert usa-alert--info">
+        <div class="usa-alert__body">
+            <p class="usa-alert__text">
+                Upload a .csv with your detailed survey responses,
+                in the specified format.
+            </p>
+        </div>
+        </div>
+        <p>
+        <%= file_field_tag :logo, class: "usa-2button" %>
+        </p>
+    </div>
+</form>
+
+
+
+
+<br>
+<br>
