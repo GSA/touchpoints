@@ -63,9 +63,9 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
-    active_model_serializers (0.10.13)
-      actionpack (>= 4.1, < 7.1)
-      activemodel (>= 4.1, < 7.1)
+    active_model_serializers (0.10.14)
+      actionpack (>= 4.1)
+      activemodel (>= 4.1)
       case_transform (>= 0.2)
       jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
     activejob (7.0.8)
@@ -523,7 +523,7 @@ PLATFORMS
 DEPENDENCIES
   aasm
   aasm-diagram
-  active_model_serializers (>= 0.10.13)
+  active_model_serializers (>= 0.10.14)
   acts-as-list
   acts-as-taggable-on
   aws-sdk-rails (>= 3.8.0)
@@ -584,4 +584,4 @@ RUBY VERSION
    ruby 3.1.4p223
 
 BUNDLED WITH
-   2.3.12
+   2.3.26
