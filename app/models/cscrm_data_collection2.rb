@@ -417,6 +417,41 @@ criticality",
   #
   #
 
+  def self.export_conversion_question_9(field)
+    return nil if !field || field.length == 1
+
+    # 0 = Not Defined
+    # 1 = All Partial
+    # 2 = Partial and Full
+    # 3 = All Fully defined (“Other” was included for informational purposes)
+
+    question_option_selections = YAML.load(field) # parse the string encoded as an array, to an array
+    question_option_selections_without_not_defined = question_option_selections - ["Not defined"] # remove Not defined option
+
+    if question_option_selections_without_not_defined.include?("Fully defined for PMO") &&
+      question_option_selections_without_not_defined.include?("Fully defined for Acquisition Workforce Personnel") &&
+      question_option_selections_without_not_defined.include?("Fully defined for IT/Information Security Personnel")
+      3
+    elsif question_option_selections_without_not_defined.include?("Partially defined for Acquisition Workforce Personnel") &&
+        question_option_selections_without_not_defined.include?("Partially defined for IT/Information Security Personnel") &&
+        question_option_selections_without_not_defined.include?("Partially defined for IT/Information Security Personnel") &&
+        question_option_selections_without_not_defined.include?("Partially or Fully Defined for Other Personnel")
+      1
+    elsif (question_option_selections_without_not_defined.include?("Partially defined for Acquisition Workforce Personnel") ||
+        question_option_selections_without_not_defined.include?("Partially defined for IT/Information Security Personnel") ||
+        question_option_selections_without_not_defined.include?("Partially defined for IT/Information Security Personnel") ||
+        question_option_selections_without_not_defined.include?("Partially or Fully Defined for Other Personnel") ) &&
+        (question_option_selections_without_not_defined.include?("Fully defined for PMO") ||
+        question_option_selections_without_not_defined.include?("Fully defined for Acquisition Workforce Personnel") ||
+        question_option_selections_without_not_defined.include?("Fully defined for IT/Information Security Personnel") )
+      2
+    elsif question_option_selections.include?("Not defined")
+      0
+    else
+      "not scored"
+    end
+  end
+
   def self.export_conversion_question_10(field)
     return nil if !field || field.length == 1
 
@@ -595,9 +630,8 @@ criticality",
       "governance_structure",
       "governance_structure_comments",
       "clearly_defined_roles_value",
-      "clearly_defined_roles",
+      "clearly_defined_roles_translated_value",
       "clearly_defined_roles_comments",
-      "identified_assets_and_essential_functions",
       "identified_assets_and_essential_functions_value",
       "identified_assets_and_essential_functions_translated_value",
       "identified_assets_and_essential_functions_comments",
@@ -622,7 +656,6 @@ criticality",
       "established_process_information_sharing_with_fasc_value",
       "established_process_information_sharing_with_fasc_translated_value",
       "established_process_information_sharing_with_fasc_comments",
-      "cybersecurity_supply_chain_risk_considerations",
       "cybersecurity_supply_chain_risk_considerations_value",
       "cybersecurity_supply_chain_risk_considerations_translated_value",
       "cybersecurity_supply_chain_risk_considerations_comments",
@@ -680,11 +713,11 @@ criticality",
           CscrmDataCollection2.question_8[:options].key(collection.governance_structure.to_i),
           collection.governance_structure,
           collection.governance_structure_comments,
-          CscrmDataCollection2.question_9[:options].key(collection.clearly_defined_roles.to_i),
+
           collection.clearly_defined_roles,
+          export_conversion_question_9(collection.clearly_defined_roles),
           collection.clearly_defined_roles_comments,
 
-          CscrmDataCollection2.question_10[:options].key(collection.identified_assets_and_essential_functions.to_i),
           collection.identified_assets_and_essential_functions,
           export_conversion_question_10(collection.identified_assets_and_essential_functions),
           collection.identified_assets_and_essential_functions_comments,
@@ -716,7 +749,6 @@ criticality",
           export_conversion_question_16(collection.established_process_information_sharing_with_fasc),
           collection.established_process_information_sharing_with_fasc_comments,
 
-          CscrmDataCollection2.question_17[:options].key(collection.cybersecurity_supply_chain_risk_considerations.to_i),
           collection.cybersecurity_supply_chain_risk_considerations,
           export_conversion_question_17(collection.cybersecurity_supply_chain_risk_considerations),
           collection.cybersecurity_supply_chain_risk_considerations_comments,
