@@ -21,7 +21,7 @@
 
     <div class="field">
       <%= f.label :question_type, class: "usa-label" %>
-    <% if admin_permissions? %>
+    <% if admin_permissions? || service_manager_permissions? %>
       <br>
       <% Question::QUESTION_TYPES.each do |kind| %>
         <%= f.radio_button :question_type, kind %>
