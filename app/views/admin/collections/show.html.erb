@@ -131,7 +131,8 @@
         <div class="usa-alert usa-alert--warning usa-alert--slim">
           <div class="usa-alert__body">
             <p class="usa-alert__text">
-              <%= raw("Please add Reflection Text describing  #{link_to 'edit', edit_admin_collection_path(@collection)} this Reflection text prior to submitting.") %>
+              <%= link_to 'Edit this Collection', edit_admin_collection_path(@collection) %>
+              to add Reflection Text prior to submitting.
             </p>
           </div>
         </div>
