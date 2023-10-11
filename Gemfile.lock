@@ -531,7 +531,7 @@ DEPENDENCIES
   brakeman
   bullet
   bundler-audit
-  capybara (>= 3.37.1)
+  capybara
   caracal (>= 1.4.1)
   carrierwave (>= 2.2.1)
   database_cleaner
@@ -564,20 +564,21 @@ DEPENDENCIES
   redis (~> 4.6)
   redis-namespace
   rolify
-  rspec-rails (>= 6.0.3)
+  rspec-rails
   rspec_junit_formatter
   rubocop-rails
   rubocop-rspec
-  sass-rails (>= 6.0.0)
+  sass-rails
+  sassc-rails
   selenium-webdriver
-  sidekiq
+  sidekiq (>= 6.5.0)
   simplecov
   sprockets-rails
   stimulus-rails
   turbo-rails
   tzinfo-data
   web-console
-  webdrivers (>= 5.1.0)
+  webdrivers
   whenever
 
 RUBY VERSION
