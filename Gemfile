@@ -51,7 +51,7 @@ gem 'acts-as-list'
 gem 'aws-sdk-rails', '>= 3.8.0'
 gem 'caracal', '>= 1.4.1'
 gem 'carrierwave', '>= 2.2.1'
-gem 'devise', '>= 4.8.1'
+gem 'devise', '>= 4.9.3'
 gem 'fog-aws', '>= 3.15.0'
 gem "jbuilder"
 gem 'jquery-rails', '>= 4.6.0'
