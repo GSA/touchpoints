@@ -156,12 +156,12 @@
         for more information.
       </div>
       <div class="usa-radio">
-        <%= form.radio_button(:hisp, "Yes", { class: "usa-radio__input usa-radio__input--tile", checked: service.persisted? && service.hisp? }) %>
-        <%= form.label(:hisp, class: "usa-radio__label" , value: "Yes" ) %>
+        <%= form.radio_button(:hisp, true, { class: "usa-radio__input usa-radio__input--tile", checked: service.persisted? && service.hisp? }) %>
+        <%= form.label(:hisp, "Yes", class: "usa-radio__label", value: true ) %>
       </div>
       <div class="usa-radio">
-        <%= form.radio_button(:hisp, "No", { class: "usa-radio__input usa-radio__input--tile", checked: service.persisted? && !service.hisp }) %>
-        <%= form.label(:hisp, class: "usa-radio__label" , value: "No" ) %>
+        <%= form.radio_button(:hisp, false, { class: "usa-radio__input usa-radio__input--tile", checked: service.persisted? && !service.hisp }) %>
+        <%= form.label(:hisp, "No", class: "usa-radio__label", value: false ) %>
       </div>
     </fieldset>
 
