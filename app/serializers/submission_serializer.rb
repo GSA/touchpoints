@@ -37,4 +37,8 @@ class SubmissionSerializer < ActiveModel::Serializer
              :language,
              :uuid,
              :tag_list
+
+  def tag_list
+    object.submission_tags
+  end
 end
