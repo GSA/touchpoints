@@ -38,6 +38,8 @@ class SubmissionSerializer < ActiveModel::Serializer
              :uuid,
              :tag_list
 
+  # override tag_list provided by acts-as-taggable
+  # but keep an array of tags
   def tag_list
     object.submission_tags
   end
