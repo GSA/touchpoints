@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/18F/omniauth_login_dot_gov.git
-  revision: 73843e3742dbd595b2d081e33c04a65eb89d9cde
+  revision: a9a8b1c2e8000762c39fc68f172dc82f1481debb
   branch: main
   specs:
-    omniauth_login_dot_gov (1.0.0)
+    omniauth_login_dot_gov (2.0.0)
       faraday (~> 0.17)
       json-jwt (~> 1.11)
       jwt (~> 2.2)
@@ -121,7 +121,7 @@ GEM
     aws-sdk-sesv2 (1.41.0)
       aws-sdk-core (~> 3, >= 3.184.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-sqs (1.63.0)
+    aws-sdk-sqs (1.64.0)
       aws-sdk-core (~> 3, >= 3.184.0)
       aws-sigv4 (~> 1.1)
     aws-sessionstore-dynamodb (2.1.0)
@@ -335,7 +335,7 @@ GEM
       nio4r (~> 2.0)
     racc (1.7.1)
     rack (2.2.8)
-    rack-cors (1.1.1)
+    rack-cors (2.0.1)
       rack (>= 2.0.0)
     rack-protection (3.1.0)
       rack (~> 2.2, >= 2.2.4)
