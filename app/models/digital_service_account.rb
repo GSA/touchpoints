@@ -76,6 +76,8 @@ class DigitalServiceAccount < ApplicationRecord
       'Slideshare',
       'Socrata',
       'Storify',
+      'Tableau',
+      'Threads',
       'Tumblr',
       'Twitter',
       'Uservoice',

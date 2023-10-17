@@ -37,7 +37,7 @@ gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "bootsnap", require: false
 
 # Use Sass to process CSS
-# gem "sassc-rails", "~> 2.1"
+gem "sassc-rails"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "image_processing", "~> 1.12"
@@ -54,7 +54,7 @@ gem 'carrierwave', '>= 2.2.1'
 gem 'devise', '>= 4.8.1'
 gem 'fog-aws', '>= 3.15.0'
 gem "jbuilder"
-gem 'jquery-rails', '>=4.6.0'
+gem 'jquery-rails', '>= 4.6.0'
 gem 'kaminari'
 gem 'kramdown'
 gem 'mail'
@@ -66,8 +66,8 @@ gem 'rack-cors', '>= 1.1.1', require: 'rack/cors'
 # Use Redis to cache Touchpoints in all envs
 gem "redis", "~> 4.6"
 gem 'redis-namespace'
-gem 'sass-rails', '>= 6.0.0'
-gem 'sidekiq'
+gem 'sass-rails'
+gem 'sidekiq', '>= 6.5.0'
 gem 'json-jwt'
 gem 'aasm'
 gem 'whenever', require: false
@@ -92,12 +92,12 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '>= 3.37.1'
+  gem 'capybara'
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'rails-controller-testing'
-  gem 'rspec-rails', '>=6.0.3'
+  gem 'rspec-rails'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
-  gem 'webdrivers', '>= 5.1.0'
+  gem 'webdrivers'
 end

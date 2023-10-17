@@ -1,0 +1,15 @@
+<% content_for :navigation_title do %>
+  Editing CX Data Collection
+<% end %>
+
+<p>
+  <%= link_to admin_cx_collection_path(@cx_collection) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to CX Data Collection
+  <% end %>
+</p>
+
+
+<%= render "form", cx_collection: @cx_collection %>
+
+<br>
