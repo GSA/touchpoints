@@ -9,7 +9,7 @@
       </h3>
       <div class="tag-list">
         <ul class="usa-list usa-list--unstyled">
-          <% submission.tag_list.sort.each do |tag| %>
+          <% submission.submission_tags.sort.each do |tag| %>
           <li>
             <span class="usa-tag">
               <%= tag %>
@@ -37,7 +37,7 @@
       $.ajax({
         url: thisForm.attr("action") + "/add_tag",
         type: 'post',
-        data: "submission[tag_list]=" + $(".tag-input").val()
+        data: "submission[tag]=" + $(".tag-input").val()
       });
     });
 
@@ -55,7 +55,7 @@
       $.ajax({
         url: thisForm.attr("action") + "/remove_tag",
         type: 'post',
-        data: "submission[tag_list]=" + $(this).attr("data-value")
+        data: "submission[tag]=" + $(this).attr("data-value")
       });
     });
 

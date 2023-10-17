@@ -44,7 +44,7 @@ module Admin
 
     def search
       @all_submissions = @form.submissions
-      @all_submissions = @all_submissions.tagged_with(params[:tag]) if params[:tag]
+      @all_submissions = @all_submissions.where(":tags = ANY (submission_tags)", tags: params[:tag]) if params[:tag]
       if params[:archived]
         @submissions = @all_submissions.order('submissions.created_at DESC').page params[:page]
       else
@@ -63,14 +63,22 @@ module Admin
     end
 
     def add_tag
-      @submission.tag_list.add(admin_submission_params[:tag_list].split(','))
-      @submission.save!
-      @submission.form.update_submission_tags!(@submission.tag_list)
+      tag = tag_params[:tag]
+
+      if !tag.strip.empty? && !@submission.submission_tags.include?(tag)
+        @submission.submission_tags << tag.strip.downcase
+        @submission.save!
+        @submission.form.update_submission_tags!(@submission.submission_tags)
+      end
     end
 
     def remove_tag
-      @submission.tag_list.remove(admin_submission_params[:tag_list].split(','))
-      @submission.save!
+      tag = tag_params[:tag]
+
+      if @submission.submission_tags.include?(tag)
+        @submission.submission_tags -= [tag]
+        @submission.save!
+      end
     end
 
     def a11_analysis
@@ -100,7 +108,7 @@ module Admin
     def submissions_table
       @show_archived = true if params[:archived]
       all_submissions = @form.submissions
-      all_submissions = all_submissions.tagged_with(params[:tag]) if params[:tag]
+      all_submissions = all_submissions.where(":tags = ANY (submission_tags)", tags: params[:tag]) if params[:tag]
       if params[:archived]
         @submissions = all_submissions.order('submissions.created_at DESC').page params[:page]
       else
@@ -210,8 +218,8 @@ module Admin
       params.require(:submission).permit(:aasm_state)
     end
 
-    def admin_submission_params
-      params.require(:submission).permit(:tag_list)
+    def tag_params
+      params.require(:submission).permit(:tag)
     end
   end
 end
