@@ -1,0 +1,26 @@
+<% content_for :navigation_title do %>
+  CX Data Collection
+  <% if @cx_collection.draft? || performance_manager_permissions? %>
+    <%= link_to edit_admin_cx_collection_path(@cx_collection), class: "usa-button usa-button-inverted float-right" do %>
+      <i class="fa fa-pencil-alt"></i>
+      Edit
+    <% end %>
+  <% end %>
+<% end %>
+
+<p>
+  <%= link_to admin_cx_collections_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to CX Data Collections
+  <% end %>
+</p>
+
+
+<%= render @cx_collection %>
+
+<div>
+  <%= link_to "Edit this cx collection", edit_admin_cx_collection_path(@cx_collection) %> |
+  <%= link_to "Back to cx collections", admin_cx_collections_path %>
+
+  <%= button_to "Destroy this cx collection", admin_cx_collection_path(@cx_collection), method: :delete %>
+</div>

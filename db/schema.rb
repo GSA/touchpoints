@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_03_181018) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_16_190706) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -183,6 +183,35 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_03_181018) do
     t.integer "year"
     t.text "delivered_current_year"
     t.text "to_deliver_next_year"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "cx_collections", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "name"
+    t.integer "organization_id"
+    t.integer "service_provider_id"
+    t.integer "service_id"
+    t.string "service_type"
+    t.string "digital_service_or_contact_center"
+    t.string "url"
+    t.string "fiscal_year"
+    t.string "quarter"
+    t.date "start_date"
+    t.date "end_date"
+    t.string "transaction_point"
+    t.integer "service_stage_id"
+    t.string "channel"
+    t.string "survey_title"
+    t.string "trust_question_text"
+    t.string "likert_or_thumb_question"
+    t.integer "number_of_interactions"
+    t.string "number_of_people_offered_the_survey"
+    t.text "reflection"
+    t.string "aasm_state"
+    t.string "rating"
+    t.string "integrity_hash"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -732,6 +761,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_03_181018) do
     t.string "uuid"
     t.string "aasm_state", default: "received"
     t.string "hostname"
+    t.string "submission_tags", default: [], array: true
     t.index ["created_at"], name: "index_submissions_on_created_at"
     t.index ["flagged"], name: "index_submissions_on_flagged"
     t.index ["form_id"], name: "index_submissions_on_form_id"

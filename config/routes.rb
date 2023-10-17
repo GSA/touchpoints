@@ -41,6 +41,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :organizations, only: [:index]
       resources :collections, only: [:index]
+      resources :cx_collections, only: [:index]
       resources :omb_cx_reporting_collections, only: [:index]
       resources :forms, only: %i[index show]
       resources :websites, only: [:index]
@@ -133,6 +134,8 @@ Rails.application.routes.draw do
 
       resources :service_stages
     end
+
+    resources :cx_collections
 
     resources :collections do
       collection do

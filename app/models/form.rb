@@ -116,7 +116,7 @@ class Form < ApplicationRecord
 
   # called when a tag is added to a submission
   def update_submission_tags!(tag_list)
-    submission_tags = (self.submission_tags + tag_list).uniq.sort
+    submission_tags = (self.submission_tags + tag_list).uniq.compact.sort
     self.update!(submission_tags: submission_tags)
   end
 
