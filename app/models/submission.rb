@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 class Submission < ApplicationRecord
-  # TODO: remove acts-as-taggable, in favor of .submission_tags
-  # TODO: then, rename submission_tags to tags
-  acts_as_taggable_on :tags
   include AASM
 
   belongs_to :form, counter_cache: :response_count
