@@ -125,8 +125,8 @@
   </div>
 
   <div class="field">
-    <%= form.label :reflection, class: "usa-label" %>
-    <%= form.text_field :reflection, class: "usa-input" %>
+    <%= form.label :reflection, 'Reflection text', class: "usa-label" %>
+    <%= form.text_area :reflection, class: "usa-textarea" %>
   </div>
 
   <% if performance_manager_permissions? && cx_collection.persisted? %>
