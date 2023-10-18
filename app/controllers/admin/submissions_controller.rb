@@ -44,7 +44,7 @@ module Admin
 
     def search
       @all_submissions = @form.submissions
-      @all_submissions = @all_submissions.where(":tags = ANY (submission_tags)", tags: params[:tag]) if params[:tag]
+      @all_submissions = @all_submissions.where(":tags = ANY (tags)", tags: params[:tag]) if params[:tag]
       if params[:archived]
         @submissions = @all_submissions.order('submissions.created_at DESC').page params[:page]
       else
@@ -65,18 +65,18 @@ module Admin
     def add_tag
       tag = tag_params[:tag]
 
-      if !tag.strip.empty? && !@submission.submission_tags.include?(tag)
-        @submission.submission_tags << tag.strip.downcase
+      if !tag.strip.empty? && !@submission.tags.include?(tag)
+        @submission.tags << tag.strip.downcase
         @submission.save!
-        @submission.form.update_submission_tags!(@submission.submission_tags)
+        @submission.form.update_submission_tags!(@submission.tags)
       end
     end
 
     def remove_tag
       tag = tag_params[:tag]
 
-      if @submission.submission_tags.include?(tag)
-        @submission.submission_tags -= [tag]
+      if @submission.tags.include?(tag)
+        @submission.tags -= [tag]
         @submission.save!
       end
     end
@@ -108,7 +108,7 @@ module Admin
     def submissions_table
       @show_archived = true if params[:archived]
       all_submissions = @form.submissions
-      all_submissions = all_submissions.where(":tags = ANY (submission_tags)", tags: params[:tag]) if params[:tag]
+      all_submissions = all_submissions.where(":tags = ANY (tags)", tags: params[:tag]) if params[:tag]
       if params[:archived]
         @submissions = all_submissions.order('submissions.created_at DESC').page params[:page]
       else

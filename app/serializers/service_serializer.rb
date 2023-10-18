@@ -13,6 +13,7 @@ class ServiceSerializer < ActiveModel::Serializer
              :short_description,
              :justification_text,
              :year_designated,
+             :previously_reported,
              :contact_center,
              :kind,
              :transactional,
