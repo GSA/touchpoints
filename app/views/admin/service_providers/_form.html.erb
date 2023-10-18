@@ -24,6 +24,11 @@
       </div>
 
       <div class="field">
+        <%= form.label :year_designated, "Year designated", class: "usa-label" %>
+        <%= form.number_field :year_designated, class: "usa-input", placeholder: 2023 %>
+      </div>
+
+      <div class="field">
         <%= form.label :description, class: "usa-label" %>
         <%= form.text_area :description, class: "usa-textarea" %>
       </div>
