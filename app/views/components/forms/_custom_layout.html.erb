@@ -15,9 +15,11 @@
           <%= sanitize(form.instructions) %>
         </p>
       <% end %>
-      <p>
-        <%= t('form.required_field_html') %>
-      </p>
+      <% if form.questions.any?(&:is_required?) %>
+        <p>
+          <%= t('form.required_field_html') %>
+        </p>
+      <% end %>
       <%= render 'components/forms/flash', form: form %>
       <%= render partial: "components/forms/custom", locals: { form: form, questions: form.questions } %>
     </div>
