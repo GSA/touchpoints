@@ -119,6 +119,7 @@ module Admin
         :tag_list,
         :cx_maturity_mapping_value,
         :impact_mapping_value,
+        :year_designated
       )
     end
   end

@@ -31,6 +31,18 @@
       <%= form.label :year_designated, "Year designated", class: "usa-label" %>
       <%= form.text_field :year_designated, class: "usa-input", placeholder: 2023 %>
     </div>
+
+     <br>
+    <fieldset class="usa-fieldset margin-bottom-3">
+      <legend class="usa-sr-only">Previously reported?</legend>
+      <div class="usa-checkbox">
+        <%= form.check_box :previously_reported, class: "usa-checkbox__input" %>
+        <%= form.label :previously_reported, "Previously reported?", class: "usa-checkbox__label" %>
+        <span class="usa-hint font-sans-3xs">
+        Not a currently designated HISP
+      </span>
+      </div>
+    </fieldset>
     <% end %>
 
     <div class="field">

@@ -257,6 +257,7 @@ module Admin
         :description,
         :short_description,
         :year_designated,
+        :previously_reported,
         :digital_service,
         :estimated_annual_volume_of_customers,
         :hisp,

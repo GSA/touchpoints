@@ -7,6 +7,7 @@ class ServiceProviderSerializer < ActiveModel::Serializer
              :organization_name,
              :name,
              :slug,
+             :year_designated,
              :description,
              :notes,
              :department,
