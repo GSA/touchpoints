@@ -105,7 +105,7 @@
         var questionType = $("#question_question_type option:selected").text();
       <% end %>
 
-      <% if admin_permissions? %>
+      <% if admin_permissions? || service_manager_permissions? %>
       var questionType = $("input[name='question[question_type]']").val();
       <% end %>
 

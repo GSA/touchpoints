@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_16_190706) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_17_203550) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -657,6 +657,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_190706) do
     t.integer "services_count", default: 0
     t.integer "impact_mapping_value", default: 0
     t.string "portfolio_manager_email"
+    t.integer "year_designated"
     t.index ["organization_id"], name: "index_service_providers_on_organization_id"
   end
 
@@ -723,6 +724,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_190706) do
     t.boolean "contact_center", default: false, comment: "True or False for whether the service involves a contact center and/or an interaction with a contact center"
     t.integer "year_designated"
     t.text "short_description"
+    t.boolean "previously_reported", default: false
     t.index ["organization_id"], name: "index_services_on_organization_id"
   end
 
@@ -761,7 +763,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_190706) do
     t.string "uuid"
     t.string "aasm_state", default: "received"
     t.string "hostname"
-    t.string "submission_tags", default: [], array: true
+    t.string "tags", default: [], array: true
     t.index ["created_at"], name: "index_submissions_on_created_at"
     t.index ["flagged"], name: "index_submissions_on_flagged"
     t.index ["form_id"], name: "index_submissions_on_form_id"

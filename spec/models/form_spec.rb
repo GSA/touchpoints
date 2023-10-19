@@ -79,7 +79,7 @@ RSpec.describe Form, type: :model do
           :referer,
           :created_at,
           :ip_address,
-          :tag_list
+          :tags
         ])
       end
     end

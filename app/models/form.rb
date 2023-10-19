@@ -502,7 +502,7 @@ class Form < ApplicationRecord
     end
 
     ordered_hash.merge!({
-      tag_list: 'Tags',
+      tags: 'Tags',
     })
 
     ordered_hash

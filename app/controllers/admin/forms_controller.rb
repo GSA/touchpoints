@@ -365,7 +365,7 @@ module Admin
           send_data csv_content
         end
         format.json do
-          ExportJob.perform_later(params[:uuid], @form.short_uuid, start_date.to_s, end_date.to_s, "touchpoints-form-responses-#{timestamp_string}.csv")
+          ExportJob.perform_later(params[:uuid], @form.short_uuid, start_date.to_s, end_date.to_s, "touchpoints-form-#{@form.short_uuid}-responses-#{timestamp_string}.csv")
           render json: { result: :ok }
         end
       end
