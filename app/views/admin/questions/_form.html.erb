@@ -29,7 +29,7 @@
         <br>
       <% end %>
     <% else %>
-      <%= f.select :question_type, Question::QUESTION_TYPES - ["big_thumbs_up_down_buttons", "thumbs_up_down_buttons", "custom_text_display", "yes_no_buttons"], { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
+      <%= f.select :question_type, Question::QUESTION_TYPES - ["thumbs_up_down_buttons", "custom_text_display", "yes_no_buttons"], { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
     <% end %>
     </div>
 
