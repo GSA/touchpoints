@@ -2,10 +2,10 @@
   <div class="grid-row">
     <div class="grid-col-12">
       <h2 class="justify-vertical word-break">
-        <% if form.display_header_logo && form.logo.present? %>
+        <%- if form.display_header_logo && form.logo.present? %>
           <%= image_tag(form.logo.tag.url, alt: "Organization logo", class: "form-header-logo") %>
         <% end %>
-        <% if form.display_header_square_logo && form.logo.present? %>
+        <%- if form.display_header_square_logo && form.logo.present? %>
           <%= image_tag(form.logo.logo_square.url, alt: "Organization logo", class: "form-header-logo-square") %>
         <% end %>
         <%= form.title %>
@@ -15,7 +15,7 @@
           <%= sanitize(form.instructions) %>
         </p>
       <% end %>
-      <% if form.questions.any?(&:is_required?) %>
+      <%- if form.questions.any?(&:is_required?) %>
         <p>
           <%= t('form.required_field_html') %>
         </p>
