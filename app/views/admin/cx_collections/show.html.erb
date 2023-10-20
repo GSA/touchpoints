@@ -15,12 +15,4 @@
   <% end %>
 </p>
 
-
 <%= render @cx_collection %>
-
-<div>
-  <%= link_to "Edit this cx collection", edit_admin_cx_collection_path(@cx_collection) %> |
-  <%= link_to "Back to cx collections", admin_cx_collections_path %>
-
-  <%= button_to "Destroy this cx collection", admin_cx_collection_path(@cx_collection), method: :delete %>
-</div>
