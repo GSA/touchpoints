@@ -319,7 +319,7 @@ GEM
       oauth2 (>= 1.4, < 3)
       omniauth (~> 2.0)
     orm_adapter (0.5.0)
-    paper_trail (15.0.0)
+    paper_trail (15.1.0)
       activerecord (>= 6.1)
       request_store (~> 1.4)
     parallel (1.23.0)
@@ -553,7 +553,7 @@ DEPENDENCIES
   newrelic_rpm
   omniauth-github
   omniauth_login_dot_gov!
-  paper_trail
+  paper_trail (>= 15.1.0)
   pg (~> 1.3)
   pry
   puma
@@ -585,4 +585,4 @@ RUBY VERSION
    ruby 3.1.4p223
 
 BUNDLED WITH
-   2.3.12
+   2.3.26

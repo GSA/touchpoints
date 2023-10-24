@@ -72,7 +72,7 @@ gem 'json-jwt'
 gem 'aasm'
 gem 'whenever', require: false
 gem 'logstop'
-gem 'paper_trail'
+gem 'paper_trail', '>= 15.1.0'
 gem 'acts-as-taggable-on'
 gem "rolify"
 
