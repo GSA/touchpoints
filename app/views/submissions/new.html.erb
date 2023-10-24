@@ -1,4 +1,6 @@
-<div class="touchpoints-form-wrapper" data-touchpoints-form-id="<%= @form.short_uuid %>">
+<div
+  class="touchpoints-form-wrapper <%= @form.kind %>"
+  data-touchpoints-form-id="<%= @form.short_uuid %>">
 <%
 # override the delivery method for this `touchpoints-hosted-only` view
 # otherwise, fba.js.erb will render the form the 2nd time
