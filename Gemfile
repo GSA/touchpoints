@@ -16,7 +16,7 @@ gem "pg", "~> 1.3"
 gem "puma"
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-gem "importmap-rails", ">= 1.2.0"
+gem "importmap-rails", ">= 1.2.2"
 
 # Hotwire"s SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
@@ -44,7 +44,7 @@ gem "image_processing", "~> 1.12"
 
 gem "brakeman"
 gem "bundler-audit"
-gem "rubocop-rails"
+gem "rubocop-rails", ">= 2.22.0"
 gem "rubocop-rspec"
 gem 'active_model_serializers', '>= 0.10.13'
 gem 'acts-as-list'
