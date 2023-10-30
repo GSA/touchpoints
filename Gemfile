@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.1.4'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.0.6"
+gem "rails", "~> 7.1.0"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
@@ -46,7 +46,7 @@ gem "brakeman"
 gem "bundler-audit"
 gem "rubocop-rails"
 gem "rubocop-rspec"
-gem 'active_model_serializers', '>= 0.10.13'
+gem 'active_model_serializers', '>= 0.10.14'
 gem 'acts-as-list'
 gem 'aws-sdk-rails', '>= 3.8.0'
 gem 'caracal', '>= 1.4.1'
