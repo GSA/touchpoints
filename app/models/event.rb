@@ -102,7 +102,7 @@ class Event < ApplicationRecord
     e = new
     e.name = ename
     e.object_type = otype
-    e.object_id = oid
+    e.object_uuid = oid
     e.description = desc
     e.user_id = uid
     e.save
@@ -120,7 +120,7 @@ class Event < ApplicationRecord
     attributes = %i[
       name
       object_type
-      object_id
+      object_uuid
       description
       user_id
       created_at

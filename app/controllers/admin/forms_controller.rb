@@ -414,7 +414,7 @@ module Admin
     end
 
     def events
-      @events = Event.where(object_type: 'Form', object_id: @form.uuid).order(:created_at)
+      @events = Event.where(object_type: 'Form', object_uuid: @form.uuid).order(:created_at)
     end
 
     private

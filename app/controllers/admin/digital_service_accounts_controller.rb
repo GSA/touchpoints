@@ -51,7 +51,7 @@ module Admin
 
     def show
       @events = Event
-        .where(object_type: "Digital Service Account", object_id: @digital_service_account.id.to_s)
+        .where(object_type: "Digital Service Account", object_uuid: @digital_service_account.id.to_s)
         .includes(:user)
         .order("created_at DESC")
     end
