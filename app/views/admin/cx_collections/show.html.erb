@@ -8,10 +8,6 @@
   <% end %>
 <% end %>
 
-
-<%= javascript_include_tag "chartjs-2.9.3.bundle.js" %>
-<%= javascript_include_tag "performance-charts.js" %>
-
 <p>
   <%= link_to admin_cx_collections_path do %>
     <i class="fa fa-arrow-circle-left"></i>
@@ -120,7 +116,6 @@
         <% end %>
       </p>
       <% end %>
-      <%#= render 'components/performance_charts', collection: @cx_collection if @cx_collection.cx_collection_details.present? %>
     </div>
 
     <div class="usa-prose margin-top-3">
