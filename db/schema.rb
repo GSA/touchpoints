@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_17_203550) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_26_203752) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -183,6 +183,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_17_203550) do
     t.integer "year"
     t.text "delivered_current_year"
     t.text "to_deliver_next_year"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "cx_collection_details", force: :cascade do |t|
+    t.integer "cx_collection_id"
+    t.integer "service_id"
+    t.string "transaction_point"
+    t.string "channel"
+    t.integer "service_stage_id"
+    t.integer "volume_of_customers"
+    t.integer "volume_of_customers_provided_survey_opportunity"
+    t.integer "volume_of_respondents"
+    t.string "omb_control_number"
+    t.integer "federal_register_url"
+    t.text "reflection_text"
+    t.text "survey_type"
+    t.text "survey_title"
+    t.text "trust_question_text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
