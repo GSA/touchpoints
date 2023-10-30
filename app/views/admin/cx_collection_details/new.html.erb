@@ -1,0 +1,17 @@
+<% content_for :navigation_title do %>
+  New cx collection detail
+<% end %>
+<p>
+  <%= link_to admin_cx_collection_path(@cx_collection_detail.cx_collection) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to CX Collection Detail
+  <% end %>
+</p>
+
+<%= render "form", cx_collection_detail: @cx_collection_detail %>
+
+<br>
+
+<div>
+  <%= link_to "Back to cx collection details", admin_cx_collection_details_path %>
+</div>

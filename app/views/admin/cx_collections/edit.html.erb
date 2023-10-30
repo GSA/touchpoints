@@ -13,3 +13,11 @@
 <%= render "form", cx_collection: @cx_collection %>
 
 <br>
+
+<div>
+<%= button_to "Destroy this cx collection", admin_cx_collection_path(@cx_collection), class: "usa-button usa-button--secondary float-right", method: :delete %>
+</div>
+
+<br>
+<br>
+<br>
