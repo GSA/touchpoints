@@ -33,6 +33,7 @@ class ServiceProvider < ApplicationRecord
         service_provider_id
         name
         description
+        year_designated
         notes
         new_hisp
         inactive
@@ -50,6 +51,7 @@ class ServiceProvider < ApplicationRecord
           provider.slug,
           provider.name,
           provider.description,
+          provider.year_designated,
           provider.notes,
           provider.new,
           provider.inactive,
