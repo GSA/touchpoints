@@ -558,7 +558,7 @@ PLATFORMS
 DEPENDENCIES
   aasm
   aasm-diagram
-  active_model_serializers (>= 0.10.14)
+  active_model_serializers (>= 0.10.13)
   acts-as-list
   acts-as-taggable-on
   aws-sdk-rails (>= 3.8.0)
