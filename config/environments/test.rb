@@ -10,12 +10,6 @@ require 'active_record'
 require 'bullet'
 
 Rails.application.configure do
-  config.after_initialize do
-    Bullet.enable        = true
-    Bullet.bullet_logger = true
-    Bullet.raise         = false # raise an error if n+1 query occurs
-  end
-
   # Settings specified here will take precedence over those in config/application.rb.
 
   config.cache_classes = true

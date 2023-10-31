@@ -46,7 +46,7 @@ gem "brakeman"
 gem "bundler-audit"
 gem "rubocop-rails"
 gem "rubocop-rspec"
-gem 'active_model_serializers', '>= 0.10.14'
+gem 'active_model_serializers', '>= 0.10.13'
 gem 'acts-as-list'
 gem 'aws-sdk-rails', '>= 3.8.0'
 gem 'caracal', '>= 1.4.1'
@@ -77,7 +77,6 @@ gem 'acts-as-taggable-on'
 gem "rolify"
 
 group :development, :test do
-  gem 'bullet'
   gem 'dotenv-rails'
   gem 'pry'
   gem 'rspec_junit_formatter'
@@ -86,6 +85,7 @@ end
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'aasm-diagram'
+  gem 'bullet'
   gem 'listen'
   gem 'rails-erd'
   gem 'web-console'

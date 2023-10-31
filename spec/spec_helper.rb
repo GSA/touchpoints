@@ -15,11 +15,11 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+require 'pry' if Rails.env.development?
+
 require 'devise'
-require 'pry'
 require 'simplecov'
 require 'active_record'
-require 'bullet'
 
 SimpleCov.start 'rails'
 
