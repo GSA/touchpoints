@@ -77,6 +77,7 @@ gem 'acts-as-taggable-on'
 gem "rolify"
 
 group :development, :test do
+  gem 'bullet'
   gem 'dotenv-rails'
   gem 'pry'
   gem 'rspec_junit_formatter'
@@ -85,7 +86,6 @@ end
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'aasm-diagram'
-  gem 'bullet'
   gem 'listen'
   gem 'rails-erd'
   gem 'web-console'
