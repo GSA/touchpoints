@@ -62,7 +62,7 @@ Rails.application.configure do
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
-  # Disable request forgery protection in test environment.
+  # Enable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = true
 
   # For Devise

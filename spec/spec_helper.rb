@@ -20,6 +20,7 @@ require 'devise'
 require 'pry'
 require 'simplecov'
 require 'active_record'
+require 'bullet'
 
 SimpleCov.start 'rails'
 
