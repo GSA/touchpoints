@@ -26,12 +26,10 @@ module Admin
 
         format.csv do
           if admin_permissions? && params[:all]
-            ExportDigitalServiceAccounts.perform_now(include_all_accounts: true, filename: "touchpoints-digital-service-accounts-#{timestamp_string}.csv")
+            ExportDigitalServiceAccounts.perform_now(params[:uuid], include_all_accounts: true, filename: "touchpoints-digital-service-accounts-#{timestamp_string}.csv")
           else
-            ExportDigitalServiceAccounts.perform_now(include_all_accounts: false, filename: "touchpoints-digital-service-accounts-#{timestamp_string}.csv")
+            ExportDigitalServiceAccounts.perform_now(params[:uuid], include_all_accounts: false, filename: "touchpoints-digital-service-accounts-#{timestamp_string}.csv")
           end
-
-          render json: { result: :ok }
         end
       end
     end
