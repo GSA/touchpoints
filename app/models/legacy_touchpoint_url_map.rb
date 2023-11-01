@@ -5,9 +5,9 @@ class LegacyTouchpointUrlMap
   def self.map
     legacy_map = {}
     Form.all.find_each do |form|
-      legacy_map[form.legacy_touchpoint_id.to_s] = form.short_uuid if form.legacy_touchpoint_id?
+      legacy_map[form.legacy_touchpoint_id.to_s] = form.short_uuid if form.legacy_touchpoint_id
 
-      legacy_map[form.legacy_touchpoint_uuid[0..7].to_s] = form.short_uuid if form.legacy_touchpoint_uuid?
+      legacy_map[form.legacy_touchpoint_uuid[0..7].to_s] = form.short_uuid if form.legacy_touchpoint_uuid
     end
 
     legacy_map
