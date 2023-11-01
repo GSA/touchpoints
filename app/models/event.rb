@@ -49,6 +49,14 @@ class Event < ApplicationRecord
     collection_cx_change_requested: 'collection_cx_change_requested',
     collection_cx_deleted: 'collection_cx_deleted',
 
+    cx_collection_created: 'cx_collection_created',
+    cx_collection_updated: 'cx_collection_updated',
+    cx_collection_copied: 'cx_collection_copied',
+    cx_collection_submitted: 'cx_collection_submitted',
+    cx_collection_published: 'cx_collection_published',
+    cx_collection_change_requested: 'cx_collection_change_requested',
+    cx_collection_deleted: 'cx_collection_deleted',
+
     cscrm_data_collection_collection_created: 'cscrm_data_collection_collection_created',
     cscrm_data_collection_collection_updated: 'cscrm_data_collection_collection_updated',
     cscrm_data_collection_collection_submitted: 'cscrm_data_collection_collection_submitted',

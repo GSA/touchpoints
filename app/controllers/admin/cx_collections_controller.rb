@@ -26,7 +26,7 @@ module Admin
 
       respond_to do |format|
         if @cx_collection.save
-          Event.log_event(Event.names[:collection_cx_created], 'Collection', @collection.id, "Collection #{@collection.name} created at #{DateTime.now}", current_user.id)
+          Event.log_event(Event.names[:collection_cx_created], 'Collection', @cx_collection.id, "Collection #{@cx_collection.name} created at #{DateTime.now}", current_user.id)
           format.html { redirect_to admin_cx_collection_url(@cx_collection), notice: "Cx collection was successfully created." }
           format.json { render :show, status: :created, location: @cx_collection }
         else
@@ -70,7 +70,7 @@ module Admin
     def update
       respond_to do |format|
         if @cx_collection.update(cx_collection_params)
-          Event.log_event(Event.names[:collection_cx_updated], 'Collection', @collection.id, "Collection #{@collection.name} updated at #{DateTime.now}", current_user.id)
+          Event.log_event(Event.names[:collection_cx_updated], 'Collection', @cx_collection.id, "Collection #{@cx_collection.name} updated at #{DateTime.now}", current_user.id)
           format.html { redirect_to admin_cx_collection_url(@cx_collection), notice: "Cx collection was successfully updated." }
           format.json { render :show, status: :ok, location: @cx_collection }
         else
@@ -84,7 +84,7 @@ module Admin
       @cx_collection.destroy
 
       respond_to do |format|
-        Event.log_event(Event.names[:cx_collection_deleted], 'Collection', @collection.id, "Collection #{@collection.name} deleted at #{DateTime.now}", current_user.id)
+        Event.log_event(Event.names[:cx_collection_deleted], 'Collection', @cx_collection.id, "Collection #{@cx_collection.name} deleted at #{DateTime.now}", current_user.id)
         format.html { redirect_to admin_cx_collections_url, notice: "CX collection was successfully destroyed." }
         format.json { head :no_content }
       end
