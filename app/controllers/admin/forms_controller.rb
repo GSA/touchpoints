@@ -13,7 +13,6 @@ module Admin
       compliance
       permissions questions responses delivery
       copy copy_by_id
-      invite
       notifications
       export
       export_pra_document
@@ -21,7 +20,7 @@ module Admin
       export_a11_v2_submissions
       export_a11_header
       export_a11_submissions
-      example js trigger
+      example js
       add_user remove_user
       publish
       archive
