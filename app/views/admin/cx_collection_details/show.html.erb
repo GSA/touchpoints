@@ -1,0 +1,100 @@
+<% content_for :navigation_title do %>
+  <% if true || service_permissions?(service: @service) %>
+  <div class="float-right">
+    <%= link_to edit_admin_cx_collection_detail_path(@cx_collection_detail), class: "usa-button usa-button-inverted" do %>
+    <i class="fa fa-pencil-alt"></i>
+    Edit
+    <% end %>
+  </div>
+  <% end %>
+
+  cx_collection_detail
+<% end %>
+
+<p>
+  <%= link_to admin_cx_collection_path(@cx_collection_detail.cx_collection) do %>
+  <i class="fa fa-arrow-circle-left"></i>
+  Back to CX Data Collection
+  <% end %>
+</p>
+
+
+<p>
+  <strong>Organization:</strong>
+  <%= @cx_collection_detail.cx_collection.organization.name %>
+</p>
+<p>
+  <strong>Cx collection:</strong>
+  <%= @cx_collection_detail.cx_collection.name %>
+</p>
+
+<p>
+  <strong>Service:</strong>
+  <%= @cx_collection_detail.service.name %>
+</p>
+
+<p>
+  <strong>Transaction point:</strong>
+  <%= @cx_collection_detail.transaction_point %>
+</p>
+
+<p>
+  <strong>Channel:</strong>
+  <%= @cx_collection_detail.transaction_point %>
+
+</p>
+
+<p>
+  <strong>Service stage:</strong>
+  <%= @cx_collection_detail.service_stage.try(:name) || 'Select a Service Stage' %>
+</p>
+
+<p>
+  <strong>Volume of customers:</strong>
+  <%= @cx_collection_detail.volume_of_customers %>
+
+</p>
+
+<p>
+  <strong>Volume of customers provided survey opportunity:</strong>
+  <%= @cx_collection_detail.volume_of_customers_provided_survey_opportunity %>
+
+</p>
+
+<p>
+  <strong>Volume of respondents:</strong>
+  <%= @cx_collection_detail.volume_of_respondents %>
+
+</p>
+
+<p>
+  <strong>Omb control number:</strong>
+  <%= @cx_collection_detail.omb_control_number %>
+</p>
+
+<p>
+  <strong>Federal register url:</strong>
+  <%= @cx_collection_detail.federal_register_url %>
+
+</p>
+
+<p>
+  <strong>Reflection text:</strong>
+  <%= @cx_collection_detail.reflection_text %>
+
+</p>
+
+<p>
+  <strong>Survey type:</strong>
+  <%= @cx_collection_detail.survey_type %>
+</p>
+
+<p>
+  <strong>Survey title:</strong>
+  <%= @cx_collection_detail.survey_title %>
+</p>
+
+<p>
+  <strong>Trust question text:</strong>
+  <%= @cx_collection_detail.trust_question_text %>
+</p>

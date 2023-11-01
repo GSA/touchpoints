@@ -32,6 +32,24 @@ feature 'Digital Products', js: true do
       end
     end
 
+
+    describe '#create' do
+      before do
+        visit new_admin_digital_product_path
+        fill_in('digital_product_name', with: 'Public Mobile App')
+        fill_in('digital_product_short_description', with: 'A short description for a mobile app')
+        fill_in('digital_product_url', with: 'https://lvh.me')
+        click_on("Create Digital product")
+      end
+
+      it 'loads the show page' do
+        expect(page).to have_content("Digital product was successfully created.")
+        expect(page).to have_content("https://lvh.me")
+        expect(page).to have_content("No Code Repository URL specified")
+      end
+    end
+
+
     describe '#search' do
       before do
         visit admin_digital_products_path
@@ -85,7 +103,7 @@ feature 'Digital Products', js: true do
         expect(page).to have_content("Digital Product #{digital_product.name} was published.")
       end
     end
-    
+
     describe '#delete' do
       before do
         visit admin_digital_product_path(digital_product)

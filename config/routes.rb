@@ -135,7 +135,14 @@ Rails.application.routes.draw do
       resources :service_stages
     end
 
-    resources :cx_collections
+    resources :cx_collections do
+      member do
+        post 'submit', to: 'cx_collections#submit', as: :submit
+        post 'publish', to: 'cx_collections#publish', as: :publish
+      end
+    end
+
+    resources :cx_collection_details
 
     resources :collections do
       collection do

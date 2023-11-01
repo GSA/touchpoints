@@ -2,18 +2,24 @@
 
 require_relative 'vcap_services'
 
+redis_environments = {
+  local: 0,
+  development: 1,
+  staging: 2,
+  demo: 3,
+  production: 4
+}
+
 Sidekiq.configure_server do |config|
   config.redis = {
     url: ENV.fetch('REDIS_URL', nil),
-    namespace: "touchpoints_sidekiq_#{Rails.env}",
-    ssl_params: {},
+    db: redis_environments[Rails.env],
   }
 end
 
 Sidekiq.configure_client do |config|
   config.redis = {
     url: ENV.fetch('REDIS_URL', nil),
-    namespace: "touchpoints_sidekiq_#{Rails.env}",
-    ssl_params: {},
+    db: redis_environments[Rails.env],
   }
 end

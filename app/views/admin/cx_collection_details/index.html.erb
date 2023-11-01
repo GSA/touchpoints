@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Cx collection details</h1>
+
+<div id="cx_collection_details">
+  <% @cx_collection_details.each do |cx_collection_detail| %>
+    <%= render cx_collection_detail %>
+    <p>
+      <%= link_to "Show this cx collection detail", admin_cx_collection_detail_path(cx_collection_detail) %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New cx collection detail", new_admin_cx_collection_detail_path %>

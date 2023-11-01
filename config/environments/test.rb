@@ -15,7 +15,6 @@ Rails.application.configure do
     Bullet.bullet_logger = true
     Bullet.raise         = false # raise an error if n+1 query occurs
   end
-
   # Settings specified here will take precedence over those in config/application.rb.
 
   config.cache_classes = true
@@ -42,7 +41,7 @@ Rails.application.configure do
   config.cache_store = :null_store
 
   # Raise exceptions instead of rendering exception templates.
-  config.action_dispatch.show_exceptions = false
+  config.action_dispatch.show_exceptions = :none
 
   # Store uploaded files on the local file system in a temporary directory
   config.active_storage.service = :test
@@ -67,6 +66,9 @@ Rails.application.configure do
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
+
+  # Enable request forgery protection in test environment.
+  config.action_controller.allow_forgery_protection = true
 
   # For Devise
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
