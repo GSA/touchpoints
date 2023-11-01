@@ -588,3 +588,13 @@ table .no-wrap {
   text-decoration: none;
   padding-left: 10px;
 }
+
+// navigation sign in buttons, styled as links
+.usa-nav__secondary form {
+  display: inline;
+
+  button {
+    border: none;
+    background: none;
+  }
+}

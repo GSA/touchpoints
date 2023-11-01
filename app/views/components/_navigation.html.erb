@@ -18,14 +18,18 @@
         <% unless current_user %>
           <% if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
           <li class="usa-nav__secondary-item">
-            <%= link_to user_login_dot_gov_omniauth_authorize_path, class: "admin" do %>
+            <%= button_to user_login_dot_gov_omniauth_authorize_path,
+              data: { turbo: "false" },
+              class: "admin usa-link" do %>
               <%= t 'home.sign_in_with' %> Login.gov
             <% end %>
           </li>
           <% end %>
           <% if ENV['GITHUB_CLIENT_ID'].present? %>
           <li class="usa-nav__secondary-item">
-            <%= link_to user_github_omniauth_authorize_path, class: "admin" do %>
+            <%= button_to user_github_omniauth_authorize_path,
+            data: { turbo: "false" },
+            class: "admin usa-link" do %>
               <%= t 'home.sign_in_with' %> GitHub
             <% end %>
           </li>
