@@ -100,7 +100,7 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   # Raise error when a before_action's only/except options reference missing actions
-  config.action_controller.raise_on_missing_callback_actions = true
+  config.action_controller.raise_on_missing_callback_actions = false
 
   config.active_record.encryption.primary_key = ENV.fetch("RAILS_ACTIVE_RECORD_PRIMARY_KEY")
   config.active_record.encryption.deterministic_key = ENV.fetch("RAILS_ACTIVE_RECORD_DETERMINISTIC_KEY")
