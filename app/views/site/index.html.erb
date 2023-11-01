@@ -15,7 +15,11 @@
       <%= t 'home.sign_in_text' %>
     </p>
     <p>
-      <%= link_to user_login_dot_gov_omniauth_authorize_path, id: "agree-button", class: "usa-button sign-in-logo", "aria-label" => "Login.gov" do %>
+      <%= button_to user_login_dot_gov_omniauth_authorize_path,
+        id: "agree-button",
+        class: "usa-button sign-in-logo",
+        data: { turbo: "false" },
+        "aria-label" => "Login.gov" do %>
         <%= t 'home.sign_in_with' %>
         <span>Login.gov</span>
       <% end %>
@@ -23,7 +27,10 @@
     <% end %>
     <% if ENV['GITHUB_CLIENT_ID'].present? %>
     <p>
-      <%= link_to user_github_omniauth_authorize_path, class: "usa-button",  "aria-label" => "GitHub" do %>
+      <%= button_to user_github_omniauth_authorize_path,
+        class: "usa-button",
+        data: { turbo: "false" },
+        "aria-label" => "GitHub" do %>
         <%= "#{t 'home.sign_in_with' } GitHub" %>
       <% end %>
     </p>

@@ -62,9 +62,10 @@ gem 'mini_magick'
 gem 'newrelic_rpm'
 gem 'omniauth-github'
 gem 'omniauth_login_dot_gov', git: 'https://github.com/18F/omniauth_login_dot_gov.git', branch: 'main'
+gem 'omniauth-rails_csrf_protection'
 gem 'rack-cors', '>= 1.1.1', require: 'rack/cors'
 # Use Redis to cache Touchpoints in all envs
-gem "redis", "~> 4.6"
+gem 'redis-client'
 gem 'redis-namespace'
 gem 'sass-rails'
 gem 'sidekiq', '>= 6.5.0'
