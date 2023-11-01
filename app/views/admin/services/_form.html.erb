@@ -338,11 +338,17 @@
 
       <div class="field">
         <%= form.label :homepage_url, "URL where the public can learn about the service", class: "usa-label" %>
+        <div class="usa-hint font-sans-3xs margin-bottom-1">
+          What is the primary URL that describes the Service provided?
+        </div>
         <%= form.url_field :homepage_url, class: "usa-input" %>
       </div>
 
       <div class="field">
         <%= form.label :url, "URL where the public can complete steps or tasks", class: "usa-label" %>
+        <div class="usa-hint font-sans-3xs margin-bottom-1">
+          What is the URL where a user can begin the process?
+        </div>
         <%= form.text_field :url, class: "usa-input" %>
       </div>
     </div>

@@ -46,7 +46,7 @@ module Admin
     end
 
     def show
-      @events = Event.where(object_type: "Digital Product", object_id: @digital_product.id.to_s)
+      @events = Event.where(object_type: "Digital Product", object_uuid: @digital_product.id.to_s)
         .includes(:user)
         .order("created_at DESC")
     end

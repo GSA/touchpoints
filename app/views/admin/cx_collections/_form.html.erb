@@ -41,15 +41,7 @@
 
   <div class="field">
     <%= form.label :service_id, "Service", class: "usa-label" %>
-    <%= form.select :service_id, Service.all.map { |h| ["#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, "{ class: "usa-select", required: true } %>
-  </div>
-
-  <div class="field">
-    <%= form.label :url, class: "usa-label" %>
-    <div class="usa-hint font-sans-3xs margin-bottom-1">
-      What is the primary URL of the Service provided?
-    </div>
-    <%= form.text_field :url, class: "usa-input" %>
+    <%= form.select :service_id, Service.all.map { |h| ["#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, { class: "usa-select", required: true } %>
   </div>
 
   <div class="field">
@@ -74,56 +66,6 @@
     <div class="usa-date-picker" data-default-value="<%= cx_collection.end_date %>">
       <%= form.text_field :end_date, placeholder: "mm/dd/yyyy", class: "usa-input" %>
     </div>
-  </div>
-
-  <div class="field">
-    <%= form.label :transaction_point, class: "usa-label" %>
-    <div class="usa-hint font-sans-3xs margin-bottom-1">
-      At what point on a user's journey is feedback requested?
-    </div>
-    <%= form.select :transaction_point, options_for_select([
-      "Post-interaction", "Post service journey", "Relational"
-      ]),
-      { include_blank: true },
-      { class: "usa-select" } %>
-  </div>
-
-  <div class="field">
-    <%= form.label :service_stage_id, class: "usa-label" %>
-    <% if cx_collection.service %>
-    <%= form.select :service_stage_id, options_for_select(cx_collection.service.service_stages.map { |stage| [stage.name, stage.id]}),
-      { include_blank: true },
-      { class: "usa-select" } %>
-    <% else %>
-      <small>
-        You will be able to select a Service Stage after saving this Collection with a Service selected.
-      </small>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= form.label :survey_title, class: "usa-label" %>
-    <%= form.text_field :survey_title, class: "usa-input" %>
-  </div>
-
-  <div class="field">
-    <%= form.label :trust_question_text, class: "usa-label" %>
-    <%= form.text_field :trust_question_text, class: "usa-input" %>
-  </div>
-
-  <div class="field">
-    <%= form.label :likert_or_thumb_question, class: "usa-label" %>
-    <%= form.select :likert_or_thumb_question, options_for_select(["likert scale", "thumbs-up-and-down"]), { include_blank: true }, class: "usa-select" %>
-  </div>
-
-  <div class="field">
-    <%= form.label :number_of_interactions, class: "usa-label" %>
-    <%= form.text_field :number_of_interactions, class: "usa-input" %>
-  </div>
-
-  <div class="field">
-    <%= form.label :number_of_people_offered_the_survey, class: "usa-label" %>
-    <%= form.text_field :number_of_people_offered_the_survey, class: "usa-input" %>
   </div>
 
   <div class="field">

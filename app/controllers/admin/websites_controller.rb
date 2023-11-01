@@ -182,7 +182,7 @@ module Admin
       tag_name = params[:tag]
 
       if admin_permissions?
-        
+
         if search_text.present?
           search_text = "%#{search_text}%"
           managed_sites = Website.where(id: Website.ids_by_manager_search(search_text))
@@ -217,7 +217,7 @@ module Admin
     end
 
     def show
-      @events = Event.where(object_type: 'Website', object_id: @website.id.to_s)
+      @events = Event.where(object_type: 'Website', object_uuid: @website.id.to_s)
         .includes(:user)
         .order('created_at DESC')
     end
@@ -394,7 +394,7 @@ module Admin
     end
 
     def events
-      @events = Event.where(object_type: 'Website', object_id: @website.id).order(:created_at)
+      @events = Event.where(object_type: 'Website', object_uuid: @website.id).order(:created_at)
     end
 
     def add_tag
@@ -465,24 +465,24 @@ module Admin
 
     def admin_website_params
       params.require(:website).permit(
-        :domain, 
-        :office, 
-        :office_id, 
-        :sub_office, 
-        :suboffice_id, 
-        :contact_email, 
-        :site_owner_email, 
-        :production_status, 
-        :type_of_site, 
-        :digital_brand_category, 
-        :redirects_to, 
-        :status_code, 
-        :cms_platform, 
-        :required_by_law_or_policy, 
-        :has_dap, 
-        :dap_gtm_code, 
-        :cost_estimator_url, 
-        :modernization_plan_url, 
+        :domain,
+        :office,
+        :office_id,
+        :sub_office,
+        :suboffice_id,
+        :contact_email,
+        :site_owner_email,
+        :production_status,
+        :type_of_site,
+        :digital_brand_category,
+        :redirects_to,
+        :status_code,
+        :cms_platform,
+        :required_by_law_or_policy,
+        :has_dap,
+        :dap_gtm_code,
+        :cost_estimator_url,
+        :modernization_plan_url,
         :annual_baseline_cost,
         :backlog_tool,
         :backlog_url,
@@ -493,11 +493,11 @@ module Admin
         :analytics_url,
         :https,
         :uswds_version,
-        :uses_feedback, 
-        :feedback_tool, 
-        :sitemap_url, 
-        :mobile_friendly, 
-        :has_search, 
+        :uses_feedback,
+        :feedback_tool,
+        :sitemap_url,
+        :mobile_friendly,
+        :has_search,
         :uses_tracking_cookies,
         :hosting_platform,
         :has_authenticated_experience,

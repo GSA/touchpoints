@@ -15,4 +15,185 @@
   <% end %>
 </p>
 
-<%= render @cx_collection %>
+<h2>
+  <%= @cx_collection.name %>
+</h2>
+
+<% if !@cx_collection.submitted? && !@cx_collection.published? %>
+<% elsif !@cx_collection.published? %>
+<% else %>
+  <div class="usa-alert usa-alert--warning">
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        This data collection has been published.
+      </p>
+    </div>
+  </div>
+  <br>
+<% end %>
+
+<p class="text-uppercase font-body-3xs">
+  About this data collection
+</p>
+<div class="usa-alert">
+  <div class="usa-alert__body">
+    <p class="usa-alert__text">
+      CX Customer Experience reporting is described in
+      <a href="https://www.performance.gov/cx/assets/files/2022-OMB-Circular-A11-Section-280.pdf"
+        target="_blank" rel="noopener">OMB Circular A-11, Section 280</a>.
+    </p>
+    <p class="usa-alert__text">
+      Each quarter, OMB coordinates this data collection from all HISPs.
+      This data will be summarized and reported on
+      <a href="https://performance.gov/cx/" target="_blank" rel="noopener">performance.gov/cx</a>.
+    </p>
+  </div>
+</div>
+
+<div class="grid-row grid-gap-lg">
+  <div class="tablet:grid-col-8 padding-top-2">
+    <div class="text-uppercase font-body-3xs">
+      General information
+    </div>
+    <div class="grid-row">
+      <div class="grid-col-6">
+        <p>
+          <%= label_tag :organization, nil, class: "usa-label" %>
+          <%= link_to_if admin_permissions?, @cx_collection.organization.name, admin_organization_path(@cx_collection.organization) %>
+        </p>
+        <p>
+          <%= label_tag :service_provider, "Service Provider", class: "usa-label" %>
+          <%= link_to  @cx_collection.service_provider.name, admin_service_provider_path( @cx_collection.service_provider) %>
+        </p>
+        <p>
+          <%= label_tag :user, nil, class: "usa-label" %>
+          <%= link_to_if performance_manager_permissions?, @cx_collection.user.email, admin_user_path(@cx_collection.user) %>
+        </p>
+      </div>
+      <div class="grid-col-6">
+        <p>
+          <%= label_tag :quarter_year, "Quarter and Fiscal year", class: "usa-label" %>
+          Q<%= @cx_collection.quarter %>
+          FY<%= @cx_collection.fiscal_year %>
+        </p>
+
+        <p>
+          <%= label_tag :date_range, "Date range", class: "usa-label" %>
+          <span><%= @cx_collection.start_date %></span>
+          to
+          <br>
+          <span><%= @cx_collection.end_date %></span>
+        </p>
+      </div>
+    </div>
+
+    <div class="services border border-base-lighter padding-2 padding-top-0 padding-bottom-0 margin-top-3">
+      <h2>
+        Services
+        <small>
+          (<%= @cx_collection.cx_collection_details.size %>)
+        </small>
+      </h2>
+      <div class="usa-alert">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            Add a Service detail reporting page for each touchpoint available within a HISP service.
+          </p>
+        </div>
+      </div>
+      <ul class="usa-list">
+      <% @cx_collection.cx_collection_details.order(:channel).each do |cx_collection| %>
+        <li>
+          <%= link_to ("#{cx_collection.try(:service).try(:name)}"), admin_cx_collection_detail_path(cx_collection) %>
+        </li>
+      <% end %>
+      </ul>
+      <% if @cx_collection.draft? %>
+      <p>
+        <%= link_to new_admin_cx_collection_detail_path(collection_id: @cx_collection.id), class: "usa-button usa-button--outline" do %>
+          <i class="fa fa-plus"></i>
+          Add a Service to report on
+        <% end %>
+      </p>
+      <% end %>
+    </div>
+
+    <div class="usa-prose margin-top-3">
+      <strong>Reflection text</strong>
+      <p>
+        <% if @cx_collection.reflection? %>
+          <%= to_markdown(@cx_collection.reflection) %>
+        <% else %>
+        <div class="usa-alert usa-alert--warning usa-alert--slim">
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">
+              <%= link_to 'Edit this Collection', edit_admin_cx_collection_path(@cx_collection) %>
+              to add Reflection Text prior to submitting.
+            </p>
+          </div>
+        </div>
+        <% end %>
+      </p>
+    </div>
+    <p hidden>
+      <strong>Integrity hash</strong>
+      <br>
+      <%= @cx_collection.integrity_hash || "not yet published" %>
+    </p>
+
+    <br>
+
+  </div>
+  <div class="grid-col-4 well">
+    <br>
+    <%= render 'components/step_indicator', collection: @cx_collection %>
+    <p>
+      <%= label_tag :collection_status, nil, class: "usa-label" %>
+      <br>
+      <%= render 'components/collection_status_tag', collection: @cx_collection %>
+    </p>
+    <p>
+      <%= label_tag :rating, nil, class: "usa-label" %>
+      <br>
+      <% if @cx_collection.rating.present? %>
+      <%= collection_rating_label(rating: @cx_collection.rating) %>
+      <% else %>
+      <div class="usa-alert">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">
+            This Collection will receive a
+            <a href="https://github.com/GSA/touchpoints/wiki/Data-Collection-Rating" class="usa-link" target="_blank" rel="noopener">rating</a>
+            after
+            Submission.
+          </p>
+        </div>
+      </div>
+      <% end %>
+    </p>
+
+    <p>
+      <% if !@cx_collection.submitted? && !@cx_collection.published? %>
+        <div class="usa-alert usa-alert--info usa-alert--slim font-sans-2xs">
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">
+              Submitting this Data Collection will send an email
+              to <%= ENV.fetch("TOUCHPOINTS_ADMIN_EMAILS").split(',').to_sentence %>
+              who will
+              1. review the data, then
+              2. contact you via email
+              prior to publishing data on performance.gov.
+            </p>
+          </div>
+        </div>
+        <br>
+        <%= link_to submit_admin_cx_collection_path(@cx_collection), class: "usa-button full-width", method: "post", data: { confirm: 'Are you sure?' } do %>
+          Submit this Data Collection
+        <% end %>
+      <% elsif !@cx_collection.published? && performance_manager_permissions? %>
+        <%= link_to publish_admin_cx_collection_path(@cx_collection), class: "usa-button", method: "post" do %>
+          Publish this Data Collection
+        <% end %>
+      <% end %>
+    </p>
+  </div>
+</div>

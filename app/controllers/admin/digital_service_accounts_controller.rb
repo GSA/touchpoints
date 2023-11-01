@@ -25,16 +25,11 @@ module Admin
         format.html {}
 
         format.csv do
-          if admin_permissions?
-            if params[:all]
-              @csv_content = DigitalServiceAccount.to_csv
-            else
-              @csv_content = DigitalServiceAccount.active.to_csv
-            end
+          if admin_permissions? && params[:all]
+            ExportDigitalServiceAccounts.perform_now(params[:uuid], include_all_accounts: true, filename: "touchpoints-digital-service-accounts-#{timestamp_string}.csv")
           else
-            @csv_content = @digital_service_accounts.to_csv
+            ExportDigitalServiceAccounts.perform_now(params[:uuid], include_all_accounts: false, filename: "touchpoints-digital-service-accounts-#{timestamp_string}.csv")
           end
-          send_data @csv_content
         end
       end
     end
@@ -54,7 +49,7 @@ module Admin
 
     def show
       @events = Event
-        .where(object_type: "Digital Service Account", object_id: @digital_service_account.id.to_s)
+        .where(object_type: "Digital Service Account", object_uuid: @digital_service_account.id.to_s)
         .includes(:user)
         .order("created_at DESC")
     end
@@ -191,12 +186,12 @@ module Admin
           'Digital Service Account',
           @digital_service_account.id,
           "Digital Service Account #{@digital_service_account.name} published at #{DateTime.now}", current_user.id)
-        
+
         @account_contacts = []
         if @digital_service_account.roles.first
           @account_contacts = @digital_service_account.roles.first.users.collect(&:email)
         end
-        
+
         UserMailer.notification(
           title: 'Digital Service Account was published',
           body: "Digital Service Account #{@digital_service_account.name} published at #{DateTime.now} by #{current_user.email}",

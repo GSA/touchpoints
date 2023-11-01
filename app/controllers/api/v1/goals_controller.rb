@@ -6,7 +6,11 @@ module Api
       def index
         respond_to do |format|
           format.json do
-            render json: Goal.all.order(:id), each_serializer: GoalSerializer
+            if params[:include_users]
+              render json: Goal.all.order(:id), each_serializer: GoalSerializer, include_users: true
+            else
+              render json: Goal.all.order(:id), each_serializer: GoalSerializer
+            end
           end
         end
       end
