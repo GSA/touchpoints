@@ -1392,7 +1392,8 @@ feature 'Forms', js: true do
             select('text_field', from: 'question_question_type')
             click_on 'Update Question'
             # Wait for Add Question to re-appear
-            expect(page).to have_selector('.form-add-question', count: 2)
+            expect(page).to have_selector('#form_section_1 .form-add-question', count: 1)
+            expect(page).to have_selector('#form_section_2 .form-add-question', count: 1)
           end
 
           it 'creates the question in the correct Form Section' do
