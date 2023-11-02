@@ -42,7 +42,13 @@ function FBAform(d, N) {
 			this.dialogOpen = false; // initially false
 			this.successState = false; // initially false
 			this.pagination();
+			this.formSpecificScript();
 			return this;
+		},
+		formSpecificScript: function() {
+			<%- if ["a11_v2", "a11_yes_no"].include?(form.kind) %>
+			<%= render "components/form_#{form.kind}_script" %>
+			<% end %>
 		},
 		bindEventListeners: function() {
 			var self = this;

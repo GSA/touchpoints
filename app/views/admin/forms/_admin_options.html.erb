@@ -42,7 +42,7 @@
       <div class="grid-col-6">
         <div class="field">
           <%= f.label :kind, class: "usa-label" %>
-          <%= f.text_field :kind, class: "usa-input" %>
+          <%= f.select :kind, options_for_select(["a11", "a11_v2", "a11_yes_no", "open_ended", "other"]), { include_blank: true }, class: "usa-select" %>
         </div>
       </div>
       <div class="grid-col-6">
