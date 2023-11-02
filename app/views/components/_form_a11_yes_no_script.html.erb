@@ -1,29 +1,42 @@
+// Assumes: 2 questions:
+//  1. radio buttons.
+//  2. open text
+// Hides the 2nd question to start, and reveals it when selecting a radio button
+//
+window.addEventListener('load', function() {
+  const q2 = document.getElementById("answer_02");
+  const q2_container = q2.closest(".question");
+  const submitButton = document.getElementById("touchpoints-form-<%= form.short_uuid %>").getElementsByClassName("submit-button")[0]
 
-  window.addEventListener('load', function() {
+  function hideQ2() {
+    q2_container.style.display = 'none';
+  }
+  function showQ2() {
+    q2_container.style.display = 'block';
+  }
 
-    function hideQ2() {
-      const q2 = document.getElementById("answer_02");
-      const q2_container = q2.closest(".question");
-      q2_container.style.display = 'none';
+  function hideSubmitButton() {
+    submitButton.style.display = 'none';
+  }
+  function showSubmitButton() {
+    submitButton.style.display = 'block';
+  }
+
+  function handleThumbsUpDownClick(a, b, c) {
+    if(a.currentTarget.value === '1') {
+      showQ2()
+      showSubmitButton()
+      } else if(a.currentTarget.value === '0') {
+      showQ2()
+      showSubmitButton()
     }
-    function showQ2() {
-      const q2 = document.getElementById("answer_02");
-      const q2_container = q2.closest(".question");
-      q2_container.style.display = 'block';
-    }
+  }
 
-    function handleThumbsUpDownClick(a, b, c) {
-      if(a.currentTarget.value === '1') {
-        showQ2()
-        } else if(a.currentTarget.value === '0') {
-        showQ2()
-      }
-    }
+  const radioButtons = document.getElementById("answer_01").getElementsByTagName("input");
+  for (const radioButton of radioButtons) {
+      radioButton.addEventListener("click", handleThumbsUpDownClick)
+  }
 
-    const radioButtons = document.getElementById("answer_01").getElementsByTagName("input");
-    for (const radioButton of radioButtons) {
-        radioButton.addEventListener("click", handleThumbsUpDownClick)
-    }
-
-    hideQ2()
-  })
+  hideQ2()
+  hideSubmitButton()
+})

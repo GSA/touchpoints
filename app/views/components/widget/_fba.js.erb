@@ -47,7 +47,7 @@ function FBAform(d, N) {
 		},
 		formSpecificScript: function() {
 			<%- if ["a11_v2", "a11_yes_no"].include?(form.kind) %>
-			<%= render "components/form_#{form.kind}_script" %>
+			<%= render "components/form_#{form.kind}_script", form: form %>
 			<% end %>
 		},
 		bindEventListeners: function() {
