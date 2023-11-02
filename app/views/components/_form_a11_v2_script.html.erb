@@ -1,0 +1,42 @@
+window.addEventListener('load', function() {
+
+  function hideQ2() {
+    const q2 = document.getElementById("answer_02");
+    const q2_container = q2.closest(".question");
+    q2_container.style.display = 'none';
+  }
+  function showQ2() {
+    const q2 = document.getElementById("answer_02");
+    const q2_container = q2.closest(".question");
+    q2_container.style.display = 'block';
+  }
+
+  function hideQ3() {
+    const q3 = document.getElementById("answer_03");
+    const q3_container = q3.closest(".question");
+    q3_container.style.display = 'none';
+  }
+  function showQ3() {
+    const q3 = document.getElementById("answer_03");
+    const q3_container = q3.closest(".question");
+    q3_container.style.display = 'block';
+  }
+
+  function handleThumbsUpDownClick(a, b, c) {
+    if(a.currentTarget.value === '1') {
+      showQ2()
+      hideQ3()
+    } else if(a.currentTarget.value === '0') {
+      hideQ2()
+      showQ3()
+    }
+  }
+
+  const radioButtons = document.getElementById("answer_01").getElementsByTagName("input");
+  for (const radioButton of radioButtons) {
+      radioButton.addEventListener("click", handleThumbsUpDownClick)
+  }
+
+  hideQ2()
+  hideQ3()
+})

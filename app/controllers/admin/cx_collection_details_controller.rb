@@ -1,5 +1,6 @@
 class Admin::CxCollectionDetailsController < AdminController
   before_action :set_cx_collection_detail, only: %i[ show edit update destroy ]
+  before_action :set_cx_collections, only: %i[ new edit ]
 
   def index
     @cx_collection_details = CxCollectionDetail.all
@@ -54,6 +55,14 @@ class Admin::CxCollectionDetailsController < AdminController
   private
     def set_cx_collection_detail
       @cx_collection_detail = CxCollectionDetail.find(params[:id])
+    end
+
+    def set_cx_collections
+      if service_manager_permissions?
+        @cx_collections = CxCollection.all.includes(:organization)
+      else
+        @cx_collections = current_user.organization.cx_collections
+      end
     end
 
     def cx_collection_detail_params

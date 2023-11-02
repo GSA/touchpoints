@@ -14,7 +14,7 @@
   <% if performance_manager_permissions? %>
   <div class="field">
     <%= form.label :user_id, class: "usa-label" %>
-    <%= form.select :user_id, options_for_select(User.all.collect { |u| [u.email, u.id] }, cx_collection.user_id), { prompt: "Which User?", include_blank: true }, { class: "usa-select" } %>
+    <%= form.select :user_id, options_for_select(User.all.collect { |u| [u.email, u.id] }, cx_collection.user_id || current_user.id), { prompt: "Which User?", include_blank: true }, { class: "usa-select" } %>
   </div>
   <% else %>
   <%= form.hidden_field :user_id, value: current_user.id %>
@@ -36,12 +36,7 @@
 
   <div class="field">
     <%= form.label :service_provider_id, "HISP Service Provider", class: "usa-label" %>
-    <%= form.select :service_provider_id, ServiceProvider.all.map { |h| ["#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, { class: "usa-select", required: true } %>
-  </div>
-
-  <div class="field">
-    <%= form.label :service_id, "Service", class: "usa-label" %>
-    <%= form.select :service_id, Service.all.map { |h| ["#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, { class: "usa-select", required: true } %>
+    <%= form.select :service_provider_id, ServiceProvider.all.includes(:organization).map { |h| ["#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, { class: "usa-select", required: true } %>
   </div>
 
   <div class="field">
@@ -51,7 +46,7 @@
 
   <div class="field">
     <%= form.label :quarter, class: "usa-label" %>
-    <%= form.text_field :quarter, class: "usa-input", required: true %>
+    <%= form.number_field :quarter, class: "usa-input", required: true, min: 1, max: 4 %>
   </div>
 
   <div class="field usa-form-group">

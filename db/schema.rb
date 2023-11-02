@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_10_30_231924) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_02_184253) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -197,7 +197,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_10_30_231924) do
     t.integer "volume_of_customers_provided_survey_opportunity"
     t.integer "volume_of_respondents"
     t.string "omb_control_number"
-    t.integer "federal_register_url"
+    t.string "federal_register_url"
     t.text "reflection_text"
     t.text "survey_type"
     t.text "survey_title"
