@@ -15,7 +15,7 @@
     <%= form.label :cx_collection_id, class: "usa-label" %>
     <%= form.hidden_field :cx_collection_id, class: "usa-input", value: cx_collection_detail.cx_collection_id %>
     <%= form.select :cx_collection_id,
-      CxCollection.all.map { |collection| ["#{collection.name} - #{collection.organization.name}", collection.id]},
+      cx_collections.map { |collection| ["#{collection.name} - #{collection.organization.name}", collection.id]},
       { include_blank: true },
       class: "usa-select" %>
   </div>
@@ -53,7 +53,7 @@
 
   <div>
     <%= form.label :survey_type, class: "usa-label" %>
-    <%= form.select :survey_type, [:seven_questions, :yes_no_buttons],
+    <%= form.select :survey_type, [["A-11 7 driver questions", :seven_questions], ["A-11 Yes/no thumbs buttons", :yes_no_buttons] ],
       { include_blank: true },
       { class: "usa-select" } %>
   </div>
@@ -75,7 +75,7 @@
 
   <div>
     <%= form.label :federal_register_url, class: "usa-label" %>
-    <%= form.number_field :federal_register_url, class: "usa-input" %>
+    <%= form.text_field :federal_register_url, class: "usa-input" %>
   </div>
 
   <div>

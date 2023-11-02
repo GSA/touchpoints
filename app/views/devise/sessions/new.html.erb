@@ -28,7 +28,7 @@
             <% end %>
             <% if ENV['GITHUB_CLIENT_ID'].present? %>
             <p>
-              <%= link_to "Agree and sign in with GitHub", user_github_omniauth_authorize_path,
+              <%= button_to "Agree and sign in with GitHub", user_github_omniauth_authorize_path,
                 id: "agree-button",
                 data: { turbo: "false" },
                 class: "usa-button" %>
