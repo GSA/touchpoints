@@ -21,7 +21,7 @@
     <tr data-id="<%= event.id %>">
       <td><%= event.id %></td>
       <td><%= event.object_type %></td>
-      <td><%= event.object_id %></td>
+      <td><%= event.object_uuid %></td>
       <td><%= event.description %></td>
       <td><%= @user_email_map[event.user_id] %></td>
       <td><%= format_time(event.created_at, current_user.time_zone) %></td>

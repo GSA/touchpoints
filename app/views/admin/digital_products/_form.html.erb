@@ -30,6 +30,11 @@
   </div>
 
   <div class="field">
+    <%= form.label :url, "URL", class: "usa-label" %>
+    <%= form.url_field :url, class: "usa-input" %>
+  </div>
+
+  <div class="field">
     <%= form.label :screenshot_url, "Icon URL", class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       Please provide the URL of the app or website’s icon
@@ -37,7 +42,7 @@
     <%= form.url_field :screenshot_url, class: "usa-input" %>
   </div>
 
-  <div class="field" hidden>
+  <div class="field">
     <%= form.label :code_repository_url, class: "usa-label" %>
     <%= form.url_field :code_repository_url, class: "usa-input" %>
   </div>

@@ -119,7 +119,7 @@ module Admin
     end
 
     def events
-      @events = Event.where(object_type: 'Collection', object_id: @collection.id).order(:created_at)
+      @events = Event.where(object_type: 'Collection', object_uuid: @collection.id).order(:created_at)
     end
 
     def export_csv

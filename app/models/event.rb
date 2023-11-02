@@ -40,7 +40,23 @@ class Event < ApplicationRecord
     collection_published: 'collection_published',
     collection_change_requested: 'collection_change_requested',
     collection_deleted: 'collection_deleted',
-    
+
+    collection_cx_created: 'collection_cx_created',
+    collection_cx_updated: 'collection_cx_updated',
+    collection_cx_copied: 'collection_cx_copied',
+    collection_cx_submitted: 'collection_cx_submitted',
+    collection_cx_published: 'collection_cx_published',
+    collection_cx_change_requested: 'collection_cx_change_requested',
+    collection_cx_deleted: 'collection_cx_deleted',
+
+    cx_collection_created: 'cx_collection_created',
+    cx_collection_updated: 'cx_collection_updated',
+    cx_collection_copied: 'cx_collection_copied',
+    cx_collection_submitted: 'cx_collection_submitted',
+    cx_collection_published: 'cx_collection_published',
+    cx_collection_change_requested: 'cx_collection_change_requested',
+    cx_collection_deleted: 'cx_collection_deleted',
+
     cscrm_data_collection_collection_created: 'cscrm_data_collection_collection_created',
     cscrm_data_collection_collection_updated: 'cscrm_data_collection_collection_updated',
     cscrm_data_collection_collection_submitted: 'cscrm_data_collection_collection_submitted',
@@ -94,7 +110,7 @@ class Event < ApplicationRecord
     e = new
     e.name = ename
     e.object_type = otype
-    e.object_id = oid
+    e.object_uuid = oid
     e.description = desc
     e.user_id = uid
     e.save
@@ -112,7 +128,7 @@ class Event < ApplicationRecord
     attributes = %i[
       name
       object_type
-      object_id
+      object_uuid
       description
       user_id
       created_at

@@ -1,0 +1,24 @@
+<% content_for :navigation_title do %>
+  Editing cx collection detail
+<% end %>
+
+<p>
+  <%= link_to admin_cx_collection_path(@cx_collection_detail.cx_collection) do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to CX collection detail
+  <% end %>
+</p>
+
+<%= render "form", cx_collection_detail: @cx_collection_detail %>
+
+<br>
+
+<div>
+  <%= link_to "Show this cx collection detail", admin_cx_collection_detail_path(@cx_collection_detail) %> |
+  <%= link_to "Back to cx collection details", admin_cx_collection_details_path %>
+  <br>
+  <br>
+  <%= button_to "Destroy this cx collection detail", admin_cx_collection_detail_path(@cx_collection_detail), method: :delete, class: "usa-button usa-button--secondary" %>
+  <br>
+  <br>
+</div>

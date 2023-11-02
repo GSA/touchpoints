@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.1.4'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.0.6"
+gem "rails", "~> 7.1.0"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
@@ -62,9 +62,10 @@ gem 'mini_magick'
 gem 'newrelic_rpm'
 gem 'omniauth-github'
 gem 'omniauth_login_dot_gov', git: 'https://github.com/18F/omniauth_login_dot_gov.git', branch: 'main'
-gem 'rack-cors', '>= 1.1.1', require: 'rack/cors'
+gem 'omniauth-rails_csrf_protection'
+gem 'rack-cors', require: 'rack/cors'
 # Use Redis to cache Touchpoints in all envs
-gem "redis", "~> 4.6"
+gem 'redis-client'
 gem 'redis-namespace'
 gem 'sass-rails'
 gem 'sidekiq', '>= 6.5.0'

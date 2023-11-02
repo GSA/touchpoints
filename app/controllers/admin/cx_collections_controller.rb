@@ -1,9 +1,14 @@
 module Admin
   class CxCollectionsController < AdminController
-    before_action :set_cx_collection, only: %i[ show edit update destroy ]
+    before_action :set_cx_collection, only: %i[
+      show
+      edit update submit publish
+      copy
+      destroy
+    ]
 
     def index
-      @cx_collections = CxCollection.all
+      @cx_collections = CxCollection.all.includes(:organization, :service_provider)
     end
 
     def show
@@ -21,6 +26,7 @@ module Admin
 
       respond_to do |format|
         if @cx_collection.save
+          Event.log_event(Event.names[:collection_cx_created], 'Collection', @cx_collection.id, "Collection #{@cx_collection.name} created at #{DateTime.now}", current_user.id)
           format.html { redirect_to admin_cx_collection_url(@cx_collection), notice: "Cx collection was successfully created." }
           format.json { render :show, status: :created, location: @cx_collection }
         else
@@ -30,9 +36,41 @@ module Admin
       end
     end
 
+    def submit
+      @cx_collection.submit!
+      Event.log_event(Event.names[:cx_collection_submitted], 'Collection', @cx_collection.id, "Collection #{@cx_collection.name} submitted at #{DateTime.now}", current_user.id)
+      UserMailer.collection_notification(collection_id: @cx_collection.id).deliver_later
+      redirect_to admin_cx_collection_path(@cx_collection), notice: 'Collection has been submitted successfully.'
+    end
+
+    def publish
+      @cx_collection.publish!
+      Event.log_event(Event.names[:cx_collection_published], 'Collection', @cx_collection.id, "Collection #{@cx_collection.name} published at #{DateTime.now}", current_user.id)
+      redirect_to admin_cx_collection_path(@cx_collection), notice: 'Collection has been published successfully.'
+    end
+
+    def copy
+      ensure_collection_owner(collection: @cx_collection)
+
+      respond_to do |format|
+        new_collection = @cx_collection.duplicate!(new_user: current_user)
+
+        if new_collection.valid?
+          Event.log_event(Event.names[:cx_collection_copied], 'Collection', @cx_collection.id, "Collection #{@cx_collection.name} copied at #{DateTime.now}", current_user.id)
+
+          format.html { redirect_to admin_collection_path(new_collection), notice: 'Collection was successfully copied.' }
+          format.json { render :show, status: :created, location: new_collection }
+        else
+          format.html { render :new }
+          format.json { render json: new_collection.errors, status: :unprocessable_entity }
+        end
+      end
+    end
+
     def update
       respond_to do |format|
         if @cx_collection.update(cx_collection_params)
+          Event.log_event(Event.names[:collection_cx_updated], 'Collection', @cx_collection.id, "Collection #{@cx_collection.name} updated at #{DateTime.now}", current_user.id)
           format.html { redirect_to admin_cx_collection_url(@cx_collection), notice: "Cx collection was successfully updated." }
           format.json { render :show, status: :ok, location: @cx_collection }
         else
@@ -46,6 +84,7 @@ module Admin
       @cx_collection.destroy
 
       respond_to do |format|
+        Event.log_event(Event.names[:cx_collection_deleted], 'Collection', @cx_collection.id, "Collection #{@cx_collection.name} deleted at #{DateTime.now}", current_user.id)
         format.html { redirect_to admin_cx_collections_url, notice: "CX collection was successfully destroyed." }
         format.json { head :no_content }
       end
