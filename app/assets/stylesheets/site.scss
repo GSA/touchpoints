@@ -594,3 +594,13 @@ table .no-wrap {
     background: none;
   }
 }
+
+.question-options.icons {
+  .usa-checkbox__label {
+    border: none;
+  }
+
+  .usa-card__body {
+    padding-top: 0;
+  }
+}

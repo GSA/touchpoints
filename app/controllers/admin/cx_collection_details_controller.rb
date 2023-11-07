@@ -19,6 +19,7 @@ class Admin::CxCollectionDetailsController < AdminController
 
   def create
     @cx_collection_detail = CxCollectionDetail.new(cx_collection_detail_params)
+    @cx_collection_detail.service_id = @cx_collection_detail.cx_collection.service_id
 
     respond_to do |format|
       if @cx_collection_detail.save

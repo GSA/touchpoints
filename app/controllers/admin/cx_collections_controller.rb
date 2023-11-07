@@ -23,6 +23,7 @@ module Admin
 
     def create
       @cx_collection = CxCollection.new(cx_collection_params)
+      @cx_collection.organization_id = @cx_collection.service_provider.organization.id
 
       respond_to do |format|
         if @cx_collection.save
