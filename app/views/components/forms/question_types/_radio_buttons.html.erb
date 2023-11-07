@@ -1,6 +1,5 @@
-<fieldset class="usa-fieldset radios" role="group">
-  <legend class="usa-sr-only"><%= question.text %></legend>
-  <%= render 'components/question_title', question: question %>
+<fieldset class="usa-fieldset radios margin-top-3">
+  <legend class="usa-legend"><%= question.text %></legend>
   <div class="question-options" id="<%= question.answer_field.to_sym %>">
   <% question.question_options.each_with_index do |option, index| %>
     <div class="radio-button usa-radio"

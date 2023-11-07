@@ -104,7 +104,8 @@
       <ul class="usa-list">
       <% @cx_collection.cx_collection_details.order(:channel).each do |cx_collection| %>
         <li>
-          <%= link_to ("#{cx_collection.try(:service).try(:name)}"), admin_cx_collection_detail_path(cx_collection) %>
+          <%= link_to ("#{cx_collection.try(:service).try(:name)}"), admin_cx_collection_detail_path(cx_collection) %> &middot;
+          <%= cx_collection.channel %>
         </li>
       <% end %>
       </ul>

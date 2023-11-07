@@ -640,8 +640,19 @@
 }
 
 .fba-modal-dialog .usa-legend{
-  font-size:2.12941rem;
-  font-weight:bold;
+  font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
+  font-size:1.06rem;
+  line-height:1.3;
+  display:block;
+  font-weight:normal;
+  margin-top:1.5rem;
+  max-width:30rem;
+}
+
+.fba-modal-dialog .usa-legend--large{
+  font-size:2.13rem;
+  font-weight:700;
+  margin-top:1rem;
 }
 
 .fba-modal-dialog .usa-input-list{
@@ -2544,63 +2555,7 @@
 
 /* not using .usa-footer--big */
 
-.fba-modal-dialog .usa-form{
-  font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
-  font-size:1.06rem;
-  line-height:1.3;
-}
 
-@media all and (min-width: 30em){
-  .fba-modal-dialog .usa-form{
-    max-width:20rem;
-  }
-}
-
-.fba-modal-dialog .usa-form .usa-input,
-.fba-modal-dialog .usa-form .usa-range,
-.fba-modal-dialog .usa-form .usa-select,
-.fba-modal-dialog .usa-form .usa-textarea{
-  max-width:none;
-}
-
-.fba-modal-dialog .usa-form .usa-input--small{
-  max-width:4rem;
-}
-
-.fba-modal-dialog .usa-form .usa-input--medium{
-  max-width:7.5rem;
-}
-
-.fba-modal-dialog .usa-form .usa-button{
-  margin-top:0.5rem;
-}
-@media all and (min-width: 30em){
-  .fba-modal-dialog .usa-form .usa-button{
-    margin-top:1.5rem;
-  }
-}
-
-.fba-modal-dialog .usa-form a{
-  color:#005ea2;
-  text-decoration:underline;
-}
-
-.fba-modal-dialog .usa-form a:hover{
-  color:#1a4480;
-}
-
-.fba-modal-dialog .usa-form a:active{
-  color:#162e51;
-}
-
-.fba-modal-dialog .usa-form a:focus{
-  outline:0.25rem solid #2491ff;
-  outline-offset:0;
-}
-
-.fba-modal-dialog .usa-form a:visited{
-  color:#54278f;
-}
 
 .fba-modal-dialog .usa-form__note{
   font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
@@ -4061,6 +4016,89 @@
 
 .fba-modal-dialog abbr[title=required]{
   text-decoration:none;
+}
+
+.fba-modal-dialog .usa-form{
+  font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
+  font-size:1.06rem;
+  line-height:1.3;
+}
+@media all and (min-width: 30em){
+  .fba-modal-dialog .usa-form{
+    max-width:20rem;
+  }
+}
+.fba-modal-dialog .usa-form abbr[title=required]{
+  text-decoration:none;
+}
+.fba-modal-dialog .usa-form .usa-input,
+.fba-modal-dialog .usa-form .usa-range,
+.fba-modal-dialog .usa-form .usa-select,
+.fba-modal-dialog .usa-form .usa-textarea{
+  max-width:none;
+}
+.fba-modal-dialog .usa-form .usa-input--2xs,
+.fba-modal-dialog .usa-form .usa-input-group--2xs{
+  max-width:5ex;
+}
+.fba-modal-dialog .usa-form .usa-input--xs,
+.fba-modal-dialog .usa-form .usa-input-group--xs{
+  max-width:9ex;
+}
+.fba-modal-dialog .usa-form .usa-input--sm,
+.fba-modal-dialog .usa-form .usa-input--small,
+.fba-modal-dialog .usa-form .usa-input-group--sm,
+.fba-modal-dialog .usa-form .usa-input-group--small{
+  max-width:13ex;
+}
+.fba-modal-dialog .usa-form .usa-input--md,
+.fba-modal-dialog .usa-form .usa-input--medium,
+.fba-modal-dialog .usa-form .usa-input-group--md,
+.fba-modal-dialog .usa-form .usa-input-group--medium{
+  max-width:20ex;
+}
+.fba-modal-dialog .usa-form .usa-input--lg,
+.fba-modal-dialog .usa-form .usa-input-group--lg{
+  max-width:30ex;
+}
+.fba-modal-dialog .usa-form .usa-input--xl,
+.fba-modal-dialog .usa-form .usa-input-group--xl{
+  max-width:40ex;
+}
+.fba-modal-dialog .usa-form .usa-input--2xl,
+.fba-modal-dialog .usa-form .usa-input-group--2xl{
+  max-width:50ex;
+}
+.fba-modal-dialog .usa-form .usa-button{
+  margin-top:0.5rem;
+}
+@media all and (min-width: 30em){
+  .fba-modal-dialog .usa-form .usa-button{
+    margin-top:1.5rem;
+  }
+}
+.fba-modal-dialog .usa-form a:where(:not(.usa-button)){
+  color:#005ea2;
+  text-decoration:underline;
+}
+.fba-modal-dialog .usa-form a:where(:not(.usa-button)):visited{
+  color:#54278f;
+}
+.fba-modal-dialog .usa-form a:where(:not(.usa-button)):hover{
+  color:#1a4480;
+}
+.fba-modal-dialog .usa-form a:where(:not(.usa-button)):active{
+  color:#162e51;
+}
+.fba-modal-dialog .usa-form a:where(:not(.usa-button)):focus{
+  outline:0.25rem solid #2491ff;
+  outline-offset:0rem;
+}
+
+@media all and (min-width: 30em){
+  .usa-form--large{
+    max-width:30rem;
+  }
 }
 
 /* Override */

@@ -8,7 +8,7 @@
   </div>
   <% end %>
 
-  cx_collection_detail
+  CX Collection Detail
 <% end %>
 
 <p>
@@ -21,7 +21,7 @@
 
 <p>
   <strong>Organization:</strong>
-  <%= @cx_collection_detail.cx_collection.organization.name %>
+  <%= link_to @cx_collection_detail.cx_collection.organization.name, admin_organization_path(@cx_collection_detail.cx_collection.organization) %>
 </p>
 <p>
   <strong>Cx collection:</strong>
@@ -30,7 +30,7 @@
 
 <p>
   <strong>Service:</strong>
-  <%= @cx_collection_detail.service.name %>
+  <%= link_to @cx_collection_detail.service.name, admin_service_path(@cx_collection_detail.service) %>
 </p>
 
 <p>
@@ -46,7 +46,9 @@
 
 <p>
   <strong>Service stage:</strong>
-  <%= @cx_collection_detail.service_stage.try(:name) || 'Select a Service Stage' %>
+  <% if @cx_collection_detail.service_stage %>
+  <%= link_to(@cx_collection_detail.service_stage.name, admin_service_service_stage_path(@cx_collection_detail.service_stage)) || 'Select a Service Stage' %>
+  <% end %>
 </p>
 
 <p>
