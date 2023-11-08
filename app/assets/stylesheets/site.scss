@@ -236,10 +236,6 @@ tbody tr:hover td {
   background-color: #F0F0F0;
 }
 
-.white-bg {
-  background-color: #white;
-}
-
 // Override styles for the float menus on /admin/forms
 .usa-nav__primary.float-menu button[aria-expanded=false] {
   background: none;
@@ -607,4 +603,8 @@ table .no-wrap {
 
 .question-options {
   max-width: 30rem;
+}
+
+abbr[title=required] {
+  text-decoration: none;
 }

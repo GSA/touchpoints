@@ -2,6 +2,7 @@
 
 <form
   action="<%= root_url %>touchpoints/<%= form.present? ? form.short_uuid : nil %>/submissions.json"
+  class="usa-form usa-form--large"
   method="POST">
   <div class="touchpoints-form-body">
     <%= hidden_field_tag :authenticity_token, form_authenticity_token if form.verify_csrf? -%>
