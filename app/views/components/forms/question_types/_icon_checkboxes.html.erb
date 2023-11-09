@@ -1,6 +1,6 @@
 <fieldset class="usa-fieldset margin-top-3">
   <%= render 'components/question_title_legend', question: question %>
-  <div class="question-options icons" id="<%= question.answer_field.to_sym %>">
+  <div class="question-options icons margin-top-2" id="<%= question.answer_field.to_sym %>">
     <ul class="usa-card-group">
     <% question.question_options.each_with_index do |option, index| %>
       <% @option_id = "#{question.answer_field}_#{(index + 1).to_s}" %>
