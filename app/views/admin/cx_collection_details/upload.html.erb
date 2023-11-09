@@ -1,0 +1,36 @@
+<% content_for :navigation_title do %>
+  <% if true || service_permissions?(service: @service) %>
+  <div class="float-right">
+    <%= link_to edit_admin_cx_collection_detail_path(@cx_collection_detail), class: "usa-button usa-button-inverted" do %>
+    <i class="fa fa-pencil-alt"></i>
+    Edit
+    <% end %>
+  </div>
+  <% end %>
+
+  CX Collection Detail
+<% end %>
+
+<%= form_with(model: @cx_collection_detail, url: (@cx_collection_detail.persisted? ? admin_cx_collection_detail_path(@cx_collection_detail) : admin_cx_collection_details_path) ) do |form| %>
+  <% if @cx_collection_detail.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@cx_collection_detail.errors.count, "error") %> prohibited this cx_collection_detail from being saved:</h2>
+
+      <ul>
+        <% @cx_collection_detail.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="usa-form-group">
+    <%= form.label :logo_display, "Upload CX Data Collection", class: "usa-label text-uppercase font-body-3xs",
+    for: "file-input-single" %>
+    <%= form.file_field :logo, class: "usa-file-input display-logo", data_url: "" %>
+  </div>
+
+  <p>
+    <%= form.submit class: "usa-button" %>
+  </p>
+<% end %>

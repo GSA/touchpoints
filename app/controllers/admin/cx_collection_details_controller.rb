@@ -1,6 +1,6 @@
 class Admin::CxCollectionDetailsController < AdminController
-  before_action :set_cx_collection_detail, only: %i[ show edit update destroy ]
-  before_action :set_cx_collections, only: %i[ new edit ]
+  before_action :set_cx_collection_detail, only: %i[ show edit upload update destroy ]
+  before_action :set_cx_collections, only: %i[ new edit upload ]
 
   def index
     @cx_collection_details = CxCollectionDetail.all
@@ -15,6 +15,9 @@ class Admin::CxCollectionDetailsController < AdminController
   end
 
   def edit
+  end
+
+  def upload
   end
 
   def create
