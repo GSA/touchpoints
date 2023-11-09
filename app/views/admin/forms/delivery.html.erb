@@ -94,6 +94,12 @@
           <div class="grid-col-6">
             <div class="field">
               <%= f.label :verify_csrf, class: "usa-label" %>
+              <div class="usa-hint font-sans-2xs">
+                CSRF stands for "Cross-site Request Forgery"
+                With `verify_csrf` enabled, Form Submissions
+                must include an authenticity token when created.
+                This setting should be enabled for Touchpoints-hosted forms.
+              </div>
               <%= f.check_box :verify_csrf, class: "usa-checkbox" %>
             </div>
           </div>

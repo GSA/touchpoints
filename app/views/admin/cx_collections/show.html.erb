@@ -35,23 +35,24 @@
 <p class="text-uppercase font-body-3xs">
   About this data collection
 </p>
-<div class="usa-alert">
-  <div class="usa-alert__body">
-    <p class="usa-alert__text">
-      CX Customer Experience reporting is described in
-      <a href="https://www.performance.gov/cx/assets/files/2022-OMB-Circular-A11-Section-280.pdf"
-        target="_blank" rel="noopener">OMB Circular A-11, Section 280</a>.
-    </p>
-    <p class="usa-alert__text">
-      Each quarter, OMB coordinates this data collection from all HISPs.
-      This data will be summarized and reported on
-      <a href="https://performance.gov/cx/" target="_blank" rel="noopener">performance.gov/cx</a>.
-    </p>
-  </div>
-</div>
 
 <div class="grid-row grid-gap-lg">
   <div class="tablet:grid-col-8 padding-top-2">
+    <div class="usa-alert margin-bottom-3">
+      <div class="usa-alert__body">
+        <p class="usa-alert__text">
+          CX Customer Experience reporting is described in
+          <a href="https://www.performance.gov/cx/assets/files/2022-OMB-Circular-A11-Section-280.pdf"
+            target="_blank" rel="noopener">OMB Circular A-11, Section 280</a>.
+        </p>
+        <p class="usa-alert__text">
+          Each quarter, OMB coordinates this data collection from all HISPs.
+          This data will be summarized and reported on
+          <a href="https://performance.gov/cx/" target="_blank" rel="noopener">performance.gov/cx</a>.
+        </p>
+      </div>
+    </div>
+
     <div class="text-uppercase font-body-3xs">
       General information
     </div>
@@ -104,7 +105,8 @@
       <ul class="usa-list">
       <% @cx_collection.cx_collection_details.order(:channel).each do |cx_collection| %>
         <li>
-          <%= link_to ("#{cx_collection.try(:service).try(:name)}"), admin_cx_collection_detail_path(cx_collection) %>
+          <%= link_to ("#{cx_collection.try(:service).try(:name)}"), admin_cx_collection_detail_path(cx_collection) %> &middot;
+          <%= cx_collection.channel %>
         </li>
       <% end %>
       </ul>

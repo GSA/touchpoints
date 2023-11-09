@@ -1,6 +1,6 @@
 <% content_for :navigation_title do %>
   Website: <%= @website.domain %>
-  <% if @website.admin?(user: current_user) %>
+  <% if @website.can_manage?(user: current_user) %>
     <%= link_to edit_admin_website_path(@website), class: "usa-button usa-button-inverted float-right" do %>
       <i class="fa fa-pencil-alt"></i>
       Edit
