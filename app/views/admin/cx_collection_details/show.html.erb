@@ -1,6 +1,10 @@
 <% content_for :navigation_title do %>
   <% if true || service_permissions?(service: @service) %>
   <div class="float-right">
+    <%= link_to upload_admin_cx_collection_detail_path(@cx_collection_detail), class: "usa-button usa-button-inverted" do %>
+      <i class="fa fa-upload"></i>
+      Upload
+    <% end %>
     <%= link_to edit_admin_cx_collection_detail_path(@cx_collection_detail), class: "usa-button usa-button-inverted" do %>
     <i class="fa fa-pencil-alt"></i>
     Edit

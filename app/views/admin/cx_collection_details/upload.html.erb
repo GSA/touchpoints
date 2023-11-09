@@ -8,8 +8,15 @@
   </div>
   <% end %>
 
-  CX Collection Detail
+  Upload CX Collection Data
 <% end %>
+
+<p>
+  <%= link_to admin_cx_collection_detail_path(@cx_collection_detail) do %>
+  <i class="fa fa-arrow-circle-left"></i>
+  Back to CX Data Collection Detail
+  <% end %>
+</p>
 
 <%= form_with(model: @cx_collection_detail, url: (@cx_collection_detail.persisted? ? admin_cx_collection_detail_path(@cx_collection_detail) : admin_cx_collection_details_path) ) do |form| %>
   <% if @cx_collection_detail.errors.any? %>
