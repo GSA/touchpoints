@@ -78,7 +78,7 @@ class Website < ApplicationRecord
     'Hybrid' => 'Managed by GSA in partnership with another agency or business partner; gov-wide or collaborative',
     'External' => 'Managed by GSA on behalf of another agency or business partner; not related to GSA business',
   }.freeze
-  
+
   BACKLOG_TOOLS = {
     'Document' => 'Document',
     'GitHub' => 'GitHub',
@@ -171,6 +171,13 @@ class Website < ApplicationRecord
       site_owner_email == user.email
   end
 
+  def can_manage?(user:)
+    raise ArgumentException unless user.instance_of?(User)
+
+    admin?(user: user) ||
+      self.website_managers.collect(&:email).include?(user.email)
+  end
+
   def blankFields
     Website.column_names.select { |cn| send(cn).blank? }
   end
@@ -237,7 +244,7 @@ class Website < ApplicationRecord
 
       # create a list of email addresses for website owners
       unique_user_emails = @websites.collect(&:site_owner_email).uniq.sort
-      
+
       # send each website owner an email with their list of websites, for action
       unique_user_emails.each do |email|
         user_websites = Website.where(site_owner_email: email)
