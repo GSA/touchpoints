@@ -849,14 +849,6 @@
   line-height:1.26796;
 }
 
-
-
-.fba-modal-dialog .usa-radio__input:focus + .fba-modal-dialog .usa-radio__label::before{
-  outline:0.25rem solid #2491ff;
-  outline-offset:0.25rem;
-}
-
-
 .fba-modal-dialog .usa-memorable-date{
   display:flex;
 }
@@ -4145,18 +4137,12 @@
   display:none;
 }
 
-.fba-modal-dialog .usa-radio__input:checked+.usa-radio__label:before {
-    -webkit-box-shadow: 0 0 0 2px #005ea2, inset 0 0 0 2px #fff;
-    box-shadow: 0 0 0 2px #005ea2, inset 0 0 0 2px #fff;
-}
-
-
 /* TP-795 disable uswds v1 overrides */
-.fba-modal-dialog .usa-label, .fba-modal-dialog .usa-label-big {
+.fba-modal-dialog .usa-label,
+.fba-modal-dialog .usa-label-big {
   background-color: inherit;
   border-radius: inherit;
   color: inherit;
-  /*font-size: inherit; */
   margin-right: inherit;
   padding: inherit;
   text-transform: inherit;
@@ -4407,6 +4393,150 @@
     max-width:30rem;
   }
 }
+
+
+.fba-modal-dialog .usa-radio{
+  background:white;
+}
+
+.fba-modal-dialog .usa-radio__label{
+  color:#1b1b1b;
+}
+.fba-modal-dialog .usa-radio__label::before{
+  background:white;
+  box-shadow:0 0 0 2px #1b1b1b;
+}
+@media (forced-colors: active){
+  .fba-modal-dialog .usa-radio__label::before{
+    outline:2px solid transparent;
+    outline-offset:2px;
+  }
+}
+
+.fba-modal-dialog .usa-radio__input:checked + [class*=__label]::before{
+  background-color:#005ea2;
+  box-shadow:0 0 0 2px #005ea2;
+}
+.fba-modal-dialog .usa-radio__input:disabled + [class*=__label],
+.fba-modal-dialog .usa-radio__input[aria-disabled=true] + [class*=__label]{
+  color:#757575;
+}
+@media (forced-colors: active){
+  .fba-modal-dialog .usa-radio__input:disabled + [class*=__label],
+  .fba-modal-dialog .usa-radio__input[aria-disabled=true] + [class*=__label]{
+    color:GrayText;
+  }
+}
+.fba-modal-dialog .usa-radio__input:disabled + [class*=__label]::before,
+.fba-modal-dialog .usa-radio__input[aria-disabled=true] + [class*=__label]::before{
+  background-color:white;
+  box-shadow:0 0 0 2px #757575;
+}
+.fba-modal-dialog .usa-radio__input--tile + [class*=__label]{
+  background-color:white;
+  border:2px solid #c9c9c9;
+  color:#1b1b1b;
+}
+.fba-modal-dialog .usa-radio__input--tile:checked + [class*=__label]{
+  background-color:rgba(0, 94, 162, 0.1);
+  border-color:#005ea2;
+}
+@media (forced-colors: active){
+  .fba-modal-dialog .usa-radio__input--tile:checked + [class*=__label]{
+    border:ButtonText solid 0.25rem;
+  }
+}
+.fba-modal-dialog .usa-radio__input--tile:disabled + [class*=__label],
+.fba-modal-dialog .usa-radio__input--tile[aria-disabled=true] + [class*=__label]{
+  border-color:#e6e6e6;
+}
+.fba-modal-dialog .usa-radio__input--tile:disabled:checked + [class*=__label],
+.fba-modal-dialog .usa-radio__input--tile[aria-disabled=true]:checked + [class*=__label]{
+  background-color:white;
+}
+
+.fba-modal-dialog .usa-radio__input:checked + [class*=__label]::before{
+  box-shadow:0 0 0 2px #005ea2, inset 0 0 0 2px white;
+}
+@media (forced-colors: active){
+  .fba-modal-dialog .usa-radio__input:checked + [class*=__label]::before{
+    background-color:ButtonText;
+  }
+}
+.fba-modal-dialog .usa-radio__input:checked:disabled + [class*=__label]::before,
+.fba-modal-dialog .usa-radio__input:checked[aria-disabled=true] + [class*=__label]::before{
+  background-color:#757575;
+  box-shadow:0 0 0 2px #757575, inset 0 0 0 2px white;
+}
+@media (forced-colors: active){
+  .fba-modal-dialog .usa-radio__input:checked:disabled + [class*=__label]::before,
+  .fba-modal-dialog .usa-radio__input:checked[aria-disabled=true] + [class*=__label]::before{
+    background-color:GrayText;
+  }
+}
+
+.fba-modal-dialog .usa-radio__input{
+  position:absolute;
+  left:-999em;
+  right:auto;
+}
+.fba-modal-dialog .usa-radio__input:focus + [class*=__label]::before{
+  outline:0.25rem solid #2491ff;
+  outline-offset:0.25rem;
+}
+.fba-modal-dialog .usa-radio__input:disabled + [class*=__label]::before,
+.fba-modal-dialog .usa-radio__input[aria-disabled=true] + [class*=__label]::before{
+  cursor:not-allowed;
+}
+.fba-modal-dialog .usa-radio__input:disabled + [class*=__label],
+.fba-modal-dialog .usa-radio__input[aria-disabled=true] + [class*=__label]{
+  cursor:not-allowed;
+}
+.fba-modal-dialog .usa-radio__input--tile + [class*=__label]{
+  border-radius:0.25rem;
+  margin-top:0.5rem;
+  padding:0.75rem 1rem 0.75rem 2.5rem;
+}
+.fba-modal-dialog .usa-radio__input--tile + [class*=__label]::before{
+  left:0.5rem;
+}
+
+@media print{
+  .fba-modal-dialog .usa-radio__input:checked + [class*=__label]::before{
+    box-shadow:inset 0 0 0 2px white, inset 0 0 0 1rem #005ea2, 0 0 0 2px #005ea2;
+  }
+}
+
+.fba-modal-dialog .usa-radio__label{
+  cursor:pointer;
+  display:inherit;
+  font-weight:normal;
+  margin-top:0.75rem;
+  padding-left:2rem;
+  position:relative;
+}
+.fba-modal-dialog .usa-radio__label::before{
+  content:" ";
+  display:block;
+  left:0;
+  margin-left:2px;
+  margin-top:0.064rem;
+  position:absolute;
+}
+
+.fba-modal-dialog .usa-radio__label::before{
+  height:1.25rem;
+  border-radius:99rem;
+  width:1.25rem;
+}
+
+.fba-modal-dialog .usa-radio__label-description{
+  display:block;
+  font-size:0.93rem;
+  margin-top:0.5rem;
+}
+
+
 
 /* Override */
 .fba-modal-dialog .usa-form {
