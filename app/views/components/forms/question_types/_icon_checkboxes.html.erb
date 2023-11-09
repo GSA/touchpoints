@@ -1,39 +1,35 @@
-<fieldset class="usa-fieldset">
-  <legend class="usa-sr-only"><%= question.text %></legend>
-  <%= render 'components/question_title', question: question %>
-  <div class="question-options icons" id="<%= question.answer_field.to_sym %>">
-    <div class="grid-row grid-gap-lg">
-      <% question.question_options.each_with_index do |option, index| %>
-      <div class="grid-col">
-        <div class="usa-checkbox"
-          id="<%= dom_id(option) %>"
-          data-id="<%= option.id %>"
-          <% if question.help_text.present? %>
-          aria-describedby="<%= "question-id-#{question.id}-help-text" %>"
-          <% end -%>
-        >
+<fieldset class="usa-fieldset margin-top-3">
+  <%= render 'components/question_title_legend', question: question %>
+  <div class="question-options icons margin-top-2" id="<%= question.answer_field.to_sym %>">
+    <ul class="usa-card-group">
+    <% question.question_options.each_with_index do |option, index| %>
+      <% @option_id = "#{question.answer_field}_#{(index + 1).to_s}" %>
 
-          <% @option_id = "#{question.answer_field}_#{(index + 1).to_s}" %>
+      <li class="usa-card tablet:grid-col-3">
+        <div class="usa-card__container usa-checkbox">
+          <div class="usa-card__body"
+            id="<%= dom_id(option) %>"
+            data-id="<%= option.id %>"
+            <% if question.help_text.present? %>
+            aria-describedby="<%= "question-id-#{question.id}-help-text" %>"
+            <% end -%>
+          >
+          </div>
           <%= check_box_tag(@option_id, option.value, false, { name: question.answer_field, class: "usa-checkbox__input usa-checkbox__input--tile", required: question.is_required }) %>
           <%= label_tag(nil, for: @option_id, class: "usa-checkbox__label") do %>
-            <svg class="usa-icon font-sans-3xl" aria-hidden="true" focusable="false" role="img">
-              <use xlink:href="<%= asset_path "sprite.svg#alarm" %>"></use>
-            </svg>
-            <br>
-            <span style="margin-bottom: 40px; display: block;">
-              <%= option.text %>
-            </span>
+            <div class="text-center width-full">
+              <svg class="usa-icon font-sans-3xl" aria-hidden="true" focusable="false" role="img">
+                <use xlink:href="<%= asset_path "sprite.svg#alarm" %>"></use>
+              </svg>
+              <br>
+              <div style="margin-bottom: 40px; display: block;">
+                <%= option.text %>
+              </div>
+            </div>
           <% end %>
-
-          <% if ["OTHER", "OTRO"].include?(option.text.upcase) %>
-            <%= label_tag(nil, for: "#{question.answer_field}_other", class: "usa-input__label") do %><%= t 'form.enter_other_text' %><% end %>
-            <input type="text" name="<%= question.answer_field %>_other" id="<%= question.answer_field %>_other" data-option-id="<%= @option_id %>" placeholder="<%= t 'form.enter_other_text' %>" class="usa-input other-option" />
-            <br>
-          <% end %>
-
         </div>
-      </div>
-      <% end %>
-    </div>
+      </li>
+    <% end %>
+    </ul>
   </div>
 </fieldset>

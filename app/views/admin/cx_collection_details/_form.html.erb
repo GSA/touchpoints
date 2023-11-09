@@ -21,11 +21,6 @@
   </div>
 
   <div>
-    <%= form.label :service_id, class: "usa-label" %>
-    <%= form.select :service_id, Service.all.includes(:organization).map { |h| ["#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, { class: "usa-select", required: true } %>
-  </div>
-
-  <div>
     <%= form.label :transaction_point, class: "usa-label" %>
     <%= form.select :transaction_point,
       [:post_interaction, :post_service_journey, :relational],

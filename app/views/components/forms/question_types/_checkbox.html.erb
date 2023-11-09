@@ -1,6 +1,5 @@
-<fieldset class="usa-fieldset">
-  <legend class="usa-sr-only"><%= question.text %></legend>
-  <%= render 'components/question_title', question: question %>
+<fieldset class="usa-fieldset margin-top-3">
+  <%= render 'components/question_title_legend', question: question %>
   <div class="question-options" id="<%= question.answer_field.to_sym %>">
     <% question.question_options.each_with_index do |option, index| %>
     <div class="usa-checkbox"
