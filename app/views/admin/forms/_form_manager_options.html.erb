@@ -68,10 +68,8 @@
     </div>
     <div class="grid-col-6">
       <div class="field usa-form-group">
-        <%= f.label :expiration_date, class: "usa-label", id: "expiration-date-label" %>
-        <div class="usa-date-picker" data-default-value="<%= form.expiration_date %>">
-          <input type="text" name="form[expiration_date]" id="form_expiration_date" placeholder="mm/dd/yyyy" class="usa-input" aria-described-by="expiration-date-label" />
-        </div>
+        <%= f.label :expiration_date, class: "usa-label" %>
+        <%= f.text_field :expiration_date, class: "usa-input" %>
       </div>
     </div>
     <p>
