@@ -2,6 +2,7 @@
 
 <form
   action="<%= root_url %>touchpoints/<%= form.present? ? form.short_uuid : nil %>/submissions.json"
+  class="usa-form usa-form--large"
   method="POST">
   <div class="touchpoints-form-body">
     <%= hidden_field_tag :authenticity_token, form_authenticity_token if form.verify_csrf? -%>
@@ -9,6 +10,7 @@
     <input type="text"
       name="fba_directive"
       id="fba_directive"
+      title="fba_directive"
       aria-hidden="true"
       style="display:none !important"
       tabindex="-1"
@@ -106,9 +108,7 @@
           </div>
         <% end %>
         <%- if section == form.form_sections.last && !form.suppress_submit_button %>
-          <p class="submit-button">
-            <button type="submit" class="usa-button submit_form_button"><%= t 'form.submit' %></button>
-          </p>
+          <button type="submit" class="usa-button submit_form_button"><%= t 'form.submit' %></button>
         <% end %>
       </div>
     <% end %>

@@ -136,10 +136,6 @@ footer {
    margin-top: 0;
 }
 
-.submit-button {
-  padding: 1em 0;
-}
-
 .touchpoints-form-wrapper div[role='group'] {
   margin: 7px 0;
 }
@@ -238,10 +234,6 @@ tbody tr:hover td {
 
 .light-bg {
   background-color: #F0F0F0;
-}
-
-.white-bg {
-  background-color: #white;
 }
 
 // Override styles for the float menus on /admin/forms
@@ -472,7 +464,7 @@ span.usa-hint.save-notice {
   border-bottom: 1px solid #E5E5E5;
 
   .inner-wrapper {
-    padding: 20px 20px 0 20px;
+    padding: 0 20px 0 20px;
   }
   .section .questions .question:first-child {
     margin-top: 0;
@@ -509,7 +501,7 @@ span.usa-hint.save-notice {
 
   // Same max-width as texarea
   .question-options.big-thumbs {
-    max-width: 30rem;
+    max-width: 35rem;
   }
   .question-options.big-thumbs .usa-radio__input--tile+.usa-radio__label {
     color: #005ea2;
@@ -597,4 +589,22 @@ table .no-wrap {
     border: none;
     background: none;
   }
+}
+
+.question-options.icons {
+  .usa-checkbox__label {
+    border: none;
+  }
+
+  .usa-card__body {
+    padding-top: 0;
+  }
+}
+
+.question-options {
+  max-width: 30rem;
+}
+
+abbr[title=required] {
+  text-decoration: none;
 }

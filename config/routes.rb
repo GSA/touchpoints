@@ -142,7 +142,11 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :cx_collection_details
+    resources :cx_collection_details do
+      member do
+        get 'upload', to: 'cx_collection_details#upload', as: :upload
+      end
+    end
 
     resources :collections do
       collection do

@@ -167,7 +167,7 @@ class ApplicationController < ActionController::Base
     return false if website.blank?
     return false if user.blank?
 
-    website.admin?(user:)
+    website.can_manage?(user:)
   end
 
   helper_method :organizational_website_manager_permissions?
