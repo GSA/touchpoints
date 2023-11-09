@@ -583,7 +583,7 @@ feature 'Forms', js: true do
         describe 'editing a Form pra info' do
           before do
             fill_in 'form_omb_approval_number', with: 'OAN-1234'
-            fill_in 'form_expiration_date', with: '01/30/2022'
+            fill_in 'form_expiration_date', with: '2022-01-30'
             click_on 'Update Form Options'
             expect(page).to have_content('Form Manager forms options updated successfully')
           end
@@ -592,7 +592,7 @@ feature 'Forms', js: true do
             visit admin_form_path(form)
             expect(page.current_path).to eq(admin_form_path(form))
             expect(find('#form_omb_approval_number').value).to match('OAN-1234')
-            expect(find('#form_expiration_date').value).to eq('01/30/2022')
+            expect(find('#form_expiration_date').value).to eq('2022-01-30')
           end
         end
 
