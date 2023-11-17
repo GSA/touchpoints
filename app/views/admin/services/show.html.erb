@@ -69,16 +69,15 @@
       <%= @service.year_designated? ? @service.year_designated : "---" %>
     </p>
     <p>
-      <strong>Description</strong>
-      <br>
-      <%= @service.description? ? to_markdown(@service.description) : "---" %>
-    </p>
-    <p>
       <strong>Short Description</strong>
       <br>
       <%= @service.short_description? ? to_markdown(@service.short_description) : "---" %>
     </p>
-
+    <p>
+      <strong>Description</strong>
+      <br>
+      <%= @service.description? ? to_markdown(@service.description) : "---" %>
+    </p>
     <p>
       <strong>Service type</strong>
       <br>
