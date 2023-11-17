@@ -1383,6 +1383,7 @@ feature 'Forms', js: true do
             fill_in 'question_text', with: 'Question in Form Section 1'
             select('text_field', from: 'question_question_type')
             click_on 'Update Question'
+            expect(page).to have_css(".usa-tag", text: "ANSWER_02")
             # Select the Add Question button in the 2nd Form Section
             visit questions_admin_form_path(form2)
             expect(find_all('.form-add-question').size).to eq(2)
