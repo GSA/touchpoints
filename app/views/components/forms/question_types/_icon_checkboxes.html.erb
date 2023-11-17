@@ -19,7 +19,17 @@
           <%= label_tag(nil, for: @option_id, class: "usa-checkbox__label") do %>
             <div class="text-center width-full">
               <svg class="usa-icon font-sans-3xl" aria-hidden="true" focusable="false" role="img">
-                <use xlink:href="<%= asset_path "sprite.svg#alarm" %>"></use>
+                <% if option.value == "effectiveness" %>
+                <use xlink:href="<%= asset_path "sprite.svg#check" %>"></use>
+                <% elsif option.value == "efficiency" %>
+                <use xlink:href="<%= asset_path "sprite.svg#timer" %>"></use>
+                <% elsif option.value == "ease" %>
+                <use xlink:href="<%= asset_path "sprite.svg#folder_open" %>"></use>
+                <% elsif option.value == "transparency" %>
+                <use xlink:href="<%= asset_path "sprite.svg#lightbulb_outline" %>"></use>
+                <% else %>
+                <use xlink:href="<%= asset_path "sprite.svg#info_outline" %>"></use>
+                <% end %>
               </svg>
               <br>
               <div style="margin-bottom: 40px; display: block;">

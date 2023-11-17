@@ -1,4 +1,4 @@
-<%= form_with(model: cx_collection, url: (cx_collection.persisted? ? admin_cx_collection_path(cx_collection) : admin_cx_collections_path), local: true, data: { turbo: false }) do |form| %>
+<%= form_with(model: cx_collection, url: (cx_collection.persisted? ? admin_cx_collection_path(cx_collection) : admin_cx_collections_path), class: "usa-form", local: true, data: { turbo: false }) do |form| %>
   <% if cx_collection.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(cx_collection.errors.count, "error") %> prohibited this cx_collection from being saved:</h2>
@@ -27,7 +27,7 @@
 
   <div class="field">
     <%= form.label :service_provider_id, "HISP Service Provider", class: "usa-label" %>
-    <%= form.select :service_provider_id, ServiceProvider.all.includes(:organization).map { |h| ["#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, { class: "usa-select", required: true } %>
+    <%= form.select :service_provider_id, ServiceProvider.all.includes(:organization).order("organizations.abbreviation", :name).map { |h| ["#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, { class: "usa-select", required: true } %>
   </div>
 
   <div class="field">
@@ -37,12 +37,12 @@
 
   <div class="field">
     <%= form.label :fiscal_year, class: "usa-label" %>
-    <%= form.text_field :fiscal_year, class: "usa-input", required: true %>
+    <%= form.select :fiscal_year, options_for_select([2024, 2025], 2024), {}, class: "usa-select", required: true %>
   </div>
 
   <div class="field">
     <%= form.label :quarter, class: "usa-label" %>
-    <%= form.number_field :quarter, class: "usa-input", required: true, min: 1, max: 4 %>
+    <%= form.select :quarter, options_for_select([1, 2, 3, 4]), {}, class: "usa-select", required: true %>
   </div>
 
   <div class="field usa-form-group">
@@ -62,7 +62,7 @@
   <div class="field">
     <%= form.label :reflection, 'Reflection text', class: "usa-label" %>
     <div class="usa-hint font-sans-3xs margin-bottom-1">
-      Please limit to 100 words.
+      Tell us what customer service improvements you were able to complete based on this quarter’s survey results. Please limit to 150 words.
     </div>
     <%= form.text_area :reflection, class: "usa-textarea" %>
   </div>
@@ -76,6 +76,17 @@
   <div class="field">
     <%= form.label :rating, class: "usa-label" %>
     <%= form.select :rating, rating_options, { include_blank: true }, { class: "usa-select" } %>
+  </div>
+  <% end %>
+
+  <% if !cx_collection.persisted? %>
+  <br>
+  <div class="usa-alert usa-alert--info usa-alert--slim font-sans-2xs">
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        After creating this collection, you can add survey results in the following screen.
+      </p>
+    </div>
   </div>
   <% end %>
 
