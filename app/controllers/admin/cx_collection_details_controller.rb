@@ -26,8 +26,8 @@ class Admin::CxCollectionDetailsController < AdminController
 
     respond_to do |format|
       if @cx_collection_detail.save
-        format.html { redirect_to admin_cx_collection_detail_url(@cx_collection_detail), notice: "Cx collection detail was successfully created." }
-        format.json { render :show, status: :created, location: @cx_collection_detail }
+        format.html { redirect_to upload_admin_cx_collection_detail_url(@cx_collection_detail), notice: "CX Collection Detail was successfully created." }
+        format.json { render :upload, status: :created, location: @cx_collection_detail }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @cx_collection_detail.errors, status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class Admin::CxCollectionDetailsController < AdminController
   def update
     respond_to do |format|
       if @cx_collection_detail.update(cx_collection_detail_params)
-        format.html { redirect_to admin_cx_collection_detail_url(@cx_collection_detail), notice: "Cx collection detail was successfully updated." }
+        format.html { redirect_to admin_cx_collection_detail_url(@cx_collection_detail), notice: "CX Collection Detail was successfully updated." }
         format.json { render :show, status: :ok, location: @cx_collection_detail }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -51,7 +51,7 @@ class Admin::CxCollectionDetailsController < AdminController
     @cx_collection_detail.destroy
 
     respond_to do |format|
-      format.html { redirect_to cx_collection_details_url, notice: "Cx collection detail was successfully destroyed." }
+      format.html { redirect_to cx_collection_details_url, notice: "CX Collection Detail was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -84,7 +84,7 @@ class Admin::CxCollectionDetailsController < AdminController
 
     def set_cx_collections
       if service_manager_permissions?
-        @cx_collections = CxCollection.all.includes(:organization)
+        @cx_collections = CxCollection.all.includes(:organization).order('organizations.abbreviation')
       else
         @cx_collections = current_user.organization.cx_collections
       end

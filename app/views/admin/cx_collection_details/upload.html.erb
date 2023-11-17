@@ -11,11 +11,27 @@
   Upload CX Collection Data
 <% end %>
 
-<p>
+<div class="usa-prose">
   <%= link_to admin_cx_collection_detail_path(@cx_collection_detail) do %>
   <i class="fa fa-arrow-circle-left"></i>
   Back to CX Data Collection Detail
   <% end %>
+</div>
+
+<p>
+  Before you attach your survey dataset below.
+  <br>
+  Please review this checklist and make sure the excel meet these formatting requirements:
+  <br>
+  Is it named correctly. Examples -
+  <br>
+  Is it a CSV formatted file?
+  <br>
+  Are the 14 columns?
+  <br>
+  Is each row a response to the feedback survey.
+  Does it generally look like
+  <%= link_to "this", "https://github.com/gsa/touchpoints/wiki/" %>?
 </p>
 
 <%= form_with url: post_csv_admin_cx_collection_detail_path, method: :post, local: true, multipart: true do |form| %>

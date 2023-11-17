@@ -172,23 +172,19 @@
     </p>
 
     <p>
-      <strong>Service Homepage URL</strong>
-      <br>
-      <%= link_to @service.homepage_url, @service.homepage_url %>
+      <%= label_tag :homepage_url, "Service Homepage URL", class: "usa-label" %>
+      <%= text_field_tag :homepage_url, @service.homepage_url, class: "usa-input", disabled: true %>
     </p>
     <p>
-      <strong>Service URL</strong>
-      <br>
-      <%= link_to @service.url, @service.url %>
+      <%= label_tag :url, "Service URL", class: "usa-label" %>
+      <%= text_field_tag :url, @service.url, class: "usa-input", disabled: true %>
     </p>
     <p>
-      <strong>What is the estimated annual customer volume?</strong>
-      <br>
-      <%= @service.estimated_annual_volume_of_customers %>
+      <%= label_tag :estimated_annual_volume_of_customers, "What is the estimated annual customer volume?", class: "usa-label" %>
+      <%= text_field_tag :estimated_annual_volume_of_customers, @service.estimated_annual_volume_of_customers, class: "usa-input", disabled: true %>
     </p>
     <p>
-      <strong>Notes</strong>
-      <br>
+      <%= label_tag :notes, nil, class: "usa-label" %>
       <%= to_markdown(@service.notes) || "empty" %>
     </p>
 
