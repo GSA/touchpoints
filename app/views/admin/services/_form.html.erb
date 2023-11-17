@@ -240,16 +240,6 @@
 
         <% if service.persisted? && admin_permissions? %>
         <div class="field">
-          <%= form.label :department, class: "usa-label" %>
-          <%= form.text_field :department, class: "usa-input", placeholder: "Department" %>
-        </div>
-
-        <div class="field">
-          <%= form.label :bureau, class: "usa-label" %>
-          <%= form.text_field :bureau, class: "usa-input", placeholder: "Bureau" %>
-        </div>
-
-        <div class="field">
           <%= form.label :service_abbreviation, class: "usa-label" %>
           <%= form.text_field :service_abbreviation, class: "usa-input", placeholder: "service_abbreviation" %>
         </div>
