@@ -55,7 +55,7 @@
       <label class="usa-label text-uppercase font-body-3xs" for="disclaimer-text">
         Disclaimer text
       </label>
-      <small class="fba-dialog-privacy">
+      <div class="fba-dialog-privacy font-sans-3xs">
         <div class="fba-disclaimer-text">
           <textarea id="disclaimer_text"
             class="usa-textarea countable"
@@ -73,7 +73,7 @@
             <%= form.disclaimer_text.present? ? sanitize(form.disclaimer_text) : 'Survey Disclaimer Text' %>
           </div>
         </div>
-      </small>
+      </div>
     </div>
   </div>
 </div>
