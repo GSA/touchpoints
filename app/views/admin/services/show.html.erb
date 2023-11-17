@@ -69,16 +69,15 @@
       <%= @service.year_designated? ? @service.year_designated : "---" %>
     </p>
     <p>
-      <strong>Description</strong>
-      <br>
-      <%= @service.description? ? to_markdown(@service.description) : "---" %>
-    </p>
-    <p>
       <strong>Short Description</strong>
       <br>
       <%= @service.short_description? ? to_markdown(@service.short_description) : "---" %>
     </p>
-
+    <p>
+      <strong>Description</strong>
+      <br>
+      <%= @service.description? ? to_markdown(@service.description) : "---" %>
+    </p>
     <p>
       <strong>Service type</strong>
       <br>
@@ -172,23 +171,19 @@
     </p>
 
     <p>
-      <strong>Service Homepage URL</strong>
-      <br>
-      <%= link_to @service.homepage_url, @service.homepage_url %>
+      <%= label_tag :homepage_url, "Service Homepage URL", class: "usa-label" %>
+      <%= text_field_tag :homepage_url, @service.homepage_url, class: "usa-input", disabled: true %>
     </p>
     <p>
-      <strong>Service URL</strong>
-      <br>
-      <%= link_to @service.url, @service.url %>
+      <%= label_tag :url, "Service URL", class: "usa-label" %>
+      <%= text_field_tag :url, @service.url, class: "usa-input", disabled: true %>
     </p>
     <p>
-      <strong>What is the estimated annual customer volume?</strong>
-      <br>
-      <%= @service.estimated_annual_volume_of_customers %>
+      <%= label_tag :estimated_annual_volume_of_customers, "What is the estimated annual customer volume?", class: "usa-label" %>
+      <%= text_field_tag :estimated_annual_volume_of_customers, @service.estimated_annual_volume_of_customers, class: "usa-input", disabled: true %>
     </p>
     <p>
-      <strong>Notes</strong>
-      <br>
+      <%= label_tag :notes, nil, class: "usa-label" %>
       <%= to_markdown(@service.notes) || "empty" %>
     </p>
 
@@ -251,22 +246,12 @@
     </div>
     <% end %>
 
-    <div class="well">
+    <div class="well margin-top-1">
       <div class="font-sans-2xs">
         This information is for
         <a href="https://www.performance.gov/cx/" target="_blank" rel="noopener">performance.gov</a>
         reporting purposes.
       </div>
-      <p>
-        <strong>Department</strong>
-        <br>
-        <%= @service.department %>
-      </p>
-      <p>
-        <strong>Bureau</strong>
-        <br>
-        <%= @service.bureau %>
-      </p>
       <p>
         <strong>Service abbreviation</strong>
         <br>

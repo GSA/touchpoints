@@ -1,5 +1,5 @@
 class Admin::CxCollectionDetailsController < AdminController
-  before_action :set_cx_collection_detail, only: %i[ show edit upload update destroy ]
+  before_action :set_cx_collection_detail, only: %i[ show edit upload upload_csv update destroy ]
   before_action :set_cx_collections, only: %i[ new edit upload ]
 
   def index
@@ -26,8 +26,8 @@ class Admin::CxCollectionDetailsController < AdminController
 
     respond_to do |format|
       if @cx_collection_detail.save
-        format.html { redirect_to admin_cx_collection_detail_url(@cx_collection_detail), notice: "Cx collection detail was successfully created." }
-        format.json { render :show, status: :created, location: @cx_collection_detail }
+        format.html { redirect_to upload_admin_cx_collection_detail_url(@cx_collection_detail), notice: "CX Collection Detail was successfully created." }
+        format.json { render :upload, status: :created, location: @cx_collection_detail }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @cx_collection_detail.errors, status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class Admin::CxCollectionDetailsController < AdminController
   def update
     respond_to do |format|
       if @cx_collection_detail.update(cx_collection_detail_params)
-        format.html { redirect_to admin_cx_collection_detail_url(@cx_collection_detail), notice: "Cx collection detail was successfully updated." }
+        format.html { redirect_to admin_cx_collection_detail_url(@cx_collection_detail), notice: "CX Collection Detail was successfully updated." }
         format.json { render :show, status: :ok, location: @cx_collection_detail }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -51,9 +51,30 @@ class Admin::CxCollectionDetailsController < AdminController
     @cx_collection_detail.destroy
 
     respond_to do |format|
-      format.html { redirect_to cx_collection_details_url, notice: "Cx collection detail was successfully destroyed." }
+      format.html { redirect_to cx_collection_details_url, notice: "CX Collection Detail was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  # Handle a large-ish csv upload (5+ MB) to S3
+  def upload_csv
+    file = params[:file] # Assuming the file comes from a form field named 'file'
+    bucket = ENV.fetch("S3_UPLOADS_AWS_BUCKET_NAME")
+
+    s3 = Aws::S3::Resource.new
+    key = "cx_data_collections/cx-upload-#{Time.now.to_i}-#{file.original_filename}}"
+    obj = s3.bucket(bucket).object(file.original_filename)
+    # Upload the file
+    response = obj.upload_file(file.path)
+
+    CxCollectionDetailUpload.create!({
+      user_id: current_user.id,
+      cx_collection_detail_id: @cx_collection_detail.id,
+      size: obj.size,
+      key: obj.key,
+    })
+
+    render :upload, message: 'File successfully uploaded'
   end
 
   private
@@ -63,7 +84,7 @@ class Admin::CxCollectionDetailsController < AdminController
 
     def set_cx_collections
       if service_manager_permissions?
-        @cx_collections = CxCollection.all.includes(:organization)
+        @cx_collections = CxCollection.all.includes(:organization).order('organizations.abbreviation')
       else
         @cx_collections = current_user.organization.cx_collections
       end
