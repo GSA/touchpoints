@@ -211,10 +211,10 @@ GEM
       ruby2_keywords
     erubi (1.12.0)
     excon (0.104.0)
-    factory_bot (6.2.1)
+    factory_bot (6.4.0)
       activesupport (>= 5.0.0)
-    factory_bot_rails (6.2.0)
-      factory_bot (~> 6.2.0)
+    factory_bot_rails (6.4.0)
+      factory_bot (~> 6.4)
       railties (>= 5.0.0)
     faraday (0.17.6)
       multipart-post (>= 1.2, < 3)
@@ -322,10 +322,10 @@ GEM
     newrelic_rpm (9.6.0)
       base64
     nio4r (2.5.9)
-    nokogiri (1.15.4)
+    nokogiri (1.15.5)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.15.4-x86_64-darwin)
+    nokogiri (1.15.5-x86_64-darwin)
       racc (~> 1.4)
     oauth2 (2.0.9)
       faraday (>= 0.17.3, < 3.0)
@@ -585,7 +585,7 @@ DEPENDENCIES
   database_cleaner
   devise (>= 4.8.1)
   dotenv-rails
-  factory_bot_rails
+  factory_bot_rails (>= 6.3.0)
   fog-aws (>= 3.15.0)
   image_processing (~> 1.12)
   importmap-rails (>= 1.2.0)
@@ -634,4 +634,4 @@ RUBY VERSION
    ruby 3.1.4p223
 
 BUNDLED WITH
-   2.3.12
+   2.3.26
