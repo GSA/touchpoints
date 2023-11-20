@@ -10,6 +10,7 @@ def set_s3!(vcap_services_json)
   s3_settings = vcap_services_json['s3']
   return false if s3_settings.blank?
 
+  # S3 Organization logos
   s3_credentials = s3_settings[0]['credentials']
   raise StandardError, 's3 credentials could not be derived from Cloud Foundry VCAP_SERVICES' if s3_credentials.blank?
 
@@ -21,6 +22,16 @@ def set_s3!(vcap_services_json)
   ENV['S3_AWS_REGION'] = s3_credentials['region']
   ENV['S3_AWS_BUCKET_NAME'] = s3_credentials['bucket']
   Rails.logger.debug 'Set S3_AWS... ENV variables via vcap_services.rb'
+
+  # S3 uploads
+  s3_upload_credentials = s3_settings[1]['credentials']
+  raise StandardError, 's3 credentials could not be derived from Cloud Foundry VCAP_SERVICES' if s3_upload_credentials.blank?
+
+  ENV['S3_UPLOADS_AWS_ACCESS_KEY_ID'] = s3_upload_credentials['access_key_id']
+  ENV['S3_UPLOADS_AWS_SECRET_ACCESS_KEY'] = s3_upload_credentials['secret_access_key']
+  ENV['S3_UPLOADS_AWS_REGION'] = s3_upload_credentials['region']
+  ENV['S3_UPLOADS_AWS_BUCKET_NAME'] = s3_upload_credentials['bucket']
+  Rails.logger.debug 'Set S3_UPLOADS_AWS... ENV variables via vcap_services.rb'
 end
 
 def set_redis!(vcap_services_json)

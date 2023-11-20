@@ -15,19 +15,20 @@
   <% end %>
 </p>
 
-<% if @service_provider.inactive? %>
-<div class="usa-alert usa-alert--warning">
-  <div class="usa-alert__body">
-    <h3 class="usa-alert__heading">Inactive</h3>
-    <p class="usa-alert__text">
-      This Service Provider is no longer active.
-    </p>
-  </div>
-</div>
-<% end %>
-
 <div class="grid-row grid-gap-lg">
   <div class="tablet:grid-col-8">
+
+    <% if @service_provider.inactive? %>
+    <div class="usa-alert usa-alert--warning">
+      <div class="usa-alert__body">
+        <h3 class="usa-alert__heading">Inactive</h3>
+        <p class="usa-alert__text">
+          This Service Provider is no longer active.
+        </p>
+      </div>
+    </div>
+    <% end %>
+
     <% if @service_provider.new? %>
     <p>
       <span class="usa-tag bg-primary-light">
@@ -97,21 +98,6 @@
       <p>
         <strong>Portfolio Manager Email:</strong>
         <%= @service_provider.portfolio_manager_email %>
-      </p>
-
-      <p>
-        <strong>Department:</strong>
-        <%= @service_provider.department %>
-      </p>
-
-      <p>
-        <strong>Department abbreviation:</strong>
-        <%= @service_provider.department_abbreviation %>
-      </p>
-
-      <p>
-        <strong>Bureau:</strong>
-        <%= @service_provider.bureau %>
       </p>
 
       <p>

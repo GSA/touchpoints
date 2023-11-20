@@ -1379,11 +1379,11 @@ feature 'Forms', js: true do
           before do
             visit questions_admin_form_path(form2)
             expect(page).to have_selector('.form-add-question', count: 2)
-
-            find_all('.form-add-question').first.click
+            find("#form_section_1").find('.form-add-question').click
             fill_in 'question_text', with: 'Question in Form Section 1'
             select('text_field', from: 'question_question_type')
             click_on 'Update Question'
+            expect(page).to have_css(".usa-tag", text: "ANSWER_02")
             # Select the Add Question button in the 2nd Form Section
             visit questions_admin_form_path(form2)
             expect(find_all('.form-add-question').size).to eq(2)

@@ -1,27 +1,27 @@
 <div id="service_provider_selector" data-url="<%= admin_service_provider_path(@service_provider) %>">
   <div class="grid-row">
     <div class="grid-col-12">
-      <h3>Service Provider Managers</h3>
+      <%= label_tag :portfolio_manager_email, "Service Provider Managers", class: "usa-label" %>
       <p class="service-manager-list">
-      <ul class="usa-list usa-list--unstyled">
-        <% @service_provider.service_provider_managers.each do |manager| %>
-        <li>
-          <span class="usa-tag">
-             <%= manager.email %>
-          </span>
-          &nbsp;
-          <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= manager.id %>">
-            <span class="fa fa-trash"></span>
-          </a>
-        </li>
-          <% end %>
-      </ul>
-      <p>
+        <ul class="usa-list usa-list--unstyled">
+          <% @service_provider.service_provider_managers.each do |manager| %>
+          <li>
+            <span class="usa-tag">
+              <%= manager.email %>
+            </span>
+            &nbsp;
+            <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= manager.id %>">
+              <span class="fa fa-trash"></span>
+            </a>
+          </li>
+            <% end %>
+        </ul>
+      </p>
+      <%= select_tag :service_manager_id,
+        options_for_select(@service_provider_manager_options.map { |u| [u.email, u.id] }),
+        { prompt: "Select a Manager", class: "usa-select add-service-manager" } %>
     </div>
   </div>
-  <%= select_tag :service_manager_id, 
-    options_for_select(@service_provider_manager_options.map { |u| [u.email, u.id] }), 
-    { prompt: "Select a Manager", class: "usa-select add-service-manager" } %>
 </div>
 
 <script>
@@ -53,6 +53,6 @@
         }
       });
     });
-    
+
   });
 </script>

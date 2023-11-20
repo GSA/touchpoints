@@ -1,9 +1,9 @@
 <% content_for :navigation_title do %>
   <% if true || service_permissions?(service: @service) %>
   <div class="float-right">
-    <%= link_to upload_admin_cx_collection_detail_path(@cx_collection_detail), class: "usa-button usa-button-inverted" do %>
+    <%= link_to upload_admin_cx_collection_detail_path(@cx_collection_detail), class: "usa-button usa-button--primary" do %>
       <i class="fa fa-upload"></i>
-      Upload
+      Upload Responses
     <% end %>
     <%= link_to edit_admin_cx_collection_detail_path(@cx_collection_detail), class: "usa-button usa-button-inverted" do %>
     <i class="fa fa-pencil-alt"></i>
@@ -44,7 +44,7 @@
 
 <p>
   <strong>Channel:</strong>
-  <%= @cx_collection_detail.transaction_point %>
+  <%= @cx_collection_detail.channel %>
 
 </p>
 
@@ -52,6 +52,9 @@
   <strong>Service stage:</strong>
   <% if @cx_collection_detail.service_stage %>
   <%= link_to(@cx_collection_detail.service_stage.name, admin_service_service_stage_path(@cx_collection_detail.service_stage)) || 'Select a Service Stage' %>
+  <% else %>
+    <%= link_to "Service Stage", admin_service_service_stages_path(@cx_collection_detail.service) %>
+    is not defined.
   <% end %>
 </p>
 
@@ -76,12 +79,6 @@
 <p>
   <strong>Omb control number:</strong>
   <%= @cx_collection_detail.omb_control_number %>
-</p>
-
-<p>
-  <strong>Federal register url:</strong>
-  <%= @cx_collection_detail.federal_register_url %>
-
 </p>
 
 <p>

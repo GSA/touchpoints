@@ -11,14 +11,30 @@
   Upload CX Collection Data
 <% end %>
 
-<p>
+<div class="usa-prose">
   <%= link_to admin_cx_collection_detail_path(@cx_collection_detail) do %>
   <i class="fa fa-arrow-circle-left"></i>
   Back to CX Data Collection Detail
   <% end %>
+</div>
+
+<p>
+  Before you attach your survey dataset below.
+  <br>
+  Please review this checklist and make sure the excel meet these formatting requirements:
+  <br>
+  Is it named correctly. Examples -
+  <br>
+  Is it a CSV formatted file?
+  <br>
+  Are the 14 columns?
+  <br>
+  Is each row a response to the feedback survey.
+  Does it generally look like
+  <%= link_to "this", "https://github.com/gsa/touchpoints/wiki/" %>?
 </p>
 
-<%= form_with(model: @cx_collection_detail, url: (@cx_collection_detail.persisted? ? admin_cx_collection_detail_path(@cx_collection_detail) : admin_cx_collection_details_path) ) do |form| %>
+<%= form_with url: post_csv_admin_cx_collection_detail_path, method: :post, local: true, multipart: true do |form| %>
   <% if @cx_collection_detail.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(@cx_collection_detail.errors.count, "error") %> prohibited this cx_collection_detail from being saved:</h2>
@@ -34,10 +50,48 @@
   <div class="usa-form-group">
     <%= form.label :logo_display, "Upload CX Data Collection", class: "usa-label text-uppercase font-body-3xs",
     for: "file-input-single" %>
-    <%= form.file_field :logo, class: "usa-file-input display-logo", data_url: "" %>
+    <%= form.file_field :file, class: "usa-file-input display-logo", data_url: "" %>
   </div>
 
   <p>
     <%= form.submit class: "usa-button" %>
   </p>
 <% end %>
+
+<% uploads = CxCollectionDetailUpload.where(cx_collection_detail_id: @cx_collection_detail.id) %>
+<table class="usa-table">
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>File path</th>
+      <th>Size</th>
+      <th>Timestamp</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% uploads.each do |upload| %>
+      <tr>
+        <td>
+          <%= upload.user.email %>
+        </td>
+        <td>
+          <%= link_to(upload.key, upload.key) %>
+        </td>
+        <td>
+          <%= upload.size %>
+        </td>
+        <td>
+          <%= upload.created_at %>
+        </td>
+        <td>
+          <%= link_to "Process responses file", admin_cx_collection_detail_path(@cx_collection_detail), method: :post %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<br>

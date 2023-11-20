@@ -145,6 +145,7 @@ Rails.application.routes.draw do
     resources :cx_collection_details do
       member do
         get 'upload', to: 'cx_collection_details#upload', as: :upload
+        post 'upload', to: 'cx_collection_details#upload_csv', as: :post_csv
       end
     end
 
