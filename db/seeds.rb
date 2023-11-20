@@ -134,9 +134,6 @@ service_provider_1 = ServiceProvider.create({
   name: 'Example HISP',
   description: 'Description for an example HISP',
   notes: 'notes for example HISP',
-  department: 'Example Department',
-  department_abbreviation: 'dept',
-  bureau: 'Example Bureau',
   slug: 'example-service1',
   new: false,
 })
@@ -146,9 +143,6 @@ service_provider_2 = ServiceProvider.create({
   name: 'Example High Impact Service Provider - example.gov',
   description: 'A Description of the Example HISP',
   notes: 'notes on the example.gov HISP',
-  department: 'Example',
-  department_abbreviation: 'ex',
-  bureau: 'CX Labs',
   slug: 'example-service2',
   new: false,
 })
@@ -158,9 +152,6 @@ service_provider_3 = ServiceProvider.create({
   name: 'GSA High Impact Service Provider - USA.gov',
   description: 'A Description of the USA.gov HISP',
   notes: 'notes on the usa.gov HISP',
-  department: 'General Services Administration',
-  department_abbreviation: 'gsa',
-  bureau: 'Technology Transformation Services',
   slug: 'gsa-usagov',
   new: true,
 })

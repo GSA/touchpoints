@@ -89,8 +89,8 @@
     </div>
 
     <div class="services border border-base-lighter padding-2 padding-top-0 padding-bottom-0 margin-top-3">
-      <h2>
-        Services
+      <h2 class="margin-top-2">
+        Collection details
         <small>
           (<%= @cx_collection.cx_collection_details.size %>)
         </small>
@@ -98,23 +98,41 @@
       <div class="usa-alert">
         <div class="usa-alert__body">
           <p class="usa-alert__text">
-            Add a Service detail reporting page for each touchpoint available within a HISP service.
+            Add a reporting page for each touchpoint available within a service.
           </p>
         </div>
       </div>
-      <ul class="usa-list">
-      <% @cx_collection.cx_collection_details.order(:channel).each do |cx_collection| %>
-        <li>
-          <%= link_to ("#{cx_collection.try(:service).try(:name)}"), admin_cx_collection_detail_path(cx_collection) %> &middot;
-          <%= cx_collection.channel %>
-        </li>
-      <% end %>
-      </ul>
-      <% if @cx_collection.draft? %>
+      <div class="margin-bottom-2">
+        <table class="usa-table usa-table--striped width-full">
+          <thead>
+            <tr>
+              <th>Service</th>
+              <th>Transaction point</th>
+              <th>Channel</th>
+            </tr>
+          </thead>
+          <tbody>
+          <% @cx_collection.cx_collection_details.order(:channel).each do |cx_collection| %>
+            <tr>
+              <td>
+                <%= cx_collection.try(:service).try(:name) %>
+              </td>
+              <td>
+                <%= link_to cx_collection.transaction_point, admin_cx_collection_detail_path(cx_collection) %>
+              </td>
+              <td>
+                <%= cx_collection.channel %>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <%- if @cx_collection.draft? %>
       <p>
         <%= link_to new_admin_cx_collection_detail_path(collection_id: @cx_collection.id), class: "usa-button usa-button--outline" do %>
           <i class="fa fa-plus"></i>
-          Add a Service to report on
+          Add detail record
         <% end %>
       </p>
       <% end %>
@@ -147,11 +165,8 @@
 
   </div>
   <div class="grid-col-4 well">
-    <br>
     <%= render 'components/step_indicator', collection: @cx_collection %>
     <p>
-      <%= label_tag :collection_status, nil, class: "usa-label" %>
-      <br>
       <%= render 'components/collection_status_tag', collection: @cx_collection %>
     </p>
     <p>

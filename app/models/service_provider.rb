@@ -42,7 +42,7 @@ class ServiceProvider < ApplicationRecord
         portfolio_manager_email
       ]
 
-      ServiceProvider.active
+      ServiceProvider
         .includes(:organization)
         .order('organizations.name', :name).each do |provider|
         csv << [

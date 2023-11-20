@@ -191,7 +191,7 @@ class Website < ApplicationRecord
   end
 
   def validate_domain_suffix
-    errors.add(:domain, 'domain must have a valid suffix, like .gov or .mil') unless domain.present? && APPROVED_DOMAINS.any? { |word| domain.end_with?(word) }
+    errors.add(:domain, 'domain must have a valid suffix, like .gov or .mil') unless domain.present? && APPROVED_WEBSITE_DOMAINS.any? { |word| domain.end_with?(word) }
   end
 
   def site_scanner_json_request

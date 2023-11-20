@@ -1,4 +1,4 @@
-<%= form_with(model: cx_collection_detail, url: (cx_collection_detail.persisted? ? admin_cx_collection_detail_path(cx_collection_detail) : admin_cx_collection_details_path) ) do |form| %>
+<%= form_with(model: cx_collection_detail, url: (cx_collection_detail.persisted? ? admin_cx_collection_detail_path(cx_collection_detail) : admin_cx_collection_details_path), class: "usa-form") do |form| %>
   <% if cx_collection_detail.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(cx_collection_detail.errors.count, "error") %> prohibited this cx_collection_detail from being saved:</h2>
@@ -15,26 +15,36 @@
     <%= form.label :cx_collection_id, class: "usa-label" %>
     <%= form.hidden_field :cx_collection_id, class: "usa-input", value: cx_collection_detail.cx_collection_id %>
     <%= form.select :cx_collection_id,
-      cx_collections.map { |collection| ["#{collection.name} - #{collection.organization.name}", collection.id]},
+      cx_collections.map { |collection| ["#{collection.organization.abbreviation} - #{collection.organization.name} - #{collection.service.name}", collection.id]},
       { include_blank: true },
       class: "usa-select" %>
   </div>
 
   <div>
-    <%= form.label :transaction_point, class: "usa-label" %>
+    <%= form.label :transaction_point, "Type of Feedback Survey", class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      OMB Circular A-11 Section 280 lists three types of customer feedback survey: post-interaction, post-service journey (at the end of a service journey), and relational. Select the best description for your survey.
+    </div>
     <%= form.select :transaction_point,
-      [:post_interaction, :post_service_journey, :relational],
+        [
+          ["Post-interaction", :post_interaction],
+          ["Post-service journey", :post_service_journey],
+          ["Relational", :relational]
+        ],
       { include_blank: true },
       class: "usa-select" %>
   </div>
 
   <div>
-    <%= form.label :channel, class: "usa-label" %>
+    <%= form.label :channel, "Channel of Survey", class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      Tell us how you deployed the survey. What is the channel you used to reach your respondents?
+    </div>
     <%= form.select :channel, [:computer, :mobile, :paper, :in_person], { prompt: "What type of response channel?" }, class: "usa-select" %>
   </div>
 
   <div class="field">
-    <%= form.label :service_stage_id, class: "usa-label" %>
+    <%= form.label :service_stage_id, "Stage of Service Journey", class: "usa-label" %>
     <% if cx_collection_detail.service %>
     <%= form.select :service_stage_id, options_for_select(cx_collection_detail.cx_collection.service.service_stages.map { |stage| [stage.name, stage.id]}),
       { include_blank: true },
@@ -48,49 +58,80 @@
 
   <div>
     <%= form.label :survey_type, class: "usa-label" %>
-    <%= form.select :survey_type, [["A-11 7 driver questions", :seven_questions], ["A-11 Yes/no thumbs buttons", :yes_no_buttons] ],
+
+    <div class="usa-hint font-sans-2xs">
+      OMB Circular A-11 Section 280 allows for two types of response scale for the required Trust question.
+      Please select the response scale for your survey here.
+    </div>
+
+    <%= form.select :survey_type, [["Thumbs Up/Down", :thumbs_up_down], ["5-point Likert Scale", :likert_scale]],
       { include_blank: true },
       { class: "usa-select" } %>
   </div>
 
   <div>
     <%= form.label :survey_title, class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      Please provide a short, succinct, public-facing title for your feedback survey.
+    </div>
     <%= form.text_area :survey_title, class: "usa-input" %>
   </div>
 
   <div>
     <%= form.label :omb_control_number, class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      The OMB Control Number helps us identify the PRA/A-11 Gen IC approval for this survey.
+    </div>
     <%= form.text_field :omb_control_number, class: "usa-input" %>
   </div>
 
   <div>
     <%= form.label :trust_question_text, class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      Copy and paste the text of the required Trust question in your feedback survey here
+    </div>
     <%= form.text_area :trust_question_text, class: "usa-input" %>
   </div>
 
   <div>
-    <%= form.label :federal_register_url, class: "usa-label" %>
-    <%= form.text_field :federal_register_url, class: "usa-input" %>
-  </div>
-
-  <div>
     <%= form.label :volume_of_customers, class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      This is your best estimate of the number of customers in your service for this quarter.
+    </div>
     <%= form.number_field :volume_of_customers, class: "usa-input" %>
   </div>
 
   <div>
     <%= form.label :volume_of_customers_provided_survey_opportunity, class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      This is your best estimate of the number of customers offered the opportunity to complete a feedback survey.
+    </div>
     <%= form.number_field :volume_of_customers_provided_survey_opportunity, class: "usa-input" %>
   </div>
 
   <div>
     <%= form.label :volume_of_respondents, class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      This is your best estimate of the number of respondents who completed the feedback survey. In general, this should be a count of the number of responses your are responses.
+    </div>
     <%= form.number_field :volume_of_respondents, class: "usa-input" %>
   </div>
 
-  <div>
-    <%= form.label :reflection_text, class: "usa-label" %>
+  <div class="margin-bottom-3">
+    <%= form.label :reflection_text, "Survey reflection", class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      Tell us what you learned from the survey? (100 words)
+    </div>
     <%= form.text_area :reflection_text, class: "usa-textarea" %>
+  </div>
+
+  <div class="usa-alert usa-alert--info font-sans-2xs">
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        Creating this Collection Detail will allow you to submit the corresponding survey data as a CSV file on the next page.
+        You may still edit after you have created the collection detail.
+      </p>
+    </div>
   </div>
 
   <p>
