@@ -1,6 +1,7 @@
 <table class="usa-table">
   <thead>
     <tr>
+      <th data-sortable>Active</th>
       <th data-sortable>Organization</th>
       <th data-sortable>Name</th>
       <th data-sortable># of services</th>
@@ -11,6 +12,7 @@
   <tbody>
     <% @service_providers.each do |service_provider| %>
       <tr>
+        <td><%= !service_provider.inactive %></td>
         <td><%= service_provider.organization.name %></td>
         <td><%= link_to service_provider.name, admin_service_provider_path(service_provider) %></td>
         <td><%= service_provider.services.size %></td>

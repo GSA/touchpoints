@@ -61,7 +61,13 @@ class Admin::CxCollectionDetailsController < AdminController
     file = params[:file] # Assuming the file comes from a form field named 'file'
     bucket = ENV.fetch("S3_UPLOADS_AWS_BUCKET_NAME")
 
-    s3 = Aws::S3::Resource.new
+    s3 = Aws::S3::Resource.new(
+      region: ENV.fetch("S3_UPLOADS_AWS_REGION"),
+      credentials: Aws::Credentials.new(
+        ENV.fetch("S3_UPLOADS_AWS_ACCESS_KEY_ID"),
+        ENV.fetch("S3_UPLOADS_AWS_SECRET_ACCESS_KEY")
+      )
+    )
     key = "cx_data_collections/cx-upload-#{Time.now.to_i}-#{file.original_filename}}"
     obj = s3.bucket(bucket).object(file.original_filename)
     # Upload the file

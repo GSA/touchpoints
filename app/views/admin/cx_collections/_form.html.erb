@@ -27,7 +27,7 @@
 
   <div class="field">
     <%= form.label :service_provider_id, "HISP Service Provider", class: "usa-label" %>
-    <%= form.select :service_provider_id, ServiceProvider.all.includes(:organization).order("organizations.abbreviation", :name).map { |h| ["#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, { class: "usa-select", required: true } %>
+    <%= form.select :service_provider_id, ServiceProvider.active.includes(:organization).order("organizations.abbreviation", :name).map { |h| ["#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, { class: "usa-select", required: true } %>
   </div>
 
   <div class="field">
