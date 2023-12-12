@@ -38,7 +38,7 @@ module Admin
     end
 
     def show
-      @forms = @user.forms
+      @forms = @user.forms.order(:status, :name)
       @websites = Website.where(site_owner_email: @user.email)
       @collections = @user.collections.order(:year, :quarter)
       @user_events = Event.limit(100).where(user_id: @user.id).order('created_at DESC')

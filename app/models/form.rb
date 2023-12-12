@@ -17,7 +17,7 @@ class Form < ApplicationRecord
   has_many :users, through: :user_roles, primary_key: :form_id
 
   validates :name, presence: true
-  validates :disclaimer_text, length: { in: 0..500, allow_blank: true }
+  validates :disclaimer_text, length: { in: 0..1000, allow_blank: true }
   validates :delivery_method, presence: true
   validates :anticipated_delivery_count, numericality: true, allow_nil: true
   validate :omb_number_with_expiration_date

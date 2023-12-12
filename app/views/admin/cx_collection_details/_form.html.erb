@@ -40,7 +40,7 @@
     <div class="usa-hint font-sans-2xs">
       Tell us how you deployed the survey. What is the channel you used to reach your respondents?
     </div>
-    <%= form.select :channel, [:computer, :mobile, :paper, :in_person], { prompt: "What type of response channel?" }, class: "usa-select" %>
+    <%= form.select :channel, Service.channels, { prompt: "What type of response channel?" }, class: "usa-select" %>
   </div>
 
   <div class="field">
@@ -112,7 +112,8 @@
   <div>
     <%= form.label :volume_of_respondents, class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
-      This is your best estimate of the number of respondents who completed the feedback survey. In general, this should be a count of the number of responses your are responses.
+      This is your best estimate of the number of respondents who completed the post-transaction customer feedback survey.
+      In general, this should be a count of the number of responses for your survey.
     </div>
     <%= form.number_field :volume_of_respondents, class: "usa-input" %>
   </div>
@@ -128,7 +129,7 @@
   <div class="usa-alert usa-alert--info font-sans-2xs">
     <div class="usa-alert__body">
       <p class="usa-alert__text">
-        Creating this Collection Detail will allow you to submit the corresponding survey data as a CSV file on the next page.
+        Creating this collection detail will allow you to submit the corresponding survey data as a CSV file on the next page.
         You may still edit after you have created the collection detail.
       </p>
     </div>

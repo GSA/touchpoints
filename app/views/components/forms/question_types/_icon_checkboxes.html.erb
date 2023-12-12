@@ -22,13 +22,17 @@
                 <% if option.value == "effectiveness" %>
                 <use xlink:href="<%= asset_path "sprite.svg#check" %>"></use>
                 <% elsif option.value == "efficiency" %>
-                <use xlink:href="<%= asset_path "sprite.svg#timer" %>"></use>
+                <use xlink:href="<%= asset_path "sprite.svg#search" %>"></use>
                 <% elsif option.value == "ease" %>
-                <use xlink:href="<%= asset_path "sprite.svg#folder_open" %>"></use>
+                <use xlink:href="<%= asset_path "sprite.svg#map" %>"></use>
                 <% elsif option.value == "transparency" %>
-                <use xlink:href="<%= asset_path "sprite.svg#lightbulb_outline" %>"></use>
+                <use xlink:href="<%= asset_path "sprite.svg#forum" %>"></use>
+                <% elsif option.value == "humanity" %>
+                <use xlink:href="<%= asset_path "sprite.svg#groups" %>"></use>
+                <% elsif option.value == "employee" %>
+                <use xlink:href="<%= asset_path "sprite.svg#support_agent" %>"></use>
                 <% else %>
-                <use xlink:href="<%= asset_path "sprite.svg#info_outline" %>"></use>
+                <use xlink:href="<%= asset_path "sprite.svg#help_outline" %>"></use>
                 <% end %>
               </svg>
               <br>
