@@ -50,6 +50,15 @@ module Admin
       redirect_to admin_cx_collection_path(@cx_collection), notice: 'Collection has been published successfully.'
     end
 
+    def export_csv
+      if performance_manager_permissions?
+        @collections = CxCollection.all
+      else
+        @collections = current_user.cx_collections
+      end
+      send_data @collections.to_csv, filename: "touchpoints-data-cx-collections-#{Date.today}.csv"
+    end
+
     def copy
       ensure_collection_owner(collection: @cx_collection)
 

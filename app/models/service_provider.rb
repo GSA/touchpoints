@@ -28,9 +28,11 @@ class ServiceProvider < ApplicationRecord
   def self.to_csv
      CSV.generate(headers: true) do |csv|
       csv << %i[
-        department
-        department_abbreviation
-        service_provider_id
+        id
+        organization_id
+        organization_name
+        organization_abbreviation
+        service_provider_slug
         name
         description
         year_designated
@@ -46,6 +48,8 @@ class ServiceProvider < ApplicationRecord
         .includes(:organization)
         .order('organizations.name', :name).each do |provider|
         csv << [
+          provider.id,
+          provider.organization_id,
           provider.organization.name,
           provider.organization.abbreviation.downcase,
           provider.slug,

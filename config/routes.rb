@@ -136,6 +136,9 @@ Rails.application.routes.draw do
     end
 
     resources :cx_collections do
+      collection do
+        get 'export_csv', to: 'cx_collections#export_csv', as: :export_csv
+      end
       member do
         post 'submit', to: 'cx_collections#submit', as: :submit
         post 'publish', to: 'cx_collections#publish', as: :publish
@@ -143,6 +146,9 @@ Rails.application.routes.draw do
     end
 
     resources :cx_collection_details do
+      collection do
+        get 'export_csv', to: 'cx_collection_details#export_csv', as: :export_csv
+      end
       member do
         get 'upload', to: 'cx_collection_details#upload', as: :upload
         post 'upload', to: 'cx_collection_details#upload_csv', as: :post_csv
