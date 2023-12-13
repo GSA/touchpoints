@@ -154,7 +154,7 @@ class Service < ApplicationRecord
 
     example_service_attributes = Service.new.attributes
     attributes = example_service_attributes.keys +
-      [:organization_name, :organization_abbreviation, :service_provider_name, :service_provider_slug] - ["channels"]
+      [:organization_name, :organization_abbreviation, :service_provider_id, :service_provider_name, :service_provider_slug] - ["channels"]
 
     CSV.generate(headers: true) do |csv|
       csv << attributes

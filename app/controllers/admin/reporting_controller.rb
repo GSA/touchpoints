@@ -35,7 +35,7 @@ module Admin
 
       row << header_fields.join(',')
 
-      ServiceProviderall..all.includes(:organization).order('organizations.name', :name).each do |service_provider|
+      ServiceProvider.all.includes(:organization).order('organizations.name', :name).each do |service_provider|
         service_provider.services.order(:name).each do |service|
           service.omb_cx_reporting_collections.includes(:service, :collection).order('collections.year', 'collections.quarter', 'services.name').each do |omb_cx_reporting_collection|
             row_fields = [
