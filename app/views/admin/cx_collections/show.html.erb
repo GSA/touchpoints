@@ -108,7 +108,8 @@
         <table class="usa-table usa-table--striped width-full">
           <thead>
             <tr>
-              <th>Service</th>
+              <th>Survey title</th>
+              <th>Stage</th>
               <th>Transaction point</th>
               <th>Channel</th>
             </tr>
@@ -117,7 +118,12 @@
           <% @cx_collection.cx_collection_details.order(:channel).each do |cx_collection| %>
             <tr>
               <td>
-                <%= cx_collection.try(:service).try(:name) %>
+                <%= cx_collection.survey_title %>
+              </td>
+              <td>
+                <% if cx_collection.service_stage %>
+                  <%= cx_collection.service_stage.name %>
+                <% end %>
               </td>
               <td>
                 <%= link_to cx_collection.transaction_point, admin_cx_collection_detail_path(cx_collection) %>
