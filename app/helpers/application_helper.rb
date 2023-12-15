@@ -166,6 +166,11 @@ module ApplicationHelper
     I18n.l time.to_time.in_time_zone(timezone), format: :long
   end
 
+  def timezone_abbreviation(timezone)
+    zone = ActiveSupport::TimeZone.new(timezone)
+    zone.now.strftime('%Z')
+  end
+
   def form_integrity_checksum(form:)
     data_to_encode = render(partial: 'components/widget/fba', formats: :js, locals: { form: })
     Digest::SHA256.base64digest(data_to_encode)

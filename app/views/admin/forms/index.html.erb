@@ -63,10 +63,10 @@
         <%= form.questions_count %>
       </td>
       <td>
-        <%= form.survey_form_activations %>
+        <%= number_with_delimiter(form.survey_form_activations) %>
       </td>
       <td>
-        <%= form.response_count %>
+        <%= number_with_delimiter(form.response_count) %>
       </td>
       <td>
         <%= form.completion_rate %>
