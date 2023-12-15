@@ -28,22 +28,25 @@
 <% if is_at_least_form_manager?(user: current_user, form: @form) %>
 <div class="grid-row grid-gap-lg">
   <div class="desktop:grid-col-8">
-    <p>
+    <div class="margin-bottom-3">
       <strong class="font-sans-3xl">
-        <%= pluralize @form.response_count, "response" %>
+        <%= pluralize number_with_delimiter(@form.response_count), "response" %>
       </strong>
       <br>
       <% if @form.last_response_created_at.present? %>
       <small>
-        Latest response:
+        <span class="text-base">
+          Latest response
+        </span>
         <br>
         <%= time_ago_in_words(@form.last_response_created_at) %> ago
         at <span class="form-created-at">
           <%= format_time(@form.last_response_created_at, current_user.time_zone) %>
+          <%= timezone_abbreviation(current_user.time_zone) %>
         </span>
       </small>
       <% end %>
-    <p>
+    </div>
 
     <div class="well">
       <div class="grid-row grid-gap-md">

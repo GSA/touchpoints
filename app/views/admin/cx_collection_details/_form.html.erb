@@ -45,7 +45,7 @@
 
   <div class="field">
     <%= form.label :service_stage_id, "Stage of Service Journey", class: "usa-label" %>
-    <% if cx_collection_detail.service %>
+    <% if cx_collection_detail.cx_collection.service %>
     <%= form.select :service_stage_id, options_for_select(cx_collection_detail.cx_collection.service.service_stages.map { |stage| [stage.name, stage.id]}),
       { include_blank: true },
       { class: "usa-select" } %>
