@@ -20,10 +20,12 @@
           <%= radio_button_tag(option_id, option[:value], nil, { id: option_id, name: question.answer_field, class: "usa-radio__input usa-radio__input--tile", required: question.is_required  }) %>
           <%= label_tag(option_id, nil, class: "usa-radio__label font-sans-3xl text-center") do %>
             <%- if option[:value] == 1 %>
+              <span class="usa-sr-only">Thumbs-up</span>
               <svg class="usa-icon margin-top-2" aria-hidden="true" focusable="false" role="img">
                 <use xlink:href="<%= asset_path "sprite.svg#thumb_up_alt" %>"></use>
               </svg>
             <% elsif option[:value] == 0 %>
+              <span class="usa-sr-only">Thumbs-down</span>
               <svg class="usa-icon margin-top-2" aria-hidden="true" focusable="false" role="img">
                 <use xlink:href="<%= asset_path "sprite.svg#thumb_down_alt" %>"></use>
               </svg>

@@ -1,6 +1,6 @@
 <%= form_with(model: form, url: (form.persisted? ? admin_form_path(form) : admin_forms_path), local: true) do |f| %>
   <div class="grid-row grid-gap-md">
-    <div class="grid-col-6">
+    <div class="grid-col-12">
       <div class="field">
         <%= f.label :success_text_heading, "SUCCESS TEXT HEADING", class: "usa-label text-uppercase font-body-3xs" %>
         <%= f.text_field :success_text_heading, class: "usa-input success_text", data_url:  admin_form_path(form) %>
@@ -37,6 +37,14 @@
         $('.usa-hint.save-notice.survey-success-text').show();
         $('.usa-hint.save-notice.survey-success-text').fadeOut(2000);
       });
+    });
+
+    $("#form_success_text_heading").on("keyup", function(event, b) {
+      $(".fba-alert.usa-alert--success h3.usa-alert__heading").text(event.target.value)
+    });
+
+    $("#form_success_text").on("keyup", function(event, b) {
+      $(".fba-alert.usa-alert--success .usa-alert__text").html(event.target.value)
     });
   })
 </script>
