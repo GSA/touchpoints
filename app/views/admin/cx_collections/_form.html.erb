@@ -32,7 +32,12 @@
 
   <div class="field">
     <%= form.label :service_id, "Service", class: "usa-label" %>
-    <%= form.select :service_id, Service.all.includes(:organization).map { |h| ["#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, { class: "usa-select", required: true } %>
+    <%= form.select :service_id, { include_blank: true }, {}, { class: "usa-select", required: true } do %>
+      <% Service.all.includes(:organization).each do |h| %>
+        <%= content_tag :option, "#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", value: h.id,
+          "data-service-provider-id" => h.service_provider_id %>
+      <% end %>
+    <% end %>
   </div>
 
   <div class="field">
@@ -98,5 +103,20 @@
 <script>
   $(function() {
     setHeartbeat("<%= admin_heartbeat_path %>");
+
+    $("#cx_collection_service_provider_id").on("change", function(event) {
+      var serviceProviderId = event.target.value;
+
+      $("#cx_collection_service_id option").show(); // show all options
+
+      $.each($("#cx_collection_service_id option"), function(i, item) {
+        if( serviceProviderId === '' ) { // do nothing
+        } else if( !$(item).attr("data-service-provider-id") ) { // do nothing
+        } else if($(item).attr("data-service-provider-id") === serviceProviderId) { // do nothing
+        } else {
+          $(item).hide()
+        }
+      })
+    })
   });
 </script>
