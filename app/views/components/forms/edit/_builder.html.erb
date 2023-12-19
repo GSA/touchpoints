@@ -78,15 +78,29 @@
   </div>
 </div>
 <br>
+
 <hr style="border: none; border-top: 1px solid #E5E5E5;">
-<div id="success_text_div">
-  <%= render "admin/questions/success_text", {form: form} %>
+
+<div class="grid-row grid-gap-lg">
+  <div class="grid-col-5">
+    <div id="success_text_div">
+      <%= render "admin/questions/success_text", {form: form} %>
+    </div>
+  </div>
+  <div class="grid-col-7">
+    <br>
+    <br>
+    <%= render "components/forms/flash", form: form %>
+  </div>
 </div>
+
 <br>
 
 <script>
 $(function() {
   $(".question-option-edit").hide();
+
+  $(".fba-alert").attr("hidden", false);
 
   <%- if form_permissions?(form: form) %>
     $('.survey-title-input').on("blur", function(event) {
