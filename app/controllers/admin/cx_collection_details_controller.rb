@@ -24,6 +24,7 @@ class Admin::CxCollectionDetailsController < AdminController
 
   def upload
     @uploads = CxCollectionDetailUpload.where(cx_collection_detail_id: @cx_collection_detail.id)
+      .order("created_at DESC")
   end
 
   def create
