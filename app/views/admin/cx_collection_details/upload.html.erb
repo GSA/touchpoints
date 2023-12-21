@@ -26,7 +26,7 @@
    and make sure the CSV upload file is in the correct format.
 </p>
 
-<%= form_with url: post_csv_admin_cx_collection_detail_path, method: :post, local: true, multipart: true do |form| %>
+<%= form_with url: post_csv_admin_cx_collection_detail_path, method: :post, local: true, multipart: true, data: { turbo: false } do |form| %>
   <% if @cx_collection_detail.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(@cx_collection_detail.errors.count, "error") %> prohibited this cx_collection_detail from being saved:</h2>
@@ -50,7 +50,6 @@
   </p>
 <% end %>
 
-<% uploads = CxCollectionDetailUpload.where(cx_collection_detail_id: @cx_collection_detail.id) %>
 <table class="usa-table">
   <thead>
     <tr>
@@ -58,12 +57,16 @@
       <th>File path</th>
       <th>Size</th>
       <th>Timestamp</th>
+      <th>Uploaded record count</th>
+      <% if service_manager_permissions? %>
       <th></th>
+      <% end %>
     </tr>
   </thead>
 
   <tbody>
-    <% uploads.each do |upload| %>
+  <% if @uploads.present? %>
+    <% @uploads.each do |upload| %>
       <tr>
         <td>
           <%= upload.user.email %>
@@ -78,10 +81,18 @@
           <%= upload.created_at %>
         </td>
         <td>
-          <%= link_to "Process responses file", admin_cx_collection_detail_path(@cx_collection_detail), method: :post %>
+          <% @responses = CxResponse.where(cx_collection_detail_upload_id: upload.id).count %>
+          <%= @responses %>
+          <%#= CxResponse.where(cx_collection_detail_upload_id: upload.id).entries %>
         </td>
+        <% if service_manager_permissions? %>
+        <td>
+          <%= link_to "Process CSV file to database", process_admin_cx_collection_detail_path(@cx_collection_detail, upload.id), method: :post %>
+        </td>
+        <% end %>
       </tr>
     <% end %>
+  <% end %>
   </tbody>
 </table>
 
