@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_14_205538) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_20_234429) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -240,6 +240,30 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_14_205538) do
     t.string "aasm_state"
     t.string "rating"
     t.string "integrity_hash"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "cx_responses", force: :cascade do |t|
+    t.integer "cx_collection_detail_id"
+    t.integer "cx_collection_detail_upload_id"
+    t.string "question_1", comment: "thumbs up/down"
+    t.string "positive_effectiveness"
+    t.string "positive_ease"
+    t.string "positive_efficiency"
+    t.string "positive_transparency"
+    t.string "positive_humanity"
+    t.string "positive_employee"
+    t.string "positive_other"
+    t.string "negative_effectiveness"
+    t.string "negative_ease"
+    t.string "negative_efficiency"
+    t.string "negative_transparency"
+    t.string "negative_humanity"
+    t.string "negative_employee"
+    t.string "negative_other"
+    t.string "question_4", comment: "open text"
+    t.string "job_id", comment: "a unique ID assigned when a batch of responses is imported"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

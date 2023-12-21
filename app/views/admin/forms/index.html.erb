@@ -62,10 +62,10 @@
       <td>
         <%= form.questions_count %>
       </td>
-      <td>
+      <td data-sort-value="<%= form.survey_form_activations %>">
         <%= number_with_delimiter(form.survey_form_activations) %>
       </td>
-      <td>
+      <td data-sort-value="<%= form.response_count %>">
         <%= number_with_delimiter(form.response_count) %>
       </td>
       <td>
