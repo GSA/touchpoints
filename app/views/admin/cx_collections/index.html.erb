@@ -9,8 +9,58 @@
 <table class="usa-table collections width-full">
   <thead>
     <tr>
+      <th>Total Collections</th>
+      <th>Draft</th>
+      <th>Submitted</th>
+      <th>Published</th>
+      <th>Changed Requested</th>
+      <th>Archived</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td><%= CxCollection.count %></td>
+      <td><%= CxCollection.draft.count %></td>
+      <td><%= CxCollection.submitted.count %></td>
+      <td><%= CxCollection.published.count %></td>
+      <td><%= CxCollection.change_requested.count %></td>
+      <td><%= CxCollection.archived.count %></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="well margin-top-2">
+  <div class="grid-row">
+    <div class="grid-col-12">
+      <div class="ui-filter">
+        Filter by fiscal year and quarter
+        <% if params[:year] || params[:quarter] %>
+          <small>
+            <%= link_to "View All Collections", admin_cx_collections_path %>
+          </small>
+        <% end %>
+
+        <div class="year" data-id="2023">
+          <h4>
+            2024
+          </h4>
+          <div>
+            <%= link_to "Q1", admin_cx_collections_path(quarter: 1, year: 2024), class: "usa-button #{params[:quarter] == "1" && params[:year] == "2024" ? nil : 'usa-button--outline'}" %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<table class="usa-table collections width-full">
+  <thead>
+    <tr>
       <th data-sortable scope="col">Organization</th>
       <th data-sortable scope="col">Service Provider (HISP)</th>
+      <th data-sortable scope="col">Service</th>
       <th data-sortable scope="col">Collection name</th>
       <th data-sortable scope="col">Year</th>
       <th data-sortable scope="col">Quarter</th>
@@ -24,6 +74,7 @@
       <tr>
         <td><%= collection.organization.name %></td>
         <td><%= collection.service_provider.name %></td>
+        <td><%= collection.service.name %></td>
         <td><%= link_to collection.name, admin_cx_collection_path(collection) %></td>
         <td><%= collection.fiscal_year %></td>
         <td><%= collection.quarter %></td>
@@ -44,5 +95,8 @@
   </p>
   <p>
     <%= link_to "Download OMB CX Data Reporting Collections as .csv", export_csv_admin_cx_collection_details_path, class: "usa-button" %>
+  </p>
+  <p>
+    <%= link_to "Download CX Responses", export_cx_responses_csv_admin_cx_collections_path, class: "usa-button" %>
   </p>
 <% end %>
