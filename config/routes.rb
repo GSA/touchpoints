@@ -139,6 +139,7 @@ Rails.application.routes.draw do
     resources :cx_collections do
       collection do
         get 'export_csv', to: 'cx_collections#export_csv', as: :export_csv
+        get 'export_cx_responses_csv', to: 'cx_collections#export_cx_responses_csv', as: :export_cx_responses_csv
       end
       member do
         post 'submit', to: 'cx_collections#submit', as: :submit

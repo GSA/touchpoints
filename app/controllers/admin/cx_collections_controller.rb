@@ -36,6 +36,13 @@ module Admin
     def edit
     end
 
+    def export_cx_responses_csv
+      ensure_service_manager_permissions
+
+      @responses = CxResponse.all
+      send_data @responses.to_csv, filename: "touchpoints-data-cx-responses-#{Date.today}.csv"
+    end
+
     def create
       @cx_collection = CxCollection.new(cx_collection_params)
       @cx_collection.organization_id = @cx_collection.service_provider.organization.id
