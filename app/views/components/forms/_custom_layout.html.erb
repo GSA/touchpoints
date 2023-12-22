@@ -3,10 +3,10 @@
     <div class="grid-col-12">
       <h2 class="justify-vertical word-break">
         <%- if form.display_header_logo && form.logo.present? %>
-          <%= image_tag(form.logo.tag.url, alt: "Organization logo", class: "form-header-logo") %>
+          <%= image_tag(form.logo.tag.url, alt: "#{form.organization.name} logo", class: "form-header-logo") %>
         <% end %>
         <%- if form.display_header_square_logo && form.logo.present? %>
-          <%= image_tag(form.logo.logo_square.url, alt: "Organization logo", class: "form-header-logo-square") %>
+          <%= image_tag(form.logo.logo_square.url, alt: "#{form.organization.name} logo", class: "form-header-logo-square") %>
         <% end %>
         <%= form.title %>
       </h2>
