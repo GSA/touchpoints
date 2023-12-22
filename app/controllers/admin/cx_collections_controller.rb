@@ -8,7 +8,22 @@ module Admin
     ]
 
     def index
-      @cx_collections = CxCollection.all.includes(:organization, :service_provider)
+      @quarter = params[:quarter].present? ? params[:quarter].to_i : nil
+      @year = params[:year].present? ? params[:year].to_i : nil
+
+      if @quarter && @year
+        @cx_collections = CxCollection.where(quarter: @quarter, fiscal_year: @year)
+      elsif @year
+        @cx_collections = CxCollection.where(fiscal_year: @year)
+      elsif @quarter
+        @cx_collections = CxCollection.where(quarter: @quarter)
+      else
+        @cx_collections = CxCollection.all
+      end
+
+      @cx_collections
+        .order('organizations.name', :year, :quarter, 'service_providers.name')
+        .includes(:organization, :service_provider)
     end
 
     def show
@@ -19,6 +34,13 @@ module Admin
     end
 
     def edit
+    end
+
+    def export_cx_responses_csv
+      ensure_service_manager_permissions
+
+      @responses = CxResponse.all
+      send_data @responses.to_csv, filename: "touchpoints-data-cx-responses-#{Date.today}.csv"
     end
 
     def create

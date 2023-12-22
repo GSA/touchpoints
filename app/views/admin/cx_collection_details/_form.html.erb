@@ -44,7 +44,16 @@
   </div>
 
   <div class="field">
-    <%= form.label :service_stage_id, "Stage of Service Journey", class: "usa-label" %>
+  <%= form.label :service_stage_id, "Stage of Service Journey", class: "usa-label" %>
+    <div class="usa-hint font-sans-2xs">
+      <p class="text-italic">
+        This is an experimental field.
+      </p>
+      Select the
+      <%= link_to "Service Stage", admin_service_service_stages_path(cx_collection_detail.cx_collection.service), target: "_blank", class: "usa-link usa-link--external" %>,
+      where the feedback survey is presented to the user.
+    </div>
+
     <% if cx_collection_detail.cx_collection.service %>
     <%= form.select :service_stage_id, options_for_select(cx_collection_detail.cx_collection.service.service_stages.map { |stage| [stage.name, stage.id]}),
       { include_blank: true },
