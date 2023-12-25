@@ -474,7 +474,7 @@ GEM
       rubocop (~> 1.41)
     rubocop-factory_bot (2.24.0)
       rubocop (~> 1.33)
-    rubocop-rails (2.23.0)
+    rubocop-rails (2.23.1)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
@@ -616,7 +616,7 @@ DEPENDENCIES
   rolify
   rspec-rails
   rspec_junit_formatter
-  rubocop-rails
+  rubocop-rails (>= 2.23.1)
   rubocop-rspec
   sass-rails
   sassc-rails
@@ -635,4 +635,4 @@ RUBY VERSION
    ruby 3.1.4p223
 
 BUNDLED WITH
-   2.3.12
+   2.3.26
