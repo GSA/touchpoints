@@ -79,6 +79,7 @@ class Admin::CxCollectionDetailsController < AdminController
     # check the file to ensure it is valid
     csv_file = CSV.parse(file.read, headers: true)
     @valid_file_headers = csv_file.headers.sort == [
+      "external_id",
       "question_1",
       "positive_effectiveness",
       "positive_ease",
@@ -140,6 +141,7 @@ class Admin::CxCollectionDetailsController < AdminController
     csv.each do |row|
       # Create the database record
       CxResponse.create!({
+        external_id: row["external_id"],
         cx_collection_detail_id: @cx_collection_detail.id,
         cx_collection_detail_upload_id: uploaded_file.id,
         job_id: job_id,
