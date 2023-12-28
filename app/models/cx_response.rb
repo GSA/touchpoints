@@ -25,6 +25,7 @@ class CxResponse < ApplicationRecord
       negative_other
       question_4
       job_id
+      external_id
     ]
 
     CSV.generate(headers: true) do |csv|
@@ -50,7 +51,8 @@ class CxResponse < ApplicationRecord
           response.negative_employee,
           response.negative_other,
           response.question_4,
-          response.job_id
+          response.job_id,
+          response.external_id,
         ]
       end
     end

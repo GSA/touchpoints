@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_20_234429) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_28_180300) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -266,6 +266,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_20_234429) do
     t.string "job_id", comment: "a unique ID assigned when a batch of responses is imported"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "external_id"
   end
 
   create_table "digital_product_versions", force: :cascade do |t|
