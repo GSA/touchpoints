@@ -257,7 +257,7 @@ class Form < ApplicationRecord
     header_attributes = hashed_fields_for_export.values
     header_attributes = [
       :id,
-      :q1,
+      :question_1,
       :positive_effectiveness,
       :positive_ease,
       :positive_efficiency,
@@ -272,7 +272,7 @@ class Form < ApplicationRecord
       :negative_humanity,
       :negative_employee,
       :negative_other,
-      :q4
+      :question_4
     ]
 
     attributes = fields_for_export
