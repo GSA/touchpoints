@@ -363,7 +363,7 @@ GEM
     psych (5.1.2)
       stringio
     public_suffix (5.0.4)
-    puma (6.4.0)
+    puma (6.4.2)
       nio4r (~> 2.0)
     racc (1.7.3)
     rack (2.2.8)
@@ -608,7 +608,7 @@ DEPENDENCIES
   paper_trail
   pg (~> 1.3)
   pry
-  puma
+  puma (>= 6.4.2)
   rack-cors
   rails (~> 7.1.0)
   rails-controller-testing
@@ -637,4 +637,4 @@ RUBY VERSION
    ruby 3.1.4p223
 
 BUNDLED WITH
-   2.3.12
+   2.3.26
