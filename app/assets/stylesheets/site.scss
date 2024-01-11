@@ -608,3 +608,9 @@ table .no-wrap {
 abbr[title=required] {
   text-decoration: none;
 }
+
+.question-option-view:hover {
+  background-color: lightgray;
+  padding-left: 1rem;
+  padding-right: 0.5rem;
+}
