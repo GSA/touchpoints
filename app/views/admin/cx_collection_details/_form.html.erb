@@ -55,7 +55,7 @@
     </div>
 
     <% if cx_collection_detail.cx_collection.service %>
-    <%= form.select :service_stage_id, options_for_select(cx_collection_detail.cx_collection.service.service_stages.map { |stage| [stage.name, stage.id]}),
+    <%= form.select :service_stage_id, options_for_select(cx_collection_detail.cx_collection.service.service_stages.map { |stage| [stage.name, stage.id]}, cx_collection_detail.service_stage_id),
       { include_blank: true },
       { class: "usa-select" } %>
     <% else %>
