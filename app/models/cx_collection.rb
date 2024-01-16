@@ -5,7 +5,7 @@ class CxCollection < ApplicationRecord
   belongs_to :service
   belongs_to :service_provider
   belongs_to :user
-  has_many :cx_collection_details
+  has_many :cx_collection_details, dependent: :delete_all
 
   validates :fiscal_year, presence: true
   validates :quarter, presence: true
