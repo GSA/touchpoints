@@ -117,7 +117,7 @@ class Admin::CxCollectionDetailsController < AdminController
     elsif !@valid_file_extension
       flash[:notice] = "File has a file extension of #{file_extension}, but it should be .csv."
     elsif !@valid_file_headers
-      flash[:notice] = "CSV headers do not match"
+      flash[:alert] = "CSV headers do not match"
     end
 
     # render :upload
