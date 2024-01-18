@@ -9,6 +9,15 @@
   <% end %>
 </p>
 
+<h3>
+  <%= @cx_collection_detail.cx_collection.service.service_provider.name %>
+  &middot;
+  <%= @cx_collection_detail.cx_collection.service.name %>
+  <br>
+  Q<%= @cx_collection_detail.cx_collection.quarter %>
+  FY<%= @cx_collection_detail.cx_collection.fiscal_year %>
+</h3>
+
 <%= render "form",
   cx_collection_detail: @cx_collection_detail,
   cx_collections: @cx_collections %>
