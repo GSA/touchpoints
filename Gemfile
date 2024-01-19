@@ -48,7 +48,7 @@ gem "rubocop-rails"
 gem "rubocop-rspec"
 gem 'active_model_serializers', '>= 0.10.13'
 gem 'acts-as-list'
-gem 'aws-sdk-rails', '>= 3.8.0'
+gem 'aws-sdk-rails', '>= 3.10.0'
 gem 'aws-sdk-s3'
 gem 'caracal', '>= 1.4.1'
 gem 'carrierwave', '>= 2.2.1'
@@ -69,7 +69,7 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'redis-client'
 gem 'redis-namespace'
 gem 'sass-rails'
-gem 'sidekiq', '>= 6.5.0'
+gem 'sidekiq', '>= 7.2.1'
 gem 'json-jwt'
 gem 'aasm'
 gem 'whenever', require: false
