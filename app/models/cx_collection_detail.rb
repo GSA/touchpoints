@@ -1,6 +1,5 @@
 class CxCollectionDetail < ApplicationRecord
   belongs_to :cx_collection
-  belongs_to :service
   belongs_to :service_stage, optional: true
   has_many :cx_responses
 
@@ -59,15 +58,15 @@ class CxCollectionDetail < ApplicationRecord
           collection_detail.cx_collection.service_provider.name,
           collection_detail.cx_collection.service_provider.slug,
 
-          collection_detail.service_id,
-          collection_detail.service.name,
+          collection_detail.cx_collection.service_id,
+          collection_detail.cx_collection.service.name,
 
           collection_detail.transaction_point,
           collection_detail.channel,
           collection_detail.service_stage_id,
           collection_detail.service_stage.try(:name),
           collection_detail.service_stage.try(:position),
-          collection_detail.service.service_stages.count,
+          collection_detail.cx_collection.service.service_stages.count,
 
           collection_detail.volume_of_customers,
           collection_detail.volume_of_customers_provided_survey_opportunity,
