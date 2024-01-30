@@ -206,7 +206,7 @@ module ApplicationHelper
   def fiscal_year_and_quarter(date)
     fiscal_year = date.year
 
-    # Adjust fiscal year upward if current month is October or later
+    # Adjust fiscal year upward if the current month is October or later
     if date.month >= 10
       fiscal_year += 1
     end
