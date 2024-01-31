@@ -34,8 +34,11 @@
     <%= form.label :service_id, "Service", class: "usa-label" %>
     <%= form.select :service_id, { include_blank: true }, {}, { class: "usa-select", required: true } do %>
       <% Service.hisp.includes(:organization).each do |h| %>
-      <%= content_tag :option, "#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", value: h.id,
-        "data-service-provider-id" => h.service_provider_id %>
+        <%= content_tag :option,
+          "#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", value: h.id,
+          "data-service-provider-id" => h.service_provider_id,
+          selected: (h.id == cx_collection.service_id)
+          %>
       <% end %>
     <% end %>
   </div>
@@ -52,15 +55,15 @@
 
   <div class="field usa-form-group">
     <%= form.label :start_date, class: "usa-label", id: "expiration-date-label" %>
-    <div class="usa-date-picker" data-default-value="<%= cx_collection.start_date %>">
-      <%= form.text_field :start_date, placeholder: "mm/dd/yyyy", class: "usa-input", required: true %>
+    <div class="usa-date-picker2" data-default-value="<%= cx_collection.start_date %>">
+      <%= form.text_field :start_date, placeholder: "YYYY-MM-DD", class: "usa-input" %>
     </div>
   </div>
 
   <div class="field usa-form-group">
     <%= form.label :end_date, class: "usa-label", id: "expiration-date-label" %>
-    <div class="usa-date-picker" data-default-value="<%= cx_collection.end_date %>">
-      <%= form.text_field :end_date, placeholder: "mm/dd/yyyy", class: "usa-input", required: true %>
+    <div class="usa-date-picker2" data-default-value="<%= cx_collection.end_date %>">
+      <%= form.text_field :end_date, placeholder: "YYYY-MM-DD", class: "usa-input" %>
     </div>
   </div>
 

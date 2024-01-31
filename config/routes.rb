@@ -143,8 +143,10 @@ Rails.application.routes.draw do
         get 'export_cx_responses_csv', to: 'cx_collections#export_cx_responses_csv', as: :export_cx_responses_csv
       end
       member do
+        post 'copy', to: 'cx_collections#copy', as: :copy
         post 'submit', to: 'cx_collections#submit', as: :submit
         post 'publish', to: 'cx_collections#publish', as: :publish
+        get 'events', to: 'cx_collections#events', as: :events
       end
     end
 
