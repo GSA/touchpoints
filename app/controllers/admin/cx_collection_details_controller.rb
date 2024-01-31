@@ -64,8 +64,8 @@ class Admin::CxCollectionDetailsController < AdminController
   end
 
   def export_csv
-    @collections = CxCollectionDetail.all
-    send_data @collections.to_csv, filename: "touchpoints-data-collection-details-#{Date.today}.csv"
+    @collection_details = CxCollectionDetail.all
+    send_data @collection_details.to_csv, filename: "touchpoints-data-collection-details-#{Date.today}.csv"
   end
 
   # Handle a large-ish csv upload (5+ MB) to S3
