@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_28_180300) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_31_224209) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -194,6 +194,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_28_180300) do
     t.string "key", comment: "s3 path to the asset"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "aasm_state"
+    t.string "record_count"
   end
 
   create_table "cx_collection_details", force: :cascade do |t|
