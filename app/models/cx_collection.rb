@@ -43,6 +43,25 @@ class CxCollection < ApplicationRecord
     end
   end
 
+  def duplicate!(new_user:)
+    new_collection = dup
+    new_collection.user = new_user
+    new_collection.name = "Copy of #{name}"
+    new_collection.start_date = nil
+    new_collection.end_date = nil
+    new_collection.reflection = nil
+    new_collection.rating = nil
+    new_collection.aasm_state = :draft
+    new_collection.save
+
+    # Loop CX Detail Collections to create them for new_collection
+    # cx_collection_details.each do |cx_collection_detail|
+    #   cx_collection_detail.save!
+    # end
+
+    new_collection
+  end
+
   def self.to_csv
     collections = CxCollection.all.order(:fiscal_year, :quarter, 'organizations.name').includes(:organization)
 

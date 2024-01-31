@@ -12,11 +12,17 @@
 
 <%= render "form", cx_collection: @cx_collection %>
 
-<br>
+<p>
+  <%= link_to admin_cx_collection_path(@cx_collection), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
+    <i class="fa fa-trash"></i>
+    Delete
+  <% end %>
 
-<div>
-<%= button_to "Destroy this cx collection", admin_cx_collection_path(@cx_collection), class: "usa-button usa-button--secondary float-right", method: :delete %>
-</div>
+  <%= link_to copy_admin_cx_collection_path(@cx_collection), method: :post, class: "usa-button usa-button--outline float-right", data: { confirm: 'Are you sure?' } do %>
+    <i class="fa fa-copy"></i>
+    Copy this collection
+  <% end %>
+</p>
 
 <br>
 <br>

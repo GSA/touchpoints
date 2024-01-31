@@ -82,7 +82,7 @@ module Admin
     end
 
     def copy
-      ensure_collection_owner(collection: @cx_collection)
+      ensure_cx_collection_owner(cx_collection: @cx_collection)
 
       respond_to do |format|
         new_collection = @cx_collection.duplicate!(new_user: current_user)
@@ -90,7 +90,7 @@ module Admin
         if new_collection.valid?
           Event.log_event(Event.names[:cx_collection_copied], 'Collection', @cx_collection.id, "Collection #{@cx_collection.name} copied at #{DateTime.now}", current_user.id)
 
-          format.html { redirect_to admin_collection_path(new_collection), notice: 'Collection was successfully copied.' }
+          format.html { redirect_to admin_cx_collection_path(new_collection), notice: 'CX Data Collection was successfully copied.' }
           format.json { render :show, status: :created, location: new_collection }
         else
           format.html { render :new }
