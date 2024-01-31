@@ -125,12 +125,9 @@ feature 'Data Collections', js: true do
 
         it 'update the requested collection' do
           expect(page).to have_content('Collection was successfully updated.')
+          expect(page).to have_content('2021-03-01')
+          expect(page).to have_content('2021-06-30')
           expect(page.current_path).to eq(admin_collection_path(collection))
-        end
-      end
-
-      context 'with invalid parameters' do
-        xit '' do
         end
       end
     end
