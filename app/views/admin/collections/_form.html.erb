@@ -63,15 +63,15 @@
   <% if collection.persisted? %>
   <div class="field usa-form-group">
     <%= f.label :start_date, class: "usa-label", id: "expiration-date-label" %>
-    <div class="usa-date-picker" data-default-value="<%= collection.start_date %>">
-      <%= f.text_field :start_date, placeholder: "mm/dd/yyyy", class: "usa-input" %>
+    <div class="usa-date-picker2" data-default-value="<%= collection.start_date %>">
+      <%= f.text_field :start_date, placeholder: "YYYY-MM-DD", class: "usa-input" %>
     </div>
   </div>
 
   <div class="field usa-form-group">
     <%= f.label :end_date, class: "usa-label", id: "expiration-date-label" %>
-    <div class="usa-date-picker" data-default-value="<%= collection.end_date %>">
-      <%= f.text_field :end_date, placeholder: "mm/dd/yyyy", class: "usa-input" %>
+    <div class="usa-date-picker2" data-default-value="<%= collection.end_date %>">
+      <%= f.text_field :end_date, placeholder: "YYYY-MM-DD", class: "usa-input" %>
     </div>
   </div>
   <% end %>

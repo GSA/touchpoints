@@ -41,6 +41,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :organizations, only: [:index]
       resources :collections, only: [:index]
+      resources :cx_responses, only: [:index]
       resources :cx_collections, only: [:index]
       resources :cx_collection_details, only: [:index]
       resources :omb_cx_reporting_collections, only: [:index]

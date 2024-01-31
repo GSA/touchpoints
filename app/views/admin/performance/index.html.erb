@@ -87,14 +87,13 @@
             Quarterly - every 3 months
           </h3>
           <p>
-            <%= link_to admin_collections_path(year: 2023, quarter: 4), class: "usa-button usa-button--outline width-full" do
+            <%= link_to admin_collections_path(year: 2024, quarter: 1), class: "usa-button usa-button--outline width-full" do
               %>
               CX Data Collection
             <% end %>
           </p>
           <p>
-            <%= link_to '/admin/cx_collections', class: "usa-button usa-button--outline width-full" do
-              %>
+            <%= link_to admin_cx_collections_path(year: 2024, quarter: 1), class: "usa-button usa-button--outline width-full" do %>
               A-11 v2 CX Data Collection
             <% end %>
           </p>
@@ -123,7 +122,7 @@
           <p>
             <%= link_to admin_apgs_path, class: "usa-button usa-button--outline width-full" do %>
               Performance Goal Reporting (APG)
-              <% end %>
+            <% end %>
           </p>
         </div>
         <div class="grid-col-4" hidden>

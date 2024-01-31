@@ -42,7 +42,7 @@
 
 <p>
   <strong>Service:</strong>
-  <%= link_to @cx_collection_detail.service.name, admin_service_path(@cx_collection_detail.service) %>
+  <%= link_to @cx_collection_detail.cx_collection.service.name, admin_service_path(@cx_collection_detail.cx_collection.service) %>
 </p>
 
 <p>
@@ -61,7 +61,7 @@
   <% if @cx_collection_detail.service_stage %>
   <%= link_to(@cx_collection_detail.service_stage.name, admin_service_service_stage_path(@cx_collection_detail.service_stage)) || 'Select a Service Stage' %>
   <% else %>
-    <%= link_to "Service Stage", admin_service_service_stages_path(@cx_collection_detail.service) %>
+    <%= link_to "Service Stage", admin_service_service_stages_path(@cx_collection_detail.cx_collection.service) %>
     is not defined.
   <% end %>
 </p>
