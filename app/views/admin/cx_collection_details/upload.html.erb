@@ -12,6 +12,11 @@
 <% end %>
 
 <div class="usa-prose">
+  <%= link_to admin_cx_collection_path(@cx_collection_detail.cx_collection) do %>
+  <i class="fa fa-arrow-circle-left"></i>
+  Back to CX Data Collection
+  <% end %>
+  <br>
   <%= link_to admin_cx_collection_detail_path(@cx_collection_detail) do %>
   <i class="fa fa-arrow-circle-left"></i>
   Back to CX Data Collection Detail
@@ -60,6 +65,7 @@
       <th>Uploaded record count</th>
       <% if service_manager_permissions? %>
       <th></th>
+      <th></th>
       <% end %>
     </tr>
   </thead>
@@ -88,10 +94,10 @@
         </td>
         <% if service_manager_permissions? %>
         <td>
-          <%= link_to "Process CSV file to database", process_admin_cx_collection_detail_path(@cx_collection_detail, upload.id), method: :post %>
+        <%= upload.job_id %>
         </td>
         <td>
-          <%= upload.job_id %>
+          <%= link_to "Process CSV file to database", process_admin_cx_collection_detail_path(@cx_collection_detail, upload.id), method: :post %>
         </td>
         <% end %>
       </tr>
