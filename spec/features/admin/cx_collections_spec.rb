@@ -15,6 +15,8 @@ feature 'CX Data Collections', js: true do
   let!(:service2) { FactoryBot.create(:service, organization:, service_provider: service_provider2, name: "Another public service", hisp: true, service_owner_id: user.id) }
 
   let!(:cx_collection) { FactoryBot.create(:cx_collection, organization: another_organization, user:, service_provider: another_service_provider, service: service) }
+  let!(:cx_collection_detail) { FactoryBot.create(:cx_collection_detail, cx_collection: cx_collection) }
+
   let!(:admin_cx_collection) { FactoryBot.create(:cx_collection, organization:, user: admin, service: service, service_provider:) }
 
   context 'as an Admin' do
@@ -124,7 +126,7 @@ feature 'CX Data Collections', js: true do
         end
 
         it 'update the requested collection' do
-          expect(page).to have_content('Cx collection was successfully updated.')
+          expect(page).to have_content('CX Data Collection was successfully updated.')
           expect(page.current_path).to eq(admin_cx_collection_path(cx_collection))
         end
       end
@@ -145,7 +147,7 @@ feature 'CX Data Collections', js: true do
 
       it 'destroys the requested collection' do
         expect(page).to have_content('Data Collections')
-        expect(page).to have_content('CX collection was successfully destroyed.')
+        expect(page).to have_content('CX Data Collection was successfully destroyed.')
       end
     end
   end
