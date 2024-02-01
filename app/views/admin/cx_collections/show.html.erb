@@ -109,7 +109,7 @@
           <thead>
             <tr>
               <th>Survey title</th>
-              <th>Stage</th>
+              <th>Service stage</th>
               <th>Type of feedback survey</th>
               <th>Channel</th>
               <th>Responses uploaded</th>
@@ -133,7 +133,7 @@
                 <%= cx_collection_detail.channel %>
               </td>
               <td>
-                <%= number_with_delimiter(cx_collection_detail.cx_responses.size) %>
+                <%= cx_collection_detail.cx_responses.size == "0" ? number_with_delimiter(cx_collection_detail.cx_responses.size) : "Still uploading..." %>
               </td>
             </tr>
             <% end %>

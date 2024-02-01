@@ -50,7 +50,7 @@ module Admin
       respond_to do |format|
         if @cx_collection.save
           Event.log_event(Event.names[:collection_cx_created], 'Collection', @cx_collection.id, "Collection #{@cx_collection.name} created at #{DateTime.now}", current_user.id)
-          format.html { redirect_to admin_cx_collection_url(@cx_collection), notice: "Cx collection was successfully created." }
+          format.html { redirect_to admin_cx_collection_url(@cx_collection), notice: "CX Data Collection was successfully created." }
           format.json { render :show, status: :created, location: @cx_collection }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -62,14 +62,14 @@ module Admin
     def submit
       @cx_collection.submit!
       Event.log_event(Event.names[:cx_collection_submitted], 'Collection', @cx_collection.id, "Collection #{@cx_collection.name} submitted at #{DateTime.now}", current_user.id)
-      UserMailer.collection_notification(collection_id: @cx_collection.id).deliver_later
-      redirect_to admin_cx_collection_path(@cx_collection), notice: 'Collection has been submitted successfully.'
+      UserMailer.cx_collection_notification(cx_collection_id: @cx_collection.id).deliver_later
+      redirect_to admin_cx_collection_path(@cx_collection), notice: 'CX Data Collection has been submitted successfully.'
     end
 
     def publish
       @cx_collection.publish!
       Event.log_event(Event.names[:cx_collection_published], 'Collection', @cx_collection.id, "Collection #{@cx_collection.name} published at #{DateTime.now}", current_user.id)
-      redirect_to admin_cx_collection_path(@cx_collection), notice: 'Collection has been published successfully.'
+      redirect_to admin_cx_collection_path(@cx_collection), notice: 'CX Data Collection has been published successfully.'
     end
 
     def export_csv
@@ -103,7 +103,7 @@ module Admin
       respond_to do |format|
         if @cx_collection.update(cx_collection_params)
           Event.log_event(Event.names[:collection_cx_updated], 'Collection', @cx_collection.id, "Collection #{@cx_collection.name} updated at #{DateTime.now}", current_user.id)
-          format.html { redirect_to admin_cx_collection_url(@cx_collection), notice: "Cx collection was successfully updated." }
+          format.html { redirect_to admin_cx_collection_url(@cx_collection), notice: "CX Data Collection was successfully updated." }
           format.json { render :show, status: :ok, location: @cx_collection }
         else
           format.html { render :edit, status: :unprocessable_entity }
@@ -117,7 +117,7 @@ module Admin
 
       respond_to do |format|
         Event.log_event(Event.names[:cx_collection_deleted], 'Collection', @cx_collection.id, "Collection #{@cx_collection.name} deleted at #{DateTime.now}", current_user.id)
-        format.html { redirect_to admin_cx_collections_url, notice: "CX collection was successfully destroyed." }
+        format.html { redirect_to admin_cx_collections_url, notice: "CX Data Collection was successfully destroyed." }
         format.json { head :no_content }
       end
     end

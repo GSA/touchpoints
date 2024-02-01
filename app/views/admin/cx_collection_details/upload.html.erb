@@ -42,11 +42,11 @@
   <div class="usa-form-group">
     <%= form.label :logo_display, "Upload CX Data Collection", class: "usa-label text-uppercase font-body-3xs",
     for: "file-input-single" %>
-    <%= form.file_field :file, class: "usa-file-input display-logo", data_url: "" %>
+    <%= form.file_field :file, class: "usa-file-input display-logo", data_url: "", onchange: "enableSubmitButton()" %>
   </div>
 
   <p>
-    <%= form.submit class: "usa-button" %>
+    <%= form.submit id: "button-cx-upload", class: "usa-button", disabled: true %>
   </p>
 <% end %>
 
@@ -54,8 +54,8 @@
   <thead>
     <tr>
       <th>User</th>
-      <th>File path</th>
-      <th>Size</th>
+      <th>Uploaded file URL</th>
+      <th>Filesize</th>
       <th>Timestamp</th>
       <th>Uploaded record count</th>
       <% if service_manager_permissions? %>
@@ -65,6 +65,8 @@
   </thead>
 
   <tbody>
+  <% presigner = s3_presigner %>
+
   <% if @uploads.present? %>
     <% @uploads.each do |upload| %>
       <tr>
@@ -72,7 +74,7 @@
           <%= upload.user.email %>
         </td>
         <td>
-          <%= link_to(upload.key, upload.key) %>
+          <%= link_to "Uploaded file", s3_presigned_url(upload.key) %>
         </td>
         <td>
           <%= upload.size %>
@@ -81,13 +83,15 @@
           <%= upload.created_at %>
         </td>
         <td>
-          <% @responses = CxResponse.where(cx_collection_detail_upload_id: upload.id).count %>
-          <%= @responses %>
-          <%#= CxResponse.where(cx_collection_detail_upload_id: upload.id).entries %>
+          <% count = CxResponse.where(cx_collection_detail_upload_id: upload.id).count %>
+          <%= count == 0 ? "To be processed..." : count %>
         </td>
         <% if service_manager_permissions? %>
         <td>
           <%= link_to "Process CSV file to database", process_admin_cx_collection_detail_path(@cx_collection_detail, upload.id), method: :post %>
+        </td>
+        <td>
+          <%= upload.job_id %>
         </td>
         <% end %>
       </tr>
@@ -96,5 +100,19 @@
   </tbody>
 </table>
 
-
 <br>
+
+<script>
+  // Enable the submit button if a file has been added to the file upload input
+  function enableSubmitButton() {
+    var fileInput = document.getElementById('file');
+    var submitButton = document.getElementById('button-cx-upload');
+
+    // Check if a file has been selected
+    if (fileInput.files.length > 0) {
+      submitButton.disabled = false;
+    } else {
+      submitButton.disabled = true;
+    }
+  }
+</script>
