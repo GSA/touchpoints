@@ -11,7 +11,7 @@
   Upload CX Collection Data
 <% end %>
 
-<div class="usa-prose">
+<div class="usa-prose margin-bottom-2">
   <%= link_to admin_cx_collection_path(@cx_collection_detail.cx_collection) do %>
   <i class="fa fa-arrow-circle-left"></i>
   Back to CX Data Collection
@@ -23,37 +23,43 @@
   <% end %>
 </div>
 
-<p>
-  Before you attach your survey dataset below,
-  <br>
-  please review
-  <%= link_to "this checklist", "https://github.com/GSA/touchpoints/wiki/CX‐Data‐Collection‐Data‐Format", target: "_blank" %>
-   and make sure the CSV upload file is in the correct format.
-</p>
-
-<%= form_with url: post_csv_admin_cx_collection_detail_path, method: :post, local: true, multipart: true, data: { turbo: false } do |form| %>
-  <% if @cx_collection_detail.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(@cx_collection_detail.errors.count, "error") %> prohibited this cx_collection_detail from being saved:</h2>
-
-      <ul>
-        <% @cx_collection_detail.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="usa-form-group">
-    <%= form.label :logo_display, "Upload CX Data Collection", class: "usa-label text-uppercase font-body-3xs",
-    for: "file-input-single" %>
-    <%= form.file_field :file, class: "usa-file-input display-logo", data_url: "", onchange: "enableSubmitButton()" %>
+<div class="usa-alert">
+  <div class="usa-alert__body">
+    <p class="usa-alert__text">
+      Before you attach your survey dataset below,
+      <br>
+      please review
+      <%= link_to "this checklist", "https://github.com/GSA/touchpoints/wiki/CX‐Data‐Collection‐Data‐Format", target: "_blank", class: "usa-link usa-link--external" %>
+      and ensure the .csv upload file is correctly formatted.
+    </p>
   </div>
+</div>
 
-  <p>
-    <%= form.submit id: "button-cx-upload", class: "usa-button", disabled: true %>
-  </p>
-<% end %>
+<div class="well margin-top-2 margin-bottom-2">
+  <%= form_with url: post_csv_admin_cx_collection_detail_path, method: :post, local: true, multipart: true, data: { turbo: false } do |form| %>
+    <% if @cx_collection_detail.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(@cx_collection_detail.errors.count, "error") %> prohibited this cx_collection_detail from being saved:</h2>
+
+        <ul>
+          <% @cx_collection_detail.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="usa-form-group">
+      <%= form.label :logo_display, "Upload CX Data Collection .csv", class: "usa-label text-uppercase font-body-3xs",
+      for: "file-input-single" %>
+      <%= form.file_field :file, class: "usa-file-input display-logo", data_url: "", onchange: "enableSubmitButton()" %>
+    </div>
+
+    <p>
+      <%= form.submit id: "button-cx-upload", class: "usa-button", disabled: true %>
+    </p>
+  <% end %>
+</div>
 
 <table class="usa-table">
   <thead>
@@ -90,7 +96,7 @@
         </td>
         <td>
           <% count = CxResponse.where(cx_collection_detail_upload_id: upload.id).count %>
-          <%= count == 0 ? "To be processed..." : count %>
+          <%= count == 0 ? "To be processed..." : number_with_delimiter(count) %>
         </td>
         <% if service_manager_permissions? %>
         <td>
