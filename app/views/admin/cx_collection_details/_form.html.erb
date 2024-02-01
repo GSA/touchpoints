@@ -11,14 +11,16 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :cx_collection_id, class: "usa-label" %>
-    <%= form.hidden_field :cx_collection_id, class: "usa-input", value: cx_collection_detail.cx_collection_id %>
-    <%= form.select :cx_collection_id,
-      cx_collections.map { |collection| ["#{collection.organization.abbreviation} - #{collection.organization.name} - #{collection.service.name}", collection.id]},
-      { include_blank: true },
-      class: "usa-select" %>
-  </div>
+  <%= form.hidden_field :cx_collection_id, class: "usa-input", value: cx_collection_detail.cx_collection_id %>
+  <% if service_manager_permissions? %>
+    <div>
+      <%= form.label :cx_collection_id, class: "usa-label" %>
+      <%= form.select :cx_collection_id,
+        cx_collections.map { |collection| ["#{collection.organization.abbreviation} - #{collection.organization.name} - #{collection.service.name}", collection.id]},
+        { include_blank: true },
+        class: "usa-select" %>
+    </div>
+  <% end %>
 
   <div>
     <%= form.label :transaction_point, "Type of Feedback Survey", class: "usa-label" %>
