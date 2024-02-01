@@ -147,7 +147,7 @@ feature 'CX Data Collections', js: true do
 
       it 'destroys the requested collection' do
         expect(page).to have_content('Data Collections')
-        expect(page).to have_content('CX collection was successfully destroyed.')
+        expect(page).to have_content('CX Data Collection was successfully destroyed.')
       end
     end
   end

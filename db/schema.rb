@@ -196,6 +196,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_31_224209) do
     t.datetime "updated_at", null: false
     t.string "aasm_state"
     t.string "record_count"
+    t.string "job_id"
   end
 
   create_table "cx_collection_details", force: :cascade do |t|
