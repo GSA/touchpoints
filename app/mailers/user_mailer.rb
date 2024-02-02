@@ -49,6 +49,13 @@ class UserMailer < ApplicationMailer
          to: (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',') + User.performance_managers.collect(&:email)).uniq
   end
 
+  def cx_collection_notification(cx_collection_id:)
+    set_logo
+    @cx_collection = CxCollection.find(cx_collection_id)
+    mail subject: "CX Data Collection notification to #{@cx_collection.name}",
+         to: (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',') + User.performance_managers.collect(&:email)).uniq
+  end
+
   def cscrm_data_collection_notification(collection_id:)
     set_logo
     @collection = CscrmDataCollection.find(collection_id)
