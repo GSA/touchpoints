@@ -23,7 +23,8 @@ class Admin::CxCollectionDetailsController < AdminController
   end
 
   def upload
-    @uploads = CxCollectionDetailUpload.where(cx_collection_detail_id: @cx_collection_detail.id)
+    @uploads = CxCollectionDetailUpload
+      .where(cx_collection_detail_id: @cx_collection_detail.id)
       .order("created_at DESC")
   end
 
@@ -113,7 +114,7 @@ class Admin::CxCollectionDetailsController < AdminController
         key: obj.key,
       })
 
-      flash[:notice] = "A .csv file with #{csv_file.size} rows was uploaded successfully."
+      flash[:notice] = "A .csv file with #{csv_file.size} rows was uploaded successfully. Please see your uploaded file in the table below, then return to the CX Data Collection."
     elsif !@valid_file_extension
       flash[:notice] = "File has a file extension of #{file_extension}, but it should be .csv."
     elsif !@valid_file_headers
@@ -125,47 +126,10 @@ class Admin::CxCollectionDetailsController < AdminController
   end
 
   def process_csv
-    job_id = SecureRandom.hex[0..5]
     uploaded_file = CxCollectionDetailUpload.find(params[:cx_collection_detail_upload_id])
+    uploaded_file.process_csv
 
-    # Get the file from s3
-    bucket = ENV.fetch("S3_UPLOADS_AWS_BUCKET_NAME")
-    key = uploaded_file.key
-
-    response = s3_service.client.get_object(bucket: bucket, key: key)
-    string = response.body.read
-
-    # Parse it
-    csv = CSV.parse(string, headers: true)
-
-    csv.each do |row|
-      # Create the database record
-      CxResponse.create!({
-        external_id: row["external_id"],
-        cx_collection_detail_id: @cx_collection_detail.id,
-        cx_collection_detail_upload_id: uploaded_file.id,
-        job_id: job_id,
-        question_1: row["question_1"],
-        positive_effectiveness: row["positive_effectiveness"],
-        positive_ease: row["positive_ease"],
-        positive_efficiency: row["positive_efficiency"],
-        positive_transparency: row["positive_transparency"],
-        positive_humanity: row["positive_humanity"],
-        positive_employee: row["positive_employee"],
-        positive_other: row["positive_other"],
-        negative_effectiveness: row["negative_effectiveness"],
-        negative_ease: row["negative_ease"],
-        negative_efficiency: row["negative_efficiency"],
-        negative_transparency: row["negative_transparency"],
-        negative_humanity: row["negative_humanity"],
-        negative_employee: row["negative_employee"],
-        negative_other: row["negative_other"],
-        question_4: row["question_4"],
-      })
-
-    end
-
-    flash[:notice] = "A .csv file with #{csv.size} rows was uploaded successfully."
+    flash[:notice] = "A .csv file with #{uploaded_file.record_count} rows was uploaded successfully. Please see your upload file in the table below, then return to the CX Data Collection."
     render :upload
   end
 

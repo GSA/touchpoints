@@ -319,7 +319,6 @@ function FBAform(d, N) {
 			return true;
 		},
 		showValidationError: function(question,error) {
-
 			var questionDiv = question.closest(".question");
 			var label = questionDiv.querySelector(".usa-label") || questionDiv.querySelector(".usa-legend");
 			var questionNum = label.innerText;
@@ -327,7 +326,7 @@ function FBAform(d, N) {
 			// show page with validation error
 			var errorPage = question.closest(".section");
 			if (!errorPage.classList.contains("visible")) {
-				var visiblePage = document.getElementsByClassName("section visible")[0];
+				var visiblePage = this.formComponent().getElementsByClassName("section visible")[0];
 				visiblePage.classList.remove("visible");
 				errorPage.classList.add("visible");
 			}
@@ -363,8 +362,7 @@ function FBAform(d, N) {
 			elem = form.querySelector('#input-error');
 			if (elem != null) elem.parentNode.removeChild(elem);
 		},
-		textCounter: function(field,maxlimit)
-			{
+		textCounter: function(field,maxlimit) {
 			 var countfield = field.parentNode.querySelector(".counter-msg");
 			 if ( field.value.length > maxlimit ) {
 			  field.value = field.value.substring( 0, maxlimit );
@@ -374,8 +372,7 @@ function FBAform(d, N) {
 			  countfield.innerText = "" + (maxlimit - field.value.length) + " <%= t :characters_left %>";
 			 }
 		},
-		loadButton: function()
-		{
+		loadButton: function() {
 			// Add the fixed, floating tab button
 			this.buttonEl = document.createElement('a');
 			this.buttonEl.setAttribute('id', 'fba-button');
@@ -563,6 +560,27 @@ function FBAform(d, N) {
 				<% end %>
 			}));
 		},
+		currentPageNumber: 1, // start at 1
+		showInstructions: function() {
+			const instructions = this.formComponent().getElementsByClassName("fba-instructions")[0];
+
+			if(instructions) {
+				if (this.currentPageNumber == 1) {
+					instructions.removeAttribute("hidden");
+				} else {
+					instructions.setAttribute("hidden", true);
+				}
+			}
+
+			const requiredQuestionsNotice = this.formComponent().getElementsByClassName("required-questions-notice")[0];
+			if(requiredQuestionsNotice) {
+				if (this.currentPageNumber == 1) {
+					requiredQuestionsNotice.removeAttribute("hidden");
+				} else {
+					requiredQuestionsNotice.setAttribute("hidden", true);
+				}
+			}
+		},
 		pagination: function() {
 			var previousButtons = document.getElementsByClassName("previous-section");
 			var nextButtons = document.getElementsByClassName("next-section");
@@ -574,6 +592,9 @@ function FBAform(d, N) {
 					var currentPage = e.target.closest(".section");
 					if (!this.validateForm(currentPage)) return false;
 					currentPage.classList.remove("visible");
+					this.currentPageNumber--;
+					this.showInstructions();
+
 					currentPage.previousElementSibling.classList.add("visible");
 
 					// if in a modal, scroll to the top of the modal on previous button click
@@ -584,13 +605,14 @@ function FBAform(d, N) {
 					}
 				}.bind(self));
 			}
-
 			for (var i = 0; i < nextButtons.length; i++) {
 				nextButtons[i].addEventListener('click', function(e) {
 					e.preventDefault();
 					var currentPage = e.target.closest(".section");
 					if (!this.validateForm(currentPage)) return false;
 					currentPage.classList.remove("visible");
+					this.currentPageNumber++;
+					this.showInstructions();
 					currentPage.nextElementSibling.classList.add("visible");
 					window.scrollTo(0, 0);
 

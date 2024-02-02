@@ -1,7 +1,7 @@
 class CxCollectionDetail < ApplicationRecord
   belongs_to :cx_collection
   belongs_to :service_stage, optional: true
-  has_many :cx_responses
+  has_many :cx_responses, dependent: :delete_all
 
   def self.to_csv
     collection_details = CxCollectionDetail.all
