@@ -28,7 +28,7 @@
     </p>
     <% end -%>
     <%- if form.questions.any?(&:is_required?) %>
-    <p>
+    <p class="required-questions-notice">
       <small>
         <%= t('form.required_field_html') %>
       </small>

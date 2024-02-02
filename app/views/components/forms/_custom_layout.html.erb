@@ -10,14 +10,16 @@
         <% end %>
         <%= form.title %>
       </h2>
-      <% if form.instructions.present? %>
-        <p>
+      <%- if form.instructions.present? %>
+        <p class="fba-instructions">
           <%= sanitize(form.instructions) %>
         </p>
       <% end %>
       <%- if form.questions.any?(&:is_required?) %>
-        <p>
-          <%= t('form.required_field_html') %>
+        <p class="required-questions-notice">
+          <small>
+            <%= t('form.required_field_html') %>
+          </small>
         </p>
       <% end %>
       <%= render 'components/forms/flash', form: form %>
