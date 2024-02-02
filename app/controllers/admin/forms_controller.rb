@@ -71,7 +71,7 @@ module Admin
 
       @form.publish!
       UserMailer.form_status_changed(form: @form, action: 'published').deliver_later
-      redirect_to admin_form_path(@form), notice: 'Published'
+      redirect_to admin_form_path(@form), notice: 'This form has been Published successfully.'
     end
 
     def archive
@@ -79,14 +79,14 @@ module Admin
 
       @form.archive!
       UserMailer.form_status_changed(form: @form, action: 'archived').deliver_later
-      redirect_to admin_form_path(@form), notice: 'Archived'
+      redirect_to admin_form_path(@form), notice: 'This form has been Archived successfully.'
     end
 
     def reset
       Event.log_event(Event.names[:form_reset], 'Form', @form.uuid, "Form #{@form.name} reset at #{DateTime.now}", current_user.id)
 
       @form.reset!
-      redirect_to admin_form_path(@form), notice: 'Form has been reset'
+      redirect_to admin_form_path(@form), notice: 'This form has been reset.'
     end
 
     def update_title

@@ -469,6 +469,9 @@ span.usa-hint.save-notice {
   .section .questions .question:first-child {
     margin-top: 0;
   }
+  .section .questions .question:last-child {
+    margin-bottom: 0;
+  }
   .question {
     margin: 10px 0;
     padding-bottom: 20px;

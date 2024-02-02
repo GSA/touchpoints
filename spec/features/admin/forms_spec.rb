@@ -271,7 +271,7 @@ feature 'Forms', js: true do
           end
 
           it "display 'Reset' flash message" do
-            expect(page).to have_content('Form has been reset')
+            expect(page).to have_content('This form has been reset.')
             expect(page).to have_content('Form is not published')
           end
         end
