@@ -2,7 +2,7 @@
 
 <form
   action="<%= root_url %>touchpoints/<%= form.present? ? form.short_uuid : nil %>/submissions.json"
-  class="usa-form usa-form--large"
+  class="usa-form usa-form--large margin-bottom-2"
   method="POST">
   <div class="touchpoints-form-body">
     <%= hidden_field_tag :authenticity_token, form_authenticity_token if form.verify_csrf? -%>
@@ -19,23 +19,31 @@
       <div class="section <%= 'visible' if section == form.form_sections.first -%>">
         <%- if (section != form.form_sections.first) || (section != form.form_sections.last) %>
           <%- if section != form.form_sections.first %>
-          <div class="pagination-buttons">
-            <%= link_to (t 'form.back'), "#previous-page", class: "usa-button previous-section", 'data-form-section-target' => "" %>
-          </div>
-          <br>
+          <nav aria-label="Pagination" class="pagination-buttons margin-bottom-2">
+            <%= link_to "#previous-page",
+              class: "previous-section usa-button margin-top-0",
+              "aria-label" => (t 'form.back'),
+              'data-form-section-target' => "" do %>
+                <%= (t 'form.back') %>
+            <% end %>
+          </nav>
           <% end %>
         <% end %>
 
+        <%#= render "components/forms/step_indicator" TODO %>
+
         <%- if form.form_sections.size > 1 %>
         <div class="section-header">
-          <h4 class="section-title-view">
+          <div class="section-title-view text-bold">
             <%- if section.title.present? -%>
               <%= section.title %> -
             <% end %>
             <small>
-              <%= t :page %> <%= index + 1 %> <%= t :of %> <%= form.form_sections.size %>
+              <%= t :page %> <%= index + 1 %>
+              <%= t :of %>
+              <%= form.form_sections.size %>
             </small>
-          </h4>
+          </div>
         </div>
         <% end %>
 
@@ -93,17 +101,20 @@
         <%- if (section != form.form_sections.first) || (section != form.form_sections.last) %>
           <div class="pagination-buttons">
             <%- if (section == form.form_sections.first) && form.early_submission? %>
-              <div>
-                <h4>
-                  <%= t 'form.answer_more_questions' %>
-                </h4>
-                <%= link_to (t 'form.yes_keep_going'), "#next-page", class: "usa-button next-section", 'data-form-section-target' => "" %>
-                <button type="submit" id="fba-early-submit" class="usa-button usa-button--base"><%= t 'form.no_submit' %></button>
+              <div class="usa-prose text-bold margin-top-3">
+                <%= t 'form.answer_more_questions' %>
               </div>
+              <%= link_to (t 'form.yes_keep_going'), "#next-page", class: "usa-button next-section", 'data-form-section-target' => "" %>
+              <button type="submit" id="fba-early-submit" class="usa-button usa-button--outline"><%= t 'form.no_submit' %></button>
             <% elsif section != form.form_sections.last %>
-              <p>
-                <%= link_to (t 'form.next'), "#next-page", class: "usa-button next-section", 'data-form-section-target' => "" %>
-              </p>
+              <nav aria-label="Pagination" class="pagination-buttons text-right">
+                <%= link_to "#next-page",
+                  class: "next-section usa-button",
+                  "aria-label" => (t 'form.next'),
+                  'data-form-section-target' => "" do %>
+                    <%= (t 'form.next') %>
+                <% end %>
+              </nav>
             <% end %>
           </div>
         <% end %>

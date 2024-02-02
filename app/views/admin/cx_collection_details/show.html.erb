@@ -53,7 +53,6 @@
 <p>
   <strong>Channel:</strong>
   <%= @cx_collection_detail.channel %>
-
 </p>
 
 <p>
@@ -64,23 +63,26 @@
     <%= link_to "Service Stage", admin_service_service_stages_path(@cx_collection_detail.cx_collection.service) %>
     is not defined.
   <% end %>
+
+  <span class="margin-left-5">
+    <%= link_to("See this Service's Stages", admin_service_service_stages_path(@cx_collection_detail.cx_collection.service), class: "usa-hint font-sans-2xs ") %>
+  </span>
 </p>
+
 
 <p>
   <strong>Volume of customers:</strong>
-  <%= @cx_collection_detail.volume_of_customers %>
-
+  <%= number_with_delimiter(@cx_collection_detail.volume_of_customers) %>
 </p>
 
 <p>
   <strong>Volume of customers provided survey opportunity:</strong>
-  <%= @cx_collection_detail.volume_of_customers_provided_survey_opportunity %>
-
+  <%= number_with_delimiter(@cx_collection_detail.volume_of_customers_provided_survey_opportunity) %>
 </p>
 
 <p>
   <strong>Volume of respondents:</strong>
-  <%= @cx_collection_detail.volume_of_respondents %>
+  <%= number_with_delimiter(@cx_collection_detail.volume_of_respondents) %>
 
 </p>
 
