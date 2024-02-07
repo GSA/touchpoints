@@ -116,4 +116,8 @@ class Submission < ApplicationRecord
   def set_uuid
     self.uuid = SecureRandom.uuid if uuid.blank?
   end
+
+  def events
+    @events = Event.where(object_type: 'Submission', object_uuid: self.id).order("created_at DESC")
+  end
 end

@@ -47,10 +47,10 @@
         <thead>
           <tr>
             <th>
-              Question
+              Question text
             </th>
             <th>
-              Answer
+              Answer value
             </th>
           </tr>
         </thead>
@@ -67,74 +67,106 @@
       <% end %>
       </table>
     </div>
-    <br>
-    <br>
-    <div class="well">
+    <div class="margin-top-4">
       <div class="text-uppercase font-body-3xs">
         Response metadata
       </div>
 
-      <p>
-        <label class="usa-label">
-          Unique Response ID
-        </label>
-        <%= @submission.uuid %>
-      </p>
-      <p>
-        <label class="usa-label">
-          Received at
-        </label>
-        <%= @submission.created_at %> -
-        <%= time_ago_in_words(@submission.created_at) %> ago
-      </p>
-      <p>
-        <label class="usa-label">
-          Location code
-        </label>
-        <%= @submission.location_code? ? sanitize(@submission.location_code) : "none" %>
-      </p>
-      <p>
-        <label class="usa-label">
-          User agent
-        </label>
-        <%= sanitize(@submission.user_agent) %>
-      </p>
-      <p>
-        <label class="usa-label">
-          Submitted from hostname
-        </label>
-        <%= sanitize(@submission.hostname) %>
-      </p>
-      <p>
-        <label class="usa-label">
-          Submitted from page
-        </label>
-        <%= sanitize(@submission.page) %>
-      </p>
-      <p>
-        <label class="usa-label">
-          Referer
-        </label>
-        <%= sanitize(@submission.referer) %>
-      </p>
-      <p>
-        <label class="usa-label">
-          Language
-        </label>
-        <%= @submission.language %>
-      </p>
-      <p>
-        <label class="usa-label">
-          Flagged
-        </label>
-        <%= @submission.flagged %>
-      </p>
-      <p>
-        <label class="usa-label">
-          Archived
-        </label>
-        <%= @submission.archived? %>
-      </p>
+      <table class="usa-table usa-table--striped width-full">
+        <thead>
+          <tr>
+            <th>
+              Attribute
+            </th>
+            <th>
+              Value
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              Unique Response ID
+            </td>
+            <td>
+              <%= @submission.uuid %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Received at
+            </td>
+            <td>
+              <%= @submission.created_at %> -
+              <%= time_ago_in_words(@submission.created_at) %> ago
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Location code
+            </td>
+            <td>
+              <%= @submission.location_code? ? sanitize(@submission.location_code) : "none" %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              User agent
+            </td>
+            <td>
+              <%= sanitize(@submission.user_agent) %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Submitted from hostname
+            </td>
+            <td>
+              <%= sanitize(@submission.hostname) %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Submitted from page
+            </td>
+            <td>
+              <%= sanitize(@submission.page) %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Referer
+            </td>
+            <td>
+              <%= sanitize(@submission.referer) %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Language
+            </td>
+            <td>
+              <%= @submission.language %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Flagged
+            </td>
+            <td>
+              <%= @submission.flagged %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Archived
+            </td>
+            <td>
+              <%= @submission.archived? %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
   <div class="grid-col-4">
@@ -158,6 +190,7 @@
     <div class="tags-div well">
       <%= render 'admin/submissions/tags', submission: @submission %>
     </div>
+    <%= render 'components/event_log', events: @submission.events %>
   </div>
 </div>
 
