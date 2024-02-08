@@ -3681,10 +3681,12 @@
   padding:0.5rem 1rem;
   position:absolute;
   top:-3.8rem;
-  transition:0.2s ease-in-out;
+  transition:0.15s ease-in-out;
   z-index:100;
 }
-
+.usa-skipnav:visited{
+  color:#54278f;
+}
 .usa-skipnav:hover{
   color:#1a4480;
 }
@@ -3693,15 +3695,18 @@
 }
 .usa-skipnav:focus{
   outline:0.25rem solid #2491ff;
-  outline-offset:0;
+  outline-offset:0rem;
+}
+.usa-skipnav:focus, .usa-skipnav.usa-focus{
   background:white;
   left:0;
   position:absolute;
   top:0;
-  transition:0.2s ease-in-out;
+  transition:0.15s ease-in-out;
 }
-.usa-skipnav:visited{
-  color:#54278f;
+
+.usa-skipnav__container{
+  position:relative;
 }
 
 /* .usa-tooltip not used */
