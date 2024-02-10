@@ -14,21 +14,19 @@
         Form information
       </div>
       <div class="grid-row grid-gap-md">
-        <div class="grid-col-12">
+        <div class="grid-col-4">
           <label class="usa-label">
             Organization
           </label>
           <%= link_to(@submission.form.organization.name, admin_organization_path(@submission.form.organization)) %>
         </div>
-      </div>
-      <div class="grid-row grid-gap-md">
-        <div class="grid-col-6">
+        <div class="grid-col-4">
           <label class="usa-label">
             Name
           </label>
           <%= link_to(@submission.form.name, admin_form_path(@submission.form)) %>
         </div>
-        <div class="grid-col-6">
+        <div class="grid-col-4">
           <label class="usa-label">
             Display title
           </label>
