@@ -193,36 +193,6 @@ module Admin
       @websites = Website.active.order(:site_owner_email, :domain)
     end
 
-    private
-
-    def search_admin_websites(websites, search_text, tag_name)
-      if search_text.present?
-        search_text = "%#{search_text}%"
-        managed_sites = Website.where(id: Website.ids_by_manager_search(search_text))
-        websites.where('domain ILIKE ? OR office ILIKE ? OR sub_office ILIKE ? OR production_status ILIKE ? OR site_owner_email ILIKE ?', search_text, search_text, search_text, search_text, search_text)
-                .or(managed_sites)
-                .order(:production_status, :domain)
-      elsif tag_name.present?
-        websites.tagged_with(tag_name).order(:production_status, :domain)
-      else
-        websites.order(:production_status, :domain)
-      end
-    end
-
-    def search_user_websites(websites, search_text, tag_name)
-      if search_text.present?
-        search_text = "%#{search_text}%"
-        managed_sites = Website.where(id: Website.ids_by_manager_search(search_text))
-        websites.where('domain ILIKE ? OR office ILIKE ? OR sub_office ILIKE ? OR production_status ILIKE ? OR site_owner_email ILIKE ?', search_text, search_text, search_text, search_text, search_text)
-                .or(managed_sites)
-                .order(:production_status, :domain)
-      elsif tag_name.present?
-        websites.tagged_with(tag_name).order(:production_status, :domain)
-      else
-        websites.order(:production_status, :domain)
-      end
-    end
-
     def gsa
       @websites = Website.active.order(:production_status, :domain)
     end
@@ -491,6 +461,34 @@ module Admin
       else
         current_user.organization.websites.active
       end.includes(:taggings).order(:production_status, :domain)
+    end
+
+    def search_admin_websites(websites, search_text, tag_name)
+      if search_text.present?
+        search_text = "%#{search_text}%"
+        managed_sites = Website.where(id: Website.ids_by_manager_search(search_text))
+        websites.where('domain ILIKE ? OR office ILIKE ? OR sub_office ILIKE ? OR production_status ILIKE ? OR site_owner_email ILIKE ?', search_text, search_text, search_text, search_text, search_text)
+                .or(managed_sites)
+                .order(:production_status, :domain)
+      elsif tag_name.present?
+        websites.tagged_with(tag_name).order(:production_status, :domain)
+      else
+        websites.order(:production_status, :domain)
+      end
+    end
+
+    def search_user_websites(websites, search_text, tag_name)
+      if search_text.present?
+        search_text = "%#{search_text}%"
+        managed_sites = Website.where(id: Website.ids_by_manager_search(search_text))
+        websites.where('domain ILIKE ? OR office ILIKE ? OR sub_office ILIKE ? OR production_status ILIKE ? OR site_owner_email ILIKE ?', search_text, search_text, search_text, search_text, search_text)
+                .or(managed_sites)
+                .order(:production_status, :domain)
+      elsif tag_name.present?
+        websites.tagged_with(tag_name).order(:production_status, :domain)
+      else
+        websites.order(:production_status, :domain)
+      end
     end
 
     def admin_website_params
