@@ -2,6 +2,7 @@
   <%= label_tag "Event log", nil, class: "usa-label margin-top-0" %>
 
   <div class="events">
+  <% if events.present? %>
     <ol class="usa-process-list" reversed>
     <% events.each do |event| %>
       <li class="usa-process-list__item">
@@ -19,5 +20,8 @@
       </li>
     <% end %>
     </ol>
+  <% else %>
+    No events logged.
+  <% end %>
   </div>
 </div>

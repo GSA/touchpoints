@@ -9,45 +9,46 @@
         (<%= Website::ACTIVE_PRODUCTION_STATUSES.to_sentence %>)
       </small>
     <% else %>
-      <%= link_to "View All sites", "?all=1" %>
-      <small>
-        (also includes <%= (Website::PRODUCTION_STATUSES.keys - Website::ACTIVE_PRODUCTION_STATUSES).to_sentence %>)
+      <%= link_to "View all sites", "?all=1" %>
+      <small class="text-base">
+        (includes <%= (Website::PRODUCTION_STATUSES.keys - Website::ACTIVE_PRODUCTION_STATUSES).to_sentence %> status websites)
       </small>
     <% end %>
   <% end %>
 </p>
-<div class="usa-table-container--scrollable">
-  <table class="usa-table" style="overflow-x: scroll;">
-    <thead>
+<table class="usa-table width-full">
+  <thead>
+    <tr>
+      <th
+        data-sortable
+        scope="col">Organization</th>
+      <th
+        data-sortable
+        scope="col">Domain</th>
+      <th data-sortable scope="col">Status</th>
+      <th data-sortable scope="col">Office</th>
+      <th data-sortable scope="col">Sub-office</th>
+      <th data-sortable scope="col">Primary Contact</th>
+      <th data-sortable scope="col">Public Email</th>
+      <th>Tags</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @websites.order(:production_status).each do |website| %>
       <tr>
-        <th
-            data-sortable
-            scope="col"
-           >Domain</th>
-        <th data-sortable scope="col">Status</th>
-        <th data-sortable scope="col">Office</th>
-        <th data-sortable scope="col">Sub-office</th>
-        <th data-sortable scope="col">Primary Contact</th>
-        <th data-sortable scope="col">Public Email</th>
-        <th>Tags</th>
+        <td><%= link_to(website.organization_name, admin_organization_path(website.organization)) %></td>
+        <td><%= link_to(website.domain, admin_website_path(website)) %></td>
+        <td data-sort-value="<%= website_status_sort_values[website.production_status] %>">
+          <span class="usa-tag <%= website_status_label_tags(website.production_status) %>">
+            <%= website.production_status %>
+          </span>
+        </td>
+        <td><%= website.office %></td>
+        <td><%= website.sub_office %></td>
+        <td><%= website.site_owner_email %></td>
+        <td><%= website.contact_email %></td>
+        <td><%= website.tag_list %></td>
       </tr>
-    </thead>
-    <tbody>
-      <% @websites.order(:production_status).each do |website| %>
-        <tr>
-          <td><%= link_to(website.domain, admin_website_path(website)) %></td>
-          <td data-sort-value="<%= website_status_sort_values[website.production_status] %>">
-            <span class="usa-tag <%= website_status_label_tags(website.production_status) %>">
-              <%= website.production_status %>
-            </span>
-          </td>
-          <td><%= website.office %></td>
-          <td><%= website.sub_office %></td>
-          <td><%= website.site_owner_email %></td>
-          <td><%= website.contact_email %></td>
-          <td><%= website.tag_list %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+    <% end %>
+  </tbody>
+</table>
