@@ -13,6 +13,11 @@ module Admin
       export_versions
     ]
 
+    before_action :set_organization, only: %i[
+      index
+      search
+    ]
+
     before_action :set_website, only: %i[
       show costs statuscard edit update destroy collection_request
       submit
@@ -66,18 +71,12 @@ module Admin
 
     def index
       if admin_permissions?
-        if params[:all]
-          @websites = Website.all.includes(:taggings).order(:production_status, :domain)
-        else
-          @websites = Website.active.includes(:taggings).order(:production_status, :domain)
-        end
+        @websites = admin_index_websites
       else
-        if params[:all]
-          @websites = current_user.organization.websites.includes(:taggings).order(:production_status, :domain)
-        else
-          @websites = current_user.organization.websites.active.includes(:taggings).order(:production_status, :domain)
-        end
+        @websites = user_index_websites
       end
+
+      search
       @tags = Website.includes(:taggings).tag_counts_by_name
     end
 
@@ -180,36 +179,18 @@ module Admin
     def search
       search_text = params[:search]
       tag_name = params[:tag]
+      websites = @organization ? @organization.websites : Website.all
 
-      if admin_permissions?
+      @websites = if admin_permissions?
+                    search_admin_websites(websites, search_text, tag_name)
+                  else
+                    search_user_websites(websites, search_text, tag_name)
+                  end
+    end
 
-        if search_text.present?
-          search_text = "%#{search_text}%"
-          managed_sites = Website.where(id: Website.ids_by_manager_search(search_text))
-          @websites = Website.where(' domain ilike ? or office ilike ? or sub_office ilike ? or production_status ilike ? or site_owner_email ilike ? ', search_text, search_text, search_text, search_text, search_text).or(managed_sites).order(
-            :production_status, :domain
-          )
-        elsif tag_name.present?
-          @websites = Website.tagged_with(tag_name).order(:production_status, :domain)
-        else
-          @websites = Website.all.order(:production_status, :domain)
-        end
-
-      else
-
-        if search_text.present?
-          search_text = "%#{search_text}%"
-          managed_sites = Website.where(id: Website.ids_by_manager_search(search_text))
-          @websites = current_user.organization.websites.where(' domain ilike ? or office ilike ? or sub_office ilike ? or production_status ilike ? or site_owner_email ilike ? ', search_text, search_text, search_text, search_text, search_text).or(managed_sites).order(
-            :production_status, :domain
-          )
-        elsif tag_name.present?
-          @websites = current_user.organization.websites.tagged_with(tag_name).order(:production_status, :domain)
-        else
-          @websites = current_user.organization.websites.order(:production_status, :domain)
-        end
-
-      end
+    def collection_preview
+      ensure_admin
+      @websites = Website.active.order(:site_owner_email, :domain)
     end
 
     def gsa
@@ -220,11 +201,6 @@ module Admin
       @events = Event.where(object_type: 'Website', object_uuid: @website.id.to_s)
         .includes(:user)
         .order('created_at DESC')
-    end
-
-    def collection_preview
-      ensure_admin
-      @websites = Website.active.order(:site_owner_email, :domain)
     end
 
     def collection_request
@@ -460,6 +436,58 @@ module Admin
         @website = Website.find_by_id(params[:id])
       else
         @website = current_user.organization.websites.find_by_id(params[:id])
+      end
+    end
+
+    def set_organization
+      @organization = Organization.find_by_id(params[:organization_id])
+    end
+
+    def admin_index_websites
+      if params[:all]
+        Website.all
+      elsif @organization
+        @organization.websites.active
+      else
+        Website.active
+      end.includes(:taggings).order(:production_status, :domain)
+    end
+
+    def user_index_websites
+      if params[:all]
+        current_user.organization.websites
+      elsif @organization
+        @organization.websites
+      else
+        current_user.organization.websites.active
+      end.includes(:taggings).order(:production_status, :domain)
+    end
+
+    def search_admin_websites(websites, search_text, tag_name)
+      if search_text.present?
+        search_text = "%#{search_text}%"
+        managed_sites = Website.where(id: Website.ids_by_manager_search(search_text))
+        websites.where('domain ILIKE ? OR office ILIKE ? OR sub_office ILIKE ? OR production_status ILIKE ? OR site_owner_email ILIKE ?', search_text, search_text, search_text, search_text, search_text)
+                .or(managed_sites)
+                .order(:production_status, :domain)
+      elsif tag_name.present?
+        websites.tagged_with(tag_name).order(:production_status, :domain)
+      else
+        websites.order(:production_status, :domain)
+      end
+    end
+
+    def search_user_websites(websites, search_text, tag_name)
+      if search_text.present?
+        search_text = "%#{search_text}%"
+        managed_sites = Website.where(id: Website.ids_by_manager_search(search_text))
+        websites.where('domain ILIKE ? OR office ILIKE ? OR sub_office ILIKE ? OR production_status ILIKE ? OR site_owner_email ILIKE ?', search_text, search_text, search_text, search_text, search_text)
+                .or(managed_sites)
+                .order(:production_status, :domain)
+      elsif tag_name.present?
+        websites.tagged_with(tag_name).order(:production_status, :domain)
+      else
+        websites.order(:production_status, :domain)
       end
     end
 

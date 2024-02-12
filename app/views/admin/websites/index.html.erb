@@ -50,12 +50,24 @@
           Search websites
         </h3>
         <%= label_tag :search_text, "by domain, email, office, sub-office, or contact emails", class: "font-sans-2xs" %>
-        <%= text_field_tag :search_text, nil, class: "usa-input", autofocus: true %>
+        <%= text_field_tag :search_text, nil, class: "usa-input", autofocus: true, value: params[:search] %>
       </div>
     </div>
     <div class="tablet:grid-col-6">
+
+      <div class="field margin-top-3">
+        <h3 class="margin-bottom-2">
+          <span class="fa fa-filter"></span>
+          Filter by org
+        </h3>
+        <%= select_tag :organization_id, options_for_select(Organization.all.map { |p| [p.name, p.id] }, @organization.try(:id)),
+          prompt: "Select an Organization...",
+          class: "usa-select add-agency" %>
+        <%= link_to("Clear filter", admin_websites_path) if params[:organization_id] %>
+      </div>
+
       <% if @tags.first %>
-        <h3>
+        <h3 class="margin-top-3">
           <span class="fa fa-filter"></span>
           Filter by tag
         </h3>
@@ -97,17 +109,21 @@
       var searchValue = $("#search_text").val();
 
       $.ajax({
-        url: '/admin/websites/search',
+        url: '<%= search_admin_websites_path(organization_id: params[:organization_id]) %>',
         data: {
           search: searchValue
         }
       });
+
+      var url = new URL(window.location.href);
+      var searchParams = new URLSearchParams(url.search);
+      searchParams.set('search', searchValue);
+      window.history.replaceState({}, '', url.pathname + '?' + searchParams.toString());
     }, 400));
 
     $(".search-tag-link").on("click", function(e) {
       e.preventDefault();
 
-      $("#search_text").val("");
       $.ajax({
         url: '/admin/websites/search',
         data: {
@@ -115,5 +131,13 @@
         }
       });
     });
+
+    $("#organization_id").on("change", function(event) {
+      var organizationId = event.target.value;
+      var searchText = $("#search_text").val();
+
+      window.location = "<%= admin_websites_path %>?organization_id=" + organizationId + "&search=" + searchText;
+    })
+
   });
 </script>

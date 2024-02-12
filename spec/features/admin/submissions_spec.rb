@@ -399,7 +399,7 @@ feature 'Submissions', js: true do
 
             it 'can view a Submission' do
               expect(page).to have_content('Viewing a response')
-              expect(page).to_not have_content('Delete')
+              expect(page).to_not have_content('Delete this response')
             end
           end
         end
