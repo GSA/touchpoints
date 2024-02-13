@@ -87,46 +87,48 @@
     </div>
   </div>
   <div class="tablet:grid-col-4">
-    <div class=" bg-accent-cool-lighter">
-      <div class="padding-2">
-        <h3>
-          Add new user
-        </h3>
-
-        <p>
-          <small>
-            Users in the dropdown are limited to users with a
-            @<%= form.organization.domain %> address. Contact
-            <a href="mailto:feedback-analytics@gsa.gov">support</a>
-            to add a user from another organization.
-          </small>
-        </p>
-
-        <% if available_members.present? %>
-        <div>
-          <strong>
-            User
-          </strong>
-          <br>
-          <%= select_tag :add_user_id, options_for_select(available_members.map { |user| [user.email, user.id] }), prompt: "Select user by email", id: "add-user-id", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
-          <br>
-          <br>
-          <strong>
-            Role
-          </strong>
-          <br>
-          <%= select_tag :role, options_for_select([ ["Form Manager", "form_manager"], ["Response Viewer", "response_viewer"] ]), prompt: "Select a Role", id: "add-user-role", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
-          <br>
-          <br>
-          <button type="button" class="usa-button" name="button" id="add-user-button">Add User</button>
+    <ul class="usa-card-group">
+      <li class="usa-card tablet-lg:grid-col-6 widescreen:grid-col-4">
+        <div class="usa-card__container bg-accent-cool-lighter">
+          <div class="usa-card__header">
+            <h2 class="usa-card__heading">Add new user</h2>
+          </div>
+          <div class="usa-card__body">
+            <small>
+              Users in the dropdown are limited to users with a
+              @<%= form.organization.domain %> address. Contact
+              <a href="mailto:feedback-analytics@gsa.gov">support</a>
+              to add a user from another organization.
+            </small>
+          </div>
+          <div class="usa-card__footer">
+            <% if available_members.present? %>
+              <div>
+                <strong>
+                  User
+                </strong>
+                <br>
+                <%= select_tag :add_user_id, options_for_select(available_members.map { |user| [user.email, user.id] }), prompt: "Select user by email", id: "add-user-id", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
+                <br>
+                <br>
+                <strong>
+                  Role
+                </strong>
+                <br>
+                <%= select_tag :role, options_for_select([ ["Form Manager", "form_manager"], ["Response Viewer", "response_viewer"] ]), prompt: "Select a Role", id: "add-user-role", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
+                <br>
+                <br>
+                <button type="button" class="usa-button" name="button" id="add-user-button">Add User</button>
+              </div>
+              <% else %>
+                <p class="usa-prose">
+                  There are no additional members to add at this time.
+                </p>
+              <% end %>
+          </div>
         </div>
-        <% else %>
-          <p class="usa-prose">
-            There are no additional members to add at this time.
-          </p>
-        <% end %>
-      </div>
-    </div>
+      </li>
+    </ul>
 
     <div class="well">
       <div class="grid-row grid-gap-md">
