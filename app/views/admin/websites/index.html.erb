@@ -60,7 +60,7 @@
           <span class="fa fa-filter"></span>
           Filter by org
         </h3>
-        <%= select_tag :organization_id, options_for_select(Organization.all.map { |p| [p.name, p.id] }, @organization.try(:id)),
+        <%= select_tag :organization_id, options_for_select(organization_dropdown_options, @organization.try(:id)),
           prompt: "Select an Organization...",
           class: "usa-select add-agency" %>
         <%= link_to("Clear filter", admin_websites_path) if params[:organization_id] %>

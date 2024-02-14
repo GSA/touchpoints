@@ -45,6 +45,7 @@
 </div>
 <br>
 <script>
+  $(function() {
     $(".section-title").on("blur", function(event) {
       event.preventDefault();
       $.ajax({
@@ -58,4 +59,5 @@
         $("#section-" + data['id']).fadeOut(2000);
       });
     });
+  });
 </script>
