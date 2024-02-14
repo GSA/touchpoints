@@ -3670,45 +3670,6 @@
   padding-left:4rem;
 }
 
-.usa-skipnav{
-  font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
-  font-size:1.06rem;
-  line-height:1.5;
-  color:#005ea2;
-  text-decoration:underline;
-  background:transparent;
-  left:0;
-  padding:0.5rem 1rem;
-  position:absolute;
-  top:-3.8rem;
-  transition:0.15s ease-in-out;
-  z-index:100;
-}
-.usa-skipnav:visited{
-  color:#54278f;
-}
-.usa-skipnav:hover{
-  color:#1a4480;
-}
-.usa-skipnav:active{
-  color:#162e51;
-}
-.usa-skipnav:focus{
-  outline:0.25rem solid #2491ff;
-  outline-offset:0rem;
-}
-.usa-skipnav:focus, .usa-skipnav.usa-focus{
-  background:white;
-  left:0;
-  position:absolute;
-  top:0;
-  transition:0.15s ease-in-out;
-}
-
-.usa-skipnav__container{
-  position:relative;
-}
-
 /* .usa-tooltip not used */
 /* .usa-search--big not used */
 /* .usa-search--small not used */
@@ -4288,8 +4249,11 @@
   padding:0.5rem 1rem;
   position:absolute;
   top:-3.8rem;
-  transition:0.2s ease-in-out;
+  transition:0.15s ease-in-out;
   z-index:100;
+}
+.usa-skipnav.touchpoints-skipnav:visited{
+  color:#54278f;
 }
 .usa-skipnav.touchpoints-skipnav:hover{
   color:#1a4480;
@@ -4300,9 +4264,6 @@
 .usa-skipnav.touchpoints-skipnav:focus{
   outline:0.25rem solid #2491ff;
   outline-offset:0;
-}
-.usa-skipnav.touchpoints-skipnav:visited{
-  color:#54278f;
 }
 .usa-skipnav.touchpoints-skipnav:focus{
   background:white;
