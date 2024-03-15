@@ -348,7 +348,7 @@ function FBAform(d, N) {
 			questionDiv.scrollIntoView();
 			questionDiv.focus();
 
-			<%# enable submit button ( so user can fix error and resubmit %>
+			// enable submit button ( so user can fix error and resubmit )
 			var submitButton = document.querySelector("[type='submit']");
 			submitButton.disabled = false;
 			submitButton.classList.remove("aria-disabled");
