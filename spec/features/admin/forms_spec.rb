@@ -669,7 +669,7 @@ feature 'Forms', js: true do
         describe 'character limit field' do
           before do
             visit questions_admin_form_path(form)
-            click_on 'Add Question'
+            find(".form-add-question").click
           end
 
           it 'shows character limit field' do
@@ -870,7 +870,7 @@ feature 'Forms', js: true do
 
             before do
               visit questions_admin_form_path(form)
-              click_on 'Add Question'
+              find(".form-add-question").click
             end
 
             it 'displays answers that are not assigned to other Questions' do

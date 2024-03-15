@@ -78,5 +78,26 @@
     <% end %>
     <!--- End demo content -->
     <script src="<%= touchpoint_url(@form.short_uuid, format: :js) %>" async></script>
+    <script>
+      document.addEventListener('onTouchpointsModalClose', function() {
+        console.log("fired onTouchpointsModalClose")
+      });
+
+      document.addEventListener('onTouchpointsModalOpen', function() {
+        console.log("fired onTouchpointsModalOpen")
+      });
+
+      document.addEventListener('onTouchpointsFormSubmission', function() {
+        console.log("fired onTouchpointsFormSubmission")
+      });
+
+      document.addEventListener('onTouchpointsFormPreviousPage', function(e) {
+        console.log("fired onTouchpointsFormPreviousPage", e.page)
+      });
+
+      document.addEventListener('onTouchpointsFormNextPage', function(e) {
+        console.log("fired onTouchpointsFormNextPage", e.page)
+      });
+    </script>
   </body>
 </html>
