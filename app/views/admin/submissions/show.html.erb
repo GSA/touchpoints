@@ -7,6 +7,24 @@
     Back to Responses
   <% end %>
 </p>
+<%- if @submission.flagged? %>
+<div class="usa-alert usa-alert--error margin-bottom-1">
+  <div class="usa-alert__body">
+    <p class="usa-alert__text">
+      This response is flagged.
+    </p>
+  </div>
+</div>
+<% end %>
+<%- if @submission.archived? %>
+<div class="usa-alert usa-alert--warning margin-bottom-1">
+  <div class="usa-alert__body">
+    <p class="usa-alert__text">
+      This response is archived.
+    </p>
+  </div>
+</div>
+<% end %>
 <div class="grid-row grid-gap-md">
   <div class="grid-col-8">
     <div class="well">
