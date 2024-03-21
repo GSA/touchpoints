@@ -228,7 +228,7 @@ module Admin
 
       if @website.save
         Event.log_event(Event.names[:website_created], 'Website', @website.id, "Website #{@website.domain} created at #{DateTime.now}", current_user.id)
-        UserMailer.website_created(website: @website).deliver_later
+        UserMailer.website_created(website: @website, created_by_user: current_user).deliver_later
         redirect_to admin_website_url(@website), notice: 'Website was successfully created.'
       else
         render :new

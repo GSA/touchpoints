@@ -123,11 +123,12 @@ class UserMailer < ApplicationMailer
     mail to: ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')
   end
 
-  def website_created(website:)
+  def website_created(website:, created_by_user:)
     return unless website
 
     set_logo
     @website = website
+    @user = created_by_user
     if @website.organization.abbreviation == "GSA"
       @emails = (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',') + User.organizational_website_managers.collect(&:email)).uniq
     else
