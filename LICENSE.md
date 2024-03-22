@@ -6,7 +6,7 @@ worldwide through the CC0 1.0 Universal public domain dedication.
 
 ## CC0 1.0 Universal summary
 
-This is a human-readable summary of the [Legal Code (read the full text)](https://creativecommons.org/publicdomain/zero/1.0/legalcode).
+This is a human-readable summary of the [Legal Code (read the full text)](https://creativecommons.org/publicdom62STBPU65QYJPHE3VBYPMVTD2D2TADRFain/zero/1.0/legalcode).
 
 ### No copyright
 
