@@ -52,8 +52,6 @@
         <%= label_tag :search_text, "by domain, email, office, sub-office, or contact emails", class: "font-sans-2xs" %>
         <%= text_field_tag :search_text, nil, class: "usa-input", autofocus: true, value: params[:search] %>
       </div>
-    </div>
-    <div class="tablet:grid-col-6">
 
       <div class="field margin-top-3">
         <h3 class="margin-bottom-2">
@@ -63,7 +61,20 @@
         <%= select_tag :organization_id, options_for_select(organization_dropdown_options, @organization.try(:id)),
           prompt: "Select an Organization...",
           class: "usa-select add-agency" %>
-        <%= link_to("Clear filter", admin_websites_path) if params[:organization_id] %>
+      </div>
+      <br>
+      <%= link_to("Clear filter", admin_websites_path) %>
+    </div>
+    <div class="tablet:grid-col-6">
+
+      <div class="field margin-top-3">
+        <h3 class="margin-bottom-2">
+          <span class="fa fa-filter"></span>
+          Filter by production status
+        </h3>
+        <%= select_tag :production_status, options_for_select(Website.aasm(:production_status).states.map(&:name), @organization.try(:aasm_state)),
+          prompt: "Select a status...",
+          class: "usa-select" %>
       </div>
 
       <% if @tags.first %>
@@ -102,41 +113,53 @@
 </p>
 
 <script>
+  function performSearch() {
+    var url = new URL(window.location.href);
+    var searchParams = new URLSearchParams(url.search);
+
+    var searchText = $("#search_text").val();
+    var organizationId = $("#organization_id").val();
+    var status = $("#production_status").val();
+    var tag = searchParams.get("tag");
+
+    $.ajax({
+      url: '<%= search_admin_websites_path(organization_id: params[:organization_id]) %>',
+      data: {
+        query: searchText,
+        production_status: status,
+        organization_id: organizationId,
+        tag: tag
+      }
+    });
+
+    searchParams.set('query', searchText);
+    searchParams.set('organization_id', organizationId);
+    searchParams.set('production_status', status);
+    window.history.replaceState({}, '', url.pathname + '?' + searchParams.toString());
+  }
+
   $(function() {
     $("#main-content").css("overflow-x", "scroll");
 
     $("#search_text").on("keyup", debounce(function() {
-      var searchValue = $("#search_text").val();
-
-      $.ajax({
-        url: '<%= search_admin_websites_path(organization_id: params[:organization_id]) %>',
-        data: {
-          search: searchValue
-        }
-      });
-
-      var url = new URL(window.location.href);
-      var searchParams = new URLSearchParams(url.search);
-      searchParams.set('search', searchValue);
-      window.history.replaceState({}, '', url.pathname + '?' + searchParams.toString());
+      performSearch()
     }, 400));
 
     $(".search-tag-link").on("click", function(e) {
       e.preventDefault();
-
-      $.ajax({
-        url: '/admin/websites/search',
-        data: {
-          tag: $(this).attr("data-name")
-        }
-      });
+      var url = new URL(window.location.href);
+      var searchParams = new URLSearchParams();
+      searchParams.set('tag', $(this).attr("data-name"));
+      window.history.replaceState({}, '', url.pathname + '?' + searchParams.toString());
+      performSearch()
     });
 
     $("#organization_id").on("change", function(event) {
-      var organizationId = event.target.value;
-      var searchText = $("#search_text").val();
+      performSearch()
+    })
 
-      window.location = "<%= admin_websites_path %>?organization_id=" + organizationId + "&search=" + searchText;
+    $("#production_status").on("change", function(event) {
+      performSearch()
     })
 
   });

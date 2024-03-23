@@ -70,13 +70,7 @@ module Admin
     ]
 
     def index
-      if admin_permissions?
-        @websites = admin_index_websites
-      else
-        @websites = user_index_websites
-      end
-
-      search
+      @websites = Website.filtered_websites(@current_user, params[:query], params[:organization_id], params[:production_status], params[:tag])
       @tags = Website.includes(:taggings).tag_counts_by_name
     end
 
@@ -177,15 +171,7 @@ module Admin
     def statuscard; end
 
     def search
-      search_text = params[:search]
-      tag_name = params[:tag]
-      websites = @organization ? @organization.websites : Website.all
-
-      @websites = if admin_permissions?
-                    search_admin_websites(websites, search_text, tag_name)
-                  else
-                    search_user_websites(websites, search_text, tag_name)
-                  end
+      @websites = Website.filtered_websites(@current_user, params[:query], params[:organization_id], params[:production_status], params[:tag])
     end
 
     def collection_preview
@@ -441,54 +427,6 @@ module Admin
 
     def set_organization
       @organization = Organization.find_by_id(params[:organization_id])
-    end
-
-    def admin_index_websites
-      if params[:all]
-        Website.all
-      elsif @organization
-        @organization.websites.active
-      else
-        Website.active
-      end.includes(:taggings).order(:production_status, :domain)
-    end
-
-    def user_index_websites
-      if params[:all]
-        current_user.organization.websites
-      elsif @organization
-        @organization.websites
-      else
-        current_user.organization.websites.active
-      end.includes(:taggings).order(:production_status, :domain)
-    end
-
-    def search_admin_websites(websites, search_text, tag_name)
-      if search_text.present?
-        search_text = "%#{search_text}%"
-        managed_sites = Website.where(id: Website.ids_by_manager_search(search_text))
-        websites.where('domain ILIKE ? OR office ILIKE ? OR sub_office ILIKE ? OR production_status ILIKE ? OR site_owner_email ILIKE ?', search_text, search_text, search_text, search_text, search_text)
-                .or(managed_sites)
-                .order(:production_status, :domain)
-      elsif tag_name.present?
-        websites.tagged_with(tag_name).order(:production_status, :domain)
-      else
-        websites.order(:production_status, :domain)
-      end
-    end
-
-    def search_user_websites(websites, search_text, tag_name)
-      if search_text.present?
-        search_text = "%#{search_text}%"
-        managed_sites = Website.where(id: Website.ids_by_manager_search(search_text))
-        websites.where('domain ILIKE ? OR office ILIKE ? OR sub_office ILIKE ? OR production_status ILIKE ? OR site_owner_email ILIKE ?', search_text, search_text, search_text, search_text, search_text)
-                .or(managed_sites)
-                .order(:production_status, :domain)
-      elsif tag_name.present?
-        websites.tagged_with(tag_name).order(:production_status, :domain)
-      else
-        websites.order(:production_status, :domain)
-      end
     end
 
     def admin_website_params

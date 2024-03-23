@@ -19,6 +19,19 @@ class Website < ApplicationRecord
 
   scope :active, -> { where("production_status = 'production' OR aasm_state = 'created'") }
 
+  scope :filtered_websites, ->(user, query, organization_id, production_status, tag) {
+    @user = user
+    @organization = Organization.find_by_id(organization_id)
+    @query = "%#{query}%" if query
+
+    items = all
+    items = @organization.websites if @organization.present?
+    items = items.where(production_status: production_status) if production_status.present?
+    items = items.where('domain ILIKE ? OR office ILIKE ? OR sub_office ILIKE ? OR site_owner_email ILIKE ?', @query, @query, @query, @query) if @query.present?
+    items = items.tagged_with(tag) if tag.present?
+    items.includes([:organization, :taggings]).order(:production_status, :domain)
+  }
+
   PRODUCTION_STATUSES = {
     'in_development' => 'In development',
     'staging' => 'Staging',
