@@ -6,5 +6,6 @@
   Hi <%= @emails.to_sentence %>,
 </p>
 <p>
-  The website <%= link_to @website.domain, admin_website_url(@website) %> was created in Touchpoints.
+  The website <%= link_to @website.domain, admin_website_url(@website) %> was created in Touchpoints
+  by <%= @user.email %>.
 </p>
