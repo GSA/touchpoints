@@ -70,7 +70,7 @@ module Admin
     ]
 
     def index
-      @websites = Website.filtered_websites(@current_user, params[:query], params[:organization_id], params[:production_status], params[:tag])
+      @websites = Website.filtered_websites(@current_user, params[:query], params[:org_abbr], params[:production_status], params[:tag])
       @tags = Website.includes(:taggings).tag_counts_by_name
     end
 
@@ -171,7 +171,7 @@ module Admin
     def statuscard; end
 
     def search
-      @websites = Website.filtered_websites(@current_user, params[:query], params[:organization_id], params[:production_status], params[:tag])
+      @websites = Website.filtered_websites(@current_user, params[:query], params[:org_abbr], params[:production_status], params[:tag])
     end
 
     def collection_preview

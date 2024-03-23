@@ -19,9 +19,9 @@ class Website < ApplicationRecord
 
   scope :active, -> { where("production_status = 'production' OR aasm_state = 'created'") }
 
-  scope :filtered_websites, ->(user, query, organization_id, production_status, tag) {
+  scope :filtered_websites, ->(user, query, organization_abbreviation, production_status, tag) {
     @user = user
-    @organization = Organization.find_by_id(organization_id)
+    @organization = Organization.find_by_abbreviation(organization_abbreviation)
     @query = "%#{query}%" if query
 
     items = all

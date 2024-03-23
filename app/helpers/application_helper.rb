@@ -17,6 +17,10 @@ module ApplicationHelper
     Organization.all.order(:name).map { |org| ["#{org.abbreviation} - #{org.name}", org.id] }
   end
 
+  def organization_abbreviation_dropdown_options
+    Organization.all.order(:name).map { |org| ["#{org.abbreviation} - #{org.name}", org.abbreviation] }
+  end
+
   def hisp_questions_key
     {
       '1' => 'satisfaction',
