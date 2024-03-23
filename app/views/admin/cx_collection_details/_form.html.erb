@@ -14,7 +14,7 @@
   <%= form.hidden_field :cx_collection_id, class: "usa-input", value: cx_collection_detail.cx_collection_id %>
   <% if service_manager_permissions? %>
     <div>
-      <%= form.label :cx_collection_id, class: "usa-label" %>
+      <%= form.label :cx_collection_id, "CX Collection", class: "usa-label" %>
       <%= form.select :cx_collection_id,
         cx_collections.map { |collection| ["#{collection.organization.abbreviation} - #{collection.organization.name} - #{collection.service.name}", collection.id]},
         { include_blank: true },
@@ -42,7 +42,7 @@
     <div class="usa-hint font-sans-2xs">
       Tell us how you deployed the survey. What is the channel you used to reach your respondents?
     </div>
-    <%= form.select :channel, Service.channels, { prompt: "What type of response channel?" }, class: "usa-select" %>
+    <%= form.select :channel, Service.channels.sort, { include_blank: true }, class: "usa-select" %>
   </div>
 
   <div class="field">
@@ -89,7 +89,7 @@
   </div>
 
   <div>
-    <%= form.label :omb_control_number, class: "usa-label" %>
+    <%= form.label :omb_control_number, "OMB control number", class: "usa-label" %>
     <div class="usa-hint font-sans-2xs">
       The OMB Control Number helps us identify the PRA/A-11 Gen IC approval for this survey.
     </div>
