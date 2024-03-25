@@ -132,15 +132,42 @@
     Forms
   </h4>
   <% if @forms.present? %>
-    <ul class="usa-list">
-    <% @forms.each do |form| %>
-      <li>
-        <%= link_to form.name, admin_form_path(form) %>
-        &middot;
-        <%= form.aasm_state %>
-      </li>
-    <% end %>
-    </ul>
+    <table class="usa-table">
+      <thead>
+        <tr>
+          <th>
+            Name
+          </th>
+          <th>
+            Status
+          </th>
+          <th>
+            Kind
+          </th>
+          <th>
+            Response count
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @forms.each do |form| %>
+        <tr>
+          <td>
+            <%= link_to form.name, admin_form_path(form) %>
+          </td>
+          <td>
+            <%= form.aasm_state %>
+          </td>
+          <td>
+            <%= form.kind %>
+          </td>
+          <td>
+            <%= form.submissions_count %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
   <% else %>
   <div class="usa-alert usa-alert--info">
     <div class="usa-alert__body">
