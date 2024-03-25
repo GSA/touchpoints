@@ -124,7 +124,7 @@
     var tag = searchParams.get("tag");
 
     $.ajax({
-      url: '<%= search_admin_websites_path(organization_id: params[:organization_id]) %>',
+      url: '<%= search_admin_websites_path %>',
       data: {
         query: searchText,
         production_status: status,
@@ -152,15 +152,15 @@
       var searchParams = new URLSearchParams();
       searchParams.set('tag', $(this).attr("data-name"));
       window.history.replaceState({}, '', url.pathname + '?' + searchParams.toString());
-      performSearch()
+      performSearch();
     });
 
     $("#organization_abbreviation").on("change", function(event) {
-      performSearch()
+      performSearch();
     })
 
     $("#production_status").on("change", function(event) {
-      performSearch()
+      performSearch();
     })
 
   });
