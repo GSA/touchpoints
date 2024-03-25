@@ -5,7 +5,7 @@ class AddFieldsToForm < ActiveRecord::Migration[5.2]
 
     Form.all.each do |form|
       Form.reset_counters(form.id, :submissions)
-      form.update(last_response_created_at: form.submissions.last.created_at) if form.submissions_count > 0
+      form.update(last_response_created_at: form.submissions.last.created_at) if form.submissions.size > 0
     end
   end
 end
