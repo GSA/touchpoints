@@ -11,7 +11,7 @@ class Form < ApplicationRecord
 
   has_many :form_sections, dependent: :delete_all
   has_many :questions, dependent: :destroy, counter_cache: :questions_count
-  has_many :submissions
+  has_many :submissions, counter_cache: true
 
   has_many :user_roles, dependent: :destroy
   has_many :users, through: :user_roles, primary_key: :form_id
@@ -45,7 +45,7 @@ class Form < ApplicationRecord
   end
 
   def ensure_no_responses
-    if submissions.count.positive?
+    if submissions_count.positive?
       errors.add(:response_count_error, 'This form cannot be deleted because it has responses')
       throw(:abort)
     end

@@ -46,13 +46,13 @@ module Api
         ret = {}
         if params[:page].present?
           ret['first'] = request.original_url.gsub(/page=[0-9]+/i, 'page=0')
-          ret['next'] = request.original_url.gsub(/page=[0-9]+/i, "page=#{page + 1}") if form.submissions.size > ((page + 1) * size)
+          ret['next'] = request.original_url.gsub(/page=[0-9]+/i, "page=#{page + 1}") if form.submissions_count > ((page + 1) * size)
           ret['prev'] = request.original_url.gsub(/page=[0-9]+/i, "page=#{page - 1}") if page.positive?
-          ret['last'] = request.original_url.gsub(/page=[0-9]+/i, "page=#{(form.submissions.size / size).floor}")
+          ret['last'] = request.original_url.gsub(/page=[0-9]+/i, "page=#{(form.submissions_count / size).floor}")
         else
           ret['first'] = "#{request.original_url}&page=0"
-          ret['next'] = "#{request.original_url}&page=1" if form.submissions.size > size
-          ret['last'] = "#{request.original_url}&page=#{(form.submissions.size / size).floor}"
+          ret['next'] = "#{request.original_url}&page=1" if form.submissions_count > size
+          ret['last'] = "#{request.original_url}&page=#{(form.submissions_count / size).floor}"
         end
         ret
       end
