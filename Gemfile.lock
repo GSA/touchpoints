@@ -175,7 +175,7 @@ GEM
       nokogiri (~> 1.6)
       rubyzip (~> 1.1)
       tilt (>= 1.4)
-    carrierwave (3.0.6)
+    carrierwave (3.0.7)
       activemodel (>= 6.0.0)
       activesupport (>= 6.0.0)
       addressable (~> 2.6)
@@ -583,7 +583,7 @@ DEPENDENCIES
   bundler-audit
   capybara
   caracal (>= 1.4.1)
-  carrierwave (>= 2.2.1)
+  carrierwave (>= 3.0.7)
   database_cleaner
   devise (>= 4.8.1)
   dotenv-rails
@@ -636,4 +636,4 @@ RUBY VERSION
    ruby 3.1.4p223
 
 BUNDLED WITH
-   2.3.12
+   2.3.26
