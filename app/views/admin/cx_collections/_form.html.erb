@@ -14,7 +14,7 @@
   <% if performance_manager_permissions? %>
   <div class="field">
     <%= form.label :user_id, class: "usa-label" %>
-    <%= form.select :user_id, options_for_select(User.all.collect { |u| [u.email, u.id] }, cx_collection.user_id || current_user.id), { prompt: "Which User?", include_blank: true }, { class: "usa-select" } %>
+    <%= form.select :user_id, options_for_select(User.all.order(:email).collect { |u| [u.email, u.id] }, cx_collection.user_id || current_user.id), { prompt: "Which User?", include_blank: true }, { class: "usa-select" } %>
   </div>
   <% else %>
   <%= form.hidden_field :user_id, value: current_user.id %>
@@ -51,28 +51,6 @@
   <div class="field">
     <%= form.label :quarter, class: "usa-label" %>
     <%= form.select :quarter, options_for_select([1, 2, 3, 4]), {}, class: "usa-select", required: true %>
-  </div>
-
-  <div class="field usa-form-group">
-    <%= form.label :start_date, class: "usa-label", id: "expiration-date-label" %>
-    <div class="usa-date-picker2" data-default-value="<%= cx_collection.start_date %>">
-      <%= form.text_field :start_date, placeholder: "YYYY-MM-DD", class: "usa-input" %>
-    </div>
-  </div>
-
-  <div class="field usa-form-group">
-    <%= form.label :end_date, class: "usa-label", id: "expiration-date-label" %>
-    <div class="usa-date-picker2" data-default-value="<%= cx_collection.end_date %>">
-      <%= form.text_field :end_date, placeholder: "YYYY-MM-DD", class: "usa-input" %>
-    </div>
-  </div>
-
-  <div class="field">
-    <%= form.label :reflection, 'Reflection text', class: "usa-label" %>
-    <div class="usa-hint font-sans-3xs margin-bottom-1">
-      Tell us what customer service improvements you were able to complete based on this quarter’s survey results. Please limit to 150 words.
-    </div>
-    <%= form.text_area :reflection, class: "usa-textarea" %>
   </div>
 
   <% if performance_manager_permissions? && cx_collection.persisted? %>

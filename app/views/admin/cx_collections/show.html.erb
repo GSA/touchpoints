@@ -78,14 +78,6 @@
           Q<%= @cx_collection.quarter %>
           FY<%= @cx_collection.fiscal_year %>
         </p>
-
-        <p>
-          <%= label_tag :date_range, "Date range", class: "usa-label" %>
-          <span><%= @cx_collection.start_date %></span>
-          to
-          <br>
-          <span><%= @cx_collection.end_date %></span>
-        </p>
       </div>
     </div>
 
@@ -150,23 +142,6 @@
       <% end %>
     </div>
 
-    <div class="usa-prose margin-top-3">
-      <strong>Reflection text</strong>
-      <p>
-        <% if @cx_collection.reflection? %>
-          <%= to_markdown(@cx_collection.reflection) %>
-        <% else %>
-        <div class="usa-alert usa-alert--warning usa-alert--slim">
-          <div class="usa-alert__body">
-            <p class="usa-alert__text">
-              <%= link_to 'Edit this Collection', edit_admin_cx_collection_path(@cx_collection) %>
-              to add Reflection Text prior to submitting.
-            </p>
-          </div>
-        </div>
-        <% end %>
-      </p>
-    </div>
     <p hidden>
       <strong>Integrity hash</strong>
       <br>
