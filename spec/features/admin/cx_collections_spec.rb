@@ -80,7 +80,6 @@ feature 'CX Data Collections', js: true do
       it 'renders a successful response' do
         expect(page).to have_content('CX Data Collection')
         expect(page).to have_content(cx_collection.name)
-        expect(page).to have_content('Reflection text')
       end
     end
 
@@ -102,7 +101,6 @@ feature 'CX Data Collections', js: true do
           select(service.name, from: 'cx_collection_service_id')
           select(current_year, from: 'cx_collection_fiscal_year')
           select(4, from: 'cx_collection_quarter')
-          fill_in('cx_collection_reflection', with: 'What we learned...')
           wait_for_ajax
           click_on 'Create Cx collection'
         end
