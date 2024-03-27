@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_31_224209) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_27_211958) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -405,7 +405,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_31_224209) do
     t.string "notification_frequency", default: "instant"
     t.integer "service_id"
     t.integer "questions_count", default: 0
-    t.boolean "verify_csrf", default: true
+    t.boolean "verify_csrf", default: false
     t.string "submissions_tags", array: true
     t.string "whitelist_url_1"
     t.string "whitelist_url_2"
