@@ -10,6 +10,11 @@ feature 'Touchpoints', js: true do
     let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user:) }
 
     describe '/touchpoints' do
+      before do
+        form.update_attribute(:verify_csrf, true)
+        form.reload
+      end
+
       context 'default success text' do
         before do
           visit touchpoint_path(form)
