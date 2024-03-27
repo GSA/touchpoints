@@ -42,6 +42,7 @@ class ServiceProvider < ApplicationRecord
         url
         services_count
         portfolio_manager_email
+        service_provider_managers
       ]
 
       ServiceProvider
@@ -61,7 +62,8 @@ class ServiceProvider < ApplicationRecord
           provider.inactive,
           provider.url,
           provider.services_count,
-          provider.portfolio_manager_email
+          provider.portfolio_manager_email,
+          provider.service_provider_managers.collect(&:email)
         ]
       end
     end

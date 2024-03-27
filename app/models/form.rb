@@ -45,7 +45,7 @@ class Form < ApplicationRecord
   end
 
   def ensure_no_responses
-    if submissions.count.positive?
+    if response_count.positive?
       errors.add(:response_count_error, 'This form cannot be deleted because it has responses')
       throw(:abort)
     end
