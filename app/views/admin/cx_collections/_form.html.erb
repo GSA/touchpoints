@@ -14,7 +14,7 @@
   <% if performance_manager_permissions? %>
   <div class="field">
     <%= form.label :user_id, class: "usa-label" %>
-    <%= form.select :user_id, options_for_select(User.all.collect { |u| [u.email, u.id] }, cx_collection.user_id || current_user.id), { prompt: "Which User?", include_blank: true }, { class: "usa-select" } %>
+    <%= form.select :user_id, options_for_select(User.all.order(:email).collect { |u| [u.email, u.id] }, cx_collection.user_id || current_user.id), { prompt: "Which User?", include_blank: true }, { class: "usa-select" } %>
   </div>
   <% else %>
   <%= form.hidden_field :user_id, value: current_user.id %>
