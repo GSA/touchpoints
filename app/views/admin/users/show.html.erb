@@ -101,10 +101,10 @@
       <% @service_providers.each do |service_provider| %>
       <tr>
         <th>
-          <%= link_to service_provider.name, admin_service_provider_path(service_provider) %><br>
+          <%= link_to service_provider.name, admin_service_provider_path(service_provider) %>
         </th>
         <th>
-          <%= service_provider.inactive %><br>
+          <%= service_provider.inactive %>
         </th>
       </tr>
       <% end %>
