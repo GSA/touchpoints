@@ -86,13 +86,30 @@
     Service Providers
   </h4>
   <% if @service_providers.present? %>
-    <ul class="usa-list">
-    <% @service_providers.each do |service_provider| %>
-      <li>
-        <%= link_to service_provider.name, admin_service_provider_path(service_provider) %><br>
-      </li>
-    <% end %>
-    </ul>
+  <table class="usa-table">
+    <thead>
+      <tr>
+        <th data-sortable scope="col">
+          Name
+        </th>
+        <th data-sortable scope="col">
+          Inactive?
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @service_providers.each do |service_provider| %>
+      <tr>
+        <th>
+          <%= link_to service_provider.name, admin_service_provider_path(service_provider) %><br>
+        </th>
+        <th>
+          <%= service_provider.inactive %><br>
+        </th>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
   <% else %>
   <div class="usa-alert usa-alert--info">
     <div class="usa-alert__body">
@@ -109,13 +126,30 @@
     Services
   </h4>
   <% if @services.present? %>
-    <ul class="usa-list">
-    <% @services.each do |service| %>
-      <li>
-        <%= link_to service.name, admin_service_path(service) %><br>
-      </li>
-    <% end %>
-    </ul>
+    <table class="usa-table">
+      <thead>
+        <tr>
+          <th data-sortable scope="col">
+            Name
+          </th>
+          <th data-sortable scope="col">
+            Status
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @services.each do |service| %>
+        <tr>
+          <th>
+            <%= link_to service.name, admin_service_path(service) %><br>
+          </th>
+          <th>
+            <%= digital_product.aasm_state %>
+          </th>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
   <% else %>
   <div class="usa-alert usa-alert--info">
     <div class="usa-alert__body">
@@ -135,16 +169,16 @@
     <table class="usa-table">
       <thead>
         <tr>
-          <th>
+          <th data-sortable scope="col">
             Name
           </th>
-          <th>
+          <th data-sortable scope="col">
             Status
           </th>
-          <th>
+          <th data-sortable scope="col">
             Kind
           </th>
-          <th>
+          <th data-sortable scope="col">
             Response count
           </th>
         </tr>
@@ -184,15 +218,30 @@
     Digital Products
   </h4>
   <% if @digital_products.present? %>
-    <ul class="usa-list">
-    <% @digital_products.each do |digital_product| %>
-      <li>
-        <%= link_to digital_product.name, admin_digital_product_path(digital_product) %>
-        &middot;
-        <%= digital_product.aasm_state %>
-      </li>
-    <% end %>
-    </ul>
+    <table class="usa-table">
+      <thead>
+        <tr>
+          <th data-sortable scope="col">
+            Name
+          </th>
+          <th data-sortable scope="col">
+            Status
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @digital_products.each do |digital_product| %>
+        <tr>
+          <th>
+            <%= link_to digital_product.name, admin_digital_product_path(digital_product) %>
+          </th>
+          <th>
+            <%= digital_product.aasm_state %>
+          </th>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
   <% else %>
   <div class="usa-alert usa-alert--info">
     <div class="usa-alert__body">
@@ -209,15 +258,30 @@
     Digital Service Accounts
   </h4>
   <% if @digital_service_accounts.present? %>
-    <ul class="usa-list">
-    <% @digital_service_accounts.each do |digital_service_account| %>
-      <li>
-        <%= link_to digital_service_account.name, admin_digital_service_account_path(digital_service_account) %>
-        &middot;
-        <%= digital_service_account.aasm_state %>
-      </li>
-    <% end %>
-    </ul>
+  <table class="usa-table">
+    <thead>
+      <tr>
+        <th data-sortable scope="col">
+          Name
+        </th>
+        <th data-sortable scope="col">
+          Status
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @digital_service_accounts.each do |digital_service_account| %>
+      <tr>
+        <th>
+          <%= link_to digital_service_account.name, admin_digital_service_account_path(digital_service_account) %>
+        </th>
+        <th>
+          <%= digital_service_account.aasm_state %>
+        </th>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
   <% else %>
   <div class="usa-alert usa-alert--info">
     <div class="usa-alert__body">
@@ -234,17 +298,30 @@
     Websites
   </h4>
   <% if @websites.present? %>
-    <ul class="usa-list">
-    <% @websites.each do |website| %>
-      <li>
-        <%= link_to website.domain, admin_website_path(website) %>
-        &middot;
-        <%= website.aasm_state %>
-        &middot;
-        <%= website.production_status %>
-      </li>
-    <% end %>
-    </ul>
+  <table class="usa-table">
+    <thead>
+      <tr>
+        <th data-sortable scope="col">Domain</th>
+        <th data-sortable scope="col">Lifecycle status</th>
+        <th data-sortable scope="col">Production status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @websites.each do |website| %>
+      <tr>
+        <td>
+          <%= link_to website.domain, admin_website_path(website) %>
+        </td>
+        <td>
+          <%= website.aasm_state %>
+        </td>
+        <td>
+          <%= website.production_status %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
   <% else %>
   <div class="usa-alert usa-alert--info">
     <div class="usa-alert__body">
@@ -264,10 +341,10 @@
   <table class="usa-table">
     <thead>
       <tr>
-        <th>Fiscal year</th>
-        <th>Quarter</th>
-        <th>Collection name</th>
-        <th>Service provider name</th>
+        <th data-sortable scope="col">Fiscal year</th>
+        <th data-sortable scope="col">Quarter</th>
+        <th data-sortable scope="col">Collection name</th>
+        <th data-sortable scope="col">Service provider name</th>
       </tr>
     </thead>
     <tbody>
