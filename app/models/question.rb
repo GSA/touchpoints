@@ -26,7 +26,6 @@ class Question < ApplicationRecord
     'text_display',
     'custom_text_display',
     'states_dropdown',
-    'icon_checkboxes',
     'star_radio_buttons',
     'thumbs_up_down_buttons',
     'big_thumbs_up_down_buttons',

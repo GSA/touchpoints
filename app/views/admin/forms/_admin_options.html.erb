@@ -67,25 +67,6 @@
       </div>
     </div>
   <br>
-  <div class="grid-row grid-gap-md">
-    <div class="grid-col-12">
-      <fieldset class="usa-fieldset">
-        <legend class="usa-sr-only">Display Organization Tag Logo</legend>
-        <div class="usa-checkbox">
-          <%= f.check_box :early_submission, class: "usa-checkbox__input" %>
-          <%= f.label :early_submission, "Early Submission: Display a submit button at the end of the first page in a multi-page form?", class: "usa-checkbox__label" %>
-        </div>
-      </fieldset>
-      <fieldset class="usa-fieldset">
-        <legend class="usa-sr-only">Load USWDS</legend>
-        <div class="usa-checkbox">
-          <%= f.check_box :load_css, class: "usa-checkbox__input" %>
-          <%= f.label :load_css, "Load USWDS CSS - note: use if your site does not implement USWDS styling.", class: "usa-checkbox__label" %>
-        </div>
-      </fieldset>
-    </div>
-  </div>
-  <br>
     <p>
       <%= f.submit (@form.persisted? ? "Update Form Admin Options " : "Create Form"), class: "usa-button" %>
     </p>

@@ -30,14 +30,6 @@
             <%= f.radio_button :notification_frequency, "instant", class: "usa-radio__input usa-radio__input--tile", checked: (form.notification_frequency == "instant") %>
             <%= f.label "instant", class: "usa-radio__label", for: "form_notification_frequency_instant" %>
           </div>
-          <div class="usa-radio">
-            <%= f.radio_button :notification_frequency, "daily", class: "usa-radio__input usa-radio__input--tile", checked: (form.notification_frequency == "daily") %>
-            <%= f.label "daily", class: "usa-radio__label", for: "form_notification_frequency_daily" %>
-          </div>
-          <div class="usa-radio">
-            <%= f.radio_button :notification_frequency, "weekly", class: "usa-radio__input usa-radio__input--tile", checked: (form.notification_frequency == "weekly") %>
-            <%= f.label "weekly", class: "usa-radio__label", for: "form_notification_frequency_weekly" %>
-          </div>
         </fieldset>
         <%= f.submit "Update Form", class: "usa-button" %>
       </div>
