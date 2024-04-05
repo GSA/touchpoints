@@ -49,7 +49,7 @@
           <%= Form.non_templates.count %>
         </td>
         <td class="reportable-submissions">
-          <%= Submission.count %>
+          <%= number_with_delimiter(Submission.count) %>
         </td>
       </tr>
     </tbody>
@@ -180,7 +180,7 @@
     <tbody>
       <tr>
         <td>
-          <%= Event.count %>
+          <%= number_with_delimiter(Event.count) %>
         </td>
       </tr>
     </tbody>

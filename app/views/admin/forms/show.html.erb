@@ -11,10 +11,8 @@
 
 <%= render 'admin/forms/nav', form: @form %>
 
-<br>
-
 <% if @form.aasm_state == "archived" %>
-<div class="usa-alert usa-alert--warning">
+<div class="usa-alert usa-alert--warning margin-top-1 margin-bottom-2">
   <div class="usa-alert__body">
     <p class="usa-alert__text">
       The form
@@ -22,7 +20,6 @@
     </p>
   </div>
 </div>
-<br>
 <% end %>
 
 <% if is_at_least_form_manager?(user: current_user, form: @form) %>
@@ -36,10 +33,9 @@
       <% if @form.last_response_created_at.present? %>
       <small>
         <span class="text-base">
-          Latest response
+          Latest response:
         </span>
-        <br>
-        <%= time_ago_in_words(@form.last_response_created_at) %> ago
+        <%= time_ago_in_words(@form.last_response_created_at) %> ago -
         at <span class="form-created-at">
           <%= format_time(@form.last_response_created_at, current_user.time_zone) %>
           <%= timezone_abbreviation(current_user.time_zone) %>

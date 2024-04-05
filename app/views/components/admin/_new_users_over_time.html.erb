@@ -3,7 +3,7 @@
     New Users per day
   </h3>
   <p>Total user accounts created over period: <%= user_groups.sum { | n | n[1] } %> </p>
-  <div style="width:100%;">
+  <div style="width:100%; height: 300px;">
     <canvas id="userChart"></canvas>
   </div>
 </div>
@@ -41,6 +41,7 @@ $(function() {
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       legend: {
         position: 'bottom',
       },
@@ -53,7 +54,8 @@ $(function() {
       },
       yAxes: [{
         ticks: {
-          beginAtZero: true
+          beginAtZero: true,
+          suggestedMax: 10,
         }
       }]
       }
