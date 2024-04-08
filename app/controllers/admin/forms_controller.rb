@@ -4,7 +4,7 @@ require 'csv'
 
 module Admin
   class FormsController < AdminController
-    respond_to :html, :js, :docx
+    respond_to :html, :js
 
     skip_before_action :verify_authenticity_token, only: [:js]
     before_action :set_user, only: %i[add_user remove_user]
