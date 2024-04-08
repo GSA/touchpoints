@@ -4,7 +4,7 @@ require 'csv'
 
 module Admin
   class FormsController < AdminController
-    respond_to :html, :js, :docx
+    respond_to :html, :js
 
     skip_before_action :verify_authenticity_token, only: [:js]
     before_action :set_user, only: %i[add_user remove_user]
@@ -15,7 +15,6 @@ module Admin
       copy copy_by_id
       notifications
       export
-      export_pra_document
       export_submissions
       export_a11_v2_submissions
       export_a11_header
@@ -336,21 +335,6 @@ module Admin
         }
       else
         render json: @role.errors, status: :unprocessable_entity
-      end
-    end
-
-    # Data reporting
-    #
-    #
-    def export_pra_document
-      respond_to do |format|
-        format.html do
-          redirect_to admin_form_path(@form)
-        end
-        format.docx do
-          docx = PraForm.part_a(form: @form)
-          send_data docx.render.string, filename: "pra-part-a-#{timestamp_string}.docx"
-        end
       end
     end
 

@@ -44,6 +44,7 @@ function FBAform(d, N) {
 			this.successState = false; // initially false
 			this.pagination();
 			this.formSpecificScript();
+			document.dispatchEvent(new Event('onTouchpointsFormLoaded'));
 			return this;
 		},
 		formSpecificScript: function() {
