@@ -3,7 +3,7 @@
 //  2. open text
 // Hides the 2nd question to start, and reveals it when selecting a radio button
 //
-window.addEventListener('load', function() {
+document.addEventListener('onTouchpointsFormLoaded', function() {
   const q2 = document.getElementById("answer_02");
   const q2_container = q2.closest(".question");
   const submitButton = document.getElementById("touchpoints-form-<%= form.short_uuid %>").getElementsByClassName("submit-button")[0]
