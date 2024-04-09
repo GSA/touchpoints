@@ -5,19 +5,19 @@
     </span>
   </div>
 
-  <% if organizational_website_manager_permissions?(user: current_user) && website.in_development? %>
-  
-  <% if website.in_development? %>
+  <%- if organizational_website_manager_permissions?(user: current_user) && website.in_development? %>
+
+  <%- if website.in_development? %>
     <%= link_to stage_admin_website_path(website), class: "usa-button bg-accent-cool-dark full-width", method: :post do %>
       <span class="fa fa-hammer"></span>
       &nbsp;
       Stage the site
     <% end %>
   <% end %>
-  
+
   <% end -%>
 
-  <% if website.staging? %>
+  <%- if website.staging? %>
     <%= link_to launch_admin_website_path(website), class: "usa-button bg-green full-width", method: :post do %>
       <span class="fa fa-rocket"></span>
       &nbsp;
@@ -27,7 +27,7 @@
     <br>
   <% end %>
 
-  <% if website.staging? || website.production? %>
+  <%- if website.staging? || website.production? %>
     <%= link_to redirect_admin_website_path(website), class: "usa-button bg-base-dark full-width", method: :post do %>
       <span class="fa fa-forward"></span>
       &nbsp;
@@ -37,7 +37,7 @@
     <br>
   <% end %>
 
-  <% if website.staging? || website.production? || website.redirect? || website.decommissioned? %>
+  <%- if website.staging? || website.production? || website.redirect? || website.decommissioned? %>
     <%= render 'admin/websites/tasks/decommission', website: website %>
   <% end %>
 </div>

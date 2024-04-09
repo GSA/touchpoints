@@ -1,5 +1,5 @@
 <%= form_with(model: organization, url: (organization.persisted? ? admin_organization_path(organization) : admin_organizations_path), local: true) do |form| %>
-  <% if organization.errors.any? %>
+  <%- if organization.errors.any? %>
     <div id="error_explanation">
       <h2>
         <%= pluralize(organization.errors.count, "error") %> prohibited this organization from being saved:
@@ -13,10 +13,10 @@
   <% end %>
   <div class="field">
     <%= form.label :parent, "Parent organization", class: "usa-label" %>
-    <%= form.select :parent_id, 
-      options_for_select(organization_dropdown_options, 
-      selected: (organization ? organization.parent_id : nil)), 
-      { prompt: "Select a Parent Organization" }, 
+    <%= form.select :parent_id,
+      options_for_select(organization_dropdown_options,
+      selected: (organization ? organization.parent_id : nil)),
+      { prompt: "Select a Parent Organization" },
       { class: "usa-select" } %>
   </div>
   <div class="field">

@@ -1,7 +1,7 @@
 <%= render 'admin/forms/step_indicator', form: form %>
 
 <div class="well">
-  <% if form.deployable_form? %>
+  <%- if form.deployable_form? %>
   <strong>
    Touchpoints-hosted URL
   </strong>
@@ -17,21 +17,21 @@
     <%= link_to submit_touchpoint_uuid_url(form), submit_touchpoint_uuid_url(form), target: "_blank" %>
   </p>
 
-  <% if form.delivery_method == "touchpoints-hosted-only" %>
+  <%- if form.delivery_method == "touchpoints-hosted-only" %>
   <p>
     A form can also be embedded into a website using
     <%= link_to "Delivery Options", delivery_admin_form_path(form) %>.
   </p>
   <% end %>
 
-    <% if form.delivery_method == "modal" || form.delivery_method == "inline" || form.delivery_method == "custom-button-modal" %>
+    <%- if form.delivery_method == "modal" || form.delivery_method == "inline" || form.delivery_method == "custom-button-modal" %>
       <strong>
         Delivery options
       </strong>
       <br>
 
-      <% if form.deployable_form? %>
-        <% if form.delivery_method == "inline" || form.delivery_method == "custom-button-modal" %>
+      <%- if form.deployable_form? %>
+        <%- if form.delivery_method == "inline" || form.delivery_method == "custom-button-modal" %>
         <p>
           Add the following markup to your site
           as a place to display the Touchpoint
@@ -50,7 +50,7 @@
       </div>
       <% end %>
 
-      <% if form.delivery_method == "modal" || form.delivery_method == "custom-button-modal" || form.delivery_method == "inline" %>
+      <%- if form.delivery_method == "modal" || form.delivery_method == "custom-button-modal" || form.delivery_method == "inline" %>
       <div class="margin-top-2">
         <%= link_to example_admin_form_path(form), class: "usa-button bg-base width-full", target: "_blank", rel: "noopener" do %>
           <i class="fa fa-eye"></i>
@@ -122,8 +122,8 @@
     </div>
   <% end %>
 
-  <% if form.archived? || !form.deployable_form? %>
-    <% if form.persisted? %>
+  <%- if form.archived? || !form.deployable_form? %>
+    <%- if form.persisted? %>
       <div class="margin-top-2">
       <%= link_to admin_form_path(form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary width-full" do %>
         <i class="fas fa-trash"></i>
