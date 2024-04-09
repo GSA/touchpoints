@@ -1,5 +1,5 @@
 <%= form_with(model: [:admin, ivn_link]) do |form| %>
-  <% if ivn_link.errors.any? %>
+  <%- if ivn_link.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(ivn_link.errors.count, "error") %> prohibited this ivn_link from being saved:</h2>
 

@@ -1,4 +1,4 @@
-<% if @question_option.question.question_type == "radio_buttons" %>
+<%- if @question_option.question.question_type == "radio_buttons" %>
   <% @form_component_path = "components/forms/edit/question_types/radio_button_option" %>
 <% elsif @question_option.question.question_type == "icon_checkboxes" %>
   <% @form_component_path = "components/forms/edit/question_types/checkbox_option" %>

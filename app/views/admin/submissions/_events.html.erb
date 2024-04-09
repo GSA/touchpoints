@@ -16,7 +16,7 @@
       <%= event.user.email %>
     </span>
     <span class="action">
-    <% if event.name == "collection_created" %>
+    <%- if event.name == "collection_created" %>
       created
     <% elsif event.name == "collection_copied" %>
       copied

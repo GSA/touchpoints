@@ -7,7 +7,7 @@ managed by <%= @service.service_owner.email %>
 at <%= @service.organization.name %>
 was <%= @event %>.
 
-<% if @link.present? %>
+<%- if @link.present? %>
 <p>
   <%= @link %>
 </p>

@@ -1,5 +1,5 @@
 <%= form_with(model: cx_collection, url: (cx_collection.persisted? ? admin_cx_collection_path(cx_collection) : admin_cx_collections_path), class: "usa-form", local: true, data: { turbo: false }) do |form| %>
-  <% if cx_collection.errors.any? %>
+  <%- if cx_collection.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(cx_collection.errors.count, "error") %> prohibited this cx_collection from being saved:</h2>
 
@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-  <% if performance_manager_permissions? %>
+  <%- if performance_manager_permissions? %>
   <div class="field">
     <%= form.label :user_id, class: "usa-label" %>
     <%= form.select :user_id, options_for_select(User.all.order(:email).collect { |u| [u.email, u.id] }, cx_collection.user_id || current_user.id), { prompt: "Which User?", include_blank: true }, { class: "usa-select" } %>
@@ -53,7 +53,7 @@
     <%= form.select :quarter, options_for_select([1, 2, 3, 4]), {}, class: "usa-select", required: true %>
   </div>
 
-  <% if performance_manager_permissions? && cx_collection.persisted? %>
+  <%- if performance_manager_permissions? && cx_collection.persisted? %>
   <% rating_options = [
       ["🟢 Reporting within A-11 guidelines", "TRUE"],
       ["🔴 Not submitting data", "FALSE"],
@@ -65,7 +65,7 @@
   </div>
   <% end %>
 
-  <% if !cx_collection.persisted? %>
+  <%- if !cx_collection.persisted? %>
   <br>
   <div class="usa-alert usa-alert--info usa-alert--slim font-sans-2xs">
     <div class="usa-alert__body">

@@ -1,5 +1,5 @@
 <%= form_with(model: form, url: update_ui_truncation_admin_form_path(form, format: :json), local: false) do |f| %>
-  <% if form.errors.any? %>
+  <%- if form.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(form.errors.count, "error") %> prohibited this form from being saved:</h2>
 

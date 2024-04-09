@@ -1,5 +1,5 @@
 <%= form_with(model: submission, url: admin_form_submission_path(form, submission), local: true) do |f| %>
-  <% if form.errors.any? %>
+  <%- if form.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(form.errors.count, "error") %> prohibited this form from being saved:</h2>
 

@@ -8,7 +8,7 @@
   <% end %>
 </p>
 
-<% if @events.present? %>
+<%- if @events.present? %>
 <ul class="usa-list">
 <% @events.each do |event| %>
 <li>
@@ -17,7 +17,7 @@
       <%= event.user.email %>
     </span>
     <span class="action">
-    <% if event.name == "website_created" %>
+    <%- if event.name == "website_created" %>
       created
     <% elsif event.name == "website_updated" %>
       updated

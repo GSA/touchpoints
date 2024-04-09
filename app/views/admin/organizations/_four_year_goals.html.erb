@@ -14,7 +14,7 @@
         <%= link_to goal.name, admin_goal_path(goal) %>
       </div>
       <p class="goals-div">
-        <% if goal.objectives.size > 0 %>
+        <%- if goal.objectives.size > 0 %>
           Objectives:
         <% end %>
         <div class="sorting-div-objectives">

@@ -3,7 +3,7 @@
     <li class="usa-step-indicator__segment usa-step-indicator__segment--complete <%= "usa-step-indicator__segment--current" if service.created? %>"">
       <span class="usa-step-indicator__segment-label">
         Drafted
-        <% if service.created? %>
+        <%- if service.created? %>
           <span class="usa-sr-only">completed</span>
         <% end %>
       </span>
@@ -11,7 +11,7 @@
     <li class="usa-step-indicator__segment usa-step-indicator__segment--complete <%= "usa-step-indicator__segment--current" if service.submitted? %>"">
       <span class="usa-step-indicator__segment-label">
         Submitted
-        <% if service.submitted? %>
+        <%- if service.submitted? %>
           <span class="usa-sr-only">completed</span>
         <% end %>
       </span>

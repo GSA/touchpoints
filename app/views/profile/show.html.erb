@@ -7,7 +7,7 @@
     Back to My Surveys
   <% end %>
 </p>
-<% if current_user.errors.any? %>
+<%- if current_user.errors.any? %>
   <div id="error_explanation">
     <h2><%= pluralize(current_user.errors.count, "error") %> prohibited this user from being saved:</h2>
     <ul class="usa-list">
@@ -28,7 +28,7 @@
         <%= f.label :time_zone, class: "usa-label" %>
         <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone::MAPPING.keys.sort, selected: current_user.time_zone), { prompt: "Select a time zone" }, { class: "usa-select" } %>
       </div>
-      
+
       <div class="grid-row grid-gap-6">
         <div class="tablet:grid-col-6">
           <div class="field">
@@ -43,7 +43,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="field">
         <%= label_tag :position_title, "Position title", class: "usa-label" %>
         <%= f.text_field :position_title, class: "usa-input" %>
@@ -51,8 +51,8 @@
       <div class="field">
         <%= label_tag :api_key, "API Key", class: "usa-label" %>
         <%= f.text_field :api_key, class: "usa-input", placeholder: "40 character api.data.gov API Key" %>
-        <% if current_user.api_key? %>
-          <% if  @api_key_warning %>
+        <%- if current_user.api_key? %>
+          <%- if @api_key_warning %>
             <div class="usa-alert usa-alert--warning">
               <div class="usa-alert__body">
                 <p class="usa-alert__text">
@@ -61,7 +61,7 @@
               </div>
             </div>
           <% end %>
-        <% if current_user.api_key_updated_at? %>
+        <%- if current_user.api_key_updated_at? %>
           <span class="usa-hint">last updated at <%= format_time(current_user.api_key_updated_at, current_user.time_zone) %></span>
         <% end %>
           <br>

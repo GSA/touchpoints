@@ -4,7 +4,7 @@
     Associate one or more existing Touchpoints users with this record.
   </small>
 
-  <% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
+  <%- if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
     <%= f.text_field :user_email_address, placeholder: "email address" , value: nil, class: "usa-input tag-input" %>
   <% end %>
 
@@ -16,7 +16,7 @@
         <span class="usa-tag">
           <%= user.email %>
         </span>
-        <% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
+        <%- if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
         <a href="javascript:void(0);" class="remove-tag-link" data-id="<%= user.id %>">
           <span class="fa fa-trash"></span>
         </a>
@@ -28,7 +28,7 @@
   </div>
 <% end %>
 
-<% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
+<%- if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
 <script>
   $(function() {
     $("#digital_product_user_email_address").on("blur", function(event) {

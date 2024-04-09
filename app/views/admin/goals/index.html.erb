@@ -16,7 +16,7 @@
 <table class="usa-table">
   <thead>
     <tr>
-      <% if admin_permissions? %>
+      <%- if admin_permissions? %>
       <th data-sortable scope="col">Organization</th>
       <% end %>
       <th data-sortable scope="col">Strategic Goal Title</th>
@@ -26,7 +26,7 @@
   <tbody>
     <% @goals.each do |goal| %>
       <tr>
-        <% if admin_permissions? %>
+        <%- if admin_permissions? %>
         <td><%= goal.organization.name %></td>
         <% end %>
         <td><%= link_to goal.name, admin_goal_path(goal) %></td>

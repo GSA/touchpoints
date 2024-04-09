@@ -1,5 +1,5 @@
 <%= form_with(model: service_stage_barrier, local: true) do |form| %>
-  <% if service_stage_barrier.errors.any? %>
+  <%- if service_stage_barrier.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(service_stage_barrier.errors.count, "error") %> prohibited this service_stage_barrier from being saved:</h2>
 

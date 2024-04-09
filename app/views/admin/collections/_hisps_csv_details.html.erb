@@ -50,7 +50,7 @@
     <br>
   <% ServiceProvider.active.includes(:organization).order("organizations.name", :name).each do |service_provider| %>
     <% service_provider.services.includes(:organization, :collections, :omb_cx_reporting_collections).order("organizations.name", :name).each do |service| %>
-      <% if params[:quarter] %>
+      <%- if params[:quarter] %>
         <% @collections = service.collections.where(quarter: params[:quarter]) %>
       <% else %>
         <% @collections = service.collections %>

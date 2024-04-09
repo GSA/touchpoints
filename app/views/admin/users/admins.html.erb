@@ -8,13 +8,13 @@
   <table class="usa-table" style="width: 100%;">
     <thead>
       <tr>
-      <% if current_user.admin? %>
+      <%- if current_user.admin? %>
         <th data-sortable scope="col">Admin</th>
       <% end %>
         <th data-sortable scope="col">Role</th>
         <th data-sortable scope="col">Email</th>
         <th data-sortable scope="col">Organization Name</th>
-      <% if current_user.admin? %>
+      <%- if current_user.admin? %>
         <th data-sortable scope="col">Last signed in</th>
       <% end %>
       </tr>
@@ -23,7 +23,7 @@
     <tbody>
       <% @admins.each do |user| %>
         <tr class="user" data-id="<%= user.id %>">
-        <% if current_user.admin? %>
+        <%- if current_user.admin? %>
           <td class="text-center"><%= user.admin? ? '✅' : nil %></td>
         <% end %>
           <td>
@@ -31,12 +31,12 @@
           </td>
           <td>
             <%= link_to user.email, admin_user_path(user) %>
-            <% if user.inactive? %>
+            <%- if user.inactive? %>
             <span class="usa-tag float-right">Inactive</span>
             <% end %>
           </td>
           <td><%= user.organization ? user.organization.name : nil %></td>
-        <% if current_user.admin? %>
+        <%- if current_user.admin? %>
           <td data-sort-value="<%= user.current_sign_in_at.to_i %>">
             <%= time_ago_in_words(user.current_sign_in_at) if user.current_sign_in_at %>
           </td>
@@ -46,7 +46,7 @@
 
       <% @service_managers.each do |user| %>
         <tr class="user" data-id="<%= user.id %>">
-        <% if current_user.admin? %>
+        <%- if current_user.admin? %>
           <td class="text-center"><%= user.admin? ? '✅' : nil %></td>
         <% end %>
         <td>
@@ -54,12 +54,12 @@
         </td>
           <td>
             <%= link_to user.email, admin_user_path(user) %>
-            <% if user.inactive? %>
+            <%- if user.inactive? %>
             <span class="usa-tag float-right">Inactive</span>
             <% end %>
           </td>
           <td><%= user.organization ? user.organization.name : nil %></td>
-        <% if current_user.admin? %>
+        <%- if current_user.admin? %>
           <td data-sort-value="<%= user.current_sign_in_at.to_i %>">
             <%= time_ago_in_words(user.current_sign_in_at) if user.current_sign_in_at %>
           </td>
@@ -69,7 +69,7 @@
 
       <% @performance_managers.each do |user| %>
         <tr class="user" data-id="<%= user.id %>">
-        <% if current_user.admin? %>
+        <%- if current_user.admin? %>
           <td class="text-center"><%= user.admin? ? '✅' : nil %></td>
         <% end %>
         <td>
@@ -77,12 +77,12 @@
         </td>
           <td>
             <%= link_to user.email, admin_user_path(user) %>
-            <% if user.inactive? %>
+            <%- if user.inactive? %>
             <span class="usa-tag float-right">Inactive</span>
             <% end %>
           </td>
           <td><%= user.organization ? user.organization.name : nil %></td>
-        <% if current_user.admin? %>
+        <%- if current_user.admin? %>
           <td data-sort-value="<%= user.current_sign_in_at.to_i %>">
             <%= time_ago_in_words(user.current_sign_in_at) if user.current_sign_in_at %>
           </td>
@@ -92,7 +92,7 @@
 
       <% @registry_managers.each do |user| %>
         <tr class="user" data-id="<%= user.id %>">
-        <% if current_user.admin? %>
+        <%- if current_user.admin? %>
           <td class="text-center"><%= user.admin? ? '✅' : nil %></td>
         <% end %>
         <td>
@@ -100,12 +100,12 @@
         </td>
           <td>
             <%= link_to user.email, admin_user_path(user) %>
-            <% if user.inactive? %>
+            <%- if user.inactive? %>
             <span class="usa-tag float-right">Inactive</span>
             <% end %>
           </td>
           <td><%= user.organization ? user.organization.name : nil %></td>
-        <% if current_user.admin? %>
+        <%- if current_user.admin? %>
           <td data-sort-value="<%= user.current_sign_in_at.to_i %>">
             <%= time_ago_in_words(user.current_sign_in_at) if user.current_sign_in_at %>
           </td>
@@ -115,7 +115,7 @@
 
       <% @website_managers.each do |user| %>
         <tr class="user" data-id="<%= user.id %>">
-        <% if current_user.admin? %>
+        <%- if current_user.admin? %>
           <td class="text-center"><%= user.admin? ? '✅' : nil %></td>
         <% end %>
         <td>
@@ -123,12 +123,12 @@
         </td>
           <td>
             <%= link_to user.email, admin_user_path(user) %>
-            <% if user.inactive? %>
+            <%- if user.inactive? %>
             <span class="usa-tag float-right">Inactive</span>
             <% end %>
           </td>
           <td><%= user.organization ? user.organization.name : nil %></td>
-        <% if current_user.admin? %>
+        <%- if current_user.admin? %>
           <td data-sort-value="<%= user.current_sign_in_at.to_i %>">
             <%= time_ago_in_words(user.current_sign_in_at) if user.current_sign_in_at %>
           </td>

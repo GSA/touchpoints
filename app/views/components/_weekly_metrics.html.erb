@@ -157,13 +157,13 @@
     <tbody>
       <tr>
         <td>
-          <%= Website.count %>
+          <%= number_with_delimiter(Website.count) %>
         </td>
         <td>
-          <%= DigitalProduct.count %>
+          <%= number_with_delimiter(DigitalProduct.count) %>
         </td>
         <td>
-          <%= DigitalServiceAccount.count %>
+          <%= number_with_delimiter(DigitalServiceAccount.count) %>
         </td>
       </tr>
     </tbody>

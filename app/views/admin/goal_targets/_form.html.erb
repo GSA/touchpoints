@@ -1,5 +1,5 @@
 <%= form_with(model: goal_target, url: goal_target.persisted? ? admin_goal_goal_target_path(@goal) : admin_goal_goal_targets_path(@goal),local: false) do |form| %>
-  <% if goal_target.errors.any? %>
+  <%- if goal_target.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(goal_target.errors.count, "error") %> prohibited this goal_target from being saved:</h2>
 

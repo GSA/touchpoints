@@ -1,5 +1,5 @@
 <%= form_with(model: service_provider, url: (service_provider.persisted? ? admin_service_provider_path(service_provider) : admin_service_providers_path)) do |form| %>
-  <% if service_provider.errors.any? %>
+  <%- if service_provider.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(service_provider.errors.count, "error") %> prohibited this service_provider from being saved:</h2>
 
@@ -38,7 +38,7 @@
         <%= form.text_area :notes, class: "usa-textarea" %>
       </div>
 
-      <% if service_manager_permissions? %>
+      <%- if service_manager_permissions? %>
       <div class="well margin-top-2">
         <span class="font-sans-3xs">
           Notice: These are experimental fields, used to generate
@@ -65,7 +65,7 @@
           class: "usa-select" %>
       </div>
 
-      <% if @service_provider.persisted? %>
+      <%- if @service_provider.persisted? %>
         <div class="service-provider-managers-div">
           <%= render 'admin/service_providers/service_provider_managers', service: @service_provider, service_provider_manager_options: @service_provider_manager_options %>
         </div>

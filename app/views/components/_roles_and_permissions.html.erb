@@ -25,12 +25,12 @@
         </strong>
         can view and export responses.
       </p>
-      <% if flash && ["User successfully added", "User successfully removed"].include?(flash.notice) %>
+      <%- if flash && ["User successfully added", "User successfully removed"].include?(flash.notice) %>
       <%= render 'components/flash', flash: flash %>
       <% end %>
 
       <div>
-        <% if users.present? %>
+        <%- if users.present? %>
         <table class="usa-table" style="width: 100%;">
           <thead>
             <tr>
@@ -56,14 +56,14 @@
               </td>
               <td>
                 <%= link_to user.email, admin_user_path(user) %>
-                <% if user.inactive? %>
+                <%- if user.inactive? %>
                   <span class="usa-tag float-right">
                     inactive
                   </span>
                 <% end %>
               </td>
               <td>
-                <% if user != current_user && is_at_least_form_manager?(user: current_user, form: form) %>
+                <%- if user != current_user && is_at_least_form_manager?(user: current_user, form: form) %>
                 <a href="javascript:void(0)" class="remove-user usa-button usa-button--secondary float-right" data-id="<%= user.id %>">
                   <i class="fas fa-trash"></i>
                   Delete
@@ -102,7 +102,7 @@
             </small>
           </div>
           <div class="usa-card__footer">
-            <% if available_members.present? %>
+            <%- if available_members.present? %>
               <div>
                 <strong>
                   User
