@@ -35,7 +35,7 @@
     <div class="grid-col-12">
       <div class="ui-filter">
         Filter by fiscal year and quarter
-        <% if params[:year] || params[:quarter] %>
+        <%- if params[:year] || params[:quarter] %>
           <small>
             <%= link_to "View All Collections", admin_cx_collections_path %>
           </small>
@@ -89,7 +89,7 @@
   </tbody>
 </table>
 
-<% if performance_manager_permissions? %>
+<%- if performance_manager_permissions? %>
   <p>
     <%= link_to "Download Collections as .csv", export_csv_admin_cx_collections_path, class: "usa-button" %>
   </p>

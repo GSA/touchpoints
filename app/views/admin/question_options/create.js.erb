@@ -1,4 +1,4 @@
-<% if @question.question_type == "radio_buttons" %>
+<%- if @question.question_type == "radio_buttons" %>
   <% @form_component_path = "components/forms/edit/question_types/radio_button_option" %>
 <% elsif @question.question_type == "icon_checkboxes" %>
   <% @form_component_path = "components/forms/edit/question_types/radio_button_option" %>
@@ -20,6 +20,6 @@
 	<% @position += 1 %>
 <% end %>
 $(".new-question-options-div form").trigger("reset");
-<% if @errors.length > 0 %>
+<%- if @errors.length > 0 %>
 	alert("<%= @errors.join('\n') %>");
 <% end %>

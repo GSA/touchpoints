@@ -1,5 +1,5 @@
 <%= form_with(model: service_stage, url: service_stage.persisted? ? admin_service_service_stage_path(service, service_stage) : admin_service_service_stages_path(service), local: true) do |form| %>
-  <% if service_stage.errors.any? %>
+  <%- if service_stage.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(service_stage.errors.count, "error") %> prohibited this service_stage from being saved:</h2>
 
@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-  <% if admin_permissions? %>
+  <%- if admin_permissions? %>
   <div class="field">
     <%= form.label :service_id, class: "usa-label" %>
     <%= form.select :service_id, options_for_select(Service.all.includes(:organization).order("organizations.name", :name).map { |s| ["#{s.organization.name} - #{s.name}", s.id] }, service_stage.service_id), {}, { class: "usa-select" } %>
@@ -56,7 +56,7 @@
       can be associated with this Service Stage.
     </small>
     <%= form.select :persona_id, options_for_select(Persona.all.map { |p| [p.name, p.id] }, selected: service_stage.persona_id),
-       { prompt: "Select a Customer type..." }, 
+       { prompt: "Select a Customer type..." },
        { class: "usa-select" } %>
   </div>
 

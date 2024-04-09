@@ -16,7 +16,7 @@
 <div class="grid-row">
   <div class="grid-col-8">
     <div class="grid-row">
-      <% if @organization.cfo_act_agency? %>
+      <%- if @organization.cfo_act_agency? %>
       <div class="grid-col-12">
         <span class="usa-tag bg-success">
           CFO Act Agency
@@ -24,13 +24,13 @@
       </div>
       <% end -%>
 
-      <% if @organization.parent %>
+      <%- if @organization.parent %>
       <div class="grid-col-12">
         <%= label_tag "Parent Organization name", nil, class: "usa-label" %>
         <%= link_to @organization.parent.name, admin_organization_path(@organization.parent) %>
       </div>
       <% end -%>
-      
+
       <div class="grid-col-12">
         <%= label_tag "Name", nil, class: "usa-label" %>
         <%= @organization.name %>
@@ -60,7 +60,7 @@
     <div class="usa-prose">
       <%= label_tag "Mission statement", nil, class: "usa-label" %>
       <br>
-      <% if @organization.mission_statement.present? %>
+      <%- if @organization.mission_statement.present? %>
         <%= @organization.mission_statement %>
       <% else %>
       <div class="usa-alert usa-alert--info">
@@ -72,11 +72,11 @@
       </div>
       <% end -%>
     </div>
-    <% if @organization.logo %>
+    <%- if @organization.logo %>
     <p>
       <%= label_tag "Logo", nil, class: "usa-label" %>
       <br>
-      <% if @organization.logo_url.present? %>
+      <%- if @organization.logo_url.present? %>
       (displaying Thumbnail version)
       <br>
       <br>
@@ -92,7 +92,7 @@
     <% end -%>
     <p>
       <%= label_tag "Digital Analytics URL", nil, class: "usa-label" %>
-      <% if @organization.digital_analytics_path? %>
+      <%- if @organization.digital_analytics_path? %>
         <%= link_to("https://analytics.usa.gov/#{@organization.digital_analytics_path}", "https://analytics.usa.gov/#{@organization.digital_analytics_path}", target: "_blank", rel: "noopener") %>
       <% else %>
       <div class="usa-alert usa-alert--info">
@@ -106,7 +106,7 @@
     </p>
     <p>
       <%= label_tag "Notes", nil, class: "usa-label" %>
-      <% if @organization.notes.present? %>
+      <%- if @organization.notes.present? %>
         <%= @organization.notes %>
       <% else %>
       <div class="usa-alert usa-alert--info">
@@ -124,7 +124,7 @@
         <%= pluralize(@organization.children.size, "Sub-agency") %>
       </h3>
 
-      <% if @organization.children.present? %>
+      <%- if @organization.children.present? %>
       <ul class="usa-list">
       <% @organization.children.order(:name).each do |organization| %>
         <li>
@@ -143,13 +143,13 @@
       <% end %>
     </div>
 
-    <% if admin_permissions? || current_user.organization == @organization %>
+    <%- if admin_permissions? || current_user.organization == @organization %>
     <div class="service-providers well">
       <h3>
         <%= pluralize(@organization.service_providers.size, "Service Providers") %>
       </h3>
 
-      <% if @organization.service_providers.present? %>
+      <%- if @organization.service_providers.present? %>
       <ul class="usa-list">
       <% @organization.service_providers.order(:name).each do |service_provider| %>
         <li>
@@ -172,12 +172,12 @@
         <%= pluralize(@organization.services.size, "Service") %>
       </h3>
 
-      <% if @organization.services.present? %>
+      <%- if @organization.services.present? %>
       <ul class="usa-list">
       <% @organization.services.order(:name).each do |service| %>
         <li>
           <%= link_to service.name, admin_service_path(service) %>
-          <% if service.service_provider %>
+          <%- if service.service_provider %>
             - provided by
             <%= link_to service.service_provider.name, admin_service_path(service) %>
           <% end %>
@@ -199,7 +199,7 @@
         <%= @forms.size %> Forms
       </h3>
 
-      <% if @forms.present? %>
+      <%- if @forms.present? %>
       <ul class="usa-list">
       <% @forms.each do |form| %>
         <li>
@@ -223,7 +223,7 @@
         <%= @collections.size %> Collections
       </h3>
 
-      <% if @collections.present? %>
+      <%- if @collections.present? %>
         <ul class="usa-list">
         <% @collections.order(:year, :quarter).each do |collection| %>
           <li>
@@ -251,7 +251,7 @@
         <%= @users.size %> Users
       </h3>
 
-      <% if @users.present? %>
+      <%- if @users.present? %>
       <ul class="usa-list">
       <% @users.order(:email).each do |user| %>
         <li>

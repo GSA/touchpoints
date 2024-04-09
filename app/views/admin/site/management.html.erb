@@ -42,7 +42,7 @@
         Forms without a Form Manager
       </h3>
 
-      <% if @unmanaged_forms.present? %>
+      <%- if @unmanaged_forms.present? %>
       <% @unmanaged_forms.each do |form| %>
       <% manager_roles = form.user_roles.select { |user_role| user_role.role == "form_manager" } %>
       <% next unless manager_roles.empty? %>

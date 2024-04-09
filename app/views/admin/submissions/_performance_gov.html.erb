@@ -11,7 +11,7 @@
     <div class="grid-col">
       <p>
         <%# Per quarter each federal fiscal calendar year %>
-        <% if quarter.month == 10 %>
+        <%- if quarter.month == 10 %>
           Quarter 1: <%= quarter %> to <%= quarter.end_of_quarter %>
         <% elsif quarter.month == 1 %>
           Quarter 2: <%= quarter %> to <%= quarter.end_of_quarter %>

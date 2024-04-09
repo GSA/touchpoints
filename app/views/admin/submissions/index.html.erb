@@ -1,11 +1,11 @@
-<% if submissions.size > 0 %>
+<%- if submissions.size > 0 %>
   <div id="submissions_table">
     <%= render 'admin/submissions/submissions', submissions: submissions, form: form %>
   </div>
   <br>
   <%= link_to "Export All Responses to CSV", export_submissions_admin_form_url(form, start_date: "2019-10-01", format: "json"), class: "usa-button export-btn export-all-btn" %>
   <br>
-  <% if form.kind == "a11_v2" %>
+  <%- if form.kind == "a11_v2" %>
   <p>
   <%= link_to "Export A11-v2 Responses to CSV", export_a11_v2_submissions_admin_form_url(form, start_date: "2019-10-01", format: "json"), class: "usa-button export-btn" %>
   </p>

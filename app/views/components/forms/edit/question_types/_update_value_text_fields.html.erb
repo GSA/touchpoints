@@ -1,6 +1,6 @@
 <span class="question-option-view">
   <%= option.text %>
-  <% if option.text != option.value %>(<%= option.value %>)<% end %>
+  <%- if option.text != option.value %>(<%= option.value %>)<% end %>
 </span>
 <span class="question-option-edit">
   <input type="text" name="question_option_text" value="<%= option.text %>" class="usa-input display-inline margin-top-0" data-href="<%= admin_form_question_question_option_path(option.question.form, option.question, option) %>" />&nbsp;&nbsp;

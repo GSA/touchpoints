@@ -9,7 +9,7 @@
   <% end %>
 </div>
 
-<% if question.question_type == "text_field" %>
+<%- if question.question_type == "text_field" %>
 <% @form_component_path = 'components/forms/edit/question_types/text_field' %>
 <% elsif question.question_type == "text_email_field" %>
 <% @form_component_path = 'components/forms/edit/question_types/text_email_field' %>

@@ -31,7 +31,7 @@
   </tbody>
 </table>
 <%= paginate @versions %>
-<% if admin_permissions? %>
+<%- if admin_permissions? %>
 <p>
   <%= link_to export_path, class: "usa-button export-btn", target: "_blank", rel: "noopener" do %>
     <i class="fa fa-download"></i>

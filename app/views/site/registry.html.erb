@@ -67,8 +67,8 @@
   <% end %>
 </section>
 
-<% if @results %>
-<% if @max_results || @results.size == 500 %>
+<%- if @results %>
+<%- if @max_results || @results.size == 500 %>
 <p>
   Queries have a default limit of 500 records.
   <br>
@@ -82,7 +82,7 @@
 
 <p>
 <% @search_params.each_pair do |k,v|  %>
-  <% if v.present? %>
+  <%- if v.present? %>
   <%= k %> = <%= v %>
   <br>
   <% end %>

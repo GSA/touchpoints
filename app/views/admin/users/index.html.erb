@@ -12,7 +12,7 @@
   <%= link_to "#{@all_user_count - @active_user_count} Inactive Users", inactive_admin_users_path %>
 </p>
 
-<% if params[:scope] == :inactive %>
+<%- if params[:scope] == :inactive %>
 <div class="usa-alert usa-alert--info usa-alert--slim">
   <div class="usa-alert__body">
     <p class="usa-alert__text">
@@ -28,12 +28,12 @@
   <table class="usa-table" style="width: 100%;">
     <thead>
       <tr>
-      <% if current_user.admin? %>
+      <%- if current_user.admin? %>
         <th data-sortable scope="col">Admin</th>
       <% end %>
         <th data-sortable scope="col">Email</th>
         <th data-sortable scope="col">Organization Name</th>
-      <% if current_user.admin? %>
+      <%- if current_user.admin? %>
         <th data-sortable scope="col">Latest login</th>
       <% end %>
       </tr>
@@ -42,17 +42,17 @@
     <tbody>
       <% @users.each do |user| %>
         <tr class="user" data-id="<%= user.id %>">
-        <% if current_user.admin? %>
+        <%- if current_user.admin? %>
           <td class="text-center"><%= user.admin? ? '✅' : nil %></td>
         <% end %>
           <td>
             <%= link_to user.email, admin_user_path(user) %>
-            <% if user.inactive? %>
+            <%- if user.inactive? %>
             <span class="usa-tag float-right">Inactive</span>
             <% end %>
           </td>
           <td><%= user.organization ? user.organization.name : nil %></td>
-        <% if current_user.admin? %>
+        <%- if current_user.admin? %>
           <td data-sort-value="<%= user.current_sign_in_at.to_i %>">
             <%= time_ago_in_words(user.current_sign_in_at) if user.current_sign_in_at %>
           </td>

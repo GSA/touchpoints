@@ -3,7 +3,7 @@
     <% content_for :navigation_title do %>
       Mobile App: <%= @digital_product.name %>
 
-      <% if digital_product_permissions?(digital_product: @digital_product, user: current_user) %>
+      <%- if digital_product_permissions?(digital_product: @digital_product, user: current_user) %>
         <%= link_to edit_admin_digital_product_path(@digital_product), class: "usa-button usa-button-inverted float-right" do %>
           <i class="fa fa-pencil-alt"></i>
           Edit
@@ -18,7 +18,7 @@
       <% end %>
     </p>
 
-    <% if @digital_product.archived? %>
+    <%- if @digital_product.archived? %>
     <div class="usa-alert usa-alert--warning">
       <div class="usa-alert__body">
         <p class="usa-alert__text">
@@ -65,7 +65,7 @@
 
     <p>
       <%= label_tag "URL", nil, class: "usa-label" %>
-      <% if @digital_product.url.present? %>
+      <%- if @digital_product.url.present? %>
         <%= @digital_product.url %>
       <% else %>
       <div class="usa-alert usa-alert--info usa-alert--slim">
@@ -81,7 +81,7 @@
     <p>
       <%= label_tag "Code repository URL", nil, class: "usa-label" %>
 
-      <% if @digital_product.code_repository_url.present? %>
+      <%- if @digital_product.code_repository_url.present? %>
         <%= @digital_product.code_repository_url %>
       <% else %>
         <div class="usa-alert usa-alert--info usa-alert--slim">
@@ -127,7 +127,7 @@
         can be associated with a
         <%= link_to "Service", admin_services_path, target: "_blank" %>.
       </small>
-      <% if @digital_product.service? %>
+      <%- if @digital_product.service? %>
         <%= @digital_product.service %>
       <% else %>
         <br>
@@ -144,7 +144,7 @@
     <br>
   </div>
   <div class="desktop:grid-col-4">
-    <% if digital_product_permissions?(digital_product: @digital_product, user: current_user) && (@digital_product.created? || !@digital_product.archived?) %>
+    <%- if digital_product_permissions?(digital_product: @digital_product, user: current_user) && (@digital_product.created? || !@digital_product.archived?) %>
     <div class="border border-base-lighter padding-2 padding-bottom-1 margin-bottom-1">
       <div class="margin-bottom-2">
         <span class="usa-tag bg-blue">
@@ -152,7 +152,7 @@
         </span>
       </div>
 
-      <% if @digital_product.created? %>
+      <%- if @digital_product.created? %>
         <%= link_to submit_admin_digital_product_path(@digital_product), class: "usa-button width-full margin-bottom-2", method: :post do %>
           <span class="fa fa-check"></span>
           &nbsp;
@@ -160,7 +160,7 @@
         <% end %>
       <% end %>
 
-      <% if !@digital_product.archived? %>
+      <%- if !@digital_product.archived? %>
 
       <%= link_to archive_admin_digital_product_path(@digital_product), class: "usa-button usa-button--base width-full margin-bottom-2", method: :post do %>
         <span class="fa fa-archive"></span>
@@ -181,7 +181,7 @@
     </div>
     <% end %>
 
-    <% if registry_manager_permissions?(user: current_user) %>
+    <%- if registry_manager_permissions?(user: current_user) %>
     <div class="border border-base-lighter padding-2 padding-bottom-1 margin-bottom-1">
       <div class="margin-bottom-2">
         <span class="usa-tag bg-violet">
@@ -189,7 +189,7 @@
         </span>
       </div>
 
-    <% if @digital_product.submitted? %>
+    <%- if @digital_product.submitted? %>
       <%= link_to publish_admin_digital_product_path(@digital_product), class: "usa-button full-width", method: :post do %>
         <span class="fa fa-pen"></span>
         &nbsp;
@@ -213,7 +213,7 @@
       <% end %>
     </div>
 
-    <% if digital_product_permissions?(digital_product: @digital_product, user: current_user) %>
+    <%- if digital_product_permissions?(digital_product: @digital_product, user: current_user) %>
       <%= render 'components/event_log', events: @events %>
     <% end %>
   </div>

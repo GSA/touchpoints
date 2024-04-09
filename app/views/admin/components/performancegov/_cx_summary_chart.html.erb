@@ -24,7 +24,7 @@
 
   <% Service.hisp.each do |service| %>
     <% collections = service.collections.where(quarter: @quarter) %>
-    <% if collections.count > 0 %>
+    <%- if collections.count > 0 %>
       <% @collections += collections %>
     <% end %>
   <% end %>
@@ -84,7 +84,7 @@
 
 <script>
   $(function() {
-    
+
     var doughnutData = {
       datasets: [{
         data: [

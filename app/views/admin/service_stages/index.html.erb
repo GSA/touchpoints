@@ -31,7 +31,7 @@
     </div>
   </div>
 
-  <% if @service.service_stages %>
+  <%- if @service.service_stages %>
   <div class="grid-row grid-gap-lg">
   <% @service.service_stages.order(:position).each do |stage| %>
     <div class="grid-col-4">
@@ -39,7 +39,7 @@
         <h4>
           <%= link_to stage.name, admin_service_service_stage_path(@service, stage) %>
         </h4>
-        <% if stage.persona %>
+        <%- if stage.persona %>
         <small>
           by
           <%= link_to stage.persona.name, admin_persona_path(stage.persona) %>
@@ -65,7 +65,7 @@
   </div>
   <% end %>
 
-  <% if service_permissions?(service: @service) %>
+  <%- if service_permissions?(service: @service) %>
     <br>
     <%= link_to new_admin_service_service_stage_path(@service), class: "usa-button usa-button--outline full-width" do %>
     <i class="fa fa-plus"></i>

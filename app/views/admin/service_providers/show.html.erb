@@ -18,7 +18,7 @@
 <div class="grid-row grid-gap-lg">
   <div class="tablet:grid-col-8">
 
-    <% if @service_provider.inactive? %>
+    <%- if @service_provider.inactive? %>
     <div class="usa-alert usa-alert--warning">
       <div class="usa-alert__body">
         <h3 class="usa-alert__heading">Inactive</h3>
@@ -29,7 +29,7 @@
     </div>
     <% end %>
 
-    <% if @service_provider.new? %>
+    <%- if @service_provider.new? %>
     <p>
       <span class="usa-tag bg-primary-light">
         New Service Provider
@@ -62,7 +62,7 @@
     <p>
       <strong>Service provider managers</strong>
       <br>
-      <% if @service_provider.service_provider_managers.present? %>
+      <%- if @service_provider.service_provider_managers.present? %>
         <ul class="usa-list">
         <% @service_provider.service_provider_managers.order(:email).each do | manager | %>
           <li>
@@ -80,7 +80,7 @@
   </div>
   <div class="tablet:grid-col-4">
     <div class="well">
-      <% if service_manager_permissions? %>
+      <%- if service_manager_permissions? %>
       <p>
         <strong>CX maturity mapping value:</strong>
         <%= @service_provider.cx_maturity_mapping_value %> of 10
@@ -132,7 +132,7 @@
   <h4>
     Data Collections
   </h4>
-  <% if @service_provider.omb_cx_reporting_collections.present? %>
+  <%- if @service_provider.omb_cx_reporting_collections.present? %>
     <table class="usa-table">
       <thead>
         <tr>

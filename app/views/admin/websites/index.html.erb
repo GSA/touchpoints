@@ -77,7 +77,7 @@
           class: "usa-select" %>
       </div>
 
-      <% if @tags.first %>
+      <%- if @tags.first %>
         <h3 class="margin-top-3">
           <span class="fa fa-filter"></span>
           Filter by tag
@@ -107,7 +107,7 @@
     <i class="fa fa-download"></i>
     Export all websites to CSV
   <% end %>
-  <% if organizational_website_manager_permissions?(user: current_user) %>
+  <%- if organizational_website_manager_permissions?(user: current_user) %>
     <%= link_to 'Preview Website Data Collection', collection_preview_admin_websites_path, class: "usa-button usa-button--outline" %>
   <% end %>
 </p>

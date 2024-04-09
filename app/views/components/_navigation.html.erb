@@ -16,7 +16,7 @@
       <div class="usa-nav__secondary">
         <ul class="usa-nav__secondary-links">
         <% unless current_user %>
-          <% if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
+          <%- if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
           <li class="usa-nav__secondary-item">
             <%= button_to user_login_dot_gov_omniauth_authorize_path,
               data: { turbo: "false" },
@@ -25,7 +25,7 @@
             <% end %>
           </li>
           <% end %>
-          <% if ENV['GITHUB_CLIENT_ID'].present? %>
+          <%- if ENV['GITHUB_CLIENT_ID'].present? %>
           <li class="usa-nav__secondary-item">
             <%= button_to user_github_omniauth_authorize_path,
             data: { turbo: "false" },
@@ -38,7 +38,7 @@
           <li class="usa-nav__secondary-item user-name">
             <a href="/profile" title="Click to update profile"><%= current_user.email %></a>
           </li>
-          <% if admin_permissions? %>
+          <%- if admin_permissions? %>
           <li class="usa-nav__secondary-item">
             <%= link_to admin_dashboard_path do %>
               <i class="fa fa-lock"></i>
@@ -75,7 +75,7 @@
     </div>
   </nav>
 </header>
-<% if current_user && content_for?(:navigation_title) %>
+<%- if current_user && content_for?(:navigation_title) %>
 <div style="background-color: #162E51;">
   <div class="grid-container-widescreen">
     <div class="grid-row">

@@ -9,7 +9,7 @@
   <% end %>
 </p>
 <%= render 'admin/forms/nav', form: @form %>
-<% if is_at_least_form_manager?(user: current_user, form: @form) %>
+<%- if is_at_least_form_manager?(user: current_user, form: @form) %>
   <%= render 'components/roles_and_permissions',
     form: @form,
     available_members: @available_members,

@@ -1,7 +1,7 @@
 <% content_for :navigation_title do %>
   <%= @service_providers.size %>
   Service Providers
-  <% if service_manager_permissions? %>
+  <%- if service_manager_permissions? %>
     <%= link_to new_admin_service_provider_path, class: "usa-button usa-button-inverted float-right" do %>
       <i class="fa fa-plus-circle"></i>
       New Service Provider
@@ -46,7 +46,7 @@
   <div class="field">
     <%= label_tag :search_text, "Search by organization or name" %>
     <%= text_field_tag :search_text, nil, class: "usa-input" %>
-    <% if @tags.first %>
+    <%- if @tags.first %>
       <p>
         Search by tag
       </p>

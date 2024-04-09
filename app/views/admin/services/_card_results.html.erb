@@ -9,7 +9,7 @@
       </div>
       <div class="usa-card__body">
         <%= link_to service.organization.name, admin_organization_path(service.organization) %>
-        <% if service.service_provider %>
+        <%- if service.service_provider %>
         &middot;
         <%= (service.service_provider.name) %>
         <% end -%>

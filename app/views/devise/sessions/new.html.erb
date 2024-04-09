@@ -14,7 +14,7 @@
               Misuse is subject to criminal and civil penalties.
             </p>
             <%= link_to "Read more details", "#disclaimer-modal", "aria-controls" => "read-more-details", "data-open-modal" => "true" %>
-            <% if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
+            <%- if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
             <p>
               <%= button_to user_login_dot_gov_omniauth_authorize_path,
                 id: "agree-button",
@@ -26,7 +26,7 @@
               <% end %>
             </p>
             <% end %>
-            <% if ENV['GITHUB_CLIENT_ID'].present? %>
+            <%- if ENV['GITHUB_CLIENT_ID'].present? %>
             <p>
               <%= button_to "Agree and sign in with GitHub", user_github_omniauth_authorize_path,
                 id: "agree-button",

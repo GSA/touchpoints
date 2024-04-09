@@ -5,14 +5,14 @@
     <div class="radio-button usa-radio"
         id="<%= dom_id(option) %>"
         data-id="<%= option.id %>"
-        <% if question.help_text.present? %>
+        <%- if question.help_text.present? %>
         aria-describedby="<%= "question-id-#{question.id}-help-text" %>"
         <% end %>
       >
       <% @option_id = "#{question.answer_field}_#{(index + 1).to_s}" %>
       <%= radio_button_tag(@option_id, option.value, nil, { id: @option_id, name: question.answer_field, class: "usa-radio__input usa-radio__input--tile", required: question.is_required  }) %>
       <%= label_tag(@option_id, nil, class: "usa-radio__label") do %><%= option.text %><% end %>
-      <% if ["OTHER", "OTRO"].include?(option.text.upcase) %>
+      <%- if ["OTHER", "OTRO"].include?(option.text.upcase) %>
         <%= label_tag(nil, for: "#{question.answer_field}_other", class: "usa-input__label") do %><%= t 'form.enter_other_text' %><% end %>
         <input type="text" name="<%= question.answer_field %>_other" id="<%= question.answer_field %>_other" data-option-id="<%= @option_id %>" placeholder="<%= t 'form.enter_other_text' %>" class="usa-input other-option" />
         <br>

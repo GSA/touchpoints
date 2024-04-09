@@ -28,7 +28,7 @@
         then copy a template that you can modify to meet your needs.
       </p>
 
-    <% if @templates.present? %>
+    <%- if @templates.present? %>
     <ul class="usa-card-group">
       <% @templates.each do |form| %>
       <li class="usa-card desktop:grid-col-12">
@@ -80,7 +80,7 @@
         Select which of your existing surveys you'd like to copy
         and give it a new name.
       </p>
-      <% if @surveys.present? %>
+      <%- if @surveys.present? %>
         <%= form_tag(copy_id_admin_forms_path) do %>
           <%= select_tag "id", options_from_collection_for_select(@surveys, "short_uuid", "name"), { prompt: "Select a form", class: "usa-select" } %>
           <p>

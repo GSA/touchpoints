@@ -38,7 +38,7 @@
   </p>
   <% end %>
   <p>
-    <% if @goal.four_year_goal %>
+    <%- if @goal.four_year_goal %>
       <span class="usa-label font-sans-lg">Four Year Strategic Goal</span>
     <% else %>
       <span class="usa-labe font-sans-lg">Two Year APG</span>
@@ -52,7 +52,7 @@
     </span>
   </div>
 
-  <% if @goal.four_year_goal %>
+  <%- if @goal.four_year_goal %>
   <% else %>
   <div class="field">
     <%= form.label 'Goal Statement', class: "usa-label" %>
@@ -73,7 +73,7 @@
 
 <% end %>
 
-<% if @goal.four_year_goal %>
+<%- if @goal.four_year_goal %>
 <div class="well">
   <h3>
     Objectives
@@ -94,7 +94,7 @@
 </div>
 
 <%# 4 year goals do not have tags %>
-<% if !@goal.four_year_goal %>
+<%- if !@goal.four_year_goal %>
 <div class="well">
   <div class="tags-div">
     <%= render 'admin/goals/tags', service: @goal %>

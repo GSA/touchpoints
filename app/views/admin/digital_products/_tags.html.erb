@@ -3,7 +3,7 @@
     <div class="grid-col-6">
       <%= label_tag :tags, nil, class: "usa-label" %>
 
-      <% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
+      <%- if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
         <ul class="usa-button-group">
           <li class="usa-button-group__item">
             <%= f.text_field :tag_list, placeholder: "Add a tag" , value: nil, class: "usa-input tag-input margin-top-0" %>
@@ -23,7 +23,7 @@
             <span class="usa-tag">
               <%= tag %>
             </span>
-            <% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
+            <%- if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
             <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= tag %>">
               <span class="fa fa-trash"></span>
             </a>
@@ -37,7 +37,7 @@
   </div>
 <% end %>
 
-<% if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
+<%- if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
 <script>
   $(function() {
 

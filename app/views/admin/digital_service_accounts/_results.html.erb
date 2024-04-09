@@ -16,7 +16,7 @@
           <%= link_to digital_service_account.name, admin_digital_service_account_path(digital_service_account) %>
         </td>
         <td>
-          <% if digital_service_account.aasm_state == "published" %>
+          <%- if digital_service_account.aasm_state == "published" %>
             <span class="usa-tag bg-success">
               <%= digital_service_account.aasm_state %>
             </span>

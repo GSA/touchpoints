@@ -6,7 +6,7 @@
     id="<%= question.answer_field.to_sym %>"
     style="text-align: center; margin: 0 auto;"
     aria-labelledby="question-label-<%= question.id %>"
-    <% if question.help_text.present? %>
+    <%- if question.help_text.present? %>
     aria-describedby="<%= "question-id-#{question.id}-help-text" %>"
     <% end -%>
   >

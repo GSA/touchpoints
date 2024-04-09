@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody>
-    <% if @results %>
+    <%- if @results %>
       <% @results.each do |result| %>
         <tr data-id="<%= result.id %>">
           <td>
