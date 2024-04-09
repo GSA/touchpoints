@@ -52,7 +52,7 @@
         <%= label_tag :api_key, "API Key", class: "usa-label" %>
         <%= f.text_field :api_key, class: "usa-input", placeholder: "40 character api.data.gov API Key" %>
         <%- if current_user.api_key? %>
-          <%- if  @api_key_warning %>
+          <%- if @api_key_warning %>
             <div class="usa-alert usa-alert--warning">
               <div class="usa-alert__body">
                 <p class="usa-alert__text">
