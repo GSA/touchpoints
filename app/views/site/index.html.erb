@@ -10,7 +10,7 @@
     <h2>
        <%= t 'home.sign_in' %>
     </h2>
-    <% if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
+    <%- if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
     <p>
       <%= t 'home.sign_in_text' %>
     </p>
@@ -25,7 +25,7 @@
       <% end %>
     </p>
     <% end %>
-    <% if ENV['GITHUB_CLIENT_ID'].present? %>
+    <%- if ENV['GITHUB_CLIENT_ID'].present? %>
     <p>
       <%= button_to user_github_omniauth_authorize_path,
         class: "usa-button",

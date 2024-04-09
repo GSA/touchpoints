@@ -3,7 +3,7 @@
     <%= render 'form', objective: @objective %>
   </div>
   <div class="tablet:grid-col-6">
-    <% if @objective.persisted? %>
+    <%- if @objective.persisted? %>
     <div class="well">
       <div class="tags-div">
         <%= render 'admin/objectives/tags', objective: @objective %>

@@ -18,7 +18,7 @@
     <%= label_tag :search_text, "Search by organization or name" %>
     <%= text_field_tag :search_text, nil, class: "usa-input" %>
 
-    <% if @tags.first %>
+    <%- if @tags.first %>
       <p>
         Search by tag
       </p>
@@ -38,7 +38,7 @@
   <%= render 'card_results', services: @services %>
 </div>
 
-<% if service_manager_permissions? %>
+<%- if service_manager_permissions? %>
 <p>
   <%= link_to export_csv_admin_services_path, class: "usa-button usa-button--outline" do %>
     <i class="fa fa-download"></i>

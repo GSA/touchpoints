@@ -11,7 +11,7 @@
     </div>
   </div>
 
-  <% if digital_product_permissions?(digital_product: @digital_product, user: current_user) %>
+  <%- if digital_product_permissions?(digital_product: @digital_product, user: current_user) %>
   <%= link_to "New digital product version", new_admin_digital_product_digital_product_version_path(@digital_product), class: "usa-button full-width" %>
   <% end %>
 
@@ -20,7 +20,7 @@
       <tr>
         <th>Platform</th>
         <th>Version</th>
-        <% if digital_product_permissions?(digital_product: @digital_product, user: current_user) %>
+        <%- if digital_product_permissions?(digital_product: @digital_product, user: current_user) %>
         <th>Actions</th>
         <% end %>
       </tr>
@@ -30,7 +30,7 @@
       <tr id="<%= version.id %>">
         <td><%= version.platform %></td>
         <td><%= version.version_number %></td>
-        <% if digital_product_permissions?(digital_product: @digital_product, user: current_user) %>
+        <%- if digital_product_permissions?(digital_product: @digital_product, user: current_user) %>
         <td>
           <%= link_to edit_admin_digital_product_digital_product_version_path(@digital_product, version),
             class: "icon-link" do %>

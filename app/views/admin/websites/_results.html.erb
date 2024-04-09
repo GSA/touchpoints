@@ -3,7 +3,7 @@
 </h3>
 <p>
   <% unless params[:action] == "review" %>
-    <% if params[:all] %>
+    <%- if params[:all] %>
       <%= link_to "View Active sites", "?active=1" %>
       <small>
         (<%= Website::ACTIVE_PRODUCTION_STATUSES.to_sentence %>)

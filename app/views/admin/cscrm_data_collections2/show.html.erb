@@ -13,7 +13,7 @@
   <% end %>
 </p>
 
-<% if @cscrm_data_collection.published? %>
+<%- if @cscrm_data_collection.published? %>
   <div class="usa-alert usa-alert--warning">
     <div class="usa-alert__body">
       <p class="usa-alert__text">
@@ -236,7 +236,7 @@
       <% field = CscrmDataCollection2.send("question_9")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if [String, TrueClass, FalseClass].include?(value.class) %>
+      <%- if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -266,7 +266,7 @@
       <% field = CscrmDataCollection2.send("question_10")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if [String, TrueClass, FalseClass].include?(value.class) %>
+      <%- if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -316,7 +316,7 @@
       <% field = CscrmDataCollection2.send("question_12")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if [String, TrueClass, FalseClass].include?(value.class) %>
+      <%- if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -366,7 +366,7 @@
       <% field = CscrmDataCollection2.send("question_14")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if [String, TrueClass, FalseClass].include?(value.class) %>
+      <%- if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -436,7 +436,7 @@
       <% field = CscrmDataCollection2.send("question_17")[:field] %>
       <% value = YAML.load(@cscrm_data_collection.send(field) || "") %>
 
-      <% if [String, TrueClass, FalseClass].include?(value.class) %>
+      <%- if [String, TrueClass, FalseClass].include?(value.class) %>
         <%= value %>
       <% elsif value.class == Array %>
         <ul>
@@ -510,7 +510,7 @@
       <%= render 'components/step_indicator', collection: @cscrm_data_collection %>
 
       <p>
-        <% if !@cscrm_data_collection.submitted? && !@cscrm_data_collection.published? %>
+        <%- if !@cscrm_data_collection.submitted? && !@cscrm_data_collection.published? %>
           <div class="usa-alert usa-alert--info usa-alert--slim font-sans-2xs">
             <div class="usa-alert__body">
               <p class="usa-alert__text">

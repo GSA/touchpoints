@@ -6,15 +6,15 @@
   <% end %>
 <% end %>
 
-<% if @forms.present? || @archived_forms.present? %>
+<%- if @forms.present? || @archived_forms.present? %>
   <p class="font-sans-3xs">
-  <% if !params[:all] %>
+  <%- if !params[:all] %>
     <%= link_to all_admin_forms_path do %>
       Also show archived forms
     <% end %>
   <% end %>
 
-  <% if params[:all] %>
+  <%- if params[:all] %>
     <%= link_to admin_forms_path do %>
       Show active forms only
     <% end %>
@@ -22,7 +22,7 @@
   </p>
 <% end %>
 
-<% if @forms.present? %>
+<%- if @forms.present? %>
 <table class="usa-table width-full">
   <thead class="font-sans-3xs">
     <tr>
@@ -72,7 +72,7 @@
         <%= form.completion_rate %>
       </td>
       <td>
-        <% if form.aasm_state == "live" %>
+        <%- if form.aasm_state == "live" %>
         <span class="usa-tag bg-green">
           <%= form.aasm_state %>
         </span>

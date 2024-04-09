@@ -1,5 +1,5 @@
 <div id="display-logo-div">
-  <% if form.errors.any? %>
+  <%- if form.errors.any? %>
   <div id="error_explanation">
     <div class="usa-alert usa-alert--error">
       <div class="usa-alert__body">
@@ -42,13 +42,13 @@
     <br>
     <%= f.submit "Update logo", class: "usa-button usa-button-outline" %>
     <br>
-    <% if form.logo.present? %>
-      <% if form.display_header_logo %>
+    <%- if form.logo.present? %>
+      <%- if form.display_header_logo %>
         <p>
           <%= image_tag(form.logo.tag.url, alt: "#{form.organization.name} logo", class: "form-header-logo") %>
         </p>
       <% end %>
-      <% if form.display_header_square_logo %>
+      <%- if form.display_header_square_logo %>
         <p>
           <%= image_tag(form.logo.logo_square.url, alt: "#{form.organization.name} logo", class: "form-header-logo-square") %>
         </p>

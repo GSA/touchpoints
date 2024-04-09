@@ -2,7 +2,7 @@
   <thead>
     <tr>
       <th data-sortable scope="col">HISP Service</th>
-    <% if service_manager_permissions? %>
+    <%- if service_manager_permissions? %>
       <th data-sortable scope="col">Organization</th>
       <th data-sortable scope="col">Service Provider</th>
     <% end %>
@@ -16,11 +16,11 @@
     <% @services.each do |service| %>
       <tr>
         <td>
-        <% if service.hisp? %>
+        <%- if service.hisp? %>
           <span class="usa-tag bg-cyan">HISP</span>
         <% end %>
         </td>
-      <% if service_manager_permissions? %>
+      <%- if service_manager_permissions? %>
         <td><%= service.organization.try(:name) %></td>
         <td><%= service.service_provider.try(:name) %></td>
       <% end %>

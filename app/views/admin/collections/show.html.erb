@@ -3,7 +3,7 @@
 
 <% content_for :navigation_title do %>
   Data Collection
-  <% if @collection.draft? || performance_manager_permissions? %>
+  <%- if @collection.draft? || performance_manager_permissions? %>
     <%= link_to edit_admin_collection_path(@collection), class: "usa-button usa-button-inverted float-right" do %>
       <i class="fa fa-pencil-alt"></i>
       Edit
@@ -22,7 +22,7 @@
   <%= @collection.name %>
 </h2>
 
-<% if !@collection.submitted? && !@collection.published? %>
+<%- if !@collection.submitted? && !@collection.published? %>
 <% elsif !@collection.published? %>
 <% else %>
   <div class="usa-alert usa-alert--warning">
@@ -111,7 +111,7 @@
         </li>
       <% end %>
       </ul>
-      <% if @collection.draft? %>
+      <%- if @collection.draft? %>
       <p>
         <%= link_to new_admin_omb_cx_reporting_collection_path(collection_id: @collection.id), class: "usa-button usa-button--outline" do %>
           <i class="fa fa-plus"></i>
@@ -125,7 +125,7 @@
     <div class="usa-prose margin-top-3">
       <strong>Reflection text</strong>
       <p>
-        <% if @collection.reflection? %>
+        <%- if @collection.reflection? %>
           <%= to_markdown(@collection.reflection) %>
         <% else %>
         <div class="usa-alert usa-alert--warning usa-alert--slim">
@@ -159,7 +159,7 @@
     <p>
       <%= label_tag :rating, nil, class: "usa-label" %>
       <br>
-      <% if @collection.rating.present? %>
+      <%- if @collection.rating.present? %>
       <%= collection_rating_label(rating: @collection.rating) %>
       <% else %>
       <div class="usa-alert">
@@ -176,7 +176,7 @@
     </p>
 
     <p>
-      <% if !@collection.submitted? && !@collection.published? %>
+      <%- if !@collection.submitted? && !@collection.published? %>
         <div class="usa-alert usa-alert--info usa-alert--slim font-sans-2xs">
           <div class="usa-alert__body">
             <p class="usa-alert__text">

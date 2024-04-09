@@ -1,5 +1,5 @@
 <%= form_with(model: collection, url: collection.persisted? ? admin_collection_path(collection) : admin_collections_path, local: true, data: { turbo: false }) do |f| %>
-  <% if collection.errors.any? %>
+  <%- if collection.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(collection.errors.count, "error") %> prohibited this collection from being saved:</h2>
 
@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-  <% if performance_manager_permissions? %>
+  <%- if performance_manager_permissions? %>
   <div class="field">
     <%= f.label :user_id, class: "usa-label" %>
     <%= f.select :user_id, options_for_select(User.all.collect { |u| [u.email, u.id] }, collection.user_id), { prompt: "Which User?", include_blank: true }, { class: "usa-select" } %>
@@ -20,7 +20,7 @@
   <%= f.hidden_field :user_id, value: current_user.id %>
   <% end %>
 
-  <% if performance_manager_permissions? %>
+  <%- if performance_manager_permissions? %>
   <div class="field">
     <%= f.label :organization_id, class: "usa-label" %>
     <%= f.select :organization_id, options_for_select(organization_dropdown_options, collection.organization_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>
@@ -39,7 +39,7 @@
     <%= f.select :name, ["CX Quarterly Reporting"], {}, class: "usa-select" %>
   </div>
 
-  <% if performance_manager_permissions? && collection.persisted? %>
+  <%- if performance_manager_permissions? && collection.persisted? %>
   <div class="field">
     <%= f.label :aasm_state, class: "usa-label" %>
     <%= f.select :aasm_state, [:draft, :submitted, :published, :change_requested], {}, class: "usa-select" %>
@@ -48,7 +48,7 @@
     <%= f.hidden_field :aasm_state, value: :draft %>
   <% end %>
 
-  <% if performance_manager_permissions? && collection.persisted? %>
+  <%- if performance_manager_permissions? && collection.persisted? %>
   <% rating_options = [
       ["🟢 Reporting within A-11 guidelines", "TRUE"],
       ["🔴 Not submitting data", "FALSE"],
@@ -60,7 +60,7 @@
   </div>
   <% end %>
 
-  <% if collection.persisted? %>
+  <%- if collection.persisted? %>
   <div class="field usa-form-group">
     <%= f.label :start_date, class: "usa-label", id: "expiration-date-label" %>
     <div class="usa-date-picker2" data-default-value="<%= collection.start_date %>">

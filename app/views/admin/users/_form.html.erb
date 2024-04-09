@@ -1,5 +1,5 @@
 <%= form_with(model: user, url: (user.persisted? ? admin_user_path(user) : admin_users_path), local: true) do |form| %>
-  <% if user.errors.any? %>
+  <%- if user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
       <ul class="usa-list">
@@ -13,7 +13,7 @@
     <%= form.label :organization_id, class: "usa-label" %>
     <%= form.select :organization_id, options_for_select(organization_dropdown_options, selected: user.organization_id), { prompt: "Select Organization" }, { class: "usa-select" } %>
   </div>
-  <% if admin_permissions? %>
+  <%- if admin_permissions? %>
   <div class="well">
     <div class="grid-row">
       <div class="tablet:grid-col-6">
@@ -202,7 +202,7 @@
   <% end %>
   <div class="actions">
     <%= form.submit class: "usa-button" %>
-    <% if admin_permissions? %>
+    <%- if admin_permissions? %>
       <%= link_to admin_user_path(user), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" do %>
         <i class="fas fa-trash"></i>
         Delete User

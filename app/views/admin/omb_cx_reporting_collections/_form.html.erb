@@ -1,5 +1,5 @@
 <%= form_with(model: omb_cx_reporting_collection, url: (omb_cx_reporting_collection.persisted? ? admin_omb_cx_reporting_collection_path(omb_cx_reporting_collection) : admin_omb_cx_reporting_collections_path), local: true, data: { turbo: false }) do |form| %>
-<% if omb_cx_reporting_collection.errors.any? %>
+<%- if omb_cx_reporting_collection.errors.any? %>
   <div id="error_explanation">
     <h2><%= pluralize(omb_cx_reporting_collection.errors.count, "error") %> prohibited this omb_cx_reporting_collection from being saved:</h2>
 
@@ -22,7 +22,7 @@
       Services are available
       <%= link_to "here", admin_services_path, target: "_blank", rel: "noopener" %>.
     </p>
-    <% if @collection %>
+    <%- if @collection %>
       <%= form.select :service_id, @collection.organization.services.includes(:organization).order("organizations.name", :name).map { |h| ["#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", h.id] }, { prompt: "For which Service?" }, class: "usa-select" %>
     <% else %>
       <%= form.select :service_id, Service.all.includes(:organization).order("organizations.name", :name).map { |h| ["#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", h.id] }, { prompt: "For which Service?" }, class: "usa-select" %>

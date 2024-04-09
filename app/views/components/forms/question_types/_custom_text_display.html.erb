@@ -4,7 +4,7 @@
       <h3 class="usa-alert__heading">
         <%= sanitize(question.text) %>
       </h3>
-      <% if question.help_text %>
+      <%- if question.help_text %>
       <p class="usa-alert__text">
         <%= sanitize(question.help_text) %>
       </p>

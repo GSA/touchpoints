@@ -1,5 +1,5 @@
 <%= form_with(model: goal, url: goal.persisted? ? admin_goal_path(goal) : admin_goals_path) do |form| %>
-  <% if goal.errors.any? %>
+  <%- if goal.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(goal.errors.count, "error") %> prohibited this goal from being saved:</h2>
 
@@ -18,7 +18,7 @@
   </p>
 
   <p>
-    <% if @goal.four_year_goal %>
+    <%- if @goal.four_year_goal %>
       <span class="usa-label">Four Year Strategic Goal</span>
     <% else %>
       <span class="usa-label">Two Year APG</span>
@@ -63,7 +63,7 @@
   $(function() {
 
     $('.usa-hint').hide();
-  
+
     $('.goal-name').on("blur", function(event) {
       event.preventDefault();
 
@@ -76,7 +76,7 @@
         data: {name: $(this).val()}
       });
     });
-  
+
     $('.goal-description').on("blur", function(event) {
       event.preventDefault();
 
@@ -89,7 +89,7 @@
         data: {description: $(this).val()}
       });
     });
-  
+
     $('.goal-position').on("blur", function(event) {
       event.preventDefault();
 
@@ -104,7 +104,7 @@
         }
       });
     });
-  
+
     $('.goal-tags').on("blur", function(event) {
       event.preventDefault();
 
@@ -117,7 +117,7 @@
         data: {tags: $(this).val()}
       });
     });
-  
+
     $('.goal-users').on("blur", function(event) {
       event.preventDefault();
 
@@ -130,7 +130,7 @@
         data: { users: $(this).val() }
       });
     });
-  
+
     $('.goal-parent-id').on("change", function(event) {
       event.preventDefault();
 
@@ -143,10 +143,10 @@
         data: { parent_id: $(this).val() }
       });
     });
-  
+
     $('.four-year-goal').on("change", function(event) {
       event.preventDefault();
-      
+
       $('.usa-hint.four-year-goal').show();
       $('.usa-hint.four-year-goal').fadeOut(2000);
 

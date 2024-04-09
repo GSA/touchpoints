@@ -21,7 +21,7 @@
   <p>
     <strong>Service</strong>
     <br>
-    <% if @offering.service %>
+    <%- if @offering.service %>
       <%= link_to @offering.service.name, admin_service_path(@offering.service) if @offering.service %>
     <% else %>
     <div class="usa-alert usa-alert--warning">

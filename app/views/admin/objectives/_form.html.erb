@@ -1,5 +1,5 @@
 <%= form_with(model: objective, url: objective.persisted? ? admin_goal_objective_path(@goal) : admin_goal_objectives_path(@goal),local: false) do |form| %>
-  <% if objective.errors.any? %>
+  <%- if objective.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(objective.errors.count, "error") %> prohibited this objective from being saved:</h2>
 
@@ -13,7 +13,7 @@
 
   <%= form.hidden_field :goal_id, value: @goal.id %>
 
-  <% if admin_permissions? %>
+  <%- if admin_permissions? %>
   <div class="field">
     <%= form.label :organization_id, class: "usa-label" %>
     <%= form.select :organization_id, options_for_select(organization_dropdown_options, objective.organization_id), { prompt: "Which Organization?" }, { class: "usa-select" } %>

@@ -1,5 +1,5 @@
 <% content_for :navigation_title do %>
-  <% if service_permissions?(service: @service) %>
+  <%- if service_permissions?(service: @service) %>
   <div class="float-right">
     <%= link_to edit_admin_service_path(@service), class: "usa-button usa-button-inverted" do %>
     <i class="fa fa-pencil-alt"></i>
@@ -27,7 +27,7 @@
 
     <%= render 'admin/services/step_indicator', service: @service %>
 
-    <% if @service.hisp? %>
+    <%- if @service.hisp? %>
     <div class="usa-alert usa-alert--info">
       <div class="usa-alert__body">
         <p class="usa-alert__text">
@@ -81,7 +81,7 @@
     <p>
       <strong>Service type</strong>
       <br>
-      <% if @service.kind %>
+      <%- if @service.kind %>
       <% @service.kind.each do |i| %>
         <%= i %>
         <br>
@@ -112,7 +112,7 @@
       </div>
       <p>
         <strong>Service contacts</strong>
-        <% if @service.service_managers.present? %>
+        <%- if @service.service_managers.present? %>
           <ul class="usa-list">
             <% @service.service_managers.each do | manager | %>
               <li>
@@ -138,7 +138,7 @@
       <p>
         <strong>Why did you select this service for priority designation?</strong>
         <br>
-        <% if @service.justification_text.present? %>
+        <%- if @service.justification_text.present? %>
           <%= to_markdown(@service.justification_text) %>
         <% else %>
           <div class="usa-alert usa-alert--info usa-alert--slim">
@@ -189,25 +189,25 @@
 
   </div>
   <div class="desktop:grid-col-4">
-    <% if service_manager_permissions? && !@service.created? && @service.submitted? && !@service.approved? %>
+    <%- if service_manager_permissions? && !@service.created? && @service.submitted? && !@service.approved? %>
     <p>
       <%= link_to "Approve this service", approve_admin_service_path(@service), class: "usa-button full-width", method: :post %>
     </p>
     <% end %>
 
-    <% if service_permissions?(service: @service) && !@service.created? && !@service.submitted? && @service.approved? %>
+    <%- if service_permissions?(service: @service) && !@service.created? && !@service.submitted? && @service.approved? %>
     <p>
       <%= link_to "Verify this service can be published", verify_admin_service_path(@service), class: "usa-button full-width", method: :post %>
     </p>
     <% end %>
 
-    <% if @service.created? && !@service.submitted? && !@service.approved? %>
+    <%- if @service.created? && !@service.submitted? && !@service.approved? %>
     <div class="">
       <%= link_to "Submit this Service for OMB review", submit_admin_service_path(@service), class: "usa-button full-width", method: :post %>
     </div>
     <% end %>
 
-    <% if service_permissions?(service: @service) && !@service.created? && !@service.submitted? && !@service.approved? && @service.verified? %>
+    <%- if service_permissions?(service: @service) && !@service.created? && !@service.submitted? && !@service.approved? && @service.verified? %>
     <div class="margin-top-2">
       <%= link_to archive_admin_service_path(@service), class: "usa-button full-width", method: :post do %>
         <i class="fa fa-archive"></i>
@@ -217,7 +217,7 @@
     </div>
     <% end %>
 
-    <% if service_manager_permissions? %>
+    <%- if service_manager_permissions? %>
     <div class="margin-top-2">
       <%= link_to reset_admin_service_path(@service), class: "usa-button usa-button--secondary full-width", method: :post do %>
         <span class="fa fa-backward"></span>
@@ -227,7 +227,7 @@
     </div>
     <% end %>
 
-    <% if admin_permissions? %>
+    <%- if admin_permissions? %>
     <div class="margin-top-2">
       <%= link_to omb_cx_reporting_admin_service_path(@service), class: "usa-button usa-button--outline width-full" do %>
         <i class="fa fa-pencil-alt"></i>
@@ -236,7 +236,7 @@
     </div>
     <% end %>
 
-    <% if service_manager_permissions? %>
+    <%- if service_manager_permissions? %>
     <div class="margin-top-2">
       <%= link_to versions_admin_service_path(@service), class: "usa-button usa-button--outline width-full" do %>
         <span class="fa fa-list"></span>
@@ -264,7 +264,7 @@
       </p>
     </div>
 
-    <% if service_permissions?(service: @service) %>
+    <%- if service_permissions?(service: @service) %>
     <div class="well">
       <div class="tags-div">
         <%= render 'admin/services/tags', service: @service %>
@@ -285,7 +285,7 @@
   </h4>
   How many people made it to the final, successful end state of this service.
   <h2>
-  <% if first_stage.present? %>
+  <%- if first_stage.present? %>
     <%= takeup_percentage = ((last_stage.total_eligible_population.to_f / first_stage.total_eligible_population.to_f) * 100).round(2) %>%
   <% end %>
   </h2>
@@ -297,7 +297,7 @@
   </h4>
   <div>
     <% @forms = @service.forms.order(:name) %>
-    <% if @forms.present? %>
+    <%- if @forms.present? %>
     <ul>
       <% @forms.each do |f| %>
       <li>
@@ -326,7 +326,7 @@
   <h4>
     Data Collections
   </h4>
-  <% if @omb_cx_reporting_collections.present? %>
+  <%- if @omb_cx_reporting_collections.present? %>
   <table class="usa-table">
     <thead>
       <tr>

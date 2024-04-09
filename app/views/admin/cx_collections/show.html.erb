@@ -1,6 +1,6 @@
 <% content_for :navigation_title do %>
   CX Data Collection
-  <% if @cx_collection.draft? || performance_manager_permissions? %>
+  <%- if @cx_collection.draft? || performance_manager_permissions? %>
     <%= link_to edit_admin_cx_collection_path(@cx_collection), class: "usa-button usa-button-inverted float-right" do %>
       <i class="fa fa-pencil-alt"></i>
       Edit
@@ -19,7 +19,7 @@
   <%= @cx_collection.name %>
 </h2>
 
-<% if !@cx_collection.submitted? && !@cx_collection.published? %>
+<%- if !@cx_collection.submitted? && !@cx_collection.published? %>
 <% elsif !@cx_collection.published? %>
 <% else %>
   <div class="usa-alert usa-alert--warning">
@@ -114,7 +114,7 @@
                 <%= cx_collection_detail.survey_title %>
               </td>
               <td>
-                <% if cx_collection_detail.service_stage %>
+                <%- if cx_collection_detail.service_stage %>
                   <%= cx_collection_detail.service_stage.name %>
                 <% end %>
               </td>
@@ -159,7 +159,7 @@
     <p>
       <%= label_tag :rating, nil, class: "usa-label" %>
       <br>
-      <% if @cx_collection.rating.present? %>
+      <%- if @cx_collection.rating.present? %>
       <%= collection_rating_label(rating: @cx_collection.rating) %>
       <% else %>
       <div class="usa-alert">
@@ -176,7 +176,7 @@
     </p>
 
     <p>
-      <% if !@cx_collection.submitted? && !@cx_collection.published? %>
+      <%- if !@cx_collection.submitted? && !@cx_collection.published? %>
         <div class="usa-alert usa-alert--info usa-alert--slim font-sans-2xs">
           <div class="usa-alert__body">
             <p class="usa-alert__text">

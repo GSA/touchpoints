@@ -11,7 +11,7 @@
 
 <%= render 'admin/forms/nav', form: @form %>
 
-<% if @form.aasm_state == "archived" %>
+<%- if @form.aasm_state == "archived" %>
 <div class="usa-alert usa-alert--warning margin-top-1 margin-bottom-2">
   <div class="usa-alert__body">
     <p class="usa-alert__text">
@@ -22,7 +22,7 @@
 </div>
 <% end %>
 
-<% if is_at_least_form_manager?(user: current_user, form: @form) %>
+<%- if is_at_least_form_manager?(user: current_user, form: @form) %>
 <div class="grid-row grid-gap-lg">
   <div class="desktop:grid-col-8">
     <div class="margin-bottom-3">
@@ -30,7 +30,7 @@
         <%= pluralize number_with_delimiter(@form.response_count), "response" %>
       </strong>
       <br>
-      <% if @form.last_response_created_at.present? %>
+      <%- if @form.last_response_created_at.present? %>
       <small>
         <span class="text-base">
           Latest response:
@@ -80,7 +80,7 @@
         </div>
       </div>
       <div>
-        <% if @form.template %>
+        <%- if @form.template %>
         <strong>Form Template:</strong>
         <span class="usa-tag bg-accent-warm">
           <%= @form.kind %>

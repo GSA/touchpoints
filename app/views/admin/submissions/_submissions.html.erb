@@ -8,7 +8,7 @@
   <%= render 'admin/forms/ui_form', form: form %>
 </div>
 
-<% if @tags.any? %>
+<%- if @tags.any? %>
 <div class="well margin-top-1">
   <div class="field">
     <p>
@@ -30,8 +30,8 @@
 <% end %>
 <h2>
   <%= page_entries_info submissions, entry_name: 'Responses' %>
-  <% if params[:tag] %>
-    <% if params[:tag] && submissions.size == 0 %>
+  <%- if params[:tag] %>
+    <%- if params[:tag] && submissions.size == 0 %>
       <% form.remove_submission_tag!(params[:tag])%>
     <% end %>
     <span class="font-sans-3xs">tagged with <span class="code"><%= params[:tag] %></span></span>
@@ -56,7 +56,7 @@
           <% next if question.question_type == "text_display" %>
           <th data-sortable scope="col"><%= question.text %></th>
         <% end %>
-        <% if form.kind == "yes_no" %>
+        <%- if form.kind == "yes_no" %>
           <th data-sortable scope="col">
             Page
           </th>
@@ -68,7 +68,7 @@
       </thead>
       <tbody>
         <% submissions.each do |submission| %>
-        <% if @show_archived %>
+        <%- if @show_archived %>
         <% elsif submission.archived? %>
           <% next %>
         <% end %>
@@ -79,14 +79,14 @@
             <% end %>
           </td>
           <td class="flagged">
-            <% if submission.flagged? %>
+            <%- if submission.flagged? %>
               <%= render "admin/submissions/flag", { submission: submission } %>
             <% else %>
               <%= render "admin/submissions/unflag", { submission: submission } %>
             <% end %>
           </td>
           <td class="archived">
-            <% if submission.archived? %>
+            <%- if submission.archived? %>
               <%= render "admin/submissions/archive", { submission: submission } %>
             <% else %>
               <%= render "admin/submissions/unarchive", { submission: submission } %>
@@ -100,7 +100,7 @@
           </td>
         <% form.questions.each do |question| %>
           <% next if question.question_type == "text_display" %>
-          <% if form.ui_truncate_text_responses? %>
+          <%- if form.ui_truncate_text_responses? %>
             <td class="no-wrap">
               <%= simple_format(submission.send(question.answer_field.to_sym).to_s.truncate(160), sanitize: true) %>
             </td>
@@ -110,7 +110,7 @@
             </td>
           <% end %>
         <% end %>
-        <% if form.kind == "yes_no" %>
+        <%- if form.kind == "yes_no" %>
           <td>
             <%= submission.page %>
           </td>
@@ -130,7 +130,7 @@
 <script>
   $(".search-tag-link").click(function() {
     event.preventDefault();
-    <% if params[:archived] %>
+    <%- if params[:archived] %>
       var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>&archived=1&tag=' + $(this).attr("data-name");
     <% else %>
       var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>&tag=' + $(this).attr("data-name");
