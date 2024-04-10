@@ -125,7 +125,7 @@
                 <%= cx_collection_detail.channel %>
               </td>
               <td>
-                <%= cx_collection_detail.cx_responses.size == "0" ? number_with_delimiter(cx_collection_detail.cx_responses.size) : "Still uploading..." %>
+                <%= cx_collection_detail.cx_responses.size > 0 ? number_with_delimiter(cx_collection_detail.cx_responses.size) : "Upload pending..." %>
               </td>
             </tr>
             <% end %>

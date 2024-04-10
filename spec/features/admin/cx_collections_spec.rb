@@ -15,7 +15,7 @@ feature 'CX Data Collections', js: true do
   let!(:service2) { FactoryBot.create(:service, organization:, service_provider: service_provider2, name: "Another public service", hisp: true, service_owner_id: user.id) }
 
   let!(:cx_collection) { FactoryBot.create(:cx_collection, organization: another_organization, user:, service_provider: another_service_provider, service: service) }
-  let!(:cx_collection_detail) { FactoryBot.create(:cx_collection_detail, cx_collection: cx_collection) }
+  let!(:cx_collection_detail) { FactoryBot.create(:cx_collection_detail, cx_collection: cx_collection, service: service) }
 
   let!(:admin_cx_collection) { FactoryBot.create(:cx_collection, organization:, user: admin, service: service, service_provider:) }
 
