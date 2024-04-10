@@ -321,10 +321,11 @@
 </div>
 
 <% @omb_cx_reporting_collections = @service.omb_cx_reporting_collections.includes(:collection).order("collections.year", "collections.quarter") %>
+<% @cx_collection_details = @service.cx_collection_details.includes(:cx_collection).order("cx_collections.fiscal_year", "cx_collections.quarter") %>
 
 <div class="well">
   <h4>
-    Data Collections
+    CX Data Collections (V1)
   </h4>
   <%- if @omb_cx_reporting_collections.present? %>
   <table class="usa-table">
@@ -350,6 +351,42 @@
         </td>
         <td>
           <%= link_to omb_cx_reporting_collection.service.name, admin_omb_cx_reporting_collection_path(omb_cx_reporting_collection) %>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% end %>
+</div>
+
+<div class="well">
+  <h4>
+    CX Data Collections (V2)
+  </h4>
+  <%- if @cx_collection_details.present? %>
+  <table class="usa-table">
+    <thead>
+      <tr>
+        <th>Fiscal year</th>
+        <th>Quarter</th>
+        <th>Collection name</th>
+        <th>Service name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cx_collection_details.each do |cx_collection_detail| %>
+      <tr>
+        <td>
+          <%= cx_collection_detail.cx_collection.fiscal_year %>
+        </td>
+        <td>
+          <%= cx_collection_detail.cx_collection.quarter %>
+        </td>
+        <td>
+          <%= link_to cx_collection_detail.cx_collection.name, admin_cx_collection_path(cx_collection_detail.cx_collection) %>
+        </td>
+        <td>
+          <%= link_to cx_collection_detail.service.name, admin_cx_collection_detail_path(cx_collection_detail) %>
         </td>
       </tr>
       <% end %>

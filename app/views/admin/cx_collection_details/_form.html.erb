@@ -81,7 +81,10 @@
   </div>
 
   <div>
-    <%= form.label :survey_title, class: "usa-label" %>
+    <%= form.label :survey_title, class: "usa-label" do %>
+      Survey title
+      <abbr title="required" class="usa-hint--required">*</abbr>
+    <% end %>
     <div class="usa-hint font-sans-2xs">
       Please provide a short, succinct, public-facing title for your feedback survey.
     </div>
@@ -129,6 +132,7 @@
     <%= form.number_field :volume_of_respondents, class: "usa-input" %>
   </div>
 
+  <br>
   <div class="usa-alert usa-alert--info font-sans-2xs">
     <div class="usa-alert__body">
       <p class="usa-alert__text">
