@@ -73,15 +73,15 @@ function FBAform(d, N) {
 		<%# inject the form interface for inline with no wrapper %>
 		<%- if form.delivery_method == "inline" && form.suppress_submit_button %>
 			<%- if form.element_selector? %>
-			if(d.getElementById(this.elementSelector) != null) {
-				d.getElementById(this.elementSelector).innerHTML = "<%= escape_javascript render(partial: 'components/widget/no_modal', locals: { form: form }) %>";
+			if(d.getElementById(this.options.elementSelector) != null) {
+				d.getElementById(this.options.elementSelector).innerHTML = "<%= escape_javascript render(partial: 'components/widget/no_modal', locals: { form: form }) %>";
 			}
 			<% end %>
 		<%# inject the form interface for inline with the modal wrapper %>
 		<% elsif form.delivery_method == "inline" %>
 			<%- if form.element_selector? %>
-			if(d.getElementById(this.elementSelector) != null) {
-				d.getElementById(this.elementSelector).innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
+			if(d.getElementById(this.options.elementSelector) != null) {
+				d.getElementById(this.options.elementSelector).innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
 			}
 			<% end %>
 		<% end %>
@@ -108,8 +108,8 @@ function FBAform(d, N) {
 		<%# add button behaviors for custom-button-modal %>
 		<%- if form.delivery_method == "custom-button-modal" %>
 			<%- if form.element_selector? %>
-			if(d.getElementById(this.elementSelector) != null) {
-				d.getElementById(this.elementSelector).addEventListener('click', this.handleButtonClick.bind(this), false);
+			if(d.getElementById(this.options.elementSelector) != null) {
+				d.getElementById(this.options.elementSelector).addEventListener('click', this.handleButtonClick.bind(this), false);
 			}
 			<% end %>
 		<% end %>
@@ -152,7 +152,7 @@ function FBAform(d, N) {
 				this.closeDialog();
 			}
 		<% elsif form.delivery_method == "custom-button-modal" %>
-			if (this.dialogOpen && !e.target.closest('#' + this.elementSelector) && !e.target.closest('.fba-modal-dialog')) {
+			if (this.dialogOpen && !e.target.closest('#' + this.options.elementSelector) && !e.target.closest('.fba-modal-dialog')) {
 				this.closeDialog();
 			}
 		<% end %>
