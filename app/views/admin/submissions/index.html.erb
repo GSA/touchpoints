@@ -7,7 +7,7 @@
   <br>
   <%- if form.kind == "a11_v2" %>
   <p>
-  <%= link_to "Export A11-v2 Responses to CSV", export_a11_v2_submissions_admin_form_url(form, start_date: "2019-10-01", format: "json"), class: "usa-button export-btn" %>
+  <%= link_to "Export A11-v2 Responses to CSV", export_a11_v2_submissions_admin_form_url(form, start_date: "2019-10-01", format: "json"), class: "usa-button export-btn export-a11-v2-btn" %>
   </p>
   <% end -%>
   <p>
@@ -62,6 +62,20 @@
         $.get(url);
       });
       return false;
-    })
+    });
+
+    $('.export-a11-v2-btn').on("click", function(e) {
+      e.preventDefault();
+      if ($(this).text() == "Exporting...") {
+        return false;
+      }
+      var uuid = generateUUID();
+      $(this).html('Exporting...').addClass('cursor-not-allowed');
+      var url = $(this).attr('href') + '&uuid=' + uuid + '&touchpoint_id=<%= form.short_uuid %>';
+      subscribeExportChannel(uuid, function() {
+        $.get(url);
+      });
+      return false;
+    });
   });
 </script>
