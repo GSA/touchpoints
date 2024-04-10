@@ -34,8 +34,10 @@ function FBAform(d, N) {
 			this.loadCss();
 			<% end %>
 			this.loadHtml();
-			<%- unless (local_assigns.has_key?(:suppress_ui) && suppress_ui && form.delivery_method == "modal") -%>
+			<%- unless (local_assigns.has_key?(:suppress_ui) && suppress_ui) -%>
+				<%- if form.delivery_method == "modal" -%>
 				this.loadButton();
+				<% end %>
 			<% end %>
 			this.bindEventListeners();
 			this.dialogOpen = false; // initially false
