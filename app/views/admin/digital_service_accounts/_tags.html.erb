@@ -3,7 +3,7 @@
     <div class="grid-col-6">
       <%= label_tag "Tags", nil, class: "usa-label" %>
 
-      <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>        
+      <%- if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
         <ul class="usa-button-group">
           <li class="usa-button-group__item">
            <%= f.text_field :tag_list, placeholder: "Add a tag" , value: nil, class: "usa-input tag-input margin-top-0" %>
@@ -24,7 +24,7 @@
               <%= tag %>
             </span>
 
-            <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
+            <%- if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
             <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= tag %>">
               <span class="fa fa-trash"></span>
             </a>
@@ -37,7 +37,7 @@
   </div>
 <% end %>
 
-<% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
+<%- if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
 <script>
   $(function() {
     $("#tag_list_add_button").on("click", function(event) {

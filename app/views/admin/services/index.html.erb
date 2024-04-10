@@ -63,14 +63,14 @@
       <h3>
         <span class="fa fa-filter"></span>
         Filter by tag
-        <% if params[:tag].present? %>
+        <%- if params[:tag].present? %>
         <small>
           <%= link_to "Clear filters", admin_services_path, class: "font-sans-3xs" %>
         </small>
         <% end %>
       </h3>
       <br>
-      <% if @tags.first %>
+      <%- if @tags.first %>
       <div class="tag-list">
         <% @tags.order(:name).each do |tag| %>
         <%= link_to admin_services_path(tag: tag.name), class: "search-tag-link",  "data-name" => tag.name do %>
@@ -97,7 +97,7 @@
   <%= render 'results' %>
 </div>
 
-<% if service_manager_permissions? %>
+<%- if service_manager_permissions? %>
 <p>
   <%= link_to export_csv_admin_services_path, class: "usa-button usa-button--outline" do %>
     <i class="fa fa-download"></i>
@@ -110,6 +110,10 @@
   $(function() {
     $("#search_text").on("keyup", debounce(function() {
       var searchValue = $("#search_text").val();
+
+      if (searchValue.length < 3) {
+        return false;
+      }
 
       $.ajax({
         url: '/admin/services/search',

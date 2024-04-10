@@ -1,5 +1,5 @@
 <%= form_with(model: ivn_component, url: (ivn_component.persisted? ? admin_ivn_component_path(ivn_component) : admin_ivn_components_path), data: { turbo: false }) do |form| %>
-  <% if ivn_component.errors.any? %>
+  <%- if ivn_component.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(ivn_component.errors.count, "error") %> prohibited this ivn_component from being saved:</h2>
 

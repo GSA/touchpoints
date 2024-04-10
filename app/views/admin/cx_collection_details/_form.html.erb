@@ -1,5 +1,5 @@
 <%= form_with(model: cx_collection_detail, url: (cx_collection_detail.persisted? ? admin_cx_collection_detail_path(cx_collection_detail) : admin_cx_collection_details_path), class: "usa-form") do |form| %>
-  <% if cx_collection_detail.errors.any? %>
+  <%- if cx_collection_detail.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(cx_collection_detail.errors.count, "error") %> prohibited this cx_collection_detail from being saved:</h2>
 
@@ -12,7 +12,7 @@
   <% end %>
 
   <%= form.hidden_field :cx_collection_id, class: "usa-input", value: cx_collection_detail.cx_collection_id %>
-  <% if service_manager_permissions? %>
+  <%- if service_manager_permissions? %>
     <div>
       <%= form.label :cx_collection_id, "CX Collection", class: "usa-label" %>
       <%= form.select :cx_collection_id,
@@ -56,7 +56,7 @@
       where the feedback survey is presented to the user.
     </div>
 
-    <% if cx_collection_detail.cx_collection.service %>
+    <%- if cx_collection_detail.cx_collection.service %>
     <%= form.select :service_stage_id, options_for_select(cx_collection_detail.cx_collection.service.service_stages.map { |stage| [stage.name, stage.id]}, cx_collection_detail.service_stage_id),
       { include_blank: true },
       { class: "usa-select" } %>
@@ -81,7 +81,10 @@
   </div>
 
   <div>
-    <%= form.label :survey_title, class: "usa-label" %>
+    <%= form.label :survey_title, class: "usa-label" do %>
+      Survey title
+      <abbr title="required" class="usa-hint--required">*</abbr>
+    <% end %>
     <div class="usa-hint font-sans-2xs">
       Please provide a short, succinct, public-facing title for your feedback survey.
     </div>
@@ -129,6 +132,7 @@
     <%= form.number_field :volume_of_respondents, class: "usa-input" %>
   </div>
 
+  <br>
   <div class="usa-alert usa-alert--info font-sans-2xs">
     <div class="usa-alert__body">
       <p class="usa-alert__text">

@@ -210,7 +210,7 @@
   </div>
 </div>
 
-<% if form_permissions?(form: @form) %>
+<%- if form_permissions?(form: @form) %>
   <p>
     <%= link_to admin_form_submission_path(@form, @submission), class: "usa-button usa-button--secondary", method: :delete, remote: true, data: { confirm: 'Are you sure?' } do %>
     <i class="fas fa-trash"></i>
@@ -218,7 +218,7 @@
       Delete this response
     <% end %>
 
-  <% if @submission.archived? %>
+  <%- if @submission.archived? %>
     <%= link_to unarchive_admin_form_submission_path(@form, @submission), class: "usa-button usa-button--outline", method: :post, remote: true, data: { confirm: 'Are you sure?' } do %>
     <i class="fa fa-inbox"></i>
       &nbsp;

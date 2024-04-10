@@ -34,16 +34,15 @@ function FBAform(d, N) {
 			this.loadCss();
 			<% end %>
 			this.loadHtml();
-			<%- unless (local_assigns.has_key?(:suppress_ui) && suppress_ui) -%>
-				<%- if form.delivery_method == "modal" -%>
-					this.loadButton();
-				<% end %>
+			<%- unless (local_assigns.has_key?(:suppress_ui) && suppress_ui && form.delivery_method == "modal") -%>
+				this.loadButton();
 			<% end %>
 			this.bindEventListeners();
 			this.dialogOpen = false; // initially false
 			this.successState = false; // initially false
 			this.pagination();
 			this.formSpecificScript();
+			document.dispatchEvent(new Event('onTouchpointsFormLoaded'));
 			return this;
 		},
 		formSpecificScript: function() {
@@ -64,27 +63,25 @@ function FBAform(d, N) {
 			});
 		},
 		<%- if form.load_css %>
-		loadCss: function()
-		{
+		loadCss: function() {
 			var style = document.createElement('style');
 			style.innerHTML = this.css;
 			d.head.appendChild(style);
 		},
 		<% end %>
-		loadHtml: function()
-		{
+		loadHtml: function() {
 		<%# inject the form interface for inline with no wrapper %>
 		<%- if form.delivery_method == "inline" && form.suppress_submit_button %>
 			<%- if form.element_selector? %>
-			if(d.getElementById('<%= form.element_selector %>') != null) {
-				d.getElementById('<%= form.element_selector %>').innerHTML = "<%= escape_javascript render(partial: 'components/widget/no_modal', locals: { form: form }) %>";
+			if(d.getElementById(this.options.elementSelector) != null) {
+				d.getElementById(this.options.elementSelector).innerHTML = "<%= escape_javascript render(partial: 'components/widget/no_modal', locals: { form: form }) %>";
 			}
 			<% end %>
 		<%# inject the form interface for inline with the modal wrapper %>
 		<% elsif form.delivery_method == "inline" %>
 			<%- if form.element_selector? %>
-			if(d.getElementById('<%= form.element_selector %>') != null) {
-				d.getElementById('<%= form.element_selector %>').innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
+			if(d.getElementById(this.options.elementSelector) != null) {
+				d.getElementById(this.options.elementSelector).innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
 			}
 			<% end %>
 		<% end %>
@@ -111,8 +108,8 @@ function FBAform(d, N) {
 		<%# add button behaviors for custom-button-modal %>
 		<%- if form.delivery_method == "custom-button-modal" %>
 			<%- if form.element_selector? %>
-			if(d.getElementById('<%= form.element_selector %>') != null) {
-				d.getElementById('<%= form.element_selector %>').addEventListener('click', this.handleButtonClick.bind(this), false);
+			if(d.getElementById(this.options.elementSelector) != null) {
+				d.getElementById(this.options.elementSelector).addEventListener('click', this.handleButtonClick.bind(this), false);
 			}
 			<% end %>
 		<% end %>
@@ -155,7 +152,7 @@ function FBAform(d, N) {
 				this.closeDialog();
 			}
 		<% elsif form.delivery_method == "custom-button-modal" %>
-			if (this.dialogOpen && !e.target.closest('#' + '<%= form.element_selector %>') && !e.target.closest('.fba-modal-dialog')) {
+			if (this.dialogOpen && !e.target.closest('#' + this.options.elementSelector) && !e.target.closest('.fba-modal-dialog')) {
 				this.closeDialog();
 			}
 		<% end %>
@@ -645,7 +642,9 @@ function FBAform(d, N) {
 // Form Settings
 var formOptions = {
 	'modalButtonText': "<%= form.modal_button_text %>",
-	'formId': "<%= form.short_uuid %>"
+	'formId': "<%= form.short_uuid %>",
+	'elementSelector': "<%= form.element_selector %>",
+
 };
 
 // Create unique Touchpoints form object

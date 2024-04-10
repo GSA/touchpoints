@@ -10,7 +10,7 @@
           <div class="usa-card__body"
             id="<%= dom_id(option) %>"
             data-id="<%= option.id %>"
-            <% if question.help_text.present? %>
+            <%- if question.help_text.present? %>
             aria-describedby="<%= "question-id-#{question.id}-help-text" %>"
             <% end -%>
           >
@@ -19,7 +19,7 @@
           <%= label_tag(nil, for: @option_id, class: "usa-checkbox__label") do %>
             <div class="text-center width-full">
               <svg class="usa-icon font-sans-3xl" aria-hidden="true" focusable="false" role="img">
-                <% if option.value == "effectiveness" %>
+                <%- if option.value == "effectiveness" %>
                 <use xlink:href="<%= asset_path "sprite.svg#check" %>"></use>
                 <% elsif option.value == "efficiency" %>
                 <use xlink:href="<%= asset_path "sprite.svg#search" %>"></use>

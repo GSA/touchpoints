@@ -6,7 +6,7 @@
       <%= link_to "Agencies", admin_organizations_path %>.
     </small>
 
-    <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
+    <%- if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
       <%= select_tag :organization_id, options_for_select(@sponsoring_agency_options.map { |p| [p.name, p.id] }),
         prompt: "Select an Organization...",
         class: "usa-select add-agency" %>
@@ -19,7 +19,7 @@
           <%= agency.name %>
         </span>
 
-        <% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
+        <%- if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
         <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= agency.id %>">
           <span class="fa fa-trash"></span>
         </a>
@@ -30,7 +30,7 @@
   </div>
 </div>
 
-<% if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
+<%- if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
 <script>
   $(function() {
 

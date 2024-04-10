@@ -1,5 +1,5 @@
 <%= form_with(model: question_option, url: (question_option.persisted? ? admin_form_question_question_option_path(question.form, question, question_option) : admin_form_question_question_options_path(question.form, question)), remote: true, data: { turbo: false }) do |form| %>
-  <% if question_option.errors.any? %>
+  <%- if question_option.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(question_option.errors.count, "error") %> prohibited this question_option from being saved:</h2>
 
@@ -26,7 +26,7 @@
   <p>
     <%= form.submit class: "usa-button question-option-save" %>
 
-  <% if question_option.persisted? %>
+  <%- if question_option.persisted? %>
     <%= link_to admin_form_question_question_option_path(form, question, question_option), class: "usa-button bg-red float-right", method: :delete, data: { confirm: 'Are you sure?' } do %>
       <i class="fa fa-trash"></i>
       Delete

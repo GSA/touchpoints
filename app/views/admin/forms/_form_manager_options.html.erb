@@ -1,9 +1,9 @@
-<% if request.format == "text/javascript" %>
+<%- if request.format == "text/javascript" %>
 <%= render 'components/flash' %>
 <% end %>
 
 <%= form_with(model: form, url: update_form_manager_options_admin_form_url(form, format: :js), local: false, data: { turbo: false }) do |f| %>
-  <% if form.errors.any? %>
+  <%- if form.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(form.errors.count, "error") %> prohibited this form from being saved:</h2>
       <% form.errors.full_messages.each do |message| %>
@@ -18,7 +18,7 @@
       <% end %>
     </div>
   <% end %>
-  <% if is_at_least_form_manager?(user: current_user, form: form) %>
+  <%- if is_at_least_form_manager?(user: current_user, form: form) %>
   <div class="well">
     <span class="usa-tag">
       for Form Managers

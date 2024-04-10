@@ -1,6 +1,6 @@
 <% content_for :navigation_title do %>
   Viewing User
-  <% if admin_permissions? %>
+  <%- if admin_permissions? %>
   <%= link_to edit_admin_user_path(@user), class: "usa-button usa-button-inverted float-right" do %>
     <span class="fa fa-pencil-alt"></span>
     Edit
@@ -13,7 +13,7 @@
     Back to Users
   <% end %>
 </p>
-<% if @user.inactive? %>
+<%- if @user.inactive? %>
 <div class="usa-alert usa-alert--warning margin-bottom-2">
   <div class="usa-alert__body">
     <p class="usa-alert__text">
@@ -23,37 +23,37 @@
 </div>
 <% end %>
 <div class="well">
-  <% if @user.admin? %>
+  <%- if @user.admin? %>
     <span class="usa-tag bg-secondary-vivid">
       Admin
     </span>
   <% end %>
-  <% if @user.organizational_admin? %>
+  <%- if @user.organizational_admin? %>
     <span class="usa-tag bg-orange">
       Organizational Admin
     </span>
   <% end %>
-  <% if @user.performance_manager? %>
+  <%- if @user.performance_manager? %>
     <span class="usa-tag bg-blue">
       Performance manager
     </span>
   <% end %>
-  <% if @user.cscrm_data_collection_manager? %>
+  <%- if @user.cscrm_data_collection_manager? %>
     <span class="usa-tag bg-blue">
       CSCRM Data Collection manager
     </span>
   <% end %>
-  <% if @user.service_manager? %>
+  <%- if @user.service_manager? %>
     <span class="usa-tag bg-indigo">
       Service manager
     </span>
   <% end %>
-  <% if @user.registry_manager? %>
+  <%- if @user.registry_manager? %>
     <span class="usa-tag bg-violet">
       Registry manager
     </span>
   <% end %>
-  <% if @user.organizational_website_manager? %>
+  <%- if @user.organizational_website_manager? %>
     <span class="usa-tag bg-cyan">
       Website manager
     </span>
@@ -68,11 +68,11 @@
     <br>
     <%= @user.organization ? link_to(@user.organization.name, admin_organization_path(@user.organization)) : "Undefined" %>
   </p>
-  <% if current_user == @user || admin_permissions? %>
+  <%- if current_user == @user || admin_permissions? %>
   <p>
     <label class="usa-label">Latest login</label>
     <br>
-    <% if @user.current_sign_in_at %>
+    <%- if @user.current_sign_in_at %>
       <%= format_time(@user.current_sign_in_at, current_user.time_zone) %> -
       <%= time_ago_in_words(@user.current_sign_in_at) %> ago
     <% end %>
@@ -80,13 +80,13 @@
   <% end %>
 </div>
 
-<% if current_user == @user || admin_permissions? %>
+<%- if current_user == @user || admin_permissions? %>
 <div class="well">
   <h4>
     Service Providers
   </h4>
-  <% if @service_providers.present? %>
-  <table class="usa-table">
+  <%- if @service_providers.present? %>
+  <table class="usa-table width-full">
     <thead>
       <tr>
         <th data-sortable scope="col">
@@ -125,8 +125,8 @@
   <h4>
     Services
   </h4>
-  <% if @services.present? %>
-    <table class="usa-table">
+  <%- if @services.present? %>
+    <table class="usa-table width-full">
       <thead>
         <tr>
           <th data-sortable scope="col">
@@ -165,18 +165,18 @@
   <h4>
     Forms
   </h4>
-  <% if @forms.present? %>
-    <table class="usa-table">
+  <%- if @forms.present? %>
+    <table class="usa-table width-full">
       <thead>
         <tr>
           <th data-sortable scope="col">
             Name
           </th>
           <th data-sortable scope="col">
-            Status
-          </th>
           <th data-sortable scope="col">
             Kind
+          </th>
+            Status
           </th>
           <th data-sortable scope="col">
             Response count
@@ -217,8 +217,8 @@
   <h4>
     Digital Products
   </h4>
-  <% if @digital_products.present? %>
-    <table class="usa-table">
+  <%- if @digital_products.present? %>
+    <table class="usa-table width-full">
       <thead>
         <tr>
           <th data-sortable scope="col">
@@ -257,8 +257,8 @@
   <h4>
     Digital Service Accounts
   </h4>
-  <% if @digital_service_accounts.present? %>
-  <table class="usa-table">
+  <%- if @digital_service_accounts.present? %>
+  <table class="usa-table width-full">
     <thead>
       <tr>
         <th data-sortable scope="col">
@@ -297,8 +297,8 @@
   <h4>
     Websites
   </h4>
-  <% if @websites.present? %>
-  <table class="usa-table">
+  <%- if @websites.present? %>
+  <table class="usa-table width-full">
     <thead>
       <tr>
         <th data-sortable scope="col">Domain</th>
@@ -337,8 +337,8 @@
   <h4>
     Data Collections
   </h4>
-  <% if @collections.present? %>
-  <table class="usa-table">
+  <%- if @collections.present? %>
+  <table class="usa-table width-full">
     <thead>
       <tr>
         <th data-sortable scope="col">Fiscal year</th>

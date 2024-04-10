@@ -119,7 +119,7 @@
   <ul class="usa-list">
     <% @websites.each do |website| %>
     <%# only show sites with USWDS > 2.0 %>
-      <% if !website.uswds_version.present? || (website.uswds_version.to_f && website.uswds_version.to_f < 2.0) %>
+      <%- if !website.uswds_version.present? || (website.uswds_version.to_f && website.uswds_version.to_f < 2.0) %>
       <li>
         <%= link_to website.domain, admin_website_path(website) %> - <%= website.uswds_version %>
       </li>

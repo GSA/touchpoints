@@ -1,5 +1,5 @@
 <%= form_with(model: cscrm_data_collection, url: (cscrm_data_collection.persisted? ? admin_cscrm_data_collection_path(cscrm_data_collection) : admin_cscrm_data_collections_path), data: { turbo: false }) do |form| %>
-  <% if cscrm_data_collection.errors.any? %>
+  <%- if cscrm_data_collection.errors.any? %>
     <div class="" style="color: red">
       <h2><%= pluralize(cscrm_data_collection.errors.count, "error") %> prohibited this cscrm_data_collection from being saved:</h2>
 
@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-  <% if admin_permissions? %>
+  <%- if admin_permissions? %>
   <div class="field">
     <%= form.label :user_id, "User ID" %>
     <%= form.text_field :user_id, class: "usa-input" , value: cscrm_data_collection.user_id || current_user.id %>

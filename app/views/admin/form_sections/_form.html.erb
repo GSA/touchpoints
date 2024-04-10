@@ -1,6 +1,6 @@
 <div>
   <%= form_with(model: form_section, url: (form_section.persisted? ? admin_form_form_section_path((form)) : admin_form_form_sections_path(form) ), local: true) do |html_form| %>
-    <% if form_section.errors.any? %>
+    <%- if form_section.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(form_section.errors.count, "error") %> prohibited this form_section from being saved:</h2>
 

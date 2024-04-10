@@ -1,6 +1,6 @@
 <%= form_with(model: question, url: (question.persisted? ? admin_form_question_path(form, question) : admin_form_questions_path(form)), local: true, class: 'question-form' ) do |f| %>
   <div class="question white-bg" id="question_<%= question.id %>" data-id="<%= question.id %>">
-    <% if question.errors.any? %>
+    <%- if question.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(question.errors.count, "error") %> prohibited this question from being saved:</h2>
 
@@ -21,7 +21,7 @@
 
     <div class="field">
       <%= f.label :question_type, class: "usa-label" %>
-    <% if admin_permissions? || service_manager_permissions? %>
+    <%- if admin_permissions? || service_manager_permissions? %>
       <br>
       <% Question::QUESTION_TYPES.each do |kind| %>
         <%= f.radio_button :question_type, kind %>
@@ -41,13 +41,13 @@
           <%= f.text_field :help_text, class: "usa-input" %>
         </div>
         <% end %>
-        <% if ["text_field", "textarea", "text_email_field","text_phone_field","hidden_field","date_select"].include?(question.question_type) %>
+        <%- if ["text_field", "textarea", "text_email_field","text_phone_field","hidden_field","date_select"].include?(question.question_type) %>
         <div class="field placeholder-text">
           <%= f.label :placeholder_text, "Placeholder text", class: "usa-label" %>
           <%= f.text_field :placeholder_text, class: "usa-input" %>
         </div>
         <% end %>
-        <% if ["text_field", "textarea", "text_email_field","text_phone_field"].include?(question.question_type) %>
+        <%- if ["text_field", "textarea", "text_email_field","text_phone_field"].include?(question.question_type) %>
         <div class="field character-limit">
           <%= f.label :character_limit, class: "usa-label" %>
           <%= f.number_field :character_limit, class: "usa-input", max: "100000" %>
@@ -96,16 +96,16 @@
   </div>
 <% end %>
 
-<% if form_permissions?(form: @form) %>
+<%- if form_permissions?(form: @form) %>
 <script>
     $('.question .save-question').on("click", function(event) {
       event.preventDefault();
 
-      <% if form_permissions?(form: @form) %>
+      <%- if form_permissions?(form: @form) %>
         var questionType = $("#question_question_type option:selected").text();
       <% end %>
 
-      <% if admin_permissions? || service_manager_permissions? %>
+      <%- if admin_permissions? || service_manager_permissions? %>
       var questionType = $("input[name='question[question_type]']").val();
       <% end %>
 

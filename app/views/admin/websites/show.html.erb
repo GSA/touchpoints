@@ -1,6 +1,6 @@
 <% content_for :navigation_title do %>
   Website: <%= @website.domain %>
-  <% if @website.can_manage?(user: current_user) %>
+  <%- if @website.can_manage?(user: current_user) %>
     <%= link_to edit_admin_website_path(@website), class: "usa-button usa-button-inverted float-right" do %>
       <i class="fa fa-pencil-alt"></i>
       Edit
@@ -51,7 +51,7 @@
       </label>
       <%= link_to @website.domain, "https://#{@website.domain}", target: "_blank", rel: "noopener" %>
 
-      <% if @website.redirects_to %>
+      <%- if @website.redirects_to %>
         <label class="usa-label" for="redirects_to">
           Redirects to
         </label>
@@ -85,7 +85,7 @@
             title="A list of additional staff responsible for the website.">
           </span>
         </label>
-        <% if @website.website_managers.present? %>
+        <%- if @website.website_managers.present? %>
         <ul class="usa-list">
           <% @website.website_managers.each do |manager| %>
           <li>
@@ -113,7 +113,7 @@
             title="The email address the public would use to contact for help.">
           </span>
         </label>
-        <% if @website.contact_email.present? %>
+        <%- if @website.contact_email.present? %>
         <p>
           <%= @website.contact_email %>
         </p>
@@ -144,7 +144,7 @@
             Optionally, this Website can be associated with a
             <%= link_to "Service", admin_services_path %>.
           </span>
-          <% if @website.service %>
+          <%- if @website.service %>
             <p>
               <ul class="usa-list">
                 <li>
@@ -173,7 +173,7 @@
             <%= link_to "Personas", admin_personas_path %>.
           </span>
 
-          <% if @website.personas.present? %>
+          <%- if @website.personas.present? %>
           <ul class="usa-list">
           <% @website.website_personas.each do |persona| %>
             <li>
@@ -314,7 +314,7 @@
           <label class="usa-label margin-bottom-1" for="parent_domain">
             Backlog Tool
           </label>
-          <% if @website.backlog_tool? %>
+          <%- if @website.backlog_tool? %>
             <%= @website.backlog_tool %>
           <% else %>
           <div class="usa-alert usa-alert--error usa-alert--slim">
@@ -330,7 +330,7 @@
           <label class="usa-label margin-bottom-1" for="parent_domain">
             Backlog url
           </label>
-          <% if @website.backlog_url? %>
+          <%- if @website.backlog_url? %>
             <%= link_to @website.backlog_url, @website.backlog_url, target: "_blank", rel: "noopener" %>
           <% else %>
           <div class="usa-alert usa-alert--error usa-alert--slim">
@@ -348,7 +348,7 @@
           <label class="usa-label margin-bottom-1" for="parent_domain">
             Repository url
           </label>
-          <% if @website.repository_url? %>
+          <%- if @website.repository_url? %>
             <%= link_to @website.repository_url, @website.repository_url, target: "_blank", rel: "noopener" %>
           <% else %>
           <div class="usa-alert usa-alert--error usa-alert--slim">
@@ -368,7 +368,7 @@
           <label class="usa-label margin-bottom-1" for="hosting_platform">
             Hosting platform
           </label>
-          <% if @website.hosting_platform? %>
+          <%- if @website.hosting_platform? %>
             <%= @website.hosting_platform %>
           <% else %>
             <div class="usa-alert usa-alert--error usa-alert--slim">
@@ -384,7 +384,7 @@
           <label class="usa-label margin-bottom-1" for="cms_platform">
             Content management platform
           </label>
-        <% if @website.cms_platform? %>
+        <%- if @website.cms_platform? %>
           <%= @website.cms_platform %>
         <% else %>
           <div class="usa-alert usa-alert--error usa-alert--slim">
@@ -415,12 +415,12 @@
 
   </div>
   <div class="desktop:grid-col-4">
-    <% if website_permissions?(website: @website, user: current_user) %>
+    <%- if website_permissions?(website: @website, user: current_user) %>
       <%= render 'admin/websites/tasks/bar', website: @website %>
       <%= render 'admin/websites/tasks/status_bar', website: @website %>
     <% end %>
 
-  <% if @website.organization.abbreviation == "GSA" %>
+  <%- if @website.organization.abbreviation == "GSA" %>
     <%= link_to "https://touchpoints.app.cloud.gov/touchpoints/1fc9c962/", class: "usa-button usa-button--outline width-full", target: "_blank", rel: "noopener" do %>
       <i class="fa fa-comment"></i>
       &nbsp;
@@ -428,7 +428,7 @@
     <% end %>
   <% end %>
 
-  <% if organizational_website_manager_permissions?(user: current_user) %>
+  <%- if organizational_website_manager_permissions?(user: current_user) %>
     <%= link_to statuscard_admin_website_path(@website), class: "usa-button usa-button--outline width-full margin-top-2 margin-bottom-2", target: "_blank" do %>
       <i class="fa fa-check"></i>
       Site Scanner

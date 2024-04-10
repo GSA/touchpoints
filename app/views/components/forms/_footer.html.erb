@@ -1,10 +1,10 @@
-<% if form && form.disclaimer_text? %>
+<%- if form && form.disclaimer_text? %>
 <div class="touchpoints-form-disclaimer">
   <hr style="border: none; border-top: 1px solid #E5E5E5;">
   <div class="grid-container">
     <div class="grid-row">
       <div class="grid-col-12">
-        <% if form.disclaimer_text? %>
+        <%- if form.disclaimer_text? %>
         <small class="fba-dialog-privacy">
           <%= form.disclaimer_text.html_safe %>
         </small>

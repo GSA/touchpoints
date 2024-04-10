@@ -1,6 +1,6 @@
 <div class="digital-product-version-card">
   <%= form_with(model: @digital_product_version, url: @digital_product_version.persisted? ? admin_digital_product_digital_product_version_path(@digital_product, @digital_product_version) : admin_digital_product_digital_product_versions_path(@digital_product)) do |form| %>
-    <% if digital_product_version.errors.any? %>
+    <%- if digital_product_version.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(digital_product_version.errors.count, "error") %> prohibited this digital_product_version from being saved:</h2>
 

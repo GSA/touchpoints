@@ -1,5 +1,5 @@
 <%= form_with(model: cx_action_plan, url: cx_action_plan.persisted? ? admin_cx_action_plan_path : admin_cx_action_plans_path, local: true, data: { turbo: false }) do |form| %>
-  <% if cx_action_plan.errors.any? %>
+  <%- if cx_action_plan.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(cx_action_plan.errors.count, "error") %> prohibited this cx_action_plan from being saved:</h2>
 

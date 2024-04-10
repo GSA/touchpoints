@@ -17,7 +17,7 @@
         <span class="usa-hint save-notice" id="section-<%= section.id %>">
           <i class="fa fa-check-circle" aria-hidden="true"></i> section title saved
         </span>
-        <% if form.form_sections.size > 1 %>
+        <%- if form.form_sections.size > 1 %>
         <small>
           page <%= form_section_page %> of <%= form.form_sections.size %>
         </small>

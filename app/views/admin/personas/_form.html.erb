@@ -1,5 +1,5 @@
 <%= form_with(model: persona, url: persona.persisted? ? admin_persona_path(persona) : admin_personas_path) do |form| %>
-  <% if persona.errors.any? %>
+  <%- if persona.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(persona.errors.count, "error") %> prohibited this persona from being saved:</h2>
 

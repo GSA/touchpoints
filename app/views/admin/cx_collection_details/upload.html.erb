@@ -1,5 +1,5 @@
 <% content_for :navigation_title do %>
-  <% if true || service_permissions?(service: @service) %>
+  <%- if true || service_permissions?(service: @service) %>
   <div class="float-right">
     <%= link_to edit_admin_cx_collection_detail_path(@cx_collection_detail), class: "usa-button usa-button-inverted" do %>
     <i class="fa fa-pencil-alt"></i>
@@ -37,7 +37,7 @@
 
 <div class="well margin-top-2 margin-bottom-2">
   <%= form_with url: post_csv_admin_cx_collection_detail_path, method: :post, local: true, multipart: true, data: { turbo: false } do |form| %>
-    <% if @cx_collection_detail.errors.any? %>
+    <%- if @cx_collection_detail.errors.any? %>
       <div style="color: red">
         <h2><%= pluralize(@cx_collection_detail.errors.count, "error") %> prohibited this cx_collection_detail from being saved:</h2>
 
@@ -69,7 +69,7 @@
       <th>Filesize</th>
       <th>Timestamp</th>
       <th>Uploaded record count</th>
-      <% if service_manager_permissions? %>
+      <%- if service_manager_permissions? %>
       <th></th>
       <th></th>
       <% end %>
@@ -79,7 +79,7 @@
   <tbody>
   <% presigner = s3_presigner %>
 
-  <% if @uploads.present? %>
+  <%- if @uploads.present? %>
     <% @uploads.each do |upload| %>
       <tr>
         <td>
@@ -98,7 +98,7 @@
           <% count = CxResponse.where(cx_collection_detail_upload_id: upload.id).count %>
           <%= count == 0 ? "To be processed..." : number_with_delimiter(count) %>
         </td>
-        <% if service_manager_permissions? %>
+        <%- if service_manager_permissions? %>
         <td>
         <%= upload.job_id %>
         </td>
