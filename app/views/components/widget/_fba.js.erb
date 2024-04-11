@@ -31,9 +31,9 @@ function FBAform(d, N) {
 			}
 			this.loadHtml();
 			<%- unless (local_assigns.has_key?(:suppress_ui) && suppress_ui) -%>
-				<%- if form.delivery_method == "modal" -%>
-				this.loadButton();
-				<% end %>
+				if (this.options.deliveryMethod && this.options.deliveryMethod === 'modal') {
+					this.loadButton();
+				}
 			<% end %>
 			this.bindEventListeners();
 			this.dialogOpen = false; // initially false
@@ -99,13 +99,13 @@ function FBAform(d, N) {
 		    phoneElements[i].addEventListener('keyup', this.handlePhoneInput.bind(this), false);
 		}
 		<%# add button behaviors for custom-button-modal %>
-		<%- if form.delivery_method == "custom-button-modal" %>
+		if (this.options.deliveryMethod && this.options.deliveryMethod === 'custom-button-modal') {
 			<%- if form.element_selector? %>
 			if(d.getElementById(this.options.elementSelector) != null) {
 				d.getElementById(this.options.elementSelector).addEventListener('click', this.handleButtonClick.bind(this), false);
 			}
 			<% end %>
-		<% end %>
+		}
 
 			var formElement = this.formElement();
 			// returns 1 or more submit buttons within the Touchpoints form
@@ -140,15 +140,15 @@ function FBAform(d, N) {
 			alertErrorElementBody.innerHTML = "";
 		},
 		handleClick: function(e) {
-		<%- if form.delivery_method == "modal" %>
-			if (this.dialogOpen && !e.target.closest('#fba-button') && !e.target.closest('.fba-modal-dialog')) {
-				this.closeDialog();
+			if (this.options.deliveryMethod && this.options.deliveryMethod === 'modal' ) {
+				if (this.dialogOpen && !e.target.closest('#fba-button') && !e.target.closest('.fba-modal-dialog')) {
+					this.closeDialog();
+				}
+			} else if (this.options.deliveryMethod && this.options.deliveryMethod === 'custom-button-modal' ) {
+				if (this.dialogOpen && !e.target.closest('#' + this.options.elementSelector) && !e.target.closest('.fba-modal-dialog')) {
+					this.closeDialog();
+				}
 			}
-		<% elsif form.delivery_method == "custom-button-modal" %>
-			if (this.dialogOpen && !e.target.closest('#' + this.options.elementSelector) && !e.target.closest('.fba-modal-dialog')) {
-				this.closeDialog();
-			}
-		<% end %>
 		},
 		handleButtonClick: function(e) {
 			e.preventDefault();
@@ -644,4 +644,5 @@ const touchpointForm<%= form.short_uuid %> = new FBAform(document, window).init(
 		<%= render "components/form_#{form.kind}_script", form: form %>
 	<% end %>
 	},
+	'deliveryMethod' : "<%= form.delivery_method %>",
 });
