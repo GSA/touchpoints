@@ -39,7 +39,9 @@ function FBAform(d, N) {
 			this.dialogOpen = false; // initially false
 			this.successState = false; // initially false
 			this.pagination();
-			this.options.formSpecificScript();
+			if (this.options.formSpecificScript) {
+				this.options.formSpecificScript();
+			}
 			d.dispatchEvent(new Event('onTouchpointsFormLoaded'));
 			return this;
 		},
@@ -65,18 +67,18 @@ function FBAform(d, N) {
 		loadHtml: function() {
 		<%# inject the form interface for inline with no wrapper %>
 		<%- if form.delivery_method == "inline" && form.suppress_submit_button %>
-			<%- if form.element_selector? %>
+		if (this.options.elementSelector) {
 			if(d.getElementById(this.options.elementSelector) != null) {
 				d.getElementById(this.options.elementSelector).innerHTML = "<%= escape_javascript render(partial: 'components/widget/no_modal', locals: { form: form }) %>";
 			}
-			<% end %>
+		}
 		<%# inject the form interface for inline with the modal wrapper %>
 		<% elsif form.delivery_method == "inline" %>
-			<%- if form.element_selector? %>
+		if (this.options.elementSelector) {
 			if(d.getElementById(this.options.elementSelector) != null) {
 				d.getElementById(this.options.elementSelector).innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
 			}
-			<% end %>
+		}
 		<% end %>
 
 		<%# inject the form interface for modal and custom-button-modal %>
@@ -639,10 +641,10 @@ const touchpointForm<%= form.short_uuid %> = new FBAform(document, window).init(
 	'elementSelector': "<%= form.element_selector %>",
 	'css' : "<%= escape_javascript(render partial: 'components/widget/widget', formats: :css, locals: { form: form }) %>",
 	'loadCSS' : <%= form.load_css %>,
-	'formSpecificScript' : function() {
 	<%- if ["a11_v2", "a11_yes_no"].include?(form.kind) %>
+	'formSpecificScript' : function() {
 		<%= render "components/form_#{form.kind}_script", form: form %>
-	<% end %>
 	},
+	<% end %>
 	'deliveryMethod' : "<%= form.delivery_method %>",
 });
