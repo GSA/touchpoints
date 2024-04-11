@@ -17,7 +17,7 @@ function FBAform(d, N) {
 		isFormSubmitted: false, // defaults to false
 
 		// enable Javascript experience
-		javscriptIsEnabled: function() {
+		javascriptIsEnabled: function() {
 			var javascriptDisabledMessage = d.getElementsByClassName("javascript-disabled-message")[0];
 			var touchpointForm = d.getElementsByClassName("touchpoint-form")[0];
 			if (javascriptDisabledMessage) {
@@ -28,7 +28,7 @@ function FBAform(d, N) {
 			}
 		},
 		init: function(options) {
-			this.javscriptIsEnabled();
+			this.javascriptIsEnabled();
 			this.options = options;
 			<%- if form.load_css %>
 			this.loadCss();
