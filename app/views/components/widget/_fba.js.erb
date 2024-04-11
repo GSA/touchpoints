@@ -3,12 +3,8 @@
 
 function FBAform(d, N) {
 	return {
-		<%- if form.load_css %>
-		css: '<%= escape_javascript(render partial: "components/widget/widget", formats: :css, locals: { form: form }) %>',
-		<% end %>
-		formId: "<%= form.short_uuid %>",
 		formComponent: function() {
-			return d.querySelector("[data-touchpoints-form-id='" + this.formId + "']")
+			return d.querySelector("[data-touchpoints-form-id='" + this.options.formId + "']")
 		},
 		formElement: function() {
 			return this.formComponent().querySelector("form");
@@ -30,9 +26,9 @@ function FBAform(d, N) {
 		init: function(options) {
 			this.javascriptIsEnabled();
 			this.options = options;
-			<%- if form.load_css %>
-			this.loadCss();
-			<% end %>
+			if (this.options.loadCSS) {
+				this.loadCss();
+			}
 			this.loadHtml();
 			<%- unless (local_assigns.has_key?(:suppress_ui) && suppress_ui) -%>
 				<%- if form.delivery_method == "modal" -%>
@@ -43,14 +39,9 @@ function FBAform(d, N) {
 			this.dialogOpen = false; // initially false
 			this.successState = false; // initially false
 			this.pagination();
-			this.formSpecificScript();
+			this.options.formSpecificScript();
 			d.dispatchEvent(new Event('onTouchpointsFormLoaded'));
 			return this;
-		},
-		formSpecificScript: function() {
-			<%- if ["a11_v2", "a11_yes_no"].include?(form.kind) %>
-			<%= render "components/form_#{form.kind}_script", form: form %>
-			<% end %>
 		},
 		bindEventListeners: function() {
 			var self = this;
@@ -64,13 +55,13 @@ function FBAform(d, N) {
 				self.handleClick(event);
 			});
 		},
-		<%- if form.load_css %>
 		loadCss: function() {
-			var style = d.createElement('style');
-			style.innerHTML = this.css;
-			d.head.appendChild(style);
+			if (this.options.loadCSS) {
+				var style = d.createElement('style');
+				style.innerHTML = this.options.css;
+				d.head.appendChild(style);
+			}
 		},
-		<% end %>
 		loadHtml: function() {
 		<%# inject the form interface for inline with no wrapper %>
 		<%- if form.delivery_method == "inline" && form.suppress_submit_button %>
@@ -641,13 +632,16 @@ function FBAform(d, N) {
 	};
 };
 
-// Form Settings
-var formOptions = {
+// Create unique Touchpoints form object
+const touchpointForm<%= form.short_uuid %> = new FBAform(document, window).init({
 	'modalButtonText': "<%= form.modal_button_text %>",
 	'formId': "<%= form.short_uuid %>",
 	'elementSelector': "<%= form.element_selector %>",
-
-};
-
-// Create unique Touchpoints form object
-const touchpointForm<%= form.short_uuid %> = new FBAform(document, window).init(formOptions);
+	'css' : "<%= escape_javascript(render partial: 'components/widget/widget', formats: :css, locals: { form: form }) %>",
+	'loadCSS' : <%= form.load_css %>,
+	'formSpecificScript' : function() {
+	<%- if ["a11_v2", "a11_yes_no"].include?(form.kind) %>
+		<%= render "components/form_#{form.kind}_script", form: form %>
+	<% end %>
+	},
+});
