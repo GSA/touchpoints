@@ -65,18 +65,18 @@ function FBAform(d, N) {
 			}
 		},
 		loadHtml: function() {
-		<%# inject the form interface for inline with no wrapper %>
+		<%# inject the form interface for the `inline` delivery option, without a wrapper %>
 		<%- if form.delivery_method == "inline" && form.suppress_submit_button %>
 		if (this.options.elementSelector) {
 			if(d.getElementById(this.options.elementSelector) != null) {
-				d.getElementById(this.options.elementSelector).innerHTML = "<%= escape_javascript render(partial: 'components/widget/no_modal', locals: { form: form }) %>";
+				d.getElementById(this.options.elementSelector).innerHTML = this.options.htmlFormBodyNoModal();
 			}
 		}
 		<%# inject the form interface for inline with the modal wrapper %>
 		<% elsif form.delivery_method == "inline" %>
 		if (this.options.elementSelector) {
 			if(d.getElementById(this.options.elementSelector) != null) {
-				d.getElementById(this.options.elementSelector).innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
+				d.getElementById(this.options.elementSelector).innerHTML = this.options.htmlFormBody();
 			}
 		}
 		<% end %>
@@ -87,7 +87,7 @@ function FBAform(d, N) {
 			this.dialogEl.setAttribute("hidden", true);
 			this.dialogEl.setAttribute('class', 'fba-modal');
 
-			this.dialogEl.innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
+			this.dialogEl.innerHTML = this.options.htmlFormBody();
 			d.body.appendChild(this.dialogEl);
 
 			d.querySelector('.fba-modal-close').addEventListener('click', this.handleDialogClose.bind(this), false);
@@ -368,7 +368,7 @@ function FBAform(d, N) {
 			// Add the fixed, floating tab button
 			this.buttonEl = d.createElement('a');
 			this.buttonEl.setAttribute('id', 'fba-button');
-			this.buttonEl.setAttribute('data-id', '<%= form.short_uuid %>');
+			this.buttonEl.setAttribute('data-id', this.options.formId);
 			this.buttonEl.setAttribute('class', 'fixed-tab-button usa-button');
 			this.buttonEl.setAttribute('href', '#');
 			this.buttonEl.setAttribute('aria-haspopup', 'dialog');
@@ -415,10 +415,10 @@ function FBAform(d, N) {
 			this.ajaxPost(form, this.formSuccess);
 		},
 		successHeadingText: function() {
-			return "<%= escape_javascript(form.success_text_heading) %>";
+			return this.options.successTextHeading;
 		},
 		successText: function() {
-			return "<%= escape_javascript(sanitize(form.success_text)) %>";
+			return this.options.successText;
 		},
 		showFormSuccess: function(e) {
 			var formComponent = this.formComponent();
@@ -548,8 +548,8 @@ function FBAform(d, N) {
 			// Submit Feedback with a POST
 			xhr.open("POST", url);
 			xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8;");
-	    xhr.onload = callback.bind(this);
-	    xhr.send(JSON.stringify({
+			xhr.onload = callback.bind(this);
+			xhr.send(JSON.stringify({
 				"submission": params,
 				<%- if @form.verify_csrf? %>
 				"authenticity_token": form.querySelector("#authenticity_token") ?
@@ -647,4 +647,12 @@ const touchpointForm<%= form.short_uuid %> = new FBAform(document, window).init(
 	},
 	<% end %>
 	'deliveryMethod' : "<%= form.delivery_method %>",
+	'successTextHeading' : "<%= escape_javascript(form.success_text_heading) %>",
+	'successText' : "<%= escape_javascript(sanitize(form.success_text)) %>",
+	'htmlFormBody' : function() {
+		return "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
+	},
+	'htmlFormBodyNoModal' : function() {
+		return "<%= escape_javascript render(partial: 'components/widget/no_modal', locals: { form: form }) %>";
+	}
 });
