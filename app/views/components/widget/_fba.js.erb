@@ -82,7 +82,7 @@ function FBAform(d, N) {
 		<% end %>
 
 		<%# inject the form interface for modal and custom-button-modal %>
-		<%- if form.delivery_method == "modal" || form.delivery_method == "custom-button-modal" %>
+		if (this.options.deliveryMethod && (this.options.deliveryMethod === 'modal' || this.options.deliveryMethod === 'custom-button-modal')) {
 			this.dialogEl = d.createElement('div');
 			this.dialogEl.setAttribute("hidden", true);
 			this.dialogEl.setAttribute('class', 'fba-modal');
@@ -91,7 +91,7 @@ function FBAform(d, N) {
 			d.body.appendChild(this.dialogEl);
 
 			d.querySelector('.fba-modal-close').addEventListener('click', this.handleDialogClose.bind(this), false);
-		<% end %>
+		}
 		var otherElements = d.querySelectorAll(".usa-input.other-option");
 		for (var i = 0; i < otherElements.length; i++) {
 		    otherElements[i].addEventListener('keyup', this.handleOtherOption.bind(this), false);
@@ -102,11 +102,11 @@ function FBAform(d, N) {
 		}
 		<%# add button behaviors for custom-button-modal %>
 		if (this.options.deliveryMethod && this.options.deliveryMethod === 'custom-button-modal') {
-			<%- if form.element_selector? %>
-			if(d.getElementById(this.options.elementSelector) != null) {
-				d.getElementById(this.options.elementSelector).addEventListener('click', this.handleButtonClick.bind(this), false);
+			if (this.options.elementSelector) {
+				if(d.getElementById(this.options.elementSelector) != null) {
+					d.getElementById(this.options.elementSelector).addEventListener('click', this.handleButtonClick.bind(this), false);
+				}
 			}
-			<% end %>
 		}
 
 			var formElement = this.formElement();
