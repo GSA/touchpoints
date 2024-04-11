@@ -399,7 +399,7 @@ function FBAform(d, N) {
 		loadDialog: function() {
 			d.dispatchEvent(new Event('onTouchpointsModalOpen'));
 			d.querySelector('.fba-modal').removeAttribute("hidden");
-			d.getElementById("touchpoints-form-<%= form.short_uuid %>").focus();
+			this.formComponent().focus()
 			this.dialogOpen = true;
 		},
 		closeDialog: function() {
@@ -451,8 +451,7 @@ function FBAform(d, N) {
 
 			}
 		},
-		resetFormDisplay: function()
-		{
+		resetFormDisplay: function() {
 			if (this.successState === false) {
 				return false;
 			}
@@ -526,16 +525,8 @@ function FBAform(d, N) {
 		ajaxPost: function (form, callback) {
 	    var url = form.action;
 	    var xhr = new XMLHttpRequest();
-
 			// for each form question
-			var params = {
-			<%# Dynamically write the Form parameters for Custom Forms %>
-			<% form.questions.each do |question| %>
-			    <% next unless question_type_javascript_params(question).present? %>
-				<%= question.answer_field %>:
-				<%= raw question_type_javascript_params(question) %>,
-			<% end %>
-			}
+			var params = this.options.questionParams(form);
 
 			// Combine Referrer and Pathname with Form-specific params
 			params["referer"] = d.referrer;
@@ -654,5 +645,15 @@ const touchpointForm<%= form.short_uuid %> = new FBAform(document, window).init(
 	},
 	'htmlFormBodyNoModal' : function() {
 		return "<%= escape_javascript render(partial: 'components/widget/no_modal', locals: { form: form }) %>";
+	},
+	<%# Dynamically write the Form parameters for Custom Forms %>
+	'questionParams' : function(form) {
+		return {
+		<% form.questions.each do |question| %>
+			<% next unless question_type_javascript_params(question).present? %>
+			<%= question.answer_field %>:
+			<%= raw question_type_javascript_params(question) %>,
+		<% end %>
+		}
 	}
 });
