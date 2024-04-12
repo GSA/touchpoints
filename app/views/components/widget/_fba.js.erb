@@ -11,7 +11,6 @@ function FBAform(d, N) {
 		},
 		activatedButton: null, // tracks a reference to the button that was clicked to open the modal
 		isFormSubmitted: false, // defaults to false
-
 		// enable Javascript experience
 		javascriptIsEnabled: function() {
 			var javascriptDisabledMessage = d.getElementsByClassName("javascript-disabled-message")[0];
@@ -30,11 +29,9 @@ function FBAform(d, N) {
 				this.loadCss();
 			}
 			this.loadHtml();
-			<%- unless (local_assigns.has_key?(:suppress_ui) && suppress_ui) -%>
-				if (this.options.deliveryMethod && this.options.deliveryMethod === 'modal') {
-					this.loadButton();
-				}
-			<% end %>
+			if (!this.options.suppressUI && this.options.deliveryMethod && this.options.deliveryMethod === 'modal') {
+				this.loadButton();
+			}
 			this.bindEventListeners();
 			this.dialogOpen = false; // initially false
 			this.successState = false; // initially false
@@ -66,21 +63,19 @@ function FBAform(d, N) {
 		},
 		loadHtml: function() {
 		<%# inject the form interface for the `inline` delivery option, without a wrapper %>
-		<%- if form.delivery_method == "inline" && form.suppress_submit_button %>
-		if (this.options.elementSelector) {
-			if(d.getElementById(this.options.elementSelector) != null) {
-				d.getElementById(this.options.elementSelector).innerHTML = this.options.htmlFormBodyNoModal();
+		if ((this.options.deliveryMethod && this.options.deliveryMethod === 'inline') && this.options.suppressSubmitButton) {
+			if (this.options.elementSelector) {
+				if(d.getElementById(this.options.elementSelector) != null) {
+					d.getElementById(this.options.elementSelector).innerHTML = this.options.htmlFormBodyNoModal();
+				}
+			}
+		} else if (this.options.deliveryMethod && this.options.deliveryMethod === 'inline') { <%# inject the form interface for inline with the modal wrapper %>
+			if (this.options.elementSelector) {
+				if(d.getElementById(this.options.elementSelector) != null) {
+					d.getElementById(this.options.elementSelector).innerHTML = this.options.htmlFormBody();
+				}
 			}
 		}
-		<%# inject the form interface for inline with the modal wrapper %>
-		<% elsif form.delivery_method == "inline" %>
-		if (this.options.elementSelector) {
-			if(d.getElementById(this.options.elementSelector) != null) {
-				d.getElementById(this.options.elementSelector).innerHTML = this.options.htmlFormBody();
-			}
-		}
-		<% end %>
-
 		<%# inject the form interface for modal and custom-button-modal %>
 		if (this.options.deliveryMethod && (this.options.deliveryMethod === 'modal' || this.options.deliveryMethod === 'custom-button-modal')) {
 			this.dialogEl = d.createElement('div');
@@ -248,7 +243,7 @@ function FBAform(d, N) {
 				}
 			});
 			for (var key in questions) {
-				this.showValidationError(questions[key],'<%= I18n.t 'form.field_is_required' %>');
+				this.showValidationError(questions[key], '<%= I18n.t 'form.field_is_required' %>');
 				return false;
 			}
 			return true;
@@ -267,7 +262,7 @@ function FBAform(d, N) {
 			  }
 			});
 			for (var key in questions) {
-				this.showValidationError(questions[key],'<%= I18n.t 'form.field_is_invalid' %>');
+				this.showValidationError(questions[key], '<%= I18n.t 'form.field_is_invalid' %>');
 				return false;
 			}
 			return true;
@@ -286,7 +281,7 @@ function FBAform(d, N) {
 			  }
 			});
 			for (var key in questions) {
-				this.showValidationError(questions[key],'<%= I18n.t 'form.field_is_invalid' %>');
+				this.showValidationError(questions[key], '<%= I18n.t 'form.field_is_invalid' %>');
 				return false;
 			}
 			return true;
@@ -305,7 +300,7 @@ function FBAform(d, N) {
 			  }
 			});
 			for (var key in questions) {
-				this.showValidationError(questions[key],'<%= I18n.t 'form.field_is_invalid' %>');
+				this.showValidationError(questions[key], '<%= I18n.t 'form.field_is_invalid' %>');
 				return false;
 			}
 			return true;
@@ -655,5 +650,7 @@ const touchpointForm<%= form.short_uuid %> = new FBAform(document, window).init(
 			<%= raw question_type_javascript_params(question) %>,
 		<% end %>
 		}
-	}
+	},
+	'suppressUI' : <%= (local_assigns.has_key?(:suppress_ui) && suppress_ui) %>,
+	'suppressSubmitButton' : <%= form.suppress_submit_button %>,
 });
