@@ -433,6 +433,7 @@ function FBAform(d, N) {
 			alertElementHeading.innerHTML += this.successHeadingText();
 			alertElementBody.innerHTML = this.successText();
 			alertElement.removeAttribute("hidden");
+			this.formComponent().scrollIntoView();
 
 			// Hide Form Elements
 			if (formElement) {
@@ -595,7 +596,7 @@ function FBAform(d, N) {
 
 					// if in a modal, scroll to the top of the modal on previous button click
 					if(this.formComponent().getElementsByClassName("fba-modal")[0]) {
-						 this.formComponent().getElementsByClassName("fba-modal")[0].scrollTo(0,0);
+						this.formComponent().scrollTo(0,0);
 					} else {
 						N.scrollTo(0, 0);
 					}
@@ -618,11 +619,9 @@ function FBAform(d, N) {
 					});
 					d.dispatchEvent(nextPageEvent);
 
-					N.scrollTo(0, 0);
-
 					// if in a modal, scroll to the top of the modal on next button click
 					if(this.formComponent().getElementsByClassName("fba-modal")[0]) {
-						this.formComponent().getElementsByClassName("fba-modal")[0].scrollTo(0,0);
+						this.formComponent().scrollTo(0,0);
 					} else {
 						N.scrollTo(0, 0);
 					}
