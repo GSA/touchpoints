@@ -11,19 +11,21 @@ module Admin
       @quarter = params[:quarter].present? ? params[:quarter].to_i : nil
       @year = params[:year].present? ? params[:year].to_i : nil
 
-      if @quarter && @year
-        @cx_collections = CxCollection.where(quarter: @quarter, fiscal_year: @year)
-      elsif @year
-        @cx_collections = CxCollection.where(fiscal_year: @year)
-      elsif @quarter
-        @cx_collections = CxCollection.where(quarter: @quarter)
+      if performance_manager_permissions?
+        collection_scope = CxCollection
       else
-        @cx_collections = CxCollection.all
+        collection_scope = current_user.cx_collections
       end
 
-      @cx_collections
-        .order('organizations.name', :year, :quarter, 'service_providers.name')
-        .includes(:organization, :service_provider)
+      if @quarter && @year
+        @cx_collections = collection_scope.where(quarter: @quarter, fiscal_year: @year)
+      elsif @year
+        @cx_collections = collection_scope.where(fiscal_year: @year)
+      elsif @quarter
+        @cx_collections = collection_scope.where(quarter: @quarter)
+      else
+        @cx_collections = collection_scope.all
+      end
     end
 
     def show
