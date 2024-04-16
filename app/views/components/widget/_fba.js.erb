@@ -39,7 +39,11 @@ function FBAform(d, N) {
 			if (this.options.formSpecificScript) {
 				this.options.formSpecificScript();
 			}
-			d.dispatchEvent(new Event('onTouchpointsFormLoaded'));
+			d.dispatchEvent(new CustomEvent('onTouchpointsFormLoaded', {
+				detail: {
+					formComponent: this
+				}
+			}));
 			return this;
 		},
 		_bindEventListeners: function() {
@@ -86,13 +90,13 @@ function FBAform(d, N) {
 			this.dialogEl.innerHTML = this.options.htmlFormBody();
 			d.body.appendChild(this.dialogEl);
 
-			d.querySelector('.fba-modal-close').addEventListener('click', this.handleDialogClose.bind(this), false);
+			this.formComponent().querySelector('.fba-modal-close').addEventListener('click', this.handleDialogClose.bind(this), false);
 		}
-		var otherElements = d.querySelectorAll(".usa-input.other-option");
+		var otherElements = this.formElement().querySelectorAll(".usa-input.other-option");
 		for (var i = 0; i < otherElements.length; i++) {
 		    otherElements[i].addEventListener('keyup', this.handleOtherOption.bind(this), false);
 		}
-		var phoneElements = d.querySelectorAll("input[type='tel']");
+		var phoneElements = this.formElement().querySelectorAll("input[type='tel']");
 		for (var i = 0; i < phoneElements.length; i++) {
 		    phoneElements[i].addEventListener('keyup', this.handlePhoneInput.bind(this), false);
 		}
@@ -305,7 +309,7 @@ function FBAform(d, N) {
 			}
 			return true;
 		},
-		showValidationError: function(question,error) {
+		showValidationError: function(question, error) {
 			var questionDiv = question.closest(".question");
 			var label = questionDiv.querySelector(".usa-label") || questionDiv.querySelector(".usa-legend");
 			var questionNum = label.innerText;
@@ -336,7 +340,7 @@ function FBAform(d, N) {
 			questionDiv.focus();
 
 			// enable submit button ( so user can fix error and resubmit )
-			var submitButton = d.querySelector("[type='submit']");
+			var submitButton = this.formComponent().querySelector("[type='submit']");
 			submitButton.disabled = false;
 			submitButton.classList.remove("aria-disabled");
 		},
@@ -394,15 +398,15 @@ function FBAform(d, N) {
 		// Used when in a modal
 		loadDialog: function() {
 			d.dispatchEvent(new Event('onTouchpointsModalOpen'));
-			d.querySelector('.fba-modal').removeAttribute("hidden");
-			d.querySelector('.fba-modal').setAttribute('aria-hidden', false);
+			this.formComponent().removeAttribute("hidden");
+			this.formComponent().setAttribute('aria-hidden', false);
 			this.formComponent().focus()
 			this.dialogOpen = true;
 		},
 		closeDialog: function() {
 			d.dispatchEvent(new Event('onTouchpointsModalClose'));
-			d.querySelector('.fba-modal').setAttribute("hidden", true);
-			d.querySelector('.fba-modal').setAttribute('aria-hidden', true);
+			this.formComponent().setAttribute("hidden", true);
+			this.formComponent().setAttribute('aria-hidden', true);
 			this.resetFormDisplay();
 			this.activatedButton.focus();
 			this.dialogOpen = false;
