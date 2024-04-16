@@ -660,9 +660,17 @@ const touchpointForm<%= form.short_uuid %> = new FBAform(document, window).init(
 	'suppressUI' : <%= (local_assigns.has_key?(:suppress_ui) && suppress_ui) %>,
 	'suppressSubmitButton' : <%= form.suppress_submit_button %>,
 	'htmlFormBody' : function() {
+		<%- if (form.delivery_method == "inline" && !form.suppress_submit_button && form.element_selector?) || form.delivery_method == "modal" || form.delivery_method == "custom-button-modal" %>
 		return "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
+		<% else %>
+		return null;
+		<% end %>
 	},
 	'htmlFormBodyNoModal' : function() {
+		<%- if form.delivery_method == "inline" && form.suppress_submit_button && form.element_selector? %>
 		return "<%= escape_javascript render(partial: 'components/widget/no_modal', locals: { form: form }) %>";
+		<% else %>
+		return null;
+		<% end %>
 	},
 });
