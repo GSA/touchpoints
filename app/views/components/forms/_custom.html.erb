@@ -57,7 +57,8 @@
           %>
 
         <%- if question.question_type != "hidden_field" %>
-          <div class="question white-bg">
+          <div class="question white-bg"
+            id="<%= dom_id(question, "form_#{form.short_uuid}") %>">
             <%- if question.question_type == "text_field" %>
               <%= render 'components/forms/question_types/text_field', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "text_email_field" %>
