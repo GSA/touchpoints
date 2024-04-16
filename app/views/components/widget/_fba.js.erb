@@ -572,8 +572,8 @@ function FBAform(d, N) {
 			}
 		},
 		_pagination: function() {
-			var previousButtons = d.getElementsByClassName("previous-section");
-			var nextButtons = d.getElementsByClassName("next-section");
+			var previousButtons = this.formComponent().getElementsByClassName("previous-section");
+			var nextButtons =  this.formComponent().getElementsByClassName("next-section");
 
 			var self = this;
 			for (var i = 0; i < previousButtons.length; i++) {
@@ -584,16 +584,18 @@ function FBAform(d, N) {
 					currentPage.classList.remove("visible");
 					this.currentPageNumber--;
 					this.showInstructions();
-
-					const previousPageEvent = new Event('onTouchpointsFormPreviousPage');
-					previousPageEvent.page = this.currentPageNumber;
-					d.dispatchEvent(previousPageEvent);
-
 					currentPage.previousElementSibling.classList.add("visible");
 
+					const previousPageEvent = new CustomEvent('onTouchpointsFormPreviousPage', {
+						detail: {
+							formComponent: this
+						}
+					});
+					d.dispatchEvent(previousPageEvent);
+
 					// if in a modal, scroll to the top of the modal on previous button click
-					if(d.getElementsByClassName("fba-modal")[0]) {
-						d.getElementsByClassName("fba-modal")[0].scrollTo(0,0);
+					if(this.formComponent().getElementsByClassName("fba-modal")[0]) {
+						 this.formComponent().getElementsByClassName("fba-modal")[0].scrollTo(0,0);
 					} else {
 						N.scrollTo(0, 0);
 					}
@@ -607,17 +609,20 @@ function FBAform(d, N) {
 					currentPage.classList.remove("visible");
 					this.currentPageNumber++;
 					this.showInstructions();
+					currentPage.nextElementSibling.classList.add("visible");
 
-					const nextPageEvent = new Event('onTouchpointsFormNextPage');
-					nextPageEvent.page = this.currentPageNumber;
+					const nextPageEvent = new CustomEvent('onTouchpointsFormNextPage', {
+						detail: {
+							formComponent: this
+						}
+					});
 					d.dispatchEvent(nextPageEvent);
 
-					currentPage.nextElementSibling.classList.add("visible");
 					N.scrollTo(0, 0);
 
 					// if in a modal, scroll to the top of the modal on next button click
-					if(d.getElementsByClassName("fba-modal")[0]) {
-						d.getElementsByClassName("fba-modal")[0].scrollTo(0,0);
+					if(this.formComponent().getElementsByClassName("fba-modal")[0]) {
+						this.formComponent().getElementsByClassName("fba-modal")[0].scrollTo(0,0);
 					} else {
 						N.scrollTo(0, 0);
 					}
