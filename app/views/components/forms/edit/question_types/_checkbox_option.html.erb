@@ -1,5 +1,5 @@
-<div class="usa-checkbox question-option" id="<%= dom_id(option, "form_#{question.form.short_uuid}") %>" data-id="<%= option.id %>">
-  <% @option_id = "form_#{question.form.short_uuid}_#{question.answer_field}_#{(index + 1).to_s}" %>
+<div class="usa-checkbox question-option" id="<%= dom_id(option) %>" data-id="<%= option.id %>">
+  <% @option_id = "question_#{question.id}_#{question.answer_field}_#{(index + 1).to_s}" %>
   <%= check_box_tag(@option_id, option.value, nil, { class: "usa-checkbox__input usa-checkbox__input--tile", required: question.is_required }) %>
   <%= label_tag(nil, for: @option_id, class: "usa-checkbox__label") do %>
     <%= render 'components/forms/edit/question_types/update_value_text_fields', { question: question, option: option } %>
