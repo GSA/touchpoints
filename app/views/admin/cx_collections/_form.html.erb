@@ -45,12 +45,12 @@
 
   <div class="field">
     <%= form.label :fiscal_year, class: "usa-label" %>
-    <%= form.select :fiscal_year, options_for_select([2024, 2025], 2024), {}, class: "usa-select", required: true %>
+    <%= form.select :fiscal_year, options_for_select([2024, 2025], cx_collection.fiscal_year), {}, class: "usa-select", required: true %>
   </div>
 
   <div class="field">
     <%= form.label :quarter, class: "usa-label" %>
-    <%= form.select :quarter, options_for_select([1, 2, 3, 4]), {}, class: "usa-select", required: true %>
+    <%= form.select :quarter, options_for_select([1, 2, 3, 4], cx_collection.quarter), {}, class: "usa-select", required: true %>
   </div>
 
   <%- if performance_manager_permissions? && cx_collection.persisted? %>
