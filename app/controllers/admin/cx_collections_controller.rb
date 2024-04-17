@@ -26,6 +26,10 @@ module Admin
       else
         @cx_collections = collection_scope.all
       end
+
+      @cx_collections = @cx_collections
+        .order('organizations.name', :fiscal_year, :quarter, 'service_providers.name')
+        .includes(:organization, :service_provider)
     end
 
     def show
