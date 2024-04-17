@@ -17,6 +17,7 @@ class User < ApplicationRecord
   has_many :user_roles, dependent: :destroy
   has_many :forms, through: :user_roles, primary_key: 'form_id'
   has_many :collections, through: :organization
+  has_many :cx_collections, through: :organization
 
   validate :api_key_format
   before_save :update_api_key_updated_at

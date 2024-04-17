@@ -1,5 +1,5 @@
 <p
   class="touchpoints-form-text-display margin-top-5"
-  id="<%= question.answer_field.to_sym %>">
+  id="question_<%= question.id %>_<%= question.answer_field.to_sym %>">
   <%= sanitize(question.text) %>
 </p>

@@ -1,5 +1,7 @@
 <%= form_with(model: question, url: (question.persisted? ? admin_form_question_path(form, question) : admin_form_questions_path(form)), local: true, class: 'question-form' ) do |f| %>
-  <div class="question white-bg" id="question_<%= question.id %>" data-id="<%= question.id %>">
+  <div class="question white-bg"
+    id="question_<%= question.id %>"
+    data-id="<%= question.id %>">
     <%- if question.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(question.errors.count, "error") %> prohibited this question from being saved:</h2>
