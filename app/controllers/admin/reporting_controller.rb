@@ -386,5 +386,9 @@ module Admin
       end
     end
 
+    def form_whitelist
+      @forms = Form.all.order(:created_at)
+    end
+
   end
 end
