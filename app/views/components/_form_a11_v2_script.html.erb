@@ -11,24 +11,20 @@ document.addEventListener('onTouchpointsFormLoaded', function(e) {
   const formElement = e.detail.formComponent.formElement();
 
   function hideQ2() {
-    const q2 = formElement.querySelector("#question_<%= form.questions.second.id %>");
-    const q2_container = q2.closest(".question");
+    const q2_container = formElement.querySelector("#question_<%= form.questions.second.id %>");
     q2_container.style.display = 'none';
   }
   function showQ2() {
-    const q2 = formElement.querySelector("#question_<%= form.questions.second.id %>")
-    const q2_container = q2.closest(".question");
+    const q2_container = formElement.querySelector("#question_<%= form.questions.second.id %>")
     q2_container.style.display = 'block';
   }
 
   function hideQ3() {
-    const q3 = formElement.querySelector("#question_<%= form.questions.third.id %>")
-    const q3_container = q3.closest(".question");
+    const q3_container = formElement.querySelector("#question_<%= form.questions.third.id %>")
     q3_container.style.display = 'none';
   }
   function showQ3() {
-    const q3 = formElement.querySelector("#question_<%= form.questions.third.id %>")
-    const q3_container = q3.closest(".question");
+    const q3_container = formElement.querySelector("#question_<%= form.questions.third.id %>")
     q3_container.style.display = 'block';
   }
 

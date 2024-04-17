@@ -5,8 +5,7 @@
 //
 document.addEventListener('onTouchpointsFormLoaded', function() {
   const formElement = e.detail.formComponent.formElement();
-  const q2 = formElement.querySelector("#answer_02");
-  const q2_container = q2.closest(".question");
+  const q2_container = formElement.querySelector("#question_<%= form.questions.second.id %>")
   const submitButton = formElement.querySelector("#touchpoints-form-<%= form.short_uuid %>").getElementsByClassName("submit-button")[0]
 
   function hideQ2() {
