@@ -16,7 +16,9 @@
         <input type="text" name="<%= question.answer_field %>_other"
           id="question_<%= question.id %>_<%= question.answer_field %>_other"
           data-option-id="<%= @option_id %>"
-          placeholder="<%= t 'form.enter_other_text' %>" class="usa-input other-option" />
+          placeholder="<%= t 'form.enter_other_text' %>"
+          maxlength="<%= Question::MAX_CHARACTERS %>"
+          class="usa-input other-option" />
         <br>
       <% end %>
     </div>
