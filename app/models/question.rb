@@ -11,7 +11,7 @@ class Question < ApplicationRecord
 
   default_scope { order(position: :asc) }
 
-  MAX_CHARACTERS = 100_000
+  MAX_CHARACTERS = 10_000
 
   QUESTION_TYPES = [
     # Standard elements
@@ -42,9 +42,7 @@ class Question < ApplicationRecord
   end
 
   def max_length
-    return character_limit if character_limit.present?
-
-    MAX_CHARACTERS
+    character_limit.present? ? character_limit : MAX_CHARACTERS
   end
 
   def validate_question_types
