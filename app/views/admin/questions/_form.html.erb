@@ -52,7 +52,7 @@
         <%- if ["text_field", "textarea", "text_email_field","text_phone_field"].include?(question.question_type) %>
         <div class="field character-limit">
           <%= f.label :character_limit, class: "usa-label" %>
-          <%= f.number_field :character_limit, class: "usa-input", max: "100000" %>
+          <%= f.number_field :character_limit, class: "usa-input", max: Question::MAX_CHARACTERS %>
         </div>
         <% end %>
         <br>

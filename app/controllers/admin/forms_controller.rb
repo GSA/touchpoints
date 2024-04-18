@@ -169,7 +169,7 @@ module Admin
     end
 
     def new
-      @templates = Form.templates
+      @templates = Form.templates.order(:name)
       @form = Form.new
       @surveys = current_user.forms.non_templates.order('organization_id ASC').order('name ASC').entries
     end

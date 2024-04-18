@@ -5,12 +5,6 @@ form_options = {
   maxlength: question.max_length,
 }
 
-if question.character_limit && question.character_limit > 0
-form_options.merge!({
-  :onkeyup => "touchpointForm#{form.short_uuid}.textCounter(this, #{question.max_length});",
-})
-end
-
 if question.help_text.present?
 form_options.merge!({
   "aria-describedby" => "question-id-#{question.id}-help-text"

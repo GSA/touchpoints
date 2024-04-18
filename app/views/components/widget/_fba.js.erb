@@ -57,6 +57,22 @@ function FBAform(d, N) {
 			d.addEventListener('click', function (event) {
 				self.openModalDialog(event);
 			});
+
+			const textareas = this.formComponent().querySelectorAll(".usa-textarea");
+			textareas.forEach(function(textarea) {
+				if (textarea.getAttribute("maxlength") != '0' && textarea.getAttribute("maxlength") != '10000')  {
+					textarea.addEventListener("keyup", self.textCounter);
+				}
+			});
+
+			<%# only text fields; not email or telephone %>
+			const textFields = this.formComponent().querySelectorAll(".usa-input[type='text']");
+			textFields.forEach(function(textField) {
+				if (textField.getAttribute("maxlength") != '0' && textField.getAttribute("maxlength") != '10000')  {
+					textField.addEventListener("keyup", self.textCounter);
+				}
+			});
+
 		},
 		_loadCss: function() {
 			if (this.options.loadCSS) {
@@ -353,15 +369,18 @@ function FBAform(d, N) {
 			elem = form.querySelector('#input-error');
 			if (elem != null) elem.parentNode.removeChild(elem);
 		},
-		textCounter: function(field,maxlimit) {
-			 var countfield = field.parentNode.querySelector(".counter-msg");
-			 if ( field.value.length > maxlimit ) {
-			  field.value = field.value.substring( 0, maxlimit );
-			  countfield.innerText = '0 <%= t :characters_left %>';
-			  return false;
-			 } else {
-			  countfield.innerText = "" + (maxlimit - field.value.length) + " <%= t :characters_left %>";
-			 }
+		textCounter: function(event) {
+			const field = event.target;
+			const maxLimit = event.target.getAttribute("maxlength");
+
+			var countfield = field.parentNode.querySelector(".counter-msg");
+			if (field.value.length > maxLimit) {
+				field.value = field.value.substring(0, maxLimit);
+				countfield.innerText = '0 <%= t :characters_left %>';
+				return false;
+			} else {
+				countfield.innerText = "" + (maxLimit - field.value.length) + " <%= t :characters_left %>";
+			}
 		},
 		loadButton: function() {
 			// Add the fixed, floating tab button
