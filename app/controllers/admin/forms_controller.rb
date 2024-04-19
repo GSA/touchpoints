@@ -132,6 +132,7 @@ module Admin
     def show
       ensure_response_viewer(form: @form) unless @form.template?
       @questions = @form.questions
+      @events = @events = Event.where(object_type: 'Form', object_uuid: @form.uuid).order("created_at DESC")
     end
 
     def permissions
@@ -188,7 +189,6 @@ module Admin
       @form = Form.new(form_params)
 
       @form.organization_id = current_user.organization_id
-      @form.user_id = current_user.id
       @form.title = @form.name
       @form.modal_button_text = t('form.help_improve')
       @form.success_text_heading = t('success')

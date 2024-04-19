@@ -5,7 +5,6 @@ require 'csv'
 class Form < ApplicationRecord
   include AASM
 
-  belongs_to :user
   belongs_to :organization
   belongs_to :service, optional: true
 
