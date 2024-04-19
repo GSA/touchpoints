@@ -195,17 +195,16 @@ module Admin
       @form.success_text = t('form.submit_thankyou')
       @form.delivery_method = 'touchpoints-hosted-only'
       @form.load_css = true
-      @form.user = current_user unless @form.user
 
       respond_to do |format|
         if @form.save
           Event.log_event(Event.names[:form_created], 'Form', @form.uuid, "Form #{@form.name} created at #{DateTime.now}", current_user.id)
 
           UserRole.create!({
-                             user: current_user,
-                             form: @form,
-                             role: UserRole::Role::FormManager,
-                           })
+            user: current_user,
+            form: @form,
+            role: UserRole::Role::FormManager,
+          })
 
           format.html { redirect_to questions_admin_form_path(@form), notice: 'Form was successfully created.' }
           format.json { render :show, status: :created, location: @form }
