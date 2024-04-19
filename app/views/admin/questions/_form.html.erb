@@ -1,5 +1,7 @@
 <%= form_with(model: question, url: (question.persisted? ? admin_form_question_path(form, question) : admin_form_questions_path(form)), local: true, class: 'question-form' ) do |f| %>
-  <div class="question white-bg" id="question_<%= question.id %>" data-id="<%= question.id %>">
+  <div class="question white-bg"
+    id="question_<%= question.id %>"
+    data-id="<%= question.id %>">
     <%- if question.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(question.errors.count, "error") %> prohibited this question from being saved:</h2>
@@ -50,7 +52,7 @@
         <%- if ["text_field", "textarea", "text_email_field","text_phone_field"].include?(question.question_type) %>
         <div class="field character-limit">
           <%= f.label :character_limit, class: "usa-label" %>
-          <%= f.number_field :character_limit, class: "usa-input", max: "100000" %>
+          <%= f.number_field :character_limit, class: "usa-input", max: Question::MAX_CHARACTERS %>
         </div>
         <% end %>
         <br>

@@ -244,7 +244,7 @@ feature 'Touchpoints', js: true do
 
         it 'display flash message' do
           click_on 'Submit'
-          expect(page).to have_content('You must respond to question:')
+          expect(page).to have_content('A response is required:')
         end
       end
     end
@@ -261,7 +261,7 @@ feature 'Touchpoints', js: true do
 
         it 'display flash message' do
           click_on 'No, only submit these responses'
-          expect(page).to have_content('You must respond to question:')
+          expect(page).to have_content('A response is required:')
         end
       end
     end
@@ -358,7 +358,7 @@ feature 'Touchpoints', js: true do
       end
 
       it 'displays an error message' do
-        expect(page).to have_content('You must respond to question: Test Open Area')
+        expect(page).to have_content('A response is required: Test Open Area')
       end
 
       it 'regression: does not display invisible error message inputs' do

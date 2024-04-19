@@ -256,7 +256,7 @@ class Form < ApplicationRecord
 
     header_attributes = hashed_fields_for_export.values
     header_attributes = [
-      :id,
+      :external_id,
       :question_1,
       :positive_effectiveness,
       :positive_ease,

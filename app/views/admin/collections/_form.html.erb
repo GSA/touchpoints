@@ -86,11 +86,10 @@
     <legend class="usa-sr-only">Quarter</legend>
     <div class="question-options">
       <% (1..4).each do |i| %>
-      <% @option_id = i %>
       <div class="radio-button usa-radio">
-        <%= f.radio_button(:quarter, i, { id: @option_id, class: "usa-radio__input usa-radio__input--tile"  }) %>
+        <%= f.radio_button(:quarter, i.to_s, { id: i.to_s, class: "usa-radio__input usa-radio__input--tile"  }) %>
         <%= label_tag(i, nil, class: "usa-radio__label") do %>
-          <%= i %>
+          <%= i.to_s %>
         <% end %>
       </div>
       <% end %>

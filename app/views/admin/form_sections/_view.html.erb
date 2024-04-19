@@ -27,7 +27,8 @@
     <div class="questions">
       <% section.questions.each_with_index do |question, index| %>
         <% multi_section_question_number += 1 %>
-        <div class="question white-bg" id="<%= dom_id(question) %>">
+        <div class="question white-bg"
+          id="<%= dom_id(question) %>">
           <%= render 'admin/questions/question', { form: form, question: question } %>
         </div>
       <% end %>
