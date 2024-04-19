@@ -320,7 +320,7 @@ feature 'Submissions', js: true do
   context 'as Response Viewer' do
     describe '/forms/:id with submissions' do
       let(:response_viewer) { FactoryBot.create(:user, organization:) }
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: response_viewer) }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
       let!(:user_role) { FactoryBot.create(:user_role, :response_viewer, user: response_viewer, form:) }
 
       before do

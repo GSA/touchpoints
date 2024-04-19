@@ -7,7 +7,7 @@ feature 'Touchpoints', js: true do
 
   context 'as Admin' do
     let!(:user) { FactoryBot.create(:user, :admin, organization:) }
-    let!(:form) { FactoryBot.create(:form, :kitchen_sink, organization:, user:) }
+    let!(:form) { FactoryBot.create(:form, :kitchen_sink, organization:) }
 
     describe '/forms/:id/example' do
       before do

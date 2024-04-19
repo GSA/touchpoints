@@ -17,7 +17,7 @@ feature 'Forms', js: true do
 
     describe '/admin/forms' do
       context 'within builder page' do
-        let!(:form) { FactoryBot.create(:form, organization:, user: admin) }
+        let!(:form) { FactoryBot.create(:form, organization:) }
 
         before do
           visit questions_admin_form_path(form)
@@ -1509,7 +1509,7 @@ feature 'Forms', js: true do
 
     describe '/admin/forms/:uuid/example' do
       describe 'Form with `inline` delivery_method' do
-        let(:form2) { FactoryBot.create(:form, :open_ended_form, :inline, organization:, user: admin) }
+        let(:form2) { FactoryBot.create(:form, :open_ended_form, :inline, organization:) }
 
         before '/admin/forms/:uuid/example' do
           login_as(admin)

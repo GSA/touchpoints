@@ -135,7 +135,7 @@ feature 'Touchpoints', js: true do
     end
 
     describe 'checkbox question' do
-      let!(:checkbox_form) { FactoryBot.create(:form, :checkbox_form, organization:, user:) }
+      let!(:checkbox_form) { FactoryBot.create(:form, :checkbox_form, organization:) }
 
       before do
         visit touchpoint_path(checkbox_form)
@@ -185,7 +185,7 @@ feature 'Touchpoints', js: true do
     end
 
     describe 'radio buttons question' do
-      let!(:radio_button_form) { FactoryBot.create(:form, :radio_button_form, organization:, user:) }
+      let!(:radio_button_form) { FactoryBot.create(:form, :radio_button_form, organization:) }
       let!(:last_radio_option) { radio_button_form.questions.first.question_options.create!(text: 'other', value: 'other', position: 6) }
 
       before do
@@ -223,7 +223,7 @@ feature 'Touchpoints', js: true do
     end
 
     describe 'states dropdown question' do
-      let!(:dropdown_form) { FactoryBot.create(:form, :states_dropdown_form, organization:, user:) }
+      let!(:dropdown_form) { FactoryBot.create(:form, :states_dropdown_form, organization:) }
 
       before do
         visit touchpoint_path(dropdown_form)
@@ -250,7 +250,7 @@ feature 'Touchpoints', js: true do
     end
 
     describe 'multi-page early submission form' do
-      let!(:multi_form) { FactoryBot.create(:form, :kitchen_sink, organization:, user:) }
+      let!(:multi_form) { FactoryBot.create(:form, :kitchen_sink, organization:) }
 
       context 'when required on 2nd page' do
         before do
@@ -267,7 +267,7 @@ feature 'Touchpoints', js: true do
     end
 
     describe 'phone number question' do
-      let!(:dropdown_form) { FactoryBot.create(:form, :phone, organization:, user:) }
+      let!(:dropdown_form) { FactoryBot.create(:form, :phone, organization:) }
 
       before do
         visit touchpoint_path(dropdown_form)
@@ -285,7 +285,7 @@ feature 'Touchpoints', js: true do
     end
 
     describe 'date select question' do
-      let!(:date_select_form) { FactoryBot.create(:form, :date_select, organization:, user:) }
+      let!(:date_select_form) { FactoryBot.create(:form, :date_select, organization:) }
 
       before do
         visit touchpoint_path(date_select_form)
@@ -305,7 +305,7 @@ feature 'Touchpoints', js: true do
     end
 
     describe 'hidden_field question' do
-      let!(:hidden_field_form) { FactoryBot.create(:form, :hidden_field_form, organization:, user:) }
+      let!(:hidden_field_form) { FactoryBot.create(:form, :hidden_field_form, organization:) }
 
       context 'render' do
         before do
@@ -331,7 +331,7 @@ feature 'Touchpoints', js: true do
     end
 
     describe 'email question' do
-      let!(:dropdown_form) { FactoryBot.create(:form, :email, organization:, user:) }
+      let!(:dropdown_form) { FactoryBot.create(:form, :email, organization:) }
 
       before do
         visit touchpoint_path(dropdown_form)
@@ -422,7 +422,7 @@ feature 'Touchpoints', js: true do
     end
 
     describe 'A-11 Version 2 Form' do
-      let!(:custom_form) { FactoryBot.create(:form, :a11_v2, organization:, user:) }
+      let!(:custom_form) { FactoryBot.create(:form, :a11_v2, organization:) }
 
       before do
         visit submit_touchpoint_path(custom_form)
@@ -444,7 +444,7 @@ feature 'Touchpoints', js: true do
     end
 
     describe 'Multiple Star Ratings Form' do
-      let!(:custom_form) { FactoryBot.create(:form, :star_ratings, organization:, user:) }
+      let!(:custom_form) { FactoryBot.create(:form, :star_ratings, organization:) }
 
       before do
         visit submit_touchpoint_path(custom_form)
@@ -471,7 +471,7 @@ feature 'Touchpoints', js: true do
     let!(:admin) { FactoryBot.create(:user, :admin, organization:) }
 
     describe '/touchpoints' do
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin, aasm_state: 'in_development') }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, aasm_state: 'in_development') }
 
       context 'for an in_development form' do
         before do
@@ -486,7 +486,7 @@ feature 'Touchpoints', js: true do
     end
 
     describe '/touchpoints' do
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin, aasm_state: 'archived') }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, aasm_state: 'archived') }
 
       context 'for an archived form' do
         before do
@@ -502,7 +502,7 @@ feature 'Touchpoints', js: true do
     end
 
     describe '/touchpoints' do
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin, aasm_state: 'live') }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, aasm_state: 'live') }
 
       context 'for a live form' do
         before do
