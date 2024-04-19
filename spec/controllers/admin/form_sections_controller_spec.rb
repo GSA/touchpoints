@@ -67,7 +67,7 @@ RSpec.describe Admin::FormSectionsController, type: :controller do
 
   describe 'GET #new' do
     it 'returns a success response' do
-      get :new, params: { form_id: FactoryBot.create(:form, organization:, user: admin) }, session: valid_session
+      get :new, params: { form_id: FactoryBot.create(:form, organization:) }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -132,7 +132,7 @@ RSpec.describe Admin::FormSectionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let(:form) { FactoryBot.create(:form, organization:, user: admin) }
+    let(:form) { FactoryBot.create(:form, organization:) }
     let!(:form_section) { form.form_sections.first }
 
     before do

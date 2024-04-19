@@ -6,7 +6,7 @@ feature 'Profile', js: true do
   context 'as Admin' do
     let(:organization) { FactoryBot.create(:organization) }
     let!(:user) { FactoryBot.create(:user, :admin, organization:) }
-    let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user:) }
+    let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
 
     context 'not logged in' do
       describe '/profile' do

@@ -37,10 +37,10 @@ feature 'Forms', js: true do
       end
 
       context 'with multiple (3) forms' do
-        let!(:form) { FactoryBot.create(:form, organization:, user: admin) }
-        let!(:form2) { FactoryBot.create(:form, organization:, user: admin) }
-        let!(:form3) { FactoryBot.create(:form, organization:, user: admin) }
-        let!(:form_template) { FactoryBot.create(:form, organization:, user:, template: true, aasm_state: :in_development) }
+        let!(:form) { FactoryBot.create(:form, organization:) }
+        let!(:form2) { FactoryBot.create(:form, organization:) }
+        let!(:form3) { FactoryBot.create(:form, organization:) }
+        let!(:form_template) { FactoryBot.create(:form, organization:, template: true, aasm_state: :in_development) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form:) }
         let!(:user_role2) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form2) }
         let!(:user_role3) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form3) }
@@ -102,7 +102,7 @@ feature 'Forms', js: true do
     end
 
     describe '/admin/forms/new' do
-      let(:new_form) { FactoryBot.create(:form, :custom, organization:, user: admin) }
+      let(:new_form) { FactoryBot.create(:form, :custom, organization:) }
 
       describe 'new touchpoint hosted form' do
         before do
@@ -178,7 +178,7 @@ feature 'Forms', js: true do
       end
 
       describe 'Form model validations' do
-        let(:existing_form) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin, omb_approval_number: nil, expiration_date: nil) }
+        let(:existing_form) { FactoryBot.create(:form, :open_ended_form, organization:,omb_approval_number: nil, expiration_date: nil) }
 
         describe 'missing OMB Approval Number' do
           before 'user tries to update a Touchpoint' do
@@ -221,7 +221,7 @@ feature 'Forms', js: true do
     context 'as a Form Manager' do
       describe '/admin/forms/:uuid' do
         let(:form_manager) { FactoryBot.create(:user, organization:) }
-        let(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user:) }
+        let(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form:) }
 
         before do
@@ -385,7 +385,7 @@ feature 'Forms', js: true do
 
         describe 'reports' do
           context 'for A-11 forms' do
-            let!(:a11_form) { FactoryBot.create(:form, :a11, organization:, user: form_manager) }
+            let!(:a11_form) { FactoryBot.create(:form, :a11, organization:) }
             let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form: a11_form) }
             let!(:submission) { FactoryBot.create(:submission, :a11, form: a11_form) }
 
@@ -420,7 +420,7 @@ feature 'Forms', js: true do
 
         describe '/admin/forms/:uuid/example' do
           describe 'Form with `inline` delivery_method' do
-            let(:form2) { FactoryBot.create(:form, :open_ended_form, :inline, organization:, user:) }
+            let(:form2) { FactoryBot.create(:form, :open_ended_form, :inline, organization:) }
 
             before '/admin/forms/:uuid/example' do
               visit example_admin_form_path(form2)
@@ -436,7 +436,7 @@ feature 'Forms', js: true do
           end
 
           context 'With load_css' do
-            let(:form3) { FactoryBot.create(:form, :open_ended_form, :inline, organization:, user:, load_css: true) }
+            let(:form3) { FactoryBot.create(:form, :open_ended_form, :inline, organization:, load_css: true) }
 
             before '/admin/forms/:uuid/example' do
               visit example_admin_form_path(form3)
@@ -454,7 +454,7 @@ feature 'Forms', js: true do
       end
 
       describe '/admin/forms/:uuid/notifications' do
-        let(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin) }
+        let(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form:) }
 
         before do
@@ -472,7 +472,7 @@ feature 'Forms', js: true do
       end
 
       context 'Edit Delivery Method' do
-        let!(:form) { FactoryBot.create(:form, :custom, organization:, user: admin) }
+        let!(:form) { FactoryBot.create(:form, :custom, organization:) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form:) }
 
         before do
@@ -519,7 +519,7 @@ feature 'Forms', js: true do
       end
 
       context 'Show Form Page Delete Action' do
-        let!(:form) { FactoryBot.create(:form, :custom, organization:, user: admin) }
+        let!(:form) { FactoryBot.create(:form, :custom, organization:) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form:) }
 
         before do
@@ -556,7 +556,7 @@ feature 'Forms', js: true do
       end
 
       context 'Edit Form page' do
-        let!(:form) { FactoryBot.create(:form, :custom, organization:, user: admin) }
+        let!(:form) { FactoryBot.create(:form, :custom, organization:) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form:) }
 
         before do
@@ -1029,7 +1029,7 @@ feature 'Forms', js: true do
         end
 
         describe 'deleting Questions' do
-          let(:form2) { FactoryBot.create(:form, :custom, organization:, user: admin) }
+          let(:form2) { FactoryBot.create(:form, :custom, organization:) }
           let(:form_section2) { FactoryBot.create(:form_section, form: form2, position: 2) }
           let!(:question) { FactoryBot.create(:question, form: form2, form_section: form_section2) }
           let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form2) }
@@ -1136,11 +1136,11 @@ feature 'Forms', js: true do
   end
 
   context 'Form owner with Form Manager permissions Delete Action' do
-    let!(:form) { FactoryBot.create(:form, :custom, organization:, user: admin) }
+    let!(:form) { FactoryBot.create(:form, :custom, organization:) }
     let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form:) }
 
     let(:user) { FactoryBot.create(:user, organization:) }
-    let(:form) { FactoryBot.create(:form, :custom, organization:, user:) }
+    let(:form) { FactoryBot.create(:form, :custom, organization:) }
 
     let(:another_organization) { FactoryBot.create(:organization, :another) }
     let(:another_user) { FactoryBot.create(:user, email: 'user@another.gov', organization: another_organization) }
@@ -1181,7 +1181,7 @@ feature 'Forms', js: true do
 
   context 'Form owner with Form Manager permissions' do
     let(:user) { FactoryBot.create(:user, organization:) }
-    let(:form) { FactoryBot.create(:form, :custom, organization:, user:) }
+    let(:form) { FactoryBot.create(:form, :custom, organization:) }
 
     let(:another_organization) { FactoryBot.create(:organization, :another) }
     let(:another_user) { FactoryBot.create(:user, email: 'user@another.gov', organization: another_organization) }
@@ -1207,7 +1207,7 @@ feature 'Forms', js: true do
   context 'user without Form Manager permissions' do
     let(:user) { FactoryBot.create(:user, organization:) }
     let(:user2) { FactoryBot.create(:user, organization:) }
-    let!(:form) { FactoryBot.create(:form, :custom, organization:, user: user2) }
+    let!(:form) { FactoryBot.create(:form, :custom, organization:) }
 
     describe 'cannot edit the form' do
       context '/admin/forms/:id/edit' do
@@ -1227,7 +1227,7 @@ feature 'Forms', js: true do
   context 'without Form Manager permissions' do
     let(:user) { FactoryBot.create(:user, organization:) }
     let(:another_user) { FactoryBot.create(:user, organization:) }
-    let!(:another_users_form) { FactoryBot.create(:form, :custom, organization:, user: another_user) }
+    let!(:another_users_form) { FactoryBot.create(:form, :custom, organization:) }
 
     describe 'reduced UI features on /edit' do
       before do
@@ -1330,7 +1330,7 @@ feature 'Forms', js: true do
     end
 
     describe 'copying a Form' do
-      let(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: touchpoints_manager) }
+      let(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
       let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form:, user: touchpoints_manager) }
 
       before do
@@ -1353,7 +1353,7 @@ feature 'Forms', js: true do
     end
 
     describe 'deleting Questions' do
-      let!(:form2) { FactoryBot.create(:form, :custom, organization:, user: touchpoints_manager) }
+      let!(:form2) { FactoryBot.create(:form, :custom, organization:) }
       let!(:form_section2) { FactoryBot.create(:form_section, form: form2, position: 2) }
       let!(:question) { FactoryBot.create(:question, form: form2, form_section: form_section2) }
 
@@ -1411,7 +1411,7 @@ feature 'Forms', js: true do
 
     describe '#export' do
       let(:form_manager) { FactoryBot.create(:user, organization:) }
-      let(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: form_manager) }
+      let(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
       let!(:radio_button_question) { FactoryBot.create(:question, :with_radio_buttons, form:, form_section: form.form_sections.first, answer_field: :answer_02) }
       let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form:) }
 
@@ -1431,7 +1431,7 @@ feature 'Forms', js: true do
     # as a Response Viewer
     describe '/admin/forms/:uuid' do
       let(:response_viewer) { FactoryBot.create(:user, organization:) }
-      let(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: response_viewer) }
+      let(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
       let!(:user_role) { FactoryBot.create(:user_role, :response_viewer, user: response_viewer, form:) }
 
       before do
@@ -1455,7 +1455,7 @@ feature 'Forms', js: true do
       end
 
       describe 'Submission Export button' do
-        let(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin) }
+        let(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
 
         context 'when no Submissions exist' do
         end
@@ -1478,7 +1478,7 @@ feature 'Forms', js: true do
     end
 
     context 'user for another Form' do
-      let(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin) }
+      let(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
 
       before do
         login_as(user)
@@ -1527,7 +1527,7 @@ feature 'Forms', js: true do
   end
 
   context 'as non-logged in User' do
-    let!(:form_template) { FactoryBot.create(:form, organization:, user: admin, template: true, aasm_state: :in_development) }
+    let!(:form_template) { FactoryBot.create(:form, organization:, template: true, aasm_state: :in_development) }
 
     describe 'cannot access forms' do
       before do
@@ -1553,7 +1553,7 @@ feature 'Forms', js: true do
   end
 
   describe '/invite' do
-    let(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin) }
+    let(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
 
     before do
       login_as(admin)
