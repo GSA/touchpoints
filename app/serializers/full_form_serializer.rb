@@ -50,7 +50,6 @@ class FullFormSerializer < ActiveModel::Serializer
              :modal_button_text,
              :display_header_square_logo,
              :early_submission,
-             :user_id,
              :template,
              :uuid,
              :short_uuid,
