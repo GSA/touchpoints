@@ -261,7 +261,7 @@ RSpec.describe Form, type: :model do
   end
 
   describe 'dependent data relations' do
-    let(:form_without_responses) { FactoryBot.create(:form, :open_ended_form, organization:, user:) }
+    let(:form_without_responses) { FactoryBot.create(:form, :open_ended_form, organization:) }
     let!(:user_role) { FactoryBot.create(:user_role, user:, form: form_without_responses, role: UserRole::Role::FormManager) }
 
     before do
