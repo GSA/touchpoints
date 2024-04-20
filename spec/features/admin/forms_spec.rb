@@ -459,7 +459,7 @@ feature 'Forms', js: true do
 
         before do
           visit notifications_admin_form_path(form)
-          expect(find_field('form_notification_emails').value).to eq(form.notification_emails)
+          expect(find_field('form_notification_emails').value).to eq(form.notification_emails.to_s)
           fill_in('form_notification_emails', with: 'new@email.gov')
           click_on 'Update Form'
         end
