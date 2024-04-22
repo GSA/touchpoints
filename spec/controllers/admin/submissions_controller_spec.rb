@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Admin::SubmissionsController, type: :controller do
   let(:organization) { FactoryBot.create(:organization) }
   let(:admin) { FactoryBot.create(:user, :admin, organization:) }
-  let(:form) { FactoryBot.create(:form, organization:, user: admin) }
+  let(:form) { FactoryBot.create(:form, organization:) }
   let!(:user_role) { FactoryBot.create(:user_role, user: admin, form:, role: UserRole::Role::FormManager) }
 
   let(:valid_attributes) do

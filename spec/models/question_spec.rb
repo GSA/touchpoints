@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Question, type: :model do
   let(:organization) { FactoryBot.create(:organization) }
   let(:user) { FactoryBot.create(:user, organization:) }
-  let(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user:) }
+  let(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
   let!(:question) { form.questions.first }
   let!(:new_question) { Question.create(form:, answer_field: 'answer_01') }
 

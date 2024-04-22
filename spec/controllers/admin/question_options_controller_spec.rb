@@ -66,7 +66,7 @@ RSpec.describe Admin::QuestionOptionsController, type: :controller do
   end
 
   describe 'GET #new' do
-    let(:form) { FactoryBot.create(:form, organization:, user: admin) }
+    let(:form) { FactoryBot.create(:form, organization:) }
     let(:question) { FactoryBot.create(:question, :with_radio_buttons, form:, form_section: form.form_sections.first) }
 
     it 'returns a success response' do

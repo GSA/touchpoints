@@ -58,9 +58,32 @@
             <%= label_tag "Organization", nil, class: "usa-label" %>
             <%= link_to_if(admin_permissions?, @form.organization.name, admin_organization_path(@form.organization)) %>
           </p>
+          <% @roles = @form.user_roles.map { |role| { role: role.role, user: role.user }} %>
+          <% @form_managers = @roles.select { |role| role[:role] == 'form_manager' } %>
+          <% @response_viewers = @roles.select { |role| role[:role] == 'response_viewer' } %>
           <p>
-            <%= label_tag "Form owner", nil, class: "usa-label" %>
-            <%= link_to @form.user.email, admin_user_path(@form.user) %>
+            <%= label_tag "Form managers", nil, class: "usa-label" %>
+            <%- if @form_managers.present? %>
+            <ul class="usa-list">
+            <% @form_managers.each do |role| %>
+              <li>
+              <%= link_to role[:user].try(:email), admin_user_path(role[:user]) %>
+              </li>
+            <% end %>
+            </ul>
+            <% end %>
+          </p>
+          <p>
+            <%= label_tag "Response viewers", nil, class: "usa-label" %>
+            <%- if @response_viewers.present? %>
+            <ul class="usa-list">
+            <% @response_viewers.each do |role| %>
+              <li>
+              <%= link_to role[:user].try(:email), admin_user_path(role[:user]) %>
+              </li>
+            <% end %>
+            </ul>
+            <% end %>
           </p>
         </div>
         <div class="tablet:grid-col-3">
@@ -101,6 +124,7 @@
   </div>
   <div class="desktop:grid-col-4 ">
     <%= render 'admin/forms/task_bar', form: @form %>
+    <%= render 'components/event_log', events: @events if admin_permissions? %>
   </div>
 </div>
 <br>
