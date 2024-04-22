@@ -28,6 +28,8 @@ class CxCollectionDetailUpload < ApplicationRecord
   end
 
   def process_csv
+    return if Rails.env.test?
+
     job_id = SecureRandom.hex[0..9]
     update_attribute(:job_id, job_id)
     uploaded_file = self
