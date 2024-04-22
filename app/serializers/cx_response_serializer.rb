@@ -1,28 +1,6 @@
 # frozen_string_literal: true
 
 class CxResponseSerializer < ActiveModel::Serializer
-  attributes :page, :size, :start_date, :end_date
-
-  def page
-    @instance_options[:page]
-  end
-
-  def size
-    @instance_options[:size]
-  end
-
-  def start_date
-    @instance_options[:start_date]
-  end
-
-  def end_date
-    @instance_options[:end_date]
-  end
-
-  def links
-    @instance_options[:links]
-  end
-
   attributes :cx_collection_detail_id,
     :cx_collection_detail_upload_id,
     :question_1,

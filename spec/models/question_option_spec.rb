@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe QuestionOption, type: :model do
   let(:organization) { FactoryBot.create(:organization) }
   let(:user) { FactoryBot.create(:user, organization:) }
-  let(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user:) }
+  let(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
   let!(:option_question) { FactoryBot.create(:question, form:, question_type: 'checkbox', form_section: form.form_sections.first, answer_field: :answer_02) }
 
   context 'without question or position' do
@@ -32,7 +32,7 @@ RSpec.describe QuestionOption, type: :model do
         expect(@question_option.value).to eq(@question_option.text)
       end
     end
-    
+
     context 'with value set' do
       before do
         @question_option = QuestionOption.create(text: 'Option 1', question: option_question, position: 1, value: "123")

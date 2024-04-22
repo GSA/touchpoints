@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Form, type: :model do
   let(:organization) { FactoryBot.create(:organization) }
   let(:user) { FactoryBot.create(:user, organization:) }
-  let!(:form) { FactoryBot.create(:form, :two_question_open_ended_form, organization:, user:) }
+  let!(:form) { FactoryBot.create(:form, :two_question_open_ended_form, organization:) }
   let!(:submission) { FactoryBot.create(:submission, form:) }
 
   describe 'required attributes' do
@@ -14,19 +14,9 @@ RSpec.describe Form, type: :model do
         @form = Form.create({})
       end
 
-      it 'requires name' do
-        expect(@form.errors.messages).to have_key(:user)
-        expect(@form.errors.messages[:user]).to eq(['must exist'])
-      end
-
       it 'requires organization' do
         expect(@form.errors.messages).to have_key(:organization)
         expect(@form.errors.messages[:organization]).to eq(['must exist'])
-      end
-
-      it 'requires user' do
-        expect(@form.errors.messages).to have_key(:user)
-        expect(@form.errors.messages[:user]).to eq(['must exist'])
       end
 
       it 'requires delivery_method' do
@@ -196,7 +186,7 @@ RSpec.describe Form, type: :model do
 
   describe 'validate state transitions' do
     let(:admin) { FactoryBot.create(:user, :admin, organization:) }
-    let(:form) { FactoryBot.create(:form, organization:, user: admin) }
+    let(:form) { FactoryBot.create(:form, organization:) }
 
     context 'initial state' do
       it 'sets initial state' do
@@ -255,13 +245,13 @@ RSpec.describe Form, type: :model do
       expect(@duplicate_form.legacy_touchpoint_id).to eq(nil)
       expect(@duplicate_form.legacy_touchpoint_uuid).to eq(nil)
       expect(@duplicate_form.template).to eq(false)
-      expect(@duplicate_form.user).to eq(user)
+      expect(@duplicate_form.organization).to eq(organization)
       expect(@duplicate_form.persisted?).to eq(true)
     end
   end
 
   describe 'dependent data relations' do
-    let(:form_without_responses) { FactoryBot.create(:form, :open_ended_form, organization:, user:) }
+    let(:form_without_responses) { FactoryBot.create(:form, :open_ended_form, organization:) }
     let!(:user_role) { FactoryBot.create(:user_role, user:, form: form_without_responses, role: UserRole::Role::FormManager) }
 
     before do

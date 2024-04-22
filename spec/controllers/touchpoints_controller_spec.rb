@@ -42,7 +42,7 @@ describe TouchpointsController, type: :controller do
 
   let(:organization) { FactoryBot.create(:organization) }
   let(:user) { FactoryBot.create(:user, organization:) }
-  let(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user:) }
+  let(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
 
   describe 'GET #show with ID' do
     it 'returns a success response' do

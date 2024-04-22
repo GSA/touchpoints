@@ -4,8 +4,7 @@
   </legend>
   <%= render 'components/question_title', question: question %>
 
-  <div class="question-options big-thumbs"
-    id="question_<%= question.id %>_<%= question.answer_field.to_sym %>">
+  <div class="question-options big-thumbs" id="<%= question.answer_field.to_sym %>">
     <div class="grid-row grid-gap-lg">
       <% question_options = [{ text: 'yes', value: 1 }, { text: 'no', value: 0 }] %>
       <% question_options.each_with_index do |option, index| %>
