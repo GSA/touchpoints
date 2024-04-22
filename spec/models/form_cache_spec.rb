@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe FormCache, type: :model do
   let(:organization) { FactoryBot.create(:organization) }
   let(:user) { FactoryBot.create(:user, organization:) }
-  let(:form) { FactoryBot.create(:form, organization:, user:) }
+  let(:form) { FactoryBot.create(:form, organization:) }
 
   describe 'validate cache fetch' do
     context 'Store and Fetch Touchpoint' do

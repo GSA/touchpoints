@@ -8,7 +8,7 @@ feature 'Forms', js: true do
   end
   let(:organization) { FactoryBot.create(:organization) }
   let(:admin) { FactoryBot.create(:user, :admin, organization:) }
-  let!(:form) { FactoryBot.create(:form, organization:, user: admin) }
+  let!(:form) { FactoryBot.create(:form, organization:) }
   let!(:user) { FactoryBot.create(:user, organization:) }
 
   context 'as Admin' do

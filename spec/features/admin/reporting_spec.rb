@@ -7,7 +7,7 @@ feature 'Reporting', js: true do
 
   context 'as Admin' do
     let(:admin) { FactoryBot.create(:user, :admin, organization:) }
-    let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin) }
+    let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
 
     describe '#no_submissions' do
       before do

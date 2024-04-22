@@ -5,7 +5,6 @@ require 'csv'
 class Form < ApplicationRecord
   include AASM
 
-  belongs_to :user
   belongs_to :organization
   belongs_to :service, optional: true
 
@@ -165,7 +164,6 @@ class Form < ApplicationRecord
     new_form.legacy_touchpoint_id = nil
     new_form.legacy_touchpoint_uuid = nil
     new_form.template = false
-    new_form.user = new_user
     new_form.organization = new_user.organization
     new_form.save!
 

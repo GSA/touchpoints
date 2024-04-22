@@ -32,7 +32,7 @@ RSpec.describe SubmissionsController, type: :controller do
 
   let(:organization) { FactoryBot.create(:organization) }
   let(:admin) { FactoryBot.create(:user, :admin, organization:) }
-  let(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin) }
+  let(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
 
   let(:valid_attributes) do
     {

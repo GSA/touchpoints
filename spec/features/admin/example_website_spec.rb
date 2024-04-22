@@ -5,8 +5,8 @@ require 'rails_helper'
 feature 'Example Website Integration', js: true do
   let(:organization) { FactoryBot.create(:organization) }
   let(:admin) { FactoryBot.create(:user, :admin, organization:) }
-  let(:open_ended_form) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin) }
-  let(:recruiter_form) { FactoryBot.create(:form, :recruiter, organization:, user: admin) }
+  let(:open_ended_form) { FactoryBot.create(:form, :open_ended_form, organization:) }
+  let(:recruiter_form) { FactoryBot.create(:form, :recruiter, organization:) }
 
   describe 'third-party .gov website' do
     before do
@@ -92,7 +92,7 @@ feature 'Example Website Integration', js: true do
     end
 
     context 'Yes/No Buttons' do
-      let(:yes_no_buttons_form) { FactoryBot.create(:form, :yes_no_buttons, organization:, user: admin) }
+      let(:yes_no_buttons_form) { FactoryBot.create(:form, :yes_no_buttons, organization:) }
 
       before do
         visit example_admin_form_path(yes_no_buttons_form)

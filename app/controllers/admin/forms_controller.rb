@@ -132,6 +132,7 @@ module Admin
     def show
       ensure_response_viewer(form: @form) unless @form.template?
       @questions = @form.questions
+      @events = @events = Event.where(object_type: 'Form', object_uuid: @form.uuid).order("created_at DESC")
     end
 
     def permissions
@@ -188,24 +189,22 @@ module Admin
       @form = Form.new(form_params)
 
       @form.organization_id = current_user.organization_id
-      @form.user_id = current_user.id
       @form.title = @form.name
       @form.modal_button_text = t('form.help_improve')
       @form.success_text_heading = t('success')
       @form.success_text = t('form.submit_thankyou')
       @form.delivery_method = 'touchpoints-hosted-only'
       @form.load_css = true
-      @form.user = current_user unless @form.user
 
       respond_to do |format|
         if @form.save
           Event.log_event(Event.names[:form_created], 'Form', @form.uuid, "Form #{@form.name} created at #{DateTime.now}", current_user.id)
 
           UserRole.create!({
-                             user: current_user,
-                             form: @form,
-                             role: UserRole::Role::FormManager,
-                           })
+            user: current_user,
+            form: @form,
+            role: UserRole::Role::FormManager,
+          })
 
           format.html { redirect_to questions_admin_form_path(@form), notice: 'Form was successfully created.' }
           format.json { render :show, status: :created, location: @form }

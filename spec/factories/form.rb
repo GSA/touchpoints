@@ -2,7 +2,6 @@
 
 FactoryBot.define do
   factory :form do
-    user
     organization
     name { 'Open-ended Test form' }
     title { 'Do you have a few minutes to help us test this site?' }
@@ -13,7 +12,6 @@ FactoryBot.define do
     modal_button_text { 'Help improve this site' }
     legacy_touchpoint_id { 123 }
     legacy_touchpoint_uuid { 'ABCD1234' }
-    notification_emails { user.email }
 
     omb_approval_number { rand(10_000).to_s }
     expiration_date { 2.months.from_now }

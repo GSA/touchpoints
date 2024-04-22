@@ -63,7 +63,7 @@ feature 'Managing Users', js: true do
       end
 
       context 'with submissions' do
-        let(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user:) }
+        let(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
         let!(:user_role) { FactoryBot.create(:user_role, user:, form:, role: UserRole::Role::FormManager) }
 
         before do

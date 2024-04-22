@@ -19,8 +19,8 @@ feature 'Admin Dashboard', js: true do
     end
 
     describe 'weekly metrics' do
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin) }
-      let!(:form_template) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin, template: true) }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
+      let!(:form_template) { FactoryBot.create(:form, :open_ended_form, organization:, template: true) }
 
       before do
         visit admin_dashboard_path
@@ -44,9 +44,9 @@ feature 'Admin Dashboard', js: true do
     end
 
     describe 'agency summary' do
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin) }
-      let!(:form2) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin) }
-      let!(:form_template) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin, template: true) }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
+      let!(:form2) { FactoryBot.create(:form, :open_ended_form, organization:) }
+      let!(:form_template) { FactoryBot.create(:form, :open_ended_form, organization:, template: true) }
 
       before do
         form2.archive!
@@ -67,8 +67,8 @@ feature 'Admin Dashboard', js: true do
     end
 
     describe 'daily totals' do
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin) }
-      let!(:form_template) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin, template: true) }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
+      let!(:form_template) { FactoryBot.create(:form, :open_ended_form, organization:, template: true) }
 
       before do
         Submission.create({
@@ -109,7 +109,7 @@ feature 'Admin Dashboard', js: true do
     end
 
     describe '#a11' do
-      let!(:form) { FactoryBot.create(:form, kind: 'a11', organization:, user: admin) }
+      let!(:form) { FactoryBot.create(:form, kind: 'a11', organization:) }
 
       before do
         visit admin_a11_path
@@ -126,7 +126,7 @@ feature 'Admin Dashboard', js: true do
     end
 
     describe '#lifespan' do
-      let!(:form) { FactoryBot.create(:form, kind: 'a11', organization:, user: admin) }
+      let!(:form) { FactoryBot.create(:form, kind: 'a11', organization:) }
 
       before do
         Submission.create({

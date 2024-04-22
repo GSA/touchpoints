@@ -7,7 +7,7 @@ feature 'Submissions', js: true do
 
   context 'as Admin' do
     let(:admin) { FactoryBot.create(:user, :admin, organization:) }
-    let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin) }
+    let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
 
     describe '/forms/:id with submissions' do
       before do
@@ -211,7 +211,7 @@ feature 'Submissions', js: true do
   context 'as Form Manager' do
     describe '/forms/:id with submissions' do
       let!(:form_manager) { FactoryBot.create(:user, organization:) }
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: form_manager) }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
       let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form:) }
 
       before do
@@ -261,7 +261,7 @@ feature 'Submissions', js: true do
         # This is a common test. not specific to just the Form Manager
         context 'for a form with a text_display element' do
           context 'with one Submission' do
-            let(:form_with_text_display) { FactoryBot.create(:form, :kitchen_sink, organization:, user: form_manager) }
+            let(:form_with_text_display) { FactoryBot.create(:form, :kitchen_sink, organization:) }
             let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form: form_with_text_display) }
             let!(:submission) { FactoryBot.create(:submission, form: form_with_text_display) }
 
@@ -320,7 +320,7 @@ feature 'Submissions', js: true do
   context 'as Response Viewer' do
     describe '/forms/:id with submissions' do
       let(:response_viewer) { FactoryBot.create(:user, organization:) }
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: response_viewer) }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
       let!(:user_role) { FactoryBot.create(:user_role, :response_viewer, user: response_viewer, form:) }
 
       before do
@@ -436,7 +436,7 @@ feature 'Submissions', js: true do
 
   context 'non-privileged User' do
     let(:admin) { FactoryBot.create(:user, organization:) }
-    let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin) }
+    let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
     let(:user) { FactoryBot.create(:user, organization:) }
 
     context "with an existing Form that the user doesn't have permissions to" do
@@ -461,7 +461,7 @@ feature 'Submissions', js: true do
 
   context 'logged out user' do
     let(:admin) { FactoryBot.create(:user, :admin, organization:) }
-    let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, user: admin) }
+    let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
     let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form:) }
     let!(:submission) { FactoryBot.create(:submission, form:) }
 

@@ -6,7 +6,7 @@ RSpec.describe UserMailer, type: :mailer do
   describe 'submission_notification' do
     let!(:organization) { FactoryBot.create(:organization) }
     let(:user) { FactoryBot.create(:user, organization:) }
-    let(:form) { FactoryBot.create(:form, organization:, user:) }
+    let(:form) { FactoryBot.create(:form, organization:) }
     let!(:submission) { FactoryBot.create(:submission, form:) }
     let(:mail) { UserMailer.submission_notification(submission_id: submission.id, emails: [user.email]) }
 
@@ -25,7 +25,7 @@ RSpec.describe UserMailer, type: :mailer do
   describe 'submission_digest' do
     let!(:organization) { FactoryBot.create(:organization) }
     let(:user) { FactoryBot.create(:user, organization:) }
-    let(:form) { FactoryBot.create(:form, organization:, user:) }
+    let(:form) { FactoryBot.create(:form, organization:, notification_emails: user.email) }
     let!(:submission) { FactoryBot.create(:submission, form:) }
     let(:begin_day) { 1.day.ago }
     let(:mail) { UserMailer.submissions_digest(form.id, begin_day) }
@@ -49,7 +49,7 @@ RSpec.describe UserMailer, type: :mailer do
   describe 'form_status_changed' do
     let!(:organization) { FactoryBot.create(:organization) }
     let(:user) { FactoryBot.create(:user, organization:) }
-    let(:form) { FactoryBot.create(:form, organization:, user:) }
+    let(:form) { FactoryBot.create(:form, organization:) }
     let(:mail) { UserMailer.form_status_changed(form:, action: 'published') }
 
     before do
