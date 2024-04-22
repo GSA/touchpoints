@@ -1,30 +1,24 @@
-// Assumes: 4 questions:
-//  1. thumbs up/down radio buttons
-//  2. positive checkbox indicators
-//  3. negative checkbox indicators
-//  4. open text
-// Hides the 2nd and 3rd questions to start
-// reveals 2 when selecting thumbs up
-// reveals 3 when selecting thumbs down
-//
 document.addEventListener('onTouchpointsFormLoaded', function(e) {
-  const formElement = e.detail.formComponent.formElement();
 
   function hideQ2() {
-    const q2_container = formElement.querySelector("#question_<%= form.questions.second.id %>");
+    const q2 = document.getElementById("answer_02");
+    const q2_container = q2.closest(".question");
     q2_container.style.display = 'none';
   }
   function showQ2() {
-    const q2_container = formElement.querySelector("#question_<%= form.questions.second.id %>")
+    const q2 = document.getElementById("answer_02");
+    const q2_container = q2.closest(".question");
     q2_container.style.display = 'block';
   }
 
   function hideQ3() {
-    const q3_container = formElement.querySelector("#question_<%= form.questions.third.id %>")
+    const q3 = document.getElementById("answer_03");
+    const q3_container = q3.closest(".question");
     q3_container.style.display = 'none';
   }
   function showQ3() {
-    const q3_container = formElement.querySelector("#question_<%= form.questions.third.id %>")
+    const q3 = document.getElementById("answer_03");
+    const q3_container = q3.closest(".question");
     q3_container.style.display = 'block';
   }
 
@@ -38,7 +32,7 @@ document.addEventListener('onTouchpointsFormLoaded', function(e) {
     }
   }
 
-  const radioButtons = formElement.querySelector("#question_<%= form.questions.first.id %>").getElementsByTagName("input");
+  const radioButtons = document.getElementById("answer_01").getElementsByTagName("input");
   for (const radioButton of radioButtons) {
       radioButton.addEventListener("click", handleThumbsUpDownClick)
   }
