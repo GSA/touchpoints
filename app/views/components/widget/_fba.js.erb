@@ -189,7 +189,6 @@ function FBAform(d, N) {
 			var other_val = e.target.value.replace(/,/g, '');
 			if (other_val == '') other_val = 'other';
 			var option = this.formElement().querySelector(selectorId);
-			option.checked = true;
 			option.value = other_val;
 		},
 		handlePhoneInput: function(e) {
