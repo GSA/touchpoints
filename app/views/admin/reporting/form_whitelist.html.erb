@@ -15,10 +15,11 @@ Where forms are hosted
       <thead>
         <tr>
           <th data-sortable scope="col">Organization</th>
-          <th data-sortable scope="col">User email</th>
           <th data-sortable scope="col" style="min-width: 300px;">Title</th>
-          <th data-sortable scope="col">Kind</th>
           <th data-sortable scope="col">UUID</th>
+          <th data-sortable scope="col">Kind</th>
+          <th data-sortable scope="col">Status</th>
+          <th data-sortable scope="col">Delivery Method</th>
           <th data-sortable scope="col">whitelist_url</th>
           <th data-sortable scope="col">whitelist_test_url</th>
           <th data-sortable scope="col">url_1</th>
@@ -36,10 +37,11 @@ Where forms are hosted
       <% next unless form.whitelist_url? || form.whitelist_test_url? %>
       <tr>
         <td><%= link_to form.organization.name, admin_organization_path(form.organization) %></td>
-        <td><%= link_to form.user.email, admin_user_path(form.user) %></td>
         <td><%= form.title %></td>
-        <td><%= form.kind %></td>
         <td><%= link_to form.short_uuid, admin_form_path(form) %></td>
+        <td><%= form.kind %></td>
+        <td><%= form.aasm_state %></td>
+        <td><%= form.delivery_method %></td>
         <td><%= form.whitelist_url %></td>
         <td><%= form.whitelist_test_url %></td>
         <td><%= form.whitelist_url_1 %></td>

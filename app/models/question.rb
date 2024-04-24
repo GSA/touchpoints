@@ -34,6 +34,15 @@ class Question < ApplicationRecord
     'date_select',
   ].freeze
 
+  LIMITED_QUESTION_TYPES = [
+    # Custom elements
+    'custom_text_display',
+    'star_radio_buttons',
+    'thumbs_up_down_buttons',
+    'big_thumbs_up_down_buttons',
+    'yes_no_buttons',
+  ].freeze
+
   validates :answer_field, presence: true
   validates :character_limit, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: MAX_CHARACTERS, allow_nil: true }
 

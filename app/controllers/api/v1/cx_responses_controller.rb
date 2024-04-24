@@ -6,7 +6,7 @@ module Api
       def index
         page = params.fetch(:page, 1).to_i
         size = params.fetch(:size, 500).to_i
-        size = 500 if size > 500
+        size = 500 if size <= 0 || size > 500
 
         begin
           start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Date.parse("2023-10-01").to_date
@@ -20,14 +20,14 @@ module Api
         respond_to do |format|
           format.json do
             render json: cx_responses, each_serializer: CxResponseSerializer,
-              page: page,
-              size: size,
-              start_date: start_date,
-              end_date: end_date,
-              links: {
-                total_pages: cx_responses.total_pages,
+              meta: {
                 current_page: cx_responses.current_page,
-                total_records: cx_responses.total_count
+                size: cx_responses.size,
+                total_pages: cx_responses.total_pages,
+                total_count: cx_responses.total_count,
+              },
+              links: {
+                self: request.original_url
               }
           end
         end

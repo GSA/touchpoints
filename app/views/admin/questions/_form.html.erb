@@ -31,7 +31,7 @@
         <br>
       <% end %>
     <% else %>
-      <%= f.select :question_type, Question::QUESTION_TYPES - ["thumbs_up_down_buttons", "custom_text_display", "yes_no_buttons"], { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
+      <%= f.select :question_type, Question::QUESTION_TYPES - Question::LIMITED_QUESTION_TYPES, { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
     <% end %>
     </div>
 
@@ -76,7 +76,7 @@
           Answer Fields are used to define which database field an answer is stored in.
           <br>
           Typically, question #1 is `answer_01` and question #2 is `answer_02`,
-          but these can be customized for your reporting needs.
+          but these can be customized for your standardized reporting needs.
         </small>
       </div>
     </div>
