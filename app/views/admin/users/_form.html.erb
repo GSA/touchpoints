@@ -14,7 +14,7 @@
     <%= form.select :organization_id, options_for_select(organization_dropdown_options, selected: user.organization_id), { prompt: "Select Organization" }, { class: "usa-select" } %>
   </div>
   <%- if admin_permissions? %>
-  <div class="well">
+  <div class="well margin-top-2">
     <div class="grid-row">
       <div class="tablet:grid-col-6">
         <fieldset class="usa-fieldset">
