@@ -46,7 +46,7 @@ gem "brakeman"
 gem "bundler-audit"
 gem "rubocop-rails"
 gem "rubocop-rspec"
-gem 'active_model_serializers', '>= 0.10.13'
+gem 'active_model_serializers'
 gem 'acts-as-list'
 gem 'aws-sdk-rails', '>= 3.8.0'
 gem 'aws-sdk-s3'
