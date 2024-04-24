@@ -301,7 +301,7 @@ GEM
     mime-types-data (3.2024.0305)
     mini_magick (4.12.0)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.5)
+    mini_portile2 (2.8.6)
     minitest (5.22.3)
     msgpack (1.7.2)
     multi_json (1.15.0)
@@ -319,10 +319,10 @@ GEM
       net-protocol
     newrelic_rpm (9.8.0)
     nio4r (2.7.1)
-    nokogiri (1.16.3)
+    nokogiri (1.16.4)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.16.3-x86_64-darwin)
+    nokogiri (1.16.4-x86_64-darwin)
       racc (~> 1.4)
     oauth2 (2.0.9)
       faraday (>= 0.17.3, < 3.0)
@@ -571,7 +571,7 @@ PLATFORMS
 DEPENDENCIES
   aasm
   aasm-diagram
-  active_model_serializers (>= 0.10.13)
+  active_model_serializers
   acts-as-list
   acts-as-taggable-on
   aws-sdk-rails (>= 3.8.0)
