@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
     I18n.with_locale(locale, &)
   end
 
+  # Federal Fiscal Year starts October 1 and ends September 30
   def fiscal_year(date)
     (date - 3.months).year
   end
