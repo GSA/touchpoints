@@ -71,7 +71,7 @@ describe Api::V1::CxResponsesController, type: :controller do
         before do
           user.update(api_key: TEST_API_KEY)
           request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch('API_HTTP_USERNAME'), ENV.fetch('API_HTTP_PASSWORD'))
-          get :index, format: :json, params: { 'API_KEY' => user.api_key, size: 100, page: 10 }
+          get :index, format: :json, params: { 'API_KEY' => user.api_key, "page[size]" => 100, "page[number]" => 10 }
           @parsed_response = JSON.parse(response.body)
         end
 
