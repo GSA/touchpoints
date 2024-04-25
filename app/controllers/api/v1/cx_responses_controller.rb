@@ -17,6 +17,8 @@ module Api
 
         cx_responses = CxResponse.page(page).per(size)
 
+        production_api_path = "https://api.gsa.gov/analytics/touchpoints#{request.path.gsub('/api', '')}"
+
         respond_to do |format|
           format.json do
             render json: cx_responses, each_serializer: CxResponseSerializer,
@@ -27,7 +29,7 @@ module Api
                 total_count: cx_responses.total_count,
               },
               links: {
-                self: request.original_fullpath
+                self: Rails.env.production? ? production_api_path : nil
               }
           end
         end
