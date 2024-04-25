@@ -27,7 +27,7 @@ module Api
                 total_count: cx_responses.total_count,
               },
               links: {
-                self: request.original_url
+                self: request.original_fullpath
               }
           end
         end
