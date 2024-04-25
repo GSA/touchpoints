@@ -4,9 +4,9 @@ module Api
   module V1
     class CxResponsesController < ::ApiController
       def index
-        page = params.fetch(:page, 1).to_i
-        size = params.fetch(:size, 500).to_i
-        size = 500 if size <= 0 || size > 500
+        page_number = params.dig(:page, :number).to_i.nonzero? || 1
+        page_size = params.dig(:page, :size).to_i.nonzero? || 500
+        page_size = 500 if page_size <= 0 || page_size > 500
 
         begin
           start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Date.parse("2023-10-01").to_date
@@ -15,7 +15,7 @@ module Api
           render json: { error: { message: "invalid date format, should be 'YYYY-MM-DD'", status: 400 } }, status: :bad_request and return
         end
 
-        cx_responses = CxResponse.page(page).per(size)
+        cx_responses = CxResponse.page(page_number).per(page_size)
 
         production_api_path = "https://api.gsa.gov/analytics/touchpoints#{request.path.gsub('/api', '')}"
 
