@@ -422,7 +422,7 @@ GEM
       psych (>= 4.0.0)
     redis (5.1.0)
       redis-client (>= 0.17.0)
-    redis-client (0.21.1)
+    redis-client (0.22.1)
       connection_pool
     redis-namespace (1.11.0)
       redis (>= 4)
@@ -504,7 +504,7 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sidekiq (7.2.2)
+    sidekiq (7.2.4)
       concurrent-ruby (< 2)
       connection_pool (>= 2.3.0)
       rack (>= 2.2.4)
@@ -620,7 +620,7 @@ DEPENDENCIES
   sass-rails
   sassc-rails
   selenium-webdriver
-  sidekiq (>= 6.5.0)
+  sidekiq (>= 7.2.4)
   simplecov
   sprockets-rails
   stimulus-rails
@@ -634,4 +634,4 @@ RUBY VERSION
    ruby 3.1.4p223
 
 BUNDLED WITH
-   2.3.12
+   2.3.26
