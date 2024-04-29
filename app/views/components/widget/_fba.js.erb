@@ -43,7 +43,9 @@ function FBAform(d, N) {
 			this.dialogOpen = false; // initially false
 			this.successState = false; // initially false
 			this.pagination();
+			<% unless form.archived? %>
 			this.formSpecificScript();
+			<% end %>
 			document.dispatchEvent(new Event('onTouchpointsFormLoaded'));
 			return this;
 		},
@@ -115,14 +117,6 @@ function FBAform(d, N) {
 
 			d.querySelector('.fba-modal-close').addEventListener('click', this.handleDialogClose.bind(this), false);
 		<% end %>
-		var otherElements = d.querySelectorAll(".usa-input.other-option");
-		for (var i = 0; i < otherElements.length; i++) {
-		    otherElements[i].addEventListener('keyup', this.handleOtherOption.bind(this), false);
-		}
-		var phoneElements = d.querySelectorAll("input[type='tel']");
-		for (var i = 0; i < phoneElements.length; i++) {
-		    phoneElements[i].addEventListener('keyup', this.handlePhoneInput.bind(this), false);
-		}
 		<%# add button behaviors for custom-button-modal %>
 		<%- if form.delivery_method == "custom-button-modal" %>
 			<%- if form.element_selector? %>
@@ -131,6 +125,15 @@ function FBAform(d, N) {
 			}
 			<% end %>
 		<% end %>
+		<%- unless form.archived? %>
+			var otherElements = d.querySelectorAll(".usa-input.other-option");
+			for (var i = 0; i < otherElements.length; i++) {
+				otherElements[i].addEventListener('keyup', this.handleOtherOption.bind(this), false);
+			}
+			var phoneElements = d.querySelectorAll("input[type='tel']");
+			for (var i = 0; i < phoneElements.length; i++) {
+				phoneElements[i].addEventListener('keyup', this.handlePhoneInput.bind(this), false);
+			}
 
 			var formElement = this.formElement();
 			// returns 1 or more submit buttons within the Touchpoints form
@@ -150,6 +153,7 @@ function FBAform(d, N) {
 					})
 				}
 			}
+		<% end %>
 		},
 		resetErrors: function() {
 			var formComponent = this.formComponent();
