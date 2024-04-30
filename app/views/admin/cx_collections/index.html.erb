@@ -65,6 +65,7 @@
       <th data-sortable scope="col">Service Provider (HISP)</th>
       <th data-sortable scope="col">Service</th>
       <th data-sortable scope="col">Collection name</th>
+      <th data-sortable scope="col">Collection details</th>
       <th data-sortable scope="col">Year</th>
       <th data-sortable scope="col">Quarter</th>
       <th data-sortable scope="col">Status</th>
@@ -79,6 +80,7 @@
         <td><%= collection.service_provider.name %></td>
         <td><%= collection.service.name %></td>
         <td><%= link_to collection.name, admin_cx_collection_path(collection) %></td>
+        <td><%= collection.cx_collection_details.size %></td>
         <td><%= collection.fiscal_year %></td>
         <td><%= collection.quarter %></td>
         <td>

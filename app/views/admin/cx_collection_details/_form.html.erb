@@ -34,7 +34,10 @@
           ["Relational", :relational]
         ],
       { include_blank: true },
-      class: "usa-select" %>
+      {
+        class: "usa-select",
+        required: true
+      } %>
   </div>
 
   <div>
@@ -42,7 +45,12 @@
     <div class="usa-hint font-sans-2xs">
       Tell us how you deployed the survey. What is the channel you used to reach your respondents?
     </div>
-    <%= form.select :channel, Service.channels.sort, { include_blank: true }, class: "usa-select" %>
+    <%= form.select :channel, Service.channels.sort, { include_blank: true },
+      {
+        class: "usa-select",
+        required: true
+      }
+    %>
   </div>
 
   <div class="field">
