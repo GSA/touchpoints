@@ -1,16 +1,16 @@
-<div class="touchpoints-form-wrapper <%= form.kind %>"
+<div
+  class="touchpoints-form-wrapper <%= form.kind %>"
   id="touchpoints-form-<%= form.short_uuid %>"
   data-touchpoints-form-id="<%= form.short_uuid %>" tabindex="-1">
   <div class="wrapper">
-    <%= render "components/forms/logo_and_title", form: form %>
-
     <%- unless form.delivery_method == "inline" %>
       <a class="fba-modal-close"
         type="button"
         href="#"
         aria-label="Close this window">×</a>
     <% end -%>
-
+    <%- unless form.archived? %>
+    <%= render "components/forms/logo_and_title", form: form %>
     <%- if form.instructions? %>
     <p class="fba-instructions">
       <%= sanitize(form.instructions) %>
@@ -25,6 +25,9 @@
     <% end %>
     <%= render 'components/forms/flash', form: form %>
     <%= render partial: "components/forms/custom", locals: { form: form, questions: form.questions } %>
+    <% else %>
+    <%= render partial: "submissions/archived_form", locals: { form: form } %>
+    <% end %>
   </div>
   <%= yield %>
 </div>
