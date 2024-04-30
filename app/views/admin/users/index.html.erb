@@ -1,5 +1,9 @@
 <% content_for :navigation_title do %>
   Users
+    <%= link_to admin_invite_path, class: "usa-button usa-button-inverted float-right" do %>
+      <i class="fa fa-plus-circle"></i>
+      Invite user
+    <% end %>
 <% end %>
 
 <% @all_user_count = User.count %>
@@ -30,6 +34,7 @@
       <tr>
       <%- if current_user.admin? %>
         <th data-sortable scope="col">Admin</th>
+        <th data-sortable scope="col">Status</th>
       <% end %>
         <th data-sortable scope="col">Email</th>
         <th data-sortable scope="col">Organization Name</th>
@@ -44,14 +49,16 @@
         <tr class="user" data-id="<%= user.id %>">
         <%- if current_user.admin? %>
           <td class="text-center"><%= user.admin? ? '✅' : nil %></td>
+          <td class="text-center">
+          <%- if user.inactive? %>
+            <span class="usa-tag float-right">Inactive</span>
+          <% end %>
+          </td>
         <% end %>
           <td>
             <%= link_to user.email, admin_user_path(user) %>
-            <%- if user.inactive? %>
-            <span class="usa-tag float-right">Inactive</span>
-            <% end %>
           </td>
-          <td><%= user.organization ? user.organization.name : nil %></td>
+          <td><%= user.organization ? link_to(user.organization.name, admin_organization_path(user.organization)) : nil %></td>
         <%- if current_user.admin? %>
           <td data-sort-value="<%= user.current_sign_in_at.to_i %>">
             <%= time_ago_in_words(user.current_sign_in_at) if user.current_sign_in_at %>
