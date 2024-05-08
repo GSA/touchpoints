@@ -8,6 +8,10 @@ class CxCollectionDetail < ApplicationRecord
   validates :transaction_point, presence: true
   validates :channel, presence: true
 
+  def volume_of_respondents
+    CxResponse.count
+  end
+
   def self.to_csv
     collection_details = CxCollectionDetail.all
 
