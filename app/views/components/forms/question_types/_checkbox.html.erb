@@ -10,7 +10,12 @@
       <% end -%>
     >
       <% @option_id = "#{question.answer_field}_#{(index + 1).to_s}" %>
-      <%= check_box_tag(@option_id, option.value, false, { name: question.answer_field, multiple: true, class: "usa-checkbox__input usa-checkbox__input--tile", required: question.is_required }) %>
+      <%= check_box_tag(@option_id, option.value, false, {
+            name: question.answer_field,
+            class: "usa-checkbox__input usa-checkbox__input--tile",
+            required: question.is_required
+          })
+      %>
       <%= label_tag(nil, for: @option_id, class: "usa-checkbox__label") do %><%= option.text %><% end %>
       <%- if ["OTHER", "OTRO"].include?(option.text.upcase) %>
         <%= label_tag(nil, for: "#{question.answer_field}_other", class: "usa-input__label") do %><%= t 'form.enter_other_text' %><% end %>
