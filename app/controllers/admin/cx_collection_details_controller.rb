@@ -5,7 +5,7 @@ class Admin::CxCollectionDetailsController < AdminController
     update
     destroy
   ]
-  before_action :set_cx_collections, only: %i[ new edit upload ]
+  before_action :set_cx_collections, only: %i[new edit update upload]
 
   def index
     @cx_collection_details = CxCollectionDetail.all
@@ -79,6 +79,7 @@ class Admin::CxCollectionDetailsController < AdminController
 
     # check the file to ensure it is valid
     csv_file = CSV.parse(file.read, headers: true)
+    begin
     @valid_file_headers = csv_file.headers.sort == [
       "external_id",
       "question_1",
@@ -98,6 +99,9 @@ class Admin::CxCollectionDetailsController < AdminController
       "negative_other",
       "question_4"
     ].sort
+    rescue
+      @valid_file_headers = false
+    end
 
     if @valid_file_extension && @valid_file_headers
       bucket = ENV.fetch("S3_UPLOADS_AWS_BUCKET_NAME")
@@ -118,7 +122,7 @@ class Admin::CxCollectionDetailsController < AdminController
     elsif !@valid_file_extension
       flash[:notice] = "File has a file extension of #{file_extension}, but it should be .csv."
     elsif !@valid_file_headers
-      flash[:alert] = "CSV headers do not match"
+      flash[:alert] = "CSV headers do not match. Headers received were: #{csv_file.headers.to_s}"
     end
 
     # render :upload
