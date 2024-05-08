@@ -5,6 +5,13 @@ class CxCollectionDetail < ApplicationRecord
   has_many :cx_responses, dependent: :delete_all
   has_one :cx_collection_detail
 
+  validates :transaction_point, presence: true
+  validates :channel, presence: true
+
+  def volume_of_respondents
+    CxResponse.count
+  end
+
   def self.to_csv
     collection_details = CxCollectionDetail.all
 
