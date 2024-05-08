@@ -3,9 +3,9 @@
     <div class="grid-col-12">
       <%= render "components/forms/logo_and_title", form: form %>
       <%- if form.instructions.present? %>
-        <p class="fba-instructions">
+        <div class="fba-instructions">
           <%= sanitize(form.instructions) %>
-        </p>
+        </div>
       <% end %>
       <%- if form.questions.any?(&:is_required?) %>
         <p class="required-questions-notice">

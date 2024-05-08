@@ -66,10 +66,10 @@ module Admin
     end
 
     def publish
-      Event.log_event(Event.names[:form_published], 'Form', @form.uuid, "Form #{@form.name} published at #{DateTime.now}", current_user.id)
+      @event = Event.log_event(Event.names[:form_published], 'Form', @form.uuid, "Form #{@form.name} published at #{DateTime.now}", current_user.id)
 
       @form.publish!
-      UserMailer.form_status_changed(form: @form, action: 'published').deliver_later
+      UserMailer.form_status_changed(form: @form, event: @event).deliver_later
       redirect_to admin_form_path(@form), notice: 'This form has been Published successfully.'
     end
 
