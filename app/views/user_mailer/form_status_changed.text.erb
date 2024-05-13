@@ -1,5 +1,7 @@
 Form status changed.
 
-Form <%= @form.name %> status changed to <%= @action %>.
+Form <%= link_to @form.name, admin_form_url(@form) %>
+status changed to <%= @action %>
+by <%= @event.user.email %>.
 
 Visit <%= admin_form_url(@form) %> to view.

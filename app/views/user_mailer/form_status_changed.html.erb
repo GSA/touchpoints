@@ -4,7 +4,8 @@
 </h3>
 <p>
   Form <%= link_to @form.name, admin_form_url(@form) %>
-  status changed to <%= @action %>.
+  status changed to <%= @action %>
+  by <%= @event.user.email %>.
 </p>
 <p>
   Visit <%= link_to admin_form_url(@form), admin_form_url(@form) %> to view.

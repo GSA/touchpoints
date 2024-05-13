@@ -13,6 +13,9 @@ redis_environments = {
 Sidekiq.configure_server do |config|
   config.redis = {
     url: ENV.fetch('REDIS_URL', nil),
+    size: 5,
+    timeout: 60,
+    ssl: (Rails.env.development? ? false : true),
     db: redis_environments[Rails.env],
   }
 end
@@ -20,6 +23,9 @@ end
 Sidekiq.configure_client do |config|
   config.redis = {
     url: ENV.fetch('REDIS_URL', nil),
+    size: 5,
+    timeout: 60,
+    ssl: (Rails.env.development? ? false : true),
     db: redis_environments[Rails.env],
   }
 end
