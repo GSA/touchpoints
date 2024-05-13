@@ -151,6 +151,10 @@ class Form < ApplicationRecord
     aasm.states
   end
 
+  def events
+    Event.where(object_type: 'Form', object_uuid: self.uuid).order(:created_at)
+  end
+
   def duplicate!(new_user:)
     new_form = dup
     new_form.name = "Copy of #{name}"
