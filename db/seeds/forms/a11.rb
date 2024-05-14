@@ -7,7 +7,6 @@ module Seeds
         template: true,
         kind:  "a11",
         notes: "Standard A-11 Form in support of the CX CAP Goal",
-        user: User.first,
         name: "A11 Form",
         title: "",
         instructions: "",
