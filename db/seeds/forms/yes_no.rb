@@ -7,7 +7,6 @@ module Seeds
         template: true,
         kind:  "yes_no",
         notes: "Yes/No Form",
-        user: User.first,
         name: "Yes/No per page feedback",
         title: "",
         instructions: "",
