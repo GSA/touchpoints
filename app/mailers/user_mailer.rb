@@ -24,10 +24,11 @@ class UserMailer < ApplicationMailer
          to: emails
   end
 
-  def form_status_changed(form:, action:)
+  def form_status_changed(form:, action:, event:)
     set_logo
     @form = form
     @action = action
+    @event = event
     mail subject: "Touchpoints form #{@form.name} #{@action}",
          to: ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')
   end

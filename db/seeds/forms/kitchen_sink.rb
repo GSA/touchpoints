@@ -10,7 +10,6 @@ module Seeds
         notes: "An example form that uses one of every form element",
         name: "Kitchen Sink Form Template",
         title: "Kitchen Sink Form 🧼",
-        user: User.first,
         instructions: "Instruction text goes here",
         disclaimer_text: "Disclaimer text goes Here",
         omb_approval_number: "1234-5678",
