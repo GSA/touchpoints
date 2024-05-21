@@ -151,6 +151,10 @@ class Form < ApplicationRecord
     aasm.states
   end
 
+  def events
+    Event.where(object_type: 'Form', object_uuid: self.uuid).order(:created_at)
+  end
+
   def duplicate!(new_user:)
     new_form = dup
     new_form.name = "Copy of #{name}"
@@ -204,9 +208,9 @@ class Form < ApplicationRecord
 
   def self.archive_expired!
     Form.where("expiration_date is not null and expiration_date < NOW() and aasm_state <> 'archived'").find_each do |form|
-      Event.log_event(Event.names[:form_archived], 'Form', form.uuid, "Form #{form.name} archived at #{DateTime.now}", 1)
+      @event = Event.log_event(Event.names[:form_archived], 'Form', form.uuid, "Form #{form.name} archived at #{DateTime.now}", 1)
       form.archive!
-      UserMailer.form_status_changed(form:, action: 'archived').deliver_later
+      UserMailer.form_status_changed(form:, action: 'archived', event: @event).deliver_later
     end
   end
 

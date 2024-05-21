@@ -16,7 +16,7 @@
     <meta property="og:description" content="Customer feedback for US federal agencies">
     <meta property="og:type" content="website">
     <meta property="og:url" content="<%= url_for(only_path: false) %>">
-    <%= csrf_meta_tags %>
+    <%= csrf_meta_tags if @form.verify_csrf? %>
     <%= csp_meta_tag %>
     <%= favicon_link_tag asset_path('favicon.ico') %>
     <%= stylesheet_link_tag 'application', media: 'all', integrity: true %>

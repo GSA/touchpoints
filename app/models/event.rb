@@ -114,6 +114,7 @@ class Event < ApplicationRecord
     e.description = desc
     e.user_id = uid
     e.save
+    e
   end
 
   def self.names
