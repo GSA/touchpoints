@@ -1,6 +1,6 @@
 <% begin %>
 <% text = @website.site_scanner_json_request %>
-<% hash = JSON.parse(text)["items"].select { |item| item["final_url"] == "https://#{website.domain}/" }.first %>
+<% hash = JSON.parse(text) %>
 
 <h2>
   Site Scanner results
@@ -135,6 +135,17 @@
     <% end %>
   </ul>
 </div>
+
+<div class="usa-accordion usa-accordion--bordered" aria-multiselectable="true">
+  <h4 class="usa-accordion__heading">
+    <button id="example-button0" class="usa-accordion__button navy" aria-expanded="false" aria-controls="json-response">
+      Site Scanner .json
+    </button>
+  </h4>
+  <div id="json-response" class="usa-accordion__content usa-prose navy" hidden="">
+<pre><%= JSON.pretty_generate(JSON.parse(text)) %></pre>
+  </div>
+</div>
 <% rescue %>
 <div class="usa-alert usa-alert--error usa-alert--slim">
   <div class="usa-alert__body">
@@ -148,16 +159,3 @@
   </div>
 </div>
 <% end %>
-
-<br>
-
-<div class="usa-accordion usa-accordion--bordered" aria-multiselectable="true">
-  <h4 class="usa-accordion__heading">
-    <button id="example-button0" class="usa-accordion__button navy" aria-expanded="false" aria-controls="json-response">
-      Site Scanner .json
-    </button>
-  </h4>
-  <div id="json-response" class="usa-accordion__content usa-prose navy" hidden="">
-<pre><%= pp text %></pre>
-  </div>
-</div>
