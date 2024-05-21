@@ -50,7 +50,8 @@ RSpec.describe UserMailer, type: :mailer do
     let!(:organization) { FactoryBot.create(:organization) }
     let(:user) { FactoryBot.create(:user, organization:) }
     let(:form) { FactoryBot.create(:form, organization:) }
-    let(:mail) { UserMailer.form_status_changed(form:, action: 'published') }
+    let(:event) { Event.log_event(Event.names[:form_published], 'Form', form.uuid, "Form #{form.name} published at #{DateTime.now}", user.id) }
+    let(:mail) { UserMailer.form_status_changed(form:, action: 'published', event: event) }
 
     before do
       ENV['ENABLE_EMAIL_NOTIFICATIONS'] = 'true'

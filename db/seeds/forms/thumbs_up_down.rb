@@ -7,7 +7,6 @@ module Seeds
         template: true,
         kind:  "custom",
         notes: "Thumbs up/down",
-        user: User.first,
         name: "Thumbs up/down per page feedback",
         title: "",
         instructions: "",

@@ -66,18 +66,18 @@ module Admin
     end
 
     def publish
-      Event.log_event(Event.names[:form_published], 'Form', @form.uuid, "Form #{@form.name} published at #{DateTime.now}", current_user.id)
+      @event = Event.log_event(Event.names[:form_published], 'Form', @form.uuid, "Form #{@form.name} published at #{DateTime.now}", current_user.id)
 
       @form.publish!
-      UserMailer.form_status_changed(form: @form, action: 'published').deliver_later
+      UserMailer.form_status_changed(form: @form, action: 'published', event: @event).deliver_later
       redirect_to admin_form_path(@form), notice: 'This form has been Published successfully.'
     end
 
     def archive
-      Event.log_event(Event.names[:form_archived], 'Form', @form.uuid, "Form #{@form.name} archived at #{DateTime.now}", current_user.id)
+      @event = Event.log_event(Event.names[:form_archived], 'Form', @form.uuid, "Form #{@form.name} archived at #{DateTime.now}", current_user.id)
 
       @form.archive!
-      UserMailer.form_status_changed(form: @form, action: 'archived').deliver_later
+      UserMailer.form_status_changed(form: @form, action: 'archived', event: @event).deliver_later
       redirect_to admin_form_path(@form), notice: 'This form has been Archived successfully.'
     end
 
@@ -396,7 +396,7 @@ module Admin
     end
 
     def events
-      @events = Event.where(object_type: 'Form', object_uuid: @form.uuid).order(:created_at)
+      @events = @form.events
     end
 
     private
