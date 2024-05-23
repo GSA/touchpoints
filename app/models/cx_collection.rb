@@ -19,6 +19,7 @@ class CxCollection < ApplicationRecord
     state :draft, initial: true
     state :submitted
     state :published
+    state :not_reported
     state :change_requested
     state :archived
 
@@ -36,6 +37,10 @@ class CxCollection < ApplicationRecord
 
     event :archive do
       transitions from: [:published], to: :archived
+    end
+
+    event :no_report do
+      transitions from: [:draft, :submitted], to: :not_reported
     end
 
     event :reset do

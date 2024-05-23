@@ -147,6 +147,8 @@ Rails.application.routes.draw do
         post 'copy', to: 'cx_collections#copy', as: :copy
         post 'submit', to: 'cx_collections#submit', as: :submit
         post 'publish', to: 'cx_collections#publish', as: :publish
+        post 'reset', to: 'cx_collections#reset', as: :reset
+        post 'no_report', to: 'cx_collections#no_report', as: :no_report
         get 'events', to: 'cx_collections#events', as: :events
       end
     end
