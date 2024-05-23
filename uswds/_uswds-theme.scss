@@ -7,8 +7,6 @@ in the form $setting: value,
 ----------------------------------------
 */
 
-
-  @use "uswds-core" with (
-    $theme-table-border-color: "gray-5"
-  );
-
+@use "uswds-core" with (
+  $theme-table-border-color: "gray-5"
+);
