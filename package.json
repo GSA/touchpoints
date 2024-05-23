@@ -1,5 +1,9 @@
 {
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2"
+  },
+  "devDependencies": {
+    "@uswds/compile": "^1.1.0",
+    "@uswds/uswds": "3.8.0"
   }
 }
