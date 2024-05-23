@@ -54,6 +54,8 @@ class Event < ApplicationRecord
     cx_collection_copied: 'cx_collection_copied',
     cx_collection_submitted: 'cx_collection_submitted',
     cx_collection_published: 'cx_collection_published',
+    cx_collection_reset: 'cx_collection_reset',
+    cx_collection_not_reported: 'cx_collection_not_reported',
     cx_collection_change_requested: 'cx_collection_change_requested',
     cx_collection_deleted: 'cx_collection_deleted',
 

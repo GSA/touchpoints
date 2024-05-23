@@ -251,21 +251,6 @@ tbody tr:hover td {
   text-decoration: none;
 }
 
-.usa-table {
-  th, td {
-    border: 1px solid #f0f0f0;
-  }
-  td:first-child {
-    border-left: 1px solid #f0f0f0;
-  }
-  td:last-child {
-    border-right: 1px solid #f0f0f0;
-  }
-  tbody tr:last-child {
-    border-bottom: 1px solid #f0f0f0;
-  }
-}
-
 // Override
 .usa-nav__secondary {
   bottom: 1.5rem;

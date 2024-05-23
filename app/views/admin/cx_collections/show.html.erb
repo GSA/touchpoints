@@ -15,6 +15,17 @@
   <% end %>
 </p>
 
+<% if @cx_collection.submitted? %>
+<div class="usa-alert usa-alert--success">
+  <div class="usa-alert__body">
+    <p class="usa-alert__text">
+      This data collection was submitted at
+      <%= format_time(@cx_collection.submitted_at, current_user.time_zone) %>.
+    </p>
+  </div>
+</div>
+<% end %>
+
 <h2>
   <%= @cx_collection.name %>
 </h2>
@@ -206,6 +217,25 @@
           Publish this Data Collection
         <% end %>
       <% end %>
+
+      <%- if service_manager_permissions? %>
+      `  <%- if @cx_collection.draft? %>
+          <%= link_to no_report_admin_cx_collection_path(@cx_collection), class: "usa-button usa-button--base full-width margin-top-2", method: :post do %>
+            <span class="fa fa-backward"></span>
+            &nbsp;
+            Non-reporting
+          <% end %>
+        <% end %>
+        <%- if !@cx_collection.draft? %>
+          <%= link_to reset_admin_cx_collection_path(@cx_collection), class: "usa-button usa-button--secondary full-width margin-top-2", method: :post do %>
+            <span class="fa fa-backward"></span>
+            &nbsp;
+            Reset
+          <% end %>
+        <% end %>
+      <% end %>`
     </p>
+
+    <%= render 'components/event_log', events: @events %>
   </div>
 </div>
