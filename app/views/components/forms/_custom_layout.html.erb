@@ -3,7 +3,7 @@
     <div class="grid-col-12">
       <%= render "components/forms/logo_and_title", form: form %>
       <%- if form.instructions.present? %>
-        <div class="fba-instructions">
+        <div class="fba-instructions margin-bottom-2">
           <%= sanitize(form.instructions) %>
         </div>
       <% end %>
