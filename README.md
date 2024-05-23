@@ -67,6 +67,13 @@ To run tests (TBD -- this currently does not work with selenium web driver)
 - copy the file ./pre-commit to your .git/hooks/ folder within the project to ensure changed files adhere to project standards, prior to commit.
 - to get a commit through without running that pre-commit hook, use the --no-verify option
 
+## Updating USWDS
+Touchpoints employs a customized version of USWDS for styling. Upgrading to a new version of USWDS requires the following steps:
+1. Run `yarn upgrade @uswds/uswds --latest --exact` to get the latest version of USWDS.
+2. Run `npx gulp updateUswds` to update all of our project's assets to the new version of USWDS. This update includes
+a step that generates CSS from the USWDS SASS files along with our project customizations. See [uswds-compiler documentation](https://designsystem.digital.gov/documentation/getting-started/developers/phase-two-compile/#introducing-uswds-compile-2)
+for more details.
+
 ## License
 
 See [LICENSE](LICENSE.md)
