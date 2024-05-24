@@ -24,7 +24,7 @@ class CxCollection < ApplicationRecord
     state :archived
 
     event :submit do
-        transitions from: %i[draft change_requested], to: :submitted
+      transitions from: %i[draft change_requested], to: :submitted, after: :set_submitted_at
     end
 
     event :publish do
@@ -46,6 +46,10 @@ class CxCollection < ApplicationRecord
     event :reset do
       transitions to: :draft
     end
+  end
+
+  def set_submitted_at
+    self.update(submitted_at: Time.current)
   end
 
   def duplicate!(new_user:)
@@ -91,10 +95,11 @@ class CxCollection < ApplicationRecord
       reflection
       created_at
       updated_at
+      submitted_at
       rating
       aasm_state
       integrity_hash
-      omb_cx_reporting_collections_count
+      omb_cx_reporting_collections_count,
     ]
 
     CSV.generate(headers: true) do |csv|
@@ -122,6 +127,7 @@ class CxCollection < ApplicationRecord
           collection.reflection,
           collection.created_at,
           collection.updated_at,
+          collection.submitted_at,
           collection.rating,
           collection.aasm_state,
           collection.integrity_hash,

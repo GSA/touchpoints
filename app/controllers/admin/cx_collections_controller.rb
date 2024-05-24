@@ -69,7 +69,6 @@ module Admin
     end
 
     def submit
-      @cx_collection.submitted_at = Time.now
       @cx_collection.submit!
       Event.log_event(Event.names[:cx_collection_submitted], 'CxCollection', @cx_collection.id, "Collection #{@cx_collection.name} submitted at #{DateTime.now}", current_user.id)
       UserMailer.cx_collection_notification(cx_collection_id: @cx_collection.id).deliver_later
