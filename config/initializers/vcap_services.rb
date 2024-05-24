@@ -41,7 +41,8 @@ def set_redis!(vcap_services_json)
   redis_credentials = redis_settings[0]['credentials']
   raise StandardError, 'Redis credentials could not be derived from Cloud Foundry VCAP_SERVICES' if redis_credentials.blank?
 
-  ENV['REDIS_URL'] = redis_credentials['uri']
+  # use `rediss://` to force HTTPS
+  ENV['REDIS_URL'] = redis_credentials['uri'].gsub('redis:', 'rediss:')
   Rails.logger.debug 'Set REDIS_URL ENV variable via vcap_services.rb'
 end
 
