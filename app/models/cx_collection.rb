@@ -24,11 +24,11 @@ class CxCollection < ApplicationRecord
     state :archived
 
     event :submit do
-      transitions from: %i[draft change_requested], to: :submitted
+      transitions from: %i[draft change_requested], to: :submitted, after: :set_submitted_at
     end
 
     event :publish do
-      transitions from: :submitted, to: :published, after: :set_submitted_at
+      transitions from: :submitted, to: :published
     end
 
     event :request_change do

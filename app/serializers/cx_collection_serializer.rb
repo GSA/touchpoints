@@ -26,6 +26,6 @@ class CxCollectionSerializer < ActiveModel::Serializer
     :integrity_hash,
     :created_at,
     :submitted_at,
-    :updated_at,
+    :updated_at
 
 end
