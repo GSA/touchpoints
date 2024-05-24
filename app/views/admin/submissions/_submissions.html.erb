@@ -45,6 +45,24 @@
     <table class="usa-table submissions">
       <thead>
         <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>
+          </td>
+        <% form.questions.each do |question| %>
+          <% next if question.question_type == "text_display" %>
+          <td class="text-normal"><%= question.answer_field %></td>
+        <% end %>
+        <%- if form.kind == "yes_no" %>
+          <td>
+          </td>
+          <td>
+          </td>
+        <% end %>
+        </tr>
+        <tr>
           <th>View</th>
           <th>Flag</th>
           <th>Archive</th>
