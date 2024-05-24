@@ -3,7 +3,7 @@
   <%= render 'components/question_title', question: question %>
   <br>
   <div class="star_rating"
-    id="<%= question.answer_field.to_sym %>"
+    id="question_<%= question.id %>_<%= question.answer_field.to_sym %>"
     style="text-align: center; margin: 0 auto;"
     aria-labelledby="question-label-<%= question.id %>"
     <%- if question.help_text.present? %>
