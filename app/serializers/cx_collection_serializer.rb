@@ -23,6 +23,9 @@ class CxCollectionSerializer < ActiveModel::Serializer
     :reflection,
     :aasm_state,
     :rating,
-    :integrity_hash
+    :integrity_hash,
+    :created_at,
+    :submitted_at,
+    :updated_at
 
 end

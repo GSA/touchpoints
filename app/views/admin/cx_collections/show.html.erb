@@ -184,10 +184,27 @@
         </div>
       </div>
       <% end %>
+
+    <%- if service_manager_permissions? %>
+      <%- if @cx_collection.draft? %>
+        <%= link_to no_report_admin_cx_collection_path(@cx_collection), class: "usa-button usa-button--base full-width margin-top-2", method: :post do %>
+          <span class="fa fa-backward"></span>
+          &nbsp;
+          Non-reporting
+        <% end %>
+      <% end %>
+      <%- if !@cx_collection.draft? %>
+        <%= link_to reset_admin_cx_collection_path(@cx_collection), class: "usa-button usa-button--secondary full-width margin-top-2", method: :post do %>
+          <span class="fa fa-backward"></span>
+          &nbsp;
+          Reset
+        <% end %>
+      <% end %>
+    <% end %>
     </p>
 
     <p>
-      <%- if !@cx_collection.submitted? && !@cx_collection.published? %>
+      <%- if !@cx_collection.submitted? && !@cx_collection.published? && !@cx_collection.not_reported? %>
         <div class="usa-alert usa-alert--info usa-alert--slim font-sans-2xs">
           <div class="usa-alert__body">
             <p class="usa-alert__text">
@@ -212,28 +229,11 @@
         <%= link_to submit_admin_cx_collection_path(@cx_collection), class: "usa-button full-width", method: "post", data: { confirm: 'Are you sure?' } do %>
           Submit this Data Collection
         <% end %>
-      <% elsif !@cx_collection.published? && performance_manager_permissions? %>
+      <% elsif (!@cx_collection.published? && !@cx_collection.not_reported?) && performance_manager_permissions? %>
         <%= link_to publish_admin_cx_collection_path(@cx_collection), class: "usa-button", method: "post" do %>
           Publish this Data Collection
         <% end %>
       <% end %>
-
-      <%- if service_manager_permissions? %>
-      `  <%- if @cx_collection.draft? %>
-          <%= link_to no_report_admin_cx_collection_path(@cx_collection), class: "usa-button usa-button--base full-width margin-top-2", method: :post do %>
-            <span class="fa fa-backward"></span>
-            &nbsp;
-            Non-reporting
-          <% end %>
-        <% end %>
-        <%- if !@cx_collection.draft? %>
-          <%= link_to reset_admin_cx_collection_path(@cx_collection), class: "usa-button usa-button--secondary full-width margin-top-2", method: :post do %>
-            <span class="fa fa-backward"></span>
-            &nbsp;
-            Reset
-          <% end %>
-        <% end %>
-      <% end %>`
     </p>
 
     <%= render 'components/event_log', events: @events %>

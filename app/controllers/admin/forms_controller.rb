@@ -140,7 +140,7 @@ module Admin
       if admin_permissions?
         @available_members = User.all.order(:email) - @form.users
       else
-        @available_members = @form.organization.users.active.order(:email) - @form.users
+        @available_members = current_user.organization.users.active.order(:email) - @form.users
       end
     end
 
