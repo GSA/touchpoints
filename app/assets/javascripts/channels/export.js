@@ -17,7 +17,15 @@ function subscribeExportChannel(uuid, callback) {
         saveAs(blob, data.filename);
 
         $(".export-btn.cursor-not-allowed")
+          .html("Export FY Responses")
+          .removeClass('cursor-not-allowed');
+
+        $(".export-all-btn.cursor-not-allowed")
           .html("Export Responses to CSV")
+          .removeClass('cursor-not-allowed');
+
+        $(".export-a11-v2-btn.cursor-not-allowed")
+          .html("Export A11v2 Responses to CSV")
           .removeClass('cursor-not-allowed');
 
         App.download.unsubscribe();
