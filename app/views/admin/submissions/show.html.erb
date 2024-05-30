@@ -63,6 +63,9 @@
         <thead>
           <tr>
             <th>
+              Answer field
+            </th>
+            <th>
               Question text
             </th>
             <th>
@@ -73,6 +76,9 @@
       <% @form.questions.each do |question| %>
       <% next if question.question_type == "text_display" %>
       <tr>
+        <td>
+          <%= question.answer_field %>
+        </td>
         <td>
           <%= question.text %>
         </td>
