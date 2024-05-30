@@ -12,6 +12,9 @@ class TouchpointsController < ApplicationController
       format.js do
         js
       end
+      format.css do
+        render(partial: 'components/widget/widget', formats: :css, locals: { form: @form })
+      end
     end
   end
 
