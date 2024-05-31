@@ -3,7 +3,7 @@
   <%= render 'components/question_title', question: question, form_builder: true %>
   <div class="question-options">
   <% question.question_options.each_with_index do |option, index| %>
-    <%= render "components/forms/edit/question_types/checkbox_option", question: question, option: option, index: index %>
+    <%= render "components/forms/edit/question_types/radio_button_option", question: question, option: option, index: index %>
   <% end %>
   </div>
 </fieldset>
@@ -11,7 +11,7 @@
   <div class="question-option-form"></div>
   <%= link_to new_admin_form_question_question_option_path(question.form, question), class: "usa-button usa-button--outline form-add-question-option" do %>
     <i class="fa fa-plus"></i>
-    Add Checkbox Option
+    Add Combobox Option
   <% end %>
   <%- if !question.question_options.detect{ | option | option.value.upcase == 'OTHER' || option.value.upcase == 'OTRO'} %>
     <%= link_to create_other_admin_form_question_question_options_path(question.form, question),method: :post, remote: true, class: "usa-button usa-button--outline form-add-other-question-option" do %>
