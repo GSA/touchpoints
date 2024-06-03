@@ -46,7 +46,11 @@ function FBAform(d, N) {
 			<% unless form.archived? %>
 			this.formSpecificScript();
 			<% end %>
-			document.dispatchEvent(new Event('onTouchpointsFormLoaded'));
+			d.dispatchEvent(new CustomEvent('onTouchpointsFormLoaded', {
+				detail: {
+					formComponent: this
+				}
+			}));
 			return this;
 		},
 		formSpecificScript: function() {
