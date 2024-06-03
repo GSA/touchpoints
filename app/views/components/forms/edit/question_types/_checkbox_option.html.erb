@@ -1,4 +1,7 @@
-<div class="usa-checkbox question-option" id="<%= dom_id(option) %>" data-id="<%= option.id %>">
+<% @option_id = dom_id(option)" %>
+<div class="usa-checkbox question-option"
+  id="<%= @option_id %>"
+  data-id="<%= option.id %>">
   <% @option_id = "#{question.answer_field}_#{(index + 1).to_s}" %>
   <%= check_box_tag(@option_id, option.value, nil, { class: "usa-checkbox__input usa-checkbox__input--tile", required: question.is_required }) %>
   <%= label_tag(nil, for: @option_id, class: "usa-checkbox__label") do %>
