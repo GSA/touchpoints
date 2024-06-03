@@ -51,6 +51,18 @@
           </div>
         </fieldset>
       </div>
+      <div class="grid-col-6">
+        <br>
+        <br>
+        <br>
+        <fieldset class="usa-fieldset">
+          <legend class="usa-sr-only">Form Template?</legend>
+          <div class="usa-checkbox">
+            <%= f.check_box :legacy_form_embed, class: "usa-checkbox__input" %>
+            <%= f.label :legacy_form_embed, "Render old version of _fba.js.erb", class: "usa-checkbox__label" %>
+          </div>
+        </fieldset>
+      </div>
     </div>
     <div class="grid-row grid-gap-md">
       <div class="grid-col-6">
