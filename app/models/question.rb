@@ -22,6 +22,7 @@ class Question < ApplicationRecord
     'checkbox',
     'radio_buttons',
     'dropdown',
+    'combobox',
     # Custom elements
     'text_display',
     'custom_text_display',
@@ -36,6 +37,7 @@ class Question < ApplicationRecord
 
   LIMITED_QUESTION_TYPES = [
     # Custom elements
+    'combobox',
     'custom_text_display',
     'star_radio_buttons',
     'thumbs_up_down_buttons',

@@ -4,6 +4,7 @@
   <%= label_tag(nil, for: @option_id, class: "usa-radio__label") do %>
     <%= render 'components/forms/edit/question_types/update_value_text_fields', { question: question, option: option } %>
   <% end %>
+  <%- unless question.question_type == "combobox" %>
   <%- if ["OTHER", "OTRO"].include?(option.text.upcase) %>
     <%= label_tag(nil, for: "#{question.answer_field}_other", class: "usa-input__label") do %><%= t 'form.enter_other_text' %><% end %>
     <input type="text"
@@ -14,5 +15,6 @@
       maxlength="<%= Question::MAX_CHARACTERS %>"
       class="usa-input other-option" />
     <br>
+  <% end %>
   <% end %>
 </div>
