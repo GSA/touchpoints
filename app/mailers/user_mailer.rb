@@ -16,6 +16,13 @@ class UserMailer < ApplicationMailer
          to: emails
   end
 
+  def form_feedback(form_id:, email:)
+    set_logo
+    @form = Form.find(form_id:, email:)
+    mail subject: "User feedback to #{@form.name}",
+         to: ([email] + ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')).uniq
+  end
+
   def submission_notification(submission_id:, emails: [])
     set_logo
     @submission = Submission.find(submission_id)
