@@ -434,7 +434,6 @@ function FBAform(d, N) {
 		closeDialog: function() {
 			document.dispatchEvent(new Event('onTouchpointsModalClose'));
 			d.querySelector('.fba-modal').setAttribute("hidden", true);
-			this.resetFormDisplay();
 			this.activatedButton.focus();
 			this.dialogOpen = false;
 		},
