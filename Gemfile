@@ -7,7 +7,7 @@ ruby '3.1.4'
 gem "rails", "~> 7.1.0"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
-gem "sprockets-rails"
+gem "sprockets-rails", ">= 3.5.0"
 
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.3"
@@ -48,7 +48,7 @@ gem "rubocop-rails"
 gem "rubocop-rspec"
 gem 'active_model_serializers'
 gem 'acts-as-list'
-gem 'aws-sdk-rails', '>= 3.8.0'
+gem 'aws-sdk-rails', '>= 3.13.0'
 gem 'aws-sdk-s3'
 gem 'carrierwave', '>= 2.2.1'
 gem 'devise', '>= 4.8.1'
