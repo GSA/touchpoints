@@ -77,7 +77,7 @@ module Admin
       @event = Event.log_event(Event.names[:form_archived], 'Form', @form.uuid, "Form #{@form.name} archived at #{DateTime.now}", current_user.id)
 
       @form.archive!
-      UserMailer.form_feedback(form_id: @form.id, email: current_user.email).deliver_later if (@form.submissions.count <= 10 || @form.created_at < Time.now - 7.days)
+      UserMailer.form_feedback(form_id: @form.id, email: current_user.email).deliver_later if (@form.response_count >= 10 && @form.created_at < Time.now - 7.days)
       UserMailer.form_status_changed(form: @form, action: 'archived', event: @event).deliver_later
       redirect_to admin_form_path(@form), notice: 'This form has been Archived successfully.'
     end
