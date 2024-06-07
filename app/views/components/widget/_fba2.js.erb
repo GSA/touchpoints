@@ -426,7 +426,6 @@ function FBAform(d, N) {
 			d.dispatchEvent(new Event('onTouchpointsModalClose'));
 			this.formComponent().setAttribute("hidden", true);
 			this.formComponent().setAttribute('aria-hidden', true);
-			this.resetFormDisplay();
 			this.activatedButton.focus();
 			this.dialogOpen = false;
 		},
