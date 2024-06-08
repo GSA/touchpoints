@@ -1,15 +1,15 @@
 <div class="margin-y-3">
   <a
     id="button-toggle-timeout"
-    href="#example-modal"
-    class="usa-button"
-    aria-controls="example-modal"
+    href="#session-timeout-modal"
+    class="hidden"
+    aria-controls="session-timeout-modal"
     data-open-modal
-    >Open default modal</a
+    ></a
   >
   <div
     class="usa-modal"
-    id="example-modal"
+    id="session-timeout-modal"
     aria-labelledby="modal-1-heading"
     aria-describedby="modal-1-description"
   >
@@ -20,24 +20,24 @@
         </h2>
         <div class="usa-prose">
           <p id="modal-1-description">
-            You have unsaved changes that will be lost.
+            For security reasons,
+            your session will timeout in 5 minutes due to inactivity.
+            Do you want too extend your session?
           </p>
         </div>
         <div class="usa-modal__footer">
           <ul class="usa-button-group">
             <li class="usa-button-group__item">
-              <button type="button" class="usa-button" data-close-modal>
-                Continue without saving
-              </button>
+              <a href="<%= admin_forms_path %>" class="usa-button" data-close-modal>
+                Keep using Touchpoints
+              </a>
             </li>
             <li class="usa-button-group__item">
-              <button
-                type="button"
-                class="usa-button usa-button--unstyled padding-105 text-center"
-                data-close-modal
-              >
-                Go back
-              </button>
+              <%= link_to destroy_user_session_path,
+                class: "usa-button usa-button--unstyled padding-105 text-center",
+                "data-close-modal" => true do %>
+                Sign Out
+                <% end %>
             </li>
           </ul>
         </div>
@@ -58,9 +58,9 @@
 
 <script>
     const timeoutInMinutes = 1000 * 60 * 25;
+    const toggleTimeout = document.getElementById('button-toggle-timeout');
     setTimeout(function() {
-        const toggleTimeout = document.getElementById('button-toggle-timeout');
+        // a roundabout way to call toggleModal
         toggleTimeout.click();
-
     }, timeoutInMinutes)
 </script>
