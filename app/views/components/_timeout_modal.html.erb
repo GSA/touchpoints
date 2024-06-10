@@ -16,27 +16,28 @@
     <div class="usa-modal__content">
       <div class="usa-modal__main">
         <h2 class="usa-modal__heading" id="modal-1-heading">
-          Are you sure you want to continue?
+          Are you still using Touchpoints?
         </h2>
         <div class="usa-prose">
           <p id="modal-1-description">
             For security reasons,
             your session will timeout in 5 minutes due to inactivity.
-            Do you want too extend your session?
+            Do you want to extend your session?
           </p>
+           <div class="timer" id="timer">ttt</div>
         </div>
         <div class="usa-modal__footer">
           <ul class="usa-button-group">
             <li class="usa-button-group__item">
               <a href="<%= admin_forms_path %>" class="usa-button" data-close-modal>
-                Keep using Touchpoints
+                Yes, continue using Touchpoints
               </a>
             </li>
             <li class="usa-button-group__item">
               <%= link_to destroy_user_session_path,
                 class: "usa-button usa-button--unstyled padding-105 text-center",
                 "data-close-modal" => true do %>
-                Sign Out
+                Sign out
                 <% end %>
             </li>
           </ul>
@@ -57,10 +58,36 @@
 </div>
 
 <script>
-    const timeoutInMinutes = 1000 * 60 * 25;
-    const toggleTimeout = document.getElementById('button-toggle-timeout');
-    setTimeout(function() {
-        // a roundabout way to call toggleModal
-        toggleTimeout.click();
-    }, timeoutInMinutes)
+  const timeoutInMinutes = 25 * 60 * 1000;
+  const toggleTimeout = document.getElementById('button-toggle-timeout');
+  setTimeout(function() {
+      // a roundabout way to call toggleModal
+      setTimer()
+      toggleTimeout.click();
+  }, timeoutInMinutes)
+
+
+  // set a 5 minute timer
+  function setTimer() {
+    let timeLeft = 5 * 60; // 5 minutes in seconds
+    const timerElement = document.getElementById('timer');
+
+    // Update the countdown timer every second
+    const countdown = setInterval(() => {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+      timeLeft--;
+
+      if (timeLeft < 0) {
+        location.reload();
+        clearInterval(countdown);
+      }
+    }, 1000);
+
+    // Refresh the page after 5 minutes and 10 seconds (310 seconds)
+    setTimeout(() => {
+      location.reload();
+    }, 310 * 1000);
+  }
 </script>
