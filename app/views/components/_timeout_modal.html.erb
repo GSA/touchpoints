@@ -24,12 +24,15 @@
             your session will timeout in 5 minutes due to inactivity.
             Do you want to extend your session?
           </p>
-           <div class="timer" id="timer">ttt</div>
+           <div class="timer" id="timer">5:00</div>
         </div>
         <div class="usa-modal__footer">
           <ul class="usa-button-group">
             <li class="usa-button-group__item">
-              <a href="<%= admin_forms_path %>" class="usa-button" data-close-modal>
+              <a
+                href="<%= admin_forms_path %>"
+                id="extend-session"
+                class="usa-button" data-close-modal>
                 Yes, continue using Touchpoints
               </a>
             </li>
@@ -50,7 +53,7 @@
         data-close-modal
       >
         <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
-          <use xlink:href="/assets/img/sprite.svg#close"></use>
+          <use xlink:href="/img/sprite.svg#close"></use>
         </svg>
       </button>
     </div>
@@ -58,17 +61,20 @@
 </div>
 
 <script>
-  const timeoutInMinutes = 25 * 60 * 1000;
-  const toggleTimeout = document.getElementById('button-toggle-timeout');
+  const delayUntilSessionTimeoutModalPopup = 25 * 60 * 1000;
+  const toggleTimeoutButton = document.getElementById('button-toggle-timeout');
+
   setTimeout(function() {
       // a roundabout way to call toggleModal
       setTimer()
-      toggleTimeout.click();
-  }, timeoutInMinutes)
+      toggleTimeoutButton.click();
+  }, delayUntilSessionTimeoutModalPopup)
 
+  var timerOff = true
 
   // set a 5 minute timer
   function setTimer() {
+    timerOff = false
     let timeLeft = 5 * 60; // 5 minutes in seconds
     const timerElement = document.getElementById('timer');
 
@@ -80,14 +86,34 @@
       timeLeft--;
 
       if (timeLeft < 0) {
-        location.reload();
+        logout()
+        clearInterval(countdown);
+        timerOff = true
+        } else if (timerOff == true) {
         clearInterval(countdown);
       }
     }, 1000);
-
-    // Refresh the page after 5 minutes and 10 seconds (310 seconds)
-    setTimeout(() => {
-      location.reload();
-    }, 310 * 1000);
   }
+
+  function logout() {
+    $.ajax({
+      url: "/users/sign_out",
+      type: 'get',
+      success: function() {
+        location.reload()
+      }
+    });
+  }
+
+  $(function() {
+    $("#extend-session").on("click", function(e) {
+      e.preventDefault();
+      $.get("/admin/forms");
+      timerOff = true;
+    });
+
+    $(".usa-button.usa-modal__close").on("click", function() {
+      timerOff = true;
+    })
+  });
 </script>
