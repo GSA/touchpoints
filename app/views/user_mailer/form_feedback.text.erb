@@ -1,9 +1,8 @@
 You recently archived the form, <%= @form.title %> in Touchpoints.
 
-The form was created <%= time_ago_in_words(@form.created_at) %>.
-
+The form was created <%= time_ago_in_words(@form.created_at) %> ago.
 The form received <%= @form.response_count %> responses.
 
-We want to make Touchpoints better based on your feedback.
+Please take this <%= link_to "short survey", touchpoints_feedback_url %> to provide feedback regarding the Touchpoints application and/or the Touchpoints team.
 
-Please provide feedback regarding the Touchpoints application or the Touchpoints team at https://touchpoints.app.cloud.gov/touchpoints/13432/submit.
+<%= touchpoints_feedback_url %>
