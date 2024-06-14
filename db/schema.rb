@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_22_201056) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_03_211807) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -418,6 +418,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_22_201056) do
     t.string "whitelist_url_8"
     t.string "whitelist_url_9"
     t.string "submission_tags", default: [], comment: "cache the form's submissions tags for reporting", array: true
+    t.boolean "legacy_form_embed", default: false
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["organization_id"], name: "index_forms_on_organization_id"

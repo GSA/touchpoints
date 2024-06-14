@@ -167,7 +167,11 @@ module Admin
     end
 
     def js
-      render(partial: 'components/widget/fba', formats: :js, locals: { form: @form })
+      if form.legacy_form_embed?
+        render(partial: 'components/widget/fba', formats: :js, locals: { form: @form })
+      else
+        render(partial: 'components/widget/fba2', formats: :js, locals: { form: @form })
+      end
     end
 
     def new
@@ -506,6 +510,7 @@ module Admin
         :organization_id,
         :user_id,
         :template,
+        :legacy_form_embed,
         :kind,
         :aasm_state,
         :early_submission,

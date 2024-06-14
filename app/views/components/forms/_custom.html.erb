@@ -57,7 +57,8 @@
           %>
 
         <%- if question.question_type != "hidden_field" %>
-          <div class="question white-bg">
+          <div class="question white-bg"
+            id="<%= dom_id(question) %>">
             <%- if question.question_type == "text_field" %>
               <%= render 'components/forms/question_types/text_field', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "text_email_field" %>
@@ -107,7 +108,7 @@
                 <%= t 'form.answer_more_questions' %>
               </div>
               <%= link_to (t 'form.yes_keep_going'), "#next-page", class: "usa-button next-section", 'data-form-section-target' => "" %>
-              <button type="submit" id="fba-early-submit" class="usa-button usa-button--outline"><%= t 'form.no_submit' %></button>
+              <button type="submit" class="usa-button usa-button--outline fba-early-submit"><%= t 'form.no_submit' %></button>
             <% elsif section != form.form_sections.last %>
               <nav aria-label="Pagination" class="pagination-buttons text-right">
                 <%= link_to "#next-page",
