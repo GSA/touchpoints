@@ -1,0 +1,14 @@
+Touchpoints.gov Event Notification:
+<%= @subject %>
+
+The Service
+<%= @service.name %>,
+managed by <%= @service.service_owner.email %>
+at <%= @service.organization.name %>
+was <%= @event %>.
+
+<%- if @link.present? %>
+<p>
+  <%= @link %>
+</p>
+<% end %>
