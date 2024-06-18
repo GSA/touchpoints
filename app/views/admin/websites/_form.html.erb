@@ -173,6 +173,10 @@
         <%= form.label :digital_brand_category, class: "usa-label" %>
         <%= form.select :digital_brand_category, options_for_select(Website::DIGITAL_BRAND_CATEGORIES.collect { |k, v| ["#{k} - #{v}", k] }, selected: website.digital_brand_category), { include_blank: true }, { class: "usa-select" } %>
       </div>
+      <div class="field">
+        <%= form.label :target_decommission_date, class: "usa-label" %>
+        <%= form.date_field :target_decommission_date, class: "usa-input" %>
+      </div>
     </div>
     <% end %>
     <%- if @website.persisted? %>
