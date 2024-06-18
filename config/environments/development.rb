@@ -49,7 +49,7 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
-  config.active_job.queue_adapter = :sidekiq
+  config.active_job.queue_adapter = :async
 
   config.action_mailer.perform_deliveries = true
 
@@ -78,6 +78,9 @@ Rails.application.configure do
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
+
+  # Turn on source maps
+  config.assets.debug = true
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
