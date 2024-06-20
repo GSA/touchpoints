@@ -44,8 +44,9 @@ class UserMailer < ApplicationMailer
   def user_welcome_email(email:)
     set_logo
     @email = email
-    mail subject: "Welcome to Touchpoints form #{@form.name} #{@action}",
-         to: ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')
+    mail subject: "Welcome to Touchpoints",
+      to: email,
+      bcc: ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')
   end
 
   def service_event_notification(subject:, service:, event:, link: '')
