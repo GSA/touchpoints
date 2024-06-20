@@ -263,7 +263,7 @@ RSpec.describe UserMailer, type: :mailer do
 
     it 'renders the body' do
       expect(mail.body.encoded).to include('Please take this short survey to provide feedback regarding the Touchpoints application and/or the Touchpoints team')
-      expect(mail.body.encoded).to include("https://touchpoints.app.cloud.gov/touchpoints/522e395c?location_code=#{form.short_uuid}")
+      expect(mail.body.encoded).to include("https://touchpoints.app.cloud.gov/touchpoints/522e395c/submit?location_code=#{form.short_uuid}")
     end
   end
 end
