@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_22_201056) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_18_220601) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -969,6 +969,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_22_201056) do
     t.string "backlog_tool", default: ""
     t.string "backlog_url", default: ""
     t.string "aasm_state"
+    t.date "target_decommission_date"
     t.index ["aasm_state"], name: "index_websites_on_aasm_state"
     t.index ["organization_id"], name: "index_websites_on_organization_id"
     t.index ["service_id"], name: "index_websites_on_service_id"
