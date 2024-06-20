@@ -7,7 +7,7 @@ class TouchpointsController < ApplicationController
   def show
     respond_to do |format|
       format.html do
-        redirect_to submit_touchpoint_path(@form) # instead of rendering #show
+        redirect_to submit_touchpoint_path(@form, response_params) # instead of rendering #show
       end
       format.js do
         js
@@ -33,5 +33,9 @@ class TouchpointsController < ApplicationController
             end
 
     raise ActiveRecord::RecordNotFound, "no form with ID of #{params[:id]}" if @form.blank?
+  end
+
+  def response_params
+    params.permit(:location_code, :locale)
   end
 end
