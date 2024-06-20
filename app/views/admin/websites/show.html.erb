@@ -14,6 +14,17 @@
   <% end %>
 </p>
 
+<% if @website.target_decommission_date.present? %>
+<div class="usa-alert usa-alert--error usa-alert--slim margin-bottom-2">
+  <div class="usa-alert__body">
+    <p class="usa-alert__text">
+      This website is scheduled for decommission on
+      <%= @website.target_decommission_date %>.
+    </p>
+  </div>
+</div>
+<% end %>
+
 <%= render 'admin/websites/step_indicator', website: @website %>
 
 <div class="grid-row grid-gap-lg">
