@@ -53,6 +53,7 @@ feature 'Managing Websites', js: true do
         select('Application - Transactional', from: 'website_type_of_site')
         select('Login.gov', from: 'website_authentication_tool')
         select('Other', from: 'website_feedback_tool')
+        # workaround, to fill_in the USWDS Datepicker
         page.execute_script("$('#website_target_decommission_date').attr('type', 'text')")
         fill_in 'website_target_decommission_date', with: '2024/09/30'
         click_on 'Update Website'
