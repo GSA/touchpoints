@@ -38,9 +38,10 @@
               </a>
             </li>
             <li class="usa-button-group__item">
-              <%= link_to destroy_user_session_path,
+              <%= button_to destroy_user_session_path,
                 class: "usa-button usa-button--unstyled padding-105 text-center",
-                "data-close-modal" => true do %>
+                "data-close-modal" => true,
+                "method" => :delete do %>
                 Sign out
                 <% end %>
             </li>
