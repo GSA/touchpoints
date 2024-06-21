@@ -53,14 +53,17 @@
 </div>
 
 <script>
-  const delayUntilSessionTimeoutModalPopup = 25 * 60 * 1000;
+  const minutes = 25;
+  const delayUntilSessionTimeoutModalPopup = minutes * 60 * 1000;
   const toggleTimeoutButton = document.getElementById('button-toggle-timeout');
 
-  setTimeout(function() {
-      // a roundabout way to call toggleModal
-      setTimer()
-      toggleTimeoutButton.click();
-  }, delayUntilSessionTimeoutModalPopup)
+  const setSessionTimeoutModalCountdown = function() {
+    setTimeout(function() {
+        // a roundabout way to call toggleModal
+        setTimer()
+        toggleTimeoutButton.click();
+    }, delayUntilSessionTimeoutModalPopup)
+  }
 
   var timerOff = true
 
@@ -102,10 +105,13 @@
       e.preventDefault();
       $.get("/admin/forms");
       timerOff = true;
+      setSessionTimeoutModalCountdown()
     });
 
     $(".usa-button.usa-modal__close").on("click", function() {
       timerOff = true;
-    })
+    });
+
+    setSessionTimeoutModalCountdown()
   });
 </script>
