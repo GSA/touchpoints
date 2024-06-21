@@ -53,9 +53,7 @@
       const url = $(this).attr('href') + '?uuid=' + uuid + '';
       subscribeExportChannel(
         uuid,
-        function() {
-          $.get(url);
-        },
+        url,
         () => $(this).html(buttonHtml).removeClass('cursor-not-allowed')
       );
 

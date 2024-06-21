@@ -61,9 +61,7 @@
       const url = $(this).attr('href') + '&uuid=' + uuid + '&touchpoint_id=<%= form.short_uuid %>';
       subscribeExportChannel(
         uuid,
-        function() {
-          $.get(url);
-        },
+        url,
         () => $(this).html(buttonHtml).removeClass('cursor-not-allowed')
       );
       return false;
@@ -82,9 +80,7 @@
       const url = $(this).attr('href') + '&uuid=' + uuid + '&touchpoint_id=<%= form.short_uuid %>';
       subscribeExportChannel(
         uuid,
-        function() {
-          $.get(url);
-        },
+        url,
         () => $(this).html(buttonHtml).removeClass('cursor-not-allowed')
       );
       return false;
@@ -101,9 +97,7 @@
       const url = $(this).attr('href') + '&uuid=' + uuid + '&touchpoint_id=<%= form.short_uuid %>';
       subscribeExportChannel(
         uuid,
-        function() {
-          $.get(url);
-        },
+        url,
         () => $(this).html(buttonHtml).removeClass('cursor-not-allowed')
       );
       return false;

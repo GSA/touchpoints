@@ -1,15 +1,19 @@
-function subscribeExportChannel(uuid, startExportJobFtn, completionCallback) {
+function subscribeExportChannel(uuid, url, completionCallback) {
   App.cable.subscriptions.create(
     { channel: "ExportChannel", uuid: uuid },
     {
       connected: function() {
-        startExportJobFtn();
+        $.get(url);
       },
 
       // Called when the WebSocket connection is closed, either by server or by client-side stale connection monitor.
       // If the connection closes before we receive a response, count that as a failed export and unsubscribe.
       // Reconnecting is not useful because we can't tell whether the response was sent while we were disconnected.
       disconnected: function() {
+        if (newrelic) {
+          newrelic.noticeError(new Error("Export channel disconnected."), { requestedUrl: url});
+        }
+
         const errorText = "We're sorry, your download has failed. That happens sometimes for response sets over several MB's in size.\n\n" +
           "We're working on fixing this problem. You can monitor our progress at https://github.com/GSA/touchpoints/issues/1446. " +
           "In the meantime, you can use our API to download large response sets. View API documentation at https://github.com/GSA/touchpoints/wiki/API.";
