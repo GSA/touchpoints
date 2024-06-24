@@ -51,12 +51,6 @@
     </div>
     <div class="grid-col-6">
       <div class="field">
-        <%= f.label :federal_register_url, class: "usa-label" %>
-        <%= f.url_field :federal_register_url, class: "usa-input", placeholder: "https://www.federalregister.gov/..." %>
-      </div>
-    </div>
-    <div class="grid-col-6">
-      <div class="field">
         <%= f.label :medium, "Medium of Delivery", class: "usa-label" %>
         <%= f.select :medium, ["Web", "Email", "Phone", "In person", "Other"], { prompt: "How was this survey delivered?" }, { class: "usa-select" } %>
       </div>

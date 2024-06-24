@@ -19,7 +19,6 @@ class ServiceSerializer < ActiveModel::Serializer
              :transactional,
              :notes,
              :hisp,
-             :service_abbreviation,
              :service_slug,
              :service_owner_email,
              :service_managers,

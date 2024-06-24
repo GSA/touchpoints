@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_18_220601) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_24_210617) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -749,13 +749,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_18_220601) do
     t.boolean "hisp", default: false, comment: "True or False - Is this Service considered a HISP service?"
     t.string "department", default: "", comment: "Abbreviation of department name"
     t.string "bureau", default: "", comment: "Name of the Bureau to which a service belongs"
-    t.string "bureau_abbreviation", default: "", comment: "Abbreviatioon of the Bureau to which a service belongs"
-    t.string "service_abbreviation", default: "", comment: "a unique text string to identify the service"
-    t.string "service_slug", default: "", comment: "a unique text string to identify the service"
     t.string "url", default: "", comment: "A website link to their service"
     t.integer "service_provider_id", comment: "Unique number for each Service Provider"
     t.integer "service_owner_id", comment: "ID of the User record for which a Service is owned or managed by"
-    t.text "justification_text", comment: "HISP provides a description for why this service was selected for priority designation"
     t.text "where_customers_interact", comment: "Where customers interact"
     t.string "kind", comment: "Identifies the category of service: compliance, administrative, benefits, recreation, informational, data and research, and regulatory", array: true
     t.string "aasm_state", default: "created", comment: "State/status that a Service is in. eg: created, submitted, approved, verified, archived"

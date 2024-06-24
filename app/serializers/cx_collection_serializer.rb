@@ -10,8 +10,6 @@ class CxCollectionSerializer < ActiveModel::Serializer
     :url,
     :fiscal_year,
     :quarter,
-    :start_date,
-    :end_date,
     :transaction_point,
     :service_stage_id,
     :channel,
