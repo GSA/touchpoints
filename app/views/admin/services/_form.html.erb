@@ -222,6 +222,7 @@
           </div>
         </div>
       <% end %>
+        <%- if service.persisted? && admin_permissions? %>
         <div class="field">
           <%= form.label :service_slug, class: "usa-label" %>
           <%= form.text_field :service_slug, class: "usa-input", placeholder: "service-slug" %>

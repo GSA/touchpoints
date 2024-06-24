@@ -746,6 +746,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_24_210617) do
     t.boolean "hisp", default: false, comment: "True or False - Is this Service considered a HISP service?"
     t.string "department", default: "", comment: "Abbreviation of department name"
     t.string "bureau", default: "", comment: "Name of the Bureau to which a service belongs"
+    t.string "service_slug", default: "", comment: "a unique text string to identify the service"
     t.string "url", default: "", comment: "A website link to their service"
     t.integer "service_provider_id", comment: "Unique number for each Service Provider"
     t.integer "service_owner_id", comment: "ID of the User record for which a Service is owned or managed by"
