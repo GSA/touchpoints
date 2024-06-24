@@ -35,8 +35,8 @@ feature 'Service Provider', js: true do
       end
 
       it 'load the ServiceProviders#index page' do
-        fill_in "service_provider_cx_maturity_mapping_value", with: 5
-        fill_in "service_provider_impact_mapping_value", with: 55
+        fill_in "service_provider_description", with: "Describing this service provider"
+        fill_in "service_provider_notes", with: "Notes for service provider"
         click_on 'Update Service provider'
         expect(page).to have_content('Service provider was successfully updated.')
       end
