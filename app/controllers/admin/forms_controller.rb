@@ -77,6 +77,7 @@ module Admin
       @event = Event.log_event(Event.names[:form_archived], 'Form', @form.uuid, "Form #{@form.name} archived at #{DateTime.now}", current_user.id)
 
       @form.archive!
+      UserMailer.form_feedback(form_id: @form.id, email: current_user.email).deliver_later if (@form.response_count >= 10 && @form.created_at < Time.now - 7.days)
       UserMailer.form_status_changed(form: @form, action: 'archived', event: @event).deliver_later
       redirect_to admin_form_path(@form), notice: 'This form has been Archived successfully.'
     end
@@ -347,7 +348,7 @@ module Admin
           send_data csv_content
         end
         format.json do
-          ExportJob.perform_later(params[:uuid], @form.short_uuid, start_date.to_s, end_date.to_s, "touchpoints-form-#{@form.short_uuid}-responses-#{timestamp_string}.csv")
+          ExportJob.perform_later(params[:uuid], @form.short_uuid, start_date.to_s, end_date.to_s, "touchpoints-form-#{@form.short_uuid}-#{@form.name.parameterize}-responses-#{timestamp_string}.csv")
           render json: { result: :ok }
         end
       end

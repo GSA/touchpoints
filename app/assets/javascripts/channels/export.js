@@ -1,37 +1,46 @@
-function subscribeExportChannel(uuid, callback) {
-  App.download = App.cable.subscriptions.create(
+function subscribeExportChannel(uuid, url, completionCallback) {
+  App.cable.subscriptions.create(
     { channel: "ExportChannel", uuid: uuid },
     {
       connected: function() {
-        callback();
+        $.get(url);
       },
 
-      disconnected: function() {},
+      // Called when the WebSocket connection is closed, either by server or by client-side stale connection monitor.
+      // If the connection closes before we receive a response, count that as a failed export and unsubscribe.
+      // Reconnecting is not useful because we can't tell whether the response was sent while we were disconnected.
+      disconnected: function() {
+        if (newrelic) {
+          newrelic.noticeError(new Error("Export channel disconnected."), { requestedUrl: url});
+        }
+
+        const errorText = "We're sorry, your download has failed. That happens sometimes for response sets over several MB's in size.\n\n" +
+          "We're working on fixing this problem. You can monitor our progress at https://github.com/GSA/touchpoints/issues/1446. " +
+          "In the meantime, you can use our API to download large response sets. View API documentation at https://github.com/GSA/touchpoints/wiki/API.";
+
+        const blob = new Blob([errorText], {
+          type: "text/plain;charset=utf-8"
+        });
+
+        saveAs(blob, `touchpoints-failed-export-${(new Date().toISOString().slice(0, 19))}`);
+
+        // 'this' is the subscription object
+        this.unsubscribe();
+        completionCallback();
+      },
 
       received: function(data) {
 
-        var blob = new Blob([data.csv], {
+        const blob = new Blob([data.csv], {
           type: "text/csv;charset=utf-8"
         });
 
         saveAs(blob, data.filename);
 
-        $(".export-btn.cursor-not-allowed")
-          .html("Export FY Responses")
-          .removeClass('cursor-not-allowed');
-
-        $(".export-all-btn.cursor-not-allowed")
-          .html("Export Responses to CSV")
-          .removeClass('cursor-not-allowed');
-
-        $(".export-a11-v2-btn.cursor-not-allowed")
-          .html("Export A11v2 Responses to CSV")
-          .removeClass('cursor-not-allowed');
-
-        App.download.unsubscribe();
-        App.cable.disconnect();
-        delete App.download;
-      }
+        // 'this' is the subscription object
+        this.unsubscribe();
+        completionCallback();
+      },
     }
   );
 }

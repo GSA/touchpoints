@@ -469,6 +469,7 @@ module Admin
         :has_authenticated_experience,
         :authentication_tool,
         :repository_url,
+        :target_decommission_date,
         :notes,
         :tag_list,
         :service_id,

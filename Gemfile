@@ -54,7 +54,7 @@ gem 'carrierwave', '>= 2.2.1'
 gem 'devise', '>= 4.8.1'
 gem 'fog-aws', '>= 3.15.0'
 gem "jbuilder"
-gem 'jquery-rails', '>= 4.6.0'
+gem 'jquery-rails'
 gem 'kaminari'
 gem 'kramdown'
 gem 'mail'
