@@ -630,14 +630,12 @@
                     - "organization_name"
                     - "service_provider_id"
                     - "service_provider_name"
-                    - "justification_text"
                     - "kind"
                     - "transactional"
                     - "notes"
                     - "hisp"
                     - "department"
                     - "bureau"
-                    - "service_abbreviation"
                     - "service_slug"
                     - "service_owner_email"
                     - "service_managers"
@@ -662,8 +660,6 @@
                     service_provider_id:
                       type: "number"
                     service_provider_name:
-                      type: "string"
-                    justification_text:
                       type: "string"
                     kind:
                       type: "array"
