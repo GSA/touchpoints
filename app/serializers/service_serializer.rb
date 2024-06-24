@@ -11,7 +11,6 @@ class ServiceSerializer < ActiveModel::Serializer
              :service_provider_name,
              :service_provider_slug,
              :short_description,
-             :justification_text,
              :year_designated,
              :previously_reported,
              :contact_center,
