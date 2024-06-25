@@ -675,8 +675,6 @@
                       type: "string"
                     bureau:
                       type: "string"
-                    service_abbreviation:
-                      type: "string"
                     service_slug:
                       type: "string"
                     service_owner_email:
