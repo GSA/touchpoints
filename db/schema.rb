@@ -768,7 +768,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_24_210617) do
     t.string "other_service_type"
     t.string "customer_volume_explanation"
     t.text "resources_needed_to_provide_digital_service", comment: "If applicable, what resources are needed to provide this service digitally?"
-    t.integer "bureau_id", comment: "Reference to the Organization ID that is the Bureau for this Service"
     t.string "office", comment: "Text description for the office (below a Bureau)"
     t.boolean "designated_for_improvement_a11_280", default: false, comment: "Is this Service designated, per the OMB Circular A-11 Section 280"
     t.boolean "contact_center", default: false, comment: "True or False for whether the service involves a contact center and/or an interaction with a contact center"
