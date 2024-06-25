@@ -1,0 +1,117 @@
+<div class="margin-y-3">
+  <a
+    id="button-toggle-timeout"
+    href="#session-timeout-modal"
+    class="hidden"
+    aria-controls="session-timeout-modal"
+    data-open-modal
+    ></a
+  >
+  <div
+    class="usa-modal"
+    id="session-timeout-modal"
+    aria-labelledby="modal-1-heading"
+    aria-describedby="modal-1-description"
+    data-force-action
+  >
+    <div class="usa-modal__content">
+      <div class="usa-modal__main">
+        <h2 class="usa-modal__heading" id="modal-1-heading">
+          Are you still using Touchpoints?
+        </h2>
+        <div class="usa-prose">
+          <p id="modal-1-description">
+            For security reasons,
+            your session will timeout in 5 minutes due to inactivity.
+            Do you want to extend your session?
+          </p>
+           <div class="timer" id="timer">5:00</div>
+        </div>
+        <div class="usa-modal__footer">
+          <ul class="usa-button-group">
+            <li class="usa-button-group__item">
+              <a
+                href="javascript:void(0)"
+                id="extend-session"
+                class="usa-button" data-close-modal>
+                Yes, continue using Touchpoints
+              </a>
+            </li>
+            <li class="usa-button-group__item">
+              <%= button_to destroy_user_session_path,
+                class: "usa-button usa-button--unstyled padding-105 text-center",
+                "data-close-modal" => true,
+                "method" => :delete do %>
+                Sign out
+                <% end %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const minutes = 25;
+  const delayUntilSessionTimeoutModalPopup = minutes * 60 * 1000;
+  const toggleTimeoutButton = document.getElementById('button-toggle-timeout');
+
+  const setSessionTimeoutModalCountdown = function() {
+    setTimeout(function() {
+        // a roundabout way to call toggleModal
+        setTimer()
+        toggleTimeoutButton.click();
+    }, delayUntilSessionTimeoutModalPopup)
+  }
+
+  var timerOff = true
+
+  // set a 5 minute timer
+  function setTimer() {
+    timerOff = false
+    let timeLeft = 5 * 60; // 5 minutes in seconds
+    const timerElement = document.getElementById('timer');
+
+    // Update the countdown timer every second
+    const countdown = setInterval(() => {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+      timeLeft--;
+
+      if (timeLeft < 0) {
+        logout()
+        clearInterval(countdown);
+        timerOff = true
+        } else if (timerOff == true) {
+        clearInterval(countdown);
+      }
+    }, 1000);
+  }
+
+  function logout() {
+    $.ajax({
+      url: "/users/sign_out",
+      type: 'get',
+      success: function() {
+        location.reload()
+      }
+    });
+  }
+
+  $(function() {
+    $("#extend-session").on("click", function(e) {
+      e.preventDefault();
+      $.get("/admin/forms");
+      timerOff = true;
+      setSessionTimeoutModalCountdown()
+    });
+
+    $(".usa-button.usa-modal__close").on("click", function() {
+      timerOff = true;
+    });
+
+    setSessionTimeoutModalCountdown()
+  });
+</script>

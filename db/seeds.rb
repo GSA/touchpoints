@@ -171,7 +171,6 @@ service_1 = Service.create!({
   short_description: 'A short description of this service.',
   department: 'Department of Commerce',
   bureau: 'Patents and Trademarks',
-  service_abbreviation: 'uspto',
   service_slug: 'doc-trademarks',
   url: 'https://uspto.gov/trademarks',
   service_owner_id: admin_user.id,

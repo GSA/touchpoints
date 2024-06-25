@@ -18,7 +18,6 @@ Data is published for download at https://www.performance.gov/cx/data/.
 |service_provider_id|21|Number|Unique number for each HISP|
 |service_provider_name|Veterans Health Administration|Text|Name of HISP|
 |service_provider_slug|va-vha|Text|Abbreviation of department and HISP names|
-|justification_text| |Text|HISP provides a description for why this service was selected for priority designation.|
 |contact_center|FALSE|Boolean|True or False for whether the service involves a contact center and/or an interaction with a contact center|
 |kind|[]|Text|Identifies the category of service: compliance, administrative, benefits, recreation, informational, data and research, and regulatory|
 |transactional|FALSE|Boolean|True or False for whether the service is transactional|
@@ -26,7 +25,6 @@ Data is published for download at https://www.performance.gov/cx/data/.
 |hisp|FALSE|Boolean|True or False for identifying the agency as a HISP|
 |department|va|Text|Abbreviation of department name|
 |bureau|Veterans Health Administration|Text|Name of HISP|
-|service_abbreviation|vha|Text|Abbreviation of HISP names|
 |service_slug|va-vha|Text|Abbreviation of department and HISP names|
 |url| |Text|HISP may provide a website link to their service|
 |homepage_url| |Text|HISP may provide a website link to their service|

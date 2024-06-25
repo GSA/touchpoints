@@ -11,7 +11,6 @@ class CxCollection < ApplicationRecord
   validates :quarter, presence: true
 
   validates :name, presence: true
-  validates :reflection, length: { maximum: 5000 }
 
   scope :published, -> { where(aasm_state: 'published') }
 
@@ -56,9 +55,6 @@ class CxCollection < ApplicationRecord
     new_collection = dup
     new_collection.user = new_user
     new_collection.name = "Copy of #{name}"
-    new_collection.start_date = nil
-    new_collection.end_date = nil
-    new_collection.reflection = nil
     new_collection.rating = nil
     new_collection.aasm_state = :draft
     new_collection.save
@@ -77,8 +73,6 @@ class CxCollection < ApplicationRecord
     attributes = %i[
       id
       name
-      start_date
-      end_date
       organization_id
       organization_name
       organization_abbreviation
@@ -92,7 +86,6 @@ class CxCollection < ApplicationRecord
       user_email
       fiscal_year
       quarter
-      reflection
       created_at
       updated_at
       submitted_at
@@ -109,8 +102,6 @@ class CxCollection < ApplicationRecord
         csv << attributes = [
           collection.id,
           collection.name,
-          collection.start_date,
-          collection.end_date,
           collection.organization_id,
           collection.organization.name,
           collection.organization.abbreviation,
@@ -124,7 +115,6 @@ class CxCollection < ApplicationRecord
           collection.user.email,
           collection.fiscal_year,
           collection.quarter,
-          collection.reflection,
           collection.created_at,
           collection.updated_at,
           collection.submitted_at,

@@ -80,21 +80,6 @@
   </div>
   <div class="tablet:grid-col-4">
     <div class="well">
-      <%- if service_manager_permissions? %>
-      <p>
-        <strong>CX maturity mapping value:</strong>
-        <%= @service_provider.cx_maturity_mapping_value %> of 10
-      </p>
-      <p>
-        <strong>Impact mapping value:</strong>
-        <%= @service_provider.impact_mapping_value %> of 100
-      </p>
-      <p class="font-sans-3xs">
-        See the <%= link_to "2x2 based on data", quadrants_admin_service_providers_path %>.
-      </p>
-      <hr>
-      <% end %>
-
       <p>
         <strong>Portfolio Manager Email:</strong>
         <%= @service_provider.portfolio_manager_email %>
