@@ -36,6 +36,36 @@ feature 'Submissions', js: true do
           end
         end
 
+        describe 'img injection attempt' do
+          let!(:submission) { FactoryBot.create(:submission, form:, answer_01: 'this an img <img src="https://www.gsa.gov/sites/gsa.gov/themes/custom/gsa/logo.png"> to show') }
+
+          context 'with an img tag in a Submission' do
+            describe "when viewing a list of submissions" do
+              before do
+                visit responses_admin_form_path(form)
+              end
+
+              it 'render img markup as a string' do
+                within('table.submissions') do
+                  find('tbody td:first-child').hover
+                  expect(find('table tbody')).to have_content('this an img <img src="https://www.gsa.gov/sites/gsa.gov/themes/custom/gsa/logo.png"> to show')
+                end
+              end
+            end
+
+            describe 'when viewing one Submission' do
+              before do
+                visit admin_form_submission_path(form, submission)
+              end
+
+              it 'render img markup as a string' do
+                expect(page).to have_content('this an img <img src="https://www.gsa.gov/sites/gsa.gov/themes/custom/gsa/logo.png"> to show')
+              end
+            end
+
+          end
+        end
+
         describe 'view a Response' do
           context 'with one Response' do
             let!(:submission) { FactoryBot.create(:submission, form:) }

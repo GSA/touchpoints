@@ -83,7 +83,7 @@
           <%= question.text %>
         </td>
         <td>
-          <%= simple_format(@submission.send(question.answer_field.to_sym), sanitize: true) %>
+          <%= h @submission.send(question.answer_field.to_sym) %>
         </td>
       </tr>
       <% end %>
