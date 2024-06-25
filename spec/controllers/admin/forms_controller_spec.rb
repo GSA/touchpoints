@@ -29,8 +29,13 @@ RSpec.describe Admin::FormsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # Form. As you add validations to Form, be sure to
   # adjust the attributes here as well.
+  let(:organization) { FactoryBot.create(:organization) }
+  let!(:form) { FactoryBot.create(:form, organization: organization) }
+  let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
+  let!(:user_role) { FactoryBot.create(:user_role, user: admin, form: form, role: UserRole::Role::FormManager) }
+
   let(:valid_attributes) do
-    skip('Add a hash of attributes valid for your model')
+    FactoryBot.build(:form, organization: organization).attributes
   end
 
   let(:invalid_attributes) do
@@ -41,6 +46,10 @@ RSpec.describe Admin::FormsController, type: :controller do
   # in order to pass any filters (e.g. authentication) defined in
   # FormsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
+
+  before do
+    sign_in(admin)
+  end
 
   describe 'GET #index' do
     it 'returns a success response' do
@@ -67,10 +76,8 @@ RSpec.describe Admin::FormsController, type: :controller do
   end
 
   describe 'GET #new' do
-    let(:user) { FactoryBot.create(:user, :admin) }
-
     before do
-      sign_in(user)
+      sign_in(admin)
     end
 
     it 'returns a success response' do
@@ -80,10 +87,8 @@ RSpec.describe Admin::FormsController, type: :controller do
   end
 
   describe 'GET #new' do
-    let(:user) { FactoryBot.create(:user, :admin) }
-
     before do
-      sign_in(user)
+      sign_in(admin)
     end
 
     it 'returns a success response' do
@@ -110,7 +115,7 @@ RSpec.describe Admin::FormsController, type: :controller do
 
       it 'redirects to the created form' do
         post :create, params: { form: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(Form.last)
+        expect(response).to redirect_to questions_admin_form_path(Form.last)
       end
     end
 
@@ -118,6 +123,43 @@ RSpec.describe Admin::FormsController, type: :controller do
       it "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: { form: invalid_attributes }, session: valid_session
         expect(response).to be_successful
+      end
+    end
+  end
+
+  describe 'POST #archive' do
+    before do
+      sign_in(admin)
+    end
+
+    context 'with valid params' do
+      before do
+        form.created_at = Time.now - 2.weeks
+        20.times { FactoryBot.create(:submission, form: form) }
+        form.save
+      end
+
+      it "queues 2 emails, rather than 1, because form is more than 1 week old" do
+        expect(UserMailer).to receive_message_chain(:form_feedback, :deliver_later)
+        expect(UserMailer).to receive_message_chain(:form_status_changed, :deliver_later)
+
+        post :archive, params: { id: form.to_param }
+        expect(response).to redirect_to admin_form_path(form)
+      end
+    end
+
+    context 'with invalid params' do
+      before do
+        form.created_at = Time.now - 1.day
+        form.save
+      end
+
+      it "queues 1 emails because form is not 7 days old" do
+        expect(UserMailer).not_to receive(:form_feedback)
+        expect(UserMailer).to receive_message_chain(:form_status_changed, :deliver_later)
+
+        post :archive, params: { id: form.short_uuid }, session: valid_session
+        expect(response).to redirect_to admin_form_path(form)
       end
     end
   end
@@ -138,7 +180,7 @@ RSpec.describe Admin::FormsController, type: :controller do
       it 'redirects to the form' do
         form = Form.create! valid_attributes
         put :update, params: { id: form.to_param, form: valid_attributes }, session: valid_session
-        expect(response).to redirect_to(form)
+        expect(response).to redirect_to delivery_admin_form_path(form)
       end
     end
 
@@ -162,7 +204,7 @@ RSpec.describe Admin::FormsController, type: :controller do
     it 'redirects to the forms list' do
       form = Form.create! valid_attributes
       delete :destroy, params: { id: form.to_param }, session: valid_session
-      expect(response).to redirect_to(forms_url)
+      expect(response).to redirect_to(admin_forms_url)
     end
   end
 end

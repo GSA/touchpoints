@@ -43,11 +43,6 @@
       <br>
       <%= link_to @service.organization.name, admin_organization_path(@service.organization) %>
     </p>
-    <p hidden>
-      <strong>Bureau</strong>
-      <br>
-      <%= @service.bureau_id %>
-    </p>
     <p>
       <strong>Office</strong>
       <br>
@@ -134,22 +129,6 @@
       <span class="usa-tag">
         for HISP-designated Services
       </span>
-
-      <p>
-        <strong>Why did you select this service for priority designation?</strong>
-        <br>
-        <%- if @service.justification_text.present? %>
-          <%= to_markdown(@service.justification_text) %>
-        <% else %>
-          <div class="usa-alert usa-alert--info usa-alert--slim">
-            <div class="usa-alert__body">
-              <p class="usa-alert__text">
-                No justification text has been provided.
-              </p>
-            </div>
-          </div>
-        <% end %>
-      </p>
     </div>
 
     <p>
@@ -157,12 +136,6 @@
       <br>
       <br>
       <%= @service.digital_service? ? "✅" : "❌" %>
-    </p>
-    <p>
-      <strong>Where customers interact (Channels)</strong>
-      <br>
-      <%= to_markdown(@service.where_customers_interact) %>
-        <%= @service.channel_list %>
     </p>
     <p>
       <strong>Why this service is not offered digitally</strong>
@@ -252,11 +225,6 @@
         <a href="https://www.performance.gov/cx/" target="_blank" rel="noopener">performance.gov</a>
         reporting purposes.
       </div>
-      <p>
-        <strong>Service abbreviation</strong>
-        <br>
-        <%= @service.service_abbreviation %>
-      </p>
       <p>
         <strong>Service slug</strong>
         <br>

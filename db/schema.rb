@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_22_201056) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_24_210617) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -229,8 +229,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_22_201056) do
     t.string "url"
     t.string "fiscal_year"
     t.string "quarter"
-    t.date "start_date"
-    t.date "end_date"
     t.string "transaction_point"
     t.integer "service_stage_id"
     t.string "channel"
@@ -239,7 +237,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_22_201056) do
     t.string "likert_or_thumb_question"
     t.integer "number_of_interactions"
     t.string "number_of_people_offered_the_survey"
-    t.text "reflection"
     t.string "aasm_state"
     t.string "rating"
     t.string "integrity_hash"
@@ -749,14 +746,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_22_201056) do
     t.boolean "hisp", default: false, comment: "True or False - Is this Service considered a HISP service?"
     t.string "department", default: "", comment: "Abbreviation of department name"
     t.string "bureau", default: "", comment: "Name of the Bureau to which a service belongs"
-    t.string "bureau_abbreviation", default: "", comment: "Abbreviatioon of the Bureau to which a service belongs"
-    t.string "service_abbreviation", default: "", comment: "a unique text string to identify the service"
     t.string "service_slug", default: "", comment: "a unique text string to identify the service"
     t.string "url", default: "", comment: "A website link to their service"
     t.integer "service_provider_id", comment: "Unique number for each Service Provider"
     t.integer "service_owner_id", comment: "ID of the User record for which a Service is owned or managed by"
-    t.text "justification_text", comment: "HISP provides a description for why this service was selected for priority designation"
-    t.text "where_customers_interact", comment: "Where customers interact"
     t.string "kind", comment: "Identifies the category of service: compliance, administrative, benefits, recreation, informational, data and research, and regulatory", array: true
     t.string "aasm_state", default: "created", comment: "State/status that a Service is in. eg: created, submitted, approved, verified, archived"
     t.text "non_digital_explanation", comment: "If applicable, explain why a service is not available via a digital channel"
@@ -775,7 +768,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_22_201056) do
     t.string "other_service_type"
     t.string "customer_volume_explanation"
     t.text "resources_needed_to_provide_digital_service", comment: "If applicable, what resources are needed to provide this service digitally?"
-    t.integer "bureau_id", comment: "Reference to the Organization ID that is the Bureau for this Service"
     t.string "office", comment: "Text description for the office (below a Bureau)"
     t.boolean "designated_for_improvement_a11_280", default: false, comment: "Is this Service designated, per the OMB Circular A-11 Section 280"
     t.boolean "contact_center", default: false, comment: "True or False for whether the service involves a contact center and/or an interaction with a contact center"
@@ -969,6 +961,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_22_201056) do
     t.string "backlog_tool", default: ""
     t.string "backlog_url", default: ""
     t.string "aasm_state"
+    t.date "target_decommission_date"
     t.index ["aasm_state"], name: "index_websites_on_aasm_state"
     t.index ["organization_id"], name: "index_websites_on_organization_id"
     t.index ["service_id"], name: "index_websites_on_service_id"

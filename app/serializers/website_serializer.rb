@@ -46,6 +46,7 @@ class WebsiteSerializer < ActiveModel::Serializer
              :website_contacts,
              :uswds_version,
              :https,
+             :target_decommission_date,
              :created_at,
              :updated_at
 

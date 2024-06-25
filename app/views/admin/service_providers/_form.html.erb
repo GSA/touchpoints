@@ -37,23 +37,6 @@
         <%= form.label :notes, class: "usa-label" %>
         <%= form.text_area :notes, class: "usa-textarea" %>
       </div>
-
-      <%- if service_manager_permissions? %>
-      <div class="well margin-top-2">
-        <span class="font-sans-3xs">
-          Notice: These are experimental fields, used to generate
-          <%= link_to "a 2x2 based on data", quadrants_admin_service_providers_path %>.
-        </span>
-        <div class="field">
-          <%= form.label :impact_mapping_value, class: "usa-label" %>
-          <%= form.number_field :impact_mapping_value, class: "usa-input", min: 1, max: 100, placeholder: "1-100" %>
-        </div>
-        <div class="field">
-          <%= form.label :cx_maturity_mapping_value, class: "usa-label" %>
-          <%= form.number_field :cx_maturity_mapping_value, class: "usa-input", min: 1, max: 10, placeholder: "1-10" %>
-        </div>
-      </div>
-      <% end %>
     </div>
     <div class="grid-col-6">
       <div class="field">

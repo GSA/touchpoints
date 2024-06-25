@@ -65,6 +65,10 @@
           <%= form.label :notes, class: "usa-label" %>
           <%= form.text_area :notes, class: "usa-textarea" %>
         </div>
+        <div class="field">
+          <%= form.label :target_decommission_date, class: "usa-label" %>
+          <%= form.date_field :target_decommission_date, class: "usa-input" %>
+        </div>
       <% end %>
       <% unless @website.persisted? %>
         <br>

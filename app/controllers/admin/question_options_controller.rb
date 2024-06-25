@@ -43,9 +43,11 @@ module Admin
 
       if text_array.length.positive?
         text_array.each do |txt|
-          if txt.upcase == 'OTHER' || txt.upcase == 'OTRO'
-            @errors << "Use add #{txt} button"
-            next
+          if ["radio_buttons", "checkbox", "dropdown"].include?(@question.question_type)
+            if txt.upcase == 'OTHER' || txt.upcase == 'OTRO'
+              @errors << "Use add #{txt} button"
+              next
+            end
           end
           question_option = QuestionOption.where(question_id: params[:question_id], text: txt).first
           if question_option
