@@ -30,7 +30,7 @@ class User < ApplicationRecord
     errors.add(:api_key, 'is not 40 characters, as expected from api.data.gov.') if api_key.present? && api_key.length != 40
   end
 
-  after_create :send_new_user_notification
+  after_create :send_new_user_notifications
 
   validates :email, presence: true, if: :tld_check
 
@@ -60,7 +60,6 @@ class User < ApplicationRecord
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.password = Devise.friendly_token[0, 24]
-      UserMailer.user_welcome_email(email: user.email).deliver_later
     end
   end
 
@@ -182,7 +181,8 @@ class User < ApplicationRecord
     end
   end
 
-  def send_new_user_notification
-    UserMailer.new_user_notification(self).deliver_later
+  def send_new_user_notifications
+    UserMailer.new_user_notification(self).deliver_later if Rails.env.production?
+    UserMailer.user_welcome_email(email: self.email).deliver_later
   end
 end
