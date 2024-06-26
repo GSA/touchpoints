@@ -226,7 +226,7 @@ form_that_belongs_to_a_service = Form.create!({
 })
 
 # Set the form's `created_at` date far enough in the past to trigger a feedback email
-form_that_belongs_to_a_service.update_attribute(:created_at, Time.now - 4.weeks.ago)
+form_that_belongs_to_a_service.update_attribute(:created_at, Time.now - 4.weeks)
 
 Question.create!({
   form: form_that_belongs_to_a_service,
