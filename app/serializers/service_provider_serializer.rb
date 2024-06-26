@@ -16,6 +16,7 @@ class ServiceProviderSerializer < ActiveModel::Serializer
              :inactive,
              :url,
              :new,
+             :portfolio_manager_email,
              :service_provider_managers,
              :services_count
 
