@@ -85,6 +85,33 @@ feature 'Submissions', js: true do
               end
             end
           end
+
+          context 'with one Response' do
+            let!(:submission) { FactoryBot.create(:submission, form:) }
+
+            describe 'click View link in responses table' do
+              before do
+                Question.create!({
+                  form: form,
+                  form_section: form.form_sections.first,
+                  text: 'additional question',
+                  question_type: 'textarea',
+                  position: 2,
+                  answer_field: :answer_02,
+                  is_required: true,
+                })
+                visit admin_form_submission_path(form, submission)
+              end
+
+              it 'try to update a submission that has had its question validations changed' do
+                select("acknowledged", from: 'submission_aasm_state')
+                select("responded", from: 'submission_aasm_state')
+                click_on("Update status")
+
+                expect(page).to have_content("Response could not be updated.")
+              end
+            end
+          end
         end
 
         describe 'tag a Response' do
