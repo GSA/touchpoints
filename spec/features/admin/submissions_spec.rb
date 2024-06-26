@@ -38,7 +38,7 @@ feature 'Submissions', js: true do
         end
 
         describe 'img injection attempt' do
-          let!(:submission) { FactoryBot.create(:submission, form:, answer_01: 'this an img <img src="https://www.gsa.gov/sites/gsa.gov/themes/custom/gsa/logo.png"> to show') }
+          let!(:submission) { FactoryBot.create(:submission, form:, answer_01: 'this an img <img src="https://touchpoints.digital.gov/assets/img/touchpoints-logotype.png"> to show') }
 
           context 'with an img tag in a Submission' do
             describe "when viewing a list of submissions" do
@@ -49,7 +49,7 @@ feature 'Submissions', js: true do
               it 'render img markup as a string' do
                 within('table.submissions') do
                   find('tbody td:first-child').hover
-                  expect(find('table tbody')).to have_text('this an img <img src="https://www.gsa.gov/sites/gsa.gov/themes/custom/gsa/logo.png"> to show')
+                  expect(find('table tbody')).to have_text('this an img <img src="https://touchpoints.digital.gov/assets/img/touchpoints-logotype.png"> to show')
                 end
               end
             end
@@ -60,7 +60,7 @@ feature 'Submissions', js: true do
               end
 
               it 'render img markup as a string' do
-                expect(page).to have_text('this an img <img src="https://www.gsa.gov/sites/gsa.gov/themes/custom/gsa/logo.png"> to show')
+                expect(page).to have_text('this an img <img src="https://touchpoints.digital.gov/assets/img/touchpoints-logotype.png"> to show')
               end
             end
 
