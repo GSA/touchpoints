@@ -120,11 +120,11 @@
           <% next if question.question_type == "text_display" %>
           <%- if form.ui_truncate_text_responses? %>
             <td class="no-wrap">
-              <%= simple_format(submission.send(question.answer_field.to_sym).to_s.truncate(160), sanitize: true) %>
+              <%= h(submission.send(question.answer_field.to_sym).to_s).truncate(160) %>
             </td>
           <% else %>
             <td>
-              <%= simple_format(submission.send(question.answer_field.to_sym), sanitize: true) %>
+              <%= h(submission.send(question.answer_field.to_sym).to_s) %>
             </td>
           <% end %>
         <% end %>
