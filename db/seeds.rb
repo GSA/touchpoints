@@ -210,7 +210,7 @@ service_5 = Service.create!({
 
 # NOTE:
 # this form can be used for testing the form feedback email
-# that is sent when a user archive's a form that has been used, with conditions
+# that is sent when a user archives a form that has been used, with conditions
 form_that_belongs_to_a_service = Form.create!({
   organization: example_gov,
   template: false,
