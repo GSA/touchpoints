@@ -208,9 +208,12 @@ service_5 = Service.create!({
   hisp: false,
 })
 
+# NOTE:
+# this form can be used for testing the form feedback email
+# that is sent when a user archive's a form that has been used, with conditions
 form_that_belongs_to_a_service = Form.create!({
   organization: example_gov,
-  template: true,
+  template: false,
   kind: 'open ended',
   notes: "An open-ended Feedback Form related to #{service_5.name}",
   name: 'Open-ended Feedback',
@@ -221,6 +224,27 @@ form_that_belongs_to_a_service = Form.create!({
   modal_button_text: 'Click here to leave feedback',
   service: service_5,
 })
+
+# Set the form's `created_at` date far enough in the past to trigger a feedback email
+form_that_belongs_to_a_service.update_attribute(:created_at, Time.now - 4.weeks.ago)
+
+Question.create!({
+  form: form_that_belongs_to_a_service,
+  form_section: form_that_belongs_to_a_service.form_sections.first,
+  text: 'How can we improve?',
+  question_type: 'textarea',
+  position: 1,
+  answer_field: :answer_01,
+  is_required: true,
+})
+
+20.times.each do |i|
+ Submission.create!({
+    form: form_that_belongs_to_a_service,
+    answer_01: "aaaaa",
+  })
+end
+
 
 stage_before = ServiceStage.create({
   name: 'Before',
