@@ -30,9 +30,40 @@ feature 'Submissions', js: true do
                 expect(find('table tbody').text).to have_content('content_tag(')
                 # Does not spawn an alert (which is good)
                 expect { page.driver.browser.switch_to.alert.accept }.to raise_error(Selenium::WebDriver::Error::NoSuchAlertError)
-                expect(find('table tbody').text).to_not have_content('script')
+                expect(find('table tbody').text).to have_text('content_tag')
+                expect(find('table tbody').text).to have_text('script')
               end
             end
+          end
+        end
+
+        describe 'img injection attempt' do
+          let!(:submission) { FactoryBot.create(:submission, form:, answer_01: 'this an img <img src="https://touchpoints.digital.gov/assets/img/touchpoints-logotype.png"> to show') }
+
+          context 'with an img tag in a Submission' do
+            describe "when viewing a list of submissions" do
+              before do
+                visit responses_admin_form_path(form)
+              end
+
+              it 'render img markup as a string' do
+                within('table.submissions') do
+                  find('tbody td:first-child').hover
+                  expect(find('table tbody')).to have_text('this an img <img src="https://touchpoints.digital.gov/assets/img/touchpoints-logotype.png"> to show')
+                end
+              end
+            end
+
+            describe 'when viewing one Submission' do
+              before do
+                visit admin_form_submission_path(form, submission)
+              end
+
+              it 'render img markup as a string' do
+                expect(page).to have_text('this an img <img src="https://touchpoints.digital.gov/assets/img/touchpoints-logotype.png"> to show')
+              end
+            end
+
           end
         end
 

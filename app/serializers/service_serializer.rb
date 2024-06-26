@@ -27,7 +27,8 @@ class ServiceSerializer < ActiveModel::Serializer
              :tags,
              :available_in_person,
              :available_digitally,
-             :available_via_phone
+             :available_via_phone,
+             :aasm_state
 
   def service_managers
     ActiveModel::Serializer::CollectionSerializer.new(object.service_managers, serializer: UserSerializer)
