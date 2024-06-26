@@ -1,8 +1,7 @@
 <div
   class="touchpoints-form-wrapper <%= form.kind %>"
   id="touchpoints-form-<%= form.short_uuid %>"
-  data-touchpoints-form-id="<%= form.short_uuid %>"
-  tabindex="-1">
+  data-touchpoints-form-id="<%= form.short_uuid %>">
   <div class="wrapper">
     <%- unless form.delivery_method == "inline" %>
       <a class="fba-modal-close"
