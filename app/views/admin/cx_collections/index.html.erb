@@ -88,11 +88,11 @@
           <%= render 'components/collection_status_tag', collection: collection %>
         </td>
         <td
-          data-sort-value="<%= collection.submitted_at.try(:to_i) %>"
-        >
+          data-sort-value="<%= collection.submitted_at.try(:to_i) %>">
           <%= collection.submitted_at.try(:to_date) %>
         </td>
-        <td data-sort-value="<%= collection_rating_sort_values[collection.rating] %>">
+        <td
+          data-sort-value="<%= collection_rating_sort_values[collection.rating] %>">
           <%= collection_rating_label(rating: collection.rating) %>
         </td>
       </tr>
