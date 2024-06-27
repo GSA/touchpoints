@@ -10,8 +10,8 @@ then
   # Log into CF and push
   cf login -a $CF_API_ENDPOINT -u $CF_PRODUCTION_SPACE_DEPLOYER_USERNAME -p $CF_PRODUCTION_SPACE_DEPLOYER_PASSWORD -o $CF_ORG -s prod
   echo "PUSHING to PRODUCTION..."
-  cf v3-zdt-push touchpoints-production-sidekiq-worker
-  cf v3-zdt-push touchpoints
+  cf push touchpoints-production-sidekiq-worker --strategy rolling
+  cf push touchpoints --strategy rolling
   echo "Push to Production Complete."
 else
   echo "Not on the production branch."
@@ -23,8 +23,8 @@ then
   # Log into CF and push
   cf login -a $CF_API_ENDPOINT -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $CF_SPACE
   echo "Pushing to Demo..."
-  cf v3-zdt-push touchpoints-demo-sidekiq-worker
-  cf v3-zdt-push touchpoints-demo
+  cf push touchpoints-demo-sidekiq-worker --strategy rolling
+  cf push touchpoints-demo --strategy rolling
   echo "Push to Demo Complete."
 else
   echo "Not on the main branch."
