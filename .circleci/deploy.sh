@@ -36,8 +36,8 @@ then
   # Log into CF and push
   cf login -a $CF_API_ENDPOINT -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $CF_SPACE
   echo "Pushing to Staging..."
-  cf v3-zdt-push touchpoints-staging-sidekiq-worker
-  cf v3-zdt-push touchpoints-staging
+  cf push touchpoints-staging-sidekiq-worker --strategy rolling
+  cf push touchpoints-staging --strategy rolling
   echo "Push to Staging Complete."
 else
   echo "Not on the develop branch."
