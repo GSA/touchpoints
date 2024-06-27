@@ -104,7 +104,7 @@ class User < ApplicationRecord
   end
 
   def deactivate!
-    update!(inactive: true)
+    update_attribute(:inactive, true)
     UserMailer.account_deactivated_notification(self).deliver_later
     Event.log_event(Event.names[:user_deactivated], 'User', id, "User account #{email} deactivated on #{Date.today}")
   end
@@ -123,7 +123,7 @@ class User < ApplicationRecord
   end
 
   def self.deactivate_inactive_accounts!
-    # Find all accounts scheduled to be deactivated in 14 days
+    # Find all accounts scheduled to be deactivated in 30 days
     users = User.active.where('(current_sign_in_at ISNULL AND created_at <= ?) OR (current_sign_in_at <= ?)', 30.days.ago, 30.days.ago)
     users.each(&:deactivate!)
   end
@@ -182,7 +182,7 @@ class User < ApplicationRecord
   end
 
   def send_new_user_notifications
-    UserMailer.new_user_notification(self).deliver_later if Rails.env.production?
-    UserMailer.user_welcome_email(email: self.email).deliver_later
+    UserMailer.new_user_notification(self).deliver_later
+    UserMailer.user_welcome_email(email: self.email).deliver_later(wait_until: 9.minutes.from_now) if Rails.env.production?
   end
 end
