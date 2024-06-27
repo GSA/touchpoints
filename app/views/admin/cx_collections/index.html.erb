@@ -69,6 +69,7 @@
       <th data-sortable scope="col">Year</th>
       <th data-sortable scope="col">Quarter</th>
       <th data-sortable scope="col">Status</th>
+      <th data-sortable scope="col">Submitted At</th>
       <th data-sortable scope="col">Rating</th>
     </tr>
   </thead>
@@ -85,6 +86,11 @@
         <td><%= collection.quarter %></td>
         <td>
           <%= render 'components/collection_status_tag', collection: collection %>
+        </td>
+        <td
+          data-sort-value="<%= collection.submitted_at.try(:to_i) %>"
+        >
+          <%= collection.submitted_at.try(:to_date) %>
         </td>
         <td data-sort-value="<%= collection_rating_sort_values[collection.rating] %>">
           <%= collection_rating_label(rating: collection.rating) %>
