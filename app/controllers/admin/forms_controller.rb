@@ -521,7 +521,7 @@ module Admin
 
     # Add rules for AASM state transitions here
     def transition_state
-      Event.log_event(Event.names[:form_published], 'Form', @form.uuid, "Form #{@form.name} published at #{DateTime.now}", current_user.id) if (params['form']['aasm_state'] == 'live') && !@form.live?
+      Event.log_event(Event.names[:form_published], 'Form', @form.uuid, "Form #{@form.name} published at #{DateTime.now}", current_user.id) if (params['form']['aasm_state'] == 'published') && !@form.published?
       Event.log_event(Event.names[:form_archived], 'Form', @form.uuid, "Form #{@form.name} archived at #{DateTime.now}", current_user.id) if (params['form']['aasm_state'] == 'archived') && !@form.archived?
     end
 
