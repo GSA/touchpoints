@@ -40,7 +40,7 @@ feature 'Forms', js: true do
         let!(:form) { FactoryBot.create(:form, organization:) }
         let!(:form2) { FactoryBot.create(:form, organization:) }
         let!(:form3) { FactoryBot.create(:form, organization:) }
-        let!(:form_template) { FactoryBot.create(:form, organization:, template: true, aasm_state: :in_development) }
+        let!(:form_template) { FactoryBot.create(:form, organization:, template: true, aasm_state: :created) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form:) }
         let!(:user_role2) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form2) }
         let!(:user_role3) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form3) }
@@ -229,10 +229,10 @@ feature 'Forms', js: true do
           visit admin_form_path(form)
         end
 
-        context 'for :in_development touchpoint' do
+        context 'for :created touchpoint' do
           describe 'Publish a form' do
             before do
-              form.update(aasm_state: :in_development)
+              form.update(aasm_state: :created)
               visit admin_form_path(form)
               click_on 'Publish'
               page.driver.browser.switch_to.alert.accept
@@ -249,7 +249,7 @@ feature 'Forms', js: true do
         context 'for a non-archived touchpoint' do
           describe 'archive' do
             before do
-              form.update(aasm_state: :in_development)
+              form.update(aasm_state: :created)
               visit admin_form_path(form)
               click_on 'Archive'
               page.driver.browser.switch_to.alert.accept
@@ -1527,7 +1527,7 @@ feature 'Forms', js: true do
   end
 
   context 'as non-logged in User' do
-    let!(:form_template) { FactoryBot.create(:form, organization:, template: true, aasm_state: :in_development) }
+    let!(:form_template) { FactoryBot.create(:form, organization:, template: true, aasm_state: :created) }
 
     describe 'cannot access forms' do
       before do

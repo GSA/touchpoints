@@ -125,21 +125,29 @@ class Form < ApplicationRecord
   end
 
   aasm do
-    state :in_development, initial: true
-    state :live # manual
+    state :created, initial: true
+    state :submitted
+    state :approved
+    state :published # manual
     state :archived # after End Date, or manual
 
-    event :develop do
-      transitions from: %i[live archived], to: :in_development
+    # event :develop do
+    #   transitions from: %i[live archived], to: :created
+    # end
+    event :submit do
+      transitions from: %i[created], to: :submitted
+    end
+    event :approve do
+      transitions from: %i[submitted], to: :approved
     end
     event :publish do
-      transitions from: %i[in_development archived], to: :live
+      transitions from: %i[created archived], to: :published
     end
     event :archive do
-      transitions from: %i[in_development live], to: :archived
+      transitions from: %i[created published], to: :archived
     end
     event :reset do
-      transitions to: :in_development
+      transitions to: :created
     end
   end
 
@@ -163,7 +171,7 @@ class Form < ApplicationRecord
     new_form.response_count = 0
     new_form.questions_count = 0
     new_form.last_response_created_at = nil
-    new_form.aasm_state = :in_development
+    new_form.aasm_state = :created
     new_form.uuid = nil
     new_form.legacy_touchpoint_id = nil
     new_form.legacy_touchpoint_uuid = nil
@@ -219,7 +227,7 @@ class Form < ApplicationRecord
   end
 
   def deployable_form?
-    live?
+    published?
   end
 
   # returns javascript text that can be used standalone
