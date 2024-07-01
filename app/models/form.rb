@@ -135,10 +135,14 @@ class Form < ApplicationRecord
     #   transitions from: %i[live archived], to: :created
     # end
     event :submit do
-      transitions from: %i[created], to: :submitted
+      transitions from: %i[created],
+        to: :submitted,
+        guard: :organization_has_form_approval_enabled?
     end
     event :approve do
-      transitions from: %i[submitted], to: :approved
+      transitions from: %i[submitted],
+        to: :approved,
+        guard: :organization_has_form_approval_enabled?
     end
     event :publish do
       transitions from: %i[created archived], to: :published
@@ -551,5 +555,12 @@ class Form < ApplicationRecord
       response_count: responses_count,
       average: average.round(2),
     }
+  end
+
+
+  private
+
+  def organization_has_form_approval_enabled?
+    organization.has_form_approval_enabled?
   end
 end

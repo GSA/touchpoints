@@ -502,7 +502,7 @@ feature 'Touchpoints', js: true do
     end
 
     describe '/touchpoints' do
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, aasm_state: 'live') }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, aasm_state: 'published') }
 
       context 'for a live form' do
         before do

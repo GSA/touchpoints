@@ -39,4 +39,8 @@ class Organization < ApplicationRecord
   def to_param
     slug
   end
+
+  def has_form_approval_enabled?
+    true if abbreviation == "OMB"
+  end
 end

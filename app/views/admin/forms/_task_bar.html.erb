@@ -89,19 +89,23 @@
       <% end %>
     </div>
 
+    <% if @form.may_submit? %>
     <div class="margin-top-2">
       <%= link_to publish_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button width-full" do %>
       <i class="far fa-check-circle"></i>
       Submit for Organizational Review
       <% end %>
     </div>
+    <% end %>
 
+    <% if @form.may_publish? %>
     <div class="margin-top-2">
       <%= button_to publish_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button width-full", disabled: true do %>
       <i class="far fa-check-circle"></i>
       Publish
       <% end %>
     </div>
+    <% end %>
 
     <div class="margin-top-2">
       <%= link_to copy_admin_form_path(form), class: "usa-button usa-button--outline width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
