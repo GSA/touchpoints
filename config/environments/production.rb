@@ -107,11 +107,10 @@ Rails.application.configure do
 
 
   # For Devise
-  config.action_mailer.default_url_options = { host: 'touchpoints.app.cloud.gov', port: 443 }
+  config.action_mailer.default_url_options = { host: ENV.fetch('TOUCHPOINTS_WEB_DOMAIN'), port: 443 }
 
   # Prevent host header injection
   # Reference: https://github.com/ankane/secure_rails
-  config.action_controller.default_url_options = { host: ENV.fetch('TOUCHPOINTS_WEB_DOMAIN') }
   config.action_controller.asset_host = ENV.fetch('TOUCHPOINTS_WEB_DOMAIN')
 
   config.action_mailer.delivery_method = :ses
