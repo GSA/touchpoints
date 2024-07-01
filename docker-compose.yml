@@ -10,9 +10,7 @@ services:
     env_file:
       - .env.development
     environment:
-      - PGHOST=db
-      - PGUSER=postgres
-      - PGPASSWORD=changeme
+      - DATABASE_URL=postgresql://postgres:changeme@db
       - HISTFILE=/usr/src/app/log/.bash_history
     depends_on:
       - redis
