@@ -23,7 +23,97 @@
 <% end %>
 
 <%- if @forms.present? %>
-  <%= render "forms/list", forms: @forms %>
+<table class="usa-table usa-table--sticky-header width-full">
+  <thead class="font-sans-3xs z-top">
+    <tr>
+      <th>#</th>
+      <th data-sortable scope="col"
+        data-type="name">
+        Name
+      </th>
+      <th data-sortable scope="col">
+        Questions
+      </th>
+      <th data-sortable scope="col">
+        Activations
+      </th>
+      <th data-sortable scope="col">
+        Responses
+      </th>
+      <th data-sortable scope="col">
+        Completion Rate
+      </th>
+      <th data-sortable scope="col"
+        data-type="status">
+        Status
+      </th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @forms.each_with_index do |form, index| %>
+    <tr>
+      <td class="text-center">
+        <%= index + 1 %>
+      </td>
+      <td>
+        <%= link_to form.name, admin_form_path(form) %>
+      </td>
+      <td>
+        <%= form.questions_count %>
+      </td>
+      <td data-sort-value="<%= form.survey_form_activations %>">
+        <%= number_with_delimiter(form.survey_form_activations) %>
+      </td>
+      <td data-sort-value="<%= form.response_count %>">
+        <%= number_with_delimiter(form.response_count) %>
+      </td>
+      <td>
+        <%= form.completion_rate %>
+      </td>
+      <td>
+        <%- if form.aasm_state == "live" %>
+        <span class="usa-tag bg-green">
+          <%= form.aasm_state %>
+        </span>
+        <% elsif form.created? %>
+        <span class="usa-tag bg-cyan">
+          <%= form.aasm_state %>
+        </span>
+        <% else %>
+        <span class="usa-tag">
+          <%= form.aasm_state %>
+        </span>
+        <% end %>
+      </td>
+      <td>
+        <ul class="usa-nav__primary float-menu usa-accordion">
+          <li class="usa-nav__primary-item">
+            <button class="usa-accordion__button usa-nav__link  usa-current" aria-expanded="false" aria-controls="extended-nav-section-one-<%= form.short_uuid %>">
+              <span></span>
+            </button>
+            <ul id="extended-nav-section-one-<%= form.short_uuid %>" class="usa-nav__submenu" hidden="">
+              <li class="usa-nav__submenu-item">
+                <%= link_to edit_admin_form_path(form) do %>
+                  Edit
+                <% end %>
+              </li>
+              <li class="usa-nav__submenu-item">
+                <%= link_to 'Preview', example_admin_form_path(form), target: "_blank", rel: "noopener" %>
+              </li>
+              <li class="usa-nav__submenu-item">
+                <%= link_to copy_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' } do %>
+                  Copy
+                <% end %>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
 <% else %>
 <div class="grid-row grid-gap-md">
   <div class="grid-col">
