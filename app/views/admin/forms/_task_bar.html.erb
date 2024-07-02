@@ -89,18 +89,21 @@
       <% end %>
     </div>
 
-    <% if @form.may_submit? %>
+    <% if @form.organization_has_form_approval_enabled? %>
     <div class="margin-top-2">
       <%= link_to publish_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button width-full" do %>
       <i class="far fa-check-circle"></i>
-      Submit for Organizational Review
+      Submit for Organizational Approval
       <% end %>
     </div>
     <% end %>
 
-    <% if @form.may_publish? %>
+    <% if !@form.organization_has_form_approval_enabled? %>
     <div class="margin-top-2">
-      <%= button_to publish_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button width-full", disabled: true do %>
+      <%= button_to publish_admin_form_path(form),
+        method: :post,
+        data: { confirm: 'Are you sure?' }, class: "usa-button width-full",
+        disabled: false do %>
       <i class="far fa-check-circle"></i>
       Publish
       <% end %>
