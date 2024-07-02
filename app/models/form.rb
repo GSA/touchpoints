@@ -557,9 +557,6 @@ class Form < ApplicationRecord
     }
   end
 
-
-  private
-
   def organization_has_form_approval_enabled?
     organization.form_approval_enabled
   end
