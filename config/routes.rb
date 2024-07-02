@@ -332,6 +332,8 @@ Rails.application.routes.draw do
         get 'delivery', to: 'forms#delivery', as: :delivery
         post 'add_user', to: 'forms#add_user', as: :add_user
         post 'copy', to: 'forms#copy', as: :copy
+        post 'submit', to: 'forms#submit', as: :submit
+        post 'approve', to: 'forms#approve', as: :approve
         post 'publish', to: 'forms#publish', as: :publish
         post 'archive', to: 'forms#archive', as: :archive
         post 'reset', to: 'forms#reset', as: :reset

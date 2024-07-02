@@ -126,6 +126,7 @@ class Form < ApplicationRecord
 
   aasm do
     state :created, initial: true
+    state :in_development
     state :submitted
     state :approved
     state :published # manual
@@ -137,15 +138,17 @@ class Form < ApplicationRecord
     event :submit do
       transitions from: %i[created],
         to: :submitted,
-        guard: :organization_has_form_approval_enabled?
+        guard: :organization_has_form_approval_enabled?,
+        after: :set_submitted_at
     end
     event :approve do
       transitions from: %i[submitted],
         to: :approved,
-        guard: :organization_has_form_approval_enabled?
+        guard: :organization_has_form_approval_enabled?,
+        after: :set_approved_at
     end
     event :publish do
-      transitions from: %i[created archived], to: :published
+      transitions from: %i[created approved], to: :published
     end
     event :archive do
       transitions from: %i[created published], to: :archived
@@ -559,5 +562,16 @@ class Form < ApplicationRecord
 
   def organization_has_form_approval_enabled?
     organization.form_approval_enabled
+  end
+
+
+  private
+
+  def set_submitted_at
+    self.update(submitted_at: Time.current)
+  end
+
+  def set_approved_at
+    self.update(approved_at: Time.current)
   end
 end

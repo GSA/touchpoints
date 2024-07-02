@@ -21,6 +21,8 @@ module Admin
       export_a11_submissions
       example js
       add_user remove_user
+      submit
+      approve
       publish
       archive
       reset
@@ -63,6 +65,22 @@ module Admin
       end
 
       render json: { form: @form, questions: }
+    end
+
+    def submit
+      @event = Event.log_event(Event.names[:form_submitted], 'Form', @form.uuid, "Form #{@form.name} submitted at #{DateTime.now}", current_user.id)
+
+      @form.submit!
+      UserMailer.form_status_changed(form: @form, action: 'submitted', event: @event).deliver_later
+      redirect_to admin_form_path(@form), notice: 'This form has been Submitted successfully.'
+    end
+
+    def approve
+      @event = Event.log_event(Event.names[:form_approved], 'Form', @form.uuid, "Form #{@form.name} approved at #{DateTime.now}", current_user.id)
+
+      @form.approve!
+      UserMailer.form_status_changed(form: @form, action: 'approved', event: @event).deliver_later
+      redirect_to admin_form_path(@form), notice: 'This form has been Approved successfully.'
     end
 
     def publish
