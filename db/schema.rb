@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_24_210617) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_02_165230) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -624,6 +624,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_24_210617) do
     t.string "learning_agenda_url"
     t.boolean "cfo_act_agency", default: false
     t.integer "parent_id"
+    t.boolean "form_approval_enabled", default: false, comment: "Indicate whether this organization requires a Submission and Approval process for forms"
   end
 
   create_table "organizations_roles", id: false, force: :cascade do |t|

@@ -561,6 +561,6 @@ class Form < ApplicationRecord
   private
 
   def organization_has_form_approval_enabled?
-    organization.has_form_approval_enabled?
+    organization.form_approval_enabled
   end
 end

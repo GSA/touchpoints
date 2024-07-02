@@ -9,6 +9,26 @@
         <% end %>
       </span>
     </li>
+    <% if form.organization.form_approval_enabled %>
+    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--current" if ["live"].include?(form.aasm_state) -%> <%= "usa-step-indicator__segment--complete" if ["archived"].include?(form.aasm_state) -%>">
+      <span class="usa-step-indicator__segment-label">Submitted
+        <%- if ["archived"].include?(form.aasm_state) -%>
+          <span class="usa-sr-only">completed</span>
+        <% else %>
+          <span class="usa-sr-only">not completed</span>
+        <% end %>
+      </span>
+    </li>
+    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--current" if ["live"].include?(form.aasm_state) -%> <%= "usa-step-indicator__segment--complete" if ["archived"].include?(form.aasm_state) -%>">
+      <span class="usa-step-indicator__segment-label">Approved
+        <%- if ["archived"].include?(form.aasm_state) -%>
+          <span class="usa-sr-only">completed</span>
+        <% else %>
+          <span class="usa-sr-only">not completed</span>
+        <% end %>
+      </span>
+    </li>
+    <% end %>
     <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--current" if ["live"].include?(form.aasm_state) -%> <%= "usa-step-indicator__segment--complete" if ["archived"].include?(form.aasm_state) -%>">
       <span class="usa-step-indicator__segment-label">Published
         <%- if ["archived"].include?(form.aasm_state) -%>
