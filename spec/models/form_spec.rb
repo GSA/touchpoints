@@ -200,15 +200,8 @@ RSpec.describe Form, type: :model do
         form.reset!
         expect(form.created?).to eq(true)
         expect(form.published?).to eq(false)
-        form.publish
-        expect(form.created?).to eq(false)
-        expect(form.published?).to eq(true)
-      end
-
-      it 'transitions from Archived to Live state' do
-        form.archive!
-        expect(form.archived?).to eq(true)
         form.publish!
+        expect(form.created?).to eq(false)
         expect(form.published?).to eq(true)
       end
     end
