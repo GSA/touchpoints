@@ -8,7 +8,7 @@
   <% end %>
 </p>
 <%= render 'admin/forms/nav', form: @form %>
-<br>
+<%= render 'admin/forms/step_indicator', form: @form %>
 <div class="grid-row grid-gap-lg margin-bottom-2">
   <div class="desktop:grid-col-8">
     <%- if @form.questions.size > 12 %>

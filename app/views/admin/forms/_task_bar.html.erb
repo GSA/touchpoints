@@ -1,5 +1,3 @@
-<%= render 'admin/forms/step_indicator', form: form %>
-
 <%- if form.deployable_form? %>
 <div class="well">
   <strong>
@@ -63,12 +61,6 @@
     </div>
     <% end %>
   <% end %>
-  <div class="margin-top-2">
-    <%= link_to copy_admin_form_path(form), class: "usa-button usa-button--outline width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
-      <i class="fa fa-copy"></i>
-      Copy
-    <% end %>
-  </div>
 </div>
 <% else %>
 <div class="well">
@@ -87,12 +79,6 @@
       <small>
         <%= form.delivery_method %>
       </small>
-    <% end %>
-  </div>
-  <div class="margin-top-2">
-    <%= link_to copy_admin_form_path(form), class: "usa-button usa-button--outline width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
-      <i class="fa fa-copy"></i>
-      Copy
     <% end %>
   </div>
 </div>
