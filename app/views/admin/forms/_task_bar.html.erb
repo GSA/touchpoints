@@ -61,15 +61,14 @@
         </small>
       <% end %>
     </div>
-    <div class="margin-top-2">
-      <%= link_to copy_admin_form_path(form), class: "usa-button usa-button--outline width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
-        <i class="fa fa-copy"></i>
-        Copy
-      <% end %>
-    </div>
     <% end %>
-
   <% end %>
+  <div class="margin-top-2">
+    <%= link_to copy_admin_form_path(form), class: "usa-button usa-button--outline width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
+      <i class="fa fa-copy"></i>
+      Copy
+    <% end %>
+  </div>
 </div>
 <% else %>
 <div class="well">
@@ -90,8 +89,15 @@
       </small>
     <% end %>
   </div>
+  <div class="margin-top-2">
+    <%= link_to copy_admin_form_path(form), class: "usa-button usa-button--outline width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
+      <i class="fa fa-copy"></i>
+      Copy
+    <% end %>
+  </div>
 </div>
 <% end %>
+
 <div class="well">
   <%- if @form.organization_has_form_approval_enabled? %>
     <%- if @form.submitted? %>
@@ -132,14 +138,6 @@
     <% end %>
   </div>
   <% end %>
-
-  <div class="margin-top-2">
-    <%= link_to copy_admin_form_path(form), class: "usa-button usa-button--outline width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
-      <i class="fa fa-copy"></i>
-      Copy
-    <% end %>
-  </div>
-
 
 <% unless form.archived? %>
   <div class="margin-top-2">

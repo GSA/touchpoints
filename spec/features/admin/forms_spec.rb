@@ -334,7 +334,7 @@ feature 'Forms', js: true do
 
         describe 'reset' do
           before do
-            form.update(aasm_state: :live)
+            form.update(aasm_state: :published)
             visit admin_form_path(form)
             click_on 'Reset'
             page.driver.browser.switch_to.alert.accept
