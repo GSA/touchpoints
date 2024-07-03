@@ -1,0 +1,36 @@
+<table class="usa-table width-full">
+  <thead>
+    <tr>
+      <th data-sortable scope="col">
+        Name
+      </th>
+      <th>
+        Status
+      </th>
+      <th data-sortable scope="col">
+        Kind
+      </th>
+      <th data-sortable scope="col">
+        Response count
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @forms.each do |form| %>
+    <tr>
+      <td>
+        <%= link_to form.name, admin_form_path(form) %>
+      </td>
+      <td>
+        <%= form.aasm_state %>
+      </td>
+      <td>
+        <%= form.kind %>
+      </td>
+      <td>
+        <%= number_with_delimiter(form.response_count) %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

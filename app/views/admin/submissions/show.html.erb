@@ -73,7 +73,7 @@
             </th>
           </tr>
         </thead>
-      <% @form.questions.each do |question| %>
+      <% @form.ordered_questions.each do |question| %>
       <% next if question.question_type == "text_display" %>
       <tr>
         <td>

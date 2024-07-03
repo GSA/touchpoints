@@ -51,7 +51,7 @@
           <td></td>
           <td>
           </td>
-        <% form.questions.each do |question| %>
+        <% form.ordered_questions.each do |question| %>
           <% next if question.question_type == "text_display" %>
           <td class="text-normal"><%= question.answer_field %></td>
         <% end %>
@@ -70,7 +70,7 @@
           <th data-sortable scope="col">
             Created At
           </th>
-        <% form.questions.each do |question| %>
+        <% form.ordered_questions.each do |question| %>
           <% next if question.question_type == "text_display" %>
           <th data-sortable scope="col"><%= question.text %></th>
         <% end %>
@@ -116,7 +116,7 @@
           <td>
             <%= format_time(submission.created_at, submission.form.time_zone.present? ? submission.form.time_zone : current_user.time_zone) %>
           </td>
-        <% form.questions.each do |question| %>
+        <% form.ordered_questions.each do |question| %>
           <% next if question.question_type == "text_display" %>
           <%- if form.ui_truncate_text_responses? %>
             <td class="no-wrap">
