@@ -7,7 +7,7 @@
           <span class="fa fa-info-circle"></span>
         <% end %>
       </h3>
-      <div class="tag-list">
+      <div class="tag-list applied">
         <ul class="usa-list usa-list--unstyled">
           <% submission.tags.sort.each do |tag| %>
           <li>
@@ -27,10 +27,12 @@
       <% @unused_tags = @form.submission_tags - submission.tags %>
       <% if @unused_tags.present? %>
       <br>
+      <div class="tag-list available">
       <% @unused_tags.each do |tag| %>
         <span class="usa-tag add-tag-button bg-base-light"
           data-action="<%= admin_form_submission_path(submission.form, submission) %>"><%= tag %></span>
       <% end %>
+      </div>
       <% end %>
     </div>
   </div>
