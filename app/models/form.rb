@@ -132,9 +132,6 @@ class Form < ApplicationRecord
     state :published # manual
     state :archived # after End Date, or manual
 
-    # event :develop do
-    #   transitions from: %i[live archived], to: :created
-    # end
     event :submit do
       transitions from: %i[created],
         to: :submitted,
