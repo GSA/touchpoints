@@ -178,7 +178,7 @@ feature 'Forms', js: true do
       end
 
       describe 'Form model validations' do
-        let(:existing_form) { FactoryBot.create(:form, :open_ended_form, organization:,omb_approval_number: nil, expiration_date: nil) }
+        let(:existing_form) { FactoryBot.create(:form, :open_ended_form, organization:, omb_approval_number: nil, expiration_date: nil) }
 
         describe 'missing OMB Approval Number' do
           before 'user tries to update a Touchpoint' do
@@ -218,6 +218,39 @@ feature 'Forms', js: true do
       end
     end
 
+    context 'as a Organizational Form Manager' do
+      describe '/admin/forms/:uuid' do
+        let(:form_manager) { FactoryBot.create(:user, organization:) }
+        let(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
+        let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form:) }
+
+        before do
+          login_as(admin)
+          visit admin_form_path(form)
+        end
+
+        context 'for :created touchpoint for an Organization form_approval_enabled' do
+          describe 'Submit a form' do
+            before do
+              form.organization.update_attribute(:form_approval_enabled, true)
+              form.update(aasm_state: :created)
+              visit admin_form_path(form)
+              expect(page).to_not have_button("Publish")
+              # show this button instead
+              click_on 'Submit for Organizational Approval'
+              page.driver.browser.switch_to.alert.accept
+            end
+
+            it "display 'Submitted' flash message" do
+              expect(page).to have_content("Viewing Form: #{form.name}")
+              expect(page).to have_content('Form Information'.upcase)
+              expect(page).to have_content('This form has been Submitted successfully.')
+            end
+          end
+        end
+      end
+    end
+
     context 'as a Form Manager' do
       describe '/admin/forms/:uuid' do
         let(:form_manager) { FactoryBot.create(:user, organization:) }
@@ -242,6 +275,43 @@ feature 'Forms', js: true do
               expect(page).to have_content('Published')
               expect(page).to have_content("Viewing Form: #{form.name}")
               expect(page).to have_content('Form Information'.upcase)
+            end
+          end
+        end
+
+        context 'for :created touchpoint for an Organization form_approval_enabled' do
+          describe 'Submit a form' do
+            before do
+              form.organization.update_attribute(:form_approval_enabled, true)
+              form.update(aasm_state: :created)
+              visit admin_form_path(form)
+              expect(page).to_not have_button("Publish")
+              # show this button instead
+              click_on 'Submit for Organizational Approval'
+              page.driver.browser.switch_to.alert.accept
+            end
+
+            it "display 'Submitted' flash message" do
+              expect(page).to have_content("Viewing Form: #{form.name}")
+              expect(page).to have_content('Form Information'.upcase)
+              expect(page).to have_content('This form has been Submitted successfully.')
+            end
+          end
+        end
+
+        context 'for :submitted touchpoint for an Organization form_approval_enabled' do
+          describe 'Submit a form' do
+            before do
+              form.organization.update_attribute(:form_approval_enabled, true)
+              form.reset!
+              form.submit!
+              visit admin_form_path(form)
+
+            end
+
+            it "display when the form was submitted" do
+              expect(page).to_not have_button("Publish")
+              expect(page).to have_content("Form was submitted for review at")
             end
           end
         end
@@ -1303,7 +1373,7 @@ feature 'Forms', js: true do
         end
         expect(page).to have_content('Editing Questions for:')
         expect(page).to have_content('Form is not published')
-        expect(page).to have_link('Publish')
+        expect(page).to have_button('Publish')
         expect(page).to have_link('Copy')
         expect(page).to have_link('Archive')
         expect(page).to have_link('Delete')
