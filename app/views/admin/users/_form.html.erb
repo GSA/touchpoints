@@ -64,6 +64,29 @@
     <div class="grid-row">
       <div class="tablet:grid-col-6">
         <fieldset class="usa-fieldset">
+          <legend class="usa-sr-only">Organization Form Approver</legend>
+          <div class="usa-checkbox">
+            <%= form.check_box :organizational_form_approver, class: "usa-checkbox__input" %>
+            <%= form.label :organizational_form_approver, class: "usa-checkbox__label" do %>
+              <span class="usa-tag bg-green">
+                Organizational Form Approver
+              </span>
+            <% end %>
+          </div>
+        </fieldset>
+      </div>
+      <div class="tablet:grid-col-6">
+        <p>
+          Is responsible for approving forms that belong to an Organization.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="well">
+    <div class="grid-row">
+      <div class="tablet:grid-col-6">
+        <fieldset class="usa-fieldset">
           <legend class="usa-sr-only">Digital Registry manager</legend>
           <div class="usa-checkbox">
             <%= form.check_box :registry_manager, class: "usa-checkbox__input" %>

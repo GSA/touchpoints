@@ -76,6 +76,7 @@ module Admin
     end
 
     def approve
+      ensure_form_approver_permissions
       @event = Event.log_event(Event.names[:form_approved], 'Form', @form.uuid, "Form #{@form.name} approved at #{DateTime.now}", current_user.id)
 
       @form.approve!

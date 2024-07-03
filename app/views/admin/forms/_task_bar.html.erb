@@ -115,7 +115,7 @@
     <% end %>
   <% end %>
 
-  <%- if admin_permissions? && @form.submitted? %>
+  <%- if form_approver_permissions? && @form.submitted? %>
   <div class="margin-top-2">
     <%= button_to approve_admin_form_path(form),
       method: :post,
@@ -127,7 +127,7 @@
   </div>
   <% end %>
 
-  <%- if !@form.organization_has_form_approval_enabled? || @form.approved? %>
+  <%- if (!@form.organization_has_form_approval_enabled? && @form.created?) || @form.approved?  %>
   <div class="margin-top-2">
     <%= button_to publish_admin_form_path(form),
       method: :post,

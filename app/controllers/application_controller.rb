@@ -48,6 +48,12 @@ class ApplicationController < ActionController::Base
     redirect_to(index_path, notice: 'Authorization is Required')
   end
 
+  def ensure_form_approver_permissions
+    return true if form_approver_permissions?
+
+    redirect_to(index_path, notice: 'Authorization is Required')
+  end
+
   def ensure_admin_or_contact(obj)
     return true if admin_permissions?
 
@@ -146,6 +152,12 @@ class ApplicationController < ActionController::Base
   helper_method :admin_permissions?
   def admin_permissions?
     current_user&.admin?
+  end
+
+  helper_method :form_approver_permissions?
+  def form_approver_permissions?
+    return true if admin_permissions?
+    current_user.organizational_form_approver?
   end
 
   helper_method :performance_manager_permissions?

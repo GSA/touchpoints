@@ -142,6 +142,7 @@ module Admin
         :organization_id,
         :organizational_admin,
         :organizational_website_manager,
+        :organizational_form_approver,
         :performance_manager,
         :service_manager,
         :registry_manager,
