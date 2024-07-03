@@ -175,7 +175,7 @@ module Admin
         submissions = form.submissions
         submissions = submissions.where('created_at >= ?', days_limit.days.ago) if days_limit.positive?
         submissions.each do |submission|
-          form.questions.each do |question|
+          form.ordered_questions.each do |question|
             question_text = question.text.to_s
             answer_text = Logstop.scrub(submission.send(question.answer_field.to_sym).to_s)
             @hash = {

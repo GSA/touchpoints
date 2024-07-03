@@ -33,7 +33,7 @@
     <% end %>
     <div class="touchpoint-form form-builder">
       <div class="inner-wrapper">
-        <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
+        <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.ordered_questions } %>
       </div>
       <%= render partial: 'components/forms/footer_banner', locals: { form: @form } %>
     </div>

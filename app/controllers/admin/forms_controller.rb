@@ -51,7 +51,7 @@ module Admin
 
     def export
       questions = []
-      @form.questions.each do |q|
+      @form.ordered_questions.each do |q|
         attrs = q.attributes
 
         if q.question_options.present?
@@ -151,7 +151,7 @@ module Admin
 
     def show
       ensure_response_viewer(form: @form) unless @form.template?
-      @questions = @form.questions
+      @questions = @form.ordered_questions
       @events = @events = Event.where(object_type: 'Form', object_uuid: @form.uuid).order("created_at DESC")
     end
 
@@ -166,7 +166,7 @@ module Admin
 
     def questions
       ensure_form_manager(form: @form) unless @form.template?
-      @questions = @form.questions
+      @questions = @form.ordered_questions
     end
 
     def responses
