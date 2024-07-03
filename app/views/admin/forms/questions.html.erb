@@ -1,5 +1,11 @@
 <% content_for :navigation_title do %>
   Editing Questions for: <%= @form.name %>
+  <div class="float-right">
+    <%= link_to copy_admin_form_path(@form), class: "usa-button usa-button-inverted", method: :post, data: { confirm: 'Are you sure?' } do %>
+      <i class="fa fa-copy"></i>
+      Copy
+    <% end %>
+  </div>
 <% end %>
 <p>
   <%= link_to admin_forms_path do %>
