@@ -91,6 +91,7 @@
     <% end %>
   </div>
 </div>
+<% end %>
 <div class="well">
   <%- if @form.organization_has_form_approval_enabled? %>
     <%- if @form.submitted? %>
@@ -138,7 +139,7 @@
       Copy
     <% end %>
   </div>
-<% end %>
+
 
 <% unless form.archived? %>
   <div class="margin-top-2">
