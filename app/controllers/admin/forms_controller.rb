@@ -21,6 +21,8 @@ module Admin
       export_a11_submissions
       example js
       add_user remove_user
+      submit
+      approve
       publish
       archive
       reset
@@ -49,7 +51,7 @@ module Admin
 
     def export
       questions = []
-      @form.questions.each do |q|
+      @form.ordered_questions.each do |q|
         attrs = q.attributes
 
         if q.question_options.present?
@@ -63,6 +65,23 @@ module Admin
       end
 
       render json: { form: @form, questions: }
+    end
+
+    def submit
+      @event = Event.log_event(Event.names[:form_submitted], 'Form', @form.uuid, "Form #{@form.name} submitted at #{DateTime.now}", current_user.id)
+
+      @form.submit!
+      UserMailer.form_status_changed(form: @form, action: 'submitted', event: @event).deliver_later
+      redirect_to admin_form_path(@form), notice: 'This form has been Submitted successfully.'
+    end
+
+    def approve
+      ensure_form_approver_permissions
+      @event = Event.log_event(Event.names[:form_approved], 'Form', @form.uuid, "Form #{@form.name} approved at #{DateTime.now}", current_user.id)
+
+      @form.approve!
+      UserMailer.form_status_changed(form: @form, action: 'approved', event: @event).deliver_later
+      redirect_to admin_form_path(@form), notice: 'This form has been Approved successfully.'
     end
 
     def publish
@@ -132,7 +151,7 @@ module Admin
 
     def show
       ensure_response_viewer(form: @form) unless @form.template?
-      @questions = @form.questions
+      @questions = @form.ordered_questions
       @events = @events = Event.where(object_type: 'Form', object_uuid: @form.uuid).order("created_at DESC")
     end
 
@@ -147,7 +166,7 @@ module Admin
 
     def questions
       ensure_form_manager(form: @form) unless @form.template?
-      @questions = @form.questions
+      @questions = @form.ordered_questions
     end
 
     def responses
@@ -521,7 +540,7 @@ module Admin
 
     # Add rules for AASM state transitions here
     def transition_state
-      Event.log_event(Event.names[:form_published], 'Form', @form.uuid, "Form #{@form.name} published at #{DateTime.now}", current_user.id) if (params['form']['aasm_state'] == 'live') && !@form.live?
+      Event.log_event(Event.names[:form_published], 'Form', @form.uuid, "Form #{@form.name} published at #{DateTime.now}", current_user.id) if (params['form']['aasm_state'] == 'published') && !@form.published?
       Event.log_event(Event.names[:form_archived], 'Form', @form.uuid, "Form #{@form.name} archived at #{DateTime.now}", current_user.id) if (params['form']['aasm_state'] == 'archived') && !@form.archived?
     end
 

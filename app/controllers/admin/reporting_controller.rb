@@ -342,7 +342,7 @@ module Admin
     end
 
     def no_submissions
-      @forms = Form.live.select(:id, :name, :organization_id, :uuid).where("not exists (select id, uuid from submissions where submissions.form_id = forms.id and submissions.created_at > current_date - interval '30' day)").order(:organization_id)
+      @forms = Form.published.select(:id, :name, :organization_id, :uuid).where("not exists (select id, uuid from submissions where submissions.form_id = forms.id and submissions.created_at > current_date - interval '30' day)").order(:organization_id)
       @orgs = Organization.all.order(:name)
       @org_summary = []
       @orgs.each do |org|

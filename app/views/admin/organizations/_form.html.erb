@@ -78,6 +78,13 @@
   <br>
   <fieldset class="usa-fieldset">
     <div class="usa-checkbox">
+      <%= form.check_box :form_approval_enabled, class: "usa-checkbox__input" %>
+      <%= form.label :form_approval_enabled, "Has form approval enabled?", class: "usa-checkbox__label" %>
+    </div>
+  </fieldset>
+  <br>
+  <fieldset class="usa-fieldset">
+    <div class="usa-checkbox">
       <%= form.check_box :enable_ip_address, class: "usa-checkbox__input" %>
       <%= form.label :enable_ip_address, "Record IP address?", class: "usa-checkbox__label" %>
       <p>

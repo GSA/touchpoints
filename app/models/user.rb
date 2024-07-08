@@ -19,15 +19,12 @@ class User < ApplicationRecord
   has_many :collections, through: :organization
   has_many :cx_collections, through: :organization
 
-  validate :api_key_format
+  validate :api_key_format, if: :api_key_present_and_changed?
+
   before_save :update_api_key_updated_at
 
   def update_api_key_updated_at
     self.api_key_updated_at = Time.zone.now if api_key_changed?
-  end
-
-  def api_key_format
-    errors.add(:api_key, 'is not 40 characters, as expected from api.data.gov.') if api_key.present? && api_key.length != 40
   end
 
   after_create :send_new_user_notifications
@@ -151,6 +148,14 @@ class User < ApplicationRecord
 
 
   private
+
+  def api_key_format
+    errors.add(:api_key, 'is not 40 characters, as expected from api.data.gov.') if api_key.present? && api_key.length != 40
+  end
+
+  def api_key_present_and_changed?
+    api_key.present? && will_save_change_to_api_key?
+  end
 
   def parse_host_from_domain(string)
     fragments = string.split('.')

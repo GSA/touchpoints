@@ -191,25 +191,18 @@ RSpec.describe Form, type: :model do
     context 'initial state' do
       it 'sets initial state' do
         f = Form.new
-        expect(f.in_development?).to eq(true)
+        expect(f.created?).to eq(true)
       end
     end
 
     context 'transitionable touchpoint' do
       it 'transitions state' do
-        form.develop
-        expect(form.in_development?).to eq(true)
-        expect(form.live?).to eq(false)
-        form.publish
-        expect(form.in_development?).to eq(false)
-        expect(form.live?).to eq(true)
-      end
-
-      it 'transitions from Archived to Live state' do
-        form.archive!
-        expect(form.archived?).to eq(true)
+        form.reset!
+        expect(form.created?).to eq(true)
+        expect(form.published?).to eq(false)
         form.publish!
-        expect(form.live?).to eq(true)
+        expect(form.created?).to eq(false)
+        expect(form.published?).to eq(true)
       end
     end
 
@@ -219,9 +212,9 @@ RSpec.describe Form, type: :model do
       end
 
       it 'archives expired form' do
-        expect(form.live?).to eq(true)
+        expect(form.published?).to eq(true)
         form.check_expired
-        expect(form.live?).to eq(false)
+        expect(form.published?).to eq(false)
         expect(form.archived?).to eq(true)
       end
     end
@@ -241,7 +234,7 @@ RSpec.describe Form, type: :model do
     end
 
     it 'resets many other attributes' do
-      expect(@duplicate_form.aasm_state).to eq('in_development')
+      expect(@duplicate_form.aasm_state).to eq('created')
       expect(@duplicate_form.legacy_touchpoint_id).to eq(nil)
       expect(@duplicate_form.legacy_touchpoint_uuid).to eq(nil)
       expect(@duplicate_form.template).to eq(false)

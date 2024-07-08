@@ -471,9 +471,9 @@ feature 'Touchpoints', js: true do
     let!(:admin) { FactoryBot.create(:user, :admin, organization:) }
 
     describe '/touchpoints' do
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, aasm_state: 'in_development') }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, aasm_state: 'created') }
 
-      context 'for an in_development form' do
+      context 'for a created form' do
         before do
           visit touchpoint_path(form)
         end
@@ -502,7 +502,7 @@ feature 'Touchpoints', js: true do
     end
 
     describe '/touchpoints' do
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, aasm_state: 'live') }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, aasm_state: 'published') }
 
       context 'for a live form' do
         before do

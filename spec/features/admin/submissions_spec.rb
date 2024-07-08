@@ -149,7 +149,12 @@ feature 'Submissions', js: true do
                 expect(page).to have_content('TAG1')
                 expect(page).to have_content('TAG2')
                 find_all('.remove-tag-link').first.click
-                expect(page).not_to have_content('TAG1')
+                within(".tag-list.applied") do
+                  expect(page).not_to have_content('TAG1')
+                end
+                within(".tag-list.available") do
+                  expect(page).to have_content('TAG1')
+                end
               end
             end
           end
