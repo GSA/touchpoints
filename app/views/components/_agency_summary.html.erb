@@ -25,7 +25,7 @@
         <%= forms.select { | form | form.organization_id == agency.id }.count %>
       </td>
       <td class="reportable-active-forms">
-        <%= forms.select { | form | (form.organization_id == agency.id) && form.live? }.count %>
+        <%= forms.select { | form | (form.organization_id == agency.id) && form.published? }.count %>
       </td>
     </tr>
     <% end %>

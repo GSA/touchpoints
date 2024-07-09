@@ -8,6 +8,7 @@
   <% end %>
 </p>
 <%= render 'admin/forms/nav', form: @form %>
+<%= render 'admin/forms/step_indicator', form: @form %>
 <br>
 <%= form_with(model: @form, url: (@form.persisted? ? admin_form_path(@form) : admin_forms_path), local: true) do |f| %>
   <%- if @form.errors.any? %>

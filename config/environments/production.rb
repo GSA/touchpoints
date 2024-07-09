@@ -75,11 +75,11 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "touchpoints_production"
 
   config.active_job.queue_adapter = :sidekiq
+
+  config.action_mailer.default_options = { reply_to: 'feedback-analytics@gsa.gov' }
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
-
   config.action_mailer.perform_caching = false
-
 
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
@@ -107,11 +107,10 @@ Rails.application.configure do
 
 
   # For Devise
-  config.action_mailer.default_url_options = { host: 'touchpoints.app.cloud.gov', port: 443 }
+  config.action_mailer.default_url_options = { host: ENV.fetch('TOUCHPOINTS_WEB_DOMAIN'), port: 443 }
 
   # Prevent host header injection
   # Reference: https://github.com/ankane/secure_rails
-  config.action_controller.default_url_options = { host: ENV.fetch('TOUCHPOINTS_WEB_DOMAIN') }
   config.action_controller.asset_host = ENV.fetch('TOUCHPOINTS_WEB_DOMAIN')
 
   config.action_mailer.delivery_method = :ses

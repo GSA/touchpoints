@@ -98,7 +98,7 @@ class Submission < ApplicationRecord
   end
 
   def to_rows
-    values = form.questions.collect(&:answer_field)
+    values = form.ordered_questions.collect(&:answer_field)
 
     values + [
       ip_address,
