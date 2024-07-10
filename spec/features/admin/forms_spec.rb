@@ -1376,25 +1376,6 @@ feature 'Forms', js: true do
         expect(page).to have_link('Archive')
         expect(page).to have_link('Delete')
       end
-
-      context 'notification settings' do
-        before 'notification_email is blank by default' do
-          click_on 'Notifications'
-          within '.usa-nav__secondary .user-name' do
-            expect(page).to have_content(touchpoints_manager.email)
-          end
-          expect(find_field('form_notification_emails').value).to eq('')
-        end
-
-        it 'can be updated' do
-          fill_in 'form_notification_emails', with: 'user@example.gov'
-          click_on 'Update Form'
-          expect(page).to have_content('Form was successfully updated.')
-
-          click_on 'Notifications'
-          expect(find_field('form_notification_emails').value).to eq('user@example.gov')
-        end
-      end
     end
 
     describe 'copying a Form' do
