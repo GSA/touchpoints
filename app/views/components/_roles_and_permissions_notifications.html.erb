@@ -44,7 +44,7 @@
                 <%= friendly_roles[form.user_role?(user: user)] %>
               </td>
               <td>
-                <%= render("admin/users/badge", user: user, link: admin_user_path(user)) %>
+                <%= link_to user.email, admin_user_path(user) %>
                 <%- if user.inactive? %>
                   <span class="usa-tag float-right">
                     inactive
