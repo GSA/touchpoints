@@ -529,15 +529,13 @@ feature 'Forms', js: true do
 
         before do
           visit notifications_admin_form_path(form)
-          expect(find_field('form_notification_emails').value).to eq(form.notification_emails.to_s)
-          fill_in('form_notification_emails', with: 'new@email.gov')
-          click_on 'Update Form'
+          find(".usa-checkbox").click
+          sleep 1.0
         end
 
         it 'updates successfully' do
-          expect(page).to have_content('Form was successfully updated.')
           visit notifications_admin_form_path(form)
-          expect(find("input[type='text']").value).to eq('new@email.gov')
+          expect(find("#user_#{admin.id}", visible: false)).to be_checked
         end
       end
 
