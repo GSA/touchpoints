@@ -16,7 +16,9 @@
     <% @organizations.each do |organization| %>
       <tr>
         <td><%= organization.abbreviation %></td>
-        <td><%= link_to organization.name, admin_organization_path(organization) %></td>
+        <td>
+          <%= render "admin/organizations/badge", organization: organization %>
+        </td>
         <td>
           <%= link_to organization.url, organization.url, target: "_blank", rel: "noopener" %>
         </td>
