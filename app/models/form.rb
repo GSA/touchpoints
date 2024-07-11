@@ -126,7 +126,6 @@ class Form < ApplicationRecord
 
   aasm do
     state :created, initial: true
-    state :in_development
     state :submitted
     state :approved
     state :published # manual

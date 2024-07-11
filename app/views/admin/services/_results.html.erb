@@ -21,7 +21,9 @@
         <% end %>
         </td>
       <%- if service_manager_permissions? %>
-        <td><%= service.organization.try(:name) %></td>
+        <td>
+          <%= render "admin/organizations/badge", organization: service.organization %>
+        </td>
         <td><%= service.service_provider.try(:name) %></td>
       <% end %>
         <td><%= link_to service.name, admin_service_path(service) %></td>

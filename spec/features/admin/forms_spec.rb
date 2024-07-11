@@ -529,15 +529,13 @@ feature 'Forms', js: true do
 
         before do
           visit notifications_admin_form_path(form)
-          expect(find_field('form_notification_emails').value).to eq(form.notification_emails.to_s)
-          fill_in('form_notification_emails', with: 'new@email.gov')
-          click_on 'Update Form'
+          find(".usa-checkbox").click
+          sleep 1.0
         end
 
         it 'updates successfully' do
-          expect(page).to have_content('Form was successfully updated.')
           visit notifications_admin_form_path(form)
-          expect(find("input[type='text']").value).to eq('new@email.gov')
+          expect(find("#user_#{admin.id}", visible: false)).to be_checked
         end
       end
 
@@ -1377,25 +1375,6 @@ feature 'Forms', js: true do
         expect(page).to have_link('Copy')
         expect(page).to have_link('Archive')
         expect(page).to have_link('Delete')
-      end
-
-      context 'notification settings' do
-        before 'notification_email is blank by default' do
-          click_on 'Notifications'
-          within '.usa-nav__secondary .user-name' do
-            expect(page).to have_content(touchpoints_manager.email)
-          end
-          expect(find_field('form_notification_emails').value).to eq('')
-        end
-
-        it 'can be updated' do
-          fill_in 'form_notification_emails', with: 'user@example.gov'
-          click_on 'Update Form'
-          expect(page).to have_content('Form was successfully updated.')
-
-          click_on 'Notifications'
-          expect(find_field('form_notification_emails').value).to eq('user@example.gov')
-        end
       end
     end
 

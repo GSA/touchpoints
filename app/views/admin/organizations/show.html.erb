@@ -196,7 +196,7 @@
     </div>
     <div class="collections well">
       <h3>
-        <%= @collections.size %> Collections
+        <%= pluralize(@collections.size, "Collection") %>
       </h3>
 
       <%- if @collections.present? %>
@@ -224,7 +224,7 @@
     </div>
     <div class="users well">
       <h3>
-        <%= @users.size %> Users
+        <%= pluralize(@users.size, "User") %>
       </h3>
 
       <%- if @users.present? %>
