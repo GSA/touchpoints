@@ -4,7 +4,7 @@
   <div class="usa-alert usa-alert--success">
     <div class="usa-alert__body">
       <p class="usa-alert__text">
-        <%= flash[:success] %>
+        <%= flash[:success].html_safe %>
       </p>
     </div>
   </div>
@@ -13,7 +13,7 @@
   <div class="usa-alert usa-alert--info">
     <div class="usa-alert__body">
       <p class="usa-alert__text">
-        <%= flash[:notice] %>
+        <%= flash[:notice].html_safe %>
       </p>
     </div>
   </div>
@@ -22,7 +22,7 @@
   <div class="usa-alert usa-alert--warning">
     <div class="usa-alert__body">
       <p class="usa-alert__text">
-        <%= flash[:alert] %>
+        <%= flash[:alert].html_safe %>
       </p>
     </div>
   </div>
@@ -31,7 +31,7 @@
   <div class="usa-alert usa-alert--error">
     <div class="usa-alert__body">
       <p class="usa-alert__text">
-        <%= flash[:error] %>
+        <%= flash[:error].html_safe %>
       </p>
     </div>
   </div>

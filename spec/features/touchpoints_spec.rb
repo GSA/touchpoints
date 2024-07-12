@@ -249,6 +249,27 @@ feature 'Touchpoints', js: true do
       end
     end
 
+    describe 'phone number question' do
+      let!(:phone_form) { FactoryBot.create(:form, organization:) }
+      let!(:phone_question) { FactoryBot.create(:question, :phone, form: phone_form, form_section: phone_form.form_sections.first) }
+
+      before do
+        visit touchpoint_path(phone_form)
+      end
+
+      it 'not-successful, less than 10 digit phone number' do
+        fill_in("answer_01", with: "123456789")
+        click_on 'Submit'
+        expect(page).to have_content("Please enter a valid value: Phone Number")
+      end
+
+      it 'successful, 10 digit phone number' do
+        fill_in("answer_01", with: "1234567890")
+        click_on 'Submit'
+        expect(page).to have_content("Thank you. Your feedback has been received.")
+      end
+    end
+
     describe 'multi-page early submission form' do
       let!(:multi_form) { FactoryBot.create(:form, :kitchen_sink, organization:) }
 

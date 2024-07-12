@@ -267,6 +267,7 @@ Rails.application.routes.draw do
       collection do
         get :search, to: 'digital_service_accounts#search'
         get :review, to: 'digital_service_accounts#review'
+        get :export, to: 'digital_service_accounts#export'
       end
       member do
         post 'submit', to: 'digital_service_accounts#submit', as: :submit
@@ -344,6 +345,7 @@ Rails.application.routes.draw do
         patch 'update_success_text', to: 'forms#update_success_text', as: :update_success_text
         patch 'update_ui_truncation', to: 'forms#update_ui_truncation', as: :update_ui_truncation
         patch 'update_display_logo', to: 'forms#update_display_logo', as: :update_display_logo
+        patch 'update_notification_emails', to: 'forms#update_notification_emails', as: :update_notification_emails
         patch 'update_admin_options', to: 'forms#update_admin_options', as: :update_admin_options
         patch 'update_form_manager_options', to: 'forms#update_form_manager_options', as: :update_form_manager_options
         get 'events', to: 'forms#events', as: :events
