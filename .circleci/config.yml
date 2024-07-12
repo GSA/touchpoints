@@ -77,6 +77,11 @@ jobs:
           path: coverage
 
       - deploy:
+          name: Deploy Sidekiq worker servers
+          command: ./.circleci/deploy-sidekiq.sh
+
+      - deploy:
+          name: Deploy web server(s)
           command: ./.circleci/deploy.sh
 
 workflows:

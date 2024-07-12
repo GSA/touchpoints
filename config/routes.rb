@@ -267,6 +267,7 @@ Rails.application.routes.draw do
       collection do
         get :search, to: 'digital_service_accounts#search'
         get :review, to: 'digital_service_accounts#review'
+        get :export, to: 'digital_service_accounts#export'
       end
       member do
         post 'submit', to: 'digital_service_accounts#submit', as: :submit
