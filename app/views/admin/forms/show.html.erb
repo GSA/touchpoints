@@ -17,7 +17,7 @@
 
 <%= render 'admin/forms/nav', form: @form %>
 
-<%- if @form.aasm_state == "archived" %>
+<%- if @form.archived? %>
 <div class="usa-alert usa-alert--warning margin-top-1 margin-bottom-2">
   <div class="usa-alert__body">
     <p class="usa-alert__text">
@@ -62,10 +62,10 @@
       </div>
       <div class="grid-row grid-gap-md">
         <div class="tablet:grid-col-6">
-          <p>
-            <%= label_tag "Organization", nil, class: "usa-label" %>
-            <%= link_to_if(admin_permissions?, @form.organization.name, admin_organization_path(@form.organization)) %>
-          </p>
+          <div>
+            <%= label_tag "Organization", nil, class: "usa-label margin-bottom-1" %>
+            <%= render "admin/organizations/badge", organization: @form.organization %>
+          </div>
           <% @roles = @form.user_roles.map { |role| { role: role.role, user: role.user }} %>
           <% @form_managers = @roles.select { |role| role[:role] == 'form_manager' } %>
           <% @response_viewers = @roles.select { |role| role[:role] == 'response_viewer' } %>
@@ -79,6 +79,15 @@
               </li>
             <% end %>
             </ul>
+            <% else %>
+              <div class="font-sans-2xs text-base usa-prose">
+                <p>
+                  No Form Managers are assigned to this form.
+                  <br>
+                  Update this form's
+                  <%= link_to "Permissions", permissions_admin_form_path(@form) %>.
+                </p>
+              </div>
             <% end %>
           </p>
           <p>
@@ -91,6 +100,12 @@
               </li>
             <% end %>
             </ul>
+            <% else %>
+              <div class="font-sans-2xs text-base usa-prose">
+                <p>
+                  No Response Viewers are assigned to this form.
+                </p>
+              </div>
             <% end %>
           </p>
         </div>
