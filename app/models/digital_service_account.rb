@@ -93,13 +93,6 @@ class DigitalServiceAccount < ApplicationRecord
     errors.add(:account, "Invalid account platform '#{account}'") unless DigitalServiceAccount.list.include?(account)
   end
 
-  def user_email
-    return nil unless self.user_id
-    if user
-      return user.email
-    end
-  end
-
   def contact_emails
     contacts.collect(&:email).join(", ")
   end
@@ -117,7 +110,6 @@ class DigitalServiceAccount < ApplicationRecord
       :id,
       :account,
       :name,
-      :user_email,
       :contact_emails,
       :organization_names,
       :tag_list,
