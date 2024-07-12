@@ -29,6 +29,7 @@ module Admin
       update_ui_truncation
       update_title update_instructions update_disclaimer_text
       update_success_text update_display_logo
+      update_notification_emails
       update_admin_options update_form_manager_options
       events
     ]
@@ -135,6 +136,13 @@ module Admin
     def update_display_logo
       ensure_form_manager(form: @form)
       @form.update(form_logo_params)
+    end
+
+    def update_notification_emails
+      ensure_form_manager(form: @form)
+      notification_emails = params[:emails]
+      @form.update_attribute(:notification_emails, notification_emails)
+      render json: @form
     end
 
     def update_admin_options

@@ -203,7 +203,7 @@ module ApplicationHelper
       :get_object,
       bucket: ENV.fetch("S3_UPLOADS_AWS_BUCKET_NAME"),
       key: key,
-      expires_in: 5.minutes.to_i
+      expires_in: 15.minutes.to_i
     ).to_s
   end
 

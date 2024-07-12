@@ -10,8 +10,10 @@
 </p>
 <%= render 'admin/forms/nav', form: @form %>
 
-<div class="grid-row">
-  <div class="grid-col-12">
-    <%= render 'admin/forms/form_notifications', form: @form %>
-  </div>
-</div>
+<%- if is_at_least_form_manager?(user: current_user, form: @form) %>
+  <%= render 'components/roles_and_permissions_notifications',
+    form: @form,
+    available_members: @available_members,
+    users: @form.users.order(:email)
+  %>
+<% end %>
