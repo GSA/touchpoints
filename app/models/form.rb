@@ -239,11 +239,15 @@ class Form < ApplicationRecord
     ApplicationController.new.render_to_string(partial: 'components/widget/fba', formats: :js, locals: { touchpoint: self })
   end
 
-  def to_csv(start_date: nil, end_date: nil)
-    non_flagged_submissions = submissions
+  def non_flagged_submissions(start_date: nil, end_date: nil)
+    submissions
       .non_flagged
-      .where('created_at >= ?', start_date)
-      .where('created_at <= ?', end_date)
+      .where(created_at: start_date..)
+      .where(created_at: ..end_date)
+  end
+
+  def to_csv(start_date: nil, end_date: nil)
+    non_flagged_submissions = non_flagged_submissions(start_date:, end_date:)
       .order('created_at')
     return nil if non_flagged_submissions.blank?
 
