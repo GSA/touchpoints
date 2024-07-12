@@ -198,12 +198,31 @@ module ApplicationHelper
     Aws::S3::Presigner.new(client: s3_client)
   end
 
+  def s3_bucket
+    bucket_name = ENV.fetch('S3_UPLOADS_AWS_BUCKET_NAME')
+    s3_service.bucket(bucket_name)
+  end
+
   def s3_presigned_url(key)
     s3_presigner.presigned_url(
       :get_object,
       bucket: ENV.fetch("S3_UPLOADS_AWS_BUCKET_NAME"),
       key: key,
       expires_in: 15.minutes.to_i
+    ).to_s
+  end
+
+  def store_temporarily(data)
+    key = "temporary_files/#{SecureRandom.uuid}"
+    s3_bucket.put_object({
+                           body: data,
+                           key:,
+                         })
+    s3_presigner.presigned_url(
+      :get_object,
+      bucket: s3_bucket.name,
+      key:,
+      expires_in: 5.minutes.to_i,
     ).to_s
   end
 

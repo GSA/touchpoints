@@ -369,6 +369,13 @@ module Admin
       start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Time.zone.now.beginning_of_quarter
       end_date = params[:end_date] ? Date.parse(params[:end_date]).to_date : Time.zone.now.end_of_quarter
 
+      max_export_rows = 300_000 # max number of rows that may be exported to csv
+      count = Form.find_by_short_uuid(@form.short_uuid).non_flagged_submissions(start_date:, end_date:).count
+      if count > max_export_rows
+        render status: :bad_request, plain: "Your response set contains #{helpers.number_with_delimiter count} responses and is too big to be exported from the Touchpoints app. Consider using the Touchpoints API to download large response sets (over #{helpers.number_with_delimiter max_export_rows} responses)."
+        return
+      end
+
       respond_to do |format|
         format.csv do
           csv_content = Form.find_by_short_uuid(@form.short_uuid).to_csv(start_date:, end_date:)
