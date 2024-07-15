@@ -34,6 +34,9 @@ module Admin
       events
     ]
 
+    # Maximum number of rows that may be exported to csv
+    MAX_ROWS_TO_EXPORT = 300_000
+
     def index
       if admin_permissions?
         if params[:all]
@@ -48,24 +51,6 @@ module Admin
         @forms = current_user.forms.non_archived.non_templates.order('organization_id ASC').order('name ASC').entries
         @archived_forms = current_user.forms.archived.order('organization_id ASC').order('name ASC')
       end
-    end
-
-    def export
-      questions = []
-      @form.ordered_questions.each do |q|
-        attrs = q.attributes
-
-        if q.question_options.present?
-          attrs[:question_options] = []
-          q.question_options.each do |qo|
-            attrs[:question_options] << qo.attributes
-          end
-        end
-
-        questions << attrs
-      end
-
-      render json: { form: @form, questions: }
     end
 
     def submit
@@ -158,9 +143,52 @@ module Admin
     end
 
     def show
-      ensure_response_viewer(form: @form) unless @form.template?
-      @questions = @form.ordered_questions
-      @events = @events = Event.where(object_type: 'Form', object_uuid: @form.uuid).order("created_at DESC")
+      respond_to do |format|
+        format.html do
+          ensure_response_viewer(form: @form) unless @form.template?
+          @questions = @form.ordered_questions
+          @events = @events = Event.where(object_type: 'Form', object_uuid: @form.uuid).order("created_at DESC")
+        end
+
+        format.json do
+          questions = []
+          @form.ordered_questions.each do |q|
+            attrs = q.attributes
+
+            if q.question_options.present?
+              attrs[:question_options] = []
+              q.question_options.each do |qo|
+                attrs[:question_options] << qo.attributes
+              end
+            end
+
+            questions << attrs
+          end
+
+          render json: { form: @form, questions: }
+        end
+      end
+    end
+
+    def export
+      start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Time.zone.now.beginning_of_quarter
+      end_date = params[:end_date] ? Date.parse(params[:end_date]).to_date : Time.zone.now.end_of_quarter
+
+      count = Form.find_by_short_uuid(@form.short_uuid).non_flagged_submissions(start_date:, end_date:).count
+      if count > MAX_ROWS_TO_EXPORT
+        render status: :bad_request, plain: "Your response set contains #{helpers.number_with_delimiter count} responses and is too big to be exported from the Touchpoints app. Consider using the Touchpoints API to download large response sets (over #{helpers.number_with_delimiter MAX_ROWS_TO_EXPORT} responses)."
+        return
+      end
+
+      if 10_000 > count
+        send_data csv, filename: "touchpoints-digital-registry-#{Date.today}.csv"
+      else
+        ExportJob.perform_later(current_user.email, @form.short_uuid, start_date.to_s, end_date.to_s,
+          "touchpoints-export-form-#{@form.short_uuid}-#{@form.name.parameterize}-responses-#{timestamp_string}.csv")
+        flash[:success] = "The form has #{@form.response_count} responses. A link to your form report has been sent to your email."
+      end
+
+      redirect_to responses_admin_form_path(@form)
     end
 
     def permissions
