@@ -4,10 +4,11 @@ class ExportVersionsJob < ApplicationJob
   queue_as :default
 
   def perform(session_uuid, versionable, filename = "touchpoints-versions-#{Time.zone.now}.csv")
+    start_time = Time.now
     csv_content = Version.to_csv(versionable)
     temporary_url = store_temporarily(csv_content)
-    ActionCable.server.broadcast(
-      "exports_channel_#{session_uuid}", { url: temporary_url, filename: }
-    )
+    completion_time = Time.now
+    record_count = csv_content.size
+    UserMailer.async_report_notification(email:, start_time:, completion_time, record_count:, url: temporary_url).deliver_later
   end
 end

@@ -212,12 +212,17 @@ module ApplicationHelper
     ).to_s
   end
 
-  def store_temporarily(data)
-    key = "temporary_files/#{SecureRandom.uuid}"
+  def store_temporarily(data, filename)
+    if filename.present?
+      key = "temporary_files/#{filename}.csv"
+    else
+      key = "temporary_files/#{SecureRandom.uuid}.csv"
+    end
+
     s3_bucket.put_object({
-                           body: data,
-                           key:,
-                         })
+      body: data,
+      key:,
+    })
     s3_presigner.presigned_url(
       :get_object,
       bucket: s3_bucket.name,

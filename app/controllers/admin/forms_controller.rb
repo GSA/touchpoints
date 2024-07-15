@@ -185,8 +185,7 @@ module Admin
         send_data csv_content, filename: "touchpoints-form-#{@form.short_uuid}-#{@form.name.parameterize}-responses-#{timestamp_string}.csv"
         return
       else
-        ExportJob.perform_later(current_user.email, @form.short_uuid, start_date.to_s, end_date.to_s,
-          "touchpoints-export-form-#{@form.short_uuid}-#{@form.name.parameterize}-responses-#{timestamp_string}.csv")
+        ExportJob.perform_later(current_user.email, @form.short_uuid, start_date.to_s, end_date.to_s)
         flash[:success] = UserMailer::ASYNC_JOB_MESSAGE
       end
 
@@ -398,7 +397,7 @@ module Admin
     def export_a11_v2_submissions
       start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Time.zone.now.beginning_of_quarter
       end_date = params[:end_date] ? Date.parse(params[:end_date]).to_date : Time.zone.now.end_of_quarter
-      ExportA11V2Job.perform_later(email: current_user.email, form_uuid: @form.short_uuid, filename: "touchpoints-a11-v2-form-responses-#{timestamp_string}.csv")
+      ExportA11V2Job.perform_later(email: current_user.email, form_uuid: @form.short_uuid)
       flash[:success] = UserMailer::ASYNC_JOB_MESSAGE
       redirect_to responses_admin_form_path(@form)
     end
