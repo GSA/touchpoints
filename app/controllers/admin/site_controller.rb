@@ -61,11 +61,6 @@ module Admin
       end
     end
 
-    def events_export
-      ExportEventsJob.perform_later(params[:uuid])
-      render json: { result: :ok }
-    end
-
     def management
       ensure_admin
       @organizations = Organization.all.order(:name)
