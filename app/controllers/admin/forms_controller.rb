@@ -15,7 +15,6 @@ module Admin
       copy copy_by_id
       notifications
       export
-      export_submissions
       export_a11_v2_submissions
       export_a11_header
       export_a11_submissions
@@ -181,11 +180,13 @@ module Admin
       end
 
       if 10_000 > count
-        send_data csv, filename: "touchpoints-digital-registry-#{Date.today}.csv"
+        csv_content = @form.to_csv
+        send_data csv_content, filename: "touchpoints-form-#{@form.short_uuid}-#{@form.name.parameterize}-responses-#{timestamp_string}.csv"
+        return
       else
         ExportJob.perform_later(current_user.email, @form.short_uuid, start_date.to_s, end_date.to_s,
           "touchpoints-export-form-#{@form.short_uuid}-#{@form.name.parameterize}-responses-#{timestamp_string}.csv")
-        flash[:success] = "The form has #{@form.response_count} responses. A link to your form report has been sent to your email."
+        flash[:success] = UserMailer::ASYNC_JOB_MESSAGE
       end
 
       redirect_to responses_admin_form_path(@form)
@@ -390,29 +391,6 @@ module Admin
         }
       else
         render json: @role.errors, status: :unprocessable_entity
-      end
-    end
-
-    def export_submissions
-      start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Time.zone.now.beginning_of_quarter
-      end_date = params[:end_date] ? Date.parse(params[:end_date]).to_date : Time.zone.now.end_of_quarter
-
-      max_export_rows = 300_000 # max number of rows that may be exported to csv
-      count = Form.find_by_short_uuid(@form.short_uuid).non_flagged_submissions(start_date:, end_date:).count
-      if count > max_export_rows
-        render status: :bad_request, plain: "Your response set contains #{helpers.number_with_delimiter count} responses and is too big to be exported from the Touchpoints app. Consider using the Touchpoints API to download large response sets (over #{helpers.number_with_delimiter max_export_rows} responses)."
-        return
-      end
-
-      respond_to do |format|
-        format.csv do
-          csv_content = Form.find_by_short_uuid(@form.short_uuid).to_csv(start_date:, end_date:)
-          send_data csv_content
-        end
-        format.json do
-          ExportJob.perform_later(params[:uuid], @form.short_uuid, start_date.to_s, end_date.to_s, "touchpoints-form-#{@form.short_uuid}-#{@form.name.parameterize}-responses-#{timestamp_string}.csv")
-          render json: { result: :ok }
-        end
       end
     end
 

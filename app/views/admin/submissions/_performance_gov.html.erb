@@ -21,7 +21,7 @@
           Quarter 4: <%= quarter %> to <%= quarter.end_of_quarter %>
         <% end %>
       </p>
-      <%= link_to export_submissions_admin_form_url(form, start_date: quarter.to_date, end_date: quarter.end_of_quarter.to_date, format: "json"), class: "usa-button usa-button--outline export-cx-summary-button" do %>
+      <%= link_to export_admin_form_url(form, start_date: quarter.to_date, end_date: quarter.end_of_quarter.to_date, format: "json"), class: "usa-button usa-button--outline export-cx-summary-button" do %>
         <i class="fa fa-download"></i>
         Responses
       <% end %>

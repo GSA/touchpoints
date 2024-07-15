@@ -321,7 +321,6 @@ Rails.application.routes.draw do
         get 'notifications', to: 'forms#notifications', as: :notifications
         get 'example', to: 'forms#example', as: :example
         get 'export', to: 'forms#export', as: :export
-        get 'export_submissions', to: 'forms#export_submissions', as: :export_submissions
         get 'export_a11_v2_submissions', to: 'forms#export_a11_v2_submissions', as: :export_a11_v2_submissions
         get 'export_a11_header', to: 'forms#export_a11_header', as: :export_a11_header
         get 'export_a11_submissions', to: 'forms#export_a11_submissions', as: :export_a11_submissions
