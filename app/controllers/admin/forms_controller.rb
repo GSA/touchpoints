@@ -179,8 +179,9 @@ module Admin
         return
       end
 
+      # for a relatively small download (that doesn't need to be a background ojb)
       if 10_000 > count
-        csv_content = @form.to_csv
+        csv_content = @form.to_csv(start_date:, end_date:)
         send_data csv_content, filename: "touchpoints-form-#{@form.short_uuid}-#{@form.name.parameterize}-responses-#{timestamp_string}.csv"
         return
       else
@@ -397,17 +398,9 @@ module Admin
     def export_a11_v2_submissions
       start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Time.zone.now.beginning_of_quarter
       end_date = params[:end_date] ? Date.parse(params[:end_date]).to_date : Time.zone.now.end_of_quarter
-
-      respond_to do |format|
-        format.csv do
-          csv_content = Form.find_by_short_uuid(@form.short_uuid).to_a11_v2_csv(start_date:, end_date:)
-          send_data csv_content
-        end
-        format.json do
-          ExportA11V2Job.perform_now(params[:uuid], @form.short_uuid, start_date.to_s, end_date.to_s, "touchpoints-a11-v2-form-responses-#{timestamp_string}.csv")
-          render json: { result: :ok }
-        end
-      end
+      ExportA11V2Job.perform_later(email: current_user.email, form_uuid: @form.short_uuid, filename: "touchpoints-a11-v2-form-responses-#{timestamp_string}.csv")
+      flash[:success] = UserMailer::ASYNC_JOB_MESSAGE
+      redirect_to responses_admin_form_path(@form)
     end
 
     # A-11 Header report. File 1 of 2
