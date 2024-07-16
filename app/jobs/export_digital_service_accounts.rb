@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ExportDigitalServiceAccounts < ApplicationJob
-  include ApplicationHelper
+  include S3Helper
 
   queue_as :default
 
