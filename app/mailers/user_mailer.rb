@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UserMailer < ApplicationMailer
-  ASYNC_JOB_MESSAGE = "Touchpoints has initiated an asynchronous job that will take a few minutes. <br>Please check your email for a link to the report."
+  ASYNC_JOB_MESSAGE = "Touchpoints has initiated an asynchronous job that will take a few minutes. <br>Please check your email for a link to download the report."
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
