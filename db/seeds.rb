@@ -238,7 +238,8 @@ Question.create!({
   is_required: true,
 })
 
-20.times.each do |i|
+# more than 1,000, to test async sidekiq form export jobs
+1010.times.each do |i|
  Submission.create!({
     form: form_that_belongs_to_a_service,
     answer_01: "aaaaa",

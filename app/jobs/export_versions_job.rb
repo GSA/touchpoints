@@ -9,6 +9,6 @@ class ExportVersionsJob < ApplicationJob
     temporary_url = store_temporarily(csv_content)
     completion_time = Time.now
     record_count = csv_content.size
-    UserMailer.async_report_notification(email:, start_time:, completion_time, record_count:, url: temporary_url).deliver_later
+    UserMailer.async_report_notification(email:, start_time:, completion_time:, record_count:, url: temporary_url).deliver_later
   end
 end
