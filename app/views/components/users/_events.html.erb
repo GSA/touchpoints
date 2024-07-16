@@ -9,13 +9,16 @@
           ID
         </th>
         <th>
-          Name
+          Event name
         </th>
         <th>
           Created at
         </th>
         <th>
           Time ago
+        </th>
+        <th>
+          Change made by
         </th>
       </tr>
     </thead>
@@ -33,6 +36,9 @@
         </td>
         <td>
           <%= time_ago_in_words(event.created_at) %>
+        </td>
+        <td>
+          <%= event.user.try(:email) %>
         </td>
       </tr>
     </tbody>

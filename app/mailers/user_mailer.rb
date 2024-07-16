@@ -216,6 +216,14 @@ class UserMailer < ApplicationMailer
          to: UserMailer.touchpoints_support
   end
 
+  def user_reactivation_email(user)
+    set_logo
+    @user = user
+    mail subject: 'Touchpoints account reactivated',
+         to: @user.email,
+         bcc: UserMailer.touchpoints_team
+  end
+
   def account_deactivated_notification(user)
     set_logo
     @user = user

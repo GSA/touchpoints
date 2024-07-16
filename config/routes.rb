@@ -383,6 +383,9 @@ Rails.application.routes.draw do
       end
     end
     resources :users, except: [:new] do
+      member do
+        post 'reactivate', to: 'users#reactivate', as: :reactivate
+      end
       collection do
         get 'all', to: 'users#index', as: :all, scope: :all
         get 'inactive', to: 'users#index', as: :inactive, scope: :inactive
