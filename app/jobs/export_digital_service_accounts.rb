@@ -6,12 +6,13 @@ class ExportDigitalServiceAccounts < ApplicationJob
   def perform(email:, include_all_accounts: false)
     start_time = Time.now
     if include_all_accounts
-      csv_content = DigitalServiceAccount.active.to_csv
+      query = DigitalServiceAccount.all
     else
-      csv_content = DigitalServiceAccount.to_csv
+      query = DigitalServiceAccount.active
     end
+    csv_content = query.to_csv
     completion_time = Time.now
-    record_count = csv_content.size
+    record_count = query.count
 
     filename = "touchpoints-digital-service-accounts-#{timestamp_string}.csv"
     url = store_temporarily(csv_content, filename)
