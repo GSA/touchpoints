@@ -208,21 +208,26 @@ module ApplicationHelper
       :get_object,
       bucket: ENV.fetch("S3_UPLOADS_AWS_BUCKET_NAME"),
       key: key,
-      expires_in: 15.minutes.to_i
+      expires_in: 30.minutes.to_i
     ).to_s
   end
 
-  def store_temporarily(data)
-    key = "temporary_files/#{SecureRandom.uuid}"
+  def store_temporarily(data, filename)
+    if filename.present?
+      key = "temporary_files/#{filename}.csv"
+    else
+      key = "temporary_files/#{SecureRandom.uuid}.csv"
+    end
+
     s3_bucket.put_object({
-                           body: data,
-                           key:,
-                         })
+      body: data,
+      key:,
+    })
     s3_presigner.presigned_url(
       :get_object,
       bucket: s3_bucket.name,
       key:,
-      expires_in: 5.minutes.to_i,
+      expires_in: 30.minutes.to_i,
     ).to_s
   end
 

@@ -321,7 +321,6 @@ Rails.application.routes.draw do
         get 'notifications', to: 'forms#notifications', as: :notifications
         get 'example', to: 'forms#example', as: :example
         get 'export', to: 'forms#export', as: :export
-        get 'export_submissions', to: 'forms#export_submissions', as: :export_submissions
         get 'export_a11_v2_submissions', to: 'forms#export_a11_v2_submissions', as: :export_a11_v2_submissions
         get 'export_a11_header', to: 'forms#export_a11_header', as: :export_a11_header
         get 'export_a11_submissions', to: 'forms#export_a11_submissions', as: :export_a11_submissions
@@ -422,7 +421,7 @@ Rails.application.routes.draw do
     get 'performance/apg', to: 'performance#apgs', as: :apgs
     get 'management', to: 'site#management', as: :management
     get 'events', to: 'events#index', as: :events
-    get 'events/export', to: 'site#events_export', as: :export_events
+    get 'events/export', to: 'events#export', as: :export_events
     get 'events/:id', to: 'events#show', as: :event
     root to: 'forms#index'
     get 'feed', to: 'submissions#feed', as: :feed

@@ -36,6 +36,12 @@ FactoryBot.define do
       end
     end
 
+    trait :with_100_responses do
+      after(:create) do |f, _evaluator|
+        100.times { FactoryBot.create(:submission, form: f) }
+      end
+    end
+
     trait :recruiter do
       name { 'Recruiter' }
       kind { 'custom' }

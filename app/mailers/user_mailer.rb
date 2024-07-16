@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class UserMailer < ApplicationMailer
+  ASYNC_JOB_MESSAGE = "Touchpoints has initiated an asynchronous job that will take a few minutes. <br>Please check your email for a link to download the report."
+
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -14,6 +16,17 @@ class UserMailer < ApplicationMailer
 
     mail subject: "Touchpoints notification: #{title}",
          to: emails
+  end
+
+  def async_report_notification(email:, start_time:, completion_time:, record_count:, url:)
+    set_logo
+    @start_time = start_time
+    @completion_time = completion_time
+    @record_count = record_count
+    @url = url
+    mail subject: "Touchpoints export is now available",
+         to: email,
+         bcc: (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')).uniq
   end
 
   def form_feedback(form_id:, email:)
