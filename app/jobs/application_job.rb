@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 class ApplicationJob < ActiveJob::Base
-  include ApplicationHelper
+  include S3Helper
 end

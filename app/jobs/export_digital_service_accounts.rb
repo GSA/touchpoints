@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ExportDigitalServiceAccounts < ApplicationJob
-  include S3Helper
-
   queue_as :default
 
   def perform(email:, include_all_accounts: false)

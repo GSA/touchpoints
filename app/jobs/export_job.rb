@@ -10,7 +10,7 @@ class ExportJob < ApplicationJob
 
     start_time = Time.now
     csv_content = form.to_csv(start_date:, end_date:)
-    filename = "export-#{Time.zone.now}.csv"
+    filename = "touchpoints-form-#{form.short_uuid}-#{form.name.parameterize}-responses-#{timestamp_string}.csv"
     temporary_url = store_temporarily(csv_content, filename)
     completion_time = Time.now
 

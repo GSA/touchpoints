@@ -35,9 +35,9 @@ module S3Helper
 
   def store_temporarily(data, filename)
     if filename.present?
-      key = "temporary_files/#{filename}.csv"
+      key = "temporary_files/#{filename}"
     else
-      key = "temporary_files/#{SecureRandom.uuid}.csv"
+      key = "temporary_files/#{SecureRandom.uuid}"
     end
 
     s3_bucket.put_object({
