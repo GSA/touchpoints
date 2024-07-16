@@ -13,6 +13,16 @@
   <div class="field">
     <p>
       Filter by tag
+      <%- if params[:tag].present? %>
+        &middot;
+        <a href="javascript:void(0)"
+          class="clear-tag-link"
+          data-name="<%= tag %>">
+          <span class="font-sans-2xs">
+            Clear tag filter
+          </span>
+        </a>
+      <% end %>
     </p>
     <div class="tag-list">
       <% @tags.uniq.each do |tag| %>
@@ -146,16 +156,31 @@
   <%= paginate submissions, remote: true %>
 </p>
 <script>
-  $(".search-tag-link").click(function() {
-    event.preventDefault();
-    <%- if params[:archived] %>
-      var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>&archived=1&tag=' + $(this).attr("data-name");
-    <% else %>
-      var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>&tag=' + $(this).attr("data-name");
-    <% end %>
-    $.ajax({
-      url: url,
-      type: 'get'
+  $(function() {
+    $(".search-tag-link").on("click", function() {
+      event.preventDefault();
+      <%- if params[:archived] %>
+        var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>&archived=1&tag=' + $(this).attr("data-name");
+      <% else %>
+        var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>&tag=' + $(this).attr("data-name");
+      <% end %>
+      $.ajax({
+        url: url,
+        type: 'get'
+      });
     });
-  });
+
+    $(".clear-tag-link").on("click", function() {
+      event.preventDefault();
+      <%- if params[:archived] %>
+        var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>&archived=1';
+      <% else %>
+        var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>';
+      <% end %>
+      $.ajax({
+        url: url,
+        type: 'get'
+      });
+    });
+  })
 </script>

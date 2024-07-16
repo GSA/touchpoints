@@ -24,9 +24,9 @@ module Admin
 
     def export
       if admin_permissions? && params[:all]
-        filename = ExportDigitalServiceAccounts.perform_later(email: current_user.email, include_all_accounts: true, filename: "touchpoints-digital-service-accounts-#{timestamp_string}.csv")
+        filename = ExportDigitalServiceAccounts.perform_later(email: current_user.email, include_all_accounts: true)
       else
-        filename = ExportDigitalServiceAccounts.perform_later(email: current_user.email, include_all_accounts: false, filename: "touchpoints-digital-service-accounts-#{timestamp_string}.csv")
+        filename = ExportDigitalServiceAccounts.perform_later(email: current_user.email, include_all_accounts: false)
       end
 
       flash[:success] = UserMailer::ASYNC_JOB_MESSAGE
