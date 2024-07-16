@@ -15,7 +15,7 @@ class ExportDigitalServiceAccounts < ApplicationJob
     completion_time = Time.now
     record_count = csv_content.size
 
-    filename = "touchpoints-digital-service-accounts-#{Time.now.to_i}.csv"
+    filename = "touchpoints-digital-service-accounts-#{timestamp_string}.csv"
     url = store_temporarily(csv_content, filename)
     UserMailer.async_report_notification(email:, start_time:, completion_time:, record_count:, url:).deliver_later
   end

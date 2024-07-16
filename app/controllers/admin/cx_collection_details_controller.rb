@@ -105,7 +105,7 @@ class Admin::CxCollectionDetailsController < AdminController
 
     if @valid_file_extension && @valid_file_headers
       bucket = ENV.fetch("S3_UPLOADS_AWS_BUCKET_NAME")
-      key = "cx_data_collections/cx-upload-#{Time.now.to_i}-#{file.original_filename}"
+      key = "cx_data_collections/cx-upload-#{timestamp_string}-#{file.original_filename}"
 
       obj = s3_service.bucket(bucket).object(key)
       # Upload the file

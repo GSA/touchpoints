@@ -3,7 +3,7 @@
 class ExportVersionsJob < ApplicationJob
   queue_as :default
 
-  def perform(session_uuid, versionable, filename = "touchpoints-versions-#{Time.zone.now}.csv")
+  def perform(email, versionable, filename)
     start_time = Time.now
     csv_content = Version.to_csv(versionable)
     temporary_url = store_temporarily(csv_content)
