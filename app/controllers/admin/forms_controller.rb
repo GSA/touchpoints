@@ -180,7 +180,7 @@ module Admin
       end
 
       # for a relatively small download (that doesn't need to be a background job)
-      if 10_000 > count
+      if 1_000 > count
         csv_content = @form.to_csv(start_date:, end_date:)
         send_data csv_content, filename: "touchpoints-form-#{@form.short_uuid}-#{@form.name.parameterize}-responses-#{timestamp_string}.csv"
         return
