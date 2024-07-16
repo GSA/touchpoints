@@ -51,4 +51,8 @@ module S3Helper
       expires_in: 30.minutes.to_i,
     ).to_s
   end
+
+  def timestamp_string
+    Time.zone.now.strftime('%Y-%m-%d_%H-%M-%S')
+  end
 end

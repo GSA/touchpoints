@@ -297,7 +297,7 @@ class Form < ApplicationRecord
     answer_02_options = self.questions.where(answer_field: "answer_02").first.question_options.collect(&:value)
     answer_03_options = self.questions.where(answer_field: "answer_03").first.question_options.collect(&:value)
 
-    CSV.generate(headers: true) do |csv|
+    csv_content = CSV.generate(headers: true) do |csv|
       csv << header_attributes
 
       non_flagged_submissions.each do |submission|
@@ -324,6 +324,11 @@ class Form < ApplicationRecord
         ]
       end
     end
+
+    {
+      csv_content: csv_content,
+      record_count: non_flagged_submissions.size
+    }
   end
 
   def user_role?(user:)
