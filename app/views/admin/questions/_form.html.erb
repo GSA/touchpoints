@@ -31,7 +31,7 @@
         <br>
       <% end %>
     <% else %>
-      <%= f.select :question_type, Question::QUESTION_TYPES - Question::LIMITED_QUESTION_TYPES, { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
+      <%= f.select :question_type, (Question::QUESTION_TYPES - Question::LIMITED_QUESTION_TYPES + [question.question_type]).uniq, { selected: question.question_type, include_blank: true }, { class: "usa-select" } %>
     <% end %>
     </div>
 

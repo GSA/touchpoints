@@ -46,14 +46,21 @@ feature 'Managing Websites', js: true do
       end
     end
 
-    describe 'track versions after edit' do
+    describe 'with an existing website' do
       before  do
         visit edit_admin_website_path(website)
         fill_in :website_office, with: 'Test Office'
         select('Application - Transactional', from: 'website_type_of_site')
         select('Login.gov', from: 'website_authentication_tool')
         select('Other', from: 'website_feedback_tool')
+        # workaround, to fill_in the USWDS Datepicker
+        page.execute_script("$('#website_target_decommission_date').attr('type', 'text')")
+        fill_in 'website_target_decommission_date', with: '2024/09/30'
         click_on 'Update Website'
+      end
+
+      it 'shows a flash message regarding target decommission date' do
+        expect(page).to have_content("This website is scheduled for decommission on")
       end
 
       it 'creates a version with user info after update' do

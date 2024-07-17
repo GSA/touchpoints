@@ -218,6 +218,7 @@ module Admin
         :strategic_plan_url,
         :learning_agenda_url,
         :cfo_act_agency,
+        :form_approval_enabled,
       )
     end
   end

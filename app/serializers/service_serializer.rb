@@ -11,7 +11,6 @@ class ServiceSerializer < ActiveModel::Serializer
              :service_provider_name,
              :service_provider_slug,
              :short_description,
-             :justification_text,
              :year_designated,
              :previously_reported,
              :contact_center,
@@ -19,7 +18,6 @@ class ServiceSerializer < ActiveModel::Serializer
              :transactional,
              :notes,
              :hisp,
-             :service_abbreviation,
              :service_slug,
              :service_owner_email,
              :service_managers,
@@ -29,7 +27,8 @@ class ServiceSerializer < ActiveModel::Serializer
              :tags,
              :available_in_person,
              :available_digitally,
-             :available_via_phone
+             :available_via_phone,
+             :aasm_state
 
   def service_managers
     ActiveModel::Serializer::CollectionSerializer.new(object.service_managers, serializer: UserSerializer)

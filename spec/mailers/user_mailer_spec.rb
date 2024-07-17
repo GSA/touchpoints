@@ -249,4 +249,22 @@ RSpec.describe UserMailer, type: :mailer do
       expect(mail.body.encoded).to match('New user account creation failed')
     end
   end
+
+  describe 'form_feedback' do
+    let(:user) { FactoryBot.create(:user) }
+    let(:form) { FactoryBot.create(:form) }
+    let(:mail) { UserMailer.form_feedback(form_id: form.id, email: user.email) }
+
+    it 'renders the headers' do
+      expect(mail.subject).to eq("How was your Touchpoints experience with form #{form.name}?")
+      expect(mail.to).to eq([user.email] + ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(','))
+      expect(mail.from).to eq([ENV.fetch('TOUCHPOINTS_EMAIL_SENDER')])
+    end
+
+    it 'renders the body' do
+      expect(mail.body.encoded).to include('Please take this short survey to provide feedback regarding the Touchpoints application and/or the Touchpoints team')
+      expect(mail.body.encoded).to include("https://touchpoints.app.cloud.gov/touchpoints/522e395c/submit?location_code=#{form.short_uuid}")
+      expect(mail.body.encoded).to include(admin_form_url(form))
+    end
+  end
 end

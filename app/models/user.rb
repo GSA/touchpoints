@@ -19,18 +19,15 @@ class User < ApplicationRecord
   has_many :collections, through: :organization
   has_many :cx_collections, through: :organization
 
-  validate :api_key_format
+  validate :api_key_format, if: :api_key_present_and_changed?
+
   before_save :update_api_key_updated_at
 
   def update_api_key_updated_at
     self.api_key_updated_at = Time.zone.now if api_key_changed?
   end
 
-  def api_key_format
-    errors.add(:api_key, 'is not 40 characters, as expected from api.data.gov.') if api_key.present? && api_key.length != 40
-  end
-
-  after_create :send_new_user_notification
+  after_create :send_new_user_notifications
 
   validates :email, presence: true, if: :tld_check
 
@@ -104,7 +101,7 @@ class User < ApplicationRecord
   end
 
   def deactivate!
-    update!(inactive: true)
+    update_attribute(:inactive, true)
     UserMailer.account_deactivated_notification(self).deliver_later
     Event.log_event(Event.names[:user_deactivated], 'User', id, "User account #{email} deactivated on #{Date.today}")
   end
@@ -123,7 +120,7 @@ class User < ApplicationRecord
   end
 
   def self.deactivate_inactive_accounts!
-    # Find all accounts scheduled to be deactivated in 14 days
+    # Find all accounts scheduled to be deactivated in 30 days
     users = User.active.where('(current_sign_in_at ISNULL AND created_at <= ?) OR (current_sign_in_at <= ?)', 30.days.ago, 30.days.ago)
     users.each(&:deactivate!)
   end
@@ -151,6 +148,14 @@ class User < ApplicationRecord
 
 
   private
+
+  def api_key_format
+    errors.add(:api_key, 'is not 40 characters, as expected from api.data.gov.') if api_key.present? && api_key.length != 40
+  end
+
+  def api_key_present_and_changed?
+    api_key.present? && will_save_change_to_api_key?
+  end
 
   def parse_host_from_domain(string)
     fragments = string.split('.')
@@ -181,7 +186,8 @@ class User < ApplicationRecord
     end
   end
 
-  def send_new_user_notification
+  def send_new_user_notifications
     UserMailer.new_user_notification(self).deliver_later
+    UserMailer.user_welcome_email(email: self.email).deliver_later(wait_until: 9.minutes.from_now) if Rails.env.production?
   end
 end

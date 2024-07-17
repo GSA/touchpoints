@@ -1,4 +1,4 @@
-<%= render "components/forms/custom_layout", form: form, questions: form.questions %>
+<%= render "components/forms/custom_layout", form: form, questions: form.ordered_questions %>
 <script>
   <%- if form.legacy_form_embed? %>
     <%= render(partial: "components/widget/fba", formats: :js, locals: { form: form, suppress_ui: true }) %>

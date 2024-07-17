@@ -13,6 +13,16 @@
   <div class="field">
     <p>
       Filter by tag
+      <%- if params[:tag].present? %>
+        &middot;
+        <a href="javascript:void(0)"
+          class="clear-tag-link"
+          data-name="<%= tag %>">
+          <span class="font-sans-2xs">
+            Clear tag filter
+          </span>
+        </a>
+      <% end %>
     </p>
     <div class="tag-list">
       <% @tags.uniq.each do |tag| %>
@@ -51,7 +61,7 @@
           <td></td>
           <td>
           </td>
-        <% form.questions.each do |question| %>
+        <% form.ordered_questions.each do |question| %>
           <% next if question.question_type == "text_display" %>
           <td class="text-normal"><%= question.answer_field %></td>
         <% end %>
@@ -70,7 +80,7 @@
           <th data-sortable scope="col">
             Created At
           </th>
-        <% form.questions.each do |question| %>
+        <% form.ordered_questions.each do |question| %>
           <% next if question.question_type == "text_display" %>
           <th data-sortable scope="col"><%= question.text %></th>
         <% end %>
@@ -116,15 +126,15 @@
           <td>
             <%= format_time(submission.created_at, submission.form.time_zone.present? ? submission.form.time_zone : current_user.time_zone) %>
           </td>
-        <% form.questions.each do |question| %>
+        <% form.ordered_questions.each do |question| %>
           <% next if question.question_type == "text_display" %>
           <%- if form.ui_truncate_text_responses? %>
             <td class="no-wrap">
-              <%= simple_format(submission.send(question.answer_field.to_sym).to_s.truncate(160), sanitize: true) %>
+              <%= h(submission.send(question.answer_field.to_sym).to_s).truncate(160) %>
             </td>
           <% else %>
             <td>
-              <%= simple_format(submission.send(question.answer_field.to_sym), sanitize: true) %>
+              <%= h(submission.send(question.answer_field.to_sym).to_s) %>
             </td>
           <% end %>
         <% end %>
@@ -146,16 +156,31 @@
   <%= paginate submissions, remote: true %>
 </p>
 <script>
-  $(".search-tag-link").click(function() {
-    event.preventDefault();
-    <%- if params[:archived] %>
-      var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>&archived=1&tag=' + $(this).attr("data-name");
-    <% else %>
-      var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>&tag=' + $(this).attr("data-name");
-    <% end %>
-    $.ajax({
-      url: url,
-      type: 'get'
+  $(function() {
+    $(".search-tag-link").on("click", function() {
+      event.preventDefault();
+      <%- if params[:archived] %>
+        var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>&archived=1&tag=' + $(this).attr("data-name");
+      <% else %>
+        var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>&tag=' + $(this).attr("data-name");
+      <% end %>
+      $.ajax({
+        url: url,
+        type: 'get'
+      });
     });
-  });
+
+    $(".clear-tag-link").on("click", function() {
+      event.preventDefault();
+      <%- if params[:archived] %>
+        var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>&archived=1';
+      <% else %>
+        var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>';
+      <% end %>
+      $.ajax({
+        url: url,
+        type: 'get'
+      });
+    });
+  })
 </script>

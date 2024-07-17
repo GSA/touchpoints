@@ -171,7 +171,6 @@ module Admin
             :likert_or_thumb_question,
             :number_of_interactions,
             :number_of_people_offered_the_survey,
-            :reflection,
             :aasm_state,
             :rating,
             :integrity_hash

@@ -1,0 +1,13 @@
+<%= render 'user_mailer/components/header' %>
+<p>
+    A Touchpoints export was initiated at <%= @start_time %>,
+    and completed at
+    <%= @completion_time %>.
+    The file contains
+    <%= @record_count %> records.
+</p>
+<p>
+    The report is available
+    <%= link_to "here", @url %>.
+    This link will expire in 30 minutes.
+</p>

@@ -171,7 +171,6 @@ service_1 = Service.create!({
   short_description: 'A short description of this service.',
   department: 'Department of Commerce',
   bureau: 'Patents and Trademarks',
-  service_abbreviation: 'uspto',
   service_slug: 'doc-trademarks',
   url: 'https://uspto.gov/trademarks',
   service_owner_id: admin_user.id,
@@ -209,9 +208,12 @@ service_5 = Service.create!({
   hisp: false,
 })
 
+# NOTE:
+# this form can be used for testing the form feedback email
+# that is sent when a user archives a form that has been used, with conditions
 form_that_belongs_to_a_service = Form.create!({
   organization: example_gov,
-  template: true,
+  template: false,
   kind: 'open ended',
   notes: "An open-ended Feedback Form related to #{service_5.name}",
   name: 'Open-ended Feedback',
@@ -222,6 +224,28 @@ form_that_belongs_to_a_service = Form.create!({
   modal_button_text: 'Click here to leave feedback',
   service: service_5,
 })
+
+# Set the form's `created_at` date far enough in the past to trigger a feedback email
+form_that_belongs_to_a_service.update_attribute(:created_at, Time.now - 4.weeks)
+
+Question.create!({
+  form: form_that_belongs_to_a_service,
+  form_section: form_that_belongs_to_a_service.form_sections.first,
+  text: 'How can we improve?',
+  question_type: 'textarea',
+  position: 1,
+  answer_field: :answer_01,
+  is_required: true,
+})
+
+# more than 1,000, to test async sidekiq form export jobs
+1010.times.each do |i|
+ Submission.create!({
+    form: form_that_belongs_to_a_service,
+    answer_01: "aaaaa",
+  })
+end
+
 
 stage_before = ServiceStage.create({
   name: 'Before',
@@ -369,7 +393,11 @@ Question.create!({
 })
 
 a11_form = Seeds::Forms.a11
+a11_v2_form_template = Seeds::Forms.a11_v2
+
 a11_v2_form = Seeds::Forms.a11_v2
+a11_v2_form.update_attribute(:template, false)
+
 thumbs_up_down_form = Seeds::Forms.thumbs_up_down
 kitchen_sink_form = Seeds::Forms.kitchen_sink
 yes_no_form = Seeds::Forms.yes_no
@@ -440,6 +468,27 @@ Submission.create!({
     form: open_ended_form,
     answer_01: 'Body text'
   })
+end
+
+100.times do |i|
+  options = [1, 2, 3, 4]
+  random_options = options.sample(rand(4))
+
+  if rand(2) == 1
+    Submission.create!({
+      form: a11_v2_form,
+      answer_01: 1,
+      answer_02: random_options.join(','),
+      answer_04: 'Positive free text'
+    })
+  else
+    Submission.create!({
+      form: a11_v2_form,
+      answer_01: 0,
+      answer_03: random_options.join(','),
+      answer_04: ' Negative free text'
+    })
+  end
 end
 
 # TODO: Seed A11

@@ -21,6 +21,14 @@
     </p>
   </div>
 </div>
+
+<% if admin_permissions? %>
+<%= form_for :user, url: reactivate_admin_user_path(@user), class: "margin-top-8 margin-bottom-8" do |f| %>
+  <%= f.hidden_field :id %>
+  <%= f.submit "Reactivate user", class: "usa-button bg-green" %>
+<% end %>
+<% end %>
+
 <% end %>
 <div class="well">
   <%- if @user.admin? %>
@@ -166,42 +174,7 @@
     Forms
   </h4>
   <%- if @forms.present? %>
-    <table class="usa-table width-full">
-      <thead>
-        <tr>
-          <th data-sortable scope="col">
-            Name
-          </th>
-          <th data-sortable scope="col">
-          <th data-sortable scope="col">
-            Kind
-          </th>
-            Status
-          </th>
-          <th data-sortable scope="col">
-            Response count
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-      <% @forms.each do |form| %>
-        <tr>
-          <td>
-            <%= link_to form.name, admin_form_path(form) %>
-          </td>
-          <td>
-            <%= form.aasm_state %>
-          </td>
-          <td>
-            <%= form.kind %>
-          </td>
-          <td>
-            <%= number_with_delimiter(form.response_count) %>
-          </td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
+    <%= render "admin/forms/list", forms: @forms %>
   <% else %>
   <div class="usa-alert usa-alert--info">
     <div class="usa-alert__body">
@@ -337,7 +310,7 @@
   <h4>
     Data Collections
   </h4>
-  <%- if @collections.present? %>
+<%- if @collections.present? %>
   <table class="usa-table width-full">
     <thead>
       <tr>
@@ -366,11 +339,7 @@
       <% end %>
     </tbody>
   </table>
-</div>
-<div class="well">
-  <%= render 'components/users/events', events: @user_events %>
-</div>
-  <% else %>
+<% else %>
   <div class="usa-alert usa-alert--info">
     <div class="usa-alert__body">
       <p class="usa-alert__text">
@@ -378,6 +347,10 @@
       </p>
     </div>
   </div>
-  <% end %>
+<% end %>
 </div>
 <% end %>
+
+<div class="well">
+  <%= render 'components/users/events', events: @user_events %>
+</div>

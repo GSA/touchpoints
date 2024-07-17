@@ -30,25 +30,25 @@
   <tbody>
     <tr>
       <td>
-        <%= submissions.select { |s| s.aasm_state == "received" }.size %>
+        <%= number_with_delimiter(responses_by_status["received"]) %>
       </td>
       <td>
-        <%= submissions.select { |s| s.acknowledged? }.size %>
+        <%= number_with_delimiter(responses_by_status["acknowledged"]) %>
       </td>
       <td>
-        <%= submissions.select { |s| s.dispatched? }.size %>
+        <%= number_with_delimiter(responses_by_status["dispatched"]) %>
       </td>
       <td>
-        <%= submissions.select { |s| s.responded? }.size %>
+        <%= number_with_delimiter(responses_by_status["responded"]) %>
       </td>
       <td>
-        <%= submissions.archived.size %>
+        <%= number_with_delimiter(responses_by_status["archived"]) %>
       </td>
       <td>
-        <%= submissions.where(flagged: true).size %>
+        <%= number_with_delimiter(responses_by_status["flagged"]) %>
       </td>
       <td>
-        <%= submissions.size %>
+        <%= number_with_delimiter(responses_by_status["total"]) %>
       </td>
     </tr>
   </tbody>

@@ -85,8 +85,9 @@ module Admin
 
     def export_versions
       ensure_admin
-      ExportVersionsJob.perform_later(params[:uuid], @website, 'touchpoints-website-versions.csv')
-      render json: { result: :ok }
+      ExportVersionsJob.perform_later(current_user.email, @website, "touchpoints-websites-versions-#{timestamp_string}.csv")
+      flash[:success] = UserMailer::ASYNC_JOB_MESSAGE
+      redirect_to admin_websites_path
     end
 
     def dendrogram; end
@@ -469,6 +470,7 @@ module Admin
         :has_authenticated_experience,
         :authentication_tool,
         :repository_url,
+        :target_decommission_date,
         :notes,
         :tag_list,
         :service_id,

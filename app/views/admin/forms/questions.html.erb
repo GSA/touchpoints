@@ -1,5 +1,11 @@
 <% content_for :navigation_title do %>
   Editing Questions for: <%= @form.name %>
+  <div class="float-right">
+    <%= link_to copy_admin_form_path(@form), class: "usa-button usa-button-inverted", method: :post, data: { confirm: 'Are you sure?' } do %>
+      <i class="fa fa-copy"></i>
+      Copy
+    <% end %>
+  </div>
 <% end %>
 <p>
   <%= link_to admin_forms_path do %>
@@ -8,7 +14,7 @@
   <% end %>
 </p>
 <%= render 'admin/forms/nav', form: @form %>
-<br>
+<%= render 'admin/forms/step_indicator', form: @form %>
 <div class="grid-row grid-gap-lg margin-bottom-2">
   <div class="desktop:grid-col-8">
     <%- if @form.questions.size > 12 %>
@@ -27,7 +33,7 @@
     <% end %>
     <div class="touchpoint-form form-builder">
       <div class="inner-wrapper">
-        <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.questions } %>
+        <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.ordered_questions } %>
       </div>
       <%= render partial: 'components/forms/footer_banner', locals: { form: @form } %>
     </div>

@@ -47,7 +47,7 @@
       "notification_emails": null,
       "start_date": null,
       "end_date": null,
-      "aasm_state": "in_development",
+      "aasm_state": "created",
       "delivery_method": "modal",
       "element_selector": null,
       "survey_form_activations": 0,

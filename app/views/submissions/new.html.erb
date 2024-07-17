@@ -6,7 +6,7 @@
 # otherwise, fba.js.erb will render the form the 2nd time
 @form.delivery_method = "touchpoints-hosted-only"
 %>
-<%- if @form.aasm_state == 'archived' %>
+<%- if @form.archived? %>
   <%= render 'archived_form', form: @form %>
 <% else %>
   <div class="javascript-disabled-message text-center padding-3">

@@ -21,7 +21,7 @@
           Quarter 4: <%= quarter %> to <%= quarter.end_of_quarter %>
         <% end %>
       </p>
-      <%= link_to export_submissions_admin_form_url(form, start_date: quarter.to_date, end_date: quarter.end_of_quarter.to_date, format: "json"), class: "usa-button usa-button--outline export-cx-summary-button" do %>
+      <%= link_to export_admin_form_url(form, start_date: quarter.to_date, end_date: quarter.end_of_quarter.to_date, format: "json"), class: "usa-button usa-button--outline" do %>
         <i class="fa fa-download"></i>
         Responses
       <% end %>
@@ -36,21 +36,3 @@
     </div>
   </div>
 <% end %>
-<script>
-  $(function() {
-    $('.export-cx-summary-button').click(function(e) {
-      e.preventDefault();
-      if ($(this).text() == "Exporting...") {
-        console.log("Click disabled while exporting");
-        return false;
-      }
-      var uuid = generateUUID();
-      $(this).html('Exporting...').addClass('cursor-not-allowed');
-      var url = $(this).attr('href') + '&uuid=' + uuid + '&touchpoint_id=<%= form.short_uuid %>';
-      subscribeExportChannel(uuid, function() {
-        $.get(url);
-      });
-      return false;
-    })
-  });
-</script>

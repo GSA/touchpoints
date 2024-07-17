@@ -47,6 +47,11 @@ feature 'Touchpoints', js: true do
           # shows success flash message
           expect(page).to have_content('Success')
           expect(page).to have_content('Thank you. Your feedback has been received.')
+
+          # doesn't reset form; leave the flash message
+          find(".fba-modal-close").click
+          find("#fba-button").click
+          expect(page).to have_content('Thank you. Your feedback has been received.')
         end
 
         it 'renders success flash message' do

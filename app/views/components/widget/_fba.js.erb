@@ -330,7 +330,7 @@ function FBAform(d, N) {
 			  if (item.value.length == 0) {
 			  	delete(questions[item.name]);
 			  } else {
-			    var PhoneRegex = /^[0-9]{10}$/;
+				const PhoneRegex = /^\(\d{3}\) \d{3}-\d{4}$/;
 			    if (PhoneRegex.test(item.value)) delete(questions[item.name]);
 			  }
 			});
@@ -562,7 +562,7 @@ function FBAform(d, N) {
 			// for each form question
 			var params = {
 			<%# Dynamically write the Form parameters for Custom Forms %>
-			<% form.questions.each do |question| %>
+			<% form.ordered_questions.each do |question| %>
 			    <% next unless question_type_javascript_params(question).present? %>
 				<%= question.answer_field %>:
 				<%= raw question_type_javascript_params(question) %>,

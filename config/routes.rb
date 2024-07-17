@@ -267,6 +267,7 @@ Rails.application.routes.draw do
       collection do
         get :search, to: 'digital_service_accounts#search'
         get :review, to: 'digital_service_accounts#review'
+        get :export, to: 'digital_service_accounts#export'
       end
       member do
         post 'submit', to: 'digital_service_accounts#submit', as: :submit
@@ -320,7 +321,6 @@ Rails.application.routes.draw do
         get 'notifications', to: 'forms#notifications', as: :notifications
         get 'example', to: 'forms#example', as: :example
         get 'export', to: 'forms#export', as: :export
-        get 'export_submissions', to: 'forms#export_submissions', as: :export_submissions
         get 'export_a11_v2_submissions', to: 'forms#export_a11_v2_submissions', as: :export_a11_v2_submissions
         get 'export_a11_header', to: 'forms#export_a11_header', as: :export_a11_header
         get 'export_a11_submissions', to: 'forms#export_a11_submissions', as: :export_a11_submissions
@@ -332,6 +332,8 @@ Rails.application.routes.draw do
         get 'delivery', to: 'forms#delivery', as: :delivery
         post 'add_user', to: 'forms#add_user', as: :add_user
         post 'copy', to: 'forms#copy', as: :copy
+        post 'submit', to: 'forms#submit', as: :submit
+        post 'approve', to: 'forms#approve', as: :approve
         post 'publish', to: 'forms#publish', as: :publish
         post 'archive', to: 'forms#archive', as: :archive
         post 'reset', to: 'forms#reset', as: :reset
@@ -342,6 +344,7 @@ Rails.application.routes.draw do
         patch 'update_success_text', to: 'forms#update_success_text', as: :update_success_text
         patch 'update_ui_truncation', to: 'forms#update_ui_truncation', as: :update_ui_truncation
         patch 'update_display_logo', to: 'forms#update_display_logo', as: :update_display_logo
+        patch 'update_notification_emails', to: 'forms#update_notification_emails', as: :update_notification_emails
         patch 'update_admin_options', to: 'forms#update_admin_options', as: :update_admin_options
         patch 'update_form_manager_options', to: 'forms#update_form_manager_options', as: :update_form_manager_options
         get 'events', to: 'forms#events', as: :events
@@ -380,6 +383,9 @@ Rails.application.routes.draw do
       end
     end
     resources :users, except: [:new] do
+      member do
+        post 'reactivate', to: 'users#reactivate', as: :reactivate
+      end
       collection do
         get 'all', to: 'users#index', as: :all, scope: :all
         get 'inactive', to: 'users#index', as: :inactive, scope: :inactive
@@ -418,8 +424,8 @@ Rails.application.routes.draw do
     get 'performance/apg', to: 'performance#apgs', as: :apgs
     get 'management', to: 'site#management', as: :management
     get 'events', to: 'events#index', as: :events
+    get 'events/export', to: 'events#export', as: :export_events
     get 'events/:id', to: 'events#show', as: :event
-    get 'events/export', to: 'site#events_export', as: :export_events
     root to: 'forms#index'
     get 'feed', to: 'submissions#feed', as: :feed
     get 'export_feed', to: 'submissions#export_feed', as: :export_feed

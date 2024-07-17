@@ -6,7 +6,7 @@ module Api
       def index
         respond_to do |format|
           format.json do
-            if params[:hisp]
+            if params[:hisp].present? && params[:hisp].to_s == '1'
               render json: Service.hisp.order(:id), each_serializer: ServiceSerializer
             else
               render json: Service.all.order(:id), each_serializer: ServiceSerializer

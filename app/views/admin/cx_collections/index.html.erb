@@ -69,6 +69,7 @@
       <th data-sortable scope="col">Year</th>
       <th data-sortable scope="col">Quarter</th>
       <th data-sortable scope="col">Status</th>
+      <th data-sortable scope="col">Submitted At</th>
       <th data-sortable scope="col">Rating</th>
     </tr>
   </thead>
@@ -76,7 +77,9 @@
   <tbody>
     <% @cx_collections.each do |collection| %>
       <tr>
-        <td><%= collection.organization.name %></td>
+        <td>
+          <%= render "admin/organizations/badge", organization: collection.organization %>
+        </td>
         <td><%= collection.service_provider.name %></td>
         <td><%= collection.service.name %></td>
         <td><%= link_to collection.name, admin_cx_collection_path(collection) %></td>
@@ -86,7 +89,12 @@
         <td>
           <%= render 'components/collection_status_tag', collection: collection %>
         </td>
-        <td data-sort-value="<%= collection_rating_sort_values[collection.rating] %>">
+        <td
+          data-sort-value="<%= collection.submitted_at.try(:to_i) %>">
+          <%= collection.submitted_at.try(:to_date) %>
+        </td>
+        <td
+          data-sort-value="<%= collection_rating_sort_values[collection.rating] %>">
           <%= collection_rating_label(rating: collection.rating) %>
         </td>
       </tr>

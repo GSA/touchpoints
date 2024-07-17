@@ -11,27 +11,26 @@ module Admin
     ]
 
     def index
-      respond_to do |format|
-        if admin_permissions?
-          @digital_service_accounts = DigitalServiceAccount.all
-        else
-          @digital_service_accounts = DigitalServiceAccount.with_role(:contact, current_user)
-        end
-
-        @digital_service_accounts = @digital_service_accounts
-          .order(:name)
-          .page(params[:page])
-
-        format.html {}
-
-        format.csv do
-          if admin_permissions? && params[:all]
-            ExportDigitalServiceAccounts.perform_now(params[:uuid], include_all_accounts: true, filename: "touchpoints-digital-service-accounts-#{timestamp_string}.csv")
-          else
-            ExportDigitalServiceAccounts.perform_now(params[:uuid], include_all_accounts: false, filename: "touchpoints-digital-service-accounts-#{timestamp_string}.csv")
-          end
-        end
+      if admin_permissions?
+        @digital_service_accounts = DigitalServiceAccount.all
+      else
+        @digital_service_accounts = DigitalServiceAccount.with_role(:contact, current_user)
       end
+
+      @digital_service_accounts = @digital_service_accounts
+        .order(:name)
+        .page(params[:page])
+    end
+
+    def export
+      if admin_permissions? && params[:all]
+        filename = ExportDigitalServiceAccounts.perform_later(email: current_user.email, include_all_accounts: true)
+      else
+        filename = ExportDigitalServiceAccounts.perform_later(email: current_user.email, include_all_accounts: false)
+      end
+
+      flash[:success] = UserMailer::ASYNC_JOB_MESSAGE
+      redirect_to admin_digital_service_accounts_path
     end
 
     def review

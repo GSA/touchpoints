@@ -180,33 +180,6 @@ module ApplicationHelper
     Digest::SHA256.base64digest(data_to_encode)
   end
 
-  def s3_client
-    Aws::S3::Client.new(
-      region: ENV.fetch("S3_UPLOADS_AWS_REGION"),
-      credentials: Aws::Credentials.new(
-        ENV.fetch("S3_UPLOADS_AWS_ACCESS_KEY_ID"),
-        ENV.fetch("S3_UPLOADS_AWS_SECRET_ACCESS_KEY")
-      )
-    )
-  end
-
-  def s3_service
-    Aws::S3::Resource.new(client: s3_client)
-  end
-
-  def s3_presigner
-    Aws::S3::Presigner.new(client: s3_client)
-  end
-
-  def s3_presigned_url(key)
-    s3_presigner.presigned_url(
-      :get_object,
-      bucket: ENV.fetch("S3_UPLOADS_AWS_BUCKET_NAME"),
-      key: key,
-      expires_in: 5.minutes.to_i
-    ).to_s
-  end
-
   def fiscal_year_and_quarter(date)
     fiscal_year = date.year
 

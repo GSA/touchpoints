@@ -72,11 +72,11 @@
         <%= form.completion_rate %>
       </td>
       <td>
-        <%- if form.aasm_state == "live" %>
+        <%- if form.published? %>
         <span class="usa-tag bg-green">
           <%= form.aasm_state %>
         </span>
-        <% elsif form.aasm_state == "in_development" %>
+        <% elsif form.created? %>
         <span class="usa-tag bg-cyan">
           <%= form.aasm_state %>
         </span>

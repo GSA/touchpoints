@@ -56,7 +56,7 @@
     <br>
     <div class="responses">
       <div class="text-uppercase font-body-3xs">
-        Response answers
+        Response fields
       </div>
 
       <table class="usa-table width-full">
@@ -73,7 +73,7 @@
             </th>
           </tr>
         </thead>
-      <% @form.questions.each do |question| %>
+      <% @form.ordered_questions.each do |question| %>
       <% next if question.question_type == "text_display" %>
       <tr>
         <td>
@@ -83,7 +83,7 @@
           <%= question.text %>
         </td>
         <td>
-          <%= simple_format(@submission.send(question.answer_field.to_sym), sanitize: true) %>
+          <%= h @submission.send(question.answer_field.to_sym) %>
         </td>
       </tr>
       <% end %>
@@ -91,7 +91,7 @@
     </div>
     <div class="margin-top-4">
       <div class="text-uppercase font-body-3xs">
-        Response metadata
+        Metadata
       </div>
 
       <table class="usa-table usa-table--striped width-full">
@@ -128,7 +128,7 @@
               Location code
             </td>
             <td>
-              <%= @submission.location_code? ? sanitize(@submission.location_code) : "none" %>
+              <%= sanitize(@submission.location_code) %>
             </td>
           </tr>
           <tr>

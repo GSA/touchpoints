@@ -10,8 +10,10 @@
           <%= event.name %>
         </h4>
         <p class="font-sans-2xs margin-top-05">
+          <%- if event.user_id %>
           by
           <%= event.user ? link_to(event.user.email, admin_user_path(event.user)) : "Deleted User #{event.user_id}" %>
+          <% end %>
           <br>
           <%= time_ago_in_words(event.created_at) %> ago
           &middot;

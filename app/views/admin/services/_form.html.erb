@@ -18,11 +18,6 @@
     </div>
 
     <div class="field">
-      <%= form.label :bureau_id, "Subcomponent/Bureau", class: "usa-label" %>
-      <%= form.select :bureau_id, options_for_select(organization_dropdown_options, service.bureau_id), { prompt: "Which Bureau?", include_blank: true }, { class: "usa-select" } %>
-    </div>
-
-    <div class="field">
       <%= form.label :office, "Office" , class: "usa-label" %>
       <%= form.text_field :office, class: "usa-input" %>
     </div>
@@ -227,23 +222,7 @@
           </div>
         </div>
       <% end %>
-
-        <div class="field">
-          <%= form.label :justification_text, "Why did you select this service for priority designation?", class: "usa-label" %>
-          <small>
-            What is the scale of the service? (e.g., annual program cost or customer volume)?
-            <br>
-            What is the scale of the impact of the service (e.g., the importance of the service on individual lives)?
-          </small>
-          <%= form.text_area :justification_text, class: "usa-textarea" %>
-        </div>
-
         <%- if service.persisted? && admin_permissions? %>
-        <div class="field">
-          <%= form.label :service_abbreviation, class: "usa-label" %>
-          <%= form.text_field :service_abbreviation, class: "usa-input", placeholder: "service_abbreviation" %>
-        </div>
-
         <div class="field">
           <%= form.label :service_slug, class: "usa-label" %>
           <%= form.text_field :service_slug, class: "usa-input", placeholder: "service-slug" %>
@@ -308,17 +287,6 @@
     <% end %>
 
       <div class="field" hidden>
-        <%= form.label :where_customers_interact, "Service channels" , class: "usa-label" %>
-        <small>
-          What are the channels (“the places”) by which customers interact with this service? Are there digital
-          channels?
-          If yes, list them. If not, briefly describe why and what ideas or efforts are underway to utilize digital
-          channels?
-        </small>
-        <%= form.text_area :where_customers_interact, class: "usa-textarea" %>
-      </div>
-
-      <div class="field" hidden>
         <%= form.label :non_digital_explanation, "Describe why this service is not offered digitally, and summarize any challenges or barriers", class: "usa-label" %>
         <span class="usa-hint font-sans-2xs">
           e.g., cost, existing technology, law or regulations
@@ -375,15 +343,6 @@
     } else {
       hideHispOptions();
     }
-
-    // only allow Justification text for Services assigned to HISPs
-    $("#service_service_provider_id").on("change", function(event) {
-      if (event.target.value) {
-        $("#service_justification_text").attr("disabled", false);
-      } else {
-        $("#service_justification_text").attr("disabled", true);
-      }
-    });
 
     $("label[for='service_hisp']").on("click", function() {
       if (!$("#service_hisp").is(':checked')) {

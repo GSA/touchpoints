@@ -249,6 +249,27 @@ feature 'Touchpoints', js: true do
       end
     end
 
+    describe 'phone number question' do
+      let!(:phone_form) { FactoryBot.create(:form, organization:) }
+      let!(:phone_question) { FactoryBot.create(:question, :phone, form: phone_form, form_section: phone_form.form_sections.first) }
+
+      before do
+        visit touchpoint_path(phone_form)
+      end
+
+      it 'not-successful, less than 10 digit phone number' do
+        fill_in("answer_01", with: "123456789")
+        click_on 'Submit'
+        expect(page).to have_content("Please enter a valid value: Phone Number")
+      end
+
+      it 'successful, 10 digit phone number' do
+        fill_in("answer_01", with: "1234567890")
+        click_on 'Submit'
+        expect(page).to have_content("Thank you. Your feedback has been received.")
+      end
+    end
+
     describe 'multi-page early submission form' do
       let!(:multi_form) { FactoryBot.create(:form, :kitchen_sink, organization:) }
 
@@ -471,9 +492,9 @@ feature 'Touchpoints', js: true do
     let!(:admin) { FactoryBot.create(:user, :admin, organization:) }
 
     describe '/touchpoints' do
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, aasm_state: 'in_development') }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, aasm_state: 'created') }
 
-      context 'for an in_development form' do
+      context 'for a created form' do
         before do
           visit touchpoint_path(form)
         end
@@ -502,7 +523,7 @@ feature 'Touchpoints', js: true do
     end
 
     describe '/touchpoints' do
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, aasm_state: 'live') }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, aasm_state: 'published') }
 
       context 'for a live form' do
         before do

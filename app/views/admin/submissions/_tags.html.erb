@@ -7,7 +7,7 @@
           <span class="fa fa-info-circle"></span>
         <% end %>
       </h3>
-      <div class="tag-list">
+      <div class="tag-list applied">
         <ul class="usa-list usa-list--unstyled">
           <% submission.tags.sort.each do |tag| %>
           <li>
@@ -18,11 +18,22 @@
               <span class="fa fa-trash"></span>
             </a>
           </li>
-            <% end %>
+          <% end %>
         </ul>
       </div>
 
       <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
+
+      <% @unused_tags = @form.submission_tags - submission.tags %>
+      <% if @unused_tags.present? %>
+      <br>
+      <div class="tag-list available">
+      <% @unused_tags.each do |tag| %>
+        <span class="usa-tag add-tag-button bg-base-light"
+          data-action="<%= admin_form_submission_path(submission.form, submission) %>"><%= tag %></span>
+      <% end %>
+      </div>
+      <% end %>
     </div>
   </div>
 <% end %>
@@ -46,6 +57,16 @@
         document.activeElement.blur();
         return false;
       }
+    });
+
+    $(".add-tag-button").on("click", function (e) {
+      e.preventDefault();
+
+      $.ajax({
+        url: e.target.getAttribute("data-action") + "/add_tag",
+        type: 'post',
+        data: "submission[tag]=" + e.target.textContent
+      });
     });
 
     $(".remove-tag-link").on("click", function(e) {

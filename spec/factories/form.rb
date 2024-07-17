@@ -15,7 +15,7 @@ FactoryBot.define do
 
     omb_approval_number { rand(10_000).to_s }
     expiration_date { 2.months.from_now }
-    aasm_state { 'live' }
+    aasm_state { 'published' }
     delivery_method { 'modal' }
 
     trait :touchpoints_hosted_only do
@@ -33,6 +33,12 @@ FactoryBot.define do
     trait :with_responses do
       after(:create) do |f, _evaluator|
         3.times { FactoryBot.create(:submission, form: f) }
+      end
+    end
+
+    trait :with_100_responses do
+      after(:create) do |f, _evaluator|
+        100.times { FactoryBot.create(:submission, form: f) }
       end
     end
 

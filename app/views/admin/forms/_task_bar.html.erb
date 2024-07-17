@@ -1,7 +1,5 @@
-<%= render 'admin/forms/step_indicator', form: form %>
-
+<%- if form.deployable_form? %>
 <div class="well">
-  <%- if form.deployable_form? %>
   <strong>
    Touchpoints-hosted URL
   </strong>
@@ -24,112 +22,135 @@
   </p>
   <% end %>
 
-    <%- if form.delivery_method == "modal" || form.delivery_method == "inline" || form.delivery_method == "custom-button-modal" %>
-      <strong>
-        Delivery options
-      </strong>
-      <br>
+  <%- if form.delivery_method == "modal" || form.delivery_method == "inline" || form.delivery_method == "custom-button-modal" %>
+    <strong>
+      Delivery options
+    </strong>
+    <br>
 
-      <%- if form.deployable_form? %>
-        <%- if form.delivery_method == "inline" || form.delivery_method == "custom-button-modal" %>
-        <p>
-          Add the following markup to your site
-          as a place to display the Touchpoint
-          <i><%= form.delivery_method %></i>.
-        </p>
-        <span class="code minh-10 bg-base-lighter padding-1">
-          <%= h("<div id=\"#{form.element_selector}\"></div>") %>
-        </span>
-        <% end %>
+    <%- if form.deployable_form? %>
+      <%- if form.delivery_method == "inline" || form.delivery_method == "custom-button-modal" %>
       <p>
-        Add the following script to your site to embed your form.
+        Add the following markup to your site
+        as a place to display the Touchpoint
+        <i><%= form.delivery_method %></i>.
       </p>
-
-      <div class="code minh-10 bg-base-lighter padding-1">
-        <%= h("<script src=\"#{touchpoint_url(form.short_uuid, format: :js)}\" async></script>") %>
-      </div>
+      <span class="code minh-10 bg-base-lighter padding-1">
+        <%= h("<div id=\"#{form.element_selector}\"></div>") %>
+      </span>
       <% end %>
+    <p>
+      Add the following script to your site to embed your form.
+    </p>
 
-      <%- if form.delivery_method == "modal" || form.delivery_method == "custom-button-modal" || form.delivery_method == "inline" %>
-      <div class="margin-top-2">
-        <%= link_to example_admin_form_path(form), class: "usa-button bg-base width-full", target: "_blank", rel: "noopener" do %>
-          <i class="fa fa-eye"></i>
-          Preview
-          <br>
-          <small>
-            (<%= form.delivery_method %>)
-          </small>
-        <% end %>
-      </div>
-      <div class="margin-top-2">
-        <%= link_to copy_admin_form_path(form), class: "usa-button usa-button--outline width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
-          <i class="fa fa-copy"></i>
-          Copy
-        <% end %>
-      </div>
-      <% end %>
-
-    <% end %>
-  <% else %>
-    <div class="usa-alert usa-alert--error usa-alert--slim">
-      <div class="usa-alert__body">
-        <p class="usa-alert__text">
-          This Form is not published
-        </p>
-      </div>
+    <div class="code minh-10 bg-base-lighter padding-1">
+      <%= h("<script src=\"#{touchpoint_url(form.short_uuid, format: :js)}\" async></script>") %>
     </div>
+    <% end %>
 
+    <%- if form.delivery_method == "modal" || form.delivery_method == "custom-button-modal" || form.delivery_method == "inline" %>
     <div class="margin-top-2">
       <%= link_to example_admin_form_path(form), class: "usa-button bg-base width-full", target: "_blank", rel: "noopener" do %>
         <i class="fa fa-eye"></i>
         Preview
+        <br>
         <small>
-          <%= form.delivery_method %>
+          (<%= form.delivery_method %>)
         </small>
       <% end %>
     </div>
-
-    <div class="margin-top-2">
-      <%= link_to publish_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button width-full" do %>
-      <i class="far fa-check-circle"></i>
-      Publish
-      <% end %>
-    </div>
-
-    <div class="margin-top-2">
-      <%= link_to copy_admin_form_path(form), class: "usa-button usa-button--outline width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
-        <i class="fa fa-copy"></i>
-        Copy
-      <% end %>
-    </div>
-  <% end %>
-
-  <% unless form.archived? %>
-    <div class="margin-top-2">
-      <%= link_to archive_admin_form_path(form), class: "usa-button usa-button--accent-cool width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
-        <span class="fa fa-archive"></span>
-        Archive
-      <% end %>
-    </div>
-  <% end %>
-
-  <% unless form.in_development? %>
-    <div class="margin-top-2">
-      <%= link_to reset_admin_form_path(form), class: "usa-button usa-button--secondary width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
-        <span class="fa fa-backward"></span>
-        Reset form
-      <% end %>
-    </div>
-  <% end %>
-
-  <%- if form.archived? || !form.deployable_form? %>
-    <%- if form.persisted? %>
-      <div class="margin-top-2">
-      <%= link_to admin_form_path(form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary width-full" do %>
-        <i class="fas fa-trash"></i>
-        Delete
-      <% end %>
-      </div>
     <% end %>
   <% end %>
+</div>
+<% else %>
+<div class="well">
+  <div class="usa-alert usa-alert--error usa-alert--slim">
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        This Form is not published
+      </p>
+    </div>
+  </div>
+
+  <div class="margin-top-2">
+    <%= link_to example_admin_form_path(form), class: "usa-button bg-base width-full", target: "_blank", rel: "noopener" do %>
+      <i class="fa fa-eye"></i>
+      Preview
+      <small>
+        <%= form.delivery_method %>
+      </small>
+    <% end %>
+  </div>
+</div>
+<% end %>
+
+<div class="well">
+  <%- if @form.organization_has_form_approval_enabled? %>
+    <%- if @form.submitted? %>
+    <p>
+      Form was submitted for review at
+      <%= @form.submitted_at %>
+    </p>
+    <% elsif @form.created? %>
+    <div class="margin-top-2">
+      <%= link_to submit_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button width-full" do %>
+      <i class="far fa-check-circle"></i>
+      Submit for Organizational Approval
+      <% end %>
+    </div>
+    <% end %>
+  <% end %>
+
+  <%- if form_approver_permissions? && @form.submitted? %>
+  <div class="margin-top-2">
+    <%= button_to approve_admin_form_path(form),
+      method: :post,
+      data: { confirm: 'Are you sure?' }, class: "usa-button width-full",
+      disabled: false do %>
+    <i class="far fa-check-circle"></i>
+    Approve
+    <% end %>
+  </div>
+  <% end %>
+
+  <%- if (!@form.organization_has_form_approval_enabled? && @form.created?) || @form.approved?  %>
+  <div class="margin-top-2">
+    <%= button_to publish_admin_form_path(form),
+      method: :post,
+      data: { confirm: 'Are you sure?' }, class: "usa-button width-full",
+      disabled: false do %>
+    <i class="far fa-check-circle"></i>
+    Publish
+    <% end %>
+  </div>
+  <% end %>
+
+<% unless form.archived? %>
+  <div class="margin-top-2">
+    <%= link_to archive_admin_form_path(form), class: "usa-button usa-button--accent-cool width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
+      <span class="fa fa-archive"></span>
+      Archive
+    <% end %>
+  </div>
+<% end %>
+
+<% unless form.created? %>
+  <div class="margin-top-2">
+    <%= link_to reset_admin_form_path(form), class: "usa-button usa-button--secondary width-full", method: :post, data: { confirm: 'Are you sure?' } do %>
+      <span class="fa fa-backward"></span>
+      Reset form
+    <% end %>
+  </div>
+<% end %>
+
+<%- if form.archived? || !form.deployable_form? %>
+  <%- if form.persisted? %>
+    <div class="margin-top-2">
+    <%= link_to admin_form_path(form), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary width-full" do %>
+      <i class="fas fa-trash"></i>
+      Delete
+    <% end %>
+    </div>
+  <% end %>
+<% end %>
 </div>

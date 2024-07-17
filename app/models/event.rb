@@ -14,6 +14,7 @@ class Event < ApplicationRecord
   @@names = {
     organization_manager_changed: 'organization_manager_changed', # Legacy event
     user_deactivated: 'user_deactivated',
+    user_reactivated: 'user_reactivated',
     user_deleted: 'user_deleted',
     user_update: 'user_update',
     user_authentication_attempt: 'user_authentication_attempt',
@@ -21,15 +22,14 @@ class Event < ApplicationRecord
     user_authentication_failure: 'user_authentication_failure',
     user_send_invitation: 'user_send_invitation',
 
-    touchpoint_archived: 'touchpoint_archived',
     touchpoint_form_submitted: 'touchpoint_form_submitted',
-    touchpoint_published: 'touchpoint_published',
 
     form_created: 'form_created',
-    form_copied: 'form_copied',
     form_submitted: 'form_submitted',
+    form_approved: 'form_approved',
     form_published: 'form_published',
     form_archived: 'form_archived',
+    form_copied: 'form_copied',
     form_deleted: 'form_deleted',
     form_reset: 'form_reset',
 

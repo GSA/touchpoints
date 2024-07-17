@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class UserMailer < ApplicationMailer
+  ASYNC_JOB_MESSAGE = "Touchpoints has initiated an asynchronous job that will take a few minutes. <br>Please check your email for a link to download the report."
+
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -14,6 +16,25 @@ class UserMailer < ApplicationMailer
 
     mail subject: "Touchpoints notification: #{title}",
          to: emails
+  end
+
+  def async_report_notification(email:, start_time:, completion_time:, record_count:, url:)
+    set_logo
+    @start_time = start_time
+    @completion_time = completion_time
+    @record_count = record_count
+    @url = url
+    mail subject: "Touchpoints export is now available",
+         to: email,
+         bcc: (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')).uniq
+  end
+
+  def form_feedback(form_id:, email:)
+    set_logo
+    @form = Form.find(form_id)
+    @feedback_url = "https://touchpoints.app.cloud.gov/touchpoints/522e395c/submit?location_code=#{@form.short_uuid}"
+    mail subject: "How was your Touchpoints experience with form #{@form.name}?",
+         to: ([email] + ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')).uniq
   end
 
   def submission_notification(submission_id:, emails: [])
@@ -31,6 +52,14 @@ class UserMailer < ApplicationMailer
     @event = event
     mail subject: "Touchpoints form #{@form.name} #{@action}",
          to: ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')
+  end
+
+  def user_welcome_email(email:)
+    set_logo
+    @email = email
+    mail subject: "Welcome to Touchpoints",
+      to: email,
+      bcc: ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')
   end
 
   def service_event_notification(subject:, service:, event:, link: '')
@@ -185,6 +214,14 @@ class UserMailer < ApplicationMailer
     @user = user
     mail subject: 'New user account creation failed',
          to: UserMailer.touchpoints_support
+  end
+
+  def user_reactivation_email(user)
+    set_logo
+    @user = user
+    mail subject: 'Touchpoints account reactivated',
+         to: @user.email,
+         bcc: UserMailer.touchpoints_team
   end
 
   def account_deactivated_notification(user)

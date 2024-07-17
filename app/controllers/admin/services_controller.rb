@@ -74,8 +74,9 @@ module Admin
 
     def export_versions
       ensure_admin
-      ExportVersionsJob.perform_later(params[:uuid], @service, 'touchpoints-service-versions.csv')
-      render json: { result: :ok }
+      ExportVersionsJob.perform_later(current_user.email, @service, "touchpoints-services-versions-#{timestamp_string}.csv")
+      flash[:success] = UserMailer::ASYNC_JOB_MESSAGE
+      redirect_to admin_services_path
     end
 
     def export_csv
@@ -250,7 +251,6 @@ module Admin
         :organization_id,
         :service_owner_id,
         :service_provider_id,
-        :bureau_id,
         :office,
         :bureau,
         :department,
@@ -261,19 +261,15 @@ module Admin
         :digital_service,
         :estimated_annual_volume_of_customers,
         :hisp,
-        :justification_text,
         :contact_center,
-
         :name,
         :non_digital_explanation,
         :notes,
-        :service_abbreviation,
         :service_slug,
         :url,
         :homepage_url,
         :tag_list,
         :channel_list,
-        :where_customers_interact,
         :transactional,
         :channels,
         :fully_digital_service,

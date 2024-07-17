@@ -6,7 +6,11 @@ module Api
       def index
         respond_to do |format|
           format.json do
-            render json: Website.published, each_serializer: WebsiteSerializer
+            if params[:all].present? && params[:all].to_s == '1'
+              render json: Website.all.order(:id), each_serializer: WebsiteSerializer
+            else
+              render json: Website.published.order(:id), each_serializer: WebsiteSerializer
+            end
           end
         end
       end

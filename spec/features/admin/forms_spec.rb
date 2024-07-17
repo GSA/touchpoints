@@ -40,7 +40,7 @@ feature 'Forms', js: true do
         let!(:form) { FactoryBot.create(:form, organization:) }
         let!(:form2) { FactoryBot.create(:form, organization:) }
         let!(:form3) { FactoryBot.create(:form, organization:) }
-        let!(:form_template) { FactoryBot.create(:form, organization:, template: true, aasm_state: :in_development) }
+        let!(:form_template) { FactoryBot.create(:form, organization:, template: true, aasm_state: :created) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form:) }
         let!(:user_role2) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form2) }
         let!(:user_role3) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form3) }
@@ -178,7 +178,7 @@ feature 'Forms', js: true do
       end
 
       describe 'Form model validations' do
-        let(:existing_form) { FactoryBot.create(:form, :open_ended_form, organization:,omb_approval_number: nil, expiration_date: nil) }
+        let(:existing_form) { FactoryBot.create(:form, :open_ended_form, organization:, omb_approval_number: nil, expiration_date: nil) }
 
         describe 'missing OMB Approval Number' do
           before 'user tries to update a Touchpoint' do
@@ -218,6 +218,39 @@ feature 'Forms', js: true do
       end
     end
 
+    context 'as a Organizational Form Manager' do
+      describe '/admin/forms/:uuid' do
+        let(:form_manager) { FactoryBot.create(:user, organization:) }
+        let(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
+        let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form:) }
+
+        before do
+          login_as(admin)
+          visit admin_form_path(form)
+        end
+
+        context 'for :created touchpoint for an Organization form_approval_enabled' do
+          describe 'Submit a form' do
+            before do
+              form.organization.update_attribute(:form_approval_enabled, true)
+              form.update(aasm_state: :created)
+              visit admin_form_path(form)
+              expect(page).to_not have_button("Publish")
+              # show this button instead
+              click_on 'Submit for Organizational Approval'
+              page.driver.browser.switch_to.alert.accept
+            end
+
+            it "display 'Submitted' flash message" do
+              expect(page).to have_content("Viewing Form: #{form.name}")
+              expect(page).to have_content('Form Information'.upcase)
+              expect(page).to have_content('This form has been Submitted successfully.')
+            end
+          end
+        end
+      end
+    end
+
     context 'as a Form Manager' do
       describe '/admin/forms/:uuid' do
         let(:form_manager) { FactoryBot.create(:user, organization:) }
@@ -229,10 +262,10 @@ feature 'Forms', js: true do
           visit admin_form_path(form)
         end
 
-        context 'for :in_development touchpoint' do
+        context 'for :created touchpoint' do
           describe 'Publish a form' do
             before do
-              form.update(aasm_state: :in_development)
+              form.update(aasm_state: :created)
               visit admin_form_path(form)
               click_on 'Publish'
               page.driver.browser.switch_to.alert.accept
@@ -246,10 +279,47 @@ feature 'Forms', js: true do
           end
         end
 
+        context 'for :created touchpoint for an Organization form_approval_enabled' do
+          describe 'Submit a form' do
+            before do
+              form.organization.update_attribute(:form_approval_enabled, true)
+              form.update(aasm_state: :created)
+              visit admin_form_path(form)
+              expect(page).to_not have_button("Publish")
+              # show this button instead
+              click_on 'Submit for Organizational Approval'
+              page.driver.browser.switch_to.alert.accept
+            end
+
+            it "display 'Submitted' flash message" do
+              expect(page).to have_content("Viewing Form: #{form.name}")
+              expect(page).to have_content('Form Information'.upcase)
+              expect(page).to have_content('This form has been Submitted successfully.')
+            end
+          end
+        end
+
+        context 'for :submitted touchpoint for an Organization form_approval_enabled' do
+          describe 'Submit a form' do
+            before do
+              form.organization.update_attribute(:form_approval_enabled, true)
+              form.reset!
+              form.submit!
+              visit admin_form_path(form)
+
+            end
+
+            it "display when the form was submitted" do
+              expect(page).to_not have_button("Publish")
+              expect(page).to have_content("Form was submitted for review at")
+            end
+          end
+        end
+
         context 'for a non-archived touchpoint' do
           describe 'archive' do
             before do
-              form.update(aasm_state: :in_development)
+              form.update(aasm_state: :created)
               visit admin_form_path(form)
               click_on 'Archive'
               page.driver.browser.switch_to.alert.accept
@@ -264,7 +334,7 @@ feature 'Forms', js: true do
 
         describe 'reset' do
           before do
-            form.update(aasm_state: :live)
+            form.update(aasm_state: :published)
             visit admin_form_path(form)
             click_on 'Reset'
             page.driver.browser.switch_to.alert.accept
@@ -459,15 +529,13 @@ feature 'Forms', js: true do
 
         before do
           visit notifications_admin_form_path(form)
-          expect(find_field('form_notification_emails').value).to eq(form.notification_emails.to_s)
-          fill_in('form_notification_emails', with: 'new@email.gov')
-          click_on 'Update Form'
+          find(".usa-checkbox").click
+          sleep 1.0
         end
 
         it 'updates successfully' do
-          expect(page).to have_content('Form was successfully updated.')
           visit notifications_admin_form_path(form)
-          expect(find("input[type='text']").value).to eq('new@email.gov')
+          expect(find("#user_#{admin.id}", visible: false)).to be_checked
         end
       end
 
@@ -1303,29 +1371,10 @@ feature 'Forms', js: true do
         end
         expect(page).to have_content('Editing Questions for:')
         expect(page).to have_content('Form is not published')
-        expect(page).to have_link('Publish')
+        expect(page).to have_button('Publish')
         expect(page).to have_link('Copy')
         expect(page).to have_link('Archive')
         expect(page).to have_link('Delete')
-      end
-
-      context 'notification settings' do
-        before 'notification_email is blank by default' do
-          click_on 'Notifications'
-          within '.usa-nav__secondary .user-name' do
-            expect(page).to have_content(touchpoints_manager.email)
-          end
-          expect(find_field('form_notification_emails').value).to eq('')
-        end
-
-        it 'can be updated' do
-          fill_in 'form_notification_emails', with: 'user@example.gov'
-          click_on 'Update Form'
-          expect(page).to have_content('Form was successfully updated.')
-
-          click_on 'Notifications'
-          expect(find_field('form_notification_emails').value).to eq('user@example.gov')
-        end
       end
     end
 
@@ -1409,14 +1458,14 @@ feature 'Forms', js: true do
       end
     end
 
-    describe '#export' do
+    describe '/forms/:id.json' do
       let(:form_manager) { FactoryBot.create(:user, organization:) }
       let(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
       let!(:radio_button_question) { FactoryBot.create(:question, :with_radio_buttons, form:, form_section: form.form_sections.first, answer_field: :answer_02) }
       let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form:) }
 
       before do
-        visit export_admin_form_path(form)
+        visit admin_form_path(form, format: :json)
       end
 
       it 'includes form attributes' do
@@ -1425,10 +1474,27 @@ feature 'Forms', js: true do
         expect(page).to have_content('question_options')
       end
     end
+
+    describe '#export' do
+      let(:form_manager) { FactoryBot.create(:user, organization:) }
+      let(:form) { FactoryBot.create(:form, :open_ended_form, :with_100_responses, organization:) }
+      let!(:radio_button_question) { FactoryBot.create(:question, :with_radio_buttons, form:, form_section: form.form_sections.first, answer_field: :answer_02) }
+      let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form:) }
+
+      before do
+        login_as(form_manager)
+        visit responses_admin_form_path(form)
+        click_on "Export All Responses to CSV"
+      end
+
+      it 'includes form attributes' do
+        sleep 1.0
+        expect(page.current_path).to eq(responses_admin_form_path(form))
+      end
+    end
   end
 
   context 'as Response Viewer' do
-    # as a Response Viewer
     describe '/admin/forms/:uuid' do
       let(:response_viewer) { FactoryBot.create(:user, organization:) }
       let(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
@@ -1527,7 +1593,7 @@ feature 'Forms', js: true do
   end
 
   context 'as non-logged in User' do
-    let!(:form_template) { FactoryBot.create(:form, organization:, template: true, aasm_state: :in_development) }
+    let!(:form_template) { FactoryBot.create(:form, organization:, template: true, aasm_state: :created) }
 
     describe 'cannot access forms' do
       before do

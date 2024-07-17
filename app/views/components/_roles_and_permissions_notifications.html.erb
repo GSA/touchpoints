@@ -1,0 +1,139 @@
+<div class="grid-row">
+  <div class="grid-col-12">
+    <div>
+      <h2>
+        Notifications
+      </h2>
+    </div>
+  </div>
+</div>
+<div class="grid-row grid-gap-lg">
+  <div class="tablet:grid-col-8">
+    <div class="roles-and-permissions">
+      <p>
+        Manage notifications for this form's users.
+      </p>
+      <%- if flash && ["User successfully added", "User successfully removed"].include?(flash.notice) %>
+      <%= render 'components/flash', flash: flash %>
+      <% end %>
+
+      <div>
+        <%- if users.present? %>
+        <table class="usa-table width-full">
+          <thead>
+            <tr>
+              <th>
+                Role
+              </th>
+              <th>
+                Email
+              </th>
+              <th>
+                Instant emails notifications?
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.each do |user| %>
+            <tr data-user-id="<%= user.id %>">
+              <td>
+                <% friendly_roles = {
+                  "response_viewer" => "Response Viewer",
+                  "form_manager" => "Form Manager"
+                } %>
+                <%= friendly_roles[form.user_role?(user: user)] %>
+              </td>
+              <td>
+                <%= link_to user.email, admin_user_path(user) %>
+                <%- if user.inactive? %>
+                  <span class="usa-tag float-right">
+                    inactive
+                  </span>
+                <% end %>
+              </td>
+              <td>
+                <div class="usa-checkbox question-option">
+                  <%= check_box_tag(dom_id(user),  {
+                    class: "usa-checkbox__input",
+                    checked: (form.notification_emails.present? && form.notification_emails.include?(user.email)),
+                    value: user.email,
+                  }) %>
+                  <%= label_tag(:user, for: dom_id(user), class: "usa-checkbox__label") do %>
+                    &nbsp;
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <% else %>
+        <div class="usa-alert usa-alert--info">
+          <div class="usa-alert__body">
+            <p class="usa-alert__text">
+              No users at this time
+            </p>
+          </div>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="tablet:grid-col-4">
+    <p class="usa-prose">
+      <strong>
+      Instant email notifications:
+      </strong>
+      <br>
+      Receive an email immediately,
+      each time a response is received.
+    </p>
+    <p class="usa-prose">
+      <strong>
+        Touchpoints API access
+      </strong>
+      <br>
+      Also consider checking out the
+      <a
+        href="https://github.com/GSA/touchpoints/wiki/api"
+        target="_blank"
+        rel="noopener">
+      Touchpoints API</a>,
+      to access data.
+    </p>
+  </div>
+</div>
+
+<script>
+$(function() {
+  $(".question-option .usa-checkbox__input").on("click", function(event) {
+    const checkboxes = $(".question-option .usa-checkbox__input");
+    let emails = '';
+
+    $.each(checkboxes, function(index, checkbox) {
+      if (checkbox.checked) {
+        emails += checkbox.value;
+        emails += ',';
+      }
+    });
+
+    $.ajax({
+      url: "<%= update_notification_emails_admin_form_path(form) %>",
+      type: 'PATCH',
+      data: {
+        emails: emails,
+      }
+    }).done(function(data) {
+      event.target.focus();
+    });
+  });
+
+});
+</script>
+
+<style>
+.roles-and-permissions
+.usa-checkbox__label {
+  margin-top: 0;
+}
+</style>

@@ -65,6 +65,13 @@
   <%= paginate @digital_service_accounts %>
 </div>
 
+<p>
+  <a href="/admin/digital_service_accounts/export" class="usa-button usa-button--outline">
+    <i class="fa fa-download"></i>
+    Export to CSV
+  </a>
+</p>
+
 <script>
   $(function() {
     $("#tags").on("keyup", debounce(function() {
@@ -123,10 +130,3 @@
 
   });
 </script>
-
-<br>
-<p>
-  <a href="/admin/digital_service_accounts.csv?all=true&uuid=<%= SecureRandom.uuid %>" class="usa-button">
-    Download CSV
-  </a>
-</p>

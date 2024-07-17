@@ -1,26 +1,52 @@
 <div class="usa-step-indicator" aria-label="progress">
   <ol class="usa-step-indicator__segments">
-    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--current" if ["in_development"].include?(form.aasm_state) -%> <%= "usa-step-indicator__segment--complete" if ["live", "archived"].include?(form.aasm_state) -%>">
+    <li class="usa-step-indicator__segment
+      <%= "usa-step-indicator__segment--current" if form.created? -%>
+      <%= "usa-step-indicator__segment--complete" if (form.submitted? || form.approved? || form.published? || form.archived?) -%>">
       <span class="usa-step-indicator__segment-label">Draft
-        <%- if ["live", "archived"].include?(form.aasm_state) -%>
+        <%- if (form.submitted? || form.approved? || form.published? || form.archived?) -%>
           <span class="usa-sr-only">completed</span>
         <% else %>
           <span class="usa-sr-only">not completed</span>
         <% end %>
       </span>
     </li>
-    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--current" if ["live"].include?(form.aasm_state) -%> <%= "usa-step-indicator__segment--complete" if ["archived"].include?(form.aasm_state) -%>">
+    <% if form.organization.form_approval_enabled %>
+    <li class="usa-step-indicator__segment
+      <%= "usa-step-indicator__segment--current" if form.submitted? -%>
+      <%= "usa-step-indicator__segment--complete" if (form.submitted? || form.approved? || form.published? || form.archived?) -%>">
+      <span class="usa-step-indicator__segment-label">Submitted
+        <%- if (form.created? || form.submitted? || form.approved? || form.published? || form.archived?) -%>
+          <span class="usa-sr-only">completed</span>
+        <% else %>
+          <span class="usa-sr-only">not completed</span>
+        <% end %>
+      </span>
+    </li>
+    <li class="usa-step-indicator__segment
+      <%= "usa-step-indicator__segment--complete" if (form.approved? || form.published? || form.archived?) -%>">
+      <span class="usa-step-indicator__segment-label">Approved
+        <%- if (form.published? || form.archived?) -%>
+          <span class="usa-sr-only">completed</span>
+        <% else %>
+          <span class="usa-sr-only">not completed</span>
+        <% end %>
+      </span>
+    </li>
+    <% end %>
+    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--current" if form.published? -%>
+      <%= "usa-step-indicator__segment--complete" if form.archived? -%>">
       <span class="usa-step-indicator__segment-label">Published
-        <%- if ["archived"].include?(form.aasm_state) -%>
+        <%- if form.archived? -%>
           <span class="usa-sr-only">completed</span>
         <% else %>
           <span class="usa-sr-only">not completed</span>
         <% end %>
       </span>
     </li>
-    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--current" if ["archived"].include?(form.aasm_state) -%>" aria-current="true">
+    <li class="usa-step-indicator__segment <%= "usa-step-indicator__segment--current" if form.archived? -%>" aria-current="true">
       <span class="usa-step-indicator__segment-label">Archived
-        <%- if ["archived"].include?(form.aasm_state) -%>
+        <%- if form.archived? -%>
           <span class="usa-sr-only">completed</span>
         <% else %>
           <span class="usa-sr-only">not completed</span>

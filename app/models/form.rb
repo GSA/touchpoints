@@ -125,21 +125,32 @@ class Form < ApplicationRecord
   end
 
   aasm do
-    state :in_development, initial: true
-    state :live # manual
+    state :created, initial: true
+    state :submitted
+    state :approved
+    state :published # manual
     state :archived # after End Date, or manual
 
-    event :develop do
-      transitions from: %i[live archived], to: :in_development
+    event :submit do
+      transitions from: %i[created],
+        to: :submitted,
+        guard: :organization_has_form_approval_enabled?,
+        after: :set_submitted_at
+    end
+    event :approve do
+      transitions from: %i[submitted],
+        to: :approved,
+        guard: :organization_has_form_approval_enabled?,
+        after: :set_approved_at
     end
     event :publish do
-      transitions from: %i[in_development archived], to: :live
+      transitions from: %i[created approved], to: :published
     end
     event :archive do
-      transitions from: %i[in_development live], to: :archived
+      transitions from: %i[created published], to: :archived
     end
     event :reset do
-      transitions to: :in_development
+      transitions to: :created
     end
   end
 
@@ -163,7 +174,7 @@ class Form < ApplicationRecord
     new_form.response_count = 0
     new_form.questions_count = 0
     new_form.last_response_created_at = nil
-    new_form.aasm_state = :in_development
+    new_form.aasm_state = :created
     new_form.uuid = nil
     new_form.legacy_touchpoint_id = nil
     new_form.legacy_touchpoint_uuid = nil
@@ -219,7 +230,7 @@ class Form < ApplicationRecord
   end
 
   def deployable_form?
-    live?
+    published?
   end
 
   # returns javascript text that can be used standalone
@@ -232,11 +243,15 @@ class Form < ApplicationRecord
     end
   end
 
-  def to_csv(start_date: nil, end_date: nil)
-    non_flagged_submissions = submissions
+  def non_flagged_submissions(start_date: nil, end_date: nil)
+    submissions
       .non_flagged
-      .where('created_at >= ?', start_date)
-      .where('created_at <= ?', end_date)
+      .where(created_at: start_date..)
+      .where(created_at: ..end_date)
+  end
+
+  def to_csv(start_date: nil, end_date: nil)
+    non_flagged_submissions = non_flagged_submissions(start_date:, end_date:)
       .order('created_at')
     return nil if non_flagged_submissions.blank?
 
@@ -286,7 +301,7 @@ class Form < ApplicationRecord
     answer_02_options = self.questions.where(answer_field: "answer_02").first.question_options.collect(&:value)
     answer_03_options = self.questions.where(answer_field: "answer_03").first.question_options.collect(&:value)
 
-    CSV.generate(headers: true) do |csv|
+    csv_content = CSV.generate(headers: true) do |csv|
       csv << header_attributes
 
       non_flagged_submissions.each do |submission|
@@ -313,6 +328,11 @@ class Form < ApplicationRecord
         ]
       end
     end
+
+    {
+      csv_content: csv_content,
+      record_count: non_flagged_submissions.size
+    }
   end
 
   def user_role?(user:)
@@ -547,5 +567,20 @@ class Form < ApplicationRecord
       response_count: responses_count,
       average: average.round(2),
     }
+  end
+
+  def organization_has_form_approval_enabled?
+    organization.form_approval_enabled
+  end
+
+
+  private
+
+  def set_submitted_at
+    self.update(submitted_at: Time.current)
+  end
+
+  def set_approved_at
+    self.update(approved_at: Time.current)
   end
 end

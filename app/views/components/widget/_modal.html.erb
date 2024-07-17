@@ -5,6 +5,7 @@
   class="fba-modal-dialog"
   role="dialog"
   aria-label="Feedback modal dialog"
+  aria-labelledby="fba-modal-title"
   aria-modal="<%= ['modal', 'custom-button-modal'].include?(form.delivery_method) ? 'true' : 'false' %>">
   <%= render "components/widget/no_modal", form: form do %>
     <%= render partial: 'components/forms/footer', locals: { form: form } %>

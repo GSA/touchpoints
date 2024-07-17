@@ -33,46 +33,13 @@ and government customers are [encouraged](https://github.com/GSA/touchpoints/wik
 
 See the [Touchpoints wiki](https://github.com/gsa/touchpoints/wiki) for more information.
 
+For developers, the wiki contains a [developer guide](https://github.com/GSA/touchpoints/wiki/Developer-Guide).
+
 ## Team Process
 
 The Touchpoints team tracks work in a [backlog](https://en.wikipedia.org/wiki/Kanban) board.
 
 Issues and ideas are also noted in GitHub [Issues](https://github.com/gsa/touchpoints/issues).
-
-## Docker development
-
-Setup
-
-1. install Docker
-2. clone repo
-3. copy .env.sample .env and update vars
-
-To build a development environment
-
-1. docker-compose build
-2. docker-compose run webapp rails db:create
-3. docker-compose run webapp rails db:setup
-4. docker-compose up
-5. Navigate to http://lvh.me:3002/admin
-
-To start/stop after building
-1. docker-compose up
-2. docker-compose down
-
-To run tests (TBD -- this currently does not work with selenium web driver)
-1. docker-compose run webapp rspec
-
-## Code linting
-- Run the script `./rubocop_autocorrect.sh` to fix standardize layout, style, and code using Rubocop
-- copy the file ./pre-commit to your .git/hooks/ folder within the project to ensure changed files adhere to project standards, prior to commit.
-- to get a commit through without running that pre-commit hook, use the --no-verify option
-
-## Updating USWDS
-Touchpoints employs a customized version of USWDS for styling. Upgrading to a new version of USWDS requires the following steps:
-1. Run `yarn upgrade @uswds/uswds --latest --exact` to get the latest version of USWDS.
-2. Run `npx gulp updateUswds` to update all of our project's assets to the new version of USWDS. This update includes
-a step that generates CSS from the USWDS SASS files along with our project customizations. See [uswds-compiler documentation](https://designsystem.digital.gov/documentation/getting-started/developers/phase-two-compile/#introducing-uswds-compile-2)
-for more details.
 
 ## License
 

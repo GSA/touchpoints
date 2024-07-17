@@ -68,7 +68,7 @@
       <div class="grid-col-6">
         <p>
           <%= label_tag :organization, nil, class: "usa-label" %>
-          <%= link_to_if admin_permissions?, @cx_collection.organization.name, admin_organization_path(@cx_collection.organization) %>
+          <%= render "admin/organizations/badge", organization: @cx_collection.organization %>
         </p>
         <p>
           <%= label_tag :service_provider, "Service Provider", class: "usa-label" %>

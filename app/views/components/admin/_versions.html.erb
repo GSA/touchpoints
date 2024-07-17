@@ -39,25 +39,3 @@
   <% end %>
 </p>
 <% end %>
-<script>
-  $(function() {
-    $('.export-btn').on("click", function(e) {
-      e.preventDefault();
-
-      if ($(this).text() == "Exporting...") {
-        console.log("Click disabled while exporting");
-        return false;
-      }
-
-      var uuid = generateUUID();
-      $(this).html('Exporting...').addClass('cursor-not-allowed');
-
-      var url = $(this).attr('href') + '?uuid=' + uuid + '';
-      subscribeExportChannel(uuid, function() {
-        $.get(url);
-      });
-
-      return false;
-    });
-  });
-</script>

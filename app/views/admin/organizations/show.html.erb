@@ -1,5 +1,6 @@
 <% content_for :navigation_title do %>
-  Viewing Organization
+  Viewing
+  <%= @organization.name %>
   <%= link_to edit_admin_organization_path(@organization), class: "usa-button usa-button-inverted float-right" do %>
     <i class="fa fa-pencil-alt"></i>
     Edit
@@ -24,6 +25,23 @@
       </div>
       <% end -%>
 
+      <%- if @organization.logo %>
+      <div>
+        <%- if @organization.logo_url.present? %>
+        <br>
+        <%= image_tag(@organization.logo.thumb.url) %>
+        <br>
+        <%= link_to "Thumbnail Size", @organization.logo.thumb.url, target: "_blank", rel: "noopener" %>
+        &middot;
+        <%= link_to "Full Size", @organization.logo.url, target: "_blank", rel: "noopener" %>
+        &middot;
+        <%= link_to "Card Size", @organization.logo.card.url, target: "_blank", rel: "noopener" %>
+        <% else %>
+          A logo has not yet been uploaded
+        <% end %>
+      </div>
+      <% end -%>
+
       <%- if @organization.parent %>
       <div class="grid-col-12">
         <%= label_tag "Parent Organization name", nil, class: "usa-label" %>
@@ -32,28 +50,10 @@
       <% end -%>
 
       <div class="grid-col-12">
-        <%= label_tag "Name", nil, class: "usa-label" %>
-        <%= @organization.name %>
-      </div>
-      <div class="grid-col-12">
-        <%= label_tag "Abbreviation", nil, class: "usa-label" %>
-        <%= @organization.abbreviation %>
-      </div>
-      <div class="grid-col-12">
-        <div>
-          <%= label_tag "Organization Domain", nil, class: "usa-label" %>
-          <small>
-            used for the Allowlist of users email addresses
-          </small>
-          <br>
-          <br>
-          <%= @organization.domain %>
-        </div>
-      </div>
-      <div class="grid-col-12">
-        <%= label_tag "Website URL", nil, class: "usa-label" %>
-        <br>
-        <%= link_to(@organization.url, @organization.url, target: "_blank", rel: "noopener") %>
+        <h2>
+          <span title="name"><%= @organization.name %></span>
+          (<span title="abbreviation"><%= @organization.abbreviation %></span>)
+        </h2>
       </div>
     </div>
 
@@ -72,24 +72,6 @@
       </div>
       <% end -%>
     </div>
-    <%- if @organization.logo %>
-    <p>
-      <%= label_tag "Logo", nil, class: "usa-label" %>
-      <br>
-      <%- if @organization.logo_url.present? %>
-      (displaying Thumbnail version)
-      <br>
-      <br>
-      <%= image_tag(@organization.logo.thumb.url) %>
-      <br>
-      <%= link_to "Full Size", @organization.logo.url, target: "_blank", rel: "noopener" %><br>
-      <%= link_to "Thumbnail Size", @organization.logo.thumb.url, target: "_blank", rel: "noopener" %><br>
-      <%= link_to "Card Size", @organization.logo.card.url, target: "_blank", rel: "noopener" %><br>
-      <% else %>
-        A logo has not yet been uploaded
-      <% end %>
-    </p>
-    <% end -%>
     <p>
       <%= label_tag "Digital Analytics URL", nil, class: "usa-label" %>
       <%- if @organization.digital_analytics_path? %>
@@ -200,13 +182,7 @@
       </h3>
 
       <%- if @forms.present? %>
-      <ul class="usa-list">
-      <% @forms.each do |form| %>
-        <li>
-          <%= link_to form.name, admin_form_path(form) %>
-        </li>
-      <% end %>
-      </ul>
+        <%= render "admin/forms/list", forms: @forms %>
       <% else %>
       <div class="usa-alert usa-alert--info">
         <div class="usa-alert__body">
@@ -220,7 +196,7 @@
     </div>
     <div class="collections well">
       <h3>
-        <%= @collections.size %> Collections
+        <%= pluralize(@collections.size, "Collection") %>
       </h3>
 
       <%- if @collections.present? %>
@@ -248,7 +224,7 @@
     </div>
     <div class="users well">
       <h3>
-        <%= @users.size %> Users
+        <%= pluralize(@users.size, "User") %>
       </h3>
 
       <%- if @users.present? %>
@@ -274,6 +250,36 @@
 
   </div>
   <div class="grid-col-4">
-
+    <table class="usa-table font-sans-2xs">
+      <tbody>
+        <tr>
+          <td>
+            <%= label_tag "Organization Domain", nil, class: "usa-label" %>
+            <small>
+              used for the Allowlist of users email addresses
+            </small>
+          </td>
+          <td>
+            <%= @organization.domain %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <%= label_tag "Website URL", nil, class: "usa-label" %>
+          </td>
+          <td>
+            <%= link_to(@organization.url, @organization.url, target: "_blank", rel: "noopener") %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Form Approval Enabled?
+          </td>
+          <td>
+            <%= @organization.form_approval_enabled %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

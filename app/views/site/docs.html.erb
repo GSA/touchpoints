@@ -56,3 +56,70 @@
   </tr>
 <% end %>
 </table>
+
+CX Collections
+<table class="usa-table">
+  <thead>
+  <tr>
+      <th>
+        Name
+      </th>
+      <th>
+        Column Type
+      </th>
+      <th>
+        Comment
+      </th>
+    </tr>
+  </thead>
+<% CxCollection.columns.sort_by(&:name).each do |column| %>
+  <tr>
+    <td>
+      <%= column.name %>
+    </td>
+    <td>
+      <%= column.type %>
+    </td>
+    <td>
+      <%= column.comment %>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+CX Collections
+
+<table class="usa-table">
+  <thead>
+  <tr>
+      <th>
+        Name
+      </th>
+      <th>
+        Column Type
+      </th>
+      <th>
+        Sample value
+      </th>
+      <th>
+        Comment
+      </th>
+    </tr>
+  </thead>
+<% CxCollection.columns.sort_by(&:name).each do |column| %>
+  <tr>
+    <td>
+      <%= column.name %>
+    </td>
+    <td>
+      <%= column.type %>
+    </td>
+    <td>
+      <%= nil %>
+    </td>
+    <td>
+      <%= column.comment %>
+    </td>
+  </tr>
+<% end %>
+</table>

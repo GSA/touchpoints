@@ -30,9 +30,40 @@ feature 'Submissions', js: true do
                 expect(find('table tbody').text).to have_content('content_tag(')
                 # Does not spawn an alert (which is good)
                 expect { page.driver.browser.switch_to.alert.accept }.to raise_error(Selenium::WebDriver::Error::NoSuchAlertError)
-                expect(find('table tbody').text).to_not have_content('script')
+                expect(find('table tbody').text).to have_text('content_tag')
+                expect(find('table tbody').text).to have_text('script')
               end
             end
+          end
+        end
+
+        describe 'img injection attempt' do
+          let!(:submission) { FactoryBot.create(:submission, form:, answer_01: 'this an img <img src="https://touchpoints.digital.gov/assets/img/touchpoints-logotype.png"> to show') }
+
+          context 'with an img tag in a Submission' do
+            describe "when viewing a list of submissions" do
+              before do
+                visit responses_admin_form_path(form)
+              end
+
+              it 'render img markup as a string' do
+                within('table.submissions') do
+                  find('tbody td:first-child').hover
+                  expect(find('table tbody')).to have_text('this an img <img src="https://touchpoints.digital.gov/assets/img/touchpoints-logotype.png"> to show')
+                end
+              end
+            end
+
+            describe 'when viewing one Submission' do
+              before do
+                visit admin_form_submission_path(form, submission)
+              end
+
+              it 'render img markup as a string' do
+                expect(page).to have_text('this an img <img src="https://touchpoints.digital.gov/assets/img/touchpoints-logotype.png"> to show')
+              end
+            end
+
           end
         end
 
@@ -51,6 +82,33 @@ feature 'Submissions', js: true do
               it 'view a response' do
                 expect(page).to have_content('Viewing a response')
                 expect(page.current_path).to eq(admin_form_submission_path(form, submission))
+              end
+            end
+          end
+
+          context 'with one Response' do
+            let!(:submission) { FactoryBot.create(:submission, form:) }
+
+            describe 'click View link in responses table' do
+              before do
+                Question.create!({
+                  form: form,
+                  form_section: form.form_sections.first,
+                  text: 'additional question',
+                  question_type: 'textarea',
+                  position: 2,
+                  answer_field: :answer_02,
+                  is_required: true,
+                })
+                visit admin_form_submission_path(form, submission)
+              end
+
+              it 'try to update a submission that has had its question validations changed' do
+                select("acknowledged", from: 'submission_aasm_state')
+                select("responded", from: 'submission_aasm_state')
+                click_on("Update status")
+
+                expect(page).to have_content("Response could not be updated.")
               end
             end
           end
@@ -91,7 +149,12 @@ feature 'Submissions', js: true do
                 expect(page).to have_content('TAG1')
                 expect(page).to have_content('TAG2')
                 find_all('.remove-tag-link').first.click
-                expect(page).not_to have_content('TAG1')
+                within(".tag-list.applied") do
+                  expect(page).not_to have_content('TAG1')
+                end
+                within(".tag-list.available") do
+                  expect(page).to have_content('TAG1')
+                end
               end
             end
           end

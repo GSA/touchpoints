@@ -36,6 +36,7 @@
       <%= yield :full_layout %>
     <% end %>
     <%= render "components/footer" %>
+    <%= render "components/timeout_modal" if current_user %>
     <%= javascript_include_tag 'uswds.min', integrity: true %>
   </body>
 </html>

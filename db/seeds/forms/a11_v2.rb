@@ -42,7 +42,7 @@ module Seeds
         question_type: "checkbox",
         position: 2,
         answer_field: :answer_02,
-        is_required: true
+        is_required: false
       })
       [1, 2, 3, 4].each_with_index do |value, i|
         QuestionOption.create!({
@@ -59,7 +59,7 @@ module Seeds
         question_type: "checkbox",
         position: 3,
         answer_field: :answer_03,
-        is_required: true
+        is_required: false
       })
       ["1 down", "2 down", "3 down", "4 down"].each_with_index do |value, i|
         QuestionOption.create!({

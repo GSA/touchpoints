@@ -78,7 +78,7 @@ gem 'acts-as-taggable-on'
 gem "rolify"
 
 group :development, :test do
-  gem 'dotenv-rails'
+  gem 'dotenv'
   gem 'pry'
   gem 'rspec_junit_formatter'
 end
