@@ -1458,14 +1458,14 @@ feature 'Forms', js: true do
       end
     end
 
-    describe '#export' do
+    describe '/forms/:id.json' do
       let(:form_manager) { FactoryBot.create(:user, organization:) }
       let(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
       let!(:radio_button_question) { FactoryBot.create(:question, :with_radio_buttons, form:, form_section: form.form_sections.first, answer_field: :answer_02) }
       let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form:) }
 
       before do
-        visit export_admin_form_path(form)
+        visit admin_form_path(form, format: :json)
       end
 
       it 'includes form attributes' do
@@ -1474,10 +1474,27 @@ feature 'Forms', js: true do
         expect(page).to have_content('question_options')
       end
     end
+
+    describe '#export' do
+      let(:form_manager) { FactoryBot.create(:user, organization:) }
+      let(:form) { FactoryBot.create(:form, :open_ended_form, :with_100_responses, organization:) }
+      let!(:radio_button_question) { FactoryBot.create(:question, :with_radio_buttons, form:, form_section: form.form_sections.first, answer_field: :answer_02) }
+      let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form:) }
+
+      before do
+        login_as(form_manager)
+        visit responses_admin_form_path(form)
+        click_on "Export All Responses to CSV"
+      end
+
+      it 'includes form attributes' do
+        sleep 1.0
+        expect(page.current_path).to eq(responses_admin_form_path(form))
+      end
+    end
   end
 
   context 'as Response Viewer' do
-    # as a Response Viewer
     describe '/admin/forms/:uuid' do
       let(:response_viewer) { FactoryBot.create(:user, organization:) }
       let(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }

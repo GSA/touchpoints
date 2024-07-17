@@ -65,6 +65,13 @@
   <%= paginate @digital_service_accounts %>
 </div>
 
+<p>
+  <a href="/admin/digital_service_accounts/export" class="usa-button usa-button--outline">
+    <i class="fa fa-download"></i>
+    Export to CSV
+  </a>
+</p>
+
 <script>
   $(function() {
     $("#tags").on("keyup", debounce(function() {
@@ -123,14 +130,3 @@
 
   });
 </script>
-
-<br>
-<p>
-  <a href="/admin/digital_service_accounts/export" class="usa-button">
-    Export to  CSV
-  </a>
-  <span class="text-base font-sans-2xs">
-    Your download will be available via a link on the next page.
-    The link will expire in 15 minutes.
-  </span>
-</p>

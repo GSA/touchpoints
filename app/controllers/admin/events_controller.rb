@@ -11,5 +11,11 @@ module Admin
     def show
       @event = Event.find_by_id(params[:id])
     end
+
+    def export
+      ExportEventsJob.perform_later(email: current_user.email)
+      flash[:success] = UserMailer::ASYNC_JOB_MESSAGE
+      redirect_to admin_events_path
+    end
   end
 end

@@ -3,19 +3,22 @@
     <%= render 'admin/submissions/submissions', submissions: submissions, form: form %>
   </div>
   <br>
-  <%= link_to "Export All Responses to CSV", export_submissions_admin_form_url(form, start_date: "2019-10-01", format: "json"), class: "usa-button export-all-btn" %>
+  <%= link_to export_admin_form_url(form, start_date: "2019-10-01"), class: "usa-button" do %>
+    <i class="fa fa-download"></i>
+    Export All Responses to CSV
+  <% end %>
   <br>
   <%- if form.kind == "a11_v2" %>
   <p>
-  <%= link_to "Export A11-v2 Responses to CSV", export_a11_v2_submissions_admin_form_url(form, start_date: "2019-10-01", format: "json"), class: "usa-button export-a11-v2-btn" %>
+  <%= link_to "Export A11-v2 Responses to CSV", export_a11_v2_submissions_admin_form_url(form, start_date: "2019-10-01"), class: "usa-button" %>
   </p>
   <% end -%>
   <p>
-    <%= link_to "Export FY2020", export_submissions_admin_form_url(form, start_date: "2019-10-01", end_date: "2020-09-30", format: "json"), class: "usa-button usa-button--outline export-btn" %>
-    <%= link_to "Export FY2021", export_submissions_admin_form_url(form, start_date: "2020-10-01", end_date: "2021-09-30", format: "json"), class: "usa-button usa-button--outline export-btn" %>
-    <%= link_to "Export FY2022", export_submissions_admin_form_url(form, start_date: "2021-10-01", end_date: "2022-09-30", format: "json"), class: "usa-button usa-button--outline export-btn" %>
-    <%= link_to "Export FY2023", export_submissions_admin_form_url(form, start_date: "2022-10-01", end_date: "2023-09-30", format: "json"), class: "usa-button usa-button--outline export-btn" %>
-    <%= link_to "Export FY2024", export_submissions_admin_form_url(form, start_date: "2023-10-01", end_date: "2024-09-30", format: "json"), class: "usa-button usa-button--outline export-btn" %>
+    <%= link_to "Export FY2020", export_admin_form_url(form, start_date: "2019-10-01", end_date: "2020-09-30"), class: "usa-button usa-button--outline" %>
+    <%= link_to "Export FY2021", export_admin_form_url(form, start_date: "2020-10-01", end_date: "2021-09-30"), class: "usa-button usa-button--outline" %>
+    <%= link_to "Export FY2022", export_admin_form_url(form, start_date: "2021-10-01", end_date: "2022-09-30"), class: "usa-button usa-button--outline" %>
+    <%= link_to "Export FY2023", export_admin_form_url(form, start_date: "2022-10-01", end_date: "2023-09-30"), class: "usa-button usa-button--outline" %>
+    <%= link_to "Export FY2024", export_admin_form_url(form, start_date: "2023-10-01", end_date: "2024-09-30"), class: "usa-button usa-button--outline" %>
   </p>
 <% else %>
   <div class="usa-alert usa-alert--info">
@@ -47,60 +50,6 @@
 
     $(".truncate").on("mouseout", function() {
       $(this).text(truncate($(this).attr("fulltext"), 50));
-    });
-
-    $('.export-all-btn').on("click", function(e) {
-      e.preventDefault();
-      if ($(this).text() === "Exporting...") {
-        console.log("Click disabled while exporting");
-        return false;
-      }
-      const uuid = generateUUID();
-      const buttonHtml = $(this).html();
-      $(this).html('Exporting...').addClass('cursor-not-allowed');
-      const url = $(this).attr('href') + '&uuid=' + uuid + '&touchpoint_id=<%= form.short_uuid %>';
-      subscribeExportChannel(
-        uuid,
-        url,
-        () => $(this).html(buttonHtml).removeClass('cursor-not-allowed')
-      );
-      return false;
-    });
-
-    // for the FY 2020-2024 buttons
-    $('.export-btn').on("click", function(e) {
-      e.preventDefault();
-      if ($(this).text() === "Exporting...") {
-        console.log("Click disabled while exporting");
-        return false;
-      }
-      const uuid = generateUUID();
-      const buttonHtml = $(this).html();
-      $(this).html('Exporting...').addClass('cursor-not-allowed');
-      const url = $(this).attr('href') + '&uuid=' + uuid + '&touchpoint_id=<%= form.short_uuid %>';
-      subscribeExportChannel(
-        uuid,
-        url,
-        () => $(this).html(buttonHtml).removeClass('cursor-not-allowed')
-      );
-      return false;
-    });
-
-    $('.export-a11-v2-btn').on("click", function(e) {
-      e.preventDefault();
-      if ($(this).text() === "Exporting...") {
-        return false;
-      }
-      const uuid = generateUUID();
-      const buttonHtml = $(this).html();
-      $(this).html('Exporting...').addClass('cursor-not-allowed');
-      const url = $(this).attr('href') + '&uuid=' + uuid + '&touchpoint_id=<%= form.short_uuid %>';
-      subscribeExportChannel(
-        uuid,
-        url,
-        () => $(this).html(buttonHtml).removeClass('cursor-not-allowed')
-      );
-      return false;
     });
   });
 </script>

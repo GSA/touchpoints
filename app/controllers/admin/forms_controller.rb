@@ -15,7 +15,6 @@ module Admin
       copy copy_by_id
       notifications
       export
-      export_submissions
       export_a11_v2_submissions
       export_a11_header
       export_a11_submissions
@@ -34,6 +33,9 @@ module Admin
       events
     ]
 
+    # Maximum number of rows that may be exported to csv
+    MAX_ROWS_TO_EXPORT = 300_000
+
     def index
       if admin_permissions?
         if params[:all]
@@ -48,24 +50,6 @@ module Admin
         @forms = current_user.forms.non_archived.non_templates.order('organization_id ASC').order('name ASC').entries
         @archived_forms = current_user.forms.archived.order('organization_id ASC').order('name ASC')
       end
-    end
-
-    def export
-      questions = []
-      @form.ordered_questions.each do |q|
-        attrs = q.attributes
-
-        if q.question_options.present?
-          attrs[:question_options] = []
-          q.question_options.each do |qo|
-            attrs[:question_options] << qo.attributes
-          end
-        end
-
-        questions << attrs
-      end
-
-      render json: { form: @form, questions: }
     end
 
     def submit
@@ -158,9 +142,54 @@ module Admin
     end
 
     def show
-      ensure_response_viewer(form: @form) unless @form.template?
-      @questions = @form.ordered_questions
-      @events = @events = Event.where(object_type: 'Form', object_uuid: @form.uuid).order("created_at DESC")
+      respond_to do |format|
+        format.html do
+          ensure_response_viewer(form: @form) unless @form.template?
+          @questions = @form.ordered_questions
+          @events = @events = Event.where(object_type: 'Form', object_uuid: @form.uuid).order("created_at DESC")
+        end
+
+        format.json do
+          questions = []
+          @form.ordered_questions.each do |q|
+            attrs = q.attributes
+
+            if q.question_options.present?
+              attrs[:question_options] = []
+              q.question_options.each do |qo|
+                attrs[:question_options] << qo.attributes
+              end
+            end
+
+            questions << attrs
+          end
+
+          render json: { form: @form, questions: }
+        end
+      end
+    end
+
+    def export
+      start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Time.zone.now.beginning_of_quarter
+      end_date = params[:end_date] ? Date.parse(params[:end_date]).to_date : Time.zone.now.end_of_quarter
+
+      count = Form.find_by_short_uuid(@form.short_uuid).non_flagged_submissions(start_date:, end_date:).count
+      if count > MAX_ROWS_TO_EXPORT
+        render status: :bad_request, plain: "Your response set contains #{helpers.number_with_delimiter count} responses and is too big to be exported from the Touchpoints app. Consider using the Touchpoints API to download large response sets (over #{helpers.number_with_delimiter MAX_ROWS_TO_EXPORT} responses)."
+        return
+      end
+
+      # for a relatively small download (that doesn't need to be a background job)
+      if 1_000 > count
+        csv_content = @form.to_csv(start_date:, end_date:)
+        send_data csv_content, filename: "touchpoints-form-#{@form.short_uuid}-#{@form.name.parameterize}-responses-#{timestamp_string}.csv"
+        return
+      else
+        ExportJob.perform_later(current_user.email, @form.short_uuid, start_date.to_s, end_date.to_s)
+        flash[:success] = UserMailer::ASYNC_JOB_MESSAGE
+      end
+
+      redirect_to responses_admin_form_path(@form)
     end
 
     def permissions
@@ -365,36 +394,12 @@ module Admin
       end
     end
 
-    def export_submissions
-      start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Time.zone.now.beginning_of_quarter
-      end_date = params[:end_date] ? Date.parse(params[:end_date]).to_date : Time.zone.now.end_of_quarter
-
-      respond_to do |format|
-        format.csv do
-          csv_content = Form.find_by_short_uuid(@form.short_uuid).to_csv(start_date:, end_date:)
-          send_data csv_content
-        end
-        format.json do
-          ExportJob.perform_later(params[:uuid], @form.short_uuid, start_date.to_s, end_date.to_s, "touchpoints-form-#{@form.short_uuid}-#{@form.name.parameterize}-responses-#{timestamp_string}.csv")
-          render json: { result: :ok }
-        end
-      end
-    end
-
     def export_a11_v2_submissions
       start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Time.zone.now.beginning_of_quarter
       end_date = params[:end_date] ? Date.parse(params[:end_date]).to_date : Time.zone.now.end_of_quarter
-
-      respond_to do |format|
-        format.csv do
-          csv_content = Form.find_by_short_uuid(@form.short_uuid).to_a11_v2_csv(start_date:, end_date:)
-          send_data csv_content
-        end
-        format.json do
-          ExportA11V2Job.perform_now(params[:uuid], @form.short_uuid, start_date.to_s, end_date.to_s, "touchpoints-a11-v2-form-responses-#{timestamp_string}.csv")
-          render json: { result: :ok }
-        end
-      end
+      ExportA11V2Job.perform_later(email: current_user.email, form_uuid: @form.short_uuid, start_date:, end_date:)
+      flash[:success] = UserMailer::ASYNC_JOB_MESSAGE
+      redirect_to responses_admin_form_path(@form)
     end
 
     # A-11 Header report. File 1 of 2

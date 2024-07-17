@@ -75,6 +75,18 @@ feature 'Managing Users', js: true do
         end
       end
 
+      describe 'reactivate' do
+        before do
+          user.update_attribute(:inactive, true)
+          visit admin_user_path(user)
+          click_on("Reactivate user")
+        end
+
+        it 'displays successful reactivation flash message' do
+          expect(page).to have_content("User #{user.email} reactivated successfully.")
+        end
+      end
+
       describe '/admin/users/inactive' do
         before do
           visit inactive_admin_users_path

@@ -79,11 +79,11 @@ jobs:
       - store_artifacts:
           path: coverage
 
-      - deploy:
+      - run:
           name: Deploy Sidekiq worker servers
           command: ./.circleci/deploy-sidekiq.sh
 
-      - deploy:
+      - run:
           name: Deploy web server(s)
           command: ./.circleci/deploy.sh
 

@@ -1,6 +1,6 @@
 class CxCollectionDetailUpload < ApplicationRecord
   include AASM
-  include ApplicationHelper
+  include S3Helper
 
   belongs_to :user
   belongs_to :cx_collection_detail

@@ -14,6 +14,7 @@ class Event < ApplicationRecord
   @@names = {
     organization_manager_changed: 'organization_manager_changed', # Legacy event
     user_deactivated: 'user_deactivated',
+    user_reactivated: 'user_reactivated',
     user_deleted: 'user_deleted',
     user_update: 'user_update',
     user_authentication_attempt: 'user_authentication_attempt',

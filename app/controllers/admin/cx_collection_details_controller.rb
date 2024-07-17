@@ -1,4 +1,5 @@
 class Admin::CxCollectionDetailsController < AdminController
+  include S3Helper
   before_action :set_cx_collection_detail, only: %i[
     show edit
     upload upload_csv process_csv
@@ -104,10 +105,8 @@ class Admin::CxCollectionDetailsController < AdminController
     end
 
     if @valid_file_extension && @valid_file_headers
-      bucket = ENV.fetch("S3_UPLOADS_AWS_BUCKET_NAME")
-      key = "cx_data_collections/cx-upload-#{Time.now.to_i}-#{file.original_filename}"
-
-      obj = s3_service.bucket(bucket).object(key)
+      key = "cx_data_collections/cx-upload-#{timestamp_string}-#{file.original_filename}"
+      obj = s3_bucket.object(key)
       # Upload the file
       response = obj.upload_file(file.path)
 
