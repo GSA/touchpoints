@@ -84,6 +84,7 @@
 </div>
 <% end %>
 
+<%- if is_at_least_form_manager?(user: current_user, form: @form) %>
 <div class="well">
   <%- if @form.organization_has_form_approval_enabled? %>
     <%- if @form.submitted? %>
@@ -154,3 +155,4 @@
   <% end %>
 <% end %>
 </div>
+<% end %>
