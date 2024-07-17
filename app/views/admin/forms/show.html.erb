@@ -30,7 +30,6 @@
 
 <%= render 'admin/forms/step_indicator', form: @form %>
 
-<%- if is_at_least_form_manager?(user: current_user, form: @form) %>
 <div class="grid-row grid-gap-lg">
   <div class="desktop:grid-col-8">
     <div class="margin-bottom-3">
@@ -138,17 +137,17 @@
         <% end %>
       </div>
     </div>
+    <%- if is_at_least_form_manager?(user: current_user, form: @form) %>
     <div class="admin-options">
       <%= render 'admin/forms/admin_options', form: @form %>
     </div>
     <div class="form-manager-options">
       <%= render 'admin/forms/form_manager_options', form: @form %>
     </div>
+    <% end %>
   </div>
-  <div class="desktop:grid-col-4 ">
+  <div class="desktop:grid-col-4">
     <%= render 'admin/forms/task_bar', form: @form %>
     <%= render 'components/event_log', events: @events if admin_permissions? %>
   </div>
 </div>
-<br>
-<% end %>
