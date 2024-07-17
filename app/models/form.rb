@@ -237,9 +237,9 @@ class Form < ApplicationRecord
   # or injected into a GTM Container Tag
   def touchpoints_js_string
     if self.legacy_form_embed?
-      ApplicationController.new.render_to_string(partial: 'components/widget/fba', formats: :js, locals: { touchpoint: self })
+      ApplicationController.new.render_to_string(partial: 'components/widget/fba_legacy', formats: :js, locals: { touchpoint: self })
     else
-      ApplicationController.new.render_to_string(partial: 'components/widget/fba2', formats: :js, locals: { touchpoint: self })
+      ApplicationController.new.render_to_string(partial: 'components/widget/fba', formats: :js, locals: { touchpoint: self })
     end
   end
 
