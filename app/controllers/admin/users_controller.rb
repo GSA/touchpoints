@@ -3,7 +3,10 @@
 module Admin
   class UsersController < AdminController
     before_action :ensure_admin, except: [:deactivate]
-    before_action :set_user, only: %i[show edit update destroy]
+    before_action :set_user, only: %i[
+      show edit update destroy
+      reactivate
+    ]
 
     def index
       if current_user.admin? && params[:scope] == :all
@@ -37,11 +40,18 @@ module Admin
       redirect_to admin_users_path, notice: 'Users inactivated successfully.'
     end
 
+    def reactivate
+      @user.update_attribute(:inactive, false)
+      Event.log_event(Event.names[:user_reactivated], 'User', @user.id, "User #{@user.email} was reactivated at #{DateTime.now} by #{current_user.email}", current_user.id)
+      UserMailer.user_reactivation_email(@user).deliver_later
+      redirect_to admin_users_path, notice: "User #{@user.email} reactivated successfully."
+    end
+
     def show
       @forms = @user.forms.order(:status, :name)
       @websites = Website.where(site_owner_email: @user.email)
       @collections = @user.collections.order(:year, :quarter)
-      @user_events = Event.limit(100).where(user_id: @user.id).order('created_at DESC')
+      @user_events = Event.limit(100).where(object_type: "User", object_uuid: @user.id).order('created_at DESC')
       @service_providers = ServiceProvider.with_role(:service_provider_manager, @user)
       @services = Service.with_role(:service_manager, @user)
       @digital_products = DigitalProduct.with_role(:contact, @user)
@@ -71,7 +81,7 @@ module Admin
     def update
       respond_to do |format|
         if @user.update(user_params)
-          Event.log_event(Event.names[:user_update], 'User', @user.id, "User #{@user.email} was updated by #{current_user.email} on #{Date.today}")
+          Event.log_event(Event.names[:user_update], 'User', @user.id, "User #{@user.email} was updated by #{current_user.email} on #{Date.today}", current_user.id)
           format.html { redirect_to admin_user_path(@user), notice: 'User was successfully updated.' }
           format.json { render :show, status: :ok, location: @user }
         else
@@ -86,7 +96,7 @@ module Admin
       redirect_to(edit_admin_user_path(@user), alert: "Can't delete yourself") and return if @user == current_user
 
       @user.destroy
-      Event.log_event(Event.names[:user_deleted], 'User', @user.id, "User #{@user.email} was deleted by #{current_user.email} on #{Date.today}")
+      Event.log_event(Event.names[:user_deleted], 'User', @user.id, "User #{@user.email} was deleted by #{current_user.email} on #{Date.today}", current_user.id)
       respond_to do |format|
         format.html { redirect_to admin_users_url, notice: 'User was successfully destroyed.' }
         format.json { head :no_content }
@@ -100,7 +110,7 @@ module Admin
       user = User.where(uid: uuid).first
       # Do we care if the user account deleted from login.gov was not found in touchpoints?
       user&.deactivate!
-      Event.log_event(Event.names[:user_deactivated], 'User', user.id, "User #{user.email} was deactivated on #{Date.today}")
+      Event.log_event(Event.names[:user_deactivated], 'User', user.id, "User #{user.email} was deactivated on #{Date.today}", current_user.id)
       render json: { msg: 'User successfully deactivated.' }
     end
 

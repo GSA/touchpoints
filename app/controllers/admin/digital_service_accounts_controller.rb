@@ -24,12 +24,12 @@ module Admin
 
     def export
       if admin_permissions? && params[:all]
-        filename = ExportDigitalServiceAccounts.perform_now(params[:uuid], include_all_accounts: true, filename: "touchpoints-digital-service-accounts-#{timestamp_string}.csv")
+        filename = ExportDigitalServiceAccounts.perform_later(email: current_user.email, include_all_accounts: true)
       else
-        filename = ExportDigitalServiceAccounts.perform_now(params[:uuid], include_all_accounts: false, filename: "touchpoints-digital-service-accounts-#{timestamp_string}.csv")
+        filename = ExportDigitalServiceAccounts.perform_later(email: current_user.email, include_all_accounts: false)
       end
 
-      flash[:success] = "Your download is available #{view_context.link_to('here', filename)}."
+      flash[:success] = UserMailer::ASYNC_JOB_MESSAGE
       redirect_to admin_digital_service_accounts_path
     end
 

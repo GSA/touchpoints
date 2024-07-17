@@ -99,7 +99,12 @@ module Admin
       @response_groups = @response_groups.sort
     end
 
-    def responses_by_status; end
+    def responses_by_status
+      responses_by_aasm = @form.submissions.group(:aasm_state).count
+      flagged_count = @form.submissions.where(flagged: true).size
+      @responses_by_status = { **responses_by_aasm, 'flagged' => flagged_count, 'total' => responses_by_aasm.values.sum }
+      @responses_by_status.default = 0
+    end
 
     def performance_gov
       @report = FormCache.fetch_performance_gov_analysis(@form.short_uuid)

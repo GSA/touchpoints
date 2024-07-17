@@ -24,7 +24,6 @@ feature 'Digital Service Accounts', js: true do
 
           expect(page).to have_link('Back to the Digital Registry')
           expect(page).to have_link('New Account')
-          #expect(page).to have_link('Export results to .csv')
 
           within('.usa-table') do
             expect(page).to have_content('Account type (platform)')
@@ -52,6 +51,17 @@ feature 'Digital Service Accounts', js: true do
         it 'load the DigitalServiceAccount#index page' do
           expect(page).to have_content('Social Media Account')
           expect(page).to have_content('Service Account 1')
+        end
+      end
+
+      describe '#export' do
+        before do
+          visit admin_digital_service_accounts_path
+          click_on "Export to CSV"
+        end
+
+        it 'load the DigitalServiceAccount#index page' do
+          expect(page).to have_content("Touchpoints has initiated an asynchronous job that will take a few minutes.")
         end
       end
     end
@@ -249,7 +259,7 @@ feature 'Digital Service Accounts', js: true do
         expect(page).to have_content("Digital Service Account #{digital_service_account.name} was published.")
       end
     end
-    
+
     describe '#delete' do
       let(:digital_service_account) { FactoryBot.create(:digital_service_account) }
 

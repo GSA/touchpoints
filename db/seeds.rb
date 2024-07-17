@@ -238,7 +238,8 @@ Question.create!({
   is_required: true,
 })
 
-20.times.each do |i|
+# more than 1,000, to test async sidekiq form export jobs
+1010.times.each do |i|
  Submission.create!({
     form: form_that_belongs_to_a_service,
     answer_01: "aaaaa",
@@ -392,7 +393,11 @@ Question.create!({
 })
 
 a11_form = Seeds::Forms.a11
+a11_v2_form_template = Seeds::Forms.a11_v2
+
 a11_v2_form = Seeds::Forms.a11_v2
+a11_v2_form.update_attribute(:template, false)
+
 thumbs_up_down_form = Seeds::Forms.thumbs_up_down
 kitchen_sink_form = Seeds::Forms.kitchen_sink
 yes_no_form = Seeds::Forms.yes_no
@@ -463,6 +468,27 @@ Submission.create!({
     form: open_ended_form,
     answer_01: 'Body text'
   })
+end
+
+100.times do |i|
+  options = [1, 2, 3, 4]
+  random_options = options.sample(rand(4))
+
+  if rand(2) == 1
+    Submission.create!({
+      form: a11_v2_form,
+      answer_01: 1,
+      answer_02: random_options.join(','),
+      answer_04: 'Positive free text'
+    })
+  else
+    Submission.create!({
+      form: a11_v2_form,
+      answer_01: 0,
+      answer_03: random_options.join(','),
+      answer_04: ' Negative free text'
+    })
+  end
 end
 
 # TODO: Seed A11

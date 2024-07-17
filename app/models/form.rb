@@ -239,11 +239,15 @@ class Form < ApplicationRecord
     ApplicationController.new.render_to_string(partial: 'components/widget/fba', formats: :js, locals: { touchpoint: self })
   end
 
-  def to_csv(start_date: nil, end_date: nil)
-    non_flagged_submissions = submissions
+  def non_flagged_submissions(start_date: nil, end_date: nil)
+    submissions
       .non_flagged
-      .where('created_at >= ?', start_date)
-      .where('created_at <= ?', end_date)
+      .where(created_at: start_date..)
+      .where(created_at: ..end_date)
+  end
+
+  def to_csv(start_date: nil, end_date: nil)
+    non_flagged_submissions = non_flagged_submissions(start_date:, end_date:)
       .order('created_at')
     return nil if non_flagged_submissions.blank?
 
@@ -293,7 +297,7 @@ class Form < ApplicationRecord
     answer_02_options = self.questions.where(answer_field: "answer_02").first.question_options.collect(&:value)
     answer_03_options = self.questions.where(answer_field: "answer_03").first.question_options.collect(&:value)
 
-    CSV.generate(headers: true) do |csv|
+    csv_content = CSV.generate(headers: true) do |csv|
       csv << header_attributes
 
       non_flagged_submissions.each do |submission|
@@ -320,6 +324,11 @@ class Form < ApplicationRecord
         ]
       end
     end
+
+    {
+      csv_content: csv_content,
+      record_count: non_flagged_submissions.size
+    }
   end
 
   def user_role?(user:)
