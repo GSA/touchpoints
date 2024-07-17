@@ -224,9 +224,9 @@ module Admin
 
     def js
       if form.legacy_form_embed?
-        render(partial: 'components/widget/fba_legacy', formats: :js, locals: { form: @form })
-      else
         render(partial: 'components/widget/fba', formats: :js, locals: { form: @form })
+      else
+        render(partial: 'components/widget/fba2', formats: :js, locals: { form: @form })
       end
     end
 
