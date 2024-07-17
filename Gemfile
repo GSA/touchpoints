@@ -44,8 +44,8 @@ gem "image_processing", "~> 1.12"
 
 gem "brakeman"
 gem "bundler-audit"
-gem "rubocop-rails"
-gem "rubocop-rspec"
+gem "rubocop-rails", ">= 2.25.1"
+gem "rubocop-rspec", ">= 3.0.0"
 gem 'active_model_serializers'
 gem 'acts-as-list'
 gem 'aws-sdk-rails', '>= 3.8.0'
@@ -98,7 +98,7 @@ group :test do
   gem 'factory_bot_rails'
   gem 'rails-controller-testing'
   gem 'rspec-rails'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '>= 4.11.0'
   gem 'simplecov', require: false
   gem 'webdrivers'
 end
