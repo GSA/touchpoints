@@ -33,5 +33,8 @@
 <%= paginate @events %>
 
 <p>
-  <%= link_to "Export Events to CSV", admin_export_events_url, class: "usa-button", target: "_blank", rel: "noopener" %>
+  <%= link_to admin_export_events_url, class: "usa-button usa-button--outline" do %>
+    <i class="fa fa-download"></i>
+    Export Events to CSV
+  <% end %>
 </p>

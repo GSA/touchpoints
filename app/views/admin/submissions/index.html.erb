@@ -3,7 +3,10 @@
     <%= render 'admin/submissions/submissions', submissions: submissions, form: form %>
   </div>
   <br>
-  <%= link_to "Export All Responses to CSV", export_admin_form_url(form, start_date: "2019-10-01"), class: "usa-button" %>
+  <%= link_to export_admin_form_url(form, start_date: "2019-10-01"), class: "usa-button" do %>
+    <i class="fa fa-download"></i>
+    Export All Responses to CSV
+  <% end %>
   <br>
   <%- if form.kind == "a11_v2" %>
   <p>
