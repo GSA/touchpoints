@@ -6,10 +6,10 @@ class ExportJob < ApplicationJob
   def perform(email, form_short_uuid, start_date, end_date)
 
     form = Form.find_by_short_uuid(form_short_uuid)
-    record_count = form.response_count
 
     start_time = Time.now
     csv_content = form.to_csv(start_date:, end_date:)
+    record_count = csv_record_count(csv_content)
     filename = "touchpoints-form-#{form.short_uuid}-#{form.name.parameterize}-responses-#{timestamp_string}.csv"
     temporary_url = store_temporarily(csv_content, filename)
     completion_time = Time.now

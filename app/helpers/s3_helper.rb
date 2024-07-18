@@ -55,4 +55,9 @@ module S3Helper
   def timestamp_string
     Time.zone.now.strftime('%Y-%m-%d_%H-%M-%S')
   end
+
+  # -1 to exclude headers
+  def csv_record_count(csv_content)
+    csv_content.lines.size - 1
+  end
 end
