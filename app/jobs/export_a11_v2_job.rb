@@ -5,9 +5,7 @@ class ExportA11V2Job < ApplicationJob
 
   def perform(email:, form_uuid:, start_date:, end_date:)
     start_time = Time.now
-    r = Form.find_by_short_uuid(form_uuid).to_a11_v2_csv(start_date:, end_date:)
-    csv_content = r[:csv_content]
-    record_count = r[:record_count]
+    csv_content = Form.find_by_short_uuid(form_uuid).to_a11_v2_csv(start_date:, end_date:)
     filename = "touchpoints-a11-v2-form-responses-#{timestamp_string}.csv"
     temporary_url = store_temporarily(csv_content, filename)
     completion_time = Time.now
