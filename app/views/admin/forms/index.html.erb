@@ -27,6 +27,12 @@
   <thead class="font-sans-3xs z-top">
     <tr>
       <th>#</th>
+      <%- if admin_permissions? %>
+      <th data-sortable scope="col"
+        data-type="organization-name">
+        Organization name
+      </th>
+      <% end %>
       <th data-sortable scope="col"
         data-type="name">
         Name
@@ -56,6 +62,11 @@
       <td class="text-center">
         <%= index + 1 %>
       </td>
+      <%- if admin_permissions? %>
+      <td>
+        <%= render "admin/organizations/badge", organization: form.organization %>
+      </td>
+      <% end %>
       <td>
         <%= link_to form.name, admin_form_path(form) %>
       </td>
