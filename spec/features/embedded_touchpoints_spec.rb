@@ -28,12 +28,12 @@ feature 'Touchpoints', js: true do
           click_on 'Next'
           expect(page).to have_content('Please enter a valid value')
           expect(page).to have_content('This is help text')
+          fill_in form.ordered_questions.second.ui_selector, with: 'email@example.gov'
 
-          fill_in page.ordered_questions.second.ui_selector, with: 'email@example.gov'
           click_on 'Next'
 
           expect(page).to have_content('Option elements')
-          expect(all("##{form.questions[3].ui_selector} .usa-radio__label").size).to eq(4)
+          expect(all("#question_#{form.ordered_questions[5].id} .usa-radio__label").size).to eq(4)
           all("##{form.questions[3].ui_selector} .usa-radio__label").last.click
           fill_in("#{form.questions[3].ui_selector}_other", with: 'otro 2')
 
