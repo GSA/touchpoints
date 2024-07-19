@@ -426,7 +426,7 @@ feature 'Touchpoints', js: true do
     describe '/touchpoints?location_code=' do
       before do
         visit submit_touchpoint_path(form, location_code: 'TEST_LOCATION_CODE')
-        fill_in('answer_01', with: 'User feedback')
+        fill_in(form.ordered_questions.first.ui_selector, with: 'User feedback')
         click_button 'Submit'
       end
 
