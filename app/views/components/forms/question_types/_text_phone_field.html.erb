@@ -1,8 +1,4 @@
 <div role="group">
   <%= render 'components/question_title_label', question: question %>
-<%- if form.legacy_form_embed? %>
-  <%= telephone_field_tag question.answer_field.to_sym, nil, class: "usa-input", required: question.is_required, maxlength: 10 %>
-<% else %>
-  <%= telephone_field_tag "question_#{question.id}_#{question.answer_field.to_sym}", nil, class: "usa-input", required: question.is_required, maxlength: 10 %>
-<% end %>
+  <%= telephone_field_tag question.ui_selector, nil, class: "usa-input", required: question.is_required, maxlength: 10 %>
 </div>

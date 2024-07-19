@@ -61,8 +61,11 @@ class Form < ApplicationRecord
     ['inline', 'Embedded inline on your website'],
   ].freeze
 
+  # don't show the form submit button when yes_no_buttons are present
+  # or when there is only 1 custom_text_display
   def suppress_submit_button
-    questions.collect(&:question_type).include?('yes_no_buttons') || questions.collect(&:question_type).include?('custom_text_display')
+    questions.collect(&:question_type).include?('yes_no_buttons') ||
+      (questions.size == 1 && questions.collect(&:question_type).include?('custom_text_display'))
   end
 
   def self.find_by_short_uuid(short_uuid)

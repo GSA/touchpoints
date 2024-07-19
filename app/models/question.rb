@@ -59,4 +59,12 @@ class Question < ApplicationRecord
   def validate_question_types
     errors.add(:question_type, "Invalid question type '#{question_type}'. Valid types include: #{QUESTION_TYPES.to_sentence}.") unless QUESTION_TYPES.include?(question_type)
   end
+
+  def ui_selector
+    if self.form.legacy_form_embed?
+      self.answer_field.to_sym
+    else
+      "question_#{self.id}_#{self.answer_field.to_sym}"
+    end
+  end
 end

@@ -14,7 +14,7 @@
 %>
 <div role="group">
   <%= render 'components/question_title_label', question: question %>
-  <%= text_area_tag question.answer_field.to_sym, nil, form_options %>
+  <%= text_area_tag question.ui_selector, nil, form_options %>
   <%- if question.character_limit && question.character_limit > 0 %>
   <span class="counter-msg usa-hint usa-character-count__message" aria-live="polite">
     <%= question.max_length %> characters allowed
