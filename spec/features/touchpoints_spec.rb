@@ -447,12 +447,12 @@ feature 'Touchpoints', js: true do
 
       before do
         visit submit_touchpoint_path(custom_form)
-        find("label[for='answer_01_star4']").click
-        fill_in('answer_03', with: 'User feedback')
+        find("label[for='#{custom_form.ordered_questions.first.ui_selector}_star4']").click
+        fill_in(custom_form.ordered_questions.last.ui_selector, with: 'User feedback')
         click_button 'Submit'
       end
 
-      it '' do
+      it 'submits successfully' do
         expect(page).to have_content('Thank you. Your feedback has been received.')
 
         # Asserting against the database/model directly here isn't ideal.
