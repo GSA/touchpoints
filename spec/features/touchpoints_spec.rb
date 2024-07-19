@@ -258,13 +258,13 @@ feature 'Touchpoints', js: true do
       end
 
       it 'not-successful, less than 10 digit phone number' do
-        fill_in("answer_01", with: "123456789")
+        fill_in("question_#{phone_question.id}_answer_01", with: "123456789")
         click_on 'Submit'
         expect(page).to have_content("Please enter a valid value: Phone Number")
       end
 
       it 'successful, 10 digit phone number' do
-        fill_in("answer_01", with: "1234567890")
+        fill_in("question_#{phone_question.id}_answer_01", with: "1234567890")
         click_on 'Submit'
         expect(page).to have_content("Thank you. Your feedback has been received.")
       end
@@ -295,13 +295,13 @@ feature 'Touchpoints', js: true do
       end
 
       it 'allows numeric input and a maximum of 10 numbers' do
-        fill_in 'answer_03', with: '12345678901234'
-        expect(find('#answer_03').value).to eq('(123) 456-7890')
+        fill_in "question_#{dropdown_form.questions.first.id}_answer_03", with: '12345678901234'
+        expect(find("#question_#{dropdown_form.questions.first.id}_answer_03").value).to eq('(123) 456-7890')
       end
 
       it 'disallows text input' do
-        fill_in 'answer_03', with: 'abc'
-        expect(find('#answer_03').value).to eq('')
+        fill_in "question_#{dropdown_form.questions.first.id}_answer_03", with: 'abc'
+        expect(find("#question_#{dropdown_form.questions.first.id}_answer_03").value).to eq('')
       end
     end
 
