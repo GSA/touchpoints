@@ -21,7 +21,7 @@ feature 'Touchpoints', js: true do
           expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
           expect(page).to have_content("OMB Approval ##{form.omb_approval_number}")
           expect(page).to have_content("Expiration Date #{form.expiration_date.strftime('%m/%d/%Y')}")
-          fill_in('answer_01', with: 'User feedback')
+          fill_in(question.ui_selector, with: 'User feedback')
           click_button 'Submit'
         end
 
@@ -102,7 +102,7 @@ feature 'Touchpoints', js: true do
           expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
           expect(page).to have_content("OMB Approval ##{form.omb_approval_number}")
           expect(page).to have_content("Expiration Date #{form.expiration_date.strftime('%m/%d/%Y')}")
-          fill_in('answer_01', with: 'User feedback')
+          fill_in(question.ui_selector, with: 'User feedback')
           click_button 'Submit'
         end
 
@@ -296,12 +296,12 @@ feature 'Touchpoints', js: true do
 
       it 'allows numeric input and a maximum of 10 numbers' do
         fill_in dropdown_form.ordered_questions.last.id, with: '12345678901234'
-        expect(find("#question_#{dropdown_form.ordered_questions.last.id}_answer_03").value).to eq('(123) 456-7890')
+        expect(find("##{dropdown_form.ordered_questions.last.ui_selector}").value).to eq('(123) 456-7890')
       end
 
       it 'disallows text input' do
         fill_in dropdown_form.ordered_questions.last.id, with: 'abc'
-        expect(find("##{dropdown_form.ordered_questions.last.id}").value).to eq('')
+        expect(find("##{dropdown_form.ordered_questions.last.ui_selector}").value).to eq('')
       end
     end
 
@@ -469,9 +469,9 @@ feature 'Touchpoints', js: true do
 
       before do
         visit submit_touchpoint_path(custom_form)
-        find("label[for='question_#{custom_form.ordered_questions.first.id}_answer_01_star1']").click
-        find("label[for='question_#{custom_form.ordered_questions.second.id}_answer_02_star2']").click
-        find("label[for='question_#{custom_form.ordered_questions.third.id}_answer_03_star3']").click
+        find("label[for='#{custom_form.ordered_questions.first.ui_selector}_star1']").click
+        find("label[for='#{custom_form.ordered_questions.second.ui_selector}}_star2']").click
+        find("label[for='#{custom_form.ordered_questions.third.ui_selector}}_star3']").click
         click_button 'Submit'
       end
 
