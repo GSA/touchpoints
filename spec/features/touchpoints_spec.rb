@@ -295,13 +295,13 @@ feature 'Touchpoints', js: true do
       end
 
       it 'allows numeric input and a maximum of 10 numbers' do
-        fill_in "question_#{dropdown_form.questions.first.id}_answer_03", with: '12345678901234'
-        expect(find("#question_#{dropdown_form.questions.first.id}_answer_03").value).to eq('(123) 456-7890')
+        fill_in dropdown_form.ordered_questions.last.id, with: '12345678901234'
+        expect(find("#question_#{dropdown_form.ordered_questions.last.id}_answer_03").value).to eq('(123) 456-7890')
       end
 
       it 'disallows text input' do
-        fill_in "question_#{dropdown_form.questions.first.id}_answer_03", with: 'abc'
-        expect(find("#question_#{dropdown_form.questions.first.id}_answer_03").value).to eq('')
+        fill_in dropdown_form.ordered_questions.last.id, with: 'abc'
+        expect(find("##{dropdown_form.ordered_questions.last.id}").value).to eq('')
       end
     end
 
@@ -313,13 +313,13 @@ feature 'Touchpoints', js: true do
       end
 
       it 'allows a valid date string' do
-        fill_in 'answer_04', with: '10/04/2021'
+        fill_in date_select_form.ordered_questions.last.ui_selector, with: '10/04/2021'
         click_on 'Submit'
         expect(page).not_to have_content('Please enter a valid value')
       end
 
       it 'disallows non date input' do
-        fill_in 'answer_04', with: 'abc'
+        fill_in date_select_form.ordered_questions.last.ui_selector, with: 'abc'
         click_on 'Submit'
         expect(page).to have_content('Please enter a valid value')
       end
@@ -334,7 +334,7 @@ feature 'Touchpoints', js: true do
         end
 
         it 'generates hidden field' do
-          expect(find('#answer_01', visible: false).value).to eq('hidden value')
+          expect(find("##{hidden_field_form.ordered_questions.last.ui_selector}", visible: false).value).to eq('hidden value')
         end
       end
 
@@ -359,13 +359,13 @@ feature 'Touchpoints', js: true do
       end
 
       it 'allows valid email address' do
-        fill_in 'answer_03', with: 'test@test.com'
+        fill_in dropdown_form.ordered_questions.last.ui_selector, with: 'test@test.com'
         click_button 'Submit'
         expect(page).to have_content('Thank you. Your feedback has been received.')
       end
 
       it 'disallows invalid text input' do
-        fill_in 'answer_03', with: 'test@testcom'
+        fill_in dropdown_form.ordered_questions.last.ui_selector, with: 'test@testcom'
         click_button 'Submit'
         expect(page).to have_content('Please enter a valid value: Email')
       end
@@ -387,7 +387,7 @@ feature 'Touchpoints', js: true do
       end
 
       it 'can successfully submit after completing the required question' do
-        fill_in('answer_01', with: 'a response to this required question')
+        fill_in(form.ordered_questions.first.ui_selector, with: 'a response to this required question')
         find('.submit_form_button').click
         expect(page).to have_content('Thank you. Your feedback has been received.')
       end
@@ -414,7 +414,7 @@ feature 'Touchpoints', js: true do
           expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
           expect(page).to have_content("OMB Approval ##{form.omb_approval_number}")
           expect(page).to have_content("Expiration Date #{form.expiration_date.strftime('%m/%d/%Y')}")
-          fill_in('answer_01', with: 'T' * 145)
+          fill_in(form.ordered_questions.first.ui_selector, with: 'T' * 145)
         end
 
         it 'updates character count' do
