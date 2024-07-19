@@ -497,7 +497,7 @@ feature 'Forms', js: true do
             end
 
             it 'can complete then submit the inline Form and see a Success message' do
-              fill_in form3.ordered_questions.first.ui_selector, with: 'We the People of the United States, in Order to form a more perfect Union...'
+              fill_in form2.ordered_questions.first.ui_selector, with: 'We the People of the United States, in Order to form a more perfect Union...'
               click_on 'Submit'
 
               expect(page).to have_content('Success')

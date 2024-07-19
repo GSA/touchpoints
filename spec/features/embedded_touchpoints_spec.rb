@@ -21,15 +21,15 @@ feature 'Touchpoints', js: true do
           expect(page).to have_content('Help improve this site')
 
           expect(page).to have_content('Do you have a few minutes to help us test this site?')
-          fill_in 'answer_01', with: 'input field'
-          fill_in 'answer_02', with: 'email'
-          fill_in 'answer_03', with: 'textarea'
+          fill_in form.ordered_questions.first.ui_selector, with: 'input field'
+          fill_in form.ordered_questions.second.ui_selector, with: 'email'
+          fill_in form.ordered_questions.third.ui_selector, with: 'textarea'
 
           click_on 'Next'
           expect(page).to have_content('Please enter a valid value')
           expect(page).to have_content('This is help text')
 
-          fill_in 'answer_02', with: 'email@example.gov'
+          fill_in page.ordered_questions.second.ui_selector, with: 'email@example.gov'
           click_on 'Next'
 
           expect(page).to have_content('Option elements')

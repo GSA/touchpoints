@@ -11,7 +11,7 @@
     <%= label_tag(nil, for: "#{question.answer_field}_other", class: "usa-input__label") do %><%= t 'form.enter_other_text' %><% end %>
     <input type="text"
       name="<%= question.answer_field %>_other"
-      id="question_<%= question.id %>_<%= question.answer_field %>_other"
+      id="<%= question.ui_selector %>_other"
       data-option-id="<%= option.id %>"
       placeholder="<%= t 'form.enter_other_text' %>"
       maxlength="<%= Question::MAX_CHARACTERS %>"
