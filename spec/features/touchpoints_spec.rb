@@ -469,9 +469,9 @@ feature 'Touchpoints', js: true do
 
       before do
         visit submit_touchpoint_path(custom_form)
-        find("label[for='answer_01_star1']").click
-        find("label[for='answer_02_star2']").click
-        find("label[for='answer_03_star3']").click
+        find("label[for='question_#{custom_form.ordered_questions.first.id}_answer_01_star1']").click
+        find("label[for='question_#{custom_form.ordered_questions.second.id}_answer_02_star2']").click
+        find("label[for='question_#{custom_form.ordered_questions.third.id}_answer_03_star3']").click
         click_button 'Submit'
       end
 
