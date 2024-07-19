@@ -316,7 +316,7 @@ function FBAform(d, N) {
 			  if (item.value.length == 0) {
 			  	delete(questions[item.name]);
 			  } else {
-			    var PhoneRegex = /^[0-9]{10}$/;
+			    const PhoneRegex = /^\(\d{3}\) \d{3}-\d{4}$/;
 			    if (PhoneRegex.test(item.value)) delete(questions[item.name]);
 			  }
 			});
