@@ -1,4 +1,4 @@
-<label class="usa-label" for="question_<%= question.id %>_<%= question.answer_field.to_sym %>">
+<label class="usa-label" for="<%= question.ui_selector %>">
   <%= question.text %>
   <%- if question.is_required? %>
   <abbr title="required" class="usa-hint--required">*</abbr>

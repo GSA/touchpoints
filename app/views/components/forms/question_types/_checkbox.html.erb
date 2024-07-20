@@ -10,7 +10,7 @@
       <% end -%>
     >
       <%= check_box_tag(@option_id, option.value, false, {
-            name: question.answer_field,
+            name: question.ui_selector,
             class: "usa-checkbox__input usa-checkbox__input--tile",
             required: question.is_required
           })
@@ -19,7 +19,7 @@
       <%- if ["OTHER", "OTRO"].include?(option.text.upcase) %>
         <%= label_tag(nil, for: "#{question.answer_field}_other", class: "usa-input__label") do %><%= t 'form.enter_other_text' %><% end %>
         <input type="text"
-          name="<%= question.answer_field %>_other"
+          name="<%= question.ui_selector %>_other"
           id="<%= question.ui_selector %>_other"
           data-option-id="<%= @option_id %>"
           placeholder="<%= t 'form.enter_other_text' %>"

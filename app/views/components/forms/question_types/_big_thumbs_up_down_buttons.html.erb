@@ -12,8 +12,8 @@
         <% option_id = "question_option_#{question.id}_#{option[:text]}" %>
         <div class="grid-col-6">
           <div class="radio-button usa-radio"
-            id="<%= question.id %>_<%= question.answer_field %>_<%= option[:text] %>"
-            data-id="<%= question.id %>_<%= question.answer_field %>_<%= option[:text] %>"
+            id="<%= question.ui_selector %>_<%= option.id %>"
+            data-id="<%= option.id %>"
             <%- if question.help_text.present? %>
             aria-describedby="<%= "question-id-#{question.id}-help-text" %>"
             <% end %>

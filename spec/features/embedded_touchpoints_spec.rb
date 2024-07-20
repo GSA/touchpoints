@@ -34,12 +34,11 @@ feature 'Touchpoints', js: true do
 
           expect(page).to have_content('Option elements')
           expect(all("#question_#{form.ordered_questions[5].id} .usa-radio__label").size).to eq(4)
-          all("##{form.questions[3].ui_selector} .usa-radio__label").last.click
-          fill_in("#{form.questions[3].ui_selector}_other", with: 'otro 2')
+          all("#question_#{form.ordered_questions[5].id} .usa-radio__label").last.click
+          fill_in("#{form.ordered_questions[5].ui_selector}_other", with: 'otro 2')
 
           all('.usa-checkbox__label').each(&:click)
-          # fill_in("question_#{form.questions[4].id}_answer_05_other", with: 'other 3')
-          fill_in("#{form.questions[4].ui_selector}_other", with: 'other 3')
+          fill_in("#{form.ordered_questions[6].ui_selector}_other", with: 'other 3')
           select('Option 2', from: 'answer_06')
           click_on 'Next'
           expect(page).to have_content('Custom elements')
