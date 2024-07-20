@@ -3,7 +3,7 @@ form_options = {
   prompt: t('form.select_one'),
   class: "usa-select",
   id: question.ui_selector,
-  name: question.answer_field.to_sym,
+  name: question.ui_selector,
   required: question.is_required,
 }
 
@@ -17,7 +17,7 @@ end
 <fieldset class="usa-fieldset">
   <%= render 'components/question_title_label', question: question %>
   <div class="usa-combo-box margin-bottom-1">
-    <%= select_tag(question.answer_field.to_sym,
+    <%= select_tag(question.ui_selector,
       options_for_select(question.question_options.each_with_index.map { |option, index| [option.text, option.value] }),
       form_options)
     %>
