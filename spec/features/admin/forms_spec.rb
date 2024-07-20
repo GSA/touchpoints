@@ -954,11 +954,10 @@ feature 'Forms', js: true do
                 click_on 'Add Question'
                 expect(page.current_path).to eq(questions_admin_form_path(form))
                 choose 'question_question_type_dropdown'
-                # select("dropdown", from: "question_question_type")
                 fill_in 'question_text', with: 'New dropdown field'
                 select('answer_01', from: 'question_answer_field')
                 click_on 'Update Question'
-                expect(page).to have_css('#answer_01')
+                expect(page).to have_css("##{form.ordered_questions.first.ui_selector}")
               end
 
               it 'can add a dropdown Question' do
@@ -1045,7 +1044,7 @@ feature 'Forms', js: true do
                 fill_in 'question_text', with: 'New dropdown field'
                 select('answer_01', from: 'question_answer_field')
                 click_on 'Update Question'
-                expect(page).to have_css('#answer_01')
+                expect(page).to have_css('##{form.ordered_questions.last.ui_selector}')
               end
 
               it 'can add a dropdown Question' do
