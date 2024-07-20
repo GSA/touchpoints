@@ -39,7 +39,8 @@ feature 'Touchpoints', js: true do
 
           all('.usa-checkbox__label').each(&:click)
           fill_in("#{form.ordered_questions[6].ui_selector}_other", with: 'other 3')
-          select('Option 2', from: 'answer_06')
+
+          select('Option 2', from: form.ordered_questions[7].ui_selector)
           click_on 'Next'
           expect(page).to have_content('Custom elements')
           find('.submit_form_button').click
