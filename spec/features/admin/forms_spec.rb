@@ -1044,7 +1044,7 @@ feature 'Forms', js: true do
                 fill_in 'question_text', with: 'New dropdown field'
                 select('answer_01', from: 'question_answer_field')
                 click_on 'Update Question'
-                expect(page).to have_css('##{form.ordered_questions.last.ui_selector}')
+                expect(page).to have_css("##{form.ordered_questions.last.ui_selector}")
               end
 
               it 'can add a dropdown Question' do
