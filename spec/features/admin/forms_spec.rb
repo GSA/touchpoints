@@ -775,7 +775,7 @@ feature 'Forms', js: true do
               within '.form-builder .question' do
                 expect(page).to have_content('New Test Question')
                 expect(page).to have_content('Additional help text for this question')
-                expect(page).to have_css("input#answer_01[type='text']")
+                expect(page).to have_css("input##{form.ordered_questions.last.ui_selector}[type='text']")
               end
             end
 
@@ -783,8 +783,8 @@ feature 'Forms', js: true do
               expect(page.current_path).to eq(questions_admin_form_path(form))
               within '.form-builder .question' do
                 expect(page).to have_content('New Test Question')
-                expect(page).to have_css("input#answer_01[type='text']")
-                expect(find('#answer_01')['placeholder']).to eq('Placeholder text for this question')
+                expect(page).to have_css("input##{form.ordered_questions.last.ui_selector}[type='text']")
+                expect(find("##{form.ordered_questions.last.ui_selector}")['placeholder']).to eq('Placeholder text for this question')
               end
             end
           end
