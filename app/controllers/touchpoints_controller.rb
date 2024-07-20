@@ -5,7 +5,7 @@ class TouchpointsController < ApplicationController
   before_action :set_touchpoint
 
   def show
-    @form.legacy_form_embed = params[:legacy] == "true"
+    @form.legacy_form_embed = params[:legacy] == "1"
 
     respond_to do |format|
       format.html do
