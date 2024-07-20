@@ -15,7 +15,7 @@ document.addEventListener('onTouchpointsFormLoaded', function(e) {
     const q2 = document.getElementById("answer_02");
     const q2_container = q2.closest(".question");
     <% else %>
-    const q2_container = formElement.querySelector("#question_<%= form.questions.second.id %>");
+    const q2_container = formElement.querySelector("#<%= form.ordered_questions.second.ui_selector %>");
     <% end %>
     q2_container.style.display = 'none';
   }
@@ -24,7 +24,7 @@ document.addEventListener('onTouchpointsFormLoaded', function(e) {
     const q2 = document.getElementById("answer_02");
     const q2_container = q2.closest(".question");
     <% else %>
-    const q2_container = formElement.querySelector("#question_<%= form.questions.second.id %>");
+    const q2_container = formElement.querySelector("#<%= form.ordered_questions.second.ui_selector %>");
     <% end %>
     q2_container.style.display = 'block';
   }
@@ -34,7 +34,7 @@ document.addEventListener('onTouchpointsFormLoaded', function(e) {
     const q3 = document.getElementById("answer_03");
     const q3_container = q3.closest(".question");
     <% else %>
-    const q3_container = formElement.querySelector("#question_<%= form.questions.third.id %>")
+    const q3_container = formElement.querySelector("#<%= form.ordered_questions.third.ui_selector %>")
     <% end %>
     q3_container.style.display = 'none';
   }
@@ -43,7 +43,7 @@ document.addEventListener('onTouchpointsFormLoaded', function(e) {
     const q3 = document.getElementById("answer_03");
     const q3_container = q3.closest(".question");
     <% else %>
-    const q3_container = formElement.querySelector("#question_<%= form.questions.third.id %>")
+    const q3_container = formElement.querySelector("#<%= form.ordered_questions.third.ui_selector %>")
     <% end %>
     q3_container.style.display = 'block';
   }
@@ -58,11 +58,7 @@ document.addEventListener('onTouchpointsFormLoaded', function(e) {
     }
   }
 
-  <%- if form.legacy_form_embed? %>
-  const radioButtons = document.getElementById("answer_01").getElementsByTagName("input");
-  <% else %>
-  const radioButtons = formElement.querySelector("#question_<%= form.questions.first.id %>").getElementsByTagName("input");
-  <% end %>
+  const radioButtons = formElement.querySelector("#<%= form.ordered_questions.first.ui_selector %>").getElementsByTagName("input");
   for (const radioButton of radioButtons) {
       radioButton.addEventListener("click", handleThumbsUpDownClick)
   }

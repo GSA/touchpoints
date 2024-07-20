@@ -66,7 +66,7 @@ class Question < ApplicationRecord
     if self.form.legacy_form_embed?
       self.answer_field.to_sym
     else
-      "question_#{self.id}_#{self.answer_field.to_sym}" # question_123_answer_02
+      "question_#{self.id}_#{self.answer_field}" # question_123_answer_02
     end
   end
 end
