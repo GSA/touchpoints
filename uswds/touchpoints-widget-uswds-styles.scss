@@ -1,0 +1,5 @@
+@use "sass:meta";
+
+.touchpoint-widget {
+  @include meta.load-css("widget-uswds-styles");
+}

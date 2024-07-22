@@ -32,12 +32,16 @@ function FBAform(d, N) {
 			this.options = options;
 			<%- if form.load_css %>
 			this.loadCss();
+			this.addCssAsLink();
 			<% end %>
 			this.loadHtml();
+			<%- if form.delivery_method == "modal" || form.delivery_method == "custom-button-modal" %>
+			this.addModalJs();
+			<% end %>
 			<%- unless (local_assigns.has_key?(:suppress_ui) && suppress_ui) -%>
-				<%- if form.delivery_method == "modal" -%>
-				this.loadButton();
-				<% end %>
+			        <%- if form.delivery_method == "modal" -%>
+			        this.loadButton();
+			        <% end %>
 			<% end %>
 			this.bindEventListeners();
 			this.dialogOpen = false; // initially false
@@ -82,11 +86,27 @@ function FBAform(d, N) {
 			});
 
 		},
+		addModalJs() {
+			const scriptElement = document.createElement('script');
+			scriptElement.type = 'text/javascript';
+			scriptElement.defer = true;
+			scriptElement.src = "<%= asset_url('touchpoints-uswds.min.js') %>"
+			const body = document.getElementsByTagName('body')[0];
+			body.appendChild(scriptElement);
+		},
 		<%- if form.load_css %>
 		loadCss: function() {
 			var style = document.createElement('style');
 			style.innerHTML = this.css;
 			d.head.appendChild(style);
+		},
+		addCssAsLink: function() {
+			const cssTag = document.createElement('link');
+			cssTag.rel = 'stylesheet';
+			cssTag.type = 'text/css';
+			cssTag.media = 'all';
+			cssTag.href = "<%= asset_url(form.delivery_method == "touchpoints-hosted-only" ? 'touchpoints-widget.css' : 'touchpoints-widget-with-uswds.css') %>";
+			document.getElementsByTagName('head')[0].appendChild(cssTag);
 		},
 		<% end %>
 		loadHtml: function() {
