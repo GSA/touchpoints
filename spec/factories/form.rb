@@ -558,6 +558,19 @@ FactoryBot.define do
       end
     end
 
+    trait :big_thumbs do
+      name { 'Big Thumbs Up/Down' }
+      kind { 'custom' }
+      after(:create) do |f, _evaluator|
+        FactoryBot.create(:question,
+                          :big_thumbs_up_down_buttons,
+                          form: f,
+                          answer_field: :answer_01,
+                          form_section: f.form_sections.first,
+                          text: 'Did you find this page useful?')
+      end
+    end
+
     trait :yes_no_buttons do
       name { 'Yes/No buttons form' }
       kind { 'custom' }

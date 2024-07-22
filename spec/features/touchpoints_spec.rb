@@ -464,6 +464,23 @@ feature 'Touchpoints', js: true do
       end
     end
 
+    describe 'Big Thumbs' do
+      let!(:custom_form) { FactoryBot.create(:form, :big_thumbs, organization:) }
+
+      before do
+        visit submit_touchpoint_path(custom_form)
+        expect(page).to have_content("This is help text.")
+        find("label[for='question_option_2_yes']").click
+        click_button 'Submit'
+      end
+
+      it 'submits successfully' do
+        expect(page).to have_content('Thank you. Your feedback has been received.')
+        last_submission = Submission.last
+        expect(last_submission.answer_01).to eq '1'
+      end
+    end
+
     describe 'Multiple Star Ratings Form' do
       let!(:custom_form) { FactoryBot.create(:form, :star_ratings, organization:) }
 
