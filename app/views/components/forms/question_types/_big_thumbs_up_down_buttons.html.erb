@@ -12,13 +12,17 @@
         <% option_id = "question_option_#{question.id}_#{option[:text]}" %>
         <div class="grid-col-6">
           <div class="radio-button usa-radio"
-            id="<%= question.ui_selector %>_<%= option.id %>"
-            data-id="<%= option.id %>"
+            id="<%= question.ui_selector %>_<%= option[:text] %>"
+            data-id="<%= question.ui_selector %>_<%= option[:text] %>"
             <%- if question.help_text.present? %>
             aria-describedby="<%= "question-id-#{question.id}-help-text" %>"
             <% end %>
           >
-          <%= radio_button_tag(option_id, option[:value], nil, { id: option_id, name: question.answer_field, class: "usa-radio__input usa-radio__input--tile", required: question.is_required  }) %>
+          <%= radio_button_tag(option_id, option[:value], nil, {
+              id: option_id, name: question.ui_selector,
+              class: "usa-radio__input usa-radio__input--tile",
+              required: question.is_required
+          }) %>
           <%= label_tag(option_id, nil, class: "usa-radio__label font-sans-3xl text-center") do %>
             <%- if option[:value] == 1 %>
             <span class="usa-sr-only">Thumbs-up</span>
