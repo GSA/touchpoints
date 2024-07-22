@@ -14,7 +14,7 @@
   <% end %>
 </p>
 
-<div class="grid-row">
+<div class="grid-row grid-gap-lg">
   <div class="grid-col-8">
     <div class="grid-row">
       <%- if @organization.cfo_act_agency? %>
@@ -37,7 +37,7 @@
         &middot;
         <%= link_to "Card Size", @organization.logo.card.url, target: "_blank", rel: "noopener" %>
         <% else %>
-          A logo has not yet been uploaded
+          <!-- A logo has not yet been uploaded -->
         <% end %>
       </div>
       <% end -%>
@@ -156,7 +156,7 @@
 
       <%- if @organization.services.present? %>
       <ul class="usa-list">
-      <% @organization.services.order(:name).each do |service| %>
+      <% @organization.services.order(:name).includes(:service_provider).each do |service| %>
         <li>
           <%= link_to service.name, admin_service_path(service) %>
           <%- if service.service_provider %>
@@ -254,9 +254,10 @@
       <tbody>
         <tr>
           <td>
-            <%= label_tag "Organization Domain", nil, class: "usa-label" %>
+            Organization domain
+            <br>
             <small>
-              used for the Allowlist of users email addresses
+              Login.gov users with this email suffix are allowed
             </small>
           </td>
           <td>
@@ -265,7 +266,7 @@
         </tr>
         <tr>
           <td>
-            <%= label_tag "Website URL", nil, class: "usa-label" %>
+            Website URL
           </td>
           <td>
             <%= link_to(@organization.url, @organization.url, target: "_blank", rel: "noopener") %>
@@ -274,6 +275,10 @@
         <tr>
           <td>
             Form Approval Enabled?
+            <br>
+            <small>
+              adds a Submission and Approval for step for an Organization's forms
+            </small>
           </td>
           <td>
             <%= @organization.form_approval_enabled %>
