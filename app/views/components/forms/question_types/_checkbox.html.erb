@@ -17,7 +17,7 @@
       %>
       <%= label_tag(nil, for: @option_id, class: "usa-checkbox__label") do %><%= option.text %><% end %>
       <%- if ["OTHER", "OTRO"].include?(option.text.upcase) %>
-        <%= label_tag(nil, for: "#{question.answer_field}_other", class: "usa-input__label") do %><%= t 'form.enter_other_text' %><% end %>
+        <%= label_tag(nil, for: "#{question.ui_selector}_other", class: "usa-input__label") do %><%= t 'form.enter_other_text' %><% end %>
         <input type="text"
           name="<%= question.ui_selector %>_other"
           id="<%= question.ui_selector %>_other"
