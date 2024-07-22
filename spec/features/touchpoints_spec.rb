@@ -447,6 +447,7 @@ feature 'Touchpoints', js: true do
 
       before do
         visit submit_touchpoint_path(custom_form)
+        expect(page).to have_content("This is help text.")
         find("label[for='#{custom_form.ordered_questions.first.ui_selector}_star4']").click
         fill_in(custom_form.ordered_questions.last.ui_selector, with: 'User feedback')
         click_button 'Submit'
