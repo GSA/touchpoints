@@ -7,6 +7,7 @@
     <%= render 'components/forms/edit/question_types/update_value_text_fields', { question: question, option: option } %>
   <% end %>
   <%- if ["OTHER", "OTRO"].include?(option.text.upcase) %>
+    <div class="margin-top-1">
     <%= label_tag(nil, for: "#{question.ui_selector}_other", class: "usa-input__label") do %><%= t 'form.enter_other_text' %><% end %>
     <input type="text"
       name="<%= question.ui_selector %>_other"
@@ -15,6 +16,6 @@
       placeholder="<%= t 'form.enter_other_text' %>"
       maxlength="<%= Question::MAX_CHARACTERS %>"
       class="usa-input other-option" />
-    <br>
+    </div>
   <% end %>
 </div>

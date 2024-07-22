@@ -13,19 +13,20 @@
             name: question.ui_selector,
             class: "usa-checkbox__input usa-checkbox__input--tile",
             required: question.is_required
-          })
+      })
       %>
       <%= label_tag(nil, for: @option_id, class: "usa-checkbox__label") do %><%= option.text %><% end %>
       <%- if ["OTHER", "OTRO"].include?(option.text.upcase) %>
+        <div class="margin-top-1">
         <%= label_tag(nil, for: "#{question.ui_selector}_other", class: "usa-input__label") do %><%= t 'form.enter_other_text' %><% end %>
         <input type="text"
           name="<%= question.ui_selector %>_other"
           id="<%= question.ui_selector %>_other"
-          data-option-id="<%= @option_id %>"
+          data-option-id="<%= option.id %>"
           placeholder="<%= t 'form.enter_other_text' %>"
           maxlength="<%= Question::MAX_CHARACTERS %>"
           class="usa-input other-option" />
-        <br>
+        </div>
       <% end %>
     </div>
     <% end %>
