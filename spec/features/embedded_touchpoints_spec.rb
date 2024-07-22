@@ -38,6 +38,8 @@ feature 'Touchpoints', js: true do
           fill_in("#{form.ordered_questions[5].ui_selector}_other", with: 'otro 2')
 
           all('.usa-checkbox__label').each(&:click)
+          expect(page).to have_content("Enter other text")
+          expect(page).to have_css("##{form.ordered_questions[6].ui_selector}_other")
           fill_in("#{form.ordered_questions[6].ui_selector}_other", with: 'other 3')
 
           select('Option 2', from: form.ordered_questions[7].ui_selector)
