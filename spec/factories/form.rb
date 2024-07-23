@@ -484,7 +484,7 @@ FactoryBot.define do
                           form_section: f.form_sections.first,
                           text: 'Please rate your experience as a customer of Agency of Departments.',
                           position: 1,
-                          ),
+                          )
         FactoryBot.create(:question,
                           :with_checkbox_options,
                           form: f,
