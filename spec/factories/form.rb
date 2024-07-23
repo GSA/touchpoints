@@ -482,19 +482,25 @@ FactoryBot.define do
                           answer_field: :answer_01,
                           question_type: 'star_radio_buttons',
                           form_section: f.form_sections.first,
-                          text: 'Please rate your experience as a customer of Agency of Departments.')
+                          text: 'Please rate your experience as a customer of Agency of Departments.',
+                          position: 1,
+                          ),
         FactoryBot.create(:question,
                           :with_checkbox_options,
                           form: f,
                           answer_field: :answer_02,
                           form_section: f.form_sections.first,
-                          text: 'Name')
+                          text: 'Name',
+                          position: 2,
+                          )
         FactoryBot.create(:question,
                           form: f,
                           answer_field: :answer_03,
                           question_type: 'textarea',
                           form_section: f.form_sections.first,
-                          text: 'Additional comments')
+                          text: 'Additional comments',
+                          position: 3
+                          )
       end
     end
 
