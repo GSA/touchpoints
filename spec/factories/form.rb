@@ -223,20 +223,10 @@ FactoryBot.define do
         FactoryBot.create(:question,
                           form: f,
                           question_type: 'text_display',
-                          form_section: f.form_sections.first,
+                          form_section: f.form_sections.last,
                           answer_field: 'answer_20',
                           position: 20,
                           text: "Some custom <a href='#'>html</a>")
-        Question.create!({
-                           form: f,
-                           form_section: f.form_sections.first,
-                           text: 'hidden value',
-                           placeholder_text: 'hidden value',
-                           question_type: 'hidden_field',
-                           position: 19,
-                           answer_field: :answer_07,
-                           is_required: false,
-                         })
 
         option_elements_section = f.form_sections.create(title: 'Option elements', position: 2)
         radio_button_question = FactoryBot.create(:question,
@@ -351,6 +341,17 @@ FactoryBot.define do
                            answer_field: :answer_17,
                            is_required: false,
                          })
+
+        Question.create!({
+                  form: f,
+                  form_section: custom_elements_section,
+                  text: 'hidden value',
+                  placeholder_text: 'hidden value',
+                  question_type: 'hidden_field',
+                  position: 19,
+                  answer_field: :answer_19,
+                  is_required: false,
+                })
       end
     end
 

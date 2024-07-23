@@ -33,16 +33,16 @@ feature 'Touchpoints', js: true do
           click_on 'Next'
 
           expect(page).to have_content('Option elements')
-          expect(all("#question_#{form.ordered_questions[5].id} .usa-radio__label").size).to eq(4)
-          all("#question_#{form.ordered_questions[5].id} .usa-radio__label").last.click
-          fill_in("#{form.ordered_questions[5].ui_selector}_other", with: 'otro 2')
+          expect(all("#question_#{form.ordered_questions[4].id} .usa-radio__label").size).to eq(4)
+          all("#question_#{form.ordered_questions[4].id} .usa-radio__label").last.click
+          fill_in("#{form.ordered_questions[4].ui_selector}_other", with: 'otro 2')
 
           all('.usa-checkbox__label').each(&:click)
           expect(page).to have_content("Enter other text")
-          expect(page).to have_css("##{form.ordered_questions[6].ui_selector}_other")
-          fill_in("#{form.ordered_questions[6].ui_selector}_other", with: 'other 3')
+          expect(page).to have_css("##{form.ordered_questions[5].ui_selector}_other")
+          fill_in("#{form.ordered_questions[5].ui_selector}_other", with: 'other 3')
 
-          select('Option 2', from: form.ordered_questions[7].ui_selector)
+          select('Option 2', from: form.ordered_questions[6].ui_selector)
           click_on 'Next'
           expect(page).to have_content('Custom elements')
           find('.submit_form_button').click
