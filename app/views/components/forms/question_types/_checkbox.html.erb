@@ -1,8 +1,9 @@
 <fieldset class="usa-fieldset margin-top-3">
   <%= render 'components/question_title_legend', question: question %>
-  <div class="question-options">
+  <div class="question-options"
+    id="<%= question.ui_selector %>">
   <% question.question_options.each_with_index do |option, index| %>
-    <% @option_id = dom_id(option) %>
+    <% @option_id = question.form.legacy_form_embed ? "#{question.answer_field}_#{index}" : @option_id = dom_id(option) %>
     <div class="usa-checkbox"
       data-id="<%= option.id %>"
       <%- if question.help_text? %>
