@@ -22,7 +22,7 @@
         <input type="text"
           name="<%= question.ui_selector %>_other"
           id="<%= question.ui_selector %>_other"
-          data-option-id="<%= option.id %>"
+          data-option-id="<%= @option_id %>"
           placeholder="<%= t 'form.enter_other_text' %>"
           maxlength="<%= Question::MAX_CHARACTERS %>"
           class="usa-input other-option" />
