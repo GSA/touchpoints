@@ -22,6 +22,10 @@ FactoryBot.define do
       question_type { 'states_dropdown' }
     end
 
+    trait :big_thumbs_up_down_buttons do
+      question_type { 'big_thumbs_up_down_buttons' }
+    end
+
     trait :with_radio_buttons do
       text { 'Test Radio Buttons Question' }
       question_type { 'radio_buttons' }

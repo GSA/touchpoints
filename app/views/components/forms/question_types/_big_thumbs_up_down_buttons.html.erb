@@ -4,20 +4,25 @@
   </legend>
   <%= render 'components/question_title', question: question %>
 
-  <div class="question-options big-thumbs" id="<%= question.answer_field.to_sym %>">
+  <div class="question-options big-thumbs"
+    id="<%= question.ui_selector %>">
     <div class="grid-row grid-gap-lg">
       <% question_options = [{ text: 'yes', value: 1 }, { text: 'no', value: 0 }] %>
       <% question_options.each_with_index do |option, index| %>
         <% option_id = "question_option_#{question.id}_#{option[:text]}" %>
         <div class="grid-col-6">
           <div class="radio-button usa-radio"
-            id="<%= question.id %>_<%= question.answer_field %>_<%= option[:text] %>"
-            data-id="<%= question.id %>_<%= question.answer_field %>_<%= option[:text] %>"
+            id="<%= question.ui_selector %>_<%= option[:text] %>"
+            data-id="<%= question.ui_selector %>_<%= option[:text] %>"
             <%- if question.help_text.present? %>
             aria-describedby="<%= "question-id-#{question.id}-help-text" %>"
             <% end %>
           >
-          <%= radio_button_tag(option_id, option[:value], nil, { id: option_id, name: question.answer_field, class: "usa-radio__input usa-radio__input--tile", required: question.is_required  }) %>
+          <%= radio_button_tag(option_id, option[:value], nil, {
+              id: option_id, name: question.ui_selector,
+              class: "usa-radio__input usa-radio__input--tile",
+              required: question.is_required
+          }) %>
           <%= label_tag(option_id, nil, class: "usa-radio__label font-sans-3xl text-center") do %>
             <%- if option[:value] == 1 %>
             <span class="usa-sr-only">Thumbs-up</span>

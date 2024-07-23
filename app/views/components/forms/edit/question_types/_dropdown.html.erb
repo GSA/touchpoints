@@ -1,6 +1,6 @@
 <div class="radios" role="group" aria-labelledby="<%= question.answer_field %>" data-url="<%= admin_form_question_question_options_path(question.form, question) %>">
   <%= render 'components/question_title', question: question, form_builder: true %>
-  <%= select_tag(question.answer_field.to_sym, options_for_select(question.question_options.each_with_index.map { |option, index| [option.text, option.value] }), { prompt: (t 'form.select_one'), class: "usa-select", required: question.is_required  }) %>
+  <%= select_tag(question.ui_selector, options_for_select(question.question_options.each_with_index.map { |option, index| [option.text, option.value] }), { prompt: (t 'form.select_one'), class: "usa-select", required: question.is_required  }) %>
   <div class="question-options">
   <% question.question_options.each_with_index do |option, index| %>
     <%= render "components/forms/edit/question_types/dropdown_option", question: question, option: option, index: index %>

@@ -1,20 +1,28 @@
-<div class="usa-radio question-option" id="<%= dom_id(option) %>" data-id="<%= option.id %>">
-  <% @option_id = "#{question.answer_field}_#{(index + 1).to_s}" %>
-  <%= radio_button_tag(@option_id, index + 1, nil, { name: question.answer_field, value: option.value, class: "usa-radio__input usa-radio__input--tile", required: question.is_required  }) %>
+<% @option_id = dom_id(option) %>
+<div class="usa-radio question-option"
+  id="<%= @option_id %>"
+  data-id="<%= option.id %>">
+  <%= radio_button_tag(@option_id, index + 1, nil, {
+    name: question.answer_field,
+    value: option.value,
+    class: "usa-radio__input usa-radio__input--tile",
+    required: question.is_required
+  }) %>
   <%= label_tag(nil, for: @option_id, class: "usa-radio__label") do %>
     <%= render 'components/forms/edit/question_types/update_value_text_fields', { question: question, option: option } %>
   <% end %>
   <%- unless question.question_type == "combobox" %>
   <%- if ["OTHER", "OTRO"].include?(option.text.upcase) %>
-    <%= label_tag(nil, for: "#{question.answer_field}_other", class: "usa-input__label") do %><%= t 'form.enter_other_text' %><% end %>
+    <div class="margin-top-1">
+    <%= label_tag(nil, for: "#{question.ui_selector}_other", class: "usa-input__label") do %><%= t 'form.enter_other_text' %><% end %>
     <input type="text"
-      name="<%= question.answer_field %>_other"
-      id="<%= question.answer_field %>_other"
-      data-option-id="<%= option.id %>"
+      name="<%= question.ui_selector %>_other"
+      id="<%= question.ui_selector %>_other"
+      data-option-id="<%= @option_id %>"
       placeholder="<%= t 'form.enter_other_text' %>"
       maxlength="<%= Question::MAX_CHARACTERS %>"
       class="usa-input other-option" />
-    <br>
+    </div>
   <% end %>
   <% end %>
 </div>

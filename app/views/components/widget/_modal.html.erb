@@ -1,4 +1,7 @@
-<div id="fba-modal-dialog"
+<div
+  <%- if form.legacy_form_embed? %>
+  id="fba-modal-dialog"
+  <% end %>
   class="fba-modal-dialog"
   role="dialog"
   aria-label="Feedback modal dialog"

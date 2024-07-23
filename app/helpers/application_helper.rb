@@ -93,37 +93,37 @@ module ApplicationHelper
   # Returns javascript to capture form input for one Form Question
   def question_type_javascript_params(question)
     if question.question_type == 'text_field'
-      "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
+      "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").value"
     elsif question.question_type == 'hidden_field'
-      "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
+      "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").value"
     elsif question.question_type == 'date_select'
-      "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
+      "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").value"
     elsif question.question_type == 'text_email_field'
-      "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
+      "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").value"
     elsif question.question_type == 'text_phone_field'
-      "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
+      "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").value"
     elsif question.question_type == 'textarea'
-      "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
+      "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").value"
     elsif question.question_type == 'radio_buttons'
-      "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
+      "form.querySelector(\"input[name=#{question.ui_selector}]:checked\") && form.querySelector(\"input[name=#{question.ui_selector}]:checked\").value"
     elsif question.question_type == 'star_radio_buttons'
-      "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
+      "form.querySelector(\"input[name=#{question.ui_selector}]:checked\") && form.querySelector(\"input[name=#{question.ui_selector}]:checked\").value"
     elsif question.question_type == 'thumbs_up_down_buttons'
-      "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
+      "form.querySelector(\"input[name=#{question.ui_selector}]:checked\") && form.querySelector(\"input[name=#{question.ui_selector}]:checked\").value"
     elsif question.question_type == 'big_thumbs_up_down_buttons'
-      "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
+      "form.querySelector(\"input[name=#{question.ui_selector}]:checked\") && form.querySelector(\"input[name=#{question.ui_selector}]:checked\").value"
     elsif question.question_type == 'yes_no_buttons'
-      "form.querySelector(\"input[name=#{question.answer_field}]\") && form.querySelector(\"input[name=#{question.answer_field}]\").value"
+      "form.querySelector(\"input[name=#{question.ui_selector}]\") && form.querySelector(\"input[name=#{question.ui_selector}]\").value"
     elsif question.question_type == 'checkbox'
-      "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && Array.apply(null,form.querySelectorAll(\"input[name=#{question.answer_field}]:checked\")).map(function(x) {return x.value;}).join(',')"
+      "form.querySelector(\"input[name=#{question.ui_selector}]:checked\") && Array.apply(null,form.querySelectorAll(\"input[name=#{question.ui_selector}]:checked\")).map(function(x) {return x.value;}).join(',')"
     elsif question.question_type == 'combobox'
-      "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
+      "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").value"
     elsif %w[dropdown states_dropdown].include?(question.question_type)
-      "form.querySelector(\"##{question.answer_field}\") && form.querySelector(\"##{question.answer_field}\").value"
+      "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").value"
     elsif question.question_type == 'text_display'
       'null'
     elsif question.question_type == 'custom_text_display'
-      "form.querySelector(\"input[name=#{question.answer_field}]:checked\") && form.querySelector(\"input[name=#{question.answer_field}]:checked\").value"
+      "form.querySelector(\"input[name=#{question.ui_selector}]:checked\") && form.querySelector(\"input[name=#{question.ui_selector}]:checked\").value"
     end
   end
 

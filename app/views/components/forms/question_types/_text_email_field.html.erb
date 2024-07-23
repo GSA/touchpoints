@@ -14,5 +14,5 @@ end
 
 <div role="group">
   <%= render 'components/question_title_label', question: question %>
-  <%= text_field_tag question.answer_field.to_sym, nil, form_options %>
+  <%= text_field_tag question.ui_selector, nil, form_options %>
 </div>

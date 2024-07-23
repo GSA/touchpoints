@@ -33,35 +33,44 @@
       </div>
     </div>
     <div class="grid-row grid-gap-md">
-      <div class="grid-col-6">
+      <div class="grid-col-12">
         <div class="field">
           <%= f.label :kind, class: "usa-label" %>
           <%= f.select :kind, options_for_select(["a11", "a11_v2", "a11_yes_no", "open_ended", "other"], selected: @form.kind), { include_blank: true }, class: "usa-select" %>
         </div>
       </div>
-      <div class="grid-col-6">
-        <br>
-        <br>
-        <br>
+      <div class="grid-col-12 padding-top-2">
         <fieldset class="usa-fieldset">
           <legend class="usa-sr-only">Form Template?</legend>
           <div class="usa-checkbox">
             <%= f.check_box :template, class: "usa-checkbox__input" %>
-            <%= f.label :template, "Form Template?", class: "usa-checkbox__label" %>
+            <%= f.label :template, class: "usa-checkbox__label" do %>
+              Form Template?
+              &nbsp;
+              <span class="usa-hint font-sans-2xs">
+                This form will be listed as a Form Template when creating a new form
+              </span>
+            <% end %>
+          </div>
+        </fieldset>
+      </div>
+      <div class="grid-col-12 padding-top-2">
+        <fieldset class="usa-fieldset">
+          <legend class="usa-sr-only">Form Template?</legend>
+          <div class="usa-checkbox">
+            <%= f.check_box :legacy_form_embed, class: "usa-checkbox__input" %>
+            <%= f.label :legacy_form_embed, class: "usa-checkbox__label" do %>
+              Render legacy _fba.js.erb?
+              &nbsp;
+              <span class="usa-hint font-sans-2xs">
+                Renders the old form as a fallback for certain clients who may have script customizations based on the old version.
+              </span>
+            <% end %>
           </div>
         </fieldset>
       </div>
     </div>
-    <div class="grid-row grid-gap-md">
-      <div class="grid-col-6">
-        <div class="field">
-          <%= f.label :aasm_state, "State", class: "usa-label" %>
-          <%= f.select :aasm_state, options_for_select(@form.all_states, selected: @form.aasm_state), { prompt: "Transition to State" }, {class: "usa-select"} %>
-        </div>
-      </div>
-    </div>
-  <br>
-    <p>
+    <p class="margin-top-4">
       <%= f.submit (@form.persisted? ? "Update Form Admin Options " : "Create Form"), class: "usa-button" %>
     </p>
   </div>

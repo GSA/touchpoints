@@ -21,24 +21,28 @@ feature 'Touchpoints', js: true do
           expect(page).to have_content('Help improve this site')
 
           expect(page).to have_content('Do you have a few minutes to help us test this site?')
-          fill_in 'answer_01', with: 'input field'
-          fill_in 'answer_02', with: 'email'
-          fill_in 'answer_03', with: 'textarea'
+          fill_in form.ordered_questions.first.ui_selector, with: 'input field'
+          fill_in form.ordered_questions.second.ui_selector, with: 'email'
+          fill_in form.ordered_questions.third.ui_selector, with: 'textarea'
 
           click_on 'Next'
           expect(page).to have_content('Please enter a valid value')
           expect(page).to have_content('This is help text')
+          fill_in form.ordered_questions.second.ui_selector, with: 'email@example.gov'
 
-          fill_in 'answer_02', with: 'email@example.gov'
           click_on 'Next'
 
           expect(page).to have_content('Option elements')
-          find('#question_option_4 .usa-radio__label').click
-          fill_in('answer_04_other', with: 'otro 2')
+          expect(all("#question_#{form.ordered_questions[4].id} .usa-radio__label").size).to eq(4)
+          all("#question_#{form.ordered_questions[4].id} .usa-radio__label").last.click
+          fill_in("#{form.ordered_questions[4].ui_selector}_other", with: 'otro 2')
 
           all('.usa-checkbox__label').each(&:click)
-          fill_in('answer_05_other', with: 'other 3')
-          select('Option 2', from: 'answer_06')
+          expect(page).to have_content("Enter other text")
+          expect(page).to have_css("##{form.ordered_questions[5].ui_selector}_other")
+          fill_in("#{form.ordered_questions[5].ui_selector}_other", with: 'other 3')
+
+          select('Option 2', from: form.ordered_questions[6].ui_selector)
           click_on 'Next'
           expect(page).to have_content('Custom elements')
           find('.submit_form_button').click
