@@ -1,12 +1,18 @@
 // Assumes: 2 questions:
-//  1. radio buttons.
+//  1. yes/no radio buttons
 //  2. open text
 // Hides the 2nd question to start, and reveals it when selecting a radio button
 //
-document.addEventListener('onTouchpointsFormLoaded', function() {
-  const q2 = document.getElementById("answer_02");
+document.addEventListener('onTouchpointsFormLoaded', function(e) {
+  const formElement = e.detail.formComponent.formElement();
+
+  <%- if form.legacy_form_embed? %>
   const q2_container = q2.closest(".question");
   const submitButton = document.getElementById("touchpoints-form-<%= form.short_uuid %>").getElementsByClassName("submit-button")[0]
+  <% else %>
+  const q2_container = formElement.querySelector("#<%= dom_id(form.ordered_questions.second) %>")
+  const submitButton = formElement.querySelector("#touchpoints-form-<%= form.short_uuid %>").getElementsByClassName("submit-button")[0]
+  <% end %>
 
   function hideQ2() {
     q2_container.style.display = 'none';
@@ -32,7 +38,11 @@ document.addEventListener('onTouchpointsFormLoaded', function() {
     }
   }
 
+  <%- if form.legacy_form_embed? %>
   const radioButtons = document.getElementById("answer_01").getElementsByTagName("input");
+  <% else %>
+  const radioButtons = formElement.querySelector("#<%= dom_id(form.ordered_questions.first) %>").getElementsByTagName("input");
+  <% end %>
   for (const radioButton of radioButtons) {
       radioButton.addEventListener("click", handleThumbsUpDownClick)
   }

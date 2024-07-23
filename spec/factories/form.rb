@@ -223,20 +223,10 @@ FactoryBot.define do
         FactoryBot.create(:question,
                           form: f,
                           question_type: 'text_display',
-                          form_section: f.form_sections.first,
+                          form_section: f.form_sections.last,
                           answer_field: 'answer_20',
                           position: 20,
                           text: "Some custom <a href='#'>html</a>")
-        Question.create!({
-                           form: f,
-                           form_section: f.form_sections.first,
-                           text: 'hidden value',
-                           placeholder_text: 'hidden value',
-                           question_type: 'hidden_field',
-                           position: 21,
-                           answer_field: :answer_07,
-                           is_required: false,
-                         })
 
         option_elements_section = f.form_sections.create(title: 'Option elements', position: 2)
         radio_button_question = FactoryBot.create(:question,
@@ -308,7 +298,7 @@ FactoryBot.define do
                                                text: 'Custom Question Dropdown',
                                                question_type: 'dropdown',
                                                help_text: 'This is help text for a dropdown.',
-                                               position: 5,
+                                               position: 6,
                                                answer_field: :answer_06,
                                                is_required: false,
                                              })
@@ -337,7 +327,7 @@ FactoryBot.define do
                            form_section: custom_elements_section,
                            text: '<p>Custom text <a href="#">that supports HTML</a> goes here.</p>',
                            question_type: 'text_display',
-                           position: 6,
+                           position: 7,
                            answer_field: :answer_15,
                            is_required: false,
                          })
@@ -351,6 +341,17 @@ FactoryBot.define do
                            answer_field: :answer_17,
                            is_required: false,
                          })
+
+        Question.create!({
+                  form: f,
+                  form_section: custom_elements_section,
+                  text: 'hidden value',
+                  placeholder_text: 'hidden value',
+                  question_type: 'hidden_field',
+                  position: 19,
+                  answer_field: :answer_19,
+                  is_required: false,
+                })
       end
     end
 
@@ -481,19 +482,25 @@ FactoryBot.define do
                           answer_field: :answer_01,
                           question_type: 'star_radio_buttons',
                           form_section: f.form_sections.first,
-                          text: 'Please rate your experience as a customer of Agency of Departments.')
+                          text: 'Please rate your experience as a customer of Agency of Departments.',
+                          position: 1,
+                          )
         FactoryBot.create(:question,
                           :with_checkbox_options,
                           form: f,
                           answer_field: :answer_02,
                           form_section: f.form_sections.first,
-                          text: 'Name')
+                          text: 'Name',
+                          position: 2,
+                          )
         FactoryBot.create(:question,
                           form: f,
                           answer_field: :answer_03,
                           question_type: 'textarea',
                           form_section: f.form_sections.first,
-                          text: 'Additional comments')
+                          text: 'Additional comments',
+                          position: 3
+                          )
       end
     end
 
@@ -555,6 +562,19 @@ FactoryBot.define do
                           answer_field: :answer_03,
                           form_section: f.form_sections.first,
                           text: 'Name')
+      end
+    end
+
+    trait :big_thumbs do
+      name { 'Big Thumbs Up/Down' }
+      kind { 'custom' }
+      after(:create) do |f, _evaluator|
+        FactoryBot.create(:question,
+                          :big_thumbs_up_down_buttons,
+                          form: f,
+                          answer_field: :answer_01,
+                          form_section: f.form_sections.first,
+                          text: 'Did you find this page useful?')
       end
     end
 

@@ -43,7 +43,7 @@ feature 'Example Website Integration', js: true do
 
         describe 'submit the form' do
           before 'fill-in the form' do
-            fill_in 'answer_01', with: 'All my open-ended concerns.'
+            fill_in open_ended_form.ordered_questions.first.ui_selector, with: 'All my open-ended concerns.'
             click_button 'Submit'
           end
 
@@ -78,9 +78,9 @@ feature 'Example Website Integration', js: true do
 
         describe 'submit the form' do
           before 'fill-in the form' do
-            fill_in 'answer_01', with: 'Concerned Citizen'
-            fill_in 'answer_02', with: 'test_public_user@example.com'
-            fill_in 'answer_03', with: '555-123-4567'
+            fill_in recruiter_form.ordered_questions.first.ui_selector, with: 'Concerned Citizen'
+            fill_in recruiter_form.ordered_questions.second.ui_selector, with: 'test_public_user@example.com'
+            fill_in recruiter_form.ordered_questions.third.ui_selector, with: '555-123-4567'
             click_button 'Submit'
           end
 

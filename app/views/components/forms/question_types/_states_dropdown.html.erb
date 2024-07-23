@@ -2,6 +2,6 @@
   <%= render 'components/question_title', question: question %>
   <br>
   <div class="radio-button">
-    <%= select_tag(question.answer_field.to_sym, options_for_select(UsState.dropdown_options), { prompt: (t 'form.select_one'), class: "usa-select", required: question.is_required  }) %>
+    <%= select_tag(question.ui_selector, options_for_select(UsState.dropdown_options), { prompt: (t 'form.select_one'), class: "usa-select", required: question.is_required  }) %>
   </div>
 </div>

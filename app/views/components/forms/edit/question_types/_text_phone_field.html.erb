@@ -1,9 +1,9 @@
 <div class="radios" role="group" aria-labelledby="<%= question.answer_field %>">
   <%= render 'components/question_title', question: question, form_builder: true %>
-  <%= telephone_field_tag question.answer_field.to_sym, nil, class: "usa-input" %>
+  <%= telephone_field_tag question.ui_selector, nil, class: "usa-input" %>
 </div>
 <script>
-	$('#<%= question.answer_field.to_sym %>').on('input', function() {
+	$('#<%= question.ui_selector %>').on('input', function() {
 	    var number = $(this).val().replace(/[^\d]/g, '');
 	    if (number.length == 7) {
 	      number = number.replace(/(\d{3})(\d{4})/, "$1-$2");

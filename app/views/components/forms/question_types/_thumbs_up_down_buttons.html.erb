@@ -29,7 +29,7 @@
 <div class="component thumbs-up-down">
   <div class="bar">
     <span class="prompt">
-      <label for="<%= question.answer_field.to_sym %>">
+      <label for="<%= question.ui_selector %>">
         <%= question.text %>
       </label>
     </span>
@@ -37,7 +37,7 @@
       <%= form.success_text %>
     </span>
 
-    <div id="<%= question.answer_field.to_sym %>">
+    <div id="<%= question.ui_selector %>">
       &nbsp;
       <a href="#">Yes</a>
       &nbsp;

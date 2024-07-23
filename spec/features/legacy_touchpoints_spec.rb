@@ -7,7 +7,7 @@ feature 'Touchpoints', js: true do
 
   context 'as Admin' do
     let!(:user) { FactoryBot.create(:user, :admin, organization:) }
-    let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
+    let!(:form) { FactoryBot.create(:form, :open_ended_form, legacy_form_embed: true, organization:) }
 
     describe '/touchpoints' do
       before do
@@ -21,7 +21,7 @@ feature 'Touchpoints', js: true do
           expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
           expect(page).to have_content("OMB Approval ##{form.omb_approval_number}")
           expect(page).to have_content("Expiration Date #{form.expiration_date.strftime('%m/%d/%Y')}")
-          fill_in(form.ordered_questions.last.ui_selector, with: 'User feedback')
+          fill_in('answer_01', with: 'User feedback')
           click_button 'Submit'
         end
 
@@ -102,7 +102,7 @@ feature 'Touchpoints', js: true do
           expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
           expect(page).to have_content("OMB Approval ##{form.omb_approval_number}")
           expect(page).to have_content("Expiration Date #{form.expiration_date.strftime('%m/%d/%Y')}")
-          fill_in(form.ordered_questions.last.ui_selector, with: 'User feedback')
+          fill_in('answer_01', with: 'User feedback')
           click_button 'Submit'
         end
 
@@ -120,7 +120,7 @@ feature 'Touchpoints', js: true do
           form.reload
           visit touchpoint_path(form)
           expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
-          fill_in(form.ordered_questions.last.ui_selector, with: 'User feedback')
+          fill_in('answer_01', with: 'User feedback')
           click_button 'Submit'
         end
 
@@ -135,7 +135,7 @@ feature 'Touchpoints', js: true do
     end
 
     describe 'checkbox question' do
-      let!(:checkbox_form) { FactoryBot.create(:form, :checkbox_form, organization:) }
+      let!(:checkbox_form) { FactoryBot.create(:form, :checkbox_form, organization:, legacy_form_embed: true) }
 
       before do
         visit touchpoint_path(checkbox_form)
@@ -185,7 +185,7 @@ feature 'Touchpoints', js: true do
     end
 
     describe 'radio buttons question' do
-      let!(:radio_button_form) { FactoryBot.create(:form, :radio_button_form, organization:) }
+      let!(:radio_button_form) { FactoryBot.create(:form, :radio_button_form, organization:, legacy_form_embed: true) }
       let!(:last_radio_option) { radio_button_form.questions.first.question_options.create!(text: 'other', value: 'other', position: 6) }
 
       before do
@@ -223,11 +223,11 @@ feature 'Touchpoints', js: true do
     end
 
     describe 'states dropdown question' do
-      let!(:dropdown_form) { FactoryBot.create(:form, :states_dropdown_form, organization:) }
+      let!(:dropdown_form) { FactoryBot.create(:form, :states_dropdown_form, organization:, legacy_form_embed: true) }
 
       before do
         visit touchpoint_path(dropdown_form)
-        select('CA', from: dropdown_form.ordered_questions.last.ui_selector)
+        select('CA', from: 'answer_03')
         click_on 'Submit'
       end
 
@@ -249,29 +249,8 @@ feature 'Touchpoints', js: true do
       end
     end
 
-    describe 'phone number question' do
-      let!(:phone_form) { FactoryBot.create(:form, organization:) }
-      let!(:phone_question) { FactoryBot.create(:question, :phone, form: phone_form, form_section: phone_form.form_sections.first) }
-
-      before do
-        visit touchpoint_path(phone_form)
-      end
-
-      it 'not-successful, less than 10 digit phone number' do
-        fill_in("question_#{phone_question.id}_answer_01", with: "123456789")
-        click_on 'Submit'
-        expect(page).to have_content("Please enter a valid value: Phone Number")
-      end
-
-      it 'successful, 10 digit phone number' do
-        fill_in("question_#{phone_question.id}_answer_01", with: "1234567890")
-        click_on 'Submit'
-        expect(page).to have_content("Thank you. Your feedback has been received.")
-      end
-    end
-
     describe 'multi-page early submission form' do
-      let!(:multi_form) { FactoryBot.create(:form, :kitchen_sink, organization:) }
+      let!(:multi_form) { FactoryBot.create(:form, :kitchen_sink, organization:, legacy_form_embed: true) }
 
       context 'when required on 2nd page' do
         before do
@@ -288,45 +267,45 @@ feature 'Touchpoints', js: true do
     end
 
     describe 'phone number question' do
-      let!(:dropdown_form) { FactoryBot.create(:form, :phone, organization:) }
+      let!(:dropdown_form) { FactoryBot.create(:form, :phone, organization:, legacy_form_embed: true) }
 
       before do
         visit touchpoint_path(dropdown_form)
       end
 
       it 'allows numeric input and a maximum of 10 numbers' do
-        fill_in dropdown_form.ordered_questions.last.ui_selector, with: '12345678901234'
-        expect(find("##{dropdown_form.ordered_questions.last.ui_selector}").value).to eq('(123) 456-7890')
+        fill_in 'answer_03', with: '12345678901234'
+        expect(find('#answer_03').value).to eq('(123) 456-7890')
       end
 
       it 'disallows text input' do
-        fill_in dropdown_form.ordered_questions.last.ui_selector, with: 'abc'
-        expect(find("##{dropdown_form.ordered_questions.last.ui_selector}").value).to eq('')
+        fill_in 'answer_03', with: 'abc'
+        expect(find('#answer_03').value).to eq('')
       end
     end
 
     describe 'date select question' do
-      let!(:date_select_form) { FactoryBot.create(:form, :date_select, organization:) }
+      let!(:date_select_form) { FactoryBot.create(:form, :date_select, organization:, legacy_form_embed: true) }
 
       before do
         visit touchpoint_path(date_select_form)
       end
 
       it 'allows a valid date string' do
-        fill_in date_select_form.ordered_questions.last.ui_selector, with: '10/04/2021'
+        fill_in 'answer_04', with: '10/04/2021'
         click_on 'Submit'
         expect(page).not_to have_content('Please enter a valid value')
       end
 
       it 'disallows non date input' do
-        fill_in date_select_form.ordered_questions.last.ui_selector, with: 'abc'
+        fill_in 'answer_04', with: 'abc'
         click_on 'Submit'
         expect(page).to have_content('Please enter a valid value')
       end
     end
 
     describe 'hidden_field question' do
-      let!(:hidden_field_form) { FactoryBot.create(:form, :hidden_field_form, organization:) }
+      let!(:hidden_field_form) { FactoryBot.create(:form, :hidden_field_form, organization:, legacy_form_embed: true) }
 
       context 'render' do
         before do
@@ -334,7 +313,7 @@ feature 'Touchpoints', js: true do
         end
 
         it 'generates hidden field' do
-          expect(find("##{hidden_field_form.ordered_questions.last.ui_selector}", visible: false).value).to eq('hidden value')
+          expect(find('#answer_01', visible: false).value).to eq('hidden value')
         end
       end
 
@@ -352,20 +331,20 @@ feature 'Touchpoints', js: true do
     end
 
     describe 'email question' do
-      let!(:dropdown_form) { FactoryBot.create(:form, :email, organization:) }
+      let!(:dropdown_form) { FactoryBot.create(:form, :email, organization:, legacy_form_embed: true) }
 
       before do
         visit touchpoint_path(dropdown_form)
       end
 
       it 'allows valid email address' do
-        fill_in dropdown_form.ordered_questions.last.ui_selector, with: 'test@test.com'
+        fill_in 'answer_03', with: 'test@test.com'
         click_button 'Submit'
         expect(page).to have_content('Thank you. Your feedback has been received.')
       end
 
       it 'disallows invalid text input' do
-        fill_in dropdown_form.ordered_questions.last.ui_selector, with: 'test@testcom'
+        fill_in 'answer_03', with: 'test@testcom'
         click_button 'Submit'
         expect(page).to have_content('Please enter a valid value: Email')
       end
@@ -387,7 +366,7 @@ feature 'Touchpoints', js: true do
       end
 
       it 'can successfully submit after completing the required question' do
-        fill_in(form.ordered_questions.first.ui_selector, with: 'a response to this required question')
+        fill_in('answer_01', with: 'a response to this required question')
         find('.submit_form_button').click
         expect(page).to have_content('Thank you. Your feedback has been received.')
       end
@@ -414,7 +393,7 @@ feature 'Touchpoints', js: true do
           expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit")
           expect(page).to have_content("OMB Approval ##{form.omb_approval_number}")
           expect(page).to have_content("Expiration Date #{form.expiration_date.strftime('%m/%d/%Y')}")
-          fill_in(form.ordered_questions.first.ui_selector, with: 'T' * 145)
+          fill_in('answer_01', with: 'T' * 145)
         end
 
         it 'updates character count' do
@@ -426,7 +405,7 @@ feature 'Touchpoints', js: true do
     describe '/touchpoints?location_code=' do
       before do
         visit submit_touchpoint_path(form, location_code: 'TEST_LOCATION_CODE')
-        fill_in(form.ordered_questions.first.ui_selector, with: 'User feedback')
+        fill_in('answer_01', with: 'User feedback')
         click_button 'Submit'
       end
 
@@ -443,17 +422,17 @@ feature 'Touchpoints', js: true do
     end
 
     describe 'A-11 Version 2 Form' do
-      let!(:custom_form) { FactoryBot.create(:form, :a11_v2, organization:) }
+      let!(:custom_form) { FactoryBot.create(:form, :a11_v2, organization:, legacy_form_embed: true) }
 
       before do
         visit submit_touchpoint_path(custom_form)
         expect(page).to have_content("This is help text.")
-        find("label[for='#{custom_form.ordered_questions.first.ui_selector}_star4']").click
-        fill_in(custom_form.ordered_questions.last.ui_selector, with: 'User feedback')
+        find("label[for='answer_01_star4']").click
+        fill_in('answer_03', with: 'User feedback')
         click_button 'Submit'
       end
 
-      it 'submits successfully' do
+      it '' do
         expect(page).to have_content('Thank you. Your feedback has been received.')
 
         # Asserting against the database/model directly here isn't ideal.
@@ -466,7 +445,7 @@ feature 'Touchpoints', js: true do
     end
 
     describe 'Big Thumbs' do
-      let!(:custom_form) { FactoryBot.create(:form, :big_thumbs, organization:) }
+      let!(:custom_form) { FactoryBot.create(:form, :big_thumbs, organization:, legacy_form_embed: true) }
 
       before do
         visit submit_touchpoint_path(custom_form)
@@ -483,13 +462,13 @@ feature 'Touchpoints', js: true do
     end
 
     describe 'Multiple Star Ratings Form' do
-      let!(:custom_form) { FactoryBot.create(:form, :star_ratings, organization:) }
+      let!(:custom_form) { FactoryBot.create(:form, :star_ratings, organization:, legacy_form_embed: true) }
 
       before do
         visit submit_touchpoint_path(custom_form)
-        find("label[for='#{custom_form.ordered_questions.first.ui_selector}_star1']").click
-        find("label[for='#{custom_form.ordered_questions.second.ui_selector}_star2']").click
-        find("label[for='#{custom_form.ordered_questions.third.ui_selector}_star3']").click
+        find("label[for='answer_01_star1']").click
+        find("label[for='answer_02_star2']").click
+        find("label[for='answer_03_star3']").click
         click_button 'Submit'
       end
 
@@ -510,9 +489,9 @@ feature 'Touchpoints', js: true do
     let!(:admin) { FactoryBot.create(:user, :admin, organization:) }
 
     describe '/touchpoints' do
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, aasm_state: 'created') }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, aasm_state: 'created', legacy_form_embed: true) }
 
-      context 'for a created form' do
+      context 'for an created form' do
         before do
           visit touchpoint_path(form)
         end
@@ -525,7 +504,7 @@ feature 'Touchpoints', js: true do
     end
 
     describe '/touchpoints' do
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, aasm_state: 'archived') }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, aasm_state: 'archived', legacy_form_embed: true) }
 
       context 'for an archived form' do
         before do
@@ -541,9 +520,9 @@ feature 'Touchpoints', js: true do
     end
 
     describe '/touchpoints' do
-      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, aasm_state: 'published') }
+      let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:, aasm_state: 'published', legacy_form_embed: true) }
 
-      context 'for a live form' do
+      context 'for a published form' do
         before do
           visit touchpoint_path(form)
         end
