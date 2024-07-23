@@ -233,7 +233,7 @@ FactoryBot.define do
                            text: 'hidden value',
                            placeholder_text: 'hidden value',
                            question_type: 'hidden_field',
-                           position: 21,
+                           position: 19,
                            answer_field: :answer_07,
                            is_required: false,
                          })
@@ -308,7 +308,7 @@ FactoryBot.define do
                                                text: 'Custom Question Dropdown',
                                                question_type: 'dropdown',
                                                help_text: 'This is help text for a dropdown.',
-                                               position: 5,
+                                               position: 6,
                                                answer_field: :answer_06,
                                                is_required: false,
                                              })
@@ -337,7 +337,7 @@ FactoryBot.define do
                            form_section: custom_elements_section,
                            text: '<p>Custom text <a href="#">that supports HTML</a> goes here.</p>',
                            question_type: 'text_display',
-                           position: 6,
+                           position: 7,
                            answer_field: :answer_15,
                            is_required: false,
                          })
