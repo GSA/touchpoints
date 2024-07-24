@@ -5,8 +5,6 @@ class TouchpointsController < ApplicationController
   before_action :set_touchpoint
 
   def show
-    @form.legacy_form_embed = params[:legacy] == "1"
-
     respond_to do |format|
       format.html do
         redirect_to submit_touchpoint_path(@form, response_params) # instead of rendering #show
@@ -22,7 +20,7 @@ class TouchpointsController < ApplicationController
 
   def js
     @form.increment!(:survey_form_activations)
-    if @form.legacy_form_embed?
+    if @form.legacy_form_embed || (params[:legacy] && params[:legacy] == "1")
       render(partial: 'components/widget/fba', formats: :js, locals: { form: @form })
     else
       render(partial: 'components/widget/fba2', formats: :js, locals: { form: @form })

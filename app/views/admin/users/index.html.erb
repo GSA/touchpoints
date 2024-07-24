@@ -58,7 +58,9 @@
           <td>
             <%= link_to user.email, admin_user_path(user) %>
           </td>
-          <td><%= user.organization ? link_to(user.organization.name, admin_organization_path(user.organization)) : nil %></td>
+          <td>
+            <%= render "admin/organizations/badge", organization: user.organization %>
+          </td>
         <%- if current_user.admin? %>
           <td data-sort-value="<%= user.current_sign_in_at.to_i %>">
             <%= time_ago_in_words(user.current_sign_in_at) if user.current_sign_in_at %>
