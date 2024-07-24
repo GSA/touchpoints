@@ -497,7 +497,7 @@ feature 'Forms', js: true do
             end
 
             it 'can complete then submit the inline Form and see a Success message' do
-              fill_in 'answer_01', with: 'We the People of the United States, in Order to form a more perfect Union...'
+              fill_in form2.ordered_questions.first.ui_selector, with: 'We the People of the United States, in Order to form a more perfect Union...'
               click_on 'Submit'
 
               expect(page).to have_content('Success')
@@ -513,7 +513,7 @@ feature 'Forms', js: true do
             end
 
             it 'can complete then submit the inline Form and see a Success message' do
-              fill_in 'answer_01', with: 'We the People of the United States, in Order to form a more perfect Union...'
+              fill_in form3.ordered_questions.first.ui_selector, with: 'We the People of the United States, in Order to form a more perfect Union...'
               click_on 'Submit'
 
               expect(page).to have_content('Success')
@@ -775,7 +775,7 @@ feature 'Forms', js: true do
               within '.form-builder .question' do
                 expect(page).to have_content('New Test Question')
                 expect(page).to have_content('Additional help text for this question')
-                expect(page).to have_css("input#answer_01[type='text']")
+                expect(page).to have_css("input##{form.ordered_questions.last.ui_selector}[type='text']")
               end
             end
 
@@ -783,8 +783,8 @@ feature 'Forms', js: true do
               expect(page.current_path).to eq(questions_admin_form_path(form))
               within '.form-builder .question' do
                 expect(page).to have_content('New Test Question')
-                expect(page).to have_css("input#answer_01[type='text']")
-                expect(find('#answer_01')['placeholder']).to eq('Placeholder text for this question')
+                expect(page).to have_css("input##{form.ordered_questions.last.ui_selector}[type='text']")
+                expect(find("##{form.ordered_questions.last.ui_selector}")['placeholder']).to eq('Placeholder text for this question')
               end
             end
           end
@@ -954,11 +954,10 @@ feature 'Forms', js: true do
                 click_on 'Add Question'
                 expect(page.current_path).to eq(questions_admin_form_path(form))
                 choose 'question_question_type_dropdown'
-                # select("dropdown", from: "question_question_type")
                 fill_in 'question_text', with: 'New dropdown field'
                 select('answer_01', from: 'question_answer_field')
                 click_on 'Update Question'
-                expect(page).to have_css('#answer_01')
+                expect(page).to have_css("##{form.ordered_questions.first.ui_selector}")
               end
 
               it 'can add a dropdown Question' do
@@ -1045,7 +1044,7 @@ feature 'Forms', js: true do
                 fill_in 'question_text', with: 'New dropdown field'
                 select('answer_01', from: 'question_answer_field')
                 click_on 'Update Question'
-                expect(page).to have_css('#answer_01')
+                expect(page).to have_css("##{form.ordered_questions.last.ui_selector}")
               end
 
               it 'can add a dropdown Question' do
@@ -1583,7 +1582,7 @@ feature 'Forms', js: true do
         end
 
         it 'can complete then submit the inline Form and see a Success message' do
-          fill_in 'answer_01', with: 'We the People of the United States, in Order to form a more perfect Union...'
+          fill_in form2.ordered_questions.first.ui_selector, with: 'We the People of the United States, in Order to form a more perfect Union...'
           click_on 'Submit'
           expect(page).to have_content('Success')
           expect(page).to have_content('Thank you. Your feedback has been received.')

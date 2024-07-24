@@ -1,24 +1,50 @@
+// Assumes: 4 questions:
+//  1. thumbs up/down radio buttons
+//  2. positive checkbox indicators
+//  3. negative checkbox indicators
+//  4. open text
+// Hides the 2nd and 3rd questions to start
+// reveals 2 when selecting thumbs up
+// reveals 3 when selecting thumbs down
+//
 document.addEventListener('onTouchpointsFormLoaded', function(e) {
+  const formElement = e.detail.formComponent.formElement();
 
   function hideQ2() {
+    <%- if form.legacy_form_embed %>
     const q2 = document.getElementById("answer_02");
     const q2_container = q2.closest(".question");
+    <% else %>
+    const q2_container = formElement.querySelector("#<%= dom_id(form.ordered_questions.second) %>");
+    <% end %>
     q2_container.style.display = 'none';
   }
   function showQ2() {
+    <%- if form.legacy_form_embed %>
     const q2 = document.getElementById("answer_02");
     const q2_container = q2.closest(".question");
+    <% else %>
+    const q2_container = formElement.querySelector("#<%= dom_id(form.ordered_questions.second) %>");
+    <% end %>
     q2_container.style.display = 'block';
   }
 
   function hideQ3() {
+    <%- if form.legacy_form_embed %>
     const q3 = document.getElementById("answer_03");
     const q3_container = q3.closest(".question");
+    <% else %>
+    const q3_container = formElement.querySelector("#<%= dom_id(form.ordered_questions.third) %>")
+    <% end %>
     q3_container.style.display = 'none';
   }
   function showQ3() {
+    <%- if form.legacy_form_embed %>
     const q3 = document.getElementById("answer_03");
     const q3_container = q3.closest(".question");
+    <% else %>
+    const q3_container = formElement.querySelector("#<%= dom_id(form.ordered_questions.third) %>")
+    <% end %>
     q3_container.style.display = 'block';
   }
 
@@ -32,7 +58,7 @@ document.addEventListener('onTouchpointsFormLoaded', function(e) {
     }
   }
 
-  const radioButtons = document.getElementById("answer_01").getElementsByTagName("input");
+  const radioButtons = formElement.querySelector("#<%= form.ordered_questions.first.ui_selector %>").getElementsByTagName("input");
   for (const radioButton of radioButtons) {
       radioButton.addEventListener("click", handleThumbsUpDownClick)
   }

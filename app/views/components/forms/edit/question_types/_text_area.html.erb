@@ -1,4 +1,4 @@
 <div class="radios" role="group" aria-labelledby="<%= question.answer_field %>">
   <%= render 'components/question_title', question: question, form_builder: true %>
-  <%= text_area_tag question.answer_field.to_sym, nil, class: "usa-textarea", placeholder: question.placeholder_text %>
+  <%= text_area_tag question.ui_selector, nil, class: "usa-textarea", placeholder: question.placeholder_text %>
 </div>

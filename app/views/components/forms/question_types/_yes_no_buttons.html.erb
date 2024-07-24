@@ -1,9 +1,9 @@
 <div class="touchpoints-yes-no-buttons">
-  <label for="<%= question.answer_field.to_sym %>">
+  <label for="<%= question.ui_selector %>">
     <%= question.text %>
   </label>
-  <p class="submit-button" id="<%= question.answer_field.to_sym %>">
-    <input type="hidden" class="fba-touchpoints-page-form" name="<%= question.answer_field.to_sym %>" value="">
+  <p class="submit-button" id="<%= question.ui_selector %>">
+    <input type="hidden" class="fba-touchpoints-page-form" name="<%= question.ui_selector %>" value="">
     <input type="submit" class="usa-button usa-button-group__item" value="<%= t :yes %>">
     <input type="submit" class="usa-button usa-button-group__item" value="<%= t :no %>">
   </p>

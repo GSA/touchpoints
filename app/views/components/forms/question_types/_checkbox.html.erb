@@ -1,32 +1,33 @@
 <fieldset class="usa-fieldset margin-top-3">
   <%= render 'components/question_title_legend', question: question %>
-  <div class="question-options" id="<%= question.answer_field.to_sym %>">
-    <% question.question_options.each_with_index do |option, index| %>
+  <div class="question-options"
+    id="<%= question.ui_selector %>">
+  <% question.question_options.each_with_index do |option, index| %>
+    <% @option_id = question.form.legacy_form_embed ? "#{question.answer_field}_#{index + 1}" : dom_id(option) %>
     <div class="usa-checkbox"
-      id="<%= dom_id(option) %>"
       data-id="<%= option.id %>"
       <%- if question.help_text? %>
       aria-describedby="<%= "question-id-#{question.id}-help-text" %>"
       <% end -%>
     >
-      <% @option_id = "#{question.answer_field}_#{(index + 1).to_s}" %>
       <%= check_box_tag(@option_id, option.value, false, {
-            name: question.answer_field,
+            name: question.ui_selector,
             class: "usa-checkbox__input usa-checkbox__input--tile",
             required: question.is_required
-          })
+      })
       %>
       <%= label_tag(nil, for: @option_id, class: "usa-checkbox__label") do %><%= option.text %><% end %>
       <%- if ["OTHER", "OTRO"].include?(option.text.upcase) %>
-        <%= label_tag(nil, for: "#{question.answer_field}_other", class: "usa-input__label") do %><%= t 'form.enter_other_text' %><% end %>
+        <div class="margin-top-1">
+        <%= label_tag(nil, for: "#{question.ui_selector}_other", class: "usa-input__label") do %><%= t 'form.enter_other_text' %><% end %>
         <input type="text"
-          name="<%= question.answer_field %>_other"
-          id="<%= question.answer_field %>_other"
+          name="<%= question.ui_selector %>_other"
+          id="<%= question.ui_selector %>_other"
           data-option-id="<%= @option_id %>"
           placeholder="<%= t 'form.enter_other_text' %>"
           maxlength="<%= Question::MAX_CHARACTERS %>"
           class="usa-input other-option" />
-        <br>
+        </div>
       <% end %>
     </div>
     <% end %>

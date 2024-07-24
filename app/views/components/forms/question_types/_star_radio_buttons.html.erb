@@ -1,17 +1,17 @@
 <fieldset class="usa-fieldset">
-  <legend class="usa-sr-only"><%= question.answer_field %></legend>
+  <legend class="usa-sr-only"><%= question.ui_selector %></legend>
   <%= render 'components/question_title', question: question %>
   <br>
   <div class="star_rating"
-    id="<%= question.answer_field.to_sym %>"
+    id="<%= question.ui_selector %>"
     style="text-align: center; margin: 0 auto;"
     aria-labelledby="question-label-<%= question.id %>"
     <%- if question.help_text.present? %>
     aria-describedby="<%= "question-id-#{question.id}-help-text" %>"
     <% end -%>
   >
-    <input value="0" id="<%= question.answer_field %>_star0" checked type="radio" name="rating" hidden style="display: none;" hidden>
-    <label for="<%= question.answer_field %>_star0"
+    <input value="0" id="<%= question.ui_selector %>_star0" checked type="radio" name="rating" hidden style="display: none;" hidden>
+    <label for="<%= question.ui_selector %>_star0"
       style="display: none;">
       <span hidden>0 Stars</span>
       <svg viewBox="0 0 512 512">
@@ -22,40 +22,40 @@
       </svg>
     </label>
 
-    <input value="1" id="<%= question.answer_field %>_star1" type="radio" name="<%= question.answer_field %>" hidden>
-    <label for="<%= question.answer_field %>_star1">
+    <input value="1" id="<%= question.ui_selector %>_star1" type="radio" name="<%= question.ui_selector %>" hidden>
+    <label for="<%= question.ui_selector %>_star1">
       <span hidden>1 Star</span>
       <svg viewBox="0 0 512 512">
         <path d="M512 198.525l-176.89-25.704-79.11-160.291-79.108 160.291-176.892 25.704 128 124.769-30.216 176.176 158.216-83.179 158.216 83.179-30.217-176.176 128.001-124.769z"></path>
       </svg>
     </label>
 
-    <input value="2" id="<%= question.answer_field %>_star2" type="radio" name="<%= question.answer_field %>" hidden>
-    <label for="<%= question.answer_field %>_star2">
+    <input value="2" id="<%= question.ui_selector %>_star2" type="radio" name="<%= question.ui_selector %>" hidden>
+    <label for="<%= question.ui_selector %>_star2">
       <span hidden>2 Stars</span>
       <svg viewBox="0 0 512 512">
         <path d="M512 198.525l-176.89-25.704-79.11-160.291-79.108 160.291-176.892 25.704 128 124.769-30.216 176.176 158.216-83.179 158.216 83.179-30.217-176.176 128.001-124.769z"></path>
       </svg>
     </label>
 
-    <input value="3" id="<%= question.answer_field %>_star3" type="radio" name="<%= question.answer_field %>" hidden>
-    <label for="<%= question.answer_field %>_star3">
+    <input value="3" id="<%= question.ui_selector %>_star3" type="radio" name="<%= question.ui_selector %>" hidden>
+    <label for="<%= question.ui_selector %>_star3">
       <span hidden>3 Stars</span>
       <svg viewBox="0 0 512 512">
         <path d="M512 198.525l-176.89-25.704-79.11-160.291-79.108 160.291-176.892 25.704 128 124.769-30.216 176.176 158.216-83.179 158.216 83.179-30.217-176.176 128.001-124.769z"></path>
       </svg>
     </label>
 
-    <input value="4" id="<%= question.answer_field %>_star4" type="radio" name="<%= question.answer_field %>" hidden>
-    <label for="<%= question.answer_field %>_star4">
+    <input value="4" id="<%= question.ui_selector %>_star4" type="radio" name="<%= question.ui_selector %>" hidden>
+    <label for="<%= question.ui_selector %>_star4">
       <span hidden>4 Stars</span>
       <svg viewBox="0 0 512 512">
         <path d="M512 198.525l-176.89-25.704-79.11-160.291-79.108 160.291-176.892 25.704 128 124.769-30.216 176.176 158.216-83.179 158.216 83.179-30.217-176.176 128.001-124.769z"></path>
       </svg>
     </label>
 
-    <input value="5" id="<%= question.answer_field %>_star5" type="radio" name="<%= question.answer_field %>" hidden>
-    <label for="<%= question.answer_field %>_star5">
+    <input value="5" id="<%= question.ui_selector %>_star5" type="radio" name="<%= question.ui_selector %>" hidden>
+    <label for="<%= question.ui_selector %>_star5">
       <span hidden>5 Stars</span>
       <svg viewBox="0 0 512 512">
         <path d="M512 198.525l-176.89-25.704-79.11-160.291-79.108 160.291-176.892 25.704 128 124.769-30.216 176.176 158.216-83.179 158.216 83.179-30.217-176.176 128.001-124.769z"></path>

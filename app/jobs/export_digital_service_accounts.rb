@@ -12,7 +12,7 @@ class ExportDigitalServiceAccounts < ApplicationJob
     end
     csv_content = query.to_csv
     completion_time = Time.now
-    record_count = query.count
+    record_count = csv_record_count(csv_content)
 
     filename = "touchpoints-digital-service-accounts-#{timestamp_string}.csv"
     url = store_temporarily(csv_content, filename)

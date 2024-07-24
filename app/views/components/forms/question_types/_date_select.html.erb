@@ -3,7 +3,7 @@
     <%= render 'components/question_title', question: question %>
     <div class="usa-hint" id="date-select-hint">mm/dd/yyyy</div>
     <div class="usa-date-picker">
-      <%= text_field_tag question.answer_field.to_sym, nil, class: "usa-input date-select", required: question.is_required %>
+      <%= text_field_tag question.ui_selector, nil, class: "usa-input date-select", required: question.is_required %>
     </div>
   </div>
 </div>

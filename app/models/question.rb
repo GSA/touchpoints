@@ -59,4 +59,14 @@ class Question < ApplicationRecord
   def validate_question_types
     errors.add(:question_type, "Invalid question type '#{question_type}'. Valid types include: #{QUESTION_TYPES.to_sentence}.") unless QUESTION_TYPES.include?(question_type)
   end
+
+  # used to generate a (application-wide) unique id for each question
+  # (such that the questions on 2 different Touchpoints have unique DOM string)
+  def ui_selector
+    if self.form.legacy_form_embed
+      self.answer_field.to_sym
+    else
+      "question_#{self.id}_#{self.answer_field}" # question_123_answer_02
+    end
+  end
 end
