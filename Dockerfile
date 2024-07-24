@@ -1,4 +1,4 @@
-FROM ruby:3.1.4-slim
+FROM ruby:3.2.4-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
