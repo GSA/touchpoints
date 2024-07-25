@@ -5,12 +5,14 @@
   <abbr title="required" class="usa-hint--required">*</abbr>
   <% end -%>
   <%- if question.help_text? %>
-  <p id="question-id-#{question.id}-help-text"
-    class="help-text">
+  <div
+    id="question-id-<%= question.id %>-help-text"
+    class="help-text margin-top-1"
+  >
     <small>
       <%= question.help_text %>
     </small>
-  </p>
+  </div>
   <% end %>
   <%- if local_assigns[:form_builder] && form_builder %>
   <span class="display-block">
