@@ -9,9 +9,8 @@
   <% end %>
 <% end %>
 
-<br>
 <div
-  class="usa-summary-box"
+  class="usa-summary-box margin-top-1"
   role="region"
   aria-labelledby="summary-box-key-information"
 >
@@ -42,7 +41,7 @@
   </div>
 </div>
 
-<div class="well">
+<div class="well margin-top-1">
   <div class="field">
     <%= label_tag :search_text, "Search by organization or name" %>
     <%= text_field_tag :search_text, nil, class: "usa-input" %>
@@ -69,7 +68,7 @@
 <p>
   <%= link_to admin_hisps_path(format: :csv), class: "usa-button usa-button--outline" do %>
     <i class="fa fa-download"></i>
-    Download hisps.csv
+    Export CSV
   <% end %> - used on <a href="https://performance.gov/cx/" target="_blank" rel="noopener">performance.gov/cx</a>
 </p>
 

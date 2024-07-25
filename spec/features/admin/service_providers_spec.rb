@@ -25,7 +25,7 @@ feature 'Service Provider', js: true do
         expect(page).to have_content('Service Providers')
         expect(page.current_path).to eq(admin_service_providers_path)
         expect(page).to have_content(service_provider.name)
-        expect(page).to have_content('Download hisps.csv')
+        expect(page).to have_content('Export CSV')
       end
     end
 

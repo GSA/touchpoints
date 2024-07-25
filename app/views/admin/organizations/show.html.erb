@@ -45,7 +45,7 @@
       <%- if @organization.parent %>
       <div class="grid-col-12">
         <%= label_tag "Parent Organization name", nil, class: "usa-label" %>
-        <%= link_to @organization.parent.name, admin_organization_path(@organization.parent) %>
+        <%= render "admin/organizations/badge", organization: @organization %>
       </div>
       <% end -%>
 
