@@ -183,11 +183,18 @@ RSpec.describe User, type: :model do
       expect(@user2.organization).to eq(@org2)
     end
 
-    it 'throws error if an org does not exist with the email' do
+    it 'matches by top-level domain if subdomain does not exist' do
       @user3 = User.new
-      @user3.email = "user@nonexistent.example.gov"
+      @user3.email = "user@another.example.gov"
+      expect(@user3.save!).to eq(true)
+      expect(@user3.organization).to eq(organization)
+    end
+
+    it 'throws error if an org does not exist with the email' do
+      @user4 = User.new
+      @user4.email = "user@nonexistent.gov"
       expect do
-        @user3.save!
+        @user4.save!
       end.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
