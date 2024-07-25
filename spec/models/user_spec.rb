@@ -164,4 +164,31 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe "#ensure_organization" do
+    before do
+      @org2 = Organization.create(name: "Subdomain Example", domain: "sub.example.gov", abbreviation: "SUB")
+    end
+
+    it 'handles top-level domains' do
+      @user.email = "user@example.gov"
+      @user.save!
+      expect(@user.organization).to eq(organization)
+    end
+
+    it 'respects subdomains' do
+      @user2 = User.new
+      @user2.email = "user@sub.example.gov"
+      @user2.save!
+      expect(@user2.organization).to eq(@org2)
+    end
+
+    it 'throws error if an org does not exist with the email' do
+      @user3 = User.new
+      @user3.email = "user@nonexistent.example.gov"
+      expect do
+        @user3.save!
+      end.to raise_error(ActiveRecord::RecordInvalid)
+    end
+  end
 end

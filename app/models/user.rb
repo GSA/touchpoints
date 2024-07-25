@@ -178,7 +178,9 @@ class User < ApplicationRecord
     email_address_domain = Mail::Address.new(email).domain
     parsed_domain = parse_host_from_domain(email_address_domain)
 
-    if org = Organization.find_by_domain(parsed_domain)
+    if org = Organization.find_by_domain(email_address_domain)
+      self.organization_id = org.id
+    elsif org = Organization.find_by_domain(parsed_domain)
       self.organization_id = org.id
     else
       UserMailer.no_org_notification(self).deliver_later if id
