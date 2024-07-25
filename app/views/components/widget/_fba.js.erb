@@ -114,6 +114,7 @@ function FBAform(d, N) {
 		<%- if form.delivery_method == "modal" || form.delivery_method == "custom-button-modal" %>
 			this.dialogEl = document.createElement('div');
 			this.dialogEl.setAttribute("hidden", true);
+			this.dialogEl.setAttribute("aria-hidden", true);
 			this.dialogEl.setAttribute('class', 'fba-modal');
 
 			this.dialogEl.innerHTML = "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";

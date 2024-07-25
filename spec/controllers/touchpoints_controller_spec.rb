@@ -57,7 +57,7 @@ describe TouchpointsController, type: :controller do
     it 'returns a success response' do
       get :js, params: { id: form.short_uuid }, session: valid_session
       expect(response.body).to include('use strict')
-      expect(response.body).to include('Create unique Touchpoints form object')
+      expect(response.body).to include('// Create an instance of a Touchpoints form object')
     end
   end
 
@@ -74,7 +74,7 @@ describe TouchpointsController, type: :controller do
     it 'returns a success response' do
       get :show, params: { id: form.short_uuid }, session: valid_session, format: :js
       expect(response.body).to include('use strict')
-      expect(response.body).to include('Create unique Touchpoints form object')
+      expect(response.body).to include('// Create an instance of a Touchpoints form object')
     end
   end
 
