@@ -1,0 +1,58 @@
+<%= form_with(model: form, url: admin_form_path(form), local: true) do |f| %>
+<div class="grid-row">
+  <div class="grid-col-12">
+    <h3>
+      Tags
+    </h3>
+    <div class="tag-list">
+      <ul class="usa-list usa-list--unstyled">
+        <% form.tag_list.sort.each do |tag| %>
+        <li>
+          <span class="usa-tag">
+            <%= tag %>
+          </span>
+          <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= tag %>">
+            <span class="fa fa-trash"></span>
+          </a>
+        </li>
+        <% end %>
+      </ul>
+    </div>
+    <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
+  </div>
+</div>
+<% end %>
+
+<script>
+  $(function() {
+    const pageUrl = "<%= admin_form_path(form) %>";
+
+    $(".tag-input").on("blur", function(event) {
+      event.preventDefault();
+
+      $.ajax({
+        url: pageUrl + "/add_tag",
+        type: 'post',
+        data: "form[tag_list]=" + $(".tag-input").val()
+      });
+    });
+
+    $(".tag-input").on("keypress", function(e) {
+      if (e.which == 13) {
+        document.activeElement.blur();
+        return false;
+      }
+    });
+
+    $(".remove-tag-link").on("click", function(e) {
+      event.preventDefault();
+
+      $.ajax({
+        url: pageUrl + "/remove_tag",
+        type: 'post',
+        data: "form[tag_list]=" + $(this).attr("data-value")
+      });
+    });
+
+  });
+</script>

@@ -15,6 +15,8 @@ class Form < ApplicationRecord
   has_many :user_roles, dependent: :destroy
   has_many :users, through: :user_roles, primary_key: :form_id
 
+  acts_as_taggable_on :tags
+
   validates :name, presence: true
   validates :disclaimer_text, length: { in: 0..1000, allow_blank: true }
   validates :delivery_method, presence: true

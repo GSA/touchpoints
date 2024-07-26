@@ -1400,6 +1400,52 @@ feature 'Forms', js: true do
       end
     end
 
+    describe 'adding tags to a form' do
+      let(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
+      let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form:, user: touchpoints_manager) }
+
+      context "with no tags" do
+        before do
+          visit admin_form_path(form)
+          fill_in "form_tag_list", with: "health benefits"
+          page.find('#form_tag_list').native.send_keys :tab # to lose focus
+          fill_in "form_tag_list", with: "digital service"
+          page.find('#form_tag_list').native.send_keys :tab
+        end
+
+        it 'adds tags' do
+          within(".tag-list") do
+            expect(page).to have_content("health benefits".upcase)
+          end
+          visit admin_form_path(form)
+          within(".tag-list") do
+            expect(page).to have_content("digital service".upcase)
+          end
+        end
+      end
+
+      context "with tags" do
+        before do
+          form.update_attribute(:tag_list, "aaa, zzz")
+          visit admin_form_path(form)
+        end
+
+        it 'removes tags' do
+          find_all(".remove-tag-link").first.click
+          within(".tag-list") do
+            expect(page).to_not have_content("aaa".upcase)
+            expect(page).to have_content("zzz".upcase)
+          end
+          visit admin_form_path(form)
+          within(".tag-list") do
+            expect(page).to_not have_content("aaa".upcase)
+            expect(page).to have_content("zzz".upcase)
+          end
+        end
+      end
+
+    end
+
     describe 'deleting Questions' do
       let!(:form2) { FactoryBot.create(:form, :custom, organization:) }
       let!(:form_section2) { FactoryBot.create(:form_section, form: form2, position: 2) }

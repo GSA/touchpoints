@@ -25,6 +25,7 @@ module Admin
       publish
       archive
       reset
+      add_tag remove_tag
       update_ui_truncation
       update_title update_instructions update_disclaimer_text
       update_success_text update_display_logo
@@ -436,6 +437,18 @@ module Admin
       @events = @form.events
     end
 
+    def add_tag
+      ensure_form_manager(form: @form)
+      @form.tag_list.add(form_params[:tag_list].split(','))
+      @form.save
+    end
+
+    def remove_tag
+      ensure_form_manager(form: @form)
+      @form.tag_list.remove(form_params[:tag_list].split(','))
+      @form.save
+    end
+
     private
 
     def set_form
@@ -502,6 +515,7 @@ module Admin
         :department,
         :bureau,
         :load_css,
+        :tag_list,
         :verify_csrf,
         :ui_truncate_text_responses,
         :question_text_01,
