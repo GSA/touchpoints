@@ -1,5 +1,5 @@
 <% content_for :navigation_title do %>
-  <%- if true || service_permissions?(service: @service) %>
+  <%- if service_permissions?(service: @service) %>
   <div class="float-right">
     <%= link_to edit_admin_cx_collection_detail_path(@cx_collection_detail), class: "usa-button usa-button-inverted" do %>
     <i class="fa fa-pencil-alt"></i>
@@ -72,6 +72,7 @@
       <%- if service_manager_permissions? %>
       <th></th>
       <th></th>
+      <th></th>
       <% end %>
     </tr>
   </thead>
@@ -104,6 +105,9 @@
         </td>
         <td>
           <%= link_to "Process CSV file to database", process_admin_cx_collection_detail_path(@cx_collection_detail, upload.id), method: :post %>
+        </td>
+        <td>
+          <%= link_to "Delete file and CX Responses", admin_cx_collection_detail_cx_collection_detail_upload_path(@cx_collection_detail, upload), class: "text-red", method: :delete %>
         </td>
         <% end %>
       </tr>
