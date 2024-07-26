@@ -4,6 +4,7 @@ class CxCollectionDetailUpload < ApplicationRecord
 
   belongs_to :user
   belongs_to :cx_collection_detail
+  has_many :cx_responses, dependent: :delete_all
 
   after_create :process_csv_in_a_worker
 
