@@ -119,6 +119,7 @@ function FBAform(d, N) {
 		if (this.options.deliveryMethod && (this.options.deliveryMethod === 'modal' || this.options.deliveryMethod === 'custom-button-modal')) {
 			this.dialogEl = d.createElement('div');
 			this.dialogEl.setAttribute("hidden", true);
+			this.dialogEl.setAttribute("aria-hidden", true);
 			this.dialogEl.setAttribute('class', 'fba-modal');
 			this.dialogEl.setAttribute('data-touchpoints-form-id', this.options.formId);
 

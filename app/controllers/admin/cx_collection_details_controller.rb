@@ -35,6 +35,7 @@ class Admin::CxCollectionDetailsController < AdminController
 
     respond_to do |format|
       if @cx_collection_detail.save
+        Event.log_event(Event.names[:cx_collection_detail_created], @cx_collection_detail.class.to_s, @cx_collection_detail.id, "CX Collection Detail #{@cx_collection_detail.id} created at #{DateTime.now}", current_user.id)
         format.html { redirect_to upload_admin_cx_collection_detail_url(@cx_collection_detail), notice: "CX Collection Detail was successfully created." }
         format.json { render :upload, status: :created, location: @cx_collection_detail }
       else
@@ -58,9 +59,10 @@ class Admin::CxCollectionDetailsController < AdminController
 
   def destroy
     @cx_collection_detail.destroy
+    Event.log_event(Event.names[:cx_collection_detail_deleted], @cx_collection_detail.class.to_s, @cx_collection_detail.id, "CX Collection Detail #{@cx_collection_detail.id} deleted at #{DateTime.now}", current_user.id)
 
     respond_to do |format|
-      format.html { redirect_to cx_collection_details_url, notice: "CX Collection Detail was successfully destroyed." }
+      format.html { redirect_to admin_cx_collection_details_url, notice: "CX Collection Detail was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -110,12 +112,14 @@ class Admin::CxCollectionDetailsController < AdminController
       # Upload the file
       response = obj.upload_file(file.path)
 
-      CxCollectionDetailUpload.create!({
+      @cxdu = CxCollectionDetailUpload.create!({
         user_id: current_user.id,
         cx_collection_detail_id: @cx_collection_detail.id,
         size: obj.size,
         key: obj.key,
       })
+
+      Event.log_event(Event.names[:cx_collection_detail_upload_created], @cxdu.class.to_s, @cxdu.id, "CX Collection Detail Upload #{@cxdu.id} created at #{DateTime.now}", current_user.id)
 
       flash[:notice] = "A .csv file with #{csv_file.size} rows was uploaded successfully. Please see your uploaded file in the table below, then return to the CX Data Collection."
     elsif !@valid_file_extension
