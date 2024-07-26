@@ -4617,3 +4617,13 @@
 .fba-modal-dialog .display-none{
   display:none;
 }
+
+<% if form.load_css %>
+<%-
+	touchpoints_uswds_filepath = Rails.application.assets.find_asset('widget-uswds-styles.css')
+	touchpoints_uswds_filename = touchpoints_uswds_filepath.filename
+	touchpoints_uswds_css_content = File.read(touchpoints_uswds_filename).html_safe
+%>
+
+<%= touchpoints_uswds_css_content %>
+<% end %>
