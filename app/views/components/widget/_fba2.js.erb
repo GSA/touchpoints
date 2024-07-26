@@ -696,7 +696,7 @@ const touchpointFormOptions<%= form.short_uuid %> = {
 // Create an instance of a Touchpoints form object
 const touchpointForm<%= form.short_uuid %> = new FBAform(document, window).init(touchpointFormOptions<%= form.short_uuid %>);
 
-<% if form.load_css %>
+<%- if false && form.load_css %>
 <%-
 	touchpoints_uswds_filepath = Rails.application.assets.find_asset('touchpoints-uswds.js')
 	touchpoints_uswds_filename = touchpoints_uswds_filepath.filename
