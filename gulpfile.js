@@ -42,7 +42,6 @@ exports.bundleWidgetJS = bundleWidgetJS;
 exports.compileWidgetSass = compileWidgetSass;
 exports.buildWidgetAssets = parallel(bundleWidgetJS, compileWidgetSass);
 
-// TODO: Do we need to babelify?
 async function bundleWidgetJS() {
   return browserify("uswds/widget-uswds.js", {
     paths: ['./node_modules'],
@@ -101,4 +100,3 @@ async function compileWidgetSass() {
     .pipe(sourcemaps.write("."))
     .pipe(dest(uswds.paths.dist.css));
 }
-
