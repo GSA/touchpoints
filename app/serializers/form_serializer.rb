@@ -56,7 +56,8 @@ class FormSerializer < ActiveModel::Serializer
              :logo,
              :time_zone,
              :response_count,
-             :last_response_created_at
+             :last_response_created_at,
+             :tag_list
 
   has_many :questions
   belongs_to :service

@@ -162,6 +162,8 @@ Rails.application.routes.draw do
         post 'upload', to: 'cx_collection_details#upload_csv', as: :post_csv
         post 'process/:cx_collection_detail_upload_id', to: 'cx_collection_details#process_csv', as: :process
       end
+      resources :cx_collection_detail_uploads, only: [:destroy] do
+      end
     end
 
     resources :collections do
@@ -233,7 +235,7 @@ Rails.application.routes.draw do
         get 'search', to: 'websites#search'
         get 'gsa', to: 'websites#gsa'
         get 'dendrogram', to: 'websites#dendrogram', as: :dendrogram
-        get 'dendrogram_json', to: 'websites#dendrogram_json'
+        get 'dendrogram_json', to: 'websites#dendrogram_json', as: :dendrogram_json
         get 'export_csv', to: 'websites#export_csv', as: :export_csv
         get 'collection_preview', to: 'websites#collection_preview', as: :collection_preview
       end
@@ -325,6 +327,8 @@ Rails.application.routes.draw do
         get 'export_a11_header', to: 'forms#export_a11_header', as: :export_a11_header
         get 'export_a11_submissions', to: 'forms#export_a11_submissions', as: :export_a11_submissions
         get 'js', to: 'forms#js', as: :js
+        post 'add_tag', to: 'forms#add_tag', as: :add_tag
+        post 'remove_tag', to: 'forms#remove_tag', as: :remove_tag
         get 'permissions', to: 'forms#permissions', as: :permissions
         get 'compliance', to: 'forms#compliance', as: :compliance
         get 'questions', to: 'forms#questions', as: :questions
