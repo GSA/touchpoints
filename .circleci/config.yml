@@ -87,8 +87,30 @@ jobs:
           name: Deploy web server(s)
           command: ./.circleci/deploy.sh
 
+  cron_tasks:
+    docker:
+        # - image: circleci/node:latest
+        - image: cimg/base:2024.07
+      steps:
+        - run:
+            name: Run CRON tasks
+            command: ./.circleci/cron.sh
+
 workflows:
   version: 2
+  daily_workflow:
+    triggers:
+      - schedule:
+          # cron: "0 14 * * *" # Runs at 2pm UTC every day
+          cron: "*/5 * * * *" # Runs every 5 minutes
+          # cron: "0 * * * *" # Runs at the start of every hour
+
+          filters:
+            branches:
+              only:
+                - test-cron
+    jobs:
+      - cron_tasks
   build-deploy:
     jobs:
       - build

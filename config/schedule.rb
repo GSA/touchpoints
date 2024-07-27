@@ -34,5 +34,9 @@ every 1.day, at: '10:30pm' do
 end
 
 every 1.day, at: '11:00pm' do
-  rake 'scheduled_jobs:archive_surveys'
+  rake 'scheduled_jobs:archive_forms'
+end
+
+every 1.hour, at: '11:00pm' do
+  rake 'scheduled_jobs:archive_forms'
 end

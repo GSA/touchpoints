@@ -19,7 +19,8 @@ namespace :scheduled_jobs do
     User.send_account_deactivation_notifications(14)
   end
 
-  task archive_surveys: :environment do
+  task archive_forms: :environment do
     Form.archive_expired!
+    puts "Archiving forms based on expiration date"
   end
 end
