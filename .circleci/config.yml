@@ -89,12 +89,12 @@ jobs:
 
   cron_tasks:
     docker:
-        # - image: circleci/node:latest
-        - image: cimg/base:2024.07
-      steps:
-        - run:
-            name: Run CRON tasks
-            command: ./.circleci/cron.sh
+      - image: cimg/base:2024.07
+      # - image: circleci/node:latest
+    steps:
+      - run:
+          name: Run CRON tasks
+          command: ./.circleci/cron.sh
 
 workflows:
   version: 2
