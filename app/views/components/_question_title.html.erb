@@ -1,4 +1,4 @@
-<%- if local_assigns[:form_builder] && form_builder %>
+<%- if defined?(form_builder) && form_builder %>
 <div class="margin-top-2">
   <span class="usa-tag">
     <%= question.answer_field %>
