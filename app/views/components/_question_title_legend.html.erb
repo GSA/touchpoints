@@ -1,28 +1,26 @@
+<%- if local_assigns[:form_builder] && form_builder %>
+<div class="margin-top-2">
+  <span class="usa-tag">
+    <%= question.answer_field %>
+  </span>
+  <%- if question.is_required? %>
+  <span class="usa-tag bg-secondary-vivid">
+    Required
+  </span>
+  <% end %>
+</div>
+<% end %>
 <legend class="usa-legend" id="question-label-<%= question.id %>">
   <%= question.text %>
   <%- if question.is_required? %>
   <abbr title="required" class="usa-hint--required">*</abbr>
   <% end %>
-  <%- if question.help_text? %>
-  <div
-    id="question-id-<%= question.id %>-help-text"
-    class="help-text margin-top-1"
-  >
-    <small>
-      <%= question.help_text %>
-    </small>
-  </div>
-  <% end %>
-  <%- if local_assigns[:form_builder] && form_builder %>
-  <span class="display-block">
-    <span class="usa-tag">
-      <%= question.answer_field %>
-    </span>
-    <%- if question.is_required? %>
-    <span class="usa-tag bg-secondary-vivid">
-      Required
-    </span>
-    <% end %>
-  </span>
-  <% end %>
 </legend>
+<%- if question.help_text? %>
+  <div
+    class="usa-hint help-text margin-top-1 font-sans-2xs"
+    id="question-id-<%= question.id %>-help-text"
+  >
+    <%= question.help_text %>
+  </div>
+<% end %>
