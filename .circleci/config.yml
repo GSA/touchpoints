@@ -101,9 +101,7 @@ workflows:
   daily_workflow:
     triggers:
       - schedule:
-          cron: "*/5 * * * *" # Runs every 5 minutes
-          # cron: "0 14 * * *" # Runs at 2pm UTC every day
-          # cron: "0 * * * *" # Runs at the start of every hour
+          cron: "0 * * * *"
           filters:
             branches:
               only:
