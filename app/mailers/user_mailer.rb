@@ -261,6 +261,6 @@ class UserMailer < ApplicationMailer
   end
 
   def self.touchpoints_admin_emails
-    (ENV.fetch('UserMailer.TOUCHPOINTS_ADMIN_EMAILS').split(',')).uniq
+    (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')).uniq
   end
 end
