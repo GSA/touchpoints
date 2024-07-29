@@ -24,12 +24,20 @@ cf run-task touchpoints-staging-sidekiq-worker -c "rake scheduled_jobs:send_week
 cf run-task touchpoints-staging-sidekiq-worker -c "rake scheduled_jobs:check_expiring_forms"
 cf run-task touchpoints-staging-sidekiq-worker -c "rake scheduled_jobs:archive_forms"
 
+echo "Staging tasks have completed."
+
 #
 # === Demo environment =========================================================
 #
 echo "Running tasks in Demo..."
-cf run-task touchpoints-demo-sidekiq-worker -c "rake scheduled_jobs:archive_surveys"
+cf run-task touchpoints-demo-sidekiq-worker -c "rake scheduled_jobs:send_one_week_until_inactivation_warning"
 cf run-task touchpoints-demo-sidekiq-worker -c "rake scheduled_jobs:send_two_weeks_until_inactivation_warning"
 cf run-task touchpoints-demo-sidekiq-worker -c "rake scheduled_jobs:deactivate_inactive_users"
 
-echo "Running tasks complete."
+# Forms
+cf run-task touchpoints-demo-sidekiq-worker -c "rake scheduled_jobs:send_daily_notifications"
+cf run-task touchpoints-demo-sidekiq-worker -c "rake scheduled_jobs:send_weekly_notifications"
+cf run-task touchpoints-demo-sidekiq-worker -c "rake scheduled_jobs:check_expiring_forms"
+cf run-task touchpoints-demo-sidekiq-worker -c "rake scheduled_jobs:archive_forms"
+
+echo "Demo tasks have completed."
