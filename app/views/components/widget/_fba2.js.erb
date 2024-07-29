@@ -29,9 +29,6 @@ function FBAform(d, N) {
 			if (this.options.loadCSS) {
 				this._loadCss();
 			}
-			if (this.options.loadUswds) {
-				this._loadUswds();
-			}
 			this._loadHtml();
 			if (!this.options.suppressUI && (this.options.deliveryMethod && this.options.deliveryMethod === 'modal')) {
 				this.loadButton();
@@ -84,21 +81,6 @@ function FBAform(d, N) {
 				style.innerHTML = this.options.css;
 				d.head.appendChild(style);
 			}
-		},
-		_loadUswds: function() {
-			const cssTag = document.createElement('link');
-			cssTag.rel = 'stylesheet';
-			cssTag.type = 'text/css';
-			cssTag.media = 'all';
-			cssTag.href = this.options.uswdsCssUrl;
-			document.getElementsByTagName('head')[0].appendChild(cssTag);
-
-			const scriptElement = document.createElement('script');
-			scriptElement.type = 'text/javascript';
-			scriptElement.defer = true;
-			scriptElement.src = this.options.uswdsJsUrl;
-			const body = document.getElementsByTagName('body')[0];
-			body.appendChild(scriptElement);
 		},
 		_loadHtml: function() {
 		<%# inject the form interface for the `inline` delivery option, without a wrapper %>
@@ -677,9 +659,6 @@ const touchpointFormOptions<%= form.short_uuid %> = {
 	'elementSelector': "<%= form.element_selector %>",
 	'css' : "<%= escape_javascript(render partial: 'components/widget/widget', formats: :css, locals: { form: form }) %>",
 	'loadCSS' : <%= form.load_css %>,
-	'loadUswds' : <%= form.load_css && form.delivery_method != "touchpoints-hosted-only" %>,
-	'uswdsCssUrl' : "<%= asset_url('widget-uswds-styles.css') %>",
-	'uswdsJsUrl' : "<%= asset_url('touchpoints-uswds.js') %>",
 	'formSpecificScript' : function() {
 		<%- if ["a11_v2", "a11_yes_no"].include?(form.kind) %>
 		<%= render "components/form_#{form.kind}_script", form: form %>
@@ -717,3 +696,8 @@ const touchpointFormOptions<%= form.short_uuid %> = {
 
 // Create an instance of a Touchpoints form object
 const touchpointForm<%= form.short_uuid %> = new FBAform(document, window).init(touchpointFormOptions<%= form.short_uuid %>);
+
+// Include USWDS JS if required
+<%- if form.load_css && form.delivery_method != "touchpoints-hosted-only" %>
+<%= render partial: 'components/widget/widget-uswds', formats: :js %>
+<% end %>

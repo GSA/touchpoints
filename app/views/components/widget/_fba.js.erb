@@ -33,9 +33,6 @@ function FBAform(d, N) {
 			<%- if form.load_css %>
 			this.loadCss();
 			<% end %>
-			<%- if form.load_css && form.delivery_method != "touchpoints-hosted-only" %>
-			this.loadUswds();
-			<% end %>
 			this.loadHtml();
 			<%- unless (local_assigns.has_key?(:suppress_ui) && suppress_ui) -%>
 			        <%- if form.delivery_method == "modal" -%>
@@ -96,21 +93,6 @@ function FBAform(d, N) {
 			d.head.appendChild(style);
 		},
 		<% end %>
-		loadUswds: function() {
-			const cssTag = document.createElement('link');
-			cssTag.rel = 'stylesheet';
-			cssTag.type = 'text/css';
-			cssTag.media = 'all';
-			cssTag.href = "<%= asset_url('widget-uswds-styles.css') %>";
-			document.getElementsByTagName('head')[0].appendChild(cssTag);
-
-			const scriptElement = document.createElement('script');
-			scriptElement.type = 'text/javascript';
-			scriptElement.defer = true;
-			scriptElement.src = "<%= asset_url('touchpoints-uswds.js') %>"
-			const body = document.getElementsByTagName('body')[0];
-			body.appendChild(scriptElement);
-		},
 		loadHtml: function() {
 		<%# inject the form interface for inline with no wrapper %>
 		<%- if form.delivery_method == "inline" && form.suppress_submit_button %>
@@ -695,3 +677,8 @@ var formOptions = {
 
 // Create unique Touchpoints form object
 const touchpointForm<%= form.short_uuid %> = new FBAform(document, window).init(formOptions);
+
+// Include USWDS JS if required
+<%- if form.load_css && form.delivery_method != "touchpoints-hosted-only" %>
+<%= render partial: 'components/widget/widget-uswds', formats: :js %>
+<% end %>
