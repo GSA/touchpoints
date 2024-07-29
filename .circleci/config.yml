@@ -90,7 +90,6 @@ jobs:
   cron_tasks:
     docker:
       - image: cimg/base:2024.07
-      # - image: circleci/node:latest
     steps:
       - checkout
       - run:
