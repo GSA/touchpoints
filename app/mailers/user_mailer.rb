@@ -26,7 +26,7 @@ class UserMailer < ApplicationMailer
     @url = url
     mail subject: "Touchpoints export is now available",
          to: email,
-         bcc: touchpoints_admin_emails
+         bcc: UserMailer.touchpoints_admin_emails
   end
 
   def form_feedback(form_id:, email:)
@@ -34,7 +34,7 @@ class UserMailer < ApplicationMailer
     @form = Form.find(form_id)
     @feedback_url = "https://touchpoints.app.cloud.gov/touchpoints/522e395c/submit?location_code=#{@form.short_uuid}"
     mail subject: "How was your Touchpoints experience with form #{@form.name}?",
-         to: ([email] + touchpoints_admin_emails).uniq
+         to: ([email] + UserMailer.touchpoints_admin_emails).uniq
   end
 
   def submission_notification(submission_id:, emails: [])
@@ -51,7 +51,7 @@ class UserMailer < ApplicationMailer
     @action = action
     @event = event
     mail subject: "Touchpoints form #{@form.name} #{@action}",
-         to: touchpoints_admin_emails
+         to: UserMailer.touchpoints_admin_emails
   end
 
   def user_welcome_email(email:)
@@ -59,7 +59,7 @@ class UserMailer < ApplicationMailer
     @email = email
     mail subject: "Welcome to Touchpoints",
       to: email,
-      bcc: touchpoints_admin_emails
+      bcc: UserMailer.touchpoints_admin_emails
   end
 
   def service_event_notification(subject:, service:, event:, link: '')
@@ -69,35 +69,35 @@ class UserMailer < ApplicationMailer
     @event = event
     @link = link
     mail subject: "Touchpoints event notification: #{subject}",
-         to: (touchpoints_admin_emails + User.service_managers.collect(&:email)).uniq
+         to: (UserMailer.touchpoints_admin_emails + User.service_managers.collect(&:email)).uniq
   end
 
   def collection_notification(collection_id:)
     set_logo
     @collection = Collection.find(collection_id)
     mail subject: "Data Collection notification to #{@collection.name}",
-         to: (touchpoints_admin_emails + User.performance_managers.collect(&:email)).uniq
+         to: (UserMailer.touchpoints_admin_emails + User.performance_managers.collect(&:email)).uniq
   end
 
   def cx_collection_notification(cx_collection_id:)
     set_logo
     @cx_collection = CxCollection.find(cx_collection_id)
     mail subject: "CX Data Collection notification to #{@cx_collection.name}",
-         to: (touchpoints_admin_emails + User.performance_managers.collect(&:email)).uniq
+         to: (UserMailer.touchpoints_admin_emails + User.performance_managers.collect(&:email)).uniq
   end
 
   def cscrm_data_collection_notification(collection_id:)
     set_logo
     @collection = CscrmDataCollection.find(collection_id)
     mail subject: "CSCRM Data Collection notification to #{@collection.id}",
-      to: (touchpoints_admin_emails + User.where(cscrm_data_collection_manager: true).collect(&:email)).uniq
+      to: (UserMailer.touchpoints_admin_emails + User.where(cscrm_data_collection_manager: true).collect(&:email)).uniq
   end
 
   def cscrm_data_collection2_notification(collection_id:)
     set_logo
     @collection = CscrmDataCollection2.find(collection_id)
     mail subject: "CSCRM Data Collection 2 notification to #{@collection.id}",
-      to: (touchpoints_admin_emails + User.where(cscrm_data_collection_manager: true).collect(&:email)).uniq
+      to: (UserMailer.touchpoints_admin_emails + User.where(cscrm_data_collection_manager: true).collect(&:email)).uniq
   end
 
   def quarterly_performance_notification(collection_id:)
@@ -142,7 +142,7 @@ class UserMailer < ApplicationMailer
     set_logo
     @greeting = 'Hi, admin_summary'
 
-    mail to: touchpoints_admin_emails
+    mail to: UserMailer.touchpoints_admin_emails
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -154,7 +154,7 @@ class UserMailer < ApplicationMailer
     set_logo
     @greeting = 'Hi, webmaster_summary'
 
-    mail to: touchpoints_admin_emails
+    mail to: UserMailer.touchpoints_admin_emails
   end
 
   def website_created(website:, created_by_user:)
@@ -164,9 +164,9 @@ class UserMailer < ApplicationMailer
     @website = website
     @user = created_by_user
     if @website.organization.abbreviation == "GSA"
-      @emails = (touchpoints_admin_emails + User.organizational_website_managers.collect(&:email)).uniq
+      @emails = (UserMailer.touchpoints_admin_emails + User.organizational_website_managers.collect(&:email)).uniq
     else
-      @emails = (touchpoints_admin_emails).uniq
+      @emails = (UserMailer.touchpoints_admin_emails).uniq
     end
     mail subject: 'Touchpoints notification: Website created',
       to: @emails
@@ -205,7 +205,7 @@ class UserMailer < ApplicationMailer
     set_logo
     @form = form
     mail subject: "Form #{@form.name} expiring on #{@form.expiration_date}",
-      to: touchpoints_admin_emails
+      to: UserMailer.touchpoints_admin_emails
   end
 
   def org_user_notification(user, org_admin)
@@ -261,6 +261,6 @@ class UserMailer < ApplicationMailer
   end
 
   def self.touchpoints_admin_emails
-    (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')).uniq
+    (ENV.fetch('UserMailer.TOUCHPOINTS_ADMIN_EMAILS').split(',')).uniq
   end
 end
