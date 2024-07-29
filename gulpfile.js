@@ -58,7 +58,6 @@ async function bundleWidgetJS() {
     .pipe(dest(embeddedWidgetPath));
 }
 
-// TODO: Add browserslistrc
 async function compileWidgetSass() {
   const pluginsProcess = [
     discardComments(),
