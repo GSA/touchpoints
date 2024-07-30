@@ -108,17 +108,19 @@ class UserMailer < ApplicationMailer
          cc: User.performance_managers.collect(&:email).uniq
   end
 
-  def submissions_digest(form_id, begin_day)
+  def submissions_digest(form_id, days_ago)
     return unless ENV['ENABLE_EMAIL_NOTIFICATIONS'] == 'true'
 
-    @begin_day = begin_day
+    @begin_day = days_ago.days.ago
     @form = Form.find(form_id)
     return unless @form.send_notifications?
 
     set_logo
     @submissions = Submission.where(id: form_id).where('created_at > ?', @begin_day).order('created_at desc')
+    return unless @submissions.present?
+
     emails = @form.notification_emails.split(',')
-    mail subject: "New Submissions to #{@form.name} since #{@begin_day}",
+    mail subject: "Touchpoints Digest: New Submissions to #{@form.name} since #{@begin_day}",
       to: emails,
       bcc: UserMailer.touchpoints_team
   end

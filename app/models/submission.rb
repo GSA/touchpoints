@@ -82,14 +82,14 @@ class Submission < ApplicationRecord
   def self.send_daily_notifications
     form_ids = Submission.where('created_at > ?', 1.day.ago).pluck(:form_id).uniq
     form_ids.each do |form_id|
-      UserMailer.submissions_digest(form_id, 1.day.ago).deliver_later
+      UserMailer.submissions_digest(form_id, 1).deliver_later
     end
   end
 
   def self.send_weekly_notifications
     form_ids = Submission.where('created_at > ?', 7.days.ago).pluck(:form_id).uniq
     form_ids.each do |form_id|
-      UserMailer.submissions_digest(form_id, 7.days.ago).deliver_later
+      UserMailer.submissions_digest(form_id, 7).deliver_later
     end
   end
 
