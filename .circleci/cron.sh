@@ -7,11 +7,12 @@ set -e
 echo "Logging into cloud.gov"
 # Log into CF
 cf login -a $CF_API_ENDPOINT -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $CF_SPACE
-echo "Running tasks in Staging..."
 
 #
 # === Staging environment =========================================================
 #
+
+echo "Running tasks in Staging..."
 
 # Users
 cf run-task touchpoints-staging-sidekiq-worker -c "rake scheduled_jobs:send_one_week_until_inactivation_warning"
@@ -29,7 +30,10 @@ echo "Staging tasks have completed."
 #
 # === Demo environment =========================================================
 #
+
 echo "Running tasks in Demo..."
+
+# Users
 cf run-task touchpoints-demo-sidekiq-worker -c "rake scheduled_jobs:send_one_week_until_inactivation_warning"
 cf run-task touchpoints-demo-sidekiq-worker -c "rake scheduled_jobs:send_two_weeks_until_inactivation_warning"
 cf run-task touchpoints-demo-sidekiq-worker -c "rake scheduled_jobs:deactivate_inactive_users"
