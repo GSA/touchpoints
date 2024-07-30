@@ -696,3 +696,8 @@ const touchpointFormOptions<%= form.short_uuid %> = {
 
 // Create an instance of a Touchpoints form object
 const touchpointForm<%= form.short_uuid %> = new FBAform(document, window).init(touchpointFormOptions<%= form.short_uuid %>);
+
+// Include USWDS JS if required
+<%- if form.load_css && form.delivery_method != "touchpoints-hosted-only" %>
+<%= render partial: 'components/widget/widget-uswds', formats: :js %>
+<% end %>
