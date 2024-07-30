@@ -2,8 +2,13 @@
   <div class="usa-form-group">
     <%= render 'components/question_title', question: question %>
     <div class="usa-hint" id="date-select-hint">mm/dd/yyyy</div>
-    <div class="usa-date-picker">
-      <%= text_field_tag question.ui_selector, nil, class: "usa-input date-select", required: question.is_required %>
+    <div class="usa-date-picker tp-usa-date-picker">
+      <%= tag :input,
+        id: question.ui_selector,
+        class: "usa-input date-select",
+        "aria-labelledby" => "question-label-#{question.id}",
+        "aria-describedby" => "date-select-hint",
+        required: question.is_required %>
     </div>
   </div>
 </div>
