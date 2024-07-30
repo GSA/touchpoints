@@ -8,7 +8,7 @@ namespace :scheduled_jobs do
   end
 
   task deactivate_inactive_users: :environment do
-    User.deactivate_inactive_accounts
+    User.deactivate_inactive_accounts!
   end
 
   task send_one_week_until_inactivation_warning: :environment do
@@ -19,7 +19,12 @@ namespace :scheduled_jobs do
     User.send_account_deactivation_notifications(14)
   end
 
-  task archive_surveys: :environment do
+  task notify_form_managers_of_inactive_forms: :environment do
+    User.notify_form_managers_of_inactive_forms
+  end
+
+  task archive_forms: :environment do
     Form.archive_expired!
+    puts "Archiving forms based on expiration date"
   end
 end
