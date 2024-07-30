@@ -15,7 +15,7 @@ class UserMailer < ApplicationMailer
     @path = path
 
     mail subject: "Touchpoints notification: #{title}",
-         to: emails
+      to: emails
   end
 
   def async_report_notification(email:, start_time:, completion_time:, record_count:, url:)
@@ -26,7 +26,7 @@ class UserMailer < ApplicationMailer
     @url = url
     mail subject: "Touchpoints export is now available",
          to: email,
-         bcc: (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')).uniq
+         bcc: UserMailer.touchpoints_admin_emails
   end
 
   def form_feedback(form_id:, email:)
@@ -34,7 +34,7 @@ class UserMailer < ApplicationMailer
     @form = Form.find(form_id)
     @feedback_url = "https://touchpoints.app.cloud.gov/touchpoints/522e395c/submit?location_code=#{@form.short_uuid}"
     mail subject: "How was your Touchpoints experience with form #{@form.name}?",
-         to: ([email] + ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')).uniq
+         to: ([email] + UserMailer.touchpoints_admin_emails).uniq
   end
 
   def submission_notification(submission_id:, emails: [])
@@ -51,7 +51,7 @@ class UserMailer < ApplicationMailer
     @action = action
     @event = event
     mail subject: "Touchpoints form #{@form.name} #{@action}",
-         to: ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')
+         to: UserMailer.touchpoints_admin_emails
   end
 
   def user_welcome_email(email:)
@@ -59,7 +59,7 @@ class UserMailer < ApplicationMailer
     @email = email
     mail subject: "Welcome to Touchpoints",
       to: email,
-      bcc: ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')
+      bcc: UserMailer.touchpoints_admin_emails
   end
 
   def service_event_notification(subject:, service:, event:, link: '')
@@ -69,42 +69,43 @@ class UserMailer < ApplicationMailer
     @event = event
     @link = link
     mail subject: "Touchpoints event notification: #{subject}",
-         to: (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',') + User.service_managers.collect(&:email)).uniq
+         to: (UserMailer.touchpoints_admin_emails + User.service_managers.collect(&:email)).uniq
   end
 
   def collection_notification(collection_id:)
     set_logo
     @collection = Collection.find(collection_id)
     mail subject: "Data Collection notification to #{@collection.name}",
-         to: (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',') + User.performance_managers.collect(&:email)).uniq
+         to: (UserMailer.touchpoints_admin_emails + User.performance_managers.collect(&:email)).uniq
   end
 
   def cx_collection_notification(cx_collection_id:)
     set_logo
     @cx_collection = CxCollection.find(cx_collection_id)
     mail subject: "CX Data Collection notification to #{@cx_collection.name}",
-         to: (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',') + User.performance_managers.collect(&:email)).uniq
+         to: (UserMailer.touchpoints_admin_emails + User.performance_managers.collect(&:email)).uniq
   end
 
   def cscrm_data_collection_notification(collection_id:)
     set_logo
     @collection = CscrmDataCollection.find(collection_id)
     mail subject: "CSCRM Data Collection notification to #{@collection.id}",
-      to: (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',') + User.where(cscrm_data_collection_manager: true).collect(&:email)).uniq
+      to: (UserMailer.touchpoints_admin_emails + User.where(cscrm_data_collection_manager: true).collect(&:email)).uniq
   end
 
   def cscrm_data_collection2_notification(collection_id:)
     set_logo
     @collection = CscrmDataCollection2.find(collection_id)
     mail subject: "CSCRM Data Collection 2 notification to #{@collection.id}",
-      to: (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',') + User.where(cscrm_data_collection_manager: true).collect(&:email)).uniq
+      to: (UserMailer.touchpoints_admin_emails + User.where(cscrm_data_collection_manager: true).collect(&:email)).uniq
   end
 
   def quarterly_performance_notification(collection_id:)
     set_logo
     @collection = Collection.find(collection_id)
     mail subject: "Quarterly Performance Data Collection Ready: #{@collection.name}",
-         to: @collection.user.email, cc: User.performance_managers.collect(&:email).uniq
+         to: @collection.user.email,
+         cc: User.performance_managers.collect(&:email).uniq
   end
 
   def submissions_digest(form_id, begin_day)
@@ -117,7 +118,9 @@ class UserMailer < ApplicationMailer
     set_logo
     @submissions = Submission.where(id: form_id).where('created_at > ?', @begin_day).order('created_at desc')
     emails = @form.notification_emails.split(',')
-    mail subject: "New Submissions to #{@form.name} since #{@begin_day}", to: emails
+    mail subject: "New Submissions to #{@form.name} since #{@begin_day}",
+      to: emails,
+      bcc: UserMailer.touchpoints_team
   end
 
   def account_deactivation_scheduled_notification(email, active_days)
@@ -126,7 +129,8 @@ class UserMailer < ApplicationMailer
     @active_days = active_days
     set_logo
 
-    mail subject: "Your account is scheduled to be deactivated in #{@active_days} days due to inactivity", to: email
+    mail subject: "Your account is scheduled to be deactivated in #{@active_days} days due to inactivity",
+      to: email
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -138,7 +142,7 @@ class UserMailer < ApplicationMailer
     set_logo
     @greeting = 'Hi, admin_summary'
 
-    mail to: ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')
+    mail to: UserMailer.touchpoints_admin_emails
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -150,7 +154,7 @@ class UserMailer < ApplicationMailer
     set_logo
     @greeting = 'Hi, webmaster_summary'
 
-    mail to: ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')
+    mail to: UserMailer.touchpoints_admin_emails
   end
 
   def website_created(website:, created_by_user:)
@@ -160,11 +164,12 @@ class UserMailer < ApplicationMailer
     @website = website
     @user = created_by_user
     if @website.organization.abbreviation == "GSA"
-      @emails = (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',') + User.organizational_website_managers.collect(&:email)).uniq
+      @emails = (UserMailer.touchpoints_admin_emails + User.organizational_website_managers.collect(&:email)).uniq
     else
-      @emails = (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')).uniq
+      @emails = (UserMailer.touchpoints_admin_emails).uniq
     end
-    mail subject: 'Touchpoints notification: Website created', to: @emails
+    mail subject: 'Touchpoints notification: Website created',
+      to: @emails
   end
 
   def website_data_collection(email, websites)
@@ -174,7 +179,8 @@ class UserMailer < ApplicationMailer
     @greeting = "Hi, #{email}"
     @email = email
     @websites = websites
-    mail subject: 'Website Data Collection Request', to: email
+    mail subject: 'Website Data Collection Request',
+      to: email
   end
 
   def website_backlog_data_collection(email, websites)
@@ -184,7 +190,8 @@ class UserMailer < ApplicationMailer
     @greeting = "Hi, #{email}"
     @email = email
     @websites = websites
-    mail subject: 'Update Website record', to: email
+    mail subject: 'Update Website record',
+      to: email
   end
 
   def new_user_notification(user)
@@ -198,7 +205,7 @@ class UserMailer < ApplicationMailer
     set_logo
     @form = form
     mail subject: "Form #{@form.name} expiring on #{@form.expiration_date}",
-         to: ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')
+      to: UserMailer.touchpoints_admin_emails
   end
 
   def org_user_notification(user, org_admin)
@@ -206,29 +213,29 @@ class UserMailer < ApplicationMailer
     @user = user
     @org_admin = org_admin
     mail subject: 'New user added to organization',
-         to: org_admin.email
+      to: org_admin.email
   end
 
   def no_org_notification(user)
     set_logo
     @user = user
     mail subject: 'New user account creation failed',
-         to: UserMailer.touchpoints_support
+      to: UserMailer.touchpoints_support
   end
 
   def user_reactivation_email(user)
     set_logo
     @user = user
     mail subject: 'Touchpoints account reactivated',
-         to: @user.email,
-         bcc: UserMailer.touchpoints_team
+      to: @user.email,
+      bcc: UserMailer.touchpoints_team
   end
 
   def account_deactivated_notification(user)
     set_logo
     @user = user
     mail subject: 'User account deactivated',
-         to: UserMailer.touchpoints_team
+      to: UserMailer.touchpoints_team
   end
 
   def invite(user, invitee)
@@ -237,7 +244,8 @@ class UserMailer < ApplicationMailer
     attachments.inline['logo.png'] = @@header_logo
     @user = user
     @invitee = invitee
-    mail subject: 'Touchpoints invite', to: @invitee
+    mail subject: 'Touchpoints invite',
+      to: @invitee
   end
 
   def self.registry_manager_emails
@@ -250,5 +258,9 @@ class UserMailer < ApplicationMailer
 
   def self.touchpoints_support
     ENV.fetch('TOUCHPOINTS_SUPPORT', 'feedback-analytics@gsa.gov')
+  end
+
+  def self.touchpoints_admin_emails
+    (ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')).uniq
   end
 end
