@@ -71,7 +71,6 @@ gem 'sass-rails'
 gem 'sidekiq', '>= 6.5.0'
 gem 'json-jwt'
 gem 'aasm'
-gem 'whenever', require: false
 gem 'logstop'
 gem 'paper_trail'
 gem 'acts-as-taggable-on'

@@ -87,8 +87,34 @@ jobs:
           name: Deploy web server(s)
           command: ./.circleci/deploy.sh
 
+  cron_tasks:
+    docker:
+      - image: cimg/base:2024.07
+    steps:
+      - checkout
+      - run:
+          name: Install-cf-cli
+          command: |
+            curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
+            sudo dpkg -i cf-cli_amd64.deb
+            cf -v
+      - run:
+          name: Run CRON tasks
+          command: ./.circleci/cron.sh
+
 workflows:
   version: 2
+  daily_workflow:
+    triggers:
+      - schedule:
+          # cron: "0 * * * *" # every hour
+          cron: "0 11,1 * * *" # at 6am est and 8pm est
+          filters:
+            branches:
+              only:
+                - test-cron
+    jobs:
+      - cron_tasks
   build-deploy:
     jobs:
       - build
