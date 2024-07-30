@@ -8,7 +8,7 @@ namespace :scheduled_jobs do
   end
 
   task deactivate_inactive_users: :environment do
-    User.deactivate_inactive_accounts
+    User.deactivate_inactive_accounts!
   end
 
   task send_one_week_until_inactivation_warning: :environment do
