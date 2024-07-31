@@ -5,6 +5,7 @@
     <div class="usa-date-picker tp-usa-date-picker">
       <%= tag :input,
         id: question.ui_selector,
+        name: question.ui_selector,
         class: "usa-input date-select",
         "aria-labelledby" => "question-label-#{question.id}",
         "aria-describedby" => "date-select-hint",
