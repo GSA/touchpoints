@@ -198,6 +198,45 @@ module Seeds
       Question.create!({
         form: custom_form,
         form_section: custom_elements_section,
+        text: "What is the date of this checkin?",
+        question_type: "date_select",
+        position: 12,
+        answer_field: :answer_12,
+        is_required: false
+      })
+
+      combobox_question = Question.create!({
+        form: custom_form,
+        form_section: custom_elements_section,
+        text: "What's in your lunchbox?",
+        question_type: "combobox",
+        position: 13,
+        answer_field: :answer_13,
+        is_required: false
+      })
+
+      QuestionOption.create!({
+        question: combobox_question,
+        text: "Apple",
+        value: "apple",
+        position: 1
+      })
+      QuestionOption.create!({
+        question: combobox_question,
+        text: "Banana",
+        value: "banana",
+        position: 2
+      })
+      QuestionOption.create!({
+        question: combobox_question,
+        text: "Blueberries",
+        value: "blueberries",
+        position: 3
+      })
+
+      Question.create!({
+        form: custom_form,
+        form_section: custom_elements_section,
         placeholder_text: "hidden value",
         question_type: "hidden_field",
         position: 20,

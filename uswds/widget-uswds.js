@@ -1,6 +1,8 @@
-const modal = require("@uswds/uswds/packages/usa-modal/src/index.js");
+const ComboBox = require("@uswds/uswds/packages/usa-combo-box/src/index.js");
 const DatePicker = require("@uswds/uswds/packages/usa-date-picker/src/index.js");
+const modal = require("@uswds/uswds/packages/usa-modal/src/index.js");
 
 // Initialize modal event listeners
-modal.on();
+ComboBox.on();
 DatePicker.on();
+modal.on();
