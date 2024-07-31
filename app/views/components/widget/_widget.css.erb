@@ -1664,18 +1664,19 @@
   padding-left:1.75ex;
   vertical-align:middle;
 }
-.fba-modal-dialog @supports ((-webkit-mask: url("")) or (mask: url(""))){
-  .usa-link--external::after{
-    background:none;
-    background-color:currentColor;
+
+@supports ((-webkit-mask: url("")) or (mask: url(""))) {
+  .fba-modal-dialog .usa-link--external::after {
+    background: none;
+    background-color: currentColor;
     -webkit-mask-image:url("<%= root_url %>img/usa-icons/launch.svg"), linear-gradient(transparent, transparent);
             mask-image:url("<%= root_url %>img/usa-icons/launch.svg"), linear-gradient(transparent, transparent);
-    -webkit-mask-position:center center;
-            mask-position:center center;
-    -webkit-mask-repeat:no-repeat;
-            mask-repeat:no-repeat;
-    -webkit-mask-size:1.75ex 1.75ex;
-            mask-size:1.75ex 1.75ex;
+    -webkit-mask-position: center center;
+            mask-position: center center;
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-size: 1.75ex 1.75ex;
+            mask-size: 1.75ex 1.75ex;
   }
 }
 .fba-modal-dialog .usa-link--external.usa-link--alt{
