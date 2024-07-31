@@ -26,11 +26,7 @@ class CxCollectionDetailSerializer < ActiveModel::Serializer
       object.service_stage.name if object.service_stage
     end
 
-    def service_provider
-      object.service.service_provider if object.service
-    end
-
     def service_provider_name
-      service_provider.name if object.service
+      object.service.service_provider.name if object.service
     end
 end
