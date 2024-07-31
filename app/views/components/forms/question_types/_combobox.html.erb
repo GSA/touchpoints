@@ -16,7 +16,7 @@ end
 
 <fieldset class="usa-fieldset">
   <%= render 'components/question_title_label', question: question %>
-  <div class="usa-combo-box margin-bottom-1">
+  <div class="usa-combo-box tp-usa-combo-box margin-bottom-1">
     <%= select_tag(question.ui_selector,
       options_for_select(question.question_options.each_with_index.map { |option, index| [option.text, option.value] }),
       form_options)
