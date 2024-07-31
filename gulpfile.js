@@ -39,12 +39,15 @@ exports.buildWidgetAssets = parallel(bundleWidgetJS, compileWidgetSass);
 
 embeddedWidgetPath = './app/views/components/widget';
 
-// TODO: Do we need to babelify?
 async function bundleWidgetJS() {
   return browserify("uswds/widget-uswds.js", {
     paths: ['./node_modules'],
     debug: true
   })
+    .transform("babelify", {
+      global: true,
+      presets: ["@babel/preset-env"],
+    })
     .transform("aliasify", {
       aliases: {
         '../../uswds-core/src/js/config': './uswds/uswds-config.js'
