@@ -17,7 +17,13 @@ class User < ApplicationRecord
   has_many :user_roles, dependent: :destroy
   has_many :forms, through: :user_roles, primary_key: 'form_id'
   has_many :collections, through: :organization
-  has_many :cx_collections, through: :organization
+
+  def cx_collections
+    user_org = self.organization
+    user_parent_org = user_org&.parent
+
+    CxCollection.where("cx_collections.organization_id IN (?)", [user_org.id, user_parent_org&.id].compact)
+  end
 
   validate :api_key_format, if: :api_key_present_and_changed?
 
