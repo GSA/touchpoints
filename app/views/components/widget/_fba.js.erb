@@ -35,9 +35,9 @@ function FBAform(d, N) {
 			<% end %>
 			this.loadHtml();
 			<%- unless (local_assigns.has_key?(:suppress_ui) && suppress_ui) -%>
-				<%- if form.delivery_method == "modal" -%>
-				this.loadButton();
-				<% end %>
+			        <%- if form.delivery_method == "modal" -%>
+			        this.loadButton();
+			        <% end %>
 			<% end %>
 			this.bindEventListeners();
 			this.dialogOpen = false; // initially false
@@ -677,3 +677,8 @@ var formOptions = {
 
 // Create unique Touchpoints form object
 const touchpointForm<%= form.short_uuid %> = new FBAform(document, window).init(formOptions);
+
+// Include USWDS JS if required
+<%- if form.load_css && form.delivery_method != "touchpoints-hosted-only" %>
+<%= render partial: 'components/widget/widget-uswds', formats: :js %>
+<% end %>

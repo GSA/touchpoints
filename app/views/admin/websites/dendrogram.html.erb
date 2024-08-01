@@ -23,10 +23,30 @@
   <svg style="width:100%; height:1000px;"></svg>
 </div>
 
+<div>
+  Select an organization
+  <%= select_tag(:that, options_for_select(organization_abbreviation_dropdown_options, selected: params[:org].try(:upcase)), { include_blank: true , class: "usa-select", id: "organization-dropdown-selector" }) %>
+</div>
+
+<br>
+<br>
+<br>
+
+<%
+    @url_options = {}
+    @url_options.merge!(office: true) if params["office"] == "true"
+    @url_options.merge!(org: params["org"]) if params["org"]
+    @url_options.merge!(format: :json)
+%>
 <script type="module">
   export default function define(runtime, observer) {
     const main = runtime.module();
-    const fileAttachments = new Map([["flare.json", new URL("/admin/websites/dendrogram_json.json/<%= '?office=true' if params["office"] == "true" %>", import.meta.url)]]);
+    const fileAttachments = new Map([[
+      "flare.json",
+      new URL("<%= raw dendrogram_json_admin_websites_path(@url_options) %>",
+      import.meta.url)
+    ]]);
+    debugger
     main.builtin("FileAttachment", runtime.fileAttachments(name => fileAttachments.get(name)));
 
     main.variable(observer("chart")).define("chart", ["tree", "d3", "data", "autoBox"], function(tree,d3,data,autoBox)
@@ -109,4 +129,16 @@ import {Runtime, Library, Inspector} from "<%= asset_path("dendrogram_runtime.js
 
 const runtime = new Runtime();
 const main = runtime.module(define, Inspector.into(document.body));
+</script>
+
+<script>
+$("#organization-dropdown-selector").on("change", function(event) {
+  const dropdown = event.target;
+
+  if (dropdown.value) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('org', dropdown.value);
+    window.location.href = url.toString();
+  }
+})
 </script>

@@ -51,6 +51,10 @@ class CxCollection < ApplicationRecord
     self.update(submitted_at: Time.current)
   end
 
+  def service_name
+    self.service&.name
+  end
+
   def duplicate!(new_user:)
     new_collection = dup
     new_collection.user = new_user

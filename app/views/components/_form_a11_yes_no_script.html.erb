@@ -10,7 +10,7 @@ document.addEventListener('onTouchpointsFormLoaded', function(e) {
   const q2_container = q2.closest(".question");
   const submitButton = document.getElementById("touchpoints-form-<%= form.short_uuid %>").getElementsByClassName("submit-button")[0]
   <% else %>
-  const q2_container = formElement.querySelector("#<%= dom_id(form.ordered_questions.second) %>")
+  const q2_container = formElement.querySelector("#<%= dom_id(form.ordered_questions.select { |q| q.answer_field == 'answer_02'}) %>")
   const submitButton = formElement.querySelector("#touchpoints-form-<%= form.short_uuid %>").getElementsByClassName("submit-button")[0]
   <% end %>
 
@@ -41,7 +41,7 @@ document.addEventListener('onTouchpointsFormLoaded', function(e) {
   <%- if form.legacy_form_embed %>
   const radioButtons = document.getElementById("answer_01").getElementsByTagName("input");
   <% else %>
-  const radioButtons = formElement.querySelector("#<%= form.ordered_questions.first.ui_selector %>").getElementsByTagName("input");
+  const radioButtons = formElement.querySelector("#<%= form.ordered_questions.select { |q| q.answer_field == "answer_01"}.ui_selector %>").getElementsByTagName("input");
   <% end %>
   for (const radioButton of radioButtons) {
       radioButton.addEventListener("click", handleThumbsUpDownClick)

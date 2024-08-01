@@ -39,8 +39,6 @@ class CxCollectionDetail < ApplicationRecord
       volume_of_customers_provided_survey_opportunity
       volume_of_respondents
       omb_control_number
-      federal_register_url
-      reflection_text
       survey_type
       survey_title
       trust_question_text
@@ -82,8 +80,6 @@ class CxCollectionDetail < ApplicationRecord
           collection_detail.volume_of_respondents,
 
           collection_detail.omb_control_number,
-          collection_detail.federal_register_url,
-          collection_detail.reflection_text,
           collection_detail.survey_type,
           collection_detail.survey_title,
           collection_detail.trust_question_text,
