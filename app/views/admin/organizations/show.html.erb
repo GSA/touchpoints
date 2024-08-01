@@ -42,24 +42,23 @@
       </div>
       <% end -%>
 
-      <%- if @organization.parent %>
       <div class="grid-col-12">
-        <%= label_tag "Parent Organization name", nil, class: "usa-label" %>
-        <%= render "admin/organizations/badge", organization: @organization %>
+      <%- if @organization.parent %>
+        <%= label_tag "Parent Organization", nil, class: "usa-label text-base" %>
+        <%= render "admin/organizations/badge", organization: @organization.parent %>
+      <% else %>
+        No parent organization specified
+      <% end %>
       </div>
-      <% end -%>
 
       <div class="grid-col-12">
-        <h2>
-          <span title="name"><%= @organization.name %></span>
-          (<span title="abbreviation"><%= @organization.abbreviation %></span>)
-        </h2>
+        <%= label_tag "Abbreviation", nil, class: "usa-label text-base" %>
+        <span title="abbreviation"><%= @organization.abbreviation %></span>
       </div>
     </div>
 
     <div class="usa-prose">
-      <%= label_tag "Mission statement", nil, class: "usa-label" %>
-      <br>
+      <%= label_tag "Mission statement", nil, class: "usa-label text-base" %>
       <%- if @organization.mission_statement.present? %>
         <%= @organization.mission_statement %>
       <% else %>
@@ -72,10 +71,13 @@
       </div>
       <% end -%>
     </div>
-    <p>
-      <%= label_tag "Digital Analytics URL", nil, class: "usa-label" %>
+    <div>
+      <%= label_tag "Digital Analytics URL", nil, class: "usa-label text-base" %>
       <%- if @organization.digital_analytics_path? %>
-        <%= link_to("https://analytics.usa.gov/#{@organization.digital_analytics_path}", "https://analytics.usa.gov/#{@organization.digital_analytics_path}", target: "_blank", rel: "noopener") %>
+        <%= link_to("https://analytics.usa.gov/#{@organization.digital_analytics_path}",
+          "https://analytics.usa.gov/#{@organization.digital_analytics_path}",
+          target: "_blank",
+          rel: "noopener") %>
       <% else %>
       <div class="usa-alert usa-alert--info">
         <div class="usa-alert__body">
@@ -85,9 +87,9 @@
         </div>
       </div>
       <% end -%>
-    </p>
-    <p>
-      <%= label_tag "Notes", nil, class: "usa-label" %>
+    </div>
+    <div class="margin-bottom-3">
+      <%= label_tag "Notes", nil, class: "usa-label text-base" %>
       <%- if @organization.notes.present? %>
         <%= @organization.notes %>
       <% else %>
@@ -99,7 +101,7 @@
         </div>
       </div>
       <% end -%>
-    </p>
+    </div>
 
     <div class="sub-organizations well">
       <h3>

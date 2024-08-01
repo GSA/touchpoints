@@ -160,10 +160,8 @@ module Admin
             :url,
             :fiscal_year,
             :quarter,
-            :service_stage_id,
             :aasm_state,
-            :rating,
-            :integrity_hash
+            :rating
           )
       end
   end
