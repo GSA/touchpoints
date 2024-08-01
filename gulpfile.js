@@ -64,7 +64,10 @@ async function bundleWidgetJS() {
 async function compileWidgetSass() {
   const pluginsProcess = [
     discardComments(),
-    prefixer({ prefix: 'tp-', ignore: ['is-visible', 'is-hidden']}),
+    prefixer({
+      prefix: "",
+      ignore: ['is-visible', 'is-hidden']
+    }),
     autoprefixer()
   ];
 
