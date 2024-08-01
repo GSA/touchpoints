@@ -89,11 +89,6 @@
   margin:0;
 }
 
-.fba-modal-dialog .usa-focus{
-  outline:0.25rem solid #2491ff;
-  outline-offset:0;
-}
-
 .fba-modal-dialog *,
 .fba-modal-dialog *::before,
 .fba-modal-dialog *::after{
@@ -118,24 +113,6 @@
 .fba-modal-dialog .usa-sr-only{
   position:absolute;
   left:-999em;
-}
-
-.fba-modal-dialog .usa-embed-container iframe,
-.fba-modal-dialog .usa-embed-container object,
-.fba-modal-dialog .usa-embed-container embed{
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-}
-
-.fba-modal-dialog .usa-embed-container{
-  padding-bottom:56.25%;
-  position:relative;
-  height:0;
-  overflow:hidden;
-  max-width:100%;
 }
 
 .fba-modal img{
@@ -592,76 +569,6 @@
   color:white;
 }
 
-.fba-modal-dialog .usa-menu-btn{
-  -moz-osx-font-smoothing:auto;
-  -webkit-font-smoothing:subpixel-antialiased;
-  color:#005ea2;
-  text-decoration:underline;
-  background-color:transparent;
-  border:0;
-  border-radius:0;
-  box-shadow:none;
-  font-weight:normal;
-  margin:0;
-  padding:0;
-  text-align:left;
-  flex:0 1 auto;
-  padding-left:0.75rem;
-  padding-right:0.75rem;
-  background-color:#005ea2;
-  color:white;
-  font-size:0.87rem;
-  height:3rem;
-  text-align:center;
-  text-decoration:none;
-  text-transform:uppercase;
-}
-
-.fba-modal-dialog .usa-menu-btn:hover{
-  color:#1a4480;
-}
-
-.fba-modal-dialog .usa-menu-btn:active{
-  color:#162e51;
-}
-
-.fba-modal-dialog .usa-menu-btn:focus{
-  outline:0.25rem solid #2491ff;
-  outline-offset:0;
-}
-
-.fba-modal-dialog .usa-menu-btn:visited{
-  color:#54278f;
-}
-
-.fba-modal-dialog .usa-menu-btn:hover,
-.fba-modal-dialog .usa-menu-btn:active{
-  -moz-osx-font-smoothing:auto;
-  -webkit-font-smoothing:subpixel-antialiased;
-  background-color:transparent;
-  box-shadow:none;
-  text-decoration:underline;
-}
-@media all and (min-width: 64em){
-  .fba-modal-dialog .usa-menu-btn{
-    display:none;
-  }
-}
-
-.fba-modal-dialog .usa-menu-btn:hover{
-  background-color:#1a4480;
-  color:white;
-  text-decoration:none;
-}
-
-.fba-modal-dialog .usa-menu-btn:active{
-  color:white;
-}
-
-.fba-modal-dialog .usa-menu-btn:visited{
-  color:white;
-}
-
 .fba-modal-dialog .usa-overlay{
   position:absolute;
   bottom:0;
@@ -711,57 +618,6 @@
 
 .fba-modal-dialog .usa-js-mobile-nav--active{
   overflow:hidden;
-}
-
-.fba-modal-dialog .usa-search{
-  font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
-  font-size:1.06rem;
-  line-height:1.5;
-  position:relative;
-}
-
-.fba-modal-dialog .usa-search::after{
-  clear:both;
-  content:"";
-  display:block;
-}
-
-.fba-modal-dialog .usa-search[role=search],
-.fba-modal-dialog .usa-search[role=search] > div,
-.fba-modal-dialog .usa-search [role=search]{
-  display:flex;
-}
-
-.fba-modal-dialog .usa-search [type=submit]{
-  background-image:url("<%= root_url %>img/usa-icons/search.svg"), linear-gradient(transparent, transparent);
-  background-repeat:no-repeat;
-  background-position:center center;
-  background-size:1rem;
-  border-bottom-left-radius:0;
-  border-top-left-radius:0;
-  height:2rem;
-  margin:0;
-  padding:0;
-  width:3rem;
-}
-
-@media all and (min-width: 30em){
-  .fba-modal-dialog .usa-search [type=submit]{
-    padding-left:1rem;
-    padding-right:1rem;
-    background-image:none;
-    width:auto;
-  }
-}
-
-.fba-modal-dialog .usa-search__submit-text{
-  position:absolute;
-  left:-999em;
-}
-@media all and (min-width: 30em){
-  .fba-modal-dialog .usa-search__submit-text{
-    position:static;
-  }
 }
 
 /* TODO Custom */
@@ -1000,9 +856,6 @@
 .fba-modal-dialog .grid-row.desktop\:grid-gap-lg > *{
   padding-left:0.75rem;
   padding-right:0.75rem;
-}
-.fba-modal-dialog .usa-menu-btn{
-  display:none;
 }
 .fba-modal-dialog .usa-layout-docs__sidenav{
   padding-top:0;
