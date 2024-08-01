@@ -1,5 +1,22 @@
 // A list of USWDS packages that are used by the embedded widget.
 
+@forward "usa-banner/src/styles";
+// @forward "usa-skipnav/src/styles";
+@forward "usa-footer/src/styles";
+
+@forward "usa-form/src/styles";
+@forward "usa-form-group/src/styles";
+@forward "usa-fieldset/src/styles";
+@forward "usa-header/src/styles";
+@forward "usa-hint/src/styles";
+@forward "usa-list/src/styles";
+@forward "usa-nav/src/styles";
 @forward "usa-combo-box/src/styles";
+@forward "usa-radio/src/styles";
+@forward "usa-select/src/styles";
+@forward "usa-textarea/src/styles";
 @forward "usa-date-picker/src/styles";
+@forward "usa-character-count/src/styles";
+
+@forward "usa-button/src/styles";
 // @forward "usa-modal/src/styles";
