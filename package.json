@@ -15,9 +15,9 @@
     "gulp-header": "^2.0.9",
     "gulp-postcss": "^10.0.0",
     "gulp-rename": "^2.0.0",
+    "gulp-replace": "^1.1.4",
     "gulp-sass": "^5.1.0",
     "postcss-discard-comments": "^7.0.1",
-    "postcss-prefixer": "^3.0.0",
     "vinyl-source-stream": "^2.0.0"
   }
 }

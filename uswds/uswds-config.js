@@ -1,3 +1,3 @@
 module.exports = {
-  prefix: "tp-usa",
+  prefix: "usa",
 };
