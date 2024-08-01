@@ -11,7 +11,6 @@ const discardComments = require("postcss-discard-comments");
 const autoprefixer = require("autoprefixer");
 const header = require("gulp-header");
 const replace = require('gulp-replace');
-const prefixer = require('postcss-prefixer');
 const customPrefix = require('./postcss-custom-touchpoints-prefix');
 
 const uswds = require("@uswds/compile");
@@ -68,9 +67,6 @@ async function compileWidgetSass() {
     discardComments(),
     customPrefix({
       prefix: ".fba-modal-dialog"
-    }),
-    prefixer({
-      ignore: ['is-visible', 'is-hidden']
     }),
     autoprefixer()
   ];
