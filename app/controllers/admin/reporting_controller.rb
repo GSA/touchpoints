@@ -390,5 +390,9 @@ module Admin
       @forms = Form.all.order(:created_at).includes(:organization)
     end
 
+    def form_logos
+      @forms = Form.where("logo IS NOT NULL")
+    end
+
   end
 end

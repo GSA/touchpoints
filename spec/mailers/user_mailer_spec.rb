@@ -145,14 +145,15 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'renders the headers' do
-      expect(mail.subject).to eq("Your account is scheduled to be deactivated in #{active_days} days due to inactivity")
+      expect(mail.subject).to eq("Touchpoints account to be deactivated in #{active_days} days")
       expect(mail.to).to eq([user.email])
       expect(mail.from).to eq([ENV.fetch('TOUCHPOINTS_EMAIL_SENDER')])
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match("Account deactivation scheduled in #{active_days} days.")
-      expect(mail.body.encoded).to match("Your account is scheduled to be deactivated in #{active_days} days due to inactivity.")
+      expect(mail.body.encoded).to match("Your Touchpoints account is scheduled to be deactivated in #{active_days} days due to inactivity")
+      expect(mail.body.encoded).to match("Login to Touchpoints at")
+      expect(mail.body.encoded).to match("to keep your account active")
     end
   end
 

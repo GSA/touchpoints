@@ -1,17 +1,4 @@
 <div id="display-logo-div">
-  <%- if form.errors.any? %>
-  <div id="error_explanation">
-    <div class="usa-alert usa-alert--error">
-      <div class="usa-alert__body">
-        <h3 class="usa-alert__heading">Error</h3>
-        <p class="usa-alert__text">
-          Logo upload failed, please try again with a valid image file
-        </p>
-      </div>
-    </div>
-  </div>
-  <% end %>
-
   <%= form_with(model: form, url: update_display_logo_admin_form_url(form, format: :js), html: { multipart: :true }, local: false) do |f| %>
     <div class="grid-row grid-gap-md">
       <div class="grid-col-12">
@@ -25,23 +12,20 @@
 
         <fieldset class="usa-fieldset">
           <legend class="usa-sr-only">Display Organization Tag Logo</legend>
-          <div class="usa-checkbox">
-            <%= f.check_box :display_header_logo, class: "usa-checkbox__input" %>
-            <%= f.label :display_header_logo, "Display small banner (320px wide by 80px tall) logo?", class: "usa-checkbox__label" %>
+          <div class="usa-radio">
+            <%= f.radio_button :logo_kind, "banner", class: "usa-radio__input usa-radio__input--tile", checked: form.display_header_logo %>
+            <%= f.label :logo_kind, "Display small banner (320px wide by 80px tall) logo?", class: "usa-radio__label", value: "banner" %>
           </div>
-        </fieldset>
-        <fieldset class="usa-fieldset">
-          <legend class="usa-sr-only">Display Organization Tag Logo</legend>
-          <div class="usa-checkbox">
-            <%= f.check_box :display_header_square_logo, class: "usa-checkbox__input" %>
-            <%= f.label :display_header_square_logo, "Display square (80px wide by 80px tall) logo?", class: "usa-checkbox__label" %>
+          <div class="usa-radio">
+            <%= f.radio_button :logo_kind, "square", class: "usa-radio__input usa-radio__input--tile", checked: form.display_header_square_logo %>
+            <%= f.label :logo_kind, "Display square (80px wide by 80px tall) logo?", class: "usa-radio__label", value: "square" %>
           </div>
         </fieldset>
       </div>
     </div>
-    <br>
-    <%= f.submit "Update logo", class: "usa-button usa-button-outline" %>
-    <br>
+
+    <%= f.submit "Update logo display", class: "usa-button usa-button-outline margin-top-1" %>
+
     <%- if form.logo.present? %>
       <%- if form.display_header_logo %>
         <p>
