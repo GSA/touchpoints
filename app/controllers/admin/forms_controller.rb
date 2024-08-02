@@ -120,6 +120,13 @@ module Admin
 
     def update_display_logo
       ensure_form_manager(form: @form)
+      if params[:form][:logo_kind] == "square"
+        @form.update_attribute(:display_header_square_logo, true)
+        @form.update_attribute(:display_header_logo, false)
+      elsif params[:form][:logo_kind] == "banner"
+        @form.update_attribute(:display_header_square_logo, false)
+        @form.update_attribute(:display_header_logo, true)
+      end
       @form.update(form_logo_params)
     end
 
@@ -204,7 +211,7 @@ module Admin
 
     def questions
       @form.warn_about_not_too_many_questions
-      @form.ensure_a11_v2_format
+      @form.ensure_a11_v2_format if @form.kind == "a11_v2"
       ensure_form_manager(form: @form) unless @form.template?
       @questions = @form.ordered_questions
     end
@@ -481,12 +488,11 @@ module Admin
         :notification_emails,
         :notification_frequency,
         :logo,
+        :logo_kind,
         :modal_button_text,
         :success_text_heading,
         :success_text,
         :instructions,
-        :display_header_logo,
-        :display_header_square_logo,
         :whitelist_url,
         :whitelist_url_1,
         :whitelist_url_2,
@@ -546,8 +552,6 @@ module Admin
     def form_logo_params
       params.require(:form).permit(
         :logo,
-        :display_header_logo,
-        :display_header_square_logo,
       )
     end
 

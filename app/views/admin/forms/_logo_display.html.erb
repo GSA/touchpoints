@@ -12,23 +12,20 @@
 
         <fieldset class="usa-fieldset">
           <legend class="usa-sr-only">Display Organization Tag Logo</legend>
-          <div class="usa-checkbox">
-            <%= f.check_box :display_header_logo, class: "usa-checkbox__input" %>
-            <%= f.label :display_header_logo, "Display small banner (320px wide by 80px tall) logo?", class: "usa-checkbox__label" %>
+          <div class="usa-radio">
+            <%= f.radio_button :logo_kind, "banner", class: "usa-radio__input usa-radio__input--tile", checked: form.display_header_logo %>
+            <%= f.label :logo_kind, "Display small banner (320px wide by 80px tall) logo?", class: "usa-radio__label", value: "banner" %>
           </div>
-        </fieldset>
-        <fieldset class="usa-fieldset">
-          <legend class="usa-sr-only">Display Organization Tag Logo</legend>
-          <div class="usa-checkbox">
-            <%= f.check_box :display_header_square_logo, class: "usa-checkbox__input" %>
-            <%= f.label :display_header_square_logo, "Display square (80px wide by 80px tall) logo?", class: "usa-checkbox__label" %>
+          <div class="usa-radio">
+            <%= f.radio_button :logo_kind, "square", class: "usa-radio__input usa-radio__input--tile", checked: form.display_header_square_logo %>
+            <%= f.label :logo_kind, "Display square (80px wide by 80px tall) logo?", class: "usa-radio__label", value: "square" %>
           </div>
         </fieldset>
       </div>
     </div>
-    <br>
-    <%= f.submit "Update logo", class: "usa-button usa-button-outline" %>
-    <br>
+
+    <%= f.submit "Update logo display", class: "usa-button usa-button-outline margin-top-1" %>
+
     <%- if form.logo.present? %>
       <%- if form.display_header_logo %>
         <p>
