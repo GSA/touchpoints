@@ -121,11 +121,15 @@ module Admin
     def update_display_logo
       ensure_form_manager(form: @form)
       if params[:form][:logo_kind] == "square"
-        @form.update_attribute(:display_header_square_logo, true)
-        @form.update_attribute(:display_header_logo, false)
+        @form.update({
+          display_header_square_logo: true,
+          display_header_logo: false
+        })
       elsif params[:form][:logo_kind] == "banner"
-        @form.update_attribute(:display_header_square_logo, false)
-        @form.update_attribute(:display_header_logo, true)
+        @form.update({
+          display_header_square_logo: false,
+          display_header_logo: true
+        })
       end
       @form.update(form_logo_params)
     end
