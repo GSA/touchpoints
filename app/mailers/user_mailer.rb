@@ -132,7 +132,7 @@ class UserMailer < ApplicationMailer
     @active_days = active_days
     set_logo
 
-    mail subject: "Touchpoints account to be deactivated in #{@active_days} days due to inactivity",
+    mail subject: "Touchpoints account to be deactivated in #{@active_days} days",
       to: email,
       bcc: UserMailer.touchpoints_team
   end
