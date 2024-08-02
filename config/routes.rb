@@ -80,6 +80,7 @@ Rails.application.routes.draw do
     get '/reporting/service_surveys', to: 'reporting#service_surveys', as: :service_surveys
     get '/reporting/users', to: 'reporting#users', as: :user_reporting
     get '/reporting/form_whitelist', to: 'reporting#form_whitelist', as: :form_whitelist_reporting
+    get '/reporting/form_logos', to: 'reporting#form_logos', as: :form_logos
     get '/submissions/search', to: 'submissions#search', as: :search_submissions
     get '/submissions/a11_analysis', to: 'submissions#a11_analysis', as: :a11_analysis
     get '/submissions/a11_chart', to: 'submissions#a11_chart', as: :a11_chart
