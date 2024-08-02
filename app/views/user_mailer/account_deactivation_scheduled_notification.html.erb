@@ -1,8 +1,15 @@
 <%= render 'user_mailer/components/header' %>
-<h3>Account deactivation scheduled in <%= @active_days %> days.</h3>
 <p>
-  Your account is scheduled to be deactivated in <%= @active_days %> days due to inactivity.
+Hi, <%= @email %>,
+</p>
+<p>
+  Your Touchpoints account is scheduled to be deactivated in <%= @active_days %> days due to inactivity.
 </p>
 <p>
   Login to Touchpoints at <%= link_to ENV.fetch("INDEX_URL"), ENV.fetch("INDEX_URL") %> to keep your account active.
+</p>
+<p>
+  In the case that your account is inactivated, don't worry.
+  You will receive a message when logging in.
+  Email feedback-analytics@gsa.gov to have your account reactivated.
 </p>

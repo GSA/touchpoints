@@ -573,6 +573,47 @@ class Form < ApplicationRecord
     organization.form_approval_enabled
   end
 
+  # use this validator to provide soft UI guidance, rather than strong model validation
+  def ensure_a11_v2_format
+    # ensure the form has the 4 required questions
+    required_elements = ["answer_01", "answer_02", "answer_03", "answer_04"]
+    unless contains_elements?(questions.collect(&:answer_field), required_elements)
+      errors.add(:base, "The A-11 v2 form must have questions for #{required_elements.to_sentence}")
+    end
+
+    # ensure the positive indicators include ease and effectiveness
+    question_2 = self.ordered_questions.find { |q| q.answer_field == "answer_02" }
+    question_options = question_2.question_options
+
+    question_option_values = question_options.collect(&:value)
+    required_options = ["effectiveness", "ease"]
+    missing_options = required_options - question_option_values
+    if missing_options.any?
+      errors.add(:base, "The question options for Question 2 must include: #{missing_options.join(', ')}")
+    end
+
+    # ensure the positive indicators include ease and effectiveness
+    question_3 = self.ordered_questions.find { |q| q.answer_field == "answer_03" }
+    question_options = question_3.question_options
+
+    question_option_values = question_options.collect(&:value)
+    required_options = ["effectiveness", "ease"]
+    missing_options = required_options - question_option_values
+    if missing_options.any?
+      errors.add(:base, "The question options for Question 3 must include: #{missing_options.join(', ')}")
+    end
+  end
+
+  def warn_about_not_too_many_questions
+    if questions.size > 12
+      errors.add(:base, "Touchpoints supports a maximum of 20 questions. There are currently #{questions_count} questions. Fewer questions tend to yield higher response rates.")
+    end
+  end
+
+  def contains_elements?(array, required_elements)
+    (required_elements & array).length == required_elements.length
+  end
+
 
   private
 

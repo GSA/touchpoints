@@ -359,8 +359,11 @@ tbody tr:hover td {
 }
 .section-header {
   background: #71767A;
-  min-height: 50px;
-  padding: 8px 0px 0px 0px;
+}
+.form-builder {
+  .section-header {
+    padding: 8px 0px 0px 0px;
+  }
 }
 .fba-instructions .instructions {
   display: inline-block;
