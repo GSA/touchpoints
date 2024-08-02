@@ -1,5 +1,5 @@
 <%- if form.title.present? || form.logo.present? %>
-<h2 class="word-break fba-modal-title">
+<div class="word-break fba-modal-title">
   <%- if form.logo.present? %>
   <div class="margin-bottom-2 text-center">
     <%- if form.display_header_logo %>
@@ -9,6 +9,6 @@
     <% end %>
   </div>
   <% end %>
-  <%= form.title %>
-</h2>
+  <h2 id="<%= "fba-form-title-#{form.short_uuid}" %>" class="<%= form.prefix "usa-modal__heading" %>"><%= form.title %></h2>
+</div>
 <% end %>
