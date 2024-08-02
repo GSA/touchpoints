@@ -31,6 +31,28 @@
     </div>
     <br>
     <% end %>
+
+    <%- if @form.errors.any? %>
+    <div class="grid-row grid-gap-md">
+      <div class="grid-col-12">
+        <div id="error_explanation" class="margin-bottom-2">
+          <div class="usa-alert usa-alert--error">
+            <div class="usa-alert__body">
+              <h3 class="usa-alert__heading">Error</h3>
+              <p class="usa-alert__text">
+                <ul>
+                <% @form.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+                </ul>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+
     <div class="touchpoint-form form-builder">
       <div class="inner-wrapper">
         <%= render partial: "components/forms/edit/builder", locals: { touchpoint: @touchpoint, form: @form, questions: @form.ordered_questions } %>

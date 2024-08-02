@@ -203,6 +203,7 @@ module Admin
     end
 
     def questions
+      @form.ensure_a11_v2_format
       ensure_form_manager(form: @form) unless @form.template?
       @questions = @form.ordered_questions
     end

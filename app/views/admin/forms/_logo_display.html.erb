@@ -1,17 +1,4 @@
 <div id="display-logo-div">
-  <%- if form.errors.any? %>
-  <div id="error_explanation">
-    <div class="usa-alert usa-alert--error">
-      <div class="usa-alert__body">
-        <h3 class="usa-alert__heading">Error</h3>
-        <p class="usa-alert__text">
-          Logo upload failed, please try again with a valid image file
-        </p>
-      </div>
-    </div>
-  </div>
-  <% end %>
-
   <%= form_with(model: form, url: update_display_logo_admin_form_url(form, format: :js), html: { multipart: :true }, local: false) do |f| %>
     <div class="grid-row grid-gap-md">
       <div class="grid-col-12">
