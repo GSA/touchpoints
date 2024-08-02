@@ -604,6 +604,12 @@ class Form < ApplicationRecord
     end
   end
 
+  def warn_about_not_too_many_questions
+    if questions.size > 12
+      errors.add(:base, "Touchpoints supports a maximum of 20 questions. There are currently #{questions_count} questions. Fewer questions tend to yield higher response rates.")
+    end
+  end
+
   def contains_elements?(array, required_elements)
     (required_elements & array).length == required_elements.length
   end
