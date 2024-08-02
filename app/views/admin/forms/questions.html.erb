@@ -17,19 +17,25 @@
 <%= render 'admin/forms/step_indicator', form: @form %>
 <div class="grid-row grid-gap-lg margin-bottom-2">
   <div class="desktop:grid-col-8">
-    <%- if @form.questions.size > 12 %>
-    <div class="usa-alert usa-alert--warning">
-      <div class="usa-alert__body">
-        <p class="usa-alert__text">
-          Touchpoints supports a maximum of 20 questions.
-          There are currently
-          <%= @form.questions_count %> questions.
-          <br>
-          Fewer questions tend to get better engagement.
-        </p>
+    <%- if @form.errors.any? %>
+    <div class="grid-row grid-gap-md">
+      <div class="grid-col-12">
+        <div id="error_explanation" class="margin-bottom-2">
+          <div class="usa-alert usa-alert--error">
+            <div class="usa-alert__body">
+              <h3 class="usa-alert__heading">This form needs attention:</h3>
+              <p class="usa-alert__text">
+                <ul>
+                <% @form.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+                </ul>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <br>
     <% end %>
     <div class="touchpoint-form form-builder">
       <div class="inner-wrapper">
