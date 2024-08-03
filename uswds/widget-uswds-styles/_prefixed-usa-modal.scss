@@ -1,4 +1,6 @@
-@use "uswds-core" as *;
+@use "uswds-core" as * with (
+  $theme-modal-default-max-width: "tablet"
+);
 
 .usa-js-no-click {
   pointer-events: none;
