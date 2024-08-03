@@ -20,14 +20,45 @@
         </h2>
         <div class="usa-prose">
           <p>
-            Each website is a digital asset and has a publishing flow.
-            The "aasm_state" states a website may have are below.
+            Each website is a digital asset record that has a publishing lifecycle.
+            The different statuses a website may have are below.
           </p>
+          <p>
+            <strong>
+              Created (Initial state):
+            </strong>
+            The record is initially created and saved.
+          </p>
+          <p>
+            <strong>
+              Updated:
+            </strong>
+            Modifications and updates are made to the record.
+          </p>
+          <p>
+            <strong>
+              Submitted:
+            </strong>
+            The record is finalized and submitted for review.
+          </p>
+          <p>
+            <strong>
+              Published:
+            </strong>
+            The record is approved and made publicly visible.
+          </p>
+          <p>
+            <strong>
+              Archived:
+            </strong>
+            The record is no longer active and subject to data archival.
+          </p>
+
           <br>
           <ul class="usa-list usa-list--unstyled">
-            <% { "created" => "Created", "submitted" => "Submitted", "Published" => "published"}.each_pair do |key, value| %>
+            <% website.aasm.states.map(&:name).each do |state| %>
             <li>
-              <span class="usa-tag bg-primary-light <%= "bg-primary" if @website.aasm_state == key %>"><%= value %></span>
+              <span class="usa-tag bg-primary-light <%= "bg-primary" if website.aasm_state == state.to_s %>"><%= state.capitalize %></span>
             </li>
           <% end %>
           </ul>
@@ -52,18 +83,18 @@
         aria-current="true">
         <span class="usa-step-indicator__segment-label">Created</span>
       </li>
-      <li class="usa-step-indicator__segment 
-        <%= "usa-step-indicator__segment--complete" if website.published? || website.archived? %> 
+      <li class="usa-step-indicator__segment
+        <%= "usa-step-indicator__segment--complete" if website.published? || website.archived? %>
         <%= "usa-step-indicator__segment--current" if website.submitted? %>" aria-current="true">
         <span class="usa-step-indicator__segment-label">Submitted</span>
       </li>
-      <li class="usa-step-indicator__segment 
-        <%= "usa-step-indicator__segment--complete" if website.published? || website.archived? %> 
+      <li class="usa-step-indicator__segment
+        <%= "usa-step-indicator__segment--complete" if website.published? || website.archived? %>
         <%= "usa-step-indicator__segment--current" if website.published? %>" aria-current="true">
         <span class="usa-step-indicator__segment-label">Published</span>
       </li>
-      <li class="usa-step-indicator__segment 
-        <%= "usa-step-indicator__segment--complete" if website.archived? %> 
+      <li class="usa-step-indicator__segment
+        <%= "usa-step-indicator__segment--complete" if website.archived? %>
         <%= "usa-step-indicator__segment--current" if website.archived? %>" aria-current="true">
         <span class="usa-step-indicator__segment-label">Archived</span>
       </li>
@@ -126,18 +157,18 @@
         aria-current="true">
         <span class="usa-step-indicator__segment-label">In development</span>
       </li>
-      <li class="usa-step-indicator__segment 
-        <%= "usa-step-indicator__segment--complete" if website.production? || website.decommissioned? || website.redirect? %> 
+      <li class="usa-step-indicator__segment
+        <%= "usa-step-indicator__segment--complete" if website.production? || website.decommissioned? || website.redirect? %>
         <%= "usa-step-indicator__segment--current" if website.staging? %>" aria-current="true">
         <span class="usa-step-indicator__segment-label">Staging</span>
       </li>
-      <li class="usa-step-indicator__segment 
-        <%= "usa-step-indicator__segment--complete" if website.redirect? || website.decommissioned? %> 
+      <li class="usa-step-indicator__segment
+        <%= "usa-step-indicator__segment--complete" if website.redirect? || website.decommissioned? %>
         <%= "usa-step-indicator__segment--current" if website.production? %>" aria-current="true">
         <span class="usa-step-indicator__segment-label">Production</span>
       </li>
       <li class="usa-step-indicator__segment
-        <%= "usa-step-indicator__segment--complete" if website.redirect? || website.decommissioned? %> 
+        <%= "usa-step-indicator__segment--complete" if website.redirect? || website.decommissioned? %>
         <%= "usa-step-indicator__segment--current" if website.redirect? %>" aria-current="true">
         <span class="usa-step-indicator__segment-label">Redirect</span>
       </li>

@@ -10,6 +10,7 @@ class Website < ApplicationRecord
 
   validates :domain, presence: true
   validates :domain, uniqueness: true
+  validate :unique_domain_with_www
   validate :validate_domain_format
   validate :validate_domain_suffix
   validates :type_of_site, presence: true
@@ -251,19 +252,38 @@ class Website < ApplicationRecord
   end
 
   def self.backlog_collection_request
-      # fetch all GSA websites
-      organization = Organization.find_by_abbreviation("GSA").first
-      @websites = @organization.websites
+    # fetch all GSA websites
+    organization = Organization.find_by_abbreviation("GSA").first
+    @websites = @organization.websites
 
-      # create a list of email addresses for website owners
-      unique_user_emails = @websites.collect(&:site_owner_email).uniq.sort
+    # create a list of email addresses for website owners
+    unique_user_emails = @websites.collect(&:site_owner_email).uniq.sort
 
-      # send each website owner an email with their list of websites, for action
-      unique_user_emails.each do |email|
-        user_websites = Website.where(site_owner_email: email)
-        UserMailer.website_data_collection(email, user_websites).deliver_later
-      end
-
-      return true
+    # send each website owner an email with their list of websites, for action
+    unique_user_emails.each do |email|
+      user_websites = Website.where(site_owner_email: email)
+      UserMailer.website_data_collection(email, user_websites).deliver_later
     end
+
+    return true
+  end
+
+
+  private
+
+  def unique_domain_with_www
+    return false unless domain
+
+    if domain.include?("www.")
+      non_www_domain = domain.gsub("www.", '')
+      if Website.where(domain: non_www_domain).exists?
+        errors.add(:domain, 'must be unique, including the www')
+      end
+    else
+      www_domain = "www.#{domain}"
+      if Website.where(domain: www_domain).exists?
+        errors.add(:domain, 'must be unique, including the www')
+      end
+    end
+  end
 end
