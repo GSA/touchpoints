@@ -30,7 +30,30 @@ RSpec.describe Website, type: :model do
 
     it 'does not save and adds an error indicating type_of_site is required' do
       expect(new_website.valid?).to eq(false)
-      expect(new_website.errors.full_messages).to eq(['Domain has already been taken'])
+      expect(new_website.errors.full_messages).to include('Domain has already been taken')
+    end
+  end
+
+  describe 'ensuring uniqueness between example.gov and www.' do
+    let!(:website) { FactoryBot.create(:website, organization: organization, domain: "example.gov") }
+    let!(:www_website) { FactoryBot.create(:website, organization: organization, domain: "www.dubdub.gov") }
+
+    it 'is not valid with a duplicate domain' do
+      website = Website.new(domain: 'example.gov', organization: organization)
+      expect(website).not_to be_valid
+      expect(website.errors[:domain]).to include('has already been taken')
+    end
+
+    it 'is not valid with a duplicate domain including www' do
+      website = Website.new(domain: 'www.example.gov')
+      expect(website).not_to be_valid
+      expect(website.errors[:domain]).to include('must be unique, including the www')
+    end
+
+    it 'is not valid with a duplicate domain without www' do
+      website = Website.new(domain: 'dubdub.gov')
+      expect(website).not_to be_valid
+      expect(website.errors[:domain]).to include('must be unique, including the www')
     end
   end
 
@@ -44,15 +67,16 @@ RSpec.describe Website, type: :model do
 
     it 'does not save and adds an error indicating type_of_site is required' do
       expect(new_website.valid?).to eq(false)
-      expect(new_website.errors.full_messages).to eq(['Domain has already been taken'])
+      expect(new_website.errors.full_messages).to include('Domain has already been taken')
     end
   end
 
   describe 'tags' do
+    let!(:website) { FactoryBot.create(:website, organization: organization) }
+
     it 'does not include other models in tag_counts' do
       tag_name = 'tag1'
       tag_name_2 = 'tag2'
-      website = FactoryBot.create(:website, organization: organization)
       website.tag_list.add(tag_name)
       website.save!
       organization.tag_list.add(tag_name)
@@ -98,7 +122,7 @@ RSpec.describe Website, type: :model do
       end
     end
   end
- 
+
   describe '#login_supported' do
     let!(:existing_website) { FactoryBot.create(:website, organization: organization) }
 
@@ -112,7 +136,7 @@ RSpec.describe Website, type: :model do
         expect(existing_website.login_supported).to eq false
       end
     end
-    
+
     context "with auth tool defined as ``" do
       before do
         existing_website.update(authentication_tool: "")
@@ -122,7 +146,7 @@ RSpec.describe Website, type: :model do
         expect(existing_website.login_supported).to eq false
       end
     end
-    
+
     context "with auth tool defined as `None`" do
       before do
         existing_website.update(authentication_tool: "None")
@@ -132,7 +156,7 @@ RSpec.describe Website, type: :model do
         expect(existing_website.login_supported).to eq false
       end
     end
-    
+
     context "with an auth tool defined" do
       before do
         existing_website.update(authentication_tool: "Login.gov")
@@ -141,6 +165,6 @@ RSpec.describe Website, type: :model do
       it 'returns false' do
         expect(existing_website.login_supported).to eq true
       end
-    end   
+    end
   end
 end

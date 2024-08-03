@@ -114,7 +114,7 @@ module Admin
 
       # loop all sites and build a list of top-level domains
       if @organization = params[:org] ? Organization.find_by_abbreviation(params[:org].upcase) : nil
-        @active_websites = @organization.websites
+        @active_websites = @organization.websites.active
       else
         @active_websites = Website.active
       end
