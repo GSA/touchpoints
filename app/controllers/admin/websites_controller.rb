@@ -146,7 +146,7 @@ module Admin
 
       # loop all sites and build a list of top-level domains
       if org = Organization.find_by_abbreviation(org)
-        @active_websites = org.websites
+        @active_websites = org.websites.active
       else
         @active_websites = Website.active
       end
