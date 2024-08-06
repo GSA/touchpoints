@@ -18,12 +18,8 @@ class CxCollectionDetailSerializer < ActiveModel::Serializer
     :created_at,
     :updated_at
 
-    def service_provider
-      object.service.&service_provider
-    end
-
     def service_provider_id
-      service_provider.&id
+      object.service_provider.id if object.service_provider
     end
 
     def service_name
@@ -35,6 +31,6 @@ class CxCollectionDetailSerializer < ActiveModel::Serializer
     end
 
     def service_provider_name
-      object.service.service_provider.name if object.service
+      object.service_provider.name if object.service
     end
 end
