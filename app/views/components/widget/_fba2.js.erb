@@ -113,6 +113,7 @@ function FBAform(d, N) {
 				if (customButtonEl != null) {
 					customButtonEl.setAttribute('data-open-modal', '');
 					customButtonEl.setAttribute('aria-controls', this.modalId());
+					customButtonEl.addEventListener('click', () => d.dispatchEvent(new Event('onTouchpointsModalOpen')));
 				}
 			}
 		}
@@ -366,6 +367,7 @@ function FBAform(d, N) {
 			this.buttonEl.setAttribute('aria-controls', this.modalId());
 			this.buttonEl.setAttribute('data-open-modal', '');
 			this.buttonEl.innerHTML = this.options.modalButtonText;
+			this.buttonEl.addEventListener('click', () => d.dispatchEvent(new Event('onTouchpointsModalOpen')));
 			d.body.appendChild(this.buttonEl);
 
 			this.loadFeebackSkipLink();
