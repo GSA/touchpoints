@@ -92,7 +92,7 @@ function FBAform(d, N) {
 			this.dialogEl.setAttribute('class', "<%= form.prefix "usa-modal" %> fba-modal");
 			this.dialogEl.setAttribute('id', this.modalId());
 			this.dialogEl.setAttribute('aria-labelledby', `fba-form-title-${this.options.formId}`);
-			this.dialogEl.setAttribute('aria-describedby', 'something');
+			this.dialogEl.setAttribute('aria-describedby', `fba-form-instructions-${this.options.formId}`);
 			this.dialogEl.setAttribute('data-touchpoints-form-id', this.options.formId);
 
 			this.dialogEl.innerHTML = this.options.htmlFormBody();

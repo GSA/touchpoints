@@ -2,13 +2,12 @@
   class="touchpoints-form-wrapper <%= form.kind %>"
   id="touchpoints-form-<%= form.short_uuid %>"
   data-touchpoints-form-id="<%= form.short_uuid %>"
-  data-focus
 >
   <div class="wrapper">
     <%- unless form.archived? %>
     <%= render "components/forms/logo_and_title", form: form %>
     <%- if form.instructions? %>
-    <div class="fba-instructions">
+    <div class="fba-instructions" id="<%= "fba-form-instructions-#{form.short_uuid}" %>">
       <%= sanitize(form.instructions) %>
     </div>
     <% end -%>
