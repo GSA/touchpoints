@@ -34,21 +34,6 @@
 <%- if form.delivery_method != "touchpoints-hosted-only" %>
 <%= render partial: 'components/widget/widget-uswds-styles', formats: :css %>
 
-/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
-.fba-modal-dialog html{
-  font-family:sans-serif;
-  -ms-text-size-adjust:100%;
-  -webkit-text-size-adjust:100%;
-}
-.fba-modal-dialog body{
-  margin:0;
-}
-
-.fba-modal-dialog .usa-focus{
-  outline:0.25rem solid #2491ff;
-  outline-offset:0;
-}
-
 .fba-modal-dialog .usa-sr-only{
   position:absolute;
   left:-999em;
@@ -506,25 +491,6 @@
 
 .fba-modal-dialog .usa-dark-background a:hover{
   color:white;
-}
-
-.fba-modal-dialog .usa-overlay{
-  position:absolute;
-  bottom:0;
-  left:0;
-  right:0;
-  top:0;
-  position:fixed;
-  background:black;
-  opacity:0;
-  transition:opacity 0.2s ease-in-out;
-  visibility:hidden;
-  z-index:400;
-}
-
-.fba-modal-dialog .usa-overlay.is-visible{
-  opacity:0.2;
-  visibility:visible;
 }
 
 .fba-modal-dialog .usa-layout-docs__sidenav{

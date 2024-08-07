@@ -79,7 +79,7 @@
   color:#1b1b1b;
   display:inline-block;
   margin:1.25rem auto;
-  max-width:40rem;
+  max-width:30rem;
   position:relative;
   text-align:left;
   vertical-align:middle;
@@ -166,6 +166,7 @@
 .fba-modal-dialog{
 }
 .fba-modal-dialog .usa-textarea, .fba-modal-dialog .usa-select, .fba-modal-dialog .usa-range, .fba-modal-dialog .usa-radio__label, .fba-modal-dialog .usa-input, .fba-modal-dialog .usa-hint, .fba-modal-dialog .usa-fieldset, .fba-modal-dialog .usa-combo-box__input, .fba-modal-dialog .usa-combo-box__list, .fba-modal-dialog .usa-checkbox__label{
+  box-sizing:border-box;
   font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
   font-size:1.06rem;
   line-height:1.3;
@@ -195,6 +196,7 @@
   margin:0;
   padding:0;
   width:100%;
+  box-sizing:border-box;
   font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
   font-size:1.06rem;
   line-height:1.5;
@@ -211,6 +213,9 @@
 }
 .fba-modal-dialog .usa-accordion > ul li ul > li > ul > li > ul{
   list-style:square;
+}
+.fba-modal-dialog .usa-accordion::after, .fba-modal-dialog .usa-accordion::before, .fba-modal-dialog .usa-accordion *, .fba-modal-dialog .usa-accordion *::after, .fba-modal-dialog .usa-accordion *::before{
+  box-sizing:inherit;
 }
 .fba-modal-dialog .usa-accordion + .usa-accordion,
 .fba-modal-dialog .usa-accordion + .usa-accordion--bordered{
@@ -392,6 +397,7 @@
   color:#1b1b1b;
 }
 .fba-modal-dialog .usa-alert .usa-alert__body{
+  box-sizing:border-box;
   font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
   font-size:1.06rem;
   line-height:1.5;
@@ -403,6 +409,9 @@
   padding-left:1rem;
   padding-right:1rem;
   position:relative;
+}
+.fba-modal-dialog .usa-alert .usa-alert__body::after, .fba-modal-dialog .usa-alert .usa-alert__body::before, .fba-modal-dialog .usa-alert .usa-alert__body *, .fba-modal-dialog .usa-alert .usa-alert__body *::after, .fba-modal-dialog .usa-alert .usa-alert__body *::before{
+  box-sizing:inherit;
 }
 @media all and (min-width: 64em){
   .fba-modal-dialog .usa-alert .usa-alert__body{
@@ -760,7 +769,11 @@
   font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
   font-size:1.06rem;
   line-height:1.5;
+  box-sizing:border-box;
   background-color:#f0f0f0;
+}
+.fba-modal-dialog .usa-banner::after, .fba-modal-dialog .usa-banner::before, .fba-modal-dialog .usa-banner *, .fba-modal-dialog .usa-banner *::after, .fba-modal-dialog .usa-banner *::before{
+  box-sizing:inherit;
 }
 @media all and (min-width: 40em){
   .fba-modal-dialog .usa-banner{
@@ -776,17 +789,20 @@
 .fba-modal-dialog .usa-banner .grid-row{
   display:flex;
   flex-wrap:wrap;
+  box-sizing:border-box;
 }
 .fba-modal-dialog .usa-banner .grid-row.grid-gap-lg{
   margin-left:-0.75rem;
   margin-right:-0.75rem;
 }
 .fba-modal-dialog .usa-banner .grid-row.grid-gap-lg > *{
+  box-sizing:border-box;
   padding-left:0.75rem;
   padding-right:0.75rem;
 }
 @media all and (min-width: 40em){
   .fba-modal-dialog .usa-banner .grid-row .tablet\:grid-col-6{
+    box-sizing:border-box;
     flex:0 1 auto;
     width:50%;
   }
@@ -801,6 +817,7 @@
   max-width:64rem;
   padding-left:1rem;
   padding-right:1rem;
+  box-sizing:border-box;
   padding-left:1rem;
   padding-right:1rem;
   background-color:transparent;
@@ -863,8 +880,10 @@
   max-width:64rem;
   padding-left:1rem;
   padding-right:1rem;
+  box-sizing:border-box;
   display:flex;
   flex-wrap:wrap;
+  box-sizing:border-box;
   align-items:flex-start;
   padding-right:0rem;
 }
@@ -1272,6 +1291,7 @@
   right:auto;
 }
 .fba-modal-dialog .usa-button{
+  box-sizing:border-box;
   font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
   font-size:1.06rem;
   line-height:0.9;
@@ -1294,6 +1314,9 @@
   text-align:center;
   text-decoration:none;
   width:100%;
+}
+.fba-modal-dialog .usa-button::after, .fba-modal-dialog .usa-button::before, .fba-modal-dialog .usa-button *, .fba-modal-dialog .usa-button *::after, .fba-modal-dialog .usa-button *::before{
+  box-sizing:inherit;
 }
 @media all and (min-width: 30em){
   .fba-modal-dialog .usa-button{
@@ -1767,9 +1790,13 @@
   margin-top:0;
   list-style-type:none;
   padding-left:0;
+  box-sizing:border-box;
   font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
   font-size:1.06rem;
   line-height:1.5;
+}
+.fba-modal-dialog .usa-checklist::after, .fba-modal-dialog .usa-checklist::before, .fba-modal-dialog .usa-checklist *, .fba-modal-dialog .usa-checklist *::after, .fba-modal-dialog .usa-checklist *::before{
+  box-sizing:inherit;
 }
 .fba-modal-dialog .usa-checklist__item{
   text-indent:-2.5rem;
@@ -2212,6 +2239,7 @@
 .fba-modal-dialog .usa-date-picker__calendar__row{
   display:flex;
   flex-wrap:wrap;
+  box-sizing:border-box;
   text-align:center;
   width:100%;
 }
@@ -2696,12 +2724,14 @@
 .fba-modal-dialog .grid-row{
   display:flex;
   flex-wrap:wrap;
+  box-sizing:border-box;
 }
 .fba-modal-dialog .grid-row.grid-gap-1{
   margin-left:-0.25rem;
   margin-right:-0.25rem;
 }
 .fba-modal-dialog .grid-row.grid-gap-1 > *{
+  box-sizing:border-box;
   padding-left:0.25rem;
   padding-right:0.25rem;
 }
@@ -2710,6 +2740,7 @@
   margin-right:-0.5rem;
 }
 .fba-modal-dialog .grid-row.grid-gap-2 > *{
+  box-sizing:border-box;
   padding-left:0.5rem;
   padding-right:0.5rem;
 }
@@ -2718,6 +2749,7 @@
   margin-right:-1rem;
 }
 .fba-modal-dialog .grid-row.grid-gap-4 > *{
+  box-sizing:border-box;
   padding-left:1rem;
   padding-right:1rem;
 }
@@ -2727,6 +2759,7 @@
     margin-right:-0.5rem;
   }
   .fba-modal-dialog .grid-row.mobile-lg\:grid-gap-2 > *{
+    box-sizing:border-box;
     padding-left:0.5rem;
     padding-right:0.5rem;
   }
@@ -2736,6 +2769,7 @@
   margin-right:-0.5rem;
 }
 .fba-modal-dialog .grid-gap > *{
+  box-sizing:border-box;
   padding-left:0.5rem;
   padding-right:0.5rem;
 }
@@ -2745,6 +2779,7 @@
     margin-right:-1rem;
   }
   .fba-modal-dialog .grid-gap > *{
+    box-sizing:border-box;
     padding-left:1rem;
     padding-right:1rem;
   }
@@ -2755,59 +2790,73 @@
   box-sizing:border-box;
 }
 .fba-modal-dialog .grid-col-auto{
+  box-sizing:border-box;
   flex:0 1 auto;
   width:auto;
   max-width:100%;
 }
 @media all and (min-width: 30em){
   .fba-modal-dialog .mobile-lg\:grid-col-auto{
+    box-sizing:border-box;
     flex:0 1 auto;
     width:auto;
     max-width:100%;
   }
   .fba-modal-dialog .mobile-lg\:grid-col-4{
+    box-sizing:border-box;
     flex:0 1 auto;
     width:33.3333333333%;
   }
   .fba-modal-dialog .mobile-lg\:grid-col-6{
+    box-sizing:border-box;
     flex:0 1 auto;
     width:50%;
   }
   .fba-modal-dialog .mobile-lg\:grid-col-8{
+    box-sizing:border-box;
     flex:0 1 auto;
     width:66.6666666667%;
   }
   .fba-modal-dialog .mobile-lg\:grid-col-12{
+    box-sizing:border-box;
     flex:0 1 auto;
     width:100%;
   }
 }
 @media all and (min-width: 40em){
   .fba-modal-dialog .tablet\:grid-col-4{
+    box-sizing:border-box;
     flex:0 1 auto;
     width:33.3333333333%;
   }
   .fba-modal-dialog .tablet\:grid-col-8{
+    box-sizing:border-box;
     flex:0 1 auto;
     width:66.6666666667%;
   }
 }
 @media all and (min-width: 64em){
   .fba-modal-dialog .desktop\:grid-col-auto{
+    box-sizing:border-box;
     flex:0 1 auto;
     width:auto;
     max-width:100%;
   }
   .fba-modal-dialog .desktop\:grid-col-3{
+    box-sizing:border-box;
     flex:0 1 auto;
     width:25%;
   }
 }
 .fba-modal-dialog .usa-footer{
+  box-sizing:border-box;
   font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
   font-size:1.06rem;
   line-height:1.5;
   overflow:hidden;
+}
+.fba-modal-dialog .usa-footer::after, .fba-modal-dialog .usa-footer::before, .fba-modal-dialog .usa-footer *, .fba-modal-dialog .usa-footer *::after, .fba-modal-dialog .usa-footer *::before{
+  box-sizing:inherit;
 }
 .fba-modal-dialog .usa-footer > .grid-container{
   margin-left:auto;
@@ -2815,6 +2864,7 @@
   max-width:64rem;
   padding-left:1rem;
   padding-right:1rem;
+  box-sizing:border-box;
 }
 @media all and (min-width: 64em){
   .fba-modal-dialog .usa-footer > .grid-container{
@@ -2850,6 +2900,7 @@
   max-width:64rem;
   padding-left:1rem;
   padding-right:1rem;
+  box-sizing:border-box;
   padding-left:0;
   padding-right:0;
   border-bottom:1px solid #a9aeb1;
@@ -2888,6 +2939,7 @@
   max-width:64rem;
   padding-left:1rem;
   padding-right:1rem;
+  box-sizing:border-box;
 }
 @media all and (min-width: 64em){
   .fba-modal-dialog .usa-footer__primary-section > .grid-container{
@@ -2901,6 +2953,7 @@
   max-width:64rem;
   padding-left:1rem;
   padding-right:1rem;
+  box-sizing:border-box;
 }
 @media all and (min-width: 64em){
   .fba-modal-dialog .usa-footer__primary-container{
@@ -3093,6 +3146,7 @@
   max-width:64rem;
   padding-left:1rem;
   padding-right:1rem;
+  box-sizing:border-box;
 }
 @media all and (min-width: 64em){
   .fba-modal-dialog .usa-footer__secondary-section > .grid-container{
@@ -3281,6 +3335,10 @@
   font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
   font-size:1.06rem;
   line-height:1.3;
+  box-sizing:border-box;
+}
+.fba-modal-dialog .usa-form::after, .fba-modal-dialog .usa-form::before, .fba-modal-dialog .usa-form *, .fba-modal-dialog .usa-form *::after, .fba-modal-dialog .usa-form *::before{
+  box-sizing:inherit;
 }
 @media all and (min-width: 30em){
   .fba-modal-dialog .usa-form{
@@ -3437,11 +3495,15 @@
   font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
   font-size:1.06rem;
   line-height:1.5;
+  box-sizing:border-box;
 }
 .fba-modal-dialog .usa-header::after{
   clear:both;
   content:"";
   display:block;
+}
+.fba-modal-dialog .usa-header::after, .fba-modal-dialog .usa-header::before, .fba-modal-dialog .usa-header *, .fba-modal-dialog .usa-header *::after, .fba-modal-dialog .usa-header *::before{
+  box-sizing:inherit;
 }
 .fba-modal-dialog .usa-header a{
   border-bottom:none;
@@ -3709,6 +3771,7 @@
     max-width:64rem;
     padding-left:1rem;
     padding-right:1rem;
+    box-sizing:border-box;
     display:block;
     height:auto;
     overflow:auto;
@@ -3734,6 +3797,7 @@
     max-width:64rem;
     padding-left:1rem;
     padding-right:1rem;
+    box-sizing:border-box;
     position:relative;
   }
 }
@@ -3863,6 +3927,7 @@
     max-width:64rem;
     padding-left:1rem;
     padding-right:1rem;
+    box-sizing:border-box;
     padding-left:2rem;
     padding-right:2rem;
   }
@@ -3879,7 +3944,11 @@
   }
 }
 .fba-modal-dialog .usa-navbar{
+  box-sizing:border-box;
   height:3rem;
+}
+.fba-modal-dialog .usa-navbar::after, .fba-modal-dialog .usa-navbar::before, .fba-modal-dialog .usa-navbar *, .fba-modal-dialog .usa-navbar *::after, .fba-modal-dialog .usa-navbar *::before{
+  box-sizing:inherit;
 }
 @media all and (max-width: 63.99em){
   .fba-modal-dialog .usa-navbar{
@@ -4847,6 +4916,7 @@
   margin-bottom:0;
 }
 .fba-modal-dialog .usa-prose > table{
+  box-sizing:border-box;
   font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
   font-size:1.06rem;
   line-height:1.5;
@@ -4855,6 +4925,9 @@
   color:#1b1b1b;
   margin:1.25rem 0;
   text-align:left;
+}
+.fba-modal-dialog .usa-prose > table::after, .fba-modal-dialog .usa-prose > table::before, .fba-modal-dialog .usa-prose > table *, .fba-modal-dialog .usa-prose > table *::after, .fba-modal-dialog .usa-prose > table *::before{
+  box-sizing:inherit;
 }
 .fba-modal-dialog .usa-prose > table thead th{
   background-clip:padding-box;
@@ -5867,10 +5940,14 @@
   }
 }
 .fba-modal-dialog .usa-search{
+  box-sizing:border-box;
   font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
   font-size:1.06rem;
   line-height:1.5;
   position:relative;
+}
+.fba-modal-dialog .usa-search::after, .fba-modal-dialog .usa-search::before, .fba-modal-dialog .usa-search *, .fba-modal-dialog .usa-search *::after, .fba-modal-dialog .usa-search *::before{
+  box-sizing:inherit;
 }
 .fba-modal-dialog .usa-search::after{
   clear:both;
@@ -6247,6 +6324,7 @@
   left:calc(50% - (1.5rem + 0.25rem) / 2);
 }
 .fba-modal-dialog .usa-tag{
+  box-sizing:border-box;
   font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
   font-size:0.93rem;
   color:white;
@@ -6255,6 +6333,9 @@
   border-radius:2px;
   margin-right:0.25rem;
   padding:1px 0.5rem;
+}
+.fba-modal-dialog .usa-tag::after, .fba-modal-dialog .usa-tag::before, .fba-modal-dialog .usa-tag *, .fba-modal-dialog .usa-tag *::after, .fba-modal-dialog .usa-tag *::before{
+  box-sizing:inherit;
 }
 .fba-modal-dialog .usa-tag:only-of-type{
   margin-right:0;
