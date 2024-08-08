@@ -2,12 +2,17 @@
   <%- if form.legacy_form_embed %>
   id="fba-modal-dialog"
   <% end %>
-  class="fba-modal-dialog"
-  role="dialog"
-  aria-label="Feedback modal dialog"
-  aria-labelledby="fba-modal-title"
-  aria-modal="<%= ['modal', 'custom-button-modal'].include?(form.delivery_method) ? 'true' : 'false' %>">
+  class="<%= form.prefix "usa-modal__content" %> fba-modal-dialog">
+  <div class="<%= form.prefix "usa-modal__main" %>">
   <%= render "components/widget/no_modal", form: form do %>
     <%= render partial: 'components/forms/footer', locals: { form: form } %>
   <% end %>
+  </div>
+  <%- unless form.delivery_method == "inline" %>
+    <button class="<%= form.prefix "usa-modal__close" %> fba-modal-close"
+            type="button"
+            aria-label="Close this window"
+            data-close-modal
+    >×</button>
+  <% end -%>
 </div>
