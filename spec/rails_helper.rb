@@ -78,7 +78,7 @@ RSpec.configure do |config|
     # with the specs, so continue to use transaction strategy for speed.
     driver_shares_db_connection_with_specs = Capybara.current_driver == :rack_test
 
-    page.driver.browser.manage.window.resize_to(1200, 800)
+    page.driver.browser.manage.window.resize_to(1280, 1024)
 
     unless driver_shares_db_connection_with_specs
       # Driver is probably for an external browser with an app
