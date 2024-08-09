@@ -11,7 +11,6 @@ const discardComments = require("postcss-discard-comments");
 const autoprefixer = require("autoprefixer");
 const header = require("gulp-header");
 const replace = require('gulp-replace');
-const customPrefix = require('./postcss-custom-touchpoints-prefix');
 
 const uswds = require("@uswds/compile");
 
@@ -43,7 +42,6 @@ embeddedWidgetPath = './app/views/components/widget';
 async function bundleWidgetJS() {
   return browserify("uswds/widget-uswds.js", {
     paths: ['./node_modules'],
-    debug: true
   })
     .transform("babelify", {
       global: true,
@@ -53,6 +51,7 @@ async function bundleWidgetJS() {
       aliases: {
         '../../uswds-core/src/js/config': './uswds/uswds-config.js'
       },
+      appliesTo: { regex: '.*/usa-modal/.*'},
       verbose: true,
       global: true
     })
@@ -65,9 +64,6 @@ async function bundleWidgetJS() {
 async function compileWidgetSass() {
   const pluginsProcess = [
     discardComments(),
-    customPrefix({
-      prefix: ".fba-modal-dialog"
-    }),
     autoprefixer()
   ];
 
