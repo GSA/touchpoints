@@ -52,14 +52,6 @@ class Form < ApplicationRecord
     end
   end
 
-  def load_uswds
-    load_css && delivery_method != 'touchpoints-hosted-only'
-  end
-
-  def prefix(css_class_name)
-    load_uswds ? "fba-#{css_class_name}" : css_class_name
-  end
-
   after_commit do |form|
     FormCache.invalidate(form.short_uuid)
   end

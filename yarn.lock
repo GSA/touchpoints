@@ -2135,6 +2135,14 @@ css-select@^5.1.0:
     domutils "^3.0.1"
     nth-check "^2.0.1"
 
+css-selector-tokenizer@^0.7.2:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/css-selector-tokenizer/-/css-selector-tokenizer-0.7.3.tgz#735f26186e67c749aaf275783405cf0661fae8f1"
+  integrity sha512-jWQv3oCEL5kMErj4wRnK/OPoBi0D+P1FR2cDCKYPaMeD2eW3/mttav8HT4hT1CKopiJI/psEULjkClhvJo4Lvg==
+  dependencies:
+    cssesc "^3.0.0"
+    fastparse "^1.1.2"
+
 css-tree@~2.2.0:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/css-tree/-/css-tree-2.2.1.tgz#36115d382d60afd271e377f9c5f67d02bd48c032"
@@ -2685,6 +2693,11 @@ fastest-levenshtein@^1.0.7:
   resolved "https://registry.yarnpkg.com/fastest-levenshtein/-/fastest-levenshtein-1.0.16.tgz#210e61b6ff181de91ea9b3d1b84fdedd47e034e5"
   integrity sha512-eRnCtTTtGZFpQCwhJiUOuxPQWRXVKYDn0b2PeHfXL6/Zi53SLAzAHfVhVWK2AryC/WH05kGfxhFIPvTF0SXQzg==
 
+fastparse@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/fastparse/-/fastparse-1.1.2.tgz#91728c5a5942eced8531283c79441ee4122c35a9"
+  integrity sha512-483XLLxTVIwWK3QTrMGRqUfUpoOs/0hbQrl2oz4J0pAcm3A3bu84wxTFqGqkJzewCLdME38xJLJAxBABfQT8sQ==
+
 fastq@^1.13.0, fastq@^1.6.0:
   version "1.17.1"
   resolved "https://registry.yarnpkg.com/fastq/-/fastq-1.17.1.tgz#2a523f07a4e7b1e81a42b91b8bf2254107753b47"
@@ -3123,7 +3136,7 @@ gulp-rename@2.0.0, gulp-rename@^2.0.0:
   resolved "https://registry.yarnpkg.com/gulp-rename/-/gulp-rename-2.0.0.tgz#9bbc3962b0c0f52fc67cd5eaff6c223ec5b9cf6c"
   integrity sha512-97Vba4KBzbYmR5VBs9mWmK+HwIf5mj+/zioxfZhOKeXtx5ZjBk57KFlePf5nxq9QsTtFl0ejnHE3zTC9MHXqyQ==
 
-gulp-replace@1.1.4, gulp-replace@^1.1.4:
+gulp-replace@1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/gulp-replace/-/gulp-replace-1.1.4.tgz#06a0e9ee36f30e343c1e0a2dd760ec32c8a3d3b2"
   integrity sha512-SVSF7ikuWKhpAW4l4wapAqPPSToJoiNKsbDoUnRrSgwZHH7lH8pbPeQj1aOVYQrbZKhfSVBxVW+Py7vtulRktw==
@@ -4510,6 +4523,13 @@ postcss-load-config@^5.0.0:
   dependencies:
     lilconfig "^3.1.1"
     yaml "^2.4.2"
+
+postcss-prefixer@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/postcss-prefixer/-/postcss-prefixer-3.0.0.tgz#bec5ba4ec9ed29bdd0f8d807df8f977528bb7a41"
+  integrity sha512-q5JEBO8KcJheLLK9RezOw6a26Kdvr2bmPXiK2rsU/5G4h/b6lQh2PhmhvTHvogLQnRUgTNGw76WOiIoiJh+2tw==
+  dependencies:
+    css-selector-tokenizer "^0.7.2"
 
 postcss-selector-parser@^6.1.0:
   version "6.1.1"
