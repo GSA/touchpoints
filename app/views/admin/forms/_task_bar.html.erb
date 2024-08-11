@@ -35,16 +35,10 @@
         as a place to display the Touchpoint
         <i><%= form.delivery_method %></i>.
       </p>
-      <%- if form.delivery_method == "inline" %>
-        <span class="code minh-10 bg-base-lighter padding-1">
-          <%= h("<div id=\"#{form.element_selector}\"></div>") %>
-        </span>
-      <% else %>
-        <span class="code minh-10 bg-base-lighter padding-1">
-          <%= h("<button id=\"#{form.element_selector}\"></button>") %>
-        </span>
+      <span class="code minh-10 bg-base-lighter padding-1">
+        <%= h("<div id=\"#{form.element_selector}\"></div>") %>
+      </span>
       <% end %>
-    <% end %>
     <p>
       Add the following script to your site to embed your form.
     </p>

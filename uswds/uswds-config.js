@@ -1,3 +1,3 @@
 module.exports = {
-  prefix: "fba-usa",
+  prefix: "usa",
 };
