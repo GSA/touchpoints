@@ -6,7 +6,7 @@ module Api
       def index
         page_number = params.dig(:page, :number).to_i.nonzero? || 1
         page_size = params.dig(:page, :size).to_i.nonzero? || 500
-        page_size = 500 if page_size <= 0 || page_size > 500
+        page_size = 500 if page_size <= 0 || page_size > 5000
 
         begin
           start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Date.parse("2023-10-01").to_date
