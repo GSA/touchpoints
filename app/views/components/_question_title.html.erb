@@ -10,7 +10,7 @@
     class="help-text margin-top-1"
   >
     <small>
-      <%= question.help_text %>
+      <%= question.help_text.html_safe %>
     </small>
   </div>
   <% end %>
