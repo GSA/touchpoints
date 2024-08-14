@@ -87,7 +87,7 @@
   @include set-text-from-bg("white");
   display: inline-block;
   margin: units(2.5) auto;
-  max-width: units($theme-modal-default-max-width);
+  max-width: 35rem;
   position: relative;
   text-align: left;
   vertical-align: middle;
@@ -116,32 +116,36 @@
   pointer-events: none !important;
 }
 
-.fba-usa-modal__close {
-  align-items: center;
-  align-self: flex-end;
-  background-color: transparent;
-  color: color("base");
-  display: flex;
-  flex-shrink: 0;
-  font-size: size("ui", "2xs");
-  margin: units(-4) 0 0 auto;
-  padding: units(0.5) units(0.5);
-  width: auto;
+.fba-modal {
+  .fba-usa-modal__content {
+    .fba-usa-modal__close {
+      align-items: center;
+      align-self: flex-end;
+      background-color: transparent;
+      color: color("base");
+      display: flex;
+      flex-shrink: 0;
+      font-size: size("ui", "2xs");
+      margin: units(-4) 0 0 auto;
+      padding: units(0.5) units(0.5);
+      width: auto;
 
-  &:hover,
-  &:active {
-    background-color: transparent;
-    color: color("ink");
-  }
+      &:hover,
+      &:active {
+        background-color: transparent;
+        color: color("ink");
+      }
 
-  &:focus {
-    outline-offset: 0;
-  }
+      &:focus {
+        outline-offset: 0;
+      }
 
-  .usa-icon {
-    height: units(4);
-    margin: units(2px) units(2px) 0 0;
-    width: units(4);
+      .usa-icon {
+        height: units(4);
+        margin: units(2px) units(2px) 0 0;
+        width: units(4);
+      }
+    }
   }
 }
 

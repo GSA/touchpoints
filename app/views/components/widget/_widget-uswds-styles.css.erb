@@ -79,7 +79,7 @@
   color:#1b1b1b;
   display:inline-block;
   margin:1.25rem auto;
-  max-width:30rem;
+  max-width:35rem;
   position:relative;
   text-align:left;
   vertical-align:middle;
@@ -106,7 +106,7 @@
   pointer-events:none !important;
 }
 
-.fba-usa-modal__close{
+.fba-modal .fba-usa-modal__content .fba-usa-modal__close{
   align-items:center;
   align-self:flex-end;
   background-color:transparent;
@@ -118,14 +118,14 @@
   padding:0.25rem 0.25rem;
   width:auto;
 }
-.fba-usa-modal__close:hover, .fba-usa-modal__close:active{
+.fba-modal .fba-usa-modal__content .fba-usa-modal__close:hover, .fba-modal .fba-usa-modal__content .fba-usa-modal__close:active{
   background-color:transparent;
   color:#1b1b1b;
 }
-.fba-usa-modal__close:focus{
+.fba-modal .fba-usa-modal__content .fba-usa-modal__close:focus{
   outline-offset:0;
 }
-.fba-usa-modal__close .usa-icon{
+.fba-modal .fba-usa-modal__content .fba-usa-modal__close .usa-icon{
   height:2rem;
   margin:2px 2px 0 0;
   width:2rem;
@@ -183,7 +183,7 @@
   display:block;
   height:2.5rem;
   margin-top:0.5rem;
-  max-width:30rem;
+  max-width:none;
   padding:0.5rem;
   width:100%;
 }
@@ -1820,7 +1820,7 @@
   background-size:1.5rem;
 }
 .fba-modal-dialog .usa-combo-box{
-  max-width:30rem;
+  max-width:none;
   position:relative;
 }
 .fba-modal-dialog .usa-combo-box--pristine .usa-combo-box__input{
@@ -2037,7 +2037,7 @@
 .fba-modal-dialog .usa-date-picker__wrapper{
   display:none;
   position:relative;
-  max-width:30rem;
+  max-width:none;
 }
 .fba-modal-dialog .usa-date-picker__wrapper:focus{
   outline:0;
@@ -4041,7 +4041,7 @@
   display:block;
   font-weight:normal;
   margin-top:1.5rem;
-  max-width:30rem;
+  max-width:none;
 }
 .fba-modal-dialog .usa-label--error{
   font-weight:700;
@@ -4057,7 +4057,7 @@
   display:block;
   font-weight:normal;
   margin-top:1.5rem;
-  max-width:30rem;
+  max-width:none;
 }
 .fba-modal-dialog .usa-legend--large{
   font-size:2.13rem;
