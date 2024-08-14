@@ -87,7 +87,7 @@
   @include set-text-from-bg("white");
   display: inline-block;
   margin: units(2.5) auto;
-  max-width: units($theme-modal-default-max-width);
+  max-width: 35rem;
   position: relative;
   text-align: left;
   vertical-align: middle;

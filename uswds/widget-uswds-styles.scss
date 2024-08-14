@@ -4,6 +4,8 @@
   // True means set box-sizing on the html element, false means set it per element as necessary.
   // Set to false since the embedded widget does not control the html element.
   $theme-global-border-box-sizing: false,
+  // Let input elements take the full width of the form.
+  $theme-input-max-width: "none"
 );
 @use "sass:meta";
 
