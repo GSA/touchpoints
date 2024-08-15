@@ -108,7 +108,8 @@ workflows:
     triggers:
       - schedule:
           # cron: "0 * * * *" # every hour
-          cron: "0 11,1 * * *" # at 6am est and 8pm est
+          cron: "0 11 * * *" # run at 6am est
+          # cron: "0 11,1 * * *" # at 6am est and 8pm est
           filters:
             branches:
               only:
