@@ -5,11 +5,11 @@
   <div class="usa-alert">
     <div class="usa-alert__body">
       <h3 class="usa-alert__heading">
-        <%= sanitize(question.text) %>
+        <%= question.text.html_safe %>
       </h3>
-      <%- if question.help_text %>
+      <%- if question.help_text.present? %>
       <p class="usa-alert__text">
-        <%= sanitize(question.help_text) %>
+        <%= question.help_text.html_safe %>
       </p>
       <% end %>
     </div>
