@@ -91,6 +91,7 @@ es:
     formats:
       default: "%-d/%-m/%Y"
       long: "%-d de %B de %Y"
+      with_timezone: "%-d de %B de %Y (UTC%:z)"
       short: "%-d de %b"
     month_names:
     -

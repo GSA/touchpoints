@@ -21,8 +21,11 @@ class Organization < ApplicationRecord
   validates :name, presence: true
   validates :name, uniqueness: true
   validates :domain, presence: true
-  validates :abbreviation, presence: true
-  validates :abbreviation, uniqueness: true
+  validates :abbreviation,
+    presence: true,
+    uniqueness: true,
+    length: { maximum: 10 },
+    format: { with: /\A[a-zA-Z0-9]*\z/, message: "only allows letters and numbers" }
 
   def parent
     parent_id ? Organization.find(parent_id) : nil

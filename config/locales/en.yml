@@ -51,6 +51,7 @@ en-US:
     formats:
       default: "%a, %d %b %Y %I:%M:%S %p %Z"
       long: "%B %d, %Y %I:%M %p"
+      with_timezone: "%B %d, %Y %I:%M %p (%Z - UTC%:z)"
       short: "%d %b %I:%M %p"
     pm: pm
   date:
