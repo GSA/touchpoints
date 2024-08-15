@@ -1,18 +1,21 @@
 <div
   class="touchpoints-form-wrapper <%= form.kind %>"
   id="touchpoints-form-<%= form.short_uuid %>"
-  data-touchpoints-form-id="<%= form.short_uuid %>">
+  data-touchpoints-form-id="<%= form.short_uuid %>"
+>
   <div class="wrapper">
+    <%- if form.legacy_form_embed %>
     <%- unless form.delivery_method == "inline" %>
       <a class="fba-modal-close"
-        type="button"
-        href="#"
-        aria-label="Close this window">×</a>
+         type="button"
+         href="#"
+         aria-label="Close this window">×</a>
     <% end -%>
+    <% end %>
     <%- unless form.archived? %>
     <%= render "components/forms/logo_and_title", form: form %>
     <%- if form.instructions? %>
-    <div class="fba-instructions">
+    <div class="fba-instructions" id="<%= "fba-form-instructions-#{form.short_uuid}" %>">
       <%= sanitize(form.instructions) %>
     </div>
     <% end -%>

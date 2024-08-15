@@ -490,14 +490,14 @@ feature 'Forms', js: true do
 
         describe '/admin/forms/:uuid/example' do
           describe 'Form with `inline` delivery_method' do
-            let(:form2) { FactoryBot.create(:form, :open_ended_form, :inline, organization:) }
+            let!(:inline_form) { FactoryBot.create(:form, :open_ended_form, :inline, organization:) }
 
             before '/admin/forms/:uuid/example' do
-              visit example_admin_form_path(form2)
+              visit example_admin_form_path(inline_form)
             end
 
             it 'can complete then submit the inline Form and see a Success message' do
-              fill_in form2.ordered_questions.first.ui_selector, with: 'We the People of the United States, in Order to form a more perfect Union...'
+              fill_in inline_form.ordered_questions.first.ui_selector, with: 'We the People of the United States, in Order to form a more perfect Union...'
               click_on 'Submit'
 
               expect(page).to have_content('Success')

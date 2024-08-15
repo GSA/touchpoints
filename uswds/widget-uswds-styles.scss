@@ -1,0 +1,16 @@
+// A list of USWDS packages that are used by the embedded widget.
+
+@use "uswds-core" as * with (
+  // True means set box-sizing on the html element, false means set it per element as necessary.
+  // Set to false since the embedded widget does not control the html element.
+  $theme-global-border-box-sizing: false,
+  // Let input elements take the full width of the form.
+  $theme-input-max-width: "none"
+);
+@use "sass:meta";
+
+@forward "./widget-uswds-styles/prefixed-usa-modal.scss";
+
+.fba-modal-dialog {
+  @include meta.load-css("./widget-uswds-styles/container-namespaced-packages.scss");
+}

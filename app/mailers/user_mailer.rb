@@ -108,17 +108,19 @@ class UserMailer < ApplicationMailer
          cc: User.performance_managers.collect(&:email).uniq
   end
 
-  def submissions_digest(form_id, begin_day)
+  def submissions_digest(form_id, days_ago)
     return unless ENV['ENABLE_EMAIL_NOTIFICATIONS'] == 'true'
 
-    @begin_day = begin_day
+    @begin_day = days_ago.days.ago
     @form = Form.find(form_id)
     return unless @form.send_notifications?
 
     set_logo
     @submissions = Submission.where(id: form_id).where('created_at > ?', @begin_day).order('created_at desc')
+    return unless @submissions.present?
+
     emails = @form.notification_emails.split(',')
-    mail subject: "New Submissions to #{@form.name} since #{@begin_day}",
+    mail subject: "Touchpoints Digest: New Submissions to #{@form.name} since #{@begin_day}",
       to: emails,
       bcc: UserMailer.touchpoints_team
   end
@@ -126,11 +128,13 @@ class UserMailer < ApplicationMailer
   def account_deactivation_scheduled_notification(email, active_days)
     return unless ENV['ENABLE_EMAIL_NOTIFICATIONS'] == 'true'
 
+    @email = email
     @active_days = active_days
     set_logo
 
-    mail subject: "Your account is scheduled to be deactivated in #{@active_days} days due to inactivity",
-      to: email
+    mail subject: "Touchpoints account to be deactivated in #{@active_days} days",
+      to: email,
+      bcc: UserMailer.touchpoints_team
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -205,6 +209,15 @@ class UserMailer < ApplicationMailer
     set_logo
     @form = form
     mail subject: "Form #{@form.name} expiring on #{@form.expiration_date}",
+      to: UserMailer.touchpoints_admin_emails
+  end
+
+  def notify_form_manager_of_inactive_form(short_uuid)
+    set_logo
+    @form = Form.find_by_short_uuid(short_uuid)
+    return unless @form.notification_emails.present?
+
+    mail subject: "Form #{@form.name} has not received a response in more than 60 days",
       to: UserMailer.touchpoints_admin_emails
   end
 

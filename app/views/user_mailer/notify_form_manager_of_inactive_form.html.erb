@@ -1,0 +1,32 @@
+<%= render 'user_mailer/components/header' %>
+<p>
+Hi,
+</p>
+
+<p>
+<%= link_to @form.name, admin_form_url(@form) %> is published in Touchpoints,
+but has not received a response in at least 60 days.
+</p>
+
+<p>
+Consider archiving the form in Touchpoints if the form is no longer in use.
+</p>
+
+<p>
+Or, if you want to discuss how to potentially increase feedback,
+please get in touch at feedback-analytics@gsa.gov.
+</p>
+
+Touchpoints Team
+<br>
+Feedback Analytics Program
+<br>
+Web Tools Portfolio
+<br>
+<a href="https://www.gsa.gov/about-us/organization/federal-acquisition-service/technology-transformation-services/tts-solutions">
+  Technology Transformation Services
+</a>
+<br>
+<a href="https://www.gsa.gov/">
+  US General Services Administration
+</a>

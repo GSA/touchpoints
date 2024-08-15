@@ -79,7 +79,8 @@ digital_gov = Organization.create!({
   name: 'Digital.gov',
   domain: 'digital.gov',
   url: 'https://digital.gov',
-  abbreviation: 'DIGITAL'
+  abbreviation: 'DIGITAL',
+  parent_id: @gsa.id
 })
 puts 'Creating additional Organization: #{digital_gov.name}'
 
@@ -135,6 +136,7 @@ service_provider_1 = ServiceProvider.create({
   description: 'Description for an example HISP',
   notes: 'notes for example HISP',
   slug: 'example-service1',
+  inactive: false,
   new: false,
 })
 
@@ -144,6 +146,7 @@ service_provider_2 = ServiceProvider.create({
   description: 'A Description of the Example HISP',
   notes: 'notes on the example.gov HISP',
   slug: 'example-service2',
+  inactive: false,
   new: false,
 })
 
@@ -153,6 +156,36 @@ service_provider_3 = ServiceProvider.create({
   description: 'A Description of the USA.gov HISP',
   notes: 'notes on the usa.gov HISP',
   slug: 'gsa-usagov',
+  new: true,
+})
+
+service_provider_4 = ServiceProvider.create({
+  organization: Organization.first,
+  name: 'An example of an inactive HISP',
+  description: 'A Description of an old HISP',
+  notes: 'notes on and old HISP',
+  slug: 'example-legacy',
+  inactive: true,
+  new: false,
+})
+
+service_provider_5 = ServiceProvider.create({
+  organization: digital_gov,
+  name: 'Digital gov HISP',
+  description: 'A HISP in an Org that has a parent',
+  notes: 'A HISP in an Org that has a parent',
+  slug: 'digital-gov',
+  inactive: false,
+  new: true,
+})
+
+service_provider_6 = ServiceProvider.create({
+  organization: org_2,
+  name: 'Farmers Service Provider',
+  description: 'Farmers Service Provider description',
+  notes: 'Farmers Service Provider notes',
+  slug: 'farmers',
+  inactive: false,
   new: true,
 })
 
@@ -206,6 +239,13 @@ service_5 = Service.create!({
   service_owner_id: admin_user.id,
   name: 'Touchpoints',
   hisp: false,
+})
+service_5 = Service.create!({
+  organization: org_2,
+  service_provider: service_provider_6,
+  service_owner_id: touchpoint_manager.id,
+  name: 'Farmers',
+  hisp: true,
 })
 
 # NOTE:
@@ -887,3 +927,62 @@ for i in (1..20) do
     aasm_state: DigitalProduct.aasm.states.map(&:name).sample
   })
 end
+
+CxCollection.create!({
+  name: "CX Quarterly Reporting",
+  organization_id: @gsa.id,
+  service_provider_id: service_provider_1.id,
+  service_id: service_provider_1.services.first.id,
+  fiscal_year: 2024,
+  quarter: 1,
+  user: touchpoint_manager
+})
+
+CxCollection.create!({
+  name: "CX Quarterly Reporting",
+  organization_id: @gsa.id,
+  service_provider_id: service_provider_1.id,
+  service_id: service_provider_1.services.first.id,
+  fiscal_year: 2024,
+  quarter: 2,
+  user: touchpoint_manager
+})
+
+CxCollection.create!({
+  name: "CX Quarterly Reporting",
+  organization_id: @gsa.id,
+  service_provider_id: service_provider_1.id,
+  service_id: service_provider_1.services.first.id,
+  fiscal_year: 2024,
+  quarter: 3,
+  user: touchpoint_manager
+})
+CxCollection.create!({
+  name: "CX Quarterly Reporting",
+  organization_id: @gsa.id,
+  service_provider_id: service_provider_1.id,
+  service_id: service_provider_1.services.first.id,
+  fiscal_year: 2024,
+  quarter: 4,
+  user: touchpoint_manager
+})
+
+CxCollection.create!({
+  name: "CX Quarterly Reporting",
+  organization_id: digital_gov.id,
+  service_provider_id: service_provider_1.id,
+  service_id: service_provider_1.services.first.id,
+  fiscal_year: 2024,
+  quarter: 4,
+  user: touchpoint_manager
+})
+
+CxCollection.create!({
+  name: "CX Quarterly Reporting",
+  organization_id: org_2.id,
+  service_provider_id: service_provider_1.id,
+  service_id: service_provider_1.services.first.id,
+  fiscal_year: 2024,
+  quarter: 4,
+  user: touchpoint_manager
+})

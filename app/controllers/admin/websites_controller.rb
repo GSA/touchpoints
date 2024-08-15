@@ -93,7 +93,9 @@ module Admin
     def dendrogram; end
 
     def dendrogram_json
-      if params['office'] == 'true'
+      if params['office'] == 'true' && params[:org]
+        dendrogram_json_by_office(org: params[:org])
+      elsif params['office'] == 'true'
         dendrogram_json_by_office
       else
         # default
@@ -111,7 +113,11 @@ module Admin
       @websites = []
 
       # loop all sites and build a list of top-level domains
-      @active_websites = Website.active
+      if @organization = params[:org] ? Organization.find_by_abbreviation(params[:org].upcase) : nil
+        @active_websites = @organization.websites.active
+      else
+        @active_websites = Website.active
+      end
       @active_websites.each do |website|
         next unless website.tld?
 
@@ -135,11 +141,15 @@ module Admin
       @websites
     end
 
-    def dendrogram_json_by_office
+    def dendrogram_json_by_office(org: nil)
       @websites = []
 
       # loop all sites and build a list of top-level domains
-      @active_websites = Website.active
+      if org = Organization.find_by_abbreviation(org)
+        @active_websites = org.websites.active
+      else
+        @active_websites = Website.active
+      end
       @active_websites.collect(&:office).uniq.each do |office|
         @websites << {
           name: office,

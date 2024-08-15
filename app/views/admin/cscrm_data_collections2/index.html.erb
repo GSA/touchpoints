@@ -107,7 +107,7 @@
           <%= link_to "View" , admin_cscrm_data_collections2_path(cscrm_data_collection) %>
         </td>
         <td>
-          <%= cscrm_data_collection.organization.name %>
+          <%= render "admin/organizations/badge", organization: cscrm_data_collection.organization %>
         </td>
         <td>
           <%= cscrm_data_collection.year %>

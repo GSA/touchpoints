@@ -27,22 +27,22 @@ RSpec.describe UserMailer, type: :mailer do
     let(:user) { FactoryBot.create(:user, organization:) }
     let(:form) { FactoryBot.create(:form, organization:, notification_emails: user.email) }
     let!(:submission) { FactoryBot.create(:submission, form:) }
-    let(:begin_day) { 1.day.ago }
-    let(:mail) { UserMailer.submissions_digest(form.id, begin_day) }
+    let(:days_ago) { 1 }
+    let(:mail) { UserMailer.submissions_digest(form.id, days_ago) }
 
     before do
       ENV['ENABLE_EMAIL_NOTIFICATIONS'] = 'true'
     end
 
     it 'renders the headers' do
-      expect(mail.subject).to eq("New Submissions to #{form.name} since #{begin_day}")
+      expect(mail.subject).to eq("Touchpoints Digest: New Submissions to #{form.name} since #{days_ago.days.ago}")
       expect(mail.to).to eq(form.notification_emails.split)
       expect(mail.from).to eq([ENV.fetch('TOUCHPOINTS_EMAIL_SENDER')])
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match("Notification of feedback received since #{@begin_day}")
-      expect(mail.body.encoded).to match("1 feedback responses have been submitted to your form, #{form.name}, since #{begin_day}")
+      expect(mail.body.encoded).to match("Notification of feedback received since #{days_ago.days.ago}")
+      expect(mail.body.encoded).to match("1 feedback responses have been submitted to your form, #{form.name}, since #{days_ago.days.ago}")
     end
   end
 
@@ -145,14 +145,15 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'renders the headers' do
-      expect(mail.subject).to eq("Your account is scheduled to be deactivated in #{active_days} days due to inactivity")
+      expect(mail.subject).to eq("Touchpoints account to be deactivated in #{active_days} days")
       expect(mail.to).to eq([user.email])
       expect(mail.from).to eq([ENV.fetch('TOUCHPOINTS_EMAIL_SENDER')])
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match("Account deactivation scheduled in #{active_days} days.")
-      expect(mail.body.encoded).to match("Your account is scheduled to be deactivated in #{active_days} days due to inactivity.")
+      expect(mail.body.encoded).to match("Your Touchpoints account is scheduled to be deactivated in #{active_days} days due to inactivity")
+      expect(mail.body.encoded).to match("Login to Touchpoints at")
+      expect(mail.body.encoded).to match("to keep your account active")
     end
   end
 

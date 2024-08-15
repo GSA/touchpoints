@@ -11,40 +11,20 @@ document.addEventListener('onTouchpointsFormLoaded', function(e) {
   const formElement = e.detail.formComponent.formElement();
 
   function hideQ2() {
-    <%- if form.legacy_form_embed %>
-    const q2 = document.getElementById("answer_02");
-    const q2_container = q2.closest(".question");
-    <% else %>
-    const q2_container = formElement.querySelector("#<%= dom_id(form.ordered_questions.second) %>");
-    <% end %>
+    const q2_container = formElement.querySelector("#<%= dom_id(form.ordered_questions.find { |q| q.answer_field == "answer_02"}) %>");
     q2_container.style.display = 'none';
   }
   function showQ2() {
-    <%- if form.legacy_form_embed %>
-    const q2 = document.getElementById("answer_02");
-    const q2_container = q2.closest(".question");
-    <% else %>
-    const q2_container = formElement.querySelector("#<%= dom_id(form.ordered_questions.second) %>");
-    <% end %>
+    const q2_container = formElement.querySelector("#<%= dom_id(form.ordered_questions.find { |q| q.answer_field == "answer_02"}) %>");
     q2_container.style.display = 'block';
   }
 
   function hideQ3() {
-    <%- if form.legacy_form_embed %>
-    const q3 = document.getElementById("answer_03");
-    const q3_container = q3.closest(".question");
-    <% else %>
-    const q3_container = formElement.querySelector("#<%= dom_id(form.ordered_questions.third) %>")
-    <% end %>
+    const q3_container = formElement.querySelector("#<%= dom_id(form.ordered_questions.find { |q| q.answer_field == "answer_03"}) %>")
     q3_container.style.display = 'none';
   }
   function showQ3() {
-    <%- if form.legacy_form_embed %>
-    const q3 = document.getElementById("answer_03");
-    const q3_container = q3.closest(".question");
-    <% else %>
-    const q3_container = formElement.querySelector("#<%= dom_id(form.ordered_questions.third) %>")
-    <% end %>
+    const q3_container = formElement.querySelector("#<%= dom_id(form.ordered_questions.find { |q| q.answer_field == "answer_03"}) %>")
     q3_container.style.display = 'block';
   }
 
@@ -58,7 +38,7 @@ document.addEventListener('onTouchpointsFormLoaded', function(e) {
     }
   }
 
-  const radioButtons = formElement.querySelector("#<%= form.ordered_questions.first.ui_selector %>").getElementsByTagName("input");
+  const radioButtons = formElement.querySelector("#<%= form.ordered_questions.find { |q| q.answer_field == "answer_01"}.ui_selector %>").getElementsByTagName("input");
   for (const radioButton of radioButtons) {
       radioButton.addEventListener("click", handleThumbsUpDownClick)
   }

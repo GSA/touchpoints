@@ -1,0 +1,43 @@
+<% content_for :navigation_title do %>
+Form logos
+<% end %>
+
+<p>
+  <%= link_to admin_reporting_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Admin Reporting
+  <% end %>
+</p>
+
+<div class="responses table-scroll">
+  <div class="table-wrap">
+    <table class="usa-table">
+      <thead>
+        <tr>
+          <th data-sortable scope="col">Organization</th>
+          <th data-sortable scope="col" style="min-width: 300px;">Title</th>
+          <th data-sortable scope="col">UUID</th>
+          <th data-sortable scope="col">Kind</th>
+          <th data-sortable scope="col">Status</th>
+          <th data-sortable scope="col">Square logo</th>
+          <th data-sortable scope="col">Tag logo</th>
+        </tr>
+      </thead>
+      <% @forms.each do |form| %>
+      <tr>
+        <td><%= link_to form.organization.name, admin_organization_path(form.organization) %></td>
+        <td><%= form.title %></td>
+        <td><%= link_to form.short_uuid, admin_form_path(form) %></td>
+        <td><%= form.kind %></td>
+        <td><%= form.aasm_state %></td>
+        <td>
+          <%= image_tag form.logo.logo_square.url if form.display_header_square_logo %>
+        </td>
+        <td>
+          <%= image_tag form.logo.tag.url if form.display_header_logo %>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

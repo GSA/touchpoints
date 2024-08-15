@@ -1,1 +1,5 @@
-defaults
+# Supported browsers
+> 2%
+last 2 versions
+IE 11
+not dead
