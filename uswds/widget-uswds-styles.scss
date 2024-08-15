@@ -1,43 +1,16 @@
 // A list of USWDS packages that are used by the embedded widget.
 
-@forward "usa-accordion/src/styles";
-@forward "usa-alert/src/styles";
-@forward "usa-banner/src/styles";
-@forward "usa-button/src/styles";
-@forward "usa-character-count/src/styles";
-@forward "usa-checkbox/src/styles";
-@forward "usa-checklist/src/styles";
-@forward "usa-combo-box/src/styles";
-@forward "usa-date-picker/src/styles";
-@forward "usa-embed-container/src/styles";
-@forward "usa-footer/src/styles";
-@forward "usa-form/src/styles";
-@forward "usa-form-group/src/styles";
-@forward "usa-fieldset/src/styles";
-@forward "usa-header/src/styles";
-@forward "usa-hint/src/styles";
-@forward "usa-input/src/styles";
-@forward "usa-input-list/src/styles";
-@forward "usa-intro/src/styles";
-@forward "usa-label/src/styles";
-@forward "usa-legend/src/styles";
-@forward "usa-link/src/styles";
-@forward "usa-list/src/styles";
-// @forward "usa-modal/src/styles";
-@forward "usa-nav/src/styles";
-@forward "usa-prose/src/styles";
-@forward "usa-radio/src/styles";
-@forward "usa-range/src/styles";
-@forward "usa-select/src/styles";
-@forward "usa-search/src/styles";
-@forward "usa-step-indicator/src/styles";
-@forward "usa-tag/src/styles";
-// @forward "usa-skipnav/src/styles";
-@forward "usa-textarea/src/styles";
+@use "uswds-core" as * with (
+  // True means set box-sizing on the html element, false means set it per element as necessary.
+  // Set to false since the embedded widget does not control the html element.
+  $theme-global-border-box-sizing: false,
+  // Let input elements take the full width of the form.
+  $theme-input-max-width: "none"
+);
+@use "sass:meta";
 
-// usa-graphic-list
-// usa-navbar
-// usa-sign-up
-// usa-section
-// usa-sidenav
-// usa-menu-btn
+@forward "./widget-uswds-styles/prefixed-usa-modal.scss";
+
+.fba-modal-dialog {
+  @include meta.load-css("./widget-uswds-styles/container-namespaced-packages.scss");
+}

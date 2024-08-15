@@ -10,7 +10,6 @@ function FBAform(d, N) {
 		formElement: function() {
 			return this.formComponent().querySelector("form");
 		},
-		activatedButton: null, // tracks a reference to the button that was clicked to open the modal
 		isFormSubmitted: false, // defaults to false
 		// enable Javascript experience
 		javascriptIsEnabled: function() {
@@ -34,7 +33,6 @@ function FBAform(d, N) {
 				this.loadButton();
 			}
 			this._bindEventListeners();
-			this.dialogOpen = false; // initially false
 			this.successState = false; // initially false
 			this._pagination();
 			if (this.options.formSpecificScript) {
@@ -49,15 +47,6 @@ function FBAform(d, N) {
 		},
 		_bindEventListeners: function() {
 			var self = this;
-			d.addEventListener('keyup', function (event) {
-				var x = event.keyCode;
-				if( x == 27 && self.dialogOpen == true) {
-					self.closeDialog();
-				}
-			});
-			d.addEventListener('click', function (event) {
-				self.openModalDialog(event);
-			});
 
 			const textareas = this.formComponent().querySelectorAll(".usa-textarea");
 			textareas.forEach(function(textarea) {
@@ -100,15 +89,14 @@ function FBAform(d, N) {
 		<%# inject the form interface for modal and custom-button-modal %>
 		if (this.options.deliveryMethod && (this.options.deliveryMethod === 'modal' || this.options.deliveryMethod === 'custom-button-modal')) {
 			this.dialogEl = d.createElement('div');
-			this.dialogEl.setAttribute("hidden", true);
-			this.dialogEl.setAttribute("aria-hidden", true);
-			this.dialogEl.setAttribute('class', 'fba-modal');
+			this.dialogEl.setAttribute('class', "<%= form.prefix "usa-modal" %> fba-modal");
+			this.dialogEl.setAttribute('id', this.modalId());
+			this.dialogEl.setAttribute('aria-labelledby', `fba-form-title-${this.options.formId}`);
+			this.dialogEl.setAttribute('aria-describedby', `fba-form-instructions-${this.options.formId}`);
 			this.dialogEl.setAttribute('data-touchpoints-form-id', this.options.formId);
 
 			this.dialogEl.innerHTML = this.options.htmlFormBody();
 			d.body.appendChild(this.dialogEl);
-
-			this.formComponent().querySelector('.fba-modal-close').addEventListener('click', this.handleDialogClose.bind(this), false);
 		}
 		var otherElements = this.formElement().querySelectorAll(".usa-input.other-option");
 		for (var i = 0; i < otherElements.length; i++) {
@@ -121,8 +109,11 @@ function FBAform(d, N) {
 		<%# add button behaviors for custom-button-modal %>
 		if (this.options.deliveryMethod && this.options.deliveryMethod === 'custom-button-modal') {
 			if (this.options.elementSelector) {
-				if(d.getElementById(this.options.elementSelector) != null) {
-					d.getElementById(this.options.elementSelector).addEventListener('click', this.handleButtonClick.bind(this), false);
+				const customButtonEl = d.getElementById(this.options.elementSelector);
+				if (customButtonEl != null) {
+					customButtonEl.setAttribute('data-open-modal', '');
+					customButtonEl.setAttribute('aria-controls', this.modalId());
+					customButtonEl.addEventListener('click', () => d.dispatchEvent(new Event('onTouchpointsModalOpen')));
 				}
 			}
 		}
@@ -158,26 +149,6 @@ function FBAform(d, N) {
 			alertElementBody.innerHTML = "";
 			alertErrorElement.setAttribute("hidden", true);
 			alertErrorElementBody.innerHTML = "";
-		},
-		openModalDialog: function(e) {
-			if (this.options.deliveryMethod && this.options.deliveryMethod === 'modal' ) {
-				if (this.dialogOpen && !e.target.closest('#fba-button') && !e.target.closest('.fba-modal-dialog')) {
-					this.closeDialog();
-				}
-			} else if (this.options.deliveryMethod && this.options.deliveryMethod === 'custom-button-modal' ) {
-				if (this.dialogOpen && !e.target.closest('#' + this.options.elementSelector) && !e.target.closest('.fba-modal-dialog')) {
-					this.closeDialog();
-				}
-			}
-		},
-		handleButtonClick: function(e) {
-			e.preventDefault();
-			this.activatedButton = e.target;
-			this.loadDialog();
-		},
-		handleDialogClose: function(e) {
-			e.preventDefault();
-			this.closeDialog();
 		},
 		handleOtherOption: function(e) {
 			var selectorId =  "#" + e.srcElement.getAttribute("data-option-id");
@@ -393,9 +364,10 @@ function FBAform(d, N) {
 			this.buttonEl.setAttribute('name', 'fba-button');
 			this.buttonEl.setAttribute('href', 'javascript:void(0)');
 			this.buttonEl.setAttribute('aria-haspopup', 'dialog');
-			this.buttonEl.setAttribute('aria-controls', 'dialog');
-			this.buttonEl.addEventListener('click', this.handleButtonClick.bind(this), false);
+			this.buttonEl.setAttribute('aria-controls', this.modalId());
+			this.buttonEl.setAttribute('data-open-modal', '');
 			this.buttonEl.innerHTML = this.options.modalButtonText;
+			this.buttonEl.addEventListener('click', () => d.dispatchEvent(new Event('onTouchpointsModalOpen')));
 			d.body.appendChild(this.buttonEl);
 
 			this.loadFeebackSkipLink();
@@ -415,22 +387,6 @@ function FBAform(d, N) {
 			} else {
 				d.body.prepend(this.skipLink);
 			}
-		},
-		// Used when in a modal
-		loadDialog: function() {
-			d.dispatchEvent(new Event('onTouchpointsModalOpen'));
-			this.formComponent().removeAttribute("hidden");
-			this.formComponent().setAttribute('aria-hidden', false);
-			this.formComponent().focus()
-			this.dialogOpen = true;
-		},
-		closeDialog: function() {
-			d.dispatchEvent(new Event('onTouchpointsModalClose'));
-			this.formComponent().setAttribute("hidden", true);
-			this.formComponent().setAttribute('aria-hidden', true);
-			<%# Focus on the activated button if it exists and has a focus method %>
-			this.activatedButton?.focus?.();
-			this.dialogOpen = false;
 		},
 		sendFeedback: function() {
 			d.dispatchEvent(new Event('onTouchpointsFormSubmission'));
@@ -648,7 +604,10 @@ function FBAform(d, N) {
 					}
 				}.bind(self))
 			}
-		}
+		},
+		modalId: function() {
+			return `fba-modal-${this.options.formId}`;
+		},
 	};
 };
 
