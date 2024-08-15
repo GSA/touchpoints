@@ -119,7 +119,7 @@
               Received at
             </td>
             <td>
-              <%= @submission.created_at %> -
+              <%= format_time(@submission.created_at, current_user.time_zone) %> -
               <%= time_ago_in_words(@submission.created_at) %> ago
             </td>
           </tr>

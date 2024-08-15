@@ -167,7 +167,7 @@ module ApplicationHelper
   end
 
   def format_time(time, timezone)
-    I18n.l time.to_time.in_time_zone(timezone), format: :long
+    I18n.l time.to_time.in_time_zone(timezone), format: :with_timezone
   end
 
   def timezone_abbreviation(timezone)
