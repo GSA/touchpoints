@@ -24,15 +24,20 @@
   </head>
   <body>
     <%= render 'components/analytics/script_body' %>
-    <%= render 'components/slim_header' %>
-    <div class="tablet:grid-container">
-      <div class="grid-row">
-        <div class="grid-col-12">
-          <%= render 'components/flash', flash: flash %>
-          <%= yield %>
+    <a class="usa-skipnav" href="#main-content">Skip to main content</a>
+    <%= render "components/usa-banner" %>
+    <div class="usa-overlay"></div>
+
+    <main id="main-content">
+      <div class="tablet:grid-container">
+        <div class="grid-row">
+          <div class="grid-col-12">
+            <%= render 'components/flash', flash: flash %>
+            <%= yield %>
+          </div>
         </div>
       </div>
-    </div>
+    </main>
     <%= javascript_include_tag 'uswds.min', integrity: true %>
   </body>
 </html>
