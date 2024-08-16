@@ -76,13 +76,14 @@
   </nav>
 </header>
 <%- if current_user && content_for?(:navigation_title) %>
-<div style="background-color: #162E51;">
+<div class="dark-blue-bg">
   <div class="grid-container-widescreen">
     <div class="grid-row">
       <div class="grid-col">
-        <div class="font-heading-xl text-white margin-bottom-3 margin-top-3" style="font-weight: normal;">
+        <h1
+          class="font-heading-xl text-white margin-bottom-3 margin-top-3 text-normal">
           <%= yield(:navigation_title) %>
-        </div>
+        </h1>
       </div>
     </div>
   </div>
