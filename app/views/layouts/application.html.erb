@@ -23,9 +23,10 @@
   </head>
   <body class="<%= action_name %>">
     <%= render 'components/analytics/script_body' %>
-    <%= render 'components/header' %>
+    <%= render 'components/banner' %>
     <% unless content_for?(:full_layout) %>
     <main id="main-content">
+      <%= render 'components/navigation' %>
       <div class="grid-container-widescreen">
         <%= render('components/flash', flash: flash) unless suppress_main_layout_flash? %>
         <%= yield %>
