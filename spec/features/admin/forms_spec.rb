@@ -23,6 +23,10 @@ feature 'Forms', js: true do
           visit questions_admin_form_path(form)
         end
 
+        it 'is accessible' do
+          expect(page).to be_axe_clean
+        end
+
         describe 'can preview a form' do
           before do
             click_on 'Preview'
@@ -50,6 +54,10 @@ feature 'Forms', js: true do
         end
 
         context 'Form Templates' do
+          it 'is accessible' do
+            expect(page).to be_axe_clean
+          end
+
           describe 'can preview a template' do
             before do
               within '.form-templates' do

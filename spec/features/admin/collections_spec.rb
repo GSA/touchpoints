@@ -27,6 +27,10 @@ feature 'Data Collections', js: true do
         visit admin_collections_path
       end
 
+      it 'is accessible' do
+        expect(page).to be_axe_clean
+      end
+
       it 'renders the index page' do
         expect(page).to have_content('Data Collections')
         expect(page).to have_css('table.usa-table')

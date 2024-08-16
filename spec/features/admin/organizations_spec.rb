@@ -15,6 +15,10 @@ feature 'Managing Organizations', js: true do
       visit admin_organizations_path
     end
 
+    it 'is accessible' do
+      expect(page).to be_axe_clean
+    end
+
     it 'display Admin-specific UI content' do
       expect(page).to have_link(Organization.first.name)
       expect(page).to have_link('New Organization')
