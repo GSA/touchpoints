@@ -2,6 +2,8 @@ class CxResponse < ApplicationRecord
   belongs_to :cx_collection_detail
   belongs_to :cx_collection_detail_upload
 
+  max_paginates_per(5000)
+
   def self.to_csv
     responses = CxResponse.all
 
