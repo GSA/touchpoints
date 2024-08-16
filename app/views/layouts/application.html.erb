@@ -33,6 +33,7 @@
       </div>
     </main>
     <% else %>
+      <%= render 'components/navigation' %>
       <%= render('components/flash', flash: flash) unless suppress_main_layout_flash? %>
       <%= yield :full_layout %>
     <% end %>
