@@ -24,6 +24,10 @@ feature 'Digital Products', js: true do
         visit admin_digital_products_path
       end
 
+      it 'is accessible' do
+        expect(page).to be_axe_clean
+      end
+
       it 'load the DigitalProducts#index page' do
         expect(page).to have_content('Mobile Products')
         expect(page).to have_link('New Mobile Product')
@@ -40,6 +44,10 @@ feature 'Digital Products', js: true do
         fill_in('digital_product_short_description', with: 'A short description for a mobile app')
         fill_in('digital_product_url', with: 'https://lvh.me')
         click_on("Create Digital product")
+      end
+
+      it 'is accessible' do
+        expect(page).to be_axe_clean
       end
 
       it 'loads the show page' do
@@ -83,6 +91,10 @@ feature 'Digital Products', js: true do
         visit review_admin_digital_products_path
       end
 
+      it 'is accessible' do
+        expect(page).to be_axe_clean
+      end
+
       it 'shows a table with 1 filtered result' do
         expect(page).to have_content('Review Digital Products')
         expect(page).to have_link('New Digital Product')
@@ -97,6 +109,10 @@ feature 'Digital Products', js: true do
         visit admin_digital_product_path(submitted_digital_product)
       end
 
+      it 'is accessible' do
+        expect(page).to be_axe_clean
+      end
+
       it 'can publish digital product record' do
         expect(page).to have_content('Mobile App')
         click_on("Publish")
@@ -107,6 +123,10 @@ feature 'Digital Products', js: true do
     describe '#delete' do
       before do
         visit admin_digital_product_path(digital_product)
+      end
+
+      it 'is accessible' do
+        expect(page).to be_axe_clean
       end
 
       it 'can delete digital product record' do

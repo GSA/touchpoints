@@ -13,11 +13,15 @@ feature 'Touchpoints', js: true do
       describe '/forms/:id/example' do
         before do
           login_as(user)
+          visit example_admin_form_path(form)
+        end
+
+        it 'is accessible' do
+          expect(page).to be_axe_clean
         end
 
         context 'default success text' do
           before do
-            visit example_admin_form_path(form)
             click_on('Help improve this site') # opens modal
             expect(page).to have_content('Help improve this site')
 

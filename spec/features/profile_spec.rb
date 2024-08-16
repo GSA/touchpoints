@@ -14,6 +14,10 @@ feature 'Profile', js: true do
           visit profile_path
         end
 
+        it 'is accessible' do
+          expect(page).to be_axe_clean
+        end
+
         it 'redirects to root path with flash message' do
           expect(page.current_path).to eq(index_path)
           expect(page).not_to have_content('Your API Key was last updated more than')

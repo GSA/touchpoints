@@ -80,6 +80,10 @@ feature 'Forms', js: true do
               visit admin_form_path(form_template)
             end
 
+            it 'is accessible' do
+              expect(page).to be_axe_clean
+            end
+
             it 'can edit a form template' do
               expect(page.current_path).to eq(admin_form_path(form_template))
               expect(page).to have_content('for Admins'.upcase)
@@ -136,6 +140,10 @@ feature 'Forms', js: true do
           expect(page.current_path).to eq(new_admin_form_path)
           fill_in 'form_name', with: new_form.name
           click_on 'Create Form'
+        end
+
+        it 'is accessible' do
+          expect(page).to be_axe_clean
         end
 
         it 'redirect to /form/:uuid/questions with a success flash message' do
@@ -235,6 +243,10 @@ feature 'Forms', js: true do
         before do
           login_as(admin)
           visit admin_form_path(form)
+        end
+
+        it 'is accessible' do
+          expect(page).to be_axe_clean
         end
 
         context 'for :created touchpoint for an Organization form_approval_enabled' do
@@ -504,6 +516,10 @@ feature 'Forms', js: true do
               visit example_admin_form_path(inline_form)
             end
 
+            it 'is accessible' do
+              expect(page).to be_axe_clean
+            end
+
             it 'can complete then submit the inline Form and see a Success message' do
               fill_in inline_form.ordered_questions.first.ui_selector, with: 'We the People of the United States, in Order to form a more perfect Union...'
               click_on 'Submit'
@@ -541,6 +557,10 @@ feature 'Forms', js: true do
           sleep 1.0
         end
 
+        it 'is accessible' do
+          expect(page).to be_axe_clean
+        end
+
         it 'updates successfully' do
           visit notifications_admin_form_path(form)
           expect(find("#user_#{admin.id}", visible: false)).to be_checked
@@ -554,6 +574,10 @@ feature 'Forms', js: true do
         before do
           login_as(admin)
           visit delivery_admin_form_path(form)
+        end
+
+        it 'is accessible' do
+          expect(page).to be_axe_clean
         end
 
         describe 'editing the whitelist url' do
@@ -717,6 +741,10 @@ feature 'Forms', js: true do
           describe 'delete Form Sections' do
             before do
               visit questions_admin_form_path(form)
+            end
+
+            it 'is accessible' do
+              expect(page).to be_axe_clean
             end
 
             it 'defaults to 1 section' do
@@ -1319,6 +1347,10 @@ feature 'Forms', js: true do
       before do
         login_as(user)
         visit permissions_admin_form_path(another_users_form)
+      end
+
+      it 'is accessible' do
+        expect(page).to be_axe_clean
       end
 
       it 'is redirected away and shown a message' do
