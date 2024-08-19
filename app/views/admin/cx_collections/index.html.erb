@@ -42,9 +42,9 @@
         <% end %>
 
         <div class="year" data-id="2024">
-          <h4>
+          <h3>
             2024
-          </h4>
+          </h3>
           <div>
             <%= link_to "Q1", admin_cx_collections_path(quarter: 1, year: 2024), class: "usa-button #{params[:quarter] == "1" && params[:year] == "2024" ? nil : 'usa-button--outline'}" %>
             <%= link_to "Q2", admin_cx_collections_path(quarter: 2, year: 2024), class: "usa-button #{params[:quarter] == "2" && params[:year] == "2024" ? nil : 'usa-button--outline'}" %>
