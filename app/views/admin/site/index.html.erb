@@ -1,25 +1,27 @@
 <% content_for :full_layout do %>
 <%= javascript_include_tag "chartjs-2.9.3.bundle.js" %>
+<% content_for :navigation_title do %>
+  Welcome to Touchpoints
+<% end %>
+
+<main id="main-content">
 <section class="light-blue-bg">
   &nbsp;
   <div class="grid-container-widescreen">
     <div>
-      <h1>
-        Welcome to Touchpoints
-      </h1>
-
       <p>
         You are a
+        <strong class="user_role">
         <%= current_user.role %>
+        </strong>
         of
-        <%= current_user.organization.name %>.
+        <%= link_to current_user.organization.name, admin_organization_path(current_user.organization) %>.
       </p>
     </div>
   </div>
   <br>
 </section>
 <section>
-  <main id="main-content">
     <div class="grid-container-widescreen">
       <%- if admin_permissions? %>
       <div class="well margin-top-1">
@@ -218,6 +220,6 @@
       <br>
       <br>
     </div>
-  </main>
 </section>
 <% end %>
+</main>

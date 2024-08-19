@@ -1,6 +1,6 @@
 <div id="sponsoring-agencies-div" class="grid-row" data-value="<%= admin_digital_product_path(@digital_product) %>">
   <div class="grid-col-12">
-    <%= label_tag "Sponsoring agencies", nil, class: "usa-label" %>
+    <%= label_tag "Sponsoring agencies", nil, for: "organization_id", class: "usa-label" %>
     <small>
       Optionally, this record may be associated with one or more
       <%= link_to "Agencies", admin_organizations_path %>.
@@ -21,7 +21,11 @@
 
         <%- if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
         <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= agency.id %>">
-          <span class="fa fa-trash"></span>
+          <span class="fa fa-trash">
+            <span class="usa-sr-only">
+              Delete
+            </span>
+          </span>
         </a>
         <% end %>
       </li>

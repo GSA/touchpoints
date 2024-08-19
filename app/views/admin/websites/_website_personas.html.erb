@@ -13,9 +13,9 @@
             <%= persona.name %>
           </span>
           &nbsp;
-          <a href="javascript:void(0);" class="remove-persona-link" data-value="<%= persona.id %>">
-            <span class="fa fa-trash"></span>
-          </a>
+          <%= render "components/remove_tag_link",
+            klass: "remove-persona-link",
+            value: persona.id %>
         </li>
           <% end %>
       </ul>

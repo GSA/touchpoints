@@ -37,7 +37,17 @@ feature 'Digital Products', js: true do
     end
 
 
-    describe '#create' do
+    describe '#create page' do
+      before do
+        visit new_admin_digital_product_path
+      end
+
+      it 'is accessible' do
+        expect(page).to be_axe_clean
+      end
+    end
+
+    describe '#create flow' do
       before do
         visit new_admin_digital_product_path
         fill_in('digital_product_name', with: 'Public Mobile App')

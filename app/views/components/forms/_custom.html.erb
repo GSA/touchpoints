@@ -7,7 +7,8 @@
   <div class="touchpoints-form-body">
     <%= hidden_field_tag :authenticity_token, form_authenticity_token if form.verify_csrf? -%>
     <%= hidden_field_tag :fba_location_code, params[:location_code], tabindex: -1 %>
-    <input type="text"
+    <input
+      type="text"
       name="fba_directive"
       id="fba_directive"
       class="display-none"

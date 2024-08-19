@@ -18,7 +18,11 @@
         </span>
         <%- if digital_service_account_permissions?(digital_service_account: digital_service_account, user: current_user) %>
         <a href="javascript:void(0);" class="remove-tag-link" data-id="<%= user.id %>">
-          <span class="fa fa-trash"></span>
+          <span class="fa fa-trash">
+            <span class="usa-sr-only">
+              Delete
+            </span>
+          </span>
         </a>
         <% end %>
       </li>
