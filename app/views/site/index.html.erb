@@ -7,9 +7,9 @@
     </p>
   </div>
   <div class="tablet:grid-col-6">
-    <h2>
+    <h1>
        <%= t 'home.sign_in' %>
-    </h2>
+    </h1>
     <%- if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
     <p>
       <%= t 'home.sign_in_text' %>
@@ -30,7 +30,7 @@
       <%= button_to user_github_omniauth_authorize_path,
         class: "usa-button",
         data: { turbo: "false" },
-        "aria-label" => "GitHub" do %>
+        "aria-label" => "#{t 'home.sign_in_with' } GitHub" do %>
         <%= "#{t 'home.sign_in_with' } GitHub" %>
       <% end %>
     </p>
