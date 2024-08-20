@@ -50,6 +50,7 @@ feature 'Touchpoints', js: true do
             fill_in("#{form.ordered_questions[5].ui_selector}_other", with: 'other 3')
 
             select('Option 2', from: form.ordered_questions[6].ui_selector)
+            page.scroll_to(find(".usa-banner footer"))
             click_on 'Next'
             expect(page).to have_content('Custom elements')
             find('.submit_form_button').click
