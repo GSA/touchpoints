@@ -28,7 +28,7 @@ RSpec.describe UserMailer, type: :mailer do
     let(:form) { FactoryBot.create(:form, organization:, notification_emails: user.email) }
     let!(:submission) { FactoryBot.create(:submission, form:) }
     let(:days_ago) { 1 }
-    let!(:mail) { UserMailer.submissions_digest(form.id, days_ago) }
+    let(:mail) { UserMailer.submissions_digest(form.id, days_ago) }
 
     before do
       ENV['ENABLE_EMAIL_NOTIFICATIONS'] = 'true'

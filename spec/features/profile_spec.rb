@@ -8,6 +8,18 @@ feature 'Profile', js: true do
     let!(:user) { FactoryBot.create(:user, :admin, organization:) }
     let!(:form) { FactoryBot.create(:form, :open_ended_form, organization:) }
 
+    context 'not logged in' do
+      describe '/profile' do
+        before do
+          visit profile_path
+        end
+
+        it 'redirects to root path with flash message' do
+          expect(page.current_path).to eq(index_path)
+          expect(page).not_to have_content('Your API Key was last updated more than')
+        end
+      end
+    end
 
     describe '/profile' do
       before do
