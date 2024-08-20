@@ -53,8 +53,8 @@
       var thisForm = $(this).closest("form");
       $.ajax({
         url: thisForm.attr("action") + "/remove_user",
-        type: 'post',
-        data: "user[id]=" + $(this).data("id")
+        type: 'delete',
+        data: "user[id]=" + $(this).data("value")
       });
     });
   });

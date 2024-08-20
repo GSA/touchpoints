@@ -284,7 +284,7 @@ Rails.application.routes.draw do
         post 'remove_organization', to: 'digital_service_accounts#remove_organization', as: :remove_organization
 
         post 'add_user', to: 'digital_service_accounts#add_user', as: :add_user
-        post 'remove_user', to: 'digital_service_accounts#remove_user', as: :remove_user
+        delete 'remove_user', to: 'digital_service_accounts#remove_user', as: :remove_user
       end
     end
 
@@ -306,7 +306,7 @@ Rails.application.routes.draw do
         post 'remove_organization', to: 'digital_products#remove_organization', as: :remove_organization
 
         post 'add_user', to: 'digital_products#add_user', as: :add_user
-        post 'remove_user', to: 'digital_products#remove_user', as: :remove_user
+        delete 'remove_user', to: 'digital_products#remove_user', as: :remove_user
       end
       resources :digital_product_versions
       resources :digital_product_platforms
