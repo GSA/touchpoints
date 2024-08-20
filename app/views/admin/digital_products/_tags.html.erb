@@ -24,13 +24,10 @@
               <%= tag %>
             </span>
             <%- if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
-            <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= tag %>">
-              <span class="fa fa-trash">
-                <span class="usa-sr-only">
-                  Delete
-                </span>
-              </span>
-            </a>
+              <%= render "components/remove_tag_link",
+                klass: "remove-tag-link",
+                value: tag %>
+              <% end %>
             <% end %>
           </li>
           <% end %>

@@ -17,9 +17,10 @@
             <%= manager.email %>
           </span>
           &nbsp;
-          <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= manager.id %>">
-            <span class="fa fa-trash"></span>
-          </a>
+          <%= render "components/remove_tag_link",
+            klass: "remove-tag-link",
+            value: manager.id %>
+          <% end %>
         </li>
           <% end %>
       </ul>
@@ -27,9 +28,9 @@
   </div>
 </div>
 
-<%= select_tag :website_manager_id, 
-  options_for_select(@website_manager_options.map { |u| [u.email, u.id] }), 
-  prompt: "Select a User", 
+<%= select_tag :website_manager_id,
+  options_for_select(@website_manager_options.map { |u| [u.email, u.id] }),
+  prompt: "Select a User",
   class: "usa-select add-website-manager" %>
 
 <script>

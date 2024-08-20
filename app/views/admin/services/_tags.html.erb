@@ -18,13 +18,10 @@
             <span class="usa-tag">
               <%= tag %>
             </span>
-            <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= tag %>">
-              <span class="fa fa-trash">
-                <span class="usa-sr-only">
-                  Delete
-                </span>
-              </span>
-            </a>
+            <%= render "components/remove_tag_link",
+              klass: "remove-tag-link",
+              value: tag %>
+            <% end %>
           </li>
             <% end %>
         </ul>

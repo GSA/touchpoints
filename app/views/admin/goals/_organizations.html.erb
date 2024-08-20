@@ -13,13 +13,10 @@
             <%= agency.name %>
           </span>
           &nbsp;
-          <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= agency.id %>">
-            <span class="fa fa-trash">
-              <span class="usa-sr-only">
-                Delete
-              </span>
-            </span>
-          </a>
+          <%= render "components/remove_tag_link",
+            klass: "remove-tag-link",
+            value: agency.id %>
+          <% end %>
         </li>
           <% end %>
       </ul>
