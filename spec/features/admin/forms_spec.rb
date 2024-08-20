@@ -563,7 +563,7 @@ feature 'Forms', js: true do
 
         it 'updates successfully' do
           visit notifications_admin_form_path(form)
-          expect(find("#user_#{admin.id}", visible: false)).to be_checked
+          expect(find("#checkbox_user_#{admin.id}", visible: false)).to be_checked
         end
       end
 
