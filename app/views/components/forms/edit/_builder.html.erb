@@ -9,11 +9,11 @@
 <div class="form-title-edit">
   <label
     class="text-uppercase font-body-3xs"
-    for="form_title"">
+    for="form_builder_title"">
     Form title
   </label>
   <input type="text"
-    name="form_title"
+    id="form_builder_title"
     class="usa-input survey-title-input"
     data-url="<%= admin_form_path(form) %>"
     value="<%= form.title.present? ? form.title : 'Form title'  %>" />
@@ -24,12 +24,14 @@
 <div class="fba-instructions">
   <div class="grid-row grid-gap-md">
     <div class="grid-col-7">
-      <label class="usa-label text-uppercase font-body-3xs" for="form_instructions">
+      <label
+        class="usa-label text-uppercase font-body-3xs"
+        for="form_builder_instructions">
         Form instructions
       </label>
       <textarea
         class="usa-textarea instructions countable"
-        name="form_instructions"
+        name="form_builder_instructions"
         data-url="<%= admin_form_path(form) %>"><%= form.instructions %></textarea>
       <br>
       <span class="usa-hint save-notice survey-instructions">
@@ -72,14 +74,14 @@
 <div class="grid-row">
   <div class="grid-col-12">
     <div class="touchpoints-form-disclaimer">
-      <label class="usa-label text-uppercase font-body-3xs" for="disclaimer-text">
+      <label class="usa-label text-uppercase font-body-3xs" for="form_builder_disclaimer">
         Disclaimer text
       </label>
       <div class="fba-dialog-privacy font-sans-3xs">
         <div class="fba-disclaimer-text">
           <textarea
+            id="form_builder_disclaimer"
             class="usa-textarea disclaimer_text countable"
-            name="disclaimer-text"
             data-url="<%= admin_form_path(form) %>"><%= form.disclaimer_text %></textarea>
           <span class="usa-hint save-notice survey-disclaimer">
             <i class="fa fa-check-circle" aria-hidden="true"></i> saved
