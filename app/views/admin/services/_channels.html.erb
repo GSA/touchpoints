@@ -48,7 +48,7 @@
       var thisForm = $("#channel_selector");
       $.ajax({
         url: thisForm.attr("data-url") + "/remove_channel",
-        type: 'POST',
+        type: 'delete',
         datatype: 'json',
         data: {
           channel: $(this).attr("data-value")

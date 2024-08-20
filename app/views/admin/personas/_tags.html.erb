@@ -48,7 +48,7 @@
       var thisForm = $(this).closest("form");
       $.ajax({
         url: thisForm.attr("action") + "/remove_tag",
-        type: 'post',
+        type: 'delete',
         data: "persona[tag_list]=" + $(this).attr("data-value")
       });
     });

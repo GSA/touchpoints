@@ -44,7 +44,7 @@
       var thisForm = $("#service_manager_selector");
       $.ajax({
         url: thisForm.attr("data-url") + "/remove_service_manager",
-        type: 'POST',
+        type: 'delete',
         datatype: 'json',
         data: {
           user_id: $(this).attr("data-value")

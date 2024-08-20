@@ -47,7 +47,7 @@
 
       $.ajax({
         url: pageUrl + "/remove_tag",
-        type: 'post',
+        type: 'delete',
         data: "form[tag_list]=" + $(this).attr("data-value")
       });
     });

@@ -75,7 +75,7 @@
       var thisForm = $(this).closest("form");
       $.ajax({
         url: thisForm.attr("action") + "/remove_tag",
-        type: 'post',
+        type: 'delete',
         data: "submission[tag]=" + $(this).attr("data-value")
       });
     });

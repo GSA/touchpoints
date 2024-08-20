@@ -104,9 +104,9 @@ Rails.application.routes.draw do
       end
       member do
         post 'add_tag', to: 'service_providers#add_tag', as: :add_tag
-        post 'remove_tag', to: 'service_providers#remove_tag', as: :remove_tag
+        delete 'remove_tag', to: 'service_providers#remove_tag', as: :remove_tag
         post 'add_service_provider_manager', to: 'service_providers#add_service_provider_manager', as: :add_service_provider_manager
-        post 'remove_service_provider_manager', to: 'service_providers#remove_service_provider_manager', as: :remove_service_provider_manager
+        delete 'remove_service_provider_manager', to: 'service_providers#remove_service_provider_manager', as: :remove_service_provider_manager
       end
     end
     resources :cx_action_plans
@@ -120,12 +120,12 @@ Rails.application.routes.draw do
         get 'equity-assessment', to: 'services#equity_assessment', as: :equity_assessment
         get 'cx-reporting', to: 'services#omb_cx_reporting', as: :omb_cx_reporting
         post 'add_tag', to: 'services#add_tag', as: :add_tag
-        post 'remove_tag', to: 'services#remove_tag', as: :remove_tag
+        delete 'remove_tag', to: 'services#remove_tag', as: :remove_tag
         post 'add_channel', to: 'services#add_channel', as: :add_channel
-        post 'remove_channel', to: 'services#remove_channel', as: :remove_channel
+        delete 'remove_channel', to: 'services#remove_channel', as: :remove_channel
 
         post 'add_service_manager', to: 'services#add_service_manager', as: :add_service_manager
-        post 'remove_service_manager', to: 'services#remove_service_manager', as: :remove_service_manager
+        delete 'remove_service_manager', to: 'services#remove_service_manager', as: :remove_service_manager
 
         post 'submit', to: 'services#submit', as: :submit
         post 'approve', to: 'services#approve', as: :approve
@@ -213,7 +213,7 @@ Rails.application.routes.draw do
         get 'targets', to: 'goals#goal_targets', as: :targets
         get 'goal_objectives', to: 'goals#goal_objectives', as: :goal_objectives
         post 'add_tag', to: 'goals#add_tag', as: :add_tag
-        post 'remove_tag', to: 'goals#remove_tag', as: :remove_tag
+        delete 'remove_tag', to: 'goals#remove_tag', as: :remove_tag
         post 'add_organization', to: 'goals#add_organization', as: :add_organization
         delete 'remove_organization', to: 'goals#remove_organization', as: :remove_organization
         post 'add_sponsor', to: 'goals#add_sponsor', as: :add_sponsor
@@ -223,7 +223,7 @@ Rails.application.routes.draw do
       resources :objectives do
         member do
           post 'add_tag', to: 'objectives#add_tag', as: :add_tag
-          post 'remove_tag', to: 'objectives#remove_tag', as: :remove_tag
+          delete 'remove_tag', to: 'objectives#remove_tag', as: :remove_tag
         end
       end
     end
@@ -255,13 +255,13 @@ Rails.application.routes.draw do
         post 'reset', to: 'websites#reset', as: :reset
         get 'events', to: 'websites#events', as: :events
         post 'add_tag', to: 'websites#add_tag', as: :add_tag
-        post 'remove_tag', to: 'websites#remove_tag', as: :remove_tag
+        delete 'remove_tag', to: 'websites#remove_tag', as: :remove_tag
         get 'versions', to: 'websites#versions', as: :versions
         get 'versions_export', to: 'websites#export_versions', as: :export_versions
         post 'add_website_manager', to: 'websites#add_website_manager', as: :add_website_manager
         post 'remove_website_manager', to: 'websites#remove_website_manager', as: :remove_website_manager
         post 'add_website_persona', to: 'websites#add_website_persona', as: :add_website_persona
-        post 'remove_website_persona', to: 'websites#remove_website_persona', as: :remove_website_persona
+        delete 'remove_website_persona', to: 'websites#remove_website_persona', as: :remove_website_persona
       end
     end
     get :registry, to: 'site#registry', as: :registry
@@ -278,7 +278,7 @@ Rails.application.routes.draw do
         post 'archive', to: 'digital_service_accounts#archive', as: :archive
         post 'reset', to: 'digital_service_accounts#reset', as: :reset
         post 'add_tag', to: 'digital_service_accounts#add_tag', as: :add_tag
-        post 'remove_tag', to: 'digital_service_accounts#remove_tag', as: :remove_tag
+        delete 'remove_tag', to: 'digital_service_accounts#remove_tag', as: :remove_tag
 
         post 'add_organization', to: 'digital_service_accounts#add_organization', as: :add_organization
         delete 'remove_organization', to: 'digital_service_accounts#remove_organization', as: :remove_organization
@@ -300,7 +300,7 @@ Rails.application.routes.draw do
         post 'reset', to: 'digital_products#reset', as: :reset
 
         post 'add_tag', to: 'digital_products#add_tag', as: :add_tag
-        post 'remove_tag', to: 'digital_products#remove_tag', as: :remove_tag
+        delete 'remove_tag', to: 'digital_products#remove_tag', as: :remove_tag
 
         post 'add_organization', to: 'digital_products#add_organization', as: :add_organization
         delete 'remove_organization', to: 'digital_products#remove_organization', as: :remove_organization
@@ -315,7 +315,7 @@ Rails.application.routes.draw do
     resources :personas do
       member do
         post 'add_tag', to: 'personas#add_tag', as: :add_tag
-        post 'remove_tag', to: 'personas#remove_tag', as: :remove_tag
+        delete 'remove_tag', to: 'personas#remove_tag', as: :remove_tag
       end
     end
 
@@ -329,7 +329,7 @@ Rails.application.routes.draw do
         get 'export_a11_submissions', to: 'forms#export_a11_submissions', as: :export_a11_submissions
         get 'js', to: 'forms#js', as: :js
         post 'add_tag', to: 'forms#add_tag', as: :add_tag
-        post 'remove_tag', to: 'forms#remove_tag', as: :remove_tag
+        delete 'remove_tag', to: 'forms#remove_tag', as: :remove_tag
         get 'permissions', to: 'forms#permissions', as: :permissions
         get 'compliance', to: 'forms#compliance', as: :compliance
         get 'questions', to: 'forms#questions', as: :questions
@@ -383,7 +383,7 @@ Rails.application.routes.draw do
           post 'archive', to: 'submissions#archive', as: :archive
           post 'unarchive', to: 'submissions#unarchive', as: :unarchive
           post 'add_tag', to: 'submissions#add_tag', as: :add_tag
-          post 'remove_tag', to: 'submissions#remove_tag', as: :remove_tag
+          delete 'remove_tag', to: 'submissions#remove_tag', as: :remove_tag
         end
       end
     end
@@ -409,7 +409,7 @@ Rails.application.routes.draw do
         get 'performance/edit', to: 'performance#edit', as: :performance_edit
         get 'performance/apg/:apg', to: 'performance#apg', as: :apg
         post 'add_tag', to: 'organizations#add_tag', as: :add_tag
-        post 'remove_tag', to: 'organizations#remove_tag', as: :remove_tag
+        delete 'remove_tag', to: 'organizations#remove_tag', as: :remove_tag
         get 'create_two_year_goal', to: 'organizations#create_two_year_goal', as: :create_two_year_goal
         get 'create_four_year_goal', to: 'organizations#create_four_year_goal', as: :create_four_year_goal
         delete 'delete_two_year_goal', to: 'organizations#delete_two_year_goal', as: :delete_two_year_goal
