@@ -23,7 +23,7 @@ jobs:
             POSTGRES_USER: root
             POSTGRES_DB: touchpoints_test
 
-    parallelism: 2
+    parallelism: 1
     working_directory: ~/repo
 
     steps:
