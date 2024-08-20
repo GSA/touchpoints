@@ -31,13 +31,13 @@
       </label>
       <textarea
         class="usa-textarea instructions countable"
-        name="form_builder_instructions"
+        id="form_builder_instructions"
         data-url="<%= admin_form_path(form) %>"><%= form.instructions %></textarea>
       <br>
       <span class="usa-hint save-notice survey-instructions">
         <i class="fa fa-check-circle" aria-hidden="true"></i> saved
       </span>
-      <span class="counter-msg usa-hint usa-character-count__message" aria-live="polite">
+      <span class="counter-msg usa-hint usa-character-count__message text-base-dark" aria-live="polite">
         <%= @instruction_text_limit %>
         <%= t :characters_allowed %>
       </span>
@@ -86,7 +86,7 @@
           <span class="usa-hint save-notice survey-disclaimer">
             <i class="fa fa-check-circle" aria-hidden="true"></i> saved
           </span>
-          <span class="counter-msg usa-hint usa-character-count__message" aria-live="polite">
+          <span class="counter-msg usa-hint usa-character-count__message text-base-dark" aria-live="polite">
             <%= @disclaimer_text_limit %>
             <%= t :characters_allowed %>
           </span>

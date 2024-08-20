@@ -44,16 +44,18 @@
                 <%= friendly_roles[form.user_role?(user: user)] %>
               </td>
               <td>
-                <%= link_to user.email, admin_user_path(user) %>
-                <%- if user.inactive? %>
-                  <span class="usa-tag float-right">
-                    inactive
-                  </span>
+                <%= label_tag dom_id(user, "checkbox") do %>
+                  <%= link_to user.email, admin_user_path(user) %>
+                  <%- if user.inactive? %>
+                    <span class="usa-tag float-right">
+                      inactive
+                    </span>
+                  <% end %>
                 <% end %>
               </td>
               <td>
                 <div class="usa-checkbox question-option">
-                  <%= check_box_tag(dom_id(user),  {
+                  <%= check_box_tag(dom_id(user, "checkbox"),  {
                     class: "usa-checkbox__input",
                     checked: (form.notification_emails.present? && form.notification_emails.include?(user.email)),
                     value: user.email,

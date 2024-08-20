@@ -391,7 +391,7 @@ feature 'Forms', js: true do
 
             it 'has inline editable instructions textbox that can be updated and saved' do
               within '.fba-instructions' do
-                fill_in 'instructions', with: 'Some <a href="#">HTML Instructions</a> go here'
+                fill_in 'form_builder_instructions', with: 'Some <a href="#">HTML Instructions</a> go here'
                 find('.instructions').native.send_key :tab
                 expect(page).to have_content('go here')
                 expect(page).to have_link('HTML Instructions')
@@ -404,7 +404,7 @@ feature 'Forms', js: true do
             end
 
             it 'has inline editable disclaimer text textbox that can be updated and saved' do
-              fill_in('disclaimer-text', with: 'Disclaaaaaaaimer! with <a href="#">a new link</a>')
+              fill_in('form_builder_disclaimer', with: 'Disclaaaaaaaimer! with <a href="#">a new link</a>')
               within '.touchpoints-form-disclaimer' do
                 find('.disclaimer_text').native.send_key :tab
                 expect(page).to have_content('saved')
