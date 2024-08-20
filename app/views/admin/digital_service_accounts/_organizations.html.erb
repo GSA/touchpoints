@@ -1,6 +1,6 @@
 <div id="sponsoring-agencies-div" class="grid-row" data-value="<%= admin_digital_service_account_path(@digital_service_account) %>">
   <div class="grid-col-12">
-    <%= label_tag "Sponsoring agencies", nil, class: "usa-label" %>
+    <%= label_tag "Sponsoring agencies", nil, for: "organization_id", class: "usa-label" %>
     <small>
       Optionally, this record may be associated with one or more
       <%= link_to "Agencies", admin_organizations_path %>.

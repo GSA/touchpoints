@@ -5,9 +5,11 @@
     <%= website.aasm_state %>
     <a
       href="#website-status-modal"
-      aria-label="open publication status modal"
+      aria-label="open record publication status modal"
       aria-controls="website-status-modal"
-      data-open-modal><i class="fa fa-info-circle"></i></a>
+      data-open-modal><i class="fa fa-info-circle"></i>
+      <div class="usa-sr-only">View record publication status</div>
+    </a>
   </div>
   <div
     class="usa-modal usa-modal--lg"
@@ -111,9 +113,11 @@
     <%= website.production_status %>
     <a
       href="#website-production-status-modal"
-      aria-label="open lifecycle modal"
+      aria-label="open website lifecycle modal"
       aria-controls="website-production-status-modal"
-      data-open-modal><i class="fa fa-info-circle"></i></a>
+      data-open-modal><i class="fa fa-info-circle"></i>
+      <div class="usa-sr-only">View website lifecycle statuses</div>
+    </a>
   </div>
   <div
     class="usa-modal usa-modal--lg"
