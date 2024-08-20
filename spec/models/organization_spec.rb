@@ -25,7 +25,19 @@ RSpec.describe Organization, type: :model do
       end
 
       it 'does not allow special characters for an abbreviation' do
-        expect(@org.errors.messages[:abbreviation]).to eq(["only allows letters and numbers"])
+        expect(@org.errors.messages[:abbreviation]).to include("only allows letters and numbers")
+      end
+    end
+
+    describe 'new org with an abbreviation that includes more than 10 characters' do
+      before do
+        @org = Organization.create({
+          abbreviation: "TENPLUSLETTERS"
+        })
+      end
+
+      it 'does not allow special characters for an abbreviation' do
+        expect(@org.errors.messages[:abbreviation]).to include("is too long (maximum is 10 characters)")
       end
     end
 
