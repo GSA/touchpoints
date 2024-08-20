@@ -4,7 +4,8 @@
     <h3>
       Tags
     </h3>
-    <div class="tag-list">
+    <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
+    <div class="tag-list margin-top-1">
       <ul class="usa-list usa-list--unstyled">
         <% form.tag_list.sort.each do |tag| %>
         <li>
@@ -22,7 +23,6 @@
         <% end %>
       </ul>
     </div>
-    <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
   </div>
 </div>
 <% end %>
