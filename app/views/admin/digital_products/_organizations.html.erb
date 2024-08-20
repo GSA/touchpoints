@@ -52,7 +52,7 @@
       var container = $('#sponsoring-agencies-div');
       $.ajax({
         url: container.attr("data-value") + "/remove_organization",
-        type: 'post',
+        type: 'delete',
         data: "organization_id=" + $(this).attr("data-value")
       });
     });

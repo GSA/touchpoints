@@ -215,7 +215,7 @@ Rails.application.routes.draw do
         post 'add_tag', to: 'goals#add_tag', as: :add_tag
         post 'remove_tag', to: 'goals#remove_tag', as: :remove_tag
         post 'add_organization', to: 'goals#add_organization', as: :add_organization
-        post 'remove_organization', to: 'goals#remove_organization', as: :remove_organization
+        delete 'remove_organization', to: 'goals#remove_organization', as: :remove_organization
         post 'add_sponsor', to: 'goals#add_sponsor', as: :add_sponsor
         post 'remove_sponsor', to: 'goals#remove_sponsor', as: :remove_sponsor
       end
@@ -281,7 +281,7 @@ Rails.application.routes.draw do
         post 'remove_tag', to: 'digital_service_accounts#remove_tag', as: :remove_tag
 
         post 'add_organization', to: 'digital_service_accounts#add_organization', as: :add_organization
-        post 'remove_organization', to: 'digital_service_accounts#remove_organization', as: :remove_organization
+        delete 'remove_organization', to: 'digital_service_accounts#remove_organization', as: :remove_organization
 
         post 'add_user', to: 'digital_service_accounts#add_user', as: :add_user
         delete 'remove_user', to: 'digital_service_accounts#remove_user', as: :remove_user
@@ -303,7 +303,7 @@ Rails.application.routes.draw do
         post 'remove_tag', to: 'digital_products#remove_tag', as: :remove_tag
 
         post 'add_organization', to: 'digital_products#add_organization', as: :add_organization
-        post 'remove_organization', to: 'digital_products#remove_organization', as: :remove_organization
+        delete 'remove_organization', to: 'digital_products#remove_organization', as: :remove_organization
 
         post 'add_user', to: 'digital_products#add_user', as: :add_user
         delete 'remove_user', to: 'digital_products#remove_user', as: :remove_user
