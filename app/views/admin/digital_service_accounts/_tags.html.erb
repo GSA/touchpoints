@@ -25,7 +25,7 @@
             </span>
 
             <%- if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
-            <%= render "components/remove_tag_link
+            <%= render "components/remove_tag_link,
               klass: "remove-tag-link",
               value: tag %>
             <% end %>
