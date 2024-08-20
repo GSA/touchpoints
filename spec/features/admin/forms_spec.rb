@@ -406,16 +406,16 @@ feature 'Forms', js: true do
             it 'has inline editable disclaimer text textbox that can be updated and saved' do
               fill_in('disclaimer-text', with: 'Disclaaaaaaaimer! with <a href="#">a new link</a>')
               within '.touchpoints-form-disclaimer' do
-                find('#disclaimer_text').native.send_key :tab
+                find('.disclaimer_text').native.send_key :tab
                 expect(page).to have_content('saved')
-                expect(find('#disclaimer_text-show')).to have_content('Disclaaaaaaaimer!')
-                expect(find('#disclaimer_text-show')).to have_link('a new link')
+                expect(find('.disclaimer_text-show')).to have_content('Disclaaaaaaaimer!')
+                expect(find('.disclaimer_text-show')).to have_link('a new link')
               end
 
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find('#disclaimer_text-show')).to have_content('Disclaaaaaaaimer!')
-              expect(find('#disclaimer_text-show')).to have_link('a new link')
+              expect(find('.disclaimer_text-show')).to have_content('Disclaaaaaaaimer!')
+              expect(find('.disclaimer_text-show')).to have_link('a new link')
             end
 
             it 'has inline editable success text heading that can be updated and saved' do
