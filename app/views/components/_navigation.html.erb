@@ -1,5 +1,6 @@
 <div class="usa-overlay"></div>
-<header class="usa-header usa-header--extended">
+<header>
+<div class="usa-header usa-header--extended">
   <div class="usa-navbar">
     <div class="usa-logo" id="extended-logo">
       <a href="<%= index_path %>" title="Touchpoints" aria-label="Home">
@@ -74,7 +75,7 @@
       </div>
     </div>
   </nav>
-</header>
+</div>
 <%- if current_user && content_for?(:navigation_title) %>
 <div class="dark-blue-bg">
   <div class="grid-container-widescreen">
@@ -89,3 +90,4 @@
   </div>
 </div>
 <% end %>
+</header>
