@@ -59,7 +59,7 @@
                     value: user.email,
                   }) %>
                   <%= label_tag(:user, for: dom_id(user, "checkbox"), class: "usa-checkbox__label") do %>
-                    &nbsp;
+                    <span class="usa-sr-only"><%= user.email %></span>&nbsp;
                   <% end %>
                 </div>
               </td>

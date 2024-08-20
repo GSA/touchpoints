@@ -89,7 +89,8 @@
             <%= @disclaimer_text_limit %>
             <%= t :characters_allowed %>
           </span>
-          <div id="disclaimer_text-show" class="margin-top-2">
+          <div
+            class="disclaimer_text-show margin-top-2">
             <%= form.disclaimer_text.present? ? sanitize(form.disclaimer_text) : 'Survey Disclaimer Text' %>
           </div>
         </div>
@@ -134,7 +135,7 @@ $(function() {
       });
     });
 
-    $(".disclaimer_text").on("focus", function(event) {
+    $("#form_builder_disclaimer").on("focus", function(event) {
       event.preventDefault();
       $(this).text($(this).attr("data-html-value"));
     });
