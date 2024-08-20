@@ -24,10 +24,9 @@
               <%= tag %>
             </span>
             <%- if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
-              <%= render "components/remove_tag_link",
-                klass: "remove-tag-link",
-                value: tag %>
-              <% end %>
+            <%= render "components/remove_tag_link",
+              klass: "remove-tag-link",
+              value: tag %>
             <% end %>
           </li>
           <% end %>
