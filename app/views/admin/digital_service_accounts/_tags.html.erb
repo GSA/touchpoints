@@ -1,7 +1,7 @@
 <%= form_with(model: digital_service_account, url: admin_digital_service_account_path(digital_service_account), local: true) do |f| %>
   <div class="grid-row">
     <div class="grid-col-6">
-      <%= label_tag "Tags", nil, class: "usa-label" %>
+      <%= f.tag "Tags", class: "usa-label" %>
 
       <%- if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
         <ul class="usa-button-group">
