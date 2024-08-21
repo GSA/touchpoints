@@ -36,7 +36,7 @@ RSpec.describe Organization, type: :model do
         })
       end
 
-      it 'does not allow special characters for an abbreviation' do
+      it 'does not allow more than 10 characters for an abbreviation' do
         expect(@org.errors.messages[:abbreviation]).to include("is too long (maximum is 10 characters)")
       end
     end
