@@ -19,5 +19,8 @@
     "gulp-sass": "^5.1.0",
     "postcss-discard-comments": "^7.0.2",
     "vinyl-source-stream": "^2.0.0"
+  },
+  "scripts": {
+    "updateUswds": "yarn upgrade @uswds/uswds --latest --exact; npx gulp updateUswds; npx gulp buildWidgetAssets"
   }
 }
