@@ -12,13 +12,9 @@
             <span class="usa-tag">
               <%= tag %>
             </span>
-            <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= tag %>">
-              <span class="fa fa-trash">
-                <span class="usa-sr-only">
-                  Delete
-                </span>
-              </span>
-            </a>
+            <%= render "components/remove_tag_link",
+              klass: "remove-tag-link",
+              value: tag %>
           </li>
           <% end %>
         </ul>
@@ -52,7 +48,7 @@
       var thisForm = $(this).closest("form");
       $.ajax({
         url: thisForm.attr("action") + "/remove_tag",
-        type: 'post',
+        type: 'delete',
         data: "persona[tag_list]=" + $(this).attr("data-value")
       });
     });

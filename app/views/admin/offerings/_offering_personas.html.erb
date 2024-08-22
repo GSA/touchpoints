@@ -51,7 +51,7 @@
       var container = $('#offering-personas-div');
       $.ajax({
         url: container.attr("data-value") + "/remove_offering_persona",
-        type: 'post',
+        type: 'delete',
         data: "persona_id=" + $(this).attr("data-value")
       });
     });

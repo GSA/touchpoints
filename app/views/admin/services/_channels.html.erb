@@ -14,15 +14,11 @@
                <%= channel %>
             </span>
             &nbsp;
-            <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= channel %>">
-              <span class="fa fa-trash">
-                <span class="usa-sr-only">
-                  Delete
-                </span>
-              </span>
-            </a>
+            <%= render "components/remove_tag_link",
+              klass: "remove-tag-link",
+              value: channel %>
           </li>
-            <% end %>
+          <% end %>
         </ul>
       </p>
     </div>
@@ -52,7 +48,7 @@
       var thisForm = $("#channel_selector");
       $.ajax({
         url: thisForm.attr("data-url") + "/remove_channel",
-        type: 'POST',
+        type: 'delete',
         datatype: 'json',
         data: {
           channel: $(this).attr("data-value")
