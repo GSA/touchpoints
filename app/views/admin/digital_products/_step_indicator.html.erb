@@ -5,6 +5,7 @@
     <%= product.aasm_state %>
     <a
       href="#website-status-modal"
+      aria-label="open publication status modal"
       aria-controls="website-status-modal"
       data-open-modal><i class="fa fa-info-circle"></i></a>
   </div>
@@ -52,18 +53,18 @@
         aria-current="true">
         <span class="usa-step-indicator__segment-label">Created</span>
       </li>
-      <li class="usa-step-indicator__segment 
-        <%= "usa-step-indicator__segment--complete" if product.published? || product.archived? %> 
+      <li class="usa-step-indicator__segment
+        <%= "usa-step-indicator__segment--complete" if product.published? || product.archived? %>
         <%= "usa-step-indicator__segment--current" if product.submitted? %>" aria-current="true">
         <span class="usa-step-indicator__segment-label">Submitted</span>
       </li>
-      <li class="usa-step-indicator__segment 
-        <%= "usa-step-indicator__segment--complete" if product.published? || product.archived? %> 
+      <li class="usa-step-indicator__segment
+        <%= "usa-step-indicator__segment--complete" if product.published? || product.archived? %>
         <%= "usa-step-indicator__segment--current" if product.published? %>" aria-current="true">
         <span class="usa-step-indicator__segment-label">Published</span>
       </li>
-      <li class="usa-step-indicator__segment 
-        <%= "usa-step-indicator__segment--complete" if product.archived? %> 
+      <li class="usa-step-indicator__segment
+        <%= "usa-step-indicator__segment--complete" if product.archived? %>
         <%= "usa-step-indicator__segment--current" if product.archived? %>" aria-current="true">
         <span class="usa-step-indicator__segment-label">Archived</span>
       </li>

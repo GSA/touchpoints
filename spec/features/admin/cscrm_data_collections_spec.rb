@@ -41,6 +41,10 @@ feature 'CSCRM Collections', js: true do
         click_on "Create CSCRM Data Collection"
       end
 
+      it 'is accessible' do
+        expect(page).to be_axe_clean
+      end
+
       it 'creates a Collection successfully' do
         expect(page).to have_content('Cscrm data collection was successfully created.')
       end

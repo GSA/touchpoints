@@ -15,6 +15,11 @@ feature 'Touchpoints', js: true do
         form.reload
       end
 
+      it 'is accessible' do
+        visit touchpoint_path(form)
+        expect(page).to be_axe_clean
+      end
+
       context 'default success text' do
         before do
           visit touchpoint_path(form)

@@ -6,16 +6,14 @@
   <% end %>
 <% end %>
 
-<br>
-
 <div
-  class="usa-summary-box"
+  class="usa-summary-box margin-top-1 margin-bottom-2"
   role="region"
   aria-labelledby="summary-box-key-information">
   <div class="usa-summary-box__body">
-    <h3 class="usa-summary-box__heading" id="summary-box-key-information">
+    <h2 class="usa-summary-box__heading" id="summary-box-key-information">
       Managing Data Collections in Touchpoints
-    </h3>
+    </h2>
     <div class="usa-summary-box__text">
       <p>
         Data Collections are a common user experience in federal government.
@@ -54,9 +52,9 @@
         <% end %>
 
         <div class="year" data-id="2024">
-          <h4>
+          <h3>
             2024
-          </h4>
+          </h3>
           <div>
             <%= link_to "Q1", admin_collections_path(quarter: 1, year: 2024), class: "usa-button #{params[:quarter] == "1" && params[:year] == "2024" ? nil : 'usa-button--outline'}" %>
           </div>

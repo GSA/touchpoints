@@ -1,7 +1,7 @@
 <%= form_with(model: digital_product, url: admin_digital_product_path(digital_product), local: true) do |f| %>
   <div class="grid-row">
     <div class="grid-col-6">
-      <%= label_tag :tags, nil, class: "usa-label" %>
+      <%= f.label :tags, class: "usa-label" %>
 
       <%- if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
         <ul class="usa-button-group">
@@ -24,9 +24,9 @@
               <%= tag %>
             </span>
             <%- if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
-            <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= tag %>">
-              <span class="fa fa-trash"></span>
-            </a>
+            <%= render "components/remove_tag_link",
+              klass: "remove-tag-link",
+              value: tag %>
             <% end %>
           </li>
           <% end %>
@@ -68,7 +68,7 @@
       var thisForm = $(this).closest("form");
       $.ajax({
         url: thisForm.attr("action") + "/remove_tag",
-        type: 'post',
+        type: 'delete',
         data: "digital_product[tag_list]=" + $(this).attr("data-value")
       });
     });

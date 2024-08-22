@@ -19,6 +19,10 @@ feature 'Digital Service Accounts', js: true do
           visit admin_digital_service_accounts_path
         end
 
+        it 'is accessible' do
+          expect(page).to be_axe_clean
+        end
+
         it 'load the Services#index page' do
           expect(page).to have_content('Social Media Accounts')
 
@@ -95,6 +99,10 @@ feature 'Digital Service Accounts', js: true do
 
         fill_in('digital_service_account_tag_list', with: 'tag123')
         page.find("#tag_list_add_button").click
+      end
+
+      it 'is accessible' do
+        expect(page).to be_axe_clean
       end
 
       it 'creates a tag' do
