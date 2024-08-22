@@ -1,11 +1,11 @@
 Hi,
 
-<%= @form.name %> is published in Touchpoints,
-but has not received a response in at least 60 days.
+The form <%= @form.name %> is published in Touchpoints,
+but has not received a response in at least <%= @days_ago %> days.
 
 <%= admin_form_url(@form) %>
 
-Consider archiving the form in Touchpoints if the form is no longer in use.
+Please consider archiving the form in Touchpoints if the form is no longer in use.
 
 Or, if you want to discuss how to potentially increase feedback,
 please get in touch at feedback-analytics@gsa.gov.
