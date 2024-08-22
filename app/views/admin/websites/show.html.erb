@@ -30,9 +30,9 @@
 <div class="grid-row grid-gap-lg">
   <div class="desktop:grid-col-8">
     <div class="usa-section">
-      <h3>
+      <h2>
         Organizational information
-      </h3>
+      </h2>
       <label class="usa-label margin-bottom-1" for="organization">
         Organization/agency
         <span class="fa fa-info-circle usa-tooltip"
@@ -72,9 +72,9 @@
     </div>
 
     <div class="usa-section border-top border-base-lighter">
-      <h3>
+      <h2>
         Website contact information
-      </h3>
+      </h2>
 
       <div class="grid-row grid-gap-lg">
         <div class="grid-col-12">
@@ -142,9 +142,9 @@
     </div>
 
     <div class="usa-section border-top border-base-lighter">
-      <h3>
+      <h2>
         Customer experience
-      </h3>
+      </h2>
 
       <div class="grid-row">
         <div class="grid-col-12">
@@ -208,9 +208,9 @@
     </div>
 
     <div class="usa-section border-top border-base-lighter">
-      <h3>
+      <h2>
         Organizational reporting
-      </h3>
+      </h2>
 
       <div class="grid-row">
         <div class="grid-col-6">
@@ -221,8 +221,8 @@
             <ul class="usa-list usa-list--unstyled">
               <% Website::TYPE_OF_SITES.each_pair do |category, description| %>
               <li>
-                <span class="usa-tag bg-primary-light
-                  <%= "bg-primary" if category.downcase == @website.type_of_site.downcase %>">
+                <span class="usa-tag
+                  <%=(category.downcase == @website.type_of_site.downcase) ? "bg-primary text-white" : "bg-primary-lighter text-primary" %>">
                   <%= category %>
                 </span>
               </li>
@@ -238,7 +238,10 @@
             <ul class="usa-list usa-list--unstyled">
               <% Website::DIGITAL_BRAND_CATEGORIES.each_pair do |category, description| %>
               <li>
-                <span class="usa-tag bg-primary-light <%= "bg-primary" if @website.digital_brand_category? && category.downcase == @website.digital_brand_category.downcase %>"><%= category %></span>
+                <span class="usa-tag
+                  <%= (@website.digital_brand_category? && category.downcase == @website.digital_brand_category.downcase) ? "bg-primary text-white" : "bg-primary-lighter text-primary" %>">
+                  <%= category %>
+                  </span>
               </li>
               <% end %>
             </ul>
@@ -270,9 +273,9 @@
     <div class="usa-section border-top border-base-lighter">
       <div class="grid-row grid-gap-lg">
         <div class="grid-col-12">
-          <h3>
+          <h2>
             Technical information
-          </h3>
+          </h2>
         </div>
         <div class="grid-col-6">
           <label class="usa-label" for="parent_domain">

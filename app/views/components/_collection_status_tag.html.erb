@@ -1,3 +1,8 @@
-<span class="usa-tag <%= 'bg-mint' if collection.draft? -%> <%= 'bg-accent-cool' if collection.submitted? -%> <%= 'bg-accent-warm' if collection.change_requested? -%>" title="Collection status">
+<span
+  class="usa-tag
+  <%= 'bg-mint text-black' if collection.draft? -%>
+  <%= 'bg-accent-cool' if collection.submitted? -%>
+  <%= 'bg-accent-warm' if collection.change_requested? -%>"
+  title="Collection status">
   <%= collection.aasm_state %>
 </span>

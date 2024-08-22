@@ -31,6 +31,10 @@ feature 'Profile', js: true do
           visit profile_path
         end
 
+        it 'is accessible' do
+            expect(page).to be_axe_clean
+          end
+
         it 'enters an invalid (too short) new api key' do
           fill_in('user[api_key]', with: '123')
           click_on 'Update User'

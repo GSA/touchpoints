@@ -23,6 +23,10 @@ feature 'Forms', js: true do
           visit questions_admin_form_path(form)
         end
 
+        it 'is accessible' do
+          expect(page).to be_axe_clean
+        end
+
         describe 'can preview a form' do
           before do
             click_on 'Preview'
@@ -50,6 +54,10 @@ feature 'Forms', js: true do
         end
 
         context 'Form Templates' do
+          it 'is accessible' do
+            expect(page).to be_axe_clean
+          end
+
           describe 'can preview a template' do
             before do
               within '.form-templates' do
@@ -70,6 +78,10 @@ feature 'Forms', js: true do
           describe 'can edit a template' do
             before do
               visit admin_form_path(form_template)
+            end
+
+            it 'is accessible' do
+              expect(page).to be_axe_clean
             end
 
             it 'can edit a form template' do
@@ -128,6 +140,10 @@ feature 'Forms', js: true do
           expect(page.current_path).to eq(new_admin_form_path)
           fill_in 'form_name', with: new_form.name
           click_on 'Create Form'
+        end
+
+        it 'is accessible' do
+          expect(page).to be_axe_clean
         end
 
         it 'redirect to /form/:uuid/questions with a success flash message' do
@@ -227,6 +243,10 @@ feature 'Forms', js: true do
         before do
           login_as(admin)
           visit admin_form_path(form)
+        end
+
+        it 'is accessible' do
+          expect(page).to be_axe_clean
         end
 
         context 'for :created touchpoint for an Organization form_approval_enabled' do
@@ -371,7 +391,7 @@ feature 'Forms', js: true do
 
             it 'has inline editable instructions textbox that can be updated and saved' do
               within '.fba-instructions' do
-                fill_in 'instructions', with: 'Some <a href="#">HTML Instructions</a> go here'
+                fill_in 'form_builder_instructions', with: 'Some <a href="#">HTML Instructions</a> go here'
                 find('.instructions').native.send_key :tab
                 expect(page).to have_content('go here')
                 expect(page).to have_link('HTML Instructions')
@@ -384,18 +404,18 @@ feature 'Forms', js: true do
             end
 
             it 'has inline editable disclaimer text textbox that can be updated and saved' do
-              fill_in('disclaimer-text', with: 'Disclaaaaaaaimer! with <a href="#">a new link</a>')
+              fill_in('form_builder_disclaimer', with: 'Disclaaaaaaaimer! with <a href="#">a new link</a>')
               within '.touchpoints-form-disclaimer' do
-                find('#disclaimer_text').native.send_key :tab
+                find('.disclaimer_text').native.send_key :tab
                 expect(page).to have_content('saved')
-                expect(find('#disclaimer_text-show')).to have_content('Disclaaaaaaaimer!')
-                expect(find('#disclaimer_text-show')).to have_link('a new link')
+                expect(find('.disclaimer_text-show')).to have_content('Disclaaaaaaaimer!')
+                expect(find('.disclaimer_text-show')).to have_link('a new link')
               end
 
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find('#disclaimer_text-show')).to have_content('Disclaaaaaaaimer!')
-              expect(find('#disclaimer_text-show')).to have_link('a new link')
+              expect(find('.disclaimer_text-show')).to have_content('Disclaaaaaaaimer!')
+              expect(find('.disclaimer_text-show')).to have_link('a new link')
             end
 
             it 'has inline editable success text heading that can be updated and saved' do
@@ -496,6 +516,10 @@ feature 'Forms', js: true do
               visit example_admin_form_path(inline_form)
             end
 
+            it 'is accessible' do
+              expect(page).to be_axe_clean
+            end
+
             it 'can complete then submit the inline Form and see a Success message' do
               fill_in inline_form.ordered_questions.first.ui_selector, with: 'We the People of the United States, in Order to form a more perfect Union...'
               click_on 'Submit'
@@ -533,9 +557,13 @@ feature 'Forms', js: true do
           sleep 1.0
         end
 
+        it 'is accessible' do
+          expect(page).to be_axe_clean
+        end
+
         it 'updates successfully' do
           visit notifications_admin_form_path(form)
-          expect(find("#user_#{admin.id}", visible: false)).to be_checked
+          expect(find("#checkbox_user_#{admin.id}", visible: false)).to be_checked
         end
       end
 
@@ -546,6 +574,10 @@ feature 'Forms', js: true do
         before do
           login_as(admin)
           visit delivery_admin_form_path(form)
+        end
+
+        it 'is accessible' do
+          expect(page).to be_axe_clean
         end
 
         describe 'editing the whitelist url' do
@@ -709,6 +741,10 @@ feature 'Forms', js: true do
           describe 'delete Form Sections' do
             before do
               visit questions_admin_form_path(form)
+            end
+
+            it 'is accessible' do
+              expect(page).to be_axe_clean
             end
 
             it 'defaults to 1 section' do
@@ -1311,6 +1347,10 @@ feature 'Forms', js: true do
       before do
         login_as(user)
         visit permissions_admin_form_path(another_users_form)
+      end
+
+      it 'is accessible' do
+        expect(page).to be_axe_clean
       end
 
       it 'is redirected away and shown a message' do

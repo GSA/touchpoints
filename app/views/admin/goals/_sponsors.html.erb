@@ -15,7 +15,11 @@
           </span>
           &nbsp;
           <a href="javascript:void(0);" class="remove-sponsor-link remove-tag-link" data-value="<%= user.id %>">
-            <span class="fa fa-trash"></span>
+            <span class="fa fa-trash">
+              <span class="usa-sr-only">
+                Delete
+              </span>
+            </span>
           </a>
         </li>
           <% end %>
@@ -24,9 +28,9 @@
   </div>
 </div>
 
-<%= select_tag :sponsor_id, 
-  options_for_select((User.all.order(:email) - @goal.sponsoring_users).map { |u| [u.email, u.id] }), 
-  prompt: "Select a User", 
+<%= select_tag :sponsor_id,
+  options_for_select((User.all.order(:email) - @goal.sponsoring_users).map { |u| [u.email, u.id] }),
+  prompt: "Select a User",
   class: "usa-select add-sponsor" %>
 
 <script>

@@ -16,7 +16,11 @@
           </span>
           &nbsp;
           <a href="javascript:void(0);" class="remove-persona-link" data-value="<%= persona.id %>">
-            <span class="fa fa-trash"></span>
+            <span class="fa fa-trash">
+              <span class="usa-sr-only">
+                Delete
+              </span>
+            </span>
           </a>
         </li>
           <% end %>
@@ -47,7 +51,7 @@
       var container = $('#offering-personas-div');
       $.ajax({
         url: container.attr("data-value") + "/remove_offering_persona",
-        type: 'post',
+        type: 'delete',
         data: "persona_id=" + $(this).attr("data-value")
       });
     });

@@ -19,9 +19,9 @@
   aria-labelledby="summary-box-key-information"
 >
   <div class="usa-summary-box__body">
-    <h3 class="usa-summary-box__heading" id="summary-box-key-information">
+    <h2 class="usa-summary-box__heading" id="summary-box-key-information">
       Inventorying Digital Assets
-    </h3>
+    </h2>
     <div class="usa-summary-box__text">
       <p>
         Websites are digital assets.
@@ -54,13 +54,15 @@
       </div>
 
       <div class="field margin-top-3">
-        <h3 class="margin-bottom-2">
+        <h3 class="margin-bottom-2" id="filter-by-org-label">
           <span class="fa fa-filter"></span>
           Filter by org
         </h3>
         <%= select_tag :organization_abbreviation, options_for_select(organization_abbreviation_dropdown_options, @organization.try(:abbreviation)),
           prompt: "Select an Organization...",
-          class: "usa-select add-agency" %>
+          class: "usa-select add-agency",
+          "aria-labelledby" => "filter-by-org-label",
+          required: true %>
       </div>
       <br>
       <%= link_to("Clear filter", admin_websites_path) %>
@@ -68,12 +70,13 @@
     <div class="tablet:grid-col-6">
 
       <div class="field margin-top-3">
-        <h3 class="margin-bottom-2">
+        <h3 class="margin-bottom-2" id="filter-by-production-status-label">
           <span class="fa fa-filter"></span>
           Filter by production status
         </h3>
         <%= select_tag :production_status, options_for_select(Website.aasm(:production_status).states.map(&:name), @organization.try(:aasm_state)),
           prompt: "Select a status...",
+          "aria-labelledby" => "filter-by-production-status-label",
           class: "usa-select" %>
       </div>
 
