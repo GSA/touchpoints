@@ -154,7 +154,7 @@ feature 'Forms', js: true do
 
         it 'can upload and display a logo' do
           within('.usa-file-input') do
-            attach_file('form_logo', 'spec/fixtures/touchpoints-logo.png')
+            attach_file('form_logo', 'spec/fixtures/touchpoints-banner.png')
           end
           find('label', text: 'Display square (80px wide by 80px tall) logo?').click
           click_on 'Update logo'
@@ -175,9 +175,9 @@ feature 'Forms', js: true do
           click_on 'Create Form'
         end
 
-        it 'can upload and display a logo' do
+        it 'can upload and display a `square` logo' do
           within('.usa-file-input') do
-            attach_file('form_logo', 'spec/fixtures/touchpoints-logo.png')
+            attach_file('form_logo', 'spec/fixtures/touchpoints-banner.png')
           end
           find('label', text: 'Display square (80px wide by 80px tall) logo?').click
           click_on 'Update logo'
@@ -189,6 +189,27 @@ feature 'Forms', js: true do
           visit example_admin_form_path(Form.last)
           within('.fba-modal-dialog') do
             expect(page).to have_css('.form-header-logo-square')
+          end
+        end
+
+        it 'can upload and display a `banner` logo' do
+          within('.usa-file-input') do
+            attach_file('form_logo', 'spec/fixtures/touchpoints-banner.png')
+          end
+          find('label', text: 'Display small banner (320px wide by 80px tall) logo?').click
+          click_on 'Update logo'
+          click_on 'Delivery'
+          find('label', text: 'Embedded inline on your website').click
+          fill_in('form_element_selector', with: 'test_selector')
+          click_on 'Update Form'
+          expect(page).to have_content('Form was successfully updated.')
+          visit example_admin_form_path(Form.last)
+          within('.fba-modal-dialog') do
+            expect(page).to have_css('.form-header-logo')
+            # image has 80px height
+            image = find('.form-header-logo')
+            image_height = image.evaluate_script('this.naturalHeight')
+            expect(image_height).to eq(80)
           end
         end
       end
@@ -1449,6 +1470,7 @@ feature 'Forms', js: true do
           visit admin_form_path(form)
           fill_in "form_tag_list", with: "health benefits"
           page.find('#form_tag_list').native.send_keys :tab # to lose focus
+          expect(page).to have_content("health benefits".upcase)
           fill_in "form_tag_list", with: "digital service"
           page.find('#form_tag_list').native.send_keys :tab
         end
@@ -1456,9 +1478,6 @@ feature 'Forms', js: true do
         it 'adds tags' do
           within(".tag-list") do
             expect(page).to have_content("health benefits".upcase)
-          end
-          visit admin_form_path(form)
-          within(".tag-list") do
             expect(page).to have_content("digital service".upcase)
           end
         end
