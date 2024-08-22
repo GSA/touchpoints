@@ -1,7 +1,7 @@
 <%= form_with(model: digital_service_account, url: admin_digital_service_account_path(digital_service_account), local: true) do |f| %>
   <div class="grid-row">
     <div class="grid-col-6">
-      <%= label_tag "Tags", nil, class: "usa-label" %>
+      <%= f.label "Tags", class: "usa-label" %>
 
       <%- if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
         <ul class="usa-button-group">
@@ -25,9 +25,9 @@
             </span>
 
             <%- if digital_service_account_permissions?(digital_service_account: @digital_service_account, user: current_user) %>
-            <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= tag %>">
-              <span class="fa fa-trash"></span>
-            </a>
+            <%= render "components/remove_tag_link",
+              klass: "remove-tag-link",
+              value: tag %>
             <% end %>
           </li>
           <% end %>
@@ -63,7 +63,7 @@
       var thisForm = $(this).closest("form");
       $.ajax({
         url: thisForm.attr("action") + "/remove_tag",
-        type: 'post',
+        type: 'delete',
         data: "digital_service_account[tag_list]=" + $(this).attr("data-value")
       });
     });

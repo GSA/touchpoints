@@ -1,14 +1,16 @@
-<div class="well">
-  <%= label_tag "Event log", nil, class: "usa-label margin-top-0" %>
+<div class="well margin-top-1">
+  <h3>
+    Event log
+  </h3>
 
   <div class="events">
   <%- if events.present? %>
     <ol class="usa-process-list" reversed>
     <% events.each do |event| %>
       <li class="usa-process-list__item">
-        <h4 class="usa-process-list__heading font-sans-sm">
+        <div class="usa-process-list__heading font-sans-sm">
           <%= event.name %>
-        </h4>
+        </div>
         <p class="font-sans-2xs margin-top-05">
           <%- if event.user_id %>
           by

@@ -53,13 +53,13 @@
               </td>
               <td>
                 <div class="usa-checkbox question-option">
-                  <%= check_box_tag(dom_id(user),  {
+                  <%= check_box_tag(dom_id(user, "checkbox"),  {
                     class: "usa-checkbox__input",
                     checked: (form.notification_emails.present? && form.notification_emails.include?(user.email)),
                     value: user.email,
                   }) %>
-                  <%= label_tag(:user, for: dom_id(user), class: "usa-checkbox__label") do %>
-                    &nbsp;
+                  <%= label_tag(:user, for: dom_id(user, "checkbox"), class: "usa-checkbox__label") do %>
+                    <span class="usa-sr-only"><%= user.email %></span>&nbsp;
                   <% end %>
                 </div>
               </td>

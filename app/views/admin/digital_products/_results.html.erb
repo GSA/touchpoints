@@ -14,11 +14,19 @@
         <td><%= digital_product.updated_at %></td>
         <td>
           <%- if digital_product.aasm_state == "published" %>
-            <span class="usa-tag bg-success">
+            <span class="usa-tag bg-success text-black">
               <%= digital_product.aasm_state %>
             </span>
           <% elsif digital_product.aasm_state=="archived" %>
-            <span class="usa-tag bg-base-lighter">
+            <span class="usa-tag bg-base-lighter text-black">
+              <%= digital_product.aasm_state %>
+            </span>
+          <% elsif digital_product.aasm_state=="updated" %>
+            <span class="usa-tag bg-warning text-black">
+              <%= digital_product.aasm_state %>
+            </span>
+          <% elsif digital_product.aasm_state=="created" %>
+            <span class="usa-tag">
               <%= digital_product.aasm_state %>
             </span>
           <% else  %>

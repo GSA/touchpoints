@@ -1,6 +1,6 @@
 <div id="sponsoring-agencies-div" class="grid-row" data-value="<%= admin_digital_product_path(@digital_product) %>">
   <div class="grid-col-12">
-    <%= label_tag "Sponsoring agencies", nil, class: "usa-label" %>
+    <%= label_tag "Sponsoring agencies", nil, for: "organization_id", class: "usa-label" %>
     <small>
       Optionally, this record may be associated with one or more
       <%= link_to "Agencies", admin_organizations_path %>.
@@ -20,9 +20,9 @@
         </span>
 
         <%- if digital_product_permissions?(digital_product: digital_product, user: current_user) %>
-        <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= agency.id %>">
-          <span class="fa fa-trash"></span>
-        </a>
+        <%= render "components/remove_tag_link",
+          klass: "remove-tag-link",
+          value: agency.id %>
         <% end %>
       </li>
       <% end %>
@@ -52,7 +52,7 @@
       var container = $('#sponsoring-agencies-div');
       $.ajax({
         url: container.attr("data-value") + "/remove_organization",
-        type: 'post',
+        type: 'delete',
         data: "organization_id=" + $(this).attr("data-value")
       });
     });

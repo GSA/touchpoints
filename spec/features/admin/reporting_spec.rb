@@ -14,6 +14,11 @@ feature 'Reporting', js: true do
         login_as admin
       end
 
+      it 'is accessible' do
+        visit admin_no_submissions_path
+        expect(page).to be_axe_clean
+      end
+
       it 'creates the report' do
         visit admin_no_submissions_path
         expect(page).to have_content('Live Surveys Without Submissions by Agency')

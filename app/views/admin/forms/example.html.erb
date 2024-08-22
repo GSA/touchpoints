@@ -2,7 +2,7 @@
 <html lang="en-US">
   <head>
     <meta charset='utf-8'>
-    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
       Touchpoints Example
     </title>
@@ -31,9 +31,11 @@
     <br>
     <div class="grid-container">
       <div class="grid-col-12">
-        <div id="<%= @form.element_selector %>">
-          Touchpoint will be rendered here.
-        </div>
+        <main>
+          <div id="<%= @form.element_selector %>">
+            Touchpoint will be rendered here.
+          </div>
+        </main>
       </div>
     </div>
     <br>
@@ -51,17 +53,27 @@
     <br>
     <% else %>
     <div class="grid-container demo-grid">
-      <div class="grid-row grid-gap-md">
-        <div class="grid-col-12 demo-content">
+      <header style="text-align: center; padding: 1rem;">
+        <div class="grid-row grid-gap-md">
+          <div class="grid-col-12 demo-content">
+            <span class="font-normal text-sans-sm">
+              Example page
+            </span>
+            <h1>
+              <br>header
+            </h1>
+          </div>
         </div>
-      </div>
+      </header>
     </div>
     <div class="grid-container demo-grid">
       <div class="grid-row grid-gap-md">
         <div class="grid-col-12 demo-content">
-          <div style="text-align: center; font-size: 3em; opacity: 0.1; padding: 1rem;">
-            Example page content
-          </div>
+          <main>
+            <div style="text-align: center; padding: 1rem;">
+              main content
+            </div>
+          </main>
         </div>
       </div>
     </div>

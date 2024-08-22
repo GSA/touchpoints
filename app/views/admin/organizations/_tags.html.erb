@@ -1,22 +1,22 @@
 <%= form_with(model: @organization, url: admin_organization_path(@organization), local: true) do |f| %>
   <div class="grid-row">
     <div class="grid-col-6">
-      <h3>Tags</h3>
-      <div class="tag-list">
+      <%= f.label :tag_list, "Tags", class: "usa-label margin-top-0" %>
+      <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
+      <div class="tag-list margin-top-1">
         <ul class="usa-list usa-list--unstyled">
           <% @organization.tag_list.sort.each do |tag| %>
           <li>
             <span class="usa-tag">
               <%= tag %>
             </span>
-            <a href="javascript:void(0);" class="remove-tag-link" data-value="<%= tag %>">
-              <span class="fa fa-trash"></span>
-            </a>
+            <%= render "components/remove_tag_link",
+              klass: "remove-tag-link",
+              value: tag %>
           </li>
           <% end %>
         </ul>
       </div>
-      <%= f.text_field :tag_list, placeholder: "Add a tag", value: nil, class: "usa-input tag-input" %>
     </div>
   </div>
 <% end %>
@@ -48,7 +48,7 @@
       var thisForm = $(this).closest("form");
       $.ajax({
         url: thisForm.attr("action") + "/remove_tag",
-        type: 'post',
+        type: 'delete',
         data: "organization[tag_list]=" + $(this).attr("data-value")
       });
     });

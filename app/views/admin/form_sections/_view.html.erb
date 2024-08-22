@@ -9,10 +9,16 @@
           <i class="fa fa-solid fa-sort"></i>
         <% end %>
 
-        <label class="usa-label text-uppercase font-body-3xs" style="margin-top: 0;" for="instructions">
+        <label
+          class="usa-label text-uppercase font-body-3xs margin-top-0"
+          for="<%= dom_id(section) %>-title">
           Section title
         </label>
-        <input class="usa-input section-title" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_form_section_path(form, section) %>" value="<%= section.title %>">
+        <input
+          id="<%= dom_id(section) %>-title"
+          class="usa-input section-title"
+          data-url="<%= admin_form_form_section_path(form, section) %>"
+          value="<%= section.title %>">
         &nbsp;&nbsp;
         <span class="usa-hint save-notice" id="section-<%= section.id %>">
           <i class="fa fa-check-circle" aria-hidden="true"></i> section title saved

@@ -40,11 +40,11 @@
 
 <div class="grid-row grid-gap-md">
   <div class="grid-col-6">
-    <%= label_tag "Search by Agency", nil, class: "usa-label" %>
+    <%= label_tag "Search by Agency", nil, for: "organization_id", class: "usa-label" %>
     <%= select_tag :organization_id, options_for_select(organization_dropdown_options), { prompt: "All", class: "usa-select" } %>
   </div>
   <div class="grid-col-6">
-    <%= label_tag "Search by keywords", nil, class: "usa-label" %>
+    <%= label_tag "Search by keywords", nil, for: "tags", class: "usa-label" %>
     <%= text_field_tag :tags, nil, class: "usa-input" %>
   </div>
 </div>
@@ -53,7 +53,7 @@
     &nbsp;
   </div>
   <div class="grid-col-6">
-    <%= label_tag "Status selector", nil, class: "usa-label" %>
+    <%= label_tag "Status selector", nil, for: "aasm_state", class: "usa-label" %>
     <%= select_tag :aasm_state, options_for_select(["All", "Created", "Published", "Archived"]), class: "usa-select" %>
   </div>
 </div>

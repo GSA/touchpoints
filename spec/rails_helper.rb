@@ -10,6 +10,7 @@ require 'rspec/rails'
 require 'capybara/rails'
 require 'capybara/rspec'
 require 'selenium/webdriver'
+require 'axe-rspec'
 # Add additional requires below this line. Rails is not loaded until this point!
 require_relative 'support/wait_for_ajax'
 # Requires supporting ruby files with custom matchers and macros, etc, in
