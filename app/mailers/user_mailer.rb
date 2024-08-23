@@ -212,13 +212,15 @@ class UserMailer < ApplicationMailer
       to: UserMailer.touchpoints_admin_emails
   end
 
-  def notify_form_manager_of_inactive_form(short_uuid)
+  def form_inactivity_email(form_short_uuid:, user_emails:, days_ago:)
     set_logo
-    @form = Form.find_by_short_uuid(short_uuid)
-    return unless @form.notification_emails.present?
+    @form = Form.find_by_short_uuid(form_short_uuid)
+    @user_emails = user_emails
+    @days_ago = days_ago
 
-    mail subject: "Form #{@form.name} has not received a response in more than 60 days",
-      to: UserMailer.touchpoints_admin_emails
+    mail subject: "Touchpoints form #{@form.name} has not received a response in more than #{days_ago} days",
+      to: user_emails,
+      bcc: UserMailer.touchpoints_admin_emails
   end
 
   def org_user_notification(user, org_admin)
