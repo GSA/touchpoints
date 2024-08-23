@@ -20,7 +20,18 @@ namespace :scheduled_jobs do
   end
 
   task notify_form_managers_of_inactive_forms: :environment do
-    User.notify_form_managers_of_inactive_forms
+    Form.send_inactive_form_emails_since(30)
+    Form.send_inactive_form_emails_since(60)
+    Form.send_inactive_form_emails_since(90)
+    Form.send_inactive_form_emails_since(120)
+    Form.send_inactive_form_emails_since(150)
+    Form.send_inactive_form_emails_since(180)
+    Form.send_inactive_form_emails_since(210)
+    Form.send_inactive_form_emails_since(240)
+    Form.send_inactive_form_emails_since(270)
+    Form.send_inactive_form_emails_since(300)
+    Form.send_inactive_form_emails_since(330)
+    Form.send_inactive_form_emails_since(360)
   end
 
   task archive_forms: :environment do

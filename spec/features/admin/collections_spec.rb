@@ -27,6 +27,10 @@ feature 'Data Collections', js: true do
         visit admin_collections_path
       end
 
+      it 'is accessible' do
+        expect(page).to be_axe_clean
+      end
+
       it 'renders the index page' do
         expect(page).to have_content('Data Collections')
         expect(page).to have_css('table.usa-table')
@@ -74,6 +78,10 @@ feature 'Data Collections', js: true do
         visit admin_collection_path(collection)
       end
 
+      it 'is accessible' do
+        expect(page).to be_axe_clean
+      end
+
       it 'renders a successful response' do
         expect(page).to have_content('Data Collection')
         expect(page).to have_content(collection.name)
@@ -84,6 +92,10 @@ feature 'Data Collections', js: true do
     describe 'GET /new' do
       before do
         visit new_admin_collection_path
+      end
+
+      it 'is accessible' do
+        expect(page).to be_axe_clean
       end
 
       it 'renders page' do
@@ -121,6 +133,10 @@ feature 'Data Collections', js: true do
           expect(page).to have_content('Editing Data Collection')
           expect(page).to have_selector("div.radio-button", count: 4)
           click_on 'Update Collection'
+        end
+
+        it 'is accessible' do
+          expect(page).to be_axe_clean
         end
 
         it 'update the requested collection' do

@@ -25,7 +25,7 @@
     <div class="grid-row grid-gap-md">
       <div class="grid-col-6">
         <div class="field">
-          <%= f.label :organization, class: "usa-label" %>
+          <%= f.label :organization_id, "Organization", class: "usa-label" %>
           <%= f.select :organization_id, options_for_select(organization_dropdown_options, selected: (@form.organization ? @form.organization.id : nil)), { prompt: "Select an Organization" }, { class: "usa-select" } %>
         </div>
       </div>

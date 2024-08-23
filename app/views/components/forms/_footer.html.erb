@@ -6,7 +6,7 @@
       <div class="grid-col-12">
         <%- if form.disclaimer_text? %>
         <small class="fba-dialog-privacy">
-          <%= form.disclaimer_text.html_safe %>
+          <%= sanitize(form.disclaimer_text) %>
         </small>
         <% end -%>
       </div>

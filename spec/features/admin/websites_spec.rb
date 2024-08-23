@@ -18,6 +18,10 @@ feature 'Managing Websites', js: true do
       visit admin_websites_path
     end
 
+    it 'is accessible' do
+      expect(page).to be_axe_clean
+    end
+
     it 'load the Websites#index page' do
       expect(page).to have_content('Inventorying Digital Assets')
       expect(page.current_path).to eq(admin_websites_path)
@@ -133,8 +137,11 @@ feature 'Managing Websites', js: true do
 
     describe "editing another's Website" do
       before do
-        visit admin_websites_path
-        click_on website.domain
+        visit admin_website_path(website)
+      end
+
+      it 'is accessible' do
+        expect(page).to be_axe_clean
       end
 
       it 'can view successfully but not see an edit button' do
@@ -146,6 +153,10 @@ feature 'Managing Websites', js: true do
     describe "trying to edit another's Website" do
       before 'user fill-in the form' do
         visit edit_admin_website_path(website)
+      end
+
+      it 'is accessible' do
+        expect(page).to be_axe_clean
       end
 
       it 'redirect to /admin/websites' do

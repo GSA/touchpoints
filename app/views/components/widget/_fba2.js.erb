@@ -356,6 +356,11 @@ function FBAform(d, N) {
 			}
 		},
 		loadButton: function() {
+			// Add a landmark for button
+			this.landmarkElement = d.createElement('div');
+			this.landmarkElement.setAttribute('aria-label', 'Feedback button');
+			this.landmarkElement.setAttribute('role', 'complementary');
+
 			// Add the fixed, floating tab button
 			this.buttonEl = d.createElement('a');
 			this.buttonEl.setAttribute('id', 'fba-button');
@@ -368,7 +373,8 @@ function FBAform(d, N) {
 			this.buttonEl.setAttribute('data-open-modal', '');
 			this.buttonEl.innerHTML = this.options.modalButtonText;
 			this.buttonEl.addEventListener('click', () => d.dispatchEvent(new Event('onTouchpointsModalOpen')));
-			d.body.appendChild(this.buttonEl);
+			this.landmarkElement.appendChild(this.buttonEl);
+			d.body.appendChild(this.landmarkElement);
 
 			this.loadFeebackSkipLink();
 		},

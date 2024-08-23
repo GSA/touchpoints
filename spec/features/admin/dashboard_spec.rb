@@ -26,6 +26,10 @@ feature 'Admin Dashboard', js: true do
         visit admin_dashboard_path
       end
 
+      it 'is accessible' do
+        expect(page).to be_axe_clean
+      end
+
       it 'display weekly metrics' do
         expect(page).to have_content('Weekly Product Metrics')
         expect(page).to have_content('Users')

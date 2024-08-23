@@ -18,6 +18,10 @@ feature 'Example Website Integration', js: true do
         visit example_admin_form_path(open_ended_form)
       end
 
+      it 'is accessible' do
+        expect(page).to be_axe_clean
+      end
+
       it 'loads Badge with Text' do
         expect(page).to have_content('Help improve this site')
       end

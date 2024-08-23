@@ -13,11 +13,11 @@
             <%= persona.name %>
           </span>
           &nbsp;
-          <a href="javascript:void(0);" class="remove-persona-link" data-value="<%= persona.id %>">
-            <span class="fa fa-trash"></span>
-          </a>
+          <%= render "components/remove_tag_link",
+            klass: "remove-persona-link",
+            value: persona.id %>
         </li>
-          <% end %>
+        <% end %>
       </ul>
     </div>
   </div>
@@ -45,7 +45,7 @@
       var container = $('#website-personas-div');
       $.ajax({
         url: container.attr("data-value") + "/remove_website_persona",
-        type: 'post',
+        type: 'delete',
         data: "persona_id=" + $(this).attr("data-value")
       });
     });

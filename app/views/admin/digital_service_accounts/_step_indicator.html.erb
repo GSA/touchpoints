@@ -5,8 +5,12 @@
     <%= account.aasm_state %>
     <a
       href="#website-status-modal"
+      aria-label="open website status modal"
       aria-controls="website-status-modal"
-      data-open-modal><i class="fa fa-info-circle"></i></a>
+      data-open-modal>
+      <i class="fa fa-info-circle"></i>
+      <div class="usa-sr-only">View website statuses</div>
+    </a>
   </div>
   <div
     class="usa-modal usa-modal--lg"
@@ -52,18 +56,18 @@
         aria-current="true">
         <span class="usa-step-indicator__segment-label">Created</span>
       </li>
-      <li class="usa-step-indicator__segment 
-        <%= "usa-step-indicator__segment--complete" if account.published? || account.archived? %> 
+      <li class="usa-step-indicator__segment
+        <%= "usa-step-indicator__segment--complete" if account.published? || account.archived? %>
         <%= "usa-step-indicator__segment--current" if account.submitted? %>" aria-current="true">
         <span class="usa-step-indicator__segment-label">Submitted</span>
       </li>
-      <li class="usa-step-indicator__segment 
-        <%= "usa-step-indicator__segment--complete" if account.published? || account.archived? %> 
+      <li class="usa-step-indicator__segment
+        <%= "usa-step-indicator__segment--complete" if account.published? || account.archived? %>
         <%= "usa-step-indicator__segment--current" if account.published? %>" aria-current="true">
         <span class="usa-step-indicator__segment-label">Published</span>
       </li>
-      <li class="usa-step-indicator__segment 
-        <%= "usa-step-indicator__segment--complete" if account.archived? %> 
+      <li class="usa-step-indicator__segment
+        <%= "usa-step-indicator__segment--complete" if account.archived? %>
         <%= "usa-step-indicator__segment--current" if account.archived? %>" aria-current="true">
         <span class="usa-step-indicator__segment-label">Archived</span>
       </li>

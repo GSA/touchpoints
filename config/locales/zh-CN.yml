@@ -111,6 +111,7 @@ zh-CN:
     formats:
       default: "%Y-%m-%d"
       long: "%Y年%m月%d日"
+      with_timezone: "%Y年%m月%d日 (%:z)"
       short: "%m月%d日"
     month_names:
     -

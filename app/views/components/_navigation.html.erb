@@ -1,90 +1,93 @@
 <div class="usa-overlay"></div>
-<header class="usa-header usa-header--extended">
-  <div class="usa-navbar">
-    <div class="usa-logo" id="extended-logo">
-      <a href="<%= index_path %>" title="Touchpoints" aria-label="Home">
-        <%= image_tag "touchpoints-logo-@2x.png", class: "header-logo", alt: "Touchpoints logo" %>
-      </a>
+<header>
+  <div class="usa-header usa-header--extended">
+    <div class="usa-navbar">
+      <div class="usa-logo" id="extended-logo">
+        <a href="<%= index_path %>" title="Touchpoints" aria-label="Home">
+          <%= image_tag "touchpoints-logo-@2x.png", class: "header-logo", alt: "Touchpoints logo" %>
+        </a>
+      </div>
+      <button class="usa-menu-btn">Menu</button>
     </div>
-    <button class="usa-menu-btn">Menu</button>
-  </div>
-  <nav aria-label="Primary navigation" class="usa-nav">
-    <div class="usa-nav__inner">
-      <button class="usa-nav__close">
-        <%= image_tag "/img/usa-icons/close.svg", alt: "close" %>
-      </button>
-      <div class="usa-nav__secondary">
-        <ul class="usa-nav__secondary-links">
-        <% unless current_user %>
-          <%- if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
-          <li class="usa-nav__secondary-item">
-            <%= button_to user_login_dot_gov_omniauth_authorize_path,
+    <nav aria-label="Primary navigation" class="usa-nav">
+      <div class="usa-nav__inner">
+        <button class="usa-nav__close">
+          <%= image_tag "/img/usa-icons/close.svg", alt: "close" %>
+        </button>
+        <div class="usa-nav__secondary">
+          <ul class="usa-nav__secondary-links">
+          <% unless current_user %>
+            <%- if ENV['LOGIN_GOV_CLIENT_ID'].present? %>
+            <li class="usa-nav__secondary-item">
+              <%= button_to user_login_dot_gov_omniauth_authorize_path,
+                data: { turbo: "false" },
+                class: "admin usa-link" do %>
+                <%= t 'home.sign_in_with' %> Login.gov
+              <% end %>
+            </li>
+            <% end %>
+            <%- if ENV['GITHUB_CLIENT_ID'].present? %>
+            <li class="usa-nav__secondary-item">
+              <%= button_to user_github_omniauth_authorize_path,
               data: { turbo: "false" },
               class: "admin usa-link" do %>
-              <%= t 'home.sign_in_with' %> Login.gov
+                <%= t 'home.sign_in_with' %> GitHub
+              <% end %>
+            </li>
             <% end %>
-          </li>
+          <% else %>
+            <li class="usa-nav__secondary-item user-name">
+              <a href="/profile" title="Click to update profile"><%= current_user.email %></a>
+            </li>
+            <%- if admin_permissions? %>
+            <li class="usa-nav__secondary-item">
+              <%= link_to admin_dashboard_path do %>
+                <i class="fa fa-lock"></i>
+                &nbsp;
+                Admin
+              <% end %>
+            </li>
+            <% end %>
+            <li class="usa-nav__secondary-item">
+              <%= link_to admin_services_path do %>
+                Services
+              <% end %>
+            </li>
+            <li class="usa-nav__secondary-item">
+              <%= link_to admin_registry_path do %>
+                Digital Registry
+              <% end %>
+            </li>
+            <li class="usa-nav__secondary-item">
+              <%= link_to admin_performance_path do %>
+                Performance
+              <% end %>
+            </li>
+            <li class="usa-nav__secondary-item">
+              <%= link_to destroy_user_session_path do %>
+                Sign Out
+                &nbsp;
+                <i class="fa fa-sign-out-alt"></i>
+              <% end %>
+            </li>
           <% end %>
-          <%- if ENV['GITHUB_CLIENT_ID'].present? %>
-          <li class="usa-nav__secondary-item">
-            <%= button_to user_github_omniauth_authorize_path,
-            data: { turbo: "false" },
-            class: "admin usa-link" do %>
-              <%= t 'home.sign_in_with' %> GitHub
-            <% end %>
-          </li>
-          <% end %>
-        <% else %>
-          <li class="usa-nav__secondary-item user-name">
-            <a href="/profile" title="Click to update profile"><%= current_user.email %></a>
-          </li>
-          <%- if admin_permissions? %>
-          <li class="usa-nav__secondary-item">
-            <%= link_to admin_dashboard_path do %>
-              <i class="fa fa-lock"></i>
-              &nbsp;
-              Admin
-            <% end %>
-          </li>
-          <% end %>
-          <li class="usa-nav__secondary-item">
-            <%= link_to admin_services_path do %>
-              Services
-            <% end %>
-          </li>
-          <li class="usa-nav__secondary-item">
-            <%= link_to admin_registry_path do %>
-              Digital Registry
-            <% end %>
-          </li>
-          <li class="usa-nav__secondary-item">
-            <%= link_to admin_performance_path do %>
-              Performance
-            <% end %>
-          </li>
-          <li class="usa-nav__secondary-item">
-            <%= link_to destroy_user_session_path do %>
-              Sign Out
-              &nbsp;
-              <i class="fa fa-sign-out-alt"></i>
-            <% end %>
-          </li>
-        <% end %>
-        </ul>
+          </ul>
+        </div>
       </div>
-    </div>
-  </nav>
-</header>
-<%- if current_user && content_for?(:navigation_title) %>
-<div style="background-color: #162E51;">
-  <div class="grid-container-widescreen">
-    <div class="grid-row">
-      <div class="grid-col">
-        <div class="font-heading-xl text-white margin-bottom-3 margin-top-3" style="font-weight: normal;">
-          <%= yield(:navigation_title) %>
+    </nav>
+  </div>
+  <%- if current_user && content_for?(:navigation_title) %>
+  <div class="dark-blue-bg">
+    <div class="grid-container-widescreen">
+      <div class="grid-row">
+        <div class="grid-col">
+          <h1
+            class="font-heading-xl text-white margin-bottom-3 margin-top-3 text-normal">
+            <%= yield(:navigation_title) %>
+          </h1>
         </div>
       </div>
     </div>
   </div>
-</div>
-<% end %>
+  <% end %>
+</header>

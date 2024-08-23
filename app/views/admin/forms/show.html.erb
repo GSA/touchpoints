@@ -65,16 +65,13 @@
             <%= label_tag "Organization", nil, class: "usa-label margin-bottom-1" %>
             <%= render "admin/organizations/badge", organization: @form.organization %>
           </div>
-          <% @roles = @form.user_roles.map { |role| { role: role.role, user: role.user }} %>
-          <% @form_managers = @roles.select { |role| role[:role] == 'form_manager' } %>
-          <% @response_viewers = @roles.select { |role| role[:role] == 'response_viewer' } %>
           <p>
             <%= label_tag "Form managers", nil, class: "usa-label" %>
-            <%- if @form_managers.present? %>
+            <%- if @form.form_managers.present? %>
             <ul class="usa-list">
-            <% @form_managers.each do |role| %>
+            <% @form.form_managers.each do |user| %>
               <li>
-              <%= link_to role[:user].try(:email), admin_user_path(role[:user]) %>
+              <%= link_to user.email, admin_user_path(user) %>
               </li>
             <% end %>
             </ul>
@@ -91,11 +88,11 @@
           </p>
           <p>
             <%= label_tag "Response viewers", nil, class: "usa-label" %>
-            <%- if @response_viewers.present? %>
+            <%- if @form.response_viewers.present? %>
             <ul class="usa-list">
-            <% @response_viewers.each do |role| %>
+            <% @form.response_viewers.each do |user| %>
               <li>
-              <%= link_to role[:user].try(:email), admin_user_path(role[:user]) %>
+              <%= link_to user.email, admin_user_path(user) %>
               </li>
             <% end %>
             </ul>
@@ -124,10 +121,10 @@
           </div>
         </div>
       </div>
-      <div>
+      <div class="tablet:grid-col-12">
         <%- if @form.template %>
         <strong>Form Template:</strong>
-        <span class="usa-tag bg-accent-warm">
+        <span class="usa-tag">
           <%= @form.kind %>
         </span>
         <p>

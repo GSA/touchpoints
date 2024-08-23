@@ -1,17 +1,19 @@
 <% @instruction_text_limit = 1500 %>
 <% @disclaimer_text_limit = 1000 %>
-<% @tabindex = 0 %>
-<div class="margin-top-2">
-  <%= render 'admin/forms/logo_display', { form: form } %>
-</div>
+
+<%= render 'admin/forms/logo_display', { form: form } %>
 <hr
   class="margin-top-3 margin-bottom-3"
-  style="border: none; border-top: 1px solid #E5E5E5;">
+  style="border: none; border-top: 3px solid #E5E5E5;">
 <div class="form-title-edit">
-  <div class="text-uppercase font-body-3xs">
+  <label
+    class="text-uppercase font-body-3xs"
+    for="form_builder_title"">
     Form title
-  </div>
-  <input type="text" tabindex="<%= @tabindex += 1 %>" class="usa-input survey-title-input"
+  </label>
+  <input type="text"
+    id="form_builder_title"
+    class="usa-input survey-title-input"
     data-url="<%= admin_form_path(form) %>"
     value="<%= form.title.present? ? form.title : 'Form title'  %>" />
   <span class="usa-hint save-notice survey-title">
@@ -19,29 +21,46 @@
   </span>
 </div>
 <div class="fba-instructions">
-  <label class="usa-label text-uppercase font-body-3xs" for="instructions">
-    Instructions
-  </label>
-  <textarea id="instruction_text" class="usa-textarea instructions countable" name="instructions" tabindex="<%= @tabindex += 1 %>" data-url="<%= admin_form_path(form) %>"><%= form.instructions %></textarea>
-  <br>
-  <span class="usa-hint save-notice survey-instructions">
-    <i class="fa fa-check-circle" aria-hidden="true"></i> saved
-  </span>
-  <span class="counter-msg usa-hint usa-character-count__message" aria-live="polite">
-    <%= @instruction_text_limit %>
-    <%= t :characters_allowed %>
-  </span>
-  <br>
-  <span class="display-inline instructions-show">
-    <%= form.instructions.present? ? sanitize(form.instructions) : 'Preview instructions here' %>
-  </span>
-  &nbsp;
+  <div class="grid-row grid-gap-md">
+    <div class="grid-col-7">
+      <label
+        class="usa-label text-uppercase font-body-3xs"
+        for="form_builder_instructions">
+        Form instructions
+      </label>
+      <textarea
+        class="usa-textarea instructions countable"
+        id="form_builder_instructions"
+        data-url="<%= admin_form_path(form) %>"><%= form.instructions %></textarea>
+      <br>
+      <span class="usa-hint save-notice survey-instructions">
+        <i class="fa fa-check-circle" aria-hidden="true"></i> saved
+      </span>
+      <span class="counter-msg usa-hint usa-character-count__message text-base-dark" aria-live="polite">
+        <%= @instruction_text_limit %>
+        <%= t :characters_allowed %>
+      </span>
+      <br>
+
+      &nbsp;
+
+    </div>
+    <div class="grid-col-5">
+      <div class="instructions-show margin-top-6">
+        <%= form.instructions.present? ? sanitize(form.instructions) : 'Preview instructions here' %>
+      </div>
+    </div>
+  </div>
 </div>
-<br>
+
+<hr
+  class="margin-bottom-3"
+  style="border: none; border-top: 3px solid #E5E5E5;">
+
 <div class="sorting-div">
   <% multi_section_question_number = 0 %>
   <% form.form_sections.includes(:questions).each_with_index do |section, i| %>
-    <%= render 'admin/form_sections/view', { form: form, section: section, multi_section_question_number: multi_section_question_number, form_section_page: i + 1, tabindex: @tabindex } %>
+    <%= render 'admin/form_sections/view', { form: form, section: section, multi_section_question_number: multi_section_question_number, form_section_page: i + 1 } %>
   <% end %>
 </div>
 <%= link_to new_admin_form_form_section_path(form), class: "usa-button form-add-section" do %>
@@ -54,24 +73,24 @@
 <div class="grid-row">
   <div class="grid-col-12">
     <div class="touchpoints-form-disclaimer">
-      <label class="usa-label text-uppercase font-body-3xs" for="disclaimer-text">
+      <label class="usa-label text-uppercase font-body-3xs" for="form_builder_disclaimer">
         Disclaimer text
       </label>
       <div class="fba-dialog-privacy font-sans-3xs">
         <div class="fba-disclaimer-text">
-          <textarea id="disclaimer_text"
-            class="usa-textarea countable"
-            name="disclaimer-text"
-            tabindex="<%= @tabindex += 1 %>"
+          <textarea
+            id="form_builder_disclaimer"
+            class="usa-textarea disclaimer_text countable"
             data-url="<%= admin_form_path(form) %>"><%= form.disclaimer_text %></textarea>
           <span class="usa-hint save-notice survey-disclaimer">
             <i class="fa fa-check-circle" aria-hidden="true"></i> saved
           </span>
-          <span class="counter-msg usa-hint usa-character-count__message" aria-live="polite">
+          <span class="counter-msg usa-hint usa-character-count__message text-base-dark" aria-live="polite">
             <%= @disclaimer_text_limit %>
             <%= t :characters_allowed %>
           </span>
-          <div id="disclaimer_text-show" class="margin-top-2" tabindex="<%= @tabindex += 1 %>">
+          <div
+            class="disclaimer_text-show margin-top-2">
             <%= form.disclaimer_text.present? ? sanitize(form.disclaimer_text) : 'Survey Disclaimer Text' %>
           </div>
         </div>
@@ -116,7 +135,7 @@ $(function() {
       });
     });
 
-    $("#disclaimer_text").on("focus", function(event) {
+    $("#form_builder_disclaimer").on("focus", function(event) {
       event.preventDefault();
       $(this).text($(this).attr("data-html-value"));
     });
@@ -136,7 +155,7 @@ $(function() {
       });
     });
 
-    $("#disclaimer_text").on("blur", function(event) {
+    $(".disclaimer_text").on("blur", function(event) {
       event.preventDefault();
       $.ajax({
         type: "PATCH",
@@ -145,26 +164,26 @@ $(function() {
           disclaimer_text: $(this).val()
         }
       }).done(function(data) {
-        $("#disclaimer_text-show").html(data.data.attributes.disclaimer_text);
+        $(".disclaimer_text-show").html(data.data.attributes.disclaimer_text);
         $('.usa-hint.save-notice.survey-disclaimer').show();
         $('.usa-hint.save-notice.survey-disclaimer').fadeOut(2000);
       });
     });
 
-    $("#instruction_text.countable").on("focus", function(event) {
+    $(".instructions.countable").on("focus", function(event) {
       event.preventDefault();
       textCounter(this, <%= @instruction_text_limit %>);
     });
-    $("#instruction_text.countable").on("keyup", function(event) {
+    $(".instructions.countable").on("keyup", function(event) {
       event.preventDefault();
       textCounter(this, <%= @instruction_text_limit %>);
     });
 
-    $("#disclaimer_text.countable").on("focus", function(event) {
+    $(".disclaimer_text.countable").on("focus", function(event) {
       event.preventDefault();
       textCounter(this, <%= @disclaimer_text_limit %>);
     });
-    $("#disclaimer_text.countable").on("keyup", function(event) {
+    $(".disclaimer_text.countable").on("keyup", function(event) {
       event.preventDefault();
       textCounter(this, <%= @disclaimer_text_limit %>);
     });

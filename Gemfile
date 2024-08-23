@@ -92,6 +92,7 @@ group :development do
 end
 
 group :test do
+  gem 'axe-core-rspec'
   gem 'capybara'
   gem 'database_cleaner'
   gem 'factory_bot_rails'

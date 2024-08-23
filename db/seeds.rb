@@ -986,3 +986,26 @@ CxCollection.create!({
   quarter: 4,
   user: touchpoint_manager
 })
+
+cx_collection = CxCollection.create({
+  organization: Organization.first,
+  service: Service.first,
+  service_provider: ServiceProvider.first,
+  user: User.first,
+  fiscal_year: 2024,
+  quarter: 1,
+  name: "CX Collection"
+})
+cx_collection_detail = CxCollectionDetail.create(
+  cx_collection: cx_collection,
+  service: Service.first,
+  channel: "website",
+  transaction_point: "end"
+)
+cx_collection_detail_upload = CxCollectionDetailUpload.new
+1000.times.each do |i|
+  n = CxResponse.create({
+    cx_collection_detail: cx_collection_detail,
+    cx_collection_detail_upload: cx_collection_detail_upload
+  })
+end

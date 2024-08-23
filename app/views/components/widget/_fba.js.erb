@@ -385,6 +385,11 @@ function FBAform(d, N) {
 			}
 		},
 		loadButton: function() {
+			// Add a landmark for button
+			this.landmarkElement = d.createElement('aside');
+			this.landmarkElement.setAttribute('aria-label', 'Feedback button');
+			this.landmarkElement.setAttribute('role', 'complementary');
+
 			// Add the fixed, floating tab button
 			this.buttonEl = d.createElement('a');
 			this.buttonEl.setAttribute('id', 'fba-button');
@@ -396,7 +401,8 @@ function FBAform(d, N) {
 			this.buttonEl.setAttribute('aria-controls', 'dialog');
 			this.buttonEl.addEventListener('click', this.handleButtonClick.bind(this), false);
 			this.buttonEl.innerHTML = this.options.modalButtonText;
-			d.body.appendChild(this.buttonEl);
+			this.landmarkElement.appendChild(this.buttonEl);
+			d.body.appendChild(this.landmarkElement);
 
 			this.loadFeebackSkipLink();
 		},

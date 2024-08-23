@@ -32,24 +32,24 @@
       <div class="grid-row grid-gap-6">
         <div class="tablet:grid-col-6">
           <div class="field">
-            <%= label_tag :first_name, nil, class: "usa-label" %>
+            <%= f.label :first_name, class: "usa-label" %>
             <%= f.text_field :first_name, class: "usa-input" %>
           </div>
         </div>
         <div class="tablet:grid-col-6">
           <div class="field">
-            <%= label_tag :last_name, nil, class: "usa-label" %>
+            <%= f.label :last_name, class: "usa-label" %>
             <%= f.text_field :last_name, class: "usa-input" %>
           </div>
         </div>
       </div>
 
       <div class="field">
-        <%= label_tag :position_title, "Position title", class: "usa-label" %>
+        <%= f.label :position_title, "Position title", class: "usa-label" %>
         <%= f.text_field :position_title, class: "usa-input" %>
       </div>
       <div class="field">
-        <%= label_tag :api_key, "API Key", class: "usa-label" %>
+        <%= f.label :api_key, "API Key", class: "usa-label" %>
         <%= f.text_field :api_key, class: "usa-input", placeholder: "40 character api.data.gov API Key" %>
         <%- if current_user.api_key? %>
           <%- if @api_key_warning %>
