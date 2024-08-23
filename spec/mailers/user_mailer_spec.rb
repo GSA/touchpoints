@@ -17,8 +17,8 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match('Touchpoints.gov Response Notification')
-      expect(mail.body.encoded).to match("New feedback has been submitted to your form, #{submission.form.name}.")
+      expect(mail.body.encoded).to have_text('Touchpoints.gov Response Notification')
+      expect(mail.body.encoded).to have_text("New feedback has been submitted to your form, #{submission.form.name}.")
     end
   end
 
@@ -41,8 +41,33 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match("Notification of feedback received since #{days_ago.days.ago}")
-      expect(mail.body.encoded).to match("1 feedback responses have been submitted to your form, #{form.name}, since #{days_ago.days.ago}")
+      expect(mail.body.encoded).to have_text("Notification of feedback received since #{days_ago.days.ago}")
+      expect(mail.body.encoded).to have_text("1 feedback responses have been submitted to your form, #{form.name}, since #{days_ago.days.ago}")
+    end
+  end
+
+  describe 'form_inactivity_email' do
+    let!(:organization) { FactoryBot.create(:organization) }
+    let(:user) { FactoryBot.create(:user, organization:) }
+    let(:inactive_form) { FactoryBot.create(:form, organization:, last_response_created_at: Time.now - 30.days) }
+    let(:days_ago) { 30 }
+    let(:mail) { UserMailer.form_inactivity_email(form_short_uuid: inactive_form.short_uuid, user_emails: [user.email], days_ago: days_ago) }
+
+    before do
+      ENV['ENABLE_EMAIL_NOTIFICATIONS'] = 'true'
+    end
+
+    it 'renders the headers' do
+      expect(mail.subject).to eq("Touchpoints form Open-ended Test form has not received a response in more than 30 days")
+      expect(mail.from).to eq(["from@example.gov"])
+      expect(mail.to).to eq([user.email])
+      expect(mail.bcc).to eq(["admin@example.gov"])
+    end
+
+    it 'renders the body' do
+      expect(mail.body.encoded).to have_text("The form Open-ended Test form is published in Touchpoints")
+      expect(mail.body.encoded).to have_text("but has not received a response in at least 30 days.")
+      expect(mail.body.encoded).to have_text("Please consider archiving the form in Touchpoints if the form is no longer in use.")
     end
   end
 
@@ -64,8 +89,8 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match('Form status changed')
-      expect(mail.body.encoded).to match('status changed to published')
+      expect(mail.body.encoded).to have_text('Form status changed')
+      expect(mail.body.encoded).to have_text('status changed to published')
     end
   end
 
@@ -86,7 +111,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match('Quarterly Performance Notification')
+      expect(mail.body.encoded).to have_text('Quarterly Performance Notification')
     end
   end
 
@@ -108,7 +133,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match('CSCRM Data Collection Notification')
+      expect(mail.body.encoded).to have_text('CSCRM Data Collection Notification')
     end
   end
 
@@ -130,7 +155,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match('CSCRM Data Collection 2 Notification')
+      expect(mail.body.encoded).to have_text('CSCRM Data Collection 2 Notification')
     end
   end
 
@@ -151,9 +176,9 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match("Your Touchpoints account is scheduled to be deactivated in #{active_days} days due to inactivity")
-      expect(mail.body.encoded).to match("Login to Touchpoints at")
-      expect(mail.body.encoded).to match("to keep your account active")
+      expect(mail.body.encoded).to have_text("Your Touchpoints account is scheduled to be deactivated in #{active_days} days due to inactivity")
+      expect(mail.body.encoded).to have_text("Login to Touchpoints at")
+      expect(mail.body.encoded).to have_text("to keep your account active")
     end
   end
 
@@ -167,7 +192,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match('Hi')
+      expect(mail.body.encoded).to have_text('Hi')
     end
   end
 
@@ -181,7 +206,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match('Hi')
+      expect(mail.body.encoded).to have_text('Hi')
     end
   end
 
@@ -196,7 +221,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match('New user account created')
+      expect(mail.body.encoded).to have_text('New user account created')
     end
   end
 
@@ -232,7 +257,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match('New user added to organization')
+      expect(mail.body.encoded).to have_text('New user added to organization')
     end
   end
 
@@ -247,7 +272,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to match('New user account creation failed')
+      expect(mail.body.encoded).to have_text('New user account creation failed')
     end
   end
 
