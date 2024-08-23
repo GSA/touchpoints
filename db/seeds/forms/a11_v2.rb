@@ -21,19 +21,11 @@ module Seeds
         form: a11_v2_form,
         form_section: (a11_v2_form.form_sections.first),
         text: "Based on my experience Example Agency's Service, I trust Example Agency to deliver on their mission for the American public.",
-        question_type: "radio_buttons",
+        question_type: "big_thumbs_up_down_buttons",
         position: 1,
         answer_field: :answer_01,
         is_required: true
       })
-      [["👍", 1], ["👎", 0]].each_with_index do |value, i|
-        QuestionOption.create!({
-          question: question_01,
-          text: value[0],
-          value: value[1],
-          position: i + 1
-        })
-      end
 
       question_02 = Question.create!({
         form: a11_v2_form,

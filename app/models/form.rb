@@ -41,6 +41,18 @@ class Form < ApplicationRecord
     errors.add(:element_selector, "can't be blank for an inline form") if (delivery_method == 'custom-button-modal' || delivery_method == 'inline') && (element_selector == '')
   end
 
+  def roles
+    user_roles.map { |role| { role: role.role, user: role.user }}
+  end
+
+  def form_managers
+    roles.select { |role| role[:role] == 'form_manager' }.map { |r| r[:user] }
+  end
+
+  def response_viewers
+    roles.select { |role| role[:role] == 'response_viewer' }.map { |r| r[:user]}
+  end
+
   def ensure_modal_text
     errors.add(:modal_button_text, "can't be blank for an modal form") if delivery_method == 'modal' && modal_button_text.empty?
   end
@@ -240,6 +252,22 @@ class Form < ApplicationRecord
 
   def set_uuid
     self.uuid = SecureRandom.uuid if uuid.blank?
+  end
+
+  def self.send_inactive_form_emails_since(days_ago)
+    inactive_published_forms = find_inactive_forms_since(days_ago)
+
+    inactive_published_forms.each do |form|
+      user_emails = form.form_managers.reject { |user| user.inactive }.collect(&:email)
+      UserMailer.form_inactivity_email(form_short_uuid: form.short_uuid, user_emails: user_emails, days_ago: days_ago).deliver_later
+      puts "sending for #{form.short_uuid} to #{user_emails}"
+    end
+  end
+
+  def self.find_inactive_forms_since(days_ago)
+    min_time = Time.now - days_ago.days
+    max_time = Time.now - (days_ago - 1).days
+    Form.published.where("last_response_created_at BETWEEN ? AND ?", min_time, max_time)
   end
 
   def deployable_form?

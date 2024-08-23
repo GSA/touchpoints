@@ -4,17 +4,17 @@ Hi,
 </p>
 
 <p>
-<%= link_to @form.name, admin_form_url(@form) %> is published in Touchpoints,
-but has not received a response in at least 60 days.
+The form <%= link_to @form.name, admin_form_url(@form) %> is published in Touchpoints,
+but has not received a response in at least <%= @days_ago %> days.
 </p>
 
 <p>
-Consider archiving the form in Touchpoints if the form is no longer in use.
+Please consider archiving the form in Touchpoints if the form is no longer in use.
 </p>
 
 <p>
 Or, if you want to discuss how to potentially increase feedback,
-please get in touch at feedback-analytics@gsa.gov.
+please get in touch at <a href="mailto:feedback-analytics@gsa.gov">feedback-analytics@gsa.gov</a>.
 </p>
 
 Touchpoints Team
