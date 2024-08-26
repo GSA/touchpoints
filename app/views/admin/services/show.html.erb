@@ -288,9 +288,6 @@
   </div>
 </div>
 
-<% @omb_cx_reporting_collections = @service.omb_cx_reporting_collections.includes(:collection).order("collections.year", "collections.quarter") %>
-<% @cx_collection_details = @service.cx_collection_details.includes(:cx_collection).order("cx_collections.fiscal_year", "cx_collections.quarter") %>
-
 <div class="well">
   <h4>
     CX Data Collections (V1)
@@ -299,10 +296,18 @@
   <table class="usa-table">
     <thead>
       <tr>
-        <th>Fiscal year</th>
-        <th>Quarter</th>
-        <th>Collection name</th>
-        <th>Service name</th>
+        <th data-sortable scope="col">
+          Fiscal year
+        </th>
+        <th data-sortable scope="col">
+          Quarter
+        </th>
+        <th data-sortable scope="col">
+          Collection name
+        </th>
+        <th data-sortable scope="col">
+          Service name
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -331,30 +336,38 @@
   <h4>
     CX Data Collections (V2)
   </h4>
-  <%- if @cx_collection_details.present? %>
+  <%- if @cx_collections.present? %>
   <table class="usa-table">
     <thead>
       <tr>
-        <th>Fiscal year</th>
-        <th>Quarter</th>
-        <th>Collection name</th>
-        <th>Service name</th>
+        <th data-sortable scope="col">
+          Fiscal year
+        </th>
+        <th data-sortable scope="col">
+          Quarter
+        </th>
+        <th data-sortable scope="col">
+          Collection name
+        </th>
+        <th data-sortable scope="col">
+          Service name
+        </th>
       </tr>
     </thead>
     <tbody>
-      <% @cx_collection_details.each do |cx_collection_detail| %>
-      <tr>
+      <% @cx_collections.each do |cx_collection| %>
+      <tr data-id="<%= cx_collection.id %>">
         <td>
-          <%= cx_collection_detail.cx_collection.fiscal_year %>
+          <%= cx_collection.fiscal_year %>
         </td>
         <td>
-          <%= cx_collection_detail.cx_collection.quarter %>
+          <%= cx_collection.quarter %>
         </td>
         <td>
-          <%= link_to cx_collection_detail.cx_collection.name, admin_cx_collection_path(cx_collection_detail.cx_collection) %>
+          <%= link_to cx_collection.name, admin_cx_collection_path(cx_collection) %>
         </td>
         <td>
-          <%= link_to cx_collection_detail.service.name, admin_cx_collection_detail_path(cx_collection_detail) %>
+          <%= link_to cx_collection.service.name, admin_cx_collection_path(cx_collection) %>
         </td>
       </tr>
       <% end %>

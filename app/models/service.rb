@@ -14,8 +14,8 @@ class Service < ApplicationRecord
   has_many :omb_cx_reporting_collections
   has_many :collections, through: :omb_cx_reporting_collections
 
-  has_many :cx_collection_details
-  has_many :cx_collections, through: :cx_collection_details
+  has_many :cx_collections
+  has_many :cx_collection_details, through: :cx_collections
 
   has_many :forms
 
