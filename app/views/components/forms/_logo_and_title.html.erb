@@ -5,9 +5,13 @@
     <%- if form.logo.present? %>
     <div class="margin-bottom-2 text-center">
       <%- if form.display_header_logo %>
-        <%= image_tag(form.logo.tag.url, alt: "#{form.organization.name} banner", class: "form-header-logo") %>
+        <%= image_tag(form.logo.tag.url,
+          alt: "#{form.organization.name} banner",
+          class: "form-header-logo") %>
       <% elsif form.display_header_square_logo %>
-        <%= image_tag(form.logo.logo_square.url, alt: "#{form.organization.name} logo", class: "form-header-logo-square") %>
+        <%= image_tag(form.logo.logo_square.url,
+          alt: "#{form.organization.name} logo",
+          class: "form-header-logo-square") %>
       <% end %>
     </div>
     <% end %>

@@ -10,7 +10,7 @@ class CxCollectionDetail < ApplicationRecord
   validates :channel, presence: true
 
   def volume_of_respondents
-    CxResponse.count
+    cx_responses.count
   end
 
   def self.to_csv
