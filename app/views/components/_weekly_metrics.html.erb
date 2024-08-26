@@ -23,10 +23,10 @@
     <tbody>
       <tr>
         <td class="reportable-users">
-          <%= User.count %>
+          <%= number_with_delimiter(User.count) %>
         </td>
         <td class="reportable-organizations">
-          <%= Organization.count %>
+          <%= number_with_delimiter(Organization.count) %>
         </td>
       </tr>
     </tbody>
@@ -46,7 +46,7 @@
     <tbody>
       <tr>
         <td class="reportable-forms">
-          <%= Form.non_templates.count %>
+          <%= number_with_delimiter(Form.non_templates.count) %>
         </td>
         <td class="reportable-submissions">
           <%= number_with_delimiter(Submission.count) %>
@@ -75,16 +75,16 @@
     <tbody>
       <tr>
         <td>
-          <%= ServiceProvider.count %>
+          <%= number_with_delimiter(ServiceProvider.count) %>
         </td>
         <td>
-          <%= Service.count %>
+          <%= number_with_delimiter(Service.count) %>
         </td>
         <td>
-          <%= ServiceStage.count %>
+          <%= number_with_delimiter(ServiceStage.count) %>
         </td>
         <td>
-          <%= Persona.count %>
+          <%= number_with_delimiter(Persona.count) %>
         </td>
       </tr>
     </tbody>
@@ -104,10 +104,10 @@
     <tbody>
       <tr>
         <td>
-          <%= Collection.count %>
+          <%= number_with_delimiter(Collection.count) %>
         </td>
         <td>
-          <%= OmbCxReportingCollection.count %>
+          <%= number_with_delimiter(OmbCxReportingCollection.count) %>
         </td>
       </tr>
     </tbody>
@@ -129,13 +129,13 @@
     <tbody>
       <tr>
         <td>
-          <%= Goal.count %>
+          <%= number_with_delimiter(Goal.count) %>
         </td>
         <td>
-          <%= Objective.count %>
+          <%= number_with_delimiter(Objective.count) %>
         </td>
         <td>
-          <%= Milestone.count %>
+          <%= number_with_delimiter(Milestone.count) %>
         </td>
       </tr>
     </tbody>
