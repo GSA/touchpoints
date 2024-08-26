@@ -111,7 +111,7 @@ workflows:
           filters:
             branches:
               only:
-                - test-cron
+                - production
     jobs:
       - cron_tasks
   build-deploy:
