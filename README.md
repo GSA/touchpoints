@@ -1,4 +1,4 @@
-![Touchpoints Logo](https://github.com/GSA/touchpoints/blob/main/app/assets/images/touchpoints-logo-@2x.png?raw=true)
+![Touchpoints Logo](https://github.com/GSA/touchpoints/blob/main/public/images/touchpoints-logo-@2x.png?raw=true)
 
 ## Overview
 
