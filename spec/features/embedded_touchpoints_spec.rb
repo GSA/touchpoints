@@ -35,7 +35,7 @@ feature 'Touchpoints', js: true do
             expect(page).to have_content('This is help text')
             fill_in form.ordered_questions.second.ui_selector, with: 'email@example.gov'
 
-            click_on 'Next'
+            find(".pagination-buttons", visible: true).click_link("Next")
 
             expect(page).to have_content('Option elements')
             expect(all("#question_#{form.ordered_questions[4].id} .usa-radio__label").size).to eq(4)
