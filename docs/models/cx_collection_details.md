@@ -2,13 +2,15 @@
 
 Each `CXCollection` has_many `CXCollectionDetail` records.
 
+A `CXCollectionDetail` record belongs_to a `CXCollection` record.
+
 | Field Name                                    | Format   | Description                                                                           | Sample Input                                                       |
 |-----------------------------------------------|----------|---------------------------------------------------------------------------------------|--------------------------------------------------------------------|
 | channel                                       | string   | The channel through which the interaction occurred                                    | computer                                                           |
 | created_at                                    | datetime | The timestamp when the record was created                                             | 2023-07-31 12:34:56                                                |
 | cx_collection_id                              | integer  | Identifier for the CX Collection                                                      | 148                                                                |
 | omb_control_number                            | string   | OMB control number for the survey                                                     | 0412-0609                                                          |
-| service_id                                    | integer  | Identifier for the service                                                            | 132                                                                |
+| service_id                                    | integer  | Identifier for the CX Collection's Service                                            | 132                                                                |
 | service_name                                  | integer  | Name of the Service                                                                   | Passports                                                          |
 | service_provider_id                           | integer  | Identifier for the Service Provider                                                   | 9722                                                               |
 | service_provider_name                         | string   | Name of the Service Provider                                                          | Bureau of Consular Affairs                                         |

@@ -17,6 +17,7 @@ Data is published for download at https://www.performance.gov/cx/data/.
 ++| organization_name (Service provider    | integer  | Organization Name                                                           | General Services Administration       |
 | quarter                                  | string   | The quarter of the fiscal year                                              | 2                                     |
 | rating                                   | string   | The rating for the service                                                  | true,false,partial                    |
+| service_id                               | integer  | Identifier for the service                                                  | 74                                    |
 ++| service_name                           | string   | Name for the service                                                        | USA.gov                               |
 | service_provider_id                      | integer  | Unique ID for the Service Provider                                          | 36                                    |
 ++| service_provider_name                  | integer  | Name of the Federal Agency Service Provider                                 | Public Experience Portfolio           |
