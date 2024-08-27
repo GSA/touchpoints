@@ -42,4 +42,8 @@ class Organization < ApplicationRecord
   def to_param
     slug
   end
+
+  def organizational_form_approvers
+    users.where(organizational_form_approver: true)
+  end
 end
