@@ -4,7 +4,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
-    "@babel/preset-env": "^7.25.3",
+    "@babel/preset-env": "^7.25.4",
     "@uswds/compile": "^1.1.0",
     "@uswds/uswds": "3.8.2",
     "aliasify": "^2.1.0",
