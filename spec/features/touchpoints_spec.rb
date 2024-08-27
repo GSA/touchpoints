@@ -99,6 +99,32 @@ feature 'Touchpoints', js: true do
         end
       end
 
+      describe 'form title' do
+        context 'when the title has text, is not blank' do
+          before do
+            visit touchpoint_path(form)
+          end
+
+          it 'displays the form title in an h1' do
+            within("h1") do
+              expect(page).to have_text(form.title)
+            end
+          end
+        end
+
+        context 'with blank/empty form title' do
+          before do
+            form.update(title: "")
+            visit touchpoint_path(form)
+          end
+
+          it 'in h1 does not render a title but does render text for screen reader' do
+            expect(find("h1").text).to be_empty
+            expect(page).to have_css('h1 .usa-sr-only', text: 'Feedback form', visible: :all)
+          end
+        end
+      end
+
       context 'custom success text' do
         before do
           form.update(success_text: "Much success. \n With a second line.")
