@@ -24,7 +24,7 @@ feature 'Form - Organization Form Approval feature', js: true do
 
         it 'displays text and Organization Form approver emails' do
           expect(page).to have_text("For any questions about Organizational Form Approval")
-          expect(page).to have_text("please contact #{organization.name}'s form approvers")
+          expect(page).to have_text("please contact #{organization.name}'s form approver")
           expect(page).to have_link(organizational_form_approver.email)
 
           expect(page).to have_link("Submit for Organizational Approval")
@@ -40,7 +40,7 @@ feature 'Form - Organization Form Approval feature', js: true do
 
         it 'displays text and Organization Form approver emails' do
           expect(page).to have_text("For any questions about Organizational Form Approval")
-          expect(page).to have_text("please contact #{organization.name}'s form approvers")
+          expect(page).to have_text("please contact #{organization.name}'s form approver")
           expect(page).to have_link(organizational_form_approver.email)
 
           expect(page).to have_button("Approve")
