@@ -22,15 +22,19 @@ class CxCollectionDetailSerializer < ActiveModel::Serializer
       object.service_provider.id if object.service_provider
     end
 
+    def service_provider_name
+      object.service_provider.name if object.service_provider
+    end
+
+    def service_id
+      object.service.id if object.service
+    end
+
     def service_name
       object.service.name if object.service
     end
 
     def service_stage_name
       object.service_stage.name if object.service_stage
-    end
-
-    def service_provider_name
-      object.service_provider.name if object.service
     end
 end

@@ -84,7 +84,10 @@ module Admin
       send_data @services.to_csv, filename: "touchpoints-services-#{Date.today}.csv"
     end
 
-    def show; end
+    def show
+      @omb_cx_reporting_collections = @service.omb_cx_reporting_collections.includes(:collection).order("collections.year", "collections.quarter")
+      @cx_collections = @service.cx_collections
+    end
 
     def new
       @service = Service.new

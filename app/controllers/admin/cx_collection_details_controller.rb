@@ -31,7 +31,6 @@ class Admin::CxCollectionDetailsController < AdminController
 
   def create
     @cx_collection_detail = CxCollectionDetail.new(cx_collection_detail_params)
-    @cx_collection_detail.service_id = @cx_collection_detail.cx_collection.service_id
 
     respond_to do |format|
       if @cx_collection_detail.save
@@ -154,6 +153,6 @@ class Admin::CxCollectionDetailsController < AdminController
     end
 
     def cx_collection_detail_params
-      params.require(:cx_collection_detail).permit(:cx_collection_id, :service_id, :transaction_point, :channel, :service_stage_id, :volume_of_customers, :volume_of_customers_provided_survey_opportunity, :volume_of_respondents, :omb_control_number, :federal_register_url, :reflection_text, :survey_type, :survey_title, :trust_question_text)
+      params.require(:cx_collection_detail).permit(:cx_collection_id, :transaction_point, :channel, :service_stage_id, :volume_of_customers, :volume_of_customers_provided_survey_opportunity, :volume_of_respondents, :omb_control_number, :federal_register_url, :reflection_text, :survey_type, :survey_title, :trust_question_text)
     end
 end
