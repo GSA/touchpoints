@@ -107,6 +107,12 @@ feature 'Example Website Integration', js: true do
         expect(page).to have_content('Was this page useful?')
       end
 
+      it 'does not show the required question field when only 1 question' do
+        expect(page).to have_content('Do you have a few minutes to help us test this site?')
+        expect(page).to_not have_content('A red asterisk')
+        expect(page).to_not have_content('indicates a required field')
+      end
+
       describe 'submits `Yes`' do
         before do
           click_on 'yes'
