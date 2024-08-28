@@ -104,12 +104,14 @@
       Form was submitted for review at
       <%= @form.submitted_at %>
     </p>
+    <%= render "admin/forms/organizational_form_approval_message", form: @form %>
     <% elsif @form.created? %>
     <div class="margin-top-2">
       <%= link_to submit_admin_form_path(form), method: :post, data: { confirm: 'Are you sure?' }, class: "usa-button width-full" do %>
       <i class="far fa-check-circle"></i>
       Submit for Organizational Approval
       <% end %>
+      <%= render "admin/forms/organizational_form_approval_message", form: @form %>
     </div>
     <% end %>
   <% end %>
