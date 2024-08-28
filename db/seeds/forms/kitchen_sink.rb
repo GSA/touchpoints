@@ -59,7 +59,7 @@ module Seeds
         help_text: "This is help text for radio buttons.",
         position: 4,
         answer_field: :answer_04,
-        is_required: false,
+        is_required: true,
       })
       QuestionOption.create!({
         question: radio_button_question,

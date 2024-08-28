@@ -589,6 +589,7 @@ FactoryBot.define do
                           answer_field: :answer_01,
                           question_type: 'yes_no_buttons',
                           form_section: f.form_sections.first,
+                          is_required: true,
                           text: 'Was this page useful?')
       end
     end
