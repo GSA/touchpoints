@@ -19,7 +19,7 @@
       <%= sanitize(form.instructions) %>
     </div>
     <% end -%>
-    <%- if form.questions.any?(&:is_required?) %>
+    <%- if form.questions.size > 1 && form.questions.any?(&:is_required?) %>
     <p class="required-questions-notice">
       <small>
         <%= t('form.required_field_html') %>
