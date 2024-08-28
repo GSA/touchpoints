@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require "#{Rails.root}/db/seeds/forms/kitchen_sink"
 
 feature 'Example Website Integration', js: true do
   let(:organization) { FactoryBot.create(:organization) }
@@ -107,6 +108,12 @@ feature 'Example Website Integration', js: true do
         expect(page).to have_content('Was this page useful?')
       end
 
+      it 'does not show the required question field when only 1 question' do
+        expect(page).to have_content('Do you have a few minutes to help us test this site?')
+        expect(page).to_not have_content('A red asterisk')
+        expect(page).to_not have_content('indicates a required field')
+      end
+
       describe 'submits `Yes`' do
         before do
           click_on 'yes'
@@ -129,5 +136,24 @@ feature 'Example Website Integration', js: true do
         end
       end
     end
+
+    context 'Kitchen sink form' do
+      let(:kitchen_sink_form) { Seeds::Forms.kitchen_sink }
+
+      before do
+        visit example_admin_form_path(kitchen_sink_form)
+      end
+
+      it 'is accessible' do
+        expect(page).to be_axe_clean
+      end
+
+      it 'displays required question text' do
+        within(".required-questions-notice") do
+          expect(page).to have_text("A red asterisk (*) indicates a required field.")
+        end
+      end
+    end
+
   end
 end
