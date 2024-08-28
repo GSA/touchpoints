@@ -35,7 +35,7 @@ feature 'Touchpoints', js: true do
             expect(page).to have_content('This is help text')
             fill_in form.ordered_questions.second.ui_selector, with: 'email@example.gov'
 
-            click_on 'Next'
+            find(".pagination-buttons.text-right", visible: true).click_link("Next")
 
             expect(page).to have_content('Option elements')
             expect(all("#question_#{form.ordered_questions[4].id} .usa-radio__label").size).to eq(4)
@@ -45,13 +45,11 @@ feature 'Touchpoints', js: true do
             all('.usa-checkbox__label').each(&:click)
             expect(page).to have_content("Enter other text")
 
-            page.scroll_to(find(".usa-banner footer")) # scroll down the page
             expect(page).to have_css("##{form.ordered_questions[5].ui_selector}_other")
             fill_in("#{form.ordered_questions[5].ui_selector}_other", with: 'other 3')
 
             select('Option 2', from: form.ordered_questions[6].ui_selector)
-            page.scroll_to(find(".usa-banner footer"))
-            click_on 'Next'
+            find(".pagination-buttons.text-right", visible: true).click_link("Next")
             expect(page).to have_content('Custom elements')
             find('.submit_form_button').click
 
