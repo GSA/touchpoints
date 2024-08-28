@@ -1,0 +1,14 @@
+<% @organizational_form_approvers = form.organization.organizational_form_approvers %>
+<p class="text-base font-sans-2xs">
+    For any questions about Organizational Form Approval, please contact
+    <%= form.organization.name %>'s
+    form
+    <%= "approver".pluralize(@organizational_form_approvers.size) %>.
+    <ul class="usa-list text-base font-sans-2xs">
+    <% @organizational_form_approvers.each do |user| %>
+        <li>
+            <%= link_to user.email, "mailto:#{user.email}" %>
+        </li>
+    <% end %>
+    </ul>
+</p>
