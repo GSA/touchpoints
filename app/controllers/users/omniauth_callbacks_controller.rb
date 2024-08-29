@@ -4,8 +4,7 @@ module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     def login_dot_gov
       @kind = 'Login.gov'
-      @email = auth_hash['info']['all_emails'].find { |email| email.end_with(".gov") || email.end_with(".mil") } if auth_hash && auth_hash['info']['email_verified']
-
+      @email = auth_hash['info']['all_emails'].find { |email| email.end_with?(".gov") || email.end_with?(".mil") } if auth_hash && auth_hash['info']['email_verified']
       login
     end
 
