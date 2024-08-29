@@ -4,8 +4,12 @@ module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     def login_dot_gov
       @kind = 'Login.gov'
-      @email = auth_hash['info']['email'] if auth_hash && auth_hash['info']['email_verified']
-
+      all_emails = auth_hash['info']['all_emails']
+      if all_emails.present?
+        @email = auth_hash['info']['all_emails'].find { |email| email.end_with?(".gov") || email.end_with?(".mil") } if auth_hash && auth_hash['info']['email_verified']
+      else
+        @email = auth_hash['info']['email'] if auth_hash && auth_hash['info']['email_verified']
+      end
       login
     end
 
@@ -30,7 +34,7 @@ module Users
     def login
       Event.log_event(Event.names[:user_authentication_attempt], 'Event::Generic', 1, "Email #{@email} attempted to authenticate on #{Date.today}")
 
-      @user = User.from_omniauth(auth_hash) if @email.present?
+      @user = User.from_omniauth(auth_hash, @email) if @email.present?
 
       # If user exists
       # Else, if valid email and no user, we create an account.
