@@ -17,7 +17,7 @@
       tabindex="-1"
       autocomplete="off">
     <% form.form_sections.each_with_index do |section, index| %>
-      <div class="section <%= 'visible' if section == form.form_sections.first -%>">
+      <div class="section <%= 'fba-visible' if section == form.form_sections.first -%>">
         <%- if (section != form.form_sections.first) || (section != form.form_sections.last) %>
           <%- if section != form.form_sections.first %>
           <nav aria-label="Pagination" class="pagination-buttons margin-bottom-2">

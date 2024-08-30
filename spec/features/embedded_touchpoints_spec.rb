@@ -23,9 +23,13 @@ feature 'Touchpoints', js: true do
         context 'default success text' do
           before do
             click_on('Help improve this site') # opens modal
-            expect(page).to have_content('Help improve this site')
 
+            expect(page).to have_content('Help improve this site')
             expect(page).to have_content('Do you have a few minutes to help us test this site?')
+
+            expect(page).to have_content('Page 1')
+            expect(page).to have_no_content('Option elements')
+            expect(page).to have_no_content('Custom elements')
             fill_in form.ordered_questions.first.ui_selector, with: 'input field'
             fill_in form.ordered_questions.second.ui_selector, with: 'email'
             fill_in form.ordered_questions.third.ui_selector, with: 'textarea'
@@ -38,7 +42,9 @@ feature 'Touchpoints', js: true do
             find(".pagination-buttons.text-right", visible: true).click_link("Next")
 
             expect(page).to have_content('Option elements')
-            expect(all("#question_#{form.ordered_questions[4].id} .usa-radio__label").size).to eq(4)
+            expect(page).to have_no_content('Page 1')
+            expect(page).to have_no_content('Custom elements')
+            expect(all("#question_#{form.ordered_questions[4].id} .usa-radio__label").size).to eq(3)
             all("#question_#{form.ordered_questions[4].id} .usa-radio__label").last.click
             fill_in("#{form.ordered_questions[4].ui_selector}_other", with: 'otro 2')
 
@@ -51,6 +57,8 @@ feature 'Touchpoints', js: true do
             select('Option 2', from: form.ordered_questions[6].ui_selector)
             find(".pagination-buttons.text-right", visible: true).click_link("Next")
             expect(page).to have_content('Custom elements')
+            expect(page).to have_no_content('Page 1')
+            expect(page).to have_no_content('Option elements')
             find('.submit_form_button').click
 
             # shows success flash message
