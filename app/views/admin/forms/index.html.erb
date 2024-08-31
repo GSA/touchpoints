@@ -22,6 +22,16 @@
   </p>
 <% end %>
 
+<%= form_with(url: admin_forms_path, class: "usa-form", method: :get, local: true) do %>
+  <div class="usa-form-group display-inline-block">
+    <%= label_tag :aasm_state, "Filter form by Status:" %>
+    <%= select_tag :aasm_state, options_for_select([:all] + Form.aasm.states.collect(&:name), selected: params[:aasm_state]), class: "usa-select" %>
+  </div>
+   <div class="usa-form-group display-inline-block">
+    <%= submit_tag 'Filter', class: 'usa-button' %>
+  </div>
+<% end %>
+
 <%- if @forms.present? %>
 <table class="usa-table usa-table--sticky-header width-full">
   <thead class="font-sans-3xs z-top">

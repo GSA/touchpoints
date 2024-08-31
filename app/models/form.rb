@@ -37,6 +37,19 @@ class Form < ApplicationRecord
 
   mount_uploader :logo, LogoUploader
 
+  def self.filtered_forms(user, aasm_state)
+    if user.admin?
+      items = all.non_templates
+    elsif user.organizational_form_approver?
+      items = user.organization.forms
+    else
+      items = user.forms.non_archived.non_templates.order('organization_id ASC').order('name ASC')
+    end
+
+    items = items.where(aasm_state: aasm_state) if aasm_state.present? && aasm_state != "all"
+    items
+  end
+
   def target_for_delivery_method
     errors.add(:element_selector, "can't be blank for an inline form") if (delivery_method == 'custom-button-modal' || delivery_method == 'inline') && (element_selector == '')
   end
