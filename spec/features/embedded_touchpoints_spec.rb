@@ -55,6 +55,7 @@ feature 'Touchpoints', js: true do
 
             expect(page).to have_css("##{form.ordered_questions[5].ui_selector}_other")
             fill_in("#{form.ordered_questions[5].ui_selector}_other", with: 'other 3')
+            find("##{form.ordered_questions[5].ui_selector}_other").native.send_key :tab
 
             expect(page).to have_content("This is help text for a dropdown.")
             select('Option 2', from: form.ordered_questions[6].ui_selector)
