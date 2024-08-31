@@ -6,25 +6,9 @@
   <% end %>
 <% end %>
 
-<%- if @forms.present? || @archived_forms.present? %>
-  <p class="font-sans-3xs">
-  <%- if !params[:all] %>
-    <%= link_to all_admin_forms_path do %>
-      Also show archived forms
-    <% end %>
-  <% end %>
-
-  <%- if params[:all] %>
-    <%= link_to admin_forms_path do %>
-      Show active forms only
-    <% end %>
-  <% end %>
-  </p>
-<% end %>
-
 <%= form_with(url: admin_forms_path, class: "usa-form", method: :get, local: true) do %>
   <div class="usa-form-group display-inline-block">
-    <%= label_tag :aasm_state, "Filter form by Status:" %>
+    <%= label_tag :aasm_state, "Filter by form status:", class: "font-sans-2xs" %>
     <%= select_tag :aasm_state, options_for_select([:all] + Form.aasm.states.collect(&:name), selected: params[:aasm_state]), class: "usa-select" %>
   </div>
    <div class="usa-form-group display-inline-block">
