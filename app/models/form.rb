@@ -39,13 +39,14 @@ class Form < ApplicationRecord
 
   def self.filtered_forms(user, aasm_state)
     if user.admin?
-      items = all.non_templates
+      items = all
     elsif user.organizational_form_approver?
       items = user.organization.forms
     else
-      items = user.forms.non_archived.non_templates.order('organization_id ASC').order('name ASC')
+      items = user.forms.order('organization_id ASC').order('name ASC')
     end
 
+    items = items.non_templates
     items = items.where(aasm_state: aasm_state) if aasm_state.present? && aasm_state != "all"
     items
   end

@@ -38,9 +38,14 @@ module Admin
     MAX_ROWS_TO_EXPORT = 300_000
 
     def index
-      params[:aasm_state] = "published" if params[:aasm_state].nil?
+      if form_search_params[:aasm_state].present?
+        @status = form_search_params[:aasm_state]
+      else
+        @status = "published"
+        params[:aasm_state] = @status # set the filter and dropdown by default
+      end
 
-      @forms = Form.filtered_forms(@current_user, params[:aasm_state])
+      @forms = Form.filtered_forms(@current_user, @status)
       @tags = @forms.collect(&:tag_list).flatten.uniq.sort
     end
 
@@ -550,6 +555,12 @@ module Admin
     def form_logo_params
       params.require(:form).permit(
         :logo,
+      )
+    end
+
+    def form_search_params
+      params.permit(
+        :aasm_state,
       )
     end
 
