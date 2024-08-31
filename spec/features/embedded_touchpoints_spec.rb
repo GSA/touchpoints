@@ -48,12 +48,15 @@ feature 'Touchpoints', js: true do
             all("#question_#{form.ordered_questions[4].id} .usa-radio__label").last.click
             fill_in("#{form.ordered_questions[4].ui_selector}_other", with: 'otro 2')
 
+            expect(page).to have_content("Custom Question Checkboxes")
+            expect(page).to have_content("This is help text for checkboxes")
             all('.usa-checkbox__label').each(&:click)
             expect(page).to have_content("Enter other text")
 
             expect(page).to have_css("##{form.ordered_questions[5].ui_selector}_other")
             fill_in("#{form.ordered_questions[5].ui_selector}_other", with: 'other 3')
 
+            expect(page).to have_content("This is help text for a dropdown.")
             select('Option 2', from: form.ordered_questions[6].ui_selector)
             find(".pagination-buttons.text-right", visible: true).click_link("Next")
             expect(page).to have_content('Custom elements')
