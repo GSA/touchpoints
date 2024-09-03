@@ -38,22 +38,19 @@ module Admin
     MAX_ROWS_TO_EXPORT = 300_000
 
     def index
-      if admin_permissions?
-        if params[:all]
-          @forms = Form.non_templates.order('organization_id ASC').order('name ASC')
-        else
-          @forms = Form.non_archived.non_templates.order('organization_id ASC').order('name ASC')
-          @archived_forms = Form.archived.order('organization_id ASC').order('name ASC')
-        end
-      elsif params[:all]
-        @forms = current_user.forms.non_templates.order('organization_id ASC').order('name ASC').entries
+      if form_search_params[:aasm_state].present?
+        @status = form_search_params[:aasm_state]
       else
-        @forms = current_user.forms.non_archived.non_templates.order('organization_id ASC').order('name ASC').entries
-        @archived_forms = current_user.forms.archived.order('organization_id ASC').order('name ASC')
+        @status = "published"
+        params[:aasm_state] = @status # set the filter and dropdown by default
       end
+
+      @forms = Form.filtered_forms(@current_user, @status)
+      @tags = @forms.collect(&:tag_list).flatten.uniq.sort
     end
 
     def submit
+      ensure_form_manager(form: @form)
       @event = Event.log_event(Event.names[:form_submitted], 'Form', @form.uuid, "Form #{@form.name} submitted at #{DateTime.now}", current_user.id)
 
       @form.submit!
@@ -71,6 +68,7 @@ module Admin
     end
 
     def publish
+      ensure_form_manager(form: @form)
       @event = Event.log_event(Event.names[:form_published], 'Form', @form.uuid, "Form #{@form.name} published at #{DateTime.now}", current_user.id)
 
       @form.publish!
@@ -79,6 +77,7 @@ module Admin
     end
 
     def archive
+      ensure_form_manager(form: @form)
       @event = Event.log_event(Event.names[:form_archived], 'Form', @form.uuid, "Form #{@form.name} archived at #{DateTime.now}", current_user.id)
 
       @form.archive!
@@ -556,6 +555,12 @@ module Admin
     def form_logo_params
       params.require(:form).permit(
         :logo,
+      )
+    end
+
+    def form_search_params
+      params.permit(
+        :aasm_state,
       )
     end
 
