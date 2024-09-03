@@ -126,7 +126,7 @@ class User < ApplicationRecord
   end
 
   def self.deactivate_inactive_accounts!
-    # Find all accounts scheduled to be deactivated in 30 days
+    # Find all accounts scheduled to be deactivated in 90 days
     users = User.active.where('(current_sign_in_at ISNULL AND created_at <= ?) OR (current_sign_in_at <= ?)', 90.days.ago, 90.days.ago)
     users.each(&:deactivate!)
   end
