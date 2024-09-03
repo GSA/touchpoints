@@ -64,6 +64,8 @@ feature 'Touchpoints', js: true do
               fill_in("#{form.ordered_questions[5].ui_selector}_other", with: 'other 3')
               find("##{form.ordered_questions[5].ui_selector}_other", visible: true).native.send_key :tab
 
+              ele = find("##{form.ordered_questions[6].ui_selector}", visible: false)
+              scroll_to(ele)
               expect(page).to have_content("This is help text for a dropdown.")
               select('Option 2', from: form.ordered_questions[6].ui_selector)
               find(".pagination-buttons.text-right", visible: true).click_link("Next")
