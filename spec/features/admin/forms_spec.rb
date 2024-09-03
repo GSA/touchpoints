@@ -16,6 +16,40 @@ feature 'Forms', js: true do
     end
 
     describe '/admin/forms' do
+      let!(:form) { FactoryBot.create(:form, organization:) }
+      let!(:form2) { FactoryBot.create(:form, organization:) }
+      let!(:form3) { FactoryBot.create(:form, organization:) }
+      let!(:form4) { FactoryBot.create(:form, organization:, aasm_state: :submitted) }
+      let!(:form5) { FactoryBot.create(:form, organization:, aasm_state: :archived) }
+
+      before do
+        visit admin_forms_path
+      end
+
+      it "displays 3 published forms" do
+        expect(page).to have_content("PUBLISHED")
+        expect(page).to_not have_content("ARCHIVED")
+        expect(find_all(".usa-table tbody tr").size).to eq(3)
+      end
+
+      context "use the dropdown to filter for archived forms" do
+        it "displays 1 archived form" do
+          select('archived', from: "aasm_state")
+          click_on("Filter")
+          expect(page).to have_content("ARCHIVED")
+          expect(page).to_not have_content("PUBLISHED")
+          expect(find_all(".usa-table tbody tr").size).to eq(1)
+        end
+      end
+    end
+  end
+
+  context 'as Admin' do
+    before do
+      login_as(admin)
+    end
+
+    describe '/admin/forms' do
       context 'within builder page' do
         let!(:form) { FactoryBot.create(:form, organization:) }
 
