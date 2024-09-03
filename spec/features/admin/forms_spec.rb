@@ -564,7 +564,7 @@ feature 'Forms', js: true do
         end
 
         describe '/admin/forms/:uuid/example' do
-          describe 'Form with `inline` delivery_method' do
+          context 'Form with `inline` delivery_method' do
             let!(:inline_form) { FactoryBot.create(:form, :open_ended_form, :inline, organization:) }
 
             before '/admin/forms/:uuid/example' do
