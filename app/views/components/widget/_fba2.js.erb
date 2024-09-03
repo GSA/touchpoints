@@ -305,10 +305,10 @@ function FBAform(d, N) {
 
 			// show page with validation error
 			var errorPage = question.closest(".section");
-			if (!errorPage.classList.contains("visible")) {
-				var visiblePage = this.formComponent().getElementsByClassName("section visible")[0];
-				visiblePage.classList.remove("visible");
-				errorPage.classList.add("visible");
+			if (!errorPage.classList.contains("fba-visible")) {
+				var visiblePage = this.formComponent().getElementsByClassName("section fba-visible")[0];
+				visiblePage.classList.remove("fba-visible");
+				errorPage.classList.add("fba-visible");
 			}
 
 			questionDiv.setAttribute('class', 'usa-form-group usa-form-group--error');
@@ -565,10 +565,10 @@ function FBAform(d, N) {
 					e.preventDefault();
 					var currentPage = e.target.closest(".section");
 					if (!this.validateForm(currentPage)) return false;
-					currentPage.classList.remove("visible");
+					currentPage.classList.remove("fba-visible");
 					this.currentPageNumber--;
 					this.showInstructions();
-					currentPage.previousElementSibling.classList.add("visible");
+					currentPage.previousElementSibling.classList.add("fba-visible");
 
 					const previousPageEvent = new CustomEvent('onTouchpointsFormPreviousPage', {
 						detail: {
@@ -590,10 +590,10 @@ function FBAform(d, N) {
 					e.preventDefault();
 					var currentPage = e.target.closest(".section");
 					if (!this.validateForm(currentPage)) return false;
-					currentPage.classList.remove("visible");
+					currentPage.classList.remove("fba-visible");
 					this.currentPageNumber++;
 					this.showInstructions();
-					currentPage.nextElementSibling.classList.add("visible");
+					currentPage.nextElementSibling.classList.add("fba-visible");
 
 					const nextPageEvent = new CustomEvent('onTouchpointsFormNextPage', {
 						detail: {
