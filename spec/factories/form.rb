@@ -198,7 +198,6 @@ FactoryBot.define do
     trait :kitchen_sink do
       name { 'Kitchen Sink Form 🧼' }
       kind { 'custom' }
-      title { 'Kitchen Sink Form' }
       after(:create) do |f, _evaluator|
         FactoryBot.create(:question,
                           form: f,
@@ -229,7 +228,7 @@ FactoryBot.define do
                           position: 20,
                           text: "Some custom <a href='#'>html</a>")
 
-        option_elements_section = f.form_sections.create(title: 'Page 2', position: 2)
+        option_elements_section = f.form_sections.create(title: 'Option elements', position: 2)
         radio_button_question = FactoryBot.create(:question,
                                                   form: f,
                                                   form_section: option_elements_section,
@@ -254,9 +253,16 @@ FactoryBot.define do
                                })
         QuestionOption.create!({
                                  question: radio_button_question,
-                                 text: 'Otro',
+                                 text: 'Option 3',
                                  value: 3,
                                  position: 3,
+                               })
+
+         QuestionOption.create!({
+                                 question: radio_button_question,
+                                 text: 'Otro',
+                                 value: 4,
+                                 position: 4,
                                })
 
         checkbox_question = FactoryBot.create(:question,
@@ -287,11 +293,9 @@ FactoryBot.define do
                                  position: 3,
                                })
 
-        custom_elements_section = f.form_sections.create(title: 'Page 3', position: 3)
-
         dropdown_question = Question.create!({
                                                form: f,
-                                               form_section: custom_elements_section,
+                                               form_section: option_elements_section,
                                                text: 'Custom Question Dropdown',
                                                question_type: 'dropdown',
                                                help_text: 'This is help text for a dropdown.',
@@ -318,6 +322,7 @@ FactoryBot.define do
                                  position: 3,
                                })
 
+        custom_elements_section = f.form_sections.create(title: 'Custom elements', position: 3)
         Question.create!({
                            form: f,
                            form_section: custom_elements_section,
