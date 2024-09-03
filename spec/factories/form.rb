@@ -253,9 +253,16 @@ FactoryBot.define do
                                })
         QuestionOption.create!({
                                  question: radio_button_question,
-                                 text: 'Otro',
+                                 text: 'Option 3',
                                  value: 3,
                                  position: 3,
+                               })
+
+         QuestionOption.create!({
+                                 question: radio_button_question,
+                                 text: 'Otro',
+                                 value: 4,
+                                 position: 4,
                                })
 
         checkbox_question = FactoryBot.create(:question,

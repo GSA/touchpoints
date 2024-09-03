@@ -4,10 +4,10 @@ require 'rails_helper'
 
 feature 'Touchpoints', js: true do
   let(:organization) { FactoryBot.create(:organization) }
+  let!(:user) { FactoryBot.create(:user, :admin, organization:) }
 
   [true, false].each do |val|
     context "as Admin with legacy_form_embed #{val}" do
-      let!(:user) { FactoryBot.create(:user, :admin, organization:) }
       let!(:form) { FactoryBot.create(:form, :kitchen_sink, legacy_form_embed: val, organization:) }
 
       describe '/forms/:id/example' do
@@ -47,7 +47,7 @@ feature 'Touchpoints', js: true do
               expect(page).to have_content('Option elements')
               expect(page).to have_no_content('Page 1')
               expect(page).to have_no_content('Custom elements')
-              expect(all("#question_#{form.ordered_questions[4].id} .usa-radio__label").size).to eq(3)
+              expect(all("#question_#{form.ordered_questions[4].id} .usa-radio__label").size).to eq(4)
               all("#question_#{form.ordered_questions[4].id} .usa-radio__label").last.click
               fill_in("#{form.ordered_questions[4].ui_selector}_other", with: 'otro 2')
 
@@ -56,7 +56,11 @@ feature 'Touchpoints', js: true do
               all('.usa-checkbox__label').each(&:click)
               expect(page).to have_content("Enter other text")
 
-              expect(page).to have_css("##{form.ordered_questions[5].ui_selector}_other")
+              ele = find("##{form.ordered_questions[5].ui_selector}_other", visible: false)
+              scroll_to(ele)
+              expect(page).to have_content("Custom Question Dropdown")
+              expect(page).to have_content("An official form of")
+
               fill_in("#{form.ordered_questions[5].ui_selector}_other", with: 'other 3')
               find("##{form.ordered_questions[5].ui_selector}_other", visible: true).native.send_key :tab
 
@@ -71,12 +75,12 @@ feature 'Touchpoints', js: true do
               # shows success flash message
               expect(page).to have_content('Success')
               expect(page).to have_content('Thank you. Your feedback has been received.')
-
-              # doesn't reset form; leave the flash message
-              find(".fba-modal-close").click
-              find("#fba-button").click
-              expect(page).to have_content('Thank you. Your feedback has been received.')
             end
+
+            # doesn't reset form; leave the flash message
+            find(".fba-modal-close").click
+            find("#fba-button").click
+            expect(page).to have_content('Thank you. Your feedback has been received.')
           end
 
           it 'renders success flash message' do
