@@ -13,6 +13,8 @@
 <p>
   <%= link_to admin_organization_path(@organization.slug), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
     <i class="fas fa-trash"></i>
-    Delete
+    <span class="usa-sr-only">
+      Delete
+    </span>
   <% end %>
 </p>

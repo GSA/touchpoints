@@ -14,9 +14,14 @@
   <%= render "form", cscrm_data_collection: @cscrm_data_collection %>
 
   <%- if @cscrm_data_collection.persisted? %>
-    <%= button_to "Destroy", admin_cscrm_data_collections2_path(@cscrm_data_collection),
+    <%= button_to admin_cscrm_data_collections2_path(@cscrm_data_collection),
         class: "usa-button usa-button--secondary float-right",
-        method: :delete %>
+        method: :delete do %>
+      <i class="fas fa-trash"></i>
+      <span>
+        Delete this collection
+      </span>
+    <% end %>
   <% end %>
   </div>
 </div>
