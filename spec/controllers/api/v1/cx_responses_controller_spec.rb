@@ -41,7 +41,7 @@ describe Api::V1::CxResponsesController, type: :controller do
     end
 
     context "with uploads" do
-      let!(:user) { FactoryBot.create(:user) }
+      let!(:user) { FactoryBot.create(:user, api_key: TEST_API_KEY) }
       let!(:organization1) { FactoryBot.create(:organization) }
       let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization1) }
       let!(:service) { FactoryBot.create(:service, organization: organization1, service_provider: service_provider, service_owner_id: user.id) }
@@ -51,7 +51,6 @@ describe Api::V1::CxResponsesController, type: :controller do
 
       describe '#index' do
         before do
-          user.update(api_key: TEST_API_KEY)
           request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch('API_HTTP_USERNAME'), ENV.fetch('API_HTTP_PASSWORD'))
           get :index, format: :json, params: { 'API_KEY' => user.api_key }
           @parsed_response = JSON.parse(response.body)
@@ -69,7 +68,6 @@ describe Api::V1::CxResponsesController, type: :controller do
 
       describe 'pagination' do
         before do
-          user.update(api_key: TEST_API_KEY)
           request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch('API_HTTP_USERNAME'), ENV.fetch('API_HTTP_PASSWORD'))
           get :index, format: :json, params: { 'API_KEY' => user.api_key, "page[size]" => 100, "page[number]" => 10 }
           @parsed_response = JSON.parse(response.body)
