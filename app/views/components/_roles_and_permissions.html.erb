@@ -118,7 +118,7 @@
                 <%= select_tag :role, options_for_select([ ["Form Manager", "form_manager"], ["Response Viewer", "response_viewer"] ]), prompt: "Select a Role", id: "add-user-role", style: "display: inline-block; margin-right: 1em;", class: "usa-select" %>
                 <br>
                 <br>
-                <button type="button" class="usa-button" name="button" id="add-user-button">Add User</button>
+                <%= submit_tag 'Add User', id: "add-user-button", class: 'usa-button', "data-disable-with" => "Add User" %>
               </div>
               <% else %>
                 <p class="usa-prose">
@@ -140,7 +140,7 @@
           <%= link_to "Invite a User to Touchpoints", admin_invite_path, class: "usa-button usa-button--outline full-width" %>
 
           <p class="font-sans-2xs">
-            After the user signs into Touchpoints, they will be available to select in the user dropdown.
+            After the user signs into Touchpoints, their email will be available to select in the user dropdown.
           </p>
         </div>
       </div>
