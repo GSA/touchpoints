@@ -12,8 +12,11 @@
 <%= render 'form', omb_cx_reporting_collection: @omb_cx_reporting_collection %>
 
 <p>
-  <%= link_to admin_omb_cx_reporting_collection_path(@omb_cx_reporting_collection), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
-  <i class="fas fa-trash"></i>
-  Delete
+  <%= link_to admin_omb_cx_reporting_collection_path(@omb_cx_reporting_collection), method: :delete, data: { confirm: 'Are you sure?' },
+    class: "usa-button usa-button--secondary" do %>
+    <i class="fas fa-trash"></i>
+    <span class="usa-sr-only">
+      Delete
+    </span>
   <% end %>
 </p>

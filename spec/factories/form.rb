@@ -257,7 +257,8 @@ FactoryBot.define do
                                  value: 3,
                                  position: 3,
                                })
-        QuestionOption.create!({
+
+         QuestionOption.create!({
                                  question: radio_button_question,
                                  text: 'Otro',
                                  value: 4,

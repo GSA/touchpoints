@@ -228,7 +228,9 @@
     <%- if admin_permissions? %>
       <%= link_to admin_user_path(user), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary float-right" do %>
         <i class="fas fa-trash"></i>
-        Delete User
+        <span class="usa-sr-only">
+          Delete
+        </span>
       <% end %>
     <% end %>
   </div>

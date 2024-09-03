@@ -30,8 +30,11 @@ feature 'Forms', js: true do
             click_on 'Add User'
           end
 
-          it 'can preview a form' do
-            expect(page).to_not have_content('No users at this time')
+          it 'see the email displayed and can remove the role' do
+            expect(page).to have_content('User Role successfully added to Form')
+            within(".roles-and-permissions") do
+              expect(page).to_not have_content('No users at this time')
+            end
 
             within(".roles-and-permissions table tr[data-user-id=\"#{user.id}\"]") do
               expect(page).to have_content(user.email)
