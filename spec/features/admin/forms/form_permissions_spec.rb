@@ -31,7 +31,9 @@ feature 'Forms', js: true do
           end
 
           it 'can preview a form' do
-            expect(page).to_not have_content('No users at this time')
+            within(".roles-and-permissions") do
+              expect(page).to_not have_content('No users at this time')
+            end
 
             within(".roles-and-permissions table tr[data-user-id=\"#{user.id}\"]") do
               expect(page).to have_content(user.email)
