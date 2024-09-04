@@ -9,16 +9,16 @@ class ServiceStage < ApplicationRecord
   validates :name, presence: true
 
   def self.to_csv
-    service_stages = ServiceStage.order('organizations.name').includes([:organization, :service, :taggings])
+    service_stages = ServiceStage.order('service_id', 'position')
 
     example_attributes = ServiceStage.new.attributes
     attributes = example_attributes.keys
 
     CSV.generate(headers: true) do |csv|
-      csv << attributes
+      csv << attributes + ['service name', 'service_provider_id', 'service_provider_name']
 
-      service_stages.each do |service|
-        csv << attributes.map { |attr| service.send(attr) }
+      service_stages.each do |stage|
+        csv << attributes.map { |attr| stage.send(attr) } + [stage.service.name, stage.service.try(:service_provider).try(:id), stage.service.try(:service_provider).try(:name)]
       end
     end
   end
