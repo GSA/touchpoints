@@ -24,6 +24,7 @@ feature 'Forms', js: true do
 
         describe 'add a user' do
           before do
+            expect(page).to have_content('Users in the dropdown are limited to users')
             expect(page).to have_content('No users at this time')
             select(user.email, from: 'add-user-id')
             select('Form Manager', from: 'add-user-role')
