@@ -50,6 +50,10 @@ module Admin
       redirect_to admin_service_service_stages_url(@service), notice: 'Service stage was successfully destroyed.' if @service_stage.destroy
     end
 
+    def export_csv
+      send_data ServiceStage.to_csv, filename: "touchpoints-service-stages-#{Date.today}.csv"
+    end
+
     private
 
     def set_service
