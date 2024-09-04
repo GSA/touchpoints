@@ -6,6 +6,10 @@
   <% end %>
 <% end %>
 
+<div class="font-sans-lg margin-top-2">
+  <%= pluralize(Service.hisp.active.count, "active HISP Services") %>
+</div>
+
 <table class="usa-table width-full">
   <thead>
     <tr>
@@ -13,6 +17,7 @@
       <th>Draft</th>
       <th>Submitted</th>
       <th>Published</th>
+      <th>Non-reporting</th>
       <th>Changed Requested</th>
       <th>Archived</th>
     </tr>
@@ -24,6 +29,7 @@
       <td><%= CxCollection.draft.count %></td>
       <td><%= CxCollection.submitted.count %></td>
       <td><%= CxCollection.published.count %></td>
+      <td><%= CxCollection.not_reported.count %></td>
       <td><%= CxCollection.change_requested.count %></td>
       <td><%= CxCollection.archived.count %></td>
     </tr>
