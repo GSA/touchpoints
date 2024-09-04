@@ -7,8 +7,8 @@ module Admin
 
     def index
       if params[:service_id]
-        ensure_service_owner(service: @service, user: current_user)
         set_service
+        ensure_service_owner(service: @service, user: current_user)
         @service_stages = @service.service_stages.order(:position)
       else
         ensure_service_manager_permissions
