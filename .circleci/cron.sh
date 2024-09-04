@@ -61,7 +61,7 @@ echo "Running tasks in Production..."
 # Users
 cf run-task touchpoints-production-sidekiq-worker -c "rake scheduled_jobs:send_one_week_until_inactivation_warning"
 cf run-task touchpoints-production-sidekiq-worker -c "rake scheduled_jobs:send_two_weeks_until_inactivation_warning"
-# cf run-task touchpoints-production-sidekiq-worker -c "rake scheduled_jobs:deactivate_inactive_users"
+cf run-task touchpoints-production-sidekiq-worker -c "rake scheduled_jobs:deactivate_inactive_users"
 
 # Forms
 # cf run-task touchpoints-production-sidekiq-worker -c "rake scheduled_jobs:send_daily_notifications"
