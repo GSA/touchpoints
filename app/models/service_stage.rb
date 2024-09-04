@@ -15,7 +15,7 @@ class ServiceStage < ApplicationRecord
     attributes = example_attributes.keys
 
     CSV.generate(headers: true) do |csv|
-      csv << attributes + ['service name', 'service_provider_id', 'service_provider_name']
+      csv << attributes + ['service_name', 'service_provider_id', 'service_provider_name']
 
       service_stages.each do |stage|
         csv << attributes.map { |attr| stage.send(attr) } + [stage.service.name, stage.service.try(:service_provider).try(:id), stage.service.try(:service_provider).try(:name)]
