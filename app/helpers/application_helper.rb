@@ -129,6 +129,7 @@ module ApplicationHelper
 
   def is_at_least_form_manager?(user:, form:)
     user.admin? ||
+      user.organizational_form_approver && user.organization_id = form.organization_id ||
       form.user_role?(user:) == UserRole::Role::FormManager
   end
 

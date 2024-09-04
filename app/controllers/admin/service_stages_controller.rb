@@ -6,12 +6,12 @@ module Admin
     before_action :set_service_stage, only: %i[show edit update destroy]
 
     def index
-      ensure_service_manager_permissions
       if params[:service_id]
-        set_service
         ensure_service_owner(service: @service, user: current_user)
+        set_service
         @service_stages = @service.service_stages.order(:position)
       else
+        ensure_service_manager_permissions
         @service_stages = ServiceStage.all.order(:position)
         render :unscoped_index
       end
