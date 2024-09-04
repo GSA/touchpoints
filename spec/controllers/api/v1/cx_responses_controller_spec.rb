@@ -57,6 +57,8 @@ describe Api::V1::CxResponsesController, type: :controller do
         end
 
         it 'return a default paginated array of cx_responses' do
+          expect(cx_collection_detail.cx_responses.count).to eq(1000)
+
           expect(response.status).to eq(200)
           expect(@parsed_response['data'].class).to be(Array)
           expect(@parsed_response['data'].size).to eq(500)
@@ -74,6 +76,8 @@ describe Api::V1::CxResponsesController, type: :controller do
         end
 
         it 'return the last paginated array of 100 cx_responses' do
+          expect(cx_collection_detail.cx_responses.count).to eq(1000)
+
           expect(response.status).to eq(200)
           expect(@parsed_response['data'].class).to be(Array)
           expect(@parsed_response['data'].size).to eq(100)

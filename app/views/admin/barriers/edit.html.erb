@@ -11,8 +11,11 @@
 <%= render 'form', barrier: @barrier %>
 
 <p>
-  <%= link_to admin_barrier_path(@barrier), method: :delete, data: { confirm: 'Are you sure?' }, class: "usa-button usa-button--secondary" do %>
-  <i class="fa fa-trash"></i>
-  Delete
+  <%= link_to admin_barrier_path(@barrier), method: :delete, data: { confirm: 'Are you sure?' },
+  class: "usa-button usa-button--secondary" do %>
+    <i class="fas fa-trash"></i>
+    <span class="usa-sr-only">
+      Delete
+    </span>
   <% end %>
 </p>
