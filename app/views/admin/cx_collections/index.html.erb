@@ -6,13 +6,10 @@
   <% end %>
 <% end %>
 
-<div class="font-sans-lg margin-top-2">
-  <%= pluralize(Service.hisp.active.count, "active HISP Services") %>
-</div>
-
 <table class="usa-table width-full">
   <thead>
     <tr>
+      <th>Active HISP Services</th>
       <th>Total Collections</th>
       <th>Draft</th>
       <th>Submitted</th>
@@ -25,6 +22,7 @@
 
   <tbody>
     <tr>
+      <td><%= Service.hisp.active.count %></td>
       <td><%= CxCollection.count %></td>
       <td><%= CxCollection.draft.count %></td>
       <td><%= CxCollection.submitted.count %></td>
