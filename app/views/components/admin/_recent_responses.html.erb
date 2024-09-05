@@ -18,13 +18,13 @@
         <% forms.each do |form| %>
         <tr>
           <td>
-            <%= link_to form.organization.name, admin_organization_path(form.organization) %>
+            <%= render "admin/organizations/badge", organization: form.organization %>
           </td>
           <td>
             <%= link_to form.name, admin_form_path(form) %>
           </td>
-          <td>
-            <%= form.submissions.where("created_at > ?", Time.now - days_since.days).count %>
+          <td data-sort-value="<%= c = form.submissions.where("created_at > ?", Time.now - days_since.days).count %>">
+            <%= number_with_delimiter(c) %>
           </td>
         </tr>
         <% end %>

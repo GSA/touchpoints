@@ -417,7 +417,11 @@ Rails.application.routes.draw do
         patch 'sort_objectives', to: 'organizations#sort_objectives', as: :sort_objectives
       end
     end
-    resources :service_stages
+    resources :service_stages do
+      collection do
+        get 'export_csv', to: 'service_stages#export_csv', as: :export_csv
+      end
+    end
     resources :barriers
     resources :service_stage_barriers
 
