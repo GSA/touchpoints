@@ -35,7 +35,7 @@ feature 'CX Data Collections', js: true do
 
       it 'renders the index page and summary table' do
         expect(page).to have_content('CX Data Collections')
-        within ('table.usa-table') do
+        within ('table.usa-table.collections-summary') do
           expect(page).to have_content('Active HISP Services')
           expect(page).to have_content('Total Collections')
           expect(page).to have_content('Draft')
