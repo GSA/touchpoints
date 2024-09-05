@@ -11,11 +11,8 @@ module Admin
     ]
 
     def index
-      if admin_permissions?
-        @digital_service_accounts = DigitalServiceAccount.all
-      else
-        @digital_service_accounts = DigitalServiceAccount.with_role(:contact, current_user)
-      end
+      @digital_service_accounts = DigitalServiceAccount
+        .filtered_accounts(@current_user, search_params[:query], search_params[:org_abbr], search_params[:aasm_state], search_params[:account])
 
       @digital_service_accounts = @digital_service_accounts
         .order(:name)
@@ -23,11 +20,13 @@ module Admin
     end
 
     def export
-      if admin_permissions? && params[:all]
-        filename = ExportDigitalServiceAccounts.perform_later(email: current_user.email, include_all_accounts: true)
-      else
-        filename = ExportDigitalServiceAccounts.perform_later(email: current_user.email, include_all_accounts: false)
-      end
+      Event.log_event(Event.names[:digital_service_account_export],
+          'DigitalServiceAccount',
+          @digital_service_account.id,
+          "Export by #{current_user.email} on #{Date.today}", current_user.id)
+
+      filename = ExportDigitalServiceAccounts
+        .perform_later(@current_user, search_params[:query], search_params[:org_abbr], search_params[:aasm_state], search_params[:account])
 
       flash[:success] = UserMailer::ASYNC_JOB_MESSAGE
       redirect_to admin_digital_service_accounts_path
@@ -187,15 +186,13 @@ module Admin
           "Digital Service Account #{@digital_service_account.name} published at #{DateTime.now}", current_user.id)
 
         @account_contacts = []
-        if @digital_service_account.roles.first
-          @account_contacts = @digital_service_account.roles.first.users.collect(&:email)
-        end
+        @account_contacts = @digital_service_account.roles.first.users.collect(&:email) if @digital_service_account.roles.first
 
         UserMailer.notification(
           title: 'Digital Service Account was published',
           body: "Digital Service Account #{@digital_service_account.name} published at #{DateTime.now} by #{current_user.email}",
           path: admin_digital_service_account_url(@digital_service_account),
-          emails: (User.admins.collect(&:email) + User.registry_managers.collect(&:email) + @account_contacts).uniq
+          emails: (User.admins.collect(&:email) + User.registry_managers.collect(&:email) + @account_contacts).uniq,
         ).deliver_later
 
         redirect_to admin_digital_service_account_path(@digital_service_account), notice: "Digital Service Account #{@digital_service_account.name} was published."
@@ -241,15 +238,12 @@ module Admin
     end
 
     def search
-      search_text = params[:search]
-      organization_id = params[:organization_id]
+      @digital_service_accounts = DigitalServiceAccount
+        .filtered_accounts(@current_user, search_params[:query], search_params[:org_abbr], search_params[:aasm_state], search_params[:account])
 
-      @digital_service_accounts = DigitalServiceAccount.all
-      @digital_service_accounts = @digital_service_accounts.where("name ilike '%#{search_text}%' OR account ilike '%#{search_text}%' OR short_description ilike '%#{search_text}%' OR service_url ilike '%#{search_text}%'") if search_text && search_text.length >= 3
-      @digital_service_accounts = @digital_service_accounts.tagged_with(organization_id, context: 'organizations') if organization_id.present? && organization_id != ''
-      @digital_service_accounts = @digital_service_accounts.where(service: params[:service].downcase) if params[:service].present? && params[:service] != 'All'
-      @digital_service_accounts = @digital_service_accounts.where(aasm_state: params[:aasm_state].downcase) if params[:aasm_state].present? && params[:aasm_state] != 'All'
-      @digital_service_accounts
+      @digital_service_accounts = @digital_service_accounts
+        .order(:name)
+        .page(params[:page])
     end
 
     private
@@ -260,7 +254,7 @@ module Admin
     end
 
     def set_sponsoring_agency_options
-      @sponsoring_agency_options = Organization.all.order(:name)
+      @sponsoring_agency_options = Organization.order(:name)
       @sponsoring_agency_options -= @digital_service_account.sponsoring_agencies if @sponsoring_agency_options && @digital_service_account
     end
 
@@ -279,6 +273,15 @@ module Admin
         :tags,
         :tag_list,
         :organization_list,
+      )
+    end
+
+    def search_params
+      params.permit(
+        :aasm_state,
+        :org_abbr,
+        :account,
+        :query
       )
     end
   end
