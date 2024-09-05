@@ -183,7 +183,6 @@ feature 'Digital Service Accounts', js: true do
       end
 
       it 'displays an error message as an alert' do
-        sleep 0.3
         expect(page.driver.browser.switch_to.alert).to be_truthy
         alert_text = page.driver.browser.switch_to.alert.text
         expect(alert_text).to eq('User nonexistent-email@example.gov does not exist.')
@@ -215,7 +214,7 @@ feature 'Digital Service Accounts', js: true do
 
       it 'can search by keyword' do
         fill_in :tags, with: digital_service_account.name
-        find('#tags').native.send_key :tab
+        find('#query').native.send_key :tab
         expect(page).to_not have_content(digital_service_account_2.name)
         expect(page).to have_css('tbody tr', count: 1)
       end
