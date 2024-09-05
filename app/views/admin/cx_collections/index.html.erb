@@ -31,6 +31,27 @@
       <td><%= CxCollection.change_requested.count %></td>
       <td><%= CxCollection.archived.count %></td>
     </tr>
+    <%- if params[:year] || params[:quarter] %>
+    <% collections_per_quarter = CxCollection.where(fiscal_year: params[:year], quarter: params[:quarter]) %>
+    <tr>
+      <td class="text-base text-sm">
+        for
+        <%- if params[:quarter] %>
+        Q<%= params["quarter"] %>
+        <% end %>
+        <%- if params[:year] %>
+        <%= params["year"] %>
+        <% end %>
+      </td>
+      <td><%= collections_per_quarter.count %></td>
+      <td><%= collections_per_quarter.draft.count %></td>
+      <td><%= collections_per_quarter.submitted.count %></td>
+      <td><%= collections_per_quarter.published.count %></td>
+      <td><%= collections_per_quarter.not_reported.count %></td>
+      <td><%= collections_per_quarter.change_requested.count %></td>
+      <td><%= collections_per_quarter.archived.count %></td>
+    </tr>
+    <% end %>
   </tbody>
 </table>
 
