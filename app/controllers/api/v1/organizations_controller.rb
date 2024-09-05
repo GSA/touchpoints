@@ -6,7 +6,7 @@ module Api
       def index
         respond_to do |format|
           format.json do
-            render json: Organization.all.order(:id), each_serializer: OrganizationSerializer
+            render json: Organization.order(:id), each_serializer: OrganizationSerializer
           end
         end
       end

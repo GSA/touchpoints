@@ -11,22 +11,22 @@ module Admin
 
     def index
       respond_to do |format|
-        format.html {
+        format.html do
           if cscrm_manager_permissions?
-            @cscrm_data_collections = CscrmDataCollection.all.includes(:organization)
+            @cscrm_data_collections = CscrmDataCollection.includes(:organization)
           else
             # Redirect non-admin users to CSCRM2
             redirect_to admin_cscrm_data_collections2_index_path
           end
-        }
-        format.csv {
+        end
+        format.csv do
           if cscrm_manager_permissions?
             csv_content = CscrmDataCollection.to_csv
           else
             []
           end
           send_data csv_content
-        }
+        end
       end
     end
 
@@ -139,14 +139,12 @@ module Admin
         :staffing_comments,
         :personnel_required_comments,
         :cybersecurity_supply_chain_risk_comments,
-
         :prioritization_process,
         :prioritization_process_comments,
         :established_process_information_sharing_with_fasc,
         :established_process_information_sharing_with_fasc_comments,
         :general_comments,
         :rating,
-
         :roles_and_responsibilities_comments,
         :missions_identified_comments,
         :considerations_in_procurement_processes_comments,

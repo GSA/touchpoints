@@ -6,7 +6,7 @@ module Api
       def index
         respond_to do |format|
           format.json do
-            render json: CxCollectionDetail.all.order(:id), each_serializer: CxCollectionDetailSerializer
+            render json: CxCollectionDetail.order(:id), each_serializer: CxCollectionDetailSerializer
           end
         end
       end

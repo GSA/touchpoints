@@ -11,21 +11,21 @@ module Admin
 
     def index
       respond_to do |format|
-        format.html {
+        format.html do
           if cscrm_manager_permissions?
-            @cscrm_data_collections = CscrmDataCollection2.all.includes(:organization)
+            @cscrm_data_collections = CscrmDataCollection2.includes(:organization)
           else
-            @cscrm_data_collections = current_user.organization.cscrm_data_collections2.all.includes(:organization)
+            @cscrm_data_collections = current_user.organization.cscrm_data_collections2.includes(:organization)
           end
-        }
-        format.csv {
+        end
+        format.csv do
           if cscrm_manager_permissions?
             csv_content = CscrmDataCollection2.to_csv
           else
             []
           end
           send_data csv_content
-        }
+        end
       end
     end
 
@@ -117,7 +117,6 @@ module Admin
         :year,
         :quarter,
         :rating,
-
         # Question 1
         :interdisciplinary_team,
         :interdisciplinary_team_comments,
@@ -161,7 +160,6 @@ module Admin
         :cscrm_controls_incorporated_into_ssp,
         :cscrm_controls_incorporated_into_ssp_comments,
         :comments,
-
         clearly_defined_roles: [],
         identified_assets_and_essential_functions: [],
         considerations_in_procurement_processes: [],
