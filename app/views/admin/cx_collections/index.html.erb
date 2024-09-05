@@ -6,27 +6,52 @@
   <% end %>
 <% end %>
 
-<table class="usa-table width-full">
+<table class="usa-table width-full collections-summary">
   <thead>
     <tr>
+      <th>Active HISP Services</th>
       <th>Total Collections</th>
       <th>Draft</th>
       <th>Submitted</th>
       <th>Published</th>
-      <th>Changed Requested</th>
+      <th>Non-reporting</th>
+      <th>Change Requested</th>
       <th>Archived</th>
     </tr>
   </thead>
 
   <tbody>
     <tr>
+      <td><%= Service.hisp.active.count %></td>
       <td><%= CxCollection.count %></td>
       <td><%= CxCollection.draft.count %></td>
       <td><%= CxCollection.submitted.count %></td>
       <td><%= CxCollection.published.count %></td>
+      <td><%= CxCollection.not_reported.count %></td>
       <td><%= CxCollection.change_requested.count %></td>
       <td><%= CxCollection.archived.count %></td>
     </tr>
+    <%- if params[:year] || params[:quarter] %>
+    <% collections_per_quarter = CxCollection.where(fiscal_year: params[:year], quarter: params[:quarter]) %>
+    <tr>
+      <td class="text-base text-sm">
+        for
+        <%- if params[:quarter] %>
+        Q<%= params["quarter"] %>
+        <% end %>
+        <%- if params[:year] %>
+        <%= params["year"] %>
+        <% end %>
+      </td>
+      <td><%= collections_per_quarter.count %></td>
+      <td><%= collections_per_quarter.draft.count %></td>
+      <td><%= collections_per_quarter.submitted.count %></td>
+      <td><%= collections_per_quarter.published.count %></td>
+      <td><%= collections_per_quarter.not_reported.count %></td>
+      <td><%= collections_per_quarter.change_requested.count %></td>
+      <td><%= collections_per_quarter.archived.count %></td>
+    </tr>
+    <% end %>
   </tbody>
 </table>
 

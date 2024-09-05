@@ -1,14 +1,12 @@
-<table class="usa-table">
+<table class="usa-table width-full">
   <thead>
     <tr>
-      <th data-sortable scope="col">HISP Service</th>
-    <%- if service_manager_permissions? %>
       <th data-sortable scope="col">Organization</th>
       <th data-sortable scope="col">Service Provider</th>
-    <% end %>
-      <th data-sortable scope="col">Name</th>
+      <th data-sortable scope="col">Service name</th>
       <th data-sortable scope="col"># of Stages</th>
       <th data-sortable scope="col"># of Collections</th>
+      <th data-sortable scope="col">HISP Service?</th>
       <th data-sortable scope="col">Status</th>
     </tr>
   </thead>
@@ -16,19 +14,17 @@
     <% @services.each do |service| %>
       <tr>
         <td>
+          <%= render "admin/organizations/badge", organization: service.organization %>
+        </td>
+        <td><%= link_to(service.service_provider.name, admin_service_provider_path(service.service_provider)) if service.service_provider %></td>
+        <td><%= link_to service.name, admin_service_path(service) %></td>
+        <td><%= link_to_if service.service_stages.size > 0, service.service_stages.size, admin_service_service_stages_path(service) %></td>
+        <td><%= link_to_if service.collections.size > 0, service.collections.size, admin_collections_path %></td>
+        <td>
         <%- if service.hisp? %>
           <span class="usa-tag bg-cyan">HISP</span>
         <% end %>
         </td>
-      <%- if service_manager_permissions? %>
-        <td>
-          <%= render "admin/organizations/badge", organization: service.organization %>
-        </td>
-        <td><%= service.service_provider.try(:name) %></td>
-      <% end %>
-        <td><%= link_to service.name, admin_service_path(service) %></td>
-        <td><%= link_to_if service.service_stages.size > 0, service.service_stages.size, admin_service_service_stages_path(service) %></td>
-        <td><%= link_to_if service.collections.size > 0, service.collections.size, admin_collections_path %></td>
         <td data-sort-value="<%= service_status_sort_values[service.aasm_state] %>">
           <%= render 'components/service_status_tag', service: service %>
         </td>
