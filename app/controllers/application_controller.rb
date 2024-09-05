@@ -255,6 +255,7 @@ class ApplicationController < ActionController::Base
     return false if form.blank?
     return true if admin_permissions?
     return true if current_user.has_role?(:form_manager, form)
+    return true if form_approver_permissions?
 
     (form.user_role?(user: current_user) == UserRole::Role::FormManager)
   end
@@ -262,7 +263,6 @@ class ApplicationController < ActionController::Base
   helper_method :response_viewer_permissions?
   def response_viewer_permissions?(form:)
     return false if form.blank?
-    return true if form_approver_permissions?
 
     (form.user_role?(user: current_user) == UserRole::Role::ResponseViewer) || form_permissions?(form:)
   end

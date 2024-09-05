@@ -33,9 +33,18 @@ feature 'CX Data Collections', js: true do
         visit admin_cx_collections_path
       end
 
-      it 'renders the index page' do
+      it 'renders the index page and summary table' do
         expect(page).to have_content('CX Data Collections')
-        expect(page).to have_css('table.usa-table')
+        within ('table.usa-table.collections-summary') do
+          expect(page).to have_content('Active HISP Services')
+          expect(page).to have_content('Total Collections')
+          expect(page).to have_content('Draft')
+          expect(page).to have_content('Submitted')
+          expect(page).to have_content('Published')
+          expect(page).to have_content('Non-reporting')
+          expect(page).to have_content('Change Requested')
+          expect(page).to have_content('Archived')
+        end
       end
 
       it 'can filter Collections by year' do

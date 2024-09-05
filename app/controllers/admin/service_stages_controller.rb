@@ -2,12 +2,19 @@
 
 module Admin
   class ServiceStagesController < AdminController
-    before_action :set_service
+    before_action :set_service, except: [:index, :export_csv]
     before_action :set_service_stage, only: %i[show edit update destroy]
 
     def index
-      ensure_service_owner(service: @service, user: current_user)
-      @service_stages = @service.service_stages
+      if params[:service_id]
+        set_service
+        ensure_service_owner(service: @service, user: current_user)
+        @service_stages = @service.service_stages.order(:position)
+      else
+        ensure_service_manager_permissions
+        @service_stages = ServiceStage.all.order(:position)
+        render :unscoped_index
+      end
     end
 
     def show
@@ -48,6 +55,10 @@ module Admin
       ensure_service_owner(service: @service, user: current_user)
 
       redirect_to admin_service_service_stages_url(@service), notice: 'Service stage was successfully destroyed.' if @service_stage.destroy
+    end
+
+    def export_csv
+      send_data ServiceStage.to_csv, filename: "touchpoints-service-stages-#{Date.today}.csv"
     end
 
     private

@@ -26,6 +26,7 @@ class Service < ApplicationRecord
   validates :non_digital_explanation, length: { maximum: 250 }
 
   scope :hisp, -> { where(hisp: true) }
+  scope :active, -> { where(previously_reported: false) }
 
   after_create :create_default_service_stages
   after_create :create_roles
