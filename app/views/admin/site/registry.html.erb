@@ -1,35 +1,7 @@
 <% content_for :navigation_title do %>
   U.S. Digital Registry
 <% end %>
-<div class="grid-row margin-bottom-2 grid-gap-lg">
-  <div class="desktop:grid-col-6 tablet:grid-col-12">
-    <div class="usa-summary-box margin-top-2" role="region" aria-labelledby="registry-introductory-text">
-      <div class="usa-summary-box__body">
-        <div class="usa-summary-box__text font-sans-xs">
-          The U.S. Digital Registry originated in
-          <a href="https://www.whitehouse.gov/wp-content/uploads/legacy_drupal_files/omb/memoranda/2017/m-17-06.pdf" class="usa-link usa-link--external" target="_blank" rel="noopener">OMB Memorandum M-17-06</a>,
-          stating agencies must register their public-facing digital
-          services such as social media, collaboration accounts, mobile apps and mobile websites.
-          <p>
-            In September 2023, M-17-06 was rescinded by
-            <a
-              href="https://www.whitehouse.gov/wp-content/uploads/2023/09/M-23-22-Delivering-a-Digital-First-Public-Experience.pdf"
-              target="_blank"
-              rel="noopener">
-              M-23-22 - Delivering a Digital-First Public Experience</a>.
-          </p>
-          <p>
-            The
-            <a href="https://digital.gov/communities/social-media/" class="usa-link usa-link--external" target="_blank" rel="noopener">Social Media Community of Practice</a>
-            exists to connect digital managers and specialists at federal agencies
-            as part of an effort aimed at improving how
-            digital engagement programs are created, adopted, and evaluated.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render "components/usdr_deprecation_notice" %>
 <div class="grid-row grid-gap-lg">
   <div class="desktop:grid-col-4">
     <h3>
