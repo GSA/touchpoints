@@ -213,7 +213,7 @@ feature 'Digital Service Accounts', js: true do
       end
 
       it 'can search by keyword' do
-        fill_in :tags, with: digital_service_account.name
+        fill_in :query, with: digital_service_account.name
         find('#query').native.send_key :tab
         expect(page).to_not have_content(digital_service_account_2.name)
         expect(page).to have_css('tbody tr', count: 1)
