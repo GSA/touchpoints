@@ -16,7 +16,6 @@
       <th>Published</th>
       <th>Non-reporting</th>
       <th>Change Requested</th>
-      <th>Archived</th>
     </tr>
   </thead>
 
@@ -29,7 +28,6 @@
       <td><%= CxCollection.published.count %></td>
       <td><%= CxCollection.not_reported.count %></td>
       <td><%= CxCollection.change_requested.count %></td>
-      <td><%= CxCollection.archived.count %></td>
     </tr>
     <%- if params[:year] || params[:quarter] %>
     <% collections_per_quarter = CxCollection.where(fiscal_year: params[:year], quarter: params[:quarter]) %>

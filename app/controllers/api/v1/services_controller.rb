@@ -9,7 +9,7 @@ module Api
             if params[:hisp].present? && params[:hisp].to_s == '1'
               render json: Service.hisp.order(:id), each_serializer: ServiceSerializer
             else
-              render json: Service.all.order(:id), each_serializer: ServiceSerializer
+              render json: Service.order(:id), each_serializer: ServiceSerializer
             end
           end
         end

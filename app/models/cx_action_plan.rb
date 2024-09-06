@@ -1,20 +1,15 @@
+# frozen_string_literal: true
+
 class CxActionPlan < ApplicationRecord
-    belongs_to :service_provider
+  belongs_to :service_provider
 
+  delegate :organization_id, to: :service_provider
 
-    def organization_id
-        self.service_provider.organization_id
-    end
+  def organization_name
+    service_provider.organization.name
+  end
 
-    def organization_name
-        self.service_provider.organization.name
-    end
+  delegate :name, to: :service_provider, prefix: true
 
-    def service_provider_name
-        self.service_provider.name
-    end
-
-    def services
-        self.service_provider.services
-    end
+  delegate :services, to: :service_provider
 end

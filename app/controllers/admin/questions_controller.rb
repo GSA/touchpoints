@@ -6,7 +6,7 @@ module Admin
     before_action :set_question, only: %i[show edit update destroy]
 
     def index
-      @questions = Question.all.order(:position)
+      @questions = Question.order(:position)
     end
 
     def show

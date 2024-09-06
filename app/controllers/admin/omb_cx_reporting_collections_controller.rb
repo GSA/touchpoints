@@ -51,7 +51,7 @@ module Admin
 
     def set_collections
       if performance_manager_permissions?
-        @collections = Collection.all.order('organizations.name').includes(:organization)
+        @collections = Collection.order('organizations.name').includes(:organization)
       else
         @collections = current_user.collections.order('organizations.name').includes(:organization)
       end

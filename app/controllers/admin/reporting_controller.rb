@@ -35,7 +35,7 @@ module Admin
 
       row << header_fields.join(',')
 
-      ServiceProvider.all.includes(:organization).order('organizations.name', :name).each do |service_provider|
+      ServiceProvider.includes(:organization).order('organizations.name', :name).each do |service_provider|
         service_provider.services.order(:name).each do |service|
           service.omb_cx_reporting_collections.includes(:service, :collection).order('collections.year', 'collections.quarter', 'services.name').each do |omb_cx_reporting_collection|
             row_fields = [
@@ -317,7 +317,7 @@ module Admin
     def lifespan
       @form_lifespans = Submission.select('form_id, count(*) as num_submissions, (max(submissions.created_at) - min(submissions.created_at)) as lifespan').group(:form_id)
       @forms = Form.select(:id, :name, :organization_id, :uuid).where('exists (select id, uuid from submissions where submissions.form_id = forms.id)')
-      @orgs = Organization.all.order(:name)
+      @orgs = Organization.order(:name)
       @org_summary = []
       @orgs.each do |org|
         org_row = {}
@@ -343,7 +343,7 @@ module Admin
 
     def no_submissions
       @forms = Form.published.select(:id, :name, :organization_id, :uuid).where("not exists (select id, uuid from submissions where submissions.form_id = forms.id and submissions.created_at > current_date - interval '30' day)").order(:organization_id)
-      @orgs = Organization.all.order(:name)
+      @orgs = Organization.order(:name)
       @org_summary = []
       @orgs.each do |org|
         org_row = {}
@@ -361,25 +361,20 @@ module Admin
     end
 
     def service_surveys
-      @services = Service.includes(:organization, :forms).all.order('organizations.name, services.name')
+      @services = Service.includes(:organization, :forms).order('organizations.name, services.name')
     end
 
     def users
       @users_who_need_accounts = []
-      Website.where("site_owner_email IS NOT NULL OR contact_email IS NOT NULL").all.each do |website|
-
+      Website.where('site_owner_email IS NOT NULL OR contact_email IS NOT NULL').find_each do |website|
         if website.site_owner_email.present?
           user = User.find_by_email(website.site_owner_email)
-          if user.nil?
-            @users_who_need_accounts << website.site_owner_email
-          end
+          @users_who_need_accounts << website.site_owner_email if user.nil?
         end
 
         if website.contact_email.present?
           user2 = User.find_by_email(website.contact_email)
-          if user2.nil?
-            @users_who_need_accounts << website.contact_email
-          end
+          @users_who_need_accounts << website.contact_email if user2.nil?
         end
 
         @users_who_need_accounts.uniq!
@@ -387,12 +382,11 @@ module Admin
     end
 
     def form_whitelist
-      @forms = Form.all.order(:created_at).includes(:organization)
+      @forms = Form.order(:created_at).includes(:organization)
     end
 
     def form_logos
-      @forms = Form.where("logo IS NOT NULL")
+      @forms = Form.where.not(logo: nil)
     end
-
   end
 end

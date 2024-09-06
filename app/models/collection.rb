@@ -146,7 +146,7 @@ class Collection < ApplicationRecord
   end
 
   def self.to_csv
-    collections = Collection.all.order(:year, :quarter, 'organizations.name').includes(:organization)
+    collections = Collection.order(:year, :quarter, 'organizations.name').includes(:organization)
 
     attributes = %i[
       id

@@ -40,7 +40,7 @@ module Admin
         if tag_name.present?
           @services = Service.includes(:organization, :service_provider).order('organizations.name', :name).tagged_with(tag_name)
         else
-          @services = Service.all.includes(:organization, :service_provider).order('organizations.name', :name)
+          @services = Service.includes(:organization, :service_provider).order('organizations.name', :name)
         end
       elsif tag_name.present?
         @services = current_user.organization.services.includes(:organization, :service_provider).order('organizations.name', :name).tagged_with(tag_name)
@@ -85,7 +85,7 @@ module Admin
     end
 
     def show
-      @omb_cx_reporting_collections = @service.omb_cx_reporting_collections.includes(:collection).order("collections.year", "collections.quarter")
+      @omb_cx_reporting_collections = @service.omb_cx_reporting_collections.includes(:collection).order('collections.year', 'collections.quarter')
       @cx_collections = @service.cx_collections
     end
 
@@ -228,7 +228,7 @@ module Admin
 
     def set_service_providers
       if service_manager_permissions?
-        @service_providers = ServiceProvider.all.includes(:organization).order('organizations.abbreviation', 'service_providers.name')
+        @service_providers = ServiceProvider.includes(:organization).order('organizations.abbreviation', 'service_providers.name')
       else
         @service_providers = current_user.organization.service_providers.includes(:organization).order('organizations.abbreviation', 'service_providers.name')
       end
@@ -283,7 +283,7 @@ module Admin
         :customer_volume_explanation,
         :resources_needed_to_provide_digital_service,
         :designated_for_improvement_a11_280,
-        kind: []
+        kind: [],
       )
     end
   end

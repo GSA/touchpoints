@@ -43,7 +43,6 @@ feature 'CX Data Collections', js: true do
           expect(page).to have_content('Published')
           expect(page).to have_content('Non-reporting')
           expect(page).to have_content('Change Requested')
-          expect(page).to have_content('Archived')
         end
       end
 

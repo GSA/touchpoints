@@ -12,7 +12,7 @@ module Admin
     ]
 
     def index
-      @offerings = Offering.all.order(:name)
+      @offerings = Offering.order(:name)
     end
 
     def show; end
@@ -69,7 +69,7 @@ module Admin
     end
 
     def set_offering_persona_options
-      @offering_persona_options = Persona.all.order(:name)
+      @offering_persona_options = Persona.order(:name)
       @offering_persona_options -= @offering.offering_personas if @offering_persona_options && @offering
     end
   end

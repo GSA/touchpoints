@@ -10,9 +10,9 @@ module Admin
 
     def index
       if current_user.admin? && params[:scope] == :all
-        @users = User.all.includes(:organization).order('inactive DESC', :organization_id, :email)
+        @users = User.includes(:organization).order('inactive DESC', :organization_id, :email)
       elsif current_user.admin? && params[:scope] == :inactive
-        @users = User.all.includes(:organization).where('current_sign_in_at < ? OR current_sign_in_at ISNULL', 90.days.ago).order(:organization_id, :email)
+        @users = User.includes(:organization).where('current_sign_in_at < ? OR current_sign_in_at ISNULL', 90.days.ago).order(:organization_id, :email)
       elsif current_user.admin?
         @users = User.active.includes(:organization).order('inactive DESC', :organization_id, :email)
       else
@@ -51,7 +51,7 @@ module Admin
       @forms = @user.forms.order(:status, :name)
       @websites = Website.where(site_owner_email: @user.email)
       @collections = @user.collections.order(:year, :quarter)
-      @user_events = Event.limit(100).where(object_type: "User", object_uuid: @user.id).order('created_at DESC')
+      @user_events = Event.limit(100).where(object_type: 'User', object_uuid: @user.id).order('created_at DESC')
       @service_providers = ServiceProvider.with_role(:service_provider_manager, @user)
       @services = Service.with_role(:service_manager, @user)
       @digital_products = DigitalProduct.with_role(:contact, @user)

@@ -11,7 +11,6 @@ module Admin
     ]
 
     def index
-
       respond_to do |format|
         format.html do
           if admin_permissions?
@@ -46,9 +45,9 @@ module Admin
     end
 
     def show
-      @events = Event.where(object_type: "Digital Product", object_uuid: @digital_product.id.to_s)
+      @events = Event.where(object_type: 'Digital Product', object_uuid: @digital_product.id.to_s)
         .includes(:user)
-        .order("created_at DESC")
+        .order('created_at DESC')
     end
 
     def new
@@ -164,9 +163,7 @@ module Admin
         Event.log_event(Event.names[:digital_product_published], 'Digital Product', @digital_product.id, "Digital Product #{@digital_product.name} published at #{DateTime.now}", current_user.id)
 
         @account_contacts = []
-        if @digital_product.roles.first
-          @account_contacts = @digital_product.roles.first.users.collect(&:email)
-        end
+        @account_contacts = @digital_product.roles.first.users.collect(&:email) if @digital_product.roles.first
 
         UserMailer.notification(
           title: 'Digital Product has been published',
@@ -231,7 +228,7 @@ module Admin
     end
 
     def set_sponsoring_agency_options
-      @sponsoring_agency_options = Organization.all.order(:name)
+      @sponsoring_agency_options = Organization.order(:name)
       @sponsoring_agency_options -= @digital_product.sponsoring_agencies if @sponsoring_agency_options && @digital_product
     end
 

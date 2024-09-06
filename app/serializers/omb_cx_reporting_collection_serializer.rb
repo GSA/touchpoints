@@ -108,8 +108,6 @@ class OmbCxReportingCollectionSerializer < ActiveModel::Serializer
   end
 
   def service_provider_name
-    if object.collection.service_provider
-      object.collection.service_provider.name
-    end
+    object.collection.service_provider&.name
   end
 end

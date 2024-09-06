@@ -2,7 +2,7 @@
 
 module Admin
   class ServiceStagesController < AdminController
-    before_action :set_service, except: [:index, :export_csv]
+    before_action :set_service, except: %i[index export_csv]
     before_action :set_service_stage, only: %i[show edit update destroy]
 
     def index
@@ -12,7 +12,7 @@ module Admin
         @service_stages = @service.service_stages.order(:position)
       else
         ensure_service_manager_permissions
-        @service_stages = ServiceStage.all.order(:position)
+        @service_stages = ServiceStage.order(:position)
         render :unscoped_index
       end
     end
