@@ -232,7 +232,7 @@ feature 'Digital Service Accounts', js: true do
       end
 
       it 'can search by aasm_state' do
-        select('Published', from: 'aasm_state')
+        select('published', from: 'aasm_state')
         expect(page).to have_css('tbody tr', count: 1)
       end
     end
