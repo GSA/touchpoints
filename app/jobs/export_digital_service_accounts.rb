@@ -4,7 +4,7 @@ class ExportDigitalServiceAccounts < ApplicationJob
   queue_as :default
 
     start_time = Time.now
-  def perform(user:, query:, org_abbr:, aasm_state:, account:)
+  def perform(query:, org_abbr:, aasm_state:, account:)
     query = DigitalServiceAccount
       .filtered_accounts(query, org_abbr, aasm_state, account)
     csv_content = query.to_csv
