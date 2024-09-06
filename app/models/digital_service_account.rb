@@ -20,8 +20,7 @@ class DigitalServiceAccount < ApplicationRecord
 
   scope :active, -> { where(aasm_state: :published) }
 
-  scope :filtered_accounts, lambda { |user, query, organization_abbreviation, aasm_state, account|
-    @user = user
+  scope :filtered_accounts, lambda { |query, organization_abbreviation, aasm_state, account|
     @organization = Organization.find_by_abbreviation(organization_abbreviation)
 
     items = all

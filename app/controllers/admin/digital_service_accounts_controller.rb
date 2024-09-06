@@ -12,7 +12,7 @@ module Admin
 
     def index
       @digital_service_accounts = DigitalServiceAccount
-        .filtered_accounts(@current_user, search_params[:query], search_params[:org_abbr], search_params[:aasm_state], search_params[:account])
+        .filtered_accounts(search_params[:query], search_params[:org_abbr], search_params[:aasm_state], search_params[:account])
 
       @digital_service_accounts = @digital_service_accounts
         .order(:name)
@@ -22,11 +22,11 @@ module Admin
     def export
       Event.log_event(Event.names[:digital_service_account_export],
           'DigitalServiceAccount',
-          @digital_service_account.id,
+          1,
           "Export by #{current_user.email} on #{Date.today}", current_user.id)
 
       filename = ExportDigitalServiceAccounts
-        .perform_later(@current_user, search_params[:query], search_params[:org_abbr], search_params[:aasm_state], search_params[:account])
+        .perform_later(current_user, search_params[:query], search_params[:org_abbr], search_params[:aasm_state], search_params[:account])
 
       flash[:success] = UserMailer::ASYNC_JOB_MESSAGE
       redirect_to admin_digital_service_accounts_path
@@ -239,7 +239,7 @@ module Admin
 
     def search
       @digital_service_accounts = DigitalServiceAccount
-        .filtered_accounts(@current_user, search_params[:query], search_params[:org_abbr], search_params[:aasm_state], search_params[:account])
+        .filtered_accounts(search_params[:query], search_params[:org_abbr], search_params[:aasm_state], search_params[:account])
 
       @digital_service_accounts = @digital_service_accounts
         .order(:name)
