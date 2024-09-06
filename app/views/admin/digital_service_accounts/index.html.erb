@@ -42,7 +42,7 @@
   </div>
   <div class="grid-col-6">
     <%= label_tag "Search by keywords", nil, for: "query", class: "usa-label" %>
-    <%= text_field_tag :query, nil, class: "usa-input", value: params[:query] %>
+    <%= text_field_tag :query, params[:query], class: "usa-input" %>
   </div>
 </div>
 <div class="grid-row grid-gap-lg">
