@@ -11,7 +11,8 @@ def set_s3!(vcap_services_json)
   return false if s3_settings.blank?
 
   # S3 Organization logos
-  s3_credentials = s3_settings[0]['credentials']
+  s3 = s3_settings.find { |instance| instance['plan'] == 'basic-public' }
+  s3_credentials = s3 && s3['credentials']
   raise StandardError, 's3 credentials could not be derived from Cloud Foundry VCAP_SERVICES' if s3_credentials.blank?
 
   # Set ENV variables based on Cloud Foundry's VCAP_SERVICES object
@@ -24,7 +25,8 @@ def set_s3!(vcap_services_json)
   Rails.logger.debug 'Set S3_AWS... ENV variables via vcap_services.rb'
 
   # S3 uploads
-  s3_upload_credentials = s3_settings[1]['credentials']
+  s3_upload = s3_settings.find { |instance| instance['plan'] == 'basic' }
+  s3_upload_credentials = s3_upload && s3_upload['credentials']
   raise StandardError, 's3 credentials could not be derived from Cloud Foundry VCAP_SERVICES' if s3_upload_credentials.blank?
 
   ENV['S3_UPLOADS_AWS_ACCESS_KEY_ID'] = s3_upload_credentials['access_key_id']

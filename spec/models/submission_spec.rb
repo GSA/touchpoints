@@ -44,4 +44,10 @@ RSpec.describe Submission, type: :model do
       end
     end
   end
+
+  describe 'spam_score' do
+    it 'defaults to 0' do
+      expect(submission.spam_score).to eq(0)
+    end
+  end
 end
