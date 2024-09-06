@@ -4,7 +4,7 @@ module Admin
   class SiteController < AdminController
     def index
       @forms = Form.non_templates
-      @agencies = Organization.all.order(:name)
+      @agencies = Organization.order(:name)
 
       @days_since = params[:recent] && params[:recent].to_i <= 365 ? params[:recent].to_i : 3
       @dates = (@days_since.days.ago.to_date..Date.today).map { |date| date }
@@ -30,8 +30,7 @@ module Admin
 
     def a11; end
 
-    def a11_v2_collections
-    end
+    def a11_v2_collections; end
 
     def heartbeat
       render json: {
@@ -63,10 +62,10 @@ module Admin
 
     def management
       ensure_admin
-      @organizations = Organization.all.order(:name)
+      @organizations = Organization.order(:name)
       @forms = Form.non_templates
       @unmanaged_forms = @forms.order(:name)
-      @agencies = Organization.all.order(:name)
+      @agencies = Organization.order(:name)
     end
 
     def registry; end

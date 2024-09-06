@@ -60,11 +60,10 @@ class Goal < ApplicationRecord
   def sponsoring_agencies
     Organization.where(id: organization_list)
   end
-  
+
   def sponsoring_users
     User.with_role(:sponsor, self)
   end
-
 
   def create_roles
     service_owner.add_role :service_manager, self
@@ -73,7 +72,7 @@ class Goal < ApplicationRecord
   private
 
   # default a new goal's position to the max position + 1 for the organization
-  def set_position   
+  def set_position
     if organization.goals.reload.present?
       self.position = organization.goals.maximum(:position) + 1
     else

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CxCollectionDetail < ApplicationRecord
   belongs_to :cx_collection
   belongs_to :service_stage, optional: true
@@ -90,5 +92,4 @@ class CxCollectionDetail < ApplicationRecord
       end
     end
   end
-
 end

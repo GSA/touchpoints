@@ -165,7 +165,7 @@ module Admin
     end
 
     def set_sponsoring_agency_options
-      @sponsoring_agency_options = Organization.all.order(:name)
+      @sponsoring_agency_options = Organization.order(:name)
       @sponsoring_agency_options -= @goal.sponsoring_agencies if @sponsoring_agency_options && @goal
     end
 

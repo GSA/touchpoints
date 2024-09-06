@@ -6,7 +6,7 @@ module Api
       def index
         respond_to do |format|
           format.json do
-            render json: ServiceProvider.all.includes(:organization).order('organizations.name', :name), each_serializer: ServiceProviderSerializer
+            render json: ServiceProvider.includes(:organization).order('organizations.name', :name), each_serializer: ServiceProviderSerializer
           end
         end
       end

@@ -2,17 +2,17 @@
 
 class DigitalServiceAccountSerializer < ActiveModel::Serializer
   attributes :id,
-              :name,
-              :agencies,
-              :contacts,
-              :service,
-              :service_url,
-              :account,
-              :language,
-              :status,
-              :short_description,
-              :long_description,
-              :tags
+             :name,
+             :agencies,
+             :contacts,
+             :service,
+             :service_url,
+             :account,
+             :language,
+             :status,
+             :short_description,
+             :long_description,
+             :tags
 
   def status
     object.aasm_state
@@ -25,5 +25,4 @@ class DigitalServiceAccountSerializer < ActiveModel::Serializer
   def contacts
     ActiveModel::Serializer::CollectionSerializer.new(object.contacts, serializer: PublicUserSerializer)
   end
-
 end

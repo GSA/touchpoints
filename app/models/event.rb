@@ -148,7 +148,7 @@ class Event < ApplicationRecord
     CSV.generate(headers: true) do |csv|
       csv << attributes
 
-      Event.all.find_each do |event|
+      Event.find_each do |event|
         csv << attributes.map { |attr| event.send(attr) }
       end
     end

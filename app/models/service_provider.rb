@@ -17,16 +17,12 @@ class ServiceProvider < ApplicationRecord
     User.with_role(:service_provider_manager, self)
   end
 
-  def organization_name
-    organization.name
-  end
+  delegate :name, to: :organization, prefix: true
 
-  def organization_abbreviation
-    organization.abbreviation
-  end
+  delegate :abbreviation, to: :organization, prefix: true
 
   def self.to_csv
-     CSV.generate(headers: true) do |csv|
+    CSV.generate(headers: true) do |csv|
       csv << %i[
         id
         organization_id
@@ -63,7 +59,7 @@ class ServiceProvider < ApplicationRecord
           provider.url,
           provider.services_count,
           provider.portfolio_manager_email,
-          provider.service_provider_managers.collect(&:email)
+          provider.service_provider_managers.collect(&:email),
         ]
       end
     end
