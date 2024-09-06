@@ -205,7 +205,7 @@ feature 'Digital Service Accounts', js: true do
     end
 
     describe '#search' do
-      let!(:digital_service_account) { FactoryBot.create(:digital_service_account, name: 'Test1776', service: 'Facebook', aasm_state: 'published') }
+      let!(:digital_service_account) { FactoryBot.create(:digital_service_account, name: 'Test1776', account: 'Facebook' service: 'Facebook', aasm_state: 'published') }
       let!(:digital_service_account_2) { FactoryBot.create(:digital_service_account, aasm_state: 'created') }
 
       before do
