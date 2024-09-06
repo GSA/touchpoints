@@ -105,29 +105,24 @@
     var url = new URL(window.location.href);
     var searchParams = new URLSearchParams(url.search);
 
-    $("#query").on("keyup", debounce(function() {
+    $("#query").on("keyup", debounce(function(event) {
+      event.preventDefault();
       performSearch()
     }, 400));
 
-
-    $(".search-tag-link").on("click", function() {
-      event.preventDefault();
-      performSearch()
-    });
-
     $('#organization_id').on("change", function(event) {
       event.preventDefault();
-      performSearch()
+      performSearch();
     });
 
     $('#service').on("change", function(event) {
       event.preventDefault();
-      performSearch()
+      performSearch();
     });
 
     $('#aasm_state').on("change", function(event) {
       event.preventDefault();
-      performSearch()
+      performSearch();
     });
 
   });
