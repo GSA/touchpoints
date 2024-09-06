@@ -6,6 +6,32 @@
   <% end %>
 <% end %>
 
+<%= form_with(url: admin_cx_collections_path(year: params[:year], quarter: params[:quarter], aasm_state: params[:aasm_state]), method: :get, local: true) do %>
+  <div class="usa-form-group display-inline-block">
+    <%= label_tag :year, "Year", class: "font-sans-2xs" %>
+    <%= select_tag :year, options_for_select(["All"] + (2023..Date.current.year + 1).to_a.reverse, selected: params[:year]), class: "usa-select" %>
+  </div>
+
+  <div class="usa-form-group display-inline-block">
+    <%= label_tag :quarter, "Quarter", class: "font-sans-2xs" %>
+    <%= select_tag :quarter, options_for_select([['All'], ['1', 1], ['2', 2], ['3', 3], ['4', 4]], selected: params[:quarter]), class: "usa-select" %>
+  </div>
+
+  <div class="usa-form-group display-inline-block">
+    <%= label_tag :aasm_state, "Status", class: "font-sans-2xs" %>
+    <%= select_tag :aasm_state, options_for_select(["All"] + CxCollection.aasm.states.collect(&:name), selected: params[:aasm_state]), class: "usa-select" %>
+  </div>
+
+  <div class="usa-form-group display-inline-block">
+    <%= submit_tag 'Filter', name: nil, class: 'usa-button', "data-disable-with" => "Filter" %>
+  </div>
+  <% if params.except(:controller, :action).present? %>
+  <div class="usa-form-group display-inline-block">
+    <%= link_to 'Clear filter', admin_cx_collections_path(nil), class: 'usa-link font-sans-2xs', "data-disable-with" => "Filter" %>
+  </div>
+  <% end %>
+<% end %>
+
 <table class="usa-table width-full collections-summary">
   <thead>
     <tr>
@@ -29,15 +55,15 @@
       <td><%= CxCollection.not_reported.count %></td>
       <td><%= CxCollection.change_requested.count %></td>
     </tr>
-    <%- if params[:year] || params[:quarter] %>
-    <% collections_per_quarter = CxCollection.where(fiscal_year: params[:year], quarter: params[:quarter]) %>
+    <%- if @year || @quarter %>
+    <% collections_per_quarter = CxCollection.where(fiscal_year: @year, quarter: @quarter) %>
     <tr>
       <td class="text-base text-sm">
         for
-        <%- if params[:quarter] %>
+        <%- if @quarter != 0 %>
         Q<%= params["quarter"] %>
         <% end %>
-        <%- if params[:year] %>
+        <%- if @year != 0 %>
         <%= params["year"] %>
         <% end %>
       </td>
@@ -47,39 +73,10 @@
       <td><%= collections_per_quarter.published.count %></td>
       <td><%= collections_per_quarter.not_reported.count %></td>
       <td><%= collections_per_quarter.change_requested.count %></td>
-      <td><%= collections_per_quarter.archived.count %></td>
     </tr>
     <% end %>
   </tbody>
 </table>
-
-<div class="well margin-top-2">
-  <div class="grid-row">
-    <div class="grid-col-12">
-      <div class="ui-filter">
-        Filter by fiscal year and quarter
-        <%- if params[:year] || params[:quarter] %>
-          <small>
-            <%= link_to "View All Collections", admin_cx_collections_path %>
-          </small>
-        <% end %>
-
-        <div class="year" data-id="2024">
-          <h3>
-            2024
-          </h3>
-          <div>
-            <%= link_to "Q1", admin_cx_collections_path(quarter: 1, year: 2024), class: "usa-button #{params[:quarter] == "1" && params[:year] == "2024" ? nil : 'usa-button--outline'}" %>
-            <%= link_to "Q2", admin_cx_collections_path(quarter: 2, year: 2024), class: "usa-button #{params[:quarter] == "2" && params[:year] == "2024" ? nil : 'usa-button--outline'}" %>
-            <%= link_to "Q3", admin_cx_collections_path(quarter: 3, year: 2024), class: "usa-button #{params[:quarter] == "3" && params[:year] == "2024" ? nil : 'usa-button--outline'}" %>
-            <%= link_to "Q4", admin_cx_collections_path(quarter: 4, year: 2024), class: "usa-button #{params[:quarter] == "4" && params[:year] == "2024" ? nil : 'usa-button--outline'}" %>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</div>
 
 <table class="usa-table collections width-full">
   <thead>
