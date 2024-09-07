@@ -183,6 +183,7 @@ feature 'Digital Service Accounts', js: true do
       end
 
       it 'displays an error message as an alert' do
+        sleep 0.3
         expect(page.driver.browser.switch_to.alert).to be_truthy
         alert_text = page.driver.browser.switch_to.alert.text
         expect(alert_text).to eq('User nonexistent-email@example.gov does not exist.')
