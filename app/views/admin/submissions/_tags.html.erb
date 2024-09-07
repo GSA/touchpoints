@@ -63,9 +63,9 @@
       event.preventDefault();
 
       $.ajax({
-        url: e.target.getAttribute("data-action") + "/add_tag",
+        url: event.target.getAttribute("data-action") + "/add_tag",
         type: 'post',
-        data: "submission[tag]=" + e.target.textContent
+        data: "submission[tag]=" + event.target.textContent
       });
     });
 
