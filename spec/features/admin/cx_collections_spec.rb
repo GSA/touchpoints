@@ -46,9 +46,13 @@ feature 'CX Data Collections', js: true do
         end
       end
 
-      it 'can filter Collections by year' do
-        expect(page).to have_content('Filter by fiscal year and quarter')
-        expect(page).to have_content('Q1')
+      it 'displays Collections filter' do
+        within("form.record-filter") do
+          expect(page).to have_content('Year')
+          expect(page).to have_content('Quarter')
+          expect(page).to have_content('Status')
+          expect(page).to have_button('Filter')
+        end
       end
 
       describe 'filter by year and quarter' do

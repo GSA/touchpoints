@@ -6,7 +6,7 @@
   <% end %>
 <% end %>
 
-<%= form_with(url: admin_cx_collections_path(year: params[:year], quarter: params[:quarter], aasm_state: params[:aasm_state]), method: :get, local: true) do %>
+<%= form_with(url: admin_cx_collections_path(year: params[:year], quarter: params[:quarter], aasm_state: params[:aasm_state]), class: "record-filter", method: :get, local: true) do %>
   <div class="usa-form-group display-inline-block">
     <%= label_tag :year, "Year", class: "font-sans-2xs" %>
     <%= select_tag :year, options_for_select(["All"] + (2023..Date.current.year + 1).to_a.reverse, selected: params[:year]), class: "usa-select" %>
