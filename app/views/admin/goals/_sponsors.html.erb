@@ -36,7 +36,7 @@
 <script>
   $(function() {
 
-    $(".add-sponsor").on("change", function(e) {
+    $(".add-sponsor").on("change", function(event) {
       event.preventDefault();
       var container = $('#sponsors-div');
       $.ajax({
@@ -46,7 +46,7 @@
       });
     });
 
-    $(".remove-sponsor-link").on("click", function(e) {
+    $(".remove-sponsor-link").on("click", function(event) {
       event.preventDefault();
       var container = $('#sponsors-div');
       $.ajax({

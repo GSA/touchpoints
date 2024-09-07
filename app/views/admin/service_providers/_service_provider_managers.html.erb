@@ -26,7 +26,7 @@
 
 <script>
   $(function() {
-    $(".add-service-manager").on("change", function(e) {
+    $(".add-service-manager").on("change", function(event) {
       event.preventDefault();
       var thisForm = $("#service_provider_selector");
       $(this).attr('disabled', true);
@@ -41,7 +41,7 @@
       });
     });
 
-    $(".remove-tag-link").on("click", function(e) {
+    $(".remove-tag-link").on("click", function(event) {
       event.preventDefault();
       var thisForm = $("#service_provider_selector");
       $.ajax({

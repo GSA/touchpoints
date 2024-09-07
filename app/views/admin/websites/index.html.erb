@@ -149,8 +149,8 @@
       performSearch()
     }, 400));
 
-    $(".search-tag-link").on("click", function(e) {
-      e.preventDefault();
+    $(".search-tag-link").on("click", function(event) {
+      event.preventDefault();
       var url = new URL(window.location.href);
       var searchParams = new URLSearchParams();
       searchParams.set('tag', $(this).attr("data-name"));
