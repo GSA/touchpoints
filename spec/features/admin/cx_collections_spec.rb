@@ -51,31 +51,17 @@ feature 'CX Data Collections', js: true do
         expect(page).to have_content('Q1')
       end
 
-      describe 'filter for this year' do
+      describe 'filter by year and quarter' do
         before do
-          within(".year[data-id='2024']") do
-            click_link('Q1')
-            # Wait for page to reload and have the selected button (no outline)
-            expect(page).not_to have_selector('a.usa-button--outline', text: 'Q1')
-          end
-        end
-
-        it 'find the two (2) 2021 Q2 collections' do
-          expect(find_all('table.collections tbody tr').size).to eq(2)
-        end
-      end
-
-      describe 'filter for next year' do
-        before do
-          within(".year[data-id='2024']") do
-            click_link('Q1')
-            # Wait for page to reload and have the selected button (no outline)
-            expect(page).not_to have_selector('a.usa-button--outline', text: 'Q1')
-          end
+          expect(page).to have_css(".usa-table.collections tbody tr", count: 5)
+          select("2024", from: "year")
+          select("1", from: "quarter")
+          click_on("Filter")
+          expect(page).to have_content("for Q1 2024")
         end
 
         it 'find the two 2024 Q1 collections' do
-          expect(find_all('table.collections tbody > tr').size).to eq(2)
+          expect(page).to have_css(".usa-table.collections tbody tr", count: 2)
         end
       end
     end
