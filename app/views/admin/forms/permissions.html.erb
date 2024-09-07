@@ -49,7 +49,7 @@
 
     $("#add-user-role").on("change", function(event) {
       event.preventDefault();
-      var userId = e.target.value
+      var userId = event.target.value
       if (userId != "") {
         $("#add-user-button").attr("disabled", false);
       } else {
