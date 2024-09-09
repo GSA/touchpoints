@@ -5,7 +5,7 @@ module Admin
     before_action :set_persona, only: %i[show edit update destroy add_tag remove_tag]
 
     def index
-      @personas = Persona.all.order(:name)
+      @personas = Persona.order(:name)
     end
 
     def show; end

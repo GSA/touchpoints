@@ -52,24 +52,24 @@
       });
     });
 
-    $(".tag-input").on("keypress", function (e) {
-      if (e.which == 13) {
+    $(".tag-input").on("keypress", function(event) {
+      if (event.which == 13) {
         document.activeElement.blur();
         return false;
       }
     });
 
-    $(".add-tag-button").on("click", function (e) {
-      e.preventDefault();
+    $(".add-tag-button").on("click", function (event) {
+      event.preventDefault();
 
       $.ajax({
-        url: e.target.getAttribute("data-action") + "/add_tag",
+        url: event.target.getAttribute("data-action") + "/add_tag",
         type: 'post',
-        data: "submission[tag]=" + e.target.textContent
+        data: "submission[tag]=" + event.target.textContent
       });
     });
 
-    $(".remove-tag-link").on("click", function(e) {
+    $(".remove-tag-link").on("click", function(event) {
       event.preventDefault();
 
       var thisForm = $(this).closest("form");

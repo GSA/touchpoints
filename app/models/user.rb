@@ -19,10 +19,10 @@ class User < ApplicationRecord
   has_many :collections, through: :organization
 
   def cx_collections
-    user_org = self.organization
+    user_org = organization
     user_parent_org = user_org&.parent
 
-    CxCollection.where("cx_collections.organization_id IN (?)", [user_org.id, user_parent_org&.id].compact)
+    CxCollection.where(cx_collections: { organization_id: [user_org.id, user_parent_org&.id].compact })
   end
 
   validate :api_key_format, if: :api_key_present_and_changed?
@@ -152,7 +152,6 @@ class User < ApplicationRecord
     end
   end
 
-
   private
 
   def api_key_format
@@ -196,6 +195,6 @@ class User < ApplicationRecord
 
   def send_new_user_notifications
     UserMailer.new_user_notification(self).deliver_later
-    UserMailer.user_welcome_email(email: self.email).deliver_later(wait_until: 9.minutes.from_now) if Rails.env.production?
+    UserMailer.user_welcome_email(email:).deliver_later(wait_until: 9.minutes.from_now) if Rails.env.production?
   end
 end

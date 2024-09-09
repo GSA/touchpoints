@@ -157,6 +157,7 @@ class ApplicationController < ActionController::Base
   helper_method :form_approver_permissions?
   def form_approver_permissions?
     return true if admin_permissions?
+
     current_user.organizational_form_approver?
   end
 
@@ -293,9 +294,8 @@ class ApplicationController < ActionController::Base
 
   # customized response for `#verify_authenticity_token`
   def handle_unverified_request
-    render json: { messages: { submission: ["invalid CSRF authenticity token"] } }, status: :unprocessable_entity
+    render json: { messages: { submission: ['invalid CSRF authenticity token'] } }, status: :unprocessable_entity
   end
-
 
   private
 

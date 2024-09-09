@@ -13,14 +13,14 @@ module Admin
     end
 
     def apgs
-      @organizations = Organization.all.order(:name)
+      @organizations = Organization.order(:name)
     end
 
     def quarterly_performance_notification
       year = params[:year]
       quarter = params[:quarter]
 
-      Collection.where(aasm_state: 'draft', year:, quarter:).each do |collection|
+      Collection.where(aasm_state: 'draft', year:, quarter:).find_each do |collection|
         UserMailer.quarterly_performance_notification(collection_id: collection.id).deliver_later
       end
 

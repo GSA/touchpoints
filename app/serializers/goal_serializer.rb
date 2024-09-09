@@ -14,9 +14,9 @@ class GoalSerializer < ActiveModel::Serializer
              :challenge,
              :opportunity,
              :notes,
-             :sponsoring_users      
+             :sponsoring_users
 
   def sponsoring_users
     ActiveModel::Serializer::CollectionSerializer.new(object.sponsoring_users, serializer: UserSerializer)
-  end       
+  end
 end

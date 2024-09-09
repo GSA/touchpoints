@@ -28,8 +28,8 @@
 
 <script>
   $(function() {
-    $(".add-channel").on("change", function(e) {
-      e.preventDefault();
+    $(".add-channel").on("change", function(event) {
+      event.preventDefault();
 
       var thisForm = $("#channel_selector");
       $.ajax({
@@ -42,8 +42,8 @@
       });
     });
 
-    $(".remove-tag-link").on("click", function(e) {
-      e.preventDefault();
+    $(".remove-tag-link").on("click", function(event) {
+      event.preventDefault();
 
       var thisForm = $("#channel_selector");
       $.ajax({

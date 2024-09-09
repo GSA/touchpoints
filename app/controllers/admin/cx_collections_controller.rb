@@ -8,25 +8,16 @@ module Admin
     ]
 
     def index
-      @quarter = params[:quarter].present? ? params[:quarter].to_i : nil
-      @year = params[:year].present? ? params[:year].to_i : nil
+      @quarter = params[:quarter]&.to_i
+      @year = params[:year]&.to_i
+      @status = params[:aasm_state]
 
-      if performance_manager_permissions?
-        collection_scope = CxCollection
-      else
-        collection_scope = current_user.cx_collections
-      end
+      collection_scope = performance_manager_permissions? ? CxCollection : current_user.cx_collections
 
-      if @quarter && @year
-        @cx_collections = collection_scope.where(quarter: @quarter, fiscal_year: @year)
-      elsif @year
-        @cx_collections = collection_scope.where(fiscal_year: @year)
-      elsif @quarter
-        @cx_collections = collection_scope.where(quarter: @quarter)
-      else
-        @cx_collections = collection_scope.all
-      end
-
+      @cx_collections = collection_scope
+      @cx_collections = @cx_collections.where(quarter: @quarter) if @quarter && @quarter != 0
+      @cx_collections = @cx_collections.where(fiscal_year: @year) if @year && @year != 0
+      @cx_collections = @cx_collections.where(aasm_state: @status) if @status && @status != 'All'
       @cx_collections = @cx_collections
         .order('organizations.name', :fiscal_year, :quarter, 'service_providers.name')
         .includes(:organization, :service_provider)

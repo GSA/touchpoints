@@ -34,8 +34,7 @@
 
 <script>
   $(function() {
-
-    $(".add-website-manager").on("change", function(e) {
+    $(".add-website-manager").on("change", function(event) {
       event.preventDefault();
       var container = $('#website-managers-div');
       $.ajax({
@@ -45,7 +44,7 @@
       });
     });
 
-    $(".remove-tag-link").on("click", function(e) {
+    $(".remove-tag-link").on("click", function(event) {
       event.preventDefault();
       var container = $('#website-managers-div');
       $.ajax({
@@ -54,7 +53,5 @@
         data: "user_id=" + $(this).attr("data-value")
       });
     });
-
-  })
-
+  });
 </script>
