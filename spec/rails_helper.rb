@@ -41,9 +41,9 @@ end
 Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
-# Capybara.javascript_driver = :selenium                 # Run feature specs with Firefox
+Capybara.javascript_driver = :selenium                 # Run feature specs with Firefox
 # Capybara.javascript_driver = :selenium_chrome          # Run feature specs with Chrome
-Capybara.javascript_driver = :selenium_chrome_headless # Run feature specs with headless Chrome
+# Capybara.javascript_driver = :selenium_chrome_headless # Run feature specs with headless Chrome
 Capybara.default_max_wait_time = 3
 Capybara.raise_server_errors = true
 Capybara.server = :puma
