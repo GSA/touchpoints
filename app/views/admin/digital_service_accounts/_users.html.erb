@@ -1,5 +1,5 @@
 <%= form_with(model: digital_service_account, url: admin_digital_service_account_path(digital_service_account), local: true) do |f| %>
-  <%= label_tag "Contacts", nil, class: "usa-label" %>
+  <%= f.label :user_email_address, "Contacts", class: "usa-label" %>
   <small>
     Associate one or more existing Touchpoints users with this record.
   </small>
@@ -47,7 +47,7 @@
       }
     });
 
-    $(".users-list .remove-tag-link").on("click", function(e) {
+    $(".users-list .remove-tag-link").on("click", function(event) {
       event.preventDefault();
 
       var thisForm = $(this).closest("form");

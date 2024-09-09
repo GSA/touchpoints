@@ -24,8 +24,8 @@
 
 <script>
   $(function() {
-    $(".add-service-manager").on("change", function(e) {
-      e.preventDefault();
+    $(".add-service-manager").on("change", function(event) {
+      event.preventDefault();
 
       var thisForm = $("#service_manager_selector");
       $.ajax({
@@ -38,8 +38,8 @@
       });
     });
 
-    $(".remove-tag-link").on("click", function(e) {
-      e.preventDefault();
+    $(".remove-tag-link").on("click", function(event) {
+      event.preventDefault();
 
       var thisForm = $("#service_manager_selector");
       $.ajax({

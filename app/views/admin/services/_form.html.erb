@@ -398,8 +398,8 @@
     })
 
     // if "Unknown" is selected
-    $("#service_estimated_annual_volume_of_customers").on('change', function(e) {
-      if (e.target.value == 'Unknown') {
+    $("#service_estimated_annual_volume_of_customers").on('change', function(event) {
+      if (event.target.value == 'Unknown') {
         $("#service_customer_volume_explanation").attr('required', true);
         $("#estimated_annual_volume_of_customers_option").show();
         $("#service_customer_volume_explanation").focus();
