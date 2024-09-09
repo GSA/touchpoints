@@ -93,6 +93,20 @@ RSpec.configure do |config|
     DatabaseCleaner.start
   end
 
+  config.after(:each, type: :system, js: true) do
+    errors = page.driver.browser.manage.logs.get(:browser)
+    if errors.present?
+      aggregate_failures 'javascript errors' do
+        errors.each do |error|
+          next unless error.level == 'WARNING'
+          STDERR.puts "WARN: #{error.message} (#{error.timestamp})" if error.level == 'WARNING'
+          STDERR.puts "ERROR: #{error.message} (#{error.timestamp})" if error.level == 'SEVERE'
+          expect(error.level).not_to eq('SEVERE'), error.message
+        end
+      end
+    end
+  end
+
   config.append_after(:each) do
     DatabaseCleaner.clean
   end
