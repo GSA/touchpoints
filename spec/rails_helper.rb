@@ -51,6 +51,8 @@ Capybara.server = :puma
 TEST_API_KEY = '1234567890123456789012345678901234567890'
 
 RSpec.configure do |config|
+  config.encoding = 'utf-8'
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = "#{::Rails.root}/spec/fixtures"
 
