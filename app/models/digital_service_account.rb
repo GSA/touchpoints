@@ -26,8 +26,9 @@ class DigitalServiceAccount < ApplicationRecord
     items = all
     items = items.tagged_with(@organization.id, context: 'organizations') if @organization.present?
     items = items.where(aasm_state:) if aasm_state.present? && aasm_state.downcase != 'all'
-    items = items.where(account: account) if account.present? && account.downcase != 'all'
-    items = items.where('name ILIKE ?', "%#{query}%") if query.present?
+    items = items.where(service: account) if account.present? && account.downcase != 'all'
+    items = items.where("name ILIKE '%#{search_text}%' OR account ILIKE '%#{search_text}%' OR short_description ILIKE '%#{search_text}%' OR service_url ILIKE '%#{search_text}%'") if query && query.length >= 3
+
     items
   }
 
