@@ -53,18 +53,18 @@ describe Api::V1::CxResponsesController, type: :controller do
         before do
           request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch('API_HTTP_USERNAME'), ENV.fetch('API_HTTP_PASSWORD'))
           get :index, format: :json, params: { 'API_KEY' => user.api_key }
-          @parsed_response = JSON.parse(response.body)
         end
 
         it 'return a default paginated array of cx_responses' do
+          parsed_response = JSON.parse(response.body)
           expect(cx_collection_detail.cx_responses.count).to eq(1000)
 
           expect(response.status).to eq(200)
-          expect(@parsed_response['data'].class).to be(Array)
-          expect(@parsed_response['data'].size).to eq(500)
-          expect(@parsed_response['data'].first.class).to be(Hash)
-          expect(@parsed_response['data'].first["type"]).to eq("cx_responses")
-          expect(@parsed_response['data'].first['id']).to eq(cx_response.id.to_s)
+          expect(parsed_response['data'].class).to be(Array)
+          expect(parsed_response['data'].size).to eq(500)
+          expect(parsed_response['data'].first.class).to be(Hash)
+          expect(parsed_response['data'].first["type"]).to eq("cx_responses")
+          expect(parsed_response['data'].first['id'].to_s).to eq(cx_response.id.to_s)
         end
       end
 
@@ -72,18 +72,18 @@ describe Api::V1::CxResponsesController, type: :controller do
         before do
           request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch('API_HTTP_USERNAME'), ENV.fetch('API_HTTP_PASSWORD'))
           get :index, format: :json, params: { 'API_KEY' => user.api_key, "page[size]" => 100, "page[number]" => 10 }
-          @parsed_response = JSON.parse(response.body)
         end
 
         it 'return the last paginated array of 100 cx_responses' do
           expect(cx_collection_detail.cx_responses.count).to eq(1000)
+          parsed_response = JSON.parse(response.body)
 
           expect(response.status).to eq(200)
-          expect(@parsed_response['data'].class).to be(Array)
-          expect(@parsed_response['data'].size).to eq(100)
-          expect(@parsed_response['data'].last.class).to be(Hash)
-          expect(@parsed_response['data'].last["type"]).to eq("cx_responses")
-          expect(@parsed_response['data'].last['id']).to eq(CxResponse.last.id.to_s)
+          expect(parsed_response['data'].class).to be(Array)
+          expect(parsed_response['data'].size).to eq(100)
+          expect(parsed_response['data'].last.class).to be(Hash)
+          expect(parsed_response['data'].last["type"]).to eq("cx_responses")
+          expect(parsed_response['data'].last['id'].to_s).to eq(CxResponse.last.id.to_s)
         end
       end
     end
