@@ -24,6 +24,7 @@
   New Goal Target
 <% end %>
 <script>
+$(function() {
   $('.new-goal-target').on("click", function(event) {
     event.preventDefault();
     $.ajax({
@@ -44,4 +45,5 @@
       }
     });
   });
+});
 </script>

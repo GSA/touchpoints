@@ -3,6 +3,7 @@
 <%= link_to 'Cancel', admin_goal_path(@goal), class: "usa-button cancel-goal-objective" %>
 
 <script>
+$(function() {
   $('.cancel-goal-objective').on("click", function(event) {
     event.preventDefault();
     $.ajax({
@@ -10,4 +11,5 @@
       url: $(this).attr("href") + "/goal_objectives"
     });
   });
+});
 </script>

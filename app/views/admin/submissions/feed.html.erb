@@ -62,7 +62,9 @@
     </tbody>
 </table>
 <script>
+$(function() {
   $('#days-ago-select').change(function(event) {
   	window.location = "/admin/feed?days_limit=" + $(this).children("option:selected").val()
   });
+});
 </script>
