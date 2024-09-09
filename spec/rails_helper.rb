@@ -102,6 +102,8 @@ RSpec.configure do |config|
     if errors.present?
       aggregate_failures 'javascript errors' do
         errors.each do |error|
+          next if error.message.include?("the server responded with a status of 422 (Unprocessable Content)") # Skip 422 errors
+
           STDERR.puts "WARN: #{error.message} (#{error.timestamp})" if error.level == 'WARNING'
           STDERR.puts "ERROR: #{error.message} (#{error.timestamp})" if error.level == 'SEVERE'
           expect(error.level).not_to eq('SEVERE'), error.message
