@@ -474,25 +474,32 @@ feature 'Touchpoints', js: true do
     end
 
     describe 'A-11 Version 2 Form' do
-      let!(:custom_form) { FactoryBot.create(:form, :a11_v2, organization:) }
+      let!(:a11_v2_form) { FactoryBot.create(:form, :a11_v2, organization:) }
 
       before do
-        visit submit_touchpoint_path(custom_form)
-        expect(page).to have_content("This is help text.")
-        find("label[for='#{custom_form.ordered_questions.first.ui_selector}_star4']").click
-        fill_in(custom_form.ordered_questions.last.ui_selector, with: 'User feedback')
-        click_button 'Submit'
+        visit submit_touchpoint_path(a11_v2_form)
       end
 
       it 'submits successfully' do
+        expect(page).to have_content(form.title)
+        expect(page).to have_content("This is help text.")
+        find("svg[aria-labelledby='thumbs-up-icon']").click # the thumbs up
+        expect(page).to have_content("Positive indicators")
+        expect(page).to have_content("effectiveness")
+        expect(page).to have_content("ease")
+        expect(page).to have_content("efficiency")
+        expect(page).to have_content("transparency")
+        find("label[for='question_option_1']").click
+        find("label[for='question_option_4']").click
+        click_button 'Submit'
+
         expect(page).to have_content('Thank you. Your feedback has been received.')
 
-        # Asserting against the database/model directly here isn't ideal.
-        # An alternative is to send location_code back to the client and assert against it
         last_submission = Submission.last
-        expect(last_submission.answer_01).to eq '4'
-        # expect(last_submission.answer_02).to eq "TEST_LOCATION_CODE"
-        expect(last_submission.answer_03).to eq 'User feedback'
+        expect(last_submission.answer_01).to eq '1'
+        expect(last_submission.answer_02).to eq 'effectiveness,transparency'
+        expect(last_submission.answer_03).to eq ""
+        expect(last_submission.answer_04).to eq ""
       end
     end
 

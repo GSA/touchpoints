@@ -171,7 +171,7 @@ module Admin
       tag_name = params[:tag]
       if search_text.present?
         search_text = "%#{search_text}%"
-        @organizations = Organization.where(' domain ilike ? or name ilike ? or abbreviation ilike ? or url ilike ?  ', search_text, search_text, search_text, search_text)
+        @organizations = Organization.where('domain ILIKE ? or name ILIKE ? or abbreviation ILIKE ? or url ILIKE ?', search_text, search_text, search_text, search_text)
       elsif tag_name.present?
         @organizations = Organization.tagged_with(tag_name)
       else
