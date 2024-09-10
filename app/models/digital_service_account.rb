@@ -2,6 +2,7 @@
 
 require 'json'
 require 'open-uri'
+require 'csv'
 
 class DigitalServiceAccount < ApplicationRecord
   include AASM
