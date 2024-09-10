@@ -1338,13 +1338,13 @@ feature 'Forms', js: true do
   end
 
   context 'Form Manager with an A11 v2 form' do
-    describe "a valid a11 form" do
-      let(:user) { FactoryBot.create(:user, organization:) }
-      let(:form) { FactoryBot.create(:form, :a11_v2, organization:) }
-      let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form:, user: another_user) }
+    let(:user) { FactoryBot.create(:user, organization:) }
+    let(:form) { FactoryBot.create(:form, :a11_v2, organization:) }
+    let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form:, user: user) }
 
+    describe "a valid a11 form" do
       before do
-        login_as(another_user)
+        login_as(user)
         visit question_admin_form_path(form)
       end
 
@@ -1355,10 +1355,6 @@ feature 'Forms', js: true do
     end
 
     describe "an invalid a11 form" do
-      let(:user) { FactoryBot.create(:user, organization:) }
-      let(:form) { FactoryBot.create(:form, :a11_v2, organization:) }
-      let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form:, user: user) }
-
       before do
         q1 = form.ordered_questions.first
         q1.update(question_type: "radio_buttons") # update this question to an invalid question_type (for the a11-v2)
