@@ -1679,6 +1679,22 @@ feature 'Forms', js: true do
           end
         end
       end
+
+      context 'when Submissions exist for an a11_v2 form' do
+        describe 'click the combine export button' do
+          let(:form) { FactoryBot.create(:form, :a11_v2, organization:) }
+          let!(:submission) { FactoryBot.create(:submission, form:) }
+
+          before do
+            visit responses_admin_form_path(form)
+          end
+
+          it 'click the combine export button then see a flash message for an async job' do
+            click_on("Export Form + A11-v2 Responses to CSV")
+            expect(page).to have_content("Touchpoints has initiated an asynchronous job that will take a few minutes.")
+          end
+        end
+      end
     end
 
     context 'user for another Form' do

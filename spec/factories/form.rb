@@ -475,7 +475,7 @@ FactoryBot.define do
 
     trait :a11_v2 do
       name { 'Version 2 of the A11 form' }
-      kind { 'custom' }
+      kind { 'a11_v2' }
       after(:create) do |f, _evaluator|
         FactoryBot.create(:question,
                           :with_radio_buttons,
