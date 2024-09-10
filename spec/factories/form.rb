@@ -478,10 +478,9 @@ FactoryBot.define do
       kind { 'a11_v2' }
       after(:create) do |f, _evaluator|
         FactoryBot.create(:question,
-                          :with_radio_buttons,
                           form: f,
                           answer_field: :answer_01,
-                          question_type: 'star_radio_buttons',
+                          question_type: 'big_thumbs_up_down_buttons',
                           form_section: f.form_sections.first,
                           text: 'Please rate your experience as a customer of Agency of Departments.',
                           position: 1,
