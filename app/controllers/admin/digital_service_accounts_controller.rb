@@ -26,7 +26,13 @@ module Admin
           "Export by #{current_user.email} on #{Date.today}", current_user.id)
 
       filename = ExportDigitalServiceAccounts
-        .perform_later(search_params[:query], search_params[:org_abbr], search_params[:aasm_state], search_params[:account])
+        .perform_later(
+          email: current_user.email,
+          query: search_params[:query],
+          org_abbr: search_params[:org_abbr],
+          aasm_state: search_params[:aasm_state],
+          account: search_params[:account]
+        )
 
       flash[:success] = UserMailer::ASYNC_JOB_MESSAGE
       redirect_to admin_digital_service_accounts_path
