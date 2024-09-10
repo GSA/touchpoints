@@ -8,11 +8,6 @@
     Export All Responses to CSV
   <% end %>
   <br>
-  <%- if form.kind == "a11_v2" %>
-  <p>
-  <%= link_to "Export A11-v2 Responses to CSV", export_a11_v2_submissions_admin_form_url(form, start_date: "2019-10-01"), class: "usa-button" %>
-  </p>
-  <% end -%>
   <p>
     <%= link_to "Export FY2020", export_admin_form_url(form, start_date: "2019-10-01", end_date: "2020-09-30"), class: "usa-button usa-button--outline" %>
     <%= link_to "Export FY2021", export_admin_form_url(form, start_date: "2020-10-01", end_date: "2021-09-30"), class: "usa-button usa-button--outline" %>
@@ -20,6 +15,19 @@
     <%= link_to "Export FY2023", export_admin_form_url(form, start_date: "2022-10-01", end_date: "2023-09-30"), class: "usa-button usa-button--outline" %>
     <%= link_to "Export FY2024", export_admin_form_url(form, start_date: "2023-10-01", end_date: "2024-09-30"), class: "usa-button usa-button--outline" %>
   </p>
+  <%- if form.kind == "a11_v2" %>
+  <div class="margin-top-6">
+    <span class="usa-tag">
+      A-11 v2 Reporting
+    </span>
+    <p>
+    <%= link_to "Export A11-v2 Responses to CSV", export_a11_v2_submissions_admin_form_url(form, start_date: "2019-10-01"), class: "usa-button" %>
+    </p>
+    <p>
+    <%= link_to "Export Form + A11-v2 Responses to CSV", export_form_and_a11_v2_submissions_admin_form_url(form, start_date: "2019-10-01"), class: "usa-button" %>
+    </p>
+  </div>
+  <% end -%>
 <% else %>
   <div class="usa-alert usa-alert--info">
     <div class="usa-alert__body">

@@ -688,6 +688,12 @@ class Form < ApplicationRecord
 
   # use this validator to provide soft UI guidance, rather than strong model validation
   def ensure_a11_v2_format
+    # ensure `answer_01` is a big thumbs question
+    question_1 = self.ordered_questions.find { |q| q.answer_field == "answer_01" }
+    if question_1.question_type != 'big_thumbs_up_down_buttons'
+      errors.add(:base, "The question for `answer_01` must be a \"Big Thumbs Up/Down\" component")
+    end
+
     # ensure the form has the 4 required questions
     required_elements = ["answer_01", "answer_02", "answer_03", "answer_04"]
     unless contains_elements?(questions.collect(&:answer_field), required_elements)
