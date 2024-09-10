@@ -485,10 +485,11 @@ feature 'Touchpoints', js: true do
         expect(page).to have_content("This is help text.")
         find("svg[aria-labelledby='thumbs-up-icon']").click # the thumbs up
         expect(page).to have_content("Positive indicators")
-        expect(page).to have_content("One")
-        expect(page).to have_content("Two")
-        expect(page).to have_content("Three")
-        expect(page).to have_content("Four")
+        expect(page).to have_content("effectiveness")
+        expect(page).to have_content("ease")
+        expect(page).to have_content("efficiency")
+        expect(page).to have_content("transparency")
+        find("label[for='question_option_1']").click
         find("label[for='question_option_4']").click
         click_button 'Submit'
 
@@ -496,9 +497,9 @@ feature 'Touchpoints', js: true do
 
         last_submission = Submission.last
         expect(last_submission.answer_01).to eq '1'
-        expect(last_submission.answer_02).to eq 'Four'
+        expect(last_submission.answer_02).to eq 'effectiveness,transparency'
         expect(last_submission.answer_03).to eq ""
-        expect(last_submission.answer_04).to eq nil
+        expect(last_submission.answer_04).to eq ""
       end
     end
 
