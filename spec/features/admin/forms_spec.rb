@@ -1348,9 +1348,10 @@ feature 'Forms', js: true do
         visit questions_admin_form_path(form)
       end
 
-      it 'can edit form' do
-        expect(page.current_path).to eq(edit_admin_form_path(form))
-        expect(page).to have_content('Editing Form')
+      it 'displays no validation warnings' do
+        expect(page.current_path).to eq(questions_admin_form_path(form))
+        expect(page).to_not have_content('This form needs attention:')
+        expect(page).to have_content("Please rate your experience as a customer of Agency of Departments.")
       end
     end
 
@@ -1358,6 +1359,11 @@ feature 'Forms', js: true do
       before do
         q1 = form.ordered_questions.first
         q1.update(question_type: "radio_buttons") # update this question to an invalid question_type (for the a11-v2)
+        q2 = form.ordered_questions.second
+        q2.question_options.delete_all
+        q3 = form.ordered_questions.third
+        q3.question_options.delete_all
+        q4 = form.ordered_questions.last.destroy # remove question 4
         login_as(user)
         visit questions_admin_form_path(form)
       end

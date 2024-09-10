@@ -486,20 +486,29 @@ FactoryBot.define do
                           position: 1,
                           )
         FactoryBot.create(:question,
-                          :with_checkbox_options,
+                          :with_a11_v2_checkbox_options,
                           form: f,
                           answer_field: :answer_02,
                           form_section: f.form_sections.first,
-                          text: 'Name',
+                          text: 'Positive indicators',
                           position: 2,
                           )
         FactoryBot.create(:question,
+                          :with_a11_v2_checkbox_options,
                           form: f,
                           answer_field: :answer_03,
                           question_type: 'textarea',
                           form_section: f.form_sections.first,
-                          text: 'Additional comments',
+                          text: 'Negative indicators',
                           position: 3
+                          )
+        FactoryBot.create(:question,
+                          form: f,
+                          answer_field: :answer_04,
+                          question_type: 'textarea',
+                          form_section: f.form_sections.first,
+                          text: 'Additional comments',
+                          position: 4
                           )
       end
     end

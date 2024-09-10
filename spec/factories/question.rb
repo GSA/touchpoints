@@ -49,6 +49,20 @@ FactoryBot.define do
       end
     end
 
+    trait :with_a11_v2_checkbox_options do
+      text { 'Indicators' }
+      question_type { 'checkbox' }
+      after(:create) do |checkbox_question, _evaluator|
+        FactoryBot.create(:question_option, question: checkbox_question, position: 1, text: 'effectiveness')
+        FactoryBot.create(:question_option, question: checkbox_question, position: 2, text: 'ease')
+        FactoryBot.create(:question_option, question: checkbox_question, position: 3, text: 'efficiency')
+        FactoryBot.create(:question_option, question: checkbox_question, position: 4, text: 'transparency')
+        FactoryBot.create(:question_option, question: checkbox_question, position: 4, text: 'humanity')
+        FactoryBot.create(:question_option, question: checkbox_question, position: 4, text: 'employee')
+        FactoryBot.create(:question_option, question: checkbox_question, position: 4, text: 'other')
+      end
+    end
+
     trait :with_dropdown_options do
       text { 'Test Dropdown Question' }
       question_type { 'dropdown' }

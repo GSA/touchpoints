@@ -484,7 +484,7 @@ feature 'Touchpoints', js: true do
         expect(page).to have_content(form.title)
         expect(page).to have_content("This is help text.")
         find("svg[aria-labelledby='thumbs-up-icon']").click # the thumbs up
-        expect(page).to have_content("Name")
+        expect(page).to have_content("Positive indicators")
         expect(page).to have_content("One")
         expect(page).to have_content("Two")
         expect(page).to have_content("Three")
