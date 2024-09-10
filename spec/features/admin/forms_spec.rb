@@ -1337,6 +1337,47 @@ feature 'Forms', js: true do
     end
   end
 
+  context 'Form Manager with an A11 v2 form' do
+    let(:user) { FactoryBot.create(:user, organization:) }
+    let(:form) { FactoryBot.create(:form, :a11_v2, organization:) }
+    let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form:, user: user) }
+
+    describe "a valid a11 form" do
+      before do
+        login_as(user)
+        visit questions_admin_form_path(form)
+      end
+
+      it 'displays no validation warnings' do
+        expect(page.current_path).to eq(questions_admin_form_path(form))
+        expect(page).to_not have_content('This form needs attention:')
+        expect(page).to have_content("Please rate your experience as a customer of Agency of Departments.")
+      end
+    end
+
+    describe "an invalid a11 form" do
+      before do
+        q1 = form.ordered_questions.first
+        q1.update(question_type: "radio_buttons") # update this question to an invalid question_type (for the a11-v2)
+        q2 = form.ordered_questions.second
+        q2.question_options.delete_all
+        q3 = form.ordered_questions.third
+        q3.question_options.delete_all
+        q4 = form.ordered_questions.last.destroy # remove question 4
+        login_as(user)
+        visit questions_admin_form_path(form)
+      end
+
+      it 'displays a11 v2 form validation warnings' do
+        expect(page).to have_content('This form needs attention:')
+        expect(page).to have_content('The question for `answer_01` must be a "Big Thumbs Up/Down" component')
+        expect(page).to have_content('The A-11 v2 form must have questions for answer_01, answer_02, answer_03, and answer_04')
+        expect(page).to have_content('The question options for Question 2 must include: effectiveness, ease')
+        expect(page).to have_content('The question options for Question 3 must include: effectiveness, ease')
+      end
+    end
+  end
+
   context 'Form owner with Form Manager permissions' do
     let(:user) { FactoryBot.create(:user, organization:) }
     let(:form) { FactoryBot.create(:form, :custom, organization:) }
@@ -1676,6 +1717,22 @@ feature 'Forms', js: true do
               expect(page).to have_content(submission.answer_01)
             end
             expect(page).to have_link('Export All Responses to CSV')
+          end
+        end
+      end
+
+      context 'when Submissions exist for an a11_v2 form' do
+        describe 'click the combine export button' do
+          let(:form) { FactoryBot.create(:form, :a11_v2, organization:) }
+          let!(:submission) { FactoryBot.create(:submission, form:) }
+
+          before do
+            visit responses_admin_form_path(form)
+          end
+
+          it 'click the combine export button then see a flash message for an async job' do
+            click_on("Export Form + A11-v2 Responses to CSV")
+            expect(page).to have_content("Touchpoints has initiated an asynchronous job that will take a few minutes.")
           end
         end
       end
