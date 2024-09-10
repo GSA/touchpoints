@@ -56,22 +56,10 @@
   </div>
 </div>
 
-<p hidden>
-  <%= link_to "Export results to .csv", admin_digital_service_accounts_path(org_abbr: params[:org_abbr], account: params[:account]), class: "usa-button" %>
-</p>
-
 <div class="search-results">
   <%= render 'results', digital_service_accounts: @digital_service_accounts %>
   <%= paginate @digital_service_accounts %>
 </div>
-
-<p>
-  <a href="/admin/digital_service_accounts/export" class="usa-button usa-button--outline">
-    <i class="fa fa-download"></i>
-    Export to CSV
-  </a>
-  <%= link_to "Export results to .csv", export_admin_digital_service_accounts_path(query: params[:query], org_abbr: params[:org_abbr], account: params[:account], aasm_state: params[:aasm_state], format: :csv), class: "usa-button" %>
-</p>
 
 <script>
   function performSearch() {
