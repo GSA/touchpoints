@@ -1345,7 +1345,7 @@ feature 'Forms', js: true do
     describe "a valid a11 form" do
       before do
         login_as(user)
-        visit question_admin_form_path(form)
+        visit questions_admin_form_path(form)
       end
 
       it 'can edit form' do
