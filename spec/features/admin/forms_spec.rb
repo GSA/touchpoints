@@ -1337,6 +1337,45 @@ feature 'Forms', js: true do
     end
   end
 
+  context 'Form Manager with an A11 v2 form' do
+    describe "a valid a11 form" do
+      let(:user) { FactoryBot.create(:user, organization:) }
+      let(:form) { FactoryBot.create(:form, :a11_v2, organization:) }
+      let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form:, user: another_user) }
+
+      before do
+        login_as(another_user)
+        visit question_admin_form_path(form)
+      end
+
+      it 'can edit form' do
+        expect(page.current_path).to eq(edit_admin_form_path(form))
+        expect(page).to have_content('Editing Form')
+      end
+    end
+
+    describe "an invalid a11 form" do
+      let(:user) { FactoryBot.create(:user, organization:) }
+      let(:form) { FactoryBot.create(:form, :a11_v2, organization:) }
+      let!(:user_role) { FactoryBot.create(:user_role, :form_manager, form:, user: user) }
+
+      before do
+        q1 = form.ordered_questions.first
+        q1.update(question_type: "radio_buttons") # update this question to an invalid question_type (for the a11-v2)
+        login_as(user)
+        visit questions_admin_form_path(form)
+      end
+
+      it 'displays a11 v2 form validation warnings' do
+        expect(page).to have_content('This form needs attention:')
+        expect(page).to have_content('The question for `answer_01` must be a "Big Thumbs Up/Down" component')
+        expect(page).to have_content('The A-11 v2 form must have questions for answer_01, answer_02, answer_03, and answer_04')
+        expect(page).to have_content('The question options for Question 2 must include: effectiveness, ease')
+        expect(page).to have_content('The question options for Question 3 must include: effectiveness, ease')
+      end
+    end
+  end
+
   context 'Form owner with Form Manager permissions' do
     let(:user) { FactoryBot.create(:user, organization:) }
     let(:form) { FactoryBot.create(:form, :custom, organization:) }
