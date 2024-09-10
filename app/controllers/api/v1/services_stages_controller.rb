@@ -6,7 +6,7 @@ module Api
       def index
         respond_to do |format|
           format.json do
-            render json: ServiceStage.all.order(:service_id, :position_id), each_serializer: ServiceStageSerializer
+            render json: ServiceStage.order(:service_id, :position_id), each_serializer: ServiceStageSerializer
           end
         end
       end

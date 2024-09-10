@@ -34,8 +34,7 @@
 <script>
   $(function() {
 
-    $(".add-agency").on("change", function(e) {
-
+    $(".add-agency").on("change", function(event) {
       event.preventDefault();
 
       var container = $('#sponsoring-agencies-div');
@@ -46,7 +45,7 @@
       });
     });
 
-    $(".remove-tag-link").on("click", function(e) {
+    $(".remove-tag-link").on("click", function(event) {
       event.preventDefault();
 
       var container = $('#sponsoring-agencies-div');

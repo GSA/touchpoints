@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CxCollection < ApplicationRecord
   include AASM
 
@@ -39,7 +41,7 @@ class CxCollection < ApplicationRecord
     end
 
     event :no_report do
-      transitions from: [:draft, :submitted], to: :not_reported
+      transitions from: %i[draft submitted], to: :not_reported
     end
 
     event :reset do
@@ -48,11 +50,11 @@ class CxCollection < ApplicationRecord
   end
 
   def set_submitted_at
-    self.update(submitted_at: Time.current)
+    update(submitted_at: Time.current)
   end
 
   def service_name
-    self.service&.name
+    service&.name
   end
 
   def duplicate!(new_user:)
@@ -72,7 +74,7 @@ class CxCollection < ApplicationRecord
   end
 
   def self.to_csv
-    collections = CxCollection.all.order(:fiscal_year, :quarter, 'organizations.name').includes(:organization)
+    collections = CxCollection.order(:fiscal_year, :quarter, 'organizations.name').includes(:organization)
 
     attributes = %i[
       id
@@ -96,7 +98,7 @@ class CxCollection < ApplicationRecord
       rating
       aasm_state
       integrity_hash
-      omb_cx_reporting_collections_count,
+      omb_cx_reporting_collections_count
     ]
 
     CSV.generate(headers: true) do |csv|

@@ -53,7 +53,7 @@ class Question < ApplicationRecord
   end
 
   def max_length
-    character_limit.present? ? character_limit : MAX_CHARACTERS
+    character_limit.presence || MAX_CHARACTERS
   end
 
   def validate_question_types
@@ -63,6 +63,6 @@ class Question < ApplicationRecord
   # used to generate a (application-wide) unique id for each question
   # (such that the questions on 2 different Touchpoints have unique DOM string)
   def ui_selector
-    "question_#{self.id}_#{self.answer_field}" # question_123_answer_02
+    "question_#{id}_#{answer_field}" # question_123_answer_02
   end
 end

@@ -25,7 +25,8 @@
     // Initially set to disabled
     $("#add-user-button").attr("disabled", true);
 
-    $("#add-user-button").on("click", function(e) {
+    $("#add-user-button").on("click", function(event) {
+      event.preventDefault();
       var userId = $("#add-user-id").val();
       var role = $("#add-user-role").val();
 
@@ -46,8 +47,9 @@
       });
     });
 
-    $("#add-user-role").on("change", function(e) {
-      var userId = e.target.value
+    $("#add-user-role").on("change", function(event) {
+      event.preventDefault();
+      var userId = event.target.value
       if (userId != "") {
         $("#add-user-button").attr("disabled", false);
       } else {
@@ -56,8 +58,8 @@
     });
 
     // Remove a Form Manager or Response Viewer User
-    $(".remove-user").on("click", function(e) {
-      e.preventDefault();
+    $(".remove-user").on("click", function(event) {
+      event.preventDefault();
 
       var userId = $(this).attr("data-id");
 

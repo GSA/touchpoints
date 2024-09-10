@@ -12,7 +12,7 @@ class OmbCxReportingCollection < ApplicationRecord
 
   (1..11).each do |q|
     (1..5).each do |a|
-      validates_numericality_of "q#{q}_#{a}".to_sym
+      validates :"q#{q}_#{a}", numericality: true
     end
   end
 

@@ -15,12 +15,12 @@ module Admin
     ]
 
     def index
-      @service_providers = ServiceProvider.all.includes(:organization).order('organizations.name', 'service_providers.name')
+      @service_providers = ServiceProvider.includes(:organization).order('organizations.name', 'service_providers.name')
       @tags = ServiceProvider.tag_counts_by_name
     end
 
     def quadrants
-      @service_providers = ServiceProvider.all.includes(:organization).order('organizations.name', 'service_providers.name')
+      @service_providers = ServiceProvider.includes(:organization).order('organizations.name', 'service_providers.name')
     end
 
     def show; end
@@ -116,7 +116,7 @@ module Admin
         :tag_list,
         :cx_maturity_mapping_value,
         :impact_mapping_value,
-        :year_designated
+        :year_designated,
       )
     end
   end

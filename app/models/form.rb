@@ -322,6 +322,69 @@ class Form < ApplicationRecord
     end
   end
 
+  def to_combined_a11_v2_csv(start_date: nil, end_date: nil)
+    non_flagged_submissions = non_flagged_submissions(start_date:, end_date:)
+      .order('created_at')
+    return nil if non_flagged_submissions.blank?
+
+    header_attributes = hashed_fields_for_export.values
+    attributes = fields_for_export
+
+    header_attributes = hashed_fields_for_export.values
+    a11_v2_header_attributes = [
+      :external_id,
+      :question_1,
+      :positive_effectiveness,
+      :positive_ease,
+      :positive_efficiency,
+      :positive_transparency,
+      :positive_humanity,
+      :positive_employee,
+      :positive_other,
+      :negative_effectiveness,
+      :negative_ease,
+      :negative_efficiency,
+      :negative_transparency,
+      :negative_humanity,
+      :negative_employee,
+      :negative_other,
+      :question_4
+    ]
+
+    attributes = fields_for_export
+
+    answer_02_options = self.questions.where(answer_field: "answer_02").first.question_options.collect(&:value)
+    answer_03_options = self.questions.where(answer_field: "answer_03").first.question_options.collect(&:value)
+
+    CSV.generate(headers: true) do |csv|
+      csv << header_attributes + a11_v2_header_attributes
+
+      non_flagged_submissions.each do |submission|
+        csv << attributes.map { |attr| submission.send(attr) } + [
+          submission.id,
+          submission.answer_01,
+          submission.answer_02 && submission.answer_02.split(",").include?("effectiveness") ? 1 :(answer_02_options.include?("effectiveness") ? 0 : 'null'),
+          submission.answer_02 && submission.answer_02.split(",").include?("ease") ? 1 : (answer_02_options.include?("ease") ? 0 : 'null'),
+          submission.answer_02 && submission.answer_02.split(",").include?("efficiency") ? 1 : (answer_02_options.include?("efficiency") ? 0 : 'null'),
+          submission.answer_02 && submission.answer_02.split(",").include?("transparency") ? 1 : (answer_02_options.include?("transparency") ? 0 : 'null'),
+          submission.answer_02 && submission.answer_02.split(",").include?("humanity") ? 1 : (answer_02_options.include?("humanity") ? 0 : 'null'),
+          submission.answer_02 && submission.answer_02.split(",").include?("employee") ? 1 : (answer_02_options.include?("employee") ? 0 : 'null'),
+          submission.answer_02 && submission.answer_02.split(",").include?("other") ? 1 : (answer_02_options.include?("other") ? 0 : 'null'),
+
+          submission.answer_03 && submission.answer_03.split(",").include?("effectiveness") ? 1 : (answer_03_options.include?("effectiveness") ? 0 : 'null'),
+          submission.answer_03 && submission.answer_03.split(",").include?("ease") ? 1 : (answer_03_options.include?("ease") ? 0 : 'null'),
+          submission.answer_03 && submission.answer_03.split(",").include?("efficiency") ? 1 : (answer_03_options.include?("efficiency") ? 0 : 'null'),
+          submission.answer_03 && submission.answer_03.split(",").include?("transparency") ? 1 : (answer_03_options.include?("transparency") ? 0 : 'null'),
+          submission.answer_03 && submission.answer_03.split(",").include?("humanity") ? 1 : (answer_03_options.include?("humanity") ? 0 : 'null'),
+          submission.answer_03 && submission.answer_03.split(",").include?("employee") ? 1 : (answer_03_options.include?("employee") ? 0 : 'null'),
+          submission.answer_03 && submission.answer_03.split(",").include?("other") ? 1 : (answer_03_options.include?("other") ? 0 : 'null'),
+
+          submission.answer_04
+        ]
+      end
+    end
+  end
+
   def to_a11_v2_csv(start_date: nil, end_date: nil)
     non_flagged_submissions = submissions
       .non_flagged

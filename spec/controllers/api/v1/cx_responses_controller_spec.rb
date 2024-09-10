@@ -64,7 +64,7 @@ describe Api::V1::CxResponsesController, type: :controller do
           expect(@parsed_response['data'].size).to eq(500)
           expect(@parsed_response['data'].first.class).to be(Hash)
           expect(@parsed_response['data'].first["type"]).to eq("cx_responses")
-          expect(@parsed_response['data'].first['id']).to eq(cx_response.id.to_s)
+          expect(@parsed_response['data'].first['id'].to_s).to eq(cx_response.id.to_s)
         end
       end
 
@@ -83,7 +83,7 @@ describe Api::V1::CxResponsesController, type: :controller do
           expect(@parsed_response['data'].size).to eq(100)
           expect(@parsed_response['data'].last.class).to be(Hash)
           expect(@parsed_response['data'].last["type"]).to eq("cx_responses")
-          expect(@parsed_response['data'].last['id']).to eq(CxResponse.last.id.to_s)
+          expect(@parsed_response['data'].last['id'].to_s).to eq(CxResponse.last.id.to_s)
         end
       end
     end

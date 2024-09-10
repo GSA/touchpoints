@@ -21,7 +21,7 @@ module Admin
             .order('organizations.name', :year, :quarter, 'service_providers.name')
             .includes(:organization, :service_provider)
         else
-          @collections = Collection.all
+          @collections = Collection
             .order('organizations.name', :year, :quarter, 'service_providers.name')
             .includes(:organization, :service_provider)
         end

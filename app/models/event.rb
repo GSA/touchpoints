@@ -108,6 +108,7 @@ class Event < ApplicationRecord
     digital_service_account_archived: 'digital_service_account_archived',
     digital_service_account_reset: 'digital_service_account_reset',
     digital_service_account_deleted: 'digital_service_account_deleted',
+    digital_service_account_export: 'digital_service_account_export',
 
     organization_created: 'organization_created',
     organization_updated: 'organization_updated',
@@ -147,7 +148,7 @@ class Event < ApplicationRecord
     CSV.generate(headers: true) do |csv|
       csv << attributes
 
-      Event.all.find_each do |event|
+      Event.find_each do |event|
         csv << attributes.map { |attr| event.send(attr) }
       end
     end

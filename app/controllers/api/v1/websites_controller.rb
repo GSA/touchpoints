@@ -7,7 +7,7 @@ module Api
         respond_to do |format|
           format.json do
             if params[:all].present? && params[:all].to_s == '1'
-              render json: Website.all.order(:id), each_serializer: WebsiteSerializer
+              render json: Website.order(:id), each_serializer: WebsiteSerializer
             else
               render json: Website.published.order(:id), each_serializer: WebsiteSerializer
             end

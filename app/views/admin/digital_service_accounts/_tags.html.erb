@@ -51,14 +51,14 @@
     });
 
     // return on Enter
-    $(".tag-input").on("keypress", function (e) {
-      if (e.which == 13) {
+    $(".tag-input").on("keypress", function(event) {
+      if (event.which == 13) {
         document.activeElement.blur();
         return false;
       }
     });
 
-    $(".tag-list .remove-tag-link").on("click", function(e) {
+    $(".tag-list .remove-tag-link").on("click", function(event) {
       event.preventDefault();
       var thisForm = $(this).closest("form");
       $.ajax({

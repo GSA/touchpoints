@@ -206,7 +206,7 @@ feature 'Digital Service Accounts', js: true do
     end
 
     describe '#search' do
-      let!(:digital_service_account) { FactoryBot.create(:digital_service_account, name: 'Test1776', service: 'facebook', aasm_state: 'published') }
+      let!(:digital_service_account) { FactoryBot.create(:digital_service_account, name: 'Test1776', account: 'Facebook', service: 'Facebook', aasm_state: 'published') }
       let!(:digital_service_account_2) { FactoryBot.create(:digital_service_account, aasm_state: 'created') }
 
       before do
@@ -214,8 +214,8 @@ feature 'Digital Service Accounts', js: true do
       end
 
       it 'can search by keyword' do
-        fill_in :tags, with: digital_service_account.name
-        find('#tags').native.send_key :tab
+        fill_in :query, with: digital_service_account.name
+        find('#query').native.send_key :tab
         expect(page).to_not have_content(digital_service_account_2.name)
         expect(page).to have_css('tbody tr', count: 1)
       end
@@ -233,7 +233,7 @@ feature 'Digital Service Accounts', js: true do
       end
 
       it 'can search by aasm_state' do
-        select('Published', from: 'aasm_state')
+        select('published', from: 'aasm_state')
         expect(page).to have_css('tbody tr', count: 1)
       end
     end

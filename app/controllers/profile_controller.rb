@@ -18,7 +18,7 @@ class ProfileController < AdminController
   def user_params
     params.require(:user).permit(
       :api_key,
-      :time_zone, 
+      :time_zone,
       :first_name,
       :last_name,
       :position_title,

@@ -38,11 +38,11 @@
 <div class="grid-row grid-gap-lg">
   <div class="grid-col-6">
     <%= label_tag "Search by Agency", nil, for: "organization_id", class: "usa-label" %>
-    <%= select_tag :organization_id, options_for_select(organization_dropdown_options), { prompt: "All", class: "usa-select" } %>
+    <%= select_tag :organization_id, options_for_select(organization_abbreviation_dropdown_options), { prompt: "All", class: "usa-select" } %>
   </div>
   <div class="grid-col-6">
-    <%= label_tag "Search by keywords", nil, for: "tags", class: "usa-label" %>
-    <%= text_field_tag :tags, nil, class: "usa-input" %>
+    <%= label_tag "Search by keywords", nil, for: "query", class: "usa-label" %>
+    <%= text_field_tag :query, params[:query], class: "usa-input" %>
   </div>
 </div>
 <div class="grid-row grid-gap-lg">
@@ -52,80 +52,64 @@
   </div>
   <div class="grid-col-6">
     <%= label_tag "Status selector", nil, for: "aasm_state", class: "usa-label" %>
-    <%= select_tag :aasm_state, options_for_select(["All", "Created", "Submitted", "Published", "Archived"]), class: "usa-select" %>
+    <%= select_tag :aasm_state, options_for_select(["All"] + DigitalServiceAccount.aasm.states.collect(&:name)), class: "usa-select" %>
   </div>
 </div>
-
-<p hidden>
-  <%= link_to "Export results to .csv", admin_digital_service_accounts_path(format: :csv), class: "usa-button" %>
-</p>
 
 <div class="search-results">
   <%= render 'results', digital_service_accounts: @digital_service_accounts %>
   <%= paginate @digital_service_accounts %>
 </div>
 
-<p>
-  <a href="/admin/digital_service_accounts/export" class="usa-button usa-button--outline">
-    <i class="fa fa-download"></i>
-    Export to CSV
-  </a>
-</p>
-
 <script>
-  $(function() {
-    $("#tags").on("keyup", debounce(function() {
-      var searchValue = $("#tags").val();
+  function performSearch() {
+    var url = new URL(window.location.href);
+    var searchParams = new URLSearchParams(url.search);
 
-      $.ajax({
-        url: '/admin/digital_service_accounts/search',
-        data: {
-          search: searchValue
-        }
-      });
-    }, 400));
+    var query = $("#query").val();
+    var organization_id = $("#organization_id").val();
+    var status = $("#aasm_state").val();
+    var service = $("#service").val()
 
-    $(".search-tag-link").on("click", function() {
-      $("#search_text").val("");
-      $.ajax({
-        url: '/admin/digital_service_accounts/search',
-        data: {
-          tag: $(this).attr("data-name")
-        }
-      });
+    $.ajax({
+      url: '<%= search_admin_digital_service_accounts_path %>',
+      data: {
+        query: query,
+        aasm_state: status,
+        org_abbr: organization_id,
+        account: service,
+      }
     });
+
+    searchParams.set('org_abbr', organization_id);
+    searchParams.set('aasm_state', status);
+    searchParams.set('query', query);
+    searchParams.set('account', service);
+    window.history.replaceState({}, '', url.pathname + '?' + searchParams.toString());
+  }
+
+  $(function() {
+    var url = new URL(window.location.href);
+    var searchParams = new URLSearchParams(url.search);
+
+    $("#query").on("keyup", debounce(function(event) {
+      event.preventDefault();
+      performSearch()
+    }, 400));
 
     $('#organization_id').on("change", function(event) {
       event.preventDefault();
-
-      $.ajax({
-        url: '/admin/digital_service_accounts/search',
-        data: {
-          organization_id: event.target.value
-        }
-      });
+      performSearch();
     });
 
     $('#service').on("change", function(event) {
       event.preventDefault();
-
-      $.ajax({
-        url: '/admin/digital_service_accounts/search',
-        data: {
-          service: event.target.value
-        }
-      });
+      performSearch();
     });
 
     $('#aasm_state').on("change", function(event) {
       event.preventDefault();
-
-      $.ajax({
-        url: '/admin/digital_service_accounts/search',
-        data: {
-          aasm_state: event.target.value
-        }
-      });
+      performSearch();
     });
 
   });

@@ -20,11 +20,25 @@ class DigitalServiceAccount < ApplicationRecord
 
   scope :active, -> { where(aasm_state: :published) }
 
+  scope :filtered_accounts, lambda { |query, organization_abbreviation, aasm_state, account|
+    @organization = Organization.find_by_abbreviation(organization_abbreviation)
+
+    wildcard_query = "%#{query}%"
+
+    items = all
+    items = items.tagged_with(@organization.id, context: 'organizations') if @organization.present?
+    items = items.where(aasm_state:) if aasm_state.present? && aasm_state.downcase != 'all'
+    items = items.where(service: account) if account.present? && account.downcase != 'all'
+    items = items.where("name ILIKE ? OR account ILIKE ? OR short_description ILIKE ? OR service_url ILIKE ?", wildcard_query, wildcard_query, wildcard_query, wildcard_query) if query && query.length >= 3
+
+    items
+  }
+
   aasm do
     state :created, initial: true
-    state :updated
     state :submitted
     state :published
+    state :updated
     state :archived
 
     event :submit do
@@ -85,7 +99,7 @@ class DigitalServiceAccount < ApplicationRecord
       'Vimeo',
       'Yelp',
       'Youtube',
-      'Other'
+      'Other',
     ]
   end
 
@@ -94,11 +108,11 @@ class DigitalServiceAccount < ApplicationRecord
   end
 
   def contact_emails
-    contacts.collect(&:email).join(", ")
+    contacts.collect(&:email).join(', ')
   end
 
   def organization_names
-    Organization.find(self.organization_list).collect(&:name).join(", ")
+    Organization.find(organization_list).collect(&:name).join(', ')
   end
 
   def self.to_csv
@@ -166,8 +180,7 @@ class DigitalServiceAccount < ApplicationRecord
       'Vimeo' => '',
       'Yelp' => '',
       'Youtube' => '',
-      'Other' => nil
+      'Other' => nil,
     }
   end
-
 end
