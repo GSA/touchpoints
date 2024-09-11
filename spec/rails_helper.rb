@@ -41,9 +41,9 @@ end
 Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
-Capybara.javascript_driver = :selenium                 # Run feature specs with Firefox
+# Capybara.javascript_driver = :selenium                 # Run feature specs with Firefox
 # Capybara.javascript_driver = :selenium_chrome          # Run feature specs with Chrome
-# Capybara.javascript_driver = :selenium_chrome_headless # Run feature specs with headless Chrome
+Capybara.javascript_driver = :selenium_chrome_headless # Run feature specs with headless Chrome
 Capybara.default_max_wait_time = 3
 Capybara.raise_server_errors = true
 Capybara.server = :puma
@@ -52,7 +52,7 @@ TEST_API_KEY = '1234567890123456789012345678901234567890'
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_paths = "#{::Rails.root}/spec/fixtures"
+  config.fixture_paths = "#{Rails.root}/spec/fixtures"
 
   # for factory_bot_rails
   config.include FactoryBot::Syntax::Methods
