@@ -54,21 +54,6 @@
           </div>
         </fieldset>
       </div>
-      <div class="grid-col-12 padding-top-2">
-        <fieldset class="usa-fieldset">
-          <legend class="usa-sr-only">Form Template?</legend>
-          <div class="usa-checkbox">
-            <%= f.check_box :legacy_form_embed, class: "usa-checkbox__input" %>
-            <%= f.label :legacy_form_embed, class: "usa-checkbox__label" do %>
-              Render legacy _fba.js.erb?
-              &nbsp;
-              <span class="usa-hint font-sans-2xs">
-                Renders the old form as a fallback for certain clients who may have script customizations based on the old version.
-              </span>
-            <% end %>
-          </div>
-        </fieldset>
-      </div>
     </div>
     <p class="margin-top-4">
       <%= f.submit (@form.persisted? ? "Update Form Admin Options " : "Create Form"), class: "usa-button" %>

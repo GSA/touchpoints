@@ -313,11 +313,7 @@ class Form < ApplicationRecord
   # returns javascript text that can be used standalone
   # or injected into a GTM Container Tag
   def touchpoints_js_string
-    if self.legacy_form_embed
-      ApplicationController.new.render_to_string(partial: 'components/widget/fba', formats: :js, locals: { touchpoint: self })
-    else
-      ApplicationController.new.render_to_string(partial: 'components/widget/fba2', formats: :js, locals: { touchpoint: self })
-    end
+    ApplicationController.new.render_to_string(partial: 'components/widget/fba2', formats: :js, locals: { touchpoint: self })
   end
 
   def non_flagged_submissions(start_date: nil, end_date: nil)
