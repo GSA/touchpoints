@@ -130,6 +130,6 @@
     <%= link_to "Download OMB CX Data Reporting Collections as .csv", export_csv_admin_cx_collection_details_path, class: "usa-button" %>
   </p>
   <p>
-    <%= link_to "Download CX Responses", export_cx_responses_csv_admin_cx_collections_path, class: "usa-button" %>
+    <%= link_to "Download CX Responses", export_cx_responses_csv_admin_cx_collections_path(year: params[:year], quarter: params[:quarter]), class: "usa-button" %>
   </p>
 <% end %>

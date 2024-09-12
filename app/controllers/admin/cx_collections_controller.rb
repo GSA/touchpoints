@@ -39,7 +39,22 @@ module Admin
     def export_cx_responses_csv
       ensure_service_manager_permissions
 
-      @responses = CxResponse.all
+      @cx_collection_detail_ids = []
+
+      # Start by selecting all CxCollections
+      cx_collections = CxCollection.all
+      # Apply year filter, if available
+      cx_collections.where(fiscal_year: filter_params[:year]) if filter_params[:year]
+      # Apply quarter filter, if available
+      cx_collections.where(quarter: filter_params[:quarter]) if filter_params[:quarter]
+
+      # Loop those CxCollections to get their Detail Record ids, and then get those responses
+      cx_collections.each do |collection|
+        collection.cx_collection_details.each do |collection_detail|
+          @cx_collection_detail_ids << collection_detail.id
+        end
+      end
+      @responses = CxResponse.where(cx_collection_detail_id: @cx_collection_detail_ids)
       send_data @responses.to_csv, filename: "touchpoints-data-cx-responses-#{Date.today}.csv"
     end
 
@@ -153,6 +168,15 @@ module Admin
             :quarter,
             :aasm_state,
             :rating
+          )
+      end
+
+      def filter_params
+        params
+          .permit(
+            :year,
+            :quarter,
+            :aasm_state,
           )
       end
   end
