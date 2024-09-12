@@ -1,34 +1,21 @@
-<%- if form.legacy_form_embed %>
-  <div
-    class="fba-modal-dialog"
-    role="dialog"
-    aria-label="Feedback modal dialog"
-    aria-labelledby="fba-modal-title"
-    aria-modal="<%= ['modal', 'custom-button-modal'].include?(form.delivery_method) ? 'true' : 'false' %>">
-    <%= render "components/widget/no_modal", form: form do %>
-      <%= render partial: 'components/forms/footer', locals: { form: form } %>
-    <% end %>
-  </div>
-<% else %>
-  <div
-    class="<%= form.prefix "usa-modal__content" %> fba-modal-dialog">
-    <div>
-      <div class="<%= form.prefix "usa-modal__main" %> padding-bottom-0 padding-top-0">
-        <%= render "components/widget/no_modal", form: form %>
-      </div>
-      <%= render partial: 'components/forms/footer', locals: { form: form } %>
+<div
+  class="<%= form.prefix "usa-modal__content" %> fba-modal-dialog">
+  <div>
+    <div class="<%= form.prefix "usa-modal__main" %> padding-bottom-0 padding-top-0">
+      <%= render "components/widget/no_modal", form: form %>
     </div>
-    <%- unless form.delivery_method == "inline" %>
-      <button class="<%= form.prefix "usa-modal__close" %> usa-button fba-modal-close"
-              type="button"
-              aria-label="Close this window"
-              data-close-modal
-      >
-        <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
-          <%# close icon %>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-        </svg>
-      </button>
-    <% end -%>
+    <%= render partial: 'components/forms/footer', locals: { form: form } %>
   </div>
-<% end %>
+  <%- unless form.delivery_method == "inline" %>
+    <button class="<%= form.prefix "usa-modal__close" %> usa-button fba-modal-close"
+            type="button"
+            aria-label="Close this window"
+            data-close-modal
+    >
+      <svg class="usa-icon" aria-hidden="true" focusable="false" role="img">
+        <%# close icon %>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      </svg>
+    </button>
+  <% end -%>
+</div>
