@@ -37,9 +37,13 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 
+
+options = Selenium::WebDriver::Chrome::Options.new
+options.add_preference(:loggingPrefs, browser: 'ALL')
+
 # for Capybara
 Capybara.register_driver :selenium do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome)
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
 Capybara.javascript_driver = :selenium                 # Run feature specs with Firefox
 # Capybara.javascript_driver = :selenium_chrome          # Run feature specs with Chrome
@@ -91,6 +95,21 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.start
+  end
+
+  config.after(:each, js: true) do
+    errors = page.driver.browser.logs.get(:browser)
+    if errors.present?
+      aggregate_failures 'javascript errors' do
+        errors.each do |error|
+          next if error.message.include?("the server responded with a status of 422 (Unprocessable Content)") # Skip 422 errors
+
+          STDERR.puts "WARN: #{error.message} (#{error.timestamp})" if error.level == 'WARNING'
+          STDERR.puts "ERROR: #{error.message} (#{error.timestamp})" if error.level == 'SEVERE'
+          expect(error.level).not_to eq('SEVERE'), error.message
+        end
+      end
+    end
   end
 
   config.append_after(:each) do

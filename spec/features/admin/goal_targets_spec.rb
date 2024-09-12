@@ -35,7 +35,7 @@ RSpec.describe '/goal_targets', js: true do
 
   describe 'GET /index' do
     before do
-      visit admin_goal_goal_targets_path(goal)
+      visit admin_goal_path(goal)
     end
 
     it 'renders the index page' do
@@ -49,28 +49,22 @@ RSpec.describe '/goal_targets', js: true do
       end
 
       it 'renders the new page' do
-        expect(page).to have_content('Target date')
+        expect(page).to have_content('Target date at')
       end
     end
   end
 
-  describe 'GET /new' do
+  describe 'Creating a new goal' do
     before do
-      visit new_admin_goal_goal_target_path(goal)
+      visit admin_goal_path(goal)
+      click_on "New Goal Target"
+      expect(page).to have_content('Target date at')
     end
 
-    describe 'try to create an invalid Goal Target' do
-      it 'renders the new page' do
-        expect(page).to have_content('Target date')
-        fill_in('goal_target_assertion', with: '')
-        click_on('Create Goal target')
-        expect(page).to have_content("Assertion can't be blank")
-      end
-
-      it 'renders the new page' do
-        fill_in('goal_target_assertion', with: 'assertion text')
-        click_on('Create Goal target')
-        expect(page).to have_content('Goal target was successfully created.')
+    it 'renders the new goal inline' do
+      click_on('Create Goal target')
+      within(".goal-targets") do
+        expect(page).to have_link("New goal target")
       end
     end
   end
