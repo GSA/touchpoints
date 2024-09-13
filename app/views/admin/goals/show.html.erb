@@ -103,6 +103,7 @@
 <% end %>
 
 <script>
+$(function() {
   $('.usa-hint').hide();
 
   $('.goal-name').on("blur", function(event) {
@@ -183,4 +184,5 @@
       data: {four_year_goal: $(this).val()}
     });
   });
+});
 </script>

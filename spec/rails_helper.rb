@@ -37,13 +37,17 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 
+
+options = Selenium::WebDriver::Chrome::Options.new
+options.add_preference(:loggingPrefs, browser: 'ALL')
+
 # for Capybara
 Capybara.register_driver :selenium do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome)
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
-Capybara.javascript_driver = :selenium                 # Run feature specs with Firefox
+# Capybara.javascript_driver = :selenium                 # Run feature specs with Firefox
 # Capybara.javascript_driver = :selenium_chrome          # Run feature specs with Chrome
-# Capybara.javascript_driver = :selenium_chrome_headless # Run feature specs with headless Chrome
+Capybara.javascript_driver = :selenium_chrome_headless # Run feature specs with headless Chrome
 Capybara.default_max_wait_time = 3
 Capybara.raise_server_errors = true
 Capybara.server = :puma
@@ -52,7 +56,7 @@ TEST_API_KEY = '1234567890123456789012345678901234567890'
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_paths = "#{::Rails.root}/spec/fixtures"
+  config.fixture_paths = "#{Rails.root}/spec/fixtures"
 
   # for factory_bot_rails
   config.include FactoryBot::Syntax::Methods
@@ -91,6 +95,21 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.start
+  end
+
+  config.after(:each, js: true) do
+    errors = page.driver.browser.logs.get(:browser)
+    if errors.present?
+      aggregate_failures 'javascript errors' do
+        errors.each do |error|
+          next if error.message.include?("the server responded with a status of 422 (Unprocessable Content)") # Skip 422 errors
+
+          STDERR.puts "WARN: #{error.message} (#{error.timestamp})" if error.level == 'WARNING'
+          STDERR.puts "ERROR: #{error.message} (#{error.timestamp})" if error.level == 'SEVERE'
+          expect(error.level).not_to eq('SEVERE'), error.message
+        end
+      end
+    end
   end
 
   config.append_after(:each) do

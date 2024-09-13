@@ -70,7 +70,7 @@
       for Admins
     </span>
     <div class="margin-top-2">
-      <%= link_to "Send quarterly email to all Users for Draft Collections", admin_quarterly_performance_notification_path(year: 2023, quarter: 2), method: :post, class:
+      <%= link_to "Send quarterly email to all Users for Draft Collections", admin_quarterly_performance_notification_path(fiscal_year_and_quarter(Time.now)), method: :post, class:
     "usa-button usa-button--outline" %>
     </div>
   </div>
@@ -88,14 +88,14 @@
           </h3>
           <%- if performance_manager_permissions? %>
           <p>
-            <%= link_to admin_collections_path(year: 2024, quarter: 1), class: "usa-button usa-button--outline width-full" do
+            <%= link_to admin_collections_path(fiscal_year_and_quarter(Time.now)), class: "usa-button usa-button--outline width-full" do
               %>
               CX Data Collection
             <% end %>
           </p>
           <% end %>
           <p>
-            <%= link_to admin_cx_collections_path(year: 2024, quarter: 2), class: "usa-button usa-button--outline width-full" do %>
+            <%= link_to admin_cx_collections_path(fiscal_year_and_quarter(Time.now)), class: "usa-button usa-button--outline width-full" do %>
               A-11 v2 CX Data Collection
             <% end %>
           </p>
