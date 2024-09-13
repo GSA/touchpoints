@@ -199,6 +199,9 @@ module ApplicationHelper
       fiscal_quarter = 1
     end
 
-    [fiscal_year, fiscal_quarter]
+    {
+      year: fiscal_year,
+      quarter: fiscal_quarter
+    }
   end
 end
