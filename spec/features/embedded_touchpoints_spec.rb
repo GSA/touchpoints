@@ -6,9 +6,8 @@ feature 'Touchpoints', js: true do
   let(:organization) { FactoryBot.create(:organization) }
   let!(:user) { FactoryBot.create(:user, :admin, organization:) }
 
-  [true, false].each do |val|
-    context "as Admin with legacy_form_embed #{val}" do
-      let!(:form) { FactoryBot.create(:form, :kitchen_sink, legacy_form_embed: val, organization:) }
+    context "as Admin" do
+      let!(:form) { FactoryBot.create(:form, :kitchen_sink, organization:) }
 
       describe '/forms/:id/example' do
         before do
@@ -97,5 +96,4 @@ feature 'Touchpoints', js: true do
         end
       end
     end
-  end
 end
