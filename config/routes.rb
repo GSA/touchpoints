@@ -440,11 +440,6 @@ Rails.application.routes.draw do
     get 'export_feed', to: 'submissions#export_feed', as: :export_feed
   end
 
-  get 'registry', to: 'site#registry', as: :registry
-  get 'registry/guidance', to: 'site#registry_guidance'
-  post 'registry', to: 'site#registry_search_post', as: :search_registry
-  # get 'registry.csv', to: 'site#registry_export', as: :registry_export, format: :csv
-
   get 'profile', to: 'profile#show', as: :profile
   patch 'profile', to: 'profile#update', as: :profile_update
   get 'status', to: 'site#status', as: :status
