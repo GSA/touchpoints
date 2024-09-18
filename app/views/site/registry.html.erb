@@ -1,5 +1,5 @@
 <div class="grid-row margin-bottom-2 grid-gap-lg">
-  <div class="desktop:grid-col-6 tablet:grid-col-12">
+  <div class="desktop:grid-col-6 tablet:grid-col-12 margin-left-auto margin-right-auto">
     <div
       class="usa-summary-box margin-top-2"
       role="region"
@@ -11,151 +11,27 @@
         </h1>
 
         <div class="usa-summary-box__text font-sans-xs">
-          Verify the official status of social media accounts and mobile apps
-          managed by U.S. government agencies, organizations, or programs.
           <p>
-            Accounts are managed by federal agency staff.
-            For customer service on accounts, please contact their programs directly.
+            The U.S. Digital Registry originated in
+            <a href="https://www.whitehouse.gov/wp-content/uploads/legacy_drupal_files/omb/memoranda/2017/m-17-06.pdf" class="usa-link usa-link--external" target="_blank" rel="noopener">OMB Memorandum M-17-06</a>.
+            In September 2023, M-17-06 was rescinded by
+            <a
+              href="https://www.whitehouse.gov/wp-content/uploads/2023/09/M-23-22-Delivering-a-Digital-First-Public-Experience.pdf"
+              target="_blank"
+              rel="noopener">
+              M-23-22 - Delivering a Digital-First Public Experience</a>.
           </p>
-          <p class="margin-bottom-0">
-            For assistance with the Registry, email
-            <a href="mailto:feedback-analytics@gsa.gov">feedback-analytics@gsa.gov</a> for support.
+          <p>
+            Due to a lack of formal guidance, the U.S. Digital Registry
+            no long represents a canonical dataset of federal digital assets.
+            As of September 20, 2024, the public-facing Digital Registry search page has been deprecated.
+          </p>
+          <p>
+            For questions, please contact
+            <a href="mailto:feedback-analytics@gsa.gov">feedback-analytics@gsa.gov</a>.
           </p>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<div class="grid-row margin-top-3">
-  <div class="grid-col-12">
-    <h2>
-      <span class="fa fa-search"></span>
-      Search Social Media Accounts
-    </h2>
-  </div>
-</div>
-
-<section class="margin-bottom-5">
-  <%= form_for("search", url: "/registry", data: { turbo: false }) do |form| %>
-    <div class="grid-row grid-gap-lg">
-      <div class="grid-col-6">
-        <%= label_tag "Search by Agency", nil, class: "usa-label", for: "search_organization_id" %>
-        <%= form.select :organization_id, options_for_select(organization_dropdown_options), { prompt: "All" }, { class: "usa-select" } %>
-      </div>
-      <div class="grid-col-6">
-        <%= label_tag "Search by keywords", nil, class: "usa-label", for: "search_tags" %>
-        <%= form.text_field :tags, class: "usa-input" %>
-      </div>
-    </div>
-    <div class="grid-row grid-gap-lg">
-      <div class="grid-col-6">
-        <%= label_tag "Service platform", nil, class: "usa-label", for: "search_platform" %>
-        <%= form.select :platform, options_for_select([["All", '']] + DigitalServiceAccount.list, @search_params && @search_params[:platform]), {}, class: "usa-select" %>
-      </div>
-      <div class="grid-col-6">
-        <%= label_tag "Publish status", nil, class: "usa-label", for: "search_status" %>
-        <%= form.select :status, options_for_select([ ["Published", 'published'], ["Archive", 'archived'] ], @search_params && @search_params[:status]), {}, class: "usa-select" %>
-      </div>
-    </div>
-
-    <div class="grid-row margin-top-3">
-      <div class="grid-col-12">
-        <button type="submit" class="usa-button width-full">Search</button>
-      </div>
-    </div>
-  <% end %>
-</section>
-
-<%- if @results %>
-<%- if @max_results || @results.size == 500 %>
-<p>
-  Queries have a default limit of 500 records.
-  <br>
-  Please scope your query with additional parameters.
-</p>
-<% end %>
-
-<p>
-  Returning <%= @results.size %> results for:
-</p>
-
-<p>
-<% @search_params.each_pair do |k,v|  %>
-  <%- if v.present? %>
-  <%= k %> = <%= v %>
-  <br>
-  <% end %>
-<% end %>
-</p>
-
-<p hidden>
-  <%#= link_to "Exports results to .csv", registry_export_path(@search_params), class: "usa-button usa-button--outline", method: :post %>
-</p>
-
-<table class="usa-table">
-  <thead>
-    <tr>
-      <th>Agency</th>
-      <th>Service</th>
-      <th style="max-width: 400px;">Account name</th>
-      <th>Short description</th>
-      <th class="minw-15">Last updated</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @results.each do |result| %>
-      <tr data-id="<%= result.id %>">
-        <td>
-           <% result.sponsoring_agencies.order(:name).each do |agency| %>
-            <%= agency.name %>
-            <br>
-          <% end %>
-        </td>
-        <td>
-          <%= result.account %>
-        </td>
-        <td>
-          <%= link_to(result.name, result.service_url) %>
-        </td>
-        <td>
-          <%= to_markdown(result.short_description) %>
-        </td>
-        <td>
-          <%= result.updated_at.to_date %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<% else %>
-<div class="grid-row grid-gap-6 usa-prose border-top border-base-lighter padding-3">
-  <div class="desktop:grid-offset-2 desktop:grid-col-4">
-    <h3>
-      For Federal Agencies
-    </h3>
-    <a href="/registry/guidance/" class="usa-button usa-button--outline">
-      Create and manage records
-    </a>
-    <p>
-      Manage an inventory of digital assets
-      to certify ownership and help prevent misuse by unofficial sources.
-    </p>
-  </div>
-  <div class="desktop:grid-col-4">
-    <h3>
-      For Developers
-    </h3>
-    <a href="https://github.com/gsa/touchpoints/wiki/API/" class="usa-button usa-button--outline">
-      Use the API and improve the application
-    </a>
-    <p>
-      Access Registry data via the Touchpoints
-      <a href="https://open.gsa.gov/api/" target="_blank" rel="noopener">API</a>,
-      or visit the
-      <a href="https://github.com/gsa/touchpoints/">GitHub repository</a>
-      to provide feedback and contribute.
-    </p>
-  </div>
-</div>
-<% end %>
