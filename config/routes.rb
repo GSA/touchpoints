@@ -443,6 +443,7 @@ Rails.application.routes.draw do
   get 'profile', to: 'profile#show', as: :profile
   patch 'profile', to: 'profile#update', as: :profile_update
   get 'status', to: 'site#status', as: :status
+  get 'registry', to: 'site#registry', as: :registry
   get 'index', to: 'site#index', as: :index
   root to: redirect(ENV.fetch('INDEX_URL'))
 end
