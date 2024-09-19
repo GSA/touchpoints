@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    class DigitalServiceAccountsController < ::UnauthenticatedApiController
+    class DigitalServiceAccountsController < ::ApiController
       def index
         page = (params[:page].present? ? params[:page].to_i : 0)
         size = (params[:size].present? ? params[:size].to_i : 100)

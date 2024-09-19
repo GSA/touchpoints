@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    class DigitalProductsController < ::UnauthenticatedApiController
+    class DigitalProductsController < ::ApiController
       def index
         respond_to do |format|
           format.json do
