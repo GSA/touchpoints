@@ -82,6 +82,7 @@ function FBAform(d, N) {
 		} else if (this.options.deliveryMethod && this.options.deliveryMethod === 'inline') { <%# inject the form interface for inline with the modal wrapper %>
 			if (this.options.elementSelector) {
 				if(d.getElementById(this.options.elementSelector) != null) {
+					d.getElementById(this.options.elementSelector).classList.add('fba-inline-container');
 					d.getElementById(this.options.elementSelector).innerHTML = this.options.htmlFormBody();
 				}
 			}
