@@ -60,10 +60,10 @@
     <tr>
       <td class="text-base text-sm">
         for
-        <%- if @quarter != 0 %>
+        <%- if @quarter != 0 && @quarter != 'All' %>
         Q<%= params["quarter"] %>
         <% end %>
-        <%- if @year != 0 %>
+        <%- if @year != 0 && @year != 'All' %>
         <%= params["year"] %>
         <% end %>
       </td>

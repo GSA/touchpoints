@@ -8,11 +8,11 @@ module Admin
     ]
 
     def index
-      quarter = params[:quarter]
-      year = params[:year]
-      status = params[:aasm_state]
+      @quarter = params[:quarter]
+      @year = params[:year]
+      @status = params[:aasm_state]
       scope = performance_manager_permissions? ? CxCollection : current_user.cx_collections
-      @cx_collections = CxCollection.filtered_collections(scope, quarter, year, status)
+      @cx_collections = CxCollection.filtered_collections(scope, @quarter, @year, @status)
     end
 
     def show
@@ -31,12 +31,12 @@ module Admin
     def export_cx_responses_csv
       ensure_service_manager_permissions
 
-      quarter = params[:quarter]
-      year = params[:year]
-      status = params[:aasm_state]
+      @quarter = params[:quarter]
+      @year = params[:year]
+      @status = params[:aasm_state]
 
       scope = performance_manager_permissions? ? CxCollection : current_user.cx_collections
-      cx_collections = CxCollection.filtered_collections(scope, quarter, year, status)
+      cx_collections = CxCollection.filtered_collections(scope, @quarter, @year, @status)
 
       @cx_collection_detail_ids = []
       # Loop those CxCollections to get their Detail Record ids, and then get those responses
