@@ -8,19 +8,11 @@ module Admin
     ]
 
     def index
-      @quarter = params[:quarter].to_i.nonzero?
-      @year = params[:year].to_i.nonzero?
-      @status = params[:aasm_state]
-
-      collection_scope = performance_manager_permissions? ? CxCollection : current_user.cx_collections
-
-      @cx_collections = collection_scope
-      @cx_collections = @cx_collections.where(quarter: @quarter) if @quarter && @quarter != 0
-      @cx_collections = @cx_collections.where(fiscal_year: @year) if @year && @year != 0
-      @cx_collections = @cx_collections.where(aasm_state: @status) if @status && @status != 'All'
-      @cx_collections = @cx_collections
-        .order('organizations.name', :fiscal_year, :quarter, 'service_providers.name')
-        .includes(:organization, :service_provider)
+      quarter = params[:quarter]
+      year = params[:year]
+      status = params[:aasm_state]
+      scope = performance_manager_permissions? ? CxCollection : current_user.cx_collections
+      @cx_collections = CxCollection.filtered_collections(scope, quarter, year, status)
     end
 
     def show
@@ -39,22 +31,14 @@ module Admin
     def export_cx_responses_csv
       ensure_service_manager_permissions
 
-      @quarter = params[:quarter].to_i.nonzero?
-      @year = params[:year].to_i.nonzero?
-      @status = params[:aasm_state]
+      quarter = params[:quarter]
+      year = params[:year]
+      status = params[:aasm_state]
+
+      scope = performance_manager_permissions? ? CxCollection : current_user.cx_collections
+      cx_collections = CxCollection.filtered_collections(scope, quarter, year, status)
 
       @cx_collection_detail_ids = []
-
-      # Start by selecting all CxCollections
-      cx_collections = CxCollection.all
-      # Apply filters
-      cx_collections = cx_collections.where(quarter: @quarter) if @quarter && @quarter != 0
-      cx_collections = cx_collections.where(fiscal_year: @year) if @year && @year != 0
-      cx_collections = cx_collections.where(aasm_state: @status) if @status && @status != 'All'
-      cx_collections = cx_collections
-        .order('organizations.name', :fiscal_year, :quarter, 'service_providers.name')
-        .includes(:organization, :service_provider)
-
       # Loop those CxCollections to get their Detail Record ids, and then get those responses
       cx_collections.each do |collection|
         collection.cx_collection_details.each do |collection_detail|
