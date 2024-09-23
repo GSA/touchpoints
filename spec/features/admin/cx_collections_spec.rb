@@ -66,6 +66,8 @@ feature 'CX Data Collections', js: true do
 
         it 'find the two 2024 Q1 collections' do
           expect(page).to have_css(".usa-table.collections tbody tr", count: 2)
+          expect(page).to_not have_content("2021")
+          expect(page).to_not have_content("2022")
         end
       end
     end

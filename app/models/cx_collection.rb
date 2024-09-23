@@ -15,6 +15,18 @@ class CxCollection < ApplicationRecord
   validates :name, presence: true
 
   scope :published, -> { where(aasm_state: 'published') }
+  scope :filtered_collections, lambda { |scope, quarter, year, status|
+    quarter = quarter.to_i.nonzero?
+    year = year.to_i.nonzero?
+
+    items = scope
+    items = items.where(quarter: quarter) if quarter && quarter != 0
+    items = items.where(fiscal_year: year) if year && year != 0
+    items = items.where(aasm_state: status) if status && status != 'All'
+    items = items
+      .order('organizations.name', :fiscal_year, :quarter, 'service_providers.name')
+      .includes(:organization, :service_provider, :service)
+  }
 
   aasm do
     state :draft, initial: true
