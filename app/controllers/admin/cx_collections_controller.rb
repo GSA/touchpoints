@@ -8,8 +8,8 @@ module Admin
     ]
 
     def index
-      @quarter = params[:quarter]&.to_i
-      @year = params[:year]&.to_i
+      @quarter = params[:quarter].to_i.nonzero?
+      @year = params[:year].to_i.nonzero?
       @status = params[:aasm_state]
 
       collection_scope = performance_manager_permissions? ? CxCollection : current_user.cx_collections
@@ -39,14 +39,21 @@ module Admin
     def export_cx_responses_csv
       ensure_service_manager_permissions
 
+      @quarter = params[:quarter].to_i.nonzero?
+      @year = params[:year].to_i.nonzero?
+      @status = params[:aasm_state]
+
       @cx_collection_detail_ids = []
 
       # Start by selecting all CxCollections
       cx_collections = CxCollection.all
-      # Apply year filter, if available
-      cx_collections.where(fiscal_year: filter_params[:year]) if filter_params[:year]
-      # Apply quarter filter, if available
-      cx_collections.where(quarter: filter_params[:quarter]) if filter_params[:quarter]
+      # Apply filters
+      cx_collections = cx_collections.where(quarter: @quarter) if @quarter && @quarter != 0
+      cx_collections = cx_collections.where(fiscal_year: @year) if @year && @year != 0
+      cx_collections = cx_collections.where(aasm_state: @status) if @status && @status != 'All'
+      cx_collections = cx_collections
+        .order('organizations.name', :fiscal_year, :quarter, 'service_providers.name')
+        .includes(:organization, :service_provider)
 
       # Loop those CxCollections to get their Detail Record ids, and then get those responses
       cx_collections.each do |collection|
