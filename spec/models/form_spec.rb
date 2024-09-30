@@ -218,6 +218,19 @@ RSpec.describe Form, type: :model do
         expect(form.archived?).to eq(true)
       end
     end
+
+    context 'archive form' do
+      it 'records archived_at timestamp' do
+        expect(form.archived_at).to be_nil
+        form.archive
+        archived_at = form.archived_at
+        expect(archived_at).to_not be_nil
+        form.reset
+        form.publish
+        form.archive
+        expect(form.archived_at).to be > archived_at
+      end
+    end
   end
 
   describe '#duplicate!' do

@@ -435,6 +435,8 @@ Rails.application.routes.draw do
     get 'events', to: 'events#index', as: :events
     get 'events/export', to: 'events#export', as: :export_events
     get 'events/:id', to: 'events#show', as: :event
+    get 'retention', to: 'record_retention#index', as: :record_retention
+    get 'retention/export_form_managers', to: 'record_retention#export_form_managers', as: :record_retention_export
     root to: 'forms#index'
     get 'feed', to: 'submissions#feed', as: :feed
     get 'export_feed', to: 'submissions#export_feed', as: :export_feed
