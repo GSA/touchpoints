@@ -225,6 +225,7 @@ RSpec.describe Form, type: :model do
         form.archive
         archived_at = form.archived_at
         expect(archived_at).to_not be_nil
+        sleep 1
         form.reset
         form.publish
         form.archive
