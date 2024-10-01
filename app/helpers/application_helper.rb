@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'kramdown'
-require 'utilities/fiscal_year'
 
 module ApplicationHelper
   def suppress_main_layout_flash?

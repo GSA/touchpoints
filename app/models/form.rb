@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'csv'
-require 'utilities/fiscal_year'
 
 class Form < ApplicationRecord
   include AASM

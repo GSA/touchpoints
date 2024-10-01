@@ -1,7 +1,5 @@
 require 'rails_helper'
 
-require 'utilities/fiscal_year'
-
 describe FiscalYear do
   include ActiveSupport::Testing::TimeHelpers
 
