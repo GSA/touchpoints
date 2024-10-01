@@ -225,10 +225,11 @@ RSpec.describe Form, type: :model do
         form.archive
         archived_at = form.archived_at
         expect(archived_at).to_not be_nil
-        sleep 1
         form.reset
         form.publish
+        expect(form.aasm_state).to eq('published')
         form.archive
+        expect(form.aasm_state).to eq('archived')
         expect(form.archived_at).to be > archived_at
       end
     end
