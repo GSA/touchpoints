@@ -21,7 +21,7 @@ module Admin
       csv_content = CSV.generate(headers: false) do |csv|
         form_manager_emails.each { |email| csv << [email] }
       end
-      send_data csv_content, filename: "record-retention-form-manager-emails-#{timestamp_string}.txt"
+      send_data csv_content, filename: "record-retention-form-manager-emails-#{timestamp_string}.csv"
     end
   end
 end
