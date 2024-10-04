@@ -1,0 +1,45 @@
+<% content_for :navigation_title do %>
+  Record Retention
+<% end %>
+
+<p>
+  <%= link_to admin_dashboard_path do %>
+    <i class="fa fa-arrow-circle-left"></i>
+    Back to Admin Dashboard
+  <% end %>
+</p>
+
+<p>
+  Forms are deleted 3 years after the end of the fiscal year in which they become obsolete. A form is considered obsolete
+  once it has been archived.
+</p>
+<table class="usa-table">
+  <caption>
+    Archived forms to be deleted as of <%= Date.today.to_fs(:db) %>
+  </caption>
+  <thead>
+  <tr>
+    <th data-sortable scope="col">Name</th>
+    <th data-sortable scope="col" class="text-no-wrap">Created at</th>
+    <th data-sortable scope="col" class="text-no-wrap">Archived at</th>
+    <th scope="col">Form managers</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @forms_to_delete.each do |form| %>
+    <tr>
+      <td><%= link_to form.name, admin_form_path(form) %></td>
+      <td><%= form.created_at.to_date.to_fs(:db) %></td>
+      <td><%= form.archived_at.to_date.to_fs(:db) %></td>
+      <td><%= form.form_managers.map { |manager| manager.email }.join(", ")%></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<p>
+  <%= link_to admin_record_retention_export_path, class: "usa-button" do %>
+    <i class="fa fa-download"></i>
+    Export email list of form managers
+  <% end %>
+</p>

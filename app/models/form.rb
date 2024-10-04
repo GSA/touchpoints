@@ -186,7 +186,8 @@ class Form < ApplicationRecord
       transitions from: %i[created approved], to: :published
     end
     event :archive do
-      transitions from: %i[created published], to: :archived
+      transitions from: %i[created published], to: :archived,
+                  after: :set_archived_at
     end
     event :reset do
       transitions to: :created
@@ -733,6 +734,12 @@ class Form < ApplicationRecord
     (required_elements & array).length == required_elements.length
   end
 
+  def self.forms_whose_retention_period_has_passed
+    cutoff_year = FiscalYear.last_fiscal_year - 3
+    cutoff_date = FiscalYear.last_day_of_fiscal_quarter(cutoff_year, 4)
+    Form.where("aasm_state = 'archived'")
+        .where("archived_at < ?", cutoff_date)
+  end
 
   private
 
@@ -742,5 +749,9 @@ class Form < ApplicationRecord
 
   def set_approved_at
     self.update(approved_at: Time.current)
+  end
+
+  def set_archived_at
+    self.update(archived_at: Time.current)
   end
 end
