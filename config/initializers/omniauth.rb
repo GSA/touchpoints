@@ -18,6 +18,7 @@ Rails.configuration.x.omniauth.providers << :login_dot_gov
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :login_dot_gov, {
+    scope: "email openid all_emails",
     name: :login_dot_gov,
     client_id: ENV.fetch('LOGIN_GOV_CLIENT_ID'),
     idp_base_url: ENV.fetch('LOGIN_GOV_IDP_BASE_URL'),

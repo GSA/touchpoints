@@ -435,19 +435,17 @@ Rails.application.routes.draw do
     get 'events', to: 'events#index', as: :events
     get 'events/export', to: 'events#export', as: :export_events
     get 'events/:id', to: 'events#show', as: :event
+    get 'retention', to: 'record_retention#index', as: :record_retention
+    get 'retention/export_form_managers', to: 'record_retention#export_form_managers', as: :record_retention_export
     root to: 'forms#index'
     get 'feed', to: 'submissions#feed', as: :feed
     get 'export_feed', to: 'submissions#export_feed', as: :export_feed
   end
 
-  get 'registry', to: 'site#registry', as: :registry
-  get 'registry/guidance', to: 'site#registry_guidance'
-  post 'registry', to: 'site#registry_search_post', as: :search_registry
-  # get 'registry.csv', to: 'site#registry_export', as: :registry_export, format: :csv
-
   get 'profile', to: 'profile#show', as: :profile
   patch 'profile', to: 'profile#update', as: :profile_update
   get 'status', to: 'site#status', as: :status
+  get 'registry', to: 'site#registry', as: :registry
   get 'index', to: 'site#index', as: :index
   root to: redirect(ENV.fetch('INDEX_URL'))
 end
