@@ -22,6 +22,7 @@ class Form < ApplicationRecord
   validates :delivery_method, presence: true
   validates :anticipated_delivery_count, numericality: true, allow_nil: true
   validate :omb_number_with_expiration_date
+  validate :valid_form_kinds
   validate :target_for_delivery_method
   validate :ensure_modal_text
 
@@ -49,6 +50,25 @@ class Form < ApplicationRecord
     items = items.non_templates
     items = items.where(aasm_state: aasm_state) if aasm_state.present? && aasm_state != "all"
     items
+  end
+
+  def self.kinds
+    [
+      "a11",
+      "a11_v2", # launched fall 2023
+      "a11_yes_no",
+      "open_ended",
+      "other", # can be deprecated,
+      "recruiter",
+      "yes_no",
+      "custom"
+    ]
+  end
+
+  def valid_form_kinds
+    if !Form.kinds.include?(kind)
+      errors.add(:kind, "kind must be one of the following: #{Form.kinds.sort.join(', ')}")
+    end
   end
 
   def target_for_delivery_method
