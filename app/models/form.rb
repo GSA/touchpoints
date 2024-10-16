@@ -58,7 +58,7 @@ class Form < ApplicationRecord
       "a11_v2", # launched fall 2023
       "a11_yes_no",
       "open_ended",
-      "other", # can be deprecated,
+      "other", # TODO: deprecate in favor of custom,
       "recruiter",
       "yes_no",
       "custom"
