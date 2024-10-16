@@ -519,11 +519,11 @@ feature 'Forms', js: true do
               visit responses_admin_form_path(form)
             end
 
-            it 'display table list of Responses and Export CSV button link' do
+            it 'display table list of Responses and Export dropdown' do
               within('table.submissions') do
                 expect(page).to have_content(submission.answer_01)
               end
-              expect(page).to have_link('Export All Responses to CSV')
+              expect_responses_fiscal_year_dropdown
             end
           end
         end
@@ -538,12 +538,12 @@ feature 'Forms', js: true do
               visit responses_admin_form_path(a11_form)
             end
 
-            it 'display table list of Responses and Export CSV button link' do
+            it 'display table list of Responses and Export responses dropdown' do
               expect(page).to have_content('Customer Feedback Analysis')
               expect(page).to have_content('RESPONSES BY STATUS')
               expect(page).to have_content('Responses per day')
               expect(page).to have_content('Total submissions received over period')
-              expect(page).to have_link('Export All Responses to CSV')
+              expect_responses_fiscal_year_dropdown
               expect(page).to have_content('Performance.gov Reporting')
               expect(page).to have_content('Responses Summary')
             end
@@ -1663,11 +1663,11 @@ feature 'Forms', js: true do
       before do
         login_as(form_manager)
         visit responses_admin_form_path(form)
-        click_on "Export All Responses to CSV"
+        click_on "Export"
       end
 
       it 'includes form attributes' do
-        sleep 1.0
+        sleep 1.0 # TODO: remove, Remove all `sleep`s
         expect(page.current_path).to eq(responses_admin_form_path(form))
       end
     end
@@ -1712,7 +1712,7 @@ feature 'Forms', js: true do
             visit responses_admin_form_path(form)
           end
 
-          it 'display table list of Responses and Export CSV button link' do
+          it 'display table list of Responses and Export CSV dropdown' do
             within('table.submissions') do
               expect(page).to have_content(submission.answer_01)
             end
