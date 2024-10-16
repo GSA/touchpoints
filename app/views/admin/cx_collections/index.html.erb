@@ -33,7 +33,7 @@
 <% end %>
 
 <table class="usa-table width-full collections-summary">
-  <thead>
+  <thead class="font-sans-xs">
     <tr>
       <th>Active HISP Services</th>
       <th>Total Collections</th>
@@ -48,38 +48,37 @@
   <tbody>
     <tr>
       <td><%= Service.hisp.active.count %></td>
-      <td><%= CxCollection.count %></td>
-      <td><%= CxCollection.draft.count %></td>
-      <td><%= CxCollection.submitted.count %></td>
-      <td><%= CxCollection.published.count %></td>
-      <td><%= CxCollection.not_reported.count %></td>
-      <td><%= CxCollection.change_requested.count %></td>
+      <td><%= @all_cx_collections.count %></td>
+      <td><%= @all_cx_collections.draft.count %></td>
+      <td><%= @all_cx_collections.submitted.count %></td>
+      <td><%= @all_cx_collections.published.count %></td>
+      <td><%= @all_cx_collections.not_reported.count %></td>
+      <td><%= @all_cx_collections.change_requested.count %></td>
     </tr>
     <%- if @year || @quarter %>
-    <% collections_per_quarter = CxCollection.where(fiscal_year: @year, quarter: @quarter) %>
     <tr>
-      <td class="text-base text-sm">
-        for
-        <%- if @quarter != 0 && @quarter != 'All' %>
-        Q<%= params["quarter"] %>
-        <% end %>
-        <%- if @year != 0 && @year != 'All' %>
-        <%= params["year"] %>
+      <td class="text-base font-sans-2xs">
+        <% if @quarter.present? && @year.present? && @quarter.downcase != "all" && @year.downcase != "all" %>
+          for Q<%= @quarter %> FY<%= @year %>
+        <% elsif @quarter.present? && @quarter.downcase != "all" %>
+          for Q<%= @quarter %>
+        <% elsif @year.present? && @year.downcase != "all" %>
+          for FY<%= @year %>
         <% end %>
       </td>
-      <td><%= collections_per_quarter.count %></td>
-      <td><%= collections_per_quarter.draft.count %></td>
-      <td><%= collections_per_quarter.submitted.count %></td>
-      <td><%= collections_per_quarter.published.count %></td>
-      <td><%= collections_per_quarter.not_reported.count %></td>
-      <td><%= collections_per_quarter.change_requested.count %></td>
+      <td><%= @filtered_cx_collections.count %></td>
+      <td><%= @filtered_cx_collections.draft.count %></td>
+      <td><%= @filtered_cx_collections.submitted.count %></td>
+      <td><%= @filtered_cx_collections.published.count %></td>
+      <td><%= @filtered_cx_collections.not_reported.count %></td>
+      <td><%= @filtered_cx_collections.change_requested.count %></td>
     </tr>
     <% end %>
   </tbody>
 </table>
 
 <table class="usa-table collections width-full">
-  <thead>
+  <thead class="font-sans-xs">
     <tr>
       <th data-sortable scope="col">Organization</th>
       <th data-sortable scope="col">Service Provider (HISP)</th>
@@ -95,7 +94,7 @@
   </thead>
 
   <tbody>
-    <% @cx_collections.each do |collection| %>
+    <% @filtered_cx_collections.each do |collection| %>
       <tr>
         <td>
           <%= render "admin/organizations/badge", organization: collection.organization %>

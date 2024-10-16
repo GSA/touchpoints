@@ -12,7 +12,8 @@ module Admin
       @year = params[:year]
       @status = params[:aasm_state]
       scope = performance_manager_permissions? ? CxCollection : current_user.cx_collections
-      @cx_collections = CxCollection.filtered_collections(scope, @quarter, @year, @status)
+      @all_cx_collections = scope.all
+      @filtered_cx_collections = scope.filtered_collections(scope, @quarter, @year, @status)
     end
 
     def show
