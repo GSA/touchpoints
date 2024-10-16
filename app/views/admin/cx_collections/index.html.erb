@@ -55,16 +55,10 @@
       <td><%= @all_cx_collections.not_reported.count %></td>
       <td><%= @all_cx_collections.change_requested.count %></td>
     </tr>
-    <%- if @year || @quarter %>
+    <%- if cx_collections_filters_applied?(@quarter, @year, @status) %>
     <tr>
       <td class="text-base font-sans-2xs">
-        <% if @quarter.present? && @year.present? && @quarter.downcase != "all" && @year.downcase != "all" %>
-          for Q<%= @quarter %> FY<%= @year %>
-        <% elsif @quarter.present? && @quarter.downcase != "all" %>
-          for Q<%= @quarter %>
-        <% elsif @year.present? && @year.downcase != "all" %>
-          for FY<%= @year %>
-        <% end %>
+        <%= cx_collections_filter_message(@quarter, @year, @status) %>
       </td>
       <td><%= @filtered_cx_collections.count %></td>
       <td><%= @filtered_cx_collections.draft.count %></td>

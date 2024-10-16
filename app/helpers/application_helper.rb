@@ -90,6 +90,30 @@ module ApplicationHelper
     }[status]
   end
 
+  def cx_collections_filters_applied?(quarter, year, status)
+    [quarter, year, status].any? { |param| param.present? && param.downcase != "all" }
+  end
+
+  def cx_collections_filter_message(quarter, year, status)
+    parts = []
+
+    if quarter.present? && quarter.downcase != "all"
+      parts << "Q#{quarter}"
+    end
+
+    if year.present? && year.downcase != "all"
+      parts << "FY#{year}"
+    end
+
+    if status.present? && status.downcase != "all"
+      parts << status
+    end
+
+    return "" if parts.empty?
+
+    "for " + parts.join(" ")
+  end
+
   # Returns javascript to capture form input for one Form Question
   def question_type_javascript_params(question)
     if question.question_type == 'text_field'
