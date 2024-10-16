@@ -103,6 +103,7 @@ module Admin
       ServiceProvider.active.includes(:organization).order('organizations.name', :name).each do |service_provider|
         service_provider.services.includes(:organization).order('organizations.name', :name).each do |service|
           if params[:quarter]
+            # TODO
             @collections = service.collections.where(quarter: params[:quarter])
           else
             @collections = service.collections

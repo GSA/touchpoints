@@ -72,13 +72,6 @@ class UserMailer < ApplicationMailer
          to: (UserMailer.touchpoints_admin_emails + User.service_managers.collect(&:email)).uniq
   end
 
-  def collection_notification(collection_id:)
-    set_logo
-    @collection = Collection.find(collection_id)
-    mail subject: "Data Collection notification to #{@collection.name}",
-         to: (UserMailer.touchpoints_admin_emails + User.performance_managers.collect(&:email)).uniq
-  end
-
   def cx_collection_notification(cx_collection_id:)
     set_logo
     @cx_collection = CxCollection.find(cx_collection_id)
@@ -102,9 +95,9 @@ class UserMailer < ApplicationMailer
 
   def quarterly_performance_notification(collection_id:)
     set_logo
-    @collection = Collection.find(collection_id)
-    mail subject: "Quarterly Performance Data Collection Ready: #{@collection.name}",
-         to: @collection.user.email,
+    @cx_collection = CxCollection.find(collection_id)
+    mail subject: "Quarterly Performance Data Collection Ready: #{@cx_collection.name}",
+         to: @cx_collection.user.email,
          cc: User.performance_managers.collect(&:email).uniq
   end
 
