@@ -6,20 +6,20 @@
   <% end %>
 <% end %>
 
-<%= form_with(url: admin_cx_collections_path(year: params[:year], quarter: params[:quarter], aasm_state: params[:aasm_state]), class: "record-filter", method: :get, local: true) do %>
+<%= form_with(url: admin_cx_collections_path(year: @year, quarter: @quarter, aasm_state: @status), class: "record-filter", method: :get, local: true) do %>
   <div class="usa-form-group display-inline-block">
     <%= label_tag :year, "Year", class: "font-sans-2xs" %>
-    <%= select_tag :year, options_for_select(["All"] + (2023..Date.current.year + 1).to_a.reverse, selected: params[:year]), class: "usa-select" %>
+    <%= select_tag :year, options_for_select(["All"] + (2023..Date.current.year + 1).to_a.reverse, selected: @year), class: "usa-select" %>
   </div>
 
   <div class="usa-form-group display-inline-block">
     <%= label_tag :quarter, "Quarter", class: "font-sans-2xs" %>
-    <%= select_tag :quarter, options_for_select([['All'], ['1', 1], ['2', 2], ['3', 3], ['4', 4]], selected: params[:quarter]), class: "usa-select" %>
+    <%= select_tag :quarter, options_for_select([['All'], ['1', 1], ['2', 2], ['3', 3], ['4', 4]], selected: @quarter), class: "usa-select" %>
   </div>
 
   <div class="usa-form-group display-inline-block">
     <%= label_tag :aasm_state, "Status", class: "font-sans-2xs" %>
-    <%= select_tag :aasm_state, options_for_select(["All"] + CxCollection.aasm.states.collect(&:name), selected: params[:aasm_state]), class: "usa-select" %>
+    <%= select_tag :aasm_state, options_for_select(["All"] + CxCollection.aasm.states.collect(&:name), selected: @status), class: "usa-select" %>
   </div>
 
   <div class="usa-form-group display-inline-block">
@@ -123,6 +123,6 @@
     <%= link_to "Download OMB CX Data Reporting Collections as .csv", export_csv_admin_cx_collection_details_path, class: "usa-button" %>
   </p>
   <p>
-    <%= link_to "Download CX Responses", export_cx_responses_csv_admin_cx_collections_path(year: params[:year], quarter: params[:quarter]), class: "usa-button" %>
+    <%= link_to "Download CX Responses", export_cx_responses_csv_admin_cx_collections_path(year: @year, quarter: @quarter), class: "usa-button" %>
   </p>
 <% end %>
