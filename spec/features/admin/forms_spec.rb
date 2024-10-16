@@ -1716,7 +1716,7 @@ feature 'Forms', js: true do
             within('table.submissions') do
               expect(page).to have_content(submission.answer_01)
             end
-            expect(page).to have_link('Export All Responses to CSV')
+            expect_responses_fiscal_year_dropdown
           end
         end
       end
