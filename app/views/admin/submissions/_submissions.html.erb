@@ -1,18 +1,28 @@
 <% @tags = form.submission_tags %>
 
-<button id="button-toggle-table-display-options" type="button" class="font-sans-2xs margin-bottom-1">
+<button
+  id="button-toggle-table-display-options"
+  type="button"
+  class="font-sans-2xs margin-bottom-1 usa-button usa-button--outline">
   <i class="fa fa-cog"></i>
   Toggle display options
 </button>
-<div id="table-display-options" class="well hide">
+<div
+  id="table-display-options"
+  class="well hide">
+  <div class="text-bold">
+    Display options
+  </div>
   <%= render 'admin/forms/ui_form', form: form %>
 </div>
 
 <%- if @tags.any? %>
 <div class="well margin-top-1">
   <div class="field">
-    <p>
-      Filter by tag
+    <div>
+      <div class="margin-bottom-1">
+        Filter by tag
+      </div>
       <%- if params[:tag].present? %>
         &middot;
         <a href="javascript:void(0)"
@@ -23,7 +33,7 @@
           </span>
         </a>
       <% end %>
-    </p>
+    </div>
     <div class="tag-list">
       <% @tags.uniq.each do |tag| %>
         <a href="javascript:void(0)"
@@ -157,8 +167,8 @@
 </p>
 <script>
   $(function() {
-    $(".search-tag-link").on("click", function() {
-      event.preventDefault();
+    $(".search-tag-link").on("click", function(e) {
+      e.preventDefault();
       <%- if params[:archived] %>
         var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>&archived=1&tag=' + $(this).attr("data-name");
       <% else %>
@@ -170,8 +180,8 @@
       });
     });
 
-    $(".clear-tag-link").on("click", function() {
-      event.preventDefault();
+    $(".clear-tag-link").on("click", function(e) {
+      e.preventDefault();
       <%- if params[:archived] %>
         var url = '/admin/submissions/search?form_id=<%= form.short_uuid %>&archived=1';
       <% else %>
