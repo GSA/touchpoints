@@ -8,7 +8,6 @@ module Admin
       submit approve verify archive reset
       destroy
       equity_assessment
-      omb_cx_reporting
       add_tag
       remove_tag
       add_service_manager
@@ -85,7 +84,6 @@ module Admin
     end
 
     def show
-      @omb_cx_reporting_collections = @service.omb_cx_reporting_collections.includes(:collection).order('collections.year', 'collections.quarter')
       @cx_collections = @service.cx_collections
     end
 
@@ -216,8 +214,6 @@ module Admin
     end
 
     def equity_assessment; end
-
-    def omb_cx_reporting; end
 
     private
 
