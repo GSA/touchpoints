@@ -526,7 +526,7 @@ end
       form: a11_v2_form,
       answer_01: 0,
       answer_03: random_options.join(','),
-      answer_04: ' Negative free text'
+      answer_04: 'Negative free text'
     })
   end
 end

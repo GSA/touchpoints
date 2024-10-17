@@ -35,13 +35,13 @@
         Questions
       </th>
       <th data-sortable scope="col">
-        Activations
-      </th>
-      <th data-sortable scope="col">
         Responses
       </th>
       <th data-sortable scope="col">
-        Completion Rate
+        Form type
+      </th>
+      <th data-sortable scope="col">
+        Created at
       </th>
       <th data-sortable scope="col"
         data-type="status">
@@ -67,29 +67,29 @@
       <td>
         <%= form.questions_count %>
       </td>
-      <td data-sort-value="<%= form.survey_form_activations %>">
-        <%= number_with_delimiter(form.survey_form_activations) %>
-      </td>
       <td data-sort-value="<%= form.response_count %>">
         <%= number_with_delimiter(form.response_count) %>
       </td>
       <td>
-        <%= form.completion_rate %>
+        <%= form.kind %>
+      </td>
+      <td data-sort-value="<%= form.created_at.to_i %>">
+        <%= form.created_at.to_date %>
       </td>
       <td>
-        <%- if form.published? %>
-        <span class="usa-tag bg-green">
-          <%= form.aasm_state %>
-        </span>
-        <% elsif form.created? %>
+      <%- if form.created? %>
         <span class="usa-tag bg-cyan">
           <%= form.aasm_state %>
         </span>
-        <% else %>
+      <%- elsif form.published? %>
+        <span class="usa-tag bg-green">
+          <%= form.aasm_state %>
+        </span>
+      <% else %>
         <span class="usa-tag">
           <%= form.aasm_state %>
         </span>
-        <% end %>
+      <% end %>
       </td>
       <td>
         <ul class="usa-nav__primary float-menu usa-accordion">

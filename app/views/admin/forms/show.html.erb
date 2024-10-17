@@ -32,11 +32,24 @@
 
 <div class="grid-row grid-gap-lg">
   <div class="desktop:grid-col-8">
-    <div class="margin-bottom-3">
+    <div class="margin-bottom-2">
       <strong class="font-sans-3xl">
         <%= pluralize number_with_delimiter(@form.response_count), "response" %>
       </strong>
       <br>
+      <div>
+        <%- if @form.last_response_created_at.present? %>
+        <small>
+          <span class="text-base">
+            <%= link_to "Activations", "https://github.com/GSA/touchpoints/wiki/Analytics-Events", class: "text-no-underline" %>:
+            <%= @form.survey_form_activations %>
+            &middot;
+            Completion rate:
+            <%= @form.completion_rate %>
+          </span>
+        </small>
+        <% end %>
+      </div>
       <%- if @form.last_response_created_at.present? %>
       <small>
         <span class="text-base">
@@ -77,12 +90,10 @@
             </ul>
             <% else %>
               <div class="font-sans-2xs text-base usa-prose">
-                <p>
-                  No Form Managers are assigned to this form.
-                  <br>
-                  Update this form's
-                  <%= link_to "Permissions", permissions_admin_form_path(@form) %>.
-                </p>
+                No Form Managers are assigned to this form.
+                <br>
+                Update this form's
+                <%= link_to "Permissions", permissions_admin_form_path(@form) %>.
               </div>
             <% end %>
           </p>
@@ -98,9 +109,7 @@
             </ul>
             <% else %>
               <div class="font-sans-2xs text-base usa-prose">
-                <p>
-                  No Response Viewers are assigned to this form.
-                </p>
+                No Response Viewers are assigned to this form.
               </div>
             <% end %>
           </p>

@@ -2,19 +2,31 @@
   <div id="submissions_table">
     <%= render 'admin/submissions/submissions', submissions: submissions, form: form %>
   </div>
-  <br>
-  <%= link_to export_admin_form_url(form, start_date: "2019-10-01"), class: "usa-button" do %>
-    <i class="fa fa-download"></i>
-    Export All Responses to CSV
-  <% end %>
-  <br>
-  <p>
-    <%= link_to "Export FY2020", export_admin_form_url(form, start_date: "2019-10-01", end_date: "2020-09-30"), class: "usa-button usa-button--outline" %>
-    <%= link_to "Export FY2021", export_admin_form_url(form, start_date: "2020-10-01", end_date: "2021-09-30"), class: "usa-button usa-button--outline" %>
-    <%= link_to "Export FY2022", export_admin_form_url(form, start_date: "2021-10-01", end_date: "2022-09-30"), class: "usa-button usa-button--outline" %>
-    <%= link_to "Export FY2023", export_admin_form_url(form, start_date: "2022-10-01", end_date: "2023-09-30"), class: "usa-button usa-button--outline" %>
-    <%= link_to "Export FY2024", export_admin_form_url(form, start_date: "2023-10-01", end_date: "2024-09-30"), class: "usa-button usa-button--outline" %>
-  </p>
+  <div class="font-sans-lg margin-top-3 padding-top-2 border-top border-base-lighter">
+    Export responses
+  </div>
+  <div>
+    <%= form_with(url: export_admin_form_path(@form), class: "usa-form", method: :get, local: true) do %>
+      <div class="usa-form-group display-inline-block">
+        <label for="fiscal_year">Select Fiscal Year:</label>
+        <select id="fiscal_year" class="usa-select"  name="fiscal_year" onchange="updateExportLink()">
+          <option value="all" data-start="2019-10-01" data-end="2025-09-30">All</option>
+          <option value="2025" data-start="2024-10-01" data-end="2025-09-30">2025</option>
+          <option value="2024" data-start="2023-10-01" data-end="2024-09-30">2024</option>
+          <option value="2023" data-start="2022-10-01" data-end="2023-09-30">2023</option>
+          <option value="2022" data-start="2021-10-01" data-end="2022-09-30">2022</option>
+          <option value="2021" data-start="2020-10-01" data-end="2021-09-30">2021</option>
+          <option value="2020" data-start="2019-10-01" data-end="2020-09-30">2020</option>
+        </select>
+
+        <input type="hidden" id="start_date" name="start_date" value="2019-10-01">
+        <input type="hidden" id="end_date" name="end_date" value="2025-09-30">
+      </div>
+      <div class="usa-form-group display-inline-block">
+        <button type="submit" class="usa-button usa-button--outline">Export</button>
+      </div>
+    <% end %>
+  </div>
   <%- if form.kind == "a11_v2" %>
   <div class="margin-top-6">
     <span class="usa-tag">
@@ -49,6 +61,13 @@
       return string;
     }
   }
+
+  function updateExportLink() {
+    const selectedOption = document.getElementById('fiscal_year').selectedOptions[0];
+    document.getElementById('start_date').value = selectedOption.getAttribute('data-start');
+    document.getElementById('end_date').value = selectedOption.getAttribute('data-end');
+  }
+
   // When mousing over a cell with long text, show it all
   // When mousing out, display 50 characters max
   $(function() {
