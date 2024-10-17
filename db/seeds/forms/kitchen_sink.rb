@@ -6,7 +6,7 @@ module Seeds
       custom_form = Form.create({
         organization: Organization.first,
         template: true,
-        kind:  "kitchen sink",
+        kind:  "custom",
         notes: "An example form that uses one of every form element",
         name: "Kitchen Sink Form Template",
         title: "Kitchen Sink Form 🧼",

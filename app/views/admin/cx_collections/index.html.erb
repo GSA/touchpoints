@@ -6,20 +6,20 @@
   <% end %>
 <% end %>
 
-<%= form_with(url: admin_cx_collections_path(year: params[:year], quarter: params[:quarter], aasm_state: params[:aasm_state]), class: "record-filter", method: :get, local: true) do %>
+<%= form_with(url: admin_cx_collections_path(year: @year, quarter: @quarter, aasm_state: @status), class: "record-filter", method: :get, local: true) do %>
   <div class="usa-form-group display-inline-block">
     <%= label_tag :year, "Year", class: "font-sans-2xs" %>
-    <%= select_tag :year, options_for_select(["All"] + (2023..Date.current.year + 1).to_a.reverse, selected: params[:year]), class: "usa-select" %>
+    <%= select_tag :year, options_for_select(["All"] + (2023..Date.current.year + 1).to_a.reverse, selected: @year), class: "usa-select" %>
   </div>
 
   <div class="usa-form-group display-inline-block">
     <%= label_tag :quarter, "Quarter", class: "font-sans-2xs" %>
-    <%= select_tag :quarter, options_for_select([['All'], ['1', 1], ['2', 2], ['3', 3], ['4', 4]], selected: params[:quarter]), class: "usa-select" %>
+    <%= select_tag :quarter, options_for_select([['All'], ['1', 1], ['2', 2], ['3', 3], ['4', 4]], selected: @quarter), class: "usa-select" %>
   </div>
 
   <div class="usa-form-group display-inline-block">
     <%= label_tag :aasm_state, "Status", class: "font-sans-2xs" %>
-    <%= select_tag :aasm_state, options_for_select(["All"] + CxCollection.aasm.states.collect(&:name), selected: params[:aasm_state]), class: "usa-select" %>
+    <%= select_tag :aasm_state, options_for_select(["All"] + CxCollection.aasm.states.collect(&:name), selected: @status), class: "usa-select" %>
   </div>
 
   <div class="usa-form-group display-inline-block">
@@ -33,7 +33,7 @@
 <% end %>
 
 <table class="usa-table width-full collections-summary">
-  <thead>
+  <thead class="font-sans-xs">
     <tr>
       <th>Active HISP Services</th>
       <th>Total Collections</th>
@@ -48,38 +48,31 @@
   <tbody>
     <tr>
       <td><%= Service.hisp.active.count %></td>
-      <td><%= CxCollection.count %></td>
-      <td><%= CxCollection.draft.count %></td>
-      <td><%= CxCollection.submitted.count %></td>
-      <td><%= CxCollection.published.count %></td>
-      <td><%= CxCollection.not_reported.count %></td>
-      <td><%= CxCollection.change_requested.count %></td>
+      <td><%= @all_cx_collections.count %></td>
+      <td><%= @all_cx_collections.draft.count %></td>
+      <td><%= @all_cx_collections.submitted.count %></td>
+      <td><%= @all_cx_collections.published.count %></td>
+      <td><%= @all_cx_collections.not_reported.count %></td>
+      <td><%= @all_cx_collections.change_requested.count %></td>
     </tr>
-    <%- if @year || @quarter %>
-    <% collections_per_quarter = CxCollection.where(fiscal_year: @year, quarter: @quarter) %>
+    <%- if cx_collections_filters_applied?(@quarter, @year, @status) %>
     <tr>
-      <td class="text-base text-sm">
-        for
-        <%- if @quarter != 0 %>
-        Q<%= params["quarter"] %>
-        <% end %>
-        <%- if @year != 0 %>
-        <%= params["year"] %>
-        <% end %>
+      <td class="text-base font-sans-2xs">
+        <%= cx_collections_filter_message(@quarter, @year, @status) %>
       </td>
-      <td><%= collections_per_quarter.count %></td>
-      <td><%= collections_per_quarter.draft.count %></td>
-      <td><%= collections_per_quarter.submitted.count %></td>
-      <td><%= collections_per_quarter.published.count %></td>
-      <td><%= collections_per_quarter.not_reported.count %></td>
-      <td><%= collections_per_quarter.change_requested.count %></td>
+      <td><%= @filtered_cx_collections.count %></td>
+      <td><%= @filtered_cx_collections.draft.count %></td>
+      <td><%= @filtered_cx_collections.submitted.count %></td>
+      <td><%= @filtered_cx_collections.published.count %></td>
+      <td><%= @filtered_cx_collections.not_reported.count %></td>
+      <td><%= @filtered_cx_collections.change_requested.count %></td>
     </tr>
     <% end %>
   </tbody>
 </table>
 
 <table class="usa-table collections width-full">
-  <thead>
+  <thead class="font-sans-xs">
     <tr>
       <th data-sortable scope="col">Organization</th>
       <th data-sortable scope="col">Service Provider (HISP)</th>
@@ -95,7 +88,7 @@
   </thead>
 
   <tbody>
-    <% @cx_collections.each do |collection| %>
+    <% @filtered_cx_collections.each do |collection| %>
       <tr>
         <td>
           <%= render "admin/organizations/badge", organization: collection.organization %>
@@ -130,6 +123,6 @@
     <%= link_to "Download OMB CX Data Reporting Collections as .csv", export_csv_admin_cx_collection_details_path, class: "usa-button" %>
   </p>
   <p>
-    <%= link_to "Download CX Responses", export_cx_responses_csv_admin_cx_collections_path, class: "usa-button" %>
+    <%= link_to "Download CX Responses", export_cx_responses_csv_admin_cx_collections_path(year: @year, quarter: @quarter), class: "usa-button" %>
   </p>
 <% end %>

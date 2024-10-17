@@ -75,6 +75,32 @@ RSpec.describe Form, type: :model do
     end
   end
 
+  describe '#kinds' do
+    context 'invalid form kind' do
+      let!(:form_with_invalid_kind) { FactoryBot.build(:form, organization:, kind: "some_non_valid_kind") }
+
+      before do
+        form_with_invalid_kind.save
+      end
+
+      it 'adds an error for kind' do
+        expect(form_with_invalid_kind.errors.messages[:kind]).to eq(['kind must be one of the following: a11, a11_v2, a11_yes_no, custom, open_ended, other, recruiter, yes_no'])
+      end
+    end
+
+    context 'valid form kind' do
+      let!(:form_with_valid_kind) { FactoryBot.build(:form, organization:, kind: "open_ended") }
+
+      before do
+        form_with_valid_kind.save
+      end
+
+      it 'ensure valid form kind' do
+        expect(form_with_valid_kind.errors).to be_empty
+      end
+    end
+  end
+
   describe '#short_uuid' do
     context 'newly created Form' do
       it 'is assigned an 8-char short_uuid' do

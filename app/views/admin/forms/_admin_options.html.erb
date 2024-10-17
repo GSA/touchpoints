@@ -36,7 +36,7 @@
       <div class="grid-col-12">
         <div class="field">
           <%= f.label :kind, class: "usa-label" %>
-          <%= f.select :kind, options_for_select(["a11", "a11_v2", "a11_yes_no", "open_ended", "other"], selected: @form.kind), { include_blank: true }, class: "usa-select" %>
+          <%= f.select :kind, options_for_select(Form.kinds, selected: @form.kind), { include_blank: true }, class: "usa-select" %>
         </div>
       </div>
       <div class="grid-col-12 padding-top-2">

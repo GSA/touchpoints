@@ -8,19 +8,12 @@ module Admin
     ]
 
     def index
-      @quarter = params[:quarter]&.to_i
-      @year = params[:year]&.to_i
+      @quarter = params[:quarter]
+      @year = params[:year]
       @status = params[:aasm_state]
-
-      collection_scope = performance_manager_permissions? ? CxCollection : current_user.cx_collections
-
-      @cx_collections = collection_scope
-      @cx_collections = @cx_collections.where(quarter: @quarter) if @quarter && @quarter != 0
-      @cx_collections = @cx_collections.where(fiscal_year: @year) if @year && @year != 0
-      @cx_collections = @cx_collections.where(aasm_state: @status) if @status && @status != 'All'
-      @cx_collections = @cx_collections
-        .order('organizations.name', :fiscal_year, :quarter, 'service_providers.name')
-        .includes(:organization, :service_provider)
+      scope = performance_manager_permissions? ? CxCollection : current_user.cx_collections
+      @all_cx_collections = scope.all
+      @filtered_cx_collections = scope.filtered_collections(scope, @quarter, @year, @status)
     end
 
     def show
@@ -39,7 +32,21 @@ module Admin
     def export_cx_responses_csv
       ensure_service_manager_permissions
 
-      @responses = CxResponse.all
+      @quarter = params[:quarter]
+      @year = params[:year]
+      @status = params[:aasm_state]
+
+      scope = performance_manager_permissions? ? CxCollection : current_user.cx_collections
+      cx_collections = CxCollection.filtered_collections(scope, @quarter, @year, @status)
+
+      @cx_collection_detail_ids = []
+      # Loop those CxCollections to get their Detail Record ids, and then get those responses
+      cx_collections.each do |collection|
+        collection.cx_collection_details.each do |collection_detail|
+          @cx_collection_detail_ids << collection_detail.id
+        end
+      end
+      @responses = CxResponse.where(cx_collection_detail_id: @cx_collection_detail_ids)
       send_data @responses.to_csv, filename: "touchpoints-data-cx-responses-#{Date.today}.csv"
     end
 
@@ -153,6 +160,15 @@ module Admin
             :quarter,
             :aasm_state,
             :rating
+          )
+      end
+
+      def filter_params
+        params
+          .permit(
+            :year,
+            :quarter,
+            :aasm_state,
           )
       end
   end

@@ -2,7 +2,7 @@ module Seeds
   module Forms
     def self.yes_no
       # Create the yes/no buttons form
-      form = Form.create({
+      form = Form.create!({
         organization: Organization.first,
         template: true,
         kind:  "yes_no",

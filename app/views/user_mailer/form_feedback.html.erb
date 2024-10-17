@@ -5,7 +5,7 @@
 <p>
     The form was created <%= time_ago_in_words(@form.created_at) %> ago.
     <br>
-    The form received <%= @form.response_count %> responses.
+    The form received <%= number_with_delimiter(@form.response_count) %> responses.
 </p>
 <p>
     Please take this <%= link_to "short survey", @feedback_url %>
