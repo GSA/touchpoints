@@ -42,6 +42,7 @@ embeddedWidgetPath = './app/views/components/widget';
 async function bundleWidgetJS() {
   return browserify("uswds/widget-uswds.js", {
     paths: ['./node_modules'],
+    standalone: 'fbaUswds'
   })
     .transform("babelify", {
       global: true,

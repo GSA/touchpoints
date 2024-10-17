@@ -663,7 +663,24 @@ const touchpointFormOptions<%= form.short_uuid %> = {
 // Create an instance of a Touchpoints form object
 const touchpointForm<%= form.short_uuid %> = new FBAform(document, window).init(touchpointFormOptions<%= form.short_uuid %>);
 
-// Include USWDS JS if required
 <%- if form.load_css && form.delivery_method != "touchpoints-hosted-only" %>
+
+// Load the USWDS JS, loads as module 'fbaUswds' in global scope
 <%= render partial: 'components/widget/widget-uswds', formats: :js %>
+
+// Initialize any USWDS components used in this form
+(function () {
+	const formId = "touchpoints-form-<%= form.short_uuid %>";
+	const fbaFormElement = document.querySelector(`#${formId}`);
+	if (fbaFormElement) {
+		fbaUswds.ComboBox.on(fbaFormElement);
+		fbaUswds.DatePicker.on(fbaFormElement);
+	}
+	const modalId = "fba-modal-<%= form.short_uuid %>";
+	const fbaModalElement = document.querySelector(`#${modalId}`);
+	if (fbaModalElement) {
+		fbaUswds.Modal.on(fbaModalElement);
+	}
+})();
+
 <% end %>
