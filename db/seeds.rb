@@ -254,7 +254,7 @@ service_5 = Service.create!({
 form_that_belongs_to_a_service = Form.create!({
   organization: example_gov,
   template: false,
-  kind: 'open ended',
+  kind: 'open_ended',
   notes: "An open-ended Feedback Form related to #{service_5.name}",
   name: 'Open-ended Feedback',
   title: "An open-ended Feedback Form related to #{service_5.name}",
@@ -331,7 +331,7 @@ ServiceStageBarrier.create({
 open_ended_form = Form.create!({
   organization: example_gov,
   template: true,
-  kind: 'open ended',
+  kind: 'open_ended',
   notes: 'An open-ended Feedback Form useful for general website and program feedback.',
   name: 'Open-ended Feedback',
   title: 'Custom Open-ended Title',
@@ -394,7 +394,7 @@ Question.create!({
 open_ended_form_with_contact_information = Form.create!({
   organization: example_gov,
   template: true,
-  kind: 'open ended with contact information',
+  kind: 'open_ended',
   notes: 'An open-ended feedback form with information to follow up with the user.',
   name: 'Open Ended Form with Contact Information',
   title: '',
@@ -526,7 +526,7 @@ end
       form: a11_v2_form,
       answer_01: 0,
       answer_03: random_options.join(','),
-      answer_04: ' Negative free text'
+      answer_04: 'Negative free text'
     })
   end
 end
