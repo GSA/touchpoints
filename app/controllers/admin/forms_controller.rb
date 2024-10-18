@@ -269,6 +269,7 @@ module Admin
       @form.success_text_heading = t('success')
       @form.success_text = t('form.submit_thankyou')
       @form.delivery_method = 'touchpoints-hosted-only'
+      @form.kind = 'custom'
       @form.load_css = true
 
       respond_to do |format|
