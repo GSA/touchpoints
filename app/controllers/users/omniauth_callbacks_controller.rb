@@ -38,7 +38,11 @@ module Users
 
       # If user exists
       # Else, if valid email and no user, we create an account.
-      if @user.errors.blank?
+      if @user.blank?
+        message = "Email #{@email} failed to authenticate on #{Date.today} via #{@kind}"
+        Event.log_event(Event.names[:user_authentication_failure], 'Event::Generic', 1, message)
+        redirect_to index_path, alert: message
+      elsif @user.errors.blank?
         Event.log_event(Event.names[:user_authentication_successful], 'User', @user.id, "User #{@user.email} successfully authenticated on #{Date.today}", @user.id)
         sign_in_and_redirect(:user, @user)
       elsif @user.errors.present?
