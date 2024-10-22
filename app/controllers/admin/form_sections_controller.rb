@@ -2,7 +2,7 @@
 
 module Admin
   class FormSectionsController < AdminController
-    before_action :set_form, only: %i[new create show edit update destroy]
+    before_action :set_form, only: %i[new create edit update destroy]
     before_action :set_form_section, only: %i[edit update destroy]
 
     def new
