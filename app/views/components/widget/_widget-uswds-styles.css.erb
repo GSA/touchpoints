@@ -266,6 +266,7 @@
   text-align:left;
   margin:0;
   padding:0;
+  width:auto;
   color:#1b1b1b;
   background-color:#f0f0f0;
   background-image:url("<%= root_url %>img/usa-icons/remove.svg"), linear-gradient(transparent, transparent);
@@ -401,22 +402,12 @@
   font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
   font-size:1.06rem;
   line-height:1.5;
-  margin-left:auto;
-  margin-right:auto;
-  max-width:64rem;
   padding-bottom:1rem;
   padding-top:1rem;
-  padding-left:1rem;
-  padding-right:1rem;
   position:relative;
 }
 .fba-modal-dialog .usa-alert .usa-alert__body::after, .fba-modal-dialog .usa-alert .usa-alert__body::before, .fba-modal-dialog .usa-alert .usa-alert__body *, .fba-modal-dialog .usa-alert .usa-alert__body *::after, .fba-modal-dialog .usa-alert .usa-alert__body *::before{
   box-sizing:inherit;
-}
-@media all and (min-width: 64em){
-  .fba-modal-dialog .usa-alert .usa-alert__body{
-    padding-left:1.8333333333rem;
-  }
 }
 .fba-modal-dialog .usa-alert .usa-alert__text{
   margin-bottom:0;
@@ -441,6 +432,13 @@
 .fba-modal-dialog .usa-alert .usa-alert__body > .usa-list:last-child{
   margin-bottom:0;
 }
+.fba-modal-dialog .usa-alert .usa-alert__body{
+  padding-left:1.25rem;
+  padding-right:1.25rem;
+}
+.fba-modal-dialog .usa-alert .usa-alert__body::before{
+  left:1.0833333333rem;
+}
 .fba-modal-dialog * + .usa-alert{
   margin-top:1rem;
 }
@@ -451,7 +449,10 @@
 .fba-modal-dialog .usa-alert--success .usa-alert__body{
   color:#1b1b1b;
   background-color:#ecf3ec;
-  padding-left:2.9166666667rem;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-height:3.3333333333rem;
 }
 .fba-modal-dialog .usa-alert--success .usa-alert__body::before{
   background-image:url("<%= root_url %>img/usa-icons/check_circle.svg");
@@ -463,9 +464,8 @@
   width:2rem;
   content:"";
   display:block;
-  left:0.5rem;
   position:absolute;
-  top:0.75rem;
+  top:0.6666666667rem;
 }
 @supports ((-webkit-mask: url("")) or (mask: url(""))){
   .fba-modal-dialog .usa-alert--success .usa-alert__body::before{
@@ -481,16 +481,8 @@
             mask-size:2rem 2rem;
   }
 }
-@media all and (min-width: 64em){
-  .fba-modal-dialog .usa-alert--success .usa-alert__body::before{
-    left:1.5rem;
-  }
-}
-@media all and (min-width: 64em){
-  .fba-modal-dialog .usa-alert--success .usa-alert__body{
-    padding-left:4rem;
-    padding-right:4rem;
-  }
+.fba-modal-dialog .usa-alert--success .usa-alert__body > *{
+  margin-left:2.5rem;
 }
 .fba-modal-dialog .usa-alert--success .usa-alert__body .usa-link{
   color:#005ea2;
@@ -508,7 +500,10 @@
 .fba-modal-dialog .usa-alert--warning .usa-alert__body{
   color:#1b1b1b;
   background-color:#faf3d1;
-  padding-left:2.9166666667rem;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-height:3.3333333333rem;
 }
 .fba-modal-dialog .usa-alert--warning .usa-alert__body::before{
   background-image:url("<%= root_url %>img/usa-icons/warning.svg");
@@ -520,9 +515,8 @@
   width:2rem;
   content:"";
   display:block;
-  left:0.5rem;
   position:absolute;
-  top:0.75rem;
+  top:0.6666666667rem;
 }
 @supports ((-webkit-mask: url("")) or (mask: url(""))){
   .fba-modal-dialog .usa-alert--warning .usa-alert__body::before{
@@ -538,16 +532,8 @@
             mask-size:2rem 2rem;
   }
 }
-@media all and (min-width: 64em){
-  .fba-modal-dialog .usa-alert--warning .usa-alert__body::before{
-    left:1.5rem;
-  }
-}
-@media all and (min-width: 64em){
-  .fba-modal-dialog .usa-alert--warning .usa-alert__body{
-    padding-left:4rem;
-    padding-right:4rem;
-  }
+.fba-modal-dialog .usa-alert--warning .usa-alert__body > *{
+  margin-left:2.5rem;
 }
 .fba-modal-dialog .usa-alert--warning .usa-alert__body .usa-link{
   color:#005ea2;
@@ -565,7 +551,10 @@
 .fba-modal-dialog .usa-alert--error .usa-alert__body{
   color:#1b1b1b;
   background-color:#f4e3db;
-  padding-left:2.9166666667rem;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-height:3.3333333333rem;
 }
 .fba-modal-dialog .usa-alert--error .usa-alert__body::before{
   background-image:url("<%= root_url %>img/usa-icons/error.svg");
@@ -577,9 +566,8 @@
   width:2rem;
   content:"";
   display:block;
-  left:0.5rem;
   position:absolute;
-  top:0.75rem;
+  top:0.6666666667rem;
 }
 @supports ((-webkit-mask: url("")) or (mask: url(""))){
   .fba-modal-dialog .usa-alert--error .usa-alert__body::before{
@@ -595,16 +583,8 @@
             mask-size:2rem 2rem;
   }
 }
-@media all and (min-width: 64em){
-  .fba-modal-dialog .usa-alert--error .usa-alert__body::before{
-    left:1.5rem;
-  }
-}
-@media all and (min-width: 64em){
-  .fba-modal-dialog .usa-alert--error .usa-alert__body{
-    padding-left:4rem;
-    padding-right:4rem;
-  }
+.fba-modal-dialog .usa-alert--error .usa-alert__body > *{
+  margin-left:2.5rem;
 }
 .fba-modal-dialog .usa-alert--error .usa-alert__body .usa-link{
   color:#005ea2;
@@ -622,7 +602,10 @@
 .fba-modal-dialog .usa-alert--info .usa-alert__body{
   color:#1b1b1b;
   background-color:#e7f6f8;
-  padding-left:2.9166666667rem;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-height:3.3333333333rem;
 }
 .fba-modal-dialog .usa-alert--info .usa-alert__body::before{
   background-image:url("<%= root_url %>img/usa-icons/info.svg");
@@ -634,9 +617,8 @@
   width:2rem;
   content:"";
   display:block;
-  left:0.5rem;
   position:absolute;
-  top:0.75rem;
+  top:0.6666666667rem;
 }
 @supports ((-webkit-mask: url("")) or (mask: url(""))){
   .fba-modal-dialog .usa-alert--info .usa-alert__body::before{
@@ -652,16 +634,8 @@
             mask-size:2rem 2rem;
   }
 }
-@media all and (min-width: 64em){
-  .fba-modal-dialog .usa-alert--info .usa-alert__body::before{
-    left:1.5rem;
-  }
-}
-@media all and (min-width: 64em){
-  .fba-modal-dialog .usa-alert--info .usa-alert__body{
-    padding-left:4rem;
-    padding-right:4rem;
-  }
+.fba-modal-dialog .usa-alert--info .usa-alert__body > *{
+  margin-left:2.5rem;
 }
 .fba-modal-dialog .usa-alert--info .usa-alert__body .usa-link{
   color:#005ea2;
@@ -679,7 +653,10 @@
 .fba-modal-dialog .usa-alert--emergency .usa-alert__body{
   color:white;
   background-color:#9c3d10;
-  padding-left:2.9166666667rem;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-height:3.3333333333rem;
 }
 .fba-modal-dialog .usa-alert--emergency .usa-alert__body::before{
   background-image:url("<%= root_url %>img/usa-icons-bg/error--white.svg");
@@ -691,9 +668,8 @@
   width:2rem;
   content:"";
   display:block;
-  left:0.5rem;
   position:absolute;
-  top:0.75rem;
+  top:0.6666666667rem;
 }
 @supports ((-webkit-mask: url("")) or (mask: url(""))){
   .fba-modal-dialog .usa-alert--emergency .usa-alert__body::before{
@@ -709,16 +685,8 @@
             mask-size:2rem 2rem;
   }
 }
-@media all and (min-width: 64em){
-  .fba-modal-dialog .usa-alert--emergency .usa-alert__body::before{
-    left:1.5rem;
-  }
-}
-@media all and (min-width: 64em){
-  .fba-modal-dialog .usa-alert--emergency .usa-alert__body{
-    padding-left:4rem;
-    padding-right:4rem;
-  }
+.fba-modal-dialog .usa-alert--emergency .usa-alert__body > *{
+  margin-left:2.5rem;
 }
 .fba-modal-dialog .usa-alert--emergency .usa-alert__body .usa-link{
   color:#dfe1e2;
@@ -732,10 +700,9 @@
 .fba-modal-dialog .usa-alert--slim .usa-alert__body{
   padding-bottom:0.5rem;
   padding-top:0.5rem;
-  padding-left:2.4166666667rem;
+  min-height:0;
 }
 .fba-modal-dialog .usa-alert--slim .usa-alert__body:before{
-  background-size:1.5rem;
   height:1.5rem;
   top:0.5rem;
   width:1.5rem;
@@ -746,21 +713,20 @@
             mask-size:1.5rem;
   }
 }
-@media all and (min-width: 64em){
-  .fba-modal-dialog .usa-alert--slim .usa-alert__body{
-    padding-left:3.5rem;
-  }
+.fba-modal-dialog .usa-alert--slim .usa-alert__body > *{
+  margin-left:2rem;
+}
+.fba-modal-dialog .usa-alert--slim .usa-alert__body::before{
+  left:1.125rem;
 }
 .fba-modal-dialog .usa-alert--no-icon .usa-alert__body{
-  padding-left:0.5rem;
+  min-height:0;
 }
 .fba-modal-dialog .usa-alert--no-icon .usa-alert__body:before{
   display:none;
 }
-@media all and (min-width: 64em){
-  .fba-modal-dialog .usa-alert--no-icon .usa-alert__body{
-    padding-left:1.8333333333rem;
-  }
+.fba-modal-dialog .usa-alert--no-icon .usa-alert__body > *{
+  margin-left:0;
 }
 .fba-modal-dialog .usa-alert--validation .usa-checklist{
   margin-top:1rem;
@@ -1034,6 +1000,7 @@
   text-align:left;
   margin:0;
   padding:0;
+  width:auto;
   position:absolute;
   left:0;
   position:absolute;
@@ -1468,6 +1435,7 @@
   text-align:left;
   margin:0;
   padding:0;
+  width:auto;
   color:#dfe1e2;
 }
 .fba-modal-dialog .usa-button--outline.usa-button--inverse.usa-button--unstyled:visited{
@@ -1583,6 +1551,7 @@
   text-align:left;
   margin:0;
   padding:0;
+  width:auto;
 }
 .fba-modal-dialog .usa-button--unstyled:visited{
   color:#54278f;
@@ -3299,6 +3268,7 @@
   text-align:left;
   margin:0;
   padding:0;
+  width:auto;
   cursor:pointer;
 }
 .fba-modal-dialog .usa-show-password:visited{
@@ -3381,6 +3351,9 @@
 .fba-modal-dialog .usa-header a{
   border-bottom:none;
 }
+.fba-modal-dialog .usa-header .usa-search{
+  margin-top:0.5rem;
+}
 @media all and (min-width: 64em){
   .fba-modal-dialog .usa-header .usa-search{
     float:right;
@@ -3445,6 +3418,7 @@
   text-align:left;
   margin:0;
   padding:0;
+  width:auto;
   flex:0 1 auto;
   padding-left:0.75rem;
   padding-right:0.75rem;
@@ -3531,7 +3505,7 @@
     align-items:center;
     justify-content:flex-end;
     display:flex;
-    padding:0 0 0.25rem 0.5rem;
+    padding:0 0 0.5rem 0.5rem;
     width:100%;
   }
   .fba-modal-dialog .usa-header--basic .usa-nav-container{
@@ -4123,9 +4097,13 @@
     position:relative;
   }
 }
+.fba-modal-dialog .usa-nav .usa-search{
+  margin-top:1rem;
+}
 @media all and (min-width: 64em){
   .fba-modal-dialog .usa-nav .usa-search{
     margin-left:1rem;
+    margin-top:0;
   }
 }
 .fba-modal-dialog .usa-nav .usa-accordion{
@@ -4139,8 +4117,6 @@
     margin-top:0;
     list-style-type:none;
     padding-left:0;
-    margin-top:1.5rem;
-    order:2;
   }
   .fba-modal-dialog .usa-nav__primary > li{
     margin-bottom:0;
@@ -4261,12 +4237,14 @@
   text-align:left;
   margin:0;
   padding:0;
+  width:auto;
   position:relative;
   color:#565c65;
   font-weight:normal;
   line-height:1.1;
   padding:0.75rem 1rem;
   text-decoration:none;
+  width:100%;
 }
 .fba-modal-dialog .usa-nav__primary button:visited{
   color:#54278f;
@@ -4510,7 +4488,6 @@
   }
 }
 .fba-modal-dialog .usa-nav__secondary .usa-search{
-  margin-top:1rem;
   width:100%;
 }
 @media all and (min-width: 64em){
@@ -4655,6 +4632,7 @@
   text-align:left;
   margin:0;
   padding:0;
+  width:auto;
   height:3rem;
   width:3rem;
   background-image:none;
@@ -4857,6 +4835,7 @@
   text-align:left;
   margin:0;
   padding:0;
+  width:auto;
   height:2rem;
   width:2rem;
   background-position:center center;
@@ -4933,6 +4912,7 @@
   text-align:left;
   margin:0;
   padding:0;
+  width:auto;
   height:2rem;
   width:2rem;
   background-position:center center;
@@ -5003,6 +4983,7 @@
   text-align:left;
   margin:0;
   padding:0;
+  width:auto;
   height:2rem;
   width:2rem;
   background-position:center center;
