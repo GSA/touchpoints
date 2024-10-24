@@ -110,7 +110,7 @@ class CxCollection < ApplicationRecord
       rating
       aasm_state
       integrity_hash
-      omb_cx_reporting_collections_count
+      cx_collection_details_count
     ]
 
     CSV.generate(headers: true) do |csv|

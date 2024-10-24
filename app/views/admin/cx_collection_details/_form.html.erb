@@ -16,7 +16,7 @@
     <div>
       <%= form.label :cx_collection_id, "CX Collection", class: "usa-label" %>
       <%= form.select :cx_collection_id,
-        cx_collections.map { |collection| ["#{collection.organization.abbreviation} - #{collection.organization.name} - #{collection.service.name}", collection.id]},
+        cx_collections.map { |cx_collection| ["#{cx_collection.organization.abbreviation} - #{cx_collection.organization.name} - #{cx_collection.service.name}", cx_collection.id]},
         { include_blank: true },
         class: "usa-select" %>
     </div>

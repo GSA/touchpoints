@@ -1,5 +1,5 @@
 <table class="usa-table width-full">
-  <thead>
+  <thead class="font-sans-2xs">
     <tr>
       <th data-sortable scope="col">Organization</th>
       <th data-sortable scope="col">Service Provider</th>
@@ -19,7 +19,7 @@
         <td><%= link_to(service.service_provider.name, admin_service_provider_path(service.service_provider)) if service.service_provider %></td>
         <td><%= link_to service.name, admin_service_path(service) %></td>
         <td><%= link_to_if service.service_stages.size > 0, service.service_stages.size, admin_service_service_stages_path(service) %></td>
-        <td><%= link_to_if service.collections.size > 0, service.collections.size, admin_collections_path %></td>
+        <td><%= link_to_if service.cx_collections.size > 0, service.cx_collections.size, admin_cx_collections_path %></td>
         <td>
         <%- if service.hisp? %>
           <span class="usa-tag bg-cyan">HISP</span>

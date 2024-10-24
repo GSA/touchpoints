@@ -11,9 +11,6 @@ class Service < ApplicationRecord
   belongs_to :service_provider, optional: true, counter_cache: true
   has_many :service_stages, dependent: :delete_all
 
-  has_many :omb_cx_reporting_collections
-  has_many :collections, through: :omb_cx_reporting_collections
-
   has_many :cx_collections
   has_many :cx_collection_details, through: :cx_collections
 

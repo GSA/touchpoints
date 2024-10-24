@@ -40,7 +40,7 @@ feature 'Managing Users', js: true do
     describe 'view a User' do
       let!(:service_provider) { FactoryBot.create(:service_provider, organization:) }
       let!(:service) { FactoryBot.create(:service, organization:, service_provider:, hisp: true, service_owner_id: user.id) }
-      let!(:collection) { FactoryBot.create(:collection, organization:, user:, service_provider:) }
+      let!(:cx_collection) { FactoryBot.create(:cx_collection, organization:, user:, service_provider:) }
       let!(:digital_product) { FactoryBot.create(:digital_product) }
       let!(:digital_service_account) { FactoryBot.create(:digital_service_account) }
 

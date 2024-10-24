@@ -115,10 +115,10 @@
 
 <div class="well">
   <h4>
-    Data Collections
+    CX Data Collections
   </h4>
-  <%- if @service_provider.omb_cx_reporting_collections.present? %>
-    <table class="usa-table">
+  <%- if @service_provider.cx_collections.present? %>
+    <table class="usa-table width-full">
       <thead>
         <tr>
           <th>Fiscal year</th>
@@ -128,21 +128,21 @@
         </tr>
       </thead>
       <tbody>
-        <% @service_provider.omb_cx_reporting_collections.each do |omb_cx_reporting_collection| %>
+        <% @service_provider.cx_collection_details.each do |cx_collection_detail| %>
           <tr>
             <td>
-              <%= omb_cx_reporting_collection.collection.year %>
+              <%= cx_collection_detail.cx_collection.fiscal_year %>
             </td>
             <td>
-              <%= omb_cx_reporting_collection.collection.quarter %>
+              <%= cx_collection_detail.cx_collection.quarter %>
             </td>
             <td>
-              <%= link_to omb_cx_reporting_collection.collection.name,
-                admin_collection_path(omb_cx_reporting_collection.collection) %>
+              <%= link_to cx_collection_detail.cx_collection.name,
+                admin_collection_path(cx_collection_detail.cx_collection) %>
             </td>
             <td>
-              <%= link_to omb_cx_reporting_collection.service.name,
-                admin_omb_cx_reporting_collection_path(omb_cx_reporting_collection) %>
+              <%= link_to cx_collection_detail.service.name,
+                admin_cx_collection_detail_path(cx_collection_detail) %>
             </td>
           </tr>
           <% end %>
