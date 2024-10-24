@@ -7,7 +7,7 @@ def production_suitable_seeds
     digital_analytics_path: 'general-services-administration',
     mission_statement: 'Declaring the purpose of an organization and how it serves customers'
   })
-  puts 'Created Organization: #{@gsa.name}'
+  puts "Created Organization: #{@gsa.name}"
 end
 
 production_suitable_seeds
@@ -33,7 +33,7 @@ if ENV['DEVELOPER_EMAIL_ADDRESS'].present?
     url: 'https://lvh.me',
     abbreviation: 'DEV'
   })
-  puts 'Created Default Organization: #{developer_organization.name}'
+  puts "Created Default Organization: #{developer_organization.name}"
 
   developer_user = User.new({
     organization: developer_organization,
@@ -43,7 +43,7 @@ if ENV['DEVELOPER_EMAIL_ADDRESS'].present?
     current_sign_in_at: Time.now,
   })
   developer_user.save!
-  puts 'Created Developer User: #{developer_user.email}'
+  puts "Created Developer User: #{developer_user.email}"
 end
 
 example_gov = Organization.create!({
@@ -52,7 +52,7 @@ example_gov = Organization.create!({
   url: 'https://example.gov',
   abbreviation: 'EX'
 })
-puts 'Created Default Organization: #{example_gov.name}'
+puts "Created Default Organization: #{example_gov.name}"
 
 admin_user = User.new({
   organization: example_gov,
@@ -63,7 +63,7 @@ admin_user = User.new({
   current_sign_in_at: Time.now,
 })
 admin_user.save!
-puts 'Created Admin User: #{admin_user.email}'
+puts "Created Admin User: #{admin_user.email}"
 
 organizational_admin_user = User.new({
   organization: example_gov,
@@ -73,7 +73,7 @@ organizational_admin_user = User.new({
   current_sign_in_at: Time.now,
 })
 organizational_admin_user.save!
-puts 'Created Organizational Admin User: #{organizational_admin_user.email}'
+puts "Created Organizational Admin User: #{organizational_admin_user.email}"
 
 digital_gov = Organization.create!({
   name: 'Digital.gov',
@@ -82,7 +82,7 @@ digital_gov = Organization.create!({
   abbreviation: 'DIGITAL',
   parent_id: @gsa.id
 })
-puts 'Creating additional Organization: #{digital_gov.name}'
+puts "Creating additional Organization: #{digital_gov.name}"
 
 org_2 = Organization.create!({
   name: 'Farmers.gov',
@@ -105,7 +105,7 @@ webmaster = User.new({
   current_sign_in_at: Time.now,
 })
 webmaster.save!
-puts 'Created #{webmaster.email}'
+puts "Created #{webmaster.email}"
 
 touchpoint_manager = User.new({
   email: 'touchpoint_manager@example.gov',
@@ -114,7 +114,7 @@ touchpoint_manager = User.new({
   current_sign_in_at: Time.now,
 })
 touchpoint_manager.save!
-puts 'Created #{touchpoint_manager.email}'
+puts "Created #{touchpoint_manager.email}"
 
 submission_viewer = User.new({
   email: 'viewer@example.gov',
@@ -123,7 +123,7 @@ submission_viewer = User.new({
   current_sign_in_at: Time.now - 100.days,
 })
 submission_viewer.save!
-puts 'Created #{submission_viewer.email}'
+puts "Created #{submission_viewer.email}"
 
 
 #
@@ -553,7 +553,7 @@ digital_gov_user = User.new({
   current_sign_in_at: Time.now,
 })
 digital_gov_user.save!
-puts 'Created Test User in Secondary Organization: #{digital_gov_user.email}'
+puts "Created Test User in Secondary Organization: #{digital_gov_user.email}"
 
 ## Generate admin
 admin_emails = ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')
