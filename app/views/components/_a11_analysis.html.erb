@@ -15,8 +15,8 @@
   </thead>
   <tbody>
     <tr>
-      <td><%= form.response_count %></td>
-      <td><%= form.survey_form_activations %></td>
+      <td><%= number_with_delimiter(form.response_count) %></td>
+      <td><%= number_with_delimiter(form.survey_form_activations) %></td>
       <td><%= form.completion_rate %></td>
       <td class="auto-shade"><%= @report[:answer_01][:average] %></td>
       <td class="auto-shade"><%= @report[:answer_02][:average] %></td>

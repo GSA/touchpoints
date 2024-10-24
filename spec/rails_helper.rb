@@ -12,7 +12,7 @@ require 'capybara/rspec'
 require 'selenium/webdriver'
 require 'axe-rspec'
 # Add additional requires below this line. Rails is not loaded until this point!
-require_relative 'support/wait_for_ajax'
+require_relative 'support/touchpoints_spec_helpers'
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -37,9 +37,14 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 
+download_directory = Rails.root.join('tmp/spec_downloads')
 
 options = Selenium::WebDriver::Chrome::Options.new
 options.add_preference(:loggingPrefs, browser: 'ALL')
+options.add_preference(:download, {
+  prompt_for_download: false,
+  default_directory: download_directory.to_s
+})
 
 # for Capybara
 Capybara.register_driver :selenium do |app|
@@ -68,6 +73,11 @@ RSpec.configure do |config|
 
   # for Database Cleaner
   config.use_transactional_fixtures = false
+
+  # cleanup spec_downloads directory
+  config.before(:each, type: :feature) do
+    FileUtils.rm_rf(Dir[Rails.root.join('tmp/spec_downloads/*')])
+  end
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)

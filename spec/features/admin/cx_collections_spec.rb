@@ -61,11 +61,13 @@ feature 'CX Data Collections', js: true do
           select("2024", from: "year")
           select("1", from: "quarter")
           click_on("Filter")
-          expect(page).to have_content("for Q1 2024")
+          expect(page).to have_content("for Q1 FY2024")
         end
 
         it 'find the two 2024 Q1 collections' do
           expect(page).to have_css(".usa-table.collections tbody tr", count: 2)
+          expect(page).to_not have_content("2021")
+          expect(page).to_not have_content("2022")
         end
       end
     end

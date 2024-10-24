@@ -25,7 +25,7 @@ module Admin
       update
       add_service_manager
       remove_service_manager
-      export_verions
+      export_versions
     ]
 
     before_action :set_service_providers, only: %i[

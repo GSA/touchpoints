@@ -39,9 +39,13 @@ exports.buildWidgetAssets = parallel(bundleWidgetJS, compileWidgetSass);
 
 embeddedWidgetPath = './app/views/components/widget';
 
+/**
+ * Create JS bundle containing only those USWDS components used by the widget.
+ * Bundle is created specifically to be used in the browser (assumes global 'window' exists).
+ */
 async function bundleWidgetJS() {
   return browserify("uswds/widget-uswds.js", {
-    paths: ['./node_modules'],
+    paths: ['./node_modules']
   })
     .transform("babelify", {
       global: true,
