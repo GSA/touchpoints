@@ -6,7 +6,7 @@ FactoryBot.define do
 
     trait :with_cx_collection_detail_upload do
       after(:create) do |cx_collection_detail|
-        FactoryBot.create(:cx_collection_detail_upload, cx_collection_detail: cx_collection_detail)
+        FactoryBot.create(:cx_collection_detail_upload, cx_collection_detail:)
       end
     end
 

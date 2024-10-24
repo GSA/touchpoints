@@ -47,6 +47,7 @@ describe Api::V1::CxResponsesController, type: :controller do
       let!(:service) { FactoryBot.create(:service, organization: organization1, service_provider: service_provider, service_owner_id: user.id) }
       let!(:cx_collection) { FactoryBot.create(:cx_collection, organization: organization1, service_provider: service_provider, service: service, user: user) }
       let!(:cx_collection_detail) { FactoryBot.create(:cx_collection_detail, :with_cx_collection_detail_upload, cx_collection: cx_collection, service: service, transaction_point: :post_service_journey, channel: Service.channels.sample) }
+      let!(:cx_collection_detail_upload) { cx_collection_detail.cx_collection_detail_uploads.first }
       let!(:cx_response) { CxResponse.first }
 
       describe '#index' do
@@ -84,6 +85,42 @@ describe Api::V1::CxResponsesController, type: :controller do
           expect(parsed_response['data'].last.class).to be(Hash)
           expect(parsed_response['data'].last["type"]).to eq("cx_responses")
           expect(parsed_response['data'].last['id'].to_s).to eq(CxResponse.last.id.to_s)
+        end
+      end
+
+      describe "GET #index with date filters" do
+        let!(:response_in_range) { create(:cx_response, cx_collection_detail:, cx_collection_detail_upload:, created_at: Date.parse("2024-10-15")) }
+        let!(:response_out_of_range) { create(:cx_response, cx_collection_detail:, cx_collection_detail_upload:, created_at: Date.parse("2023-09-01")) }
+
+        before do
+          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch('API_HTTP_USERNAME'), ENV.fetch('API_HTTP_PASSWORD'))
+        end
+
+        it "returns only responses within the specified date range" do
+          get :index, params: {
+            start_date: "2024-10-01",
+            end_date: "2025-09-30",
+            page: { size: 5000 },
+            'API_KEY' => user.api_key,
+            format: :json
+          }
+
+          expect(response).to have_http_status(:success)
+
+          parsed_response = JSON.parse(response.body)
+          response_ids = parsed_response["data"].map { |r| r["id"].to_i }
+
+          expect(response_ids).to include(response_in_range.id)
+          expect(response_ids).not_to include(response_out_of_range.id)
+        end
+
+        it "returns an error for invalid date format" do
+          get :index, params: { start_date: "invalid-date", end_date: "2023-10-31", 'API_KEY' => user.api_key, format: :json }
+
+          expect(response).to have_http_status(:bad_request)
+
+          parsed_response = JSON.parse(response.body)
+          expect(parsed_response["error"]["message"]).to eq("invalid date format, should be 'YYYY-MM-DD'")
         end
       end
     end
