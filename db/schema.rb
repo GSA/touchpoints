@@ -426,18 +426,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_23_210941) do
     t.index ["uuid"], name: "index_forms_on_uuid"
   end
 
-  create_table "goal_targets", force: :cascade do |t|
-    t.integer "goal_id"
-    t.datetime "target_date_at", precision: nil
-    t.text "assertion"
-    t.string "kpi"
-    t.integer "starting_value"
-    t.integer "target_value"
-    t.integer "current_value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "ivn_component_links", force: :cascade do |t|
     t.integer "from_id"
     t.integer "to_id"

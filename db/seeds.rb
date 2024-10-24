@@ -726,35 +726,6 @@ OmbCxReportingCollection.create!({
 })
 
 
-#
-# Goals
-#
-# four_year_goal: true = Strategic Goal
-# four_year_goal: false = APG = Annual Performance Goal
-#
-
-@strategic_goal_1 = Goal.create!({
-  organization: @gsa,
-  name: "Real Estate Solutions: Financially and environmentally sustainable, accessible, and responsive workspace solutions that enable a productive Federal workforce",
-  four_year_goal: true
-})
-
-@apg_goal_1 = Goal.create!({
-  organization: @gsa,
-  name: "Right-Size GSA's Real Estate Portfolio",
-  four_year_goal: false,
-  tag_list: ["Pandemic response", "General government & management"]
-})
-
-@apg_goal_2 = Goal.create!({
-  organization: @gsa,
-  name: "Increase Adoption of GSA-Sponsored Identity Solutions",
-  four_year_goal: false,
-  tag_list: ["Shared Services"],
-
-  goal_statement: "GSA will increase adoption of Login.gov, a simple, secure, and equitable shared service at the forefront of the public’s digital identity..."
-})
-
 puts 'Creating User Personas...'
 
 Persona.create!({
