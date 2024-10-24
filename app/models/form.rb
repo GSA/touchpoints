@@ -240,7 +240,6 @@ class Form < ApplicationRecord
     new_form.legacy_touchpoint_uuid = nil
     new_form.template = false
     new_form.organization = new_user.organization
-    new_form.legacy_form_embed = false
     new_form.save!
 
     # Manually remove the Form Section created with create_first_form_section
