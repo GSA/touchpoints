@@ -11,7 +11,7 @@
   <tbody>
     <% digital_service_accounts.each do |digital_service_account| %>
       <tr>
-        <td><%= digital_service_account.account %></td>
+        <td><%= digital_service_account.service %></td>
         <td>
           <%= link_to digital_service_account.name, admin_digital_service_account_path(digital_service_account) %>
         </td>
