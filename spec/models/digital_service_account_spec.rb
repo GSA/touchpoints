@@ -59,7 +59,7 @@ RSpec.describe DigitalServiceAccount, type: :model do
         end
 
         it "ensures an account is specified" do
-          expect(@new_digital_service_account.errors.messages).to eq({:account => ["can't be blank", "Invalid account platform ''"]})
+          expect(@new_digital_service_account.errors.messages).to eq({service: ["can't be blank", "Invalid service platform ''"]})
         end
       end
 
@@ -74,7 +74,7 @@ RSpec.describe DigitalServiceAccount, type: :model do
         end
 
         it "ensures a unique service_url" do
-          expect(@new_digital_service_account.errors.messages).to eq({:account=>["Invalid account platform 'Something Else'"]})
+          expect(@new_digital_service_account.errors.messages).to eq({service: ["Invalid service platform 'Something Else'"]})
         end
       end
     end

@@ -13,7 +13,7 @@ class DigitalServiceAccount < ApplicationRecord
   belongs_to :organization, optional: true
 
   validates :name, presence: true
-  validates :name, uniqueness: { scope: :account }
+  validates :name, uniqueness: { scope: :service }
   validates :service, presence: true
   validate :validate_account_types
   validates :service_url, presence: true
@@ -21,7 +21,7 @@ class DigitalServiceAccount < ApplicationRecord
 
   scope :active, -> { where(aasm_state: :published) }
 
-  scope :filtered_accounts, lambda { |query, organization_abbreviation, aasm_state, account|
+  scope :filtered_accounts, lambda { |query, organization_abbreviation, aasm_state, service|
     @organization = Organization.find_by_abbreviation(organization_abbreviation)
 
     wildcard_query = "%#{query}%"
@@ -29,7 +29,7 @@ class DigitalServiceAccount < ApplicationRecord
     items = all
     items = items.tagged_with(@organization.id, context: 'organizations') if @organization.present?
     items = items.where(aasm_state:) if aasm_state.present? && aasm_state.downcase != 'all'
-    items = items.where(service: account) if account.present? && account.downcase != 'all'
+    items = items.where(service: service) if service.present? && service.downcase != 'all'
     items = items.where("name ILIKE ? OR account ILIKE ? OR short_description ILIKE ? OR service_url ILIKE ?", wildcard_query, wildcard_query, wildcard_query, wildcard_query) if query && query.length >= 3
 
     items
