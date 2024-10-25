@@ -1,5 +1,5 @@
 <%- if params[:view] == "catalog" %>
-$(".search-results").html("<%= escape_javascript render(:partial => 'admin/services/card_results', :locals => { :service => @service }) %>");
+$(".search-results").html("<%= escape_javascript render('admin/services/card_results', services: @services) %>");
 <% else %>
-$(".search-results").html("<%= escape_javascript render(:partial => 'admin/services/results', :locals => { :service => @service }) %>");
+$(".search-results").html("<%= escape_javascript render('admin/services/results', services: @services) %>");
 <% end %>
