@@ -200,15 +200,6 @@
     </div>
     <% end %>
 
-    <%- if admin_permissions? %>
-    <div class="margin-top-2">
-      <%= link_to omb_cx_reporting_admin_service_path(@service), class: "usa-button usa-button--outline width-full" do %>
-        <i class="fa fa-pencil-alt"></i>
-        OMB Quarterly Reporting
-      <% end %>
-    </div>
-    <% end %>
-
     <%- if service_manager_permissions? %>
     <div class="margin-top-2">
       <%= link_to versions_admin_service_path(@service), class: "usa-button usa-button--outline width-full" do %>
