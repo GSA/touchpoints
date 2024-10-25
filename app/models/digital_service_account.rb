@@ -15,7 +15,7 @@ class DigitalServiceAccount < ApplicationRecord
   validates :name, presence: true
   validates :name, uniqueness: { scope: :service }
   validates :service, presence: true
-  validate :validate_account_types
+  validate :validate_service_types
   validates :service_url, presence: true
   validates :service_url, uniqueness: true
 
@@ -30,7 +30,7 @@ class DigitalServiceAccount < ApplicationRecord
     items = items.tagged_with(@organization.id, context: 'organizations') if @organization.present?
     items = items.where(aasm_state:) if aasm_state.present? && aasm_state.downcase != 'all'
     items = items.where(service: service) if service.present? && service.downcase != 'all'
-    items = items.where("name ILIKE ? OR account ILIKE ? OR short_description ILIKE ? OR service_url ILIKE ?", wildcard_query, wildcard_query, wildcard_query, wildcard_query) if query && query.length >= 3
+    items = items.where("name ILIKE ? OR service ILIKE ? OR short_description ILIKE ? OR service_url ILIKE ?", wildcard_query, wildcard_query, wildcard_query, wildcard_query) if query && query.length >= 3
 
     items
   }
@@ -104,8 +104,8 @@ class DigitalServiceAccount < ApplicationRecord
     ]
   end
 
-  def validate_account_types
-    errors.add(:account, "Invalid account platform '#{account}'") unless DigitalServiceAccount.list.include?(account)
+  def validate_service_types
+    errors.add(:service, "Invalid service platform '#{service}'") unless DigitalServiceAccount.list.include?(service)
   end
 
   def contact_emails
@@ -123,7 +123,6 @@ class DigitalServiceAccount < ApplicationRecord
 
     attributes = [
       :id,
-      :account,
       :name,
       :contact_emails,
       :organization_names,
