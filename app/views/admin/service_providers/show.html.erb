@@ -93,18 +93,51 @@
   </div>
 </div>
 
-<div class="services well">
+<div class="services border-top border-base-lighter margin-top-3 padding-top-2">
   <h3>
-    <%= @service_provider.services.size %> Services
+    <%= pluralize(@service_provider.services.size, "Service") %>
   </h3>
 
-  <ul class="usa-list">
-  <% @service_provider.services.each do |service| %>
-    <li>
-      <%= link_to service.name, admin_service_path(service) %>
-    </li>
-  <% end %>
-  </ul>
+  <table class="usa-table width-full">
+    <thead>
+      <tr>
+        <th data-sortable scope="col">Name</th>
+        <th data-sortable scope="col">Service stages</th>
+        <th data-sortable scope="col">HISP?</th>
+        <th data-sortable scope="col">Year designated</th>
+        <th data-sortable scope="col">Previously reported</th>
+        <th data-sortable scope="col">Tags</th>
+        <th data-sortable scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @service_provider.services.each do |service| %>
+        <tr>
+          <td>
+            <%= link_to service.name, admin_service_path(service) %>
+          </td>
+          <td>
+            <%= service.service_stages.count %>
+          </td>
+          <td>
+            <%= service.hisp %>
+          </td>
+          <td>
+            <%= service.year_designated %>
+          </td>
+          <td>
+            <%= service.previously_reported %>
+          </td>
+          <td>
+            <%= service.tag_list %>
+          </td>
+          <td>
+            <%= service.aasm_state %>
+          </td>
+        </tr>
+        <% end %>
+    </tbody>
+  </table>
 </div>
 
 <div class="well">
