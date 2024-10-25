@@ -916,7 +916,7 @@ for i in (1..20) do
   DigitalServiceAccount.create!({
     organization_list: [@gsa.id],
     name: "Social Media Account #{i}",
-    account: DigitalServiceAccount.list.sample,
+    service: DigitalServiceAccount.list.sample,
     aasm_state: DigitalServiceAccount.aasm.states.map(&:name).sample,
     service_url: "https://example.lvh.me/account#{i}"
   })

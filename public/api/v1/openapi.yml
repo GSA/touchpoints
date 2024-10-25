@@ -836,8 +836,6 @@
         properties:
           name:
             type: "string"
-          account:
-            type: "string"
           status:
             type: "string"
           agencies:
