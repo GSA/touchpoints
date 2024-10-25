@@ -14,7 +14,7 @@ class DigitalServiceAccount < ApplicationRecord
 
   validates :name, presence: true
   validates :name, uniqueness: { scope: :account }
-  validates :account, presence: true
+  validates :service, presence: true
   validate :validate_account_types
   validates :service_url, presence: true
   validates :service_url, uniqueness: true
