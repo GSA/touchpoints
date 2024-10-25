@@ -38,13 +38,13 @@ RSpec.describe DigitalServiceAccount, type: :model do
 
           @new_digital_service_account = DigitalServiceAccount.create({
             name: "Testing",
-            service: "twitter",
+            service: "youtube",
             service_url: digital_service_account.service_url
           })
         end
 
         it "ensures a unique service_url" do
-          expect(@new_digital_service_account.errors.messages).to eq({:service_url=>["has already been taken"]})
+          expect(@new_digital_service_account.errors.messages).to eq({service_url: ["has already been taken"]})
         end
       end
     end
@@ -74,7 +74,7 @@ RSpec.describe DigitalServiceAccount, type: :model do
         end
 
         it "ensures a unique service_url" do
-          expect(@new_digital_service_account.errors.messages).to eq({service: ["Invalid service platform 'Something Else'"]})
+          expect(@new_digital_service_account.errors.messages).to eq({service: ["Invalid service platform 'Something else'"]})
         end
       end
     end
