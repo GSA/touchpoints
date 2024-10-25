@@ -44,7 +44,6 @@ Rails.application.routes.draw do
       resources :cx_responses, only: [:index]
       resources :cx_collections, only: [:index]
       resources :cx_collection_details, only: [:index]
-      resources :omb_cx_reporting_collections, only: [:index]
       resources :forms, only: %i[index show]
       resources :websites, only: [:index]
       resources :service_providers, only: [:index]
@@ -118,7 +117,6 @@ Rails.application.routes.draw do
       end
       member do
         get 'equity-assessment', to: 'services#equity_assessment', as: :equity_assessment
-        get 'cx-reporting', to: 'services#omb_cx_reporting', as: :omb_cx_reporting
         post 'add_tag', to: 'services#add_tag', as: :add_tag
         delete 'remove_tag', to: 'services#remove_tag', as: :remove_tag
         post 'add_channel', to: 'services#add_channel', as: :add_channel
@@ -167,22 +165,8 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :collections do
-      collection do
-        get 'export_csv', to: 'collections#export_csv', as: :export_csv
-        get 'export_omb_cx_reporting_collections_csv', to: 'collections#export_omb_cx_reporting_collections_csv', as: :export_omb_cx_reporting_collections_csv
-      end
-      member do
-        post 'copy', to: 'collections#copy', as: :copy
-        post 'submit', to: 'collections#submit', as: :submit
-        post 'publish', to: 'collections#publish', as: :publish
-        get 'events', to: 'collections#events', as: :events
-      end
-    end
-
     get '/a11_v2_collections', to: 'site#a11_v2_collections'
 
-    resources :omb_cx_reporting_collections
     resources :cscrm_data_collections do
       member do
         post 'submit', to: 'cscrm_data_collections#submit', as: :submit
