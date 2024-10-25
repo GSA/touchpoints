@@ -15,7 +15,7 @@ RSpec.describe Admin::CxCollectionsController, type: :controller do
   let(:valid_session) { {} }
 
   let(:valid_attributes) do
-    FactoryBot.build(:collection, organization:, user: admin, service_provider:).attributes
+    FactoryBot.build(:cx_collection, organization:, user: admin, service_provider:).attributes
   end
 
   let(:invalid_attributes) do
@@ -34,7 +34,7 @@ RSpec.describe Admin::CxCollectionsController, type: :controller do
     end
 
     describe 'GET /show' do
-      let(:collection) { FactoryBot.create(:collection, organization: another_organization, user: user2, service_provider:) }
+      let(:cx_collection) { FactoryBot.create(:cx_collection, organization: another_organization, user: user2, service_provider:) }
 
       it 'renders a successful response' do
         get :index, params: {}, session: valid_session
@@ -44,11 +44,11 @@ RSpec.describe Admin::CxCollectionsController, type: :controller do
 
     context 'for a Collection from another organization' do
       describe 'GET /show' do
-        let!(:collection) { FactoryBot.create(:collection, organization:, user: admin, service_provider:) }
+        let!(:cx_collection) { FactoryBot.create(:cx_collection, organization:, user: admin, service_provider:) }
 
         it 'renders RecordNotFound' do
           expect do
-            get :show, params: { id: collection.id }, session: valid_session
+            get :show, params: { id: cx_collection.id }, session: valid_session
           end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
