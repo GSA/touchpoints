@@ -3,8 +3,8 @@
     "@hotwired/stimulus": "^3.2.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.25.9",
-    "@babel/preset-env": "^7.25.9",
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
     "@uswds/compile": "^1.2.0",
     "@uswds/uswds": "3.9.0",
     "aliasify": "^2.1.0",
