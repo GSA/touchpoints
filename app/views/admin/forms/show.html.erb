@@ -132,11 +132,11 @@
             <%= label_tag "Audience", nil, class: "usa-label" %>
             <%- if @form.audience? %>
             <div>
-              <span class="usa-tag <%= @form.audience == 'public' ? 'bg-green' : "bg-base-lighter text-black" %>">
-                Public
-              </span>
               <span class="usa-tag <%= @form.audience == 'internal' ? 'bg-green' : "bg-base-lighter text-black" %>">
                 Internal
+              </span>
+              <span class="usa-tag <%= @form.audience == 'public' ? 'bg-green' : "bg-base-lighter text-black" %>">
+                Public
               </span>
             </div>
             <% else %>
