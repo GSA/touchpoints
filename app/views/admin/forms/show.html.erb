@@ -103,7 +103,7 @@
             <ul class="usa-list">
             <% @form.response_viewers.each do |user| %>
               <li>
-              <%= link_to user.email, admin_user_path(user) %>
+                <%= link_to user.email, admin_user_path(user) %>
               </li>
             <% end %>
             </ul>
@@ -113,19 +113,89 @@
               </div>
             <% end %>
           </p>
+          <p>
+            <%= label_tag "Service", nil, class: "usa-label" %>
+            <%- if @form.service_id? %>
+            <div>
+              <%= link_to @form.service.name, admin_service_path(@form.service) %>
+            </div>
+            <% else %>
+              <div class="font-sans-2xs text-base usa-prose">
+                A service has not been associated with this form.
+                <br>
+                View all <%= link_to "Services", admin_services_path %>
+                and consider creating one.
+              </div>
+            <% end %>
+          </p>
+          <p>
+            <%= label_tag "Audience", nil, class: "usa-label" %>
+            <%- if @form.audience? %>
+            <div>
+              <span class="usa-tag <%= @form.audience == 'internal' ? 'bg-green' : "bg-base-lighter text-black" %>">
+                Internal
+              </span>
+              <span class="usa-tag <%= @form.audience == 'public' ? 'bg-green' : "bg-base-lighter text-black" %>">
+                Public
+              </span>
+            </div>
+            <% else %>
+              <div class="font-sans-2xs text-base usa-prose">
+                Not yet specified
+              </div>
+            <% end %>
+          </p>
+          <p>
+            <%= label_tag "Tags", nil, class: "usa-label" %>
+            <%- if @form.tags.present? %>
+              <div class="font-sans-2xs usa-prose">
+                <%= @form.tag_list %>
+              </div>
+            <% else %>
+              <div class="font-sans-2xs text-base usa-prose">
+                No tags assigned
+              </div>
+            <% end %>
+          </p>
         </div>
-        <div class="tablet:grid-col-3">
+        <div class="tablet:grid-col-6">
           <div>
             <p>
               <%= label_tag "Created at", nil, class: "usa-label" %>
               <%= @form.created_at.to_date %>
-              <small>
-                (<%= time_ago_in_words(@form.created_at) %> ago)
-              </small>
+              <span class="text-base font-sans-2xs">
+                - <%= time_ago_in_words(@form.created_at) %> ago
+              </span>
             </p>
             <p>
               <%= label_tag "Timezone", nil, class: "usa-label" %>
               <%= @form.time_zone %>
+            </p>
+            <p>
+              <%= label_tag "OMB Approval Number", "OMB Approval Number", class: "usa-label" %>
+              <%- if @form.omb_approval_number.present? %>
+                <%= @form.omb_approval_number %>
+              <% else %>
+                <span class="font-sans-2xs text-base usa-prose">
+                  empty
+                </span>
+              <% end %>
+            </p>
+            <p>
+              <%= label_tag "Form expiration date", nil, class: "usa-label" %>
+              <%- if @form.expiration_date.present? %>
+                <%= @form.expiration_date %>
+                <span class="text-base font-sans-2xs">
+                  <% days_from_today = (@form.expiration_date - Date.today).to_i %>
+                  <%- if days_from_today > 0 %>
+                    - expires in <%= days_from_today %> days
+                  <% end %>
+                </span>
+              <% else %>
+                <span class="font-sans-2xs text-base usa-prose">
+                  expiration date not set
+                </span>
+              <% end %>
             </p>
           </div>
         </div>
