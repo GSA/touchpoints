@@ -846,6 +846,8 @@
             type: "array"
             items:
               $ref: '#/components/schemas/PublicUser'
+          service:
+            type: "string"
           service_url:
             type: "string"
           short_description:
