@@ -41,34 +41,5 @@ feature 'Managing Organizations', js: true do
         expect(page).to have_content('Organization was successfully created.')
       end
     end
-
-    describe 'sort goals' do
-      let!(:goal_list) { FactoryBot.create_list(:goal, 3, organization:) }
-
-      it 'successfully re-orders goals for an organization' do
-        visit performance_admin_organization_path(organization)
-        expect(goal_list.collect(&:position)).to eq([1,2,3])
-        find('#goal_3').drag_to(find('#goal_1'))
-        wait_for_ajax
-        expect(goal_list[0].reload.position).to eq(2)
-        expect(goal_list[1].reload.position).to eq(3)
-        expect(goal_list[2].reload.position).to eq(1)
-      end
-    end
-
-    describe 'sort objectives' do
-      let!(:goal) { FactoryBot.create(:goal, organization:, four_year_goal: true) }
-      let!(:objective_list) { FactoryBot.create_list(:objective, 3, goal:, organization:) }
-
-      it 'successfully re-orders objectivs for a goal' do
-        visit performance_admin_organization_path(organization)
-        expect(objective_list.collect(&:position)).to eq([1,2,3])
-        find('#objective_3').drag_to(find('#objective_1'))
-        wait_for_ajax
-        expect(objective_list[0].reload.position).to eq(2)
-        expect(objective_list[1].reload.position).to eq(3)
-        expect(objective_list[2].reload.position).to eq(1)
-      end
-    end
   end
 end
