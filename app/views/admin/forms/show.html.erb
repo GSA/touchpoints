@@ -103,7 +103,7 @@
             <ul class="usa-list">
             <% @form.response_viewers.each do |user| %>
               <li>
-              <%= link_to user.email, admin_user_path(user) %>
+                <%= link_to user.email, admin_user_path(user) %>
               </li>
             <% end %>
             </ul>
@@ -113,8 +113,20 @@
               </div>
             <% end %>
           </p>
+          <p>
+            <%= label_tag "Tags", nil, class: "usa-label" %>
+            <%- if @form.tags.present? %>
+              <div class="font-sans-2xs usa-prose">
+                <%= @form.tag_list %>
+              </div>
+            <% else %>
+              <div class="font-sans-2xs text-base usa-prose">
+                No tags assigned
+              </div>
+            <% end %>
+          </p>
         </div>
-        <div class="tablet:grid-col-3">
+        <div class="tablet:grid-col-6">
           <div>
             <p>
               <%= label_tag "Created at", nil, class: "usa-label" %>
@@ -126,6 +138,26 @@
             <p>
               <%= label_tag "Timezone", nil, class: "usa-label" %>
               <%= @form.time_zone %>
+            </p>
+            <p>
+              <%= label_tag "OMB Approval Number", "OMB Approval Number", class: "usa-label" %>
+              <%- if @form.omb_approval_number.present? %>
+                <%= @form.omb_approval_number %>
+              <% else %>
+                <span class="font-sans-2xs text-base usa-prose">
+                  empty
+                </span>
+              <% end %>
+            </p>
+            <p>
+              <%= label_tag "Form expiration date", nil, class: "usa-label" %>
+              <%- if @form.expiration_date.present? %>
+                <%= @form.expiration_date %>
+              <% else %>
+                <span class="font-sans-2xs text-base usa-prose">
+                  expiration date not set
+                </span>
+              <% end %>
             </p>
           </div>
         </div>
