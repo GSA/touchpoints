@@ -1,18 +1,8 @@
 <% content_for :navigation_title do %>
   Performance management
-  <div class="float-right">
-    <%= link_to admin_goals_path, class: "usa-button usa-button-inverted" do %>
-      Goals, objectives, targets
-    <% end %>
-    <%= link_to admin_milestones_path, class: "usa-button usa-button-inverted" do %>
-      Milestones
-    <% end %>
-  </div>
 <% end %>
 
-<br>
-
-<div class="grid-row">
+<div class="grid-row margin-top-2">
   <div class="grid-col-12">
     <div
       class="usa-summary-box"
@@ -21,41 +11,22 @@
       <div class="usa-summary-box__body">
         <div class="usa-summary-box__text">
           <div class="grid-row">
-          <div class="grid-col-6">
-            <p>
-              Touchpoints currently supports 4 Data Collections.
-            </p>
-            <ul>
-              <li>
-                Quarterly CX Data Collections
-              </li>
-              <li>
-                Bi-annual Cyber-security supply chain
-              </li>
-              <li>
-                Annual Performance Goals
-              </li>
-              <li>
-                Annual GSA Website Inventory
-              </li>
-            </ul>
-          </div>
-          <div class="grid-col-6">
-            <p>
-              The data is used for:
-            </p>
-            <ul>
-              <li>
-                <a href="https://www.performance.gov/cx/" target="_blank">Performance.gov/cx</a>
-              </li>
-              <li>
-                <a href="https://www.performance.gov/agencies/" target="_blank">Performance.gov/agencies</a>
-              </li>
-              <li>
-                Annual reporting and 21st Century IDEA compliance
-              </li>
-            </ul>
-          </div>
+            <div class="grid-col-6">
+              <p>
+                Touchpoints currently supports 3 Data Collections.
+              </p>
+              <ul>
+                <li>
+                  Quarterly CX Data Collections
+                </li>
+                <li>
+                  Bi-annual Cyber-security supply chain
+                </li>
+                <li>
+                  Annual GSA Website Inventory
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -114,7 +85,7 @@
             Annually - every 12 months
           </h3>
           <p>
-            <%= link_to admin_apgs_path, class: "usa-button usa-button--outline width-full" do %>
+            <%= button_to admin_root_path, class: "usa-button usa-button--outline width-full", disabled: true do %>
               Performance Goal Reporting (APG)
             <% end %>
           </p>

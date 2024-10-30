@@ -93,18 +93,12 @@
   </div>
 </div>
 
-<div class="services well">
+<div class="services border-top border-base-lighter margin-top-3 padding-top-2">
   <h3>
-    <%= @service_provider.services.size %> Services
+    <%= pluralize(@service_provider.services.size, "Service") %>
   </h3>
 
-  <ul class="usa-list">
-  <% @service_provider.services.each do |service| %>
-    <li>
-      <%= link_to service.name, admin_service_path(service) %>
-    </li>
-  <% end %>
-  </ul>
+  <%= render "admin/services/results", services: @service_provider.services %>
 </div>
 
 <div class="well">
