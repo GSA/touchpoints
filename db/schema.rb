@@ -417,45 +417,13 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_30_172438) do
     t.datetime "approved_at"
     t.boolean "legacy_form_embed", default: false
     t.datetime "archived_at"
+    t.string "audience", default: "public", comment: "indicates whether a form is intended for a public or internal audience"
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["organization_id"], name: "index_forms_on_organization_id"
     t.index ["service_id"], name: "index_forms_on_service_id"
     t.index ["user_id"], name: "index_forms_on_user_id"
     t.index ["uuid"], name: "index_forms_on_uuid"
-  end
-
-  create_table "goal_targets", force: :cascade do |t|
-    t.integer "goal_id"
-    t.datetime "target_date_at", precision: nil
-    t.text "assertion"
-    t.string "kpi"
-    t.integer "starting_value"
-    t.integer "target_value"
-    t.integer "current_value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "goals", force: :cascade do |t|
-    t.integer "organization_id"
-    t.string "name"
-    t.text "description"
-    t.string "tags", array: true
-    t.integer "users", array: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "four_year_goal", default: false
-    t.integer "parent_id"
-    t.integer "position", default: 0
-    t.text "goal_statement"
-    t.text "challenge"
-    t.text "opportunity"
-    t.text "notes"
-    t.integer "objectives_count", default: 0
-    t.index ["organization_id"], name: "index_goals_on_organization_id"
-    t.index ["tags"], name: "index_goals_on_tags", using: :gin
-    t.index ["users"], name: "index_goals_on_users", using: :gin
   end
 
   create_table "ivn_component_links", force: :cascade do |t|
@@ -487,35 +455,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_30_172438) do
     t.integer "organization_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "milestones", force: :cascade do |t|
-    t.integer "organization_id"
-    t.integer "goal_id"
-    t.string "name"
-    t.text "description"
-    t.date "due_date"
-    t.string "status"
-    t.text "notes"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "objectives", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.integer "organization_id"
-    t.integer "goal_id"
-    t.integer "milestone_id"
-    t.string "tags", array: true
-    t.integer "users", array: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "position", default: 0
-    t.index ["goal_id"], name: "index_objectives_on_goal_id"
-    t.index ["organization_id"], name: "index_objectives_on_organization_id"
-    t.index ["tags"], name: "index_objectives_on_tags", using: :gin
-    t.index ["users"], name: "index_objectives_on_users", using: :gin
   end
 
   create_table "offerings", force: :cascade do |t|

@@ -1,4 +1,4 @@
-<div class="organization">
+<span class="organization">
 <%- if organization.logo.present? %>
     <div class="logo float-left margin-right-1">
         <%= image_tag organization.logo.url, class: "height-2" %>
@@ -7,4 +7,4 @@
     <span class="name">
         <%= link_to_if(admin_permissions?, organization.name, admin_organization_path(organization)) %>
     </span>
-</div>
+</span>

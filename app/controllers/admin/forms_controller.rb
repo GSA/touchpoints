@@ -576,6 +576,7 @@ module Admin
 
     def form_admin_options_params
       params.require(:form).permit(
+        :audience,
         :name,
         :time_zone,
         :organization_id,
