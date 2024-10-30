@@ -163,9 +163,9 @@
             <p>
               <%= label_tag "Created at", nil, class: "usa-label" %>
               <%= @form.created_at.to_date %>
-              <small>
-                (<%= time_ago_in_words(@form.created_at) %> ago)
-              </small>
+              <span class="text-base font-sans-2xs">
+                - <%= time_ago_in_words(@form.created_at) %> ago
+              </span>
             </p>
             <p>
               <%= label_tag "Timezone", nil, class: "usa-label" %>
@@ -185,6 +185,12 @@
               <%= label_tag "Form expiration date", nil, class: "usa-label" %>
               <%- if @form.expiration_date.present? %>
                 <%= @form.expiration_date %>
+                <span class="text-base font-sans-2xs">
+                  <% days_from_today = (@form.expiration_date - Date.today).to_i %>
+                  <%- if days_from_today > 0 %>
+                    - expires in <%= days_from_today %> days
+                  <% end %>
+                </span>
               <% else %>
                 <span class="font-sans-2xs text-base usa-prose">
                   expiration date not set
