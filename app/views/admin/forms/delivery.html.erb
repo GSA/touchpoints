@@ -34,20 +34,21 @@
         <div class="usa-alert usa-alert--info">
           <div class="usa-alert__body">
             <p class="usa-alert__text">
-              <strong>How will users access this survey?</strong>
+              <strong>How will users access this form?</strong>
               <br>
-              When a Touchpoint is published,
-              it will be available at a URL on Touchpoints.
+              When a Touchpoints form is published,
+              it will be available at a URL on the Touchpoints application.
+              <br>
               <br>
 
               Additionally, a form can be embedded on an existing web property
               using one of three different methods:
               <ol>
                 <li>
-                  <strong>Tab button &amp; modal</strong> -
-                  Touchpoints will insert a default button on your website with
-                  the text that you indicate.  The button will launch
-                  a modal box displaying your survey.
+                  <strong>Blue USWDS button &amp; modal</strong> -
+                  Touchpoints will insert a blue USWDS button on your website with
+                  the text that you indicate.
+                  Clicking the button will launch a USWDS modal window displaying the form.
                 </li>
                 <li>
                   <strong>Custom button &amp; modal</strong> -
@@ -57,8 +58,8 @@
                 </li>
                 <li>
                   <strong>Inline</strong> -
-                  Touchpoints will embed your survey directly onto your
-                  website using a #html-element-id.
+                  embed a form directly onto your
+                  website by specifying #dom-element-id.
                 </li>
               </ol>
             </p>
@@ -66,18 +67,20 @@
         </div>
 
         <br>
-        <fieldset class="usa-fieldset  usa-form">
-          How will users access this survey?
-          <br>
-          <legend class="usa-sr-only">Delivery methods</legend>
-          <% Form::DELIVERY_METHODS.each_with_index do |delivery_method, index| %>
-            <div class="usa-radio">
-              <%= f.radio_button :delivery_method, delivery_method[0], class: "usa-radio__input usa-radio__input--tile" %>
-              <%= f.label delivery_method[1], class: "usa-radio__label", for: "form_delivery_method_#{delivery_method[0]}" %>
-            </div>
-          <% end %>
-        </fieldset>
-        <div class="grid-row">
+        <div class="grid-row grid-gap-lg">
+          <div class="grid-col-6">
+            <fieldset class="usa-fieldset  usa-form">
+              How will users access this form?
+              <br>
+              <legend class="usa-sr-only">Delivery methods</legend>
+              <% Form::DELIVERY_METHODS.each_with_index do |delivery_method, index| %>
+                <div class="usa-radio">
+                  <%= f.radio_button :delivery_method, delivery_method[0], class: "usa-radio__input usa-radio__input--tile" %>
+                  <%= f.label delivery_method[1], class: "usa-radio__label", for: "form_delivery_method_#{delivery_method[0]}" %>
+                </div>
+              <% end %>
+            </fieldset>
+          </div>
           <div class="grid-col-6">
             <div class="field" id="delivery-method-text" hidden>
               <%= f.label :modal_button_text, class: "usa-label" %>
@@ -94,21 +97,29 @@
         <div class="grid-row">
           <div class="grid-col-6">
             <div class="field">
-              <%= f.label :verify_csrf, class: "usa-label" %>
-              <div class="usa-hint font-sans-2xs">
-                CSRF stands for "Cross-site Request Forgery."
-                With
-                <code>verify_csrf</code>
-                enabled, Form Submissions
-                must include an authenticity token when created.
-                This setting should be enabled for Touchpoints-hosted forms.
-              </div>
-              <%= f.check_box :verify_csrf, class: "usa-checkbox" %>
+              <%= f.check_box :verify_csrf, class: "usa-checkbox__input" %>
+              <%= f.label :verify_csrf, class: "usa-checkbox__label" do %>
+                Verify CSRF?
+                <br>
+                <span class="usa-hint font-sans-2xs">
+                  CSRF stands for "Cross-site Request Forgery."
+                  <br>
+                  When enabled, forms include a
+                  <%= link_to "CSRF", "https://en.wikipedia.org/wiki/Cross-site_request_forgery", target: "_blank", rel: "noopener" %> token.
+                  <br>
+                  This setting should be enabled for Touchpoints-hosted forms.
+                  <br>
+                  Forms embedded on other sites are cross-site and should not check this box.
+                  <br>
+                  A CSRF will expire a form in a user's session after
+                  <%= Devise.timeout_in / 60 %> minutes.
+                </span>
+              <% end %>
             </div>
           </div>
         </div>
         <p>
-          <%= f.submit (@form.persisted? ? "Update Form" : "Create Form"), class: "usa-button" %>
+          <%= f.submit (@form.persisted? ? "Update Form" : "Create Form"), class: "usa-button width-full" %>
         </p>
       </div>
     </div>
