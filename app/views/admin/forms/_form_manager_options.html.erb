@@ -54,8 +54,10 @@
               <%= f.label :audience, nil, class: "usa-label" %>
               <small>
                 Is this form intended for public users or internal users?
+                <br>
+                If intended for both, choose public.
               </small>
-              <%= f.select :audience, options_for_select(["public", "internal"], selected: form.audience), {}, class: "usa-select" %>
+              <%= f.select :audience, options_for_select(["public", "internal"], selected: form.audience), { include_blank: (form.audience.empty? ? "Not yet specified" : nil) }, class: "usa-select" %>
             </div>
 
             <div class="tags-div margin-top-2">

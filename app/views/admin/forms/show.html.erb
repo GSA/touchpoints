@@ -129,6 +129,23 @@
             <% end %>
           </p>
           <p>
+            <%= label_tag "Audience", nil, class: "usa-label" %>
+            <%- if @form.audience? %>
+            <div>
+              <span class="usa-tag <%= @form.audience == 'public' ? 'bg-green' : "bg-base-light" %>">
+                Public
+              </span>
+              <span class="usa-tag <%= @form.audience == 'internal' ? 'bg-green' : "bg-base-light" %>">
+                Internal
+              </span>
+            </div>
+            <% else %>
+              <div class="font-sans-2xs text-base usa-prose">
+                Not yet specified
+              </div>
+            <% end %>
+          </p>
+          <p>
             <%= label_tag "Tags", nil, class: "usa-label" %>
             <%- if @form.tags.present? %>
               <div class="font-sans-2xs usa-prose">
