@@ -50,6 +50,14 @@
               <%= f.select :service_id, form.organization.services.includes(:organization).order("organizations.name", :name).map { |h| ["#{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, class: "usa-select" %>
             </div>
 
+            <div class="field">
+              <%= f.label :audience, nil, class: "usa-label" %>
+              <small>
+                Is this form intended for public users or internal users?
+              </small>
+              <%= f.select :audience, options_for_select(["public", "internal"], selected: form.audience), {}, class: "usa-select" %>
+            </div>
+
             <div class="tags-div margin-top-2">
               <%= render 'admin/forms/tags', form: form %>
             </div>

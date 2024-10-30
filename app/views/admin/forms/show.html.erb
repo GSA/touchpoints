@@ -114,6 +114,21 @@
             <% end %>
           </p>
           <p>
+            <%= label_tag "Service", nil, class: "usa-label" %>
+            <%- if @form.service_id? %>
+            <div>
+              <%= link_to @form.service.name, admin_service_path(@form.service) %>
+            </div>
+            <% else %>
+              <div class="font-sans-2xs text-base usa-prose">
+                A service has not been associated with this form.
+                <br>
+                View all <%= link_to "Services", admin_services_path %>
+                and consider creating one.
+              </div>
+            <% end %>
+          </p>
+          <p>
             <%= label_tag "Tags", nil, class: "usa-label" %>
             <%- if @form.tags.present? %>
               <div class="font-sans-2xs usa-prose">

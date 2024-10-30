@@ -33,6 +33,7 @@ class FormSerializer < ActiveModel::Serializer
              :uuid,
              :short_uuid,
              :organization_id,
+             :audience,
              :omb_approval_number,
              :expiration_date,
              :medium,
