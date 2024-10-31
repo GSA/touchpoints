@@ -12,7 +12,7 @@ module Admin
 
     def index
       @digital_service_accounts = DigitalServiceAccount
-        .filtered_accounts(search_params[:query], search_params[:org_abbr], search_params[:aasm_state], search_params[:account])
+        .filtered_accounts(search_params[:query], search_params[:org_abbr], search_params[:aasm_state], search_params[:service])
 
       @digital_service_accounts = @digital_service_accounts
         .order(:name)
@@ -31,7 +31,7 @@ module Admin
           query: search_params[:query],
           org_abbr: search_params[:org_abbr],
           aasm_state: search_params[:aasm_state],
-          account: search_params[:account]
+          service: search_params[:service]
         )
 
       flash[:success] = UserMailer::ASYNC_JOB_MESSAGE
@@ -245,7 +245,7 @@ module Admin
 
     def search
       @digital_service_accounts = DigitalServiceAccount
-        .filtered_accounts(search_params[:query], search_params[:org_abbr], search_params[:aasm_state], search_params[:account])
+        .filtered_accounts(search_params[:query], search_params[:org_abbr], search_params[:aasm_state], search_params[:service])
 
       @digital_service_accounts = @digital_service_accounts
         .order(:name)
@@ -271,7 +271,6 @@ module Admin
         :user_id,
         :service,
         :service_url,
-        :account,
         :language,
         :status,
         :short_description,
@@ -286,7 +285,7 @@ module Admin
       params.permit(
         :aasm_state,
         :org_abbr,
-        :account,
+        :service,
         :query
       )
     end

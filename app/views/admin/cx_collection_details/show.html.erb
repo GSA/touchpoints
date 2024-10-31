@@ -33,7 +33,7 @@
 
 <p>
   <strong>Organization:</strong>
-  <%= link_to @cx_collection_detail.cx_collection.organization.name, admin_organization_path(@cx_collection_detail.cx_collection.organization) %>
+  <%= render "admin/organizations/badge", organization: @cx_collection_detail.cx_collection.organization %>
 </p>
 <p>
   <strong>Cx collection:</strong>

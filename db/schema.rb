@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_23_210941) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_30_172438) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -313,7 +313,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_23_210941) do
     t.integer "user_id"
     t.string "service"
     t.string "service_url"
-    t.string "account"
     t.string "language"
     t.string "short_description"
     t.text "long_description"
@@ -418,6 +417,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_23_210941) do
     t.datetime "approved_at"
     t.boolean "legacy_form_embed", default: false
     t.datetime "archived_at"
+    t.string "audience", default: "public", comment: "indicates whether a form is intended for a public or internal audience"
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["organization_id"], name: "index_forms_on_organization_id"

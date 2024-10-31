@@ -13,15 +13,15 @@ class DigitalServiceAccount < ApplicationRecord
   belongs_to :organization, optional: true
 
   validates :name, presence: true
-  validates :name, uniqueness: { scope: :account }
-  validates :account, presence: true
-  validate :validate_account_types
+  validates :name, uniqueness: { scope: :service }
+  validates :service, presence: true
+  validate :validate_service_types
   validates :service_url, presence: true
   validates :service_url, uniqueness: true
 
   scope :active, -> { where(aasm_state: :published) }
 
-  scope :filtered_accounts, lambda { |query, organization_abbreviation, aasm_state, account|
+  scope :filtered_accounts, lambda { |query, organization_abbreviation, aasm_state, service|
     @organization = Organization.find_by_abbreviation(organization_abbreviation)
 
     wildcard_query = "%#{query}%"
@@ -29,8 +29,8 @@ class DigitalServiceAccount < ApplicationRecord
     items = all
     items = items.tagged_with(@organization.id, context: 'organizations') if @organization.present?
     items = items.where(aasm_state:) if aasm_state.present? && aasm_state.downcase != 'all'
-    items = items.where(service: account) if account.present? && account.downcase != 'all'
-    items = items.where("name ILIKE ? OR account ILIKE ? OR short_description ILIKE ? OR service_url ILIKE ?", wildcard_query, wildcard_query, wildcard_query, wildcard_query) if query && query.length >= 3
+    items = items.where(service: service) if service.present? && service.downcase != 'all'
+    items = items.where("name ILIKE ? OR service ILIKE ? OR short_description ILIKE ? OR service_url ILIKE ?", wildcard_query, wildcard_query, wildcard_query, wildcard_query) if query && query.length >= 3
 
     items
   }
@@ -69,43 +69,43 @@ class DigitalServiceAccount < ApplicationRecord
 
   def self.list
     [
-      'Disqus',
-      'Eventbrite',
-      'Facebook',
-      'Flickr',
-      'Foursquare',
-      'Giphy',
-      'Github',
-      'Google plus',
-      'Ideascale',
-      'Instagram',
-      'Linkedin',
-      'Linktree',
-      'Livestream',
-      'Mastodon',
-      'Medium',
-      'Myspace',
-      'Pinterest',
-      'Reddit',
-      'Scribd',
-      'Slideshare',
-      'Socrata',
-      'Storify',
-      'Tableau',
-      'Threads',
-      'Tumblr',
-      'Twitter',
-      'Uservoice',
-      'Ustream',
-      'Vimeo',
-      'Yelp',
-      'Youtube',
-      'Other',
+      'disqus',
+      'eventbrite',
+      'facebook',
+      'flickr',
+      'foursquare',
+      'giphy',
+      'github',
+      'google plus',
+      'ideascale',
+      'instagram',
+      'linkedin',
+      'linktree',
+      'livestream',
+      'mastodon',
+      'medium',
+      'myspace',
+      'pinterest',
+      'reddit',
+      'scribd',
+      'slideshare',
+      'socrata',
+      'storify',
+      'tableau',
+      'threads',
+      'tumblr',
+      'twitter',
+      'uservoice',
+      'ustream',
+      'vimeo',
+      'yelp',
+      'youtube',
+      'other',
     ]
   end
 
-  def validate_account_types
-    errors.add(:account, "Invalid account platform '#{account}'") unless DigitalServiceAccount.list.include?(account)
+  def validate_service_types
+    errors.add(:service, "Invalid service platform '#{service}'") unless DigitalServiceAccount.list.include?(service)
   end
 
   def contact_emails
@@ -123,7 +123,6 @@ class DigitalServiceAccount < ApplicationRecord
 
     attributes = [
       :id,
-      :account,
       :name,
       :contact_emails,
       :organization_names,

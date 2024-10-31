@@ -11,7 +11,7 @@
   <tbody>
     <% digital_service_accounts.each do |digital_service_account| %>
       <tr>
-        <td><%= digital_service_account.account %></td>
+        <td><%= digital_service_account.service %></td>
         <td>
           <%= link_to digital_service_account.name, admin_digital_service_account_path(digital_service_account) %>
         </td>
@@ -43,7 +43,7 @@
 </table>
 
 <div class="margin-bottom-2">
-  <%= link_to export_admin_digital_service_accounts_path(query: params[:query], org_abbr: params[:org_abbr], account: params[:account], aasm_state: params[:aasm_state], format: :csv), class: "usa-button usa-button--outline" do %>
+  <%= link_to export_admin_digital_service_accounts_path(query: params[:query], org_abbr: params[:org_abbr], service: params[:service], aasm_state: params[:aasm_state], format: :csv), class: "usa-button usa-button--outline" do %>
     <i class="fa fa-download"></i>
     Export to CSV
   <% end %>
