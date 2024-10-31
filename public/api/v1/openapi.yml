@@ -836,8 +836,6 @@
         properties:
           name:
             type: "string"
-          account:
-            type: "string"
           status:
             type: "string"
           agencies:
@@ -848,6 +846,8 @@
             type: "array"
             items:
               $ref: '#/components/schemas/PublicUser'
+          service:
+            type: "string"
           service_url:
             type: "string"
           short_description:

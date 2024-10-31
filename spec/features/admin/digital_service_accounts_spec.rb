@@ -76,7 +76,7 @@ feature 'Digital Service Accounts', js: true do
         click_on 'New Account'
         expect(page).to have_content('New Social Media Account')
         fill_in :digital_service_account_name, with: 'Test Name'
-        select('Facebook', from: 'digital_service_account[account]')
+        select('Facebook', from: 'digital_service_account[service]')
         fill_in :digital_service_account_service_url, with: 'https://twitter.com/government'
         click_on 'Create social media account'
       end
@@ -206,7 +206,7 @@ feature 'Digital Service Accounts', js: true do
     end
 
     describe '#search' do
-      let!(:digital_service_account) { FactoryBot.create(:digital_service_account, name: 'Test1776', account: 'Facebook', service: 'Facebook', aasm_state: 'published') }
+      let!(:digital_service_account) { FactoryBot.create(:digital_service_account, name: 'Test1776', service: 'facebook', aasm_state: 'published') }
       let!(:digital_service_account_2) { FactoryBot.create(:digital_service_account, aasm_state: 'created') }
 
       before do
@@ -239,7 +239,7 @@ feature 'Digital Service Accounts', js: true do
     end
 
     describe '#review' do
-      let!(:digital_service_account) { FactoryBot.create(:digital_service_account, name: 'Test1', service: 'Facebook', aasm_state: 'published') }
+      let!(:digital_service_account) { FactoryBot.create(:digital_service_account, name: 'Test1', service: 'facebook', aasm_state: 'published') }
       let!(:digital_service_account_2) { FactoryBot.create(:digital_service_account, aasm_state: 'created') }
       let!(:digital_service_account_3) { FactoryBot.create(:digital_service_account, aasm_state: 'updated') }
 

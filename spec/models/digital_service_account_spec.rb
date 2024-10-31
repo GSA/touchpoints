@@ -9,7 +9,7 @@ RSpec.describe DigitalServiceAccount, type: :model do
     describe "#name" do
       before do
         @new_digital_service_account = DigitalServiceAccount.create({
-          account: "Twitter",
+          service: "twitter",
           service_url: "https://lvh.me/test"
         })
       end
@@ -24,7 +24,7 @@ RSpec.describe DigitalServiceAccount, type: :model do
         before do
           @new_digital_service_account = DigitalServiceAccount.create({
             name: "Testing",
-            account: "Twitter",
+            service: "twitter",
           })
         end
 
@@ -38,13 +38,13 @@ RSpec.describe DigitalServiceAccount, type: :model do
 
           @new_digital_service_account = DigitalServiceAccount.create({
             name: "Testing",
-            account: "Twitter",
+            service: "youtube",
             service_url: digital_service_account.service_url
           })
         end
 
         it "ensures a unique service_url" do
-          expect(@new_digital_service_account.errors.messages).to eq({:service_url=>["has already been taken"]})
+          expect(@new_digital_service_account.errors.messages).to eq({service_url: ["has already been taken"]})
         end
       end
     end
@@ -59,7 +59,7 @@ RSpec.describe DigitalServiceAccount, type: :model do
         end
 
         it "ensures an account is specified" do
-          expect(@new_digital_service_account.errors.messages).to eq({:account => ["can't be blank", "Invalid account platform ''"]})
+          expect(@new_digital_service_account.errors.messages).to eq({service: ["can't be blank", "Invalid service platform ''"]})
         end
       end
 
@@ -68,13 +68,13 @@ RSpec.describe DigitalServiceAccount, type: :model do
 
           @new_digital_service_account = DigitalServiceAccount.create({
             name: "Testing",
-            account: "Something Else",
+            service: "Something else",
             service_url: "https://lvh.me/test1234"
           })
         end
 
         it "ensures a unique service_url" do
-          expect(@new_digital_service_account.errors.messages).to eq({:account=>["Invalid account platform 'Something Else'"]})
+          expect(@new_digital_service_account.errors.messages).to eq({service: ["Invalid service platform 'Something else'"]})
         end
       end
     end
