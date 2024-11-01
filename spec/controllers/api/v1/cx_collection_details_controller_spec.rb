@@ -30,7 +30,7 @@ describe Api::V1::CxCollectionDetailsController, type: :controller do
       end
 
       it 'get access denied due to HTTP Basic Auth' do
-        parsed_response = JSON.parse(response.body)
+        parsed_response = parse_response(response.body)
         expect(response.status).to eq(400)
         expect(parsed_response['error']['message']).to eq('Invalid request. No ?API_KEY= was passed in.')
       end
@@ -43,7 +43,7 @@ describe Api::V1::CxCollectionDetailsController, type: :controller do
       end
 
       it 'get access denied due to HTTP Basic Auth' do
-        parsed_response = JSON.parse(response.body)
+        parsed_response = parse_response(response.body)
         expect(response.status).to eq(401)
         expect(parsed_response['error']['message']).to eq('The API_KEY INVALID_KEY is not valid.')
       end
@@ -56,7 +56,7 @@ describe Api::V1::CxCollectionDetailsController, type: :controller do
           user.update(api_key: TEST_API_KEY)
           request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch('API_HTTP_USERNAME'), ENV.fetch('API_HTTP_PASSWORD'))
           get :index, format: :json, params: { 'API_KEY' => user.api_key }
-          @parsed_response = JSON.parse(response.body)
+          @parsed_response = parse_response(response.body)
         end
 
         it 'return an array of published cx collection details' do

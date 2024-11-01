@@ -21,7 +21,7 @@ describe Api::V1::CxResponsesController, type: :controller do
       end
 
       it 'get access denied due to HTTP Basic Auth' do
-        parsed_response = JSON.parse(response.body)
+        parsed_response = parse_response(response.body)
         expect(response.status).to eq(400)
         expect(parsed_response['error']['message']).to eq('Invalid request. No ?API_KEY= was passed in.')
       end
@@ -34,7 +34,7 @@ describe Api::V1::CxResponsesController, type: :controller do
       end
 
       it 'get access denied due to HTTP Basic Auth' do
-        parsed_response = JSON.parse(response.body)
+        parsed_response = parse_response(response.body)
         expect(response.status).to eq(401)
         expect(parsed_response['error']['message']).to eq('The API_KEY INVALID_KEY is not valid.')
       end
@@ -57,7 +57,7 @@ describe Api::V1::CxResponsesController, type: :controller do
         end
 
         it 'return a default paginated array of cx_responses' do
-          parsed_response = JSON.parse(response.body)
+          parsed_response = parse_response(response.body)
           expect(cx_collection_detail.cx_responses.count).to eq(1000)
 
           expect(response.status).to eq(200)
@@ -77,7 +77,7 @@ describe Api::V1::CxResponsesController, type: :controller do
 
         it 'return the last paginated array of 100 cx_responses' do
           expect(cx_collection_detail.cx_responses.count).to eq(1000)
-          parsed_response = JSON.parse(response.body)
+          parsed_response = parse_response(response.body)
 
           expect(response.status).to eq(200)
           expect(parsed_response['data'].class).to be(Array)
@@ -107,7 +107,7 @@ describe Api::V1::CxResponsesController, type: :controller do
 
           expect(response).to have_http_status(:success)
 
-          parsed_response = JSON.parse(response.body)
+          parsed_response = parse_response(response.body)
           response_ids = parsed_response["data"].map { |r| r["id"].to_i }
 
           expect(response_ids).to include(response_in_range.id)
@@ -119,7 +119,7 @@ describe Api::V1::CxResponsesController, type: :controller do
 
           expect(response).to have_http_status(:bad_request)
 
-          parsed_response = JSON.parse(response.body)
+          parsed_response = parse_response(response.body)
           expect(parsed_response["error"]["message"]).to eq("invalid date format, should be 'YYYY-MM-DD'")
         end
       end

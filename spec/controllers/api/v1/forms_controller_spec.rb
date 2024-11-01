@@ -21,7 +21,7 @@ describe Api::V1::FormsController, type: :controller do
       end
 
       it 'get access denied due to HTTP Basic Auth' do
-        parsed_response = JSON.parse(response.body)
+        parsed_response = parse_response(response.body)
         expect(response.status).to eq(400)
         expect(parsed_response['error']['message']).to eq('Invalid request. No ?API_KEY= was passed in.')
       end
@@ -34,7 +34,7 @@ describe Api::V1::FormsController, type: :controller do
       end
 
       it 'get access denied due to HTTP Basic Auth' do
-        parsed_response = JSON.parse(response.body)
+        parsed_response = parse_response(response.body)
         expect(response.status).to eq(401)
         expect(parsed_response['error']['message']).to eq('The API_KEY INVALID_KEY is not valid.')
       end
@@ -56,7 +56,7 @@ describe Api::V1::FormsController, type: :controller do
             organizational_admin_user.update(api_key: TEST_API_KEY)
             request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch('API_HTTP_USERNAME'), ENV.fetch('API_HTTP_PASSWORD'))
             get :index, format: :json, params: { 'API_KEY' => organizational_admin_user.api_key }
-            @parsed_response = JSON.parse(response.body)
+            @parsed_response = parse_response(response.body)
           end
 
           it 'return an array of all Organization forms' do
@@ -86,7 +86,7 @@ describe Api::V1::FormsController, type: :controller do
             user.update(api_key: TEST_API_KEY)
             request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch('API_HTTP_USERNAME'), ENV.fetch('API_HTTP_PASSWORD'))
             get :index, format: :json, params: { 'API_KEY' => user.api_key }
-            @parsed_response = JSON.parse(response.body)
+            @parsed_response = parse_response(response.body)
           end
 
           it "return an array of the user's forms" do
@@ -123,7 +123,7 @@ describe Api::V1::FormsController, type: :controller do
           user.update(api_key: TEST_API_KEY)
           request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch('API_HTTP_USERNAME'), ENV.fetch('API_HTTP_PASSWORD'))
           get :show, format: :json, params: { id: form.short_uuid, 'API_KEY' => user.api_key }
-          @parsed_response = JSON.parse(response.body)
+          @parsed_response = parse_response(response.body)
         end
 
         it 'return an array of forms' do
@@ -157,7 +157,7 @@ describe Api::V1::FormsController, type: :controller do
 
         it 'returns an array of forms with default page number and size' do
           get :show, format: :json, params: { id: form.short_uuid, 'API_KEY' => user.api_key }
-          parsed_response = JSON.parse(response.body)
+          parsed_response = parse_response(response.body)
           expect(response.status).to eq(200)
           expect(parsed_response['data']['relationships']['submissions']['data'].size).to eq(3)
           expect(parsed_response['links']['first']).not_to be_nil
@@ -168,7 +168,7 @@ describe Api::V1::FormsController, type: :controller do
 
         it 'returns an array of forms with page 1 of 2 results' do
           get :show, format: :json, params: { id: form.short_uuid, 'API_KEY' => user.api_key, page: 0, size: 2 }
-          parsed_response = JSON.parse(response.body)
+          parsed_response = parse_response(response.body)
           expect(response.status).to eq(200)
           expect(parsed_response['data']['relationships']['submissions']['data'].size).to eq(2)
           expect(parsed_response['links']['first']).not_to be_nil
@@ -179,7 +179,7 @@ describe Api::V1::FormsController, type: :controller do
 
         it 'returns an array of forms with page 2 with 1 result' do
           get :show, format: :json, params: { id: form.short_uuid, 'API_KEY' => user.api_key, page: 1, size: 2 }
-          parsed_response = JSON.parse(response.body)
+          parsed_response = parse_response(response.body)
           expect(response.status).to eq(200)
           expect(parsed_response['data']['relationships']['submissions']['data'].size).to eq(1)
           expect(parsed_response['links']['first']).not_to be_nil
@@ -190,7 +190,7 @@ describe Api::V1::FormsController, type: :controller do
 
         it 'returns an array of forms with page 3 with 0 results' do
           get :show, format: :json, params: { id: form.short_uuid, 'API_KEY' => user.api_key, page: 2, size: 2 }
-          parsed_response = JSON.parse(response.body)
+          parsed_response = parse_response(response.body)
           expect(response.status).to eq(200)
           expect(parsed_response['data']['relationships']['submissions']['data'].size).to eq(0)
           expect(parsed_response['links']['first']).not_to be_nil
@@ -216,42 +216,42 @@ describe Api::V1::FormsController, type: :controller do
 
         it 'returns an array of forms with date filter defaults' do
           get :show, format: :json, params: { id: form.short_uuid, 'API_KEY' => user.api_key }
-          parsed_response = JSON.parse(response.body)
+          parsed_response = parse_response(response.body)
           expect(response.status).to eq(200)
           expect(parsed_response['data']['relationships']['submissions']['data'].size).to eq(3)
         end
 
         it 'returns an array of forms with submissions which occurred during the past day' do
           get :show, format: :json, params: { id: form.short_uuid, 'API_KEY' => user.api_key, start_date: Date.today.strftime('%Y-%m-%d'), end_date: 1.day.from_now.strftime('%Y-%m-%d') }
-          parsed_response = JSON.parse(response.body)
+          parsed_response = parse_response(response.body)
           expect(response.status).to eq(200)
           expect(parsed_response['data']['relationships']['submissions']['data'].size).to eq(1)
         end
 
         it 'returns an array of forms with submissions which occurred during the past two days' do
           get :show, format: :json, params: { id: form.short_uuid, 'API_KEY' => user.api_key, start_date: 1.day.ago.strftime('%Y-%m-%d'), end_date: 1.day.from_now.strftime('%Y-%m-%d') }
-          parsed_response = JSON.parse(response.body)
+          parsed_response = parse_response(response.body)
           expect(response.status).to eq(200)
           expect(parsed_response['data']['relationships']['submissions']['data'].size).to eq(2)
         end
 
         it 'returns an array of forms with submissions which occurred during the past week' do
           get :show, format: :json, params: { id: form.short_uuid, 'API_KEY' => user.api_key, start_date: 7.days.ago.strftime('%Y-%m-%d'), end_date: 1.day.from_now.strftime('%Y-%m-%d') }
-          parsed_response = JSON.parse(response.body)
+          parsed_response = parse_response(response.body)
           expect(response.status).to eq(200)
           expect(parsed_response['data']['relationships']['submissions']['data'].size).to eq(3)
         end
 
         it 'returns an array of forms with submissions which occurred during the past week with paging' do
           get :show, format: :json, params: { id: form.short_uuid, 'API_KEY' => user.api_key, page: 0, size: 2, start_date: 7.days.ago.strftime('%Y-%m-%d'), end_date: 1.day.from_now.strftime('%Y-%m-%d') }
-          parsed_response = JSON.parse(response.body)
+          parsed_response = parse_response(response.body)
           expect(response.status).to eq(200)
           expect(parsed_response['data']['relationships']['submissions']['data'].size).to eq(2)
         end
 
         it 'returns an invalid input response for a bad date input' do
           get :show, format: :json, params: { id: form.short_uuid, 'API_KEY' => user.api_key, start_date: 'Foo', end_date: 7.days.from_now.strftime('%Y-%m-%d') }
-          parsed_response = JSON.parse(response.body)
+          parsed_response = parse_response(response.body)
           expect(response.status).to eq(400)
         end
       end
