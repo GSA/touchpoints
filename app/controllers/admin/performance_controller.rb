@@ -21,7 +21,7 @@ module Admin
       quarter = params[:quarter]
 
       CxCollection.where(aasm_state: 'draft', year:, quarter:).find_each do |cx_collection|
-        UserMailer.quarterly_performance_notification(collection_id: cx_collection.id).deliver_later
+        UserMailer.quarterly_performance_notification(cx_collection_id: cx_collection.id).deliver_later
       end
 
       redirect_to admin_performance_path,

@@ -97,8 +97,9 @@ RSpec.describe UserMailer, type: :mailer do
   describe 'quarterly_performance_update' do
     let!(:organization) { FactoryBot.create(:organization) }
     let!(:user) { FactoryBot.create(:user, organization:) }
-    let!(:cx_collection) { FactoryBot.create(:cx_collection, user:) }
-    let(:mail) { UserMailer.quarterly_performance_notification(collection_id: collection.id) }
+    let(:service) { FactoryBot.create(:service, organization:, service_owner_id: user.id) }
+    let!(:cx_collection) { FactoryBot.create(:cx_collection, user:, service:) }
+    let(:mail) { UserMailer.quarterly_performance_notification(cx_collection_id: cx_collection.id) }
 
     before do
       ENV['ENABLE_EMAIL_NOTIFICATIONS'] = 'true'

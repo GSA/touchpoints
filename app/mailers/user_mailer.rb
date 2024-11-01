@@ -81,21 +81,21 @@ class UserMailer < ApplicationMailer
 
   def cscrm_data_collection_notification(collection_id:)
     set_logo
-    @collection = CscrmDataCollection.find(collection_id)
-    mail subject: "CSCRM Data Collection notification to #{@collection.id}",
+    @cscrm_data_collection = CscrmDataCollection.find(collection_id)
+    mail subject: "CSCRM Data Collection notification to #{@cscrm_data_collection.id}",
       to: (UserMailer.touchpoints_admin_emails + User.where(cscrm_data_collection_manager: true).collect(&:email)).uniq
   end
 
   def cscrm_data_collection2_notification(collection_id:)
     set_logo
-    @collection = CscrmDataCollection2.find(collection_id)
-    mail subject: "CSCRM Data Collection 2 notification to #{@collection.id}",
+    @cscrm_data_collection = CscrmDataCollection2.find(collection_id)
+    mail subject: "CSCRM Data Collection 2 notification to #{@cscrm_data_collection.id}",
       to: (UserMailer.touchpoints_admin_emails + User.where(cscrm_data_collection_manager: true).collect(&:email)).uniq
   end
 
-  def quarterly_performance_notification(collection_id:)
+  def quarterly_performance_notification(cx_collection_id:)
     set_logo
-    @cx_collection = CxCollection.find(collection_id)
+    @cx_collection = CxCollection.find(cx_collection_id)
     mail subject: "Quarterly Performance Data Collection Ready: #{@cx_collection.name}",
          to: @cx_collection.user.email,
          cc: User.performance_managers.collect(&:email).uniq
