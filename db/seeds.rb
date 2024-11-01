@@ -604,125 +604,100 @@ Website.create!({
   production_status: 'production'
 })
 
-data_collection = Collection.create!({
-  organization: Organization.first,
+data_collection = CxCollection.create!({
+  organization: service_1.organization,
   service_provider: service_provider_1,
-  user: User.all.sample,
-  year: 2021,
-  quarter: 2,
+  service: service_1,
   name: 'CX Quarterly Data Collection',
-  start_date: '2021-01-01',
-  end_date: '2021-03-31',
+  user: User.all.sample,
+  fiscal_year: 2021,
+  quarter: 2,
   rating: 'TRUE',
+  likert_or_thumb_question: "",
+  number_of_interactions: 123_456,
+  number_of_people_offered_the_survey: 9_876,
+  likert_or_thumb_question: "thumbs_up_down",
+  likert_or_thumb_question: "likert_scale",
+  trust_question_text: "How are you?",
+  survey_title: "",
+  channel: "",
+  service_stage_id: "",
+  transaction_point: "",
+  digital_service_or_contact_center: "",
+  service_type: "",
+
 })
 
-data_collection = Collection.create!({
-  organization: Organization.first,
-  service_provider: service_provider_1,
+CxCollection.create!({
+  organization: service_provider_3.organization,
+  service_provider: service_provider_3,
+  service: service_4,
   user: User.all.sample,
-  year: 2021,
+  fiscal_year: 2021,
   quarter: 3,
   name: 'CX Quarterly Data Collection',
-  start_date: '2021-04-01',
-  end_date: '2021-06-30',
   rating: 'FALSE',
 })
 
-data_collection = Collection.create!({
-  organization: example_gov,
-  service_provider: service_provider_2,
+CxCollection.create!({
+  organization: service_provider_3.organization,
+  service_provider: service_provider_3,
+  service: service_4,
   user: User.all.sample,
-  year: 2021,
+  fiscal_year: 2021,
   quarter: 1,
   name: 'CX Quarterly Data Collection',
-  start_date: '2020-10-31',
-  end_date: '2020-12-31',
   rating: 'PARTIAL',
 })
 
-data_collection = Collection.create!({
-  organization: example_gov,
-  service_provider: service_provider_2,
+CxCollection.create!({
+  organization: service_provider_3.organization,
+  service_provider: service_provider_3,
+  service: service_4,
   user: User.all.sample,
-  year: 2021,
+  fiscal_year: 2021,
   quarter: 2,
   name: 'CX Quarterly Data Collection',
-  start_date: '2021-01-01',
-  end_date: '2021-03-31',
   rating: 'PARTIAL',
 })
 
-data_collection = Collection.create!({
-  organization: example_gov,
-  service_provider: service_provider_2,
+CxCollection.create!({
+  organization: service_provider_3.organization,
+  service_provider: service_provider_3,
+  service: service_4,
   user: User.all.sample,
-  year: 2021,
+  fiscal_year: 2021,
   quarter: 3,
   name: 'CX Quarterly Data Collection',
-  start_date: '2021-04-01',
-  end_date: '2021-06-30',
   rating: 'PARTIAL',
 })
 
-data_collection = Collection.create!({
-  organization: example_gov,
-  service_provider: service_provider_2,
+CxCollection.create!({
+  organization: service_provider_3.organization,
+  service_provider: service_provider_3,
+  service: service_4,
   user: User.all.sample,
-  year: 2021,
+  fiscal_year: 2021,
   quarter: 4,
   name: 'CX Quarterly Data Collection',
-  start_date: '2021-07-01',
-  end_date: '2021-09-30',
   rating: 'PARTIAL',
 })
 
 
-OmbCxReportingCollection.create!({
-  collection: data_collection,
-  service: service_1,
-  service_provided: 'Test CX Quarterly Reporting',
-  q1_text: 'Question 1',
-  q1_1: rand(1000),
-  q1_2: rand(1000),
-  q1_3: rand(1000),
-  q1_4: rand(1000),
-  q1_5: rand(1000),
-  q2_text: 'Question 2',
-  q2_1: rand(1000),
-  q2_2: rand(1000),
-  q2_3: rand(1000),
-  q2_4: rand(1000),
-  q2_5: rand(1000),
-  q3_text: 'Question 3',
-  q3_1: rand(1000),
-  q3_2: rand(1000),
-  q3_3: rand(1000),
-  q3_4: rand(1000),
-  q3_5: rand(1000),
-  q4_text: 'Question 4',
-  q4_1: rand(1000),
-  q4_2: rand(1000),
-  q4_3: rand(1000),
-  q4_4: rand(1000),
-  q4_5: rand(1000),
-  q5_text: 'Question 5',
-  q5_1: rand(1000),
-  q5_2: rand(1000),
-  q5_3: rand(1000),
-  q5_4: rand(1000),
-  q5_5: rand(1000),
-  q6_text: 'Question 6',
-  q6_1: rand(1000),
-  q6_2: rand(1000),
-  q6_3: rand(1000),
-  q6_4: rand(1000),
-  q6_5: rand(1000),
-  q7_text: 'Question 7',
-  q7_1: rand(1000),
-  q7_2: rand(1000),
-  q7_3: rand(1000),
-  q7_4: rand(1000),
-  q7_5: rand(1000),
+CxCollectionDetail.create!({
+  cx_collection: data_collection,
+  transaction_point: "along the way",
+  channel: Service.channels.sample ,
+  service_stage_id: data_collection.service.service_stages.first,
+  volume_of_customers: 123_456,
+  volume_of_customers_provided_survey_opportunity: 54_321,
+  volume_of_respondents: 6_789,
+  omb_control_number: "1234-5678",
+  reflection_text: "things are going",
+  federal_register_url: "",
+  survey_type: "",
+  survey_title: "A-11 customer feedback",
+  trust_question_text: "Did this service increase your trust?"
 })
 
 
