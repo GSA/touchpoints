@@ -80,7 +80,7 @@ class Admin::CxCollectionDetailsController < AdminController
     @valid_file_extension = (file_extension == ".csv")
 
     # check the file to ensure it is valid
-    csv_file = CSV.parse(file.read, headers: true)
+    csv_file = CSV.parse(file.read, headers: true, encoding: "UTF-8")
     begin
     @valid_file_headers = csv_file.headers.sort == [
       "external_id",
