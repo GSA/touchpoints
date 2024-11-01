@@ -17,6 +17,8 @@ module Admin
     end
 
     def show
+      ensure_cx_collection_owner(cx_collection: @cx_collection)
+
       @events = Event
         .where(object_type: "CxCollection", object_uuid: @cx_collection.id)
         .order("created_at DESC")
@@ -27,6 +29,7 @@ module Admin
     end
 
     def edit
+      ensure_cx_collection_owner(cx_collection: @cx_collection)
     end
 
     def export_cx_responses_csv
@@ -67,6 +70,8 @@ module Admin
     end
 
     def submit
+      ensure_cx_collection_owner(cx_collection: @cx_collection)
+
       @cx_collection.submit!
       Event.log_event(Event.names[:cx_collection_submitted], @cx_collection.class.to_s, @cx_collection.id, "Collection #{@cx_collection.name} submitted at #{DateTime.now}", current_user.id)
       UserMailer.cx_collection_notification(cx_collection_id: @cx_collection.id).deliver_later
@@ -74,12 +79,16 @@ module Admin
     end
 
     def publish
+      ensure_performance_manager_permissions
+
       @cx_collection.publish!
       Event.log_event(Event.names[:cx_collection_published], @cx_collection.class.to_s, @cx_collection.id, "Collection #{@cx_collection.name} published at #{DateTime.now}", current_user.id)
       redirect_to admin_cx_collection_path(@cx_collection), notice: 'CX Data Collection has been published successfully.'
     end
 
     def no_report
+      ensure_performance_manager_permissions
+
       @cx_collection.submitted_at = nil
       @cx_collection.no_report!
       Event.log_event(Event.names[:cx_collection_not_reported], @cx_collection.class.to_s, @cx_collection.id, "Collection #{@cx_collection.name} reset at #{DateTime.now}", current_user.id)
@@ -87,12 +96,16 @@ module Admin
     end
 
     def reset
+      ensure_performance_manager_permissions
+
       @cx_collection.reset!
       Event.log_event(Event.names[:cx_collection_reset], @cx_collection.class.to_s, @cx_collection.id, "Collection #{@cx_collection.name} reset at #{DateTime.now}", current_user.id)
       redirect_to admin_cx_collection_path(@cx_collection), notice: 'CX Data Collection has been reset successfully.'
     end
 
     def export_csv
+      ensure_cx_collection_owner(cx_collection: @cx_collection)
+
       if performance_manager_permissions?
         @collections = CxCollection.all
       else
@@ -120,6 +133,8 @@ module Admin
     end
 
     def update
+      ensure_cx_collection_owner(cx_collection: @cx_collection)
+
       respond_to do |format|
         if @cx_collection.update(cx_collection_params)
           Event.log_event(Event.names[:collection_cx_updated], @cx_collection.class.to_s, @cx_collection.id, "Collection #{@cx_collection.name} updated at #{DateTime.now}", current_user.id)
@@ -133,6 +148,8 @@ module Admin
     end
 
     def destroy
+      ensure_cx_collection_owner(cx_collection: @cx_collection)
+
       @cx_collection.destroy
 
       respond_to do |format|
@@ -144,7 +161,11 @@ module Admin
 
     private
       def set_cx_collection
-        @cx_collection = CxCollection.find(params[:id])
+        if performance_manager_permissions?
+          @cx_collection = CxCollection.find(params[:id])
+        else
+          @cx_collection = current_user.cx_collections.find(params[:id])
+        end
       end
 
       def cx_collection_params

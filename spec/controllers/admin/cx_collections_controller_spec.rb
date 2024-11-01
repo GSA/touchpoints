@@ -5,8 +5,10 @@ require 'rails_helper'
 RSpec.describe Admin::CxCollectionsController, type: :controller do
   let(:organization) { FactoryBot.create(:organization) }
   let(:another_organization) { FactoryBot.create(:organization) }
+  let(:a_third_organization) { FactoryBot.create(:organization) }
   let(:admin) { FactoryBot.create(:user, :admin, organization:) }
   let(:user) { FactoryBot.create(:user, organization: another_organization) }
+  let(:user_3) { FactoryBot.create(:user, organization: a_third_organization) }
   let(:service) { FactoryBot.create(:service, organization:, service_owner_id: user.id) }
   let(:service_provider) { FactoryBot.create(:service_provider, organization:) }
   let(:cx_collection) { FactoryBot.create(:cx_collection, organization: another_organization, service: service) }
@@ -26,16 +28,12 @@ RSpec.describe Admin::CxCollectionsController, type: :controller do
     }
   end
 
-  context 'as an User' do
-    let(:user2) { FactoryBot.create(:user, organization: another_organization) }
-
+  context 'as a User' do
     before do
       sign_in(user)
     end
 
     describe 'GET /show' do
-      let(:cx_collection) { FactoryBot.create(:cx_collection, organization: another_organization, user: user2, service_provider:) }
-
       it 'renders a successful response' do
         get :index, params: {}, session: valid_session
         expect(response).to be_successful
@@ -44,11 +42,12 @@ RSpec.describe Admin::CxCollectionsController, type: :controller do
 
     context 'for a Collection from another organization' do
       describe 'GET /show' do
-        let!(:cx_collection) { FactoryBot.create(:cx_collection, organization:, user: admin, service_provider:) }
+        let!(:cx_collection_3) { FactoryBot.create(:cx_collection, organization: user_3.organization, user: user_3, service_provider:, service:) }
 
         it 'renders RecordNotFound' do
+          expect(user.organization_id).to_not eq(user_3.organization_id)
           expect do
-            get :show, params: { id: cx_collection.id }, session: valid_session
+            get :show, params: { id: cx_collection_3.id }, session: valid_session
           end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
