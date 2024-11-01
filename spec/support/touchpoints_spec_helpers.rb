@@ -31,5 +31,5 @@ module TouchpointsSpecHelpers
 end
 
 RSpec.configure do |config|
-  config.include TouchpointsSpecHelpers, type: :feature
+  config.include TouchpointsSpecHelpers
 end
