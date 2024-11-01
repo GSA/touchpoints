@@ -107,11 +107,11 @@ module Admin
       ensure_cx_collection_owner(cx_collection: @cx_collection)
 
       if performance_manager_permissions?
-        @collections = CxCollection.all
+        @cx_collections = CxCollection.all
       else
-        @collections = current_user.cx_collections
+        @cx_collections = current_user.cx_collections
       end
-      send_data @collections.to_csv, filename: "touchpoints-data-cx-collections-#{Date.today}.csv"
+      send_data @cx_collections.to_csv, filename: "touchpoints-data-cx-collections-#{Date.today}.csv"
     end
 
     def copy

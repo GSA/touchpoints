@@ -26,7 +26,7 @@ module Admin
 
     def show
       @forms = @organization.forms
-      @collections = @organization.collections
+      @cx_collections = @organization.cx_collections
       @users = @organization.users.active.order(:email)
     end
 
