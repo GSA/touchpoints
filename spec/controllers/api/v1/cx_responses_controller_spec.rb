@@ -77,7 +77,7 @@ describe Api::V1::CxResponsesController, type: :controller do
 
         it 'return the last paginated array of 100 cx_responses' do
           expect(cx_collection_detail.cx_responses.count).to eq(1000)
-          parsed_response = JSON.parse(response.body)
+          parsed_response = JSON.parse(response.body.force_encoding("UTF-8"))
 
           expect(response.status).to eq(200)
           expect(parsed_response['data'].class).to be(Array)
