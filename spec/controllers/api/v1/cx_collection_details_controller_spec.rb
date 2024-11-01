@@ -65,7 +65,7 @@ describe Api::V1::CxCollectionDetailsController, type: :controller do
           expect(@parsed_response['data'].size).to eq(2)
           expect(@parsed_response['data'].first.class).to be(Hash)
           expect(@parsed_response['data'].first["type"]).to eq("cx_collection_details")
-          expect(@parsed_response['data'].first['id']).to eq(collection1.id.to_s)
+          expect(@parsed_response['data'].first['id'].force_encoding("UTF-8")).to eq(collection1.id.to_s)
         end
       end
     end

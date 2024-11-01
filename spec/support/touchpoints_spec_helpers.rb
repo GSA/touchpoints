@@ -26,7 +26,7 @@ module TouchpointsSpecHelpers
   end
 
   def parse_response(body)
-    JSON.parse(body.encode("UTF-8", invalid: :replace, undef: :replace, replace: ""))
+    JSON.parse(body.force_encoding("UTF-8"))
   end
 end
 
