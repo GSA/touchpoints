@@ -43,7 +43,7 @@ class CxCollectionDetailUpload < ApplicationRecord
     string = response.body.read
 
     # Parse it
-    csv = CSV.parse(string, headers: true, encoding: "UTF-8")
+    csv = CSV.parse(string, headers: true)
 
     csv.each do |row|
       # Create the database record
