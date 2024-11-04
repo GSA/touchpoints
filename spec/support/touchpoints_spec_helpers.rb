@@ -24,12 +24,8 @@ module TouchpointsSpecHelpers
   def finished_all_ajax_requests?
     page.evaluate_script('jQuery.active').zero?
   end
-
-  def parse_response(body)
-    JSON.parse(body.force_encoding("UTF-8"))
-  end
 end
 
 RSpec.configure do |config|
-  config.include TouchpointsSpecHelpers
+  config.include TouchpointsSpecHelpers, type: :feature
 end

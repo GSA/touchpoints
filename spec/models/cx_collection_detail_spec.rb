@@ -15,7 +15,7 @@ RSpec.describe CxCollectionDetail, type: :model do
 
   describe 'cx_collection with respones' do
     context '#to_csv' do
-      let!(:csv) { CSV.parse(CxCollectionDetail.to_csv, headers: true, encoding: "UTF-8") }
+      let!(:csv) { CSV.parse(CxCollectionDetail.to_csv, headers: true) }
 
       it 'specifies headers' do
         expect(csv.headers).to eq([

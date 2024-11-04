@@ -64,7 +64,7 @@ RSpec.describe Admin::CxCollectionsController, type: :controller do
         get :export_cx_responses_csv, params: { id: cx_collection_detail.cx_collection_id }, session: valid_session
         expect(response).to be_successful
 
-        csv = CSV.parse(response.body, headers: true, encoding: "UTF-8")
+        csv = CSV.parse(response.body, headers: true)
         expect(csv.headers).to eq(
           [
             "cx_collection_detail_id",
