@@ -80,7 +80,7 @@ class Admin::CxCollectionDetailsController < AdminController
     @valid_file_extension = (file_extension == ".csv")
 
     # check the file to ensure it is valid
-    csv_file = CSV.parse(file.read, headers: true, encoding: "UTF-8")
+    csv_file = CSV.parse(file.read, headers: true)
     begin
     @valid_file_headers = csv_file.headers.sort == [
       "external_id",
@@ -101,6 +101,9 @@ class Admin::CxCollectionDetailsController < AdminController
       "negative_other",
       "question_4"
     ].sort
+    rescue CSV::MalformedCSVError => e
+      flash[:alert] = "There was an error processing the CSV file: #{e.message}"
+      @valid_file_headers = false
     rescue
       @valid_file_headers = false
     end
