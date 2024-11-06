@@ -8,6 +8,10 @@ feature 'Managing Organizations', js: true do
   let!(:organization) { FactoryBot.create(:organization) }
   let!(:organization2) { FactoryBot.create(:organization, name: 'Organization 2', domain: 'test.gov', abbreviation: 'ORG2') }
   let(:admin) { FactoryBot.create(:user, :admin, organization:) }
+  let(:user) { FactoryBot.create(:user, organization:) }
+  let(:service) { FactoryBot.create(:service, organization:, service_owner_id: user.id) }
+  let!(:service_provider) { FactoryBot.create(:service_provider, organization:) }
+  let!(:cx_collection) { FactoryBot.create(:cx_collection, organization:, service_provider:, service:) }
 
   context 'as Admin' do
     before 'visit Organization listing' do
@@ -39,6 +43,25 @@ feature 'Managing Organizations', js: true do
 
       it 'successfully creates an Organization' do
         expect(page).to have_content('Organization was successfully created.')
+      end
+    end
+
+    describe 'view an existig Organization' do
+      before do
+        visit admin_organization_path(organization)
+      end
+
+      it 'successfully displays an Organization and its contents' do
+        binding.pry
+        expect(page).to have_content('No parent organization specified')
+        expect(page).to have_content('0 Sub-agencies')
+        expect(page).to have_content('1 Service Providers')
+        expect(page).to have_content('1 Service')
+        expect(page).to have_link('Service to deliver to customer')
+      end
+
+      it 'is accessible' do
+        expect(page).to be_axe_clean
       end
     end
   end

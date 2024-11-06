@@ -106,9 +106,9 @@
     </div>
 
     <div class="sub-organizations well">
-      <h3>
+      <h2>
         <%= pluralize(@organization.children.size, "Sub-agency") %>
-      </h3>
+      </h2>
 
       <%- if @organization.children.present? %>
       <ul class="usa-list">
@@ -131,9 +131,9 @@
 
     <%- if admin_permissions? || current_user.organization == @organization %>
     <div class="service-providers well">
-      <h3>
+      <h2>
         <%= pluralize(@organization.service_providers.size, "Service Providers") %>
-      </h3>
+      </h2>
 
       <%- if @organization.service_providers.present? %>
       <ul class="usa-list">
@@ -154,9 +154,9 @@
       <% end %>
     </div>
     <div class="service-providers well">
-      <h3>
+      <h2>
         <%= pluralize(@organization.services.size, "Service") %>
-      </h3>
+      </h2>
 
       <%- if @organization.services.present? %>
       <ul class="usa-list">
@@ -181,9 +181,9 @@
       <% end %>
     </div>
     <div class="touchpoints well">
-      <h3>
-        <%= @forms.size %> Forms
-      </h3>
+      <h2>
+        <%= pluralize(@forms.size, "Form") %>
+      </h2>
 
       <%- if @forms.present? %>
         <%= render "admin/forms/list", forms: @forms %>
@@ -199,13 +199,13 @@
 
     </div>
     <div class="collections well">
-      <h3>
+      <h2>
         <%= pluralize(@cx_collections.size, "Collection") %>
-      </h3>
+      </h2>
 
       <%- if @cx_collections.present? %>
         <ul class="usa-list">
-        <% @cx_collections.order(:year, :quarter).each do |cx_collection| %>
+        <% @cx_collections.each do |cx_collection| %>
           <li>
             <%= cx_collection.fiscal_year %>
             Q<%= cx_collection.quarter %>
@@ -223,13 +223,11 @@
         </div>
       </div>
       <% end %>
-      <h3>
-
     </div>
     <div class="users well">
-      <h3>
+      <h2>
         <%= pluralize(@users.size, "User") %>
-      </h3>
+      </h2>
 
       <%- if @users.present? %>
       <ul class="usa-list">

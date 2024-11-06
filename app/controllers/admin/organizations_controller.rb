@@ -27,6 +27,7 @@ module Admin
     def show
       @forms = @organization.forms
       @cx_collections = @organization.cx_collections
+        .order(:fiscal_year, :quarter)
       @users = @organization.users.active.order(:email)
     end
 
