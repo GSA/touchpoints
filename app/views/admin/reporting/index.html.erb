@@ -14,41 +14,6 @@
     Reporting
     <ul>
       <li>
-        <%= link_to admin_a11_path do %>
-        <span>A-11 Data Analysis</span>
-        <% end %>
-      </li>
-      <li>
-          CSV files for performance.gov/cx
-        <ul>
-          <li>
-            <%= link_to admin_hisps_path(format: :csv) do %>
-            <span>hisps.csv</span>
-            <% end %>
-          </li>
-          <li>
-            <%= link_to admin_hisp_services_path(format: :csv) do %>
-            <span>hisp_services.csv</span>
-            <% end %>
-          </li>
-          <li>
-            <%= link_to admin_hisp_service_cx_data_collections_path(format: :csv) do %>
-            <span>hisp_service_cx_data_collections.csv</span>
-            <% end %>
-          </li>
-          <li>
-            <%= link_to admin_hisp_service_cx_data_collections_summary_path(format: :csv) do %>
-              <span>hisp_service_cx_data_collections_summary.csv</span>
-            <% end %>
-          </li>
-          <li>
-            <%= link_to admin_hisp_service_questions_path(format: :csv) do %>
-              <span>hisp_services_questions.csv</span>
-            <% end %>
-          </li>
-        </ul>
-      </li>
-      <li>
         <%= link_to admin_lifespan_path do %>
         <span>Survey lifespan by Agency</span>
         <% end %>

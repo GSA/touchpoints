@@ -87,7 +87,6 @@ Rails.application.routes.draw do
     get '/submissions/performance_gov', to: 'submissions#performance_gov', as: :performance_gov
 
     get 'heartbeat', to: 'site#heartbeat', as: :heartbeat
-    get 'a11', to: 'site#a11', as: :a11
     resources :offerings do
       member do
         post 'add_offering_persona', to: 'offerings#add_offering_persona', as: :add_offering_persona
