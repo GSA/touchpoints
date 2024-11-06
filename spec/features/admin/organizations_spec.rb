@@ -52,7 +52,6 @@ feature 'Managing Organizations', js: true do
       end
 
       it 'successfully displays an Organization and its contents' do
-        binding.pry
         expect(page).to have_content('No parent organization specified')
         expect(page).to have_content('0 Sub-agencies')
         expect(page).to have_content('1 Service Providers')
