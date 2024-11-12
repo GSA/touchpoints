@@ -60,7 +60,7 @@ describe Api::V1::WebsitesController, type: :controller do
           expect(@parsed_response['data'].size).to eq(2)
           expect(@parsed_response['data'].first.class).to be(Hash)
           expect(@parsed_response['data'].first['type']).to eq("websites")
-          
+
           expect(@parsed_response['data'].first['attributes'].keys).to include("domain")
           expect(@parsed_response['data'].first['attributes'].keys).to include("organization_id")
           expect(@parsed_response['data'].first['attributes'].keys).to include("organization_name")

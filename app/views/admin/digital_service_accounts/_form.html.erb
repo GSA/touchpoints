@@ -17,8 +17,8 @@
   </div>
 
   <div class="field">
-    <%= form.label :account, "Account platform", class: "usa-label" %>
-    <%= form.select :account, options_for_select(DigitalServiceAccount.list, form.object.account), { prompt: "Select" }, class: "usa-select", required: true %>
+    <%= form.label :service, "Service platform", class: "usa-label" %>
+    <%= form.select :service, options_for_select(DigitalServiceAccount.list.map { |s| [ s.capitalize, s ] }, form.object.service), { prompt: "Select" }, class: "usa-select", required: true %>
   </div>
 
   <div class="field">

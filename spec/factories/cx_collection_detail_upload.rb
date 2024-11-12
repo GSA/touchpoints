@@ -9,7 +9,7 @@ FactoryBot.define do
     job_id { rand(100_000).to_s }
 
     after(:create) do |cx_collection_detail_upload|
-      CSV.open("spec/fixtures/sample_cx_responses_upload.csv", headers: true, encoding: "UTF-8").each do |row|
+      CSV.open("spec/fixtures/sample_cx_responses_upload.csv", headers: true).each do |row|
         CxResponse.create!({
           external_id: row["external_id"],
           cx_collection_detail_id: cx_collection_detail_upload.cx_collection_detail.id,

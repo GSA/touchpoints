@@ -28,8 +28,6 @@ module Admin
       @recent_forms = Form.includes(:organization).find(form_ids)
     end
 
-    def a11; end
-
     def a11_v2_collections; end
 
     def heartbeat

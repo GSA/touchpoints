@@ -35,8 +35,8 @@
     <% @digital_service_accounts.each do |digital_service_account| %>
     <tr>
       <td>
-        <%- if digital_service_account.account? %>
-        <%= link_to digital_service_account.account, admin_digital_service_account_path(digital_service_account) %>
+        <%- if digital_service_account.service? %>
+        <%= link_to digital_service_account.service, admin_digital_service_account_path(digital_service_account) %>
         <% else %>
         <%= link_to "** unnamed account **", admin_digital_service_account_path(digital_service_account) %>
         <% end %>

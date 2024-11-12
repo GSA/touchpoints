@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :digital_service_account do
     sequence(:name) { |i| "Service Account #{i}" }
-    account { DigitalServiceAccount.list.sample }
+    service { DigitalServiceAccount.list.sample }
     sequence(:service_url) { |i| "https://lvh.me/test#{i}" }
   end
 end

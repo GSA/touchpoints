@@ -530,7 +530,7 @@ feature 'Forms', js: true do
 
         describe 'reports' do
           context 'for A-11 forms' do
-            let!(:a11_form) { FactoryBot.create(:form, :a11, organization:) }
+            let!(:a11_form) { FactoryBot.create(:form, :a11, organization:, time_zone: US_TIMEZONES.sample[1]) }
             let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form: a11_form) }
             let!(:submission) { FactoryBot.create(:submission, :a11, form: a11_form) }
 
@@ -711,7 +711,7 @@ feature 'Forms', js: true do
       end
 
       context 'Edit Form page' do
-        let!(:form) { FactoryBot.create(:form, :custom, organization:) }
+        let!(:form) { FactoryBot.create(:form, :with_responses, :custom, organization:) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form:) }
 
         before do
@@ -735,7 +735,7 @@ feature 'Forms', js: true do
           end
         end
 
-        describe 'editing a Form pra info' do
+        describe 'editing form PRA info' do
           before do
             fill_in 'form_omb_approval_number', with: 'OAN-1234'
             fill_in 'form_expiration_date', with: '2022-01-30'
@@ -748,6 +748,19 @@ feature 'Forms', js: true do
             expect(page.current_path).to eq(admin_form_path(form))
             expect(find('#form_omb_approval_number').value).to match('OAN-1234')
             expect(find('#form_expiration_date').value).to eq('2022-01-30')
+          end
+        end
+
+        describe 'editing form timezone' do
+          before do
+            select(US_TIMEZONES.sample[1], from: 'form_time_zone')
+            click_on 'Update Form Options'
+            expect(page).to have_content('Form Manager forms options updated successfully')
+          end
+
+          it 'can view submissions with a form time_zone' do
+            visit responses_admin_form_path(form)
+            expect(page.all("#submissions_table .usa-table.submissions tbody tr").size).to eq(3)
           end
         end
 
