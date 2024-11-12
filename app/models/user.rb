@@ -16,7 +16,6 @@ class User < ApplicationRecord
   belongs_to :organization, optional: true
   has_many :user_roles, dependent: :destroy
   has_many :forms, through: :user_roles, primary_key: 'form_id'
-  has_many :collections, through: :organization
 
   def cx_collections
     user_org = organization

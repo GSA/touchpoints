@@ -47,8 +47,8 @@
 </div>
 <div class="grid-row grid-gap-lg">
   <div class="grid-col-6">
-    <%= label_tag "Account platform", nil, for: "service", class: "usa-label" %>
-    <%= select_tag :service, options_for_select(["All"] + DigitalServiceAccount.list), class: "usa-select" %>
+    <%= label_tag "Service", nil, for: "service", class: "usa-label" %>
+    <%= select_tag :service, options_for_select(["All"] + DigitalServiceAccount.list.map { |a| [a.capitalize, a] }), class: "usa-select" %>
   </div>
   <div class="grid-col-6">
     <%= label_tag "Status selector", nil, for: "aasm_state", class: "usa-label" %>
@@ -77,7 +77,7 @@
         query: query,
         aasm_state: status,
         org_abbr: organization_id,
-        account: service,
+        service: service,
       }
     });
 

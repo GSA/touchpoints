@@ -7,7 +7,6 @@ class DigitalServiceAccountSerializer < ActiveModel::Serializer
              :contacts,
              :service,
              :service_url,
-             :account,
              :language,
              :status,
              :short_description,
