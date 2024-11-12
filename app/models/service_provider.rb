@@ -4,8 +4,8 @@ class ServiceProvider < ApplicationRecord
   resourcify
   belongs_to :organization
   has_many :services
-  has_many :collections, through: :services
-  has_many :omb_cx_reporting_collections, through: :collections
+  has_many :cx_collections, through: :services
+  has_many :cx_collection_details, through: :cx_collections
   acts_as_taggable_on :tags
 
   validates :name, presence: true

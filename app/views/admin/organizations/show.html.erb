@@ -29,13 +29,15 @@
       <div>
         <%- if @organization.logo_url.present? %>
         <br>
-        <%= image_tag(@organization.logo.thumb.url) %>
+        <%= image_tag(@organization.logo.logo_square.url) %>
         <br>
-        <%= link_to "Thumbnail Size", @organization.logo.thumb.url, target: "_blank", rel: "noopener" %>
+        <%= link_to "Square size", @organization.logo.logo_square.url, target: "_blank", rel: "noopener" %>
         &middot;
-        <%= link_to "Full Size", @organization.logo.url, target: "_blank", rel: "noopener" %>
+        <%= link_to "Thumbnail size", @organization.logo.thumb.url, target: "_blank", rel: "noopener" %>
         &middot;
-        <%= link_to "Card Size", @organization.logo.card.url, target: "_blank", rel: "noopener" %>
+        <%= link_to "Full size", @organization.logo.url, target: "_blank", rel: "noopener" %>
+        &middot;
+        <%= link_to "Tag size", @organization.logo.tag.url, target: "_blank", rel: "noopener" %>
         <% else %>
           <!-- A logo has not yet been uploaded -->
         <% end %>
@@ -104,9 +106,9 @@
     </div>
 
     <div class="sub-organizations well">
-      <h3>
+      <h2>
         <%= pluralize(@organization.children.size, "Sub-agency") %>
-      </h3>
+      </h2>
 
       <%- if @organization.children.present? %>
       <ul class="usa-list">
@@ -129,9 +131,9 @@
 
     <%- if admin_permissions? || current_user.organization == @organization %>
     <div class="service-providers well">
-      <h3>
+      <h2>
         <%= pluralize(@organization.service_providers.size, "Service Providers") %>
-      </h3>
+      </h2>
 
       <%- if @organization.service_providers.present? %>
       <ul class="usa-list">
@@ -152,9 +154,9 @@
       <% end %>
     </div>
     <div class="service-providers well">
-      <h3>
+      <h2>
         <%= pluralize(@organization.services.size, "Service") %>
-      </h3>
+      </h2>
 
       <%- if @organization.services.present? %>
       <ul class="usa-list">
@@ -179,9 +181,9 @@
       <% end %>
     </div>
     <div class="touchpoints well">
-      <h3>
-        <%= @forms.size %> Forms
-      </h3>
+      <h2>
+        <%= pluralize(@forms.size, "Form") %>
+      </h2>
 
       <%- if @forms.present? %>
         <%= render "admin/forms/list", forms: @forms %>
@@ -197,18 +199,18 @@
 
     </div>
     <div class="collections well">
-      <h3>
-        <%= pluralize(@collections.size, "Collection") %>
-      </h3>
+      <h2>
+        <%= pluralize(@cx_collections.size, "Collection") %>
+      </h2>
 
-      <%- if @collections.present? %>
+      <%- if @cx_collections.present? %>
         <ul class="usa-list">
-        <% @collections.order(:year, :quarter).each do |collection| %>
+        <% @cx_collections.each do |cx_collection| %>
           <li>
-            <%= collection.year %>
-            Q<%= collection.quarter %>
+            <%= cx_collection.fiscal_year %>
+            Q<%= cx_collection.quarter %>
             &middot;
-            <%= link_to collection.name, admin_collection_path(collection) %><br>
+            <%= link_to cx_collection.name, admin_cx_collection_path(cx_collection) %><br>
           </li>
         <% end %>
         </ul>
@@ -221,13 +223,11 @@
         </div>
       </div>
       <% end %>
-      <h3>
-
     </div>
     <div class="users well">
-      <h3>
+      <h2>
         <%= pluralize(@users.size, "User") %>
-      </h3>
+      </h2>
 
       <%- if @users.present? %>
       <ul class="usa-list">

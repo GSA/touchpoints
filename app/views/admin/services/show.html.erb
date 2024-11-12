@@ -200,15 +200,6 @@
     </div>
     <% end %>
 
-    <%- if admin_permissions? %>
-    <div class="margin-top-2">
-      <%= link_to omb_cx_reporting_admin_service_path(@service), class: "usa-button usa-button--outline width-full" do %>
-        <i class="fa fa-pencil-alt"></i>
-        OMB Quarterly Reporting
-      <% end %>
-    </div>
-    <% end %>
-
     <%- if service_manager_permissions? %>
     <div class="margin-top-2">
       <%= link_to versions_admin_service_path(@service), class: "usa-button usa-button--outline width-full" do %>
@@ -286,50 +277,6 @@
       </div>
     <% end %>
   </div>
-</div>
-
-<div class="well">
-  <h4>
-    CX Data Collections (V1)
-  </h4>
-  <%- if @omb_cx_reporting_collections.present? %>
-  <table class="usa-table">
-    <thead>
-      <tr>
-        <th data-sortable scope="col">
-          Fiscal year
-        </th>
-        <th data-sortable scope="col">
-          Quarter
-        </th>
-        <th data-sortable scope="col">
-          Collection name
-        </th>
-        <th data-sortable scope="col">
-          Service name
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @omb_cx_reporting_collections.each do |omb_cx_reporting_collection| %>
-      <tr>
-        <td>
-          <%= omb_cx_reporting_collection.collection.year %>
-        </td>
-        <td>
-          <%= omb_cx_reporting_collection.collection.quarter %>
-        </td>
-        <td>
-          <%= link_to omb_cx_reporting_collection.collection.name, admin_collection_path(omb_cx_reporting_collection.collection) %>
-        </td>
-        <td>
-          <%= link_to omb_cx_reporting_collection.service.name, admin_omb_cx_reporting_collection_path(omb_cx_reporting_collection) %>
-        </td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <% end %>
 </div>
 
 <div class="well">

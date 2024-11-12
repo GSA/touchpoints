@@ -101,6 +101,9 @@ class Admin::CxCollectionDetailsController < AdminController
       "negative_other",
       "question_4"
     ].sort
+    rescue CSV::MalformedCSVError => e
+      flash[:alert] = "There was an error processing the CSV file: #{e.message}"
+      @valid_file_headers = false
     rescue
       @valid_file_headers = false
     end

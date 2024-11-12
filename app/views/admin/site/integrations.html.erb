@@ -3,14 +3,14 @@
 <% end %>
 
 <p>
-  <%= link_to admin_root_path do %>
+  <%= link_to admin_dashboard_path do %>
     <i class="fa fa-arrow-circle-left"></i>
-    Back to Admin
+    Back to Admin Dashboard
   <% end %>
 </p>
 
 <p>
-  Data in Touchpoints is consumed upstream by:
+  Data from the Touchpoints API is consumed upstream by:
 
   <ul>
     <li>
@@ -18,17 +18,27 @@
     </li>
     <ul>
       <li>
-        <%= link_to "hisps.csv", admin_hisps_path(format: :csv) %> - (High Impact) Service Providers
+        CX Collections
       </li>
       <li>
-        <%= link_to "hisp_services.csv", admin_hisp_services_path(format: :csv) %> - Services, marked as "HISP"
+        CX Collection Details
       </li>
       <li>
-        question summaries
+        CX Responses
       </li>
       <li>
-        question details
+        Organizations
+      </li>
+      <li>
+        Service Providers
+      </li>
+      <li>
+        Services
       </li>
     </ul>
   </ul>
+
+  The Performance.gov team pulls this data to generate pages on their Jekyll website.
+  <br>
+  The D2D team in GSA IT pulls this data for Performance.gov dashboarding.
 </p>

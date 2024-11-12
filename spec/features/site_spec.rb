@@ -68,7 +68,7 @@ feature 'general site navigation', js: true do
           it 'renders successfully' do
             expect(page).to have_content('Data Collections')
             expect(page).to have_content('New Data Collection')
-            expect(page.current_path).to eq(admin_collections_path)
+            expect(page.current_path).to eq(admin_cx_collections_path)
           end
         end
     end

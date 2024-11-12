@@ -112,23 +112,6 @@ feature 'Admin Dashboard', js: true do
       end
     end
 
-    describe '#a11' do
-      let!(:form) { FactoryBot.create(:form, kind: 'a11', organization:) }
-
-      before do
-        visit admin_a11_path
-      end
-
-      it 'display Customer Feedback Analysis' do
-        expect(page).to have_css('#customer-feedback-summary')
-        within '#customer-feedback-summary' do
-          expect(find_all('tbody tr').size).to eq(1)
-          expect(page).to have_content form.organization.name
-          expect(page).to have_content form.name
-        end
-      end
-    end
-
     describe '#lifespan' do
       let!(:form) { FactoryBot.create(:form, kind: 'a11', organization:) }
 

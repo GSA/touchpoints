@@ -69,7 +69,7 @@
             <br>
             <div class="field">
               <%= f.label :time_zone, "Time zone", class: "usa-label" %>
-              <%= f.select :time_zone, options_for_select(us_timezones, selected: form.time_zone), { prompt: "Select a time zone" }, { class: "usa-select" } %>
+              <%= f.select :time_zone, options_for_select(US_TIMEZONES, selected: form.time_zone), { prompt: "Select a time zone" }, { class: "usa-select" } %>
             </div>
 
             <div class="field">
