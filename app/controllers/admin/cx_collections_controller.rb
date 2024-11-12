@@ -59,7 +59,7 @@ module Admin
 
       respond_to do |format|
         if @cx_collection.save
-          Event.log_event(Event.names[:collection_cx_created], @cx_collection.class.to_s, @cx_collection.id, "Collection #{@cx_collection.name} created at #{DateTime.now}", current_user.id)
+          Event.log_event(Event.names[:cx_collection_created], @cx_collection.class.to_s, @cx_collection.id, "Collection #{@cx_collection.name} created at #{DateTime.now}", current_user.id)
           format.html { redirect_to admin_cx_collection_url(@cx_collection), notice: "CX Data Collection was successfully created." }
           format.json { render :show, status: :created, location: @cx_collection }
         else
@@ -137,7 +137,7 @@ module Admin
 
       respond_to do |format|
         if @cx_collection.update(cx_collection_params)
-          Event.log_event(Event.names[:collection_cx_updated], @cx_collection.class.to_s, @cx_collection.id, "Collection #{@cx_collection.name} updated at #{DateTime.now}", current_user.id)
+          Event.log_event(Event.names[:cx_collection_updated], @cx_collection.class.to_s, @cx_collection.id, "Collection #{@cx_collection.name} updated at #{DateTime.now}", current_user.id)
           format.html { redirect_to admin_cx_collection_url(@cx_collection), notice: "CX Data Collection was successfully updated." }
           format.json { render :show, status: :ok, location: @cx_collection }
         else
