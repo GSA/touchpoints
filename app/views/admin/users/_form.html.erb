@@ -157,29 +157,6 @@
     <div class="grid-row">
       <div class="tablet:grid-col-6">
         <fieldset class="usa-fieldset">
-          <legend class="usa-sr-only">CSCRM Data Collections</legend>
-          <div class="usa-checkbox">
-            <%= form.check_box :cscrm_data_collection_manager, class: "usa-checkbox__input" %>
-            <%= form.label :cscrm_data_collection_manager, class: "usa-checkbox__label" do %>
-              <span class="usa-tag bg-blue">
-                CSCRM Data Collection Manager
-              </span>
-            <% end %>
-          </div>
-        </fieldset>
-      </div>
-      <div class="tablet:grid-col-6">
-        <p>
-          Manages
-          <%= link_to "/admin/cscrm_data_collections", admin_cscrm_data_collections_path %>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="well">
-    <div class="grid-row">
-      <div class="tablet:grid-col-6">
-        <fieldset class="usa-fieldset">
           <legend class="usa-sr-only">Service manager</legend>
           <div class="usa-checkbox">
             <%= form.check_box :service_manager, class: "usa-checkbox__input" %>

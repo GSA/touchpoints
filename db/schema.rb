@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_30_172438) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_12_222412) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -67,115 +67,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_30_172438) do
     t.index ["organization_id"], name: "index_collections_on_organization_id"
     t.index ["service_provider_id"], name: "index_collections_on_service_provider_id"
     t.index ["user_id"], name: "index_collections_on_user_id"
-  end
-
-  create_table "cscrm_data_collections", comment: "Data Collection for C-SCRM in Q2 of FY 2023", force: :cascade do |t|
-    t.string "leadership_roles"
-    t.string "stakeholder_champion_identified"
-    t.string "pmo_established"
-    t.string "interdisciplinary_team_established"
-    t.string "enterprise_risk_management_function_established"
-    t.string "enterprise_wide_scrm_policy_established"
-    t.string "agency_wide_scrm_strategy_and_implementation_plan_established"
-    t.string "funding_for_initial_operating_capability"
-    t.string "staffing"
-    t.string "roles_and_responsibilities"
-    t.text "missions_identified"
-    t.text "prioritization_process"
-    t.string "considerations_in_procurement_processes"
-    t.string "conducts_scra_for_prioritized_products_and_services"
-    t.string "personnel_required_to_complete_training"
-    t.string "established_process_information_sharing_with_fasc"
-    t.string "cybersecurity_supply_chain_risk_considerations"
-    t.integer "organization_id"
-    t.string "year"
-    t.string "quarter"
-    t.integer "user_id"
-    t.string "integrity_hash"
-    t.string "aasm_state"
-    t.text "reflection"
-    t.string "rating"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "bureau_id"
-    t.string "agency_roles"
-    t.text "agency_roles_comments"
-    t.text "stakeholder_champion_identified_comments"
-    t.text "interdisciplinary_team_established_comments"
-    t.text "pmo_established_comments"
-    t.text "agency_wide_scrm_strategy_and_implementation_plan_comments"
-    t.text "enterprise_risk_management_function_established_comments"
-    t.text "roles_and_responsibilities_comments"
-    t.text "enterprise_wide_scrm_policy_established_comments"
-    t.text "funding_for_initial_operating_capability_comments"
-    t.text "staffing_comments"
-    t.text "missions_identified_comments"
-    t.text "prioritization_process_comments"
-    t.text "considerations_in_procurement_processes_comments"
-    t.text "conducts_scra_for_prioritized_products_and_services_comments"
-    t.text "established_process_information_sharing_with_fasc_comments"
-    t.text "general_comments"
-    t.string "bureau"
-    t.text "leadership_roles_comments"
-    t.text "personnel_required_comments"
-    t.text "cybersecurity_supply_chain_risk_comments"
-    t.index ["organization_id"], name: "index_cscrm_data_collections_on_organization_id"
-    t.index ["user_id"], name: "index_cscrm_data_collections_on_user_id"
-  end
-
-  create_table "cscrm_data_collections2", comment: "Data Collection for C-SCRM in Q4 of FY 2023", force: :cascade do |t|
-    t.string "interdisciplinary_team"
-    t.text "interdisciplinary_team_comments"
-    t.string "pmo_established"
-    t.text "pmo_established_comments"
-    t.string "established_policy"
-    t.text "established_policy_comments"
-    t.string "supply_chain_acquisition_procedures"
-    t.text "supply_chain_acquisition_procedures_comments"
-    t.string "funding"
-    t.text "funding_comments"
-    t.string "identified_staff"
-    t.text "identified_staff_comments"
-    t.string "strategy_plan"
-    t.text "strategy_plan_comments"
-    t.string "governance_structure"
-    t.text "governance_structure_comments"
-    t.string "clearly_defined_roles"
-    t.text "clearly_defined_roles_comments"
-    t.string "identified_assets_and_essential_functions"
-    t.text "identified_assets_and_essential_functions_comments"
-    t.string "prioritization_process"
-    t.text "prioritization_process_comments"
-    t.string "considerations_in_procurement_processes"
-    t.text "considerations_in_procurement_processes_comments"
-    t.string "documented_methodology"
-    t.text "documented_methodology_comments"
-    t.string "conducts_scra_for_prioritized_products_and_services"
-    t.text "conducts_scra_for_prioritized_products_and_services_comments"
-    t.string "personnel_required_to_complete_training"
-    t.text "personnel_required_to_complete_training_comments"
-    t.string "established_process_information_sharing_with_fasc"
-    t.text "established_process_information_sharing_with_fasc_comments"
-    t.string "cybersecurity_supply_chain_risk_considerations"
-    t.text "cybersecurity_supply_chain_risk_considerations_comments"
-    t.string "process_for_product_authenticity"
-    t.text "process_for_product_authenticity_comments"
-    t.string "cscrm_controls_incorporated_into_ssp"
-    t.text "cscrm_controls_incorporated_into_ssp_comments"
-    t.text "comments"
-    t.integer "organization_id"
-    t.integer "bureau_id"
-    t.string "year"
-    t.string "quarter"
-    t.integer "user_id"
-    t.string "integrity_hash"
-    t.string "aasm_state"
-    t.text "reflection"
-    t.string "rating"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["organization_id"], name: "index_cscrm_data_collections2_on_organization_id"
-    t.index ["user_id"], name: "index_cscrm_data_collections2_on_user_id"
   end
 
   create_table "cx_action_plans", force: :cascade do |t|
@@ -833,7 +724,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_30_172438) do
     t.string "last_name"
     t.string "position_title"
     t.string "profile_photo"
-    t.boolean "cscrm_data_collection_manager", default: false
     t.boolean "organizational_admin", default: false
     t.boolean "organizational_form_approver", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true

@@ -161,13 +161,6 @@ class ApplicationController < ActionController::Base
     current_user.performance_manager?
   end
 
-  helper_method :cscrm_manager_permissions?
-  def cscrm_manager_permissions?
-    return true if admin_permissions?
-
-    current_user.cscrm_data_collection_manager?
-  end
-
   helper_method :cx_collection_permissions?
   def cx_collection_permissions?(cx_collection:)
     return false if cx_collection.blank?

@@ -41,14 +41,6 @@ class Event < ApplicationRecord
     collection_change_requested: 'collection_change_requested',
     collection_deleted: 'collection_deleted',
 
-    collection_cx_created: 'collection_cx_created',
-    collection_cx_updated: 'collection_cx_updated',
-    collection_cx_copied: 'collection_cx_copied',
-    collection_cx_submitted: 'collection_cx_submitted',
-    collection_cx_published: 'collection_cx_published',
-    collection_cx_change_requested: 'collection_cx_change_requested',
-    collection_cx_deleted: 'collection_cx_deleted',
-
     cx_collection_created: 'cx_collection_created',
     cx_collection_updated: 'cx_collection_updated',
     cx_collection_copied: 'cx_collection_copied',
@@ -64,13 +56,6 @@ class Event < ApplicationRecord
 
     cx_collection_detail_upload_created: 'cx_collection_detail_upload_created',
     cx_collection_detail_upload_deleted: 'cx_collection_detail_upload_deleted',
-
-    cscrm_data_collection_collection_created: 'cscrm_data_collection_collection_created',
-    cscrm_data_collection_collection_updated: 'cscrm_data_collection_collection_updated',
-    cscrm_data_collection_collection_submitted: 'cscrm_data_collection_collection_submitted',
-    cscrm_data_collection_collection_published: 'cscrm_data_collection_collection_published',
-    cscrm_data_collection_collection_reset: 'cscrm_data_collection_collection_reset',
-    cscrm_data_collection_collection_deleted: 'cscrm_data_collection_collection_deleted',
 
     response_flagged: 'response_flagged',
     response_unflagged: 'response_unflagged',
