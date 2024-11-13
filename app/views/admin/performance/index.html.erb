@@ -13,14 +13,11 @@
           <div class="grid-row">
             <div class="grid-col-6">
               <p>
-                Touchpoints currently supports 3 Data Collections.
+                Touchpoints currently supports 2 Data Collections.
               </p>
               <ul>
                 <li>
                   Quarterly CX Data Collections
-                </li>
-                <li>
-                  Bi-annual Cyber-security supply chain
                 </li>
                 <li>
                   Annual GSA Website Inventory
@@ -69,13 +66,13 @@
           </h3>
           <%- if performance_manager_permissions? %>
           <p>
-            <%= link_to admin_cscrm_data_collections_path, class: "usa-button usa-button--outline width-full" do %>
+            <%= button_to admin_root_path, class: "usa-button usa-button--outline width-full", disabled: true do %>
               Cybersecurity Supply-chain (C-SCRM) - February 2023
             <% end %>
           </p>
           <% end %>
           <p>
-            <%= link_to admin_cscrm_data_collections2_index_path, class: "usa-button usa-button--outline width-full" do %>
+            <%= button_to admin_root_path, class: "usa-button usa-button--outline width-full", disabled: true do %>
               Cybersecurity Supply-chain (C-SCRM) - August 2023
             <% end %>
           </p>

@@ -156,7 +156,6 @@ module Admin
         :performance_manager,
         :service_manager,
         :registry_manager,
-        :cscrm_data_collection_manager,
         :email,
         :first_name,
         :last_name,

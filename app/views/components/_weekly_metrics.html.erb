@@ -97,7 +97,10 @@
           CX Data Collections
         </th>
         <th>
-          Service details
+          CX Collection Details
+        </th>
+        <th>
+          Cx Responses
         </th>
       </tr>
     </thead>
@@ -109,6 +112,10 @@
         <td>
           <%= number_with_delimiter(CxCollectionDetail.count) %>
         </td>
+        <td>
+          <%= number_with_delimiter(CxResponse.count) %>
+        </td>
+      </tr>
       </tr>
     </tbody>
   </table>
