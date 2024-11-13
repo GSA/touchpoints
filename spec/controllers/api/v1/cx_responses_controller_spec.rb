@@ -48,7 +48,7 @@ describe Api::V1::CxResponsesController, type: :controller do
       let!(:cx_collection) { FactoryBot.create(:cx_collection, organization: organization1, service_provider: service_provider, service: service, user: user) }
       let!(:cx_collection_detail) { FactoryBot.create(:cx_collection_detail, :with_cx_collection_detail_upload, cx_collection: cx_collection, service: service, transaction_point: :post_service_journey, channel: Service.channels.sample) }
       let!(:cx_collection_detail_upload) { cx_collection_detail.cx_collection_detail_uploads.first }
-      let!(:cx_response) { CxResponse.first }
+      let!(:cx_response) { CxResponse.order(:id).first }
 
       describe '#index' do
         before do
