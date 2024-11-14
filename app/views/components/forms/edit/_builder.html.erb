@@ -209,7 +209,7 @@ $(function() {
 
   $(".form-builder").on("keyup", ".question-option-edit input", function(event) {
     if (event.keyCode == 13) {
-      $(this).closest('div.question-option').find('.question-option-view').html($(this).val());
+      $(this).closest('div.question-option').find('.question-option-view').text($(this).val());
 
       $.ajax({
         type: "PATCH",
