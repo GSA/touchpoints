@@ -33,6 +33,17 @@ feature 'Managing Services', js: true do
         expect(page.current_path).to eq(admin_services_path)
         expect(page).to have_link('New Service')
         expect(page).to have_css('tbody tr', count: 2)
+
+        within("thead") do
+          expect(page).to have_text('Organization')
+          expect(page).to have_text('Service Provider')
+          expect(page).to have_text('Service name')
+          expect(page).to have_text('# of Stages')
+          expect(page).to have_text('# of Collections')
+          expect(page).to have_text('HISP Service?')
+          expect(page).to have_text('Status')
+          expect(page).to have_text('Previously reported?')
+        end
       end
 
       describe 'create a new Service' do
