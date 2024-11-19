@@ -8,6 +8,7 @@
       <th data-sortable scope="col"># of Collections</th>
       <th data-sortable scope="col">HISP Service?</th>
       <th data-sortable scope="col">Status</th>
+      <th data-sortable scope="col">Previously reported?</th>
     </tr>
   </thead>
   <tbody>
@@ -27,6 +28,9 @@
         </td>
         <td data-sort-value="<%= service_status_sort_values[service.aasm_state] %>">
           <%= render 'components/service_status_tag', service: service %>
+        </td>
+        <td>
+          <%= service.previously_reported %>
         </td>
       </tr>
     <% end %>
