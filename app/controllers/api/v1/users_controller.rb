@@ -6,7 +6,7 @@ module Api
       def index
         respond_to do |format|
           format.json do
-            render json: User.active, each_serializer: UserSerializer
+            render json: User.active.order(:id), each_serializer: UserSerializer
           end
         end
       end
