@@ -107,6 +107,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_22_185330) do
     t.text "trust_question_text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["id"], name: "index_cx_collection_details_on_id"
   end
 
   create_table "cx_collections", force: :cascade do |t|
@@ -134,6 +135,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_22_185330) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "submitted_at"
+    t.index ["id"], name: "index_cx_collections_on_id"
   end
 
   create_table "cx_responses", force: :cascade do |t|
@@ -574,6 +576,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_22_185330) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.integer "persona_id"
+    t.index ["id"], name: "index_service_stages_on_id"
     t.index ["service_id"], name: "index_service_stages_on_service_id"
   end
 
