@@ -7,9 +7,13 @@ module Api
         respond_to do |format|
           format.json do
             if current_user.organizational_admin?
-              render json: current_user.organization.forms.limit(100), each_serializer: FormSerializer
+              render json: current_user.organization.forms
+                .order(:id)
+                .limit(100), each_serializer: FormSerializer
             else
-              render json: current_user.forms.limit(100), each_serializer: FormSerializer
+              render json: current_user.forms
+                .order(:id)
+                .limit(100), each_serializer: FormSerializer
             end
           end
         end

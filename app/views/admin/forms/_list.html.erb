@@ -27,7 +27,8 @@
       <td>
         <%= form.kind %>
       </td>
-      <td>
+      <td
+        data-sort-value="<%= form.response_count %>">
         <%= number_with_delimiter(form.response_count) %>
       </td>
     </tr>

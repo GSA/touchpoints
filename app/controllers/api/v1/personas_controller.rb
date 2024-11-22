@@ -6,7 +6,7 @@ module Api
       def index
         respond_to do |format|
           format.json do
-            render json: Persona.all, each_serializer: PersonaSerializer
+            render json: Persona.order(:id), each_serializer: PersonaSerializer
           end
         end
       end

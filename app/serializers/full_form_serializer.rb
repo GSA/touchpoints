@@ -83,6 +83,6 @@ class FullFormSerializer < ActiveModel::Serializer
   has_many :submissions
 
   def submissions
-    object.submissions.where('created_at BETWEEN ? AND ?', start_date, end_date).limit(size).offset(size * page)
+    object.submissions.order(:id).where('created_at BETWEEN ? AND ?', start_date, end_date).limit(size).offset(size * page)
   end
 end
