@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_12_222412) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_22_185330) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -76,6 +76,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_222412) do
     t.text "to_deliver_next_year"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["id"], name: "index_cx_action_plans_on_id"
   end
 
   create_table "cx_collection_detail_uploads", force: :cascade do |t|
@@ -158,6 +159,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_222412) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "external_id"
+    t.index ["id"], name: "index_cx_responses_on_id"
   end
 
   create_table "digital_product_versions", force: :cascade do |t|
@@ -198,6 +200,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_222412) do
     t.integer "legacy_id"
     t.text "legacy_notes"
     t.index ["aasm_state"], name: "index_digital_products_on_aasm_state"
+    t.index ["id"], name: "index_digital_products_on_id"
   end
 
   create_table "digital_service_accounts", force: :cascade do |t|
@@ -217,6 +220,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_222412) do
     t.integer "legacy_id"
     t.text "legacy_notes"
     t.index ["aasm_state"], name: "index_digital_service_accounts_on_aasm_state"
+    t.index ["id"], name: "index_digital_service_accounts_on_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -309,6 +313,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_222412) do
     t.boolean "legacy_form_embed", default: false
     t.datetime "archived_at"
     t.string "audience", default: "public", comment: "indicates whether a form is intended for a public or internal audience"
+    t.index ["id"], name: "index_forms_on_id"
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["organization_id"], name: "index_forms_on_organization_id"
@@ -457,6 +462,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_222412) do
     t.boolean "cfo_act_agency", default: false
     t.integer "parent_id"
     t.boolean "form_approval_enabled", default: false, comment: "Indicate whether this organization requires a Submission and Approval process for forms"
+    t.index ["id"], name: "index_organizations_on_id"
   end
 
   create_table "organizations_roles", id: false, force: :cascade do |t|
@@ -475,6 +481,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_222412) do
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["id"], name: "index_personas_on_id"
     t.index ["tags"], name: "index_personas_on_tags", using: :gin
   end
 
@@ -545,6 +552,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_222412) do
     t.integer "impact_mapping_value", default: 0
     t.string "portfolio_manager_email"
     t.integer "year_designated"
+    t.index ["id"], name: "index_service_providers_on_id"
     t.index ["organization_id"], name: "index_service_providers_on_organization_id"
   end
 
@@ -607,6 +615,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_222412) do
     t.integer "year_designated"
     t.text "short_description"
     t.boolean "previously_reported", default: false
+    t.index ["id"], name: "index_services_on_id"
     t.index ["organization_id"], name: "index_services_on_organization_id"
   end
 
@@ -650,6 +659,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_222412) do
     t.index ["created_at"], name: "index_submissions_on_created_at"
     t.index ["flagged"], name: "index_submissions_on_flagged"
     t.index ["form_id"], name: "index_submissions_on_form_id"
+    t.index ["id"], name: "index_submissions_on_id"
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
   end
 
@@ -728,6 +738,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_222412) do
     t.boolean "organizational_form_approver", default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["id"], name: "index_users_on_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
@@ -797,6 +808,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_222412) do
     t.string "aasm_state"
     t.date "target_decommission_date"
     t.index ["aasm_state"], name: "index_websites_on_aasm_state"
+    t.index ["id"], name: "index_websites_on_id"
     t.index ["organization_id"], name: "index_websites_on_organization_id"
     t.index ["service_id"], name: "index_websites_on_service_id"
   end
