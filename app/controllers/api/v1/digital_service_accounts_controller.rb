@@ -13,9 +13,9 @@ module Api
             @total_count = DigitalServiceAccount.active.count
 
             @digital_service_accounts = DigitalServiceAccount.active
+              .order(:id)
               .limit(size)
               .offset(size * page)
-              .order(:id)
 
             render json: @digital_service_accounts,
               meta: {
