@@ -18,15 +18,17 @@ class Form < ApplicationRecord
   acts_as_taggable_on :tags
 
   validates :name, presence: true
-  validates :disclaimer_text, length: { in: 0..1000, allow_blank: true }
+  validates :uuid, presence: true
+  validates :short_uuid, presence: true
   validates :delivery_method, presence: true
+  validates :disclaimer_text, length: { in: 0..1000, allow_blank: true }
   validates :anticipated_delivery_count, numericality: true, allow_nil: true
   validate :omb_number_with_expiration_date
   validate :valid_form_kinds
   validate :target_for_delivery_method
   validate :ensure_modal_text
 
-  before_create :set_uuid
+  before_validation :set_uuid, on: :create
   after_create :create_first_form_section
   before_destroy :ensure_no_responses
 
@@ -745,8 +747,8 @@ class Form < ApplicationRecord
   private
 
   def set_uuid
-    self.uuid = SecureRandom.uuid
-    self.short_uuid = self.uuid[0..7]
+    self.uuid ||= SecureRandom.uuid
+    self.short_uuid ||= self.uuid[0..7]
   end
 
   def set_submitted_at
