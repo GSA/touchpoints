@@ -270,11 +270,6 @@ class Form < ApplicationRecord
     end
   end
 
-  def set_uuid
-    self.uuid = SecureRandom.uuid if uuid.blank?
-    self.short_uuid = self.uuid[0..7] if uuid.blank?
-  end
-
   def self.send_inactive_form_emails_since(days_ago)
     inactive_published_forms = find_inactive_forms_since(days_ago)
 
@@ -748,6 +743,11 @@ class Form < ApplicationRecord
   end
 
   private
+
+  def set_uuid
+    self.uuid = SecureRandom.uuid
+    self.short_uuid = self.uuid[0..7]
+  end
 
   def set_submitted_at
     self.update(submitted_at: Time.current)
