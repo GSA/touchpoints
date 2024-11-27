@@ -81,13 +81,19 @@ module Admin
 
     def create_other
       @errors = []
-      question_option = QuestionOption.new
-      question_option.position = @question.question_options.size + 1
-      question_option.question_id = @question.id
-      question_option.text = 'Other'
-      question_option.value = 'OTHER'
-      question_option.save!
-      @question_options = [question_option]
+      @question_options = []
+
+      if @question.question_options.detect { |option| option.other_option }
+        @errors << "An Other option already exists"
+      else
+        question_option = @question.question_options.new(other_option: true)
+        question_option.position = @question.question_options.size + 1
+        question_option.text = 'Other'
+        question_option.value = 'OTHER'
+        question_option.save
+        @question_options << [question_option]
+      end
+
       render :create, format: :js
     end
 

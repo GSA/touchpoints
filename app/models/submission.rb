@@ -77,7 +77,7 @@ class Submission < ApplicationRecord
         input_values = (text_input || "").split(",")
 
         invalid_values = input_values - valid_multiple_choice_options
-        accepts_other_response = question.question_options.collect(&:value).include?("OTHER")
+        accepts_other_response = question.question_options.other_option(&:value).include?(true)
         if accepts_other_response && invalid_values.any? && invalid_values.size > 1
           errors.add(:question, "#{question.answer_field} contains more than 1 'other' value: #{invalid_values.join(', ')}")
         elsif !accepts_other_response && invalid_values.any?
@@ -89,7 +89,7 @@ class Submission < ApplicationRecord
         input_values = (text_input || "").split(",")
 
         invalid_values = input_values - valid_multiple_choice_options
-        accepts_other_response = question.question_options.collect(&:value).include?("OTHER")
+        accepts_other_response = question.question_options.other_option(&:value).include?(true)
 
         if accepts_other_response && invalid_values.size > 1 # there may be 1 'other' response
           errors.add(:question, "#{question.answer_field} contains more than 1 'other' value: #{invalid_values.join(', ')}")
@@ -99,7 +99,9 @@ class Submission < ApplicationRecord
           errors.add(:question, "#{question.answer_field} contains invalid values: #{invalid_values.join(', ')}")
         end
       when "text_display", "custom_text_display"
-        errors.add(:text_display, "#{question.answer_field} should not contain a value")
+        # if these questions have answers
+          # errors.add(:text_display, "#{question.answer_field} should not contain a value")
+        # end
       when "states_dropdown"
         if question.is_required
           text_input = answered_questions[question.answer_field]

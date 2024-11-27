@@ -16,7 +16,7 @@
     <i class="fa fa-plus"></i>
     Add Radio Button Option
   <% end %>
-  <%- if !question.question_options.detect{ | option | option.value.upcase == 'OTHER' || option.value.upcase == 'OTRO'} %>
+  <%- if !question.question_options.detect { |option| option.other_option } %>
     <%= link_to create_other_admin_form_question_question_options_path(question.form, question),method: :post, remote: true, class: "usa-button usa-button--outline form-add-other-question-option" do %>
       <i class="fa fa-plus"></i>
       Add Other Option
