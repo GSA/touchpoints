@@ -49,7 +49,7 @@ class Question < ApplicationRecord
   validates :character_limit, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: MAX_CHARACTERS, allow_nil: true }
 
   after_commit do |question|
-    FormCache.invalidate(question.form.short_uuid) if question.persisted?
+    FormCache.invalidate(question.form.short_uuid) if question.persisted? || question.destroyed?
   end
 
   def max_length
