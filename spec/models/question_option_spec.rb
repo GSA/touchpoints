@@ -43,4 +43,15 @@ RSpec.describe QuestionOption, type: :model do
       end
     end
   end
+
+  context 'with a question that has an other Question Option already' do
+    before do
+      question_option = QuestionOption.create(text: 'Other Option 1', question: option_question, position: 1, value: "123", other_option: true)
+      @question_option2 = QuestionOption.create(text: 'Another Other Option', question: option_question, position: 2, value: "456", other_option: true)
+    end
+
+    it 'does not save and has an error message' do
+      expect(@question_option2.errors.messages).to eq({ question_option: ["only one 'other_option' can be true for a question"] })
+    end
+  end
 end
