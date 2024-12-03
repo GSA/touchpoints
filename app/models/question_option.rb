@@ -23,9 +23,9 @@ class QuestionOption < ApplicationRecord
   private
 
   def one_other_option_per_question
-    existing_other_option = question.question_options.where(other_option: true)
+    existing_other_option = question && question.question_options.where(other_option: true).exists?
 
-    if self.other_option && existing_other_option.exists?
+    if self.other_option && existing_other_option
       errors.add(:question_option, "only one 'other_option' can be true for a question")
     end
   end
