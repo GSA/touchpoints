@@ -179,10 +179,9 @@ feature 'Touchpoints', js: true do
         expect(Submission.last.answer_03).to eq 'One,Two,Three,Four'
       end
 
-      context "with an question option of 'other'" do
+      context "with a question option of 'other'" do
         before do
-          checkbox_form.questions.first.question_options.create!(text: 'other', position: 5)
-          checkbox_form.questions.first.question_options.create!(text: 'otro', position: 6)
+          checkbox_form.questions.first.question_options.create!(text: 'other', position: 5, other_option: true)
           visit touchpoint_path(checkbox_form)
         end
 
@@ -202,14 +201,13 @@ feature 'Touchpoints', js: true do
           before do
             all('.usa-checkbox__label').each(&:click)
             inputs = find_all('input')
-            inputs.first.set('hi')
-            inputs.last.set('bye')
+            inputs.last.set('hi')
             click_on 'Submit'
           end
 
           it "persists 'other' checkbox question custom values to db as comma separated list" do
             expect(page).to have_content('Thank you. Your feedback has been received.')
-            expect(Submission.last.answer_03).to eq 'One,Two,Three,Four,hi,bye'
+            expect(Submission.last.answer_03).to eq 'One,Two,Three,Four,hi'
           end
         end
       end
