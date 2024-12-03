@@ -115,7 +115,7 @@ class Submission < ApplicationRecord
         text_input = answered_questions[question.answer_field]
 
         # only accept 0 or 1; no/yes
-        if answered_questions[question.answer_field] == "0" || answered_questions[question.answer_field] == "1"
+        unless valid_multiple_choice_options.include?(answered_questions[question.answer_field])
           errors.add(:yes_no_buttons, "#{question.answer_field} contains an non yes/no response")
         end
       when "hidden_field"
