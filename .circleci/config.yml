@@ -9,7 +9,7 @@ orbs:
 jobs:
   build:
     docker:
-       - image: cimg/ruby:3.3.4-browsers
+       - image: cimg/ruby:3.2.4-browsers
          environment:
             RAILS_ENV: test
             PGHOST: 127.0.0.1
