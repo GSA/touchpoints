@@ -8,7 +8,11 @@
     id="<%= question.ui_selector %>"
     class="submit-button">
     <input type="hidden" class="fba-touchpoints-page-form" name="<%= question.ui_selector %>" value="">
-    <input type="submit" class="usa-button usa-button-group__item" value="<%= t :yes %>">
-    <input type="submit" class="usa-button usa-button-group__item" value="<%= t :no %>">
+    <button type="submit" class="usa-button usa-button-group__item" value="1">
+      <%= t(:yes) %>
+    </button>
+    <button type="submit" class="usa-button usa-button-group__item" value="0">
+      <%= t(:no) %>
+    </button>
   </p>
 </div>
