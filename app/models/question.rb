@@ -60,6 +60,10 @@ class Question < ApplicationRecord
     errors.add(:question_type, "Invalid question type '#{question_type}'. Valid types include: #{QUESTION_TYPES.to_sentence}.") unless QUESTION_TYPES.include?(question_type)
   end
 
+  def has_other_question_option?
+    question_options.where(other_option: true).exists?
+  end
+
   # used to generate a (application-wide) unique id for each question
   # (such that the questions on 2 different Touchpoints have unique DOM string)
   def ui_selector

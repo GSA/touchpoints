@@ -30,4 +30,61 @@ RSpec.describe Question, type: :model do
       expect(new_question.errors.collect(&:attribute)).to include(:answer_field)
     end
   end
+
+  context 'has question options' do
+    let(:question_2) {
+      Question.create!({
+        form: form,
+        form_section: form.form_sections.first,
+        text: 'Question with options',
+        question_type: 'radio_buttons',
+        help_text: 'This is help text.',
+        position: 2,
+        answer_field: :answer_02
+      })
+    }
+
+    before do
+      QuestionOption.create!({
+        question: question_2,
+        text: 'A',
+        value: 'A',
+        position: 1,
+      })
+
+      QuestionOption.create!({
+        question: question_2,
+        text: 'B',
+        value: 'B',
+        position: 2,
+      })
+
+      QuestionOption.create!({
+        question: question_2,
+        text: 'C',
+        value: 'C',
+        position: 3,
+      })
+    end
+
+    it 'has_other_question_option? is false' do
+      expect(question_2.has_other_question_option?).to eq(false)
+    end
+
+    context 'with an "other" option' do
+      before do
+        QuestionOption.create!({
+          question: question_2,
+          text: 'D',
+          value: 'D',
+          position: 4,
+          other_option: true
+        })
+      end
+
+      it 'has_other_question_option? is true' do
+        expect(question_2.has_other_question_option?).to eq(true)
+      end
+    end
+  end
 end
