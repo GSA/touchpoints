@@ -69,4 +69,8 @@ class Question < ApplicationRecord
   def ui_selector
     "question_#{id}_#{answer_field}" # question_123_answer_02
   end
+
+  def submission_answers
+    form.submissions.collect { |s| s.send(answer_field) }
+  end
 end

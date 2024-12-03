@@ -31,6 +31,19 @@ RSpec.describe Question, type: :model do
     end
   end
 
+  describe "#submission_answers" do
+    before do
+      submission_3 = Submission.create!(form: question.form, answer_01: "3" )
+      submission_2 = Submission.create!(form: question.form, answer_01: "2" )
+      submission_1 = Submission.create!(form: question.form, answer_01: "1" )
+    end
+
+    it "returns an array of submission values for this question" do
+      expect(question.answer_field).to eq("answer_01")
+      expect(question.submission_answers).to eq(["3", "2", "1"])
+    end
+  end
+
   context 'has question options' do
     let(:question_2) {
       Question.create!({
