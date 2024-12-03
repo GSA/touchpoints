@@ -1737,7 +1737,7 @@ feature 'Forms', js: true do
       context 'when Submissions exist for an a11_v2 form' do
         describe 'click the combine export button' do
           let(:form) { FactoryBot.create(:form, :a11_v2, organization:) }
-          let!(:submission) { FactoryBot.create(:submission, form:) }
+          let!(:submission) { FactoryBot.create(:submission, form:, answer_01: "1") }
 
           before do
             visit responses_admin_form_path(form)
