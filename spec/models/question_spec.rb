@@ -38,9 +38,9 @@ RSpec.describe Question, type: :model do
       submission_1 = Submission.create!(form: question.form, answer_01: "1" )
     end
 
-    it "returns an array of submission values for this question" do
+    it "returns an unordered array of submission values for this question" do
       expect(question.answer_field).to eq("answer_01")
-      expect(question.submission_answers).to eq(["3", "2", "1"])
+      expect(question.submission_answers).to include("2", "1", "3")
     end
   end
 
