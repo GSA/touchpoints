@@ -28,7 +28,6 @@ class Question < ApplicationRecord
     'custom_text_display',
     'states_dropdown',
     'star_radio_buttons',
-    'thumbs_up_down_buttons',
     'big_thumbs_up_down_buttons',
     'yes_no_buttons',
     'hidden_field',
@@ -40,7 +39,6 @@ class Question < ApplicationRecord
     'combobox',
     'custom_text_display',
     'star_radio_buttons',
-    'thumbs_up_down_buttons',
     'big_thumbs_up_down_buttons',
     'yes_no_buttons',
   ].freeze
