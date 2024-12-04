@@ -140,8 +140,6 @@ module ApplicationHelper
       "form.querySelector(\"input[name=#{question.ui_selector}]:checked\") && form.querySelector(\"input[name=#{question.ui_selector}]:checked\").value"
     elsif question.question_type == 'star_radio_buttons'
       "form.querySelector(\"input[name=#{question.ui_selector}]:checked\") && form.querySelector(\"input[name=#{question.ui_selector}]:checked\").value"
-    elsif question.question_type == 'thumbs_up_down_buttons'
-      "form.querySelector(\"input[name=#{question.ui_selector}]:checked\") && form.querySelector(\"input[name=#{question.ui_selector}]:checked\").value"
     elsif question.question_type == 'big_thumbs_up_down_buttons'
       "form.querySelector(\"input[name=#{question.ui_selector}]:checked\") && form.querySelector(\"input[name=#{question.ui_selector}]:checked\").value"
     elsif question.question_type == 'yes_no_buttons'

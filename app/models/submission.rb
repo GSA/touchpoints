@@ -110,7 +110,7 @@ class Submission < ApplicationRecord
           end
         end
       when "star_radio_buttons"
-      when "thumbs_up_down_buttons", "big_thumbs_up_down_buttons", "yes_no_buttons"
+      when "big_thumbs_up_down_buttons", "yes_no_buttons"
         valid_multiple_choice_options = ["0", "1"]
         text_input = answered_questions[question.answer_field]
 
