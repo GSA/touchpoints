@@ -613,7 +613,6 @@ data_collection = CxCollection.create!({
   fiscal_year: 2021,
   quarter: 2,
   rating: 'TRUE',
-  likert_or_thumb_question: "",
   number_of_interactions: 123_456,
   number_of_people_offered_the_survey: 9_876,
   likert_or_thumb_question: "thumbs_up_down",

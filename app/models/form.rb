@@ -18,15 +18,17 @@ class Form < ApplicationRecord
   acts_as_taggable_on :tags
 
   validates :name, presence: true
-  validates :disclaimer_text, length: { in: 0..1000, allow_blank: true }
+  validates :uuid, presence: true
+  validates :short_uuid, presence: true
   validates :delivery_method, presence: true
+  validates :disclaimer_text, length: { in: 0..1000, allow_blank: true }
   validates :anticipated_delivery_count, numericality: true, allow_nil: true
   validate :omb_number_with_expiration_date
   validate :valid_form_kinds
   validate :target_for_delivery_method
   validate :ensure_modal_text
 
-  before_create :set_uuid
+  before_validation :set_uuid, on: :create
   after_create :create_first_form_section
   before_destroy :ensure_no_responses
 
@@ -124,12 +126,6 @@ class Form < ApplicationRecord
       (questions.size == 1 && questions.collect(&:question_type).include?('custom_text_display'))
   end
 
-  def self.find_by_short_uuid(short_uuid)
-    return nil unless short_uuid && short_uuid.length == 8
-
-    where('uuid LIKE ?', "#{short_uuid}%").first
-  end
-
   def self.find_by_legacy_touchpoints_id(id)
     return nil unless id && id.length < 4
 
@@ -146,24 +142,12 @@ class Form < ApplicationRecord
     short_uuid
   end
 
-  def short_uuid
-    uuid[0..7]
-  end
-
   def send_notifications?
     notification_emails.present?
   end
 
   def create_first_form_section
     form_sections.create(title: (I18n.t 'form.page_1'), position: 1)
-  end
-
-  # def to_param
-  #   short_uuid
-  # end
-
-  def short_uuid
-    uuid[0..7]
   end
 
   # used to initially set tags (or reset them, if necessary)
@@ -228,19 +212,21 @@ class Form < ApplicationRecord
 
   def duplicate!(new_user:)
     new_form = dup
+    new_form.aasm_state = :created
     new_form.name = "Copy of #{name}"
     new_form.title = new_form.name
     new_form.survey_form_activations = 0
     new_form.response_count = 0
     new_form.questions_count = 0
     new_form.last_response_created_at = nil
-    new_form.aasm_state = :created
     new_form.uuid = nil
+    new_form.short_uuid = nil
     new_form.legacy_touchpoint_id = nil
     new_form.legacy_touchpoint_uuid = nil
-    new_form.template = false
+    new_form.notification_emails = nil
     new_form.organization = new_user.organization
     new_form.legacy_form_embed = false
+    new_form.template = false
     new_form.save!
 
     # Manually remove the Form Section created with create_first_form_section
@@ -284,10 +270,6 @@ class Form < ApplicationRecord
       form.archive!
       UserMailer.form_status_changed(form:, action: 'archived', event: @event).deliver_later
     end
-  end
-
-  def set_uuid
-    self.uuid = SecureRandom.uuid if uuid.blank?
   end
 
   def self.send_inactive_form_emails_since(days_ago)
@@ -763,6 +745,11 @@ class Form < ApplicationRecord
   end
 
   private
+
+  def set_uuid
+    self.uuid ||= SecureRandom.uuid
+    self.short_uuid ||= self.uuid[0..7]
+  end
 
   def set_submitted_at
     self.update(submitted_at: Time.current)
