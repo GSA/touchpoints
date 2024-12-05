@@ -161,6 +161,14 @@
         <div class="tablet:grid-col-6">
           <div>
             <p>
+              <%= label_tag "Number of Questions", nil, class: "usa-label" %>
+              <%= @form.questions_count %>
+            </p>
+            <p>
+              <%= label_tag "Type of form", nil, class: "usa-label" %>
+              <%= @form.kind %>
+            </p>
+            <p>
               <%= label_tag "Created at", nil, class: "usa-label" %>
               <%= @form.created_at.to_date %>
               <span class="text-base font-sans-2xs">

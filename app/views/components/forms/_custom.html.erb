@@ -59,8 +59,6 @@
               <%= render 'components/forms/question_types/icon_checkboxes', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "star_radio_buttons" %>
               <%= render 'components/forms/question_types/star_radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
-            <% elsif question.question_type == "thumbs_up_down_buttons" %>
-              <%= render 'components/forms/question_types/thumbs_up_down_buttons', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "big_thumbs_up_down_buttons" %>
               <%= render 'components/forms/question_types/big_thumbs_up_down_buttons', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "yes_no_buttons" %>

@@ -15,15 +15,10 @@
   </div>
   <% end %>
   <%- if local_assigns[:form_builder] && form_builder %>
-  <span class="display-block">
+  <div class="margin-top-1">
     <span class="usa-tag">
       <%= question.answer_field %>
     </span>
-    <%- if question.is_required? %>
-    <span class="usa-tag bg-secondary-vivid">
-      Required
-    </span>
-    <% end %>
-  </span>
+  </div>
   <% end %>
 </div>

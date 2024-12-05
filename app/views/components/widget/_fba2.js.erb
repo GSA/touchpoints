@@ -521,7 +521,7 @@ function FBAform(d, N) {
 			params["page"] = N.location.pathname;
 			params["location_code"] = form.querySelector("#fba_location_code") ? form.querySelector("#fba_location_code").value : null;
 			params["fba_directive"] = form.querySelector("#fba_directive") ? form.querySelector("#fba_directive").value : null;
-			params["language"] = "en";
+			params["language"] = this.options.locale;
 
 			// Submit Feedback with a POST
 			xhr.open("POST", url);
@@ -630,6 +630,7 @@ const touchpointFormOptions<%= form.short_uuid %> = {
 		<%= render "components/form_#{form.kind}_script", form: form %>
 		<% end %>
 	},
+	'locale' : "<%= params[:locale] || I18n.default_locale %>",
 	'deliveryMethod' : "<%= form.delivery_method %>",
 	'successTextHeading' : "<%= escape_javascript(form.success_text_heading) %>",
 	'successText' : "<%= escape_javascript(sanitize(form.success_text)) %>",
