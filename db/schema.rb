@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_12_222412) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_26_184348) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -309,12 +309,14 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_222412) do
     t.boolean "legacy_form_embed", default: false
     t.datetime "archived_at"
     t.string "audience", default: "public", comment: "indicates whether a form is intended for a public or internal audience"
+    t.string "short_uuid", limit: 8
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["organization_id"], name: "index_forms_on_organization_id"
     t.index ["service_id"], name: "index_forms_on_service_id"
+    t.index ["short_uuid"], name: "index_forms_on_short_uuid", unique: true
     t.index ["user_id"], name: "index_forms_on_user_id"
-    t.index ["uuid"], name: "index_forms_on_uuid"
+    t.index ["uuid"], name: "index_forms_on_uuid", unique: true
   end
 
   create_table "ivn_component_links", force: :cascade do |t|

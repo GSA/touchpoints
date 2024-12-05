@@ -10,7 +10,7 @@ module Admin
 
     def lifespan
       @form_lifespans = Submission.select('form_id, count(*) as num_submissions, (max(submissions.created_at) - min(submissions.created_at)) as lifespan').group(:form_id)
-      @forms = Form.select(:id, :name, :organization_id, :uuid).where('exists (select id, uuid from submissions where submissions.form_id = forms.id)')
+      @forms = Form.select(:id, :name, :organization_id, :uuid, :short_uuid).where('exists (select id from submissions where submissions.form_id = forms.id)')
       @orgs = Organization.order(:name)
       @org_summary = []
       @orgs.each do |org|
@@ -36,7 +36,7 @@ module Admin
     end
 
     def no_submissions
-      @forms = Form.published.select(:id, :name, :organization_id, :uuid).where("not exists (select id, uuid from submissions where submissions.form_id = forms.id and submissions.created_at > current_date - interval '30' day)").order(:organization_id)
+      @forms = Form.published.select(:id, :name, :organization_id, :uuid, :short_uuid).where("not exists (select id, uuid from submissions where submissions.form_id = forms.id and submissions.created_at > current_date - interval '30' day)").order(:organization_id)
       @orgs = Organization.order(:name)
       @org_summary = []
       @orgs.each do |org|
