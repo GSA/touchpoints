@@ -4,7 +4,7 @@
 
 <%= form_with(model: form, url: update_form_manager_options_admin_form_url(form, format: :js), local: false, data: { turbo: false }) do |f| %>
   <%- if form.errors.any? %>
-    <div id="error_explanation">
+    <div class="margin-bottom-2">
       <h2><%= pluralize(form.errors.count, "error") %> prohibited this form from being saved:</h2>
       <% form.errors.full_messages.each do |message| %>
         <div class="usa-alert usa-alert--error" >
@@ -20,91 +20,112 @@
   <% end %>
   <%- if is_at_least_form_manager?(user: current_user, form: form) %>
   <div class="well">
-    <span class="usa-tag">
-      for Form Managers
-    </span>
 
-    <div class="grid-row grid-gap-md">
+    <div class="grid-row">
       <div class="grid-col-12">
-        <div class="field">
-          <%= f.label :name, "Form name", class: "usa-label" %>
-          <%= f.text_field :name, class: "usa-input" %>
+        <div class="grid-row grid-gap-lg">
+          <div class="grid-col-12">
+            <span class="usa-tag">
+              for Form Managers
+            </span>
+          </div>
+          <div class="tablet:grid-col-6">
+            <div class="field">
+              <%= f.label :name, "Form name", class: "usa-label" %>
+              <small>
+                Form <strong>name</strong> is displayed in the <%= link_to "list of forms", admin_forms_path %>.<br>
+                Whereas form <i>title</i> is displayed in the <%= link_to "form's design", admin_forms_path %>.
+              </small>
+              <%= f.text_field :name, class: "usa-input" %>
+            </div>
+
+            <div class="field">
+              <%= f.label :service_id, "Service", class: "usa-label" %>
+              <small>
+                This form
+                can be associated with a
+                <%= link_to "Service", admin_services_path, target: "_blank" %>.
+              </small>
+              <%= f.select :service_id, form.organization.services.includes(:organization).order("organizations.name", :name).map { |h| ["#{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, class: "usa-select" %>
+            </div>
+
+            <div class="field">
+              <%= f.label :audience, nil, class: "usa-label" %>
+              <small>
+                Is this form intended for public users or internal users?
+                <br>
+                If intended for both, choose public.
+              </small>
+              <%= f.select :audience, options_for_select(["public", "internal"], selected: form.audience), { include_blank: (form.audience.empty? ? "Not yet specified" : nil) }, class: "usa-select" %>
+            </div>
+
+            <div class="tags-div margin-top-2">
+              <%= render 'admin/forms/tags', form: form %>
+            </div>
+          </div>
+
+          <div class="tablet:grid-col-6">
+            <br>
+            <br>
+            <div class="field">
+              <%= f.label :time_zone, "Time zone", class: "usa-label" %>
+              <%= f.select :time_zone, options_for_select(US_TIMEZONES, selected: form.time_zone), { prompt: "Select a time zone" }, { class: "usa-select" } %>
+            </div>
+
+            <div class="field">
+              <%= f.label :omb_approval_number, class: "usa-label" %>
+              <%= f.text_field :omb_approval_number, class: "usa-input", placeholder: "OMB Approval #" %>
+            </div>
+
+            <div class="field usa-form-group">
+              <%= f.label :expiration_date, class: "usa-label" %>
+              <div class="usa-hint font-sans-2xs">
+                YYYY-MM-DD
+              </div>
+              <%= f.text_field :expiration_date, class: "usa-input" %>
+            </div>
+
+            <fieldset class="usa-fieldset margin-top-2">
+              <legend class="usa-sr-only">Display Organization Tag Logo</legend>
+              <div class="usa-checkbox">
+                <%= f.check_box :early_submission, class: "usa-checkbox__input" %>
+                <%= f.label :early_submission, class: "usa-checkbox__label" do %>
+                  Early Submission
+                  <small class="text-base">
+                    Display a submit button at the end of the first page in a multi-page form?
+                  </small>
+                <% end %>
+              </div>
+            </fieldset>
+            <fieldset class="usa-fieldset">
+              <legend class="usa-sr-only">Load USWDS</legend>
+              <div class="usa-checkbox">
+                <%= f.check_box :load_css, class: "usa-checkbox__input" %>
+                <%= f.label :load_css, class: "usa-checkbox__label" do %>
+                  Load USWDS CSS
+                  <small class="text-base">
+                   Check this box to load USWDS CSS styles with the Touchpoints-provided javascript.
+                  </small>
+                <% end %>
+              </div>
+            </fieldset>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="grid-row grid-gap-md">
-      <div class="grid-col-12">
-        <div class="field">
-          <%= f.label :service_id, "Service", class: "usa-label" %>
-          <small>
-            Optionally, this Form
-            can be associated with a
-            <%= link_to "Service", admin_services_path, target: "_blank" %>.
-          </small>
-          <%= f.select :service_id, form.organization.services.includes(:organization).order("organizations.name", :name).map { |h| ["#{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, class: "usa-select" %>
-        </div>
-      </div>
-    </div>
-    <div class="grid-col-12 margin-top-2">
-      <div class="well">
-        <div class="tags-div">
-          <%= render 'admin/forms/tags', form: form %>
-        </div>
-      </div>
-    </div>
-    <div class="grid-col-12">
-      <div class="field">
-        <%= f.label :time_zone, "Time zone", class: "usa-label" %>
-        <%= f.select :time_zone, options_for_select(ActiveSupport::TimeZone::MAPPING.keys.sort, selected: form.time_zone), { prompt: "Select a time zone" }, { class: "usa-select" } %>
       </div>
     </div>
 
-    <div class="grid-row grid-gap-md">
-      <div class="grid-col-6">
+    <div class="grid-row grid-gap-md border-top border-base-lighter margin-top-3">
+      <div class="grid-col-12">
         <div class="field">
           <%= f.label :notes, class: "usa-label" %>
           <%= f.text_area :notes, class: "usa-textarea" %>
         </div>
       </div>
     </div>
-    <div class="grid-col-6">
-      <div class="field">
-        <%= f.label :omb_approval_number, class: "usa-label" %>
-        <%= f.text_field :omb_approval_number, class: "usa-input", placeholder: "OMB Approval #" %>
-      </div>
-    </div>
-    <div class="grid-col-6">
-      <div class="field usa-form-group">
-        <%= f.label :expiration_date, class: "usa-label" %>
-        <div class="usa-hint font-sans-2xs">
-          YYYY-MM-DD
-        </div>
-        <%= f.text_field :expiration_date, class: "usa-input" %>
-      </div>
-    </div>
 
-    <div class="grid-row grid-gap-md margin-top-2 margin-bottom-3">
-      <div class="grid-col-12">
-        <fieldset class="usa-fieldset">
-          <legend class="usa-sr-only">Display Organization Tag Logo</legend>
-          <div class="usa-checkbox">
-            <%= f.check_box :early_submission, class: "usa-checkbox__input" %>
-            <%= f.label :early_submission, "Early Submission: Display a submit button at the end of the first page in a multi-page form?", class: "usa-checkbox__label" %>
-          </div>
-        </fieldset>
-        <fieldset class="usa-fieldset">
-          <legend class="usa-sr-only">Load USWDS</legend>
-          <div class="usa-checkbox">
-            <%= f.check_box :load_css, class: "usa-checkbox__input" %>
-            <%= f.label :load_css, "Load USWDS CSS: Check this box if your site does not implement USWDS styling.", class: "usa-checkbox__label" %>
-          </div>
-        </fieldset>
-      </div>
-    </div>
-
-    <p>
+    <div class="margin-top-2">
       <%= f.submit "Update Form Options", class: "usa-button" %>
-    </p>
+    </div>
   </div>
   <% end %>
 <% end %>

@@ -12,9 +12,9 @@ module Api
 
             @total_count = DigitalProduct.active.count
             @digital_products = DigitalProduct.active
+              .order(:id)
               .limit(size)
               .offset(size * page)
-              .order(:id)
 
             render json: @digital_products,
               meta: {

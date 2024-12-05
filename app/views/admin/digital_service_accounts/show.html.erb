@@ -36,14 +36,12 @@
   <div class="tablet:grid-col-8">
     <p>
       <%= label_tag "Account name", nil, class: "usa-label" %>
-      <br>
       <%= @digital_service_account.name %>
     </p>
 
     <p>
-      <%= label_tag "Account type", nil, class: "usa-label" %>
-      <br>
-      <%= @digital_service_account.account %>
+      <%= label_tag "Service", nil, class: "usa-label" %>
+      <%= @digital_service_account.service %>
     </p>
 
     <p>
@@ -65,13 +63,11 @@
 
     <p>
       <%= label_tag "Language", nil, class: "usa-label" %>
-      <br>
       <%= @digital_service_account.language %>
     </p>
 
     <p>
       <%= label_tag "Updated at", nil, class: "usa-label" %>
-      <br>
       <%= @digital_service_account.updated_at %>
     </p>
 

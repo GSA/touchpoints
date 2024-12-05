@@ -7,7 +7,7 @@ def production_suitable_seeds
     digital_analytics_path: 'general-services-administration',
     mission_statement: 'Declaring the purpose of an organization and how it serves customers'
   })
-  puts 'Created Organization: #{@gsa.name}'
+  puts "Created Organization: #{@gsa.name}"
 end
 
 production_suitable_seeds
@@ -33,7 +33,7 @@ if ENV['DEVELOPER_EMAIL_ADDRESS'].present?
     url: 'https://lvh.me',
     abbreviation: 'DEV'
   })
-  puts 'Created Default Organization: #{developer_organization.name}'
+  puts "Created Default Organization: #{developer_organization.name}"
 
   developer_user = User.new({
     organization: developer_organization,
@@ -43,7 +43,7 @@ if ENV['DEVELOPER_EMAIL_ADDRESS'].present?
     current_sign_in_at: Time.now,
   })
   developer_user.save!
-  puts 'Created Developer User: #{developer_user.email}'
+  puts "Created Developer User: #{developer_user.email}"
 end
 
 example_gov = Organization.create!({
@@ -52,7 +52,7 @@ example_gov = Organization.create!({
   url: 'https://example.gov',
   abbreviation: 'EX'
 })
-puts 'Created Default Organization: #{example_gov.name}'
+puts "Created Default Organization: #{example_gov.name}"
 
 admin_user = User.new({
   organization: example_gov,
@@ -63,7 +63,7 @@ admin_user = User.new({
   current_sign_in_at: Time.now,
 })
 admin_user.save!
-puts 'Created Admin User: #{admin_user.email}'
+puts "Created Admin User: #{admin_user.email}"
 
 organizational_admin_user = User.new({
   organization: example_gov,
@@ -73,7 +73,7 @@ organizational_admin_user = User.new({
   current_sign_in_at: Time.now,
 })
 organizational_admin_user.save!
-puts 'Created Organizational Admin User: #{organizational_admin_user.email}'
+puts "Created Organizational Admin User: #{organizational_admin_user.email}"
 
 digital_gov = Organization.create!({
   name: 'Digital.gov',
@@ -82,7 +82,7 @@ digital_gov = Organization.create!({
   abbreviation: 'DIGITAL',
   parent_id: @gsa.id
 })
-puts 'Creating additional Organization: #{digital_gov.name}'
+puts "Creating additional Organization: #{digital_gov.name}"
 
 org_2 = Organization.create!({
   name: 'Farmers.gov',
@@ -105,7 +105,7 @@ webmaster = User.new({
   current_sign_in_at: Time.now,
 })
 webmaster.save!
-puts 'Created #{webmaster.email}'
+puts "Created #{webmaster.email}"
 
 touchpoint_manager = User.new({
   email: 'touchpoint_manager@example.gov',
@@ -114,7 +114,7 @@ touchpoint_manager = User.new({
   current_sign_in_at: Time.now,
 })
 touchpoint_manager.save!
-puts 'Created #{touchpoint_manager.email}'
+puts "Created #{touchpoint_manager.email}"
 
 submission_viewer = User.new({
   email: 'viewer@example.gov',
@@ -123,7 +123,7 @@ submission_viewer = User.new({
   current_sign_in_at: Time.now - 100.days,
 })
 submission_viewer.save!
-puts 'Created #{submission_viewer.email}'
+puts "Created #{submission_viewer.email}"
 
 
 #
@@ -553,7 +553,7 @@ digital_gov_user = User.new({
   current_sign_in_at: Time.now,
 })
 digital_gov_user.save!
-puts 'Created Test User in Secondary Organization: #{digital_gov_user.email}'
+puts "Created Test User in Secondary Organization: #{digital_gov_user.email}"
 
 ## Generate admin
 admin_emails = ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS').split(',')
@@ -604,156 +604,101 @@ Website.create!({
   production_status: 'production'
 })
 
-data_collection = Collection.create!({
-  organization: Organization.first,
+data_collection = CxCollection.create!({
+  organization: service_1.organization,
   service_provider: service_provider_1,
-  user: User.all.sample,
-  year: 2021,
-  quarter: 2,
+  service: service_1,
   name: 'CX Quarterly Data Collection',
-  start_date: '2021-01-01',
-  end_date: '2021-03-31',
+  user: User.all.sample,
+  fiscal_year: 2021,
+  quarter: 2,
   rating: 'TRUE',
+  number_of_interactions: 123_456,
+  number_of_people_offered_the_survey: 9_876,
+  likert_or_thumb_question: "thumbs_up_down",
+  likert_or_thumb_question: "likert_scale",
+  trust_question_text: "How are you?",
+  survey_title: "",
+  channel: "",
+  service_stage_id: "",
+  transaction_point: "",
+  digital_service_or_contact_center: "",
+  service_type: "",
+
 })
 
-data_collection = Collection.create!({
-  organization: Organization.first,
-  service_provider: service_provider_1,
+CxCollection.create!({
+  organization: service_provider_3.organization,
+  service_provider: service_provider_3,
+  service: service_4,
   user: User.all.sample,
-  year: 2021,
+  fiscal_year: 2021,
   quarter: 3,
   name: 'CX Quarterly Data Collection',
-  start_date: '2021-04-01',
-  end_date: '2021-06-30',
   rating: 'FALSE',
 })
 
-data_collection = Collection.create!({
-  organization: example_gov,
-  service_provider: service_provider_2,
+CxCollection.create!({
+  organization: service_provider_3.organization,
+  service_provider: service_provider_3,
+  service: service_4,
   user: User.all.sample,
-  year: 2021,
+  fiscal_year: 2021,
   quarter: 1,
   name: 'CX Quarterly Data Collection',
-  start_date: '2020-10-31',
-  end_date: '2020-12-31',
   rating: 'PARTIAL',
 })
 
-data_collection = Collection.create!({
-  organization: example_gov,
-  service_provider: service_provider_2,
+CxCollection.create!({
+  organization: service_provider_3.organization,
+  service_provider: service_provider_3,
+  service: service_4,
   user: User.all.sample,
-  year: 2021,
+  fiscal_year: 2021,
   quarter: 2,
   name: 'CX Quarterly Data Collection',
-  start_date: '2021-01-01',
-  end_date: '2021-03-31',
   rating: 'PARTIAL',
 })
 
-data_collection = Collection.create!({
-  organization: example_gov,
-  service_provider: service_provider_2,
+CxCollection.create!({
+  organization: service_provider_3.organization,
+  service_provider: service_provider_3,
+  service: service_4,
   user: User.all.sample,
-  year: 2021,
+  fiscal_year: 2021,
   quarter: 3,
   name: 'CX Quarterly Data Collection',
-  start_date: '2021-04-01',
-  end_date: '2021-06-30',
   rating: 'PARTIAL',
 })
 
-data_collection = Collection.create!({
-  organization: example_gov,
-  service_provider: service_provider_2,
+CxCollection.create!({
+  organization: service_provider_3.organization,
+  service_provider: service_provider_3,
+  service: service_4,
   user: User.all.sample,
-  year: 2021,
+  fiscal_year: 2021,
   quarter: 4,
   name: 'CX Quarterly Data Collection',
-  start_date: '2021-07-01',
-  end_date: '2021-09-30',
   rating: 'PARTIAL',
 })
 
 
-OmbCxReportingCollection.create!({
-  collection: data_collection,
-  service: service_1,
-  service_provided: 'Test CX Quarterly Reporting',
-  q1_text: 'Question 1',
-  q1_1: rand(1000),
-  q1_2: rand(1000),
-  q1_3: rand(1000),
-  q1_4: rand(1000),
-  q1_5: rand(1000),
-  q2_text: 'Question 2',
-  q2_1: rand(1000),
-  q2_2: rand(1000),
-  q2_3: rand(1000),
-  q2_4: rand(1000),
-  q2_5: rand(1000),
-  q3_text: 'Question 3',
-  q3_1: rand(1000),
-  q3_2: rand(1000),
-  q3_3: rand(1000),
-  q3_4: rand(1000),
-  q3_5: rand(1000),
-  q4_text: 'Question 4',
-  q4_1: rand(1000),
-  q4_2: rand(1000),
-  q4_3: rand(1000),
-  q4_4: rand(1000),
-  q4_5: rand(1000),
-  q5_text: 'Question 5',
-  q5_1: rand(1000),
-  q5_2: rand(1000),
-  q5_3: rand(1000),
-  q5_4: rand(1000),
-  q5_5: rand(1000),
-  q6_text: 'Question 6',
-  q6_1: rand(1000),
-  q6_2: rand(1000),
-  q6_3: rand(1000),
-  q6_4: rand(1000),
-  q6_5: rand(1000),
-  q7_text: 'Question 7',
-  q7_1: rand(1000),
-  q7_2: rand(1000),
-  q7_3: rand(1000),
-  q7_4: rand(1000),
-  q7_5: rand(1000),
+CxCollectionDetail.create!({
+  cx_collection: data_collection,
+  transaction_point: "along the way",
+  channel: Service.channels.sample ,
+  service_stage_id: data_collection.service.service_stages.first,
+  volume_of_customers: 123_456,
+  volume_of_customers_provided_survey_opportunity: 54_321,
+  volume_of_respondents: 6_789,
+  omb_control_number: "1234-5678",
+  reflection_text: "things are going",
+  federal_register_url: "",
+  survey_type: "",
+  survey_title: "A-11 customer feedback",
+  trust_question_text: "Did this service increase your trust?"
 })
 
-
-#
-# Goals
-#
-# four_year_goal: true = Strategic Goal
-# four_year_goal: false = APG = Annual Performance Goal
-#
-
-@strategic_goal_1 = Goal.create!({
-  organization: @gsa,
-  name: "Real Estate Solutions: Financially and environmentally sustainable, accessible, and responsive workspace solutions that enable a productive Federal workforce",
-  four_year_goal: true
-})
-
-@apg_goal_1 = Goal.create!({
-  organization: @gsa,
-  name: "Right-Size GSA's Real Estate Portfolio",
-  four_year_goal: false,
-  tag_list: ["Pandemic response", "General government & management"]
-})
-
-@apg_goal_2 = Goal.create!({
-  organization: @gsa,
-  name: "Increase Adoption of GSA-Sponsored Identity Solutions",
-  four_year_goal: false,
-  tag_list: ["Shared Services"],
-
-  goal_statement: "GSA will increase adoption of Login.gov, a simple, secure, and equitable shared service at the forefront of the public’s digital identity..."
-})
 
 puts 'Creating User Personas...'
 
@@ -811,112 +756,11 @@ for i in (1..50) do
   })
 end
 
-puts 'Creating CSCRM Data Collections...'
-def random_words
-  list = %w(Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum)
-
-  list.sample(15).join(" ")
-end
-
-for i in (1..40) do
-  org = @organizations.all.sample
-  user = org.users.sample || User.all.sample
-
-  CscrmDataCollection.create!({
-    user: user,
-    organization: user.organization,
-    bureau_id: "",
-    year: [2022, 2023, 2024].sample,
-    quarter: [1, 2, 3, 4].sample,
-    agency_roles: CscrmDataCollection.agency_roles_options.sample,
-    agency_roles_comments: random_words,
-    leadership_roles: CscrmDataCollection.leadership_roles_options.sample,
-    stakeholder_champion_identified: CscrmDataCollection.stakeholder_champion_identified_options.sample,
-    stakeholder_champion_identified_comments: random_words,
-    interdisciplinary_team_established: CscrmDataCollection.interdisciplinary_team_established_options.sample,
-    interdisciplinary_team_established_comments: random_words,
-    pmo_established: CscrmDataCollection.pmo_established_options.sample,
-    pmo_established_comments: random_words,
-    enterprise_wide_scrm_policy_established: CscrmDataCollection.enterprise_wide_scrm_policy_established_options.sample,
-    enterprise_wide_scrm_policy_established_comments: random_words,
-    funding_for_initial_operating_capability: CscrmDataCollection.funding_for_initial_operating_capability_options.sample,
-    funding_for_initial_operating_capability_comments: random_words,
-    staffing: CscrmDataCollection.staffing_options.sample,
-    staffing_comments: random_words,
-    agency_wide_scrm_strategy_and_implementation_plan_established: CscrmDataCollection.agency_wide_scrm_strategy_and_implementation_plan_options.sample,
-    agency_wide_scrm_strategy_and_implementation_plan_comments: random_words,
-    enterprise_risk_management_function_established: CscrmDataCollection.enterprise_risk_management_function_established_options.sample,
-    enterprise_risk_management_function_established_comments: random_words,
-    roles_and_responsibilities: CscrmDataCollection.roles_and_responsibilities_options.sample,
-    roles_and_responsibilities_comments: random_words,
-    missions_identified: CscrmDataCollection.missions_identified_options,
-    missions_identified_comments: random_words,
-    prioritization_process: CscrmDataCollection.prioritization_process_options.sample,
-    prioritization_process_comments: random_words,
-    considerations_in_procurement_processes: CscrmDataCollection.considerations_in_procurement_processes_options.sample,
-    considerations_in_procurement_processes_comments: random_words,
-    conducts_scra_for_prioritized_products_and_services: CscrmDataCollection.conducts_scra_for_prioritized_products_and_services_options.sample,
-    conducts_scra_for_prioritized_products_and_services_comments: random_words,
-    personnel_required_to_complete_training: CscrmDataCollection.personnel_required_to_complete_training_options.sample,
-    established_process_information_sharing_with_fasc: CscrmDataCollection.established_process_information_sharing_options.sample,
-    established_process_information_sharing_with_fasc_comments: random_words,
-    cybersecurity_supply_chain_risk_considerations: CscrmDataCollection.cybersecurity_supply_chain_risk_considerations_options.sample,
-    general_comments: random_words
-  })
-
-  CscrmDataCollection2.create!({
-    user: user,
-    organization: user.organization,
-    bureau_id: "",
-    year: [2023, 2023, 2025].sample,
-    quarter: [1, 2, 3, 4].sample,
-    interdisciplinary_team: CscrmDataCollection2.question_1[:options].to_a.sample[1],
-    interdisciplinary_team_comments: random_words,
-    pmo_established: CscrmDataCollection2.question_2[:options].to_a.sample[1],
-    pmo_established_comments: random_words,
-    established_policy: CscrmDataCollection2.question_3[:options].to_a.sample[1],
-    established_policy_comments: random_words,
-    supply_chain_acquisition_procedures: CscrmDataCollection2.question_4[:options].to_a.sample[1],
-    supply_chain_acquisition_procedures_comments: random_words,
-    funding: CscrmDataCollection2.question_5[:options].to_a.sample[1],
-    funding_comments: random_words,
-    identified_staff: CscrmDataCollection2.question_6[:options].to_a.sample[1],
-    identified_staff_comments: random_words,
-    strategy_plan: CscrmDataCollection2.question_7[:options].to_a.sample[1],
-    strategy_plan_comments: random_words,
-    governance_structure: CscrmDataCollection2.question_8[:options].to_a.sample[1],
-    governance_structure_comments: random_words,
-    clearly_defined_roles: CscrmDataCollection2.question_9[:options].to_a.sample[1],
-    clearly_defined_roles_comments: random_words,
-    identified_assets_and_essential_functions: CscrmDataCollection2.question_10[:options].to_a.sample[1],
-    identified_assets_and_essential_functions_comments: random_words,
-    prioritization_process: CscrmDataCollection2.question_11[:options].to_a.sample[1],
-    prioritization_process_comments: random_words,
-    considerations_in_procurement_processes: CscrmDataCollection2.question_12[:options].to_a.sample[1],
-    considerations_in_procurement_processes_comments: random_words,
-    documented_methodology: CscrmDataCollection2.question_13[:options].to_a.sample[1],
-    documented_methodology_comments: random_words,
-    conducts_scra_for_prioritized_products_and_services: CscrmDataCollection2.question_14[:options].to_a.sample[1],
-    conducts_scra_for_prioritized_products_and_services_comments: random_words,
-    personnel_required_to_complete_training: CscrmDataCollection2.question_15[:options].to_a.sample[1],
-    personnel_required_to_complete_training_comments: random_words,
-    established_process_information_sharing_with_fasc: CscrmDataCollection2.question_16[:options].to_a.sample[1],
-    established_process_information_sharing_with_fasc_comments: random_words,
-    cybersecurity_supply_chain_risk_considerations: CscrmDataCollection2.question_17[:options].to_a.sample[1],
-    cybersecurity_supply_chain_risk_considerations_comments: random_words,
-    process_for_product_authenticity: CscrmDataCollection2.question_18[:options].to_a.sample[1],
-    process_for_product_authenticity_comments: random_words,
-    cscrm_controls_incorporated_into_ssp: CscrmDataCollection2.question_19[:options].to_a.sample[1],
-    cscrm_controls_incorporated_into_ssp_comments: random_words,
-    comments: random_words,
-  })
-end
-
 for i in (1..20) do
   DigitalServiceAccount.create!({
     organization_list: [@gsa.id],
     name: "Social Media Account #{i}",
-    account: DigitalServiceAccount.list.sample,
+    service: DigitalServiceAccount.list.sample,
     aasm_state: DigitalServiceAccount.aasm.states.map(&:name).sample,
     service_url: "https://example.lvh.me/account#{i}"
   })

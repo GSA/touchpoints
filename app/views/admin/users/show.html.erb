@@ -46,11 +46,6 @@
       Performance manager
     </span>
   <% end %>
-  <%- if @user.cscrm_data_collection_manager? %>
-    <span class="usa-tag bg-blue">
-      CSCRM Data Collection manager
-    </span>
-  <% end %>
   <%- if @user.service_manager? %>
     <span class="usa-tag bg-indigo">
       Service manager
@@ -310,7 +305,7 @@
   <h4>
     Data Collections
   </h4>
-<%- if @collections.present? %>
+<%- if @cx_collections.present? %>
   <table class="usa-table width-full">
     <thead>
       <tr>
@@ -321,19 +316,19 @@
       </tr>
     </thead>
     <tbody>
-      <% @collections.includes(:service_provider).each do |collection| %>
+      <% @cx_collections.includes(:service_provider).each do |cx_collection| %>
       <tr>
         <td>
-          <%= collection.year %>
+          <%= cx_collection.fiscal_year %>
         </td>
         <td>
-          <%= collection.quarter %>
+          <%= cx_collection.quarter %>
         </td>
         <td>
-          <%= link_to collection.name, admin_collection_path(collection) %>
+          <%= link_to cx_collection.name, admin_cx_collection_path(cx_collection) %>
         </td>
         <td>
-          <%= link_to collection.service_provider.name, admin_service_provider_path(collection.service_provider) %>
+          <%= link_to cx_collection.service_provider.name, admin_service_provider_path(cx_collection.service_provider) %>
         </td>
       </tr>
       <% end %>
@@ -343,7 +338,7 @@
   <div class="usa-alert usa-alert--info">
     <div class="usa-alert__body">
       <p class="usa-alert__text">
-        No Collections at this time
+        No CX Collections at this time
       </p>
     </div>
   </div>

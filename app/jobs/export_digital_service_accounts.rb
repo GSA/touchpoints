@@ -3,10 +3,10 @@
 class ExportDigitalServiceAccounts < ApplicationJob
   queue_as :default
 
-  def perform(email:, query:, org_abbr:, aasm_state:, account:)
+  def perform(email:, query:, org_abbr:, aasm_state:, service:)
     start_time = Time.now
     accounts = DigitalServiceAccount
-      .filtered_accounts(query, org_abbr, aasm_state, account)
+      .filtered_accounts(query, org_abbr, aasm_state, service)
     csv_content = accounts.to_csv
     completion_time = Time.now
     record_count = csv_record_count(csv_content)

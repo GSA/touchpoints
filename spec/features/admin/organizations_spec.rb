@@ -8,6 +8,10 @@ feature 'Managing Organizations', js: true do
   let!(:organization) { FactoryBot.create(:organization) }
   let!(:organization2) { FactoryBot.create(:organization, name: 'Organization 2', domain: 'test.gov', abbreviation: 'ORG2') }
   let(:admin) { FactoryBot.create(:user, :admin, organization:) }
+  let(:user) { FactoryBot.create(:user, organization:) }
+  let(:service) { FactoryBot.create(:service, organization:, service_owner_id: user.id) }
+  let!(:service_provider) { FactoryBot.create(:service_provider, organization:) }
+  let!(:cx_collection) { FactoryBot.create(:cx_collection, organization:, service_provider:, service:) }
 
   context 'as Admin' do
     before 'visit Organization listing' do
@@ -42,32 +46,21 @@ feature 'Managing Organizations', js: true do
       end
     end
 
-    describe 'sort goals' do
-      let!(:goal_list) { FactoryBot.create_list(:goal, 3, organization:) }
-
-      it 'successfully re-orders goals for an organization' do
-        visit performance_admin_organization_path(organization)
-        expect(goal_list.collect(&:position)).to eq([1,2,3])
-        find('#goal_3').drag_to(find('#goal_1'))
-        wait_for_ajax
-        expect(goal_list[0].reload.position).to eq(2)
-        expect(goal_list[1].reload.position).to eq(3)
-        expect(goal_list[2].reload.position).to eq(1)
+    describe 'view an existig Organization' do
+      before do
+        visit admin_organization_path(organization)
       end
-    end
 
-    describe 'sort objectives' do
-      let!(:goal) { FactoryBot.create(:goal, organization:, four_year_goal: true) }
-      let!(:objective_list) { FactoryBot.create_list(:objective, 3, goal:, organization:) }
+      it 'successfully displays an Organization and its contents' do
+        expect(page).to have_content('No parent organization specified')
+        expect(page).to have_content('0 Sub-agencies')
+        expect(page).to have_content('1 Service Providers')
+        expect(page).to have_content('1 Service')
+        expect(page).to have_link('Service to deliver to customer')
+      end
 
-      it 'successfully re-orders objectivs for a goal' do
-        visit performance_admin_organization_path(organization)
-        expect(objective_list.collect(&:position)).to eq([1,2,3])
-        find('#objective_3').drag_to(find('#objective_1'))
-        wait_for_ajax
-        expect(objective_list[0].reload.position).to eq(2)
-        expect(objective_list[1].reload.position).to eq(3)
-        expect(objective_list[2].reload.position).to eq(1)
+      it 'is accessible' do
+        expect(page).to be_axe_clean
       end
     end
   end

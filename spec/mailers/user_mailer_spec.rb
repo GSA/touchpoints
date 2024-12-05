@@ -97,65 +97,22 @@ RSpec.describe UserMailer, type: :mailer do
   describe 'quarterly_performance_update' do
     let!(:organization) { FactoryBot.create(:organization) }
     let!(:user) { FactoryBot.create(:user, organization:) }
-    let!(:collection) { FactoryBot.create(:collection, user:) }
-    let(:mail) { UserMailer.quarterly_performance_notification(collection_id: collection.id) }
+    let(:service) { FactoryBot.create(:service, organization:, service_owner_id: user.id) }
+    let!(:cx_collection) { FactoryBot.create(:cx_collection, user:, service:) }
+    let(:mail) { UserMailer.quarterly_performance_notification(cx_collection_id: cx_collection.id) }
 
     before do
       ENV['ENABLE_EMAIL_NOTIFICATIONS'] = 'true'
     end
 
     it 'renders the headers' do
-      expect(mail.subject).to eq("Quarterly Performance Data Collection Ready: #{collection.name}")
-      expect(mail.to).to eq([collection.user.email])
+      expect(mail.subject).to eq("Quarterly Performance Data Collection Ready: #{cx_collection.name}")
+      expect(mail.to).to eq([cx_collection.user.email])
       expect(mail.from).to eq([ENV.fetch('TOUCHPOINTS_EMAIL_SENDER')])
     end
 
     it 'renders the body' do
       expect(mail.body.encoded).to have_text('Quarterly Performance Notification')
-    end
-  end
-
-  describe 'CSCRM Data Collection' do
-    let!(:organization) { FactoryBot.create(:organization) }
-    let!(:user) { FactoryBot.create(:user, organization:) }
-    let!(:cscrm_data_manager) { FactoryBot.create(:user, organization:, cscrm_data_collection_manager: true) }
-    let!(:cscrm_data_collection) { FactoryBot.create(:cscrm_data_collection, organization:, user:) }
-    let(:mail) { UserMailer.cscrm_data_collection_notification(collection_id: cscrm_data_collection.id) }
-
-    before do
-      ENV['ENABLE_EMAIL_NOTIFICATIONS'] = 'true'
-    end
-
-    it 'renders the headers' do
-      expect(mail.subject).to eq("CSCRM Data Collection notification to #{cscrm_data_collection.id}")
-      expect(mail.to).to eq([ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS'), cscrm_data_manager.email])
-      expect(mail.from).to eq([ENV.fetch('TOUCHPOINTS_EMAIL_SENDER')])
-    end
-
-    it 'renders the body' do
-      expect(mail.body.encoded).to have_text('CSCRM Data Collection Notification')
-    end
-  end
-
-  describe 'CSCRM Data Collection 2' do
-    let!(:organization) { FactoryBot.create(:organization) }
-    let!(:user) { FactoryBot.create(:user, organization:) }
-    let!(:cscrm_data_manager) { FactoryBot.create(:user, organization:, cscrm_data_collection_manager: true) }
-    let!(:cscrm_data_collection2) { FactoryBot.create(:cscrm_data_collection2, organization:, user:) }
-    let(:mail) { UserMailer.cscrm_data_collection2_notification(collection_id: cscrm_data_collection2.id) }
-
-    before do
-      ENV['ENABLE_EMAIL_NOTIFICATIONS'] = 'true'
-    end
-
-    it 'renders the headers' do
-      expect(mail.subject).to eq("CSCRM Data Collection 2 notification to #{cscrm_data_collection2.id}")
-      expect(mail.to).to eq([ENV.fetch('TOUCHPOINTS_ADMIN_EMAILS'), cscrm_data_manager.email])
-      expect(mail.from).to eq([ENV.fetch('TOUCHPOINTS_EMAIL_SENDER')])
-    end
-
-    it 'renders the body' do
-      expect(mail.body.encoded).to have_text('CSCRM Data Collection 2 Notification')
     end
   end
 

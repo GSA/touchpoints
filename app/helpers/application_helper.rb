@@ -21,6 +21,14 @@ module ApplicationHelper
     Organization.all.order(:name).map { |org| ["#{org.abbreviation} - #{org.name}", org.abbreviation] }
   end
 
+  def us_timezones
+    us_timezones = ActiveSupport::TimeZone["Eastern Time (US & Canada)"],
+      ActiveSupport::TimeZone["Central Time (US & Canada)"],
+      ActiveSupport::TimeZone["Mountain Time (US & Canada)"],
+      ActiveSupport::TimeZone["Pacific Time (US & Canada)"],
+      ActiveSupport::TimeZone["Hawaii"]
+  end
+
   def hisp_questions_key
     {
       '1' => 'satisfaction',

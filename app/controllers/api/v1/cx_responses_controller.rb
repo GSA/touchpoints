@@ -9,13 +9,17 @@ module Api
         page_size = 500 if page_size <= 0 || page_size > 5000
 
         begin
-          start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Date.parse("2023-10-01").to_date
+          start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Date.parse("2024-10-01")
           end_date = params[:end_date] ? Date.parse(params[:end_date]).to_date : 1.day.from_now
         rescue StandardError
           render json: { error: { message: "invalid date format, should be 'YYYY-MM-DD'", status: 400 } }, status: :bad_request and return
         end
 
-        cx_responses = CxResponse.page(page_number).per(page_size)
+        cx_responses = CxResponse
+          .where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+          .order(:id)
+          .page(page_number)
+          .per(page_size)
 
         production_api_path = "https://api.gsa.gov/analytics/touchpoints#{request.path.gsub('/api', '')}"
 

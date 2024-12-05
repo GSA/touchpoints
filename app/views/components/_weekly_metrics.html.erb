@@ -94,49 +94,28 @@
     <thead>
       <tr>
         <th>
-          Data Collections
+          CX Data Collections
         </th>
         <th>
-          Service details
+          CX Collection Details
+        </th>
+        <th>
+          Cx Responses
         </th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>
-          <%= number_with_delimiter(Collection.count) %>
+          <%= number_with_delimiter(CxCollection.count) %>
         </td>
         <td>
-          <%= number_with_delimiter(OmbCxReportingCollection.count) %>
+          <%= number_with_delimiter(CxCollectionDetail.count) %>
+        </td>
+        <td>
+          <%= number_with_delimiter(CxResponse.count) %>
         </td>
       </tr>
-    </tbody>
-  </table>
-  <table class="usa-table width-full">
-    <thead>
-      <tr>
-        <th>
-          Goals
-        </th>
-        <th>
-          Objectives
-        </th>
-        <th>
-          Milestones
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-          <%= number_with_delimiter(Goal.count) %>
-        </td>
-        <td>
-          <%= number_with_delimiter(Objective.count) %>
-        </td>
-        <td>
-          <%= number_with_delimiter(Milestone.count) %>
-        </td>
       </tr>
     </tbody>
   </table>

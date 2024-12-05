@@ -38,8 +38,8 @@ feature 'Admin Dashboard', js: true do
         expect(page).to have_content('Responses')
         expect(page).to have_content('Services')
         expect(page).to have_content('Websites')
-        expect(page).to have_content('Data Collections')
-        expect(page).to have_content('Service details')
+        expect(page).to have_content('CX Data Collections')
+        expect(page).to have_content('CX Collection Details')
         expect(find('.reportable-users')).to have_content('1')
         expect(find('.reportable-organizations')).to have_content('1')
         expect(find('.reportable-forms')).to have_content('1')
@@ -109,23 +109,6 @@ feature 'Admin Dashboard', js: true do
         expect(page).to have_css('#daily-responses')
         expect(page).to have_css('#daily-new-users')
         expect(find_all('canvas').size).to eq(2)
-      end
-    end
-
-    describe '#a11' do
-      let!(:form) { FactoryBot.create(:form, kind: 'a11', organization:) }
-
-      before do
-        visit admin_a11_path
-      end
-
-      it 'display Customer Feedback Analysis' do
-        expect(page).to have_css('#customer-feedback-summary')
-        within '#customer-feedback-summary' do
-          expect(find_all('tbody tr').size).to eq(1)
-          expect(page).to have_content form.organization.name
-          expect(page).to have_content form.name
-        end
       end
     end
 

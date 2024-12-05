@@ -6,12 +6,6 @@ module Admin
     before_action :ensure_admin, except: [
       :performance,
       :performance_update,
-      :create_two_year_goal,
-      :create_four_year_goal,
-      :delete_two_year_goal,
-      :delete_four_year_goal,
-      :sort_goals,
-      :sort_objectives
     ]
 
     before_action :set_organization, only: %i[
@@ -23,12 +17,6 @@ module Admin
       destroy
       add_tag
       remove_tag
-      create_two_year_goal
-      create_four_year_goal
-      delete_two_year_goal
-      delete_four_year_goal
-      sort_goals
-      sort_objectives
     ]
 
     def index
@@ -38,7 +26,8 @@ module Admin
 
     def show
       @forms = @organization.forms
-      @collections = @organization.collections
+      @cx_collections = @organization.cx_collections
+        .order(:fiscal_year, :quarter)
       @users = @organization.users.active.order(:email)
     end
 
@@ -71,58 +60,6 @@ module Admin
           format.json { render json: @organization.errors, status: :unprocessable_entity }
         end
       end
-    end
-
-    def create_four_year_goal
-      ensure_performance_manager_permissions
-
-      @goal = Goal.new
-      @goal.organization_id = @organization.id
-      @goal.four_year_goal = true
-      @goal.name = 'New Strategic Goal'
-      @goal.save
-    end
-
-    def create_two_year_goal
-      ensure_performance_manager_permissions
-
-      @goal = Goal.new
-      @goal.organization_id = @organization.id
-      @goal.four_year_goal = false
-      @goal.name = 'New 2 Year APG'
-      @goal.save
-    end
-
-    def sort_goals
-      ensure_performance_manager_permissions
-
-      params[:goal].each_with_index do |id, index|
-        Goal.where(id:).update_all(position: index + 1)
-      end
-
-      head :ok
-    end
-
-    def sort_objectives
-      ensure_performance_manager_permissions
-
-      params[:objective].each_with_index do |id, index|
-        Objective.where(id:).update_all(position: index + 1)
-      end
-
-      head :ok
-    end
-
-    def delete_two_year_goal
-      ensure_performance_manager_permissions
-
-      Goal.find(params[:goal_id]).destroy
-    end
-
-    def delete_four_year_goal
-      ensure_performance_manager_permissions
-
-      Goal.find(params[:goal_id]).destroy
     end
 
     def update

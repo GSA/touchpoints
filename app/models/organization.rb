@@ -7,13 +7,7 @@ class Organization < ApplicationRecord
   has_many :service_providers
   has_many :services
   has_many :websites
-  has_many :collections
   has_many :cx_collections
-  has_many :cscrm_data_collections
-  has_many :cscrm_data_collections2, class_name: "CscrmDataCollection2"
-  has_many :goals
-  has_many :milestones, through: :goals
-  has_many :objectives, through: :milestones
   has_many :forms
 
   mount_uploader :logo, LogoUploader

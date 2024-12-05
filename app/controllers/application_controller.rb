@@ -68,14 +68,6 @@ class ApplicationController < ActionController::Base
     redirect_to(index_path, notice: 'Authorization is Required')
   end
 
-  def ensure_collection_owner(collection:)
-    return false if collection.blank?
-    return true if admin_permissions?
-    return true if collection_permissions?(collection:)
-
-    redirect_to(index_path, notice: 'Authorization is Required')
-  end
-
   def ensure_cx_collection_owner(cx_collection:)
     return false if cx_collection.blank?
     return true if admin_permissions?
@@ -167,21 +159,6 @@ class ApplicationController < ActionController::Base
     return true if admin_permissions?
 
     current_user.performance_manager?
-  end
-
-  helper_method :cscrm_manager_permissions?
-  def cscrm_manager_permissions?
-    return true if admin_permissions?
-
-    current_user.cscrm_data_collection_manager?
-  end
-
-  helper_method :collection_permissions?
-  def collection_permissions?(collection:)
-    return false if collection.blank?
-    return true if performance_manager_permissions?
-
-    collection.organization == current_user.organization
   end
 
   helper_method :cx_collection_permissions?

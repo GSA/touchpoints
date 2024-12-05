@@ -50,7 +50,7 @@ module Admin
     def show
       @forms = @user.forms.order(:status, :name)
       @websites = Website.where(site_owner_email: @user.email)
-      @collections = @user.collections.order(:year, :quarter)
+      @cx_collections = @user.cx_collections.order(:fiscal_year, :quarter)
       @user_events = Event.limit(100).where(object_type: 'User', object_uuid: @user.id).order('created_at DESC')
       @service_providers = ServiceProvider.with_role(:service_provider_manager, @user)
       @services = Service.with_role(:service_manager, @user)
@@ -156,7 +156,6 @@ module Admin
         :performance_manager,
         :service_manager,
         :registry_manager,
-        :cscrm_data_collection_manager,
         :email,
         :first_name,
         :last_name,
