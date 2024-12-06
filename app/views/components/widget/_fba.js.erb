@@ -529,7 +529,7 @@ function FBAform(d, N) {
 			xhr.onload = callback.bind(this);
 			xhr.send(JSON.stringify({
 				"submission": params,
-				<%- if @form.verify_csrf? %>
+				<%- if form.verify_csrf? %>
 				"authenticity_token": form.querySelector("#authenticity_token") ?
 				form.querySelector("#authenticity_token").value : null
 				<% end %>

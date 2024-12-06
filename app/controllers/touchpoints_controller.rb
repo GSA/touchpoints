@@ -20,7 +20,7 @@ class TouchpointsController < ApplicationController
 
   def js
     @form.increment!(:survey_form_activations)
-    render(partial: 'components/widget/fba2', formats: :js, locals: { form: @form })
+    render(partial: 'components/widget/fba', formats: :js, locals: { form: @form })
   end
 
   private
