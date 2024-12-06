@@ -10,7 +10,6 @@ function FBAform(d, N) {
 		formElement: function() {
 			return this.formComponent().querySelector("form");
 		},
-		activatedButton: null, // tracks a reference to the button that was clicked to open the modal
 		isFormSubmitted: false, // defaults to false
 		// enable Javascript experience
 		javascriptIsEnabled: function() {
@@ -34,7 +33,6 @@ function FBAform(d, N) {
 				this.loadButton();
 			}
 			this._bindEventListeners();
-			this.dialogOpen = false; // initially false
 			this.successState = false; // initially false
 			this._pagination();
 			if (this.options.formSpecificScript) {
@@ -49,15 +47,6 @@ function FBAform(d, N) {
 		},
 		_bindEventListeners: function() {
 			var self = this;
-			d.addEventListener('keyup', function (event) {
-				var x = event.keyCode;
-				if( x == 27 && self.dialogOpen == true) {
-					self.closeDialog();
-				}
-			});
-			d.addEventListener('click', function (event) {
-				self.openModalDialog(event);
-			});
 
 			const textareas = this.formComponent().querySelectorAll(".usa-textarea");
 			textareas.forEach(function(textarea) {
@@ -83,49 +72,52 @@ function FBAform(d, N) {
 			}
 		},
 		_loadHtml: function() {
-			<%# inject the form interface for the `inline` delivery option, without a wrapper %>
-			if ((this.options.deliveryMethod && this.options.deliveryMethod === 'inline') && this.options.suppressSubmitButton) {
-				if (this.options.elementSelector) {
-					if(d.getElementById(this.options.elementSelector) != null) {
-						d.getElementById(this.options.elementSelector).innerHTML = this.options.htmlFormBodyNoModal();
-					}
-				}
-			} else if (this.options.deliveryMethod && this.options.deliveryMethod === 'inline') { <%# inject the form interface for inline with the modal wrapper %>
-				if (this.options.elementSelector) {
-					if(d.getElementById(this.options.elementSelector) != null) {
-						d.getElementById(this.options.elementSelector).innerHTML = this.options.htmlFormBody();
-					}
+		<%# inject the form interface for the `inline` delivery option, without a wrapper %>
+		if ((this.options.deliveryMethod && this.options.deliveryMethod === 'inline') && this.options.suppressSubmitButton) {
+			if (this.options.elementSelector) {
+				if(d.getElementById(this.options.elementSelector) != null) {
+					d.getElementById(this.options.elementSelector).innerHTML = this.options.htmlFormBodyNoModal();
 				}
 			}
-			<%# inject the form interface for modal and custom-button-modal %>
-			if (this.options.deliveryMethod && (this.options.deliveryMethod === 'modal' || this.options.deliveryMethod === 'custom-button-modal')) {
-				this.dialogEl = d.createElement('div');
-				this.dialogEl.setAttribute("hidden", true);
-				this.dialogEl.setAttribute("aria-hidden", true);
-				this.dialogEl.setAttribute('class', 'fba-modal');
-				this.dialogEl.setAttribute('data-touchpoints-form-id', this.options.formId);
+		} else if (this.options.deliveryMethod && this.options.deliveryMethod === 'inline') { <%# inject the form interface for inline with the modal wrapper %>
+			if (this.options.elementSelector) {
+				if(d.getElementById(this.options.elementSelector) != null) {
+					d.getElementById(this.options.elementSelector).classList.add('fba-inline-container');
+					d.getElementById(this.options.elementSelector).innerHTML = this.options.htmlFormBody();
+				}
+			}
+		}
+		<%# inject the form interface for modal and custom-button-modal %>
+		if (this.options.deliveryMethod && (this.options.deliveryMethod === 'modal' || this.options.deliveryMethod === 'custom-button-modal')) {
+			this.dialogEl = d.createElement('div');
+			this.dialogEl.setAttribute('class', "<%= form.prefix "usa-modal" %> fba-modal");
+			this.dialogEl.setAttribute('id', this.modalId());
+			this.dialogEl.setAttribute('aria-labelledby', `fba-form-title-${this.options.formId}`);
+			this.dialogEl.setAttribute('aria-describedby', `fba-form-instructions-${this.options.formId}`);
+			this.dialogEl.setAttribute('data-touchpoints-form-id', this.options.formId);
 
-				this.dialogEl.innerHTML = this.options.htmlFormBody();
-				d.body.appendChild(this.dialogEl);
-
-				this.formComponent().querySelector('.fba-modal-close').addEventListener('click', this.handleDialogClose.bind(this), false);
-			}
-			var otherElements = this.formElement().querySelectorAll(".usa-input.other-option");
-			for (var i = 0; i < otherElements.length; i++) {
-				otherElements[i].addEventListener('keyup', this.handleOtherOption.bind(this), false);
-			}
-			var phoneElements = this.formElement().querySelectorAll("input[type='tel']");
-			for (var i = 0; i < phoneElements.length; i++) {
-				phoneElements[i].addEventListener('keyup', this.handlePhoneInput.bind(this), false);
-			}
-			<%# add button behaviors for custom-button-modal %>
-			if (this.options.deliveryMethod && this.options.deliveryMethod === 'custom-button-modal') {
-				if (this.options.elementSelector) {
-					if(d.getElementById(this.options.elementSelector) != null) {
-						d.getElementById(this.options.elementSelector).addEventListener('click', this.handleButtonClick.bind(this), false);
-					}
+			this.dialogEl.innerHTML = this.options.htmlFormBody();
+			d.body.appendChild(this.dialogEl);
+		}
+		var otherElements = this.formElement().querySelectorAll(".usa-input.other-option");
+		for (var i = 0; i < otherElements.length; i++) {
+		    otherElements[i].addEventListener('keyup', this.handleOtherOption.bind(this), false);
+		}
+		var phoneElements = this.formElement().querySelectorAll("input[type='tel']");
+		for (var i = 0; i < phoneElements.length; i++) {
+		    phoneElements[i].addEventListener('keyup', this.handlePhoneInput.bind(this), false);
+		}
+		<%# add button behaviors for custom-button-modal %>
+		if (this.options.deliveryMethod && this.options.deliveryMethod === 'custom-button-modal') {
+			if (this.options.elementSelector) {
+				const customButtonEl = d.getElementById(this.options.elementSelector);
+				if (customButtonEl != null) {
+					customButtonEl.setAttribute('data-open-modal', '');
+					customButtonEl.setAttribute('aria-controls', this.modalId());
+					customButtonEl.addEventListener('click', () => d.dispatchEvent(new Event('onTouchpointsModalOpen')));
 				}
 			}
+		}
 
 			var formElement = this.formElement();
 			// returns 1 or more submit buttons within the Touchpoints form
@@ -159,26 +151,6 @@ function FBAform(d, N) {
 			alertErrorElement.setAttribute("hidden", true);
 			alertErrorElementBody.innerHTML = "";
 		},
-		openModalDialog: function(e) {
-			if (this.options.deliveryMethod && this.options.deliveryMethod === 'modal' ) {
-				if (this.dialogOpen && !e.target.closest('#fba-button') && !e.target.closest('.fba-modal-dialog')) {
-					this.closeDialog();
-				}
-			} else if (this.options.deliveryMethod && this.options.deliveryMethod === 'custom-button-modal' ) {
-				if (this.dialogOpen && !e.target.closest('#' + this.options.elementSelector) && !e.target.closest('.fba-modal-dialog')) {
-					this.closeDialog();
-				}
-			}
-		},
-		handleButtonClick: function(e) {
-			e.preventDefault();
-			this.activatedButton = e.target;
-			this.loadDialog();
-		},
-		handleDialogClose: function(e) {
-			e.preventDefault();
-			this.closeDialog();
-		},
 		handleOtherOption: function(e) {
 			var selectorId =  "#" + e.srcElement.getAttribute("data-option-id");
 			var other_val = e.target.value.replace(/,/g, '');
@@ -187,13 +159,13 @@ function FBAform(d, N) {
 			option.value = other_val;
 		},
 		handlePhoneInput: function(e) {
-			var number = e.srcElement.value.replace(/[^\d]/g, '');
-			if (number.length == 7) {
-				number = number.replace(/(\d{3})(\d{4})/, "$1-$2");
-			} else if (number.length == 10) {
-				number = number.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
-			}
-			e.srcElement.value = number;
+		    var number = e.srcElement.value.replace(/[^\d]/g, '');
+		    if (number.length == 7) {
+		      number = number.replace(/(\d{3})(\d{4})/, "$1-$2");
+		    } else if (number.length == 10) {
+		      number = number.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
+		    }
+		    e.srcElement.value = number;
 		},
 		handleEmailInput: function(e) {
 			var EmailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -206,8 +178,8 @@ function FBAform(d, N) {
 				showWarning($(this),"Please enter a valid email address");
 			} else {
 				showValid($(this));
-			}
-			e.srcElement.value = number;
+	    	}
+		    e.srcElement.value = number;
 		},
 		handleSubmitClick: function(e) {
 			e.preventDefault();
@@ -251,17 +223,17 @@ function FBAform(d, N) {
 
 			Array.prototype.forEach.call(requiredItems, function(item) {
 				switch (item.type) {
-					case 'radio':
-						if (item.checked) delete(questions[item.name]);
-						break;
-					case 'checkbox':
-						if (item.checked) delete(questions[item.name]);
-						break;
-					case 'select-one':
-						if (item.selectedIndex > 0) delete(questions[item.name]);
-						break;
-					default:
-						if (item.value.length > 0) delete(questions[item.name]);
+				case 'radio':
+					if (item.checked) delete(questions[item.name]);
+					break;
+				case 'checkbox':
+				  if (item.checked) delete(questions[item.name]);
+					break;
+				case 'select-one':
+					if (item.selectedIndex > 0) delete(questions[item.name]);
+					break;
+				default:
+					if (item.value.length > 0) delete(questions[item.name]);
 				}
 			});
 			for (var key in questions) {
@@ -276,12 +248,12 @@ function FBAform(d, N) {
 			// Build a dictionary of questions which require an answer
 			Array.prototype.forEach.call(dateItems, function(item) { questions[item.name] = item });
 			Array.prototype.forEach.call(dateItems, function(item) {
-				if (item.value.length == 0) {
-					delete(questions[item.name]);
-				} else {
-					var isValidDate = Date.parse(item.value);
-					if (!isNaN(isValidDate)) delete(questions[item.name]);
-				}
+			  if (item.value.length == 0) {
+			  	delete(questions[item.name]);
+			  } else {
+				var isValidDate = Date.parse(item.value);
+			    if (!isNaN(isValidDate)) delete(questions[item.name]);
+			  }
 			});
 			for (var key in questions) {
 				this.showValidationError(questions[key], '<%= I18n.t 'form.field_is_invalid' %>');
@@ -295,12 +267,12 @@ function FBAform(d, N) {
 			// Build a dictionary of questions which require an answer
 			Array.prototype.forEach.call(emailItems, function(item) { questions[item.name] = item });
 			Array.prototype.forEach.call(emailItems, function(item) {
-				if (item.value.length == 0) {
-					delete(questions[item.name]);
-				} else {
-					var EmailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-					if (EmailRegex.test(item.value)) delete(questions[item.name]);
-				}
+			  if (item.value.length == 0) {
+			  	delete(questions[item.name]);
+			  } else {
+			    var EmailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+			    if (EmailRegex.test(item.value)) delete(questions[item.name]);
+			  }
 			});
 			for (var key in questions) {
 				this.showValidationError(questions[key], '<%= I18n.t 'form.field_is_invalid' %>');
@@ -314,12 +286,12 @@ function FBAform(d, N) {
 			// Build a dictionary of questions which require an answer
 			Array.prototype.forEach.call(phoneItems, function(item) { questions[item.name] = item });
 			Array.prototype.forEach.call(phoneItems, function(item) {
-				if (item.value.length == 0) {
-					delete(questions[item.name]);
-				} else {
-					const PhoneRegex = /^\(\d{3}\) \d{3}-\d{4}$/;
-					if (PhoneRegex.test(item.value)) delete(questions[item.name]);
-				}
+			  if (item.value.length == 0) {
+			  	delete(questions[item.name]);
+			  } else {
+			    const PhoneRegex = /^\(\d{3}\) \d{3}-\d{4}$/;
+			    if (PhoneRegex.test(item.value)) delete(questions[item.name]);
+			  }
 			});
 			for (var key in questions) {
 				this.showValidationError(questions[key], '<%= I18n.t 'form.field_is_invalid' %>');
@@ -386,7 +358,7 @@ function FBAform(d, N) {
 		},
 		loadButton: function() {
 			// Add a landmark for button
-			this.landmarkElement = d.createElement('aside');
+			this.landmarkElement = d.createElement('div');
 			this.landmarkElement.setAttribute('aria-label', 'Feedback button');
 			this.landmarkElement.setAttribute('role', 'complementary');
 
@@ -398,9 +370,10 @@ function FBAform(d, N) {
 			this.buttonEl.setAttribute('name', 'fba-button');
 			this.buttonEl.setAttribute('href', 'javascript:void(0)');
 			this.buttonEl.setAttribute('aria-haspopup', 'dialog');
-			this.buttonEl.setAttribute('aria-controls', 'dialog');
-			this.buttonEl.addEventListener('click', this.handleButtonClick.bind(this), false);
+			this.buttonEl.setAttribute('aria-controls', this.modalId());
+			this.buttonEl.setAttribute('data-open-modal', '');
 			this.buttonEl.innerHTML = this.options.modalButtonText;
+			this.buttonEl.addEventListener('click', () => d.dispatchEvent(new Event('onTouchpointsModalOpen')));
 			this.landmarkElement.appendChild(this.buttonEl);
 			d.body.appendChild(this.landmarkElement);
 
@@ -421,22 +394,6 @@ function FBAform(d, N) {
 			} else {
 				d.body.prepend(this.skipLink);
 			}
-		},
-		// Used when in a modal
-		loadDialog: function() {
-			d.dispatchEvent(new Event('onTouchpointsModalOpen'));
-			this.formComponent().removeAttribute("hidden");
-			this.formComponent().setAttribute('aria-hidden', false);
-			this.formComponent().focus()
-			this.dialogOpen = true;
-		},
-		closeDialog: function() {
-			d.dispatchEvent(new Event('onTouchpointsModalClose'));
-			this.formComponent().setAttribute("hidden", true);
-			this.formComponent().setAttribute('aria-hidden', true);
-			<%# Focus on the activated button if it exists and has a focus method %>
-			this.activatedButton?.focus?.();
-			this.dialogOpen = false;
 		},
 		sendFeedback: function() {
 			d.dispatchEvent(new Event('onTouchpointsFormSubmission'));
@@ -518,7 +475,7 @@ function FBAform(d, N) {
 			var submitButton = formElement.querySelector("[type='submit']");
 
 			if (e.target.readyState === 4) {
-				if (e.target.status === 201) { // SUCCESS!
+	      		if (e.target.status === 201) { // SUCCESS!
 					this.successState = true;
 					d.dispatchEvent(new Event('onTouchpointsFormSubmissionSuccess'));
 					this.isFormSubmitted = true;
@@ -553,8 +510,8 @@ function FBAform(d, N) {
 			}
 		},
 		ajaxPost: function (form, callback) {
-			var url = form.action;
-			var xhr = new XMLHttpRequest();
+	    var url = form.action;
+	    var xhr = new XMLHttpRequest();
 			// for each form question
 			var params = this.options.questionParams(form);
 
@@ -572,9 +529,9 @@ function FBAform(d, N) {
 			xhr.onload = callback.bind(this);
 			xhr.send(JSON.stringify({
 				"submission": params,
-				<%- if @form.verify_csrf? %>
+				<%- if form.verify_csrf? %>
 				"authenticity_token": form.querySelector("#authenticity_token") ?
-					form.querySelector("#authenticity_token").value : null
+				form.querySelector("#authenticity_token").value : null
 				<% end %>
 			}));
 		},
@@ -654,7 +611,10 @@ function FBAform(d, N) {
 					}
 				}.bind(self))
 			}
-		}
+		},
+		modalId: function() {
+			return `fba-modal-${this.options.formId}`;
+		},
 	};
 };
 
@@ -677,10 +637,10 @@ const touchpointFormOptions<%= form.short_uuid %> = {
 	'questionParams' : function(form) {
 		return {
 		<% form.questions.each do |question| %>
-		<% next unless question_type_javascript_params(question).present? %>
-		<%= question.answer_field %> : <%= raw question_type_javascript_params(question) %>,
+			<% next unless question_type_javascript_params(question).present? %>
+			<%= question.answer_field %> : <%= raw question_type_javascript_params(question) %>,
 		<% end %>
-	}
+		}
 	},
 	'suppressUI' : <%= (local_assigns.has_key?(:suppress_ui) && suppress_ui) %>,
 	'suppressSubmitButton' : <%= form.suppress_submit_button %>,
@@ -703,7 +663,24 @@ const touchpointFormOptions<%= form.short_uuid %> = {
 // Create an instance of a Touchpoints form object
 const touchpointForm<%= form.short_uuid %> = new FBAform(document, window).init(touchpointFormOptions<%= form.short_uuid %>);
 
-// Include USWDS JS if required
 <%- if form.load_css && form.delivery_method != "touchpoints-hosted-only" %>
+
+// Load the USWDS JS, loads as module 'fbaUswds' in global scope
 <%= render partial: 'components/widget/widget-uswds', formats: :js %>
+
+// Initialize any USWDS components used in this form
+(function () {
+	const formId = "touchpoints-form-<%= form.short_uuid %>";
+	const fbaFormElement = document.querySelector(`#${formId}`);
+	if (fbaFormElement) {
+		fbaUswds.ComboBox.on(fbaFormElement);
+		fbaUswds.DatePicker.on(fbaFormElement);
+	}
+	const modalId = "fba-modal-<%= form.short_uuid %>";
+	const fbaModalElement = document.querySelector(`#${modalId}`);
+	if (fbaModalElement) {
+		fbaUswds.Modal.on(fbaModalElement);
+	}
+})();
+
 <% end %>
