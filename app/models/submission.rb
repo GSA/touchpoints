@@ -99,9 +99,9 @@ class Submission < ApplicationRecord
           errors.add(:question, "#{question.answer_field} contains invalid values: #{invalid_values.join(', ')}")
         end
       when "text_display", "custom_text_display"
-        # if these questions have answers
-          # errors.add(:text_display, "#{question.answer_field} should not contain a value")
-        # end
+        if answered_questions[question.answer_field]
+          errors.add(:text_display, "#{question.answer_field} should not contain a value")
+        end
       when "states_dropdown"
         if question.is_required
           text_input = answered_questions[question.answer_field]
@@ -110,6 +110,13 @@ class Submission < ApplicationRecord
           end
         end
       when "star_radio_buttons"
+        valid_multiple_choice_options = ["1", "2", "3", "4", "5"]
+        text_input = answered_questions[question.answer_field]
+
+        # only accept 1-5
+        unless valid_multiple_choice_options.include?(answered_questions[question.answer_field])
+          errors.add(:star_radio_buttons, "#{question.answer_field} contains an non 1-5 response")
+        end
       when "big_thumbs_up_down_buttons", "yes_no_buttons"
         valid_multiple_choice_options = ["0", "1"]
         text_input = answered_questions[question.answer_field]
