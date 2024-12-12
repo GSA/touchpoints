@@ -6,7 +6,7 @@ class Rack::Attack
     end
   end
 
-  # Is the route the form submission route?
+  # Is the request to the form submission route?
   def self.submission_route?(req)
     begin
       recognized_route = Rails.application.routes.recognize_path(req.path, method: req.request_method)
