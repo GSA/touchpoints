@@ -39,11 +39,11 @@
       });
     });
 
-    $("#form_success_text_heading").on("keyup", function(event, b) {
-      $(".fba-alert.usa-alert--success h3.usa-alert__heading").text(event.target.value)
+    $("#form_success_text_heading").on("keyup", function(event) {
+      $(".fba-alert.usa-alert--success h2.usa-alert__heading").text(event.target.value)
     });
 
-    $("#form_success_text").on("keyup", function(event, b) {
+    $("#form_success_text").on("keyup", function(event) {
       $(".fba-alert.usa-alert--success .usa-alert__text").html(event.target.value)
     });
   })
