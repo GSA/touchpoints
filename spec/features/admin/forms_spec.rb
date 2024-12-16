@@ -474,14 +474,16 @@ feature 'Forms', js: true do
             end
 
             it 'has inline editable success text heading that can be updated and saved' do
-              find_field(id: 'form_success_text_heading').set('"Sucesssss Header!"')
-              find_field(id: 'form_success_text_heading').native.send_key :tab
+              fill_in('form_success_text_heading', with: 'Successful Header!', fill_options: { clear: :backspace })
+              find('#form_success_text_heading').native.send_key :tab
+              expect(find(".fba-alert.usa-alert.usa-alert--success .usa-alert__heading")).to have_content('Successful Header!')
               wait_for_ajax
-              expect(find_field(id: 'form_success_text_heading').value).to have_content('Sucesssss Header!')
+              expect(find_field(id: 'form_success_text_heading').value).to have_content('Successful Header!')
+              expect(find(".fba-alert.usa-alert.usa-alert--success .usa-alert__heading")).to have_content('Successful Header!')
 
               # and persists after refresh
               visit questions_admin_form_path(form)
-              expect(find_field(id: 'form_success_text_heading').value).to have_content('Sucesssss Header!')
+              expect(find_field(id: 'form_success_text_heading').value).to have_content('Successful Header!')
             end
 
             it 'has inline editable success text textbox that can be updated and saved' do
