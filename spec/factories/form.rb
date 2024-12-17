@@ -18,6 +18,18 @@ FactoryBot.define do
     aasm_state { 'published' }
     delivery_method { 'modal' }
 
+    trait :single_question do
+      after(:create) do |f, _evaluator|
+        FactoryBot.create(:question,
+          form: f,
+          question_type: 'text_field',
+          form_section: f.form_sections.first,
+          answer_field: 'answer_01',
+          position: 1,
+          text: 'Name')
+      end
+    end
+
     trait :touchpoints_hosted_only do
       delivery_method { 'touchpoints-hosted-only' }
     end

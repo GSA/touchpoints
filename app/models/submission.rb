@@ -41,6 +41,10 @@ class Submission < ApplicationRecord
     end
   end
 
+  def archived
+    self.archived?
+  end
+
   def validate_custom_form
     # Isolate questions that were answered
     answered_questions = attributes.select { |_key, value| value.present? }
@@ -65,7 +69,7 @@ class Submission < ApplicationRecord
     expected_submission_fields = form.questions.collect(&:answer_field)
     actual_submission_fields = answered_questions.keys
     unexpected_fields = actual_submission_fields - expected_submission_fields
-    errors.add("submission", :invalid, message: "received invalid submission field(s): #{unexpected_fields.to_sentence}")  if (unexpected_fields).size > 0
+    errors.add(:base, :invalid, message: "received invalid submission field(s): #{unexpected_fields.to_sentence}")  if (unexpected_fields).size > 0
 
     # For each question, run custom validations
     form.questions.each do |question|
