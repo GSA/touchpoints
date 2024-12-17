@@ -326,7 +326,7 @@ feature 'Submissions', js: true do
           context 'with one Submission' do
             let(:form_with_text_display) { FactoryBot.create(:form, :kitchen_sink, organization:) }
             let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form: form_with_text_display) }
-            let!(:submission) { FactoryBot.create(:submission, form: form_with_text_display) }
+            let!(:submission) { FactoryBot.create(:submission, form: form_with_text_display, answer_17: '5') }
 
             before do
               visit responses_admin_form_path(form_with_text_display)

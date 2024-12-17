@@ -41,10 +41,6 @@ class Submission < ApplicationRecord
     end
   end
 
-  def archived
-    self.archived?
-  end
-
   def validate_custom_form
     # Isolate questions that were answered
     answered_questions = attributes.select { |_key, value| value.present? }
@@ -59,11 +55,17 @@ class Submission < ApplicationRecord
     answered_questions.delete('language')
     answered_questions.delete('referer')
     answered_questions.delete('aasm_state')
+    answered_questions.delete('spam_score')
+
+    # Ensure only requested fields are submitted
+    expected_submission_fields = form.questions.collect(&:answer_field)
+    actual_submission_fields = answered_questions.keys
+    errors.add("submission", :invalid, message: "received invalid submission field")  if (actual_submission_fields - expected_submission_fields).size > 0
 
     # For each question, run custom validations
     form.questions.each do |question|
       errors.add(question.answer_field.to_sym, :blank, message: 'is required') if question.is_required && !answered_questions[question.answer_field]
-      errors.add(question.answer_field.to_sym, :blank, message: "exceeds character limit of #{question.character_limit}") if question.character_limit.present? && answered_questions[question.answer_field] && answered_questions[question.answer_field].length > question.character_limit
+      errors.add(question.answer_field.to_sym, :invalid, message: "exceeds character limit of #{question.character_limit}") if question.character_limit.present? && answered_questions[question.answer_field] && answered_questions[question.answer_field].length > question.character_limit
 
       # Custom validation logic for each type of Question
       case question.question_type
