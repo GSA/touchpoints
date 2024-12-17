@@ -46,6 +46,8 @@ class Submission < ApplicationRecord
     answered_questions = attributes.select { |_key, value| value.present? }
 
     # Filter out all non-question attributes
+    answered_questions.delete('id')
+    answered_questions.delete('uuid')
     answered_questions.delete('touchpoint_id')
     answered_questions.delete('form_id')
     answered_questions.delete('user_agent')
@@ -56,11 +58,14 @@ class Submission < ApplicationRecord
     answered_questions.delete('referer')
     answered_questions.delete('aasm_state')
     answered_questions.delete('spam_score')
+    answered_questions.delete('created_at')
+    answered_questions.delete('updated_at')
 
     # Ensure only requested fields are submitted
     expected_submission_fields = form.questions.collect(&:answer_field)
     actual_submission_fields = answered_questions.keys
-    errors.add("submission", :invalid, message: "received invalid submission field")  if (actual_submission_fields - expected_submission_fields).size > 0
+    unexpected_fields = actual_submission_fields - expected_submission_fields
+    errors.add("submission", :invalid, message: "received invalid submission field(s): #{unexpected_fields.to_sentence}")  if (unexpected_fields).size > 0
 
     # For each question, run custom validations
     form.questions.each do |question|
