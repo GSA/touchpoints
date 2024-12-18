@@ -92,7 +92,7 @@ feature 'Submissions', js: true do
             describe 'click View link in responses table' do
               before do
                 Question.create!({
-                  form: form,
+                  form:,
                   form_section: form.form_sections.first,
                   text: 'additional question',
                   question_type: 'textarea',

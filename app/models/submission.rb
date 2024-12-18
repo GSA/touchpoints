@@ -125,7 +125,7 @@ class Submission < ApplicationRecord
         text_input = answered_questions[question.answer_field]
 
         # only accept 1-5
-        unless valid_multiple_choice_options.include?(answered_questions[question.answer_field])
+        if text_input && !valid_multiple_choice_options.include?(answered_questions[question.answer_field])
           errors.add(:star_radio_buttons, "#{question.answer_field} contains an non 1-5 response")
         end
       when "big_thumbs_up_down_buttons", "yes_no_buttons"

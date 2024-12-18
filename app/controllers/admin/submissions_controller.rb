@@ -66,8 +66,8 @@ module Admin
       tag = tag_params[:tag]
 
       if !tag.strip.empty? && !@submission.tags.include?(tag)
-        @submission.tags << tag.strip.downcase
-        @submission.save!
+        unique_tags = (@submission.tags.clone << tag.strip.downcase).uniq
+        @submission.update(tags: unique_tags)
         @submission.form.update_submission_tags!(@submission.tags)
       end
     end
