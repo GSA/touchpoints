@@ -45,6 +45,7 @@ class Submission < ApplicationRecord
     self.archived?
   end
 
+  # Validate each submitted field against its question type
   def validate_custom_form
     # Isolate questions that were answered
     answered_questions = attributes.select { |_key, value| value.present? }
@@ -69,71 +70,79 @@ class Submission < ApplicationRecord
     expected_submission_fields = form.questions.collect(&:answer_field) + ["location_code"]
     actual_submission_fields = answered_questions.keys
     unexpected_fields = actual_submission_fields - expected_submission_fields
-    errors.add(:base, :invalid, message: "received invalid submission field(s): #{unexpected_fields.to_sentence}")  if (unexpected_fields).size > 0
+    errors.add(:base, :invalid, message: "received invalid submission field(s): #{unexpected_fields.to_sentence}") if unexpected_fields.present?
 
-    # For each question, run custom validations
+    # Assess each provided answer field against question-specific validations
     form.questions.each do |question|
-      errors.add(question.answer_field.to_sym, :blank, message: 'is required') if question.is_required && !answered_questions[question.answer_field]
-      errors.add(question.answer_field.to_sym, :invalid, message: "exceeds character limit of #{question.character_limit}") if question.character_limit.present? && answered_questions[question.answer_field] && answered_questions[question.answer_field].length > question.character_limit
+      provided_answer = answered_questions[question.answer_field]
 
-      # Custom validation logic for each type of Question
+      if provided_answer.nil? && question.is_required
+        errors.add(question.answer_field.to_sym, :blank, message: 'is required')
+      end
+
+      next unless provided_answer.present?
+
+      # General validation logic for all Question types
+      if question.character_limit.present? && provided_answer.length > question.character_limit
+        errors.add(question.answer_field.to_sym, :invalid, message: "exceeds character limit of #{question.character_limit}")
+      end
+
+      # Custom validation logic per specific Question type
       case question.question_type
       when "text_field"
       when "text_email_field"
+        unless provided_answer =~ /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/
+          errors.add(question.answer_field, :invalid, "must be a valid email address")
+        end
       when "text_phone_field"
+        unless provided_answer =~ /\A\d{7}(\d{3})?\z/
+          errors.add(question.answer_field, :invalid, "must be a 7 or 10 digit phone number")
+        end
       when "textarea"
       when "checkbox"
         valid_multiple_choice_options = question.question_options.collect(&:value)
-        text_input = answered_questions[question.answer_field]
-        input_values = (text_input || "").split(",")
+        input_values = provided_answer.split(",")
 
         invalid_values = input_values - valid_multiple_choice_options
         accepts_other_response = question.has_other_question_option?
-        if accepts_other_response && invalid_values.any? && invalid_values.size > 1
+
+        if accepts_other_response && invalid_values.size > 1 #
           errors.add(:question, "#{question.answer_field} contains more than 1 'other' value: #{invalid_values.join(', ')}")
         elsif !accepts_other_response && invalid_values.any?
           errors.add(:question, "#{question.answer_field} contains invalid values: #{invalid_values.join(', ')}")
         end
       when "radio_buttons", "dropdown", "combobox"
-        valid_multiple_choice_options = question.question_options.collect(&:value)
-        text_input = answered_questions[question.answer_field]
-        input_values = (text_input || "").split(",")
-
-        invalid_values = input_values - valid_multiple_choice_options
+        valid_multiple_choice_options = question.question_options.where(other_option: false).collect(&:value)
         accepts_other_response = question.has_other_question_option?
 
-        if accepts_other_response && invalid_values.size > 1 # there may be 1 'other' response
-          errors.add(:question, "#{question.answer_field} contains more than 1 'other' value: #{invalid_values.join(', ')}")
-        elsif !accepts_other_response && input_values.size > 1 # there should be 1 valid response
-          errors.add(:question, "#{question.answer_field} contains multiple valid values: #{invalid_values.join(', ')}")
-        elsif !accepts_other_response && invalid_values.any? # there should be no invalid values
-          errors.add(:question, "#{question.answer_field} contains invalid values: #{invalid_values.join(', ')}")
+        if valid_multiple_choice_options.include?(provided_answer)
+          # GOOD
+        elsif accepts_other_response && !valid_multiple_choice_options.include?(provided_answer)
+          # okay to accept one `other` answer
+        else
+          errors.add(:question, "#{question.answer_field} contains invalid values")
         end
       when "text_display", "custom_text_display"
-        if answered_questions[question.answer_field]
+        if provided_answer
           errors.add(:text_display, "#{question.answer_field} should not contain a value")
         end
       when "states_dropdown"
-        if question.is_required
-          text_input = answered_questions[question.answer_field]
-          unless UsState.dropdown_options.map { |option| option[1] }.include?(text_input)
+        if provided_answer
+          unless UsState.dropdown_options.map { |option| option[1] }.include?(provided_answer)
             errors.add(:question, "#{question.answer_field} does not contain a valid State option")
           end
         end
       when "star_radio_buttons"
         valid_multiple_choice_options = ["1", "2", "3", "4", "5"]
-        text_input = answered_questions[question.answer_field]
-
         # only accept 1-5
-        if text_input && !valid_multiple_choice_options.include?(answered_questions[question.answer_field])
+        if provided_answer && !valid_multiple_choice_options.include?(provided_answer)
           errors.add(:star_radio_buttons, "#{question.answer_field} contains an non 1-5 response")
         end
       when "big_thumbs_up_down_buttons", "yes_no_buttons"
         valid_multiple_choice_options = ["0", "1"]
-        text_input = answered_questions[question.answer_field]
 
         # only accept 0 or 1; no/yes
-        unless valid_multiple_choice_options.include?(answered_questions[question.answer_field])
+        unless valid_multiple_choice_options.include?(provided_answer)
           errors.add(:yes_no_buttons, "#{question.answer_field} contains an non yes/no response")
         end
       when "hidden_field"
