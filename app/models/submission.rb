@@ -66,7 +66,7 @@ class Submission < ApplicationRecord
     answered_questions.delete('updated_at')
 
     # Ensure only requested fields are submitted
-    expected_submission_fields = form.questions.collect(&:answer_field)
+    expected_submission_fields = form.questions.collect(&:answer_field) + ["location_code"]
     actual_submission_fields = answered_questions.keys
     unexpected_fields = actual_submission_fields - expected_submission_fields
     errors.add(:base, :invalid, message: "received invalid submission field(s): #{unexpected_fields.to_sentence}")  if (unexpected_fields).size > 0
