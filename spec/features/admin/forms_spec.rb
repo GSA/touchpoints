@@ -676,7 +676,7 @@ feature 'Forms', js: true do
       end
 
       context 'Show Form Page Delete Action' do
-        let!(:form) { FactoryBot.create(:form, :custom, organization:) }
+        let!(:form) { FactoryBot.create(:form, :single_question, organization:) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form:) }
 
         before do
@@ -713,7 +713,7 @@ feature 'Forms', js: true do
       end
 
       context 'Edit Form page' do
-        let!(:form) { FactoryBot.create(:form, :with_responses, :custom, organization:) }
+        let!(:form) { FactoryBot.create(:form, :custom, organization:) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form:) }
 
         before do
@@ -754,6 +754,9 @@ feature 'Forms', js: true do
         end
 
         describe 'editing form timezone' do
+          let!(:form_with_responses) { FactoryBot.create(:form, :single_question, :with_responses, organization:) }
+          let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form_with_responses) }
+
           before do
             select(US_TIMEZONES.sample[1], from: 'form_time_zone')
             click_on 'Update Form Options'
@@ -761,7 +764,7 @@ feature 'Forms', js: true do
           end
 
           it 'can view submissions with a form time_zone' do
-            visit responses_admin_form_path(form)
+            visit responses_admin_form_path(form_with_responses)
             expect(page.all("#submissions_table .usa-table.submissions tbody tr").size).to eq(3)
           end
         end
@@ -830,7 +833,7 @@ feature 'Forms', js: true do
 
               it 'display successful flash message' do
                 expect(find_all('.section').size).to eq(2)
-                first('.section').click_on 'Delete Section'
+                find_all('.section').last.click_on 'Delete Section'
                 page.driver.browser.switch_to.alert.accept
                 expect(page.current_path).to eq(questions_admin_form_path(form))
                 expect(page).to have_content('Form section was successfully deleted.')
@@ -1309,11 +1312,10 @@ feature 'Forms', js: true do
   end
 
   context 'Form owner with Form Manager permissions Delete Action' do
-    let!(:form) { FactoryBot.create(:form, :custom, organization:) }
+    let!(:form) { FactoryBot.create(:form, :single_question, organization:) }
     let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form:) }
 
     let(:user) { FactoryBot.create(:user, organization:) }
-    let(:form) { FactoryBot.create(:form, :custom, organization:) }
 
     let(:another_organization) { FactoryBot.create(:organization, :another) }
     let(:another_user) { FactoryBot.create(:user, email: 'user@another.gov', organization: another_organization) }

@@ -1,18 +1,11 @@
-<label class="usa-label" for="<%= question.ui_selector %>">
+<label
+  class="usa-label"
+  for="<%= question.ui_selector %>">
   <%= question.text %>
   <%- if question.is_required? %>
   <abbr title="required" class="usa-hint--required">*</abbr>
   <% end -%>
-  <%- if question.help_text? %>
-  <div
-    id="question-id-<%= question.id %>-help-text"
-    class="help-text margin-top-1"
-  >
-    <small>
-      <%= sanitize(question.help_text) %>
-    </small>
-  </div>
-  <% end -%>
+  <%= render("components/widget/help_text", question: question) if question.help_text? %>
   <%- if local_assigns[:form_builder] && form_builder %>
   <span class="display-block">
     <span class="usa-tag">

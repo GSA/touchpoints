@@ -55,8 +55,6 @@
               <%= render 'components/forms/question_types/text_email_field', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "text_phone_field" %>
               <%= render 'components/forms/question_types/text_phone_field', form: form, question: question, question_number: multi_section_question_number %>
-            <% elsif question.question_type == "icon_checkboxes" %>
-              <%= render 'components/forms/question_types/icon_checkboxes', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "star_radio_buttons" %>
               <%= render 'components/forms/question_types/star_radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "big_thumbs_up_down_buttons" %>
