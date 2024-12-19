@@ -28,7 +28,6 @@ class Question < ApplicationRecord
     'custom_text_display',
     'states_dropdown',
     'star_radio_buttons',
-    'thumbs_up_down_buttons',
     'big_thumbs_up_down_buttons',
     'yes_no_buttons',
     'hidden_field',
@@ -40,7 +39,6 @@ class Question < ApplicationRecord
     'combobox',
     'custom_text_display',
     'star_radio_buttons',
-    'thumbs_up_down_buttons',
     'big_thumbs_up_down_buttons',
     'yes_no_buttons',
   ].freeze
@@ -49,7 +47,7 @@ class Question < ApplicationRecord
   validates :character_limit, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: MAX_CHARACTERS, allow_nil: true }
 
   after_commit do |question|
-    FormCache.invalidate(question.form.short_uuid) if question.persisted?
+    FormCache.invalidate(question.form.short_uuid) if question.persisted? || question.destroyed?
   end
 
   def max_length
@@ -60,9 +58,17 @@ class Question < ApplicationRecord
     errors.add(:question_type, "Invalid question type '#{question_type}'. Valid types include: #{QUESTION_TYPES.to_sentence}.") unless QUESTION_TYPES.include?(question_type)
   end
 
+  def has_other_question_option?
+    question_options.where(other_option: true).exists?
+  end
+
   # used to generate a (application-wide) unique id for each question
   # (such that the questions on 2 different Touchpoints have unique DOM string)
   def ui_selector
     "question_#{id}_#{answer_field}" # question_123_answer_02
+  end
+
+  def submission_answers
+    form.submissions.collect { |s| s.send(answer_field) }
   end
 end

@@ -113,21 +113,21 @@ feature 'Admin Dashboard', js: true do
     end
 
     describe '#lifespan' do
-      let!(:form) { FactoryBot.create(:form, kind: 'a11', organization:) }
+      let!(:form) { FactoryBot.create(:form, :single_question, organization:) }
 
       before do
         Submission.create({
-                            form_id: form.id,
+                            form:,
                             answer_01: 'yes',
                             created_at: 10.days.ago,
                           })
         Submission.create({
-                            form_id: form.id,
+                            form:,
                             answer_01: 'yes',
                             created_at: 5.days.ago,
                           })
         Submission.create({
-                            form_id: form.id,
+                            form:,
                             answer_01: 'yes',
                             created_at: 5.days.ago,
                           })
@@ -136,7 +136,7 @@ feature 'Admin Dashboard', js: true do
 
       it 'displays Agency lifespan summary' do
         expect(page).to have_content('Survey Lifespan by Agency')
-        within '.agency-survey-lifespan-rerport' do
+        within '.agency-survey-lifespan-report' do
           expect(page).to have_content form.organization.name
           expect(page).to have_content form.name
         end

@@ -1,4 +1,11 @@
-<%= link_to flag_admin_form_submission_path(submission.form, submission), id: "flag-submission-#{submission.id}", remote: true, class: "usa-button", method: :post, data: { confirm: 'Are you sure?' } do %>
-<i class="far fa-flag"></i>
-Flag
+<%= link_to flag_admin_form_submission_path(submission.form, submission),
+  id: "flag-submission-#{submission.id}",
+  class: "usa-button",
+  "aria-label" => "Flag submission #{submission.id}",
+  title: "Flag submission #{submission.id}",
+  data: { confirm: 'Are you sure?' },
+  method: :post,
+  remote: true,
+  rel: "nofollow" do %>
+  <i class="far fa-flag"></i>
 <% end %>

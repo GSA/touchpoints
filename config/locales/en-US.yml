@@ -9,7 +9,6 @@ en-US:
     - Fri
     - Sat
     abbr_month_names:
-    -
     - Jan
     - Feb
     - Mar
@@ -35,7 +34,6 @@ en-US:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    -
     - January
     - February
     - March
