@@ -120,21 +120,17 @@ class Submission < ApplicationRecord
         accepts_other_response = question.has_other_question_option?
 
         if valid_multiple_choice_options.include?(provided_answer)
-          # GOOD
+          # okay
         elsif accepts_other_response && !valid_multiple_choice_options.include?(provided_answer)
           # okay to accept one `other` answer
         else
           errors.add(:question, "#{question.answer_field} contains invalid values")
         end
       when "text_display", "custom_text_display"
-        if provided_answer
-          errors.add(:text_display, "#{question.answer_field} should not contain a value")
-        end
+        errors.add(:text_display, "#{question.answer_field} should not contain a value")
       when "states_dropdown"
-        if provided_answer
-          unless UsState.dropdown_options.map { |option| option[1] }.include?(provided_answer)
-            errors.add(:question, "#{question.answer_field} does not contain a valid State option")
-          end
+        unless UsState.dropdown_options.map { |option| option[1] }.include?(provided_answer)
+          errors.add(:question, "#{question.answer_field} does not contain a valid State option")
         end
       when "star_radio_buttons"
         valid_multiple_choice_options = ["1", "2", "3", "4", "5"]
