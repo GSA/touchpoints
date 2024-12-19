@@ -232,7 +232,7 @@ feature 'Submissions', js: true do
 
             it 'successfully flags Submission' do
               within('table.submissions') do
-                expect(page).to have_content('Flagged')
+                expect(page).to have_css("table tr td.flagged a#flag-submission-#{submission.id}")
               end
             end
           end
@@ -296,7 +296,7 @@ feature 'Submissions', js: true do
 
             it 'successfully flags Submission' do
               within('table.submissions') do
-                expect(page).to have_content('Flagged')
+                expect(page).to have_css("table tr td.flagged a#flag-submission-#{submission.id}")
               end
             end
           end
@@ -478,7 +478,7 @@ feature 'Submissions', js: true do
 
             it 'successfully flags Submission' do
               within('table.submissions tbody tr:first-child') do
-                expect(page).to have_content('Flagged')
+                expect(page).to have_css("td.flagged a#flag-submission-#{submission.id}")
               end
             end
           end
