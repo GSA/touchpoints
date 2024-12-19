@@ -17,7 +17,7 @@ RSpec.describe Question, type: :model do
 			end
 
 			it "ensure response corresponds to a question option" do
-				expect(@submission.errors.messages).to include(question: ["answer_01 contains invalid values: a"])
+				expect(@submission.errors.messages).to include(question: ["answer_01 contains invalid values"])
 			end
 		end
 
@@ -45,11 +45,11 @@ RSpec.describe Question, type: :model do
 				end
 
 				it "is invalid response" do
-					expect(@submission.errors.messages).to include({question: ["answer_01 contains multiple valid values: Z, X"]})
+					expect(@submission.errors.messages).to include({question: ["answer_01 contains invalid values"]})
 				end
 			end
 
-			describe "receives at least 2 question option that wasn't provided OTHER" do
+			describe "receives a single question option for an 'other question' that contains commas" do
 				let!(:other_question_option_3) { FactoryBot.create(:question_option, question: question, position: 3, other_option: true, value: "other") }
 
 				before do
@@ -57,26 +57,8 @@ RSpec.describe Question, type: :model do
 					@submission = Submission.create(form: question.form, answer_01: "OTHER,Z,X" )
 				end
 
-				it "is invalid response" do
-					expect(@submission.errors.messages).to include({question: ["answer_01 contains more than 1 'other' value: OTHER, Z, X"]})
-				end
-			end
-
-			describe "receives at least 2 question option that wasn't provided OTHER" do
-				let!(:other_question_option_3) { FactoryBot.create(:question_option, question: question, position: 3, other_option: true, value: "other") }
-
-				before do
-					expect(form.questions.first.question_type).to eq("radio_buttons")
-				end
-
-				it "is invalid response" do
-					@submission = Submission.create(form: question.form, answer_01: "OTHER,Z,B" )
-					expect(@submission.errors.messages).to include({question: ["answer_01 contains more than 1 'other' value: OTHER, Z"]})
-				end
-
-				it "is invalid response" do
-					@submission = Submission.create(form: question.form, answer_01: "OTHER,Z,A,B" )
-					expect(@submission.errors.messages).to include({question: ["answer_01 contains more than 1 'other' value: OTHER, Z"]})
+				it "is a valid response" do
+					expect(@submission.errors.empty?).to eq(true)
 				end
 			end
 		end

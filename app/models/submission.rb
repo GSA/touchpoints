@@ -92,11 +92,11 @@ class Submission < ApplicationRecord
       when "text_field"
       when "text_email_field"
         unless provided_answer =~ /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/
-          errors.add(question.answer_field, :invalid, "must be a valid email address")
+          errors.add(question.answer_field.to_sym, :invalid, "must be a valid email address")
         end
       when "text_phone_field"
         unless provided_answer =~ /\A\d{7}(\d{3})?\z/
-          errors.add(question.answer_field, :invalid, "must be a 7 or 10 digit phone number")
+          errors.add(question.answer_field.to_sym, :invalid, "must be a 7 or 10 digit phone number")
         end
       when "textarea"
       when "checkbox"
