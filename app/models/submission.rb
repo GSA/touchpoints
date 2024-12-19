@@ -80,7 +80,7 @@ class Submission < ApplicationRecord
         errors.add(question.answer_field.to_sym, :blank, message: 'is required')
       end
 
-      unless form.enforce_new_submission_validations
+      unless form.enforce_new_submission_validations || ENV.fetch("ENFORCE_NEW_SUBMISSION_VALIDATIONS", false)
         next
       end
 
