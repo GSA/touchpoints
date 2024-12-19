@@ -1,6 +1,13 @@
 class Rack::Attack
+
+  if ENV.fetch("REDIS_URL") # can be used when multiple app instances are running
+    cache.store = ActiveSupport::Cache::RedisCacheStore.new(url: ENV.fetch("REDIS_URL"))
+  else # default; caches on a per-application instance basis
+    cache.store = Rails.cache
+  end
+
   # Throttle based on the request's IP address
-  throttle('limit_form_submissions_per_minute', limit: 6, period: 1.minute) do |req|
+  throttle('limit_form_submissions_per_minute', limit: 10, period: 1.minute) do |req|
     if req.post? && submission_route?(req)
       req.ip
     end
