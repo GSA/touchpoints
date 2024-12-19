@@ -12,7 +12,6 @@ FactoryBot.define do
     modal_button_text { 'Help improve this site' }
     legacy_touchpoint_id { 123 }
     legacy_touchpoint_uuid { 'ABCD1234' }
-    enforce_new_submission_validations { true }
 
     omb_approval_number { rand(10_000).to_s }
     expiration_date { 2.months.from_now }
