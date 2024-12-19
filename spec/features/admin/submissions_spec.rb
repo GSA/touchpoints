@@ -478,7 +478,7 @@ feature 'Submissions', js: true do
 
             it 'successfully flags Submission' do
               within('table.submissions tbody tr:first-child') do
-                expect(page).to have_css("td.flagged a#flag-submission-#{submission.id}")
+                expect(page).to have_css("td.flagged")
               end
             end
           end

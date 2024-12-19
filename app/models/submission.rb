@@ -99,8 +99,8 @@ class Submission < ApplicationRecord
           errors.add(question.answer_field.to_sym, :invalid, message: "must be a valid email address")
         end
       when "text_phone_field"
-        unless provided_answer =~ /\A\d{7}(\d{3})?\z/
-          errors.add(question.answer_field.to_sym, :invalid, message: "must be a 7 or 10 digit phone number")
+        unless provided_answer =~ /\A\d{10}\z/
+          errors.add(question.answer_field.to_sym, :invalid, message: "must be a 10 digit phone number")
         end
       when "textarea"
       when "checkbox"

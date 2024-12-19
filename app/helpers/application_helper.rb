@@ -133,7 +133,7 @@ module ApplicationHelper
     elsif question.question_type == 'text_email_field'
       "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").value"
     elsif question.question_type == 'text_phone_field'
-      "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").value"
+      "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").dataset.rawValue"
     elsif question.question_type == 'textarea'
       "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").value"
     elsif question.question_type == 'radio_buttons'
