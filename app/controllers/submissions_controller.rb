@@ -26,7 +26,10 @@ class SubmissionsController < ApplicationController
 
     # Catch SPAMMERS
     if @form && submission_params[:fba_directive].present?
-      Rails.logger.warn("SPAM subverted from #{request.referer}")
+      ActiveSupport::Notifications.instrument("spam_subverted") do |payload|
+        payload[:request] = request
+      end
+
       head :ok and return
     end
 
