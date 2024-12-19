@@ -309,7 +309,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_19_001513) do
     t.datetime "archived_at"
     t.string "audience", default: "public", comment: "indicates whether a form is intended for a public or internal audience"
     t.string "short_uuid", limit: 8
-    t.boolean "enforce_new_submission_validations", default: false
+    t.boolean "enforce_new_submission_validations", default: true
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["organization_id"], name: "index_forms_on_organization_id"
