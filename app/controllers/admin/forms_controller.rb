@@ -588,6 +588,7 @@ module Admin
         :omb_approval_number,
         :expiration_date,
         :service_id,
+        :enforce_new_submission_validations,
       )
     end
 
