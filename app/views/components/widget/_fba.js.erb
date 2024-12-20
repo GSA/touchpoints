@@ -509,9 +509,21 @@ function FBAform(d, N) {
 					}
 
 					alertErrorElement.removeAttribute("hidden");
+
+					const errorMessage = this.formComponent().querySelector('.usa-alert--error');
+					if (errorMessage) {
+						errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+					}
 				} else { // OTHER SERVER ERROR
+					this.successState = false;
+					d.dispatchEvent(new Event('onTouchpointsFormSubmissionError'));
 					alertErrorElement.removeAttribute("hidden");
 					alertErrorElementBody.innerHTML += "Server error. We're sorry, but this submission was not successful. The Product Team has been notified.";
+
+					const errorMessage = this.formComponent().querySelector('.usa-alert--error');
+					if (errorMessage) {
+						errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+					}
 				}
 			}
 		},
