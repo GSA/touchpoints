@@ -77,6 +77,18 @@ module Admin
           end
         end
       end
+
+      @form_component_path = case @question.question_type
+      when "radio_buttons", "combobox"
+        "components/forms/edit/question_types/radio_button_option"
+      when "dropdown"
+        "components/forms/edit/question_types/dropdown_option"
+      when "checkbox"
+        "components/forms/edit/question_types/checkbox_option"
+      when "yes_no_buttons"
+        "components/forms/question_types/yes_no_buttons"
+      end
+
       render :create, format: :js
     end
 
