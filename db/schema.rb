@@ -306,7 +306,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_26_184348) do
     t.string "submission_tags", default: [], comment: "cache the form's submissions tags for reporting", array: true
     t.datetime "submitted_at"
     t.datetime "approved_at"
-    t.boolean "legacy_form_embed", default: false
     t.datetime "archived_at"
     t.string "audience", default: "public", comment: "indicates whether a form is intended for a public or internal audience"
     t.string "short_uuid", limit: 8

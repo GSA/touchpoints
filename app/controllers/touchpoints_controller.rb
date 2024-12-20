@@ -20,11 +20,7 @@ class TouchpointsController < ApplicationController
 
   def js
     @form.increment!(:survey_form_activations)
-    if @form.legacy_form_embed || (params[:legacy] && params[:legacy] == '1')
-      render(partial: 'components/widget/fba', formats: :js, locals: { form: @form })
-    else
-      render(partial: 'components/widget/fba2', formats: :js, locals: { form: @form })
-    end
+    render(partial: 'components/widget/fba', formats: :js, locals: { form: @form })
   end
 
   private
