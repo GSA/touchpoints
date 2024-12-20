@@ -994,6 +994,20 @@ feature 'Forms', js: true do
               expect(page.current_path).to eq(admin_form_questions_path(form))
               expect(page).not_to have_content('New Question Option')
             end
+
+            describe 'adding multiple question options' do
+              before do
+                click_on 'Add Checkbox Option'
+                fill_in "question_option_text", with: "a\nb\nc"
+                click_on "Create Question option"
+              end
+
+              it 'renders 3 question options' do
+                within(".question-options") do
+                  expect(find_all(".question-option").size).to eq(3)
+                end
+              end
+            end
           end
 
           describe '#edit question and cancel' do
