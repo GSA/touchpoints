@@ -42,7 +42,7 @@ module Admin
 
       if text_array.length.positive?
         text_array.each do |txt|
-          if ["radio_buttons", "checkbox", "dropdown"].include?(@question.question_type)
+          if ["radio_buttons", "checkbox"].include?(@question.question_type)
             if txt.upcase == 'OTHER' || txt.upcase == 'OTRO'
               @errors << "Use add #{txt} button"
               next
