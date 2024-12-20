@@ -3,6 +3,9 @@ $(".question#question_<%= @question_option.question.id %> .question-options")
   .append("<%= escape_javascript render(@form_component_path, question: new_question_option.question, option: new_question_option, index: new_question_option.position) %>");
 $(".question#question_<%= new_question_option.question.id %> .new-question-options-div").show();
 $(".question#question_<%= new_question_option.question.id %> .question-option-edit").hide();
+
+lastOptionView = document.querySelector(".question#question_<%= @question_option.question.id %> .question-options .question-option:last-of-type");
+lastOptionView.scrollIntoView({ behavior: 'smooth', block: 'start' });
 <% end %>
 
 $(".new-question-options-div form").trigger("reset");
