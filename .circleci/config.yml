@@ -68,7 +68,7 @@ jobs:
       - run:
           name: Install-cf-cli
           command: |
-            curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
+            curl -v -L -o cf-cli_amd64.deb 'https://packages.cloudfoundry.org/stable?release=debian64&source=github'
             sudo dpkg -i cf-cli_amd64.deb
             cf -v
       # collect reports
@@ -93,7 +93,7 @@ jobs:
       - run:
           name: Install-cf-cli
           command: |
-            curl -v -L -o cf-cli_amd64.deb 'https://cli.run.pivotal.io/stable?release=debian64&source=github'
+            curl -v -L -o cf-cli_amd64.deb 'https://packages.cloudfoundry.org/stable?release=debian64&source=github'
             sudo dpkg -i cf-cli_amd64.deb
             cf -v
       - run:
