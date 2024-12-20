@@ -1,16 +1,15 @@
-<%- if @question.question_type == "radio_buttons" %>
+<%- if @question.question_type == "radio_buttons" || @question.question_type == "combobox" %>
   <% form_component_path = "components/forms/edit/question_types/radio_button_option" %>
 <% elsif @question.question_type == "dropdown" %>
   <% form_component_path = "components/forms/edit/question_types/dropdown_option" %>
 <% elsif @question.question_type == "checkbox" %>
   <% form_component_path = "components/forms/edit/question_types/checkbox_option" %>
-<% elsif @question.question_type == "combobox" %>
-  <% form_component_path = "components/forms/edit/question_types/radio_button_option" %>
 <% elsif @question.question_type == "yes_no_buttons" %>
   <% form_component_path = 'components/forms/question_types/yes_no_buttons' %>
 <% end %>
 
-$(".question#question_<%= @question_option.question.id %> .question-options").append("<%= escape_javascript render(form_component_path, question: @question_option.question, option: @question_option, index: @question_option.position) %>");
+$(".question#question_<%= @question_option.question.id %> .question-options")
+  .append("<%= escape_javascript render(form_component_path, question: @question_option.question, option: @question_option, index: @question_option.position) %>");
 $(".question#question_<%= @question_option.question.id %> .new-question-options-div").show();
 $(".question#question_<%= @question_option.question.id %> .question-option-edit").hide();
 
