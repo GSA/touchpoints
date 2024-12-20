@@ -121,7 +121,7 @@ class Submission < ApplicationRecord
 
         if valid_multiple_choice_options.include?(provided_answer)
           # okay
-        elsif accepts_other_response && !valid_multiple_choice_options.include?(provided_answer)
+        elsif accepts_other_response
           # okay to accept one `other` answer
         else
           errors.add(:question, "#{question.answer_field} contains invalid values")
@@ -135,7 +135,7 @@ class Submission < ApplicationRecord
       when "star_radio_buttons"
         valid_multiple_choice_options = ["1", "2", "3", "4", "5"]
         # only accept 1-5
-        if provided_answer && !valid_multiple_choice_options.include?(provided_answer)
+        if !valid_multiple_choice_options.include?(provided_answer)
           errors.add(:star_radio_buttons, "#{question.answer_field} contains an non 1-5 response")
         end
       when "big_thumbs_up_down_buttons", "yes_no_buttons"
