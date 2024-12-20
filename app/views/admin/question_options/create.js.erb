@@ -8,10 +8,12 @@
   <% form_component_path = 'components/forms/question_types/yes_no_buttons' %>
 <% end %>
 
+<% @new_question_options.each do |new_question_option| %>
 $(".question#question_<%= @question_option.question.id %> .question-options")
-  .append("<%= escape_javascript render(form_component_path, question: @question_option.question, option: @question_option, index: @question_option.position) %>");
-$(".question#question_<%= @question_option.question.id %> .new-question-options-div").show();
-$(".question#question_<%= @question_option.question.id %> .question-option-edit").hide();
+  .append("<%= escape_javascript render(form_component_path, question: new_question_option.question, option: new_question_option, index: new_question_option.position) %>");
+$(".question#question_<%= new_question_option.question.id %> .new-question-options-div").show();
+$(".question#question_<%= new_question_option.question.id %> .question-option-edit").hide();
+<% end %>
 
 $(".new-question-options-div form").trigger("reset");
 <%- if @errors.length > 0 %>

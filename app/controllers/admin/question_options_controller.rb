@@ -37,10 +37,11 @@ module Admin
     def create
       text_array = question_option_params[:text].split("\n")
       position = @question.question_options.size + 1
+      @new_question_options = []
       @errors = []
       result = false
 
-      if text_array.length.positive?
+      if text_array.length.positive? # multiple options
         text_array.each do |txt|
           if ["radio_buttons", "checkbox"].include?(@question.question_type)
             if txt.upcase == 'OTHER' || txt.upcase == 'OTRO'
@@ -55,6 +56,7 @@ module Admin
           end
           @question_option = QuestionOption.new(question_id: params[:question_id], text: txt, value: txt, position:)
           if @question_option.save
+            @new_question_options << @question_option
             position += 1
           else
             @errors << @question_option.errors.full_messages
@@ -68,6 +70,7 @@ module Admin
           @question_option = QuestionOption.new(question_option_params)
           @question_option.position = position
           if @question_option.save
+            @new_question_options << @question_option
             # ok
           else
             @errors << @question_option.errors.full_messages
