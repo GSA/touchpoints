@@ -1,4 +1,7 @@
-<fieldset class="usa-fieldset radios" role="group" aria-labelledby="<%= question.answer_field %>" data-url="<%= admin_form_question_question_options_path(question.form, question) %>">
+<fieldset
+  class="usa-fieldset"
+  aria-labelledby="<%= question.answer_field %>"
+  data-url="<%= admin_form_question_question_options_path(question.form, question) %>">
   <legend class="usa-sr-only"><%= question.text %></legend>
   <%= render 'components/question_title', question: question, form_builder: true %>
   <div class="question-options">

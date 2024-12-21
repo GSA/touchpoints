@@ -121,7 +121,7 @@ feature 'Example Website Integration', js: true do
 
         it 'display success message' do
           expect(page).to have_content('Thank you. Your feedback has been received.')
-          expect(yes_no_buttons_form.submissions.first.answer_01).to eq('yes')
+          expect(yes_no_buttons_form.submissions.first.answer_01).to eq('1')
         end
       end
 
@@ -132,7 +132,7 @@ feature 'Example Website Integration', js: true do
 
         it 'display success message' do
           expect(page).to have_content('Thank you. Your feedback has been received.')
-          expect(yes_no_buttons_form.submissions.first.answer_01).to eq('no')
+          expect(yes_no_buttons_form.submissions.first.answer_01).to eq('0')
         end
       end
     end

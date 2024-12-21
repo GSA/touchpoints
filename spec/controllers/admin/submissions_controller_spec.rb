@@ -5,8 +5,35 @@ require 'rails_helper'
 RSpec.describe Admin::SubmissionsController, type: :controller do
   let(:organization) { FactoryBot.create(:organization) }
   let(:admin) { FactoryBot.create(:user, :admin, organization:) }
-  let(:form) { FactoryBot.create(:form, organization:) }
+  let(:form) { FactoryBot.create(:form, :single_question, organization:) }
   let!(:user_role) { FactoryBot.create(:user_role, user: admin, form:, role: UserRole::Role::FormManager) }
+  let!(:questions) {
+    FactoryBot.create(:question,
+      form:,
+      question_type: 'text_field',
+      form_section: form.form_sections.first,
+      answer_field: 'answer_02',
+      position: 2,
+      text: 'Two'
+    )
+    FactoryBot.create(:question,
+      form:,
+      question_type: 'text_field',
+      form_section: form.form_sections.first,
+      answer_field: 'answer_03',
+      position: 3,
+      text: 'Three'
+    )
+    FactoryBot.create(:question,
+      form:,
+      question_type: 'text_field',
+      form_section: form.form_sections.first,
+      answer_field: 'answer_04',
+      position: 4,
+      text: 'Four'
+    )
+
+  }
 
   let(:valid_attributes) do
     {
@@ -61,16 +88,18 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
   end
 
   describe 'POST #unflag' do
-    before do
-      @submission = Submission.create! valid_attributes.merge!({ flagged: true })
-      expect(@submission.flagged).to be true
+    let(:submission) { FactoryBot.create(:submission, form:) }
 
-      post :unflag, format: :js, params: { id: @submission.to_param, form_id: form.short_uuid }, session: valid_session
-      @submission.reload
+    before do
+      submission.update(flagged: true)
+      expect(submission.flagged).to be true
+
+      post :unflag, format: :js, params: { id: submission.to_param, form_id: form.short_uuid }, session: valid_session
+      submission.reload
     end
 
     it 'unflags the submission' do
-      expect(@submission.flagged).to be false
+      expect(submission.flagged).to be false
     end
   end
 end

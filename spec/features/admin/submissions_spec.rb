@@ -92,7 +92,7 @@ feature 'Submissions', js: true do
             describe 'click View link in responses table' do
               before do
                 Question.create!({
-                  form: form,
+                  form:,
                   form_section: form.form_sections.first,
                   text: 'additional question',
                   question_type: 'textarea',
@@ -232,7 +232,7 @@ feature 'Submissions', js: true do
 
             it 'successfully flags Submission' do
               within('table.submissions') do
-                expect(page).to have_content('Flagged')
+                expect(page).to have_css("table tr td.flagged a#flag-submission-#{submission.id}")
               end
             end
           end
@@ -296,7 +296,7 @@ feature 'Submissions', js: true do
 
             it 'successfully flags Submission' do
               within('table.submissions') do
-                expect(page).to have_content('Flagged')
+                expect(page).to have_css("table tr td.flagged a#flag-submission-#{submission.id}")
               end
             end
           end
@@ -326,7 +326,7 @@ feature 'Submissions', js: true do
           context 'with one Submission' do
             let(:form_with_text_display) { FactoryBot.create(:form, :kitchen_sink, organization:) }
             let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form: form_with_text_display) }
-            let!(:submission) { FactoryBot.create(:submission, form: form_with_text_display) }
+            let!(:submission) { FactoryBot.create(:submission, form: form_with_text_display, answer_17: '5') }
 
             before do
               visit responses_admin_form_path(form_with_text_display)
@@ -478,7 +478,7 @@ feature 'Submissions', js: true do
 
             it 'successfully flags Submission' do
               within('table.submissions tbody tr:first-child') do
-                expect(page).to have_content('Flagged')
+                expect(page).to have_css("td.flagged")
               end
             end
           end

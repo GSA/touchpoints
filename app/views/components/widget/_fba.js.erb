@@ -159,13 +159,19 @@ function FBAform(d, N) {
 			option.value = other_val;
 		},
 		handlePhoneInput: function(e) {
-		    var number = e.srcElement.value.replace(/[^\d]/g, '');
-		    if (number.length == 7) {
-		      number = number.replace(/(\d{3})(\d{4})/, "$1-$2");
-		    } else if (number.length == 10) {
-		      number = number.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
-		    }
-		    e.srcElement.value = number;
+			const input = e.target;
+			let number = input.value.replace(/[^\d]/g, ''); <%# Remove non-digits %>
+			input.dataset.rawValue = number; <%# Store raw digits %>
+
+			if (number.length == 3) {
+				input.value = number.replace(/(\d{3})/, "($1)");
+			} else if (number.length == 7) {
+				input.value = number.replace(/(\d{3})(\d{4})/, "$1-$2");
+			} else if (number.length == 10) {
+				input.value = number.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3");
+			} else {
+				input.value = number; // Keep unformatted if not 10 digits
+			}
 		},
 		handleEmailInput: function(e) {
 			var EmailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;

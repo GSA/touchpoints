@@ -212,7 +212,7 @@ RSpec.describe Form, type: :model do
 
   describe 'validate state transitions' do
     let(:admin) { FactoryBot.create(:user, :admin, organization:) }
-    let(:form) { FactoryBot.create(:form, organization:) }
+    let(:form_2) { FactoryBot.create(:form, organization:) }
 
     context 'initial state' do
       it 'sets initial state' do
@@ -223,33 +223,33 @@ RSpec.describe Form, type: :model do
 
     context 'transitionable touchpoint' do
       it 'transitions state' do
-        form.reset!
-        expect(form.created?).to eq(true)
-        expect(form.published?).to eq(false)
-        form.publish!
-        expect(form.created?).to eq(false)
-        expect(form.published?).to eq(true)
+        form_2.reset!
+        expect(form_2.created?).to eq(true)
+        expect(form_2.published?).to eq(false)
+        form_2.publish!
+        expect(form_2.created?).to eq(false)
+        expect(form_2.published?).to eq(true)
       end
     end
 
     context 'expired form' do
       before do
-        form.update(expiration_date: Date.today - 1)
+        form_2.update(expiration_date: Date.today - 1)
       end
 
       it 'archives expired form' do
-        expect(form.published?).to eq(true)
-        form.check_expired
-        expect(form.published?).to eq(false)
-        expect(form.archived?).to eq(true)
+        expect(form_2.published?).to eq(true)
+        form_2.check_expired
+        expect(form_2.published?).to eq(false)
+        expect(form_2.archived?).to eq(true)
       end
     end
 
     context 'archive form' do
       it "records 'archived_at' timestamp" do
-        expect(form.archived_at).to be_nil
-        form.archive
-        expect(form.archived_at).to_not be_nil
+        expect(form_2.archived_at).to be_nil
+        form_2.archive
+        expect(form_2.archived_at).to_not be_nil
       end
     end
   end
