@@ -147,6 +147,11 @@ class Submission < ApplicationRecord
         end
       when "hidden_field"
       when "date_select"
+        begin
+          Date.strptime(provided_answer, "%m/%d/%Y")
+        rescue ArgumentError
+          errors.add(question.answer_field.to_sym, :invalid, message: "must be a MM/DD/YYYY date")
+        end
       end
 
     end
