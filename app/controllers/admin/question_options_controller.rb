@@ -78,21 +78,11 @@ module Admin
         end
       end
 
-      @form_component_path = case @question.question_type
-      when "radio_buttons", "combobox"
-        "components/forms/edit/question_types/radio_button_option"
-      when "dropdown"
-        "components/forms/edit/question_types/dropdown_option"
-      when "checkbox"
-        "components/forms/edit/question_types/checkbox_option"
-      when "yes_no_buttons"
-        "components/forms/question_types/yes_no_buttons"
-      end
-
       render :create, format: :js
     end
 
     def create_other
+      @new_question_options = []
       @errors = []
 
       if @question.question_options.detect { |option| option.other_option }
@@ -103,6 +93,7 @@ module Admin
         @question_option.text = 'Other'
         @question_option.value = 'OTHER'
         @question_option.save!
+        @new_question_options << @question_option
       end
 
       render :create, format: :js

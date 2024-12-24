@@ -1,6 +1,6 @@
 <% @new_question_options.each do |new_question_option| %>
 $(".question#question_<%= @question_option.question.id %> .question-options")
-  .append("<%= escape_javascript render(@form_component_path, question: new_question_option.question, option: new_question_option, index: new_question_option.position) %>");
+  .append("<%= escape_javascript render(form_edit_component_path(@question.question_type), question: new_question_option.question, option: new_question_option, index: new_question_option.position) %>");
 $(".question#question_<%= new_question_option.question.id %> .new-question-options-div").show();
 $(".question#question_<%= new_question_option.question.id %> .question-option-edit").hide();
 

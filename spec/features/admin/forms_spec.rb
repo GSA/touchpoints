@@ -1274,7 +1274,37 @@ feature 'Forms', js: true do
             end
           end
 
-          xdescribe 'adding Checkbox options' do
+          describe 'add "Other" Radio Button option' do
+            let!(:radio_button_question) { FactoryBot.create(:question, :with_radio_buttons, form:, form_section: form.form_sections.first) }
+
+            before do
+              visit questions_admin_form_path(form)
+              click_on 'Add Other Option'
+            end
+
+            it "create other question option and a text field" do
+              expect(page).to have_content('Other (OTHER)')
+              expect(page).to have_content('Enter other text')
+              expect(page).to have_css('input.other-option')
+            end
+          end
+
+          describe 'adding Checkbox options' do
+          end
+
+          describe 'add "Other" Checkbox Button option' do
+            let!(:checkbox_question) { FactoryBot.create(:question, :with_checkbox_options, form:, form_section: form.form_sections.first) }
+
+            before do
+              visit questions_admin_form_path(form)
+              click_on 'Add Other Option'
+            end
+
+            it "create other question option and a text field" do
+              expect(page).to have_content('Other (OTHER)')
+              expect(page).to have_content('Enter other text')
+              expect(page).to have_css('input.other-option')
+            end
           end
 
           xdescribe 'adding Dropdown options' do
