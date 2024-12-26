@@ -37,57 +37,65 @@ module Admin
     def create
       text_array = question_option_params[:text].split("\n")
       position = @question.question_options.size + 1
-      @question_options = []
+      @new_question_options = []
       @errors = []
       result = false
 
-      if text_array.length.positive?
+      if text_array.length.positive? # multiple options
         text_array.each do |txt|
-          if ["radio_buttons", "checkbox", "dropdown"].include?(@question.question_type)
+          if ["radio_buttons", "checkbox"].include?(@question.question_type)
             if txt.upcase == 'OTHER' || txt.upcase == 'OTRO'
               @errors << "Use add #{txt} button"
               next
             end
           end
-          question_option = QuestionOption.where(question_id: params[:question_id], text: txt).first
-          if question_option
+          @question_option = QuestionOption.where(question_id: params[:question_id], text: txt).first
+          if @question_option
             @errors << "Question option already exists for text #{txt}"
             next
           end
-          question_option = QuestionOption.new(question_id: params[:question_id], text: txt, value: txt, position:)
-          if question_option.save
-            @question_options << question_option
+          @question_option = QuestionOption.new(question_id: params[:question_id], text: txt, value: txt, position:)
+          if @question_option.save
+            @new_question_options << @question_option
             position += 1
           else
-            @errors << question_option.errors.full_messages
+            @errors << @question_option.errors.full_messages
           end
         end
       else
-        question_option = QuestionOption.where(question_id: params[:question_id], text: params[:text]).first
+        @question_option = QuestionOption.where(question_id: params[:question_id], text: params[:text]).first
         if question_option
           @errors << "Question option already exists for text #{params[:text]}"
         else
-          question_option = QuestionOption.new(question_option_params)
-          question_option.position = position
-          if question_option.save
-            @question_options << question_option
+          @question_option = QuestionOption.new(question_option_params)
+          @question_option.position = position
+          if @question_option.save
+            @new_question_options << @question_option
+            # ok
           else
-            @errors << question_option.errors.full_messages
+            @errors << @question_option.errors.full_messages
           end
         end
       end
+
       render :create, format: :js
     end
 
     def create_other
+      @new_question_options = []
       @errors = []
-      question_option = QuestionOption.new
-      question_option.position = @question.question_options.size + 1
-      question_option.question_id = @question.id
-      question_option.text = 'Other'
-      question_option.value = 'OTHER'
-      question_option.save!
-      @question_options = [question_option]
+
+      if @question.question_options.detect { |option| option.other_option }
+        @errors << "An Other option already exists"
+      else
+        @question_option = @question.question_options.new(other_option: true)
+        @question_option.position = @question.question_options.size + 1
+        @question_option.text = 'Other'
+        @question_option.value = 'OTHER'
+        @question_option.save!
+        @new_question_options << @question_option
+      end
+
       render :create, format: :js
     end
 

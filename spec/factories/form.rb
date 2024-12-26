@@ -18,6 +18,18 @@ FactoryBot.define do
     aasm_state { 'published' }
     delivery_method { 'modal' }
 
+    trait :single_question do
+      after(:create) do |f, _evaluator|
+        FactoryBot.create(:question,
+          form: f,
+          question_type: 'text_field',
+          form_section: f.form_sections.first,
+          answer_field: 'answer_01',
+          position: 1,
+          text: 'Name')
+      end
+    end
+
     trait :touchpoints_hosted_only do
       delivery_method { 'touchpoints-hosted-only' }
     end
@@ -263,6 +275,7 @@ FactoryBot.define do
                                  text: 'Otro',
                                  value: 4,
                                  position: 4,
+                                 other_option: true
                                })
 
         checkbox_question = FactoryBot.create(:question,
@@ -291,6 +304,7 @@ FactoryBot.define do
                                  text: 'Other',
                                  value: 3,
                                  position: 3,
+                                 other_option: true
                                })
 
         dropdown_question = Question.create!({

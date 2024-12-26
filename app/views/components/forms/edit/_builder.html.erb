@@ -207,21 +207,6 @@ $(function() {
     titleEdit.find("input").focus();
   });
 
-  $(".form-builder").on("keyup", ".question-option-edit input", function(event) {
-    if (event.keyCode == 13) {
-      $(this).closest('div.question-option').find('.question-option-view').html($(this).val());
-
-      $.ajax({
-        type: "PATCH",
-        url: $(this).attr("data-href") + "/update_title",
-        data: { text: $(this).val() }
-      }).done(function() {
-        $('.question-option-edit').hide();
-        $('.question-option-view').show();
-      });
-    }
-  });
-
   $(".form-builder").on("click", ".form-delete-question-option", function(event) {
     event.preventDefault();
     if (confirm('Are you sure?')) {
@@ -362,15 +347,15 @@ $(function() {
   });
 
   // Set Question Option value to what the Question Option name is initially
-  $('.form-builder').on('focusout', ".question textarea.usa-input[name='question_option[text]']", function() {
-    var enteredText = $(this).val();
-    numberOfLineBreaks = (enteredText.match(/\n/g)||[]).length;
+  $('.form-builder').on('blur', ".question-option-form textarea.usa-input[name='question_option[text]']", function(e) {
+    e.preventDefault();
+    const enteredText = $(this).val();
+    const numberOfLineBreaks = (enteredText.match(/\n/g)||[]).length;
     var questionDiv = $($(this).parents(".question")[0]);
     var valueField = questionDiv.find("input.usa-input[type='text'][name='question_option[value]']");
     var valueLabel = valueField.parent().find(".usa-label");
     if (numberOfLineBreaks > 0) {
-      valueField.hide();
-      valueLabel.hide();
+      return true;
     } else {
       valueField.show();
       valueLabel.show();

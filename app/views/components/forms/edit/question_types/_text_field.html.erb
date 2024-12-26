@@ -1,4 +1,5 @@
-<div class="radios" role="group" aria-labelledby="<%= question.answer_field %>">
+<div
+  aria-labelledby="<%= question.answer_field %>">
   <%= render 'components/question_title', question: question, form_builder: true %>
   <%= text_field_tag question.ui_selector, nil, class: "usa-input", placeholder: question.placeholder_text %>
 </div>

@@ -179,10 +179,9 @@ feature 'Touchpoints', js: true do
         expect(Submission.last.answer_03).to eq 'One,Two,Three,Four'
       end
 
-      context "with an question option of 'other'" do
+      context "with a question option of 'other'" do
         before do
-          checkbox_form.questions.first.question_options.create!(text: 'other', position: 5)
-          checkbox_form.questions.first.question_options.create!(text: 'otro', position: 6)
+          checkbox_form.questions.first.question_options.create!(text: 'other', position: 5, other_option: true)
           visit touchpoint_path(checkbox_form)
         end
 
@@ -194,7 +193,7 @@ feature 'Touchpoints', js: true do
 
           it "persists 'other' checkbox question default values to db as comma separated list" do
             expect(page).to have_content('Thank you. Your feedback has been received.')
-            expect(Submission.last.answer_03).to eq 'One,Two,Three,Four,other,otro'
+            expect(Submission.last.answer_03).to eq 'One,Two,Three,Four,other'
           end
         end
 
@@ -202,14 +201,13 @@ feature 'Touchpoints', js: true do
           before do
             all('.usa-checkbox__label').each(&:click)
             inputs = find_all('input')
-            inputs.first.set('hi')
-            inputs.last.set('bye')
+            inputs.last.set('hi')
             click_on 'Submit'
           end
 
           it "persists 'other' checkbox question custom values to db as comma separated list" do
             expect(page).to have_content('Thank you. Your feedback has been received.')
-            expect(Submission.last.answer_03).to eq 'One,Two,Three,Four,hi,bye'
+            expect(Submission.last.answer_03).to eq 'One,Two,Three,Four,hi'
           end
         end
       end
@@ -217,7 +215,7 @@ feature 'Touchpoints', js: true do
 
     describe 'radio buttons question' do
       let!(:radio_button_form) { FactoryBot.create(:form, :radio_button_form, organization:) }
-      let!(:last_radio_option) { radio_button_form.questions.first.question_options.create!(text: 'other', value: 'other', position: 6) }
+      let!(:last_radio_option) { radio_button_form.questions.first.question_options.create!(text: 'other', value: 'other', position: 6, other_option: true) }
 
       before do
         visit touchpoint_path(radio_button_form)
@@ -492,7 +490,6 @@ feature 'Touchpoints', js: true do
         find("label[for='question_option_1']").click
         find("label[for='question_option_4']").click
         click_button 'Submit'
-
         expect(page).to have_content('Thank you. Your feedback has been received.')
 
         last_submission = Submission.last

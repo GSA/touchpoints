@@ -1,24 +1,13 @@
-<%- if @question.question_type == "radio_buttons" %>
-  <% @form_component_path = "components/forms/edit/question_types/radio_button_option" %>
-<% elsif @question.question_type == "thumbs_up_down_buttons" %>
-  <% @form_component_path = 'components/forms/question_types/thumbs_up_down_buttons' %>
-<% elsif @question.question_type == "dropdown" %>
-  <% @form_component_path = "components/forms/edit/question_types/dropdown_option" %>
-<% elsif @question.question_type == "checkbox" %>
-  <% @form_component_path = "components/forms/edit/question_types/checkbox_option" %>
-<% elsif @question.question_type == "combobox" %>
-  <% @form_component_path = "components/forms/edit/question_types/radio_button_option" %>
-<% elsif @question.question_type == "yes_no_buttons" %>
-  <% @form_component_path = 'components/forms/question_types/yes_no_buttons' %>
+<% @new_question_options.each do |new_question_option| %>
+$(".question#question_<%= @question_option.question.id %> .question-options")
+  .append("<%= escape_javascript render(form_edit_component_path(@question.question_type), question: new_question_option.question, option: new_question_option, index: new_question_option.position) %>");
+$(".question#question_<%= new_question_option.question.id %> .new-question-options-div").show();
+$(".question#question_<%= new_question_option.question.id %> .question-option-edit").hide();
+
+lastOptionView = document.querySelector(".question#question_<%= @question_option.question.id %> .question-options .question-option:last-of-type");
+lastOptionView.scrollIntoView({ behavior: 'smooth', block: 'start' });
 <% end %>
 
-<% @position = @question.question_options.size + 1 %>
-<% @question_options.each do | question_option | %>
-	$(".question#question_<%= question_option.question.id %> .question-options").append("<%= escape_javascript render(@form_component_path, question: question_option.question, option: question_option, index: @position) %>");
-	$(".question#question_<%= question_option.question.id %> .new-question-options-div").show();
-	$(".question#question_<%= question_option.question.id %> .question-option-edit").hide();
-	<% @position += 1 %>
-<% end %>
 $(".new-question-options-div form").trigger("reset");
 <%- if @errors.length > 0 %>
 	alert("<%= @errors.join('\n') %>");
