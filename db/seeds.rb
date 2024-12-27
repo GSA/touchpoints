@@ -19,7 +19,6 @@ return false if Rails.env.production?
 require_relative 'seeds/forms/a11'
 require_relative 'seeds/forms/a11_v2'
 require_relative 'seeds/forms/kitchen_sink'
-require_relative 'seeds/forms/thumbs_up_down'
 require_relative 'seeds/forms/yes_no'
 
 # Create Seeds
@@ -438,7 +437,6 @@ a11_v2_form_template = Seeds::Forms.a11_v2
 a11_v2_form = Seeds::Forms.a11_v2
 a11_v2_form.update_attribute(:template, false)
 
-thumbs_up_down_form = Seeds::Forms.thumbs_up_down
 kitchen_sink_form = Seeds::Forms.kitchen_sink
 yes_no_form = Seeds::Forms.yes_no
 
@@ -451,12 +449,6 @@ UserRole.create(
 UserRole.create(
   user: admin_user,
   form: a11_v2_form,
-  role: UserRole::Role::FormManager
-)
-
-UserRole.create(
-  user: admin_user,
-  form: thumbs_up_down_form,
   role: UserRole::Role::FormManager
 )
 
@@ -498,9 +490,8 @@ Submission.create!({
 Submission.create!({
   form: recruiter_form,
   answer_01: 'Mary',
-  answer_02: 'Public',
-  answer_03: 'public_user_3@example.com',
-  answer_04: '5555550000'
+  answer_02: 'public_user_3@example.com',
+  answer_03: '5555550000'
 })
 
 100.times do |i|
@@ -616,7 +607,6 @@ data_collection = CxCollection.create!({
   number_of_interactions: 123_456,
   number_of_people_offered_the_survey: 9_876,
   likert_or_thumb_question: "thumbs_up_down",
-  likert_or_thumb_question: "likert_scale",
   trust_question_text: "How are you?",
   survey_title: "",
   channel: "",

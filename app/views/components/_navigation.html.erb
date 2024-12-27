@@ -36,9 +36,6 @@
             </li>
             <% end %>
           <% else %>
-            <li class="usa-nav__secondary-item user-name">
-              <a href="/profile" title="Click to update profile"><%= current_user.email %></a>
-            </li>
             <%- if admin_permissions? %>
             <li class="usa-nav__secondary-item">
               <%= link_to admin_dashboard_path do %>
@@ -49,8 +46,8 @@
             </li>
             <% end %>
             <li class="usa-nav__secondary-item">
-              <%= link_to admin_services_path do %>
-                Services
+              <%= link_to admin_forms_path do %>
+                Forms
               <% end %>
             </li>
             <li class="usa-nav__secondary-item">
@@ -59,13 +56,21 @@
               <% end %>
             </li>
             <li class="usa-nav__secondary-item">
+              <%= link_to admin_services_path do %>
+                Services
+              <% end %>
+            </li>
+            <li class="usa-nav__secondary-item">
               <%= link_to admin_performance_path do %>
                 Performance
               <% end %>
             </li>
+            <li class="usa-nav__secondary-item user-name">
+              <a href="/profile" title="Click to update profile"><%= current_user.email %></a>
+            </li>
             <li class="usa-nav__secondary-item">
               <%= link_to destroy_user_session_path do %>
-                Sign Out
+                Sign out
                 &nbsp;
                 <i class="fa fa-sign-out-alt"></i>
               <% end %>

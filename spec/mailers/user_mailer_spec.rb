@@ -6,7 +6,7 @@ RSpec.describe UserMailer, type: :mailer do
   describe 'submission_notification' do
     let!(:organization) { FactoryBot.create(:organization) }
     let(:user) { FactoryBot.create(:user, organization:) }
-    let(:form) { FactoryBot.create(:form, organization:) }
+    let(:form) { FactoryBot.create(:form, :single_question, organization:) }
     let!(:submission) { FactoryBot.create(:submission, form:) }
     let(:mail) { UserMailer.submission_notification(submission_id: submission.id, emails: [user.email]) }
 
@@ -25,7 +25,7 @@ RSpec.describe UserMailer, type: :mailer do
   describe 'submission_digest' do
     let!(:organization) { FactoryBot.create(:organization) }
     let(:user) { FactoryBot.create(:user, organization:) }
-    let(:form) { FactoryBot.create(:form, organization:, notification_emails: user.email) }
+    let(:form) { FactoryBot.create(:form, :single_question, organization:, notification_emails: user.email) }
     let!(:submission) { FactoryBot.create(:submission, form:) }
     let(:days_ago) { 1 }
     let(:mail) { UserMailer.submissions_digest(form.id, days_ago) }

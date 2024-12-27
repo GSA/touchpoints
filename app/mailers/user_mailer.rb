@@ -39,10 +39,11 @@ class UserMailer < ApplicationMailer
 
   def submission_notification(submission_id:, emails: [])
     set_logo
+    emails_to_notify = User.where(email: emails).select { |user| !user.inactive }.collect(&:email)
     @submission = Submission.find(submission_id)
     @form = @submission.form
     mail subject: "New Submission to #{@form.name}",
-         to: emails
+      to: emails_to_notify
   end
 
   def form_status_changed(form:, action:, event:)

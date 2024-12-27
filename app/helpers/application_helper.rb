@@ -122,6 +122,17 @@ module ApplicationHelper
     "for " + parts.join(" ")
   end
 
+  def form_edit_component_path(question_type)
+   case question_type
+    when "radio_buttons", "combobox"
+      "components/forms/edit/question_types/radio_button_option"
+    when "dropdown"
+      "components/forms/edit/question_types/dropdown_option"
+    when "checkbox"
+      "components/forms/edit/question_types/checkbox_option"
+    end
+  end
+
   # Returns javascript to capture form input for one Form Question
   def question_type_javascript_params(question)
     if question.question_type == 'text_field'
@@ -133,14 +144,12 @@ module ApplicationHelper
     elsif question.question_type == 'text_email_field'
       "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").value"
     elsif question.question_type == 'text_phone_field'
-      "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").value"
+      "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").dataset.rawValue"
     elsif question.question_type == 'textarea'
       "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").value"
     elsif question.question_type == 'radio_buttons'
       "form.querySelector(\"input[name=#{question.ui_selector}]:checked\") && form.querySelector(\"input[name=#{question.ui_selector}]:checked\").value"
     elsif question.question_type == 'star_radio_buttons'
-      "form.querySelector(\"input[name=#{question.ui_selector}]:checked\") && form.querySelector(\"input[name=#{question.ui_selector}]:checked\").value"
-    elsif question.question_type == 'thumbs_up_down_buttons'
       "form.querySelector(\"input[name=#{question.ui_selector}]:checked\") && form.querySelector(\"input[name=#{question.ui_selector}]:checked\").value"
     elsif question.question_type == 'big_thumbs_up_down_buttons'
       "form.querySelector(\"input[name=#{question.ui_selector}]:checked\") && form.querySelector(\"input[name=#{question.ui_selector}]:checked\").value"

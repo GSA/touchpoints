@@ -226,6 +226,7 @@ class Form < ApplicationRecord
     new_form.notification_emails = nil
     new_form.organization = new_user.organization
     new_form.template = false
+    new_form.enforce_new_submission_validations = true
     new_form.save!
 
     # Manually remove the Form Section created with create_first_form_section

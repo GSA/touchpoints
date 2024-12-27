@@ -43,7 +43,7 @@ describe Api::V0::FormsController, type: :controller do
     describe 'overloading keys' do
       context 'passing an invalid API_KEY by header and valid api key by parameter' do
         let!(:user) { FactoryBot.create(:user) }
-        let(:form) { FactoryBot.create(:form, :with_responses, organization: user.organization) }
+        let(:form) { FactoryBot.create(:form, :single_question, :with_responses, organization: user.organization) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user:, form:) }
 
         before do
@@ -64,7 +64,7 @@ describe Api::V0::FormsController, type: :controller do
     describe '#index' do
       context 'passing a valid API_KEY header' do
         let!(:user) { FactoryBot.create(:user) }
-        let(:form) { FactoryBot.create(:form, :with_responses, organization: user.organization) }
+        let(:form) { FactoryBot.create(:form, :single_question, :with_responses, organization: user.organization) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user:, form:) }
 
         before do
@@ -84,7 +84,7 @@ describe Api::V0::FormsController, type: :controller do
 
       context 'passing a valid API_KEY param' do
         let!(:user) { FactoryBot.create(:user) }
-        let(:form) { FactoryBot.create(:form, :with_responses, organization: user.organization) }
+        let(:form) { FactoryBot.create(:form, :single_question, :with_responses, organization: user.organization) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user:, form:) }
 
         before do
@@ -105,7 +105,7 @@ describe Api::V0::FormsController, type: :controller do
     describe '#show' do
       context 'passing a valid API_KEY' do
         let!(:user) { FactoryBot.create(:user) }
-        let(:form) { FactoryBot.create(:form, :with_responses, organization: user.organization) }
+        let(:form) { FactoryBot.create(:form, :single_question, :with_responses, organization: user.organization) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user:, form:) }
 
         before do
@@ -126,7 +126,7 @@ describe Api::V0::FormsController, type: :controller do
 
       context 'paging' do
         let!(:user) { FactoryBot.create(:user) }
-        let(:form) { FactoryBot.create(:form, :with_responses, organization: user.organization) }
+        let(:form) { FactoryBot.create(:form, :single_question, :with_responses, organization: user.organization) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user:, form:) }
 
         before do
@@ -181,7 +181,7 @@ describe Api::V0::FormsController, type: :controller do
 
       context 'date_filter' do
         let!(:user) { FactoryBot.create(:user) }
-        let(:form) { FactoryBot.create(:form, :with_responses, organization: user.organization) }
+        let(:form) { FactoryBot.create(:form, :single_question, :with_responses, organization: user.organization) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user:, form:) }
 
         before do
