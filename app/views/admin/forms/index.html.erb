@@ -6,15 +6,16 @@
   <% end %>
 <% end %>
 
-<%= form_with(url: admin_forms_path, class: "usa-form", method: :get, local: true) do %>
-  <div class="usa-button-group">
+<div class="margin-top-1 border-bottom border-base-lighter padding-bottom-1 form-filter-buttons">
+  <%= label_tag :aasm_state, "Filter by form status:", class: "font-sans-2xs" %>
+  <div class="usa-button-group margin-top-1">
     <% form_states = [:all] + Form.aasm.states.collect(&:name) %>
     <% form_states.each do |state| %>
       <%= link_to state.name.capitalize, admin_forms_path(aasm_state: state.name), method: :get,
         class: "usa-button #{params[:aasm_state] == state.name.to_s ? 'usa-button--active' : 'usa-button--outline'}" %>
     <% end %>
   </div>
-<% end %>
+</div>
 
 <%- if @forms.present? %>
 <table class="usa-table usa-table--sticky-header width-full">
@@ -120,7 +121,7 @@
   </tbody>
 </table>
 <% else %>
-<div class="grid-row grid-gap-md border-top border-base-lighter margin-top-3">
+<div class="grid-row grid-gap-md">
   <div class="grid-col">
     <p class="font-serif-xl">
       Welcome to Touchpoints

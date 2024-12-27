@@ -32,10 +32,11 @@ feature 'Forms', js: true do
         expect(find_all(".usa-table tbody tr").size).to eq(3)
       end
 
-      context "use the dropdown to filter for archived forms" do
+      context "use the visible buttons to filter for archived forms" do
         it "displays 1 archived form" do
-          select('archived', from: "aasm_state")
-          click_on("Filter")
+          within(".form-filter-buttons") do
+            click_on("Archived")
+          end
           expect(page).to have_content("ARCHIVED")
           expect(page).to_not have_content("PUBLISHED")
           expect(find_all(".usa-table tbody tr").size).to eq(1)
@@ -1792,7 +1793,9 @@ feature 'Forms', js: true do
           end
 
           it 'click the combine export button then see a flash message for an async job' do
-            click_on("Export Form + A11-v2 Responses to CSV")
+            within(".form-and-a11-fiscal-year") do
+              click_on("Export")
+            end
             expect(page).to have_content("Touchpoints has initiated an asynchronous job that will take a few minutes.")
           end
         end
