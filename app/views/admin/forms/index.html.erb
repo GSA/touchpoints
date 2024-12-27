@@ -7,12 +7,12 @@
 <% end %>
 
 <%= form_with(url: admin_forms_path, class: "usa-form", method: :get, local: true) do %>
-  <div class="usa-form-group display-inline-block">
-    <%= label_tag :aasm_state, "Filter by form status:", class: "font-sans-2xs" %>
-    <%= select_tag :aasm_state, options_for_select([:all] + Form.aasm.states.collect(&:name), selected: params[:aasm_state]), class: "usa-select" %>
-  </div>
-   <div class="usa-form-group display-inline-block">
-    <%= submit_tag 'Filter', name: nil, class: 'usa-button', "data-disable-with" => "Filter" %>
+  <div class="usa-button-group">
+    <% form_states = [:all] + Form.aasm.states.collect(&:name) %>
+    <% form_states.each do |state| %>
+      <%= link_to state.name.capitalize, admin_forms_path(aasm_state: state.name), method: :get,
+        class: "usa-button #{params[:aasm_state] == state.name.to_s ? 'usa-button--active' : 'usa-button--outline'}" %>
+    <% end %>
   </div>
 <% end %>
 
@@ -120,18 +120,14 @@
   </tbody>
 </table>
 <% else %>
-<div class="grid-row grid-gap-md">
+<div class="grid-row grid-gap-md border-top border-base-lighter margin-top-3">
   <div class="grid-col">
     <p class="font-serif-xl">
       Welcome to Touchpoints
     </p>
     <p class="font-sans-lg">
-      To get started,
-      <%= link_to "create a new survey", new_admin_form_path %>.
-    </p>
-    <p>
-      You can create a form from an existing template, copy a previous survey,
-      or start from scratch.
+      To get started with customer feedback,
+      <%= link_to "create a new form", new_admin_form_path, class: "usa-link" %>.
     </p>
   </div>
 </div>
