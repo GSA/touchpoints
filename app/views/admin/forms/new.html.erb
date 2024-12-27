@@ -12,7 +12,7 @@
   <p class="font-sans-lg">
     Select
     <strong>ONE</strong>
-    method to start building your survey.
+    method to start building a form.
   </p>
 </div>
 <div class="grid-row grid-gap-md">
@@ -23,9 +23,9 @@
         Use a Template
       </div>
       <p class="usa-prose">
-        Here are some common surveys you can use to get started.
-        Preview the templates,
-        then copy a template that you can modify to meet your needs.
+        Here are some common forms you can use to get started.
+        Preview the form templates,
+        then copy a form and update it to meet your needs.
       </p>
 
     <%- if @templates.present? %>
@@ -62,10 +62,10 @@
     <div class="well light-bg add-box-shadow">
       <div class="font-heading-lg">
         <i class="far fa-flag" aria-hidden="true"></i>
-        Start from Scratch
+        Create a new form
       </div>
       <p class="usa-prose">
-        Enter the following information to create a new survey from scratch.
+        Create a new form from scratch.
       </p>
       <%= render 'form', form: @form %>
     </div>
@@ -74,11 +74,10 @@
     <div class="well light-bg add-box-shadow">
       <div class="font-heading-lg" id="copy-form-label">
         <i class="far fa-copy" aria-hidden="true"></i>
-        Copy a Form
+        Copy a form
       </div>
       <p class="usa-prose">
-        Select which of your existing surveys you'd like to copy
-        and give it a new name.
+        Copy an existing form and give it a new name.
       </p>
       <%- if @surveys.present? %>
         <%= form_tag(copy_id_admin_forms_path) do %>
