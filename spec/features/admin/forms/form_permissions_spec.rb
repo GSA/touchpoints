@@ -66,6 +66,7 @@ feature 'Forms', js: true do
             select(user.email, from: 'add_user_id')
             select('Form Manager', from: 'add_user_role')
             click_on 'Add User'
+            sleep 0.3
           end
 
           it 'can preview a form' do
