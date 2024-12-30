@@ -44,10 +44,10 @@ describe Api::V1::FormsController, type: :controller do
       let!(:organization) { FactoryBot.create(:organization) }
       let!(:user) { FactoryBot.create(:user, organization: organization) }
       let!(:user2) { FactoryBot.create(:user, organization: organization) }
-      let(:form) { FactoryBot.create(:form, :with_responses, organization: user.organization) }
+      let(:form) { FactoryBot.create(:form, :single_question, :with_responses, organization: user.organization) }
       let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user:, form:) }
 
-      let!(:another_form) { FactoryBot.create(:form, :with_responses, organization: user2.organization) }
+      let!(:another_form) { FactoryBot.create(:form, :single_question, :with_responses, organization: user2.organization) }
       let!(:organizational_admin_user) { FactoryBot.create(:user, organization: organization, organizational_admin: true) }
 
       context "Organizational Admin user" do
@@ -116,7 +116,7 @@ describe Api::V1::FormsController, type: :controller do
     describe '#show' do
       context 'passing a valid API_KEY' do
         let!(:user) { FactoryBot.create(:user) }
-        let(:form) { FactoryBot.create(:form, :with_responses, organization: user.organization) }
+        let(:form) { FactoryBot.create(:form, :single_question, :with_responses, organization: user.organization) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user:, form:) }
 
         before do
@@ -147,7 +147,7 @@ describe Api::V1::FormsController, type: :controller do
 
       context 'paging' do
         let!(:user) { FactoryBot.create(:user) }
-        let(:form) { FactoryBot.create(:form, :with_responses, organization: user.organization) }
+        let(:form) { FactoryBot.create(:form, :single_question, :with_responses, organization: user.organization) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user:, form:) }
 
         before do
@@ -202,7 +202,7 @@ describe Api::V1::FormsController, type: :controller do
 
       context 'date_filter' do
         let!(:user) { FactoryBot.create(:user) }
-        let(:form) { FactoryBot.create(:form, :with_responses, organization: user.organization) }
+        let(:form) { FactoryBot.create(:form, :single_question, :with_responses, organization: user.organization) }
         let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user:, form:) }
 
         before do

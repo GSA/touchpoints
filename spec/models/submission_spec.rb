@@ -6,7 +6,7 @@ RSpec.describe Submission, type: :model do
   let!(:organization) { FactoryBot.create(:organization) }
   let(:admin) { FactoryBot.create(:user, :admin, organization:) }
   let(:user2) { FactoryBot.create(:user, organization:) }
-  let(:form) { FactoryBot.build(:form, :custom, organization:, notification_emails: "#{admin.email}, second@example.gov") }
+  let(:form) { FactoryBot.create(:form, :single_question, organization:, notification_emails: "#{admin.email}, second@example.gov") }
   let!(:user_role2) { FactoryBot.create(:user_role, :form_manager, user: user2, form:) }
   let(:submission) { FactoryBot.create(:submission, form:) }
 

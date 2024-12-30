@@ -1,10 +1,12 @@
 <div class="well">
-  <h1>New Question Option</h1>
-  <p>
+  <div class="font-sans-lg">
+    New Question Option
+  </div>
+  <div class="font-sans-2xs text-base margin-top-1">
     for the question: <%= @question.text %>
     <br>
     with a question_type of: <%= @question.question_type %>
-  </p>
+  </div>
 
   <%= render 'form', form: @question.form, question: @question, question_option: @question_option %>
   <%= link_to 'Cancel', questions_admin_form_path(@question.form), class: "question-option-cancel" %>

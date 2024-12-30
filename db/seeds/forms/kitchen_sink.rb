@@ -178,16 +178,6 @@ module Seeds
       Question.create!({
         form: custom_form,
         form_section: custom_elements_section,
-        text: "Thumbs up/down buttons",
-        question_type: "thumbs_up_down_buttons",
-        position: 10,
-        answer_field: :answer_18,
-        is_required: false
-      })
-
-      Question.create!({
-        form: custom_form,
-        form_section: custom_elements_section,
         text: "Yes/No buttons",
         question_type: "yes_no_buttons",
         position: 11,

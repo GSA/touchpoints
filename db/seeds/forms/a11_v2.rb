@@ -53,7 +53,7 @@ module Seeds
         answer_field: :answer_03,
         is_required: false
       })
-      ["1 down", "2 down", "3 down", "4 down"].each_with_index do |value, i|
+      [1, 2, 3, 4].each_with_index do |value, i|
         QuestionOption.create!({
           question: question_03,
           text: value.to_s,
