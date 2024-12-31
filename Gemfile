@@ -68,7 +68,6 @@ gem 'rack-cors', require: 'rack/cors'
 # Use Redis to cache Touchpoints in all envs
 gem 'redis-client'
 gem 'redis-namespace'
-gem 'sass-rails'
 gem 'sidekiq', '>= 6.5.0'
 gem 'json-jwt'
 gem 'aasm'
