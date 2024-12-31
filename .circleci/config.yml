@@ -42,6 +42,7 @@ jobs:
           - v1-bundle-{{ checksum "Gemfile.lock" }}
 
       - run: bundle install
+      - run: bundle install
 
       - save_cache:
           paths:
@@ -53,7 +54,7 @@ jobs:
       - run: bundle exec rake db:schema:load
 
       # Precompile assets (to use npm packages specified in assets.rb)
-      - run: rails assets:precompile
+      # - run: rails assets:precompile
 
       # run tests!
       - run:
