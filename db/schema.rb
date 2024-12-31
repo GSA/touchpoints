@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_19_001513) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_31_221217) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -610,6 +610,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_19_001513) do
     t.integer "year_designated"
     t.text "short_description"
     t.boolean "previously_reported", default: false
+    t.integer "cx_collections_count", default: 0
     t.index ["organization_id"], name: "index_services_on_organization_id"
   end
 
