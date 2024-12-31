@@ -1,1 +1,1 @@
-//= require @uswds/uswds/dist/js/uswds
+//= require uswds
