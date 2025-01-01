@@ -73,21 +73,19 @@ gem 'acts-as-taggable-on'
 gem "rolify"
 
 group :development, :test do
-  gem "brakeman"
-  gem "bundler-audit"
   gem 'dotenv'
   gem 'pry'
-  gem 'rspec_junit_formatter'
-  gem "rubocop-rails"
-  gem "rubocop-rspec"
 end
 
 group :development do
-  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'aasm-diagram'
+  gem "brakeman"
   gem 'bullet'
+  gem "bundler-audit"
   gem 'listen'
   gem 'rails-erd'
+  gem "rubocop-rails"
+  gem "rubocop-rspec"
   gem 'web-console'
 end
 
@@ -97,6 +95,7 @@ group :test do
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'rails-controller-testing'
+  gem 'rspec_junit_formatter'
   gem 'rspec-rails'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
