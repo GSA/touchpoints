@@ -54,7 +54,11 @@ jobs:
       - run: bundle exec rake db:schema:load
 
       # Precompile assets (to use npm packages specified in assets.rb)
-      - run: rails assets:precompile
+      - run:
+          name: Precompile assets
+          command: |
+            npm i
+            rails assets:precompile
 
       # run tests!
       - run:
