@@ -42,10 +42,6 @@ gem "sassc-rails"
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "image_processing", "~> 1.12"
 
-gem "brakeman"
-gem "bundler-audit"
-gem "rubocop-rails"
-gem "rubocop-rspec"
 gem 'active_model_serializers'
 gem 'acts-as-list'
 gem 'aws-sdk-rails', '>= 3.8.0'
@@ -77,9 +73,13 @@ gem 'acts-as-taggable-on'
 gem "rolify"
 
 group :development, :test do
+  gem "brakeman"
+  gem "bundler-audit"
   gem 'dotenv'
   gem 'pry'
   gem 'rspec_junit_formatter'
+  gem "rubocop-rails"
+  gem "rubocop-rspec"
 end
 
 group :development do
