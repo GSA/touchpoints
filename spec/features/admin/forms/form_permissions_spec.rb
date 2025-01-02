@@ -22,13 +22,21 @@ feature 'Forms', js: true do
           visit permissions_admin_form_path(form)
         end
 
+        it 'is accessible' do
+          expect(page).to be_axe_clean
+        end
+
         describe 'add a user' do
           before do
             expect(page).to have_content('Users in the dropdown are limited to users')
             expect(page).to have_content('No users at this time')
-            select(user.email, from: 'add-user-id')
-            select('Form Manager', from: 'add-user-role')
+            select(user.email, from: 'add_user_id')
+            select('Form Manager', from: 'add_user_role')
             click_on 'Add User'
+          end
+
+          it 'is accessible' do
+            expect(page).to be_axe_clean
           end
 
           it 'see the email displayed and can remove the role' do
@@ -55,8 +63,8 @@ feature 'Forms', js: true do
         describe 'trying to add a user that has already been added' do
           before do
             expect(page).to have_content('No users at this time')
-            select(user.email, from: 'add-user-id')
-            select('Form Manager', from: 'add-user-role')
+            select(user.email, from: 'add_user_id')
+            select('Form Manager', from: 'add_user_role')
             click_on 'Add User'
             sleep 0.3
           end

@@ -91,7 +91,6 @@ Rails.application.configure do
 
   # Log disallowed deprecations.
   config.active_support.disallowed_deprecation = :log
-  config.active_support.escape_html_entities_in_json = false
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
