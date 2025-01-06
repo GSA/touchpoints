@@ -67,6 +67,7 @@ es:
     - vie
     - sáb
     abbr_month_names:
+    -
     - ene
     - feb
     - mar
@@ -93,6 +94,7 @@ es:
       with_timezone: "%-d de %B de %Y (UTC%:z)"
       short: "%-d de %b"
     month_names:
+    -
     - enero
     - febrero
     - marzo

@@ -8,6 +8,14 @@ FactoryBot.define do
     url { 'https://example.gov' }
     notes { 'Notes about this Organization' }
 
+    trait :parent do
+      name { 'Parent.gov' }
+      domain { 'parent.gov' }
+      abbreviation { 'PO' }
+      url { 'https://parent.gov' }
+      notes { 'Notes about parent Organization' }
+    end
+
     trait :another do
       name { 'Another.gov' }
       domain { 'another.gov' }
