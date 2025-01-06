@@ -756,6 +756,7 @@ feature 'Forms', js: true do
 
         describe 'editing form timezone' do
           let!(:form_with_responses) { FactoryBot.create(:form, :single_question, :with_responses, organization:) }
+          let!(:additional_response) { FactoryBot.create(:submission, form: form_with_responses, answer_01: "hi", created_at: "2025-01-02") }
           let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form_with_responses) }
 
           before do
@@ -764,9 +765,14 @@ feature 'Forms', js: true do
             expect(page).to have_content('Form Manager forms options updated successfully')
           end
 
-          it 'can view submissions with a form time_zone' do
+          it 'renders valid time' do
             visit responses_admin_form_path(form_with_responses)
-            expect(page.all("#submissions_table .usa-table.submissions tbody tr").size).to eq(3)
+            expect(page.all("#submissions_table .usa-table.submissions tbody tr").size).to eq(4)
+          end
+
+          it 'ensure format_time translation is correct' do
+            visit responses_admin_form_path(form_with_responses)
+            expect(all("#submissions_table .usa-table.submissions tbody tr").last).to have_content("January 01, 2025")
           end
         end
 
