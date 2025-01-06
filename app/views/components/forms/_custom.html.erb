@@ -71,6 +71,8 @@
               <%= render 'components/forms/question_types/checkbox', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "combobox" %>
               <%= render 'components/forms/question_types/combobox', form: form, question: question, question_number: multi_section_question_number %>
+            <% elsif question.question_type == "range_slider" %>
+              <%= render 'components/forms/question_types/range_slider', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "textarea" %>
               <%= render 'components/forms/question_types/text_area', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "text_display" %>

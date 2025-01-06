@@ -27,6 +27,8 @@
 <% @form_component_path = 'components/forms/edit/question_types/checkbox' %>
 <% elsif question.question_type == "combobox" %>
 <% @form_component_path = 'components/forms/edit/question_types/combobox' %>
+<% elsif question.question_type == "range_slider" %>
+<% @form_component_path = 'components/forms/edit/question_types/range_slider' %>
 <% elsif question.question_type == "textarea" %>
 <% @form_component_path = 'components/forms/edit/question_types/text_area' %>
 <% elsif question.question_type == "hidden_field" %>

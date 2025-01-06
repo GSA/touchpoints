@@ -23,6 +23,7 @@ class Question < ApplicationRecord
     'radio_buttons',
     'dropdown',
     'combobox',
+    'range_slider',
     # Custom elements
     'text_display',
     'custom_text_display',
