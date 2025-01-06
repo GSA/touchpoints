@@ -4,13 +4,14 @@ require 'rails_helper'
 
 feature 'CX Data Collections', js: true do
   let(:organization) { FactoryBot.create(:organization) }
-  let(:another_organization) { FactoryBot.create(:organization, :another) }
+  let(:parent_organization) { FactoryBot.create(:organization, :parent ) }
+  let!(:parent_service_provider) { FactoryBot.create(:service_provider, organization: parent_organization, name: 'Parent HISP') }
+  let(:another_organization) { FactoryBot.create(:organization, :another, parent_id: parent_organization.id) }
   let!(:another_service_provider) { FactoryBot.create(:service_provider, organization: another_organization, name: 'Another HISP') }
   let(:admin) { FactoryBot.create(:user, :admin, organization:) }
   let(:user) { FactoryBot.create(:user, organization: another_organization) }
   let!(:service_provider) { FactoryBot.create(:service_provider, organization:) }
   let!(:service) { FactoryBot.create(:service, organization:, service_provider: service_provider, hisp: true, service_owner_id: user.id) }
-
   let!(:service_provider2) { FactoryBot.create(:service_provider, organization:, name: "Another service provider") }
   let!(:service2) { FactoryBot.create(:service, organization:, service_provider: service_provider2, name: "Another public service", hisp: true, service_owner_id: user.id) }
 
@@ -169,11 +170,18 @@ feature 'CX Data Collections', js: true do
     end
 
     describe 'GET /show' do
-      let(:collection) { FactoryBot.create(:collection, organization: another_organization, user:, service_provider: another_service_provider) }
+      let!(:parent_collection) { FactoryBot.create(:cx_collection, organization: parent_organization, user:, service_provider: parent_service_provider, service: service) }
 
-      it 'renders a successful response' do
+      it 'renders CX Collection for Another org' do
         visit admin_cx_collection_path(cx_collection)
         expect(page).to have_content('Data Collections')
+        expect(page).to have_content('Another.gov')
+      end
+
+      it 'renders CX Collection for Parent org' do
+        visit admin_cx_collection_path(parent_collection)
+        expect(page).to have_content('Data Collections')
+        expect(page).to have_content('Parent.gov')
       end
     end
 
