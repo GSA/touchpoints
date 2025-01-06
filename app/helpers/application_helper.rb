@@ -22,11 +22,13 @@ module ApplicationHelper
   end
 
   def us_timezones
-    us_timezones = ActiveSupport::TimeZone["Eastern Time (US & Canada)"],
+    [
+      ActiveSupport::TimeZone["Eastern Time (US & Canada)"],
       ActiveSupport::TimeZone["Central Time (US & Canada)"],
       ActiveSupport::TimeZone["Mountain Time (US & Canada)"],
       ActiveSupport::TimeZone["Pacific Time (US & Canada)"],
       ActiveSupport::TimeZone["Hawaii"]
+    ]
   end
 
   def hisp_questions_key
