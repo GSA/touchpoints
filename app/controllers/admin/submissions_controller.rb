@@ -220,7 +220,7 @@ module Admin
     end
 
     def status_params
-      params.require(:submission).permit(:aasm_state)
+      params.permit(:aasm_state)
     end
 
     def tag_params
