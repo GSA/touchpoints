@@ -26,8 +26,7 @@
 
       <% @unused_tags = @form.submission_tags - submission.tags %>
       <% if @unused_tags.present? %>
-      <br>
-      <div class="tag-list available">
+      <div class="tag-list available margin-top-2">
       <% @unused_tags.each do |tag| %>
         <span class="usa-tag add-tag-button bg-base-light"
           data-action="<%= admin_form_submission_path(submission.form, submission) %>"><%= tag %></span>
