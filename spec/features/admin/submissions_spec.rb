@@ -133,14 +133,22 @@ feature 'Submissions', js: true do
               it 'adds a tag' do
                 fill_in 'submission_tag_list', with: 'tag1'
                 find('#submission_tag_list').native.send_key :tab
-                expect(page).to have_content('TAG1')
+                within(".tag-list.applied") do
+                  expect(page).to have_content('TAG1')
+                end
+                visit page.current_path
+                within(".tag-list.applied") do
+                  expect(page).to have_content('TAG1')
+                end
               end
 
               it 'adds multiple tags' do
                 fill_in 'submission_tag_list', with: 'tag1, tag2'
                 find('#submission_tag_list').native.send_key :tab
-                expect(page).to have_content('TAG1')
-                expect(page).to have_content('TAG2')
+                within(".tag-list.applied") do
+                  expect(page).to have_content('TAG1')
+                  expect(page).to have_content('TAG2')
+                end
               end
 
               it 'removes a tag' do
