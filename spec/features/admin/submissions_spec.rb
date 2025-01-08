@@ -104,10 +104,7 @@ feature 'Submissions', js: true do
               end
 
               it 'try to update a submission that has had its question validations changed' do
-                select("acknowledged", from: 'submission_aasm_state')
-                select("responded", from: 'submission_aasm_state')
-                click_on("Update status")
-
+                click_on("Acknowledge")
                 expect(page).to have_content("Response could not be updated.")
               end
             end
