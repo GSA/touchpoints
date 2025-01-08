@@ -220,7 +220,17 @@ module Admin
     end
 
     def status_params
-      params.permit(:aasm_state)
+      permitted_params = params.permit(:aasm_state)
+
+      if permitted_params[:aasm_state].present?
+        unless Submission.aasm.states.map(&:name).include?(permitted_params[:aasm_state].to_sym)
+          raise ActionController::ParameterMissing, "Invalid state: #{permitted_params[:aasm_state]}"
+        end
+      else
+        raise ActionController::ParameterMissing, "aasm_state parameter is missing"
+      end
+
+      permitted_params
     end
 
     def tag_params

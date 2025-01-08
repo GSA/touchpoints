@@ -36,7 +36,7 @@
           <label class="usa-label">
             Organization
           </label>
-          <%= link_to(@submission.form.organization.name, admin_organization_path(@submission.form.organization)) %>
+          <%= render "admin/organizations/badge", organization: @submission.form.organization %>
         </div>
         <div class="grid-col-4">
           <label class="usa-label">
