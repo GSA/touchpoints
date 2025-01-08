@@ -98,11 +98,13 @@ feature 'CX Data Collections', js: true do
         let(:current_year) { Time.zone.now.strftime('%Y') }
 
         before do
-          select(service_provider.name, from: 'cx_collection_service_provider_id')
-          select(service.name, from: 'cx_collection_service_id')
+          expect(page).to have_content('After creating this collection, you can add survey results in the following screen.')
+          fill_in("cx_collection_service_provider_id", with: service_provider.name)
+          find("#cx_collection_service_provider_id--list").click
+          fill_in("cx_collection_service_id", with: service.name)
+          find("#cx_collection_service_id--list").click
           select(current_year, from: 'cx_collection_fiscal_year')
           select(4, from: 'cx_collection_quarter')
-          wait_for_ajax
           click_on 'Create Cx collection'
         end
 

@@ -31,7 +31,7 @@ class Submission < ApplicationRecord
       transitions from: [:acknowledged], to: :dispatched
     end
     event :respond do
-      transitions from: %i[dispatched archived], to: :responded
+      transitions from: %i[dispatched], to: :responded
     end
     event :archive do
       transitions to: :archived
