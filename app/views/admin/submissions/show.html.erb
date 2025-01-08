@@ -193,22 +193,8 @@
   </div>
   <div class="grid-col-4">
     <div class="well usa-section usa-section--dark">
-      <div class="text-uppercase font-body-3xs">
-        Processing each response
-      </div>
       <%= render 'admin/submissions/status_form', { form: @form, submission: @submission } %>
     </div>
-    <div class="usa-alert usa-alert--info usa-alert--slim">
-      <div class="usa-alert__body">
-        <p class="usa-alert__text">
-          About the
-          <%= link_to "https://github.com/GSA/touchpoints/wiki/Feedback-lifecyle", target: "_blank", rel: "noopener" do %>
-          Feedback lifecycle
-          <% end %>
-        </p>
-      </div>
-    </div>
-    <br>
     <div class="tags-div well">
       <%= render 'admin/submissions/tags', submission: @submission %>
     </div>
