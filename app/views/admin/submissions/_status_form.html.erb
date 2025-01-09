@@ -12,7 +12,7 @@
   <ol class="usa-process-list">
     <% @submission.aasm.states.each do |state| %>
       <li class="usa-process-list__item padding-bottom-4">
-        <p class="usa-process-list__heading font-sans-md line-height-sans-4">
+        <p class="usa-process-list__heading font-sans-md line-height-sans-2">
           <span class="<%= @submission.aasm_state == state.name.to_s ? "" : "text-normal text-base-lighter" %>">
             <%= state.name.capitalize %>
           </span>

@@ -62,6 +62,7 @@ class Submission < ApplicationRecord
     answered_questions.delete('language')
     answered_questions.delete('referer')
     answered_questions.delete('aasm_state')
+    answered_questions.delete('tags')
     answered_questions.delete('spam_score')
     answered_questions.delete('created_at')
     answered_questions.delete('updated_at')
