@@ -60,6 +60,37 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
     sign_in(admin)
   end
 
+  describe "#status_params" do
+    let(:submission) { FactoryBot.create(:submission, form:) }
+    let(:valid_states) { Submission.aasm.states.map(&:name) }
+
+    context "when a valid aasm_state is provided" do
+      it "permits the parameter and returns it" do
+        valid_state = valid_states.sample.to_s
+        patch :update, params: { aasm_state: valid_state, form_id: submission.form.short_uuid, id: submission.id  }
+
+        expect(response).to redirect_to(admin_form_submission_path(form, submission))
+        expect(flash[:notice]).to eq('Response was successfully updated.')
+      end
+    end
+
+    context "when aasm_state is missing" do
+      it "raises an ActionController::ParameterMissing error" do
+        expect {
+          patch :update, params: { aasm_state: nil, form_id: submission.form.short_uuid, id: submission.id  }
+        }.to raise_error(ActionController::ParameterMissing, "param is missing or the value is empty: aasm_state parameter is missing")
+      end
+    end
+
+    context "when an invalid aasm_state is provided" do
+      it "raises an ActionController::ParameterMissing error" do
+        expect {
+          patch :update, params: { aasm_state: "invalid_state", form_id: submission.form.short_uuid, id: submission.id  }
+        }.to raise_error(ActionController::ParameterMissing, "param is missing or the value is empty: Invalid state: invalid_state")
+      end
+    end
+  end
+
   describe 'DELETE #destroy' do
     it 'destroys the requested submission' do
       submission = Submission.create! valid_attributes

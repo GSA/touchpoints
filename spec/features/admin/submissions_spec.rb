@@ -109,6 +109,21 @@ feature 'Submissions', js: true do
               end
             end
           end
+
+          context 'with one Response that has tags' do
+            let!(:submission) { FactoryBot.create(:submission, form:, tags: ["this", "that"]) }
+
+            describe 'click View link in responses table' do
+              before do
+                visit admin_form_submission_path(form, submission)
+              end
+
+              it 'update a submission that has tags' do
+                click_on("Acknowledge")
+                expect(page).to have_content("Response was successfully updated.")
+              end
+            end
+          end
         end
 
         describe 'tag a Response' do
