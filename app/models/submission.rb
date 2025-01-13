@@ -58,6 +58,7 @@ class Submission < ApplicationRecord
     answered_questions.delete('user_agent')
     answered_questions.delete('hostname')
     answered_questions.delete('page')
+    answered_questions.delete('query_string')
     answered_questions.delete('ip_address')
     answered_questions.delete('language')
     answered_questions.delete('referer')
