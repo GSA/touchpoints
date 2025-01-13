@@ -8,6 +8,7 @@ class SubmissionSerializer < ActiveModel::Serializer
              :referer,
              :hostname,
              :page,
+             :query_string,
              :user_agent,
              :answer_01,
              :answer_02,
