@@ -52,43 +52,43 @@
       </div>
     </div>
 
-      <div class="usa-button-group">
-        <button type="submit"
-          class="usa-button"
-          name="download_type"
-          formaction="<%= export_admin_form_path(@form) %>"
-          value="standard_form_data"
-          disabled="true"
-        >
-          Download Form Responses
-        </button>
-      </div>
-      <%- if form.kind == "a11_v2" %>
-      <div>
-        <button type="submit"
-          class="usa-button usa-button--outline"
-          name="download_type"
-          formaction="<%= export_a11_v2_submissions_admin_form_path(@form) %>"
-          value="a11_data"
-          disabled="true"
-        >
-          Download A11-v2 Responses
-        </button>
-        <div class="margin-top-1 text-base font-sans-2xs">for A-11 reporting</div>
-      </div>
-      <div>
-        <button type="submit"
-          class="usa-button usa-button--secondary"
-          name="download_type"
-          formaction="<%= export_form_and_a11_v2_submissions_admin_form_path(@form) %>"
-          value="combined_a11_and_form_data"
-          disabled="true"
-        >
-          Download A11-v2 + Form Responses
-        </button>
-        <div class="margin-top-1 text-base font-sans-2xs">to see form and A-11 responses together</div>
-      </div>
-      <% end %>
+    <div class="usa-button-group">
+      <button type="submit"
+        class="usa-button"
+        name="download_type"
+        formaction="<%= export_admin_form_path(@form) %>"
+        value="standard_form_data"
+        disabled="true"
+      >
+        Download
+      </button>
+    </div>
+    <%- if form.kind == "a11_v2" %>
+    <div>
+      <button type="submit"
+        class="usa-button usa-button--outline"
+        name="download_type"
+        formaction="<%= export_a11_v2_submissions_admin_form_path(@form) %>"
+        value="a11_data"
+        disabled="true"
+      >
+        Download A11-v2 Responses
+      </button>
+      <div class="margin-top-1 text-base font-sans-2xs">for A-11 reporting</div>
+    </div>
+    <div>
+      <button type="submit"
+        class="usa-button usa-button--secondary"
+        name="download_type"
+        formaction="<%= export_form_and_a11_v2_submissions_admin_form_path(@form) %>"
+        value="combined_a11_and_form_data"
+        disabled="true"
+      >
+        Download A11-v2 + Form Responses
+      </button>
+      <div class="margin-top-1 text-base font-sans-2xs">to see form and A-11 responses together</div>
+    </div>
+    <% end %>
   </form>
 <% else %>
   <div class="usa-alert usa-alert--info">
@@ -144,9 +144,12 @@
       });
     }
 
-    // Add event listeners to both date inputs
-    startDateInput.addEventListener('input', toggleButtons);
-    endDateInput.addEventListener('input', toggleButtons);
+    if (startDateInput && endDateInput) {
+      // Add event listeners to both date inputs
+      startDateInput.addEventListener('input', toggleButtons);
+      endDateInput.addEventListener('input', toggleButtons);
+      toggleButtons()
+    }
 
   });
 </script>
