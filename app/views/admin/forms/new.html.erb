@@ -64,9 +64,6 @@
         <i class="far fa-flag" aria-hidden="true"></i>
         Create a new form
       </div>
-      <p class="usa-prose">
-        Create a new form from scratch.
-      </p>
       <%= render 'form', form: @form %>
     </div>
   </div>
@@ -76,16 +73,16 @@
         <i class="far fa-copy" aria-hidden="true"></i>
         Copy a form
       </div>
-      <p class="usa-prose">
-        Copy an existing form and give it a new name.
-      </p>
       <%- if @surveys.present? %>
         <%= form_tag(copy_id_admin_forms_path) do %>
-          <%= select_tag "id", options_from_collection_for_select(@surveys, "short_uuid", "name"), {
-            prompt: "Select a form",
-            class: "usa-select",
-            "aria-labelledby" => "copy-form-label"
-          } %>
+          <label class="usa-label" for="id">Select an existing form</label>
+          <div class="usa-combo-box">
+            <%= select_tag "id", options_from_collection_for_select(@surveys, "short_uuid", "name"), {
+              prompt: "Select a form",
+              class: "usa-select",
+              "aria-labelledby" => "copy-form-label"
+            } %>
+          </div>
           <p>
             <%= submit_tag "Copy Form", class: "usa-button", disabled: true %>
           </p>

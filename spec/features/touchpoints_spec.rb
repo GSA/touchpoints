@@ -466,7 +466,9 @@ feature 'Touchpoints', js: true do
 
           # Asserting against the database/model directly here isn't ideal.
           # An alternative is to send location_code back to the client and assert against it
-          expect(Submission.last.location_code).to eq 'TEST_LOCATION_CODE'
+          last_submission = Submission.last
+          expect(last_submission.location_code).to eq('TEST_LOCATION_CODE')
+          expect(last_submission.query_string).to eq("?location_code=TEST_LOCATION_CODE")
         end
       end
     end

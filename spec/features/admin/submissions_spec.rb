@@ -104,11 +104,23 @@ feature 'Submissions', js: true do
               end
 
               it 'try to update a submission that has had its question validations changed' do
-                select("acknowledged", from: 'submission_aasm_state')
-                select("responded", from: 'submission_aasm_state')
-                click_on("Update status")
-
+                click_on("Acknowledge")
                 expect(page).to have_content("Response could not be updated.")
+              end
+            end
+          end
+
+          context 'with one Response that has tags' do
+            let!(:submission) { FactoryBot.create(:submission, form:, tags: ["this", "that"]) }
+
+            describe 'click View link in responses table' do
+              before do
+                visit admin_form_submission_path(form, submission)
+              end
+
+              it 'update a submission that has tags' do
+                click_on("Acknowledge")
+                expect(page).to have_content("Response was successfully updated.")
               end
             end
           end
@@ -133,14 +145,22 @@ feature 'Submissions', js: true do
               it 'adds a tag' do
                 fill_in 'submission_tag_list', with: 'tag1'
                 find('#submission_tag_list').native.send_key :tab
-                expect(page).to have_content('TAG1')
+                within(".tag-list.applied") do
+                  expect(page).to have_content('TAG1')
+                end
+                visit page.current_path
+                within(".tag-list.applied") do
+                  expect(page).to have_content('TAG1')
+                end
               end
 
               it 'adds multiple tags' do
                 fill_in 'submission_tag_list', with: 'tag1, tag2'
                 find('#submission_tag_list').native.send_key :tab
-                expect(page).to have_content('TAG1')
-                expect(page).to have_content('TAG2')
+                within(".tag-list.applied") do
+                  expect(page).to have_content('TAG1')
+                  expect(page).to have_content('TAG2')
+                end
               end
 
               it 'removes a tag' do

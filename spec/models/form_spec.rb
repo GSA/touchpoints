@@ -65,6 +65,7 @@ RSpec.describe Form, type: :model do
           :archived,
           :flagged,
           :page,
+          :query_string,
           :hostname,
           :referer,
           :created_at,

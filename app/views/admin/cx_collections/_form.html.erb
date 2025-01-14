@@ -1,4 +1,4 @@
-<%= form_with(model: cx_collection, url: (cx_collection.persisted? ? admin_cx_collection_path(cx_collection) : admin_cx_collections_path), class: "usa-form", local: true, data: { turbo: false }) do |form| %>
+<%= form_with(model: cx_collection, url: (cx_collection.persisted? ? admin_cx_collection_path(cx_collection) : admin_cx_collections_path), local: true, data: { turbo: false }) do |form| %>
   <%- if cx_collection.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(cx_collection.errors.count, "error") %> prohibited this cx_collection from being saved:</h2>
@@ -27,20 +27,24 @@
 
   <div class="field">
     <%= form.label :service_provider_id, "HISP Service Provider", class: "usa-label" %>
-    <%= form.select :service_provider_id, ServiceProvider.active.includes(:organization).order("organizations.abbreviation", :name).map { |h| ["#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, { class: "usa-select", required: true } %>
+    <div class="usa-combo-box" data-default-value="<%= cx_collection.service_provider_id %>">
+      <%= form.select :service_provider_id, ServiceProvider.active.includes(:organization).order("organizations.abbreviation", :name).map { |h| ["#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", h.id] }, { include_blank: true }, { class: "usa-select", required: true } %>
+    </div>
   </div>
 
   <div class="field">
     <%= form.label :service_id, "Service", class: "usa-label" %>
-    <%= form.select :service_id, { include_blank: true }, {}, { class: "usa-select", required: true } do %>
-      <% Service.hisp.includes(:organization).each do |h| %>
-        <%= content_tag :option,
-          "#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", value: h.id,
-          "data-service-provider-id" => h.service_provider_id,
-          selected: (h.id == cx_collection.service_id)
-          %>
+    <div class="usa-combo-box" data-default-value="<%= cx_collection.service_id %>">
+      <%= form.select :service_id, { include_blank: true }, {}, { class: "usa-select", required: true } do %>
+        <% Service.hisp.includes(:organization).each do |h| %>
+          <%= content_tag :option,
+            "#{h.organization.abbreviation} - #{h.organization.name} - #{h.name}", value: h.id,
+            "data-service-provider-id" => h.service_provider_id,
+            selected: (h.id == cx_collection.service_id)
+            %>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
   </div>
 
   <div class="field">
