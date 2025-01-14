@@ -27,6 +27,7 @@
           aria-labelledby="start-date-label"
           aria-describedby="start-date-hint"
           type="date"
+          value="<%= FiscalYear.first_day_of_fiscal_quarter(Date.today) %>"
         />
       </div>
     </div>
@@ -46,6 +47,7 @@
           aria-labelledby="end-date-label"
           aria-describedby="end-date-hint"
           type="date"
+          value="<%= Date.today %>"
         />
       </div>
     </div>
