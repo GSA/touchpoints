@@ -319,7 +319,7 @@ feature 'Forms', js: true do
 
             it "display 'Submitted' flash message" do
               expect(page).to have_content("Viewing Form: #{form.name}")
-              expect(page).to have_content('Form status')
+              expect(page).to have_link("Back to Forms")
               expect(page).to have_content('This form has been Submitted successfully.')
             end
           end
@@ -350,7 +350,7 @@ feature 'Forms', js: true do
             it "display 'Published' flash message" do
               expect(page).to have_content('Published')
               expect(page).to have_content("Viewing Form: #{form.name}")
-              expect(page).to have_content('Form status')
+              expect(page).to have_link("Back to Forms")
             end
           end
         end
@@ -369,7 +369,7 @@ feature 'Forms', js: true do
 
             it "display 'Submitted' flash message" do
               expect(page).to have_content("Viewing Form: #{form.name}")
-              expect(page).to have_content('Form status')
+              expect(page).to have_link("Back to Forms")
               expect(page).to have_content('This form has been Submitted successfully.')
             end
           end
