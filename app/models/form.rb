@@ -629,6 +629,7 @@ class Form < ApplicationRecord
       archived: 'Archived',
       flagged: 'Flagged',
       page: 'Page',
+      query_string: 'Query string',
       hostname: 'Hostname',
       referer: 'Referrer',
       created_at: 'Created At',

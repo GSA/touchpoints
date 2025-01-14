@@ -537,6 +537,7 @@ function FBAform(d, N) {
 			params["referer"] = d.referrer;
 			params["hostname"] = N.location.hostname;
 			params["page"] = N.location.pathname;
+			params["query_string"] = N.location.search;
 			params["location_code"] = form.querySelector("#fba_location_code") ? form.querySelector("#fba_location_code").value : null;
 			params["fba_directive"] = form.querySelector("#fba_directive") ? form.querySelector("#fba_directive").value : null;
 			params["language"] = "en";
