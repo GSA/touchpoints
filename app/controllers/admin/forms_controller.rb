@@ -150,6 +150,7 @@ module Admin
     def update_form_manager_options
       ensure_form_manager(form: @form)
       @form.update(form_admin_options_params)
+      set_service_stage_options
       flash.now[:notice] = 'Form Manager forms options updated successfully'
     end
 
@@ -158,6 +159,7 @@ module Admin
         format.html do
           ensure_response_viewer(form: @form) unless @form.template?
           @questions = @form.ordered_questions
+          set_service_stage_options
           @events = @events = Event.where(object_type: 'Form', object_uuid: @form.uuid).order("created_at DESC")
         end
 
@@ -517,6 +519,7 @@ module Admin
         :success_text,
         :success_text_heading,
         :service_id,
+        :service_stage_id,
         # PRA Info
         :omb_approval_number,
         :expiration_date,
@@ -588,8 +591,13 @@ module Admin
         :omb_approval_number,
         :expiration_date,
         :service_id,
+        :service_stage_id,
         :enforce_new_submission_validations,
       )
+    end
+
+    def set_service_stage_options
+      @service_stage_options = @form.service.present? ? @form.service.service_stages.order(:position, :name).map { |s| [s.name, s.id] } : []
     end
 
     # Add rules for AASM state transitions here

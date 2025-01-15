@@ -13,7 +13,14 @@ module Admin
       else
         ensure_service_manager_permissions
         @service_stages = ServiceStage.order(:position)
-        render :unscoped_index
+      end
+      respond_to do |format|
+        format.html {
+          render :index
+        }
+        format.json {
+          render json: @service_stages
+        }
       end
     end
 
