@@ -42,7 +42,6 @@ jobs:
           - v1-bundle-{{ checksum "Gemfile.lock" }}
 
       - run: bundle install
-      - run: bundle install
 
       - save_cache:
           paths:
