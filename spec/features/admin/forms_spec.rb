@@ -319,7 +319,7 @@ feature 'Forms', js: true do
 
             it "display 'Submitted' flash message" do
               expect(page).to have_content("Viewing Form: #{form.name}")
-              expect(page).to have_content('Form Information'.upcase)
+              expect(page).to have_link("Back to Forms")
               expect(page).to have_content('This form has been Submitted successfully.')
             end
           end
@@ -350,7 +350,7 @@ feature 'Forms', js: true do
             it "display 'Published' flash message" do
               expect(page).to have_content('Published')
               expect(page).to have_content("Viewing Form: #{form.name}")
-              expect(page).to have_content('Form Information'.upcase)
+              expect(page).to have_link("Back to Forms")
             end
           end
         end
@@ -369,7 +369,7 @@ feature 'Forms', js: true do
 
             it "display 'Submitted' flash message" do
               expect(page).to have_content("Viewing Form: #{form.name}")
-              expect(page).to have_content('Form Information'.upcase)
+              expect(page).to have_link("Back to Forms")
               expect(page).to have_content('This form has been Submitted successfully.')
             end
           end
@@ -526,7 +526,7 @@ feature 'Forms', js: true do
               within('table.submissions') do
                 expect(page).to have_content(submission.answer_01)
               end
-              expect_responses_fiscal_year_dropdown
+              expect_start_and_end_date_fields
             end
           end
         end
@@ -546,7 +546,7 @@ feature 'Forms', js: true do
               expect(page).to have_content('RESPONSES BY STATUS')
               expect(page).to have_content('Responses per day')
               expect(page).to have_content('Total submissions received over period')
-              expect_responses_fiscal_year_dropdown
+              expect_start_and_end_date_fields
               expect(page).to have_content('Performance.gov Reporting')
               expect(page).to have_content('Responses Summary')
             end
@@ -1731,11 +1731,10 @@ feature 'Forms', js: true do
       before do
         login_as(form_manager)
         visit responses_admin_form_path(form)
-        click_on "Export"
+        click_on "Download"
       end
 
-      it 'includes form attributes' do
-        sleep 1.0 # TODO: remove, Remove all `sleep`s
+      it 'remains on page' do
         expect(page.current_path).to eq(responses_admin_form_path(form))
       end
     end
@@ -1784,13 +1783,13 @@ feature 'Forms', js: true do
             within('table.submissions') do
               expect(page).to have_content(submission.answer_01)
             end
-            expect_responses_fiscal_year_dropdown
+            expect_start_and_end_date_fields
           end
         end
       end
 
       context 'when Submissions exist for an a11_v2 form' do
-        describe 'click the combine export button' do
+        describe 'click the combined download button' do
           let(:form) { FactoryBot.create(:form, :a11_v2, organization:) }
           let!(:submission) { FactoryBot.create(:submission, form:, answer_01: "1") }
 
@@ -1798,10 +1797,9 @@ feature 'Forms', js: true do
             visit responses_admin_form_path(form)
           end
 
-          it 'click the combine export button then see a flash message for an async job' do
-            within(".form-and-a11-fiscal-year") do
-              click_on("Export")
-            end
+          it 'click the combine download button then see a flash message for an async job' do
+            expect(page).to have_content("to see form and A-11 responses together")
+            click_on("Download A11-v2 + Form Responses")
             expect(page).to have_content("Touchpoints has initiated an asynchronous job that will take a few minutes.")
           end
         end

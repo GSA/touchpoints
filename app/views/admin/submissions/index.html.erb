@@ -2,90 +2,94 @@
   <div id="submissions_table">
     <%= render 'admin/submissions/submissions', submissions: submissions, form: form %>
   </div>
-  <div class="font-sans-lg margin-top-3 padding-top-2 border-top border-base-lighter">
+
+  <div class="font-sans-lg margin-top-3 padding-top-2 border-top border-base-lighter margin-bottom-3">
     Export responses
   </div>
-  <div>
-    <%= form_with(url: export_admin_form_path(@form), class: "usa-form", method: :get, local: true) do %>
-      <div class="usa-form-group display-inline-block">
-        <label for="fiscal_year">Select Fiscal Year:</label>
-        <select id="fiscal_year" class="usa-select" name="fiscal_year" onchange="updateExportLink()">
-          <option value="all" data-start="2019-10-01" data-end="2025-09-30">All</option>
-          <option value="2025" data-start="2024-10-01" data-end="2025-09-30">2025</option>
-          <option value="2024" data-start="2023-10-01" data-end="2024-09-30">2024</option>
-          <option value="2023" data-start="2022-10-01" data-end="2023-09-30">2023</option>
-          <option value="2022" data-start="2021-10-01" data-end="2022-09-30">2022</option>
-          <option value="2021" data-start="2020-10-01" data-end="2021-09-30">2021</option>
-          <option value="2020" data-start="2019-10-01" data-end="2020-09-30">2020</option>
-        </select>
 
-        <input type="hidden" id="start_date" name="start_date" value="2019-10-01">
-        <input type="hidden" id="end_date" name="end_date" value="2025-09-30">
+
+  <form
+    class="usa-form"
+    id="export-buttons"
+  >
+    <div class="usa-form-group">
+      <label class="usa-label"
+        id="start-date-label"
+        for="start-date"
+      >Start Date</label>
+      <div class="usa-hint" id="start-date-hint">mm/dd/yyyy</div>
+      <div class="usa-date-picker2"
+        data-default-value="<%= Date.today.to_s %>">
+        <input
+          class="usa-input"
+          id="start-date"
+          name="start_date"
+          aria-labelledby="start-date-label"
+          aria-describedby="start-date-hint"
+          type="date"
+          value="<%= FiscalYear.first_day_of_fiscal_quarter(Date.today) %>"
+        />
       </div>
-      <div class="usa-form-group display-inline-block">
-        <button type="submit" class="usa-button usa-button--outline">Export</button>
-      </div>
-    <% end %>
-  </div>
-  <%- if form.kind == "a11_v2" %>
-  <div class="margin-top-6 margin-top-3 padding-top-2 border-top border-base-lighter a11-fiscal-year">
-    <span class="usa-tag">
-      A-11 v2 Reporting
-    </span>
-    <br>
-    <br>
-    <div class="font-sans-lg">
-      Export A11-v2 Responses
     </div>
-    <%= form_with(url: export_a11_v2_submissions_admin_form_url(@form, start_date: "2019-10-01"), class: "usa-form", method: :get, local: true) do %>
-      <div
-        class="usa-form-group display-inline-block">
-        <label for="fiscal_year">Select Fiscal Year:</label>
-        <select id="a11-fiscal-year" class="usa-select" name="fiscal_year" onchange="updateA11ExportLink()">
-          <option value="all" data-start="2019-10-01" data-end="2025-09-30">All</option>
-          <option value="2025" data-start="2024-10-01" data-end="2025-09-30">2025</option>
-          <option value="2024" data-start="2023-10-01" data-end="2024-09-30">2024</option>
-          <option value="2023" data-start="2022-10-01" data-end="2023-09-30">2023</option>
-          <option value="2022" data-start="2021-10-01" data-end="2022-09-30">2022</option>
-          <option value="2021" data-start="2020-10-01" data-end="2021-09-30">2021</option>
-          <option value="2020" data-start="2019-10-01" data-end="2020-09-30">2020</option>
-        </select>
 
-        <input type="hidden" id="a11_start_date" name="start_date" value="2019-10-01">
-        <input type="hidden" id="a11_end_date" name="end_date" value="2025-09-30">
+    <div
+      class="usa-form-group">
+      <label class="usa-label"
+        id="end-date-label"
+        for="end-date">End Date</label>
+      <div class="usa-hint" id="end-date-hint">mm/dd/yyyy</div>
+      <div class="usa-date-picker2"
+        data-default-value="<%= Date.today.to_s %>">
+        <input
+          class="usa-input"
+          id="end-date"
+          name="end_date"
+          aria-labelledby="end-date-label"
+          aria-describedby="end-date-hint"
+          type="date"
+          value="<%= Date.today %>"
+        />
       </div>
-      <div class="usa-form-group display-inline-block">
-        <button type="submit" class="usa-button usa-button--outline">Export</button>
-      </div>
-    <% end %>
-
-    <div class="margin-top-6 form-and-a11-fiscal-year">
-      <div class="font-sans-lg">
-        Export Form and A11-v2 Responses
-      </div>
-      <%= form_with(url: export_form_and_a11_v2_submissions_admin_form_url(@form, start_date: "2019-10-01"), class: "usa-form", method: :get, local: true) do %>
-        <div
-          class="usa-form-group display-inline-block">
-          <label for="fiscal_year">Select Fiscal Year:</label>
-          <select id="form-and-a11-fiscal-year" class="usa-select" name="fiscal_year" onchange="updateA11ExportLink()">
-            <option value="all" data-start="2019-10-01" data-end="2025-09-30">All</option>
-            <option value="2025" data-start="2024-10-01" data-end="2025-09-30">2025</option>
-            <option value="2024" data-start="2023-10-01" data-end="2024-09-30">2024</option>
-            <option value="2023" data-start="2022-10-01" data-end="2023-09-30">2023</option>
-            <option value="2022" data-start="2021-10-01" data-end="2022-09-30">2022</option>
-            <option value="2021" data-start="2020-10-01" data-end="2021-09-30">2021</option>
-            <option value="2020" data-start="2019-10-01" data-end="2020-09-30">2020</option>
-          </select>
-
-          <input type="hidden" id="form_and_a11_start_date" name="start_date" value="2019-10-01">
-          <input type="hidden" id="form_and_a11_end_date" name="end_date" value="2025-09-30">
-        </div>
-        <div class="usa-form-group display-inline-block">
-          <button type="submit" class="usa-button usa-button--outline">Export</button>
-        </div>
-      <% end %>
     </div>
-  <% end -%>
+
+    <div class="usa-button-group">
+      <button type="submit"
+        class="usa-button"
+        name="download_type"
+        formaction="<%= export_admin_form_path(@form) %>"
+        value="standard_form_data"
+        disabled="true"
+      >
+        Download
+      </button>
+    </div>
+    <%- if form.kind == "a11_v2" %>
+    <div>
+      <button type="submit"
+        class="usa-button usa-button--outline"
+        name="download_type"
+        formaction="<%= export_a11_v2_submissions_admin_form_path(@form) %>"
+        value="a11_data"
+        disabled="true"
+      >
+        Download A11-v2 Responses
+      </button>
+      <div class="margin-top-1 text-base font-sans-2xs">for A-11 reporting</div>
+    </div>
+    <div>
+      <button type="submit"
+        class="usa-button usa-button--secondary"
+        name="download_type"
+        formaction="<%= export_form_and_a11_v2_submissions_admin_form_path(@form) %>"
+        value="combined_a11_and_form_data"
+        disabled="true"
+      >
+        Download A11-v2 + Form Responses
+      </button>
+      <div class="margin-top-1 text-base font-sans-2xs">to see form and A-11 responses together</div>
+    </div>
+    <% end %>
+  </form>
 <% else %>
   <div class="usa-alert usa-alert--info">
     <div class="usa-alert__body">
@@ -108,24 +112,6 @@
     }
   }
 
-  function updateExportLink() {
-    const selectedOption = document.getElementById('fiscal_year').selectedOptions[0];
-    document.getElementById('start_date').value = selectedOption.getAttribute('data-start');
-    document.getElementById('end_date').value = selectedOption.getAttribute('data-end');
-  }
-
-  function updateA11ExportLink() {
-    const selectedOption = document.getElementById('a11-fiscal-year').selectedOptions[0];
-    document.getElementById('a11_start_date').value = selectedOption.getAttribute('data-start');
-    document.getElementById('a11_end_date').value = selectedOption.getAttribute('data-end');
-  }
-
-  function updateA11ExportLink() {
-    const selectedOption = document.getElementById('form-and-a11-fiscal-year').selectedOptions[0];
-    document.getElementById('form_and_a11_start_date').value = selectedOption.getAttribute('data-start');
-    document.getElementById('form_and_a11_end_date').value = selectedOption.getAttribute('data-end');
-  }
-
   // When mousing over a cell with long text, show it all
   // When mousing out, display 50 characters max
   $(function() {
@@ -136,5 +122,34 @@
     $(".truncate").on("mouseout", function() {
       $(this).text(truncate($(this).attr("fulltext"), 50));
     });
+
+    const startDateInput = document.getElementById('start-date');
+    const endDateInput = document.getElementById('end-date');
+    const buttons = document.querySelectorAll('form#export-buttons button');
+
+    function toggleButtons() {
+      const startDateValue = new Date(startDateInput.value);
+      const endDateValue = new Date(endDateInput.value);
+
+      let isValid = true;
+
+      if (!startDateInput.value || !endDateInput.value) {
+        isValid = false; // Both dates must be filled
+      } else if (endDateValue <= startDateValue) {
+        isValid = false; // End date must be greater than start date
+      }
+
+      buttons.forEach((button) => {
+        button.disabled = !isValid;
+      });
+    }
+
+    if (startDateInput && endDateInput) {
+      // Add event listeners to both date inputs
+      startDateInput.addEventListener('input', toggleButtons);
+      endDateInput.addEventListener('input', toggleButtons);
+      toggleButtons()
+    }
+
   });
 </script>
