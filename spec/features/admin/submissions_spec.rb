@@ -549,6 +549,19 @@ feature 'Submissions', js: true do
               expect(all("table.submissions a.usa-button.usa-button--secondary").size).to eq(2)
             end
 
+            xit 'bulk select responses and marks them as spam' do
+              expect(page).to_not have_content("Bulk Action")
+              within("table.submissions") do
+                checkboxes = all("input[type='checkbox']")
+                find("input#toggle-all-checkbox").click
+              end
+              within("#batch-actions") do
+                expect(page).to have_content("Bulk Action: 2 selected")
+                click_on("Mark as spam")
+              end
+              expect(page).to have_content("2 Submissions marked as spam.")
+            end
+
             it 'bulk select responses and mark them as archived' do
               expect(page).to_not have_content("Bulk Action")
               within("table.submissions") do
