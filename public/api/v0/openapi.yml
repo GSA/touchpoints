@@ -137,8 +137,6 @@ components:
           type: boolean
         display_header_square_logo:
           type: boolean
-        early_submission:
-          type: boolean
         template:
           type: boolean
         load_css:

@@ -89,13 +89,7 @@
 
         <%- if (section != form.form_sections.first) || (section != form.form_sections.last) %>
           <div class="pagination-buttons">
-            <%- if (section == form.form_sections.first) && form.early_submission? %>
-              <div class="usa-prose text-bold margin-top-3">
-                <%= t 'form.answer_more_questions' %>
-              </div>
-              <%= link_to (t 'form.yes_keep_going'), "#next-page", class: "usa-button next-section", 'data-form-section-target' => "" %>
-              <button type="submit" class="usa-button usa-button--outline fba-early-submit"><%= t 'form.no_submit' %></button>
-            <% elsif section != form.form_sections.last %>
+            <%- if section != form.form_sections.last %>
               <nav aria-label="Pagination" class="pagination-buttons text-right">
                 <%= link_to "#next-page",
                   class: "next-section usa-button",
