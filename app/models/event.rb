@@ -57,6 +57,7 @@ class Event < ApplicationRecord
     cx_collection_detail_upload_created: 'cx_collection_detail_upload_created',
     cx_collection_detail_upload_deleted: 'cx_collection_detail_upload_deleted',
 
+    response_marked_as_spam: 'response_marked_as_spam',
     response_flagged: 'response_flagged',
     response_unflagged: 'response_unflagged',
     response_archived: 'response_archived',

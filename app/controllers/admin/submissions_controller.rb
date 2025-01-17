@@ -225,6 +225,12 @@ module Admin
             submission.update_attribute(:flagged, true)
           end
           flash[:notice] = "#{submissions.count} Submissions flagged."
+        when 'spam'
+          submissions.each do |submission|
+            Event.log_event(Event.names[:response_marked_as_spam], 'Submission', submission.id, "Submission #{submission.id} marked as spam at #{DateTime.now}", current_user.id)
+            submission.update_attribute(:spam, true)
+          end
+          flash[:notice] = "#{submissions.count} Submissions marked as 'spam'."
         else
           flash[:alert] = "Invalid action selected."
         end
