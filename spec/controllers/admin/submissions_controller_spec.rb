@@ -133,4 +133,45 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
       expect(submission.flagged).to be false
     end
   end
+
+  describe 'POST #bulk_update' do
+    let!(:submission) { FactoryBot.create(:submission, form:) }
+    let!(:submission2) { FactoryBot.create(:submission, form:) }
+    let!(:submission3) { FactoryBot.create(:submission, form:) }
+
+    describe "bulk_action=flag" do
+      before do
+        post :bulk_update, params: { submission_ids: Submission.all.collect(&:id), form_id: form.short_uuid, bulk_action: "flag" }, session: valid_session
+      end
+
+      it 'flags the submission' do
+        expect(response.status).to eq(302)
+        expect(flash[:notice]).to eq("3 Submissions flagged.")
+        expect(Submission.where(flagged: true).count).to eq(3)
+      end
+    end
+
+    describe "bulk_action=archive" do
+      before do
+        post :bulk_update, params: { submission_ids: Submission.all.collect(&:id), form_id: form.short_uuid, bulk_action: "archive" }, session: valid_session
+      end
+
+      it 'archives the submission' do
+        expect(response.status).to eq(302)
+        expect(flash[:notice]).to eq("3 Submissions archived.")
+        expect(Submission.where(aasm_state: :archived).count).to eq(3)
+      end
+    end
+
+    describe "bulk_action=nil" do
+      before do
+        post :bulk_update, params: { submission_ids: Submission.all.collect(&:id), form_id: form.short_uuid }, session: valid_session
+      end
+
+      it 'is invalid' do
+        expect(response.status).to eq(302)
+        expect(flash[:alert]).to eq("Invalid action selected.")
+      end
+    end
+  end
 end
