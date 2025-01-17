@@ -60,11 +60,28 @@
 <p>
   <%= paginate submissions, remote: true %>
 </p>
+
+
 <div class="responses table-scroll">
   <div class="table-wrap">
+  <%= form_with url: bulk_update_admin_form_submissions_path(form), method: :post do |f| %>
+    <div
+      id="batch-actions">
+      <label for="bulk_action">Bulk Action:</label>
+      <span id="selected-count" class="margin-right-1"></span>
+      <button class="usa-button" name="bulk_action" type="submit" value="flag">
+        <i class="far fa-flag"></i>
+        Flag
+      </button>
+      <button class="usa-button usa-button--accent-cool" id="archive-button" type="button">
+        <i class="fa fa-inbox"></i>
+        Archive
+      </button>
+    </div>
     <table class="usa-table submissions">
       <thead>
         <tr>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -83,6 +100,9 @@
         <% end %>
         </tr>
         <tr>
+          <th>
+            <%= check_box_tag "submission_ids[]", id: "toggle-all-checkbox" %>
+          </th>
           <th>View</th>
           <th>Flag</th>
           <th>Archive</th>
@@ -111,6 +131,7 @@
           <% next %>
         <% end %>
         <tr class="response" title="Response ID <%= submission.id %>" data-id="<%= submission.uuid %>">
+          <td><%= check_box_tag "submission_ids[]", submission.id, class: "batch-checkbox" %></td>
           <td>
             <%= link_to admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--outline" do %>
               View
@@ -160,6 +181,7 @@
         <% end %>
       </tbody>
     </table>
+    <% end %>
   </div>
 </div>
 <p>
@@ -192,5 +214,35 @@
         type: 'get'
       });
     });
+
+    const headerCheckbox = document.getElementById("toggle-all-checkbox");
+    const submissionCheckboxes = document.querySelectorAll(".batch-checkbox");
+    const batchActions = document.getElementById("batch-actions");
+    const selectedCountSpan = document.getElementById("selected-count");
+
+    function updateBatchActionsVisibility() {
+      const selectedCount = Array.from(submissionCheckboxes).filter((checkbox) => checkbox.checked).length;
+
+      if (selectedCount > 0) {
+        batchActions.style.display = "block";
+        selectedCountSpan.textContent = `${selectedCount} item(s) selected`;
+      } else {
+        batchActions.style.display = "none";
+        selectedCountSpan.textContent = "";
+      }
+    }
+
+    headerCheckbox?.addEventListener("click", () => {
+      submissionCheckboxes.forEach((checkbox) => {
+        checkbox.checked = headerCheckbox.checked;
+        updateBatchActionsVisibility();
+      });
+    });
+
+    submissionCheckboxes.forEach((checkbox) => {
+      checkbox.addEventListener("change", updateBatchActionsVisibility);
+    });
+
+    updateBatchActionsVisibility();
   })
 </script>

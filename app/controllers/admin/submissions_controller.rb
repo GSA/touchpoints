@@ -20,6 +20,7 @@ module Admin
       responses_by_status
       performance_gov
       submissions_table
+      bulk_update
     ]
 
     def show; end
@@ -202,6 +203,36 @@ module Admin
       end
 
       all_question_responses
+    end
+
+    def bulk_update
+      submission_ids = params[:submission_ids] # Array of selected form_response ids
+      bulk_action = params[:bulk_action] # The selected action ('archive' or 'change_status')
+
+      if submission_ids.present?
+        submissions = @form.submissions.where(id: submission_ids)
+
+        case bulk_action
+        when 'archive'
+          submissions.each do |submission|
+            Event.log_event(Event.names[:response_archived], 'Submission', submission.id, "Submission #{submission.id} archived at #{DateTime.now}", current_user.id)
+            submission.archive_without_validation!
+          end
+          flash[:notice] = "#{submissions.count} Submissions archived."
+        when 'flag'
+          submissions.each do |submission|
+            Event.log_event(Event.names[:response_flagged], 'Submission', submission.id, "Submission #{submission.id} flagged at #{DateTime.now}", current_user.id)
+            submission.update_attribute(:flagged, true)
+          end
+          flash[:notice] = "#{submissions.count} Submissions flagged."
+        else
+          flash[:alert] = "Invalid action selected."
+        end
+      else
+        flash[:alert] = "No Submissions selected."
+      end
+
+      redirect_to responses_admin_form_path(@form)
     end
 
     private

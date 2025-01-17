@@ -326,6 +326,9 @@ Rails.application.routes.draw do
         end
       end
       resources :submissions, only: %i[show update destroy] do
+        collection do
+          post :bulk_update
+        end
         member do
           post 'flag', to: 'submissions#flag', as: :flag
           post 'unflag', to: 'submissions#unflag', as: :unflag

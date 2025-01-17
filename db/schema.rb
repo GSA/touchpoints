@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_15_175322) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_17_004643) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -652,6 +652,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_15_175322) do
     t.string "tags", default: [], array: true
     t.integer "spam_score", default: 0
     t.text "query_string"
+    t.boolean "spam", default: false
     t.index ["created_at"], name: "index_submissions_on_created_at"
     t.index ["flagged"], name: "index_submissions_on_flagged"
     t.index ["form_id"], name: "index_submissions_on_form_id"
