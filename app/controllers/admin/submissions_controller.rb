@@ -206,8 +206,8 @@ module Admin
     end
 
     def bulk_update
-      submission_ids = params[:submission_ids] # Array of selected form_response ids
-      bulk_action = params[:bulk_action] # The selected action ('archive' or 'change_status')
+      submission_ids = params[:submission_ids] # Array of selected submission_ids
+      bulk_action = params[:bulk_action] # The selected action ('flag' or 'archive')
 
       if submission_ids.present?
         submissions = @form.submissions.where(id: submission_ids)
