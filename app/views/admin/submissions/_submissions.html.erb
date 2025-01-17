@@ -60,25 +60,31 @@
 <p>
   <%= paginate submissions, remote: true %>
 </p>
-
-
 <div class="responses table-scroll">
-  <div class="table-wrap">
   <%= form_with url: bulk_update_admin_form_submissions_path(form), method: :post do |f| %>
-    <div
-      id="batch-actions">
-      <label for="bulk_action">Bulk Action:</label>
-      <span id="selected-count" class="margin-right-1"></span>
-      <button class="usa-button" name="bulk_action" type="submit" value="flag">
-        <i class="far fa-flag"></i>
-        Flag
-      </button>
-      <button class="usa-button usa-button--accent-cool" id="archive-button" type="button">
-        <i class="fa fa-inbox"></i>
-        Archive
-      </button>
-    </div>
-    <table class="usa-table submissions">
+  <div
+    id="batch-actions">
+    <label for="bulk_action">Bulk Action:</label>
+    <span id="selected-count" class="margin-right-1"></span>
+    <button
+      class="usa-button"
+      name="bulk_action"
+      type="submit"
+      value="flag">
+      <i class="far fa-flag"></i>
+      Flag
+    </button>
+    <button
+      class="usa-button usa-button--accent-cool"
+      name="bulk_action"
+      type="submit"
+      value="archive">
+      <i class="fa fa-inbox"></i>
+      Archive
+    </button>
+  </div>
+  <div class="table-wrap">
+    <table class="usa-table submissions font-sans-2xs">
       <thead>
         <tr>
           <td></td>
@@ -225,7 +231,7 @@
 
       if (selectedCount > 0) {
         batchActions.style.display = "block";
-        selectedCountSpan.textContent = `${selectedCount} item(s) selected`;
+        selectedCountSpan.textContent = `${selectedCount} selected`;
       } else {
         batchActions.style.display = "none";
         selectedCountSpan.textContent = "";
