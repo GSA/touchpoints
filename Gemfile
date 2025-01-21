@@ -42,10 +42,6 @@ gem "sassc-rails"
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "image_processing", "~> 1.12"
 
-gem "brakeman"
-gem "bundler-audit"
-gem "rubocop-rails"
-gem "rubocop-rspec"
 gem 'active_model_serializers'
 gem 'acts-as-list'
 gem 'aws-sdk-rails', '>= 3.8.0'
@@ -68,7 +64,6 @@ gem 'rack-cors', require: 'rack/cors'
 # Use Redis to cache Touchpoints in all envs
 gem 'redis-client'
 gem 'redis-namespace'
-gem 'sass-rails'
 gem 'sidekiq', '>= 6.5.0'
 gem 'json-jwt'
 gem 'aasm'
@@ -80,15 +75,17 @@ gem "rolify"
 group :development, :test do
   gem 'dotenv'
   gem 'pry'
-  gem 'rspec_junit_formatter'
 end
 
 group :development do
-  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'aasm-diagram'
+  gem "brakeman"
   gem 'bullet'
+  gem "bundler-audit"
   gem 'listen'
   gem 'rails-erd'
+  gem "rubocop-rails"
+  gem "rubocop-rspec"
   gem 'web-console'
 end
 
@@ -98,6 +95,7 @@ group :test do
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'rails-controller-testing'
+  gem 'rspec_junit_formatter'
   gem 'rspec-rails'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false

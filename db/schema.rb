@@ -611,6 +611,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_15_175322) do
     t.integer "year_designated"
     t.text "short_description"
     t.boolean "previously_reported", default: false
+    t.integer "cx_collections_count", default: 0
     t.index ["organization_id"], name: "index_services_on_organization_id"
   end
 

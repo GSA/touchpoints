@@ -4,7 +4,7 @@
     for="<%= question.ui_selector %>">
     <%= question.text %>
   </label>
-  <p
+  <div
     id="<%= question.ui_selector %>"
     class="submit-button">
     <input type="hidden" class="fba-touchpoints-page-form" name="<%= question.ui_selector %>" value="">
@@ -14,5 +14,5 @@
     <button type="submit" class="usa-button usa-button-group__item" value="0">
       <%= t(:no) %>
     </button>
-  </p>
+  </div>
 </div>
