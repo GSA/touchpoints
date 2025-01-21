@@ -4,12 +4,12 @@
 #
 version: 2.1
 orbs:
-  browser-tools: circleci/browser-tools@1.4.8
+  browser-tools: circleci/browser-tools@1.5.0
 
 jobs:
   build:
     docker:
-       - image: cimg/ruby:3.2.4-browsers
+       - image: cimg/ruby:3.3.6-browsers
          environment:
             RAILS_ENV: test
             PGHOST: 127.0.0.1
@@ -18,7 +18,7 @@ jobs:
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
-       - image: cimg/postgres:11.21
+       - image: cimg/postgres:15.8
          environment:
             POSTGRES_USER: root
             POSTGRES_DB: touchpoints_test
@@ -94,7 +94,7 @@ jobs:
 
   cron_tasks:
     docker:
-      - image: cimg/base:2024.07
+      - image: cimg/base:2025.01
     steps:
       - checkout
       - run:
