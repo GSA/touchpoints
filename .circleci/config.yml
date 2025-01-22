@@ -85,7 +85,7 @@ jobs:
 
   deploy:
     docker:
-      - image: cimg/ruby
+      - image: cimg/ruby:3.3.4-browsers
     parallelism: 1
     working_directory: ~/repo
 
