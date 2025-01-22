@@ -91,10 +91,10 @@ jobs:
 
     steps:
       - attach_workspace:
-          at: /workspace
+          at: ~/repo/workspace
       - run:
           name: Move workspace to working directory
-          command: mv /workspace/* ~/repo/
+          command: mv ~/repo/workspace/* ~/repo/
 
       # Install Cloud Foundry cli (cf) before deploy step. cf is used to push to Cloud.gov
       - run:
