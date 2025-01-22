@@ -18,10 +18,10 @@ jobs:
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
-       - image: cimg/postgres:15.8
-         environment:
-            POSTGRES_USER: root
-            POSTGRES_DB: touchpoints_test
+      - image: cimg/postgres:15.8
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: touchpoints_test
 
     parallelism: 1
     working_directory: ~/repo
