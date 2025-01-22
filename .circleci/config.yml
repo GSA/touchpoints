@@ -9,11 +9,11 @@ orbs:
 jobs:
   build:
     docker:
-       - image: cimg/ruby:3.3.4-browsers
-         environment:
-            RAILS_ENV: test
-            PGHOST: 127.0.0.1
-            PGUSER: root
+      - image: cimg/ruby:3.3.4-browsers
+        environment:
+          RAILS_ENV: test
+          PGHOST: 127.0.0.1
+          PGUSER: root
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -84,6 +84,8 @@ jobs:
           path: coverage
 
   deploy:
+    docker:
+      - image: cimg/ruby
     parallelism: 1
     working_directory: ~/repo
 
