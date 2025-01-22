@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_17_221334) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_15_175322) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -255,6 +255,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_17_221334) do
     t.text "success_text"
     t.string "modal_button_text"
     t.boolean "display_header_square_logo"
+    t.boolean "early_submission", default: false
     t.integer "user_id"
     t.boolean "template", default: false
     t.string "uuid"
