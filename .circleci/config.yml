@@ -106,7 +106,7 @@ jobs:
 
       - run:
           name: Deploy Sidekiq worker servers
-          command: ~/repo/.circleci/deploy-sidekiq.sh
+          command: ./.circleci/deploy-sidekiq.sh
 
       - run:
           name: Deploy web server(s)
