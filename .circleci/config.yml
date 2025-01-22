@@ -58,6 +58,11 @@ jobs:
           command: |
             npm i
             rails assets:precompile
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - vendor/bundle
+            - public/assets
 
       # run tests!
       - run:
@@ -71,6 +76,24 @@ jobs:
                             --out /tmp/test-results/rspec.xml \
                             --format progress \
                             $TEST_FILES
+
+      # collect reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: coverage
+
+  deploy:
+    parallelism: 1
+    working_directory: ~/repo
+
+    steps:
+      - attach_workspace:
+          at: /workspace
+      - run:
+          name: Move workspace to working directory
+          command: mv /workspace/* ~/repo/
+
       # Install Cloud Foundry cli (cf) before deploy step. cf is used to push to Cloud.gov
       - run:
           name: Install-cf-cli
@@ -78,11 +101,6 @@ jobs:
             curl -v -L -o cf-cli_amd64.deb 'https://packages.cloudfoundry.org/stable?release=debian64&source=github'
             sudo dpkg -i cf-cli_amd64.deb
             cf -v
-      # collect reports
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: coverage
 
       - run:
           name: Deploy Sidekiq worker servers
@@ -124,3 +142,4 @@ workflows:
   build-deploy:
     jobs:
       - build
+      - deploy

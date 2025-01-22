@@ -39,3 +39,15 @@ then
 else
   echo "Not on the develop branch."
 fi
+
+if [ "${CIRCLE_BRANCH}" == "split-ci-test-deploy" ]
+then
+  echo "Logging into cloud.gov"
+  # Log into CF and push
+  cf login -a $CF_API_ENDPOINT -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $CF_SPACE
+  echo "Pushing to Staging..."
+  cf push touchpoints-staging-sidekiq-worker --strategy rolling
+  echo "Push to Staging Complete."
+else
+  echo "Not on the develop branch."
+fi
