@@ -106,11 +106,11 @@ jobs:
 
       - run:
           name: Deploy Sidekiq worker servers
-          command: ~repo/.circleci/deploy-sidekiq.sh
+          command: ~/repo/.circleci/deploy-sidekiq.sh
 
       - run:
           name: Deploy web server(s)
-          command: ~repo/.circleci/deploy.sh
+          command: ~/repo/.circleci/deploy.sh
 
   cron_tasks:
     docker:
