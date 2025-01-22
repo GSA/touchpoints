@@ -52,18 +52,6 @@ jobs:
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
 
-      # Precompile assets (to use npm packages specified in assets.rb)
-      - run:
-          name: Precompile assets
-          command: |
-            npm i
-            rails assets:precompile
-      - persist_to_workspace:
-          root: ~/repo
-          paths:
-            - vendor/bundle
-            - public/assets
-
       # run tests!
       - run:
           name: Run tests
@@ -76,26 +64,6 @@ jobs:
                             --out /tmp/test-results/rspec.xml \
                             --format progress \
                             $TEST_FILES
-
-      # collect reports
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: coverage
-
-  deploy:
-    docker:
-      - image: cimg/ruby:3.3.4-browsers
-    parallelism: 1
-    working_directory: ~/repo
-
-    steps:
-      - attach_workspace:
-          at: ~/repo/workspace
-      - run:
-          name: Move workspace to working directory
-          command: mv ~/repo/workspace/* ~/repo/
-
       # Install Cloud Foundry cli (cf) before deploy step. cf is used to push to Cloud.gov
       - run:
           name: Install-cf-cli
@@ -103,6 +71,11 @@ jobs:
             curl -v -L -o cf-cli_amd64.deb 'https://packages.cloudfoundry.org/stable?release=debian64&source=github'
             sudo dpkg -i cf-cli_amd64.deb
             cf -v
+      # collect reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: coverage
 
       - run:
           name: Deploy Sidekiq worker servers
@@ -110,7 +83,7 @@ jobs:
 
       - run:
           name: Deploy web server(s)
-          command: ~/repo/.circleci/deploy.sh
+          command: ./.circleci/deploy.sh
 
   cron_tasks:
     docker:
@@ -144,6 +117,3 @@ workflows:
   build-deploy:
     jobs:
       - build
-      - deploy:
-          requires:
-            - build
