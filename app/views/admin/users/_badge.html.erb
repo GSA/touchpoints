@@ -1,0 +1,8 @@
+
+    <span class="user badge">
+        <% if user.organization.logo %>
+        <%#= image_tag user.organization.logo.url, class: "height-2 margin-right-1 margin-top-1" %>
+        <% end %>
+        <%#= link_to_if(admin_permissions?, user.email, link) %>
+        <%= user.email %>
+    </span>

@@ -1,0 +1,299 @@
+[
+  {
+    "description": "Ensure the order of headings is semantically correct",
+    "help": "Heading levels should only increase by one",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/heading-order?application=axeAPI",
+    "id": "heading-order",
+    "impact": "moderate",
+    "nodes": [
+      {
+        "all": [
+
+        ],
+        "any": [
+          {
+            "data": null,
+            "id": "heading-order",
+            "impact": "moderate",
+            "message": "Heading order invalid",
+            "relatedNodes": [
+
+            ]
+          }
+        ],
+        "failureSummary": "Fix any of the following:\n  Heading order invalid",
+        "html": "<h3 id=\"how-do-i-get-access-to-touchpoints\">How can I access Touchpoints?</h3>",
+        "impact": "moderate",
+        "none": [
+
+        ],
+        "target": [
+          "#how-do-i-get-access-to-touchpoints"
+        ]
+      }
+    ],
+    "tags": [
+      "cat.semantics",
+      "best-practice"
+    ]
+  },
+  {
+    "description": "Ensure the document has at most one banner landmark",
+    "help": "Document should not have more than one banner landmark",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-banner?application=axeAPI",
+    "id": "landmark-no-duplicate-banner",
+    "impact": "moderate",
+    "nodes": [
+      {
+        "all": [
+
+        ],
+        "any": [
+          {
+            "data": null,
+            "id": "page-no-duplicate-banner",
+            "impact": "moderate",
+            "message": "Document has more than one banner landmark",
+            "relatedNodes": [
+              {
+                "html": "<header class=\"usa-header usa-header--extended\">",
+                "target": [
+                  ".usa-header"
+                ]
+              }
+            ]
+          }
+        ],
+        "failureSummary": "Fix any of the following:\n  Document has more than one banner landmark",
+        "html": "<header class=\"usa-banner__header\">",
+        "impact": "moderate",
+        "none": [
+
+        ],
+        "target": [
+          ".usa-banner__header"
+        ]
+      }
+    ],
+    "tags": [
+      "cat.semantics",
+      "best-practice"
+    ]
+  },
+  {
+    "description": "Ensure the document has a main landmark",
+    "help": "Document should have one main landmark",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-one-main?application=axeAPI",
+    "id": "landmark-one-main",
+    "impact": "moderate",
+    "nodes": [
+      {
+        "all": [
+          {
+            "data": null,
+            "id": "page-has-main",
+            "impact": "moderate",
+            "message": "Document does not have a main landmark",
+            "relatedNodes": [
+
+            ]
+          }
+        ],
+        "any": [
+
+        ],
+        "failureSummary": "Fix all of the following:\n  Document does not have a main landmark",
+        "html": "<html lang=\"en\">",
+        "impact": "moderate",
+        "none": [
+
+        ],
+        "target": [
+          "html"
+        ]
+      }
+    ],
+    "tags": [
+      "cat.semantics",
+      "best-practice"
+    ]
+  },
+  {
+    "description": "Ensure landmarks are unique",
+    "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-unique?application=axeAPI",
+    "id": "landmark-unique",
+    "impact": "moderate",
+    "nodes": [
+      {
+        "all": [
+
+        ],
+        "any": [
+          {
+            "data": {
+              "accessibleText": null,
+              "role": "banner"
+            },
+            "id": "landmark-is-unique",
+            "impact": "moderate",
+            "message": "The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable",
+            "relatedNodes": [
+              {
+                "html": "<header class=\"usa-header usa-header--extended\">",
+                "target": [
+                  ".usa-header"
+                ]
+              }
+            ]
+          }
+        ],
+        "failureSummary": "Fix any of the following:\n  The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable",
+        "html": "<header class=\"usa-banner__header\">",
+        "impact": "moderate",
+        "none": [
+
+        ],
+        "target": [
+          ".usa-banner__header"
+        ]
+      }
+    ],
+    "tags": [
+      "cat.semantics",
+      "best-practice"
+    ]
+  },
+  {
+    "description": "Ensure all page content is contained by landmarks",
+    "help": "All page content should be contained by landmarks",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/region?application=axeAPI",
+    "id": "region",
+    "impact": "moderate",
+    "nodes": [
+      {
+        "all": [
+
+        ],
+        "any": [
+          {
+            "data": {
+              "isIframe": false
+            },
+            "id": "region",
+            "impact": "moderate",
+            "message": "Some page content is not contained by landmarks",
+            "relatedNodes": [
+
+            ]
+          }
+        ],
+        "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+        "html": "<a class=\"usa-skipnav\" href=\"#main-content\">Skip to main content</a>",
+        "impact": "moderate",
+        "none": [
+
+        ],
+        "target": [
+          ".usa-skipnav"
+        ]
+      },
+      {
+        "all": [
+
+        ],
+        "any": [
+          {
+            "data": {
+              "isIframe": false
+            },
+            "id": "region",
+            "impact": "moderate",
+            "message": "Some page content is not contained by landmarks",
+            "relatedNodes": [
+
+            ]
+          }
+        ],
+        "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+        "html": "<div class=\"grid-container usa-prose\">",
+        "impact": "moderate",
+        "none": [
+
+        ],
+        "target": [
+          ".usa-prose"
+        ]
+      },
+      {
+        "all": [
+
+        ],
+        "any": [
+          {
+            "data": {
+              "isIframe": false
+            },
+            "id": "region",
+            "impact": "moderate",
+            "message": "Some page content is not contained by landmarks",
+            "relatedNodes": [
+
+            ]
+          }
+        ],
+        "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+        "html": "<div class=\"bg-base-light padding-y-1 line-height-sans-3 font-lang-4 text-ink\">",
+        "impact": "moderate",
+        "none": [
+
+        ],
+        "target": [
+          ".bg-base-light"
+        ]
+      }
+    ],
+    "tags": [
+      "cat.keyboard",
+      "best-practice"
+    ]
+  },
+  {
+    "description": "Ensure all skip links have a focusable target",
+    "help": "The skip-link target should exist and be focusable",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/skip-link?application=axeAPI",
+    "id": "skip-link",
+    "impact": "moderate",
+    "nodes": [
+      {
+        "all": [
+
+        ],
+        "any": [
+          {
+            "data": null,
+            "id": "skip-link",
+            "impact": "moderate",
+            "message": "No skip link target",
+            "relatedNodes": [
+
+            ]
+          }
+        ],
+        "failureSummary": "Fix any of the following:\n  No skip link target",
+        "html": "<a class=\"usa-skipnav\" href=\"#main-content\">Skip to main content</a>",
+        "impact": "moderate",
+        "none": [
+
+        ],
+        "target": [
+          ".usa-skipnav"
+        ]
+      }
+    ],
+    "tags": [
+      "cat.keyboard",
+      "best-practice"
+    ]
+  }
+]

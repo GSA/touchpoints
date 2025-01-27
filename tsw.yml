@@ -1,0 +1,4 @@
+
+applications:
+- name: touchpoints-production-sidekiq-worker
+  command: bundle exec rake cf:on_first_instance db:migrate cf:log_new_relic_deployment && bundle exec sidekiq
