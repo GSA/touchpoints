@@ -50,6 +50,16 @@
             </div>
 
             <div class="field">
+              <%= f.label :service_stage_id, "Service Stage", class: "usa-label" %>
+              <small>
+                Select a Service in order to specify a Service Stage.
+                <%= link_to "Service Stage", admin_services_path, target: "_blank" %>.
+              </small>
+
+              <%= f.select :service_stage_id, options_for_select(service_stage_options, selected: form.try(:service_stage_id)), { include_blank: true }, class: "usa-select" %>
+            </div>
+
+            <div class="field">
               <%= f.label :audience, nil, class: "usa-label" %>
               <small>
                 Is this form intended for public users or internal users?
@@ -129,3 +139,34 @@
   </div>
   <% end %>
 <% end %>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const serviceSelect = document.getElementById("form_service_id");
+  const serviceStageSelect = document.getElementById("form_service_stage_id");
+
+  serviceSelect.addEventListener("change", () => {
+    const serviceId = serviceSelect.value;
+
+    // Clear the service stage dropdown
+    serviceStageSelect.innerHTML = '<option value="">Select a Service Stage</option>';
+
+    if (serviceId) {
+      fetch(`/admin/services/${serviceId}/service_stages.json`)
+        .then((response) => response.json())
+        .then((data) => {
+          const stages = data.data
+          stages.forEach((stage) => {
+            const option = document.createElement("option");
+            option.value = stage.id;
+            option.textContent = stage.attributes.name;
+            serviceStageSelect.appendChild(option);
+          });
+        })
+        .catch((error) => console.error("Error fetching service stages:", error));
+    } else {
+      serviceStageSelect.innerHTML = '<option value="">Select a Service Stage</option>';
+    }
+  });
+});
+</script>
