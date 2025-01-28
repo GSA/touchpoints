@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_01_10_215441) do
+ActiveRecord::Schema[7.2].define(version: 2025_01_17_004643) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -310,6 +310,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_10_215441) do
     t.string "audience", default: "public", comment: "indicates whether a form is intended for a public or internal audience"
     t.string "short_uuid", limit: 8
     t.boolean "enforce_new_submission_validations", default: true
+    t.integer "service_stage_id"
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["organization_id"], name: "index_forms_on_organization_id"
@@ -610,6 +611,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_10_215441) do
     t.integer "year_designated"
     t.text "short_description"
     t.boolean "previously_reported", default: false
+    t.integer "cx_collections_count", default: 0
     t.index ["organization_id"], name: "index_services_on_organization_id"
   end
 
@@ -651,6 +653,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_10_215441) do
     t.string "tags", default: [], array: true
     t.integer "spam_score", default: 0
     t.text "query_string"
+    t.boolean "spam", default: false
     t.index ["created_at"], name: "index_submissions_on_created_at"
     t.index ["flagged"], name: "index_submissions_on_flagged"
     t.index ["form_id"], name: "index_submissions_on_form_id"

@@ -2695,7 +2695,6 @@
   font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
   font-size:1.06rem;
   line-height:1.5;
-  overflow:hidden;
 }
 .fba-modal-dialog .usa-footer::after, .fba-modal-dialog .usa-footer::before, .fba-modal-dialog .usa-footer *, .fba-modal-dialog .usa-footer *::after, .fba-modal-dialog .usa-footer *::before{
   box-sizing:inherit;
@@ -2796,6 +2795,8 @@
   padding-left:1rem;
   padding-right:1rem;
   box-sizing:border-box;
+  padding-left:0;
+  padding-right:0;
 }
 @media all and (min-width: 64em){
   .fba-modal-dialog .usa-footer__primary-container{
@@ -2819,17 +2820,19 @@
   padding-top:1rem;
   color:#1b1b1b;
   font-weight:700;
+  border:0;
+  border-top:1px solid #a9aeb1;
   display:block;
 }
 @media all and (min-width: 30em){
   .fba-modal-dialog .usa-footer__primary-link{
     padding-left:0;
     padding-right:0;
+    border:none;
   }
 }
 .fba-modal-dialog .usa-footer__primary-link--button{
   width:100%;
-  border:0;
   cursor:pointer;
 }
 .fba-modal-dialog .usa-footer__primary-link--button::before{
@@ -2951,14 +2954,6 @@
   .fba-modal-dialog .usa-footer__contact-info{
     justify-content:flex-end;
     margin-top:0.5rem;
-  }
-}
-.fba-modal-dialog .usa-footer__primary-content{
-  border-top:1px solid #a9aeb1;
-}
-@media all and (min-width: 30em){
-  .fba-modal-dialog .usa-footer__primary-content{
-    border:none;
   }
 }
 .fba-modal-dialog .usa-sign-up{
@@ -3190,41 +3185,8 @@
 .fba-modal-dialog .usa-form abbr[title=required]{
   text-decoration:none;
 }
-.fba-modal-dialog .usa-form .usa-input,
-.fba-modal-dialog .usa-form .usa-range,
-.fba-modal-dialog .usa-form .usa-select,
-.fba-modal-dialog .usa-form .usa-textarea{
+.fba-modal-dialog .usa-form :where(.usa-input, .usa-textarea, .usa-select, .usa-range){
   max-width:none;
-}
-.fba-modal-dialog .usa-form .usa-input--2xs,
-.fba-modal-dialog .usa-form .usa-input-group--2xs{
-  max-width:5ex;
-}
-.fba-modal-dialog .usa-form .usa-input--xs,
-.fba-modal-dialog .usa-form .usa-input-group--xs{
-  max-width:9ex;
-}
-.fba-modal-dialog .usa-form .usa-input--sm, .fba-modal-dialog .usa-form .usa-input--small,
-.fba-modal-dialog .usa-form .usa-input-group--sm,
-.fba-modal-dialog .usa-form .usa-input-group--small{
-  max-width:13ex;
-}
-.fba-modal-dialog .usa-form .usa-input--md, .fba-modal-dialog .usa-form .usa-input--medium,
-.fba-modal-dialog .usa-form .usa-input-group--md,
-.fba-modal-dialog .usa-form .usa-input-group--medium{
-  max-width:20ex;
-}
-.fba-modal-dialog .usa-form .usa-input--lg,
-.fba-modal-dialog .usa-form .usa-input-group--lg{
-  max-width:30ex;
-}
-.fba-modal-dialog .usa-form .usa-input--xl,
-.fba-modal-dialog .usa-form .usa-input-group--xl{
-  max-width:40ex;
-}
-.fba-modal-dialog .usa-form .usa-input--2xl,
-.fba-modal-dialog .usa-form .usa-input-group--2xl{
-  max-width:50ex;
 }
 .fba-modal-dialog .usa-form .usa-button{
   margin-top:0.5rem;
@@ -3841,6 +3803,42 @@
   .fba-modal-dialog .usa-input:disabled, .fba-modal-dialog .usa-input[aria-disabled=true]{
     border:2px solid GrayText;
   }
+}
+.fba-modal-dialog .usa-input--2xs,
+.fba-modal-dialog .usa-form .usa-input--2xs{
+  max-width:5ex;
+}
+.fba-modal-dialog .usa-input--xs,
+.fba-modal-dialog .usa-form .usa-input--xs{
+  max-width:9ex;
+}
+.fba-modal-dialog .usa-input--sm,
+.fba-modal-dialog .usa-form .usa-input--sm{
+  max-width:13ex;
+}
+.fba-modal-dialog .usa-input--small,
+.fba-modal-dialog .usa-form .usa-input--small{
+  max-width:13ex;
+}
+.fba-modal-dialog .usa-input--md,
+.fba-modal-dialog .usa-form .usa-input--md{
+  max-width:20ex;
+}
+.fba-modal-dialog .usa-input--medium,
+.fba-modal-dialog .usa-form .usa-input--medium{
+  max-width:20ex;
+}
+.fba-modal-dialog .usa-input--lg,
+.fba-modal-dialog .usa-form .usa-input--lg{
+  max-width:30ex;
+}
+.fba-modal-dialog .usa-input--xl,
+.fba-modal-dialog .usa-form .usa-input--xl{
+  max-width:40ex;
+}
+.fba-modal-dialog .usa-input--2xl,
+.fba-modal-dialog .usa-form .usa-input--2xl{
+  max-width:50ex;
 }
 .fba-modal-dialog .usa-input--error{
   border-width:0.25rem;
@@ -4780,26 +4778,22 @@
 .fba-modal-dialog .usa-prose > table::after, .fba-modal-dialog .usa-prose > table::before, .fba-modal-dialog .usa-prose > table *, .fba-modal-dialog .usa-prose > table *::after, .fba-modal-dialog .usa-prose > table *::before{
   box-sizing:inherit;
 }
-.fba-modal-dialog .usa-prose > table thead th{
+.fba-modal-dialog .usa-prose > table thead td,
+.fba-modal-dialog .usa-prose > table tfoot td,
+.fba-modal-dialog .usa-prose > table th{
   background-clip:padding-box;
-  color:#1b1b1b;
-  font-weight:700;
   line-height:1.3;
-}
-.fba-modal-dialog .usa-prose > table thead th,
-.fba-modal-dialog .usa-prose > table thead td{
   background-color:#dfe1e2;
   color:#1b1b1b;
 }
-.fba-modal-dialog .usa-prose > table tbody th{
-  text-align:left;
-}
 .fba-modal-dialog .usa-prose > table th,
 .fba-modal-dialog .usa-prose > table td{
-  background-color:white;
   border:1px solid #1b1b1b;
-  font-weight:normal;
   padding:0.5rem 1rem;
+}
+.fba-modal-dialog .usa-prose > table td{
+  background-color:white;
+  font-weight:normal;
 }
 .fba-modal-dialog .usa-prose > table caption{
   font-family:Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
@@ -5051,20 +5045,24 @@
   background-color:#e1f3f8;
   color:#1b1b1b;
 }
-.fba-modal-dialog .usa-prose > .usa-table--borderless thead{
+.fba-modal-dialog .usa-prose > .usa-table--borderless{
 }
-.fba-modal-dialog .usa-prose > .usa-table--borderless thead th{
+.fba-modal-dialog .usa-prose > .usa-table--borderless th,
+.fba-modal-dialog .usa-prose > .usa-table--borderless thead td,
+.fba-modal-dialog .usa-prose > .usa-table--borderless tfoot td{
   background-color:white;
+}
+.fba-modal-dialog .usa-prose > .usa-table--borderless th{
   border-top:0;
   color:#1b1b1b;
 }
-.fba-modal-dialog .usa-prose > .usa-table--borderless thead th[aria-sort]{
+.fba-modal-dialog .usa-prose > .usa-table--borderless th[aria-sort]{
   color:#1b1b1b;
 }
-.fba-modal-dialog .usa-prose > .usa-table--borderless thead th[data-sortable]:not([aria-sort]) .usa-table__header__button .usa-icon > g.unsorted{
+.fba-modal-dialog .usa-prose > .usa-table--borderless th[data-sortable]:not([aria-sort]) .usa-table__header__button .usa-icon > g.unsorted{
   fill:#1b1b1b;
 }
-.fba-modal-dialog .usa-prose > .usa-table--borderless thead th[data-sortable]:not([aria-sort]) .usa-table__header__button:hover .usa-icon > g.unsorted{
+.fba-modal-dialog .usa-prose > .usa-table--borderless th[data-sortable]:not([aria-sort]) .usa-table__header__button:hover .usa-icon > g.unsorted{
   fill:black;
 }
 .fba-modal-dialog .usa-prose > .usa-table--borderless th,
@@ -5076,19 +5074,20 @@
 .fba-modal-dialog .usa-prose > .usa-table--compact td{
   padding:0.25rem 0.75rem;
 }
-.fba-modal-dialog .usa-prose > .usa-table--striped tbody tr:nth-child(odd) td,
-.fba-modal-dialog .usa-prose > .usa-table--striped tbody tr:nth-child(odd) th{
+.fba-modal-dialog .usa-prose > .usa-table--striped tbody tr:nth-child(odd) td{
   background-color:#f0f0f0;
   color:#1b1b1b;
 }
-.fba-modal-dialog .usa-prose > .usa-table--striped tbody tr:nth-child(odd) td[data-sort-active],
-.fba-modal-dialog .usa-prose > .usa-table--striped tbody tr:nth-child(odd) th[data-sort-active]{
+.fba-modal-dialog .usa-prose > .usa-table--striped tbody tr:nth-child(odd) td[data-sort-active]{
   background-color:#c3ebfa;
   color:#1b1b1b;
 }
 @media all and (max-width: 29.99em){
   .fba-modal-dialog .usa-prose > .usa-table--stacked thead{
     display:none;
+  }
+  .fba-modal-dialog .usa-prose > .usa-table--stacked th{
+    background-color:white;
   }
   .fba-modal-dialog .usa-prose > .usa-table--stacked th,
   .fba-modal-dialog .usa-prose > .usa-table--stacked td{
@@ -5129,6 +5128,9 @@
 @media all and (max-width: 29.99em){
   .fba-modal-dialog .usa-prose > .usa-table--stacked-header thead{
     display:none;
+  }
+  .fba-modal-dialog .usa-prose > .usa-table--stacked-header th{
+    background-color:white;
   }
   .fba-modal-dialog .usa-prose > .usa-table--stacked-header th,
   .fba-modal-dialog .usa-prose > .usa-table--stacked-header td{
@@ -5183,6 +5185,9 @@
 .fba-modal-dialog .usa-prose > .width-mobile .usa-table--stacked thead{
   display:none;
 }
+.fba-modal-dialog .usa-prose > .width-mobile .usa-table--stacked th{
+  background-color:white;
+}
 .fba-modal-dialog .usa-prose > .width-mobile .usa-table--stacked th,
 .fba-modal-dialog .usa-prose > .width-mobile .usa-table--stacked td{
   border-bottom-width:0;
@@ -5220,6 +5225,9 @@
 }
 .fba-modal-dialog .usa-prose > .width-mobile .usa-table--stacked-header thead{
   display:none;
+}
+.fba-modal-dialog .usa-prose > .width-mobile .usa-table--stacked-header th{
+  background-color:white;
 }
 .fba-modal-dialog .usa-prose > .width-mobile .usa-table--stacked-header th,
 .fba-modal-dialog .usa-prose > .width-mobile .usa-table--stacked-header td{

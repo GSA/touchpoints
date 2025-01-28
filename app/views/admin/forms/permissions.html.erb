@@ -27,8 +27,8 @@
 
     $("#add-user-button").on("click", function(event) {
       event.preventDefault();
-      var userId = $("#add-user-id").val();
-      var role = $("#add-user-role").val();
+      var userId = $("#add_user_id").val();
+      var role = $("#add_user_role").val();
 
       var request = $.ajax({
         url: "/admin/forms/<%= @form.short_uuid %>/add_user",
@@ -47,7 +47,7 @@
       });
     });
 
-    $("#add-user-role").on("change", function(event) {
+    $("#add_user_role").on("change", function(event) {
       event.preventDefault();
       var userId = event.target.value
       if (userId != "") {
