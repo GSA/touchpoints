@@ -9,7 +9,7 @@
 <div class="margin-top-1 border-bottom border-base-lighter padding-bottom-1 form-filter-buttons">
   <%= label_tag :aasm_state, "Filter by form status:", class: "font-sans-2xs" %>
   <div class="usa-button-group margin-top-1">
-    <% form_states = [:all] + Form.aasm.states.collect(&:name) %>
+    <% form_states = Form.aasm.states.collect(&:name) + [:all] %>
     <% form_states.each do |state| %>
       <%= link_to state.name.capitalize, admin_forms_path(aasm_state: state.name), method: :get,
         class: "usa-button #{params[:aasm_state] == state.name.to_s ? 'usa-button--active' : 'usa-button--outline'}" %>

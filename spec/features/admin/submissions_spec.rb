@@ -513,6 +513,71 @@ feature 'Submissions', js: true do
             end
           end
         end
+
+        describe 'batch actions' do
+          context 'with multiple Responses' do
+
+            it 'bulk selects and de-selects all responses' do
+              within("table.submissions") do
+                checkboxes = all("input[type='checkbox']")
+                expect(checkboxes.size).to eq(3)
+                checkboxes.each do |checkbox|
+                  expect(checkbox).not_to be_checked
+                end
+                find("input#toggle-all-checkbox").click
+                checkboxes.each do |checkbox|
+                  expect(checkbox).to be_checked
+                end
+                find("input#toggle-all-checkbox").click
+                checkboxes.each do |checkbox|
+                  expect(checkbox).to_not be_checked
+                end
+              end
+            end
+
+            it 'bulk select responses and mark them as flagged' do
+              expect(page).to_not have_content("Bulk Action")
+              within("table.submissions") do
+                checkboxes = all("input[type='checkbox']")
+                find("input#toggle-all-checkbox").click
+              end
+              within("#batch-actions") do
+                expect(page).to have_content("Bulk Action: 2 selected")
+                click_on("Flag")
+              end
+              expect(page).to have_content("2 Submissions flagged.")
+              expect(all("table.submissions a.usa-button.usa-button--secondary").size).to eq(2)
+            end
+
+            xit 'bulk select responses and marks them as spam' do
+              expect(page).to_not have_content("Bulk Action")
+              within("table.submissions") do
+                checkboxes = all("input[type='checkbox']")
+                find("input#toggle-all-checkbox").click
+              end
+              within("#batch-actions") do
+                expect(page).to have_content("Bulk Action: 2 selected")
+                click_on("Mark as spam")
+              end
+              expect(page).to have_content("2 Submissions marked as spam.")
+            end
+
+            it 'bulk select responses and mark them as archived' do
+              expect(page).to_not have_content("Bulk Action")
+              within("table.submissions") do
+                checkboxes = all("input[type='checkbox']")
+                find("input#toggle-all-checkbox").click
+              end
+              within("#batch-actions") do
+                expect(page).to have_content("Bulk Action: 2 selected")
+                click_on("Archive")
+              end
+              expect(page).to have_content("2 Submissions archived.")
+              expect(page).to have_content("Export is not available. This Form has yet to receive any Responses.")
+            end
+          end
+        end
+
       end
     end
   end

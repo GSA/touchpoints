@@ -461,8 +461,8 @@ span.usa-hint.save-notice {
   }
   .question {
     margin: 10px 0;
-    padding-bottom: 20px;
-    padding-left: 20px;
+    padding-bottom: 1rem;
+    padding-left: 1rem;
     padding-top: 1px;
     padding-right: 1rem;
   }
@@ -608,4 +608,13 @@ abbr[title=required] {
   .usa-table .usa-nav__primary button[aria-expanded=false] span::after {
     right: auto;
   }
+}
+
+#batch-actions {
+  background-color: #f0f0f0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
 }

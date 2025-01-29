@@ -4,7 +4,7 @@ class CxCollection < ApplicationRecord
   include AASM
 
   belongs_to :organization
-  belongs_to :service
+  belongs_to :service, counter_cache: true
   belongs_to :service_provider
   belongs_to :user
   has_many :cx_collection_details, dependent: :delete_all
