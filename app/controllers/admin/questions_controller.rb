@@ -27,10 +27,8 @@ module Admin
     end
 
     def create
-      next_position = @form.questions.size + 1
       @question = Question.new
       set_defaults
-      @question.position = next_position
 
       respond_to do |format|
         if @question.save
@@ -81,6 +79,8 @@ module Admin
       @question.text = 'New Question'
       @question.question_type = 'text_field'
       @question.answer_field = first_unused_answer_field
+      next_position = @form.questions.size + 1
+      @question.position = next_position
       @question.save!
     end
 
