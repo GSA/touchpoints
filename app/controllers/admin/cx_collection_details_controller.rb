@@ -74,41 +74,50 @@ class Admin::CxCollectionDetailsController < AdminController
   # Handle a large-ish csv upload (5+ MB) to S3
   def upload_csv
     file = params[:file] # Assuming the file comes from a form field named 'file'
-
     file_extension = File.extname(file.original_filename).downcase
-
     @valid_file_extension = (file_extension == ".csv")
 
-    # check the file to ensure it is valid
-    csv_file = CSV.parse(file.read, headers: true)
-    begin
-    @valid_file_headers = csv_file.headers.sort == [
-      "external_id",
-      "question_1",
-      "positive_effectiveness",
-      "positive_ease",
-      "positive_efficiency",
-      "positive_transparency",
-      "positive_humanity",
-      "positive_employee",
-      "positive_other",
-      "negative_effectiveness",
-      "negative_ease",
-      "negative_efficiency",
-      "negative_transparency",
-      "negative_humanity",
-      "negative_employee",
-      "negative_other",
-      "question_4"
-    ].sort
-    rescue CSV::MalformedCSVError => e
-      flash[:alert] = "There was an error processing the CSV file: #{e.message}"
-      @valid_file_headers = false
-    rescue
-      @valid_file_headers = false
+    @valid_file_encoding = false
+    file_contents = file.read
+
+    @valid_file_encoding = file_contents.encoding.name == "UTF-8" && content.valid_encoding?
+    unless @valid_file_encoding
+      # Some CSVs may be encoded with a byte-order mark (BOM), so force encode again to remove
+      file_contents = file_contents.encode("UTF-8", invalid: :replace, undef: :replace, replace: "")
+      @valid_file_encoding = file_contents.encoding.name == "UTF-8" && file_contents.valid_encoding?
     end
 
-    if @valid_file_extension && @valid_file_headers
+    if @valid_file_encoding
+      csv_file = CSV.parse(file_contents, headers: true)
+      begin
+      @valid_file_headers = csv_file.headers.sort == [
+        "external_id",
+        "question_1",
+        "positive_effectiveness",
+        "positive_ease",
+        "positive_efficiency",
+        "positive_transparency",
+        "positive_humanity",
+        "positive_employee",
+        "positive_other",
+        "negative_effectiveness",
+        "negative_ease",
+        "negative_efficiency",
+        "negative_transparency",
+        "negative_humanity",
+        "negative_employee",
+        "negative_other",
+        "question_4"
+      ].sort
+      rescue CSV::MalformedCSVError => e
+        flash[:alert] = "There was an error processing the CSV file: #{e.message}"
+        @valid_file_headers = false
+      rescue
+        @valid_file_headers = false
+      end
+    end
+
+    if @valid_file_encoding && @valid_file_extension && @valid_file_headers
       key = "cx_data_collections/cx-upload-#{timestamp_string}-#{file.original_filename}"
       obj = s3_bucket.object(key)
       # Upload the file
@@ -124,13 +133,14 @@ class Admin::CxCollectionDetailsController < AdminController
       Event.log_event(Event.names[:cx_collection_detail_upload_created], @cxdu.class.to_s, @cxdu.id, "CX Collection Detail Upload #{@cxdu.id} created at #{DateTime.now}", current_user.id)
 
       flash[:notice] = "A .csv file with #{csv_file.size} rows was uploaded successfully. Please see your uploaded file in the table below, then return to the CX Data Collection."
+    elsif !@valid_file_encoding
+      flash[:alert] = "The uploaded file must be encoded as UTF-8"
     elsif !@valid_file_extension
       flash[:notice] = "File has a file extension of #{file_extension}, but it should be .csv."
     elsif !@valid_file_headers
       flash[:alert] = "CSV headers do not match. Headers received were: #{csv_file.headers.to_s}"
     end
 
-    # render :upload
     redirect_to upload_admin_cx_collection_detail_path(@cx_collection_detail)
   end
 
