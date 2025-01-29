@@ -6,6 +6,7 @@ class Question < ApplicationRecord
   has_many :question_options, dependent: :destroy
 
   validates :question_type, presence: true
+  validates :position, presence: true
   validate :validate_question_types
   validates :answer_field, uniqueness: { scope: :form_id }
 
