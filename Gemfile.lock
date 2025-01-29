@@ -171,7 +171,7 @@ GEM
     bindex (0.8.1)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
-    brakeman (6.2.2)
+    brakeman (7.0.0)
       racc
     builder (3.3.0)
     bullet (8.0.0)
@@ -224,7 +224,7 @@ GEM
     docile (1.4.1)
     dotenv (3.1.7)
     drb (2.2.1)
-    dumb_delegator (1.0.0)
+    dumb_delegator (1.1.0)
     erubi (1.13.1)
     excon (1.2.3)
     factory_bot (6.5.0)
@@ -420,7 +420,7 @@ GEM
       date
       stringio
     public_suffix (6.0.1)
-    puma (6.5.0)
+    puma (6.6.0)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.1.8)
