@@ -134,7 +134,7 @@ RSpec.describe Admin::FormsController, type: :controller do
 
     context 'with valid params' do
       before do
-        form.questions.create!(text: "Question one", question_type: :text_field, form_section: form.form_sections.first, answer_field: :answer_01)
+        form.questions.create!(text: "Question one", question_type: :text_field, form_section: form.form_sections.first, answer_field: :answer_01, position: 1)
         form.created_at = Time.now - 2.weeks
         20.times { FactoryBot.create(:submission, form: form) }
         form.save!
