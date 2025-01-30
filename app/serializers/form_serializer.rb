@@ -27,7 +27,6 @@ class FormSerializer < ActiveModel::Serializer
              :success_text,
              :modal_button_text,
              :display_header_square_logo,
-             :early_submission,
              :user_id,
              :template,
              :uuid,

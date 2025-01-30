@@ -16,7 +16,6 @@ production_suitable_seeds
 #   Staging and Development Environments; not Production.
 return false if Rails.env.production?
 
-require_relative 'seeds/forms/a11'
 require_relative 'seeds/forms/a11_v2'
 require_relative 'seeds/forms/kitchen_sink'
 require_relative 'seeds/forms/yes_no'
@@ -431,7 +430,6 @@ Question.create!({
   is_required: false,
 })
 
-a11_form = Seeds::Forms.a11
 a11_v2_form_template = Seeds::Forms.a11_v2
 
 a11_v2_form = Seeds::Forms.a11_v2
@@ -439,12 +437,6 @@ a11_v2_form.update_attribute(:template, false)
 
 kitchen_sink_form = Seeds::Forms.kitchen_sink
 yes_no_form = Seeds::Forms.yes_no
-
-UserRole.create(
-  user: admin_user,
-  form: a11_form,
-  role: UserRole::Role::FormManager
-)
 
 UserRole.create(
   user: admin_user,
@@ -520,22 +512,6 @@ end
       answer_04: 'Negative free text'
     })
   end
-end
-
-# TODO: Seed A11
-range = [1,2,3,4,5]
-50.times do |i|
-  Submission.create!({
-    form: a11_form,
-    answer_01: range.sample,
-    answer_02: range.sample,
-    answer_03: range.sample,
-    answer_04: range.sample,
-    answer_05: range.sample,
-    answer_06: range.sample,
-    answer_07: range.sample
-  })
-  a11_form.update_attribute(:survey_form_activations, a11_form.survey_form_activations + 1)
 end
 
 digital_gov_user = User.new({

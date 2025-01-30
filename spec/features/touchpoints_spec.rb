@@ -299,23 +299,6 @@ feature 'Touchpoints', js: true do
       end
     end
 
-    describe 'multi-page early submission form' do
-      let!(:multi_form) { FactoryBot.create(:form, :kitchen_sink, organization:) }
-
-      context 'when required on 2nd page' do
-        before do
-          multi_form.update(early_submission: true)
-          multi_form.form_sections[1].questions.first.update(is_required: true)
-          visit touchpoint_path(multi_form)
-        end
-
-        it 'display flash message' do
-          click_on 'No, only submit these responses'
-          expect(page).to have_content('A response is required:')
-        end
-      end
-    end
-
     describe 'phone number question' do
       let!(:dropdown_form) { FactoryBot.create(:form, :phone, organization:) }
 
