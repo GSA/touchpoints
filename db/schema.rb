@@ -255,6 +255,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_30_195535) do
     t.text "success_text"
     t.string "modal_button_text"
     t.boolean "display_header_square_logo"
+    t.boolean "early_submission", default: false
     t.integer "user_id"
     t.boolean "template", default: false
     t.string "uuid"
