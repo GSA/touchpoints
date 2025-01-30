@@ -6,8 +6,9 @@ feature 'Touchpoints', js: true do
   let(:organization) { FactoryBot.create(:organization) }
   let!(:user) { FactoryBot.create(:user, :admin, organization:) }
 
+  [true, false].each do |legacy_link_feature_flag_setting|
     context "as Admin" do
-      let!(:form) { FactoryBot.create(:form, :kitchen_sink, organization:) }
+      let!(:form) { FactoryBot.create(:form, :kitchen_sink, organization:, legacy_link_feature_flag: legacy_link_feature_flag_setting) }
 
       describe '/forms/:id/example' do
         before do
@@ -96,4 +97,5 @@ feature 'Touchpoints', js: true do
         end
       end
     end
+  end # legacy_link_feature_flag_setting
 end
