@@ -223,7 +223,7 @@ $(function() {
     var formSection = $(this).parents(".form-section-div")[0];
     var formSectionId = $(formSection).attr("data-id");
     $.ajax({
-      type: "GET",
+      type: "POST",
       url: $(this).attr("href"),
       data: { "form_section_id": formSectionId },
       success: function (data) {

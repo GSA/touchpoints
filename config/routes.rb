@@ -311,7 +311,7 @@ Rails.application.routes.draw do
         patch 'sort', to: 'form_sections#sort', as: :sort_sections
         patch 'update_title', to: 'form_sections#update_title', as: :inline_update
       end
-      resources :questions do
+      resources :questions, except: :new do
         member do
           patch 'question_options', to: 'question_options#sort', as: :sort_question_options
         end
