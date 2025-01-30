@@ -2,7 +2,7 @@
 
 module Admin
   class QuestionsController < AdminController
-    before_action :set_form, only: %i[new create show edit update sort destroy]
+    before_action :set_form, only: %i[create show edit update sort destroy]
     before_action :set_question, only: %i[show edit update destroy]
 
     def index
@@ -10,12 +10,6 @@ module Admin
     end
 
     def show
-      render layout: false
-    end
-
-    def new
-      @question = Question.new
-      set_defaults
       render layout: false
     end
 
@@ -33,13 +27,12 @@ module Admin
     end
 
     def create
-      next_position = @form.questions.size + 1
-      @question = Question.new(question_params)
-      @question.position = next_position
+      @question = Question.new
+      set_defaults
 
       respond_to do |format|
         if @question.save
-          format.html { redirect_to questions_admin_form_path(@form), notice: 'Question was successfully created.' }
+          format.html { render :new, layout: false }
           format.json { render json: @question }
         else
           format.html { render :new }
@@ -86,6 +79,8 @@ module Admin
       @question.text = 'New Question'
       @question.question_type = 'text_field'
       @question.answer_field = first_unused_answer_field
+      next_position = @form.questions.size + 1
+      @question.position = next_position
       @question.save!
     end
 
