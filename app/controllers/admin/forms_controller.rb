@@ -593,6 +593,7 @@ module Admin
         :service_id,
         :service_stage_id,
         :enforce_new_submission_validations,
+        :legacy_link_feature_flag,
       )
     end
 
