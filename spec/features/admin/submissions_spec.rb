@@ -71,11 +71,11 @@ feature 'Submissions', js: true do
           context 'with one Response' do
             let!(:submission) { FactoryBot.create(:submission, form:) }
 
-            describe 'click View link in responses table' do
+            describe 'click row within link in responses table' do
               before do
                 visit responses_admin_form_path(form)
                 within('table.submissions') do
-                  click_on 'View'
+                  find("tbody tr").click
                 end
               end
 
@@ -490,15 +490,18 @@ feature 'Submissions', js: true do
         describe 'flag a Submission' do
           context 'with one Response' do
             before do
-              within('table.submissions tbody tr:first-child') do
-                click_on 'Flag'
+              @first_row = find('table.submissions tbody tr:first-child')
+              @first_row.hover
+              within(@first_row) do
+                find(".actions .flagged a").click
               end
               page.driver.browser.switch_to.alert.accept
             end
 
             it 'successfully flags Submission' do
-              within('table.submissions tbody tr:first-child') do
-                expect(page).to have_css("td.flagged")
+              @first_row.hover
+              within(@first_row) do
+                expect(page).to have_css(".actions .flagged a.text-secondary")
               end
             end
           end
