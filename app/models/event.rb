@@ -62,6 +62,8 @@ class Event < ApplicationRecord
     response_unflagged: 'response_unflagged',
     response_archived: 'response_archived',
     response_unarchived: 'response_unarchived',
+    response_marked_as_spam: 'response_marked_as_spam',
+    response_unmarked_as_spam: 'response_unmarked_as_spam',
     response_deleted: 'response_deleted',
     response_status_changed: 'response_status_changed',
 

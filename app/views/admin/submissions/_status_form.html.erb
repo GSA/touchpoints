@@ -37,17 +37,3 @@
     <% end %>
   </ol>
 </fieldset>
-
-<script>
-  $(function(){
-    $("#button-toggle-table-display-options").on("click", function() {
-      $("#table-display-options").toggle();
-      $("#form_ui_truncate_text_responses").focus();
-    });
-
-    const element = document.querySelector("form");
-    element.addEventListener("ajax:success", (event) => {
-      location.reload();
-    });
-  });
-</script>

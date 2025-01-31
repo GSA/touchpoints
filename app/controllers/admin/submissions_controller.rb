@@ -136,6 +136,20 @@ module Admin
       @submission.reset_without_validation!
     end
 
+    def mark
+      ensure_form_manager(form: @form)
+
+      Event.log_event(Event.names[:response_marked_as_spam], 'Submission', @submission.id, "Submission #{@submission.id} marked as spam at #{DateTime.now}", current_user.id)
+      @submission.update_attribute(:spam, true)
+    end
+
+    def unmark
+      ensure_form_manager(form: @form)
+
+      Event.log_event(Event.names[:response_unmarked_as_spam], 'Submission', @submission.id, "Submission #{@submission.id} unmarked as spam at #{DateTime.now}", current_user.id)
+      @submission.update_attribute(:spam, false)
+    end
+
     def destroy
       ensure_form_manager(form: @form)
 

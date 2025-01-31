@@ -27,7 +27,6 @@ module Admin
       archive
       reset
       add_tag remove_tag
-      update_ui_truncation
       update_title update_instructions update_disclaimer_text
       update_success_text update_display_logo
       update_notification_emails
@@ -315,18 +314,6 @@ module Admin
       copy
     end
 
-    def update_ui_truncation
-      ensure_response_viewer(form: @form)
-
-      respond_to do |format|
-        if @form.update(ui_truncate_text_responses: !@form.ui_truncate_text_responses)
-          format.json { render json: {}, status: :ok, location: @form }
-        else
-          format.json { render json: @form.errors, status: :unprocessable_entity }
-        end
-      end
-    end
-
     def update
       ensure_form_manager(form: @form)
 
@@ -537,7 +524,6 @@ module Admin
         :load_css,
         :tag_list,
         :verify_csrf,
-        :ui_truncate_text_responses,
         :question_text_01,
         :question_text_02,
         :question_text_03,

@@ -1,21 +1,25 @@
+<style>
+tr .actions {
+  position: absolute;
+  right: 8px;
+  display: none;
+  background: white;
+  padding: 4px 16px 4px 16px;
+  border-radius: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+tr:hover .actions {
+  display: block;
+  display: flex;
+  gap: 24px;
+}
+</style>
 <% @tags = form.submission_tags %>
-
-<button
-  id="button-toggle-table-display-options"
-  type="button"
-  class="font-sans-2xs margin-bottom-1 usa-button usa-button--outline">
-  <i class="fa fa-cog"></i>
-  Toggle display options
-</button>
-<div
-  id="table-display-options"
-  class="well hide">
-  <div class="text-bold">
-    Display options
-  </div>
-  <%= render 'admin/forms/ui_form', form: form %>
-</div>
-
+<% unless params[:archived] %>
+<%= link_to "Include Archived Submissions?", "?archived=1" %>
+<% end %>
 <%- if @tags.any? %>
 <div class="well margin-top-1">
   <div class="field">
@@ -75,6 +79,14 @@
       Flag
     </button>
     <button
+      class="usa-button usa-button--secondary"
+      name="bulk_action"
+      type="submit"
+      value="spam">
+      <i class="fa fa-exclamation-triangle"></i>
+      Mark as spam
+    </button>
+    <button
       class="usa-button usa-button--accent-cool"
       name="bulk_action"
       type="submit"
@@ -84,50 +96,20 @@
     </button>
   </div>
   <div class="table-wrap">
-    <table class="usa-table submissions font-sans-2xs">
+    <table class="usa-table submissions">
       <thead>
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>
-          </td>
-        <% form.ordered_questions.each do |question| %>
-          <% next if question.question_type == "text_display" %>
-          <td class="text-normal"><%= question.answer_field %></td>
-        <% end %>
-        <%- if form.kind == "yes_no" %>
-          <td>
-          </td>
-          <td>
-          </td>
-        <% end %>
-        </tr>
-        <tr>
-          <th>
+          <th style="width: 46px;">
             <%= check_box_tag "submission_ids[]", id: "toggle-all-checkbox" %>
           </th>
-          <th>View</th>
-          <th>Flag</th>
-          <th>Archive</th>
-          <th data-sortable scope="col">Status</th>
-          <th data-sortable scope="col">
-            Created At
-          </th>
-        <% form.ordered_questions.each do |question| %>
+        <% form.rendered_questions.each do |question| %>
           <% next if question.question_type == "text_display" %>
           <th data-sortable scope="col"><%= question.text %></th>
         <% end %>
-        <%- if form.kind == "yes_no" %>
-          <th data-sortable scope="col">
-            Page
+          <th data-sortable scope="col" style="width: 120px;">Status</th>
+          <th data-sortable scope="col" style="width: 350px;">
+            Created At
           </th>
-          <th data-sortable scope="col">
-            Referer
-          </th>
-        <% end %>
         </tr>
       </thead>
       <tbody>
@@ -136,53 +118,47 @@
         <% elsif submission.archived? %>
           <% next %>
         <% end %>
-        <tr class="response" title="Response ID <%= submission.id %>" data-id="<%= submission.uuid %>">
+        <tr
+          class="response"
+          title="Response ID <%= submission.id %>"
+          data-id="<%= submission.uuid %>"
+          data-url="<%= admin_form_submission_path(submission.form, submission) %>">
           <td><%= check_box_tag "submission_ids[]", submission.id, class: "batch-checkbox" %></td>
+        <% form.rendered_questions.each do |question| %>
+          <% next if question.question_type == "text_display" %>
           <td>
-            <%= link_to admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--outline" do %>
-              View
-            <% end %>
+            <%= h(submission.send(question.answer_field.to_sym).to_s) %>
           </td>
-          <td class="flagged">
-            <%- if submission.flagged? %>
-              <%= render "admin/submissions/flag", { submission: submission } %>
-            <% else %>
-              <%= render "admin/submissions/unflag", { submission: submission } %>
-            <% end %>
-          </td>
-          <td class="archived">
-            <%- if submission.archived? %>
-              <%= render "admin/submissions/archive", { submission: submission } %>
-            <% else %>
-              <%= render "admin/submissions/unarchive", { submission: submission } %>
-            <% end %>
-          </td>
+        <% end %>
           <td>
             <%= submission.aasm_state %>
           </td>
-          <td>
+          <td style="position: relative;">
             <%= format_time(submission.created_at, submission.form.time_zone.present? ? submission.form.time_zone : current_user.time_zone) %>
+            <div class="actions">
+              <span class="flagged">
+              <%- if submission.flagged? %>
+                <%= render "admin/submissions/flag", { submission: submission } %>
+              <% else %>
+                <%= render "admin/submissions/unflag", { submission: submission } %>
+              <% end %>
+              </span>
+              <span class="archived">
+                <%- if submission.archived? %>
+                  <%= render "admin/submissions/archive", { submission: submission } %>
+                <% else %>
+                  <%= render "admin/submissions/unarchive", { submission: submission } %>
+                <% end %>
+              </span>
+              <span class="marked">
+                <%- if submission.spam? %>
+                  <%= render "admin/submissions/mark", { submission: submission } %>
+                <% else %>
+                  <%= render "admin/submissions/unmark", { submission: submission } %>
+                <% end %>
+              </span>
+            </div>
           </td>
-        <% form.ordered_questions.each do |question| %>
-          <% next if question.question_type == "text_display" %>
-          <%- if form.ui_truncate_text_responses? %>
-            <td class="no-wrap">
-              <%= h(submission.send(question.answer_field.to_sym).to_s).truncate(160) %>
-            </td>
-          <% else %>
-            <td>
-              <%= h(submission.send(question.answer_field.to_sym).to_s) %>
-            </td>
-          <% end %>
-        <% end %>
-        <%- if form.kind == "yes_no" %>
-          <td>
-            <%= submission.page %>
-          </td>
-          <td>
-            <%= submission.referer %>
-          </td>
-        <% end %>
         </tr>
         <% end %>
       </tbody>
@@ -251,4 +227,13 @@
 
     updateBatchActionsVisibility();
   })
+
+  document.querySelectorAll('tbody tr').forEach(row => {
+    row.addEventListener('click', function(event) {
+      // Prevent navigation if clicking inside a button or checkbox
+      if (!event.target.closest('a, button, input')) {
+        window.location.href = this.dataset.url;
+      }
+    });
+  });
 </script>

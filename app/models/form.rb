@@ -656,6 +656,10 @@ class Form < ApplicationRecord
     array
   end
 
+  def rendered_questions
+    ordered_questions.select { |q| q.text.include?("email") || q.text.include?("name") }
+  end
+
   def omb_number_with_expiration_date
     errors.add(:expiration_date, 'required with an OMB Number') if omb_approval_number.present? && expiration_date.blank?
     errors.add(:omb_approval_number, 'required with an Expiration Date') if expiration_date.present? && omb_approval_number.blank?
