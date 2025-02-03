@@ -30,7 +30,7 @@ RSpec.describe Admin::FormsController, type: :controller do
   # Form. As you add validations to Form, be sure to
   # adjust the attributes here as well.
   let(:organization) { FactoryBot.create(:organization) }
-  let!(:form) { FactoryBot.create(:form, organization: organization) }
+  let!(:form) { FactoryBot.create(:form, :two_question_open_ended_form, organization:) }
   let(:admin) { FactoryBot.create(:user, :admin, organization: organization) }
   let!(:user_role) { FactoryBot.create(:user_role, user: admin, form: form, role: UserRole::Role::FormManager) }
 
@@ -134,7 +134,6 @@ RSpec.describe Admin::FormsController, type: :controller do
 
     context 'with valid params' do
       before do
-        form.questions.create!(text: "Question one", question_type: :text_field, form_section: form.form_sections.first, answer_field: :answer_01, position: 1)
         form.created_at = Time.now - 2.weeks
         20.times { FactoryBot.create(:submission, form: form) }
         form.save!
@@ -208,4 +207,74 @@ RSpec.describe Admin::FormsController, type: :controller do
       expect(response).to redirect_to(admin_forms_url)
     end
   end
+
+  describe 'GET #export' do
+    let(:start_date) { '2024-01-01' }
+    let(:end_date) { '2024-01-28' }
+    let(:timestamp_string) { Time.zone.now.strftime('%Y%m%d%H%M%S') }
+    let!(:submission1) { FactoryBot.create(:submission, form:, created_at: '2024-01-01 08:00:00') }
+    let!(:submission2) { FactoryBot.create(:submission, form:, created_at: '2024-01-15 12:00:00') }
+    let!(:submission3) { FactoryBot.create(:submission, form:, created_at: '2024-01-28 23:59:59') }
+    let!(:out_of_range) { FactoryBot.create(:submission, form:, created_at: '2024-01-29 00:00:01') }
+
+    context 'when response count is within the small download limit' do
+      it 'sends a CSV file' do
+        get :export, params: { id: form.short_uuid, start_date: start_date, end_date: end_date }
+        expect(response.content_type).to include('text/csv')
+        expect(response.status).to eq(200)
+        expect(response.body).to include("ID,UUID,Test Text Field,Test Open Area,Location Code,User Agent,Status,Archived,Flagged,Page,Query string,Hostname,Referrer,Created At,IP Address,Tags")
+        expect(response.body).to include(submission1.created_at.to_s)
+        expect(response.body).to include(submission2.created_at.to_s)
+        expect(response.body).to include(submission3.created_at.to_s)
+        expect(response.body).to_not include(out_of_range.created_at.to_s)
+      end
+    end
+
+    context 'when response count exceeds small download limit but is within async job range' do
+      before do
+        allow(Form).to receive(:find_by_short_uuid).with(form.short_uuid).and_return(form)
+        allow(form).to receive(:non_flagged_submissions).and_return(double(count: 1_500))
+        allow(ExportJob).to receive(:perform_later)
+      end
+
+      it 'queues an async export job and redirects' do
+        get :export, params: { id: form.short_uuid, start_date: start_date, end_date: end_date }
+
+        expect(ExportJob).to have_received(:perform_later).with(admin.email, form.short_uuid, "2024-01-01 00:00:00 UTC", "2024-01-28 23:59:59 UTC")
+        expect(response).to redirect_to(responses_admin_form_path(form))
+        expect(flash[:success]).to eq(UserMailer::ASYNC_JOB_MESSAGE)
+      end
+    end
+
+    context 'when response count exceeds the maximum allowed export' do
+      before do
+        allow(Form).to receive(:find_by_short_uuid).with(form.short_uuid).and_return(form)
+        allow(form).to receive(:non_flagged_submissions).and_return(double(count: described_class::MAX_ROWS_TO_EXPORT + 1))
+      end
+
+      it 'returns a bad request error' do
+        get :export, params: { id: form.short_uuid, start_date: start_date, end_date: end_date }
+
+        expect(response).to have_http_status(:bad_request)
+        expect(response.body).to include("Your response set contains")
+      end
+    end
+
+    context 'when no date parameters are provided' do
+      let(:default_start) { Time.zone.now.beginning_of_quarter }
+      let(:default_end) { Time.zone.now.end_of_quarter }
+
+      before do
+        allow(Time.zone).to receive(:now).and_return(Time.zone.parse('2024-01-15'))
+        allow(form).to receive(:non_flagged_submissions).and_return(double(count: 500))
+      end
+
+      it 'uses the default quarter range' do
+        get :export, params: { id: form.short_uuid }
+
+        expect(response).to have_http_status(:ok)
+      end
+    end
+  end
+
 end
