@@ -211,7 +211,6 @@ RSpec.describe Admin::FormsController, type: :controller do
   describe 'GET #export' do
     let(:start_date) { '2024-01-01' }
     let(:end_date) { '2024-01-28' }
-    let(:timestamp_string) { Time.zone.now.strftime('%Y%m%d%H%M%S') }
     let!(:submission1) { FactoryBot.create(:submission, form:, created_at: '2024-01-01 08:00:00') }
     let!(:submission2) { FactoryBot.create(:submission, form:, created_at: '2024-01-15 12:00:00') }
     let!(:submission3) { FactoryBot.create(:submission, form:, created_at: '2024-01-28 23:59:59') }
@@ -263,16 +262,21 @@ RSpec.describe Admin::FormsController, type: :controller do
     context 'when no date parameters are provided' do
       let(:default_start) { Time.zone.now.beginning_of_quarter }
       let(:default_end) { Time.zone.now.end_of_quarter }
-
-      before do
-        allow(Time.zone).to receive(:now).and_return(Time.zone.parse('2024-01-15'))
-        allow(form).to receive(:non_flagged_submissions).and_return(double(count: 500))
-      end
+      let!(:submission1) { FactoryBot.create(:submission, form:, created_at: default_start + 1.day) }
+      let!(:submission2) { FactoryBot.create(:submission, form:, created_at: default_start + 2.days) }
+      let!(:submission3) { FactoryBot.create(:submission, form:, created_at: default_start + 3.days) }
+      let!(:out_of_range1) { FactoryBot.create(:submission, form:, created_at: default_start - 1.day) }
+      let!(:out_of_range2) { FactoryBot.create(:submission, form:, created_at: default_end + 1.day) }
 
       it 'uses the default quarter range' do
         get :export, params: { id: form.short_uuid }
 
         expect(response).to have_http_status(:ok)
+        expect(response.body).to include(submission1.created_at.to_s)
+        expect(response.body).to include(submission2.created_at.to_s)
+        expect(response.body).to include(submission3.created_at.to_s)
+        expect(response.body).to_not include(out_of_range1.created_at.to_s)
+        expect(response.body).to_not include(out_of_range2.created_at.to_s)
       end
     end
   end
