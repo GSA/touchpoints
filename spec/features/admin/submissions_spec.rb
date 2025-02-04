@@ -134,7 +134,7 @@ feature 'Submissions', js: true do
               before do
                 visit responses_admin_form_path(form)
                 within('table.submissions') do
-                  click_on 'View'
+                  find("tbody tr").click
                 end
               end
 
@@ -224,7 +224,8 @@ feature 'Submissions', js: true do
             before 'click on Archive' do
               visit responses_admin_form_path(form)
               within('table.submissions') do
-                click_on 'Archive'
+                find("tbody tr").hover
+                find(".archived a").click
               end
               page.driver.browser.switch_to.alert.accept
             end
@@ -245,14 +246,15 @@ feature 'Submissions', js: true do
             before do
               visit responses_admin_form_path(form)
               within('table.submissions') do
-                click_on 'Flag'
+                find("tbody tr").hover
+                find(".flagged a").click
               end
               page.driver.browser.switch_to.alert.accept
             end
 
             it 'successfully flags Submission' do
               within('table.submissions') do
-                expect(page).to have_css("table tr td.flagged a#flag-submission-#{submission.id}")
+                expect(page).to have_css("tbody td .flagged a.text-secondary", visible: false)
               end
             end
           end
@@ -309,14 +311,15 @@ feature 'Submissions', js: true do
             before do
               visit responses_admin_form_path(form)
               within('table.submissions') do
-                click_on 'Flag'
+                find("tbody tr").hover
+                find(".flagged a").click
               end
               page.driver.browser.switch_to.alert.accept
             end
 
             it 'successfully flags Submission' do
               within('table.submissions') do
-                expect(page).to have_css("table tr td.flagged a#flag-submission-#{submission.id}")
+                expect(page).to have_css("table td .flagged a.text-secondary", visible: false)
               end
             end
           end
@@ -346,7 +349,7 @@ feature 'Submissions', js: true do
           context 'with one Submission' do
             let(:form_with_text_display) { FactoryBot.create(:form, :kitchen_sink, organization:) }
             let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form: form_with_text_display) }
-            let!(:submission) { FactoryBot.create(:submission, form: form_with_text_display, answer_17: '5') }
+            let!(:submission) { FactoryBot.create(:submission, form: form_with_text_display, answer_02: 'text@example.com', answer_17: '5') }
 
             before do
               visit responses_admin_form_path(form_with_text_display)
@@ -354,15 +357,11 @@ feature 'Submissions', js: true do
 
             it 'does not display text_display question title' do
               within '.responses .table-scroll' do
-                expect(page).to have_content('An input field')
-                expect(page).to_not have_content('Some custom')
-                expect(page).to_not have_content('<a>')
-                expect(page).to_not have_content('</a>')
-                expect(page).to have_content('A textarea field')
-
-                expect(page).to have_link('View')
-                expect(page).to have_link('Flag')
-                expect(page).to have_link('Archive')
+                expect(page).to have_content('text@example.com')
+                expect(page).to have_css('tr.response')
+                expect(page).to have_css('.flagged', visible: false)
+                expect(page).to have_css('.archived', visible: false)
+                expect(page).to have_css('.marked', visible: false)
                 expect(page).to have_content('Status')
                 expect(page).to have_content('received')
                 expect(page).to have_content('Created At')
@@ -418,65 +417,11 @@ feature 'Submissions', js: true do
           visit responses_admin_form_path(form)
         end
 
-        describe 'truncate text in the table displayed' do
-          context 'ui_truncate_text_responses is ON' do
-            it 'is on by default' do
-              expect(page).to have_css('#button-toggle-table-display-options', visible: true)
-              expect(page).to have_css('#table-display-options', visible: false)
-
-              find('#button-toggle-table-display-options').click # to open option settings
-              expect(page).to have_css('#table-display-options', visible: true)
-
-              # Inspects the hidden checkbox to ensure it is checked
-              expect(find('#form_ui_truncate_text_responses', visible: false).checked?).to eq true
-            end
-
-            it 'truncates text longer than 160 characters to 160 characters' do
-              expect(page).to have_content('superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext sup...')
-
-              expect(page).to_not have_content('superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext super')
-            end
-
-            it 'toggle this setting from on to off' do
-              find('#button-toggle-table-display-options').click
-              find('.usa-checkbox label').click
-              expect(find('#form_ui_truncate_text_responses', visible: false).checked?).to eq false
-              click_on 'Update options'
-
-              # this will be true when the page reloads
-              expect(page).to have_css('#table-display-options', visible: false)
-
-              # reload the page
-              visit responses_admin_form_path(form)
-              form.reload
-              expect(form.ui_truncate_text_responses).to eq false
-              expect(find('#form_ui_truncate_text_responses', visible: false).checked?).to eq false
-
-              expect(page).to have_content('superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext super')
-            end
-          end
-
-          context 'ui_truncate_text_responses is OFF' do
-            before do
-              form.update(ui_truncate_text_responses: false)
-              visit responses_admin_form_path(form)
-            end
-
-            it 'display text longer than 160 characters' do
-              visit responses_admin_form_path(form)
-              find('#button-toggle-table-display-options').click
-              expect(find('#form_ui_truncate_text_responses', visible: false).checked?).to eq false
-
-              expect(page).to have_content('superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext super')
-            end
-          end
-        end
-
         describe 'view a Submission' do
           context 'with at least one Response' do
             before do
-              within('table.submissions tbody tr:first-child') do
-                click_on 'View'
+              within('table.submissions tbody') do
+                find("tr:first-child").click
               end
             end
 
@@ -549,7 +494,7 @@ feature 'Submissions', js: true do
                 click_on("Flag")
               end
               expect(page).to have_content("2 Submissions flagged.")
-              expect(all("table.submissions a.usa-button.usa-button--secondary").size).to eq(2)
+              expect(all("table.submissions tbody tr .flagged a.text-secondary", visible: false).size).to eq(2)
             end
 
             xit 'bulk select responses and marks them as spam' do

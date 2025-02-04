@@ -6,7 +6,7 @@ tr .actions {
   background: white;
   padding: 4px 16px 4px 16px;
   border-radius: 4px;
-  top: 50%;
+  top: 1.25rem;
   transform: translateY(-50%);
 }
 
@@ -14,6 +14,10 @@ tr:hover .actions {
   display: block;
   display: flex;
   gap: 24px;
+}
+
+tr .actions a:hover {
+  color: #005ea2;
 }
 </style>
 <% @tags = form.submission_tags %>
