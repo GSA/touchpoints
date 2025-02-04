@@ -13,8 +13,8 @@ class Submission < ApplicationRecord
   after_create :update_form
   after_commit :send_notifications, on: :create
 
-  scope :archived, -> { where(aasm_state: :archived) }
-  scope :non_archived, -> { where("aasm_state != 'archived'") }
+  scope :archived, -> { where(archived: true) }
+  scope :non_archived, -> { where(archived: false) }
   scope :non_flagged, -> { where(flagged: false) }
 
   aasm do
@@ -22,7 +22,6 @@ class Submission < ApplicationRecord
     state :acknowledged
     state :dispatched
     state :responded
-    state :archived
 
     event :acknowledge do
       transitions from: [:received], to: :acknowledged
@@ -33,16 +32,9 @@ class Submission < ApplicationRecord
     event :respond do
       transitions from: %i[dispatched], to: :responded
     end
-    event :archive do
-      transitions to: :archived
-    end
     event :reset do
       transitions to: :received
     end
-  end
-
-  def archived
-    self.archived?
   end
 
   # Validate each submitted field against its question type

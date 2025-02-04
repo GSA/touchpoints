@@ -1,6 +1,6 @@
-<label class="usa-label text-uppercase font-body-3xs">
+<div class="text-uppercase font-body-3xs margin-top-2">
   Responses by status
-</label>
+</div>
 <table class="usa-table width-full">
   <thead>
     <tr>
@@ -17,10 +17,13 @@
         Responded
       </th>
       <th>
-        Archived
+        Flagged
       </th>
       <th>
-        Flagged
+        Marked as spam
+      </th>
+      <th>
+        Archived
       </th>
       <th>
         Total
@@ -42,13 +45,38 @@
         <%= number_with_delimiter(responses_by_status["responded"]) %>
       </td>
       <td>
-        <%= number_with_delimiter(responses_by_status["archived"]) %>
+      </td>
+      <td>
+      </td>
+      <td>
+      </td>
+      <td>
+        <%= number_with_delimiter(responses_by_status["total"]) %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+      </td>
+      <td>
+
+      </td>
+      <td>
+
+      </td>
+      <td>
+
       </td>
       <td>
         <%= number_with_delimiter(responses_by_status["flagged"]) %>
       </td>
       <td>
-        <%= number_with_delimiter(responses_by_status["total"]) %>
+        <%= number_with_delimiter(responses_by_status["marked"]) %>
+      </td>
+      <td>
+        <%= number_with_delimiter(responses_by_status["archived"]) %>
+      </td>
+      <td>
       </td>
     </tr>
   </tbody>

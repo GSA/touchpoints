@@ -103,7 +103,13 @@ module Admin
     def responses_by_status
       responses_by_aasm = @form.submissions.group(:aasm_state).count
       flagged_count = @form.submissions.where(flagged: true).size
-      @responses_by_status = { **responses_by_aasm, 'flagged' => flagged_count, 'total' => responses_by_aasm.values.sum }
+      archived_count = @form.submissions.where(archived: true).size
+      marked_count = @form.submissions.where(spam: true).size
+      @responses_by_status = { **responses_by_aasm,
+        'flagged' => flagged_count,
+        'marked' => marked_count,
+        'archived' => archived_count,
+        'total' => responses_by_aasm.values.sum }
       @responses_by_status.default = 0
     end
 
