@@ -9,6 +9,32 @@ RSpec.describe Question, type: :model do
   let!(:question) { form.questions.first }
   let!(:new_question) { Question.create(form:, answer_field: 'answer_01') }
 
+  context 'unsaved question' do
+    let!(:unsaved_question) { FactoryBot.build(:question, form:, position: nil, answer_field: nil) }
+
+    before do
+      unsaved_question.save
+    end
+
+    it 'validates form section' do
+      expect(unsaved_question.errors.messages[:form_section]).to eq(["must exist"])
+    end
+
+    it 'ensures an answer_field' do
+      expect(unsaved_question.errors.messages[:answer_field]).to eq(["can't be blank"])
+    end
+
+    it 'ensures a unique answer_field' do
+      unsaved_question.answer_field = 'answer_01'
+      unsaved_question.save
+      expect(unsaved_question.errors.messages[:answer_field]).to eq(["has already been taken"])
+    end
+
+    it 'ensures position' do
+      expect(unsaved_question.errors.messages[:position]).to eq(["can't be blank"])
+    end
+  end
+
   context '' do
     before do
       expect(question.answer_field).to eq('answer_01')

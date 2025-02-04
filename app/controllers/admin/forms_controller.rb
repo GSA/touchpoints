@@ -183,8 +183,8 @@ module Admin
     end
 
     def export
-      start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date : Time.zone.now.beginning_of_quarter
-      end_date = params[:end_date] ? Date.parse(params[:end_date]).to_date : Time.zone.now.end_of_quarter
+      start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date.beginning_of_day : Time.zone.now.beginning_of_quarter
+      end_date = params[:end_date] ? Date.parse(params[:end_date]).to_date.end_of_day : Time.zone.now.end_of_quarter
 
       count = Form.find_by_short_uuid(@form.short_uuid).non_flagged_submissions(start_date:, end_date:).count
       if count > MAX_ROWS_TO_EXPORT
@@ -579,6 +579,7 @@ module Admin
         :service_id,
         :service_stage_id,
         :enforce_new_submission_validations,
+        :legacy_link_feature_flag,
       )
     end
 

@@ -369,12 +369,18 @@ function FBAform(d, N) {
 			this.landmarkElement.setAttribute('role', 'complementary');
 
 			// Add the fixed, floating tab button
-			this.buttonEl = d.createElement('a');
+			<%# FEATURE FLAG %>
+			if(this.options.legacyLink) {
+				this.buttonEl = d.createElement('a');
+				this.buttonEl.setAttribute('href', 'javascript:void(0)');
+			} else {
+				this.buttonEl = d.createElement('button');
+			}
 			this.buttonEl.setAttribute('id', 'fba-button');
 			this.buttonEl.setAttribute('data-id', this.options.formId);
 			this.buttonEl.setAttribute('class', 'fba-button fixed-tab-button usa-button');
 			this.buttonEl.setAttribute('name', 'fba-button');
-			this.buttonEl.setAttribute('href', 'javascript:void(0)');
+			this.buttonEl.setAttribute('aria-label', this.options.modalButtonText);
 			this.buttonEl.setAttribute('aria-haspopup', 'dialog');
 			this.buttonEl.setAttribute('aria-controls', this.modalId());
 			this.buttonEl.setAttribute('data-open-modal', '');
@@ -639,6 +645,7 @@ function FBAform(d, N) {
 
 // Specify the options for your form
 const touchpointFormOptions<%= form.short_uuid %> = {
+	'legacyLink': <%= form.legacy_link_feature_flag? %>,
 	'formId': "<%= form.short_uuid %>",
 	'modalButtonText': "<%= form.modal_button_text %>",
 	'elementSelector': "<%= form.element_selector %>",

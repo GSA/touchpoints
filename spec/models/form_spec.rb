@@ -172,6 +172,24 @@ RSpec.describe Form, type: :model do
     end
   end
 
+  describe '#non_flagged_submissions' do
+    let!(:submission1) { FactoryBot.create(:submission, form:, created_at: '2024-01-01 08:00:00') }
+    let!(:submission2) { FactoryBot.create(:submission, form:, created_at: '2024-01-15 12:00:00') }
+    let!(:submission3) { FactoryBot.create(:submission, form:, created_at: '2024-01-28 23:59:59') }
+    let!(:out_of_range) { FactoryBot.create(:submission, form:, created_at: '2024-01-29 00:00:01') }
+
+    before do
+      start_date = Date.parse('2024-01-01').beginning_of_day
+      end_date = Date.parse('2024-01-28').end_of_day
+      @results = form.non_flagged_submissions(start_date:, end_date:)
+    end
+
+    it 'includes submissions up to and including the end_date' do
+      expect(@results).to include(submission1, submission2, submission3)
+      expect(@results).not_to include(out_of_range)
+    end
+  end
+
   describe '#to_a11_header_csv' do
     it 'returns Submission fields' do
       csv = form.to_a11_header_csv(start_date: Time.zone.now.to_date, end_date: 3.months.from_now.to_date)
