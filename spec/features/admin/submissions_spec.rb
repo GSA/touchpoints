@@ -200,7 +200,7 @@ feature 'Submissions', js: true do
         describe 'can view archived Responses' do
           context 'with more than 1 page worth of Responses' do
             let!(:submissions) { FactoryBot.create_list(:submission, 45, form:) }
-            let!(:archived_submissions) { FactoryBot.create_list(:submission, 70, aasm_state: :archived, form:) }
+            let!(:archived_submissions) { FactoryBot.create_list(:submission, 70, archived: true, form:) }
 
             describe 'click View link in responses table' do
               before do

@@ -132,14 +132,14 @@ module Admin
       ensure_form_manager(form: @form)
 
       Event.log_event(Event.names[:response_archived], 'Submission', @submission.id, "Submission #{@submission.id} archived at #{DateTime.now}", current_user.id)
-      @submission.archive_without_validation!
+      @submission.update_attribute(:archived, true)
     end
 
     def unarchive
       ensure_form_manager(form: @form)
 
       Event.log_event(Event.names[:response_unarchived], 'Submission', @submission.id, "Submission #{@submission.id} unarchived at #{DateTime.now}", current_user.id)
-      @submission.reset_without_validation!
+      @submission.update_attribute(:archived, false)
     end
 
     def mark
@@ -227,7 +227,7 @@ module Admin
 
     def bulk_update
       submission_ids = params[:submission_ids] # Array of selected submission_ids
-      bulk_action = params[:bulk_action] # The selected action ('flag' or 'archive')
+      bulk_action = params[:bulk_action] # The selected action ('flag', 'archive', or 'spam')
 
       if submission_ids.present?
         submissions = @form.submissions.where(id: submission_ids)
@@ -236,7 +236,7 @@ module Admin
         when 'archive'
           submissions.each do |submission|
             Event.log_event(Event.names[:response_archived], 'Submission', submission.id, "Submission #{submission.id} archived at #{DateTime.now}", current_user.id)
-            submission.archive_without_validation!
+            submission.update_attribute(:archived, true)
           end
           flash[:notice] = "#{submissions.count} Submissions archived."
         when 'flag'

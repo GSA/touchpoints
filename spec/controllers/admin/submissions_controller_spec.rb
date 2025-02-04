@@ -159,7 +159,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
       it 'archives the submissions' do
         expect(response.status).to eq(302)
         expect(flash[:notice]).to eq("3 Submissions archived.")
-        expect(Submission.where(aasm_state: :archived).count).to eq(3)
+        expect(Submission.where(archived: true).count).to eq(3)
       end
     end
 

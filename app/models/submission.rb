@@ -57,6 +57,9 @@ class Submission < ApplicationRecord
     answered_questions.delete('aasm_state')
     answered_questions.delete('tags')
     answered_questions.delete('spam_score')
+    answered_questions.delete('flagged')
+    answered_questions.delete('spam')
+    answered_questions.delete('archived')
     answered_questions.delete('created_at')
     answered_questions.delete('updated_at')
 
