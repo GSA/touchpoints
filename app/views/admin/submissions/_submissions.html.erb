@@ -147,18 +147,18 @@ tr .actions a:hover {
                 <%= render "admin/submissions/unflag", { submission: submission } %>
               <% end %>
               </span>
-              <span class="archived">
-                <%- if submission.archived? %>
-                  <%= render "admin/submissions/archive", { submission: submission } %>
-                <% else %>
-                  <%= render "admin/submissions/unarchive", { submission: submission } %>
-                <% end %>
-              </span>
               <span class="marked">
                 <%- if submission.spam? %>
                   <%= render "admin/submissions/mark", { submission: submission } %>
                 <% else %>
                   <%= render "admin/submissions/unmark", { submission: submission } %>
+                <% end %>
+              </span>
+              <span class="archived">
+                <%- if submission.archived? %>
+                  <%= render "admin/submissions/archive", { submission: submission } %>
+                <% else %>
+                  <%= render "admin/submissions/unarchive", { submission: submission } %>
                 <% end %>
               </span>
             </div>
