@@ -78,14 +78,8 @@ class Admin::CxCollectionDetailsController < AdminController
     @valid_file_extension = (file_extension == ".csv")
 
     @valid_file_encoding = false
-    file_contents = file.read
-
+    file_contents = file.read.encode("UTF-8", invalid: :replace, undef: :replace, replace: "")
     @valid_file_encoding = file_contents.encoding.name == "UTF-8" && file_contents.valid_encoding?
-    unless @valid_file_encoding
-      # Some CSVs may be encoded with a byte-order mark (BOM), so force encode again to remove
-      file_contents = file_contents.encode("UTF-8", invalid: :replace, undef: :replace, replace: "")
-      @valid_file_encoding = file_contents.encoding.name == "UTF-8" && file_contents.valid_encoding?
-    end
 
     if @valid_file_encoding
       csv_file = CSV.parse(file_contents, headers: true)
