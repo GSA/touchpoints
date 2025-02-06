@@ -87,7 +87,7 @@
           <%= upload.user.email %>
         </td>
         <td>
-          <%= link_to "Uploaded file", s3_presigned_url(upload.key) %>
+          <%= link_to "Uploaded file", s3_presigned_url(upload.key) if upload.key %>
         </td>
         <td>
           <%= upload.size %>

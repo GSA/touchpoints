@@ -21,13 +21,14 @@ class Admin::CxCollectionDetailsController < AdminController
 
     if params[:form_id]
       @form = Form.find_by_short_uuid(params[:form_id])
+      @cx_collection_detail.form = @form
       @cx_collection_detail.service_stage_id = @form.service_stage_id
       @cx_collection_detail.transaction_point = :post_interaction
       @cx_collection_detail.survey_type = :thumbs_up_down if @form.kind == "a11_v2"
       @cx_collection_detail.survey_title = @form.title
       @cx_collection_detail.omb_control_number = @form.omb_approval_number
       @cx_collection_detail.trust_question_text = @form.questions.first.text
-      @cx_collection_detail.trust_question_text = @form.survey_form_activations
+      @cx_collection_detail.volume_of_customers_provided_survey_opportunity = @form.survey_form_activations
     end
   end
 
@@ -47,11 +48,8 @@ class Admin::CxCollectionDetailsController < AdminController
       if @cx_collection_detail.save
         Event.log_event(Event.names[:cx_collection_detail_created], @cx_collection_detail.class.to_s, @cx_collection_detail.id, "CX Collection Detail #{@cx_collection_detail.id} created at #{DateTime.now}", current_user.id)
 
-        if @cx_collection_detail.form_id
-          fiscal_quarter_dates = FiscalYear.fiscal_quarter_dates(@cx_collection_detail.cx_collection.fiscal_year, @cx_collection_detail.cx_collection.quarter)
-          start_date = fiscal_quarter_dates[:start_date]
-          end_date = fiscal_quarter_dates[:end_date]
-          CxCollectionDetailUpload.upload_form_results(form_id: @cx_collection_detail.form_id, start_date:, end_date:)
+        if @cx_collection_detail.form
+          CxCollectionDetailUpload.create!(user: current_user, cx_collection_detail: @cx_collection_detail)
         end
 
         format.html { redirect_to upload_admin_cx_collection_detail_url(@cx_collection_detail), notice: "CX Collection Detail was successfully created." }

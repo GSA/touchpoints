@@ -3,6 +3,7 @@
 class CxCollectionDetail < ApplicationRecord
   belongs_to :cx_collection
   belongs_to :service_stage, optional: true
+  belongs_to :form, optional: true
   has_many :cx_responses, dependent: :delete_all
   has_many :cx_collection_detail_uploads
   has_one :service_provider, through: :cx_collection
