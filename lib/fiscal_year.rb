@@ -1,4 +1,20 @@
 module FiscalYear
+  def self.fiscal_quarter_dates(fiscal_year, fiscal_quarter)
+    start_date, end_date = case fiscal_quarter
+      when 1 then [Date.new(fiscal_year - 1, 10, 1), Date.new(fiscal_year - 1, 12, 31)] # Q1: Oct - Dec of the prior calendar year relativ to the fiscal year
+      when 2 then [Date.new(fiscal_year, 1, 1), Date.new(fiscal_year, 3, 31)]  # Q2: Jan - Mar
+      when 3 then [Date.new(fiscal_year, 4, 1), Date.new(fiscal_year, 6, 30)]  # Q3: Apr - Jun
+      when 4 then [Date.new(fiscal_year, 7, 1), Date.new(fiscal_year, 9, 30)]  # Q4: Jul - Sep
+      else
+        raise ArgumentError, "Invalid quarter: #{fiscal_quarter}. Must be 1, 2, 3, or 4."
+      end
+
+    {
+      start_date: start_date.beginning_of_day,
+      end_date: end_date.end_of_day
+    }
+  end
+
   def self.first_day_of_fiscal_quarter(date)
     # Adjust the month to align with the fiscal year starting in October
     fiscal_month = (date.month - 10) % 12 + 1
