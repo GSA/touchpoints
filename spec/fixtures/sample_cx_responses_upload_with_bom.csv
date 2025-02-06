@@ -1,0 +1,5 @@
+﻿external_id,question_1,positive_effectiveness,positive_ease,positive_efficiency,positive_transparency,positive_humanity,positive_employee,positive_other,negative_effectiveness,negative_ease,negative_efficiency,negative_transparency,negative_humanity,negative_employee,negative_other,question_4
+100001,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,"alright"
+100002,1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,""
+100003,1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,Excellent listening
+100004,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,"Very intuitive experience, easy!"
