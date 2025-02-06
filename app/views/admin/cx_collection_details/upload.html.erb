@@ -61,7 +61,7 @@
   <% end %>
 </div>
 
-<table class="usa-table">
+<table class="usa-table width-full">
   <thead>
     <tr>
       <th>User</th>
@@ -70,9 +70,9 @@
       <th>Timestamp</th>
       <th>Uploaded record count</th>
       <%- if service_manager_permissions? %>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th>Job ID</th>
+      <th>Process file?</th>
+      <th>Delete?</th>
       <% end %>
     </tr>
   </thead>
