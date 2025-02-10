@@ -352,13 +352,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_04_180800) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "offerings", force: :cascade do |t|
-    t.string "name"
-    t.integer "service_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "omb_cx_reporting_collections", comment: "A detailed record belonging to a Collection; a quarterly CX Data Collection", force: :cascade do |t|
     t.integer "collection_id"
     t.string "service_provided"
