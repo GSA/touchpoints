@@ -221,7 +221,7 @@ RSpec.describe Admin::FormsController, type: :controller do
         get :export, params: { id: form.short_uuid, start_date: start_date, end_date: end_date }
         expect(response.content_type).to include('text/csv')
         expect(response.status).to eq(200)
-        expect(response.body).to include("ID,UUID,Test Text Field,Test Open Area,Location Code,User Agent,Status,Archived,Flagged,Page,Query string,Hostname,Referrer,Created At,IP Address,Tags")
+        expect(response.body).to include("ID,UUID,Test Text Field,Test Open Area,Location Code,User Agent,Status,Archived,Flagged,Deleted,Deleted at,Page,Query string,Hostname,Referrer,Created at,IP Address,Tags")
         expect(response.body).to include(submission1.created_at.to_s)
         expect(response.body).to include(submission2.created_at.to_s)
         expect(response.body).to include(submission3.created_at.to_s)

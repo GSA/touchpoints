@@ -64,6 +64,8 @@ RSpec.describe Form, type: :model do
           :aasm_state,
           :archived,
           :flagged,
+          :deleted,
+          :deleted_at,
           :page,
           :query_string,
           :hostname,
@@ -150,7 +152,8 @@ RSpec.describe Form, type: :model do
         expect(csv).to include('User Agent')
         expect(csv).to include('Page')
         expect(csv).to include('Referrer')
-        expect(csv).to include('Created At')
+        expect(csv).to include('Created at')
+        expect(csv).to include('Deleted at')
       end
     end
 
@@ -167,7 +170,8 @@ RSpec.describe Form, type: :model do
         expect(csv).to include('User Agent')
         expect(csv).to include('Page')
         expect(csv).to include('Referrer')
-        expect(csv).to include('Created At')
+        expect(csv).to include('Created at')
+        expect(csv).to include('Deleted at')
       end
     end
   end
