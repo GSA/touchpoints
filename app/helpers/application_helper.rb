@@ -214,6 +214,12 @@ module ApplicationHelper
     I18n.l time.to_time.in_time_zone(timezone), format: :with_timezone
   end
 
+  def format_submission_time(submission, time_zone)
+    submission.created_at > Date.today.in_time_zone(time_zone).beginning_of_day ?
+      submission.created_at.in_time_zone(time_zone).strftime("%-I:%M %p") :
+      submission.created_at.in_time_zone(time_zone).strftime("%b %e")
+  end
+
   def timezone_abbreviation(timezone)
     zone = ActiveSupport::TimeZone.new(timezone)
     zone.now.strftime('%Z')

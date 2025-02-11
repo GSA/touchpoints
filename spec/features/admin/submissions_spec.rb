@@ -27,11 +27,11 @@ feature 'Submissions', js: true do
             it 'does not render javascript' do
               within('table.submissions') do
                 find('tbody td:first-child').hover
-                expect(find('table tbody').text).to have_content('content_tag(')
+                expect(find('table tbody')).to have_content('content_tag(')
                 # Does not spawn an alert (which is good)
                 expect { page.driver.browser.switch_to.alert.accept }.to raise_error(Selenium::WebDriver::Error::NoSuchAlertError)
-                expect(find('table tbody').text).to have_text('content_tag')
-                expect(find('table tbody').text).to have_text('script')
+                expect(find('table tbody')).to have_text('content_tag')
+                expect(find('table tbody')).to have_text('script')
               end
             end
           end
@@ -362,9 +362,10 @@ feature 'Submissions', js: true do
                 expect(page).to have_css('.flagged', visible: false)
                 expect(page).to have_css('.archived', visible: false)
                 expect(page).to have_css('.marked', visible: false)
+                expect(page).to have_content('Preview')
                 expect(page).to have_content('Status')
+                expect(page).to have_content('Received')
                 expect(page).to have_content('received')
-                expect(page).to have_content('Created At')
               end
             end
           end

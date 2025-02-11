@@ -126,13 +126,13 @@ tr .actions a:hover {
           data-url="<%= admin_form_submission_path(submission.form, submission) %>">
           <td><%= check_box_tag "submission_ids[]", submission.id, class: "batch-checkbox" %></td>
           <td>
-            <%= sanitize(submission.preview) %>
+            <%= h(submission.preview) %>
           </td>
           <td>
             <%= submission.aasm_state %>
           </td>
           <td style="position: relative;">
-            <%= submission.created_at > Date.today.beginning_of_day ? submission.created_at.strftime("%-I:%M %p") : submission.created_at.strftime("%b %e") %>
+            <%= format_submission_time(submission, current_user.time_zone) %>
             <div class="actions">
               <span class="flagged">
               <%- if submission.flagged? %>

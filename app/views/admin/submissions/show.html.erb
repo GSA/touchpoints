@@ -128,7 +128,7 @@
               Location code
             </td>
             <td>
-              <%= sanitize(@submission.location_code) %>
+              <%= h(@submission.location_code) %>
             </td>
           </tr>
           <tr>
@@ -136,7 +136,7 @@
               User agent
             </td>
             <td>
-              <%= sanitize(@submission.user_agent) %>
+              <%= h(@submission.user_agent) %>
             </td>
           </tr>
           <tr>
@@ -144,7 +144,7 @@
               Submitted from hostname
             </td>
             <td>
-              <%= sanitize(@submission.hostname) %>
+              <%= h(@submission.hostname) %>
             </td>
           </tr>
           <tr>
