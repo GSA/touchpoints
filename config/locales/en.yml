@@ -1,4 +1,4 @@
-en-US:
+en:
   errors:
     format: "%{attribute} %{message}"
     request:

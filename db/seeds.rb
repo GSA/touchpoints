@@ -281,7 +281,7 @@ Question.create!({
 1010.times.each do |i|
  Submission.create!({
     form: form_that_belongs_to_a_service,
-    answer_01: "aaaaa",
+    answer_01: Faker::Lorem.paragraph,
   })
 end
 
