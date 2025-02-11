@@ -197,6 +197,14 @@ class Submission < ApplicationRecord
     form.organization.present? ? form.organization.name : 'Org Name'
   end
 
+  def preview
+    # only select the answer fields
+    fields = attributes.select { |attr| attr.include?("answer")}
+    # only select text fields
+    text_fields = fields.values.select { |v| v.is_a?(String) }
+    text_fields.join(" - ").truncate(120)
+  end
+
   def set_uuid
     self.uuid = SecureRandom.uuid if uuid.blank?
   end
