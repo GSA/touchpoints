@@ -278,13 +278,15 @@ Question.create!({
 })
 
 # more than 1,000, to test async sidekiq form export jobs
-1010.times.each do |i|
+total_submissions = 1010
+since_days_ago = 180
+total_submissions.times.each do |i|
  Submission.create!({
     form: form_that_belongs_to_a_service,
-    answer_01: Faker::Lorem.paragraph,
+    answer_01: Faker::Lorem.paragraph_by_chars(number: 30 + rand(1000)),
+    created_at: since_days_ago.days.ago + (i * (since_days_ago.to_f / total_submissions)).days
   })
 end
-
 
 stage_before = ServiceStage.create({
   name: 'Before',
