@@ -60,8 +60,10 @@ class Submission < ApplicationRecord
     answered_questions.delete('flagged')
     answered_questions.delete('spam')
     answered_questions.delete('archived')
+    answered_questions.delete('deleted')
     answered_questions.delete('created_at')
     answered_questions.delete('updated_at')
+    answered_questions.delete('deleted_at')
 
     # Ensure only requested fields are submitted
     expected_submission_fields = form.questions.collect(&:answer_field) + ["location_code"]

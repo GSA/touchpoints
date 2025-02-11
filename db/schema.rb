@@ -9,7 +9,8 @@
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
-ActiveRecord::Schema[7.2].define(version: 2025_02_06_005216) do
+
+ActiveRecord::Schema[7.2].define(version: 2025_02_11_191435) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -648,6 +649,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_06_005216) do
     t.text "query_string"
     t.boolean "spam", default: false
     t.boolean "archived", default: false
+    t.boolean "deleted", default: false
+    t.datetime "deleted_at"
     t.index ["archived"], name: "index_submissions_on_archived"
     t.index ["created_at"], name: "index_submissions_on_created_at"
     t.index ["flagged"], name: "index_submissions_on_flagged"

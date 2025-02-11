@@ -629,11 +629,13 @@ class Form < ApplicationRecord
       aasm_state: 'Status',
       archived: 'Archived',
       flagged: 'Flagged',
+      deleted: 'Deleted',
+      deleted_at: 'Deleted at',
       page: 'Page',
       query_string: 'Query string',
       hostname: 'Hostname',
       referer: 'Referrer',
-      created_at: 'Created At',
+      created_at: 'Created at',
     })
 
     if organization.enable_ip_address?
