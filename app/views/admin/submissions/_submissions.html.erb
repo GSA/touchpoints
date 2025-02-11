@@ -100,19 +100,16 @@ tr .actions a:hover {
     </button>
   </div>
   <div class="table-wrap">
-    <table class="usa-table submissions">
+    <table class="usa-table submissions font-sans-2xs">
       <thead>
         <tr>
           <th style="width: 46px;">
             <%= check_box_tag "submission_ids[]", id: "toggle-all-checkbox" %>
           </th>
-        <% form.rendered_questions.each do |question| %>
-          <% next if question.question_type == "text_display" %>
-          <th data-sortable scope="col"><%= question.text %></th>
-        <% end %>
+          <th data-sortable scope="col" style="">Preview</th>
           <th data-sortable scope="col" style="width: 120px;">Status</th>
-          <th data-sortable scope="col" style="width: 350px;">
-            Created At
+          <th data-sortable scope="col" style="width: 120px;">
+            Received
           </th>
         </tr>
       </thead>
@@ -128,17 +125,14 @@ tr .actions a:hover {
           data-id="<%= submission.uuid %>"
           data-url="<%= admin_form_submission_path(submission.form, submission) %>">
           <td><%= check_box_tag "submission_ids[]", submission.id, class: "batch-checkbox" %></td>
-        <% form.rendered_questions.each do |question| %>
-          <% next if question.question_type == "text_display" %>
           <td>
-            <%= h(submission.send(question.answer_field.to_sym).to_s) %>
+            <%= sanitize(submission.preview) %>
           </td>
-        <% end %>
           <td>
             <%= submission.aasm_state %>
           </td>
           <td style="position: relative;">
-            <%= format_time(submission.created_at, submission.form.time_zone.present? ? submission.form.time_zone : current_user.time_zone) %>
+            <%= submission.created_at > Date.today.beginning_of_day ? submission.created_at.strftime("%-I:%M %p") : submission.created_at.strftime("%b %e") %>
             <div class="actions">
               <span class="flagged">
               <%- if submission.flagged? %>
