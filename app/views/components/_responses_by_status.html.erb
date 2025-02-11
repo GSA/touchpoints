@@ -1,7 +1,7 @@
 <div class="text-uppercase font-body-3xs margin-top-2">
   Responses by status
 </div>
-<table class="usa-table width-full">
+<table class="usa-table width-full font-sans-2xs">
   <thead>
     <tr>
       <th>
@@ -26,6 +26,9 @@
         Archived
       </th>
       <th>
+        Deleted
+      </th>
+      <th>
         Total
       </th>
     </tr>
@@ -43,6 +46,8 @@
       </td>
       <td>
         <%= number_with_delimiter(responses_by_status["responded"]) %>
+      </td>
+      <td>
       </td>
       <td>
       </td>
@@ -75,6 +80,9 @@
       </td>
       <td>
         <%= number_with_delimiter(responses_by_status["archived"]) %>
+      </td>
+      <td>
+        <%= number_with_delimiter(responses_by_status["deleted"]) %>
       </td>
       <td>
       </td>
