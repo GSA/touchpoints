@@ -92,7 +92,12 @@ module Admin
 
     def responses_per_day
       @dates = (45.days.ago.to_date..Date.today).map { |date| date }
-      @response_groups = @form.submissions.where("created_at >= ?", 45.days.ago).group('date(created_at)').size.sort.last(45)
+
+      @response_groups = @form.submissions.unscoped
+        .where("created_at >= ?", 45.days.ago)
+        .group(Arel.sql("DATE(created_at)"))
+        .count.sort
+
       # Add in 0 count days to fetched analytics
       @dates.each do |date|
         @response_groups << [date, 0] unless @response_groups.detect { |row| row[0].strftime('%m %d %Y') == date.strftime('%m %d %Y') }
