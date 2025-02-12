@@ -91,12 +91,12 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
     end
   end
 
-  describe 'DELETE #destroy' do
-    it 'destroys the requested submission' do
+  describe 'DELETE #delete' do
+    it 'deletes the requested submission' do
       submission = Submission.create! valid_attributes
       expect do
-        delete :destroy, params: { id: submission.to_param, form_id: form.short_uuid }, session: valid_session, format: :js
-      end.to change(Submission, :count).by(-1)
+        delete :delete, params: { id: submission.to_param, form_id: form.short_uuid }, session: valid_session, format: :js
+      end.to change { Submission.count }.by(-1)
     end
 
     it 'redirects to the submissions list' do
@@ -159,7 +159,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
       it 'archives the submissions' do
         expect(response.status).to eq(302)
         expect(flash[:notice]).to eq("3 Submissions archived.")
-        expect(Submission.where(archived: true).count).to eq(3)
+        expect(Submission.unscoped.archived.count).to eq(3)
       end
     end
 
@@ -171,7 +171,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
       it 'marks the submissions as spam' do
         expect(response.status).to eq(302)
         expect(flash[:notice]).to eq("3 Submissions marked as spam.")
-        expect(Submission.where(spam: true).count).to eq(3)
+        expect(Submission.unscoped.marked_as_spam.count).to eq(3)
       end
     end
 
