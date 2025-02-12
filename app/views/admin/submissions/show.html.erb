@@ -94,7 +94,7 @@
         Metadata
       </div>
 
-      <table class="usa-table usa-table--striped width-full">
+      <table class="usa-table usa-table--striped width-full font-sans-2xs">
         <thead>
           <tr>
             <th>
@@ -189,6 +189,14 @@
           </tr>
           <tr>
             <td>
+              Spam
+            </td>
+            <td>
+              <%= @submission.spam? %>
+            </td>
+          </tr>
+          <tr>
+            <td>
               Archived
             </td>
             <td>
@@ -197,10 +205,18 @@
           </tr>
           <tr>
             <td>
-              Spam
+              Deleted
             </td>
             <td>
-              <%= @submission.spam? %>
+              <%= @submission.deleted? %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Deleted at
+            </td>
+            <td>
+              <%= @submission.deleted_at %>
             </td>
           </tr>
         </tbody>

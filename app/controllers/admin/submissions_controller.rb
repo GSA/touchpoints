@@ -118,14 +118,35 @@ module Admin
     end
 
     def submissions_table
-      @show_archived = true if params[:archived]
-      all_submissions = @form.submissions
-      all_submissions = all_submissions.where(":tags = ANY (tags)", tags: params[:tag]) if params[:tag]
-      if params[:archived]
-        @submissions = all_submissions.order('submissions.created_at DESC').page params[:page]
-      else
-        @submissions = all_submissions.non_archived.order('submissions.created_at DESC').page params[:page]
+      @show_flagged = search_params[:flagged] == "1"
+      @show_marked_as_spam = search_params[:spam] == "1"
+      @show_archived = search_params[:archived] == "1"
+      @show_deleted = search_params[:deleted] == "1"
+
+      @submissions = @form.submissions.all
+
+      # Apply filters based on query params
+      if search_params[:tag]
+        @submissions = all_submissions.where(":tags = ANY (tags)", tags: search_params[:tag])
       end
+
+      unless @show_flagged
+        @submissions = @submissions.non_flagged
+      end
+
+      unless @show_marked_as_spam
+        @submissions = @submissions.not_marked_as_spam
+      end
+
+      unless @show_archived
+        @submissions = @submissions.non_archived
+      end
+
+      unless @show_deleted
+        @submissions = @submissions.non_deleted
+      end
+
+      @submissions = @submissions.page(params[:page])
     end
 
     def archive
@@ -161,7 +182,7 @@ module Admin
 
       Event.log_event(Event.names[:response_deleted], 'Submission', @submission.id, "Submission #{@submission.id} deleted at #{DateTime.now}", current_user.id)
 
-      @submission.destroy
+      @submission.update(deleted: true, deleted_at: Time.now)
       respond_to do |format|
         format.js { render :destroy }
       end
@@ -230,7 +251,7 @@ module Admin
       bulk_action = params[:bulk_action] # The selected action ('flag', 'archive', or 'spam')
 
       if submission_ids.present?
-        submissions = @form.submissions.where(id: submission_ids)
+        submissions = @form.submissions.unscoped.where(id: submission_ids)
 
         case bulk_action
         when 'archive'
@@ -238,19 +259,25 @@ module Admin
             Event.log_event(Event.names[:response_archived], 'Submission', submission.id, "Submission #{submission.id} archived at #{DateTime.now}", current_user.id)
             submission.update_attribute(:archived, true)
           end
-          flash[:notice] = "#{submissions.count} Submissions archived."
+          flash[:notice] = "#{view_context.pluralize(submissions.count, 'Submission')} Submissions archived."
         when 'flag'
           submissions.each do |submission|
             Event.log_event(Event.names[:response_flagged], 'Submission', submission.id, "Submission #{submission.id} flagged at #{DateTime.now}", current_user.id)
             submission.update_attribute(:flagged, true)
           end
-          flash[:notice] = "#{submissions.count} Submissions flagged."
+          flash[:notice] = "#{view_context.pluralize(submissions.count, 'Submission')} Submissions flagged."
         when 'spam'
           submissions.each do |submission|
             Event.log_event(Event.names[:response_marked_as_spam], 'Submission', submission.id, "Submission #{submission.id} marked as spam at #{DateTime.now}", current_user.id)
             submission.update_attribute(:spam, true)
           end
-          flash[:notice] = "#{submissions.count} Submissions marked as spam."
+          flash[:notice] = "#{view_context.pluralize(submissions.count, 'Submission')} Submissions marked as spam."
+        when 'delete'
+          submissions.each do |submission|
+            Event.log_event(Event.names[:response_deleted], 'Submission', submission.id, "Submission #{submission.id} deleted at #{DateTime.now}", current_user.id)
+            submission.update(deleted: true, deleted_at: Time.now)
+          end
+          flash[:notice] = "#{view_context.pluralize(submissions.count, 'Submission')} deleted."
         else
           flash[:alert] = "Invalid action selected."
         end
@@ -292,6 +319,16 @@ module Admin
 
     def tag_params
       params.require(:submission).permit(:tag)
+    end
+
+    def search_params
+      params.permit(
+        :flagged,
+        :spam,
+        :archived,
+        :deleted,
+        :tags,
+      )
     end
   end
 end
