@@ -13,9 +13,13 @@ class Submission < ApplicationRecord
   after_create :update_form
   after_commit :send_notifications, on: :create
 
+  default_scope { where(flagged: false, archived: false, deleted: false).order("created_at DESC") }
   scope :archived, -> { where(archived: true) }
   scope :non_archived, -> { where(archived: false) }
+  scope :flagged, -> { where(flagged: true) }
   scope :non_flagged, -> { where(flagged: false) }
+  scope :deleted, -> { where(deleted: true) }
+  scope :non_deleted, -> { where(deleted: false) }
 
   aasm do
     state :received, initial: true

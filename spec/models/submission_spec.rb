@@ -11,10 +11,12 @@ RSpec.describe Submission, type: :model do
   let(:submission) { FactoryBot.create(:submission, form:) }
 
   describe "default scope" do
-    let!(:active_submission) { Submission.create!(deleted: false, archived: false, form:) }
-    let!(:deleted_submission) { Submission.create!(deleted: true, archived: false, form:) }
-    let!(:archived_submission) { Submission.create!(deleted: false, archived: true, form:) }
-    let!(:both_deleted_and_archived) { Submission.create!(deleted: true, archived: true, form:) }
+    let!(:active_submission) { Submission.create!(deleted: false, archived: false, flagged: false, form:) }
+    let!(:deleted_submission) { Submission.create!(deleted: true, archived: false, flagged: false, form:) }
+    let!(:archived_submission) { Submission.create!(deleted: false, archived: true, flagged: false, form:) }
+    let!(:flagged_submission) { Submission.create!(deleted: false, archived: false, flagged: true, form:) }
+    let!(:both_deleted_and_archived) { Submission.create!(deleted: true, archived: true, flagged: false, form:) }
+    let!(:all_false) { Submission.create!(deleted: false, archived: false, flagged: false, form:) }
 
     it "excludes deleted submissions" do
       expect(Submission.all).not_to include(deleted_submission)
@@ -24,12 +26,16 @@ RSpec.describe Submission, type: :model do
       expect(Submission.all).not_to include(archived_submission)
     end
 
+    it "excludes flagged submissions" do
+      expect(Submission.all).not_to include(flagged_submission)
+    end
+
     it "excludes submissions that are both deleted and archived" do
       expect(Submission.all).not_to include(both_deleted_and_archived)
     end
 
-    it "includes only active submissions" do
-      expect(Submission.all).to contain_exactly(active_submission)
+    it "includes only active submissions (not deleted, archived, or flagged)" do
+      expect(Submission.all).to contain_exactly(active_submission, all_false)
     end
   end
 
