@@ -10,6 +10,29 @@ RSpec.describe Submission, type: :model do
   let!(:user_role2) { FactoryBot.create(:user_role, :form_manager, user: user2, form:) }
   let(:submission) { FactoryBot.create(:submission, form:) }
 
+  describe "default scope" do
+    let!(:active_submission) { Submission.create!(deleted: false, archived: false, form:) }
+    let!(:deleted_submission) { Submission.create!(deleted: true, archived: false, form:) }
+    let!(:archived_submission) { Submission.create!(deleted: false, archived: true, form:) }
+    let!(:both_deleted_and_archived) { Submission.create!(deleted: true, archived: true, form:) }
+
+    it "excludes deleted submissions" do
+      expect(Submission.all).not_to include(deleted_submission)
+    end
+
+    it "excludes archived submissions" do
+      expect(Submission.all).not_to include(archived_submission)
+    end
+
+    it "excludes submissions that are both deleted and archived" do
+      expect(Submission.all).not_to include(both_deleted_and_archived)
+    end
+
+    it "includes only active submissions" do
+      expect(Submission.all).to contain_exactly(active_submission)
+    end
+  end
+
   describe '#send_notifications' do
     before do
       ENV['ENABLE_EMAIL_NOTIFICATIONS'] = 'true'
