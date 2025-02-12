@@ -106,14 +106,16 @@ module Admin
     end
 
     def responses_by_status
-      responses_by_aasm = @form.submissions.group(:aasm_state).count
-      flagged_count = @form.submissions.where(flagged: true).size
-      archived_count = @form.submissions.where(archived: true).size
-      marked_count = @form.submissions.where(spam: true).size
+      responses_by_aasm = @form.submissions.unscoped.group(:aasm_state).count
+      flagged_count = @form.submissions.unscoped.flagged.count
+      archived_count = @form.submissions.unscoped.archived.count
+      marked_count = @form.submissions.unscoped.marked_as_spam.count
+      deleted_count = @form.submissions.unscoped.deleted.count
       @responses_by_status = { **responses_by_aasm,
         'flagged' => flagged_count,
         'marked' => marked_count,
         'archived' => archived_count,
+        'deleted' => deleted_count,
         'total' => responses_by_aasm.values.sum }
       @responses_by_status.default = 0
     end
@@ -305,7 +307,7 @@ module Admin
     end
 
     def set_submission
-      @submission = @form.submissions.find(params[:id])
+      @submission = @form.submissions.unscoped.find(params[:id])
     end
 
     def status_params
@@ -328,6 +330,7 @@ module Admin
 
     def search_params
       params.permit(
+        :form_id,
         :flagged,
         :spam,
         :archived,
