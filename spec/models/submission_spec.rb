@@ -11,13 +11,13 @@ RSpec.describe Submission, type: :model do
   let(:submission) { FactoryBot.create(:submission, form:) }
 
   describe "default scope" do
-    let!(:active_submission) { Submission.create!(deleted: false, archived: false, flagged: false, spam: false) }
-    let!(:deleted_submission) { Submission.create!(deleted: true, archived: false, flagged: false, spam: false) }
-    let!(:archived_submission) { Submission.create!(deleted: false, archived: true, flagged: false, spam: false) }
-    let!(:flagged_submission) { Submission.create!(deleted: false, archived: false, flagged: true, spam: false) }
-    let!(:spam_submission) { Submission.create!(deleted: false, archived: false, flagged: false, spam: true) }
-    let!(:both_deleted_and_archived) { Submission.create!(deleted: true, archived: true, flagged: false, spam: false) }
-    let!(:all_false) { Submission.create!(deleted: false, archived: false, flagged: false, spam: false) }
+    let!(:active_submission) { Submission.create!(deleted: false, archived: false, flagged: false, spam: false, form:) }
+    let!(:deleted_submission) { Submission.create!(deleted: true, archived: false, flagged: false, spam: false, form:) }
+    let!(:archived_submission) { Submission.create!(deleted: false, archived: true, flagged: false, spam: false, form:) }
+    let!(:flagged_submission) { Submission.create!(deleted: false, archived: false, flagged: true, spam: false, form:) }
+    let!(:spam_submission) { Submission.create!(deleted: false, archived: false, flagged: false, spam: true, form:) }
+    let!(:both_deleted_and_archived) { Submission.create!(deleted: true, archived: true, flagged: false, spam: false, form:) }
+    let!(:all_false) { Submission.create!(deleted: false, archived: false, flagged: false, spam: false, form:) }
 
     it "excludes deleted submissions" do
       expect(Submission.all).not_to include(deleted_submission)
