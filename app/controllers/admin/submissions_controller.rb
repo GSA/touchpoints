@@ -269,19 +269,19 @@ module Admin
             Event.log_event(Event.names[:response_archived], 'Submission', submission.id, "Submission #{submission.id} archived at #{DateTime.now}", current_user.id)
             submission.update_attribute(:archived, true)
           end
-          flash[:notice] = "#{view_context.pluralize(submissions.count, 'Submission')} Submissions archived."
+          flash[:notice] = "#{view_context.pluralize(submissions.count, 'Submission')} archived."
         when 'flag'
           submissions.each do |submission|
             Event.log_event(Event.names[:response_flagged], 'Submission', submission.id, "Submission #{submission.id} flagged at #{DateTime.now}", current_user.id)
             submission.update_attribute(:flagged, true)
           end
-          flash[:notice] = "#{view_context.pluralize(submissions.count, 'Submission')} Submissions flagged."
+          flash[:notice] = "#{view_context.pluralize(submissions.count, 'Submission')} flagged."
         when 'spam'
           submissions.each do |submission|
             Event.log_event(Event.names[:response_marked_as_spam], 'Submission', submission.id, "Submission #{submission.id} marked as spam at #{DateTime.now}", current_user.id)
             submission.update_attribute(:spam, true)
           end
-          flash[:notice] = "#{view_context.pluralize(submissions.count, 'Submission')} Submissions marked as spam."
+          flash[:notice] = "#{view_context.pluralize(submissions.count, 'Submission')} marked as spam."
         when 'delete'
           submissions.each do |submission|
             Event.log_event(Event.names[:response_deleted], 'Submission', submission.id, "Submission #{submission.id} deleted at #{DateTime.now}", current_user.id)
