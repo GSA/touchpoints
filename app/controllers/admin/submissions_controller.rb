@@ -184,15 +184,18 @@ module Admin
       @submission.update_attribute(:spam, false)
     end
 
-    def destroy
+    def delete
       ensure_form_manager(form: @form)
 
-      Event.log_event(Event.names[:response_deleted], 'Submission', @submission.id, "Submission #{@submission.id} deleted at #{DateTime.now}", current_user.id)
-
+      Event.log_event(Event.names[:response_deleted], 'Submission', @submission.id, "Submission #{@submission.id} undeleted at #{DateTime.now}", current_user.id)
       @submission.update(deleted: true, deleted_at: Time.now)
-      respond_to do |format|
-        format.js { render :destroy }
-      end
+    end
+
+    def undelete
+      ensure_form_manager(form: @form)
+
+      Event.log_event(Event.names[:response_undeleted], 'Submission', @submission.id, "Submission #{@submission.id} deleted at #{DateTime.now}", current_user.id)
+      @submission.update(deleted: false, deleted_at: nil)
     end
 
     def feed

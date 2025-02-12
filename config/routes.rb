@@ -331,10 +331,12 @@ Rails.application.routes.draw do
         member do
           post 'flag', to: 'submissions#flag', as: :flag
           post 'unflag', to: 'submissions#unflag', as: :unflag
-          post 'archive', to: 'submissions#archive', as: :archive
-          post 'unarchive', to: 'submissions#unarchive', as: :unarchive
           post 'mark', to: 'submissions#mark', as: :mark
           post 'unmark', to: 'submissions#unmark', as: :unmark
+          post 'archive', to: 'submissions#archive', as: :archive
+          post 'unarchive', to: 'submissions#unarchive', as: :unarchive
+          post 'delete', to: 'submissions#delete', as: :delete
+          post 'undelete', to: 'submissions#undelete', as: :undelete
           post 'add_tag', to: 'submissions#add_tag', as: :add_tag
           delete 'remove_tag', to: 'submissions#remove_tag', as: :remove_tag
         end

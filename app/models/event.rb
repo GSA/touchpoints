@@ -64,6 +64,7 @@ class Event < ApplicationRecord
     response_marked_as_spam: 'response_marked_as_spam',
     response_unmarked_as_spam: 'response_unmarked_as_spam',
     response_deleted: 'response_deleted',
+    response_undeleted: 'response_undeleted',
     response_status_changed: 'response_status_changed',
 
     website_created: 'website_created',
