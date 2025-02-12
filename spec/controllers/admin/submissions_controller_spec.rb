@@ -147,7 +147,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
       it 'flags the submissions' do
         expect(response.status).to eq(302)
         expect(flash[:notice]).to eq("3 Submissions flagged.")
-        expect(Submission.where(flagged: true).count).to eq(3)
+        expect(Submission.unscoped.flagged.count).to eq(3)
       end
     end
 
