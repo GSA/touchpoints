@@ -191,7 +191,7 @@ feature 'Submissions', js: true do
               end
 
               it 'view the 2nd page of responses' do
-                expect(page).to have_content('Displaying Responses 101 - 120 of 120')
+                expect(page).to have_content('101 - 120 of 120')
               end
             end
           end
@@ -211,7 +211,7 @@ feature 'Submissions', js: true do
               end
 
               it 'view the 2nd page of responses' do
-                expect(page).to have_content('Displaying Responses 101 - 115 of 115')
+                expect(page).to have_content('101 - 115 of 115')
               end
             end
           end
