@@ -137,23 +137,23 @@ module Admin
 
       # Apply filters based on query params
       if search_params[:tag]
-        @submissions = all_submissions.where(":tags = ANY (tags)", tags: search_params[:tag])
+        @submissions = @submissions.where(":tags = ANY (tags)", tags: search_params[:tag])
       end
 
-      unless @show_flagged
-        @submissions = @submissions.non_flagged
+      if @show_flagged
+        @submissions = @submissions.flagged
       end
 
-      unless @show_marked_as_spam
-        @submissions = @submissions.not_marked_as_spam
+      if @show_marked_as_spam
+        @submissions = @submissions.marked_as_spam
       end
 
-      unless @show_archived
-        @submissions = @submissions.non_archived
+      if @show_archived
+        @submissions = @submissions.archived
       end
 
-      unless @show_deleted
-        @submissions = @submissions.non_deleted
+      if @show_deleted
+        @submissions = @submissions.deleted
       end
 
       @submissions = @submissions.page(params[:page])

@@ -25,25 +25,31 @@ tr .actions a:hover {
 <div class="display-flex flex-justify margin-top-1">
   <div class="usa-button-group" role="group">
     <div>
-    <%= link_to responses_admin_form_path(form, flagged: params["flagged"], spam: params["spam"], archived: 1, deleted: params["deleted"]), class: "usa-button #{"usa-button--outline" unless params["archived"]}" do %>
+    <%= link_to responses_admin_form_path(form), class: "usa-button #{"usa-button--outline" if params.keys.size > 3}" do %>
       <span class="fa fa-inbox"></span>
-      Archived
+      Inbox
     <% end %>
     </div>
     <div>
-    <%= link_to responses_admin_form_path(form, flagged: 1, spam: params["spam"], archived: params["archived"], deleted: params["deleted"]), class: "usa-button #{"usa-button--outline" unless params["flagged"]}" do %>
+    <%= link_to responses_admin_form_path(form, flagged: 1), class: "usa-button #{"usa-button--outline" unless params["flagged"]}" do %>
       <span class="fa fa-exclamation-triangle"></span>
       Flagged
     <% end %>
     </div>
     <div>
-    <%= link_to responses_admin_form_path(form, flagged: 1, spam: 1, archived: params["archived"], deleted: params["deleted"]), class: "usa-button #{"usa-button--outline" unless params["spam"]}" do %>
+    <%= link_to responses_admin_form_path(form, spam: 1), class: "usa-button #{"usa-button--outline" unless params["spam"]}" do %>
       <span class="far fa-flag"></span>
       Spam
     <% end %>
     </div>
     <div>
-    <%= link_to responses_admin_form_path(form, flagged: params["flagged"], spam: params["spam"], archived: params["archived"], deleted: 1), class: "usa-button #{"usa-button--outline" unless params["deleted"]}" do %>
+    <%= link_to responses_admin_form_path(form, archived: 1), class: "usa-button #{"usa-button--outline" unless params["archived"]}" do %>
+      <span class="fa fa-archive"></span>
+      Archived
+    <% end %>
+    </div>
+    <div>
+    <%= link_to responses_admin_form_path(form, deleted: 1), class: "usa-button #{"usa-button--outline" unless params["deleted"]}" do %>
       <span class="fa fa-trash"></span>
       Trash
     <% end %>
