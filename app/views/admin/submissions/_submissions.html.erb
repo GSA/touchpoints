@@ -22,50 +22,6 @@ tr .actions a:hover {
 </style>
 <% @tags = form.submission_tags %>
 
-<div class="display-flex flex-justify margin-top-1">
-  <div class="usa-button-group" role="group">
-    <div>
-    <%= link_to responses_admin_form_path(form), class: "usa-button #{"usa-button--outline" if params.keys.size > 3}" do %>
-      <span class="fa fa-inbox"></span>
-      Inbox
-    <% end %>
-    </div>
-    <div>
-    <%= link_to responses_admin_form_path(form, flagged: 1), class: "usa-button #{"usa-button--outline" unless params["flagged"]}" do %>
-      <span class="far fa-flag"></span>
-      Flagged
-    <% end %>
-    </div>
-    <div>
-    <%= link_to responses_admin_form_path(form, spam: 1), class: "usa-button #{"usa-button--outline" unless params["spam"]}" do %>
-      <span class="fa fa-exclamation-triangle"></span>
-      Spam
-    <% end %>
-    </div>
-    <div>
-    <%= link_to responses_admin_form_path(form, archived: 1), class: "usa-button #{"usa-button--outline" unless params["archived"]}" do %>
-      <span class="fa fa-archive"></span>
-      Archived
-    <% end %>
-    </div>
-    <div>
-    <%= link_to responses_admin_form_path(form, deleted: 1), class: "usa-button #{"usa-button--outline" unless params["deleted"]}" do %>
-      <span class="fa fa-trash"></span>
-      Trash
-    <% end %>
-    </div>
-  </div>
-
-  <div>
-    <div class="display-flex flex-align-center flex-justify-between">
-      <div class="text-base text-ink margin-left-auto margin-right-2">
-        <%= page_entries_info submissions %>
-      </div>
-      <%= paginate submissions, remote: true %>
-    </div>
-  </div>
-</div>
-
 <%- if @tags.any? %>
 <div class="well margin-top-1">
   <div class="field">
@@ -147,7 +103,7 @@ tr .actions a:hover {
     </button>
   </div>
   <div class="table-wrap">
-    <table class="usa-table submissions font-sans-2xs">
+    <table class="usa-table submissions font-sans-2xs width-full margin-top-0">
       <thead>
         <tr>
           <th style="width: 46px;">

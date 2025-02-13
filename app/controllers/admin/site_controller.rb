@@ -9,10 +9,10 @@ module Admin
       @days_since = params[:recent] && params[:recent].to_i <= 365 ? params[:recent].to_i : 3
       @dates = (@days_since.days.ago.to_date..Date.today).map { |date| date }
 
-      @response_groups = Submission.unscoped.group('date(created_at)').count.sort.last(@days_since.days)
+      @response_groups = Submission.group('date(created_at)').count.sort.last(@days_since.days)
       @user_groups = User.group('date(created_at)').count.sort.last(@days_since.days)
       @inactive_user_groups = User.where(inactive: true).group('date(updated_at)').count.sort.last(@days_since.days)
-      todays_submissions = Submission.unscoped.where('created_at > ?', Time.zone.now - @days_since.days)
+      todays_submissions = Submission.where('created_at > ?', Time.zone.now - @days_since.days)
 
       # Add in 0 count days to fetched analytics
       @dates.each do |date|

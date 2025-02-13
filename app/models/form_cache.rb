@@ -37,7 +37,7 @@ class FormCache
     Rails.cache.fetch("#{NAMESPACE}-performance-gov-analysis-#{short_uuid}", expires_in: 1.day) do
       form = Form.find_by_short_uuid(short_uuid)
       report = {}
-      report[:quarterly_submissions] = form.submissions.order(:created_at).entries.map { |e| e.attributes.merge(quarter: e.created_at.beginning_of_quarter.to_date, end_of_quarter: e.created_at.end_of_quarter) }
+      report[:quarterly_submissions] = form.submissions.entries.map { |e| e.attributes.merge(quarter: e.created_at.beginning_of_quarter.to_date, end_of_quarter: e.created_at.end_of_quarter) }
       report[:quarters] = report[:quarterly_submissions].pluck(:quarter).uniq
       report
     end

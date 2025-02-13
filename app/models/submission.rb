@@ -13,7 +13,8 @@ class Submission < ApplicationRecord
   after_create :update_form
   after_commit :send_notifications, on: :create
 
-  default_scope { where(flagged: false, spam: false, archived: false, deleted: false).order("created_at DESC") }
+  scope :active, -> { where(flagged: false, spam: false, archived: false, deleted: false) }
+  scope :ordered, -> { order("created_at DESC") }
   scope :archived, -> { where(archived: true) }
   scope :non_archived, -> { where(archived: false) }
   scope :flagged, -> { where(flagged: true) }

@@ -96,7 +96,7 @@ class UserMailer < ApplicationMailer
     return unless @form.send_notifications?
 
     set_logo
-    @submissions = Submission.where(id: form_id).where('created_at > ?', @begin_day).order('created_at desc')
+    @submissions = @form.submissions.where('created_at > ?', @begin_day)
     return unless @submissions.present?
 
     emails = @form.notification_emails.split(',')

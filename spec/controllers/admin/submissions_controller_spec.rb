@@ -147,7 +147,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
       it 'flags the submissions' do
         expect(response.status).to eq(302)
         expect(flash[:notice]).to eq("3 Submissions flagged.")
-        expect(Submission.unscoped.flagged.count).to eq(3)
+        expect(Submission.flagged.count).to eq(3)
       end
     end
 
@@ -159,7 +159,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
       it 'archives the submissions' do
         expect(response.status).to eq(302)
         expect(flash[:notice]).to eq("3 Submissions archived.")
-        expect(Submission.unscoped.archived.count).to eq(3)
+        expect(Submission.archived.count).to eq(3)
       end
     end
 
@@ -171,7 +171,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
       it 'marks the submissions as spam' do
         expect(response.status).to eq(302)
         expect(flash[:notice]).to eq("3 Submissions marked as spam.")
-        expect(Submission.unscoped.marked_as_spam.count).to eq(3)
+        expect(Submission.marked_as_spam.count).to eq(3)
       end
     end
 

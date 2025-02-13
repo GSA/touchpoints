@@ -44,7 +44,7 @@ module Admin
     end
 
     def search
-      @all_submissions = @form.submissions
+      @all_submissions = @form.submissions.ordered
       @all_submissions = @all_submissions.where(":tags = ANY (tags)", tags: params[:tag]) if params[:tag]
       if params[:archived]
         @submissions = @all_submissions.page params[:page]
@@ -93,7 +93,7 @@ module Admin
     def responses_per_day
       @dates = (45.days.ago.to_date..Date.today).map { |date| date }
 
-      @response_groups = Submission.unscoped
+      @response_groups = Submission
         .where(form_id: @form.id)
         .where("created_at >= ?", 45.days.ago)
         .group(Arel.sql("DATE(created_at)"))
@@ -107,7 +107,7 @@ module Admin
     end
 
     def responses_by_status
-      form_submissions = Submission.unscoped.where(form_id: @form.id)
+      form_submissions = @form.submissions
 
       responses_by_aasm = form_submissions.group(:aasm_state).count
       flagged_count = form_submissions.flagged.count
@@ -133,7 +133,7 @@ module Admin
       @show_archived = search_params[:archived] == "1"
       @show_deleted = search_params[:deleted] == "1"
 
-      @submissions = Submission.where(form_id: @form.id).unscoped
+      @submissions = @form.submissions
 
       # Apply filters based on query params
       if search_params[:tag]
@@ -142,21 +142,19 @@ module Admin
 
       if @show_flagged
         @submissions = @submissions.flagged
-      end
-
-      if @show_marked_as_spam
+      elsif @show_marked_as_spam
         @submissions = @submissions.marked_as_spam
-      end
-
-      if @show_archived
+      elsif @show_archived
         @submissions = @submissions.archived
-      end
-
-      if @show_deleted
+      elsif @show_deleted
         @submissions = @submissions.deleted
+      elsif @show_deleted
+        @submissions = @submissions.deleted
+      else
+        @submissions = @submissions.active
       end
 
-      @submissions = @submissions.page(params[:page])
+      @submissions = @submissions.ordered.page(params[:page])
     end
 
     def archive
@@ -243,7 +241,7 @@ module Admin
       all_question_responses = []
 
       Form.all.each do |form|
-        submissions = form.submissions
+        submissions = form.submissions.ordered
         submissions = submissions.where('created_at >= ?', days_limit.days.ago) if days_limit.positive?
         submissions.each do |submission|
           form.ordered_questions.each do |question|
@@ -275,9 +273,9 @@ module Admin
       bulk_action = params[:bulk_action] # The selected action ('flag', 'archive', or 'spam')
 
       if submission_ids.present?
-        submissions = Submission.unscoped
-          .where(form_id: @form.id)
+        submissions = @form.submissions
           .where(id: submission_ids)
+          .ordered
 
         case bulk_action
         when 'archive'
@@ -326,7 +324,7 @@ module Admin
     end
 
     def set_submission
-      @submission = Submission.where(form_id: @form.id).unscoped.find(params[:id])
+      @submission = @form.submissions.find(params[:id])
     end
 
     def status_params
