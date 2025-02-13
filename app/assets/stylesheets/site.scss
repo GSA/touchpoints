@@ -33,21 +33,9 @@ footer {
 }
 
 // For the extra-wide Responses table
-.table-scroll {
-	position:relative;
-	max-width: 100%;
-	margin: auto;
-}
 .table-wrap {
 	width:100%;
 	overflow:auto;
-}
-.table-scroll table {
-	width:100%;
-}
-.table-scroll th,
-.table-scroll td {
-  max-width: 600px;
 }
 
 .dark-blue-bg {

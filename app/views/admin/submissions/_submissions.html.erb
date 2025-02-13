@@ -32,13 +32,13 @@ tr .actions a:hover {
     </div>
     <div>
     <%= link_to responses_admin_form_path(form, flagged: 1), class: "usa-button #{"usa-button--outline" unless params["flagged"]}" do %>
-      <span class="fa fa-exclamation-triangle"></span>
+      <span class="far fa-flag"></span>
       Flagged
     <% end %>
     </div>
     <div>
     <%= link_to responses_admin_form_path(form, spam: 1), class: "usa-button #{"usa-button--outline" unless params["spam"]}" do %>
-      <span class="far fa-flag"></span>
+      <span class="fa fa-exclamation-triangle"></span>
       Spam
     <% end %>
     </div>
@@ -56,7 +56,7 @@ tr .actions a:hover {
     </div>
   </div>
 
-  <div class="">
+  <div>
     <div class="display-flex flex-align-center flex-justify-between">
       <div class="text-base text-ink margin-left-auto margin-right-2">
         <%= page_entries_info submissions %>
@@ -107,7 +107,7 @@ tr .actions a:hover {
     <span class="font-sans-3xs">tagged with <span class="code"><%= params[:tag] %></span></span>
   <% end %>
 </div>
-<div class="responses table-scroll">
+<div class="responses">
   <%= form_with url: bulk_update_admin_form_submissions_path(form), method: :post do |f| %>
   <div
     id="batch-actions">

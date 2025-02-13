@@ -356,7 +356,7 @@ feature 'Submissions', js: true do
             end
 
             it 'does not display text_display question title' do
-              within '.responses .table-scroll' do
+              within '.responses' do
                 expect(page).to have_content('text@example.com')
                 expect(page).to have_css('tr.response')
                 expect(page).to have_css('.flagged', visible: false)
