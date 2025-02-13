@@ -14,6 +14,7 @@ class Submission < ApplicationRecord
   after_commit :send_notifications, on: :create
 
   scope :active, -> { where(flagged: false, spam: false, archived: false, deleted: false) }
+  scope :reportable, -> { where(flagged: false, spam: false, deleted: false) }
   scope :ordered, -> { order("created_at DESC") }
   scope :archived, -> { where(archived: true) }
   scope :non_archived, -> { where(archived: false) }

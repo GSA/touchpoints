@@ -49,7 +49,7 @@ module Admin
       if params[:archived]
         @submissions = @all_submissions.page params[:page]
       else
-        @submissions = @all_submissions.non_archived.page params[:page]
+        @submissions = @all_submissions.active.page params[:page]
       end
     end
 
