@@ -21,26 +21,70 @@ tr .actions a:hover {
 }
 </style>
 <% @tags = form.submission_tags %>
-<% unless params[:archived] %>
-<%= link_to "Include Archived Submissions?", "?archived=1" %>
-<% end %>
+
+<div class="display-flex flex-justify margin-top-1">
+  <div class="usa-button-group" role="group">
+    <% unless params["archived"] %>
+    <div>
+    <%= link_to responses_admin_form_path(form, flagged: params["flagged"], archived: 1, deleted: params["deleted"]), class: "usa-button usa-button--outline" do %>
+      <span class="fa fa-inbox"></span>
+      Archived
+    <% end %>
+    </div>
+    <% end %>
+    <% unless params["flagged"] %>
+    <div>
+    <%= link_to responses_admin_form_path(form, flagged: 1, archived: params["archived"], deleted: params["deleted"]), class: "usa-button usa-button--outline" do %>
+      <span class="fa fa-exclamation-triangle"></span>
+      Flagged
+    <% end %>
+    </div>
+    <% end %>
+    <% unless params["spam"] %>
+    <div>
+    <%= link_to responses_admin_form_path(form, flagged: 1, archived: params["archived"], deleted: params["deleted"]), class: "usa-button usa-button--outline" do %>
+      <span class="far fa-flag"></span>
+      Spam
+    <% end %>
+    </div>
+    <% end %>
+    <% unless params["deleted"] %>
+    <div>
+    <%= link_to responses_admin_form_path(form, flagged: params["flagged"], archived: params["archived"], deleted: 1), class: "usa-button usa-button--outline" do %>
+      <span class="fa fa-trash"></span>
+      Trash
+    <% end %>
+    </div>
+    <% end %>
+  </div>
+
+  <div class="">
+    <div class="display-flex flex-align-center flex-justify-between">
+      <div class="text-base text-ink margin-left-auto margin-right-2">
+        <%= page_entries_info submissions %>
+      </div>
+      <%= paginate submissions, remote: true %>
+    </div>
+  </div>
+</div>
+
 <%- if @tags.any? %>
 <div class="well margin-top-1">
   <div class="field">
     <div>
       <div class="margin-bottom-1">
         Filter by tag
+        <%- if params[:tag].present? %>
+          &middot;
+          <a href="javascript:void(0)"
+            class="clear-tag-link"
+            data-name="<%= tag %>">
+            <span class="font-sans-2xs">
+              Clear tag filter
+            </span>
+          </a>
+        <% end %>
       </div>
-      <%- if params[:tag].present? %>
-        &middot;
-        <a href="javascript:void(0)"
-          class="clear-tag-link"
-          data-name="<%= tag %>">
-          <span class="font-sans-2xs">
-            Clear tag filter
-          </span>
-        </a>
-      <% end %>
     </div>
     <div class="tag-list">
       <% @tags.uniq.each do |tag| %>
@@ -56,18 +100,15 @@ tr .actions a:hover {
   </div>
 </div>
 <% end %>
-<h2>
-  <%= page_entries_info submissions, entry_name: 'Responses' %>
+
+<div class="margin-top-2">
   <%- if params[:tag] %>
     <%- if params[:tag] && submissions.size == 0 %>
       <% form.remove_submission_tag!(params[:tag])%>
     <% end %>
     <span class="font-sans-3xs">tagged with <span class="code"><%= params[:tag] %></span></span>
   <% end %>
-</h2>
-<p>
-  <%= paginate submissions, remote: true %>
-</p>
+</div>
 <div class="responses table-scroll">
   <%= form_with url: bulk_update_admin_form_submissions_path(form), method: :post do |f| %>
   <div
@@ -75,7 +116,7 @@ tr .actions a:hover {
     <label for="bulk_action">Bulk Action:</label>
     <span id="selected-count" class="margin-right-1"></span>
     <button
-      class="usa-button"
+      class="usa-button usa-button--base"
       name="bulk_action"
       type="submit"
       value="flag">
@@ -83,7 +124,7 @@ tr .actions a:hover {
       Flag
     </button>
     <button
-      class="usa-button usa-button--secondary"
+      class="usa-button usa-button--base"
       name="bulk_action"
       type="submit"
       value="spam">
@@ -91,12 +132,20 @@ tr .actions a:hover {
       Mark as spam
     </button>
     <button
-      class="usa-button usa-button--accent-cool"
+      class="usa-button usa-button--base"
       name="bulk_action"
       type="submit"
       value="archive">
       <i class="fa fa-inbox"></i>
       Archive
+    </button>
+    <button
+      class="usa-button usa-button--base"
+      name="bulk_action"
+      type="submit"
+      value="delete">
+      <i class="fa fa-trash"></i>
+      Delete
     </button>
   </div>
   <div class="table-wrap">
@@ -153,6 +202,13 @@ tr .actions a:hover {
                   <%= render "admin/submissions/archive", { submission: submission } %>
                 <% else %>
                   <%= render "admin/submissions/unarchive", { submission: submission } %>
+                <% end %>
+              </span>
+              <span class="deleted">
+                <%- if submission.deleted? %>
+                  <%= render "admin/submissions/delete", { submission: submission } %>
+                <% else %>
+                  <%= render "admin/submissions/undelete", { submission: submission } %>
                 <% end %>
               </span>
             </div>

@@ -222,6 +222,8 @@ module Admin
     end
 
     def responses
+      @search_params = search_params
+      @search_params.merge!(form_id: @form.short_uuid)
       FormCache.invalidate_reports(@form.short_uuid) if params['use_cache'].present? && params['use_cache'] == 'false'
       ensure_response_viewer(form: @form) unless @form.template?
     end
@@ -595,6 +597,10 @@ module Admin
 
     def invite_params
       params.require(:user).permit(:refer_user)
+    end
+
+    def search_params
+      params.permit(:form_id, :flagged, :spam, :archived, :deleted)
     end
   end
 end

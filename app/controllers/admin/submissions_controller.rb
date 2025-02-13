@@ -94,7 +94,7 @@ module Admin
       @dates = (45.days.ago.to_date..Date.today).map { |date| date }
 
       @response_groups = Submission.unscoped
-        .where(form_id: @form_id)
+        .where(form_id: @form.id)
         .where("created_at >= ?", 45.days.ago)
         .group(Arel.sql("DATE(created_at)"))
         .count.sort

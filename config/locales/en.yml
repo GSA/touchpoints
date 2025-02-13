@@ -207,7 +207,7 @@ en:
           one: "Displaying <b>1</b> %{entry_name}"
           other: "Displaying <b>all %{count}</b> %{entry_name}"
       more_pages:
-        display_entries: "Displaying %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b> in total"
+        display_entries: "<b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b>"
   devise:
     confirmations:
       confirmed: "Your email address has been successfully confirmed."

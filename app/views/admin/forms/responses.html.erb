@@ -32,34 +32,30 @@ $(function() {
   <%- if @form.kind == "a11" %>
 
   $.ajax({
-    url: "/admin/submissions/a11_analysis?form_id=<%= @form.short_uuid %>",
+    url: "/admin/submissions/a11_analysis?<%= raw @search_params.to_query %>",
     type: 'get'
   });
 
   $.ajax({
-    url: "/admin/submissions/a11_chart?form_id=<%= @form.short_uuid %>",
+    url: "/admin/submissions/a11_chart?<%= raw @search_params.to_query %>",
     type: 'get'
   });
   $.ajax({
-    url: "/admin/submissions/performance_gov?form_id=<%= @form.short_uuid %>",
+    url: "/admin/submissions/performance_gov?<%= raw @search_params.to_query %>",
     type: 'get'
   });
   <% end %>
 
   $.ajax({
-    url: "/admin/submissions/responses_per_day?form_id=<%= @form.short_uuid %>",
+    url: "/admin/submissions/responses_per_day?<%= raw @search_params.to_query %>",
     type: 'get'
   });
   $.ajax({
-    url: "/admin/submissions/responses_by_status?form_id=<%= @form.short_uuid %>",
+    url: "/admin/submissions/responses_by_status?<%= raw @search_params.to_query %>",
     type: 'get'
   });
   $.ajax({
-    <%- if params["archived"].present? && params["archived"] == "1" %>
-      url: "/admin/submissions/submissions_table?form_id=<%= @form.short_uuid %>&archived=1",
-    <% else %>
-      url: "/admin/submissions/submissions_table?form_id=<%= @form.short_uuid %>",
-    <% end %>
+    url: "/admin/submissions/submissions_table?<%= raw @search_params.to_query %>",
     type: 'get'
   });
 });
