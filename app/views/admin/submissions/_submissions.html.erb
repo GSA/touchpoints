@@ -24,38 +24,30 @@ tr .actions a:hover {
 
 <div class="display-flex flex-justify margin-top-1">
   <div class="usa-button-group" role="group">
-    <% unless params["archived"] %>
     <div>
-    <%= link_to responses_admin_form_path(form, flagged: params["flagged"], archived: 1, deleted: params["deleted"]), class: "usa-button usa-button--outline" do %>
+    <%= link_to responses_admin_form_path(form, flagged: params["flagged"], spam: params["spam"], archived: 1, deleted: params["deleted"]), class: "usa-button #{"usa-button--outline" unless params["archived"]}" do %>
       <span class="fa fa-inbox"></span>
       Archived
     <% end %>
     </div>
-    <% end %>
-    <% unless params["flagged"] %>
     <div>
-    <%= link_to responses_admin_form_path(form, flagged: 1, archived: params["archived"], deleted: params["deleted"]), class: "usa-button usa-button--outline" do %>
+    <%= link_to responses_admin_form_path(form, flagged: 1, spam: params["spam"], archived: params["archived"], deleted: params["deleted"]), class: "usa-button #{"usa-button--outline" unless params["flagged"]}" do %>
       <span class="fa fa-exclamation-triangle"></span>
       Flagged
     <% end %>
     </div>
-    <% end %>
-    <% unless params["spam"] %>
     <div>
-    <%= link_to responses_admin_form_path(form, flagged: 1, archived: params["archived"], deleted: params["deleted"]), class: "usa-button usa-button--outline" do %>
+    <%= link_to responses_admin_form_path(form, flagged: 1, spam: 1, archived: params["archived"], deleted: params["deleted"]), class: "usa-button #{"usa-button--outline" unless params["spam"]}" do %>
       <span class="far fa-flag"></span>
       Spam
     <% end %>
     </div>
-    <% end %>
-    <% unless params["deleted"] %>
     <div>
-    <%= link_to responses_admin_form_path(form, flagged: params["flagged"], archived: params["archived"], deleted: 1), class: "usa-button usa-button--outline" do %>
+    <%= link_to responses_admin_form_path(form, flagged: params["flagged"], spam: params["spam"], archived: params["archived"], deleted: 1), class: "usa-button #{"usa-button--outline" unless params["deleted"]}" do %>
       <span class="fa fa-trash"></span>
       Trash
     <% end %>
     </div>
-    <% end %>
   </div>
 
   <div class="">
