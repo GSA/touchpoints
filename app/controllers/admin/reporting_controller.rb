@@ -9,7 +9,9 @@ module Admin
     end
 
     def lifespan
-      @form_lifespans = Submission.select('form_id, count(*) as num_submissions, (max(submissions.created_at) - min(submissions.created_at)) as lifespan').group(:form_id)
+      @form_lifespans = Submission.unscoped
+        .select('form_id, count(*) as num_submissions, (max(submissions.created_at) - min(submissions.created_at)) as lifespan')
+        .group("form_id")
       @forms = Form.select(:id, :name, :organization_id, :uuid, :short_uuid).where('exists (select id from submissions where submissions.form_id = forms.id)')
       @orgs = Organization.order(:name)
       @org_summary = []

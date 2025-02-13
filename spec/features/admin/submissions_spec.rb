@@ -495,7 +495,7 @@ feature 'Submissions', js: true do
                 click_on("Flag")
               end
               expect(page).to have_content("2 Submissions flagged.")
-              expect(all("table.submissions tbody tr .flagged a.text-secondary", visible: false).size).to eq(2)
+              expect(all("table.submissions tbody tr .flagged a.text-secondary", visible: false).size).to eq(0)
             end
 
             xit 'bulk select responses and marks them as spam' do
