@@ -606,3 +606,9 @@ abbr[title=required] {
   padding: 10px;
   border-bottom: 1px solid #ccc;
 }
+
+.usa-table.submissions tbody tr:hover,
+.usa-table.submissions tbody tr:hover td {
+  cursor: pointer !important;
+
+}
