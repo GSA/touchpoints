@@ -135,7 +135,7 @@ tr .actions a:hover {
             <%= submission.aasm_state %>
           </td>
           <td style="position: relative;">
-            <%= format_submission_time(submission, current_user.time_zone) %>
+            <%= format_submission_time(submission.created_at, current_user.time_zone) %>
             <div class="actions">
               <span class="flagged">
               <%- if submission.flagged? %>
