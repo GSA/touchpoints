@@ -277,9 +277,9 @@ Question.create!({
   is_required: true,
 })
 
-# more than 1,000, to test async sidekiq form export jobs
+# more than 1,000, to test the asyncronous Sidekiq form export jobs
 total_submissions = 1010
-since_days_ago = 180
+since_days_ago = 380
 total_submissions.times.each do |i|
  Submission.create!({
     form: form_that_belongs_to_a_service,
