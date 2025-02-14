@@ -299,17 +299,17 @@ class Form < ApplicationRecord
     ApplicationController.new.render_to_string(partial: 'components/widget/fba', formats: :js, locals: { form: self })
   end
 
-  def non_flagged_submissions(start_date: nil, end_date: nil)
+  def reportable_submissions(start_date: nil, end_date: nil)
     submissions
-      .non_flagged
+      .reportable
       .where(created_at: start_date..)
       .where(created_at: ..end_date)
   end
 
   def to_csv(start_date: nil, end_date: nil)
-    non_flagged_submissions = non_flagged_submissions(start_date:, end_date:)
+    reportable_submissions = reportable_submissions(start_date:, end_date:)
       .order('created_at')
-    return nil if non_flagged_submissions.blank?
+    return nil if reportable_submissions.blank?
 
     header_attributes = hashed_fields_for_export.values
     attributes = fields_for_export
@@ -317,16 +317,16 @@ class Form < ApplicationRecord
     CSV.generate(headers: true) do |csv|
       csv << header_attributes
 
-      non_flagged_submissions.each do |submission|
+      reportable_submissions.each do |submission|
         csv << attributes.map { |attr| submission.send(attr) }
       end
     end
   end
 
   def to_combined_a11_v2_csv(start_date: nil, end_date: nil)
-    non_flagged_submissions = non_flagged_submissions(start_date:, end_date:)
+    reportable_submissions = reportable_submissions(start_date:, end_date:)
       .order('created_at')
-    return nil if non_flagged_submissions.blank?
+    return nil if reportable_submissions.blank?
 
     header_attributes = hashed_fields_for_export.values
     attributes = fields_for_export
@@ -360,7 +360,7 @@ class Form < ApplicationRecord
     CSV.generate(headers: true) do |csv|
       csv << header_attributes + a11_v2_header_attributes
 
-      non_flagged_submissions.each do |submission|
+      reportable_submissions.each do |submission|
         csv << attributes.map { |attr| submission.send(attr) } + [
           submission.id,
           submission.answer_01,
@@ -387,12 +387,12 @@ class Form < ApplicationRecord
   end
 
   def to_a11_v2_csv(start_date: nil, end_date: nil)
-    non_flagged_submissions = submissions
-      .non_flagged
+    reportable_submissions = submissions
+      .reportable
       .where('created_at >= ?', start_date)
       .where('created_at <= ?', end_date)
       .order('created_at')
-    return nil if non_flagged_submissions.blank?
+    return nil if reportable_submissions.blank?
 
     header_attributes = hashed_fields_for_export.values
     header_attributes = [
@@ -423,7 +423,7 @@ class Form < ApplicationRecord
     CSV.generate(headers: true) do |csv|
       csv << header_attributes
 
-      non_flagged_submissions.each do |submission|
+      reportable_submissions.each do |submission|
         csv << [
           submission.id,
           submission.answer_01,
@@ -459,8 +459,8 @@ class Form < ApplicationRecord
   # Generates 1 of 2 exported files for the A11
   # This is a one record metadata file
   def to_a11_header_csv(start_date:, end_date:)
-    non_flagged_submissions = submissions.non_flagged.where('created_at >= ?', start_date).where('created_at <= ?', end_date)
-    return nil if non_flagged_submissions.blank?
+    reportable_submissions = submissions.reportable.where('created_at >= ?', start_date).where('created_at <= ?', end_date)
+    return nil if reportable_submissions.blank?
 
     header_attributes = [
       'submission comment',
@@ -482,7 +482,7 @@ class Form < ApplicationRecord
     ]
 
     CSV.generate(headers: true) do |csv|
-      submission = non_flagged_submissions.first
+      submission = reportable_submissions.first
       csv << header_attributes
       csv << [
         submission.form.data_submission_comment,
@@ -498,7 +498,7 @@ class Form < ApplicationRecord
         end_date,
         submission.form.anticipated_delivery_count,
         submission.form.survey_form_activations,
-        non_flagged_submissions.length,
+        reportable_submissions.length,
         submission.form.omb_approval_number,
         submission.form.federal_register_url,
       ]
@@ -508,8 +508,8 @@ class Form < ApplicationRecord
   # Generates the 2nd of 2 exported files for the A11
   # This is a 7 record detail file; one for each question
   def to_a11_submissions_csv(start_date:, end_date:)
-    non_flagged_submissions = submissions.non_flagged.where('created_at >= ?', start_date).where('created_at <= ?', end_date)
-    return nil if non_flagged_submissions.blank?
+    reportable_submissions = submissions.reportable.where('created_at >= ?', start_date).where('created_at <= ?', end_date)
+    return nil if reportable_submissions.blank?
 
     header_attributes = %w[
       standardized_question_number
@@ -537,7 +537,7 @@ class Form < ApplicationRecord
     }
 
     # Aggregate likert scale responses
-    non_flagged_submissions.each do |submission|
+    reportable_submissions.each do |submission|
       @hash.each_key do |field|
         response = submission.send(field)
         @hash[field][submission.send(field)] += 1 if response.present?
@@ -629,11 +629,13 @@ class Form < ApplicationRecord
       aasm_state: 'Status',
       archived: 'Archived',
       flagged: 'Flagged',
+      deleted: 'Deleted',
+      deleted_at: 'Deleted at',
       page: 'Page',
       query_string: 'Query string',
       hostname: 'Hostname',
       referer: 'Referrer',
-      created_at: 'Created At',
+      created_at: 'Created at',
     })
 
     if organization.enable_ip_address?
@@ -655,6 +657,10 @@ class Form < ApplicationRecord
       array.concat(section.questions.entries)
     end
     array
+  end
+
+  def rendered_questions
+    ordered_questions.select { |q| q.text.include?("email") || q.text.include?("name") }
   end
 
   def omb_number_with_expiration_date

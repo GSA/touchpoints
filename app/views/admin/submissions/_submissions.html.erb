@@ -1,20 +1,26 @@
-<% @tags = form.submission_tags %>
+<style>
+tr .actions {
+  position: absolute;
+  right: 8px;
+  display: none;
+  background: white;
+  padding: 4px 16px 4px 16px;
+  border-radius: 4px;
+  top: 1.25rem;
+  transform: translateY(-50%);
+}
 
-<button
-  id="button-toggle-table-display-options"
-  type="button"
-  class="font-sans-2xs margin-bottom-1 usa-button usa-button--outline">
-  <i class="fa fa-cog"></i>
-  Toggle display options
-</button>
-<div
-  id="table-display-options"
-  class="well hide">
-  <div class="text-bold">
-    Display options
-  </div>
-  <%= render 'admin/forms/ui_form', form: form %>
-</div>
+tr:hover .actions {
+  display: block;
+  display: flex;
+  gap: 24px;
+}
+
+tr .actions a:hover {
+  color: #005ea2;
+}
+</style>
+<% @tags = form.submission_tags %>
 
 <%- if @tags.any? %>
 <div class="well margin-top-1">
@@ -22,17 +28,17 @@
     <div>
       <div class="margin-bottom-1">
         Filter by tag
+        <%- if params[:tag].present? %>
+          &middot;
+          <a href="javascript:void(0)"
+            class="clear-tag-link"
+            data-name="<%= tag %>">
+            <span class="font-sans-2xs">
+              Clear tag filter
+            </span>
+          </a>
+        <% end %>
       </div>
-      <%- if params[:tag].present? %>
-        &middot;
-        <a href="javascript:void(0)"
-          class="clear-tag-link"
-          data-name="<%= tag %>">
-          <span class="font-sans-2xs">
-            Clear tag filter
-          </span>
-        </a>
-      <% end %>
     </div>
     <div class="tag-list">
       <% @tags.uniq.each do |tag| %>
@@ -48,26 +54,23 @@
   </div>
 </div>
 <% end %>
-<h2>
-  <%= page_entries_info submissions, entry_name: 'Responses' %>
+
+<div class="margin-top-2">
   <%- if params[:tag] %>
     <%- if params[:tag] && submissions.size == 0 %>
       <% form.remove_submission_tag!(params[:tag])%>
     <% end %>
     <span class="font-sans-3xs">tagged with <span class="code"><%= params[:tag] %></span></span>
   <% end %>
-</h2>
-<p>
-  <%= paginate submissions, remote: true %>
-</p>
-<div class="responses table-scroll">
+</div>
+<div class="responses">
   <%= form_with url: bulk_update_admin_form_submissions_path(form), method: :post do |f| %>
   <div
     id="batch-actions">
     <label for="bulk_action">Bulk Action:</label>
     <span id="selected-count" class="margin-right-1"></span>
     <button
-      class="usa-button"
+      class="usa-button usa-button--base"
       name="bulk_action"
       type="submit"
       value="flag">
@@ -75,59 +78,42 @@
       Flag
     </button>
     <button
-      class="usa-button usa-button--accent-cool"
+      class="usa-button usa-button--base"
+      name="bulk_action"
+      type="submit"
+      value="spam">
+      <i class="fa fa-exclamation-triangle"></i>
+      Mark as spam
+    </button>
+    <button
+      class="usa-button usa-button--base"
       name="bulk_action"
       type="submit"
       value="archive">
       <i class="fa fa-inbox"></i>
       Archive
     </button>
+    <button
+      class="usa-button usa-button--base"
+      name="bulk_action"
+      type="submit"
+      value="delete">
+      <i class="fa fa-trash"></i>
+      Delete
+    </button>
   </div>
   <div class="table-wrap">
-    <table class="usa-table submissions font-sans-2xs">
+    <table class="usa-table submissions font-sans-2xs width-full margin-top-0">
       <thead>
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>
-          </td>
-        <% form.ordered_questions.each do |question| %>
-          <% next if question.question_type == "text_display" %>
-          <td class="text-normal"><%= question.answer_field %></td>
-        <% end %>
-        <%- if form.kind == "yes_no" %>
-          <td>
-          </td>
-          <td>
-          </td>
-        <% end %>
-        </tr>
-        <tr>
-          <th>
+          <th style="width: 46px;">
             <%= check_box_tag "submission_ids[]", id: "toggle-all-checkbox" %>
           </th>
-          <th>View</th>
-          <th>Flag</th>
-          <th>Archive</th>
-          <th data-sortable scope="col">Status</th>
-          <th data-sortable scope="col">
-            Created At
+          <th data-sortable scope="col" style="">Preview</th>
+          <th data-sortable scope="col" style="width: 120px;">Status</th>
+          <th data-sortable scope="col" style="width: 120px;">
+            Received
           </th>
-        <% form.ordered_questions.each do |question| %>
-          <% next if question.question_type == "text_display" %>
-          <th data-sortable scope="col"><%= question.text %></th>
-        <% end %>
-        <%- if form.kind == "yes_no" %>
-          <th data-sortable scope="col">
-            Page
-          </th>
-          <th data-sortable scope="col">
-            Referer
-          </th>
-        <% end %>
         </tr>
       </thead>
       <tbody>
@@ -136,53 +122,51 @@
         <% elsif submission.archived? %>
           <% next %>
         <% end %>
-        <tr class="response" title="Response ID <%= submission.id %>" data-id="<%= submission.uuid %>">
+        <tr
+          class="response"
+          title="Response ID <%= submission.id %>"
+          data-id="<%= submission.uuid %>"
+          data-url="<%= admin_form_submission_path(submission.form, submission) %>">
           <td><%= check_box_tag "submission_ids[]", submission.id, class: "batch-checkbox" %></td>
           <td>
-            <%= link_to admin_form_submission_path(submission.form, submission), class: "usa-button usa-button--outline" do %>
-              View
-            <% end %>
-          </td>
-          <td class="flagged">
-            <%- if submission.flagged? %>
-              <%= render "admin/submissions/flag", { submission: submission } %>
-            <% else %>
-              <%= render "admin/submissions/unflag", { submission: submission } %>
-            <% end %>
-          </td>
-          <td class="archived">
-            <%- if submission.archived? %>
-              <%= render "admin/submissions/archive", { submission: submission } %>
-            <% else %>
-              <%= render "admin/submissions/unarchive", { submission: submission } %>
-            <% end %>
+            <%= h(submission.preview) %>
           </td>
           <td>
             <%= submission.aasm_state %>
           </td>
-          <td>
-            <%= format_time(submission.created_at, submission.form.time_zone.present? ? submission.form.time_zone : current_user.time_zone) %>
+          <td style="position: relative;">
+            <%= format_submission_time(submission.created_at, current_user.time_zone) %>
+            <div class="actions">
+              <span class="flagged">
+              <%- if submission.flagged? %>
+                <%= render "admin/submissions/flag", { submission: submission } %>
+              <% else %>
+                <%= render "admin/submissions/unflag", { submission: submission } %>
+              <% end %>
+              </span>
+              <span class="marked">
+                <%- if submission.spam? %>
+                  <%= render "admin/submissions/mark", { submission: submission } %>
+                <% else %>
+                  <%= render "admin/submissions/unmark", { submission: submission } %>
+                <% end %>
+              </span>
+              <span class="archived">
+                <%- if submission.archived? %>
+                  <%= render "admin/submissions/archive", { submission: submission } %>
+                <% else %>
+                  <%= render "admin/submissions/unarchive", { submission: submission } %>
+                <% end %>
+              </span>
+              <span class="deleted">
+                <%- if submission.deleted? %>
+                  <%= render "admin/submissions/delete", { submission: submission } %>
+                <% else %>
+                  <%= render "admin/submissions/undelete", { submission: submission } %>
+                <% end %>
+              </span>
+            </div>
           </td>
-        <% form.ordered_questions.each do |question| %>
-          <% next if question.question_type == "text_display" %>
-          <%- if form.ui_truncate_text_responses? %>
-            <td class="no-wrap">
-              <%= h(submission.send(question.answer_field.to_sym).to_s).truncate(160) %>
-            </td>
-          <% else %>
-            <td>
-              <%= h(submission.send(question.answer_field.to_sym).to_s) %>
-            </td>
-          <% end %>
-        <% end %>
-        <%- if form.kind == "yes_no" %>
-          <td>
-            <%= submission.page %>
-          </td>
-          <td>
-            <%= submission.referer %>
-          </td>
-        <% end %>
         </tr>
         <% end %>
       </tbody>
@@ -251,4 +235,13 @@
 
     updateBatchActionsVisibility();
   })
+
+  document.querySelectorAll('tbody tr').forEach(row => {
+    row.addEventListener('click', function(event) {
+      // Prevent navigation if clicking inside a button or checkbox
+      if (!event.target.closest('a, button, input')) {
+        window.location.href = this.dataset.url;
+      }
+    });
+  });
 </script>

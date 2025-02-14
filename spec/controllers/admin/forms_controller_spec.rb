@@ -221,7 +221,7 @@ RSpec.describe Admin::FormsController, type: :controller do
         get :export, params: { id: form.short_uuid, start_date: start_date, end_date: end_date }
         expect(response.content_type).to include('text/csv')
         expect(response.status).to eq(200)
-        expect(response.body).to include("ID,UUID,Test Text Field,Test Open Area,Location Code,User Agent,Status,Archived,Flagged,Page,Query string,Hostname,Referrer,Created At,IP Address,Tags")
+        expect(response.body).to include("ID,UUID,Test Text Field,Test Open Area,Location Code,User Agent,Status,Archived,Flagged,Deleted,Deleted at,Page,Query string,Hostname,Referrer,Created at,IP Address,Tags")
         expect(response.body).to include(submission1.created_at.to_s)
         expect(response.body).to include(submission2.created_at.to_s)
         expect(response.body).to include(submission3.created_at.to_s)
@@ -232,7 +232,7 @@ RSpec.describe Admin::FormsController, type: :controller do
     context 'when response count exceeds small download limit but is within async job range' do
       before do
         allow(Form).to receive(:find_by_short_uuid).with(form.short_uuid).and_return(form)
-        allow(form).to receive(:non_flagged_submissions).and_return(double(count: 1_500))
+        allow(form).to receive(:reportable_submissions).and_return(double(count: 1_500))
         allow(ExportJob).to receive(:perform_later)
       end
 
@@ -248,7 +248,7 @@ RSpec.describe Admin::FormsController, type: :controller do
     context 'when response count exceeds the maximum allowed export' do
       before do
         allow(Form).to receive(:find_by_short_uuid).with(form.short_uuid).and_return(form)
-        allow(form).to receive(:non_flagged_submissions).and_return(double(count: described_class::MAX_ROWS_TO_EXPORT + 1))
+        allow(form).to receive(:reportable_submissions).and_return(double(count: described_class::MAX_ROWS_TO_EXPORT + 1))
       end
 
       it 'returns a bad request error' do

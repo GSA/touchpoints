@@ -176,7 +176,7 @@ feature 'Touchpoints', js: true do
 
       it 'persists checkbox question values to db as comma separated list' do
         expect(page).to have_content('Thank you. Your feedback has been received.')
-        expect(Submission.last.answer_03).to eq 'One,Two,Three,Four'
+        expect(Submission.ordered.first.answer_03).to eq 'One,Two,Three,Four'
       end
 
       context "with a question option of 'other'" do
@@ -193,7 +193,7 @@ feature 'Touchpoints', js: true do
 
           it "persists 'other' checkbox question default values to db as comma separated list" do
             expect(page).to have_content('Thank you. Your feedback has been received.')
-            expect(Submission.last.answer_03).to eq 'One,Two,Three,Four,other'
+            expect(Submission.ordered.first.answer_03).to eq 'One,Two,Three,Four,other'
           end
         end
 
@@ -207,7 +207,7 @@ feature 'Touchpoints', js: true do
 
           it "persists 'other' checkbox question custom values to db as comma separated list" do
             expect(page).to have_content('Thank you. Your feedback has been received.')
-            expect(Submission.last.answer_03).to eq 'One,Two,Three,Four,hi'
+            expect(Submission.ordered.first.answer_03).to eq 'One,Two,Three,Four,hi'
           end
         end
       end
@@ -226,9 +226,9 @@ feature 'Touchpoints', js: true do
       it 'persists radio button question values to db' do
         expect(page).to have_content('Thank you. Your feedback has been received.')
         # implicitly test radio options
-        expect(Submission.last.answer_03).to eq last_radio_option.value
+        expect(Submission.ordered.first.answer_03).to eq last_radio_option.value
         # explicitly test that the default "other" value works (separately from the input box)
-        expect(Submission.last.answer_03).to eq 'other'
+        expect(Submission.ordered.first.answer_03).to eq 'other'
       end
 
       context "with an question option of 'other'" do
@@ -245,7 +245,7 @@ feature 'Touchpoints', js: true do
 
           it "persists 'other' checkbox question custom values to db as comma separated list" do
             expect(page).to have_content('Thank you. Your feedback has been received.')
-            expect(Submission.last.answer_03).to eq 'bye'
+            expect(Submission.ordered.first.answer_03).to eq 'bye'
           end
         end
       end
@@ -262,7 +262,7 @@ feature 'Touchpoints', js: true do
 
       it 'persists question values to db' do
         expect(page).to have_content('Thank you. Your feedback has been received.')
-        expect(Submission.last.answer_03).to eq 'CA'
+        expect(Submission.ordered.first.answer_03).to eq 'CA'
       end
 
       context 'when required' do
@@ -375,7 +375,7 @@ feature 'Touchpoints', js: true do
 
         it 'persists the hidden field' do
           expect(page).to have_content('Thank you. Your feedback has been received.')
-          expect(Submission.last.answer_01).to eq 'hidden value'
+          expect(Submission.ordered.first.answer_01).to eq 'hidden value'
         end
       end
     end
@@ -466,9 +466,9 @@ feature 'Touchpoints', js: true do
 
           # Asserting against the database/model directly here isn't ideal.
           # An alternative is to send location_code back to the client and assert against it
-          last_submission = Submission.last
-          expect(last_submission.location_code).to eq('TEST_LOCATION_CODE')
-          expect(last_submission.query_string).to eq("?location_code=TEST_LOCATION_CODE")
+          latest_submission = Submission.ordered.first
+          expect(latest_submission.location_code).to eq('TEST_LOCATION_CODE')
+          expect(latest_submission.query_string).to eq("?location_code=TEST_LOCATION_CODE")
         end
       end
     end
@@ -494,11 +494,11 @@ feature 'Touchpoints', js: true do
         click_button 'Submit'
         expect(page).to have_content('Thank you. Your feedback has been received.')
 
-        last_submission = Submission.last
-        expect(last_submission.answer_01).to eq '1'
-        expect(last_submission.answer_02).to eq 'effectiveness,transparency'
-        expect(last_submission.answer_03).to eq ""
-        expect(last_submission.answer_04).to eq ""
+        latest_submission = Submission.ordered.first
+        expect(latest_submission.answer_01).to eq '1'
+        expect(latest_submission.answer_02).to eq 'effectiveness,transparency'
+        expect(latest_submission.answer_03).to eq ""
+        expect(latest_submission.answer_04).to eq ""
       end
     end
 
@@ -514,8 +514,8 @@ feature 'Touchpoints', js: true do
 
       it 'submits successfully' do
         expect(page).to have_content('Thank you. Your feedback has been received.')
-        last_submission = Submission.last
-        expect(last_submission.answer_01).to eq '1'
+        latest_submission = Submission.ordered.first
+        expect(latest_submission.answer_01).to eq '1'
       end
     end
 
@@ -535,10 +535,10 @@ feature 'Touchpoints', js: true do
 
         # Asserting against the database/model directly here isn't ideal.
         # An alternative is to send location_code back to the client and assert against it
-        last_submission = Submission.last
-        expect(last_submission.answer_01).to eq '1'
-        expect(last_submission.answer_02).to eq '2'
-        expect(last_submission.answer_03).to eq '3'
+        latest_submission = Submission.ordered.first
+        expect(latest_submission.answer_01).to eq '1'
+        expect(latest_submission.answer_02).to eq '2'
+        expect(latest_submission.answer_03).to eq '3'
       end
     end
   end

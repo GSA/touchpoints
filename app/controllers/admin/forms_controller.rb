@@ -27,7 +27,6 @@ module Admin
       archive
       reset
       add_tag remove_tag
-      update_ui_truncation
       update_title update_instructions update_disclaimer_text
       update_success_text update_display_logo
       update_notification_emails
@@ -187,7 +186,8 @@ module Admin
       start_date = params[:start_date] ? Date.parse(params[:start_date]).to_date.beginning_of_day : Time.zone.now.beginning_of_quarter
       end_date = params[:end_date] ? Date.parse(params[:end_date]).to_date.end_of_day : Time.zone.now.end_of_quarter
 
-      count = Form.find_by_short_uuid(@form.short_uuid).non_flagged_submissions(start_date:, end_date:).count
+      count = Form.find_by_short_uuid(@form.short_uuid)
+        .reportable_submissions(start_date:, end_date:).count
       if count > MAX_ROWS_TO_EXPORT
         render status: :bad_request, plain: "Your response set contains #{helpers.number_with_delimiter count} responses and is too big to be exported from the Touchpoints app. Consider using the Touchpoints API to download large response sets (over #{helpers.number_with_delimiter MAX_ROWS_TO_EXPORT} responses)."
         return
@@ -223,6 +223,8 @@ module Admin
     end
 
     def responses
+      @search_params = search_params
+      @search_params.merge!(form_id: @form.short_uuid)
       FormCache.invalidate_reports(@form.short_uuid) if params['use_cache'].present? && params['use_cache'] == 'false'
       ensure_response_viewer(form: @form) unless @form.template?
     end
@@ -313,18 +315,6 @@ module Admin
 
     def copy_by_id
       copy
-    end
-
-    def update_ui_truncation
-      ensure_response_viewer(form: @form)
-
-      respond_to do |format|
-        if @form.update(ui_truncate_text_responses: !@form.ui_truncate_text_responses)
-          format.json { render json: {}, status: :ok, location: @form }
-        else
-          format.json { render json: @form.errors, status: :unprocessable_entity }
-        end
-      end
     end
 
     def update
@@ -537,7 +527,6 @@ module Admin
         :load_css,
         :tag_list,
         :verify_csrf,
-        :ui_truncate_text_responses,
         :question_text_01,
         :question_text_02,
         :question_text_03,
@@ -609,6 +598,10 @@ module Admin
 
     def invite_params
       params.require(:user).permit(:refer_user)
+    end
+
+    def search_params
+      params.permit(:form_id, :flagged, :spam, :archived, :deleted)
     end
   end
 end

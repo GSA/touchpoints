@@ -130,7 +130,7 @@ FactoryBot.define do
                           answer_field: :answer_01,
                           question_type: 'textarea',
                           form_section: f.form_sections.first,
-                          text: 'Test Open Area')
+                          text: 'Test Open Area email')
       end
     end
 

@@ -19,9 +19,52 @@
 <%- if @form.kind == "a11" %>
   <div class="a11-chart-widget well"><span class="usa-label">Loading A11 Chart...</span></div>
 <% end %>
-<div class="responses-by-status-widget well"><span class="usa-label">Loading Responses by Status...</span></div>
+<div class="responses-by-status-widget border-top border-base-lighter margin-top-2"><span class="usa-label">Loading Responses by Status...</span></div>
 <div class="responses-per-day-widget well"><span class="usa-label">Loading Responses per Day...</span></div>
-<div class="submissions-table-widget well"><span class="usa-label">Loading Response Detail...</span></div>
+
+<div
+  id="response-folders"
+  class="grid-row flex-align-center margin-top-1">
+  <div class="grid-col-auto">
+    <div class="usa-button-group" role="group">
+      <div>
+      <%= link_to responses_admin_form_path(@form), class: "usa-button #{"usa-button--outline" if params.keys.size > 3}" do %>
+        <span class="fa fa-inbox"></span>
+        Inbox
+      <% end %>
+      </div>
+      <div>
+      <%= link_to responses_admin_form_path(@form, flagged: 1), class: "usa-button #{"usa-button--outline" unless params["flagged"]}" do %>
+        <span class="far fa-flag"></span>
+        Flagged
+      <% end %>
+      </div>
+      <div>
+      <%= link_to responses_admin_form_path(@form, spam: 1), class: "usa-button #{"usa-button--outline" unless params["spam"]}" do %>
+        <span class="fa fa-exclamation-triangle"></span>
+        Spam
+      <% end %>
+      </div>
+      <div>
+      <%= link_to responses_admin_form_path(@form, archived: 1), class: "usa-button #{"usa-button--outline" unless params["archived"]}" do %>
+        <span class="fa fa-archive"></span>
+        Archived
+      <% end %>
+      </div>
+      <div>
+      <%= link_to responses_admin_form_path(@form, deleted: 1), class: "usa-button #{"usa-button--outline" unless params["deleted"]}" do %>
+        <span class="fa fa-trash"></span>
+        Trash
+      <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div id="response-pagination" class="grid-col flex-align-center text-right"></div>
+</div>
+<div class="submissions-table-widget">
+  <span class="usa-label">Loading Response Detail...</span>
+</div>
 <%- if @form.kind == "a11" %>
   <div class="performance-gov-widget well"><span class="usa-label">Loading Performance.gov report...</span></div>
 <% end %>
@@ -32,34 +75,30 @@ $(function() {
   <%- if @form.kind == "a11" %>
 
   $.ajax({
-    url: "/admin/submissions/a11_analysis?form_id=<%= @form.short_uuid %>",
+    url: "/admin/submissions/a11_analysis?<%= raw @search_params.to_query %>",
     type: 'get'
   });
 
   $.ajax({
-    url: "/admin/submissions/a11_chart?form_id=<%= @form.short_uuid %>",
+    url: "/admin/submissions/a11_chart?<%= raw @search_params.to_query %>",
     type: 'get'
   });
   $.ajax({
-    url: "/admin/submissions/performance_gov?form_id=<%= @form.short_uuid %>",
+    url: "/admin/submissions/performance_gov?<%= raw @search_params.to_query %>",
     type: 'get'
   });
   <% end %>
 
   $.ajax({
-    url: "/admin/submissions/responses_per_day?form_id=<%= @form.short_uuid %>",
+    url: "/admin/submissions/responses_per_day?<%= raw @search_params.to_query %>",
     type: 'get'
   });
   $.ajax({
-    url: "/admin/submissions/responses_by_status?form_id=<%= @form.short_uuid %>",
+    url: "/admin/submissions/responses_by_status?<%= raw @search_params.to_query %>",
     type: 'get'
   });
   $.ajax({
-    <%- if params["archived"].present? && params["archived"] == "1" %>
-      url: "/admin/submissions/submissions_table?form_id=<%= @form.short_uuid %>&archived=1",
-    <% else %>
-      url: "/admin/submissions/submissions_table?form_id=<%= @form.short_uuid %>",
-    <% end %>
+    url: "/admin/submissions/submissions_table?<%= raw @search_params.to_query %>",
     type: 'get'
   });
 });

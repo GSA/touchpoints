@@ -1,1 +1,2 @@
-$(".submissions-table-widget").html("<%= escape_javascript render(partial: 'admin/submissions/submissions_table', locals: { form: @form, submissions: @submissions }) %>");
+$(".submissions-table-widget").html("<%= escape_javascript render('admin/submissions/submissions_table', { form: @form, submissions: @submissions }) %>");
+$("#response-pagination").html("<%= escape_javascript render('admin/submissions/response_pagination', { submissions: @submissions }) %>");
