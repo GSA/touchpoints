@@ -214,6 +214,20 @@ module ApplicationHelper
     I18n.l time.to_time.in_time_zone(timezone), format: :with_timezone
   end
 
+  def format_submission_time(datetime, time_zone)
+    created_at = datetime.in_time_zone(time_zone)
+    today = Date.today.in_time_zone(time_zone).beginning_of_day
+    start_of_year = today.beginning_of_year
+
+    if created_at >= today
+      created_at.strftime("%-I:%M %p") # Today: 1:23 PM
+    elsif created_at >= start_of_year
+      created_at.strftime("%b %e") # Current year: Jan 5
+    else
+      created_at.strftime("%m/%d/%Y") # Last year: 01/05/2024
+    end
+  end
+
   def timezone_abbreviation(timezone)
     zone = ActiveSupport::TimeZone.new(timezone)
     zone.now.strftime('%Z')

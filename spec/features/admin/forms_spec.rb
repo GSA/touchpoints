@@ -772,7 +772,7 @@ feature 'Forms', js: true do
 
           it 'ensure format_time translation is correct' do
             visit responses_admin_form_path(form_with_responses)
-            expect(all("#submissions_table .usa-table.submissions tbody tr").last).to have_content("January 01, 2025")
+            expect(all("#submissions_table .usa-table.submissions tbody tr").last).to have_content("Jan 1")
           end
         end
 

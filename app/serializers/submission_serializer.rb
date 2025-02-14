@@ -34,6 +34,8 @@ class SubmissionSerializer < ActiveModel::Serializer
              :location_code,
              :flagged,
              :archived,
+             :deleted,
+             :deleted_at,
              :aasm_state,
              :language,
              :uuid,

@@ -6,7 +6,7 @@
     remote:        data-remote
     paginator:     the paginator that renders the pagination tags inside -%>
 <%= paginator.render do -%>
-  <nav class="usa-pagination" role="navigation" aria-label="pager">
+  <nav class="usa-pagination margin-0" role="navigation" aria-label="pager">
     <ul class="usa-pagination__list">
       <%= first_page_tag unless current_page.first? %>
       <%= prev_page_tag unless current_page.first? %>
