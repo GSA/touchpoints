@@ -70,6 +70,7 @@ class Submission < ApplicationRecord
     answered_questions.delete('spam')
     answered_questions.delete('archived')
     answered_questions.delete('deleted')
+    answered_questions.delete('preview')
     answered_questions.delete('created_at')
     answered_questions.delete('updated_at')
     answered_questions.delete('deleted_at')
