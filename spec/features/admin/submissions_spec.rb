@@ -199,7 +199,7 @@ feature 'Submissions', js: true do
 
         describe 'can view archived Responses' do
           context 'with more than 1 page worth of Responses' do
-            let!(:submissions) { FactoryBot.create_list(:submission, 45, form:) }
+            let!(:submissions) { FactoryBot.create_list(:submission, rand(10), form:) }
             let!(:archived_submissions) { FactoryBot.create_list(:submission, 170, archived: true, form:) }
 
             describe 'click View link in responses table' do
@@ -255,6 +255,66 @@ feature 'Submissions', js: true do
             it 'successfully flags Submission' do
               within('table.submissions') do
                 expect(page).to have_css("tbody td .flagged a.text-secondary", visible: false)
+              end
+            end
+          end
+        end
+
+        describe 'can view flagged responses' do
+          context 'with more than 1 page worth of Responses' do
+            let!(:submissions) { FactoryBot.create_list(:submission, rand(10), form:) }
+            let!(:flagged_submissions) { FactoryBot.create_list(:submission, 123, flagged: true, form:) }
+
+            describe 'click View link in responses table' do
+              before do
+                visit responses_admin_form_path(form, flagged: 1)
+                within(find_all('.usa-pagination').first) do
+                  click_link '2'
+                end
+              end
+
+              it 'view the 2nd page of responses' do
+                expect(page).to have_content('101 - 123 of 123')
+              end
+            end
+          end
+        end
+
+        describe 'can view spam responses' do
+          context 'with more than 1 page worth of Responses' do
+            let!(:submissions) { FactoryBot.create_list(:submission, rand(10), form:) }
+            let!(:spam_submissions) { FactoryBot.create_list(:submission, 109, spam: true, form:) }
+
+            describe 'click View link in responses table' do
+              before do
+                visit responses_admin_form_path(form, flagged: 1)
+                within(find_all('.usa-pagination').first) do
+                  click_link '2'
+                end
+              end
+
+              it 'view the 2nd page of responses' do
+                expect(page).to have_content('101 - 109 of 109')
+              end
+            end
+          end
+        end
+
+        describe 'can view soft-deleted responses' do
+          context 'with more than 1 page worth of Responses' do
+            let!(:submissions) { FactoryBot.create_list(:submission, rand(10), form:) }
+            let!(:deleted_submissions) { FactoryBot.create_list(:submission, 140, deleted: true, form:) }
+
+            describe 'click View link in responses table' do
+              before do
+                visit responses_admin_form_path(form, deleted: 1)
+                within(find_all('.usa-pagination').first) do
+                  click_link '2'
+                end
+              end
+
+              it 'view the 2nd page of responses' do
+                expect(page).to have_content('101 - 140 of 140')
               end
             end
           end
