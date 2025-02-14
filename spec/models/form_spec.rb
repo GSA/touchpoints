@@ -176,16 +176,19 @@ RSpec.describe Form, type: :model do
     end
   end
 
-  describe '#non_flagged_submissions' do
+  describe '#reportable_submissions' do
     let!(:submission1) { FactoryBot.create(:submission, form:, created_at: '2024-01-01 08:00:00') }
     let!(:submission2) { FactoryBot.create(:submission, form:, created_at: '2024-01-15 12:00:00') }
     let!(:submission3) { FactoryBot.create(:submission, form:, created_at: '2024-01-28 23:59:59') }
+    let!(:flagged_submission) { FactoryBot.create(:submission, form:, created_at: '2024-01-18 23:59:59', flagged: true) }
+    let!(:spam_submission) { FactoryBot.create(:submission, form:, created_at: '2024-01-22 23:59:59', spam: true) }
+    let!(:deleted_submission) { FactoryBot.create(:submission, form:, created_at: '2024-01-27 23:59:59', deleted: true) }
     let!(:out_of_range) { FactoryBot.create(:submission, form:, created_at: '2024-01-29 00:00:01') }
 
     before do
       start_date = Date.parse('2024-01-01').beginning_of_day
       end_date = Date.parse('2024-01-28').end_of_day
-      @results = form.non_flagged_submissions(start_date:, end_date:)
+      @results = form.reportable_submissions(start_date:, end_date:)
     end
 
     it 'includes submissions up to and including the end_date' do

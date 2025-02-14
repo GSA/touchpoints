@@ -200,7 +200,7 @@ feature 'Submissions', js: true do
         describe 'can view archived Responses' do
           context 'with more than 1 page worth of Responses' do
             let!(:submissions) { FactoryBot.create_list(:submission, 45, form:) }
-            let!(:archived_submissions) { FactoryBot.create_list(:submission, 70, archived: true, form:) }
+            let!(:archived_submissions) { FactoryBot.create_list(:submission, 170, archived: true, form:) }
 
             describe 'click View link in responses table' do
               before do
@@ -211,7 +211,7 @@ feature 'Submissions', js: true do
               end
 
               it 'view the 2nd page of responses' do
-                expect(page).to have_content('101 - 115 of 115')
+                expect(page).to have_content('101 - 170 of 170')
               end
             end
           end

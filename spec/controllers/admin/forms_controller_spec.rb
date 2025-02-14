@@ -232,7 +232,7 @@ RSpec.describe Admin::FormsController, type: :controller do
     context 'when response count exceeds small download limit but is within async job range' do
       before do
         allow(Form).to receive(:find_by_short_uuid).with(form.short_uuid).and_return(form)
-        allow(form).to receive(:non_flagged_submissions).and_return(double(count: 1_500))
+        allow(form).to receive(:reportable_submissions).and_return(double(count: 1_500))
         allow(ExportJob).to receive(:perform_later)
       end
 
@@ -248,7 +248,7 @@ RSpec.describe Admin::FormsController, type: :controller do
     context 'when response count exceeds the maximum allowed export' do
       before do
         allow(Form).to receive(:find_by_short_uuid).with(form.short_uuid).and_return(form)
-        allow(form).to receive(:non_flagged_submissions).and_return(double(count: described_class::MAX_ROWS_TO_EXPORT + 1))
+        allow(form).to receive(:reportable_submissions).and_return(double(count: described_class::MAX_ROWS_TO_EXPORT + 1))
       end
 
       it 'returns a bad request error' do
