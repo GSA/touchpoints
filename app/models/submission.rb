@@ -11,6 +11,7 @@ class Submission < ApplicationRecord
 
   before_create :set_uuid
   after_create :update_form
+  after_create :set_preview
   after_commit :send_notifications, on: :create
 
   scope :active, -> { where(flagged: false, spam: false, archived: false, deleted: false) }
@@ -207,12 +208,13 @@ class Submission < ApplicationRecord
     form.organization.present? ? form.organization.name : 'Org Name'
   end
 
-  def preview
+  def set_preview
     # only select the answer fields
     fields = attributes.select { |attr| attr.include?("answer")}
     # only select text fields
     text_fields = fields.values.select { |v| v.is_a?(String) }
-    text_fields.join(" - ").truncate(120)
+    preview_text = text_fields.join(" - ").truncate(120)
+    self.update_attribute(:preview, preview_text)
   end
 
   def set_uuid
