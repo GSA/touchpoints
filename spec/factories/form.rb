@@ -178,16 +178,19 @@ FactoryBot.define do
       after(:create) do |f, _evaluator|
         FactoryBot.create(:question,
                           form: f,
+                          answer_field: :answer_01,
                           question_type: 'textarea',
                           form_section: f.form_sections.first,
                           text: 'Body')
         FactoryBot.create(:question,
                           form: f,
+                          answer_field: :answer_02,
                           question_type: 'textarea',
                           form_section: f.form_sections.first,
                           text: 'Name')
         FactoryBot.create(:question,
                           form: f,
+                          answer_field: :answer_03,
                           question_type: 'textarea',
                           form_section: f.form_sections.first,
                           text: 'Email')

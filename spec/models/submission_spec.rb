@@ -88,4 +88,42 @@ RSpec.describe Submission, type: :model do
       expect(submission.spam_score).to eq(0)
     end
   end
+
+  describe "callbacks" do
+    describe "after_create :set_preview" do
+      let(:open_ended_contact_form) { FactoryBot.create(:form, :open_ended_form_with_contact_information, organization:, notification_emails: "#{admin.email}, second@example.gov") }
+
+      it "sets preview from answer fields" do
+        new_submission = Submission.create(
+          form: open_ended_contact_form,
+          answer_01: "First answer",
+          answer_02: "Second answer",
+          answer_03: "Third answer",
+        )
+        expect(new_submission.preview).to eq("First answer - Second answer - Third answer")
+      end
+
+      it "ignores non-answer fields" do
+        new_submission = Submission.create(
+          form: open_ended_contact_form,
+          answer_01: "First answer",
+          answer_02: "Second answer",
+          language: "en"
+        )
+        expect(new_submission.preview).to eq("First answer - Second answer")
+      end
+
+      it "truncates the preview to 120 characters" do
+        long_text = "A" * 150
+        new_submission = Submission.create(
+          form: open_ended_contact_form,
+          answer_01: long_text,
+          answer_02: "Another answer"
+        )
+        expect(new_submission.preview.length).to be <= 120
+        expect(new_submission.preview).to end_with("...")
+      end
+    end
+  end
+
 end
