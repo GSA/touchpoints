@@ -287,7 +287,7 @@ feature 'Submissions', js: true do
 
             describe 'click View link in responses table' do
               before do
-                visit responses_admin_form_path(form, flagged: 1)
+                visit responses_admin_form_path(form, spam: 1)
                 within(find_all('.usa-pagination').first) do
                   click_link '2'
                 end
