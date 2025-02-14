@@ -1,4 +1,4 @@
-en-US:
+en:
   errors:
     format: "%{attribute} %{message}"
     request:
@@ -55,6 +55,22 @@ en-US:
       short: "%d %b %I:%M %p"
     pm: pm
   date:
+    abbr_day_names:
+    - Sun
+    - Mon
+    - Tue
+    - Wed
+    - Thu
+    - Fri
+    - Sat
+    day_names:
+    - Sunday
+    - Monday
+    - Tuesday
+    - Wednesday
+    - Thursday
+    - Friday
+    - Saturday
     abbr_month_names:
     -
     - Jan
@@ -83,6 +99,10 @@ en-US:
     - October
     - November
     - December
+    order:
+    - :year
+    - :month
+    - :day
   datetime:
     distance_in_words:
       about_x_hours:
@@ -124,6 +144,7 @@ en-US:
         other: "%{count} years"
   touchpoint: "Touchpoint"
   touchpoints: "Touchpoints"
+  official_form: "An official form of the United States government."
   provided_by: "Provided by"
   omb_approval: "OMB Approval #1234 Exp. Date 12/01/2019"
   beta: "beta"
@@ -135,6 +156,14 @@ en-US:
   error: "Error"
   "yes": "yes"
   "no": "no"
+  page: "page"
+  of: "of"
+  home:
+    sign_up: Sign up
+    sign_in: Sign in
+    sign_up_text: Any federal employee with a .gov or .mil email address can use Touchpoints. Your account will be automatically created the first time you sign in.
+    sign_in_text: Touchpoints uses Login.gov to handle user accounts. Once you authenticate with Login.gov, you will be signed in and redirected back to Touchpoints.
+    sign_in_with: Sign in with
   the_feedback_and_analytics_team: " the Feedback and Analytics Team"
   characters_allowed: "characters allowed"
   characters_left: "characters left"
@@ -178,7 +207,7 @@ en-US:
           one: "Displaying <b>1</b> %{entry_name}"
           other: "Displaying <b>all %{count}</b> %{entry_name}"
       more_pages:
-        display_entries: "Displaying %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b> in total"
+        display_entries: "<b>%{first}&nbsp;-&nbsp;%{last}</b> of <b>%{total}</b>"
   devise:
     confirmations:
       confirmed: "Your email address has been successfully confirmed."

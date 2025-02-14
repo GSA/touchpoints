@@ -44,12 +44,12 @@ module Admin
     end
 
     def search
-      @all_submissions = @form.submissions
+      @all_submissions = @form.submissions.ordered
       @all_submissions = @all_submissions.where(":tags = ANY (tags)", tags: params[:tag]) if params[:tag]
       if params[:archived]
-        @submissions = @all_submissions.order('submissions.created_at DESC').page params[:page]
+        @submissions = @all_submissions.page params[:page]
       else
-        @submissions = @all_submissions.non_archived.order('submissions.created_at DESC').page params[:page]
+        @submissions = @all_submissions.active.page params[:page]
       end
     end
 
@@ -92,7 +92,13 @@ module Admin
 
     def responses_per_day
       @dates = (45.days.ago.to_date..Date.today).map { |date| date }
-      @response_groups = @form.submissions.where("created_at >= ?", 45.days.ago).group('date(created_at)').size.sort.last(45)
+
+      @response_groups = Submission
+        .where(form_id: @form.id)
+        .where("created_at >= ?", 45.days.ago)
+        .group(Arel.sql("DATE(created_at)"))
+        .count.sort
+
       # Add in 0 count days to fetched analytics
       @dates.each do |date|
         @response_groups << [date, 0] unless @response_groups.detect { |row| row[0].strftime('%m %d %Y') == date.strftime('%m %d %Y') }
@@ -101,9 +107,19 @@ module Admin
     end
 
     def responses_by_status
-      responses_by_aasm = @form.submissions.group(:aasm_state).count
-      flagged_count = @form.submissions.where(flagged: true).size
-      @responses_by_status = { **responses_by_aasm, 'flagged' => flagged_count, 'total' => responses_by_aasm.values.sum }
+      form_submissions = @form.submissions
+
+      responses_by_aasm = form_submissions.group(:aasm_state).count
+      flagged_count = form_submissions.flagged.count
+      archived_count = form_submissions.archived.count
+      marked_count = form_submissions.marked_as_spam.count
+      deleted_count = form_submissions.deleted.count
+      @responses_by_status = { **responses_by_aasm,
+        'flagged' => flagged_count,
+        'marked' => marked_count,
+        'archived' => archived_count,
+        'deleted' => deleted_count,
+        'total' => responses_by_aasm.values.sum }
       @responses_by_status.default = 0
     end
 
@@ -112,39 +128,86 @@ module Admin
     end
 
     def submissions_table
-      @show_archived = true if params[:archived]
-      all_submissions = @form.submissions
-      all_submissions = all_submissions.where(":tags = ANY (tags)", tags: params[:tag]) if params[:tag]
-      if params[:archived]
-        @submissions = all_submissions.order('submissions.created_at DESC').page params[:page]
-      else
-        @submissions = all_submissions.non_archived.order('submissions.created_at DESC').page params[:page]
+      @show_flagged = search_params[:flagged] == "1"
+      @show_marked_as_spam = search_params[:spam] == "1"
+      @show_archived = search_params[:archived] == "1"
+      @show_deleted = search_params[:deleted] == "1"
+
+      @submissions = @form.submissions
+
+      # Apply filters based on query params
+      if search_params[:tag]
+        @submissions = @submissions.where(":tags = ANY (tags)", tags: search_params[:tag])
       end
+
+      if @show_flagged
+        @submissions = @submissions.flagged
+      elsif @show_marked_as_spam
+        @submissions = @submissions.marked_as_spam
+      elsif @show_archived
+        @submissions = @submissions.archived
+      elsif @show_deleted
+        @submissions = @submissions.deleted
+      elsif @show_deleted
+        @submissions = @submissions.deleted
+      else
+        @submissions = @submissions.active
+      end
+
+      @submissions = @submissions.ordered.page(params[:page])
     end
 
     def archive
       ensure_form_manager(form: @form)
 
       Event.log_event(Event.names[:response_archived], 'Submission', @submission.id, "Submission #{@submission.id} archived at #{DateTime.now}", current_user.id)
-      @submission.archive_without_validation!
+      @submission.update_attribute(:archived, true)
     end
 
     def unarchive
       ensure_form_manager(form: @form)
 
       Event.log_event(Event.names[:response_unarchived], 'Submission', @submission.id, "Submission #{@submission.id} unarchived at #{DateTime.now}", current_user.id)
-      @submission.reset_without_validation!
+      @submission.update_attribute(:archived, false)
+    end
+
+    def mark
+      ensure_form_manager(form: @form)
+
+      Event.log_event(Event.names[:response_marked_as_spam], 'Submission', @submission.id, "Submission #{@submission.id} marked as spam at #{DateTime.now}", current_user.id)
+      @submission.update_attribute(:spam, true)
+    end
+
+    def unmark
+      ensure_form_manager(form: @form)
+
+      Event.log_event(Event.names[:response_unmarked_as_spam], 'Submission', @submission.id, "Submission #{@submission.id} unmarked as spam at #{DateTime.now}", current_user.id)
+      @submission.update_attribute(:spam, false)
+    end
+
+    def delete
+      ensure_form_manager(form: @form)
+
+      Event.log_event(Event.names[:response_deleted], 'Submission', @submission.id, "Submission #{@submission.id} undeleted at #{DateTime.now}", current_user.id)
+      @submission.update(deleted: true, deleted_at: Time.now)
     end
 
     def destroy
       ensure_form_manager(form: @form)
 
-      Event.log_event(Event.names[:response_deleted], 'Submission', @submission.id, "Submission #{@submission.id} deleted at #{DateTime.now}", current_user.id)
+      Event.log_event(Event.names[:response_deleted], 'Submission', @submission.id, "Submission #{@submission.id} undeleted at #{DateTime.now}", current_user.id)
+      @submission.update(deleted: true, deleted_at: Time.now)
 
-      @submission.destroy
       respond_to do |format|
         format.js { render :destroy }
       end
+    end
+
+    def undelete
+      ensure_form_manager(form: @form)
+
+      Event.log_event(Event.names[:response_undeleted], 'Submission', @submission.id, "Submission #{@submission.id} deleted at #{DateTime.now}", current_user.id)
+      @submission.update(deleted: false, deleted_at: nil)
     end
 
     def feed
@@ -178,7 +241,7 @@ module Admin
       all_question_responses = []
 
       Form.all.each do |form|
-        submissions = form.submissions
+        submissions = form.submissions.ordered
         submissions = submissions.where('created_at >= ?', days_limit.days.ago) if days_limit.positive?
         submissions.each do |submission|
           form.ordered_questions.each do |question|
@@ -207,30 +270,38 @@ module Admin
 
     def bulk_update
       submission_ids = params[:submission_ids] # Array of selected submission_ids
-      bulk_action = params[:bulk_action] # The selected action ('flag' or 'archive')
+      bulk_action = params[:bulk_action] # The selected action ('flag', 'archive', or 'spam')
 
       if submission_ids.present?
-        submissions = @form.submissions.where(id: submission_ids)
+        submissions = @form.submissions
+          .where(id: submission_ids)
+          .ordered
 
         case bulk_action
         when 'archive'
           submissions.each do |submission|
             Event.log_event(Event.names[:response_archived], 'Submission', submission.id, "Submission #{submission.id} archived at #{DateTime.now}", current_user.id)
-            submission.archive_without_validation!
+            submission.update_attribute(:archived, true)
           end
-          flash[:notice] = "#{submissions.count} Submissions archived."
+          flash[:notice] = "#{view_context.pluralize(submissions.count, 'Submission')} archived."
         when 'flag'
           submissions.each do |submission|
             Event.log_event(Event.names[:response_flagged], 'Submission', submission.id, "Submission #{submission.id} flagged at #{DateTime.now}", current_user.id)
             submission.update_attribute(:flagged, true)
           end
-          flash[:notice] = "#{submissions.count} Submissions flagged."
+          flash[:notice] = "#{view_context.pluralize(submissions.count, 'Submission')} flagged."
         when 'spam'
           submissions.each do |submission|
             Event.log_event(Event.names[:response_marked_as_spam], 'Submission', submission.id, "Submission #{submission.id} marked as spam at #{DateTime.now}", current_user.id)
             submission.update_attribute(:spam, true)
           end
-          flash[:notice] = "#{submissions.count} Submissions marked as spam."
+          flash[:notice] = "#{view_context.pluralize(submissions.count, 'Submission')} marked as spam."
+        when 'delete'
+          submissions.each do |submission|
+            Event.log_event(Event.names[:response_deleted], 'Submission', submission.id, "Submission #{submission.id} deleted at #{DateTime.now}", current_user.id)
+            submission.update(deleted: true, deleted_at: Time.now)
+          end
+          flash[:notice] = "#{view_context.pluralize(submissions.count, 'Submission')} deleted."
         else
           flash[:alert] = "Invalid action selected."
         end
@@ -272,6 +343,17 @@ module Admin
 
     def tag_params
       params.require(:submission).permit(:tag)
+    end
+
+    def search_params
+      params.permit(
+        :form_id,
+        :flagged,
+        :spam,
+        :archived,
+        :deleted,
+        :tags,
+      )
     end
   end
 end

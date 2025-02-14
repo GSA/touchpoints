@@ -94,7 +94,7 @@
         Metadata
       </div>
 
-      <table class="usa-table usa-table--striped width-full">
+      <table class="usa-table usa-table--striped width-full font-sans-2xs">
         <thead>
           <tr>
             <th>
@@ -128,7 +128,7 @@
               Location code
             </td>
             <td>
-              <%= sanitize(@submission.location_code) %>
+              <%= h(@submission.location_code) %>
             </td>
           </tr>
           <tr>
@@ -136,7 +136,7 @@
               User agent
             </td>
             <td>
-              <%= sanitize(@submission.user_agent) %>
+              <%= h(@submission.user_agent) %>
             </td>
           </tr>
           <tr>
@@ -144,7 +144,7 @@
               Submitted from hostname
             </td>
             <td>
-              <%= sanitize(@submission.hostname) %>
+              <%= h(@submission.hostname) %>
             </td>
           </tr>
           <tr>
@@ -189,10 +189,34 @@
           </tr>
           <tr>
             <td>
+              Spam
+            </td>
+            <td>
+              <%= @submission.spam? %>
+            </td>
+          </tr>
+          <tr>
+            <td>
               Archived
             </td>
             <td>
               <%= @submission.archived? %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Deleted
+            </td>
+            <td>
+              <%= @submission.deleted? %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Deleted at
+            </td>
+            <td>
+              <%= @submission.deleted_at %>
             </td>
           </tr>
         </tbody>

@@ -83,6 +83,7 @@ group :development do
   gem "brakeman"
   gem 'bullet'
   gem "bundler-audit"
+  gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'main'
   gem 'listen'
   gem 'rails-erd'
   gem "rubocop-rails"
