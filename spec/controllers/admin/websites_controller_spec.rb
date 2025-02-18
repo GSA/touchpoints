@@ -19,7 +19,7 @@ RSpec.describe Admin::WebsitesController, type: :controller do
 
   context 'logged in' do
     before do
-      sign_in(admin)
+      login_as(admin)
     end
 
     describe 'GET #index' do

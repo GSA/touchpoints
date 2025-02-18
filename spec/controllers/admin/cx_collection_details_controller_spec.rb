@@ -30,7 +30,7 @@ RSpec.describe Admin::CxCollectionDetailsController, type: :controller do
 
   context 'as a User' do
     before do
-      sign_in(user)
+      login_as(user)
     end
 
     describe 'GET /show' do
@@ -43,7 +43,7 @@ RSpec.describe Admin::CxCollectionDetailsController, type: :controller do
 
   context 'as admin' do
     before do
-      sign_in(admin)
+      login_as(admin)
     end
 
     describe 'GET #export_csv' do

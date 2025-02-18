@@ -46,7 +46,7 @@ RSpec.describe Admin::FormSectionsController, type: :controller do
   let(:admin) { FactoryBot.create(:user, :admin, organization:) }
 
   before do
-    sign_in(admin)
+    login_as(admin)
   end
 
   describe 'GET #index' do
@@ -136,7 +136,7 @@ RSpec.describe Admin::FormSectionsController, type: :controller do
     let!(:form_section) { form.form_sections.first }
 
     before do
-      sign_in(admin)
+      login_as(admin)
     end
 
     it 'destroys the requested form_section' do
