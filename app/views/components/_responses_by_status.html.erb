@@ -73,16 +73,24 @@
 
       </td>
       <td>
+        <%= link_to responses_admin_form_path(@form, flagged: 1) do %>
         <%= number_with_delimiter(responses_by_status["flagged"]) %>
+        <% end %>
       </td>
       <td>
-        <%= number_with_delimiter(responses_by_status["marked"]) %>
+        <%= link_to responses_admin_form_path(@form, spam: 1) do %>
+          <%= number_with_delimiter(responses_by_status["marked"]) %>
+        <% end %>
       </td>
       <td>
-        <%= number_with_delimiter(responses_by_status["archived"]) %>
+        <%= link_to responses_admin_form_path(@form, archived: 1) do %>
+          <%= number_with_delimiter(responses_by_status["archived"]) %>
+        <% end %>
       </td>
       <td>
-        <%= number_with_delimiter(responses_by_status["deleted"]) %>
+        <%= link_to responses_admin_form_path(@form, deleted: 1) do %>
+          <%= number_with_delimiter(responses_by_status["deleted"]) %>
+        <% end %>
       </td>
       <td>
       </td>

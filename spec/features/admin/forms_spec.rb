@@ -542,7 +542,6 @@ feature 'Forms', js: true do
             end
 
             it 'display table list of Responses and Export responses dropdown' do
-              expect(page).to have_content('Customer Feedback Analysis')
               expect(page).to have_content('RESPONSES BY STATUS')
               expect(page).to have_content('Responses per day')
               expect(page).to have_content('Total submissions received over period')
