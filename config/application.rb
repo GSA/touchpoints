@@ -19,21 +19,8 @@ module Touchpoints
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     # Initialize an array of Omniauth providers
     config.x.omniauth.providers = []
-
-    # The default locale is :en-US and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    config.i18n.default_locale = :en
-
-    # Set list here instead of relying on backend reading translation files in case any file is incomplete
-    # and we don't want to include it.
-    config.i18n.available_locales = %w[en zh es]
-
-    # Configure where to look for yml-based i18n files
+    config.i18n.available_locales = %w[en es zh-CN]
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
-
-    # Fallback language if translation missing in selected culture
-    config.i18n.fallbacks = [I18n.default_locale]
-
     config.generators do |g|
       g.test_framework :rspec
     end
