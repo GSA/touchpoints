@@ -105,7 +105,7 @@ Rails.application.configure do
   config.active_record.encryption.key_derivation_salt = ENV.fetch("RAILS_ACTIVE_RECORD_KEY_DERIVATION_SALT")
   config.active_record.encryption.support_unencrypted_data = true
   # Only use :id for inspections in production.
-  config.active_record.attributes_for_inspect = [ :id ]
+  config.active_record.attributes_for_inspect = [:id]
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   config.hosts = [
