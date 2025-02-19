@@ -54,7 +54,7 @@ RSpec.describe Admin::UsersController, type: :controller do
   let(:admin) { FactoryBot.create(:user, :admin, organization:) }
 
   before do
-    login_as(admin)
+    sign_in(admin)
   end
 
   describe 'GET #index' do

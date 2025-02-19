@@ -59,7 +59,7 @@ RSpec.describe SubmissionsController, type: :controller do
   let(:valid_session) { {} }
 
   before do
-    login_as(admin)
+    sign_in(admin)
   end
 
   describe 'GET #new' do

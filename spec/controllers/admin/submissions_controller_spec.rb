@@ -57,7 +57,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
   let(:valid_session) { {} }
 
   before do
-    login_as(admin)
+    sign_in(admin)
   end
 
   describe "#status_params" do

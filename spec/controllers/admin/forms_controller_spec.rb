@@ -48,7 +48,7 @@ RSpec.describe Admin::FormsController, type: :controller do
   let(:valid_session) { {} }
 
   before do
-    login_as(admin)
+    sign_in(admin)
   end
 
   describe 'GET #index' do
@@ -77,7 +77,7 @@ RSpec.describe Admin::FormsController, type: :controller do
 
   describe 'GET #new' do
     before do
-      login_as(admin)
+      sign_in(admin)
     end
 
     it 'returns a success response' do
@@ -88,7 +88,7 @@ RSpec.describe Admin::FormsController, type: :controller do
 
   describe 'GET #new' do
     before do
-      login_as(admin)
+      sign_in(admin)
     end
 
     it 'returns a success response' do
@@ -129,7 +129,7 @@ RSpec.describe Admin::FormsController, type: :controller do
 
   describe 'POST #archive' do
     before do
-      login_as(admin)
+      sign_in(admin)
     end
 
     context 'with valid params' do

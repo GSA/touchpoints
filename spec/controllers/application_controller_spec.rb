@@ -15,7 +15,7 @@ describe ApplicationController, type: :controller do
       end
 
       it 'should not save redirect when logged in' do
-        login_as(admin)
+        sign_in(admin)
         get :show
         expect(controller.stored_location_for(:user)).to eq nil
       end
