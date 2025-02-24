@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_14_194816) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_21_194420) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -319,37 +319,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_14_194816) do
     t.index ["short_uuid"], name: "index_forms_on_short_uuid", unique: true
     t.index ["user_id"], name: "index_forms_on_user_id"
     t.index ["uuid"], name: "index_forms_on_uuid", unique: true
-  end
-
-  create_table "ivn_component_links", force: :cascade do |t|
-    t.integer "from_id"
-    t.integer "to_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "ivn_components", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.string "url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "ivn_source_component_links", force: :cascade do |t|
-    t.integer "from_id"
-    t.integer "to_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "ivn_sources", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.string "url"
-    t.integer "organization_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "omb_cx_reporting_collections", comment: "A detailed record belonging to a Collection; a quarterly CX Data Collection", force: :cascade do |t|
