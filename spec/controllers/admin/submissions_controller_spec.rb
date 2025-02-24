@@ -78,7 +78,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
       it "raises an ActionController::ParameterMissing error" do
         expect {
           patch :update, params: { aasm_state: nil, form_id: submission.form.short_uuid, id: submission.id  }
-        }.to raise_error(ActionController::ParameterMissing, "param is missing or the value is empty: aasm_state parameter is missing")
+        }.to raise_error(ActionController::ParameterMissing, "param is missing or the value is empty or invalid: aasm_state parameter is missing")
       end
     end
 
@@ -86,7 +86,7 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
       it "raises an ActionController::ParameterMissing error" do
         expect {
           patch :update, params: { aasm_state: "invalid_state", form_id: submission.form.short_uuid, id: submission.id  }
-        }.to raise_error(ActionController::ParameterMissing, "param is missing or the value is empty: Invalid state: invalid_state")
+        }.to raise_error(ActionController::ParameterMissing, "param is missing or the value is empty or invalid: Invalid state: invalid_state")
       end
     end
   end

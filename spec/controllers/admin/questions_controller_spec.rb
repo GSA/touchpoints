@@ -46,7 +46,7 @@ RSpec.describe Admin::QuestionsController, type: :controller do
   let(:valid_session) { {} }
 
   before do
-    sign_in admin
+    sign_in(admin)
   end
 
   describe 'GET #index' do
