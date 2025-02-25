@@ -704,50 +704,6 @@ Persona.create!({
   name: 'Example Persona 3'
 })
 
-
-puts 'Creating IVN Sources, Components, and Links...'
-@organizations = Organization.all
-
-for i in (1..20) do
-IvnSource.create!({
-  name: "IVN Source Name #{i}",
-  description: "IVN Source Description #{i}",
-  url: "https://example.gov/ivn-source-url-#{i}",
-  organization: @organizations.sample,
-})
-end
-
-for i in (1..50) do
-IvnComponent.create!({
-  name: "IVN Description Name #{i}",
-  description: "IVN Description Description #{i}",
-  url: "https://example.gov/ivn-component-url-#{i}",
-})
-end
-
-@ivn_components = IvnComponent.all
-@ivn_sources = IvnSource.all
-
-for i in (1..100) do
-  from_id = @ivn_components.sample
-  to_id = (@ivn_components - [from_id]).sample
-
-  IvnComponentLink.create!({
-    from_id: from_id.id,
-    to_id: to_id.id,
-  })
-end
-
-for i in (1..50) do
-  from_id = @ivn_sources.sample
-  to_id = @ivn_components.sample
-
-  IvnSourceComponentLink.create!({
-    from_id: from_id.id,
-    to_id: to_id.id,
-  })
-end
-
 for i in (1..20) do
   DigitalServiceAccount.create!({
     organization_list: [@gsa.id],
