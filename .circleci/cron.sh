@@ -24,7 +24,7 @@ cf run-task touchpoints-staging-sidekiq-worker -c "rake scheduled_jobs:send_week
 cf run-task touchpoints-staging-sidekiq-worker -c "rake scheduled_jobs:check_expiring_forms"
 cf run-task touchpoints-staging-sidekiq-worker -c "rake scheduled_jobs:archive_forms"
 cf run-task touchpoints-staging-sidekiq-worker -c "rake scheduled_jobs:notify_form_managers_of_inactive_forms"
-cf run-task touchpoints-staging-sidekiq-worker -c "rake scheduled_jobs:delete_submissions_trash"
+# cf run-task touchpoints-staging-sidekiq-worker -c "rake scheduled_jobs:delete_submissions_trash"
 
 echo "Staging tasks have completed."
 
@@ -45,7 +45,7 @@ cf run-task touchpoints-demo-sidekiq-worker -c "rake scheduled_jobs:send_weekly_
 cf run-task touchpoints-demo-sidekiq-worker -c "rake scheduled_jobs:check_expiring_forms"
 cf run-task touchpoints-demo-sidekiq-worker -c "rake scheduled_jobs:archive_forms"
 cf run-task touchpoints-demo-sidekiq-worker -c "rake scheduled_jobs:notify_form_managers_of_inactive_forms"
-cf run-task touchpoints-demo-sidekiq-worker -c "rake scheduled_jobs:delete_submissions_trash"
+# cf run-task touchpoints-demo-sidekiq-worker -c "rake scheduled_jobs:delete_submissions_trash"
 
 echo "Demo tasks have completed."
 
@@ -71,7 +71,7 @@ cf run-task touchpoints-production-sidekiq-worker -c "rake scheduled_jobs:deacti
 # cf run-task touchpoints-production-sidekiq-worker -c "rake scheduled_jobs:check_expiring_forms"
 # cf run-task touchpoints-production-sidekiq-worker -c "rake scheduled_jobs:archive_forms"
 cf run-task touchpoints-production-sidekiq-worker -c "rake scheduled_jobs:notify_form_managers_of_inactive_forms"
-cf run-task touchpoints-production-sidekiq-worker -c "rake scheduled_jobs:delete_submissions_trash"
+# cf run-task touchpoints-production-sidekiq-worker -c "rake scheduled_jobs:delete_submissions_trash"
 
 echo "Production tasks have completed."
 
