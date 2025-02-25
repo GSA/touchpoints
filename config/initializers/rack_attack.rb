@@ -15,7 +15,7 @@ class Rack::Attack
 
   # Is the request to the form submission route?
   def self.submission_route?(req)
-    !!(req.path =~ %r{^/submissions/\d+\.json$})
+    !!(req.path =~ %r{^/submissions/[\h]{1,8}\.json$}i)
   end
 
   # Response for throttled requests
