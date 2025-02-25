@@ -1,1 +1,1 @@
-$(".response[data-id='<%= @submission.uuid %>'] .deleted").html("<%= j (render 'undeleted', { submission: @submission }) %>")
+$(".response[data-id='<%= @submission.uuid %>'] .deleted").html("<%= j(render 'undeleted', submission: @submission) %>")
