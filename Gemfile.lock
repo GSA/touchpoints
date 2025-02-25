@@ -10,14 +10,6 @@ GIT
       multi_json (~> 1.14)
       omniauth (~> 2.0)
 
-GIT
-  remote: https://github.com/faker-ruby/faker.git
-  revision: 3a65e1e2e567cb3be3f6b9582484ba4d5ee5d8c6
-  branch: main
-  specs:
-    faker (3.5.1)
-      i18n (>= 1.8.11, < 2)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -242,6 +234,8 @@ GEM
     factory_bot_rails (6.4.4)
       factory_bot (~> 6.5)
       railties (>= 5.0.0)
+    faker (3.5.1)
+      i18n (>= 1.8.11, < 2)
     faraday (2.12.2)
       faraday-net_http (>= 2.0, < 3.5)
       json
@@ -674,7 +668,7 @@ DEPENDENCIES
   devise (>= 4.8.1)
   dotenv
   factory_bot_rails
-  faker!
+  faker
   fog-aws (>= 3.15.0)
   image_processing (~> 1.12)
   importmap-rails (>= 2.0.0)
