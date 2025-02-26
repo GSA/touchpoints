@@ -78,12 +78,15 @@ group :development, :test do
   gem 'pry'
 end
 
+group :development, :staging do
+  gem 'faker'
+end
+
 group :development do
   gem 'aasm-diagram'
   gem "brakeman"
   gem 'bullet'
   gem "bundler-audit"
-  gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'main'
   gem 'listen'
   gem 'rails-erd'
   gem "rubocop-rails"
