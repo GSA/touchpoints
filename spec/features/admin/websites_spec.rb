@@ -54,7 +54,7 @@ feature 'Managing Websites', js: true do
         expect(page).to have_content("in_development")
         expect(page).to have_content("production_status")
         expect(page).to have_content("site_owner_email")
-        expect(page).to have_content("webmaster1@example.gov")
+        expect(page).to have_content(website.site_owner_email)
       end
     end
 
