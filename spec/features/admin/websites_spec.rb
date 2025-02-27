@@ -49,7 +49,7 @@ feature 'Managing Websites', js: true do
         expect(website.versions.last.event).to eq('create')
 
         visit versions_admin_website_path(website)
-        expect(page).to have_content("Website subdomain1.example.gov versions")
+        expect(page).to have_content("Website #{website.domain} versions")
         expect(page).to have_content("production_status")
         expect(page).to have_content("in_development")
         expect(page).to have_content("production_status")
