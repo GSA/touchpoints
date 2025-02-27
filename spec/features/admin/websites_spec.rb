@@ -47,6 +47,14 @@ feature 'Managing Websites', js: true do
         website.reload
         expect(website.versions.size).to eq(1)
         expect(website.versions.last.event).to eq('create')
+
+        visit versions_admin_website_path(website)
+        expect(page).to have_content("Website subdomain1.example.gov versions")
+        expect(page).to have_content("production_status")
+        expect(page).to have_content("in_development")
+        expect(page).to have_content("production_status")
+        expect(page).to have_content("site_owner_email")
+        expect(page).to have_content("webmaster1@example.gov")
       end
     end
 
