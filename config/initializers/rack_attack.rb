@@ -15,15 +15,7 @@ class Rack::Attack
 
   # Is the request to the form submission route?
   def self.submission_route?(req)
-    begin
-      recognized_route = Rails.application.routes.recognize_path(req.path, method: req.request_method)
-      recognized_route[:controller] == 'submissions' &&
-        recognized_route[:action] == 'create' &&
-        recognized_route[:touchpoint_id].present? &&
-        recognized_route[:format] == 'json'
-    rescue ActionController::RoutingError
-      false
-    end
+    !!(req.path =~ %r{^/submissions/[\h]{1,8}\.json$}i)
   end
 
   # Response for throttled requests

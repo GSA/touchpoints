@@ -1,12 +1,15 @@
 require 'rails_helper'
+include ActiveSupport::Testing::TimeHelpers
 
 RSpec.describe ApplicationHelper, type: :helper do
   describe "#format_submission_time" do
     let(:time_zone) { "Eastern Time (US & Canada)" }
 
     it "returns time for today's submissions" do
-      datetime = Time.zone.now
-      expect(helper.format_submission_time(datetime, time_zone)).to eq(datetime.in_time_zone(time_zone).strftime("%-I:%M %p"))
+      travel_to Time.zone.local(2025, 2, 17, 14, 30) do
+        datetime = Time.zone.now
+        expect(helper.format_submission_time(datetime, time_zone)).to eq(datetime.in_time_zone(time_zone).strftime("%-I:%M %p"))
+      end
     end
 
     it "returns month and day for submissions from this year (but not today)" do

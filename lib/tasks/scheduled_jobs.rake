@@ -38,4 +38,14 @@ namespace :scheduled_jobs do
     Form.archive_expired!
     puts "Archiving forms based on expiration date"
   end
+
+  task delete_submissions_trash: :environment do
+    puts "Deleting Trashed Submissions..."
+    @submissions = Submission
+      .deleted
+      .where("deleted_at < ?", Time.now - 30.days)
+    Event.log_event(Event.names[:maintenance_submissions_deleted], "Scheduled Job", "0", "Scheduled Job: Deleted #{@submissions.size} Trashed Submissions", 0)
+    @submissions.delete_all
+    puts "Deleted #{@submissions.size} Trashed Submissions"
+  end
 end

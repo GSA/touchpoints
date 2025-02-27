@@ -101,6 +101,8 @@ class Event < ApplicationRecord
     organization_created: 'organization_created',
     organization_updated: 'organization_updated',
     organization_deleted: 'organization_deleted',
+
+    maintenance_submissions_deleted: 'maintenance_submissions_deleted',
   }
 
   def self.log_event(ename, otype, oid, desc, uid = nil)
