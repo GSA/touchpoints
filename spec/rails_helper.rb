@@ -107,6 +107,14 @@ RSpec.configure do |config|
     DatabaseCleaner.start
   end
 
+  # Disable Rack throttling for feature specs
+  config.before(:each, type: :feature) do
+    Rack::Attack.enabled = false
+  end
+  config.after(:each, type: :feature) do
+    Rack::Attack.enabled = true
+  end
+
   config.after(:each, js: true) do
     errors = page.driver.browser.logs.get(:browser)
     if errors.present?

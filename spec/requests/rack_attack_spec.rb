@@ -7,7 +7,7 @@ RSpec.describe 'Rack::Attack throttling', type: :request do
 
   let(:ip) { '1.2.3.4' }
   let(:headers) { { 'REMOTE_ADDR' => ip } }
-  let(:valid_submission_path) { "/submissions/1234abcd.json" }
+  let(:valid_submission_path) { "/touchpoints/1234abcd/submissions.json" }
 
   it 'allows up to 10 requests per minute' do
     10.times do

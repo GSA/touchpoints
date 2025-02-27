@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_26_221548) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_27_193906) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -311,7 +311,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_26_221548) do
     t.string "short_uuid", limit: 8
     t.boolean "enforce_new_submission_validations", default: true
     t.integer "service_stage_id"
-    t.boolean "legacy_link_feature_flag", default: false, comment: "when true, render fba-button as an A, otherwise render as BUTTON"
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["organization_id"], name: "index_forms_on_organization_id"
