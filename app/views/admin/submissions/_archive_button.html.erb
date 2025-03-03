@@ -1,0 +1,11 @@
+  <%= link_to archive_admin_form_submission_path(form, submission, context: :show),
+    id: "archive-submission-#{submission.id}",
+    class: "usa-button usa-button--outline",
+    "aria-label" => "Archive submission #{submission.id}",
+    title: "Archive submission #{submission.id}",
+    data: { confirm: 'Are you sure?' },
+    method: :post,
+    remote: true,
+    rel: "nofollow" do %>
+    <i class="fa fa-archive"></i>
+  <% end %>

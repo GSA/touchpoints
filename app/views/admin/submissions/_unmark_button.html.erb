@@ -1,11 +1,11 @@
-<%= link_to unmark_admin_form_submission_path(submission.form, submission),
+<%= link_to unmark_admin_form_submission_path(form, submission, context: context),
   id: "mark-submission-#{submission.id}",
-  class: "text-secondary ",
+  class: "usa-button usa-button--base",
   "aria-label" => "Un-mark submission #{submission.id} as spam",
   title: "Un-mark submission #{submission.id} as spam",
-  data: { confirm: 'Are you sure?' },
   method: :post,
-  remote: true,
+  remote: true, data: { confirm: 'Are you sure?' },
   rel: "nofollow" do %>
   <i class="fa fa-exclamation-triangle"></i>
+  Unmark as spam
 <% end %>

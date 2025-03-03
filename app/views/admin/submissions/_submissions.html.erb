@@ -139,30 +139,30 @@ tr .actions a:hover {
             <div class="actions">
               <span class="flagged">
               <%- if submission.flagged? %>
-                <%= render "admin/submissions/flag", { submission: submission } %>
-              <% else %>
                 <%= render "admin/submissions/unflag", { submission: submission } %>
+              <% else %>
+                <%= render "admin/submissions/flag", { submission: submission } %>
               <% end %>
               </span>
               <span class="marked">
                 <%- if submission.spam? %>
-                  <%= render "admin/submissions/mark", { submission: submission } %>
-                <% else %>
                   <%= render "admin/submissions/unmark", { submission: submission } %>
+                <% else %>
+                  <%= render "admin/submissions/mark", { submission: submission } %>
                 <% end %>
               </span>
               <span class="archived">
                 <%- if submission.archived? %>
-                  <%= render "admin/submissions/archive", { submission: submission } %>
-                <% else %>
                   <%= render "admin/submissions/unarchive", { submission: submission } %>
+                <% else %>
+                  <%= render "admin/submissions/archive", { submission: submission } %>
                 <% end %>
               </span>
               <span class="deleted">
                 <%- if submission.deleted? %>
-                  <%= render "admin/submissions/delete", { submission: submission } %>
-                <% else %>
                   <%= render "admin/submissions/undelete", { submission: submission } %>
+                <% else %>
+                  <%= render "admin/submissions/delete", { submission: submission } %>
                 <% end %>
               </span>
             </div>

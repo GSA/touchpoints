@@ -1,0 +1,12 @@
+  <%= link_to admin_form_submission_path(form, submission, context: :show),
+    id: "delete-submission-#{submission.id}",
+    class: "usa-button usa-button--secondary",
+    "aria-label" => "Delete submission #{submission.id}",
+    title: "Delete submission #{submission.id}",
+    method: :delete,
+    remote: true,
+    data: { confirm: 'Are you sure?' },
+    rel: "nofollow" do %>
+    <i class="fas fa-trash"></i>
+    Delete
+  <% end %>

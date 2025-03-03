@@ -235,26 +235,41 @@
 </div>
 
 <%- if form_permissions?(form: @form) %>
-  <p>
-    <%= link_to admin_form_submission_path(@form, @submission), class: "usa-button usa-button--secondary", method: :delete, remote: true, data: { confirm: 'Are you sure?' } do %>
-    <i class="fas fa-trash"></i>
-      &nbsp;
-      Delete this response
-    <% end %>
+<p
+  class="response"
+  data-id="<%= @submission.uuid %>">
 
-  <%- if @submission.archived? %>
-    <%= link_to unarchive_admin_form_submission_path(@form, @submission), class: "usa-button usa-button--outline", method: :post, remote: true, data: { confirm: 'Are you sure?' } do %>
-    <i class="fa fa-inbox"></i>
-      &nbsp;
-      Unarchive response
-    <% end %>
+  <span class="flagged">
+  <%- if @submission.flagged? %>
+    <%= render "admin/submissions/unflag_button", form: @form, submission: @submission, context: :show %>
   <% else %>
-    <%= link_to archive_admin_form_submission_path(@form, @submission), class: "usa-button usa-button--outline", method: :post, remote: true, data: { confirm: 'Are you sure?' } do %>
-    <i class="fa fa-inbox"></i>
-      &nbsp;
-      Archive response
-    <% end %>
+    <%= render "admin/submissions/flag_button", form: @form, submission: @submission, context: :show %>
   <% end %>
+  </span>
 
-  </p>
+  <span class="marked">
+  <%- if @submission.spam? %>
+    <%= render "admin/submissions/unmark_button", form: @form, submission: @submission, context: :show %>
+  <% else %>
+    <%= render "admin/submissions/mark_button", form: @form, submission: @submission, context: :show %>
+  <% end %>
+  </span>
+
+  <span class="archived">
+  <%- if @submission.archived? %>
+    <%= render "admin/submissions/unarchive_button", form: @form, submission: @submission, context: :show %>
+  <% else %>
+    <%= render "admin/submissions/archive_button", form: @form, submission: @submission, context: :show %>
+  <% end %>
+  </span>
+
+  <span class="deleted">
+  <%- if @submission.deleted? %>
+    <%= render "admin/submissions/undelete_button", { form: @form, submission: @submission, context: :show } %>
+  <% else %>
+    <%= render "admin/submissions/delete_button", { form: @form, submission: @submission, context: :show } %>
+  <% end %>
+  </span>
+
+</p>
 <% end %>
