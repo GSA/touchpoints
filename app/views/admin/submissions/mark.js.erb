@@ -1,1 +1,1 @@
-$(".response[data-id='<%= @submission.uuid %>'] .marked").html("<%= j (render partial: 'flag', locals: { submission: @submission }) %>")
+$(".response[data-id='<%= @submission.uuid %>'] .marked").html("<%= j(render 'mark', submission: @submission) %>")
