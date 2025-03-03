@@ -141,13 +141,11 @@ module Admin
       end
 
       if @show_flagged
-        @submissions = @submissions.flagged
+        @submissions = @submissions.flagged.non_deleted
       elsif @show_marked_as_spam
-        @submissions = @submissions.marked_as_spam
+        @submissions = @submissions.marked_as_spam.non_deleted
       elsif @show_archived
-        @submissions = @submissions.archived
-      elsif @show_deleted
-        @submissions = @submissions.deleted
+        @submissions = @submissions.archived.non_deleted
       elsif @show_deleted
         @submissions = @submissions.deleted
       else
