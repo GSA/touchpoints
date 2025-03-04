@@ -385,14 +385,74 @@ feature 'Submissions', js: true do
           end
         end
 
-        describe 'delete a Submission' do
+        describe 'flags and un-flags a Submission' do
+          context 'with one Submission' do
+            let!(:submission) { FactoryBot.create(:submission, form:) }
+
+            before do
+              visit admin_form_submission_path(form, submission)
+              find(".flagged a").click
+              page.driver.browser.switch_to.alert.accept
+            end
+
+            it 'successfully flags and un-flags a Submission' do
+              expect(page).to have_link("Unflag")
+              click_on "Unflag"
+              page.driver.browser.switch_to.alert.accept
+              expect(page).to have_css(".flagged a")
+              expect(page).to_not have_link("Unflag")
+            end
+          end
+        end
+
+        describe 'mark and un-mark a Submission as spam' do
+          context 'with one Submission' do
+            let!(:submission) { FactoryBot.create(:submission, form:) }
+
+            before do
+              visit admin_form_submission_path(form, submission)
+              find(".marked a").click
+              page.driver.browser.switch_to.alert.accept
+            end
+
+            it 'successfully marks and un-marks a Submission as spam' do
+              expect(page).to have_link("Unmark as spam")
+              click_on "Unmark as spam"
+              page.driver.browser.switch_to.alert.accept
+              expect(page).to have_css(".marked a")
+              expect(page).to_not have_link("Unmark as spam")
+            end
+          end
+        end
+
+        describe 'archive and un-archive a Submission' do
+          context 'with one Submission' do
+            let!(:submission) { FactoryBot.create(:submission, form:) }
+
+            before do
+              visit admin_form_submission_path(form, submission)
+              find(".archived a").click
+              page.driver.browser.switch_to.alert.accept
+            end
+
+            it 'successfully archives and un-archives a Submission' do
+              expect(page).to have_link("Un-archive")
+              click_on "Un-archive"
+              page.driver.browser.switch_to.alert.accept
+              expect(page).to have_css(".archived a")
+              expect(page).to_not have_link("Un-archive")
+            end
+          end
+        end
+
+        describe 'delete and restore Submission' do
           context 'with one Submission' do
             let!(:submission) { FactoryBot.create(:submission, form:) }
             let!(:submission2) { FactoryBot.create(:submission, form:) }
 
             before do
               visit admin_form_submission_path(form, submission)
-              click_on 'Delete this response'
+              click_on 'Delete'
               page.driver.browser.switch_to.alert.accept
             end
 
@@ -400,6 +460,11 @@ feature 'Submissions', js: true do
               expect(page).to have_content('Viewing Responses for')
               expect(page.current_path).to eq(responses_admin_form_path(form))
               expect(page.find_all('#submissions_table table tbody tr').size).to eq(1)
+
+              visit admin_form_submission_path(form, submission)
+              click_on 'Restore'
+              page.driver.browser.switch_to.alert.accept
+              expect(page).to have_link("Delete")
             end
           end
         end

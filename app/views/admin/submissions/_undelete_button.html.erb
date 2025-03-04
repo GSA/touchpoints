@@ -1,0 +1,12 @@
+  <%= link_to undelete_admin_form_submission_path(form, submission, context: :show),
+    id: "delete-submission-#{submission.id}",
+    class: "usa-button usa-button--base",
+    "aria-label" => "Restore submission #{submission.id}",
+    title: "Restore submission #{submission.id}",
+    method: :post,
+    remote: true,
+    data: { confirm: 'Are you sure?' },
+    rel: "nofollow" do %>
+    <i class="fas fa-trash"></i>
+    Restore
+  <% end %>

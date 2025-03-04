@@ -1,1 +1,5 @@
-$(".response[data-id='<%= @submission.uuid %>'] .marked").html("<%= j(render 'mark', submission: @submission) %>")
+<% if params[:context] == "show" %>
+$(".response[data-id='<%= @submission.uuid %>'] .marked").html("<%= j(render 'unmark_button', form: @form, submission: @submission, context: :show) %>")
+<% else %>
+$(".response[data-id='<%= @submission.uuid %>'] .marked").html("<%= j(render 'unmark', submission: @submission) %>")
+<% end %>
