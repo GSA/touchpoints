@@ -1,1 +1,5 @@
-$(".response[data-id='<%= @submission.uuid %>'] .flagged").html("<%= j(render 'unflag', submission: @submission) %>")
+<% if params[:context] == "show" %>
+$(".response[data-id='<%= @submission.uuid %>'] .flagged").html("<%= j(render 'flag_button', form: @form, submission: @submission, context: :show) %>")
+<% else %>
+$(".response[data-id='<%= @submission.uuid %>'] .flagged").html("<%= j(render 'flag', submission: @submission) %>")
+<% end %>

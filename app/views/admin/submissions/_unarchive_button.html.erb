@@ -1,6 +1,6 @@
-<%= link_to unarchive_admin_form_submission_path(submission.form, submission),
+<%= link_to unarchive_admin_form_submission_path(form, submission, context: :show),
   id: "archive-submission-#{submission.id}",
-  class: "text-secondary ",
+  class: "usa-button usa-button--base",
   "aria-label" => "Un-archive submission #{submission.id}",
   title: "Un-archive submission #{submission.id}",
   data: { confirm: 'Are you sure?' },
@@ -8,4 +8,5 @@
   remote: true,
   rel: "nofollow" do %>
   <i class="fa fa-archive"></i>
+  Un-archive
 <% end %>
