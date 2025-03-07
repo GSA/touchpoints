@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/18F/omniauth_login_dot_gov.git
-  revision: 616a865a0d2ac8b5e01c07a5809bc37a10cfc42b
+  revision: b4d30dc92f2659e46680161bf02550ba424d768e
   branch: main
   specs:
-    omniauth_login_dot_gov (2.2.0)
+    omniauth_login_dot_gov (3.0.0)
       faraday (~> 2.0)
       json-jwt (~> 1.11)
       jwt (~> 2.2)
