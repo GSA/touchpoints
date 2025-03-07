@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_27_193906) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_07_211304) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -67,15 +67,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_27_193906) do
     t.index ["organization_id"], name: "index_collections_on_organization_id"
     t.index ["service_provider_id"], name: "index_collections_on_service_provider_id"
     t.index ["user_id"], name: "index_collections_on_user_id"
-  end
-
-  create_table "cx_action_plans", force: :cascade do |t|
-    t.integer "service_provider_id"
-    t.integer "year"
-    t.text "delivered_current_year"
-    t.text "to_deliver_next_year"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "cx_collection_detail_uploads", force: :cascade do |t|
