@@ -946,8 +946,17 @@ const CALENDAR_YEAR_PICKER = `.${CALENDAR_YEAR_PICKER_CLASS}`;
 const CALENDAR_MONTH_FOCUSED = `.${CALENDAR_MONTH_FOCUSED_CLASS}`;
 const CALENDAR_YEAR_FOCUSED = `.${CALENDAR_YEAR_FOCUSED_CLASS}`;
 const VALIDATION_MESSAGE = "Please enter a valid date";
-const MONTH_LABELS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const DAY_OF_WEEK_LABELS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+// An array of Dates that represent each month in the year
+const MONTH_DATE_SEED = Array.from({
+  length: 12
+}).map((_, i) => new Date(0, i));
+
+// An array of Dates that represent each day of the week
+const DAY_OF_WEEK_DATE_SEED = Array.from({
+  length: 7
+}).map((_, i) => new Date(0, 0, i));
+const CALENDAR_LABELS_BY_LANG = new Map();
 const ENTER_KEYCODE = 13;
 const YEAR_CHUNK = 12;
 const DEFAULT_MIN_DATE = "0000-01-01";
@@ -1478,6 +1487,27 @@ const getDatePickerContext = el => {
   if (minDate && maxDate && minDate > maxDate) {
     throw new Error("Minimum date cannot be after maximum date");
   }
+  const lang = document.documentElement.lang || "en";
+
+  // if the language is not found generate the list
+  if (!CALENDAR_LABELS_BY_LANG.has(lang)) {
+    CALENDAR_LABELS_BY_LANG.set(lang, {
+      monthLabels: MONTH_DATE_SEED.map(date => date.toLocaleString(lang, {
+        month: "long"
+      })),
+      dayOfWeeklabels: DAY_OF_WEEK_DATE_SEED.map(date => date.toLocaleString(lang, {
+        weekday: "long"
+      })),
+      dayOfWeeksAbv: DAY_OF_WEEK_DATE_SEED.map(date => date.toLocaleString(lang, {
+        weekday: "narrow"
+      }))
+    });
+  }
+  const {
+    monthLabels,
+    dayOfWeeklabels,
+    dayOfWeeksAbv
+  } = CALENDAR_LABELS_BY_LANG.get(lang);
   return {
     calendarDate,
     minDate,
@@ -1492,7 +1522,10 @@ const getDatePickerContext = el => {
     calendarEl,
     rangeDate,
     defaultDate,
-    statusEl
+    statusEl,
+    monthLabels,
+    dayOfWeeklabels,
+    dayOfWeeksAbv
   };
 };
 
@@ -1708,7 +1741,10 @@ const renderCalendar = (el, _dateToDisplay) => {
     selectedDate,
     maxDate,
     minDate,
-    rangeDate
+    rangeDate,
+    monthLabels,
+    dayOfWeeklabels,
+    dayOfWeeksAbv
   } = getDatePickerContext(el);
   const todaysDate = today();
   let dateToDisplay = _dateToDisplay || todaysDate;
@@ -1728,7 +1764,7 @@ const renderCalendar = (el, _dateToDisplay) => {
     withinRangeStartDate,
     withinRangeEndDate
   } = setRangeDates(selectedDate || dateToDisplay, rangeDate);
-  const monthLabel = MONTH_LABELS[focusedMonth];
+  const monthLabel = monthLabels[focusedMonth];
   const generateDateHtml = dateToRender => {
     const classes = [CALENDAR_DATE_CLASS];
     const day = dateToRender.getDate();
@@ -1772,8 +1808,8 @@ const renderCalendar = (el, _dateToDisplay) => {
       tabindex = "0";
       classes.push(CALENDAR_DATE_FOCUSED_CLASS);
     }
-    const monthStr = MONTH_LABELS[month];
-    const dayStr = DAY_OF_WEEK_LABELS[dayOfWeek];
+    const monthStr = monthLabels[month];
+    const dayStr = dayOfWeeklabels[dayOfWeek];
     const btn = document.createElement("button");
     btn.setAttribute("type", "button");
     btn.setAttribute("tabindex", tabindex);
@@ -1857,21 +1893,12 @@ const renderCalendar = (el, _dateToDisplay) => {
   table.insertAdjacentElement("beforeend", tableHead);
   const tableHeadRow = document.createElement("tr");
   tableHead.insertAdjacentElement("beforeend", tableHeadRow);
-  const daysOfWeek = {
-    Sunday: "S",
-    Monday: "M",
-    Tuesday: "T",
-    Wednesday: "W",
-    Thursday: "Th",
-    Friday: "Fr",
-    Saturday: "S"
-  };
-  Object.keys(daysOfWeek).forEach(key => {
+  dayOfWeeklabels.forEach((dayOfWeek, i) => {
     const th = document.createElement("th");
     th.setAttribute("class", CALENDAR_DAY_OF_WEEK_CLASS);
     th.setAttribute("scope", "col");
-    th.setAttribute("aria-label", key);
-    th.textContent = daysOfWeek[key];
+    th.setAttribute("aria-label", dayOfWeek);
+    th.textContent = dayOfWeeksAbv[i];
     tableHeadRow.insertAdjacentElement("beforeend", th);
   });
   const tableBody = createTableBody(datesGrid);
@@ -2077,11 +2104,12 @@ const displayMonthSelection = (el, monthToDisplay) => {
     statusEl,
     calendarDate,
     minDate,
-    maxDate
+    maxDate,
+    monthLabels
   } = getDatePickerContext(el);
   const selectedMonth = calendarDate.getMonth();
   const focusedMonth = monthToDisplay == null ? selectedMonth : monthToDisplay;
-  const months = MONTH_LABELS.map((month, index) => {
+  const months = monthLabels.map((month, index) => {
     const monthToCheck = setMonth(calendarDate, index);
     const isDisabled = isDatesMonthOutsideMinOrMax(monthToCheck, minDate, maxDate);
     let tabindex = "-1";
@@ -3049,7 +3077,7 @@ function toggleModal(event) {
     });
   } else if (!safeActive && menuButton && returnFocus) {
     // The modal window is closed.
-    // Non-modals now accesible to screen reader
+    // Non-modals now accessible to screen reader
     document.querySelectorAll(NON_MODALS_HIDDEN).forEach(nonModal => {
       nonModal.removeAttribute("aria-hidden");
       nonModal.removeAttribute(NON_MODAL_HIDDEN_ATTRIBUTE);
@@ -3253,7 +3281,7 @@ module.exports = {
   // browser supported touch events; if it did, `CLICK` was set to
   // `touchstart`.  However, this had downsides:
   //
-  // * It pre-empted mobile browsers' default behavior of detecting
+  // * It pre-emptied mobile browsers' default behavior of detecting
   //   whether a touch turned into a scroll, thereby preventing
   //   users from using some of our components as scroll surfaces.
   //
@@ -3365,7 +3393,7 @@ module.exports = (context, additionalKeyBindings = {}) => {
     keydown: keyMappings
   }, {
     init() {
-      // TODO: is this desireable behavior? Should the trap always do this by default or should
+      // TODO: is this desirable behavior? Should the trap always do this by default or should
       // the component getting decorated handle this?
       if (tabEventHandler.firstTabStop) {
         tabEventHandler.firstTabStop.focus();
