@@ -610,8 +610,8 @@ feature 'Forms', js: true do
 
         before do
           visit notifications_admin_form_path(form)
-          find(".usa-checkbox").click
-          sleep 1.0
+          find(".usa-checkbox__label").click
+          wait_for_ajax
         end
 
         it 'is accessible' do

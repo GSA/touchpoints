@@ -12,9 +12,9 @@ module Admin
       if current_user.admin? && params[:scope] == :all
         @users = User.includes(:organization).order('inactive DESC', :organization_id, :email)
       elsif current_user.admin? && params[:scope] == :inactive
-        @users = User.includes(:organization).where('current_sign_in_at < ? OR current_sign_in_at ISNULL', 90.days.ago).order(:organization_id, :email)
+        @users = User.inactive.includes(:organization).order(:organization_id, :email)
       elsif current_user.admin?
-        @users = User.active.includes(:organization).order('inactive DESC', :organization_id, :email)
+        @users = User.active.includes(:organization).order(:organization_id, :email)
       else
         organization = current_user.organization
         @users = organization.users.active.includes(:organization).order(:organization_id, :email)
