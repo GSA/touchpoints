@@ -88,14 +88,16 @@ feature 'Managing Users', js: true do
       end
 
       describe '/admin/users/inactive' do
+        let!(:inactive_user) { FactoryBot.create(:user, organization:, inactive: true) }
+
         before do
           visit inactive_admin_users_path
         end
 
         it 'displays inactive users' do
           expect(page).to have_css('table')
-          expect(User.count).to eq(2) # out of 2
-          expect(page).to have_content(user.email) # only 1 is inactive
+          expect(User.count).to eq(3) # out of 3
+          expect(page).to have_content(inactive_user.email) # only 1 is inactive
         end
       end
     end
