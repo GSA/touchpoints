@@ -61,6 +61,7 @@ class Website < ApplicationRecord
   AUTHENTICATION_TOOLS = {
     'Drupal' => 'Drupal',
     'Google oAuth' => 'Google oAuth',
+    'GSA Auth' => 'GSA Auth',
     'GSA Secure Auth' => 'GSA Secure Auth',
     'Jira' => 'Jira',
     'Login.gov' => 'Login.gov',
