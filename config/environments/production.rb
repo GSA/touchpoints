@@ -113,6 +113,9 @@ Rails.application.configure do
   config.hosts = [
     ENV.fetch("TOUCHPOINTS_WEB_DOMAIN")
   ]
+  if ENV["TOUCHPOINTS_WEB_DOMAIN2"].present?
+    config.hosts << ENV.fetch("TOUCHPOINTS_WEB_DOMAIN2")
+  end
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 end
