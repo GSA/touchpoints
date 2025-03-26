@@ -102,6 +102,8 @@ Rails.application.configure do
 
   # For Devise
   config.action_mailer.default_url_options = { host: ENV.fetch('TOUCHPOINTS_WEB_DOMAIN'), port: 443 }
+  # TODO: For temporary redirect (March 2025)
+  config.action_controller.default_url_options = { host: ENV.fetch('TOUCHPOINTS_WEB_DOMAIN'), port: 443 }
 
   # Prevent host header injection
   # Reference: https://github.com/ankane/secure_rails
