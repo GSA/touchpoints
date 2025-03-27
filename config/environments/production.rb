@@ -76,6 +76,8 @@ Rails.application.configure do
 
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: ENV.fetch('TOUCHPOINTS_WEB_DOMAIN'), port: 443 }
+  # TODO: For temporary redirect (March 2025)
+  config.action_controller.default_url_options = { host: ENV.fetch('TOUCHPOINTS_WEB_DOMAIN'), port: 443 }
 
   # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
   # config.action_mailer.smtp_settings = {
@@ -111,6 +113,9 @@ Rails.application.configure do
   config.hosts = [
     ENV.fetch("TOUCHPOINTS_WEB_DOMAIN")
   ]
+  if ENV["TOUCHPOINTS_WEB_DOMAIN2"].present?
+    config.hosts << ENV.fetch("TOUCHPOINTS_WEB_DOMAIN2")
+  end
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 end
