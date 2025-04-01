@@ -413,7 +413,7 @@ function FBAform(d, N) {
 		successText: function() {
 			return this.options.successText;
 		},
-		showFormSuccess: function(e) {
+		showFormSuccess: function(headerText, bodyHTML) {
 			var formComponent = this.formComponent();
 			var formElement = this.formElement();
 			var alertElement = formComponent.querySelector(".fba-alert");
@@ -421,8 +421,8 @@ function FBAform(d, N) {
 			var alertElementBody = formComponent.querySelector(".usa-alert__text");
 
 			// Display success Message
-			alertElementHeading.innerHTML += this.successHeadingText();
-			alertElementBody.innerHTML = this.successText();
+			alertElementHeading.innerHTML = headerText;
+			alertElementBody.innerHTML = bodyHTML
 			alertElement.removeAttribute("hidden");
 			this.formComponent().scrollIntoView();
 
@@ -489,7 +489,11 @@ function FBAform(d, N) {
 					if(submitButton) {
 						submitButton.disabled = true;
 					}
-					this.showFormSuccess();
+
+					const submission = JSON.parse(e.target.response).submission;
+					const successHeaderText = submission.form.success_text_heading;
+					const successBodyText = submission.form.success_text;
+					this.showFormSuccess(successHeaderText, successBodyText);
 				} else if (e.target.status === 422) { // FORM ERRORS
 					this.successState = false;
 					d.dispatchEvent(new Event('onTouchpointsFormSubmissionError'));
@@ -548,6 +552,9 @@ function FBAform(d, N) {
 			xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8;");
 			xhr.onload = callback.bind(this);
 			xhr.send(JSON.stringify({
+				<% if form.enable_turnstile? %>
+				"cf-turnstile-response" : form.querySelector("input[name='cf-turnstile-response']") ? form.querySelector("input[name='cf-turnstile-response']").value : null,
+				<% end %>
 				"submission": params,
 				<%- if form.verify_csrf? %>
 				"authenticity_token": form.querySelector("#authenticity_token") ?

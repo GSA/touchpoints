@@ -573,6 +573,8 @@ module Admin
         :kind,
         :aasm_state,
         :early_submission,
+        :enable_turnstile,
+        :append_id_to_success_text,
         :notes,
         :status,
         :title,
