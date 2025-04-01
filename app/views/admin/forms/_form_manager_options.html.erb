@@ -96,6 +96,18 @@
             </div>
 
             <fieldset class="usa-fieldset margin-top-2">
+              <legend class="usa-sr-only">Enable Cloudfront Turnstile</legend>
+              <div class="usa-checkbox">
+                <%= f.check_box :enable_turnstile, class: "usa-checkbox__input" %>
+                <%= f.label :enable_turnstile, class: "usa-checkbox__label" do %>
+                  Enable Cloudfront Turnstile
+                  <small class="text-base">
+                    As a spam prevention mechanism
+                  </small>
+                <% end %>
+              </div>
+            </fieldset>
+            <fieldset class="usa-fieldset margin-top-2">
               <legend class="usa-sr-only">Append ID to the form's Success Text</legend>
               <div class="usa-checkbox">
                 <%= f.check_box :append_id_to_success_text, class: "usa-checkbox__input" %>
