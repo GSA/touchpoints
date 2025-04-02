@@ -656,9 +656,6 @@ function FBAform(d, N) {
 			script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
 			script.async = true;
 			script.defer = true;
-			script.onload = function() {
-				this.formElement().querySelector("input[name='cf-turnstile-response']").value = token;
-			};
 			document.head.appendChild(script);
 		},
 		<% end %>
@@ -692,7 +689,7 @@ function FBAform(d, N) {
 };
 
 // Specify the options for your form
-const touchpointFormOptions<%= form.short_uuid %> = {
+var touchpointFormOptions<%= form.short_uuid %> = {
 	'formId': "<%= form.short_uuid %>",
 	'modalButtonText': "<%= form.modal_button_text %>",
 	'elementSelector': "<%= form.element_selector %>",
@@ -734,7 +731,8 @@ const touchpointFormOptions<%= form.short_uuid %> = {
 }
 
 // Create an instance of a Touchpoints form object
-const touchpointForm<%= form.short_uuid %> = new FBAform(document, window).init(touchpointFormOptions<%= form.short_uuid %>);
+window.touchpointForm<%= form.short_uuid %> = new FBAform(document, window);
+window.touchpointForm<%= form.short_uuid %>.init(touchpointFormOptions<%= form.short_uuid %>);
 
 <%- if form.load_css && form.delivery_method != "touchpoints-hosted-only" %>
 // Load the USWDS JS, loads as module 'fbaUswds' in global scope
