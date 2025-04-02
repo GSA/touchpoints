@@ -81,8 +81,12 @@ class SubmissionsController < ApplicationController
   private
 
   def create_in_local_database(submission)
-    if submission.form.enable_turnstile? && !verify_turnstile(params["cf-turnstile-response"])
-      submission.errors.add(:base, "Turnstile verification failed")
+    if submission.form.enable_turnstile?
+      if verify_turnstile(params["cf-turnstile-response"])
+        submission.spam_prevention_mechanism = :turnstile
+      else
+        submission.errors.add(:base, "Turnstile verification failed")
+      end
     end
 
     respond_to do |format|
