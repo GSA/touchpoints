@@ -81,13 +81,21 @@ class SubmissionsController < ApplicationController
   private
 
   def create_in_local_database(submission)
+    if submission.form.enable_turnstile? && !verify_turnstile(params["cf-turnstile-response"])
+      submission.errors.add(:base, "Turnstile verification failed")
+    end
+
     respond_to do |format|
-      if submission.save
+      if submission.errors.empty? && submission.save
         format.html do
           redirect_to submit_touchpoint_path(submission.form),
                       notice: 'Thank You. Response was submitted successfully.'
         end
         format.json do
+          form_success_text = submission.form.append_id_to_success_text? ?
+            submission.form.success_text + "<br><br> Your Response ID is: <strong>#{submission.uuid[-12..-1]}</strong>" :
+            submission.form.success_text
+
           render json: {
                    submission: {
                      id: submission.uuid,
@@ -115,6 +123,8 @@ class SubmissionsController < ApplicationController
                        id: submission.form.uuid,
                        name: submission.form.name,
                        organization_name: submission.organization_name,
+                       success_text_heading: submission.form.success_text_heading,
+                       success_text: form_success_text,
                      },
                    },
                  },
@@ -151,10 +161,28 @@ class SubmissionsController < ApplicationController
   def submission_params
     permitted_fields = @form.questions.collect(&:answer_field)
     permitted_fields << %i[language location_code referer hostname page query_string fba_directive]
+    permitted_fields << %i[cf-turnstile-response]
     params.require(:submission).permit(permitted_fields)
   end
 
   def form_requires_verification
     @form.verify_csrf?
+  end
+
+
+  private
+
+  def verify_turnstile(response_token)
+    secret_key = ENV.fetch("TURNSTILE_SECRET_KEY", nil)
+    uri = URI("https://challenges.cloudflare.com/turnstile/v0/siteverify")
+
+    response = Net::HTTP.post_form(uri, {
+      "secret" => secret_key,
+      "response" => response_token,
+      "remoteip" => request.remote_ip
+    })
+
+    json = JSON.parse(response.body)
+    json["success"] == true
   end
 end
