@@ -38,6 +38,9 @@ function FBAform(d, N) {
 			if (this.options.formSpecificScript) {
 				this.options.formSpecificScript();
 			}
+			<% if form.enable_turnstile? %>
+			this.loadTurnstile()
+			<% end %>
 			d.dispatchEvent(new CustomEvent('onTouchpointsFormLoaded', {
 				detail: {
 					formComponent: this
@@ -642,6 +645,18 @@ function FBAform(d, N) {
 		modalId: function() {
 			return `fba-modal-${this.options.formId}`;
 		},
+		<% if form.enable_turnstile? %>
+		loadTurnstile: function() {
+			let script = document.createElement("script");
+			script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+			script.async = true;
+			script.defer = true;
+			script.onload = function() {
+				document.querySelector("input[name='cf-turnstile-response']").value = token;
+			};
+			document.head.appendChild(script);
+		},
+		<% end %>
 	};
 };
 

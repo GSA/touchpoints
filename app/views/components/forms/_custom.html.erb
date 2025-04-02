@@ -109,7 +109,7 @@
         <% end %>
         <% if form.enable_turnstile? %>
         <div class="margin-top-2">
-          <div class="cf-turnstile" data-sitekey="<%= ENV.fetch("TURNSTILE_SITE_KEY", nil) %>" data-callback="onTurnstileSuccess"></div>
+          <div class="cf-turnstile" data-sitekey="<%= ENV.fetch("TURNSTILE_SITE_KEY", nil) %>"></div>
           <%= hidden_field_tag "cf-turnstile-response", nil %>
         </div>
         <% end %>
@@ -131,13 +131,3 @@
       autocomplete="off">
   </div>
 </form>
-
-<% if form.enable_turnstile? %>
-<script>
-function onTurnstileSuccess(token) {
-  document.querySelector("input[name='cf-turnstile-response']").value = token;
-}
-</script>
-
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-<% end %>
