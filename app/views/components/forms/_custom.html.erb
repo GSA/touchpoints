@@ -107,6 +107,12 @@
             <% end %>
           </div>
         <% end %>
+        <% if form.enable_turnstile? %>
+        <div class="margin-top-2">
+          <div class="cf-turnstile" data-sitekey="<%= ENV.fetch("TURNSTILE_SITE_KEY", nil) %>"></div>
+          <%= hidden_field_tag "cf-turnstile-response", nil %>
+        </div>
+        <% end %>
         <%- if section == form.form_sections.last && !form.suppress_submit_button %>
           <button type="submit" class="usa-button submit_form_button"><%= t 'form.submit' %></button>
         <% end %>
