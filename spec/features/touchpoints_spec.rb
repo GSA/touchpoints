@@ -20,6 +20,27 @@ feature 'Touchpoints', js: true do
         expect(page).to be_axe_clean
       end
 
+      describe 'persist text responses in localStorage' do
+        let(:two_question_form) { FactoryBot.create(:form, :two_question_open_ended_form, organization:) }
+
+        before do
+          visit touchpoint_path(two_question_form)
+          fill_in(two_question_form.ordered_questions.first.ui_selector, with: 'Question one')
+          fill_in(two_question_form.ordered_questions.last.ui_selector, with: 'Question two')
+          visit touchpoint_path(two_question_form)
+        end
+
+        it "enters text, refreshes to ensure it still there, submits, and ensures it has been cleared" do
+          expect(find("#" + two_question_form.ordered_questions.first.ui_selector).value).to eq('Question one')
+          expect(find("#" + two_question_form.ordered_questions.last.ui_selector).value).to eq('Question two')
+          click_button 'Submit'
+          expect(page).to have_content('Thank you. Your feedback has been received.')
+          visit touchpoint_path(two_question_form)
+          expect(find("#" + two_question_form.ordered_questions.first.ui_selector).value).to be_blank
+          expect(find("#" + two_question_form.ordered_questions.last.ui_selector).value).to be_blank
+        end
+      end
+
       context 'default success text' do
         before do
           visit touchpoint_path(form)

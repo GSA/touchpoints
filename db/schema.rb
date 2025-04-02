@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_01_223209) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_02_195517) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -613,6 +613,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_223209) do
     t.boolean "deleted", default: false
     t.datetime "deleted_at"
     t.string "preview", default: ""
+    t.string "spam_prevention_mechanism", default: "", comment: "Specify which spam prevention mechanism was used, if any."
     t.index ["archived"], name: "index_submissions_on_archived"
     t.index ["created_at"], name: "index_submissions_on_created_at"
     t.index ["flagged"], name: "index_submissions_on_flagged"

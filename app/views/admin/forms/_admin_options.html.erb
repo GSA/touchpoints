@@ -58,11 +58,30 @@
       </div>
       <div class="grid-col-12 padding-top-2">
         <fieldset class="usa-fieldset">
-          <legend class="usa-sr-only">enforce_new_submission_validations</legend>
+          <legend class="usa-sr-only">Enable Cloudfront Turnstile</legend>
+          <div class="usa-checkbox">
+            <%= f.check_box :enable_turnstile, class: "usa-checkbox__input" %>
+            <%= f.label :enable_turnstile, class: "usa-checkbox__label" do %>
+              Enable Cloudfront Turnstile
+              &nbsp;
+              <small class="text-base">
+                A spam prevention mechanism
+              </small>
+            <% end %>
+          </div>
+        </fieldset>
+      </div>
+      <div class="grid-col-12 padding-top-2">
+        <fieldset class="usa-fieldset">
+          <legend class="usa-sr-only">Enforce new submission validations</legend>
           <div class="usa-checkbox">
             <%= f.check_box :enforce_new_submission_validations, class: "usa-checkbox__input" %>
             <%= f.label :enforce_new_submission_validations, class: "usa-checkbox__label" do %>
-              enforce_new_submission_validations
+              Enforce submission validations
+              &nbsp;
+              <small class="text-base">
+                Validate question responses match question types (helps some types of spam)
+              </small>
             <% end %>
           </div>
         </fieldset>
