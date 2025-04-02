@@ -184,6 +184,5 @@ class SubmissionsController < ApplicationController
 
     json = JSON.parse(response.body)
     json["success"] == true
-    false
   end
 end
