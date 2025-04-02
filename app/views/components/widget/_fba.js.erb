@@ -10,6 +10,9 @@ function FBAform(d, N) {
 		formElement: function() {
 			return this.formComponent().querySelector("form");
 		},
+		formLocalStorageKey: function() {
+			return `touchpoints:${this.options.formId}`
+		},
 		isFormSubmitted: false, // defaults to false
 		// enable Javascript experience
 		javascriptIsEnabled: function() {
@@ -38,9 +41,10 @@ function FBAform(d, N) {
 			if (this.options.formSpecificScript) {
 				this.options.formSpecificScript();
 			}
-			<% if form.enable_turnstile? %>
-			this.loadTurnstile()
+			<%- if form.enable_turnstile? %>
+			this.loadTurnstile();
 			<% end %>
+			this.enableLocalStorage();
 			d.dispatchEvent(new CustomEvent('onTouchpointsFormLoaded', {
 				detail: {
 					formComponent: this
@@ -433,6 +437,7 @@ function FBAform(d, N) {
 			if (formElement) {
 				// And clear the Form's Fields
 				formElement.reset();
+				localStorage.removeItem(this.formLocalStorageKey());
 				if (formElement.querySelector('.touchpoints-form-body')) {
 					var formBody = formElement.querySelector('.touchpoints-form-body');
 					if(formBody) {
@@ -555,7 +560,7 @@ function FBAform(d, N) {
 			xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8;");
 			xhr.onload = callback.bind(this);
 			xhr.send(JSON.stringify({
-				<% if form.enable_turnstile? %>
+				<%- if form.enable_turnstile? %>
 				"cf-turnstile-response" : form.querySelector("input[name='cf-turnstile-response']") ? form.querySelector("input[name='cf-turnstile-response']").value : null,
 				<% end %>
 				"submission": params,
@@ -645,23 +650,46 @@ function FBAform(d, N) {
 		modalId: function() {
 			return `fba-modal-${this.options.formId}`;
 		},
-		<% if form.enable_turnstile? %>
+		<%- if form.enable_turnstile? %>
 		loadTurnstile: function() {
 			let script = document.createElement("script");
 			script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
 			script.async = true;
 			script.defer = true;
-			script.onload = function() {
-				document.querySelector("input[name='cf-turnstile-response']").value = token;
-			};
 			document.head.appendChild(script);
 		},
 		<% end %>
+		enableLocalStorage: function() {
+			const form = this.formElement();
+			const savedData = localStorage.getItem(this.formLocalStorageKey());
+
+			<%# Restore form data from localStorage %>
+			if (savedData) {
+				const formData = JSON.parse(savedData);
+				for (const key in formData) {
+					const input = form.querySelector(`[name="${key}"]`);
+					if (input) {
+						input.value = formData[key];
+					}
+				}
+			}
+
+			<%# Save data to localStorage as the user types %>
+			form.addEventListener('input', (event) => {
+				const inputData = {};
+				const formData = new FormData(form);
+				formData.forEach((value, key) => {
+					inputData[key] = value;
+				});
+
+				localStorage.setItem(this.formLocalStorageKey(), JSON.stringify(inputData));
+			});
+		},
 	};
 };
 
 // Specify the options for your form
-const touchpointFormOptions<%= form.short_uuid %> = {
+var touchpointFormOptions<%= form.short_uuid %> = {
 	'formId': "<%= form.short_uuid %>",
 	'modalButtonText': "<%= form.modal_button_text %>",
 	'elementSelector': "<%= form.element_selector %>",
@@ -703,10 +731,10 @@ const touchpointFormOptions<%= form.short_uuid %> = {
 }
 
 // Create an instance of a Touchpoints form object
-const touchpointForm<%= form.short_uuid %> = new FBAform(document, window).init(touchpointFormOptions<%= form.short_uuid %>);
+window.touchpointForm<%= form.short_uuid %> = new FBAform(document, window);
+window.touchpointForm<%= form.short_uuid %>.init(touchpointFormOptions<%= form.short_uuid %>);
 
 <%- if form.load_css && form.delivery_method != "touchpoints-hosted-only" %>
-
 // Load the USWDS JS, loads as module 'fbaUswds' in global scope
 <%= render partial: 'components/widget/widget-uswds', formats: :js %>
 
@@ -724,5 +752,4 @@ const touchpointForm<%= form.short_uuid %> = new FBAform(document, window).init(
 		fbaUswds.Modal.on(fbaModalElement);
 	}
 })();
-
 <% end %>

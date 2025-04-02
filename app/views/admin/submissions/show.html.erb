@@ -126,6 +126,11 @@
           <tr>
             <td>
               Location code
+              &nbsp;
+              <a
+                href="https://github.com/GSA/touchpoints/wiki/Location-Codes"
+                target="_blank">
+                <i class="text-base fa fa-info-circle"></i></a>
             </td>
             <td>
               <%= h(@submission.location_code) %>
@@ -137,6 +142,14 @@
             </td>
             <td>
               <%= h(@submission.user_agent) %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              IP Address
+            </td>
+            <td>
+              <%= h(@submission.ip_address) %>
             </td>
           </tr>
           <tr>
@@ -168,7 +181,7 @@
               Referer
             </td>
             <td>
-              <%= sanitize(@submission.referer) %>
+              <%= h(@submission.referer) %>
             </td>
           </tr>
           <tr>
@@ -176,7 +189,7 @@
               Language
             </td>
             <td>
-              <%= @submission.language %>
+              <%= h(@submission.language) %>
             </td>
           </tr>
           <tr>
