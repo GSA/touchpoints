@@ -98,7 +98,7 @@ feature 'CX Data Collections', js: true do
         let(:current_year) { Time.zone.now.strftime('%Y') }
 
         before do
-          expect(page).to have_content('After creating this collection, you can add survey results in the following screen.')
+          expect(page).to have_content('After creating this collection, you can add survey results on the following screen.')
           fill_in("cx_collection_service_provider_id", with: service_provider.name)
           find("#cx_collection_service_provider_id--list").click
           fill_in("cx_collection_service_id", with: service.name)
