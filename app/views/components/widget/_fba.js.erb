@@ -656,7 +656,19 @@ function FBAform(d, N) {
 			script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
 			script.async = true;
 			script.defer = true;
-			document.head.appendChild(script);
+			script.onload = this.initTurnstile
+			if (!window.turnstile) {
+				document.head.appendChild(script);
+			}
+		},
+		initTurnstile: function() {
+			turnstile.remove("#turnstile-container");
+			turnstile.render("#turnstile-container", {
+				sitekey: "<%= ENV['TURNSTILE_SITE_KEY'] %>",
+				callback: function (token) {
+					document.querySelector("input[name='cf-turnstile-response']").value = token;
+				}
+			});
 		},
 		<% end %>
 		enableLocalStorage: function() {
