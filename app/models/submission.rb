@@ -11,18 +11,26 @@ class Submission < ApplicationRecord
 
   before_create :set_uuid
   after_create :update_form
+  after_create :set_preview
   after_commit :send_notifications, on: :create
 
-  scope :archived, -> { where(aasm_state: :archived) }
-  scope :non_archived, -> { where("aasm_state != 'archived'") }
+  scope :active, -> { where(flagged: false, spam: false, archived: false, deleted: false) }
+  scope :reportable, -> { where(flagged: false, spam: false, deleted: false) }
+  scope :ordered, -> { order("created_at DESC") }
+  scope :archived, -> { where(archived: true) }
+  scope :non_archived, -> { where(archived: false) }
+  scope :flagged, -> { where(flagged: true) }
   scope :non_flagged, -> { where(flagged: false) }
+  scope :marked_as_spam, -> { where(spam: true) }
+  scope :not_marked_as_spam, -> { where(spam: false) }
+  scope :deleted, -> { where(deleted: true) }
+  scope :non_deleted, -> { where(deleted: false) }
 
   aasm do
     state :received, initial: true
     state :acknowledged
     state :dispatched
     state :responded
-    state :archived
 
     event :acknowledge do
       transitions from: [:received], to: :acknowledged
@@ -33,16 +41,9 @@ class Submission < ApplicationRecord
     event :respond do
       transitions from: %i[dispatched], to: :responded
     end
-    event :archive do
-      transitions to: :archived
-    end
     event :reset do
       transitions to: :received
     end
-  end
-
-  def archived
-    self.archived?
   end
 
   # Validate each submitted field against its question type
@@ -64,9 +65,16 @@ class Submission < ApplicationRecord
     answered_questions.delete('referer')
     answered_questions.delete('aasm_state')
     answered_questions.delete('tags')
+    answered_questions.delete('spam_prevention_mechanism')
     answered_questions.delete('spam_score')
+    answered_questions.delete('flagged')
+    answered_questions.delete('spam')
+    answered_questions.delete('archived')
+    answered_questions.delete('deleted')
+    answered_questions.delete('preview')
     answered_questions.delete('created_at')
     answered_questions.delete('updated_at')
+    answered_questions.delete('deleted_at')
 
     # Ensure only requested fields are submitted
     expected_submission_fields = form.questions.collect(&:answer_field) + ["location_code"]
@@ -200,6 +208,15 @@ class Submission < ApplicationRecord
 
   def organization_name
     form.organization.present? ? form.organization.name : 'Org Name'
+  end
+
+  def set_preview
+    # only select the answer fields
+    fields = attributes.select { |attr| attr.include?("answer")}
+    # only select text fields
+    text_fields = fields.values.select { |v| v.is_a?(String) }
+    preview_text = text_fields.join(" - ").truncate(120)
+    self.update_attribute(:preview, preview_text)
   end
 
   def set_uuid

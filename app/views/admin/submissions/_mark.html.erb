@@ -1,0 +1,11 @@
+<%= link_to mark_admin_form_submission_path(submission.form, submission),
+  id: "mark-submission-#{submission.id}",
+  class: "text-base",
+  "aria-label" => "Mark submission #{submission.id} as spam",
+  title: "Mark submission #{submission.id} as spam",
+  data: { confirm: 'Are you sure?' },
+  method: :post,
+  remote: true,
+  rel: "nofollow" do %>
+  <i class="fa fa-exclamation-triangle"></i>
+<% end %>

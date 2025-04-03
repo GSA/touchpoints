@@ -31,17 +31,18 @@
     <%- if @templates.present? %>
     <ul class="usa-card-group">
       <% @templates.each do |form| %>
-      <li class="usa-card desktop:grid-col-12">
+      <li
+        class="usa-card desktop:grid-col-12 margin-bottom-2">
         <div class="usa-card__container">
           <div class="usa-card__header">
-            <h2 class="usa-card__heading">
+            <h2 class="usa-card__heading font-sans-md">
               <%= form.name %>
             </h2>
           </div>
-          <div class="usa-card__body">
+          <div class="usa-card__body font-sans-xs">
             <%= to_markdown(form.notes) %>
           </div>
-          <div class="usa-card__footer">
+          <div class="usa-card__footer padding-bottom-2 text-right">
             <%= link_to example_admin_form_path(form), class: "usa-button usa-button--unstyled", target: "_blank", rel: "noopener" do %>
             <i class="fa fa-eye" aria-hidden="true"></i>
             Preview

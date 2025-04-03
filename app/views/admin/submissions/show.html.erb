@@ -94,7 +94,7 @@
         Metadata
       </div>
 
-      <table class="usa-table usa-table--striped width-full">
+      <table class="usa-table usa-table--striped width-full font-sans-2xs">
         <thead>
           <tr>
             <th>
@@ -126,9 +126,14 @@
           <tr>
             <td>
               Location code
+              &nbsp;
+              <a
+                href="https://github.com/GSA/touchpoints/wiki/Location-Codes"
+                target="_blank">
+                <i class="text-base fa fa-info-circle"></i></a>
             </td>
             <td>
-              <%= sanitize(@submission.location_code) %>
+              <%= h(@submission.location_code) %>
             </td>
           </tr>
           <tr>
@@ -136,7 +141,15 @@
               User agent
             </td>
             <td>
-              <%= sanitize(@submission.user_agent) %>
+              <%= h(@submission.user_agent) %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              IP Address
+            </td>
+            <td>
+              <%= h(@submission.ip_address) %>
             </td>
           </tr>
           <tr>
@@ -144,7 +157,7 @@
               Submitted from hostname
             </td>
             <td>
-              <%= sanitize(@submission.hostname) %>
+              <%= h(@submission.hostname) %>
             </td>
           </tr>
           <tr>
@@ -168,7 +181,15 @@
               Referer
             </td>
             <td>
-              <%= sanitize(@submission.referer) %>
+              <%= h(@submission.referer) %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Spam prevention mechanism
+            </td>
+            <td>
+              <%= h(@submission.spam_prevention_mechanism) %>
             </td>
           </tr>
           <tr>
@@ -176,7 +197,7 @@
               Language
             </td>
             <td>
-              <%= @submission.language %>
+              <%= h(@submission.language) %>
             </td>
           </tr>
           <tr>
@@ -189,10 +210,34 @@
           </tr>
           <tr>
             <td>
+              Spam
+            </td>
+            <td>
+              <%= @submission.spam? %>
+            </td>
+          </tr>
+          <tr>
+            <td>
               Archived
             </td>
             <td>
               <%= @submission.archived? %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Deleted
+            </td>
+            <td>
+              <%= @submission.deleted? %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Deleted at
+            </td>
+            <td>
+              <%= @submission.deleted_at %>
             </td>
           </tr>
         </tbody>
@@ -211,26 +256,41 @@
 </div>
 
 <%- if form_permissions?(form: @form) %>
-  <p>
-    <%= link_to admin_form_submission_path(@form, @submission), class: "usa-button usa-button--secondary", method: :delete, remote: true, data: { confirm: 'Are you sure?' } do %>
-    <i class="fas fa-trash"></i>
-      &nbsp;
-      Delete this response
-    <% end %>
+<p
+  class="response"
+  data-id="<%= @submission.uuid %>">
 
-  <%- if @submission.archived? %>
-    <%= link_to unarchive_admin_form_submission_path(@form, @submission), class: "usa-button usa-button--outline", method: :post, remote: true, data: { confirm: 'Are you sure?' } do %>
-    <i class="fa fa-inbox"></i>
-      &nbsp;
-      Unarchive response
-    <% end %>
+  <span class="flagged">
+  <%- if @submission.flagged? %>
+    <%= render "admin/submissions/unflag_button", form: @form, submission: @submission, context: :show %>
   <% else %>
-    <%= link_to archive_admin_form_submission_path(@form, @submission), class: "usa-button usa-button--outline", method: :post, remote: true, data: { confirm: 'Are you sure?' } do %>
-    <i class="fa fa-inbox"></i>
-      &nbsp;
-      Archive response
-    <% end %>
+    <%= render "admin/submissions/flag_button", form: @form, submission: @submission, context: :show %>
   <% end %>
+  </span>
 
-  </p>
+  <span class="marked">
+  <%- if @submission.spam? %>
+    <%= render "admin/submissions/unmark_button", form: @form, submission: @submission, context: :show %>
+  <% else %>
+    <%= render "admin/submissions/mark_button", form: @form, submission: @submission, context: :show %>
+  <% end %>
+  </span>
+
+  <span class="archived">
+  <%- if @submission.archived? %>
+    <%= render "admin/submissions/unarchive_button", form: @form, submission: @submission, context: :show %>
+  <% else %>
+    <%= render "admin/submissions/archive_button", form: @form, submission: @submission, context: :show %>
+  <% end %>
+  </span>
+
+  <span class="deleted">
+  <%- if @submission.deleted? %>
+    <%= render "admin/submissions/undelete_button", { form: @form, submission: @submission, context: :show } %>
+  <% else %>
+    <%= render "admin/submissions/delete_button", { form: @form, submission: @submission, context: :show } %>
+  <% end %>
+  </span>
+
+</p>
 <% end %>

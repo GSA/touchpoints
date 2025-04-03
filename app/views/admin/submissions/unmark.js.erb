@@ -1,0 +1,5 @@
+<% if params[:context] == "show" %>
+  $(".response[data-id='<%= @submission.uuid %>'] .marked").html("<%= j(render 'mark_button', form: @form, submission: @submission, context: :show) %>")
+<% else %>
+  $(".response[data-id='<%= @submission.uuid %>'] .marked").html("<%= j(render 'mark', submission: @submission) %>")
+<% end %>

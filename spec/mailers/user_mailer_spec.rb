@@ -6,19 +6,37 @@ RSpec.describe UserMailer, type: :mailer do
   describe 'submission_notification' do
     let!(:organization) { FactoryBot.create(:organization) }
     let(:user) { FactoryBot.create(:user, organization:) }
+    let(:inactive_user) { FactoryBot.create(:user, organization:, inactive: true) }
     let(:form) { FactoryBot.create(:form, :single_question, organization:) }
     let!(:submission) { FactoryBot.create(:submission, form:) }
     let(:mail) { UserMailer.submission_notification(submission_id: submission.id, emails: [user.email]) }
 
-    it 'renders the headers' do
-      expect(mail.subject).to eq("New Submission to #{submission.form.name}")
-      expect(mail.to).to eq([user.email])
-      expect(mail.from).to eq([ENV.fetch('TOUCHPOINTS_EMAIL_SENDER')])
+    context "with active emails" do
+      it 'renders the headers' do
+        expect(mail.subject).to eq("New Submission to #{submission.form.name}")
+        expect(mail.to).to eq([user.email])
+        expect(mail.from).to eq([ENV.fetch('TOUCHPOINTS_EMAIL_SENDER')])
+
+        expect {
+          mail.deliver_now
+        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+      end
+
+      it 'renders the body' do
+        expect(mail.body.encoded).to have_text('Touchpoints.gov Response Notification')
+        expect(mail.body.encoded).to have_text("New feedback has been submitted to your form, #{submission.form.name}.")
+      end
     end
 
-    it 'renders the body' do
-      expect(mail.body.encoded).to have_text('Touchpoints.gov Response Notification')
-      expect(mail.body.encoded).to have_text("New feedback has been submitted to your form, #{submission.form.name}.")
+    context "with inactive emails" do
+      let(:inactive_mail) { UserMailer.submission_notification(submission_id: submission.id, emails: [inactive_user.email]) }
+
+      it 'does not send email when recipients are inactive' do
+        expect(inactive_mail.deliver_now).to eq(nil)
+        expect {
+          inactive_mail.deliver_now
+        }.to_not change(ActionMailer::Base.deliveries, :count)
+      end
     end
   end
 

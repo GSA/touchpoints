@@ -47,7 +47,6 @@ Rails.application.routes.draw do
       resources :forms, only: %i[index show]
       resources :websites, only: [:index]
       resources :service_providers, only: [:index]
-      resources :cx_action_plans, only: %i[index show]
       resources :services, only: %i[index show]
       resources :personas, only: [:index]
       resources :users, only: [:index]
@@ -105,7 +104,6 @@ Rails.application.routes.draw do
         delete 'remove_service_provider_manager', to: 'service_providers#remove_service_provider_manager', as: :remove_service_provider_manager
       end
     end
-    resources :cx_action_plans
     resources :services do
       collection do
         get 'catalog', to: 'services#catalog', as: :catalog
@@ -297,7 +295,6 @@ Rails.application.routes.draw do
         patch 'update_instructions', to: 'forms#update_instructions', as: :update_instructions
         patch 'update_disclaimer_text', to: 'forms#update_disclaimer_text', as: :update_disclaimer_text
         patch 'update_success_text', to: 'forms#update_success_text', as: :update_success_text
-        patch 'update_ui_truncation', to: 'forms#update_ui_truncation', as: :update_ui_truncation
         patch 'update_display_logo', to: 'forms#update_display_logo', as: :update_display_logo
         patch 'update_notification_emails', to: 'forms#update_notification_emails', as: :update_notification_emails
         patch 'update_admin_options', to: 'forms#update_admin_options', as: :update_admin_options
@@ -332,8 +329,12 @@ Rails.application.routes.draw do
         member do
           post 'flag', to: 'submissions#flag', as: :flag
           post 'unflag', to: 'submissions#unflag', as: :unflag
+          post 'mark', to: 'submissions#mark', as: :mark
+          post 'unmark', to: 'submissions#unmark', as: :unmark
           post 'archive', to: 'submissions#archive', as: :archive
           post 'unarchive', to: 'submissions#unarchive', as: :unarchive
+          post 'delete', to: 'submissions#delete', as: :delete
+          post 'undelete', to: 'submissions#undelete', as: :undelete
           post 'add_tag', to: 'submissions#add_tag', as: :add_tag
           delete 'remove_tag', to: 'submissions#remove_tag', as: :remove_tag
         end

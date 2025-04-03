@@ -542,7 +542,6 @@ feature 'Forms', js: true do
             end
 
             it 'display table list of Responses and Export responses dropdown' do
-              expect(page).to have_content('Customer Feedback Analysis')
               expect(page).to have_content('RESPONSES BY STATUS')
               expect(page).to have_content('Responses per day')
               expect(page).to have_content('Total submissions received over period')
@@ -611,8 +610,8 @@ feature 'Forms', js: true do
 
         before do
           visit notifications_admin_form_path(form)
-          find(".usa-checkbox").click
-          sleep 1.0
+          find(".usa-checkbox__label").click
+          wait_for_ajax
         end
 
         it 'is accessible' do
@@ -772,7 +771,7 @@ feature 'Forms', js: true do
 
           it 'ensure format_time translation is correct' do
             visit responses_admin_form_path(form_with_responses)
-            expect(all("#submissions_table .usa-table.submissions tbody tr").last).to have_content("January 01, 2025")
+            expect(all("#submissions_table .usa-table.submissions tbody tr").last).to have_content("Jan 1")
           end
         end
 

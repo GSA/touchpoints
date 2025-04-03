@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_06_004746) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_02_195517) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -67,15 +67,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_06_004746) do
     t.index ["organization_id"], name: "index_collections_on_organization_id"
     t.index ["service_provider_id"], name: "index_collections_on_service_provider_id"
     t.index ["user_id"], name: "index_collections_on_user_id"
-  end
-
-  create_table "cx_action_plans", force: :cascade do |t|
-    t.integer "service_provider_id"
-    t.integer "year"
-    t.text "delivered_current_year"
-    t.text "to_deliver_next_year"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "cx_collection_detail_uploads", force: :cascade do |t|
@@ -312,7 +303,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_06_004746) do
     t.string "short_uuid", limit: 8
     t.boolean "enforce_new_submission_validations", default: true
     t.integer "service_stage_id"
-    t.boolean "legacy_link_feature_flag", default: false, comment: "when true, render fba-button as an A, otherwise render as BUTTON"
+    t.boolean "append_id_to_success_text", default: false, comment: "Set to true to append a response ID to the form's success_text"
+    t.boolean "enable_turnstile", default: false, comment: "Set to true to enable Cloudfront Turnstile"
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["organization_id"], name: "index_forms_on_organization_id"
@@ -320,44 +312,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_06_004746) do
     t.index ["short_uuid"], name: "index_forms_on_short_uuid", unique: true
     t.index ["user_id"], name: "index_forms_on_user_id"
     t.index ["uuid"], name: "index_forms_on_uuid", unique: true
-  end
-
-  create_table "ivn_component_links", force: :cascade do |t|
-    t.integer "from_id"
-    t.integer "to_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "ivn_components", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.string "url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "ivn_source_component_links", force: :cascade do |t|
-    t.integer "from_id"
-    t.integer "to_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "ivn_sources", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.string "url"
-    t.integer "organization_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "offerings", force: :cascade do |t|
-    t.string "name"
-    t.integer "service_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "omb_cx_reporting_collections", comment: "A detailed record belonging to a Collection; a quarterly CX Data Collection", force: :cascade do |t|
@@ -656,9 +610,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_06_004746) do
     t.integer "spam_score", default: 0
     t.text "query_string"
     t.boolean "spam", default: false
+    t.boolean "archived", default: false
+    t.boolean "deleted", default: false
+    t.datetime "deleted_at"
+    t.string "preview", default: ""
+    t.string "spam_prevention_mechanism", default: "", comment: "Specify which spam prevention mechanism was used, if any."
+    t.index ["archived"], name: "index_submissions_on_archived"
     t.index ["created_at"], name: "index_submissions_on_created_at"
     t.index ["flagged"], name: "index_submissions_on_flagged"
     t.index ["form_id"], name: "index_submissions_on_form_id"
+    t.index ["spam"], name: "index_submissions_on_spam"
     t.index ["uuid"], name: "index_submissions_on_uuid", unique: true
   end
 
@@ -753,9 +714,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_06_004746) do
     t.bigint "item_id", null: false
     t.string "event", null: false
     t.string "whodunnit"
-    t.text "object"
+    t.text "old_object"
     t.datetime "created_at", precision: nil
-    t.text "object_changes"
+    t.text "old_object_changes"
+    t.jsonb "object"
+    t.jsonb "object_changes"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 

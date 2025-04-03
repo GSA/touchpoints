@@ -1,1 +1,6 @@
-$(".response[data-id='<%= @submission.uuid %>'] .archived").html("<%= j (render 'unarchive', { submission: @submission }) %>")
+
+<% if params[:context] == "show" %>
+$(".response[data-id='<%= @submission.uuid %>'] .archived").html("<%= j(render 'archive_button', form: @form, submission: @submission, context: :show) %>")
+<% else %>
+$(".response[data-id='<%= @submission.uuid %>'] .archived").html("<%= j(render 'archive', submission: @submission) %>")
+<% end %>

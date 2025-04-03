@@ -57,12 +57,14 @@ class Event < ApplicationRecord
     cx_collection_detail_upload_created: 'cx_collection_detail_upload_created',
     cx_collection_detail_upload_deleted: 'cx_collection_detail_upload_deleted',
 
-    response_marked_as_spam: 'response_marked_as_spam',
     response_flagged: 'response_flagged',
     response_unflagged: 'response_unflagged',
     response_archived: 'response_archived',
     response_unarchived: 'response_unarchived',
+    response_marked_as_spam: 'response_marked_as_spam',
+    response_unmarked_as_spam: 'response_unmarked_as_spam',
     response_deleted: 'response_deleted',
+    response_undeleted: 'response_undeleted',
     response_status_changed: 'response_status_changed',
 
     website_created: 'website_created',
@@ -99,6 +101,8 @@ class Event < ApplicationRecord
     organization_created: 'organization_created',
     organization_updated: 'organization_updated',
     organization_deleted: 'organization_deleted',
+
+    maintenance_submissions_deleted: 'maintenance_submissions_deleted',
   }
 
   def self.log_event(ename, otype, oid, desc, uid = nil)

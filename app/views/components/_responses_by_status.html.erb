@@ -1,7 +1,7 @@
-<label class="usa-label text-uppercase font-body-3xs">
+<div class="text-uppercase font-body-3xs margin-top-2">
   Responses by status
-</label>
-<table class="usa-table width-full">
+</div>
+<table class="usa-table width-full font-sans-2xs">
   <thead>
     <tr>
       <th>
@@ -17,10 +17,16 @@
         Responded
       </th>
       <th>
+        Flagged
+      </th>
+      <th>
+        Marked as spam
+      </th>
+      <th>
         Archived
       </th>
       <th>
-        Flagged
+        Deleted
       </th>
       <th>
         Total
@@ -42,13 +48,51 @@
         <%= number_with_delimiter(responses_by_status["responded"]) %>
       </td>
       <td>
-        <%= number_with_delimiter(responses_by_status["archived"]) %>
       </td>
       <td>
-        <%= number_with_delimiter(responses_by_status["flagged"]) %>
+      </td>
+      <td>
+      </td>
+      <td>
       </td>
       <td>
         <%= number_with_delimiter(responses_by_status["total"]) %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+
+      </td>
+      <td>
+
+      </td>
+      <td>
+
+      </td>
+      <td>
+
+      </td>
+      <td>
+        <%= link_to responses_admin_form_path(@form, flagged: 1) do %>
+        <%= number_with_delimiter(responses_by_status["flagged"]) %>
+        <% end %>
+      </td>
+      <td>
+        <%= link_to responses_admin_form_path(@form, spam: 1) do %>
+          <%= number_with_delimiter(responses_by_status["marked"]) %>
+        <% end %>
+      </td>
+      <td>
+        <%= link_to responses_admin_form_path(@form, archived: 1) do %>
+          <%= number_with_delimiter(responses_by_status["archived"]) %>
+        <% end %>
+      </td>
+      <td>
+        <%= link_to responses_admin_form_path(@form, deleted: 1) do %>
+          <%= number_with_delimiter(responses_by_status["deleted"]) %>
+        <% end %>
+      </td>
+      <td>
       </td>
     </tr>
   </tbody>

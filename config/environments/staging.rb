@@ -102,16 +102,30 @@ Rails.application.configure do
 
   # For Devise
   config.action_mailer.default_url_options = { host: ENV.fetch('TOUCHPOINTS_WEB_DOMAIN'), port: 443 }
+  # TODO: For temporary redirect (March 2025)
+  config.action_controller.default_url_options = { host: ENV.fetch('TOUCHPOINTS_WEB_DOMAIN'), port: 443 }
 
   # Prevent host header injection
   # Reference: https://github.com/ankane/secure_rails
   config.action_controller.asset_host = ENV.fetch('TOUCHPOINTS_WEB_DOMAIN')
 
-  config.action_mailer.delivery_method = :ses
+  config.action_mailer.delivery_method = :ses_v2
+  config.action_mailer.ses_v2_settings = {
+    region: ENV.fetch("AWS_SES_REGION"),
+    access_key_id: ENV.fetch("AWS_SES_ACCESS_KEY_ID", nil),
+    secret_access_key: ENV.fetch("AWS_SES_SECRET_ACCESS_KEY", nil)
+  }
   config.action_mailer.perform_deliveries = true
 
   config.active_record.encryption.primary_key = ENV.fetch("RAILS_ACTIVE_RECORD_PRIMARY_KEY")
   config.active_record.encryption.deterministic_key = ENV.fetch("RAILS_ACTIVE_RECORD_DETERMINISTIC_KEY")
   config.active_record.encryption.key_derivation_salt = ENV.fetch("RAILS_ACTIVE_RECORD_KEY_DERIVATION_SALT")
   config.active_record.encryption.support_unencrypted_data = true
+
+  config.hosts = [
+    ENV.fetch("TOUCHPOINTS_WEB_DOMAIN")
+  ]
+  if ENV["TOUCHPOINTS_WEB_DOMAIN2"].present?
+    config.hosts << ENV.fetch("TOUCHPOINTS_WEB_DOMAIN2")
+  end
 end

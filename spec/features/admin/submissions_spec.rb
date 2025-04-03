@@ -27,11 +27,11 @@ feature 'Submissions', js: true do
             it 'does not render javascript' do
               within('table.submissions') do
                 find('tbody td:first-child').hover
-                expect(find('table tbody').text).to have_content('content_tag(')
+                expect(find('table tbody')).to have_content('content_tag(')
                 # Does not spawn an alert (which is good)
                 expect { page.driver.browser.switch_to.alert.accept }.to raise_error(Selenium::WebDriver::Error::NoSuchAlertError)
-                expect(find('table tbody').text).to have_text('content_tag')
-                expect(find('table tbody').text).to have_text('script')
+                expect(find('table tbody')).to have_text('content_tag')
+                expect(find('table tbody')).to have_text('script')
               end
             end
           end
@@ -71,11 +71,11 @@ feature 'Submissions', js: true do
           context 'with one Response' do
             let!(:submission) { FactoryBot.create(:submission, form:) }
 
-            describe 'click View link in responses table' do
+            describe 'click row within link in responses table' do
               before do
                 visit responses_admin_form_path(form)
                 within('table.submissions') do
-                  click_on 'View'
+                  find("tbody tr").click
                 end
               end
 
@@ -134,7 +134,7 @@ feature 'Submissions', js: true do
               before do
                 visit responses_admin_form_path(form)
                 within('table.submissions') do
-                  click_on 'View'
+                  find("tbody tr").click
                 end
               end
 
@@ -191,7 +191,7 @@ feature 'Submissions', js: true do
               end
 
               it 'view the 2nd page of responses' do
-                expect(page).to have_content('Displaying Responses 101 - 120 of 120')
+                expect(page).to have_content('101 - 120 of 120')
               end
             end
           end
@@ -199,8 +199,8 @@ feature 'Submissions', js: true do
 
         describe 'can view archived Responses' do
           context 'with more than 1 page worth of Responses' do
-            let!(:submissions) { FactoryBot.create_list(:submission, 45, form:) }
-            let!(:archived_submissions) { FactoryBot.create_list(:submission, 70, aasm_state: :archived, form:) }
+            let!(:submissions) { FactoryBot.create_list(:submission, rand(10), form:) }
+            let!(:archived_submissions) { FactoryBot.create_list(:submission, 170, archived: true, form:) }
 
             describe 'click View link in responses table' do
               before do
@@ -211,7 +211,7 @@ feature 'Submissions', js: true do
               end
 
               it 'view the 2nd page of responses' do
-                expect(page).to have_content('Displaying Responses 101 - 115 of 115')
+                expect(page).to have_content('101 - 170 of 170')
               end
             end
           end
@@ -224,7 +224,8 @@ feature 'Submissions', js: true do
             before 'click on Archive' do
               visit responses_admin_form_path(form)
               within('table.submissions') do
-                click_on 'Archive'
+                find("tbody tr").hover
+                find(".archived a").click
               end
               page.driver.browser.switch_to.alert.accept
             end
@@ -245,14 +246,75 @@ feature 'Submissions', js: true do
             before do
               visit responses_admin_form_path(form)
               within('table.submissions') do
-                click_on 'Flag'
+                find("tbody tr").hover
+                find(".flagged a").click
               end
               page.driver.browser.switch_to.alert.accept
             end
 
             it 'successfully flags Submission' do
               within('table.submissions') do
-                expect(page).to have_css("table tr td.flagged a#flag-submission-#{submission.id}")
+                expect(page).to have_css("tbody td .flagged a.text-secondary", visible: false)
+              end
+            end
+          end
+        end
+
+        describe 'can view flagged responses' do
+          context 'with more than 1 page worth of Responses' do
+            let!(:submissions) { FactoryBot.create_list(:submission, rand(10), form:) }
+            let!(:flagged_submissions) { FactoryBot.create_list(:submission, 123, flagged: true, form:) }
+
+            describe 'click View link in responses table' do
+              before do
+                visit responses_admin_form_path(form, flagged: 1)
+                within(find_all('.usa-pagination').first) do
+                  click_link '2'
+                end
+              end
+
+              it 'view the 2nd page of responses' do
+                expect(page).to have_content('101 - 123 of 123')
+              end
+            end
+          end
+        end
+
+        describe 'can view spam responses' do
+          context 'with more than 1 page worth of Responses' do
+            let!(:submissions) { FactoryBot.create_list(:submission, rand(10), form:) }
+            let!(:spam_submissions) { FactoryBot.create_list(:submission, 109, spam: true, form:) }
+
+            describe 'click View link in responses table' do
+              before do
+                visit responses_admin_form_path(form, spam: 1)
+                within(find_all('.usa-pagination').first) do
+                  click_link '2'
+                end
+              end
+
+              it 'view the 2nd page of responses' do
+                expect(page).to have_content('101 - 109 of 109')
+              end
+            end
+          end
+        end
+
+        describe 'can view soft-deleted responses' do
+          context 'with more than 1 page worth of Responses' do
+            let!(:submissions) { FactoryBot.create_list(:submission, rand(10), form:) }
+            let!(:deleted_submissions) { FactoryBot.create_list(:submission, 140, deleted: true, form:) }
+
+            describe 'click View link in responses table' do
+              before do
+                visit responses_admin_form_path(form, deleted: 1)
+                within(find_all('.usa-pagination').first) do
+                  click_link '2'
+                end
+              end
+
+              it 'view the 2nd page of responses' do
+                expect(page).to have_content('101 - 140 of 140')
               end
             end
           end
@@ -309,27 +371,88 @@ feature 'Submissions', js: true do
             before do
               visit responses_admin_form_path(form)
               within('table.submissions') do
-                click_on 'Flag'
+                find("tbody tr").hover
+                find(".flagged a").click
               end
               page.driver.browser.switch_to.alert.accept
             end
 
             it 'successfully flags Submission' do
               within('table.submissions') do
-                expect(page).to have_css("table tr td.flagged a#flag-submission-#{submission.id}")
+                expect(page).to have_css("table td .flagged a.text-secondary", visible: false)
               end
             end
           end
         end
 
-        describe 'delete a Submission' do
+        describe 'flags and un-flags a Submission' do
+          context 'with one Submission' do
+            let!(:submission) { FactoryBot.create(:submission, form:) }
+
+            before do
+              visit admin_form_submission_path(form, submission)
+              find(".flagged a").click
+              page.driver.browser.switch_to.alert.accept
+            end
+
+            it 'successfully flags and un-flags a Submission' do
+              expect(page).to have_link("Unflag")
+              click_on "Unflag"
+              page.driver.browser.switch_to.alert.accept
+              expect(page).to have_css(".flagged a")
+              expect(page).to_not have_link("Unflag")
+            end
+          end
+        end
+
+        describe 'mark and un-mark a Submission as spam' do
+          context 'with one Submission' do
+            let!(:submission) { FactoryBot.create(:submission, form:) }
+
+            before do
+              visit admin_form_submission_path(form, submission)
+              find(".marked a").click
+              page.driver.browser.switch_to.alert.accept
+            end
+
+            it 'successfully marks and un-marks a Submission as spam' do
+              expect(page).to have_link("Unmark as spam")
+              click_on "Unmark as spam"
+              page.driver.browser.switch_to.alert.accept
+              expect(page).to have_css(".marked a")
+              expect(page).to_not have_link("Unmark as spam")
+            end
+          end
+        end
+
+        describe 'archive and un-archive a Submission' do
+          context 'with one Submission' do
+            let!(:submission) { FactoryBot.create(:submission, form:) }
+
+            before do
+              visit admin_form_submission_path(form, submission)
+              find(".archived a").click
+              page.driver.browser.switch_to.alert.accept
+            end
+
+            it 'successfully archives and un-archives a Submission' do
+              expect(page).to have_link("Un-archive")
+              click_on "Un-archive"
+              page.driver.browser.switch_to.alert.accept
+              expect(page).to have_css(".archived a")
+              expect(page).to_not have_link("Un-archive")
+            end
+          end
+        end
+
+        describe 'delete and restore Submission' do
           context 'with one Submission' do
             let!(:submission) { FactoryBot.create(:submission, form:) }
             let!(:submission2) { FactoryBot.create(:submission, form:) }
 
             before do
               visit admin_form_submission_path(form, submission)
-              click_on 'Delete this response'
+              click_on 'Delete'
               page.driver.browser.switch_to.alert.accept
             end
 
@@ -337,6 +460,11 @@ feature 'Submissions', js: true do
               expect(page).to have_content('Viewing Responses for')
               expect(page.current_path).to eq(responses_admin_form_path(form))
               expect(page.find_all('#submissions_table table tbody tr').size).to eq(1)
+
+              visit admin_form_submission_path(form, submission)
+              click_on 'Restore'
+              page.driver.browser.switch_to.alert.accept
+              expect(page).to have_link("Delete")
             end
           end
         end
@@ -346,26 +474,23 @@ feature 'Submissions', js: true do
           context 'with one Submission' do
             let(:form_with_text_display) { FactoryBot.create(:form, :kitchen_sink, organization:) }
             let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: form_manager, form: form_with_text_display) }
-            let!(:submission) { FactoryBot.create(:submission, form: form_with_text_display, answer_17: '5') }
+            let!(:submission) { FactoryBot.create(:submission, form: form_with_text_display, answer_02: 'text@example.com', answer_17: '5') }
 
             before do
               visit responses_admin_form_path(form_with_text_display)
             end
 
             it 'does not display text_display question title' do
-              within '.responses .table-scroll' do
-                expect(page).to have_content('An input field')
-                expect(page).to_not have_content('Some custom')
-                expect(page).to_not have_content('<a>')
-                expect(page).to_not have_content('</a>')
-                expect(page).to have_content('A textarea field')
-
-                expect(page).to have_link('View')
-                expect(page).to have_link('Flag')
-                expect(page).to have_link('Archive')
+              within '.responses' do
+                expect(page).to have_content('text@example.com')
+                expect(page).to have_css('tr.response')
+                expect(page).to have_css('.flagged', visible: false)
+                expect(page).to have_css('.archived', visible: false)
+                expect(page).to have_css('.marked', visible: false)
+                expect(page).to have_content('Preview')
                 expect(page).to have_content('Status')
+                expect(page).to have_content('Received')
                 expect(page).to have_content('received')
-                expect(page).to have_content('Created At')
               end
             end
           end
@@ -418,65 +543,11 @@ feature 'Submissions', js: true do
           visit responses_admin_form_path(form)
         end
 
-        describe 'truncate text in the table displayed' do
-          context 'ui_truncate_text_responses is ON' do
-            it 'is on by default' do
-              expect(page).to have_css('#button-toggle-table-display-options', visible: true)
-              expect(page).to have_css('#table-display-options', visible: false)
-
-              find('#button-toggle-table-display-options').click # to open option settings
-              expect(page).to have_css('#table-display-options', visible: true)
-
-              # Inspects the hidden checkbox to ensure it is checked
-              expect(find('#form_ui_truncate_text_responses', visible: false).checked?).to eq true
-            end
-
-            it 'truncates text longer than 160 characters to 160 characters' do
-              expect(page).to have_content('superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext sup...')
-
-              expect(page).to_not have_content('superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext super')
-            end
-
-            it 'toggle this setting from on to off' do
-              find('#button-toggle-table-display-options').click
-              find('.usa-checkbox label').click
-              expect(find('#form_ui_truncate_text_responses', visible: false).checked?).to eq false
-              click_on 'Update options'
-
-              # this will be true when the page reloads
-              expect(page).to have_css('#table-display-options', visible: false)
-
-              # reload the page
-              visit responses_admin_form_path(form)
-              form.reload
-              expect(form.ui_truncate_text_responses).to eq false
-              expect(find('#form_ui_truncate_text_responses', visible: false).checked?).to eq false
-
-              expect(page).to have_content('superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext super')
-            end
-          end
-
-          context 'ui_truncate_text_responses is OFF' do
-            before do
-              form.update(ui_truncate_text_responses: false)
-              visit responses_admin_form_path(form)
-            end
-
-            it 'display text longer than 160 characters' do
-              visit responses_admin_form_path(form)
-              find('#button-toggle-table-display-options').click
-              expect(find('#form_ui_truncate_text_responses', visible: false).checked?).to eq false
-
-              expect(page).to have_content('superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext superlongtext super')
-            end
-          end
-        end
-
         describe 'view a Submission' do
           context 'with at least one Response' do
             before do
-              within('table.submissions tbody tr:first-child') do
-                click_on 'View'
+              within('table.submissions tbody') do
+                find("tr:first-child").click
               end
             end
 
@@ -490,15 +561,18 @@ feature 'Submissions', js: true do
         describe 'flag a Submission' do
           context 'with one Response' do
             before do
-              within('table.submissions tbody tr:first-child') do
-                click_on 'Flag'
+              @first_row = find('table.submissions tbody tr:first-child')
+              @first_row.hover
+              within(@first_row) do
+                find(".actions .flagged a").click
               end
               page.driver.browser.switch_to.alert.accept
             end
 
             it 'successfully flags Submission' do
-              within('table.submissions tbody tr:first-child') do
-                expect(page).to have_css("td.flagged")
+              @first_row.hover
+              within(@first_row) do
+                expect(page).to have_css(".actions .flagged a.text-secondary")
               end
             end
           end
@@ -546,7 +620,7 @@ feature 'Submissions', js: true do
                 click_on("Flag")
               end
               expect(page).to have_content("2 Submissions flagged.")
-              expect(all("table.submissions a.usa-button.usa-button--secondary").size).to eq(2)
+              expect(all("table.submissions tbody tr .flagged a.text-secondary", visible: false).size).to eq(0)
             end
 
             xit 'bulk select responses and marks them as spam' do

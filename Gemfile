@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.3.4'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.2"
+gem "rails", "~> 8.0"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
@@ -44,6 +44,7 @@ gem "image_processing", "~> 1.12"
 
 gem 'active_model_serializers'
 gem 'acts-as-list'
+gem 'aws-actionmailer-ses'
 gem 'aws-sdk-rails', '>= 3.8.0'
 gem 'aws-sdk-s3'
 gem 'carrierwave', '>= 2.2.1'
@@ -76,6 +77,10 @@ gem "rolify"
 group :development, :test do
   gem 'dotenv'
   gem 'pry'
+end
+
+group :development, :staging do
+  gem 'faker'
 end
 
 group :development do

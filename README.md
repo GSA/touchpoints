@@ -26,7 +26,7 @@ within the Technology Transformation Services'
 
 Touchpoints is online at <https://touchpoints.digital.gov/>.
 
-A current Demo version is online at <https://touchpoints-demo.app.cloud.gov/index/>,
+A Demo environment is online at <https://app-demo.touchpoints.digital.gov/>,
 and government customers are [encouraged](https://github.com/GSA/touchpoints/wiki/Touchpoints-Demo-Environment/) to sign up and try it out.
 
 ## Documentation

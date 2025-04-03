@@ -40,6 +40,8 @@ class UserMailer < ApplicationMailer
   def submission_notification(submission_id:, emails: [])
     set_logo
     emails_to_notify = User.where(email: emails).select { |user| !user.inactive }.collect(&:email)
+    return false if emails_to_notify.empty?
+
     @submission = Submission.find(submission_id)
     @form = @submission.form
     mail subject: "New Submission to #{@form.name}",
@@ -96,7 +98,7 @@ class UserMailer < ApplicationMailer
     return unless @form.send_notifications?
 
     set_logo
-    @submissions = Submission.where(id: form_id).where('created_at > ?', @begin_day).order('created_at desc')
+    @submissions = @form.submissions.where('created_at > ?', @begin_day)
     return unless @submissions.present?
 
     emails = @form.notification_emails.split(',')
