@@ -99,7 +99,13 @@ Rails.application.configure do
   # Reference: https://github.com/ankane/secure_rails
   config.action_controller.asset_host = ENV.fetch('TOUCHPOINTS_WEB_DOMAIN')
 
-  config.action_mailer.delivery_method = :ses
+  config.action_mailer.delivery_method = :ses_v2
+  config.action_mailer.ses_v2_settings = {
+    region: ENV.fetch("AWS_SES_REGION"),
+    access_key_id: ENV.fetch("AWS_SES_ACCESS_KEY_ID", nil),
+    secret_access_key: ENV.fetch("AWS_SES_SECRET_ACCESS_KEY", nil)
+  }
+
   config.action_mailer.perform_deliveries = true
 
   config.active_record.encryption.primary_key = ENV.fetch("RAILS_ACTIVE_RECORD_PRIMARY_KEY")
