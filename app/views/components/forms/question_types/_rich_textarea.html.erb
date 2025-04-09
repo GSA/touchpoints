@@ -23,9 +23,11 @@
     class="editor"
     maxlength="<%= question.max_length %>"
     style="min-height: 100px;"></div>
-  <%- if question.character_limit && question.character_limit > 0 %>
-  <span class="counter-msg usa-hint usa-character-count__message" aria-live="polite">
+  <span
+    class="counter-msg usa-hint usa-character-count__message"
+    aria-live="polite"
+    <%= "hidden=true" unless question.character_limit && question.character_limit > 0 %>
+  >
     <%= question.max_length %> characters allowed
   </span>
-  <% end %>
 </div>
