@@ -27,9 +27,6 @@ function FBAform(d, N) {
 		},
 		init: function(options) {
 			this.javascriptIsEnabled();
-			<%- if form.has_rich_text_questions? %>
-			this.loadQuill();
-			<% end %>
 			this.options = options;
 			if (this.options.loadCSS) {
 				this._loadCss();
@@ -38,6 +35,7 @@ function FBAform(d, N) {
 			if (!this.options.suppressUI && (this.options.deliveryMethod && this.options.deliveryMethod === 'modal')) {
 				this.loadButton();
 			}
+			this.enableLocalStorage();
 			this._bindEventListeners();
 			this.successState = false; // initially false
 			this._pagination();
@@ -47,7 +45,9 @@ function FBAform(d, N) {
 			<%- if form.enable_turnstile? %>
 			this.loadTurnstile();
 			<% end %>
-			this.enableLocalStorage();
+			<%- if form.has_rich_text_questions? %>
+			this.loadQuill();
+			<% end %>
 			d.dispatchEvent(new CustomEvent('onTouchpointsFormLoaded', {
 				detail: {
 					formComponent: this
@@ -692,6 +692,8 @@ function FBAform(d, N) {
 						}
 					});
 
+					quill.root.innerHTML = hiddenInput.value; // Restore values
+
 					// Sync to hidden field on change
 					quill.on('text-change', function () {
 						updateCount();
@@ -702,9 +704,7 @@ function FBAform(d, N) {
 						const html = quill.root.innerHTML;
 						countDisplay.textContent = "" + (maxLimit - html.length) + " <%= t :characters_left %>";
 					};
-
 				}
-
 			});
 		},
 		<% end %>

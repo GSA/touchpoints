@@ -16,7 +16,7 @@
   <%= render 'components/question_title_label', question: question %>
   <input
     type="hidden"
-    name="my_model[rich_text]"
+    name="<%= question.ui_selector %>"
     id="<%= question.ui_selector %>">
   <div
     id="quill-editor-<%= question.ui_selector %>"
