@@ -79,6 +79,12 @@ function FBAform(d, N) {
 				var style = d.createElement('style');
 				style.innerHTML = this.options.css;
 				d.head.appendChild(style);
+				<%- if form.has_rich_text_questions? %>
+				var quillStyles = d.createElement('link');
+				quillStyles.setAttribute("href", "<%= asset_path('quill-snow.css') %>")
+				quillStyles.setAttribute("rel", "stylesheet")
+				d.head.appendChild(quillStyles);
+				<% end %>
 			}
 		},
 		_loadHtml: function() {
