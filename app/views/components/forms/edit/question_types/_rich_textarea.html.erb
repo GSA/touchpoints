@@ -1,0 +1,25 @@
+<%
+  form_options = {
+    class: "usa-textarea",
+    required: question.is_required,
+    maxlength: question.max_length,
+  }
+
+  if question.help_text.present?
+    form_options.merge!({
+      "aria-describedby" => "question-id-#{question.id}-help-text"
+    })
+  end
+%>
+
+<div class="usa-form-group quill">
+  <%= render 'components/question_title_label', question: question %>
+  <input
+    type="hidden"
+    name="my_model[rich_text]"
+    id="<%= question.ui_selector %>">
+  <div
+    id="quill-editor-<%= question.ui_selector %>"
+    class="editor"
+    style="min-height: 100px;"></div>
+</div>

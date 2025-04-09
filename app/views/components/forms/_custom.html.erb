@@ -73,6 +73,8 @@
               <%= render 'components/forms/question_types/combobox', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "textarea" %>
               <%= render 'components/forms/question_types/text_area', form: form, question: question, question_number: multi_section_question_number %>
+            <% elsif question.question_type == "rich_textarea" %>
+              <%= render 'components/forms/question_types/rich_textarea', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "text_display" %>
               <%= render 'components/forms/question_types/text_display', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "date_select" %>

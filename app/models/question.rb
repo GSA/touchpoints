@@ -25,6 +25,7 @@ class Question < ApplicationRecord
     'dropdown',
     'combobox',
     # Custom elements
+    'rich_textarea',
     'text_display',
     'custom_text_display',
     'states_dropdown',
