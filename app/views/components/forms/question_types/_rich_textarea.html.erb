@@ -21,5 +21,11 @@
   <div
     id="quill-editor-<%= question.ui_selector %>"
     class="editor"
+    maxlength="<%= question.max_length %>"
     style="min-height: 100px;"></div>
+  <%- if question.character_limit && question.character_limit > 0 %>
+  <span class="counter-msg usa-hint usa-character-count__message" aria-live="polite">
+    <%= question.max_length %> characters allowed
+  </span>
+  <% end %>
 </div>

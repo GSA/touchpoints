@@ -58,7 +58,7 @@ function FBAform(d, N) {
 		_bindEventListeners: function() {
 			var self = this;
 
-			const textareas = this.formComponent().querySelectorAll(".usa-textarea");
+			const textareas = this.formComponent().querySelectorAll(".usa-textarea, .ql-editor");
 			textareas.forEach(function(textarea) {
 				if (textarea.getAttribute("maxlength") != '0' && textarea.getAttribute("maxlength") != '10000')  {
 					textarea.addEventListener("keyup", self.textCounter);
@@ -677,6 +677,8 @@ function FBAform(d, N) {
 			document.querySelectorAll(".quill").forEach((wrapper) => {
 				const editorContainer = wrapper.querySelector(".editor");
 				const hiddenInput = wrapper.querySelector("input[type=hidden]");
+				const countDisplay = wrapper.querySelector('.usa-character-count__message');
+				const maxLimit = editorContainer.getAttribute("maxlength");
 
 				if (editorContainer && hiddenInput) {
 					const quill = new Quill(editorContainer, {
@@ -692,8 +694,15 @@ function FBAform(d, N) {
 
 					// Sync to hidden field on change
 					quill.on('text-change', function () {
+						updateCount();
 						hiddenInput.value = quill.root.innerHTML;
 					});
+
+					const updateCount = () => {
+						const html = quill.root.innerHTML;
+						countDisplay.textContent = "" + (maxLimit - html.length) + " <%= t :characters_left %>";
+					};
+
 				}
 
 			});
