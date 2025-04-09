@@ -27,6 +27,9 @@ function FBAform(d, N) {
 		},
 		init: function(options) {
 			this.javascriptIsEnabled();
+			<%- if form.has_rich_text_questions? %>
+			this.loadQuill();
+			<% end %>
 			this.options = options;
 			if (this.options.loadCSS) {
 				this._loadCss();
@@ -121,7 +124,8 @@ function FBAform(d, N) {
 				if (customButtonEl != null) {
 					customButtonEl.setAttribute('data-open-modal', '');
 					customButtonEl.setAttribute('aria-controls', this.modalId());
-					customButtonEl.addEventListener('click', () => d.dispatchEvent(new Event('onTouchpointsModalOpen')));
+					customButtonEl.addEventListener('click', () => d.dispatchEvent(new CustomEvent('onTouchpointsModalOpen', { detail: { form: this } }
+					)));
 				}
 			}
 		}
@@ -387,7 +391,7 @@ function FBAform(d, N) {
 			this.buttonEl.setAttribute('aria-controls', this.modalId());
 			this.buttonEl.setAttribute('data-open-modal', '');
 			this.buttonEl.innerHTML = this.options.modalButtonText;
-			this.buttonEl.addEventListener('click', () => d.dispatchEvent(new Event('onTouchpointsModalOpen')));
+			this.buttonEl.addEventListener('click', () => d.dispatchEvent(new CustomEvent('onTouchpointsModalOpen', { detail: { form: this } } )));
 			this.landmarkElement.appendChild(this.buttonEl);
 			d.body.appendChild(this.landmarkElement);
 
@@ -650,6 +654,45 @@ function FBAform(d, N) {
 		modalId: function() {
 			return `fba-modal-${this.options.formId}`;
 		},
+		modalElement: function() {
+			return document.getElementById(this.modalId());
+		},
+		<%- if form.has_rich_text_questions? %>
+		loadQuill: function() {
+			let script = document.createElement("script");
+			script.src = "<%= asset_path('quill.js') %>";
+			script.async = true;
+			script.defer = true;
+			document.head.appendChild(script);
+			setTimeout(this.initQuill, 1000); // TODO: consider using something else besides setTimeout
+		},
+		initQuill: function() {
+			// Loop all .quill form groups and initialize Quill
+			document.querySelectorAll(".quill").forEach((wrapper) => {
+				const editorContainer = wrapper.querySelector(".editor");
+				const hiddenInput = wrapper.querySelector("input[type=hidden]");
+
+				if (editorContainer && hiddenInput) {
+					const quill = new Quill(editorContainer, {
+						theme: 'snow',
+						placeholder: 'Write something...',
+						modules: {
+							toolbar: [
+								['bold', 'italic', 'underline'],
+								[{ 'list': 'ordered'}, { 'list': 'bullet' }]
+							]
+						}
+					});
+
+					// Sync to hidden field on change
+					quill.on('text-change', function () {
+						hiddenInput.value = quill.root.innerHTML;
+					});
+				}
+
+			});
+		},
+		<% end %>
 		<%- if form.enable_turnstile? %>
 		loadTurnstile: function() {
 			let script = document.createElement("script");

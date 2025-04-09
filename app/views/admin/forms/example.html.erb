@@ -92,6 +92,10 @@
     <!--- End demo content -->
     <script src="<%= touchpoint_url(@form.short_uuid, format: :js) %>" async></script>
     <script>
+      document.addEventListener('onTouchpointsFormLoaded', function() {
+        console.log("fired onTouchpointsFormLoaded")
+      });
+
       document.addEventListener('onTouchpointsModalClose', function() {
         console.log("fired onTouchpointsModalClose")
       });
