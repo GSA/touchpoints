@@ -29,6 +29,8 @@
 <% @form_component_path = 'components/forms/edit/question_types/combobox' %>
 <% elsif question.question_type == "textarea" %>
 <% @form_component_path = 'components/forms/edit/question_types/text_area' %>
+<% elsif question.question_type == "rich_textarea" %>
+<% @form_component_path = 'components/forms/edit/question_types/rich_textarea' %>
 <% elsif question.question_type == "hidden_field" %>
 <% @form_component_path = 'components/forms/edit/question_types/hidden_field' %>
 <% elsif question.question_type == "custom_text_display" %>

@@ -149,6 +149,8 @@ module ApplicationHelper
       "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").dataset.rawValue"
     elsif question.question_type == 'textarea'
       "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").value"
+    elsif question.question_type == 'rich_textarea'
+      "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").value"
     elsif question.question_type == 'radio_buttons'
       "form.querySelector(\"input[name=#{question.ui_selector}]:checked\") && form.querySelector(\"input[name=#{question.ui_selector}]:checked\").value"
     elsif question.question_type == 'star_radio_buttons'

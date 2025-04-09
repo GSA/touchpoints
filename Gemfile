@@ -44,6 +44,7 @@ gem "image_processing", "~> 1.12"
 
 gem 'active_model_serializers'
 gem 'acts-as-list'
+gem 'aws-actionmailer-ses'
 gem 'aws-sdk-rails', '>= 3.8.0'
 gem 'aws-sdk-s3'
 gem 'carrierwave', '>= 2.2.1'
