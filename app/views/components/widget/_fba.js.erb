@@ -27,9 +27,6 @@ function FBAform(d, N) {
 		},
 		init: function(options) {
 			this.javascriptIsEnabled();
-			<%- if form.has_rich_text_questions? %>
-			this.loadQuill();
-			<% end %>
 			this.options = options;
 			if (this.options.loadCSS) {
 				this._loadCss();
@@ -38,6 +35,7 @@ function FBAform(d, N) {
 			if (!this.options.suppressUI && (this.options.deliveryMethod && this.options.deliveryMethod === 'modal')) {
 				this.loadButton();
 			}
+			this.enableLocalStorage();
 			this._bindEventListeners();
 			this.successState = false; // initially false
 			this._pagination();
@@ -47,7 +45,9 @@ function FBAform(d, N) {
 			<%- if form.enable_turnstile? %>
 			this.loadTurnstile();
 			<% end %>
-			this.enableLocalStorage();
+			<%- if form.has_rich_text_questions? %>
+			this.loadQuill();
+			<% end %>
 			d.dispatchEvent(new CustomEvent('onTouchpointsFormLoaded', {
 				detail: {
 					formComponent: this
@@ -58,7 +58,7 @@ function FBAform(d, N) {
 		_bindEventListeners: function() {
 			var self = this;
 
-			const textareas = this.formComponent().querySelectorAll(".usa-textarea");
+			const textareas = this.formComponent().querySelectorAll(".usa-textarea, .ql-editor");
 			textareas.forEach(function(textarea) {
 				if (textarea.getAttribute("maxlength") != '0' && textarea.getAttribute("maxlength") != '10000')  {
 					textarea.addEventListener("keyup", self.textCounter);
@@ -79,6 +79,12 @@ function FBAform(d, N) {
 				var style = d.createElement('style');
 				style.innerHTML = this.options.css;
 				d.head.appendChild(style);
+				<%- if form.has_rich_text_questions? %>
+				var quillStyles = d.createElement('link');
+				quillStyles.setAttribute("href", "<%= asset_path('quill-snow.css') %>")
+				quillStyles.setAttribute("rel", "stylesheet")
+				d.head.appendChild(quillStyles);
+				<% end %>
 			}
 		},
 		_loadHtml: function() {
@@ -250,7 +256,9 @@ function FBAform(d, N) {
 					if (item.selectedIndex > 0) delete(questions[item.name]);
 					break;
 				default:
-					if (item.value.length > 0) delete(questions[item.name]);
+					const quillDefaultHTML = "<p><br></p>";
+					if (item.value.length > 0 &&
+						item.value != quillDefaultHTML) delete(questions[item.name]);
 				}
 			});
 			for (var key in questions) {
@@ -671,6 +679,8 @@ function FBAform(d, N) {
 			document.querySelectorAll(".quill").forEach((wrapper) => {
 				const editorContainer = wrapper.querySelector(".editor");
 				const hiddenInput = wrapper.querySelector("input[type=hidden]");
+				const countDisplay = wrapper.querySelector('.usa-character-count__message');
+				const maxLimit = editorContainer.getAttribute("maxlength");
 
 				if (editorContainer && hiddenInput) {
 					const quill = new Quill(editorContainer, {
@@ -684,12 +694,19 @@ function FBAform(d, N) {
 						}
 					});
 
+					quill.root.innerHTML = hiddenInput.value; // Restore values
+
 					// Sync to hidden field on change
 					quill.on('text-change', function () {
+						updateCount();
 						hiddenInput.value = quill.root.innerHTML;
 					});
-				}
 
+					const updateCount = () => {
+						const html = quill.root.innerHTML;
+						countDisplay.textContent = "" + (maxLimit - html.length) + " <%= t :characters_left %>";
+					};
+				}
 			});
 		},
 		<% end %>
@@ -732,6 +749,21 @@ function FBAform(d, N) {
 			<%# Save data to localStorage as the user types %>
 			form.addEventListener('input', (event) => {
 				const inputData = {};
+
+				<%- if form.has_rich_text_questions? %>
+				document.querySelectorAll(".quill").forEach((wrapper) => {
+					const editorContainer = wrapper.querySelector(".editor");
+					const hiddenInput = wrapper.querySelector("input[type=hidden]");
+
+					if (editorContainer && hiddenInput) {
+						const quillInstance = Quill.find(editorContainer);
+						if (quillInstance) {
+							hiddenInput.value = quillInstance.root.innerHTML;
+						}
+					}
+				});
+				<% end %>
+
 				const formData = new FormData(form);
 				formData.forEach((value, key) => {
 					inputData[key] = value;
