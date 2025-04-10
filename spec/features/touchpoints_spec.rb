@@ -272,6 +272,32 @@ feature 'Touchpoints', js: true do
       end
     end
 
+    describe 'rich text question' do
+      let(:rich_text_form) { FactoryBot.create(:form, organization:) }
+      let!(:rich_text_question_1) { FactoryBot.create(:question, form: rich_text_form, position: 1, form_section: rich_text_form.form_sections.first, question_type: "rich_textarea", answer_field: 'answer_01', text: "Q1" ) }
+      let!(:rich_text_question_2) { FactoryBot.create(:question, form: rich_text_form, position: 2, form_section: rich_text_form.form_sections.first, question_type: "rich_textarea", answer_field: 'answer_02', text: "Q2", is_required: true) }
+      let!(:rich_text_question_3) { FactoryBot.create(:question, form: rich_text_form, position: 3, form_section: rich_text_form.form_sections.first,  question_type: "rich_textarea", answer_field: 'answer_03', text: "Q3", character_limit: 300) }
+
+      before do
+        visit touchpoint_path(rich_text_form)
+        find("##{rich_text_question_1.ui_selector} .ql-editor").send_keys("some text goes here")
+        find("##{rich_text_question_2.ui_selector}").click
+      end
+
+      it 'persists rich text values from localStorage' do
+        expect(find("#hidden-#{rich_text_question_1.ui_selector}", visible: false).value).to eq("<p>some text goes here</p>")
+        visit touchpoint_path(rich_text_form)
+        expect(find("#hidden-#{rich_text_question_1.ui_selector}", visible: false).value).to eq("<p>some text goes here</p>")
+        find("##{rich_text_question_3.ui_selector} .ql-editor").send_keys("some more text goes here")
+        expect(page).to have_content("269 characters left")
+        click_on "Submit"
+        expect(page).to have_content("A response is required: Q2")
+        find("##{rich_text_question_2.ui_selector} .ql-editor").send_keys("okay now")
+        click_on "Submit"
+        expect(page).to have_content("Thank you. Your feedback has been received.")
+      end
+    end
+
     describe 'states dropdown question' do
       let!(:dropdown_form) { FactoryBot.create(:form, :states_dropdown_form, organization:) }
 
