@@ -16,11 +16,15 @@
   <%= render 'components/question_title_label', question: question %>
   <input
     type="hidden"
-    name="<%= question.ui_selector %>"
-    id="<%= question.ui_selector %>">
+    name="hidden-<%= question.ui_selector %>"
+    <%- if question.is_required %>
+    required="true"
+    <% end %>
+    id="hidden-<%= question.ui_selector %>">
   <div
-    id="quill-editor-<%= question.ui_selector %>"
+    id="<%= question.ui_selector %>"
     class="editor"
+    name="<%= question.ui_selector %>"
     maxlength="<%= question.max_length %>"
     style="min-height: 100px;"></div>
   <span

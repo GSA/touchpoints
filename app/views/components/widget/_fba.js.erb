@@ -256,7 +256,9 @@ function FBAform(d, N) {
 					if (item.selectedIndex > 0) delete(questions[item.name]);
 					break;
 				default:
-					if (item.value.length > 0) delete(questions[item.name]);
+					const quillDefaultHTML = "<p><br></p>";
+					if (item.value.length > 0 &&
+						item.value != quillDefaultHTML) delete(questions[item.name]);
 				}
 			});
 			for (var key in questions) {
@@ -747,6 +749,21 @@ function FBAform(d, N) {
 			<%# Save data to localStorage as the user types %>
 			form.addEventListener('input', (event) => {
 				const inputData = {};
+
+				<%- if form.has_rich_text_questions? %>
+				document.querySelectorAll(".quill").forEach((wrapper) => {
+					const editorContainer = wrapper.querySelector(".editor");
+					const hiddenInput = wrapper.querySelector("input[type=hidden]");
+
+					if (editorContainer && hiddenInput) {
+						const quillInstance = Quill.find(editorContainer);
+						if (quillInstance) {
+							hiddenInput.value = quillInstance.root.innerHTML;
+						}
+					}
+				});
+				<% end %>
+
 				const formData = new FormData(form);
 				formData.forEach((value, key) => {
 					inputData[key] = value;

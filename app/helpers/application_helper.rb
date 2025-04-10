@@ -150,7 +150,7 @@ module ApplicationHelper
     elsif question.question_type == 'textarea'
       "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").value"
     elsif question.question_type == 'rich_textarea'
-      "form.querySelector(\"##{question.ui_selector}\") && form.querySelector(\"##{question.ui_selector}\").value"
+      "form.querySelector(\"#hidden-#{question.ui_selector}\") && form.querySelector(\"#hidden-#{question.ui_selector}\").value" # Quill stores rich input text in hidden fields
     elsif question.question_type == 'radio_buttons'
       "form.querySelector(\"input[name=#{question.ui_selector}]:checked\") && form.querySelector(\"input[name=#{question.ui_selector}]:checked\").value"
     elsif question.question_type == 'star_radio_buttons'
