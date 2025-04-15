@@ -27,7 +27,7 @@ function FBAform(d, N) {
 		},
 		init: function(options) {
 			this.javascriptIsEnabled();
-			this.formOpenedAt = Date.now();
+			this.formInitiatedAt = Date.now();
 			this.options = options;
 			if (this.options.loadCSS) {
 				this._loadCss();
@@ -727,10 +727,10 @@ function FBAform(d, N) {
 			script.async = true;
 			script.defer = true;
 			script.onload = this.initTurnstile;
+			this.turnstileInitiatedAt = Date.now();
 			if (!window.turnstile) {
 				document.head.appendChild(script);
 			}
-			this.turnstileInitiatedAt = Date.now();
 		},
 		initTurnstile: function() {
 			turnstile.remove("#turnstile-container");
