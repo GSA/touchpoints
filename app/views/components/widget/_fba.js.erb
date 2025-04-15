@@ -720,6 +720,10 @@ function FBAform(d, N) {
 			if (!window.turnstile) {
 				document.head.appendChild(script);
 			}
+
+			setInterval(() => {
+				window.turnstile.reset('#turnstile-container');
+			}, 5 * 60 * 1000);
 		},
 		initTurnstile: function() {
 			turnstile.remove("#turnstile-container");
