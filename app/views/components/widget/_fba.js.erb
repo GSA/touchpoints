@@ -723,7 +723,7 @@ function FBAform(d, N) {
 
 			setInterval(() => {
 				window.turnstile.reset('#turnstile-container');
-			}, 0.5 * 60 * 1000);
+			}, 5 * 60 * 1000);
 		},
 		initTurnstile: function() {
 			turnstile.remove("#turnstile-container");
