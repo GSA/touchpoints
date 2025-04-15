@@ -27,6 +27,7 @@ function FBAform(d, N) {
 		},
 		init: function(options) {
 			this.javascriptIsEnabled();
+			this.formOpenedAt = Date.now();
 			this.options = options;
 			if (this.options.loadCSS) {
 				this._loadCss();
@@ -210,7 +211,16 @@ function FBAform(d, N) {
 			var formElement = this.formElement();
 			var self = this;
 			if (self.validateForm(formElement)) {
-				// disable submit button and show sending feedback message
+				<%- if form.enable_turnstile? %>
+				const elapsed = Date.now() - self.turnstileInitiatedAt;
+				if (elapsed > 5 * 60 * 1000) {
+					self.initTurnstile();
+					self.turnstileInitiatedAt = Date.now();
+					return false;
+				}
+				<% end %>
+
+				// disable submit button
 				var submitButton = formElement.querySelector("[type='submit']");
 				submitButton.disabled = true;
 				submitButton.classList.add("aria-disabled");
@@ -716,14 +726,11 @@ function FBAform(d, N) {
 			script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
 			script.async = true;
 			script.defer = true;
-			script.onload = this.initTurnstile
+			script.onload = this.initTurnstile;
 			if (!window.turnstile) {
 				document.head.appendChild(script);
 			}
-
-			setInterval(() => {
-				window.turnstile.reset('#turnstile-container');
-			}, 5 * 60 * 1000);
+			this.turnstileInitiatedAt = Date.now();
 		},
 		initTurnstile: function() {
 			turnstile.remove("#turnstile-container");
