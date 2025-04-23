@@ -301,29 +301,6 @@ stage_after = ServiceStage.create({
   service: service_1
 })
 
-barrier_1 = Barrier.create({
-  name: 'technical'
-})
-barrier_2 = Barrier.create({
-  name: 'policy'
-})
-barrier_3 = Barrier.create({
-  name: 'location'
-})
-ServiceStageBarrier.create({
-  service_stage: stage_before,
-  barrier: barrier_1
-})
-ServiceStageBarrier.create({
-  service_stage: stage_during,
-  barrier: barrier_2
-})
-ServiceStageBarrier.create({
-  service_stage: stage_after,
-  barrier: barrier_3
-})
-
-
 #
 # Forms
 #
