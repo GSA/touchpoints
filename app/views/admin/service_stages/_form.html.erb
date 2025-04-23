@@ -60,13 +60,6 @@
        { class: "usa-select" } %>
   </div>
 
-  <div class="field" hidden>
-    <%= form.label :barrier_id, class: "usa-label" %>
-    <%= form.select :barrier_id, options_for_select(Barrier.all.map { |s| [s.name, s.id] }), {}, { class: "usa-select" } %>
-    <br>
-    <%= link_to 'Add a Barrier', new_admin_barrier_path, class: "usa-button usa-button--outline" %>
-  </div>
-
   <p>
     <%= form.submit class: "usa-button" %>
   </p>
