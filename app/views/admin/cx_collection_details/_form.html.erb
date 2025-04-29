@@ -132,6 +132,17 @@
   </div>
 
   <br>
+  <% if @cx_collection_detail.form %>
+  <%= form.hidden_field :form_id, value: @cx_collection_detail.form_id %>
+  <div class="usa-alert usa-alert--info font-sans-2xs">
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        CxResponses will be created for the form titled "<%= @cx_collection_detail.form.title %>"
+        for Q<%= @cx_collection_detail.cx_collection.quarter %>FY<%= @cx_collection_detail.cx_collection.fiscal_year %>.
+      </p>
+    </div>
+  </div>
+  <% else %>
   <div class="usa-alert usa-alert--info font-sans-2xs">
     <div class="usa-alert__body">
       <p class="usa-alert__text">
@@ -140,6 +151,7 @@
       </p>
     </div>
   </div>
+  <% end %>
 
   <p>
     <%= form.submit class: "usa-button" %>

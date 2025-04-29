@@ -144,12 +144,23 @@
         </table>
       </div>
       <%- if @cx_collection.draft? %>
-      <p>
+      <div>
         <%= link_to new_admin_cx_collection_detail_path(collection_id: @cx_collection.id), class: "usa-button usa-button--outline" do %>
           <i class="fa fa-plus"></i>
           Add detail record
         <% end %>
-      </p>
+
+        <div class="margin-top-2 margin-bottom-2">
+        <% Form.where(kind: "a11_v2").where(service_id: @cx_collection.service_id).each do |form| %>
+          <%= link_to new_admin_cx_collection_detail_path(collection_id: @cx_collection.id, form_id: form.to_param), class: "usa-button usa-button--outline" do %>
+          <i class="fa fa-plus"></i>
+            Add detail record from A-11 v2 form
+          <% end %>
+          <%= form.name %> -
+          <%= form.title %>
+        <% end %>
+        </div>
+      </div>
       <% end %>
     </div>
 

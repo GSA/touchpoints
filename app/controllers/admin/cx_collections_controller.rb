@@ -26,6 +26,8 @@ module Admin
 
     def new
       @cx_collection = CxCollection.new
+      @cx_collection.quarter = FiscalYear.fiscal_year_and_quarter(Date.today)[:quarter]
+      @cx_collection.fiscal_year = FiscalYear.fiscal_year_and_quarter(Date.today)[:year]
     end
 
     def edit

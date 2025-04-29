@@ -90,6 +90,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_23_163606) do
     t.text "trust_question_text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "form_id"
   end
 
   create_table "cx_collections", force: :cascade do |t|
