@@ -57,7 +57,8 @@ class Form < ApplicationRecord
   def self.kinds
     [
       "a11",
-      "a11_v2", # launched fall 2023
+      "a11_v2", # launched Fall 2023
+      "a11_v2_radio", # launched May 2025
       "a11_yes_no",
       "open_ended",
       "other", # TODO: deprecate in favor of custom,
@@ -289,7 +290,7 @@ class Form < ApplicationRecord
   def self.find_inactive_forms_since(days_ago)
     min_time = Time.now - days_ago.days
     max_time = Time.now - (days_ago - 1).days
-    Form.published.where("last_response_created_at BETWEEN ? AND ?", min_time, max_time)
+    Form.non_templates.published.where("last_response_created_at BETWEEN ? AND ?", min_time, max_time)
   end
 
   def deployable_form?

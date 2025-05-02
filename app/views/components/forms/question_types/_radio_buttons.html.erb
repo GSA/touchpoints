@@ -3,14 +3,15 @@
   <div class="question-options">
   <% question.question_options.each_with_index do |option, index| %>
     <% @option_id = dom_id(option) %>
-    <div class="radio-button usa-radio question-option"
+    <div
+      class="radio-button usa-radio question-option"
       data-id="<%= option.id %>"
       <%- if question.help_text.present? %>
       aria-describedby="<%= "question-id-#{question.id}-help-text" %>"
       <% end %>
     >
-      <%= radio_button_tag(@option_id, option.value, nil, { id: @option_id, name: question.ui_selector, class: "usa-radio__input usa-radio__input--tile", required: question.is_required  }) %>
-      <%= label_tag(@option_id, nil, class: "usa-radio__label") do %><%= option.text %><% end %>
+      <%= radio_button_tag(question.ui_selector, option.value.to_s, nil, { id: @option_id, class: "usa-radio__input usa-radio__input--tile", required: question.is_required  }) %>
+      <%= label_tag(@option_id, option.text, class: "usa-radio__label") %>
       <%- if option.other_option %>
       <div class="margin-top-1">
         <%= label_tag(nil, for: "#{question.ui_selector}_other", class: "usa-input__label") do %><%= t 'form.enter_other_text' %><% end %>
