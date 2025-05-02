@@ -544,7 +544,7 @@ feature 'Touchpoints', js: true do
         latest_submission = Submission.ordered.first
         expect(latest_submission.answer_01).to eq '1'
         expect(latest_submission.answer_02).to eq 'effectiveness,transparency'
-        expect(latest_submission.answer_03).to eq ""
+        expect(latest_submission.answer_03).to eq nil
         expect(latest_submission.answer_04).to eq ""
       end
     end
