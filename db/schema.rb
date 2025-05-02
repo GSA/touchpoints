@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_02_195517) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_23_163606) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -40,13 +40,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_02_195517) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
-  end
-
-  create_table "barriers", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "collections", comment: "Quarterly CX Data Collection", force: :cascade do |t|
@@ -505,13 +498,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_02_195517) do
     t.string "portfolio_manager_email"
     t.integer "year_designated"
     t.index ["organization_id"], name: "index_service_providers_on_organization_id"
-  end
-
-  create_table "service_stage_barriers", force: :cascade do |t|
-    t.integer "service_stage_id"
-    t.integer "barrier_id"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "service_stages", comment: "A step or stage within a Service, as used in a Business Process Model. eg: start, middle, end", force: :cascade do |t|
