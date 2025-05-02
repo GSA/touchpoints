@@ -10,10 +10,15 @@
       aria-describedby="<%= "question-id-#{question.id}-help-text" %>"
       <% end %>
     >
-      <%= radio_button_tag(question.ui_selector, option.value.to_s, nil, { id: @option_id, class: "usa-radio__input usa-radio__input--tile", required: question.is_required  }) %>
+      <%= radio_button_tag(question.ui_selector, option[:value], nil, {
+          id: @option_id,
+          class: "usa-radio__input usa-radio__input--tile",
+          required: question.is_required
+        }) %>
       <%= label_tag(@option_id, option.text, class: "usa-radio__label") %>
       <%- if option.other_option %>
-      <div class="margin-top-1">
+      <div
+        class="margin-top-1">
         <%= label_tag(nil, for: "#{question.ui_selector}_other", class: "usa-input__label") do %><%= t 'form.enter_other_text' %><% end %>
         <input type="text"
           name="<%= question.ui_selector %>_other"
