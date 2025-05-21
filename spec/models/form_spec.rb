@@ -87,7 +87,7 @@ RSpec.describe Form, type: :model do
       end
 
       it 'adds an error for kind' do
-        expect(form_with_invalid_kind.errors.messages[:kind]).to eq(['kind must be one of the following: a11, a11_v2, a11_yes_no, custom, open_ended, other, recruiter, yes_no'])
+        expect(form_with_invalid_kind.errors.messages[:kind]).to eq(['kind must be one of the following: a11, a11_v2, a11_v2_radio, a11_yes_no, custom, open_ended, other, recruiter, yes_no'])
       end
     end
 

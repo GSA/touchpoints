@@ -1,0 +1,52 @@
+// Assumes: 4 questions:
+//  1. 5 radio buttons with values 1-5
+//  2. positive checkbox indicators
+//  3. negative checkbox indicators
+//  4. open text
+// Hides the 2nd and 3rd questions to start
+// reveals 2 when selecting thumbs up
+// reveals 3 when selecting thumbs down
+<%
+  question_1 = form.ordered_questions.find { |q| q.answer_field == "answer_01"}
+  question_2 = form.ordered_questions.find { |q| q.answer_field == "answer_02"}
+  question_3 = form.ordered_questions.find { |q| q.answer_field == "answer_03"}
+%>
+
+document.addEventListener('onTouchpointsFormLoaded', function(e) {
+  const formElement = e.detail.formComponent.formElement();
+  const q2_container = formElement.querySelector("#<%= dom_id(question_2) %>");
+  const q3_container = formElement.querySelector("#<%= dom_id(question_3) %>");
+
+  function hideQ2() {
+    q2_container.style.display = 'none';
+  }
+  function showQ2() {
+    q2_container.style.display = 'block';
+  }
+
+  function hideQ3() {
+    q3_container.style.display = 'none';
+  }
+  function showQ3() {
+    q3_container.style.display = 'block';
+  }
+
+  function showAndHideQuestions(selectedOption) {
+    if (selectedOption === "1" || selectedOption === "2" || selectedOption === "3") {
+      hideQ2()
+      showQ3()
+    } else if (selectedOption === "4" || selectedOption === "5") {
+      showQ2()
+      hideQ3()
+    }
+  }
+
+  formElement.querySelectorAll('input[name="<%= question_1.ui_selector %>"]').forEach((radio) => {
+    radio.addEventListener('change', (event) => {
+      showAndHideQuestions(event.target.value);
+    });
+  });
+
+  hideQ2()
+  hideQ3()
+})

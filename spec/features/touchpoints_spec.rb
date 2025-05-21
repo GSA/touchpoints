@@ -520,7 +520,7 @@ feature 'Touchpoints', js: true do
       end
     end
 
-    describe 'A-11 Version 2 Form' do
+    describe 'A-11 Version 2 Form (Thumbs up/down)' do
       let!(:a11_v2_form) { FactoryBot.create(:form, :a11_v2, organization:) }
 
       before do
@@ -528,7 +528,7 @@ feature 'Touchpoints', js: true do
       end
 
       it 'submits successfully' do
-        expect(page).to have_content(form.title)
+        expect(page).to have_content(a11_v2_form.title)
         expect(page).to have_content("This is help text.")
         find("svg[aria-labelledby='thumbs-up-icon']").click # the thumbs up
         expect(page).to have_content("Positive indicators")
@@ -544,7 +544,51 @@ feature 'Touchpoints', js: true do
         latest_submission = Submission.ordered.first
         expect(latest_submission.answer_01).to eq '1'
         expect(latest_submission.answer_02).to eq 'effectiveness,transparency'
-        expect(latest_submission.answer_03).to eq ""
+        expect(latest_submission.answer_03).to eq nil
+        expect(latest_submission.answer_04).to eq ""
+      end
+    end
+
+    describe 'A-11 Version 2 (Radio Button) Form' do
+      let!(:a11_v2_radio_form) { FactoryBot.create(:form, :a11_v2_radio, organization:) }
+
+      before do
+        visit submit_touchpoint_path(a11_v2_radio_form)
+      end
+
+      it 'toggles positive and negative indicators and submits successfully' do
+        expect(page).to have_content(a11_v2_radio_form.title)
+        expect(page).to_not have_content("Negative indicators")
+        expect(page).to_not have_content("Positive indicators")
+
+        find_all("label")[0].click # option 1
+        expect(page).to have_content("Negative indicators")
+
+        find_all("label")[3].click # option 4
+        expect(page).to have_content("Positive indicators")
+
+        find_all("label")[1].click # option 2
+        expect(page).to have_content("Negative indicators")
+
+        find_all("label")[4].click # option 5
+        expect(page).to have_content("Positive indicators")
+
+        find_all("label")[2].click # option 3
+        expect(page).to have_content("Negative indicators")
+
+        expect(page).to have_content("This is help text.")
+        expect(page).to have_content("effectiveness")
+        expect(page).to have_content("ease")
+        expect(page).to have_content("efficiency")
+        expect(page).to have_content("transparency")
+
+        click_button 'Submit'
+        expect(page).to have_content('Thank you. Your feedback has been received.')
+
+        latest_submission = Submission.ordered.first
+        expect(latest_submission.answer_01).to eq '3'
+        expect(latest_submission.answer_02).to eq nil
+        expect(latest_submission.answer_03).to eq nil
         expect(latest_submission.answer_04).to eq ""
       end
     end
