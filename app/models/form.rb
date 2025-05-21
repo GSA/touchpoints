@@ -57,7 +57,8 @@ class Form < ApplicationRecord
   def self.kinds
     [
       "a11",
-      "a11_v2", # launched fall 2023
+      "a11_v2", # launched Fall 2023
+      "a11_v2_radio", # launched May 2025
       "a11_yes_no",
       "open_ended",
       "other", # TODO: deprecate in favor of custom,
@@ -289,7 +290,7 @@ class Form < ApplicationRecord
   def self.find_inactive_forms_since(days_ago)
     min_time = Time.now - days_ago.days
     max_time = Time.now - (days_ago - 1).days
-    Form.published.where("last_response_created_at BETWEEN ? AND ?", min_time, max_time)
+    Form.non_templates.published.where("last_response_created_at BETWEEN ? AND ?", min_time, max_time)
   end
 
   def deployable_form?
@@ -703,6 +704,41 @@ class Form < ApplicationRecord
     question_1 = self.ordered_questions.find { |q| q.answer_field == "answer_01" }
     if question_1.question_type != 'big_thumbs_up_down_buttons'
       errors.add(:base, "The question for `answer_01` must be a \"Big Thumbs Up/Down\" component")
+    end
+
+    # ensure the form has the 4 required questions
+    required_elements = ["answer_01", "answer_02", "answer_03", "answer_04"]
+    unless contains_elements?(questions.collect(&:answer_field), required_elements)
+      errors.add(:base, "The A-11 v2 form must have questions for #{required_elements.to_sentence}")
+    end
+
+    # ensure the positive indicators include ease and effectiveness
+    question_2 = self.ordered_questions.find { |q| q.answer_field == "answer_02" }
+    question_options = question_2.question_options
+
+    question_option_values = question_options.collect(&:value)
+    required_options = ["effectiveness", "ease"]
+    missing_options = required_options - question_option_values
+    if missing_options.any?
+      errors.add(:base, "The question options for Question 2 must include: #{missing_options.join(', ')}")
+    end
+
+    # ensure the positive indicators include ease and effectiveness
+    question_3 = self.ordered_questions.find { |q| q.answer_field == "answer_03" }
+    question_options = question_3.question_options
+
+    question_option_values = question_options.collect(&:value)
+    required_options = ["effectiveness", "ease"]
+    missing_options = required_options - question_option_values
+    if missing_options.any?
+      errors.add(:base, "The question options for Question 3 must include: #{missing_options.join(', ')}")
+    end
+  end
+
+  def ensure_a11_v2_radio_format
+    question_1 = self.ordered_questions.find { |q| q.answer_field == "answer_01" }
+    if question_1.question_type != 'radio_buttons'
+      errors.add(:base, "The question for `answer_01` must be a Radio Buttons component with 5 options, with values 1-5")
     end
 
     # ensure the form has the 4 required questions

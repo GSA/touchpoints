@@ -794,7 +794,7 @@ var touchpointFormOptions<%= form.short_uuid %> = {
 	'css' : "<%= escape_javascript(render partial: 'components/widget/widget', formats: :css, locals: { form: form }) %>",
 	'loadCSS' : <%= form.load_css %>,
 	'formSpecificScript' : function() {
-		<%- if ["a11_v2", "a11_yes_no"].include?(form.kind) %>
+		<%- if ["a11_v2", "a11_v2_radio", "a11_yes_no"].include?(form.kind) %>
 		<%= render "components/form_#{form.kind}_script", form: form %>
 		<% end %>
 	},
