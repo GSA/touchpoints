@@ -259,46 +259,106 @@ $(function() {
     });
   });
 
-  $(".questions").sortable({
-    items: '.question',
-    connectWith: ".questions",
-    handle: ".drag-handle",
-    distance: 20,
-    update: function(e, ui) {
-      var section_id = $(this).closest(".form-section-div").attr('data-id');
-      var data = $(this).sortable('serialize');
-      data = data + "&form_section_id=" + section_id;
-      $.ajax({
-        url: '<%= sort_questions_admin_form_questions_path(@form) %>',
-        type: "PATCH",
-        data: data
-      });
-    }
-  });
+  // Initialize sortable for questions with better error handling
+  try {
+    $(".questions").sortable({
+      items: '.question',
+      connectWith: ".questions",
+      handle: ".drag-handle",
+      distance: 20,
+      helper: 'clone',
+      tolerance: 'pointer',
+      update: function(e, ui) {
+        try {
+          var section_id = $(this).closest(".form-section-div").attr('data-id');
+          var data = $(this).sortable('serialize');
+          if (!data) {
+            console.error("Failed to serialize sortable data");
+            return;
+          }
+          data = data + "&form_section_id=" + section_id;
+          $.ajax({
+            url: '<%= sort_questions_admin_form_questions_path(@form) %>',
+            type: "PATCH",
+            
+            error: function(xhr, status, error) {
+              console.error("Sort update failed:", error);
+              ui.item.animate({ left: 0 }, 300); // Visual feedback on failure
+            }
+          });
+        } catch (err) {
+          console.error("Error during sort update:", err);
+        }
+      },
+      start: function(e, ui) {
+        ui.placeholder.height(ui.item.height());
+      }
+    }).disableSelection();
+  } catch (err) {
+    console.error("Failed to initialize question sortable:", err);
+  }
 
-  $(".question-options").sortable({
-    items: '.question-option',
-    update: function(e, ui) {
-      $.ajax({
-        url: $(this).parent().data("url"),
-        type: "PATCH",
-        data: $(this).sortable('serialize')
-      });
-    }
-  });
+  // Initialize sortable for question options
+  try {
+    $(".question-options").sortable({
+      items: '.question-option',
+      handle: '.drag-handle',
+      placeholder: 'sort-placeholder',
+      update: function(e, ui) {
+        try {
+          var url = $(this).parent().data("url");
+          if (!url) {
+            console.error("Missing URL for question options sort");
+            return;
+          }
+          $.ajax({
+            url: url,
+            type: "PATCH",
+            data: $(this).sortable('serialize'),
+            error: function(xhr, status, error) {
+              console.error("Option sort update failed:", error);
+              ui.item.animate({ left: 0 }, 300);
+            }
+          });
+        } catch (err) {
+          console.error("Error during option sort update:", err);
+        }
+      }
+    }).disableSelection();
+  } catch (err) {
+    console.error("Failed to initialize option sortable:", err);
+  }
 
-  $(".sorting-div").sortable({
-    distance: 20,
-    handle: ".drag-handle",
-    update: function(e, ui) {
-      var url = ui.item.data("url");
-      $.ajax({
-        url: url,
-        type: "PATCH",
-        data: $(this).sortable('serialize')
-      });
-    }
-  });
+  // Initialize sortable for sections
+  try {
+    $(".sorting-div").sortable({
+      distance: 20,
+      handle: ".drag-handle",
+      placeholder: 'sort-placeholder',
+      update: function(e, ui) {
+        try {
+          var url = ui.item.data("url");
+          if (!url) {
+            console.error("Missing URL for section sort");
+            return;
+          }
+          $.ajax({
+            url: url,
+            type: "PATCH",
+            data: $(this).sortable('serialize'),
+            error: function(xhr, status, error) {
+              console.error("Section sort update failed:", error);
+              ui.item.animate({ left: 0 }, 300);
+            }
+          });
+        } catch (err) {
+          console.error("Error during section sort update:", err);
+        }
+      }
+    }).disableSelection();
+  } catch (err) {
+    console.error("Failed to initialize section sortable:", err);
+  }
 
   $('.form-builder').on("click", '.form-add-question-option', function(event) {
     event.preventDefault();
