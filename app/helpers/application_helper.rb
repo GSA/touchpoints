@@ -4,7 +4,7 @@ require 'kramdown'
 
 module ApplicationHelper
   def suppress_main_layout_flash?
-    return true if flash && ['User successfully added', 'User successfully removed'].include?(flash.notice)
+    true if flash && ['User successfully added', 'User successfully removed'].include?(flash.notice)
   end
 
   def to_markdown(text)
@@ -23,11 +23,11 @@ module ApplicationHelper
 
   def us_timezones
     [
-      ActiveSupport::TimeZone["Eastern Time (US & Canada)"],
-      ActiveSupport::TimeZone["Central Time (US & Canada)"],
-      ActiveSupport::TimeZone["Mountain Time (US & Canada)"],
-      ActiveSupport::TimeZone["Pacific Time (US & Canada)"],
-      ActiveSupport::TimeZone["Hawaii"]
+      ActiveSupport::TimeZone['Eastern Time (US & Canada)'],
+      ActiveSupport::TimeZone['Central Time (US & Canada)'],
+      ActiveSupport::TimeZone['Mountain Time (US & Canada)'],
+      ActiveSupport::TimeZone['Pacific Time (US & Canada)'],
+      ActiveSupport::TimeZone['Hawaii'],
     ]
   end
 
@@ -101,37 +101,31 @@ module ApplicationHelper
   end
 
   def cx_collections_filters_applied?(quarter, year, status)
-    [quarter, year, status].any? { |param| param.present? && param.downcase != "all" }
+    [quarter, year, status].any? { |param| param.present? && param.downcase != 'all' }
   end
 
   def cx_collections_filter_message(quarter, year, status)
     parts = []
 
-    if quarter.present? && quarter.downcase != "all"
-      parts << "Q#{quarter}"
-    end
+    parts << "Q#{quarter}" if quarter.present? && quarter.downcase != 'all'
 
-    if year.present? && year.downcase != "all"
-      parts << "FY#{year}"
-    end
+    parts << "FY#{year}" if year.present? && year.downcase != 'all'
 
-    if status.present? && status.downcase != "all"
-      parts << status
-    end
+    parts << status if status.present? && status.downcase != 'all'
 
-    return "" if parts.empty?
+    return '' if parts.empty?
 
-    "for " + parts.join(" ")
+    'for ' + parts.join(' ')
   end
 
   def form_edit_component_path(question_type)
-   case question_type
-    when "radio_buttons", "combobox"
-      "components/forms/edit/question_types/radio_button_option"
-    when "dropdown"
-      "components/forms/edit/question_types/dropdown_option"
-    when "checkbox"
-      "components/forms/edit/question_types/checkbox_option"
+    case question_type
+    when 'radio_buttons', 'combobox'
+      'components/forms/edit/question_types/radio_button_option'
+    when 'dropdown'
+      'components/forms/edit/question_types/dropdown_option'
+    when 'checkbox'
+      'components/forms/edit/question_types/checkbox_option'
     end
   end
 
@@ -174,7 +168,7 @@ module ApplicationHelper
 
   def is_at_least_form_manager?(user:, form:)
     user.admin? ||
-      user.organizational_form_approver && user.organization_id == form.organization_id ||
+      (user.organizational_form_approver && user.organization_id == form.organization_id) ||
       form.user_role?(user:) == UserRole::Role::FormManager
   end
 
@@ -204,6 +198,16 @@ module ApplicationHelper
       answer_18
       answer_19
       answer_20
+      answer_21
+      answer_22
+      answer_23
+      answer_24
+      answer_25
+      answer_26
+      answer_27
+      answer_28
+      answer_29
+      answer_30
     ]
   end
 
@@ -222,11 +226,11 @@ module ApplicationHelper
     start_of_year = today.beginning_of_year
 
     if created_at >= today
-      created_at.strftime("%-I:%M %p") # Today: 1:23 PM
+      created_at.strftime('%-I:%M %p') # Today: 1:23 PM
     elsif created_at >= start_of_year
-      created_at.strftime("%b %e") # Current year: Jan 5
+      created_at.strftime('%b %e') # Current year: Jan 5
     else
-      created_at.strftime("%m/%d/%Y") # Last year: 01/05/2024
+      created_at.strftime('%m/%d/%Y') # Last year: 01/05/2024
     end
   end
 
@@ -240,7 +244,5 @@ module ApplicationHelper
     Digest::SHA256.base64digest(data_to_encode)
   end
 
-  def fiscal_year_and_quarter(date)
-    FiscalYear.fiscal_year_and_quarter(date)
-  end
+  delegate :fiscal_year_and_quarter, to: :FiscalYear
 end
