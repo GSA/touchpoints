@@ -58,9 +58,9 @@ development:
 test:
   <<: *default
   # Uncomment host and username if running docker containers ( docker-compose )
-  host: localhost
-  username: postgres
-  password: changeme
+  # host: localhost
+  # username: postgres
+  # password: changeme
   database: touchpoints_test
 
 # As with config/secrets.yml, you never want to store sensitive information,
