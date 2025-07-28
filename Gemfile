@@ -15,11 +15,12 @@ gem 'pg'
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma'
 
-# Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
-gem 'importmap-rails', '>= 2.0.0'
+
+gem "importmap-rails", ">= 2.2.0"
 
 # Hotwire"s SPA-like page accelerator [https://turbo.hotwired.dev]
-gem 'turbo-rails'
+gem "turbo-rails", ">= 2.0.14"
+
 
 # Hotwire"s modest JavaScript framework [https://stimulus.hotwired.dev]
 gem 'stimulus-rails'
@@ -99,11 +100,11 @@ group :test do
   gem 'axe-core-rspec'
   gem 'capybara'
   gem 'database_cleaner'
-  gem 'factory_bot_rails'
   gem 'faker'
+  gem 'factory_bot_rails', '>= 6.5.0'
   gem 'rails-controller-testing'
   gem 'rspec_junit_formatter'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '>= 8.0.1'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
 end
