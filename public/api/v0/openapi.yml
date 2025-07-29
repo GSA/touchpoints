@@ -232,6 +232,26 @@ components:
           type: string
         answer_20:
           type: string
+        answer_21:
+          type: string
+        answer_22:
+          type: string
+        answer_23:
+          type: string
+        answer_24:
+          type: string
+        answer_25:
+          type: string
+        answer_26:
+          type: string
+        answer_27:
+          type: string
+        answer_28:
+          type: string
+        answer_29:
+          type: string
+        answer_30:
+          type: string
         ip_address:
           type: string
         location_code:
