@@ -80,7 +80,7 @@ group :development, :test do
   gem 'pry'
 end
 
-group :development, :staging do
+group :development, :staging, :test do
   gem 'faker'
 end
 
@@ -100,7 +100,6 @@ group :test do
   gem 'axe-core-rspec'
   gem 'capybara'
   gem 'database_cleaner'
-  gem 'faker'
   gem 'factory_bot_rails', '>= 6.5.0'
   gem 'rails-controller-testing'
   gem 'rspec_junit_formatter'
