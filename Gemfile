@@ -21,7 +21,6 @@ gem "importmap-rails", ">= 2.2.0"
 # Hotwire"s SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails", ">= 2.0.14"
 
-
 # Hotwire"s modest JavaScript framework [https://stimulus.hotwired.dev]
 gem 'stimulus-rails'
 
@@ -63,8 +62,12 @@ gem 'omniauth-github'
 gem 'omniauth_login_dot_gov', git: 'https://github.com/18F/omniauth_login_dot_gov.git', branch: 'main'
 gem 'omniauth-rails_csrf_protection'
 gem 'rack-attack'
-gem 'rack-cors', require: 'rack/cors'
-# Use Redis to cache Touchpoints in all envs
+gem 'rack-cors', '>= 3.0.0', require: 'rack/cors'
+# Use Redis to cache Touchpoints in all envs=
+gem 'redis-client'
+gem 'redis-namespace'
+gem 'sidekiq', '>= 8.0.4'
+gem 'json-jwt'
 gem 'aasm'
 gem 'acts-as-taggable-on'
 gem 'json-jwt'
@@ -91,8 +94,8 @@ group :development do
   gem 'bundler-audit'
   gem 'listen'
   gem 'rails-erd'
-  gem 'rubocop-rails'
-  gem 'rubocop-rspec'
+  gem "rubocop-rails", ">= 2.32.0"
+  gem "rubocop-rspec"
   gem 'web-console'
 end
 
