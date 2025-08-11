@@ -6,7 +6,7 @@ class CxCollectionDetailUpload < ApplicationRecord
   belongs_to :cx_collection_detail
   has_many :cx_responses, dependent: :delete_all
 
-  after_create :process_csv_in_a_worker
+  after_create :process_records_in_a_worker
 
   aasm do
     state :created, initial: true
@@ -24,8 +24,15 @@ class CxCollectionDetailUpload < ApplicationRecord
     end
   end
 
-  def process_csv_in_a_worker
-    process_csv
+  def process_records_in_a_worker
+    if self.key?
+      process_csv
+    elsif self.cx_collection_detail.form
+      fiscal_quarter_dates = FiscalYear.fiscal_quarter_dates(self.cx_collection_detail.cx_collection.fiscal_year, self.cx_collection_detail.cx_collection.quarter)
+      start_date = fiscal_quarter_dates[:start_date]
+      end_date = fiscal_quarter_dates[:end_date]
+      upload_form_results(form_id: self.cx_collection_detail.form_id, start_date:, end_date:)
+    end
   end
 
   def process_csv
@@ -71,6 +78,41 @@ class CxCollectionDetailUpload < ApplicationRecord
       })
 
     end
+  end
+
+  def upload_form_results(form_id:, start_date:, end_date:)
+    @form = Form.find(form_id)
+
+    job_id = SecureRandom.hex[0..9]
+    update_attribute(:job_id, job_id)
+
+    responses = @form.to_a11_v2_array(start_date:, end_date:)
+    responses.each do |response|
+      # Create the CxResponse record
+      CxResponse.create!({
+        cx_collection_detail_id: cx_collection_detail.id,
+        cx_collection_detail_upload_id: self.id,
+        job_id: job_id,
+        external_id: response[:id],
+        question_1: response[:answer_01],
+        positive_effectiveness: response[:answer_02_effectiveness],
+        positive_ease: response[:answer_02_ease],
+        positive_efficiency: response[:answer_02_efficiency],
+        positive_transparency: response[:answer_02_transparency],
+        positive_humanity: response[:answer_02_humanity],
+        positive_employee: response[:answer_02_employee],
+        positive_other: response[:answer_02_other],
+        negative_effectiveness: response[:answer_03_effectiveness],
+        negative_ease: response[:answer_03_ease],
+        negative_efficiency: response[:answer_03_efficiency],
+        negative_transparency: response[:answer_03_transparency],
+        negative_humanity: response[:answer_03_humanity],
+        negative_employee: response[:answer_03_employee],
+        negative_other: response[:answer_03_other],
+        question_4: response[:answer_04],
+      })
+    end
+
   end
 
 end
