@@ -24,7 +24,7 @@ class Admin::CxCollectionDetailsController < AdminController
       @cx_collection_detail.form = @form
       @cx_collection_detail.service_stage_id = @form.service_stage_id
       @cx_collection_detail.transaction_point = 'post_interaction'
-      @cx_collection_detail.survey_type = :thumbs_up_down if @form.kind == "a11_v2"
+      @cx_collection_detail.survey_type = 'thumbs_up_down' if @form.kind == "a11_v2"
       @cx_collection_detail.survey_title = @form.title
       @cx_collection_detail.omb_control_number = @form.omb_approval_number
       @cx_collection_detail.trust_question_text = @form.questions.first.text
