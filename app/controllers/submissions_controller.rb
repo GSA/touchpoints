@@ -26,7 +26,7 @@ class SubmissionsController < ApplicationController
 
     # Catch SPAMMERS
     if @form && submission_params[:fba_directive].present?
-      ActiveSupport::Notifications.instrument("spam_subverted") do |payload|
+      ActiveSupport::Notifications.instrument('spam_subverted') do |payload|
         payload[:request] = request
       end
 
@@ -82,10 +82,10 @@ class SubmissionsController < ApplicationController
 
   def create_in_local_database(submission)
     if submission.form.enable_turnstile?
-      if verify_turnstile(params["cf-turnstile-response"])
+      if verify_turnstile(params['cf-turnstile-response'])
         submission.spam_prevention_mechanism = :turnstile
       else
-        submission.errors.add(:base, "Turnstile verification failed")
+        submission.errors.add(:base, 'Turnstile verification failed')
       end
     end
 
@@ -96,9 +96,11 @@ class SubmissionsController < ApplicationController
                       notice: 'Thank You. Response was submitted successfully.'
         end
         format.json do
-          form_success_text = submission.form.append_id_to_success_text? ?
-            submission.form.success_text + "<br><br> Your Response ID is: <strong>#{submission.uuid[-12..-1]}</strong>" :
-            submission.form.success_text
+          form_success_text = if submission.form.append_id_to_success_text?
+                                submission.form.success_text + "<br><br> Your Response ID is: <strong>#{submission.uuid[-12..-1]}</strong>"
+                              else
+                                submission.form.success_text
+                              end
 
           render json: {
                    submission: {
@@ -123,6 +125,16 @@ class SubmissionsController < ApplicationController
                      answer_18: submission.answer_18,
                      answer_19: submission.answer_19,
                      answer_20: submission.answer_20,
+                     answer_21: submission.answer_21,
+                     answer_22: submission.answer_22,
+                     answer_23: submission.answer_23,
+                     answer_24: submission.answer_24,
+                     answer_25: submission.answer_25,
+                     answer_26: submission.answer_26,
+                     answer_27: submission.answer_27,
+                     answer_28: submission.answer_28,
+                     answer_29: submission.answer_29,
+                     answer_30: submission.answer_30,
                      form: {
                        id: submission.form.uuid,
                        name: submission.form.name,
@@ -173,20 +185,19 @@ class SubmissionsController < ApplicationController
     @form.verify_csrf?
   end
 
-
   private
 
   def verify_turnstile(response_token)
-    secret_key = ENV.fetch("TURNSTILE_SECRET_KEY", nil)
-    uri = URI("https://challenges.cloudflare.com/turnstile/v0/siteverify")
+    secret_key = ENV.fetch('TURNSTILE_SECRET_KEY', nil)
+    uri = URI('https://challenges.cloudflare.com/turnstile/v0/siteverify')
 
     response = Net::HTTP.post_form(uri, {
-      "secret" => secret_key,
-      "response" => response_token,
-      "remoteip" => request.remote_ip
-    })
+                                     'secret' => secret_key,
+                                     'response' => response_token,
+                                     'remoteip' => request.remote_ip,
+                                   })
 
     json = JSON.parse(response.body)
-    json["success"] == true
+    json['success'] == true
   end
 end
