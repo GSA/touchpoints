@@ -101,7 +101,7 @@ module Admin
 
     def first_unused_answer_field
       answer_fields = Question.where(form_id: @form.id).collect(&:answer_field)
-      (1..20).each do |ind|
+      (1..30).each do |ind|
         af = "answer_#{ind.to_s.rjust(2, '0')}"
         return af unless answer_fields.include?(af)
       end

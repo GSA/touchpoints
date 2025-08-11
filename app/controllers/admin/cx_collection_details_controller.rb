@@ -18,6 +18,18 @@ class Admin::CxCollectionDetailsController < AdminController
   def new
     @cx_collection_detail = CxCollectionDetail.new
     @cx_collection_detail.cx_collection_id = params[:collection_id]
+
+    if params[:form_id]
+      @form = Form.find_by_short_uuid(params[:form_id])
+      @cx_collection_detail.form = @form
+      @cx_collection_detail.service_stage_id = @form.service_stage_id
+      @cx_collection_detail.transaction_point = 'post_interaction'
+      @cx_collection_detail.survey_type = 'thumbs_up_down' if @form.kind == "a11_v2"
+      @cx_collection_detail.survey_title = @form.title
+      @cx_collection_detail.omb_control_number = @form.omb_approval_number
+      @cx_collection_detail.trust_question_text = @form.questions.first.text
+      @cx_collection_detail.volume_of_customers_provided_survey_opportunity = @form.survey_form_activations
+    end
   end
 
   def edit
@@ -35,6 +47,11 @@ class Admin::CxCollectionDetailsController < AdminController
     respond_to do |format|
       if @cx_collection_detail.save
         Event.log_event(Event.names[:cx_collection_detail_created], @cx_collection_detail.class.to_s, @cx_collection_detail.id, "CX Collection Detail #{@cx_collection_detail.id} created at #{DateTime.now}", current_user.id)
+
+        if @cx_collection_detail.form
+          CxCollectionDetailUpload.create!(user: current_user, cx_collection_detail: @cx_collection_detail)
+        end
+
         format.html { redirect_to upload_admin_cx_collection_detail_url(@cx_collection_detail), notice: "CX Collection Detail was successfully created." }
         format.json { render :upload, status: :created, location: @cx_collection_detail }
       else
@@ -160,6 +177,22 @@ class Admin::CxCollectionDetailsController < AdminController
     end
 
     def cx_collection_detail_params
-      params.require(:cx_collection_detail).permit(:cx_collection_id, :transaction_point, :channel, :service_stage_id, :volume_of_customers, :volume_of_customers_provided_survey_opportunity, :volume_of_respondents, :omb_control_number, :federal_register_url, :reflection_text, :survey_type, :survey_title, :trust_question_text)
+      params.require(:cx_collection_detail)
+        .permit(
+          :cx_collection_id,
+          :transaction_point,
+          :channel,
+          :service_stage_id,
+          :volume_of_customers,
+          :volume_of_customers_provided_survey_opportunity,
+          :volume_of_respondents,
+          :omb_control_number,
+          :federal_register_url,
+          :reflection_text,
+          :survey_type,
+          :survey_title,
+          :trust_question_text,
+          :form_id,
+        )
     end
 end

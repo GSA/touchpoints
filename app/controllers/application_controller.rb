@@ -167,7 +167,7 @@ class ApplicationController < ActionController::Base
     return true if performance_manager_permissions?
 
     cx_collection.organization == current_user.organization ||
-      cx_collection.organization == (current_user.organization.parent ? current_user.organization.parent : nil)
+      cx_collection.organization == (current_user.organization.parent || nil)
   end
 
   helper_method :website_permissions?

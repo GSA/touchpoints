@@ -740,7 +740,7 @@ feature 'Forms', js: true do
         describe 'editing form PRA info' do
           before do
             fill_in 'form_omb_approval_number', with: 'OAN-1234'
-            fill_in 'form_expiration_date', with: '2022-01-30'
+            fill_in 'form_expiration_date', with: '01/30/2022'
             click_on 'Update Form Options'
             expect(page).to have_content('Form Manager forms options updated successfully')
           end

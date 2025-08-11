@@ -50,36 +50,34 @@ class Form < ApplicationRecord
     end
 
     items = items.non_templates
-    items = items.where(aasm_state: aasm_state) if aasm_state.present? && aasm_state != "all"
+    items = items.where(aasm_state: aasm_state) if aasm_state.present? && aasm_state != 'all'
     items
   end
 
   def self.kinds
     [
-      "a11",
-      "a11_v2", # launched Fall 2023
-      "a11_v2_radio", # launched May 2025
-      "a11_yes_no",
-      "open_ended",
-      "other", # TODO: deprecate in favor of custom,
-      "recruiter",
-      "yes_no",
-      "custom"
+      'a11',
+      'a11_v2', # launched Fall 2023
+      'a11_v2_radio', # launched May 2025
+      'a11_yes_no',
+      'open_ended',
+      'other', # TODO: deprecate in favor of custom,
+      'recruiter',
+      'yes_no',
+      'custom',
     ]
   end
 
   def valid_form_kinds
-    if !Form.kinds.include?(kind)
-      errors.add(:kind, "kind must be one of the following: #{Form.kinds.sort.join(', ')}")
-    end
+    errors.add(:kind, "kind must be one of the following: #{Form.kinds.sort.join(', ')}") unless Form.kinds.include?(kind)
   end
 
   def target_for_delivery_method
-    errors.add(:element_selector, "can't be blank for an inline form") if (delivery_method == 'custom-button-modal' || delivery_method == 'inline') && (element_selector == '')
+    errors.add(:element_selector, "can't be blank for an inline form") if %w[custom-button-modal inline].include?(delivery_method) && (element_selector == '')
   end
 
   def roles
-    user_roles.map { |role| { role: role.role, user: role.user }}
+    user_roles.map { |role| { role: role.role, user: role.user } }
   end
 
   def form_managers
@@ -87,7 +85,7 @@ class Form < ApplicationRecord
   end
 
   def response_viewers
-    roles.select { |role| role[:role] == 'response_viewer' }.map { |r| r[:user]}
+    roles.select { |role| role[:role] == 'response_viewer' }.map { |r| r[:user] }
   end
 
   def ensure_modal_text
@@ -154,18 +152,18 @@ class Form < ApplicationRecord
   # used to initially set tags (or reset them, if necessary)
   def set_submission_tags!
     submission_tags = submissions.collect(&:tags).uniq.sort_by { |i| i.name }
-    self.update!(submission_tags: submission_tags)
+    update!(submission_tags: submission_tags)
   end
 
   # called when a tag is added to a submission
   def update_submission_tags!(tag_list)
     submission_tags = (self.submission_tags + tag_list).uniq.compact.sort
-    self.update!(submission_tags: submission_tags)
+    update!(submission_tags: submission_tags)
   end
 
   # lazily called from a view when a tag is used to search, but returns 0 results
   def remove_submission_tag!(tag)
-    self.update!(submission_tags: submission_tags - [tag])
+    update!(submission_tags: submission_tags - [tag])
   end
 
   aasm do
@@ -177,15 +175,15 @@ class Form < ApplicationRecord
 
     event :submit do
       transitions from: %i[created],
-        to: :submitted,
-        guard: :organization_has_form_approval_enabled?,
-        after: :set_submitted_at
+                  to: :submitted,
+                  guard: :organization_has_form_approval_enabled?,
+                  after: :set_submitted_at
     end
     event :approve do
       transitions from: %i[submitted],
-        to: :approved,
-        guard: :organization_has_form_approval_enabled?,
-        after: :set_approved_at
+                  to: :approved,
+                  guard: :organization_has_form_approval_enabled?,
+                  after: :set_approved_at
     end
     event :publish do
       transitions from: %i[created approved], to: :published
@@ -208,7 +206,7 @@ class Form < ApplicationRecord
   end
 
   def events
-    Event.where(object_type: 'Form', object_uuid: self.uuid).order(:created_at)
+    Event.where(object_type: 'Form', object_uuid: uuid).order(:created_at)
   end
 
   def duplicate!(new_user:)
@@ -266,7 +264,7 @@ class Form < ApplicationRecord
   end
 
   def has_rich_text_questions?
-    questions.where(question_type: "rich_textarea").exists?
+    questions.where(question_type: 'rich_textarea').exists?
   end
 
   def self.archive_expired!
@@ -290,7 +288,7 @@ class Form < ApplicationRecord
   def self.find_inactive_forms_since(days_ago)
     min_time = Time.now - days_ago.days
     max_time = Time.now - (days_ago - 1).days
-    Form.non_templates.published.where("last_response_created_at BETWEEN ? AND ?", min_time, max_time)
+    Form.non_templates.published.where('last_response_created_at BETWEEN ? AND ?', min_time, max_time)
   end
 
   def deployable_form?
@@ -336,56 +334,112 @@ class Form < ApplicationRecord
     attributes = fields_for_export
 
     header_attributes = hashed_fields_for_export.values
-    a11_v2_header_attributes = [
-      :external_id,
-      :question_1,
-      :positive_effectiveness,
-      :positive_ease,
-      :positive_efficiency,
-      :positive_transparency,
-      :positive_humanity,
-      :positive_employee,
-      :positive_other,
-      :negative_effectiveness,
-      :negative_ease,
-      :negative_efficiency,
-      :negative_transparency,
-      :negative_humanity,
-      :negative_employee,
-      :negative_other,
-      :question_4
+    a11_v2_header_attributes = %i[
+      external_id
+      question_1
+      positive_effectiveness
+      positive_ease
+      positive_efficiency
+      positive_transparency
+      positive_humanity
+      positive_employee
+      positive_other
+      negative_effectiveness
+      negative_ease
+      negative_efficiency
+      negative_transparency
+      negative_humanity
+      negative_employee
+      negative_other
+      question_4
     ]
 
     attributes = fields_for_export
 
-    answer_02_options = self.questions.where(answer_field: "answer_02").first.question_options.collect(&:value)
-    answer_03_options = self.questions.where(answer_field: "answer_03").first.question_options.collect(&:value)
+    answer_02_options = questions.where(answer_field: 'answer_02').first.question_options.collect(&:value)
+    answer_03_options = questions.where(answer_field: 'answer_03').first.question_options.collect(&:value)
 
     CSV.generate(headers: true) do |csv|
-      csv << header_attributes + a11_v2_header_attributes
+      csv << (header_attributes + a11_v2_header_attributes)
 
       reportable_submissions.each do |submission|
-        csv << attributes.map { |attr| submission.send(attr) } + [
+        csv << (attributes.map { |attr| submission.send(attr) } + [
           submission.id,
           submission.answer_01,
-          submission.answer_02 && submission.answer_02.split(",").include?("effectiveness") ? 1 :(answer_02_options.include?("effectiveness") ? 0 : 'null'),
-          submission.answer_02 && submission.answer_02.split(",").include?("ease") ? 1 : (answer_02_options.include?("ease") ? 0 : 'null'),
-          submission.answer_02 && submission.answer_02.split(",").include?("efficiency") ? 1 : (answer_02_options.include?("efficiency") ? 0 : 'null'),
-          submission.answer_02 && submission.answer_02.split(",").include?("transparency") ? 1 : (answer_02_options.include?("transparency") ? 0 : 'null'),
-          submission.answer_02 && submission.answer_02.split(",").include?("humanity") ? 1 : (answer_02_options.include?("humanity") ? 0 : 'null'),
-          submission.answer_02 && submission.answer_02.split(",").include?("employee") ? 1 : (answer_02_options.include?("employee") ? 0 : 'null'),
-          submission.answer_02 && submission.answer_02.split(",").include?("other") ? 1 : (answer_02_options.include?("other") ? 0 : 'null'),
+          if submission.answer_02 && submission.answer_02.split(',').include?('effectiveness')
+            1
+          else
+            (answer_02_options.include?('effectiveness') ? 0 : 'null')
+          end,
+          if submission.answer_02 && submission.answer_02.split(',').include?('ease')
+            1
+          else
+            (answer_02_options.include?('ease') ? 0 : 'null')
+          end,
+          if submission.answer_02 && submission.answer_02.split(',').include?('efficiency')
+            1
+          else
+            (answer_02_options.include?('efficiency') ? 0 : 'null')
+          end,
+          if submission.answer_02 && submission.answer_02.split(',').include?('transparency')
+            1
+          else
+            (answer_02_options.include?('transparency') ? 0 : 'null')
+          end,
+          if submission.answer_02 && submission.answer_02.split(',').include?('humanity')
+            1
+          else
+            (answer_02_options.include?('humanity') ? 0 : 'null')
+          end,
+          if submission.answer_02 && submission.answer_02.split(',').include?('employee')
+            1
+          else
+            (answer_02_options.include?('employee') ? 0 : 'null')
+          end,
+          if submission.answer_02 && submission.answer_02.split(',').include?('other')
+            1
+          else
+            (answer_02_options.include?('other') ? 0 : 'null')
+          end,
 
-          submission.answer_03 && submission.answer_03.split(",").include?("effectiveness") ? 1 : (answer_03_options.include?("effectiveness") ? 0 : 'null'),
-          submission.answer_03 && submission.answer_03.split(",").include?("ease") ? 1 : (answer_03_options.include?("ease") ? 0 : 'null'),
-          submission.answer_03 && submission.answer_03.split(",").include?("efficiency") ? 1 : (answer_03_options.include?("efficiency") ? 0 : 'null'),
-          submission.answer_03 && submission.answer_03.split(",").include?("transparency") ? 1 : (answer_03_options.include?("transparency") ? 0 : 'null'),
-          submission.answer_03 && submission.answer_03.split(",").include?("humanity") ? 1 : (answer_03_options.include?("humanity") ? 0 : 'null'),
-          submission.answer_03 && submission.answer_03.split(",").include?("employee") ? 1 : (answer_03_options.include?("employee") ? 0 : 'null'),
-          submission.answer_03 && submission.answer_03.split(",").include?("other") ? 1 : (answer_03_options.include?("other") ? 0 : 'null'),
+          if submission.answer_03 && submission.answer_03.split(',').include?('effectiveness')
+            1
+          else
+            (answer_03_options.include?('effectiveness') ? 0 : 'null')
+          end,
+          if submission.answer_03 && submission.answer_03.split(',').include?('ease')
+            1
+          else
+            (answer_03_options.include?('ease') ? 0 : 'null')
+          end,
+          if submission.answer_03 && submission.answer_03.split(',').include?('efficiency')
+            1
+          else
+            (answer_03_options.include?('efficiency') ? 0 : 'null')
+          end,
+          if submission.answer_03 && submission.answer_03.split(',').include?('transparency')
+            1
+          else
+            (answer_03_options.include?('transparency') ? 0 : 'null')
+          end,
+          if submission.answer_03 && submission.answer_03.split(',').include?('humanity')
+            1
+          else
+            (answer_03_options.include?('humanity') ? 0 : 'null')
+          end,
+          if submission.answer_03 && submission.answer_03.split(',').include?('employee')
+            1
+          else
+            (answer_03_options.include?('employee') ? 0 : 'null')
+          end,
+          if submission.answer_03 && submission.answer_03.split(',').include?('other')
+            1
+          else
+            (answer_03_options.include?('other') ? 0 : 'null')
+          end,
 
-          submission.answer_04
-        ]
+          submission.answer_04,
+        ])
       end
     end
   end
@@ -399,30 +453,30 @@ class Form < ApplicationRecord
     return nil if reportable_submissions.blank?
 
     header_attributes = hashed_fields_for_export.values
-    header_attributes = [
-      :external_id,
-      :question_1,
-      :positive_effectiveness,
-      :positive_ease,
-      :positive_efficiency,
-      :positive_transparency,
-      :positive_humanity,
-      :positive_employee,
-      :positive_other,
-      :negative_effectiveness,
-      :negative_ease,
-      :negative_efficiency,
-      :negative_transparency,
-      :negative_humanity,
-      :negative_employee,
-      :negative_other,
-      :question_4
+    header_attributes = %i[
+      external_id
+      question_1
+      positive_effectiveness
+      positive_ease
+      positive_efficiency
+      positive_transparency
+      positive_humanity
+      positive_employee
+      positive_other
+      negative_effectiveness
+      negative_ease
+      negative_efficiency
+      negative_transparency
+      negative_humanity
+      negative_employee
+      negative_other
+      question_4
     ]
 
     attributes = fields_for_export
 
-    answer_02_options = self.questions.where(answer_field: "answer_02").first.question_options.collect(&:value)
-    answer_03_options = self.questions.where(answer_field: "answer_03").first.question_options.collect(&:value)
+    answer_02_options = questions.where(answer_field: 'answer_02').first.question_options.collect(&:value)
+    answer_03_options = questions.where(answer_field: 'answer_03').first.question_options.collect(&:value)
 
     CSV.generate(headers: true) do |csv|
       csv << header_attributes
@@ -431,25 +485,114 @@ class Form < ApplicationRecord
         csv << [
           submission.id,
           submission.answer_01,
-          submission.answer_02 && submission.answer_02.split(",").include?("effectiveness") ? 1 :(answer_02_options.include?("effectiveness") ? 0 : 'null'),
-          submission.answer_02 && submission.answer_02.split(",").include?("ease") ? 1 : (answer_02_options.include?("ease") ? 0 : 'null'),
-          submission.answer_02 && submission.answer_02.split(",").include?("efficiency") ? 1 : (answer_02_options.include?("efficiency") ? 0 : 'null'),
-          submission.answer_02 && submission.answer_02.split(",").include?("transparency") ? 1 : (answer_02_options.include?("transparency") ? 0 : 'null'),
-          submission.answer_02 && submission.answer_02.split(",").include?("humanity") ? 1 : (answer_02_options.include?("humanity") ? 0 : 'null'),
-          submission.answer_02 && submission.answer_02.split(",").include?("employee") ? 1 : (answer_02_options.include?("employee") ? 0 : 'null'),
-          submission.answer_02 && submission.answer_02.split(",").include?("other") ? 1 : (answer_02_options.include?("other") ? 0 : 'null'),
+          if submission.answer_02 && submission.answer_02.split(',').include?('effectiveness')
+            1
+          else
+            (answer_02_options.include?('effectiveness') ? 0 : 'null')
+          end,
+          if submission.answer_02 && submission.answer_02.split(',').include?('ease')
+            1
+          else
+            (answer_02_options.include?('ease') ? 0 : 'null')
+          end,
+          if submission.answer_02 && submission.answer_02.split(',').include?('efficiency')
+            1
+          else
+            (answer_02_options.include?('efficiency') ? 0 : 'null')
+          end,
+          if submission.answer_02 && submission.answer_02.split(',').include?('transparency')
+            1
+          else
+            (answer_02_options.include?('transparency') ? 0 : 'null')
+          end,
+          if submission.answer_02 && submission.answer_02.split(',').include?('humanity')
+            1
+          else
+            (answer_02_options.include?('humanity') ? 0 : 'null')
+          end,
+          if submission.answer_02 && submission.answer_02.split(',').include?('employee')
+            1
+          else
+            (answer_02_options.include?('employee') ? 0 : 'null')
+          end,
+          if submission.answer_02 && submission.answer_02.split(',').include?('other')
+            1
+          else
+            (answer_02_options.include?('other') ? 0 : 'null')
+          end,
 
-          submission.answer_03 && submission.answer_03.split(",").include?("effectiveness") ? 1 : (answer_03_options.include?("effectiveness") ? 0 : 'null'),
-          submission.answer_03 && submission.answer_03.split(",").include?("ease") ? 1 : (answer_03_options.include?("ease") ? 0 : 'null'),
-          submission.answer_03 && submission.answer_03.split(",").include?("efficiency") ? 1 : (answer_03_options.include?("efficiency") ? 0 : 'null'),
-          submission.answer_03 && submission.answer_03.split(",").include?("transparency") ? 1 : (answer_03_options.include?("transparency") ? 0 : 'null'),
-          submission.answer_03 && submission.answer_03.split(",").include?("humanity") ? 1 : (answer_03_options.include?("humanity") ? 0 : 'null'),
-          submission.answer_03 && submission.answer_03.split(",").include?("employee") ? 1 : (answer_03_options.include?("employee") ? 0 : 'null'),
-          submission.answer_03 && submission.answer_03.split(",").include?("other") ? 1 : (answer_03_options.include?("other") ? 0 : 'null'),
+          if submission.answer_03 && submission.answer_03.split(',').include?('effectiveness')
+            1
+          else
+            (answer_03_options.include?('effectiveness') ? 0 : 'null')
+          end,
+          if submission.answer_03 && submission.answer_03.split(',').include?('ease')
+            1
+          else
+            (answer_03_options.include?('ease') ? 0 : 'null')
+          end,
+          if submission.answer_03 && submission.answer_03.split(',').include?('efficiency')
+            1
+          else
+            (answer_03_options.include?('efficiency') ? 0 : 'null')
+          end,
+          if submission.answer_03 && submission.answer_03.split(',').include?('transparency')
+            1
+          else
+            (answer_03_options.include?('transparency') ? 0 : 'null')
+          end,
+          if submission.answer_03 && submission.answer_03.split(',').include?('humanity')
+            1
+          else
+            (answer_03_options.include?('humanity') ? 0 : 'null')
+          end,
+          if submission.answer_03 && submission.answer_03.split(',').include?('employee')
+            1
+          else
+            (answer_03_options.include?('employee') ? 0 : 'null')
+          end,
+          if submission.answer_03 && submission.answer_03.split(',').include?('other')
+            1
+          else
+            (answer_03_options.include?('other') ? 0 : 'null')
+          end,
 
-          submission.answer_04
+          submission.answer_04,
         ]
       end
+    end
+  end
+
+  def to_a11_v2_array(start_date: nil, end_date: nil)
+    non_flagged_submissions = submissions
+      .non_flagged
+      .where(created_at: start_date..end_date)
+      .order('created_at')
+    return nil if non_flagged_submissions.blank?
+
+    answer_02_options = self.questions.where(answer_field: "answer_02").first.question_options.collect(&:value)
+    answer_03_options = self.questions.where(answer_field: "answer_03").first.question_options.collect(&:value)
+
+    non_flagged_submissions.map do |submission|
+      {
+        id: submission.id,
+        answer_01: submission.answer_01,
+        answer_02_effectiveness: submission.answer_02 && submission.answer_02.split(",").include?("effectiveness") ? 1 :(answer_02_options.include?("effectiveness") ? 0 : 'null'),
+        answer_02_ease: submission.answer_02 && submission.answer_02.split(",").include?("ease") ? 1 : (answer_02_options.include?("ease") ? 0 : 'null'),
+        answer_02_efficiency: submission.answer_02 && submission.answer_02.split(",").include?("efficiency") ? 1 : (answer_02_options.include?("efficiency") ? 0 : 'null'),
+        answer_02_transparency: submission.answer_02 && submission.answer_02.split(",").include?("transparency") ? 1 : (answer_02_options.include?("transparency") ? 0 : 'null'),
+        answer_02_humanity: submission.answer_02 && submission.answer_02.split(",").include?("humanity") ? 1 : (answer_02_options.include?("humanity") ? 0 : 'null'),
+        answer_02_employee: submission.answer_02 && submission.answer_02.split(",").include?("employee") ? 1 : (answer_02_options.include?("employee") ? 0 : 'null'),
+        answer_02_other: submission.answer_02 && submission.answer_02.split(",").include?("other") ? 1 : (answer_02_options.include?("other") ? 0 : 'null'),
+        answer_03_effectiveness: submission.answer_03 && submission.answer_03.split(",").include?("effectiveness") ? 1 : (answer_03_options.include?("effectiveness") ? 0 : 'null'),
+        answer_03_ease: submission.answer_03 && submission.answer_03.split(",").include?("ease") ? 1 : (answer_03_options.include?("ease") ? 0 : 'null'),
+        answer_03_efficiency: submission.answer_03 && submission.answer_03.split(",").include?("efficiency") ? 1 : (answer_03_options.include?("efficiency") ? 0 : 'null'),
+        answer_03_transparency: submission.answer_03 && submission.answer_03.split(",").include?("transparency") ? 1 : (answer_03_options.include?("transparency") ? 0 : 'null'),
+        answer_03_humanity: submission.answer_03 && submission.answer_03.split(",").include?("humanity") ? 1 : (answer_03_options.include?("humanity") ? 0 : 'null'),
+        answer_03_employee: submission.answer_03 && submission.answer_03.split(",").include?("employee") ? 1 : (answer_03_options.include?("employee") ? 0 : 'null'),
+        answer_03_other: submission.answer_03 && submission.answer_03.split(",").include?("other") ? 1 : (answer_03_options.include?("other") ? 0 : 'null'),
+        answer_04: submission.answer_04,
+      }
     end
   end
 
@@ -582,12 +725,14 @@ class Form < ApplicationRecord
         when :answer_06
           question = questions.where(answer_field: key).first
           next unless question.present?
+
           response_volume = values.values.collect(&:to_i).sum
           @question_text = question.text
           standardized_question_number = 6
         when :answer_07
           question = questions.where(answer_field: key).first
           next unless question.present?
+
           response_volume = values.values.collect(&:to_i).sum
           @question_text = question.text
           standardized_question_number = 7
@@ -621,36 +766,36 @@ class Form < ApplicationRecord
   def hashed_fields_for_export
     ordered_hash = ActiveSupport::OrderedHash.new
     ordered_hash.merge!({
-      id: 'ID',
-      uuid: 'UUID',
-    })
+                          id: 'ID',
+                          uuid: 'UUID',
+                        })
 
     ordered_questions.map { |q| ordered_hash[q.answer_field] = q.text }
 
     ordered_hash.merge!({
-      location_code: 'Location Code',
-      user_agent: 'User Agent',
-      aasm_state: 'Status',
-      archived: 'Archived',
-      flagged: 'Flagged',
-      deleted: 'Deleted',
-      deleted_at: 'Deleted at',
-      page: 'Page',
-      query_string: 'Query string',
-      hostname: 'Hostname',
-      referer: 'Referrer',
-      created_at: 'Created at',
-    })
+                          location_code: 'Location Code',
+                          user_agent: 'User Agent',
+                          aasm_state: 'Status',
+                          archived: 'Archived',
+                          flagged: 'Flagged',
+                          deleted: 'Deleted',
+                          deleted_at: 'Deleted at',
+                          page: 'Page',
+                          query_string: 'Query string',
+                          hostname: 'Hostname',
+                          referer: 'Referrer',
+                          created_at: 'Created at',
+                        })
 
     if organization.enable_ip_address?
       ordered_hash.merge!({
-        ip_address: 'IP Address',
-      })
+                            ip_address: 'IP Address',
+                          })
     end
 
     ordered_hash.merge!({
-      tags: 'Tags',
-    })
+                          tags: 'Tags',
+                        })
 
     ordered_hash
   end
@@ -664,7 +809,7 @@ class Form < ApplicationRecord
   end
 
   def rendered_questions
-    ordered_questions.select { |q| q.text.include?("email") || q.text.include?("name") }
+    ordered_questions.select { |q| q.text.include?('email') || q.text.include?('name') }
   end
 
   def omb_number_with_expiration_date
@@ -701,78 +846,62 @@ class Form < ApplicationRecord
   # use this validator to provide soft UI guidance, rather than strong model validation
   def ensure_a11_v2_format
     # ensure `answer_01` is a big thumbs question
-    question_1 = self.ordered_questions.find { |q| q.answer_field == "answer_01" }
-    if question_1.question_type != 'big_thumbs_up_down_buttons'
-      errors.add(:base, "The question for `answer_01` must be a \"Big Thumbs Up/Down\" component")
-    end
+    question_1 = ordered_questions.find { |q| q.answer_field == 'answer_01' }
+    errors.add(:base, 'The question for `answer_01` must be a "Big Thumbs Up/Down" component') if question_1.question_type != 'big_thumbs_up_down_buttons'
 
     # ensure the form has the 4 required questions
-    required_elements = ["answer_01", "answer_02", "answer_03", "answer_04"]
-    unless contains_elements?(questions.collect(&:answer_field), required_elements)
-      errors.add(:base, "The A-11 v2 form must have questions for #{required_elements.to_sentence}")
-    end
+    required_elements = %w[answer_01 answer_02 answer_03 answer_04]
+    errors.add(:base, "The A-11 v2 form must have questions for #{required_elements.to_sentence}") unless contains_elements?(questions.collect(&:answer_field), required_elements)
 
     # ensure the positive indicators include ease and effectiveness
-    question_2 = self.ordered_questions.find { |q| q.answer_field == "answer_02" }
+    question_2 = ordered_questions.find { |q| q.answer_field == 'answer_02' }
     question_options = question_2.question_options
 
     question_option_values = question_options.collect(&:value)
-    required_options = ["effectiveness", "ease"]
+    required_options = %w[effectiveness ease]
     missing_options = required_options - question_option_values
-    if missing_options.any?
-      errors.add(:base, "The question options for Question 2 must include: #{missing_options.join(', ')}")
-    end
+    errors.add(:base, "The question options for Question 2 must include: #{missing_options.join(', ')}") if missing_options.any?
 
     # ensure the positive indicators include ease and effectiveness
-    question_3 = self.ordered_questions.find { |q| q.answer_field == "answer_03" }
+    question_3 = ordered_questions.find { |q| q.answer_field == 'answer_03' }
     question_options = question_3.question_options
 
     question_option_values = question_options.collect(&:value)
-    required_options = ["effectiveness", "ease"]
+    required_options = %w[effectiveness ease]
     missing_options = required_options - question_option_values
-    if missing_options.any?
-      errors.add(:base, "The question options for Question 3 must include: #{missing_options.join(', ')}")
-    end
+    errors.add(:base, "The question options for Question 3 must include: #{missing_options.join(', ')}") if missing_options.any?
   end
 
   def ensure_a11_v2_radio_format
-    question_1 = self.ordered_questions.find { |q| q.answer_field == "answer_01" }
-    if question_1.question_type != 'radio_buttons'
-      errors.add(:base, "The question for `answer_01` must be a Radio Buttons component with 5 options, with values 1-5")
-    end
+    question_1 = ordered_questions.find { |q| q.answer_field == 'answer_01' }
+    errors.add(:base, 'The question for `answer_01` must be a Radio Buttons component with 5 options, with values 1-5') if question_1.question_type != 'radio_buttons'
 
     # ensure the form has the 4 required questions
-    required_elements = ["answer_01", "answer_02", "answer_03", "answer_04"]
-    unless contains_elements?(questions.collect(&:answer_field), required_elements)
-      errors.add(:base, "The A-11 v2 form must have questions for #{required_elements.to_sentence}")
-    end
+    required_elements = %w[answer_01 answer_02 answer_03 answer_04]
+    errors.add(:base, "The A-11 v2 form must have questions for #{required_elements.to_sentence}") unless contains_elements?(questions.collect(&:answer_field), required_elements)
 
     # ensure the positive indicators include ease and effectiveness
-    question_2 = self.ordered_questions.find { |q| q.answer_field == "answer_02" }
+    question_2 = ordered_questions.find { |q| q.answer_field == 'answer_02' }
     question_options = question_2.question_options
 
     question_option_values = question_options.collect(&:value)
-    required_options = ["effectiveness", "ease"]
+    required_options = %w[effectiveness ease]
     missing_options = required_options - question_option_values
-    if missing_options.any?
-      errors.add(:base, "The question options for Question 2 must include: #{missing_options.join(', ')}")
-    end
+    errors.add(:base, "The question options for Question 2 must include: #{missing_options.join(', ')}") if missing_options.any?
 
     # ensure the positive indicators include ease and effectiveness
-    question_3 = self.ordered_questions.find { |q| q.answer_field == "answer_03" }
+    question_3 = ordered_questions.find { |q| q.answer_field == 'answer_03' }
     question_options = question_3.question_options
 
     question_option_values = question_options.collect(&:value)
-    required_options = ["effectiveness", "ease"]
+    required_options = %w[effectiveness ease]
     missing_options = required_options - question_option_values
-    if missing_options.any?
-      errors.add(:base, "The question options for Question 3 must include: #{missing_options.join(', ')}")
-    end
+    errors.add(:base, "The question options for Question 3 must include: #{missing_options.join(', ')}") if missing_options.any?
   end
 
   def warn_about_not_too_many_questions
-    if questions.size > 12
-      errors.add(:base, "Touchpoints supports a maximum of 20 questions. There are currently #{questions_count} questions. Fewer questions tend to yield higher response rates.")
+    if questions.size >= 30
+      errors.add(:base, "Touchpoints supports a maximum of 30 questions. There are currently #{questions_count} questions. Fewer questions tend to yield higher response rates.")
     end
   end
 
@@ -784,7 +913,7 @@ class Form < ApplicationRecord
     cutoff_year = FiscalYear.last_fiscal_year - 3
     cutoff_date = FiscalYear.last_day_of_fiscal_quarter(cutoff_year, 4)
     Form.where("aasm_state = 'archived'")
-        .where("archived_at < ?", cutoff_date)
+        .where('archived_at < ?', cutoff_date)
   end
 
   private
@@ -795,14 +924,14 @@ class Form < ApplicationRecord
   end
 
   def set_submitted_at
-    self.update(submitted_at: Time.current)
+    update(submitted_at: Time.current)
   end
 
   def set_approved_at
-    self.update(approved_at: Time.current)
+    update(approved_at: Time.current)
   end
 
   def set_archived_at
-    self.update(archived_at: Time.current)
+    update(archived_at: Time.current)
   end
 end
