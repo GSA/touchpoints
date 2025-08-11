@@ -48,7 +48,7 @@ RSpec.describe Form, type: :model do
       it "returns a hash of questions, location_code, and 'standard' attributes" do
         expect(form.hashed_fields_for_export.class).to eq(ActiveSupport::OrderedHash)
         expect(form.hashed_fields_for_export.keys).to eq([
-          :id,
+                                                           :id,
           :uuid,
           # question fields
           'answer_01',
@@ -72,27 +72,27 @@ RSpec.describe Form, type: :model do
           :referer,
           :created_at,
           :ip_address,
-          :tags
-        ])
+          :tags,
+                                                         ])
       end
     end
   end
 
   describe '#kinds' do
     context 'invalid form kind' do
-      let!(:form_with_invalid_kind) { FactoryBot.build(:form, organization:, kind: "some_non_valid_kind") }
+      let!(:form_with_invalid_kind) { FactoryBot.build(:form, organization:, kind: 'some_non_valid_kind') }
 
       before do
         form_with_invalid_kind.save
       end
 
       it 'adds an error for kind' do
-        expect(form_with_invalid_kind.errors.messages[:kind]).to eq(['kind must be one of the following: a11, a11_v2, a11_yes_no, custom, open_ended, other, recruiter, yes_no'])
+        expect(form_with_invalid_kind.errors.messages[:kind]).to eq(['kind must be one of the following: a11, a11_v2, a11_v2_radio, a11_yes_no, custom, open_ended, other, recruiter, yes_no'])
       end
     end
 
     context 'valid form kind' do
-      let!(:form_with_valid_kind) { FactoryBot.build(:form, organization:, kind: "open_ended") }
+      let!(:form_with_valid_kind) { FactoryBot.build(:form, organization:, kind: 'open_ended') }
 
       before do
         form_with_valid_kind.save
@@ -328,6 +328,37 @@ RSpec.describe Form, type: :model do
     describe "delete the Form's UserRoles" do
       it 'destroys dependent UserRole' do
         expect { form_without_responses.destroy }.to change { UserRole.count }.by(-1)
+      end
+    end
+  end
+
+  describe '#warn_about_not_too_many_questions' do
+    context 'when form has 20 or fewer questions' do
+      it 'does not add an error' do
+        form.warn_about_not_too_many_questions
+        expect(form.errors[:base]).to be_empty
+      end
+    end
+
+    context 'when form has more than 20 questions' do
+      before do
+        form_section = form.form_sections.first
+
+        19.times do |i|
+          form_section.questions.create!(
+            form: form,
+            answer_field: "answer_#{i + 10}",
+            text: "Question #{i + 10}",
+            question_type: 'text_field',
+            position: i + 10,
+          )
+        end
+        form.reload
+      end
+
+      it 'adds a warning error to base' do
+        form.warn_about_not_too_many_questions
+        expect(form.errors[:base]).to include("Touchpoints supports a maximum of 30 questions. There are currently #{form.questions_count} questions. Fewer questions tend to yield higher response rates.")
       end
     end
   end

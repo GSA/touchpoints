@@ -501,6 +501,7 @@ FactoryBot.define do
                           form_section: f.form_sections.first,
                           text: 'Please rate your experience as a customer of Agency of Departments.',
                           position: 1,
+                          is_required: true,
                           )
         FactoryBot.create(:question,
                           :with_a11_v2_checkbox_options,
@@ -514,7 +515,6 @@ FactoryBot.define do
                           :with_a11_v2_checkbox_options,
                           form: f,
                           answer_field: :answer_03,
-                          question_type: 'textarea',
                           form_section: f.form_sections.first,
                           text: 'Negative indicators',
                           position: 3
@@ -527,6 +527,77 @@ FactoryBot.define do
                           text: 'Additional comments',
                           position: 4
                           )
+      end
+    end
+
+    trait :a11_v2_radio do
+      name { 'Version 2 of the A11 form (Radio Buttons)' }
+      kind { 'a11_v2_radio' }
+      after(:create) do |f, _evaluator|
+        question_1_radio_buttons = FactoryBot.create(:question,
+                          form: f,
+                          answer_field: :answer_01,
+                          question_type: 'radio_buttons',
+                          form_section: f.form_sections.first,
+                          text: 'Please rate your experience as a customer of Agency of Departments.',
+                          position: 1,
+                          is_required: true,
+                          )
+        FactoryBot.create(:question,
+                          :with_a11_v2_checkbox_options,
+                          form: f,
+                          answer_field: :answer_02,
+                          form_section: f.form_sections.first,
+                          text: 'Positive indicators',
+                          position: 2,
+                          )
+        FactoryBot.create(:question,
+                          :with_a11_v2_checkbox_options,
+                          form: f,
+                          answer_field: :answer_03,
+                          form_section: f.form_sections.first,
+                          text: 'Negative indicators',
+                          position: 3
+                          )
+        FactoryBot.create(:question,
+                          form: f,
+                          answer_field: :answer_04,
+                          question_type: 'textarea',
+                          form_section: f.form_sections.first,
+                          text: 'Additional comments',
+                          position: 4
+                          )
+
+        QuestionOption.create!({
+          question: question_1_radio_buttons,
+          text: 'Strongly disagree',
+          value: 1,
+          position: 1,
+        })
+        QuestionOption.create!({
+          question: question_1_radio_buttons,
+          text: 'Disagree',
+          value: 2,
+          position: 2,
+        })
+        QuestionOption.create!({
+          question: question_1_radio_buttons,
+          text: 'Neutral',
+          value: 3,
+          position: 3,
+        })
+        QuestionOption.create!({
+          question: question_1_radio_buttons,
+          text: 'Agree',
+          value: 4,
+          position: 4,
+        })
+        QuestionOption.create!({
+          question: question_1_radio_buttons,
+          text: 'Strongly agree',
+          value: 5,
+          position: 5,
+        })
       end
     end
 

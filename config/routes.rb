@@ -369,8 +369,6 @@ Rails.application.routes.draw do
         get 'export_csv', to: 'service_stages#export_csv', as: :export_csv
       end
     end
-    resources :barriers
-    resources :service_stage_barriers
 
     get 'dashboard', to: 'site#index', as: :dashboard
     get 'integrations', to: 'site#integrations', as: :integrations

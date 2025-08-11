@@ -272,6 +272,32 @@ feature 'Touchpoints', js: true do
       end
     end
 
+    describe 'rich text question' do
+      let(:rich_text_form) { FactoryBot.create(:form, organization:) }
+      let!(:rich_text_question_1) { FactoryBot.create(:question, form: rich_text_form, position: 1, form_section: rich_text_form.form_sections.first, question_type: "rich_textarea", answer_field: 'answer_01', text: "Q1" ) }
+      let!(:rich_text_question_2) { FactoryBot.create(:question, form: rich_text_form, position: 2, form_section: rich_text_form.form_sections.first, question_type: "rich_textarea", answer_field: 'answer_02', text: "Q2", is_required: true) }
+      let!(:rich_text_question_3) { FactoryBot.create(:question, form: rich_text_form, position: 3, form_section: rich_text_form.form_sections.first,  question_type: "rich_textarea", answer_field: 'answer_03', text: "Q3", character_limit: 300) }
+
+      before do
+        visit touchpoint_path(rich_text_form)
+        find("##{rich_text_question_1.ui_selector} .ql-editor").send_keys("some text goes here")
+        find("##{rich_text_question_2.ui_selector}").click
+      end
+
+      it 'persists rich text values from localStorage' do
+        expect(find("#hidden-#{rich_text_question_1.ui_selector}", visible: false).value).to eq("<p>some text goes here</p>")
+        visit touchpoint_path(rich_text_form)
+        expect(find("#hidden-#{rich_text_question_1.ui_selector}", visible: false).value).to eq("<p>some text goes here</p>")
+        find("##{rich_text_question_3.ui_selector} .ql-editor").send_keys("some more text goes here")
+        expect(page).to have_content("269 characters left")
+        click_on "Submit"
+        expect(page).to have_content("A response is required: Q2")
+        find("##{rich_text_question_2.ui_selector} .ql-editor").send_keys("okay now")
+        click_on "Submit"
+        expect(page).to have_content("Thank you. Your feedback has been received.")
+      end
+    end
+
     describe 'states dropdown question' do
       let!(:dropdown_form) { FactoryBot.create(:form, :states_dropdown_form, organization:) }
 
@@ -494,7 +520,7 @@ feature 'Touchpoints', js: true do
       end
     end
 
-    describe 'A-11 Version 2 Form' do
+    describe 'A-11 Version 2 Form (Thumbs up/down)' do
       let!(:a11_v2_form) { FactoryBot.create(:form, :a11_v2, organization:) }
 
       before do
@@ -502,7 +528,7 @@ feature 'Touchpoints', js: true do
       end
 
       it 'submits successfully' do
-        expect(page).to have_content(form.title)
+        expect(page).to have_content(a11_v2_form.title)
         expect(page).to have_content("This is help text.")
         find("svg[aria-labelledby='thumbs-up-icon']").click # the thumbs up
         expect(page).to have_content("Positive indicators")
@@ -518,7 +544,51 @@ feature 'Touchpoints', js: true do
         latest_submission = Submission.ordered.first
         expect(latest_submission.answer_01).to eq '1'
         expect(latest_submission.answer_02).to eq 'effectiveness,transparency'
-        expect(latest_submission.answer_03).to eq ""
+        expect(latest_submission.answer_03).to eq nil
+        expect(latest_submission.answer_04).to eq ""
+      end
+    end
+
+    describe 'A-11 Version 2 (Radio Button) Form' do
+      let!(:a11_v2_radio_form) { FactoryBot.create(:form, :a11_v2_radio, organization:) }
+
+      before do
+        visit submit_touchpoint_path(a11_v2_radio_form)
+      end
+
+      it 'toggles positive and negative indicators and submits successfully' do
+        expect(page).to have_content(a11_v2_radio_form.title)
+        expect(page).to_not have_content("Negative indicators")
+        expect(page).to_not have_content("Positive indicators")
+
+        find_all("label")[0].click # option 1
+        expect(page).to have_content("Negative indicators")
+
+        find_all("label")[3].click # option 4
+        expect(page).to have_content("Positive indicators")
+
+        find_all("label")[1].click # option 2
+        expect(page).to have_content("Negative indicators")
+
+        find_all("label")[4].click # option 5
+        expect(page).to have_content("Positive indicators")
+
+        find_all("label")[2].click # option 3
+        expect(page).to have_content("Negative indicators")
+
+        expect(page).to have_content("This is help text.")
+        expect(page).to have_content("effectiveness")
+        expect(page).to have_content("ease")
+        expect(page).to have_content("efficiency")
+        expect(page).to have_content("transparency")
+
+        click_button 'Submit'
+        expect(page).to have_content('Thank you. Your feedback has been received.')
+
+        latest_submission = Submission.ordered.first
+        expect(latest_submission.answer_01).to eq '3'
+        expect(latest_submission.answer_02).to eq nil
+        expect(latest_submission.answer_03).to eq nil
         expect(latest_submission.answer_04).to eq ""
       end
     end

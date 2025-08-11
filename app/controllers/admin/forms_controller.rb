@@ -218,6 +218,7 @@ module Admin
     def questions
       @form.warn_about_not_too_many_questions
       @form.ensure_a11_v2_format if @form.kind == "a11_v2"
+      @form.ensure_a11_v2_radio_format if @form.kind == "a11_v2_radio"
       ensure_form_manager(form: @form) unless @form.template?
       @questions = @form.ordered_questions
     end

@@ -49,6 +49,16 @@ module Seeds
         answer_field: :answer_03,
         is_required: false,
       })
+      Question.create!({
+        form: custom_form,
+        form_section: text_elements_section,
+        text: "Rich Text Area",
+        question_type: "rich_textarea",
+        help_text: "This is help text for a rich textarea.",
+        position: 4,
+        answer_field: :answer_04,
+        is_required: false,
+      })
 
       option_elements_section = custom_form.form_sections.create(title: "Option elements", position: 2)
       radio_button_question = Question.create!({
@@ -57,8 +67,8 @@ module Seeds
         text: "Custom Question Radio Buttons",
         question_type: "radio_buttons",
         help_text: "This is help text for radio buttons.",
-        position: 4,
-        answer_field: :answer_04,
+        position: 5,
+        answer_field: :answer_05,
         is_required: true,
       })
       QuestionOption.create!({
@@ -86,8 +96,8 @@ module Seeds
         text: "Custom Question Checkboxes",
         question_type: "checkbox",
         help_text: "This is help text for checkboxes.",
-        position: 5,
-        answer_field: :answer_05,
+        position: 6,
+        answer_field: :answer_06,
         is_required: false,
       })
       QuestionOption.create!({
@@ -121,8 +131,8 @@ module Seeds
         text: "Custom Question Dropdown",
         question_type: "dropdown",
         help_text: "This is help text for a dropdown.",
-        position: 6,
-        answer_field: :answer_06,
+        position: 7,
+        answer_field: :answer_07,
         is_required: false,
       })
       QuestionOption.create!({
@@ -150,7 +160,7 @@ module Seeds
         form_section: custom_elements_section,
         text: '<p>Custom text <a href="#">that supports HTML</a> goes here.</p>',
         question_type: "text_display",
-        position: 7,
+        position: 8,
         answer_field: :answer_15,
         is_required: false,
       })
@@ -160,7 +170,7 @@ module Seeds
         form_section: custom_elements_section,
         text: "Custom text display",
         question_type: "custom_text_display",
-        position: 8,
+        position: 9,
         answer_field: :answer_16,
         is_required: false
       })
@@ -170,7 +180,7 @@ module Seeds
         form_section: custom_elements_section,
         text: "Star radio buttons",
         question_type: "star_radio_buttons",
-        position: 9,
+        position: 10,
         answer_field: :answer_17,
         is_required: false
       })

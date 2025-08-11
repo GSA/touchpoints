@@ -370,6 +370,24 @@ tbody tr:hover td {
   color: #FFFFFF;
 }
 .form-builder {
+  .sort-placeholder {
+    border: 2px dashed #ccc;
+    margin: 1em 0;
+    background: #f8f8f8;
+    min-height: 50px;
+  }
+
+  .drag-handle {
+    cursor: move;
+    cursor: grab;
+    &:active {
+      cursor: grabbing;
+    }
+    &.ui-sortable-helper {
+      cursor: grabbing;
+    }
+  }
+
   .section {
     border-bottom: 2px solid white;
     padding-bottom: 20px;

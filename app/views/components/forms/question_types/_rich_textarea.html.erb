@@ -1,0 +1,37 @@
+<%
+  form_options = {
+    class: "usa-textarea",
+    required: question.is_required,
+    maxlength: question.max_length,
+  }
+
+  if question.help_text.present?
+    form_options.merge!({
+      "aria-describedby" => "question-id-#{question.id}-help-text"
+    })
+  end
+%>
+
+<div class="usa-form-group quill">
+  <%= render 'components/question_title_label', question: question %>
+  <input
+    type="hidden"
+    name="hidden-<%= question.ui_selector %>"
+    <%- if question.is_required %>
+    required="true"
+    <% end %>
+    id="hidden-<%= question.ui_selector %>">
+  <div
+    id="<%= question.ui_selector %>"
+    class="editor"
+    name="<%= question.ui_selector %>"
+    maxlength="<%= question.max_length %>"
+    style="min-height: 100px;"></div>
+  <span
+    class="counter-msg usa-hint usa-character-count__message"
+    aria-live="polite"
+    <%= "hidden=true" unless question.character_limit && question.character_limit > 0 %>
+  >
+    <%= question.max_length %> characters allowed
+  </span>
+</div>
