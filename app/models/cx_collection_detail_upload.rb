@@ -93,7 +93,7 @@ class CxCollectionDetailUpload < ApplicationRecord
         cx_collection_detail_id: cx_collection_detail.id,
         cx_collection_detail_upload_id: self.id,
         job_id: job_id,
-        external_id: response[0],
+        external_id: response[:id],
         question_1: response[:answer_01],
         positive_effectiveness: response[:answer_02_effectiveness],
         positive_ease: response[:answer_02_ease],
