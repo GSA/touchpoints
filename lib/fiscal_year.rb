@@ -2,7 +2,7 @@ module FiscalYear
   def self.fiscal_quarter_dates(fiscal_year, fiscal_quarter)
     fiscal_year = fiscal_year.to_i
     start_date, end_date = case fiscal_quarter.to_i
-      when 1 then [Date.new(fiscal_year - 1, 10, 1), Date.new(fiscal_year - 1, 12, 31)] # Q1: Oct - Dec of the prior calendar year relativ to the fiscal year
+      when 1 then [Date.new(fiscal_year - 1, 10, 1), Date.new(fiscal_year - 1, 12, 31)] # Q1: Oct - Dec of the prior calendar year relative to the fiscal year
       when 2 then [Date.new(fiscal_year, 1, 1), Date.new(fiscal_year, 3, 31)]  # Q2: Jan - Mar
       when 3 then [Date.new(fiscal_year, 4, 1), Date.new(fiscal_year, 6, 30)]  # Q3: Apr - Jun
       when 4 then [Date.new(fiscal_year, 7, 1), Date.new(fiscal_year, 9, 30)]  # Q4: Jul - Sep
