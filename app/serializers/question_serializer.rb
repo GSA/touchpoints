@@ -20,6 +20,7 @@ class QuestionSerializer < ActiveModel::Serializer
   def position
     # Normalize position based on the order within the form's ordered questions
     form_questions = object.form.ordered_questions
-    form_questions.index(object) + 1
+    index = form_questions.index(object)
+    index ? index + 1 : 1
   end
 end

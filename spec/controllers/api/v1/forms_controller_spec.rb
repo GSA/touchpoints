@@ -264,12 +264,12 @@ describe Api::V1::FormsController, type: :controller do
 
         before do
           # Create questions with gaps in positions (simulating deleted questions)
-          FactoryBot.create(:question, form: form, form_section: form.form_sections.first, position: 1, answer_field: 'answer_01')
-          FactoryBot.create(:question, form: form, form_section: form.form_sections.first, position: 3, answer_field: 'answer_02') 
-          FactoryBot.create(:question, form: form, form_section: form.form_sections.first, position: 5, answer_field: 'answer_03')
-          FactoryBot.create(:question, form: form, form_section: form.form_sections.first, position: 6, answer_field: 'answer_04')
-          FactoryBot.create(:question, form: form, form_section: form.form_sections.first, position: 7, answer_field: 'answer_05')
-          FactoryBot.create(:question, form: form, form_section: form.form_sections.first, position: 16, answer_field: 'answer_06')
+          FactoryBot.create(:question, form: form, form_section: form.form_sections.first, position: 1, answer_field: 'answer_01', text: 'Question 1')
+          FactoryBot.create(:question, form: form, form_section: form.form_sections.first, position: 3, answer_field: 'answer_02', text: 'Question 2') 
+          FactoryBot.create(:question, form: form, form_section: form.form_sections.first, position: 5, answer_field: 'answer_03', text: 'Question 3')
+          FactoryBot.create(:question, form: form, form_section: form.form_sections.first, position: 6, answer_field: 'answer_04', text: 'Question 4')
+          FactoryBot.create(:question, form: form, form_section: form.form_sections.first, position: 7, answer_field: 'answer_05', text: 'Question 5')
+          FactoryBot.create(:question, form: form, form_section: form.form_sections.first, position: 16, answer_field: 'answer_06', text: 'Question 6')
 
           user.update(api_key: TEST_API_KEY)
           request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch('API_HTTP_USERNAME'), ENV.fetch('API_HTTP_PASSWORD'))
