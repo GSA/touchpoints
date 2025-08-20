@@ -570,27 +570,83 @@ class Form < ApplicationRecord
       .order('created_at')
     return nil if non_flagged_submissions.blank?
 
-    answer_02_options = self.questions.where(answer_field: "answer_02").first.question_options.collect(&:value)
-    answer_03_options = self.questions.where(answer_field: "answer_03").first.question_options.collect(&:value)
+    answer_02_options = questions.where(answer_field: 'answer_02').first.question_options.collect(&:value)
+    answer_03_options = questions.where(answer_field: 'answer_03').first.question_options.collect(&:value)
 
     non_flagged_submissions.map do |submission|
       {
         id: submission.id,
         answer_01: submission.answer_01,
-        answer_02_effectiveness: submission.answer_02 && submission.answer_02.split(",").include?("effectiveness") ? 1 :(answer_02_options.include?("effectiveness") ? 0 : 'null'),
-        answer_02_ease: submission.answer_02 && submission.answer_02.split(",").include?("ease") ? 1 : (answer_02_options.include?("ease") ? 0 : 'null'),
-        answer_02_efficiency: submission.answer_02 && submission.answer_02.split(",").include?("efficiency") ? 1 : (answer_02_options.include?("efficiency") ? 0 : 'null'),
-        answer_02_transparency: submission.answer_02 && submission.answer_02.split(",").include?("transparency") ? 1 : (answer_02_options.include?("transparency") ? 0 : 'null'),
-        answer_02_humanity: submission.answer_02 && submission.answer_02.split(",").include?("humanity") ? 1 : (answer_02_options.include?("humanity") ? 0 : 'null'),
-        answer_02_employee: submission.answer_02 && submission.answer_02.split(",").include?("employee") ? 1 : (answer_02_options.include?("employee") ? 0 : 'null'),
-        answer_02_other: submission.answer_02 && submission.answer_02.split(",").include?("other") ? 1 : (answer_02_options.include?("other") ? 0 : 'null'),
-        answer_03_effectiveness: submission.answer_03 && submission.answer_03.split(",").include?("effectiveness") ? 1 : (answer_03_options.include?("effectiveness") ? 0 : 'null'),
-        answer_03_ease: submission.answer_03 && submission.answer_03.split(",").include?("ease") ? 1 : (answer_03_options.include?("ease") ? 0 : 'null'),
-        answer_03_efficiency: submission.answer_03 && submission.answer_03.split(",").include?("efficiency") ? 1 : (answer_03_options.include?("efficiency") ? 0 : 'null'),
-        answer_03_transparency: submission.answer_03 && submission.answer_03.split(",").include?("transparency") ? 1 : (answer_03_options.include?("transparency") ? 0 : 'null'),
-        answer_03_humanity: submission.answer_03 && submission.answer_03.split(",").include?("humanity") ? 1 : (answer_03_options.include?("humanity") ? 0 : 'null'),
-        answer_03_employee: submission.answer_03 && submission.answer_03.split(",").include?("employee") ? 1 : (answer_03_options.include?("employee") ? 0 : 'null'),
-        answer_03_other: submission.answer_03 && submission.answer_03.split(",").include?("other") ? 1 : (answer_03_options.include?("other") ? 0 : 'null'),
+        answer_02_effectiveness: if submission.answer_02 && submission.answer_02.split(',').include?('effectiveness')
+                                   1
+                                 else
+                                   (answer_02_options.include?('effectiveness') ? 0 : 'null')
+                                 end,
+        answer_02_ease: if submission.answer_02 && submission.answer_02.split(',').include?('ease')
+                          1
+                        else
+                          (answer_02_options.include?('ease') ? 0 : 'null')
+                        end,
+        answer_02_efficiency: if submission.answer_02 && submission.answer_02.split(',').include?('efficiency')
+                                1
+                              else
+                                (answer_02_options.include?('efficiency') ? 0 : 'null')
+                              end,
+        answer_02_transparency: if submission.answer_02 && submission.answer_02.split(',').include?('transparency')
+                                  1
+                                else
+                                  (answer_02_options.include?('transparency') ? 0 : 'null')
+                                end,
+        answer_02_humanity: if submission.answer_02 && submission.answer_02.split(',').include?('humanity')
+                              1
+                            else
+                              (answer_02_options.include?('humanity') ? 0 : 'null')
+                            end,
+        answer_02_employee: if submission.answer_02 && submission.answer_02.split(',').include?('employee')
+                              1
+                            else
+                              (answer_02_options.include?('employee') ? 0 : 'null')
+                            end,
+        answer_02_other: if submission.answer_02 && submission.answer_02.split(',').include?('other')
+                           1
+                         else
+                           (answer_02_options.include?('other') ? 0 : 'null')
+                         end,
+        answer_03_effectiveness: if submission.answer_03 && submission.answer_03.split(',').include?('effectiveness')
+                                   1
+                                 else
+                                   (answer_03_options.include?('effectiveness') ? 0 : 'null')
+                                 end,
+        answer_03_ease: if submission.answer_03 && submission.answer_03.split(',').include?('ease')
+                          1
+                        else
+                          (answer_03_options.include?('ease') ? 0 : 'null')
+                        end,
+        answer_03_efficiency: if submission.answer_03 && submission.answer_03.split(',').include?('efficiency')
+                                1
+                              else
+                                (answer_03_options.include?('efficiency') ? 0 : 'null')
+                              end,
+        answer_03_transparency: if submission.answer_03 && submission.answer_03.split(',').include?('transparency')
+                                  1
+                                else
+                                  (answer_03_options.include?('transparency') ? 0 : 'null')
+                                end,
+        answer_03_humanity: if submission.answer_03 && submission.answer_03.split(',').include?('humanity')
+                              1
+                            else
+                              (answer_03_options.include?('humanity') ? 0 : 'null')
+                            end,
+        answer_03_employee: if submission.answer_03 && submission.answer_03.split(',').include?('employee')
+                              1
+                            else
+                              (answer_03_options.include?('employee') ? 0 : 'null')
+                            end,
+        answer_03_other: if submission.answer_03 && submission.answer_03.split(',').include?('other')
+                           1
+                         else
+                           (answer_03_options.include?('other') ? 0 : 'null')
+                         end,
         answer_04: submission.answer_04,
       }
     end
@@ -900,9 +956,7 @@ class Form < ApplicationRecord
   end
 
   def warn_about_not_too_many_questions
-    if questions.size >= 30
-      errors.add(:base, "Touchpoints supports a maximum of 30 questions. There are currently #{questions_count} questions. Fewer questions tend to yield higher response rates.")
-    end
+    errors.add(:base, "Touchpoints supports a maximum of 30 questions. There are currently #{questions_count} questions. Fewer questions tend to yield higher response rates.") if questions.size > 20
   end
 
   def contains_elements?(array, required_elements)
