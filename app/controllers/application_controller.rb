@@ -272,7 +272,7 @@ class ApplicationController < ActionController::Base
 
   # customized response for `#verify_authenticity_token`
   def handle_unverified_request
-    render json: { messages: { submission: ['invalid CSRF authenticity token'] } }, status: :unprocessable_entity
+    render json: { messages: { submission: ['invalid CSRF authenticity token'] } }, status: :unprocessable_content
   end
 
   private

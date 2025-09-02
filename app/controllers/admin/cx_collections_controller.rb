@@ -65,8 +65,8 @@ module Admin
           format.html { redirect_to admin_cx_collection_url(@cx_collection), notice: "CX Data Collection was successfully created." }
           format.json { render :show, status: :created, location: @cx_collection }
         else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @cx_collection.errors, status: :unprocessable_entity }
+          format.html { render :new, status: :unprocessable_content }
+          format.json { render json: @cx_collection.errors, status: :unprocessable_content }
         end
       end
     end
@@ -129,7 +129,7 @@ module Admin
           format.json { render :show, status: :created, location: new_collection }
         else
           format.html { render :new }
-          format.json { render json: new_collection.errors, status: :unprocessable_entity }
+          format.json { render json: new_collection.errors, status: :unprocessable_content }
         end
       end
     end
@@ -143,8 +143,8 @@ module Admin
           format.html { redirect_to admin_cx_collection_url(@cx_collection), notice: "CX Data Collection was successfully updated." }
           format.json { render :show, status: :ok, location: @cx_collection }
         else
-          format.html { render :edit, status: :unprocessable_entity }
-          format.json { render json: @cx_collection.errors, status: :unprocessable_entity }
+          format.html { render :edit, status: :unprocessable_content }
+          format.json { render json: @cx_collection.errors, status: :unprocessable_content }
         end
       end
     end

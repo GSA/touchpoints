@@ -289,8 +289,8 @@ module Admin
           format.html { redirect_to questions_admin_form_path(@form), notice: 'Form was successfully created.' }
           format.json { render :show, status: :created, location: @form }
         else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @form.errors, status: :unprocessable_entity }
+          format.html { render :new, status: :unprocessable_content }
+          format.json { render json: @form.errors, status: :unprocessable_content }
         end
       end
     end
@@ -311,8 +311,8 @@ module Admin
           format.html { redirect_to admin_form_path(new_form), notice: 'Form was successfully copied.' }
           format.json { render :show, status: :created, location: new_form }
         else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: new_form.errors, status: :unprocessable_entity }
+          format.html { render :new, status: :unprocessable_content }
+          format.json { render json: new_form.errors, status: :unprocessable_content }
         end
       end
     end
@@ -333,8 +333,8 @@ module Admin
           end
           format.json { render :show, status: :ok, location: @form }
         else
-          format.html { render (params[:form][:delivery_method].present? ? :delivery : :edit), status: :unprocessable_entity }
-          format.json { render json: @form.errors, status: :unprocessable_entity }
+          format.html { render (params[:form][:delivery_method].present? ? :delivery : :edit), status: :unprocessable_content }
+          format.json { render json: @form.errors, status: :unprocessable_content }
         end
       end
     end
@@ -385,7 +385,7 @@ module Admin
           form: @form.short_uuid,
         }
       else
-        render json: @role.errors, status: :unprocessable_entity
+        render json: @role.errors, status: :unprocessable_content
       end
     end
 
@@ -401,7 +401,7 @@ module Admin
           form: @form.short_uuid,
         }
       else
-        render json: @role.errors, status: :unprocessable_entity
+        render json: @role.errors, status: :unprocessable_content
       end
     end
 

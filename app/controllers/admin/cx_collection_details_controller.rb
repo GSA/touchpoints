@@ -55,8 +55,8 @@ class Admin::CxCollectionDetailsController < AdminController
         format.html { redirect_to upload_admin_cx_collection_detail_url(@cx_collection_detail), notice: "CX Collection Detail was successfully created." }
         format.json { render :upload, status: :created, location: @cx_collection_detail }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @cx_collection_detail.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_content }
+        format.json { render json: @cx_collection_detail.errors, status: :unprocessable_content }
       end
     end
   end
@@ -67,8 +67,8 @@ class Admin::CxCollectionDetailsController < AdminController
         format.html { redirect_to admin_cx_collection_detail_url(@cx_collection_detail), notice: "CX Collection Detail was successfully updated." }
         format.json { render :show, status: :ok, location: @cx_collection_detail }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @cx_collection_detail.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_content }
+        format.json { render json: @cx_collection_detail.errors, status: :unprocessable_content }
       end
     end
   end

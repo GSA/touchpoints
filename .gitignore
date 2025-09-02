@@ -34,6 +34,9 @@
 
 /coverage/
 
+# Ignore RSpec example status persistence file
+/spec/examples.txt
+
 /public/packs
 /public/packs-test
 /node_modules
