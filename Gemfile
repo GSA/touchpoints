@@ -63,20 +63,16 @@ gem 'omniauth_login_dot_gov', git: 'https://github.com/18F/omniauth_login_dot_go
 gem 'omniauth-rails_csrf_protection'
 gem 'rack-attack'
 gem 'rack-cors', '>= 3.0.0', require: 'rack/cors'
-# Use Redis to cache Touchpoints in all envs=
+# Use Redis to cache Touchpoints in all envs
 gem 'redis-client'
 gem 'redis-namespace'
 gem 'sidekiq', '>= 8.0.4'
 gem 'json-jwt'
 gem 'aasm'
 gem 'acts-as-taggable-on'
-gem 'json-jwt'
 gem 'logstop'
 gem 'paper_trail'
-gem 'redis-client'
-gem 'redis-namespace'
 gem 'rolify'
-gem 'sidekiq', '>= 6.5.0'
 
 group :development, :test do
   gem 'dotenv'
