@@ -548,6 +548,16 @@ module Admin
         :question_text_18,
         :question_text_19,
         :question_text_20,
+        :question_text_21,
+        :question_text_22,
+        :question_text_23,
+        :question_text_24,
+        :question_text_25,
+        :question_text_26,
+        :question_text_27,
+        :question_text_28,
+        :question_text_29,
+        :question_text_30,
       )
     end
 
