@@ -36,6 +36,9 @@ module Admin
 
     # Maximum number of rows that may be exported to csv
     MAX_ROWS_TO_EXPORT = 300_000
+    
+    # Maximum number of questions supported per form
+    MAX_QUESTIONS = 30
 
     def index
       if form_search_params[:aasm_state].present?
@@ -528,36 +531,7 @@ module Admin
         :load_css,
         :tag_list,
         :verify_csrf,
-        :question_text_01,
-        :question_text_02,
-        :question_text_03,
-        :question_text_04,
-        :question_text_05,
-        :question_text_06,
-        :question_text_07,
-        :question_text_08,
-        :question_text_09,
-        :question_text_10,
-        :question_text_11,
-        :question_text_12,
-        :question_text_13,
-        :question_text_14,
-        :question_text_15,
-        :question_text_16,
-        :question_text_17,
-        :question_text_18,
-        :question_text_19,
-        :question_text_20,
-        :question_text_21,
-        :question_text_22,
-        :question_text_23,
-        :question_text_24,
-        :question_text_25,
-        :question_text_26,
-        :question_text_27,
-        :question_text_28,
-        :question_text_29,
-        :question_text_30,
+        *((1..MAX_QUESTIONS).map { |i| :"question_text_#{i.to_s.rjust(2, '0')}" }),
       )
     end
 
