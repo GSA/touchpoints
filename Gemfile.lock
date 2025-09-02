@@ -685,7 +685,7 @@ DEPENDENCIES
   pry
   puma
   rack-attack
-  rack-cors
+  rack-cors (>= 3.0.0)
   rails (~> 8.0)
   rails-controller-testing
   rails-erd
@@ -694,11 +694,11 @@ DEPENDENCIES
   rolify
   rspec-rails (>= 8.0.1)
   rspec_junit_formatter
-  rubocop-rails
+  rubocop-rails (>= 2.32.0)
   rubocop-rspec
   sassc-rails
   selenium-webdriver
-  sidekiq (>= 6.5.0)
+  sidekiq (>= 8.0.4)
   simplecov
   sprockets-rails
   stimulus-rails
@@ -707,7 +707,7 @@ DEPENDENCIES
   web-console
 
 RUBY VERSION
-   ruby 3.3.4p94
+   ruby 3.4.5p51
 
 BUNDLED WITH
-   2.5.16
+   2.7.1
