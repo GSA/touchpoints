@@ -63,9 +63,9 @@ class SubmissionsController < ApplicationController
       NewRelic::Agent.notice_error(ArgumentError, error_options)
 
       render json: {
-        status: :unprocessable_content,
+        status: :unprocessable_entity,
         messages: { submission: [t('errors.request.unauthorized_host')] },
-      }, status: :unprocessable_content and return
+      }, status: :unprocessable_entity and return
     end
 
     @submission = Submission.new(submission_params)
@@ -151,9 +151,9 @@ class SubmissionsController < ApplicationController
         end
         format.json do
           render json: {
-            status: :unprocessable_content,
+            status: :unprocessable_entity,
             messages: submission.errors,
-          }, status: :unprocessable_content
+          }, status: :unprocessable_entity
         end
       end
     end
