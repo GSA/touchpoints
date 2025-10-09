@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.2.8'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem 'rails', '~> 8.0'
+gem 'rails', '~> 8.0', '>= 8.0.3'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
@@ -19,7 +19,7 @@ gem 'puma'
 gem "importmap-rails", ">= 2.2.0"
 
 # Hotwire"s SPA-like page accelerator [https://turbo.hotwired.dev]
-gem "turbo-rails", ">= 2.0.14"
+gem "turbo-rails", ">= 2.0.17"
 
 # Hotwire"s modest JavaScript framework [https://stimulus.hotwired.dev]
 gem 'stimulus-rails'
@@ -66,7 +66,7 @@ gem 'rack-cors', '>= 3.0.0', require: 'rack/cors'
 # Use Redis to cache Touchpoints in all envs
 gem 'redis-client'
 gem 'redis-namespace'
-gem 'sidekiq', '>= 8.0.4'
+gem 'sidekiq', '>= 8.0.8'
 gem 'json-jwt'
 gem 'aasm'
 gem 'acts-as-taggable-on'
@@ -90,7 +90,7 @@ group :development do
   gem 'bundler-audit'
   gem 'listen'
   gem 'rails-erd'
-  gem "rubocop-rails", ">= 2.32.0"
+  gem "rubocop-rails", ">= 2.33.4"
   gem "rubocop-rspec"
   gem 'web-console'
 end
@@ -99,7 +99,7 @@ group :test do
   gem 'axe-core-rspec'
   gem 'capybara'
   gem 'database_cleaner'
-  gem 'factory_bot_rails', '>= 6.5.0'
+  gem 'factory_bot_rails', '>= 6.5.1'
   gem 'rails-controller-testing'
   gem 'rspec_junit_formatter'
   gem 'rspec-rails', '>= 8.0.1'
