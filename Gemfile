@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.2.8'
+ruby '3.4.7'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 8.0'
@@ -74,6 +74,9 @@ gem 'logstop'
 gem 'paper_trail'
 gem 'rolify'
 
+# Rust integration for high-performance widget rendering
+gem 'rutie', '~> 0.0.4'
+
 group :development, :test do
   gem 'dotenv'
   gem 'pry'
@@ -92,6 +95,7 @@ group :development do
   gem 'rails-erd'
   gem "rubocop-rails", ">= 2.32.0"
   gem "rubocop-rspec"
+  gem 'ruby-lsp', require: false
   gem 'web-console'
 end
 

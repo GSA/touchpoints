@@ -3,13 +3,11 @@
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
 #
 version: 2.1
-orbs:
-  browser-tools: circleci/browser-tools@1.5.0
 
 jobs:
   build:
     docker:
-       - image: cimg/ruby:3.4.5-browsers
+       - image: cimg/ruby:3.2.8-browsers
          environment:
             RAILS_ENV: test
             PGHOST: 127.0.0.1
@@ -27,7 +25,7 @@ jobs:
             POSTGRES_USER: root
             POSTGRES_DB: touchpoints_test
 
-    parallelism: 1
+    parallelism: 4
     working_directory: ~/repo
 
     steps:
@@ -35,8 +33,11 @@ jobs:
           name: Update packages
           command: sudo apt-get update
 
-      - browser-tools/install-chrome: # required for selenium used by tachometer benchmark smoke tests
-          chrome-version: 116.0.5845.96
+      - run:
+          name: Ensure Chrome is available
+          command: |
+            # cimg/ruby:*-browsers images already include Chrome; skip orb command to avoid "Cannot find declaration" errors
+            echo "Using cimg/ruby:3.2.8-browsers which includes Chrome"
 
       - checkout
 
@@ -112,7 +113,6 @@ jobs:
           command: ./.circleci/cron.sh
 
 workflows:
-  version: 2
   daily_workflow:
     triggers:
       - schedule:
