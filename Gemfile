@@ -75,7 +75,7 @@ gem 'paper_trail'
 gem 'rolify'
 
 # Rust integration for high-performance widget rendering
-gem 'rutie', '~> 0.0.4'
+gem 'rutie', '~> 0.9.0'
 
 group :development, :test do
   gem 'dotenv'
