@@ -71,7 +71,7 @@ gem 'json-jwt'
 gem 'aasm'
 gem 'acts-as-taggable-on'
 gem 'logstop'
-gem 'paper_trail'
+gem 'paper_trail', '>= 17.0.0'
 gem 'rolify'
 
 group :development, :test do
