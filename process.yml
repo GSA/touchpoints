@@ -16,7 +16,7 @@ jobs:
         command: ./.circleci/cron.sh
   build:
     docker:
-    - image: cimg/ruby:3.2.8-browsers
+    - image: cimg/ruby:3.4.7-browsers
       environment:
         RAILS_ENV: test
         PGHOST: 127.0.0.1
