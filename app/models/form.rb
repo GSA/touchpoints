@@ -1,3 +1,4 @@
+
 # frozen_string_literal: true
 
 require 'csv'
@@ -298,29 +299,8 @@ class Form < ApplicationRecord
   # returns javascript text that can be used standalone
   # or injected into a GTM Container Tag
   def touchpoints_js_string
-    if defined?(WidgetRenderer)
-      # Use Rust extension for faster rendering
-      form_data = {
-        short_uuid: short_uuid,
-        modal_button_text: modal_button_text || 'Feedback',
-        element_selector: element_selector || '',
-        delivery_method: delivery_method || 'modal',
-        load_css: load_uswds,
-        success_text_heading: success_text_heading || 'Thank you!',
-        success_text: success_text || 'Thank you for your feedback!',
-        suppress_submit_button: suppress_submit_button,
-        suppress_ui: false,
-        kind: kind || 'custom',
-        enable_turnstile: false,
-        has_rich_text_questions: has_rich_text_questions?,
-        verify_csrf: true,
-      }
-      
-      WidgetRenderer.generate_js(form_data)
-    else
-      # Fallback to ERB template rendering
-      ApplicationController.new.render_to_string(partial: 'components/widget/fba', formats: :js, locals: { form: self })
-    end
+    # Always use ERB template rendering for now to avoid Rust compilation issues
+    ApplicationController.new.render_to_string(partial: 'components/widget/fba', formats: :js, locals: { form: self })
   end
 
   def reportable_submissions(start_date: nil, end_date: nil)

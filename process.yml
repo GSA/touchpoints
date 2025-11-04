@@ -1,4 +1,3 @@
-version: 2
 jobs:
   cron_tasks:
     docker:
@@ -38,7 +37,7 @@ jobs:
         name: Ensure Chrome is available
         command: |
           # cimg/ruby:*-browsers images already include Chrome; skip orb command to avoid "Cannot find declaration" errors
-          echo "Using cimg/ruby:3.2.8-browsers which includes Chrome"
+          echo "Using cimg/ruby:3.4.7-browsers which includes Chrome"
     - checkout
     - restore_cache:
         keys:
@@ -99,4 +98,3 @@ workflows:
   build-deploy:
     jobs:
     - build
-  version: 2

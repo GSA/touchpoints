@@ -44,17 +44,17 @@ feature 'Managing Websites', js: true do
       end
 
       it 'creates a version with user info after create' do
-        website.reload
-        expect(website.versions.size).to eq(1)
-        expect(website.versions.last.event).to eq('create')
+        created_website = Website.find_by(domain: new_website.domain)
+        expect(created_website.versions.size).to eq(1)
+        expect(created_website.versions.last.event).to eq('create')
 
-        visit versions_admin_website_path(website)
-        expect(page).to have_content("Website #{website.domain} versions")
-        expect(page).to have_content("production_status")
+        visit versions_admin_website_path(created_website)
+        expect(page).to have_content("Website #{created_website.domain} versions")
+      expect(page).to have_content("production_status")
         expect(page).to have_content("in_development")
         expect(page).to have_content("production_status")
         expect(page).to have_content("site_owner_email")
-        expect(page).to have_content(website.site_owner_email)
+        expect(page).to have_content(created_website.site_owner_email)
       end
     end
 
