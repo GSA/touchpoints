@@ -1,5 +1,6 @@
 class BenchmarkController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  # Benchmark endpoints are only available in development mode
+  before_action :ensure_development_environment
   
   def widget_benchmark
     require 'benchmark'
@@ -51,5 +52,13 @@ class BenchmarkController < ApplicationController
       test_type: 'http_request',
       url: url
     }
+  end
+
+  private
+
+  def ensure_development_environment
+    unless Rails.env.development?
+      render json: { error: 'Benchmark endpoints are only available in development mode' }, status: :forbidden
+    end
   end
 end
