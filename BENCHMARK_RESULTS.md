@@ -94,28 +94,42 @@ The Rust widget renderer demonstrates **12.1x faster performance** than the ERB 
 ```json
 {
   "iterations": 100,
-  "total_ms": 422.1,
-  "avg_ms": 4.221,
-  "throughput": 236.91,
+  "total_ms": 265.82,
+  "avg_ms": 2.658,
+  "throughput": 376.19,
   "using_rust": true
 }
 ```
 
 **Analysis:**
-- Pure rendering time: **4.221ms**
-- Throughput: **236.91 renders/second**
+- Pure rendering time: **2.658ms**
+- Throughput: **376.19 renders/second**
 - No HTTP overhead, pure rendering performance
 
 #### ERB Renderer
-*Cannot be benchmarked in isolation - requires full Rails request context*
-
-The ERB template uses Rails URL helpers (`url_options`, route helpers) that require a complete HTTP request/response cycle. When attempted outside this context, it fails with:
+```json
+{
+  "iterations": 100,
+  "total_ms": 3438.71,
+  "avg_ms": 34.387,
+  "throughput": 29.08,
+  "using_rust": false,
+  "renderer": "erb"
+}
 ```
-ActionController::UrlFor#url_options
-app/views/components/widget/_widget-uswds-styles.css.erb:272
-```
 
-This fundamental limitation demonstrates the **context dependency** of the ERB approach.
+**Analysis:**
+- Pure rendering time: **34.387ms**
+- Throughput: **29.08 renders/second**
+- Renders within controller context (with Rails helpers available)
+
+#### Direct Render Comparison
+
+| Metric | Rust | ERB | Improvement |
+|--------|------|-----|-------------|
+| **Avg Render Time** | 2.658ms | 34.387ms | **12.9x faster** |
+| **Throughput** | 376.19 renders/s | 29.08 renders/s | **12.9x higher** |
+| **Total Time (100 renders)** | 265.82ms | 3.44s | **12.9x faster** |
 
 ---
 

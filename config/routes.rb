@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get 'docs', to: 'site#docs', as: :docs if Rails.env.development?
   get 'benchmark/widget', to: 'benchmark#widget_benchmark' if Rails.env.development?
   get 'benchmark/widget/http', to: 'benchmark#widget_http_benchmark' if Rails.env.development?
+  get 'benchmark/widget/erb', to: 'benchmark#widget_erb_benchmark' if Rails.env.development?
 
   unless Rails.env.development?
     match '/404', to: 'errors#not_found', via: :all

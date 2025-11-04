@@ -54,6 +54,36 @@ class BenchmarkController < ApplicationController
     }
   end
 
+  def widget_erb_benchmark
+    require 'benchmark'
+    
+    form = Form.find(8)
+    iterations = 100
+    
+    time = Benchmark.measure do
+      iterations.times do
+        # Force ERB rendering by calling render_to_string with controller context
+        render_to_string(
+          partial: 'components/widget/fba',
+          formats: :js,
+          locals: { form: form },
+          layout: false
+        )
+      end
+    end
+    
+    avg_ms = (time.real * 1000) / iterations
+    
+    render json: {
+      iterations: iterations,
+      total_ms: (time.real * 1000).round(2),
+      avg_ms: avg_ms.round(3),
+      throughput: (iterations / time.real).round(2),
+      using_rust: false,
+      renderer: 'erb'
+    }
+  end
+
   private
 
   def ensure_development_environment
