@@ -20,7 +20,11 @@ class TouchpointsController < ApplicationController
 
   def js
     @form.increment!(:survey_form_activations)
-    render(partial: 'components/widget/fba', formats: :js, locals: { form: @form })
+    
+    # Use Rust widget renderer if available, otherwise fall back to ERB
+    js_content = @form.touchpoints_js_string
+    
+    render plain: js_content, content_type: 'application/javascript'
   end
 
   private

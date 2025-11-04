@@ -1,4 +1,4 @@
-use rutie::{Hash, RString, Symbol, Boolean};
+use rutie::{Hash, RString, Symbol, Boolean, Object};
 
 pub struct FormData {
     pub short_uuid: String,
@@ -25,12 +25,15 @@ pub struct Question {
 
 impl FormData {
     pub fn from_hash(hash: &Hash) -> Self {
+        let load_css = get_bool_from_hash(hash, "load_css");
+        let prefix = if load_css { "fba".to_string() } else { String::new() };
+        
         FormData {
             short_uuid: get_string_from_hash(hash, "short_uuid"),
             modal_button_text: get_string_from_hash(hash, "modal_button_text"),
             element_selector: get_string_from_hash(hash, "element_selector"),
             delivery_method: get_string_from_hash(hash, "delivery_method"),
-            load_css: get_bool_from_hash(hash, "load_css"),
+            load_css,
             success_text_heading: get_string_from_hash(hash, "success_text_heading"),
             success_text: get_string_from_hash(hash, "success_text"),
             suppress_submit_button: get_bool_from_hash(hash, "suppress_submit_button"),
@@ -39,7 +42,7 @@ impl FormData {
             enable_turnstile: get_bool_from_hash(hash, "enable_turnstile"),
             has_rich_text_questions: get_bool_from_hash(hash, "has_rich_text_questions"),
             verify_csrf: get_bool_from_hash(hash, "verify_csrf"),
-            prefix: get_string_from_hash(hash, "prefix"),
+            prefix,
             questions: get_questions_from_hash(hash),
         }
     }

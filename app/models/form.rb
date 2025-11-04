@@ -314,7 +314,6 @@ class Form < ApplicationRecord
         enable_turnstile: false,
         has_rich_text_questions: has_rich_text_questions?,
         verify_csrf: true,
-        prefix: prefix,
       }
       
       WidgetRenderer.generate_js(form_data)

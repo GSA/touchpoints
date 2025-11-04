@@ -12,6 +12,8 @@ Rails.application.routes.draw do
 
   get 'hello_stimulus', to: 'site#hello_stimulus', as: :hello_stimulus if Rails.env.development?
   get 'docs', to: 'site#docs', as: :docs if Rails.env.development?
+  get 'benchmark/widget', to: 'benchmark#widget_benchmark' if Rails.env.development?
+  get 'benchmark/widget/http', to: 'benchmark#widget_http_benchmark' if Rails.env.development?
 
   unless Rails.env.development?
     match '/404', to: 'errors#not_found', via: :all
