@@ -2,7 +2,7 @@
 
 # Fail if anything within this script returns
 # a non-zero exit code
-# set -e
+set -e
 
 echo "Logging into cloud.gov"
 cf login -a $CF_API_ENDPOINT -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $CF_SPACE
