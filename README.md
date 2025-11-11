@@ -9,7 +9,7 @@ support continuous improvement of public service delivery.
 An example Touchpoints form that includes every input element
 is available in this
 [Kitchen Sink](https://touchpoints.app.cloud.gov/touchpoints/34d93e4e/submit)
-example.
+example.2
 
 Touchpoints is a web application
 that makes it easy to deploy
