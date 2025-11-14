@@ -19,7 +19,7 @@ Touchpoints provides features specific to the
 [Customer Experience](https://www.performance.gov/cx/)
 in the US Federal Government.
 
-GSA's Federal Acquisition Service (FAS) is developing Touchpoints in-house by the
+GSAFederal Acquisition Service (FAS) is developing Touchpoints in-house by the
 [Feedback Analytics Team](mailto:feedback-analytics@gsa.gov),
 within the Technology Transformation Services'
 [Data Portfolio](https://www.gsa.gov/about-us/organization/federal-acquisition-service/technology-transformation-services/tts-solutions#data).
