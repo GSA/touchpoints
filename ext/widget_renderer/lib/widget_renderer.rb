@@ -49,6 +49,11 @@ module WidgetRenderer
     path = path.sub(%r{/target/debug$}, '')
   end
 
+  # Rutie assumes the passed path is a subdirectory (like lib/) and goes up one level
+  # before appending target/release.
+  # So we append a 'lib' directory so that when it goes up, it lands on the root.
+  path = File.join(path, 'lib')
+
   puts "WidgetRenderer: Initializing Rutie with path: #{path}"
 
   Rutie.new(:widget_renderer).init 'Init_widget_renderer', path
