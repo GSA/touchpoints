@@ -806,8 +806,8 @@ feature 'Forms', js: true do
             end
 
             it 'displays /admin/forms/:id/form_sections/new' do
-              # Default title for a newly added section currently renders as "Page 1"
-              expect(find_all('.section-title').last.value).to eq('Page 1')
+              # Default title for a newly added section currently renders as "New Section"
+              expect(find_all('.section-title').last.value).to eq('New Section')
             end
           end
 
