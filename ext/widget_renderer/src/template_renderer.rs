@@ -58,6 +58,130 @@ impl TemplateRenderer {
             form.prefix.clone()
         };
 
+        let turnstile_check = if form.enable_turnstile {
+            r#"
+                const elapsed = Date.now() - self.turnstileInitiatedAt;
+                if (elapsed > 5 * 60 * 1000) {
+                    self.initTurnstile();
+                    self.turnstileInitiatedAt = Date.now();
+                    return false;
+                }
+            "#
+        } else {
+            ""
+        };
+
+        let quill_load_script = if form.has_rich_text_questions {
+            r#"
+        loadQuill: function() {
+            let script = document.createElement("script");
+            script.src = "/assets/quill.js";
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+            setTimeout(this.initQuill, 1000);
+        },
+        initQuill: function() {
+            document.querySelectorAll(".quill").forEach((wrapper) => {
+                const editorContainer = wrapper.querySelector(".editor");
+                const hiddenInput = wrapper.querySelector("input[type=hidden]");
+                const countDisplay = wrapper.querySelector('.usa-character-count__message');
+                const maxLimit = editorContainer.getAttribute("maxlength");
+
+                if (editorContainer && hiddenInput) {
+                    const quill = new Quill(editorContainer, {
+                        theme: 'snow',
+                        placeholder: 'Write something...',
+                        modules: {
+                            toolbar: [
+                                ['bold', 'italic', 'underline'],
+                                [{ 'list': 'ordered'}, { 'list': 'bullet' }]
+                            ]
+                        }
+                    });
+
+                    quill.root.innerHTML = hiddenInput.value;
+
+                    quill.on('text-change', function () {
+                        updateCount();
+                        hiddenInput.value = quill.root.innerHTML;
+                    });
+
+                    const updateCount = () => {
+                        const html = quill.root.innerHTML;
+                        countDisplay.textContent = "" + (maxLimit - html.length) + " characters left";
+                    };
+                }
+            });
+        },
+            "#
+        } else {
+            ""
+        };
+
+        let turnstile_site_key = std::env::var("TURNSTILE_SITE_KEY").unwrap_or_default();
+        let turnstile_load_script = if form.enable_turnstile {
+            format!(r###"
+        loadTurnstile: function() {{
+            let script = document.createElement("script");
+            script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+            script.async = true;
+            script.defer = true;
+            script.onload = this.initTurnstile;
+            this.turnstileInitiatedAt = Date.now();
+            if (!window.turnstile) {{
+                document.head.appendChild(script);
+            }}
+        }},
+        initTurnstile: function() {{
+            turnstile.remove("#turnstile-container");
+            turnstile.render("#turnstile-container", {{
+                sitekey: "{}",
+                callback: function (token) {{
+                    document.querySelector("input[name='cf-turnstile-response']").value = token;
+                }}
+            }});
+        }},
+            "###, turnstile_site_key)
+        } else {
+            "".to_string()
+        };
+
+        let quill_save = if form.has_rich_text_questions {
+            r#"
+                document.querySelectorAll(".quill").forEach((wrapper) => {
+                    const editorContainer = wrapper.querySelector(".editor");
+                    const hiddenInput = wrapper.querySelector("input[type=hidden]");
+
+                    if (editorContainer && hiddenInput) {
+                        const quillInstance = Quill.find(editorContainer);
+                        if (quillInstance) {
+                            hiddenInput.value = quillInstance.root.innerHTML;
+                        }
+                    }
+                });
+            "#
+        } else {
+            ""
+        };
+
+        let turnstile_response = if form.enable_turnstile {
+            r#"
+                "cf-turnstile-response" : form.querySelector("input[name='cf-turnstile-response']") ? form.querySelector("input[name='cf-turnstile-response']").value : null,
+            "#
+        } else {
+            ""
+        };
+
+        let csrf_token = if form.verify_csrf {
+            r###"
+                "authenticity_token": form.querySelector("#authenticity_token") ?
+                form.querySelector("#authenticity_token").value : null
+            "###
+        } else {
+            ""
+        };
+
         format!(r###"
 // Form components are namespaced under 'fba' = 'Feedback Analytics'
 // Updated: July 2024
@@ -257,6 +381,8 @@ function FBAform(d, N) {{
 		var formElement = this.formElement();
 		var self = this;
 		if (self.validateForm(formElement)) {{
+			{turnstile_check}
+
 			var submitButton = formElement.querySelector("[type='submit']");
 			submitButton.disabled = true;
 			submitButton.classList.add("aria-disabled");
@@ -338,7 +464,7 @@ function FBAform(d, N) {{
 		  if (item.value.length == 0) {{
 		  	delete(questions[item.name]);
 		  }} else {{
-		    var EmailRegex = /^([a-zA-Z0-9_.+-])+\\@(([a-zA-Z0-9-])+\\.)+([a-zA-Z0-9]{{2,4}})+$/;
+		    var EmailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{{2,4}})+$/;
 		    if (EmailRegex.test(item.value)) delete(questions[item.name]);
 		  }}
 		}});
@@ -356,7 +482,7 @@ function FBAform(d, N) {{
 		  if (item.value.length == 0) {{
 		  	delete(questions[item.name]);
 		  }} else {{
-		    const PhoneRegex = /^\\(\\d{{3}}\\) \\d{{3}}-\\d{{4}}$/;
+		    const PhoneRegex = /^\(\d{{3}}\) \d{{3}}-\d{{4}}$/;
 		    if (PhoneRegex.test(item.value)) delete(questions[item.name]);
 		  }}
 		}});
@@ -598,9 +724,9 @@ function FBAform(d, N) {{
 		xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8;");
 		xhr.onload = callback.bind(this);
 		xhr.send(JSON.stringify({{
+			{turnstile_response}
 			"submission": params,
-			"authenticity_token": form.querySelector("#authenticity_token") ?
-			form.querySelector("#authenticity_token").value : null
+			{csrf_token}
 		}}));
 	}},
 	currentPageNumber: 1,
@@ -635,17 +761,104 @@ function FBAform(d, N) {{
 				var currentPage = e.target.closest(".section");
 				if (!this.validateForm(currentPage)) return false;
 				currentPage.classList.remove("fba-visible");
-				this.currentPageNumber
+				this.currentPageNumber--;
+				this.showInstructions();
+				currentPage.previousElementSibling.classList.add("fba-visible");
+
+				const previousPageEvent = new CustomEvent('onTouchpointsFormPreviousPage', {{
+					detail: {{
+						formComponent: this
+					}}
+				}});
+				d.dispatchEvent(previousPageEvent);
+
+				if(this.formComponent().getElementsByClassName("fba-modal")[0]) {{
+					this.formComponent().scrollTo(0,0);
+				}} else {{
+					N.scrollTo(0, 0);
+				}}
+			}}.bind(self));
+		}}
+		for (var i = 0; i < nextButtons.length; i++) {{
+			nextButtons[i].addEventListener('click', function(e) {{
+				e.preventDefault();
+				var currentPage = e.target.closest(".section");
+				if (!this.validateForm(currentPage)) return false;
+				currentPage.classList.remove("fba-visible");
+				this.currentPageNumber++;
+				this.showInstructions();
+				currentPage.nextElementSibling.classList.add("fba-visible");
+
+				const nextPageEvent = new CustomEvent('onTouchpointsFormNextPage', {{
+					detail: {{
+						formComponent: this
+					}}
+				}});
+				d.dispatchEvent(nextPageEvent);
+
+				if(this.formComponent().getElementsByClassName("fba-modal")[0]) {{
+					this.formComponent().scrollTo(0,0);
+				}} else {{
+					N.scrollTo(0, 0);
+				}}
+			}}.bind(self))
+		}}
+	}},
+	modalId: function() {{
+		return `fba-modal-${{this.options.formId}}`;
+	}},
+	modalElement: function() {{
+		return document.getElementById(this.modalId());
+	}},
+	{quill_load_script}
+	{turnstile_load_script}
+	enableLocalStorage: function() {{
+		const form = this.formElement();
+		const savedData = localStorage.getItem(this.formLocalStorageKey());
+
+		if (savedData) {{
+			const formData = JSON.parse(savedData);
+			for (const key in formData) {{
+				const input = form.querySelector(`[name="${{key}}"]`);
+				if (input) {{
+					input.value = formData[key];
+				}}
+			}}
+		}}
+
+		form.addEventListener('input', (event) => {{
+			const inputData = {{}};
+
+			{quill_save}
+
+			const formData = new FormData(form);
+			formData.forEach((value, key) => {{
+				inputData[key] = value;
+			}});
+
+			localStorage.setItem(this.formLocalStorageKey(), JSON.stringify(inputData));
+		}});
+	}},
+	}};
+}};
 "###, 
             turnstile_init = turnstile_init,
             quill_init = quill_init,
             quill_css = quill_css,
-            modal_class = modal_class
+            modal_class = modal_class,
+            turnstile_check = turnstile_check,
+            quill_load_script = quill_load_script,
+            turnstile_load_script = turnstile_load_script,
+            quill_save = quill_save,
+            turnstile_response = turnstile_response,
+            csrf_token = csrf_token
         )
     }
 
     fn render_form_options(&self, form: &FormData) -> String {
         let question_params = self.render_question_params(form);
+        let html_body = self.render_html_body(form).replace("`", "\\`");
+        let html_body_no_modal = self.render_html_body_no_modal(form).replace("`", "\\`");
         
         format!(r###"
 var touchpointFormOptions{uuid} = {{
@@ -663,6 +876,12 @@ var touchpointFormOptions{uuid} = {{
         return {{
             {question_params}
         }}
+    }},
+    'htmlFormBody': function() {{
+        return `{html_body}`;
+    }},
+    'htmlFormBodyNoModal': function() {{
+        return `{html_body_no_modal}`;
     }}
 }};
 "###,
@@ -676,7 +895,9 @@ var touchpointFormOptions{uuid} = {{
             suppress_ui = form.suppress_ui,
             suppress_submit = form.suppress_submit_button,
             verify_csrf = form.verify_csrf,
-            question_params = question_params
+            question_params = question_params,
+            html_body = html_body,
+            html_body_no_modal = html_body_no_modal
         )
     }
 
@@ -748,5 +969,117 @@ window.touchpointForm{uuid}.init(touchpointFormOptions{uuid});
         }
         
         params.join(",\n            ")
+    }
+
+    fn prefix_class(&self, form: &FormData, class_name: &str) -> String {
+        if !form.prefix.is_empty() {
+            format!("{}-{}", form.prefix, class_name)
+        } else {
+            class_name.to_string()
+        }
+    }
+
+    pub fn render_html_body_no_modal(&self, form: &FormData) -> String {
+        let content_or_archived = if form.kind != "archived" {
+             let logo_and_title = self.render_logo_and_title(form);
+             let instructions = if let Some(ref instr) = form.instructions {
+                 format!(r#"<div class="fba-instructions" id="fba-form-instructions-{}">{}</div>"#, form.short_uuid, instr)
+             } else {
+                 String::new()
+             };
+             
+             let required_notice = if form.questions.len() > 1 && form.questions.iter().any(|q| q.is_required) {
+                 r#"<p class="required-questions-notice"><small>Fields marked with an asterisk (*) are required.</small></p>"#.to_string()
+             } else {
+                 String::new()
+             };
+             
+             let flash = self.render_flash(form);
+             let custom_form = self.render_custom_form(form);
+             
+             format!("{}{}{}{}{}", logo_and_title, instructions, required_notice, flash, custom_form)
+        } else {
+            self.render_archived_form(form)
+        };
+
+        format!(
+            r#"<div class="touchpoints-form-wrapper {}" id="touchpoints-form-{}" data-touchpoints-form-id="{}"><div class="touchpoints-inner-form-wrapper">{}</div></div>"#,
+            form.kind, form.short_uuid, form.short_uuid, content_or_archived
+        )
+    }
+
+    pub fn render_html_body(&self, form: &FormData) -> String {
+        let no_modal = self.render_html_body_no_modal(form);
+        let footer = self.render_footer(form);
+        let close_button = if form.delivery_method != "inline" {
+            let close_class = self.prefix_class(form, "usa-modal__close");
+            format!(r#"<button class="{} usa-button fba-modal-close" type="button" aria-label="Close this window" data-close-modal><svg class="usa-icon" aria-hidden="true" focusable="false" role="img"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></svg></button>"#, close_class)
+        } else {
+            String::new()
+        };
+
+        let content_class = self.prefix_class(form, "usa-modal__content");
+        let main_class = self.prefix_class(form, "usa-modal__main");
+
+        format!(
+            r#"<div class="{} fba-modal-dialog"><div><div class="{} padding-bottom-0 padding-top-0">{}</div>{}</div>{}</div>"#,
+            content_class, main_class, no_modal, footer, close_button
+        )
+    }
+
+    fn render_logo_and_title(&self, form: &FormData) -> String {
+        if let Some(title) = &form.title {
+             format!("<h3>{}</h3>", title)
+        } else {
+            "".to_string()
+        }
+    }
+
+    fn render_flash(&self, _form: &FormData) -> String {
+        r#"
+        <div class="fba-alert usa-alert usa-alert--success usa-alert--slim" hidden>
+          <div class="usa-alert__body">
+            <h3 class="usa-alert__heading"></h3>
+            <p class="usa-alert__text"></p>
+          </div>
+        </div>
+        <div class="fba-alert-error usa-alert usa-alert--error usa-alert--slim" hidden>
+          <div class="usa-alert__body">
+            <h3 class="usa-alert__heading">Error</h3>
+            <p class="usa-alert__text"></p>
+          </div>
+        </div>
+        "#.to_string()
+    }
+
+    fn render_custom_form(&self, form: &FormData) -> String {
+        let mut questions_html = String::new();
+        for question in &form.questions {
+            questions_html.push_str(&format!(r#"
+            <div class="question">
+                <label class="usa-label">{}</label>
+                <input type="text" class="usa-input" name="{}" value="">
+            </div>
+            "#, question.question_text.as_deref().unwrap_or(""), question.answer_field));
+        }
+        
+        format!(r##"
+        <form action="#" method="post" class="touchpoints-form">
+            {}
+            <button type="submit" class="usa-button">Submit</button>
+        </form>
+        "##, questions_html)
+    }
+
+    fn render_footer(&self, form: &FormData) -> String {
+        if let Some(text) = &form.disclaimer_text {
+             format!(r#"<div class="touchpoints-form-disclaimer">{}</div>"#, text)
+        } else {
+            "".to_string()
+        }
+    }
+
+    fn render_archived_form(&self, _form: &FormData) -> String {
+        "<p>This form has been archived.</p>".to_string()
     }
 }

@@ -298,15 +298,48 @@ class Form < ApplicationRecord
   # returns javascript text that can be used standalone
   # or injected into a GTM Container Tag
   def touchpoints_js_string
+    # Try to use Rust widget renderer if available
+    if defined?(WidgetRenderer)
+      begin
+        form_hash = {
+          short_uuid: short_uuid,
+          modal_button_text: modal_button_text || 'Feedback',
+          element_selector: element_selector || '',
+          delivery_method: delivery_method,
+          load_css: load_css,
+          success_text_heading: success_text_heading || 'Thank you',
+          success_text: success_text || 'Your feedback has been received.',
+          suppress_submit_button: suppress_submit_button,
+          suppress_ui: false, # Default to false as per ERB logic
+          kind: kind,
+          enable_turnstile: enable_turnstile,
+          has_rich_text_questions: has_rich_text_questions?,
+          verify_csrf: verify_csrf,
+          title: title,
+          instructions: instructions,
+          disclaimer_text: disclaimer_text,
+          questions: ordered_questions.map { |q| { answer_field: q.answer_field, question_type: q.question_type, question_text: q.question_text, is_required: q.is_required } },
+        }
+        json = form_hash.to_json
+        puts "DEBUG: JSON class: #{json.class}"
+        js = WidgetRenderer.generate_js(json)
+        puts "DEBUG: Rust JS: #{js[0..100]}"
+        return js
+      rescue StandardError => e
+        Rails.logger.error "Rust widget renderer failed: #{e.message}"
+        # Fallback to ERB
+      end
+    end
+
     # Always use ERB template rendering for now to avoid Rust compilation issues
     controller = ApplicationController.new
 
     # Set up a mock request with default URL options to avoid "undefined method 'host' for nil" errors
     # This is necessary because the ERB templates use root_url which requires request context
     # Try action_controller first, fall back to action_mailer if not set
-    default_options = Rails.application.config.action_controller.default_url_options || 
-                     Rails.application.config.action_mailer.default_url_options || 
-                     {}
+    default_options = Rails.application.config.action_controller.default_url_options ||
+                      Rails.application.config.action_mailer.default_url_options ||
+                      {}
     host = default_options[:host] || 'localhost'
     port = default_options[:port] || 3000
     protocol = default_options[:protocol] || (port == 443 ? 'https' : 'http')

@@ -19,7 +19,7 @@ feature 'Managing Websites', js: true do
     end
 
     it 'is accessible' do
-      expect(page).to be_axe_clean
+      expect_page_axe_clean
     end
 
     it 'load the Websites#index page' do
@@ -44,16 +44,18 @@ feature 'Managing Websites', js: true do
       end
 
       it 'creates a version with user info after create' do
+        expect(page).to have_content('Website was successfully created.')
         created_website = Website.find_by(domain: new_website.domain)
+        expect(created_website).to_not be_nil
         expect(created_website.versions.size).to eq(1)
         expect(created_website.versions.last.event).to eq('create')
 
         visit versions_admin_website_path(created_website)
         expect(page).to have_content("Website #{created_website.domain} versions")
-      expect(page).to have_content("production_status")
-        expect(page).to have_content("in_development")
-        expect(page).to have_content("production_status")
-        expect(page).to have_content("site_owner_email")
+        expect(page).to have_content('production_status')
+        expect(page).to have_content('in_development')
+        expect(page).to have_content('production_status')
+        expect(page).to have_content('site_owner_email')
         expect(page).to have_content(created_website.site_owner_email)
       end
     end
@@ -72,7 +74,7 @@ feature 'Managing Websites', js: true do
       end
 
       it 'shows a flash message regarding target decommission date' do
-        expect(page).to have_content("This website is scheduled for decommission on")
+        expect(page).to have_content('This website is scheduled for decommission on')
       end
 
       it 'creates a version with user info after update' do
@@ -149,7 +151,7 @@ feature 'Managing Websites', js: true do
       end
 
       it 'is accessible' do
-        expect(page).to be_axe_clean
+        expect_page_axe_clean
       end
 
       it 'can view successfully but not see an edit button' do
@@ -164,7 +166,7 @@ feature 'Managing Websites', js: true do
       end
 
       it 'is accessible' do
-        expect(page).to be_axe_clean
+        expect_page_axe_clean
       end
 
       it 'redirect to /admin/websites' do

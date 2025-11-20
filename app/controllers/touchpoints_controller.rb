@@ -19,11 +19,19 @@ class TouchpointsController < ApplicationController
   end
 
   def js
+    Rails.logger.info "DEBUG: TouchpointsController#js called for form #{@form.id}"
     @form.increment!(:survey_form_activations)
-    
+
     # Use Rust widget renderer if available, otherwise fall back to ERB
-    js_content = @form.touchpoints_js_string
-    
+    begin
+      js_content = @form.touchpoints_js_string
+      Rails.logger.info 'DEBUG: touchpoints_js_string success'
+    rescue StandardError => e
+      Rails.logger.error "DEBUG: touchpoints_js_string failed: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
+      raise e
+    end
+
     render plain: js_content, content_type: 'application/javascript'
   end
 

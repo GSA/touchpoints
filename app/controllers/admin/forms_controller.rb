@@ -7,6 +7,9 @@ module Admin
     respond_to :html, :js
 
     skip_before_action :verify_authenticity_token, only: [:js]
+    before_action :set_form_for_auth_check, only: [:example], prepend: true
+    # Only bypass authentication for example preview when this is a template form
+    skip_before_action :ensure_user, only: [:example]
     before_action :set_user, only: %i[add_user remove_user]
     before_action :set_form, only: %i[
       show edit update destroy
@@ -36,7 +39,7 @@ module Admin
 
     # Maximum number of rows that may be exported to csv
     MAX_ROWS_TO_EXPORT = 300_000
-    
+
     # Maximum number of questions supported per form
     MAX_QUESTIONS = 30
 
@@ -44,7 +47,7 @@ module Admin
       if form_search_params[:aasm_state].present?
         @status = form_search_params[:aasm_state]
       else
-        @status = "published"
+        @status = 'published'
         params[:aasm_state] = @status # set the filter and dropdown by default
       end
 
@@ -84,7 +87,7 @@ module Admin
       @event = Event.log_event(Event.names[:form_archived], 'Form', @form.uuid, "Form #{@form.name} archived at #{DateTime.now}", current_user.id)
 
       @form.archive!
-      UserMailer.form_feedback(form_id: @form.id, email: current_user.email).deliver_later if (@form.response_count >= 10 && @form.created_at < Time.now - 7.days)
+      UserMailer.form_feedback(form_id: @form.id, email: current_user.email).deliver_later if @form.response_count >= 10 && @form.created_at < Time.now - 7.days
       UserMailer.form_status_changed(form: @form, action: 'archived', event: @event).deliver_later
       redirect_to admin_form_path(@form), notice: 'This form has been Archived successfully.'
     end
@@ -122,16 +125,16 @@ module Admin
 
     def update_display_logo
       ensure_form_manager(form: @form)
-      if params[:form][:logo_kind] == "square"
+      if params[:form][:logo_kind] == 'square'
         @form.update({
-          display_header_square_logo: true,
-          display_header_logo: false
-        })
-      elsif params[:form][:logo_kind] == "banner"
+                       display_header_square_logo: true,
+                       display_header_logo: false,
+                     })
+      elsif params[:form][:logo_kind] == 'banner'
         @form.update({
-          display_header_square_logo: false,
-          display_header_logo: true
-        })
+                       display_header_square_logo: false,
+                       display_header_logo: true,
+                     })
       end
       @form.update(form_logo_params)
     end
@@ -162,7 +165,7 @@ module Admin
           ensure_response_viewer(form: @form) unless @form.template?
           @questions = @form.ordered_questions
           set_service_stage_options
-          @events = @events = Event.where(object_type: 'Form', object_uuid: @form.uuid).order("created_at DESC")
+          @events = @events = Event.where(object_type: 'Form', object_uuid: @form.uuid).order('created_at DESC')
         end
 
         format.json do
@@ -220,8 +223,8 @@ module Admin
 
     def questions
       @form.warn_about_not_too_many_questions
-      @form.ensure_a11_v2_format if @form.kind == "a11_v2"
-      @form.ensure_a11_v2_radio_format if @form.kind == "a11_v2_radio"
+      @form.ensure_a11_v2_format if @form.kind == 'a11_v2'
+      @form.ensure_a11_v2_radio_format if @form.kind == 'a11_v2_radio'
       ensure_form_manager(form: @form) unless @form.template?
       @questions = @form.ordered_questions
     end
@@ -238,8 +241,18 @@ module Admin
     end
 
     def example
-      redirect_to touchpoint_path, notice: 'Previewing Touchpoint' and return if @form.delivery_method == 'touchpoints-hosted-only'
-      redirect_to admin_forms_path, notice: "Form does not have a delivery_method of 'modal' or 'inline' or 'custom-button-modal'" and return unless @form.delivery_method == 'modal' || @form.delivery_method == 'inline' || @form.delivery_method == 'custom-button-modal'
+      # For non-template forms, ensure proper permissions
+      return if !@form.template? && !ensure_response_viewer(form: @form)
+
+      if @form.delivery_method == 'touchpoints-hosted-only'
+        redirect_to touchpoint_path, notice: 'Previewing Touchpoint'
+        return
+      end
+
+      unless %w[modal inline custom-button-modal].include?(@form.delivery_method)
+        redirect_to admin_forms_path, notice: "Form does not have a delivery_method of 'modal' or 'inline' or 'custom-button-modal'"
+        return
+      end
 
       render layout: false
     end
@@ -281,10 +294,10 @@ module Admin
           Event.log_event(Event.names[:form_created], 'Form', @form.uuid, "Form #{@form.name} created at #{DateTime.now}", current_user.id)
 
           UserRole.create!({
-            user: current_user,
-            form: @form,
-            role: UserRole::Role::FormManager,
-          })
+                             user: current_user,
+                             form: @form,
+                             role: UserRole::Role::FormManager,
+                           })
 
           format.html { redirect_to questions_admin_form_path(@form), notice: 'Form was successfully created.' }
           format.json { render :show, status: :created, location: @form }
@@ -531,7 +544,7 @@ module Admin
         :load_css,
         :tag_list,
         :verify_csrf,
-        *((1..MAX_QUESTIONS).map { |i| :"question_text_#{i.to_s.rjust(2, '0')}" }),
+        *(1..MAX_QUESTIONS).map { |i| :"question_text_#{i.to_s.rjust(2, '0')}" },
       )
     end
 
@@ -588,6 +601,14 @@ module Admin
 
     def search_params
       params.permit(:form_id, :flagged, :spam, :archived, :deleted)
+    end
+
+    def set_form_for_auth_check
+      @form = Form.find_by_short_uuid(params[:id]) || Form.find(params[:id])
+    end
+
+    def template_form?
+      @form&.template == true
     end
   end
 end

@@ -139,7 +139,7 @@ RSpec.describe Admin::FormsController, type: :controller do
         form.save!
       end
 
-      it "queues 2 emails, rather than 1, because form is more than 1 week old" do
+      it 'queues 2 emails, rather than 1, because form is more than 1 week old' do
         expect(UserMailer).to receive_message_chain(:form_feedback, :deliver_later)
         expect(UserMailer).to receive_message_chain(:form_status_changed, :deliver_later)
 
@@ -154,7 +154,7 @@ RSpec.describe Admin::FormsController, type: :controller do
         form.save
       end
 
-      it "queues 1 emails because form is not 7 days old" do
+      it 'queues 1 emails because form is not 7 days old' do
         expect(UserMailer).not_to receive(:form_feedback)
         expect(UserMailer).to receive_message_chain(:form_status_changed, :deliver_later)
 
@@ -221,7 +221,7 @@ RSpec.describe Admin::FormsController, type: :controller do
         get :export, params: { id: form.short_uuid, start_date: start_date, end_date: end_date }
         expect(response.content_type).to include('text/csv')
         expect(response.status).to eq(200)
-        expect(response.body).to include("ID,UUID,Test Text Field,Test Open Area,Location Code,User Agent,Status,Archived,Flagged,Deleted,Deleted at,Page,Query string,Hostname,Referrer,Created at,IP Address,Tags")
+        expect(response.body).to include('ID,UUID,Test Text Field,Test Open Area,Location Code,User Agent,Status,Archived,Flagged,Deleted,Deleted at,Page,Query string,Hostname,Referrer,Created at,IP Address,Tags')
         expect(response.body).to include(submission1.created_at.to_s)
         expect(response.body).to include(submission2.created_at.to_s)
         expect(response.body).to include(submission3.created_at.to_s)
@@ -239,7 +239,7 @@ RSpec.describe Admin::FormsController, type: :controller do
       it 'queues an async export job and redirects' do
         get :export, params: { id: form.short_uuid, start_date: start_date, end_date: end_date }
 
-        expect(ExportJob).to have_received(:perform_later).with(admin.email, form.short_uuid, "2024-01-01 00:00:00 UTC", "2024-01-28 23:59:59 UTC")
+        expect(ExportJob).to have_received(:perform_later).with(admin.email, form.short_uuid, '2024-01-01 00:00:00 UTC', '2024-01-28 23:59:59 UTC')
         expect(response).to redirect_to(responses_admin_form_path(form))
         expect(flash[:success]).to eq(UserMailer::ASYNC_JOB_MESSAGE)
       end
@@ -255,7 +255,7 @@ RSpec.describe Admin::FormsController, type: :controller do
         get :export, params: { id: form.short_uuid, start_date: start_date, end_date: end_date }
 
         expect(response).to have_http_status(:bad_request)
-        expect(response.body).to include("Your response set contains")
+        expect(response.body).to include('Your response set contains')
       end
     end
 
@@ -280,5 +280,4 @@ RSpec.describe Admin::FormsController, type: :controller do
       end
     end
   end
-
 end

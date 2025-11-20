@@ -32,7 +32,7 @@ feature 'Profile', js: true do
         end
 
         it 'is accessible' do
-          expect(page).to be_axe_clean
+          expect_page_axe_clean
         end
 
         it 'enters an invalid (too short) new api key' do
@@ -69,20 +69,19 @@ feature 'Profile', js: true do
       context 'user name and position title' do
         before do
           visit profile_path
-          fill_in("user_first_name", with: "Ben")
-          fill_in("user_last_name", with: "Franklin")
-          fill_in("user_position_title", with: "Secretary")
+          fill_in('user_first_name', with: 'Ben')
+          fill_in('user_last_name', with: 'Franklin')
+          fill_in('user_position_title', with: 'Secretary')
           click_on 'Update User'
         end
 
         it 'persists name and title' do
-          expect(page).to have_content("User profile updated")
+          expect(page).to have_content('User profile updated')
           expect(page).to have_field('user_first_name', with: 'Ben')
           expect(page).to have_field('user_last_name', with: 'Franklin')
           expect(page).to have_field('user_position_title', with: 'Secretary')
         end
       end
-
     end
   end
 end

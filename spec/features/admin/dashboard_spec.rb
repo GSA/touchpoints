@@ -27,7 +27,7 @@ feature 'Admin Dashboard', js: true do
       end
 
       it 'is accessible' do
-        expect(page).to be_axe_clean
+        expect_page_axe_clean
       end
 
       it 'display weekly metrics' do

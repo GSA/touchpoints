@@ -1,5 +1,6 @@
-use rutie::{Hash, RString, Symbol, Boolean, Object};
+use serde::Deserialize;
 
+#[derive(Deserialize)]
 pub struct FormData {
     pub short_uuid: String,
     pub modal_button_text: String,
@@ -14,63 +15,26 @@ pub struct FormData {
     pub enable_turnstile: bool,
     pub has_rich_text_questions: bool,
     pub verify_csrf: bool,
+    pub title: Option<String>,
+    pub instructions: Option<String>,
+    pub disclaimer_text: Option<String>,
+    pub omb_approval_number: Option<String>,
+    pub expiration_date: Option<String>,
+    #[serde(skip, default)]
     pub prefix: String,
     pub questions: Vec<Question>,
 }
 
+#[derive(Deserialize)]
 pub struct Question {
     pub answer_field: String,
     pub question_type: String,
+    pub question_text: Option<String>,
+    pub is_required: bool,
 }
 
 impl FormData {
-    pub fn from_hash(hash: &Hash) -> Self {
-        let load_css = get_bool_from_hash(hash, "load_css");
-        let prefix = if load_css { "fba".to_string() } else { String::new() };
-        
-        FormData {
-            short_uuid: get_string_from_hash(hash, "short_uuid"),
-            modal_button_text: get_string_from_hash(hash, "modal_button_text"),
-            element_selector: get_string_from_hash(hash, "element_selector"),
-            delivery_method: get_string_from_hash(hash, "delivery_method"),
-            load_css,
-            success_text_heading: get_string_from_hash(hash, "success_text_heading"),
-            success_text: get_string_from_hash(hash, "success_text"),
-            suppress_submit_button: get_bool_from_hash(hash, "suppress_submit_button"),
-            suppress_ui: get_bool_from_hash(hash, "suppress_ui"),
-            kind: get_string_from_hash(hash, "kind"),
-            enable_turnstile: get_bool_from_hash(hash, "enable_turnstile"),
-            has_rich_text_questions: get_bool_from_hash(hash, "has_rich_text_questions"),
-            verify_csrf: get_bool_from_hash(hash, "verify_csrf"),
-            prefix,
-            questions: get_questions_from_hash(hash),
-        }
+    pub fn compute_prefix(&mut self) {
+        self.prefix = if self.load_css { "fba".to_string() } else { String::new() };
     }
-}
-
-fn get_string_from_hash(hash: &Hash, key: &str) -> String {
-    let symbol = Symbol::new(key);
-    let value = hash.at(&symbol);
-    if let Ok(string_val) = value.try_convert_to::<RString>() {
-        string_val.to_string()
-    } else {
-        String::new()
-    }
-}
-
-fn get_bool_from_hash(hash: &Hash, key: &str) -> bool {
-    let symbol = Symbol::new(key);
-    let value = hash.at(&symbol);
-    if let Ok(bool_val) = value.try_convert_to::<Boolean>() {
-        bool_val.to_bool()
-    } else if let Ok(string_val) = value.try_convert_to::<RString>() {
-        string_val.to_string() == "true"
-    } else {
-        false
-    }
-}
-
-fn get_questions_from_hash(_hash: &Hash) -> Vec<Question> {
-    // For now, return empty vec - we'll implement this later
-    Vec::new()
 }
