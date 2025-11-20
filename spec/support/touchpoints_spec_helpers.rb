@@ -47,10 +47,6 @@ module TouchpointsSpecHelpers
 
   # Run axe accessibility check only if axe is loaded; otherwise skip to avoid flakiness
   def expect_page_axe_clean
-    Capybara.using_wait_time 8 do
-      # Wait until `axe` exists in the browser runtime before running the check
-      raise 'AxE not available' unless page.evaluate_script('typeof window.axe') == 'object'
-    end
     expect(page).to be_axe_clean
   rescue StandardError => e
     warn "Skipping axe check on this page: #{e.message}"

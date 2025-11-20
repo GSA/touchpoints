@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -e
+set -o pipefail
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
+
+echo "-----> Rust Buildpack: Installing Rust"
+
+RUST_DIR="$BUILD_DIR/.rust"
+mkdir -p "$RUST_DIR"
+
+export RUSTUP_HOME="$RUST_DIR/rustup"
+export CARGO_HOME="$RUST_DIR/cargo"
+
+# Install Rust
+# We use the minimal profile to save space and time
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path --profile minimal
+
+# Verify installation
+export PATH="$CARGO_HOME/bin:$PATH"
+if ! command -v rustc >/dev/null; then
+    echo "Rust installation failed"
+    exit 1
+fi
+
+echo "Rust version: $(rustc --version)"
+echo "Cargo version: $(cargo --version)"
+
+# Make available to subsequent buildpacks
+if [ -n "$ENV_DIR" ]; then
+    mkdir -p "$ENV_DIR"
+    # The buildpack lifecycle will prepend this to PATH
+    echo -n "$CARGO_HOME/bin" > "$ENV_DIR/PATH"
+    echo -n "$RUSTUP_HOME" > "$ENV_DIR/RUSTUP_HOME"
+    echo -n "$CARGO_HOME" > "$ENV_DIR/CARGO_HOME"
+fi
+
+# Make available at runtime
+mkdir -p "$BUILD_DIR/.profile.d"
+cat <<EOF > "$BUILD_DIR/.profile.d/rust.sh"
+export RUSTUP_HOME="$RUST_DIR/rustup"
+export CARGO_HOME="$RUST_DIR/cargo"
+export PATH="$CARGO_HOME/bin:\$PATH"
+EOF

@@ -19,6 +19,7 @@ applications:
     TOUCHPOINTS_GTM_CONTAINER_ID:
     TOUCHPOINTS_WEB_DOMAIN: touchpoints.app.cloud.gov
   buildpacks:
+    - rust_buildpack
     - nodejs_buildpack
     - ruby_buildpack
   services:
