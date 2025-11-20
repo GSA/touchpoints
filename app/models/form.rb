@@ -298,7 +298,76 @@ class Form < ApplicationRecord
   # returns javascript text that can be used standalone
   # or injected into a GTM Container Tag
   def touchpoints_js_string
-    ApplicationController.new.render_to_string(partial: 'components/widget/fba', formats: :js, locals: { form: self })
+    # Try to use Rust widget renderer if available
+    if defined?(WidgetRenderer)
+      begin
+        form_hash = {
+          short_uuid: short_uuid,
+          modal_button_text: modal_button_text || 'Feedback',
+          element_selector: element_selector || '',
+          delivery_method: delivery_method,
+          load_css: load_css,
+          success_text_heading: success_text_heading || 'Thank you',
+          success_text: success_text || 'Your feedback has been received.',
+          suppress_submit_button: suppress_submit_button,
+          suppress_ui: false, # Default to false as per ERB logic
+          kind: kind,
+          enable_turnstile: enable_turnstile,
+          has_rich_text_questions: has_rich_text_questions?,
+          verify_csrf: verify_csrf,
+          title: title,
+          instructions: instructions,
+          disclaimer_text: disclaimer_text,
+          logo_url: if logo.present?
+                      if display_header_logo
+                        logo.tag.url
+                      elsif display_header_square_logo
+                        logo.logo_square.url
+                      end
+                    end,
+          logo_class: if logo.present?
+                        if display_header_logo
+                          'form-header-logo'
+                        elsif display_header_square_logo
+                          'form-header-logo-square'
+                        end
+                      end,
+          questions: ordered_questions.map { |q| { answer_field: q.answer_field, question_type: q.question_type, question_text: q.question_text, is_required: q.is_required } },
+        }
+        json = form_hash.to_json
+        puts "DEBUG: JSON class: #{json.class}"
+        js = WidgetRenderer.generate_js(json)
+        puts "DEBUG: Rust JS: #{js[0..100]}"
+        return js
+      rescue StandardError => e
+        Rails.logger.error "Rust widget renderer failed: #{e.message}"
+        # Fallback to ERB
+      end
+    end
+
+    # Always use ERB template rendering for now to avoid Rust compilation issues
+    controller = ApplicationController.new
+
+    # Set up a mock request with default URL options to avoid "undefined method 'host' for nil" errors
+    # This is necessary because the ERB templates use root_url which requires request context
+    # Try action_controller first, fall back to action_mailer if not set
+    default_options = Rails.application.config.action_controller.default_url_options ||
+                      Rails.application.config.action_mailer.default_url_options ||
+                      {}
+    host = default_options[:host] || 'localhost'
+    port = default_options[:port] || 3000
+    protocol = default_options[:protocol] || (port == 443 ? 'https' : 'http')
+
+    # Create a mock request
+    mock_request = ActionDispatch::Request.new(
+      'rack.url_scheme' => protocol,
+      'HTTP_HOST' => "#{host}#{":#{port}" if port != 80 && port != 443}",
+      'SERVER_NAME' => host,
+      'SERVER_PORT' => port.to_s,
+    )
+
+    controller.request = mock_request
+    controller.render_to_string(partial: 'components/widget/fba', formats: :js, locals: { form: self })
   end
 
   def reportable_submissions(start_date: nil, end_date: nil)
@@ -570,27 +639,83 @@ class Form < ApplicationRecord
       .order('created_at')
     return nil if non_flagged_submissions.blank?
 
-    answer_02_options = self.questions.where(answer_field: "answer_02").first.question_options.collect(&:value)
-    answer_03_options = self.questions.where(answer_field: "answer_03").first.question_options.collect(&:value)
+    answer_02_options = questions.where(answer_field: 'answer_02').first.question_options.collect(&:value)
+    answer_03_options = questions.where(answer_field: 'answer_03').first.question_options.collect(&:value)
 
     non_flagged_submissions.map do |submission|
       {
         id: submission.id,
         answer_01: submission.answer_01,
-        answer_02_effectiveness: submission.answer_02 && submission.answer_02.split(",").include?("effectiveness") ? 1 :(answer_02_options.include?("effectiveness") ? 0 : 'null'),
-        answer_02_ease: submission.answer_02 && submission.answer_02.split(",").include?("ease") ? 1 : (answer_02_options.include?("ease") ? 0 : 'null'),
-        answer_02_efficiency: submission.answer_02 && submission.answer_02.split(",").include?("efficiency") ? 1 : (answer_02_options.include?("efficiency") ? 0 : 'null'),
-        answer_02_transparency: submission.answer_02 && submission.answer_02.split(",").include?("transparency") ? 1 : (answer_02_options.include?("transparency") ? 0 : 'null'),
-        answer_02_humanity: submission.answer_02 && submission.answer_02.split(",").include?("humanity") ? 1 : (answer_02_options.include?("humanity") ? 0 : 'null'),
-        answer_02_employee: submission.answer_02 && submission.answer_02.split(",").include?("employee") ? 1 : (answer_02_options.include?("employee") ? 0 : 'null'),
-        answer_02_other: submission.answer_02 && submission.answer_02.split(",").include?("other") ? 1 : (answer_02_options.include?("other") ? 0 : 'null'),
-        answer_03_effectiveness: submission.answer_03 && submission.answer_03.split(",").include?("effectiveness") ? 1 : (answer_03_options.include?("effectiveness") ? 0 : 'null'),
-        answer_03_ease: submission.answer_03 && submission.answer_03.split(",").include?("ease") ? 1 : (answer_03_options.include?("ease") ? 0 : 'null'),
-        answer_03_efficiency: submission.answer_03 && submission.answer_03.split(",").include?("efficiency") ? 1 : (answer_03_options.include?("efficiency") ? 0 : 'null'),
-        answer_03_transparency: submission.answer_03 && submission.answer_03.split(",").include?("transparency") ? 1 : (answer_03_options.include?("transparency") ? 0 : 'null'),
-        answer_03_humanity: submission.answer_03 && submission.answer_03.split(",").include?("humanity") ? 1 : (answer_03_options.include?("humanity") ? 0 : 'null'),
-        answer_03_employee: submission.answer_03 && submission.answer_03.split(",").include?("employee") ? 1 : (answer_03_options.include?("employee") ? 0 : 'null'),
-        answer_03_other: submission.answer_03 && submission.answer_03.split(",").include?("other") ? 1 : (answer_03_options.include?("other") ? 0 : 'null'),
+        answer_02_effectiveness: if submission.answer_02 && submission.answer_02.split(',').include?('effectiveness')
+                                   1
+                                 else
+                                   (answer_02_options.include?('effectiveness') ? 0 : 'null')
+                                 end,
+        answer_02_ease: if submission.answer_02 && submission.answer_02.split(',').include?('ease')
+                          1
+                        else
+                          (answer_02_options.include?('ease') ? 0 : 'null')
+                        end,
+        answer_02_efficiency: if submission.answer_02 && submission.answer_02.split(',').include?('efficiency')
+                                1
+                              else
+                                (answer_02_options.include?('efficiency') ? 0 : 'null')
+                              end,
+        answer_02_transparency: if submission.answer_02 && submission.answer_02.split(',').include?('transparency')
+                                  1
+                                else
+                                  (answer_02_options.include?('transparency') ? 0 : 'null')
+                                end,
+        answer_02_humanity: if submission.answer_02 && submission.answer_02.split(',').include?('humanity')
+                              1
+                            else
+                              (answer_02_options.include?('humanity') ? 0 : 'null')
+                            end,
+        answer_02_employee: if submission.answer_02 && submission.answer_02.split(',').include?('employee')
+                              1
+                            else
+                              (answer_02_options.include?('employee') ? 0 : 'null')
+                            end,
+        answer_02_other: if submission.answer_02 && submission.answer_02.split(',').include?('other')
+                           1
+                         else
+                           (answer_02_options.include?('other') ? 0 : 'null')
+                         end,
+        answer_03_effectiveness: if submission.answer_03 && submission.answer_03.split(',').include?('effectiveness')
+                                   1
+                                 else
+                                   (answer_03_options.include?('effectiveness') ? 0 : 'null')
+                                 end,
+        answer_03_ease: if submission.answer_03 && submission.answer_03.split(',').include?('ease')
+                          1
+                        else
+                          (answer_03_options.include?('ease') ? 0 : 'null')
+                        end,
+        answer_03_efficiency: if submission.answer_03 && submission.answer_03.split(',').include?('efficiency')
+                                1
+                              else
+                                (answer_03_options.include?('efficiency') ? 0 : 'null')
+                              end,
+        answer_03_transparency: if submission.answer_03 && submission.answer_03.split(',').include?('transparency')
+                                  1
+                                else
+                                  (answer_03_options.include?('transparency') ? 0 : 'null')
+                                end,
+        answer_03_humanity: if submission.answer_03 && submission.answer_03.split(',').include?('humanity')
+                              1
+                            else
+                              (answer_03_options.include?('humanity') ? 0 : 'null')
+                            end,
+        answer_03_employee: if submission.answer_03 && submission.answer_03.split(',').include?('employee')
+                              1
+                            else
+                              (answer_03_options.include?('employee') ? 0 : 'null')
+                            end,
+        answer_03_other: if submission.answer_03 && submission.answer_03.split(',').include?('other')
+                           1
+                         else
+                           (answer_03_options.include?('other') ? 0 : 'null')
+                         end,
         answer_04: submission.answer_04,
       }
     end
@@ -900,9 +1025,7 @@ class Form < ApplicationRecord
   end
 
   def warn_about_not_too_many_questions
-    if questions.size > 20
-      errors.add(:base, "Touchpoints supports a maximum of 30 questions. There are currently #{questions_count} questions. Fewer questions tend to yield higher response rates.")
-    end
+    errors.add(:base, "Touchpoints supports a maximum of 30 questions. There are currently #{questions_count} questions. Fewer questions tend to yield higher response rates.") if questions.size > 20
   end
 
   def contains_elements?(array, required_elements)

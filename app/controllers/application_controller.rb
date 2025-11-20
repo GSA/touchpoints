@@ -85,11 +85,13 @@ class ApplicationController < ActionController::Base
 
   def ensure_response_viewer(form:)
     return false if form.blank?
+    return false unless current_user # Ensure user is authenticated
     return true if admin_permissions?
     return true if form_permissions?(form:)
     return true if response_viewer_permissions?(form:)
 
     redirect_to(index_path, notice: 'Authorization is Required')
+    false
   end
 
   def ensure_service_manager_permissions
@@ -149,6 +151,7 @@ class ApplicationController < ActionController::Base
   helper_method :form_approver_permissions?
   def form_approver_permissions?
     return true if admin_permissions?
+    return false if current_user.blank?
 
     current_user.organizational_form_approver?
   end
@@ -213,6 +216,7 @@ class ApplicationController < ActionController::Base
   helper_method :service_permissions?
   def service_permissions?(service:)
     return false if service.blank?
+    return false if current_user.blank?
     return true if current_user.has_role?(:service_manager, service)
     return true if service_manager_permissions?
     return true if admin_permissions?
@@ -232,6 +236,7 @@ class ApplicationController < ActionController::Base
   helper_method :form_permissions?
   def form_permissions?(form:)
     return false if form.blank?
+    return false if current_user.blank?
     return true if admin_permissions?
     return true if current_user.has_role?(:form_manager, form)
     return true if form_approver_permissions?

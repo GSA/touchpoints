@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.2.8'
+ruby '3.4.7'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 8.0'
@@ -15,11 +15,10 @@ gem 'pg'
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma'
 
-
-gem "importmap-rails", ">= 2.2.0"
+gem 'importmap-rails', '>= 2.2.0'
 
 # Hotwire"s SPA-like page accelerator [https://turbo.hotwired.dev]
-gem "turbo-rails", ">= 2.0.14"
+gem 'turbo-rails', '>= 2.0.14'
 
 # Hotwire"s modest JavaScript framework [https://stimulus.hotwired.dev]
 gem 'stimulus-rails'
@@ -64,15 +63,18 @@ gem 'omniauth-rails_csrf_protection'
 gem 'rack-attack'
 gem 'rack-cors', '>= 3.0.0', require: 'rack/cors'
 # Use Redis to cache Touchpoints in all envs
-gem 'redis-client'
-gem 'redis-namespace'
-gem 'sidekiq', '>= 8.0.4'
-gem 'json-jwt'
 gem 'aasm'
 gem 'acts-as-taggable-on'
+gem 'json-jwt'
 gem 'logstop'
 gem 'paper_trail'
+gem 'redis-client'
+gem 'redis-namespace'
 gem 'rolify'
+gem 'sidekiq', '>= 8.0.4'
+
+# Rust integration for high-performance widget rendering
+gem 'rutie', '~> 0.0.4'
 
 group :development, :test do
   gem 'dotenv'
@@ -90,8 +92,9 @@ group :development do
   gem 'bundler-audit'
   gem 'listen'
   gem 'rails-erd'
-  gem "rubocop-rails", ">= 2.32.0"
-  gem "rubocop-rspec"
+  gem 'rubocop-rails', '>= 2.32.0'
+  gem 'rubocop-rspec'
+  gem 'ruby-lsp', require: false
   gem 'web-console'
 end
 

@@ -38,13 +38,16 @@ function generateUUID() {
   );
 }
 
-const debounce = (callback, wait) => {
-  let timeoutId = null;
+// Define debounce only if not already defined (avoids conflicts with USWDS)
+if (typeof debounce === 'undefined') {
+  var debounce = function(callback, wait) {
+    let timeoutId = null;
 
-  return (...args) => {
-    window.clearTimeout(timeoutId);
-    timeoutId = window.setTimeout(() => {
-      callback.apply(null, args);
-    }, wait);
-  };
+    return (...args) => {
+      window.clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(() => {
+        callback.apply(null, args);
+      }, wait);
+    };
+  }
 }

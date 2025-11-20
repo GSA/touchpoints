@@ -6,10 +6,9 @@ module Admin
     before_action :set_form_section, only: %i[edit update destroy]
 
     def new
-      next_position = @form.form_sections.collect(&:position).max + 1
       @section = @form.form_sections.new
       @section.title = 'New Section'
-      @section.position = next_position
+      @section.position = next_section_position
       @section.save!
       @tabindex = 0
       @multi_section_question_number = 0
@@ -35,9 +34,8 @@ module Admin
     end
 
     def create
-      next_position = @form.form_sections.collect(&:position).max + 1
       @form_section = @form.form_sections.new(form_section_params)
-      @form_section.position = next_position
+      @form_section.position = next_section_position
 
       if @form_section.save
         redirect_to questions_admin_form_path(@form), notice: 'Form section was successfully created.'
@@ -76,6 +74,10 @@ module Admin
 
     def form_section_params
       params.require(:form_section).permit(:title, :position, :next_section_id)
+    end
+
+    def next_section_position
+      (@form.form_sections.maximum(:position) || 0) + 1
     end
   end
 end
