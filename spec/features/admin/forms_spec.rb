@@ -802,6 +802,7 @@ feature 'Forms', js: true do
             before do
               visit questions_admin_form_path(form)
               click_on 'Add Section'
+              expect(page).to have_selector('.section-title', count: 2)
               find_all('.section-title').last.native.send_keys :tab
             end
 

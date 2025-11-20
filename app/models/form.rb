@@ -318,6 +318,20 @@ class Form < ApplicationRecord
           title: title,
           instructions: instructions,
           disclaimer_text: disclaimer_text,
+          logo_url: if logo.present?
+                      if display_header_logo
+                        logo.tag.url
+                      elsif display_header_square_logo
+                        logo.logo_square.url
+                      end
+                    end,
+          logo_class: if logo.present?
+                        if display_header_logo
+                          'form-header-logo'
+                        elsif display_header_square_logo
+                          'form-header-logo-square'
+                        end
+                      end,
           questions: ordered_questions.map { |q| { answer_field: q.answer_field, question_type: q.question_type, question_text: q.question_text, is_required: q.is_required } },
         }
         json = form_hash.to_json

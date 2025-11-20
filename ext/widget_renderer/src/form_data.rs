@@ -18,6 +18,8 @@ pub struct FormData {
     pub title: Option<String>,
     pub instructions: Option<String>,
     pub disclaimer_text: Option<String>,
+    pub logo_url: Option<String>,
+    pub logo_class: Option<String>,
     pub omb_approval_number: Option<String>,
     pub expiration_date: Option<String>,
     #[serde(skip, default)]

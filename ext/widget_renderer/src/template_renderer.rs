@@ -1028,11 +1028,14 @@ window.touchpointForm{uuid}.init(touchpointFormOptions{uuid});
     }
 
     fn render_logo_and_title(&self, form: &FormData) -> String {
-        if let Some(title) = &form.title {
-             format!("<h3>{}</h3>", title)
-        } else {
-            "".to_string()
+        let mut html = String::new();
+        if let (Some(url), Some(class)) = (&form.logo_url, &form.logo_class) {
+             html.push_str(&format!(r#"<div class="margin-bottom-2 text-center"><img src="{}" class="{}" alt="Logo"></div>"#, url, class));
         }
+        if let Some(title) = &form.title {
+             html.push_str(&format!("<h3>{}</h3>", title));
+        }
+        html
     }
 
     fn render_flash(&self, _form: &FormData) -> String {
