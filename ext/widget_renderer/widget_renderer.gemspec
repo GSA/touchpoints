@@ -16,4 +16,7 @@ Gem::Specification.new do |spec|
   spec.files         = Dir['{src,lib}/**/*', 'Cargo.toml', 'Cargo.lock', 'extconf.rb']
   spec.extensions    = ['extconf.rb']
   spec.require_paths = ['lib']
+
+  spec.add_dependency 'fiddle'
+  spec.add_dependency 'rutie'
 end
