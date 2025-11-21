@@ -7,11 +7,16 @@ CACHE_DIR=$2
 DEPS_DIR=$3
 DEPS_IDX=$4
 
+# Keep everything for this supply buildpack scoped under its index
+ROOT_DIR="$DEPS_DIR/$DEPS_IDX"
+ENV_DIR="$ROOT_DIR/env"
+PROFILE_DIR="$ROOT_DIR/profile.d"
+
 echo "-----> Rust Buildpack: Supplying Rust"
 echo "Build Dir: $BUILD_DIR"
 ls -la "$BUILD_DIR"
 
-RUST_DIR="$DEPS_DIR/rust"
+RUST_DIR="$ROOT_DIR/rust"
 mkdir -p "$RUST_DIR"
 
 export RUSTUP_HOME="$RUST_DIR/rustup"
@@ -32,15 +37,13 @@ echo "Rust version: $(rustc --version)"
 echo "Cargo version: $(cargo --version)"
 
 # Make available to subsequent buildpacks
-mkdir -p "$DEPS_DIR/env"
-echo -n "$CARGO_HOME/bin" > "$DEPS_DIR/env/PATH"
-echo -n "$RUSTUP_HOME" > "$DEPS_DIR/env/RUSTUP_HOME"
-echo -n "$CARGO_HOME" > "$DEPS_DIR/env/CARGO_HOME"
+mkdir -p "$ENV_DIR"
+echo -n "$CARGO_HOME/bin" > "$ENV_DIR/PATH.prepend"
+echo -n "$RUSTUP_HOME" > "$ENV_DIR/RUSTUP_HOME"
+echo -n "$CARGO_HOME" > "$ENV_DIR/CARGO_HOME"
 
 # Make available at runtime
-mkdir -p "$DEPS_DIR/profile.d"
-cat <<EOF > "$DEPS_DIR/profile.d/rust.sh"
+mkdir -p "$PROFILE_DIR"
+cat <<EOF > "$PROFILE_DIR/rust.sh"
 export RUSTUP_HOME="$RUST_DIR/rustup"
 export CARGO_HOME="$RUST_DIR/cargo"
-export PATH="$CARGO_HOME/bin:\$PATH"
-EOF
