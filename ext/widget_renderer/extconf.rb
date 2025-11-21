@@ -1,9 +1,17 @@
 require 'mkmf'
 
-abort 'Rust compiler not found. Please install Rust.' unless system('which rustc > /dev/null 2>&1')
+cargo_home = ENV['CARGO_HOME']
+cargo_bin = if cargo_home && !cargo_home.empty?
+              File.join(cargo_home, 'bin', 'cargo')
+            else
+              'cargo'
+            end
+
+abort 'Rust compiler not found. Please install Rust.' unless File.executable?(cargo_bin) || system('which rustc >/dev/null 2>&1')
 
 puts "Current directory: #{Dir.pwd}"
-system('cargo build --release') or abort 'Failed to build Rust extension'
+puts "Using cargo executable: #{cargo_bin}"
+system("#{cargo_bin} build --release") or abort 'Failed to build Rust extension'
 
 # Debug: Check build artifacts
 puts "Listing target directory:"

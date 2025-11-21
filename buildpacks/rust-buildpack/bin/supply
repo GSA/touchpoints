@@ -38,7 +38,6 @@ echo "Cargo version: $(cargo --version)"
 
 # Make available to subsequent buildpacks
 mkdir -p "$ENV_DIR"
-echo -n "$CARGO_HOME/bin:$PATH" > "$ENV_DIR/PATH"
 echo -n "$RUSTUP_HOME" > "$ENV_DIR/RUSTUP_HOME"
 echo -n "$CARGO_HOME" > "$ENV_DIR/CARGO_HOME"
 
