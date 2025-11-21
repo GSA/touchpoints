@@ -40,7 +40,6 @@ echo "Cargo version: $(cargo --version)"
 mkdir -p "$ENV_DIR"
 echo -n "$RUSTUP_HOME" > "$ENV_DIR/RUSTUP_HOME"
 echo -n "$CARGO_HOME" > "$ENV_DIR/CARGO_HOME"
-echo -n "$CARGO_HOME/bin" > "$ENV_DIR/PATH.prepend"
 
 # Make available at runtime
 mkdir -p "$PROFILE_DIR"
