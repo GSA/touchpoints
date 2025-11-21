@@ -1,4 +1,5 @@
 require 'mkmf'
+require 'fileutils'
 
 def ensure_rust
   cargo_home = ENV['CARGO_HOME']
@@ -30,6 +31,14 @@ cargo_bin = ensure_rust
 puts "Current directory: #{Dir.pwd}"
 puts "Using cargo executable: #{cargo_bin}"
 system("#{cargo_bin} build --release") or abort 'Failed to build Rust extension'
+
+# Copy the built shared library into the extension root so it is included in the droplet
+built_lib = Dir.glob(File.join('target', 'release', 'libwidget_renderer.{so,dylib}')).first
+abort 'Built library not found after cargo build' unless built_lib
+
+dest_lib = File.join(Dir.pwd, File.basename(built_lib))
+FileUtils.cp(built_lib, dest_lib)
+puts "Copied built library to #{dest_lib}"
 
 # Debug: Check build artifacts
 puts "Listing target directory:"
