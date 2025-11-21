@@ -27,6 +27,8 @@ jobs:
 
       - name: Build widget (Linux .so)
         working-directory: ext/widget_renderer
+        env:
+          NO_LINK_RUTIE: 1
         run: cargo build --release
 
       - name: Prepare artifact for CF
