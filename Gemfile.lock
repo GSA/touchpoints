@@ -10,6 +10,13 @@ GIT
       multi_json (~> 1.14)
       omniauth (~> 2.0)
 
+PATH
+  remote: ext/widget_renderer
+  specs:
+    widget_renderer (0.1.1)
+      fiddle
+      rutie
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -237,6 +244,7 @@ GEM
     ffi (1.17.2-x86_64-darwin)
     ffi (1.17.2-x86_64-linux-gnu)
     ffi (1.17.2-x86_64-linux-musl)
+    fiddle (1.1.8)
     fog-aws (3.33.0)
       base64 (>= 0.2, < 0.4)
       fog-core (~> 2.6)
@@ -707,9 +715,10 @@ DEPENDENCIES
   turbo-rails (>= 2.0.14)
   tzinfo-data
   web-console
+  widget_renderer!
 
 RUBY VERSION
-   ruby 3.4.7p58
+   ruby 3.2.8
 
 BUNDLED WITH
    2.7.1
