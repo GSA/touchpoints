@@ -37,3 +37,7 @@
 /public/packs
 /public/packs-test
 /node_modules
+
+# Ignore Rust build artifacts
+target/
+ext/widget_renderer/target/
