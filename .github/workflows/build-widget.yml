@@ -40,6 +40,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: libwidget_renderer.so
-          path:
-            - ext/widget_renderer/libwidget_renderer.so
-            - ext/widget_renderer/target/release/libwidget_renderer.so
+          path: |
+            ext/widget_renderer/libwidget_renderer.so
+            ext/widget_renderer/target/release/libwidget_renderer.so
