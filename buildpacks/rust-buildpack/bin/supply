@@ -8,6 +8,8 @@ DEPS_DIR=$3
 DEPS_IDX=$4
 
 echo "-----> Rust Buildpack: Supplying Rust"
+echo "Build Dir: $BUILD_DIR"
+ls -la "$BUILD_DIR"
 
 RUST_DIR="$DEPS_DIR/rust"
 mkdir -p "$RUST_DIR"
@@ -49,4 +51,7 @@ if [ -d "$BUILD_DIR/ext/widget_renderer" ]; then
     pushd "$BUILD_DIR/ext/widget_renderer"
     cargo build --release
     popd
+else
+    echo "-----> ext/widget_renderer not found in $BUILD_DIR"
+    ls -R "$BUILD_DIR"
 fi
