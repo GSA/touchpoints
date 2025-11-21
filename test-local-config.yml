@@ -1,0 +1,52 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: touchpoints-circleci:latest
+        environment:
+          RAILS_ENV: test
+          PGHOST: db
+          PGUSER: postgres
+          REDIS_URL: redis://redis:6379/1
+    working_directory: /home/circleci/repo
+    steps:
+      - run:
+          name: Test SSL certificate configuration
+          command: |
+            echo "Testing SSL configuration..."
+            echo "SSL_CERT_FILE: $SSL_CERT_FILE"
+            echo "SSL_CERT_DIR: $SSL_CERT_DIR"
+            
+            # Test certificate store
+            ls -la /etc/ssl/certs/ | head -10
+            
+            # Test SSL connection to RubyGems
+            echo "Testing HTTPS connection to RubyGems.org..."
+            ruby -e "
+              require 'net/http'
+              require 'openssl'
+              
+              uri = URI('https://rubygems.org')
+              http = Net::HTTP.new(uri.host, uri.port)
+              http.use_ssl = true
+              http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+              
+              begin
+                response = http.get('/')
+                puts 'SUCCESS: HTTPS connection to RubyGems.org works!'
+                puts \"Response code: #{response.code}\"
+              rescue => e
+                puts \"ERROR: #{e.message}\"
+                exit 1
+              end
+            "
+            
+            # Test bundler SSL configuration
+            echo "Testing Bundler SSL configuration..."
+            bundle config
+
+workflows:
+  test_ssl:
+    jobs:
+      - test

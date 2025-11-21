@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  circleci-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.circleci
+    environment:
+      - RAILS_ENV=test
+      - PGHOST=db
+      - PGUSER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - REDIS_URL=redis://redis:6379/1
+    volumes:
+      - .:/home/circleci/repo
+      - bundle_circleci:/usr/local/bundle
+      - test_results:/tmp/test-results
+    depends_on:
+      - db
+      - redis
+    command: |
+      bash -c "
+      echo 'Waiting for database to be ready...' &&
+      while ! pg_isready -h db -p 5432 -U postgres; do sleep 1; done &&
+      echo 'Database is ready!' &&
+      bundle exec rake db:create &&
+      bundle exec rake db:schema:load &&
+      npm i &&
+      rails assets:precompile &&
+      echo 'Running tests...' &&
+      bundle exec rspec --format progress --format RspecJunitFormatter --out /tmp/test-results/rspec.xml --format progress spec/
+      "
+
+  db:
+    image: postgres:15.8
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=touchpoints_test
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_circleci:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7.2.7
+    environment:
+      - REDIS_URL=redis://redis:6379/1
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data_circleci:/data
+
+volumes:
+  postgres_data_circleci:
+  redis_data_circleci:
+  bundle_circleci:
+  test_results:

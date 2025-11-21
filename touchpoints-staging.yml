@@ -1,33 +1,32 @@
 applications:
   - name: touchpoints-staging
+    disk_quota: 2G
     command: bundle exec rake cf:on_first_instance db:schema:load && rake db:seed && bundle exec rails s -b 0.0.0.0 -p $PORT -e $RAILS_ENV
     env:
-      AWS_SES_ACCESS_KEY_ID:
-      AWS_SES_SECRET_ACCESS_KEY:
-      AWS_SES_REGION:
+      AWS_SES_ACCESS_KEY_ID: ((AWS_SES_ACCESS_KEY_ID))
+      AWS_SES_SECRET_ACCESS_KEY: ((AWS_SES_SECRET_ACCESS_KEY))
+      AWS_SES_REGION: ((AWS_SES_REGION))
       DISABLE_DATABASE_ENVIRONMENT_CHECK: 1
       LOGIN_GOV_CLIENT_ID: urn:gov:gsa:openidconnect.profiles:sp:sso:gsa-tts-opp:touchpoints-staging
       LOGIN_GOV_IDP_BASE_URL: https://idp.int.identitysandbox.gov/
-      LOGIN_GOV_PRIVATE_KEY:
+      LOGIN_GOV_PRIVATE_KEY: ((LOGIN_GOV_PRIVATE_KEY))
       LOGIN_GOV_REDIRECT_URI: https://touchpoints-staging.app.cloud.gov/users/auth/login_dot_gov/callback
-      NEW_RELIC_KEY:
+      NEW_RELIC_KEY: ((NEW_RELIC_KEY))
       RAILS_ENV: staging
-      S3_AWS_ACCESS_KEY_ID:
-      S3_AWS_BUCKET_NAME:
-      S3_AWS_REGION:
-      S3_AWS_SECRET_ACCESS_KEY:
-      TOUCHPOINTS_ADMIN_EMAILS:
-      TOUCHPOINTS_EMAIL_SENDER:
-      TOUCHPOINTS_GTM_CONTAINER_ID:
+      S3_AWS_ACCESS_KEY_ID: ((S3_AWS_ACCESS_KEY_ID))
+      S3_AWS_BUCKET_NAME: ((S3_AWS_BUCKET_NAME))
+      S3_AWS_REGION: ((S3_AWS_REGION))
+      S3_AWS_SECRET_ACCESS_KEY: ((S3_AWS_SECRET_ACCESS_KEY))
+      TOUCHPOINTS_ADMIN_EMAILS: ((TOUCHPOINTS_ADMIN_EMAILS))
+      TOUCHPOINTS_EMAIL_SENDER: ((TOUCHPOINTS_EMAIL_SENDER))
       TOUCHPOINTS_WEB_DOMAIN: touchpoints-staging.app.cloud.gov
-    buildpacks:
-      - rust_buildpack
-      - nodejs_buildpack
-      - ruby_buildpack
+      TURNSTILE_SECRET_KEY: ((TURNSTILE_SECRET_KEY))
     services:
-      - touchpoints-staging-db
+      - touchpoints-staging-database
       - touchpoints-staging-deployer
-      - touchpoints-staging-redis
+      - touchpoints-staging-redis-service
       - touchpoints-staging-s3
     routes:
-      - route: touchpoints-staging.app.cloud.gov
+      - options: {}
+        protocol: http1
+        route: touchpoints-staging.app.cloud.gov
