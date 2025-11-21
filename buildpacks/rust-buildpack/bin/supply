@@ -38,8 +38,8 @@ echo "Cargo version: $(cargo --version)"
 
 # Make available to subsequent buildpacks
 mkdir -p "$ENV_DIR"
-# Pre-seed PATH with cargo and the expected node bin path (index 1) plus existing PATH
-echo -n "$CARGO_HOME/bin:$DEPS_DIR/1/node/bin:$PATH" > "$ENV_DIR/PATH"
+# Prepend Cargo bin; keep existing PATH intact
+echo -n "$CARGO_HOME/bin" > "$ENV_DIR/PATH.prepend"
 echo -n "$RUSTUP_HOME" > "$ENV_DIR/RUSTUP_HOME"
 echo -n "$CARGO_HOME" > "$ENV_DIR/CARGO_HOME"
 
