@@ -35,6 +35,9 @@ module WidgetRenderer
     # Debug: Check dependencies
     lib_file = File.join(found_path, 'libwidget_renderer.so')
     if File.exist?(lib_file)
+      puts "WidgetRenderer: File details for #{lib_file}"
+      puts `ls -l #{lib_file}`
+      puts `file #{lib_file}`
       puts "WidgetRenderer: Running ldd on #{lib_file}"
       puts `ldd #{lib_file} 2>&1`
     end
