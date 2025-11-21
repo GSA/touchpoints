@@ -32,11 +32,11 @@ jobs:
       - name: Prepare artifact for CF
         run: |
           set -euo pipefail
-          mkdir -p ext/widget_renderer/target/release
-          artifact=$(find ext/widget_renderer/target -maxdepth 3 -name 'libwidget_renderer*.so' | head -n 1 || true)
+          mkdir -p ext/widget_renderer/target/release target/release
+          artifact=$(find target ext/widget_renderer/target -maxdepth 4 -name 'libwidget_renderer*.so' 2>/dev/null | head -n 1 || true)
           if [ -z "${artifact}" ]; then
             echo "No built libwidget_renderer.so found. Current target tree:"
-            find ext/widget_renderer/target -maxdepth 3 -type f | sed 's/^/  /'
+            find target ext/widget_renderer/target -maxdepth 4 -type f | sed 's/^/  /'
             exit 1
           fi
           echo "Using artifact: ${artifact}"
