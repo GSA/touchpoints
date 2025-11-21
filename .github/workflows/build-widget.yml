@@ -23,18 +23,17 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-          target: x86_64-unknown-linux-gnu
           override: true
 
       - name: Build widget (Linux .so)
         working-directory: ext/widget_renderer
-        run: cargo build --release --target x86_64-unknown-linux-gnu
+        run: cargo build --release
 
       - name: Prepare artifact for CF
         run: |
           mkdir -p ext/widget_renderer/target/release
-          cp ext/widget_renderer/target/x86_64-unknown-linux-gnu/release/libwidget_renderer.so ext/widget_renderer/
-          cp ext/widget_renderer/target/x86_64-unknown-linux-gnu/release/libwidget_renderer.so ext/widget_renderer/target/release/
+          cp ext/widget_renderer/target/release/libwidget_renderer.so ext/widget_renderer/
+          cp ext/widget_renderer/target/release/libwidget_renderer.so ext/widget_renderer/target/release/
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
