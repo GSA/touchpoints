@@ -2,7 +2,12 @@ require 'mkmf'
 
 abort 'Rust compiler not found. Please install Rust.' unless system('which rustc > /dev/null 2>&1')
 
+puts "Current directory: #{Dir.pwd}"
 system('cargo build --release') or abort 'Failed to build Rust extension'
+
+# Debug: Check build artifacts
+puts "Listing target directory:"
+system('ls -R target')
 
 # Debug: Check dependencies of the generated library
 puts "Checking dependencies of libwidget_renderer.so..."
