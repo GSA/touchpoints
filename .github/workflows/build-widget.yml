@@ -2,7 +2,14 @@ name: Build Rust Widget
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - develop
+      - staging
+    tags:
+      - 'production-*'
+  release:
+    types: [published]
   workflow_dispatch:
 
 jobs:
