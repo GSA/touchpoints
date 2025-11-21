@@ -4,11 +4,11 @@ require 'rutie'
 
 module WidgetRenderer
   root = File.expand_path('..', __dir__)
-  
+
   # Debugging: Print root and directory contents
   puts "WidgetRenderer: root=#{root}"
   puts "WidgetRenderer: __dir__=#{__dir__}"
-  
+
   # Define potential paths where the shared object might be located
   paths = [
     File.join(root, 'target', 'release'),
@@ -17,9 +17,9 @@ module WidgetRenderer
     File.join(root, 'target', 'debug'),
     File.expand_path('../../target/debug', root), # Workspace debug directory
     File.join(root, 'widget_renderer', 'target', 'debug'),
-    root
+    root,
   ]
-  
+
   # Find the first path that contains the library file
   found_path = paths.find do |p|
     exists = File.exist?(File.join(p, 'libwidget_renderer.so')) ||
@@ -28,11 +28,18 @@ module WidgetRenderer
     puts "WidgetRenderer: Checking #{p} -> #{exists}"
     exists
   end
-  
+
   if found_path
     puts "WidgetRenderer: Found library in #{found_path}"
+    
+    # Debug: Check dependencies
+    lib_file = File.join(found_path, 'libwidget_renderer.so')
+    if File.exist?(lib_file)
+      puts "WidgetRenderer: Running ldd on #{lib_file}"
+      puts `ldd #{lib_file} 2>&1`
+    end
   else
-    puts "WidgetRenderer: Library not found in any checked path. Listing root contents:"
+    puts 'WidgetRenderer: Library not found in any checked path. Listing root contents:'
     # List files in root to help debug
     Dir.glob(File.join(root, '**', '*')).each { |f| puts f }
   end
