@@ -23,7 +23,6 @@ applications:
       TURNSTILE_SECRET_KEY: ((TURNSTILE_SECRET_KEY))
     buildpacks:
       - https://github.com/rileyseaburg/rust-buildpack-touchpoints.git
-      - nodejs_buildpack
       - ruby_buildpack
     services:
       - touchpoints-staging-database
