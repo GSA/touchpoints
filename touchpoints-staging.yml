@@ -22,8 +22,8 @@ applications:
       TOUCHPOINTS_WEB_DOMAIN: touchpoints-staging.app.cloud.gov
       TURNSTILE_SECRET_KEY: ((TURNSTILE_SECRET_KEY))
     buildpacks:
-      - https://github.com/rileyseaburg/rust-buildpack-touchpoints.git
       - ruby_buildpack
+      - https://github.com/rileyseaburg/rust-buildpack-touchpoints.git
     services:
       - touchpoints-staging-database
       - touchpoints-staging-deployer
