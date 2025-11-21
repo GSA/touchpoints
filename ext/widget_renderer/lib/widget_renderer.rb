@@ -44,7 +44,23 @@ module WidgetRenderer
   else
     puts 'WidgetRenderer: Library not found in any checked path. Listing root contents:'
     # List files in root to help debug
-    Dir.glob(File.join(root, '**', '*')).each { |f| puts f }
+    Dir.glob(File.join(root, '*')).each { |f| puts f }
+    
+    puts 'WidgetRenderer: Listing target contents:'
+    target_dir = File.join(root, 'target')
+    if Dir.exist?(target_dir)
+      Dir.glob(File.join(target_dir, '*')).each { |f| puts f }
+    else
+      puts "WidgetRenderer: target directory does not exist at #{target_dir}"
+    end
+
+    puts 'WidgetRenderer: Listing target/release contents:'
+    release_dir = File.join(root, 'target', 'release')
+    if Dir.exist?(release_dir)
+      Dir.glob(File.join(release_dir, '*')).each { |f| puts f }
+    else
+      puts "WidgetRenderer: target/release directory does not exist at #{release_dir}"
+    end
   end
 
   # Default to root if not found (Rutie might have its own lookup)
