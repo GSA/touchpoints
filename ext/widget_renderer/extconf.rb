@@ -36,9 +36,14 @@ system("#{cargo_bin} build --release") or abort 'Failed to build Rust extension'
 built_lib = Dir.glob(File.join('target', 'release', 'libwidget_renderer.{so,dylib}')).first
 abort 'Built library not found after cargo build' unless built_lib
 
-dest_lib = File.join(Dir.pwd, File.basename(built_lib))
-FileUtils.cp(built_lib, dest_lib)
-puts "Copied built library to #{dest_lib}"
+dest_root = File.join(Dir.pwd, File.basename(built_lib))
+dest_release_dir = File.join(Dir.pwd, 'target', 'release')
+FileUtils.mkdir_p(dest_release_dir)
+
+FileUtils.cp(built_lib, dest_root)
+FileUtils.cp(built_lib, dest_release_dir)
+
+puts "Copied built library to #{dest_root} and #{dest_release_dir}"
 
 # Debug: Check build artifacts
 puts "Listing target directory:"
