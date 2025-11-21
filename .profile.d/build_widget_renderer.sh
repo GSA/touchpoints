@@ -23,6 +23,8 @@ if [ ! -f "$LIB_SO" ] && [ ! -f "$LIB_DYLIB" ]; then
   RUBY_SO_NAME=$(ruby -e 'require "rbconfig"; print RbConfig::CONFIG["RUBY_SO_NAME"]')
   export RUTIE_RUBY_LIB_PATH="$RUBY_LIB_PATH"
   export RUTIE_RUBY_LIB_NAME="$RUBY_SO_NAME"
+  unset RUBY_STATIC
+  export NO_LINK_RUTIE=1
 
   cd "$EXT_DIR"
   ruby extconf.rb
