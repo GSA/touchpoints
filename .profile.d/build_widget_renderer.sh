@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-APP_ROOT="${HOME}/app"
+APP_ROOT="${HOME}"
+if [ -d "${HOME}/app" ]; then
+  APP_ROOT="${HOME}/app"
+fi
+
 EXT_DIR="${APP_ROOT}/ext/widget_renderer"
 LIB_SO="${EXT_DIR}/libwidget_renderer.so"
 LIB_DYLIB="${EXT_DIR}/libwidget_renderer.dylib"
