@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-APP_ROOT="${HOME}"
-if [ -d "${HOME}/app" ]; then
-  APP_ROOT="${HOME}/app"
+if [ -d "${HOME}/ext/widget_renderer" ]; then
+  EXT_DIR="${HOME}/ext/widget_renderer"
+elif [ -d "${HOME}/app/ext/widget_renderer" ]; then
+  EXT_DIR="${HOME}/app/ext/widget_renderer"
+else
+  echo "===> widget_renderer: extension directory not found under HOME: ${HOME}"
+  exit 1
 fi
-
-EXT_DIR="${APP_ROOT}/ext/widget_renderer"
 LIB_SO="${EXT_DIR}/libwidget_renderer.so"
 LIB_DYLIB="${EXT_DIR}/libwidget_renderer.dylib"
 
