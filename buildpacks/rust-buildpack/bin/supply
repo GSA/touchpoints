@@ -38,8 +38,6 @@ echo "Cargo version: $(cargo --version)"
 
 # Make available to subsequent buildpacks
 mkdir -p "$ENV_DIR"
-# Prepend Cargo bin; keep existing PATH intact
-echo -n "$CARGO_HOME/bin" > "$ENV_DIR/PATH.prepend"
 echo -n "$RUSTUP_HOME" > "$ENV_DIR/RUSTUP_HOME"
 echo -n "$CARGO_HOME" > "$ENV_DIR/CARGO_HOME"
 
