@@ -17,6 +17,13 @@ echo "===> widget_renderer: checking for native library"
 # Build the Rust extension at runtime if the shared library is missing.
 if [ ! -f "$LIB_SO" ] && [ ! -f "$LIB_DYLIB" ]; then
   echo "===> widget_renderer: building native extension"
+
+  # Tell rutie to link against the shared Ruby library provided by the Ruby buildpack.
+  RUBY_LIB_PATH=$(ruby -e 'require "rbconfig"; print RbConfig::CONFIG["libdir"]')
+  RUBY_SO_NAME=$(ruby -e 'require "rbconfig"; print RbConfig::CONFIG["RUBY_SO_NAME"]')
+  export RUTIE_RUBY_LIB_PATH="$RUBY_LIB_PATH"
+  export RUTIE_RUBY_LIB_NAME="$RUBY_SO_NAME"
+
   cd "$EXT_DIR"
   ruby extconf.rb
   make
