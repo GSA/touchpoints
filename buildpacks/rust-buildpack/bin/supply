@@ -11,6 +11,7 @@ DEPS_IDX=$4
 ROOT_DIR="$DEPS_DIR/$DEPS_IDX"
 ENV_DIR="$ROOT_DIR/env"
 PROFILE_DIR="$ROOT_DIR/profile.d"
+NVM_DIR="$ROOT_DIR/nvm"
 
 echo "-----> Rust Buildpack: Supplying Rust"
 echo "Build Dir: $BUILD_DIR"
@@ -40,6 +41,23 @@ echo "Cargo version: $(cargo --version)"
 mkdir -p "$ENV_DIR"
 echo -n "$RUSTUP_HOME" > "$ENV_DIR/RUSTUP_HOME"
 echo -n "$CARGO_HOME" > "$ENV_DIR/CARGO_HOME"
+
+# Install Node via nvm so npm is available even if the Node buildpack is absent
+mkdir -p "$NVM_DIR"
+export NVM_DIR
+if ! command -v node >/dev/null; then
+    echo "-----> Installing Node via nvm (v22)"
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+    # shellcheck source=/dev/null
+    . "$NVM_DIR/nvm.sh"
+    nvm install 22
+    nvm alias default 22
+fi
+
+# Expose nvm-installed Node to later buildpacks without clobbering PATH
+if [ -x "$NVM_DIR/versions/node/$(nvm current)/bin/node" ]; then
+    echo -n "$NVM_DIR/versions/node/$(nvm current)/bin" > "$ENV_DIR/PATH.prepend"
+fi
 
 # Make available at runtime
 mkdir -p "$PROFILE_DIR"
