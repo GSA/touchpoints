@@ -44,14 +44,3 @@ export RUSTUP_HOME="$RUST_DIR/rustup"
 export CARGO_HOME="$RUST_DIR/cargo"
 export PATH="$CARGO_HOME/bin:\$PATH"
 EOF
-
-# Explicitly build the Rust extension if it exists
-if [ -d "$BUILD_DIR/ext/widget_renderer" ]; then
-    echo "-----> Building Rust extension in ext/widget_renderer"
-    pushd "$BUILD_DIR/ext/widget_renderer"
-    cargo build --release
-    popd
-else
-    echo "-----> ext/widget_renderer not found in $BUILD_DIR"
-    ls -R "$BUILD_DIR"
-fi
