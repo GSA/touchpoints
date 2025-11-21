@@ -1,13 +1,31 @@
 require 'mkmf'
 
-cargo_home = ENV['CARGO_HOME']
-cargo_bin = if cargo_home && !cargo_home.empty?
-              File.join(cargo_home, 'bin', 'cargo')
-            else
-              'cargo'
-            end
+def ensure_rust
+  cargo_home = ENV['CARGO_HOME']
+  rustup_home = ENV['RUSTUP_HOME']
 
-abort 'Rust compiler not found. Please install Rust.' unless File.executable?(cargo_bin) || system('which rustc >/dev/null 2>&1')
+  if cargo_home.nil? || cargo_home.empty?
+    root = File.expand_path(File.join(__dir__, '..', '.rust'))
+    cargo_home = File.join(root, 'cargo')
+    rustup_home = File.join(root, 'rustup')
+    ENV['CARGO_HOME'] = cargo_home
+    ENV['RUSTUP_HOME'] = rustup_home
+  end
+
+  cargo_bin = File.join(cargo_home, 'bin', 'cargo')
+
+  unless File.executable?(cargo_bin)
+    puts 'Rust toolchain not found. Installing via rustup...'
+    system('curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path --profile minimal') or abort 'Failed to install Rust via rustup'
+  end
+
+  # Make cargo available for the build step without clobbering PATH
+  ENV['PATH'] = "#{File.join(cargo_home, 'bin')}:#{ENV.fetch('PATH', '')}"
+
+  cargo_bin
+end
+
+cargo_bin = ensure_rust
 
 puts "Current directory: #{Dir.pwd}"
 puts "Using cargo executable: #{cargo_bin}"
