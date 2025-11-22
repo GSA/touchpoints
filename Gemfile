@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.4.7'
+ruby '3.2.8'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 8.0'
@@ -75,6 +75,7 @@ gem 'sidekiq', '>= 8.0.4'
 
 # Rust integration for high-performance widget rendering
 gem 'rutie', '~> 0.0.4'
+gem 'widget_renderer', path: 'ext/widget_renderer'
 
 group :development, :test do
   gem 'dotenv'
