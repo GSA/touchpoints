@@ -332,7 +332,7 @@ class Form < ApplicationRecord
                           'form-header-logo-square'
                         end
                       end,
-          questions: ordered_questions.map { |q| { answer_field: q.answer_field, question_type: q.question_type, question_text: q.question_text, is_required: q.is_required } },
+          questions: ordered_questions.map { |q| { answer_field: q.answer_field, question_type: q.question_type, question_text: q.text, is_required: q.is_required } },
         }
         json = form_hash.to_json
         puts "DEBUG: JSON class: #{json.class}"
