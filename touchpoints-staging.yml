@@ -20,6 +20,7 @@ applications:
       TOUCHPOINTS_ADMIN_EMAILS: ((TOUCHPOINTS_ADMIN_EMAILS))
       TOUCHPOINTS_WEB_DOMAIN: touchpoints-staging.app.cloud.gov
       TOUCHPOINTS_WEB_DOMAIN2: app-staging.touchpoints.digital.gov
+      ASSET_HOST: app-staging.touchpoints.digital.gov
     buildpacks:
       - https://github.com/rileyseaburg/rust-buildpack-touchpoints.git
       - nodejs_buildpack

@@ -107,7 +107,8 @@ Rails.application.configure do
 
   # Prevent host header injection
   # Reference: https://github.com/ankane/secure_rails
-  config.action_controller.asset_host = ENV.fetch('TOUCHPOINTS_WEB_DOMAIN')
+  asset_host = ENV.fetch('ASSET_HOST', nil)
+  config.action_controller.asset_host = asset_host.presence || ENV.fetch('TOUCHPOINTS_WEB_DOMAIN')
 
   config.action_mailer.delivery_method = :ses_v2
   config.action_mailer.ses_v2_settings = {
