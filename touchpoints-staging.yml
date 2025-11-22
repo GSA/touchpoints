@@ -18,7 +18,9 @@ applications:
       S3_AWS_REGION: ((S3_AWS_REGION))
       S3_AWS_SECRET_ACCESS_KEY: ((S3_AWS_SECRET_ACCESS_KEY))
       TOUCHPOINTS_ADMIN_EMAILS: ((TOUCHPOINTS_ADMIN_EMAILS))
+      TOUCHPOINTS_EMAIL_SENDER: ((TOUCHPOINTS_EMAIL_SENDER))
       TOUCHPOINTS_WEB_DOMAIN: touchpoints-staging.app.cloud.gov
+      TURNSTILE_SECRET_KEY: ((TURNSTILE_SECRET_KEY))
       TOUCHPOINTS_WEB_DOMAIN2: app-staging.touchpoints.digital.gov
       ASSET_HOST: app-staging.touchpoints.digital.gov
     buildpacks:
