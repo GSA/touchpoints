@@ -8,6 +8,11 @@ root = File.expand_path('..', __dir__)
 puts "WidgetRenderer: root=#{root}"
 puts "WidgetRenderer: __dir__=#{__dir__}"
 
+# If a stale module exists, remove it so Rutie can define the class.
+if defined?(WidgetRenderer) && WidgetRenderer.is_a?(Module) && !WidgetRenderer.is_a?(Class)
+  Object.send(:remove_const, :WidgetRenderer)
+end
+
 # Define potential paths where the shared object might be located
 paths = [
   File.join(root, 'target', 'release'),
