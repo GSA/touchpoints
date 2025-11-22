@@ -23,7 +23,7 @@ feature 'Forms', js: true do
         end
 
         it 'is accessible' do
-          expect(page).to be_axe_clean
+          expect_page_axe_clean
         end
 
         describe 'add a user' do
@@ -36,12 +36,12 @@ feature 'Forms', js: true do
           end
 
           it 'is accessible' do
-            expect(page).to be_axe_clean
+            expect_page_axe_clean
           end
 
           it 'see the email displayed and can remove the role' do
             expect(page).to have_content('User Role successfully added to Form')
-            within(".roles-and-permissions") do
+            within('.roles-and-permissions') do
               expect(page).to_not have_content('No users at this time')
             end
 

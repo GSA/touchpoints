@@ -1,0 +1,52 @@
+name: Build Rust Widget
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - staging
+    tags:
+      - 'production-*'
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  build-widget:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Rust (stable)
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Build widget (Linux .so)
+        working-directory: ext/widget_renderer
+        run: cargo build --release
+
+      - name: Prepare artifact for CF
+        run: |
+          set -euo pipefail
+          mkdir -p ext/widget_renderer/target/release target/release
+          artifact=$(find target ext/widget_renderer/target -maxdepth 4 -name 'libwidget_renderer*.so' 2>/dev/null | head -n 1 || true)
+          if [ -z "${artifact}" ]; then
+            echo "No built libwidget_renderer.so found. Current target tree:"
+            find target ext/widget_renderer/target -maxdepth 4 -type f | sed 's/^/  /'
+            exit 1
+          fi
+          echo "Using artifact: ${artifact}"
+          cp "${artifact}" ext/widget_renderer/libwidget_renderer.so
+          cp "${artifact}" ext/widget_renderer/target/release/libwidget_renderer.so
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: libwidget_renderer.so
+          path: |
+            ext/widget_renderer/libwidget_renderer.so
+            ext/widget_renderer/target/release/libwidget_renderer.so

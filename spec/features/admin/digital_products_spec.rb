@@ -25,7 +25,7 @@ feature 'Digital Products', js: true do
       end
 
       it 'is accessible' do
-        expect(page).to be_axe_clean
+        expect_page_axe_clean
       end
 
       it 'load the DigitalProducts#index page' do
@@ -36,14 +36,13 @@ feature 'Digital Products', js: true do
       end
     end
 
-
     describe '#create page' do
       before do
         visit new_admin_digital_product_path
       end
 
       it 'is accessible' do
-        expect(page).to be_axe_clean
+        expect_page_axe_clean
       end
     end
 
@@ -53,20 +52,19 @@ feature 'Digital Products', js: true do
         fill_in('digital_product_name', with: 'Public Mobile App')
         fill_in('digital_product_short_description', with: 'A short description for a mobile app')
         fill_in('digital_product_url', with: 'https://lvh.me')
-        click_on("Create Digital product")
+        click_on('Create Digital product')
       end
 
       it 'is accessible' do
-        expect(page).to be_axe_clean
+        expect_page_axe_clean
       end
 
       it 'loads the show page' do
-        expect(page).to have_content("Digital product was successfully created.")
-        expect(page).to have_content("https://lvh.me")
-        expect(page).to have_content("No Code Repository URL specified")
+        expect(page).to have_content('Digital product was successfully created.')
+        expect(page).to have_content('https://lvh.me')
+        expect(page).to have_content('No Code Repository URL specified')
       end
     end
-
 
     describe '#search' do
       before do
@@ -102,7 +100,7 @@ feature 'Digital Products', js: true do
       end
 
       it 'is accessible' do
-        expect(page).to be_axe_clean
+        expect_page_axe_clean
       end
 
       it 'shows a table with 1 filtered result' do
@@ -120,12 +118,12 @@ feature 'Digital Products', js: true do
       end
 
       it 'is accessible' do
-        expect(page).to be_axe_clean
+        expect_page_axe_clean
       end
 
       it 'can publish digital product record' do
         expect(page).to have_content('Mobile App')
-        click_on("Publish")
+        click_on('Publish')
         expect(page).to have_content("Digital Product #{digital_product.name} was published.")
       end
     end

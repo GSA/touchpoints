@@ -1,0 +1,107 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+       - image: ruby:3.2.8-slim
+         environment:
+            RAILS_ENV: test
+            PGHOST: 127.0.0.1
+            PGUSER: postgres
+            POSTGRES_PASSWORD: postgres
+
+       - image: redis:7.2.7
+         environment:
+            REDIS_URL: redis://redis:6379/1
+
+       - image: postgres:15.8
+         environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: touchpoints_test
+
+    parallelism: 1
+    working_directory: ~/repo
+
+    steps:
+      - run:
+          name: Update packages and install dependencies
+          command: |
+            apt-get update
+            apt-get install -y --no-install-recommends \
+              build-essential \
+              libpq-dev \
+              postgresql-client \
+              curl \
+              wget \
+              gnupg2 \
+              software-properties-common
+
+      - run:
+          name: Install Node.js
+          command: |
+            curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+            apt-get install -y nodejs
+
+      - run:
+          name: Install Chrome (for system tests)
+          command: |
+            wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
+            echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
+            apt-get update
+            apt-get install -y google-chrome-stable || echo "Chrome install failed (expected on ARM64)"
+
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-bundle-{{ checksum "Gemfile.lock" }}
+
+      - run: bundle install
+
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}
+
+      # Database setup
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load
+
+      # Precompile assets (to use npm packages specified in assets.rb)
+      - run:
+          name: Precompile assets
+          command: |
+            npm i
+            rails assets:precompile
+
+      # run tests!
+      - run:
+          name: Run tests
+          command: |
+            mkdir -p /tmp/test-results
+            bundle exec rspec --format progress \
+                            --format RspecJunitFormatter \
+                            --out /tmp/test-results/rspec.xml \
+                            --format progress \
+                            spec/
+
+      # Install Cloud Foundry cli (cf) before deploy step. cf is used to push to Cloud.gov
+      - run:
+          name: Install-cf-cli
+          command: |
+            curl -v -L -o cf-cli_amd64.deb 'https://packages.cloudfoundry.org/stable?release=debian64&source=github'
+            dpkg -i cf-cli_amd64.deb || echo "CF CLI install failed"
+            cf -v || echo "CF CLI not available"
+
+      # collect reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: coverage
+
+workflows:
+  build-local:
+    jobs:
+      - build

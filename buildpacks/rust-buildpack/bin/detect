@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# bin/detect <BUILD_DIR>
+
+BUILD_DIR=$1
+
+if [ -f "$BUILD_DIR/ext/widget_renderer/Cargo.toml" ]; then
+  echo "Rust (Widget Renderer)"
+  exit 0
+else
+  echo "no"
+  exit 1
+fi

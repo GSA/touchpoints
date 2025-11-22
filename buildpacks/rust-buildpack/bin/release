@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# bin/release <BUILD_DIR>
+
+cat <<EOF
+---
+config_vars: {}
+addons: []
+default_process_types: {}
+EOF

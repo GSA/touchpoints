@@ -250,6 +250,11 @@ $(function() {
     event.preventDefault();
     var option_text = $($(this).parent().find("input")[0]).val();
     var option_value = $($(this).parent().find("input")[1]).val();
+    option_text = $.trim(option_text);
+    if (option_text.length === 0) {
+      alert("Please enter a value for question option text!");
+      return false;
+    }
     $(".question-option-edit").hide();
     $(".question-option-view").show();
     $.ajax({

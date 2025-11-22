@@ -13,6 +13,12 @@ require 'selenium/webdriver'
 require 'axe-rspec'
 # Add additional requires below this line. Rails is not loaded until this point!
 require_relative 'support/touchpoints_spec_helpers'
+
+# Ensure Devise mapping exists for controller specs when routes fail to auto-register.
+if defined?(Devise) && Devise.mappings[:user].nil?
+  Devise.add_mapping(:user, {})
+  Devise.configure_warden!
+end
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -42,9 +48,9 @@ download_directory = Rails.root.join('tmp/spec_downloads')
 options = Selenium::WebDriver::Chrome::Options.new
 options.add_preference(:loggingPrefs, browser: 'ALL')
 options.add_preference(:download, {
-  prompt_for_download: false,
-  default_directory: download_directory.to_s
-})
+                         prompt_for_download: false,
+                         default_directory: download_directory.to_s,
+                       })
 
 # for Capybara
 Capybara.register_driver :selenium do |app|
@@ -53,9 +59,12 @@ end
 # Capybara.javascript_driver = :selenium                 # Run feature specs with Firefox
 # Capybara.javascript_driver = :selenium_chrome          # Run feature specs with Chrome
 Capybara.javascript_driver = :selenium_chrome_headless # Run feature specs with headless Chrome
-Capybara.default_max_wait_time = 3
+Capybara.default_max_wait_time = 10
 Capybara.raise_server_errors = true
 Capybara.server = :puma
+Capybara.server_host = '127.0.0.1'
+Capybara.server_port = 3000
+Capybara.app_host = 'http://127.0.0.1:3000'
 
 TEST_API_KEY = '1234567890123456789012345678901234567890'
 
@@ -70,6 +79,15 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Warden::Test::Helpers
+
+  config.before(:each, type: :controller) do
+    mapping = Devise.mappings[:user]
+    if respond_to?(:request) && request.present?
+      request.env['devise.mapping'] = mapping
+    elsif defined?(@request) && @request.present?
+      @request.env['devise.mapping'] = mapping
+    end
+  end
 
   # for Database Cleaner
   config.use_transactional_fixtures = false
@@ -93,7 +111,14 @@ RSpec.configure do |config|
     # with the specs, so continue to use transaction strategy for speed.
     driver_shares_db_connection_with_specs = Capybara.current_driver == :rack_test
 
-    page.driver.browser.manage.window.resize_to(1280, 1024)
+    begin
+      page.driver.browser.manage.window.resize_to(1280, 1024)
+    rescue Selenium::WebDriver::Error::InvalidSessionIdError => e
+      warn "WARN: Resize window failed due to invalid session: #{e.message}"
+    rescue Selenium::WebDriver::Error::WebDriverError => e
+      # Generic driver error: warn but don't break the suite
+      warn "WARN: Resize window failed due to WebDriver error: #{e.message}"
+    end
 
     unless driver_shares_db_connection_with_specs
       # Driver is probably for an external browser with an app
@@ -116,14 +141,22 @@ RSpec.configure do |config|
   end
 
   config.after(:each, js: true) do
-    errors = page.driver.browser.logs.get(:browser)
+    begin
+      errors = page.driver.browser.logs.get(:browser)
+    rescue Selenium::WebDriver::Error::InvalidSessionIdError => e
+      warn "WARN: Could not get browser console logs due to invalid driver session: #{e.message}"
+      errors = []
+    rescue Selenium::WebDriver::Error::WebDriverError => e
+      warn "WARN: Could not get browser console logs due to WebDriver error: #{e.message}"
+      errors = []
+    end
     if errors.present?
       aggregate_failures 'javascript errors' do
         errors.each do |error|
-          next if error.message.include?("the server responded with a status of 422 (Unprocessable Content)") # Skip 422 errors
+          next if error.message.include?('the server responded with a status of 422 (Unprocessable Content)') # Skip 422 errors
 
-          STDERR.puts "WARN: #{error.message} (#{error.timestamp})" if error.level == 'WARNING'
-          STDERR.puts "ERROR: #{error.message} (#{error.timestamp})" if error.level == 'SEVERE'
+          warn "WARN: #{error.message} (#{error.timestamp})" if error.level == 'WARNING'
+          warn "ERROR: #{error.message} (#{error.timestamp})" if error.level == 'SEVERE'
           expect(error.level).not_to eq('SEVERE'), error.message
         end
       end

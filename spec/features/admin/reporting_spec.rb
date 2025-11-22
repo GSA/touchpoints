@@ -16,7 +16,7 @@ feature 'Reporting', js: true do
 
       it 'is accessible' do
         visit admin_no_submissions_path
-        expect(page).to be_axe_clean
+        expect_page_axe_clean
       end
 
       it 'creates the report' do

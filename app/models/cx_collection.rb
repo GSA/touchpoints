@@ -24,8 +24,9 @@ class CxCollection < ApplicationRecord
     items = items.where(fiscal_year: year) if year && year != 0
     items = items.where(aasm_state: status) if status && status.downcase != 'all'
     items = items
-      .order('organizations.name', :fiscal_year, :quarter, 'service_providers.name')
       .includes(:organization, :service_provider, :service)
+      .references(:organization, :service_provider)
+      .order('organizations.name', :fiscal_year, :quarter, 'service_providers.name')
   }
 
   aasm do
@@ -86,7 +87,7 @@ class CxCollection < ApplicationRecord
   end
 
   def self.to_csv
-    collections = CxCollection.order(:fiscal_year, :quarter, 'organizations.name').includes(:organization)
+    collections = all.includes(:organization, :service_provider, :service, :user).references(:organization).order(:fiscal_year, :quarter, 'organizations.name')
 
     attributes = %i[
       id
@@ -121,16 +122,16 @@ class CxCollection < ApplicationRecord
           collection.id,
           collection.name,
           collection.organization_id,
-          collection.organization.name,
-          collection.organization.abbreviation,
+          collection.organization&.name,
+          collection.organization&.abbreviation,
           collection.service_provider_id,
-          collection.service_provider.name,
-          collection.service_provider.organization_id,
-          collection.service_provider.organization_name,
-          collection.service_provider.organization_abbreviation,
+          collection.service_provider&.name,
+          collection.service_provider&.organization_id,
+          collection.service_provider&.organization&.name,
+          collection.service_provider&.organization&.abbreviation,
           collection.service_id,
-          collection.service.name,
-          collection.user.email,
+          collection.service&.name,
+          collection.user&.email,
           collection.fiscal_year,
           collection.quarter,
           collection.created_at,

@@ -36,7 +36,7 @@ module Admin
           format.json { render json: @question }
         else
           format.html { render :new }
-          format.json { render json: @question.errors, status: :unprocessable_entity }
+          format.json { render json: @question.errors, status: :unprocessable_content }
         end
       end
     end
@@ -47,7 +47,7 @@ module Admin
         if @question.update(question_params)
           format.json { render json: @question }
         else
-          format.json { render json: @question.errors, status: :unprocessable_entity }
+          format.json { render json: @question.errors, status: :unprocessable_content }
         end
       end
     end
