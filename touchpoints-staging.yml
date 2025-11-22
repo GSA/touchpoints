@@ -18,11 +18,10 @@ applications:
       S3_AWS_REGION: ((S3_AWS_REGION))
       S3_AWS_SECRET_ACCESS_KEY: ((S3_AWS_SECRET_ACCESS_KEY))
       TOUCHPOINTS_ADMIN_EMAILS: ((TOUCHPOINTS_ADMIN_EMAILS))
-      TOUCHPOINTS_EMAIL_SENDER: ((TOUCHPOINTS_EMAIL_SENDER))
       TOUCHPOINTS_WEB_DOMAIN: touchpoints-staging.app.cloud.gov
-      TURNSTILE_SECRET_KEY: ((TURNSTILE_SECRET_KEY))
     buildpacks:
       - https://github.com/rileyseaburg/rust-buildpack-touchpoints.git
+      - nodejs_buildpack
       - ruby_buildpack
     services:
       - touchpoints-staging-database
