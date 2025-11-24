@@ -34,6 +34,9 @@ module Touchpoints
         resource '*', headers: :any, methods: %i[get post options]
       end
     end
+
+    # Global Rack::Attack middleware for throttling (e.g., form submissions).
+    config.middleware.use Rack::Attack
     config.autoload_lib(ignore: %w[assets tasks])
 
     # Configuration for the application, engines, and railties goes here.
