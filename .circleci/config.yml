@@ -41,6 +41,22 @@ jobs:
 
       - checkout
 
+      - run:
+          name: Install Rust toolchain
+          command: |
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
+            echo 'source $HOME/.cargo/env' >> $BASH_ENV
+            source $HOME/.cargo/env
+            rustc --version
+            cargo --version
+
+      - run:
+          name: Build widget renderer (Rust)
+          command: |
+            source $HOME/.cargo/env
+            cd ext/widget_renderer
+            make release
+
       # Download and cache dependencies
       - restore_cache:
           keys:
