@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-set -euo pipefail
+# We want failures in optional copy steps to fall through to the build step,
+# not kill the process before Rails boots.
+set -uo pipefail
 
 if [ -d "${HOME}/ext/widget_renderer" ]; then
   EXT_DIR="${HOME}/ext/widget_renderer"
@@ -29,11 +31,14 @@ copy_lib() {
   return 1
 }
 
-# Try common build locations before attempting to compile.
+# Try common build locations before attempting to compile. Do not exit early if they are absent.
+set +e
 copy_lib "${EXT_DIR}/target/release/libwidget_renderer.so" || \
 copy_lib "${HOME}/target/release/libwidget_renderer.so" || \
 copy_lib "${HOME}/app/target/release/libwidget_renderer.so" || \
 copy_lib "${HOME}/app/ext/widget_renderer/libwidget_renderer.so"
+copy_status=$?
+set -e
 
 # Build the Rust extension at runtime if the shared library is missing.
 if [ ! -f "$LIB_SO" ] && [ ! -f "$LIB_DYLIB" ]; then
