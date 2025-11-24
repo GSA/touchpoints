@@ -106,11 +106,23 @@ jobs:
 
       - run:
           name: Deploy Sidekiq worker servers
-          command: ./.circleci/deploy-sidekiq.sh
+          command: |
+            # Only deploy from a single parallel node to avoid concurrent CF pushes.
+            if [ "${CIRCLE_NODE_INDEX:-0}" != "0" ]; then
+              echo "Skipping Sidekiq deploy on parallel node ${CIRCLE_NODE_INDEX}"
+              exit 0
+            fi
+            ./.circleci/deploy-sidekiq.sh
 
       - run:
           name: Deploy web server(s)
-          command: ./.circleci/deploy.sh
+          command: |
+            # Only deploy from a single parallel node to avoid concurrent CF pushes.
+            if [ "${CIRCLE_NODE_INDEX:-0}" != "0" ]; then
+              echo "Skipping web deploy on parallel node ${CIRCLE_NODE_INDEX}"
+              exit 0
+            fi
+            ./.circleci/deploy.sh
 
   cron_tasks:
     docker:
