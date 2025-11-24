@@ -299,7 +299,8 @@ class Form < ApplicationRecord
   # or injected into a GTM Container Tag
   def touchpoints_js_string
     # Try to use Rust widget renderer if available
-    if defined?(WidgetRenderer)
+    use_rust = defined?(WidgetRenderer) && !Rails.env.test?
+    if use_rust
       begin
         form_hash = {
           short_uuid: short_uuid,
