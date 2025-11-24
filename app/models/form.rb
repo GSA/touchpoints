@@ -305,7 +305,7 @@ class Form < ApplicationRecord
         form_hash = {
           short_uuid: short_uuid,
           modal_button_text: modal_button_text || 'Feedback',
-          element_selector: element_selector || '',
+          element_selector: element_selector.presence || 'touchpoints-container',
           delivery_method: delivery_method,
           load_css: !!load_css,
           success_text_heading: success_text_heading || 'Thank you',
