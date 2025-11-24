@@ -27,8 +27,10 @@ Rails.application.configure do
   # Compress JavaScripts and CSS.
   # config.assets.css_compressor = :sass
 
-  # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = false
+  # Allow on-the-fly asset compilation in staging so we don't 500 if
+  # a new asset (e.g. done.svg) isn't present in the precompiled bundle.
+  config.assets.compile = true
+  config.assets.unknown_asset_fallback = true
 
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
