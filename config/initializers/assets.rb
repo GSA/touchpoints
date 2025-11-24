@@ -10,5 +10,3 @@ Rails.application.config.assets.version = "1.0"
 
 # Ensure individual image assets (like done.svg) are available at runtime.
 Rails.application.config.assets.precompile += %w[done.svg]
-# Ensure individual image assets (like done.svg) are available at runtime.
-Rails.application.config.assets.precompile += %w[done.svg]
