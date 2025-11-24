@@ -32,8 +32,10 @@ puts "Current directory: #{Dir.pwd}"
 puts "Using cargo executable: #{cargo_bin}"
 system("#{cargo_bin} build --release") or abort 'Failed to build Rust extension'
 
-# Copy the built shared library into the extension root so it is included in the droplet
-built_lib = Dir.glob(File.join('target', 'release', 'libwidget_renderer.{so,dylib}')).first
+# Copy the built shared library into the extension root so it is included in the droplet.
+# Dir.glob does not expand `{}` patterns, so search explicitly for common extensions.
+built_lib = %w[so dylib dll].lazy.map { |ext| File.join('target', 'release', "libwidget_renderer.#{ext}") }
+                     .find { |path| File.file?(path) }
 abort 'Built library not found after cargo build' unless built_lib
 
 dest_root = File.join(Dir.pwd, File.basename(built_lib))
@@ -58,9 +60,9 @@ puts "End of dependencies check."
 local_target = File.join(Dir.pwd, 'target', 'release')
 workspace_target = File.expand_path('../../target/release', Dir.pwd)
 
-lib_dir = if Dir.glob(File.join(local_target, 'libwidget_renderer.{so,dylib,dll}')).any?
+lib_dir = if %w[so dylib dll].any? { |ext| File.exist?(File.join(local_target, "libwidget_renderer.#{ext}")) }
             local_target
-          elsif Dir.glob(File.join(workspace_target, 'libwidget_renderer.{so,dylib,dll}')).any?
+          elsif %w[so dylib dll].any? { |ext| File.exist?(File.join(workspace_target, "libwidget_renderer.#{ext}")) }
             workspace_target
           else
             local_target # Fallback
