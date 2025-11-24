@@ -54,8 +54,7 @@ jobs:
           name: Build widget renderer (Rust)
           command: |
             source $HOME/.cargo/env
-            cd ext/widget_renderer
-            make release
+            cargo build --release --manifest-path ext/widget_renderer/Cargo.toml
 
       # Download and cache dependencies
       - restore_cache:
