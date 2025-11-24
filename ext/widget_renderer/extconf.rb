@@ -34,8 +34,14 @@ system("#{cargo_bin} build --release") or abort 'Failed to build Rust extension'
 
 # Copy the built shared library into the extension root so it is included in the droplet.
 # Dir.glob does not expand `{}` patterns, so search explicitly for common extensions.
-built_lib = %w[so dylib dll].lazy.map { |ext| File.join('target', 'release', "libwidget_renderer.#{ext}") }
-                     .find { |path| File.file?(path) }
+candidates = %w[so dylib dll].flat_map do |ext|
+  [
+    File.join('target', 'release', "libwidget_renderer.#{ext}"),
+    File.join('..', '..', 'target', 'release', "libwidget_renderer.#{ext}") # workspace target
+  ]
+end
+
+built_lib = candidates.find { |path| File.file?(path) }
 abort 'Built library not found after cargo build' unless built_lib
 
 dest_root = File.join(Dir.pwd, File.basename(built_lib))

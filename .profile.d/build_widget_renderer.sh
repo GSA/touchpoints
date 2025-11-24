@@ -45,10 +45,10 @@ if [ ! -f "$LIB_SO" ] && [ ! -f "$LIB_DYLIB" ]; then
   echo "===> widget_renderer: building native extension"
 
   # Ensure Cargo toolchain from the Rust buildpack is used (avoid reinstall).
-  if [ -z "${CARGO_HOME:-}" ] && [ -d "/home/vcap/deps/0/rust/cargo" ]; then
+  if [ -d "/home/vcap/deps/0/rust/cargo/bin" ]; then
     export CARGO_HOME="/home/vcap/deps/0/rust/cargo"
   fi
-  if [ -z "${RUSTUP_HOME:-}" ] && [ -d "/home/vcap/deps/0/rust/rustup" ]; then
+  if [ -d "/home/vcap/deps/0/rust/rustup" ]; then
     export RUSTUP_HOME="/home/vcap/deps/0/rust/rustup"
   fi
   # Cargo requires HOME to match the runtime user’s home dir (/home/vcap), not /home/vcap/app.
