@@ -306,15 +306,15 @@ class Form < ApplicationRecord
           modal_button_text: modal_button_text || 'Feedback',
           element_selector: element_selector || '',
           delivery_method: delivery_method,
-          load_css: load_css,
+          load_css: !!load_css,
           success_text_heading: success_text_heading || 'Thank you',
           success_text: success_text || 'Your feedback has been received.',
-          suppress_submit_button: suppress_submit_button,
+          suppress_submit_button: !!suppress_submit_button,
           suppress_ui: false, # Default to false as per ERB logic
           kind: kind,
-          enable_turnstile: enable_turnstile,
+          enable_turnstile: !!enable_turnstile,
           has_rich_text_questions: has_rich_text_questions?,
-          verify_csrf: verify_csrf,
+          verify_csrf: !!verify_csrf,
           title: title,
           instructions: instructions,
           disclaimer_text: disclaimer_text,
@@ -332,7 +332,14 @@ class Form < ApplicationRecord
                           'form-header-logo-square'
                         end
                       end,
-          questions: ordered_questions.map { |q| { answer_field: q.answer_field, question_type: q.question_type, question_text: q.text, is_required: q.is_required } },
+          questions: ordered_questions.map do |q|
+            {
+              answer_field: q.answer_field,
+              question_type: q.question_type,
+              question_text: q.text,
+              is_required: !!q.is_required,
+            }
+          end,
         }
         json = form_hash.to_json
         puts "DEBUG: JSON class: #{json.class}"
