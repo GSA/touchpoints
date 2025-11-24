@@ -51,6 +51,8 @@ if [ ! -f "$LIB_SO" ] && [ ! -f "$LIB_DYLIB" ]; then
   if [ -z "${RUSTUP_HOME:-}" ] && [ -d "/home/vcap/deps/0/rust/rustup" ]; then
     export RUSTUP_HOME="/home/vcap/deps/0/rust/rustup"
   fi
+  # Cargo requires HOME to match the runtime user’s home dir (/home/vcap), not /home/vcap/app.
+  export HOME="/home/vcap"
   echo "===> widget_renderer: CARGO_HOME=${CARGO_HOME:-unset}"
   echo "===> widget_renderer: RUSTUP_HOME=${RUSTUP_HOME:-unset}"
 
