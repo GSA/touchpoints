@@ -14,11 +14,23 @@ LIB_DYLIB="${EXT_DIR}/libwidget_renderer.dylib"
 
 echo "===> widget_renderer: checking for native library"
 
-# Ensure target/release has the library if it's already present at the root.
-if [ -f "$LIB_SO" ]; then
-  mkdir -p "${EXT_DIR}/target/release"
-  cp "$LIB_SO" "${EXT_DIR}/target/release/libwidget_renderer.so"
-fi
+# Helper: hydrate from a built library if it already exists.
+copy_lib() {
+  local src="$1"
+  if [ -f "$src" ]; then
+    echo "===> widget_renderer: using prebuilt library at $src"
+    mkdir -p "${EXT_DIR}/target/release"
+    cp "$src" "${EXT_DIR}/target/release/libwidget_renderer.so"
+    cp "$src" "${EXT_DIR}/libwidget_renderer.so"
+    return 0
+  fi
+  return 1
+}
+
+# Try common build locations before attempting to compile.
+copy_lib "${EXT_DIR}/target/release/libwidget_renderer.so" || \
+copy_lib "${HOME}/target/release/libwidget_renderer.so" || \
+copy_lib "${HOME}/app/target/release/libwidget_renderer.so"
 
 # Build the Rust extension at runtime if the shared library is missing.
 if [ ! -f "$LIB_SO" ] && [ ! -f "$LIB_DYLIB" ]; then
