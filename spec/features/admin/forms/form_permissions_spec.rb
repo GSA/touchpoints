@@ -40,14 +40,14 @@ feature 'Forms', js: true do
           end
 
           it 'see the email displayed and can remove the role' do
-            expect(page).to have_content('User Role successfully added to Form')
+            expect(page).to have_selector('.usa-alert__text', text: 'User Role successfully added to Form', wait: 10)
+            expect(page).to have_selector('.roles-and-permissions', wait: 10)
             within('.roles-and-permissions') do
-              expect(page).to_not have_content('No users at this time')
-            end
-
-            within(".roles-and-permissions table tr[data-user-id=\"#{user.id}\"]") do
-              expect(page).to have_content(user.email)
-              expect(page).to have_link('Delete')
+              expect(page).to have_no_content('No users at this time', wait: 5)
+              within("table tr[data-user-id=\"#{user.id}\"]") do
+                expect(page).to have_content(user.email)
+                expect(page).to have_link('Delete')
+              end
             end
           end
         end

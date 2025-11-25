@@ -19,7 +19,7 @@
     <%= csrf_meta_tags if @form.verify_csrf? %>
     <%= csp_meta_tag %>
     <%= favicon_link_tag asset_path('favicon.ico') %>
-    <%= stylesheet_link_tag 'application', media: 'all', integrity: true %>
+    <%= stylesheet_link_tag 'application', media: 'all', integrity: true, crossorigin: 'anonymous' %>
     <%= render 'components/analytics/script_header' %>
   </head>
   <body>
@@ -38,6 +38,6 @@
         </div>
       </div>
     </main>
-    <%= javascript_include_tag 'uswds.min', integrity: true %>
+    <%= javascript_include_tag 'uswds.min', integrity: true, crossorigin: 'anonymous' %>
   </body>
 </html>

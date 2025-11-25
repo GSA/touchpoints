@@ -7,7 +7,7 @@ version: 2.1
 jobs:
   build:
     docker:
-       - image: cimg/ruby:3.4.7-browsers # Updated to match Gemfile Ruby version
+       - image: cimg/ruby:3.2.8-browsers # Matches deployed Ruby version in CF
          environment:
             RAILS_ENV: test
             PGHOST: 127.0.0.1
@@ -40,6 +40,21 @@ jobs:
             echo "Using cimg/ruby:3.4.7-browsers which includes Chrome"
 
       - checkout
+
+      - run:
+          name: Install Rust toolchain
+          command: |
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
+            echo 'source $HOME/.cargo/env' >> $BASH_ENV
+            source $HOME/.cargo/env
+            rustc --version
+            cargo --version
+
+      - run:
+          name: Build widget renderer (Rust)
+          command: |
+            source $HOME/.cargo/env
+            cargo build --release --manifest-path ext/widget_renderer/Cargo.toml
 
       # Download and cache dependencies
       - restore_cache:
@@ -91,11 +106,23 @@ jobs:
 
       - run:
           name: Deploy Sidekiq worker servers
-          command: ./.circleci/deploy-sidekiq.sh
+          command: |
+            # Only deploy from a single parallel node to avoid concurrent CF pushes.
+            if [ "${CIRCLE_NODE_INDEX:-0}" != "0" ]; then
+              echo "Skipping Sidekiq deploy on parallel node ${CIRCLE_NODE_INDEX}"
+              exit 0
+            fi
+            ./.circleci/deploy-sidekiq.sh
 
       - run:
           name: Deploy web server(s)
-          command: ./.circleci/deploy.sh
+          command: |
+            # Only deploy from a single parallel node to avoid concurrent CF pushes.
+            if [ "${CIRCLE_NODE_INDEX:-0}" != "0" ]; then
+              echo "Skipping web deploy on parallel node ${CIRCLE_NODE_INDEX}"
+              exit 0
+            fi
+            ./.circleci/deploy.sh
 
   cron_tasks:
     docker:
