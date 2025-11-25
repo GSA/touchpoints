@@ -25,7 +25,7 @@ module Admin
       if @digital_product_version.save
         redirect_to admin_digital_product_digital_product_versions_path(@digital_product)
       else
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -35,7 +35,7 @@ module Admin
       if @digital_product_version.update(digital_product_version_params)
         redirect_to admin_digital_product_digital_product_versions_path(@digital_product)
       else
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

@@ -24,11 +24,22 @@ Rails.application.configure do
   # Apache or NGINX already handles this.
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
+  # Add CORS headers for static assets to support SRI (Subresource Integrity) checks
+  # when assets are served from ASSET_HOST (different origin than the page)
+  config.public_file_server.headers = {
+    'Access-Control-Allow-Origin' => '*',
+    'Access-Control-Allow-Methods' => 'GET, OPTIONS',
+    'Access-Control-Allow-Headers' => 'Origin, X-Requested-With, Content-Type, Accept',
+    'Cache-Control' => "public, max-age=#{1.year.to_i}"
+  }
+
   # Compress JavaScripts and CSS.
   # config.assets.css_compressor = :sass
 
-  # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = false
+  # Allow on-the-fly asset compilation in staging so we don't 500 if
+  # a new asset (e.g. done.svg) isn't present in the precompiled bundle.
+  config.assets.compile = true
+  config.assets.unknown_asset_fallback = true
 
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
@@ -107,7 +118,8 @@ Rails.application.configure do
 
   # Prevent host header injection
   # Reference: https://github.com/ankane/secure_rails
-  config.action_controller.asset_host = ENV.fetch('TOUCHPOINTS_WEB_DOMAIN')
+  asset_host = ENV.fetch('ASSET_HOST', nil)
+  config.action_controller.asset_host = asset_host.presence || ENV.fetch('TOUCHPOINTS_WEB_DOMAIN')
 
   config.action_mailer.delivery_method = :ses_v2
   config.action_mailer.ses_v2_settings = {

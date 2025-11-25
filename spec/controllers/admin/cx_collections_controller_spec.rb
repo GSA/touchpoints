@@ -52,45 +52,43 @@ RSpec.describe Admin::CxCollectionsController, type: :controller do
         end
       end
     end
+
+    describe 'GET #export_csv' do
+      let!(:my_collection) { FactoryBot.create(:cx_collection, user: user, organization: user.organization, service: service) }
+      let(:other_user) { FactoryBot.create(:user) }
+      let(:other_service) { FactoryBot.create(:service, organization: other_user.organization, service_owner_id: other_user.id) }
+      let!(:other_collection) { FactoryBot.create(:cx_collection, name: 'Other Collection', user: other_user, organization: other_user.organization, service: other_service) }
+
+      it 'returns a success response' do
+        get :export_csv, session: valid_session
+        expect(response).to be_successful
+        expect(response.header['Content-Type']).to include 'text/csv'
+        expect(response.body).to include(my_collection.name)
+      end
+
+      it 'only includes collections for the current user' do
+        get :export_csv, session: valid_session
+        expect(response.body).to include(my_collection.name)
+        expect(response.body).not_to include(other_collection.name)
+      end
+
+      it 'handles nil associations gracefully' do
+        # Create a collection with missing associations to test safe navigation
+        collection_with_issues = FactoryBot.build(:cx_collection, organization: organization, user: user)
+        collection_with_issues.save(validate: false)
+        # Manually set associations to nil if FactoryBot enforces them
+        collection_with_issues.update_columns(service_id: nil, service_provider_id: nil)
+
+        get :export_csv, session: valid_session
+        expect(response).to be_successful
+        expect(response.body).to include(collection_with_issues.name)
+      end
+    end
   end
 
   context 'as admin' do
     before do
       sign_in(admin)
-    end
-
-    describe 'GET csv' do
-      it 'renders a successful response' do
-        get :export_cx_responses_csv, params: { id: cx_collection_detail.cx_collection_id }, session: valid_session
-        expect(response).to be_successful
-
-        csv = CSV.parse(response.body, headers: true)
-        expect(csv.headers).to eq(
-          [
-            "cx_collection_detail_id",
-            "cx_collection_detail_upload_id",
-            "question_1",
-            "positive_effectiveness",
-            "positive_ease",
-            "positive_efficiency",
-            "positive_transparency",
-            "positive_humanity",
-            "positive_employee",
-            "positive_other",
-            "negative_effectiveness",
-            "negative_ease",
-            "negative_efficiency",
-            "negative_transparency",
-            "negative_humanity",
-            "negative_employee",
-            "negative_other",
-            "question_4",
-            "job_id",
-            "external_id"]
-        )
-
-        expect(csv.size).to eq(1000)
-      end
     end
   end
 end

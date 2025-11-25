@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-require "active_support/core_ext/integer/time"
+
+require 'active_support/core_ext/integer/time'
 
 # The test environment is used exclusively to run your application's
 # test suite. You never need to work with it otherwise. Remember that
@@ -16,10 +17,11 @@ Rails.application.configure do
   # this is usually not necessary, and can slow down your test suite. However, it's
   # recommended that you enable it in continuous integration systems to ensure eager
   # loading is working properly before deploying your code.
-  config.eager_load = ENV["CI"].present?
+  config.eager_load = ENV['CI'].present?
 
   # Configure public file server for tests with cache-control for performance.
-  config.public_file_server.headers = { "cache-control" => "public, max-age=3600" }
+  config.public_file_server.enabled = true
+  config.public_file_server.headers = { 'cache-control' => 'public, max-age=3600' }
 
   config.active_job.queue_adapter = :test
 
@@ -31,10 +33,16 @@ Rails.application.configure do
   config.action_dispatch.show_exceptions = :rescuable
 
   # Disable request forgery protection in test environment.
-  config.action_controller.allow_forgery_protection = true
+  config.action_controller.allow_forgery_protection = false
 
   # Store uploaded files on the local file system in a temporary directory.
   config.active_storage.service = :test
+
+  # Enable Rack::Attack so throttling specs run against middleware stack.
+  if defined?(Rack::Attack)
+    config.middleware.use Rack::Attack
+    config.after_initialize { Rack::Attack.enabled = true }
+  end
 
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
@@ -50,13 +58,26 @@ Rails.application.configure do
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
+  config.after_initialize do
+    if defined?(CarrierWave)
+      CarrierWave.configure do |carrierwave_config|
+        carrierwave_config.enable_processing = false
+      end
+    end
+  end
+
   # For Devise
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
 
-  config.active_record.encryption.primary_key = ENV.fetch("RAILS_ACTIVE_RECORD_PRIMARY_KEY")
-  config.active_record.encryption.deterministic_key = ENV.fetch("RAILS_ACTIVE_RECORD_DETERMINISTIC_KEY")
-  config.active_record.encryption.key_derivation_salt = ENV.fetch("RAILS_ACTIVE_RECORD_KEY_DERIVATION_SALT")
+  # Use provided env vars if available; fallback to test defaults to avoid boot errors in local dev/test runs
+  require 'securerandom'
+  # Some local dev envs may have an env var present but empty. Use `.presence` so we fallback to
+  # generated values when the env var is an empty string instead of returning the empty string
+  # which makes ActiveRecord treat the key as missing.
+  config.active_record.encryption.primary_key = ENV['RAILS_ACTIVE_RECORD_PRIMARY_KEY'].presence || SecureRandom.hex(32)
+  config.active_record.encryption.deterministic_key = ENV['RAILS_ACTIVE_RECORD_DETERMINISTIC_KEY'].presence || SecureRandom.hex(32)
+  config.active_record.encryption.key_derivation_salt = ENV['RAILS_ACTIVE_RECORD_KEY_DERIVATION_SALT'].presence || SecureRandom.hex(32)
   config.active_record.encryption.support_unencrypted_data = true
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true

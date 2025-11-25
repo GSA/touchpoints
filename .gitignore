@@ -25,15 +25,31 @@
 /config/master.key
 
 # Don't check in these things
+.env
 .env.development
+.env.*
 .manifest.yml
 .csv
+vars.yml
+vars*.yml
 
 # For Macs
 .DS_Store
 
 /coverage/
 
+# Ignore RSpec example status persistence file
+/spec/examples.txt
+
 /public/packs
 /public/packs-test
 /node_modules
+
+target/
+**/target/
+
+# Rust extension build artifacts
+ext/widget_renderer/Makefile
+ext/widget_renderer/*.dylib
+# Keep the prebuilt Linux .so for Cloud Foundry deployment
+!ext/widget_renderer/libwidget_renderer.so

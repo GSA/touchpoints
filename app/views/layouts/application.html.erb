@@ -16,8 +16,8 @@
     <%= csp_meta_tag %>
     <%= action_cable_meta_tag %>
     <%= favicon_link_tag asset_path('favicon.ico') %>
-    <%= stylesheet_link_tag 'application', media: 'all', integrity: true %>
-    <%= javascript_include_tag 'app', integrity: true %>
+    <%= stylesheet_link_tag 'application', media: 'all', integrity: true, crossorigin: 'anonymous' %>
+    <%= javascript_include_tag 'app', integrity: true, crossorigin: 'anonymous' %>
     <%= render 'components/analytics/script_header' %>
     <%= javascript_importmap_tags %>
   </head>
@@ -41,6 +41,6 @@
     <% end %>
     <%= render "components/footer" %>
     <%= render "components/timeout_modal" if current_user %>
-    <%= javascript_include_tag 'uswds.min', integrity: true %>
+    <%= javascript_include_tag 'uswds.min', integrity: true, crossorigin: 'anonymous' %>
   </body>
 </html>

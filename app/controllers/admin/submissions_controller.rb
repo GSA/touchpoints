@@ -38,7 +38,7 @@ module Admin
           format.html do
             redirect_to admin_form_submission_path(@form, @submission), alert: 'Response could not be updated.'
           end
-          format.json { render json: @form.errors, status: :unprocessable_entity }
+          format.json { render json: @form.errors, status: :unprocessable_content }
         end
       end
     end
