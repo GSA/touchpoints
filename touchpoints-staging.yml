@@ -1,5 +1,6 @@
 applications:
   - name: touchpoints-staging
+    memory: 2G
     disk_quota: 2G
     command: bundle exec rake cf:on_first_instance db:schema:load && rake db:seed && bundle exec rails s -b 0.0.0.0 -p $PORT -e $RAILS_ENV
     env:
