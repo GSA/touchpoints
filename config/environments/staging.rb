@@ -24,6 +24,15 @@ Rails.application.configure do
   # Apache or NGINX already handles this.
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
+  # Add CORS headers for static assets to support SRI (Subresource Integrity) checks
+  # when assets are served from ASSET_HOST (different origin than the page)
+  config.public_file_server.headers = {
+    'Access-Control-Allow-Origin' => '*',
+    'Access-Control-Allow-Methods' => 'GET, OPTIONS',
+    'Access-Control-Allow-Headers' => 'Origin, X-Requested-With, Content-Type, Accept',
+    'Cache-Control' => "public, max-age=#{1.year.to_i}"
+  }
+
   # Compress JavaScripts and CSS.
   # config.assets.css_compressor = :sass
 
