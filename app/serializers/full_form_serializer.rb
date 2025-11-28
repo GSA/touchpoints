@@ -79,8 +79,12 @@ class FullFormSerializer < ActiveModel::Serializer
              :response_count,
              :last_response_created_at
 
-  has_many :questions
+  has_many :questions, serializer: QuestionSerializer
   has_many :submissions
+
+  def questions
+    object.ordered_questions
+  end
 
   def submissions
     object.submissions.order(:id).where('created_at BETWEEN ? AND ?', start_date, end_date).limit(size).offset(size * page)
