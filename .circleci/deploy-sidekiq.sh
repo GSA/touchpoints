@@ -4,11 +4,41 @@
 # a non-zero exit code
 set -e
 
-# Retry function to handle "Only one build can be STAGING" errors
+# Wait for any in-progress deployments to complete before starting
+wait_for_deployment() {
+  local app_name="$1"
+  local max_wait=600  # 10 minutes max
+  local wait_interval=15
+  local waited=0
+  
+  echo "Checking for in-progress deployments of $app_name..."
+  
+  while [ $waited -lt $max_wait ]; do
+    # Get deployment status - look for ACTIVE deployments
+    local status=$(cf curl "/v3/deployments?app_guids=$(cf app "$app_name" --guid)&status_values=ACTIVE" 2>/dev/null | grep -o '"state":"[^"]*"' | head -1 || echo "")
+    
+    if [ -z "$status" ] || [[ "$status" == *'"state":"FINALIZED"'* ]] || [[ "$status" == *'"state":"DEPLOYED"'* ]]; then
+      echo "No active deployment in progress, proceeding..."
+      return 0
+    fi
+    
+    echo "Deployment in progress ($status), waiting ${wait_interval}s... (waited ${waited}s of ${max_wait}s)"
+    sleep $wait_interval
+    waited=$((waited + wait_interval))
+  done
+  
+  echo "Warning: Timed out waiting for previous deployment, proceeding anyway..."
+  return 0
+}
+
+# Retry function to handle staging and deployment conflicts
 cf_push_with_retry() {
   local app_name="$1"
   local max_retries=5
-  local retry_delay=60
+  local retry_delay=90
+  
+  # Wait for any in-progress deployment first
+  wait_for_deployment "$app_name"
   
   for i in $(seq 1 $max_retries); do
     echo "Attempt $i of $max_retries to push $app_name..."
@@ -16,9 +46,12 @@ cf_push_with_retry() {
       echo "Successfully pushed $app_name"
       return 0
     else
+      local exit_code=$?
       if [ $i -lt $max_retries ]; then
-        echo "Push failed, waiting ${retry_delay}s before retry..."
+        echo "Push failed (exit code: $exit_code), waiting ${retry_delay}s before retry..."
         sleep $retry_delay
+        # Re-check for in-progress deployments before retrying
+        wait_for_deployment "$app_name"
       fi
     fi
   done
