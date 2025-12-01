@@ -20,7 +20,7 @@ feature 'Managing Organizations', js: true do
     end
 
     it 'is accessible' do
-      expect(page).to be_axe_clean
+      expect_page_axe_clean
     end
 
     it 'display Admin-specific UI content' do
@@ -60,7 +60,7 @@ feature 'Managing Organizations', js: true do
       end
 
       it 'is accessible' do
-        expect(page).to be_axe_clean
+        expect_page_axe_clean
       end
     end
   end

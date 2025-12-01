@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.3.4'
+ruby '3.2.8'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 8.0'
@@ -15,11 +15,10 @@ gem 'pg'
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma'
 
-
-gem "importmap-rails", ">= 2.2.0"
+gem 'importmap-rails', '>= 2.2.0'
 
 # Hotwire"s SPA-like page accelerator [https://turbo.hotwired.dev]
-gem "turbo-rails", ">= 2.0.14"
+gem 'turbo-rails', '>= 2.0.14'
 
 # Hotwire"s modest JavaScript framework [https://stimulus.hotwired.dev]
 gem 'stimulus-rails'
@@ -31,7 +30,7 @@ gem 'stimulus-rails'
 # gem "bcrypt", "~> 3.1.7"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+gem 'tzinfo-data', platforms: %i[windows jruby]
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
@@ -63,11 +62,7 @@ gem 'omniauth_login_dot_gov', git: 'https://github.com/18F/omniauth_login_dot_go
 gem 'omniauth-rails_csrf_protection'
 gem 'rack-attack'
 gem 'rack-cors', '>= 3.0.0', require: 'rack/cors'
-# Use Redis to cache Touchpoints in all envs=
-gem 'redis-client'
-gem 'redis-namespace'
-gem 'sidekiq', '>= 8.0.4'
-gem 'json-jwt'
+# Use Redis to cache Touchpoints in all envs
 gem 'aasm'
 gem 'acts-as-taggable-on'
 gem 'json-jwt'
@@ -76,7 +71,11 @@ gem 'paper_trail'
 gem 'redis-client'
 gem 'redis-namespace'
 gem 'rolify'
-gem 'sidekiq', '>= 6.5.0'
+gem 'sidekiq', '>= 8.0.4'
+
+# Rust integration for high-performance widget rendering
+gem 'rutie', '~> 0.0.4'
+gem 'widget_renderer', path: 'ext/widget_renderer'
 
 group :development, :test do
   gem 'dotenv'
@@ -94,8 +93,9 @@ group :development do
   gem 'bundler-audit'
   gem 'listen'
   gem 'rails-erd'
-  gem "rubocop-rails", ">= 2.32.0"
-  gem "rubocop-rspec"
+  gem 'rubocop-rails', '>= 2.32.0'
+  gem 'rubocop-rspec'
+  gem 'ruby-lsp', require: false
   gem 'web-console'
 end
 

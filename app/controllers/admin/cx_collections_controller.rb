@@ -20,8 +20,8 @@ module Admin
       ensure_cx_collection_owner(cx_collection: @cx_collection)
 
       @events = Event
-        .where(object_type: "CxCollection", object_uuid: @cx_collection.id)
-        .order("created_at DESC")
+        .where(object_type: 'CxCollection', object_uuid: @cx_collection.id)
+        .order('created_at DESC')
     end
 
     def new
@@ -62,11 +62,11 @@ module Admin
       respond_to do |format|
         if @cx_collection.save
           Event.log_event(Event.names[:cx_collection_created], @cx_collection.class.to_s, @cx_collection.id, "Collection #{@cx_collection.name} created at #{DateTime.now}", current_user.id)
-          format.html { redirect_to admin_cx_collection_url(@cx_collection), notice: "CX Data Collection was successfully created." }
+          format.html { redirect_to admin_cx_collection_url(@cx_collection), notice: 'CX Data Collection was successfully created.' }
           format.json { render :show, status: :created, location: @cx_collection }
         else
-          format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @cx_collection.errors, status: :unprocessable_entity }
+          format.html { render :new, status: :unprocessable_content }
+          format.json { render json: @cx_collection.errors, status: :unprocessable_content }
         end
       end
     end
@@ -106,8 +106,6 @@ module Admin
     end
 
     def export_csv
-      ensure_cx_collection_owner(cx_collection: @cx_collection)
-
       if performance_manager_permissions?
         @cx_collections = CxCollection.all
       else
@@ -129,7 +127,7 @@ module Admin
           format.json { render :show, status: :created, location: new_collection }
         else
           format.html { render :new }
-          format.json { render json: new_collection.errors, status: :unprocessable_entity }
+          format.json { render json: new_collection.errors, status: :unprocessable_content }
         end
       end
     end
@@ -140,11 +138,11 @@ module Admin
       respond_to do |format|
         if @cx_collection.update(cx_collection_params)
           Event.log_event(Event.names[:cx_collection_updated], @cx_collection.class.to_s, @cx_collection.id, "Collection #{@cx_collection.name} updated at #{DateTime.now}", current_user.id)
-          format.html { redirect_to admin_cx_collection_url(@cx_collection), notice: "CX Data Collection was successfully updated." }
+          format.html { redirect_to admin_cx_collection_url(@cx_collection), notice: 'CX Data Collection was successfully updated.' }
           format.json { render :show, status: :ok, location: @cx_collection }
         else
-          format.html { render :edit, status: :unprocessable_entity }
-          format.json { render json: @cx_collection.errors, status: :unprocessable_entity }
+          format.html { render :edit, status: :unprocessable_content }
+          format.json { render json: @cx_collection.errors, status: :unprocessable_content }
         end
       end
     end
@@ -156,43 +154,43 @@ module Admin
 
       respond_to do |format|
         Event.log_event(Event.names[:cx_collection_deleted], @cx_collection.class.to_s, @cx_collection.id, "Collection #{@cx_collection.name} deleted at #{DateTime.now}", current_user.id)
-        format.html { redirect_to admin_cx_collections_url, notice: "CX Data Collection was successfully destroyed." }
+        format.html { redirect_to admin_cx_collections_url, notice: 'CX Data Collection was successfully destroyed.' }
         format.json { head :no_content }
       end
     end
 
     private
-      def set_cx_collection
-        if performance_manager_permissions?
-          @cx_collection = CxCollection.find(params[:id])
-        else
-          @cx_collection = current_user.cx_collections.find(params[:id])
-        end
-      end
 
-      def cx_collection_params
-        params.require(:cx_collection)
-          .permit(:user_id,
-            :name,
-            :organization_id,
-            :service_provider_id,
-            :service_id,
-            :service_type,
-            :url,
-            :fiscal_year,
-            :quarter,
-            :aasm_state,
-            :rating
-          )
+    def set_cx_collection
+      if performance_manager_permissions?
+        @cx_collection = CxCollection.find(params[:id])
+      else
+        @cx_collection = current_user.cx_collections.find(params[:id])
       end
+    end
 
-      def filter_params
-        params
-          .permit(
-            :year,
-            :quarter,
-            :aasm_state,
-          )
-      end
+    def cx_collection_params
+      params.require(:cx_collection)
+        .permit(:user_id,
+                :name,
+                :organization_id,
+                :service_provider_id,
+                :service_id,
+                :service_type,
+                :url,
+                :fiscal_year,
+                :quarter,
+                :aasm_state,
+                :rating)
+    end
+
+    def filter_params
+      params
+        .permit(
+          :year,
+          :quarter,
+          :aasm_state,
+        )
+    end
   end
 end

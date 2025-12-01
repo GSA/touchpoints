@@ -12,7 +12,7 @@ feature 'Record Retention', js: true do
 
       it 'is accessible' do
         visit admin_record_retention_path
-        expect(page).to be_axe_clean
+        expect_page_axe_clean
       end
     end
   end

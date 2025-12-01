@@ -1,0 +1,100 @@
+jobs:
+  cron_tasks:
+    docker:
+    - image: cimg/base:2025.01
+    steps:
+    - checkout
+    - run:
+        name: Install-cf-cli
+        command: |
+          curl -v -L -o cf-cli_amd64.deb 'https://packages.cloudfoundry.org/stable?release=debian64&source=github'
+          sudo dpkg -i cf-cli_amd64.deb
+          cf -v
+    - run:
+        name: Run CRON tasks
+        command: ./.circleci/cron.sh
+  build:
+    docker:
+    - image: cimg/ruby:3.4.7-browsers
+      environment:
+        RAILS_ENV: test
+        PGHOST: 127.0.0.1
+        PGUSER: root
+    - image: cimg/redis:7.2.7
+      environment:
+        REDIS_URL: redis://redis:6379/1
+    - image: cimg/postgres:15.8
+      environment:
+        POSTGRES_USER: root
+        POSTGRES_DB: touchpoints_test
+    parallelism: 4
+    working_directory: ~/repo
+    steps:
+    - run:
+        name: Update packages
+        command: sudo apt-get update
+    - run:
+        name: Ensure Chrome is available
+        command: |
+          # cimg/ruby:*-browsers images already include Chrome; skip orb command to avoid "Cannot find declaration" errors
+          echo "Using cimg/ruby:3.4.7-browsers which includes Chrome"
+    - checkout
+    - restore_cache:
+        keys:
+        - v1-bundle-{{ checksum "Gemfile.lock" }}
+    - run:
+        command: bundle install
+    - save_cache:
+        paths:
+        - ./vendor/bundle
+        key: v1-bundle-{{ checksum "Gemfile.lock" }}
+    - run:
+        command: bundle exec rake db:create
+    - run:
+        command: bundle exec rake db:schema:load
+    - run:
+        name: Precompile assets
+        command: |
+          npm i
+          rails assets:precompile
+    - run:
+        name: Run tests
+        command: |
+          mkdir /tmp/test-results
+          TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+
+          bundle exec rspec --format progress \
+                          --format RspecJunitFormatter \
+                          --out /tmp/test-results/rspec.xml \
+                          --format progress \
+                          $TEST_FILES
+    - run:
+        name: Install-cf-cli
+        command: |
+          curl -v -L -o cf-cli_amd64.deb 'https://packages.cloudfoundry.org/stable?release=debian64&source=github'
+          sudo dpkg -i cf-cli_amd64.deb
+          cf -v
+    - store_test_results:
+        path: /tmp/test-results
+    - store_artifacts:
+        path: coverage
+    - run:
+        name: Deploy Sidekiq worker servers
+        command: ./.circleci/deploy-sidekiq.sh
+    - run:
+        name: Deploy web server(s)
+        command: ./.circleci/deploy.sh
+workflows:
+  daily_workflow:
+    triggers:
+    - schedule:
+        cron: 0 11 * * *
+        filters:
+          branches:
+            only:
+            - production
+    jobs:
+    - cron_tasks
+  build-deploy:
+    jobs:
+    - build

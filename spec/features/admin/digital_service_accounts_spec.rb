@@ -20,7 +20,7 @@ feature 'Digital Service Accounts', js: true do
         end
 
         it 'is accessible' do
-          expect(page).to be_axe_clean
+          expect_page_axe_clean
         end
 
         it 'load the Services#index page' do
@@ -61,11 +61,11 @@ feature 'Digital Service Accounts', js: true do
       describe '#export' do
         before do
           visit admin_digital_service_accounts_path
-          click_on "Export to CSV"
+          click_on 'Export to CSV'
         end
 
         it 'load the DigitalServiceAccount#index page' do
-          expect(page).to have_content("Touchpoints has initiated an asynchronous job that will take a few minutes.")
+          expect(page).to have_content('Touchpoints has initiated an asynchronous job that will take a few minutes.')
         end
       end
     end
@@ -98,11 +98,11 @@ feature 'Digital Service Accounts', js: true do
         visit admin_digital_service_account_path(digital_service_account)
 
         fill_in('digital_service_account_tag_list', with: 'tag123')
-        page.find("#tag_list_add_button").click
+        page.find('#tag_list_add_button').click
       end
 
       it 'is accessible' do
-        expect(page).to be_axe_clean
+        expect_page_axe_clean
       end
 
       it 'creates a tag' do
@@ -207,7 +207,7 @@ feature 'Digital Service Accounts', js: true do
 
     describe '#search' do
       let!(:digital_service_account) { FactoryBot.create(:digital_service_account, name: 'Test1776', service: 'facebook', aasm_state: 'published') }
-      let!(:digital_service_account_2) { FactoryBot.create(:digital_service_account, aasm_state: 'created') }
+      let!(:digital_service_account_2) { FactoryBot.create(:digital_service_account, service: 'twitter', aasm_state: 'created') }
 
       before do
         visit admin_digital_service_accounts_path
@@ -263,7 +263,7 @@ feature 'Digital Service Accounts', js: true do
 
       it 'can publish digital service account' do
         expect(page).to have_content('Social Media Account')
-        click_on("Publish")
+        click_on('Publish')
         expect(page).to have_content("Digital Service Account #{digital_service_account.name} was published.")
       end
     end

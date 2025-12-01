@@ -57,7 +57,7 @@ module Admin
           format.json { render :show, status: :created, location: @organization }
         else
           format.html { render :new }
-          format.json { render json: @organization.errors, status: :unprocessable_entity }
+          format.json { render json: @organization.errors, status: :unprocessable_content }
         end
       end
     end
@@ -72,7 +72,7 @@ module Admin
           format.json { render :show, status: :ok, location: @organization }
         else
           format.html { render :edit }
-          format.json { render json: @organization.errors, status: :unprocessable_entity }
+          format.json { render json: @organization.errors, status: :unprocessable_content }
         end
       end
     end
@@ -86,7 +86,7 @@ module Admin
           format.json { render :show, status: :ok, location: @organization }
         else
           format.html { render :edit }
-          format.json { render json: @organization.errors, status: :unprocessable_entity }
+          format.json { render json: @organization.errors, status: :unprocessable_content }
         end
       end
     end

@@ -57,10 +57,10 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  # Uncomment host and username if running docker containers ( docker-compose )
-  # host: localhost
-  # username: postgres
-  # password: changeme
+  # Use environment variables for Docker containers
+  host: <%= ENV['PGHOST'] || 'localhost' %>
+  username: <%= ENV['PGUSER'] || 'postgres' %>
+  password: <%= ENV['POSTGRES_PASSWORD'] || 'changeme' %>
   database: touchpoints_test
 
 # As with config/secrets.yml, you never want to store sensitive information,

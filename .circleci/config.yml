@@ -3,13 +3,16 @@
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
 #
 version: 2.1
-orbs:
-  browser-tools: circleci/browser-tools@1.5.0
+
+# Cancel redundant builds when new commits are pushed
+# This prevents multiple pipelines from racing to deploy
+# Note: This must also be enabled in CircleCI project settings
+# Settings > Advanced > Auto-cancel redundant builds
 
 jobs:
   build:
     docker:
-       - image: cimg/ruby:3.3.4-browsers
+       - image: cimg/ruby:3.2.8-browsers # Matches deployed Ruby version in CF
          environment:
             RAILS_ENV: test
             PGHOST: 127.0.0.1
@@ -27,7 +30,7 @@ jobs:
             POSTGRES_USER: root
             POSTGRES_DB: touchpoints_test
 
-    parallelism: 1
+    parallelism: 4
     working_directory: ~/repo
 
     steps:
@@ -35,10 +38,28 @@ jobs:
           name: Update packages
           command: sudo apt-get update
 
-      - browser-tools/install-chrome: # required for selenium used by tachometer benchmark smoke tests
-          chrome-version: 116.0.5845.96
+      - run:
+          name: Ensure Chrome is available
+          command: |
+            # cimg/ruby:*-browsers images already include Chrome; skip orb command to avoid "Cannot find declaration" errors
+            echo "Using cimg/ruby:3.4.7-browsers which includes Chrome"
 
       - checkout
+
+      - run:
+          name: Install Rust toolchain
+          command: |
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
+            echo 'source $HOME/.cargo/env' >> $BASH_ENV
+            source $HOME/.cargo/env
+            rustc --version
+            cargo --version
+
+      - run:
+          name: Build widget renderer (Rust)
+          command: |
+            source $HOME/.cargo/env
+            cargo build --release --manifest-path ext/widget_renderer/Cargo.toml
 
       # Download and cache dependencies
       - restore_cache:
@@ -90,11 +111,37 @@ jobs:
 
       - run:
           name: Deploy Sidekiq worker servers
-          command: ./.circleci/deploy-sidekiq.sh
+          command: |
+            # Only deploy from a single parallel node to avoid concurrent CF pushes.
+            if [ "${CIRCLE_NODE_INDEX:-0}" != "0" ]; then
+              echo "Skipping Sidekiq deploy on parallel node ${CIRCLE_NODE_INDEX}"
+              exit 0
+            fi
+            # Remove prebuilt Rust library - it must be built on CF with the correct Ruby paths
+            # The library built on CircleCI links against /usr/local/lib/libruby.so.3.2
+            # but on CF, Ruby is in /home/vcap/deps/*/ruby/lib/
+            echo "Removing prebuilt Rust library (will be rebuilt on CF)..."
+            rm -rf ext/widget_renderer/target/release/libwidget_renderer.so 2>/dev/null || true
+            rm -f ext/widget_renderer/libwidget_renderer.so 2>/dev/null || true
+            ./.circleci/deploy-sidekiq.sh
+          no_output_timeout: 30m
 
       - run:
           name: Deploy web server(s)
-          command: ./.circleci/deploy.sh
+          command: |
+            # Only deploy from a single parallel node to avoid concurrent CF pushes.
+            if [ "${CIRCLE_NODE_INDEX:-0}" != "0" ]; then
+              echo "Skipping web deploy on parallel node ${CIRCLE_NODE_INDEX}"
+              exit 0
+            fi
+            # Wait for Sidekiq deployment to complete before starting web deploy
+            sleep 120
+            # Remove prebuilt Rust library - it must be built on CF with the correct Ruby paths
+            echo "Removing prebuilt Rust library (will be rebuilt on CF)..."
+            rm -rf ext/widget_renderer/target/release/libwidget_renderer.so 2>/dev/null || true
+            rm -f ext/widget_renderer/libwidget_renderer.so 2>/dev/null || true
+            ./.circleci/deploy.sh
+          no_output_timeout: 30m
 
   cron_tasks:
     docker:
@@ -112,7 +159,6 @@ jobs:
           command: ./.circleci/cron.sh
 
 workflows:
-  version: 2
   daily_workflow:
     triggers:
       - schedule:

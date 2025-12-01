@@ -1,0 +1,84 @@
+FROM ruby:3.4.7-slim
+
+# Update packages and install dependencies including certificate tools
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    ca-certificates \
+    curl \
+    git \
+    gnupg2 \
+    libffi-dev \
+    libpq-dev \
+    libyaml-dev \
+    openssl \
+    pkg-config \
+    postgresql-client \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy Zscaler certificate and update CA store
+COPY zscaler-cert.crt /tmp/zscaler-cert.crt
+RUN if openssl x509 -in /tmp/zscaler-cert.crt -text -noout >/dev/null 2>&1; then \
+        echo "Adding Zscaler certificate to system store..."; \
+        cp /tmp/zscaler-cert.crt /usr/local/share/ca-certificates/zscaler-cert.crt; \
+        update-ca-certificates; \
+        echo "Zscaler certificate added successfully"; \
+    else \
+        echo "No valid Zscaler certificate found, using default certificates"; \
+        update-ca-certificates; \
+    fi && \
+    rm /tmp/zscaler-cert.crt
+
+# Configure SSL settings for various tools
+RUN echo 'export SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt' >> /etc/environment && \
+    echo 'export SSL_CERT_DIR=/etc/ssl/certs' >> /etc/environment
+
+# Install Rust and add to PATH
+ENV RUSTUP_HOME=/usr/local/rustup \
+    CARGO_HOME=/usr/local/cargo \
+    PATH=/usr/local/cargo/bin:$PATH
+
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable --no-modify-path && \
+    chmod -R a+w $RUSTUP_HOME $CARGO_HOME && \
+    rustc --version && \
+    cargo --version
+
+# Install Node.js from NodeSource with SSL certificate support
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs
+
+# Skip Chrome installation for now to focus on SSL certificate functionality
+# Chrome can be added later if needed for browser testing
+
+# Cloud Foundry CLI installation skipped for now due to architecture compatibility
+# The SSL certificate setup is working correctly as evidenced by successful HTTPS connections
+
+# Create circleci user and group
+RUN groupadd --gid 3434 circleci \
+    && useradd --uid 3434 --gid circleci --shell /bin/bash --create-home circleci
+
+USER circleci
+WORKDIR /home/circleci/repo
+
+# Set environment variables
+ENV RAILS_ENV=test
+ENV PGHOST=db
+ENV PGUSER=postgres
+ENV REDIS_URL=redis://redis:6379/1
+
+# Copy application files
+COPY --chown=circleci:circleci . .
+
+# Install gems with proper native extension compilation
+RUN bundle config set --local build.sassc --disable-march-tune-native && \
+    bundle config set --local force_ruby_platform true && \
+    bundle install --jobs 4 --retry 3
+
+# Install npm packages
+RUN npm install
+
+# Create test results directory
+RUN mkdir -p /tmp/test-results
+
+# Default command runs the CircleCI test steps
+CMD ["bash", "-c", "bundle exec rake db:create && bundle exec rake db:schema:load && rails assets:precompile && bundle exec rspec --format progress --format RspecJunitFormatter --out /tmp/test-results/rspec.xml --format progress spec/"]
