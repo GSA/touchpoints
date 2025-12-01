@@ -38,6 +38,12 @@ Rails.application.configure do
   # Store uploaded files on the local file system in a temporary directory.
   config.active_storage.service = :test
 
+  # Enable Rack::Attack so throttling specs run against middleware stack.
+  if defined?(Rack::Attack)
+    config.middleware.use Rack::Attack
+    config.after_initialize { Rack::Attack.enabled = true }
+  end
+
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.

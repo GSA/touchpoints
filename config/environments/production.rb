@@ -18,7 +18,14 @@ Rails.application.configure do
   # Do not fall back to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
   # Cache assets for far-future expiry since they are all digest stamped.
-  config.public_file_server.headers = { "cache-control" => "public, max-age=#{1.year.to_i}" }
+  # Add CORS headers for static assets to support SRI (Subresource Integrity) checks
+  # when assets are served from ASSET_HOST (different origin than the page)
+  config.public_file_server.headers = {
+    'Access-Control-Allow-Origin' => '*',
+    'Access-Control-Allow-Methods' => 'GET, OPTIONS',
+    'Access-Control-Allow-Headers' => 'Origin, X-Requested-With, Content-Type, Accept',
+    'Cache-Control' => "public, max-age=#{1.year.to_i}"
+  }
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "http://assets.example.com"
