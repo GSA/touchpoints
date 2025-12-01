@@ -4,6 +4,11 @@
 #
 version: 2.1
 
+# Cancel redundant builds when new commits are pushed
+# This prevents multiple pipelines from racing to deploy
+# Note: This must also be enabled in CircleCI project settings
+# Settings > Advanced > Auto-cancel redundant builds
+
 jobs:
   build:
     docker:
