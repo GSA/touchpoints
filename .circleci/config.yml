@@ -55,11 +55,41 @@ jobs:
             rustc --version
             cargo --version
 
+      - restore_cache:
+          keys:
+            - v1-cargo-{{ checksum "ext/widget_renderer/Cargo.lock" }}
+            - v1-cargo-
+
       - run:
           name: Build widget renderer (Rust)
           command: |
             source $HOME/.cargo/env
             cargo build --release --manifest-path ext/widget_renderer/Cargo.toml
+
+      - run:
+          name: Verify Rust native library linkage
+          command: |
+            set -euo pipefail
+            LIB=ext/widget_renderer/target/release/libwidget_renderer.so
+            if [ -f "$LIB" ]; then
+              echo "Found built rust library; verifying linkage..."
+              if ldd "$LIB" 2>&1 | grep -q "not found"; then
+                echo "ERROR: Rust library has unresolved dependencies (ldd shows 'not found')."
+                ldd "$LIB" || true
+                exit 1
+              else
+                echo "Rust library linkage looks good"
+              fi
+            else
+              echo "No Rust library built - skipping linkage verification"
+            fi
+
+      - save_cache:
+          paths:
+            - ext/widget_renderer/target
+            - ~/.cargo/registry
+            - ~/.cargo/git
+          key: v1-cargo-{{ checksum "ext/widget_renderer/Cargo.lock" }}
 
       # Download and cache dependencies
       - restore_cache:
