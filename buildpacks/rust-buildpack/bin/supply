@@ -42,8 +42,28 @@ echo -n "$RUSTUP_HOME" > "$ENV_DIR/RUSTUP_HOME"
 echo -n "$CARGO_HOME" > "$ENV_DIR/CARGO_HOME"
 echo -n "$CARGO_HOME/bin" > "$ENV_DIR/PATH.prepend"
 
+# Note: The widget_renderer Rust library must be built by the Ruby buildpack
+# after Ruby is installed, because it links against libruby.so.
+# We'll handle this in a finalize script or profile.d script.
+
+# For now, just ensure Rust is available for later buildpacks
+# The actual build happens in .profile.d/widget_renderer.sh at runtime
+# OR we skip the prebuilt library and build fresh on CF
+
 # Make available at runtime
 mkdir -p "$PROFILE_DIR"
 cat <<EOF > "$PROFILE_DIR/rust.sh"
 export RUSTUP_HOME="$RUST_DIR/rustup"
 export CARGO_HOME="$RUST_DIR/cargo"
+export PATH="\$CARGO_HOME/bin:\$PATH"
+
+# Find and export the Ruby library path for the Rust extension
+# The Ruby buildpack installs Ruby in /home/vcap/deps/*/ruby/lib
+for dep_dir in /home/vcap/deps/*/; do
+    if [ -d "\${dep_dir}ruby/lib" ]; then
+        export LD_LIBRARY_PATH="\${dep_dir}ruby/lib:\${LD_LIBRARY_PATH:-}"
+        echo "WidgetRenderer: Added \${dep_dir}ruby/lib to LD_LIBRARY_PATH"
+        break
+    fi
+done
+EOF
