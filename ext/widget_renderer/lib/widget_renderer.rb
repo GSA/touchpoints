@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rutie'
+require 'fileutils'
 
 root = File.expand_path('..', __dir__)
 
@@ -15,6 +16,10 @@ end
 # Ensure the constant exists as a Class so rb_define_class will reopen it instead of erroring on Module.
 WidgetRenderer = Class.new unless defined?(WidgetRenderer) && WidgetRenderer.is_a?(Class)
 
+# Check for library file extensions based on platform
+lib_extensions = %w[.so .bundle .dylib]
+lib_names = lib_extensions.map { |ext| "libwidget_renderer#{ext}" }
+
 # Define potential paths where the shared object might be located
 paths = [
   File.join(root, 'target', 'release'),
@@ -27,25 +32,59 @@ paths = [
 ]
 
 # Find the first path that contains the library file
-found_path = paths.find do |p|
-  exists = File.exist?(File.join(p, 'libwidget_renderer.so')) ||
-           File.exist?(File.join(p, 'libwidget_renderer.bundle')) ||
-           File.exist?(File.join(p, 'libwidget_renderer.dylib'))
-  puts "WidgetRenderer: Checking #{p} -> #{exists}"
-  exists
+found_path = nil
+found_lib = nil
+paths.each do |p|
+  lib_names.each do |lib_name|
+    full_path = File.join(p, lib_name)
+    exists = File.exist?(full_path)
+    puts "WidgetRenderer: Checking #{full_path} -> #{exists}"
+    if exists
+      found_path = p
+      found_lib = full_path
+      break
+    end
+  end
+  break if found_path
 end
 
 if found_path
   puts "WidgetRenderer: Found library in #{found_path}"
   
   # Debug: Check dependencies
-  lib_file = File.join(found_path, 'libwidget_renderer.so')
-  if File.exist?(lib_file)
-    puts "WidgetRenderer: File details for #{lib_file}"
-    puts `ls -l #{lib_file}`
-    puts `file #{lib_file}`
-    puts "WidgetRenderer: Running ldd on #{lib_file}"
-    puts `ldd #{lib_file} 2>&1`
+  if File.exist?(found_lib)
+    puts "WidgetRenderer: File details for #{found_lib}"
+    puts `ls -l #{found_lib}`
+    puts `file #{found_lib}`
+    puts "WidgetRenderer: Running ldd on #{found_lib}"
+    puts `ldd #{found_lib} 2>&1`
+  end
+  
+  # If library is in root (not in target/release), create the expected directory structure
+  # Rutie always looks for the library in <path>/target/release/libwidget_renderer.so
+  if found_path == root
+    target_release = File.join(root, 'target', 'release')
+    target_lib = File.join(target_release, File.basename(found_lib))
+    
+    unless File.exist?(target_lib)
+      puts "WidgetRenderer: Library is in root, creating target/release structure"
+      FileUtils.mkdir_p(target_release)
+      
+      # Copy or symlink the library to the expected location
+      begin
+        FileUtils.cp(found_lib, target_lib)
+        puts "WidgetRenderer: Copied library to #{target_lib}"
+      rescue => e
+        puts "WidgetRenderer: Failed to copy library: #{e.message}"
+        # Try symlink as fallback
+        begin
+          File.symlink(found_lib, target_lib)
+          puts "WidgetRenderer: Created symlink at #{target_lib}"
+        rescue => e2
+          puts "WidgetRenderer: Failed to create symlink: #{e2.message}"
+        end
+      end
+    end
   end
 else
   puts 'WidgetRenderer: Library not found in any checked path. Listing root contents:'
@@ -69,22 +108,9 @@ else
   end
 end
 
-# Default to root if not found (Rutie might have its own lookup)
-path = found_path || root
-
-# Rutie expects the project root, not the directory containing the library.
-# It appends /target/release/lib<name>.so to the path.
-# So if we found it in .../target/release, we need to strip that part.
-if path.end_with?('target/release')
-  path = path.sub(%r{/target/release$}, '')
-elsif path.end_with?('target/debug')
-  path = path.sub(%r{/target/debug$}, '')
-end
-
-# Rutie assumes the passed path is a subdirectory (like lib/) and goes up one level
-# before appending target/release.
-# So we append a 'lib' directory so that when it goes up, it lands on the root.
-path = File.join(path, 'lib')
+# Rutie expects the project root and appends /target/release/lib<name>.so
+# Pass the root directory with 'lib' appended (Rutie goes up one level)
+path = File.join(root, 'lib')
 
 puts "WidgetRenderer: Initializing Rutie with path: #{path}"
 
