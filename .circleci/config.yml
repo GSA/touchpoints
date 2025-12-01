@@ -113,6 +113,7 @@ jobs:
               exit 0
             fi
             ./.circleci/deploy-sidekiq.sh
+          no_output_timeout: 20m
 
       - run:
           name: Deploy web server(s)
@@ -122,7 +123,10 @@ jobs:
               echo "Skipping web deploy on parallel node ${CIRCLE_NODE_INDEX}"
               exit 0
             fi
+            # Wait for any previous staging to complete
+            sleep 30
             ./.circleci/deploy.sh
+          no_output_timeout: 20m
 
   cron_tasks:
     docker:

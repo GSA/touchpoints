@@ -4,13 +4,36 @@
 # a non-zero exit code
 set -e
 
+# Retry function to handle "Only one build can be STAGING" errors
+cf_push_with_retry() {
+  local app_name="$1"
+  local max_retries=5
+  local retry_delay=60
+  
+  for i in $(seq 1 $max_retries); do
+    echo "Attempt $i of $max_retries to push $app_name..."
+    if cf push "$app_name" --strategy rolling; then
+      echo "Successfully pushed $app_name"
+      return 0
+    else
+      if [ $i -lt $max_retries ]; then
+        echo "Push failed, waiting ${retry_delay}s before retry..."
+        sleep $retry_delay
+      fi
+    fi
+  done
+  
+  echo "Failed to push $app_name after $max_retries attempts"
+  return 1
+}
+
 if [ "${CIRCLE_BRANCH}" == "production" ]
 then
   echo "Logging into cloud.gov"
   # Log into CF and push
   cf login -a $CF_API_ENDPOINT -u $CF_PRODUCTION_SPACE_DEPLOYER_USERNAME -p $CF_PRODUCTION_SPACE_DEPLOYER_PASSWORD -o $CF_ORG -s prod
   echo "PUSHING to PRODUCTION..."
-  cf push touchpoints-production-sidekiq-worker --strategy rolling
+  cf_push_with_retry touchpoints-production-sidekiq-worker
   echo "Push to Production Complete."
 else
   echo "Not on the production branch."
@@ -22,7 +45,7 @@ then
   # Log into CF and push
   cf login -a $CF_API_ENDPOINT -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $CF_SPACE
   echo "Pushing to Demo..."
-  cf push touchpoints-demo-sidekiq-worker --strategy rolling
+  cf_push_with_retry touchpoints-demo-sidekiq-worker
   echo "Push to Demo Complete."
 else
   echo "Not on the main branch."
@@ -34,7 +57,7 @@ then
   # Log into CF and push
   cf login -a $CF_API_ENDPOINT -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $CF_SPACE
   echo "Pushing to Staging..."
-  cf push touchpoints-staging-sidekiq-worker --strategy rolling
+  cf_push_with_retry touchpoints-staging-sidekiq-worker
   echo "Push to Staging Complete."
 else
   echo "Not on the develop branch."
