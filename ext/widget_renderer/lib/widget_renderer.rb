@@ -60,29 +60,27 @@ if found_path
     puts `ldd #{found_lib} 2>&1`
   end
   
-  # If library is in root (not in target/release), create the expected directory structure
-  # Rutie always looks for the library in <path>/target/release/libwidget_renderer.so
-  if found_path == root
-    target_release = File.join(root, 'target', 'release')
-    target_lib = File.join(target_release, File.basename(found_lib))
+  # Rutie always looks for the library in <root>/target/release/libwidget_renderer.so
+  # If the library is not in that exact location, copy/symlink it there
+  expected_target_release = File.join(root, 'target', 'release')
+  expected_lib = File.join(expected_target_release, File.basename(found_lib))
+  
+  unless File.exist?(expected_lib)
+    puts "WidgetRenderer: Library not in expected location, copying to #{expected_lib}"
+    FileUtils.mkdir_p(expected_target_release)
     
-    unless File.exist?(target_lib)
-      puts "WidgetRenderer: Library is in root, creating target/release structure"
-      FileUtils.mkdir_p(target_release)
-      
-      # Copy or symlink the library to the expected location
+    # Copy or symlink the library to the expected location
+    begin
+      FileUtils.cp(found_lib, expected_lib)
+      puts "WidgetRenderer: Copied library to #{expected_lib}"
+    rescue => e
+      puts "WidgetRenderer: Failed to copy library: #{e.message}"
+      # Try symlink as fallback
       begin
-        FileUtils.cp(found_lib, target_lib)
-        puts "WidgetRenderer: Copied library to #{target_lib}"
-      rescue => e
-        puts "WidgetRenderer: Failed to copy library: #{e.message}"
-        # Try symlink as fallback
-        begin
-          File.symlink(found_lib, target_lib)
-          puts "WidgetRenderer: Created symlink at #{target_lib}"
-        rescue => e2
-          puts "WidgetRenderer: Failed to create symlink: #{e2.message}"
-        end
+        File.symlink(found_lib, expected_lib)
+        puts "WidgetRenderer: Created symlink at #{expected_lib}"
+      rescue => e2
+        puts "WidgetRenderer: Failed to create symlink: #{e2.message}"
       end
     end
   end
