@@ -4,26 +4,9 @@
 set -uo pipefail
 
 # CRITICAL: Set LD_LIBRARY_PATH so the Rust extension can find libruby.so at runtime
-# The Ruby buildpack installs Ruby under /home/vcap/deps/*/
-for dep_dir in /home/vcap/deps/*/; do
-    # Check for Ruby library directory
-    if [ -f "${dep_dir}lib/libruby.so.3.2" ] || [ -f "${dep_dir}lib/libruby.so" ]; then
-        export LD_LIBRARY_PATH="${dep_dir}lib:${LD_LIBRARY_PATH:-}"
-        echo "===> widget_renderer: Added ${dep_dir}lib to LD_LIBRARY_PATH"
-        break
-    fi
-    # Also check vendor_bundle ruby structure
-    if [ -d "${dep_dir}vendor_bundle/ruby" ]; then
-        RUBY_LIB=$(find "${dep_dir}" -name "libruby.so*" -type f 2>/dev/null | head -1 | xargs dirname 2>/dev/null || true)
-        if [ -n "$RUBY_LIB" ] && [ -d "$RUBY_LIB" ]; then
-            export LD_LIBRARY_PATH="${RUBY_LIB}:${LD_LIBRARY_PATH:-}"
-            echo "===> widget_renderer: Added ${RUBY_LIB} to LD_LIBRARY_PATH"
-            break
-        fi
-    fi
-done
+# The Ruby buildpack installs Ruby under /home/vcap/deps/*/ruby/lib/
 
-# Also try to find Ruby's libdir using ruby itself
+# First, try to find Ruby's libdir using ruby itself (most reliable)
 if command -v ruby >/dev/null 2>&1; then
     RUBY_LIB_DIR=$(ruby -e 'require "rbconfig"; print RbConfig::CONFIG["libdir"]' 2>/dev/null || true)
     if [ -n "$RUBY_LIB_DIR" ] && [ -d "$RUBY_LIB_DIR" ]; then
@@ -31,6 +14,20 @@ if command -v ruby >/dev/null 2>&1; then
         echo "===> widget_renderer: Added Ruby libdir ${RUBY_LIB_DIR} to LD_LIBRARY_PATH"
     fi
 fi
+
+# Also scan deps directories as a fallback
+for dep_dir in /home/vcap/deps/*/; do
+    # Check for Ruby library directory
+    if [ -d "${dep_dir}ruby/lib" ]; then
+        if [ -f "${dep_dir}ruby/lib/libruby.so.3.2" ] || [ -f "${dep_dir}ruby/lib/libruby.so" ]; then
+            export LD_LIBRARY_PATH="${dep_dir}ruby/lib:${LD_LIBRARY_PATH:-}"
+            echo "===> widget_renderer: Added ${dep_dir}ruby/lib to LD_LIBRARY_PATH"
+        fi
+    fi
+done
+
+# Make sure LD_LIBRARY_PATH is exported for the app process
+echo "===> widget_renderer: Final LD_LIBRARY_PATH=${LD_LIBRARY_PATH:-}"
 
 if [ -d "${HOME}/ext/widget_renderer" ]; then
   EXT_DIR="${HOME}/ext/widget_renderer"
@@ -51,8 +48,8 @@ copy_lib() {
   if [ -f "$src" ]; then
     echo "===> widget_renderer: using prebuilt library at $src"
     mkdir -p "${EXT_DIR}/target/release"
-    cp "$src" "${EXT_DIR}/target/release/libwidget_renderer.so"
-    cp "$src" "${EXT_DIR}/libwidget_renderer.so"
+    cp "$src" "${EXT_DIR}/target/release/libwidget_renderer.so" 2>/dev/null || true
+    cp "$src" "${EXT_DIR}/libwidget_renderer.so" 2>/dev/null || true
     return 0
   else
     echo "===> widget_renderer: no library at $src"
@@ -73,29 +70,52 @@ set -e
 if [ ! -f "$LIB_SO" ] && [ ! -f "$LIB_DYLIB" ]; then
   echo "===> widget_renderer: building native extension"
 
-  # Ensure Cargo toolchain from the Rust buildpack is used (avoid reinstall).
-  if [ -d "/home/vcap/deps/0/rust/cargo/bin" ]; then
-    export CARGO_HOME="/home/vcap/deps/0/rust/cargo"
-  fi
-  if [ -d "/home/vcap/deps/0/rust/rustup" ]; then
-    export RUSTUP_HOME="/home/vcap/deps/0/rust/rustup"
-  fi
-  # Cargo requires HOME to match the runtime user’s home dir (/home/vcap), not /home/vcap/app.
-  export HOME="/home/vcap"
-  echo "===> widget_renderer: CARGO_HOME=${CARGO_HOME:-unset}"
-  echo "===> widget_renderer: RUSTUP_HOME=${RUSTUP_HOME:-unset}"
+  # Find the Rust installation from the Rust buildpack
+  CARGO_BIN=""
+  for dep_dir in /home/vcap/deps/*/; do
+    if [ -x "${dep_dir}rust/cargo/bin/cargo" ]; then
+      CARGO_BIN="${dep_dir}rust/cargo/bin/cargo"
+      export CARGO_HOME="${dep_dir}rust/cargo"
+      export RUSTUP_HOME="${dep_dir}rust/rustup"
+      export PATH="${dep_dir}rust/cargo/bin:$PATH"
+      break
+    fi
+  done
 
-  # Tell rutie to link against the shared Ruby library provided by the Ruby buildpack.
-  RUBY_LIB_PATH=$(ruby -e 'require "rbconfig"; print RbConfig::CONFIG["libdir"]')
-  RUBY_SO_NAME=$(ruby -e 'require "rbconfig"; print RbConfig::CONFIG["RUBY_SO_NAME"]')
-  export RUTIE_RUBY_LIB_PATH="$RUBY_LIB_PATH"
-  export RUTIE_RUBY_LIB_NAME="$RUBY_SO_NAME"
-  unset RUBY_STATIC
-  export NO_LINK_RUTIE=1
+  if [ -z "$CARGO_BIN" ]; then
+    echo "===> widget_renderer: ERROR - Cargo not found in deps"
+    echo "===> widget_renderer: Skipping build - app will fail if Rust extension is required"
+    # Don't exit - let the app try to start and fail with a clear error
+  else
+    echo "===> widget_renderer: Using cargo at $CARGO_BIN"
+    echo "===> widget_renderer: CARGO_HOME=${CARGO_HOME:-unset}"
+    echo "===> widget_renderer: RUSTUP_HOME=${RUSTUP_HOME:-unset}"
 
-  cd "$EXT_DIR"
-  ruby extconf.rb
-  make
+    # Tell rutie to link against the shared Ruby library provided by the Ruby buildpack.
+    RUBY_LIB_PATH=$(ruby -e 'require "rbconfig"; print RbConfig::CONFIG["libdir"]')
+    RUBY_SO_NAME=$(ruby -e 'require "rbconfig"; print RbConfig::CONFIG["RUBY_SO_NAME"]')
+    export RUTIE_RUBY_LIB_PATH="$RUBY_LIB_PATH"
+    export RUTIE_RUBY_LIB_NAME="$RUBY_SO_NAME"
+    unset RUBY_STATIC
+    export NO_LINK_RUTIE=1
+
+    echo "===> widget_renderer: Building with RUTIE_RUBY_LIB_PATH=$RUBY_LIB_PATH"
+
+    cd "$EXT_DIR"
+    
+    # Build with Cargo
+    "$CARGO_BIN" build --release 2>&1
+    
+    if [ -f "target/release/libwidget_renderer.so" ]; then
+      cp target/release/libwidget_renderer.so .
+      echo "===> widget_renderer: Successfully built native extension"
+      echo "===> widget_renderer: Library dependencies:"
+      ldd target/release/libwidget_renderer.so 2>&1 || true
+    else
+      echo "===> widget_renderer: ERROR - Build failed, library not found"
+      ls -la target/release/ 2>&1 || true
+    fi
+  fi
 else
   echo "===> widget_renderer: native extension already present"
 fi

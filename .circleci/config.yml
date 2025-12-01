@@ -117,6 +117,12 @@ jobs:
               echo "Skipping Sidekiq deploy on parallel node ${CIRCLE_NODE_INDEX}"
               exit 0
             fi
+            # Remove prebuilt Rust library - it must be built on CF with the correct Ruby paths
+            # The library built on CircleCI links against /usr/local/lib/libruby.so.3.2
+            # but on CF, Ruby is in /home/vcap/deps/*/ruby/lib/
+            echo "Removing prebuilt Rust library (will be rebuilt on CF)..."
+            rm -rf ext/widget_renderer/target/release/libwidget_renderer.so 2>/dev/null || true
+            rm -f ext/widget_renderer/libwidget_renderer.so 2>/dev/null || true
             ./.circleci/deploy-sidekiq.sh
           no_output_timeout: 30m
 
@@ -130,6 +136,10 @@ jobs:
             fi
             # Wait for Sidekiq deployment to complete before starting web deploy
             sleep 120
+            # Remove prebuilt Rust library - it must be built on CF with the correct Ruby paths
+            echo "Removing prebuilt Rust library (will be rebuilt on CF)..."
+            rm -rf ext/widget_renderer/target/release/libwidget_renderer.so 2>/dev/null || true
+            rm -f ext/widget_renderer/libwidget_renderer.so 2>/dev/null || true
             ./.circleci/deploy.sh
           no_output_timeout: 30m
 

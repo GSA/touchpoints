@@ -1,0 +1,117 @@
+#!/usr/bin/env bash
+# This script runs AFTER all other buildpacks have run (including Ruby)
+# It builds the Rust widget renderer extension linking against the Ruby
+# library installed by the Ruby buildpack.
+set -e
+set -o pipefail
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+DEPS_DIR=$3
+DEPS_IDX=$4
+
+echo "-----> Rust Buildpack: Finalizing (building widget_renderer)"
+
+# Find our Rust installation
+ROOT_DIR="$DEPS_DIR/$DEPS_IDX"
+RUST_DIR="$ROOT_DIR/rust"
+export RUSTUP_HOME="$RUST_DIR/rustup"
+export CARGO_HOME="$RUST_DIR/cargo"
+export PATH="$CARGO_HOME/bin:$PATH"
+
+# Verify Rust is available
+if ! command -v cargo >/dev/null; then
+    echo "ERROR: Cargo not found. Rust installation may have failed."
+    exit 1
+fi
+echo "Using cargo: $(which cargo)"
+echo "Cargo version: $(cargo --version)"
+
+# Find the Ruby library installed by the Ruby buildpack
+# The Ruby buildpack typically runs as deps index 2 (after rust=0, nodejs=1)
+RUBY_LIB_PATH=""
+RUBY_SO_NAME=""
+
+for dep_dir in "$DEPS_DIR"/*/; do
+    if [ -d "${dep_dir}ruby/lib" ]; then
+        RUBY_LIB_PATH="${dep_dir}ruby/lib"
+        echo "Found Ruby lib at: $RUBY_LIB_PATH"
+        break
+    fi
+done
+
+if [ -z "$RUBY_LIB_PATH" ]; then
+    echo "WARNING: Could not find Ruby lib directory in deps"
+    # Try to find it with ruby itself if available
+    for dep_dir in "$DEPS_DIR"/*/; do
+        if [ -x "${dep_dir}bin/ruby" ]; then
+            RUBY_LIB_PATH=$("${dep_dir}bin/ruby" -e 'require "rbconfig"; print RbConfig::CONFIG["libdir"]' 2>/dev/null || true)
+            RUBY_SO_NAME=$("${dep_dir}bin/ruby" -e 'require "rbconfig"; print RbConfig::CONFIG["RUBY_SO_NAME"]' 2>/dev/null || true)
+            echo "Ruby libdir from RbConfig: $RUBY_LIB_PATH"
+            break
+        fi
+    done
+fi
+
+if [ -z "$RUBY_LIB_PATH" ] || [ ! -d "$RUBY_LIB_PATH" ]; then
+    echo "ERROR: Could not locate Ruby library directory"
+    echo "Listing deps directories:"
+    ls -la "$DEPS_DIR"/*/
+    exit 1
+fi
+
+# Verify libruby.so exists
+if [ -f "$RUBY_LIB_PATH/libruby.so.3.2" ]; then
+    echo "Found libruby.so.3.2 in $RUBY_LIB_PATH"
+elif [ -f "$RUBY_LIB_PATH/libruby.so" ]; then
+    echo "Found libruby.so in $RUBY_LIB_PATH"
+else
+    echo "WARNING: libruby.so not found in $RUBY_LIB_PATH"
+    ls -la "$RUBY_LIB_PATH/" || true
+fi
+
+# Set environment for rutie to find Ruby
+export RUTIE_RUBY_LIB_PATH="$RUBY_LIB_PATH"
+export RUTIE_RUBY_LIB_NAME="${RUBY_SO_NAME:-ruby.3.2}"
+export LD_LIBRARY_PATH="$RUBY_LIB_PATH:${LD_LIBRARY_PATH:-}"
+unset RUBY_STATIC
+export NO_LINK_RUTIE=1
+
+echo "Building widget_renderer with:"
+echo "  RUTIE_RUBY_LIB_PATH=$RUTIE_RUBY_LIB_PATH"
+echo "  RUTIE_RUBY_LIB_NAME=$RUTIE_RUBY_LIB_NAME"
+echo "  LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
+
+# Build the Rust extension
+WIDGET_DIR="$BUILD_DIR/ext/widget_renderer"
+if [ -d "$WIDGET_DIR" ]; then
+    cd "$WIDGET_DIR"
+    echo "Building in $WIDGET_DIR"
+    
+    # Clean any prebuilt binaries (they were built on CircleCI with wrong paths)
+    rm -rf target/release/libwidget_renderer.so 2>/dev/null || true
+    rm -f libwidget_renderer.so 2>/dev/null || true
+    
+    # Build fresh
+    cargo build --release
+    
+    # Copy to expected location
+    if [ -f "target/release/libwidget_renderer.so" ]; then
+        cp target/release/libwidget_renderer.so .
+        echo "Successfully built widget_renderer"
+        echo "Library details:"
+        file target/release/libwidget_renderer.so
+        echo "Library dependencies:"
+        ldd target/release/libwidget_renderer.so || true
+    else
+        echo "ERROR: Failed to build widget_renderer"
+        ls -la target/release/ || true
+        exit 1
+    fi
+else
+    echo "WARNING: Widget renderer directory not found at $WIDGET_DIR"
+    echo "Listing build dir:"
+    ls -la "$BUILD_DIR/"
+fi
+
+echo "-----> Rust Buildpack: Finalize complete"
