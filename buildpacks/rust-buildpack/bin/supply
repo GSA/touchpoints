@@ -36,7 +36,7 @@ fi
 echo "Rust version: $(rustc --version)"
 echo "Cargo version: $(cargo --version)"
 
-# Make available to subsequent buildpacks
+# Make available to subsequent buildpacks without clobbering PATH
 mkdir -p "$ENV_DIR"
 echo -n "$RUSTUP_HOME" > "$ENV_DIR/RUSTUP_HOME"
 echo -n "$CARGO_HOME" > "$ENV_DIR/CARGO_HOME"
