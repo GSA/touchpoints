@@ -112,4 +112,16 @@ path = File.join(root, 'lib')
 
 puts "WidgetRenderer: Initializing Rutie with path: #{path}"
 
-Rutie.new(:widget_renderer).init 'Init_widget_renderer', path
+# Only initialize Rutie if we found the native library
+if found_path
+  begin
+    Rutie.new(:widget_renderer).init 'Init_widget_renderer', path
+    puts "WidgetRenderer: Rust extension loaded successfully"
+  rescue Fiddle::DLError => e
+    puts "WidgetRenderer: Failed to load native library: #{e.message}"
+    puts "WidgetRenderer: Rust extension will not be available, falling back to ERB"
+  end
+else
+  puts "WidgetRenderer: Native library not found, Rust extension will not be available"
+  puts "WidgetRenderer: Form rendering will use ERB fallback"
+end
