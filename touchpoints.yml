@@ -25,7 +25,7 @@ applications:
     - ruby_buildpack
   services:
     - touchpoints-prod-db
-    - touchpoints-prod-redis
+    - touchpoints-redis-service
     - touchpoints-prod-s3
     - touchpoints-prod-deployer
   routes:
