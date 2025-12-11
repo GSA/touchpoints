@@ -87,7 +87,10 @@ class CxCollection < ApplicationRecord
   end
 
   def self.to_csv
-    collections = all.includes(:organization, :service_provider, :service, :user).references(:organization).order(:fiscal_year, :quarter, 'organizations.name')
+    collections = all
+      .includes(:organization, :service, :user, :cx_collection_details, service_provider: :organization)
+      .references(:organization)
+      .order(:fiscal_year, :quarter, 'organizations.name')
 
     attributes = %i[
       id
@@ -118,7 +121,7 @@ class CxCollection < ApplicationRecord
       csv << attributes
 
       collections.each do |collection|
-        csv << attributes = [
+        csv << [
           collection.id,
           collection.name,
           collection.organization_id,

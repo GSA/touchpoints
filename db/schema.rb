@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_17_034402) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_10_192727) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -97,6 +97,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_17_034402) do
     t.text "trust_question_text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["cx_collection_id"], name: "index_cx_collection_details_on_cx_collection_id"
   end
 
   create_table "cx_collections", force: :cascade do |t|
@@ -124,6 +125,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_17_034402) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "submitted_at"
+    t.index ["organization_id"], name: "index_cx_collections_on_organization_id"
+    t.index ["service_id"], name: "index_cx_collections_on_service_id"
+    t.index ["service_provider_id"], name: "index_cx_collections_on_service_provider_id"
+    t.index ["user_id"], name: "index_cx_collections_on_user_id"
   end
 
   create_table "cx_responses", force: :cascade do |t|
@@ -149,6 +154,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_17_034402) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "external_id"
+    t.index ["cx_collection_detail_id"], name: "index_cx_responses_on_cx_collection_detail_id"
+    t.index ["cx_collection_detail_upload_id"], name: "index_cx_responses_on_cx_collection_detail_upload_id"
   end
 
   create_table "digital_product_versions", force: :cascade do |t|

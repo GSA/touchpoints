@@ -19,7 +19,9 @@ class User < ApplicationRecord
 
   def cx_collections
     user_org = organization
-    user_parent_org = user_org&.parent
+    return CxCollection.none if user_org.nil?
+
+    user_parent_org = user_org.parent
 
     CxCollection.where(cx_collections: { organization_id: [user_org.id, user_parent_org&.id].compact })
   end
