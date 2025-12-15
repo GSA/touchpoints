@@ -9,13 +9,6 @@ root = File.expand_path('..', __dir__)
 puts "WidgetRenderer: root=#{root}"
 puts "WidgetRenderer: __dir__=#{__dir__}"
 
-# If a stale module exists, remove it so Rutie can define or reopen the class.
-if defined?(WidgetRenderer) && WidgetRenderer.is_a?(Module) && !WidgetRenderer.is_a?(Class)
-  Object.send(:remove_const, :WidgetRenderer)
-end
-# Ensure the constant exists as a Class so rb_define_class will reopen it instead of erroring on Module.
-WidgetRenderer = Class.new unless defined?(WidgetRenderer) && WidgetRenderer.is_a?(Class)
-
 # Check for library file extensions based on platform
 lib_extensions = %w[.so .bundle .dylib]
 lib_names = lib_extensions.map { |ext| "libwidget_renderer#{ext}" }
@@ -84,6 +77,13 @@ if found_path
       end
     end
   end
+
+  # If a stale module exists, remove it so Rutie can define or reopen the class.
+  if defined?(WidgetRenderer) && WidgetRenderer.is_a?(Module) && !WidgetRenderer.is_a?(Class)
+    Object.send(:remove_const, :WidgetRenderer)
+  end
+  # Ensure the constant exists as a Class so rb_define_class will reopen it instead of erroring on Module.
+  WidgetRenderer = Class.new unless defined?(WidgetRenderer) && WidgetRenderer.is_a?(Class)
 else
   puts 'WidgetRenderer: Library not found in any checked path. Listing root contents:'
   # List files in root to help debug
@@ -104,6 +104,9 @@ else
   else
     puts "WidgetRenderer: target/release directory does not exist at #{release_dir}"
   end
+
+  # No native library available; let caller handle fallback.
+  raise LoadError, 'WidgetRenderer native library not found'
 end
 
 # Rutie expects the project root and appends /target/release/lib<name>.so
@@ -112,4 +115,8 @@ path = File.join(root, 'lib')
 
 puts "WidgetRenderer: Initializing Rutie with path: #{path}"
 
-Rutie.new(:widget_renderer).init 'Init_widget_renderer', path
+begin
+  Rutie.new(:widget_renderer).init 'Init_widget_renderer', path
+rescue SystemExit => e
+  raise LoadError, "WidgetRenderer native init exited: #{e.message}"
+end
