@@ -168,7 +168,7 @@ RSpec.describe User, type: :model do
   describe "#cx_collections" do
     let(:user_with_org) { FactoryBot.create(:user, organization: organization) }
     let(:service_provider) { FactoryBot.create(:service_provider, organization: organization) }
-    let(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider) }
+    let(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: user_with_org.id) }
 
     context "when user has no organization" do
       it "returns an empty collection" do
@@ -192,8 +192,9 @@ RSpec.describe User, type: :model do
       let(:parent_org) { FactoryBot.create(:organization, name: "Parent Org", domain: "parent.gov", abbreviation: "PARENT") }
       let(:child_org) { FactoryBot.create(:organization, name: "Child Org", domain: "child.gov", abbreviation: "CHILD", parent: parent_org) }
       let(:child_user) { FactoryBot.create(:user, organization: child_org) }
+      let(:parent_service_owner) { FactoryBot.create(:user, organization: parent_org) }
       let(:parent_service_provider) { FactoryBot.create(:service_provider, organization: parent_org) }
-      let(:parent_service) { FactoryBot.create(:service, organization: parent_org, service_provider: parent_service_provider) }
+      let(:parent_service) { FactoryBot.create(:service, organization: parent_org, service_provider: parent_service_provider, service_owner_id: parent_service_owner.id) }
 
       it "includes cx_collections from the parent organization" do
         parent_cx_collection = FactoryBot.create(:cx_collection, organization: parent_org, service: parent_service, service_provider: parent_service_provider, user: child_user)
