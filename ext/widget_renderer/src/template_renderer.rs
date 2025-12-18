@@ -53,9 +53,9 @@ impl TemplateRenderer {
         };
 
         let modal_class = if form.kind == "recruitment" {
-            format!("{} usa-modal--lg", form.prefix)
+            "fba-usa-modal fba-usa-modal--lg".to_string()
         } else {
-            form.prefix.clone()
+            "fba-usa-modal".to_string()
         };
 
         let turnstile_check = if form.enable_turnstile {
