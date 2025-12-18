@@ -190,7 +190,7 @@ RSpec.describe User, type: :model do
 
     context "when user's organization has a parent organization" do
       let(:parent_org) { FactoryBot.create(:organization, name: "Parent Org", domain: "parent.gov", abbreviation: "PARENT") }
-      let(:child_org) { FactoryBot.create(:organization, name: "Child Org", domain: "child.gov", abbreviation: "CHILD", parent: parent_org) }
+      let(:child_org) { FactoryBot.create(:organization, name: "Child Org", domain: "child.gov", abbreviation: "CHILD", parent_id: parent_org.id) }
       let(:child_user) { FactoryBot.create(:user, organization: child_org) }
       let(:parent_service_owner) { FactoryBot.create(:user, organization: parent_org) }
       let(:parent_service_provider) { FactoryBot.create(:service_provider, organization: parent_org) }
