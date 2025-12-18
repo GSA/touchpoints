@@ -1,6 +1,7 @@
 applications:
 - name: touchpoints
   memory: 2G
+  disk_quota: 2G
   command: bundle exec rake cf:on_first_instance db:migrate && bundle exec rails s -b 0.0.0.0 -p $PORT -e $RAILS_ENV
   env:
     AWS_SES_ACCESS_KEY_ID:
@@ -20,12 +21,12 @@ applications:
     TOUCHPOINTS_GTM_CONTAINER_ID:
     TOUCHPOINTS_WEB_DOMAIN: touchpoints.app.cloud.gov
   buildpacks:
-    - rust_buildpack
+    - https://github.com/rileyseaburg/rust-buildpack-touchpoints.git
     - nodejs_buildpack
     - ruby_buildpack
   services:
     - touchpoints-prod-db
-    - touchpoints-prod-redis
+    - touchpoints-redis-service
     - touchpoints-prod-s3
     - touchpoints-prod-deployer
   routes:
