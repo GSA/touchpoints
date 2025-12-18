@@ -132,6 +132,8 @@ then
   # Log into CF and push
   cf login -a $CF_API_ENDPOINT -u $CF_PRODUCTION_SPACE_DEPLOYER_USERNAME -p $CF_PRODUCTION_SPACE_DEPLOYER_PASSWORD -o $CF_ORG -s prod
   echo "PUSHING to PRODUCTION..."
+  echo "Syncing Login.gov environment variables..."
+  ./.circleci/sync-login-gov-env.sh touchpoints-production-sidekiq-worker
   cf_push_with_retry touchpoints-production-sidekiq-worker
   echo "Push to Production Complete."
 else

@@ -859,12 +859,19 @@ function FBAform(d, N) {{
         let question_params = self.render_question_params(form);
         let html_body = self.render_html_body(form).replace("`", "\\`");
         let html_body_no_modal = self.render_html_body_no_modal(form).replace("`", "\\`");
+        // Escape the CSS for JavaScript string - escape backslashes, quotes, and newlines
+        let escaped_css = form.css
+            .replace("\\", "\\\\")
+            .replace("\"", "\\\"")
+            .replace("\n", "\\n")
+            .replace("\r", "");
         
         format!(r###"
 var touchpointFormOptions{uuid} = {{
     'formId': "{uuid}",
     'modalButtonText': "{button_text}",
     'elementSelector': "{selector}",
+    'css': "{css}",
     'deliveryMethod': "{delivery_method}",
     'loadCSS': {load_css},
     'successTextHeading': "{success_heading}",
@@ -888,6 +895,7 @@ var touchpointFormOptions{uuid} = {{
             uuid = form.short_uuid,
             button_text = form.modal_button_text,
             selector = form.element_selector,
+            css = escaped_css,
             delivery_method = form.delivery_method,
             load_css = form.load_css,
             success_heading = form.success_text_heading,
