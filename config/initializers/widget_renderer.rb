@@ -1,8 +1,11 @@
 # Skip widget renderer during rake tasks and migrations (library may not be built yet in cf run-task)
 # Only load when running as a server (not rake tasks, migrations, console, etc.)
+# Note: 'bin/rails' is used for both server and console/tasks, so we must check if it's NOT a server.
+is_server = defined?(Rails::Server) || $PROGRAM_NAME.include?('puma') || $PROGRAM_NAME.include?('unicorn')
+
 skip_loading = defined?(Rails::Console) || 
-               $PROGRAM_NAME.include?('rake') || 
-               $PROGRAM_NAME.include?('bin/rails') ||
+               ($PROGRAM_NAME.include?('rake') && !is_server) || 
+               ($PROGRAM_NAME.include?('bin/rails') && !is_server) ||
                ENV['SKIP_WIDGET_RENDERER'] == 'true'
 
 unless skip_loading

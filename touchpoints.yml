@@ -13,6 +13,7 @@ applications:
     RAILS_ENV: production
     RAILS_SERVE_STATIC_FILES: "true"
     TOUCHPOINTS_WEB_DOMAIN: touchpoints.app.cloud.gov
+    INDEX_URL: /admin
     # Secrets managed via cf set-env (DO NOT add empty keys here):
     # - AWS_SES_ACCESS_KEY_ID
     # - AWS_SES_SECRET_ACCESS_KEY
@@ -25,9 +26,10 @@ applications:
     # - S3_AWS_SECRET_ACCESS_KEY
     # - TOUCHPOINTS_EMAIL_SENDER
     # - TOUCHPOINTS_GTM_CONTAINER_ID
-  # CRITICAL: Empty buildpacks array to clear cached buildpacks and force CF auto-detection
-  # This prevents re-running Rust supply phase - library already built in CircleCI via gem extensions
-  buildpacks: []
+  buildpacks:
+    - https://github.com/rileyseaburg/rust-buildpack-touchpoints.git
+    - nodejs_buildpack
+    - ruby_buildpack
   services:
     - touchpoints-prod-db
     - touchpoints-redis-service
