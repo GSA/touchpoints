@@ -928,19 +928,41 @@ window.touchpointForm{uuid}.init(touchpointFormOptions{uuid});
 
 // Initialize any USWDS components used in this form
 (function () {{
-	const formId = "touchpoints-form-{uuid}";
-	const fbaFormElement = document.querySelector(`#${{formId}}`);
-	if (fbaFormElement) {{
-		fbaUswds.ComboBox.on(fbaFormElement);
-		fbaUswds.DatePicker.on(fbaFormElement);
-	}}
-	const modalId = "fba-modal-{uuid}";
-	const fbaModalElement = document.querySelector(`#${{modalId}}`);
-	if (fbaModalElement) {{
-		fbaUswds.Modal.on(fbaModalElement);
+	try {{
+		if (typeof fbaUswds === 'undefined') {{
+			console.error("Touchpoints Error: fbaUswds is not defined");
+			return;
+		}}
+
+		const formId = "touchpoints-form-{uuid}";
+		const fbaFormElement = document.querySelector(`#${{formId}}`);
+		if (fbaFormElement) {{
+			if (fbaUswds.ComboBox) fbaUswds.ComboBox.on(fbaFormElement);
+			if (fbaUswds.DatePicker) fbaUswds.DatePicker.on(fbaFormElement);
+		}}
+		const modalId = "fba-modal-{uuid}";
+		const fbaModalElement = document.querySelector(`#${{modalId}}`);
+		if (fbaModalElement) {{
+			if (fbaUswds.Modal) fbaUswds.Modal.on(fbaModalElement);
+		}}
+		// Ensure the custom button is also initialized if it exists
+		const customButtonEl = document.getElementById('{element_selector}');
+		if (customButtonEl && ('{delivery_method}' === 'custom-button-modal')) {{
+			if (fbaUswds.Modal) {{
+				fbaUswds.Modal.on(customButtonEl);
+			}} else {{
+				console.error("Touchpoints Error: fbaUswds.Modal is not defined");
+			}}
+		}}
+	}} catch (e) {{
+		console.error("Touchpoints Error: USWDS initialization failed", e);
 	}}
 }})();
-"###, uuid = form.short_uuid)
+"###, 
+            uuid = form.short_uuid,
+            element_selector = form.element_selector,
+            delivery_method = form.delivery_method
+        )
     }
 
     fn render_question_params(&self, form: &FormData) -> String {
