@@ -127,12 +127,10 @@ cf_push_with_retry() {
     sleep 5
     
     # Push without rolling strategy (direct replacement since we stopped it)
+    # Let CF auto-detect buildpacks to avoid re-running supply phase (Rust already built in CircleCI)
     if cf push "$app_name" \
       -t 180 \
-      --health-check-type process \
-      -b https://github.com/rileyseaburg/rust-buildpack-touchpoints.git \
-      -b nodejs_buildpack \
-      -b ruby_buildpack; then
+      --health-check-type process; then
       echo "Successfully pushed $app_name"
       
       # Scale back up to original instance count
