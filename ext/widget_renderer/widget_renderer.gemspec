@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name          = 'widget_renderer'
-  spec.version       = '0.1.1'
+  spec.version       = '0.1.2'
   spec.authors       = ['GSA']
   spec.email         = ['touchpoints@gsa.gov']
 
