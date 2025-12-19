@@ -107,6 +107,17 @@ cf_push_with_retry() {
   cf set-health-check "$app_name" process --invocation-timeout 180 || true
   sleep 2
   
+  # Get current instance count and scale down to 1 to avoid memory quota issues during rolling deploy
+  echo "Checking current instance count for $app_name..."
+  local current_instances=$(cf app "$app_name" | grep "^instances:" | awk '{print $2}' | cut -d'/' -f2 || echo "1")
+  echo "Current instances: $current_instances"
+  
+  if [ "$current_instances" -gt 1 ]; then
+    echo "Scaling down to 1 instance to free memory for rolling deploy..."
+    cf scale "$app_name" -i 1 || true
+    sleep 5
+  fi
+  
   for i in $(seq 1 $max_retries); do
     echo "Attempt $i of $max_retries to push $app_name..."
     if cf push "$app_name" \
@@ -117,6 +128,13 @@ cf_push_with_retry() {
       -b nodejs_buildpack \
       -b ruby_buildpack; then
       echo "Successfully pushed $app_name"
+      
+      # Scale back up to original instance count
+      if [ "$current_instances" -gt 1 ]; then
+        echo "Scaling back up to $current_instances instances..."
+        cf scale "$app_name" -i "$current_instances" || true
+      fi
+      
       release_deploy_lock "$app_name"
       trap - EXIT  # Clear the trap
       return 0
@@ -130,6 +148,12 @@ cf_push_with_retry() {
       fi
     fi
   done
+  
+  # If we failed, try to scale back up anyway
+  if [ "$current_instances" -gt 1 ]; then
+    echo "Deploy failed, attempting to scale back up to $current_instances instances..."
+    cf scale "$app_name" -i "$current_instances" || true
+  fi
   
   release_deploy_lock "$app_name"
   trap - EXIT  # Clear the trap
