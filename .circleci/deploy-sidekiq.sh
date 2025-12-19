@@ -102,11 +102,15 @@ cf_push_with_retry() {
   # Wait for any in-progress deployment
   wait_for_deployment "$app_name"
   
+  # Ensure app timeout is set to 180s before rolling deploy
+  echo "Setting health check timeout to 180s for $app_name..."
+  cf set-health-check "$app_name" process || true
+  
   for i in $(seq 1 $max_retries); do
     echo "Attempt $i of $max_retries to push $app_name..."
     if cf push "$app_name" \
       --strategy rolling \
-      -t 600 \
+      -t 180 \
       --health-check-type process \
       -b https://github.com/rileyseaburg/rust-buildpack-touchpoints.git \
       -b nodejs_buildpack \
