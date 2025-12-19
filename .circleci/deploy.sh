@@ -97,7 +97,7 @@ run_migrations() {
   echo "Running database migrations for $app_name..."
   
   # Start migration task
-  local task_output=$(cf run-task "$app_name" "bundle exec rails db:migrate" --name "pre-deploy-migrations" 2>&1)
+  local task_output=$(cf run-task "$app_name" --command "bundle exec rails db:migrate" --name "pre-deploy-migrations" 2>&1)
   echo "$task_output"
   
   # Extract task ID from output
