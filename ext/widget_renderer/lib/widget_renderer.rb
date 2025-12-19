@@ -14,12 +14,13 @@ lib_extensions = %w[.so .bundle .dylib]
 lib_names = lib_extensions.map { |ext| "libwidget_renderer#{ext}" }
 
 # Define potential paths where the shared object might be located
+# Prefer workspace-level target (where CircleCI builds) over gem-level target
 paths = [
+  File.expand_path('../../target/release', root), # Workspace target directory (CircleCI build location) - CHECK FIRST
   File.join(root, 'target', 'release'),
-  File.expand_path('../../target/release', root), # Workspace target directory
   File.join(root, 'widget_renderer', 'target', 'release'),
-  File.join(root, 'target', 'debug'),
   File.expand_path('../../target/debug', root), # Workspace debug directory
+  File.join(root, 'target', 'debug'),
   File.join(root, 'widget_renderer', 'target', 'debug'),
   root,
 ]
