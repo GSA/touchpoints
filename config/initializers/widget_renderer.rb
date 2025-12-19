@@ -1,6 +1,10 @@
-# Skip widget renderer during migrations or rake tasks (library may not be built yet)
-if defined?(Rails::Console) || (defined?(Rails::Server) && Rails.env.production?) || Rails.env.development? || Rails.env.test?
-  # Load the Rust widget renderer extension
+# Skip widget renderer during rake tasks and migrations (library may not be built yet in cf run-task)
+# Check if we're running via rake/rails runner or similar command-line tools
+running_rake = defined?(Rake) && Rake.application.top_level_tasks.any?
+running_rails_command = File.basename($PROGRAM_NAME) == 'rake' || $PROGRAM_NAME.include?('bin/rails')
+
+unless running_rake || running_rails_command
+  # Load the Rust widget renderer extension only when running as server
   begin
     # Try loading the precompiled Rutie extension.
     require_relative '../../ext/widget_renderer/lib/widget_renderer'
@@ -25,5 +29,5 @@ if defined?(Rails::Console) || (defined?(Rails::Server) && Rails.env.production?
     Rails.logger.warn 'Falling back to ERB template rendering'
   end
 else
-  Rails.logger.info "WidgetRenderer: Skipping load during rake task/migration (library may not be built yet)"
+  Rails.logger.info "WidgetRenderer: Skipping load during rake/rails command (library may not be built yet)"
 end
