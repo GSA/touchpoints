@@ -106,8 +106,7 @@ else
   end
 
   # No native library available; let caller handle fallback.
-  # raise LoadError, 'WidgetRenderer native library not found'
-  puts 'WidgetRenderer: Native library not found. Falling back to Ruby/ERB rendering.'
+  raise LoadError, 'WidgetRenderer native library not found'
 end
 
 # Rutie expects the project root and appends /target/release/lib<name>.so
