@@ -1,5 +1,6 @@
 applications:
   - name: touchpoints-demo
+    timeout: 180
     command: bundle exec rake cf:on_first_instance db:migrate && bundle exec rails s -b 0.0.0.0 -p $PORT -e $RAILS_ENV
     env:
       AWS_SES_ACCESS_KEY_ID:

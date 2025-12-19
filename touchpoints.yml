@@ -2,6 +2,7 @@ applications:
 - name: touchpoints
   memory: 2G
   disk_quota: 2G
+  timeout: 180
   command: bundle exec rake cf:on_first_instance db:migrate && bundle exec rails s -b 0.0.0.0 -p $PORT -e $RAILS_ENV
   env:
     # Non-secret env vars only - secrets are set via `cf set-env` and should NOT be in this manifest
