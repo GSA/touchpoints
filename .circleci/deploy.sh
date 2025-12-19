@@ -211,7 +211,7 @@ then
   echo "PUSHING web servers to Production..."
   echo "Syncing Login.gov environment variables..."
   ./.circleci/sync-login-gov-env.sh touchpoints
-  cf_push_with_retry touchpoints touchpoints.yml false
+  cf_push_with_retry touchpoints touchpoints.yml true
   echo "Push to Production Complete."
 else
   echo "Not on the production branch."
