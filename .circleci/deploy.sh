@@ -159,6 +159,15 @@ cf_push_with_retry() {
     fi
   fi
   
+  # Ensure CircleCI-built Rust library is present
+  if [ -f "ext/widget_renderer/target/release/libwidget_renderer.so" ]; then
+    echo "CircleCI-built Rust library found, will be included in deployment"
+    file ext/widget_renderer/target/release/libwidget_renderer.so
+    readelf -n ext/widget_renderer/target/release/libwidget_renderer.so | grep "Build ID" || true
+  else
+    echo "WARNING: No CircleCI-built Rust library found at ext/widget_renderer/target/release/libwidget_renderer.so"
+  fi
+  
   # Acquire lock first
   acquire_deploy_lock "$app_name"
   
