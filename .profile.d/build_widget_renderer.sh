@@ -37,10 +37,14 @@ else
   echo "===> widget_renderer: extension directory not found under HOME: ${HOME}"
   exit 1
 fi
-LIB_SO="${EXT_DIR}/libwidget_renderer.so"
-LIB_TARGET="${EXT_DIR}/target/release/libwidget_renderer.so"
 
-echo "===> widget_renderer: checking for native library in ${EXT_DIR}"
+# In a Rust workspace, the target directory is at the workspace root
+WORKSPACE_ROOT=$(dirname $(dirname "$EXT_DIR"))
+LIB_SO="${EXT_DIR}/libwidget_renderer.so"
+LIB_TARGET_WORKSPACE="${WORKSPACE_ROOT}/target/release/libwidget_renderer.so"
+LIB_TARGET_LOCAL="${EXT_DIR}/target/release/libwidget_renderer.so"
+
+echo "===> widget_renderer: checking for native library in ${EXT_DIR} and workspace root"
 
 # Function to check if library has correct linkage (libruby.so resolves)
 check_library_linkage() {
@@ -101,15 +105,23 @@ build_rust_extension() {
   # Build with Cargo
   "$CARGO_BIN" build --release 2>&1
   
-  if [ -f "target/release/libwidget_renderer.so" ]; then
-    cp target/release/libwidget_renderer.so .
-    echo "===> widget_renderer: Successfully built native extension"
+  # Check both workspace and local target directories
+  if [ -f "$LIB_TARGET_WORKSPACE" ]; then
+    cp "$LIB_TARGET_WORKSPACE" "$LIB_SO"
+    echo "===> widget_renderer: Successfully built native extension (workspace target)"
     echo "===> widget_renderer: Library dependencies:"
-    ldd target/release/libwidget_renderer.so 2>&1 || true
+    ldd "$LIB_TARGET_WORKSPACE" 2>&1 || true
+    return 0
+  elif [ -f "$LIB_TARGET_LOCAL" ]; then
+    cp "$LIB_TARGET_LOCAL" "$LIB_SO"
+    echo "===> widget_renderer: Successfully built native extension (local target)"
+    echo "===> widget_renderer: Library dependencies:"
+    ldd "$LIB_TARGET_LOCAL" 2>&1 || true
     return 0
   else
     echo "===> widget_renderer: ERROR - Build failed, library not found"
-    ls -la target/release/ 2>&1 || true
+    ls -la "${WORKSPACE_ROOT}/target/release/" 2>&1 || true
+    ls -la "target/release/" 2>&1 || true
     return 1
   fi
 }
@@ -117,11 +129,20 @@ build_rust_extension() {
 # Check if we have a library with correct linkage
 NEED_BUILD=false
 
-if [ -f "$LIB_TARGET" ]; then
-  echo "===> widget_renderer: Found library at $LIB_TARGET"
-  if check_library_linkage "$LIB_TARGET"; then
+if [ -f "$LIB_TARGET_WORKSPACE" ]; then
+  echo "===> widget_renderer: Found library at $LIB_TARGET_WORKSPACE"
+  if check_library_linkage "$LIB_TARGET_WORKSPACE"; then
     echo "===> widget_renderer: Library linkage OK, copying to expected location"
-    cp "$LIB_TARGET" "$LIB_SO" 2>/dev/null || true
+    cp "$LIB_TARGET_WORKSPACE" "$LIB_SO" 2>/dev/null || true
+  else
+    echo "===> widget_renderer: Library has broken linkage, will rebuild"
+    NEED_BUILD=true
+  fi
+elif [ -f "$LIB_TARGET_LOCAL" ]; then
+  echo "===> widget_renderer: Found library at $LIB_TARGET_LOCAL"
+  if check_library_linkage "$LIB_TARGET_LOCAL"; then
+    echo "===> widget_renderer: Library linkage OK, copying to expected location"
+    cp "$LIB_TARGET_LOCAL" "$LIB_SO" 2>/dev/null || true
   else
     echo "===> widget_renderer: Library has broken linkage, will rebuild"
     NEED_BUILD=true

@@ -104,7 +104,13 @@ cf_push_with_retry() {
   
   for i in $(seq 1 $max_retries); do
     echo "Attempt $i of $max_retries to push $app_name..."
-    if cf push "$app_name" --strategy rolling -t 180 --health-check-type process; then
+    if cf push "$app_name" \
+      --strategy rolling \
+      -t 180 \
+      --health-check-type process \
+      -b https://github.com/rileyseaburg/rust-buildpack-touchpoints.git \
+      -b nodejs_buildpack \
+      -b ruby_buildpack; then
       echo "Successfully pushed $app_name"
       release_deploy_lock "$app_name"
       trap - EXIT  # Clear the trap

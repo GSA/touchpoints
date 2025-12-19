@@ -20,6 +20,7 @@ applications:
       TOUCHPOINTS_GTM_CONTAINER_ID:
       TOUCHPOINTS_WEB_DOMAIN: touchpoints-demo.app.cloud.gov
     buildpacks:
+      - https://github.com/rileyseaburg/rust-buildpack-touchpoints.git
       - nodejs_buildpack
       - ruby_buildpack
     services:
