@@ -63,7 +63,7 @@ release_deploy_lock() {
 # Wait for any in-progress deployments to complete before starting
 wait_for_deployment() {
   local app_name="$1"
-  local max_wait=600  # 10 minutes max
+  local max_wait=800  # 13 minutes and 20 seconds max
   local wait_interval=15
   local waited=0
   
