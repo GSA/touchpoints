@@ -120,8 +120,14 @@ cf_push_with_retry() {
   
   for i in $(seq 1 $max_retries); do
     echo "Attempt $i of $max_retries to push $app_name..."
+    
+    # Stop the app first to free memory for staging
+    echo "Stopping $app_name to free memory for staging..."
+    cf stop "$app_name" || true
+    sleep 5
+    
+    # Push without rolling strategy (direct replacement since we stopped it)
     if cf push "$app_name" \
-      --strategy rolling \
       -t 180 \
       --health-check-type process \
       -b https://github.com/rileyseaburg/rust-buildpack-touchpoints.git \
@@ -131,7 +137,7 @@ cf_push_with_retry() {
       
       # Scale back up to original instance count
       if [ "$current_instances" -gt 1 ]; then
-        echo "Scaling back up to $current_instances instances..."
+        echo "Scaling up to $current_instances instances..."
         cf scale "$app_name" -i "$current_instances" || true
       fi
       
