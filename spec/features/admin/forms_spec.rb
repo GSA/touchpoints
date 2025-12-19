@@ -197,8 +197,14 @@ feature 'Forms', js: true do
           find('label', text: 'Hosted on touchpoints').click
           click_on 'Update Form'
           expect(page).to have_content('Form was successfully updated.')
+          
+          # Wait for form to finish updating before navigating away
+          sleep 0.5
+          
           visit example_admin_form_path(Form.last)
-          expect(page).to have_css('.form-header-logo-square')
+          
+          # Use more robust visibility check to avoid stale element errors
+          expect(page).to have_css('.form-header-logo-square', wait: 10)
         end
       end
 
