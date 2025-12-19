@@ -87,12 +87,77 @@ wait_for_deployment() {
   return 0
 }
 
+# Run migrations as a CF task and wait for completion
+run_migrations() {
+  local app_name="$1"
+  local max_wait=1800  # 30 minutes max for migrations
+  local wait_interval=10
+  local waited=0
+  
+  echo "Running database migrations for $app_name..."
+  
+  # Start migration task
+  local task_output=$(cf run-task "$app_name" "bundle exec rails db:migrate" --name "pre-deploy-migrations" 2>&1)
+  echo "$task_output"
+  
+  # Extract task ID from output
+  local task_id=$(echo "$task_output" | grep -oE 'task id:[[:space:]]+[0-9]+' | grep -oE '[0-9]+' || echo "")
+  
+  if [ -z "$task_id" ]; then
+    echo "Warning: Could not determine task ID, checking tasks list..."
+    sleep 5
+    task_id=$(cf tasks "$app_name" | grep "pre-deploy-migrations" | grep "RUNNING" | head -1 | awk '{print $1}')
+  fi
+  
+  if [ -z "$task_id" ]; then
+    echo "Error: Failed to start migration task"
+    return 1
+  fi
+  
+  echo "Migration task started with ID: $task_id"
+  echo "Waiting for migrations to complete..."
+  
+  # Wait for task to complete
+  while [ $waited -lt $max_wait ]; do
+    local task_state=$(cf tasks "$app_name" | grep "^$task_id " | awk '{print $3}')
+    
+    if [ "$task_state" == "SUCCEEDED" ]; then
+      echo "✓ Migrations completed successfully"
+      return 0
+    elif [ "$task_state" == "FAILED" ]; then
+      echo "✗ Migration task failed. Checking logs..."
+      cf logs "$app_name" --recent | grep "pre-deploy-migrations" | tail -50
+      return 1
+    fi
+    
+    if [ $((waited % 30)) -eq 0 ]; then
+      echo "Migration task still running (state: $task_state, waited ${waited}s)..."
+    fi
+    
+    sleep $wait_interval
+    waited=$((waited + wait_interval))
+  done
+  
+  echo "Error: Migration task did not complete within ${max_wait}s"
+  cf logs "$app_name" --recent | grep "pre-deploy-migrations" | tail -50
+  return 1
+}
+
 # Retry function to handle staging and deployment conflicts
 cf_push_with_retry() {
   local app_name="$1"
   local manifest_path="${2:-}"
+  local run_migrations="${3:-false}"
   local max_retries=5
   local retry_delay=90
+  
+  # Run migrations first if requested
+  if [ "$run_migrations" == "true" ]; then
+    if ! run_migrations "$app_name"; then
+      echo "Error: Migrations failed, aborting deployment"
+      return 1
+    fi
+  fi
   
   # Acquire lock first
   acquire_deploy_lock "$app_name"
@@ -110,9 +175,9 @@ cf_push_with_retry() {
     set +e
     if [ -n "$manifest_path" ]; then
       echo "Using manifest: $manifest_path"
-      cf push "$app_name" -f "$manifest_path" --strategy rolling -t 600
+      cf push "$app_name" -f "$manifest_path" --strategy rolling -t 180
     else
-      cf push "$app_name" --strategy rolling -t 600
+      cf push "$app_name" --strategy rolling -t 180
     fi
     exit_code=$?
     set -e
@@ -146,7 +211,7 @@ then
   echo "PUSHING web servers to Production..."
   echo "Syncing Login.gov environment variables..."
   ./.circleci/sync-login-gov-env.sh touchpoints
-  cf_push_with_retry touchpoints touchpoints.yml
+  cf_push_with_retry touchpoints touchpoints.yml true
   echo "Push to Production Complete."
 else
   echo "Not on the production branch."
@@ -158,7 +223,7 @@ then
   # Log into CF and push
   cf login -a $CF_API_ENDPOINT -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $CF_SPACE
   echo "Pushing web servers to Demo..."
-  cf_push_with_retry touchpoints-demo
+  cf_push_with_retry touchpoints-demo "" true
   echo "Push to Demo Complete."
 else
   echo "Not on the main branch."
@@ -170,7 +235,7 @@ then
   # Log into CF and push
   cf login -a $CF_API_ENDPOINT -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $CF_SPACE
   echo "Pushing web servers to Staging..."
-  cf_push_with_retry touchpoints-staging
+  cf_push_with_retry touchpoints-staging "" true
   echo "Push to Staging Complete."
 else
   echo "Not on the develop branch."
