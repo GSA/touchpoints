@@ -102,9 +102,9 @@ cf_push_with_retry() {
   # Wait for any in-progress deployment
   wait_for_deployment "$app_name"
   
-  # Update app to use 180s timeout and process health check before rolling deploy
+  # Update app to use 180s invocation timeout and process health check before rolling deploy
   echo "Updating health check configuration for $app_name..."
-  cf set-health-check "$app_name" process --timeout 180 || true
+  cf set-health-check "$app_name" process --invocation-timeout 180 || true
   sleep 2
   
   for i in $(seq 1 $max_retries); do
