@@ -13,7 +13,7 @@ GIT
 PATH
   remote: ext/widget_renderer
   specs:
-    widget_renderer (0.1.1)
+    widget_renderer (0.1.2)
       fiddle
       rutie
 
