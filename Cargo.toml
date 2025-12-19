@@ -1,5 +1,10 @@
 [workspace]
 members = [
-    "ext/widget_renderer"
+    "ext/widget_renderer",
 ]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+
 resolver = "2"
