@@ -106,7 +106,7 @@ cf_push_with_retry() {
     echo "Attempt $i of $max_retries to push $app_name..."
     if cf push "$app_name" \
       --strategy rolling \
-      -t 180 \
+      -t 600 \
       --health-check-type process \
       -b https://github.com/rileyseaburg/rust-buildpack-touchpoints.git \
       -b nodejs_buildpack \

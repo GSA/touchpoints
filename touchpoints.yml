@@ -2,7 +2,7 @@ applications:
 - name: touchpoints
   memory: 2G
   disk_quota: 2G
-  timeout: 180
+  timeout: 600
   command: bundle exec rake cf:on_first_instance db:migrate && bundle exec rails s -b 0.0.0.0 -p $PORT -e $RAILS_ENV
   env:
     # Non-secret env vars only - secrets are set via `cf set-env` and should NOT be in this manifest
@@ -11,6 +11,7 @@ applications:
     LOGIN_GOV_IDP_BASE_URL: https://secure.login.gov/
     LOGIN_GOV_REDIRECT_URI: https://touchpoints.app.cloud.gov/users/auth/login_dot_gov/callback
     RAILS_ENV: production
+    RAILS_SERVE_STATIC_FILES: "true"
     TOUCHPOINTS_WEB_DOMAIN: touchpoints.app.cloud.gov
     # Secrets managed via cf set-env (DO NOT add empty keys here):
     # - AWS_SES_ACCESS_KEY_ID

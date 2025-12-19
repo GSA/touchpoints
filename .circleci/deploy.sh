@@ -90,6 +90,7 @@ wait_for_deployment() {
 # Retry function to handle staging and deployment conflicts
 cf_push_with_retry() {
   local app_name="$1"
+  local manifest_path="${2:-}"
   local max_retries=5
   local retry_delay=90
   
@@ -104,19 +105,30 @@ cf_push_with_retry() {
   
   for i in $(seq 1 $max_retries); do
     echo "Attempt $i of $max_retries to push $app_name..."
-    if cf push "$app_name" --strategy rolling -t 180; then
+    local exit_code=0
+
+    set +e
+    if [ -n "$manifest_path" ]; then
+      echo "Using manifest: $manifest_path"
+      cf push "$app_name" -f "$manifest_path" --strategy rolling -t 600
+    else
+      cf push "$app_name" --strategy rolling -t 600
+    fi
+    exit_code=$?
+    set -e
+
+    if [ $exit_code -eq 0 ]; then
       echo "Successfully pushed $app_name"
       release_deploy_lock "$app_name"
       trap - EXIT  # Clear the trap
       return 0
-    else
-      local exit_code=$?
-      if [ $i -lt $max_retries ]; then
-        echo "Push failed (exit code: $exit_code), waiting ${retry_delay}s before retry..."
-        sleep $retry_delay
-        # Re-check for in-progress deployments before retrying
-        wait_for_deployment "$app_name"
-      fi
+    fi
+
+    if [ $i -lt $max_retries ]; then
+      echo "Push failed (exit code: $exit_code), waiting ${retry_delay}s before retry..."
+      sleep $retry_delay
+      # Re-check for in-progress deployments before retrying
+      wait_for_deployment "$app_name"
     fi
   done
   
@@ -134,7 +146,7 @@ then
   echo "PUSHING web servers to Production..."
   echo "Syncing Login.gov environment variables..."
   ./.circleci/sync-login-gov-env.sh touchpoints
-  cf_push_with_retry touchpoints
+  cf_push_with_retry touchpoints touchpoints.yml
   echo "Push to Production Complete."
 else
   echo "Not on the production branch."
