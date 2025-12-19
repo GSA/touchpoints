@@ -25,10 +25,12 @@ applications:
     # - S3_AWS_SECRET_ACCESS_KEY
     # - TOUCHPOINTS_EMAIL_SENDER
     # - TOUCHPOINTS_GTM_CONTAINER_ID
-  buildpacks:
-    - https://github.com/rileyseaburg/rust-buildpack-touchpoints.git
-    - nodejs_buildpack
-    - ruby_buildpack
+  # buildpacks commented out - let CF auto-detect from app metadata to avoid re-running supply phase
+  # Rust library is already built during CircleCI bundle install via gem extensions (extconf.rb)
+  # buildpacks:
+  #   - https://github.com/rileyseaburg/rust-buildpack-touchpoints.git
+  #   - nodejs_buildpack
+  #   - ruby_buildpack
   services:
     - touchpoints-prod-db
     - touchpoints-redis-service
