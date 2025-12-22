@@ -57,8 +57,8 @@ jobs:
 
       - restore_cache:
           keys:
-            - v2-cargo-{{ checksum "ext/widget_renderer/Cargo.lock" }}
-            - v2-cargo-
+            - v3-cargo-{{ checksum "ext/widget_renderer/Cargo.lock" }}
+            - v3-cargo-
 
       - run:
           name: Build widget renderer (Rust)
@@ -89,7 +89,7 @@ jobs:
             - ext/widget_renderer/target
             - ~/.cargo/registry
             - ~/.cargo/git
-          key: v2-cargo-{{ checksum "ext/widget_renderer/Cargo.lock" }}
+          key: v3-cargo-{{ checksum "ext/widget_renderer/Cargo.lock" }}
 
       # Download and cache dependencies
       - restore_cache:
