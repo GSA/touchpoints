@@ -130,7 +130,8 @@ jobs:
       - run:
           name: Install-cf-cli
           command: |
-            curl -L -o cf-cli_amd64.deb 'https://github.com/cloudfoundry/cli/releases/download/v8.17.0/cf8-cli-installer_8.17.0_x86-64.deb'
+            # Install latest cf8 CLI release (keeps minor/patch versions up to date)
+            curl -L -o cf-cli_amd64.deb 'https://github.com/cloudfoundry/cli/releases/latest/download/cf8-cli-installer_x86-64.deb'
             sudo dpkg -i cf-cli_amd64.deb
             cf -v
       # collect reports
