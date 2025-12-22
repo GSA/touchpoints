@@ -368,6 +368,29 @@ class Form < ApplicationRecord
     controller_with_request.render_to_string(partial: 'components/widget/widget', formats: :css, locals: { form: self })
   end
 
+  # Renders the widget CSS partial for use with the Rust widget renderer
+  def render_widget_css
+    controller = ApplicationController.new
+
+    # Set up a mock request with default URL options
+    default_options = Rails.application.config.action_controller.default_url_options ||
+                      Rails.application.config.action_mailer.default_url_options ||
+                      {}
+    host = default_options[:host] || 'localhost'
+    port = default_options[:port] || 3000
+    protocol = default_options[:protocol] || (port == 443 ? 'https' : 'http')
+
+    mock_request = ActionDispatch::Request.new(
+      'rack.url_scheme' => protocol,
+      'HTTP_HOST' => "#{host}#{":#{port}" if port != 80 && port != 443}",
+      'SERVER_NAME' => host,
+      'SERVER_PORT' => port.to_s,
+    )
+
+    controller.request = mock_request
+    controller.render_to_string(partial: 'components/widget/widget', formats: :css, locals: { form: self })
+  end
+
   def reportable_submissions(start_date: nil, end_date: nil)
     submissions
       .reportable
