@@ -965,7 +965,8 @@ window.touchpointForm{uuid}.init(touchpointFormOptions{uuid});
 			}}
 		}}
 		// Ensure the custom button is also initialized if it exists (for 'custom-button-modal' delivery method)
-		const customButtonEl = document.getElementById('{element_selector}');
+		const customButtonSelector = '{element_selector}';
+		const customButtonEl = customButtonSelector ? document.getElementById(customButtonSelector) : null;
 		if (customButtonEl && ('{delivery_method}' === 'custom-button-modal')) {{
 			if (fbaUswds.Modal) {{
 				fbaUswds.Modal.on(customButtonEl);

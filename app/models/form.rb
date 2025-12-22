@@ -358,51 +358,14 @@ class Form < ApplicationRecord
     end
 
     # Always use ERB template rendering for now to avoid Rust compilation issues
-    controller = ApplicationController.new
-
-    # Set up a mock request with default URL options to avoid "undefined method 'host' for nil" errors
-    # This is necessary because the ERB templates use root_url which requires request context
-    # Try action_controller first, fall back to action_mailer if not set
-    default_options = Rails.application.config.action_controller.default_url_options ||
-                      Rails.application.config.action_mailer.default_url_options ||
-                      {}
-    host = default_options[:host] || 'localhost'
-    port = default_options[:port] || 3000
-    protocol = default_options[:protocol] || (port == 443 ? 'https' : 'http')
-
-    # Create a mock request
-    mock_request = ActionDispatch::Request.new(
-      'rack.url_scheme' => protocol,
-      'HTTP_HOST' => "#{host}#{":#{port}" if port != 80 && port != 443}",
-      'SERVER_NAME' => host,
-      'SERVER_PORT' => port.to_s,
-    )
-
-    controller.request = mock_request
-    controller.render_to_string(partial: 'components/widget/fba', formats: :js, locals: { form: self })
+    controller_with_request = build_controller_with_mock_request
+    controller_with_request.render_to_string(partial: 'components/widget/fba', formats: :js, locals: { form: self })
   end
 
   # Renders the widget CSS partial for use with the Rust widget renderer
   def render_widget_css
-    controller = ApplicationController.new
-
-    # Set up a mock request with default URL options
-    default_options = Rails.application.config.action_controller.default_url_options ||
-                      Rails.application.config.action_mailer.default_url_options ||
-                      {}
-    host = default_options[:host] || 'localhost'
-    port = default_options[:port] || 3000
-    protocol = default_options[:protocol] || (port == 443 ? 'https' : 'http')
-
-    mock_request = ActionDispatch::Request.new(
-      'rack.url_scheme' => protocol,
-      'HTTP_HOST' => "#{host}#{":#{port}" if port != 80 && port != 443}",
-      'SERVER_NAME' => host,
-      'SERVER_PORT' => port.to_s,
-    )
-
-    controller.request = mock_request
-    controller.render_to_string(partial: 'components/widget/widget', formats: :css, locals: { form: self })
+    controller_with_request = build_controller_with_mock_request
+    controller_with_request.render_to_string(partial: 'components/widget/widget', formats: :css, locals: { form: self })
   end
 
   def reportable_submissions(start_date: nil, end_date: nil)
@@ -1075,6 +1038,31 @@ class Form < ApplicationRecord
   end
 
   private
+
+  # Builds an ApplicationController instance with a mock request for rendering partials
+  # This is necessary because ERB templates use URL helpers which require request context
+  def build_controller_with_mock_request
+    controller = ApplicationController.new
+
+    # Set up a mock request with default URL options
+    # Try action_controller first, fall back to action_mailer if not set
+    default_options = Rails.application.config.action_controller.default_url_options ||
+                      Rails.application.config.action_mailer.default_url_options ||
+                      {}
+    host = default_options[:host] || 'localhost'
+    port = default_options[:port] || 3000
+    protocol = default_options[:protocol] || (port == 443 ? 'https' : 'http')
+
+    mock_request = ActionDispatch::Request.new(
+      'rack.url_scheme' => protocol,
+      'HTTP_HOST' => "#{host}#{":#{port}" if port != 80 && port != 443}",
+      'SERVER_NAME' => host,
+      'SERVER_PORT' => port.to_s,
+    )
+
+    controller.request = mock_request
+    controller
+  end
 
   def set_uuid
     self.uuid ||= SecureRandom.uuid
