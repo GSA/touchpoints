@@ -302,12 +302,16 @@ class Form < ApplicationRecord
     use_rust = defined?(WidgetRenderer) && !Rails.env.test?
     if use_rust
       begin
+        # Render the CSS using a controller context
+        css_content = render_widget_css
+
         form_hash = {
           short_uuid: short_uuid,
           modal_button_text: modal_button_text || 'Feedback',
           element_selector: element_selector.presence || 'touchpoints-container',
           delivery_method: delivery_method,
           load_css: !!load_css,
+          css: css_content,
           success_text_heading: success_text_heading || 'Thank you',
           success_text: success_text || 'Your feedback has been received.',
           suppress_submit_button: !!suppress_submit_button,
@@ -376,6 +380,29 @@ class Form < ApplicationRecord
 
     controller.request = mock_request
     controller.render_to_string(partial: 'components/widget/fba', formats: :js, locals: { form: self })
+  end
+
+  # Renders the widget CSS partial for use with the Rust widget renderer
+  def render_widget_css
+    controller = ApplicationController.new
+
+    # Set up a mock request with default URL options
+    default_options = Rails.application.config.action_controller.default_url_options ||
+                      Rails.application.config.action_mailer.default_url_options ||
+                      {}
+    host = default_options[:host] || 'localhost'
+    port = default_options[:port] || 3000
+    protocol = default_options[:protocol] || (port == 443 ? 'https' : 'http')
+
+    mock_request = ActionDispatch::Request.new(
+      'rack.url_scheme' => protocol,
+      'HTTP_HOST' => "#{host}#{":#{port}" if port != 80 && port != 443}",
+      'SERVER_NAME' => host,
+      'SERVER_PORT' => port.to_s,
+    )
+
+    controller.request = mock_request
+    controller.render_to_string(partial: 'components/widget/widget', formats: :css, locals: { form: self })
   end
 
   def reportable_submissions(start_date: nil, end_date: nil)

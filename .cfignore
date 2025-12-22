@@ -38,10 +38,7 @@
 /public/packs-test
 /node_modules
 
-# Ignore Rust build artifacts, but keep the prebuilt widget library
+# Ignore Rust build artifacts
 target/
 ext/widget_renderer/target/
-!ext/widget_renderer/target/
-!ext/widget_renderer/target/release/
-!ext/widget_renderer/target/release/libwidget_renderer.so
 !ext/widget_renderer/libwidget_renderer.so

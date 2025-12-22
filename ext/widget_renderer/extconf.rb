@@ -30,7 +30,10 @@ cargo_bin = ensure_rust
 
 puts "Current directory: #{Dir.pwd}"
 puts "Using cargo executable: #{cargo_bin}"
-system("#{cargo_bin} build --release") or abort 'Failed to build Rust extension'
+puts "Cleaning previous build artifacts..."
+system("#{cargo_bin} clean 2>&1")
+puts "Running cargo build --release..."
+system("#{cargo_bin} build --release 2>&1") or abort 'Failed to build Rust extension'
 
 # Copy the built shared library into the extension root so it is included in the droplet.
 # Dir.glob does not expand `{}` patterns, so search explicitly for common extensions.

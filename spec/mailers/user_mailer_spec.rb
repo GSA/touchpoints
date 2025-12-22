@@ -46,6 +46,7 @@ RSpec.describe UserMailer, type: :mailer do
     let(:form) { FactoryBot.create(:form, :single_question, organization:, notification_emails: user.email) }
     let!(:submission) { FactoryBot.create(:submission, form:) }
     let(:days_ago) { 1 }
+    let(:time_threshold) { days_ago.days.ago }
     let(:mail) { UserMailer.submissions_digest(form.id, days_ago) }
 
     before do
@@ -53,14 +54,14 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'renders the headers' do
-      expect(mail.subject).to eq("Touchpoints Digest: New Submissions to #{form.name} since #{days_ago.days.ago}")
+      expect(mail.subject).to eq("Touchpoints Digest: New Submissions to #{form.name} since #{time_threshold}")
       expect(mail.to).to eq(form.notification_emails.split)
       expect(mail.from).to eq([ENV.fetch('TOUCHPOINTS_EMAIL_SENDER')])
     end
 
     it 'renders the body' do
-      expect(mail.body.encoded).to have_text("Notification of feedback received since #{days_ago.days.ago}")
-      expect(mail.body.encoded).to have_text("1 feedback responses have been submitted to your form, #{form.name}, since #{days_ago.days.ago}")
+      expect(mail.body.encoded).to have_text("Notification of feedback received since #{time_threshold}")
+      expect(mail.body.encoded).to have_text("1 feedback responses have been submitted to your form, #{form.name}, since #{time_threshold}")
     end
   end
 

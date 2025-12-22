@@ -17,6 +17,9 @@ Rails.application.configure do
 
   # Do not fall back to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
+
+  # Let Cloud Foundry / container platforms serve precompiled assets from /public.
+  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
   # Cache assets for far-future expiry since they are all digest stamped.
   # Add CORS headers for static assets to support SRI (Subresource Integrity) checks
   # when assets are served from ASSET_HOST (different origin than the page)
