@@ -130,8 +130,10 @@ jobs:
       - run:
           name: Install-cf-cli
           command: |
-            curl -L -o cf-cli_amd64.deb 'https://github.com/cloudfoundry/cli/releases/download/v8.17.0/cf8-cli-installer_8.17.0_x86-64.deb'
-            sudo dpkg -i cf-cli_amd64.deb
+            wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+            echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+            sudo apt-get update
+            sudo apt-get install -y cf8-cli
             cf -v
       # collect reports
       - store_test_results:
@@ -180,8 +182,10 @@ jobs:
       - run:
           name: Install-cf-cli
           command: |
-            curl -L -o cf-cli_amd64.deb 'https://github.com/cloudfoundry/cli/releases/download/v8.17.0/cf8-cli-installer_8.17.0_x86-64.deb'
-            sudo dpkg -i cf-cli_amd64.deb
+            wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+            echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+            sudo apt-get update
+            sudo apt-get install -y cf8-cli
             cf -v
       - run:
           name: Run CRON tasks
