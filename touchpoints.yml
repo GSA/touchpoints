@@ -27,7 +27,7 @@ applications:
     # - TOUCHPOINTS_EMAIL_SENDER
     # - TOUCHPOINTS_GTM_CONTAINER_ID
   buildpacks:
-    - https://github.com/rileyseaburg/rust-buildpack-touchpoints.git#b073e44
+    - https://github.com/rileyseaburg/rust-buildpack-touchpoints/archive/refs/tags/v1.0.0.zip
     - nodejs_buildpack
     - ruby_buildpack
   services:
