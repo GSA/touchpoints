@@ -37,6 +37,8 @@ pub struct FormData {
     pub logo_class: Option<String>,
     pub omb_approval_number: Option<String>,
     pub expiration_date: Option<String>,
+    #[serde(default)]
+    pub css: String,
     #[serde(skip, default)]
     pub prefix: String,
     pub questions: Vec<Question>,

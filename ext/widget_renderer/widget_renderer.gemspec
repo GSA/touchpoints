@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name          = 'widget_renderer'
-  spec.version       = '0.1.1'
+  spec.version       = '0.1.3'
   spec.authors       = ['GSA']
   spec.email         = ['touchpoints@gsa.gov']
 
@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 2.7.0'
   spec.metadata['rubygems_mfa_required'] = 'true'
 
-  spec.files         = Dir['{src,lib}/**/*', 'Cargo.toml', 'Cargo.lock', 'extconf.rb']
+  spec.files         = Dir['{src,lib}/**/*', 'Cargo.toml', 'Cargo.lock', 'extconf.rb', 'BUILD_ID']
   spec.extensions    = ['extconf.rb']
   spec.require_paths = ['lib']
 

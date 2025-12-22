@@ -394,5 +394,5 @@ Rails.application.routes.draw do
   get 'status', to: 'site#status', as: :status
   get 'registry', to: 'site#registry', as: :registry
   get 'index', to: 'site#index', as: :index
-  root to: redirect(ENV.fetch('INDEX_URL'))
+  root to: redirect(ENV.fetch('INDEX_URL', '/admin'))
 end
