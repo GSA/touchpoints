@@ -121,16 +121,17 @@ jobs:
             mkdir /tmp/test-results
             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
 
-            bundle exec rspec --format progress \
-                            --format RspecJunitFormatter \
-                            --out /tmp/test-results/rspec.xml \
-                            --format progress \
-                            $TEST_FILES
+             bundle exec rspec --format progress \
+                             --format RspecJunitFormatter \
+                             --out /tmp/test-results/rspec.xml \
+                             --format progress \
+                             $TEST_FILES
       # Install Cloud Foundry cli (cf) before deploy step. cf is used to push to Cloud.gov
       - run:
           name: Install-cf-cli
           command: |
-            curl -v -L -o cf-cli_amd64.deb 'https://packages.cloudfoundry.org/stable?release=debian64&source=github'
+            # Install latest cf8 CLI release (keeps minor/patch versions up to date)
+            curl -L -o cf-cli_amd64.deb 'https://github.com/cloudfoundry/cli/releases/latest/download/cf8-cli-installer_x86-64.deb'
             sudo dpkg -i cf-cli_amd64.deb
             cf -v
       # collect reports
@@ -180,7 +181,7 @@ jobs:
       - run:
           name: Install-cf-cli
           command: |
-            curl -v -L -o cf-cli_amd64.deb 'https://packages.cloudfoundry.org/stable?release=debian64&source=github'
+            curl -L -o cf-cli_amd64.deb 'https://github.com/cloudfoundry/cli/releases/download/v8.17.0/cf8-cli-installer_8.17.0_x86-64.deb'
             sudo dpkg -i cf-cli_amd64.deb
             cf -v
       - run:
