@@ -450,9 +450,10 @@ feature 'Forms', js: true do
               find('.survey-title-input').set('Updated Form Title')
               find('.survey-title-input').native.send_key :tab
               expect(page).to have_content('form title saved')
+              # Wait for AJAX save to complete before refreshing
+              wait_for_ajax
               # and persists after refresh
               visit questions_admin_form_path(form)
-              wait_for_builder
               wait_for_builder
               expect(find('.survey-title-input').value).to eq('Updated Form Title')
             end
