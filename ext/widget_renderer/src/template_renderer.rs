@@ -52,10 +52,18 @@ impl TemplateRenderer {
             ""
         };
 
-        let modal_class = if form.kind == "recruitment" {
-            "fba-usa-modal fba-usa-modal--lg".to_string()
+        let modal_class = if form.load_css {
+            if form.kind == "recruitment" {
+                "fba-usa-modal fba-usa-modal--lg".to_string()
+            } else {
+                "fba-usa-modal".to_string()
+            }
         } else {
-            "fba-usa-modal".to_string()
+            if form.kind == "recruitment" {
+                "usa-modal usa-modal--lg".to_string()
+            } else {
+                "usa-modal".to_string()
+            }
         };
 
         let turnstile_check = if form.enable_turnstile {
@@ -859,9 +867,10 @@ function FBAform(d, N) {{
         let question_params = self.render_question_params(form);
         let html_body = self.render_html_body(form).replace("`", "\\`");
         let html_body_no_modal = self.render_html_body_no_modal(form).replace("`", "\\`");
-        // Escape the CSS for JavaScript string - escape backslashes, quotes, and newlines
+        // Escape the CSS for JavaScript string - escape backslashes, backticks, quotes, and newlines
         let escaped_css = form.css
             .replace("\\", "\\\\")
+            .replace("`", "\\`")
             .replace("\"", "\\\"")
             .replace("\n", "\\n")
             .replace("\r", "");
@@ -945,8 +954,19 @@ window.touchpointForm{uuid}.init(touchpointFormOptions{uuid});
 		if (fbaModalElement) {{
 			if (fbaUswds.Modal) fbaUswds.Modal.on(fbaModalElement);
 		}}
-		// Ensure the custom button is also initialized if it exists
-		const customButtonEl = document.getElementById('{element_selector}');
+		// Ensure the modal button is also initialized if it exists (for 'modal' delivery method)
+		const fbaButton = document.querySelector('#fba-button');
+		if (fbaButton) {{
+			if (fbaUswds.Modal) {{
+				fbaUswds.Modal.on(fbaButton);
+				fbaButton.classList.add('fba-initialized');
+			}} else {{
+				console.error("Touchpoints Error: fbaUswds.Modal is not defined");
+			}}
+		}}
+		// Ensure the custom button is also initialized if it exists (for 'custom-button-modal' delivery method)
+		const customButtonSelector = '{element_selector}';
+		const customButtonEl = (customButtonSelector && customButtonSelector.length > 0) ? document.getElementById(customButtonSelector) : null;
 		if (customButtonEl && ('{delivery_method}' === 'custom-button-modal')) {{
 			if (fbaUswds.Modal) {{
 				fbaUswds.Modal.on(customButtonEl);
