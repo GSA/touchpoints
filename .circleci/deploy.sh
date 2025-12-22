@@ -87,6 +87,50 @@ wait_for_deployment() {
   return 0
 }
 
+# Wait for the current deployment to fully complete (all instances replaced)
+wait_for_deployment_complete() {
+  local app_name="$1"
+  local max_wait=900  # 15 minutes max for full deployment
+  local wait_interval=15
+  local waited=0
+  
+  echo "Waiting for deployment of $app_name to complete..."
+  
+  local app_guid=$(cf app "$app_name" --guid)
+  
+  while [ $waited -lt $max_wait ]; do
+    # Get the most recent deployment status
+    local deployment_info=$(cf curl "/v3/deployments?app_guids=${app_guid}&order_by=-created_at&per_page=1" 2>/dev/null)
+    local status=$(echo "$deployment_info" | grep -o '"value":"[^"]*"' | head -1 | cut -d'"' -f4 || echo "")
+    local reason=$(echo "$deployment_info" | grep -o '"reason":"[^"]*"' | head -1 | cut -d'"' -f4 || echo "")
+    
+    if [ "$status" == "FINALIZED" ]; then
+      if [ "$reason" == "DEPLOYED" ]; then
+        echo "✓ Deployment completed successfully"
+        return 0
+      elif [ "$reason" == "CANCELED" ]; then
+        echo "✗ Deployment was canceled"
+        return 1
+      else
+        echo "✗ Deployment finalized with reason: $reason"
+        return 1
+      fi
+    fi
+    
+    if [ "$status" == "ACTIVE" ]; then
+      echo "Deployment in progress (status: $status), waiting ${wait_interval}s... (waited ${waited}s of ${max_wait}s)"
+    else
+      echo "Deployment status: $status, reason: $reason"
+    fi
+    
+    sleep $wait_interval
+    waited=$((waited + wait_interval))
+  done
+  
+  echo "Warning: Timed out waiting for deployment to complete after ${max_wait}s"
+  return 1
+}
+
 # Run migrations as a CF task and wait for completion
 run_migrations() {
   local app_name="$1"
@@ -184,22 +228,47 @@ cf_push_with_retry() {
     set +e
     if [ -n "$manifest_path" ]; then
       echo "Using manifest: $manifest_path"
-      cf push "$app_name" -f "$manifest_path" --strategy rolling -t 180
+      cf push "$app_name" -f "$manifest_path" --strategy rolling -t 180 --no-wait
     else
-      cf push "$app_name" --strategy rolling -t 180
+      cf push "$app_name" --strategy rolling -t 180 --no-wait
     fi
     exit_code=$?
     set -e
 
     if [ $exit_code -eq 0 ]; then
-      echo "Successfully pushed $app_name"
-      release_deploy_lock "$app_name"
-      trap - EXIT  # Clear the trap
-      return 0
+      echo "Push initiated successfully, waiting for full deployment to complete..."
+      if wait_for_deployment_complete "$app_name"; then
+        echo "Successfully deployed $app_name"
+        release_deploy_lock "$app_name"
+        trap - EXIT  # Clear the trap
+        return 0
+      else
+        echo "Deployment did not complete successfully"
+        # Continue to retry logic below
+      fi
     fi
 
     if [ $i -lt $max_retries ]; then
-      echo "Push failed (exit code: $exit_code), waiting ${retry_delay}s before retry..."
+      echo "Push failed or deployment incomplete (exit code: $exit_code), checking for active deployments..."
+      
+      # Check if there's an active deployment that we should wait for instead of retrying
+      local app_guid=$(cf app "$app_name" --guid 2>/dev/null || echo "")
+      if [ -n "$app_guid" ]; then
+        local active_deployment=$(cf curl "/v3/deployments?app_guids=${app_guid}&status_values=ACTIVE" 2>/dev/null | grep -c '"ACTIVE"' || echo "0")
+        
+        if [ "$active_deployment" -gt 0 ]; then
+          echo "Active deployment detected, waiting for it to complete instead of retrying..."
+          if wait_for_deployment_complete "$app_name"; then
+            echo "Existing deployment completed successfully"
+            release_deploy_lock "$app_name"
+            trap - EXIT
+            return 0
+          fi
+          echo "Existing deployment did not complete successfully, will retry..."
+        fi
+      fi
+      
+      echo "Waiting ${retry_delay}s before retry..."
       sleep $retry_delay
       # Re-check for in-progress deployments before retrying
       wait_for_deployment "$app_name"
