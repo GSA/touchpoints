@@ -945,7 +945,17 @@ window.touchpointForm{uuid}.init(touchpointFormOptions{uuid});
 		if (fbaModalElement) {{
 			if (fbaUswds.Modal) fbaUswds.Modal.on(fbaModalElement);
 		}}
-		// Ensure the custom button is also initialized if it exists
+		// Ensure the modal button is also initialized if it exists (for 'modal' delivery method)
+		const fbaButton = document.querySelector('#fba-button');
+		if (fbaButton) {{
+			if (fbaUswds.Modal) {{
+				fbaUswds.Modal.on(fbaButton);
+				fbaButton.classList.add('fba-initialized');
+			}} else {{
+				console.error("Touchpoints Error: fbaUswds.Modal is not defined");
+			}}
+		}}
+		// Ensure the custom button is also initialized if it exists (for 'custom-button-modal' delivery method)
 		const customButtonEl = document.getElementById('{element_selector}');
 		if (customButtonEl && ('{delivery_method}' === 'custom-button-modal')) {{
 			if (fbaUswds.Modal) {{
