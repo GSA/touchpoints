@@ -53,3 +53,6 @@ ext/widget_renderer/Makefile
 ext/widget_renderer/*.dylib
 # Keep the prebuilt Linux .so for Cloud Foundry deployment
 !ext/widget_renderer/libwidget_renderer.so
+
+# Certificate files (avoid accidental commits of sensitive keys/certs)
+*.pem

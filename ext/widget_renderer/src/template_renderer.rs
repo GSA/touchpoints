@@ -52,10 +52,18 @@ impl TemplateRenderer {
             ""
         };
 
-        let modal_class = if form.kind == "recruitment" {
-            "fba-usa-modal fba-usa-modal--lg".to_string()
+        let modal_class = if form.load_css {
+            if form.kind == "recruitment" {
+                "fba-usa-modal fba-usa-modal--lg".to_string()
+            } else {
+                "fba-usa-modal".to_string()
+            }
         } else {
-            "fba-usa-modal".to_string()
+            if form.kind == "recruitment" {
+                "usa-modal usa-modal--lg".to_string()
+            } else {
+                "usa-modal".to_string()
+            }
         };
 
         let turnstile_check = if form.enable_turnstile {
@@ -859,9 +867,10 @@ function FBAform(d, N) {{
         let question_params = self.render_question_params(form);
         let html_body = self.render_html_body(form).replace("`", "\\`");
         let html_body_no_modal = self.render_html_body_no_modal(form).replace("`", "\\`");
-        // Escape the CSS for JavaScript string - escape backslashes, quotes, and newlines
+        // Escape the CSS for JavaScript string - escape backslashes, backticks, quotes, and newlines
         let escaped_css = form.css
             .replace("\\", "\\\\")
+            .replace("`", "\\`")
             .replace("\"", "\\\"")
             .replace("\n", "\\n")
             .replace("\r", "");
