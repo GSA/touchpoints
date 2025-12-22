@@ -121,17 +121,20 @@ jobs:
             mkdir /tmp/test-results
             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
 
-            bundle exec rspec --format progress \
-                            --format RspecJunitFormatter \
-                            --out /tmp/test-results/rspec.xml \
-                            --format progress \
-                            $TEST_FILES
+             bundle exec rspec --format progress \
+                             --format RspecJunitFormatter \
+                             --out /tmp/test-results/rspec.xml \
+                             --format progress \
+                             $TEST_FILES
       # Install Cloud Foundry cli (cf) before deploy step. cf is used to push to Cloud.gov
       - run:
           name: Install-cf-cli
           command: |
-            curl -v -L -o cf-cli_amd64.deb 'https://packages.cloudfoundry.org/stable?release=debian64&source=github'
-            sudo dpkg -i cf-cli_amd64.deb
+            sudo mkdir -p /etc/apt/trusted.gpg.d
+            sudo wget -q -O /etc/apt/trusted.gpg.d/cloudfoundry-cli.gpg https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key
+            echo "deb [signed-by=/etc/apt/trusted.gpg.d/cloudfoundry-cli.gpg] https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+            sudo apt-get update
+            sudo apt-get install -y cf8-cli
             cf -v
       # collect reports
       - store_test_results:
@@ -180,8 +183,11 @@ jobs:
       - run:
           name: Install-cf-cli
           command: |
-            curl -v -L -o cf-cli_amd64.deb 'https://packages.cloudfoundry.org/stable?release=debian64&source=github'
-            sudo dpkg -i cf-cli_amd64.deb
+            # Install Cloud Foundry CLI repository key using modern signed-by mechanism
+            sudo wget -q -O /etc/apt/trusted.gpg.d/cloudfoundry-cli.gpg https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key
+            echo "deb [signed-by=/etc/apt/trusted.gpg.d/cloudfoundry-cli.gpg] https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+            sudo apt-get update
+            sudo apt-get install -y cf8-cli
             cf -v
       - run:
           name: Run CRON tasks
