@@ -19,6 +19,7 @@ applications:
       TOUCHPOINTS_EMAIL_SENDER:
       TOUCHPOINTS_GTM_CONTAINER_ID:
       TOUCHPOINTS_WEB_DOMAIN: touchpoints-demo.app.cloud.gov
+      SKIP_WIDGET_RENDERER: "true"
     buildpacks:
       - https://github.com/rileyseaburg/rust-buildpack-touchpoints.git
       - nodejs_buildpack

@@ -25,6 +25,7 @@ applications:
       TURNSTILE_SECRET_KEY: ((TURNSTILE_SECRET_KEY))
       TOUCHPOINTS_WEB_DOMAIN2: app-staging.touchpoints.digital.gov
       ASSET_HOST: app-staging.touchpoints.digital.gov
+      SKIP_WIDGET_RENDERER: "true"
     buildpacks:
       - https://github.com/rileyseaburg/rust-buildpack-touchpoints.git
       - nodejs_buildpack
