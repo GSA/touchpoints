@@ -130,9 +130,9 @@ jobs:
       - run:
           name: Install-cf-cli
           command: |
-            sudo mkdir -p /etc/apt/trusted.gpg.d
-            sudo wget -q -O /etc/apt/trusted.gpg.d/cloudfoundry-cli.gpg https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key
-            echo "deb [signed-by=/etc/apt/trusted.gpg.d/cloudfoundry-cli.gpg] https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+            # Download and convert the GPG key to binary format for modern apt
+            wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo gpg --dearmor -o /usr/share/keyrings/cloudfoundry-cli.gpg
+            echo "deb [signed-by=/usr/share/keyrings/cloudfoundry-cli.gpg] https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
             sudo apt-get update
             sudo apt-get install -y cf8-cli
             cf -v
@@ -183,9 +183,9 @@ jobs:
       - run:
           name: Install-cf-cli
           command: |
-            # Install Cloud Foundry CLI repository key using modern signed-by mechanism
-            sudo wget -q -O /etc/apt/trusted.gpg.d/cloudfoundry-cli.gpg https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key
-            echo "deb [signed-by=/etc/apt/trusted.gpg.d/cloudfoundry-cli.gpg] https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+            # Download and convert the GPG key to binary format for modern apt
+            wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo gpg --dearmor -o /usr/share/keyrings/cloudfoundry-cli.gpg
+            echo "deb [signed-by=/usr/share/keyrings/cloudfoundry-cli.gpg] https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
             sudo apt-get update
             sudo apt-get install -y cf8-cli
             cf -v
