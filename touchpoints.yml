@@ -14,6 +14,7 @@ applications:
     RAILS_SERVE_STATIC_FILES: "true"
     TOUCHPOINTS_WEB_DOMAIN: touchpoints.app.cloud.gov
     INDEX_URL: /admin
+    SKIP_WIDGET_RENDERER: "true"
     # Secrets managed via cf set-env (DO NOT add empty keys here):
     # - AWS_SES_ACCESS_KEY_ID
     # - AWS_SES_SECRET_ACCESS_KEY
