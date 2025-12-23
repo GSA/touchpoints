@@ -1,5 +1,24 @@
 # frozen_string_literal: true
 
+# Check if widget renderer should be skipped (for deployments where native library is unavailable)
+if ENV['SKIP_WIDGET_RENDERER'] == 'true'
+  puts 'WidgetRenderer: SKIP_WIDGET_RENDERER is set, using stub implementation'
+  
+  # Define a stub class that provides the same interface but uses ERB fallback
+  class WidgetRenderer
+    def self.render_widget(template, data)
+      # Return nil to signal caller should use ERB fallback
+      nil
+    end
+    
+    def self.available?
+      false
+    end
+  end
+  
+  return # Exit early, don't load native library
+end
+
 require 'rutie'
 require 'fileutils'
 
@@ -118,6 +137,13 @@ puts "WidgetRenderer: Initializing Rutie with path: #{path}"
 
 begin
   Rutie.new(:widget_renderer).init 'Init_widget_renderer', path
+  
+  # Add available? method to the native class
+  class ::WidgetRenderer
+    def self.available?
+      true
+    end
+  end
 rescue SystemExit => e
   raise LoadError, "WidgetRenderer native init exited: #{e.message}"
 end
