@@ -35,5 +35,6 @@ applications:
     - touchpoints-redis-service
     - touchpoints-prod-s3
     - touchpoints-prod-deployer
+    - touchpoints-s3-uploads
   routes:
     - route: touchpoints.app.cloud.gov
