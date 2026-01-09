@@ -774,7 +774,9 @@ feature 'Forms', js: true do
 
         describe 'editing form timezone' do
           let!(:form_with_responses) { FactoryBot.create(:form, :single_question, :with_responses, organization:) }
-          let!(:additional_response) { FactoryBot.create(:submission, form: form_with_responses, answer_01: 'hi', created_at: '2025-01-02') }
+          # Use Jan 2 at noon UTC to avoid timezone boundary issues (Jan 1 midnight UTC = Dec 31 in US timezones)
+          let(:submission_date) { Time.utc(Time.current.year, 1, 2, 12, 0, 0) }
+          let!(:additional_response) { FactoryBot.create(:submission, form: form_with_responses, answer_01: 'hi', created_at: submission_date) }
           let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form_with_responses) }
 
           before do
@@ -790,7 +792,7 @@ feature 'Forms', js: true do
 
           it 'ensure format_time translation is correct' do
             visit responses_admin_form_path(form_with_responses)
-            expect(all('#submissions_table .usa-table.submissions tbody tr').last).to have_content('Jan 1')
+            expect(all('#submissions_table .usa-table.submissions tbody tr').last).to have_content('Jan 2')
           end
         end
 

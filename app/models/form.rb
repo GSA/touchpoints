@@ -299,7 +299,8 @@ class Form < ApplicationRecord
   # or injected into a GTM Container Tag
   def touchpoints_js_string
     # Try to use Rust widget renderer if available
-    use_rust = defined?(WidgetRenderer) && !Rails.env.test?
+    # Can be disabled via DISABLE_RUST_RENDERER env var to force ERB fallback
+    use_rust = defined?(WidgetRenderer) && !Rails.env.test? && ENV['DISABLE_RUST_RENDERER'] != 'true'
     if use_rust
       begin
         # Render the CSS using a controller context
