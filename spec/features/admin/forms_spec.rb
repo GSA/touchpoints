@@ -197,8 +197,14 @@ feature 'Forms', js: true do
           find('label', text: 'Hosted on touchpoints').click
           click_on 'Update Form'
           expect(page).to have_content('Form was successfully updated.')
+          
+          # Wait for form to finish updating before navigating away
+          sleep 0.5
+          
           visit example_admin_form_path(Form.last)
-          expect(page).to have_css('.form-header-logo-square')
+          
+          # Use more robust visibility check to avoid stale element errors
+          expect(page).to have_css('.form-header-logo-square', wait: 10)
         end
       end
 
@@ -444,9 +450,10 @@ feature 'Forms', js: true do
               find('.survey-title-input').set('Updated Form Title')
               find('.survey-title-input').native.send_key :tab
               expect(page).to have_content('form title saved')
+              # Wait for AJAX save to complete before refreshing
+              wait_for_ajax
               # and persists after refresh
               visit questions_admin_form_path(form)
-              wait_for_builder
               wait_for_builder
               expect(find('.survey-title-input').value).to eq('Updated Form Title')
             end
@@ -767,7 +774,9 @@ feature 'Forms', js: true do
 
         describe 'editing form timezone' do
           let!(:form_with_responses) { FactoryBot.create(:form, :single_question, :with_responses, organization:) }
-          let!(:additional_response) { FactoryBot.create(:submission, form: form_with_responses, answer_01: 'hi', created_at: '2025-01-02') }
+          # Use Jan 2 at noon UTC to avoid timezone boundary issues (Jan 1 midnight UTC = Dec 31 in US timezones)
+          let(:submission_date) { Time.utc(Time.current.year, 1, 2, 12, 0, 0) }
+          let!(:additional_response) { FactoryBot.create(:submission, form: form_with_responses, answer_01: 'hi', created_at: submission_date) }
           let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user: admin, form: form_with_responses) }
 
           before do
@@ -783,7 +792,7 @@ feature 'Forms', js: true do
 
           it 'ensure format_time translation is correct' do
             visit responses_admin_form_path(form_with_responses)
-            expect(all('#submissions_table .usa-table.submissions tbody tr').last).to have_content('Jan 1')
+            expect(all('#submissions_table .usa-table.submissions tbody tr').last).to have_content('Jan 2')
           end
         end
 

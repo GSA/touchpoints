@@ -27,9 +27,11 @@
 # Don't check in these things
 .env
 .env.development
+.env.*
 .manifest.yml
 .csv
 vars.yml
+vars*.yml
 
 # For Macs
 .DS_Store
@@ -48,6 +50,10 @@ target/
 
 # Rust extension build artifacts
 ext/widget_renderer/Makefile
-ext/widget_renderer/*.so
 ext/widget_renderer/*.dylib
-!ext/widget_renderer/widget_renderer.so
+ext/widget_renderer/*.so
+ext/widget_renderer/*.bundle
+# These are built by the Rust buildpack on CF during staging
+
+# Certificate files (avoid accidental commits of sensitive keys/certs)
+*.pem

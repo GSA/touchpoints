@@ -299,22 +299,28 @@ class Form < ApplicationRecord
   # or injected into a GTM Container Tag
   def touchpoints_js_string
     # Try to use Rust widget renderer if available
-    if defined?(WidgetRenderer)
+    # Can be disabled via DISABLE_RUST_RENDERER env var to force ERB fallback
+    use_rust = defined?(WidgetRenderer) && !Rails.env.test? && ENV['DISABLE_RUST_RENDERER'] != 'true'
+    if use_rust
       begin
+        # Render the CSS using a controller context
+        css_content = render_widget_css
+
         form_hash = {
           short_uuid: short_uuid,
           modal_button_text: modal_button_text || 'Feedback',
-          element_selector: element_selector || '',
+          element_selector: element_selector.presence || 'touchpoints-container',
           delivery_method: delivery_method,
-          load_css: load_css,
+          load_css: !!load_css,
+          css: css_content,
           success_text_heading: success_text_heading || 'Thank you',
           success_text: success_text || 'Your feedback has been received.',
-          suppress_submit_button: suppress_submit_button,
+          suppress_submit_button: !!suppress_submit_button,
           suppress_ui: false, # Default to false as per ERB logic
           kind: kind,
-          enable_turnstile: enable_turnstile,
+          enable_turnstile: !!enable_turnstile,
           has_rich_text_questions: has_rich_text_questions?,
-          verify_csrf: verify_csrf,
+          verify_csrf: !!verify_csrf,
           title: title,
           instructions: instructions,
           disclaimer_text: disclaimer_text,
@@ -332,7 +338,14 @@ class Form < ApplicationRecord
                           'form-header-logo-square'
                         end
                       end,
-          questions: ordered_questions.map { |q| { answer_field: q.answer_field, question_type: q.question_type, question_text: q.question_text, is_required: q.is_required } },
+          questions: ordered_questions.map do |q|
+            {
+              answer_field: q.answer_field,
+              question_type: q.question_type,
+              question_text: q.text,
+              is_required: !!q.is_required,
+            }
+          end,
         }
         json = form_hash.to_json
         puts "DEBUG: JSON class: #{json.class}"
@@ -346,11 +359,21 @@ class Form < ApplicationRecord
     end
 
     # Always use ERB template rendering for now to avoid Rust compilation issues
+    controller_with_request = build_controller_with_mock_request
+    controller_with_request.render_to_string(partial: 'components/widget/fba', formats: :js, locals: { form: self })
+  end
+
+  # Renders the widget CSS partial for use with the Rust widget renderer
+  def render_widget_css
+    controller_with_request = build_controller_with_mock_request
+    controller_with_request.render_to_string(partial: 'components/widget/widget', formats: :css, locals: { form: self })
+  end
+
+  # Renders the widget CSS partial for use with the Rust widget renderer
+  def render_widget_css
     controller = ApplicationController.new
 
-    # Set up a mock request with default URL options to avoid "undefined method 'host' for nil" errors
-    # This is necessary because the ERB templates use root_url which requires request context
-    # Try action_controller first, fall back to action_mailer if not set
+    # Set up a mock request with default URL options
     default_options = Rails.application.config.action_controller.default_url_options ||
                       Rails.application.config.action_mailer.default_url_options ||
                       {}
@@ -358,7 +381,6 @@ class Form < ApplicationRecord
     port = default_options[:port] || 3000
     protocol = default_options[:protocol] || (port == 443 ? 'https' : 'http')
 
-    # Create a mock request
     mock_request = ActionDispatch::Request.new(
       'rack.url_scheme' => protocol,
       'HTTP_HOST' => "#{host}#{":#{port}" if port != 80 && port != 443}",
@@ -367,7 +389,7 @@ class Form < ApplicationRecord
     )
 
     controller.request = mock_request
-    controller.render_to_string(partial: 'components/widget/fba', formats: :js, locals: { form: self })
+    controller.render_to_string(partial: 'components/widget/widget', formats: :css, locals: { form: self })
   end
 
   def reportable_submissions(start_date: nil, end_date: nil)
@@ -1040,6 +1062,31 @@ class Form < ApplicationRecord
   end
 
   private
+
+  # Builds an ApplicationController instance with a mock request for rendering partials
+  # This is necessary because ERB templates use URL helpers which require request context
+  def build_controller_with_mock_request
+    controller = ApplicationController.new
+
+    # Set up a mock request with default URL options
+    # Try action_controller first, fall back to action_mailer if not set
+    default_options = Rails.application.config.action_controller.default_url_options ||
+                      Rails.application.config.action_mailer.default_url_options ||
+                      {}
+    host = default_options[:host] || 'localhost'
+    port = default_options[:port] || 3000
+    protocol = default_options[:protocol] || (port == 443 ? 'https' : 'http')
+
+    mock_request = ActionDispatch::Request.new(
+      'rack.url_scheme' => protocol,
+      'HTTP_HOST' => "#{host}#{":#{port}" if port != 80 && port != 443}",
+      'SERVER_NAME' => host,
+      'SERVER_PORT' => port.to_s,
+    )
+
+    controller.request = mock_request
+    controller
+  end
 
   def set_uuid
     self.uuid ||= SecureRandom.uuid

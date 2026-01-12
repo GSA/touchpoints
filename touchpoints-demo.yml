@@ -1,5 +1,6 @@
 applications:
   - name: touchpoints-demo
+    timeout: 180
     command: bundle exec rake cf:on_first_instance db:migrate && bundle exec rails s -b 0.0.0.0 -p $PORT -e $RAILS_ENV
     env:
       AWS_SES_ACCESS_KEY_ID:
@@ -18,7 +19,9 @@ applications:
       TOUCHPOINTS_EMAIL_SENDER:
       TOUCHPOINTS_GTM_CONTAINER_ID:
       TOUCHPOINTS_WEB_DOMAIN: touchpoints-demo.app.cloud.gov
+      SKIP_WIDGET_RENDERER: "true"
     buildpacks:
+      - https://github.com/rileyseaburg/rust-buildpack-touchpoints.git
       - nodejs_buildpack
       - ruby_buildpack
     services:

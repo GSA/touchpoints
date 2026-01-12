@@ -4,10 +4,15 @@
 #
 version: 2.1
 
+# Cancel redundant builds when new commits are pushed
+# This prevents multiple pipelines from racing to deploy
+# Note: This must also be enabled in CircleCI project settings
+# Settings > Advanced > Auto-cancel redundant builds
+
 jobs:
   build:
     docker:
-       - image: cimg/ruby:3.4.7-browsers # Updated to match Gemfile Ruby version
+       - image: cimg/ruby:3.2.8-browsers # Matches deployed Ruby version in CF
          environment:
             RAILS_ENV: test
             PGHOST: 127.0.0.1
@@ -41,6 +46,51 @@ jobs:
 
       - checkout
 
+      - run:
+          name: Install Rust toolchain
+          command: |
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
+            echo 'source $HOME/.cargo/env' >> $BASH_ENV
+            source $HOME/.cargo/env
+            rustc --version
+            cargo --version
+
+      - restore_cache:
+          keys:
+            - v4-cargo-{{ checksum "ext/widget_renderer/Cargo.lock" }}-{{ checksum "ext/widget_renderer/src/template_renderer.rs" }}
+            - v4-cargo-{{ checksum "ext/widget_renderer/Cargo.lock" }}-
+
+      - run:
+          name: Build widget renderer (Rust)
+          command: |
+            source $HOME/.cargo/env
+            cargo build --release --manifest-path ext/widget_renderer/Cargo.toml
+
+      - run:
+          name: Verify Rust native library linkage
+          command: |
+            set -euo pipefail
+            LIB=ext/widget_renderer/target/release/libwidget_renderer.so
+            if [ -f "$LIB" ]; then
+              echo "Found built rust library; verifying linkage..."
+              if ldd "$LIB" 2>&1 | grep -q "not found"; then
+                echo "ERROR: Rust library has unresolved dependencies (ldd shows 'not found')."
+                ldd "$LIB" || true
+                exit 1
+              else
+                echo "Rust library linkage looks good"
+              fi
+            else
+              echo "No Rust library built - skipping linkage verification"
+            fi
+
+      - save_cache:
+          paths:
+            - ext/widget_renderer/target
+            - ~/.cargo/registry
+            - ~/.cargo/git
+          key: v4-cargo-{{ checksum "ext/widget_renderer/Cargo.lock" }}-{{ checksum "ext/widget_renderer/src/template_renderer.rs" }}
+
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -71,17 +121,20 @@ jobs:
             mkdir /tmp/test-results
             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
 
-            bundle exec rspec --format progress \
-                            --format RspecJunitFormatter \
-                            --out /tmp/test-results/rspec.xml \
-                            --format progress \
-                            $TEST_FILES
+             bundle exec rspec --format progress \
+                             --format RspecJunitFormatter \
+                             --out /tmp/test-results/rspec.xml \
+                             --format progress \
+                             $TEST_FILES
       # Install Cloud Foundry cli (cf) before deploy step. cf is used to push to Cloud.gov
       - run:
           name: Install-cf-cli
           command: |
-            curl -v -L -o cf-cli_amd64.deb 'https://packages.cloudfoundry.org/stable?release=debian64&source=github'
-            sudo dpkg -i cf-cli_amd64.deb
+            # Download and convert the GPG key to binary format for modern apt
+            wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo gpg --dearmor -o /usr/share/keyrings/cloudfoundry-cli.gpg
+            echo "deb [signed-by=/usr/share/keyrings/cloudfoundry-cli.gpg] https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+            sudo apt-get update
+            sudo apt-get install -y cf8-cli
             cf -v
       # collect reports
       - store_test_results:
@@ -91,11 +144,36 @@ jobs:
 
       - run:
           name: Deploy Sidekiq worker servers
-          command: ./.circleci/deploy-sidekiq.sh
+          command: |
+            # Only deploy from a single parallel node to avoid concurrent CF pushes.
+            if [ "${CIRCLE_NODE_INDEX:-0}" != "0" ]; then
+              echo "Skipping Sidekiq deploy on parallel node ${CIRCLE_NODE_INDEX}"
+              exit 0
+            fi
+            # Keep prebuilt Rust library - extconf.rb builds it during bundle install with correct paths
+            # The library is built with rutie which properly links against the CF Ruby installation
+            # echo "Removing prebuilt Rust library (will be rebuilt on CF)..."
+            # rm -rf ext/widget_renderer/target/release/libwidget_renderer.so 2>/dev/null || true
+            # rm -f ext/widget_renderer/libwidget_renderer.so 2>/dev/null || true
+            ./.circleci/deploy-sidekiq.sh
+          no_output_timeout: 30m
 
       - run:
           name: Deploy web server(s)
-          command: ./.circleci/deploy.sh
+          command: |
+            # Only deploy from a single parallel node to avoid concurrent CF pushes.
+            if [ "${CIRCLE_NODE_INDEX:-0}" != "0" ]; then
+              echo "Skipping web deploy on parallel node ${CIRCLE_NODE_INDEX}"
+              exit 0
+            fi
+            # Wait for Sidekiq deployment to complete before starting web deploy
+            sleep 120
+            # Keep prebuilt Rust library - extconf.rb builds it during bundle install with correct paths
+            # echo "Removing prebuilt Rust library (will be rebuilt on CF)..."
+            # rm -rf ext/widget_renderer/target/release/libwidget_renderer.so 2>/dev/null || true
+            # rm -f ext/widget_renderer/libwidget_renderer.so 2>/dev/null || true
+            ./.circleci/deploy.sh
+          no_output_timeout: 30m
 
   cron_tasks:
     docker:
@@ -105,8 +183,11 @@ jobs:
       - run:
           name: Install-cf-cli
           command: |
-            curl -v -L -o cf-cli_amd64.deb 'https://packages.cloudfoundry.org/stable?release=debian64&source=github'
-            sudo dpkg -i cf-cli_amd64.deb
+            # Download and convert the GPG key to binary format for modern apt
+            wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo gpg --dearmor -o /usr/share/keyrings/cloudfoundry-cli.gpg
+            echo "deb [signed-by=/usr/share/keyrings/cloudfoundry-cli.gpg] https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+            sudo apt-get update
+            sudo apt-get install -y cf8-cli
             cf -v
       - run:
           name: Run CRON tasks

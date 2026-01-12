@@ -60,9 +60,10 @@ feature 'Digital Products', js: true do
       end
 
       it 'loads the show page' do
-        expect(page).to have_content('Digital product was successfully created.')
-        expect(page).to have_content('https://lvh.me')
-        expect(page).to have_content('No Code Repository URL specified')
+        expect(page).to have_current_path(%r{/admin/digital_products/\d+}, ignore_query: true, wait: 10)
+        expect(page).to have_text('Digital product was successfully created.', wait: 10)
+        expect(page).to have_text('https://lvh.me', wait: 5)
+        expect(page).to have_text('No Code Repository URL specified', wait: 5)
       end
     end
 

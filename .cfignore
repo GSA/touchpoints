@@ -41,3 +41,4 @@
 # Ignore Rust build artifacts
 target/
 ext/widget_renderer/target/
+!ext/widget_renderer/libwidget_renderer.so

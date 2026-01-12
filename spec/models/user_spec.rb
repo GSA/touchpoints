@@ -165,6 +165,45 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe "#cx_collections" do
+    let(:user_with_org) { FactoryBot.create(:user, organization: organization) }
+    let(:service_provider) { FactoryBot.create(:service_provider, organization: organization) }
+    let(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: user_with_org.id) }
+
+    context "when user has no organization" do
+      it "returns an empty collection" do
+        user_without_org = User.new(email: "test@example.gov")
+        user_without_org.organization = nil
+        result = user_without_org.cx_collections
+        expect(result).to eq(CxCollection.none)
+        expect(result.count).to eq(0)
+      end
+    end
+
+    context "when user has an organization" do
+      it "returns cx_collections for the user's organization" do
+        cx_collection = FactoryBot.create(:cx_collection, organization: organization, service: service, service_provider: service_provider, user: user_with_org)
+        result = user_with_org.cx_collections
+        expect(result).to include(cx_collection)
+      end
+    end
+
+    context "when user's organization has a parent organization" do
+      let(:parent_org) { FactoryBot.create(:organization, name: "Parent Org", domain: "parent.gov", abbreviation: "PARENT") }
+      let(:child_org) { FactoryBot.create(:organization, name: "Child Org", domain: "child.gov", abbreviation: "CHILD", parent_id: parent_org.id) }
+      let(:child_user) { FactoryBot.create(:user, organization: child_org) }
+      let(:parent_service_owner) { FactoryBot.create(:user, organization: parent_org) }
+      let(:parent_service_provider) { FactoryBot.create(:service_provider, organization: parent_org) }
+      let(:parent_service) { FactoryBot.create(:service, organization: parent_org, service_provider: parent_service_provider, service_owner_id: parent_service_owner.id) }
+
+      it "includes cx_collections from the parent organization" do
+        parent_cx_collection = FactoryBot.create(:cx_collection, organization: parent_org, service: parent_service, service_provider: parent_service_provider, user: child_user)
+        result = child_user.cx_collections
+        expect(result).to include(parent_cx_collection)
+      end
+    end
+  end
+
   describe "#ensure_organization" do
     before do
       @org2 = Organization.create(name: "Subdomain Example", domain: "sub.example.gov", abbreviation: "SUB")

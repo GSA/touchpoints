@@ -162,14 +162,14 @@ class Service < ApplicationRecord
                    organization_name organization_abbreviation service_provider_id service_provider_name service_provider_slug
                  ] - %w[
                    channels
-        budget_code
-        uii_code
-        non_digital_explanation
-        homepage_url
-        digital_service
-        estimated_annual_volume_of_customers
-        fully_digital_service
-        barriers_to_fully_digital_service
+                   budget_code
+                   uii_code
+                   non_digital_explanation
+                   homepage_url
+                   digital_service
+                   estimated_annual_volume_of_customers
+                   fully_digital_service
+                   barriers_to_fully_digital_service
         multi_agency_service
         multi_agency_explanation
         other_service_type

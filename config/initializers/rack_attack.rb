@@ -14,7 +14,9 @@ class Rack::Attack
 
   # Is the request to the form submission route?
   def self.submission_route?(req)
-    !!(req.path =~ %r{^/touchpoints/\h{1,8}/submissions\.json$}i)
+    # Allow any touchpoint identifier and optional .json suffix so throttling
+    # still triggers even if the path shape changes slightly.
+    !!(req.path =~ %r{^/touchpoints/[^/]+/submissions(?:\.json)?$}i)
   end
 
   # Response for throttled requests
