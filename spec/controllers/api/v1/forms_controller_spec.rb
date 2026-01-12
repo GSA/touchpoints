@@ -255,6 +255,37 @@ describe Api::V1::FormsController, type: :controller do
           expect(response.status).to eq(400)
         end
       end
+
+      context 'question positions' do
+        let!(:user) { FactoryBot.create(:user) }
+        let!(:organization) { FactoryBot.create(:organization) }
+        let!(:form) { FactoryBot.create(:form, organization: organization) }
+        let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user:, form:) }
+
+        before do
+          # Create questions with gaps in positions (simulating deleted questions)
+          FactoryBot.create(:question, form: form, form_section: form.form_sections.first, position: 1, answer_field: 'answer_01', text: 'Question 1')
+          FactoryBot.create(:question, form: form, form_section: form.form_sections.first, position: 3, answer_field: 'answer_02', text: 'Question 2') 
+          FactoryBot.create(:question, form: form, form_section: form.form_sections.first, position: 5, answer_field: 'answer_03', text: 'Question 3')
+          FactoryBot.create(:question, form: form, form_section: form.form_sections.first, position: 6, answer_field: 'answer_04', text: 'Question 4')
+          FactoryBot.create(:question, form: form, form_section: form.form_sections.first, position: 7, answer_field: 'answer_05', text: 'Question 5')
+          FactoryBot.create(:question, form: form, form_section: form.form_sections.first, position: 16, answer_field: 'answer_06', text: 'Question 6')
+
+          user.update(api_key: TEST_API_KEY)
+          request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(ENV.fetch('API_HTTP_USERNAME'), ENV.fetch('API_HTTP_PASSWORD'))
+          get :show, format: :json, params: { id: form.short_uuid, 'API_KEY' => user.api_key }
+          @parsed_response = JSON.parse(response.body)
+        end
+
+        it 'normalizes question positions to be sequential starting from 1' do
+          questions_data = @parsed_response['data']['relationships']['questions']['data']
+          expect(questions_data.size).to eq(6)
+          
+          # Question positions should be normalized to 1, 2, 3, 4, 5, 6
+          positions = questions_data.map { |q| q['position'] }
+          expect(positions).to eq([1, 2, 3, 4, 5, 6])
+        end
+      end
     end
   end
 end

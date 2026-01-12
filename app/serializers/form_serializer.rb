@@ -60,6 +60,10 @@ class FormSerializer < ActiveModel::Serializer
              :last_response_created_at,
              :tag_list
 
-  has_many :questions
+  has_many :questions, serializer: QuestionSerializer
   belongs_to :service
+
+  def questions
+    object.ordered_questions
+  end
 end
