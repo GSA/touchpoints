@@ -615,7 +615,7 @@ GEM
       unicode-emoji (~> 4.0, >= 4.0.4)
     unicode-emoji (4.0.4)
     uniform_notifier (1.18.0)
-    uri (1.0.3)
+    uri (1.0.4)
     useragent (0.16.11)
     version_gem (1.1.9)
     virtus (2.0.0)
