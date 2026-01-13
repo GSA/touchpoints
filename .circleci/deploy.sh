@@ -221,6 +221,17 @@ cf_push_with_retry() {
   # Wait for any in-progress deployment
   wait_for_deployment "$app_name"
   
+  # Get current instance count and scale down to 1 to avoid memory quota issues during rolling deploy
+  echo "Checking current instance count for $app_name..."
+  local current_instances=$(cf app "$app_name" 2>/dev/null | grep "^instances:" | awk '{print $2}' | cut -d'/' -f2 || echo "1")
+  echo "Current instances: $current_instances"
+  
+  if [ "$current_instances" -gt 1 ]; then
+    echo "Scaling down to 1 instance to free memory for rolling deploy..."
+    cf scale "$app_name" -i 1 || true
+    sleep 5
+  fi
+  
   for i in $(seq 1 $max_retries); do
     echo "Attempt $i of $max_retries to push $app_name..."
     local exit_code=0
@@ -239,6 +250,13 @@ cf_push_with_retry() {
       echo "Push initiated successfully, waiting for full deployment to complete..."
       if wait_for_deployment_complete "$app_name"; then
         echo "Successfully deployed $app_name"
+        
+        # Scale back up to original instance count
+        if [ "$current_instances" -gt 1 ]; then
+          echo "Scaling back up to $current_instances instances..."
+          cf scale "$app_name" -i "$current_instances" || true
+        fi
+        
         release_deploy_lock "$app_name"
         trap - EXIT  # Clear the trap
         return 0
@@ -260,6 +278,13 @@ cf_push_with_retry() {
           echo "Active deployment detected, waiting for it to complete instead of retrying..."
           if wait_for_deployment_complete "$app_name"; then
             echo "Existing deployment completed successfully"
+            
+            # Scale back up to original instance count
+            if [ "$current_instances" -gt 1 ]; then
+              echo "Scaling back up to $current_instances instances..."
+              cf scale "$app_name" -i "$current_instances" || true
+            fi
+            
             release_deploy_lock "$app_name"
             trap - EXIT
             return 0
@@ -274,6 +299,12 @@ cf_push_with_retry() {
       wait_for_deployment "$app_name"
     fi
   done
+  
+  # If we failed, try to scale back up anyway
+  if [ "$current_instances" -gt 1 ]; then
+    echo "Deploy failed, attempting to scale back up to $current_instances instances..."
+    cf scale "$app_name" -i "$current_instances" || true
+  fi
   
   release_deploy_lock "$app_name"
   trap - EXIT  # Clear the trap
