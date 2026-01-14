@@ -126,6 +126,11 @@ cf_push_with_retry() {
     cf stop "$app_name" || true
     sleep 5
     
+    # Set SKIP_WIDGET_RENDERER to prevent crash from missing Rust native library
+    # Sidekiq doesn't need the widget renderer - it's only used for rendering widgets in the web app
+    echo "Setting SKIP_WIDGET_RENDERER=true for $app_name..."
+    cf set-env "$app_name" SKIP_WIDGET_RENDERER "true" > /dev/null 2>&1 || true
+    
     # Push without rolling strategy (direct replacement since we stopped it)
     # Let CF auto-detect buildpacks to avoid re-running supply phase (Rust already built in CircleCI)
     if cf push "$app_name" \
