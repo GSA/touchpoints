@@ -119,7 +119,8 @@ jobs:
           root: .
           paths:
             - .
-  test:  
+  test:
+    executor: docker-executor
     parallelism: 4
 
     steps:
