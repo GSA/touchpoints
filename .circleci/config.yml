@@ -9,8 +9,8 @@ version: 2.1
 # Note: This must also be enabled in CircleCI project settings
 # Settings > Advanced > Auto-cancel redundant builds
 
-jobs:
-  build:
+executors:
+  docker-executor:
     docker:
        - image: cimg/ruby:3.2.8-browsers # Matches deployed Ruby version in CF
          environment:
@@ -30,7 +30,9 @@ jobs:
             POSTGRES_USER: root
             POSTGRES_DB: touchpoints_test
 
-    working_directory: ~/repo
+jobs:
+  build:
+    executor: docker-executor
 
     steps:
       - run:
@@ -114,34 +116,15 @@ jobs:
             rails assets:precompile
       
       - persist_to_workspace:
-          root: ~/repo
+          root: .
           paths:
             - .
-  test:
-    docker:
-       - image: cimg/ruby:3.2.8-browsers # Matches deployed Ruby version in CF
-         environment:
-            RAILS_ENV: test
-            PGHOST: 127.0.0.1
-            PGUSER: root
-
-       - image:  cimg/redis:7.2.7
-         environment:
-            REDIS_URL: redis://redis:6379/1
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-       - image: cimg/postgres:15.8
-         environment:
-            POSTGRES_USER: root
-            POSTGRES_DB: touchpoints_test  
-    
+  test:  
     parallelism: 4
 
     steps:
       - attach_workspace:
-          at: ~/repo
+          at: .
         
       # run tests!
       - run:
@@ -162,9 +145,11 @@ jobs:
           path: coverage
 
   deploy:
-    docker:
-      - image: cimg/base:2025.01
+    executor: docker-executor
     steps:
+      - attach_workspace:
+          at: .
+
       # Install Cloud Foundry cli (cf) before deploy step. cf is used to push to Cloud.gov
       - run:
           name: Install-cf-cli
