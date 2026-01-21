@@ -17,6 +17,7 @@ executors:
             RAILS_ENV: test
             PGHOST: 127.0.0.1
             PGUSER: root
+            BUNDLE_PATH: vendor/bundle
 
        - image:  cimg/redis:7.2.7
          environment:
