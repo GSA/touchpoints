@@ -10,92 +10,6 @@ version: 2.1
 # Settings > Advanced > Auto-cancel redundant builds
 
 jobs:
-  deploy:
-    docker:
-      - image: cimg/base:2025.01
-    steps:
-      # Install Cloud Foundry cli (cf) before deploy step. cf is used to push to Cloud.gov
-      - run:
-          name: Install-cf-cli
-          command: |
-            # Download and convert the GPG key to binary format for modern apt
-            wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo gpg --dearmor -o /usr/share/keyrings/cloudfoundry-cli.gpg
-            echo "deb [signed-by=/usr/share/keyrings/cloudfoundry-cli.gpg] https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
-            sudo apt-get update
-            sudo apt-get install -y cf8-cli
-            cf -v
-
-      - run:
-          name: Deploy Sidekiq worker servers
-          command: |
-            # Only deploy from a single parallel node to avoid concurrent CF pushes.
-            if [ "${CIRCLE_NODE_INDEX:-0}" != "0" ]; then
-              echo "Skipping Sidekiq deploy on parallel node ${CIRCLE_NODE_INDEX}"
-              exit 0
-            fi
-            # Keep prebuilt Rust library - extconf.rb builds it during bundle install with correct paths
-            # The library is built with rutie which properly links against the CF Ruby installation
-            # echo "Removing prebuilt Rust library (will be rebuilt on CF)..."
-            # rm -rf ext/widget_renderer/target/release/libwidget_renderer.so 2>/dev/null || true
-            # rm -f ext/widget_renderer/libwidget_renderer.so 2>/dev/null || true
-            ./.circleci/deploy-sidekiq.sh
-          no_output_timeout: 30m
-
-      - run:
-          name: Deploy web server(s)
-          command: |
-            # Only deploy from a single parallel node to avoid concurrent CF pushes.
-            if [ "${CIRCLE_NODE_INDEX:-0}" != "0" ]; then
-              echo "Skipping web deploy on parallel node ${CIRCLE_NODE_INDEX}"
-              exit 0
-            fi
-            # Wait for Sidekiq deployment to complete before starting web deploy
-            sleep 120
-            # Keep prebuilt Rust library - extconf.rb builds it during bundle install with correct paths
-            # echo "Removing prebuilt Rust library (will be rebuilt on CF)..."
-            # rm -rf ext/widget_renderer/target/release/libwidget_renderer.so 2>/dev/null || true
-            # rm -f ext/widget_renderer/libwidget_renderer.so 2>/dev/null || true
-            ./.circleci/deploy.sh
-          no_output_timeout: 30m
-
-  test:
-    docker:
-       - image: cimg/ruby:3.2.8-browsers # Matches deployed Ruby version in CF
-         environment:
-            RAILS_ENV: test
-            PGHOST: 127.0.0.1
-            PGUSER: root
-
-       - image:  cimg/redis:7.2.7
-         environment:
-            REDIS_URL: redis://redis:6379/1
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-       - image: cimg/postgres:15.8
-         environment:
-            POSTGRES_USER: root
-            POSTGRES_DB: touchpoints_test  
-    parallelism: 4
-    steps:
-      # run tests!
-      - run:
-          name: Run tests
-          command: |
-            mkdir /tmp/test-results
-            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
-
-             bundle exec rspec --format progress \
-                             --format RspecJunitFormatter \
-                             --out /tmp/test-results/rspec.xml \
-                             --format progress \
-                             $TEST_FILES
-      # collect reports
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: coverage
   build:
     docker:
        - image: cimg/ruby:3.2.8-browsers # Matches deployed Ruby version in CF
@@ -123,11 +37,11 @@ jobs:
           name: Update packages
           command: sudo apt-get update
 
-      - run:
-          name: Ensure Chrome is available
-          command: |
-            # cimg/ruby:*-browsers images already include Chrome; skip orb command to avoid "Cannot find declaration" errors
-            echo "Using cimg/ruby:3.4.7-browsers which includes Chrome"
+#      - run:
+#          name: Ensure Chrome is available
+#          command: |
+#            # cimg/ruby:*-browsers images already include Chrome; skip orb command to avoid "Cannot find declaration" errors
+#            echo "Using cimg/ruby:3.4.7-browsers which includes Chrome"
 
       - checkout
 
@@ -198,6 +112,104 @@ jobs:
           command: |
             npm i
             rails assets:precompile
+      
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - .
+  test:
+    docker:
+       - image: cimg/ruby:3.2.8-browsers # Matches deployed Ruby version in CF
+         environment:
+            RAILS_ENV: test
+            PGHOST: 127.0.0.1
+            PGUSER: root
+
+       - image:  cimg/redis:7.2.7
+         environment:
+            REDIS_URL: redis://redis:6379/1
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+       - image: cimg/postgres:15.8
+         environment:
+            POSTGRES_USER: root
+            POSTGRES_DB: touchpoints_test  
+    
+    parallelism: 4
+
+    steps:
+      - attach_workspace:
+          at: ~/repo
+        
+      # run tests!
+      - run:
+          name: Run tests
+          command: |
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+
+             bundle exec rspec --format progress \
+                             --format RspecJunitFormatter \
+                             --out /tmp/test-results/rspec.xml \
+                             --format progress \
+                             $TEST_FILES
+      # collect reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: coverage
+
+  deploy:
+    docker:
+      - image: cimg/base:2025.01
+    steps:
+      # Install Cloud Foundry cli (cf) before deploy step. cf is used to push to Cloud.gov
+      - run:
+          name: Install-cf-cli
+          command: |
+            # Download and convert the GPG key to binary format for modern apt
+            wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo gpg --dearmor -o /usr/share/keyrings/cloudfoundry-cli.gpg
+            echo "deb [signed-by=/usr/share/keyrings/cloudfoundry-cli.gpg] https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+            sudo apt-get update
+            sudo apt-get install -y cf8-cli
+            cf -v
+
+      - run:
+          name: Deploy Sidekiq worker servers
+          command: |
+            # Only deploy from a single parallel node to avoid concurrent CF pushes.
+            if [ "${CIRCLE_NODE_INDEX:-0}" != "0" ]; then
+              echo "Skipping Sidekiq deploy on parallel node ${CIRCLE_NODE_INDEX}"
+              exit 0
+            fi
+            # Keep prebuilt Rust library - extconf.rb builds it during bundle install with correct paths
+            # The library is built with rutie which properly links against the CF Ruby installation
+            # echo "Removing prebuilt Rust library (will be rebuilt on CF)..."
+            # rm -rf ext/widget_renderer/target/release/libwidget_renderer.so 2>/dev/null || true
+            # rm -f ext/widget_renderer/libwidget_renderer.so 2>/dev/null || true
+            ./.circleci/deploy-sidekiq.sh
+          no_output_timeout: 30m
+
+      - run:
+          name: Deploy web server(s)
+          command: |
+            # Only deploy from a single parallel node to avoid concurrent CF pushes.
+            if [ "${CIRCLE_NODE_INDEX:-0}" != "0" ]; then
+              echo "Skipping web deploy on parallel node ${CIRCLE_NODE_INDEX}"
+              exit 0
+            fi
+            # Wait for Sidekiq deployment to complete before starting web deploy
+            sleep 120
+            # Keep prebuilt Rust library - extconf.rb builds it during bundle install with correct paths
+            # echo "Removing prebuilt Rust library (will be rebuilt on CF)..."
+            # rm -rf ext/widget_renderer/target/release/libwidget_renderer.so 2>/dev/null || true
+            # rm -f ext/widget_renderer/libwidget_renderer.so 2>/dev/null || true
+            ./.circleci/deploy.sh
+          no_output_timeout: 30m
+
+
 
 
   cron_tasks:
