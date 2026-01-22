@@ -40,12 +40,6 @@ jobs:
           name: Update packages
           command: sudo apt-get update
 
-#      - run:
-#          name: Ensure Chrome is available
-#          command: |
-#            # cimg/ruby:*-browsers images already include Chrome; skip orb command to avoid "Cannot find declaration" errors
-#            echo "Using cimg/ruby:3.4.7-browsers which includes Chrome"
-
       - checkout
 
       - run:
