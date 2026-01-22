@@ -12,24 +12,24 @@ version: 2.1
 executors:
   docker-executor:
     docker:
-       - image: cimg/ruby:3.2.8-browsers # Matches deployed Ruby version in CF
-         environment:
-            RAILS_ENV: test
-            PGHOST: 127.0.0.1
-            PGUSER: root
-            BUNDLE_PATH: vendor/bundle
+      - image: cimg/ruby:3.2.8-browsers # Matches deployed Ruby version in CF
+        environment:
+          RAILS_ENV: test
+          PGHOST: 127.0.0.1
+          PGUSER: root
+          BUNDLE_PATH: vendor/bundle
 
-       - image:  cimg/redis:7.2.7
-         environment:
-            REDIS_URL: redis://redis:6379/1
+      - image: cimg/redis:7.2.7
+        environment:
+          REDIS_URL: redis://redis:6379/1
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
-       - image: cimg/postgres:15.8
-         environment:
-            POSTGRES_USER: root
-            POSTGRES_DB: touchpoints_test
+      - image: cimg/postgres:15.8
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: touchpoints_test
 
 jobs:
   build:
@@ -96,7 +96,7 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-bundle-{{ checksum "Gemfile.lock" }}
+            - v1-bundle-{{ checksum "Gemfile.lock" }}
 
       - run: bundle install
 
@@ -134,12 +134,11 @@ jobs:
           command: |
             mkdir /tmp/test-results
             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
-
-             bundle exec rspec --format progress \
-                             --format RspecJunitFormatter \
-                             --out /tmp/test-results/rspec.xml \
-                             --format progress \
-                             $TEST_FILES
+            bundle exec rspec --format progress \
+              --format RspecJunitFormatter \
+              --out /tmp/test-results/rspec.xml \
+              --format progress \
+              $TEST_FILES
       # collect reports
       - store_test_results:
           path: /tmp/test-results
