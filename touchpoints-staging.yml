@@ -10,7 +10,7 @@ applications:
       DISABLE_DATABASE_ENVIRONMENT_CHECK: 1
       LOGIN_GOV_CLIENT_ID: urn:gov:gsa:openidconnect.profiles:sp:sso:gsa-tts-opp:touchpoints-staging
       LOGIN_GOV_IDP_BASE_URL: https://idp.int.identitysandbox.gov/
-      LOGIN_GOV_REDIRECT_URI: https://app-staging.touchpoints.digital.gov/users/auth/login_dot_gov/callback
+      LOGIN_GOV_REDIRECT_URI: https://touchpoints-staging.app.cloud.gov/users/auth/login_dot_gov/callback
       RAILS_ENV: staging
       RAILS_SERVE_STATIC_FILES: "true"
       TOUCHPOINTS_WEB_DOMAIN: touchpoints-staging.app.cloud.gov
