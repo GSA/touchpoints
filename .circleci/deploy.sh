@@ -318,3 +318,11 @@ then
 else
   echo "Not on the develop branch."
 fi
+
+# Temp for testing deployment on feature branch
+echo "Logging into cloud.gov"
+# Log into CF and push
+cf login -a $CF_API_ENDPOINT -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $CF_SPACE
+echo "Pushing web servers to Staging..."
+cf_push_with_retry touchpoints-staging "" true
+echo "Push to Staging Complete."
