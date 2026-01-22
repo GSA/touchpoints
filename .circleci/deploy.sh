@@ -324,5 +324,6 @@ echo "Logging into cloud.gov"
 # Log into CF and push
 cf login -a $CF_API_ENDPOINT -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $CF_SPACE
 echo "Pushing web servers to Staging..."
-cf_push_with_retry touchpoints-staging touchpoints-staging.yml
+cf push touchpoints-staging -f touchpoints-staging.yml --strategy rolling -t 180 --no-wait
+# cf_push_with_retry touchpoints-staging touchpoints-staging.yml
 echo "Push to Staging Complete."
