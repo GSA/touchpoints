@@ -114,7 +114,7 @@ jobs:
           name: Precompile assets
           command: |
             npm i
-            rails assets:precompile
+            bundle exec rails assets:precompile
       
       - persist_to_workspace:
           root: .
