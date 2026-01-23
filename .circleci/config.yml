@@ -127,12 +127,9 @@ jobs:
           name: Run tests
           command: |
             mkdir /tmp/test-results
-            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
-            bundle exec rspec --format progress \
-              --format RspecJunitFormatter \
-              --out /tmp/test-results/rspec.xml \
-              --format progress \
-              $TEST_FILES
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb")"
+            echo "$TEST_FILES" | circleci tests run --verbose --split-by=timings \
+              --command="bundle exec rspec --format progress --format RspecJunitFormatter --out /tmp/test-results/rspec.xml
       # collect reports
       - store_test_results:
           path: /tmp/test-results
