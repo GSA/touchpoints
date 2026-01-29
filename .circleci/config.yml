@@ -119,13 +119,16 @@ jobs:
           name: Run tests
           command: |
             mkdir /tmp/test-results
-            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb")"
+            echo "$TEST_FILES" | circleci tests run --verbose --split-by=timings \
+              --command="bundle exec rspec --format progress --format RspecJunitFormatter --out /tmp/test-results/rspec.xml"
 
-             bundle exec rspec --format progress \
-                             --format RspecJunitFormatter \
-                             --out /tmp/test-results/rspec.xml \
-                             --format progress \
-                             $TEST_FILES
+      # collect test reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: coverage
+
       # Install Cloud Foundry cli (cf) before deploy step. cf is used to push to Cloud.gov
       - run:
           name: Install-cf-cli
@@ -136,12 +139,6 @@ jobs:
             sudo apt-get update
             sudo apt-get install -y cf8-cli
             cf -v
-      # collect reports
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: coverage
-
       - run:
           name: Deploy Sidekiq worker servers
           command: |
