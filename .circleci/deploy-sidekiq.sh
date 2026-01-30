@@ -130,6 +130,7 @@ cf_push_with_retry() {
     # Let CF auto-detect buildpacks to avoid re-running supply phase (Rust already built in CircleCI)
     if cf push "$app_name" \
       -t 180 \
+      -c "bundle exec sidekiq -C config/sidekiq.yml" \
       --health-check-type process; then
       echo "Successfully pushed $app_name"
       
