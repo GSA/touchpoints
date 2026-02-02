@@ -217,3 +217,9 @@ workflows:
       - deploy:
           requires:
             - test
+          filters:
+            branches:
+              only:
+                - develop
+                - main
+                - production
