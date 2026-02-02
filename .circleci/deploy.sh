@@ -313,7 +313,9 @@ then
   # Log into CF and push
   cf login -a $CF_API_ENDPOINT -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $CF_SPACE
   echo "Pushing web servers to Staging..."
-  cf_push_with_retry touchpoints-staging "" true
+  # Temporary test - TODO Update to use staging login.gov credentials
+  ./.circleci/sync-login-gov-env.sh touchpoints-staging
+  cf_push_with_retry touchpoints-staging touchpoints-staging.yml true
   echo "Push to Staging Complete."
 else
   echo "Not on the develop branch."

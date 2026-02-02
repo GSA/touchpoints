@@ -11,7 +11,7 @@ require_env() {
 }
 
 escape_private_key() {
-  ruby -e 'print STDIN.read.gsub("\r\n", "\n").gsub("\n", "\\n")'
+  tr -d '\r' | sed ':a;N;$!ba;s/\n/\\n/g'
 }
 
 sync_login_gov_env() {
