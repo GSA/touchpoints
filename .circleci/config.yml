@@ -12,37 +12,12 @@ version: 2.1
 jobs:
   build:
     docker:
-       - image: cimg/ruby:3.2.8-browsers # Matches deployed Ruby version in CF
-         environment:
-            RAILS_ENV: test
-            PGHOST: 127.0.0.1
-            PGUSER: root
-
-       - image:  cimg/redis:7.2.7
-         environment:
-            REDIS_URL: redis://redis:6379/1
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-       - image: cimg/postgres:15.8
-         environment:
-            POSTGRES_USER: root
-            POSTGRES_DB: touchpoints_test
-
-    parallelism: 4
-    working_directory: ~/repo
+       - image: cimg/ruby:3.2.8-node # Matches deployed Ruby version in CF
 
     steps:
       - run:
           name: Update packages
           command: sudo apt-get update
-
-      - run:
-          name: Ensure Chrome is available
-          command: |
-            # cimg/ruby:*-browsers images already include Chrome; skip orb command to avoid "Cannot find declaration" errors
-            echo "Using cimg/ruby:3.4.7-browsers which includes Chrome"
 
       - checkout
 
@@ -94,38 +69,81 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-bundle-{{ checksum "Gemfile.lock" }}
+          - v3-bundle-{{ checksum "Gemfile.lock" }}
 
-      - run: bundle install
+      - run:
+          name: Install gems
+          command: |
+            bundle config set deployment true
+            bundle install
 
       - save_cache:
           paths:
             - ./vendor/bundle
-          key: v1-bundle-{{ checksum "Gemfile.lock" }}
-
-      # Database setup
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
+          key: v3-bundle-{{ checksum "Gemfile.lock" }}
 
       # Precompile assets (to use npm packages specified in assets.rb)
       - run:
           name: Precompile assets
           command: |
             npm i
-            rails assets:precompile
+            bundle exec rails assets:precompile
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  test:
+    docker:
+      - image: cimg/ruby:3.2.8-browsers # Matches deployed Ruby version in CF
+        environment:
+          RAILS_ENV: test
+          PGHOST: 127.0.0.1
+          PGUSER: root
+
+      - image:  cimg/redis:7.2.7
+        environment:
+          REDIS_URL: redis://redis:6379/1
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      - image: cimg/postgres:15.8
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: touchpoints_test
+
+    parallelism: 4
+    steps:
+      - attach_workspace:
+          at: .
+
+      # Database setup
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load
 
       # run tests!
       - run:
           name: Run tests
           command: |
             mkdir /tmp/test-results
-            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb")"
+            echo "$TEST_FILES" | circleci tests run --verbose --split-by=timings \
+              --command="xargs bundle exec rspec --format progress --format RspecJunitFormatter --out /tmp/test-results/rspec.xml"
 
-             bundle exec rspec --format progress \
-                             --format RspecJunitFormatter \
-                             --out /tmp/test-results/rspec.xml \
-                             --format progress \
-                             $TEST_FILES
+      # collect test reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: coverage
+
+  deploy:
+    docker:
+      - image: cimg/base:2025.01
+    steps:
+      - attach_workspace:
+          at: .
       # Install Cloud Foundry cli (cf) before deploy step. cf is used to push to Cloud.gov
       - run:
           name: Install-cf-cli
@@ -136,20 +154,9 @@ jobs:
             sudo apt-get update
             sudo apt-get install -y cf8-cli
             cf -v
-      # collect reports
-      - store_test_results:
-          path: /tmp/test-results
-      - store_artifacts:
-          path: coverage
-
       - run:
           name: Deploy Sidekiq worker servers
           command: |
-            # Only deploy from a single parallel node to avoid concurrent CF pushes.
-            if [ "${CIRCLE_NODE_INDEX:-0}" != "0" ]; then
-              echo "Skipping Sidekiq deploy on parallel node ${CIRCLE_NODE_INDEX}"
-              exit 0
-            fi
             # Keep prebuilt Rust library - extconf.rb builds it during bundle install with correct paths
             # The library is built with rutie which properly links against the CF Ruby installation
             # echo "Removing prebuilt Rust library (will be rebuilt on CF)..."
@@ -161,11 +168,6 @@ jobs:
       - run:
           name: Deploy web server(s)
           command: |
-            # Only deploy from a single parallel node to avoid concurrent CF pushes.
-            if [ "${CIRCLE_NODE_INDEX:-0}" != "0" ]; then
-              echo "Skipping web deploy on parallel node ${CIRCLE_NODE_INDEX}"
-              exit 0
-            fi
             # Wait for Sidekiq deployment to complete before starting web deploy
             sleep 120
             # Keep prebuilt Rust library - extconf.rb builds it during bundle install with correct paths
@@ -209,3 +211,15 @@ workflows:
   build-deploy:
     jobs:
       - build
+      - test:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - develop
+                - main
+                - production
