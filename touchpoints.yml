@@ -11,7 +11,6 @@ applications:
     LOGIN_GOV_IDP_BASE_URL: https://secure.login.gov/
     LOGIN_GOV_REDIRECT_URI: https://touchpoints.app.cloud.gov/users/auth/login_dot_gov/callback
     RAILS_ENV: production
-    RAILS_SERVE_STATIC_FILES: "true"
     TOUCHPOINTS_WEB_DOMAIN: touchpoints.app.cloud.gov
     INDEX_URL: /admin
     SKIP_WIDGET_RENDERER: "true"
