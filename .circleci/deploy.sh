@@ -281,40 +281,43 @@ cf_push_with_retry() {
   return 1
 }
 
-if [ "${CIRCLE_BRANCH}" == "production" ]
-then
-  echo "Logging into cloud.gov"
-  # Log into CF and push
-  cf login -a $CF_API_ENDPOINT -u $CF_PRODUCTION_SPACE_DEPLOYER_USERNAME -p $CF_PRODUCTION_SPACE_DEPLOYER_PASSWORD -o $CF_ORG -s prod
-  echo "PUSHING web servers to Production..."
-  echo "Syncing Login.gov environment variables..."
-  ./.circleci/sync-login-gov-env.sh touchpoints
-  cf_push_with_retry touchpoints touchpoints.yml false
-  echo "Push to Production Complete."
-else
-  echo "Not on the production branch."
+TARGET_ENV="${1:-}"
+
+if [ -z "$TARGET_ENV" ]; then
+  echo "Usage: ./.circleci/deploy.sh <production|demo|staging>"
+  exit 1
 fi
 
-if [ "${CIRCLE_BRANCH}" == "main" ]
-then
-  echo "Logging into cloud.gov"
-  # Log into CF and push
-  cf login -a $CF_API_ENDPOINT -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $CF_SPACE
-  echo "Pushing web servers to Demo..."
-  cf_push_with_retry touchpoints-demo "" true
-  echo "Push to Demo Complete."
-else
-  echo "Not on the main branch."
-fi
-
-if [ "${CIRCLE_BRANCH}" == "develop" ]
-then
-  echo "Logging into cloud.gov"
-  # Log into CF and push
-  cf login -a $CF_API_ENDPOINT -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $CF_SPACE
-  echo "Pushing web servers to Staging..."
-  cf_push_with_retry touchpoints-staging "" true
-  echo "Push to Staging Complete."
-else
-  echo "Not on the develop branch."
-fi
+case "$TARGET_ENV" in
+  production)
+    echo "Logging into cloud.gov"
+    # Log into CF and push
+    cf login -a $CF_API_ENDPOINT -u $CF_PRODUCTION_SPACE_DEPLOYER_USERNAME -p $CF_PRODUCTION_SPACE_DEPLOYER_PASSWORD -o $CF_ORG -s prod
+    echo "PUSHING web servers to Production..."
+    echo "Syncing Login.gov environment variables..."
+    ./.circleci/sync-login-gov-env.sh touchpoints
+    cf_push_with_retry touchpoints touchpoints.yml false
+    echo "Push to Production Complete."
+    ;;
+  demo)
+    echo "Logging into cloud.gov"
+    # Log into CF and push
+    cf login -a $CF_API_ENDPOINT -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $CF_SPACE
+    echo "Pushing web servers to Demo..."
+    cf_push_with_retry touchpoints-demo "" true
+    echo "Push to Demo Complete."
+    ;;
+  staging)
+    echo "Logging into cloud.gov"
+    # Log into CF and push
+    cf login -a $CF_API_ENDPOINT -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $CF_SPACE
+    echo "Pushing web servers to Staging..."
+    cf_push_with_retry touchpoints-staging "" true
+    echo "Push to Staging Complete."
+    ;;
+  *)
+    echo "Unknown environment: $TARGET_ENV"
+    echo "Usage: ./.circleci/deploy.sh <production|demo|staging>"
+    exit 1
+    ;;
+esac
