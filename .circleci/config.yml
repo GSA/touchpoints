@@ -139,6 +139,14 @@ jobs:
           path: coverage
 
   deploy:
+    parameters:
+      deploy_environment:
+        type: enum
+        enum:
+          - staging
+          - demo
+          - production
+        default: staging
     docker:
       - image: cimg/base:2025.01
     steps:
@@ -162,7 +170,7 @@ jobs:
             # echo "Removing prebuilt Rust library (will be rebuilt on CF)..."
             # rm -rf ext/widget_renderer/target/release/libwidget_renderer.so 2>/dev/null || true
             # rm -f ext/widget_renderer/libwidget_renderer.so 2>/dev/null || true
-            ./.circleci/deploy-sidekiq.sh
+            ./.circleci/deploy-sidekiq.sh << parameters.deploy_environment >>
           no_output_timeout: 30m
 
       - run:
@@ -174,7 +182,7 @@ jobs:
             # echo "Removing prebuilt Rust library (will be rebuilt on CF)..."
             # rm -rf ext/widget_renderer/target/release/libwidget_renderer.so 2>/dev/null || true
             # rm -f ext/widget_renderer/libwidget_renderer.so 2>/dev/null || true
-            ./.circleci/deploy.sh
+            ./.circleci/deploy.sh << parameters.deploy_environment >>
           no_output_timeout: 30m
 
   cron_tasks:
@@ -215,11 +223,29 @@ workflows:
           requires:
             - build
       - deploy:
+          name: deploy-to-staging
+          deploy_environment: staging
           requires:
             - test
           filters:
             branches:
               only:
                 - develop
-                - main
+      - deploy:
+          name: deploy-to-demo
+          deploy_environment: demo
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - production
+      - deploy:
+          name: deploy-to-production
+          deploy_environment: production
+          requires:
+            - test
+          filters:
+            branches:
+              only:
                 - production
