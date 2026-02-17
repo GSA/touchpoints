@@ -196,6 +196,7 @@ $(function() {
       url: $(this).attr("href"),
       success: function (data) {
         $(".sorting-div").append(data);
+        initializeSortableQuestions($(".questions").last());
       }
     });
   });
@@ -264,41 +265,9 @@ $(function() {
     });
   });
 
-  // Initialize sortable for questions with better error handling
+  // Initialize sortable for questions
   try {
-    $(".questions").sortable({
-      items: '.question',
-      connectWith: ".questions",
-      handle: ".drag-handle",
-      distance: 20,
-      helper: 'clone',
-      tolerance: 'pointer',
-      update: function(e, ui) {
-        try {
-          var section_id = $(this).closest(".form-section-div").attr('data-id');
-          var data = $(this).sortable('serialize');
-          if (!data) {
-            console.error("Failed to serialize sortable data");
-            return;
-          }
-          data = data + "&form_section_id=" + section_id;
-          $.ajax({
-            url: '<%= sort_questions_admin_form_questions_path(@form) %>',
-            type: "PATCH",
-            
-            error: function(xhr, status, error) {
-              console.error("Sort update failed:", error);
-              ui.item.animate({ left: 0 }, 300); // Visual feedback on failure
-            }
-          });
-        } catch (err) {
-          console.error("Error during sort update:", err);
-        }
-      },
-      start: function(e, ui) {
-        ui.placeholder.height(ui.item.height());
-      }
-    }).disableSelection();
+    initializeSortableQuestions($(".questions"));
   } catch (err) {
     console.error("Failed to initialize question sortable:", err);
   }
@@ -441,6 +410,40 @@ function textCounter(field,maxlimit) {
    } else {
     countfield.innerText = "" + (maxlimit - field.value.length) + " <%= t :characters_left %>";
    }
+}
+function initializeSortableQuestions($questionContainer) {
+    $questionContainer.sortable({
+      items: '.question',
+      handle: ".drag-handle",
+      distance: 20,
+      helper: 'clone',
+      tolerance: 'pointer',
+      update: function(e, ui) {
+        try {
+          var section_id = $(this).closest(".form-section-div").attr('data-id');
+          var data = $(this).sortable('serialize');
+          if (!data) {
+            console.error("Failed to serialize sortable data");
+            return;
+          }
+          data = data + "&form_section_id=" + section_id;
+          $.ajax({
+            url: '<%= sort_questions_admin_form_questions_path(@form) %>',
+            type: "PATCH",
+            data: data,
+            error: () => {
+              alert("Failed to update question order");
+              $(this).sortable("cancel");
+            }
+          });
+        } catch (err) {
+          console.error("Error during sort update:", err);
+        }
+      },
+      start: function(e, ui) {
+        ui.placeholder.height(ui.item.height());
+      }
+    }).disableSelection();
 }
 
 document.addEventListener("DOMContentLoaded", function () {
