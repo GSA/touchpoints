@@ -1284,6 +1284,32 @@ feature 'Forms', js: true do
           end
         end
 
+        describe 'reordering Questions' do
+          let!(:question1) { FactoryBot.create(:question, text: 'Question 1', answer_field: :answer_01, form:, form_section: form.form_sections.first, position: 1) }
+          let!(:question2) { FactoryBot.create(:question, text: 'Question 2', answer_field: :answer_02, form:, form_section: form.form_sections.first, position: 2) }
+
+          before do
+            visit questions_admin_form_path(form)
+            wait_for_builder
+            source = find('.question', text: 'Question 1').find('.drag-handle')
+            target = find('.question', text: 'Question 2')
+            source.drag_to(target)
+            wait_for_ajax
+          end
+
+          it 'moves the first question down' do
+            expect(page.all('.question')[0]).to have_content('Question 2')
+            expect(page.all('.question')[1]).to have_content('Question 1')
+          end
+
+          it 'persists after refresh' do
+            visit questions_admin_form_path(form)
+            wait_for_builder
+            expect(page.all('.question')[0]).to have_content('Question 2')
+            expect(page.all('.question')[1]).to have_content('Question 1')
+          end
+        end
+
         describe 'adding Question Options' do
           describe 'add Radio Button options' do
             let!(:radio_button_question) { FactoryBot.create(:question, :with_radio_buttons, form:, form_section: form.form_sections.first) }
