@@ -12,7 +12,7 @@ is available in this
 example.
 
 Touchpoints is a web application
-that makes it easy to deploy
+That makes it easy to deploy
 compliant feedback forms quickly.
 Touchpoints provides features specific to the
 [domain](https://en.wikipedia.org/wiki/Domain-driven_design/) of
