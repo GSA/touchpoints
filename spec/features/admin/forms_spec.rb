@@ -7,40 +7,56 @@ feature 'Forms', js: true do
     3.days.from_now
   end
   let(:organization) { FactoryBot.create(:organization) }
+  let(:another_organization) { FactoryBot.create(:organization, :another) }
   let(:admin) { FactoryBot.create(:user, :admin, organization:) }
   let(:user) { FactoryBot.create(:user, organization:) }
 
   context 'as Admin' do
+    let!(:user_forms) do
+      FactoryBot.create_list(:form, 3, organization:) do |form, i|
+        FactoryBot.create(:user_role, :form_manager, user: admin, form:)
+        if i == 0
+          form.update(aasm_state: :archived)
+        end
+      end
+    end
+    let!(:form_in_my_org) { FactoryBot.create(:form, organization:) }
+    let!(:form_in_other_org) { FactoryBot.create(:form, organization: another_organization) }
+
     before do
       login_as(admin)
     end
 
     describe '/admin/forms' do
-      let!(:form) { FactoryBot.create(:form, organization:) }
-      let!(:form2) { FactoryBot.create(:form, organization:) }
-      let!(:form3) { FactoryBot.create(:form, organization:) }
-      let!(:form4) { FactoryBot.create(:form, organization:, aasm_state: :submitted) }
-      let!(:form5) { FactoryBot.create(:form, organization:, aasm_state: :archived) }
-
       before do
         visit admin_forms_path
       end
 
-      it 'displays 3 published forms' do
+      it 'displays 2 published form owned by the admin user' do
+        expect(find_all('.usa-table tbody tr').size).to eq(2)
         expect(page).to have_content('PUBLISHED')
         expect(page).to_not have_content('ARCHIVED')
-        expect(find_all('.usa-table tbody tr').size).to eq(3)
       end
 
       context 'use the visible buttons to filter for archived forms' do
-        it 'displays 1 archived form' do
+        it 'displays 1 archived form owned by the admin user' do
           within('.form-filter-buttons') do
             click_on('Archived')
           end
+          expect(find_all('.usa-table tbody tr').size).to eq(1)
           expect(page).to have_content('ARCHIVED')
           expect(page).to_not have_content('PUBLISHED')
-          expect(find_all('.usa-table tbody tr').size).to eq(1)
         end
+      end
+    end
+
+    describe '/admin/forms/all' do
+      before do
+        visit all_admin_forms_path
+      end
+
+      it 'displays all 5 forms' do
+        expect(find_all('.usa-table tbody tr').size).to eq(5)
       end
     end
   end
@@ -1429,6 +1445,18 @@ feature 'Forms', js: true do
           end
         end
       end
+    end
+  end
+
+  context 'as non-admin user' do
+    before do
+      login_as(user)
+    end
+
+    it 'cannot access All Forms page' do
+      visit all_admin_forms_path
+      expect(page.current_path).to eq(admin_root_path)
+      expect(page).to have_content('Authorization is Required')
     end
   end
 

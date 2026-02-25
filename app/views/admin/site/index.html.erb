@@ -39,6 +39,11 @@
                 </a>
               </li>
               <li>
+                <%= link_to all_admin_forms_path do %>
+                  All Forms
+                <% end %>
+              </li>
+              <li>
                 <a href="/admin/management">
                   <span>Client Management</span>
                 </a>
@@ -52,11 +57,6 @@
                 <a href="/admin/sidekiq">
                   <span>Manage Sidekiq</span>
                 </a>
-              </li>
-              <li>
-                <%= link_to admin_record_retention_path do %>
-                  Record Retention
-                <% end %>
               </li>
             </ul>
           </div>
@@ -125,6 +125,11 @@
               <li>
                 <%= link_to admin_integrations_path do %>
                   Integrations
+                <% end %>
+              </li>
+              <li>
+                <%= link_to admin_record_retention_path do %>
+                  Record Retention
                 <% end %>
               </li>
             </ul>
