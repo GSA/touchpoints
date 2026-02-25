@@ -51,7 +51,13 @@ module Admin
         params[:aasm_state] = @status # set the filter and dropdown by default
       end
 
-      @forms = Form.filtered_forms(@current_user, @status)
+      @forms = Form.my_forms(@current_user, @status)
+      @tags = @forms.collect(&:tag_list).flatten.uniq.sort
+    end
+
+    def all
+      ensure_admin
+      @forms = Form.all.non_templates
       @tags = @forms.collect(&:tag_list).flatten.uniq.sort
     end
 

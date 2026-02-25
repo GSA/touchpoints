@@ -40,10 +40,8 @@ class Form < ApplicationRecord
 
   mount_uploader :logo, LogoUploader
 
-  def self.filtered_forms(user, aasm_state)
-    if user.admin?
-      items = all
-    elsif user.organizational_form_approver?
+  def self.my_forms(user, aasm_state)
+    if user.organizational_form_approver?
       items = user.organization.forms
     else
       items = user.forms.order('organization_id ASC').order('name ASC')

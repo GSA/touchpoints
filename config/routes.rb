@@ -305,6 +305,7 @@ Rails.application.routes.draw do
         get 'events', to: 'forms#events', as: :events
       end
       collection do
+        get 'all', to: 'forms#all'
         post 'copy', to: 'forms#copy', as: :copy_id
       end
       resources :form_sections, except: %i[index show edit] do

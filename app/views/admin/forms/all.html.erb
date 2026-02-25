@@ -1,27 +1,15 @@
 <% content_for :navigation_title do %>
-  My Forms
-  <%= link_to new_admin_form_path, class: "usa-button usa-button-inverted float-right" do %>
-    <i class="fa fa-plus-circle"></i>
-    New Form
-  <% end %>
+  All Forms
 <% end %>
 
-<div class="margin-top-1 border-bottom border-base-lighter padding-bottom-1 form-filter-buttons">
-  <%= label_tag :aasm_state, "Filter by form status:", class: "font-sans-2xs" %>
-  <div class="usa-button-group margin-top-1">
-    <% form_states = Form.aasm.states.collect(&:name) + [:all] %>
-    <% form_states.each do |state| %>
-      <%= link_to state.name.capitalize, admin_forms_path(aasm_state: state.name), method: :get,
-        class: "usa-button #{params[:aasm_state] == state.name.to_s ? 'usa-button--active' : 'usa-button--outline'}" %>
-    <% end %>
-  </div>
-</div>
-
-<%- if @forms.present? %>
 <table class="usa-table usa-table--sticky-header width-full font-sans-2xs">
   <thead class="font-sans-3xs z-top">
     <tr>
       <th>#</th>
+      <th data-sortable scope="col"
+        data-type="organization-name">
+        Organization name
+      </th>
       <th data-sortable scope="col"
         data-type="name">
         Name
@@ -50,6 +38,9 @@
     <tr>
       <td class="text-center">
         <%= index + 1 %>
+      </td>
+      <td>
+        <%= render "admin/organizations/badge", organization: form.organization %>
       </td>
       <td>
         <%= link_to form.name, admin_form_path(form) %>
@@ -113,16 +104,3 @@
     <% end %>
   </tbody>
 </table>
-<% else %>
-<div class="grid-row grid-gap-md">
-  <div class="grid-col">
-    <p class="font-serif-xl">
-      Welcome to Touchpoints
-    </p>
-    <p class="font-sans-lg">
-      To get started with customer feedback,
-      <%= link_to "create a new form", new_admin_form_path, class: "usa-link" %>.
-    </p>
-  </div>
-</div>
-<% end %>
