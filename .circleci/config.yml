@@ -73,9 +73,12 @@ jobs:
 
       - run:
           name: Install gems
+          # Limit bundler to 2 parallel jobs to avoid CPU exhaustion on CircleCI Docker medium container
+          # Limit make tool for compiling native extensions to 2 jobs as well
           command: |
             bundle config set deployment true
-            bundle install
+            bundle config set jobs 2
+            MAKE="make -j2" bundle install
 
       - save_cache:
           paths:
