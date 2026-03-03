@@ -23,7 +23,7 @@
           <td>
             <%= link_to form.name, admin_form_path(form) %>
           </td>
-          <td data-sort-value="<%= c = form.submissions.where("created_at > ?", Time.now - days_since.days).count %>">
+          <td data-sort-value="<%= c = form.recent_submissions_count %>">
             <%= number_with_delimiter(c) %>
           </td>
         </tr>
