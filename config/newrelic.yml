@@ -20,6 +20,7 @@ common: &default_settings
 
   # Logging level for log/newrelic_agent.log
   log_level: info
+  log_file_path: STDOUT
 
 # Environment-specific settings are in this section.
 # RAILS_ENV or RACK_ENV (as appropriate) is used to determine the environment.
