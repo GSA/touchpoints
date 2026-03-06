@@ -12,7 +12,6 @@ module Admin
       @response_groups = Submission.group('date(created_at)').count.sort.last(@days_since.days)
       @user_groups = User.group('date(created_at)').count.sort.last(@days_since.days)
       @inactive_user_groups = User.where(inactive: true).group('date(updated_at)').count.sort.last(@days_since.days)
-      todays_submissions = Submission.where('created_at > ?', Time.zone.now - @days_since.days)
 
       # Add in 0 count days to fetched analytics
       @dates.each do |date|
@@ -24,8 +23,11 @@ module Admin
       @inactive_user_groups = @inactive_user_groups.sort
       @response_groups = @response_groups.sort
 
-      form_ids = todays_submissions.collect(&:form_id).uniq
-      @recent_forms = Form.includes(:organization).find(form_ids)
+      @recent_forms = Form.includes(:organization)
+                          .joins(:submissions)
+                          .where("submissions.created_at > ?", Time.zone.now - @days_since.days)
+                          .select("forms.*", "count(distinct submissions.id) as recent_submissions_count")
+                          .group("forms.id")
     end
 
     def a11_v2_collections; end

@@ -142,6 +142,36 @@ feature 'Admin Dashboard', js: true do
         end
       end
     end
+
+    describe 'recent responses' do
+      let(:recent_form) { FactoryBot.create(:form, :open_ended_form, organization:) }
+      let(:older_form) { FactoryBot.create(:form, :recruiter, organization:) }
+      let!(:recent_form_responses) {
+        FactoryBot.create_list(:submission, 5, form: recent_form, created_at: 5.days.ago) do |submission, i|
+          submission.update(created_at: 1.days.ago) if i < 2
+        end
+      }
+      let!(:older_form_responses) {
+        FactoryBot.create_list(:submission, 3, form: older_form, created_at: 5.days.ago)
+      }
+
+      before do
+        visit admin_dashboard_path
+      end
+
+      it 'contains a "Data collected over past 3 days" table' do
+        expect(page).to have_content('Data collected over past 3 days')
+        table = page.find('#recent-responses table')
+        expect(table).to be_present
+
+        # 1 form with recent responses, 2 recent responses
+        rows = table.all('tbody tr')
+        expect(rows.count).to eq(1)
+        first_row_cells = rows.first.all('td')
+        expect(first_row_cells[1].text).to eq('Open-ended Test form')
+        expect(first_row_cells[2].text).to eq('2')
+      end
+    end
   end
 
   # Note:
