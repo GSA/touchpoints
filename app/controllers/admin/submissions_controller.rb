@@ -186,25 +186,30 @@ module Admin
     def delete
       ensure_form_manager(form: @form)
 
-      Event.log_event(Event.names[:response_deleted], 'Submission', @submission.id, "Submission #{@submission.id} undeleted at #{DateTime.now}", current_user.id)
-      @submission.update(deleted: true, deleted_at: Time.now)
+      if @submission.update(deleted: true, deleted_at: Time.now)
+        Event.log_event(Event.names[:response_deleted], 'Submission', @submission.id, "Submission #{@submission.id} deleted at #{DateTime.now}", current_user.id)
+      else
+        Rails.logger.warn("Failed to delete submission: #{@submission.errors.full_messages.join(', ')}")
+      end
     end
 
     def destroy
       ensure_form_manager(form: @form)
 
-      Event.log_event(Event.names[:response_deleted], 'Submission', @submission.id, "Submission #{@submission.id} undeleted at #{DateTime.now}", current_user.id)
-      @submission.update(deleted: true, deleted_at: Time.now)
-
-      respond_to do |format|
-        format.js { render :destroy }
+      if @submission.update(deleted: true, deleted_at: Time.now)
+        Event.log_event(Event.names[:response_deleted], 'Submission', @submission.id, "Submission #{@submission.id} deleted at #{DateTime.now}", current_user.id)
+        respond_to do |format|
+          format.js { render :destroy }
+        end
+      else
+        Rails.logger.warn("Failed to delete submission: #{@submission.errors.full_messages.join(', ')}")
       end
     end
 
     def undelete
       ensure_form_manager(form: @form)
 
-      Event.log_event(Event.names[:response_undeleted], 'Submission', @submission.id, "Submission #{@submission.id} deleted at #{DateTime.now}", current_user.id)
+      Event.log_event(Event.names[:response_undeleted], 'Submission', @submission.id, "Submission #{@submission.id} undeleted at #{DateTime.now}", current_user.id)
       @submission.update(deleted: false, deleted_at: nil)
     end
 
