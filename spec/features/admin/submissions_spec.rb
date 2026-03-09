@@ -103,9 +103,9 @@ feature 'Submissions', js: true do
                 visit admin_form_submission_path(form, submission)
               end
 
-              it 'try to update a submission that has had its question validations changed' do
+              it 'can update status of a submission that has had its question validations changed' do
                 click_on("Acknowledge")
-                expect(page).to have_content("Response could not be updated.")
+                expect(page).to have_content("Response was successfully updated.")
               end
             end
           end

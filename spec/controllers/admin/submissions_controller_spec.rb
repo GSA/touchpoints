@@ -99,6 +99,13 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
       end.to change { Submission.active.count }.by(-1)
     end
 
+    it 'deletes the requested submission even if it has invalid answers' do
+      submission = Submission.create! invalid_attributes
+      expect do
+        delete :delete, params: { id: submission.to_param, form_id: form.short_uuid }, session: valid_session, format: :js
+      end.to change { Submission.active.count }.by(-1)
+    end
+
     it 'redirects to the submissions list' do
       submission = Submission.create! valid_attributes
       delete :destroy, params: { id: submission.to_param, form_id: form.short_uuid }, session: valid_session, format: :js
