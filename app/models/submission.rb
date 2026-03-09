@@ -6,7 +6,7 @@ class Submission < ApplicationRecord
   belongs_to :form, counter_cache: :response_count
   attr_accessor :fba_directive # for SPAM capture
 
-  validate :validate_custom_form
+  validate :validate_answers, on: :create
   validates :uuid, uniqueness: true
 
   before_create :set_uuid
@@ -47,7 +47,7 @@ class Submission < ApplicationRecord
   end
 
   # Validate each submitted field against its question type
-  def validate_custom_form
+  def validate_answers
     # Isolate questions that were answered
     answered_questions = attributes.select { |_key, value| value.present? }
 

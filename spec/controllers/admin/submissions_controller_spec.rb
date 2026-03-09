@@ -9,28 +9,27 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
   let!(:user_role) { FactoryBot.create(:user_role, user: admin, form:, role: UserRole::Role::FormManager) }
   let!(:questions) {
     FactoryBot.create(:question,
-      form:,
-      question_type: 'text_field',
-      form_section: form.form_sections.first,
-      answer_field: 'answer_02',
-      position: 2,
-      text: 'Two'
+                      form:,
+                      question_type: 'text_field',
+                      form_section: form.form_sections.first,
+                      answer_field: 'answer_02',
+                      position: 2,
+                      text: 'Two',
     )
     FactoryBot.create(:question,
-      form:,
-      question_type: 'text_field',
-      form_section: form.form_sections.first,
-      answer_field: 'answer_03',
-      position: 3,
-      text: 'Three'
+                      form:,
+                      question_type: 'text_field',
+                      form_section: form.form_sections.first,
+                      answer_field: 'answer_03',
+                      position: 3,
+                      text: 'Three',
     )
     FactoryBot.create(:question,
-      form:,
-      question_type: 'text_field',
-      form_section: form.form_sections.first,
-      answer_field: 'answer_04',
-      position: 4,
-      text: 'Four'
+                      :email,
+                      form:,
+                      form_section: form.form_sections.first,
+                      answer_field: 'answer_04',
+                      position: 4,
     )
 
   }
@@ -47,10 +46,11 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
 
   let(:invalid_attributes) do
     {
+      form_id: form.id,
       answer_01: nil,
       answer_02: 'James',
       answer_03: 'Madison',
-      answer_04: nil,
+      answer_04: 'not_an_email',
     }
   end
 
@@ -94,6 +94,18 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
   describe 'DELETE #delete' do
     it 'deletes the requested submission' do
       submission = Submission.create! valid_attributes
+      expect do
+        delete :delete, params: { id: submission.to_param, form_id: form.short_uuid }, session: valid_session, format: :js
+      end.to change { Submission.active.count }.by(-1)
+    end
+
+    it 'deletes the requested submission even if it has invalid answers' do
+      expect { Submission.create! invalid_attributes }.to raise_error(ActiveRecord::RecordInvalid)
+
+      submission = Submission.create! valid_attributes
+      submission.assign_attributes(invalid_attributes)
+      submission.save(validate: false)
+
       expect do
         delete :delete, params: { id: submission.to_param, form_id: form.short_uuid }, session: valid_session, format: :js
       end.to change { Submission.active.count }.by(-1)
