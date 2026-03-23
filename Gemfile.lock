@@ -719,7 +719,7 @@ DEPENDENCIES
   widget_renderer!
 
 RUBY VERSION
-   ruby 3.2.10p266
+  ruby 3.3.10p183
 
 BUNDLED WITH
-   2.7.1
+  2.7.2
