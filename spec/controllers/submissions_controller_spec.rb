@@ -139,7 +139,7 @@ RSpec.describe SubmissionsController, type: :controller do
       it 'returns an error response indicating the field is required' do
         expect(response.status).to eq(422)
         expect(JSON.parse(response.body)['messages']).to eq({ 'answer_01' => ['is required'] })
-        expect(JSON.parse(response.body)['status']).to eq('unprocessable_entity')
+        expect(JSON.parse(response.body)['status']).to eq('unprocessable_content')
       end
     end
 
@@ -152,7 +152,7 @@ RSpec.describe SubmissionsController, type: :controller do
       it 'returns an error response indicating character limit has been exceeded' do
         expect(response.status).to eq(422)
         expect(JSON.parse(response.body)['messages']).to eq({ 'answer_01' => ['exceeds character limit of 5'] })
-        expect(JSON.parse(response.body)['status']).to eq('unprocessable_entity')
+        expect(JSON.parse(response.body)['status']).to eq('unprocessable_content')
       end
     end
   end
