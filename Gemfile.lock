@@ -415,7 +415,7 @@ GEM
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
-    prism (1.4.0)
+    prism (1.9.0)
     pry (0.15.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -486,8 +486,10 @@ GEM
     rb-fsevent (0.11.2)
     rb-inotify (0.11.1)
       ffi (~> 1.0)
-    rbs (3.9.5)
+    rbs (4.0.2)
       logger
+      prism (>= 1.6.0)
+      tsort
     rdoc (6.14.2)
       erb
       psych (>= 4.0.0)
@@ -551,7 +553,7 @@ GEM
       rubocop (~> 1.72, >= 1.72.1)
     ruby-graphviz (1.2.5)
       rexml
-    ruby-lsp (0.26.2)
+    ruby-lsp (0.26.9)
       language_server-protocol (~> 3.17.0)
       prism (>= 1.2, < 2.0)
       rbs (>= 3, < 5)
@@ -607,6 +609,7 @@ GEM
     thread_safe (0.3.6)
     tilt (2.6.1)
     timeout (0.4.3)
+    tsort (0.2.0)
     turbo-rails (2.0.16)
       actionpack (>= 7.1.0)
       railties (>= 7.1.0)
