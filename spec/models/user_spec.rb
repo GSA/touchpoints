@@ -15,8 +15,8 @@ RSpec.describe User, type: :model do
         @user.save
       end
 
-      it 'fails tld_check' do
-        expect(@user.errors.messages[:email].first).to eq('is not from a valid TLD - .gov, .mil, and .edu domains only')
+      it 'fails presence check' do
+        expect(@user.errors.messages[:email].first).to eq("can't be blank")
       end
     end
 

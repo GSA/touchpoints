@@ -36,7 +36,8 @@ class User < ApplicationRecord
 
   after_create :send_new_user_notifications
 
-  validates :email, presence: true, if: :tld_check
+  validates :email, presence: true
+  validate :tld_check, if: -> { email.present? }
 
   scope :active, -> { where(inactive: false) }
   scope :inactive, -> { where(inactive: true) }
