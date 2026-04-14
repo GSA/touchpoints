@@ -203,8 +203,14 @@ jobs:
             sudo apt-get install -y cf8-cli
             cf -v
       - run:
-          name: Run CRON tasks
-          command: ./.circleci/cron.sh
+          name: Run CRON tasks for production
+          command: ./.circleci/cron.sh production
+      - run:
+          name: Run CRON tasks for demo
+          command: ./.circleci/cron.sh demo
+      - run:
+          name: Run CRON tasks for staging
+          command: ./.circleci/cron.sh staging
 
 workflows:
   daily_workflow:
