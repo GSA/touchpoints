@@ -48,4 +48,8 @@ namespace :scheduled_jobs do
     @submissions.delete_all
     puts "Deleted #{@submissions.size} Trashed Submissions"
   end
+
+  task check_expiring_forms: :environment do
+    ScheduledTask.check_expiring_forms
+  end
 end
