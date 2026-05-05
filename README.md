@@ -8,7 +8,7 @@ support continuous improvement of public service delivery.
 
 An example Touchpoints form that includes every input element
 is available in this
-[Kitchen Sink](https://touchpoints.app.cloud.gov/touchpoints/34d93e4e/submit)
+[Kitchen Sink](https://touchpoints.app.cloud.gov/touchpoints/34d93e4e)
 example.
 
 Touchpoints is a web application
@@ -24,7 +24,7 @@ GSA's Federal Acquisition Service (FAS) is developing Touchpoints in-house by th
 within the Technology Transformation Services'
 [Data Portfolio](https://www.gsa.gov/about-us/organization/federal-acquisition-service/technology-transformation-services/tts-solutions#data).
 
-Touchpoints is online at <https://touchpoints.digital.gov/>.
+Touchpoints documentation is online at <https://touchpoints.digital.gov/>.
 
 A Demo environment is online at <https://app-demo.touchpoints.digital.gov/>,
 and government customers are [encouraged](https://github.com/GSA/touchpoints/wiki/Touchpoints-Demo-Environment/) to sign up and try it out.
@@ -37,7 +37,7 @@ For developers, the wiki contains a [developer guide](https://github.com/GSA/tou
 
 ## Team Process
 
-The Touchpoints team tracks work in a [backlog](https://en.wikipedia.org/wiki/Kanban) board.
+The Touchpoints team tracks work in a [backlog](https://github.com/orgs/GSA/projects/348) board.
 
 Issues and ideas are also noted in GitHub [Issues](https://github.com/gsa/touchpoints/issues).
 
