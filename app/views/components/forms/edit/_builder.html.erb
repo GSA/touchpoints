@@ -274,33 +274,9 @@ $(function() {
 
   // Initialize sortable for question options
   try {
-    $(".question-options").sortable({
-      items: '.question-option',
-      handle: '.drag-handle',
-      placeholder: 'sort-placeholder',
-      update: function(e, ui) {
-        try {
-          var url = $(this).parent().data("url");
-          if (!url) {
-            console.error("Missing URL for question options sort");
-            return;
-          }
-          $.ajax({
-            url: url,
-            type: "PATCH",
-            data: $(this).sortable('serialize'),
-            error: function(xhr, status, error) {
-              console.error("Option sort update failed:", error);
-              ui.item.animate({ left: 0 }, 300);
-            }
-          });
-        } catch (err) {
-          console.error("Error during option sort update:", err);
-        }
-      }
-    }).disableSelection();
+    initializeSortableQuestionOptions($(".question-options"));
   } catch (err) {
-    console.error("Failed to initialize option sortable:", err);
+    console.error("Failed to initialize question option sortable:", err);
   }
 
   // Initialize sortable for sections
@@ -444,6 +420,39 @@ function initializeSortableQuestions($questionContainer) {
         ui.placeholder.height(ui.item.height());
       }
     }).disableSelection();
+}
+
+function initializeSortableQuestionOptions($questionOptionContainer) {
+  $questionOptionContainer.sortable({
+    items: '.question-option',
+    placeholder: 'sort-placeholder',
+    tolerance: 'pointer',
+    update: function(e, ui) {
+      try {
+        let url = $(this).parent().data("url") + "/sort";
+        let data = $(this).sortable('serialize');
+        if (!url) {
+          console.error("Missing URL for question options sort");
+          return;
+        }
+        if (!data) {
+          console.error("Failed to serialize sortable data");
+          return;
+        }
+        $.ajax({
+          url: url,
+          type: "PATCH",
+          data: data,
+          error: () => {
+            alert("Failed to update question option order");
+            $(this).sortable("cancel");
+          }
+        });
+      } catch (err) {
+        console.error("Error during option sort update:", err);
+      }
+    }
+  }).disableSelection();
 }
 
 document.addEventListener("DOMContentLoaded", function () {

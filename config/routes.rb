@@ -313,17 +313,15 @@ Rails.application.routes.draw do
         patch 'update_title', to: 'form_sections#update_title', as: :inline_update
       end
       resources :questions, except: :new do
-        member do
-          patch 'question_options', to: 'question_options#sort', as: :sort_question_options
+        collection do
+          patch 'sort', to: 'questions#sort', as: :sort_questions
         end
         resources :question_options, except: %i[index show] do
           patch 'update_title', to: 'question_options#update_title', as: :inline_update
           collection do
             post 'create_other', to: 'question_options#create_other', as: :create_other
+            patch 'sort', to: 'question_options#sort', as: :sort_question_options
           end
-        end
-        collection do
-          patch 'sort', to: 'questions#sort', as: :sort_questions
         end
       end
       resources :submissions, only: %i[show update destroy] do

@@ -1444,6 +1444,31 @@ feature 'Forms', js: true do
             end
           end
         end
+
+        describe 'reordering Question Options' do
+          let!(:question) { FactoryBot.create(:question, :with_combobox_options, form:, form_section: form.form_sections.first) }
+
+          before do
+            visit questions_admin_form_path(form)
+            wait_for_builder
+            source = find('.question-option', text: 'One')
+            target = find('.question-option', text: 'Two')
+            source.drag_to(target)
+            wait_for_ajax
+          end
+
+          it 'moves the first question option down' do
+            expect(page.all('.question-option')[0]).to have_content('Two')
+            expect(page.all('.question-option')[1]).to have_content('One')
+          end
+
+          it 'persists after refresh' do
+            visit questions_admin_form_path(form)
+            wait_for_builder
+            expect(page.all('.question-option')[0]).to have_content('Two')
+            expect(page.all('.question-option')[1]).to have_content('One')
+          end
+        end
       end
     end
   end

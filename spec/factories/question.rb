@@ -73,5 +73,16 @@ FactoryBot.define do
         FactoryBot.create(:question_option, question: dropdown_question, position: 4, text: 'Four')
       end
     end
+
+    trait :with_combobox_options do
+      text { 'Test Combo box Question' }
+      question_type { 'combobox' }
+      after(:create) do |combobox_question, _evaluator|
+        FactoryBot.create(:question_option, question: combobox_question, position: 1, text: 'One')
+        FactoryBot.create(:question_option, question: combobox_question, position: 2, text: 'Two')
+        FactoryBot.create(:question_option, question: combobox_question, position: 3, text: 'Three')
+        FactoryBot.create(:question_option, question: combobox_question, position: 4, text: 'Four')
+      end
+    end
   end
 end
