@@ -429,7 +429,7 @@ function initializeSortableQuestionOptions($questionOptionContainer) {
     tolerance: 'pointer',
     update: function(e, ui) {
       try {
-        let url = $(this).parent().data("url");
+        let url = $(this).parent().data("url") + "/sort";
         let data = $(this).sortable('serialize');
         if (!url) {
           console.error("Missing URL for question options sort");

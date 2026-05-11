@@ -167,13 +167,13 @@ RSpec.describe Admin::QuestionOptionsController, type: :controller do
       let!(:option4) { FactoryBot.create(:question_option, question:, text: 'Four', position: 4) }
 
       it 'reorders the question options' do
-        patch :sort, params: { id: question.id, form_id: form.id, question_option: [option2.id, option4.id, option3.id, option1.id] }, session: valid_session
+        patch :sort, params: { question_id: question.id, form_id: form.id, question_option: [option2.id, option4.id, option3.id, option1.id] }, session: valid_session
         question.reload
         expect(question.question_options.order(:position).pluck(:text)).to eq(['Two', 'Four', 'Three', 'One'])
       end
 
       it 'validates that reorder is complete' do
-        patch :sort, params: { id: question.id, form_id: form.id, question_option: [option3.id, option4.id, option1.id] }, session: valid_session
+        patch :sort, params: { question_id: question.id, form_id: form.id, question_option: [option3.id, option4.id, option1.id] }, session: valid_session
         expect(response).to have_http_status(:unprocessable_content)
       end
     end
