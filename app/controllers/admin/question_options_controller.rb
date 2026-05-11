@@ -21,11 +21,16 @@ module Admin
     end
 
     def sort
-      params[:question_option].each_with_index do |id, index|
-        QuestionOption.find(id).update(position: index + 1)
+      question = Question.find(params[:id])
+      current_option_ids = question.question_options.pluck(:id).map(&:to_s)
+      if current_option_ids.sort == params[:question_option].sort
+        params[:question_option].each_with_index do |id, index|
+          QuestionOption.find(id).update(position: index + 1)
+        end
+        head :ok
+      else
+        render json: { error: "All question options must be listed exactly once in reordering request" }, status: :unprocessable_content
       end
-
-      head :ok
     end
 
     def update_title

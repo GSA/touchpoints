@@ -156,4 +156,26 @@ RSpec.describe Admin::QuestionOptionsController, type: :controller do
       expect(response).to redirect_to(question_options_url)
     end
   end
+
+  describe 'PATCH #sort' do
+    context 'with multiple question options' do
+      let(:form) { FactoryBot.create(:form, organization:) }
+      let(:question) { FactoryBot.create(:question, form:, form_section: form.form_sections.first) }
+      let!(:option1) { FactoryBot.create(:question_option, question:, text: 'One', position: 1) }
+      let!(:option2) { FactoryBot.create(:question_option, question:, text: 'Two', position: 2) }
+      let!(:option3) { FactoryBot.create(:question_option, question:, text: 'Three', position: 3) }
+      let!(:option4) { FactoryBot.create(:question_option, question:, text: 'Four', position: 4) }
+
+      it 'reorders the question options' do
+        patch :sort, params: { id: question.id, form_id: form.id, question_option: [option2.id, option4.id, option3.id, option1.id] }, session: valid_session
+        question.reload
+        expect(question.question_options.order(:position).pluck(:text)).to eq(['Two', 'Four', 'Three', 'One'])
+      end
+
+      it 'validates that reorder is complete' do
+        patch :sort, params: { id: question.id, form_id: form.id, question_option: [option3.id, option4.id, option1.id] }, session: valid_session
+        expect(response).to have_http_status(:unprocessable_content)
+      end
+    end
+  end
 end

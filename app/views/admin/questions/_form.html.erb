@@ -124,6 +124,7 @@
 
             ele.html(resp);
             ele.find(".question-option-edit").hide();
+            initializeSortableQuestionOptions(ele.find(".question-options"));
           }
         });
       }
@@ -141,6 +142,7 @@
 
           ele.html(resp);
           ele.find(".question-option-edit").hide();
+          initializeSortableQuestionOptions(ele.find(".question-options"));
         }
       });
     });
