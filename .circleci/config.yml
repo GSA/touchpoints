@@ -227,10 +227,20 @@ workflows:
       - cron_tasks
   build-deploy:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              only: /.*/
+            tags:
+              only: /^release-.*/
       - test:
           requires:
             - build
+          filters:
+            branches:
+              only: /.*/
+            tags:
+              only: /^release-.*/
       - deploy:
           name: deploy-to-staging
           deploy_environment: staging
@@ -240,21 +250,34 @@ workflows:
             branches:
               only:
                 - develop
+            tags:
+              ignore: /.*/
       - deploy:
           name: deploy-to-demo
           deploy_environment: demo
           requires:
             - test
           filters:
+            tags:
+              only: /^release-.*/
             branches:
-              only:
-                - production
+              ignore: /.*/
+      - approve-production:
+          type: approval
+          requires:
+            - test
+          filters:
+            tags:
+              only: /^release-.*/
+            branches:
+              ignore: /.*/
       - deploy:
           name: deploy-to-production
           deploy_environment: production
           requires:
-            - test
+            - approve-production
           filters:
+            tags:
+              only: /^release-.*/
             branches:
-              only:
-                - production
+              ignore: /.*/
