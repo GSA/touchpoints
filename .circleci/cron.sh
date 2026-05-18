@@ -48,7 +48,7 @@ function run_staging_tasks() {
 	run_scheduled_job "touchpoints-staging-sidekiq-worker" "check_expiring_forms"
 	run_scheduled_job "touchpoints-staging-sidekiq-worker" "archive_forms"
 	run_scheduled_job "touchpoints-staging-sidekiq-worker" "notify_form_managers_of_inactive_forms"
-	# run_task "touchpoints-staging-sidekiq-worker" "rake scheduled_jobs:delete_submissions_trash"
+	run_scheduled_job "touchpoints-staging-sidekiq-worker" "delete_submissions_trash"
 
 	echo "Staging tasks have completed."
 }
@@ -68,7 +68,7 @@ function run_demo_tasks() {
 	run_scheduled_job "touchpoints-demo-sidekiq-worker" "check_expiring_forms"
 	run_scheduled_job "touchpoints-demo-sidekiq-worker" "archive_forms"
 	run_scheduled_job "touchpoints-demo-sidekiq-worker" "notify_form_managers_of_inactive_forms"
-	# run_task "touchpoints-demo-sidekiq-worker" "rake scheduled_jobs:delete_submissions_trash"
+	run_scheduled_job "touchpoints-demo-sidekiq-worker" "delete_submissions_trash"
 
 	echo "Demo tasks have completed."
 }
