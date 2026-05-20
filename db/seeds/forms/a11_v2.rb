@@ -11,7 +11,6 @@ module Seeds
         title: "",
         instructions: "",
         disclaimer_text: "Disclaimer Text Goes Here",
-        early_submission: true,
         delivery_method: "modal",
         modal_button_text: "Click here to leave feedback"
       })
