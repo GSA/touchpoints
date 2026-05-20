@@ -222,7 +222,7 @@ workflows:
           filters:
             branches:
               only:
-                - production
+                - main
     jobs:
       - cron_tasks
   build-deploy:
@@ -249,7 +249,7 @@ workflows:
           filters:
             branches:
               only:
-                - develop
+                - main
             tags:
               ignore: /.*/
       - deploy:
