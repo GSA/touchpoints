@@ -54,6 +54,15 @@ module Api
       end
 
       def responses
+        # Start temporary code for debugging in staging
+        Rails.logger.info "--- REQUEST HEADERS ---"
+        request.headers.each do |key, value|
+          # Filter for standard HTTP headers if preferred
+          Rails.logger.info "#{key}: #{value}"
+        end
+        Rails.logger.info "-----------------------"
+        # End temporary code
+
         valid_params = params.permit(:id, :start_date, :end_date, page: %i[number size])
 
         if current_user.organizational_admin?
