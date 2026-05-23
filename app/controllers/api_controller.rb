@@ -14,6 +14,15 @@ class ApiController < ::ApplicationController
     end
   end
 
+  def from_api_gateway?
+    request.headers['X-Api-Umbrella-Request-Id'].present?
+  end
+
+  def api_gateway_url
+    base_url = ENV.fetch('API_GATEWAY_BASE_URL', nil)
+    base_url + request.path.gsub('/api', '') if base_url.present?
+  end
+
   def api_params
     params.require('API_KEY')
   end

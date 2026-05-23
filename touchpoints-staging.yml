@@ -26,6 +26,7 @@ applications:
       TOUCHPOINTS_WEB_DOMAIN2: app-staging.touchpoints.digital.gov
       ASSET_HOST: app-staging.touchpoints.digital.gov
       SKIP_WIDGET_RENDERER: "true"
+      API_GATEWAY_BASE_URL: https://api.gsa.gov/test/analytics/touchpoints
     buildpacks:
       - https://github.com/rileyseaburg/rust-buildpack-touchpoints.git
       - nodejs_buildpack

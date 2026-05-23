@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'uri'
 
 describe Api::V1::FormsController, type: :controller do
   describe 'unauthenticated request' do
@@ -260,11 +259,13 @@ describe Api::V1::FormsController, type: :controller do
 
     describe 'responses#index' do
       let!(:user) { FactoryBot.create(:user) }
-      let(:form) { FactoryBot.create(:form, :single_question, organization: user.organization) do |form|
-        i = 0
-        7.times { FactoryBot.create(:submission, form: form, created_at: 10.days.ago, answer_01: (i += 1)) }
-        8.times { FactoryBot.create(:submission, form: form, created_at: 1.day.ago, answer_01: (i += 1)) }
-      end }
+      let(:form) do 
+        FactoryBot.create(:form, :single_question, organization: user.organization) do |form|
+          i = 0
+          7.times { FactoryBot.create(:submission, form: form, created_at: 10.days.ago, answer_01: (i += 1)) }
+          8.times { FactoryBot.create(:submission, form: form, created_at: 1.day.ago, answer_01: (i += 1)) }
+        end
+      end
       let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user:, form:) }
 
       before do
@@ -285,30 +286,26 @@ describe Api::V1::FormsController, type: :controller do
         get :responses, format: :json, params: { id: form.short_uuid, 'API_KEY' => user.api_key,
                                                  page: 3, style: 'fast' }
         expect(response.status).to eq(200)
-        parsed_response = JSON.parse(response.body)
-        expect(parsed_response['meta']['current_page']).to eq(1)
+        expect(response.parsed_body['meta']['current_page']).to eq(1)
       end
 
       it 'sets defaults for page_number and page_size' do
         get :responses, format: :json, params: { id: form.short_uuid, 'API_KEY' => user.api_key }
         expect(response.status).to eq(200)
-        parsed_response = JSON.parse(response.body)
-        expect(parsed_response['meta']['current_page']).to eq(1)
-        expect(parsed_response['meta']['page_size']).to eq(500)
+        expect(response.parsed_body['meta']['current_page']).to eq(1)
+        expect(response.parsed_body['meta']['page_size']).to eq(500)
       end
 
       it 'limits page_size to 5000' do
-        get :responses, format: :json, params: { id: form.short_uuid, 'API_KEY' => user.api_key, 'page[size]' => 10000 }
+        get :responses, format: :json, params: { id: form.short_uuid, 'API_KEY' => user.api_key, 'page[size]' => 5_001 }
         expect(response.status).to eq(400)
-        parsed_response = JSON.parse(response.body)
-        expect(parsed_response['error']).to eq({ 'message' => 'max page size is 5000', 'status' => 400 })
+        expect(response.parsed_body['error']).to eq({ 'message' => 'max page size is 5000', 'status' => 400 })
       end
 
       it 'errors on invalid date format' do
         get :responses, format: :json, params: { id: form.short_uuid, 'API_KEY' => user.api_key, start_date: 'not-a-date' }
         expect(response.status).to eq(400)
-        parsed_response = JSON.parse(response.body)
-        expect(parsed_response['error']).to eq("message"=>"invalid date format, should be 'YYYY-MM-DD'", "status"=>400)
+        expect(response.parsed_body['error']).to eq("message" => "invalid date format, should be 'YYYY-MM-DD'", "status" => 400)
       end
 
       it 'returns items based on page_number, page_size and date filters' do
@@ -318,8 +315,7 @@ describe Api::V1::FormsController, type: :controller do
                                                  'start_date' => 3.days.ago.strftime('%Y-%m-%d') }
 
         expect(response.status).to eq(200)
-        parsed_response = JSON.parse(response.body)
-        data = parsed_response['data']
+        data = response.parsed_body['data']
         expect(data.size).to eq(5)
         expect(data.map { |item| item['attributes']['answer_01'] }).to eq(["8", "9", "10", "11", "12"])
 
@@ -327,8 +323,7 @@ describe Api::V1::FormsController, type: :controller do
                                                  'page[number]' => 2, 'page[size]' => 5,
                                                  'start_date' => 3.days.ago.strftime('%Y-%m-%d') }
         expect(response.status).to eq(200)
-        parsed_response = JSON.parse(response.body)
-        data = parsed_response['data']
+        data = response.parsed_body['data']
         expect(data.size).to eq(3)
         expect(data.map { |item| item['attributes']['answer_01'] }).to eq(["13", "14", "15"])
       end
@@ -339,18 +334,16 @@ describe Api::V1::FormsController, type: :controller do
                                                  'start_date' => 3.days.ago.strftime('%Y-%m-%d') }
 
         expect(response.status).to eq(200)
-        parsed_response = JSON.parse(response.body)
-        meta = parsed_response['meta']
-        expect(meta).to eq({ "current_page"=>1, "page_size"=>5, "total_count"=>8, "total_pages"=>2 })
+        meta = response.parsed_body['meta']
+        expect(meta).to eq({ "current_page" => 1, "page_size" => 5, "total_count" => 8, "total_pages" => 2 })
 
         get :responses, format: :json, params: { id: form.short_uuid, 'API_KEY' => user.api_key,
                                                  'page[number]' => 2, 'page[size]' => 5,
                                                  'start_date' => 3.days.ago.strftime('%Y-%m-%d') }
 
         expect(response.status).to eq(200)
-        parsed_response = JSON.parse(response.body)
-        meta = parsed_response['meta']
-        expect(meta).to eq({ "current_page"=>2, "page_size"=>5, "total_count"=>8, "total_pages"=>2 })
+        meta = response.parsed_body['meta']
+        expect(meta).to eq({ "current_page" => 2, "page_size" => 5, "total_count" => 8, "total_pages" => 2 })
       end
 
       it 'returns links based on page_number, page_size and date filters' do
@@ -360,8 +353,7 @@ describe Api::V1::FormsController, type: :controller do
                                                  'start_date' => start_date }
 
         expect(response.status).to eq(200)
-        parsed_response = JSON.parse(response.body)
-        expect(parsed_response['links']).to eq(
+        expect(response.parsed_body['links']).to eq(
                                               {
                                                 "first" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=1&page%5Bsize%5D=5&start_date=#{start_date}",
                                                 "last" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=2&page%5Bsize%5D=5&start_date=#{start_date}",
@@ -375,38 +367,44 @@ describe Api::V1::FormsController, type: :controller do
                                                  'page[number]' => 2, 'page[size]' => 5,
                                                  'start_date' => start_date }
         expect(response.status).to eq(200)
-        parsed_response = JSON.parse(response.body)
-        expect(parsed_response['links']).to eq(
+        expect(response.parsed_body['links']).to eq(
                                               {
                                                 "first" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=1&page%5Bsize%5D=5&start_date=#{start_date}",
                                                 "last" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=2&page%5Bsize%5D=5&start_date=#{start_date}",
                                                 "next" => nil,
                                                 "prev" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=1&page%5Bsize%5D=5&start_date=#{start_date}",
                                                 "self" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=2&page%5Bsize%5D=5&start_date=#{start_date}",
-                                              }
+                                              },
                                             )
       end
 
-      it 'returns links pointing to api gateway when appropriate', :skip => "not yet implemented" do
-        @request.headers['X-Api-Umbrella-Request-Id'] = 'aelqdj9lfoe7c2itheg0'
+      it 'returns links pointing to api gateway when appropriate' do
+        request.headers['X-Api-Umbrella-Request-Id'] = 'aelqdj9lfoe7c2itheg0'
+
+        start_date = 3.days.ago.strftime('%Y-%m-%d')
         get :responses, format: :json, params: { id: form.short_uuid, 'API_KEY' => user.api_key,
-                                                 'page[number]' => 1, 'page[size]' => 5 }
+                                                 'page[number]' => 1, 'page[size]' => 5,
+                                                 'start_date' => start_date }
         expect(response.status).to eq(200)
-        parsed_response = JSON.parse(response.body)
-        next_link = URI.parse(parsed_response['links']['next'])
-        expect(next_link.host).to eq('test.host')
-        expect(next_link.path).to eq('/api/v1/forms')
+        expect(response.parsed_body['links']).to eq(
+                                              {
+                                                "first" => "https://api-gateway.example.gov/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=1&page%5Bsize%5D=5&start_date=#{start_date}",
+                                                "last" => "https://api-gateway.example.gov/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=2&page%5Bsize%5D=5&start_date=#{start_date}",
+                                                "next" => "https://api-gateway.example.gov/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=2&page%5Bsize%5D=5&start_date=#{start_date}",
+                                                "prev" => nil,
+                                                "self" => "https://api-gateway.example.gov/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=1&page%5Bsize%5D=5&start_date=#{start_date}",
+                                              },
+                                            )
       end
 
       it 'does not return deleted responses' do
         submission = form.submissions.first
-        submission.assign_attributes(deleted: true, deleted_at: Time.now)
+        submission.assign_attributes(deleted: true, deleted_at: Time.zone.now)
         submission.save(validate: false)
 
         get :responses, format: :json, params: { id: form.short_uuid, 'API_KEY' => user.api_key }
         expect(response.status).to eq(200)
-        parsed_response = JSON.parse(response.body)
-        expect(parsed_response['data'].size).to eq(14)
+        expect(response.parsed_body['data'].size).to eq(14)
       end
     end
   end

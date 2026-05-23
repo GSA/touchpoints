@@ -54,15 +54,6 @@ module Api
       end
 
       def responses
-        # Start temporary code for debugging in staging
-        Rails.logger.info "--- REQUEST HEADERS ---"
-        request.headers.each do |key, value|
-          # Filter for standard HTTP headers if preferred
-          Rails.logger.info "#{key}: #{value}"
-        end
-        Rails.logger.info "-----------------------"
-        # End temporary code
-
         valid_params = params.permit(:id, :start_date, :end_date, page: %i[number size])
 
         if current_user.organizational_admin?
@@ -86,26 +77,30 @@ module Api
         end
 
         # base query
-        responses = form.submissions.non_deleted
+        submissions = form.submissions.non_deleted
 
         # apply date filters only when provided
         if start_date && end_date
-          responses = responses.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+          submissions = submissions.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
         elsif start_date
-          responses = responses.where('created_at >= ?', start_date.beginning_of_day)
+          submissions = submissions.where(created_at: start_date.beginning_of_day..)
         elsif end_date
-          responses = responses.where('created_at <= ?', end_date.end_of_day)
+          submissions = submissions.where(created_at: ..end_date.end_of_day)
         end
 
         # ordering & pagination
-        responses = responses.order(:id).page(page_number).per(page_size)
+        submissions = submissions.order(:id).page(page_number).per(page_size)
 
-        render json: responses, each_serializer: SubmissionSerializer,
+        render json: submissions, each_serializer: SubmissionSerializer,
                meta: {
-                 current_page: responses.current_page,
-                 page_size: responses.limit_value,
-                 total_pages: responses.total_pages,
-                 total_count: responses.total_count,
+                 current_page: submissions.current_page,
+                 page_size: submissions.limit_value,
+                 total_pages: submissions.total_pages,
+                 total_count: submissions.total_count,
+               },
+               links: {
+                 # If request came through the API gateway, pagination links should be written wrt the gateway url
+                 self: from_api_gateway? ? api_gateway_url : nil,
                }
       end
 
