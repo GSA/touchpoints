@@ -47,7 +47,11 @@ Rails.application.routes.draw do
       resources :cx_responses, only: [:index]
       resources :cx_collections, only: [:index]
       resources :cx_collection_details, only: [:index]
-      resources :forms, only: %i[index show]
+      resources :forms, only: %i[index show] do
+        member do
+          get :responses, to: 'forms#responses'
+        end
+      end
       resources :websites, only: [:index]
       resources :service_providers, only: [:index]
       resources :services, only: %i[index show]
