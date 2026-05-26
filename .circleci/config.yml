@@ -232,7 +232,7 @@ workflows:
             branches:
               only: /.*/
             tags:
-              only: /^release-.*/
+              only: /^v\d{4}\.\d{2}\.\d{2}\.\d+$/
       - test:
           requires:
             - build
@@ -240,7 +240,7 @@ workflows:
             branches:
               only: /.*/
             tags:
-              only: /^release-.*/
+              only: /^v\d{4}\.\d{2}\.\d{2}\.\d+$/
       - deploy:
           name: deploy-to-staging
           deploy_environment: staging
@@ -253,31 +253,12 @@ workflows:
             tags:
               ignore: /.*/
       - deploy:
-          name: deploy-to-demo
-          deploy_environment: demo
-          requires:
-            - test
-          filters:
-            tags:
-              only: /^release-.*/
-            branches:
-              ignore: /.*/
-      - approve-production:
-          type: approval
-          requires:
-            - test
-          filters:
-            tags:
-              only: /^release-.*/
-            branches:
-              ignore: /.*/
-      - deploy:
           name: deploy-to-production
           deploy_environment: production
           requires:
-            - approve-production
+            - test
           filters:
-            tags:
-              only: /^release-.*/
             branches:
               ignore: /.*/
+            tags:
+              only: /^v\d{4}\.\d{2}\.\d{2}\.\d+$/
