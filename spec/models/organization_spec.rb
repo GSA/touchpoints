@@ -54,6 +54,95 @@ RSpec.describe Organization, type: :model do
         expect(@org.save!).to be (true)
       end
     end
+
+    describe 'domain validation' do
+      it 'accepts a valid bare domain' do
+        @org = Organization.create({
+          name: "Example",
+          domain: "example.gov",
+          abbreviation: "EX"
+        })
+        expect(@org).to be_valid
+      end
+
+      it 'accepts a valid multi-level domain' do
+        @org = Organization.create({
+          name: "FEMA",
+          domain: "fema.dhs.gov",
+          abbreviation: "FEMA"
+        })
+        expect(@org).to be_valid
+      end
+
+      it 'rejects a domain with http:// protocol' do
+        @org = Organization.create({
+          name: "Example",
+          domain: "http://example.gov",
+          abbreviation: "EX"
+        })
+        expect(@org).not_to be_valid
+        expect(@org.errors.messages[:domain]).to include("must be a bare domain name (e.g., 'example.gov') without protocol, path, or trailing slash")
+      end
+
+      it 'rejects a domain with https:// protocol' do
+        @org = Organization.create({
+          name: "Example",
+          domain: "https://example.gov",
+          abbreviation: "EX"
+        })
+        expect(@org).not_to be_valid
+        expect(@org.errors.messages[:domain]).to include("must be a bare domain name (e.g., 'example.gov') without protocol, path, or trailing slash")
+      end
+
+      it 'rejects a domain with a path' do
+        @org = Organization.create({
+          name: "Example",
+          domain: "example.gov/path",
+          abbreviation: "EX"
+        })
+        expect(@org).not_to be_valid
+        expect(@org.errors.messages[:domain]).to include("must be a bare domain name (e.g., 'example.gov') without protocol, path, or trailing slash")
+      end
+
+      it 'rejects a domain with a trailing slash' do
+        @org = Organization.create({
+          name: "Example",
+          domain: "example.gov/",
+          abbreviation: "EX"
+        })
+        expect(@org).not_to be_valid
+        expect(@org.errors.messages[:domain]).to include("must be a bare domain name (e.g., 'example.gov') without protocol, path, or trailing slash")
+      end
+
+      it 'rejects a full URL' do
+        @org = Organization.create({
+          name: "Example",
+          domain: "https://www.example.gov/",
+          abbreviation: "EX"
+        })
+        expect(@org).not_to be_valid
+        expect(@org.errors.messages[:domain]).to include("must be a bare domain name (e.g., 'example.gov') without protocol, path, or trailing slash")
+      end
+
+      it 'accepts a domain with 5 parts' do
+        @org = Organization.create({
+          name: "Example",
+          domain: "a.b.c.example.gov",
+          abbreviation: "EX"
+        })
+        expect(@org).to be_valid
+      end
+
+      it 'rejects a domain with more than 5 parts' do
+        @org = Organization.create({
+          name: "Example",
+          domain: "a.b.c.d.e.example.gov",
+          abbreviation: "EX"
+        })
+        expect(@org).not_to be_valid
+        expect(@org.errors.messages[:domain]).to include("cannot have more than 5 parts (e.g., 'sub1.sub2.sub3.example.gov')")
+      end
+    end
   end
 
 end

@@ -55,46 +55,6 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context 'with a valid .gov email address (under 1 subdomain) for an Organization that has been created' do
-      before do
-        FactoryBot.create(:organization)
-        @user.email = 'user@associates.subdomain.example.gov'
-        @user.save
-      end
-
-      it 'is valid' do
-        expect(@user.valid?).to eq(true)
-        expect(@user.persisted?).to eq(true)
-      end
-    end
-
-    context 'with a valid .gov email address (under 2 subdomains) for an Organization that has been created' do
-      before do
-        FactoryBot.create(:organization)
-        @user.email = 'user@associates.subdomain.example.gov'
-        @user.save
-      end
-
-      it 'is valid' do
-        expect(@user.valid?).to eq(true)
-        expect(@user.persisted?).to eq(true)
-      end
-    end
-
-    context 'with a valid .gov email address (under 3 subdomains) for an Organization that has been created' do
-      before do
-        FactoryBot.create(:organization)
-        @user.email = 'user@toomany.associates.subdomain.example.gov'
-        @user.save
-      end
-
-      it 'fails tld_check' do
-        expect(@user.valid?).to eq(false)
-        expect(@user.persisted?).to eq(false)
-        expect(@user.errors.messages[:organization].first).to include("'toomany.associates.subdomain.example.gov' has not yet been configured for Touchpoints")
-      end
-    end
-
     context 'api key' do
       before do
         FactoryBot.create(:organization)
@@ -220,6 +180,13 @@ RSpec.describe User, type: :model do
       @user2.email = "user@sub.example.gov"
       @user2.save!
       expect(@user2.organization).to eq(@org2)
+    end
+
+    it 'respects sub-subdomains' do
+      @user_subsub = User.new
+      @user_subsub.email = "user@associates.sub.example.gov"
+      @user_subsub.save!
+      expect(@user_subsub.organization).to eq(@org2)
     end
 
     it 'matches by top-level domain if subdomain does not exist' do

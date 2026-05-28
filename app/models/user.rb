@@ -165,35 +165,29 @@ class User < ApplicationRecord
     api_key.present? && will_save_change_to_api_key?
   end
 
-  def parse_host_from_domain(string)
-    fragments = string.split('.')
-    case fragments.size
-    when 2
-      string
-    when 3
-      fragments.shift
-      fragments.join('.')
-    when 4
-      fragments.shift
-      fragments.shift
-      fragments.join('.')
-    end
-  end
-
   def ensure_organization
     return if organization_id.present?
 
     email_address_domain = Mail::Address.new(email).domain
-    parsed_domain = parse_host_from_domain(email_address_domain)
-
-    if org = Organization.find_by_domain(email_address_domain)
-      self.organization_id = org.id
-    elsif org = Organization.find_by_domain(parsed_domain)
-      self.organization_id = org.id
-    else
-      UserMailer.no_org_notification(self).deliver_later if id
-      errors.add(:organization, "'#{email_address_domain}' has not yet been configured for Touchpoints - Please contact the Feedback Analytics Team for assistance.")
+    
+    # Try to match the full domain first, then progressively strip subdomains
+    # from left to right to find the most specific matching organization
+    fragments = email_address_domain.split('.').last(Organization::MAX_DOMAIN_PARTS)
+    
+    # Start from the full domain and work our way down
+    (0...fragments.size).each do |i|
+      domain_to_try = fragments[i..].join('.')
+      next if fragments.size - i < 2  # Skip if less than 2 fragments (need at least "example.gov")
+      
+      if org = Organization.find_by_domain(domain_to_try)
+        self.organization_id = org.id
+        return
+      end
     end
+    
+    # No matching organization found
+    UserMailer.no_org_notification(self).deliver_later if id
+    errors.add(:organization, "'#{email_address_domain}' has not yet been configured for Touchpoints - Please contact the Feedback Analytics Team for assistance.")
   end
 
   def send_new_user_notifications
