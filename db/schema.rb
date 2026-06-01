@@ -10,29 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_10_192727) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_10_192727) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.bigint "record_id", null: false
+    t.string "record_type", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
-    t.string "key", null: false
-    t.string "filename", null: false
-    t.string "content_type"
-    t.text "metadata"
-    t.string "service_name", null: false
     t.bigint "byte_size", null: false
     t.string "checksum"
+    t.string "content_type"
     t.datetime "created_at", null: false
+    t.string "filename", null: false
+    t.string "key", null: false
+    t.text "metadata"
+    t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -43,88 +43,88 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_10_192727) do
   end
 
   create_table "barriers", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
     t.datetime "created_at", precision: nil, null: false
+    t.text "description"
+    t.string "name"
     t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "collections", comment: "Quarterly CX Data Collection", force: :cascade do |t|
-    t.string "name"
-    t.date "start_date"
-    t.date "end_date"
-    t.integer "organization_id"
-    t.string "year"
-    t.string "quarter"
-    t.integer "user_id"
-    t.string "integrity_hash"
     t.string "aasm_state"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.text "reflection"
+    t.date "end_date"
+    t.string "integrity_hash"
+    t.string "name"
+    t.integer "organization_id"
+    t.string "quarter"
     t.string "rating"
+    t.text "reflection"
     t.integer "service_provider_id"
+    t.date "start_date"
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.string "year"
     t.index ["organization_id"], name: "index_collections_on_organization_id"
     t.index ["service_provider_id"], name: "index_collections_on_service_provider_id"
     t.index ["user_id"], name: "index_collections_on_user_id"
   end
 
   create_table "cx_collection_detail_uploads", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "cx_collection_detail_id"
-    t.integer "size", comment: "file size of the s3 object"
-    t.string "key", comment: "s3 path to the asset"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "aasm_state"
-    t.string "record_count"
+    t.datetime "created_at", null: false
+    t.integer "cx_collection_detail_id"
     t.string "job_id"
+    t.string "key", comment: "s3 path to the asset"
+    t.string "record_count"
+    t.integer "size", comment: "file size of the s3 object"
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
   end
 
   create_table "cx_collection_details", force: :cascade do |t|
-    t.integer "cx_collection_id"
-    t.string "transaction_point"
     t.string "channel"
+    t.datetime "created_at", null: false
+    t.integer "cx_collection_id"
+    t.string "federal_register_url"
+    t.string "omb_control_number"
+    t.text "reflection_text"
     t.integer "service_stage_id"
+    t.text "survey_title"
+    t.text "survey_type"
+    t.string "transaction_point"
+    t.text "trust_question_text"
+    t.datetime "updated_at", null: false
     t.integer "volume_of_customers"
     t.integer "volume_of_customers_provided_survey_opportunity"
     t.integer "volume_of_respondents"
-    t.string "omb_control_number"
-    t.string "federal_register_url"
-    t.text "reflection_text"
-    t.text "survey_type"
-    t.text "survey_title"
-    t.text "trust_question_text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.index ["cx_collection_id"], name: "index_cx_collection_details_on_cx_collection_id"
   end
 
   create_table "cx_collections", force: :cascade do |t|
-    t.integer "user_id"
-    t.string "name"
-    t.integer "organization_id"
-    t.integer "service_provider_id"
-    t.integer "service_id"
-    t.string "service_type"
-    t.string "digital_service_or_contact_center"
-    t.string "url"
-    t.string "fiscal_year"
-    t.string "quarter"
-    t.string "transaction_point"
-    t.integer "service_stage_id"
+    t.string "aasm_state"
     t.string "channel"
-    t.string "survey_title"
-    t.string "trust_question_text"
+    t.datetime "created_at", null: false
+    t.string "digital_service_or_contact_center"
+    t.string "fiscal_year"
+    t.string "integrity_hash"
     t.string "likert_or_thumb_question"
+    t.string "name"
     t.integer "number_of_interactions"
     t.string "number_of_people_offered_the_survey"
-    t.string "aasm_state"
+    t.integer "organization_id"
+    t.string "quarter"
     t.string "rating"
-    t.string "integrity_hash"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer "service_id"
+    t.integer "service_provider_id"
+    t.integer "service_stage_id"
+    t.string "service_type"
     t.datetime "submitted_at"
+    t.string "survey_title"
+    t.string "transaction_point"
+    t.string "trust_question_text"
+    t.datetime "updated_at", null: false
+    t.string "url"
+    t.integer "user_id"
     t.index ["organization_id"], name: "index_cx_collections_on_organization_id"
     t.index ["service_id"], name: "index_cx_collections_on_service_id"
     t.index ["service_provider_id"], name: "index_cx_collections_on_service_provider_id"
@@ -132,166 +132,176 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_10_192727) do
   end
 
   create_table "cx_responses", force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.integer "cx_collection_detail_id"
     t.integer "cx_collection_detail_upload_id"
-    t.string "question_1", comment: "thumbs up/down"
-    t.string "positive_effectiveness"
-    t.string "positive_ease"
-    t.string "positive_efficiency"
-    t.string "positive_transparency"
-    t.string "positive_humanity"
-    t.string "positive_employee"
-    t.string "positive_other"
-    t.string "negative_effectiveness"
-    t.string "negative_ease"
-    t.string "negative_efficiency"
-    t.string "negative_transparency"
-    t.string "negative_humanity"
-    t.string "negative_employee"
-    t.string "negative_other"
-    t.string "question_4", comment: "open text"
-    t.string "job_id", comment: "a unique ID assigned when a batch of responses is imported"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "external_id"
+    t.string "job_id", comment: "a unique ID assigned when a batch of responses is imported"
+    t.string "negative_ease"
+    t.string "negative_effectiveness"
+    t.string "negative_efficiency"
+    t.string "negative_employee"
+    t.string "negative_humanity"
+    t.string "negative_other"
+    t.string "negative_transparency"
+    t.string "positive_ease"
+    t.string "positive_effectiveness"
+    t.string "positive_efficiency"
+    t.string "positive_employee"
+    t.string "positive_humanity"
+    t.string "positive_other"
+    t.string "positive_transparency"
+    t.string "question_1", comment: "thumbs up/down"
+    t.string "question_4", comment: "open text"
+    t.datetime "updated_at", null: false
     t.index ["cx_collection_detail_id"], name: "index_cx_responses_on_cx_collection_detail_id"
     t.index ["cx_collection_detail_upload_id"], name: "index_cx_responses_on_cx_collection_detail_upload_id"
   end
 
   create_table "digital_product_versions", force: :cascade do |t|
-    t.bigint "digital_product_id"
-    t.string "store_url"
-    t.string "platform"
-    t.string "version_number"
-    t.date "publish_date"
-    t.string "description"
-    t.string "whats_new"
-    t.string "screenshot_url"
-    t.string "device"
-    t.string "language"
     t.string "average_rating"
-    t.integer "number_of_ratings"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "description"
+    t.string "device"
+    t.bigint "digital_product_id"
+    t.string "language"
     t.integer "legacy_id"
     t.text "legacy_notes"
+    t.integer "number_of_ratings"
+    t.string "platform"
+    t.date "publish_date"
+    t.string "screenshot_url"
+    t.string "store_url"
+    t.datetime "updated_at", null: false
+    t.string "version_number"
+    t.string "whats_new"
     t.index ["digital_product_id"], name: "index_digital_product_versions_on_digital_product_id"
   end
 
   create_table "digital_products", force: :cascade do |t|
-    t.integer "user_id"
-    t.string "service"
-    t.string "url"
-    t.string "code_repository_url"
-    t.string "language"
     t.string "aasm_state"
-    t.string "short_description"
-    t.text "long_description"
-    t.text "notes"
-    t.string "tags"
     t.datetime "certified_at", precision: nil
+    t.string "code_repository_url"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "name"
+    t.string "language"
     t.integer "legacy_id"
     t.text "legacy_notes"
+    t.text "long_description"
+    t.string "name"
+    t.text "notes"
+    t.string "service"
+    t.string "short_description"
+    t.string "tags"
+    t.datetime "updated_at", null: false
+    t.string "url"
+    t.integer "user_id"
     t.index ["aasm_state"], name: "index_digital_products_on_aasm_state"
   end
 
   create_table "digital_service_accounts", force: :cascade do |t|
-    t.integer "user_id"
-    t.string "service"
-    t.string "service_url"
-    t.string "language"
-    t.string "short_description"
-    t.text "long_description"
-    t.text "notes"
-    t.string "tags"
+    t.string "aasm_state"
     t.datetime "certified_at", precision: nil
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "name"
-    t.string "aasm_state"
+    t.string "language"
     t.integer "legacy_id"
     t.text "legacy_notes"
+    t.text "long_description"
+    t.string "name"
+    t.text "notes"
+    t.string "service"
+    t.string "service_url"
+    t.string "short_description"
+    t.string "tags"
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
     t.index ["aasm_state"], name: "index_digital_service_accounts_on_aasm_state"
   end
 
   create_table "events", force: :cascade do |t|
+    t.datetime "created_at", precision: nil, null: false
+    t.string "description", null: false
     t.string "name", null: false
     t.string "object_type"
     t.string "object_uuid", null: false
-    t.string "description", null: false
-    t.integer "user_id"
-    t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.integer "user_id"
   end
 
   create_table "form_sections", force: :cascade do |t|
-    t.integer "form_id"
-    t.string "title"
-    t.integer "position"
-    t.integer "next_section_id"
     t.datetime "created_at", precision: nil, null: false
+    t.integer "form_id"
+    t.integer "next_section_id"
+    t.integer "position"
+    t.string "title"
     t.datetime "updated_at", precision: nil, null: false
     t.index ["form_id"], name: "index_form_sections_on_form_id"
   end
 
   create_table "forms", force: :cascade do |t|
-    t.string "name"
-    t.string "title"
-    t.string "instructions"
-    t.string "disclaimer_text"
-    t.string "kind"
-    t.text "notes"
-    t.string "status"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "whitelist_url", default: ""
-    t.string "whitelist_test_url", default: ""
-    t.boolean "display_header_logo", default: false
-    t.text "success_text"
-    t.string "modal_button_text"
-    t.boolean "display_header_square_logo"
-    t.boolean "early_submission", default: false
-    t.integer "user_id"
-    t.boolean "template", default: false
-    t.string "uuid"
-    t.integer "organization_id"
-    t.string "omb_approval_number"
-    t.date "expiration_date"
-    t.string "medium"
-    t.string "federal_register_url"
-    t.integer "anticipated_delivery_count"
-    t.string "service_name"
-    t.text "data_submission_comment"
-    t.string "survey_instrument_reference"
+    t.string "aasm_state"
     t.string "agency_poc_email"
     t.string "agency_poc_name"
-    t.string "department"
+    t.integer "anticipated_delivery_count"
+    t.boolean "append_id_to_success_text", default: false, comment: "Set to true to append a response ID to the form's success_text"
+    t.datetime "approved_at"
+    t.datetime "archived_at"
+    t.string "audience", default: "public", comment: "indicates whether a form is intended for a public or internal audience"
     t.string "bureau"
-    t.string "notification_emails"
-    t.datetime "start_date", precision: nil
-    t.datetime "end_date", precision: nil
-    t.string "aasm_state"
+    t.datetime "created_at", precision: nil, null: false
+    t.text "data_submission_comment"
     t.string "delivery_method"
+    t.string "department"
+    t.string "disclaimer_text"
+    t.boolean "display_header_logo", default: false
+    t.boolean "display_header_square_logo"
+    t.boolean "early_submission", default: false
     t.string "element_selector"
-    t.integer "survey_form_activations", default: 0
+    t.boolean "enable_turnstile", default: false, comment: "Set to true to enable Cloudfront Turnstile"
+    t.datetime "end_date", precision: nil
+    t.boolean "enforce_new_submission_validations", default: true
+    t.date "expiration_date"
+    t.string "federal_register_url"
+    t.string "instructions"
+    t.string "kind"
+    t.datetime "last_response_created_at", precision: nil
     t.integer "legacy_touchpoint_id"
     t.string "legacy_touchpoint_uuid"
     t.boolean "load_css", default: true
     t.string "logo"
-    t.string "occasion"
-    t.string "time_zone", default: "Eastern Time (US & Canada)"
-    t.integer "response_count", default: 0
-    t.datetime "last_response_created_at", precision: nil
-    t.boolean "ui_truncate_text_responses", default: true
-    t.string "success_text_heading"
+    t.string "medium"
+    t.string "modal_button_text"
+    t.string "name"
+    t.text "notes"
+    t.string "notification_emails"
     t.string "notification_frequency", default: "instant"
-    t.integer "service_id"
+    t.string "occasion"
+    t.string "omb_approval_number"
+    t.integer "organization_id"
     t.integer "questions_count", default: 0
-    t.boolean "verify_csrf", default: false
+    t.integer "response_count", default: 0
+    t.integer "service_id"
+    t.string "service_name"
+    t.integer "service_stage_id"
+    t.string "short_uuid", limit: 8
+    t.datetime "start_date", precision: nil
+    t.string "status"
+    t.string "submission_tags", default: [], comment: "cache the form's submissions tags for reporting", array: true
     t.string "submissions_tags", array: true
+    t.datetime "submitted_at"
+    t.text "success_text"
+    t.string "success_text_heading"
+    t.integer "survey_form_activations", default: 0
+    t.string "survey_instrument_reference"
+    t.boolean "template", default: false
+    t.string "time_zone", default: "Eastern Time (US & Canada)"
+    t.string "title"
+    t.boolean "ui_truncate_text_responses", default: true
+    t.datetime "updated_at", precision: nil, null: false
+    t.integer "user_id"
+    t.string "uuid"
+    t.boolean "verify_csrf", default: false
+    t.string "whitelist_test_url", default: ""
+    t.string "whitelist_url", default: ""
     t.string "whitelist_url_1"
     t.string "whitelist_url_2"
     t.string "whitelist_url_3"
@@ -301,16 +311,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_10_192727) do
     t.string "whitelist_url_7"
     t.string "whitelist_url_8"
     t.string "whitelist_url_9"
-    t.string "submission_tags", default: [], comment: "cache the form's submissions tags for reporting", array: true
-    t.datetime "submitted_at"
-    t.datetime "approved_at"
-    t.datetime "archived_at"
-    t.string "audience", default: "public", comment: "indicates whether a form is intended for a public or internal audience"
-    t.string "short_uuid", limit: 8
-    t.boolean "enforce_new_submission_validations", default: true
-    t.integer "service_stage_id"
-    t.boolean "append_id_to_success_text", default: false, comment: "Set to true to append a response ID to the form's success_text"
-    t.boolean "enable_turnstile", default: false, comment: "Set to true to enable Cloudfront Turnstile"
     t.index ["legacy_touchpoint_id"], name: "index_forms_on_legacy_touchpoint_id"
     t.index ["legacy_touchpoint_uuid"], name: "index_forms_on_legacy_touchpoint_uuid"
     t.index ["organization_id"], name: "index_forms_on_organization_id"
@@ -321,107 +321,107 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_10_192727) do
   end
 
   create_table "omb_cx_reporting_collections", comment: "A detailed record belonging to a Collection; a quarterly CX Data Collection", force: :cascade do |t|
-    t.integer "collection_id"
-    t.string "service_provided"
-    t.text "transaction_point"
     t.string "channel"
-    t.integer "volume_of_customers", default: 0
-    t.integer "volume_of_customers_provided_survey_opportunity", default: 0
-    t.integer "volume_of_respondents", default: 0
-    t.string "omb_control_number"
+    t.integer "collection_id"
+    t.datetime "created_at", null: false
     t.string "federal_register_url"
-    t.string "q1_text"
-    t.integer "q1_1", default: 0
-    t.integer "q1_2", default: 0
-    t.integer "q1_3", default: 0
-    t.integer "q1_4", default: 0
-    t.integer "q1_5", default: 0
-    t.string "q2_text"
-    t.integer "q2_1", default: 0
-    t.integer "q2_2", default: 0
-    t.integer "q2_3", default: 0
-    t.integer "q2_4", default: 0
-    t.integer "q2_5", default: 0
-    t.string "q3_text"
-    t.integer "q3_1", default: 0
-    t.integer "q3_2", default: 0
-    t.integer "q3_3", default: 0
-    t.integer "q3_4", default: 0
-    t.integer "q3_5", default: 0
-    t.string "q4_text"
-    t.integer "q4_1", default: 0
-    t.integer "q4_2", default: 0
-    t.integer "q4_3", default: 0
-    t.integer "q4_4", default: 0
-    t.integer "q4_5", default: 0
-    t.string "q5_text"
-    t.integer "q5_1", default: 0
-    t.integer "q5_2", default: 0
-    t.integer "q5_3", default: 0
-    t.integer "q5_4", default: 0
-    t.integer "q5_5", default: 0
-    t.string "q6_text"
-    t.integer "q6_1", default: 0
-    t.integer "q6_2", default: 0
-    t.integer "q6_3", default: 0
-    t.integer "q6_4", default: 0
-    t.integer "q6_5", default: 0
-    t.string "q7_text"
-    t.integer "q7_1", default: 0
-    t.integer "q7_2", default: 0
-    t.integer "q7_3", default: 0
-    t.integer "q7_4", default: 0
-    t.integer "q7_5", default: 0
-    t.string "q8_text"
-    t.integer "q8_1", default: 0
-    t.integer "q8_2", default: 0
-    t.integer "q8_3", default: 0
-    t.integer "q8_4", default: 0
-    t.integer "q8_5", default: 0
-    t.string "q9_text"
-    t.integer "q9_1", default: 0
-    t.integer "q9_2", default: 0
-    t.integer "q9_3", default: 0
-    t.integer "q9_4", default: 0
-    t.integer "q9_5", default: 0
-    t.string "q10_text"
+    t.string "omb_control_number"
+    t.text "operational_metrics"
     t.integer "q10_1", default: 0
     t.integer "q10_2", default: 0
     t.integer "q10_3", default: 0
     t.integer "q10_4", default: 0
     t.integer "q10_5", default: 0
-    t.string "q11_text"
+    t.string "q10_text"
     t.integer "q11_1", default: 0
     t.integer "q11_2", default: 0
     t.integer "q11_3", default: 0
     t.integer "q11_4", default: 0
     t.integer "q11_5", default: 0
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.text "operational_metrics"
+    t.string "q11_text"
+    t.integer "q1_1", default: 0
+    t.integer "q1_2", default: 0
+    t.integer "q1_3", default: 0
+    t.integer "q1_4", default: 0
+    t.integer "q1_5", default: 0
+    t.string "q1_text"
+    t.integer "q2_1", default: 0
+    t.integer "q2_2", default: 0
+    t.integer "q2_3", default: 0
+    t.integer "q2_4", default: 0
+    t.integer "q2_5", default: 0
+    t.string "q2_text"
+    t.integer "q3_1", default: 0
+    t.integer "q3_2", default: 0
+    t.integer "q3_3", default: 0
+    t.integer "q3_4", default: 0
+    t.integer "q3_5", default: 0
+    t.string "q3_text"
+    t.integer "q4_1", default: 0
+    t.integer "q4_2", default: 0
+    t.integer "q4_3", default: 0
+    t.integer "q4_4", default: 0
+    t.integer "q4_5", default: 0
+    t.string "q4_text"
+    t.integer "q5_1", default: 0
+    t.integer "q5_2", default: 0
+    t.integer "q5_3", default: 0
+    t.integer "q5_4", default: 0
+    t.integer "q5_5", default: 0
+    t.string "q5_text"
+    t.integer "q6_1", default: 0
+    t.integer "q6_2", default: 0
+    t.integer "q6_3", default: 0
+    t.integer "q6_4", default: 0
+    t.integer "q6_5", default: 0
+    t.string "q6_text"
+    t.integer "q7_1", default: 0
+    t.integer "q7_2", default: 0
+    t.integer "q7_3", default: 0
+    t.integer "q7_4", default: 0
+    t.integer "q7_5", default: 0
+    t.string "q7_text"
+    t.integer "q8_1", default: 0
+    t.integer "q8_2", default: 0
+    t.integer "q8_3", default: 0
+    t.integer "q8_4", default: 0
+    t.integer "q8_5", default: 0
+    t.string "q8_text"
+    t.integer "q9_1", default: 0
+    t.integer "q9_2", default: 0
+    t.integer "q9_3", default: 0
+    t.integer "q9_4", default: 0
+    t.integer "q9_5", default: 0
+    t.string "q9_text"
     t.integer "service_id"
+    t.string "service_provided"
+    t.text "transaction_point"
+    t.datetime "updated_at", null: false
+    t.integer "volume_of_customers", default: 0
+    t.integer "volume_of_customers_provided_survey_opportunity", default: 0
+    t.integer "volume_of_respondents", default: 0
     t.index ["collection_id"], name: "index_omb_cx_reporting_collections_on_collection_id"
     t.index ["service_id"], name: "index_omb_cx_reporting_collections_on_service_id"
   end
 
   create_table "organizations", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "url"
     t.string "abbreviation"
-    t.text "notes"
-    t.integer "external_id"
-    t.string "domain"
-    t.string "logo"
-    t.boolean "enable_ip_address", default: true
+    t.boolean "cfo_act_agency", default: false
     t.string "digital_analytics_path"
+    t.string "domain"
+    t.boolean "enable_ip_address", default: true
+    t.integer "external_id"
+    t.boolean "form_approval_enabled", default: false, comment: "Indicate whether this organization requires a Submission and Approval process for forms"
+    t.string "learning_agenda_url"
+    t.string "logo"
     t.text "mission_statement"
     t.string "mission_statement_url"
+    t.string "name", null: false
+    t.text "notes"
+    t.integer "parent_id"
     t.string "performance_url"
     t.string "strategic_plan_url"
-    t.string "learning_agenda_url"
-    t.boolean "cfo_act_agency", default: false
-    t.integer "parent_id"
-    t.boolean "form_approval_enabled", default: false, comment: "Indicate whether this organization requires a Submission and Approval process for forms"
+    t.string "url"
   end
 
   create_table "organizations_roles", id: false, force: :cascade do |t|
@@ -433,157 +433,152 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_10_192727) do
   end
 
   create_table "personas", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.string "tags", array: true
-    t.integer "user_id"
-    t.text "notes"
     t.datetime "created_at", null: false
+    t.text "description"
+    t.string "name"
+    t.text "notes"
+    t.string "tags", array: true
     t.datetime "updated_at", null: false
+    t.integer "user_id"
     t.index ["tags"], name: "index_personas_on_tags", using: :gin
   end
 
   create_table "question_options", force: :cascade do |t|
+    t.datetime "created_at", precision: nil, null: false
+    t.boolean "other_option", default: false
+    t.integer "position"
     t.integer "question_id"
     t.string "text"
-    t.integer "position"
-    t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "value"
-    t.boolean "other_option", default: false
     t.index ["question_id"], name: "index_question_options_on_question_id"
   end
 
   create_table "questions", force: :cascade do |t|
-    t.integer "form_id"
-    t.string "text"
-    t.string "question_type"
     t.string "answer_field"
-    t.integer "position"
-    t.boolean "is_required"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.integer "form_section_id"
     t.integer "character_limit"
-    t.string "placeholder_text"
+    t.datetime "created_at", precision: nil, null: false
+    t.integer "form_id"
+    t.integer "form_section_id"
     t.string "help_text"
+    t.boolean "is_required"
+    t.string "placeholder_text"
+    t.integer "position"
+    t.string "question_type"
+    t.string "text"
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["form_id"], name: "index_questions_on_form_id"
     t.index ["form_section_id"], name: "index_questions_on_form_section_id"
   end
 
   create_table "registry_searches", force: :cascade do |t|
     t.string "agency"
+    t.datetime "created_at", null: false
     t.string "keywords"
     t.string "platform"
-    t.string "status"
     t.string "session_id"
-    t.datetime "created_at", null: false
+    t.string "status"
     t.datetime "updated_at", null: false
   end
 
   create_table "roles", force: :cascade do |t|
-    t.string "name"
-    t.string "resource_type"
-    t.bigint "resource_id"
     t.datetime "created_at", null: false
+    t.string "name"
+    t.bigint "resource_id"
+    t.string "resource_type"
     t.datetime "updated_at", null: false
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
   end
 
   create_table "service_providers", comment: "A Service Provider, or HISP, as defined in OMB Circular A-11 Section 280", force: :cascade do |t|
-    t.integer "organization_id"
-    t.string "name"
-    t.text "description"
-    t.text "notes"
-    t.string "slug"
-    t.string "department"
-    t.string "department_abbreviation"
     t.string "bureau"
     t.string "bureau_abbreviation"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "new"
-    t.boolean "inactive", default: true, null: false
-    t.string "url"
     t.integer "cx_maturity_mapping_value", default: 0
-    t.integer "services_count", default: 0
+    t.string "department"
+    t.string "department_abbreviation"
+    t.text "description"
     t.integer "impact_mapping_value", default: 0
+    t.boolean "inactive", default: true, null: false
+    t.string "name"
+    t.boolean "new"
+    t.text "notes"
+    t.integer "organization_id"
     t.string "portfolio_manager_email"
+    t.integer "services_count", default: 0
+    t.string "slug"
+    t.datetime "updated_at", null: false
+    t.string "url"
     t.integer "year_designated"
     t.index ["organization_id"], name: "index_service_providers_on_organization_id"
   end
 
   create_table "service_stage_barriers", force: :cascade do |t|
-    t.integer "service_stage_id"
     t.integer "barrier_id"
     t.datetime "created_at", precision: nil, null: false
+    t.integer "service_stage_id"
     t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "service_stages", comment: "A step or stage within a Service, as used in a Business Process Model. eg: start, middle, end", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.integer "service_id"
-    t.text "notes"
-    t.integer "time"
-    t.integer "position"
-    t.integer "total_eligible_population"
     t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.text "description"
+    t.string "name"
+    t.text "notes"
     t.integer "persona_id"
+    t.integer "position"
+    t.integer "service_id"
+    t.integer "time"
+    t.integer "total_eligible_population"
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["service_id"], name: "index_service_stages_on_service_id"
   end
 
   create_table "services", id: { comment: "Unique identifier for a Service" }, comment: "Services provided by an Agency, often by a Service Provider within an Agency", force: :cascade do |t|
-    t.string "name", comment: "Name of the service"
-    t.text "description", comment: "Description of the designated service"
-    t.integer "organization_id", comment: "Unique number for each department. A department may contain several HISPs"
-    t.text "notes", comment: "Field for HISP to provide additional notes"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.boolean "hisp", default: false, comment: "True or False - Is this Service considered a HISP service?"
-    t.string "department", default: "", comment: "Abbreviation of department name"
-    t.string "bureau", default: "", comment: "Name of the Bureau to which a service belongs"
-    t.string "service_slug", default: "", comment: "a unique text string to identify the service"
-    t.string "url", default: "", comment: "A website link to their service"
-    t.integer "service_provider_id", comment: "Unique number for each Service Provider"
-    t.integer "service_owner_id", comment: "ID of the User record for which a Service is owned or managed by"
-    t.string "kind", comment: "Identifies the category of service: compliance, administrative, benefits, recreation, informational, data and research, and regulatory", array: true
     t.string "aasm_state", default: "created", comment: "State/status that a Service is in. eg: created, submitted, approved, verified, archived"
-    t.text "non_digital_explanation", comment: "If applicable, explain why a service is not available via a digital channel"
-    t.integer "service_stages_count", default: 0, comment: "Helper field that counts how many Service Stages this Service has"
-    t.string "homepage_url", comment: "A primary website link to the service"
+    t.text "barriers_to_fully_digital_service", comment: "If applicable, describe the barriers preventing this service from being a fully digital service"
     t.string "budget_code", comment: "The budget code for this service"
-    t.string "uii_code", comment: "The UII code for this service"
-    t.boolean "transactional", default: false, comment: "True or False for whether the service is transactional"
+    t.string "bureau", default: "", comment: "Name of the Bureau to which a service belongs"
+    t.string "channels", comment: "One or more channels where the service is delivered", array: true
+    t.boolean "contact_center", default: false, comment: "True or False for whether the service involves a contact center and/or an interaction with a contact center"
+    t.datetime "created_at", precision: nil, null: false
+    t.string "customer_volume_explanation"
+    t.integer "cx_collections_count", default: 0
+    t.string "department", default: "", comment: "Abbreviation of department name"
+    t.text "description", comment: "Description of the designated service"
+    t.boolean "designated_for_improvement_a11_280", default: false, comment: "Is this Service designated, per the OMB Circular A-11 Section 280"
     t.boolean "digital_service", default: false, comment: "Is this a digital service or not?"
     t.string "estimated_annual_volume_of_customers", default: "", comment: "Estimated volume of customers on an annual basis"
-    t.string "channels", comment: "One or more channels where the service is delivered", array: true
     t.boolean "fully_digital_service", default: false, comment: "Is this a fully digital service or not?"
-    t.text "barriers_to_fully_digital_service", comment: "If applicable, describe the barriers preventing this service from being a fully digital service"
-    t.boolean "multi_agency_service", default: false, comment: "Do multiple agencies collaborate to provide this service?"
+    t.boolean "hisp", default: false, comment: "True or False - Is this Service considered a HISP service?"
+    t.string "homepage_url", comment: "A primary website link to the service"
+    t.string "kind", comment: "Identifies the category of service: compliance, administrative, benefits, recreation, informational, data and research, and regulatory", array: true
     t.text "multi_agency_explanation", comment: "If applicable, describe how multiple agencies collaborate to provide this service"
-    t.string "other_service_type"
-    t.string "customer_volume_explanation"
-    t.text "resources_needed_to_provide_digital_service", comment: "If applicable, what resources are needed to provide this service digitally?"
+    t.boolean "multi_agency_service", default: false, comment: "Do multiple agencies collaborate to provide this service?"
+    t.string "name", comment: "Name of the service"
+    t.text "non_digital_explanation", comment: "If applicable, explain why a service is not available via a digital channel"
+    t.text "notes", comment: "Field for HISP to provide additional notes"
     t.string "office", comment: "Text description for the office (below a Bureau)"
-    t.boolean "designated_for_improvement_a11_280", default: false, comment: "Is this Service designated, per the OMB Circular A-11 Section 280"
-    t.boolean "contact_center", default: false, comment: "True or False for whether the service involves a contact center and/or an interaction with a contact center"
-    t.integer "year_designated"
-    t.text "short_description"
+    t.integer "organization_id", comment: "Unique number for each department. A department may contain several HISPs"
+    t.string "other_service_type"
     t.boolean "previously_reported", default: false
-    t.integer "cx_collections_count", default: 0
+    t.text "resources_needed_to_provide_digital_service", comment: "If applicable, what resources are needed to provide this service digitally?"
+    t.integer "service_owner_id", comment: "ID of the User record for which a Service is owned or managed by"
+    t.integer "service_provider_id", comment: "Unique number for each Service Provider"
+    t.string "service_slug", default: "", comment: "a unique text string to identify the service"
+    t.integer "service_stages_count", default: 0, comment: "Helper field that counts how many Service Stages this Service has"
+    t.text "short_description"
+    t.boolean "transactional", default: false, comment: "True or False for whether the service is transactional"
+    t.string "uii_code", comment: "The UII code for this service"
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "url", default: "", comment: "A website link to their service"
+    t.integer "year_designated"
     t.index ["organization_id"], name: "index_services_on_organization_id"
   end
 
   create_table "submissions", force: :cascade do |t|
-    t.integer "user_id"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "referer"
-    t.string "page"
-    t.string "user_agent"
+    t.string "aasm_state", default: "received"
     t.text "answer_01"
     t.text "answer_02"
     t.text "answer_03"
@@ -604,23 +599,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_10_192727) do
     t.text "answer_18"
     t.text "answer_19"
     t.text "answer_20"
-    t.string "ip_address"
-    t.string "location_code"
-    t.boolean "flagged", default: false
-    t.string "language"
-    t.integer "form_id"
-    t.string "uuid"
-    t.string "aasm_state", default: "received"
-    t.string "hostname"
-    t.string "tags", default: [], array: true
-    t.integer "spam_score", default: 0
-    t.text "query_string"
-    t.boolean "spam", default: false
-    t.boolean "archived", default: false
-    t.boolean "deleted", default: false
-    t.datetime "deleted_at"
-    t.string "preview", default: ""
-    t.string "spam_prevention_mechanism", default: "", comment: "Specify which spam prevention mechanism was used, if any."
     t.text "answer_21"
     t.text "answer_22"
     t.text "answer_23"
@@ -631,6 +609,28 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_10_192727) do
     t.text "answer_28"
     t.text "answer_29"
     t.text "answer_30"
+    t.boolean "archived", default: false
+    t.datetime "created_at", precision: nil, null: false
+    t.boolean "deleted", default: false
+    t.datetime "deleted_at"
+    t.boolean "flagged", default: false
+    t.integer "form_id"
+    t.string "hostname"
+    t.string "ip_address"
+    t.string "language"
+    t.string "location_code"
+    t.string "page"
+    t.string "preview", default: ""
+    t.text "query_string"
+    t.string "referer"
+    t.boolean "spam", default: false
+    t.string "spam_prevention_mechanism", default: "", comment: "Specify which spam prevention mechanism was used, if any."
+    t.integer "spam_score", default: 0
+    t.string "tags", default: [], array: true
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "user_agent"
+    t.integer "user_id"
+    t.string "uuid"
     t.index ["archived"], name: "index_submissions_on_archived"
     t.index ["created_at"], name: "index_submissions_on_created_at"
     t.index ["flagged"], name: "index_submissions_on_flagged"
@@ -640,13 +640,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_10_192727) do
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|
-    t.integer "tag_id"
-    t.string "taggable_type"
-    t.integer "taggable_id"
-    t.string "tagger_type"
-    t.integer "tagger_id"
     t.string "context", limit: 128
     t.datetime "created_at", precision: nil
+    t.integer "tag_id"
+    t.integer "taggable_id"
+    t.string "taggable_type"
+    t.integer "tagger_id"
+    t.string "tagger_type"
     t.string "tenant", limit: 128
     t.index ["context"], name: "index_taggings_on_context"
     t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
@@ -661,129 +661,129 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_10_192727) do
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|
-    t.string "name"
     t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.string "name"
     t.integer "taggings_count", default: 0
+    t.datetime "updated_at", precision: nil
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
   create_table "user_roles", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.integer "form_id"
     t.string "role"
-    t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.integer "user_id", null: false
     t.index ["user_id", "form_id"], name: "index_user_roles_on_user_id_and_form_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|
-    t.integer "organization_id"
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at", precision: nil
-    t.datetime "remember_created_at", precision: nil
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at", precision: nil
-    t.datetime "last_sign_in_at", precision: nil
-    t.inet "current_sign_in_ip"
-    t.inet "last_sign_in_ip"
-    t.string "confirmation_token"
-    t.datetime "confirmed_at", precision: nil
-    t.datetime "confirmation_sent_at", precision: nil
-    t.string "unconfirmed_email"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
     t.boolean "admin", default: false
-    t.string "provider"
-    t.string "uid"
-    t.boolean "inactive", default: false, null: false
-    t.string "time_zone", default: "Eastern Time (US & Canada)"
     t.string "api_key"
     t.datetime "api_key_updated_at", precision: nil
-    t.boolean "organizational_website_manager", default: false
-    t.boolean "performance_manager", default: false
-    t.boolean "registry_manager", default: false
-    t.boolean "service_manager", default: false
+    t.datetime "confirmation_sent_at", precision: nil
+    t.string "confirmation_token"
+    t.datetime "confirmed_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "current_sign_in_at", precision: nil
+    t.inet "current_sign_in_ip"
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
     t.string "first_name"
+    t.boolean "inactive", default: false, null: false
     t.string "last_name"
-    t.string "position_title"
-    t.string "profile_photo"
+    t.datetime "last_sign_in_at", precision: nil
+    t.inet "last_sign_in_ip"
+    t.integer "organization_id"
     t.boolean "organizational_admin", default: false
     t.boolean "organizational_form_approver", default: false
+    t.boolean "organizational_website_manager", default: false
+    t.boolean "performance_manager", default: false
+    t.string "position_title"
+    t.string "profile_photo"
+    t.string "provider"
+    t.boolean "registry_manager", default: false
+    t.datetime "remember_created_at", precision: nil
+    t.datetime "reset_password_sent_at", precision: nil
+    t.string "reset_password_token"
+    t.boolean "service_manager", default: false
+    t.integer "sign_in_count", default: 0, null: false
+    t.string "time_zone", default: "Eastern Time (US & Canada)"
+    t.string "uid"
+    t.string "unconfirmed_email"
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   create_table "users_roles", id: false, force: :cascade do |t|
-    t.bigint "user_id"
     t.bigint "role_id"
+    t.bigint "user_id"
     t.index ["role_id"], name: "index_users_roles_on_role_id"
     t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
   create_table "versions", force: :cascade do |t|
-    t.string "item_type", null: false
-    t.bigint "item_id", null: false
-    t.string "event", null: false
-    t.string "whodunnit"
-    t.text "old_object"
     t.datetime "created_at", precision: nil
-    t.text "old_object_changes"
+    t.string "event", null: false
+    t.bigint "item_id", null: false
+    t.string "item_type", null: false
     t.jsonb "object"
     t.jsonb "object_changes"
+    t.text "old_object"
+    t.text "old_object_changes"
+    t.string "whodunnit"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
   create_table "websites", force: :cascade do |t|
-    t.string "domain"
-    t.string "office"
-    t.integer "office_id"
-    t.string "sub_office"
-    t.integer "suboffice_id"
-    t.string "contact_email"
-    t.string "site_owner_email"
-    t.string "production_status"
-    t.string "type_of_site"
-    t.string "digital_brand_category"
-    t.string "redirects_to"
-    t.string "status_code"
-    t.string "cms_platform"
-    t.string "required_by_law_or_policy"
-    t.boolean "has_dap"
-    t.string "dap_gtm_code"
-    t.string "cost_estimator_url"
-    t.string "modernization_plan_url"
-    t.float "annual_baseline_cost"
-    t.float "modernization_cost"
+    t.string "aasm_state"
     t.string "analytics_url"
-    t.boolean "uses_feedback"
-    t.string "feedback_tool"
-    t.string "sitemap_url"
-    t.boolean "mobile_friendly"
-    t.boolean "has_search"
-    t.boolean "uses_tracking_cookies"
-    t.boolean "has_authenticated_experience"
+    t.float "annual_baseline_cost"
     t.string "authentication_tool"
-    t.text "notes"
+    t.string "backlog_tool", default: ""
+    t.string "backlog_url", default: ""
+    t.string "cms_platform"
+    t.string "contact_email"
+    t.string "cost_estimator_url"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "repository_url"
+    t.string "dap_gtm_code"
+    t.string "digital_brand_category"
+    t.string "domain"
+    t.string "feedback_tool"
+    t.boolean "has_authenticated_experience"
+    t.boolean "has_dap"
+    t.boolean "has_search"
     t.string "hosting_platform"
+    t.boolean "https"
+    t.boolean "mobile_friendly"
+    t.float "modernization_cost"
     t.float "modernization_cost_2021"
     t.float "modernization_cost_2022"
     t.float "modernization_cost_2023"
-    t.string "uswds_version"
-    t.boolean "https"
-    t.integer "service_id"
+    t.string "modernization_plan_url"
+    t.text "notes"
+    t.string "office"
+    t.integer "office_id"
     t.integer "organization_id"
-    t.string "backlog_tool", default: ""
-    t.string "backlog_url", default: ""
-    t.string "aasm_state"
+    t.string "production_status"
+    t.string "redirects_to"
+    t.string "repository_url"
+    t.string "required_by_law_or_policy"
+    t.integer "service_id"
+    t.string "site_owner_email"
+    t.string "sitemap_url"
+    t.string "status_code"
+    t.string "sub_office"
+    t.integer "suboffice_id"
     t.date "target_decommission_date"
+    t.string "type_of_site"
+    t.datetime "updated_at", null: false
+    t.boolean "uses_feedback"
+    t.boolean "uses_tracking_cookies"
+    t.string "uswds_version"
     t.index ["aasm_state"], name: "index_websites_on_aasm_state"
     t.index ["organization_id"], name: "index_websites_on_organization_id"
     t.index ["service_id"], name: "index_websites_on_service_id"
