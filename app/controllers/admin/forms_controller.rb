@@ -131,18 +131,12 @@ module Admin
 
     def update_display_logo
       ensure_form_manager(form: @form)
-      if params[:form][:logo_kind] == 'square'
-        @form.update({
-                       display_header_square_logo: true,
-                       display_header_logo: false,
-                     })
-      elsif params[:form][:logo_kind] == 'banner'
-        @form.update({
-                       display_header_square_logo: false,
-                       display_header_logo: true,
-                     })
+
+      if @form.update(form_logo_params)
+        render :update_display_logo, status: :ok
+      else
+        render :update_display_logo, status: :unprocessable_content
       end
-      @form.update(form_logo_params)
     end
 
     def update_notification_emails
@@ -512,7 +506,7 @@ module Admin
         :notification_emails,
         :notification_frequency,
         :logo,
-        :logo_kind,
+        :header_logo_display,
         :modal_button_text,
         :success_text_heading,
         :success_text,
@@ -556,7 +550,7 @@ module Admin
 
     def form_logo_params
       params.require(:form).permit(
-        :logo,
+        :logo, :header_logo_display
       )
     end
 

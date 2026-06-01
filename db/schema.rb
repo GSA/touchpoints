@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_10_192727) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_01_125209) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -252,8 +252,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_10_192727) do
     t.string "delivery_method"
     t.string "department"
     t.string "disclaimer_text"
-    t.boolean "display_header_logo", default: false
-    t.boolean "display_header_square_logo"
     t.boolean "early_submission", default: false
     t.string "element_selector"
     t.boolean "enable_turnstile", default: false, comment: "Set to true to enable Cloudfront Turnstile"
@@ -261,6 +259,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_10_192727) do
     t.boolean "enforce_new_submission_validations", default: true
     t.date "expiration_date"
     t.string "federal_register_url"
+    t.string "header_logo_display", default: "banner", null: false
     t.string "instructions"
     t.string "kind"
     t.datetime "last_response_created_at", precision: nil

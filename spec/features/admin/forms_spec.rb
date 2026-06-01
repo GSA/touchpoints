@@ -205,9 +205,9 @@ feature 'Forms', js: true do
         it 'can upload and display a logo' do
           expect(page).to have_css('.usa-file-input', wait: 10)
           within('.usa-file-input') do
-            attach_file('form_logo', 'spec/fixtures/touchpoints-banner.png')
+            attach_file('form_logo', 'spec/fixtures/files/touchpoints-banner.png')
           end
-          find('label', text: 'Display square (80px wide by 80px tall) logo?').click
+          find('label', text: 'Display as square (80px wide by 80px tall)').click
           click_on 'Update logo'
           click_on 'Delivery'
           find('label', text: 'Hosted on touchpoints').click
@@ -234,9 +234,9 @@ feature 'Forms', js: true do
 
         it 'can upload and display a `square` logo' do
           within('.usa-file-input') do
-            attach_file('form_logo', 'spec/fixtures/touchpoints-banner.png')
+            attach_file('form_logo', 'spec/fixtures/files/touchpoints-banner.png')
           end
-          find('label', text: 'Display square (80px wide by 80px tall) logo?').click
+          find('label', text: 'Display as square (80px wide by 80px tall)').click
           click_on 'Update logo'
           click_on 'Delivery'
           find('label', text: 'Embedded inline on your website').click
@@ -251,9 +251,9 @@ feature 'Forms', js: true do
 
         it 'can upload and display a `banner` logo' do
           within('.usa-file-input') do
-            attach_file('form_logo', 'spec/fixtures/touchpoints-banner.png')
+            attach_file('form_logo', 'spec/fixtures/files/touchpoints-banner.png')
           end
-          find('label', text: 'Display small banner (320px wide by 80px tall) logo?').click
+          find('label', text: 'Display as banner (320px wide by 80px tall)').click
           click_on 'Update logo'
           click_on 'Delivery'
           find('label', text: 'Embedded inline on your website').click

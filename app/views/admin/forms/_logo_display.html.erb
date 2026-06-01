@@ -1,9 +1,43 @@
 <div id="display-logo-div">
   <%= form_with(model: form, url: update_display_logo_admin_form_url(form, format: :js), html: { multipart: :true }, class: "usa-form--large", local: false) do |f| %>
+    <%- if form.errors[:logo].any? %>
+      <div id="error_explanation" class="margin-top-1">
+        <% form.errors[:logo].each do |message| %>
+          <div class="usa-alert usa-alert--error">
+            <div class="usa-alert__body">
+              <h3 class="usa-alert__heading">Error</h3>
+              <p class="usa-alert__text">
+                <%= message %>
+              </p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+
     <div class="grid-row grid-gap-md">
       <div class="grid-col-12">
+        <%- if form.logo.present? %>
+          <div class="usa-form-group">
+            <div class="usa-label text-uppercase font-body-3xs">Current logo</div>
+            <%- if form.header_logo_display_banner? %>
+              <%= image_tag(form.logo.tag.url, alt: "#{form.organization.name} logo", class: "form-header-logo") %>
+            <%- elsif form.header_logo_display_square? %>
+              <%= image_tag(form.logo.logo_square.url, alt: "#{form.organization.name} logo", class: "form-header-logo-square") %>
+            <%- elsif form.header_logo_display_no_logo? %>
+              <div class="display-flex flex-align-center margin-top-1">
+                <%= image_tag(form.logo.thumb.url, alt: "#{form.organization.name} logo", class: "form-header-logo", style: "opacity: 0.5;") %>
+                <div class="margin-left-2">
+                  <span class="usa-tag">Not displayed on form</span>
+                  <p class="text-base margin-y-0 margin-top-1">Logo uploaded but not displayed</p>
+                </div>
+              </div>
+            <%- end %>
+          </div>
+        <% end %>
         <div class="usa-form-group">
-          <%= f.label :logo_display, "Display a Logo?", class: "usa-label text-uppercase font-body-3xs", for: "file-input-single" %>
+          <%= f.label :logo_display, form.logo.present? ? "Upload new logo" : "Display a logo?", class: "usa-label text-uppercase font-body-3xs", for: "form_logo" %>
           <%= f.file_field :logo, class: "usa-file-input display-logo", data_url: admin_form_path(form) %>
         </div>
         <p>
@@ -11,32 +45,23 @@
         </p>
 
         <fieldset class="usa-fieldset">
-          <legend class="usa-sr-only">Display Organization Tag Logo</legend>
+          <legend class="usa-sr-only">Choose how the logo should be displayed</legend>
           <div class="usa-radio">
-            <%= f.radio_button :logo_kind, "banner", class: "usa-radio__input usa-radio__input--tile", checked: form.display_header_logo %>
-            <%= f.label :logo_kind, "Display small banner (320px wide by 80px tall) logo?", class: "usa-radio__label", value: "banner" %>
+            <%= f.radio_button :header_logo_display, "banner", class: "usa-radio__input usa-radio__input--tile", checked: form.header_logo_display_banner? %>
+            <%= f.label :header_logo_display, "Display as banner (320px wide by 80px tall)", class: "usa-radio__label", value: "banner" %>
           </div>
           <div class="usa-radio">
-            <%= f.radio_button :logo_kind, "square", class: "usa-radio__input usa-radio__input--tile", checked: form.display_header_square_logo %>
-            <%= f.label :logo_kind, "Display square (80px wide by 80px tall) logo?", class: "usa-radio__label", value: "square" %>
+            <%= f.radio_button :header_logo_display, "square", class: "usa-radio__input usa-radio__input--tile", checked: form.header_logo_display_square? %>
+            <%= f.label :header_logo_display, "Display as square (80px wide by 80px tall)", class: "usa-radio__label", value: "square" %>
+          </div>
+          <div class="usa-radio">
+            <%= f.radio_button :header_logo_display, "no_logo", class: "usa-radio__input usa-radio__input--tile", checked: form.header_logo_display_no_logo? %>
+            <%= f.label :header_logo_display, "Don't display logo", class: "usa-radio__label", value: "no_logo" %>
           </div>
         </fieldset>
       </div>
     </div>
 
     <%= f.submit "Update logo display", class: "usa-button usa-button-outline margin-top-1" %>
-
-    <%- if form.logo.present? %>
-      <%- if form.display_header_logo %>
-        <p>
-          <%= image_tag(form.logo.tag.url, alt: "#{form.organization.name} logo", class: "form-header-logo") %>
-        </p>
-      <% end %>
-      <%- if form.display_header_square_logo %>
-        <p>
-          <%= image_tag(form.logo.logo_square.url, alt: "#{form.organization.name} logo", class: "form-header-logo-square") %>
-        </p>
-      <% end %>
-    <% end %>
   <% end %>
 </div>

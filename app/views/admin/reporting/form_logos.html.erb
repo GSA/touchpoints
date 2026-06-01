@@ -31,10 +31,10 @@ Form logos
         <td><%= form.kind %></td>
         <td><%= form.aasm_state %></td>
         <td>
-          <%= image_tag form.logo.logo_square.url if form.display_header_square_logo %>
+          <%= image_tag form.logo.logo_square.url if form.header_logo_display_square? %>
         </td>
         <td>
-          <%= image_tag form.logo.tag.url if form.display_header_logo %>
+          <%= image_tag form.logo.tag.url if form.header_logo_display_banner? %>
         </td>
       </tr>
       <% end %>
