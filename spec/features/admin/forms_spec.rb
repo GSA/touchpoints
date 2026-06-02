@@ -208,7 +208,7 @@ feature 'Forms', js: true do
             attach_file('form_logo', 'spec/fixtures/files/touchpoints-banner.png')
           end
           find('label', text: 'Display as square (80px wide by 80px tall)').click
-          click_on 'Update logo'
+          click_on 'Update Logo Display'
           click_on 'Delivery'
           find('label', text: 'Hosted on touchpoints').click
           click_on 'Update Form'
@@ -237,7 +237,7 @@ feature 'Forms', js: true do
             attach_file('form_logo', 'spec/fixtures/files/touchpoints-banner.png')
           end
           find('label', text: 'Display as square (80px wide by 80px tall)').click
-          click_on 'Update logo'
+          click_on 'Update Logo Display'
           click_on 'Delivery'
           find('label', text: 'Embedded inline on your website').click
           fill_in('form_element_selector', with: 'test_selector')
@@ -254,7 +254,7 @@ feature 'Forms', js: true do
             attach_file('form_logo', 'spec/fixtures/files/touchpoints-banner.png')
           end
           find('label', text: 'Display as banner (320px wide by 80px tall)').click
-          click_on 'Update logo'
+          click_on 'Update Logo Display'
           click_on 'Delivery'
           find('label', text: 'Embedded inline on your website').click
           fill_in('form_element_selector', with: 'test_selector')
