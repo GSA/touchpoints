@@ -31,7 +31,7 @@
         <% end %>
         <div class="usa-form-group">
           <%= f.label :logo_display, form.logo.present? ? "Upload new logo" : "Display a logo?", class: "usa-label text-uppercase font-body-3xs", for: "form_logo" %>
-          <span class="usa-hint" id="file-input-specific-hint">Select jpg/jpeg/gif/png files</span>
+          <span class="usa-hint text-base-dark" id="file-input-specific-hint">Select jpg/jpeg/gif/png files</span>
           <%= f.file_field :logo, class: "usa-file-input display-logo", data_url: admin_form_path(form), aria_describedby: "file-input-specific-hint" %>
         </div>
         <fieldset class="usa-fieldset margin-top-1">
@@ -46,9 +46,11 @@
           </div>
         </fieldset>
         <div class="margin-top-1">
-          <%= f.submit "Update logo display", class: "usa-button usa-button-outline" %>
+          <%= f.submit "Update Logo Display", class: "usa-button usa-button-outline" %>
           <%- if form.logo.present? %>
-            <%= button_tag "Delete logo", form: "remove_logo", data: { confirm: "Are you sure?" }, class: "usa-button usa-button--secondary" %>
+            <%= button_tag form: "remove_logo", data: { confirm: "Are you sure?" }, class: "usa-button usa-button--secondary" do %>
+              <i class="fa fa-trash"></i> Delete Logo
+            <% end %>
           <% end %>
         </div>
       </div>
