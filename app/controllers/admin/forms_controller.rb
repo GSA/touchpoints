@@ -31,7 +31,7 @@ module Admin
       reset
       add_tag remove_tag
       update_title update_instructions update_disclaimer_text
-      update_success_text update_display_logo
+      update_success_text update_display_logo remove_logo
       update_notification_emails
       update_admin_options update_form_manager_options
       events
@@ -133,6 +133,17 @@ module Admin
       ensure_form_manager(form: @form)
 
       if @form.update(form_logo_params)
+        render :update_display_logo, status: :ok
+      else
+        render :update_display_logo, status: :unprocessable_content
+      end
+    end
+
+    def remove_logo
+      ensure_form_manager(form: @form)
+
+      @form.remove_logo!
+      if @form.save
         render :update_display_logo, status: :ok
       else
         render :update_display_logo, status: :unprocessable_content

@@ -1,4 +1,6 @@
 <div id="display-logo-div">
+  <%= form_with(id: "remove_logo", model: form, method: :delete, url: remove_logo_admin_form_url(form, format: :js), local: false) do %>
+  <% end %>
   <%= form_with(model: form, url: update_display_logo_admin_form_url(form, format: :js), html: { multipart: :true }, class: "usa-form--large", local: false) do |f| %>
     <%- if form.errors[:logo].any? %>
       <div id="error_explanation" class="margin-top-1">
@@ -15,7 +17,6 @@
       </div>
     <% end %>
 
-
     <div class="grid-row grid-gap-md">
       <div class="grid-col-12">
         <%- if form.logo.present? %>
@@ -25,26 +26,15 @@
               <%= image_tag(form.logo.tag.url, alt: "#{form.organization.name} logo", class: "form-header-logo") %>
             <%- elsif form.header_logo_display_square? %>
               <%= image_tag(form.logo.logo_square.url, alt: "#{form.organization.name} logo", class: "form-header-logo-square") %>
-            <%- elsif form.header_logo_display_no_logo? %>
-              <div class="display-flex flex-align-center margin-top-1">
-                <%= image_tag(form.logo.thumb.url, alt: "#{form.organization.name} logo", class: "form-header-logo", style: "opacity: 0.5;") %>
-                <div class="margin-left-2">
-                  <span class="usa-tag">Not displayed on form</span>
-                  <p class="text-base margin-y-0 margin-top-1">Logo uploaded but not displayed</p>
-                </div>
-              </div>
             <%- end %>
           </div>
         <% end %>
         <div class="usa-form-group">
           <%= f.label :logo_display, form.logo.present? ? "Upload new logo" : "Display a logo?", class: "usa-label text-uppercase font-body-3xs", for: "form_logo" %>
-          <%= f.file_field :logo, class: "usa-file-input display-logo", data_url: admin_form_path(form) %>
+          <span class="usa-hint" id="file-input-specific-hint">Select jpg/jpeg/gif/png files</span>
+          <%= f.file_field :logo, class: "usa-file-input display-logo", data_url: admin_form_path(form), aria_describedby: "file-input-specific-hint" %>
         </div>
-        <p>
-          <span hidden="true" class="uploading-msg usa-hint save-notice">Uploading file, please wait...</span>
-        </p>
-
-        <fieldset class="usa-fieldset">
+        <fieldset class="usa-fieldset margin-top-1">
           <legend class="usa-sr-only">Choose how the logo should be displayed</legend>
           <div class="usa-radio">
             <%= f.radio_button :header_logo_display, "banner", class: "usa-radio__input usa-radio__input--tile", checked: form.header_logo_display_banner? %>
@@ -54,14 +44,14 @@
             <%= f.radio_button :header_logo_display, "square", class: "usa-radio__input usa-radio__input--tile", checked: form.header_logo_display_square? %>
             <%= f.label :header_logo_display, "Display as square (80px wide by 80px tall)", class: "usa-radio__label", value: "square" %>
           </div>
-          <div class="usa-radio">
-            <%= f.radio_button :header_logo_display, "no_logo", class: "usa-radio__input usa-radio__input--tile", checked: form.header_logo_display_no_logo? %>
-            <%= f.label :header_logo_display, "Don't display logo", class: "usa-radio__label", value: "no_logo" %>
-          </div>
         </fieldset>
+        <div class="margin-top-1">
+          <%= f.submit "Update logo display", class: "usa-button usa-button-outline" %>
+          <%- if form.logo.present? %>
+            <%= button_tag "Delete logo", form: "remove_logo", data: { confirm: "Are you sure?" }, class: "usa-button usa-button--secondary" %>
+          <% end %>
+        </div>
       </div>
     </div>
-
-    <%= f.submit "Update logo display", class: "usa-button usa-button-outline margin-top-1" %>
   <% end %>
 </div>

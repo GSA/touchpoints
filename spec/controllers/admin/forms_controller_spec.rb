@@ -327,4 +327,62 @@ RSpec.describe Admin::FormsController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #delete_logo' do
+    let(:logo_file) { fixture_file_upload('touchpoints-banner.png', 'image/png') }
+
+    context 'when form has a logo' do
+      before do
+        form.update(logo: logo_file)
+        form.reload
+      end
+
+      it 'successfully removes the logo' do
+        expect(form.logo.present?).to be true
+
+        delete :remove_logo, params: {
+          id: form.to_param,
+          format: :js
+        }, session: valid_session
+
+        form.reload
+        expect(form.logo.present?).to be false
+        expect(response).to have_http_status(:ok)
+        expect(response).to render_template(:update_display_logo)
+      end
+    end
+
+    context 'when form does not have a logo' do
+      it 'returns success even when no logo exists' do
+        expect(form.logo.present?).to be false
+
+        delete :remove_logo, params: {
+          id: form.to_param,
+          format: :js
+        }, session: valid_session
+
+        expect(response).to have_http_status(:ok)
+        expect(response).to render_template(:update_display_logo)
+      end
+    end
+
+    context 'when user does not have form manager permissions' do
+      let(:regular_user) { FactoryBot.create(:user, organization: organization) }
+
+      before do
+        sign_out(admin)
+        sign_in(regular_user)
+        form.update(logo: logo_file)
+      end
+
+      xit 'denies access to delete the logo' do
+        expect do
+          delete :remove_logo, params: {
+            id: form.to_param,
+            format: :js
+          }, session: valid_session
+        end.to raise_error(ArgumentError)
+      end
+    end
+  end
 end

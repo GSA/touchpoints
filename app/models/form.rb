@@ -40,7 +40,7 @@ class Form < ApplicationRecord
 
   mount_uploader :logo, LogoUploader
 
-  enum :header_logo_display, { banner: 'banner', square: 'square', no_logo: 'no_logo' }, default: 'banner', prefix: true
+  enum :header_logo_display, { banner: 'banner', square: 'square' }, default: 'banner', prefix: true
 
   def self.my_forms(user, aasm_state)
     if user.organizational_form_approver?

@@ -138,7 +138,6 @@ components:
           enum:
             - banner
             - square
-            - no_logo
         early_submission:
           type: boolean
         template:

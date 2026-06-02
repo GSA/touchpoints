@@ -12,7 +12,7 @@ class MergeFormLogoDisplayFields < ActiveRecord::Migration[8.0]
       SET header_logo_display = CASE
         WHEN display_header_logo = TRUE THEN 'banner'
         WHEN display_header_square_logo = TRUE THEN 'square'
-        ELSE 'no_logo'
+        ELSE 'banner'
       END
     SQL
 
