@@ -280,4 +280,90 @@ RSpec.describe Admin::FormsController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #update_display_logo' do
+    let(:logo_file) { fixture_file_upload('touchpoints-banner.png', 'image/png') }
+
+    context 'with valid logo upload' do
+      it 'successfully updates the logo and display settings' do
+        patch :update_display_logo, params: {
+          id: form.to_param,
+          form: { logo: logo_file, header_logo_display: 'square' },
+          format: :js
+        }, session: valid_session
+
+        form.reload
+        expect(form.logo.present?).to be true
+        expect(form.header_logo_display).to eq('square')
+        expect(response).to render_template(:update_display_logo)
+      end
+
+      it 'updates to banner logo display' do
+        patch :update_display_logo, params: {
+          id: form.to_param,
+          form: { logo: logo_file, header_logo_display: 'banner' },
+          format: :js
+        }, session: valid_session
+
+        form.reload
+        expect(form.header_logo_display).to eq('banner')
+        expect(response).to render_template(:update_display_logo)
+      end
+    end
+
+    context 'with invalid file type' do
+      let(:invalid_file) { fixture_file_upload('test.txt', 'text/plain') }
+
+      it 'renders template with errors' do
+        patch :update_display_logo, params: {
+          id: form.to_param,
+          form: { logo: invalid_file, header_logo_display: 'square' },
+          format: :js
+        }, session: valid_session
+
+        expect(response).to render_template(:update_display_logo)
+        expect(response).to have_http_status(:unprocessable_content)
+        expect(assigns(:form).errors[:logo]).to include("You are not allowed to upload \"txt\" files, allowed types: jpg, jpeg, gif, png")
+      end
+    end
+  end
+
+  describe 'DELETE #delete_logo' do
+    let(:logo_file) { fixture_file_upload('touchpoints-banner.png', 'image/png') }
+
+    context 'when form has a logo' do
+      before do
+        form.update(logo: logo_file)
+        form.reload
+      end
+
+      it 'successfully removes the logo' do
+        expect(form.logo.present?).to be true
+
+        delete :remove_logo, params: {
+          id: form.to_param,
+          format: :js
+        }, session: valid_session
+
+        form.reload
+        expect(form.logo.present?).to be false
+        expect(response).to have_http_status(:ok)
+        expect(response).to render_template(:update_display_logo)
+      end
+    end
+
+    context 'when form does not have a logo' do
+      it 'returns success even when no logo exists' do
+        expect(form.logo.present?).to be false
+
+        delete :remove_logo, params: {
+          id: form.to_param,
+          format: :js
+        }, session: valid_session
+
+        expect(response).to have_http_status(:ok)
+        expect(response).to render_template(:update_display_logo)
+      end
+    end
+  end
 end

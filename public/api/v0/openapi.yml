@@ -133,10 +133,11 @@ components:
           type: string
         whitelist_test_url:
           type: string
-        display_header_logo:
-          type: boolean
-        display_header_square_logo:
-          type: boolean
+        header_logo_display:
+          type: string
+          enum:
+            - banner
+            - square
         early_submission:
           type: boolean
         template:

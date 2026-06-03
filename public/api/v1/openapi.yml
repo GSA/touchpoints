@@ -251,11 +251,10 @@
                 - "whitelist_url_8"
                 - "whitelist_url_9"
                 - "whitelist_test_url"
-                - "display_header_logo"
+                - "header_logo_display"
                 - "success_text_heading"
                 - "success_text"
                 - "modal_button_text"
-                - "display_header_square_logo"
                 - "early_submission"
                 - "user_id"
                 - "template"
@@ -313,16 +312,17 @@
                   type: "string"
                 whitelist_test_url:
                   type: "string"
-                display_header_logo:
-                  type: "boolean"
+                header_logo_display:
+                  type: "string"
+                  enum:
+                    - banner
+                    - square
                 success_text_heading:
                   type: "string"
                 success_text:
                   type: "string"
                 modal_button_text:
                   type: "string"
-                display_header_square_logo:
-                  type: "boolean"
                 early_submission:
                   type: "boolean"
                 user_id:

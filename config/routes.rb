@@ -303,6 +303,7 @@ Rails.application.routes.draw do
         patch 'update_disclaimer_text', to: 'forms#update_disclaimer_text', as: :update_disclaimer_text
         patch 'update_success_text', to: 'forms#update_success_text', as: :update_success_text
         patch 'update_display_logo', to: 'forms#update_display_logo', as: :update_display_logo
+        delete 'remove_logo', to: 'forms#remove_logo', as: :remove_logo
         patch 'update_notification_emails', to: 'forms#update_notification_emails', as: :update_notification_emails
         patch 'update_admin_options', to: 'forms#update_admin_options', as: :update_admin_options
         patch 'update_form_manager_options', to: 'forms#update_form_manager_options', as: :update_form_manager_options
