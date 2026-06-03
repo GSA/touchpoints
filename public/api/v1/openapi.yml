@@ -317,7 +317,6 @@
                   enum:
                     - banner
                     - square
-                    - none
                 success_text_heading:
                   type: "string"
                 success_text:

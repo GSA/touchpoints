@@ -365,24 +365,5 @@ RSpec.describe Admin::FormsController, type: :controller do
         expect(response).to render_template(:update_display_logo)
       end
     end
-
-    context 'when user does not have form manager permissions' do
-      let(:regular_user) { FactoryBot.create(:user, organization: organization) }
-
-      before do
-        sign_out(admin)
-        sign_in(regular_user)
-        form.update(logo: logo_file)
-      end
-
-      xit 'denies access to delete the logo' do
-        expect do
-          delete :remove_logo, params: {
-            id: form.to_param,
-            format: :js
-          }, session: valid_session
-        end.to raise_error(ArgumentError)
-      end
-    end
   end
 end
