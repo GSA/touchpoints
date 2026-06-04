@@ -12,9 +12,7 @@ module Users
 
       if @email.blank?
         Event.log_event(Event.names[:user_authentication_failure], 'Event::Generic', 1, "Login.gov account with no verified .gov/.mil email attempted to log in on #{Date.today}")
-        message = 'This Login.gov account cannot be used to access Touchpoints because it is not associated with a verified .gov or .mil email address. ' \
-                  'If you are a government employee, please choose a work-related Login.gov account or follow <a href="https://login.gov/help/manage-your-account/change-your-email-address/">these instructions</a> to add your work email to this Login.gov account.'
-        redirect_to index_path, alert: message and return
+        redirect_to index_path, alert: t('home.invalid_login_account') and return
       end
 
       login

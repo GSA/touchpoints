@@ -177,6 +177,7 @@ en:
     sign_up_text: Any federal employee with a .gov or .mil email address can use Touchpoints. Your account will be automatically created the first time you sign in.
     sign_in_text: Touchpoints uses Login.gov to handle user accounts. Once you authenticate with Login.gov, you will be signed in and redirected back to Touchpoints.
     sign_in_with: Sign in with
+    invalid_login_account: "This Login.gov account cannot be used to access Touchpoints because it is not associated with a verified .gov or .mil email address. If you are a government employee, please follow <a href='https://login.gov/help/manage-your-account/change-your-email-address/'>these instructions</a> to add your work email to this account, or sign in with a different Login.gov account that uses your work email."
   the_feedback_and_analytics_team: " the Feedback and Analytics Team"
   characters_allowed: "characters allowed"
   characters_left: "characters left"
