@@ -4,12 +4,17 @@ module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     def login_dot_gov
       @kind = 'Login.gov'
-      all_emails = auth_hash['info']['all_emails']
-      if all_emails.present?
-        @email = auth_hash['info']['all_emails'].find { |email| email.end_with?(".gov") || email.end_with?(".mil") } if auth_hash && auth_hash['info']['email_verified']
-      else
-        @email = auth_hash['info']['email'] if auth_hash && auth_hash['info']['email_verified']
+      if auth_hash['info']['all_emails'].present?
+        @email = auth_hash['info']['all_emails'].find { |email| email.end_with?('.gov', '.mil') } if auth_hash['info']['email_verified']
+      elsif auth_hash['info']['email'].present?
+        @email = auth_hash['info']['email'] if auth_hash['info']['email'].end_with?('.gov', '.mil') && auth_hash['info']['email_verified']
       end
+
+      if @email.blank?
+        Event.log_event(Event.names[:user_authentication_failure], 'Event::Generic', 1, "Login.gov account with no verified .gov/.mil email attempted to log in on #{Date.today}")
+        redirect_to index_path, alert: t('home.invalid_login_account') and return
+      end
+
       login
     end
 
@@ -34,15 +39,9 @@ module Users
     def login
       Event.log_event(Event.names[:user_authentication_attempt], 'Event::Generic', 1, "Email #{@email} attempted to authenticate on #{Date.today}")
 
-      @user = User.from_omniauth(auth_hash, @email) if @email.present?
+      @user = User.from_omniauth(auth_hash, @email)
 
-      # If user exists
-      # Else, if valid email and no user, we create an account.
-      if @user.blank?
-        message = "Email #{@email} failed to authenticate on #{Date.today} via #{@kind}"
-        Event.log_event(Event.names[:user_authentication_failure], 'Event::Generic', 1, message)
-        redirect_to index_path, alert: message
-      elsif @user.errors.blank?
+      if @user.errors.blank?
         Event.log_event(Event.names[:user_authentication_successful], 'User', @user.id, "User #{@user.email} successfully authenticated on #{Date.today}", @user.id)
         sign_in_and_redirect(:user, @user)
       elsif @user.errors.present?
