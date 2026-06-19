@@ -22,9 +22,9 @@
         <div class="usa-form-group">
           <div class="usa-label text-uppercase font-body-3xs">Current logo</div>
           <%- if form.header_logo_display_banner? %>
-            <%= image_tag(form.logo.tag.url, alt: "#{form.organization.name} logo", class: "form-header-logo") %>
+            <%= image_tag(form.logo.tag.url, alt: form.logo_alt_text_or_default, class: "form-header-logo") %>
           <%- elsif form.header_logo_display_square? %>
-            <%= image_tag(form.logo.logo_square.url, alt: "#{form.organization.name} logo", class: "form-header-logo-square") %>
+            <%= image_tag(form.logo.logo_square.url, alt: form.logo_alt_text_or_default, class: "form-header-logo-square") %>
           <%- end %>
         </div>
       <% end %>
@@ -44,6 +44,17 @@
           <%= f.label :header_logo_display, "Display as square (80px wide by 80px tall)", class: "usa-radio__label", value: "square" %>
         </div>
       </fieldset>
+      <div class="usa-form-group margin-top-2">
+        <%= f.label :logo_alt_text, "Logo alt text", class: "usa-label text-uppercase font-body-3xs" %>
+        <span class="usa-hint text-base-dark" id="logo-alt-text-hint">
+          Describe the logo for people using screen readers.
+          Leave blank to use "<%= form.organization&.name %> logo".
+        </span>
+        <%= f.text_field :logo_alt_text,
+          value: form.logo_alt_text,
+          class: "usa-input",
+          aria_describedby: "logo-alt-text-hint" %>
+      </div>
       <div class="margin-top-1">
         <%= f.submit "Update Logo Display", class: "usa-button usa-button-outline" %>
         <%- if form.logo.present? %>

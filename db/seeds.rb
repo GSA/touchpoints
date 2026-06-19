@@ -85,7 +85,7 @@ puts "Creating additional Organization: #{digital_gov.name}"
 
 org_2 = Organization.create!({
   name: 'Farmers.gov',
-  domain: 'example.gov',
+  domain: 'farmers.gov',
   url: 'https://farmers.gov',
   abbreviation: 'FARMERS'
 })

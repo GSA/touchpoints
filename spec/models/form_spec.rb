@@ -114,6 +114,22 @@ RSpec.describe Form, type: :model do
     end
   end
 
+  describe '#logo_alt_text_or_default' do
+    context 'when logo_alt_text is set' do
+      it 'returns the configured alt text' do
+        form.update(logo_alt_text: 'Agency seal')
+        expect(form.logo_alt_text_or_default).to eq('Agency seal')
+      end
+    end
+
+    context 'when logo_alt_text is blank' do
+      it 'falls back to the organization name' do
+        form.update(logo_alt_text: nil)
+        expect(form.logo_alt_text_or_default).to eq("#{organization.name} logo")
+      end
+    end
+  end
+
   describe '#user_role?' do
     context 'without user_role' do
       it 'returns nil' do
