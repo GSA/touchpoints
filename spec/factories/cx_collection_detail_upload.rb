@@ -9,27 +9,27 @@ FactoryBot.define do
     job_id { rand(100_000).to_s }
 
     after(:create) do |cx_collection_detail_upload|
-      CSV.open("spec/fixtures/sample_cx_responses_upload.csv", headers: true).each do |row|
+      CSV.open('spec/fixtures/sample_cx_responses_upload.csv', headers: true).each do |row|
         CxResponse.create!({
-          external_id: row["external_id"],
+          external_id: row['external_id'],
           cx_collection_detail_id: cx_collection_detail_upload.cx_collection_detail.id,
           cx_collection_detail_upload_id: cx_collection_detail_upload.id,
           job_id: cx_collection_detail_upload.job_id,
-          question_1: [true, false].sample,
-          positive_effectiveness: [true, false].sample,
-          positive_ease: [true, false].sample,
-          positive_efficiency: [true, false].sample,
-          positive_transparency: [true, false].sample,
-          positive_humanity: [true, false].sample,
-          positive_employee: [true, false].sample,
-          positive_other: [true, false].sample,
-          negative_effectiveness: [true, false].sample,
-          negative_ease: [true, false].sample,
-          negative_efficiency: [true, false].sample,
-          negative_transparency: [true, false].sample,
-          negative_humanity: [true, false].sample,
-          negative_employee: [true, false].sample,
-          negative_other: [true, false].sample,
+          question_1: ['1', '0'].sample,
+          positive_effectiveness: ['1', '0'].sample,
+          positive_ease: ['1', '0'].sample,
+          positive_efficiency: ['1', '0'].sample,
+          positive_transparency: ['1', '0'].sample,
+          positive_humanity: ['1', '0'].sample,
+          positive_employee: ['1', '0'].sample,
+          positive_other: ['1', '0'].sample,
+          negative_effectiveness: ['1', '0'].sample,
+          negative_ease: ['1', '0'].sample,
+          negative_efficiency: ['1', '0'].sample,
+          negative_transparency: ['1', '0'].sample,
+          negative_humanity: ['1', '0'].sample,
+          negative_employee: ['1', '0'].sample,
+          negative_other: ['1', '0'].sample,
           question_4: "generating random text..... #{rand(999_999).to_s}",
         })
       end

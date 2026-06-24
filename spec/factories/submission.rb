@@ -3,6 +3,12 @@
 FactoryBot.define do
   factory :submission do
     answer_01 { 'submission response body text' }
+    referer { '' }
+    page { '/' }
+    user_agent { 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36' }
+    ip_address { '127.0.0.1' }
+    location_code { '' }
+    language { 'en' }
     form
 
     trait :a11 do

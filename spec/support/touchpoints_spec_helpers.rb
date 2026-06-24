@@ -52,8 +52,19 @@ module TouchpointsSpecHelpers
     warn "Skipping axe check on this page: #{e.message}"
     skip 'a11y check skipped - axe not available'
   end
+
+  # Bypass the HTTP Basic auth that ApiController enforces, scoped to the
+  # current example. Useful in rswag request specs so the Authorization
+  # header does not need to be declared as an OpenAPI parameter. HTTP Basic auth
+  # is used between the API gateway and the Touchpoints server but is not part
+  # of the production API as viewed by the public API user.
+  def disable_http_basic_auth
+    allow_any_instance_of(ApiController)
+      .to receive(:authenticate_or_request_with_http_basic).and_return(true)
+  end
 end
 
 RSpec.configure do |config|
   config.include TouchpointsSpecHelpers, type: :feature
+  config.include TouchpointsSpecHelpers, type: :request
 end

@@ -54,8 +54,8 @@ RSpec.describe CxCollectionDetail, type: :model do
         expect(csv.class).to eq(CSV::Table)
         expect(csv.size).to eq(2)
 
-        expect(csv[0].to_s).to include(",3,,,1000")
-        expect(csv[-1].to_s).to include(",3,,,1000")
+        expect(csv[0].to_s).to include(",3,,300,1000")
+        expect(csv[-1].to_s).to include(",3,,300,1000")
 
         expect(csv[0].to_s).to_not include("2000")
       end

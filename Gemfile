@@ -80,6 +80,8 @@ gem 'widget_renderer', path: 'ext/widget_renderer', require: false
 group :development, :test do
   gem 'dotenv'
   gem 'pry'
+  gem 'rspec-rails', '>= 8.0.1'
+  gem 'rswag-specs'
 end
 
 group :development, :staging, :test do
@@ -93,6 +95,7 @@ group :development do
   gem 'bundler-audit'
   gem 'listen'
   gem 'rails-erd'
+  gem 'rswag-ui'
   gem 'rubocop-rails', '>= 2.32.0'
   gem 'rubocop-rspec'
   gem 'ruby-lsp', require: false
@@ -106,7 +109,6 @@ group :test do
   gem 'factory_bot_rails', '>= 6.5.0'
   gem 'rails-controller-testing'
   gem 'rspec_junit_formatter'
-  gem 'rspec-rails', '>= 8.0.1'
   gem 'selenium-webdriver'
   gem 'simplecov', require: false
 end
