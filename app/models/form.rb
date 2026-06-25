@@ -42,6 +42,12 @@ class Form < ApplicationRecord
 
   enum :header_logo_display, { banner: 'banner', square: 'square' }, default: 'banner', prefix: true
 
+  def logo_alt_text_or_default
+    return logo_alt_text if logo_alt_text.present?
+
+    "#{organization&.name} logo"
+  end
+
   def self.my_forms(user, aasm_state)
     if user.organizational_form_approver?
       items = user.organization.forms
@@ -340,6 +346,7 @@ class Form < ApplicationRecord
                           'form-header-logo-square'
                         end
                       end,
+          logo_alt_text: (logo_alt_text_or_default if logo.present?),
           questions: ordered_questions.map do |q|
             {
               answer_field: q.answer_field,

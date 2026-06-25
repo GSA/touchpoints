@@ -6,11 +6,11 @@
     <div class="margin-bottom-2 text-center">
       <%- if form.header_logo_display_banner? %>
         <%= image_tag(form.logo.tag.url,
-          alt: "#{form.organization.name} banner",
+          alt: form.logo_alt_text_or_default,
           class: "form-header-logo") %>
       <% elsif form.header_logo_display_square? %>
         <%= image_tag(form.logo.logo_square.url,
-          alt: "#{form.organization.name} logo",
+          alt: form.logo_alt_text_or_default,
           class: "form-header-logo-square") %>
       <% end %>
     </div>

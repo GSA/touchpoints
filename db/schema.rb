@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_01_125209) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_18_210000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -267,6 +267,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_01_125209) do
     t.string "legacy_touchpoint_uuid"
     t.boolean "load_css", default: true
     t.string "logo"
+    t.string "logo_alt_text"
     t.string "medium"
     t.string "modal_button_text"
     t.string "name"
