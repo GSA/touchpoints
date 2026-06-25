@@ -13,12 +13,12 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
 
     it "returns month and day for submissions from this year (but not today)" do
-      datetime = Time.zone.now.beginning_of_year + 5.days
+      datetime = Time.zone.now.beginning_of_year + 1.days
       expect(helper.format_submission_time(datetime, time_zone)).to eq(datetime.in_time_zone(time_zone).strftime("%b %e"))
     end
 
     it "returns MM/DD/YYYY for submissions from last calendar year" do
-      datetime = 1.year.ago.beginning_of_year + 10.days
+      datetime = 1.year.ago.beginning_of_year + 1.days
       expect(helper.format_submission_time(datetime, time_zone)).to eq(datetime.in_time_zone(time_zone).strftime("%m/%d/%Y"))
     end
 
