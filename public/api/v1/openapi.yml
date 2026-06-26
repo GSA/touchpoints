@@ -2082,6 +2082,27 @@ paths:
           description: successful
           content:
             application/json:
+              examples:
+                test_example:
+                  value:
+                    data:
+                    - id: '2'
+                      type: cx_collections
+                      attributes:
+                        user_id: 3
+                        name: Test Data Collection
+                        organization_id: 3
+                        service_provider_id: 2
+                        service_id: 2
+                        service_name: Service to deliver to customer
+                        fiscal_year: '2024'
+                        quarter: '1'
+                        aasm_state: draft
+                        rating:
+                        integrity_hash:
+                        created_at: '2026-06-26T21:54:01.910Z'
+                        submitted_at:
+                        updated_at: '2026-06-26T21:54:01.910Z'
               schema:
                 type: object
                 required:
