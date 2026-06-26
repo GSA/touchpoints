@@ -12,7 +12,7 @@ RSpec.describe '/v1/service_providers', type: :request do
     disable_http_basic_auth
   end
 
-  path '/v1/service_providers' do
+  path '/service_providers' do
     get('List service providers') do
       description 'Returns a list of service providers registered in Touchpoints.'
       tags 'Services'

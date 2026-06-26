@@ -27,9 +27,9 @@ tags:
 - name: CX Collections
 - name: Digital Registry
 servers:
-- url: http://localhost:3000/api
+- url: http://localhost:3000/api/v1
   description: Local development server
-- url: https://api.gsa.gov/analytics/touchpoints
+- url: https://api.gsa.gov/analytics/touchpoints/v1
   description: The API gateway that hosts the production Touchpoints API
 components:
   securitySchemes:
@@ -2039,7 +2039,7 @@ components:
           format: uri
           description: URL of the last page.
 paths:
-  "/v1/cx_collection_details":
+  "/cx_collection_details":
     get:
       summary: List CX collection details
       description: Returns a list of all CX collection details.
@@ -2061,7 +2061,7 @@ paths:
                     type: array
                     items:
                       "$ref": "#/components/schemas/CxCollectionDetailResource"
-  "/v1/cx_collections":
+  "/cx_collections":
     get:
       summary: List CX collections
       description: Returns a list of all CX collections.
@@ -2091,7 +2091,7 @@ paths:
                     type: array
                     items:
                       "$ref": "#/components/schemas/CxCollectionResource"
-  "/v1/cx_responses":
+  "/cx_responses":
     get:
       summary: List CX responses
       description: Returns a paginated list of CX responses for all CX collection
@@ -2147,7 +2147,7 @@ paths:
                     "$ref": "#/components/schemas/CxResponsePaginationLinks"
                   meta:
                     "$ref": "#/components/schemas/PaginationMeta"
-  "/v1/forms":
+  "/forms":
     get:
       summary: List forms
       description: Returns a list of forms accessible to the user with the given API
@@ -2170,7 +2170,7 @@ paths:
                     type: array
                     items:
                       "$ref": "#/components/schemas/FormResource"
-  "/v1/forms/{uuid}":
+  "/forms/{uuid}":
     parameters:
     - name: uuid
       in: path
@@ -2212,7 +2212,7 @@ paths:
                   links:
                     deprecated: true
                     "$ref": "#/components/schemas/DeprecatedPaginationLinks"
-  "/v1/forms/{uuid}/responses":
+  "/forms/{uuid}/responses":
     parameters:
     - name: uuid
       in: path
@@ -2275,7 +2275,7 @@ paths:
                     "$ref": "#/components/schemas/ResponsePaginationLinks"
                   meta:
                     "$ref": "#/components/schemas/PaginationMeta"
-  "/v1/service_providers":
+  "/service_providers":
     get:
       summary: List service providers
       description: Returns a list of service providers registered in Touchpoints.
@@ -2297,7 +2297,7 @@ paths:
                     type: array
                     items:
                       "$ref": "#/components/schemas/ServiceProviderResource"
-  "/v1/services":
+  "/services":
     get:
       summary: List services
       description: Returns a list of services registered in Touchpoints.
@@ -2327,7 +2327,7 @@ paths:
                     type: array
                     items:
                       "$ref": "#/components/schemas/ServiceResource"
-  "/v1/services/{id}":
+  "/services/{id}":
     get:
       summary: Show service
       description: Returns details for the given service.
@@ -2354,7 +2354,7 @@ paths:
                 properties:
                   data:
                     "$ref": "#/components/schemas/ServiceResource"
-  "/v1/websites":
+  "/websites":
     get:
       summary: List websites
       description: Returns a list of websites registered in Touchpoints.

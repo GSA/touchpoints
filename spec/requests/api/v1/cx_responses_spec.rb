@@ -15,7 +15,7 @@ RSpec.describe '/v1/cx_responses', type: :request do
     disable_http_basic_auth
   end
 
-  path '/v1/cx_responses' do
+  path '/cx_responses' do
 
     get('List CX responses') do
       description 'Returns a paginated list of CX responses for all CX collection details'

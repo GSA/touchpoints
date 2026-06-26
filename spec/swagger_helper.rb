@@ -53,11 +53,11 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
       ],
       servers: [
         {
-          url: 'http://localhost:3000/api',
+          url: 'http://localhost:3000/api/v1',
           description: 'Local development server',
         },
         {
-          url: 'https://api.gsa.gov/analytics/touchpoints',
+          url: 'https://api.gsa.gov/analytics/touchpoints/v1',
           description: 'The API gateway that hosts the production Touchpoints API',
         },
       ],

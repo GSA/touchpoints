@@ -13,7 +13,7 @@ RSpec.describe '/v1/forms', type: :request do
     disable_http_basic_auth
   end
 
-  path '/v1/forms' do
+  path '/forms' do
     get('List forms') do
       description 'Returns a list of forms accessible to the user with the given API key. Does not include form responses.'
       tags 'Forms'
@@ -40,7 +40,7 @@ RSpec.describe '/v1/forms', type: :request do
     end
   end
 
-  path '/v1/forms/{uuid}' do
+  path '/forms/{uuid}' do
     parameter name: 'uuid', in: :path, type: :string, description: 'Short UUID of the form'
 
     get('Show form') do
@@ -82,7 +82,7 @@ As a result, we’ve introduced a new /v1/forms/{uuid}/responses endpoint, which
     end
   end
 
-  path '/v1/forms/{uuid}/responses' do
+  path '/forms/{uuid}/responses' do
     parameter name: 'uuid', in: :path, type: :string, description: 'Short UUID of the form'
 
     get('List responses for form') do

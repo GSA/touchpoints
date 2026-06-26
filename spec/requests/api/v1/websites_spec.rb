@@ -10,7 +10,7 @@ RSpec.describe '/v1/websites', type: :request do
     disable_http_basic_auth
   end
 
-  path '/v1/websites' do
+  path '/websites' do
 
     get('List websites') do
       description 'Returns a list of websites registered in Touchpoints.'
