@@ -141,6 +141,27 @@ jobs:
       - store_artifacts:
           path: coverage
 
+      # Verify the committed OpenAPI spec is in sync with the rswag request specs.
+      # swaggerize regenerates public/api/v1/openapi.yml from spec/requests/api/**;
+      # if the result differs from what is committed, the spec has drifted and the
+      # build fails. Runs the full (unsplit) rswag suite on one container only so the
+      # generated spec is complete.
+      - run:
+          name: Verify OpenAPI spec is up to date
+          command: |
+            if [ "$CIRCLE_NODE_INDEX" != "0" ]; then
+              echo "Skipping OpenAPI sync check on parallel container $CIRCLE_NODE_INDEX"
+              exit 0
+            fi
+            set -euo pipefail
+            bundle exec rake rswag:specs:swaggerize
+            if ! git diff --exit-code -- public/api/v1/openapi.yml; then
+              echo "ERROR: public/api/v1/openapi.yml is out of date."
+              echo "Run 'bundle exec rake rswag:specs:swaggerize' locally and commit the result."
+              exit 1
+            fi
+            echo "OpenAPI spec is up to date."
+
   deploy:
     parameters:
       deploy_environment:

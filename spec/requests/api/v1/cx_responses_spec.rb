@@ -3,7 +3,7 @@ require 'swagger_helper'
 RSpec.describe '/v1/cx_responses', type: :request do
   let!(:organization) { FactoryBot.create(:organization) }
   let!(:user) { FactoryBot.create(:user, api_key: TEST_API_KEY) }
-  let('x-api-key') { user.api_key }
+  let(:'x-api-key') { user.api_key }
   let!(:service_provider) { FactoryBot.create(:service_provider, organization: organization) }
   let!(:service) { FactoryBot.create(:service, organization: organization, service_provider: service_provider, service_owner_id: user.id) }
   let!(:cx_collection) { FactoryBot.create(:cx_collection, organization: organization, service_provider: service_provider, service: service, user: user) }

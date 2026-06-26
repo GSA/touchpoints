@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Only true in the dev environment
 if defined?(Rswag::Ui)
   Rswag::Ui.configure do |c|
 

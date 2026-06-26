@@ -6,8 +6,8 @@ RSpec.describe '/v1/services', type: :request do
   let!(:organization) { FactoryBot.create(:organization) }
   let!(:user) { FactoryBot.create(:user, organization:, api_key: TEST_API_KEY) }
   let(:'x-api-key') { user.api_key }
-  let!(:service) { FactoryBot.create(:service, organization: user.organization, service_provider:, service_owner_id: user.id) }
   let!(:service_provider) { FactoryBot.create(:service_provider, organization: user.organization) }
+  let!(:service) { FactoryBot.create(:service, organization: user.organization, service_provider:, service_owner_id: user.id) }
 
   before do
     disable_http_basic_auth
