@@ -690,5 +690,96 @@ FactoryBot.define do
                           text: 'Was this page useful?')
       end
     end
+
+    # Curated, deterministic values for use as OpenAPI documentation examples
+    # (see TouchpointsSpecHelpers#capture_example). Unlike the default factory
+    # values, these are chosen to read well in published API docs and must not
+    # use random data, so the generated openapi.yml stays stable across runs.
+    factory :documented_form do
+      name { 'touchpoints.digital.gov Open-ended Feedback Form' }
+      title { 'Product feedback form' }
+      kind { 'open_ended' }
+      whitelist_url { 'https://touchpoints.digital.gov/' }
+      header_logo_display { 'banner' }
+      success_text_heading { 'Success' }
+      success_text { 'Thank you. We appreciate your feedback, and will consider it as we evolve our services.' }
+      modal_button_text { 'How can we improve Touchpoints?' }
+      notes { 'Form responses are exported once a week.' }
+      early_submission { false }
+      template { false }
+      uuid { '92b47c29-62d9-431b-b9d0-6312864349ec' }
+      short_uuid { '92b47c29' }
+      audience { 'public' }
+      omb_approval_number { '1234-5678' }
+      agency_poc_email { 'john.smith@gsa.gov' }
+      agency_poc_name { 'John Smith' }
+      department { 'TTS' }
+      notification_emails { 'john.smith@gsa.gov,jane.smith@gsa.gov' }
+      aasm_state { 'published' }
+      delivery_method { 'modal' }
+      element_selector { 'button-goes-here' }
+      survey_form_activations { 279_562 }
+      load_css { true }
+      time_zone { 'Eastern Time (US & Canada)' }
+      response_count { 2122 }
+      last_response_created_at { '2026-06-15T00:19:00.739Z' }
+      tag_list { %w[touchpoints cx] }
+
+      after(:create) do |f, _evaluator|
+        FactoryBot.create(:question,
+                          form: f,
+                          question_type: 'text_field',
+                          form_section: f.form_sections.first,
+                          answer_field: 'answer_01',
+                          position: 1,
+                          is_required: true,
+                          help_text: '',
+                          text: 'Name',
+                          character_limit: 200,
+        )
+        FactoryBot.create(:question,
+                          form: f,
+                          question_type: 'text_email_field',
+                          form_section: f.form_sections.first,
+                          answer_field: 'answer_02',
+                          position: 2,
+                          is_required: true,
+                          help_text: '',
+                          text: 'Email',
+                          character_limit: 200,
+                          placeholder_text: 'feedback@example.gov',)
+        FactoryBot.create(:question,
+                          form: f,
+                          question_type: 'textarea',
+                          form_section: f.form_sections.first,
+                          answer_field: 'answer_03',
+                          help_text: '',
+                          position: 3,
+                          is_required: true,
+                          text: 'How can we improve Touchpoints?',
+                          character_limit: 2500,)
+        FactoryBot.create(:submission,
+                          :with_documented_metadata,
+                          form: f,
+                          answer_01: 'John Smith',
+                          answer_02: 'john@example.com',
+                          answer_03: 'How can I close a survey without deleting it?',
+                          uuid: '7bfdc460-8353-4cc3-91ec-debf2b51d8ed')
+        FactoryBot.create(:submission,
+                          :with_documented_metadata,
+                          form: f,
+                          answer_01: 'July Barr',
+                          answer_02: 'barr@barr.com',
+                          answer_03: 'The buttons on the bottom of your website fail WCAG 2.0 contrast requirements.',
+                          uuid: '4380cbb8-e085-4d58-9374-2989a051be87')
+        FactoryBot.create(:submission,
+                          :with_documented_metadata,
+                          form: f,
+                          answer_01: 'Steve Toot',
+                          answer_02: 'steve@gmail.com',
+                          answer_03: 'Thank you for providing the delete logo function!',
+                          uuid: 'b0fb835d-3dee-4810-a21f-9159ce88d24d')
+      end
+    end
   end
 end

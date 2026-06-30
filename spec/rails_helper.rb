@@ -13,6 +13,7 @@ require 'selenium/webdriver'
 require 'axe-rspec'
 # Add additional requires below this line. Rails is not loaded until this point!
 require_relative 'support/touchpoints_spec_helpers'
+require_relative 'support/rswag_shared_context'
 
 # Ensure Devise mapping exists for controller specs when routes fail to auto-register.
 if defined?(Devise) && Devise.mappings[:user].nil?

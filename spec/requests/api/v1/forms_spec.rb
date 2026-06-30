@@ -3,14 +3,16 @@
 require 'swagger_helper'
 
 RSpec.describe '/v1/forms', type: :request do
-  let!(:organization) { FactoryBot.create(:organization) }
+  include_context 'rswag deterministic examples'
+
+  let!(:organization) { FactoryBot.create(:documented_organization) }
   let!(:user) { FactoryBot.create(:user, organization:, api_key: TEST_API_KEY) }
   let(:'x-api-key') { user.api_key }
-  let!(:form) { FactoryBot.create(:form, :single_question, :with_100_responses, organization:) }
+  let!(:form) { FactoryBot.create(:documented_form, organization:) }
   let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user:, form:) }
 
   before do
-    disable_http_basic_auth
+    simulate_api_gateway_request
   end
 
   path '/forms' do
@@ -31,6 +33,10 @@ RSpec.describe '/v1/forms', type: :request do
                    },
                  },
                }
+
+        after do |example|
+          capture_example example
+        end
 
         run_test! do |response|
           data = JSON.parse(response.body)['data']
@@ -53,6 +59,14 @@ As a result, we’ve introduced a new /v1/forms/{uuid}/responses endpoint, which
       tags 'Forms'
       produces 'application/json'
       security [{ api_key: [] }]
+      parameter name: 'page', in: :query, type: :integer, required: false,
+                description: 'Page number, 1-based (default: 1)', deprecated: true
+      parameter name: 'size', in: :query, type: :integer, required: false,
+                description: 'Responses per page (default: 500, max: 5000)', deprecated: true
+      parameter name: :start_date, in: :query, type: :string, required: false,
+                description: 'Include responses on or after this date, YYYY-MM-DD (default: 1 year ago)', deprecated: true
+      parameter name: :end_date, in: :query, type: :string, required: false,
+                description: 'Include responses on or before this date, YYYY-MM-DD (default: tomorrow)', deprecated: true
 
       response(200, 'successful') do
         schema type: 'object',
@@ -110,7 +124,7 @@ As a result, we’ve introduced a new /v1/forms/{uuid}/responses endpoint, which
                    },
                  },
                  links: {
-                   '$ref': '#/components/schemas/ResponsePaginationLinks',
+                   '$ref': '#/components/schemas/PaginationLinks',
                  },
                  meta: {
                    '$ref': '#/components/schemas/PaginationMeta',
@@ -118,7 +132,12 @@ As a result, we’ve introduced a new /v1/forms/{uuid}/responses endpoint, which
                }
 
         let(:uuid) { form.short_uuid }
-        let(:'page[size]') { 10 }
+        let(:'page[size]') { 2 }
+        let(:start_date) { '2023-01-01' }
+
+        after do |example|
+          capture_example example
+        end
 
         run_test! do |response|
           data = JSON.parse(response.body)['data']

@@ -3,16 +3,18 @@
 require 'swagger_helper'
 
 RSpec.describe '/v1/cx_collection_details', type: :request do
-  let!(:organization) { FactoryBot.create(:organization) }
+  include_context 'rswag deterministic examples'
+
+  let!(:organization) { FactoryBot.create(:documented_organization) }
   let!(:user) { FactoryBot.create(:user, organization:, api_key: TEST_API_KEY) }
   let(:'x-api-key') { user.api_key }
-  let!(:service_provider) { FactoryBot.create(:service_provider, organization:) }
-  let!(:service) { FactoryBot.create(:service, organization: user.organization, service_provider: service_provider, service_owner_id: user.id) }
-  let!(:collection) { FactoryBot.create(:cx_collection, organization:, service:, service_provider: service_provider, quarter: 2, fiscal_year: 2024, aasm_state: :published) }
-  let!(:cx_collection_detail) { FactoryBot.create(:cx_collection_detail, cx_collection: collection, service:, transaction_point: :post_service_journey, channel: Service.channels.sample) }
+  let!(:service_provider) { FactoryBot.create(:documented_service_provider, organization:) }
+  let!(:service) { FactoryBot.create(:documented_service, organization:, service_provider:, service_owner_id: user.id) }
+  let!(:cx_collection) { FactoryBot.create(:documented_cx_collection, organization:, user:, service_provider:, service:) }
+  let!(:cx_collection_detail) { FactoryBot.create(:documented_cx_collection_detail, cx_collection:, service:) }
 
   before do
-    disable_http_basic_auth
+    simulate_api_gateway_request
   end
 
   path '/cx_collection_details' do
@@ -34,6 +36,10 @@ RSpec.describe '/v1/cx_collection_details', type: :request do
                    },
                  },
                }
+
+        after do |example|
+          capture_example example
+        end
 
         run_test! do |response|
           data = JSON.parse(response.body)['data']

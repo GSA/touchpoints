@@ -23,7 +23,7 @@ and the Touchpoints API provides a convenient, programmatic way to access the da
         contact: {
           name: 'Touchpoints Support',
           url: 'https://touchpoints.digital.gov/',
-          email: 'feedback-analytics@gsa.gov'
+          email: 'feedback-analytics@gsa.gov',
         }
       },
       tags: [
@@ -82,7 +82,6 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               type: {
                 type: 'string',
                 enum: ['cx_collections'],
-                example: 'cx_collections',
               },
               attributes: {
                 '$ref': '#/components/schemas/CxCollectionAttributes',
@@ -101,7 +100,6 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               name: {
                 type: 'string',
                 description: 'Display name of the collection.',
-                example: 'CX Quarterly Reporting',
               },
               organization_id: {
                 type: 'integer',
@@ -118,31 +116,26 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               service_name: {
                 type: 'string',
                 description: 'Display name of the service being reported on.',
-                example: 'Applying for direct and guaranteed real estate and operating loans to start, maintain, and expand a family farm',
               },
               fiscal_year: {
                 type: 'string',
                 pattern: '^[0-9]{4}$',
                 description: 'Federal fiscal year for this reporting period (string-encoded four-digit year).',
-                example: '2024',
               },
               quarter: {
                 type: 'string',
                 enum: %w[1 2 3 4],
                 description: 'Federal fiscal quarter for this reporting period (string-encoded).',
-                example: '2',
               },
               aasm_state: {
                 type: 'string',
                 enum: %w[draft submitted published not_reported change_requested archived],
                 description: 'Current workflow state of the collection record.',
-                example: 'published',
               },
               rating: {
                 type: 'string',
                 nullable: true,
                 description: "Overall rating for the collection. 'TRUE' denotes green, 'PARTIAL' is yellow, 'FALSE' means red. Null or empty string if not yet rated.",
-                example: 'TRUE',
               },
               integrity_hash: {
                 type: 'string',
@@ -153,24 +146,21 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
                 type: 'string',
                 format: 'date-time',
                 description: 'ISO 8601 timestamp when the collection was created.',
-                example: '2024-03-26T20:46:03.778Z',
               },
               submitted_at: {
                 type: 'string',
                 format: 'date-time',
                 nullable: true,
                 description: 'ISO 8601 timestamp when the collection was submitted. Null if not yet submitted.',
-                example: '2024-06-12T15:38:13.751Z',
               },
               updated_at: {
                 type: 'string',
                 format: 'date-time',
                 description: 'ISO 8601 timestamp when the collection was last updated.',
-                example: '2024-06-12T15:38:25.098Z',
               },
             },
           },
-          
+
           CxCollectionDetailResource: {
             type: 'object',
             description: 'Represents CX feedback collected via a single channel at a single service journey stage for a CX Collection.',
@@ -205,7 +195,6 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               service_name: {
                 type: 'string',
                 description: 'Display name of the service being measured.',
-                example: 'Simplifying the USAID partnership process',
               },
               service_provider_id: {
                 type: 'integer',
@@ -214,13 +203,11 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               service_provider_name: {
                 type: 'string',
                 description: 'Display name of the service provider associated with this detail.',
-                example: 'U.S. Agency for International Development',
               },
               channel: {
                 type: 'string',
                 enum: %w[computer mobile email chatbot phone automated_phone in_person paper postal_mail fax self_service_kiosk other_non_digital website mobile_app live_chat sms_text_messages social_media other_digital],
                 description: 'Delivery channel through which the survey was administered.',
-                example: 'website',
               },
               service_stage_id: {
                 type: 'integer',
@@ -230,7 +217,6 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               service_stage_name: {
                 type: 'string',
                 description: "Display name of the service journey stage (e.g. 'Beg', 'Middle', 'End').",
-                example: 'End',
                 nullable: true,
               },
               volume_of_customers: {
@@ -249,35 +235,29 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               omb_control_number: {
                 type: 'string',
                 description: 'OMB Paperwork Reduction Act control number for the survey instrument.',
-                example: '0412-0601',
               },
               survey_type: {
                 type: 'string',
                 enum: %w[likert_scale thumbs_up_down],
                 description: 'Response format used by the survey instrument.',
-                example: 'thumbs_up_down',
               },
               survey_title: {
                 type: 'string',
                 description: 'Title of the survey instrument.',
-                example: 'USAID Pre-Engagement Assessment Post Transaction Survey',
               },
               trust_question_text: {
                 type: 'string',
                 description: 'Verbatim text of the trust question posed to respondents.',
-                example: 'The assessment increased my trust in the USAID partnership process.',
               },
               created_at: {
                 type: 'string',
                 format: 'date-time',
                 description: 'ISO 8601 timestamp when the detail record was created.',
-                example: '2024-04-04T00:51:25.360Z',
               },
               updated_at: {
                 type: 'string',
                 format: 'date-time',
                 description: 'ISO 8601 timestamp when the detail record was last updated.',
-                example: '2024-04-05T22:32:58.344Z',
               },
             },
           },
@@ -290,12 +270,10 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               id: {
                 type: 'string',
                 description: 'Numeric identifier of the CX response (string-encoded).',
-                example: '598211',
               },
               type: {
                 type: 'string',
                 enum: ['cx_responses'],
-                example: 'cx_responses',
               },
               attributes: {
                 '$ref': '#/components/schemas/CxResponseAttributes',
@@ -319,114 +297,95 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
                 type: 'string',
                 enum: %w[0 1],
                 description: "Binary satisfaction response — '1' for positive, '0' for negative (string-encoded).",
-                example: '1',
               },
               positive_effectiveness: {
                 type: 'string',
                 enum: %w[0 1],
                 description: 'Whether the respondent cited effectiveness as a positive factor.',
-                example: '1',
               },
               positive_ease: {
                 type: 'string',
                 enum: %w[0 1],
                 description: 'Whether the respondent cited ease as a positive factor.',
-                example: '0',
               },
               positive_efficiency: {
                 type: 'string',
                 enum: %w[0 1],
                 description: 'Whether the respondent cited efficiency as a positive factor.',
-                example: '0',
               },
               positive_transparency: {
                 type: 'string',
-                enum: %w[0 1],
+                enum: %w[0 1 null],
                 description: 'Whether the respondent cited transparency as a positive factor.',
-                example: '0',
               },
               positive_humanity: {
                 type: 'string',
                 enum: %w[0 1 null],
                 description: "Whether the respondent cited humanity as a positive factor. 'null' (string) indicates the dimension was not applicable for this collection.",
-                example: 'null',
               },
               positive_employee: {
                 type: 'string',
                 enum: %w[0 1 null],
                 description: "Whether the respondent cited employee as a positive factor. 'null' (string) indicates the dimension was not applicable for this collection.",
-                example: 'null',
               },
               positive_other: {
                 type: 'string',
                 enum: %w[0 1 null],
                 description: "Whether the respondent cited other as a positive factor. 'null' (string) indicates the dimension was not applicable for this collection.",
-                example: '0',
               },
               negative_effectiveness: {
                 type: 'string',
                 enum: %w[0 1],
                 description: 'Whether the respondent cited effectiveness as a negative factor.',
-                example: '0',
               },
               negative_ease: {
                 type: 'string',
                 enum: %w[0 1],
                 description: 'Whether the respondent cited ease as a negative factor.',
-                example: '0',
               },
               negative_efficiency: {
                 type: 'string',
                 enum: %w[0 1],
                 description: 'Whether the respondent cited efficiency as a negative factor.',
-                example: '0',
               },
               negative_transparency: {
                 type: 'string',
-                enum: %w[0 1],
+                enum: %w[0 1 null],
                 description: 'Whether the respondent cited transparency as a negative factor.',
-                example: '0',
               },
               negative_humanity: {
                 type: 'string',
                 enum: %w[0 1 null],
                 description: "Whether the respondent cited humanity as a negative factor. 'null' (string) indicates the dimension was not applicable for this collection.",
-                example: 'null',
               },
               negative_employee: {
                 type: 'string',
                 enum: %w[0 1 null],
                 description: "Whether the respondent cited employee as a negative factor. 'null' (string) indicates the dimension was not applicable for this collection.",
-                example: 'null',
               },
               negative_other: {
                 type: 'string',
                 enum: %w[0 1 null],
                 description: "Whether the respondent cited other as a negative factor. 'null' (string) indicates the dimension was not applicable for this collection.",
-                example: 'null',
               },
               question_4: {
                 type: 'string',
                 nullable: true,
                 description: 'Open-text response to question 4. Null if not answered.',
-                example: 'Text',
               },
               job_id: {
                 type: 'string',
                 description: 'Identifier of the batch import job that created this response.',
-                example: 'd61af450e8',
               },
               created_at: {
                 type: 'string',
                 format: 'date-time',
                 description: 'ISO 8601 timestamp when the response was created.',
-                example: '2024-10-07T14:47:14.260Z',
               },
               updated_at: {
                 type: 'string',
                 format: 'date-time',
                 description: 'ISO 8601 timestamp when the response was last updated.',
-                example: '2024-10-07T14:47:14.260Z',
               },
               external_id: {
                 type: 'string',
@@ -443,12 +402,10 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               id: {
                 type: 'string',
                 description: 'Numeric identifier of the form (string-encoded).',
-                example: '86',
               },
               type: {
                 type: 'string',
                 enum: ['forms'],
-                example: 'forms',
               },
               attributes: {
                 '$ref': '#/components/schemas/FormAttributes',
@@ -466,12 +423,10 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               name: {
                 type: 'string',
                 description: 'Internal name of the form.',
-                example: 'touchpoints.digital.gov Open-ended Feedback Form',
               },
               title: {
                 type: 'string',
                 description: 'Public-facing title displayed to respondents.',
-                example: 'Product feedback form',
               },
               instructions: {
                 type: 'string',
@@ -487,7 +442,6 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
                 type: 'string',
                 enum: %w[a11_v2 custom open_ended],
                 description: 'Form template type.',
-                example: 'open_ended',
               },
               notes: {
                 type: 'string',
@@ -503,18 +457,15 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
                 type: 'string',
                 format: 'date-time',
                 description: 'ISO 8601 timestamp when the form was created.',
-                example: '2020-02-18T23:29:19.845Z',
               },
               updated_at: {
                 type: 'string',
                 format: 'date-time',
                 description: 'ISO 8601 timestamp when the form was last updated.',
-                example: '2026-06-15T00:19:00.761Z',
               },
               whitelist_url: {
                 type: 'string',
                 description: 'Primary URL allowed to embed this form. May be empty string.',
-                example: 'https://touchpoints.digital.gov/',
               },
               whitelist_url_1: {
                 type: 'string',
@@ -569,59 +520,48 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
                 type: 'string',
                 enum: %w[banner square],
                 description: 'Display style for the header logo.',
-                example: 'banner',
               },
               success_text_heading: {
                 type: 'string',
                 description: 'Heading shown on the success confirmation screen.',
-                example: 'Success',
               },
               success_text: {
                 type: 'string',
                 description: 'HTML body text shown on the success confirmation screen.',
-                example: 'Thank you. We appreciate your feedback, and will consider it as we evolve our services.',
               },
               modal_button_text: {
                 type: 'string',
                 description: 'Label text for the button that opens the form modal.',
-                example: 'How can we improve Touchpoints?',
               },
               early_submission: {
                 type: 'boolean',
                 description: 'Whether the form supports early/partial submission.',
-                example: false,
               },
               template: {
                 type: 'boolean',
                 description: 'Whether this form is a reusable template.',
-                example: false,
               },
               uuid: {
                 type: 'string',
                 format: 'uuid',
                 description: 'Full UUID identifier for the form.',
-                example: '92b47c29-62d9-431b-b9d0-6312864349ec',
               },
               short_uuid: {
                 type: 'string',
                 description: 'First 8 characters of the UUID, used in short URLs.',
-                example: '92b47c29',
               },
               organization_id: {
                 type: 'integer',
                 description: 'ID of the organization that owns the form.',
-                example: 1,
               },
               audience: {
                 type: 'string',
                 enum: ['public'],
                 description: 'Intended audience for the form.',
-                example: 'public',
               },
               omb_approval_number: {
                 type: 'string',
                 description: 'OMB PRA approval number. May be empty string if not yet approved.',
-                example: '1234-5678',
               },
               expiration_date: {
                 type: 'string',
@@ -663,31 +603,26 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
                 type: 'string',
                 nullable: true,
                 description: 'Email address of the agency point of contact. May be empty string or null.',
-                example: 'john.smith@gsa.gov',
               },
               agency_poc_name: {
                 type: 'string',
                 nullable: true,
                 description: 'Name of the agency point of contact. May be empty string or null.',
-                example: 'John Smith',
               },
               department: {
                 type: 'string',
                 nullable: true,
                 description: 'Department associated with the form. May be empty string or null.',
-                example: 'TTS',
               },
               bureau: {
                 type: 'string',
                 nullable: true,
                 description: 'Bureau associated with the form. May be empty string or null.',
-                example: '',
               },
               notification_emails: {
                 type: 'string',
                 nullable: true,
                 description: 'Comma-separated list of email addresses to notify on submission. May be empty string or null.',
-                example: 'john.smith@gsa.gov,jane.smith@gsa.gov',
               },
               start_date: {
                 type: 'string',
@@ -705,29 +640,24 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
                 type: 'string',
                 enum: %w[archived created published],
                 description: 'Current workflow state of the form.',
-                example: 'published',
               },
               delivery_method: {
                 type: 'string',
                 enum: %w[inline modal touchpoints-hosted-only],
                 description: 'How the form is delivered to respondents.',
-                example: 'modal',
               },
               element_selector: {
                 type: 'string',
                 description: 'CSS selector or element ID used to attach the form. May be empty string.',
-                example: 'button-goes-here',
                 nullable: true,
               },
               survey_form_activations: {
                 type: 'integer',
                 description: 'Number of times the form has been activated or displayed.',
-                example: 279_562,
               },
               load_css: {
                 type: 'boolean',
                 description: 'Whether the form loads its own CSS stylesheet.',
-                example: true,
               },
               logo: {
                 '$ref': '#/components/schemas/Logo',
@@ -735,19 +665,16 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               time_zone: {
                 type: 'string',
                 description: 'Time zone used for form timestamps (Rails time zone name).',
-                example: 'Eastern Time (US & Canada)',
               },
               response_count: {
                 type: 'integer',
                 description: 'Total number of responses submitted to this form.',
-                example: 2122,
               },
               last_response_created_at: {
                 type: 'string',
                 format: 'date-time',
                 nullable: true,
                 description: 'ISO 8601 timestamp of the most recent submission. Null if no responses yet.',
-                example: '2026-06-15T00:19:00.739Z',
               },
               tag_list: {
                 type: 'array',
@@ -755,7 +682,6 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
                 items: {
                   type: 'string',
                 },
-                example: %w[touchpoints cx],
               },
             },
           },
@@ -793,7 +719,6 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
                       type: {
                         type: 'string',
                         enum: ['services'],
-                        example: 'services',
                       },
                     },
                   },
@@ -809,75 +734,62 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               id: {
                 type: 'integer',
                 description: 'Numeric identifier of the question.',
-                example: 416,
               },
               form_id: {
                 type: 'integer',
                 description: 'ID of the form this question belongs to.',
-                example: 86,
               },
               text: {
                 type: 'string',
                 description: 'Question text displayed to the respondent. May contain HTML. May be empty string.',
-                example: 'Email',
               },
               question_type: {
                 type: 'string',
                 enum: %w[big_thumbs_up_down_buttons checkbox combobox custom_text_display date_select dropdown radio_buttons rich_textarea states_dropdown text_display text_email_field text_field text_phone_field textarea yes_no_buttons],
                 description: "The UI control type used to render and capture this question's answer.",
-                example: 'text_email_field',
               },
               answer_field: {
                 type: 'string',
                 pattern: '^answer_[0-9]{2}$',
                 description: "Slot identifier for storing this question's response (e.g. 'answer_01').",
-                example: 'answer_02',
               },
               position: {
                 type: 'integer',
                 description: 'Display order of the question within its form section.',
-                example: 2,
               },
               is_required: {
                 type: 'boolean',
                 nullable: true,
                 description: 'Whether a response to this question is required for form submission. Null if not explicitly set.',
-                example: true,
               },
               form_section_id: {
                 type: 'integer',
                 description: 'ID of the form section this question belongs to.',
-                example: 141,
               },
               character_limit: {
                 type: 'integer',
                 nullable: true,
                 description: 'Maximum number of characters allowed in the response. Null if no limit.',
-                example: 2500,
               },
               placeholder_text: {
                 type: 'string',
                 nullable: true,
                 description: 'Placeholder text shown inside the input. May be empty string or null.',
-                example: 'feedback@example.gov',
               },
               help_text: {
                 type: 'string',
                 nullable: true,
                 description: 'Additional guidance shown alongside the question. May be empty string or null.',
-                example: 'If so, please explain.',
               },
               created_at: {
                 type: 'string',
                 format: 'date-time',
                 description: 'ISO 8601 timestamp when the question was created.',
-                example: '2020-02-18T23:29:19.913Z',
               },
               updated_at: {
                 type: 'string',
                 format: 'date-time',
                 description: 'ISO 8601 timestamp when the question was last updated.',
-                example: '2025-04-08T16:38:56.500Z',
               },
             },
           },
@@ -932,12 +844,10 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               id: {
                 type: 'string',
                 description: 'Numeric identifier of the submission (string-encoded).',
-                example: '5171',
               },
               type: {
                 type: 'string',
                 enum: ['submissions'],
-                example: 'submissions',
               },
               attributes: {
                 '$ref': '#/components/schemas/SubmissionAttributes',
@@ -958,29 +868,24 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
                 type: 'string',
                 format: 'date-time',
                 description: 'ISO 8601 timestamp when the submission was received.',
-                example: '2020-07-15T18:53:01.352Z',
               },
               updated_at: {
                 type: 'string',
                 format: 'date-time',
                 description: 'ISO 8601 timestamp when the submission was last updated.',
-                example: '2025-02-25T17:37:06.114Z',
               },
               referer: {
                 type: 'string',
                 description: 'HTTP Referer header value at time of submission. May be empty string.',
-                example: 'https://feedback.usa.gov/about/',
               },
               hostname: {
                 type: 'string',
                 nullable: true,
                 description: 'Hostname of the page that hosted the form at submission time. Null for older submissions.',
-                example: 'touchpoints.digital.gov',
               },
               page: {
                 type: 'string',
                 description: 'Path of the page that hosted the form at submission time.',
-                example: '/',
               },
               query_string: {
                 type: 'string',
@@ -990,25 +895,21 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               user_agent: {
                 type: 'string',
                 description: "HTTP User-Agent string of the respondent's browser.",
-                example: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36',
               },
               answer_01: {
                 type: 'string',
                 nullable: true,
                 description: 'Response to question slot 01.',
-                example: 'John',
               },
               answer_02: {
                 type: 'string',
                 nullable: true,
                 description: 'Response to question slot 02.',
-                example: 'john@example.com',
               },
               answer_03: {
                 type: 'string',
                 nullable: true,
                 description: 'Response to question slot 03.',
-                example: 'The buttons on the bottom of your website fail WCAG 2.0 contrast requirements.',
               },
               answer_04: {
                 type: 'string',
@@ -1164,7 +1065,6 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               deleted: {
                 type: 'boolean',
                 description: 'Whether this submission has been soft-deleted.',
-                example: false,
               },
               deleted_at: {
                 type: 'string',
@@ -1176,18 +1076,15 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
                 type: 'string',
                 enum: %w[acknowledged received responded],
                 description: 'Current workflow state of the submission.',
-                example: 'received',
               },
               language: {
                 type: 'string',
                 description: "BCP 47 language tag of the respondent's browser locale.",
-                example: 'en',
               },
               uuid: {
                 type: 'string',
                 format: 'uuid',
                 description: 'Unique identifier for this submission.',
-                example: '0db041a9-4c2f-4fa9-a062-db3f91b6f79c',
               },
               tags: {
                 type: 'array',
@@ -1195,7 +1092,6 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
                 items: {
                   type: 'string',
                 },
-                example: ['feature-request'],
               },
             },
           },
@@ -1208,12 +1104,10 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               id: {
                 type: 'string',
                 description: 'Numeric identifier of the service provider (string-encoded).',
-                example: '2',
               },
               type: {
                 type: 'string',
                 enum: ['service_providers'],
-                example: 'service_providers',
               },
               attributes: {
                 '$ref': '#/components/schemas/ServiceProviderAttributes',
@@ -1228,62 +1122,50 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               organization_id: {
                 type: 'integer',
                 description: 'Numeric ID of the parent organization.',
-                example: 2098,
               },
               organization_abbreviation: {
                 type: 'string',
                 description: 'Short acronym of the parent organization.',
-                example: 'USDA',
               },
               organization_name: {
                 type: 'string',
                 description: 'Full name of the parent organization.',
-                example: 'Department of Agriculture',
               },
               name: {
                 type: 'string',
                 description: 'Display name of the service provider.',
-                example: 'Natural Resources Conservation Service',
               },
               slug: {
                 type: 'string',
                 description: 'URL-safe identifier for the service provider.',
-                example: 'usda-nrcs',
               },
               year_designated: {
                 type: 'integer',
                 description: 'Year the service provider was officially designated.',
-                example: 2018,
               },
               description: {
                 type: 'string',
                 description: "Long-form description of the service provider's mission and scope.",
-                example: 'NRCS works with farmers...',
               },
               notes: {
                 type: 'string',
                 description: 'Optional freeform notes. May be empty string.',
-                example: '',
               },
               department: {
                 type: 'string',
                 description: "Lowercase department code or label (e.g. 'usda', 'Multi-Agency').",
-                example: 'usda',
               },
               department_abbreviation: {
                 type: 'string',
                 description: 'Lowercase department acronym.',
-                example: 'usda',
               },
               bureau: {
                 type: 'string',
                 description: 'Name of the bureau within the department.',
-                example: 'Natural Resources Conservation Service',
               },
               inactive: {
                 type: 'boolean',
                 description: 'Whether the service provider is inactive.',
-                example: false,
               },
               url: {
                 type: 'string',
@@ -1294,13 +1176,11 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               new: {
                 type: 'boolean',
                 description: 'Whether the service provider was recently added.',
-                example: false,
               },
               portfolio_manager_email: {
                 type: 'string',
                 format: 'email',
                 description: 'Email address of the OMB portfolio manager responsible for this provider.',
-                example: 'jane.smith@usda.gov',
               },
               service_provider_managers: {
                 type: 'array',
@@ -1312,7 +1192,6 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               services_count: {
                 type: 'integer',
                 description: 'Number of services associated with this provider.',
-                example: 1,
               },
             },
           },
@@ -1325,12 +1204,10 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               id: {
                 type: 'string',
                 description: 'Numeric identifier of the service (string-encoded).',
-                example: '1',
               },
               type: {
                 type: 'string',
                 enum: ['services'],
-                example: 'services',
               },
               attributes: {
                 '$ref': '#/components/schemas/ServiceAttributes',
@@ -1345,66 +1222,54 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               name: {
                 type: 'string',
                 description: 'Display name of the service.',
-                example: 'Touchpoints',
               },
               description: {
                 type: 'string',
                 description: 'Long-form description of the service.',
-                example: 'Making customer feedback easier for federal agencies.',
               },
               organization_id: {
                 type: 'integer',
                 description: 'Numeric ID of the parent organization.',
-                example: 1,
               },
               organization_abbreviation: {
                 type: 'string',
                 description: 'Short acronym of the parent organization.',
-                example: 'GSA',
               },
               organization_name: {
                 type: 'string',
                 description: 'Full name of the parent organization.',
-                example: 'General Services Administration',
               },
               service_provider_id: {
                 type: 'integer',
                 nullable: true,
                 description: 'Numeric ID of the associated service provider. Null if unassigned.',
-                example: 44,
               },
               service_provider_name: {
                 type: 'string',
                 nullable: true,
                 description: 'Display name of the associated service provider. Null if unassigned.',
-                example: 'Non-HISP Service Provider',
               },
               service_provider_slug: {
                 type: 'string',
                 nullable: true,
                 description: 'URL-safe slug of the associated service provider. Null if unassigned.',
-                example: 'non-hisp',
               },
               short_description: {
                 type: 'string',
                 description: 'Brief summary of the service. May be empty string.',
-                example: '',
               },
               year_designated: {
                 type: 'integer',
                 nullable: true,
                 description: 'Year the service was officially designated. Null if not yet designated.',
-                example: 2021,
               },
               previously_reported: {
                 type: 'boolean',
                 description: 'Whether this service was reported in a prior reporting period.',
-                example: false,
               },
               contact_center: {
                 type: 'boolean',
                 description: 'Whether the service operates a contact center.',
-                example: false,
               },
               kind: {
                 type: 'array',
@@ -1419,33 +1284,27 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
                     'Other',
                   ],
                 },
-                example: ['Data and Research'],
               },
               transactional: {
                 type: 'boolean',
                 description: 'Whether the service is transactional in nature.',
-                example: false,
               },
               notes: {
                 type: 'string',
                 description: 'Internal freeform notes about the service. May be empty string.',
-                example: 'John Smith as System Owner, Product Manager',
               },
               hisp: {
                 type: 'boolean',
                 description: 'Whether the service is a High Impact Service Provider (HISP) service.',
-                example: false,
               },
               service_slug: {
                 type: 'string',
                 description: 'URL-safe slug for the service. May be empty string.',
-                example: 'usda-fsa',
               },
               service_owner_email: {
                 type: 'string',
                 format: 'email',
                 description: 'Email address of the service owner.',
-                example: 'john.smith@gsa.gov',
               },
               service_managers: {
                 type: 'array',
@@ -1458,13 +1317,11 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
                 type: 'string',
                 format: 'uri',
                 description: 'Direct URL to the service. May be empty string.',
-                example: 'https://touchpoints.digital.gov/',
               },
               homepage_url: {
                 type: 'string',
                 format: 'uri',
                 description: 'Homepage URL for the service. May be empty string.',
-                example: 'https://touchpoints.digital.gov/',
               },
               channels: {
                 type: 'array',
@@ -1483,23 +1340,19 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               available_in_person: {
                 type: 'boolean',
                 description: 'Whether the service is available in person.',
-                example: false,
               },
               available_digitally: {
                 type: 'boolean',
                 description: 'Whether the service is available digitally.',
-                example: true,
               },
               available_via_phone: {
                 type: 'boolean',
                 description: 'Whether the service is available via phone.',
-                example: true,
               },
               aasm_state: {
                 type: 'string',
                 description: 'Current workflow state of the service record.',
                 enum: %w[created verified],
-                example: 'verified',
               },
             },
           },
@@ -1511,29 +1364,24 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               id: {
                 type: 'integer',
                 description: 'Numeric identifier of the channel tag.',
-                example: 315,
               },
               name: {
                 type: 'string',
                 description: "Machine-readable channel name (e.g. 'email', 'phone', 'computer', 'other_digital').",
-                example: 'email',
               },
               created_at: {
                 type: 'string',
                 format: 'date-time',
                 description: 'ISO 8601 timestamp when the channel tag was created.',
-                example: '2022-08-16T21:50:46.381Z',
               },
               updated_at: {
                 type: 'string',
                 format: 'date-time',
                 description: 'ISO 8601 timestamp when the channel tag was last updated.',
-                example: '2022-08-16T21:50:46.381Z',
               },
               taggings_count: {
                 type: 'integer',
                 description: 'Number of times this channel tag has been applied across all services.',
-                example: 2,
               },
             },
           },
@@ -1545,12 +1393,10 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               id: {
                 type: 'string',
                 description: 'Numeric identifier of the website (string-encoded).',
-                example: '706',
               },
               type: {
                 type: 'string',
                 enum: ['websites'],
-                example: 'websites',
               },
               attributes: {
                 '$ref': '#/components/schemas/WebsiteAttributes',
@@ -1565,48 +1411,40 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               domain: {
                 type: 'string',
                 description: 'Fully qualified domain name of the website.',
-                example: 'touchpoints.app.cloud.gov',
               },
               organization_id: {
                 type: 'integer',
                 description: 'ID of the organization that owns the website.',
-                example: 1,
               },
               organization_name: {
                 type: 'string',
                 description: 'Display name of the organization that owns the website.',
-                example: 'General Services Administration',
               },
               parent_domain: {
                 type: 'string',
                 description: 'Parent domain under which this website resides.',
-                example: 'cloud.gov',
               },
               office: {
                 type: 'string',
                 nullable: true,
                 description: 'Office within the organization responsible for the website. May be empty string or null.',
-                example: 'FAS',
               },
               sub_office: {
                 type: 'string',
                 nullable: true,
                 description: 'Sub-office within the office responsible for the website. May be empty string or null.',
-                example: 'TTS',
               },
               contact_email: {
                 type: 'string',
                 format: 'email',
                 nullable: true,
                 description: 'General contact email for the website. May be empty string or null.',
-                example: 'feedback-analytics@gsa.gov',
               },
               site_owner_email: {
                 type: 'string',
                 format: 'email',
                 nullable: true,
                 description: 'Email address of the site owner. May be empty string or null.',
-                example: 'john.smith@gsa.gov',
               },
               production_status: {
                 type: 'string',
@@ -1618,143 +1456,119 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
                   'staging'
                 ],
                 description: 'Current lifecycle status of the website.',
-                example: 'production',
               },
               type_of_site: {
                 type: 'string',
                 nullable: true,
                 description: "Categorization of the site's primary purpose (e.g. 'Informational', 'Application', 'API', 'Critical infrastructure'). May be null.",
-                example: 'Application',
               },
               digital_brand_category: {
                 type: 'string',
                 nullable: true,
                 description: "Digital brand classification (e.g. 'GSA Business', 'Hybrid', 'External'). May be empty string or null.",
-                example: 'GSA Business',
               },
               redirects_to: {
                 type: 'string',
                 nullable: true,
                 description: 'URL or domain this site redirects to. Null or empty string if not a redirect.',
-                example: 'https://www.usa.gov/',
               },
               status_code: {
                 type: 'string',
                 nullable: true,
                 description: 'Last observed HTTP status code. May be null if not yet checked.',
-                example: '200',
               },
               cms_platform: {
                 type: 'string',
                 nullable: true,
                 description: "CMS or hosting platform used to build the site (e.g. 'Federalist', 'Netlify'). May be empty string or null.",
-                example: 'n/a',
               },
               required_by_law_or_policy: {
                 type: 'string',
                 nullable: true,
                 description: "Applicable law or policy mandate (e.g. 'A-11, Section 280'). May be empty string or null.",
-                example: 'A-11, Section 280',
               },
               has_dap: {
                 type: 'boolean',
                 nullable: true,
                 description: 'Whether the Digital Analytics Program (DAP) is implemented on the site. Null if unknown.',
-                example: true,
               },
               dap_gtm_code: {
                 type: 'string',
                 nullable: true,
                 description: 'DAP Google Tag Manager code. May be empty string or null.',
-                example: 'Yes',
               },
               analytics_url: {
                 type: 'string',
                 nullable: true,
                 description: "URL to the site's public analytics dashboard. May be empty string or null.",
-                example: '',
               },
               uses_feedback: {
                 type: 'boolean',
                 nullable: true,
                 description: 'Whether the site uses a feedback collection tool. Null if unknown.',
-                example: false,
               },
               feedback_tool: {
                 type: 'string',
                 nullable: true,
                 description: "Name of the feedback tool in use (e.g. 'Touchpoints', 'Medallia', 'None'). May be null.",
-                example: 'Touchpoints',
               },
               sitemap_url: {
                 type: 'string',
                 nullable: true,
                 description: "URL of the site's XML sitemap. May be empty string or null.",
-                example: 'https://10x.gsa.gov/sitemap.xml',
               },
               backlog_tool: {
                 type: 'string',
                 description: "Name of the project backlog tool in use (e.g. 'Trello', 'GitHub', 'Jira', 'None'). May be empty string.",
-                example: 'Trello',
               },
               backlog_url: {
                 type: 'string',
                 description: 'URL to the project backlog. May be empty string.',
-                example: '',
               },
               mobile_friendly: {
                 type: 'boolean',
                 nullable: true,
                 description: 'Whether the site is mobile-friendly. Null if unknown.',
-                example: true,
               },
               has_search: {
                 type: 'boolean',
                 nullable: true,
                 description: 'Whether the site has a search feature. Null if unknown.',
-                example: false,
               },
               uses_tracking_cookies: {
                 type: 'boolean',
                 nullable: true,
                 description: 'Whether the site uses tracking cookies. Null if unknown.',
-                example: false,
               },
               has_authenticated_experience: {
                 type: 'boolean',
                 nullable: true,
                 description: 'Whether the site has an authenticated user experience. Null if unknown.',
-                example: false,
               },
               authentication_tool: {
                 type: 'string',
                 nullable: true,
                 description: "Authentication platform used (e.g. 'Login.gov', 'Okta', 'Max.gov', 'None'). May be null.",
-                example: 'Login.gov',
               },
               login_supported: {
                 type: 'boolean',
                 description: 'Whether user login is supported on the site.',
-                example: true,
               },
               notes: {
                 type: 'string',
                 nullable: true,
                 description: 'Internal freeform notes about the website. May be empty string or null.',
-                example: '',
               },
               repository_url: {
                 type: 'string',
                 format: 'uri',
                 nullable: true,
                 description: 'URL of the source code repository. May be empty string or null.',
-                example: 'https://github.com/gsa/touchpoints',
               },
               hosting_platform: {
                 type: 'string',
                 nullable: true,
                 description: "Infrastructure hosting platform (e.g. 'Cloud.gov', 'Federalist'). May be empty string or null.",
-                example: 'cloud.gov',
               },
               website_contacts: {
                 type: 'array',
@@ -1767,13 +1581,11 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
                 type: 'string',
                 nullable: true,
                 description: 'Version of the U.S. Web Design System in use. May be empty string or null.',
-                example: '3.1',
               },
               https: {
                 type: 'boolean',
                 nullable: true,
                 description: 'Whether the site enforces HTTPS. Null if unknown.',
-                example: true,
               },
               target_decommission_date: {
                 type: 'string',
@@ -1785,110 +1597,14 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
                 type: 'string',
                 format: 'date-time',
                 description: 'ISO 8601 timestamp when the record was created.',
-                example: '2023-12-13T19:47:40.729Z',
               },
               updated_at: {
                 type: 'string',
                 format: 'date-time',
                 description: 'ISO 8601 timestamp when the record was last updated.',
-                example: '2026-03-04T22:20:26.380Z',
               },
             },
           },
-
-          DigitalProductResource: {
-            type: 'object',
-            required: %w[id type attributes],
-            properties: {
-              id: {
-                type: 'string',
-                description: 'Numeric identifier of the digital product (string-encoded).',
-                example: '36',
-              },
-              type: {
-                type: 'string',
-                enum: ['digital_products'],
-                example: 'digital_products',
-              },
-              attributes: {
-                '$ref': '#/components/schemas/DigitalProductAttributes',
-              },
-            },
-          },
-
-          DigitalProductAttributes: {
-            type: 'object',
-            description: 'Attributes of a digital product.',
-            required: %w[agencies contacts language status short_description long_description tags],
-            properties: {
-              agencies: {
-                type: 'array',
-                description: 'Organizations associated with this digital product.',
-                items: {
-                  '$ref': '#/components/schemas/DigitalProductAgency',
-                },
-              },
-              contacts: {
-                type: 'array',
-                description: 'Contacts responsible for this digital product.',
-                items: {
-                  '$ref': '#/components/schemas/DigitalProductContact',
-                },
-              },
-              service: {
-                type: 'object',
-                nullable: true,
-                description: 'Associated service record. Null if not linked.',
-              },
-              url: {
-                type: 'string',
-                format: 'uri',
-                nullable: true,
-                description: 'Public URL of the digital product. Null if not yet assigned.',
-              },
-              code_repository_url: {
-                type: 'string',
-                format: 'uri',
-                nullable: true,
-                description: 'URL of the source code repository. Null if not provided.',
-              },
-              language: {
-                type: 'string',
-                description: 'Primary language of the digital product.',
-                example: 'English',
-              },
-              status: {
-                type: 'string',
-                enum: ['published'],
-                description: 'Publication status of the digital product.',
-                example: 'published',
-              },
-              short_description: {
-                type: 'string',
-                description: 'Brief summary of the digital product.',
-                example: 'Practice sun safety; check the UV Index and air quality ratings wherever you are.',
-              },
-              long_description: {
-                type: 'string',
-                description: 'Full HTML description of the digital product.',
-                example: '<p>Use your mobile device to check the UV Index and air quality ratings wherever you are.</p>',
-              },
-              tags: {
-                type: 'array',
-                description: 'Tags applied to this digital product.',
-                items: {
-                  type: 'string',
-                },
-              },
-              certified_at: {
-                type: 'string',
-                format: 'date-time',
-                nullable: true,
-                description: 'ISO 8601 timestamp when the product was certified. Null if not yet certified.',
-              },
-            },
-          },
-
 
           User: {
             type: 'object',
@@ -1899,25 +1615,21 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
                 type: 'string',
                 format: 'email',
                 description: 'Work email of the user.',
-                example: 'john.smith@gsa.gov',
               },
               first_name: {
                 type: 'string',
                 nullable: true,
                 description: "User's first name. Null if not yet provided.",
-                example: 'John',
               },
               last_name: {
                 type: 'string',
                 nullable: true,
                 description: "User's last name. Null if not yet provided.",
-                example: 'Smith',
               },
               position_title: {
                 type: 'string',
                 nullable: true,
                 description: "User's job title. Null if not yet provided.",
-                example: 'Innovation Specialist',
               },
               profile_photo: {
                 type: 'string',
@@ -1935,29 +1647,24 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               id: {
                 type: 'integer',
                 description: 'Numeric identifier of the tag.',
-                example: 204,
               },
               name: {
                 type: 'string',
                 description: 'Human-readable tag label.',
-                example: 'feedback',
               },
               created_at: {
                 type: 'string',
                 format: 'date-time',
                 description: 'ISO 8601 timestamp when the tag was created.',
-                example: '2022-06-07T13:15:45.585Z',
               },
               updated_at: {
                 type: 'string',
                 format: 'date-time',
                 description: 'ISO 8601 timestamp when the tag was last updated.',
-                example: '2022-06-07T13:15:45.585Z',
               },
               taggings_count: {
                 type: 'integer',
                 description: 'Number of times this tag has been applied',
-                example: 12,
               },
             },
           },
@@ -1996,34 +1703,6 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
             },
           },
 
-          ResponsePaginationLinks: {
-            allOf: [
-              { '$ref': '#/components/schemas/PaginationLinks' },
-            ],
-            description: 'Pagination links for a list of form responses.',
-            example: {
-              self: 'https://api.gsa.gov/analytics/touchpoints/v1/forms/8fc3c208/responses?page[number]=2&page[size]=500',
-              first: 'https://api.gsa.gov/analytics/touchpoints/v1/forms/8fc3c208/responses?page[number]=1&page[size]=500',
-              prev: 'https://api.gsa.gov/analytics/touchpoints/v1/forms/8fc3c208/responses?page[number]=1&page[size]=500',
-              next: 'https://api.gsa.gov/analytics/touchpoints/v1/forms/8fc3c208/responses?page[number]=3&page[size]=500',
-              last: 'https://api.gsa.gov/analytics/touchpoints/v1/forms/8fc3c208/responses?page[number]=8&page[size]=500',
-            },
-          },
-
-          CxResponsePaginationLinks: {
-            allOf: [
-              { '$ref': '#/components/schemas/PaginationLinks' },
-            ],
-            description: 'Pagination links for a list of CX responses.',
-            example: {
-              self: 'https://api.gsa.gov/analytics/touchpoints/v1/cx_responses?page[number]=2&page[size]=500',
-              first: 'https://api.gsa.gov/analytics/touchpoints/v1/cx_responses?page[number]=1&page[size]=500',
-              prev: 'https://api.gsa.gov/analytics/touchpoints/v1/cx_responses?page[number]=1&page[size]=500',
-              next: 'https://api.gsa.gov/analytics/touchpoints/v1/cx_responses?page[number]=3&page[size]=500',
-              last: 'https://api.gsa.gov/analytics/touchpoints/v1/cx_responses?page[number]=8&page[size]=500',
-            },
-          },
-
           PaginationMeta: {
             type: 'object',
             required: %w[current_page page_size total_pages total_count],
@@ -2031,22 +1710,18 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               current_page: {
                 type: 'integer',
                 description: 'The current page number (1-indexed).',
-                example: 1,
               },
               page_size: {
                 type: 'integer',
                 description: 'Number of records requested per page.',
-                example: 500,
               },
               total_pages: {
                 type: 'integer',
                 description: 'Total number of pages available.',
-                example: 8,
               },
               total_count: {
                 type: 'integer',
                 description: 'Total number of records across all pages.',
-                example: 3_911,
               },
             },
           },

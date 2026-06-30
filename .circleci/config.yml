@@ -154,10 +154,13 @@ jobs:
               exit 0
             fi
             set -euo pipefail
-            bundle exec rake rswag:specs:swaggerize
+            # RSWAG_DRY_RUN=0 is required so rswag runs the request examples and
+            # the after-callbacks that capture response bodies as OpenAPI examples.
+            # --dry-run is enabled by default on RSpec 3, which would skip them.
+            RSWAG_DRY_RUN=0 bundle exec rake rswag:specs:swaggerize
             if ! git diff --exit-code -- public/api/v1/openapi.yml; then
               echo "ERROR: public/api/v1/openapi.yml is out of date."
-              echo "Run 'bundle exec rake rswag:specs:swaggerize' locally and commit the result."
+              echo "Run 'RSWAG_DRY_RUN=0 bundle exec rake rswag:specs:swaggerize' locally and commit the result."
               exit 1
             fi
             echo "OpenAPI spec is up to date."
