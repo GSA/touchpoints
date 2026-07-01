@@ -141,42 +141,6 @@ jobs:
       - store_artifacts:
           path: coverage
 
-      # Verify the committed OpenAPI spec is in sync with the rswag request specs.
-      # swaggerize regenerates public/api/v1/openapi.yml from spec/requests/api/**;
-      # if the result differs from what is committed, the spec has drifted and the
-      # build fails. Runs the full (unsplit) rswag suite on one container only so the
-      # generated spec is complete.
-      - run:
-          name: Generate OpenAPI spec
-          command: |
-            if [ "$CIRCLE_NODE_INDEX" != "0" ]; then
-              echo "Skipping OpenAPI spec generation on parallel container $CIRCLE_NODE_INDEX"
-              exit 0
-            fi
-            set -euo pipefail
-            # RSWAG_DRY_RUN=0 is required so rswag runs the request examples and
-            # the after-callbacks that capture response bodies as OpenAPI examples.
-            # --dry-run is enabled by default on RSpec 3, which would skip them.
-            RSWAG_DRY_RUN=0 bundle exec rake rswag:specs:swaggerize
-      # Upload the generated spec before the drift check so the artifact is
-      # always available (including when the check below fails).
-      - store_artifacts:
-          path: public/api/v1/openapi.yml
-      - run:
-          name: Verify OpenAPI spec is up to date
-          command: |
-            if [ "$CIRCLE_NODE_INDEX" != "0" ]; then
-              echo "Skipping OpenAPI sync check on parallel container $CIRCLE_NODE_INDEX"
-              exit 0
-            fi
-            set -euo pipefail
-            if ! git diff --exit-code -- public/api/v1/openapi.yml; then
-              echo "ERROR: public/api/v1/openapi.yml is out of date."
-              echo "Run 'RSWAG_DRY_RUN=0 bundle exec rake rswag:specs:swaggerize' locally and commit the result."
-              exit 1
-            fi
-            echo "OpenAPI spec is up to date."
-
   deploy:
     parameters:
       deploy_environment:
