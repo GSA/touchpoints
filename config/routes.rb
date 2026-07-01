@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/admin/sidekiq'
   end
 
+  mount Rswag::Ui::Engine => '/api-docs' if Rails.env.development?
   get 'hello_stimulus', to: 'site#hello_stimulus', as: :hello_stimulus if Rails.env.development?
   get 'docs', to: 'site#docs', as: :docs if Rails.env.development?
   get 'benchmark/widget', to: 'benchmark#widget_benchmark' if Rails.env.development?
@@ -37,13 +38,12 @@ Rails.application.routes.draw do
     resources :submissions, only: %i[new create]
   end
 
-  namespace :api do
+  namespace :api, defaults: { format: :json } do
     namespace :v0 do
       resources :forms, only: %i[index show]
     end
     namespace :v1 do
       resources :organizations, only: [:index]
-      resources :collections, only: [:index]
       resources :cx_responses, only: [:index]
       resources :cx_collections, only: [:index]
       resources :cx_collection_details, only: [:index]

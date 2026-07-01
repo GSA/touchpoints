@@ -23,5 +23,17 @@ FactoryBot.define do
       url { 'https://another.gov' }
       notes { 'Notes about another Organization' }
     end
+
+    # Curated, deterministic values for use as OpenAPI documentation examples
+    # (see TouchpointsSpecHelpers#capture_example). Unlike the default factory
+    # values, these are chosen to read well in published API docs and must not
+    # use random data, so the generated openapi.yml stays stable across runs.
+    factory :documented_organization do
+      name { 'General Service Administration' }
+      domain { 'gsa.gov' }
+      abbreviation { 'GSA' }
+      url { 'https://www.gsa.gov/' }
+      notes { '' }
+    end
   end
 end

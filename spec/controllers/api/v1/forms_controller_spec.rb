@@ -355,11 +355,11 @@ describe Api::V1::FormsController, type: :controller do
         expect(response.status).to eq(200)
         expect(response.parsed_body['links']).to eq(
                                               {
-                                                "first" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=1&page%5Bsize%5D=5&start_date=#{start_date}",
-                                                "last" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=2&page%5Bsize%5D=5&start_date=#{start_date}",
-                                                "next" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=2&page%5Bsize%5D=5&start_date=#{start_date}",
+                                                "first" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=1&page%5Bsize%5D=5&start_date=#{start_date}",
+                                                "last" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=2&page%5Bsize%5D=5&start_date=#{start_date}",
+                                                "next" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=2&page%5Bsize%5D=5&start_date=#{start_date}",
                                                 "prev" => nil,
-                                                "self" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=1&page%5Bsize%5D=5&start_date=#{start_date}",
+                                                "self" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=1&page%5Bsize%5D=5&start_date=#{start_date}",
                                               }
                                             )
 
@@ -369,11 +369,11 @@ describe Api::V1::FormsController, type: :controller do
         expect(response.status).to eq(200)
         expect(response.parsed_body['links']).to eq(
                                               {
-                                                "first" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=1&page%5Bsize%5D=5&start_date=#{start_date}",
-                                                "last" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=2&page%5Bsize%5D=5&start_date=#{start_date}",
+                                                "first" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=1&page%5Bsize%5D=5&start_date=#{start_date}",
+                                                "last" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=2&page%5Bsize%5D=5&start_date=#{start_date}",
                                                 "next" => nil,
-                                                "prev" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=1&page%5Bsize%5D=5&start_date=#{start_date}",
-                                                "self" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=2&page%5Bsize%5D=5&start_date=#{start_date}",
+                                                "prev" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=1&page%5Bsize%5D=5&start_date=#{start_date}",
+                                                "self" => "http://test.host/api/v1/forms/#{form.short_uuid}/responses?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=2&page%5Bsize%5D=5&start_date=#{start_date}",
                                               },
                                             )
       end
@@ -388,11 +388,11 @@ describe Api::V1::FormsController, type: :controller do
         expect(response.status).to eq(200)
         expect(response.parsed_body['links']).to eq(
                                               {
-                                                "first" => "https://api-gateway.example.gov/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=1&page%5Bsize%5D=5&start_date=#{start_date}",
-                                                "last" => "https://api-gateway.example.gov/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=2&page%5Bsize%5D=5&start_date=#{start_date}",
-                                                "next" => "https://api-gateway.example.gov/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=2&page%5Bsize%5D=5&start_date=#{start_date}",
+                                                "first" => "https://api-gateway.example.gov/v1/forms/#{form.short_uuid}/responses?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=1&page%5Bsize%5D=5&start_date=#{start_date}",
+                                                "last" => "https://api-gateway.example.gov/v1/forms/#{form.short_uuid}/responses?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=2&page%5Bsize%5D=5&start_date=#{start_date}",
+                                                "next" => "https://api-gateway.example.gov/v1/forms/#{form.short_uuid}/responses?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=2&page%5Bsize%5D=5&start_date=#{start_date}",
                                                 "prev" => nil,
-                                                "self" => "https://api-gateway.example.gov/v1/forms/#{form.short_uuid}/responses.json?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=1&page%5Bsize%5D=5&start_date=#{start_date}",
+                                                "self" => "https://api-gateway.example.gov/v1/forms/#{form.short_uuid}/responses?API_KEY=#{TEST_API_KEY}&page%5Bnumber%5D=1&page%5Bsize%5D=5&start_date=#{start_date}",
                                               },
                                             )
       end

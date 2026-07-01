@@ -27,6 +27,7 @@ module Api
               meta: {
                 current_page: cx_responses.current_page,
                 size: cx_responses.size,
+                page_size: cx_responses.limit_value,
                 total_pages: cx_responses.total_pages,
                 total_count: cx_responses.total_count,
               },
