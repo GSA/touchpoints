@@ -309,6 +309,18 @@ RSpec.describe Admin::FormsController, type: :controller do
         expect(form.header_logo_display).to eq('banner')
         expect(response).to render_template(:update_display_logo)
       end
+
+      it 'updates the logo alt text' do
+        patch :update_display_logo, params: {
+          id: form.to_param,
+          form: { logo: logo_file, header_logo_display: 'banner', logo_alt_text: 'Agency seal' },
+          format: :js
+        }, session: valid_session
+
+        form.reload
+        expect(form.logo_alt_text).to eq('Agency seal')
+        expect(response).to render_template(:update_display_logo)
+      end
     end
 
     context 'with invalid file type' do

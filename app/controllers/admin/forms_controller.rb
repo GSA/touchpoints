@@ -518,6 +518,7 @@ module Admin
         :notification_frequency,
         :logo,
         :header_logo_display,
+        :logo_alt_text,
         :modal_button_text,
         :success_text_heading,
         :success_text,
@@ -561,7 +562,7 @@ module Admin
 
     def form_logo_params
       params.require(:form).permit(
-        :logo, :header_logo_display
+        :logo, :header_logo_display, :logo_alt_text
       )
     end
 
