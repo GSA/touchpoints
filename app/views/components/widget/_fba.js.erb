@@ -78,7 +78,7 @@ function FBAform(d, N) {
 		_loadCss: function() {
 			if (this.options.loadCSS) {
 				var style = d.createElement('style');
-				style.innerHTML = this.options.css;
+				style.textContent = this.options.css;
 				d.head.appendChild(style);
 				<%- if form.has_rich_text_questions? %>
 				var quillStyles = d.createElement('link');
