@@ -16,15 +16,9 @@ RSpec.configure do |config|
     'v1/openapi.yml' => {
       openapi: '3.0.1',
       info: {
-        title: 'Touchpoints API',
-        description: 'Touchpoints makes customer feedback easier for federal agencies,
-and the Touchpoints API provides a convenient, programmatic way to access the data for your forms, responses, and other Customer Experience (CX) related domain objects.',
+        title: 'Touchpoints API Reference',
+        description: 'For an introduction to the Touchpoints API, see the [API Overview](https://touchpoints.digital.gov/api-overview) page.',
         version: 'v1',
-        contact: {
-          name: 'Touchpoints Support',
-          url: 'https://touchpoints.digital.gov/',
-          email: 'feedback-analytics@gsa.gov',
-        }
       },
       tags: [
         {
@@ -34,7 +28,7 @@ Forms (also called surveys) are used to collect user feedback. With a Touchpoint
 create a form, publish it in one of several digital formats and view form responses submitted by your users. You can also share
 your form with other Touchpoints users so that it may be managed collectively by your team.
 
-Use the following endpoints to view your forms and form responses. Normal users can see forms for which they are a Form Manager or Response Viewer. Users with the Organization Admin role can see all forms belonging to their organization.
+Use the following endpoints to view your forms and form responses. Standard users can see forms for which they are a Form Manager or Response Viewer. Users with the Organization Admin role can see all forms belonging to their organization.
 
 Forms are identified by their short UUID, which is the 8-character string of letters and numbers used in Touchpoints form URLs. For instance, if your form lives at https://touchpoints.app.cloud.gov/admin/forms/8fc3c208, its short UUID is '8fc3c208'.
 
@@ -58,7 +52,7 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
         },
         {
           url: 'https://api.gsa.gov/analytics/touchpoints/v1',
-          description: 'The API gateway that hosts the production Touchpoints API',
+          description: 'The production Touchpoints API',
         },
       ],
       components: {
