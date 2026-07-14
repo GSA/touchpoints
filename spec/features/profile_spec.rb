@@ -58,7 +58,7 @@ feature 'Profile', js: true do
 
         it 'can enter blank key' do
           expect(page).to have_content('API Documentation')
-          expect(page).to have_content('See the Touchpoints wiki for API documentation.')
+          expect(page).to have_content('See the Touchpoints documentation site for API documentation.')
           fill_in('user[api_key]', with: nil)
           click_on 'Update User'
           expect(page.current_path).to have_content(profile_path)
