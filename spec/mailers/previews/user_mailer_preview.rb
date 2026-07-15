@@ -16,4 +16,9 @@ class UserMailerPreview < ActionMailer::Preview
   def webmaster_summary
     UserMailerMailer.webmaster_summary
   end
+
+  # Preview this email at http://localhost:3000/rails/mailers/user_mailer/user_welcome_email
+  def user_welcome_email
+    UserMailer.user_welcome_email(email: 'example@example.gov')
+  end
 end
