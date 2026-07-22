@@ -4,6 +4,7 @@ require 'csv'
 
 class Form < ApplicationRecord
   include AASM
+  has_paper_trail
 
   belongs_to :organization
   belongs_to :service, optional: true
