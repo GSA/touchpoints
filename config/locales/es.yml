@@ -42,6 +42,9 @@ es:
     field_is_invalid: "Por favor ingrese una cifra válida: "
     chars_remaining: "Caracteres restantes: "
     enter_other_text: "Ingresa otro texto"
+    turnstile_verify: "Por favor, complete el desafío de verificación y luego vuelva a enviar."
+    turnstile_expired: "La verificación expiró. Por favor, complete el desafío nuevamente."
+    turnstile_error: "No se pudo completar la verificación. Por favor, inténtelo de nuevo."
   header:
     official: "Un sitio web oficial del gobierno de los Estados Unidos"
     heres_how_you_know: "Así es como sabes"
