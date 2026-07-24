@@ -635,12 +635,11 @@ function FBAform(d, N) {
 					});
 					d.dispatchEvent(previousPageEvent);
 
-					// if in a modal, scroll to the top of the modal on previous button click
-					if(this.formComponent().getElementsByClassName("fba-modal")[0]) {
-						this.formComponent().scrollTo(0,0);
-					} else {
-						N.scrollTo(0, 0);
-					}
+          <%- if form.delivery_method == "touchpoints-hosted-only" %>
+          N.scrollTo(0, 0);
+          <% else %>
+          this.formComponent().scrollIntoView();
+          <% end %>
 				}.bind(self));
 			}
 			for (var i = 0; i < nextButtons.length; i++) {
@@ -660,12 +659,11 @@ function FBAform(d, N) {
 					});
 					d.dispatchEvent(nextPageEvent);
 
-					// if in a modal, scroll to the top of the modal on next button click
-					if(this.formComponent().getElementsByClassName("fba-modal")[0]) {
-						this.formComponent().scrollTo(0,0);
-					} else {
-						N.scrollTo(0, 0);
-					}
+          <%- if form.delivery_method == "touchpoints-hosted-only" %>
+          N.scrollTo(0, 0);
+          <% else %>
+          this.formComponent().scrollIntoView();
+          <% end %>
 				}.bind(self))
 			}
 		},
