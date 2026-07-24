@@ -198,6 +198,9 @@ en:
     field_is_invalid: "Please enter a valid value: "
     chars_remaining: "Chars remaining: "
     enter_other_text: "Enter other text"
+    turnstile_verify: "Please complete the verification challenge, then resubmit."
+    turnstile_expired: "Verification expired. Please complete the challenge again."
+    turnstile_error: "Verification could not be completed. Please try again."
   header:
     official: "An official website of the United States government"
     heres_how_you_know: "Here’s how you know"

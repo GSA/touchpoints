@@ -44,7 +44,7 @@ function FBAform(d, N) {
 				this.options.formSpecificScript();
 			}
 			<%- if form.enable_turnstile? %>
-			this.loadTurnstile();
+			this.lazyLoadTurnstile();
 			<% end %>
 			<%- if form.has_rich_text_questions? %>
 			this.loadQuill();
@@ -212,12 +212,22 @@ function FBAform(d, N) {
 			var self = this;
 			if (self.validateForm(formElement)) {
 				<%- if form.enable_turnstile? %>
-				const elapsed = Date.now() - self.turnstileInitiatedAt;
-				if (elapsed > 5 * 60 * 1000) {
-					self.initTurnstile();
-					self.turnstileInitiatedAt = Date.now();
-					return false;
-				}
+        var input = this.turnstileResponseInput();
+        if (!input || !input.value) {
+          <%# Re-enable the submit button(s) so the user can resubmit after re-verifying. %>
+          var submitButtons = this.formElement().querySelectorAll("[type='submit']");
+          Array.prototype.forEach.call(submitButtons, function(submitButton) {
+            submitButton.disabled = false;
+            submitButton.classList.remove("aria-disabled");
+          });
+          self.showTurnstileMessage("<%= I18n.t 'form.turnstile_verify' %>");
+          return false;
+        }
+//				if (!self.turnstileTokenIsValid()) {
+//					self.refreshTurnstile();
+//					self.showTurnstileMessage("<%= I18n.t 'form.turnstile_verify' %>");
+//					return false;
+//				}
 				<% end %>
 
 				// disable submit button
@@ -236,6 +246,13 @@ function FBAform(d, N) {
 			var self = this;
 			var formElement = this.formElement();
 			if (self.validateForm(formElement)) {
+				<%- if form.enable_turnstile? %>
+				if (!self.turnstileTokenIsValid()) {
+					self.refreshTurnstile();
+					self.showTurnstileMessage("<%= escape_javascript(I18n.t('form.turnstile_verify', default: 'Please complete the verification challenge again, then resubmit.')) %>");
+					return false;
+				}
+				<% end %>
 				var submitButtons = formElement.querySelectorAll("[type='submit']");
 				Array.prototype.forEach.call(submitButtons, function(submitButton) {
 					submitButton.disabled = true;
@@ -583,7 +600,11 @@ function FBAform(d, N) {
 			xhr.onload = callback.bind(this);
 			xhr.send(JSON.stringify({
 				<%- if form.enable_turnstile? %>
-				"cf-turnstile-response" : form.querySelector("input[name='cf-turnstile-response']") ? form.querySelector("input[name='cf-turnstile-response']").value : null,
+				"cf-turnstile-response" : (function() {
+					var turnstileInput = form.querySelector("input[name='cf-turnstile-response']");
+					var token = turnstileInput ? turnstileInput.value.trim() : "";
+					return token.length > 0 ? token : null;
+				})(),
 				<% end %>
 				"submission": params,
 				<%- if form.verify_csrf? %>
@@ -719,23 +740,171 @@ function FBAform(d, N) {
 		},
 		<% end %>
 		<%- if form.enable_turnstile? %>
-		loadTurnstile: function() {
-			let script = document.createElement("script");
-			script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
-			script.async = true;
-			script.defer = true;
-			script.onload = this.initTurnstile;
-			this.turnstileInitiatedAt = Date.now();
-			if (!window.turnstile) {
-				document.head.appendChild(script);
+		<%# Tokens are single-use and Cloudflare expires them after ~5 minutes. %>
+		<%# Treat a token older than 4 minutes (or absent/cleared) as invalid. %>
+		turnstileTokenMaxAgeMs: 4 * 60 * 1000,
+		turnstileTokenIsValid: function() {
+			var input = this.turnstileResponseInput();
+			if (!input || !input.value) {
+				return false;
+			}
+			if (typeof this.turnstileTokenIssuedAt !== 'number') {
+				return false;
+			}
+			return (Date.now() - this.turnstileTokenIssuedAt) < this.turnstileTokenMaxAgeMs;
+		},
+		turnstileResponseInput: function() {
+			return this.formComponent().querySelector("input[name='cf-turnstile-response']");
+		},
+		turnstileContainer: function() {
+			return this.formComponent().querySelector("#turnstile-container");
+		},
+		clearTurnstileToken: function() {
+			var input = this.turnstileResponseInput();
+			if (input) {
+				input.value = "";
+			}
+			this.turnstileTokenIssuedAt = null;
+		},
+		showTurnstileMessage: function(message) {
+			var container = this.turnstileContainer();
+			if (!container) {
+				return;
+			}
+			var messageEl = container.parentNode.querySelector(".fba-turnstile-message");
+			if (!messageEl) {
+				messageEl = d.createElement("div");
+				messageEl.setAttribute("class", "fba-turnstile-message usa-error-message");
+				messageEl.setAttribute("role", "alert");
+				container.parentNode.insertBefore(messageEl, container.nextSibling);
+			}
+			messageEl.innerText = message;
+		},
+		clearTurnstileMessage: function() {
+			var container = this.turnstileContainer();
+			if (!container) {
+				return;
+			}
+			var messageEl = container.parentNode.querySelector(".fba-turnstile-message");
+			if (messageEl) {
+				messageEl.parentNode.removeChild(messageEl);
 			}
 		},
-		initTurnstile: function() {
-			turnstile.remove("#turnstile-container");
-			turnstile.render("#turnstile-container", {
+    <%# Defer loading the Turnstile challenge until the user actually engages with %>
+    <%# the form, so we don't run a challenge for the many visitors who never %>
+    <%# interact. Triggers on first form interaction and on modal open. %>
+		lazyLoadTurnstile: function() {
+			var self = this;
+			this.turnstileRequested = false;
+
+			<%# Load the challenge at most once, on the first sign of engagement. %>
+			var trigger = function() {
+        <%# One-shot guard: load the Turnstile API + render the widget only once. %>
+        if (self.turnstileRequested) {
+          return;
+        }
+        self.turnstileRequested = true;
+        self.loadTurnstile();
+			};
+
+			<%# First interaction with any form field (covers all delivery methods). %>
+			<%# focusin bubbles (unlike focus); { once: true } auto-removes the listener. %>
+			var formElement = this.formElement();
+			if (formElement) {
+				formElement.addEventListener('focusin', trigger, { once: true });
+				formElement.addEventListener('input', trigger, { once: true });
+			}
+		},
+		loadTurnstile: function() {
+			var self = this;
+			if (window.turnstile) {
+				<%# API already loaded (host page or another form loaded it) — render now. %>
+				this.initTurnstileWidget();
+				return;
+			}
+			var script = d.createElement("script");
+			script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+			script.onload = function() {
+				self.initTurnstileWidget();
+			};
+			script.onerror = function() {
+				console.error("Touchpoints: failed to load Cloudflare Turnstile API.");
+			};
+			d.head.appendChild(script);
+		},
+    refreshTurnstile: function() {
+      <%# Re-enable the submit button(s) so the user can resubmit after re-verifying. %>
+      var submitButtons = this.formElement().querySelectorAll("[type='submit']");
+      Array.prototype.forEach.call(submitButtons, function(submitButton) {
+        submitButton.disabled = false;
+        submitButton.classList.remove("aria-disabled");
+      });
+      this.clearTurnstileToken();
+      this.initTurnstileWidget();
+    },
+		initTurnstileWidget: function() {
+			var self = this;
+			this.turnstileTokenIssuedAt = null;
+			if (!window.turnstile) {
+				<%# Script not ready yet; loadTurnstile's onload will invoke initTurnstile. %>
+				return;
+			}
+			var container = this.turnstileContainer();
+			if (!container) {
+				console.error("Touchpoints: Turnstile container not found.");
+				return;
+			}
+//			if (this.turnstileWidgetId != null) {
+				<%# Reset the existing widget rather than remove/re-render to avoid errors. %>
+//				try {
+//					turnstile.reset(this.turnstileWidgetId);
+//					this.clearTurnstileToken();
+//					return;
+//				} catch (e) {
+					<%# Fall through to a fresh render if reset fails. %>
+//					try { turnstile.remove(this.turnstileWidgetId); } catch (removeErr) {}
+//					this.turnstileWidgetId = null;
+//				}
+//			}
+			this.turnstileWidgetId = turnstile.render(container, {
 				sitekey: "<%= ENV['TURNSTILE_SITE_KEY'] %>",
+				retry: "never",
 				callback: function (token) {
-					document.querySelector("input[name='cf-turnstile-response']").value = token;
+					var input = self.turnstileResponseInput();
+					if (input) {
+						input.value = token;
+					}
+					// self.turnstileTokenIssuedAt = Date.now();
+					// self.clearTurnstileMessage();
+				},
+//				'expired-callback': function () {
+					<%# Cloudflare expired the token; drop it so we never submit a stale token. %>
+//					self.clearTurnstileToken();
+//					self.showTurnstileMessage("<%= escape_javascript(I18n.t('form.turnstile_expired', default: 'Verification expired. Please complete the challenge again.')) %>");
+//				},
+//				'timeout-callback': function () {
+//					self.clearTurnstileToken();
+//				},
+				'error-callback': function (errorCode) {
+					// self.clearTurnstileToken();
+
+					<%# Configuration errors (e.g. 110200 unauthorized domain, 1101xx bad %>
+					<%# sitekey) will never succeed on retry. Stop and log — do not re-render. %>
+					var code = String(errorCode || "");
+					if (code.indexOf("1101") === 0 || code.indexOf("1102") === 0 || code.indexOf("4000") === 0) {
+						console.error("Touchpoints: Turnstile configuration error; not retrying.", errorCode);
+						return true;
+					}
+
+					<%# Transient error: inform the user and retry once ourselves after a short delay. %>
+					console.error("Touchpoints: Turnstile error occurred.", errorCode);
+					self.showTurnstileMessage("<%= escape_javascript(I18n.t('form.turnstile_error', default: 'Verification could not be completed. Please try again.')) %>");
+					N.setTimeout(function () {
+						if (self.turnstileWidgetId != null) {
+							try { turnstile.reset(self.turnstileWidgetId); } catch (e) {}
+						}
+					}, 2000);
+					return true;
 				}
 			});
 		},
