@@ -44,7 +44,7 @@ function FBAform(d, N) {
 				this.options.formSpecificScript();
 			}
 			<%- if form.enable_turnstile? %>
-			this.loadTurnstile();
+			this.lazyLoadTurnstile();
 			<% end %>
 			<%- if form.has_rich_text_questions? %>
 			this.loadQuill();
@@ -215,7 +215,6 @@ function FBAform(d, N) {
 				const elapsed = Date.now() - self.turnstileInitiatedAt;
 				if (elapsed > 5 * 60 * 1000) {
 					self.initTurnstile();
-					self.turnstileInitiatedAt = Date.now();
 					return false;
 				}
 				<% end %>
@@ -719,18 +718,47 @@ function FBAform(d, N) {
 		},
 		<% end %>
 		<%- if form.enable_turnstile? %>
+    <%# Defer loading the Turnstile challenge until the user actually engages with %>
+    <%# the form, so we don't run a challenge for the many visitors who never %>
+    <%# interact. Triggers on first form interaction and on modal open. %>
+    lazyLoadTurnstile: function() {
+      let self = this;
+      this.turnstileRequested = false;
+
+      <%# Load the challenge at most once, on the first sign of engagement. %>
+      let trigger = function() {
+        <%# One-shot guard: load the Turnstile API + render the widget only once. %>
+        if (self.turnstileRequested) {
+          return;
+        }
+        self.turnstileRequested = true;
+        self.loadTurnstile();
+      };
+
+      <%# First interaction with any form field (covers all delivery methods). %>
+      <%# focusin bubbles (unlike focus); { once: true } auto-removes the listener. %>
+      let formElement = this.formElement();
+      if (formElement) {
+        formElement.addEventListener('focusin', trigger, { once: true });
+        formElement.addEventListener('input', trigger, { once: true });
+      }
+    },
 		loadTurnstile: function() {
+      if (window.turnstile) {
+        <%# API already loaded (host page or another form loaded it) — render now. %>
+        this.initTurnstile();
+        return;
+      }
 			let script = document.createElement("script");
-			script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
-			script.async = true;
-			script.defer = true;
+      script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
 			script.onload = this.initTurnstile;
-			this.turnstileInitiatedAt = Date.now();
-			if (!window.turnstile) {
-				document.head.appendChild(script);
-			}
+      script.onerror = function() {
+        console.error("Touchpoints: failed to load Cloudflare Turnstile API.");
+      }
+      document.head.appendChild(script);
 		},
 		initTurnstile: function() {
+      this.turnstileInitiatedAt = Date.now();
 			turnstile.remove("#turnstile-container");
 			turnstile.render("#turnstile-container", {
 				sitekey: "<%= ENV['TURNSTILE_SITE_KEY'] %>",
