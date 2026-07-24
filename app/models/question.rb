@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Question < ApplicationRecord
+  has_paper_trail
+
   belongs_to :form, counter_cache: true
   belongs_to :form_section
   has_many :question_options, dependent: :destroy

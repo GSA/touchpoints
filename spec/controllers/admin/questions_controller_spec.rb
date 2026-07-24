@@ -115,6 +115,15 @@ RSpec.describe Admin::QuestionsController, type: :controller do
         put :update, params: { id: question.to_param, question: valid_attributes }, session: valid_session
         expect(response).to redirect_to(question)
       end
+
+      it 'records a version attributed to the current user' do
+        form = FactoryBot.create(:form, :open_ended_form, organization:)
+        question = form.questions.first
+        put :update, params: { form_id: form.short_uuid, id: question.to_param, question: { text: 'Audited question text' } }, session: valid_session
+        question.reload
+        expect(question.versions.last.event).to eq('update')
+        expect(question.versions.last.whodunnit).to eq(admin.id.to_s)
+      end
     end
 
     context 'with invalid params' do
