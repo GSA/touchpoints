@@ -198,7 +198,7 @@ en:
     field_is_invalid: "Please enter a valid value: "
     chars_remaining: "Chars remaining: "
     enter_other_text: "Enter other text"
-    turnstile_complete_captcha: "Please complete the CAPTCHA before submitting the form."
+    turnstile_complete_captcha: "Security verification is required."
   header:
     official: "An official website of the United States government"
     heres_how_you_know: "Here’s how you know"

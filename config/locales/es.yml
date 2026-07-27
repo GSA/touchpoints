@@ -42,7 +42,7 @@ es:
     field_is_invalid: "Por favor ingrese una cifra válida: "
     chars_remaining: "Caracteres restantes: "
     enter_other_text: "Ingresa otro texto"
-    turnstile_complete_captcha: "Por favor complete el CAPTCHA antes de enviar el formulario."
+    turnstile_complete_captcha: "Se requiere verificación de seguridad."
   header:
     official: "Un sitio web oficial del gobierno de los Estados Unidos"
     heres_how_you_know: "Así es como sabes"

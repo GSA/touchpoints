@@ -757,11 +757,17 @@ function FBAform(d, N) {
 				sitekey: "<%= ENV['TURNSTILE_SITE_KEY'] %>",
         appearance: "execute",
         execution: "execute",
+        callback: function() {
+          self.clearTurnstileValidationError();
+        },
         'timeout-callback': function() {
           self.regenerateTurnstileToken();
         },
         'expired-callback': function() {
           self.regenerateTurnstileToken();
+        },
+        'error-callback': function() {
+          return false;
         }
 			});
       
@@ -782,11 +788,14 @@ function FBAform(d, N) {
       turnstile.reset(this.turnstileWidgetId);
       turnstile.execute(this.turnstileWidgetId);
     },
-    validateTurnstile() {
+    clearTurnstileValidationError: function() {
       let error = this.turnstileContainer().querySelector('#turnstile-error-message');
       if (error) {
         error.parentNode.removeChild(error);
       }
+    },
+    validateTurnstile: function() {
+      this.clearTurnstileValidationError();
       const turnstileToken = turnstile.getResponse(self.turnstileWidgetId);
       if (!turnstileToken) {
         let span = d.createElement('span');
