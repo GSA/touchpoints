@@ -210,22 +210,22 @@ function FBAform(d, N) {
 			this.resetErrors();
 			var formElement = this.formElement();
 			var self = this;
-			if (self.validateForm(formElement)) {
-				<%- if form.enable_turnstile? %>
-				const elapsed = Date.now() - self.turnstileInitiatedAt;
-				if (elapsed > 5 * 60 * 1000) {
-					self.initTurnstile();
-					self.turnstileInitiatedAt = Date.now();
-					return false;
-				}
-				<% end %>
 
-				// disable submit button
-				var submitButton = formElement.querySelector("[type='submit']");
-				submitButton.disabled = true;
-				submitButton.classList.add("aria-disabled");
-				self.sendFeedback();
-			}
+      if (!self.validateForm(formElement)) {
+        return;
+      }
+
+      <%- if form.enable_turnstile? %>
+      if (!self.validateTurnstile()) {
+        return;
+      }
+      <% end %>
+
+      // disable submit button
+      var submitButton = formElement.querySelector("[type='submit']");
+      submitButton.disabled = true;
+      submitButton.classList.add("aria-disabled");
+      self.sendFeedback();
 		},
 		handleYesNoSubmitClick: function(e) {
 			e.preventDefault();
@@ -531,6 +531,11 @@ function FBAform(d, N) {
 						submitButton.disabled = false;
 					}
 
+          <%# Turnstile tokens are single-use so must be re-generated after submission failure %>
+          <%- if form.enable_turnstile? %>
+          this.regenerateTurnstileToken();
+          <% end %>
+
 					var jsonResponse = JSON.parse(e.target.response);
 					var errors = jsonResponse.messages;
 
@@ -583,6 +588,7 @@ function FBAform(d, N) {
 			xhr.onload = callback.bind(this);
 			xhr.send(JSON.stringify({
 				<%- if form.enable_turnstile? %>
+        <%# This hidden form field is automatically created and managed by Turnstile. %>
 				"cf-turnstile-response" : form.querySelector("input[name='cf-turnstile-response']") ? form.querySelector("input[name='cf-turnstile-response']").value : null,
 				<% end %>
 				"submission": params,
@@ -719,26 +725,80 @@ function FBAform(d, N) {
 		},
 		<% end %>
 		<%- if form.enable_turnstile? %>
+    turnstileContainer: function() {
+      return this.formComponent().querySelector("#fba-turnstile-container");
+    },
 		loadTurnstile: function() {
+      if (window.turnstile) {
+        <%# API already loaded (host page or another form loaded it) — render now. %>
+        this.initTurnstile();
+        return;
+      }
 			let script = document.createElement("script");
-			script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
-			script.async = true;
-			script.defer = true;
-			script.onload = this.initTurnstile;
-			this.turnstileInitiatedAt = Date.now();
-			if (!window.turnstile) {
-				document.head.appendChild(script);
-			}
+      script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+			script.onload = this.initTurnstile.bind(this);
+      document.head.appendChild(script);
 		},
 		initTurnstile: function() {
-			turnstile.remove("#turnstile-container");
-			turnstile.render("#turnstile-container", {
+      let self = this;
+      this.challengeExecuted = false;
+
+      <%# Load the challenge at most once, on the first sign of engagement. %>
+      let trigger = function() {
+        if (self.challengeExecuted) {
+          return;
+        }
+        self.challengeExecuted = true;
+        self.turnstileContainer().classList.add('is-visible');
+        turnstile.execute(self.turnstileWidgetId);
+      };
+
+			this.turnstileWidgetId = turnstile.render(this.turnstileContainer(), {
 				sitekey: "<%= ENV['TURNSTILE_SITE_KEY'] %>",
-				callback: function (token) {
-					document.querySelector("input[name='cf-turnstile-response']").value = token;
-				}
+        appearance: "execute",
+        execution: "execute",
+        'timeout-callback': function() {
+          self.regenerateTurnstileToken();
+        },
+        'expired-callback': function() {
+          self.regenerateTurnstileToken();
+        }
 			});
+      
+      <%- if form.delivery_method == "touchpoints-hosted-only" %>
+      <%# Hosted mode: the form is the whole page, so run the challenge %>
+      <%# immediately rather than waiting for interaction. %>
+      trigger();
+      <% else %>
+      <%# Defer loading the Turnstile challenge until the user actually engages with %>
+      <%# the form, so we don't run a challenge for the many visitors who never interact. %>
+      let formElement = this.formElement();
+      if (formElement) {
+        formElement.addEventListener('input', trigger, { once: true });
+      }
+      <% end %>
 		},
+    regenerateTurnstileToken: function() {
+      turnstile.reset(this.turnstileWidgetId);
+      turnstile.execute(this.turnstileWidgetId);
+    },
+    validateTurnstile() {
+      let error = this.turnstileContainer().querySelector('#turnstile-error-message');
+      if (error) {
+        error.parentNode.removeChild(error);
+      }
+      const turnstileToken = turnstile.getResponse(self.turnstileWidgetId);
+      if (!turnstileToken) {
+        let span = d.createElement('span');
+        span.setAttribute('id', 'turnstile-error-message');
+        span.setAttribute('role','alert');
+        span.setAttribute('class','usa-error-message');
+        span.innerText = '<%= I18n.t 'form.turnstile_complete_captcha' %>';
+        this.turnstileContainer().prepend(span);
+        return false;
+      }
+      return true;
+    },
 		<% end %>
 		enableLocalStorage: function() {
 			const form = this.formElement();
