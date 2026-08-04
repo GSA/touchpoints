@@ -589,7 +589,7 @@ function FBAform(d, N) {
 			xhr.send(JSON.stringify({
 				<%- if form.enable_turnstile? %>
         <%# This hidden form field is automatically created and managed by Turnstile. %>
-				"cf-turnstile-response" : form.querySelector("input[name='cf-turnstile-response']") ? form.querySelector("input[name='cf-turnstile-response']").value : null,
+				"cf_turnstile_response" : form.querySelector("input[name='cf_turnstile_response']") ? form.querySelector("input[name='cf_turnstile_response']").value : null,
 				<% end %>
 				"submission": params,
 				<%- if form.verify_csrf? %>
@@ -757,6 +757,7 @@ function FBAform(d, N) {
 				sitekey: "<%= ENV['TURNSTILE_SITE_KEY'] %>",
         appearance: "execute",
         execution: "execute",
+        'response-field-name': 'cf_turnstile_response',
         callback: function() {
           self.clearTurnstileValidationError();
         },
@@ -796,7 +797,7 @@ function FBAform(d, N) {
     },
     validateTurnstile: function() {
       this.clearTurnstileValidationError();
-      const turnstileToken = turnstile.getResponse(self.turnstileWidgetId);
+      const turnstileToken = turnstile.getResponse(this.turnstileWidgetId);
       if (!turnstileToken) {
         let span = d.createElement('span');
         span.setAttribute('id', 'turnstile-error-message');

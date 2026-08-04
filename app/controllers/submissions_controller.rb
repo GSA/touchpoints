@@ -70,7 +70,7 @@ class SubmissionsController < ApplicationController
 
   def create_in_local_database(submission)
     if submission.form.enable_turnstile?
-      if verify_turnstile(params['cf-turnstile-response'])
+      if verify_turnstile(params[:cf_turnstile_response])
         submission.spam_prevention_mechanism = :turnstile
       else
         submission.errors.add(:base, 'Turnstile verification failed')
@@ -165,7 +165,7 @@ class SubmissionsController < ApplicationController
   def submission_params
     permitted_fields = @form.questions.collect(&:answer_field)
     permitted_fields << %i[language location_code referer hostname page query_string fba_directive]
-    permitted_fields << %i[cf-turnstile-response]
+    permitted_fields << %i[cf_turnstile_response]
     params.require(:submission).permit(permitted_fields)
   end
 
