@@ -146,6 +146,41 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
     end
   end
 
+  describe 'POST #mark' do
+    before do
+      @submission = Submission.create! valid_attributes
+      post :mark, format: :js, params: { id: @submission.to_param, form_id: form.short_uuid }, session: valid_session
+      @submission.reload
+    end
+
+    it 'marks the submission as spam' do
+      expect(@submission.spam).to be true
+    end
+
+    it 'records manual provenance in spam_determination' do
+      expect(@submission.spam_determination).to eq('source' => 'manual')
+    end
+  end
+
+  describe 'POST #unmark' do
+    let(:submission) { FactoryBot.create(:submission, form:) }
+
+    before do
+      submission.update_columns(spam: true, spam_determination: { 'source' => 'manual' })
+
+      post :unmark, format: :js, params: { id: submission.to_param, form_id: form.short_uuid }, session: valid_session
+      submission.reload
+    end
+
+    it 'unmarks the submission as spam' do
+      expect(submission.spam).to be false
+    end
+
+    it 'clears spam_determination' do
+      expect(submission.spam_determination).to be_nil
+    end
+  end
+
   describe 'POST #bulk_update' do
     let!(:submission) { FactoryBot.create(:submission, form:) }
     let!(:submission2) { FactoryBot.create(:submission, form:) }
@@ -184,6 +219,12 @@ RSpec.describe Admin::SubmissionsController, type: :controller do
         expect(response.status).to eq(302)
         expect(flash[:notice]).to eq("3 Submissions marked as spam.")
         expect(Submission.marked_as_spam.count).to eq(3)
+      end
+
+      it 'records manual provenance on each submission' do
+        Submission.all.each do |s|
+          expect(s.spam_determination).to eq('source' => 'manual')
+        end
       end
     end
 

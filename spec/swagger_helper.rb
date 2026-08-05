@@ -1051,6 +1051,17 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
                 type: 'boolean',
                 description: 'Whether this submission has been flagged for review.',
               },
+              spam: {
+                type: 'boolean',
+                description: 'Whether this submission has been marked as spam (manually or by automated spam detection).',
+              },
+              spam_determination: {
+                type: 'object',
+                nullable: true,
+                description: 'Provenance of the spam determination. For manual marks: { source: "manual" }. ' \
+                             'For automated marks: { source: "automated", checks: { <check_name>: <status> } }. ' \
+                             'Null when the submission is not marked as spam.',
+              },
               archived: {
                 type: 'boolean',
                 description: 'Whether this submission has been archived.',

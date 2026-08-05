@@ -186,14 +186,6 @@
           </tr>
           <tr>
             <td>
-              Spam prevention mechanism
-            </td>
-            <td>
-              <%= h(@submission.spam_prevention_mechanism) %>
-            </td>
-          </tr>
-          <tr>
-            <td>
               Language
             </td>
             <td>
@@ -214,6 +206,16 @@
             </td>
             <td>
               <%= @submission.spam? %>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Spam determination
+            </td>
+            <td>
+              <%- if @submission.spam_determination.present? %>
+                <%= h(@submission.spam_determination.to_json) %>
+              <% end %>
             </td>
           </tr>
           <tr>

@@ -173,14 +173,16 @@ module Admin
       ensure_form_manager(form: @form)
 
       Event.log_event(Event.names[:response_marked_as_spam], 'Submission', @submission.id, "Submission #{@submission.id} marked as spam at #{DateTime.now}", current_user.id)
-      @submission.update_attribute(:spam, true)
+      @submission.assign_attributes(spam: true, spam_determination: { 'source' => 'manual' })
+      @submission.save(validate: false)
     end
 
     def unmark
       ensure_form_manager(form: @form)
 
       Event.log_event(Event.names[:response_unmarked_as_spam], 'Submission', @submission.id, "Submission #{@submission.id} unmarked as spam at #{DateTime.now}", current_user.id)
-      @submission.update_attribute(:spam, false)
+      @submission.assign_attributes(spam: false, spam_determination: nil)
+      @submission.save(validate: false)
     end
 
     def delete
@@ -294,7 +296,8 @@ module Admin
         when 'spam'
           submissions.each do |submission|
             Event.log_event(Event.names[:response_marked_as_spam], 'Submission', submission.id, "Submission #{submission.id} marked as spam at #{DateTime.now}", current_user.id)
-            submission.update_attribute(:spam, true)
+            submission.assign_attributes(spam: true, spam_determination: { 'source' => 'manual' })
+            submission.save(validate: false)
           end
           flash[:notice] = "#{view_context.pluralize(submissions.count, 'Submission')} marked as spam."
         when 'delete'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_18_210000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_05_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -624,6 +624,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_210000) do
     t.text "query_string"
     t.string "referer"
     t.boolean "spam", default: false
+    t.jsonb "spam_determination", comment: "Provenance of a spam determination: which source (manual/automated) and, for automated, which checks fired. Never contains free-text detail."
     t.string "spam_prevention_mechanism", default: "", comment: "Specify which spam prevention mechanism was used, if any."
     t.integer "spam_score", default: 0
     t.string "tags", default: [], array: true

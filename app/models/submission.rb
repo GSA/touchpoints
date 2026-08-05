@@ -67,6 +67,7 @@ class Submission < ApplicationRecord
     answered_questions.delete('tags')
     answered_questions.delete('spam_prevention_mechanism')
     answered_questions.delete('spam_score')
+    answered_questions.delete('spam_determination')
     answered_questions.delete('flagged')
     answered_questions.delete('spam')
     answered_questions.delete('archived')

@@ -1087,6 +1087,17 @@ components:
         flagged:
           type: boolean
           description: Whether this submission has been flagged for review.
+        spam:
+          type: boolean
+          description: Whether this submission has been marked as spam (manually or
+            by automated spam detection).
+        spam_determination:
+          type: object
+          nullable: true
+          description: 'Provenance of the spam determination. For manual marks: {
+            source: "manual" }. For automated marks: { source: "automated", checks:
+            { <check_name>: <status> } }. Null when the submission is not marked as
+            spam.'
         archived:
           type: boolean
           description: Whether this submission has been archived.
@@ -1978,6 +1989,7 @@ paths:
                       whitelist_url_9:
                       whitelist_test_url: ''
                       header_logo_display: banner
+                      logo_alt_text:
                       success_text_heading: Success
                       success_text: Thank you. We appreciate your feedback, and will
                         consider it as we evolve our services.
@@ -2248,6 +2260,8 @@ paths:
                       ip_address: 62.107.32.31
                       location_code: ''
                       flagged: false
+                      spam: false
+                      spam_determination:
                       archived: false
                       deleted: false
                       deleted_at:
@@ -2302,6 +2316,8 @@ paths:
                       ip_address: 62.107.32.31
                       location_code: ''
                       flagged: false
+                      spam: false
+                      spam_determination:
                       archived: false
                       deleted: false
                       deleted_at:
