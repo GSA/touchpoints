@@ -43,6 +43,8 @@ class SubmissionSerializer < ActiveModel::Serializer
              :ip_address,
              :location_code,
              :flagged,
+             :spam,
+             :spam_determination,
              :archived,
              :deleted,
              :deleted_at,

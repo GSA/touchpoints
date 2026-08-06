@@ -89,6 +89,18 @@ RSpec.describe Submission, type: :model do
     end
   end
 
+  describe 'spam_determination' do
+    it 'defaults to nil' do
+      expect(submission.spam_determination).to be_nil
+    end
+
+    it 'does not make spam_determination an invalid submission field on create' do
+      new_submission = Submission.new(form:, answer_01: 'ok')
+      new_submission.spam_determination = { 'source' => 'manual' }
+      expect(new_submission).to be_valid
+    end
+  end
+
   describe "callbacks" do
     describe "after_create :set_preview" do
       let(:open_ended_contact_form) { FactoryBot.create(:form, :open_ended_form_with_contact_information, organization:, notification_emails: "#{admin.email}, second@example.gov") }
