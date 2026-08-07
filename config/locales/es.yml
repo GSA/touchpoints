@@ -161,7 +161,7 @@ es:
   errors:
     format: "%{attribute} %{message}"
     request:
-      unauthorized_host: "solicitud realizada desde un host no autorizado"
+      try_again: "Vuelva a intentarlo."
     messages:
       accepted: debe ser aceptado
       blank: no puede estar en blanco

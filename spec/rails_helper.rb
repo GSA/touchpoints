@@ -65,7 +65,7 @@ Capybara.raise_server_errors = true
 Capybara.server = :puma
 Capybara.server_host = '127.0.0.1'
 Capybara.server_port = 3000
-Capybara.app_host = 'http://127.0.0.1:3000'
+Capybara.app_host = 'http://localhost:3000'
 
 TEST_API_KEY = '1234567890123456789012345678901234567890'
 

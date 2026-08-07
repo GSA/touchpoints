@@ -1,0 +1,67 @@
+<%# Explains that a response is spam, plus how and why it was flagged. %>
+<%# Expects: submission %>
+<% determination = submission.spam_determination %>
+<% source = determination.present? ? determination["source"] : nil %>
+<% reasons = determination.present? ? Array(determination["reasons"]) : [] %>
+<% reason_context = determination.present? ? (determination["context"] || {}) : {} %>
+<% if source == 'manual'%>
+  <div class="usa-alert usa-alert--info margin-bottom-1">
+    <div class="usa-alert__body">
+      <p class="usa-alert__text">
+        This response was marked as spam by a member of your team.
+      </p>
+    </div>
+  </div>
+<% elsif source == 'automated' %>
+  <div class="usa-alert usa-alert--warning margin-bottom-1">
+    <div class="usa-alert__body">
+      <h4 class="usa-alert__heading">This response was automatically marked as spam by Touchpoints.</h4>
+      <% if reasons.any? %>
+        <p class="usa-alert__text margin-bottom-0">
+          Why it was marked:
+        </p>
+        <ul class="usa-list margin-top-05">
+          <% reasons.each do |reason| %>
+            <li>
+              <span class="text-bold"><%= spam_reason_label(reason) %></span>
+              <% if (description = spam_reason_description(reason, reason_context[reason])).present? %>
+                &mdash; <%= description %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+
+      <% if form_permissions?(form: submission.form) %>
+        <ul class="usa-button-group">
+          <li class="usa-button-group__item">
+            <%= link_to mark_admin_form_submission_path(submission.form, submission, context: :show),
+              class: "usa-button usa-button--outline",
+              "aria-label" => "Confirm submission #{submission.id} as spam",
+              title: "Confirm submission #{submission.id} as spam",
+              method: :post,
+              remote: true,
+              data: { confirm: 'Confirm this response as spam?' },
+              rel: "nofollow" do %>
+              <i class="fa fa-check" aria-hidden="true"></i>
+              Confirm as spam
+            <% end %>
+          </li>
+          <li class="usa-button-group__item">
+            <%= link_to unmark_admin_form_submission_path(submission.form, submission, context: :show),
+              class: "usa-button usa-button--outline",
+              "aria-label" => "Unmark submission #{submission.id} as spam",
+              title: "Unmark submission #{submission.id} as spam",
+              method: :post,
+              remote: true,
+              data: { confirm: 'Unmark this response as spam?' },
+              rel: "nofollow" do %>
+              <i class="fa fa-times" aria-hidden="true"></i>
+              Unmark as spam
+            <% end %>
+          </li>
+        </ul>
+      <% end %>
+    </div>
+  </div>
+<% end %>

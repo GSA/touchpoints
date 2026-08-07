@@ -19,6 +19,14 @@ module Touchpoints
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     # Initialize an array of Omniauth providers
     config.x.omniauth.providers = []
+
+    # When enabled, spam submissions that are rejected are silently dropped
+    # (the client still receives a normal 200 OK) so spammers get no signal
+    # about what was detected. When disabled, rejected spam returns a 422.
+    # Kept as an env var toggle (per-deploy) but coerced to a real boolean so
+    # SILENTLY_REJECT_SPAM=false actually disables it.
+    config.x.silently_reject_spam =
+      ActiveModel::Type::Boolean.new.cast(ENV.fetch("SILENTLY_REJECT_SPAM", false))
     config.i18n.available_locales = %w[en es zh-CN]
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
     config.generators do |g|

@@ -15,6 +15,7 @@ applications:
     INDEX_URL: /admin
     SKIP_WIDGET_RENDERER: "true"
     API_GATEWAY_BASE_URL: https://api.gsa.gov/analytics/touchpoints
+    SILENTLY_REJECT_SPAM: "true"
     # Secrets managed via cf set-env (DO NOT add empty keys here):
     # - AWS_SES_ACCESS_KEY_ID
     # - AWS_SES_SECRET_ACCESS_KEY
