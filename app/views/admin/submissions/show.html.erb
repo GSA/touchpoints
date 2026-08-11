@@ -7,8 +7,11 @@
     Back to Responses
   <% end %>
 </p>
+<%- if @submission.spam? %>
+  <%= render "admin/submissions/spam_alert", submission: @submission %>
+<% end %>
 <%- if @submission.flagged? %>
-<div class="usa-alert usa-alert--error margin-bottom-1">
+<div class="usa-alert usa-alert--info margin-bottom-1">
   <div class="usa-alert__body">
     <p class="usa-alert__text">
       This response is flagged.
@@ -17,7 +20,7 @@
 </div>
 <% end %>
 <%- if @submission.archived? %>
-<div class="usa-alert usa-alert--warning margin-bottom-1">
+<div class="usa-alert usa-alert--info margin-bottom-1">
   <div class="usa-alert__body">
     <p class="usa-alert__text">
       This response is archived.
@@ -126,9 +129,8 @@
           <tr>
             <td>
               Location code
-              &nbsp;
               <a
-                href="https://github.com/GSA/touchpoints/wiki/Location-Codes"
+                href="https://github.com/GSA/touchpoints/wiki/Response-fields#location-codes"
                 target="_blank">
                 <i class="text-base fa fa-info-circle"></i></a>
             </td>
@@ -178,7 +180,11 @@
           </tr>
           <tr>
             <td>
-              Referer
+              Document referrer
+              <a
+                href="https://github.com/GSA/touchpoints/wiki/Response-Fields#document-referer"
+                target="_blank">
+                <i class="text-base fa fa-info-circle"></i></a>
             </td>
             <td>
               <%= h(@submission.referer) %>
@@ -197,7 +203,7 @@
               Flagged
             </td>
             <td>
-              <%= @submission.flagged %>
+              <%= boolean_to_text(@submission.flagged?) %>
             </td>
           </tr>
           <tr>
@@ -205,7 +211,7 @@
               Spam
             </td>
             <td>
-              <%= @submission.spam? %>
+              <%= boolean_to_text(@submission.spam?) %>
             </td>
           </tr>
           <tr>
@@ -214,7 +220,18 @@
             </td>
             <td>
               <%- if @submission.spam_determination.present? %>
-                <%= h(@submission.spam_determination.to_json) %>
+                <%- if @submission.spam_determination["source"] == "manual" %>
+                  Marked manually
+                <% end %>
+                <%- if @submission.spam_determination["source"] == "automated" %>
+                  Marked by Touchpoints
+                <% end %>
+                <%- if @submission.spam_determination["reasons"].present? %>
+                  <div>
+                    Reasons:
+                    <%= @submission.spam_determination["reasons"].map { |reason| spam_reason_label(reason) }.join(", ") %>
+                  </div>
+                <% end %>
               <% end %>
             </td>
           </tr>
@@ -223,7 +240,7 @@
               Archived
             </td>
             <td>
-              <%= @submission.archived? %>
+              <%= boolean_to_text(@submission.archived?) %>
             </td>
           </tr>
           <tr>
@@ -231,7 +248,7 @@
               Deleted
             </td>
             <td>
-              <%= @submission.deleted? %>
+              <%= boolean_to_text(@submission.deleted?) %>
             </td>
           </tr>
           <tr>

@@ -244,5 +244,9 @@ module ApplicationHelper
     Digest::SHA256.base64digest(data_to_encode)
   end
 
+  def boolean_to_text(value)
+    value ? 'Yes' : 'No'
+  end
+
   delegate :fiscal_year_and_quarter, to: :FiscalYear
 end

@@ -869,7 +869,7 @@ Note that all Form endpoints are read-only. To create, edit or share a form, you
               },
               referer: {
                 type: 'string',
-                description: 'HTTP Referer header value at time of submission. May be empty string.',
+                description: 'document.referrer from the page containing the survey. Indicates how the user arrived at the page containing the survey. May be empty string.',
               },
               hostname: {
                 type: 'string',

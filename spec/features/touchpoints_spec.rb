@@ -67,7 +67,7 @@ feature 'Touchpoints', js: true do
         end
 
         it 'fails the submission' do
-          expect(page).to have_content('this submission was not successful')
+          expect(page).to have_content('Submission rejected as spam')
           expect(page.current_path).to eq("/touchpoints/#{form.short_uuid}/submit") # stays on
         end
       end

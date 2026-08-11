@@ -81,22 +81,6 @@ RSpec.describe SubmissionsController, type: :controller do
   end
 
   describe 'POST #create' do
-    context 'SPAMBOT' do
-      it "won't create a submission if SPAMBOT detected" do
-        spam_attributes = {
-          form_id: form.id,
-          answer_01: 'body text',
-          answer_02: 'James',
-          answer_03: 'Madison',
-          answer_04: 'james.madison@lvh.me',
-          fba_directive: 'SPAM text',
-        }
-        expect do
-          post :create, params: { submission: spam_attributes, form_id: form.short_uuid }, session: valid_session
-        end.to change(Submission, :count).by(0)
-      end
-    end
-
     context 'with valid params and an ID' do
       it 'creates a new Submission' do
         expect do
@@ -127,6 +111,114 @@ RSpec.describe SubmissionsController, type: :controller do
       it 'redirects to the created submission' do
         post :create, params: { submission: valid_attributes, form_id: form.short_uuid }, session: valid_session
         expect(response).to redirect_to(submit_touchpoint_path(form))
+      end
+    end
+
+    context 'spam handling' do
+      # Stub the SpamChecker so these examples exercise the controller's
+      # response to each verdict without depending on real check behavior.
+      def stub_spam_verdict(verdict, flagged: [], flagged_context: {})
+        results = SpamChecker::SpamResults.new([])
+        allow(results).to receive(:verdict).and_return(verdict)
+        allow(results).to receive(:flagged).and_return(flagged)
+        allow(results).to receive(:flagged_context).and_return(flagged_context)
+        allow_any_instance_of(SpamChecker).to receive(:call).and_return(results)
+      end
+
+      context 'when the submission is rejected' do
+        before { stub_spam_verdict(:reject) }
+
+        context 'and spam is silently rejected' do
+          before do
+            allow(Rails.configuration.x).to receive(:silently_reject_spam).and_return(true)
+          end
+
+          it 'does not persist the submission' do
+            expect do
+              post :create, params: { submission: valid_attributes, form_id: form.short_uuid }, session: valid_session
+            end.to change(Submission, :count).by(0)
+            form.reload
+            expect(form.response_count).to eq(0)
+            expect(form.last_response_created_at).to be nil
+          end
+
+          it 'redirects as if the submission succeeded, giving the spammer no signal' do
+            post :create, params: { submission: valid_attributes, form_id: form.short_uuid }, session: valid_session
+            expect(response).to redirect_to(submit_touchpoint_path(form))
+          end
+        end
+
+        context 'and spam is loudly rejected' do
+          before do
+            allow(Rails.configuration.x).to receive(:silently_reject_spam).and_return(false)
+          end
+
+          it 'does not persist the submission' do
+            expect do
+              post :create, params: { submission: valid_attributes, form_id: form.short_uuid }, session: valid_session, format: :json
+            end.to change(Submission, :count).by(0)
+          end
+
+          it 'returns a 422 rejecting the submission as spam' do
+            post :create, params: { submission: valid_attributes, form_id: form.short_uuid }, session: valid_session, format: :json
+            expect(response.status).to eq(422)
+            expect(JSON.parse(response.body)['status']).to eq('unprocessable_content')
+            expect(JSON.parse(response.body)['messages']).to eq({ 'submission' => ['Submission rejected as spam'] })
+          end
+        end
+      end
+
+      context 'when the submission is surfaced for a retry' do
+        before { stub_spam_verdict(:surface) }
+
+        it 'does not persist the submission' do
+          expect do
+            post :create, params: { submission: valid_attributes, form_id: form.short_uuid }, session: valid_session, format: :json
+          end.to change(Submission, :count).by(0)
+        end
+
+        it 'returns a 422 prompting the user to try again' do
+          post :create, params: { submission: valid_attributes, form_id: form.short_uuid }, session: valid_session, format: :json
+          expect(response.status).to eq(422)
+          expect(JSON.parse(response.body)['status']).to eq('unprocessable_content')
+          expect(JSON.parse(response.body)['messages']).to eq({ 'submission' => [I18n.t('errors.request.try_again')] })
+        end
+      end
+
+      context 'when the submission is flagged' do
+        before { stub_spam_verdict(:flag, flagged: %w[honeypot]) }
+
+        it 'persists the submission' do
+          expect do
+            post :create, params: { submission: valid_attributes, form_id: form.short_uuid }, session: valid_session
+          end.to change(Submission, :count).by(1)
+        end
+
+        it 'marks the submission as spam with automated provenance' do
+          post :create, params: { submission: valid_attributes, form_id: form.short_uuid }, session: valid_session
+          submission = Submission.last
+          expect(submission.spam).to be(true)
+          expect(submission.spam_determination).to eq(
+            'source' => 'automated',
+            'reasons' => %w[honeypot],
+            'context' => {},
+          )
+        end
+
+        it 'persists per-check context alongside the reasons' do
+          stub_spam_verdict(
+            :flag,
+            flagged: %w[referer],
+            flagged_context: { 'referer' => { 'referer' => 'https://evil.example/' } },
+          )
+          post :create, params: { submission: valid_attributes, form_id: form.short_uuid }, session: valid_session
+          submission = Submission.last
+          expect(submission.spam_determination).to eq(
+            'source' => 'automated',
+            'reasons' => %w[referer],
+            'context' => { 'referer' => { 'referer' => 'https://evil.example/' } },
+          )
+        end
       end
     end
 

@@ -157,7 +157,7 @@ zh-CN:
   errors:
     format: "%{attribute}%{message}"
     request:
-      unauthorized_host: "来自非授权主机的请求"
+      try_again: "请重试。"
     messages:
       accepted: 必须是可被接受的
       blank: 不能为空字符
