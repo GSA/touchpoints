@@ -42,13 +42,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_05_000000) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "barriers", force: :cascade do |t|
-    t.datetime "created_at", precision: nil, null: false
-    t.text "description"
-    t.string "name"
-    t.datetime "updated_at", precision: nil, null: false
-  end
-
   create_table "collections", comment: "Quarterly CX Data Collection", force: :cascade do |t|
     t.string "aasm_state"
     t.datetime "created_at", null: false
@@ -86,6 +79,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_05_000000) do
     t.datetime "created_at", null: false
     t.integer "cx_collection_id"
     t.string "federal_register_url"
+    t.string "form_id"
     t.string "omb_control_number"
     t.text "reflection_text"
     t.integer "service_stage_id"
@@ -512,13 +506,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_05_000000) do
     t.string "url"
     t.integer "year_designated"
     t.index ["organization_id"], name: "index_service_providers_on_organization_id"
-  end
-
-  create_table "service_stage_barriers", force: :cascade do |t|
-    t.integer "barrier_id"
-    t.datetime "created_at", precision: nil, null: false
-    t.integer "service_stage_id"
-    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "service_stages", comment: "A step or stage within a Service, as used in a Business Process Model. eg: start, middle, end", force: :cascade do |t|
