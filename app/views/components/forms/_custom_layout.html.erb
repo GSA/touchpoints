@@ -1,7 +1,8 @@
+<%# locals: (form:, render_context:) %>
 <div class="inner-wrapper">
   <div class="grid-row">
     <div class="grid-col-12">
-      <%= render "components/forms/logo_and_title", form: form %>
+      <%= render "components/forms/logo_and_title", form: form, render_context: render_context %>
       <%- if form.instructions.present? %>
         <div class="fba-instructions margin-bottom-2">
           <%= sanitize(form.instructions) %>
@@ -14,8 +15,8 @@
           </small>
         </p>
       <% end %>
-      <%= render 'components/forms/flash', form: form %>
-      <%= render partial: "components/forms/custom", locals: { form: form, questions: form.questions } %>
+      <%= render 'components/forms/flash', form: form, render_context: render_context %>
+      <%= render partial: "components/forms/custom", locals: { form: form, render_context: render_context } %>
     </div>
   </div>
 </div>

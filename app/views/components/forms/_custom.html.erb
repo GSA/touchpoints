@@ -1,3 +1,5 @@
+<%# locals: (form:, render_context:) %>
+
 <% multi_section_question_number = 0 %>
 
 <form
@@ -80,7 +82,7 @@
             <% elsif question.question_type == "date_select" %>
               <%= render 'components/forms/question_types/date_select', form: form, question: question, question_number: multi_section_question_number %>
             <% elsif question.question_type == "custom_text_display" %>
-              <%= render 'components/forms/question_types/custom_text_display', form: form, question: question, question_number: multi_section_question_number %>
+              <%= render 'components/forms/question_types/custom_text_display', question: question, render_context: render_context %>
             <% end %>
           </div>
           <% else %>

@@ -248,5 +248,31 @@ module ApplicationHelper
     value ? 'Yes' : 'No'
   end
 
+  # Heading levels per render context and semantic role. The embedded widget is
+  # injected into host pages that already own the top-level <h1>, so its title
+  # is demoted to <h2> (and alerts to <h3>) to preserve valid heading order.
+  # Hosted forms own the page, so the title is the <h1>.
+  HEADING_LEVELS = {
+    hosted: { title: 'h1', alert: 'h2' },
+    embedded: { title: 'h2', alert: 'h3' },
+  }.freeze
+
+  # Render context is passed explicitly as a `render_context` local down each
+  # partial chain (:hosted from components/forms/_custom_layout and
+  # submissions/new, :embedded from components/widget/_no_modal). It defaults to
+  # :embedded so the widget still renders correctly when invoked from a bare
+  # model/helper call with no local set.
+  def form_render_context(render_context = nil)
+    render_context || :embedded
+  end
+
+  def title_heading_level(render_context = nil)
+    HEADING_LEVELS.fetch(form_render_context(render_context)).fetch(:title)
+  end
+
+  def alert_heading_level(render_context = nil)
+    HEADING_LEVELS.fetch(form_render_context(render_context)).fetch(:alert)
+  end
+
   delegate :fiscal_year_and_quarter, to: :FiscalYear
 end

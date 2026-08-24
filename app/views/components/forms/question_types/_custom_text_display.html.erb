@@ -4,9 +4,9 @@
   aria-label="Site alert">
   <div class="usa-alert">
     <div class="usa-alert__body">
-      <h3 class="usa-alert__heading">
+      <%= content_tag alert_heading_level(local_assigns[:render_context]), class: "usa-alert__heading" do %>
         <%= question.text.html_safe %>
-      </h3>
+      <% end %>
       <%- if question.help_text.present? %>
       <p class="usa-alert__text">
         <%= question.help_text.html_safe %>

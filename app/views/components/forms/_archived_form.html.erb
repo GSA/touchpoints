@@ -1,9 +1,10 @@
+<%# locals: (form:, render_context:) %>
 <br>
 <div class="usa-alert usa-alert--info">
   <div class="usa-alert__body">
-    <h3 class="usa-alert__heading">
+    <%= content_tag alert_heading_level(render_context), class: "usa-alert__heading" do %>
       This form is not currently accepting feedback
-    </h3>
+    <% end %>
     <p class="usa-alert__text">
       The form,
       <strong><%= form.title %></strong>,

@@ -1,8 +1,9 @@
+<%# locals: (form:, render_context:) %>
 <div class="fba-alert usa-alert usa-alert--success" role="status" hidden>
   <div class="usa-alert__body">
-    <h2 class="usa-alert__heading">
+    <%= content_tag alert_heading_level(render_context), class: "usa-alert__heading" do %>
       <%= form.success_text_heading %>
-    </h2>
+    <% end %>
     <div class="usa-alert__text">
       <%= sanitize(form.success_text) %>
     </div>
@@ -10,9 +11,9 @@
 </div>
 <div class="fba-alert-error usa-alert usa-alert--error" role="alert" hidden>
   <div class="usa-alert__body">
-    <h2 class="usa-alert__heading">
+    <%= content_tag alert_heading_level(render_context), class: "usa-alert__heading" do %>
       <%= t 'error' %>
-    </h2>
+    <% end %>
     <p class="usa-alert__text">
       alert message
     </p>

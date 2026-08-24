@@ -1,3 +1,4 @@
+<%# locals: (form:, render_context:) %>
 <div
   class="touchpoints-form-wrapper <%= form.kind %>"
   id="touchpoints-form-<%= form.short_uuid %>"
@@ -5,7 +6,7 @@
 >
   <div class="touchpoints-inner-form-wrapper">
     <%- unless form.archived? %>
-    <%= render "components/forms/logo_and_title", form: form %>
+    <%= render "components/forms/logo_and_title", form: form, render_context: render_context %>
     <%- if form.instructions? %>
     <div class="fba-instructions" id="<%= "fba-form-instructions-#{form.short_uuid}" %>">
       <%= sanitize(form.instructions) %>
@@ -18,10 +19,10 @@
       </small>
     </p>
     <% end %>
-    <%= render 'components/forms/flash', form: form %>
-    <%= render partial: "components/forms/custom", locals: { form: form, questions: form.questions } %>
+    <%= render 'components/forms/flash', form: form, render_context: render_context %>
+    <%= render partial: "components/forms/custom", locals: { form: form, render_context: render_context } %>
     <% else %>
-    <%= render partial: "submissions/archived_form", locals: { form: form } %>
+    <%= render partial: "components/forms/archived_form", locals: { form: form, render_context: render_context } %>
     <% end %>
   </div>
   <%= yield %>
