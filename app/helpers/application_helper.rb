@@ -257,13 +257,12 @@ module ApplicationHelper
     embedded: { title: 'h2', alert: 'h3' },
   }.freeze
 
-  # Render context is passed explicitly as a `render_context` local down each
-  # partial chain (:hosted from components/forms/_custom_layout and
-  # submissions/new, :embedded from components/widget/_no_modal). It defaults to
-  # :embedded so the widget still renders correctly when invoked from a bare
-  # model/helper call with no local set.
+  # Context in which a form is being rendered for display, either :hosted or :embedded.
+  # Passed explicitly as a `render_context` local down each
+  # partial chain (:hosted from submissions/new, :embedded from components/widget/_fba).
+  # Defaults to :hosted to catch uses of partials in the form editor.
   def form_render_context(render_context = nil)
-    render_context || :embedded
+    render_context || :hosted
   end
 
   def title_heading_level(render_context = nil)

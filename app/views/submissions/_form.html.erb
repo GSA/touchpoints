@@ -1,4 +1,5 @@
-<%= render "components/forms/custom_layout", form: form, render_context: :hosted %>
+<%# locals: (form:, render_context: nil) %>
+<%= render "components/forms/custom_layout", form: form, render_context: render_context %>
 <script>
-  <%= render(partial: "components/widget/fba", formats: :js, locals: { form: form, suppress_ui: true, render_context: :hosted }) %>
+  <%= render(partial: "components/widget/fba", formats: :js, locals: { form: form, suppress_ui: true, render_context: render_context }) %>
 </script>
