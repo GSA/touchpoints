@@ -1,10 +1,11 @@
+<%# locals: (question:, render_context:) %>
 <section
   id="<%= question.ui_selector %>"
   class="usa-site-alert usa-site-alert--info"
   aria-label="Site alert">
   <div class="usa-alert">
     <div class="usa-alert__body">
-      <%= content_tag alert_heading_level(local_assigns[:render_context]), class: "usa-alert__heading" do %>
+      <%= content_tag alert_heading_level(render_context), class: "usa-alert__heading" do %>
         <%= question.text.html_safe %>
       <% end %>
       <%- if question.help_text.present? %>
