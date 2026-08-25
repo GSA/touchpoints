@@ -44,3 +44,4 @@
 <% elsif question.question_type == "date_select" %>
 <% @form_component_path = 'components/forms/question_types/date_select' %>
 <% end %>
+<%= render @form_component_path, form: form, question: question, question_number: question.position %>
