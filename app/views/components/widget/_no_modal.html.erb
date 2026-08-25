@@ -1,3 +1,5 @@
+<%# locals: (form:) %>
+
 <div
   class="touchpoints-form-wrapper <%= form.kind %>"
   id="touchpoints-form-<%= form.short_uuid %>"
@@ -19,7 +21,7 @@
     </p>
     <% end %>
     <%= render 'components/forms/flash', form: form %>
-    <%= render partial: "components/forms/custom", locals: { form: form, questions: form.questions } %>
+    <%= render partial: "components/forms/custom", locals: { form: form } %>
     <% else %>
     <%= render partial: "submissions/archived_form", locals: { form: form } %>
     <% end %>

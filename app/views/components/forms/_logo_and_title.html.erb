@@ -1,20 +1,22 @@
-<header>
-  <h1
-    class="word-break fba-modal-title"
-    id="<%= "fba-form-title-#{form.short_uuid}" %>">
-    <%- if form.logo.present? %>
-    <div class="margin-bottom-2 text-center">
+<%# locals: (form:) %>
+
+<header class="fba-form-header">
+  <%- if form.logo.present? %>
+    <div class="text-center">
       <%- if form.header_logo_display_banner? %>
         <%= image_tag(form.logo.tag.url,
-          alt: form.logo_alt_text_or_default,
-          class: "form-header-logo") %>
+                      alt: form.logo_alt_text_or_default,
+                      class: "form-header-logo") %>
       <% elsif form.header_logo_display_square? %>
         <%= image_tag(form.logo.logo_square.url,
-          alt: form.logo_alt_text_or_default,
-          class: "form-header-logo-square") %>
+                      alt: form.logo_alt_text_or_default,
+                      class: "form-header-logo-square") %>
       <% end %>
     </div>
-    <% end %>
+  <% end %>
+  <h1
+    class="fba-modal-title"
+    id="<%= "fba-form-title-#{form.short_uuid}" %>">
     <%- if form.title.present? %>
     <%= form.title %>
     <% else %>
