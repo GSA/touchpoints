@@ -9,16 +9,98 @@
 
     <!-- Demo content styles -->
     <style>
+    :root {
+      --demo-bg: #f0f0f0;
+      --demo-surface: #ffffff;
+      --demo-border: #dfe1e2;
+      --demo-ink: #1b1b1b;
+      --demo-muted: #71767a;
+      --demo-accent: #005ea2;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background-color: var(--demo-bg);
+      color: var(--demo-ink);
+      font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+    }
+    .demo-shell {
+      max-width: 60rem;
+      margin: 0 auto;
+      padding: 2rem 1rem 4rem;
+    }
     .demo-content {
-      background-color: #efefef;
-      border: 1px solid #E5E5E5;
-      min-height: 100px;
+      background-color: var(--demo-surface);
+      border: 1px solid var(--demo-border);
+      border-radius: 0.5rem;
     }
-    .demo-grid {
-      margin-bottom: 4rem;
+    .demo-header {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      margin-bottom: 2rem;
     }
-    .demo-grid div {
-      min-height: 300px;
+    .demo-header .demo-eyebrow {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--demo-muted);
+    }
+    .demo-header h1 {
+      margin: 0.5rem 0 0;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+    .demo-main {
+      padding: 2rem 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .demo-placeholder {
+      min-height: 12rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Inline delivery: the form renders directly inside the page body */
+    .demo-form-region {
+      padding: 2rem 1.5rem;
+    }
+    .demo-form-region .demo-form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--demo-muted);
+      margin-bottom: 1rem;
+    }
+    .demo-form-target {
+      background-color: var(--demo-bg);
+      border: 1px dashed var(--demo-border);
+      border-radius: 0.375rem;
+      padding: 1.5rem;
+      min-height: 6rem;
+    }
+
+    /* Custom button demo */
+    .demo-button-region {
+      padding: 3rem 1.5rem;
+      text-align: center;
+    }
+    .demo-custom-button {
+      display: inline-block;
+      cursor: pointer;
+      color: DeepPink;
+      font-family: sans-serif;
+      font-size: 2rem;
+      border: 7px solid DeepPink;
+      border-radius: 1rem;
+      padding: 1rem 1.5rem;
+      background-color: LightPink;
+      text-decoration: none;
     }
     </style>
     <!-- End demo content styles -->
@@ -28,65 +110,45 @@
   <body>
     <!-- Demo content -->
     <% if @form.delivery_method == "inline" %>
-    <br>
-    <div class="grid-container">
-      <div class="grid-col-12">
-        <main>
+    <div class="demo-shell">
+      <header class="demo-content demo-header">
+        <span class="demo-eyebrow">Example page</span>
+        <h1>Header</h1>
+      </header>
+      <main class="demo-content demo-form-region">
+        <span class="demo-form-label">Inline form</span>
+        <div class="demo-form-target">
           <div id="<%= @form.element_selector %>">
             Touchpoint will be rendered here.
           </div>
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
-    <br>
     <% elsif @form.delivery_method == "custom-button-modal" %>
-    <br>
-    <div class="grid-container">
-      <div class="grid-col-12">
-        <div style="padding-left: 5rem; padding-top: 5rem;">
-          <a id="<%= @form.element_selector %>" style="color: DeepPink; font-family: sans-serif; font-size: 2rem; border: 7px solid DeepPink; border-radius: 1rem; padding: 1rem; background-color: LightPink;">
-            This is a custom button
-          </a>
-        </div>
-      </div>
-    </div>
-    <br>
-    <% else %>
-    <div class="grid-container demo-grid">
-      <header style="text-align: center;">
-        <div class="grid-row grid-gap-md">
-          <div class="grid-col-12 demo-content">
-            <br>
-            <span class="font-normal text-sans-sm">
-              Example page
-            </span>
-            <h1>
-              <br>header
-            </h1>
-          </div>
-        </div>
+    <div class="demo-shell">
+      <header class="demo-content demo-header">
+        <span class="demo-eyebrow">Example page</span>
+        <h1>Header</h1>
       </header>
+      <div class="demo-content demo-button-region">
+        <a id="<%= @form.element_selector %>" class="demo-custom-button">
+          This is a custom button
+        </a>
+      </div>
     </div>
-    <div class="grid-container demo-grid">
-      <div class="grid-row grid-gap-md">
-        <div class="grid-col-12 demo-content">
-          <main>
-            <div style="text-align: center; padding: 1rem;">
-              main content
-            </div>
-          </main>
+    <% else %>
+    <div class="demo-shell">
+      <header class="demo-content demo-header">
+        <span class="demo-eyebrow">Example page</span>
+        <h1>Header</h1>
+      </header>
+      <main class="demo-content demo-main">
+        <div style="text-align: center;">
+          main content
         </div>
-      </div>
-    </div>
-    <div class="grid-container demo-grid">
-      <div class="grid-row grid-gap-md">
-        <div class="grid-col-12 demo-content"></div>
-      </div>
-    </div>
-    <div class="grid-container demo-grid">
-      <div class="grid-row grid-gap-md">
-        <div class="grid-col-12 demo-content"></div>
-      </div>
+      </main>
+      <div class="demo-content demo-placeholder"></div>
+      <div class="demo-content demo-placeholder"></div>
     </div>
     <% end %>
     <!--- End demo content -->

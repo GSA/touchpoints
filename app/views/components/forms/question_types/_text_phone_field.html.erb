@@ -1,3 +1,5 @@
+<%# locals: (question:) %>
+
 <div role="group">
   <%= render 'components/question_title_label', question: question %>
   <%= telephone_field_tag question.ui_selector, nil, class: "usa-input", required: question.is_required, maxlength: 10 %>

@@ -1,3 +1,5 @@
+<%# locals: (form:) %>
+
 <div class="inner-wrapper">
   <div class="grid-row">
     <div class="grid-col-12">
@@ -15,7 +17,7 @@
         </p>
       <% end %>
       <%= render 'components/forms/flash', form: form %>
-      <%= render partial: "components/forms/custom", locals: { form: form, questions: form.questions } %>
+      <%= render partial: "components/forms/custom", locals: { form: form } %>
     </div>
   </div>
 </div>

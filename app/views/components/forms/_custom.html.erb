@@ -1,3 +1,5 @@
+<%# locals: (form:) %>
+
 <% multi_section_question_number = 0 %>
 
 <form
@@ -50,41 +52,41 @@
           <div class="question white-bg"
             id="<%= dom_id(question) %>">
             <%- if question.question_type == "text_field" %>
-              <%= render 'components/forms/question_types/text_field', form: form, question: question, question_number: multi_section_question_number %>
+              <%= render 'components/forms/question_types/text_field', question: question %>
             <% elsif question.question_type == "text_email_field" %>
-              <%= render 'components/forms/question_types/text_email_field', form: form, question: question, question_number: multi_section_question_number %>
+              <%= render 'components/forms/question_types/text_email_field', question: question %>
             <% elsif question.question_type == "text_phone_field" %>
-              <%= render 'components/forms/question_types/text_phone_field', form: form, question: question, question_number: multi_section_question_number %>
+              <%= render 'components/forms/question_types/text_phone_field', question: question %>
             <% elsif question.question_type == "star_radio_buttons" %>
-              <%= render 'components/forms/question_types/star_radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
+              <%= render 'components/forms/question_types/star_radio_buttons', question: question %>
             <% elsif question.question_type == "big_thumbs_up_down_buttons" %>
-              <%= render 'components/forms/question_types/big_thumbs_up_down_buttons', form: form, question: question, question_number: multi_section_question_number %>
+              <%= render 'components/forms/question_types/big_thumbs_up_down_buttons', question: question %>
             <% elsif question.question_type == "yes_no_buttons" %>
-              <%= render 'components/forms/question_types/yes_no_buttons', form: form, question: question, question_number: multi_section_question_number %>
+              <%= render 'components/forms/question_types/yes_no_buttons', question: question %>
             <% elsif question.question_type == "radio_buttons" %>
-              <%= render 'components/forms/question_types/radio_buttons', form: form, question: question, question_number: multi_section_question_number %>
+              <%= render 'components/forms/question_types/radio_buttons', question: question %>
             <% elsif question.question_type == "dropdown" %>
-              <%= render 'components/forms/question_types/dropdown', form: form, question: question, question_number: multi_section_question_number %>
+              <%= render 'components/forms/question_types/dropdown', question: question %>
             <% elsif question.question_type == "states_dropdown" %>
-              <%= render 'components/forms/question_types/states_dropdown', form: form, question: question, question_number: multi_section_question_number %>
+              <%= render 'components/forms/question_types/states_dropdown', question: question %>
             <% elsif question.question_type == "checkbox" %>
-              <%= render 'components/forms/question_types/checkbox', form: form, question: question, question_number: multi_section_question_number %>
+              <%= render 'components/forms/question_types/checkbox', question: question %>
             <% elsif question.question_type == "combobox" %>
-              <%= render 'components/forms/question_types/combobox', form: form, question: question, question_number: multi_section_question_number %>
+              <%= render 'components/forms/question_types/combobox', question: question %>
             <% elsif question.question_type == "textarea" %>
-              <%= render 'components/forms/question_types/text_area', form: form, question: question, question_number: multi_section_question_number %>
+              <%= render 'components/forms/question_types/text_area', question: question %>
             <% elsif question.question_type == "rich_textarea" %>
-              <%= render 'components/forms/question_types/rich_textarea', form: form, question: question, question_number: multi_section_question_number %>
+              <%= render 'components/forms/question_types/rich_textarea', question: question %>
             <% elsif question.question_type == "text_display" %>
-              <%= render 'components/forms/question_types/text_display', form: form, question: question, question_number: multi_section_question_number %>
+              <%= render 'components/forms/question_types/text_display', question: question %>
             <% elsif question.question_type == "date_select" %>
-              <%= render 'components/forms/question_types/date_select', form: form, question: question, question_number: multi_section_question_number %>
+              <%= render 'components/forms/question_types/date_select', question: question %>
             <% elsif question.question_type == "custom_text_display" %>
-              <%= render 'components/forms/question_types/custom_text_display', form: form, question: question, question_number: multi_section_question_number %>
+              <%= render 'components/forms/question_types/custom_text_display', question: question %>
             <% end %>
           </div>
           <% else %>
-            <%= render 'components/forms/question_types/hidden_field', form: form, question: question, question_number: multi_section_question_number %>
+            <%= render 'components/forms/question_types/hidden_field', question: question %>
           <% end %>
         <% end %>
         </div>
