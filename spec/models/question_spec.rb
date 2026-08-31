@@ -126,4 +126,24 @@ RSpec.describe Question, type: :model do
       end
     end
   end
+
+  describe 'versioning' do
+    it 'records a version when a question is created' do
+      created_question = FactoryBot.create(:question, form:, form_section: form.form_sections.first, answer_field: 'answer_02')
+      expect(created_question.versions.count).to eq(1)
+      expect(created_question.versions.last.event).to eq('create')
+    end
+
+    it 'records a version with a changeset when a question is updated' do
+      question.update!(text: 'Updated question text')
+      expect(question.versions.last.event).to eq('update')
+      expect(question.versions.last.changeset).to have_key('text')
+      expect(question.versions.last.changeset['text'].last).to eq('Updated question text')
+    end
+
+    it 'records a version when a question is destroyed' do
+      question.destroy!
+      expect(question.versions.last.event).to eq('destroy')
+    end
+  end
 end

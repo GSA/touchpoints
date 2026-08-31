@@ -2,6 +2,7 @@
 
 module Admin
   class QuestionOptionsController < AdminController
+    before_action :set_paper_trail_whodunnit
     before_action :set_question, only: %i[new create create_other show edit update destroy sort]
     before_action :set_question_option, only: %i[show edit update destroy]
 
