@@ -6,7 +6,7 @@ RSpec.describe 'components/forms/_custom_layout.html.erb' do
   let(:form) { create(:form) }
 
   subject(:rendered) do
-    render partial: 'components/forms/custom_layout', locals: { form: }
+    render partial: 'components/forms/custom_layout', locals: { form:, render_context: :hosted }
   end
 
   context 'with required fields' do
