@@ -1,3 +1,5 @@
+<%# locals: (render_context:) %>
+
 .fba-modal-dialog {
   font-family: Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
   font-size: 100%;
@@ -63,7 +65,7 @@
   display: none;
 }
 
-<%- if form.delivery_method != "touchpoints-hosted-only" %>
+<%- if render_context != :hosted %>
 <%= render partial: 'components/widget/widget-uswds-styles', formats: :css %>
 
 .fba-modal-dialog .usa-sr-only{

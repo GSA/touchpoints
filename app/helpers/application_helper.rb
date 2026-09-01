@@ -248,5 +248,23 @@ module ApplicationHelper
     value ? 'Yes' : 'No'
   end
 
+  # Heading levels per render context and semantic role. An embedded widget is
+  # injected into host pages that already own the top-level <h1>, so its title
+  # is demoted to <h2> (and alerts to <h3>) to preserve valid heading order.
+  # Hosted forms own the page, so the title is the <h1>.
+  HEADING_LEVELS = {
+    hosted: { title: 'h1', alert: 'h2' },
+    modal: { title: 'h2', alert: 'h3' },
+    inline: { title: 'h2', alert: 'h3' },
+  }.freeze
+
+  def title_heading_level(render_context)
+    HEADING_LEVELS.fetch(render_context).fetch(:title)
+  end
+
+  def alert_heading_level(render_context)
+    HEADING_LEVELS.fetch(render_context).fetch(:alert)
+  end
+
   delegate :fiscal_year_and_quarter, to: :FiscalYear
 end
