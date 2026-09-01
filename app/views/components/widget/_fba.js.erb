@@ -1,4 +1,11 @@
-<%# locals: (form:, render_context: nil, suppress_ui: false) %>
+<%# locals: (form:, hosted_mode: false) %>
+<%#
+  hosted_mode: true when the form is rendered as its own full page on
+  Touchpoints rather than embedded in a host site. It skips injecting the form
+  HTML (the page already renders it), scrolls the window on page changes instead
+  of the widget container, and omits the bundled USWDS JS/CSS the page provides.
+  Defaults to false for embedded/modal/inline delivery.
+%>
 
 // Form components are namespaced under 'fba' = 'Feedback Analytics'
 // Updated: July 2024
@@ -34,12 +41,12 @@ function FBAform(d, N) {
 			if (this.options.loadCSS) {
 				this._loadCss();
 			}
-      <%- unless render_context == :hosted %>
+      if (!this.options.hostedMode) {
         this._loadHtml();
-      <% end %>
-			if (!this.options.suppressUI && (this.options.deliveryMethod && this.options.deliveryMethod === 'modal')) {
-				this.loadButton();
-			}
+        if (this.options.deliveryMethod && this.options.deliveryMethod === 'modal') {
+          this.loadButton();
+        }
+      }
 			this.enableLocalStorage();
 			this._bindEventListeners();
 			this.successState = false; // initially false
@@ -645,7 +652,7 @@ function FBAform(d, N) {
 					});
 					d.dispatchEvent(previousPageEvent);
 
-          <%- if render_context == :hosted %>
+          <%- if hosted_mode %>
           N.scrollTo(0, 0);
           <% else %>
           this.formComponent().scrollIntoView();
@@ -669,7 +676,7 @@ function FBAform(d, N) {
 					});
 					d.dispatchEvent(nextPageEvent);
 
-          <%- if render_context == :hosted %>
+          <%- if hosted_mode %>
           N.scrollTo(0, 0);
           <% else %>
           this.formComponent().scrollIntoView();
@@ -776,7 +783,7 @@ function FBAform(d, N) {
         }
 			});
       
-      <%- if render_context == :hosted %>
+      <%- if hosted_mode %>
       <%# Hosted mode: the form is the whole page, so run the challenge %>
       <%# immediately rather than waiting for interaction. %>
       trigger();
@@ -863,7 +870,7 @@ var touchpointFormOptions<%= form.short_uuid %> = {
 	'formId': "<%= form.short_uuid %>",
 	'modalButtonText': "<%= form.modal_button_text %>",
 	'elementSelector': "<%= form.element_selector %>",
-	'css' : "<%= escape_javascript(render partial: 'components/widget/widget', formats: :css, locals: { render_context: render_context }) %>",
+	'css' : "<%= escape_javascript(render partial: 'components/widget/widget', formats: :css, locals: { hosted_mode: }) %>",
 	'loadCSS' : <%= form.load_css %>,
 	'formSpecificScript' : function() {
 		<%- if ["a11_v2", "a11_v2_radio", "a11_yes_no"].include?(form.kind) %>
@@ -882,7 +889,7 @@ var touchpointFormOptions<%= form.short_uuid %> = {
 		<% end %>
 		}
 	},
-	'suppressUI' : <%= (local_assigns.has_key?(:suppress_ui) && suppress_ui) %>,
+	'hostedMode' : <%= hosted_mode %>,
 	'suppressSubmitButton' : <%= form.suppress_submit_button %>,
 	'htmlFormBody' : function() {
 		<%- if form.delivery_method == "inline" && !form.suppress_submit_button && form.element_selector? %>
@@ -906,7 +913,7 @@ var touchpointFormOptions<%= form.short_uuid %> = {
 window.touchpointForm<%= form.short_uuid %> = new FBAform(document, window);
 window.touchpointForm<%= form.short_uuid %>.init(touchpointFormOptions<%= form.short_uuid %>);
 
-<%- if form.load_css && render_context != :hosted %>
+<%- if form.load_css && !hosted_mode %>
 // Load the USWDS JS, loads as module 'fbaUswds' in global scope
 <%= render partial: 'components/widget/widget-uswds', formats: :js %>
 

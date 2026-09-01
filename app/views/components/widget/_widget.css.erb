@@ -1,4 +1,11 @@
-<%# locals: (render_context:) %>
+<%# locals: (hosted_mode: false) %>
+<%#
+  hosted_mode: true when the form is rendered as its own full page on
+  Touchpoints (rather than embedded in a host site). In hosted mode the page
+  already loads USWDS, so the bundled USWDS styles below are skipped to avoid
+  duplicating them. Defaults to false for embedded/modal/inline delivery, which
+  must ship its own USWDS styles.
+%>
 
 .fba-modal-dialog {
   font-family: Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
@@ -65,7 +72,7 @@
   display: none;
 }
 
-<%- if render_context != :hosted %>
+<%- unless hosted_mode %>
 <%= render partial: 'components/widget/widget-uswds-styles', formats: :css %>
 
 .fba-modal-dialog .usa-sr-only{
