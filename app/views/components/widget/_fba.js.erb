@@ -1,4 +1,11 @@
-<%# locals: (form:, suppress_ui: false) %>
+<%# locals: (form:, hosted_mode: false) %>
+<%#
+  hosted_mode: true when the form is rendered as its own full page on
+  Touchpoints rather than embedded in a host site. It skips injecting the form
+  HTML (the page already renders it), scrolls the window on page changes instead
+  of the widget container, and omits the bundled USWDS JS/CSS the page provides.
+  Defaults to false for embedded/modal/inline delivery.
+%>
 
 // Form components are namespaced under 'fba' = 'Feedback Analytics'
 // Updated: July 2024
@@ -34,10 +41,12 @@ function FBAform(d, N) {
 			if (this.options.loadCSS) {
 				this._loadCss();
 			}
-			this._loadHtml();
-			if (!this.options.suppressUI && (this.options.deliveryMethod && this.options.deliveryMethod === 'modal')) {
-				this.loadButton();
-			}
+      if (!this.options.hostedMode) {
+        this._loadHtml();
+        if (this.options.deliveryMethod && this.options.deliveryMethod === 'modal') {
+          this.loadButton();
+        }
+      }
 			this.enableLocalStorage();
 			this._bindEventListeners();
 			this.successState = false; // initially false
@@ -61,7 +70,34 @@ function FBAform(d, N) {
 		_bindEventListeners: function() {
 			var self = this;
 
-			const textareas = this.formComponent().querySelectorAll(".usa-textarea, .ql-editor");
+      const otherElements = self.formElement().querySelectorAll(".usa-input.other-option");
+      for (var i = 0; i < otherElements.length; i++) {
+        otherElements[i].addEventListener('keyup', self.handleOtherOption.bind(self), false);
+      }
+
+      var phoneElements = self.formElement().querySelectorAll("input[type='tel']");
+      for (var i = 0; i < phoneElements.length; i++) {
+        phoneElements[i].addEventListener('keyup', self.handlePhoneInput.bind(self), false);
+      }
+
+      var formElement = self.formElement();
+      // returns 1 or more submit buttons within the Touchpoints form
+      var submitButtons = formElement.querySelectorAll("[type='submit']");
+
+      var yesNoForm = formElement.querySelector('.touchpoints-yes-no-buttons');
+      if (yesNoForm) { // only for yes/no questions
+        Array.prototype.forEach.call(submitButtons, function(submitButton) {
+          submitButton.addEventListener('click', self.handleYesNoSubmitClick.bind(self), false);
+        })
+      } else { // for all other types of forms/questions
+        if (submitButtons) {
+          Array.prototype.forEach.call(submitButtons, function(submitButton) {
+            submitButton.addEventListener('click', self.handleSubmitClick.bind(self), false);
+          })
+        }
+      }
+
+			const textareas = self.formComponent().querySelectorAll(".usa-textarea, .ql-editor");
 			textareas.forEach(function(textarea) {
 				if (textarea.getAttribute("maxlength") != '0' && textarea.getAttribute("maxlength") != '10000')  {
 					textarea.addEventListener("keyup", self.textCounter);
@@ -69,7 +105,7 @@ function FBAform(d, N) {
 			});
 
 			<%# only text fields; not email or telephone %>
-			const textFields = this.formComponent().querySelectorAll(".usa-input[type='text']");
+			const textFields = self.formComponent().querySelectorAll(".usa-input[type='text']");
 			textFields.forEach(function(textField) {
 				if (textField.getAttribute("maxlength") != '0' && textField.getAttribute("maxlength") != '10000')  {
 					textField.addEventListener("keyup", self.textCounter);
@@ -91,73 +127,46 @@ function FBAform(d, N) {
 			}
 		},
 		_loadHtml: function() {
-		<%# inject the form interface for the `inline` delivery option, without a wrapper %>
-		if ((this.options.deliveryMethod && this.options.deliveryMethod === 'inline') && this.options.suppressSubmitButton) {
-			if (this.options.elementSelector) {
-				if(d.getElementById(this.options.elementSelector) != null) {
-					d.getElementById(this.options.elementSelector).innerHTML = this.options.htmlFormBodyNoModal();
-				}
-			}
-		} else if (this.options.deliveryMethod && this.options.deliveryMethod === 'inline') { <%# inject the form interface for inline with the modal wrapper %>
-			if (this.options.elementSelector) {
-				if(d.getElementById(this.options.elementSelector) != null) {
-					d.getElementById(this.options.elementSelector).classList.add('fba-inline-container');
-					d.getElementById(this.options.elementSelector).innerHTML = this.options.htmlFormBody();
-				}
-			}
-		}
-		<%# inject the form interface for modal and custom-button-modal %>
-		if (this.options.deliveryMethod && (this.options.deliveryMethod === 'modal' || this.options.deliveryMethod === 'custom-button-modal')) {
-			this.dialogEl = d.createElement('div');
-			this.dialogEl.setAttribute('class', "<%= form.prefix "usa-modal" %> fba-modal");
-			this.dialogEl.setAttribute('id', this.modalId());
-			this.dialogEl.setAttribute('aria-labelledby', `fba-form-title-${this.options.formId}`);
-			this.dialogEl.setAttribute('aria-describedby', `fba-form-instructions-${this.options.formId}`);
-			this.dialogEl.setAttribute('data-touchpoints-form-id', this.options.formId);
+    <%# inject the form interface for the `inline` delivery option, without a wrapper %>
+    if ((this.options.deliveryMethod && this.options.deliveryMethod === 'inline') && this.options.suppressSubmitButton) {
+        if (this.options.elementSelector) {
+            if (d.getElementById(this.options.elementSelector) != null) {
+                 d.getElementById(this.options.elementSelector).innerHTML = this.options.htmlFormBodyNoModal();
+            }
+        }
+    } else if (this.options.deliveryMethod && this.options.deliveryMethod === 'inline') { <%# inject the form interface for inline with the modal wrapper %>
+        if (this.options.elementSelector) {
+            if (d.getElementById(this.options.elementSelector) != null) {
+                 d.getElementById(this.options.elementSelector).classList.add('fba-inline-container');
+                 d.getElementById(this.options.elementSelector).innerHTML = this.options.htmlFormBody();
+            }
+        }
+    }
+    <%# inject the form interface for modal and custom-button-modal %>
+    if (this.options.deliveryMethod && (this.options.deliveryMethod === 'modal' || this.options.deliveryMethod === 'custom-button-modal')) {
+        this.dialogEl = d.createElement('div');
+        this.dialogEl.setAttribute('class', "<%= form.prefix "usa-modal" %> fba-modal");
+        this.dialogEl.setAttribute('id', this.modalId());
+        this.dialogEl.setAttribute('aria-labelledby', `fba-form-title-${this.options.formId}`);
+        this.dialogEl.setAttribute('aria-describedby', `fba-form-instructions-${this.options.formId}`);
+        this.dialogEl.setAttribute('data-touchpoints-form-id', this.options.formId);
 
-			this.dialogEl.innerHTML = this.options.htmlFormBody();
-			d.body.appendChild(this.dialogEl);
-		}
-		var otherElements = this.formElement().querySelectorAll(".usa-input.other-option");
-		for (var i = 0; i < otherElements.length; i++) {
-		    otherElements[i].addEventListener('keyup', this.handleOtherOption.bind(this), false);
-		}
-		var phoneElements = this.formElement().querySelectorAll("input[type='tel']");
-		for (var i = 0; i < phoneElements.length; i++) {
-		    phoneElements[i].addEventListener('keyup', this.handlePhoneInput.bind(this), false);
-		}
-		<%# add button behaviors for custom-button-modal %>
-		if (this.options.deliveryMethod && this.options.deliveryMethod === 'custom-button-modal') {
-			if (this.options.elementSelector) {
-				const customButtonEl = d.getElementById(this.options.elementSelector);
-				if (customButtonEl != null) {
-					customButtonEl.setAttribute('data-open-modal', '');
-					customButtonEl.setAttribute('aria-controls', this.modalId());
-					customButtonEl.addEventListener('click', () => d.dispatchEvent(new CustomEvent('onTouchpointsModalOpen', { detail: { form: this } }
-					)));
-				}
-			}
-		}
-
-			var formElement = this.formElement();
-			// returns 1 or more submit buttons within the Touchpoints form
-			var submitButtons = formElement.querySelectorAll("[type='submit']");
-			var that = this;
-
-			var yesNoForm = formElement.querySelector('.touchpoints-yes-no-buttons');
-
-			if (yesNoForm) { // only for yes/no questions
-				Array.prototype.forEach.call(submitButtons, function(submitButton) {
-					submitButton.addEventListener('click', that.handleYesNoSubmitClick.bind(that), false);
-				})
-			} else { // for all other types of forms/questions
-				if (submitButtons) {
-					Array.prototype.forEach.call(submitButtons, function(submitButton) {
-						submitButton.addEventListener('click', that.handleSubmitClick.bind(that), false);
-					})
-				}
-			}
-		},
+        this.dialogEl.innerHTML = this.options.htmlFormBody();
+        d.body.appendChild(this.dialogEl);
+    }
+    <%# add button behaviors for custom-button-modal %>
+    if (this.options.deliveryMethod && this.options.deliveryMethod === 'custom-button-modal') {
+        if (this.options.elementSelector) {
+            const customButtonEl = d.getElementById(this.options.elementSelector);
+            if (customButtonEl != null) {
+                customButtonEl.setAttribute('data-open-modal', '');
+                customButtonEl.setAttribute('aria-controls', this.modalId());
+                customButtonEl.addEventListener('click', () => d.dispatchEvent(new CustomEvent('onTouchpointsModalOpen', {detail: {form: this}}
+                )));
+            }
+        }
+    }
+    },
 		resetErrors: function() {
 			var formComponent = this.formComponent();
 			var alertElement = formComponent.querySelector(".fba-alert");
@@ -643,7 +652,7 @@ function FBAform(d, N) {
 					});
 					d.dispatchEvent(previousPageEvent);
 
-          <%- if form.delivery_method == "touchpoints-hosted-only" %>
+          <%- if hosted_mode %>
           N.scrollTo(0, 0);
           <% else %>
           this.formComponent().scrollIntoView();
@@ -667,7 +676,7 @@ function FBAform(d, N) {
 					});
 					d.dispatchEvent(nextPageEvent);
 
-          <%- if form.delivery_method == "touchpoints-hosted-only" %>
+          <%- if hosted_mode %>
           N.scrollTo(0, 0);
           <% else %>
           this.formComponent().scrollIntoView();
@@ -774,7 +783,7 @@ function FBAform(d, N) {
         }
 			});
       
-      <%- if form.delivery_method == "touchpoints-hosted-only" %>
+      <%- if hosted_mode %>
       <%# Hosted mode: the form is the whole page, so run the challenge %>
       <%# immediately rather than waiting for interaction. %>
       trigger();
@@ -861,7 +870,7 @@ var touchpointFormOptions<%= form.short_uuid %> = {
 	'formId': "<%= form.short_uuid %>",
 	'modalButtonText': "<%= form.modal_button_text %>",
 	'elementSelector': "<%= form.element_selector %>",
-	'css' : "<%= escape_javascript(render partial: 'components/widget/widget', formats: :css, locals: { form: form }) %>",
+	'css' : "<%= escape_javascript(render partial: 'components/widget/widget', formats: :css, locals: { hosted_mode: }) %>",
 	'loadCSS' : <%= form.load_css %>,
 	'formSpecificScript' : function() {
 		<%- if ["a11_v2", "a11_v2_radio", "a11_yes_no"].include?(form.kind) %>
@@ -880,18 +889,20 @@ var touchpointFormOptions<%= form.short_uuid %> = {
 		<% end %>
 		}
 	},
-	'suppressUI' : <%= (local_assigns.has_key?(:suppress_ui) && suppress_ui) %>,
+	'hostedMode' : <%= hosted_mode %>,
 	'suppressSubmitButton' : <%= form.suppress_submit_button %>,
 	'htmlFormBody' : function() {
-		<%- if (form.delivery_method == "inline" && !form.suppress_submit_button && form.element_selector?) || form.delivery_method == "modal" || form.delivery_method == "custom-button-modal" %>
-		return "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form }) %>";
-		<% else %>
+		<%- if form.delivery_method == "inline" && !form.suppress_submit_button && form.element_selector? %>
+		return "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form, render_context: :inline }) %>";
+		<% elsif form.delivery_method == "modal" || form.delivery_method == "custom-button-modal" %>
+    return "<%= escape_javascript render(partial: 'components/widget/modal', locals: { form: form, render_context: :modal }) %>";
+    <% else %>
 		return null;
 		<% end %>
 	},
 	'htmlFormBodyNoModal' : function() {
 		<%- if form.delivery_method == "inline" && form.suppress_submit_button && form.element_selector? %>
-		return "<%= escape_javascript render(partial: 'components/widget/no_modal', locals: { form: form }) %>";
+		return "<%= escape_javascript render(partial: 'components/widget/no_modal', locals: { form: form, render_context: :inline }) %>";
 		<% else %>
 		return null;
 		<% end %>
@@ -902,7 +913,7 @@ var touchpointFormOptions<%= form.short_uuid %> = {
 window.touchpointForm<%= form.short_uuid %> = new FBAform(document, window);
 window.touchpointForm<%= form.short_uuid %>.init(touchpointFormOptions<%= form.short_uuid %>);
 
-<%- if form.load_css && form.delivery_method != "touchpoints-hosted-only" %>
+<%- if form.load_css && !hosted_mode %>
 // Load the USWDS JS, loads as module 'fbaUswds' in global scope
 <%= render partial: 'components/widget/widget-uswds', formats: :js %>
 

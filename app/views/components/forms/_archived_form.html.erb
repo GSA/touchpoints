@@ -1,11 +1,11 @@
-<%# locals: (form:) %>
+<%# locals: (form:, heading_level:) %>
 
 <br>
 <div class="usa-alert usa-alert--info">
   <div class="usa-alert__body">
-    <h3 class="usa-alert__heading">
+    <%= content_tag heading_level, class: "usa-alert__heading" do %>
       This form is not currently accepting feedback
-    </h3>
+    <% end %>
     <p class="usa-alert__text">
       The form,
       <strong><%= form.title %></strong>,

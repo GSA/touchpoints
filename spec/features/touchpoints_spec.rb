@@ -704,7 +704,7 @@ feature 'Touchpoints', js: true do
         end
 
         it 'render archived/inactive message' do
-          expect(page).to have_content('This form is not currently accepting feedback')
+          expect(page).to have_selector('h2', text: 'This form is not currently accepting feedback')
           expect(page).to have_content(form.title)
           expect(page.current_path).to eq(submit_touchpoint_path(form))
         end
@@ -721,7 +721,7 @@ feature 'Touchpoints', js: true do
 
         it 'render the form' do
           expect(page).to have_css('.touchpoint-form')
-          expect(page).to have_content(form.title)
+          expect(page).to have_selector('h1', text: form.title)
         end
       end
     end

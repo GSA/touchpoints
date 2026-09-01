@@ -374,12 +374,6 @@ class Form < ApplicationRecord
 
   # Renders the widget CSS partial for use with the Rust widget renderer
   def render_widget_css
-    controller_with_request = build_controller_with_mock_request
-    controller_with_request.render_to_string(partial: 'components/widget/widget', formats: :css, locals: { form: self })
-  end
-
-  # Renders the widget CSS partial for use with the Rust widget renderer
-  def render_widget_css
     controller = ApplicationController.new
 
     # Set up a mock request with default URL options
@@ -398,7 +392,7 @@ class Form < ApplicationRecord
     )
 
     controller.request = mock_request
-    controller.render_to_string(partial: 'components/widget/widget', formats: :css, locals: { form: self })
+    controller.render_to_string(partial: 'components/widget/widget', formats: :css)
   end
 
   def reportable_submissions(start_date: nil, end_date: nil)

@@ -1,0 +1,105 @@
+# frozen_string_literal: true
+
+require 'rails_helper'
+
+feature 'Inline Touchpoints', js: true do
+  let(:organization) { FactoryBot.create(:organization) }
+  let!(:user) { FactoryBot.create(:user, :admin, organization:) }
+
+  context 'as Admin' do
+    let!(:form) { FactoryBot.create(:form, :kitchen_sink, :inline, organization:) }
+
+    describe '/forms/:id/example' do
+      before do
+        login_as(user)
+        visit example_admin_form_path(form)
+      end
+
+      it 'is accessible' do
+        expect_page_axe_clean
+      end
+
+      context 'submitting the inline kitchen-sink form' do
+        # Walks the full multi-page inline flow and submits the form.
+        # Unlike the modal variant, an inline form renders directly on the
+        # page (no #fba-button to open), so the flow starts on Page 1.
+        # Assertions about page-to-page behavior live here because they
+        # describe the interaction being performed, not the outcome.
+        def complete_and_submit_form
+          expect(page).to have_selector('h2', text: 'Do you have a few minutes to help us test this site?')
+
+          # --- Page 1 ---
+          expect(page).to have_content('Page 1')
+          expect(page).to have_no_content('Option elements')
+          expect(page).to have_no_content('Custom elements')
+          expect(page).to have_field(form.ordered_questions.first.ui_selector, wait: 10)
+          fill_in form.ordered_questions.first.ui_selector, with: 'input field'
+          fill_in form.ordered_questions.second.ui_selector, with: 'email'
+          fill_in form.ordered_questions.third.ui_selector, with: 'textarea'
+          expect(page).to have_link('html')
+
+          find('.pagination-buttons.text-right', visible: true).click_link('Next')
+
+          # validation surfaces on invalid email
+          expect(page).to have_content('Please enter a valid value')
+          expect(page).to have_content('This is help text')
+          fill_in form.ordered_questions.second.ui_selector, with: 'email@example.gov'
+
+          find('.pagination-buttons.text-right', visible: true).click_link('Next')
+
+          # --- Page 2: Option elements ---
+          expect(page).to have_content('Option elements')
+          expect(page).to have_no_content('Page 1')
+          expect(page).to have_no_content('Custom elements')
+          expect(all("#question_#{form.ordered_questions[4].id} .usa-radio__label").size).to eq(4)
+          all("#question_#{form.ordered_questions[4].id} .usa-radio__label").last.click
+          fill_in("#{form.ordered_questions[4].ui_selector}_other", with: 'otro 2')
+
+          expect(page).to have_content('Custom Question Checkboxes')
+          expect(page).to have_content('This is help text for checkboxes')
+          all('.usa-checkbox__label').each(&:click)
+          expect(page).to have_content('Enter other text')
+
+          ele = find("##{form.ordered_questions[5].ui_selector}_other", visible: false)
+          scroll_to(ele)
+          expect(page).to have_content('Custom Question Dropdown')
+          expect(page).to have_content('An official form of')
+
+          fill_in("#{form.ordered_questions[5].ui_selector}_other", with: 'other 3')
+          find("##{form.ordered_questions[5].ui_selector}_other", visible: true).native.send_key :tab
+
+          ele = find("##{form.ordered_questions[6].ui_selector}", visible: false)
+          scroll_to(ele)
+          expect(page).to have_content('This is help text for a dropdown.')
+          select('Option 2', from: form.ordered_questions[6].ui_selector)
+
+          find('.pagination-buttons.text-right', visible: true).click_link('Next')
+
+          # --- Page 3: Custom elements ---
+          expect(page).to have_content('Custom elements')
+          expect(page).to have_no_content('Page 1')
+          expect(page).to have_no_content('Option elements')
+          find('.submit_form_button').click
+        end
+
+        it 'submits the form, shows success, and persists all answers' do
+          complete_and_submit_form
+
+          # shows success flash message
+          expect(page).to have_selector('h3', text: 'Success')
+          expect(page).to have_content('Thank you. Your feedback has been received.')
+
+          submission = Submission.last
+          aggregate_failures do
+            expect(submission.answer_01).to eq('input field')
+            expect(submission.answer_02).to eq('email@example.gov')
+            expect(submission.answer_03).to eq('textarea')
+            expect(submission.answer_04).to eq('otro 2')
+            expect(submission.answer_05).to eq('1,2,other 3')
+            expect(submission.answer_06).to eq('2')
+          end
+        end
+      end
+    end
+  end
+end

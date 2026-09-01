@@ -1,4 +1,4 @@
-<%# locals: (form:) %>
+<%# locals: (form:, render_context:) %>
 
 <% multi_section_question_number = 0 %>
 
@@ -82,7 +82,7 @@
             <% elsif question.question_type == "date_select" %>
               <%= render 'components/forms/question_types/date_select', question: question %>
             <% elsif question.question_type == "custom_text_display" %>
-              <%= render 'components/forms/question_types/custom_text_display', question: question %>
+              <%= render 'components/forms/question_types/custom_text_display', question: question, heading_level: alert_heading_level(render_context) %>
             <% end %>
           </div>
           <% else %>
