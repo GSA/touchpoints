@@ -127,23 +127,23 @@ function FBAform(d, N) {
 			}
 		},
 		_loadHtml: function() {
-      <%# inject the form interface for the `inline` delivery option, without a wrapper %>
-      if ((this.options.deliveryMethod && this.options.deliveryMethod === 'inline') && this.options.suppressSubmitButton) {
+    <%# inject the form interface for the `inline` delivery option, without a wrapper %>
+    if ((this.options.deliveryMethod && this.options.deliveryMethod === 'inline') && this.options.suppressSubmitButton) {
         if (this.options.elementSelector) {
-          if (d.getElementById(this.options.elementSelector) != null) {
-            d.getElementById(this.options.elementSelector).innerHTML = this.options.htmlFormBodyNoModal();
-          }
+            if (d.getElementById(this.options.elementSelector) != null) {
+                 d.getElementById(this.options.elementSelector).innerHTML = this.options.htmlFormBodyNoModal();
+            }
         }
-      } else if (this.options.deliveryMethod && this.options.deliveryMethod === 'inline') { <%# inject the form interface for inline with the modal wrapper %>
+    } else if (this.options.deliveryMethod && this.options.deliveryMethod === 'inline') { <%# inject the form interface for inline with the modal wrapper %>
         if (this.options.elementSelector) {
-          if (d.getElementById(this.options.elementSelector) != null) {
-            d.getElementById(this.options.elementSelector).classList.add('fba-inline-container');
-            d.getElementById(this.options.elementSelector).innerHTML = this.options.htmlFormBody();
-          }
+            if (d.getElementById(this.options.elementSelector) != null) {
+                 d.getElementById(this.options.elementSelector).classList.add('fba-inline-container');
+                 d.getElementById(this.options.elementSelector).innerHTML = this.options.htmlFormBody();
+            }
         }
-      }
-      <%# inject the form interface for modal and custom-button-modal %>
-      if (this.options.deliveryMethod && (this.options.deliveryMethod === 'modal' || this.options.deliveryMethod === 'custom-button-modal')) {
+    }
+    <%# inject the form interface for modal and custom-button-modal %>
+    if (this.options.deliveryMethod && (this.options.deliveryMethod === 'modal' || this.options.deliveryMethod === 'custom-button-modal')) {
         this.dialogEl = d.createElement('div');
         this.dialogEl.setAttribute('class', "<%= form.prefix "usa-modal" %> fba-modal");
         this.dialogEl.setAttribute('id', this.modalId());
@@ -153,19 +153,19 @@ function FBAform(d, N) {
 
         this.dialogEl.innerHTML = this.options.htmlFormBody();
         d.body.appendChild(this.dialogEl);
-      }
-      <%# add button behaviors for custom-button-modal %>
-      if (this.options.deliveryMethod && this.options.deliveryMethod === 'custom-button-modal') {
+    }
+    <%# add button behaviors for custom-button-modal %>
+    if (this.options.deliveryMethod && this.options.deliveryMethod === 'custom-button-modal') {
         if (this.options.elementSelector) {
-          const customButtonEl = d.getElementById(this.options.elementSelector);
-          if (customButtonEl != null) {
-            customButtonEl.setAttribute('data-open-modal', '');
-            customButtonEl.setAttribute('aria-controls', this.modalId());
-            customButtonEl.addEventListener('click', () => d.dispatchEvent(new CustomEvent('onTouchpointsModalOpen', {detail: {form: this}}
-            )));
-          }
+            const customButtonEl = d.getElementById(this.options.elementSelector);
+            if (customButtonEl != null) {
+                customButtonEl.setAttribute('data-open-modal', '');
+                customButtonEl.setAttribute('aria-controls', this.modalId());
+                customButtonEl.addEventListener('click', () => d.dispatchEvent(new CustomEvent('onTouchpointsModalOpen', {detail: {form: this}}
+                )));
+            }
         }
-      }
+    }
     },
 		resetErrors: function() {
 			var formComponent = this.formComponent();
