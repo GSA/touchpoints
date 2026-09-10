@@ -109,6 +109,6 @@ group :test do
   gem 'factory_bot_rails', '>= 6.5.0'
   gem 'rails-controller-testing'
   gem 'rspec_junit_formatter'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '>= 4.36.0'
   gem 'simplecov', require: false
 end
