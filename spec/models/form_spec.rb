@@ -378,4 +378,25 @@ RSpec.describe Form, type: :model do
       end
     end
   end
+
+  describe 'versioning' do
+    it 'records a version when a form is created' do
+      new_form = FactoryBot.create(:form, organization:)
+      expect(new_form.versions.count).to eq(1)
+      expect(new_form.versions.last.event).to eq('create')
+    end
+
+    it 'records a version with a changeset when a form is updated' do
+      form.update!(name: 'Updated Form Name')
+      expect(form.versions.last.event).to eq('update')
+      expect(form.versions.last.changeset).to have_key('name')
+      expect(form.versions.last.changeset['name'].last).to eq('Updated Form Name')
+    end
+
+    it 'records a version when a form is destroyed' do
+      new_form = FactoryBot.create(:form, organization:)
+      new_form.destroy!
+      expect(new_form.versions.last.event).to eq('destroy')
+    end
+  end
 end

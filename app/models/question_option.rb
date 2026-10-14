@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class QuestionOption < ApplicationRecord
+  has_paper_trail
+
   belongs_to :question
 
   before_validation :set_default_value_from_text

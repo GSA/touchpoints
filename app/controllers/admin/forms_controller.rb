@@ -6,6 +6,8 @@ module Admin
   class FormsController < AdminController
     respond_to :html, :js
 
+    before_action :set_paper_trail_whodunnit
+
     skip_before_action :verify_authenticity_token, only: [:js]
     before_action :set_form_for_auth_check, only: [:example], prepend: true
     # Only bypass authentication for example preview when this is a template form

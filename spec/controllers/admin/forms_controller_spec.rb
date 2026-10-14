@@ -182,6 +182,14 @@ RSpec.describe Admin::FormsController, type: :controller do
         put :update, params: { id: form.to_param, form: valid_attributes }, session: valid_session
         expect(response).to redirect_to delivery_admin_form_path(form)
       end
+
+      it 'records a version attributed to the current user' do
+        form = Form.create! valid_attributes
+        put :update, params: { id: form.to_param, form: { name: 'Audited Form Name' } }, session: valid_session
+        form.reload
+        expect(form.versions.last.event).to eq('update')
+        expect(form.versions.last.whodunnit).to eq(admin.id.to_s)
+      end
     end
 
     context 'with invalid params' do
