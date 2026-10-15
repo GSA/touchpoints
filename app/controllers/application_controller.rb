@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  LEGACY_TOUCHPOINTS_URL_MAP = LegacyTouchpointUrlMap.map
+
   # Raised when Postgres kills a query for exceeding `statement_timeout`.
   rescue_from ActiveRecord::QueryCanceled, with: :render_query_timeout
 

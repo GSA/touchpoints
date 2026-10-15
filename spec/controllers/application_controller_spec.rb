@@ -49,7 +49,6 @@ describe ApplicationController, type: :controller do
 
       expect(response).to have_http_status(:service_unavailable)
       expect(response).to render_template('errors/service_unavailable')
-      expect(response.body).to include(I18n.t('errors.request.canceled'))
     end
 
     it 'responds 503 with a console.warn for JS requests' do

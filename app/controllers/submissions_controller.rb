@@ -149,16 +149,15 @@ class SubmissionsController < ApplicationController
   private
 
   def set_form
-    legacy_touchpoints_url_map = LegacyTouchpointUrlMap::map
     if params[:form]
       @short_uuid = params[:id].to_s
-      @short_uuid = legacy_touchpoints_url_map[params[:id].to_s] if legacy_touchpoints_url_map.key?(params[:id].to_s)
+      @short_uuid = LEGACY_TOUCHPOINTS_URL_MAP[params[:id].to_s] if LEGACY_TOUCHPOINTS_URL_MAP.key?(params[:id].to_s)
     elsif params[:form_id]
       @short_uuid = params[:form_id].to_s
-      @short_uuid = legacy_touchpoints_url_map[params[:form_id].to_s] if legacy_touchpoints_url_map.key?(params[:form_id].to_s)
+      @short_uuid = LEGACY_TOUCHPOINTS_URL_MAP[params[:form_id].to_s] if LEGACY_TOUCHPOINTS_URL_MAP.key?(params[:form_id].to_s)
     elsif params[:touchpoint_id]
       @short_uuid = params[:touchpoint_id].to_s
-      @short_uuid = legacy_touchpoints_url_map[params[:touchpoint_id].to_s] if legacy_touchpoints_url_map.key?(params[:touchpoint_id].to_s)
+      @short_uuid = LEGACY_TOUCHPOINTS_URL_MAP[params[:touchpoint_id].to_s] if LEGACY_TOUCHPOINTS_URL_MAP.key?(params[:touchpoint_id].to_s)
     end
     @form = FormCache.fetch(@short_uuid)
     raise ActiveRecord::RecordNotFound, "no form with ID of #{@short_uuid}" if @form.blank?
