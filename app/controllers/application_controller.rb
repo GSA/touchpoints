@@ -305,6 +305,7 @@ class ApplicationController < ActionController::Base
         render js: "console.warn(#{t('errors.request.canceled').to_json})",
                status: :service_unavailable
       end
+      format.any { head :service_unavailable }
     end
   end
 

@@ -59,5 +59,12 @@ describe ApplicationController, type: :controller do
       expect(response.body).to include('console.warn')
       expect(response.body).to include(I18n.t('errors.request.canceled'))
     end
+
+    it 'returns 503 for unsupported request formats' do
+      get :index, format: :csv
+
+      expect(response).to have_http_status(:service_unavailable)
+      expect(response.body).to be_empty
+    end
   end
 end
