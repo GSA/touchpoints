@@ -162,6 +162,7 @@ es:
     format: "%{attribute} %{message}"
     request:
       try_again: "Vuelva a intentarlo."
+      canceled: "Esta solicitud tardó demasiado en procesarse y fue cancelada."
     messages:
       accepted: debe ser aceptado
       blank: no puede estar en blanco

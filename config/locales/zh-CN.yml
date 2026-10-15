@@ -158,6 +158,7 @@ zh-CN:
     format: "%{attribute}%{message}"
     request:
       try_again: "请重试。"
+      canceled: "此请求处理时间过长，已被取消。"
     messages:
       accepted: 必须是可被接受的
       blank: 不能为空字符
