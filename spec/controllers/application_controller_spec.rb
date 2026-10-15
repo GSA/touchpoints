@@ -21,4 +21,50 @@ describe ApplicationController, type: :controller do
       end
     end
   end
+
+  # Simulates what happens when Postgres cancels a query for exceeding
+  # `statement_timeout` (config/database.yml).
+  describe '#render_query_timeout' do
+    controller do
+      def index
+        raise ActiveRecord::QueryCanceled, 'canceling statement due to statement timeout'
+      end
+    end
+
+    before do
+      routes.draw { get 'index' => 'anonymous#index' }
+    end
+
+    it 'responds 503 with a structured error for JSON requests' do
+      get :index, format: :json
+
+      expect(response).to have_http_status(:service_unavailable)
+      body = JSON.parse(response.body)
+      expect(body['error']['message']).to eq(I18n.t('errors.request.canceled'))
+      expect(body['error']['status']).to eq(503)
+    end
+
+    it 'renders the service_unavailable error page for HTML requests' do
+      get :index, format: :html
+
+      expect(response).to have_http_status(:service_unavailable)
+      expect(response).to render_template('errors/service_unavailable')
+    end
+
+    it 'responds 503 with a console.warn for JS requests' do
+      get :index, format: :js
+
+      expect(response).to have_http_status(:service_unavailable)
+      expect(response.media_type).to eq('text/javascript')
+      expect(response.body).to include('console.warn')
+      expect(response.body).to include(I18n.t('errors.request.canceled'))
+    end
+
+    it 'returns 503 for unsupported request formats' do
+      get :index, format: :csv
+
+      expect(response).to have_http_status(:service_unavailable)
+      expect(response.body).to be_empty
+    end
+  end
 end

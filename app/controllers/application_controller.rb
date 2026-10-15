@@ -3,6 +3,9 @@
 class ApplicationController < ActionController::Base
   LEGACY_TOUCHPOINTS_URL_MAP = LegacyTouchpointUrlMap.map
 
+  # Raised when Postgres kills a query for exceeding `statement_timeout`.
+  rescue_from ActiveRecord::QueryCanceled, with: :render_query_timeout
+
   around_action :switch_locale
 
   def switch_locale(&)
@@ -281,6 +284,30 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  # The database killed our query, probably because it ran longer than `statement_timeout`
+  # (config/database.yml). This is deliberate backpressure, not a bug in then request.
+  def render_query_timeout(exception)
+    Rails.logger.warn(
+      "Query canceled " \
+      "(#{request.method} #{request.path}): #{exception.message}"
+    )
+
+    respond_to do |format|
+      format.json do
+        render json: { error: { message: t('errors.request.canceled'), status: 503 } },
+          status: :service_unavailable
+      end
+      format.html do
+        render "errors/service_unavailable", status: :service_unavailable, layout: 'application'
+      end
+      format.js do
+        render js: "console.warn(#{t('errors.request.canceled').to_json})",
+               status: :service_unavailable
+      end
+      format.any { head :service_unavailable }
+    end
+  end
 
   # For Devise
   def after_sign_out_path_for(_resource_or_scope)
