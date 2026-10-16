@@ -1,0 +1,22 @@
+applications:
+- name: touchpoints-staging-migrations
+  memory: 1G
+  disk_quota: 1G
+  timeout: 180
+  instances: 0
+  no-route: true
+  health-check-type: process
+  command: sleep 3600
+  env:
+    BUNDLE_WITHOUT: development:test:widget_renderer
+    RAILS_ENV: staging
+    STATEMENT_TIMEOUT: 0
+    # The Node and Rust buildpacks are intentionally omitted below (see
+    # `buildpacks`). Skip the Rust widget renderer and asset precompilation
+    # since neither is needed to run migrations.
+    SKIP_WIDGET_RENDERER: "true"
+    TOUCHPOINTS_WEB_DOMAIN: touchpoints.app.cloud.gov
+  buildpacks:
+    - ruby_buildpack
+  services:
+    - touchpoints-staging-database
