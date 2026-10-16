@@ -42,16 +42,11 @@ trap 'release_deploy_lock "$app_name"' EXIT
 cf push "$migration_app" -f "$migration_manifest" --no-start -t 180
 
 task_name="pre-deploy-migrations-${CIRCLE_WORKFLOW_ID:-${CIRCLE_BUILD_NUM:-$$}}"
-task_output="$(cf run-task "$migration_app" --command "bundle exec rails db:migrate" --name "$task_name" 2>&1)"
-printf '%s\n' "$task_output"
-task_id="$(grep -oE 'task id:[[:space:]]*[0-9]+' <<<"$task_output" | grep -oE '[0-9]+' || true)"
+cf run-task "$migration_app" --command "bundle exec rails db:migrate" --name "$task_name"
 
-if [ -z "$task_id" ]; then
-  echo "Could not determine migration task ID" >&2
-  exit 1
-fi
-
-wait_for_task "$migration_app" "$task_id"
+# The task is polled by its unique name via CAPI, so there is no need to scrape
+# a task id out of the CLI's human-readable output.
+wait_for_task "$migration_app" "$task_name"
 
 # Keep the workflow-scoped lock through the worker and web rollout. A failed job
 # releases it through the EXIT trap; the web rollout is responsible for release.
