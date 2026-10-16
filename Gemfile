@@ -74,8 +74,10 @@ gem 'rolify'
 gem 'sidekiq', '>= 8.0.4'
 
 # Rust integration for high-performance widget rendering
-gem 'rutie', '~> 0.0.4'
-gem 'widget_renderer', path: 'ext/widget_renderer', require: false
+group :widget_renderer do
+  gem 'rutie', '~> 0.0.4'
+  gem 'widget_renderer', path: 'ext/widget_renderer', require: false
+end
 
 group :development, :test do
   gem 'dotenv'
