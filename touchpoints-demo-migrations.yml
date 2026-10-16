@@ -1,7 +1,7 @@
 applications:
 - name: touchpoints-demo-migrations
-  memory: 1G
-  disk_quota: 1G
+  memory: 2G
+  disk_quota: 2G
   timeout: 180
   instances: 0
   no-route: true
