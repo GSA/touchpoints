@@ -1,0 +1,43 @@
+name: Feature Request
+description: Suggest an idea or enhancement for Touchpoints
+labels: ["enhancement"]
+type: Feature
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement! Feature ideas are also tracked
+        on the team's [backlog board](https://github.com/orgs/GSA/projects/348) —
+        filing it here helps us capture it for triage.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: Describe the pain point or need. Avoid jumping straight to the solution here.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What would you like to see happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any other approaches or workarounds you've considered.
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Links, screenshots, related issues, or agency use cases that help explain the request.
+    validations:
+      required: false

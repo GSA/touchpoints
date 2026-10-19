@@ -1,0 +1,72 @@
+name: Accessibility Issue
+description: Report a Section 508 / WCAG accessibility barrier
+labels: ["accessibility"]
+type: Bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Touchpoints forms are used across federal agencies and must meet
+        Section 508 and WCAG 2.1 AA requirements. Thanks for helping us
+        find and fix barriers.
+
+  - type: input
+    id: location
+    attributes:
+      label: Where is the issue?
+      description: Page, URL, or component affected.
+      placeholder: "e.g. Touchpoints form submission page, admin dashboard"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: assistive-tech
+    attributes:
+      label: Assistive technology / method used
+      multiple: true
+      options:
+        - Screen reader (e.g. JAWS, NVDA, VoiceOver)
+        - Keyboard-only navigation
+        - Screen magnifier / zoom
+        - Voice control
+        - Automated scanner (e.g. axe, WAVE, Lighthouse)
+        - Other / not applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: barrier
+    attributes:
+      label: Describe the barrier
+      description: What happens, and what WCAG success criterion or 508 requirement does it violate (if known)?
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected accessible behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to '...'
+        2. Navigate using '...'
+        3. Observe '...'
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - Low — minor inconvenience, workaround available
+        - Medium — significant difficulty for some users
+        - High — blocks task completion for users of assistive tech
+    validations:
+      required: true
