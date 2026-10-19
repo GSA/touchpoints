@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Report a security vulnerability
+    url: https://www.gsa.gov/vulnerability-disclosure-policy
+    about: Please do NOT report security vulnerabilities through public GitHub issues. Use GSA's Vulnerability Disclosure Policy instead.
+  - name: Touchpoints Developer Guide
+    url: https://github.com/GSA/touchpoints/wiki/Developer-Guide
+    about: Check the developer guide before filing a bug — your question may already be answered.
+  - name: Team Backlog Board
+    url: https://github.com/orgs/GSA/projects/348
+    about: See what the Touchpoints team is already tracking and prioritizing.

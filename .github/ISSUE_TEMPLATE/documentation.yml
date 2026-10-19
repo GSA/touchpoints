@@ -1,0 +1,38 @@
+name: Documentation Issue
+description: Report missing, outdated, or unclear documentation
+labels: ["documentation"]
+type: Task
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for problems with the
+        [Touchpoints wiki](https://github.com/gsa/touchpoints/wiki),
+        the [developer guide](https://github.com/GSA/touchpoints/wiki/Developer-Guide),
+        in-repo docs (`docs/`, `README.md`), or public documentation at
+        <https://touchpoints.digital.gov/>.
+
+  - type: input
+    id: location
+    attributes:
+      label: Where is the documentation issue?
+      description: Link or path to the page/file in question.
+      placeholder: "e.g. https://github.com/GSA/touchpoints/wiki/Developer-Guide or docs/adr/0001-example.md"
+    validations:
+      required: true
+
+  - type: textarea
+    id: issue
+    attributes:
+      label: What's wrong or missing?
+      description: Describe what is inaccurate, outdated, unclear, or absent.
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested fix
+      description: If you have a suggestion for how to correct or improve it, add it here.
+    validations:
+      required: false
