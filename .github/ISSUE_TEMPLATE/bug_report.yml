@@ -15,15 +15,11 @@ body:
     id: description
     attributes:
       label: What happened?
-      description: A clear and concise description of the bug.
-    validations:
-      required: true
+      description: What did you see, and what did you expect to happen instead?
+      placeholder: |
+        What happened:
 
-  - type: textarea
-    id: expected
-    attributes:
-      label: Expected behavior
-      description: What did you expect to happen instead?
+        What I expected:
     validations:
       required: true
 
@@ -46,7 +42,7 @@ body:
       description: Where did this happen? (e.g. production, demo, staging, local dev)
       placeholder: "e.g. app.touchpoints.digital.gov, Chrome 128, macOS 15"
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: logs
@@ -59,19 +55,6 @@ body:
       render: shell
     validations:
       required: false
-
-  - type: dropdown
-    id: severity
-    attributes:
-      label: Severity
-      description: How much is this impacting you or end users?
-      options:
-        - Low — minor/cosmetic
-        - Medium — workaround exists
-        - High — blocking a key workflow
-        - Critical — data loss, security, or site-wide outage
-    validations:
-      required: true
 
   - type: checkboxes
     id: security
