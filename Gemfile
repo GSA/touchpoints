@@ -3,14 +3,20 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.3.11'
 
+rails_version = '~> 8.1.0'
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem 'rails', '~> 8.1.0'
+gem 'rails', rails_version
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
 
 # Use postgresql as the database for Active Record
-gem 'pg'
+gem 'pg', group: %i[default migrator]
+
+# Minimal dependency set for the standalone Cloud Foundry migration app.
+# Keep this constraint aligned with Rails so bundle updates move them together.
+gem 'activerecord', rails_version, group: :migrator
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma'

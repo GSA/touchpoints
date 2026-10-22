@@ -1,0 +1,51 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "active_record"
+require "logger"
+
+class MigrationConfigurationError < StandardError; end
+
+def database_url
+  ENV["DATABASE_URL"]
+end
+
+def migrations_path
+  File.expand_path("../db/migrate", __dir__)
+end
+
+begin
+  url = database_url
+  raise MigrationConfigurationError, "DATABASE_URL is required to run migrations" if url.nil? || url.empty?
+  raise MigrationConfigurationError, "Migration path does not exist: #{migrations_path}" unless Dir.exist?(migrations_path)
+
+  target_version = ENV["VERSION"]
+
+  if target_version && !ActiveRecord::Migration.valid_version_format?(target_version)
+    raise MigrationConfigurationError, "Invalid VERSION: #{target_version}"
+  end
+
+  target_version = target_version&.to_i
+
+  ActiveRecord::Base.logger = Logger.new($stdout)
+  ActiveRecord::Base.establish_connection(url)
+
+  context = ActiveRecord::MigrationContext.new(migrations_path)
+
+  if target_version
+    puts "Migrating database to version #{target_version}"
+    context.migrate(target_version)
+  else
+    puts "Migrating database to latest version"
+    context.migrate
+  end
+
+  puts "Database migrations completed successfully"
+rescue MigrationConfigurationError => e
+  warn e.message
+  exit 1
+rescue StandardError => e
+  warn "Database migration failed: #{e.class}: #{e.message}"
+  warn e.backtrace.join("\n") if e.backtrace
+  exit 1
+end
