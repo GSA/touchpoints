@@ -34,15 +34,14 @@ esac
 acquire_deploy_lock "$app_name"
 trap 'release_deploy_lock "$app_name"' EXIT
 
-# touchpoints-{,demo-,staging-}migrations is a persistent, route-less, zero
-# -instance app bound to the same database. It uses only the Ruby buildpack
-# (no Node, no Rust) since migrations don't need assets or the widget
-# renderer, which keeps staging fast. `--no-start` stages the release without
-# starting any instance; the task below runs against that staged droplet.
-cf push "$migration_app" -f "$migration_manifest" --no-start -t 180
+# Build and push a tiny migration app instead of staging the full Rails app.
+# The package reuses the root Gemfile/Gemfile.lock, but Bundler is configured to
+# install only the migrator group plus the copied db/migrate files.
+./.circleci/build-migrator-package.sh
+cf push "$migration_app" -p tmp/cf-migrator -f "$migration_manifest" --no-start -t 180
 
 task_name="pre-deploy-migrations-${CIRCLE_WORKFLOW_ID:-${CIRCLE_BUILD_NUM:-$$}}"
-cf run-task "$migration_app" --command "bundle exec rails db:migrate" --name "$task_name"
+cf run-task "$migration_app" --command "bundle exec ruby bin/standalone-migrate" --name "$task_name"
 
 # The task is polled by its unique name via CAPI, so there is no need to scrape
 # a task id out of the CLI's human-readable output.
