@@ -37,6 +37,7 @@ applications:
       - touchpoints-staging-deployer
       - touchpoints-staging-redis-service
       - touchpoints-staging-s3
+      - touchpoints-staging-s3-uploads
     routes:
       - options: {}
         protocol: http1

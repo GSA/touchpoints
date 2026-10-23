@@ -681,7 +681,6 @@ DEPENDENCIES
   aasm
   aasm-diagram
   active_model_serializers
-  activerecord (~> 8.1.0)
   acts-as-list
   acts-as-taggable-on
   aws-actionmailer-ses
