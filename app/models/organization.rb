@@ -12,6 +12,11 @@ class Organization < ApplicationRecord
   has_many :cx_collections
   has_many :forms
 
+  # Widget logo alt text includes the organization name.
+  after_update_commit do
+    forms.find_each { |form| FormCache.invalidate(form.short_uuid) }
+  end
+
   mount_uploader :logo, LogoUploader
 
   validates :name, presence: true

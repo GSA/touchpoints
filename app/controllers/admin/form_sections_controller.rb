@@ -29,8 +29,13 @@ module Admin
         return
       end
 
-      section_ids.each_with_index do |id, index|
-        @form.form_sections.where(id:).update_all(position: index + 1)
+      FormSection.transaction do
+        section_ids.each_with_index do |id, index|
+          @form.form_sections.where(id:).update_all(position: index + 1)
+        end
+        # update_all skips callbacks. Touch the form so invalidation happens
+        # after the complete reorder commits, not partway through it.
+        @form.touch
       end
 
       head :ok
