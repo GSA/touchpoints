@@ -50,6 +50,10 @@ class Question < ApplicationRecord
 
   after_commit do |question|
     FormCache.invalidate(question.form.short_uuid) if question.persisted? || question.destroyed?
+    if question.saved_change_to_form_id? && question.form_id_before_last_save
+      previous_form = Form.find_by(id: question.form_id_before_last_save)
+      FormCache.invalidate(previous_form.short_uuid) if previous_form
+    end
   end
 
   def max_length

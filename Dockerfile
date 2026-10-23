@@ -1,7 +1,9 @@
-FROM ruby:3.4.7-slim
+FROM ruby:3.3.10-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
+    libffi-dev \
+    pkg-config \
     libpq-dev \
     postgresql-client \
     nodejs \

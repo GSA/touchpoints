@@ -9,7 +9,8 @@ class BenchmarkController < ApplicationController
     iterations = 100
 
     time = Benchmark.measure do
-      iterations.times { form.touchpoints_js_string }
+      # Bypass the widget JS cache: this endpoint exists to measure render cost.
+      iterations.times { form.render_touchpoints_js_string }
     end
 
     avg_ms = (time.real * 1000) / iterations
