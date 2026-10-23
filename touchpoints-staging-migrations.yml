@@ -1,15 +1,20 @@
 applications:
 - name: touchpoints-staging-migrations
-  memory: 512M
-  disk_quota: 512M
+  memory: 2G
+  disk_quota: 2G
   timeout: 180
-  instances: 0
-  no-route: true
-  health-check-type: process
-  command: sleep 3600
   env:
     RAILS_ENV: staging
+    STATEMENT_TIMEOUT: 0
+    TOUCHPOINTS_WEB_DOMAIN: touchpoints-staging.app.cloud.gov
+    INDEX_URL: /admin
+    SKIP_WIDGET_RENDERER: "true"
+    API_GATEWAY_BASE_URL: https://api.gsa.gov/test/analytics/touchpoints
+    SILENTLY_REJECT_SPAM: "true"
   buildpacks:
     - ruby_buildpack
   services:
     - touchpoints-staging-database
+    - touchpoints-staging-redis-service
+    - touchpoints-staging-s3
+    - touchpoints-staging-s3-uploads

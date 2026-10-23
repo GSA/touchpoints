@@ -32,6 +32,7 @@ applications:
       - touchpoints-db-demo
       - touchpoints-demo-redis
       - touchpoints-demo-s3
+      - touchpoints-demo-s3-uploads
       - touchpoints-staging-deployer
     routes:
       - route: touchpoints-demo.app.cloud.gov

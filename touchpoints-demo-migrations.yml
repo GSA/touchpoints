@@ -1,15 +1,18 @@
 applications:
 - name: touchpoints-demo-migrations
-  memory: 512M
-  disk_quota: 512M
+  memory: 2G
+  disk_quota: 2G
   timeout: 180
-  instances: 0
-  no-route: true
-  health-check-type: process
-  command: sleep 3600
   env:
     RAILS_ENV: production
+    STATEMENT_TIMEOUT: 0
+    TOUCHPOINTS_WEB_DOMAIN: touchpoints-demo.app.cloud.gov
+    INDEX_URL: /admin
+    SKIP_WIDGET_RENDERER: "true"
   buildpacks:
     - ruby_buildpack
   services:
     - touchpoints-db-demo
+    - touchpoints-demo-redis
+    - touchpoints-demo-s3
+    - touchpoints-demo-s3-uploads

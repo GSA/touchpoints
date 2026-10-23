@@ -12,11 +12,7 @@ gem 'rails', rails_version
 gem 'sprockets-rails'
 
 # Use postgresql as the database for Active Record
-gem 'pg', group: %i[default migrator]
-
-# Minimal dependency set for the standalone Cloud Foundry migration app.
-# Keep this constraint aligned with Rails so bundle updates move them together.
-gem 'activerecord', rails_version, group: :migrator
+gem 'pg'
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma'
