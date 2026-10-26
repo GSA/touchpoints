@@ -19,3 +19,5 @@ applications:
     - touchpoints-staging-redis-service
     - touchpoints-staging-s3
     - touchpoints-staging-s3-uploads
+    - name: touchpoints-staging-secrets
+      binding_name: touchpoints-secrets
