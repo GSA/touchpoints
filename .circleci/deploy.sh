@@ -11,7 +11,6 @@ case "$TARGET_ENV" in
     app_name="touchpoints"
     manifest_path="touchpoints.yml"
     cf login -a "$CF_API_ENDPOINT" -u "$CF_PRODUCTION_SPACE_DEPLOYER_USERNAME" -p "$CF_PRODUCTION_SPACE_DEPLOYER_PASSWORD" -o "$CF_ORG" -s prod
-    ./.circleci/sync-login-gov-env.sh "$app_name"
     ;;
   demo)
     app_name="touchpoints-demo"

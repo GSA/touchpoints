@@ -19,3 +19,4 @@ applications:
     - touchpoints-staging-redis-service
     - touchpoints-staging-s3
     - touchpoints-staging-s3-uploads
+    - touchpoints-secrets

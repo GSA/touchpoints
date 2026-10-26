@@ -17,3 +17,4 @@ applications:
     - touchpoints-demo-redis
     - touchpoints-demo-s3
     - touchpoints-demo-s3-uploads
+    - touchpoints-secrets

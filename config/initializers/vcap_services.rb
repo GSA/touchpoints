@@ -8,7 +8,7 @@ vcap_services = ENV.fetch('VCAP_SERVICES', nil)
 #
 def set_s3!(vcap_services_json)
   s3_settings = vcap_services_json['s3']
-  return false if s3_settings.blank?
+  return if s3_settings.blank?
 
   # S3 Organization logos
   s3 = s3_settings.find { |instance| instance['plan'] == 'basic-public' }
@@ -38,7 +38,7 @@ end
 
 def set_redis!(vcap_services_json)
   redis_settings = vcap_services_json['aws-elasticache-redis']
-  return false if redis_settings.blank?
+  return if redis_settings.blank?
 
   redis_credentials = redis_settings[0]['credentials']
   raise StandardError, 'Redis credentials could not be derived from Cloud Foundry VCAP_SERVICES' if redis_credentials.blank?
@@ -48,10 +48,40 @@ def set_redis!(vcap_services_json)
   Rails.logger.debug 'Set REDIS_URL ENV variable via vcap_services.rb'
 end
 
+def set_secrets!(vcap_services_json)
+  service = vcap_services_json.fetch('user-provided', []).find do |instance|
+    instance['name'] == 'touchpoints-secrets'
+  end
+  raise StandardError, 'required startup secrets service is missing' if service.blank?
+
+  secrets = service['credentials']
+  raise StandardError, 'required startup secrets credentials are missing' if secrets.blank?
+
+  required_secrets = {
+    'API_HTTP_USERNAME' => secrets.dig('api', 'username'),
+    'API_HTTP_PASSWORD' => secrets.dig('api', 'password'),
+    'LOGIN_GOV_PRIVATE_KEY' => secrets.dig('login_gov', 'private_key'),
+    'AWS_SES_REGION' => secrets.dig('ses', 'region'),
+    'AWS_SES_ACCESS_KEY_ID' => secrets.dig('ses', 'access_key_id'),
+    'AWS_SES_SECRET_ACCESS_KEY' => secrets.dig('ses', 'secret_access_key'),
+    'TOUCHPOINTS_EMAIL_SENDER' => secrets.dig('email_sender'),
+    'NEW_RELIC_KEY' => secrets.dig('new_relic', 'key'),
+    'RAILS_ACTIVE_RECORD_PRIMARY_KEY' => secrets.dig('rails_active_record', 'private_key'),
+    'RAILS_ACTIVE_RECORD_DETERMINISTIC_KEY' => secrets.dig('rails_active_record', 'deterministic_key'),
+    'RAILS_ACTIVE_RECORD_KEY_DERIVATION_SALT' => secrets.dig('rails_active_record', 'key_derivation_salt'),
+    'TOUCHPOINTS_GTM_CONTAINER_ID' => secrets.dig('gtm_container_id'),
+  }
+  missing_secrets = required_secrets.filter_map { |name, value| name unless value.present? }
+  raise StandardError, "required startup secrets are missing: #{missing_secrets.join(', ')}" if missing_secrets.present?
+
+  required_secrets.each { |name, value| ENV[name] = value }
+end
+
 if vcap_services.present?
   vcap_services_json = JSON.parse(vcap_services)
 
   # Set ENV variables
   set_s3!(vcap_services_json)
   set_redis!(vcap_services_json)
+  set_secrets!(vcap_services_json)
 end
