@@ -7,7 +7,12 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-Dotenv::Rails.load if Rails.env.development? || Rails.env.test?
+if ENV['VCAP_SERVICES'].present?
+  require_relative 'vcap_services'
+  Touchpoints::VcapServices.load!
+elsif Rails.env.development? || Rails.env.test?
+  Dotenv::Rails.load
+end
 
 module Touchpoints
   class Application < Rails::Application

@@ -26,6 +26,7 @@ applications:
     - touchpoints-prod-s3
     - touchpoints-prod-deployer
     - touchpoints-s3-uploads
-    - touchpoints-secrets
+    - name: touchpoints-prod-secrets
+      binding_name: touchpoints-secrets
   routes:
     - route: touchpoints.app.cloud.gov

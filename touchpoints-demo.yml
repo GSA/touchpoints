@@ -22,6 +22,7 @@ applications:
       - touchpoints-demo-s3
       - touchpoints-demo-s3-uploads
       - touchpoints-staging-deployer
-      - touchpoints-secrets
+      - name: touchpoints-demo-secrets
+        binding_name: touchpoints-secrets
     routes:
       - route: touchpoints-demo.app.cloud.gov

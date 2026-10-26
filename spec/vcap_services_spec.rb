@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require_relative '../config/vcap_services'
 
-RSpec.describe 'Cloud Foundry service environment mapping' do
+RSpec.describe Touchpoints::VcapServices do
   around do |example|
     original_environment = ENV.to_h
     example.run
@@ -10,7 +11,7 @@ RSpec.describe 'Cloud Foundry service environment mapping' do
     ENV.replace(original_environment)
   end
 
-  describe '#set_s3!' do
+  describe '.set_s3!' do
     it 'maps the public and uploads S3 credentials' do
       services = {
         's3' => [
@@ -35,7 +36,7 @@ RSpec.describe 'Cloud Foundry service environment mapping' do
         ],
       }
 
-      set_s3!(services)
+      described_class.set_s3!(services)
 
       expect(ENV.to_h).to include(
         'S3_AWS_ACCESS_KEY_ID' => 'public-access-key',
@@ -52,19 +53,19 @@ RSpec.describe 'Cloud Foundry service environment mapping' do
     it 'does not change the environment when no S3 service is present' do
       ENV['S3_AWS_BUCKET_NAME'] = 'existing-bucket'
 
-      expect(set_s3!({})).to be_nil
+      expect(described_class.set_s3!({})).to be_nil
       expect(ENV['S3_AWS_BUCKET_NAME']).to eq('existing-bucket')
     end
 
     it 'raises when a required S3 service plan is missing credentials' do
       services = { 's3' => [{ 'plan' => 'basic-public', 'credentials' => {} }] }
 
-      expect { set_s3!(services) }
+      expect { described_class.set_s3!(services) }
         .to raise_error(StandardError, /s3 credentials could not be derived/)
     end
   end
 
-  describe '#set_redis!' do
+  describe '.set_redis!' do
     it 'sets REDIS_URL to use TLS' do
       services = {
         'aws-elasticache-redis' => [
@@ -72,7 +73,7 @@ RSpec.describe 'Cloud Foundry service environment mapping' do
         ],
       }
 
-      set_redis!(services)
+      described_class.set_redis!(services)
 
       expect(ENV['REDIS_URL']).to eq('rediss://:password@example.com:6379')
     end
@@ -80,19 +81,19 @@ RSpec.describe 'Cloud Foundry service environment mapping' do
     it 'does not change the environment when no Redis service is present' do
       ENV['REDIS_URL'] = 'rediss://existing.example.com:6379'
 
-      expect(set_redis!({})).to be_nil
+      expect(described_class.set_redis!({})).to be_nil
       expect(ENV['REDIS_URL']).to eq('rediss://existing.example.com:6379')
     end
 
     it 'raises when Redis credentials are missing' do
       services = { 'aws-elasticache-redis' => [{ 'credentials' => {} }] }
 
-      expect { set_redis!(services) }
+      expect { described_class.set_redis!(services) }
         .to raise_error(StandardError, /Redis credentials could not be derived/)
     end
   end
 
-  describe '#set_secrets!' do
+  describe '.set_secrets!' do
     it 'maps application secrets to environment variables' do
       services = {
         'user-provided' => [
@@ -109,7 +110,7 @@ RSpec.describe 'Cloud Foundry service environment mapping' do
                 'secret_access_key' => 'ses-secret-key',
               },
               'rails_active_record' => {
-                'private_key' => 'primary-key',
+                'primary_key' => 'primary-key',
                 'deterministic_key' => 'deterministic-key',
                 'key_derivation_salt' => 'derivation-salt',
               },
@@ -126,7 +127,7 @@ RSpec.describe 'Cloud Foundry service environment mapping' do
         ],
       }
 
-      set_secrets!(services)
+      described_class.set_secrets!(services)
 
       expect(ENV.to_h).to include(
         'API_HTTP_USERNAME' => 'api-user',
@@ -145,7 +146,7 @@ RSpec.describe 'Cloud Foundry service environment mapping' do
     end
 
     it 'raises when the secrets service is missing' do
-      expect { set_secrets!({}) }
+      expect { described_class.set_secrets!({}) }
         .to raise_error(StandardError, /secrets service/)
     end
 
@@ -161,7 +162,7 @@ RSpec.describe 'Cloud Foundry service environment mapping' do
         ],
       }
 
-      expect { set_secrets!(services) }
+      expect { described_class.set_secrets!(services) }
         .to raise_error(StandardError, /API_HTTP_PASSWORD/)
     end
   end

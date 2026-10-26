@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'vcap_services'
-
 redis_environments = {
   local: 0,
   development: 1,

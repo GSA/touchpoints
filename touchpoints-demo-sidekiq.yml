@@ -26,4 +26,5 @@ applications:
       - touchpoints-demo-s3
       - touchpoints-demo-s3-uploads
       - touchpoints-staging-deployer
-      - touchpoints-secrets
+      - name: touchpoints-demo-secrets
+        binding_name: touchpoints-secrets
