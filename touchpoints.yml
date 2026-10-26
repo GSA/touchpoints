@@ -3,7 +3,9 @@ applications:
   memory: 2G
   disk_quota: 2G
   timeout: 180
-  command: bundle exec rails s -b 0.0.0.0 -p $PORT -e $RAILS_ENV
+  # Refuses to start if any migration is still pending when this instance boots.
+  # Just a safeguard - migrations should have run in previous CI job.
+  command: bin/rails runner "ActiveRecord::Migration.check_pending_migrations" && bin/rails s -b 0.0.0.0 -p $PORT -e $RAILS_ENV
   env:
     # Non-secret env vars only - secrets are set via `cf set-env` and should NOT be in this manifest
     # Empty values here would OVERWRITE existing secrets on cf push!
