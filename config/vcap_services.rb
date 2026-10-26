@@ -49,6 +49,8 @@ module Touchpoints
       raise StandardError, 'required startup secrets credentials are missing' if secrets.blank?
 
       required_secrets = {
+        'TURNSTILE_SECRET_KEY' => secrets.dig('turnstile', 'secret_key'),
+        'TURNSTILE_SITE_KEY' => secrets.dig('turnstile', 'site_key'),
         'API_HTTP_USERNAME' => secrets.dig('api', 'username'),
         'API_HTTP_PASSWORD' => secrets.dig('api', 'password'),
         'LOGIN_GOV_PRIVATE_KEY' => secrets.dig('login_gov', 'private_key'),

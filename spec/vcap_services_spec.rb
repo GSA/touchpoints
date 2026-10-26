@@ -100,6 +100,10 @@ RSpec.describe Touchpoints::VcapServices do
           {
             'name' => 'touchpoints-secrets',
             'credentials' => {
+              'turnstile' => {
+                'secret_key' => 'turnstile-secret-key',
+                'site_key' => 'turnstile-site-key',
+              },
               'api' => {
                 'username' => 'api-user',
                 'password' => 'api-password',
@@ -130,6 +134,8 @@ RSpec.describe Touchpoints::VcapServices do
       described_class.set_secrets!(services)
 
       expect(ENV.to_h).to include(
+        'TURNSTILE_SECRET_KEY' => 'turnstile-secret-key',
+        'TURNSTILE_SITE_KEY' => 'turnstile-site-key',
         'API_HTTP_USERNAME' => 'api-user',
         'API_HTTP_PASSWORD' => 'api-password',
         'LOGIN_GOV_PRIVATE_KEY' => 'login-key',
