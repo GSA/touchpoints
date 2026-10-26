@@ -43,6 +43,27 @@ deployment_lock() {
   cf env "$app_name" 2>/dev/null | awk -F ': ' '/^[[:space:]]*DEPLOY_LOCK:/ { print $2; exit }'
 }
 
+ensure_deploy_lock_app() {
+  local app_name="$1"
+
+  if cf app "$app_name" >/dev/null 2>&1; then
+    return 0
+  fi
+
+  echo "Creating app $app_name for deployment locking..."
+  if cf create-app "$app_name" >/dev/null 2>&1; then
+    return 0
+  fi
+
+  # Another deployment may have created the app concurrently.
+  if cf app "$app_name" >/dev/null 2>&1; then
+    return 0
+  fi
+
+  echo "Could not create or find app $app_name for deployment locking" >&2
+  return 1
+}
+
 acquire_deploy_lock() {
   local app_name="$1"
   local lock_value
@@ -52,6 +73,7 @@ acquire_deploy_lock() {
   local waited=0
 
   echo "Attempting to acquire deployment lock for $app_name..."
+  ensure_deploy_lock_app "$app_name"
   while [ "$waited" -lt "$max_wait" ]; do
     local current_lock
     current_lock="$(deployment_lock "$app_name")"
