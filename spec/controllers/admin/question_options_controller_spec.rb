@@ -131,6 +131,16 @@ RSpec.describe Admin::QuestionOptionsController, type: :controller do
         put :update, params: { id: question_option.to_param, question_option: valid_attributes }, session: valid_session
         expect(response).to redirect_to(question_option)
       end
+
+      it 'records a version attributed to the current user' do
+        form = FactoryBot.create(:form, :open_ended_form, organization:)
+        question = FactoryBot.create(:question, form:, form_section: form.form_sections.first, question_type: 'checkbox', answer_field: 'answer_02')
+        question_option = QuestionOption.create!(question:, text: 'Option 1', position: 1)
+        put :update, params: { form_id: form.short_uuid, question_id: question.id, id: question_option.to_param, question_option: { text: 'Updated option text' } }, session: valid_session, format: :js
+        question_option.reload
+        expect(question_option.versions.last.event).to eq('update')
+        expect(question_option.versions.last.whodunnit).to eq(admin.id.to_s)
+      end
     end
 
     context 'with invalid params' do

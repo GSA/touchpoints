@@ -54,4 +54,25 @@ RSpec.describe QuestionOption, type: :model do
       expect(@question_option2.errors.messages).to eq({ question_option: ["only one 'other_option' can be true for a question"] })
     end
   end
+
+  describe 'versioning' do
+    let!(:question_option) { QuestionOption.create!(text: 'Option 1', question: option_question, position: 1) }
+
+    it 'records a version when a question option is created' do
+      expect(question_option.versions.count).to eq(1)
+      expect(question_option.versions.last.event).to eq('create')
+    end
+
+    it 'records a version with a changeset when a question option is updated' do
+      question_option.update!(text: 'Updated option text')
+      expect(question_option.versions.last.event).to eq('update')
+      expect(question_option.versions.last.changeset).to have_key('text')
+      expect(question_option.versions.last.changeset['text'].last).to eq('Updated option text')
+    end
+
+    it 'records a version when a question option is destroyed' do
+      question_option.destroy!
+      expect(question_option.versions.last.event).to eq('destroy')
+    end
+  end
 end
