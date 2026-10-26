@@ -11,6 +11,7 @@ applications:
     SKIP_WIDGET_RENDERER: "true"
     API_GATEWAY_BASE_URL: https://api.gsa.gov/test/analytics/touchpoints
     SILENTLY_REJECT_SPAM: "true"
+    BUNDLE_WITHOUT: "development:test:widget_renderer"
   buildpacks:
     - ruby_buildpack
   services:
