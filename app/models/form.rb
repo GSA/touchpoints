@@ -303,7 +303,17 @@ class Form < ApplicationRecord
 
   # returns javascript text that can be used standalone
   # or injected into a GTM Container Tag
+  #
+  # Served on every page load of every host site embedding this form, so the
+  # rendered output is cached. See FormCache.fetch_widget_js for the cache key
+  # and for the conditions under which caching is bypassed.
   def touchpoints_js_string
+    FormCache.fetch_widget_js(form: self) { render_touchpoints_js_string }
+  end
+
+  # Renders the widget JS. Call touchpoints_js_string instead unless you
+  # specifically need to bypass the cache.
+  def render_touchpoints_js_string
     # Try to use Rust widget renderer if available
     # Can be disabled via DISABLE_RUST_RENDERER env var to force ERB fallback
     use_rust = defined?(WidgetRenderer) && !Rails.env.test? && ENV['DISABLE_RUST_RENDERER'] != 'true'

@@ -20,8 +20,14 @@ module Admin
     end
 
     def sort
-      params[:form_section].each_with_index do |id, index|
-        FormSection.where(id:).update_all(position: index + 1)
+      FormSection.transaction do
+        params[:form_section].each_with_index do |id, index|
+          FormSection.where(id:).update_all(position: index + 1)
+        end
+        # update_all skips callbacks. Touch the parents so invalidation happens
+        # after the complete reorder commits, not partway through it.
+        form_ids = FormSection.where(id: params[:form_section]).select(:form_id)
+        Form.where(id: form_ids).find_each(&:touch)
       end
 
       head :ok

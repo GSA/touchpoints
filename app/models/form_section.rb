@@ -8,7 +8,8 @@ class FormSection < ApplicationRecord
   validates :position, uniqueness: { scope: :form_id }
 
   after_commit do |form_section|
-    FormCache.invalidate(form_section.form.short_uuid) if form_section.persisted?
+    # Deletions must invalidate the widget as well as edits.
+    FormCache.invalidate(form_section.form.short_uuid) if form_section.persisted? || form_section.destroyed?
   end
 
   before_destroy :ensure_no_questions
