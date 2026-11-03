@@ -161,4 +161,164 @@ RSpec.describe Admin::FormSectionsController, type: :controller do
       expect(response).to redirect_to(admin_form_questions_url)
     end
   end
+
+  describe 'form scoping' do
+    let(:form) { FactoryBot.create(:form, organization:) }
+    let(:other_form) { FactoryBot.create(:form, organization:) }
+    let!(:form_section) { form.form_sections.first }
+    let!(:second_form_section) { form.form_sections.create!(title: 'Second section', position: 2) }
+    let!(:other_form_section) { other_form.form_sections.first }
+
+    it 'does not update a section belonging to another form' do
+      expect do
+        put :update, params: {
+          form_id: form.short_uuid,
+          id: other_form_section.id,
+          form_section: { title: 'Changed' },
+        }
+      end.to raise_error(ActiveRecord::RecordNotFound)
+
+      expect(other_form_section.reload.title).not_to eq('Changed')
+    end
+
+    it 'does not destroy a section belonging to another form' do
+      expect do
+        delete :destroy, params: { form_id: form.short_uuid, id: other_form_section.id }
+      end.to raise_error(ActiveRecord::RecordNotFound)
+
+      expect(other_form_section.reload).to be_present
+    end
+
+    it 'does not rename a section belonging to another form' do
+      expect do
+        patch :update_title, params: {
+          form_id: form.short_uuid,
+          id: other_form_section.id,
+          title: 'Changed',
+        }
+      end.to raise_error(ActiveRecord::RecordNotFound)
+
+      expect(other_form_section.reload.title).not_to eq('Changed')
+    end
+
+    it 'does not reorder sections when the request includes another form section' do
+      patch :sort, params: {
+        form_id: form.short_uuid,
+        id: form_section.id,
+        form_section: [second_form_section.id, other_form_section.id],
+      }
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(form_section.reload.position).to eq(1)
+      expect(second_form_section.reload.position).to eq(2)
+      expect(other_form_section.reload.position).to eq(1)
+    end
+
+    it 'reorders all sections belonging to the form' do
+      patch :sort, params: {
+        form_id: form.short_uuid,
+        id: form_section.id,
+        form_section: [second_form_section.id, form_section.id],
+      }
+
+      expect(response).to have_http_status(:ok)
+      expect(second_form_section.reload.position).to eq(1)
+      expect(form_section.reload.position).to eq(2)
+    end
+  end
+
+  describe 'authorization' do
+    let(:form) { FactoryBot.create(:form, organization:) }
+    let(:user) { FactoryBot.create(:user, organization:) }
+    let!(:form_section) { form.form_sections.first }
+    let!(:second_form_section) { form.form_sections.create!(title: 'Second section', position: 2) }
+
+    before do
+      sign_out(admin)
+      sign_in(user)
+    end
+
+    it 'does not allow a non-manager to initialize a form section' do
+      expect do
+        get :new, params: { form_id: form.short_uuid }
+      end.not_to change(FormSection, :count)
+
+      expect(response).to redirect_to(index_path)
+    end
+
+    it 'does not allow a non-manager to create a form section' do
+      expect do
+        post :create, params: {
+          form_id: form.short_uuid,
+          form_section: { title: 'New section' },
+        }
+      end.not_to change(FormSection, :count)
+
+      expect(response).to redirect_to(index_path)
+    end
+
+    it 'does not allow a non-manager to edit a form section' do
+      get :edit, params: { form_id: form.short_uuid, id: form_section.id }
+
+      expect(response).to redirect_to(index_path)
+    end
+
+    it 'does not allow a non-manager to update a form section' do
+      put :update, params: {
+        form_id: form.short_uuid,
+        id: form_section.id,
+        form_section: { title: 'Changed' },
+      }
+
+      expect(response).to redirect_to(index_path)
+      expect(form_section.reload.title).not_to eq('Changed')
+    end
+
+    it 'does not allow a non-manager to destroy a form section' do
+      expect do
+        delete :destroy, params: { form_id: form.short_uuid, id: form_section.id }
+      end.not_to change(FormSection, :count)
+
+      expect(response).to redirect_to(index_path)
+      expect(form_section.reload).to be_present
+    end
+
+    it 'does not allow a non-manager to sort form sections' do
+      patch :sort, params: {
+        form_id: form.short_uuid,
+        id: form_section.id,
+        form_section: [second_form_section.id, form_section.id],
+      }
+
+      expect(response).to redirect_to(index_path)
+      expect(form_section.reload.position).to eq(1)
+      expect(second_form_section.reload.position).to eq(2)
+    end
+
+    it 'does not allow a non-manager to rename a form section' do
+      patch :update_title, params: {
+        form_id: form.short_uuid,
+        id: form_section.id,
+        title: 'Changed',
+      }
+
+      expect(response).to redirect_to(index_path)
+      expect(form_section.reload.title).not_to eq('Changed')
+    end
+
+    context 'when the user is a form manager' do
+      let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user:, form:) }
+
+      it 'allows the user to rename a form section' do
+        patch :update_title, params: {
+          form_id: form.short_uuid,
+          id: form_section.id,
+          title: 'Changed',
+        }
+
+        expect(response).to have_http_status(:ok)
+        expect(form_section.reload.title).to eq('Changed')
+      end
+    end
+  end
 end

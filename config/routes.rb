@@ -314,8 +314,10 @@ Rails.application.routes.draw do
         post 'copy', to: 'forms#copy', as: :copy_id
       end
       resources :form_sections, except: %i[index show edit] do
-        patch 'sort', to: 'form_sections#sort', as: :sort_sections
-        patch 'update_title', to: 'form_sections#update_title', as: :inline_update
+        member do
+          patch 'sort', to: 'form_sections#sort', as: :sort_sections
+          patch 'update_title', to: 'form_sections#update_title', as: :inline_update
+        end
       end
       resources :questions, except: :new do
         collection do
