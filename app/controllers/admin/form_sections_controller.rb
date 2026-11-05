@@ -2,8 +2,9 @@
 
 module Admin
   class FormSectionsController < AdminController
-    before_action :set_form, only: %i[new create edit update destroy]
-    before_action :set_form_section, only: %i[edit update destroy]
+    before_action :set_form, only: %i[new create edit update destroy sort update_title]
+    before_action :ensure_form_manager_access, only: %i[new create edit update destroy sort update_title]
+    before_action :set_form_section, only: %i[edit update destroy sort update_title]
 
     def new
       @section = @form.form_sections.new
@@ -20,17 +21,24 @@ module Admin
     end
 
     def sort
-      params[:form_section].each_with_index do |id, index|
-        FormSection.where(id:).update_all(position: index + 1)
+      section_ids = Array(params[:form_section]).map(&:to_s)
+      current_section_ids = @form.form_sections.ids.map(&:to_s)
+
+      unless section_ids.sort == current_section_ids.sort
+        render json: { error: 'All form sections must be listed exactly once in reordering request' }, status: :unprocessable_content
+        return
+      end
+
+      section_ids.each_with_index do |id, index|
+        @form.form_sections.where(id:).update_all(position: index + 1)
       end
 
       head :ok
     end
 
     def update_title
-      section = FormSection.where(id: params[:form_section_id]).first
-      section.update!(title: params[:title])
-      render json: section
+      @form_section.update!(title: params[:title])
+      render json: @form_section
     end
 
     def create
@@ -72,8 +80,12 @@ module Admin
       @form = Form.find_by_short_uuid(params[:form_id])
     end
 
+    def ensure_form_manager_access
+      ensure_form_manager(form: @form)
+    end
+
     def form_section_params
-      params.require(:form_section).permit(:title, :position, :next_section_id)
+      params.require(:form_section).permit(:title, :position)
     end
 
     def next_section_position
