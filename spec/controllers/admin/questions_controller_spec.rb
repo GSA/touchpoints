@@ -334,6 +334,47 @@ RSpec.describe Admin::QuestionsController, type: :controller do
       end
     end
 
+    it 'does not allow a non-manager to create a question' do
+      expect do
+        post :create, params: {
+          form_id: form.short_uuid,
+          form_section_id: question.form_section_id,
+        }
+      end.not_to change(Question, :count)
+
+      expect(response).to redirect_to(index_path)
+    end
+
+    it 'does not allow a non-manager to edit a question' do
+      get :edit, params: { form_id: form.short_uuid, id: question.id }
+
+      expect(response).to redirect_to(index_path)
+    end
+
+    it 'does not allow a non-manager to sort questions' do
+      second_question = FactoryBot.create(:question,
+        form:, form_section: question.form_section, answer_field: 'answer_02', position: question.position + 1)
+      original_positions = [question.position, second_question.position]
+
+      patch :sort, params: {
+        form_id: form.short_uuid,
+        form_section_id: question.form_section_id,
+        question: [second_question.id, question.id],
+      }
+
+      expect(response).to redirect_to(index_path)
+      expect([question.reload.position, second_question.reload.position]).to eq(original_positions)
+    end
+
+    it 'does not allow a non-manager to destroy a question' do
+      expect do
+        delete :destroy, params: { form_id: form.short_uuid, id: question.id }
+      end.not_to change(Question, :count)
+
+      expect(response).to redirect_to(index_path)
+      expect(question.reload).to be_present
+    end
+
     it 'does not allow a non-manager to update a question' do
       put :update, params: {
         form_id: form.short_uuid,
