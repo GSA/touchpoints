@@ -319,7 +319,7 @@ Rails.application.routes.draw do
           patch 'update_title', to: 'form_sections#update_title', as: :inline_update
         end
       end
-      resources :questions, except: :new do
+      resources :questions, except: %i[index new] do
         collection do
           patch 'sort', to: 'questions#sort', as: :sort_questions
         end

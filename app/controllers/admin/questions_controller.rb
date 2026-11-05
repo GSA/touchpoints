@@ -3,11 +3,9 @@
 module Admin
   class QuestionsController < AdminController
     before_action :set_form, only: %i[create show edit update sort destroy]
+    before_action :ensure_form_manager_access, only: %i[create edit update sort destroy]
+    before_action :ensure_question_view_access, only: :show
     before_action :set_question, only: %i[show edit update destroy]
-
-    def index
-      @questions = Question.order(:position)
-    end
 
     def show
       render layout: false
@@ -18,16 +16,26 @@ module Admin
     end
 
     def sort
-      form_section_id = params[:form_section_id]
-      params[:question].each_with_index do |id, index|
-        @form.questions.find(id).update(position: index + 1, form_section_id:)
+      form_section = @form.form_sections.find(params[:form_section_id])
+      question_ids = Array(params[:question]).map(&:to_s)
+      current_question_ids = form_section.questions.ids.map(&:to_s)
+
+      unless question_ids.sort == current_question_ids.sort
+        render json: { error: 'All questions in the section must be listed exactly once' }, status: :unprocessable_content
+        return
+      end
+
+      Question.transaction do
+        question_ids.each_with_index do |id, index|
+          form_section.questions.find(id).update!(position: index + 1)
+        end
       end
 
       head :ok
     end
 
     def create
-      @question = Question.new
+      @question = @form.questions.new
       set_defaults
 
       respond_to do |format|
@@ -42,9 +50,14 @@ module Admin
     end
 
     def update
+      attributes = question_params
+      if attributes[:form_section_id].present?
+        attributes[:form_section_id] = @form.form_sections.find(attributes[:form_section_id]).id
+      end
+
       respond_to do |format|
         format.html { render layout: false }
-        if @question.update(question_params)
+        if @question.update(attributes)
           format.json { render json: @question }
         else
           format.json { render json: @question.errors, status: :unprocessable_content }
@@ -53,8 +66,6 @@ module Admin
     end
 
     def destroy
-      ensure_form_manager(form: @form)
-
       @question.destroy
       respond_to do |format|
         format.js {}
@@ -73,20 +84,25 @@ module Admin
       @question = @form.questions.find(params[:id])
     end
 
+    def ensure_form_manager_access
+      ensure_form_manager(form: @form)
+    end
+
+    def ensure_question_view_access
+      ensure_form_manager(form: @form) unless @form.template?
+    end
+
     def set_defaults
-      @question.form_id = @form.id
-      @question.form_section_id = params[:form_section_id]
+      @question.form_section = @form.form_sections.find(params[:form_section_id])
       @question.text = 'New Question'
       @question.question_type = 'text_field'
       @question.answer_field = first_unused_answer_field
       next_position = @form.questions.size + 1
       @question.position = next_position
-      @question.save!
     end
 
     def question_params
       params.require(:question).permit(
-        :form_id,
         :form_section_id,
         :question_type,
         :text,
@@ -100,7 +116,7 @@ module Admin
     end
 
     def first_unused_answer_field
-      answer_fields = Question.where(form_id: @form.id).collect(&:answer_field)
+      answer_fields = @form.questions.collect(&:answer_field)
       (1..30).each do |ind|
         af = "answer_#{ind.to_s.rjust(2, '0')}"
         return af unless answer_fields.include?(af)

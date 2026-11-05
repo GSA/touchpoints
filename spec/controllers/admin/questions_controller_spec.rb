@@ -49,14 +49,6 @@ RSpec.describe Admin::QuestionsController, type: :controller do
     sign_in(admin)
   end
 
-  describe 'GET #index' do
-    it 'returns a success response' do
-      Question.create! valid_attributes
-      get :index, params: {}, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
   describe 'GET #show' do
     it 'returns a success response' do
       question = Question.create! valid_attributes
@@ -139,5 +131,261 @@ RSpec.describe Admin::QuestionsController, type: :controller do
       delete :destroy, params: { id: question.to_param }, session: valid_session
       expect(response).to redirect_to(questions_url)
     end
+  end
+
+  describe 'form scoping' do
+    let(:form) { FactoryBot.create(:form, organization:) }
+    let(:other_form) { FactoryBot.create(:form, organization:) }
+    let!(:form_section) { form.form_sections.first }
+    let!(:other_form_section) { other_form.form_sections.first }
+    let!(:question) do
+      FactoryBot.create(:question, form:, form_section:, answer_field: 'answer_01', position: 1)
+    end
+    let!(:second_question) do
+      FactoryBot.create(:question, form:, form_section:, answer_field: 'answer_02', position: 2)
+    end
+    let!(:second_form_section) { form.form_sections.create!(title: 'Second section', position: 2) }
+    let!(:question_in_second_section) do
+      FactoryBot.create(:question, form:, form_section: second_form_section, answer_field: 'answer_03', position: 1)
+    end
+    let!(:other_question) do
+      FactoryBot.create(:question, form: other_form, form_section: other_form_section, answer_field: 'answer_01', position: 1)
+    end
+
+    it 'does not update a question belonging to another form' do
+      expect do
+        put :update, params: {
+          form_id: form.short_uuid,
+          id: other_question.id,
+          question: { text: 'Changed' },
+          format: :json,
+        }
+      end.to raise_error(ActiveRecord::RecordNotFound)
+
+      expect(other_question.reload.text).not_to eq('Changed')
+    end
+
+    it 'does not destroy a question belonging to another form' do
+      expect do
+        delete :destroy, params: { form_id: form.short_uuid, id: other_question.id }
+      end.to raise_error(ActiveRecord::RecordNotFound)
+
+      expect(other_question.reload).to be_present
+    end
+
+    it 'does not allow form_id to be changed' do
+      put :update, params: {
+        form_id: form.short_uuid,
+        id: question.id,
+        question: { form_id: other_form.id, text: 'Changed' },
+        format: :json,
+      }
+
+      expect(response).to have_http_status(:ok)
+      expect(question.reload.form).to eq(form)
+    end
+
+    it 'does not move a question to another form section' do
+      expect do
+        put :update, params: {
+          form_id: form.short_uuid,
+          id: question.id,
+          question: { form_section_id: other_form_section.id },
+          format: :json,
+        }
+      end.to raise_error(ActiveRecord::RecordNotFound)
+
+      expect(question.reload.form_section).to eq(form_section)
+    end
+
+    it 'does not create a question in another form section' do
+      expect do
+        post :create, params: {
+          form_id: form.short_uuid,
+          form_section_id: other_form_section.id,
+          format: :json,
+        }
+      end.to raise_error(ActiveRecord::RecordNotFound)
+
+      expect(other_form_section.questions).to contain_exactly(other_question)
+    end
+
+    it 'does not sort questions into another form section' do
+      expect do
+        patch :sort, params: {
+          form_id: form.short_uuid,
+          form_section_id: other_form_section.id,
+          question: [second_question.id, question.id],
+        }
+      end.to raise_error(ActiveRecord::RecordNotFound)
+
+      expect(question.reload.form_section).to eq(form_section)
+      expect(second_question.reload.form_section).to eq(form_section)
+    end
+
+    it 'does not sort a question belonging to another form' do
+      patch :sort, params: {
+        form_id: form.short_uuid,
+        form_section_id: form_section.id,
+        question: [second_question.id, other_question.id],
+      }
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(question.reload.position).to eq(1)
+      expect(second_question.reload.position).to eq(2)
+      expect(other_question.reload.position).to eq(1)
+    end
+
+    it 'does not move a question from another section in the same form when sorting' do
+      patch :sort, params: {
+        form_id: form.short_uuid,
+        form_section_id: form_section.id,
+        question: [second_question.id, question_in_second_section.id, question.id],
+      }
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(question.reload.position).to eq(1)
+      expect(second_question.reload.position).to eq(2)
+      expect(question_in_second_section.reload.form_section).to eq(second_form_section)
+      expect(question_in_second_section.position).to eq(1)
+    end
+
+    it 'does not accept an incomplete section when sorting' do
+      patch :sort, params: {
+        form_id: form.short_uuid,
+        form_section_id: form_section.id,
+        question: [question.id],
+      }
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(question.reload.position).to eq(1)
+      expect(second_question.reload.position).to eq(2)
+    end
+
+    it 'does not accept duplicate question ids when sorting' do
+      patch :sort, params: {
+        form_id: form.short_uuid,
+        form_section_id: form_section.id,
+        question: [question.id, question.id],
+      }
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(question.reload.position).to eq(1)
+      expect(second_question.reload.position).to eq(2)
+    end
+
+    it 'sorts questions within a section belonging to the form' do
+      patch :sort, params: {
+        form_id: form.short_uuid,
+        form_section_id: form_section.id,
+        question: [second_question.id, question.id],
+      }
+
+      expect(response).to have_http_status(:ok)
+      expect(second_question.reload.position).to eq(1)
+      expect(question.reload.position).to eq(2)
+    end
+  end
+
+  describe 'authorization' do
+    let(:form) { FactoryBot.create(:form, organization:) }
+    let(:user) { FactoryBot.create(:user, organization:) }
+    let!(:question) do
+      FactoryBot.create(:question, form:, form_section: form.form_sections.first, answer_field: 'answer_01')
+    end
+
+    before do
+      sign_out(admin)
+      sign_in(user)
+    end
+
+    it 'does not allow a non-manager to view a non-template question' do
+      get :show, params: { form_id: form.short_uuid, id: question.id }
+
+      expect(response).to redirect_to(index_path)
+    end
+
+    context 'when the form is a template' do
+      let(:form) { FactoryBot.create(:form, organization:, template: true) }
+
+      it 'allows a non-manager to view a template question' do
+        get :show, params: { form_id: form.short_uuid, id: question.id }
+
+        expect(response).to be_successful
+      end
+
+      it 'does not allow viewing a question belonging to another form' do
+        other_form = FactoryBot.create(:form, organization:)
+        other_question = FactoryBot.create(:question, form: other_form, form_section: other_form.form_sections.first)
+
+        expect do
+          get :show, params: { form_id: form.short_uuid, id: other_question.id }
+        end.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context 'when the user is a form manager' do
+      let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user:, form:) }
+
+      it 'allows the user to view a non-template question' do
+        get :show, params: { form_id: form.short_uuid, id: question.id }
+
+        expect(response).to be_successful
+      end
+    end
+
+    it 'does not allow a non-manager to create a question' do
+      expect do
+        post :create, params: {
+          form_id: form.short_uuid,
+          form_section_id: question.form_section_id,
+        }
+      end.not_to change(Question, :count)
+
+      expect(response).to redirect_to(index_path)
+    end
+
+    it 'does not allow a non-manager to edit a question' do
+      get :edit, params: { form_id: form.short_uuid, id: question.id }
+
+      expect(response).to redirect_to(index_path)
+    end
+
+    it 'does not allow a non-manager to sort questions' do
+      second_question = FactoryBot.create(:question,
+        form:, form_section: question.form_section, answer_field: 'answer_02', position: question.position + 1)
+      original_positions = [question.position, second_question.position]
+
+      patch :sort, params: {
+        form_id: form.short_uuid,
+        form_section_id: question.form_section_id,
+        question: [second_question.id, question.id],
+      }
+
+      expect(response).to redirect_to(index_path)
+      expect([question.reload.position, second_question.reload.position]).to eq(original_positions)
+    end
+
+    it 'does not allow a non-manager to destroy a question' do
+      expect do
+        delete :destroy, params: { form_id: form.short_uuid, id: question.id }
+      end.not_to change(Question, :count)
+
+      expect(response).to redirect_to(index_path)
+      expect(question.reload).to be_present
+    end
+
+    it 'does not allow a non-manager to update a question' do
+      put :update, params: {
+        form_id: form.short_uuid,
+        id: question.id,
+        question: { text: 'Changed' },
+        format: :json,
+      }
+
+      expect(response).to redirect_to(index_path)
+      expect(question.reload.text).not_to eq('Changed')
+    end
+
   end
 end
